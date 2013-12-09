@@ -1,4 +1,4 @@
 gbif-api
 ========
 
-GBIF API
+The public GBIF API as implemented by the webservice clients.
