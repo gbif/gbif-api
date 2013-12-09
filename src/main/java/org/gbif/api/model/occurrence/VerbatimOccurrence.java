@@ -59,6 +59,10 @@ public class VerbatimOccurrence {
   }
 
   @NotNull
+  /**
+   * The GBIF assigned, persistent key to the occurrence record.
+   * OccurrenceID itself is kept in the verbatim fields map.
+   */
   public Integer getKey() {
     return key;
   }
@@ -104,6 +108,9 @@ public class VerbatimOccurrence {
   }
 
   @NotNull
+  /**
+   * The date this record was last crawled/harvested from the endpoint.
+   */
   public Date getLastCrawled() {
     return lastCrawled;
   }
@@ -113,6 +120,9 @@ public class VerbatimOccurrence {
   }
 
   @NotNull
+  /**
+   * A map holding all verbatim core terms.
+   */
   public Map<Term, String> getFields() {
     return fields;
   }

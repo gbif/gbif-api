@@ -141,6 +141,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
+  /**
+   * The best matching, accepted GBIF backbone name usage representing this occurrence.
+   * In case the verbatim scientific name and its classification can only be matched to a higher rank this will
+   * represent the lowest matching rank. In the worst case this could just be for example Animalia.
+   */
   public Integer getTaxonKey() {
     return taxonKey;
   }
@@ -219,6 +224,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
+  /**
+   * The accepted species for this occurrence. In case the taxonKey is of a higher rank than species (e.g. genus)
+   * speciesKey is null. In case taxonKey represents an infraspecific taxon the speciesKey points to the species
+   * the infraspecies is classified as. In case of taxonKey being a species the speciesKey is the same.
+   */
   public Integer getSpeciesKey() {
     return speciesKey;
   }
@@ -228,6 +238,9 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
+  /**
+   * The scientific name for taxonKey from the GBIF backbone.
+   */
   public String getScientificName() {
     return scientificName;
   }
@@ -306,6 +319,9 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
+  /**
+   * The corresponding scientific name of the speciesKey from the GBIF backbone.
+   */
   public String getSpecies() {
     return species;
   }
@@ -324,6 +340,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
+  /**
+   * The longitude in decimal degrees always for the WGS84 datum. If a different geodetic datum was given the verbatim
+   * coordinates are transformed into WGS84 values.
+   */
   public Double getLongitude() {
     return longitude;
   }
@@ -342,6 +362,9 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
+  /**
+   * The uncertainty radius for lat/lon in decimal degrees.
+   */
   public Double getCoordinateAccurracy() {
     return coordinateAccurracy;
   }
@@ -351,6 +374,9 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
+  /**
+   * The geodetic datum for the original verbatim coordinates.
+   */
   public String getGeodeticDatum() {
     return geodeticDatum;
   }
@@ -360,6 +386,9 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
+  /**
+   * Altitude in meters above sea level.
+   */
   public Integer getAltitude() {
     return altitude;
   }
@@ -378,6 +407,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
+  /**
+   * Depth in meters below the surface. Complimentary to altitude, the depth can be 10 meters
+   * below the surface of a lake in 1100m (=altitude).
+   */
   public Integer getDepth() {
     return depth;
   }
@@ -459,6 +492,9 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
+  /**
+   * The date the occurrence was recorded or collected.
+   */
   public Date getEventDate() {
     return eventDate;
   }
@@ -477,6 +513,9 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
+  /**
+   * The scientific name the type status of this specimen applies to.
+   */
   public String getTypifiedName() {
     return typifiedName;
   }
@@ -495,6 +534,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
+  /**
+   * The interpreted dc:modified from the verbatim source data.
+   * Ideally indicating when a record was last modified in the source.
+   */
   public Date getModified() {
     return modified;
   }
@@ -504,6 +547,9 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
+  /**
+   * The date this occurrence last went through the interpretation phase of the GBIF indexing.
+   */
   public Date getLastInterpreted() {
     return lastInterpreted;
   }
