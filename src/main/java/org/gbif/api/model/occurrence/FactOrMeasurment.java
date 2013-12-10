@@ -116,14 +116,29 @@ public class FactOrMeasurment {
     }
     FactOrMeasurment that = (FactOrMeasurment) obj;
     return Objects.equal(this.id, that.id)
-        && Objects.equal(this. type, that.type)
-        && Objects.equal(this. value, that.value)
-        && Objects.equal(this. unit, that.unit)
-        && Objects.equal(this. accuracy, that.accuracy)
-        && Objects.equal(this. method, that.method)
-        && Objects.equal(this. determinedBy, that.determinedBy)
-        && Objects.equal(this. determinedDate, that.determinedDate)
-        && Objects.equal(this. remarks, that.remarks);
+        && Objects.equal(this.type, that.type)
+        && Objects.equal(this.value, that.value)
+        && Objects.equal(this.unit, that.unit)
+        && Objects.equal(this.accuracy, that.accuracy)
+        && Objects.equal(this.method, that.method)
+        && Objects.equal(this.determinedBy, that.determinedBy)
+        && Objects.equal(this.determinedDate, that.determinedDate)
+        && Objects.equal(this.remarks, that.remarks);
+  }
+
+  @Override
+  public String toString() {
+    return Objects.toStringHelper(this)
+      .add("id", id)
+      .add("type", type)
+      .add("value", value)
+      .add("unit", unit)
+      .add("accuracy", accuracy)
+      .add("method", method)
+      .add("determinedBy", determinedBy)
+      .add("determinedDate", determinedDate)
+      .add("remarks", remarks)
+      .toString();
   }
 
  }

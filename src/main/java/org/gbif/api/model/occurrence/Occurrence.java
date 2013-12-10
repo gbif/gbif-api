@@ -22,6 +22,7 @@ import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.LifeStage;
+import org.gbif.api.vocabulary.OccurrenceValidationRule;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.Sex;
 import org.gbif.api.vocabulary.TypeStatus;
@@ -630,4 +631,5 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         && Objects.equal(this.modified, that.modified)
         && Objects.equal(this.lastInterpreted, that.lastInterpreted);
   }
+
 }

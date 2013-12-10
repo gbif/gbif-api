@@ -18,7 +18,11 @@ package org.gbif.api.vocabulary;
 import org.gbif.api.util.VocabularyUtils;
 
 /**
- * Enumeration for all continents based on <a href="http://en.wikipedia.org/wiki/Continent">Wikipedia</a>.
+ * Enumeration for all continents based on the 7 number model found on
+ * <a href="http://en.wikipedia.org/wiki/Continent#Number_of_continents">Wikipedia</a>.
+ *
+ * In particular this splits the Americas into North and South America with North America including the Caribbean and
+ * reaching down and including Panama. See the <a href="http://upload.wikimedia.org/wikipedia/commons/1/19/Continents_vide_couleurs.png">Wikipedia continent map</a> for the exact divisions.
  */
 public enum Continent {
 

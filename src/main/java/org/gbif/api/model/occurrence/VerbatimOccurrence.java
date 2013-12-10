@@ -192,7 +192,17 @@ public class VerbatimOccurrence {
            && Objects.equal(this.identifiers, that.identifiers)
            && Objects.equal(this.media, that.media)
            && Objects.equal(this.facts, that.facts)
-           && Objects.equal(this.relations, that.relations)
-      ;
+           && Objects.equal(this.relations, that.relations);
+  }
+
+  @Override
+  public String toString() {
+    return Objects.toStringHelper(this)
+      .add("key", key)
+      .add("datasetKey", datasetKey)
+      .add("protocol", protocol)
+      .add("lastCrawled", lastCrawled)
+      .add("fields", fields.size())
+      .toString();
   }
 }

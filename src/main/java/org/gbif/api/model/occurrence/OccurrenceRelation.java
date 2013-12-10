@@ -94,4 +94,16 @@ public class OccurrenceRelation {
         && Objects.equal(this.remarks, that.remarks);
   }
 
+  @Override
+  public String toString() {
+    return Objects.toStringHelper(this)
+      .add("id", id)
+      .add("occurrenceId", occurrenceId)
+      .add("relatedOccurrenceId", relatedOccurrenceId)
+      .add("type", type)
+      .add("accordingTo", accordingTo)
+      .add("establishedDate", establishedDate)
+      .add("remarks", remarks)
+      .toString();
+  }
 }

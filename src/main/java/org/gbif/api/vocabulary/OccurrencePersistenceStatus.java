@@ -1,7 +1,7 @@
-package org.gbif.api.model.occurrence;
+package org.gbif.api.vocabulary;
 
 /**
- * These are the possible states of an {@link Occurrence} as it moves through the processing and persistence chain. It
+ * These are the possible states of an {@link org.gbif.api.model.occurrence.Occurrence} as it moves through the processing and persistence chain. It
  * is used both in the processing logic as well as the messages that are exchanged as part of that processing.
  */
 public enum OccurrencePersistenceStatus {

@@ -17,6 +17,7 @@ import org.gbif.api.model.common.search.SearchRequest;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Country;
 
+import java.util.Date;
 import java.util.UUID;
 
 
@@ -90,4 +91,33 @@ public class OccurrenceSearchRequest extends SearchRequest<OccurrenceSearchParam
   public void addYearFilter(int year) {
     addParameter(OccurrenceSearchParameter.YEAR, year);
   }
+
+  public void addDateFilter(Date date) {
+    addParameter(OccurrenceSearchParameter.DATE, date);
+  }
+
+  public void addModifiedFilter(Date modified) {
+    addParameter(OccurrenceSearchParameter.MODIFIED, modified);
+  }
+
+  public void addPublishingCountryFilter(Country country) {
+    addParameter(OccurrenceSearchParameter.PUBLISHING_COUNTRY, country);
+  }
+
+  public void addInstitutionCodeFilter(String code) {
+    addParameter(OccurrenceSearchParameter.INSTITUTION_CODE, code);
+  }
+
+  public void addGeoreferencedFilter(boolean isGeoreferenced) {
+    addParameter(OccurrenceSearchParameter.GEOREFERENCED, isGeoreferenced);
+  }
+
+  public void addSpatialIssueFilter(boolean hasSpatialIssue) {
+    addParameter(OccurrenceSearchParameter.SPATIAL_ISSUES, hasSpatialIssue);
+  }
+
+  public void addAltitudeFilter(int altitude) {
+    addParameter(OccurrenceSearchParameter.ALTITUDE, altitude);
+  }
+
 }

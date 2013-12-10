@@ -18,6 +18,10 @@ package org.gbif.api.model.common.search;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PageableBase;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
@@ -198,6 +202,21 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
   public void addParameter(P parameter, Enum<?> value) {
     if (value != null) {
       parameters.put(parameter, value.name());
+    }
+  }
+
+
+  /**
+   * Adds the specified date parameter as an ISO date.
+   *
+   * @param parameter parameter to add date for
+   * @param value     date value of the parameter to add
+   */
+  public void addParameter(P parameter, Date value) {
+    if (value != null) {
+      // not thread safe, new instance
+      DateFormat iso = new SimpleDateFormat("yyyy-MM-dd");
+      parameters.put(parameter, iso.format(value));
     }
   }
 
