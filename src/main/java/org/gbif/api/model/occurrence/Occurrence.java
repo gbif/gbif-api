@@ -34,6 +34,7 @@ import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * Represents an Occurrence as interpreted by GBIF, adding typed properties on top of the verbatim ones.
@@ -526,6 +527,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @NotNull
+  /**
+   * A map of validation rules assessed for this occurrence.
+   * All rules passed successfully should result in a true and all false rules are indicating issues.
+   */
   public Map<OccurrenceValidationRule, Boolean> getValidations() {
     return validations;
   }
@@ -557,6 +562,19 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setLastInterpreted(Date lastInterpreted) {
     this.lastInterpreted = lastInterpreted;
+  }
+
+  @JsonIgnore
+  /**
+   * Convenience method checking if any spatial validation rule has not passed.
+   */
+  public boolean hasSpatialIssue() {
+    for (OccurrenceValidationRule rule : OccurrenceValidationRule.GEOSPATIAL_RULES) {
+      if (validations.get(rule) == null || !validations.get(rule)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override
