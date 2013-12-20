@@ -17,6 +17,8 @@ package org.gbif.api.model.occurrence;
 
 import org.gbif.api.model.common.Identifier;
 import org.gbif.api.model.common.Image;
+import org.gbif.api.util.jackson.TermDeserializer;
+import org.gbif.api.util.jackson.TermSerializer;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.dwc.terms.Term;
@@ -31,11 +33,15 @@ import javax.validation.constraints.NotNull;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * An extended map holding all core terms of an occurrence record.
  * Major extensions that we index are also supported, i.e. media, identifiers and measurements or facts.
  */
+@JsonSerialize(using= TermSerializer.class)
+@JsonDeserialize(using= TermDeserializer.class)
 public class VerbatimOccurrence {
 
   private Integer key;
