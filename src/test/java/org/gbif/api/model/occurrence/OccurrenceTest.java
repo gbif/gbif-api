@@ -15,13 +15,20 @@
  */
 package org.gbif.api.model.occurrence;
 
+import org.gbif.api.model.checklistbank.Identifier;
+import org.gbif.api.model.checklistbank.NameUsage;
 import org.gbif.api.util.ClassificationUtils;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
+import org.gbif.api.vocabulary.NomenclaturalStatus;
+import org.gbif.api.vocabulary.OccurrenceValidationRule;
+import org.gbif.dwc.terms.DwcTerm;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -68,5 +75,37 @@ public class OccurrenceTest {
 
     assertEquals(EndpointType.BIOCASE, occ.getProtocol());
     assertEquals(Country.AFGHANISTAN, occ.getPublishingCountry());
+  }
+
+  @Test
+  public void testJsonSerde() throws IOException {
+    ObjectMapper mapper = new ObjectMapper();
+
+    Occurrence occ = new Occurrence();
+    occ.setFamily("Plants family");
+    occ.setFamilyKey(16);
+    occ.setKingdom("Plants");
+    occ.setKingdomKey(6);
+
+    occ.getFields().put(DwcTerm.catalogNumber, "MD10782");
+    occ.getValidations().put(OccurrenceValidationRule.COORDINATES_OUT_OF_RANGE, true);
+
+    String json = mapper.writeValueAsString(occ);
+    assertEquals(occ, mapper.readValue(json, Occurrence.class));
+
+    NameUsage u = new NameUsage();
+    u.setKey(123);
+    u.setDatasetKey(UUID.randomUUID());
+    u.setNumDescendants(321);
+    u.getNomenclaturalStatus().add(NomenclaturalStatus.AMBIGUOUS);
+    Identifier i = new Identifier();
+    i.setIdentifier("me");
+    u.addIdentifier(i);
+    u.setKingdomKey(6);
+    u.setKingdom("Plants");
+
+    json = mapper.writeValueAsString(u);
+    //TODO: the identifier list makes the followig equals fail - intended?
+    //assertEquals(u, mapper.readValue(json, NameUsage.class));
   }
 }

@@ -1028,8 +1028,8 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
            && Objects.equal(this.numDescendants, other.numDescendants)
            && Objects.equal(this.isSynonym, other.isSynonym)
            && Objects.equal(this.origin, other.origin)
-           && Objects.equal(this.remarks, other.remarks)
-           && Objects.equal(this.identifiers, other.identifiers);
+           && Objects.equal(this.identifiers, other.identifiers)
+           && Objects.equal(this.remarks, other.remarks);
   }
 
   @Override

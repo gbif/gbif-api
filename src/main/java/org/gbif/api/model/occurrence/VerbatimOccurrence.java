@@ -20,6 +20,8 @@ import org.gbif.api.model.common.Image;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.dwc.terms.Term;
+import org.gbif.dwc.terms.jackson.TermKeyDeserializer;
+import org.gbif.dwc.terms.jackson.TermKeySerializer;
 
 import java.util.Date;
 import java.util.List;
@@ -31,6 +33,8 @@ import javax.validation.constraints.NotNull;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * An extended map holding all core terms of an occurrence record.
@@ -123,6 +127,8 @@ public class VerbatimOccurrence {
   /**
    * A map holding all verbatim core terms.
    */
+  @JsonSerialize(keyUsing = TermKeySerializer.class)
+  @JsonDeserialize(keyUsing = TermKeyDeserializer.class)
   public Map<Term, String> getFields() {
     return fields;
   }

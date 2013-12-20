@@ -22,6 +22,7 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Objects;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * Identifier Model Object represents a an alternative identifier for a taxon.
@@ -103,6 +104,7 @@ public class Identifier extends NameUsageComponent {
    * @see org.gbif.api.util.IdentifierUtils#getIdentifierLink(String, org.gbif.api.vocabulary.IdentifierType)
    */
   @Nullable
+  @JsonIgnore
   public String getIdentifierLink() {
     return IdentifierUtils.getIdentifierLink(identifier, type);
   }
