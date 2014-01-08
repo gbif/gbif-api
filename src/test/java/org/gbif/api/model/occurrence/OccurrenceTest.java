@@ -22,6 +22,7 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.NomenclaturalStatus;
 import org.gbif.api.vocabulary.OccurrenceValidationRule;
+import org.gbif.api.vocabulary.Rank;
 import org.gbif.dwc.terms.DwcTerm;
 
 import java.io.IOException;
@@ -33,6 +34,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class OccurrenceTest {
@@ -63,6 +65,31 @@ public class OccurrenceTest {
     assertTrue(clMap.containsValue("Plants"));
     assertFalse(clMap.containsKey(16));
     assertFalse(clMap.containsValue("Plants family"));
+  }
+
+  @Test
+  public void testGetHigherTaxon() {
+    Occurrence occ = new Occurrence();
+    occ.setFamily("Plants family");
+    occ.setFamilyKey(16);
+    occ.setKingdom("Plants");
+    occ.setKingdomKey(6);
+
+    assertEquals(6, (int)occ.getHigherRankKey(Rank.KINGDOM));
+    assertEquals("Plants", occ.getHigherRank(Rank.KINGDOM));
+  }
+
+  @Test
+  public void testNullDates() {
+    Occurrence occ = new Occurrence();
+    occ.setEventDate(null);
+    assertNull(occ.getEventDate());
+    occ.setIdentificationDate(null);
+    assertNull(occ.getIdentificationDate());
+    occ.setModified(null);
+    assertNull(occ.getModified());
+    occ.setLastInterpreted(null);
+    assertNull(occ.getLastInterpreted());
   }
 
   @Test
