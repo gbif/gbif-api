@@ -128,17 +128,16 @@ public class VerbatimOccurrence {
     this.protocol = protocol;
   }
 
-  @NotNull
+  @Nullable
   /**
    * The date this record was last crawled/harvested from the endpoint.
    */
   public Date getLastCrawled() {
-    return new Date(lastCrawled.getTime());
+    return lastCrawled == null ? null : new Date(lastCrawled.getTime());
   }
 
-  public void setLastCrawled(Date lastCrawled) {
-    checkNotNull(lastCrawled, "lastCrawled can't be null");
-    this.lastCrawled = new Date(lastCrawled.getTime());
+  public void setLastCrawled(@Nullable Date lastCrawled) {
+    this.lastCrawled = lastCrawled == null ? null : new Date(lastCrawled.getTime());
   }
 
   @NotNull
