@@ -16,6 +16,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -89,6 +90,7 @@ public class DownloadRequest {
    * Returns the notification addresses as single string. The emails are separated by ','.
    */
   @Nullable
+  @JsonIgnore
   public String getNotificationAddressesAsString() {
     if (notificationAddresses != null) {
       return COMMA_JOINER.join(notificationAddresses);
