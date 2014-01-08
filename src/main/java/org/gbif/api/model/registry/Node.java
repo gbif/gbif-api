@@ -44,6 +44,7 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
   private GbifRegion gbifRegion;
   private Continent continent;
   private String title;
+  private String participantTitle;
   private String abbreviation;
   private String description;
   private String email;
@@ -86,6 +87,14 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
   @Override
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  public String getParticipantTitle() {
+    return participantTitle;
+  }
+
+  public void setParticipantTitle(String participantTitle) {
+    this.participantTitle = participantTitle;
   }
 
   @Nullable
@@ -388,7 +397,7 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
       .hashCode(key, type, participationStatus, participantSince, dateSignedMOU, gbifRegion, continent, title, abbreviation,
         description, email, phone, homepage, logoUrl, institution, address, city, province, country, postalCode,
         createdBy, modifiedBy, created, modified, deleted, contacts, endpoints, machineTags, tags, identifiers,
-        comments);
+        comments, participantTitle);
   }
 
   @Override
@@ -403,6 +412,7 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
         && Objects.equal(this.gbifRegion, that.gbifRegion)
         && Objects.equal(this.continent, that.continent)
         && Objects.equal(this.title, that.title)
+        && Objects.equal(this.participantTitle, that.participantTitle)
         && Objects.equal(this.abbreviation, that.abbreviation)
         && Objects.equal(this.description, that.description)
         && Objects.equal(this.email, that.email)
@@ -441,6 +451,7 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
       .add("gbifRegion", gbifRegion)
       .add("continent", continent)
       .add("title", title)
+      .add("participantTitle", participantTitle)
       .add("abbreviation", abbreviation)
       .add("description", description)
       .add("email", email)
@@ -483,6 +494,7 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
       && Objects.equal(this.gbifRegion, other.gbifRegion)
       && Objects.equal(this.continent, other.continent)
       && Objects.equal(this.title, other.title)
+      && Objects.equal(this.participantTitle, other.participantTitle)
       && Objects.equal(this.country, other.country);
   }
 
