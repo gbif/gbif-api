@@ -29,6 +29,7 @@ import org.gbif.api.vocabulary.Sex;
 import org.gbif.api.vocabulary.TypeStatus;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -241,6 +242,19 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @Override
   public Integer getHigherRankKey(Rank rank) {
     return ClassificationUtils.getHigherRankKey(this, rank);
+  }
+
+  /**
+   * An ordered map with entries for all higher Linnean ranks excluding the taxonKey itself.
+   * The map starts with the highest rank, e.g. the kingdom and maps the name usage key to its canonical name.
+   *
+   * @return map of higher ranks
+   */
+  @NotNull
+  @JsonIgnore
+  public LinkedHashMap<Integer, String> getHigherClassificationMap() {
+    return taxonKey == null ? ClassificationUtils.getHigherClassificationMap(
+      this) : ClassificationUtils.getHigherClassificationMap(this, taxonKey, null, null);
   }
 
   @Nullable
