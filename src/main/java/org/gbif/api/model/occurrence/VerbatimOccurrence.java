@@ -36,6 +36,8 @@ import com.google.common.collect.Maps;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * An extended map holding all core terms of an occurrence record.
  * Major extensions that we index are also supported, i.e. media, identifiers and measurements or facts.
@@ -58,8 +60,23 @@ public class VerbatimOccurrence {
   private List<OccurrenceRelation> relations = Lists.newArrayList();
 
   @Nullable
+  /**
+   * Get the value of a specific field (Term).
+   */
   public String getField(Term term) {
+    checkNotNull(term, "term can't be null");
     return fields.get(term);
+  }
+
+  /**
+   * For setting a specific field without having to replace the entire fields Map.
+   *
+   * @param term the field to set
+   * @param fieldValue the field's value
+   */
+  public void setField(Term term, @Nullable String fieldValue) {
+    checkNotNull(term, "term can't be null");
+    fields.put(term, fieldValue);
   }
 
   @NotNull
@@ -111,16 +128,16 @@ public class VerbatimOccurrence {
     this.protocol = protocol;
   }
 
-  @NotNull
+  @Nullable
   /**
    * The date this record was last crawled/harvested from the endpoint.
    */
   public Date getLastCrawled() {
-    return lastCrawled;
+    return lastCrawled == null ? null : new Date(lastCrawled.getTime());
   }
 
-  public void setLastCrawled(Date lastCrawled) {
-    this.lastCrawled = lastCrawled;
+  public void setLastCrawled(@Nullable Date lastCrawled) {
+    this.lastCrawled = lastCrawled == null ? null : new Date(lastCrawled.getTime());
   }
 
   @NotNull

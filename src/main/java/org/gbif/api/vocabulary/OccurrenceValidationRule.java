@@ -6,9 +6,6 @@ import com.google.common.collect.ImmutableList;
 
 /**
  * An enumeration of validation rules for single occurrence records.
- * Every rule has to be answered in a simple boolean result that is kept in the validations map of an interpreted
- * Occurrence. All rules evaluating to true should be considered to have successfully passed the validation,
- * e.g. if COUNTRY_COORDINATE_MISMATCH is true, there is no mismatch!
  */
 public enum OccurrenceValidationRule {
 
@@ -42,12 +39,12 @@ public enum OccurrenceValidationRule {
    */
   PRESUMED_NEGATED_LATITUDE;
 
-  public static List<OccurrenceValidationRule> GEOSPATIAL_RULES = ImmutableList.of(ZERO_COORDINATE,
+  public static final List<OccurrenceValidationRule> GEOSPATIAL_RULES = ImmutableList.of(ZERO_COORDINATE,
                                                                                    COORDINATES_OUT_OF_RANGE,
                                                                                    COUNTRY_COORDINATE_MISMATCH,
                                                                                    PRESUMED_SWAPPED_COORDINATE,
                                                                                    PRESUMED_NEGATED_LATITUDE,
                                                                                    PRESUMED_NEGATED_LONGITUDE);
-  public static List<OccurrenceValidationRule> TAXONOMIC_RULES = ImmutableList.of();
+  public static final List<OccurrenceValidationRule> TAXONOMIC_RULES = ImmutableList.of();
 
 }
