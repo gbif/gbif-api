@@ -607,6 +607,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * Convenience method checking if any spatial validation rule has not passed.
    */
   public boolean hasSpatialIssue() {
+    // TODO: remove this block once validation rules are being properly used by interpretation
+    if (validations.isEmpty()) {
+      return false;
+    }
+
     for (OccurrenceValidationRule rule : OccurrenceValidationRule.GEOSPATIAL_RULES) {
       if (validations.get(rule) == null || !validations.get(rule)) {
         return true;
@@ -661,4 +666,20 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
            && Objects.equal(this.modified, that.modified) && Objects.equal(this.lastInterpreted, that.lastInterpreted);
   }
 
+  @Override
+  public String toString() {
+    return Objects.toStringHelper(this).add("basisOfRecord", basisOfRecord).add("individualCount", individualCount)
+      .add("sex", sex).add("lifeStage", lifeStage).add("establishmentMeans", establishmentMeans)
+      .add("taxonKey", taxonKey).add("kingdomKey", kingdomKey).add("phylumKey", phylumKey).add("classKey", classKey)
+      .add("orderKey", orderKey).add("familyKey", familyKey).add("genusKey", genusKey).add("subgenusKey", subgenusKey)
+      .add("speciesKey", speciesKey).add("scientificName", scientificName).add("kingdom", kingdom).add("phylum", phylum)
+      .add("clazz", clazz).add("order", order).add("family", family).add("genus", genus).add("subgenus", subgenus)
+      .add("species", species).add("identificationDate", identificationDate).add("longitude", longitude)
+      .add("latitude", latitude).add("coordinateAccurracy", coordinateAccurracy).add("geodeticDatum", geodeticDatum)
+      .add("altitude", altitude).add("altitudeAccurracy", altitudeAccurracy).add("depth", depth)
+      .add("depthAccurracy", depthAccurracy).add("continent", continent).add("country", country)
+      .add("stateProvince", stateProvince).add("waterBody", waterBody).add("year", year).add("month", month)
+      .add("day", day).add("eventDate", eventDate).add("typeStatus", typeStatus).add("typifiedName", typifiedName)
+      .add("validations", validations).add("modified", modified).add("lastInterpreted", lastInterpreted).toString();
+  }
 }
