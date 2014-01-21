@@ -31,6 +31,7 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
@@ -66,6 +67,14 @@ public class VerbatimOccurrence {
   public String getField(Term term) {
     checkNotNull(term, "term can't be null");
     return fields.get(term);
+  }
+
+  /**
+   * @return true if a term has content
+   */
+  public boolean hasField(Term term) {
+    checkNotNull(term, "term can't be null");
+    return !Strings.isNullOrEmpty(fields.get(term));
   }
 
   /**
