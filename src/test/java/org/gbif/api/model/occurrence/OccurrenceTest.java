@@ -17,7 +17,6 @@ package org.gbif.api.model.occurrence;
 
 import org.gbif.api.model.checklistbank.Identifier;
 import org.gbif.api.model.checklistbank.NameUsage;
-import org.gbif.api.util.ClassificationUtils;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.NomenclaturalStatus;
@@ -26,7 +25,6 @@ import org.gbif.api.vocabulary.Rank;
 import org.gbif.dwc.terms.DwcTerm;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.UUID;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -47,24 +45,21 @@ public class OccurrenceTest {
     occ.setKingdom("Plants");
     occ.setKingdomKey(6);
 
-    LinkedHashMap<Integer, String> clMap = ClassificationUtils.getHigherClassificationMap(occ);
-    assertEquals(2, clMap.size());
-    assertTrue(clMap.containsKey(16));
-    assertTrue(clMap.containsKey(6));
-    assertTrue(clMap.containsValue("Plants"));
-    assertTrue(clMap.containsValue("Plants family"));
+    assertEquals(2, occ.getHigherClassificationMap().size());
+    assertTrue(occ.getHigherClassificationMap().containsKey(16));
+    assertTrue(occ.getHigherClassificationMap().containsKey(6));
+    assertTrue(occ.getHigherClassificationMap().containsValue("Plants"));
+    assertTrue(occ.getHigherClassificationMap().containsValue("Plants family"));
 
     occ.setTaxonKey(200);
-    clMap = ClassificationUtils.getHigherClassificationMap(occ);
-    assertEquals(2, clMap.size());
+    assertEquals(2, occ.getHigherClassificationMap().size());
 
     occ.setTaxonKey(16);
-    clMap = ClassificationUtils.getHigherClassificationMap(occ, occ.getTaxonKey(), null, null);
-    assertEquals(1, clMap.size());
-    assertTrue(clMap.containsKey(6));
-    assertTrue(clMap.containsValue("Plants"));
-    assertFalse(clMap.containsKey(16));
-    assertFalse(clMap.containsValue("Plants family"));
+    assertEquals(1, occ.getHigherClassificationMap().size());
+    assertTrue(occ.getHigherClassificationMap().containsKey(6));
+    assertTrue(occ.getHigherClassificationMap().containsValue("Plants"));
+    assertFalse(occ.getHigherClassificationMap().containsKey(16));
+    assertFalse(occ.getHigherClassificationMap().containsValue("Plants family"));
   }
 
   @Test
