@@ -102,6 +102,24 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Date modified;  // interpreted dc:modified, i.e. date changed in source
   private Date lastInterpreted;
 
+  public Occurrence() {
+
+  }
+
+  /**
+   * Create occurrence instance from existing verbatim one, copying over all data.
+   */
+  public Occurrence(VerbatimOccurrence verbatim) {
+    super();
+    setKey(verbatim.getKey());
+    setDatasetKey(verbatim.getDatasetKey());
+    setPublishingOrgKey(verbatim.getPublishingOrgKey());
+    setPublishingCountry(verbatim.getPublishingCountry());
+    setProtocol(verbatim.getProtocol());
+    setLastCrawled(new Date(verbatim.getLastCrawled().getTime()));
+    getFields().putAll(verbatim.getFields());
+  }
+
   @Nullable
   public BasisOfRecord getBasisOfRecord() {
     return basisOfRecord;
