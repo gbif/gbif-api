@@ -17,6 +17,7 @@ package org.gbif.api.service.occurrence;
 
 import org.gbif.api.exception.ServiceUnavailableException;
 import org.gbif.api.model.occurrence.Occurrence;
+import org.gbif.api.model.occurrence.VerbatimOccurrence;
 
 import javax.annotation.Nullable;
 
@@ -33,6 +34,18 @@ public interface OccurrenceService {
    */
   @Nullable
   Occurrence get(Integer key);
+
+  /**
+   * Attempt to find the verbatim values for an occurrence matching the passed key.
+   *
+   * @param key that identifies the occurrence
+   *
+   * @return the verbatim occurrence, or null if no occurrence can be found
+   *
+   * @throws ServiceUnavailableException if the underlying data connection fails
+   */
+  @Nullable
+  VerbatimOccurrence getVerbatim(Integer key);
 
   /**
    * Returns the "fragment" of raw data (either xml response fragment or json dwca fragment) for the passed in key.
