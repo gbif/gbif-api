@@ -571,8 +571,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    *
    * @return the month of the event date
    */
-  @Min(0)
-  @Max(11)
+  @Min(1)
+  @Max(12)
   @Nullable
   public Integer getMonth() {
     return month;
