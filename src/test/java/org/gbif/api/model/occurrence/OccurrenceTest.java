@@ -79,8 +79,8 @@ public class OccurrenceTest {
     Occurrence occ = new Occurrence();
     occ.setEventDate(null);
     assertNull(occ.getEventDate());
-    occ.setIdentificationDate(null);
-    assertNull(occ.getIdentificationDate());
+    occ.setDateIdentified(null);
+    assertNull(occ.getDateIdentified());
     occ.setModified(null);
     assertNull(occ.getModified());
     occ.setLastInterpreted(null);

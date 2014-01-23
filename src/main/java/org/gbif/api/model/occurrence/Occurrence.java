@@ -32,6 +32,8 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.annotation.Nullable;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Objects;
@@ -72,16 +74,16 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private String subgenus;
   private String species;
   // identification
-  private Date identificationDate;
+  private Date dateIdentified;
   // location
   private Double longitude;
   private Double latitude;
-  private Double coordinateAccurracy;
+  private Double coordinateAccuracy;
   private String geodeticDatum;
-  private Integer altitude;  // min/max elevationInMeters?
-  private Integer altitudeAccurracy;  // new term
-  private Integer depth;  // min/max depthInMeters?
-  private Integer depthAccurracy;  // new term
+  private Integer altitude;
+  private Integer altitudeAccuracy;
+  private Integer depth;
+  private Integer depthAccuracy;
   private Continent continent;
   private Country country;
   private String stateProvince;
@@ -401,12 +403,12 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
-  public Date getIdentificationDate() {
-    return identificationDate == null ? null : new Date(identificationDate.getTime());
+  public Date getDateIdentified() {
+    return dateIdentified == null ? null : new Date(dateIdentified.getTime());
   }
 
-  public void setIdentificationDate(@Nullable Date identificationDate) {
-    this.identificationDate = identificationDate == null ? null : new Date(identificationDate.getTime());
+  public void setDateIdentified(@Nullable Date dateIdentified) {
+    this.dateIdentified = dateIdentified == null ? null : new Date(dateIdentified.getTime());
   }
 
   @Nullable
@@ -435,12 +437,12 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   /**
    * The uncertainty radius for lat/lon in decimal degrees.
    */
-  public Double getCoordinateAccurracy() {
-    return coordinateAccurracy;
+  public Double getCoordinateAccuracy() {
+    return coordinateAccuracy;
   }
 
-  public void setCoordinateAccurracy(@Nullable Double coordinateAccurracy) {
-    this.coordinateAccurracy = coordinateAccurracy;
+  public void setCoordinateAccuracy(@Nullable Double coordinateAccuracy) {
+    this.coordinateAccuracy = coordinateAccuracy;
   }
 
   @Nullable
@@ -458,6 +460,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @Nullable
   /**
    * Altitude in meters above sea level.
+   * </br>
+   * The altitude is calculated using the equation: (minimumElevationInMeters + maximumElevationInMeters) / 2.
    */
   public Integer getAltitude() {
     return altitude;
@@ -467,19 +471,26 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.altitude = altitude;
   }
 
+  /**
+   * Altitude accuracy is the uncertainty for the accuracy in meters.
+   * </br>
+   * The altitude accuracy is calculated using the equation: (maximumElevationInMeters - minimumElevationInMeters) / 2
+   */
   @Nullable
-  public Integer getAltitudeAccurracy() {
-    return altitudeAccurracy;
+  public Integer getAltitudeAccuracy() {
+    return altitudeAccuracy;
   }
 
-  public void setAltitudeAccurracy(@Nullable Integer altitudeAccurracy) {
-    this.altitudeAccurracy = altitudeAccurracy;
+  public void setAltitudeAccuracy(@Nullable Integer altitudeAccuracy) {
+    this.altitudeAccuracy = altitudeAccuracy;
   }
 
   @Nullable
   /**
-   * Depth in meters below the surface. Complimentary to altitude, the depth can be 10 meters
-   * below the surface of a lake in 1100m (=altitude).
+   * Depth in meters below the surface. Complimentary to altitude, the depth can be 10 meters below the surface of a
+   * lake in 1100m (=altitude).
+   * </br>
+   * The depth is calculated using the equation: (minimumDepthInMeters + maximumDepthInMeters) / 2.
    */
   public Integer getDepth() {
     return depth;
@@ -489,13 +500,18 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.depth = depth;
   }
 
+  /**
+   * Depth accuracy is the uncertainty for the depth in meters.
+   * </br>
+   * The depth accuracy is calculated using the equation: (maximumDepthInMeters - minimumDepthInMeters) / 2
+   */
   @Nullable
-  public Integer getDepthAccurracy() {
-    return depthAccurracy;
+  public Integer getDepthAccuracy() {
+    return depthAccuracy;
   }
 
-  public void setDepthAccurracy(@Nullable Integer depthAccurracy) {
-    this.depthAccurracy = depthAccurracy;
+  public void setDepthAccuracy(@Nullable Integer depthAccuracy) {
+    this.depthAccuracy = depthAccuracy;
   }
 
   @Nullable
@@ -534,6 +550,13 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.waterBody = waterBody;
   }
 
+  /**
+   * The full year of the event date.
+   *
+   * @return the year of the event date
+   */
+  @Min(1300)
+  @Max(2020)
   @Nullable
   public Integer getYear() {
     return year;
@@ -543,6 +566,13 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.year = year;
   }
 
+  /**
+   * The month of the year of the event date starting with zero for january following {@link Date}.
+   *
+   * @return the month of the event date
+   */
+  @Min(0)
+  @Max(11)
   @Nullable
   public Integer getMonth() {
     return month;
@@ -552,6 +582,13 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.month = month;
   }
 
+  /**
+   * The day of the month of the event date.
+   *
+   * @return the day of the event date
+   */
+  @Min(1)
+  @Max(31)
   @Nullable
   public Integer getDay() {
     return day;
@@ -657,8 +694,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     return Objects
       .hashCode(basisOfRecord, individualCount, sex, lifeStage, establishmentMeans, taxonKey, kingdomKey, phylumKey,
         classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, kingdom, phylum, clazz, order,
-        family, genus, subgenus, species, identificationDate, year, month, day, eventDate, longitude, latitude,
-        coordinateAccurracy, geodeticDatum, altitude, altitudeAccurracy, depth, depthAccurracy, continent, country,
+        family, genus, subgenus, species, dateIdentified, year, month, day, eventDate, longitude, latitude,
+        coordinateAccuracy, geodeticDatum, altitude, altitudeAccuracy, depth, depthAccuracy, continent, country,
         stateProvince, waterBody, typeStatus, typifiedName, validations, modified, lastInterpreted);
   }
 
@@ -685,13 +722,13 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
            && Objects.equal(this.kingdom, that.kingdom) && Objects.equal(this.phylum, that.phylum) && Objects
       .equal(this.clazz, that.clazz) && Objects.equal(this.order, that.order) && Objects.equal(this.family, that.family)
            && Objects.equal(this.genus, that.genus) && Objects.equal(this.subgenus, that.subgenus) && Objects
-      .equal(this.species, that.species) && Objects.equal(this.identificationDate, that.identificationDate) && Objects
+      .equal(this.species, that.species) && Objects.equal(this.dateIdentified, that.dateIdentified) && Objects
              .equal(this.year, that.year) && Objects.equal(this.month, that.month) && Objects.equal(this.day, that.day)
            && Objects.equal(this.eventDate, that.eventDate) && Objects.equal(this.longitude, that.longitude) && Objects
-      .equal(this.latitude, that.latitude) && Objects.equal(this.coordinateAccurracy, that.coordinateAccurracy)
+      .equal(this.latitude, that.latitude) && Objects.equal(this.coordinateAccuracy, that.coordinateAccuracy)
            && Objects.equal(this.geodeticDatum, that.geodeticDatum) && Objects.equal(this.altitude, that.altitude)
-           && Objects.equal(this.altitudeAccurracy, that.altitudeAccurracy) && Objects.equal(this.depth, that.depth)
-           && Objects.equal(this.depthAccurracy, that.depthAccurracy) && Objects.equal(this.continent, that.continent)
+           && Objects.equal(this.altitudeAccuracy, that.altitudeAccuracy) && Objects.equal(this.depth, that.depth)
+           && Objects.equal(this.depthAccuracy, that.depthAccuracy) && Objects.equal(this.continent, that.continent)
            && Objects.equal(this.country, that.country) && Objects.equal(this.stateProvince, that.stateProvince)
            && Objects.equal(this.waterBody, that.waterBody) && Objects.equal(this.typeStatus, that.typeStatus)
            && Objects.equal(this.typifiedName, that.typifiedName) && Objects.equal(this.validations, that.validations)
@@ -706,10 +743,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("orderKey", orderKey).add("familyKey", familyKey).add("genusKey", genusKey).add("subgenusKey", subgenusKey)
       .add("speciesKey", speciesKey).add("scientificName", scientificName).add("kingdom", kingdom).add("phylum", phylum)
       .add("clazz", clazz).add("order", order).add("family", family).add("genus", genus).add("subgenus", subgenus)
-      .add("species", species).add("identificationDate", identificationDate).add("longitude", longitude)
-      .add("latitude", latitude).add("coordinateAccurracy", coordinateAccurracy).add("geodeticDatum", geodeticDatum)
-      .add("altitude", altitude).add("altitudeAccurracy", altitudeAccurracy).add("depth", depth)
-      .add("depthAccurracy", depthAccurracy).add("continent", continent).add("country", country)
+      .add("species", species).add("dateIdentified", dateIdentified).add("longitude", longitude)
+      .add("latitude", latitude).add("coordinateAccuracy", coordinateAccuracy).add("geodeticDatum", geodeticDatum)
+      .add("altitude", altitude).add("altitudeAccuracy", altitudeAccuracy).add("depth", depth)
+      .add("depthAccuracy", depthAccuracy).add("continent", continent).add("country", country)
       .add("stateProvince", stateProvince).add("waterBody", waterBody).add("year", year).add("month", month)
       .add("day", day).add("eventDate", eventDate).add("typeStatus", typeStatus).add("typifiedName", typifiedName)
       .add("validations", validations).add("modified", modified).add("lastInterpreted", lastInterpreted).toString();

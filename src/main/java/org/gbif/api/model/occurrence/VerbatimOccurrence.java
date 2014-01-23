@@ -120,6 +120,9 @@ public class VerbatimOccurrence {
   }
 
   @Nullable
+  /**
+   * The country of the organization that publishes the dataset to which the occurrence belongs.
+   */
   public Country getPublishingCountry() {
     return publishingCountry;
   }
