@@ -60,6 +60,10 @@ public class OccurrenceSearchRequest extends SearchRequest<OccurrenceSearchParam
     addParameter(OccurrenceSearchParameter.COLLECTOR_NAME, collectorName);
   }
 
+  public void addRecordNumberFilter(String recordNumber) {
+    addParameter(OccurrenceSearchParameter.RECORD_NUMBER, recordNumber);
+  }
+
   public void addCountryFilter(Country country) {
     addParameter(OccurrenceSearchParameter.COUNTRY, country);
   }

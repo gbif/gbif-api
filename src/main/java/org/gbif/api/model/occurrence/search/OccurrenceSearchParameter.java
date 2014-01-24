@@ -35,11 +35,10 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * The 4 digit year. A year of 98 will be 98 after christ, no 1998.
    * This parameter accepts comma separated range values, e.g.:
    * <dl>
-   *   <dt>*,1810</dt>
-   *   <dd>Found before or equal to 1810</dd>
-   *
-   *   <dt>1848,1933</dt>
-   *   <dd>Year between 1848 and 1933</dd>
+   * <dt>*,1810</dt>
+   * <dd>Found before or equal to 1810</dd>
+   * <dt>1848,1933</dt>
+   * <dd>Year between 1848 and 1933</dd>
    * </dl>
    */
   YEAR(Integer.class),
@@ -49,73 +48,59 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * A month query can be used to retrieve seasonal records when used without a year or a year range.
    * This parameter accepts comma separated range values, e.g.:
    * <dl>
-   *   <dt>4,8</dt>
-   *   <dd>Month between April and August</dd>
+   * <dt>4,8</dt>
+   * <dd>Month between April and August</dd>
    * </dl>
-  */
+   */
   MONTH(Integer.class),
-  
-  
+
+
   /**
-   * Occurrence date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd. 
+   * Occurrence date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
    * This parameter accepts comma separated range values, examples of valid ranges are:
    * <dl>
-   *   <dt>2001-02-11,2010-01-10</dt>
-   *   <dd>Dates between 2001-02-11 and 2010-01-10</dd>
-   *   
-   *   <dt>2001-02,2010-01</dt>
-   *   <dd>Dates between first day of 2001-02 and last day of 2010-01</dd>
-   *   
-   *   <dt>2001,2010</dt>
-   *   <dd>Dates between first day of 2001 and last day of 2010</dd>
-   *   
-   *   <dt>2001,2010-01</dt>
-   *   <dd>Dates between first day of 2001 and last day of 2010-01</dd>
-   *   
-   *   <dt>2001-01-10,2010</dt>
-   *   <dd>Dates between 2001-01-10 and last day of 2010</dd>
-   *   
-   *   <dt>2001-01-10,*</dt>
-   *   <dd>Dates after 2001-01-10</dd>
-   *   
-   *   <dt>*,2001-01-10</dt>
-   *   <dd>Dates before 2001-01-10</dd>
-   *   
-   *   <dt>*</dt>
-   *   <dd>all dates</dd>
+   * <dt>2001-02-11,2010-01-10</dt>
+   * <dd>Dates between 2001-02-11 and 2010-01-10</dd>
+   * <dt>2001-02,2010-01</dt>
+   * <dd>Dates between first day of 2001-02 and last day of 2010-01</dd>
+   * <dt>2001,2010</dt>
+   * <dd>Dates between first day of 2001 and last day of 2010</dd>
+   * <dt>2001,2010-01</dt>
+   * <dd>Dates between first day of 2001 and last day of 2010-01</dd>
+   * <dt>2001-01-10,2010</dt>
+   * <dd>Dates between 2001-01-10 and last day of 2010</dd>
+   * <dt>2001-01-10,*</dt>
+   * <dd>Dates after 2001-01-10</dd>
+   * <dt>*,2001-01-10</dt>
+   * <dd>Dates before 2001-01-10</dd>
+   * <dt>*</dt>
+   * <dd>all dates</dd>
    * </dl>
-  */
+   */
   DATE(Date.class),
-  
+
   /**
-   * Modification date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd. 
+   * Modification date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
    * This parameter accepts comma separated range values, examples of valid ranges are:
    * <dl>
-   *   <dt>2001-02-11,2010-01-10</dt>
-   *   <dd>Dates between 2001-02-11 and 2010-01-10</dd>
-   *   
-   *   <dt>2001-02,2010-01</dt>
-   *   <dd>Dates between first day of 2001-02 and last day of 2010-01</dd>
-   *   
-   *   <dt>2001,2010</dt>
-   *   <dd>Dates between first day of 2001 and last day of 2010</dd>
-   *   
-   *   <dt>2001,2010-01</dt>
-   *   <dd>Dates between first day of 2001 and last day of 2010-01</dd>
-   *   
-   *   <dt>2001-01-10,2010</dt>
-   *   <dd>Dates between 2001-01-10 and last day of 2010</dd>
-   *   
-   *   <dt>2001-01-10,*</dt>
-   *   <dd>Dates after 2001-01-10</dd>
-   *   
-   *   <dt>*,2001-01-10</dt>
-   *   <dd>Dates before 2001-01-10</dd>
-   *   
-   *   <dt>*</dt>
-   *   <dd>all dates</dd>
+   * <dt>2001-02-11,2010-01-10</dt>
+   * <dd>Dates between 2001-02-11 and 2010-01-10</dd>
+   * <dt>2001-02,2010-01</dt>
+   * <dd>Dates between first day of 2001-02 and last day of 2010-01</dd>
+   * <dt>2001,2010</dt>
+   * <dd>Dates between first day of 2001 and last day of 2010</dd>
+   * <dt>2001,2010-01</dt>
+   * <dd>Dates between first day of 2001 and last day of 2010-01</dd>
+   * <dt>2001-01-10,2010</dt>
+   * <dd>Dates between 2001-01-10 and last day of 2010</dd>
+   * <dt>2001-01-10,*</dt>
+   * <dd>Dates after 2001-01-10</dd>
+   * <dt>*,2001-01-10</dt>
+   * <dd>Dates before 2001-01-10</dd>
+   * <dt>*</dt>
+   * <dd>all dates</dd>
    * </dl>
-  */
+   */
   MODIFIED(Date.class),
 
   /**
@@ -132,8 +117,8 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * Country the occurrence was recorded in.
    */
   COUNTRY(Country.class),
-  
-  
+
+
   /**
    * The country of the organization that publishes the dataset the occurrence belongs to.
    */
@@ -143,14 +128,12 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * Altitude/elevation in meters above sea level.
    * This parameter accepts comma separated range values, e.g.:
    * <dl>
-   *   <dt>*,100</dt>
-   *   <dd>Altitude below or equals 100m</dd>
-   *
-   *   <dt>100,*</dt>
-   *   <dd>Altitude above or equals 100m</dd>
-   *
-   *   <dt>-2,8.8</dt>
-   *   <dd>Altitude between or equals -2m and 8.8m</dd>
+   * <dt>*,100</dt>
+   * <dd>Altitude below or equals 100m</dd>
+   * <dt>100,*</dt>
+   * <dd>Altitude above or equals 100m</dd>
+   * <dt>-2,8.8</dt>
+   * <dd>Altitude between or equals -2m and 8.8m</dd>
    * </dl>
    */
   ALTITUDE(Integer.class),
@@ -159,14 +142,12 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * Depth in meters relative to altitude. For example 10 meters below a lake surface with given altitude.
    * This parameter accepts comma separated range values, e.g.:
    * <dl>
-   *   <dt>*,10</dt>
-   *   <dd>Depth below or equals 10m</dd>
-   *
-   *   <dt>100,*</dt>
-   *   <dd>Depth above or equals 100m</dd>
-   *
-   *   <dt>12.1,28.8</dt>
-   *   <dd>Depth between or equals 12.1m and 28.8m</dd>
+   * <dt>*,10</dt>
+   * <dd>Depth below or equals 10m</dd>
+   * <dt>100,*</dt>
+   * <dd>Depth above or equals 100m</dd>
+   * <dt>12.1,28.8</dt>
+   * <dd>Depth between or equals 12.1m and 28.8m</dd>
    * </dl>
    */
   DEPTH(Integer.class),
@@ -193,6 +174,11 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * The person who recorded the occurrence.
    */
   COLLECTOR_NAME(String.class),
+
+  /**
+   * An identifier given to the Occurrence at the time it was recorded.
+   */
+  RECORD_NUMBER(String.class),
 
   /**
    * A basis of record enumeration value.
@@ -222,14 +208,13 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Geometry in <a href="http://en.wikipedia.org/wiki/Well-known_text">Well Known Text</a> (WKT) format.
    * E.g.: POLYGON ((30.0 10.0, 10.12 20.23, 20 40, 40 40, 30 10)).
-   *
    * Multi geometries like MULTIPOLYGON are not supported and multiple parameters should be used instead.
    * Valid geometries are:
    * <ul>
-   *   <li>POINT</li>
-   *   <li>LINESTRING</li>
-   *   <li>POLYGON</li>
-   *   <li>LINEARRING</li>
+   * <li>POINT</li>
+   * <li>LINESTRING</li>
+   * <li>POLYGON</li>
+   * <li>LINEARRING</li>
    * </ul>
    */
   GEOMETRY(String.class),
