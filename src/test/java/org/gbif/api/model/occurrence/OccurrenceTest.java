@@ -23,8 +23,10 @@ import org.gbif.api.vocabulary.NomenclaturalStatus;
 import org.gbif.api.vocabulary.OccurrenceValidationRule;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.Term;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.UUID;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -129,5 +131,29 @@ public class OccurrenceTest {
     json = mapper.writeValueAsString(u);
     //TODO: the identifier list makes the followig equals fail - intended?
     //assertEquals(u, mapper.readValue(json, NameUsage.class));
+  }
+
+  @Test
+  public void testVerbatimConstructor() {
+    VerbatimOccurrence verb = new VerbatimOccurrence();
+    verb.setKey(123);
+    verb.setDatasetKey(UUID.randomUUID());
+    verb.setPublishingOrgKey(UUID.randomUUID());
+    verb.setPublishingCountry(Country.AFGHANISTAN);
+    verb.setLastCrawled(new Date());
+    verb.setProtocol(EndpointType.BIOCASE);
+    for (Term term : DwcTerm.values()) {
+      verb.setField(term, "I am " + term);
+    }
+
+    Occurrence occ = new Occurrence(verb);
+    assertEquals(occ.getKey(), verb.getKey());
+    assertEquals(occ.getDatasetKey(), verb.getDatasetKey());
+    assertEquals(occ.getPublishingOrgKey(), verb.getPublishingOrgKey());
+    assertEquals(occ.getPublishingCountry(), verb.getPublishingCountry());
+    assertEquals(occ.getProtocol(), verb.getProtocol());
+    assertEquals(occ.getLastCrawled(), verb.getLastCrawled());
+    assertEquals(occ.getFields().size(), verb.getFields().size());
+    assertEquals(occ.getField(DwcTerm.acceptedNameUsage), verb.getField(DwcTerm.acceptedNameUsage));
   }
 }
