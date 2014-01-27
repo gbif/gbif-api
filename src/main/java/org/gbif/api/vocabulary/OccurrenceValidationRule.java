@@ -25,6 +25,16 @@ public enum OccurrenceValidationRule {
   COUNTRY_COORDINATE_MISMATCH,
 
   /**
+   * Interpreted country for dwc:country and dwc:countryCode contradict each other.
+   */
+  COUNTRY_MISMATCH,
+
+  /**
+   * Uninterpretable country values found.
+   */
+  COUNTRY_INVALID,
+
+  /**
    * Latitude and longitude appear to be swapped.
    */
   PRESUMED_SWAPPED_COORDINATE,
@@ -69,7 +79,53 @@ public enum OccurrenceValidationRule {
    * Matching to the taxonomic backbone cannot be done cause there was no match at all
    * or several matches with too little information to keep them apart (homonyms).
    */
-  TAXON_MATCH_NONE;
+  TAXON_MATCH_NONE,
+
+  /**
+   * Set if supplied depth is in feet instead of metric
+   */
+  DEPTH_PRESUMED_IN_FEET,
+
+  /**
+   * Set if depth is larger than is feasible.
+   * TODO: Explain what is feasable
+   */
+  DEPTH_OUT_OF_RANGE,
+
+  /**
+   * Set if supplied min>max
+   */
+  DEPTH_MIN_MAX_SWAPPED,
+
+  /**
+   * Set if depth is a non numeric value
+   */
+  DEPTH_NON_NUMERIC,
+
+  /**
+   * Set if altitude is >10000m or < -1000m
+   */
+  ALTITUDE_OUT_OF_RANGE,
+
+  /**
+   * Set if altitude is -9999 or some other bogus value
+   */
+  ALTITUDE_UNLIKELY,
+
+  /**
+   * Set if supplied min > max altitude
+   */
+  ALTITUDE_MIN_MAX_SWAPPED,
+
+  /**
+   * Set if supplied altitude is in feet instead of metric
+   */
+  ALTITUDE_PRESUMED_IN_FEET,
+
+  /**
+   * Set if altitude is a non numeric value
+   */
+  ALTITUDE_NON_NUMERIC;
 
   public static final List<OccurrenceValidationRule> GEOSPATIAL_RULES = ImmutableList.of(ZERO_COORDINATE,
                                                                                    COORDINATES_OUT_OF_RANGE,
