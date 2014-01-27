@@ -16,6 +16,7 @@ package org.gbif.api.model.occurrence.search;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.TypeStatus;
 
 import java.util.Date;
 import java.util.UUID;
@@ -226,7 +227,13 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * IGNORE_SPATIAL_ISSUES=false include records with spatial issues.
    * The absence of this parameter returns any record with or without spatial issues.
    */
-  SPATIAL_ISSUES(Boolean.class);
+  SPATIAL_ISSUES(Boolean.class),
+
+  /**
+   * Nomenclatural type (type status, typified scientific name, publication) applied to the subject.
+   */
+  TYPE_STATUS(TypeStatus.class);
+
 
   private final Class<?> type;
 
