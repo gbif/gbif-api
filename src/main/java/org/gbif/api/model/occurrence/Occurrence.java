@@ -737,7 +737,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("basisOfRecord", basisOfRecord).add("individualCount", individualCount)
+    return super.toString() + Objects.toStringHelper(this).add("basisOfRecord", basisOfRecord).add("individualCount", individualCount)
       .add("sex", sex).add("lifeStage", lifeStage).add("establishmentMeans", establishmentMeans)
       .add("taxonKey", taxonKey).add("kingdomKey", kingdomKey).add("phylumKey", phylumKey).add("classKey", classKey)
       .add("orderKey", orderKey).add("familyKey", familyKey).add("genusKey", genusKey).add("subgenusKey", subgenusKey)

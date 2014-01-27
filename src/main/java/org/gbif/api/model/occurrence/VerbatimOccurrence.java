@@ -235,9 +235,9 @@ public class VerbatimOccurrence {
     return Objects.toStringHelper(this)
       .add("key", key)
       .add("datasetKey", datasetKey)
+      .add("publishingOrgKey", publishingOrgKey)
+      .add("publishingCountry", publishingCountry)
       .add("protocol", protocol)
-      .add("lastCrawled", lastCrawled)
-      .add("fields", fields.size())
-      .toString();
+      .add("lastCrawled", lastCrawled).toString();
   }
 }
