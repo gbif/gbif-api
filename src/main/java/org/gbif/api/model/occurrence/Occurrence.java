@@ -29,6 +29,7 @@ import org.gbif.api.vocabulary.Sex;
 import org.gbif.api.vocabulary.TypeStatus;
 
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 import javax.annotation.Nullable;
@@ -37,6 +38,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -96,7 +98,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   // extracted from type status, but we should propose a new dwc term for this!
   // for example: "Paratype of Taeniopteryx metequi Ricker & Ross" is status=Paratype, typifiedName=Taeniopteryx metequi Ricker & Ross
   private String typifiedName;
-  private Set<OccurrenceIssue> issues = Sets.newHashSet();
+  private Set<OccurrenceIssue> issues = EnumSet.noneOf(OccurrenceIssue.class);
   // record level
   private Date modified;  // interpreted dc:modified, i.e. date changed in source
   private Date lastInterpreted;
@@ -637,13 +639,13 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   public void setIssues(Set<OccurrenceIssue> issues) {
-    this.issues = issues;
+    Preconditions.checkNotNull("Issues cannot be null", issues);
+    this.issues = Sets.newEnumSet(issues, OccurrenceIssue.class);
   }
 
   public void addIssue(OccurrenceIssue issue) {
-    if (issue != null) {
-      issues.add(issue);
-    }
+    Preconditions.checkNotNull("Issue needs to be specified", issue);
+    issues.add(issue);
   }
 
   @Nullable
