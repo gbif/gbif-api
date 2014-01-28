@@ -20,7 +20,7 @@ import org.gbif.api.model.checklistbank.NameUsage;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.NomenclaturalStatus;
-import org.gbif.api.vocabulary.OccurrenceValidationRule;
+import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.Term;
@@ -102,6 +102,21 @@ public class OccurrenceTest {
   }
 
   @Test
+  public void addIssues() throws IOException {
+    Occurrence occ = new Occurrence();
+    assertTrue(occ.getIssues().isEmpty());
+    assertFalse(occ.hasSpatialIssue());
+
+    occ.addIssue(OccurrenceIssue.ALTITUDE_NON_NUMERIC);
+    assertEquals(1, occ.getIssues().size());
+    assertFalse(occ.hasSpatialIssue());
+
+    occ.addIssue(OccurrenceIssue.COORDINATES_OUT_OF_RANGE);
+    assertEquals(2, occ.getIssues().size());
+    assertTrue(occ.hasSpatialIssue());
+  }
+
+  @Test
   public void testJsonSerde() throws IOException {
     ObjectMapper mapper = new ObjectMapper();
 
@@ -112,7 +127,7 @@ public class OccurrenceTest {
     occ.setKingdomKey(6);
 
     occ.getFields().put(DwcTerm.catalogNumber, "MD10782");
-    occ.getValidations().put(OccurrenceValidationRule.COORDINATES_OUT_OF_RANGE, true);
+    occ.addIssue(OccurrenceIssue.COORDINATES_OUT_OF_RANGE);
 
     String json = mapper.writeValueAsString(occ);
     assertEquals(occ, mapper.readValue(json, Occurrence.class));

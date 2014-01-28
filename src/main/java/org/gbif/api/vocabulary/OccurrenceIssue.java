@@ -7,7 +7,7 @@ import com.google.common.collect.ImmutableList;
 /**
  * An enumeration of validation rules for single occurrence records.
  */
-public enum OccurrenceValidationRule {
+public enum OccurrenceIssue {
 
   /**
    * Coordinate is the exact 0/0 coordinate, often indicating a bad null coordinate.
@@ -33,6 +33,11 @@ public enum OccurrenceValidationRule {
    * Uninterpretable country values found.
    */
   COUNTRY_INVALID,
+
+  /**
+   * The interpreted country is based on the coordinates, not the verbatim string information.
+   */
+  COUNTRY_DERIVED_FROM_COORDINATES,
 
   /**
    * Latitude and longitude appear to be swapped.
@@ -127,12 +132,12 @@ public enum OccurrenceValidationRule {
    */
   ALTITUDE_NON_NUMERIC;
 
-  public static final List<OccurrenceValidationRule> GEOSPATIAL_RULES = ImmutableList.of(ZERO_COORDINATE,
+  public static final List<OccurrenceIssue> GEOSPATIAL_RULES = ImmutableList.of(ZERO_COORDINATE,
                                                                                    COORDINATES_OUT_OF_RANGE,
                                                                                    COUNTRY_COORDINATE_MISMATCH,
                                                                                    PRESUMED_SWAPPED_COORDINATE,
                                                                                    PRESUMED_NEGATED_LATITUDE,
                                                                                    PRESUMED_NEGATED_LONGITUDE);
-  public static final List<OccurrenceValidationRule> TAXONOMIC_RULES = ImmutableList.of();
+  public static final List<OccurrenceIssue> TAXONOMIC_RULES = ImmutableList.of();
 
 }

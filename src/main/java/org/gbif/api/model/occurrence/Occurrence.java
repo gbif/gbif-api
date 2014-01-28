@@ -23,24 +23,22 @@ import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.LifeStage;
-import org.gbif.api.vocabulary.OccurrenceValidationRule;
+import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.Sex;
 import org.gbif.api.vocabulary.TypeStatus;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.Set;
 import javax.annotation.Nullable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonIgnore;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Represents an Occurrence as interpreted by GBIF, adding typed properties on top of the verbatim ones.
@@ -98,8 +96,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   // extracted from type status, but we should propose a new dwc term for this!
   // for example: "Paratype of Taeniopteryx metequi Ricker & Ross" is status=Paratype, typifiedName=Taeniopteryx metequi Ricker & Ross
   private String typifiedName;
-  // validation rules: true means rule has passed (no error), false means rule failed (error), null means not evaluated
-  private Map<OccurrenceValidationRule, Boolean> validations = Maps.newHashMap();
+  private Set<OccurrenceIssue> issues = Sets.newHashSet();
   // record level
   private Date modified;  // interpreted dc:modified, i.e. date changed in source
   private Date lastInterpreted;
@@ -633,17 +630,20 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @NotNull
   /**
-   * A map of validation rules assessed for this occurrence.
-   * All rules passed successfully should result in a true and all false rules are indicating issues.
-   * Note that this is not copied defensively.
+   * A set of issues found for this occurrence.
    */
-  public Map<OccurrenceValidationRule, Boolean> getValidations() {
-    return validations;
+  public Set<OccurrenceIssue> getIssues() {
+    return issues;
   }
 
-  public void setValidations(Map<OccurrenceValidationRule, Boolean> validations) {
-    checkNotNull(validations, "validations can't be null");
-    this.validations = validations;
+  public void setIssues(Set<OccurrenceIssue> issues) {
+    this.issues = issues;
+  }
+
+  public void addIssue(OccurrenceIssue issue) {
+    if (issue != null) {
+      issues.add(issue);
+    }
   }
 
   @Nullable
@@ -674,15 +674,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @JsonIgnore
   /**
    * Convenience method checking if any spatial validation rule has not passed.
+   * Primarily used to indicate that the record should not be displayed on a map.
    */
   public boolean hasSpatialIssue() {
-    // TODO: remove this block once validation rules are being properly used by interpretation
-    if (validations.isEmpty()) {
-      return false;
-    }
-
-    for (OccurrenceValidationRule rule : OccurrenceValidationRule.GEOSPATIAL_RULES) {
-      if (validations.get(rule) == null || !validations.get(rule)) {
+    for (OccurrenceIssue rule : OccurrenceIssue.GEOSPATIAL_RULES) {
+      if (issues.contains(rule)) {
         return true;
       }
     }
@@ -696,7 +692,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, kingdom, phylum, clazz, order,
         family, genus, subgenus, species, dateIdentified, year, month, day, eventDate, longitude, latitude,
         coordinateAccuracy, geodeticDatum, altitude, altitudeAccuracy, depth, depthAccuracy, continent, country,
-        stateProvince, waterBody, typeStatus, typifiedName, validations, modified, lastInterpreted);
+        stateProvince, waterBody, typeStatus, typifiedName, issues, modified, lastInterpreted);
   }
 
   @Override
@@ -731,7 +727,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
            && Objects.equal(this.depthAccuracy, that.depthAccuracy) && Objects.equal(this.continent, that.continent)
            && Objects.equal(this.country, that.country) && Objects.equal(this.stateProvince, that.stateProvince)
            && Objects.equal(this.waterBody, that.waterBody) && Objects.equal(this.typeStatus, that.typeStatus)
-           && Objects.equal(this.typifiedName, that.typifiedName) && Objects.equal(this.validations, that.validations)
+           && Objects.equal(this.typifiedName, that.typifiedName) && Objects.equal(this.issues, that.issues)
            && Objects.equal(this.modified, that.modified) && Objects.equal(this.lastInterpreted, that.lastInterpreted);
   }
 
@@ -749,6 +745,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("depthAccuracy", depthAccuracy).add("continent", continent).add("country", country)
       .add("stateProvince", stateProvince).add("waterBody", waterBody).add("year", year).add("month", month)
       .add("day", day).add("eventDate", eventDate).add("typeStatus", typeStatus).add("typifiedName", typifiedName)
-      .add("validations", validations).add("modified", modified).add("lastInterpreted", lastInterpreted).toString();
+      .add("issues", issues).add("modified", modified).add("lastInterpreted", lastInterpreted).toString();
   }
 }
