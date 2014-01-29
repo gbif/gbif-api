@@ -130,7 +130,27 @@ public enum OccurrenceIssue {
   /**
    * Set if altitude is a non numeric value
    */
-  ALTITUDE_NON_NUMERIC;
+  ALTITUDE_NON_NUMERIC,
+
+  /**
+   * A (partial) invalid date is given for dc:modified, such as a non existing date, invalid zero month, etc.
+   */
+  MODIFIED_DATE_INVALID,
+
+  /**
+   * The date given for dc:modified is in the future or predates unix time (1970).
+   */
+  MODIFIED_DATE_UNLIKLEY,
+
+  /**
+   * The given basis of record is impossible to interpret or seriously different from the recommended vocabulary.
+   */
+  BASIS_OF_RECORD_INVALID,
+
+  /**
+   * The given type status is impossible to interpret or seriously different from the recommended vocabulary.
+   */
+  TYPE_STATUS_INVALID;
 
   public static final List<OccurrenceIssue> GEOSPATIAL_RULES = ImmutableList.of(ZERO_COORDINATE,
                                                                                    COORDINATES_OUT_OF_RANGE,
