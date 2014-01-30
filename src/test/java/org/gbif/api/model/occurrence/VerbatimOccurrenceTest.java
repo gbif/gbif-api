@@ -1,6 +1,8 @@
 package org.gbif.api.model.occurrence;
 
 import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.Term;
+import org.gbif.dwc.terms.TermFactory;
 
 import java.io.IOException;
 
@@ -41,6 +43,18 @@ public class VerbatimOccurrenceTest {
 
     occ.setField(DwcTerm.catalogNumber, null);
     assertFalse(occ.hasField(DwcTerm.catalogNumber));
+  }
+
+  @Test
+  public void testFieldFromTermFactory() {
+    VerbatimOccurrence occ = new VerbatimOccurrence();
+    String prefix = "t_";
+    String colName = "t_dwc:basisOfRecord";
+    Term term = TermFactory.instance().findTerm(colName.substring(prefix.length()));
+    occ.setField(term, "PreservedSpecimen");
+    assertEquals(1, occ.getFields().size());
+    assertTrue(occ.hasField(DwcTerm.basisOfRecord));
+    assertEquals("PreservedSpecimen", occ.getField(DwcTerm.basisOfRecord));
   }
 
   @Test
