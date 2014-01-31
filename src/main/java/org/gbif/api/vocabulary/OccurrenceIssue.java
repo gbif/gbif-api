@@ -143,6 +143,11 @@ public enum OccurrenceIssue {
   MODIFIED_DATE_UNLIKLEY,
 
   /**
+   * The date given for dwc:dateIdentified is in the future or before Linnean times (1700).
+   */
+  IDENTIFIED_DATE_UNLIKLEY,
+
+  /**
    * The given basis of record is impossible to interpret or seriously different from the recommended vocabulary.
    */
   BASIS_OF_RECORD_INVALID,
