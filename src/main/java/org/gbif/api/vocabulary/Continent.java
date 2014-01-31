@@ -26,13 +26,26 @@ import org.gbif.api.util.VocabularyUtils;
  */
 public enum Continent {
 
-  AFRICA,
-  ANTARCTICA,
-  ASIA,
-  OCEANIA,
-  EUROPE,
-  NORTH_AMERICA,
-  SOUTH_AMERICA;
+  AFRICA("Africa"),
+  ANTARCTICA("Antarctica"),
+  ASIA("Asia"),
+  OCEANIA("Oceania"),
+  EUROPE("Europe"),
+  NORTH_AMERICA("North America"),
+  SOUTH_AMERICA("South America");
+
+  private final String title;
+
+  Continent(String title) {
+    this.title = title;
+  }
+
+  /**
+   * @return the continent name in the English language.
+   */
+  public String getTitle() {
+    return title;
+  }
 
   /**
    * @param continent name
@@ -42,5 +55,4 @@ public enum Continent {
   public static Continent fromString(String continent) {
     return (Continent) VocabularyUtils.lookupEnum(continent, Continent.class);
   }
-
 }
