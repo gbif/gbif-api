@@ -34,6 +34,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -170,5 +171,15 @@ public class OccurrenceTest {
     assertEquals(occ.getLastCrawled(), verb.getLastCrawled());
     assertEquals(occ.getFields().size(), verb.getFields().size());
     assertEquals(occ.getField(DwcTerm.acceptedNameUsage), verb.getField(DwcTerm.acceptedNameUsage));
+  }
+
+  @Test
+  public void testBuildFromNullVerbatim() {
+    Occurrence occ = new Occurrence(null);
+    assertNotNull(occ);
+
+    VerbatimOccurrence verb = new VerbatimOccurrence();
+    occ = new Occurrence(verb);
+    assertNotNull(occ);
   }
 }

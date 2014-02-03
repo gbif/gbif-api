@@ -110,15 +110,20 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   /**
    * Create occurrence instance from existing verbatim one, copying over all data.
    */
-  public Occurrence(VerbatimOccurrence verbatim) {
-    super();
-    setKey(verbatim.getKey());
-    setDatasetKey(verbatim.getDatasetKey());
-    setPublishingOrgKey(verbatim.getPublishingOrgKey());
-    setPublishingCountry(verbatim.getPublishingCountry());
-    setProtocol(verbatim.getProtocol());
-    setLastCrawled(new Date(verbatim.getLastCrawled().getTime()));
-    getFields().putAll(verbatim.getFields());
+  public Occurrence(@Nullable VerbatimOccurrence verbatim) {
+    if (verbatim != null) {
+      setKey(verbatim.getKey());
+      setDatasetKey(verbatim.getDatasetKey());
+      setPublishingOrgKey(verbatim.getPublishingOrgKey());
+      setPublishingCountry(verbatim.getPublishingCountry());
+      setProtocol(verbatim.getProtocol());
+      if (verbatim.getLastCrawled() != null) {
+        setLastCrawled(new Date(verbatim.getLastCrawled().getTime()));
+      }
+      if (verbatim.getFields() != null) {
+        getFields().putAll(verbatim.getFields());
+      }
+    }
   }
 
   @Nullable
@@ -272,8 +277,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @NotNull
   @JsonIgnore
   public LinkedHashMap<Integer, String> getHigherClassificationMap() {
-    return taxonKey == null ? ClassificationUtils.getHigherClassificationMap(
-      this) : ClassificationUtils.getHigherClassificationMap(this, taxonKey, null, null);
+    return taxonKey == null ? ClassificationUtils.getHigherClassificationMap(this)
+      : ClassificationUtils.getHigherClassificationMap(this, taxonKey, null, null);
   }
 
   @Nullable
@@ -723,30 +728,31 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .equal(this.species, that.species) && Objects.equal(this.dateIdentified, that.dateIdentified) && Objects
              .equal(this.year, that.year) && Objects.equal(this.month, that.month) && Objects.equal(this.day, that.day)
            && Objects.equal(this.eventDate, that.eventDate) && Objects.equal(this.longitude, that.longitude) && Objects
-      .equal(this.latitude, that.latitude) && Objects.equal(this.coordinateAccuracy, that.coordinateAccuracy)
-           && Objects.equal(this.geodeticDatum, that.geodeticDatum) && Objects.equal(this.altitude, that.altitude)
-           && Objects.equal(this.altitudeAccuracy, that.altitudeAccuracy) && Objects.equal(this.depth, that.depth)
-           && Objects.equal(this.depthAccuracy, that.depthAccuracy) && Objects.equal(this.continent, that.continent)
-           && Objects.equal(this.country, that.country) && Objects.equal(this.stateProvince, that.stateProvince)
-           && Objects.equal(this.waterBody, that.waterBody) && Objects.equal(this.typeStatus, that.typeStatus)
-           && Objects.equal(this.typifiedName, that.typifiedName) && Objects.equal(this.issues, that.issues)
-           && Objects.equal(this.modified, that.modified) && Objects.equal(this.lastInterpreted, that.lastInterpreted);
+      .equal(this.latitude, that.latitude) && Objects.equal(this.coordinateAccuracy, that.coordinateAccuracy) && Objects
+             .equal(this.geodeticDatum, that.geodeticDatum) && Objects.equal(this.altitude, that.altitude) && Objects
+             .equal(this.altitudeAccuracy, that.altitudeAccuracy) && Objects.equal(this.depth, that.depth) && Objects
+             .equal(this.depthAccuracy, that.depthAccuracy) && Objects.equal(this.continent, that.continent) && Objects
+             .equal(this.country, that.country) && Objects.equal(this.stateProvince, that.stateProvince) && Objects
+             .equal(this.waterBody, that.waterBody) && Objects.equal(this.typeStatus, that.typeStatus) && Objects
+             .equal(this.typifiedName, that.typifiedName) && Objects.equal(this.issues, that.issues) && Objects
+             .equal(this.modified, that.modified) && Objects.equal(this.lastInterpreted, that.lastInterpreted);
   }
 
   @Override
   public String toString() {
-    return super.toString() + Objects.toStringHelper(this).add("basisOfRecord", basisOfRecord).add("individualCount", individualCount)
-      .add("sex", sex).add("lifeStage", lifeStage).add("establishmentMeans", establishmentMeans)
-      .add("taxonKey", taxonKey).add("kingdomKey", kingdomKey).add("phylumKey", phylumKey).add("classKey", classKey)
-      .add("orderKey", orderKey).add("familyKey", familyKey).add("genusKey", genusKey).add("subgenusKey", subgenusKey)
-      .add("speciesKey", speciesKey).add("scientificName", scientificName).add("kingdom", kingdom).add("phylum", phylum)
-      .add("clazz", clazz).add("order", order).add("family", family).add("genus", genus).add("subgenus", subgenus)
-      .add("species", species).add("dateIdentified", dateIdentified).add("longitude", longitude)
-      .add("latitude", latitude).add("coordinateAccuracy", coordinateAccuracy).add("geodeticDatum", geodeticDatum)
-      .add("altitude", altitude).add("altitudeAccuracy", altitudeAccuracy).add("depth", depth)
-      .add("depthAccuracy", depthAccuracy).add("continent", continent).add("country", country)
-      .add("stateProvince", stateProvince).add("waterBody", waterBody).add("year", year).add("month", month)
-      .add("day", day).add("eventDate", eventDate).add("typeStatus", typeStatus).add("typifiedName", typifiedName)
-      .add("issues", issues).add("modified", modified).add("lastInterpreted", lastInterpreted).toString();
+    return super.toString() + Objects.toStringHelper(this).add("basisOfRecord", basisOfRecord)
+      .add("individualCount", individualCount).add("sex", sex).add("lifeStage", lifeStage)
+      .add("establishmentMeans", establishmentMeans).add("taxonKey", taxonKey).add("kingdomKey", kingdomKey)
+      .add("phylumKey", phylumKey).add("classKey", classKey).add("orderKey", orderKey).add("familyKey", familyKey)
+      .add("genusKey", genusKey).add("subgenusKey", subgenusKey).add("speciesKey", speciesKey)
+      .add("scientificName", scientificName).add("kingdom", kingdom).add("phylum", phylum).add("clazz", clazz)
+      .add("order", order).add("family", family).add("genus", genus).add("subgenus", subgenus).add("species", species)
+      .add("dateIdentified", dateIdentified).add("longitude", longitude).add("latitude", latitude)
+      .add("coordinateAccuracy", coordinateAccuracy).add("geodeticDatum", geodeticDatum).add("altitude", altitude)
+      .add("altitudeAccuracy", altitudeAccuracy).add("depth", depth).add("depthAccuracy", depthAccuracy)
+      .add("continent", continent).add("country", country).add("stateProvince", stateProvince)
+      .add("waterBody", waterBody).add("year", year).add("month", month).add("day", day).add("eventDate", eventDate)
+      .add("typeStatus", typeStatus).add("typifiedName", typifiedName).add("issues", issues).add("modified", modified)
+      .add("lastInterpreted", lastInterpreted).toString();
   }
 }
