@@ -16,6 +16,7 @@ import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.SearchRequest;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.TypeStatus;
 
 import java.util.Date;
 import java.util.UUID;
@@ -50,6 +51,10 @@ public class OccurrenceSearchRequest extends SearchRequest<OccurrenceSearchParam
 
   public void addBasisOfRecordFilter(BasisOfRecord basisOfRecord) {
     addParameter(OccurrenceSearchParameter.BASIS_OF_RECORD, basisOfRecord);
+  }
+
+  public void addTypeStatusFilter(TypeStatus typeStatus) {
+    addParameter(OccurrenceSearchParameter.TYPE_STATUS, typeStatus);
   }
 
   public void addCatalogNumberFilter(String catalogNumber) {

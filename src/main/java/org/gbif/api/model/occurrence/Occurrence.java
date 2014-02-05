@@ -73,6 +73,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private String genus;
   private String subgenus;
   private String species;
+  // atomised scientific name
+  private String genericName;
   private String specificEpithet;
   private String infraspecificEpithet;
   private Rank taxonRank;
@@ -113,15 +115,20 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   /**
    * Create occurrence instance from existing verbatim one, copying over all data.
    */
-  public Occurrence(VerbatimOccurrence verbatim) {
-    super();
-    setKey(verbatim.getKey());
-    setDatasetKey(verbatim.getDatasetKey());
-    setPublishingOrgKey(verbatim.getPublishingOrgKey());
-    setPublishingCountry(verbatim.getPublishingCountry());
-    setProtocol(verbatim.getProtocol());
-    setLastCrawled(new Date(verbatim.getLastCrawled().getTime()));
-    getFields().putAll(verbatim.getFields());
+  public Occurrence(@Nullable VerbatimOccurrence verbatim) {
+    if (verbatim != null) {
+      setKey(verbatim.getKey());
+      setDatasetKey(verbatim.getDatasetKey());
+      setPublishingOrgKey(verbatim.getPublishingOrgKey());
+      setPublishingCountry(verbatim.getPublishingCountry());
+      setProtocol(verbatim.getProtocol());
+      if (verbatim.getLastCrawled() != null) {
+        setLastCrawled(new Date(verbatim.getLastCrawled().getTime()));
+      }
+      if (verbatim.getFields() != null) {
+        getFields().putAll(verbatim.getFields());
+      }
+    }
   }
 
   @Nullable
@@ -275,8 +282,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @NotNull
   @JsonIgnore
   public LinkedHashMap<Integer, String> getHigherClassificationMap() {
-    return taxonKey == null ? ClassificationUtils.getHigherClassificationMap(
-      this) : ClassificationUtils.getHigherClassificationMap(this, taxonKey, null, null);
+    return taxonKey == null ? ClassificationUtils.getHigherClassificationMap(this)
+      : ClassificationUtils.getHigherClassificationMap(this, taxonKey, null, null);
   }
 
   @Nullable
@@ -398,6 +405,15 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @Override
   public void setGenus(@Nullable String genus) {
     this.genus = genus;
+  }
+
+  @Nullable
+  public String getGenericName() {
+    return genericName;
+  }
+
+  public void setGenericName(String genericName) {
+    this.genericName = genericName;
   }
 
   @Nullable
@@ -722,7 +738,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     return Objects
       .hashCode(basisOfRecord, individualCount, sex, lifeStage, establishmentMeans, taxonKey, kingdomKey, phylumKey,
         classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, kingdom, phylum, clazz, order,
-        family, genus, subgenus, species, specificEpithet, infraspecificEpithet, taxonRank,
+        family, genus, subgenus, species, genericName, specificEpithet, infraspecificEpithet, taxonRank,
         dateIdentified, year, month, day, eventDate, longitude, latitude,
         coordinateAccuracy, geodeticDatum, altitude, altitudeAccuracy, depth, depthAccuracy, continent, country,
         stateProvince, waterBody, typeStatus, typifiedName, issues, modified, lastInterpreted);
@@ -740,53 +756,109 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       return false;
     }
     Occurrence that = (Occurrence) obj;
-    return Objects.equal(this.basisOfRecord, that.basisOfRecord) && Objects
-      .equal(this.individualCount, that.individualCount) && Objects.equal(this.sex, that.sex) && Objects
-             .equal(this.lifeStage, that.lifeStage) && Objects.equal(this.establishmentMeans, that.establishmentMeans)
-           && Objects.equal(this.taxonKey, that.taxonKey) && Objects.equal(this.kingdomKey, that.kingdomKey)
-           && Objects.equal(this.phylumKey, that.phylumKey) && Objects.equal(this.classKey, that.classKey) && Objects
-             .equal(this.orderKey, that.orderKey) && Objects.equal(this.familyKey, that.familyKey) && Objects
-             .equal(this.genusKey, that.genusKey) && Objects.equal(this.subgenusKey, that.subgenusKey) && Objects
-             .equal(this.speciesKey, that.speciesKey) && Objects.equal(this.scientificName, that.scientificName)
-           && Objects.equal(this.kingdom, that.kingdom) && Objects.equal(this.phylum, that.phylum)
-           && Objects.equal(this.clazz, that.clazz) && Objects.equal(this.order, that.order) && Objects.equal(this.family, that.family)
-           && Objects.equal(this.genus, that.genus) && Objects.equal(this.subgenus, that.subgenus)
-           && Objects.equal(this.species, that.species)
-           && Objects.equal(this.specificEpithet, that.specificEpithet)
-           && Objects.equal(this.infraspecificEpithet, that.infraspecificEpithet)
-           && Objects.equal(this.taxonRank, that.taxonRank)
-           && Objects.equal(this.dateIdentified, that.dateIdentified)
-           && Objects.equal(this.year, that.year) && Objects.equal(this.month, that.month) && Objects.equal(this.day, that.day)
-           && Objects.equal(this.eventDate, that.eventDate) && Objects.equal(this.longitude, that.longitude) && Objects
-      .equal(this.latitude, that.latitude) && Objects.equal(this.coordinateAccuracy, that.coordinateAccuracy)
-           && Objects.equal(this.geodeticDatum, that.geodeticDatum) && Objects.equal(this.altitude, that.altitude)
-           && Objects.equal(this.altitudeAccuracy, that.altitudeAccuracy) && Objects.equal(this.depth, that.depth)
-           && Objects.equal(this.depthAccuracy, that.depthAccuracy) && Objects.equal(this.continent, that.continent)
-           && Objects.equal(this.country, that.country) && Objects.equal(this.stateProvince, that.stateProvince)
-           && Objects.equal(this.waterBody, that.waterBody) && Objects.equal(this.typeStatus, that.typeStatus)
-           && Objects.equal(this.typifiedName, that.typifiedName) && Objects.equal(this.issues, that.issues)
-           && Objects.equal(this.modified, that.modified) && Objects.equal(this.lastInterpreted, that.lastInterpreted);
+    return Objects.equal(this.basisOfRecord, that.basisOfRecord)
+      && Objects.equal(this.individualCount, that.individualCount)
+      && Objects.equal(this.sex, that.sex)
+      && Objects.equal(this.lifeStage, that.lifeStage)
+      && Objects.equal(this.establishmentMeans, that.establishmentMeans)
+      && Objects.equal(this.taxonKey, that.taxonKey)
+      && Objects.equal(this.kingdomKey, that.kingdomKey)
+      && Objects.equal(this.phylumKey, that.phylumKey)
+      && Objects.equal(this.classKey, that.classKey)
+      && Objects.equal(this.orderKey, that.orderKey)
+      && Objects.equal(this.familyKey, that.familyKey)
+      && Objects.equal(this.genusKey, that.genusKey)
+      && Objects.equal(this.subgenusKey, that.subgenusKey)
+      && Objects.equal(this.speciesKey, that.speciesKey)
+      && Objects.equal(this.scientificName, that.scientificName)
+      && Objects.equal(this.kingdom, that.kingdom)
+      && Objects.equal(this.phylum, that.phylum)
+      && Objects.equal(this.clazz, that.clazz)
+      && Objects.equal(this.order, that.order)
+      && Objects.equal(this.family, that.family)
+      && Objects.equal(this.genus, that.genus)
+      && Objects.equal(this.subgenus, that.subgenus)
+      && Objects.equal(this.species, that.species)
+      && Objects.equal(this.genericName, that.genericName)
+      && Objects.equal(this.specificEpithet, that.specificEpithet)
+      && Objects.equal(this.infraspecificEpithet, that.infraspecificEpithet)
+      && Objects.equal(this.taxonRank, that.taxonRank)
+      && Objects.equal(this.dateIdentified, that.dateIdentified)
+      && Objects.equal(this.year, that.year)
+      && Objects.equal(this.month, that.month)
+      && Objects.equal(this.day, that.day)
+      && Objects.equal(this.eventDate, that.eventDate)
+      && Objects.equal(this.longitude, that.longitude)
+      && Objects.equal(this.latitude, that.latitude)
+      && Objects.equal(this.coordinateAccuracy, that.coordinateAccuracy)
+      && Objects.equal(this.geodeticDatum, that.geodeticDatum)
+      && Objects.equal(this.altitude, that.altitude)
+      && Objects.equal(this.altitudeAccuracy, that.altitudeAccuracy)
+      && Objects.equal(this.depth, that.depth)
+      && Objects.equal(this.depthAccuracy, that.depthAccuracy)
+      && Objects.equal(this.continent, that.continent)
+      && Objects.equal(this.country, that.country)
+      && Objects.equal(this.stateProvince, that.stateProvince)
+      && Objects.equal(this.waterBody, that.waterBody)
+      && Objects.equal(this.typeStatus, that.typeStatus)
+      && Objects.equal(this.typifiedName, that.typifiedName)
+      && Objects.equal(this.issues, that.issues)
+      && Objects.equal(this.modified, that.modified)
+      && Objects.equal(this.lastInterpreted, that.lastInterpreted);
   }
 
   @Override
   public String toString() {
-    return super.toString() + Objects.toStringHelper(this).add("basisOfRecord", basisOfRecord).add("individualCount",
-                                                                                                   individualCount)
-      .add("sex", sex).add("lifeStage", lifeStage).add("establishmentMeans", establishmentMeans)
-      .add("taxonKey", taxonKey).add("kingdomKey", kingdomKey).add("phylumKey", phylumKey).add("classKey", classKey)
-      .add("orderKey", orderKey).add("familyKey", familyKey).add("genusKey", genusKey).add("subgenusKey", subgenusKey)
-      .add("speciesKey", speciesKey).add("scientificName", scientificName).add("kingdom", kingdom).add("phylum", phylum)
-      .add("clazz", clazz).add("order", order).add("family", family).add("genus", genus).add("subgenus", subgenus)
+    return super.toString() + Objects.toStringHelper(this)
+      .add("basisOfRecord", basisOfRecord)
+      .add("individualCount", individualCount)
+      .add("sex", sex)
+      .add("lifeStage", lifeStage)
+      .add("establishmentMeans", establishmentMeans)
+      .add("taxonKey", taxonKey)
+      .add("kingdomKey", kingdomKey)
+      .add("phylumKey", phylumKey)
+      .add("classKey", classKey)
+      .add("orderKey", orderKey)
+      .add("familyKey", familyKey)
+      .add("genusKey", genusKey)
+      .add("subgenusKey", subgenusKey)
+      .add("speciesKey", speciesKey)
+      .add("scientificName", scientificName)
+      .add("kingdom", kingdom)
+      .add("phylum", phylum)
+      .add("clazz", clazz)
+      .add("order", order)
+      .add("family", family)
+      .add("genus", genus)
+      .add("subgenus", subgenus)
       .add("species", species)
+      .add("genericName", genericName)
       .add("specificEpithet", specificEpithet)
       .add("infraspecificEpithet", infraspecificEpithet)
       .add("taxonRank", taxonRank)
-      .add("dateIdentified", dateIdentified).add("longitude", longitude)
-      .add("latitude", latitude).add("coordinateAccuracy", coordinateAccuracy).add("geodeticDatum", geodeticDatum)
-      .add("altitude", altitude).add("altitudeAccuracy", altitudeAccuracy).add("depth", depth)
-      .add("depthAccuracy", depthAccuracy).add("continent", continent).add("country", country)
-      .add("stateProvince", stateProvince).add("waterBody", waterBody).add("year", year).add("month", month)
-      .add("day", day).add("eventDate", eventDate).add("typeStatus", typeStatus).add("typifiedName", typifiedName)
-      .add("issues", issues).add("modified", modified).add("lastInterpreted", lastInterpreted).toString();
+      .add("dateIdentified", dateIdentified)
+      .add("longitude", longitude)
+      .add("latitude", latitude)
+      .add("coordinateAccuracy", coordinateAccuracy)
+      .add("geodeticDatum", geodeticDatum)
+      .add("altitude", altitude)
+      .add("altitudeAccuracy", altitudeAccuracy)
+      .add("depth", depth)
+      .add("depthAccuracy", depthAccuracy)
+      .add("continent", continent)
+      .add("country", country)
+      .add("stateProvince", stateProvince)
+      .add("waterBody", waterBody)
+      .add("year", year)
+      .add("month", month)
+      .add("day", day)
+      .add("eventDate", eventDate)
+      .add("typeStatus", typeStatus)
+      .add("typifiedName", typifiedName)
+      .add("issues", issues)
+      .add("modified", modified)
+      .add("lastInterpreted", lastInterpreted)
+      .toString();
   }
 }

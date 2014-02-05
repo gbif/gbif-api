@@ -51,6 +51,7 @@ public class VerbatimOccurrence {
   private Country publishingCountry;
   private EndpointType protocol;
   private Date lastCrawled;
+  private Date lastParsed;
 
   // the verbatim fields for the occurrence
   private Map<Term, String> fields = Maps.newHashMap();
@@ -152,6 +153,18 @@ public class VerbatimOccurrence {
     this.lastCrawled = lastCrawled == null ? null : new Date(lastCrawled.getTime());
   }
 
+  @Nullable
+  /**
+   * The date this record was last parsed from raw xml/json into verbatim fields.
+   */
+  public Date getLastParsed() {
+    return lastParsed;
+  }
+
+  public void setLastParsed(@Nullable Date lastParsed) {
+    this.lastParsed = lastParsed == null ? null : new Date(lastParsed.getTime());
+  }
+
   @NotNull
   /**
    * A map holding all verbatim core terms.
@@ -203,41 +216,51 @@ public class VerbatimOccurrence {
   }
 
   @Override
-  public int hashCode() {
-    return Objects.hashCode(key, datasetKey, publishingOrgKey, publishingCountry, protocol, lastCrawled,
-                            fields, identifiers, media, facts, relations);
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    VerbatimOccurrence that = (VerbatimOccurrence) o;
+
+    if (datasetKey != null ? !datasetKey.equals(that.datasetKey) : that.datasetKey != null) return false;
+    if (facts != null ? !facts.equals(that.facts) : that.facts != null) return false;
+    if (fields != null ? !fields.equals(that.fields) : that.fields != null) return false;
+    if (identifiers != null ? !identifiers.equals(that.identifiers) : that.identifiers != null) return false;
+    if (key != null ? !key.equals(that.key) : that.key != null) return false;
+    if (lastCrawled != null ? !lastCrawled.equals(that.lastCrawled) : that.lastCrawled != null) return false;
+    if (lastParsed != null ? !lastParsed.equals(that.lastParsed) : that.lastParsed != null) return false;
+    if (media != null ? !media.equals(that.media) : that.media != null) return false;
+    if (protocol != that.protocol) return false;
+    if (publishingCountry != that.publishingCountry) return false;
+    if (publishingOrgKey != null ? !publishingOrgKey.equals(that.publishingOrgKey) : that.publishingOrgKey != null) {
+      return false;
+    }
+    if (relations != null ? !relations.equals(that.relations) : that.relations != null) return false;
+
+    return true;
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (!(obj instanceof VerbatimOccurrence)) {
-      return false;
-    }
-    VerbatimOccurrence that = (VerbatimOccurrence) obj;
-    return Objects.equal(this.key, that.key)
-           && Objects.equal(this.datasetKey, that.datasetKey)
-           && Objects.equal(this.publishingOrgKey, that.publishingOrgKey)
-           && Objects.equal(this.publishingCountry, that.publishingCountry)
-           && Objects.equal(this.protocol, that.protocol)
-           && Objects.equal(this.lastCrawled, that.lastCrawled)
-           && Objects.equal(this.fields, that.fields)
-           && Objects.equal(this.identifiers, that.identifiers)
-           && Objects.equal(this.media, that.media)
-           && Objects.equal(this.facts, that.facts)
-           && Objects.equal(this.relations, that.relations);
+  public int hashCode() {
+    int result = key != null ? key.hashCode() : 0;
+    result = 31 * result + (datasetKey != null ? datasetKey.hashCode() : 0);
+    result = 31 * result + (publishingOrgKey != null ? publishingOrgKey.hashCode() : 0);
+    result = 31 * result + (publishingCountry != null ? publishingCountry.hashCode() : 0);
+    result = 31 * result + (protocol != null ? protocol.hashCode() : 0);
+    result = 31 * result + (lastCrawled != null ? lastCrawled.hashCode() : 0);
+    result = 31 * result + (lastParsed != null ? lastParsed.hashCode() : 0);
+    result = 31 * result + (fields != null ? fields.hashCode() : 0);
+    result = 31 * result + (identifiers != null ? identifiers.hashCode() : 0);
+    result = 31 * result + (media != null ? media.hashCode() : 0);
+    result = 31 * result + (facts != null ? facts.hashCode() : 0);
+    result = 31 * result + (relations != null ? relations.hashCode() : 0);
+    return result;
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("datasetKey", datasetKey)
-      .add("publishingOrgKey", publishingOrgKey)
-      .add("publishingCountry", publishingCountry)
-      .add("protocol", protocol)
+    return Objects.toStringHelper(this).add("lastParsed", lastParsed).add("key", key).add("datasetKey", datasetKey)
+      .add("publishingOrgKey", publishingOrgKey).add("publishingCountry", publishingCountry).add("protocol", protocol)
       .add("lastCrawled", lastCrawled).toString();
   }
 }

@@ -1,6 +1,9 @@
 package org.gbif.api.model.occurrence;
 
+import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.GbifTerm;
+import org.gbif.dwc.terms.IucnTerm;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.TermFactory;
 
@@ -71,6 +74,48 @@ public class VerbatimOccurrenceTest {
     assertEquals(verb, deser);
     for (DwcTerm term : DwcTerm.values()) {
       assertEquals(verb.getField(term), deser.getField(term));
+    }
+  }
+
+  @Test
+  public void testJsonSerdeAllFields() throws IOException {
+    ObjectMapper mapper = new ObjectMapper();
+
+
+    VerbatimOccurrence verb = new VerbatimOccurrence();
+    verb.setKey(123);
+    String termPrefix = "I am Jack's ";
+    for (Term term : DwcTerm.values()) {
+      verb.setField(term, termPrefix + term);
+    }
+    for (Term term : DcTerm.values()) {
+      verb.setField(term, termPrefix + term);
+    }
+    for (Term term : GbifTerm.values()) {
+      verb.setField(term, termPrefix + term);
+    }
+    for (Term term : IucnTerm.values()) {
+      verb.setField(term, termPrefix + term);
+    }
+
+    String json = mapper.writeValueAsString(verb);
+    VerbatimOccurrence deser = mapper.readValue(json, VerbatimOccurrence.class);
+    assertEquals(verb, deser);
+    for (Term term : DwcTerm.values()) {
+      assertTrue(deser.hasField(term));
+      assertEquals(termPrefix + term, deser.getField(term));
+    }
+    for (Term term : DcTerm.values()) {
+      assertTrue(deser.hasField(term));
+      assertEquals(termPrefix + term, deser.getField(term));
+    }
+    for (Term term : GbifTerm.values()) {
+      assertTrue(deser.hasField(term));
+      assertEquals(termPrefix + term, deser.getField(term));
+    }
+    for (Term term : IucnTerm.values()) {
+      assertTrue(deser.hasField(term));
+      assertEquals(termPrefix + term, deser.getField(term));
     }
   }
 }
