@@ -267,6 +267,24 @@ public class ClassificationUtils {
   }
 
   /**
+   * Copies all linnean classification based higher taxon keys from one instance to another.
+   */
+  public static void copyLinneanClassificationKeys(LinneanClassificationKeys source, LinneanClassificationKeys target) {
+    for (Rank r : Rank.DWC_RANKS) {
+      setHigherRankKey(target, r, source.getHigherRankKey(r));
+    }
+  }
+
+  /**
+   * Copies all linnean classification based higher taxon names from one instance to another.
+   */
+  public static void copyLinneanClassification(LinneanClassification source, LinneanClassification target) {
+    for (Rank r : Rank.DWC_RANKS) {
+      setHigherRank(target, r, source.getHigherRank(r));
+    }
+  }
+
+  /**
    * Utility class.
    */
   private ClassificationUtils() {
