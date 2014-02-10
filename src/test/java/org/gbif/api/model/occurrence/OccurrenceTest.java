@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
 
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
@@ -120,6 +121,8 @@ public class OccurrenceTest {
   @Test
   public void testJsonSerde() throws IOException {
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
 
     Occurrence occ = new Occurrence();
     occ.setFamily("Plants family");
@@ -127,7 +130,7 @@ public class OccurrenceTest {
     occ.setKingdom("Plants");
     occ.setKingdomKey(6);
 
-    occ.getFields().put(DwcTerm.catalogNumber, "MD10782");
+    occ.getVerbatimFields().put(DwcTerm.catalogNumber, "MD10782");
     occ.addIssue(OccurrenceIssue.COORDINATES_OUT_OF_RANGE);
 
     String json = mapper.writeValueAsString(occ);
@@ -159,7 +162,7 @@ public class OccurrenceTest {
     verb.setLastCrawled(new Date());
     verb.setProtocol(EndpointType.BIOCASE);
     for (Term term : DwcTerm.values()) {
-      verb.setField(term, "I am " + term);
+      verb.setVerbatimField(term, "I am " + term);
     }
 
     Occurrence occ = new Occurrence(verb);
@@ -169,8 +172,8 @@ public class OccurrenceTest {
     assertEquals(occ.getPublishingCountry(), verb.getPublishingCountry());
     assertEquals(occ.getProtocol(), verb.getProtocol());
     assertEquals(occ.getLastCrawled(), verb.getLastCrawled());
-    assertEquals(occ.getFields().size(), verb.getFields().size());
-    assertEquals(occ.getField(DwcTerm.acceptedNameUsage), verb.getField(DwcTerm.acceptedNameUsage));
+    assertEquals(occ.getVerbatimFields().size(), verb.getVerbatimFields().size());
+    assertEquals(occ.getVerbatimField(DwcTerm.acceptedNameUsage), verb.getVerbatimField(DwcTerm.acceptedNameUsage));
   }
 
   @Test

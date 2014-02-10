@@ -11,14 +11,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import static org.gbif.api.model.checklistbank.search.NameUsageSearchParameter.EXTINCT;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ALTITUDE;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COLLECTOR_NAME;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ELEVATION;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.RECORDED_BY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COUNTRY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DATASET_KEY;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DATE;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.EVENT_DATE;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GEOMETRY;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.LATITUDE;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.LONGITUDE;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LATITUDE;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LONGITUDE;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MODIFIED;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MONTH;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.PUBLISHING_COUNTRY;
@@ -47,19 +47,19 @@ public class SearchTypeValidatorTest {
   public static Collection<Object[]> data() {
     Object[][] data = {
       {MODIFIED, "2000-10,*", true, true},
-      {COLLECTOR_NAME, "henry", true, false},
-      {ALTITUDE, "1080", true, false},
-      {ALTITUDE, "1080.32", false, false},
-      {ALTITUDE, "1080m", false, false},
-      {ALTITUDE, "*, 900", true, true},
-      {ALTITUDE, "100 , *", true, true},
-      {ALTITUDE, "100,200", true, true},
-      {ALTITUDE, " , 200", false, false},
-      {ALTITUDE, "*1,200", false, false},
-      {ALTITUDE, "*.1,200", false, false},
-      {ALTITUDE, " , ", false, false},
-      {ALTITUDE, "[1 TO 2]", false, false},
-      {ALTITUDE, "{1,2}", false, false},
+      {RECORDED_BY, "henry", true, false},
+      {ELEVATION, "1080", true, false},
+      {ELEVATION, "1080.32", false, false},
+      {ELEVATION, "1080m", false, false},
+      {ELEVATION, "*, 900", true, true},
+      {ELEVATION, "100 , *", true, true},
+      {ELEVATION, "100,200", true, true},
+      {ELEVATION, " , 200", false, false},
+      {ELEVATION, "*1,200", false, false},
+      {ELEVATION, "*.1,200", false, false},
+      {ELEVATION, " , ", false, false},
+      {ELEVATION, "[1 TO 2]", false, false},
+      {ELEVATION, "{1,2}", false, false},
       {DATASET_KEY, UUID.randomUUID().toString(), true, false},
       {DATASET_KEY, "f81d4fae-7dec-11d0-a765-00a0c91e6bf6", true, false},
       {DATASET_KEY, "F81D4FAE-7DEC-11D0-A765-00A0C91E6BF6", true, false},
@@ -108,16 +108,16 @@ public class SearchTypeValidatorTest {
       {MONTH, "1", true, false},
       {MONTH, "-11", false, false},
       {MONTH, "1267", false, false},
-      {DATE, "1900-06", true, false},
-      {DATE, "01-01", false, false},
-      {DATE, "1900-01-01", true, false},
-      {DATE, "1900-1-01", true, false},
-      {DATE, "1900-1-1", true, false},
-      {DATE, "10", false, false},
-      {DATE, "2000", true, false},
-      {DATE, "*", true, false},
-      {DATE, "*,2000", true, true},
-      {DATE, "2000-10,*", true, true},
+      {EVENT_DATE, "1900-06", true, false},
+      {EVENT_DATE, "01-01", false, false},
+      {EVENT_DATE, "1900-01-01", true, false},
+      {EVENT_DATE, "1900-1-01", true, false},
+      {EVENT_DATE, "1900-1-1", true, false},
+      {EVENT_DATE, "10", false, false},
+      {EVENT_DATE, "2000", true, false},
+      {EVENT_DATE, "*", true, false},
+      {EVENT_DATE, "*,2000", true, true},
+      {EVENT_DATE, "2000-10,*", true, true},
       {MODIFIED, "1900-06", true, false},
       {MODIFIED, "01-01", false, false},
       {MODIFIED, "1900-01-01", true, false},
@@ -128,14 +128,14 @@ public class SearchTypeValidatorTest {
       {MODIFIED, "*", true, false},
       {MODIFIED, "*,2000", true, true},
       {MODIFIED, "2000-10,*", true, true},
-      {LATITUDE, "90.0", true, false},
-      {LATITUDE, "180.0", false, false},
-      {LATITUDE, "50.0,92.2", false, true},
-      {LATITUDE, "50.5,89.9", true, true},
-      {LONGITUDE, "180.0", true, false},
-      {LONGITUDE, "180.01", false, false},
-      {LONGITUDE, "-190.0,92.2", false, true},
-      {LONGITUDE, "-150.5,119.9", true, true},
+      {DECIMAL_LATITUDE, "90.0", true, false},
+      {DECIMAL_LATITUDE, "180.0", false, false},
+      {DECIMAL_LATITUDE, "50.0,92.2", false, true},
+      {DECIMAL_LATITUDE, "50.5,89.9", true, true},
+      {DECIMAL_LONGITUDE, "180.0", true, false},
+      {DECIMAL_LONGITUDE, "180.01", false, false},
+      {DECIMAL_LONGITUDE, "-190.0,92.2", false, true},
+      {DECIMAL_LONGITUDE, "-150.5,119.9", true, true},
       {COUNTRY, "CR", true, false},
       {PUBLISHING_COUNTRY, "CR", true, false},
       {COUNTRY, "CRCRCC", false, false},

@@ -39,13 +39,13 @@ public class HumanFilterBuilderTest {
     HumanFilterBuilder builder = new HumanFilterBuilder(resourceBundle, null, null, true);
     Map<OccurrenceSearchParameter, LinkedList<String>> x = builder.humanFilter(
       new ConjunctionPredicate(Lists.<Predicate>newArrayList(
-        new GreaterThanOrEqualsPredicate(OccurrenceSearchParameter.DATE, lower),
-        new LessThanOrEqualsPredicate(OccurrenceSearchParameter.DATE, upper)
+        new GreaterThanOrEqualsPredicate(OccurrenceSearchParameter.EVENT_DATE, lower),
+        new LessThanOrEqualsPredicate(OccurrenceSearchParameter.EVENT_DATE, upper)
         )
       ));
     assertEquals(1, x.size());
-    assertEquals(1, x.get(OccurrenceSearchParameter.DATE).size());
-    assertEquals(lower + "-" + upper, x.get(OccurrenceSearchParameter.DATE).getFirst());
+    assertEquals(1, x.get(OccurrenceSearchParameter.EVENT_DATE).size());
+    assertEquals(lower + "-" + upper, x.get(OccurrenceSearchParameter.EVENT_DATE).getFirst());
   }
 
 

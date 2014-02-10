@@ -54,7 +54,7 @@ public class VerbatimOccurrence {
   private Date lastParsed;
 
   // the verbatim fields for the occurrence
-  private Map<Term, String> fields = Maps.newHashMap();
+  private Map<Term, String> verbatimFields = Maps.newHashMap();
   // indexed occurrence extensions
   private List<Identifier> identifiers = Lists.newArrayList();
   private List<Image> media = Lists.newArrayList();
@@ -65,34 +65,34 @@ public class VerbatimOccurrence {
   /**
    * Get the value of a specific field (Term).
    */
-  public String getField(Term term) {
+  public String getVerbatimField(Term term) {
     checkNotNull(term, "term can't be null");
-    return fields.get(term);
+    return verbatimFields.get(term);
   }
 
   /**
-   * @return true if a term has content
+   * @return true if a verbatim field exists and is not null or an empty string
    */
-  public boolean hasField(Term term) {
+  public boolean hasVerbatimField(Term term) {
     checkNotNull(term, "term can't be null");
-    return !Strings.isNullOrEmpty(fields.get(term));
+    return !Strings.isNullOrEmpty(verbatimFields.get(term));
   }
 
   /**
-   * For setting a specific field without having to replace the entire fields Map.
+   * For setting a specific field without having to replace the entire verbatimFields Map.
    *
    * @param term the field to set
    * @param fieldValue the field's value
    */
-  public void setField(Term term, @Nullable String fieldValue) {
+  public void setVerbatimField(Term term, @Nullable String fieldValue) {
     checkNotNull(term, "term can't be null");
-    fields.put(term, fieldValue);
+    verbatimFields.put(term, fieldValue);
   }
 
   @NotNull
   /**
    * The GBIF assigned, persistent key to the occurrence record.
-   * OccurrenceID itself is kept in the verbatim fields map.
+   * OccurrenceID itself is kept in the verbatim verbatimFields map.
    */
   public Integer getKey() {
     return key;
@@ -155,7 +155,7 @@ public class VerbatimOccurrence {
 
   @Nullable
   /**
-   * The date this record was last parsed from raw xml/json into verbatim fields.
+   * The date this record was last parsed from raw xml/json into verbatim verbatimFields.
    */
   public Date getLastParsed() {
     return lastParsed;
@@ -171,12 +171,12 @@ public class VerbatimOccurrence {
    */
   @JsonSerialize(keyUsing = TermKeySerializer.class)
   @JsonDeserialize(keyUsing = TermKeyDeserializer.class)
-  public Map<Term, String> getFields() {
-    return fields;
+  public Map<Term, String> getVerbatimFields() {
+    return verbatimFields;
   }
 
-  public void setFields(Map<Term, String> fields) {
-    this.fields = fields;
+  public void setVerbatimFields(Map<Term, String> verbatimFields) {
+    this.verbatimFields = verbatimFields;
   }
 
   @NotNull
@@ -227,7 +227,7 @@ public class VerbatimOccurrence {
   @Override
   public int hashCode() {
     return Objects
-      .hashCode(key, datasetKey, publishingOrgKey, publishingCountry, protocol, lastCrawled, lastParsed, fields,
+      .hashCode(key, datasetKey, publishingOrgKey, publishingCountry, protocol, lastCrawled, lastParsed, verbatimFields,
         identifiers, media, facts, relations);
   }
 
@@ -247,7 +247,7 @@ public class VerbatimOccurrence {
            && Objects.equal(this.protocol, other.protocol)
            && Objects.equal(this.lastCrawled, other.lastCrawled)
            && Objects.equal(this.lastParsed, other.lastParsed)
-           && Objects.equal(this.fields, other.fields)
+           && Objects.equal(this.verbatimFields, other.verbatimFields)
            && Objects.equal(this.identifiers, other.identifiers)
            && Objects.equal(this.media, other.media)
            && Objects.equal(this.facts, other.facts)

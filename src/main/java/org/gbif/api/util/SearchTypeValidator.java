@@ -46,21 +46,21 @@ public class SearchTypeValidator {
 
   /**
    * Matches ranges in formats
-   * 
+   *
    * <pre>
    * 23.1,55.2
    * </pre>
-   * 
+   *
    * <pre>
    * *,88
    * </pre>
-   * 
+   *
    * and
-   * 
+   *
    * <pre>
    * 55,*
    * </pre>
-   * 
+   *
    * .
    * The matcher returns 2 groups:
    * group 1: lower bound
@@ -112,7 +112,7 @@ public class SearchTypeValidator {
 
   /**
    * Determines whether the value given is a valid decimal or date range, delimiting two values by a comma.
-   * 
+   *
    * @return true if the given value is a valid range
    */
   public static boolean isRange(String value) {
@@ -135,7 +135,7 @@ public class SearchTypeValidator {
   /**
    * Parses a range of ISO dates.
    * The date format used is the first date format that successfully parses the lower range limit.
-   * 
+   *
    * @return the parsed range with wildcards represented as null values
    * @throws IllegalArgumentException if value is invalid or null
    */
@@ -145,7 +145,7 @@ public class SearchTypeValidator {
 
   /**
    * Parses a decimal range in the format 123.1,456.
-   * 
+   *
    * @return the parsed range with wildcards represented as null values
    * @throws IllegalArgumentException if value is invalid or null
    */
@@ -161,7 +161,7 @@ public class SearchTypeValidator {
 
   /**
    * Parses an integer range in the format 123,456
-   * 
+   *
    * @return the parsed range with wildcards represented as null values
    * @throws IllegalArgumentException if value is invalid or null
    */
@@ -179,7 +179,7 @@ public class SearchTypeValidator {
   /**
    * Validates that a given parameter value matches the expected type of the parameter as defined by
    * {@link SearchParameter#type()} and throws an IllegalArgumentException otherwise.
-   * 
+   *
    * @param param the search parameter defining the expected type
    * @param value the parameter value to be validated
    * @throws IllegalArgumentException if the value cannot be converted to the expected type
@@ -191,10 +191,10 @@ public class SearchTypeValidator {
       if (OccurrenceSearchParameter.GEOMETRY == param) {
         validateGeometry(value);
 
-      } else if (OccurrenceSearchParameter.LATITUDE == param) {
+      } else if (OccurrenceSearchParameter.DECIMAL_LATITUDE == param) {
         validateLatitude(value);
 
-      } else if (OccurrenceSearchParameter.LONGITUDE == param) {
+      } else if (OccurrenceSearchParameter.DECIMAL_LONGITUDE == param) {
         validateLongitude(value);
 
       } else if (UUID.class.isAssignableFrom(pType)) {
@@ -362,7 +362,7 @@ public class SearchTypeValidator {
   /**
    * Validates if the value is a valid single integer or a range of integer values.
    * If the value is a range each limit is validated and the wildcard character '*' is skipped.
-   * 
+   *
    * @throws IllegalArgumentException if value is invalid or null
    */
   private static Collection<Integer> validateInteger(String value) {

@@ -16,6 +16,7 @@ import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.SearchRequest;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.TypeStatus;
 
 import java.util.Date;
@@ -27,24 +28,15 @@ import java.util.UUID;
  */
 public class OccurrenceSearchRequest extends SearchRequest<OccurrenceSearchParameter> {
 
-  /**
-   * Default constructor.
-   */
   public OccurrenceSearchRequest() {
     // empty block
     super();
   }
 
-  /**
-   * @see PagingRequest#PagingRequest(long, int).
-   */
   public OccurrenceSearchRequest(long offset, int limit) {
     super(offset, limit);
   }
 
-  /**
-   * @see PagingRequest#PagingRequest(Pageable).
-   */
   public OccurrenceSearchRequest(Pageable page) {
     super(page);
   }
@@ -61,8 +53,8 @@ public class OccurrenceSearchRequest extends SearchRequest<OccurrenceSearchParam
     addParameter(OccurrenceSearchParameter.CATALOG_NUMBER, catalogNumber);
   }
 
-  public void addCollectorNameFilter(String collectorName) {
-    addParameter(OccurrenceSearchParameter.COLLECTOR_NAME, collectorName);
+  public void addRecordedByFilter(String collectorName) {
+    addParameter(OccurrenceSearchParameter.RECORDED_BY, collectorName);
   }
 
   public void addRecordNumberFilter(String recordNumber) {
@@ -73,7 +65,7 @@ public class OccurrenceSearchRequest extends SearchRequest<OccurrenceSearchParam
     addParameter(OccurrenceSearchParameter.COUNTRY, country);
   }
 
-  public void addDatasetFilter(UUID datasetKey) {
+  public void addDatasetKeyFilter(UUID datasetKey) {
     addParameter(OccurrenceSearchParameter.DATASET_KEY, datasetKey.toString());
   }
 
@@ -81,12 +73,12 @@ public class OccurrenceSearchRequest extends SearchRequest<OccurrenceSearchParam
     addParameter(OccurrenceSearchParameter.GEOMETRY, geometryAsWkt);
   }
 
-  public void addLatitudeFilter(double latitude) {
-    addParameter(OccurrenceSearchParameter.LATITUDE, latitude);
+  public void addDecimalLatitudeFilter(double latitude) {
+    addParameter(OccurrenceSearchParameter.DECIMAL_LATITUDE, latitude);
   }
 
-  public void addLongitudeFilter(double longitude) {
-    addParameter(OccurrenceSearchParameter.LONGITUDE, longitude);
+  public void addDecimalLongitudeFilter(double longitude) {
+    addParameter(OccurrenceSearchParameter.DECIMAL_LONGITUDE, longitude);
   }
 
   public void addMonthFilter(int month) {
@@ -101,8 +93,8 @@ public class OccurrenceSearchRequest extends SearchRequest<OccurrenceSearchParam
     addParameter(OccurrenceSearchParameter.YEAR, year);
   }
 
-  public void addDateFilter(Date date) {
-    addParameter(OccurrenceSearchParameter.DATE, date);
+  public void addEventDateFilter(Date date) {
+    addParameter(OccurrenceSearchParameter.EVENT_DATE, date);
   }
 
   public void addModifiedFilter(Date modified) {
@@ -117,16 +109,20 @@ public class OccurrenceSearchRequest extends SearchRequest<OccurrenceSearchParam
     addParameter(OccurrenceSearchParameter.INSTITUTION_CODE, code);
   }
 
-  public void addGeoreferencedFilter(boolean isGeoreferenced) {
-    addParameter(OccurrenceSearchParameter.GEOREFERENCED, isGeoreferenced);
+  public void addHasCoordinateFilter(boolean hasCoordinate) {
+    addParameter(OccurrenceSearchParameter.HAS_COORDINATE, hasCoordinate);
   }
 
   public void addSpatialIssueFilter(boolean hasSpatialIssue) {
     addParameter(OccurrenceSearchParameter.SPATIAL_ISSUES, hasSpatialIssue);
   }
 
-  public void addAltitudeFilter(int altitude) {
-    addParameter(OccurrenceSearchParameter.ALTITUDE, altitude);
+  public void addIssueFilter(OccurrenceIssue issue) {
+    addParameter(OccurrenceSearchParameter.ISSUE, issue);
+  }
+
+  public void addElevationFilter(int elevation) {
+    addParameter(OccurrenceSearchParameter.ELEVATION, elevation);
   }
 
 }

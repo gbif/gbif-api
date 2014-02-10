@@ -46,6 +46,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * Represents an Occurrence as interpreted by GBIF, adding typed properties on top of the verbatim ones.
  */
 public class Occurrence extends VerbatimOccurrence implements LinneanClassification, LinneanClassificationKeys {
+  public static final String GEO_DATUM = "WGS84";
 
   // occurrence fields
   private BasisOfRecord basisOfRecord;
@@ -81,14 +82,15 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   // identification
   private Date dateIdentified;
   // location
-  private Double longitude;
-  private Double latitude;
+  private Double decimalLongitude;
+  private Double decimalLatitude;
   private Double coordinateAccuracy;
-  private String geodeticDatum;
-  private Integer altitude;
-  private Integer altitudeAccuracy;
+  private Integer elevation;
+  private Integer elevationAccuracy;
   private Integer depth;
   private Integer depthAccuracy;
+  private Integer distanceAboveSurface;
+  private Integer distanceAboveSurfaceAccuracy;
   private Continent continent;
   private Country country;
   private String stateProvince;
@@ -125,8 +127,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       if (verbatim.getLastCrawled() != null) {
         setLastCrawled(new Date(verbatim.getLastCrawled().getTime()));
       }
-      if (verbatim.getFields() != null) {
-        getFields().putAll(verbatim.getFields());
+      if (verbatim.getVerbatimFields() != null) {
+        getVerbatimFields().putAll(verbatim.getVerbatimFields());
       }
     }
   }
@@ -458,24 +460,24 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Nullable
   /**
-   * The longitude in decimal degrees always for the WGS84 datum. If a different geodetic datum was given the verbatim
+   * The decimalLongitude in decimal degrees always for the WGS84 datum. If a different geodetic datum was given the verbatim
    * coordinates are transformed into WGS84 values.
    */
-  public Double getLongitude() {
-    return longitude;
+  public Double getDecimalLongitude() {
+    return decimalLongitude;
   }
 
-  public void setLongitude(@Nullable Double longitude) {
-    this.longitude = longitude;
+  public void setDecimalLongitude(@Nullable Double decimalLongitude) {
+    this.decimalLongitude = decimalLongitude;
   }
 
   @Nullable
-  public Double getLatitude() {
-    return latitude;
+  public Double getDecimalLatitude() {
+    return decimalLatitude;
   }
 
-  public void setLatitude(@Nullable Double latitude) {
-    this.latitude = latitude;
+  public void setDecimalLatitude(@Nullable Double decimalLatitude) {
+    this.decimalLatitude = decimalLatitude;
   }
 
   @Nullable
@@ -490,50 +492,46 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.coordinateAccuracy = coordinateAccuracy;
   }
 
-  @Nullable
   /**
-   * The geodetic datum for the original verbatim coordinates.
+   * The geodetic datum for the interpreted decimal coordinates.
    */
   public String getGeodeticDatum() {
-    return geodeticDatum;
+    return GEO_DATUM;
   }
 
-  public void setGeodeticDatum(@Nullable String geodeticDatum) {
-    this.geodeticDatum = geodeticDatum;
-  }
 
   @Nullable
   /**
-   * Altitude in meters above sea level.
+   * Elevation in meters usually above sea level (altitude).
    * </br>
-   * The altitude is calculated using the equation: (minimumElevationInMeters + maximumElevationInMeters) / 2.
+   * The elevation is calculated using the equation: (minimumElevationInMeters + maximumElevationInMeters) / 2.
    */
-  public Integer getAltitude() {
-    return altitude;
+  public Integer getElevation() {
+    return elevation;
   }
 
-  public void setAltitude(@Nullable Integer altitude) {
-    this.altitude = altitude;
+  public void setElevation(@Nullable Integer elevation) {
+    this.elevation = elevation;
   }
 
   /**
-   * Altitude accuracy is the uncertainty for the accuracy in meters.
+   * Elevation accuracy is the uncertainty for the elevation in meters.
    * </br>
-   * The altitude accuracy is calculated using the equation: (maximumElevationInMeters - minimumElevationInMeters) / 2
+   * The elevation accuracy is calculated using the equation: (maximumElevationInMeters - minimumElevationInMeters) / 2
    */
   @Nullable
-  public Integer getAltitudeAccuracy() {
-    return altitudeAccuracy;
+  public Integer getElevationAccuracy() {
+    return elevationAccuracy;
   }
 
-  public void setAltitudeAccuracy(@Nullable Integer altitudeAccuracy) {
-    this.altitudeAccuracy = altitudeAccuracy;
+  public void setElevationAccuracy(@Nullable Integer elevationAccuracy) {
+    this.elevationAccuracy = elevationAccuracy;
   }
 
   @Nullable
   /**
-   * Depth in meters below the surface. Complimentary to altitude, the depth can be 10 meters below the surface of a
-   * lake in 1100m (=altitude).
+   * Depth in meters below the surface. Complimentary to elevation, the depth can be 10 meters below the surface of a
+   * lake in 1100m (=elevation).
    * </br>
    * The depth is calculated using the equation: (minimumDepthInMeters + maximumDepthInMeters) / 2.
    */
@@ -557,6 +555,31 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setDepthAccuracy(@Nullable Integer depthAccuracy) {
     this.depthAccuracy = depthAccuracy;
+  }
+
+  /**
+   * Distance above the surface in meters.
+   * Distance from a reference surface in the vertical direction, in meters.
+   * Use positive values for locations above the surface, negative values for locations below.
+   * If depth measures are given, the reference surface is the location given by the depth,
+   * otherwise the reference surface is the location given by the elevation.
+   */
+  @Nullable
+  public Integer getDistanceAboveSurface() {
+    return distanceAboveSurface;
+  }
+
+  public void setDistanceAboveSurface(Integer distanceAboveSurface) {
+    this.distanceAboveSurface = distanceAboveSurface;
+  }
+
+  @Nullable
+  public Integer getDistanceAboveSurfaceAccuracy() {
+    return distanceAboveSurfaceAccuracy;
+  }
+
+  public void setDistanceAboveSurfaceAccuracy(Integer distanceAboveSurfaceAccuracy) {
+    this.distanceAboveSurfaceAccuracy = distanceAboveSurfaceAccuracy;
   }
 
   @Nullable
@@ -739,8 +762,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .hashCode(basisOfRecord, individualCount, sex, lifeStage, establishmentMeans, taxonKey, kingdomKey, phylumKey,
         classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, kingdom, phylum, clazz, order,
         family, genus, subgenus, species, genericName, specificEpithet, infraspecificEpithet, taxonRank,
-        dateIdentified, year, month, day, eventDate, longitude, latitude,
-        coordinateAccuracy, geodeticDatum, altitude, altitudeAccuracy, depth, depthAccuracy, continent, country,
+        dateIdentified, year, month, day, eventDate, decimalLongitude, decimalLatitude,
+        coordinateAccuracy, elevation, elevationAccuracy, depth, depthAccuracy, continent, country,
         stateProvince, waterBody, typeStatus, typifiedName, issues, modified, lastInterpreted);
   }
 
@@ -788,12 +811,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       && Objects.equal(this.month, that.month)
       && Objects.equal(this.day, that.day)
       && Objects.equal(this.eventDate, that.eventDate)
-      && Objects.equal(this.longitude, that.longitude)
-      && Objects.equal(this.latitude, that.latitude)
+      && Objects.equal(this.decimalLongitude, that.decimalLongitude)
+      && Objects.equal(this.decimalLatitude, that.decimalLatitude)
       && Objects.equal(this.coordinateAccuracy, that.coordinateAccuracy)
-      && Objects.equal(this.geodeticDatum, that.geodeticDatum)
-      && Objects.equal(this.altitude, that.altitude)
-      && Objects.equal(this.altitudeAccuracy, that.altitudeAccuracy)
+      && Objects.equal(this.elevation, that.elevation)
+      && Objects.equal(this.elevationAccuracy, that.elevationAccuracy)
       && Objects.equal(this.depth, that.depth)
       && Objects.equal(this.depthAccuracy, that.depthAccuracy)
       && Objects.equal(this.continent, that.continent)
@@ -838,12 +860,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("infraspecificEpithet", infraspecificEpithet)
       .add("taxonRank", taxonRank)
       .add("dateIdentified", dateIdentified)
-      .add("longitude", longitude)
-      .add("latitude", latitude)
+      .add("decimalLongitude", decimalLongitude)
+      .add("decimalLatitude", decimalLatitude)
       .add("coordinateAccuracy", coordinateAccuracy)
-      .add("geodeticDatum", geodeticDatum)
-      .add("altitude", altitude)
-      .add("altitudeAccuracy", altitudeAccuracy)
+      .add("elevation", elevation)
+      .add("elevationAccuracy", elevationAccuracy)
       .add("depth", depth)
       .add("depthAccuracy", depthAccuracy)
       .add("continent", continent)

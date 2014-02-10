@@ -28,7 +28,7 @@ public class SimplePredicateTest {
 
   private static final OccurrenceSearchParameter TEST_KEY = OccurrenceSearchParameter.CATALOG_NUMBER;
   private static final String TEST_VALUE = "bar";
-  private static final OccurrenceSearchParameter COMP_PARAM = OccurrenceSearchParameter.ALTITUDE;
+  private static final OccurrenceSearchParameter COMP_PARAM = OccurrenceSearchParameter.ELEVATION;
   private static final String COMP_VALUE = "100";
 
   @Test(expected = IllegalArgumentException.class)
@@ -68,8 +68,8 @@ public class SimplePredicateTest {
 
   @Test
   public void testGoodDoubleValue() {
-    new EqualsPredicate(OccurrenceSearchParameter.LATITUDE, "32");
-    new EqualsPredicate(OccurrenceSearchParameter.LATITUDE, "32.032");
+    new EqualsPredicate(OccurrenceSearchParameter.DECIMAL_LATITUDE, "32");
+    new EqualsPredicate(OccurrenceSearchParameter.DECIMAL_LATITUDE, "32.032");
   }
 
   @Test
@@ -108,7 +108,7 @@ public class SimplePredicateTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testWrongDoubleValue() {
-    new EqualsPredicate(OccurrenceSearchParameter.LATITUDE, "32..312");
+    new EqualsPredicate(OccurrenceSearchParameter.DECIMAL_LATITUDE, "32..312");
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -118,7 +118,7 @@ public class SimplePredicateTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testWrongIntegerValue() {
-    new EqualsPredicate(OccurrenceSearchParameter.ALTITUDE, "123.2");
+    new EqualsPredicate(OccurrenceSearchParameter.ELEVATION, "123.2");
   }
 
   @Test(expected = IllegalArgumentException.class)

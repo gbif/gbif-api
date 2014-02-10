@@ -16,6 +16,7 @@ package org.gbif.api.model.occurrence.search;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.TypeStatus;
 
 import java.util.Date;
@@ -57,7 +58,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
 
 
   /**
-   * Occurrence date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
+   * Event date (date the occurrence was recorded) in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
    * This parameter accepts comma separated range values, examples of valid ranges are:
    * <dl>
    * <dt>2001-02-11,2010-01-10</dt>
@@ -78,7 +79,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * <dd>all dates</dd>
    * </dl>
    */
-  DATE(Date.class),
+  EVENT_DATE(Date.class),
 
   /**
    * Modification date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
@@ -107,12 +108,12 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Latitude in decimals between -90 and 90 based on WGS 84.
    */
-  LATITUDE(Double.class),
+  DECIMAL_LATITUDE(Double.class),
 
   /**
    * Longitude in decimals between -180 and 180 based on WGS 84.
    */
-  LONGITUDE(Double.class),
+  DECIMAL_LONGITUDE(Double.class),
 
   /**
    * Country the occurrence was recorded in.
@@ -137,7 +138,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * <dd>Altitude between or equals -2m and 8.8m</dd>
    * </dl>
    */
-  ALTITUDE(Integer.class),
+  ELEVATION(Integer.class),
 
   /**
    * Depth in meters relative to altitude. For example 10 meters below a lake surface with given altitude.
@@ -174,7 +175,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * The person who recorded the occurrence.
    */
-  COLLECTOR_NAME(String.class),
+  RECORDED_BY(String.class),
 
   /**
    * An identifier given to the Occurrence at the time it was recorded.
@@ -200,10 +201,10 @@ public enum OccurrenceSearchParameter implements SearchParameter {
 
   /**
    * Searches for occurrence records which contain a value on its coordinate fields (latitude and longitude).
-   * GEOREFERENCED=true searches for occurrence records with a coordinate value.
-   * GEOREFERENCED=false searches for occurrence records without a coordinate value.
+   * HAS_COORDINATE=true searches for occurrence records with a coordinate value.
+   * HAS_COORDINATE=false searches for occurrence records without a coordinate value.
    */
-  GEOREFERENCED(Boolean.class),
+  HAS_COORDINATE(Boolean.class),
 
 
   /**
@@ -223,11 +224,16 @@ public enum OccurrenceSearchParameter implements SearchParameter {
 
   /**
    * Includes/excludes occurrence records which contain spatial issues.
-   * IGNORE_SPATIAL_ISSUES=true exclude records with spatial issues.
-   * IGNORE_SPATIAL_ISSUES=false include records with spatial issues.
+   * SPATIAL_ISSUES=true include records with spatial issues.
+   * SPATIAL_ISSUES=false exclude records with spatial issues.
    * The absence of this parameter returns any record with or without spatial issues.
    */
   SPATIAL_ISSUES(Boolean.class),
+
+  /**
+   * Searches occurrence for those that have a specific issue.
+   */
+  ISSUE(OccurrenceIssue.class),
 
   /**
    * Nomenclatural type (type status, typified scientific name, publication) applied to the subject.

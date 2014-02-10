@@ -8,7 +8,7 @@ public class LikePredicateTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidConstructor() {
-    new LikePredicate(OccurrenceSearchParameter.ALTITUDE, "123.2%");
+    new LikePredicate(OccurrenceSearchParameter.ELEVATION, "123.2%");
   }
 
   @Test(expected = IllegalArgumentException.class)
