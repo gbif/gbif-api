@@ -798,7 +798,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, kingdom, phylum, clazz, order,
         family, genus, subgenus, species, genericName, specificEpithet, infraspecificEpithet, taxonRank,
         dateIdentified, year, month, day, eventDate, decimalLongitude, decimalLatitude,
-        coordinateAccuracy, elevation, elevationAccuracy, depth, depthAccuracy, continent, country,
+        coordinateAccuracy, elevation, elevationAccuracy, depth, depthAccuracy,
+        distanceAboveSurface, distanceAboveSurfaceAccuracy, continent, country,
         stateProvince, waterBody, typeStatus, typifiedName, issues, modified, lastInterpreted);
   }
 
@@ -853,6 +854,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       && Objects.equal(this.elevationAccuracy, that.elevationAccuracy)
       && Objects.equal(this.depth, that.depth)
       && Objects.equal(this.depthAccuracy, that.depthAccuracy)
+      && Objects.equal(this.distanceAboveSurface, that.distanceAboveSurface)
+      && Objects.equal(this.distanceAboveSurfaceAccuracy, that.distanceAboveSurfaceAccuracy)
       && Objects.equal(this.continent, that.continent)
       && Objects.equal(this.country, that.country)
       && Objects.equal(this.stateProvince, that.stateProvince)
@@ -902,6 +905,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("elevationAccuracy", elevationAccuracy)
       .add("depth", depth)
       .add("depthAccuracy", depthAccuracy)
+      .add("distanceAboveSurface", distanceAboveSurface)
+      .add("distanceAboveSurfaceAccuracy", distanceAboveSurfaceAccuracy)
       .add("continent", continent)
       .add("country", country)
       .add("stateProvince", stateProvince)
