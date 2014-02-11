@@ -82,7 +82,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   EVENT_DATE(Date.class),
 
   /**
-   * Modification date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
+   * Last interpreted date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
    * This parameter accepts comma separated range values, examples of valid ranges are:
    * <dl>
    * <dt>2001-02-11,2010-01-10</dt>
@@ -103,7 +103,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * <dd>all dates</dd>
    * </dl>
    */
-  MODIFIED(Date.class),
+  LAST_INTERPRETED(Date.class),
 
   /**
    * Latitude in decimals between -90 and 90 based on WGS 84.
