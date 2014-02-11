@@ -16,13 +16,19 @@
 package org.gbif.api.model.checklistbank;
 
 import org.gbif.api.model.Constants;
+import org.gbif.api.vocabulary.NomenclaturalStatus;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.IdentifierType;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.UUID;
 
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -235,5 +241,29 @@ public class NameUsageTest {
     nu.setTaxonomicStatus(TaxonomicStatus.HETEROTYPIC_SYNONYM);
     assertEquals(TaxonomicStatus.HETEROTYPIC_SYNONYM, nu.getTaxonomicStatus());
   }
+
+  @Test
+  public void testJsonSerde() throws IOException {
+    final ObjectMapper mapper = new ObjectMapper();
+    mapper.enable(DeserializationConfig.Feature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+    mapper.enable(SerializationConfig.Feature.INDENT_OUTPUT);
+    mapper.disable(SerializationConfig.Feature.WRITE_NULL_PROPERTIES);
+
+    NameUsage u = new NameUsage();
+    u.setKey(123);
+    u.setDatasetKey(UUID.randomUUID());
+    u.setNumDescendants(321);
+    u.getNomenclaturalStatus().add(NomenclaturalStatus.AMBIGUOUS);
+    Identifier i = new Identifier();
+    i.setIdentifier("me");
+    u.addIdentifier(i);
+    u.setKingdomKey(6);
+    u.setKingdom("Plants");
+
+    String json = mapper.writeValueAsString(u);
+    System.out.println(json);
+    assertEquals(u, mapper.readValue(json, NameUsage.class));
+  }
+
 
 }

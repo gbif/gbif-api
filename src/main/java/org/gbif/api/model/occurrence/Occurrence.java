@@ -27,19 +27,30 @@ import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.Sex;
 import org.gbif.api.vocabulary.TypeStatus;
+import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.Term;
+import org.gbif.dwc.terms.UnknownTerm;
 
+import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 import javax.annotation.Nullable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import org.codehaus.jackson.annotate.JsonAnyGetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
@@ -47,7 +58,23 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  */
 public class Occurrence extends VerbatimOccurrence implements LinneanClassification, LinneanClassificationKeys {
   public static final String GEO_DATUM = "WGS84";
-
+  // keep names of ALL properties of this class in a set for jackson serialization, see #properties()
+  private static final Set<String> PROPERTIES = ImmutableSet.copyOf(
+    Iterables.concat(
+      // we need to ignore the datum manually cause we have a fixed getter but no field
+      Lists.newArrayList(DwcTerm.geodeticDatum.simpleName()),
+      Iterables.transform(
+        Iterables.concat(Lists.newArrayList(Occurrence.class.getDeclaredFields()),
+                         Lists.newArrayList(VerbatimOccurrence.class.getDeclaredFields())
+        ), new Function<Field, String>() {
+        @Nullable
+        @Override
+        public String apply(@Nullable Field f) {
+          return f.getName();
+        }
+      })
+    )
+  );
   // occurrence fields
   private BasisOfRecord basisOfRecord;
   private Integer individualCount;
@@ -499,6 +526,14 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     return GEO_DATUM;
   }
 
+  /**
+   * This private method is needed for jackson deserialization only.
+   */
+  private void setGeodeticDatum(String datum) {
+    // ignore, we have a statig WGS84 value
+  }
+
+
 
   @Nullable
   /**
@@ -881,5 +916,24 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("modified", modified)
       .add("lastInterpreted", lastInterpreted)
       .toString();
+  }
+
+  /**
+   * This private method is only for serialization via jackson and not exposed anywhere else!
+   * It maps the verbatimField terms into properties with their simple name or qualified names for UnknownTerms.
+   */
+  @JsonAnyGetter
+  private Map<String,String> jsonVerbatimFields() {
+    Map<String,String> extendedProps = Maps.newHashMap();
+    for (Map.Entry<Term, String> prop : getVerbatimFields().entrySet()) {
+      Term t = prop.getKey();
+      if (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())){
+        extendedProps.put(t.qualifiedName(), prop.getValue());
+      } else {
+        // render all terms in controlled enumerations as simple names only - unless we have a property of that name already!
+        extendedProps.put(t.simpleName(), prop.getValue());
+      }
+    }
+    return extendedProps;
   }
 }

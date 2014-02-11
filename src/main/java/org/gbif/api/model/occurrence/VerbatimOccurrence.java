@@ -20,8 +20,7 @@ import org.gbif.api.model.common.Image;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.dwc.terms.Term;
-import org.gbif.dwc.terms.jackson.TermKeyDeserializer;
-import org.gbif.dwc.terms.jackson.TermKeySerializer;
+import org.gbif.dwc.terms.TermFactory;
 
 import java.util.Date;
 import java.util.List;
@@ -34,8 +33,9 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.annotate.JsonAnyGetter;
+import org.codehaus.jackson.annotate.JsonAnySetter;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -44,7 +44,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Major extensions that we index are also supported, i.e. media, identifiers and measurements or facts.
  */
 public class VerbatimOccurrence {
-
   private Integer key;
   private UUID datasetKey;
   private UUID publishingOrgKey;
@@ -169,8 +168,7 @@ public class VerbatimOccurrence {
   /**
    * A map holding all verbatim core terms.
    */
-  @JsonSerialize(keyUsing = TermKeySerializer.class)
-  @JsonDeserialize(keyUsing = TermKeyDeserializer.class)
+  @JsonIgnore
   public Map<Term, String> getVerbatimFields() {
     return verbatimFields;
   }
@@ -252,5 +250,27 @@ public class VerbatimOccurrence {
            && Objects.equal(this.media, other.media)
            && Objects.equal(this.facts, other.facts)
            && Objects.equal(this.relations, other.relations);
+  }
+
+  /**
+   * This private method is only for deserialization via jackson and not exposed anywhere else!
+   */
+  @JsonAnySetter
+  private void addJsonVerbatimField(String key, String value) {
+    Term t = TermFactory.instance().findTerm(key);
+    verbatimFields.put(t, value);
+  }
+
+  /**
+   * This private method is only for serialization via jackson and not exposed anywhere else!
+   * It maps the verbatimField terms into properties with their full qualified name.
+   */
+  @JsonAnyGetter
+  private Map<String,String> jsonVerbatimFields() { // note: for 1.6.0 MUST use non-getter name; otherwise doesn't matter
+    Map<String,String> extendedProps = Maps.newHashMap();
+    for (Map.Entry<Term, String> prop : verbatimFields.entrySet()) {
+      extendedProps.put(prop.getKey().qualifiedName(), prop.getValue());
+    }
+    return extendedProps;
   }
 }

@@ -15,31 +15,104 @@
  */
 package org.gbif.api.model.occurrence;
 
-import org.gbif.api.model.checklistbank.Identifier;
-import org.gbif.api.model.checklistbank.NameUsage;
+import org.gbif.api.vocabulary.BasisOfRecord;
+import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
-import org.gbif.api.vocabulary.NomenclaturalStatus;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.Rank;
+import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.GbifTerm;
+import org.gbif.dwc.terms.IucnTerm;
 import org.gbif.dwc.terms.Term;
+import org.gbif.dwc.terms.UnknownTerm;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.UUID;
 
+import com.google.common.collect.Sets;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class OccurrenceTest {
+  private ObjectMapper mapper;
+
+  private final Integer key = 321;
+  private final UUID datasetKey = UUID.randomUUID();
+  private final String sciName = "Abies alba";
+  private final Country country= Country.ALGERIA;
+  private final Date interpreted = new Date();
+  private final Date crawled = new Date(interpreted.getTime() - 99999);
+
+  @Before
+  public void init() {
+    mapper = new ObjectMapper();
+    mapper.enable(DeserializationConfig.Feature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+    mapper.enable(SerializationConfig.Feature.INDENT_OUTPUT);
+    mapper.disable(SerializationConfig.Feature.WRITE_NULL_PROPERTIES);
+  }
+
+  private Occurrence buildTestOccurrence() {
+    Occurrence o = new Occurrence();
+    o.setKey(key);
+    o.setDatasetKey(datasetKey);
+    o.setScientificName(sciName);
+    o.setCountry(country);
+    o.setLastInterpreted(interpreted);
+    o.setLastCrawled(crawled);
+    return o;
+  }
+
+  @Test
+  public void testEquals() {
+    Occurrence o1 = buildTestOccurrence();
+    Occurrence o2 = buildTestOccurrence();
+    Occurrence o3 = buildTestOccurrence();
+    o3.setCountry(Country.POLAND);
+
+    // All of them are equal to themselves
+    assertEquals(o1, o1);
+    assertEquals(o2, o2);
+    assertEquals(o3, o3);
+
+    // But not always equal among themselves
+    assertEquals(o1, o2);
+    assertNotEquals(o1, o3);
+    assertNotEquals(o2, o3);
+  }
+
+  @Test
+  public void testHashcode() {
+    Occurrence o1 = buildTestOccurrence();
+    Occurrence o2 = buildTestOccurrence();
+    Occurrence o3 = buildTestOccurrence();
+    o3.setCountry(Country.POLAND);
+
+    assertEquals(o1.hashCode(), o2.hashCode());
+    assertNotEquals(o1.hashCode(), o3.hashCode());
+    assertNotEquals(o2.hashCode(), o3.hashCode());
+  }
+
+
+  @Test
+  public void testNullConstructor() {
+    Occurrence o = new Occurrence(null);
+    assertNotNull(o);
+  }
 
   @Test
   public void testGetHigherClassificationMap() throws Exception {
@@ -120,10 +193,6 @@ public class OccurrenceTest {
 
   @Test
   public void testJsonSerde() throws IOException {
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-
     Occurrence occ = new Occurrence();
     occ.setFamily("Plants family");
     occ.setFamilyKey(16);
@@ -134,22 +203,10 @@ public class OccurrenceTest {
     occ.addIssue(OccurrenceIssue.COORDINATES_OUT_OF_RANGE);
 
     String json = mapper.writeValueAsString(occ);
-    assertEquals(occ, mapper.readValue(json, Occurrence.class));
+    System.out.println(json);
+    Occurrence occ2 = mapper.readValue(json, Occurrence.class);
+    assertEquals(occ, occ2);
 
-    NameUsage u = new NameUsage();
-    u.setKey(123);
-    u.setDatasetKey(UUID.randomUUID());
-    u.setNumDescendants(321);
-    u.getNomenclaturalStatus().add(NomenclaturalStatus.AMBIGUOUS);
-    Identifier i = new Identifier();
-    i.setIdentifier("me");
-    u.addIdentifier(i);
-    u.setKingdomKey(6);
-    u.setKingdom("Plants");
-
-    json = mapper.writeValueAsString(u);
-    //TODO: the identifier list makes the followig equals fail - intended?
-    //assertEquals(u, mapper.readValue(json, NameUsage.class));
   }
 
   @Test
@@ -185,4 +242,67 @@ public class OccurrenceTest {
     occ = new Occurrence(verb);
     assertNotNull(occ);
   }
+
+  @Test
+  public void testVerbatimMapSerde() throws Exception {
+    Occurrence o = new Occurrence();
+    o.setKey(7);
+    o.setLastParsed(new Date());
+    o.setDatasetKey(UUID.randomUUID());
+    o.setCountry(Country.ALBANIA);
+    o.setContinent(Continent.AFRICA);
+    o.setBasisOfRecord(BasisOfRecord.OBSERVATION);
+    o.setTaxonKey(212);
+    o.setDay(21);
+    o.setMonth(1);
+    o.setYear(1973);
+
+    for (DwcTerm term : DwcTerm.values()) {
+      if (!term.isClass()) {
+        o.setVerbatimField(term, RandomStringUtils.randomAlphabetic(20));
+      }
+    }
+
+    for (DcTerm term : DcTerm.values()) {
+      if (!term.isClass()) {
+        o.setVerbatimField(term, RandomStringUtils.randomAlphabetic(20));
+      }
+    }
+
+    for (GbifTerm term : GbifTerm.values()) {
+      if (!term.isClass()) {
+        o.setVerbatimField(term, RandomStringUtils.randomAlphabetic(20));
+      }
+    }
+
+    for (IucnTerm term : IucnTerm.values()) {
+      if (!term.isClass()) {
+        o.setVerbatimField(term, RandomStringUtils.randomAlphabetic(20));
+      }
+    }
+
+    o.setVerbatimField(DwcTerm.scientificName, "Abies alba");
+    o.setVerbatimField(DwcTerm.collectionCode, "BUGS");
+    o.setVerbatimField(DwcTerm.catalogNumber, "MD10782");
+    o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/temperatur"), RandomStringUtils.randomAlphabetic(30));
+    o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/co2"), RandomStringUtils.randomAlphabetic(30));
+    o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/modified"), new Date().toString());
+    o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/scientificName"), RandomStringUtils.randomAlphabetic(30));
+
+    String json = mapper.writeValueAsString(o);
+    System.out.println(json);
+
+    Occurrence o2 = mapper.readValue(json, Occurrence.class);
+    assertEquals(o.getVerbatimFields().size(), o2.getVerbatimFields().size());
+
+    Sets.SetView<Term> diff = Sets.difference(o.getVerbatimFields().keySet(), o2.getVerbatimFields().keySet());
+
+    Iterator<Term> iter = diff.iterator();
+    while (iter.hasNext()) {
+      Term t = iter.next();
+      System.out.println(t.qualifiedName());
+    }
+    assertTrue(diff.isEmpty());
+  }
+
 }
