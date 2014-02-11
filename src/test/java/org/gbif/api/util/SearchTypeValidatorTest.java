@@ -11,17 +11,17 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import static org.gbif.api.model.checklistbank.search.NameUsageSearchParameter.EXTINCT;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ELEVATION;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.RECORDED_BY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COUNTRY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DATASET_KEY;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.EVENT_DATE;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GEOMETRY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LATITUDE;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LONGITUDE;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MODIFIED;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ELEVATION;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.EVENT_DATE;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GEOMETRY;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.LAST_INTERPRETED;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MONTH;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.PUBLISHING_COUNTRY;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.RECORDED_BY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.SCIENTIFIC_NAME;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.YEAR;
 
@@ -46,7 +46,7 @@ public class SearchTypeValidatorTest {
   @Parameterized.Parameters
   public static Collection<Object[]> data() {
     Object[][] data = {
-      {MODIFIED, "2000-10,*", true, true},
+      {LAST_INTERPRETED, "2000-10,*", true, true},
       {RECORDED_BY, "henry", true, false},
       {ELEVATION, "1080", true, false},
       {ELEVATION, "1080.32", false, false},
@@ -118,16 +118,16 @@ public class SearchTypeValidatorTest {
       {EVENT_DATE, "*", true, false},
       {EVENT_DATE, "*,2000", true, true},
       {EVENT_DATE, "2000-10,*", true, true},
-      {MODIFIED, "1900-06", true, false},
-      {MODIFIED, "01-01", false, false},
-      {MODIFIED, "1900-01-01", true, false},
-      {MODIFIED, "1900-1-01", true, false},
-      {MODIFIED, "1900-1-1", true, false},
-      {MODIFIED, "10", false, false},
-      {MODIFIED, "2000", true, false},
-      {MODIFIED, "*", true, false},
-      {MODIFIED, "*,2000", true, true},
-      {MODIFIED, "2000-10,*", true, true},
+      {LAST_INTERPRETED, "1900-06", true, false},
+      {LAST_INTERPRETED, "01-01", false, false},
+      {LAST_INTERPRETED, "1900-01-01", true, false},
+      {LAST_INTERPRETED, "1900-1-01", true, false},
+      {LAST_INTERPRETED, "1900-1-1", true, false},
+      {LAST_INTERPRETED, "10", false, false},
+      {LAST_INTERPRETED, "2000", true, false},
+      {LAST_INTERPRETED, "*", true, false},
+      {LAST_INTERPRETED, "*,2000", true, true},
+      {LAST_INTERPRETED, "2000-10,*", true, true},
       {DECIMAL_LATITUDE, "90.0", true, false},
       {DECIMAL_LATITUDE, "180.0", false, false},
       {DECIMAL_LATITUDE, "50.0,92.2", false, true},

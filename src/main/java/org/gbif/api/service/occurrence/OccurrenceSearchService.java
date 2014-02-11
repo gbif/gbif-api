@@ -54,7 +54,7 @@ public interface OccurrenceSearchService
 
 
   /**
-   * Searches collector names which start with the input prefix.
+   * Searches collector names (dwc:recordedBy) which start with the input prefix.
    * If the limit is set to a number less than 0, then no maximum limit is enforced.
    * If limit contains a null value, a default value is set by the service implementation.
    * 
@@ -62,7 +62,7 @@ public interface OccurrenceSearchService
    * @param limit maximum number of results to return
    * @return of collector names
    */
-  List<String> suggestCollectorNames(@Min(1) String prefix, @Nullable Integer limit);
+  List<String> suggestRecordedBy(@Min(1) String prefix, @Nullable Integer limit);
 
   /**
    * Searches record numbers which start with the input prefix.

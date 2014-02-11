@@ -97,8 +97,8 @@ public class OccurrenceSearchRequest extends SearchRequest<OccurrenceSearchParam
     addParameter(OccurrenceSearchParameter.EVENT_DATE, date);
   }
 
-  public void addModifiedFilter(Date modified) {
-    addParameter(OccurrenceSearchParameter.MODIFIED, modified);
+  public void addLastInterpretedFilter(Date modified) {
+    addParameter(OccurrenceSearchParameter.LAST_INTERPRETED, modified);
   }
 
   public void addPublishingCountryFilter(Country country) {
