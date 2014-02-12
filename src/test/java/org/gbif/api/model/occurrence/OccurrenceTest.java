@@ -293,7 +293,6 @@ public class OccurrenceTest {
     System.out.println(json);
 
     Occurrence o2 = mapper.readValue(json, Occurrence.class);
-    assertEquals(o.getVerbatimFields().size(), o2.getVerbatimFields().size());
 
     Sets.SetView<Term> diff = Sets.difference(o.getVerbatimFields().keySet(), o2.getVerbatimFields().keySet());
 
@@ -302,6 +301,45 @@ public class OccurrenceTest {
       Term t = iter.next();
       System.out.println(t.qualifiedName());
     }
+
+    assertEquals(o.getVerbatimFields().size(), o2.getVerbatimFields().size());
+    assertTrue(diff.isEmpty());
+  }
+
+  /**
+   * checks that countryCode, geodeticDatum and class are nicely exposed in json
+   */
+  @Test
+  public void testCustomSerlializations() throws Exception {
+    Occurrence o = new Occurrence();
+    o.setKey(7);
+    o.setCountry(Country.ALGERIA);
+    o.setClassKey(999);
+    o.setClazz("Insecta");
+    o.setVerbatimField(DwcTerm.recordedBy, "Sankt Nikolaus");
+
+    String json = mapper.writeValueAsString(o);
+    System.out.println(json);
+    assertTrue(json.contains("\"class\" : \"Insecta\""));
+    assertTrue(json.contains("\"geodeticDatum\" : \"WGS84\""));
+    assertTrue(json.contains("\"countryCode\" : \"DZ\""));
+    assertTrue(json.contains("\"country\" : \"Algeria\""));
+
+    Occurrence o2 = mapper.readValue(json, Occurrence.class);
+
+    assertEquals(Country.ALGERIA, o2.getCountry());
+    assertEquals("WGS84", o2.getGeodeticDatum());
+    assertEquals("Insecta", o2.getClazz());
+
+    Sets.SetView<Term> diff = Sets.difference(o.getVerbatimFields().keySet(), o2.getVerbatimFields().keySet());
+
+    Iterator<Term> iter = diff.iterator();
+    while (iter.hasNext()) {
+      Term t = iter.next();
+      System.out.println(t.qualifiedName());
+    }
+
+    assertEquals(o.getVerbatimFields().size(), o2.getVerbatimFields().size());
     assertTrue(diff.isEmpty());
   }
 

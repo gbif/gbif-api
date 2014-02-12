@@ -14,12 +14,17 @@ package org.gbif.api.vocabulary;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
+import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonGenerator;
@@ -37,12 +42,15 @@ import org.codehaus.jackson.map.ser.std.SerializerBase;
  * Older country codes will be supported soon, @see #isDeprecated().
  * All user assigned codes (e.g. XX and QS) are mapped to the single enum USER_DEFINED.
  * The enumeration maps to ALPHA3 3-letter codes.
- * 
+ *
+ * @see <a href="https://www.iso.org/obp/ui/#home">ISO Online Browsing Platform</a>
  * @see <a href="http://en.wikipedia.org/wiki/ISO_3166">ISO 3166 on Wikipedia</a>
  * @see <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha2 on Wikipedia</a>
  * @see <a href="http://en.wikipedia.org/wiki/ISO_3166-3">ISO_3166-3 on Wikipedia</a>
+ *
+ * TODO: deal with outdated codes from ISO_3166-3
  */
-// TODO: deal with outdated codes from ISO_3166-3
+
 @JsonSerialize(using = Country.IsoSerializer.class)
 @JsonDeserialize(using = Country.IsoDeserializer.class)
 public enum Country {
@@ -1314,7 +1322,7 @@ public enum Country {
    * South Georgia and the South Sandwich Islands, Heard Island and McDonald Islands,
    * the British Indian Ocean Territory, the French Southern Territories, and the United States Minor Outlying
    * Islands).
-   * 
+   *
    * @see <a href="http://en.wikipedia.org/wiki/Common_Locale_Data_Repository">Unicode Common Locale Data Repository</a>
    */
   OCEANIA("QO", "QOO", 902, "Oceania"),
@@ -1322,7 +1330,7 @@ public enum Country {
 
   /**
    * Unknown or Invalid territory.
-   * 
+   *
    * @see <a href="http://en.wikipedia.org/wiki/Common_Locale_Data_Repository">Unicode Common Locale Data Repository</a>
    */
   UNKNOWN("ZZ", "ZZZ", 999, "unknown or invalid");
@@ -1404,7 +1412,7 @@ public enum Country {
   }
 
   /**
-   * @return the country name in the English language.
+   * @return the country name in the English language as maintained by ISO.
    */
   public String getTitle() {
     return title;
@@ -1471,6 +1479,45 @@ public enum Country {
       } catch (Exception e) {
         throw new IOException("Unable to deserialize country from provided value (not an ISO 2 character?): "
           + jp.getText());
+      }
+    }
+  }
+
+  /**
+   * Serializes the value as the english country title.
+   */
+  public static class TitleSerializer extends SerializerBase<Country> {
+
+    public TitleSerializer() {
+      super(Country.class);
+    }
+
+    @Override
+    public void serialize(Country value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+      jgen.writeString(value.title);
+    }
+
+  }
+
+  /**
+   * Deserializes the value from an english country title exactly as given by the enumeration.
+   */
+  public static class TitleDeserializer extends JsonDeserializer<Country> {
+    private static Map<String, Country> TITLE_LOOKUP = Maps.uniqueIndex(Lists.newArrayList(Country.values()),
+                                                                       new Function<Country, String>() {
+      @Nullable
+      @Override
+      public String apply(@Nullable Country c) {
+        return c.title;
+      }
+    });
+
+    @Override
+    public Country deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+      try {
+        return TITLE_LOOKUP.get(jp.getText());
+      } catch (Exception e) {
+        throw new IOException("Unable to deserialize country from provided title : " + jp.getText());
       }
     }
   }

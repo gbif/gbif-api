@@ -16,6 +16,8 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -127,14 +129,72 @@ public class CountryTest {
     }
   }
 
+  /**
+   * A test bean for trying the non default name serialization.
+   */
+  private static class CountryNameBean {
+
+    @JsonSerialize(using = Country.TitleSerializer.class)
+    @JsonDeserialize(using = Country.TitleDeserializer.class)
+    public Country island; // verify that the names don't matter
+
+    public CountryNameBean(Country island) {
+      this.island = island;
+    }
+
+    // used by serializer below
+    public CountryNameBean() {}
+  }
+
+  @Test
+  public void testCodeUniqueness() {
+    Set<String> codes = Sets.newHashSet();
+    for (Country c : Country.values()) {
+      assertFalse(codes.contains(c.getIso2LetterCode()));
+      assertFalse(codes.contains(c.getIso3LetterCode()));
+
+      codes.add(c.getIso2LetterCode());
+      codes.add(c.getIso3LetterCode());
+
+      if (c.getIsoNumericalCode() != null) {
+        assertFalse(codes.contains(c.getIsoNumericalCode().toString()));
+        codes.add(c.getIsoNumericalCode().toString());
+      }
+    }
+  }
+
+  @Test
+  public void testTitleUniqueness() {
+    Set<String> names = Sets.newHashSet();
+    for (Country c : Country.values()) {
+      assertFalse(names.contains(c.getTitle()));
+      names.add(c.getTitle());
+    }
+  }
+
   @Test
   public void testSerDe() {
     ObjectMapper mapper = new ObjectMapper();
     Container source = new Container(Country.DENMARK, Country.FALKLAND_ISLANDS);
     try {
-      String serialized = mapper.writeValueAsString(source);
-      Container target = mapper.readValue(serialized.getBytes(), Container.class);
+      String json = mapper.writeValueAsString(source);
+      System.out.println(json);
+      Container target = mapper.readValue(json, Container.class);
       assertEquals("country differs", source.country, target.country);
+      assertEquals("island differs", source.island, target.island);
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testSerDe2() {
+    ObjectMapper mapper = new ObjectMapper();
+    CountryNameBean source = new CountryNameBean(Country.FALKLAND_ISLANDS);
+    try {
+      String json = mapper.writeValueAsString(source);
+      System.out.println(json);
+      CountryNameBean target = mapper.readValue(json, CountryNameBean.class);
       assertEquals("island differs", source.island, target.island);
     } catch (Exception e) {
       fail(e.getMessage());

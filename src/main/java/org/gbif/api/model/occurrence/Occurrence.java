@@ -52,6 +52,9 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonAnyGetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * Represents an Occurrence as interpreted by GBIF, adding typed properties on top of the verbatim ones.
@@ -61,8 +64,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   // keep names of ALL properties of this class in a set for jackson serialization, see #properties()
   private static final Set<String> PROPERTIES = ImmutableSet.copyOf(
     Iterables.concat(
-      // we need to ignore the datum manually cause we have a fixed getter but no field
-      Lists.newArrayList(DwcTerm.geodeticDatum.simpleName()),
+      // we need to these json properties manually cause we have a fixed getter but no field for it
+      Lists.newArrayList(DwcTerm.geodeticDatum.simpleName(), "class", "countryCode"),
       Iterables.transform(
         Iterables.concat(Lists.newArrayList(Occurrence.class.getDeclaredFields()),
                          Lists.newArrayList(VerbatimOccurrence.class.getDeclaredFields())
@@ -119,6 +122,9 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Integer distanceAboveSurface;
   private Integer distanceAboveSurfaceAccuracy;
   private Continent continent;
+  @JsonSerialize(using = Country.IsoSerializer.class)
+  @JsonDeserialize(using = Country.IsoDeserializer.class)
+  @JsonProperty("countryCode")
   private Country country;
   private String stateProvince;
   private String waterBody;
@@ -394,6 +400,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Nullable
   @Override
+  @JsonProperty("class")
   public String getClazz() {
     return clazz;
   }
@@ -635,6 +642,22 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.country = country;
   }
 
+  /**
+   * Renders the country title as json property country in addition to the iso 2 letter countryCode being
+   * serlialized by the regular country java property.
+   *
+   * Made private to only use it for json serlialization and not within java code.
+   */
+  @Nullable
+  @JsonProperty("country")
+  private String getCountryTitle() {
+    return country == null ? null : country.getTitle();
+  }
+
+  private void setCountryTitle(String country) {
+    // ignore, setter only to avoid json being written into the fields map
+  }
+
   @Nullable
   public String getStateProvince() {
     return stateProvince;
@@ -658,7 +681,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    *
    * @return the year of the event date
    */
-  @Min(1300)
+  @Min(1500)
   @Max(2020)
   @Nullable
   public Integer getYear() {
