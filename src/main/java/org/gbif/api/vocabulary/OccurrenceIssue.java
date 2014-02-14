@@ -40,6 +40,21 @@ public enum OccurrenceIssue {
   COUNTRY_DERIVED_FROM_COORDINATES,
 
   /**
+   * The interpreted continent and country do not match up.
+   */
+  CONTINENT_COUNTRY_MISMATCH,
+
+  /**
+   * Uninterpretable continent values found.
+   */
+  CONTINENT_INVALID,
+
+  /**
+   * The interpreted continent is based on the coordinates, not the verbatim string information.
+   */
+  CONTINENT_DERIVED_FROM_COORDINATES,
+
+  /**
    * Latitude and longitude appear to be swapped.
    */
   PRESUMED_SWAPPED_COORDINATE,
@@ -87,15 +102,14 @@ public enum OccurrenceIssue {
   TAXON_MATCH_NONE,
 
   /**
-   * Set if supplied depth is in feet instead of metric
+   * Set if supplied depth is not given in the metric system, for example using feet instead of meters
    */
-  DEPTH_PRESUMED_IN_FEET,
+  DEPTH_NOT_METRIC,
 
   /**
-   * Set if depth is larger than is feasible.
-   * TODO: Explain what is feasable
+   * Set if depth is larger than 11.000m or negative.
    */
-  DEPTH_OUT_OF_RANGE,
+  DEPTH_UNLIKELY,
 
   /**
    * Set if supplied min>max
@@ -108,29 +122,44 @@ public enum OccurrenceIssue {
   DEPTH_NON_NUMERIC,
 
   /**
-   * Set if altitude is >10000m or < -1000m
+   * Set if elevation is above the troposphere (17km) or below 11km (Mariana Trench).
    */
-  ALTITUDE_OUT_OF_RANGE,
+  ELEVATION_UNLIKELY,
 
   /**
-   * Set if altitude is -9999 or some other bogus value
+   * Set if supplied min > max elevation
    */
-  ALTITUDE_UNLIKELY,
+  ELEVATION_MIN_MAX_SWAPPED,
 
   /**
-   * Set if supplied min > max altitude
+   * Set if supplied elevation is not given in the metric system, for example using feet instead of meters
    */
-  ALTITUDE_MIN_MAX_SWAPPED,
+  ELEVATION_NOT_METRIC,
 
   /**
-   * Set if supplied altitude is in feet instead of metric
+   * Set if elevation is a non numeric value
    */
-  ALTITUDE_PRESUMED_IN_FEET,
+  ELEVATION_NON_NUMERIC,
 
   /**
-   * Set if altitude is a non numeric value
+   * Set if distanceAboveSurface is >10000m or < -1000m or = -9999 or some other bogus value
    */
-  ALTITUDE_NON_NUMERIC,
+  SURFACE_DISTANCE_UNLIKELY,
+
+  /**
+   * Set if supplied min > max distanceAboveSurface
+   */
+  SURFACE_DISTANCE_MIN_MAX_SWAPPED,
+
+  /**
+   * Set if supplied distanceAboveSurface is not given in the metric system, for example using feet instead of meters
+   */
+  SURFACE_DISTANCE_NOT_METRIC,
+
+  /**
+   * Set if distanceAboveSurface is a non numeric value
+   */
+  SURFACE_DISTANCE_NON_NUMERIC,
 
   /**
    * A (partial) invalid date is given for dc:modified, such as a non existing date, invalid zero month, etc.

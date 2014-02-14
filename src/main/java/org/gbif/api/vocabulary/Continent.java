@@ -31,6 +31,10 @@ public enum Continent {
   ASIA("Asia"),
   OCEANIA("Oceania"),
   EUROPE("Europe"),
+  /**
+   * North America includes the Caribbean and
+   * reachies down and includes Panama.
+   */
   NORTH_AMERICA("North America"),
   SOUTH_AMERICA("South America");
 
@@ -53,6 +57,10 @@ public enum Continent {
    * @return the matching continent or null
    */
   public static Continent fromString(String continent) {
-    return (Continent) VocabularyUtils.lookupEnum(continent, Continent.class);
+    try {
+      return (Continent) VocabularyUtils.lookupEnum(continent, Continent.class);
+    } catch (IllegalArgumentException e) {
+      return null;
+    }
   }
 }

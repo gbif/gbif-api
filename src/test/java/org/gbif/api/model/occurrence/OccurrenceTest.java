@@ -182,7 +182,7 @@ public class OccurrenceTest {
     assertTrue(occ.getIssues().isEmpty());
     assertFalse(occ.hasSpatialIssue());
 
-    occ.addIssue(OccurrenceIssue.ALTITUDE_NON_NUMERIC);
+    occ.addIssue(OccurrenceIssue.ELEVATION_NON_NUMERIC);
     assertEquals(1, occ.getIssues().size());
     assertFalse(occ.hasSpatialIssue());
 
