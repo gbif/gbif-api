@@ -142,26 +142,6 @@ public enum OccurrenceIssue {
   ELEVATION_NON_NUMERIC,
 
   /**
-   * Set if distanceAboveSurface is >10000m or < -1000m or = -9999 or some other bogus value
-   */
-  SURFACE_DISTANCE_UNLIKELY,
-
-  /**
-   * Set if supplied min > max distanceAboveSurface
-   */
-  SURFACE_DISTANCE_MIN_MAX_SWAPPED,
-
-  /**
-   * Set if supplied distanceAboveSurface is not given in the metric system, for example using feet instead of meters
-   */
-  SURFACE_DISTANCE_NOT_METRIC,
-
-  /**
-   * Set if distanceAboveSurface is a non numeric value
-   */
-  SURFACE_DISTANCE_NON_NUMERIC,
-
-  /**
    * A (partial) invalid date is given for dc:modified, such as a non existing date, invalid zero month, etc.
    */
   MODIFIED_DATE_INVALID,
@@ -175,6 +155,11 @@ public enum OccurrenceIssue {
    * The date given for dwc:dateIdentified is in the future or before Linnean times (1700).
    */
   IDENTIFIED_DATE_UNLIKLEY,
+
+  /**
+   * The date given for dwc:dateIdentified is invalid and cant be interpreted at all.
+   */
+  IDENTIFIED_DATE_INVALID,
 
   /**
    * The given basis of record is impossible to interpret or seriously different from the recommended vocabulary.

@@ -115,12 +115,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Double decimalLongitude;
   private Double decimalLatitude;
   private Double coordinateAccuracy;
-  private Integer elevation;
-  private Integer elevationAccuracy;
-  private Integer depth;
-  private Integer depthAccuracy;
-  private Integer distanceAboveSurface;
-  private Integer distanceAboveSurfaceAccuracy;
+  private Double elevation;
+  private Double elevationAccuracy;
+  private Double depth;
+  private Double depthAccuracy;
   private Continent continent;
   @JsonSerialize(using = Country.IsoSerializer.class)
   @JsonDeserialize(using = Country.IsoDeserializer.class)
@@ -548,11 +546,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * </br>
    * The elevation is calculated using the equation: (minimumElevationInMeters + maximumElevationInMeters) / 2.
    */
-  public Integer getElevation() {
+  public Double getElevation() {
     return elevation;
   }
 
-  public void setElevation(@Nullable Integer elevation) {
+  public void setElevation(@Nullable Double elevation) {
     this.elevation = elevation;
   }
 
@@ -562,11 +560,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * The elevation accuracy is calculated using the equation: (maximumElevationInMeters - minimumElevationInMeters) / 2
    */
   @Nullable
-  public Integer getElevationAccuracy() {
+  public Double getElevationAccuracy() {
     return elevationAccuracy;
   }
 
-  public void setElevationAccuracy(@Nullable Integer elevationAccuracy) {
+  public void setElevationAccuracy(@Nullable Double elevationAccuracy) {
     this.elevationAccuracy = elevationAccuracy;
   }
 
@@ -577,11 +575,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * </br>
    * The depth is calculated using the equation: (minimumDepthInMeters + maximumDepthInMeters) / 2.
    */
-  public Integer getDepth() {
+  public Double getDepth() {
     return depth;
   }
 
-  public void setDepth(@Nullable Integer depth) {
+  public void setDepth(@Nullable Double depth) {
     this.depth = depth;
   }
 
@@ -591,37 +589,12 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * The depth accuracy is calculated using the equation: (maximumDepthInMeters - minimumDepthInMeters) / 2
    */
   @Nullable
-  public Integer getDepthAccuracy() {
+  public Double getDepthAccuracy() {
     return depthAccuracy;
   }
 
-  public void setDepthAccuracy(@Nullable Integer depthAccuracy) {
+  public void setDepthAccuracy(@Nullable Double depthAccuracy) {
     this.depthAccuracy = depthAccuracy;
-  }
-
-  /**
-   * Distance above the surface in meters.
-   * Distance from a reference surface in the vertical direction, in meters.
-   * Use positive values for locations above the surface, negative values for locations below.
-   * If depth measures are given, the reference surface is the location given by the depth,
-   * otherwise the reference surface is the location given by the elevation.
-   */
-  @Nullable
-  public Integer getDistanceAboveSurface() {
-    return distanceAboveSurface;
-  }
-
-  public void setDistanceAboveSurface(Integer distanceAboveSurface) {
-    this.distanceAboveSurface = distanceAboveSurface;
-  }
-
-  @Nullable
-  public Integer getDistanceAboveSurfaceAccuracy() {
-    return distanceAboveSurfaceAccuracy;
-  }
-
-  public void setDistanceAboveSurfaceAccuracy(Integer distanceAboveSurfaceAccuracy) {
-    this.distanceAboveSurfaceAccuracy = distanceAboveSurfaceAccuracy;
   }
 
   @Nullable
@@ -822,7 +795,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         family, genus, subgenus, species, genericName, specificEpithet, infraspecificEpithet, taxonRank,
         dateIdentified, year, month, day, eventDate, decimalLongitude, decimalLatitude,
         coordinateAccuracy, elevation, elevationAccuracy, depth, depthAccuracy,
-        distanceAboveSurface, distanceAboveSurfaceAccuracy, continent, country,
+        continent, country,
         stateProvince, waterBody, typeStatus, typifiedName, issues, modified, lastInterpreted);
   }
 
@@ -877,8 +850,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       && Objects.equal(this.elevationAccuracy, that.elevationAccuracy)
       && Objects.equal(this.depth, that.depth)
       && Objects.equal(this.depthAccuracy, that.depthAccuracy)
-      && Objects.equal(this.distanceAboveSurface, that.distanceAboveSurface)
-      && Objects.equal(this.distanceAboveSurfaceAccuracy, that.distanceAboveSurfaceAccuracy)
       && Objects.equal(this.continent, that.continent)
       && Objects.equal(this.country, that.country)
       && Objects.equal(this.stateProvince, that.stateProvince)
@@ -928,8 +899,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("elevationAccuracy", elevationAccuracy)
       .add("depth", depth)
       .add("depthAccuracy", depthAccuracy)
-      .add("distanceAboveSurface", distanceAboveSurface)
-      .add("distanceAboveSurfaceAccuracy", distanceAboveSurfaceAccuracy)
       .add("continent", continent)
       .add("country", country)
       .add("stateProvince", stateProvince)
