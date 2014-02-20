@@ -117,8 +117,8 @@ public class SimplePredicateTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void testWrongIntegerValue() {
-    new EqualsPredicate(OccurrenceSearchParameter.ELEVATION, "123.2");
+  public void testWrongDoubleValue2() {
+    new EqualsPredicate(OccurrenceSearchParameter.ELEVATION, "0.6s");
   }
 
   @Test(expected = IllegalArgumentException.class)
