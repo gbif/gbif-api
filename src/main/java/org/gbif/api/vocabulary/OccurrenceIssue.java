@@ -152,11 +152,6 @@ public enum OccurrenceIssue {
   MODIFIED_DATE_UNLIKELY,
 
   /**
-   * A (partial) invalid date is given for dwc:dateIdentified, such as a non existing date, invalid zero month, etc.
-   */
-  IDENTIFIED_DATE_INVALID,
-
-  /**
    * The date given for dwc:dateIdentified is in the future or before Linnean times (1700).
    */
   IDENTIFIED_DATE_UNLIKELY,
