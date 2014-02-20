@@ -85,7 +85,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private LifeStage lifeStage;
   private EstablishmentMeans establishmentMeans;
   // taxonomy as nub keys -> LinneanClassificationKeys
-  private Integer taxonKey;   // taxonID?
+  private Integer taxonKey;
   private Integer kingdomKey;
   private Integer phylumKey;
   private Integer classKey;
@@ -105,7 +105,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private String subgenus;
   private String species;
   // atomised scientific name
-  private String genericName;
+  private String genericName; // missing from DwC
   private String specificEpithet;
   private String infraspecificEpithet;
   private Rank taxonRank;
@@ -137,7 +137,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private TypeStatus typeStatus;
   // extracted from type status, but we should propose a new dwc term for this!
   // for example: "Paratype of Taeniopteryx metequi Ricker & Ross" is status=Paratype, typifiedName=Taeniopteryx metequi Ricker & Ross
-  private String typifiedName;
+  private String typifiedName; // missing from DwC
   private Set<OccurrenceIssue> issues = EnumSet.noneOf(OccurrenceIssue.class);
   // record level
   private Date modified;  // interpreted dc:modified, i.e. date changed in source

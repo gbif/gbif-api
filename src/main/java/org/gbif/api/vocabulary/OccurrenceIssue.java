@@ -169,12 +169,17 @@ public enum OccurrenceIssue {
   /**
    * The date given for dc:modified is in the future or predates unix time (1970).
    */
-  MODIFIED_DATE_UNLIKLEY,
+  MODIFIED_DATE_UNLIKELY,
+
+  /**
+   * A (partial) invalid date is given for dwc:dateIdentified, such as a non existing date, invalid zero month, etc.
+   */
+  IDENTIFIED_DATE_INVALID,
 
   /**
    * The date given for dwc:dateIdentified is in the future or before Linnean times (1700).
    */
-  IDENTIFIED_DATE_UNLIKLEY,
+  IDENTIFIED_DATE_UNLIKELY,
 
   /**
    * The given basis of record is impossible to interpret or seriously different from the recommended vocabulary.
