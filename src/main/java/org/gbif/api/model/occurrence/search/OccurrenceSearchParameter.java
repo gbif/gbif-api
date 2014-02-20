@@ -138,7 +138,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * <dd>Altitude between or equals -2m and 8.8m</dd>
    * </dl>
    */
-  ELEVATION(Integer.class),
+  ELEVATION(Double.class),
 
   /**
    * Depth in meters relative to altitude. For example 10 meters below a lake surface with given altitude.
@@ -152,7 +152,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * <dd>Depth between or equals 12.1m and 28.8m</dd>
    * </dl>
    */
-  DEPTH(Integer.class),
+  DEPTH(Double.class),
 
   /**
    * An identifier of any form assigned by the source to identify the institution

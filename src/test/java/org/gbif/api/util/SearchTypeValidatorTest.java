@@ -49,7 +49,7 @@ public class SearchTypeValidatorTest {
       {LAST_INTERPRETED, "2000-10,*", true, true},
       {RECORDED_BY, "henry", true, false},
       {ELEVATION, "1080", true, false},
-      {ELEVATION, "1080.32", false, false},
+      {ELEVATION, "1080.32", true, false},
       {ELEVATION, "1080m", false, false},
       {ELEVATION, "*, 900", true, true},
       {ELEVATION, "100 , *", true, true},
