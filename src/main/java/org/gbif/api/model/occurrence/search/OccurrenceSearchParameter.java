@@ -15,6 +15,7 @@ package org.gbif.api.model.occurrence.search;
 
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.vocabulary.BasisOfRecord;
+import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.TypeStatus;
@@ -120,6 +121,10 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    */
   COUNTRY(Country.class),
 
+  /**
+   * Continent the occurrence was recorded in.
+   */
+  CONTINENT(Continent.class),
 
   /**
    * The country of the organization that publishes the dataset the occurrence belongs to.

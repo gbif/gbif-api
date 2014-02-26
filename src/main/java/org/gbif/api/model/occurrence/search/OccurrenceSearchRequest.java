@@ -15,6 +15,7 @@ package org.gbif.api.model.occurrence.search;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.SearchRequest;
 import org.gbif.api.vocabulary.BasisOfRecord;
+import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.TypeStatus;
@@ -63,6 +64,10 @@ public class OccurrenceSearchRequest extends SearchRequest<OccurrenceSearchParam
 
   public void addCountryFilter(Country country) {
     addParameter(OccurrenceSearchParameter.COUNTRY, country);
+  }
+
+  public void addContinentFilter(Continent continent) {
+    addParameter(OccurrenceSearchParameter.CONTINENT, continent);
   }
 
   public void addDatasetKeyFilter(UUID datasetKey) {
