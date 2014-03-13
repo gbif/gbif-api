@@ -161,6 +161,9 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       if (verbatim.getVerbatimFields() != null) {
         getVerbatimFields().putAll(verbatim.getVerbatimFields());
       }
+      if (verbatim.getLastParsed() != null) {
+        setLastParsed(verbatim.getLastParsed());
+      }
     }
   }
 
