@@ -15,7 +15,7 @@
  */
 package org.gbif.api.model.common;
 
-import org.gbif.api.model.checklistbank.Image;
+import java.net.URI;
 
 import org.junit.Test;
 
@@ -26,19 +26,17 @@ public class MediaObjectTest {
 
   @Test
   public void testEquals() {
-    Image i1 = new Image();
-    i1.setKey(123);
-    i1.setImage("http://www.example.org/image.png");
+    MediaObject i1 = new MediaObject();
+    i1.setUrl(URI.create("http://www.example.org/image.png"));
     i1.setTitle("Puma concolor");
 
-    Image i2 = new Image();
-    i2.setKey(123);
-    i2.setImage("http://www.example.org/image.png");
+    MediaObject i2 = new MediaObject();
+    i2.setUrl(URI.create("http://www.example.org/image.png"));
     i2.setTitle("Puma concolor");
 
     assertEquals(i1, i2);
 
-    i2.setKey(124);
+    i2.setCreator("Petra");
 
     assertFalse(i1.equals(i2));
   }

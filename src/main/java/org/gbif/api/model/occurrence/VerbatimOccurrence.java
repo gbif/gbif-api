@@ -15,10 +15,9 @@
  */
 package org.gbif.api.model.occurrence;
 
-import org.gbif.api.model.common.Identifier;
-import org.gbif.api.model.common.Image;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
+import org.gbif.api.vocabulary.Extension;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.TermFactory;
 
@@ -31,7 +30,6 @@ import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.codehaus.jackson.annotate.JsonAnyGetter;
 import org.codehaus.jackson.annotate.JsonAnySetter;
@@ -54,16 +52,13 @@ public class VerbatimOccurrence {
 
   // the verbatim fields for the occurrence
   private Map<Term, String> verbatimFields = Maps.newHashMap();
-  // indexed occurrence extensions
-  private List<Identifier> identifiers = Lists.newArrayList();
-  private List<Image> media = Lists.newArrayList();
-  private List<FactOrMeasurment> facts = Lists.newArrayList();
-  private List<OccurrenceRelation> relations = Lists.newArrayList();
+  // verbatim extension data
+  private Map<Extension, List<VerbatimRecord>> extensions = Maps.newHashMap();
 
-  @Nullable
   /**
    * Get the value of a specific field (Term).
    */
+  @Nullable
   public String getVerbatimField(Term term) {
     checkNotNull(term, "term can't be null");
     return verbatimFields.get(term);
@@ -88,11 +83,11 @@ public class VerbatimOccurrence {
     verbatimFields.put(term, fieldValue);
   }
 
-  @NotNull
   /**
    * The GBIF assigned, persistent key to the occurrence record.
    * OccurrenceID itself is kept in the verbatim verbatimFields map.
    */
+  @NotNull
   public Integer getKey() {
     return key;
   }
@@ -119,10 +114,10 @@ public class VerbatimOccurrence {
     this.publishingOrgKey = publishingOrgKey;
   }
 
-  @Nullable
   /**
    * The country of the organization that publishes the dataset to which the occurrence belongs.
    */
+  @Nullable
   public Country getPublishingCountry() {
     return publishingCountry;
   }
@@ -152,10 +147,10 @@ public class VerbatimOccurrence {
     this.lastCrawled = lastCrawled == null ? null : new Date(lastCrawled.getTime());
   }
 
-  @Nullable
   /**
    * The date this record was last parsed from raw xml/json into verbatim verbatimFields.
    */
+  @Nullable
   public Date getLastParsed() {
     return lastParsed;
   }
@@ -164,10 +159,10 @@ public class VerbatimOccurrence {
     this.lastParsed = lastParsed == null ? null : new Date(lastParsed.getTime());
   }
 
-  @NotNull
   /**
    * A map holding all verbatim core terms.
    */
+  @NotNull
   @JsonIgnore
   public Map<Term, String> getVerbatimFields() {
     return verbatimFields;
@@ -177,56 +172,32 @@ public class VerbatimOccurrence {
     this.verbatimFields = verbatimFields;
   }
 
+  /**
+   * A map holding all verbatim extension terms.
+   */
   @NotNull
-  public List<Identifier> getIdentifiers() {
-    return identifiers;
+  public Map<Extension, List<VerbatimRecord>> getExtensions() {
+    return extensions;
   }
 
-  public void setIdentifiers(List<Identifier> identifiers) {
-    this.identifiers = identifiers;
+  public void setExtensions(Map<Extension, List<VerbatimRecord>> extensions) {
+    this.extensions = extensions;
   }
-
-  @NotNull
-  public List<Image> getMedia() {
-    return media;
-  }
-
-  public void setMedia(List<Image> media) {
-    this.media = media;
-  }
-
-  @NotNull
-  public List<FactOrMeasurment> getFacts() {
-    return facts;
-  }
-
-  public void setFacts(List<FactOrMeasurment> facts) {
-    this.facts = facts;
-  }
-
-  @NotNull
-  public List<OccurrenceRelation> getRelations() {
-    return relations;
-  }
-
-  public void setRelations(List<OccurrenceRelation> relations) {
-    this.relations = relations;
-  }
-
-
 
   @Override
   public String toString() {
     return Objects.toStringHelper(this).add("lastParsed", lastParsed).add("key", key).add("datasetKey", datasetKey)
       .add("publishingOrgKey", publishingOrgKey).add("publishingCountry", publishingCountry).add("protocol", protocol)
-      .add("lastCrawled", lastCrawled).toString();
+      .add("lastCrawled", lastCrawled)
+      .add("extensions", extensions)
+      .toString();
   }
 
   @Override
   public int hashCode() {
     return Objects
       .hashCode(key, datasetKey, publishingOrgKey, publishingCountry, protocol, lastCrawled, lastParsed, verbatimFields,
-        identifiers, media, facts, relations);
+                extensions);
   }
 
   @Override
@@ -246,10 +217,7 @@ public class VerbatimOccurrence {
            && Objects.equal(this.lastCrawled, other.lastCrawled)
            && Objects.equal(this.lastParsed, other.lastParsed)
            && Objects.equal(this.verbatimFields, other.verbatimFields)
-           && Objects.equal(this.identifiers, other.identifiers)
-           && Objects.equal(this.media, other.media)
-           && Objects.equal(this.facts, other.facts)
-           && Objects.equal(this.relations, other.relations);
+           && Objects.equal(this.extensions, other.extensions);
   }
 
   /**

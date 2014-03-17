@@ -15,6 +15,9 @@
  */
 package org.gbif.api.model.common;
 
+import org.gbif.api.vocabulary.MediaType;
+
+import java.net.URI;
 import java.util.Date;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -22,16 +25,14 @@ import javax.validation.constraints.NotNull;
 import com.google.common.base.Objects;
 
 /**
- * Image Model Object representing a simple image for species or occurrences.
- *
+ * Metadata for a multimedia object representing an image, video or audio file.
+ * Based on DublinCore and the Simple Image dwc archive extension:
  * @see <a href="http://rs.gbif.org/extension/gbif/1.0/images.xml">Image Definition</a>
  */
 public class MediaObject {
-
-  private Integer entityKey;
-  private String image;
-  private String thumbnail;
-  private String link;
+  private MediaType type;
+  private URI url;
+  private URI references;
   private String title;
   private String description;
   private String license;
@@ -105,16 +106,13 @@ public class MediaObject {
     this.description = description;
   }
 
-  /**
-   * @return the key to the main occurrence or name usage entity
-   */
   @NotNull
-  public Integer getEntityKey() {
-    return entityKey;
+  public MediaType getType() {
+    return type;
   }
 
-  public void setEntityKey(Integer entityKey) {
-    this.entityKey = entityKey;
+  public void setType(MediaType type) {
+    this.type = type;
   }
 
   /**
@@ -122,23 +120,17 @@ public class MediaObject {
    * <blockquote>
    * <p>
    * <i>Example:</i> <a
-   * href="http://farm6.static.flickr.com/5127/5242866958_98afd8cbce_o.jpg">http://farm6.static.flickr
-   * .com/5127/5242866958_98afd8cbce_o.jpg</a>
+   * href="http://farm6.static.flickr.com/5127/5242866958_98afd8cbce_o.jpg">http://farm6.static.flickr.com/5127/5242866958_98afd8cbce_o.jpg</a>
    * </p>
    * </blockquote>
-   *
-   * @return the image
    */
   @NotNull
-  public String getImage() {
-    return image;
+  public URI getUrl() {
+    return url;
   }
 
-  /**
-   * @param image the image to set
-   */
-  public void setImage(String image) {
-    this.image = image;
+  public void setUrl(URI url) {
+    this.url = url;
   }
 
   /**
@@ -168,15 +160,12 @@ public class MediaObject {
   /**
    * @return link to html webpage with the image on
    */
-  public String getLink() {
-    return link;
+  public URI getReferences() {
+    return references;
   }
 
-  /**
-   * @param link to html webpage
-   */
-  public void setLink(String link) {
-    this.link = link;
+  public void setReferences(URI references) {
+    this.references = references;
   }
 
   /**
@@ -199,23 +188,6 @@ public class MediaObject {
    */
   public void setPublisher(String publisher) {
     this.publisher = publisher;
-  }
-
-  /**
-   * The public URL that identifies and locates the image's thumbnail.
-   *
-   * @return the thumbnail
-   */
-  @Nullable
-  public String getThumbnail() {
-    return thumbnail;
-  }
-
-  /**
-   * @param thumbnail the thumbnail to set
-   */
-  public void setThumbnail(String thumbnail) {
-    this.thumbnail = thumbnail;
   }
 
   /**
@@ -249,46 +221,43 @@ public class MediaObject {
       return false;
     }
     MediaObject that = (MediaObject) obj;
-    return Objects.equal(this.image, that.image)
-           && Objects.equal(this.entityKey, that.entityKey)
-           && Objects.equal(this.thumbnail, that.thumbnail)
+    return Objects.equal(this.url, that.url)
+           && Objects.equal(this.type, that.type)
+           && Objects.equal(this.references, that.references)
            && Objects.equal(this.title, that.title)
            && Objects.equal(this.description, that.description)
            && Objects.equal(this.license, that.license)
            && Objects.equal(this.publisher, that.publisher)
            && Objects.equal(this.creator, that.creator)
-           && Objects.equal(this.created, that.created)
-           && Objects.equal(this.link, that.link);
+           && Objects.equal(this.created, that.created);
   }
 
   @Override
   public int hashCode() {
     return Objects.hashCode(super.hashCode(),
-                            entityKey,
-                            image,
-                            thumbnail,
+                            type,
+                            url,
+                            references,
                             title,
                             description,
                             license,
                             publisher,
                             creator,
-                            created,
-                            link);
+                            created);
   }
 
   @Override
   public String toString() {
     return Objects.toStringHelper(this)
       .add("super", super.toString())
-      .add("entityKey", entityKey)
-      .add("image", image)
-      .add("thumbnail", thumbnail)
+      .add("type", type)
+      .add("url", url)
+      .add("references", references)
       .add("title", title)
       .add("description", description)
       .add("license", license)
       .add("publisher", publisher)
       .add("creator", creator)
-      .add("link", link)
       .add("created", created)
       .toString();
   }

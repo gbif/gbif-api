@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.occurrence;
 
+import org.gbif.api.model.common.Identifier;
+import org.gbif.api.model.common.MediaObject;
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.util.ClassificationUtils;
@@ -35,6 +37,7 @@ import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.Nullable;
@@ -140,6 +143,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   // record level
   private Date modified;  // interpreted dc:modified, i.e. date changed in source
   private Date lastInterpreted;
+  // interpreted extension data
+  private List<Identifier> identifiers = Lists.newArrayList();
+  private List<MediaObject> media = Lists.newArrayList();
+  private List<FactOrMeasurment> facts = Lists.newArrayList();
+  private List<OccurrenceRelation> relations = Lists.newArrayList();
 
   public Occurrence() {
 
@@ -776,6 +784,44 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.lastInterpreted = lastInterpreted == null ? null : new Date(lastInterpreted.getTime());
   }
 
+  @NotNull
+  public List<Identifier> getIdentifiers() {
+    return identifiers;
+  }
+
+  public void setIdentifiers(List<Identifier> identifiers) {
+    this.identifiers = identifiers;
+  }
+
+  @NotNull
+  public List<MediaObject> getMedia() {
+    return media;
+  }
+
+  public void setMedia(List<MediaObject> media) {
+    this.media = media;
+  }
+
+  @NotNull
+  public List<FactOrMeasurment> getFacts() {
+    return facts;
+  }
+
+  public void setFacts(List<FactOrMeasurment> facts) {
+    this.facts = facts;
+  }
+
+  @NotNull
+  public List<OccurrenceRelation> getRelations() {
+    return relations;
+  }
+
+  public void setRelations(List<OccurrenceRelation> relations) {
+    this.relations = relations;
+  }
+
+
+
   @JsonIgnore
   /**
    * Convenience method checking if any spatial validation rule has not passed.
@@ -799,7 +845,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         dateIdentified, year, month, day, eventDate, decimalLongitude, decimalLatitude,
         coordinateAccuracy, elevation, elevationAccuracy, depth, depthAccuracy,
         continent, country,
-        stateProvince, waterBody, typeStatus, typifiedName, issues, modified, lastInterpreted);
+        stateProvince, waterBody, typeStatus, typifiedName, issues, modified, lastInterpreted,
+        identifiers, media, facts, relations);
   }
 
   @Override
@@ -861,7 +908,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       && Objects.equal(this.typifiedName, that.typifiedName)
       && Objects.equal(this.issues, that.issues)
       && Objects.equal(this.modified, that.modified)
-      && Objects.equal(this.lastInterpreted, that.lastInterpreted);
+      && Objects.equal(this.lastInterpreted, that.lastInterpreted)
+      && Objects.equal(this.identifiers, that.identifiers)
+      && Objects.equal(this.media, that.media)
+      && Objects.equal(this.facts, that.facts)
+      && Objects.equal(this.relations, that.relations);
   }
 
   @Override

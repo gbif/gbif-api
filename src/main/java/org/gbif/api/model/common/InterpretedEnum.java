@@ -18,6 +18,7 @@ package org.gbif.api.model.common;
 /**
  * Allows for encapsulating a verbatim and an interpreted enumeration value.
  */
+@Deprecated
 public class InterpretedEnum<V, I extends Enum<I>> extends InterpretedField<V, I> {
 
   public InterpretedEnum() {
