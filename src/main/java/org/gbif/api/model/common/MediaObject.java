@@ -26,7 +26,7 @@ import com.google.common.base.Objects;
  *
  * @see <a href="http://rs.gbif.org/extension/gbif/1.0/images.xml">Image Definition</a>
  */
-public class Image {
+public class MediaObject {
 
   private Integer entityKey;
   private String image;
@@ -245,10 +245,10 @@ public class Image {
     if (this == obj) {
       return true;
     }
-    if (!(obj instanceof Image)) {
+    if (!(obj instanceof MediaObject)) {
       return false;
     }
-    Image that = (Image) obj;
+    MediaObject that = (MediaObject) obj;
     return Objects.equal(this.image, that.image)
            && Objects.equal(this.entityKey, that.entityKey)
            && Objects.equal(this.thumbnail, that.thumbnail)
