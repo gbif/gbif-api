@@ -9,13 +9,13 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * A report of the state of unique identifiers (triplets and occurrenceId) in a DwC-A.
+ * A report of the state of unique identifiers (triplets and occurrenceId) in a DwC-A. The rules followed here should
+ * match the document at: http://dev.gbif.org/wiki/display/INT/Identifier+problems+and+how+to+solve+them.
  */
 @Immutable
 @ThreadSafe
@@ -50,6 +50,9 @@ public class DwcaValidationReport {
   // if the archive is not valid this will hold a readable reason
   private String invalidationReason;
 
+  // is this archive valid
+  private final boolean valid;
+
   @JsonCreator
   public DwcaValidationReport(@JsonProperty("datasetKey") UUID datasetKey,
     @JsonProperty("checkedRecords") int checkedRecords, @JsonProperty("uniqueTriplets") int uniqueTriplets,
@@ -64,41 +67,53 @@ public class DwcaValidationReport {
     this.uniqueOccurrenceIds = uniqueOccurrenceIds;
     this.recordsMissingOccurrenceId = recordsMissingOccurrenceId;
     this.allRecordsChecked = allRecordsChecked;
+    this.valid = validate();
   }
 
   /**
    * At the moment the only truly fatal conditions are:
-   * - triplets are invalid (% invalid > than our threshold)
    * - whole archive is empty or unreadable
-   * - there are duplicate triplets
-   *
-   * @return false if the archive is unreadable, has duplicate triplets, or more than the threshold of triplets are
-   *         invalid, true otherwise
+   * - triplets are invalid (% invalid > than our threshold) && occIds are invalid (must be 100% coverage and unique)
+   * - any duplicate triplets && occIds are invalid
    */
-  @JsonIgnore
-  public boolean isValid() {
+  private boolean validate() {
     boolean hasRecords = checkedRecords > 0;
     double invalidRatio = hasRecords ? (double) recordsWithInvalidTriplets / checkedRecords : 0;
     boolean invalidTripletsBelowLimit = invalidRatio <= INVALID_TRIPLET_THRESHOLD;
     boolean hasUniqueTriplets = uniqueTriplets == checkedRecords - recordsWithInvalidTriplets;
-    boolean valid = hasRecords && invalidTripletsBelowLimit && hasUniqueTriplets;
+    boolean hasUniqueOccIds = uniqueOccurrenceIds == checkedRecords - recordsMissingOccurrenceId;
+    boolean hasGoodOccIds = uniqueOccurrenceIds == checkedRecords;
+    boolean looksValid = hasRecords && (invalidTripletsBelowLimit && hasUniqueTriplets || hasGoodOccIds);
 
-    if (!valid) {
+    if (!looksValid) {
       List<String> reasons = Lists.newArrayList();
       if (!hasRecords) {
         reasons.add("No readable records");
       }
       if (!invalidTripletsBelowLimit) {
-        reasons.add(Math.round(100 * invalidRatio) + "% invalid triplets is > than threshold of "
-                    + Math.round(100 * INVALID_TRIPLET_THRESHOLD) + '%');
+        reasons.add(Math.round(100 * invalidRatio) + "% invalid triplets is > than threshold of " + Math
+          .round(100 * INVALID_TRIPLET_THRESHOLD) + '%');
       }
       if (!hasUniqueTriplets) {
         reasons.add((checkedRecords - recordsWithInvalidTriplets - uniqueTriplets) + " duplicate triplets detected");
       }
+      if (!hasGoodOccIds) {
+        if (recordsMissingOccurrenceId != 0) {
+          reasons.add(recordsMissingOccurrenceId + " records without an occurrence id (should be 0)");
+        }
+        if (!hasUniqueOccIds) {
+          reasons.add(
+            (checkedRecords - recordsMissingOccurrenceId - uniqueOccurrenceIds) + " duplicate occurrence ids detected");
+        }
+      }
       String reason = Joiner.on("; ").join(reasons);
-      invalidationReason = "Archive invalid because [" + reason + "]";
+      invalidationReason = "Archive invalid because [" + reason + ']';
     }
 
+    return looksValid;
+  }
+
+  public boolean isValid() {
     return valid;
   }
 
@@ -137,7 +152,7 @@ public class DwcaValidationReport {
   @Override
   public int hashCode() {
     return Objects.hashCode(datasetKey, checkedRecords, uniqueTriplets, recordsWithInvalidTriplets, uniqueOccurrenceIds,
-      recordsMissingOccurrenceId, allRecordsChecked);
+      recordsMissingOccurrenceId, allRecordsChecked, valid);
   }
 
   @Override
@@ -154,7 +169,7 @@ public class DwcaValidationReport {
       .equal(this.recordsWithInvalidTriplets, other.recordsWithInvalidTriplets) && Objects
              .equal(this.uniqueOccurrenceIds, other.uniqueOccurrenceIds) && Objects
              .equal(this.recordsMissingOccurrenceId, other.recordsMissingOccurrenceId) && Objects
-             .equal(this.allRecordsChecked, other.allRecordsChecked);
+             .equal(this.allRecordsChecked, other.allRecordsChecked) && Objects.equal(this.valid, other.valid);
   }
 
   @Override
@@ -162,6 +177,7 @@ public class DwcaValidationReport {
     return Objects.toStringHelper(this).add("datasetKey", datasetKey).add("checkedRecords", checkedRecords)
       .add("uniqueTriplets", uniqueTriplets).add("recordsWithInvalidTriplets", recordsWithInvalidTriplets)
       .add("uniqueOccurrenceIds", uniqueOccurrenceIds).add("recordsMissingOccurrenceId", recordsMissingOccurrenceId)
-      .add("allRecordsChecked", allRecordsChecked).add("invalidationReason", invalidationReason).toString();
+      .add("allRecordsChecked", allRecordsChecked).add("invalidationReason", invalidationReason).add("valid", valid)
+      .toString();
   }
 }
