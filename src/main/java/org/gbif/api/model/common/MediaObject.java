@@ -31,6 +31,7 @@ import com.google.common.base.Objects;
  */
 public class MediaObject {
   private MediaType type;
+  private String format;
   private URI url;
   private URI references;
   private String title;
@@ -39,6 +40,17 @@ public class MediaObject {
   private String publisher;
   private String creator;
   private Date created;
+
+  /**
+   * @return mime type of the file
+   */
+  public String getFormat() {
+    return format;
+  }
+
+  public void setFormat(String format) {
+    this.format = format;
+  }
 
   /**
    * The date and time this image was taken.
@@ -223,6 +235,7 @@ public class MediaObject {
     MediaObject that = (MediaObject) obj;
     return Objects.equal(this.url, that.url)
            && Objects.equal(this.type, that.type)
+           && Objects.equal(this.format, that.format)
            && Objects.equal(this.references, that.references)
            && Objects.equal(this.title, that.title)
            && Objects.equal(this.description, that.description)
@@ -236,6 +249,7 @@ public class MediaObject {
   public int hashCode() {
     return Objects.hashCode(super.hashCode(),
                             type,
+                            format,
                             url,
                             references,
                             title,
@@ -251,6 +265,7 @@ public class MediaObject {
     return Objects.toStringHelper(this)
       .add("super", super.toString())
       .add("type", type)
+      .add("format", format)
       .add("url", url)
       .add("references", references)
       .add("title", title)
