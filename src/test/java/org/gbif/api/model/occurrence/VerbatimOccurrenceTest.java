@@ -1,5 +1,7 @@
 package org.gbif.api.model.occurrence;
 
+import org.gbif.api.util.IsoDateParsingUtils.IsoDateFormat;
+import org.gbif.api.vocabulary.Extension;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
@@ -10,8 +12,12 @@ import org.gbif.dwc.terms.UnknownTerm;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -20,6 +26,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class VerbatimOccurrenceTest {
@@ -132,11 +139,27 @@ public class VerbatimOccurrenceTest {
     mapper.enable(SerializationConfig.Feature.INDENT_OUTPUT);
     mapper.disable(SerializationConfig.Feature.WRITE_NULL_PROPERTIES);
 
+    VerbatimRecord verbatimRecord = new VerbatimRecord();
+    Date today = new Date();
+    verbatimRecord.setField(DcTerm.created, IsoDateFormat.FULL.getDateFormat().format(today));
+    verbatimRecord.setField(DcTerm.creator, "fede");
+    verbatimRecord.setField(DcTerm.description, "testDescription");
+    verbatimRecord.setField(DcTerm.format, "jpg");
+    verbatimRecord.setField(DcTerm.license, "licenseTest");
+    verbatimRecord.setField(DcTerm.publisher, "publisherTest");
+    verbatimRecord.setField(DcTerm.title, "titleTest");
+    verbatimRecord.setField(DcTerm.references, "http://www.gbif.org/");
+    verbatimRecord.setField(DcTerm.identifier, "http://www.gbif.org/");
 
     VerbatimOccurrence v = new VerbatimOccurrence();
     v.setKey(7);
     v.setLastParsed(new Date());
     v.setDatasetKey(UUID.randomUUID());
+    Map<Extension, List<VerbatimRecord>> extensions = new HashMap<Extension, List<VerbatimRecord>>();
+    List<VerbatimRecord> verbatimRecords = Lists.newArrayList();
+    verbatimRecords.add(verbatimRecord);
+    extensions.put(Extension.IMAGE, verbatimRecords);
+    v.setExtensions(extensions);
 
     for (Term term : DwcTerm.values()) {
       v.setVerbatimField(term, RandomStringUtils.randomAlphabetic(20));
@@ -164,7 +187,8 @@ public class VerbatimOccurrenceTest {
     v.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/temperatur"), RandomStringUtils.randomAlphabetic(30));
     v.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/co2"), RandomStringUtils.randomAlphabetic(30));
     v.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/modified"), new Date().toString());
-    v.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/scientificName"), RandomStringUtils.randomAlphabetic(30));
+    v.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/scientificName"),
+      RandomStringUtils.randomAlphabetic(30));
     final int numOtherTerms = v.getVerbatimFields().size() - numDwcTerms - numDcTerms - numGbifTerms - numIucnTerms;
 
     final int numTerms = v.getVerbatimFields().size();
@@ -177,6 +201,48 @@ public class VerbatimOccurrenceTest {
     VerbatimOccurrence v2 = mapper.readValue(json, VerbatimOccurrence.class);
     // 5 terms
     assertEquals(numTerms, v2.getVerbatimFields().size());
+
+  }
+
+
+  @Test
+  public void testVerbatimExtensionsMapSerde() throws Exception {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.enable(DeserializationConfig.Feature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+    mapper.enable(SerializationConfig.Feature.INDENT_OUTPUT);
+    mapper.disable(SerializationConfig.Feature.WRITE_NULL_PROPERTIES);
+
+    VerbatimRecord verbatimRecord = new VerbatimRecord();
+    Date today = new Date();
+    verbatimRecord.setField(DcTerm.created, IsoDateFormat.FULL.getDateFormat().format(today));
+    verbatimRecord.setField(DcTerm.creator, "fede");
+    verbatimRecord.setField(DcTerm.description, "testDescription");
+    verbatimRecord.setField(DcTerm.format, "jpg");
+    verbatimRecord.setField(DcTerm.license, "licenseTest");
+    verbatimRecord.setField(DcTerm.publisher, "publisherTest");
+    verbatimRecord.setField(DcTerm.title, "titleTest");
+    verbatimRecord.setField(DcTerm.references, "http://www.gbif.org/");
+    verbatimRecord.setField(DcTerm.identifier, "http://www.gbif.org/");
+
+    VerbatimOccurrence v = new VerbatimOccurrence();
+    v.setKey(7);
+    v.setLastParsed(new Date());
+    v.setDatasetKey(UUID.randomUUID());
+    Map<Extension, List<VerbatimRecord>> extensions = new HashMap<Extension, List<VerbatimRecord>>();
+    List<VerbatimRecord> verbatimRecords = Lists.newArrayList();
+    verbatimRecords.add(verbatimRecord);
+    extensions.put(Extension.IMAGE, verbatimRecords);
+    v.setExtensions(extensions);
+
+
+    String json = mapper.writeValueAsString(v);
+    System.out.println(json);
+
+    VerbatimOccurrence v2 = mapper.readValue(json, VerbatimOccurrence.class);
+    assertNotNull(v2.getExtensions());
+    assertTrue(!v2.getExtensions().get(Extension.IMAGE).isEmpty());
+    assertEquals(v2.getExtensions().get(Extension.IMAGE).get(0), verbatimRecord);
+
 
   }
 

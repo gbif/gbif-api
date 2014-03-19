@@ -1,9 +1,8 @@
 package org.gbif.api.model.occurrence;
 
 import org.gbif.dwc.terms.Term;
-import org.gbif.dwc.terms.jackson.TermDeserializer;
 import org.gbif.dwc.terms.jackson.TermKeyDeserializer;
-import org.gbif.dwc.terms.jackson.TermSerializer;
+import org.gbif.dwc.terms.jackson.TermKeySerializer;
 
 import java.util.Map;
 
@@ -19,11 +18,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Encapsulation of a verbatim record of some sort.
- *
  * Primarily created to avoid (de)serialization problems with Jackson using the Term interface in a nested Map
  * in VerbatimOccurrence.extensions.
  */
 public class VerbatimRecord {
+
   private Map<Term, String> fields = Maps.newHashMap();
 
   public VerbatimRecord() {
@@ -34,8 +33,8 @@ public class VerbatimRecord {
   }
 
 
-  @JsonSerialize(using = TermSerializer.class, keyUsing = TermSerializer.class)
-  @JsonDeserialize(using = TermDeserializer.class, keyUsing = TermKeyDeserializer.class)
+  @JsonSerialize(keyUsing = TermKeySerializer.class)
+  @JsonDeserialize(keyUsing = TermKeyDeserializer.class)
   public Map<Term, String> getFields() {
     return fields;
   }
@@ -46,7 +45,7 @@ public class VerbatimRecord {
 
   /**
    * For setting a specific field without having to replace the entire fields Map.
-   *
+   * 
    * @param term the field to set
    * @param value the field's value
    */
