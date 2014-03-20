@@ -15,8 +15,8 @@
  */
 package org.gbif.api.vocabulary;
 
-import org.gbif.api.vocabulary.jackson.ExtensionDeserializer;
-import org.gbif.api.vocabulary.jackson.ExtensionSerializer;
+import org.gbif.api.jackson.ExtensionDeserializer;
+import org.gbif.api.jackson.ExtensionSerializer;
 
 import com.google.common.base.Strings;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;

@@ -1,12 +1,9 @@
 /*
  * Copyright 2012 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +12,10 @@
  */
 package org.gbif.api.model.occurrence;
 
+import org.gbif.api.jackson.ExtensionKeyDeserializer;
+import org.gbif.api.jackson.ExtensionSerializer;
+import org.gbif.api.jackson.TermMapListDeserializer;
+import org.gbif.api.jackson.TermMapListSerializer;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.Extension;
@@ -25,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
@@ -34,7 +36,8 @@ import com.google.common.collect.Maps;
 import org.codehaus.jackson.annotate.JsonAnyGetter;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
-
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -42,6 +45,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Major extensions that we index are also supported, i.e. media, identifiers and measurements or facts.
  */
 public class VerbatimOccurrence {
+
   private Integer key;
   private UUID datasetKey;
   private UUID publishingOrgKey;
@@ -53,7 +57,7 @@ public class VerbatimOccurrence {
   // the verbatim fields for the occurrence
   private Map<Term, String> verbatimFields = Maps.newHashMap();
   // verbatim extension data
-  private Map<Extension, List<VerbatimRecord>> extensions = Maps.newHashMap();
+  private Map<Extension, List<Map<Term, String>>> extensions = Maps.newHashMap();
 
   /**
    * Get the value of a specific field (Term).
@@ -74,7 +78,7 @@ public class VerbatimOccurrence {
 
   /**
    * For setting a specific field without having to replace the entire verbatimFields Map.
-   *
+   * 
    * @param term the field to set
    * @param fieldValue the field's value
    */
@@ -176,11 +180,13 @@ public class VerbatimOccurrence {
    * A map holding all verbatim extension terms.
    */
   @NotNull
-  public Map<Extension, List<VerbatimRecord>> getExtensions() {
+  @JsonSerialize(keyUsing = ExtensionSerializer.class, contentUsing = TermMapListSerializer.class)
+  @JsonDeserialize(keyUsing = ExtensionKeyDeserializer.class, contentUsing = TermMapListDeserializer.class)
+  public Map<Extension, List<Map<Term, String>>> getExtensions() {
     return extensions;
   }
 
-  public void setExtensions(Map<Extension, List<VerbatimRecord>> extensions) {
+  public void setExtensions(Map<Extension, List<Map<Term, String>>> extensions) {
     this.extensions = extensions;
   }
 
@@ -196,8 +202,9 @@ public class VerbatimOccurrence {
   @Override
   public int hashCode() {
     return Objects
-      .hashCode(key, datasetKey, publishingOrgKey, publishingCountry, protocol, lastCrawled, lastParsed, verbatimFields,
-                extensions);
+      .hashCode(key, datasetKey, publishingOrgKey, publishingCountry, protocol, lastCrawled, lastParsed,
+        verbatimFields,
+        extensions);
   }
 
   @Override
@@ -210,14 +217,14 @@ public class VerbatimOccurrence {
     }
     final VerbatimOccurrence other = (VerbatimOccurrence) obj;
     return Objects.equal(this.key, other.key)
-           && Objects.equal(this.datasetKey, other.datasetKey)
-           && Objects.equal(this.publishingOrgKey, other.publishingOrgKey)
-           && Objects.equal(this.publishingCountry, other.publishingCountry)
-           && Objects.equal(this.protocol, other.protocol)
-           && Objects.equal(this.lastCrawled, other.lastCrawled)
-           && Objects.equal(this.lastParsed, other.lastParsed)
-           && Objects.equal(this.verbatimFields, other.verbatimFields)
-           && Objects.equal(this.extensions, other.extensions);
+      && Objects.equal(this.datasetKey, other.datasetKey)
+      && Objects.equal(this.publishingOrgKey, other.publishingOrgKey)
+      && Objects.equal(this.publishingCountry, other.publishingCountry)
+      && Objects.equal(this.protocol, other.protocol)
+      && Objects.equal(this.lastCrawled, other.lastCrawled)
+      && Objects.equal(this.lastParsed, other.lastParsed)
+      && Objects.equal(this.verbatimFields, other.verbatimFields)
+      && Objects.equal(this.extensions, other.extensions);
   }
 
   /**
@@ -234,8 +241,9 @@ public class VerbatimOccurrence {
    * It maps the verbatimField terms into properties with their full qualified name.
    */
   @JsonAnyGetter
-  private Map<String,String> jsonVerbatimFields() { // note: for 1.6.0 MUST use non-getter name; otherwise doesn't matter
-    Map<String,String> extendedProps = Maps.newHashMap();
+  private Map<String, String> jsonVerbatimFields() { // note: for 1.6.0 MUST use non-getter name; otherwise doesn't
+// matter
+    Map<String, String> extendedProps = Maps.newHashMap();
     for (Map.Entry<Term, String> prop : verbatimFields.entrySet()) {
       extendedProps.put(prop.getKey().qualifiedName(), prop.getValue());
     }

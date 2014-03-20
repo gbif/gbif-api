@@ -1,12 +1,9 @@
 /*
  * Copyright 2012 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,10 +12,12 @@
  */
 package org.gbif.api.model.occurrence;
 
+import org.gbif.api.model.common.MediaObject;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
+import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.dwc.terms.DcTerm;
@@ -29,10 +28,13 @@ import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.UnknownTerm;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -49,12 +51,13 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class OccurrenceTest {
+
   private ObjectMapper mapper;
 
   private final Integer key = 321;
   private final UUID datasetKey = UUID.randomUUID();
   private final String sciName = "Abies alba";
-  private final Country country= Country.ALGERIA;
+  private final Country country = Country.ALGERIA;
   private final Date interpreted = new Date();
   private final Date crawled = new Date(interpreted.getTime() - 99999);
 
@@ -147,7 +150,7 @@ public class OccurrenceTest {
     occ.setKingdom("Plants");
     occ.setKingdomKey(6);
 
-    assertEquals(6, (int)occ.getHigherRankKey(Rank.KINGDOM));
+    assertEquals(6, (int) occ.getHigherRankKey(Rank.KINGDOM));
     assertEquals("Plants", occ.getHigherRank(Rank.KINGDOM));
   }
 
@@ -287,7 +290,8 @@ public class OccurrenceTest {
     o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/temperatur"), RandomStringUtils.randomAlphabetic(30));
     o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/co2"), RandomStringUtils.randomAlphabetic(30));
     o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/modified"), new Date().toString());
-    o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/scientificName"), RandomStringUtils.randomAlphabetic(30));
+    o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/scientificName"),
+      RandomStringUtils.randomAlphabetic(30));
 
     String json = mapper.writeValueAsString(o);
     System.out.println(json);
@@ -341,6 +345,41 @@ public class OccurrenceTest {
 
     assertEquals(o.getVerbatimFields().size(), o2.getVerbatimFields().size());
     assertTrue(diff.isEmpty());
+  }
+
+
+  /**
+   * checks that countryCode, geodeticDatum and class are nicely exposed in json
+   */
+  @Test
+  public void testExtensionsSerlializations() throws Exception {
+    Occurrence o = new Occurrence();
+    o.setKey(7);
+    o.setCountry(Country.ALGERIA);
+    o.setClassKey(999);
+    o.setClazz("Insecta");
+    o.setVerbatimField(DwcTerm.recordedBy, "Sankt Nikolaus");
+    MediaObject mediaObject = new MediaObject();
+    mediaObject.setCreated(new Date());
+    mediaObject.setCreator("fede");
+    mediaObject.setFormat("jpeg");
+    mediaObject.setLicense("testLicense");
+    mediaObject.setPublisher("testPublisher");
+    mediaObject.setReferences(new URI("http://www.gbif.org"));
+    mediaObject.setTitle("mediaTestTitle");
+    mediaObject.setType(MediaType.StillImage);
+    mediaObject.setUrl(new URI("http://www.gbif.org"));
+    List<MediaObject> medias = Lists.newArrayList();
+    medias.add(mediaObject);
+    o.setMedia(medias);
+    String json = mapper.writeValueAsString(o);
+    System.out.println(json);
+    assertTrue(json.contains("\"country\" : \"Algeria\""));
+
+    Occurrence o2 = mapper.readValue(json, Occurrence.class);
+
+
+    assertEquals(o2.getMedia().get(0), mediaObject);
   }
 
 }

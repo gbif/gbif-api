@@ -139,27 +139,11 @@ public class VerbatimOccurrenceTest {
     mapper.enable(SerializationConfig.Feature.INDENT_OUTPUT);
     mapper.disable(SerializationConfig.Feature.WRITE_NULL_PROPERTIES);
 
-    VerbatimRecord verbatimRecord = new VerbatimRecord();
-    Date today = new Date();
-    verbatimRecord.setField(DcTerm.created, IsoDateFormat.FULL.getDateFormat().format(today));
-    verbatimRecord.setField(DcTerm.creator, "fede");
-    verbatimRecord.setField(DcTerm.description, "testDescription");
-    verbatimRecord.setField(DcTerm.format, "jpg");
-    verbatimRecord.setField(DcTerm.license, "licenseTest");
-    verbatimRecord.setField(DcTerm.publisher, "publisherTest");
-    verbatimRecord.setField(DcTerm.title, "titleTest");
-    verbatimRecord.setField(DcTerm.references, "http://www.gbif.org/");
-    verbatimRecord.setField(DcTerm.identifier, "http://www.gbif.org/");
-
     VerbatimOccurrence v = new VerbatimOccurrence();
     v.setKey(7);
     v.setLastParsed(new Date());
     v.setDatasetKey(UUID.randomUUID());
-    Map<Extension, List<VerbatimRecord>> extensions = new HashMap<Extension, List<VerbatimRecord>>();
-    List<VerbatimRecord> verbatimRecords = Lists.newArrayList();
-    verbatimRecords.add(verbatimRecord);
-    extensions.put(Extension.IMAGE, verbatimRecords);
-    v.setExtensions(extensions);
+
 
     for (Term term : DwcTerm.values()) {
       v.setVerbatimField(term, RandomStringUtils.randomAlphabetic(20));
@@ -212,24 +196,24 @@ public class VerbatimOccurrenceTest {
     mapper.enable(SerializationConfig.Feature.INDENT_OUTPUT);
     mapper.disable(SerializationConfig.Feature.WRITE_NULL_PROPERTIES);
 
-    VerbatimRecord verbatimRecord = new VerbatimRecord();
+    Map<Term, String> verbatimRecord = new HashMap<Term, String>();
     Date today = new Date();
-    verbatimRecord.setField(DcTerm.created, IsoDateFormat.FULL.getDateFormat().format(today));
-    verbatimRecord.setField(DcTerm.creator, "fede");
-    verbatimRecord.setField(DcTerm.description, "testDescription");
-    verbatimRecord.setField(DcTerm.format, "jpg");
-    verbatimRecord.setField(DcTerm.license, "licenseTest");
-    verbatimRecord.setField(DcTerm.publisher, "publisherTest");
-    verbatimRecord.setField(DcTerm.title, "titleTest");
-    verbatimRecord.setField(DcTerm.references, "http://www.gbif.org/");
-    verbatimRecord.setField(DcTerm.identifier, "http://www.gbif.org/");
+    verbatimRecord.put(DcTerm.created, IsoDateFormat.FULL.getDateFormat().format(today));
+    verbatimRecord.put(DcTerm.creator, "fede");
+    verbatimRecord.put(DcTerm.description, "testDescription");
+    verbatimRecord.put(DcTerm.format, "jpg");
+    verbatimRecord.put(DcTerm.license, "licenseTest");
+    verbatimRecord.put(DcTerm.publisher, "publisherTest");
+    verbatimRecord.put(DcTerm.title, "titleTest");
+    verbatimRecord.put(DcTerm.references, "http://www.gbif.org/");
+    verbatimRecord.put(DcTerm.identifier, "http://www.gbif.org/");
 
     VerbatimOccurrence v = new VerbatimOccurrence();
     v.setKey(7);
     v.setLastParsed(new Date());
     v.setDatasetKey(UUID.randomUUID());
-    Map<Extension, List<VerbatimRecord>> extensions = new HashMap<Extension, List<VerbatimRecord>>();
-    List<VerbatimRecord> verbatimRecords = Lists.newArrayList();
+    Map<Extension, List<Map<Term, String>>> extensions = new HashMap<Extension, List<Map<Term, String>>>();
+    List<Map<Term, String>> verbatimRecords = Lists.newArrayList();
     verbatimRecords.add(verbatimRecord);
     extensions.put(Extension.IMAGE, verbatimRecords);
     v.setExtensions(extensions);

@@ -1,4 +1,4 @@
-package org.gbif.api.vocabulary.jackson;
+package org.gbif.api.jackson;
 
 import org.gbif.api.vocabulary.Extension;
 
