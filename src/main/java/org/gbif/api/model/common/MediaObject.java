@@ -247,8 +247,7 @@ public class MediaObject {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(),
-                            type,
+    return Objects.hashCode(type,
                             format,
                             url,
                             references,
@@ -263,7 +262,6 @@ public class MediaObject {
   @Override
   public String toString() {
     return Objects.toStringHelper(this)
-      .add("super", super.toString())
       .add("type", type)
       .add("format", format)
       .add("url", url)
