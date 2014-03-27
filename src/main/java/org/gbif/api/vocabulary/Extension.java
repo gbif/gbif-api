@@ -62,6 +62,11 @@ public enum Extension {
   MEASUREMENT_OR_FACT("http://rs.tdwg.org/dwc/terms/MeasurementOrFact"),
 
   /**
+   * @see <a href="http://rs.gbif.org/extension/gbif/1.0/multimedia.xml">extension definition</a>
+   */
+  MULTIMEDIA("http://rs.gbif.org/terms/1.0/Multimedia"),
+
+  /**
    * @see <a href="http://rs.gbif.org/extension/dwc/measurements_or_facts.xml">extension definition</a>
    */
   REFERENCE("http://rs.gbif.org/terms/1.0/Reference"),

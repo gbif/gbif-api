@@ -23,23 +23,28 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Objects;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Metadata for a multimedia object representing an image, video or audio file.
- * Based on DublinCore and the Simple Image dwc archive extension:
- * @see <a href="http://rs.gbif.org/extension/gbif/1.0/images.xml">Image Definition</a>
+ * Based on DublinCore and the Simple Multimedia dwc archive extension:
+ * @see <a href="http://rs.gbif.org/extension/gbif/1.0/multimedia.xml">Multimedia Definition</a>
  */
 public class MediaObject {
   private MediaType type;
   private String format;
-  private URI url;
+  private URI identifier;
   private URI references;
   private String title;
   private String description;
-  private String license;
-  private String publisher;
-  private String creator;
+  private String source;
+  private String audience;
   private Date created;
+  private String creator;
+  private String contributor;
+  private String publisher;
+  private String license;
+  private String rightsHolder;
 
   /**
    * @return mime type of the file
@@ -53,7 +58,7 @@ public class MediaObject {
   }
 
   /**
-   * The date and time this image was taken.
+   * The date and time this media item was taken.
    * <blockquote>
    * <p>
    * <i>Example:</i> 2010-09-29.
@@ -75,7 +80,7 @@ public class MediaObject {
   }
 
   /**
-   * The person that took the image.
+   * The person that created the media item.
    * <blockquote>
    * <p>
    * <i>Example:</i> David Remsen.
@@ -97,7 +102,7 @@ public class MediaObject {
   }
 
   /**
-   * A longer description for this image.
+   * A longer description for this media item.
    * <blockquote>
    * <p>
    * <i>Example:</i> Female Tachycineta albiventer photographed in the Amazon, Brazil, in November 2010.
@@ -128,7 +133,7 @@ public class MediaObject {
   }
 
   /**
-   * The public URL that identifies and locates the image.
+   * The public URL that identifies and locates the media item.
    * <blockquote>
    * <p>
    * <i>Example:</i> <a
@@ -137,16 +142,18 @@ public class MediaObject {
    * </blockquote>
    */
   @NotNull
-  public URI getUrl() {
-    return url;
+  @JsonProperty("identifier")
+  public URI getIdentifier() {
+    return identifier;
   }
 
-  public void setUrl(URI url) {
-    this.url = url;
+  public void setIdentifier(URI identifier) {
+    this.identifier = identifier;
   }
 
   /**
-   * License for this image. Can be text or a url like creative commons uses.
+   * License for this media item.
+   * Can be text or a identifier like creative commons uses.
    * <blockquote>
    * <p>
    * <i>Example:</i> <a
@@ -170,7 +177,7 @@ public class MediaObject {
   }
 
   /**
-   * @return link to html webpage with the image on
+   * @return link to html webpage with the media item on
    */
   public URI getReferences() {
     return references;
@@ -181,7 +188,7 @@ public class MediaObject {
   }
 
   /**
-   * An entity responsible for making the image available.
+   * An entity responsible for making the media item available.
    * <blockquote>
    * <p>
    * <i>Example:</i> Encyclopedia of Life.
@@ -203,7 +210,7 @@ public class MediaObject {
   }
 
   /**
-   * The image title.
+   * The media item title.
    * <blockquote>
    * <p>
    * <i>Example:</i> Andorinha-do-rio (Tachycineta albiventer).
@@ -224,6 +231,38 @@ public class MediaObject {
     this.title = title;
   }
 
+  public String getSource() {
+    return source;
+  }
+
+  public void setSource(String source) {
+    this.source = source;
+  }
+
+  public String getAudience() {
+    return audience;
+  }
+
+  public void setAudience(String audience) {
+    this.audience = audience;
+  }
+
+  public String getContributor() {
+    return contributor;
+  }
+
+  public void setContributor(String contributor) {
+    this.contributor = contributor;
+  }
+
+  public String getRightsHolder() {
+    return rightsHolder;
+  }
+
+  public void setRightsHolder(String rightsHolder) {
+    this.rightsHolder = rightsHolder;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
@@ -233,7 +272,7 @@ public class MediaObject {
       return false;
     }
     MediaObject that = (MediaObject) obj;
-    return Objects.equal(this.url, that.url)
+    return Objects.equal(this.identifier, that.identifier)
            && Objects.equal(this.type, that.type)
            && Objects.equal(this.format, that.format)
            && Objects.equal(this.references, that.references)
@@ -241,6 +280,10 @@ public class MediaObject {
            && Objects.equal(this.description, that.description)
            && Objects.equal(this.license, that.license)
            && Objects.equal(this.publisher, that.publisher)
+           && Objects.equal(this.source, that.source)
+           && Objects.equal(this.audience, that.audience)
+           && Objects.equal(this.contributor, that.contributor)
+           && Objects.equal(this.rightsHolder, that.rightsHolder)
            && Objects.equal(this.creator, that.creator)
            && Objects.equal(this.created, that.created);
   }
@@ -248,13 +291,15 @@ public class MediaObject {
   @Override
   public int hashCode() {
     return Objects.hashCode(type,
-                            format,
-                            url,
+                            format, identifier,
                             references,
                             title,
                             description,
                             license,
                             publisher,
+                            source,
+                            audience, contributor,
+                            rightsHolder,
                             creator,
                             created);
   }
@@ -264,12 +309,16 @@ public class MediaObject {
     return Objects.toStringHelper(this)
       .add("type", type)
       .add("format", format)
-      .add("url", url)
+      .add("identifier", identifier)
       .add("references", references)
       .add("title", title)
       .add("description", description)
       .add("license", license)
       .add("publisher", publisher)
+      .add("source", source)
+      .add("audience", audience)
+      .add("contributor", contributor)
+      .add("rightsHolder", rightsHolder)
       .add("creator", creator)
       .add("created", created)
       .toString();

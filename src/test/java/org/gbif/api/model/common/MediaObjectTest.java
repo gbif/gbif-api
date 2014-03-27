@@ -27,11 +27,11 @@ public class MediaObjectTest {
   @Test
   public void testEquals() {
     MediaObject i1 = new MediaObject();
-    i1.setUrl(URI.create("http://www.example.org/image.png"));
+    i1.setIdentifier(URI.create("http://www.example.org/image.png"));
     i1.setTitle("Puma concolor");
 
     MediaObject i2 = new MediaObject();
-    i2.setUrl(URI.create("http://www.example.org/image.png"));
+    i2.setIdentifier(URI.create("http://www.example.org/image.png"));
     i2.setTitle("Puma concolor");
 
     assertEquals(i1, i2);

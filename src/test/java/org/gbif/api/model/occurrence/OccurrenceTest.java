@@ -368,7 +368,7 @@ public class OccurrenceTest {
     mediaObject.setReferences(new URI("http://www.gbif.org"));
     mediaObject.setTitle("mediaTestTitle");
     mediaObject.setType(MediaType.StillImage);
-    mediaObject.setUrl(new URI("http://www.gbif.org"));
+    mediaObject.setIdentifier(new URI("http://www.gbif.org"));
     List<MediaObject> medias = Lists.newArrayList();
     medias.add(mediaObject);
     o.setMedia(medias);
