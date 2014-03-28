@@ -1,12 +1,9 @@
 /*
  * Copyright 2012 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,9 +13,9 @@
 package org.gbif.api.model.occurrence;
 
 import org.gbif.api.model.common.Identifier;
-import org.gbif.api.model.common.MediaObject;
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
+import org.gbif.api.model.common.MediaObject;
 import org.gbif.api.util.ClassificationUtils;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
@@ -40,6 +37,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -63,6 +61,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
  * Represents an Occurrence as interpreted by GBIF, adding typed properties on top of the verbatim ones.
  */
 public class Occurrence extends VerbatimOccurrence implements LinneanClassification, LinneanClassificationKeys {
+
   public static final String GEO_DATUM = "WGS84";
   // keep names of ALL properties of this class in a set for jackson serialization, see #properties()
   private static final Set<String> PROPERTIES = ImmutableSet.copyOf(
@@ -71,16 +70,17 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       Lists.newArrayList(DwcTerm.geodeticDatum.simpleName(), "class", "countryCode"),
       Iterables.transform(
         Iterables.concat(Lists.newArrayList(Occurrence.class.getDeclaredFields()),
-                         Lists.newArrayList(VerbatimOccurrence.class.getDeclaredFields())
-        ), new Function<Field, String>() {
-        @Nullable
-        @Override
-        public String apply(@Nullable Field f) {
-          return f.getName();
-        }
-      })
-    )
-  );
+          Lists.newArrayList(VerbatimOccurrence.class.getDeclaredFields())
+          ), new Function<Field, String>() {
+
+          @Nullable
+          @Override
+          public String apply(@Nullable Field f) {
+            return f.getName();
+          }
+        })
+      )
+    );
   // occurrence fields
   private BasisOfRecord basisOfRecord;
   private Integer individualCount;
@@ -134,10 +134,12 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Integer month;
   private Integer day;
   private Date eventDate;
-  // Types  See ABCD: http://www.bgbm.org/TDWG/CODATA/Schema/ABCD_2.06/HTML/ABCD_2.06.html#element_NomenclaturalTypeDesignations_Link02052C80
+  // Types See ABCD:
+// http://www.bgbm.org/TDWG/CODATA/Schema/ABCD_2.06/HTML/ABCD_2.06.html#element_NomenclaturalTypeDesignations_Link02052C80
   private TypeStatus typeStatus;
   // extracted from type status, but we should propose a new dwc term for this!
-  // for example: "Paratype of Taeniopteryx metequi Ricker & Ross" is status=Paratype, typifiedName=Taeniopteryx metequi Ricker & Ross
+  // for example: "Paratype of Taeniopteryx metequi Ricker & Ross" is status=Paratype, typifiedName=Taeniopteryx metequi
+// Ricker & Ross
   private String typifiedName; // missing from DwC
   private Set<OccurrenceIssue> issues = EnumSet.noneOf(OccurrenceIssue.class);
   // record level
@@ -172,6 +174,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       if (verbatim.getLastParsed() != null) {
         setLastParsed(verbatim.getLastParsed());
       }
+      setExtensions(verbatim.getExtensions());
     }
   }
 
@@ -320,7 +323,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   /**
    * An ordered map with entries for all higher Linnean ranks excluding the taxonKey itself.
    * The map starts with the highest rank, e.g. the kingdom and maps the name usage key to its canonical name.
-   *
+   * 
    * @return map of higher ranks
    */
   @NotNull
@@ -550,7 +553,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
 
-
   @Nullable
   /**
    * Elevation in meters usually above sea level (altitude).
@@ -629,7 +631,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   /**
    * Renders the country title as json property country in addition to the iso 2 letter countryCode being
    * serlialized by the regular country java property.
-   *
    * Made private to only use it for json serlialization and not within java code.
    */
   @Nullable
@@ -662,7 +663,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   /**
    * The full year of the event date.
-   *
+   * 
    * @return the year of the event date
    */
   @Min(1500)
@@ -678,7 +679,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   /**
    * The month of the year of the event date starting with zero for january following {@link Date}.
-   *
+   * 
    * @return the month of the event date
    */
   @Min(1)
@@ -694,7 +695,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   /**
    * The day of the month of the event date.
-   *
+   * 
    * @return the day of the event date
    */
   @Min(1)
@@ -821,7 +822,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
 
-
   @JsonIgnore
   /**
    * Convenience method checking if any spatial validation rule has not passed.
@@ -840,7 +840,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   public int hashCode() {
     return Objects
       .hashCode(basisOfRecord, individualCount, sex, lifeStage, establishmentMeans, taxonKey, kingdomKey, phylumKey,
-        classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, kingdom, phylum, clazz, order,
+        classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, kingdom, phylum, clazz,
+        order,
         family, genus, subgenus, species, genericName, specificEpithet, infraspecificEpithet, taxonRank,
         dateIdentified, year, month, day, eventDate, decimalLongitude, decimalLatitude,
         coordinateAccuracy, elevation, elevationAccuracy, depth, depthAccuracy,
@@ -974,14 +975,15 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * It maps the verbatimField terms into properties with their simple name or qualified names for UnknownTerms.
    */
   @JsonAnyGetter
-  private Map<String,String> jsonVerbatimFields() {
-    Map<String,String> extendedProps = Maps.newHashMap();
+  private Map<String, String> jsonVerbatimFields() {
+    Map<String, String> extendedProps = Maps.newHashMap();
     for (Map.Entry<Term, String> prop : getVerbatimFields().entrySet()) {
       Term t = prop.getKey();
-      if (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())){
+      if (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())) {
         extendedProps.put(t.qualifiedName(), prop.getValue());
       } else {
-        // render all terms in controlled enumerations as simple names only - unless we have a property of that name already!
+        // render all terms in controlled enumerations as simple names only - unless we have a property of that name
+// already!
         extendedProps.put(t.simpleName(), prop.getValue());
       }
     }
