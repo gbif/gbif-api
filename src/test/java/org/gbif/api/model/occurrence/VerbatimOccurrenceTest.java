@@ -215,7 +215,7 @@ public class VerbatimOccurrenceTest {
     Map<Extension, List<Map<Term, String>>> extensions = new HashMap<Extension, List<Map<Term, String>>>();
     List<Map<Term, String>> verbatimRecords = Lists.newArrayList();
     verbatimRecords.add(verbatimRecord);
-    extensions.put(Extension.IMAGE, verbatimRecords);
+    extensions.put(Extension.MULTIMEDIA, verbatimRecords);
     v.setExtensions(extensions);
 
 
@@ -224,8 +224,8 @@ public class VerbatimOccurrenceTest {
 
     VerbatimOccurrence v2 = mapper.readValue(json, VerbatimOccurrence.class);
     assertNotNull(v2.getExtensions());
-    assertTrue(!v2.getExtensions().get(Extension.IMAGE).isEmpty());
-    assertEquals(v2.getExtensions().get(Extension.IMAGE).get(0), verbatimRecord);
+    assertTrue(!v2.getExtensions().get(Extension.MULTIMEDIA).isEmpty());
+    assertEquals(v2.getExtensions().get(Extension.MULTIMEDIA).get(0), verbatimRecord);
 
 
   }
