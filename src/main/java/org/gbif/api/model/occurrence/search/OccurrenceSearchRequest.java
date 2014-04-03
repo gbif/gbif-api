@@ -17,6 +17,7 @@ import org.gbif.api.model.common.search.SearchRequest;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.TypeStatus;
 
@@ -128,6 +129,10 @@ public class OccurrenceSearchRequest extends SearchRequest<OccurrenceSearchParam
 
   public void addElevationFilter(int elevation) {
     addParameter(OccurrenceSearchParameter.ELEVATION, elevation);
+  }
+
+  public void addMediaTypeFilter(MediaType mediaType) {
+    addParameter(OccurrenceSearchParameter.MEDIA_TYPE, mediaType);
   }
 
 }

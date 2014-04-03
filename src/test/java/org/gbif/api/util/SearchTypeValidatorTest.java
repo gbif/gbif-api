@@ -19,10 +19,12 @@ import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ELE
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.EVENT_DATE;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GEOMETRY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.LAST_INTERPRETED;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MEDIA_TYPE;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MONTH;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.PUBLISHING_COUNTRY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.RECORDED_BY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.SCIENTIFIC_NAME;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.TYPE_STATUS;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.YEAR;
 
 import static org.junit.Assert.assertEquals;
@@ -139,7 +141,9 @@ public class SearchTypeValidatorTest {
       {COUNTRY, "CR", true, false},
       {PUBLISHING_COUNTRY, "CR", true, false},
       {COUNTRY, "CRCRCC", false, false},
-      {PUBLISHING_COUNTRY, "CRCRCC", false, false}
+      {PUBLISHING_COUNTRY, "CRCRCC", false, false},
+      {TYPE_STATUS, "TYPE", true, false},
+      {MEDIA_TYPE, "StillImage", true, false}
     };
     return Arrays.asList(data);
   }
