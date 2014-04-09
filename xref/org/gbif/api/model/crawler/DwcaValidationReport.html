@@ -19,13 +19,13 @@
 <a class="jxr_linenumber" name="9" href="#9">9</a>   <strong class="jxr_keyword">import</strong> com.google.common.base.Objects;
 <a class="jxr_linenumber" name="10" href="#10">10</a>  <strong class="jxr_keyword">import</strong> com.google.common.collect.Lists;
 <a class="jxr_linenumber" name="11" href="#11">11</a>  <strong class="jxr_keyword">import</strong> org.codehaus.jackson.annotate.JsonCreator;
-<a class="jxr_linenumber" name="12" href="#12">12</a>  <strong class="jxr_keyword">import</strong> org.codehaus.jackson.annotate.JsonIgnore;
-<a class="jxr_linenumber" name="13" href="#13">13</a>  <strong class="jxr_keyword">import</strong> org.codehaus.jackson.annotate.JsonProperty;
-<a class="jxr_linenumber" name="14" href="#14">14</a>  
-<a class="jxr_linenumber" name="15" href="#15">15</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> com.google.common.base.Preconditions.checkNotNull;
-<a class="jxr_linenumber" name="16" href="#16">16</a>  
-<a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="18" href="#18">18</a>  <em class="jxr_javadoccomment"> * A report of the state of unique identifiers (triplets and occurrenceId) in a DwC-A.</em>
+<a class="jxr_linenumber" name="12" href="#12">12</a>  <strong class="jxr_keyword">import</strong> org.codehaus.jackson.annotate.JsonProperty;
+<a class="jxr_linenumber" name="13" href="#13">13</a>  
+<a class="jxr_linenumber" name="14" href="#14">14</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> com.google.common.base.Preconditions.checkNotNull;
+<a class="jxr_linenumber" name="15" href="#15">15</a>  
+<a class="jxr_linenumber" name="16" href="#16">16</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_javadoccomment"> * A report of the state of unique identifiers (triplets and occurrenceId) in a DwC-A. The rules followed here should</em>
+<a class="jxr_linenumber" name="18" href="#18">18</a>  <em class="jxr_javadoccomment"> * match the document at: <a href="http://dev.gbif.org/wiki/display/INT/Identifier+problems+and+how+to+solve+them." target="alexandria_uri">http://dev.gbif.org/wiki/display/INT/Identifier+problems+and+how+to+solve+them.</a></em>
 <a class="jxr_linenumber" name="19" href="#19">19</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="20" href="#20">20</a>  @Immutable
 <a class="jxr_linenumber" name="21" href="#21">21</a>  @ThreadSafe
@@ -60,121 +60,137 @@
 <a class="jxr_linenumber" name="50" href="#50">50</a>    <em class="jxr_comment">// if the archive is not valid this will hold a readable reason</em>
 <a class="jxr_linenumber" name="51" href="#51">51</a>    <strong class="jxr_keyword">private</strong> String invalidationReason;
 <a class="jxr_linenumber" name="52" href="#52">52</a>  
-<a class="jxr_linenumber" name="53" href="#53">53</a>    @JsonCreator
-<a class="jxr_linenumber" name="54" href="#54">54</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DwcaValidationReport.html">DwcaValidationReport</a>(@JsonProperty(<span class="jxr_string">"datasetKey"</span>) UUID datasetKey,
-<a class="jxr_linenumber" name="55" href="#55">55</a>      @JsonProperty(<span class="jxr_string">"checkedRecords"</span>) <strong class="jxr_keyword">int</strong> checkedRecords, @JsonProperty(<span class="jxr_string">"uniqueTriplets"</span>) <strong class="jxr_keyword">int</strong> uniqueTriplets,
-<a class="jxr_linenumber" name="56" href="#56">56</a>      @JsonProperty(<span class="jxr_string">"invalidTriplets"</span>) <strong class="jxr_keyword">int</strong> recordsWithInvalidTriplets,
-<a class="jxr_linenumber" name="57" href="#57">57</a>      @JsonProperty(<span class="jxr_string">"uniqueOccIds"</span>) <strong class="jxr_keyword">int</strong> uniqueOccurrenceIds,
-<a class="jxr_linenumber" name="58" href="#58">58</a>      @JsonProperty(<span class="jxr_string">"missingOccIds"</span>) <strong class="jxr_keyword">int</strong> recordsMissingOccurrenceId,
-<a class="jxr_linenumber" name="59" href="#59">59</a>      @JsonProperty(<span class="jxr_string">"allRecordsChecked"</span>) <strong class="jxr_keyword">boolean</strong> allRecordsChecked) {
-<a class="jxr_linenumber" name="60" href="#60">60</a>      <strong class="jxr_keyword">this</strong>.datasetKey = checkNotNull(datasetKey, <span class="jxr_string">"datasetKey can't be null"</span>);
-<a class="jxr_linenumber" name="61" href="#61">61</a>      <strong class="jxr_keyword">this</strong>.checkedRecords = checkedRecords;
-<a class="jxr_linenumber" name="62" href="#62">62</a>      <strong class="jxr_keyword">this</strong>.uniqueTriplets = uniqueTriplets;
-<a class="jxr_linenumber" name="63" href="#63">63</a>      <strong class="jxr_keyword">this</strong>.recordsWithInvalidTriplets = recordsWithInvalidTriplets;
-<a class="jxr_linenumber" name="64" href="#64">64</a>      <strong class="jxr_keyword">this</strong>.uniqueOccurrenceIds = uniqueOccurrenceIds;
-<a class="jxr_linenumber" name="65" href="#65">65</a>      <strong class="jxr_keyword">this</strong>.recordsMissingOccurrenceId = recordsMissingOccurrenceId;
-<a class="jxr_linenumber" name="66" href="#66">66</a>      <strong class="jxr_keyword">this</strong>.allRecordsChecked = allRecordsChecked;
-<a class="jxr_linenumber" name="67" href="#67">67</a>    }
-<a class="jxr_linenumber" name="68" href="#68">68</a>  
-<a class="jxr_linenumber" name="69" href="#69">69</a>    <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="70" href="#70">70</a>  <em class="jxr_javadoccomment">   * At the moment the only truly fatal conditions are:</em>
-<a class="jxr_linenumber" name="71" href="#71">71</a>  <em class="jxr_javadoccomment">   * - triplets are invalid (% invalid &gt; than our threshold)</em>
-<a class="jxr_linenumber" name="72" href="#72">72</a>  <em class="jxr_javadoccomment">   * - whole archive is empty or unreadable</em>
-<a class="jxr_linenumber" name="73" href="#73">73</a>  <em class="jxr_javadoccomment">   * - there are duplicate triplets</em>
-<a class="jxr_linenumber" name="74" href="#74">74</a>  <em class="jxr_javadoccomment">   *</em>
-<a class="jxr_linenumber" name="75" href="#75">75</a>  <em class="jxr_javadoccomment">   * @return false if the archive is unreadable, has duplicate triplets, or more than the threshold of triplets are</em>
-<a class="jxr_linenumber" name="76" href="#76">76</a>  <em class="jxr_javadoccomment">   *         invalid, true otherwise</em>
-<a class="jxr_linenumber" name="77" href="#77">77</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="78" href="#78">78</a>    @JsonIgnore
-<a class="jxr_linenumber" name="79" href="#79">79</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isValid() {
+<a class="jxr_linenumber" name="53" href="#53">53</a>    <em class="jxr_comment">// is this archive valid</em>
+<a class="jxr_linenumber" name="54" href="#54">54</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> valid;
+<a class="jxr_linenumber" name="55" href="#55">55</a>  
+<a class="jxr_linenumber" name="56" href="#56">56</a>    @JsonCreator
+<a class="jxr_linenumber" name="57" href="#57">57</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DwcaValidationReport.html">DwcaValidationReport</a>(@JsonProperty(<span class="jxr_string">"datasetKey"</span>) UUID datasetKey,
+<a class="jxr_linenumber" name="58" href="#58">58</a>      @JsonProperty(<span class="jxr_string">"checkedRecords"</span>) <strong class="jxr_keyword">int</strong> checkedRecords, @JsonProperty(<span class="jxr_string">"uniqueTriplets"</span>) <strong class="jxr_keyword">int</strong> uniqueTriplets,
+<a class="jxr_linenumber" name="59" href="#59">59</a>      @JsonProperty(<span class="jxr_string">"invalidTriplets"</span>) <strong class="jxr_keyword">int</strong> recordsWithInvalidTriplets,
+<a class="jxr_linenumber" name="60" href="#60">60</a>      @JsonProperty(<span class="jxr_string">"uniqueOccIds"</span>) <strong class="jxr_keyword">int</strong> uniqueOccurrenceIds,
+<a class="jxr_linenumber" name="61" href="#61">61</a>      @JsonProperty(<span class="jxr_string">"missingOccIds"</span>) <strong class="jxr_keyword">int</strong> recordsMissingOccurrenceId,
+<a class="jxr_linenumber" name="62" href="#62">62</a>      @JsonProperty(<span class="jxr_string">"allRecordsChecked"</span>) <strong class="jxr_keyword">boolean</strong> allRecordsChecked) {
+<a class="jxr_linenumber" name="63" href="#63">63</a>      <strong class="jxr_keyword">this</strong>.datasetKey = checkNotNull(datasetKey, <span class="jxr_string">"datasetKey can't be null"</span>);
+<a class="jxr_linenumber" name="64" href="#64">64</a>      <strong class="jxr_keyword">this</strong>.checkedRecords = checkedRecords;
+<a class="jxr_linenumber" name="65" href="#65">65</a>      <strong class="jxr_keyword">this</strong>.uniqueTriplets = uniqueTriplets;
+<a class="jxr_linenumber" name="66" href="#66">66</a>      <strong class="jxr_keyword">this</strong>.recordsWithInvalidTriplets = recordsWithInvalidTriplets;
+<a class="jxr_linenumber" name="67" href="#67">67</a>      <strong class="jxr_keyword">this</strong>.uniqueOccurrenceIds = uniqueOccurrenceIds;
+<a class="jxr_linenumber" name="68" href="#68">68</a>      <strong class="jxr_keyword">this</strong>.recordsMissingOccurrenceId = recordsMissingOccurrenceId;
+<a class="jxr_linenumber" name="69" href="#69">69</a>      <strong class="jxr_keyword">this</strong>.allRecordsChecked = allRecordsChecked;
+<a class="jxr_linenumber" name="70" href="#70">70</a>      <strong class="jxr_keyword">this</strong>.valid = validate();
+<a class="jxr_linenumber" name="71" href="#71">71</a>    }
+<a class="jxr_linenumber" name="72" href="#72">72</a>  
+<a class="jxr_linenumber" name="73" href="#73">73</a>    <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="74" href="#74">74</a>  <em class="jxr_javadoccomment">   * At the moment the only truly fatal conditions are:</em>
+<a class="jxr_linenumber" name="75" href="#75">75</a>  <em class="jxr_javadoccomment">   * - whole archive is empty or unreadable</em>
+<a class="jxr_linenumber" name="76" href="#76">76</a>  <em class="jxr_javadoccomment">   * - triplets are invalid (% invalid &gt; than our threshold) &amp;&amp; occIds are invalid (must be 100% coverage and unique)</em>
+<a class="jxr_linenumber" name="77" href="#77">77</a>  <em class="jxr_javadoccomment">   * - any duplicate triplets &amp;&amp; occIds are invalid</em>
+<a class="jxr_linenumber" name="78" href="#78">78</a>  <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="79" href="#79">79</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> validate() {
 <a class="jxr_linenumber" name="80" href="#80">80</a>      <strong class="jxr_keyword">boolean</strong> hasRecords = checkedRecords &gt; 0;
 <a class="jxr_linenumber" name="81" href="#81">81</a>      <strong class="jxr_keyword">double</strong> invalidRatio = hasRecords ? (<strong class="jxr_keyword">double</strong>) recordsWithInvalidTriplets / checkedRecords : 0;
 <a class="jxr_linenumber" name="82" href="#82">82</a>      <strong class="jxr_keyword">boolean</strong> invalidTripletsBelowLimit = invalidRatio &lt;= INVALID_TRIPLET_THRESHOLD;
 <a class="jxr_linenumber" name="83" href="#83">83</a>      <strong class="jxr_keyword">boolean</strong> hasUniqueTriplets = uniqueTriplets == checkedRecords - recordsWithInvalidTriplets;
-<a class="jxr_linenumber" name="84" href="#84">84</a>      <strong class="jxr_keyword">boolean</strong> valid = hasRecords &amp;&amp; invalidTripletsBelowLimit &amp;&amp; hasUniqueTriplets;
-<a class="jxr_linenumber" name="85" href="#85">85</a>  
-<a class="jxr_linenumber" name="86" href="#86">86</a>      <strong class="jxr_keyword">if</strong> (!valid) {
-<a class="jxr_linenumber" name="87" href="#87">87</a>        List&lt;String&gt; reasons = Lists.newArrayList();
-<a class="jxr_linenumber" name="88" href="#88">88</a>        <strong class="jxr_keyword">if</strong> (!hasRecords) {
-<a class="jxr_linenumber" name="89" href="#89">89</a>          reasons.add(<span class="jxr_string">"No readable records"</span>);
-<a class="jxr_linenumber" name="90" href="#90">90</a>        }
-<a class="jxr_linenumber" name="91" href="#91">91</a>        <strong class="jxr_keyword">if</strong> (!invalidTripletsBelowLimit) {
-<a class="jxr_linenumber" name="92" href="#92">92</a>          reasons.add(Math.round(100 * invalidRatio) + <span class="jxr_string">"% invalid triplets is &gt; than threshold of "</span>
-<a class="jxr_linenumber" name="93" href="#93">93</a>                      + Math.round(100 * INVALID_TRIPLET_THRESHOLD) + '%');
-<a class="jxr_linenumber" name="94" href="#94">94</a>        }
-<a class="jxr_linenumber" name="95" href="#95">95</a>        <strong class="jxr_keyword">if</strong> (!hasUniqueTriplets) {
-<a class="jxr_linenumber" name="96" href="#96">96</a>          reasons.add((checkedRecords - recordsWithInvalidTriplets - uniqueTriplets) + <span class="jxr_string">" duplicate triplets detected"</span>);
-<a class="jxr_linenumber" name="97" href="#97">97</a>        }
-<a class="jxr_linenumber" name="98" href="#98">98</a>        String reason = Joiner.on(<span class="jxr_string">"; "</span>).join(reasons);
-<a class="jxr_linenumber" name="99" href="#99">99</a>        invalidationReason = <span class="jxr_string">"Archive invalid because ["</span> + reason + <span class="jxr_string">"]"</span>;
-<a class="jxr_linenumber" name="100" href="#100">100</a>     }
-<a class="jxr_linenumber" name="101" href="#101">101</a> 
-<a class="jxr_linenumber" name="102" href="#102">102</a>     <strong class="jxr_keyword">return</strong> valid;
-<a class="jxr_linenumber" name="103" href="#103">103</a>   }
-<a class="jxr_linenumber" name="104" href="#104">104</a> 
-<a class="jxr_linenumber" name="105" href="#105">105</a>   <strong class="jxr_keyword">public</strong> UUID getDatasetKey() {
-<a class="jxr_linenumber" name="106" href="#106">106</a>     <strong class="jxr_keyword">return</strong> datasetKey;
-<a class="jxr_linenumber" name="107" href="#107">107</a>   }
-<a class="jxr_linenumber" name="108" href="#108">108</a> 
-<a class="jxr_linenumber" name="109" href="#109">109</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getCheckedRecords() {
-<a class="jxr_linenumber" name="110" href="#110">110</a>     <strong class="jxr_keyword">return</strong> checkedRecords;
-<a class="jxr_linenumber" name="111" href="#111">111</a>   }
+<a class="jxr_linenumber" name="84" href="#84">84</a>      <strong class="jxr_keyword">boolean</strong> hasUniqueOccIds = uniqueOccurrenceIds == checkedRecords - recordsMissingOccurrenceId;
+<a class="jxr_linenumber" name="85" href="#85">85</a>      <strong class="jxr_keyword">boolean</strong> hasGoodOccIds = uniqueOccurrenceIds == checkedRecords;
+<a class="jxr_linenumber" name="86" href="#86">86</a>      <strong class="jxr_keyword">boolean</strong> looksValid = hasRecords &amp;&amp; (invalidTripletsBelowLimit &amp;&amp; hasUniqueTriplets || hasGoodOccIds);
+<a class="jxr_linenumber" name="87" href="#87">87</a>  
+<a class="jxr_linenumber" name="88" href="#88">88</a>      <strong class="jxr_keyword">if</strong> (!looksValid) {
+<a class="jxr_linenumber" name="89" href="#89">89</a>        List&lt;String&gt; reasons = Lists.newArrayList();
+<a class="jxr_linenumber" name="90" href="#90">90</a>        <strong class="jxr_keyword">if</strong> (!hasRecords) {
+<a class="jxr_linenumber" name="91" href="#91">91</a>          reasons.add(<span class="jxr_string">"No readable records"</span>);
+<a class="jxr_linenumber" name="92" href="#92">92</a>        }
+<a class="jxr_linenumber" name="93" href="#93">93</a>        <strong class="jxr_keyword">if</strong> (!invalidTripletsBelowLimit) {
+<a class="jxr_linenumber" name="94" href="#94">94</a>          reasons.add(Math.round(100 * invalidRatio) + <span class="jxr_string">"% invalid triplets is &gt; than threshold of "</span> + Math
+<a class="jxr_linenumber" name="95" href="#95">95</a>            .round(100 * INVALID_TRIPLET_THRESHOLD) + '%');
+<a class="jxr_linenumber" name="96" href="#96">96</a>        }
+<a class="jxr_linenumber" name="97" href="#97">97</a>        <strong class="jxr_keyword">if</strong> (!hasUniqueTriplets) {
+<a class="jxr_linenumber" name="98" href="#98">98</a>          reasons.add((checkedRecords - recordsWithInvalidTriplets - uniqueTriplets) + <span class="jxr_string">" duplicate triplets detected"</span>);
+<a class="jxr_linenumber" name="99" href="#99">99</a>        }
+<a class="jxr_linenumber" name="100" href="#100">100</a>       <strong class="jxr_keyword">if</strong> (!hasGoodOccIds) {
+<a class="jxr_linenumber" name="101" href="#101">101</a>         <strong class="jxr_keyword">if</strong> (recordsMissingOccurrenceId != 0) {
+<a class="jxr_linenumber" name="102" href="#102">102</a>           reasons.add(recordsMissingOccurrenceId + <span class="jxr_string">" records without an occurrence id (should be 0)"</span>);
+<a class="jxr_linenumber" name="103" href="#103">103</a>         }
+<a class="jxr_linenumber" name="104" href="#104">104</a>         <strong class="jxr_keyword">if</strong> (!hasUniqueOccIds) {
+<a class="jxr_linenumber" name="105" href="#105">105</a>           reasons.add(
+<a class="jxr_linenumber" name="106" href="#106">106</a>             (checkedRecords - recordsMissingOccurrenceId - uniqueOccurrenceIds) + <span class="jxr_string">" duplicate occurrence ids detected"</span>);
+<a class="jxr_linenumber" name="107" href="#107">107</a>         }
+<a class="jxr_linenumber" name="108" href="#108">108</a>       }
+<a class="jxr_linenumber" name="109" href="#109">109</a>       String reason = Joiner.on(<span class="jxr_string">"; "</span>).join(reasons);
+<a class="jxr_linenumber" name="110" href="#110">110</a>       invalidationReason = <span class="jxr_string">"Archive invalid because ["</span> + reason + ']';
+<a class="jxr_linenumber" name="111" href="#111">111</a>     }
 <a class="jxr_linenumber" name="112" href="#112">112</a> 
-<a class="jxr_linenumber" name="113" href="#113">113</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getUniqueTriplets() {
-<a class="jxr_linenumber" name="114" href="#114">114</a>     <strong class="jxr_keyword">return</strong> uniqueTriplets;
-<a class="jxr_linenumber" name="115" href="#115">115</a>   }
-<a class="jxr_linenumber" name="116" href="#116">116</a> 
-<a class="jxr_linenumber" name="117" href="#117">117</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getRecordsWithInvalidTriplets() {
-<a class="jxr_linenumber" name="118" href="#118">118</a>     <strong class="jxr_keyword">return</strong> recordsWithInvalidTriplets;
-<a class="jxr_linenumber" name="119" href="#119">119</a>   }
-<a class="jxr_linenumber" name="120" href="#120">120</a> 
-<a class="jxr_linenumber" name="121" href="#121">121</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getUniqueOccurrenceIds() {
-<a class="jxr_linenumber" name="122" href="#122">122</a>     <strong class="jxr_keyword">return</strong> uniqueOccurrenceIds;
-<a class="jxr_linenumber" name="123" href="#123">123</a>   }
-<a class="jxr_linenumber" name="124" href="#124">124</a> 
-<a class="jxr_linenumber" name="125" href="#125">125</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getRecordsMissingOccurrenceId() {
-<a class="jxr_linenumber" name="126" href="#126">126</a>     <strong class="jxr_keyword">return</strong> recordsMissingOccurrenceId;
-<a class="jxr_linenumber" name="127" href="#127">127</a>   }
-<a class="jxr_linenumber" name="128" href="#128">128</a> 
-<a class="jxr_linenumber" name="129" href="#129">129</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isAllRecordsChecked() {
-<a class="jxr_linenumber" name="130" href="#130">130</a>     <strong class="jxr_keyword">return</strong> allRecordsChecked;
-<a class="jxr_linenumber" name="131" href="#131">131</a>   }
-<a class="jxr_linenumber" name="132" href="#132">132</a> 
-<a class="jxr_linenumber" name="133" href="#133">133</a>   <strong class="jxr_keyword">public</strong> String getInvalidationReason() {
-<a class="jxr_linenumber" name="134" href="#134">134</a>     <strong class="jxr_keyword">return</strong> invalidationReason;
-<a class="jxr_linenumber" name="135" href="#135">135</a>   }
-<a class="jxr_linenumber" name="136" href="#136">136</a> 
-<a class="jxr_linenumber" name="137" href="#137">137</a>   @Override
-<a class="jxr_linenumber" name="138" href="#138">138</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> hashCode() {
-<a class="jxr_linenumber" name="139" href="#139">139</a>     <strong class="jxr_keyword">return</strong> Objects.hashCode(datasetKey, checkedRecords, uniqueTriplets, recordsWithInvalidTriplets, uniqueOccurrenceIds,
-<a class="jxr_linenumber" name="140" href="#140">140</a>       recordsMissingOccurrenceId, allRecordsChecked);
-<a class="jxr_linenumber" name="141" href="#141">141</a>   }
-<a class="jxr_linenumber" name="142" href="#142">142</a> 
-<a class="jxr_linenumber" name="143" href="#143">143</a>   @Override
-<a class="jxr_linenumber" name="144" href="#144">144</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> equals(Object obj) {
-<a class="jxr_linenumber" name="145" href="#145">145</a>     <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong> == obj) {
-<a class="jxr_linenumber" name="146" href="#146">146</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="147" href="#147">147</a>     }
-<a class="jxr_linenumber" name="148" href="#148">148</a>     <strong class="jxr_keyword">if</strong> (obj == <strong class="jxr_keyword">null</strong> || getClass() != obj.getClass()) {
-<a class="jxr_linenumber" name="149" href="#149">149</a>       <strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="150" href="#150">150</a>     }
-<a class="jxr_linenumber" name="151" href="#151">151</a>     <strong class="jxr_keyword">final</strong> <a href="../../../../../org/gbif/api/model/crawler/DwcaValidationReport.html">DwcaValidationReport</a> other = (DwcaValidationReport) obj;
-<a class="jxr_linenumber" name="152" href="#152">152</a>     <strong class="jxr_keyword">return</strong> Objects.equal(<strong class="jxr_keyword">this</strong>.datasetKey, other.datasetKey) &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.checkedRecords, other.checkedRecords)
-<a class="jxr_linenumber" name="153" href="#153">153</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.uniqueTriplets, other.uniqueTriplets) &amp;&amp; Objects
-<a class="jxr_linenumber" name="154" href="#154">154</a>       .equal(<strong class="jxr_keyword">this</strong>.recordsWithInvalidTriplets, other.recordsWithInvalidTriplets) &amp;&amp; Objects
-<a class="jxr_linenumber" name="155" href="#155">155</a>              .equal(<strong class="jxr_keyword">this</strong>.uniqueOccurrenceIds, other.uniqueOccurrenceIds) &amp;&amp; Objects
-<a class="jxr_linenumber" name="156" href="#156">156</a>              .equal(<strong class="jxr_keyword">this</strong>.recordsMissingOccurrenceId, other.recordsMissingOccurrenceId) &amp;&amp; Objects
-<a class="jxr_linenumber" name="157" href="#157">157</a>              .equal(<strong class="jxr_keyword">this</strong>.allRecordsChecked, other.allRecordsChecked);
-<a class="jxr_linenumber" name="158" href="#158">158</a>   }
-<a class="jxr_linenumber" name="159" href="#159">159</a> 
-<a class="jxr_linenumber" name="160" href="#160">160</a>   @Override
-<a class="jxr_linenumber" name="161" href="#161">161</a>   <strong class="jxr_keyword">public</strong> String toString() {
-<a class="jxr_linenumber" name="162" href="#162">162</a>     <strong class="jxr_keyword">return</strong> Objects.toStringHelper(<strong class="jxr_keyword">this</strong>).add(<span class="jxr_string">"datasetKey"</span>, datasetKey).add(<span class="jxr_string">"checkedRecords"</span>, checkedRecords)
-<a class="jxr_linenumber" name="163" href="#163">163</a>       .add(<span class="jxr_string">"uniqueTriplets"</span>, uniqueTriplets).add(<span class="jxr_string">"recordsWithInvalidTriplets"</span>, recordsWithInvalidTriplets)
-<a class="jxr_linenumber" name="164" href="#164">164</a>       .add(<span class="jxr_string">"uniqueOccurrenceIds"</span>, uniqueOccurrenceIds).add(<span class="jxr_string">"recordsMissingOccurrenceId"</span>, recordsMissingOccurrenceId)
-<a class="jxr_linenumber" name="165" href="#165">165</a>       .add(<span class="jxr_string">"allRecordsChecked"</span>, allRecordsChecked).add(<span class="jxr_string">"invalidationReason"</span>, invalidationReason).toString();
-<a class="jxr_linenumber" name="166" href="#166">166</a>   }
-<a class="jxr_linenumber" name="167" href="#167">167</a> }
+<a class="jxr_linenumber" name="113" href="#113">113</a>     <strong class="jxr_keyword">return</strong> looksValid;
+<a class="jxr_linenumber" name="114" href="#114">114</a>   }
+<a class="jxr_linenumber" name="115" href="#115">115</a> 
+<a class="jxr_linenumber" name="116" href="#116">116</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isValid() {
+<a class="jxr_linenumber" name="117" href="#117">117</a>     <strong class="jxr_keyword">return</strong> valid;
+<a class="jxr_linenumber" name="118" href="#118">118</a>   }
+<a class="jxr_linenumber" name="119" href="#119">119</a> 
+<a class="jxr_linenumber" name="120" href="#120">120</a>   <strong class="jxr_keyword">public</strong> UUID getDatasetKey() {
+<a class="jxr_linenumber" name="121" href="#121">121</a>     <strong class="jxr_keyword">return</strong> datasetKey;
+<a class="jxr_linenumber" name="122" href="#122">122</a>   }
+<a class="jxr_linenumber" name="123" href="#123">123</a> 
+<a class="jxr_linenumber" name="124" href="#124">124</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getCheckedRecords() {
+<a class="jxr_linenumber" name="125" href="#125">125</a>     <strong class="jxr_keyword">return</strong> checkedRecords;
+<a class="jxr_linenumber" name="126" href="#126">126</a>   }
+<a class="jxr_linenumber" name="127" href="#127">127</a> 
+<a class="jxr_linenumber" name="128" href="#128">128</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getUniqueTriplets() {
+<a class="jxr_linenumber" name="129" href="#129">129</a>     <strong class="jxr_keyword">return</strong> uniqueTriplets;
+<a class="jxr_linenumber" name="130" href="#130">130</a>   }
+<a class="jxr_linenumber" name="131" href="#131">131</a> 
+<a class="jxr_linenumber" name="132" href="#132">132</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getRecordsWithInvalidTriplets() {
+<a class="jxr_linenumber" name="133" href="#133">133</a>     <strong class="jxr_keyword">return</strong> recordsWithInvalidTriplets;
+<a class="jxr_linenumber" name="134" href="#134">134</a>   }
+<a class="jxr_linenumber" name="135" href="#135">135</a> 
+<a class="jxr_linenumber" name="136" href="#136">136</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getUniqueOccurrenceIds() {
+<a class="jxr_linenumber" name="137" href="#137">137</a>     <strong class="jxr_keyword">return</strong> uniqueOccurrenceIds;
+<a class="jxr_linenumber" name="138" href="#138">138</a>   }
+<a class="jxr_linenumber" name="139" href="#139">139</a> 
+<a class="jxr_linenumber" name="140" href="#140">140</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getRecordsMissingOccurrenceId() {
+<a class="jxr_linenumber" name="141" href="#141">141</a>     <strong class="jxr_keyword">return</strong> recordsMissingOccurrenceId;
+<a class="jxr_linenumber" name="142" href="#142">142</a>   }
+<a class="jxr_linenumber" name="143" href="#143">143</a> 
+<a class="jxr_linenumber" name="144" href="#144">144</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isAllRecordsChecked() {
+<a class="jxr_linenumber" name="145" href="#145">145</a>     <strong class="jxr_keyword">return</strong> allRecordsChecked;
+<a class="jxr_linenumber" name="146" href="#146">146</a>   }
+<a class="jxr_linenumber" name="147" href="#147">147</a> 
+<a class="jxr_linenumber" name="148" href="#148">148</a>   <strong class="jxr_keyword">public</strong> String getInvalidationReason() {
+<a class="jxr_linenumber" name="149" href="#149">149</a>     <strong class="jxr_keyword">return</strong> invalidationReason;
+<a class="jxr_linenumber" name="150" href="#150">150</a>   }
+<a class="jxr_linenumber" name="151" href="#151">151</a> 
+<a class="jxr_linenumber" name="152" href="#152">152</a>   @Override
+<a class="jxr_linenumber" name="153" href="#153">153</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> hashCode() {
+<a class="jxr_linenumber" name="154" href="#154">154</a>     <strong class="jxr_keyword">return</strong> Objects.hashCode(datasetKey, checkedRecords, uniqueTriplets, recordsWithInvalidTriplets, uniqueOccurrenceIds,
+<a class="jxr_linenumber" name="155" href="#155">155</a>       recordsMissingOccurrenceId, allRecordsChecked, valid);
+<a class="jxr_linenumber" name="156" href="#156">156</a>   }
+<a class="jxr_linenumber" name="157" href="#157">157</a> 
+<a class="jxr_linenumber" name="158" href="#158">158</a>   @Override
+<a class="jxr_linenumber" name="159" href="#159">159</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> equals(Object obj) {
+<a class="jxr_linenumber" name="160" href="#160">160</a>     <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong> == obj) {
+<a class="jxr_linenumber" name="161" href="#161">161</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="162" href="#162">162</a>     }
+<a class="jxr_linenumber" name="163" href="#163">163</a>     <strong class="jxr_keyword">if</strong> (obj == <strong class="jxr_keyword">null</strong> || getClass() != obj.getClass()) {
+<a class="jxr_linenumber" name="164" href="#164">164</a>       <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="165" href="#165">165</a>     }
+<a class="jxr_linenumber" name="166" href="#166">166</a>     <strong class="jxr_keyword">final</strong> <a href="../../../../../org/gbif/api/model/crawler/DwcaValidationReport.html">DwcaValidationReport</a> other = (DwcaValidationReport) obj;
+<a class="jxr_linenumber" name="167" href="#167">167</a>     <strong class="jxr_keyword">return</strong> Objects.equal(<strong class="jxr_keyword">this</strong>.datasetKey, other.datasetKey) &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.checkedRecords, other.checkedRecords)
+<a class="jxr_linenumber" name="168" href="#168">168</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.uniqueTriplets, other.uniqueTriplets) &amp;&amp; Objects
+<a class="jxr_linenumber" name="169" href="#169">169</a>       .equal(<strong class="jxr_keyword">this</strong>.recordsWithInvalidTriplets, other.recordsWithInvalidTriplets) &amp;&amp; Objects
+<a class="jxr_linenumber" name="170" href="#170">170</a>              .equal(<strong class="jxr_keyword">this</strong>.uniqueOccurrenceIds, other.uniqueOccurrenceIds) &amp;&amp; Objects
+<a class="jxr_linenumber" name="171" href="#171">171</a>              .equal(<strong class="jxr_keyword">this</strong>.recordsMissingOccurrenceId, other.recordsMissingOccurrenceId) &amp;&amp; Objects
+<a class="jxr_linenumber" name="172" href="#172">172</a>              .equal(<strong class="jxr_keyword">this</strong>.allRecordsChecked, other.allRecordsChecked) &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.valid, other.valid);
+<a class="jxr_linenumber" name="173" href="#173">173</a>   }
+<a class="jxr_linenumber" name="174" href="#174">174</a> 
+<a class="jxr_linenumber" name="175" href="#175">175</a>   @Override
+<a class="jxr_linenumber" name="176" href="#176">176</a>   <strong class="jxr_keyword">public</strong> String toString() {
+<a class="jxr_linenumber" name="177" href="#177">177</a>     <strong class="jxr_keyword">return</strong> Objects.toStringHelper(<strong class="jxr_keyword">this</strong>).add(<span class="jxr_string">"datasetKey"</span>, datasetKey).add(<span class="jxr_string">"checkedRecords"</span>, checkedRecords)
+<a class="jxr_linenumber" name="178" href="#178">178</a>       .add(<span class="jxr_string">"uniqueTriplets"</span>, uniqueTriplets).add(<span class="jxr_string">"recordsWithInvalidTriplets"</span>, recordsWithInvalidTriplets)
+<a class="jxr_linenumber" name="179" href="#179">179</a>       .add(<span class="jxr_string">"uniqueOccurrenceIds"</span>, uniqueOccurrenceIds).add(<span class="jxr_string">"recordsMissingOccurrenceId"</span>, recordsMissingOccurrenceId)
+<a class="jxr_linenumber" name="180" href="#180">180</a>       .add(<span class="jxr_string">"allRecordsChecked"</span>, allRecordsChecked).add(<span class="jxr_string">"invalidationReason"</span>, invalidationReason).add(<span class="jxr_string">"valid"</span>, valid)
+<a class="jxr_linenumber" name="181" href="#181">181</a>       .toString();
+<a class="jxr_linenumber" name="182" href="#182">182</a>   }
+<a class="jxr_linenumber" name="183" href="#183">183</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
