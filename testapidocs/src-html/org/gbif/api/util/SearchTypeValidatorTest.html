@@ -19,17 +19,17 @@
 <span class="sourceLineNo">011</span>import org.junit.runners.Parameterized;<a name="line.11"></a>
 <span class="sourceLineNo">012</span><a name="line.12"></a>
 <span class="sourceLineNo">013</span>import static org.gbif.api.model.checklistbank.search.NameUsageSearchParameter.EXTINCT;<a name="line.13"></a>
-<span class="sourceLineNo">014</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ALTITUDE;<a name="line.14"></a>
-<span class="sourceLineNo">015</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COLLECTOR_NAME;<a name="line.15"></a>
-<span class="sourceLineNo">016</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COUNTRY;<a name="line.16"></a>
-<span class="sourceLineNo">017</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DATASET_KEY;<a name="line.17"></a>
-<span class="sourceLineNo">018</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DATE;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GEOMETRY;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.LATITUDE;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.LONGITUDE;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MODIFIED;<a name="line.22"></a>
-<span class="sourceLineNo">023</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MONTH;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.PUBLISHING_COUNTRY;<a name="line.24"></a>
+<span class="sourceLineNo">014</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COUNTRY;<a name="line.14"></a>
+<span class="sourceLineNo">015</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DATASET_KEY;<a name="line.15"></a>
+<span class="sourceLineNo">016</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LATITUDE;<a name="line.16"></a>
+<span class="sourceLineNo">017</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LONGITUDE;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ELEVATION;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.EVENT_DATE;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GEOMETRY;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.LAST_INTERPRETED;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MONTH;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.PUBLISHING_COUNTRY;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.RECORDED_BY;<a name="line.24"></a>
 <span class="sourceLineNo">025</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.SCIENTIFIC_NAME;<a name="line.25"></a>
 <span class="sourceLineNo">026</span>import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.YEAR;<a name="line.26"></a>
 <span class="sourceLineNo">027</span><a name="line.27"></a>
@@ -54,20 +54,20 @@
 <span class="sourceLineNo">046</span>  @Parameterized.Parameters<a name="line.46"></a>
 <span class="sourceLineNo">047</span>  public static Collection&lt;Object[]&gt; data() {<a name="line.47"></a>
 <span class="sourceLineNo">048</span>    Object[][] data = {<a name="line.48"></a>
-<span class="sourceLineNo">049</span>      {MODIFIED, "2000-10,*", true, true},<a name="line.49"></a>
-<span class="sourceLineNo">050</span>      {COLLECTOR_NAME, "henry", true, false},<a name="line.50"></a>
-<span class="sourceLineNo">051</span>      {ALTITUDE, "1080", true, false},<a name="line.51"></a>
-<span class="sourceLineNo">052</span>      {ALTITUDE, "1080.32", false, false},<a name="line.52"></a>
-<span class="sourceLineNo">053</span>      {ALTITUDE, "1080m", false, false},<a name="line.53"></a>
-<span class="sourceLineNo">054</span>      {ALTITUDE, "*, 900", true, true},<a name="line.54"></a>
-<span class="sourceLineNo">055</span>      {ALTITUDE, "100 , *", true, true},<a name="line.55"></a>
-<span class="sourceLineNo">056</span>      {ALTITUDE, "100,200", true, true},<a name="line.56"></a>
-<span class="sourceLineNo">057</span>      {ALTITUDE, " , 200", false, false},<a name="line.57"></a>
-<span class="sourceLineNo">058</span>      {ALTITUDE, "*1,200", false, false},<a name="line.58"></a>
-<span class="sourceLineNo">059</span>      {ALTITUDE, "*.1,200", false, false},<a name="line.59"></a>
-<span class="sourceLineNo">060</span>      {ALTITUDE, " , ", false, false},<a name="line.60"></a>
-<span class="sourceLineNo">061</span>      {ALTITUDE, "[1 TO 2]", false, false},<a name="line.61"></a>
-<span class="sourceLineNo">062</span>      {ALTITUDE, "{1,2}", false, false},<a name="line.62"></a>
+<span class="sourceLineNo">049</span>      {LAST_INTERPRETED, "2000-10,*", true, true},<a name="line.49"></a>
+<span class="sourceLineNo">050</span>      {RECORDED_BY, "henry", true, false},<a name="line.50"></a>
+<span class="sourceLineNo">051</span>      {ELEVATION, "1080", true, false},<a name="line.51"></a>
+<span class="sourceLineNo">052</span>      {ELEVATION, "1080.32", true, false},<a name="line.52"></a>
+<span class="sourceLineNo">053</span>      {ELEVATION, "1080m", false, false},<a name="line.53"></a>
+<span class="sourceLineNo">054</span>      {ELEVATION, "*, 900", true, true},<a name="line.54"></a>
+<span class="sourceLineNo">055</span>      {ELEVATION, "100 , *", true, true},<a name="line.55"></a>
+<span class="sourceLineNo">056</span>      {ELEVATION, "100,200", true, true},<a name="line.56"></a>
+<span class="sourceLineNo">057</span>      {ELEVATION, " , 200", false, false},<a name="line.57"></a>
+<span class="sourceLineNo">058</span>      {ELEVATION, "*1,200", false, false},<a name="line.58"></a>
+<span class="sourceLineNo">059</span>      {ELEVATION, "*.1,200", false, false},<a name="line.59"></a>
+<span class="sourceLineNo">060</span>      {ELEVATION, " , ", false, false},<a name="line.60"></a>
+<span class="sourceLineNo">061</span>      {ELEVATION, "[1 TO 2]", false, false},<a name="line.61"></a>
+<span class="sourceLineNo">062</span>      {ELEVATION, "{1,2}", false, false},<a name="line.62"></a>
 <span class="sourceLineNo">063</span>      {DATASET_KEY, UUID.randomUUID().toString(), true, false},<a name="line.63"></a>
 <span class="sourceLineNo">064</span>      {DATASET_KEY, "f81d4fae-7dec-11d0-a765-00a0c91e6bf6", true, false},<a name="line.64"></a>
 <span class="sourceLineNo">065</span>      {DATASET_KEY, "F81D4FAE-7DEC-11D0-A765-00A0C91E6BF6", true, false},<a name="line.65"></a>
@@ -116,34 +116,34 @@
 <span class="sourceLineNo">108</span>      {MONTH, "1", true, false},<a name="line.108"></a>
 <span class="sourceLineNo">109</span>      {MONTH, "-11", false, false},<a name="line.109"></a>
 <span class="sourceLineNo">110</span>      {MONTH, "1267", false, false},<a name="line.110"></a>
-<span class="sourceLineNo">111</span>      {DATE, "1900-06", true, false},<a name="line.111"></a>
-<span class="sourceLineNo">112</span>      {DATE, "01-01", false, false},<a name="line.112"></a>
-<span class="sourceLineNo">113</span>      {DATE, "1900-01-01", true, false},<a name="line.113"></a>
-<span class="sourceLineNo">114</span>      {DATE, "1900-1-01", true, false},<a name="line.114"></a>
-<span class="sourceLineNo">115</span>      {DATE, "1900-1-1", true, false},<a name="line.115"></a>
-<span class="sourceLineNo">116</span>      {DATE, "10", false, false},<a name="line.116"></a>
-<span class="sourceLineNo">117</span>      {DATE, "2000", true, false},<a name="line.117"></a>
-<span class="sourceLineNo">118</span>      {DATE, "*", true, false},<a name="line.118"></a>
-<span class="sourceLineNo">119</span>      {DATE, "*,2000", true, true},<a name="line.119"></a>
-<span class="sourceLineNo">120</span>      {DATE, "2000-10,*", true, true},<a name="line.120"></a>
-<span class="sourceLineNo">121</span>      {MODIFIED, "1900-06", true, false},<a name="line.121"></a>
-<span class="sourceLineNo">122</span>      {MODIFIED, "01-01", false, false},<a name="line.122"></a>
-<span class="sourceLineNo">123</span>      {MODIFIED, "1900-01-01", true, false},<a name="line.123"></a>
-<span class="sourceLineNo">124</span>      {MODIFIED, "1900-1-01", true, false},<a name="line.124"></a>
-<span class="sourceLineNo">125</span>      {MODIFIED, "1900-1-1", true, false},<a name="line.125"></a>
-<span class="sourceLineNo">126</span>      {MODIFIED, "10", false, false},<a name="line.126"></a>
-<span class="sourceLineNo">127</span>      {MODIFIED, "2000", true, false},<a name="line.127"></a>
-<span class="sourceLineNo">128</span>      {MODIFIED, "*", true, false},<a name="line.128"></a>
-<span class="sourceLineNo">129</span>      {MODIFIED, "*,2000", true, true},<a name="line.129"></a>
-<span class="sourceLineNo">130</span>      {MODIFIED, "2000-10,*", true, true},<a name="line.130"></a>
-<span class="sourceLineNo">131</span>      {LATITUDE, "90.0", true, false},<a name="line.131"></a>
-<span class="sourceLineNo">132</span>      {LATITUDE, "180.0", false, false},<a name="line.132"></a>
-<span class="sourceLineNo">133</span>      {LATITUDE, "50.0,92.2", false, true},<a name="line.133"></a>
-<span class="sourceLineNo">134</span>      {LATITUDE, "50.5,89.9", true, true},<a name="line.134"></a>
-<span class="sourceLineNo">135</span>      {LONGITUDE, "180.0", true, false},<a name="line.135"></a>
-<span class="sourceLineNo">136</span>      {LONGITUDE, "180.01", false, false},<a name="line.136"></a>
-<span class="sourceLineNo">137</span>      {LONGITUDE, "-190.0,92.2", false, true},<a name="line.137"></a>
-<span class="sourceLineNo">138</span>      {LONGITUDE, "-150.5,119.9", true, true},<a name="line.138"></a>
+<span class="sourceLineNo">111</span>      {EVENT_DATE, "1900-06", true, false},<a name="line.111"></a>
+<span class="sourceLineNo">112</span>      {EVENT_DATE, "01-01", false, false},<a name="line.112"></a>
+<span class="sourceLineNo">113</span>      {EVENT_DATE, "1900-01-01", true, false},<a name="line.113"></a>
+<span class="sourceLineNo">114</span>      {EVENT_DATE, "1900-1-01", true, false},<a name="line.114"></a>
+<span class="sourceLineNo">115</span>      {EVENT_DATE, "1900-1-1", true, false},<a name="line.115"></a>
+<span class="sourceLineNo">116</span>      {EVENT_DATE, "10", false, false},<a name="line.116"></a>
+<span class="sourceLineNo">117</span>      {EVENT_DATE, "2000", true, false},<a name="line.117"></a>
+<span class="sourceLineNo">118</span>      {EVENT_DATE, "*", true, false},<a name="line.118"></a>
+<span class="sourceLineNo">119</span>      {EVENT_DATE, "*,2000", true, true},<a name="line.119"></a>
+<span class="sourceLineNo">120</span>      {EVENT_DATE, "2000-10,*", true, true},<a name="line.120"></a>
+<span class="sourceLineNo">121</span>      {LAST_INTERPRETED, "1900-06", true, false},<a name="line.121"></a>
+<span class="sourceLineNo">122</span>      {LAST_INTERPRETED, "01-01", false, false},<a name="line.122"></a>
+<span class="sourceLineNo">123</span>      {LAST_INTERPRETED, "1900-01-01", true, false},<a name="line.123"></a>
+<span class="sourceLineNo">124</span>      {LAST_INTERPRETED, "1900-1-01", true, false},<a name="line.124"></a>
+<span class="sourceLineNo">125</span>      {LAST_INTERPRETED, "1900-1-1", true, false},<a name="line.125"></a>
+<span class="sourceLineNo">126</span>      {LAST_INTERPRETED, "10", false, false},<a name="line.126"></a>
+<span class="sourceLineNo">127</span>      {LAST_INTERPRETED, "2000", true, false},<a name="line.127"></a>
+<span class="sourceLineNo">128</span>      {LAST_INTERPRETED, "*", true, false},<a name="line.128"></a>
+<span class="sourceLineNo">129</span>      {LAST_INTERPRETED, "*,2000", true, true},<a name="line.129"></a>
+<span class="sourceLineNo">130</span>      {LAST_INTERPRETED, "2000-10,*", true, true},<a name="line.130"></a>
+<span class="sourceLineNo">131</span>      {DECIMAL_LATITUDE, "90.0", true, false},<a name="line.131"></a>
+<span class="sourceLineNo">132</span>      {DECIMAL_LATITUDE, "180.0", false, false},<a name="line.132"></a>
+<span class="sourceLineNo">133</span>      {DECIMAL_LATITUDE, "50.0,92.2", false, true},<a name="line.133"></a>
+<span class="sourceLineNo">134</span>      {DECIMAL_LATITUDE, "50.5,89.9", true, true},<a name="line.134"></a>
+<span class="sourceLineNo">135</span>      {DECIMAL_LONGITUDE, "180.0", true, false},<a name="line.135"></a>
+<span class="sourceLineNo">136</span>      {DECIMAL_LONGITUDE, "180.01", false, false},<a name="line.136"></a>
+<span class="sourceLineNo">137</span>      {DECIMAL_LONGITUDE, "-190.0,92.2", false, true},<a name="line.137"></a>
+<span class="sourceLineNo">138</span>      {DECIMAL_LONGITUDE, "-150.5,119.9", true, true},<a name="line.138"></a>
 <span class="sourceLineNo">139</span>      {COUNTRY, "CR", true, false},<a name="line.139"></a>
 <span class="sourceLineNo">140</span>      {PUBLISHING_COUNTRY, "CR", true, false},<a name="line.140"></a>
 <span class="sourceLineNo">141</span>      {COUNTRY, "CRCRCC", false, false},<a name="line.141"></a>
