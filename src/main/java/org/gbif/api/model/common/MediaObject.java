@@ -15,32 +15,50 @@
  */
 package org.gbif.api.model.common;
 
+import org.gbif.api.vocabulary.MediaType;
+
+import java.net.URI;
 import java.util.Date;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Objects;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * Image Model Object representing a simple image for species or occurrences.
- *
- * @see <a href="http://rs.gbif.org/extension/gbif/1.0/images.xml">Image Definition</a>
+ * Metadata for a multimedia object representing an image, video or audio file.
+ * Based on DublinCore and the Simple Multimedia dwc archive extension:
+ * @see <a href="http://rs.gbif.org/extension/gbif/1.0/multimedia.xml">Multimedia Definition</a>
  */
-public class Image {
-
-  private Integer entityKey;
-  private String image;
-  private String thumbnail;
-  private String link;
+public class MediaObject {
+  private MediaType type;
+  private String format;
+  private URI identifier;
+  private URI references;
   private String title;
   private String description;
-  private String license;
-  private String publisher;
-  private String creator;
+  private String source;
+  private String audience;
   private Date created;
+  private String creator;
+  private String contributor;
+  private String publisher;
+  private String license;
+  private String rightsHolder;
 
   /**
-   * The date and time this image was taken.
+   * @return mime type of the file
+   */
+  public String getFormat() {
+    return format;
+  }
+
+  public void setFormat(String format) {
+    this.format = format;
+  }
+
+  /**
+   * The date and time this media item was taken.
    * <blockquote>
    * <p>
    * <i>Example:</i> 2010-09-29.
@@ -62,7 +80,7 @@ public class Image {
   }
 
   /**
-   * The person that took the image.
+   * The person that created the media item.
    * <blockquote>
    * <p>
    * <i>Example:</i> David Remsen.
@@ -84,7 +102,7 @@ public class Image {
   }
 
   /**
-   * A longer description for this image.
+   * A longer description for this media item.
    * <blockquote>
    * <p>
    * <i>Example:</i> Female Tachycineta albiventer photographed in the Amazon, Brazil, in November 2010.
@@ -105,44 +123,37 @@ public class Image {
     this.description = description;
   }
 
-  /**
-   * @return the key to the main occurrence or name usage entity
-   */
   @NotNull
-  public Integer getEntityKey() {
-    return entityKey;
+  public MediaType getType() {
+    return type;
   }
 
-  public void setEntityKey(Integer entityKey) {
-    this.entityKey = entityKey;
+  public void setType(MediaType type) {
+    this.type = type;
   }
 
   /**
-   * The public URL that identifies and locates the image.
+   * The public URL that identifies and locates the media item.
    * <blockquote>
    * <p>
    * <i>Example:</i> <a
-   * href="http://farm6.static.flickr.com/5127/5242866958_98afd8cbce_o.jpg">http://farm6.static.flickr
-   * .com/5127/5242866958_98afd8cbce_o.jpg</a>
+   * href="http://farm6.static.flickr.com/5127/5242866958_98afd8cbce_o.jpg">http://farm6.static.flickr.com/5127/5242866958_98afd8cbce_o.jpg</a>
    * </p>
    * </blockquote>
-   *
-   * @return the image
    */
   @NotNull
-  public String getImage() {
-    return image;
+  @JsonProperty("identifier")
+  public URI getIdentifier() {
+    return identifier;
+  }
+
+  public void setIdentifier(URI identifier) {
+    this.identifier = identifier;
   }
 
   /**
-   * @param image the image to set
-   */
-  public void setImage(String image) {
-    this.image = image;
-  }
-
-  /**
-   * License for this image. Can be text or a url like creative commons uses.
+   * License for this media item.
+   * Can be text or a identifier like creative commons uses.
    * <blockquote>
    * <p>
    * <i>Example:</i> <a
@@ -166,21 +177,18 @@ public class Image {
   }
 
   /**
-   * @return link to html webpage with the image on
+   * @return link to html webpage with the media item on
    */
-  public String getLink() {
-    return link;
+  public URI getReferences() {
+    return references;
+  }
+
+  public void setReferences(URI references) {
+    this.references = references;
   }
 
   /**
-   * @param link to html webpage
-   */
-  public void setLink(String link) {
-    this.link = link;
-  }
-
-  /**
-   * An entity responsible for making the image available.
+   * An entity responsible for making the media item available.
    * <blockquote>
    * <p>
    * <i>Example:</i> Encyclopedia of Life.
@@ -202,24 +210,7 @@ public class Image {
   }
 
   /**
-   * The public URL that identifies and locates the image's thumbnail.
-   *
-   * @return the thumbnail
-   */
-  @Nullable
-  public String getThumbnail() {
-    return thumbnail;
-  }
-
-  /**
-   * @param thumbnail the thumbnail to set
-   */
-  public void setThumbnail(String thumbnail) {
-    this.thumbnail = thumbnail;
-  }
-
-  /**
-   * The image title.
+   * The media item title.
    * <blockquote>
    * <p>
    * <i>Example:</i> Andorinha-do-rio (Tachycineta albiventer).
@@ -240,55 +231,95 @@ public class Image {
     this.title = title;
   }
 
+  public String getSource() {
+    return source;
+  }
+
+  public void setSource(String source) {
+    this.source = source;
+  }
+
+  public String getAudience() {
+    return audience;
+  }
+
+  public void setAudience(String audience) {
+    this.audience = audience;
+  }
+
+  public String getContributor() {
+    return contributor;
+  }
+
+  public void setContributor(String contributor) {
+    this.contributor = contributor;
+  }
+
+  public String getRightsHolder() {
+    return rightsHolder;
+  }
+
+  public void setRightsHolder(String rightsHolder) {
+    this.rightsHolder = rightsHolder;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
       return true;
     }
-    if (!(obj instanceof Image)) {
+    if (!(obj instanceof MediaObject)) {
       return false;
     }
-    Image that = (Image) obj;
-    return Objects.equal(this.image, that.image)
-           && Objects.equal(this.entityKey, that.entityKey)
-           && Objects.equal(this.thumbnail, that.thumbnail)
+    MediaObject that = (MediaObject) obj;
+    return Objects.equal(this.identifier, that.identifier)
+           && Objects.equal(this.type, that.type)
+           && Objects.equal(this.format, that.format)
+           && Objects.equal(this.references, that.references)
            && Objects.equal(this.title, that.title)
            && Objects.equal(this.description, that.description)
            && Objects.equal(this.license, that.license)
            && Objects.equal(this.publisher, that.publisher)
+           && Objects.equal(this.source, that.source)
+           && Objects.equal(this.audience, that.audience)
+           && Objects.equal(this.contributor, that.contributor)
+           && Objects.equal(this.rightsHolder, that.rightsHolder)
            && Objects.equal(this.creator, that.creator)
-           && Objects.equal(this.created, that.created)
-           && Objects.equal(this.link, that.link);
+           && Objects.equal(this.created, that.created);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(),
-                            entityKey,
-                            image,
-                            thumbnail,
+    return Objects.hashCode(type,
+                            format, identifier,
+                            references,
                             title,
                             description,
                             license,
                             publisher,
+                            source,
+                            audience, contributor,
+                            rightsHolder,
                             creator,
-                            created,
-                            link);
+                            created);
   }
 
   @Override
   public String toString() {
     return Objects.toStringHelper(this)
-      .add("super", super.toString())
-      .add("entityKey", entityKey)
-      .add("image", image)
-      .add("thumbnail", thumbnail)
+      .add("type", type)
+      .add("format", format)
+      .add("identifier", identifier)
+      .add("references", references)
       .add("title", title)
       .add("description", description)
       .add("license", license)
       .add("publisher", publisher)
+      .add("source", source)
+      .add("audience", audience)
+      .add("contributor", contributor)
+      .add("rightsHolder", rightsHolder)
       .add("creator", creator)
-      .add("link", link)
       .add("created", created)
       .toString();
   }

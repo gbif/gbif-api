@@ -1,12 +1,9 @@
 /*
  * Copyright 2012 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,10 +12,13 @@
  */
 package org.gbif.api.model.occurrence;
 
-import org.gbif.api.model.common.Identifier;
-import org.gbif.api.model.common.Image;
+import org.gbif.api.jackson.ExtensionKeyDeserializer;
+import org.gbif.api.jackson.ExtensionSerializer;
+import org.gbif.api.jackson.TermMapListDeserializer;
+import org.gbif.api.jackson.TermMapListSerializer;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
+import org.gbif.api.vocabulary.Extension;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.TermFactory;
 
@@ -26,17 +26,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.codehaus.jackson.annotate.JsonAnyGetter;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
-
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -44,6 +45,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Major extensions that we index are also supported, i.e. media, identifiers and measurements or facts.
  */
 public class VerbatimOccurrence {
+
   private Integer key;
   private UUID datasetKey;
   private UUID publishingOrgKey;
@@ -54,16 +56,13 @@ public class VerbatimOccurrence {
 
   // the verbatim fields for the occurrence
   private Map<Term, String> verbatimFields = Maps.newHashMap();
-  // indexed occurrence extensions
-  private List<Identifier> identifiers = Lists.newArrayList();
-  private List<Image> media = Lists.newArrayList();
-  private List<FactOrMeasurment> facts = Lists.newArrayList();
-  private List<OccurrenceRelation> relations = Lists.newArrayList();
+  // verbatim extension data
+  private Map<Extension, List<Map<Term, String>>> extensions = Maps.newHashMap();
 
-  @Nullable
   /**
    * Get the value of a specific field (Term).
    */
+  @Nullable
   public String getVerbatimField(Term term) {
     checkNotNull(term, "term can't be null");
     return verbatimFields.get(term);
@@ -79,7 +78,7 @@ public class VerbatimOccurrence {
 
   /**
    * For setting a specific field without having to replace the entire verbatimFields Map.
-   *
+   * 
    * @param term the field to set
    * @param fieldValue the field's value
    */
@@ -88,11 +87,11 @@ public class VerbatimOccurrence {
     verbatimFields.put(term, fieldValue);
   }
 
-  @NotNull
   /**
    * The GBIF assigned, persistent key to the occurrence record.
    * OccurrenceID itself is kept in the verbatim verbatimFields map.
    */
+  @NotNull
   public Integer getKey() {
     return key;
   }
@@ -119,10 +118,10 @@ public class VerbatimOccurrence {
     this.publishingOrgKey = publishingOrgKey;
   }
 
-  @Nullable
   /**
    * The country of the organization that publishes the dataset to which the occurrence belongs.
    */
+  @Nullable
   public Country getPublishingCountry() {
     return publishingCountry;
   }
@@ -152,10 +151,10 @@ public class VerbatimOccurrence {
     this.lastCrawled = lastCrawled == null ? null : new Date(lastCrawled.getTime());
   }
 
-  @Nullable
   /**
    * The date this record was last parsed from raw xml/json into verbatim verbatimFields.
    */
+  @Nullable
   public Date getLastParsed() {
     return lastParsed;
   }
@@ -164,10 +163,10 @@ public class VerbatimOccurrence {
     this.lastParsed = lastParsed == null ? null : new Date(lastParsed.getTime());
   }
 
-  @NotNull
   /**
    * A map holding all verbatim core terms.
    */
+  @NotNull
   @JsonIgnore
   public Map<Term, String> getVerbatimFields() {
     return verbatimFields;
@@ -177,56 +176,35 @@ public class VerbatimOccurrence {
     this.verbatimFields = verbatimFields;
   }
 
+  /**
+   * A map holding all verbatim extension terms.
+   */
   @NotNull
-  public List<Identifier> getIdentifiers() {
-    return identifiers;
+  @JsonSerialize(keyUsing = ExtensionSerializer.class, contentUsing = TermMapListSerializer.class)
+  @JsonDeserialize(keyUsing = ExtensionKeyDeserializer.class, contentUsing = TermMapListDeserializer.class)
+  public Map<Extension, List<Map<Term, String>>> getExtensions() {
+    return extensions;
   }
 
-  public void setIdentifiers(List<Identifier> identifiers) {
-    this.identifiers = identifiers;
+  public void setExtensions(Map<Extension, List<Map<Term, String>>> extensions) {
+    this.extensions = extensions;
   }
-
-  @NotNull
-  public List<Image> getMedia() {
-    return media;
-  }
-
-  public void setMedia(List<Image> media) {
-    this.media = media;
-  }
-
-  @NotNull
-  public List<FactOrMeasurment> getFacts() {
-    return facts;
-  }
-
-  public void setFacts(List<FactOrMeasurment> facts) {
-    this.facts = facts;
-  }
-
-  @NotNull
-  public List<OccurrenceRelation> getRelations() {
-    return relations;
-  }
-
-  public void setRelations(List<OccurrenceRelation> relations) {
-    this.relations = relations;
-  }
-
-
 
   @Override
   public String toString() {
     return Objects.toStringHelper(this).add("lastParsed", lastParsed).add("key", key).add("datasetKey", datasetKey)
       .add("publishingOrgKey", publishingOrgKey).add("publishingCountry", publishingCountry).add("protocol", protocol)
-      .add("lastCrawled", lastCrawled).toString();
+      .add("lastCrawled", lastCrawled)
+      .add("extensions", extensions)
+      .toString();
   }
 
   @Override
   public int hashCode() {
     return Objects
-      .hashCode(key, datasetKey, publishingOrgKey, publishingCountry, protocol, lastCrawled, lastParsed, verbatimFields,
-        identifiers, media, facts, relations);
+      .hashCode(key, datasetKey, publishingOrgKey, publishingCountry, protocol, lastCrawled, lastParsed,
+        verbatimFields,
+        extensions);
   }
 
   @Override
@@ -239,17 +217,14 @@ public class VerbatimOccurrence {
     }
     final VerbatimOccurrence other = (VerbatimOccurrence) obj;
     return Objects.equal(this.key, other.key)
-           && Objects.equal(this.datasetKey, other.datasetKey)
-           && Objects.equal(this.publishingOrgKey, other.publishingOrgKey)
-           && Objects.equal(this.publishingCountry, other.publishingCountry)
-           && Objects.equal(this.protocol, other.protocol)
-           && Objects.equal(this.lastCrawled, other.lastCrawled)
-           && Objects.equal(this.lastParsed, other.lastParsed)
-           && Objects.equal(this.verbatimFields, other.verbatimFields)
-           && Objects.equal(this.identifiers, other.identifiers)
-           && Objects.equal(this.media, other.media)
-           && Objects.equal(this.facts, other.facts)
-           && Objects.equal(this.relations, other.relations);
+      && Objects.equal(this.datasetKey, other.datasetKey)
+      && Objects.equal(this.publishingOrgKey, other.publishingOrgKey)
+      && Objects.equal(this.publishingCountry, other.publishingCountry)
+      && Objects.equal(this.protocol, other.protocol)
+      && Objects.equal(this.lastCrawled, other.lastCrawled)
+      && Objects.equal(this.lastParsed, other.lastParsed)
+      && Objects.equal(this.verbatimFields, other.verbatimFields)
+      && Objects.equal(this.extensions, other.extensions);
   }
 
   /**
@@ -266,8 +241,9 @@ public class VerbatimOccurrence {
    * It maps the verbatimField terms into properties with their full qualified name.
    */
   @JsonAnyGetter
-  private Map<String,String> jsonVerbatimFields() { // note: for 1.6.0 MUST use non-getter name; otherwise doesn't matter
-    Map<String,String> extendedProps = Maps.newHashMap();
+  private Map<String, String> jsonVerbatimFields() { // note: for 1.6.0 MUST use non-getter name; otherwise doesn't
+// matter
+    Map<String, String> extendedProps = Maps.newHashMap();
     for (Map.Entry<Term, String> prop : verbatimFields.entrySet()) {
       extendedProps.put(prop.getKey().qualifiedName(), prop.getValue());
     }

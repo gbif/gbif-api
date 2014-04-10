@@ -15,13 +15,20 @@
  */
 package org.gbif.api.vocabulary;
 
+import org.gbif.api.jackson.ExtensionDeserializer;
+import org.gbif.api.jackson.ExtensionSerializer;
+
 import com.google.common.base.Strings;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * Enumeration of dwc extensions for both Occurrence and Taxon that are indexed by GBIF.
  *
  * @see <a href="http://rs.gbif.org/extension">GBIF Resources</a>
  */
+@JsonSerialize(using= ExtensionSerializer.class)
+@JsonDeserialize(using= ExtensionDeserializer.class)
 public enum Extension {
 
   /**
@@ -53,6 +60,11 @@ public enum Extension {
    * @see <a href="http://rs.gbif.org/extension/gbif/1.0/images.xml">extension definition</a>
    */
   MEASUREMENT_OR_FACT("http://rs.tdwg.org/dwc/terms/MeasurementOrFact"),
+
+  /**
+   * @see <a href="http://rs.gbif.org/extension/gbif/1.0/multimedia.xml">extension definition</a>
+   */
+  MULTIMEDIA("http://rs.gbif.org/terms/1.0/Multimedia"),
 
   /**
    * @see <a href="http://rs.gbif.org/extension/dwc/measurements_or_facts.xml">extension definition</a>

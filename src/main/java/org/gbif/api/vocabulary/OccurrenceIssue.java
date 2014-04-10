@@ -169,7 +169,18 @@ public enum OccurrenceIssue {
   /**
    * The given type status is impossible to interpret or seriously different from the recommended vocabulary.
    */
-  TYPE_STATUS_INVALID;
+  TYPE_STATUS_INVALID,
+
+  /**
+   * An invalid date is given for dc:created of a multimedia object.
+   */
+  MULTIMEDIA_DATE_INVALID,
+
+  /**
+   * An invalid uri is given for a multimedia object.
+   */
+  MULTIMEDIA_URI_INVALID,
+  ;
 
   public static final List<OccurrenceIssue> GEOSPATIAL_RULES = ImmutableList.of(ZERO_COORDINATE,
                                                                                    COORDINATES_OUT_OF_RANGE,

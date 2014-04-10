@@ -17,6 +17,7 @@ import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.TypeStatus;
 
@@ -243,7 +244,15 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Nomenclatural type (type status, typified scientific name, publication) applied to the subject.
    */
-  TYPE_STATUS(TypeStatus.class);
+  TYPE_STATUS(TypeStatus.class),
+
+
+  /**
+   * The kind of media object.
+   * Recommended terms from the DCMI Type Vocabulary are StillImage, Sound or MovingImage for GBIF to index and show the
+   * media files.
+   */
+  MEDIA_TYPE(MediaType.class);
 
 
   private final Class<?> type;

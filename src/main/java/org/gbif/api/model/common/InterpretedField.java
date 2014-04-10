@@ -20,6 +20,7 @@ import com.google.common.base.Objects;
 /**
  * Allows for encapsulating a verbatim and an interpreted value of any type.
  */
+@Deprecated
 public class InterpretedField<V, I> {
 
   private V verbatim;

@@ -15,17 +15,30 @@
  */
 package org.gbif.api.model.common;
 
-/**
- * Allows for encapsulating a verbatim and an interpreted enumeration value.
- */
-@Deprecated
-public class InterpretedEnum<V, I extends Enum<I>> extends InterpretedField<V, I> {
+import java.net.URI;
 
-  public InterpretedEnum() {
-  }
+import org.junit.Test;
 
-  public InterpretedEnum(V verbatim, I interpreted) {
-    super(verbatim, interpreted);
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
+public class MediaObjectTest {
+
+  @Test
+  public void testEquals() {
+    MediaObject i1 = new MediaObject();
+    i1.setIdentifier(URI.create("http://www.example.org/image.png"));
+    i1.setTitle("Puma concolor");
+
+    MediaObject i2 = new MediaObject();
+    i2.setIdentifier(URI.create("http://www.example.org/image.png"));
+    i2.setTitle("Puma concolor");
+
+    assertEquals(i1, i2);
+
+    i2.setCreator("Petra");
+
+    assertFalse(i1.equals(i2));
   }
 
 }
