@@ -98,6 +98,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private String scientificName;  // the interpreted name matching taxonKey
   private String kingdom;
   private String phylum;
+  @JsonProperty("class")
   private String clazz;
   private String order;
   private String family;
@@ -401,7 +402,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Nullable
   @Override
-  @JsonProperty("class")
   public String getClazz() {
     return clazz;
   }

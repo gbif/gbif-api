@@ -27,6 +27,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 import com.google.common.base.Objects;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * The resulting lookup of a name usage match.
@@ -48,6 +49,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
   // for LinneanClassification
   private String kingdom;
   private String phylum;
+  @JsonProperty("class")
   private String clazz;
   private String order;
   private String family;

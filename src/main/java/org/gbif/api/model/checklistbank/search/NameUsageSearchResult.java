@@ -33,6 +33,7 @@ import java.util.UUID;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Objects;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -57,6 +58,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
   // for LinneanClassification
   private String kingdom;
   private String phylum;
+  @JsonProperty("class")
   private String clazz;
   private String order;
   private String family;

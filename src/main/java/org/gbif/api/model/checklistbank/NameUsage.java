@@ -36,6 +36,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -54,6 +55,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   // for LinneanClassification
   private String kingdom;
   private String phylum;
+  @JsonProperty("class")
   private String clazz;
   private String order;
   private String family;
