@@ -1,9 +1,18 @@
 package org.gbif.api.vocabulary;
 
+import java.util.List;
+import javax.annotation.Nullable;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+
 /**
  * A vocabulary to be used for a nomenclatural type status of a specimen or name.
  * See also the related TypeDesignationType enumeration.
  * @see <a href="http://rs.gbif.org/vocabulary/gbif/type_status.xml">rs.gbif.org vocabulary</a>
+ * @see <a href="http://www.bgbm.org/TDWG/CODATA/Schema/ABCD_2.06/HTML/ABCD_2.06.html#element_NomenclaturalTypeDesignations_Link>Types in ABCD</a>
  */
 public enum TypeStatus {
 
@@ -216,6 +225,29 @@ public enum TypeStatus {
    */
   TOPOTYPE;
 
+  /**
+   * @return a list of all type status values applicable for specimens.
+   */
+  public static List<TypeStatus> specimenTypeStatusList() {
+    return ImmutableList.copyOf(Collections2.filter(Lists.newArrayList(values()), new Predicate<TypeStatus>() {
+      @Override
+      public boolean apply(@Nullable TypeStatus status) {
+        return status.isTypeSpecimen();
+      }
+    }));
+  }
+
+  /**
+   * @return a list of all type status values applicable for scientific names, not specimens.
+   */
+  public static List<TypeStatus> nameTypeStatusList() {
+    return ImmutableList.copyOf(Collections2.filter(Lists.newArrayList(values()), new Predicate<TypeStatus>() {
+      @Override
+      public boolean apply(@Nullable TypeStatus status) {
+        return TypeStatus.TYPE == status || !status.isTypeSpecimen();
+      }
+    }));
+  }
 
   /**
    * @return true if the type status is referring to a type specimen in contrast to a type genus or species name
@@ -223,4 +255,5 @@ public enum TypeStatus {
   public boolean isTypeSpecimen() {
     return this != TYPE_GENUS && this != TYPE_SPECIES;
   }
+
 }

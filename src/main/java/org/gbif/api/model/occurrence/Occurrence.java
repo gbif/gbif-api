@@ -135,8 +135,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Integer month;
   private Integer day;
   private Date eventDate;
-  // Types See ABCD:
-// http://www.bgbm.org/TDWG/CODATA/Schema/ABCD_2.06/HTML/ABCD_2.06.html#element_NomenclaturalTypeDesignations_Link02052C80
   private TypeStatus typeStatus;
   // extracted from type status, but we should propose a new dwc term for this!
   // for example: "Paratype of Taeniopteryx metequi Ricker & Ross" is status=Paratype, typifiedName=Taeniopteryx metequi
@@ -324,7 +322,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   /**
    * An ordered map with entries for all higher Linnean ranks excluding the taxonKey itself.
    * The map starts with the highest rank, e.g. the kingdom and maps the name usage key to its canonical name.
-   * 
+   *
    * @return map of higher ranks
    */
   @NotNull
@@ -663,7 +661,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   /**
    * The full year of the event date.
-   * 
+   *
    * @return the year of the event date
    */
   @Min(1500)
@@ -679,7 +677,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   /**
    * The month of the year of the event date starting with zero for january following {@link Date}.
-   * 
+   *
    * @return the month of the event date
    */
   @Min(1)
@@ -695,7 +693,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   /**
    * The day of the month of the event date.
-   * 
+   *
    * @return the day of the event date
    */
   @Min(1)
