@@ -148,33 +148,36 @@
 <a class="jxr_linenumber" name="138" href="#138">138</a>       {DECIMAL_LONGITUDE, <span class="jxr_string">"180.01"</span>, false, false},
 <a class="jxr_linenumber" name="139" href="#139">139</a>       {DECIMAL_LONGITUDE, <span class="jxr_string">"-190.0,92.2"</span>, false, <strong class="jxr_keyword">true</strong>},
 <a class="jxr_linenumber" name="140" href="#140">140</a>       {DECIMAL_LONGITUDE, <span class="jxr_string">"-150.5,119.9"</span>, <strong class="jxr_keyword">true</strong>, <strong class="jxr_keyword">true</strong>},
-<a class="jxr_linenumber" name="141" href="#141">141</a>       {COUNTRY, <span class="jxr_string">"CR"</span>, <strong class="jxr_keyword">true</strong>, false},
-<a class="jxr_linenumber" name="142" href="#142">142</a>       {PUBLISHING_COUNTRY, <span class="jxr_string">"CR"</span>, <strong class="jxr_keyword">true</strong>, false},
-<a class="jxr_linenumber" name="143" href="#143">143</a>       {COUNTRY, <span class="jxr_string">"CRCRCC"</span>, false, false},
-<a class="jxr_linenumber" name="144" href="#144">144</a>       {PUBLISHING_COUNTRY, <span class="jxr_string">"CRCRCC"</span>, false, false},
-<a class="jxr_linenumber" name="145" href="#145">145</a>       {TYPE_STATUS, <span class="jxr_string">"TYPE"</span>, <strong class="jxr_keyword">true</strong>, false},
-<a class="jxr_linenumber" name="146" href="#146">146</a>       {MEDIA_TYPE, <span class="jxr_string">"StillImage"</span>, <strong class="jxr_keyword">true</strong>, false}
-<a class="jxr_linenumber" name="147" href="#147">147</a>     };
-<a class="jxr_linenumber" name="148" href="#148">148</a>     <strong class="jxr_keyword">return</strong> Arrays.asList(data);
-<a class="jxr_linenumber" name="149" href="#149">149</a>   }
-<a class="jxr_linenumber" name="150" href="#150">150</a> 
-<a class="jxr_linenumber" name="151" href="#151">151</a>   @Test
-<a class="jxr_linenumber" name="152" href="#152">152</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testValidateFine() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="153" href="#153">153</a>     <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="154" href="#154">154</a>       SearchTypeValidator.validate(parameter, arg);
-<a class="jxr_linenumber" name="155" href="#155">155</a>       <strong class="jxr_keyword">if</strong> (!valid) {
-<a class="jxr_linenumber" name="156" href="#156">156</a>         fail(arg + <span class="jxr_string">" supposed to be an invalid value for parameter "</span> + parameter);
-<a class="jxr_linenumber" name="157" href="#157">157</a>       }
-<a class="jxr_linenumber" name="158" href="#158">158</a>     } <strong class="jxr_keyword">catch</strong> (IllegalArgumentException e) {
-<a class="jxr_linenumber" name="159" href="#159">159</a>       <strong class="jxr_keyword">if</strong> (valid) {
-<a class="jxr_linenumber" name="160" href="#160">160</a>         fail(arg + <span class="jxr_string">" supposed to be a valid value for parameter "</span> + parameter);
-<a class="jxr_linenumber" name="161" href="#161">161</a>       }
-<a class="jxr_linenumber" name="162" href="#162">162</a>     }
-<a class="jxr_linenumber" name="163" href="#163">163</a> 
-<a class="jxr_linenumber" name="164" href="#164">164</a>     <em class="jxr_comment">// test isRange</em>
-<a class="jxr_linenumber" name="165" href="#165">165</a>     assertEquals(<span class="jxr_string">"Wrong isRange parsing of value "</span> + arg, range, SearchTypeValidator.isRange(arg));
-<a class="jxr_linenumber" name="166" href="#166">166</a>   }
-<a class="jxr_linenumber" name="167" href="#167">167</a> }
+<a class="jxr_linenumber" name="141" href="#141">141</a>       {DECIMAL_LONGITUDE, <span class="jxr_string">"*"</span>, <strong class="jxr_keyword">true</strong>, false},
+<a class="jxr_linenumber" name="142" href="#142">142</a>       {COUNTRY, <span class="jxr_string">"CR"</span>, <strong class="jxr_keyword">true</strong>, false},
+<a class="jxr_linenumber" name="143" href="#143">143</a>       {PUBLISHING_COUNTRY, <span class="jxr_string">"CR"</span>, <strong class="jxr_keyword">true</strong>, false},
+<a class="jxr_linenumber" name="144" href="#144">144</a>       {COUNTRY, <span class="jxr_string">"CRCRCC"</span>, false, false},
+<a class="jxr_linenumber" name="145" href="#145">145</a>       {PUBLISHING_COUNTRY, <span class="jxr_string">"CRCRCC"</span>, false, false},
+<a class="jxr_linenumber" name="146" href="#146">146</a>       {TYPE_STATUS, <span class="jxr_string">"TYPE"</span>, <strong class="jxr_keyword">true</strong>, false},
+<a class="jxr_linenumber" name="147" href="#147">147</a>       {TYPE_STATUS, <span class="jxr_string">"*"</span>, <strong class="jxr_keyword">true</strong>, false},
+<a class="jxr_linenumber" name="148" href="#148">148</a>       {MEDIA_TYPE, <span class="jxr_string">"StillImage"</span>, <strong class="jxr_keyword">true</strong>, false},
+<a class="jxr_linenumber" name="149" href="#149">149</a>       {MEDIA_TYPE, <span class="jxr_string">"*"</span>, <strong class="jxr_keyword">true</strong>, false}
+<a class="jxr_linenumber" name="150" href="#150">150</a>     };
+<a class="jxr_linenumber" name="151" href="#151">151</a>     <strong class="jxr_keyword">return</strong> Arrays.asList(data);
+<a class="jxr_linenumber" name="152" href="#152">152</a>   }
+<a class="jxr_linenumber" name="153" href="#153">153</a> 
+<a class="jxr_linenumber" name="154" href="#154">154</a>   @Test
+<a class="jxr_linenumber" name="155" href="#155">155</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testValidateFine() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="156" href="#156">156</a>     <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="157" href="#157">157</a>       SearchTypeValidator.validate(parameter, arg);
+<a class="jxr_linenumber" name="158" href="#158">158</a>       <strong class="jxr_keyword">if</strong> (!valid) {
+<a class="jxr_linenumber" name="159" href="#159">159</a>         fail(arg + <span class="jxr_string">" supposed to be an invalid value for parameter "</span> + parameter);
+<a class="jxr_linenumber" name="160" href="#160">160</a>       }
+<a class="jxr_linenumber" name="161" href="#161">161</a>     } <strong class="jxr_keyword">catch</strong> (IllegalArgumentException e) {
+<a class="jxr_linenumber" name="162" href="#162">162</a>       <strong class="jxr_keyword">if</strong> (valid) {
+<a class="jxr_linenumber" name="163" href="#163">163</a>         fail(arg + <span class="jxr_string">" supposed to be a valid value for parameter "</span> + parameter);
+<a class="jxr_linenumber" name="164" href="#164">164</a>       }
+<a class="jxr_linenumber" name="165" href="#165">165</a>     }
+<a class="jxr_linenumber" name="166" href="#166">166</a> 
+<a class="jxr_linenumber" name="167" href="#167">167</a>     <em class="jxr_comment">// test isRange</em>
+<a class="jxr_linenumber" name="168" href="#168">168</a>     assertEquals(<span class="jxr_string">"Wrong isRange parsing of value "</span> + arg, range, SearchTypeValidator.isRange(arg));
+<a class="jxr_linenumber" name="169" href="#169">169</a>   }
+<a class="jxr_linenumber" name="170" href="#170">170</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
