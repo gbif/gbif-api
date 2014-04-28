@@ -44,23 +44,25 @@ public class SearchTypeValidator {
 
   private static final String LONGITUDE_ERROR_MSG = "%s is not valid value, longitude must be between -180 and 180.";
 
+  private static final String WILD_CARD = "*";
+
   /**
    * Matches ranges in formats
-   *
+   * 
    * <pre>
    * 23.1,55.2
    * </pre>
-   *
+   * 
    * <pre>
    * *,88
    * </pre>
-   *
+   * 
    * and
-   *
+   * 
    * <pre>
    * 55,*
    * </pre>
-   *
+   * 
    * .
    * The matcher returns 2 groups:
    * group 1: lower bound
@@ -112,7 +114,7 @@ public class SearchTypeValidator {
 
   /**
    * Determines whether the value given is a valid decimal or date range, delimiting two values by a comma.
-   *
+   * 
    * @return true if the given value is a valid range
    */
   public static boolean isRange(String value) {
@@ -135,7 +137,7 @@ public class SearchTypeValidator {
   /**
    * Parses a range of ISO dates.
    * The date format used is the first date format that successfully parses the lower range limit.
-   *
+   * 
    * @return the parsed range with wildcards represented as null values
    * @throws IllegalArgumentException if value is invalid or null
    */
@@ -145,7 +147,7 @@ public class SearchTypeValidator {
 
   /**
    * Parses a decimal range in the format 123.1,456.
-   *
+   * 
    * @return the parsed range with wildcards represented as null values
    * @throws IllegalArgumentException if value is invalid or null
    */
@@ -161,7 +163,7 @@ public class SearchTypeValidator {
 
   /**
    * Parses an integer range in the format 123,456
-   *
+   * 
    * @return the parsed range with wildcards represented as null values
    * @throws IllegalArgumentException if value is invalid or null
    */
@@ -179,7 +181,7 @@ public class SearchTypeValidator {
   /**
    * Validates that a given parameter value matches the expected type of the parameter as defined by
    * {@link SearchParameter#type()} and throws an IllegalArgumentException otherwise.
-   *
+   * 
    * @param param the search parameter defining the expected type
    * @param value the parameter value to be validated
    * @throws IllegalArgumentException if the value cannot be converted to the expected type
@@ -191,56 +193,59 @@ public class SearchTypeValidator {
       if (OccurrenceSearchParameter.GEOMETRY == param) {
         validateGeometry(value);
 
-      } else if (OccurrenceSearchParameter.DECIMAL_LATITUDE == param) {
-        validateLatitude(value);
-
-      } else if (OccurrenceSearchParameter.DECIMAL_LONGITUDE == param) {
-        validateLongitude(value);
-
-      } else if (UUID.class.isAssignableFrom(pType)) {
-        UUID.fromString(value);
-
-      } else if (Double.class.isAssignableFrom(pType)) {
-        validateDouble(value);
-
-      } else if (Integer.class.isAssignableFrom(pType)) {
-        Collection<Integer> intsFound = validateInteger(value);
-        if (OccurrenceSearchParameter.MONTH == param) {
-          validateMonth(intsFound);
-        }
-
-      } else if (Boolean.class.isAssignableFrom(pType)) {
-        // we cannot use Boolean.parseBoolean as this accepted anything as false
-        if (!BOOLEAN.matcher(value).find()) {
-          throw new IllegalArgumentException("Value " + value + " is no valid boolean");
-        }
-
-      } else if (Country.class.isAssignableFrom(pType)) {
-        // iso codes expected
-        Preconditions.checkNotNull(Country.fromIsoCode(value));
-
-      } else if (Language.class.isAssignableFrom(pType)) {
-        // iso codes expected
-        Preconditions.checkNotNull(Language.fromIsoCode(value));
-
-      } else if (Enum.class.isAssignableFrom(pType)) {
-        // enum value expected, cast to enum
-        @SuppressWarnings("unchecked")
-        Class<? extends Enum<?>> eType = (Class<? extends Enum<?>>) pType;
-        Preconditions.checkNotNull(VocabularyUtils.lookupEnum(value, eType));
-
-      } else if (Date.class.isAssignableFrom(pType)) {
-        // ISO date strings
-        validateDate(value);
-
-      } else if (String.class.isAssignableFrom(pType)) {
-        // any string allowed
-
-      } else {
-        // an unexpected data type - update this method!!
-        throw new IllegalArgumentException("Unknown SearchParameter data type " + pType.getCanonicalName());
       }
+      // All the parameters except by GEOMETRY accept the wild card value
+      if (!WILD_CARD.equalsIgnoreCase(Strings.nullToEmpty(value).trim())) {
+        if (OccurrenceSearchParameter.DECIMAL_LATITUDE == param) {
+          validateLatitude(value);
 
+        } else if (OccurrenceSearchParameter.DECIMAL_LONGITUDE == param) {
+          validateLongitude(value);
+
+        } else if (UUID.class.isAssignableFrom(pType)) {
+          UUID.fromString(value);
+
+        } else if (Double.class.isAssignableFrom(pType)) {
+          validateDouble(value);
+
+        } else if (Integer.class.isAssignableFrom(pType)) {
+          Collection<Integer> intsFound = validateInteger(value);
+          if (OccurrenceSearchParameter.MONTH == param) {
+            validateMonth(intsFound);
+          }
+
+        } else if (Boolean.class.isAssignableFrom(pType)) {
+          // we cannot use Boolean.parseBoolean as this accepted anything as false
+          if (!BOOLEAN.matcher(value).find()) {
+            throw new IllegalArgumentException("Value " + value + " is no valid boolean");
+          }
+
+        } else if (Country.class.isAssignableFrom(pType)) {
+          // iso codes expected
+          Preconditions.checkNotNull(Country.fromIsoCode(value));
+
+        } else if (Language.class.isAssignableFrom(pType)) {
+          // iso codes expected
+          Preconditions.checkNotNull(Language.fromIsoCode(value));
+
+        } else if (Enum.class.isAssignableFrom(pType)) {
+          // enum value expected, cast to enum
+          @SuppressWarnings("unchecked")
+          Class<? extends Enum<?>> eType = (Class<? extends Enum<?>>) pType;
+          Preconditions.checkNotNull(VocabularyUtils.lookupEnum(value, eType));
+
+        } else if (Date.class.isAssignableFrom(pType)) {
+          // ISO date strings
+          validateDate(value);
+
+        } else if (String.class.isAssignableFrom(pType)) {
+          // any string allowed
+
+        } else {
+          // an unexpected data type - update this method!!
+          throw new IllegalArgumentException("Unknown SearchParameter data type " + pType.getCanonicalName());
+        }
+      }
     } catch (NullPointerException e) {
       // Preconditions.checkNotNull throws NPE but we want IllegalArgumentException
       throw new IllegalArgumentException("Value " + value + " invalid for filter parameter " + param, e);
@@ -362,7 +367,7 @@ public class SearchTypeValidator {
   /**
    * Validates if the value is a valid single integer or a range of integer values.
    * If the value is a range each limit is validated and the wildcard character '*' is skipped.
-   *
+   * 
    * @throws IllegalArgumentException if value is invalid or null
    */
   private static Collection<Integer> validateInteger(String value) {
