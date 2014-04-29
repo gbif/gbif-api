@@ -64,12 +64,12 @@ public class HumanFilterBuilderTest {
 
 
     Map<OccurrenceSearchParameter, LinkedList<String>> x = builder.humanFilter(or);
-    assertEquals(4, x.get(OccurrenceSearchParameter.YEAR).size());
+    assertEquals(5, x.get(OccurrenceSearchParameter.YEAR).size());
     assertEquals(">=2000", x.get(OccurrenceSearchParameter.YEAR).getFirst());
     assertEquals(">2001", x.get(OccurrenceSearchParameter.YEAR).get(1));
     assertEquals("<1750", x.get(OccurrenceSearchParameter.YEAR).get(2));
     assertEquals("<=1760", x.get(OccurrenceSearchParameter.YEAR).get(3));
-    assertEquals("YEAR IS NOT NULL", x.get(OccurrenceSearchParameter.YEAR).getLast());
+    assertEquals("IS NOT NULL", x.get(OccurrenceSearchParameter.YEAR).getLast());
   }
 
   @Test
