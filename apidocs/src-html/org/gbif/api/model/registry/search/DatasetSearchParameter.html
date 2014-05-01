@@ -57,48 +57,46 @@
 <span class="sourceLineNo">049</span>  HOSTING_ORG(UUID.class),<a name="line.49"></a>
 <span class="sourceLineNo">050</span><a name="line.50"></a>
 <span class="sourceLineNo">051</span>  /**<a name="line.51"></a>
-<span class="sourceLineNo">052</span>   * A case insensitive plain text keyword or serialized tag as created by Tag.toString().<a name="line.52"></a>
-<span class="sourceLineNo">053</span>   * The search is done on the keywords generated through {@link org.gbif.api.model.registry.eml.Dataset#getKeywords()}<a name="line.53"></a>
-<span class="sourceLineNo">054</span>   * by merging tags, the keywordCollections and temporalCoverages property.<a name="line.54"></a>
-<span class="sourceLineNo">055</span>   */<a name="line.55"></a>
-<span class="sourceLineNo">056</span>  KEYWORD(String.class),<a name="line.56"></a>
-<span class="sourceLineNo">057</span><a name="line.57"></a>
-<span class="sourceLineNo">058</span>  /**<a name="line.58"></a>
-<span class="sourceLineNo">059</span>   * Filters datasets by their temporal coverage broken down to decades.<a name="line.59"></a>
-<span class="sourceLineNo">060</span>   * Decade given as a full year, e.g. 1950, 1960 or 1980.<a name="line.60"></a>
-<span class="sourceLineNo">061</span>   */<a name="line.61"></a>
-<span class="sourceLineNo">062</span>  DECADE(Integer.class),<a name="line.62"></a>
-<span class="sourceLineNo">063</span><a name="line.63"></a>
-<span class="sourceLineNo">064</span>  /**<a name="line.64"></a>
-<span class="sourceLineNo">065</span>   * The owning organizations country.<a name="line.65"></a>
-<span class="sourceLineNo">066</span>   */<a name="line.66"></a>
-<span class="sourceLineNo">067</span>  PUBLISHING_COUNTRY(Country.class),<a name="line.67"></a>
-<span class="sourceLineNo">068</span><a name="line.68"></a>
-<span class="sourceLineNo">069</span>  /**<a name="line.69"></a>
-<span class="sourceLineNo">070</span>   * Country of the geospatial coverage of a dataset.<a name="line.70"></a>
-<span class="sourceLineNo">071</span>   */<a name="line.71"></a>
-<span class="sourceLineNo">072</span>  COUNTRY(Country.class),<a name="line.72"></a>
-<span class="sourceLineNo">073</span><a name="line.73"></a>
-<span class="sourceLineNo">074</span>  /**<a name="line.74"></a>
-<span class="sourceLineNo">075</span>   * {@link org.gbif.api.vocabulary.Continent} of the geospatial coverage of a dataset.<a name="line.75"></a>
-<span class="sourceLineNo">076</span>   */<a name="line.76"></a>
-<span class="sourceLineNo">077</span>  CONTINENT(Continent.class);<a name="line.77"></a>
-<span class="sourceLineNo">078</span><a name="line.78"></a>
-<span class="sourceLineNo">079</span><a name="line.79"></a>
-<span class="sourceLineNo">080</span>  private DatasetSearchParameter(Class&lt;?&gt; type) {<a name="line.80"></a>
-<span class="sourceLineNo">081</span>    this.type = type;<a name="line.81"></a>
-<span class="sourceLineNo">082</span>  }<a name="line.82"></a>
+<span class="sourceLineNo">052</span>   * A case insensitive plain text keyword from coverages or serialized tag as created by Tag.toString().<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   */<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  KEYWORD(String.class),<a name="line.54"></a>
+<span class="sourceLineNo">055</span><a name="line.55"></a>
+<span class="sourceLineNo">056</span>  /**<a name="line.56"></a>
+<span class="sourceLineNo">057</span>   * Filters datasets by their temporal coverage broken down to decades.<a name="line.57"></a>
+<span class="sourceLineNo">058</span>   * Decade given as a full year, e.g. 1950, 1960 or 1980.<a name="line.58"></a>
+<span class="sourceLineNo">059</span>   */<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  DECADE(Integer.class),<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>  /**<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   * The owning organizations country.<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   */<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  PUBLISHING_COUNTRY(Country.class),<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>  /**<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   * Country of the geospatial coverage of a dataset.<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   */<a name="line.69"></a>
+<span class="sourceLineNo">070</span>  COUNTRY(Country.class),<a name="line.70"></a>
+<span class="sourceLineNo">071</span><a name="line.71"></a>
+<span class="sourceLineNo">072</span>  /**<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   * {@link org.gbif.api.vocabulary.Continent} of the geospatial coverage of a dataset.<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   */<a name="line.74"></a>
+<span class="sourceLineNo">075</span>  CONTINENT(Continent.class);<a name="line.75"></a>
+<span class="sourceLineNo">076</span><a name="line.76"></a>
+<span class="sourceLineNo">077</span><a name="line.77"></a>
+<span class="sourceLineNo">078</span>  private DatasetSearchParameter(Class&lt;?&gt; type) {<a name="line.78"></a>
+<span class="sourceLineNo">079</span>    this.type = type;<a name="line.79"></a>
+<span class="sourceLineNo">080</span>  }<a name="line.80"></a>
+<span class="sourceLineNo">081</span><a name="line.81"></a>
+<span class="sourceLineNo">082</span>  private final Class&lt;?&gt; type;<a name="line.82"></a>
 <span class="sourceLineNo">083</span><a name="line.83"></a>
-<span class="sourceLineNo">084</span>  private final Class&lt;?&gt; type;<a name="line.84"></a>
-<span class="sourceLineNo">085</span><a name="line.85"></a>
-<span class="sourceLineNo">086</span>  /**<a name="line.86"></a>
-<span class="sourceLineNo">087</span>   * @return the data type expected for the value of the respective search parameter<a name="line.87"></a>
-<span class="sourceLineNo">088</span>   */<a name="line.88"></a>
-<span class="sourceLineNo">089</span>  public Class&lt;?&gt; type() {<a name="line.89"></a>
-<span class="sourceLineNo">090</span>    return type;<a name="line.90"></a>
-<span class="sourceLineNo">091</span>  }<a name="line.91"></a>
-<span class="sourceLineNo">092</span><a name="line.92"></a>
-<span class="sourceLineNo">093</span>}<a name="line.93"></a>
+<span class="sourceLineNo">084</span>  /**<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   * @return the data type expected for the value of the respective search parameter<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   */<a name="line.86"></a>
+<span class="sourceLineNo">087</span>  public Class&lt;?&gt; type() {<a name="line.87"></a>
+<span class="sourceLineNo">088</span>    return type;<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  }<a name="line.89"></a>
+<span class="sourceLineNo">090</span><a name="line.90"></a>
+<span class="sourceLineNo">091</span>}<a name="line.91"></a>
 
 
 
