@@ -49,9 +49,7 @@ public enum DatasetSearchParameter implements SearchParameter {
   HOSTING_ORG(UUID.class),
 
   /**
-   * A case insensitive plain text keyword or serialized tag as created by Tag.toString().
-   * The search is done on the keywords generated through {@link org.gbif.api.model.registry.eml.Dataset#getKeywords()}
-   * by merging tags, the keywordCollections and temporalCoverages property.
+   * A case insensitive plain text keyword from coverages or serialized tag as created by Tag.toString().
    */
   KEYWORD(String.class),
 

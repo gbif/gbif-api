@@ -120,7 +120,7 @@ public class OccurrenceSearchRequest extends SearchRequest<OccurrenceSearchParam
   }
 
   public void addSpatialIssueFilter(boolean hasSpatialIssue) {
-    addParameter(OccurrenceSearchParameter.SPATIAL_ISSUES, hasSpatialIssue);
+    addParameter(OccurrenceSearchParameter.HAS_GEOSPATIAL_ISSUE, hasSpatialIssue);
   }
 
   public void addIssueFilter(OccurrenceIssue issue) {

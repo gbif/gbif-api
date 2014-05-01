@@ -229,12 +229,13 @@ public enum OccurrenceSearchParameter implements SearchParameter {
 
 
   /**
-   * Includes/excludes occurrence records which contain spatial issues.
-   * SPATIAL_ISSUES=true include records with spatial issues.
-   * SPATIAL_ISSUES=false exclude records with spatial issues.
+   * Includes/excludes occurrence records which contain geospatial issues for their coordinate.
+   * See {@link org.gbif.api.vocabulary.OccurrenceIssue#GEOSPATIAL_RULES}
+   * HAS_GEOSPATIAL_ISSUE=true include records with spatial issues.
+   * HAS_GEOSPATIAL_ISSUE=false exclude records with spatial issues.
    * The absence of this parameter returns any record with or without spatial issues.
    */
-  SPATIAL_ISSUES(Boolean.class),
+  HAS_GEOSPATIAL_ISSUE(Boolean.class),
 
   /**
    * Searches occurrence for those that have a specific issue.

@@ -54,7 +54,7 @@ public enum NameUsageSearchParameter implements SearchParameter {
   /**
    * Boolean filter for extinct taxa.
    */
-  EXTINCT(Boolean.class),
+  IS_EXTINCT(Boolean.class),
 
   /**
    * Filter by the known habitats.

@@ -49,7 +49,7 @@ public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearch
   }
 
   public void addExtinctFilter(boolean isExtinct) {
-    addParameter(NameUsageSearchParameter.EXTINCT, String.valueOf(isExtinct));
+    addParameter(NameUsageSearchParameter.IS_EXTINCT, String.valueOf(isExtinct));
   }
 
   public void addHigherTaxonFilter(int usageKey) {

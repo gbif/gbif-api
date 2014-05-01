@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import static org.gbif.api.model.checklistbank.search.NameUsageSearchParameter.EXTINCT;
+import static org.gbif.api.model.checklistbank.search.NameUsageSearchParameter.IS_EXTINCT;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COUNTRY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DATASET_KEY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LATITUDE;
@@ -66,14 +66,14 @@ public class SearchTypeValidatorTest {
       {DATASET_KEY, "f81d4fae-7dec-11d0-a765-00a0c91e6bf6", true, false},
       {DATASET_KEY, "F81D4FAE-7DEC-11D0-A765-00A0C91E6BF6", true, false},
       {DATASET_KEY, "F81D4FAE7DEC11D0A76500A0C91E6BF6", false, false},
-      {EXTINCT, "true", true, false},
-      {EXTINCT, "FALSE", true, false},
-      {EXTINCT, "True", true, false},
-      {EXTINCT, "1", false, false},
-      {EXTINCT, "0", false, false},
-      {EXTINCT, "10", false, false},
-      {EXTINCT, "ja", false, false},
-      {EXTINCT, "no", false, false},
+      {IS_EXTINCT, "true", true, false},
+      {IS_EXTINCT, "FALSE", true, false},
+      {IS_EXTINCT, "True", true, false},
+      {IS_EXTINCT, "1", false, false},
+      {IS_EXTINCT, "0", false, false},
+      {IS_EXTINCT, "10", false, false},
+      {IS_EXTINCT, "ja", false, false},
+      {IS_EXTINCT, "no", false, false},
       {SCIENTIFIC_NAME, "abies%", true, false},
       {GEOMETRY, "POINT (30 10)", true, false},
       {GEOMETRY, "POINT (30 10.12)", true, false},
