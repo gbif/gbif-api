@@ -5,6 +5,7 @@ import org.gbif.api.model.occurrence.predicate.DisjunctionPredicate;
 import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.GreaterThanOrEqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.GreaterThanPredicate;
+import org.gbif.api.model.occurrence.predicate.IsNotNullPredicate;
 import org.gbif.api.model.occurrence.predicate.LessThanOrEqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.LessThanPredicate;
 import org.gbif.api.model.occurrence.predicate.NotPredicate;
@@ -58,15 +59,17 @@ public class HumanFilterBuilderTest {
     ors.add(new GreaterThanPredicate(OccurrenceSearchParameter.YEAR, "2001"));
     ors.add(new LessThanPredicate(OccurrenceSearchParameter.YEAR, "1750"));
     ors.add(new LessThanOrEqualsPredicate(OccurrenceSearchParameter.YEAR, "1760"));
+    ors.add(new IsNotNullPredicate(OccurrenceSearchParameter.YEAR));
     DisjunctionPredicate or = new DisjunctionPredicate(ors);
 
 
     Map<OccurrenceSearchParameter, LinkedList<String>> x = builder.humanFilter(or);
-    assertEquals(4, x.get(OccurrenceSearchParameter.YEAR).size());
+    assertEquals(5, x.get(OccurrenceSearchParameter.YEAR).size());
     assertEquals(">=2000", x.get(OccurrenceSearchParameter.YEAR).getFirst());
     assertEquals(">2001", x.get(OccurrenceSearchParameter.YEAR).get(1));
     assertEquals("<1750", x.get(OccurrenceSearchParameter.YEAR).get(2));
-    assertEquals("<=1760", x.get(OccurrenceSearchParameter.YEAR).getLast());
+    assertEquals("<=1760", x.get(OccurrenceSearchParameter.YEAR).get(3));
+    assertEquals("IS NOT NULL", x.get(OccurrenceSearchParameter.YEAR).getLast());
   }
 
   @Test

@@ -18,6 +18,7 @@ import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.GreaterThanOrEqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.GreaterThanPredicate;
 import org.gbif.api.model.occurrence.predicate.InPredicate;
+import org.gbif.api.model.occurrence.predicate.IsNotNullPredicate;
 import org.gbif.api.model.occurrence.predicate.LessThanOrEqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.LessThanPredicate;
 import org.gbif.api.model.occurrence.predicate.LikePredicate;
@@ -68,6 +69,8 @@ public class HumanFilterBuilder {
   private static final String LESS_THAN_OPERATOR = "<";
   private static final String LESS_THAN_EQUALS_OPERATOR = "<=";
 
+  private static final String IS_NOT_NULL_OPERATOR = "IS NOT NULL";
+
   private static final String LIKE_OPERATOR = "~";
   private Map<OccurrenceSearchParameter, LinkedList<String>> filter;;
   private State state;
@@ -99,15 +102,13 @@ public class HumanFilterBuilder {
   }
 
   private void addParamValue(OccurrenceSearchParameter param, String op, String value) {
-    // verify that last param if existed was the same
-    if (lastParam != null && param != lastParam) {
-      throw new IllegalArgumentException("Mix of search params not supported");
-    }
+    addParamValue(param, op + getHumanValue(param, value));
+  }
 
-    if (!filter.containsKey(param)) {
-      filter.put(param, Lists.<String>newLinkedList());
-    }
-
+  /**
+   * Gets the human readable value of the parameter value.
+   */
+  private String getHumanValue(OccurrenceSearchParameter param, String value) {
     String humanValue;
     // lookup values
     switch (param) {
@@ -130,7 +131,20 @@ public class HumanFilterBuilder {
       default:
         humanValue = value;
     }
-    filter.get(param).add(op + humanValue);
+    return humanValue;
+  }
+
+  private void addParamValue(OccurrenceSearchParameter param, String op) {
+    // verify that last param if existed was the same
+    if (lastParam != null && param != lastParam) {
+      throw new IllegalArgumentException("Mix of search params not supported");
+    }
+
+    if (!filter.containsKey(param)) {
+      filter.put(param, Lists.<String>newLinkedList());
+    }
+
+    filter.get(param).add(op);
     lastParam = param;
   }
 
@@ -272,6 +286,11 @@ public class HumanFilterBuilder {
       throw new IllegalArgumentException("NOT predicate must be followed by a simple predicate");
     }
   }
+
+  private void visit(IsNotNullPredicate predicate) {
+    addParamValue(predicate.getParameter(), IS_NOT_NULL_OPERATOR);
+  }
+
 
   private void visit(Predicate p) throws IllegalStateException {
     Method method = null;

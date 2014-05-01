@@ -34,7 +34,8 @@ import static org.codehaus.jackson.annotate.JsonSubTypes.Type;
                @Type(value = GreaterThanOrEqualsPredicate.class, name = "greaterThanOrEquals"),
                @Type(value = InPredicate.class, name = "in"),
                @Type(value = WithinPredicate.class, name = "within"),
-               @Type(value = NotPredicate.class, name = "not")})
+               @Type(value = NotPredicate.class, name = "not"),
+               @Type(value = IsNotNullPredicate.class, name = "isNotNull")})
 public interface Predicate {
 
 }

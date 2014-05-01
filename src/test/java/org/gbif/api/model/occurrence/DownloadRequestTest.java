@@ -49,7 +49,7 @@ public class DownloadRequestTest {
   }
 
   private static DownloadRequest newDownload(Predicate p, String user, Date completed) {
-    return new DownloadRequest(p, user, Lists.newArrayList(TEST_EMAIL));
+    return new DownloadRequest(p, user, Lists.newArrayList(TEST_EMAIL), false);
   }
 
   @Test

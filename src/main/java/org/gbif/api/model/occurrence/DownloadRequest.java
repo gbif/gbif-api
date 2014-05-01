@@ -35,6 +35,8 @@ public class DownloadRequest {
 
   private Set<String> notificationAddresses;
 
+  private boolean sendNotification;
+
   /**
    * Default constructor.
    */
@@ -48,11 +50,13 @@ public class DownloadRequest {
   @JsonCreator
   public DownloadRequest(
     @JsonProperty("predicate") Predicate predicate, @JsonProperty("creator") String creator,
-    @JsonProperty("notification_address") @Nullable Collection<String> notificationAddresses) {
+    @JsonProperty("notification_address") @Nullable Collection<String> notificationAddresses,
+    @JsonProperty("send_notification") @Nullable boolean sendNotification) {
     this.creator = Preconditions.checkNotNull(creator, "Creator cannot be null");
     this.predicate = predicate;
     this.notificationAddresses = notificationAddresses == null ?
       ImmutableSet.<String>of() : ImmutableSet.copyOf(notificationAddresses);
+    this.sendNotification = sendNotification;
   }
 
   @Override
@@ -67,7 +71,8 @@ public class DownloadRequest {
     DownloadRequest that = (DownloadRequest) obj;
     return Objects.equal(this.creator, that.creator)
       && Objects.equal(this.predicate, that.predicate)
-      && Objects.equal(this.notificationAddresses, that.notificationAddresses);
+      && Objects.equal(this.notificationAddresses, that.notificationAddresses)
+      && Objects.equal(this.sendNotification, that.sendNotification);
   }
 
   /**
@@ -110,7 +115,7 @@ public class DownloadRequest {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(creator, predicate, notificationAddresses);
+    return Objects.hashCode(creator, predicate, notificationAddresses, sendNotification);
   }
 
 
@@ -136,10 +141,22 @@ public class DownloadRequest {
     this.predicate = predicate;
   }
 
+
+  public boolean getSendNotification() {
+    return sendNotification;
+  }
+
+  /**
+   * This parameter determines if the requested download must be notified to the created once it's ready.
+   */
+  public void setSendNotification(boolean sendNotification) {
+    this.sendNotification = sendNotification;
+  }
+
   @Override
   public String toString() {
     return Objects.toStringHelper(this).add("creator", creator).add("predicate", predicate)
-      .add("notificationAddresses", notificationAddresses).toString();
+      .add("notificationAddresses", notificationAddresses).add("emailNotification", sendNotification).toString();
   }
 
 }

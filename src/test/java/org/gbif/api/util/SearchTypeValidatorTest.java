@@ -138,12 +138,15 @@ public class SearchTypeValidatorTest {
       {DECIMAL_LONGITUDE, "180.01", false, false},
       {DECIMAL_LONGITUDE, "-190.0,92.2", false, true},
       {DECIMAL_LONGITUDE, "-150.5,119.9", true, true},
+      {DECIMAL_LONGITUDE, "*", true, false},
       {COUNTRY, "CR", true, false},
       {PUBLISHING_COUNTRY, "CR", true, false},
       {COUNTRY, "CRCRCC", false, false},
       {PUBLISHING_COUNTRY, "CRCRCC", false, false},
       {TYPE_STATUS, "TYPE", true, false},
-      {MEDIA_TYPE, "StillImage", true, false}
+      {TYPE_STATUS, "*", true, false},
+      {MEDIA_TYPE, "StillImage", true, false},
+      {MEDIA_TYPE, "*", true, false}
     };
     return Arrays.asList(data);
   }
