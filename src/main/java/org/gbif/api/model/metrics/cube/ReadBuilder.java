@@ -12,9 +12,11 @@
  */
 package org.gbif.api.model.metrics.cube;
 
+import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.Language;
+
 import java.util.Map;
 import java.util.UUID;
-
 import javax.annotation.concurrent.NotThreadSafe;
 
 import com.google.common.base.Preconditions;
@@ -28,6 +30,24 @@ import com.google.common.collect.Maps;
 public class ReadBuilder {
 
   private final Map<Dimension<?>, String> address = Maps.newHashMap();
+
+  /**
+   * Adds an country type dimension to the address.
+   */
+  public ReadBuilder at(Dimension<Country> dim, Country value) {
+    Preconditions.checkNotNull(value, "Dimension cannot be null");
+    address.put(dim, value.getIso2LetterCode());
+    return this;
+  }
+
+  /**
+   * Adds an language type dimension to the address.
+   */
+  public ReadBuilder at(Dimension<Language> dim, Language value) {
+    Preconditions.checkNotNull(value, "Dimension cannot be null");
+    address.put(dim, value.getIso2LetterCode());
+    return this;
+  }
 
   /**
    * Adds an enumerated type dimension to the address.

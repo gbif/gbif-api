@@ -1,5 +1,6 @@
 package org.gbif.api.model.metrics.cube;
 
+import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Kingdom;
 
 import java.util.UUID;
@@ -63,6 +64,12 @@ public class ReadBuilderTest {
     }
   }
 
+  private static final class CountryDimension extends Dimension<Country> {
+
+    public CountryDimension() {
+      super("country", Country.class);
+    }
+  }
 
   @Test
   public void testDimensions() {
@@ -103,5 +110,10 @@ public class ReadBuilderTest {
     assertNotNull(b.build());
     assertEquals(7, b.build().size());
     assertEquals(String.valueOf(true), b.build().get(new BooleanDimension()));
+
+    b.at(new CountryDimension(), Country.GERMANY);
+    assertNotNull(b.build());
+    assertEquals(8, b.build().size());
+    assertEquals("DE", b.build().get(new CountryDimension()));
   }
 }
