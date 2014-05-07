@@ -80,10 +80,10 @@ public enum OccurrenceIssue {
   RECORDED_DATE_INVALID,
 
   /**
-   * The recording dates year is highly unlikely, falling either into the future
-   * or represents a very old date before 1700 that predates modern taxonomy.
+   * The recording date is highly unlikely, falling either into the future
+   * or represents a very old date before 1600 that predates modern taxonomy.
    */
-  RECORDED_YEAR_UNLIKELY,
+  RECORDED_DATE_UNLIKELY,
 
   /**
    * Matching to the taxonomic backbone can only be done using a fuzzy, non exact match.
@@ -179,15 +179,19 @@ public enum OccurrenceIssue {
   /**
    * An invalid uri is given for a multimedia object.
    */
-  MULTIMEDIA_URI_INVALID,
-  ;
+  MULTIMEDIA_URI_INVALID;
 
+  /**
+   * All issues that indicate problems with the coordinates and thus should not be shown on maps.
+   */
   public static final List<OccurrenceIssue> GEOSPATIAL_RULES = ImmutableList.of(ZERO_COORDINATE,
                                                                                    COORDINATES_OUT_OF_RANGE,
                                                                                    COUNTRY_COORDINATE_MISMATCH,
                                                                                    PRESUMED_SWAPPED_COORDINATE,
                                                                                    PRESUMED_NEGATED_LATITUDE,
                                                                                    PRESUMED_NEGATED_LONGITUDE);
-  public static final List<OccurrenceIssue> TAXONOMIC_RULES = ImmutableList.of();
+  public static final List<OccurrenceIssue> TAXONOMIC_RULES = ImmutableList.of(TAXON_MATCH_FUZZY,
+                                                                               TAXON_MATCH_HIGHERRANK,
+                                                                               TAXON_MATCH_NONE);
 
 }
