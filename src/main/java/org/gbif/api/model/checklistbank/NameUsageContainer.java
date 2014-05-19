@@ -43,7 +43,7 @@ public class NameUsageContainer extends NameUsage {
   private List<Description> descriptions = newArrayList();
   private List<Distribution> distributions = newArrayList();
   private List<Image> images = newArrayList();
-  private List<Reference> references = newArrayList();
+  private List<Reference> referenceList = newArrayList();
   private List<SpeciesProfile> speciesProfiles = newArrayList();
   private List<NameUsage> synonyms = newArrayList();
   private List<TypeSpecimen> typeSpecimens = newArrayList();
@@ -132,15 +132,15 @@ public class NameUsageContainer extends NameUsage {
    * @return the list of Reference
    */
   @NotNull
-  public List<Reference> getReferences() {
-    return references;
+  public List<Reference> getReferenceList() {
+    return referenceList;
   }
 
   /**
-   * @param references the Reference list to set
+   * @param referenceList the Reference list to set
    */
-  public void setReferences(List<Reference> references) {
-    this.references = references;
+  public void setReferenceList(List<Reference> referenceList) {
+    this.referenceList = referenceList;
   }
 
   /**
@@ -334,7 +334,7 @@ public class NameUsageContainer extends NameUsage {
       return Objects.equal(this.descriptions, other.descriptions)
              && Objects.equal(this.distributions, other.distributions)
              && Objects.equal(this.images, other.images)
-             && Objects.equal(this.references, other.references)
+             && Objects.equal(this.referenceList, other.referenceList)
              && Objects.equal(this.speciesProfiles, other.speciesProfiles)
              && Objects.equal(this.synonyms, other.synonyms)
              && Objects.equal(this.typeSpecimens, other.typeSpecimens)
@@ -348,7 +348,7 @@ public class NameUsageContainer extends NameUsage {
     return Objects.hashCode(descriptions,
                             distributions,
                             images,
-                            references,
+                            referenceList,
                             speciesProfiles,
                             synonyms,
                             typeSpecimens,

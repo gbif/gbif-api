@@ -87,7 +87,7 @@ public class NameUsageContainerTest {
     assertEquals(0, nu.getImages().size());
     assertEquals(0, nu.getDescriptions().size());
     assertEquals(0, nu.getDistributions().size());
-    assertEquals(0, nu.getReferences().size());
+    assertEquals(0, nu.getReferenceList().size());
   }
 
   @Test

@@ -31,13 +31,13 @@ import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.UnknownTerm;
 
 import java.lang.reflect.Field;
+import java.net.URI;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -144,6 +144,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   // record level
   private Date modified;  // interpreted dc:modified, i.e. date changed in source
   private Date lastInterpreted;
+  private URI references;
   // interpreted extension data
   private List<Identifier> identifiers = Lists.newArrayList();
   private List<MediaObject> media = Lists.newArrayList();
@@ -783,6 +784,18 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.lastInterpreted = lastInterpreted == null ? null : new Date(lastInterpreted.getTime());
   }
 
+  @Nullable
+  /**
+   * An external link to more details, the records "homepage".
+   */
+  public URI getReferences() {
+    return references;
+  }
+
+  public void setReferences(URI references) {
+    this.references = references;
+  }
+
   @NotNull
   public List<Identifier> getIdentifiers() {
     return identifiers;
@@ -844,7 +857,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         dateIdentified, year, month, day, eventDate, decimalLongitude, decimalLatitude,
         coordinateAccuracy, elevation, elevationAccuracy, depth, depthAccuracy,
         continent, country,
-        stateProvince, waterBody, typeStatus, typifiedName, issues, modified, lastInterpreted,
+        stateProvince, waterBody, typeStatus, typifiedName, issues, modified, lastInterpreted, references,
         identifiers, media, facts, relations);
   }
 
@@ -908,6 +921,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       && Objects.equal(this.issues, that.issues)
       && Objects.equal(this.modified, that.modified)
       && Objects.equal(this.lastInterpreted, that.lastInterpreted)
+      && Objects.equal(this.references, that.references)
       && Objects.equal(this.identifiers, that.identifiers)
       && Objects.equal(this.media, that.media)
       && Objects.equal(this.facts, that.facts)
@@ -965,6 +979,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("issues", issues)
       .add("modified", modified)
       .add("lastInterpreted", lastInterpreted)
+      .add("references", references)
       .toString();
   }
 

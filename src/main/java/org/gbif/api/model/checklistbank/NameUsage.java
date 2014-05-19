@@ -25,6 +25,7 @@ import org.gbif.api.vocabulary.Origin;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 
+import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -32,8 +33,8 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -99,7 +100,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   private int numDescendants;
 
   private boolean isSynonym;
-
+  private URI references;
   private List<Identifier> identifiers = newArrayList();
 
   /**
@@ -703,16 +704,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   /**
-   * Adds a new identifier of type URL with the given link url to the internal list of identifiers.
-   */
-  public void addLink(String url) {
-    Identifier link = new Identifier();
-    link.setIdentifier(url);
-    link.setType(IdentifierType.URL);
-    identifiers.add(link);
-  }
-
-  /**
    * @return the canonicalName or scientific name in case its null
    */
   @Nullable
@@ -736,6 +727,43 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     return links;
   }
 
+  /**
+   * A URI link or reference to the source of this record.
+   * <blockquote>
+   * <p>
+   * <i>Example:</i> http://www.catalogueoflife.org/annual-checklist/show_species_details.php?record_id=6197868
+   * </p>
+   * </blockquote>
+   *
+   * @return the link
+   *
+   * @deprecated use simple reference getter instead. This method still uses the old style identifier list underneath.
+   */
+  @Nullable
+  @Deprecated
+  public String getLink() {
+    if (references != null) {
+      return references.toString();
+    }
+    List<Identifier> ids = getExternalLinks();
+    if (!ids.isEmpty()) {
+      return Strings.emptyToNull(ids.get(0).getIdentifier());
+    }
+    return null;
+  }
+
+  @Nullable
+  /**
+   * An external link to more details, the records "homepage".
+   */
+  public URI getReferences() {
+    return references;
+  }
+
+  public void setReferences(URI references) {
+    this.references = references;
+  }
+
   @Override
   public String getHigherRank(Rank rank) {
     return ClassificationUtils.getHigherRank(this, rank);
@@ -757,41 +785,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   @JsonIgnore
   public LinkedHashMap<Integer, String> getHigherClassificationMap() {
     return ClassificationUtils.getHigherClassificationMap(this, key, parentKey, parent);
-  }
-
-  /**
-   * An optional string that can be used to disambiguate homonyms.
-   * For example Oenanthe alone can mean either an orchid or a bird.
-   * When shown in selection lists a user needs to know this difference to make a meaningful choice.
-   *
-   * @return the homonym disambiguation
-   */
-  @Nullable
-  @JsonIgnore
-  public String getHomonymDisambiguation() {
-    // TODO: use a more sophisticated logic and only show the lowest rank sufficient for disambiguation
-    // TODO: make this optional and only show a string when disambiguation is needed!
-    Joiner joiner = Joiner.on(", ").skipNulls();
-    return joiner.join(getKingdom(), getPhylum(), getClazz(), getOrder(), getFamily());
-  }
-
-  /**
-   * A URI link or reference to the source of this record.
-   * <blockquote>
-   * <p>
-   * <i>Example:</i> http://www.catalogueoflife.org/annual-checklist/show_species_details.php?record_id=6197868
-   * </p>
-   * </blockquote>
-   *
-   * @return the link
-   */
-  @Nullable
-  public String getLink() {
-    Identifier id = getLinkIdentifier();
-    if (id != null) {
-      return id.getIdentifier();
-    }
-    return null;
   }
 
   /**
@@ -879,29 +872,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   /**
-   * Sets a new or replaces an existing identifier of type URL with the given identifier value
-   * to the internal list of identifiers.
-   */
-  public void setLink(String url) {
-    Identifier id = getLinkIdentifier();
-    if (id == null) {
-      id = new Identifier();
-      id.setType(IdentifierType.URL);
-      identifiers.add(id);
-    }
-    id.setIdentifier(url);
-  }
-
-  private Identifier getLinkIdentifier() {
-    for (Identifier id : identifiers) {
-      if (IdentifierType.URL == id.getType()) {
-        return id;
-      }
-    }
-    return null;
-  }
-
-  /**
    * Sets a new or replaces an existing identifier of type sourceID with the given identifier value
    * to the internal list of identifiers.
    */
@@ -975,6 +945,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
         isSynonym,
         origin,
         remarks,
+        references,
         identifiers);
   }
 
@@ -1030,6 +1001,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
            && Objects.equal(this.numDescendants, other.numDescendants)
            && Objects.equal(this.isSynonym, other.isSynonym)
            && Objects.equal(this.origin, other.origin)
+           && Objects.equal(this.references, other.references)
            && Objects.equal(this.identifiers, other.identifiers)
            && Objects.equal(this.remarks, other.remarks);
   }
@@ -1078,6 +1050,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
       .add("isSynonym", isSynonym)
       .add("origin", origin)
       .add("remarks", remarks)
+      .add("references", references)
       .add("identifiers", identifiers)
       .toString();
   }

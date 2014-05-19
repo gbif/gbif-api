@@ -22,6 +22,7 @@ import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.IdentifierType;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.UUID;
@@ -210,17 +211,17 @@ public class NameUsageTest {
     assertEquals("991", nu.getIdentifiers().get(0).getIdentifier());
 
 
-    // link
+    // references
     assertEquals(1, nu.getIdentifiers().size());
-    nu.addLink("http://www.example.org");
+    nu.setReferences(URI.create("http://www.example.org"));
+    assertEquals(1, nu.getIdentifiers().size());
     assertEquals("http://www.example.org", nu.getLink());
+    assertEquals(nu.getLink(), nu.getReferences().toString());
 
-    nu.setLink("http://www.example.org/2");
+    nu.setReferences(URI.create("http://www.example.org/2"));
+    assertEquals(1, nu.getIdentifiers().size());
     assertEquals("http://www.example.org/2", nu.getLink());
-
-    nu.addLink("http://www.example.org/3");
-    assertEquals("http://www.example.org/2", nu.getLink());
-    assertEquals(3, nu.getIdentifiers().size());
+    assertEquals(nu.getLink(), nu.getReferences().toString());
   }
 
   @Test
