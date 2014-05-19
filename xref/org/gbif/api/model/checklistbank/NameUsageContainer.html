@@ -53,7 +53,7 @@
 <a class="jxr_linenumber" name="43" href="#43">43</a>    <strong class="jxr_keyword">private</strong> List&lt;Description&gt; descriptions = newArrayList();
 <a class="jxr_linenumber" name="44" href="#44">44</a>    <strong class="jxr_keyword">private</strong> List&lt;Distribution&gt; distributions = newArrayList();
 <a class="jxr_linenumber" name="45" href="#45">45</a>    <strong class="jxr_keyword">private</strong> List&lt;Image&gt; images = newArrayList();
-<a class="jxr_linenumber" name="46" href="#46">46</a>    <strong class="jxr_keyword">private</strong> List&lt;Reference&gt; references = newArrayList();
+<a class="jxr_linenumber" name="46" href="#46">46</a>    <strong class="jxr_keyword">private</strong> List&lt;Reference&gt; referenceList = newArrayList();
 <a class="jxr_linenumber" name="47" href="#47">47</a>    <strong class="jxr_keyword">private</strong> List&lt;SpeciesProfile&gt; speciesProfiles = newArrayList();
 <a class="jxr_linenumber" name="48" href="#48">48</a>    <strong class="jxr_keyword">private</strong> List&lt;NameUsage&gt; synonyms = newArrayList();
 <a class="jxr_linenumber" name="49" href="#49">49</a>    <strong class="jxr_keyword">private</strong> List&lt;TypeSpecimen&gt; typeSpecimens = newArrayList();
@@ -142,15 +142,15 @@
 <a class="jxr_linenumber" name="132" href="#132">132</a> <em class="jxr_javadoccomment">   * @return the list of Reference</em>
 <a class="jxr_linenumber" name="133" href="#133">133</a> <em class="jxr_javadoccomment">   */</em>
 <a class="jxr_linenumber" name="134" href="#134">134</a>   @NotNull
-<a class="jxr_linenumber" name="135" href="#135">135</a>   <strong class="jxr_keyword">public</strong> List&lt;Reference&gt; getReferences() {
-<a class="jxr_linenumber" name="136" href="#136">136</a>     <strong class="jxr_keyword">return</strong> references;
+<a class="jxr_linenumber" name="135" href="#135">135</a>   <strong class="jxr_keyword">public</strong> List&lt;Reference&gt; getReferenceList() {
+<a class="jxr_linenumber" name="136" href="#136">136</a>     <strong class="jxr_keyword">return</strong> referenceList;
 <a class="jxr_linenumber" name="137" href="#137">137</a>   }
 <a class="jxr_linenumber" name="138" href="#138">138</a> 
 <a class="jxr_linenumber" name="139" href="#139">139</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="140" href="#140">140</a> <em class="jxr_javadoccomment">   * @param references the Reference list to set</em>
+<a class="jxr_linenumber" name="140" href="#140">140</a> <em class="jxr_javadoccomment">   * @param referenceList the Reference list to set</em>
 <a class="jxr_linenumber" name="141" href="#141">141</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="142" href="#142">142</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setReferences(List&lt;Reference&gt; references) {
-<a class="jxr_linenumber" name="143" href="#143">143</a>     <strong class="jxr_keyword">this</strong>.references = references;
+<a class="jxr_linenumber" name="142" href="#142">142</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setReferenceList(List&lt;Reference&gt; referenceList) {
+<a class="jxr_linenumber" name="143" href="#143">143</a>     <strong class="jxr_keyword">this</strong>.referenceList = referenceList;
 <a class="jxr_linenumber" name="144" href="#144">144</a>   }
 <a class="jxr_linenumber" name="145" href="#145">145</a> 
 <a class="jxr_linenumber" name="146" href="#146">146</a>   <em class="jxr_javadoccomment">/**</em>
@@ -344,7 +344,7 @@
 <a class="jxr_linenumber" name="334" href="#334">334</a>       <strong class="jxr_keyword">return</strong> Objects.equal(<strong class="jxr_keyword">this</strong>.descriptions, other.descriptions)
 <a class="jxr_linenumber" name="335" href="#335">335</a>              &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.distributions, other.distributions)
 <a class="jxr_linenumber" name="336" href="#336">336</a>              &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.images, other.images)
-<a class="jxr_linenumber" name="337" href="#337">337</a>              &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.references, other.references)
+<a class="jxr_linenumber" name="337" href="#337">337</a>              &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.referenceList, other.referenceList)
 <a class="jxr_linenumber" name="338" href="#338">338</a>              &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.speciesProfiles, other.speciesProfiles)
 <a class="jxr_linenumber" name="339" href="#339">339</a>              &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.synonyms, other.synonyms)
 <a class="jxr_linenumber" name="340" href="#340">340</a>              &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.typeSpecimens, other.typeSpecimens)
@@ -358,7 +358,7 @@
 <a class="jxr_linenumber" name="348" href="#348">348</a>     <strong class="jxr_keyword">return</strong> Objects.hashCode(descriptions,
 <a class="jxr_linenumber" name="349" href="#349">349</a>                             distributions,
 <a class="jxr_linenumber" name="350" href="#350">350</a>                             images,
-<a class="jxr_linenumber" name="351" href="#351">351</a>                             references,
+<a class="jxr_linenumber" name="351" href="#351">351</a>                             referenceList,
 <a class="jxr_linenumber" name="352" href="#352">352</a>                             speciesProfiles,
 <a class="jxr_linenumber" name="353" href="#353">353</a>                             synonyms,
 <a class="jxr_linenumber" name="354" href="#354">354</a>                             typeSpecimens,
