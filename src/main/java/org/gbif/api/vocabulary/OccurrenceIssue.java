@@ -184,7 +184,12 @@ public enum OccurrenceIssue {
   /**
    * An invalid uri is given for dc:references.
    */
-  REFERENCES_URI_INVALID;
+  REFERENCES_URI_INVALID,
+
+  /**
+   * The geodetic datum given is no interpretable value according to
+   */
+  GEODETIC_DATUM_INVALID;
 
   /**
    * All issues that indicate problems with the coordinates and thus should not be shown on maps.
