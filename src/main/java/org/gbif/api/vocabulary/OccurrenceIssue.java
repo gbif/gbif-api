@@ -20,6 +20,16 @@ public enum OccurrenceIssue {
   COORDINATES_OUT_OF_RANGE,
 
   /**
+   * The geodetic datum given could not be interpreted
+   */
+  GEODETIC_DATUM_INVALID,
+
+  /**
+   * The given decimal latitude and longitude could not be reprojected to WGS84 based on the provided datum.
+   */
+  COORDINATE_REPROJECTION_FAILED,
+
+  /**
    * The interpreted occurrence coordinates fall outside of the indicated country.
    */
   COUNTRY_COORDINATE_MISMATCH,
@@ -184,12 +194,7 @@ public enum OccurrenceIssue {
   /**
    * An invalid uri is given for dc:references.
    */
-  REFERENCES_URI_INVALID,
-
-  /**
-   * The geodetic datum given is no interpretable value according to
-   */
-  GEODETIC_DATUM_INVALID;
+  REFERENCES_URI_INVALID;
 
   /**
    * All issues that indicate problems with the coordinates and thus should not be shown on maps.
