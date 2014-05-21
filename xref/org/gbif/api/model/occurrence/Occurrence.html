@@ -549,470 +549,475 @@
 <a class="jxr_linenumber" name="539" href="#539">539</a> 
 <a class="jxr_linenumber" name="540" href="#540">540</a>   <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="541" href="#541">541</a> <em class="jxr_javadoccomment">   * The geodetic datum for the interpreted decimal coordinates.</em>
-<a class="jxr_linenumber" name="542" href="#542">542</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="543" href="#543">543</a>   <strong class="jxr_keyword">public</strong> String getGeodeticDatum() {
-<a class="jxr_linenumber" name="544" href="#544">544</a>     <strong class="jxr_keyword">return</strong> GEO_DATUM;
-<a class="jxr_linenumber" name="545" href="#545">545</a>   }
-<a class="jxr_linenumber" name="546" href="#546">546</a> 
-<a class="jxr_linenumber" name="547" href="#547">547</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="548" href="#548">548</a> <em class="jxr_javadoccomment">   * This private method is needed for jackson deserialization only.</em>
-<a class="jxr_linenumber" name="549" href="#549">549</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="550" href="#550">550</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> setGeodeticDatum(String datum) {
-<a class="jxr_linenumber" name="551" href="#551">551</a>     <em class="jxr_comment">// ignore, we have a statig WGS84 value</em>
-<a class="jxr_linenumber" name="552" href="#552">552</a>   }
-<a class="jxr_linenumber" name="553" href="#553">553</a> 
-<a class="jxr_linenumber" name="554" href="#554">554</a> 
-<a class="jxr_linenumber" name="555" href="#555">555</a>   @Nullable
-<a class="jxr_linenumber" name="556" href="#556">556</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="557" href="#557">557</a> <em class="jxr_javadoccomment">   * Elevation in meters usually above sea level (altitude).</em>
-<a class="jxr_linenumber" name="558" href="#558">558</a> <em class="jxr_javadoccomment">   * &lt;/br&gt;</em>
-<a class="jxr_linenumber" name="559" href="#559">559</a> <em class="jxr_javadoccomment">   * The elevation is calculated using the equation: (minimumElevationInMeters + maximumElevationInMeters) / 2.</em>
-<a class="jxr_linenumber" name="560" href="#560">560</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="561" href="#561">561</a>   <strong class="jxr_keyword">public</strong> Double getElevation() {
-<a class="jxr_linenumber" name="562" href="#562">562</a>     <strong class="jxr_keyword">return</strong> elevation;
-<a class="jxr_linenumber" name="563" href="#563">563</a>   }
-<a class="jxr_linenumber" name="564" href="#564">564</a> 
-<a class="jxr_linenumber" name="565" href="#565">565</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setElevation(@Nullable Double elevation) {
-<a class="jxr_linenumber" name="566" href="#566">566</a>     <strong class="jxr_keyword">this</strong>.elevation = elevation;
-<a class="jxr_linenumber" name="567" href="#567">567</a>   }
-<a class="jxr_linenumber" name="568" href="#568">568</a> 
-<a class="jxr_linenumber" name="569" href="#569">569</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="570" href="#570">570</a> <em class="jxr_javadoccomment">   * Elevation accuracy is the uncertainty for the elevation in meters.</em>
-<a class="jxr_linenumber" name="571" href="#571">571</a> <em class="jxr_javadoccomment">   * &lt;/br&gt;</em>
-<a class="jxr_linenumber" name="572" href="#572">572</a> <em class="jxr_javadoccomment">   * The elevation accuracy is calculated using the equation: (maximumElevationInMeters - minimumElevationInMeters) / 2</em>
-<a class="jxr_linenumber" name="573" href="#573">573</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="574" href="#574">574</a>   @Nullable
-<a class="jxr_linenumber" name="575" href="#575">575</a>   <strong class="jxr_keyword">public</strong> Double getElevationAccuracy() {
-<a class="jxr_linenumber" name="576" href="#576">576</a>     <strong class="jxr_keyword">return</strong> elevationAccuracy;
-<a class="jxr_linenumber" name="577" href="#577">577</a>   }
-<a class="jxr_linenumber" name="578" href="#578">578</a> 
-<a class="jxr_linenumber" name="579" href="#579">579</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setElevationAccuracy(@Nullable Double elevationAccuracy) {
-<a class="jxr_linenumber" name="580" href="#580">580</a>     <strong class="jxr_keyword">this</strong>.elevationAccuracy = elevationAccuracy;
-<a class="jxr_linenumber" name="581" href="#581">581</a>   }
-<a class="jxr_linenumber" name="582" href="#582">582</a> 
-<a class="jxr_linenumber" name="583" href="#583">583</a>   @Nullable
-<a class="jxr_linenumber" name="584" href="#584">584</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="585" href="#585">585</a> <em class="jxr_javadoccomment">   * Depth in meters below the surface. Complimentary to elevation, the depth can be 10 meters below the surface of a</em>
-<a class="jxr_linenumber" name="586" href="#586">586</a> <em class="jxr_javadoccomment">   * lake in 1100m (=elevation).</em>
-<a class="jxr_linenumber" name="587" href="#587">587</a> <em class="jxr_javadoccomment">   * &lt;/br&gt;</em>
-<a class="jxr_linenumber" name="588" href="#588">588</a> <em class="jxr_javadoccomment">   * The depth is calculated using the equation: (minimumDepthInMeters + maximumDepthInMeters) / 2.</em>
-<a class="jxr_linenumber" name="589" href="#589">589</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="590" href="#590">590</a>   <strong class="jxr_keyword">public</strong> Double getDepth() {
-<a class="jxr_linenumber" name="591" href="#591">591</a>     <strong class="jxr_keyword">return</strong> depth;
-<a class="jxr_linenumber" name="592" href="#592">592</a>   }
-<a class="jxr_linenumber" name="593" href="#593">593</a> 
-<a class="jxr_linenumber" name="594" href="#594">594</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setDepth(@Nullable Double depth) {
-<a class="jxr_linenumber" name="595" href="#595">595</a>     <strong class="jxr_keyword">this</strong>.depth = depth;
-<a class="jxr_linenumber" name="596" href="#596">596</a>   }
-<a class="jxr_linenumber" name="597" href="#597">597</a> 
-<a class="jxr_linenumber" name="598" href="#598">598</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="599" href="#599">599</a> <em class="jxr_javadoccomment">   * Depth accuracy is the uncertainty for the depth in meters.</em>
-<a class="jxr_linenumber" name="600" href="#600">600</a> <em class="jxr_javadoccomment">   * &lt;/br&gt;</em>
-<a class="jxr_linenumber" name="601" href="#601">601</a> <em class="jxr_javadoccomment">   * The depth accuracy is calculated using the equation: (maximumDepthInMeters - minimumDepthInMeters) / 2</em>
-<a class="jxr_linenumber" name="602" href="#602">602</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="603" href="#603">603</a>   @Nullable
-<a class="jxr_linenumber" name="604" href="#604">604</a>   <strong class="jxr_keyword">public</strong> Double getDepthAccuracy() {
-<a class="jxr_linenumber" name="605" href="#605">605</a>     <strong class="jxr_keyword">return</strong> depthAccuracy;
-<a class="jxr_linenumber" name="606" href="#606">606</a>   }
-<a class="jxr_linenumber" name="607" href="#607">607</a> 
-<a class="jxr_linenumber" name="608" href="#608">608</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setDepthAccuracy(@Nullable Double depthAccuracy) {
-<a class="jxr_linenumber" name="609" href="#609">609</a>     <strong class="jxr_keyword">this</strong>.depthAccuracy = depthAccuracy;
-<a class="jxr_linenumber" name="610" href="#610">610</a>   }
-<a class="jxr_linenumber" name="611" href="#611">611</a> 
-<a class="jxr_linenumber" name="612" href="#612">612</a>   @Nullable
-<a class="jxr_linenumber" name="613" href="#613">613</a>   <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/vocabulary/Continent.html">Continent</a> getContinent() {
-<a class="jxr_linenumber" name="614" href="#614">614</a>     <strong class="jxr_keyword">return</strong> continent;
+<a class="jxr_linenumber" name="542" href="#542">542</a> <em class="jxr_javadoccomment">   * This is always WGS84 if there a coordinate exists as we reproject other datums into WGS84.</em>
+<a class="jxr_linenumber" name="543" href="#543">543</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="544" href="#544">544</a>   @Nullable
+<a class="jxr_linenumber" name="545" href="#545">545</a>   <strong class="jxr_keyword">public</strong> String getGeodeticDatum() {
+<a class="jxr_linenumber" name="546" href="#546">546</a>     <strong class="jxr_keyword">if</strong> (decimalLatitude != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="547" href="#547">547</a>       <strong class="jxr_keyword">return</strong> GEO_DATUM;
+<a class="jxr_linenumber" name="548" href="#548">548</a>     }
+<a class="jxr_linenumber" name="549" href="#549">549</a>     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="550" href="#550">550</a>   }
+<a class="jxr_linenumber" name="551" href="#551">551</a> 
+<a class="jxr_linenumber" name="552" href="#552">552</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="553" href="#553">553</a> <em class="jxr_javadoccomment">   * This private method is needed for jackson deserialization only.</em>
+<a class="jxr_linenumber" name="554" href="#554">554</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="555" href="#555">555</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> setGeodeticDatum(String datum) {
+<a class="jxr_linenumber" name="556" href="#556">556</a>     <em class="jxr_comment">// ignore, we have a statig WGS84 value</em>
+<a class="jxr_linenumber" name="557" href="#557">557</a>   }
+<a class="jxr_linenumber" name="558" href="#558">558</a> 
+<a class="jxr_linenumber" name="559" href="#559">559</a> 
+<a class="jxr_linenumber" name="560" href="#560">560</a>   @Nullable
+<a class="jxr_linenumber" name="561" href="#561">561</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="562" href="#562">562</a> <em class="jxr_javadoccomment">   * Elevation in meters usually above sea level (altitude).</em>
+<a class="jxr_linenumber" name="563" href="#563">563</a> <em class="jxr_javadoccomment">   * &lt;/br&gt;</em>
+<a class="jxr_linenumber" name="564" href="#564">564</a> <em class="jxr_javadoccomment">   * The elevation is calculated using the equation: (minimumElevationInMeters + maximumElevationInMeters) / 2.</em>
+<a class="jxr_linenumber" name="565" href="#565">565</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="566" href="#566">566</a>   <strong class="jxr_keyword">public</strong> Double getElevation() {
+<a class="jxr_linenumber" name="567" href="#567">567</a>     <strong class="jxr_keyword">return</strong> elevation;
+<a class="jxr_linenumber" name="568" href="#568">568</a>   }
+<a class="jxr_linenumber" name="569" href="#569">569</a> 
+<a class="jxr_linenumber" name="570" href="#570">570</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setElevation(@Nullable Double elevation) {
+<a class="jxr_linenumber" name="571" href="#571">571</a>     <strong class="jxr_keyword">this</strong>.elevation = elevation;
+<a class="jxr_linenumber" name="572" href="#572">572</a>   }
+<a class="jxr_linenumber" name="573" href="#573">573</a> 
+<a class="jxr_linenumber" name="574" href="#574">574</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="575" href="#575">575</a> <em class="jxr_javadoccomment">   * Elevation accuracy is the uncertainty for the elevation in meters.</em>
+<a class="jxr_linenumber" name="576" href="#576">576</a> <em class="jxr_javadoccomment">   * &lt;/br&gt;</em>
+<a class="jxr_linenumber" name="577" href="#577">577</a> <em class="jxr_javadoccomment">   * The elevation accuracy is calculated using the equation: (maximumElevationInMeters - minimumElevationInMeters) / 2</em>
+<a class="jxr_linenumber" name="578" href="#578">578</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="579" href="#579">579</a>   @Nullable
+<a class="jxr_linenumber" name="580" href="#580">580</a>   <strong class="jxr_keyword">public</strong> Double getElevationAccuracy() {
+<a class="jxr_linenumber" name="581" href="#581">581</a>     <strong class="jxr_keyword">return</strong> elevationAccuracy;
+<a class="jxr_linenumber" name="582" href="#582">582</a>   }
+<a class="jxr_linenumber" name="583" href="#583">583</a> 
+<a class="jxr_linenumber" name="584" href="#584">584</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setElevationAccuracy(@Nullable Double elevationAccuracy) {
+<a class="jxr_linenumber" name="585" href="#585">585</a>     <strong class="jxr_keyword">this</strong>.elevationAccuracy = elevationAccuracy;
+<a class="jxr_linenumber" name="586" href="#586">586</a>   }
+<a class="jxr_linenumber" name="587" href="#587">587</a> 
+<a class="jxr_linenumber" name="588" href="#588">588</a>   @Nullable
+<a class="jxr_linenumber" name="589" href="#589">589</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="590" href="#590">590</a> <em class="jxr_javadoccomment">   * Depth in meters below the surface. Complimentary to elevation, the depth can be 10 meters below the surface of a</em>
+<a class="jxr_linenumber" name="591" href="#591">591</a> <em class="jxr_javadoccomment">   * lake in 1100m (=elevation).</em>
+<a class="jxr_linenumber" name="592" href="#592">592</a> <em class="jxr_javadoccomment">   * &lt;/br&gt;</em>
+<a class="jxr_linenumber" name="593" href="#593">593</a> <em class="jxr_javadoccomment">   * The depth is calculated using the equation: (minimumDepthInMeters + maximumDepthInMeters) / 2.</em>
+<a class="jxr_linenumber" name="594" href="#594">594</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="595" href="#595">595</a>   <strong class="jxr_keyword">public</strong> Double getDepth() {
+<a class="jxr_linenumber" name="596" href="#596">596</a>     <strong class="jxr_keyword">return</strong> depth;
+<a class="jxr_linenumber" name="597" href="#597">597</a>   }
+<a class="jxr_linenumber" name="598" href="#598">598</a> 
+<a class="jxr_linenumber" name="599" href="#599">599</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setDepth(@Nullable Double depth) {
+<a class="jxr_linenumber" name="600" href="#600">600</a>     <strong class="jxr_keyword">this</strong>.depth = depth;
+<a class="jxr_linenumber" name="601" href="#601">601</a>   }
+<a class="jxr_linenumber" name="602" href="#602">602</a> 
+<a class="jxr_linenumber" name="603" href="#603">603</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="604" href="#604">604</a> <em class="jxr_javadoccomment">   * Depth accuracy is the uncertainty for the depth in meters.</em>
+<a class="jxr_linenumber" name="605" href="#605">605</a> <em class="jxr_javadoccomment">   * &lt;/br&gt;</em>
+<a class="jxr_linenumber" name="606" href="#606">606</a> <em class="jxr_javadoccomment">   * The depth accuracy is calculated using the equation: (maximumDepthInMeters - minimumDepthInMeters) / 2</em>
+<a class="jxr_linenumber" name="607" href="#607">607</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="608" href="#608">608</a>   @Nullable
+<a class="jxr_linenumber" name="609" href="#609">609</a>   <strong class="jxr_keyword">public</strong> Double getDepthAccuracy() {
+<a class="jxr_linenumber" name="610" href="#610">610</a>     <strong class="jxr_keyword">return</strong> depthAccuracy;
+<a class="jxr_linenumber" name="611" href="#611">611</a>   }
+<a class="jxr_linenumber" name="612" href="#612">612</a> 
+<a class="jxr_linenumber" name="613" href="#613">613</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setDepthAccuracy(@Nullable Double depthAccuracy) {
+<a class="jxr_linenumber" name="614" href="#614">614</a>     <strong class="jxr_keyword">this</strong>.depthAccuracy = depthAccuracy;
 <a class="jxr_linenumber" name="615" href="#615">615</a>   }
 <a class="jxr_linenumber" name="616" href="#616">616</a> 
-<a class="jxr_linenumber" name="617" href="#617">617</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setContinent(@Nullable <a href="../../../../../org/gbif/api/vocabulary/Continent.html">Continent</a> continent) {
-<a class="jxr_linenumber" name="618" href="#618">618</a>     <strong class="jxr_keyword">this</strong>.continent = continent;
-<a class="jxr_linenumber" name="619" href="#619">619</a>   }
-<a class="jxr_linenumber" name="620" href="#620">620</a> 
-<a class="jxr_linenumber" name="621" href="#621">621</a>   @Nullable
-<a class="jxr_linenumber" name="622" href="#622">622</a>   <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/vocabulary/Country.html">Country</a> getCountry() {
-<a class="jxr_linenumber" name="623" href="#623">623</a>     <strong class="jxr_keyword">return</strong> country;
+<a class="jxr_linenumber" name="617" href="#617">617</a>   @Nullable
+<a class="jxr_linenumber" name="618" href="#618">618</a>   <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/vocabulary/Continent.html">Continent</a> getContinent() {
+<a class="jxr_linenumber" name="619" href="#619">619</a>     <strong class="jxr_keyword">return</strong> continent;
+<a class="jxr_linenumber" name="620" href="#620">620</a>   }
+<a class="jxr_linenumber" name="621" href="#621">621</a> 
+<a class="jxr_linenumber" name="622" href="#622">622</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setContinent(@Nullable <a href="../../../../../org/gbif/api/vocabulary/Continent.html">Continent</a> continent) {
+<a class="jxr_linenumber" name="623" href="#623">623</a>     <strong class="jxr_keyword">this</strong>.continent = continent;
 <a class="jxr_linenumber" name="624" href="#624">624</a>   }
 <a class="jxr_linenumber" name="625" href="#625">625</a> 
-<a class="jxr_linenumber" name="626" href="#626">626</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setCountry(@Nullable <a href="../../../../../org/gbif/api/vocabulary/Country.html">Country</a> country) {
-<a class="jxr_linenumber" name="627" href="#627">627</a>     <strong class="jxr_keyword">this</strong>.country = country;
-<a class="jxr_linenumber" name="628" href="#628">628</a>   }
-<a class="jxr_linenumber" name="629" href="#629">629</a> 
-<a class="jxr_linenumber" name="630" href="#630">630</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="631" href="#631">631</a> <em class="jxr_javadoccomment">   * Renders the country title as json property country in addition to the iso 2 letter countryCode being</em>
-<a class="jxr_linenumber" name="632" href="#632">632</a> <em class="jxr_javadoccomment">   * serlialized by the regular country java property.</em>
-<a class="jxr_linenumber" name="633" href="#633">633</a> <em class="jxr_javadoccomment">   * Made private to only use it for json serlialization and not within java code.</em>
-<a class="jxr_linenumber" name="634" href="#634">634</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="635" href="#635">635</a>   @Nullable
-<a class="jxr_linenumber" name="636" href="#636">636</a>   @JsonProperty(<span class="jxr_string">"country"</span>)
-<a class="jxr_linenumber" name="637" href="#637">637</a>   <strong class="jxr_keyword">private</strong> String getCountryTitle() {
-<a class="jxr_linenumber" name="638" href="#638">638</a>     <strong class="jxr_keyword">return</strong> country == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : country.getTitle();
-<a class="jxr_linenumber" name="639" href="#639">639</a>   }
-<a class="jxr_linenumber" name="640" href="#640">640</a> 
-<a class="jxr_linenumber" name="641" href="#641">641</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> setCountryTitle(String country) {
-<a class="jxr_linenumber" name="642" href="#642">642</a>     <em class="jxr_comment">// ignore, setter only to avoid json being written into the fields map</em>
-<a class="jxr_linenumber" name="643" href="#643">643</a>   }
-<a class="jxr_linenumber" name="644" href="#644">644</a> 
-<a class="jxr_linenumber" name="645" href="#645">645</a>   @Nullable
-<a class="jxr_linenumber" name="646" href="#646">646</a>   <strong class="jxr_keyword">public</strong> String getStateProvince() {
-<a class="jxr_linenumber" name="647" href="#647">647</a>     <strong class="jxr_keyword">return</strong> stateProvince;
+<a class="jxr_linenumber" name="626" href="#626">626</a>   @Nullable
+<a class="jxr_linenumber" name="627" href="#627">627</a>   <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/vocabulary/Country.html">Country</a> getCountry() {
+<a class="jxr_linenumber" name="628" href="#628">628</a>     <strong class="jxr_keyword">return</strong> country;
+<a class="jxr_linenumber" name="629" href="#629">629</a>   }
+<a class="jxr_linenumber" name="630" href="#630">630</a> 
+<a class="jxr_linenumber" name="631" href="#631">631</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setCountry(@Nullable <a href="../../../../../org/gbif/api/vocabulary/Country.html">Country</a> country) {
+<a class="jxr_linenumber" name="632" href="#632">632</a>     <strong class="jxr_keyword">this</strong>.country = country;
+<a class="jxr_linenumber" name="633" href="#633">633</a>   }
+<a class="jxr_linenumber" name="634" href="#634">634</a> 
+<a class="jxr_linenumber" name="635" href="#635">635</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="636" href="#636">636</a> <em class="jxr_javadoccomment">   * Renders the country title as json property country in addition to the iso 2 letter countryCode being</em>
+<a class="jxr_linenumber" name="637" href="#637">637</a> <em class="jxr_javadoccomment">   * serlialized by the regular country java property.</em>
+<a class="jxr_linenumber" name="638" href="#638">638</a> <em class="jxr_javadoccomment">   * Made private to only use it for json serlialization and not within java code.</em>
+<a class="jxr_linenumber" name="639" href="#639">639</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="640" href="#640">640</a>   @Nullable
+<a class="jxr_linenumber" name="641" href="#641">641</a>   @JsonProperty(<span class="jxr_string">"country"</span>)
+<a class="jxr_linenumber" name="642" href="#642">642</a>   <strong class="jxr_keyword">private</strong> String getCountryTitle() {
+<a class="jxr_linenumber" name="643" href="#643">643</a>     <strong class="jxr_keyword">return</strong> country == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : country.getTitle();
+<a class="jxr_linenumber" name="644" href="#644">644</a>   }
+<a class="jxr_linenumber" name="645" href="#645">645</a> 
+<a class="jxr_linenumber" name="646" href="#646">646</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> setCountryTitle(String country) {
+<a class="jxr_linenumber" name="647" href="#647">647</a>     <em class="jxr_comment">// ignore, setter only to avoid json being written into the fields map</em>
 <a class="jxr_linenumber" name="648" href="#648">648</a>   }
 <a class="jxr_linenumber" name="649" href="#649">649</a> 
-<a class="jxr_linenumber" name="650" href="#650">650</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setStateProvince(@Nullable String stateProvince) {
-<a class="jxr_linenumber" name="651" href="#651">651</a>     <strong class="jxr_keyword">this</strong>.stateProvince = stateProvince;
-<a class="jxr_linenumber" name="652" href="#652">652</a>   }
-<a class="jxr_linenumber" name="653" href="#653">653</a> 
-<a class="jxr_linenumber" name="654" href="#654">654</a>   @Nullable
-<a class="jxr_linenumber" name="655" href="#655">655</a>   <strong class="jxr_keyword">public</strong> String getWaterBody() {
-<a class="jxr_linenumber" name="656" href="#656">656</a>     <strong class="jxr_keyword">return</strong> waterBody;
+<a class="jxr_linenumber" name="650" href="#650">650</a>   @Nullable
+<a class="jxr_linenumber" name="651" href="#651">651</a>   <strong class="jxr_keyword">public</strong> String getStateProvince() {
+<a class="jxr_linenumber" name="652" href="#652">652</a>     <strong class="jxr_keyword">return</strong> stateProvince;
+<a class="jxr_linenumber" name="653" href="#653">653</a>   }
+<a class="jxr_linenumber" name="654" href="#654">654</a> 
+<a class="jxr_linenumber" name="655" href="#655">655</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setStateProvince(@Nullable String stateProvince) {
+<a class="jxr_linenumber" name="656" href="#656">656</a>     <strong class="jxr_keyword">this</strong>.stateProvince = stateProvince;
 <a class="jxr_linenumber" name="657" href="#657">657</a>   }
 <a class="jxr_linenumber" name="658" href="#658">658</a> 
-<a class="jxr_linenumber" name="659" href="#659">659</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setWaterBody(@Nullable String waterBody) {
-<a class="jxr_linenumber" name="660" href="#660">660</a>     <strong class="jxr_keyword">this</strong>.waterBody = waterBody;
-<a class="jxr_linenumber" name="661" href="#661">661</a>   }
-<a class="jxr_linenumber" name="662" href="#662">662</a> 
-<a class="jxr_linenumber" name="663" href="#663">663</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="664" href="#664">664</a> <em class="jxr_javadoccomment">   * The full year of the event date.</em>
-<a class="jxr_linenumber" name="665" href="#665">665</a> <em class="jxr_javadoccomment">   *</em>
-<a class="jxr_linenumber" name="666" href="#666">666</a> <em class="jxr_javadoccomment">   * @return the year of the event date</em>
-<a class="jxr_linenumber" name="667" href="#667">667</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="668" href="#668">668</a>   @Min(1500)
-<a class="jxr_linenumber" name="669" href="#669">669</a>   @Max(2020)
-<a class="jxr_linenumber" name="670" href="#670">670</a>   @Nullable
-<a class="jxr_linenumber" name="671" href="#671">671</a>   <strong class="jxr_keyword">public</strong> Integer getYear() {
-<a class="jxr_linenumber" name="672" href="#672">672</a>     <strong class="jxr_keyword">return</strong> year;
-<a class="jxr_linenumber" name="673" href="#673">673</a>   }
-<a class="jxr_linenumber" name="674" href="#674">674</a> 
-<a class="jxr_linenumber" name="675" href="#675">675</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setYear(@Nullable Integer year) {
-<a class="jxr_linenumber" name="676" href="#676">676</a>     <strong class="jxr_keyword">this</strong>.year = year;
-<a class="jxr_linenumber" name="677" href="#677">677</a>   }
-<a class="jxr_linenumber" name="678" href="#678">678</a> 
-<a class="jxr_linenumber" name="679" href="#679">679</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="680" href="#680">680</a> <em class="jxr_javadoccomment">   * The month of the year of the event date starting with zero for january following {@link Date}.</em>
-<a class="jxr_linenumber" name="681" href="#681">681</a> <em class="jxr_javadoccomment">   *</em>
-<a class="jxr_linenumber" name="682" href="#682">682</a> <em class="jxr_javadoccomment">   * @return the month of the event date</em>
-<a class="jxr_linenumber" name="683" href="#683">683</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="684" href="#684">684</a>   @Min(1)
-<a class="jxr_linenumber" name="685" href="#685">685</a>   @Max(12)
-<a class="jxr_linenumber" name="686" href="#686">686</a>   @Nullable
-<a class="jxr_linenumber" name="687" href="#687">687</a>   <strong class="jxr_keyword">public</strong> Integer getMonth() {
-<a class="jxr_linenumber" name="688" href="#688">688</a>     <strong class="jxr_keyword">return</strong> month;
-<a class="jxr_linenumber" name="689" href="#689">689</a>   }
-<a class="jxr_linenumber" name="690" href="#690">690</a> 
-<a class="jxr_linenumber" name="691" href="#691">691</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setMonth(@Nullable Integer month) {
-<a class="jxr_linenumber" name="692" href="#692">692</a>     <strong class="jxr_keyword">this</strong>.month = month;
-<a class="jxr_linenumber" name="693" href="#693">693</a>   }
-<a class="jxr_linenumber" name="694" href="#694">694</a> 
-<a class="jxr_linenumber" name="695" href="#695">695</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="696" href="#696">696</a> <em class="jxr_javadoccomment">   * The day of the month of the event date.</em>
-<a class="jxr_linenumber" name="697" href="#697">697</a> <em class="jxr_javadoccomment">   *</em>
-<a class="jxr_linenumber" name="698" href="#698">698</a> <em class="jxr_javadoccomment">   * @return the day of the event date</em>
-<a class="jxr_linenumber" name="699" href="#699">699</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="700" href="#700">700</a>   @Min(1)
-<a class="jxr_linenumber" name="701" href="#701">701</a>   @Max(31)
-<a class="jxr_linenumber" name="702" href="#702">702</a>   @Nullable
-<a class="jxr_linenumber" name="703" href="#703">703</a>   <strong class="jxr_keyword">public</strong> Integer getDay() {
-<a class="jxr_linenumber" name="704" href="#704">704</a>     <strong class="jxr_keyword">return</strong> day;
-<a class="jxr_linenumber" name="705" href="#705">705</a>   }
-<a class="jxr_linenumber" name="706" href="#706">706</a> 
-<a class="jxr_linenumber" name="707" href="#707">707</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setDay(@Nullable Integer day) {
-<a class="jxr_linenumber" name="708" href="#708">708</a>     <strong class="jxr_keyword">this</strong>.day = day;
-<a class="jxr_linenumber" name="709" href="#709">709</a>   }
-<a class="jxr_linenumber" name="710" href="#710">710</a> 
-<a class="jxr_linenumber" name="711" href="#711">711</a>   @Nullable
-<a class="jxr_linenumber" name="712" href="#712">712</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="713" href="#713">713</a> <em class="jxr_javadoccomment">   * The date the occurrence was recorded or collected.</em>
-<a class="jxr_linenumber" name="714" href="#714">714</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="715" href="#715">715</a>   <strong class="jxr_keyword">public</strong> Date getEventDate() {
-<a class="jxr_linenumber" name="716" href="#716">716</a>     <strong class="jxr_keyword">return</strong> eventDate == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : <strong class="jxr_keyword">new</strong> Date(eventDate.getTime());
-<a class="jxr_linenumber" name="717" href="#717">717</a>   }
-<a class="jxr_linenumber" name="718" href="#718">718</a> 
-<a class="jxr_linenumber" name="719" href="#719">719</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setEventDate(@Nullable Date eventDate) {
-<a class="jxr_linenumber" name="720" href="#720">720</a>     <strong class="jxr_keyword">this</strong>.eventDate = eventDate == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : <strong class="jxr_keyword">new</strong> Date(eventDate.getTime());
-<a class="jxr_linenumber" name="721" href="#721">721</a>   }
-<a class="jxr_linenumber" name="722" href="#722">722</a> 
-<a class="jxr_linenumber" name="723" href="#723">723</a>   @Nullable
-<a class="jxr_linenumber" name="724" href="#724">724</a>   <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/vocabulary/TypeStatus.html">TypeStatus</a> getTypeStatus() {
-<a class="jxr_linenumber" name="725" href="#725">725</a>     <strong class="jxr_keyword">return</strong> typeStatus;
+<a class="jxr_linenumber" name="659" href="#659">659</a>   @Nullable
+<a class="jxr_linenumber" name="660" href="#660">660</a>   <strong class="jxr_keyword">public</strong> String getWaterBody() {
+<a class="jxr_linenumber" name="661" href="#661">661</a>     <strong class="jxr_keyword">return</strong> waterBody;
+<a class="jxr_linenumber" name="662" href="#662">662</a>   }
+<a class="jxr_linenumber" name="663" href="#663">663</a> 
+<a class="jxr_linenumber" name="664" href="#664">664</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setWaterBody(@Nullable String waterBody) {
+<a class="jxr_linenumber" name="665" href="#665">665</a>     <strong class="jxr_keyword">this</strong>.waterBody = waterBody;
+<a class="jxr_linenumber" name="666" href="#666">666</a>   }
+<a class="jxr_linenumber" name="667" href="#667">667</a> 
+<a class="jxr_linenumber" name="668" href="#668">668</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="669" href="#669">669</a> <em class="jxr_javadoccomment">   * The full year of the event date.</em>
+<a class="jxr_linenumber" name="670" href="#670">670</a> <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="671" href="#671">671</a> <em class="jxr_javadoccomment">   * @return the year of the event date</em>
+<a class="jxr_linenumber" name="672" href="#672">672</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="673" href="#673">673</a>   @Min(1500)
+<a class="jxr_linenumber" name="674" href="#674">674</a>   @Max(2020)
+<a class="jxr_linenumber" name="675" href="#675">675</a>   @Nullable
+<a class="jxr_linenumber" name="676" href="#676">676</a>   <strong class="jxr_keyword">public</strong> Integer getYear() {
+<a class="jxr_linenumber" name="677" href="#677">677</a>     <strong class="jxr_keyword">return</strong> year;
+<a class="jxr_linenumber" name="678" href="#678">678</a>   }
+<a class="jxr_linenumber" name="679" href="#679">679</a> 
+<a class="jxr_linenumber" name="680" href="#680">680</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setYear(@Nullable Integer year) {
+<a class="jxr_linenumber" name="681" href="#681">681</a>     <strong class="jxr_keyword">this</strong>.year = year;
+<a class="jxr_linenumber" name="682" href="#682">682</a>   }
+<a class="jxr_linenumber" name="683" href="#683">683</a> 
+<a class="jxr_linenumber" name="684" href="#684">684</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="685" href="#685">685</a> <em class="jxr_javadoccomment">   * The month of the year of the event date starting with zero for january following {@link Date}.</em>
+<a class="jxr_linenumber" name="686" href="#686">686</a> <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="687" href="#687">687</a> <em class="jxr_javadoccomment">   * @return the month of the event date</em>
+<a class="jxr_linenumber" name="688" href="#688">688</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="689" href="#689">689</a>   @Min(1)
+<a class="jxr_linenumber" name="690" href="#690">690</a>   @Max(12)
+<a class="jxr_linenumber" name="691" href="#691">691</a>   @Nullable
+<a class="jxr_linenumber" name="692" href="#692">692</a>   <strong class="jxr_keyword">public</strong> Integer getMonth() {
+<a class="jxr_linenumber" name="693" href="#693">693</a>     <strong class="jxr_keyword">return</strong> month;
+<a class="jxr_linenumber" name="694" href="#694">694</a>   }
+<a class="jxr_linenumber" name="695" href="#695">695</a> 
+<a class="jxr_linenumber" name="696" href="#696">696</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setMonth(@Nullable Integer month) {
+<a class="jxr_linenumber" name="697" href="#697">697</a>     <strong class="jxr_keyword">this</strong>.month = month;
+<a class="jxr_linenumber" name="698" href="#698">698</a>   }
+<a class="jxr_linenumber" name="699" href="#699">699</a> 
+<a class="jxr_linenumber" name="700" href="#700">700</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="701" href="#701">701</a> <em class="jxr_javadoccomment">   * The day of the month of the event date.</em>
+<a class="jxr_linenumber" name="702" href="#702">702</a> <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="703" href="#703">703</a> <em class="jxr_javadoccomment">   * @return the day of the event date</em>
+<a class="jxr_linenumber" name="704" href="#704">704</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="705" href="#705">705</a>   @Min(1)
+<a class="jxr_linenumber" name="706" href="#706">706</a>   @Max(31)
+<a class="jxr_linenumber" name="707" href="#707">707</a>   @Nullable
+<a class="jxr_linenumber" name="708" href="#708">708</a>   <strong class="jxr_keyword">public</strong> Integer getDay() {
+<a class="jxr_linenumber" name="709" href="#709">709</a>     <strong class="jxr_keyword">return</strong> day;
+<a class="jxr_linenumber" name="710" href="#710">710</a>   }
+<a class="jxr_linenumber" name="711" href="#711">711</a> 
+<a class="jxr_linenumber" name="712" href="#712">712</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setDay(@Nullable Integer day) {
+<a class="jxr_linenumber" name="713" href="#713">713</a>     <strong class="jxr_keyword">this</strong>.day = day;
+<a class="jxr_linenumber" name="714" href="#714">714</a>   }
+<a class="jxr_linenumber" name="715" href="#715">715</a> 
+<a class="jxr_linenumber" name="716" href="#716">716</a>   @Nullable
+<a class="jxr_linenumber" name="717" href="#717">717</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="718" href="#718">718</a> <em class="jxr_javadoccomment">   * The date the occurrence was recorded or collected.</em>
+<a class="jxr_linenumber" name="719" href="#719">719</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="720" href="#720">720</a>   <strong class="jxr_keyword">public</strong> Date getEventDate() {
+<a class="jxr_linenumber" name="721" href="#721">721</a>     <strong class="jxr_keyword">return</strong> eventDate == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : <strong class="jxr_keyword">new</strong> Date(eventDate.getTime());
+<a class="jxr_linenumber" name="722" href="#722">722</a>   }
+<a class="jxr_linenumber" name="723" href="#723">723</a> 
+<a class="jxr_linenumber" name="724" href="#724">724</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setEventDate(@Nullable Date eventDate) {
+<a class="jxr_linenumber" name="725" href="#725">725</a>     <strong class="jxr_keyword">this</strong>.eventDate = eventDate == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : <strong class="jxr_keyword">new</strong> Date(eventDate.getTime());
 <a class="jxr_linenumber" name="726" href="#726">726</a>   }
 <a class="jxr_linenumber" name="727" href="#727">727</a> 
-<a class="jxr_linenumber" name="728" href="#728">728</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setTypeStatus(@Nullable <a href="../../../../../org/gbif/api/vocabulary/TypeStatus.html">TypeStatus</a> typeStatus) {
-<a class="jxr_linenumber" name="729" href="#729">729</a>     <strong class="jxr_keyword">this</strong>.typeStatus = typeStatus;
-<a class="jxr_linenumber" name="730" href="#730">730</a>   }
-<a class="jxr_linenumber" name="731" href="#731">731</a> 
-<a class="jxr_linenumber" name="732" href="#732">732</a>   @Nullable
-<a class="jxr_linenumber" name="733" href="#733">733</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="734" href="#734">734</a> <em class="jxr_javadoccomment">   * The scientific name the type status of this specimen applies to.</em>
-<a class="jxr_linenumber" name="735" href="#735">735</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="736" href="#736">736</a>   <strong class="jxr_keyword">public</strong> String getTypifiedName() {
-<a class="jxr_linenumber" name="737" href="#737">737</a>     <strong class="jxr_keyword">return</strong> typifiedName;
-<a class="jxr_linenumber" name="738" href="#738">738</a>   }
-<a class="jxr_linenumber" name="739" href="#739">739</a> 
-<a class="jxr_linenumber" name="740" href="#740">740</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setTypifiedName(@Nullable String typifiedName) {
-<a class="jxr_linenumber" name="741" href="#741">741</a>     <strong class="jxr_keyword">this</strong>.typifiedName = typifiedName;
-<a class="jxr_linenumber" name="742" href="#742">742</a>   }
-<a class="jxr_linenumber" name="743" href="#743">743</a> 
-<a class="jxr_linenumber" name="744" href="#744">744</a>   @NotNull
-<a class="jxr_linenumber" name="745" href="#745">745</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="746" href="#746">746</a> <em class="jxr_javadoccomment">   * A set of issues found for this occurrence.</em>
-<a class="jxr_linenumber" name="747" href="#747">747</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="748" href="#748">748</a>   <strong class="jxr_keyword">public</strong> Set&lt;OccurrenceIssue&gt; getIssues() {
-<a class="jxr_linenumber" name="749" href="#749">749</a>     <strong class="jxr_keyword">return</strong> issues;
-<a class="jxr_linenumber" name="750" href="#750">750</a>   }
-<a class="jxr_linenumber" name="751" href="#751">751</a> 
-<a class="jxr_linenumber" name="752" href="#752">752</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setIssues(Set&lt;OccurrenceIssue&gt; issues) {
-<a class="jxr_linenumber" name="753" href="#753">753</a>     Preconditions.checkNotNull(<span class="jxr_string">"Issues cannot be null"</span>, issues);
-<a class="jxr_linenumber" name="754" href="#754">754</a>     <strong class="jxr_keyword">this</strong>.issues = Sets.newEnumSet(issues, OccurrenceIssue.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="728" href="#728">728</a>   @Nullable
+<a class="jxr_linenumber" name="729" href="#729">729</a>   <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/vocabulary/TypeStatus.html">TypeStatus</a> getTypeStatus() {
+<a class="jxr_linenumber" name="730" href="#730">730</a>     <strong class="jxr_keyword">return</strong> typeStatus;
+<a class="jxr_linenumber" name="731" href="#731">731</a>   }
+<a class="jxr_linenumber" name="732" href="#732">732</a> 
+<a class="jxr_linenumber" name="733" href="#733">733</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setTypeStatus(@Nullable <a href="../../../../../org/gbif/api/vocabulary/TypeStatus.html">TypeStatus</a> typeStatus) {
+<a class="jxr_linenumber" name="734" href="#734">734</a>     <strong class="jxr_keyword">this</strong>.typeStatus = typeStatus;
+<a class="jxr_linenumber" name="735" href="#735">735</a>   }
+<a class="jxr_linenumber" name="736" href="#736">736</a> 
+<a class="jxr_linenumber" name="737" href="#737">737</a>   @Nullable
+<a class="jxr_linenumber" name="738" href="#738">738</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="739" href="#739">739</a> <em class="jxr_javadoccomment">   * The scientific name the type status of this specimen applies to.</em>
+<a class="jxr_linenumber" name="740" href="#740">740</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="741" href="#741">741</a>   <strong class="jxr_keyword">public</strong> String getTypifiedName() {
+<a class="jxr_linenumber" name="742" href="#742">742</a>     <strong class="jxr_keyword">return</strong> typifiedName;
+<a class="jxr_linenumber" name="743" href="#743">743</a>   }
+<a class="jxr_linenumber" name="744" href="#744">744</a> 
+<a class="jxr_linenumber" name="745" href="#745">745</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setTypifiedName(@Nullable String typifiedName) {
+<a class="jxr_linenumber" name="746" href="#746">746</a>     <strong class="jxr_keyword">this</strong>.typifiedName = typifiedName;
+<a class="jxr_linenumber" name="747" href="#747">747</a>   }
+<a class="jxr_linenumber" name="748" href="#748">748</a> 
+<a class="jxr_linenumber" name="749" href="#749">749</a>   @NotNull
+<a class="jxr_linenumber" name="750" href="#750">750</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="751" href="#751">751</a> <em class="jxr_javadoccomment">   * A set of issues found for this occurrence.</em>
+<a class="jxr_linenumber" name="752" href="#752">752</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="753" href="#753">753</a>   <strong class="jxr_keyword">public</strong> Set&lt;OccurrenceIssue&gt; getIssues() {
+<a class="jxr_linenumber" name="754" href="#754">754</a>     <strong class="jxr_keyword">return</strong> issues;
 <a class="jxr_linenumber" name="755" href="#755">755</a>   }
 <a class="jxr_linenumber" name="756" href="#756">756</a> 
-<a class="jxr_linenumber" name="757" href="#757">757</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addIssue(<a href="../../../../../org/gbif/api/vocabulary/OccurrenceIssue.html">OccurrenceIssue</a> issue) {
-<a class="jxr_linenumber" name="758" href="#758">758</a>     Preconditions.checkNotNull(<span class="jxr_string">"Issue needs to be specified"</span>, issue);
-<a class="jxr_linenumber" name="759" href="#759">759</a>     issues.add(issue);
+<a class="jxr_linenumber" name="757" href="#757">757</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setIssues(Set&lt;OccurrenceIssue&gt; issues) {
+<a class="jxr_linenumber" name="758" href="#758">758</a>     Preconditions.checkNotNull(<span class="jxr_string">"Issues cannot be null"</span>, issues);
+<a class="jxr_linenumber" name="759" href="#759">759</a>     <strong class="jxr_keyword">this</strong>.issues = Sets.newEnumSet(issues, OccurrenceIssue.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="760" href="#760">760</a>   }
 <a class="jxr_linenumber" name="761" href="#761">761</a> 
-<a class="jxr_linenumber" name="762" href="#762">762</a>   @Nullable
-<a class="jxr_linenumber" name="763" href="#763">763</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="764" href="#764">764</a> <em class="jxr_javadoccomment">   * The interpreted dc:modified from the verbatim source data.</em>
-<a class="jxr_linenumber" name="765" href="#765">765</a> <em class="jxr_javadoccomment">   * Ideally indicating when a record was last modified in the source.</em>
-<a class="jxr_linenumber" name="766" href="#766">766</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="767" href="#767">767</a>   <strong class="jxr_keyword">public</strong> Date getModified() {
-<a class="jxr_linenumber" name="768" href="#768">768</a>     <strong class="jxr_keyword">return</strong> modified == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : <strong class="jxr_keyword">new</strong> Date(modified.getTime());
-<a class="jxr_linenumber" name="769" href="#769">769</a>   }
-<a class="jxr_linenumber" name="770" href="#770">770</a> 
-<a class="jxr_linenumber" name="771" href="#771">771</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setModified(@Nullable Date modified) {
-<a class="jxr_linenumber" name="772" href="#772">772</a>     <strong class="jxr_keyword">this</strong>.modified = modified == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : <strong class="jxr_keyword">new</strong> Date(modified.getTime());
-<a class="jxr_linenumber" name="773" href="#773">773</a>   }
-<a class="jxr_linenumber" name="774" href="#774">774</a> 
-<a class="jxr_linenumber" name="775" href="#775">775</a>   @Nullable
-<a class="jxr_linenumber" name="776" href="#776">776</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="777" href="#777">777</a> <em class="jxr_javadoccomment">   * The date this occurrence last went through the interpretation phase of the GBIF indexing.</em>
-<a class="jxr_linenumber" name="778" href="#778">778</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="779" href="#779">779</a>   <strong class="jxr_keyword">public</strong> Date getLastInterpreted() {
-<a class="jxr_linenumber" name="780" href="#780">780</a>     <strong class="jxr_keyword">return</strong> lastInterpreted == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : <strong class="jxr_keyword">new</strong> Date(lastInterpreted.getTime());
-<a class="jxr_linenumber" name="781" href="#781">781</a>   }
-<a class="jxr_linenumber" name="782" href="#782">782</a> 
-<a class="jxr_linenumber" name="783" href="#783">783</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setLastInterpreted(@Nullable Date lastInterpreted) {
-<a class="jxr_linenumber" name="784" href="#784">784</a>     <strong class="jxr_keyword">this</strong>.lastInterpreted = lastInterpreted == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : <strong class="jxr_keyword">new</strong> Date(lastInterpreted.getTime());
-<a class="jxr_linenumber" name="785" href="#785">785</a>   }
-<a class="jxr_linenumber" name="786" href="#786">786</a> 
-<a class="jxr_linenumber" name="787" href="#787">787</a>   @Nullable
-<a class="jxr_linenumber" name="788" href="#788">788</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="789" href="#789">789</a> <em class="jxr_javadoccomment">   * An external link to more details, the records "homepage".</em>
-<a class="jxr_linenumber" name="790" href="#790">790</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="791" href="#791">791</a>   <strong class="jxr_keyword">public</strong> URI getReferences() {
-<a class="jxr_linenumber" name="792" href="#792">792</a>     <strong class="jxr_keyword">return</strong> references;
-<a class="jxr_linenumber" name="793" href="#793">793</a>   }
-<a class="jxr_linenumber" name="794" href="#794">794</a> 
-<a class="jxr_linenumber" name="795" href="#795">795</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setReferences(URI references) {
-<a class="jxr_linenumber" name="796" href="#796">796</a>     <strong class="jxr_keyword">this</strong>.references = references;
-<a class="jxr_linenumber" name="797" href="#797">797</a>   }
-<a class="jxr_linenumber" name="798" href="#798">798</a> 
-<a class="jxr_linenumber" name="799" href="#799">799</a>   @NotNull
-<a class="jxr_linenumber" name="800" href="#800">800</a>   <strong class="jxr_keyword">public</strong> List&lt;Identifier&gt; getIdentifiers() {
-<a class="jxr_linenumber" name="801" href="#801">801</a>     <strong class="jxr_keyword">return</strong> identifiers;
+<a class="jxr_linenumber" name="762" href="#762">762</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addIssue(<a href="../../../../../org/gbif/api/vocabulary/OccurrenceIssue.html">OccurrenceIssue</a> issue) {
+<a class="jxr_linenumber" name="763" href="#763">763</a>     Preconditions.checkNotNull(<span class="jxr_string">"Issue needs to be specified"</span>, issue);
+<a class="jxr_linenumber" name="764" href="#764">764</a>     issues.add(issue);
+<a class="jxr_linenumber" name="765" href="#765">765</a>   }
+<a class="jxr_linenumber" name="766" href="#766">766</a> 
+<a class="jxr_linenumber" name="767" href="#767">767</a>   @Nullable
+<a class="jxr_linenumber" name="768" href="#768">768</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="769" href="#769">769</a> <em class="jxr_javadoccomment">   * The interpreted dc:modified from the verbatim source data.</em>
+<a class="jxr_linenumber" name="770" href="#770">770</a> <em class="jxr_javadoccomment">   * Ideally indicating when a record was last modified in the source.</em>
+<a class="jxr_linenumber" name="771" href="#771">771</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="772" href="#772">772</a>   <strong class="jxr_keyword">public</strong> Date getModified() {
+<a class="jxr_linenumber" name="773" href="#773">773</a>     <strong class="jxr_keyword">return</strong> modified == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : <strong class="jxr_keyword">new</strong> Date(modified.getTime());
+<a class="jxr_linenumber" name="774" href="#774">774</a>   }
+<a class="jxr_linenumber" name="775" href="#775">775</a> 
+<a class="jxr_linenumber" name="776" href="#776">776</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setModified(@Nullable Date modified) {
+<a class="jxr_linenumber" name="777" href="#777">777</a>     <strong class="jxr_keyword">this</strong>.modified = modified == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : <strong class="jxr_keyword">new</strong> Date(modified.getTime());
+<a class="jxr_linenumber" name="778" href="#778">778</a>   }
+<a class="jxr_linenumber" name="779" href="#779">779</a> 
+<a class="jxr_linenumber" name="780" href="#780">780</a>   @Nullable
+<a class="jxr_linenumber" name="781" href="#781">781</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="782" href="#782">782</a> <em class="jxr_javadoccomment">   * The date this occurrence last went through the interpretation phase of the GBIF indexing.</em>
+<a class="jxr_linenumber" name="783" href="#783">783</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="784" href="#784">784</a>   <strong class="jxr_keyword">public</strong> Date getLastInterpreted() {
+<a class="jxr_linenumber" name="785" href="#785">785</a>     <strong class="jxr_keyword">return</strong> lastInterpreted == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : <strong class="jxr_keyword">new</strong> Date(lastInterpreted.getTime());
+<a class="jxr_linenumber" name="786" href="#786">786</a>   }
+<a class="jxr_linenumber" name="787" href="#787">787</a> 
+<a class="jxr_linenumber" name="788" href="#788">788</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setLastInterpreted(@Nullable Date lastInterpreted) {
+<a class="jxr_linenumber" name="789" href="#789">789</a>     <strong class="jxr_keyword">this</strong>.lastInterpreted = lastInterpreted == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : <strong class="jxr_keyword">new</strong> Date(lastInterpreted.getTime());
+<a class="jxr_linenumber" name="790" href="#790">790</a>   }
+<a class="jxr_linenumber" name="791" href="#791">791</a> 
+<a class="jxr_linenumber" name="792" href="#792">792</a>   @Nullable
+<a class="jxr_linenumber" name="793" href="#793">793</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="794" href="#794">794</a> <em class="jxr_javadoccomment">   * An external link to more details, the records "homepage".</em>
+<a class="jxr_linenumber" name="795" href="#795">795</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="796" href="#796">796</a>   <strong class="jxr_keyword">public</strong> URI getReferences() {
+<a class="jxr_linenumber" name="797" href="#797">797</a>     <strong class="jxr_keyword">return</strong> references;
+<a class="jxr_linenumber" name="798" href="#798">798</a>   }
+<a class="jxr_linenumber" name="799" href="#799">799</a> 
+<a class="jxr_linenumber" name="800" href="#800">800</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setReferences(URI references) {
+<a class="jxr_linenumber" name="801" href="#801">801</a>     <strong class="jxr_keyword">this</strong>.references = references;
 <a class="jxr_linenumber" name="802" href="#802">802</a>   }
 <a class="jxr_linenumber" name="803" href="#803">803</a> 
-<a class="jxr_linenumber" name="804" href="#804">804</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setIdentifiers(List&lt;Identifier&gt; identifiers) {
-<a class="jxr_linenumber" name="805" href="#805">805</a>     <strong class="jxr_keyword">this</strong>.identifiers = identifiers;
-<a class="jxr_linenumber" name="806" href="#806">806</a>   }
-<a class="jxr_linenumber" name="807" href="#807">807</a> 
-<a class="jxr_linenumber" name="808" href="#808">808</a>   @NotNull
-<a class="jxr_linenumber" name="809" href="#809">809</a>   <strong class="jxr_keyword">public</strong> List&lt;MediaObject&gt; getMedia() {
-<a class="jxr_linenumber" name="810" href="#810">810</a>     <strong class="jxr_keyword">return</strong> media;
+<a class="jxr_linenumber" name="804" href="#804">804</a>   @NotNull
+<a class="jxr_linenumber" name="805" href="#805">805</a>   <strong class="jxr_keyword">public</strong> List&lt;Identifier&gt; getIdentifiers() {
+<a class="jxr_linenumber" name="806" href="#806">806</a>     <strong class="jxr_keyword">return</strong> identifiers;
+<a class="jxr_linenumber" name="807" href="#807">807</a>   }
+<a class="jxr_linenumber" name="808" href="#808">808</a> 
+<a class="jxr_linenumber" name="809" href="#809">809</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setIdentifiers(List&lt;Identifier&gt; identifiers) {
+<a class="jxr_linenumber" name="810" href="#810">810</a>     <strong class="jxr_keyword">this</strong>.identifiers = identifiers;
 <a class="jxr_linenumber" name="811" href="#811">811</a>   }
 <a class="jxr_linenumber" name="812" href="#812">812</a> 
-<a class="jxr_linenumber" name="813" href="#813">813</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setMedia(List&lt;MediaObject&gt; media) {
-<a class="jxr_linenumber" name="814" href="#814">814</a>     <strong class="jxr_keyword">this</strong>.media = media;
-<a class="jxr_linenumber" name="815" href="#815">815</a>   }
-<a class="jxr_linenumber" name="816" href="#816">816</a> 
-<a class="jxr_linenumber" name="817" href="#817">817</a>   @NotNull
-<a class="jxr_linenumber" name="818" href="#818">818</a>   <strong class="jxr_keyword">public</strong> List&lt;FactOrMeasurment&gt; getFacts() {
-<a class="jxr_linenumber" name="819" href="#819">819</a>     <strong class="jxr_keyword">return</strong> facts;
+<a class="jxr_linenumber" name="813" href="#813">813</a>   @NotNull
+<a class="jxr_linenumber" name="814" href="#814">814</a>   <strong class="jxr_keyword">public</strong> List&lt;MediaObject&gt; getMedia() {
+<a class="jxr_linenumber" name="815" href="#815">815</a>     <strong class="jxr_keyword">return</strong> media;
+<a class="jxr_linenumber" name="816" href="#816">816</a>   }
+<a class="jxr_linenumber" name="817" href="#817">817</a> 
+<a class="jxr_linenumber" name="818" href="#818">818</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setMedia(List&lt;MediaObject&gt; media) {
+<a class="jxr_linenumber" name="819" href="#819">819</a>     <strong class="jxr_keyword">this</strong>.media = media;
 <a class="jxr_linenumber" name="820" href="#820">820</a>   }
 <a class="jxr_linenumber" name="821" href="#821">821</a> 
-<a class="jxr_linenumber" name="822" href="#822">822</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setFacts(List&lt;FactOrMeasurment&gt; facts) {
-<a class="jxr_linenumber" name="823" href="#823">823</a>     <strong class="jxr_keyword">this</strong>.facts = facts;
-<a class="jxr_linenumber" name="824" href="#824">824</a>   }
-<a class="jxr_linenumber" name="825" href="#825">825</a> 
-<a class="jxr_linenumber" name="826" href="#826">826</a>   @NotNull
-<a class="jxr_linenumber" name="827" href="#827">827</a>   <strong class="jxr_keyword">public</strong> List&lt;OccurrenceRelation&gt; getRelations() {
-<a class="jxr_linenumber" name="828" href="#828">828</a>     <strong class="jxr_keyword">return</strong> relations;
+<a class="jxr_linenumber" name="822" href="#822">822</a>   @NotNull
+<a class="jxr_linenumber" name="823" href="#823">823</a>   <strong class="jxr_keyword">public</strong> List&lt;FactOrMeasurment&gt; getFacts() {
+<a class="jxr_linenumber" name="824" href="#824">824</a>     <strong class="jxr_keyword">return</strong> facts;
+<a class="jxr_linenumber" name="825" href="#825">825</a>   }
+<a class="jxr_linenumber" name="826" href="#826">826</a> 
+<a class="jxr_linenumber" name="827" href="#827">827</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setFacts(List&lt;FactOrMeasurment&gt; facts) {
+<a class="jxr_linenumber" name="828" href="#828">828</a>     <strong class="jxr_keyword">this</strong>.facts = facts;
 <a class="jxr_linenumber" name="829" href="#829">829</a>   }
 <a class="jxr_linenumber" name="830" href="#830">830</a> 
-<a class="jxr_linenumber" name="831" href="#831">831</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setRelations(List&lt;OccurrenceRelation&gt; relations) {
-<a class="jxr_linenumber" name="832" href="#832">832</a>     <strong class="jxr_keyword">this</strong>.relations = relations;
-<a class="jxr_linenumber" name="833" href="#833">833</a>   }
-<a class="jxr_linenumber" name="834" href="#834">834</a> 
+<a class="jxr_linenumber" name="831" href="#831">831</a>   @NotNull
+<a class="jxr_linenumber" name="832" href="#832">832</a>   <strong class="jxr_keyword">public</strong> List&lt;OccurrenceRelation&gt; getRelations() {
+<a class="jxr_linenumber" name="833" href="#833">833</a>     <strong class="jxr_keyword">return</strong> relations;
+<a class="jxr_linenumber" name="834" href="#834">834</a>   }
 <a class="jxr_linenumber" name="835" href="#835">835</a> 
-<a class="jxr_linenumber" name="836" href="#836">836</a>   @JsonIgnore
-<a class="jxr_linenumber" name="837" href="#837">837</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="838" href="#838">838</a> <em class="jxr_javadoccomment">   * Convenience method checking if any spatial validation rule has not passed.</em>
-<a class="jxr_linenumber" name="839" href="#839">839</a> <em class="jxr_javadoccomment">   * Primarily used to indicate that the record should not be displayed on a map.</em>
-<a class="jxr_linenumber" name="840" href="#840">840</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="841" href="#841">841</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hasSpatialIssue() {
-<a class="jxr_linenumber" name="842" href="#842">842</a>     <strong class="jxr_keyword">for</strong> (OccurrenceIssue rule : OccurrenceIssue.GEOSPATIAL_RULES) {
-<a class="jxr_linenumber" name="843" href="#843">843</a>       <strong class="jxr_keyword">if</strong> (issues.contains(rule)) {
-<a class="jxr_linenumber" name="844" href="#844">844</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="845" href="#845">845</a>       }
-<a class="jxr_linenumber" name="846" href="#846">846</a>     }
-<a class="jxr_linenumber" name="847" href="#847">847</a>     <strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="848" href="#848">848</a>   }
-<a class="jxr_linenumber" name="849" href="#849">849</a> 
-<a class="jxr_linenumber" name="850" href="#850">850</a>   @Override
-<a class="jxr_linenumber" name="851" href="#851">851</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> hashCode() {
-<a class="jxr_linenumber" name="852" href="#852">852</a>     <strong class="jxr_keyword">return</strong> Objects
-<a class="jxr_linenumber" name="853" href="#853">853</a>       .hashCode(basisOfRecord, individualCount, sex, lifeStage, establishmentMeans, taxonKey, kingdomKey, phylumKey,
-<a class="jxr_linenumber" name="854" href="#854">854</a>         classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, kingdom, phylum, clazz,
-<a class="jxr_linenumber" name="855" href="#855">855</a>         order,
-<a class="jxr_linenumber" name="856" href="#856">856</a>         family, genus, subgenus, species, genericName, specificEpithet, infraspecificEpithet, taxonRank,
-<a class="jxr_linenumber" name="857" href="#857">857</a>         dateIdentified, year, month, day, eventDate, decimalLongitude, decimalLatitude,
-<a class="jxr_linenumber" name="858" href="#858">858</a>         coordinateAccuracy, elevation, elevationAccuracy, depth, depthAccuracy,
-<a class="jxr_linenumber" name="859" href="#859">859</a>         continent, country,
-<a class="jxr_linenumber" name="860" href="#860">860</a>         stateProvince, waterBody, typeStatus, typifiedName, issues, modified, lastInterpreted, references,
-<a class="jxr_linenumber" name="861" href="#861">861</a>         identifiers, media, facts, relations);
-<a class="jxr_linenumber" name="862" href="#862">862</a>   }
-<a class="jxr_linenumber" name="863" href="#863">863</a> 
-<a class="jxr_linenumber" name="864" href="#864">864</a>   @Override
-<a class="jxr_linenumber" name="865" href="#865">865</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> equals(Object obj) {
-<a class="jxr_linenumber" name="866" href="#866">866</a>     <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong> == obj) {
-<a class="jxr_linenumber" name="867" href="#867">867</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="868" href="#868">868</a>     }
-<a class="jxr_linenumber" name="869" href="#869">869</a>     <strong class="jxr_keyword">if</strong> (!(obj instanceof Occurrence)) {
-<a class="jxr_linenumber" name="870" href="#870">870</a>       <strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="871" href="#871">871</a>     }
-<a class="jxr_linenumber" name="872" href="#872">872</a>     <strong class="jxr_keyword">if</strong> (!<strong class="jxr_keyword">super</strong>.equals(obj)) {
-<a class="jxr_linenumber" name="873" href="#873">873</a>       <strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="874" href="#874">874</a>     }
-<a class="jxr_linenumber" name="875" href="#875">875</a>     <a href="../../../../../org/gbif/api/model/occurrence/Occurrence.html">Occurrence</a> that = (Occurrence) obj;
-<a class="jxr_linenumber" name="876" href="#876">876</a>     <strong class="jxr_keyword">return</strong> Objects.equal(<strong class="jxr_keyword">this</strong>.basisOfRecord, that.basisOfRecord)
-<a class="jxr_linenumber" name="877" href="#877">877</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.individualCount, that.individualCount)
-<a class="jxr_linenumber" name="878" href="#878">878</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.sex, that.sex)
-<a class="jxr_linenumber" name="879" href="#879">879</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.lifeStage, that.lifeStage)
-<a class="jxr_linenumber" name="880" href="#880">880</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.establishmentMeans, that.establishmentMeans)
-<a class="jxr_linenumber" name="881" href="#881">881</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.taxonKey, that.taxonKey)
-<a class="jxr_linenumber" name="882" href="#882">882</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.kingdomKey, that.kingdomKey)
-<a class="jxr_linenumber" name="883" href="#883">883</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.phylumKey, that.phylumKey)
-<a class="jxr_linenumber" name="884" href="#884">884</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.classKey, that.classKey)
-<a class="jxr_linenumber" name="885" href="#885">885</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.orderKey, that.orderKey)
-<a class="jxr_linenumber" name="886" href="#886">886</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.familyKey, that.familyKey)
-<a class="jxr_linenumber" name="887" href="#887">887</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.genusKey, that.genusKey)
-<a class="jxr_linenumber" name="888" href="#888">888</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.subgenusKey, that.subgenusKey)
-<a class="jxr_linenumber" name="889" href="#889">889</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.speciesKey, that.speciesKey)
-<a class="jxr_linenumber" name="890" href="#890">890</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.scientificName, that.scientificName)
-<a class="jxr_linenumber" name="891" href="#891">891</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.kingdom, that.kingdom)
-<a class="jxr_linenumber" name="892" href="#892">892</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.phylum, that.phylum)
-<a class="jxr_linenumber" name="893" href="#893">893</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.clazz, that.clazz)
-<a class="jxr_linenumber" name="894" href="#894">894</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.order, that.order)
-<a class="jxr_linenumber" name="895" href="#895">895</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.family, that.family)
-<a class="jxr_linenumber" name="896" href="#896">896</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.genus, that.genus)
-<a class="jxr_linenumber" name="897" href="#897">897</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.subgenus, that.subgenus)
-<a class="jxr_linenumber" name="898" href="#898">898</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.species, that.species)
-<a class="jxr_linenumber" name="899" href="#899">899</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.genericName, that.genericName)
-<a class="jxr_linenumber" name="900" href="#900">900</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.specificEpithet, that.specificEpithet)
-<a class="jxr_linenumber" name="901" href="#901">901</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.infraspecificEpithet, that.infraspecificEpithet)
-<a class="jxr_linenumber" name="902" href="#902">902</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.taxonRank, that.taxonRank)
-<a class="jxr_linenumber" name="903" href="#903">903</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.dateIdentified, that.dateIdentified)
-<a class="jxr_linenumber" name="904" href="#904">904</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.year, that.year)
-<a class="jxr_linenumber" name="905" href="#905">905</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.month, that.month)
-<a class="jxr_linenumber" name="906" href="#906">906</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.day, that.day)
-<a class="jxr_linenumber" name="907" href="#907">907</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.eventDate, that.eventDate)
-<a class="jxr_linenumber" name="908" href="#908">908</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.decimalLongitude, that.decimalLongitude)
-<a class="jxr_linenumber" name="909" href="#909">909</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.decimalLatitude, that.decimalLatitude)
-<a class="jxr_linenumber" name="910" href="#910">910</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.coordinateAccuracy, that.coordinateAccuracy)
-<a class="jxr_linenumber" name="911" href="#911">911</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.elevation, that.elevation)
-<a class="jxr_linenumber" name="912" href="#912">912</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.elevationAccuracy, that.elevationAccuracy)
-<a class="jxr_linenumber" name="913" href="#913">913</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.depth, that.depth)
-<a class="jxr_linenumber" name="914" href="#914">914</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.depthAccuracy, that.depthAccuracy)
-<a class="jxr_linenumber" name="915" href="#915">915</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.continent, that.continent)
-<a class="jxr_linenumber" name="916" href="#916">916</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.country, that.country)
-<a class="jxr_linenumber" name="917" href="#917">917</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.stateProvince, that.stateProvince)
-<a class="jxr_linenumber" name="918" href="#918">918</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.waterBody, that.waterBody)
-<a class="jxr_linenumber" name="919" href="#919">919</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.typeStatus, that.typeStatus)
-<a class="jxr_linenumber" name="920" href="#920">920</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.typifiedName, that.typifiedName)
-<a class="jxr_linenumber" name="921" href="#921">921</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.issues, that.issues)
-<a class="jxr_linenumber" name="922" href="#922">922</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.modified, that.modified)
-<a class="jxr_linenumber" name="923" href="#923">923</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.lastInterpreted, that.lastInterpreted)
-<a class="jxr_linenumber" name="924" href="#924">924</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.references, that.references)
-<a class="jxr_linenumber" name="925" href="#925">925</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.identifiers, that.identifiers)
-<a class="jxr_linenumber" name="926" href="#926">926</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.media, that.media)
-<a class="jxr_linenumber" name="927" href="#927">927</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.facts, that.facts)
-<a class="jxr_linenumber" name="928" href="#928">928</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.relations, that.relations);
-<a class="jxr_linenumber" name="929" href="#929">929</a>   }
-<a class="jxr_linenumber" name="930" href="#930">930</a> 
-<a class="jxr_linenumber" name="931" href="#931">931</a>   @Override
-<a class="jxr_linenumber" name="932" href="#932">932</a>   <strong class="jxr_keyword">public</strong> String toString() {
-<a class="jxr_linenumber" name="933" href="#933">933</a>     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">super</strong>.toString() + Objects.toStringHelper(<strong class="jxr_keyword">this</strong>)
-<a class="jxr_linenumber" name="934" href="#934">934</a>       .add(<span class="jxr_string">"basisOfRecord"</span>, basisOfRecord)
-<a class="jxr_linenumber" name="935" href="#935">935</a>       .add(<span class="jxr_string">"individualCount"</span>, individualCount)
-<a class="jxr_linenumber" name="936" href="#936">936</a>       .add(<span class="jxr_string">"sex"</span>, sex)
-<a class="jxr_linenumber" name="937" href="#937">937</a>       .add(<span class="jxr_string">"lifeStage"</span>, lifeStage)
-<a class="jxr_linenumber" name="938" href="#938">938</a>       .add(<span class="jxr_string">"establishmentMeans"</span>, establishmentMeans)
-<a class="jxr_linenumber" name="939" href="#939">939</a>       .add(<span class="jxr_string">"taxonKey"</span>, taxonKey)
-<a class="jxr_linenumber" name="940" href="#940">940</a>       .add(<span class="jxr_string">"kingdomKey"</span>, kingdomKey)
-<a class="jxr_linenumber" name="941" href="#941">941</a>       .add(<span class="jxr_string">"phylumKey"</span>, phylumKey)
-<a class="jxr_linenumber" name="942" href="#942">942</a>       .add(<span class="jxr_string">"classKey"</span>, classKey)
-<a class="jxr_linenumber" name="943" href="#943">943</a>       .add(<span class="jxr_string">"orderKey"</span>, orderKey)
-<a class="jxr_linenumber" name="944" href="#944">944</a>       .add(<span class="jxr_string">"familyKey"</span>, familyKey)
-<a class="jxr_linenumber" name="945" href="#945">945</a>       .add(<span class="jxr_string">"genusKey"</span>, genusKey)
-<a class="jxr_linenumber" name="946" href="#946">946</a>       .add(<span class="jxr_string">"subgenusKey"</span>, subgenusKey)
-<a class="jxr_linenumber" name="947" href="#947">947</a>       .add(<span class="jxr_string">"speciesKey"</span>, speciesKey)
-<a class="jxr_linenumber" name="948" href="#948">948</a>       .add(<span class="jxr_string">"scientificName"</span>, scientificName)
-<a class="jxr_linenumber" name="949" href="#949">949</a>       .add(<span class="jxr_string">"kingdom"</span>, kingdom)
-<a class="jxr_linenumber" name="950" href="#950">950</a>       .add(<span class="jxr_string">"phylum"</span>, phylum)
-<a class="jxr_linenumber" name="951" href="#951">951</a>       .add(<span class="jxr_string">"clazz"</span>, clazz)
-<a class="jxr_linenumber" name="952" href="#952">952</a>       .add(<span class="jxr_string">"order"</span>, order)
-<a class="jxr_linenumber" name="953" href="#953">953</a>       .add(<span class="jxr_string">"family"</span>, family)
-<a class="jxr_linenumber" name="954" href="#954">954</a>       .add(<span class="jxr_string">"genus"</span>, genus)
-<a class="jxr_linenumber" name="955" href="#955">955</a>       .add(<span class="jxr_string">"subgenus"</span>, subgenus)
-<a class="jxr_linenumber" name="956" href="#956">956</a>       .add(<span class="jxr_string">"species"</span>, species)
-<a class="jxr_linenumber" name="957" href="#957">957</a>       .add(<span class="jxr_string">"genericName"</span>, genericName)
-<a class="jxr_linenumber" name="958" href="#958">958</a>       .add(<span class="jxr_string">"specificEpithet"</span>, specificEpithet)
-<a class="jxr_linenumber" name="959" href="#959">959</a>       .add(<span class="jxr_string">"infraspecificEpithet"</span>, infraspecificEpithet)
-<a class="jxr_linenumber" name="960" href="#960">960</a>       .add(<span class="jxr_string">"taxonRank"</span>, taxonRank)
-<a class="jxr_linenumber" name="961" href="#961">961</a>       .add(<span class="jxr_string">"dateIdentified"</span>, dateIdentified)
-<a class="jxr_linenumber" name="962" href="#962">962</a>       .add(<span class="jxr_string">"decimalLongitude"</span>, decimalLongitude)
-<a class="jxr_linenumber" name="963" href="#963">963</a>       .add(<span class="jxr_string">"decimalLatitude"</span>, decimalLatitude)
-<a class="jxr_linenumber" name="964" href="#964">964</a>       .add(<span class="jxr_string">"coordinateAccuracy"</span>, coordinateAccuracy)
-<a class="jxr_linenumber" name="965" href="#965">965</a>       .add(<span class="jxr_string">"elevation"</span>, elevation)
-<a class="jxr_linenumber" name="966" href="#966">966</a>       .add(<span class="jxr_string">"elevationAccuracy"</span>, elevationAccuracy)
-<a class="jxr_linenumber" name="967" href="#967">967</a>       .add(<span class="jxr_string">"depth"</span>, depth)
-<a class="jxr_linenumber" name="968" href="#968">968</a>       .add(<span class="jxr_string">"depthAccuracy"</span>, depthAccuracy)
-<a class="jxr_linenumber" name="969" href="#969">969</a>       .add(<span class="jxr_string">"continent"</span>, continent)
-<a class="jxr_linenumber" name="970" href="#970">970</a>       .add(<span class="jxr_string">"country"</span>, country)
-<a class="jxr_linenumber" name="971" href="#971">971</a>       .add(<span class="jxr_string">"stateProvince"</span>, stateProvince)
-<a class="jxr_linenumber" name="972" href="#972">972</a>       .add(<span class="jxr_string">"waterBody"</span>, waterBody)
-<a class="jxr_linenumber" name="973" href="#973">973</a>       .add(<span class="jxr_string">"year"</span>, year)
-<a class="jxr_linenumber" name="974" href="#974">974</a>       .add(<span class="jxr_string">"month"</span>, month)
-<a class="jxr_linenumber" name="975" href="#975">975</a>       .add(<span class="jxr_string">"day"</span>, day)
-<a class="jxr_linenumber" name="976" href="#976">976</a>       .add(<span class="jxr_string">"eventDate"</span>, eventDate)
-<a class="jxr_linenumber" name="977" href="#977">977</a>       .add(<span class="jxr_string">"typeStatus"</span>, typeStatus)
-<a class="jxr_linenumber" name="978" href="#978">978</a>       .add(<span class="jxr_string">"typifiedName"</span>, typifiedName)
-<a class="jxr_linenumber" name="979" href="#979">979</a>       .add(<span class="jxr_string">"issues"</span>, issues)
-<a class="jxr_linenumber" name="980" href="#980">980</a>       .add(<span class="jxr_string">"modified"</span>, modified)
-<a class="jxr_linenumber" name="981" href="#981">981</a>       .add(<span class="jxr_string">"lastInterpreted"</span>, lastInterpreted)
-<a class="jxr_linenumber" name="982" href="#982">982</a>       .add(<span class="jxr_string">"references"</span>, references)
-<a class="jxr_linenumber" name="983" href="#983">983</a>       .toString();
-<a class="jxr_linenumber" name="984" href="#984">984</a>   }
-<a class="jxr_linenumber" name="985" href="#985">985</a> 
-<a class="jxr_linenumber" name="986" href="#986">986</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="987" href="#987">987</a> <em class="jxr_javadoccomment">   * This private method is only for serialization via jackson and not exposed anywhere else!</em>
-<a class="jxr_linenumber" name="988" href="#988">988</a> <em class="jxr_javadoccomment">   * It maps the verbatimField terms into properties with their simple name or qualified names for UnknownTerms.</em>
-<a class="jxr_linenumber" name="989" href="#989">989</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="990" href="#990">990</a>   @JsonAnyGetter
-<a class="jxr_linenumber" name="991" href="#991">991</a>   <strong class="jxr_keyword">private</strong> Map&lt;String, String&gt; jsonVerbatimFields() {
-<a class="jxr_linenumber" name="992" href="#992">992</a>     Map&lt;String, String&gt; extendedProps = Maps.newHashMap();
-<a class="jxr_linenumber" name="993" href="#993">993</a>     <strong class="jxr_keyword">for</strong> (Map.Entry&lt;Term, String&gt; prop : getVerbatimFields().entrySet()) {
-<a class="jxr_linenumber" name="994" href="#994">994</a>       Term t = prop.getKey();
-<a class="jxr_linenumber" name="995" href="#995">995</a>       <strong class="jxr_keyword">if</strong> (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())) {
-<a class="jxr_linenumber" name="996" href="#996">996</a>         extendedProps.put(t.qualifiedName(), prop.getValue());
-<a class="jxr_linenumber" name="997" href="#997">997</a>       } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="998" href="#998">998</a>         <em class="jxr_comment">// render all terms in controlled enumerations as simple names only - unless we have a property of that name</em>
-<a class="jxr_linenumber" name="999" href="#999">999</a> <em class="jxr_comment">// already!</em>
-<a class="jxr_linenumber" name="1000" href="#1000">1000</a>         extendedProps.put(t.simpleName(), prop.getValue());
-<a class="jxr_linenumber" name="1001" href="#1001">1001</a>       }
-<a class="jxr_linenumber" name="1002" href="#1002">1002</a>     }
-<a class="jxr_linenumber" name="1003" href="#1003">1003</a>     <strong class="jxr_keyword">return</strong> extendedProps;
-<a class="jxr_linenumber" name="1004" href="#1004">1004</a>   }
-<a class="jxr_linenumber" name="1005" href="#1005">1005</a> }
+<a class="jxr_linenumber" name="836" href="#836">836</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setRelations(List&lt;OccurrenceRelation&gt; relations) {
+<a class="jxr_linenumber" name="837" href="#837">837</a>     <strong class="jxr_keyword">this</strong>.relations = relations;
+<a class="jxr_linenumber" name="838" href="#838">838</a>   }
+<a class="jxr_linenumber" name="839" href="#839">839</a> 
+<a class="jxr_linenumber" name="840" href="#840">840</a> 
+<a class="jxr_linenumber" name="841" href="#841">841</a>   @JsonIgnore
+<a class="jxr_linenumber" name="842" href="#842">842</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="843" href="#843">843</a> <em class="jxr_javadoccomment">   * Convenience method checking if any spatial validation rule has not passed.</em>
+<a class="jxr_linenumber" name="844" href="#844">844</a> <em class="jxr_javadoccomment">   * Primarily used to indicate that the record should not be displayed on a map.</em>
+<a class="jxr_linenumber" name="845" href="#845">845</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="846" href="#846">846</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hasSpatialIssue() {
+<a class="jxr_linenumber" name="847" href="#847">847</a>     <strong class="jxr_keyword">for</strong> (OccurrenceIssue rule : OccurrenceIssue.GEOSPATIAL_RULES) {
+<a class="jxr_linenumber" name="848" href="#848">848</a>       <strong class="jxr_keyword">if</strong> (issues.contains(rule)) {
+<a class="jxr_linenumber" name="849" href="#849">849</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="850" href="#850">850</a>       }
+<a class="jxr_linenumber" name="851" href="#851">851</a>     }
+<a class="jxr_linenumber" name="852" href="#852">852</a>     <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="853" href="#853">853</a>   }
+<a class="jxr_linenumber" name="854" href="#854">854</a> 
+<a class="jxr_linenumber" name="855" href="#855">855</a>   @Override
+<a class="jxr_linenumber" name="856" href="#856">856</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> hashCode() {
+<a class="jxr_linenumber" name="857" href="#857">857</a>     <strong class="jxr_keyword">return</strong> Objects
+<a class="jxr_linenumber" name="858" href="#858">858</a>       .hashCode(basisOfRecord, individualCount, sex, lifeStage, establishmentMeans, taxonKey, kingdomKey, phylumKey,
+<a class="jxr_linenumber" name="859" href="#859">859</a>         classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, kingdom, phylum, clazz,
+<a class="jxr_linenumber" name="860" href="#860">860</a>         order,
+<a class="jxr_linenumber" name="861" href="#861">861</a>         family, genus, subgenus, species, genericName, specificEpithet, infraspecificEpithet, taxonRank,
+<a class="jxr_linenumber" name="862" href="#862">862</a>         dateIdentified, year, month, day, eventDate, decimalLongitude, decimalLatitude,
+<a class="jxr_linenumber" name="863" href="#863">863</a>         coordinateAccuracy, elevation, elevationAccuracy, depth, depthAccuracy,
+<a class="jxr_linenumber" name="864" href="#864">864</a>         continent, country,
+<a class="jxr_linenumber" name="865" href="#865">865</a>         stateProvince, waterBody, typeStatus, typifiedName, issues, modified, lastInterpreted, references,
+<a class="jxr_linenumber" name="866" href="#866">866</a>         identifiers, media, facts, relations);
+<a class="jxr_linenumber" name="867" href="#867">867</a>   }
+<a class="jxr_linenumber" name="868" href="#868">868</a> 
+<a class="jxr_linenumber" name="869" href="#869">869</a>   @Override
+<a class="jxr_linenumber" name="870" href="#870">870</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> equals(Object obj) {
+<a class="jxr_linenumber" name="871" href="#871">871</a>     <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong> == obj) {
+<a class="jxr_linenumber" name="872" href="#872">872</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="873" href="#873">873</a>     }
+<a class="jxr_linenumber" name="874" href="#874">874</a>     <strong class="jxr_keyword">if</strong> (!(obj instanceof Occurrence)) {
+<a class="jxr_linenumber" name="875" href="#875">875</a>       <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="876" href="#876">876</a>     }
+<a class="jxr_linenumber" name="877" href="#877">877</a>     <strong class="jxr_keyword">if</strong> (!<strong class="jxr_keyword">super</strong>.equals(obj)) {
+<a class="jxr_linenumber" name="878" href="#878">878</a>       <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="879" href="#879">879</a>     }
+<a class="jxr_linenumber" name="880" href="#880">880</a>     <a href="../../../../../org/gbif/api/model/occurrence/Occurrence.html">Occurrence</a> that = (Occurrence) obj;
+<a class="jxr_linenumber" name="881" href="#881">881</a>     <strong class="jxr_keyword">return</strong> Objects.equal(<strong class="jxr_keyword">this</strong>.basisOfRecord, that.basisOfRecord)
+<a class="jxr_linenumber" name="882" href="#882">882</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.individualCount, that.individualCount)
+<a class="jxr_linenumber" name="883" href="#883">883</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.sex, that.sex)
+<a class="jxr_linenumber" name="884" href="#884">884</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.lifeStage, that.lifeStage)
+<a class="jxr_linenumber" name="885" href="#885">885</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.establishmentMeans, that.establishmentMeans)
+<a class="jxr_linenumber" name="886" href="#886">886</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.taxonKey, that.taxonKey)
+<a class="jxr_linenumber" name="887" href="#887">887</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.kingdomKey, that.kingdomKey)
+<a class="jxr_linenumber" name="888" href="#888">888</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.phylumKey, that.phylumKey)
+<a class="jxr_linenumber" name="889" href="#889">889</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.classKey, that.classKey)
+<a class="jxr_linenumber" name="890" href="#890">890</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.orderKey, that.orderKey)
+<a class="jxr_linenumber" name="891" href="#891">891</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.familyKey, that.familyKey)
+<a class="jxr_linenumber" name="892" href="#892">892</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.genusKey, that.genusKey)
+<a class="jxr_linenumber" name="893" href="#893">893</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.subgenusKey, that.subgenusKey)
+<a class="jxr_linenumber" name="894" href="#894">894</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.speciesKey, that.speciesKey)
+<a class="jxr_linenumber" name="895" href="#895">895</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.scientificName, that.scientificName)
+<a class="jxr_linenumber" name="896" href="#896">896</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.kingdom, that.kingdom)
+<a class="jxr_linenumber" name="897" href="#897">897</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.phylum, that.phylum)
+<a class="jxr_linenumber" name="898" href="#898">898</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.clazz, that.clazz)
+<a class="jxr_linenumber" name="899" href="#899">899</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.order, that.order)
+<a class="jxr_linenumber" name="900" href="#900">900</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.family, that.family)
+<a class="jxr_linenumber" name="901" href="#901">901</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.genus, that.genus)
+<a class="jxr_linenumber" name="902" href="#902">902</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.subgenus, that.subgenus)
+<a class="jxr_linenumber" name="903" href="#903">903</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.species, that.species)
+<a class="jxr_linenumber" name="904" href="#904">904</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.genericName, that.genericName)
+<a class="jxr_linenumber" name="905" href="#905">905</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.specificEpithet, that.specificEpithet)
+<a class="jxr_linenumber" name="906" href="#906">906</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.infraspecificEpithet, that.infraspecificEpithet)
+<a class="jxr_linenumber" name="907" href="#907">907</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.taxonRank, that.taxonRank)
+<a class="jxr_linenumber" name="908" href="#908">908</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.dateIdentified, that.dateIdentified)
+<a class="jxr_linenumber" name="909" href="#909">909</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.year, that.year)
+<a class="jxr_linenumber" name="910" href="#910">910</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.month, that.month)
+<a class="jxr_linenumber" name="911" href="#911">911</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.day, that.day)
+<a class="jxr_linenumber" name="912" href="#912">912</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.eventDate, that.eventDate)
+<a class="jxr_linenumber" name="913" href="#913">913</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.decimalLongitude, that.decimalLongitude)
+<a class="jxr_linenumber" name="914" href="#914">914</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.decimalLatitude, that.decimalLatitude)
+<a class="jxr_linenumber" name="915" href="#915">915</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.coordinateAccuracy, that.coordinateAccuracy)
+<a class="jxr_linenumber" name="916" href="#916">916</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.elevation, that.elevation)
+<a class="jxr_linenumber" name="917" href="#917">917</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.elevationAccuracy, that.elevationAccuracy)
+<a class="jxr_linenumber" name="918" href="#918">918</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.depth, that.depth)
+<a class="jxr_linenumber" name="919" href="#919">919</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.depthAccuracy, that.depthAccuracy)
+<a class="jxr_linenumber" name="920" href="#920">920</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.continent, that.continent)
+<a class="jxr_linenumber" name="921" href="#921">921</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.country, that.country)
+<a class="jxr_linenumber" name="922" href="#922">922</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.stateProvince, that.stateProvince)
+<a class="jxr_linenumber" name="923" href="#923">923</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.waterBody, that.waterBody)
+<a class="jxr_linenumber" name="924" href="#924">924</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.typeStatus, that.typeStatus)
+<a class="jxr_linenumber" name="925" href="#925">925</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.typifiedName, that.typifiedName)
+<a class="jxr_linenumber" name="926" href="#926">926</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.issues, that.issues)
+<a class="jxr_linenumber" name="927" href="#927">927</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.modified, that.modified)
+<a class="jxr_linenumber" name="928" href="#928">928</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.lastInterpreted, that.lastInterpreted)
+<a class="jxr_linenumber" name="929" href="#929">929</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.references, that.references)
+<a class="jxr_linenumber" name="930" href="#930">930</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.identifiers, that.identifiers)
+<a class="jxr_linenumber" name="931" href="#931">931</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.media, that.media)
+<a class="jxr_linenumber" name="932" href="#932">932</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.facts, that.facts)
+<a class="jxr_linenumber" name="933" href="#933">933</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.relations, that.relations);
+<a class="jxr_linenumber" name="934" href="#934">934</a>   }
+<a class="jxr_linenumber" name="935" href="#935">935</a> 
+<a class="jxr_linenumber" name="936" href="#936">936</a>   @Override
+<a class="jxr_linenumber" name="937" href="#937">937</a>   <strong class="jxr_keyword">public</strong> String toString() {
+<a class="jxr_linenumber" name="938" href="#938">938</a>     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">super</strong>.toString() + Objects.toStringHelper(<strong class="jxr_keyword">this</strong>)
+<a class="jxr_linenumber" name="939" href="#939">939</a>       .add(<span class="jxr_string">"basisOfRecord"</span>, basisOfRecord)
+<a class="jxr_linenumber" name="940" href="#940">940</a>       .add(<span class="jxr_string">"individualCount"</span>, individualCount)
+<a class="jxr_linenumber" name="941" href="#941">941</a>       .add(<span class="jxr_string">"sex"</span>, sex)
+<a class="jxr_linenumber" name="942" href="#942">942</a>       .add(<span class="jxr_string">"lifeStage"</span>, lifeStage)
+<a class="jxr_linenumber" name="943" href="#943">943</a>       .add(<span class="jxr_string">"establishmentMeans"</span>, establishmentMeans)
+<a class="jxr_linenumber" name="944" href="#944">944</a>       .add(<span class="jxr_string">"taxonKey"</span>, taxonKey)
+<a class="jxr_linenumber" name="945" href="#945">945</a>       .add(<span class="jxr_string">"kingdomKey"</span>, kingdomKey)
+<a class="jxr_linenumber" name="946" href="#946">946</a>       .add(<span class="jxr_string">"phylumKey"</span>, phylumKey)
+<a class="jxr_linenumber" name="947" href="#947">947</a>       .add(<span class="jxr_string">"classKey"</span>, classKey)
+<a class="jxr_linenumber" name="948" href="#948">948</a>       .add(<span class="jxr_string">"orderKey"</span>, orderKey)
+<a class="jxr_linenumber" name="949" href="#949">949</a>       .add(<span class="jxr_string">"familyKey"</span>, familyKey)
+<a class="jxr_linenumber" name="950" href="#950">950</a>       .add(<span class="jxr_string">"genusKey"</span>, genusKey)
+<a class="jxr_linenumber" name="951" href="#951">951</a>       .add(<span class="jxr_string">"subgenusKey"</span>, subgenusKey)
+<a class="jxr_linenumber" name="952" href="#952">952</a>       .add(<span class="jxr_string">"speciesKey"</span>, speciesKey)
+<a class="jxr_linenumber" name="953" href="#953">953</a>       .add(<span class="jxr_string">"scientificName"</span>, scientificName)
+<a class="jxr_linenumber" name="954" href="#954">954</a>       .add(<span class="jxr_string">"kingdom"</span>, kingdom)
+<a class="jxr_linenumber" name="955" href="#955">955</a>       .add(<span class="jxr_string">"phylum"</span>, phylum)
+<a class="jxr_linenumber" name="956" href="#956">956</a>       .add(<span class="jxr_string">"clazz"</span>, clazz)
+<a class="jxr_linenumber" name="957" href="#957">957</a>       .add(<span class="jxr_string">"order"</span>, order)
+<a class="jxr_linenumber" name="958" href="#958">958</a>       .add(<span class="jxr_string">"family"</span>, family)
+<a class="jxr_linenumber" name="959" href="#959">959</a>       .add(<span class="jxr_string">"genus"</span>, genus)
+<a class="jxr_linenumber" name="960" href="#960">960</a>       .add(<span class="jxr_string">"subgenus"</span>, subgenus)
+<a class="jxr_linenumber" name="961" href="#961">961</a>       .add(<span class="jxr_string">"species"</span>, species)
+<a class="jxr_linenumber" name="962" href="#962">962</a>       .add(<span class="jxr_string">"genericName"</span>, genericName)
+<a class="jxr_linenumber" name="963" href="#963">963</a>       .add(<span class="jxr_string">"specificEpithet"</span>, specificEpithet)
+<a class="jxr_linenumber" name="964" href="#964">964</a>       .add(<span class="jxr_string">"infraspecificEpithet"</span>, infraspecificEpithet)
+<a class="jxr_linenumber" name="965" href="#965">965</a>       .add(<span class="jxr_string">"taxonRank"</span>, taxonRank)
+<a class="jxr_linenumber" name="966" href="#966">966</a>       .add(<span class="jxr_string">"dateIdentified"</span>, dateIdentified)
+<a class="jxr_linenumber" name="967" href="#967">967</a>       .add(<span class="jxr_string">"decimalLongitude"</span>, decimalLongitude)
+<a class="jxr_linenumber" name="968" href="#968">968</a>       .add(<span class="jxr_string">"decimalLatitude"</span>, decimalLatitude)
+<a class="jxr_linenumber" name="969" href="#969">969</a>       .add(<span class="jxr_string">"coordinateAccuracy"</span>, coordinateAccuracy)
+<a class="jxr_linenumber" name="970" href="#970">970</a>       .add(<span class="jxr_string">"elevation"</span>, elevation)
+<a class="jxr_linenumber" name="971" href="#971">971</a>       .add(<span class="jxr_string">"elevationAccuracy"</span>, elevationAccuracy)
+<a class="jxr_linenumber" name="972" href="#972">972</a>       .add(<span class="jxr_string">"depth"</span>, depth)
+<a class="jxr_linenumber" name="973" href="#973">973</a>       .add(<span class="jxr_string">"depthAccuracy"</span>, depthAccuracy)
+<a class="jxr_linenumber" name="974" href="#974">974</a>       .add(<span class="jxr_string">"continent"</span>, continent)
+<a class="jxr_linenumber" name="975" href="#975">975</a>       .add(<span class="jxr_string">"country"</span>, country)
+<a class="jxr_linenumber" name="976" href="#976">976</a>       .add(<span class="jxr_string">"stateProvince"</span>, stateProvince)
+<a class="jxr_linenumber" name="977" href="#977">977</a>       .add(<span class="jxr_string">"waterBody"</span>, waterBody)
+<a class="jxr_linenumber" name="978" href="#978">978</a>       .add(<span class="jxr_string">"year"</span>, year)
+<a class="jxr_linenumber" name="979" href="#979">979</a>       .add(<span class="jxr_string">"month"</span>, month)
+<a class="jxr_linenumber" name="980" href="#980">980</a>       .add(<span class="jxr_string">"day"</span>, day)
+<a class="jxr_linenumber" name="981" href="#981">981</a>       .add(<span class="jxr_string">"eventDate"</span>, eventDate)
+<a class="jxr_linenumber" name="982" href="#982">982</a>       .add(<span class="jxr_string">"typeStatus"</span>, typeStatus)
+<a class="jxr_linenumber" name="983" href="#983">983</a>       .add(<span class="jxr_string">"typifiedName"</span>, typifiedName)
+<a class="jxr_linenumber" name="984" href="#984">984</a>       .add(<span class="jxr_string">"issues"</span>, issues)
+<a class="jxr_linenumber" name="985" href="#985">985</a>       .add(<span class="jxr_string">"modified"</span>, modified)
+<a class="jxr_linenumber" name="986" href="#986">986</a>       .add(<span class="jxr_string">"lastInterpreted"</span>, lastInterpreted)
+<a class="jxr_linenumber" name="987" href="#987">987</a>       .add(<span class="jxr_string">"references"</span>, references)
+<a class="jxr_linenumber" name="988" href="#988">988</a>       .toString();
+<a class="jxr_linenumber" name="989" href="#989">989</a>   }
+<a class="jxr_linenumber" name="990" href="#990">990</a> 
+<a class="jxr_linenumber" name="991" href="#991">991</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="992" href="#992">992</a> <em class="jxr_javadoccomment">   * This private method is only for serialization via jackson and not exposed anywhere else!</em>
+<a class="jxr_linenumber" name="993" href="#993">993</a> <em class="jxr_javadoccomment">   * It maps the verbatimField terms into properties with their simple name or qualified names for UnknownTerms.</em>
+<a class="jxr_linenumber" name="994" href="#994">994</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="995" href="#995">995</a>   @JsonAnyGetter
+<a class="jxr_linenumber" name="996" href="#996">996</a>   <strong class="jxr_keyword">private</strong> Map&lt;String, String&gt; jsonVerbatimFields() {
+<a class="jxr_linenumber" name="997" href="#997">997</a>     Map&lt;String, String&gt; extendedProps = Maps.newHashMap();
+<a class="jxr_linenumber" name="998" href="#998">998</a>     <strong class="jxr_keyword">for</strong> (Map.Entry&lt;Term, String&gt; prop : getVerbatimFields().entrySet()) {
+<a class="jxr_linenumber" name="999" href="#999">999</a>       Term t = prop.getKey();
+<a class="jxr_linenumber" name="1000" href="#1000">1000</a>       <strong class="jxr_keyword">if</strong> (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())) {
+<a class="jxr_linenumber" name="1001" href="#1001">1001</a>         extendedProps.put(t.qualifiedName(), prop.getValue());
+<a class="jxr_linenumber" name="1002" href="#1002">1002</a>       } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="1003" href="#1003">1003</a>         <em class="jxr_comment">// render all terms in controlled enumerations as simple names only - unless we have a property of that name</em>
+<a class="jxr_linenumber" name="1004" href="#1004">1004</a> <em class="jxr_comment">// already!</em>
+<a class="jxr_linenumber" name="1005" href="#1005">1005</a>         extendedProps.put(t.simpleName(), prop.getValue());
+<a class="jxr_linenumber" name="1006" href="#1006">1006</a>       }
+<a class="jxr_linenumber" name="1007" href="#1007">1007</a>     }
+<a class="jxr_linenumber" name="1008" href="#1008">1008</a>     <strong class="jxr_keyword">return</strong> extendedProps;
+<a class="jxr_linenumber" name="1009" href="#1009">1009</a>   }
+<a class="jxr_linenumber" name="1010" href="#1010">1010</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

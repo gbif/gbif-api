@@ -333,64 +333,73 @@
 <span class="sourceLineNo">325</span>    String json = mapper.writeValueAsString(o);<a name="line.325"></a>
 <span class="sourceLineNo">326</span>    System.out.println(json);<a name="line.326"></a>
 <span class="sourceLineNo">327</span>    assertTrue(json.contains("\"class\" : \"Insecta\""));<a name="line.327"></a>
-<span class="sourceLineNo">328</span>    assertTrue(json.contains("\"geodeticDatum\" : \"WGS84\""));<a name="line.328"></a>
-<span class="sourceLineNo">329</span>    assertTrue(json.contains("\"countryCode\" : \"DZ\""));<a name="line.329"></a>
-<span class="sourceLineNo">330</span>    assertTrue(json.contains("\"country\" : \"Algeria\""));<a name="line.330"></a>
-<span class="sourceLineNo">331</span><a name="line.331"></a>
-<span class="sourceLineNo">332</span>    Occurrence o2 = mapper.readValue(json, Occurrence.class);<a name="line.332"></a>
-<span class="sourceLineNo">333</span><a name="line.333"></a>
-<span class="sourceLineNo">334</span>    assertEquals(Country.ALGERIA, o2.getCountry());<a name="line.334"></a>
-<span class="sourceLineNo">335</span>    assertEquals("WGS84", o2.getGeodeticDatum());<a name="line.335"></a>
-<span class="sourceLineNo">336</span>    assertEquals("Insecta", o2.getClazz());<a name="line.336"></a>
-<span class="sourceLineNo">337</span><a name="line.337"></a>
-<span class="sourceLineNo">338</span>    Sets.SetView&lt;Term&gt; diff = Sets.difference(o.getVerbatimFields().keySet(), o2.getVerbatimFields().keySet());<a name="line.338"></a>
-<span class="sourceLineNo">339</span><a name="line.339"></a>
-<span class="sourceLineNo">340</span>    Iterator&lt;Term&gt; iter = diff.iterator();<a name="line.340"></a>
-<span class="sourceLineNo">341</span>    while (iter.hasNext()) {<a name="line.341"></a>
-<span class="sourceLineNo">342</span>      Term t = iter.next();<a name="line.342"></a>
-<span class="sourceLineNo">343</span>      System.out.println(t.qualifiedName());<a name="line.343"></a>
-<span class="sourceLineNo">344</span>    }<a name="line.344"></a>
-<span class="sourceLineNo">345</span><a name="line.345"></a>
-<span class="sourceLineNo">346</span>    assertEquals(o.getVerbatimFields().size(), o2.getVerbatimFields().size());<a name="line.346"></a>
-<span class="sourceLineNo">347</span>    assertTrue(diff.isEmpty());<a name="line.347"></a>
-<span class="sourceLineNo">348</span>  }<a name="line.348"></a>
-<span class="sourceLineNo">349</span><a name="line.349"></a>
-<span class="sourceLineNo">350</span><a name="line.350"></a>
-<span class="sourceLineNo">351</span>  /**<a name="line.351"></a>
-<span class="sourceLineNo">352</span>   * checks that countryCode, geodeticDatum and class are nicely exposed in json<a name="line.352"></a>
-<span class="sourceLineNo">353</span>   */<a name="line.353"></a>
-<span class="sourceLineNo">354</span>  @Test<a name="line.354"></a>
-<span class="sourceLineNo">355</span>  public void testExtensionsSerlializations() throws Exception {<a name="line.355"></a>
-<span class="sourceLineNo">356</span>    Occurrence o = new Occurrence();<a name="line.356"></a>
-<span class="sourceLineNo">357</span>    o.setKey(7);<a name="line.357"></a>
-<span class="sourceLineNo">358</span>    o.setCountry(Country.ALGERIA);<a name="line.358"></a>
-<span class="sourceLineNo">359</span>    o.setClassKey(999);<a name="line.359"></a>
-<span class="sourceLineNo">360</span>    o.setClazz("Insecta");<a name="line.360"></a>
-<span class="sourceLineNo">361</span>    o.setVerbatimField(DwcTerm.recordedBy, "Sankt Nikolaus");<a name="line.361"></a>
-<span class="sourceLineNo">362</span>    MediaObject mediaObject = new MediaObject();<a name="line.362"></a>
-<span class="sourceLineNo">363</span>    mediaObject.setCreated(new Date());<a name="line.363"></a>
-<span class="sourceLineNo">364</span>    mediaObject.setCreator("fede");<a name="line.364"></a>
-<span class="sourceLineNo">365</span>    mediaObject.setFormat("jpeg");<a name="line.365"></a>
-<span class="sourceLineNo">366</span>    mediaObject.setLicense("testLicense");<a name="line.366"></a>
-<span class="sourceLineNo">367</span>    mediaObject.setPublisher("testPublisher");<a name="line.367"></a>
-<span class="sourceLineNo">368</span>    mediaObject.setReferences(new URI("http://www.gbif.org"));<a name="line.368"></a>
-<span class="sourceLineNo">369</span>    mediaObject.setTitle("mediaTestTitle");<a name="line.369"></a>
-<span class="sourceLineNo">370</span>    mediaObject.setType(MediaType.StillImage);<a name="line.370"></a>
-<span class="sourceLineNo">371</span>    mediaObject.setIdentifier(new URI("http://www.gbif.org"));<a name="line.371"></a>
-<span class="sourceLineNo">372</span>    List&lt;MediaObject&gt; medias = Lists.newArrayList();<a name="line.372"></a>
-<span class="sourceLineNo">373</span>    medias.add(mediaObject);<a name="line.373"></a>
-<span class="sourceLineNo">374</span>    o.setMedia(medias);<a name="line.374"></a>
-<span class="sourceLineNo">375</span>    String json = mapper.writeValueAsString(o);<a name="line.375"></a>
-<span class="sourceLineNo">376</span>    System.out.println(json);<a name="line.376"></a>
-<span class="sourceLineNo">377</span>    assertTrue(json.contains("\"country\" : \"Algeria\""));<a name="line.377"></a>
-<span class="sourceLineNo">378</span><a name="line.378"></a>
-<span class="sourceLineNo">379</span>    Occurrence o2 = mapper.readValue(json, Occurrence.class);<a name="line.379"></a>
-<span class="sourceLineNo">380</span><a name="line.380"></a>
-<span class="sourceLineNo">381</span><a name="line.381"></a>
-<span class="sourceLineNo">382</span>    assertEquals(o2.getMedia().get(0), mediaObject);<a name="line.382"></a>
-<span class="sourceLineNo">383</span>  }<a name="line.383"></a>
-<span class="sourceLineNo">384</span><a name="line.384"></a>
-<span class="sourceLineNo">385</span>}<a name="line.385"></a>
+<span class="sourceLineNo">328</span>    assertTrue(json.contains("\"countryCode\" : \"DZ\""));<a name="line.328"></a>
+<span class="sourceLineNo">329</span>    assertTrue(json.contains("\"country\" : \"Algeria\""));<a name="line.329"></a>
+<span class="sourceLineNo">330</span><a name="line.330"></a>
+<span class="sourceLineNo">331</span>    Occurrence o2 = mapper.readValue(json, Occurrence.class);<a name="line.331"></a>
+<span class="sourceLineNo">332</span><a name="line.332"></a>
+<span class="sourceLineNo">333</span>    assertEquals(Country.ALGERIA, o2.getCountry());<a name="line.333"></a>
+<span class="sourceLineNo">334</span>    assertEquals("Insecta", o2.getClazz());<a name="line.334"></a>
+<span class="sourceLineNo">335</span>    assertNull(o2.getGeodeticDatum());<a name="line.335"></a>
+<span class="sourceLineNo">336</span><a name="line.336"></a>
+<span class="sourceLineNo">337</span>    // now add coords, datum shows<a name="line.337"></a>
+<span class="sourceLineNo">338</span>    o.setDecimalLatitude(12d);<a name="line.338"></a>
+<span class="sourceLineNo">339</span>    o.setDecimalLongitude(23d);<a name="line.339"></a>
+<span class="sourceLineNo">340</span>    json = mapper.writeValueAsString(o);<a name="line.340"></a>
+<span class="sourceLineNo">341</span>    System.out.println(json);<a name="line.341"></a>
+<span class="sourceLineNo">342</span>    assertTrue(json.contains("\"geodeticDatum\" : \"WGS84\""));<a name="line.342"></a>
+<span class="sourceLineNo">343</span><a name="line.343"></a>
+<span class="sourceLineNo">344</span>    o2 = mapper.readValue(json, Occurrence.class);<a name="line.344"></a>
+<span class="sourceLineNo">345</span>    assertEquals("WGS84", o2.getGeodeticDatum());<a name="line.345"></a>
+<span class="sourceLineNo">346</span><a name="line.346"></a>
+<span class="sourceLineNo">347</span>    Sets.SetView&lt;Term&gt; diff = Sets.difference(o.getVerbatimFields().keySet(), o2.getVerbatimFields().keySet());<a name="line.347"></a>
+<span class="sourceLineNo">348</span><a name="line.348"></a>
+<span class="sourceLineNo">349</span>    Iterator&lt;Term&gt; iter = diff.iterator();<a name="line.349"></a>
+<span class="sourceLineNo">350</span>    while (iter.hasNext()) {<a name="line.350"></a>
+<span class="sourceLineNo">351</span>      Term t = iter.next();<a name="line.351"></a>
+<span class="sourceLineNo">352</span>      System.out.println(t.qualifiedName());<a name="line.352"></a>
+<span class="sourceLineNo">353</span>    }<a name="line.353"></a>
+<span class="sourceLineNo">354</span><a name="line.354"></a>
+<span class="sourceLineNo">355</span>    assertEquals(o.getVerbatimFields().size(), o2.getVerbatimFields().size());<a name="line.355"></a>
+<span class="sourceLineNo">356</span>    assertTrue(diff.isEmpty());<a name="line.356"></a>
+<span class="sourceLineNo">357</span>  }<a name="line.357"></a>
+<span class="sourceLineNo">358</span><a name="line.358"></a>
+<span class="sourceLineNo">359</span><a name="line.359"></a>
+<span class="sourceLineNo">360</span>  /**<a name="line.360"></a>
+<span class="sourceLineNo">361</span>   * checks that countryCode, geodeticDatum and class are nicely exposed in json<a name="line.361"></a>
+<span class="sourceLineNo">362</span>   */<a name="line.362"></a>
+<span class="sourceLineNo">363</span>  @Test<a name="line.363"></a>
+<span class="sourceLineNo">364</span>  public void testExtensionsSerlializations() throws Exception {<a name="line.364"></a>
+<span class="sourceLineNo">365</span>    Occurrence o = new Occurrence();<a name="line.365"></a>
+<span class="sourceLineNo">366</span>    o.setKey(7);<a name="line.366"></a>
+<span class="sourceLineNo">367</span>    o.setCountry(Country.ALGERIA);<a name="line.367"></a>
+<span class="sourceLineNo">368</span>    o.setClassKey(999);<a name="line.368"></a>
+<span class="sourceLineNo">369</span>    o.setClazz("Insecta");<a name="line.369"></a>
+<span class="sourceLineNo">370</span>    o.setVerbatimField(DwcTerm.recordedBy, "Sankt Nikolaus");<a name="line.370"></a>
+<span class="sourceLineNo">371</span>    MediaObject mediaObject = new MediaObject();<a name="line.371"></a>
+<span class="sourceLineNo">372</span>    mediaObject.setCreated(new Date());<a name="line.372"></a>
+<span class="sourceLineNo">373</span>    mediaObject.setCreator("fede");<a name="line.373"></a>
+<span class="sourceLineNo">374</span>    mediaObject.setFormat("jpeg");<a name="line.374"></a>
+<span class="sourceLineNo">375</span>    mediaObject.setLicense("testLicense");<a name="line.375"></a>
+<span class="sourceLineNo">376</span>    mediaObject.setPublisher("testPublisher");<a name="line.376"></a>
+<span class="sourceLineNo">377</span>    mediaObject.setReferences(new URI("http://www.gbif.org"));<a name="line.377"></a>
+<span class="sourceLineNo">378</span>    mediaObject.setTitle("mediaTestTitle");<a name="line.378"></a>
+<span class="sourceLineNo">379</span>    mediaObject.setType(MediaType.StillImage);<a name="line.379"></a>
+<span class="sourceLineNo">380</span>    mediaObject.setIdentifier(new URI("http://www.gbif.org"));<a name="line.380"></a>
+<span class="sourceLineNo">381</span>    List&lt;MediaObject&gt; medias = Lists.newArrayList();<a name="line.381"></a>
+<span class="sourceLineNo">382</span>    medias.add(mediaObject);<a name="line.382"></a>
+<span class="sourceLineNo">383</span>    o.setMedia(medias);<a name="line.383"></a>
+<span class="sourceLineNo">384</span>    String json = mapper.writeValueAsString(o);<a name="line.384"></a>
+<span class="sourceLineNo">385</span>    System.out.println(json);<a name="line.385"></a>
+<span class="sourceLineNo">386</span>    assertTrue(json.contains("\"country\" : \"Algeria\""));<a name="line.386"></a>
+<span class="sourceLineNo">387</span><a name="line.387"></a>
+<span class="sourceLineNo">388</span>    Occurrence o2 = mapper.readValue(json, Occurrence.class);<a name="line.388"></a>
+<span class="sourceLineNo">389</span><a name="line.389"></a>
+<span class="sourceLineNo">390</span><a name="line.390"></a>
+<span class="sourceLineNo">391</span>    assertEquals(o2.getMedia().get(0), mediaObject);<a name="line.391"></a>
+<span class="sourceLineNo">392</span>  }<a name="line.392"></a>
+<span class="sourceLineNo">393</span><a name="line.393"></a>
+<span class="sourceLineNo">394</span>}<a name="line.394"></a>
 
 
 
