@@ -325,15 +325,24 @@ public class OccurrenceTest {
     String json = mapper.writeValueAsString(o);
     System.out.println(json);
     assertTrue(json.contains("\"class\" : \"Insecta\""));
-    assertTrue(json.contains("\"geodeticDatum\" : \"WGS84\""));
     assertTrue(json.contains("\"countryCode\" : \"DZ\""));
     assertTrue(json.contains("\"country\" : \"Algeria\""));
 
     Occurrence o2 = mapper.readValue(json, Occurrence.class);
 
     assertEquals(Country.ALGERIA, o2.getCountry());
-    assertEquals("WGS84", o2.getGeodeticDatum());
     assertEquals("Insecta", o2.getClazz());
+    assertNull(o2.getGeodeticDatum());
+
+    // now add coords, datum shows
+    o.setDecimalLatitude(12d);
+    o.setDecimalLongitude(23d);
+    json = mapper.writeValueAsString(o);
+    System.out.println(json);
+    assertTrue(json.contains("\"geodeticDatum\" : \"WGS84\""));
+
+    o2 = mapper.readValue(json, Occurrence.class);
+    assertEquals("WGS84", o2.getGeodeticDatum());
 
     Sets.SetView<Term> diff = Sets.difference(o.getVerbatimFields().keySet(), o2.getVerbatimFields().keySet());
 

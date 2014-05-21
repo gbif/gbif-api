@@ -539,9 +539,14 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   /**
    * The geodetic datum for the interpreted decimal coordinates.
+   * This is always WGS84 if there a coordinate exists as we reproject other datums into WGS84.
    */
+  @Nullable
   public String getGeodeticDatum() {
-    return GEO_DATUM;
+    if (decimalLatitude != null) {
+      return GEO_DATUM;
+    }
+    return null;
   }
 
   /**
