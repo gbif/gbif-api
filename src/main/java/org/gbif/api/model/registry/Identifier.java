@@ -12,16 +12,18 @@
  */
 package org.gbif.api.model.registry;
 
+import org.gbif.api.util.IdentifierUtils;
 import org.gbif.api.vocabulary.IdentifierType;
 
 import java.util.Date;
-
+import javax.annotation.Nullable;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 import com.google.common.base.Objects;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 public class Identifier implements LenientEquals<Identifier> {
 
@@ -86,6 +88,20 @@ public class Identifier implements LenientEquals<Identifier> {
 
   public void setCreated(Date created) {
     this.created = created;
+  }
+
+  /**
+   * Creates a http link for an identifier if possible by passing it to some known resolvers for the specific id type.
+   * If no link can be constructed, null is returned.
+   *
+   * @return the url or null if it cannot be created
+   *
+   * @see org.gbif.api.util.IdentifierUtils#getIdentifierLink(String, org.gbif.api.vocabulary.IdentifierType)
+   */
+  @Nullable
+  @JsonIgnore
+  public String getIdentifierLink() {
+    return IdentifierUtils.getIdentifierLink(identifier, type);
   }
 
   @Override

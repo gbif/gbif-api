@@ -43,4 +43,14 @@ public class IdentifierTest {
     assertFalse(i1.equals(i2));
   }
 
+  @Test
+  public void testGetIdentifierLink() {
+    Identifier i1 = new Identifier();
+    i1.setKey(124);
+    i1.setIdentifier("10.1594/PANGAEA.819874");
+    i1.setType(IdentifierType.DOI);
+
+    assertEquals("http://dx.doi.org/10.1594/PANGAEA.819874", i1.getIdentifierLink());
+  }
+
 }
