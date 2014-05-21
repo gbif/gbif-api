@@ -30,6 +30,12 @@ public enum OccurrenceIssue {
   COORDINATE_REPROJECTION_FAILED,
 
   /**
+   * Indicates success coordinate reprojections according to provided datum, but which result in a datum shift
+   * larger than 0.1 decimal degrees.
+   */
+  COORDINATE_REPROJECTION_SUSPICOUS,
+
+  /**
    * The interpreted occurrence coordinates fall outside of the indicated country.
    */
   COUNTRY_COORDINATE_MISMATCH,
