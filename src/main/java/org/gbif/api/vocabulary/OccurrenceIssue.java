@@ -207,10 +207,7 @@ public enum OccurrenceIssue {
    */
   public static final List<OccurrenceIssue> GEOSPATIAL_RULES = ImmutableList.of(ZERO_COORDINATE,
                                                                                    COORDINATES_OUT_OF_RANGE,
-                                                                                   COUNTRY_COORDINATE_MISMATCH,
-                                                                                   PRESUMED_SWAPPED_COORDINATE,
-                                                                                   PRESUMED_NEGATED_LATITUDE,
-                                                                                   PRESUMED_NEGATED_LONGITUDE);
+                                                                                   COUNTRY_COORDINATE_MISMATCH);
   public static final List<OccurrenceIssue> TAXONOMIC_RULES = ImmutableList.of(TAXON_MATCH_FUZZY,
                                                                                TAXON_MATCH_HIGHERRANK,
                                                                                TAXON_MATCH_NONE);
