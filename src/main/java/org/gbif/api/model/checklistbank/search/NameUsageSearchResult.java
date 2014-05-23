@@ -90,7 +90,6 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
   private int numOccurrences;
 
   private String sourceId;
-  private String link;
   private Boolean extinct;
   private Boolean marine;
   private List<NomenclaturalStatus> nomenclaturalStatus = newArrayList();
@@ -183,14 +182,6 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
 
   public void setKey(Integer key) {
     this.key = key;
-  }
-
-  public String getLink() {
-    return link;
-  }
-
-  public void setLink(String link) {
-    this.link = link;
   }
 
   public NameType getNameType() {
@@ -533,7 +524,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
         isSynonym, kingdom, phylum, clazz, order, family, genus, subgenus, species, kingdomKey, phylumKey, classKey,
         orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, canonicalName,
         authorship, publishedIn, accordingTo, nameType, taxonomicStatus, nomenclaturalStatus, rank, origin,
-        numDescendants, numOccurrences, sourceId, link, extinct, marine, threatStatuses, descriptions, vernacularNames);
+        numDescendants, numOccurrences, sourceId, extinct, marine, threatStatuses, descriptions, vernacularNames);
   }
 
   @Override
@@ -584,7 +575,6 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
            && Objects.equal(this.numDescendants, other.numDescendants)
            && Objects.equal(this.numOccurrences, other.numOccurrences)
            && Objects.equal(this.sourceId, other.sourceId)
-           && Objects.equal(this.link, other.link)
            && Objects.equal(this.extinct, other.extinct)
            && Objects.equal(this.marine, other.marine)
            && Objects.equal(this.threatStatuses, other.threatStatuses)
@@ -634,7 +624,6 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
            ", numDescendants=" + numDescendants +
            ", numOccurrences=" + numOccurrences +
            ", sourceId='" + sourceId + '\'' +
-           ", link='" + link + '\'' +
            ", extinct=" + extinct +
            ", marine=" + marine +
            ", threatStatuses=" + threatStatuses +

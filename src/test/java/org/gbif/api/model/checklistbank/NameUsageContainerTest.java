@@ -21,6 +21,7 @@ import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
 import org.gbif.api.vocabulary.IdentifierType;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -51,32 +52,26 @@ public class NameUsageContainerTest {
 
     Identifier id1 = new Identifier();
     id1.setIdentifier("1234");
-    id1.setType(IdentifierType.SOURCE_ID);
+    id1.setType(IdentifierType.GBIF_PORTAL);
     id1.setUsageKey(src.getKey());
     src.addIdentifier(id1);
 
-    Identifier id2 = new Identifier();
-    id2.setIdentifier("http://wisdom.org/1234");
-    id2.setType(IdentifierType.URL);
-    id2.setUsageKey(src.getKey());
-    src.addIdentifier(id2);
+    src.setReferences(URI.create("http://wisdom.org/1234"));
+    src.setSourceId("12345");
 
     NameUsageContainer nu = new NameUsageContainer(src);
 
     assertEquals(checklistKey, nu.getDatasetKey());
     assertEquals((Integer) 1234, nu.getKey());
-    assertEquals("http://wisdom.org/1234", nu.getLink());
+    assertEquals((Integer) 12345, nu.getSourceKey());
+    assertEquals("http://wisdom.org/1234", nu.getReferences().toString());
     assertEquals("Animalia", nu.getKingdom());
     assertEquals("Puma concolor Linné", nu.getScientificName());
-    assertEquals(2, nu.getIdentifiers().size());
+    assertEquals(1, nu.getIdentifiers().size());
 
     assertEquals("1234", nu.getIdentifiers().get(0).getIdentifier());
-    assertEquals(IdentifierType.SOURCE_ID, nu.getIdentifiers().get(0).getType());
+    assertEquals(IdentifierType.GBIF_PORTAL, nu.getIdentifiers().get(0).getType());
     assertEquals((Integer) 1234, nu.getIdentifiers().get(0).getUsageKey());
-
-    assertEquals("http://wisdom.org/1234", nu.getIdentifiers().get(1).getIdentifier());
-    assertEquals(IdentifierType.URL, nu.getIdentifiers().get(1).getType());
-    assertEquals((Integer) 1234, nu.getIdentifiers().get(1).getUsageKey());
 
     assertNull(nu.getAccepted());
     assertNull(nu.getAcceptedKey());

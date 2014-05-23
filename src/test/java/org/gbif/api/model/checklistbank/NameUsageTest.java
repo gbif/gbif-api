@@ -177,51 +177,11 @@ public class NameUsageTest {
 
   @Test
   public void testSetLink() {
-    Identifier link = new Identifier();
-    link.setIdentifier("http://www.example.org");
-    link.setType(IdentifierType.URL);
-
-    Identifier id = new Identifier();
-    id.setIdentifier("12345");
-    id.setType(IdentifierType.SOURCE_ID);
-
     NameUsage nu = new NameUsage();
-    nu.getIdentifiers().add(id);
-    assertNull(nu.getLink());
-    assertEquals("12345", nu.getSourceId());
-
-    nu.getIdentifiers().add(link);
-    assertEquals("http://www.example.org", nu.getLink());
-
-    nu.getIdentifiers().clear();
-    assertNull(nu.getLink());
-    assertNull(nu.getSourceId());
-    assertEquals(0, nu.getIdentifiers().size());
-
-
-    // sourceid
-    nu.setSourceId("99");
-    assertEquals(1, nu.getIdentifiers().size());
-    assertEquals("99", nu.getSourceId());
-    assertEquals("99", nu.getIdentifiers().get(0).getIdentifier());
-
-    nu.setSourceId("991");
-    assertEquals(1, nu.getIdentifiers().size());
-    assertEquals("991", nu.getSourceId());
-    assertEquals("991", nu.getIdentifiers().get(0).getIdentifier());
-
-
-    // references
-    assertEquals(1, nu.getIdentifiers().size());
     nu.setReferences(URI.create("http://www.example.org"));
-    assertEquals(1, nu.getIdentifiers().size());
-    assertEquals("http://www.example.org", nu.getLink());
-    assertEquals(nu.getLink(), nu.getReferences().toString());
-
-    nu.setReferences(URI.create("http://www.example.org/2"));
-    assertEquals(1, nu.getIdentifiers().size());
-    assertEquals("http://www.example.org/2", nu.getLink());
-    assertEquals(nu.getLink(), nu.getReferences().toString());
+    nu.setSourceId("12345");
+    assertEquals("12345", nu.getSourceId());
+    assertEquals("http://www.example.org", nu.getReferences().toString());
   }
 
   @Test

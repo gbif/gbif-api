@@ -34,7 +34,6 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Objects;
-import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -101,6 +100,8 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
 
   private boolean isSynonym;
   private URI references;
+  private String sourceId;
+
   private List<Identifier> identifiers = newArrayList();
 
   /**
@@ -263,21 +264,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    */
   public void setKey(Integer key) {
     this.key = key;
-  }
-
-  /**
-   * @return the list of all LSID identifiers
-   */
-  @NotNull
-  @JsonIgnore
-  public List<Identifier> getLsids() {
-    List<Identifier> lsids = newArrayList();
-    for (Identifier i : identifiers) {
-      if (IdentifierType.LSID == i.getType()) {
-        lsids.add(i);
-      }
-    }
-    return lsids;
   }
 
   /**
@@ -717,18 +703,19 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    */
   @NotNull
   @JsonIgnore
-  public List<Identifier> getExternalLinks() {
-    List<Identifier> links = newArrayList();
+  public List<Identifier> getIdentifierByType(final IdentifierType type) {
+    List<Identifier> ids = newArrayList();
     for (Identifier i : identifiers) {
-      if (IdentifierType.URL == i.getType()) {
-        links.add(i);
+      if (type == i.getType()) {
+        ids.add(i);
       }
     }
-    return links;
+    return ids;
   }
 
+  @Nullable
   /**
-   * A URI link or reference to the source of this record.
+   * A URI link or reference to the source of this record, the records "homepage".
    * <blockquote>
    * <p>
    * <i>Example:</i> http://www.catalogueoflife.org/annual-checklist/show_species_details.php?record_id=6197868
@@ -736,25 +723,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    * </blockquote>
    *
    * @return the link
-   *
-   * @deprecated use simple reference getter instead. This method still uses the old style identifier list underneath.
-   */
-  @Nullable
-  @Deprecated
-  public String getLink() {
-    if (references != null) {
-      return references.toString();
-    }
-    List<Identifier> ids = getExternalLinks();
-    if (!ids.isEmpty()) {
-      return Strings.emptyToNull(ids.get(0).getIdentifier());
-    }
-    return null;
-  }
-
-  @Nullable
-  /**
-   * An external link to more details, the records "homepage".
    */
   public URI getReferences() {
     return references;
@@ -794,11 +762,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    */
   @Nullable
   public String getSourceId() {
-    Identifier id = getSourceIdIdentifier();
-    if (id != null) {
-      return id.getIdentifier();
-    }
-    return null;
+    return sourceId;
   }
 
   /**
@@ -814,7 +778,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    */
   @JsonIgnore
   public Integer getSourceKey() {
-    final String sourceId = getSourceId();
     if (sourceId != null) {
       try {
         return Integer.valueOf(sourceId);
@@ -876,22 +839,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    * to the internal list of identifiers.
    */
   public void setSourceId(String sourceId) {
-    Identifier id = getSourceIdIdentifier();
-    if (id == null) {
-      id = new Identifier();
-      id.setType(IdentifierType.SOURCE_ID);
-      identifiers.add(id);
-    }
-    id.setIdentifier(sourceId);
-  }
-
-  private Identifier getSourceIdIdentifier() {
-    for (Identifier id : identifiers) {
-      if (IdentifierType.SOURCE_ID == id.getType()) {
-        return id;
-      }
-    }
-    return null;
+    this.sourceId = sourceId;
   }
 
   /**
@@ -946,6 +894,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
         origin,
         remarks,
         references,
+        sourceId,
         identifiers);
   }
 
@@ -1002,6 +951,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
            && Objects.equal(this.isSynonym, other.isSynonym)
            && Objects.equal(this.origin, other.origin)
            && Objects.equal(this.references, other.references)
+           && Objects.equal(this.sourceId, other.sourceId)
            && Objects.equal(this.identifiers, other.identifiers)
            && Objects.equal(this.remarks, other.remarks);
   }
@@ -1051,6 +1001,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
       .add("origin", origin)
       .add("remarks", remarks)
       .add("references", references)
+      .add("sourceId", sourceId)
       .add("identifiers", identifiers)
       .toString();
   }

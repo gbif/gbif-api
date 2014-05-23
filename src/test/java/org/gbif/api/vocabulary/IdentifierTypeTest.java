@@ -50,7 +50,7 @@ public class IdentifierTypeTest {
   @Test
   public void testTypes() {
     List<IdentifierType> identifierTypes = IdentifierType.TYPES;
-    assertEquals(12, identifierTypes.size());
+    assertEquals(11, identifierTypes.size());
   }
 
 }

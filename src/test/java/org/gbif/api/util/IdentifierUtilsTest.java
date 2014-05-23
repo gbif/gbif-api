@@ -25,7 +25,7 @@ public class IdentifierUtilsTest {
   @Parameterized.Parameters
   public static Collection<Object[]> getTestParameters() {
     return Arrays.asList(new Object[][] { {null, "49c5b4ac-e3bf-401b-94b1-c94a2ad5c8d6", IdentifierType.UUID},
-      {null, "ds1", IdentifierType.SOURCE_ID}, {null, "local_1:dx:4", IdentifierType.UNKNOWN},
+      {"http://data.gbif.org/datasets/resource/ds1", "ds1", IdentifierType.GBIF_PORTAL}, {null, "local_1:dx:4", IdentifierType.UNKNOWN},
       {"http://en.wikipedia.org/wiki/Handle_1", "http://en.wikipedia.org/wiki/Handle_1", IdentifierType.HANDLER},
       {"urn:ds:acns:1", "urn:ds:acns:1", IdentifierType.URI},
       {"http://ipt.gbif.org/resource.do?r=ds1", "http://ipt.gbif.org/resource.do?r=ds1", IdentifierType.URL},

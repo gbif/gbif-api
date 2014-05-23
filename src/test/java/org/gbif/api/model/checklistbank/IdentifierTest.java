@@ -29,12 +29,12 @@ public class IdentifierTest {
     Identifier i1 = new Identifier();
     i1.setKey(123);
     i1.setIdentifier("432");
-    i1.setType(IdentifierType.SOURCE_ID);
+    i1.setType(IdentifierType.GBIF_PORTAL);
 
     Identifier i2 = new Identifier();
     i2.setKey(123);
     i2.setIdentifier("432");
-    i2.setType(IdentifierType.SOURCE_ID);
+    i2.setType(IdentifierType.GBIF_PORTAL);
 
     assertEquals(i1, i2);
 

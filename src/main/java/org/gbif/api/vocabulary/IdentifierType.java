@@ -28,7 +28,6 @@ import com.google.common.collect.ImmutableList;
  */
 public enum IdentifierType {
 
-  SOURCE_ID,
   URL,
   /**
    * Reference controlled by a separate system, used for example by DOI.
