@@ -187,97 +187,57 @@
 <a class="jxr_linenumber" name="177" href="#177">177</a> 
 <a class="jxr_linenumber" name="178" href="#178">178</a>   @Test
 <a class="jxr_linenumber" name="179" href="#179">179</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testSetLink() {
-<a class="jxr_linenumber" name="180" href="#180">180</a>     Identifier link = <strong class="jxr_keyword">new</strong> Identifier();
-<a class="jxr_linenumber" name="181" href="#181">181</a>     link.setIdentifier(<span class="jxr_string">"http://www.example.org"</span>);
-<a class="jxr_linenumber" name="182" href="#182">182</a>     link.setType(IdentifierType.URL);
-<a class="jxr_linenumber" name="183" href="#183">183</a> 
-<a class="jxr_linenumber" name="184" href="#184">184</a>     Identifier id = <strong class="jxr_keyword">new</strong> Identifier();
-<a class="jxr_linenumber" name="185" href="#185">185</a>     id.setIdentifier(<span class="jxr_string">"12345"</span>);
-<a class="jxr_linenumber" name="186" href="#186">186</a>     id.setType(IdentifierType.SOURCE_ID);
-<a class="jxr_linenumber" name="187" href="#187">187</a> 
-<a class="jxr_linenumber" name="188" href="#188">188</a>     NameUsage nu = <strong class="jxr_keyword">new</strong> NameUsage();
-<a class="jxr_linenumber" name="189" href="#189">189</a>     nu.getIdentifiers().add(id);
-<a class="jxr_linenumber" name="190" href="#190">190</a>     assertNull(nu.getLink());
-<a class="jxr_linenumber" name="191" href="#191">191</a>     assertEquals(<span class="jxr_string">"12345"</span>, nu.getSourceId());
-<a class="jxr_linenumber" name="192" href="#192">192</a> 
-<a class="jxr_linenumber" name="193" href="#193">193</a>     nu.getIdentifiers().add(link);
-<a class="jxr_linenumber" name="194" href="#194">194</a>     assertEquals(<span class="jxr_string">"http://www.example.org"</span>, nu.getLink());
+<a class="jxr_linenumber" name="180" href="#180">180</a>     NameUsage nu = <strong class="jxr_keyword">new</strong> NameUsage();
+<a class="jxr_linenumber" name="181" href="#181">181</a>     nu.setReferences(URI.create(<span class="jxr_string">"http://www.example.org"</span>));
+<a class="jxr_linenumber" name="182" href="#182">182</a>     nu.setSourceId(<span class="jxr_string">"12345"</span>);
+<a class="jxr_linenumber" name="183" href="#183">183</a>     assertEquals(<span class="jxr_string">"12345"</span>, nu.getSourceId());
+<a class="jxr_linenumber" name="184" href="#184">184</a>     assertEquals(<span class="jxr_string">"http://www.example.org"</span>, nu.getReferences().toString());
+<a class="jxr_linenumber" name="185" href="#185">185</a>   }
+<a class="jxr_linenumber" name="186" href="#186">186</a> 
+<a class="jxr_linenumber" name="187" href="#187">187</a>   @Test
+<a class="jxr_linenumber" name="188" href="#188">188</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testTaxonomicStatus() {
+<a class="jxr_linenumber" name="189" href="#189">189</a>     NameUsage nu = <strong class="jxr_keyword">new</strong> NameUsage();
+<a class="jxr_linenumber" name="190" href="#190">190</a>     nu.setKey(6);
+<a class="jxr_linenumber" name="191" href="#191">191</a>     nu.setScientificName(<span class="jxr_string">"Vicia faba L."</span>);
+<a class="jxr_linenumber" name="192" href="#192">192</a>     nu.setSynonym(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="193" href="#193">193</a>     nu.setTaxonomicStatus(<strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="194" href="#194">194</a>     assertEquals(TaxonomicStatus.SYNONYM, nu.getTaxonomicStatus());
 <a class="jxr_linenumber" name="195" href="#195">195</a> 
-<a class="jxr_linenumber" name="196" href="#196">196</a>     nu.getIdentifiers().clear();
-<a class="jxr_linenumber" name="197" href="#197">197</a>     assertNull(nu.getLink());
-<a class="jxr_linenumber" name="198" href="#198">198</a>     assertNull(nu.getSourceId());
-<a class="jxr_linenumber" name="199" href="#199">199</a>     assertEquals(0, nu.getIdentifiers().size());
-<a class="jxr_linenumber" name="200" href="#200">200</a> 
+<a class="jxr_linenumber" name="196" href="#196">196</a>     nu.setProParteKey(432);
+<a class="jxr_linenumber" name="197" href="#197">197</a>     assertEquals(TaxonomicStatus.PROPARTE_SYNONYM, nu.getTaxonomicStatus());
+<a class="jxr_linenumber" name="198" href="#198">198</a> 
+<a class="jxr_linenumber" name="199" href="#199">199</a>     nu.setSynonym(false);
+<a class="jxr_linenumber" name="200" href="#200">200</a>     assertNull(nu.getTaxonomicStatus());
 <a class="jxr_linenumber" name="201" href="#201">201</a> 
-<a class="jxr_linenumber" name="202" href="#202">202</a>     <em class="jxr_comment">// sourceid</em>
-<a class="jxr_linenumber" name="203" href="#203">203</a>     nu.setSourceId(<span class="jxr_string">"99"</span>);
-<a class="jxr_linenumber" name="204" href="#204">204</a>     assertEquals(1, nu.getIdentifiers().size());
-<a class="jxr_linenumber" name="205" href="#205">205</a>     assertEquals(<span class="jxr_string">"99"</span>, nu.getSourceId());
-<a class="jxr_linenumber" name="206" href="#206">206</a>     assertEquals(<span class="jxr_string">"99"</span>, nu.getIdentifiers().get(0).getIdentifier());
-<a class="jxr_linenumber" name="207" href="#207">207</a> 
-<a class="jxr_linenumber" name="208" href="#208">208</a>     nu.setSourceId(<span class="jxr_string">"991"</span>);
-<a class="jxr_linenumber" name="209" href="#209">209</a>     assertEquals(1, nu.getIdentifiers().size());
-<a class="jxr_linenumber" name="210" href="#210">210</a>     assertEquals(<span class="jxr_string">"991"</span>, nu.getSourceId());
-<a class="jxr_linenumber" name="211" href="#211">211</a>     assertEquals(<span class="jxr_string">"991"</span>, nu.getIdentifiers().get(0).getIdentifier());
+<a class="jxr_linenumber" name="202" href="#202">202</a>     nu.setTaxonomicStatus(TaxonomicStatus.HETEROTYPIC_SYNONYM);
+<a class="jxr_linenumber" name="203" href="#203">203</a>     assertEquals(TaxonomicStatus.HETEROTYPIC_SYNONYM, nu.getTaxonomicStatus());
+<a class="jxr_linenumber" name="204" href="#204">204</a>   }
+<a class="jxr_linenumber" name="205" href="#205">205</a> 
+<a class="jxr_linenumber" name="206" href="#206">206</a>   @Test
+<a class="jxr_linenumber" name="207" href="#207">207</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testJsonSerde() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="208" href="#208">208</a>     <strong class="jxr_keyword">final</strong> ObjectMapper mapper = <strong class="jxr_keyword">new</strong> ObjectMapper();
+<a class="jxr_linenumber" name="209" href="#209">209</a>     mapper.enable(DeserializationConfig.Feature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+<a class="jxr_linenumber" name="210" href="#210">210</a>     mapper.enable(SerializationConfig.Feature.INDENT_OUTPUT);
+<a class="jxr_linenumber" name="211" href="#211">211</a>     mapper.disable(SerializationConfig.Feature.WRITE_NULL_PROPERTIES);
 <a class="jxr_linenumber" name="212" href="#212">212</a> 
-<a class="jxr_linenumber" name="213" href="#213">213</a> 
-<a class="jxr_linenumber" name="214" href="#214">214</a>     <em class="jxr_comment">// references</em>
-<a class="jxr_linenumber" name="215" href="#215">215</a>     assertEquals(1, nu.getIdentifiers().size());
-<a class="jxr_linenumber" name="216" href="#216">216</a>     nu.setReferences(URI.create(<span class="jxr_string">"http://www.example.org"</span>));
-<a class="jxr_linenumber" name="217" href="#217">217</a>     assertEquals(1, nu.getIdentifiers().size());
-<a class="jxr_linenumber" name="218" href="#218">218</a>     assertEquals(<span class="jxr_string">"http://www.example.org"</span>, nu.getLink());
-<a class="jxr_linenumber" name="219" href="#219">219</a>     assertEquals(nu.getLink(), nu.getReferences().toString());
-<a class="jxr_linenumber" name="220" href="#220">220</a> 
-<a class="jxr_linenumber" name="221" href="#221">221</a>     nu.setReferences(URI.create(<span class="jxr_string">"http://www.example.org/2"</span>));
-<a class="jxr_linenumber" name="222" href="#222">222</a>     assertEquals(1, nu.getIdentifiers().size());
-<a class="jxr_linenumber" name="223" href="#223">223</a>     assertEquals(<span class="jxr_string">"http://www.example.org/2"</span>, nu.getLink());
-<a class="jxr_linenumber" name="224" href="#224">224</a>     assertEquals(nu.getLink(), nu.getReferences().toString());
-<a class="jxr_linenumber" name="225" href="#225">225</a>   }
-<a class="jxr_linenumber" name="226" href="#226">226</a> 
-<a class="jxr_linenumber" name="227" href="#227">227</a>   @Test
-<a class="jxr_linenumber" name="228" href="#228">228</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testTaxonomicStatus() {
-<a class="jxr_linenumber" name="229" href="#229">229</a>     NameUsage nu = <strong class="jxr_keyword">new</strong> NameUsage();
-<a class="jxr_linenumber" name="230" href="#230">230</a>     nu.setKey(6);
-<a class="jxr_linenumber" name="231" href="#231">231</a>     nu.setScientificName(<span class="jxr_string">"Vicia faba L."</span>);
-<a class="jxr_linenumber" name="232" href="#232">232</a>     nu.setSynonym(<strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="233" href="#233">233</a>     nu.setTaxonomicStatus(<strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="234" href="#234">234</a>     assertEquals(TaxonomicStatus.SYNONYM, nu.getTaxonomicStatus());
-<a class="jxr_linenumber" name="235" href="#235">235</a> 
-<a class="jxr_linenumber" name="236" href="#236">236</a>     nu.setProParteKey(432);
-<a class="jxr_linenumber" name="237" href="#237">237</a>     assertEquals(TaxonomicStatus.PROPARTE_SYNONYM, nu.getTaxonomicStatus());
-<a class="jxr_linenumber" name="238" href="#238">238</a> 
-<a class="jxr_linenumber" name="239" href="#239">239</a>     nu.setSynonym(false);
-<a class="jxr_linenumber" name="240" href="#240">240</a>     assertNull(nu.getTaxonomicStatus());
-<a class="jxr_linenumber" name="241" href="#241">241</a> 
-<a class="jxr_linenumber" name="242" href="#242">242</a>     nu.setTaxonomicStatus(TaxonomicStatus.HETEROTYPIC_SYNONYM);
-<a class="jxr_linenumber" name="243" href="#243">243</a>     assertEquals(TaxonomicStatus.HETEROTYPIC_SYNONYM, nu.getTaxonomicStatus());
-<a class="jxr_linenumber" name="244" href="#244">244</a>   }
-<a class="jxr_linenumber" name="245" href="#245">245</a> 
-<a class="jxr_linenumber" name="246" href="#246">246</a>   @Test
-<a class="jxr_linenumber" name="247" href="#247">247</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testJsonSerde() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="248" href="#248">248</a>     <strong class="jxr_keyword">final</strong> ObjectMapper mapper = <strong class="jxr_keyword">new</strong> ObjectMapper();
-<a class="jxr_linenumber" name="249" href="#249">249</a>     mapper.enable(DeserializationConfig.Feature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-<a class="jxr_linenumber" name="250" href="#250">250</a>     mapper.enable(SerializationConfig.Feature.INDENT_OUTPUT);
-<a class="jxr_linenumber" name="251" href="#251">251</a>     mapper.disable(SerializationConfig.Feature.WRITE_NULL_PROPERTIES);
-<a class="jxr_linenumber" name="252" href="#252">252</a> 
-<a class="jxr_linenumber" name="253" href="#253">253</a>     NameUsage u = <strong class="jxr_keyword">new</strong> NameUsage();
-<a class="jxr_linenumber" name="254" href="#254">254</a>     u.setKey(123);
-<a class="jxr_linenumber" name="255" href="#255">255</a>     u.setDatasetKey(UUID.randomUUID());
-<a class="jxr_linenumber" name="256" href="#256">256</a>     u.setNumDescendants(321);
-<a class="jxr_linenumber" name="257" href="#257">257</a>     u.getNomenclaturalStatus().add(NomenclaturalStatus.AMBIGUOUS);
-<a class="jxr_linenumber" name="258" href="#258">258</a>     Identifier i = <strong class="jxr_keyword">new</strong> Identifier();
-<a class="jxr_linenumber" name="259" href="#259">259</a>     i.setIdentifier(<span class="jxr_string">"me"</span>);
-<a class="jxr_linenumber" name="260" href="#260">260</a>     u.addIdentifier(i);
-<a class="jxr_linenumber" name="261" href="#261">261</a>     u.setKingdomKey(6);
-<a class="jxr_linenumber" name="262" href="#262">262</a>     u.setKingdom(<span class="jxr_string">"Plants"</span>);
-<a class="jxr_linenumber" name="263" href="#263">263</a> 
-<a class="jxr_linenumber" name="264" href="#264">264</a>     String json = mapper.writeValueAsString(u);
-<a class="jxr_linenumber" name="265" href="#265">265</a>     System.out.println(json);
-<a class="jxr_linenumber" name="266" href="#266">266</a>     assertEquals(u, mapper.readValue(json, NameUsage.<strong class="jxr_keyword">class</strong>));
-<a class="jxr_linenumber" name="267" href="#267">267</a>   }
-<a class="jxr_linenumber" name="268" href="#268">268</a> 
-<a class="jxr_linenumber" name="269" href="#269">269</a> 
-<a class="jxr_linenumber" name="270" href="#270">270</a> }
+<a class="jxr_linenumber" name="213" href="#213">213</a>     NameUsage u = <strong class="jxr_keyword">new</strong> NameUsage();
+<a class="jxr_linenumber" name="214" href="#214">214</a>     u.setKey(123);
+<a class="jxr_linenumber" name="215" href="#215">215</a>     u.setDatasetKey(UUID.randomUUID());
+<a class="jxr_linenumber" name="216" href="#216">216</a>     u.setNumDescendants(321);
+<a class="jxr_linenumber" name="217" href="#217">217</a>     u.getNomenclaturalStatus().add(NomenclaturalStatus.AMBIGUOUS);
+<a class="jxr_linenumber" name="218" href="#218">218</a>     Identifier i = <strong class="jxr_keyword">new</strong> Identifier();
+<a class="jxr_linenumber" name="219" href="#219">219</a>     i.setIdentifier(<span class="jxr_string">"me"</span>);
+<a class="jxr_linenumber" name="220" href="#220">220</a>     u.addIdentifier(i);
+<a class="jxr_linenumber" name="221" href="#221">221</a>     u.setKingdomKey(6);
+<a class="jxr_linenumber" name="222" href="#222">222</a>     u.setKingdom(<span class="jxr_string">"Plants"</span>);
+<a class="jxr_linenumber" name="223" href="#223">223</a> 
+<a class="jxr_linenumber" name="224" href="#224">224</a>     String json = mapper.writeValueAsString(u);
+<a class="jxr_linenumber" name="225" href="#225">225</a>     System.out.println(json);
+<a class="jxr_linenumber" name="226" href="#226">226</a>     assertEquals(u, mapper.readValue(json, NameUsage.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="227" href="#227">227</a>   }
+<a class="jxr_linenumber" name="228" href="#228">228</a> 
+<a class="jxr_linenumber" name="229" href="#229">229</a> 
+<a class="jxr_linenumber" name="230" href="#230">230</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
