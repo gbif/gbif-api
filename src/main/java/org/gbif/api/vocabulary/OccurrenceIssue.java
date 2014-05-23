@@ -25,6 +25,17 @@ public enum OccurrenceIssue {
   GEODETIC_DATUM_INVALID,
 
   /**
+   * Indicating that the interpreted coordinates assume they are based on WGS84 datum as the datum was either not
+   * indicated or interpretable. See GEODETIC_DATUM_INVALID.
+   */
+  GEODETIC_DATUM_ASSUMED_WGS84,
+
+  /**
+   * The original coordinate was successfully reprojected from a different geodetic datum to WGS84.
+   */
+  COORDINATE_REPROJECTED,
+
+  /**
    * The given decimal latitude and longitude could not be reprojected to WGS84 based on the provided datum.
    */
   COORDINATE_REPROJECTION_FAILED,
