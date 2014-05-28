@@ -17,7 +17,17 @@ public enum OccurrenceIssue {
   /**
    * Coordinate has invalid lat/lon values out of their decimal max range.
    */
-  COORDINATES_OUT_OF_RANGE,
+  COORDINATE_OUT_OF_RANGE,
+
+  /**
+   * Coordinate value given in some form but GBIF is unable to interpret it.
+   */
+  COORDINATE_INVALID,
+
+  /**
+   * Original coordinate modified by rounding to 5 decimals.
+   */
+  COORDINATE_ROUNDED,
 
   /**
    * The geodetic datum given could not be interpreted
@@ -217,7 +227,7 @@ public enum OccurrenceIssue {
    * All issues that indicate problems with the coordinates and thus should not be shown on maps.
    */
   public static final List<OccurrenceIssue> GEOSPATIAL_RULES = ImmutableList.of(ZERO_COORDINATE,
-                                                                                   COORDINATES_OUT_OF_RANGE,
+                                                                                COORDINATE_OUT_OF_RANGE,
                                                                                    COUNTRY_COORDINATE_MISMATCH);
   public static final List<OccurrenceIssue> TAXONOMIC_RULES = ImmutableList.of(TAXON_MATCH_FUZZY,
                                                                                TAXON_MATCH_HIGHERRANK,

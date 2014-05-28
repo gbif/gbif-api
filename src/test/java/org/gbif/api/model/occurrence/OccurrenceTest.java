@@ -189,7 +189,7 @@ public class OccurrenceTest {
     assertEquals(1, occ.getIssues().size());
     assertFalse(occ.hasSpatialIssue());
 
-    occ.addIssue(OccurrenceIssue.COORDINATES_OUT_OF_RANGE);
+    occ.addIssue(OccurrenceIssue.COORDINATE_OUT_OF_RANGE);
     assertEquals(2, occ.getIssues().size());
     assertTrue(occ.hasSpatialIssue());
   }
@@ -203,7 +203,7 @@ public class OccurrenceTest {
     occ.setKingdomKey(6);
 
     occ.getVerbatimFields().put(DwcTerm.catalogNumber, "MD10782");
-    occ.addIssue(OccurrenceIssue.COORDINATES_OUT_OF_RANGE);
+    occ.addIssue(OccurrenceIssue.COORDINATE_OUT_OF_RANGE);
 
     String json = mapper.writeValueAsString(occ);
     System.out.println(json);
