@@ -126,7 +126,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Continent continent;
   @JsonSerialize(using = Country.IsoSerializer.class)
   @JsonDeserialize(using = Country.IsoDeserializer.class)
-  @JsonProperty("countryCode")
   private Country country;
   private String stateProvince;
   private String waterBody;
@@ -624,6 +623,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
+  @JsonProperty("countryCode")
   public Country getCountry() {
     return country;
   }
@@ -634,8 +634,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   /**
    * Renders the country title as json property country in addition to the iso 2 letter countryCode being
-   * serlialized by the regular country java property.
-   * Made private to only use it for json serlialization and not within java code.
+   * serialized by the regular country java property.
+   * Made private to only use it for json serialization and not within java code.
    */
   @Nullable
   @JsonProperty("country")
