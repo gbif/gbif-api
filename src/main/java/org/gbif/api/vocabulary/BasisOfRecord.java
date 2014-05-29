@@ -55,6 +55,11 @@ public enum BasisOfRecord {
   MACHINE_OBSERVATION,
 
   /**
+   * An occurrence record based on samples taken from other specimens or the environment.
+   */
+  MATERIAL_SAMPLE,
+
+  /**
    * An occurrence record based on literature alone.
    */
   LITERATURE,
