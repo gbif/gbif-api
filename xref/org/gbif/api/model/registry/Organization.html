@@ -67,7 +67,7 @@
 <a class="jxr_linenumber" name="57" href="#57">57</a>    <strong class="jxr_keyword">private</strong> String postalCode;
 <a class="jxr_linenumber" name="58" href="#58">58</a>    <strong class="jxr_keyword">private</strong> BigDecimal latitude;
 <a class="jxr_linenumber" name="59" href="#59">59</a>    <strong class="jxr_keyword">private</strong> BigDecimal longitude;
-<a class="jxr_linenumber" name="60" href="#60">60</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numOwnedDatasets;
+<a class="jxr_linenumber" name="60" href="#60">60</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numPublishedDatasets;
 <a class="jxr_linenumber" name="61" href="#61">61</a>    <strong class="jxr_keyword">private</strong> String createdBy;
 <a class="jxr_linenumber" name="62" href="#62">62</a>    <strong class="jxr_keyword">private</strong> String modifiedBy;
 <a class="jxr_linenumber" name="63" href="#63">63</a>    <strong class="jxr_keyword">private</strong> Date created;
@@ -160,7 +160,7 @@
 <a class="jxr_linenumber" name="150" href="#150">150</a>   <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="151" href="#151">151</a> <em class="jxr_javadoccomment">   * Get the organization password. This method is to be ignored on serialization, so that the password is not</em>
 <a class="jxr_linenumber" name="152" href="#152">152</a> <em class="jxr_javadoccomment">   * revealed in the web service response.</em>
-<a class="jxr_linenumber" name="153" href="#153">153</a> <em class="jxr_javadoccomment">   * </em>
+<a class="jxr_linenumber" name="153" href="#153">153</a> <em class="jxr_javadoccomment">   *</em>
 <a class="jxr_linenumber" name="154" href="#154">154</a> <em class="jxr_javadoccomment">   * @return organization password</em>
 <a class="jxr_linenumber" name="155" href="#155">155</a> <em class="jxr_javadoccomment">   */</em>
 <a class="jxr_linenumber" name="156" href="#156">156</a>   @JsonIgnore
@@ -304,12 +304,12 @@
 <a class="jxr_linenumber" name="294" href="#294">294</a>   }
 <a class="jxr_linenumber" name="295" href="#295">295</a> 
 <a class="jxr_linenumber" name="296" href="#296">296</a>   @Min(0)
-<a class="jxr_linenumber" name="297" href="#297">297</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getNumOwnedDatasets() {
-<a class="jxr_linenumber" name="298" href="#298">298</a>     <strong class="jxr_keyword">return</strong> numOwnedDatasets;
+<a class="jxr_linenumber" name="297" href="#297">297</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> getNumPublishedDatasets() {
+<a class="jxr_linenumber" name="298" href="#298">298</a>     <strong class="jxr_keyword">return</strong> numPublishedDatasets;
 <a class="jxr_linenumber" name="299" href="#299">299</a>   }
 <a class="jxr_linenumber" name="300" href="#300">300</a> 
-<a class="jxr_linenumber" name="301" href="#301">301</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setNumOwnedDatasets(<strong class="jxr_keyword">int</strong> numOwnedDatasets) {
-<a class="jxr_linenumber" name="302" href="#302">302</a>     <strong class="jxr_keyword">this</strong>.numOwnedDatasets = numOwnedDatasets;
+<a class="jxr_linenumber" name="301" href="#301">301</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setNumPublishedDatasets(<strong class="jxr_keyword">int</strong> numPublishedDatasets) {
+<a class="jxr_linenumber" name="302" href="#302">302</a>     <strong class="jxr_keyword">this</strong>.numPublishedDatasets = numPublishedDatasets;
 <a class="jxr_linenumber" name="303" href="#303">303</a>   }
 <a class="jxr_linenumber" name="304" href="#304">304</a> 
 <a class="jxr_linenumber" name="305" href="#305">305</a>   @Override
@@ -406,116 +406,117 @@
 <a class="jxr_linenumber" name="396" href="#396">396</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> hashCode() {
 <a class="jxr_linenumber" name="397" href="#397">397</a>     <strong class="jxr_keyword">return</strong> Objects
 <a class="jxr_linenumber" name="398" href="#398">398</a>       .hashCode(key, endorsingNodeKey, endorsementApproved, password, title, abbreviation, description, language, email,
-<a class="jxr_linenumber" name="399" href="#399">399</a>         phone, homepage, logoUrl, address, city, province, country, postalCode, latitude, longitude, numOwnedDatasets,
-<a class="jxr_linenumber" name="400" href="#400">400</a>         createdBy, modifiedBy, created, modified, deleted, contacts, endpoints, machineTags, tags, identifiers,
-<a class="jxr_linenumber" name="401" href="#401">401</a>         comments);
-<a class="jxr_linenumber" name="402" href="#402">402</a>   }
-<a class="jxr_linenumber" name="403" href="#403">403</a> 
-<a class="jxr_linenumber" name="404" href="#404">404</a>   @Override
-<a class="jxr_linenumber" name="405" href="#405">405</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> equals(Object object) {
-<a class="jxr_linenumber" name="406" href="#406">406</a>     <strong class="jxr_keyword">if</strong> (object instanceof Organization) {
-<a class="jxr_linenumber" name="407" href="#407">407</a>       <a href="../../../../../org/gbif/api/model/registry/Organization.html">Organization</a> that = (Organization) object;
-<a class="jxr_linenumber" name="408" href="#408">408</a>       <strong class="jxr_keyword">return</strong> Objects.equal(<strong class="jxr_keyword">this</strong>.key, that.key)
-<a class="jxr_linenumber" name="409" href="#409">409</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.endorsingNodeKey, that.endorsingNodeKey)
-<a class="jxr_linenumber" name="410" href="#410">410</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.endorsementApproved, that.endorsementApproved)
-<a class="jxr_linenumber" name="411" href="#411">411</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.password, that.password)
-<a class="jxr_linenumber" name="412" href="#412">412</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.title, that.title)
-<a class="jxr_linenumber" name="413" href="#413">413</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.abbreviation, that.abbreviation)
-<a class="jxr_linenumber" name="414" href="#414">414</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.description, that.description)
-<a class="jxr_linenumber" name="415" href="#415">415</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.language, that.language)
-<a class="jxr_linenumber" name="416" href="#416">416</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.email, that.email)
-<a class="jxr_linenumber" name="417" href="#417">417</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.phone, that.phone)
-<a class="jxr_linenumber" name="418" href="#418">418</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.homepage, that.homepage)
-<a class="jxr_linenumber" name="419" href="#419">419</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.logoUrl, that.logoUrl)
-<a class="jxr_linenumber" name="420" href="#420">420</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.address, that.address)
-<a class="jxr_linenumber" name="421" href="#421">421</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.city, that.city)
-<a class="jxr_linenumber" name="422" href="#422">422</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.province, that.province)
-<a class="jxr_linenumber" name="423" href="#423">423</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.country, that.country)
-<a class="jxr_linenumber" name="424" href="#424">424</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.postalCode, that.postalCode)
-<a class="jxr_linenumber" name="425" href="#425">425</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.latitude, that.latitude)
-<a class="jxr_linenumber" name="426" href="#426">426</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.longitude, that.longitude)
-<a class="jxr_linenumber" name="427" href="#427">427</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.numOwnedDatasets, that.numOwnedDatasets)
-<a class="jxr_linenumber" name="428" href="#428">428</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.createdBy, that.createdBy)
-<a class="jxr_linenumber" name="429" href="#429">429</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.modifiedBy, that.modifiedBy)
-<a class="jxr_linenumber" name="430" href="#430">430</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.created, that.created)
-<a class="jxr_linenumber" name="431" href="#431">431</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.modified, that.modified)
-<a class="jxr_linenumber" name="432" href="#432">432</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.deleted, that.deleted)
-<a class="jxr_linenumber" name="433" href="#433">433</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.contacts, that.contacts)
-<a class="jxr_linenumber" name="434" href="#434">434</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.endpoints, that.endpoints)
-<a class="jxr_linenumber" name="435" href="#435">435</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.machineTags, that.machineTags)
-<a class="jxr_linenumber" name="436" href="#436">436</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.tags, that.tags)
-<a class="jxr_linenumber" name="437" href="#437">437</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.identifiers, that.identifiers)
-<a class="jxr_linenumber" name="438" href="#438">438</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.comments, that.comments);
-<a class="jxr_linenumber" name="439" href="#439">439</a>     }
-<a class="jxr_linenumber" name="440" href="#440">440</a>     <strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="441" href="#441">441</a>   }
-<a class="jxr_linenumber" name="442" href="#442">442</a> 
-<a class="jxr_linenumber" name="443" href="#443">443</a>   @Override
-<a class="jxr_linenumber" name="444" href="#444">444</a>   <strong class="jxr_keyword">public</strong> String toString() {
-<a class="jxr_linenumber" name="445" href="#445">445</a>     <strong class="jxr_keyword">return</strong> Objects.toStringHelper(<strong class="jxr_keyword">this</strong>)
-<a class="jxr_linenumber" name="446" href="#446">446</a>       .add(<span class="jxr_string">"key"</span>, key)
-<a class="jxr_linenumber" name="447" href="#447">447</a>       .add(<span class="jxr_string">"endorsingNodeKey"</span>, endorsingNodeKey)
-<a class="jxr_linenumber" name="448" href="#448">448</a>       .add(<span class="jxr_string">"endorsementApproved"</span>, endorsementApproved)
-<a class="jxr_linenumber" name="449" href="#449">449</a>       .add(<span class="jxr_string">"password"</span>, password)
-<a class="jxr_linenumber" name="450" href="#450">450</a>       .add(<span class="jxr_string">"title"</span>, title)
-<a class="jxr_linenumber" name="451" href="#451">451</a>       .add(<span class="jxr_string">"abbreviation"</span>, abbreviation)
-<a class="jxr_linenumber" name="452" href="#452">452</a>       .add(<span class="jxr_string">"description"</span>, description)
-<a class="jxr_linenumber" name="453" href="#453">453</a>       .add(<span class="jxr_string">"language"</span>, language)
-<a class="jxr_linenumber" name="454" href="#454">454</a>       .add(<span class="jxr_string">"email"</span>, email)
-<a class="jxr_linenumber" name="455" href="#455">455</a>       .add(<span class="jxr_string">"phone"</span>, phone)
-<a class="jxr_linenumber" name="456" href="#456">456</a>       .add(<span class="jxr_string">"homepage"</span>, homepage)
-<a class="jxr_linenumber" name="457" href="#457">457</a>       .add(<span class="jxr_string">"logoUrl"</span>, logoUrl)
-<a class="jxr_linenumber" name="458" href="#458">458</a>       .add(<span class="jxr_string">"address"</span>, address)
-<a class="jxr_linenumber" name="459" href="#459">459</a>       .add(<span class="jxr_string">"city"</span>, city)
-<a class="jxr_linenumber" name="460" href="#460">460</a>       .add(<span class="jxr_string">"province"</span>, province)
-<a class="jxr_linenumber" name="461" href="#461">461</a>       .add(<span class="jxr_string">"country"</span>, country)
-<a class="jxr_linenumber" name="462" href="#462">462</a>       .add(<span class="jxr_string">"postalCode"</span>, postalCode)
-<a class="jxr_linenumber" name="463" href="#463">463</a>       .add(<span class="jxr_string">"latitude"</span>, latitude)
-<a class="jxr_linenumber" name="464" href="#464">464</a>       .add(<span class="jxr_string">"longitude"</span>, longitude)
-<a class="jxr_linenumber" name="465" href="#465">465</a>       .add(<span class="jxr_string">"numDatasets"</span>, numOwnedDatasets)
-<a class="jxr_linenumber" name="466" href="#466">466</a>       .add(<span class="jxr_string">"createdBy"</span>, createdBy)
-<a class="jxr_linenumber" name="467" href="#467">467</a>       .add(<span class="jxr_string">"modifiedBy"</span>, modifiedBy)
-<a class="jxr_linenumber" name="468" href="#468">468</a>       .add(<span class="jxr_string">"created"</span>, created)
-<a class="jxr_linenumber" name="469" href="#469">469</a>       .add(<span class="jxr_string">"modified"</span>, modified)
-<a class="jxr_linenumber" name="470" href="#470">470</a>       .add(<span class="jxr_string">"deleted"</span>, deleted)
-<a class="jxr_linenumber" name="471" href="#471">471</a>       .add(<span class="jxr_string">"contacts"</span>, contacts)
-<a class="jxr_linenumber" name="472" href="#472">472</a>       .add(<span class="jxr_string">"endpoints"</span>, endpoints)
-<a class="jxr_linenumber" name="473" href="#473">473</a>       .add(<span class="jxr_string">"machineTags"</span>, machineTags)
-<a class="jxr_linenumber" name="474" href="#474">474</a>       .add(<span class="jxr_string">"tags"</span>, tags)
-<a class="jxr_linenumber" name="475" href="#475">475</a>       .add(<span class="jxr_string">"identifiers"</span>, identifiers)
-<a class="jxr_linenumber" name="476" href="#476">476</a>       .add(<span class="jxr_string">"comments"</span>, comments)
-<a class="jxr_linenumber" name="477" href="#477">477</a>       .toString();
-<a class="jxr_linenumber" name="478" href="#478">478</a>   }
-<a class="jxr_linenumber" name="479" href="#479">479</a> 
-<a class="jxr_linenumber" name="480" href="#480">480</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="481" href="#481">481</a> <em class="jxr_javadoccomment">   * A lenient equality check for business logic uniqueness. Does not include server side controlled fields such as key</em>
-<a class="jxr_linenumber" name="482" href="#482">482</a> <em class="jxr_javadoccomment">   * and createdBy, nested objects and does not include password for security reasons.</em>
-<a class="jxr_linenumber" name="483" href="#483">483</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="484" href="#484">484</a>   @Override
-<a class="jxr_linenumber" name="485" href="#485">485</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> lenientEquals(<a href="../../../../../org/gbif/api/model/registry/Organization.html">Organization</a> other) {
-<a class="jxr_linenumber" name="486" href="#486">486</a>     <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong> == other) {
-<a class="jxr_linenumber" name="487" href="#487">487</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="488" href="#488">488</a>     }
-<a class="jxr_linenumber" name="489" href="#489">489</a>     <strong class="jxr_keyword">return</strong> Objects.equal(<strong class="jxr_keyword">this</strong>.endorsingNodeKey, other.endorsingNodeKey)
-<a class="jxr_linenumber" name="490" href="#490">490</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.endorsementApproved, other.endorsementApproved)
-<a class="jxr_linenumber" name="491" href="#491">491</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.title, other.title)
-<a class="jxr_linenumber" name="492" href="#492">492</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.abbreviation, other.abbreviation)
-<a class="jxr_linenumber" name="493" href="#493">493</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.description, other.description)
-<a class="jxr_linenumber" name="494" href="#494">494</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.language, other.language)
-<a class="jxr_linenumber" name="495" href="#495">495</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.email, other.email)
-<a class="jxr_linenumber" name="496" href="#496">496</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.phone, other.phone)
-<a class="jxr_linenumber" name="497" href="#497">497</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.homepage, other.homepage)
-<a class="jxr_linenumber" name="498" href="#498">498</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.logoUrl, other.logoUrl)
-<a class="jxr_linenumber" name="499" href="#499">499</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.address, other.address)
-<a class="jxr_linenumber" name="500" href="#500">500</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.city, other.city)
-<a class="jxr_linenumber" name="501" href="#501">501</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.province, other.province)
-<a class="jxr_linenumber" name="502" href="#502">502</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.country, other.country)
-<a class="jxr_linenumber" name="503" href="#503">503</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.postalCode, other.postalCode)
-<a class="jxr_linenumber" name="504" href="#504">504</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.latitude, other.latitude)
-<a class="jxr_linenumber" name="505" href="#505">505</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.longitude, other.longitude)
-<a class="jxr_linenumber" name="506" href="#506">506</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.deleted, other.deleted);
-<a class="jxr_linenumber" name="507" href="#507">507</a>   }
-<a class="jxr_linenumber" name="508" href="#508">508</a> }
+<a class="jxr_linenumber" name="399" href="#399">399</a>         phone, homepage, logoUrl, address, city, province, country, postalCode, latitude, longitude,
+<a class="jxr_linenumber" name="400" href="#400">400</a>         numPublishedDatasets,
+<a class="jxr_linenumber" name="401" href="#401">401</a>         createdBy, modifiedBy, created, modified, deleted, contacts, endpoints, machineTags, tags, identifiers,
+<a class="jxr_linenumber" name="402" href="#402">402</a>         comments);
+<a class="jxr_linenumber" name="403" href="#403">403</a>   }
+<a class="jxr_linenumber" name="404" href="#404">404</a> 
+<a class="jxr_linenumber" name="405" href="#405">405</a>   @Override
+<a class="jxr_linenumber" name="406" href="#406">406</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> equals(Object object) {
+<a class="jxr_linenumber" name="407" href="#407">407</a>     <strong class="jxr_keyword">if</strong> (object instanceof Organization) {
+<a class="jxr_linenumber" name="408" href="#408">408</a>       <a href="../../../../../org/gbif/api/model/registry/Organization.html">Organization</a> that = (Organization) object;
+<a class="jxr_linenumber" name="409" href="#409">409</a>       <strong class="jxr_keyword">return</strong> Objects.equal(<strong class="jxr_keyword">this</strong>.key, that.key)
+<a class="jxr_linenumber" name="410" href="#410">410</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.endorsingNodeKey, that.endorsingNodeKey)
+<a class="jxr_linenumber" name="411" href="#411">411</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.endorsementApproved, that.endorsementApproved)
+<a class="jxr_linenumber" name="412" href="#412">412</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.password, that.password)
+<a class="jxr_linenumber" name="413" href="#413">413</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.title, that.title)
+<a class="jxr_linenumber" name="414" href="#414">414</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.abbreviation, that.abbreviation)
+<a class="jxr_linenumber" name="415" href="#415">415</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.description, that.description)
+<a class="jxr_linenumber" name="416" href="#416">416</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.language, that.language)
+<a class="jxr_linenumber" name="417" href="#417">417</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.email, that.email)
+<a class="jxr_linenumber" name="418" href="#418">418</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.phone, that.phone)
+<a class="jxr_linenumber" name="419" href="#419">419</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.homepage, that.homepage)
+<a class="jxr_linenumber" name="420" href="#420">420</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.logoUrl, that.logoUrl)
+<a class="jxr_linenumber" name="421" href="#421">421</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.address, that.address)
+<a class="jxr_linenumber" name="422" href="#422">422</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.city, that.city)
+<a class="jxr_linenumber" name="423" href="#423">423</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.province, that.province)
+<a class="jxr_linenumber" name="424" href="#424">424</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.country, that.country)
+<a class="jxr_linenumber" name="425" href="#425">425</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.postalCode, that.postalCode)
+<a class="jxr_linenumber" name="426" href="#426">426</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.latitude, that.latitude)
+<a class="jxr_linenumber" name="427" href="#427">427</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.longitude, that.longitude)
+<a class="jxr_linenumber" name="428" href="#428">428</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.numPublishedDatasets, that.numPublishedDatasets)
+<a class="jxr_linenumber" name="429" href="#429">429</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.createdBy, that.createdBy)
+<a class="jxr_linenumber" name="430" href="#430">430</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.modifiedBy, that.modifiedBy)
+<a class="jxr_linenumber" name="431" href="#431">431</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.created, that.created)
+<a class="jxr_linenumber" name="432" href="#432">432</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.modified, that.modified)
+<a class="jxr_linenumber" name="433" href="#433">433</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.deleted, that.deleted)
+<a class="jxr_linenumber" name="434" href="#434">434</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.contacts, that.contacts)
+<a class="jxr_linenumber" name="435" href="#435">435</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.endpoints, that.endpoints)
+<a class="jxr_linenumber" name="436" href="#436">436</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.machineTags, that.machineTags)
+<a class="jxr_linenumber" name="437" href="#437">437</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.tags, that.tags)
+<a class="jxr_linenumber" name="438" href="#438">438</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.identifiers, that.identifiers)
+<a class="jxr_linenumber" name="439" href="#439">439</a>         &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.comments, that.comments);
+<a class="jxr_linenumber" name="440" href="#440">440</a>     }
+<a class="jxr_linenumber" name="441" href="#441">441</a>     <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="442" href="#442">442</a>   }
+<a class="jxr_linenumber" name="443" href="#443">443</a> 
+<a class="jxr_linenumber" name="444" href="#444">444</a>   @Override
+<a class="jxr_linenumber" name="445" href="#445">445</a>   <strong class="jxr_keyword">public</strong> String toString() {
+<a class="jxr_linenumber" name="446" href="#446">446</a>     <strong class="jxr_keyword">return</strong> Objects.toStringHelper(<strong class="jxr_keyword">this</strong>)
+<a class="jxr_linenumber" name="447" href="#447">447</a>       .add(<span class="jxr_string">"key"</span>, key)
+<a class="jxr_linenumber" name="448" href="#448">448</a>       .add(<span class="jxr_string">"endorsingNodeKey"</span>, endorsingNodeKey)
+<a class="jxr_linenumber" name="449" href="#449">449</a>       .add(<span class="jxr_string">"endorsementApproved"</span>, endorsementApproved)
+<a class="jxr_linenumber" name="450" href="#450">450</a>       .add(<span class="jxr_string">"password"</span>, password)
+<a class="jxr_linenumber" name="451" href="#451">451</a>       .add(<span class="jxr_string">"title"</span>, title)
+<a class="jxr_linenumber" name="452" href="#452">452</a>       .add(<span class="jxr_string">"abbreviation"</span>, abbreviation)
+<a class="jxr_linenumber" name="453" href="#453">453</a>       .add(<span class="jxr_string">"description"</span>, description)
+<a class="jxr_linenumber" name="454" href="#454">454</a>       .add(<span class="jxr_string">"language"</span>, language)
+<a class="jxr_linenumber" name="455" href="#455">455</a>       .add(<span class="jxr_string">"email"</span>, email)
+<a class="jxr_linenumber" name="456" href="#456">456</a>       .add(<span class="jxr_string">"phone"</span>, phone)
+<a class="jxr_linenumber" name="457" href="#457">457</a>       .add(<span class="jxr_string">"homepage"</span>, homepage)
+<a class="jxr_linenumber" name="458" href="#458">458</a>       .add(<span class="jxr_string">"logoUrl"</span>, logoUrl)
+<a class="jxr_linenumber" name="459" href="#459">459</a>       .add(<span class="jxr_string">"address"</span>, address)
+<a class="jxr_linenumber" name="460" href="#460">460</a>       .add(<span class="jxr_string">"city"</span>, city)
+<a class="jxr_linenumber" name="461" href="#461">461</a>       .add(<span class="jxr_string">"province"</span>, province)
+<a class="jxr_linenumber" name="462" href="#462">462</a>       .add(<span class="jxr_string">"country"</span>, country)
+<a class="jxr_linenumber" name="463" href="#463">463</a>       .add(<span class="jxr_string">"postalCode"</span>, postalCode)
+<a class="jxr_linenumber" name="464" href="#464">464</a>       .add(<span class="jxr_string">"latitude"</span>, latitude)
+<a class="jxr_linenumber" name="465" href="#465">465</a>       .add(<span class="jxr_string">"longitude"</span>, longitude)
+<a class="jxr_linenumber" name="466" href="#466">466</a>       .add(<span class="jxr_string">"numDatasets"</span>, numPublishedDatasets)
+<a class="jxr_linenumber" name="467" href="#467">467</a>       .add(<span class="jxr_string">"createdBy"</span>, createdBy)
+<a class="jxr_linenumber" name="468" href="#468">468</a>       .add(<span class="jxr_string">"modifiedBy"</span>, modifiedBy)
+<a class="jxr_linenumber" name="469" href="#469">469</a>       .add(<span class="jxr_string">"created"</span>, created)
+<a class="jxr_linenumber" name="470" href="#470">470</a>       .add(<span class="jxr_string">"modified"</span>, modified)
+<a class="jxr_linenumber" name="471" href="#471">471</a>       .add(<span class="jxr_string">"deleted"</span>, deleted)
+<a class="jxr_linenumber" name="472" href="#472">472</a>       .add(<span class="jxr_string">"contacts"</span>, contacts)
+<a class="jxr_linenumber" name="473" href="#473">473</a>       .add(<span class="jxr_string">"endpoints"</span>, endpoints)
+<a class="jxr_linenumber" name="474" href="#474">474</a>       .add(<span class="jxr_string">"machineTags"</span>, machineTags)
+<a class="jxr_linenumber" name="475" href="#475">475</a>       .add(<span class="jxr_string">"tags"</span>, tags)
+<a class="jxr_linenumber" name="476" href="#476">476</a>       .add(<span class="jxr_string">"identifiers"</span>, identifiers)
+<a class="jxr_linenumber" name="477" href="#477">477</a>       .add(<span class="jxr_string">"comments"</span>, comments)
+<a class="jxr_linenumber" name="478" href="#478">478</a>       .toString();
+<a class="jxr_linenumber" name="479" href="#479">479</a>   }
+<a class="jxr_linenumber" name="480" href="#480">480</a> 
+<a class="jxr_linenumber" name="481" href="#481">481</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="482" href="#482">482</a> <em class="jxr_javadoccomment">   * A lenient equality check for business logic uniqueness. Does not include server side controlled fields such as key</em>
+<a class="jxr_linenumber" name="483" href="#483">483</a> <em class="jxr_javadoccomment">   * and createdBy, nested objects and does not include password for security reasons.</em>
+<a class="jxr_linenumber" name="484" href="#484">484</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="485" href="#485">485</a>   @Override
+<a class="jxr_linenumber" name="486" href="#486">486</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> lenientEquals(<a href="../../../../../org/gbif/api/model/registry/Organization.html">Organization</a> other) {
+<a class="jxr_linenumber" name="487" href="#487">487</a>     <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong> == other) {
+<a class="jxr_linenumber" name="488" href="#488">488</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="489" href="#489">489</a>     }
+<a class="jxr_linenumber" name="490" href="#490">490</a>     <strong class="jxr_keyword">return</strong> Objects.equal(<strong class="jxr_keyword">this</strong>.endorsingNodeKey, other.endorsingNodeKey)
+<a class="jxr_linenumber" name="491" href="#491">491</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.endorsementApproved, other.endorsementApproved)
+<a class="jxr_linenumber" name="492" href="#492">492</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.title, other.title)
+<a class="jxr_linenumber" name="493" href="#493">493</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.abbreviation, other.abbreviation)
+<a class="jxr_linenumber" name="494" href="#494">494</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.description, other.description)
+<a class="jxr_linenumber" name="495" href="#495">495</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.language, other.language)
+<a class="jxr_linenumber" name="496" href="#496">496</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.email, other.email)
+<a class="jxr_linenumber" name="497" href="#497">497</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.phone, other.phone)
+<a class="jxr_linenumber" name="498" href="#498">498</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.homepage, other.homepage)
+<a class="jxr_linenumber" name="499" href="#499">499</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.logoUrl, other.logoUrl)
+<a class="jxr_linenumber" name="500" href="#500">500</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.address, other.address)
+<a class="jxr_linenumber" name="501" href="#501">501</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.city, other.city)
+<a class="jxr_linenumber" name="502" href="#502">502</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.province, other.province)
+<a class="jxr_linenumber" name="503" href="#503">503</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.country, other.country)
+<a class="jxr_linenumber" name="504" href="#504">504</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.postalCode, other.postalCode)
+<a class="jxr_linenumber" name="505" href="#505">505</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.latitude, other.latitude)
+<a class="jxr_linenumber" name="506" href="#506">506</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.longitude, other.longitude)
+<a class="jxr_linenumber" name="507" href="#507">507</a>       &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.deleted, other.deleted);
+<a class="jxr_linenumber" name="508" href="#508">508</a>   }
+<a class="jxr_linenumber" name="509" href="#509">509</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
