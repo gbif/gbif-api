@@ -32,9 +32,9 @@ public interface OrganizationService
   PagingResponse<Dataset> hostedDatasets(@NotNull UUID organizationKey, @Nullable Pageable page);
 
   /**
-   * Provides paging service to list datasets owned by a specific organization.
+   * Provides paging service to list datasets published by a specific organization.
    */
-  PagingResponse<Dataset> ownedDatasets(@NotNull UUID organizationKey, @Nullable Pageable page);
+  PagingResponse<Dataset> publishedDatasets(@NotNull UUID organizationKey, @Nullable Pageable page);
 
   /**
    * Provides paging service to list installations for the organization.

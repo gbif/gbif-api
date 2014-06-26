@@ -41,7 +41,7 @@ public enum DatasetSearchParameter implements SearchParameter {
   /**
    * The owning organizations uuid key.
    */
-  OWNING_ORG(UUID.class),
+  PUBLISHING_ORG(UUID.class),
 
   /**
    * The hosting organizations uuid key.

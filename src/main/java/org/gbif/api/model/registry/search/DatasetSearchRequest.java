@@ -88,8 +88,8 @@ public class DatasetSearchRequest extends FacetedSearchRequest<DatasetSearchPara
     addParameter(DatasetSearchParameter.KEYWORD, keyword.toString());
   }
 
-  public void addOwningOrgFilter(UUID orgKey) {
-    addParameter(DatasetSearchParameter.OWNING_ORG, orgKey.toString());
+  public void addPublishingOrgFilter(UUID orgKey) {
+    addParameter(DatasetSearchParameter.PUBLISHING_ORG, orgKey.toString());
   }
 
   public void addSubTypeFilter(DatasetSubtype subtype) {

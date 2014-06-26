@@ -28,8 +28,8 @@ public class DatasetSearchResult {
   private Set<Country> countryCoverage;
   private Set<Continent> continent;
   private Country publishingCountry;
-  private UUID owningOrganizationKey;
-  private String owningOrganizationTitle;
+  private UUID publishingOrganizationKey;
+  private String publishingOrganizationTitle;
   private List<Integer> decades;
   private List<String> keywords;
 
@@ -137,20 +137,20 @@ public class DatasetSearchResult {
     this.publishingCountry = publishingCountry;
   }
 
-  public UUID getOwningOrganizationKey() {
-    return owningOrganizationKey;
+  public UUID getPublishingOrganizationKey() {
+    return publishingOrganizationKey;
   }
 
-  public void setOwningOrganizationKey(UUID owningOrganizationKey) {
-    this.owningOrganizationKey = owningOrganizationKey;
+  public void setPublishingOrganizationKey(UUID publishingOrganizationKey) {
+    this.publishingOrganizationKey = publishingOrganizationKey;
   }
 
-  public String getOwningOrganizationTitle() {
-    return owningOrganizationTitle;
+  public String getPublishingOrganizationTitle() {
+    return publishingOrganizationTitle;
   }
 
-  public void setOwningOrganizationTitle(String owningOrganizationTitle) {
-    this.owningOrganizationTitle = owningOrganizationTitle;
+  public void setPublishingOrganizationTitle(String publishingOrganizationTitle) {
+    this.publishingOrganizationTitle = publishingOrganizationTitle;
   }
 
   public List<Integer> getDecades() {
@@ -173,7 +173,7 @@ public class DatasetSearchResult {
   public int hashCode() {
     return Objects
       .hashCode(key, title, description, type, subtype, fullText, hostingOrganizationKey, hostingOrganizationTitle,
-        publisherTitle, countryCoverage, continent, publishingCountry, owningOrganizationKey, owningOrganizationTitle,
+        publisherTitle, countryCoverage, continent, publishingCountry, publishingOrganizationKey, publishingOrganizationTitle,
         decades, keywords);
   }
 
@@ -193,8 +193,8 @@ public class DatasetSearchResult {
         && Objects.equal(this.countryCoverage, that.countryCoverage)
         && Objects.equal(this.continent, that.continent)
         && Objects.equal(this.publishingCountry, that.publishingCountry)
-        && Objects.equal(this.owningOrganizationKey, that.owningOrganizationKey)
-        && Objects.equal(this.owningOrganizationTitle, that.owningOrganizationTitle)
+        && Objects.equal(this.publishingOrganizationKey, that.publishingOrganizationKey)
+        && Objects.equal(this.publishingOrganizationTitle, that.publishingOrganizationTitle)
         && Objects.equal(this.decades, that.decades)
         && Objects.equal(this.keywords, that.keywords);
     }
@@ -216,8 +216,8 @@ public class DatasetSearchResult {
       .add("countryCoverage", countryCoverage)
       .add("continent", continent)
       .add("publishingCountry", publishingCountry)
-      .add("owningOrganizationKey", owningOrganizationKey)
-      .add("owningOrganizationTitle", owningOrganizationTitle)
+      .add("publishingOrganizationKey", publishingOrganizationKey)
+      .add("publishingOrganizationTitle", publishingOrganizationTitle)
       .add("decades", decades)
       .add("keywords", keywords)
       .toString();

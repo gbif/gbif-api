@@ -57,7 +57,7 @@ public class Organization
   private String postalCode;
   private BigDecimal latitude;
   private BigDecimal longitude;
-  private int numOwnedDatasets;
+  private int numPublishedDatasets;
   private String createdBy;
   private String modifiedBy;
   private Date created;
@@ -150,7 +150,7 @@ public class Organization
   /**
    * Get the organization password. This method is to be ignored on serialization, so that the password is not
    * revealed in the web service response.
-   * 
+   *
    * @return organization password
    */
   @JsonIgnore
@@ -294,12 +294,12 @@ public class Organization
   }
 
   @Min(0)
-  public int getNumOwnedDatasets() {
-    return numOwnedDatasets;
+  public int getNumPublishedDatasets() {
+    return numPublishedDatasets;
   }
 
-  public void setNumOwnedDatasets(int numOwnedDatasets) {
-    this.numOwnedDatasets = numOwnedDatasets;
+  public void setNumPublishedDatasets(int numPublishedDatasets) {
+    this.numPublishedDatasets = numPublishedDatasets;
   }
 
   @Override
@@ -396,7 +396,8 @@ public class Organization
   public int hashCode() {
     return Objects
       .hashCode(key, endorsingNodeKey, endorsementApproved, password, title, abbreviation, description, language, email,
-        phone, homepage, logoUrl, address, city, province, country, postalCode, latitude, longitude, numOwnedDatasets,
+        phone, homepage, logoUrl, address, city, province, country, postalCode, latitude, longitude,
+        numPublishedDatasets,
         createdBy, modifiedBy, created, modified, deleted, contacts, endpoints, machineTags, tags, identifiers,
         comments);
   }
@@ -424,7 +425,7 @@ public class Organization
         && Objects.equal(this.postalCode, that.postalCode)
         && Objects.equal(this.latitude, that.latitude)
         && Objects.equal(this.longitude, that.longitude)
-        && Objects.equal(this.numOwnedDatasets, that.numOwnedDatasets)
+        && Objects.equal(this.numPublishedDatasets, that.numPublishedDatasets)
         && Objects.equal(this.createdBy, that.createdBy)
         && Objects.equal(this.modifiedBy, that.modifiedBy)
         && Objects.equal(this.created, that.created)
@@ -462,7 +463,7 @@ public class Organization
       .add("postalCode", postalCode)
       .add("latitude", latitude)
       .add("longitude", longitude)
-      .add("numDatasets", numOwnedDatasets)
+      .add("numDatasets", numPublishedDatasets)
       .add("createdBy", createdBy)
       .add("modifiedBy", modifiedBy)
       .add("created", created)

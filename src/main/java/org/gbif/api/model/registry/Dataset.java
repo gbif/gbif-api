@@ -51,7 +51,7 @@ import com.google.common.collect.Sets;
  * <li>parentDatasetKey</li>
  * <li>duplicateOfDatasetKey</li>
  * <li>installationKey</li>
- * <li>owningOrganizationKey</li>
+ * <li>publishingOrganizationKey</li>
  * <li>external</li>
  * <li>numConstituents</li>
  * <li>type</li>
@@ -72,7 +72,7 @@ import com.google.common.collect.Sets;
  * <li>modified</li>
  * <li>deleted</li>
  * </ul>
- * 
+ *
  * @see <a href="http://rs.gbif.org/schema/eml-gbif-profile/dev/eml.xsd">GBIF EML Profile XML Schema</a>
  */
 public class Dataset
@@ -83,7 +83,7 @@ public class Dataset
   private UUID parentDatasetKey;
   private UUID duplicateOfDatasetKey;
   private UUID installationKey;
-  private UUID owningOrganizationKey;
+  private UUID publishingOrganizationKey;
   private boolean external;
   private int numConstituents;
   private DatasetType type;
@@ -247,15 +247,15 @@ public class Dataset
   }
 
   @NotNull
-  public UUID getOwningOrganizationKey() {
-    return owningOrganizationKey;
+  public UUID getPublishingOrganizationKey() {
+    return publishingOrganizationKey;
   }
 
   /**
    * Persisted in the database table.
    */
-  public void setOwningOrganizationKey(UUID owningOrganizationKey) {
-    this.owningOrganizationKey = owningOrganizationKey;
+  public void setPublishingOrganizationKey(UUID publishingOrganizationKey) {
+    this.publishingOrganizationKey = publishingOrganizationKey;
   }
 
   public boolean isExternal() {
@@ -646,7 +646,7 @@ public class Dataset
   @Override
   public int hashCode() {
     return Objects
-      .hashCode(key, parentDatasetKey, duplicateOfDatasetKey, installationKey, owningOrganizationKey, external,
+      .hashCode(key, parentDatasetKey, duplicateOfDatasetKey, installationKey, publishingOrganizationKey, external,
         numConstituents, type, subtype, title, alias, abbreviation, description, language, homepage, logoUrl, citation,
         rights, lockedForAutoUpdate, createdBy, modifiedBy, created, modified, deleted, contacts, endpoints,
         machineTags, tags, identifiers, comments, bibliographicCitations, curatorialUnits, taxonomicCoverages,
@@ -663,7 +663,7 @@ public class Dataset
         && Objects
           .equal(this.duplicateOfDatasetKey, that.duplicateOfDatasetKey) && Objects
           .equal(this.installationKey, that.installationKey) && Objects
-          .equal(this.owningOrganizationKey, that.owningOrganizationKey) && Objects
+          .equal(this.publishingOrganizationKey, that.publishingOrganizationKey) && Objects
           .equal(this.external, that.external) && Objects.equal(this.numConstituents, that.numConstituents)
         && Objects.equal(this.type, that.type) && Objects.equal(this.subtype, that.subtype) && Objects
           .equal(this.title, that.title) && Objects.equal(this.alias, that.alias) && Objects
@@ -697,7 +697,7 @@ public class Dataset
   public String toString() {
     return Objects.toStringHelper(this).add("key", key).add("parentDatasetKey", parentDatasetKey)
       .add("duplicateOfDatasetKey", duplicateOfDatasetKey).add("installationKey", installationKey)
-      .add("owningOrganizationKey", owningOrganizationKey).add("numConstituents", numConstituents).add("type", type)
+      .add("publishingOrganizationKey", publishingOrganizationKey).add("numConstituents", numConstituents).add("type", type)
       .add("subtype", subtype).add("title", title).add("alias", alias).add("abbreviation", abbreviation)
       .add("description", description).add("language", language).add("homepage", homepage).add("logoUrl", logoUrl)
       .add("citation", citation).add("rights", rights).add("lockedForAutoUpdate", lockedForAutoUpdate)
@@ -726,7 +726,7 @@ public class Dataset
     return Objects.equal(this.parentDatasetKey, other.parentDatasetKey)
       && Objects.equal(this.duplicateOfDatasetKey, other.duplicateOfDatasetKey)
       && Objects.equal(this.installationKey, other.installationKey)
-      && Objects.equal(this.owningOrganizationKey, other.owningOrganizationKey)
+      && Objects.equal(this.publishingOrganizationKey, other.publishingOrganizationKey)
       && Objects.equal(this.external, other.external)
       && Objects.equal(this.type, other.type)
       && Objects.equal(this.subtype, other.subtype)
