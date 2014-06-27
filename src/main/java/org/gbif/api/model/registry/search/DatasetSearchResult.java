@@ -1,7 +1,7 @@
 package org.gbif.api.model.registry.search;
 
-import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Continent;
+import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetSubtype;
 import org.gbif.api.vocabulary.DatasetType;
 
@@ -12,7 +12,7 @@ import java.util.UUID;
 import com.google.common.base.Objects;
 
 /**
- * The dataset search model object for faceted search in SOLR.
+ * The dataset search model object for faceted and full text search.
  */
 public class DatasetSearchResult {
 

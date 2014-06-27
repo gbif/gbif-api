@@ -16,6 +16,7 @@ import org.gbif.api.model.registry.search.DatasetSearchParameter;
 import org.gbif.api.model.registry.search.DatasetSearchRequest;
 import org.gbif.api.model.registry.search.DatasetSearchResult;
 import org.gbif.api.model.registry.search.DatasetSuggestRequest;
+import org.gbif.api.model.registry.search.DatasetSuggestResult;
 import org.gbif.api.service.common.SearchService;
 import org.gbif.api.service.common.SuggestService;
 
@@ -24,6 +25,6 @@ import org.gbif.api.service.common.SuggestService;
  */
 public interface DatasetSearchService
   extends SearchService<DatasetSearchResult, DatasetSearchParameter, DatasetSearchRequest>,
-  SuggestService<DatasetSearchResult, DatasetSearchParameter, DatasetSuggestRequest> {
+  SuggestService<DatasetSuggestResult, DatasetSearchParameter, DatasetSuggestRequest> {
 
 }
