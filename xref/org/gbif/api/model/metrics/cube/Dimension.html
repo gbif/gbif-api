@@ -9,7 +9,7 @@
 <div id="overview"><a href="../../../../../../../apidocs/org/gbif/api/model/metrics/cube/Dimension.html">View Javadoc</a></div><pre>
 
 <a class="jxr_linenumber" name="1" href="#1">1</a>   <em class="jxr_comment">/*</em>
-<a class="jxr_linenumber" name="2" href="#2">2</a>   <em class="jxr_comment"> * Copyright 2012 Global Biodiversity Information Facility (GBIF)</em>
+<a class="jxr_linenumber" name="2" href="#2">2</a>   <em class="jxr_comment"> * Copyright 2014 Global Biodiversity Information Facility (GBIF)</em>
 <a class="jxr_linenumber" name="3" href="#3">3</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
 <a class="jxr_linenumber" name="4" href="#4">4</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
 <a class="jxr_linenumber" name="5" href="#5">5</a>   <em class="jxr_comment"> * You may obtain a copy of the License at</em>
@@ -27,7 +27,7 @@
 <a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="18" href="#18">18</a>  <em class="jxr_javadoccomment"> * A typed dimension to a cube, which is constructed with a unique key. This key defines the HTTP parameter name during</em>
 <a class="jxr_linenumber" name="19" href="#19">19</a>  <em class="jxr_javadoccomment"> * serialization, and the type is respected by the {@link ReadBuilder} during lookups.</em>
-<a class="jxr_linenumber" name="20" href="#20">20</a>  <em class="jxr_javadoccomment"> * </em>
+<a class="jxr_linenumber" name="20" href="#20">20</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="21" href="#21">21</a>  <em class="jxr_javadoccomment"> * @param &lt;T&gt; The value type supported for the dimension</em>
 <a class="jxr_linenumber" name="22" href="#22">22</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> Dimension&lt;T&gt; {
@@ -37,7 +37,7 @@
 <a class="jxr_linenumber" name="27" href="#27">27</a>  
 <a class="jxr_linenumber" name="28" href="#28">28</a>    <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="29" href="#29">29</a>  <em class="jxr_javadoccomment">   * Force the provision of the key in construction, which should be unique for the cube.</em>
-<a class="jxr_linenumber" name="30" href="#30">30</a>  <em class="jxr_javadoccomment">   * </em>
+<a class="jxr_linenumber" name="30" href="#30">30</a>  <em class="jxr_javadoccomment">   *</em>
 <a class="jxr_linenumber" name="31" href="#31">31</a>  <em class="jxr_javadoccomment">   * @param key Which is used in the HTTP parameters</em>
 <a class="jxr_linenumber" name="32" href="#32">32</a>  <em class="jxr_javadoccomment">   * @param type For the dimension, stored to enable runtime checking where required</em>
 <a class="jxr_linenumber" name="33" href="#33">33</a>  <em class="jxr_javadoccomment">   */</em>
@@ -45,7 +45,7 @@
 <a class="jxr_linenumber" name="35" href="#35">35</a>      <strong class="jxr_keyword">this</strong>.key = key;
 <a class="jxr_linenumber" name="36" href="#36">36</a>      <strong class="jxr_keyword">this</strong>.type = type;
 <a class="jxr_linenumber" name="37" href="#37">37</a>    }
-<a class="jxr_linenumber" name="38" href="#38">38</a>    
+<a class="jxr_linenumber" name="38" href="#38">38</a>  
 <a class="jxr_linenumber" name="39" href="#39">39</a>    <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="40" href="#40">40</a>  <em class="jxr_javadoccomment">   * Prefer use of the constructor taking the parameters over this method.</em>
 <a class="jxr_linenumber" name="41" href="#41">41</a>  <em class="jxr_javadoccomment">   * This is provided to allow easy Jackson serialization.</em>
@@ -76,11 +76,11 @@
 <a class="jxr_linenumber" name="66" href="#66">66</a>      <strong class="jxr_keyword">return</strong> type;
 <a class="jxr_linenumber" name="67" href="#67">67</a>    }
 <a class="jxr_linenumber" name="68" href="#68">68</a>  
-<a class="jxr_linenumber" name="69" href="#69">69</a>    
+<a class="jxr_linenumber" name="69" href="#69">69</a>  
 <a class="jxr_linenumber" name="70" href="#70">70</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setKey(String key) {
 <a class="jxr_linenumber" name="71" href="#71">71</a>      <strong class="jxr_keyword">this</strong>.key = key;
 <a class="jxr_linenumber" name="72" href="#72">72</a>    }
-<a class="jxr_linenumber" name="73" href="#73">73</a>    
+<a class="jxr_linenumber" name="73" href="#73">73</a>  
 <a class="jxr_linenumber" name="74" href="#74">74</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setType(Class&lt;T&gt; type) {
 <a class="jxr_linenumber" name="75" href="#75">75</a>      <strong class="jxr_keyword">this</strong>.type = type;
 <a class="jxr_linenumber" name="76" href="#76">76</a>    }

@@ -9,7 +9,7 @@
 <div id="overview"><a href="../../../../../../../apidocs/org/gbif/api/model/checklistbank/search/NameUsageSearchResult.html">View Javadoc</a></div><pre>
 
 <a class="jxr_linenumber" name="1" href="#1">1</a>   <em class="jxr_comment">/*</em>
-<a class="jxr_linenumber" name="2" href="#2">2</a>   <em class="jxr_comment"> * Copyright 2012 Global Biodiversity Information Facility (GBIF)</em>
+<a class="jxr_linenumber" name="2" href="#2">2</a>   <em class="jxr_comment"> * Copyright 2014 Global Biodiversity Information Facility (GBIF)</em>
 <a class="jxr_linenumber" name="3" href="#3">3</a>   <em class="jxr_comment"> *</em>
 <a class="jxr_linenumber" name="4" href="#4">4</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
 <a class="jxr_linenumber" name="5" href="#5">5</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
@@ -99,7 +99,7 @@
 <a class="jxr_linenumber" name="89" href="#89">89</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numDescendants;
 <a class="jxr_linenumber" name="90" href="#90">90</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numOccurrences;
 <a class="jxr_linenumber" name="91" href="#91">91</a>  
-<a class="jxr_linenumber" name="92" href="#92">92</a>    <strong class="jxr_keyword">private</strong> String sourceId;
+<a class="jxr_linenumber" name="92" href="#92">92</a>    <strong class="jxr_keyword">private</strong> String taxonID;
 <a class="jxr_linenumber" name="93" href="#93">93</a>    <strong class="jxr_keyword">private</strong> Boolean extinct;
 <a class="jxr_linenumber" name="94" href="#94">94</a>    <strong class="jxr_keyword">private</strong> Boolean marine;
 <a class="jxr_linenumber" name="95" href="#95">95</a>    <strong class="jxr_keyword">private</strong> List&lt;NomenclaturalStatus&gt; nomenclaturalStatus = newArrayList();
@@ -274,12 +274,12 @@
 <a class="jxr_linenumber" name="264" href="#264">264</a>     <strong class="jxr_keyword">this</strong>.scientificName = scientificName;
 <a class="jxr_linenumber" name="265" href="#265">265</a>   }
 <a class="jxr_linenumber" name="266" href="#266">266</a> 
-<a class="jxr_linenumber" name="267" href="#267">267</a>   <strong class="jxr_keyword">public</strong> String getSourceId() {
-<a class="jxr_linenumber" name="268" href="#268">268</a>     <strong class="jxr_keyword">return</strong> sourceId;
+<a class="jxr_linenumber" name="267" href="#267">267</a>   <strong class="jxr_keyword">public</strong> String getTaxonID() {
+<a class="jxr_linenumber" name="268" href="#268">268</a>     <strong class="jxr_keyword">return</strong> taxonID;
 <a class="jxr_linenumber" name="269" href="#269">269</a>   }
 <a class="jxr_linenumber" name="270" href="#270">270</a> 
-<a class="jxr_linenumber" name="271" href="#271">271</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setSourceId(String sourceId) {
-<a class="jxr_linenumber" name="272" href="#272">272</a>     <strong class="jxr_keyword">this</strong>.sourceId = sourceId;
+<a class="jxr_linenumber" name="271" href="#271">271</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setTaxonID(String taxonID) {
+<a class="jxr_linenumber" name="272" href="#272">272</a>     <strong class="jxr_keyword">this</strong>.taxonID = taxonID;
 <a class="jxr_linenumber" name="273" href="#273">273</a>   }
 <a class="jxr_linenumber" name="274" href="#274">274</a> 
 <a class="jxr_linenumber" name="275" href="#275">275</a>   <strong class="jxr_keyword">public</strong> <a href="../../../../../../org/gbif/api/vocabulary/TaxonomicStatus.html">TaxonomicStatus</a> getTaxonomicStatus() {
@@ -534,7 +534,7 @@
 <a class="jxr_linenumber" name="524" href="#524">524</a>         isSynonym, kingdom, phylum, clazz, order, family, genus, subgenus, species, kingdomKey, phylumKey, classKey,
 <a class="jxr_linenumber" name="525" href="#525">525</a>         orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, canonicalName,
 <a class="jxr_linenumber" name="526" href="#526">526</a>         authorship, publishedIn, accordingTo, nameType, taxonomicStatus, nomenclaturalStatus, rank, origin,
-<a class="jxr_linenumber" name="527" href="#527">527</a>         numDescendants, numOccurrences, sourceId, extinct, marine, threatStatuses, descriptions, vernacularNames);
+<a class="jxr_linenumber" name="527" href="#527">527</a>         numDescendants, numOccurrences, taxonID, extinct, marine, threatStatuses, descriptions, vernacularNames);
 <a class="jxr_linenumber" name="528" href="#528">528</a>   }
 <a class="jxr_linenumber" name="529" href="#529">529</a> 
 <a class="jxr_linenumber" name="530" href="#530">530</a>   @Override
@@ -584,7 +584,7 @@
 <a class="jxr_linenumber" name="574" href="#574">574</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.origin, other.origin)
 <a class="jxr_linenumber" name="575" href="#575">575</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.numDescendants, other.numDescendants)
 <a class="jxr_linenumber" name="576" href="#576">576</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.numOccurrences, other.numOccurrences)
-<a class="jxr_linenumber" name="577" href="#577">577</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.sourceId, other.sourceId)
+<a class="jxr_linenumber" name="577" href="#577">577</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.taxonID, other.taxonID)
 <a class="jxr_linenumber" name="578" href="#578">578</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.extinct, other.extinct)
 <a class="jxr_linenumber" name="579" href="#579">579</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.marine, other.marine)
 <a class="jxr_linenumber" name="580" href="#580">580</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.threatStatuses, other.threatStatuses)
@@ -633,7 +633,7 @@
 <a class="jxr_linenumber" name="623" href="#623">623</a>            <span class="jxr_string">", origin="</span> + origin +
 <a class="jxr_linenumber" name="624" href="#624">624</a>            <span class="jxr_string">", numDescendants="</span> + numDescendants +
 <a class="jxr_linenumber" name="625" href="#625">625</a>            <span class="jxr_string">", numOccurrences="</span> + numOccurrences +
-<a class="jxr_linenumber" name="626" href="#626">626</a>            <span class="jxr_string">", sourceId='"</span> + sourceId + '\'' +
+<a class="jxr_linenumber" name="626" href="#626">626</a>            <span class="jxr_string">", taxonID='"</span> + taxonID + '\'' +
 <a class="jxr_linenumber" name="627" href="#627">627</a>            <span class="jxr_string">", extinct="</span> + extinct +
 <a class="jxr_linenumber" name="628" href="#628">628</a>            <span class="jxr_string">", marine="</span> + marine +
 <a class="jxr_linenumber" name="629" href="#629">629</a>            <span class="jxr_string">", threatStatuses="</span> + threatStatuses +
