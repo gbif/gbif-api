@@ -139,4 +139,14 @@ public class HumanFilterBuilderTest {
     assertEquals(1, x.get(OccurrenceSearchParameter.YEAR).size());
   }
 
+  @Test
+  public void testIsNotNull() throws Exception {
+    HumanFilterBuilder builder = new HumanFilterBuilder(resourceBundle, null, null, true);
+    Map<OccurrenceSearchParameter, LinkedList<String>> x =
+      builder.humanFilter(new IsNotNullPredicate(OccurrenceSearchParameter.MEDIA_TYPE));
+    assertEquals(1, x.size());
+    assertEquals(1, x.get(OccurrenceSearchParameter.MEDIA_TYPE).size());
+    assertEquals("IS NOT NULL", x.get(OccurrenceSearchParameter.MEDIA_TYPE).getLast());
+  }
+
 }

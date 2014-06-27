@@ -5,6 +5,7 @@ import org.gbif.api.model.occurrence.predicate.DisjunctionPredicate;
 import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.GreaterThanOrEqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.GreaterThanPredicate;
+import org.gbif.api.model.occurrence.predicate.IsNotNullPredicate;
 import org.gbif.api.model.occurrence.predicate.LessThanOrEqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.LessThanPredicate;
 import org.gbif.api.model.occurrence.predicate.NotPredicate;
@@ -79,5 +80,12 @@ public class QueryParameterFilterBuilderTest {
 
     String query = builder.queryFilter(range);
     assertEquals("YEAR=2000%2C2011", query);
+  }
+
+  @Test
+  public void testIsNotNull() throws Exception {
+    QueryParameterFilterBuilder builder = new QueryParameterFilterBuilder();
+    String query = builder.queryFilter(new IsNotNullPredicate(OccurrenceSearchParameter.MEDIA_TYPE));
+    assertEquals("MEDIA_TYPE=*", query);
   }
 }

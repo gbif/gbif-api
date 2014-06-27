@@ -1,12 +1,9 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
- *
+ * Copyright 2012 Global Biodiversity Information Facility (GBIF)
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +18,7 @@ import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.GreaterThanOrEqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.GreaterThanPredicate;
 import org.gbif.api.model.occurrence.predicate.InPredicate;
+import org.gbif.api.model.occurrence.predicate.IsNotNullPredicate;
 import org.gbif.api.model.occurrence.predicate.LessThanOrEqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.LessThanPredicate;
 import org.gbif.api.model.occurrence.predicate.LikePredicate;
@@ -46,20 +44,27 @@ import org.slf4j.LoggerFactory;
 /**
  * This class builds a query parameter filter usable for search links from a
  * {@link org.gbif.api.model.occurrence.predicate.Predicate} hierarchy.
- * This class is not thread safe, create a new instance for every use if concurrent calls to {#queryFilter()} is expected.
+ * This class is not thread safe, create a new instance for every use if concurrent calls to {#queryFilter()} is
+ * expected.
  */
 public class QueryParameterFilterBuilder {
 
   private static final Logger LOG = LoggerFactory.getLogger(QueryParameterFilterBuilder.class);
   private static final String WILDCARD = "*";
-  private final static Pattern POLYGON_PATTERN = Pattern.compile("POLYGON\\s*\\(\\s*\\((.+)\\)\\s*\\)", Pattern.CASE_INSENSITIVE);
+  private final static Pattern POLYGON_PATTERN = Pattern.compile("POLYGON\\s*\\(\\s*\\((.+)\\)\\s*\\)",
+    Pattern.CASE_INSENSITIVE);
 
   private Map<OccurrenceSearchParameter, LinkedList<String>> filter;
-  private enum State { ROOT, AND, OR };
+
+  private enum State {
+    ROOT, AND, OR
+  };
+
   private State state;
   private OccurrenceSearchParameter lastParam;
 
   public QueryParameterFilterBuilder() {
+
   }
 
   public synchronized String queryFilter(Predicate p) {
@@ -109,8 +114,8 @@ public class QueryParameterFilterBuilder {
     state = State.ROOT;
   }
 
-  private void visitRange(ConjunctionPredicate and){
-    if (and.getPredicates().size() != 2){
+  private void visitRange(ConjunctionPredicate and) {
+    if (and.getPredicates().size() != 2) {
       throw new IllegalArgumentException("no valid range");
     }
     GreaterThanOrEqualsPredicate lower = null;
@@ -128,7 +133,7 @@ public class QueryParameterFilterBuilder {
     addQueryParam(lower.getKey(), range(lower.getValue(), upper.getValue()));
   }
 
-  private String range(String from, String to){
+  private String range(String from, String to) {
     if (Strings.isNullOrEmpty(from)) {
       from = WILDCARD;
     }
@@ -153,6 +158,10 @@ public class QueryParameterFilterBuilder {
 
   private void visit(EqualsPredicate predicate) {
     addQueryParam(predicate.getKey(), predicate.getValue());
+  }
+
+  private void visit(IsNotNullPredicate predicate) {
+    addQueryParam(predicate.getParameter(), "*");
   }
 
   private void visit(LikePredicate predicate) {
@@ -215,16 +224,19 @@ public class QueryParameterFilterBuilder {
     try {
       method = getClass().getDeclaredMethod("visit", new Class[] {p.getClass()});
     } catch (NoSuchMethodException e) {
-      LOG.warn(
-        "Visit method could not be found. That means a Predicate has been passed in that is unknown to this " + "class",
-        e);
+      LOG
+        .warn(
+          "Visit method could not be found. That means a Predicate has been passed in that is unknown to this "
+            + "class",
+          e);
       throw new IllegalArgumentException("Unknown Predicate", e);
     }
     try {
       method.setAccessible(true);
       method.invoke(this, p);
     } catch (IllegalAccessException e) {
-      LOG.error("This should never happen as we set accessible to true explicitly before. Probably a programming error", e);
+      LOG.error(
+        "This should never happen as we set accessible to true explicitly before. Probably a programming error", e);
       throw new RuntimeException("Programming error", e);
     } catch (InvocationTargetException e) {
       LOG.info("Exception thrown while building the Hive Download", e);
