@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import com.google.common.base.Objects;
  *
  * @see <a href="http://rs.gbif.org/extension/gbif/1.0/references.xml">Reference Definition</a>
  */
-public class Reference extends NameUsageComponent {
+public class Reference implements NameUsageExtension {
 
   private String citation;
   private String title;
@@ -36,6 +36,8 @@ public class Reference extends NameUsageComponent {
   private String doi;
   private String type;
   private String remarks;
+  private String source;
+  private Integer sourceTaxonKey;
 
   /**
    * The author or authors of the referenced work.
@@ -197,15 +199,30 @@ public class Reference extends NameUsageComponent {
     this.type = type;
   }
 
+  @Nullable
+  public String getSource() {
+    return source;
+  }
+
+  public void setSource(String source) {
+    this.source = source;
+  }
+
+  @Nullable
+  public Integer getSourceTaxonKey() {
+    return sourceTaxonKey;
+  }
+
+  public void setSourceTaxonKey(Integer sourceTaxonKey) {
+    this.sourceTaxonKey = sourceTaxonKey;
+  }
+
   @Override
   public boolean equals(Object object) {
     if (this == object) {
       return true;
     }
     if (!(object instanceof Reference)) {
-      return false;
-    }
-    if (!super.equals(object)) {
       return false;
     }
 
@@ -217,22 +234,25 @@ public class Reference extends NameUsageComponent {
            && Objects.equal(this.type, that.type)
            && Objects.equal(this.remarks, that.remarks)
            && Objects.equal(this.date, that.date)
-           && Objects.equal(this.doi, that.doi);
+           && Objects.equal(this.doi, that.doi)
+           && Objects.equal(this.source, that.source)
+           && Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), citation, title, author, date, link, doi, type, remarks);
+    return Objects.hashCode(citation, title, author, date, link, doi, type, remarks, source, sourceTaxonKey);
   }
 
   @Override
   public String toString() {
     return Objects.toStringHelper(this)
-      .add("super", super.toString())
       .add("citation", citation)
       .add("title", title)
       .add("author", author)
       .add("link", link)
+      .add("source", source)
+      .add("sourceTaxonKey", sourceTaxonKey)
       .toString();
   }
 

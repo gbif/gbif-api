@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -78,7 +78,7 @@ public class VerbatimOccurrence {
 
   /**
    * For setting a specific field without having to replace the entire verbatimFields Map.
-   * 
+   *
    * @param term the field to set
    * @param fieldValue the field's value
    */

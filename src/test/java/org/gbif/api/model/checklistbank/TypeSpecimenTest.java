@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,29 +20,23 @@ import org.gbif.api.vocabulary.Rank;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 public class TypeSpecimenTest {
 
   @Test
   public void testEquals() {
     TypeSpecimen ta1 = new TypeSpecimen();
-    ta1.setKey(123);
     ta1.setCatalogNumber("CA1000");
-    ta1.setUsageKey(1000);
+    ta1.setSourceTaxonKey(1000);
     ta1.setTaxonRank(Rank.SPECIES);
 
     TypeSpecimen ta2 = new TypeSpecimen();
-    ta2.setKey(123);
     ta2.setCatalogNumber("CA1000");
-    ta2.setUsageKey(1000);
+    ta2.setSourceTaxonKey(1000);
     ta2.setTaxonRank(Rank.SPECIES);
 
     assertEquals(ta1, ta2);
 
-    ta1.setKey(567);
-
-    assertFalse(ta1.equals(ta2));
   }
 
 }

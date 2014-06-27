@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,8 +52,8 @@ public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearch
     addParameter(NameUsageSearchParameter.IS_EXTINCT, String.valueOf(isExtinct));
   }
 
-  public void addHigherTaxonFilter(int usageKey) {
-    addParameter(NameUsageSearchParameter.HIGHERTAXON_KEY, usageKey);
+  public void addHigherTaxonFilter(int taxonKey) {
+    addParameter(NameUsageSearchParameter.HIGHERTAXON_KEY, taxonKey);
   }
 
   public void addMarineFilter(boolean isMarine) {

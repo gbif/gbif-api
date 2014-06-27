@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,9 @@
 package org.gbif.api.service.checklistbank;
 
 import org.gbif.api.model.checklistbank.Description;
+import org.gbif.api.model.checklistbank.TableOfContents;
+
+import javax.annotation.Nullable;
 
 /**
  * Service interface for Description Interface methods. This is the public interface
@@ -24,6 +27,21 @@ import org.gbif.api.model.checklistbank.Description;
  *
  * @see Description
  */
-public interface DescriptionService extends NameUsageComponentService<Description> {
+public interface DescriptionService extends NameUsageExtensionService<Description> {
+
+  /**
+   * Returns a table of content for all available descriptions of a name usage.
+   * @param taxonKey the name usage key
+   */
+  TableOfContents getToc(int taxonKey);
+
+  /**
+   * Retrieve a description by its key.
+   * The portal species pages rely on this method to asynchroneously load species descriptions.
+   *
+   * @param key     that identifies a description
+   */
+  @Nullable
+  Description get(int key);
 
 }

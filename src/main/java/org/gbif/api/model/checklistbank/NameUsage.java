@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package org.gbif.api.model.checklistbank;
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.util.ClassificationUtils;
-import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.NameType;
 import org.gbif.api.vocabulary.NomenclaturalStatus;
 import org.gbif.api.vocabulary.Origin;
@@ -26,8 +25,8 @@ import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import javax.annotation.Nullable;
@@ -37,8 +36,6 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
-
-import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * A usage of a <em>scientific name</em> according to one particular Checklist including the GBIF Taxonomic Backbone,
@@ -52,6 +49,9 @@ import static com.google.common.collect.Lists.newArrayList;
 public class NameUsage implements LinneanClassification, LinneanClassificationKeys {
 
   private Integer key;
+  private Integer nubKey;
+  private String taxonID;
+  private Integer sourceTaxonKey;
   // for LinneanClassification
   private String kingdom;
   private String phylum;
@@ -74,7 +74,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
 
   private UUID datasetKey;
   private UUID constituentKey;
-  private Integer nubKey;
   private Integer parentKey;
   private String parent;
   private Integer proParteKey;
@@ -100,9 +99,33 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
 
   private boolean isSynonym;
   private URI references;
-  private String sourceId;
 
-  private List<Identifier> identifiers = newArrayList();
+  private Date modified;
+  private Date lastCrawled;
+  private Date lastInterpreted;
+
+  /**
+   * For backbone taxa the source taxon key refers to the original name usage that was used during nub building
+   * and is the primary reason that this taxon exists in the backbone.
+   * <br/>
+   * All nub usages are build from several underlying checklist usages,
+   * but these are sorted by priority and the usage key for the highest priority one becomes the sourceTaxonKey
+   * for a nub usage.
+   * <br/>
+   * Some nub usages do not have any source record altogether.
+   * For example if there is a subspecies found, but no matching parent species,
+   * the missing species will be created nevertheless and has no primary source.
+   *
+   * @return The key of the name usage this backbone taxon is derived from.
+   */
+  @Nullable
+  public Integer getSourceTaxonKey() {
+    return sourceTaxonKey;
+  }
+
+  public void setSourceTaxonKey(Integer sourceTaxonKey) {
+    this.sourceTaxonKey = sourceTaxonKey;
+  }
 
   /**
    * @return the scientific name of the accepted name
@@ -133,14 +156,12 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   /**
-   * Returns a unique identifier that returns the details of a name according to a certain reference.
-   * <blockquote>
-   * <p>
-   * <i>Example:</i> "doi:10.1016/S0269-915X(97)80026-2"
-   * </p>
-   * </blockquote>
+   * The taxon concept reference usually a reference to some publication or author + year.
+   * The dwc:taxonAccordingTo reference is usually appended to the scientific name to further qualify the concept
+   * with "sensu" or "sec." being used for concatenation. E.g. "Acer nigrum sec. Gleason Cronquist 1991".
+   * In the case of backbone taxa this refers to the primary checklist the name was found in.
    *
-   * @return the accordingTo
+   * @return the taxon concept reference
    */
   @Nullable
   public String getAccordingTo() {
@@ -235,21 +256,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   /**
-   * @return the list of all Identifier
-   */
-  @NotNull
-  public List<Identifier> getIdentifiers() {
-    return identifiers;
-  }
-
-  /**
-   * @param identifiers the Identifier list to set
-   */
-  public void setIdentifiers(List<Identifier> identifiers) {
-    this.identifiers = identifiers;
-  }
-
-  /**
    * Return the key that uniquely identifies this name usage.
    *
    * @return the key
@@ -305,7 +311,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   /**
-   * @return the nubKey
+   * @return the taxon key of the matching backbone name usage
    */
   @Nullable
   public Integer getNubKey() {
@@ -683,34 +689,12 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   /**
-   * Adds a new identifier to the internal list of identifiers.
-   */
-  public void addIdentifier(Identifier id) {
-    identifiers.add(id);
-  }
-
-  /**
    * @return the canonicalName or scientific name in case its null
    */
   @Nullable
   @JsonIgnore
   public String getCanonicalOrScientificName() {
     return canonicalName == null ? scientificName : canonicalName;
-  }
-
-  /**
-   * @return the list of all URL Identifier
-   */
-  @NotNull
-  @JsonIgnore
-  public List<Identifier> getIdentifierByType(final IdentifierType type) {
-    List<Identifier> ids = newArrayList();
-    for (Identifier i : identifiers) {
-      if (type == i.getType()) {
-        ids.add(i);
-      }
-    }
-    return ids;
   }
 
   @Nullable
@@ -756,36 +740,12 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   /**
-   * An ID reference to the source of this usage.
-   *
-   * @return the sourceId
+   * The original taxonID of the name usage as found in the source.
+   * For backbone taxa and name usages with an origin different to SOURCE this is null.
    */
   @Nullable
-  public String getSourceId() {
-    return sourceId;
-  }
-
-  /**
-   * Returns the primary source record for this usage as an Integer.
-   * All nub usages are build from several underlying checklist usages,
-   * but these are sorted by priority and the usage key for the highest priority one becomes the sourceId for a nub
-   * usage.
-   * Some nub usages do not have any source record altogether.
-   * For example if there is a subspecies found, but no matching parent species,
-   * the missing species will be created nevertheless and has no primary source.
-   *
-   * @return the sourceId for a name usage as an integer or null if its not convertible
-   */
-  @JsonIgnore
-  public Integer getSourceKey() {
-    if (sourceId != null) {
-      try {
-        return Integer.valueOf(sourceId);
-      } catch (Exception ignored) {
-        // swallow
-      }
-    }
-    return null;
+  public String getTaxonID() {
+    return taxonID;
   }
 
   /**
@@ -812,6 +772,44 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     return null;
   }
 
+  @Nullable
+  /**
+   * The interpreted dc:modified from the verbatim source data.
+   * Ideally indicating when a record was last modified in the source.
+   */
+  public Date getModified() {
+    return modified;
+  }
+
+  public void setModified(Date modified) {
+    this.modified = modified;
+  }
+
+  @Nullable
+  /**
+   * The date this record was last crawled during clb indexing.
+   */
+  public Date getLastCrawled() {
+    return lastCrawled;
+  }
+
+  public void setLastCrawled(Date lastCrawled) {
+    this.lastCrawled = lastCrawled;
+  }
+
+  @Nullable
+  /**
+   * The date this record was last interpreted during indexing.
+   * This includes matching to the backbone.
+   */
+  public Date getLastInterpreted() {
+    return lastInterpreted;
+  }
+
+  public void setLastInterpreted(Date lastInterpreted) {
+    this.lastInterpreted = lastInterpreted;
+  }
+
   @JsonIgnore
   public boolean isNub() {
     return key.equals(nubKey);
@@ -834,12 +832,8 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     return isSynonym;
   }
 
-  /**
-   * Sets a new or replaces an existing identifier of type sourceID with the given identifier value
-   * to the internal list of identifiers.
-   */
-  public void setSourceId(String sourceId) {
-    this.sourceId = sourceId;
+  public void setTaxonID(String taxonID) {
+    this.taxonID = taxonID;
   }
 
   /**
@@ -870,8 +864,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
         genusKey,
         subgenusKey,
         speciesKey,
-        datasetKey, constituentKey,
-        nubKey,
+        datasetKey, constituentKey, nubKey,
         parentKey,
         parent,
         proParteKey,
@@ -894,8 +887,10 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
         origin,
         remarks,
         references,
-        sourceId,
-        identifiers);
+        taxonID,
+        modified,
+        lastCrawled,
+        lastInterpreted);
   }
 
   @Override
@@ -951,9 +946,11 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
            && Objects.equal(this.isSynonym, other.isSynonym)
            && Objects.equal(this.origin, other.origin)
            && Objects.equal(this.references, other.references)
-           && Objects.equal(this.sourceId, other.sourceId)
-           && Objects.equal(this.identifiers, other.identifiers)
-           && Objects.equal(this.remarks, other.remarks);
+           && Objects.equal(this.taxonID, other.taxonID)
+           && Objects.equal(this.remarks, other.remarks)
+           && Objects.equal(this.modified, other.modified)
+           && Objects.equal(this.lastCrawled, other.lastCrawled)
+           && Objects.equal(this.lastInterpreted, other.lastInterpreted);
   }
 
   @Override
@@ -1001,8 +998,10 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
       .add("origin", origin)
       .add("remarks", remarks)
       .add("references", references)
-      .add("sourceId", sourceId)
-      .add("identifiers", identifiers)
+      .add("taxonID", taxonID)
+      .add("modified", modified)
+      .add("lastCrawled", lastCrawled)
+      .add("lastInterpreted", lastInterpreted)
       .toString();
   }
 }

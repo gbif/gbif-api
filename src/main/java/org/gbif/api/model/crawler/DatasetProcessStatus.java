@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -286,102 +286,102 @@ public class DatasetProcessStatus {
     this.datasetKey = datasetKey;
   }
 
-  
+
   public void setCrawlJob(CrawlJob crawlJob) {
     this.crawlJob = crawlJob;
   }
 
-  
+
   public void setStartedCrawling(Date startedCrawling) {
     this.startedCrawling = startedCrawling;
   }
 
-  
+
   public void setFinishedCrawling(Date finishedCrawling) {
     this.finishedCrawling = finishedCrawling;
   }
 
-  
+
   public void setCrawlContext(String crawlContext) {
     this.crawlContext = crawlContext;
   }
 
-  
+
   public void setFinishReason(FinishReason finishReason) {
     this.finishReason = finishReason;
   }
 
-  
+
   public void setDeclaredCount(Long declaredCount) {
     this.declaredCount = declaredCount;
   }
 
-  
+
   public void setPagesCrawled(long pagesCrawled) {
     this.pagesCrawled = pagesCrawled;
   }
 
-  
+
   public void setPagesFragmentedSuccessful(long pagesFragmentedSuccessful) {
     this.pagesFragmentedSuccessful = pagesFragmentedSuccessful;
   }
 
-  
+
   public void setPagesFragmentedError(long pagesFragmentedError) {
     this.pagesFragmentedError = pagesFragmentedError;
   }
 
-  
+
   public void setFragmentsEmitted(long fragmentsEmitted) {
     this.fragmentsEmitted = fragmentsEmitted;
   }
 
-  
+
   public void setFragmentsReceived(long fragmentsReceived) {
     this.fragmentsReceived = fragmentsReceived;
   }
 
-  
+
   public void setRawOccurrencesPersistedNew(long rawOccurrencesPersistedNew) {
     this.rawOccurrencesPersistedNew = rawOccurrencesPersistedNew;
   }
 
-  
+
   public void setRawOccurrencesPersistedUpdated(long rawOccurrencesPersistedUpdated) {
     this.rawOccurrencesPersistedUpdated = rawOccurrencesPersistedUpdated;
   }
 
-  
+
   public void setRawOccurrencesPersistedUnchanged(long rawOccurrencesPersistedUnchanged) {
     this.rawOccurrencesPersistedUnchanged = rawOccurrencesPersistedUnchanged;
   }
 
-  
+
   public void setRawOccurrencesPersistedError(long rawOccurrencesPersistedError) {
     this.rawOccurrencesPersistedError = rawOccurrencesPersistedError;
   }
 
-  
+
   public void setFragmentsProcessed(long fragmentsProcessed) {
     this.fragmentsProcessed = fragmentsProcessed;
   }
 
-  
+
   public void setVerbatimOccurrencesPersistedSuccessful(long verbatimOccurrencesPersistedSuccessful) {
     this.verbatimOccurrencesPersistedSuccessful = verbatimOccurrencesPersistedSuccessful;
   }
 
-  
+
   public void setVerbatimOccurrencesPersistedError(long verbatimOccurrencesPersistedError) {
     this.verbatimOccurrencesPersistedError = verbatimOccurrencesPersistedError;
   }
 
-  
+
   public void setInterpretedOccurrencesPersistedSuccessful(long interpretedOccurrencesPersistedSuccessful) {
     this.interpretedOccurrencesPersistedSuccessful = interpretedOccurrencesPersistedSuccessful;
   }
 
-  
+
   public void setInterpretedOccurrencesPersistedError(long interpretedOccurrencesPersistedError) {
     this.interpretedOccurrencesPersistedError = interpretedOccurrencesPersistedError;
   }

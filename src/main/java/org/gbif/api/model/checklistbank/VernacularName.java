@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import com.google.common.base.Objects;
  *
  * @see <a href="http://rs.gbif.org/extension/gbif/1.0/vernacularname.xml">Vernacular Name Definition</a>
  */
-public class VernacularName extends NameUsageComponent {
+public class VernacularName implements NameUsageExtension {
 
   private String vernacularName;
   private Language language;
@@ -40,6 +40,7 @@ public class VernacularName extends NameUsageComponent {
   private Country country;
   private String area;
   private String source;
+  private Integer sourceTaxonKey;
   private Boolean preferred;
   private Boolean plural;
 
@@ -181,6 +182,15 @@ public class VernacularName extends NameUsageComponent {
     this.source = source;
   }
 
+  @Nullable
+  public Integer getSourceTaxonKey() {
+    return sourceTaxonKey;
+  }
+
+  public void setSourceTaxonKey(Integer sourceTaxonKey) {
+    this.sourceTaxonKey = sourceTaxonKey;
+  }
+
   /**
    * A common or vernacular name.
    * <blockquote>
@@ -264,9 +274,6 @@ public class VernacularName extends NameUsageComponent {
     if (!(object instanceof VernacularName)) {
       return false;
     }
-    if (!super.equals(object)) {
-      return false;
-    }
 
     VernacularName that = (VernacularName) object;
     return Objects.equal(this.vernacularName, that.vernacularName)
@@ -276,20 +283,21 @@ public class VernacularName extends NameUsageComponent {
            && Objects.equal(this.country, that.country)
            && Objects.equal(this.area, that.area)
            && Objects.equal(this.source, that.source)
+           && Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey)
            && Objects.equal(this.preferred, that.preferred)
            && Objects.equal(this.plural, that.plural);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(),
-                            vernacularName,
+    return Objects.hashCode(vernacularName,
                             language,
                             lifeStage,
                             sex,
                             country,
                             area,
                             source,
+                            sourceTaxonKey,
                             preferred,
                             plural);
   }
@@ -297,7 +305,6 @@ public class VernacularName extends NameUsageComponent {
   @Override
   public String toString() {
     return Objects.toStringHelper(this)
-      .add("super", super.toString())
       .add("vernacularName", vernacularName)
       .add("language", language)
       .add("lifeStage", lifeStage)
@@ -305,6 +312,7 @@ public class VernacularName extends NameUsageComponent {
       .add("country", country)
       .add("area", area)
       .add("source", source)
+      .add("sourceTaxonKey", sourceTaxonKey)
       .add("preferred", preferred)
       .add("plural", plural)
       .toString();

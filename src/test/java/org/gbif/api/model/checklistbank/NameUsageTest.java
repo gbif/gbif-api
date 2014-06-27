@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,9 @@
  */
 package org.gbif.api.model.checklistbank;
 
-import org.gbif.api.model.Constants;
 import org.gbif.api.vocabulary.NomenclaturalStatus;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
-import org.gbif.api.vocabulary.IdentifierType;
 
 import java.io.IOException;
 import java.net.URI;
@@ -44,28 +42,19 @@ public class NameUsageTest {
 
   @Test
   public void testEquals() {
-    Identifier id = new Identifier();
-    id.setIdentifier("http://www.example.org");
-    id.setType(IdentifierType.URL);
-
     NameUsage nu1 = new NameUsage();
     nu1.setKey(123);
-    nu1.getIdentifiers().add(id);
     nu1.setKingdom("Animalia");
 
     NameUsage nu2 = new NameUsage();
     nu2.setKey(123);
-    nu2.getIdentifiers().add(id);
     nu2.setKingdom("Animalia");
 
-    Image ru1 = new Image();
-    ru1.setDatasetKey(Constants.NUB_DATASET_KEY);
+    NameUsageMediaObject ru1 = new NameUsageMediaObject();
     ru1.setTitle("Puma concolor");
-    ru1.setUsageKey(111);
-    Image ru2 = new Image();
-    ru2.setDatasetKey(Constants.NUB_DATASET_KEY);
-    ru2.setTitle("Puma concolor");
-    ru2.setUsageKey(111);
+    ru1.setSourceTaxonKey(111);
+    NameUsageMediaObject ru2 = new NameUsageMediaObject();
+    ru2.setSourceTaxonKey(111);
 
     assertEquals(nu1, nu2);
 
@@ -179,8 +168,8 @@ public class NameUsageTest {
   public void testSetLink() {
     NameUsage nu = new NameUsage();
     nu.setReferences(URI.create("http://www.example.org"));
-    nu.setSourceId("12345");
-    assertEquals("12345", nu.getSourceId());
+    nu.setTaxonID("12345");
+    assertEquals("12345", nu.getTaxonID());
     assertEquals("http://www.example.org", nu.getReferences().toString());
   }
 
@@ -215,9 +204,6 @@ public class NameUsageTest {
     u.setDatasetKey(UUID.randomUUID());
     u.setNumDescendants(321);
     u.getNomenclaturalStatus().add(NomenclaturalStatus.AMBIGUOUS);
-    Identifier i = new Identifier();
-    i.setIdentifier("me");
-    u.addIdentifier(i);
     u.setKingdomKey(6);
     u.setKingdom("Plants");
 

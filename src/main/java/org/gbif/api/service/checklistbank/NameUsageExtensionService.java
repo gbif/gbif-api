@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,29 +21,19 @@ import org.gbif.api.model.common.paging.PagingResponse;
 import javax.annotation.Nullable;
 
 /**
- * Parameterized service interface for NameUsage's components Interface methods.
- * T being the interpreted model class.
+ * Parameterized service interface for model classes extending a NameUsage.
+ * @param <T> the extension model class.
  */
-public interface NameUsageComponentService<T> {
+public interface NameUsageExtensionService<T> {
 
   /**
-   * Returns a component.
-   * The object returned is the interpreted version of it.
+   * Returns all extension records for a checklist usage.
    *
-   * @return A component or null if none can be found
-   */
-  @Nullable
-  T get(int key);
-
-  /**
-   * Returns all components for a checklist usage.
-   * The objects returned are the interpreted versions.
-   *
-   * @param usageKey the usage the components are related to
+   * @param taxonKey the usage the extensions are related to
    * @param page     paging parameters or null for first page with default size
    *
    * @return Wrapper that contains a potentially empty component list, but never null
    */
-  PagingResponse<T> listByUsage(int usageKey, @Nullable Pageable page);
+  PagingResponse<T> listByUsage(int taxonKey, @Nullable Pageable page);
 
 }

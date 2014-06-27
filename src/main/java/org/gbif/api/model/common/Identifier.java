@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,22 +30,9 @@ import com.google.common.base.Objects;
  */
 public class Identifier {
 
-  private Integer entityKey;
   private String identifier;
   private String title;
   private IdentifierType type;
-
-  /**
-   * @return the key to the main occurrence or name usage entity
-   */
-  @NotNull
-  public Integer getEntityKey() {
-    return entityKey;
-  }
-
-  public void setEntityKey(Integer entityKey) {
-    this.entityKey = entityKey;
-  }
 
   /**
    * Other known identifier used for the same taxon. Can be a URL pointing to a webpage, an xml or rdf document, a DOI,
@@ -127,27 +114,21 @@ public class Identifier {
     if (!(obj instanceof Identifier)) {
       return false;
     }
-    if (!super.equals(obj)) {
-      return false;
-    }
 
     Identifier that = (Identifier) obj;
     return Objects.equal(this.identifier, that.identifier)
-           && Objects.equal(this.entityKey, that.entityKey)
            && Objects.equal(this.type, that.type)
            && Objects.equal(this.title, that.title);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), entityKey, identifier, type, title);
+    return Objects.hashCode(identifier, type, title);
   }
 
   @Override
   public String toString() {
     return Objects.toStringHelper(this)
-      .add("super", super.toString())
-      .add("entityKey", entityKey)
       .add("identifier", identifier)
       .add("type", type)
       .add("title", title)

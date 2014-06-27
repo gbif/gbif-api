@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Generic search interface for a suggest/autocomplete service.
  * This marker interface should be extended by other interfaces that support this functionality.
- * 
+ *
  * @param <T> the type of returned results
  * @param <P> the supported search parameter enumeration
  * @param <R> the supported search request type. For faceted searches this needs to extend
@@ -32,7 +32,7 @@ public interface SuggestService<T, P extends Enum<?> & SearchParameter, R extend
   /**
    * Issues a SearchRequest for a suggest and retrieves the list of matches.
    * The actual result information will contain a list elements of type T.
-   * 
+   *
    * @param suggestRequest the input object to be used for performing the operation.
    */
   List<T> suggest(R suggestRequest);

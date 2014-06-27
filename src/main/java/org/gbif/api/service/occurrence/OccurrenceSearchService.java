@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -34,7 +34,7 @@ public interface OccurrenceSearchService
    * Searches catalog numbers which start with the input prefix.
    * If the limit is set to a number less than 0, then no maximum limit is enforced.
    * If limit contains a null value, a default value is set by the service implementation.
-   * 
+   *
    * @param prefix search pattern
    * @param limit maximum number of results to return
    * @return of catalog numbers
@@ -45,7 +45,7 @@ public interface OccurrenceSearchService
    * Searches collection codes which start with the input prefix.
    * If the limit is set to a number less than 0, then no maximum limit is enforced.
    * If limit contains a null value, a default value is set by the service implementation.
-   * 
+   *
    * @param prefix search pattern
    * @param limit maximum number of results to return
    * @return of collection names
@@ -57,7 +57,7 @@ public interface OccurrenceSearchService
    * Searches collector names (dwc:recordedBy) which start with the input prefix.
    * If the limit is set to a number less than 0, then no maximum limit is enforced.
    * If limit contains a null value, a default value is set by the service implementation.
-   * 
+   *
    * @param prefix search pattern
    * @param limit maximum number of results to return
    * @return of collector names
@@ -68,7 +68,7 @@ public interface OccurrenceSearchService
    * Searches record numbers which start with the input prefix.
    * If the limit is set to a number less than 0, then no maximum limit is enforced.
    * If limit contains a null value, a default value is set by the service implementation.
-   * 
+   *
    * @param prefix search pattern
    * @param limit maximum number of results to return
    * @return of collector names
@@ -80,7 +80,7 @@ public interface OccurrenceSearchService
    * Searches institution codes which start with the input prefix.
    * If the limit is set to a number less than 0, then no maximum limit is enforced.
    * If limit contains a null value, a default value is set by the service implementation.
-   * 
+   *
    * @param prefix search pattern
    * @param limit maximum number of results to return
    * @return of institution codes

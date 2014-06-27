@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -32,7 +32,7 @@ public class Rollup {
    */
   public Rollup() {
   }
-  
+
   public Rollup(Dimension<?>... d) {
     this(new ImmutableSet.Builder<Dimension<?>>().addAll(Arrays.asList(d)).build());
   }
@@ -44,7 +44,7 @@ public class Rollup {
   public Set<Dimension<?>> getDimensions() {
     return dimensions;
   }
-  
+
   /**
    * Where possible use the constructor and not this version
    */

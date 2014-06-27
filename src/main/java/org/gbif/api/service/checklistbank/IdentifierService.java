@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gbif.api.model.registry.eml.curatorial;
+package org.gbif.api.service.checklistbank;
 
+import org.gbif.api.model.common.Identifier;
 
 /**
- * Allows for typed units.
+ * Service interface for Identifier methods.
+ *
+ * @see org.gbif.api.model.common.Identifier
  */
-public enum CuratorialUnitType {
-
-  SPECIMENS, DRAWERS
+public interface IdentifierService extends NameUsageExtensionService<Identifier> {
 
 }

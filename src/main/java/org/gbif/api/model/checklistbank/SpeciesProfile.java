@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import com.google.common.base.Objects;
  *
  * @see <a href="http://rs.gbif.org/extension/gbif/1.0/speciesprofile.xml">Species Profile Definition</a>
  */
-public class SpeciesProfile extends NameUsageComponent {
+public class SpeciesProfile implements NameUsageExtension {
 
   private String livingPeriod;
   private String lifeForm;
@@ -38,6 +38,8 @@ public class SpeciesProfile extends NameUsageComponent {
   private Integer ageInDays;
   private Integer sizeInMillimeter;
   private Integer massInGram;
+  private String source;
+  private Integer sourceTaxonKey;
 
   /**
    * Maximum observed age of an organism given as number of days.
@@ -280,15 +282,30 @@ public class SpeciesProfile extends NameUsageComponent {
     this.terrestrial = terrestrial;
   }
 
+  @Nullable
+  public String getSource() {
+    return source;
+  }
+
+  public void setSource(String source) {
+    this.source = source;
+  }
+
+  @Nullable
+  public Integer getSourceTaxonKey() {
+    return sourceTaxonKey;
+  }
+
+  public void setSourceTaxonKey(Integer sourceTaxonKey) {
+    this.sourceTaxonKey = sourceTaxonKey;
+  }
+
   @Override
   public boolean equals(Object object) {
     if (this == object) {
       return true;
     }
     if (!(object instanceof SpeciesProfile)) {
-      return false;
-    }
-    if (!super.equals(object)) {
       return false;
     }
 
@@ -302,13 +319,14 @@ public class SpeciesProfile extends NameUsageComponent {
            && Objects.equal(this.hybrid, that.hybrid)
            && Objects.equal(this.ageInDays, that.ageInDays)
            && Objects.equal(this.sizeInMillimeter, that.sizeInMillimeter)
-           && Objects.equal(this.massInGram, that.massInGram);
+           && Objects.equal(this.massInGram, that.massInGram)
+           && Objects.equal(this.source, that.source)
+           && Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(),
-                            livingPeriod,
+    return Objects.hashCode(livingPeriod,
                             lifeForm,
                             habitat,
                             marine,
@@ -317,13 +335,14 @@ public class SpeciesProfile extends NameUsageComponent {
                             hybrid,
                             ageInDays,
                             sizeInMillimeter,
-                            massInGram);
+                            massInGram,
+                            source,
+                            sourceTaxonKey);
   }
 
   @Override
   public String toString() {
     return Objects.toStringHelper(this)
-      .add("super", super.toString())
       .add("livingPeriod", livingPeriod)
       .add("lifeForm", lifeForm)
       .add("habitat", habitat)
@@ -334,6 +353,8 @@ public class SpeciesProfile extends NameUsageComponent {
       .add("ageInDays", ageInDays)
       .add("sizeInMillimeter", sizeInMillimeter)
       .add("massInGram", massInGram)
+      .add("source", source)
+      .add("sourceTaxonKey", sourceTaxonKey)
       .toString();
   }
 

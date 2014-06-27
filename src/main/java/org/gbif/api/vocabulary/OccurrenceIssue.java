@@ -30,7 +30,7 @@ public enum OccurrenceIssue {
   COORDINATE_ROUNDED,
 
   /**
-   * The geodetic datum given could not be interpreted
+   * The geodetic datum given could not be interpreted.
    */
   GEODETIC_DATUM_INVALID,
 

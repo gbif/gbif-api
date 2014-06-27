@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.checklistbank;
 
+import org.gbif.api.model.common.Identifier;
+import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.ThreatStatus;
 
 import java.io.IOException;
@@ -26,6 +28,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -42,7 +45,8 @@ public class NameUsageContainer extends NameUsage {
 
   private List<Description> descriptions = newArrayList();
   private List<Distribution> distributions = newArrayList();
-  private List<Image> images = newArrayList();
+  private List<Identifier> identifiers = newArrayList();
+  private List<NameUsageMediaObject> media = newArrayList();
   private List<Reference> referenceList = newArrayList();
   private List<SpeciesProfile> speciesProfiles = newArrayList();
   private List<NameUsage> synonyms = newArrayList();
@@ -113,19 +117,42 @@ public class NameUsageContainer extends NameUsage {
     return habitats;
   }
 
-  /**
-   * @return the list of Image
-   */
-  @NotNull
-  public List<Image> getImages() {
-    return images;
+  public List<NameUsageMediaObject> getMedia() {
+    return media;
+  }
+
+  public void setMedia(List<NameUsageMediaObject> media) {
+    this.media = media;
   }
 
   /**
-   * @param images the Image list to set
+   * @return the list of all Identifier
    */
-  public void setImages(List<Image> images) {
-    this.images = images;
+  @NotNull
+  public List<Identifier> getIdentifiers() {
+    return identifiers;
+  }
+
+  /**
+   * @param identifiers the Identifier list to set
+   */
+  public void setIdentifiers(List<Identifier> identifiers) {
+    this.identifiers = identifiers;
+  }
+
+  /**
+   * @return the list of all URL Identifier
+   */
+  @NotNull
+  @JsonIgnore
+  public List<Identifier> getIdentifierByType(final IdentifierType type) {
+    List<Identifier> ids = newArrayList();
+    for (Identifier i : identifiers) {
+      if (type == i.getType()) {
+        ids.add(i);
+      }
+    }
+    return ids;
   }
 
   /**
@@ -333,7 +360,7 @@ public class NameUsageContainer extends NameUsage {
       final NameUsageContainer other = (NameUsageContainer) object;
       return Objects.equal(this.descriptions, other.descriptions)
              && Objects.equal(this.distributions, other.distributions)
-             && Objects.equal(this.images, other.images)
+             && Objects.equal(this.media, other.media)
              && Objects.equal(this.referenceList, other.referenceList)
              && Objects.equal(this.speciesProfiles, other.speciesProfiles)
              && Objects.equal(this.synonyms, other.synonyms)
@@ -347,7 +374,7 @@ public class NameUsageContainer extends NameUsage {
   public int hashCode() {
     return Objects.hashCode(descriptions,
                             distributions,
-                            images,
+                            media,
                             referenceList,
                             speciesProfiles,
                             synonyms,

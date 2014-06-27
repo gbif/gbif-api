@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -40,7 +40,7 @@ public final class VocabularyUtils {
   /**
    * Generic method to lookup an enumeration value for a given string based on the name of the enum member.
    * The lookup is case insensitive and ignore whitespaces, underscores and dashes.
-   * 
+   *
    * @param name the enum members name to lookup
    * @param vocab the enumeration class
    * @return the matching enum member or null
@@ -65,15 +65,15 @@ public final class VocabularyUtils {
   /**
    * Looks up an enumeration by class name. One can get the classname using the likes of:
    * <p/>
-   * 
+   *
    * <pre>
    * {@code
    * Country.class.getName()
    * }
    * </pre>
-   * 
+   *
    * Illegal classes will result in an IllegalArgumentException.
-   * 
+   *
    * @param fullyQualifiedClassName Which should name the enumeration (e.g. org.gbif.api.vocabulary.Country)
    * @return The enumeration.
    */

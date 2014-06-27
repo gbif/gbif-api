@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ import com.google.common.base.Objects;
  *
  * @see <a href="http://rs.gbif.org/extension/gbif/1.0/distribution.xml">Distribution Definition</a>
  */
-public class Distribution extends NameUsageComponent {
+public class Distribution implements NameUsageExtension {
 
   private String locationId;
   private String locality;
@@ -45,6 +45,7 @@ public class Distribution extends NameUsageComponent {
   private EstablishmentMeans establishmentMeans;
   private CitesAppendix appendixCites;
   private String source;
+  private Integer sourceTaxonKey;
   private Integer startDayOfYear;
   private Integer endDayOfYear;
   private String remarks;
@@ -242,6 +243,15 @@ public class Distribution extends NameUsageComponent {
     this.source = source;
   }
 
+  @Nullable
+  public Integer getSourceTaxonKey() {
+    return sourceTaxonKey;
+  }
+
+  public void setSourceTaxonKey(Integer sourceTaxonKey) {
+    this.sourceTaxonKey = sourceTaxonKey;
+  }
+
   /**
    * Seasonal temporal subcontext within the eventDate context. Useful for migratory species. The earliest ordinal day
    * of the year on which the distribution record is valid. Numbering starts with 1 for January 1 and ends with 365 for
@@ -343,9 +353,6 @@ public class Distribution extends NameUsageComponent {
     if (!(object instanceof Distribution)) {
       return false;
     }
-    if (!super.equals(object)) {
-      return false;
-    }
 
     Distribution that = (Distribution) object;
     return Objects.equal(this.locality, that.locality)
@@ -357,14 +364,14 @@ public class Distribution extends NameUsageComponent {
            && Objects.equal(this.establishmentMeans, that.establishmentMeans)
            && Objects.equal(this.appendixCites, that.appendixCites)
            && Objects.equal(this.source, that.source)
+           && Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey)
            && Objects.equal(this.startDayOfYear, that.startDayOfYear)
            && Objects.equal(this.endDayOfYear, that.endDayOfYear);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(),
-                            locality,
+    return Objects.hashCode(locality,
                             country,
                             status,
                             lifeStage,
@@ -380,7 +387,6 @@ public class Distribution extends NameUsageComponent {
   @Override
   public String toString() {
     return Objects.toStringHelper(this)
-      .add("super", super.toString())
       .add("locality", locality)
       .add("country", country)
       .add("status", status)
@@ -390,6 +396,7 @@ public class Distribution extends NameUsageComponent {
       .add("establishmentMeans", establishmentMeans)
       .add("appendixCites", appendixCites)
       .add("source", source)
+      .add("sourceTaxonKey", sourceTaxonKey)
       .add("startDayOfYear", startDayOfYear)
       .add("endDayOfYear", endDayOfYear)
       .add("locationId", locationId)

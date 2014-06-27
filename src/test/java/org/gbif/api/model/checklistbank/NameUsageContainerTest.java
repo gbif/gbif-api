@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,13 @@
  */
 package org.gbif.api.model.checklistbank;
 
-import org.gbif.api.model.Constants;
+import org.gbif.api.model.common.Identifier;
+import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
-import org.gbif.api.vocabulary.IdentifierType;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -49,21 +48,18 @@ public class NameUsageContainerTest {
     src.setDatasetKey(checklistKey);
     src.setKingdom("Animalia");
     src.setScientificName("Puma concolor Linné");
+    src.setReferences(URI.create("http://wisdom.org/1234"));
+    src.setSourceTaxonKey(12345);
 
+    NameUsageContainer nu = new NameUsageContainer(src);
     Identifier id1 = new Identifier();
     id1.setIdentifier("1234");
     id1.setType(IdentifierType.GBIF_PORTAL);
-    id1.setUsageKey(src.getKey());
-    src.addIdentifier(id1);
-
-    src.setReferences(URI.create("http://wisdom.org/1234"));
-    src.setSourceId("12345");
-
-    NameUsageContainer nu = new NameUsageContainer(src);
+    nu.getIdentifiers().add(id1);
 
     assertEquals(checklistKey, nu.getDatasetKey());
     assertEquals((Integer) 1234, nu.getKey());
-    assertEquals((Integer) 12345, nu.getSourceKey());
+    assertEquals((Integer) 12345, nu.getSourceTaxonKey());
     assertEquals("http://wisdom.org/1234", nu.getReferences().toString());
     assertEquals("Animalia", nu.getKingdom());
     assertEquals("Puma concolor Linné", nu.getScientificName());
@@ -71,7 +67,6 @@ public class NameUsageContainerTest {
 
     assertEquals("1234", nu.getIdentifiers().get(0).getIdentifier());
     assertEquals(IdentifierType.GBIF_PORTAL, nu.getIdentifiers().get(0).getType());
-    assertEquals((Integer) 1234, nu.getIdentifiers().get(0).getUsageKey());
 
     assertNull(nu.getAccepted());
     assertNull(nu.getAcceptedKey());
@@ -79,7 +74,7 @@ public class NameUsageContainerTest {
     assertNull(nu.getNameType());
     assertNull(nu.getKingdomKey());
 
-    assertEquals(0, nu.getImages().size());
+    assertEquals(0, nu.getMedia().size());
     assertEquals(0, nu.getDescriptions().size());
     assertEquals(0, nu.getDistributions().size());
     assertEquals(0, nu.getReferenceList().size());
@@ -101,22 +96,20 @@ public class NameUsageContainerTest {
     nu2.getIdentifiers().add(id1);
     nu2.setKingdom("Animalia");
 
-    Image ru1 = new Image();
-    ru1.setDatasetKey(Constants.NUB_DATASET_KEY);
+    NameUsageMediaObject ru1 = new NameUsageMediaObject();
     ru1.setTitle("Puma concolor");
-    ru1.setUsageKey(111);
-    Image ru2 = new Image();
-    ru2.setDatasetKey(Constants.NUB_DATASET_KEY);
+    ru1.setSourceTaxonKey(111);
+    NameUsageMediaObject ru2 = new NameUsageMediaObject();
     ru2.setTitle("Puma concolor");
-    ru2.setUsageKey(111);
+    ru2.setSourceTaxonKey(111);
 
-    List<Image> lru1 = new ArrayList<Image>();
+    List<NameUsageMediaObject> lru1 = Lists.newArrayList();
     lru1.add(ru1);
-    List<Image> lru2 = new ArrayList<Image>();
+    List<NameUsageMediaObject> lru2 = Lists.newArrayList();
     lru2.add(ru2);
 
-    nu1.setImages(lru1);
-    nu2.setImages(lru2);
+    nu1.setMedia(lru1);
+    nu2.setMedia(lru2);
 
     assertEquals(nu1, nu2);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -89,7 +89,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
   private int numDescendants;
   private int numOccurrences;
 
-  private String sourceId;
+  private String taxonID;
   private Boolean extinct;
   private Boolean marine;
   private List<NomenclaturalStatus> nomenclaturalStatus = newArrayList();
@@ -264,12 +264,12 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
     this.scientificName = scientificName;
   }
 
-  public String getSourceId() {
-    return sourceId;
+  public String getTaxonID() {
+    return taxonID;
   }
 
-  public void setSourceId(String sourceId) {
-    this.sourceId = sourceId;
+  public void setTaxonID(String taxonID) {
+    this.taxonID = taxonID;
   }
 
   public TaxonomicStatus getTaxonomicStatus() {
@@ -524,7 +524,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
         isSynonym, kingdom, phylum, clazz, order, family, genus, subgenus, species, kingdomKey, phylumKey, classKey,
         orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, canonicalName,
         authorship, publishedIn, accordingTo, nameType, taxonomicStatus, nomenclaturalStatus, rank, origin,
-        numDescendants, numOccurrences, sourceId, extinct, marine, threatStatuses, descriptions, vernacularNames);
+        numDescendants, numOccurrences, taxonID, extinct, marine, threatStatuses, descriptions, vernacularNames);
   }
 
   @Override
@@ -574,7 +574,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
            && Objects.equal(this.origin, other.origin)
            && Objects.equal(this.numDescendants, other.numDescendants)
            && Objects.equal(this.numOccurrences, other.numOccurrences)
-           && Objects.equal(this.sourceId, other.sourceId)
+           && Objects.equal(this.taxonID, other.taxonID)
            && Objects.equal(this.extinct, other.extinct)
            && Objects.equal(this.marine, other.marine)
            && Objects.equal(this.threatStatuses, other.threatStatuses)
@@ -623,7 +623,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
            ", origin=" + origin +
            ", numDescendants=" + numDescendants +
            ", numOccurrences=" + numOccurrences +
-           ", sourceId='" + sourceId + '\'' +
+           ", taxonID='" + taxonID + '\'' +
            ", extinct=" + extinct +
            ", marine=" + marine +
            ", threatStatuses=" + threatStatuses +

@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,9 +30,10 @@ import com.google.common.base.Objects;
  *
  * @see <a href="http://rs.gbif.org/extension/gbif/1.0/typesandspecimen.xml">Types And Specimen Definition</a>
  */
-public class TypeSpecimen extends NameUsageComponent {
+public class TypeSpecimen implements NameUsageExtension {
 
   private String source;
+  private Integer sourceTaxonKey;
   private String citation;
   private TypeStatus typeStatus;
   private TypeDesignationType typeDesignationType;
@@ -244,6 +245,15 @@ public class TypeSpecimen extends NameUsageComponent {
     this.source = source;
   }
 
+  @Nullable
+  public Integer getSourceTaxonKey() {
+    return sourceTaxonKey;
+  }
+
+  public void setSourceTaxonKey(Integer sourceTaxonKey) {
+    this.sourceTaxonKey = sourceTaxonKey;
+  }
+
   /**
    * The rank of the taxon bearing the scientific name.
    *
@@ -418,11 +428,10 @@ public class TypeSpecimen extends NameUsageComponent {
     if (!(object instanceof TypeSpecimen)) {
       return false;
     }
-    if (!super.equals(object)) {
-      return false;
-    }
+
     TypeSpecimen that = (TypeSpecimen) object;
     return Objects.equal(this.source, that.source)
+           && Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey)
            && Objects.equal(this.citation, that.citation)
            && Objects.equal(this.typeStatus, that.typeStatus)
            && Objects.equal(this.typeDesignationType, that.typeDesignationType)
@@ -443,8 +452,7 @@ public class TypeSpecimen extends NameUsageComponent {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(),
-                            source,
+    return Objects.hashCode(source,
                             citation,
                             typeStatus,
                             typeDesignationType,
@@ -466,8 +474,8 @@ public class TypeSpecimen extends NameUsageComponent {
   @Override
   public String toString() {
     return Objects.toStringHelper(this)
-      .add("super", super.toString())
       .add("source", source)
+      .add("sourceTaxonKey", sourceTaxonKey)
       .add("citation", citation)
       .add("typeStatus", typeStatus)
       .add("typeDesignationType", typeDesignationType)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,34 +40,34 @@ public interface NameUsageService {
    * The given Locale determines the name used for the NameUsage.vernacularName property
    * with null ignoring any vernacular name.
    *
-   * @param usageKey that identifies a name usage
+   * @param taxonKey that identifies a name usage
    * @param locale   the locale defining the best vernacular name to use for a usage.
    *                 Use null to not load any common name
    *
    * @return a matching name usage, or null if no name usage found
    */
   @Nullable
-  NameUsage get(int usageKey, @Nullable Locale locale);
+  NameUsage get(int taxonKey, @Nullable Locale locale);
 
   /**
    * Gets the parsed name representation of a given name usage.
    *
-   * @param usageKey that identifies a name usage
+   * @param taxonKey that identifies a name usage
    *
    * @return the parsed name of the name usage or null if none can be found
    */
   @Nullable
-  ParsedName getParsedName(int usageKey);
+  ParsedName getParsedName(int taxonKey);
 
   /**
    * Gets the metrics for a given name usage.
    *
-   * @param usageKey that identifies a name usage
+   * @param taxonKey that identifies a name usage
    *
    * @return the usage metrics of the name usage or null if none can be found
    */
   @Nullable
-  NameUsageMetrics getMetrics(int usageKey);
+  NameUsageMetrics getMetrics(int taxonKey);
 
   /**
    * Returns the verbatim data for the usage or null if its a generated usage having no verbatim data.
@@ -76,7 +76,7 @@ public interface NameUsageService {
    * @return verbatim data for the usage or null
    */
   @Nullable
-  VerbatimNameUsage getVerbatim(int usageKey);
+  VerbatimNameUsage getVerbatim(int taxonKey);
 
   /**
    * Page through all usages across all or one checklists.
@@ -121,25 +121,25 @@ public interface NameUsageService {
   /**
    * Lists the complete parental hierarchy of a name usage regardless of their ranks.
    *
-   * @param usageKey that identifies the name usage to show parents of
+   * @param taxonKey that identifies the name usage to show parents of
    * @param locale   the locale defining the best vernacular name to use for a usage.
    *                 Use null to not load any common name
    *
    * @return List of parent usages with the last usage being the immediate parent
    */
-  List<NameUsage> listParents(int usageKey, Locale locale);
+  List<NameUsage> listParents(int taxonKey, Locale locale);
 
   /**
    * Lists all related checklist usages for a given nub usage.
    *
-   * @param nubKey     that identifies a nub usage
+   * @param taxonKey   that identifies a nub usage
    * @param locale     the locale defining the best vernacular name to use for a usage.
    *                   Use null to not load any common name
    * @param datasetKey Optional list of checklist keys to restrict related usages to
    *
    * @return List of synonym name usages.
    */
-  List<NameUsage> listRelated(int nubKey, Locale locale, @Nullable UUID... datasetKey);
+  List<NameUsage> listRelated(int taxonKey, Locale locale, @Nullable UUID... datasetKey);
 
   /**
    * Lists all root usages for a given checklist, i.e. accepted usages without a parent.
@@ -159,13 +159,13 @@ public interface NameUsageService {
   /**
    * Lists all synonym name usages for a given accepted name usage.
    *
-   * @param usageKey that identifies a name usage
+   * @param taxonKey that identifies any name usage
    * @param locale   the locale defining the best vernacular name to use for a usage.
    *                 Use null to not load any common name
    * @param page     paging parameters or null for first page with default size
    *
    * @return List of synonym name usages.
    */
-  PagingResponse<NameUsage> listSynonyms(int usageKey, Locale locale, @Nullable Pageable page);
+  PagingResponse<NameUsage> listSynonyms(int taxonKey, Locale locale, @Nullable Pageable page);
 
 }

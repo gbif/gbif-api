@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,11 @@
  */
 package org.gbif.api.service.checklistbank;
 
-import org.gbif.api.model.checklistbank.Image;
+import org.gbif.api.model.checklistbank.NameUsageMediaObject;
 
 /**
- * Service interface for Image Interface methods. This is the public interface
- * providing methods for retrieving Images.
- * These methods will for the most part return a Image object.
- *
- * @see Image
+ The public interface providing methods for retrieving NameUsageMediaObjects.
  */
-public interface ImageService extends NameUsageComponentService<Image> {
+public interface MultimediaService extends NameUsageExtensionService<NameUsageMediaObject> {
 
 }

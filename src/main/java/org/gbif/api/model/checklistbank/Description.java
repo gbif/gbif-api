@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,15 +27,29 @@ import com.google.common.base.Objects;
  *
  * @see <a href="http://rs.gbif.org/extension/gbif/1.0/description.xml">Description Definition</a>
  */
-public class Description extends NameUsageComponent {
+public class Description implements NameUsageExtension {
 
+  private Integer key;
   private String type;
   private Language language;
   private String description;
   private String source;
+  private Integer sourceTaxonKey;
   private String creator;
   private String contributor;
   private String license;
+
+  /**
+   * A unique GBIF identifier for any description.
+   * This key is used in the table of contents to retrieve the detailed description.
+   */
+  public Integer getKey() {
+    return key;
+  }
+
+  public void setKey(Integer key) {
+    this.key = key;
+  }
 
   /**
    * An entity responsible for making contributions to the textual information provided for a description.
@@ -145,6 +159,15 @@ public class Description extends NameUsageComponent {
     this.source = source;
   }
 
+  @Nullable
+  public Integer getSourceTaxonKey() {
+    return sourceTaxonKey;
+  }
+
+  public void setSourceTaxonKey(Integer sourceTaxonKey) {
+    this.sourceTaxonKey = sourceTaxonKey;
+  }
+
   /**
    * Returns the type used to categorize paragraphs of a taxon description.
    * Given the list of types is so broad, an Enum is not used to maintain it. Rather it is kept as plain text.
@@ -173,15 +196,13 @@ public class Description extends NameUsageComponent {
     if (!(object instanceof Description)) {
       return false;
     }
-    if (!super.equals(object)) {
-      return false;
-    }
 
     Description that = (Description) object;
     return Objects.equal(this.type, that.type)
            && Objects.equal(this.language, that.language)
            && Objects.equal(this.description, that.description)
            && Objects.equal(this.source, that.source)
+           && Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey)
            && Objects.equal(this.creator, that.creator)
            && Objects.equal(this.contributor, that.contributor)
            && Objects.equal(this.license, that.license);
@@ -189,17 +210,17 @@ public class Description extends NameUsageComponent {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), type, language, description, source, creator, contributor, license);
+    return Objects.hashCode(type, language, description, source, creator, contributor, license);
   }
 
   @Override
   public String toString() {
     return Objects.toStringHelper(this)
-      .add("super", super.toString())
       .add("type", type)
       .add("language", language)
       .add("description", description)
       .add("source", source)
+      .add("sourceTaxonKey", sourceTaxonKey)
       .add("creator", creator)
       .add("contributor", contributor)
       .add("license", license)

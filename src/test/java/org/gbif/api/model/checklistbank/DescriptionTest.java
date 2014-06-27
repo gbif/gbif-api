@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,27 +20,21 @@ import org.gbif.api.vocabulary.Language;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 public class DescriptionTest {
 
   @Test
   public void testEquals() {
     Description d1 = new Description();
-    d1.setKey(123);
     d1.setLanguage(Language.ENGLISH);
     d1.setType("morphology");
 
     Description d2 = new Description();
-    d2.setKey(123);
     d2.setLanguage(Language.ENGLISH);
     d2.setType("morphology");
 
     assertEquals(d1, d2);
 
-    d2.setKey(124);
-
-    assertFalse(d1.equals(d2));
   }
 
 }
