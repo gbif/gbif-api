@@ -1,12 +1,9 @@
 /*
  * Copyright 2014 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,7 +25,7 @@ import com.google.common.collect.Sets;
 public class FacetedSearchRequest<P extends SearchParameter> extends SearchRequest<P> {
 
   private Set<P> facets = Sets.newHashSet();
-  private boolean facetsOnly;
+
   private boolean multiSelectFacets;
   private Integer facetMinCount;
 
@@ -48,11 +45,6 @@ public class FacetedSearchRequest<P extends SearchParameter> extends SearchReque
 
   public FacetedSearchRequest(long offset, int limit) {
     super(offset, limit);
-  }
-
-  public FacetedSearchRequest(long offset, int limit, boolean facetsOnly) {
-    super(offset, limit);
-    this.facetsOnly = facetsOnly;
   }
 
   /**
@@ -79,22 +71,6 @@ public class FacetedSearchRequest<P extends SearchParameter> extends SearchReque
    */
   public void setFacets(Set<P> facets) {
     this.facets = facets;
-  }
-
-  /**
-   * This flag indicates if only facets information must be included in the response.
-   *
-   * @return the facetsOnly
-   */
-  public boolean isFacetsOnly() {
-    return facetsOnly;
-  }
-
-  /**
-   * @param facetsOnly the isFaceOnly to set.
-   */
-  public void setFacetsOnly(boolean facetsOnly) {
-    this.facetsOnly = facetsOnly;
   }
 
   /**

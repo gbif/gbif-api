@@ -3,8 +3,8 @@ package org.gbif.api.model.registry.search;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.FacetedSearchRequest;
 import org.gbif.api.model.registry.Tag;
-import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Continent;
+import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetSubtype;
 import org.gbif.api.vocabulary.DatasetType;
 
@@ -26,10 +26,6 @@ public class DatasetSearchRequest extends FacetedSearchRequest<DatasetSearchPara
     super(offset, limit);
   }
 
-  public DatasetSearchRequest(long offset, int limit, boolean facetsOnly) {
-    super(offset, limit, facetsOnly);
-  }
-
   /**
    * Filters dataset by the owning organizations country.
    */
@@ -39,7 +35,7 @@ public class DatasetSearchRequest extends FacetedSearchRequest<DatasetSearchPara
 
   /**
    * Filters dataset by a country of the geospatial coverage.
-   *
+   * 
    * @param country appearing in geospatial coverage
    */
   public void addCountryFilter(Country country) {
@@ -48,7 +44,7 @@ public class DatasetSearchRequest extends FacetedSearchRequest<DatasetSearchPara
 
   /**
    * Filters dataset by a continent of the geospatial coverage.
-   *
+   * 
    * @param continent appearing in geospatial coverage
    */
   public void addContinentFilter(Continent continent) {
@@ -57,7 +53,7 @@ public class DatasetSearchRequest extends FacetedSearchRequest<DatasetSearchPara
 
   /**
    * Filters datasets by their temporal coverage broken down to decades.
-   *
+   * 
    * @param decade the decade given as a 4 digit integer
    */
   public void addDecadeFilter(int decade) {
@@ -69,19 +65,19 @@ public class DatasetSearchRequest extends FacetedSearchRequest<DatasetSearchPara
   }
 
   /**
-   * Filters datasets by a keyword as generated through {@link org.gbif.api.model.registry.Dataset#getKeywords()}
-   * by merging tags, the keywordCollections and temporalCoverages property.
-   *
+   * Filters datasets by a keyword as generated through {@link org.gbif.api.model.registry.Dataset#getKeywords()} by
+   * merging tags, the keywordCollections and temporalCoverages property.
+   * 
    * @param keyword a plain keyword e.g. created by Tag.toString()
    */
-  //TODO: Fix Javadoc, what does this do? Keywords don't exist
+  // TODO: Fix Javadoc, what does this do? Keywords don't exist
   public void addKeywordFilter(String keyword) {
     addParameter(DatasetSearchParameter.KEYWORD, keyword);
   }
 
   /**
    * Filters dataset by a tag.
-   *
+   * 
    * @param keyword given as a tag
    */
   public void addKeywordFilter(Tag keyword) {
