@@ -32,9 +32,9 @@ public class Collection implements Serializable {
 
   private static final long serialVersionUID = 3259062777751953305L;
 
-  private String collectionName;
-  private String parentCollectionIdentifier;
-  private String collectionIdentifier;
+  private String name;
+  private String identifier;
+  private String parentIdentifier;
   private PreservationMethodType specimenPreservationMethod;
   private List<CuratorialUnitComposite> curatorialUnits = Lists.newArrayList();
 
@@ -42,15 +42,15 @@ public class Collection implements Serializable {
   }
 
   public Collection(
-    String collectionName,
-    String parentCollectionIdentifier,
-    String collectionIdentifier,
+    String name,
+    String parentIdentifier,
+    String identifier,
     PreservationMethodType specimenPreservationMethod,
     List<CuratorialUnitComposite> curatorialUnits
   ) {
-    this.collectionName = collectionName;
-    this.parentCollectionIdentifier = parentCollectionIdentifier;
-    this.collectionIdentifier = collectionIdentifier;
+    this.name = name;
+    this.parentIdentifier = parentIdentifier;
+    this.identifier = identifier;
     this.specimenPreservationMethod = specimenPreservationMethod;
     this.curatorialUnits = curatorialUnits;
   }
@@ -60,12 +60,12 @@ public class Collection implements Serializable {
    *
    * @return the collection identifier
    */
-  public String getCollectionIdentifier() {
-    return collectionIdentifier;
+  public String getIdentifier() {
+    return identifier;
   }
 
-  public void setCollectionIdentifier(String collectionIdentifier) {
-    this.collectionIdentifier = collectionIdentifier;
+  public void setIdentifier(String identifier) {
+    this.identifier = identifier;
   }
 
   /**
@@ -73,12 +73,12 @@ public class Collection implements Serializable {
    *
    * @return the collection name.
    */
-  public String getCollectionName() {
-    return collectionName;
+  public String getName() {
+    return name;
   }
 
-  public void setCollectionName(String collectionName) {
-    this.collectionName = collectionName;
+  public void setName(String name) {
+    this.name = name;
   }
 
   /**
@@ -106,12 +106,12 @@ public class Collection implements Serializable {
    *
    * @return the parent collection identifier
    */
-  public String getParentCollectionIdentifier() {
-    return parentCollectionIdentifier;
+  public String getParentIdentifier() {
+    return parentIdentifier;
   }
 
-  public void setParentCollectionIdentifier(String parentCollectionIdentifier) {
-    this.parentCollectionIdentifier = parentCollectionIdentifier;
+  public void setParentIdentifier(String parentIdentifier) {
+    this.parentIdentifier = parentIdentifier;
   }
 
   /**
@@ -152,9 +152,9 @@ public class Collection implements Serializable {
     }
 
     final Collection other = (Collection) obj;
-    return Objects.equal(this.collectionName, other.collectionName)
-           && Objects.equal(this.parentCollectionIdentifier, other.parentCollectionIdentifier)
-           && Objects.equal(this.collectionIdentifier, other.collectionIdentifier)
+    return Objects.equal(this.name, other.name)
+           && Objects.equal(this.identifier, other.identifier)
+           && Objects.equal(this.parentIdentifier, other.parentIdentifier)
            && Objects.equal(this.specimenPreservationMethod, other.specimenPreservationMethod)
            && Objects.equal(this.curatorialUnits, other.curatorialUnits);
   }
@@ -162,16 +162,16 @@ public class Collection implements Serializable {
   @Override
   public int hashCode() {
     return Objects
-      .hashCode(collectionName, parentCollectionIdentifier, collectionIdentifier, specimenPreservationMethod,
+      .hashCode(name, identifier, parentIdentifier, specimenPreservationMethod,
         curatorialUnits);
   }
 
   @Override
   public String toString() {
     return "Collection{" +
-           "collectionName='" + collectionName + '\'' +
-           ", parentCollectionIdentifier='" + parentCollectionIdentifier + '\'' +
-           ", collectionIdentifier='" + collectionIdentifier + '\'' +
+           "name='" + name + '\'' +
+           ", identifier='" + identifier + '\'' +
+           ", parentIdentifier='" + parentIdentifier + '\'' +
            ", specimenPreservationMethod=" + specimenPreservationMethod +
            ", curatorialUnits=" + curatorialUnits +
            '}';

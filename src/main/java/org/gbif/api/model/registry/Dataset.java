@@ -154,6 +154,7 @@ public class Dataset
   }
 
   @Override
+  @Nullable
   public String getDescription() {
     return description;
   }
@@ -193,6 +194,7 @@ public class Dataset
   }
 
   @Override
+  @Nullable
   public Date getDeleted() {
     return deleted;
   }

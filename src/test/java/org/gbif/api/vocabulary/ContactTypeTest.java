@@ -14,4 +14,5 @@ public class ContactTypeTest {
     assertEquals(ContactType.POINT_OF_CONTACT, ContactType.fromString("pointOfContact"));
     assertEquals(ContactType.POINT_OF_CONTACT, ContactType.fromString("pointofcontact"));
   }
+
 }

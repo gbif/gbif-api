@@ -12,16 +12,20 @@
  */
 package org.gbif.api.model.registry;
 
-import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.ContactType;
+import org.gbif.api.vocabulary.Country;
 
+import java.net.URI;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 
 // TODO: Should have a cross-field validation for key & created
 public class Contact implements Address, LenientEquals<Contact> {
@@ -29,14 +33,16 @@ public class Contact implements Address, LenientEquals<Contact> {
   private Integer key;
   private ContactType type;
   private boolean primary;
+  private List<String> userId = Lists.newArrayList();
   private String firstName;
   private String lastName;
-  private String position;
+  private List<String> position = Lists.newArrayList();
   private String description;
-  private String email;
-  private String phone;
+  private List<String> email = Lists.newArrayList();
+  private List<String> phone = Lists.newArrayList();
+  private List<URI> homepage = Lists.newArrayList();
   private String organization;
-  private String address;
+  private List<String> address = Lists.newArrayList();
   private String city;
   private String province;
   private Country country;
@@ -74,6 +80,44 @@ public class Contact implements Address, LenientEquals<Contact> {
   }
 
   @Nullable
+  public List<String> getUserId() {
+    return userId;
+  }
+
+  public void setUserId(List<String> userId) {
+    this.userId = userId;
+  }
+
+  public void addUserId(String userId) {
+    this.userId.add(userId);
+  }
+
+  /**
+   * Adds a new user id that is assembled from a directory name and a local id within it.
+   * Format used by EML.
+   * @param directory identifier for the directory, preferrably a URL domain like http://orcid.org
+   * @param id the iddentifier in that directory
+   */
+  public void addUserId(String directory, String id) {
+    if (!Strings.isNullOrEmpty(id)) {
+      if (Strings.isNullOrEmpty(directory)) {
+        userId.add(id);
+      } else {
+        URI dir = URI.create(directory);
+        if (dir.isAbsolute()) {
+          String dir2 = dir.toString();
+          if (!dir2.endsWith("/")) {
+            dir2 = dir2 + "/";
+          }
+          userId.add( dir2 + id);
+        } else {
+          userId.add(dir + ":" + id);
+        }
+      }
+    }
+  }
+
+  @Nullable
   @Size(min = 1)
   public String getFirstName() {
     return firstName;
@@ -93,14 +137,16 @@ public class Contact implements Address, LenientEquals<Contact> {
     this.lastName = lastName;
   }
 
-  @Nullable
-  @Size(min = 2)
-  public String getPosition() {
+  public List<String> getPosition() {
     return position;
   }
 
-  public void setPosition(String position) {
+  public void setPosition(List<String> position) {
     this.position = position;
+  }
+
+  public void addPosition(String position) {
+    this.position.add(position);
   }
 
   @Nullable
@@ -112,40 +158,48 @@ public class Contact implements Address, LenientEquals<Contact> {
     this.description = description;
   }
 
-  // TODO: Add @Email validation
   @Override
   @Nullable
-  @Size(min = 1, max = 254)
-  public String getEmail() {
+  public List<String> getEmail() {
     return email;
   }
 
   @Override
-  public void setEmail(String email) {
+  public void setEmail(List<String> email) {
     this.email = email;
+  }
+
+  public void addEmail(String email) {
+    this.email.add(email);
   }
 
   @Override
   @Nullable
-  @Size(min = 5, max = 50)
-  public String getPhone() {
+  public List<String> getPhone() {
     return phone;
   }
 
   @Override
-  public void setPhone(String phone) {
+  public void setPhone(List<String> phone) {
     this.phone = phone;
   }
 
-  // TODO: Missing validation annotations below
+  public void addPhone(String phone) {
+    this.phone.add(phone);
+  }
+
   @Override
-  public String getAddress() {
+  public List<String> getAddress() {
     return address;
   }
 
   @Override
-  public void setAddress(String address) {
+  public void setAddress(List<String> address) {
     this.address = address;
+  }
+
+  public void addAddress(String address) {
+    this.address.add(address);
   }
 
   @Override
@@ -198,6 +252,18 @@ public class Contact implements Address, LenientEquals<Contact> {
     this.organization = organization;
   }
 
+  public List<URI> getHomepage() {
+    return homepage;
+  }
+
+  public void setHomepage(List<URI> homepage) {
+    this.homepage = homepage;
+  }
+
+  public void addHomepage(URI homepage) {
+    this.homepage.add(homepage);
+  }
+
   @Size(min = 3)
   public String getCreatedBy() {
     return createdBy;
@@ -239,8 +305,8 @@ public class Contact implements Address, LenientEquals<Contact> {
   @Override
   public int hashCode() {
     return Objects
-      .hashCode(key, type, primary, firstName, lastName, position, description, email, phone, organization, address,
-        city, province, country, postalCode, createdBy, modifiedBy, created, modified);
+      .hashCode(key, type, primary, userId, firstName, lastName, position, description, email, phone, homepage,
+                organization, address, city, province, country, postalCode, createdBy, modifiedBy, created, modified);
   }
 
   @Override
@@ -264,11 +330,16 @@ public class Contact implements Address, LenientEquals<Contact> {
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("key", key).add("type", type).add("primary", primary)
+    return Objects.toStringHelper(this).add("key", key).add("type", type)
+      .add("primary", primary)
+      .add("userId", userId)
       .add("firstName", firstName).add("lastName", lastName).add("position", position)
-      .add("description", description).add("email", email).add("phone", phone).add("organization", organization)
+      .add("description", description).add("email", email).add("phone", phone)
+      .add("homepage", homepage)
+      .add("organization", organization)
       .add("address", address).add("city", city).add("province", province).add("country", country)
-      .add("postalCode", postalCode).add("createdBy", createdBy).add("modifiedBy", modifiedBy).add("created", created)
+      .add("postalCode", postalCode)
+      .add("createdBy", createdBy).add("modifiedBy", modifiedBy).add("created", created)
       .add("modified", modified).toString();
   }
 
@@ -284,12 +355,14 @@ public class Contact implements Address, LenientEquals<Contact> {
 
     return Objects.equal(type, contact.type)
       && Objects.equal(primary, contact.primary)
+      && Objects.equal(userId, contact.userId)
       && Objects.equal(firstName, contact.firstName)
       && Objects.equal(lastName, contact.lastName)
       && Objects.equal(position, contact.position)
       && Objects.equal(description, contact.description)
       && Objects.equal(email, contact.email)
       && Objects.equal(phone, contact.phone)
+      && Objects.equal(homepage, contact.homepage)
       && Objects.equal(organization, contact.organization)
       && Objects.equal(address, contact.address)
       && Objects.equal(city, contact.city)

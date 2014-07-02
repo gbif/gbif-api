@@ -17,6 +17,7 @@ package org.gbif.api.model.registry;
 
 import org.gbif.api.vocabulary.Country;
 
+import java.util.List;
 import javax.annotation.Nullable;
 import javax.validation.constraints.Size;
 
@@ -25,41 +26,56 @@ import javax.validation.constraints.Size;
  */
 public interface Address {
 
-  @Nullable
-  @Size(min = 5)
-  String getEmail();
+  /**
+   * electronicMailAddress in EML
+   */
+  List<String> getEmail();
 
-  void setEmail(String email);
+  void setEmail(List<String> email);
 
-  @Nullable
-  @Size(min = 5)
-  String getPhone();
+  /**
+   * phone in EML
+   */
+  List<String> getPhone();
 
-  void setPhone(String phone);
+  void setPhone(List<String> phone);
 
-  @Nullable
-  @Size(min = 1)
-  String getAddress();
+  /**
+   * deliveryPoint in EML
+   */
+  List<String> getAddress();
 
-  void setAddress(String address);
+  void setAddress(List<String> address);
 
+  /**
+   * city in EML
+   */
   @Nullable
   @Size(min = 1)
   String getCity();
 
   void setCity(String city);
 
+  /**
+   * administrativeArea in EML
+   */
   @Nullable
   @Size(min = 1)
   String getProvince();
 
   void setProvince(String province);
 
+  /**
+   * country in EML
+   */
   @Nullable
   Country getCountry();
 
   void setCountry(Country country);
 
+  /**
+   * postalCode in EML
+   */
   @Nullable
   @Size(min = 1)
   String getPostalCode();

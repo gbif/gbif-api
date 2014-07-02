@@ -34,7 +34,7 @@ public interface NetworkEntity {
   void setKey(UUID key);
 
   @NotNull
-  @Size(min = 2, max = 255)
+  @Size(min = 2)
   String getTitle();
 
   void setTitle(String title);
