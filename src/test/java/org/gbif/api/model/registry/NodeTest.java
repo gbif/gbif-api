@@ -1,5 +1,6 @@
 package org.gbif.api.model.registry;
 
+import java.net.URI;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -22,11 +23,12 @@ public class NodeTest {
 
     Node node = new Node();
     node.setTitle("a"); // too short
+    node.setLogoUrl(URI.create("file:///tmp/aha")); // bad http URI
     Set<ConstraintViolation<Node>> violations = validator.validate(node);
     assertTrue("Violations were expected", !violations.isEmpty());
 
     // ensure all expected properties are caught
-    Set<String> propertiesInViolation = Sets.newHashSet("title");
+    Set<String> propertiesInViolation = Sets.newHashSet("title", "logoUrl");
     for (ConstraintViolation<?> cv : violations) {
       propertiesInViolation.remove(cv.getPropertyPath().toString());
     }

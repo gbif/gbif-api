@@ -242,20 +242,24 @@ public class Contact implements Address, LenientEquals<Contact> {
     this.postalCode = postalCode;
   }
 
+  @Override
   @Nullable
   @Size(min = 2)
   public String getOrganization() {
     return organization;
   }
 
+  @Override
   public void setOrganization(String organization) {
     this.organization = organization;
   }
 
+  @Override
   public List<URI> getHomepage() {
     return homepage;
   }
 
+  @Override
   public void setHomepage(List<URI> homepage) {
     this.homepage = homepage;
   }

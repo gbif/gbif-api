@@ -27,23 +27,24 @@ import javax.validation.constraints.Size;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * A GBIF network.
  */
 public class Network implements NetworkEntity, Contactable, Endpointable, MachineTaggable, Taggable, Commentable,
-  Identifiable, LenientEquals<Network> {
+  Identifiable, LenientEquals<Network>, Address {
 
   private UUID key;
   private String title;
   private String description;
   private Language language;
   private int numConstituents;
-  private String email;
-  private String phone;
-  private URI homepage;
+  private List<String> email;
+  private List<String> phone;
+  private List<URI> homepage;
   private URI logoUrl;
-  private String address;
+  private List<String> address;
   private String city;
   private String province;
   private Country country;
@@ -130,32 +131,29 @@ public class Network implements NetworkEntity, Contactable, Endpointable, Machin
   }
 
   @Nullable
-  @Size(min = 5)
-  public String getEmail() {
+  public List<String> getEmail() {
     return email;
   }
 
-  public void setEmail(String email) {
+  public void setEmail(List<String> email) {
     this.email = email;
   }
 
   @Nullable
-  @Size(min = 5)
-  public String getPhone() {
+  public List<String> getPhone() {
     return phone;
   }
 
-  public void setPhone(String phone) {
+  public void setPhone(List<String> phone) {
     this.phone = phone;
   }
 
-  @HttpURI
   @Nullable
-  public URI getHomepage() {
+  public List<URI> getHomepage() {
     return homepage;
   }
 
-  public void setHomepage(URI homepage) {
+  public void setHomepage(List<URI> homepage) {
     this.homepage = homepage;
   }
 
@@ -170,12 +168,11 @@ public class Network implements NetworkEntity, Contactable, Endpointable, Machin
   }
 
   @Nullable
-  @Size(min = 1)
-  public String getAddress() {
+  public List<String> getAddress() {
     return address;
   }
 
-  public void setAddress(String address) {
+  public void setAddress(List<String> address) {
     this.address = address;
   }
 
@@ -315,6 +312,24 @@ public class Network implements NetworkEntity, Contactable, Endpointable, Machin
 
   public void setNumConstituents(int numConstituents) {
     this.numConstituents = numConstituents;
+  }
+
+  /**
+   * Alias for the network title
+   */
+  @Nullable
+  @Override
+  @JsonIgnore
+  public String getOrganization() {
+    return getTitle();
+  }
+
+  /**
+   * Alias for the network title
+   */
+  @Override
+  public void setOrganization(String organization) {
+    setTitle(organization);
   }
 
   @Override

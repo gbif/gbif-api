@@ -34,7 +34,7 @@ import com.google.common.collect.Lists;
  * A GBIF participant node.
  */
 public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggable, Commentable, Identifiable,
-  Endpointable, LenientEquals<Node> {
+  Endpointable, LenientEquals<Node>, Address {
 
   private UUID key;
   private NodeType type;
@@ -47,12 +47,12 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
   private String participantTitle;
   private String abbreviation;
   private String description;
-  private String email;
-  private String phone;
-  private URI homepage;
+  private List<String> email = Lists.newArrayList();
+  private List<String> phone = Lists.newArrayList();
+  private List<URI> homepage = Lists.newArrayList();
   private URI logoUrl;
-  private String institution;
-  private String address;
+  private String organization;
+  private List<String> address = Lists.newArrayList();
   private String city;
   private String province;
   private Country country;
@@ -204,32 +204,29 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
   }
 
   @Nullable
-  @Size(min = 5)
-  public String getEmail() {
+  public List<String> getEmail() {
     return email;
   }
 
-  public void setEmail(String email) {
+  public void setEmail(List<String> email) {
     this.email = email;
   }
 
   @Nullable
-  @Size(min = 5)
-  public String getPhone() {
+  public List<String> getPhone() {
     return phone;
   }
 
-  public void setPhone(String phone) {
+  public void setPhone(List<String> phone) {
     this.phone = phone;
   }
 
-  @HttpURI
   @Nullable
-  public URI getHomepage() {
+  public List<URI> getHomepage() {
     return homepage;
   }
 
-  public void setHomepage(URI homepage) {
+  public void setHomepage(List<URI> homepage) {
     this.homepage = homepage;
   }
 
@@ -244,21 +241,20 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
   }
 
   @Nullable
-  public String getInstitution() {
-    return institution;
+  public String getOrganization() {
+    return organization;
   }
 
-  public void setInstitution(String institution) {
-    this.institution = institution;
+  public void setOrganization(String organization) {
+    this.organization = organization;
   }
 
   @Nullable
-  @Size(min = 1)
-  public String getAddress() {
+  public List<String> getAddress() {
     return address;
   }
 
-  public void setAddress(String address) {
+  public void setAddress(List<String> address) {
     this.address = address;
   }
 
@@ -395,7 +391,8 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
   public int hashCode() {
     return Objects
       .hashCode(key, type, participationStatus, participantSince, dateSignedMOU, gbifRegion, continent, title, abbreviation,
-        description, email, phone, homepage, logoUrl, institution, address, city, province, country, postalCode,
+        description, email, phone, homepage, logoUrl,
+        organization, address, city, province, country, postalCode,
         createdBy, modifiedBy, created, modified, deleted, contacts, endpoints, machineTags, tags, identifiers,
         comments, participantTitle);
   }
@@ -419,7 +416,7 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
         && Objects.equal(this.phone, that.phone)
         && Objects.equal(this.homepage, that.homepage)
         && Objects.equal(this.logoUrl, that.logoUrl)
-        && Objects.equal(this.institution, that.institution)
+        && Objects.equal(this.organization, that.organization)
         && Objects.equal(this.address, that.address)
         && Objects.equal(this.city, that.city)
         && Objects.equal(this.province, that.province)
@@ -458,7 +455,7 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
       .add("phone", phone)
       .add("homepage", homepage)
       .add("logoUrl", logoUrl)
-      .add("institution", institution)
+      .add("organization", organization)
       .add("address", address)
       .add("city", city)
       .add("province", province)

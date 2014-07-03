@@ -17,6 +17,7 @@ package org.gbif.api.model.registry;
 
 import org.gbif.api.vocabulary.Country;
 
+import java.net.URI;
 import java.util.List;
 import javax.annotation.Nullable;
 import javax.validation.constraints.Size;
@@ -82,4 +83,19 @@ public interface Address {
 
   void setPostalCode(String postalCode);
 
+  /**
+   * Institution name as part of the address
+   */
+  @Nullable
+  @Size(min = 2)
+  String getOrganization();
+
+  void setOrganization(String organization);
+
+  /**
+   * List of homepage websites.
+   */
+  List<URI> getHomepage();
+
+  void setHomepage(List<URI> homepage);
 }

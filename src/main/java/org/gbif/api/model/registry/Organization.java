@@ -36,7 +36,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  */
 public class Organization
   implements NetworkEntity, Contactable, Endpointable, MachineTaggable, Taggable, Identifiable, Commentable,
-  LenientEquals<Organization> {
+  LenientEquals<Organization>, Address {
 
   private UUID key;
   private UUID endorsingNodeKey;
@@ -46,11 +46,11 @@ public class Organization
   private String abbreviation;
   private String description;
   private Language language;
-  private String email;
-  private String phone;
-  private URI homepage;
+  private List<String> email;
+  private List<String> phone;
+  private List<URI> homepage;
   private URI logoUrl;
-  private String address;
+  private List<String> address;
   private String city;
   private String province;
   private Country country;
@@ -183,32 +183,29 @@ public class Organization
   }
 
   @Nullable
-  @Size(min = 5)
-  public String getEmail() {
+  public List<String> getEmail() {
     return email;
   }
 
-  public void setEmail(String email) {
+  public void setEmail(List<String> email) {
     this.email = email;
   }
 
   @Nullable
-  @Size(min = 5)
-  public String getPhone() {
+  public List<String> getPhone() {
     return phone;
   }
 
-  public void setPhone(String phone) {
+  public void setPhone(List<String> phone) {
     this.phone = phone;
   }
 
-  @HttpURI
   @Nullable
-  public URI getHomepage() {
+  public List<URI> getHomepage() {
     return homepage;
   }
 
-  public void setHomepage(URI homepage) {
+  public void setHomepage(List<URI> homepage) {
     this.homepage = homepage;
   }
 
@@ -223,17 +220,15 @@ public class Organization
   }
 
   @Nullable
-  @Size(min = 1)
-  public String getAddress() {
+  public List<String> getAddress() {
     return address;
   }
 
-  public void setAddress(String address) {
+  public void setAddress(List<String> address) {
     this.address = address;
   }
 
   @Nullable
-  @Size(min = 1)
   public String getCity() {
     return city;
   }
@@ -243,7 +238,6 @@ public class Organization
   }
 
   @Nullable
-  @Size(min = 1)
   public String getProvince() {
     return province;
   }
@@ -262,13 +256,24 @@ public class Organization
   }
 
   @Nullable
-  @Size(min = 1)
   public String getPostalCode() {
     return postalCode;
   }
 
   public void setPostalCode(String postalCode) {
     this.postalCode = postalCode;
+  }
+
+  @Nullable
+  @Override
+  @JsonIgnore
+  public String getOrganization() {
+    return getTitle();
+  }
+
+  @Override
+  public void setOrganization(String organization) {
+    setTitle(organization);
   }
 
   @Nullable
