@@ -15,15 +15,15 @@
  */
 package org.gbif.api.vocabulary;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Pattern;
-import javax.annotation.Nullable;
-
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
+
+import javax.annotation.Nullable;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * Vocabulary for the nomenclatural status of a name.
@@ -162,7 +162,7 @@ public enum NomenclaturalStatus {
   /**
    * proposed rejected name. Temporary status until the next botanical congress decides about the proposal.
    */
- REJECTED_PROPOSED("nomen rejiciendum propositum", "nom. rej."),
+ REJECTED_PROPOSED("nomen rejiciendum propositum", "nom. rej. prop."),
 
   /**
    * proposed rejected name on the basis of appendix V of ICBN
@@ -351,7 +351,10 @@ public enum NomenclaturalStatus {
    *
    * @param nomStatus
    * @return
+   *
+   * @deprecated use NomStatusParser instead
    */
+  @Deprecated
   public static NomenclaturalStatus fromString(String nomStatus) {
     if (Strings.isNullOrEmpty(nomStatus)) {
       return null;
