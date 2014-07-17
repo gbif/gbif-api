@@ -23,15 +23,15 @@
 <span class="sourceLineNo">015</span> */<a name="line.15"></a>
 <span class="sourceLineNo">016</span>package org.gbif.api.vocabulary;<a name="line.16"></a>
 <span class="sourceLineNo">017</span><a name="line.17"></a>
-<span class="sourceLineNo">018</span>import java.util.Map;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import java.util.Set;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import java.util.regex.Pattern;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import javax.annotation.Nullable;<a name="line.21"></a>
+<span class="sourceLineNo">018</span>import com.google.common.base.Strings;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.collect.ImmutableMap;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.collect.ImmutableSet;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.collect.Maps;<a name="line.21"></a>
 <span class="sourceLineNo">022</span><a name="line.22"></a>
-<span class="sourceLineNo">023</span>import com.google.common.base.Strings;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import com.google.common.collect.ImmutableMap;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>import com.google.common.collect.ImmutableSet;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import com.google.common.collect.Maps;<a name="line.26"></a>
+<span class="sourceLineNo">023</span>import javax.annotation.Nullable;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.util.Map;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.util.Set;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.util.regex.Pattern;<a name="line.26"></a>
 <span class="sourceLineNo">027</span><a name="line.27"></a>
 <span class="sourceLineNo">028</span>/**<a name="line.28"></a>
 <span class="sourceLineNo">029</span> * Vocabulary for the nomenclatural status of a name.<a name="line.29"></a>
@@ -170,7 +170,7 @@
 <span class="sourceLineNo">162</span>  /**<a name="line.162"></a>
 <span class="sourceLineNo">163</span>   * proposed rejected name. Temporary status until the next botanical congress decides about the proposal.<a name="line.163"></a>
 <span class="sourceLineNo">164</span>   */<a name="line.164"></a>
-<span class="sourceLineNo">165</span> REJECTED_PROPOSED("nomen rejiciendum propositum", "nom. rej."),<a name="line.165"></a>
+<span class="sourceLineNo">165</span> REJECTED_PROPOSED("nomen rejiciendum propositum", "nom. rej. prop."),<a name="line.165"></a>
 <span class="sourceLineNo">166</span><a name="line.166"></a>
 <span class="sourceLineNo">167</span>  /**<a name="line.167"></a>
 <span class="sourceLineNo">168</span>   * proposed rejected name on the basis of appendix V of ICBN<a name="line.168"></a>
@@ -359,60 +359,63 @@
 <span class="sourceLineNo">351</span>   *<a name="line.351"></a>
 <span class="sourceLineNo">352</span>   * @param nomStatus<a name="line.352"></a>
 <span class="sourceLineNo">353</span>   * @return<a name="line.353"></a>
-<span class="sourceLineNo">354</span>   */<a name="line.354"></a>
-<span class="sourceLineNo">355</span>  public static NomenclaturalStatus fromString(String nomStatus) {<a name="line.355"></a>
-<span class="sourceLineNo">356</span>    if (Strings.isNullOrEmpty(nomStatus)) {<a name="line.356"></a>
-<span class="sourceLineNo">357</span>      return null;<a name="line.357"></a>
-<span class="sourceLineNo">358</span>    }<a name="line.358"></a>
-<span class="sourceLineNo">359</span>    return LOOKUP.get(normalize(nomStatus));<a name="line.359"></a>
-<span class="sourceLineNo">360</span>  }<a name="line.360"></a>
-<span class="sourceLineNo">361</span><a name="line.361"></a>
-<span class="sourceLineNo">362</span><a name="line.362"></a>
-<span class="sourceLineNo">363</span><a name="line.363"></a>
-<span class="sourceLineNo">364</span>  private final String latin;<a name="line.364"></a>
-<span class="sourceLineNo">365</span>  private final String abbreviated;<a name="line.365"></a>
-<span class="sourceLineNo">366</span>  private final String[] alternatives;<a name="line.366"></a>
-<span class="sourceLineNo">367</span><a name="line.367"></a>
-<span class="sourceLineNo">368</span>  private NomenclaturalStatus(String latin, String abbreviated, String ... alternatives) {<a name="line.368"></a>
-<span class="sourceLineNo">369</span>    this.latin = latin;<a name="line.369"></a>
-<span class="sourceLineNo">370</span>    this.abbreviated = abbreviated;<a name="line.370"></a>
-<span class="sourceLineNo">371</span>    this.alternatives = alternatives;<a name="line.371"></a>
-<span class="sourceLineNo">372</span>  }<a name="line.372"></a>
-<span class="sourceLineNo">373</span><a name="line.373"></a>
-<span class="sourceLineNo">374</span>  public String getLatinLabel() {<a name="line.374"></a>
-<span class="sourceLineNo">375</span>    return latin;<a name="line.375"></a>
-<span class="sourceLineNo">376</span>  }<a name="line.376"></a>
-<span class="sourceLineNo">377</span><a name="line.377"></a>
-<span class="sourceLineNo">378</span>  /**<a name="line.378"></a>
-<span class="sourceLineNo">379</span>   * The abbreviated status name, often used in botany.<a name="line.379"></a>
-<span class="sourceLineNo">380</span>   * For example nom. inval.<a name="line.380"></a>
-<span class="sourceLineNo">381</span>   * @return<a name="line.381"></a>
-<span class="sourceLineNo">382</span>   */<a name="line.382"></a>
-<span class="sourceLineNo">383</span>  @Nullable<a name="line.383"></a>
-<span class="sourceLineNo">384</span>  public String getAbbreviatedLabel() {<a name="line.384"></a>
-<span class="sourceLineNo">385</span>    return abbreviated;<a name="line.385"></a>
-<span class="sourceLineNo">386</span>  }<a name="line.386"></a>
-<span class="sourceLineNo">387</span><a name="line.387"></a>
-<span class="sourceLineNo">388</span>  /**<a name="line.388"></a>
-<span class="sourceLineNo">389</span>   * A vague grouping of nomenclatural status terms including all that can be used to name a correct/valid taxon.<a name="line.389"></a>
-<span class="sourceLineNo">390</span>   * Specifically avoid the confusing terms valid, accepted or correct here as they mean different things in the<a name="line.390"></a>
-<span class="sourceLineNo">391</span>   * different codes.<a name="line.391"></a>
-<span class="sourceLineNo">392</span>   */<a name="line.392"></a>
-<span class="sourceLineNo">393</span>  public boolean isGood() {<a name="line.393"></a>
-<span class="sourceLineNo">394</span>    return VALID_VALUES.contains(this);<a name="line.394"></a>
-<span class="sourceLineNo">395</span>  }<a name="line.395"></a>
-<span class="sourceLineNo">396</span><a name="line.396"></a>
-<span class="sourceLineNo">397</span>  public boolean isDoubtful() {<a name="line.397"></a>
-<span class="sourceLineNo">398</span>    return DOUBTFUL_VALUES.contains(this);<a name="line.398"></a>
-<span class="sourceLineNo">399</span>  }<a name="line.399"></a>
-<span class="sourceLineNo">400</span><a name="line.400"></a>
-<span class="sourceLineNo">401</span>  /**<a name="line.401"></a>
-<span class="sourceLineNo">402</span>   * Opposite of good and not doubtful.<a name="line.402"></a>
-<span class="sourceLineNo">403</span>   */<a name="line.403"></a>
-<span class="sourceLineNo">404</span>  public boolean isBad() {<a name="line.404"></a>
-<span class="sourceLineNo">405</span>    return !(isGood() || isDoubtful());<a name="line.405"></a>
-<span class="sourceLineNo">406</span>  }<a name="line.406"></a>
-<span class="sourceLineNo">407</span>}<a name="line.407"></a>
+<span class="sourceLineNo">354</span>   *<a name="line.354"></a>
+<span class="sourceLineNo">355</span>   * @deprecated use NomStatusParser instead<a name="line.355"></a>
+<span class="sourceLineNo">356</span>   */<a name="line.356"></a>
+<span class="sourceLineNo">357</span>  @Deprecated<a name="line.357"></a>
+<span class="sourceLineNo">358</span>  public static NomenclaturalStatus fromString(String nomStatus) {<a name="line.358"></a>
+<span class="sourceLineNo">359</span>    if (Strings.isNullOrEmpty(nomStatus)) {<a name="line.359"></a>
+<span class="sourceLineNo">360</span>      return null;<a name="line.360"></a>
+<span class="sourceLineNo">361</span>    }<a name="line.361"></a>
+<span class="sourceLineNo">362</span>    return LOOKUP.get(normalize(nomStatus));<a name="line.362"></a>
+<span class="sourceLineNo">363</span>  }<a name="line.363"></a>
+<span class="sourceLineNo">364</span><a name="line.364"></a>
+<span class="sourceLineNo">365</span><a name="line.365"></a>
+<span class="sourceLineNo">366</span><a name="line.366"></a>
+<span class="sourceLineNo">367</span>  private final String latin;<a name="line.367"></a>
+<span class="sourceLineNo">368</span>  private final String abbreviated;<a name="line.368"></a>
+<span class="sourceLineNo">369</span>  private final String[] alternatives;<a name="line.369"></a>
+<span class="sourceLineNo">370</span><a name="line.370"></a>
+<span class="sourceLineNo">371</span>  private NomenclaturalStatus(String latin, String abbreviated, String ... alternatives) {<a name="line.371"></a>
+<span class="sourceLineNo">372</span>    this.latin = latin;<a name="line.372"></a>
+<span class="sourceLineNo">373</span>    this.abbreviated = abbreviated;<a name="line.373"></a>
+<span class="sourceLineNo">374</span>    this.alternatives = alternatives;<a name="line.374"></a>
+<span class="sourceLineNo">375</span>  }<a name="line.375"></a>
+<span class="sourceLineNo">376</span><a name="line.376"></a>
+<span class="sourceLineNo">377</span>  public String getLatinLabel() {<a name="line.377"></a>
+<span class="sourceLineNo">378</span>    return latin;<a name="line.378"></a>
+<span class="sourceLineNo">379</span>  }<a name="line.379"></a>
+<span class="sourceLineNo">380</span><a name="line.380"></a>
+<span class="sourceLineNo">381</span>  /**<a name="line.381"></a>
+<span class="sourceLineNo">382</span>   * The abbreviated status name, often used in botany.<a name="line.382"></a>
+<span class="sourceLineNo">383</span>   * For example nom. inval.<a name="line.383"></a>
+<span class="sourceLineNo">384</span>   * @return<a name="line.384"></a>
+<span class="sourceLineNo">385</span>   */<a name="line.385"></a>
+<span class="sourceLineNo">386</span>  @Nullable<a name="line.386"></a>
+<span class="sourceLineNo">387</span>  public String getAbbreviatedLabel() {<a name="line.387"></a>
+<span class="sourceLineNo">388</span>    return abbreviated;<a name="line.388"></a>
+<span class="sourceLineNo">389</span>  }<a name="line.389"></a>
+<span class="sourceLineNo">390</span><a name="line.390"></a>
+<span class="sourceLineNo">391</span>  /**<a name="line.391"></a>
+<span class="sourceLineNo">392</span>   * A vague grouping of nomenclatural status terms including all that can be used to name a correct/valid taxon.<a name="line.392"></a>
+<span class="sourceLineNo">393</span>   * Specifically avoid the confusing terms valid, accepted or correct here as they mean different things in the<a name="line.393"></a>
+<span class="sourceLineNo">394</span>   * different codes.<a name="line.394"></a>
+<span class="sourceLineNo">395</span>   */<a name="line.395"></a>
+<span class="sourceLineNo">396</span>  public boolean isGood() {<a name="line.396"></a>
+<span class="sourceLineNo">397</span>    return VALID_VALUES.contains(this);<a name="line.397"></a>
+<span class="sourceLineNo">398</span>  }<a name="line.398"></a>
+<span class="sourceLineNo">399</span><a name="line.399"></a>
+<span class="sourceLineNo">400</span>  public boolean isDoubtful() {<a name="line.400"></a>
+<span class="sourceLineNo">401</span>    return DOUBTFUL_VALUES.contains(this);<a name="line.401"></a>
+<span class="sourceLineNo">402</span>  }<a name="line.402"></a>
+<span class="sourceLineNo">403</span><a name="line.403"></a>
+<span class="sourceLineNo">404</span>  /**<a name="line.404"></a>
+<span class="sourceLineNo">405</span>   * Opposite of good and not doubtful.<a name="line.405"></a>
+<span class="sourceLineNo">406</span>   */<a name="line.406"></a>
+<span class="sourceLineNo">407</span>  public boolean isBad() {<a name="line.407"></a>
+<span class="sourceLineNo">408</span>    return !(isGood() || isDoubtful());<a name="line.408"></a>
+<span class="sourceLineNo">409</span>  }<a name="line.409"></a>
+<span class="sourceLineNo">410</span>}<a name="line.410"></a>
 
 
 
