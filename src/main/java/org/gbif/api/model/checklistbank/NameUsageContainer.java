@@ -15,15 +15,6 @@
  */
 package org.gbif.api.model.checklistbank;
 
-import org.gbif.api.model.common.Identifier;
-import org.gbif.api.vocabulary.IdentifierType;
-import org.gbif.api.vocabulary.ThreatStatus;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Set;
-import javax.validation.constraints.NotNull;
-
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
@@ -31,6 +22,14 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.gbif.api.model.common.Identifier;
+import org.gbif.api.vocabulary.IdentifierType;
+import org.gbif.api.vocabulary.ThreatStatus;
+
+import javax.validation.constraints.NotNull;
+import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -42,6 +41,10 @@ import static com.google.common.collect.Lists.newArrayList;
  * setters or the constructor.
  */
 public class NameUsageContainer extends NameUsage {
+  private static final ObjectMapper mapper = new ObjectMapper();
+  static {
+      mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+  }
 
   private List<Description> descriptions = newArrayList();
   private List<Distribution> distributions = newArrayList();
@@ -61,8 +64,6 @@ public class NameUsageContainer extends NameUsage {
    * Constructs a NameUsageContainer from an existing NameUsage instance.
    */
   public NameUsageContainer(NameUsage usage) {
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     JsonNode propTree = mapper.convertValue(usage, JsonNode.class);
     try {
       mapper.readerForUpdating(this).readValue(propTree);
