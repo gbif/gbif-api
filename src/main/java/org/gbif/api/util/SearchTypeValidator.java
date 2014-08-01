@@ -17,7 +17,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Range;
-import com.google.common.collect.Ranges;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
@@ -37,8 +36,8 @@ public class SearchTypeValidator {
 
   private static final String DECIMAL_OR_WILDCARD = "(" + DEC + "|\\*)";
 
-  private static final Range<Double> LATITUDE_RNG = Ranges.closed(-90.0, 90.0);
-  private static final Range<Double> LONGITUDE_RNG = Ranges.closed(-180.0, 180.0);
+  private static final Range<Double> LATITUDE_RNG = Range.closed(-90.0, 90.0);
+  private static final Range<Double> LONGITUDE_RNG = Range.closed(-180.0, 180.0);
 
   private static final String LATITUDE_ERROR_MSG = "%s is not valid value, latitude must be between -90 and 90.";
 
@@ -48,21 +47,21 @@ public class SearchTypeValidator {
 
   /**
    * Matches ranges in formats
-   * 
+   *
    * <pre>
    * 23.1,55.2
    * </pre>
-   * 
+   *
    * <pre>
    * *,88
    * </pre>
-   * 
+   *
    * and
-   * 
+   *
    * <pre>
    * 55,*
    * </pre>
-   * 
+   *
    * .
    * The matcher returns 2 groups:
    * group 1: lower bound
@@ -99,22 +98,22 @@ public class SearchTypeValidator {
    */
   public static <T extends Comparable<?>> Range<T> buildRange(final T lower, final T upper) {
     if (lower == null && upper != null) {
-      return Ranges.atMost(upper);
+      return Range.atMost(upper);
 
     } else if (lower != null && upper == null) {
-      return Ranges.atLeast(lower);
+      return Range.atLeast(lower);
 
     } else if (lower == null && upper == null) {
-      return Ranges.<T>all();
+      return Range.<T>all();
 
     } else {
-      return Ranges.closed(lower, upper);
+      return Range.closed(lower, upper);
     }
   }
 
   /**
    * Determines whether the value given is a valid decimal or date range, delimiting two values by a comma.
-   * 
+   *
    * @return true if the given value is a valid range
    */
   public static boolean isRange(String value) {
@@ -137,7 +136,7 @@ public class SearchTypeValidator {
   /**
    * Parses a range of ISO dates.
    * The date format used is the first date format that successfully parses the lower range limit.
-   * 
+   *
    * @return the parsed range with wildcards represented as null values
    * @throws IllegalArgumentException if value is invalid or null
    */
@@ -147,7 +146,7 @@ public class SearchTypeValidator {
 
   /**
    * Parses a decimal range in the format 123.1,456.
-   * 
+   *
    * @return the parsed range with wildcards represented as null values
    * @throws IllegalArgumentException if value is invalid or null
    */
@@ -163,7 +162,7 @@ public class SearchTypeValidator {
 
   /**
    * Parses an integer range in the format 123,456
-   * 
+   *
    * @return the parsed range with wildcards represented as null values
    * @throws IllegalArgumentException if value is invalid or null
    */
@@ -181,7 +180,7 @@ public class SearchTypeValidator {
   /**
    * Validates that a given parameter value matches the expected type of the parameter as defined by
    * {@link SearchParameter#type()} and throws an IllegalArgumentException otherwise.
-   * 
+   *
    * @param param the search parameter defining the expected type
    * @param value the parameter value to be validated
    * @throws IllegalArgumentException if the value cannot be converted to the expected type
@@ -367,7 +366,7 @@ public class SearchTypeValidator {
   /**
    * Validates if the value is a valid single integer or a range of integer values.
    * If the value is a range each limit is validated and the wildcard character '*' is skipped.
-   * 
+   *
    * @throws IllegalArgumentException if value is invalid or null
    */
   private static Collection<Integer> validateInteger(String value) {
