@@ -17,10 +17,11 @@ import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Date;
 
 import com.google.common.collect.Lists;
-import com.google.common.io.Closeables;
+import com.google.common.io.Closer;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.hamcrest.core.IsCollectionContaining;
 import org.junit.Test;
@@ -97,20 +98,24 @@ public class DownloadRequestTest {
   }
 
   @Test
-  public void testSerde() {
+  public void testSerde() throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     DownloadRequest d = newDownload(new EqualsPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, "b"));
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+    Closer closer = Closer.create();
     try {
+      ByteArrayOutputStream baos = closer.register(new ByteArrayOutputStream());
       mapper.writeValue(baos, d);
       baos.flush();
       DownloadRequest d2 = mapper.readValue(baos.toByteArray(), DownloadRequest.class);
       assertEquals(d, d2);
 
-    } catch (Exception e) {
+    } catch (Throwable e) { // closer must catch Throwable
       fail(e.getMessage());
+      throw closer.rethrow(e);
+
     } finally {
-      Closeables.closeQuietly(baos);
+      closer.close();
     }
   }
 
