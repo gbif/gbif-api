@@ -32,6 +32,11 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 public enum Extension {
 
   /**
+   * @see <a href="http://rs.gbif.org/extension/audubon/audubon.xml">extension definition</a>
+   */
+  AUDUBON("http://rs.tdwg.org/ac/terms/Multimedia"),
+
+  /**
    * @see <a href="http://rs.gbif.org/extension/gbif/1.0/description.xml">extension definition</a>
    */
   DESCRIPTION("http://rs.gbif.org/terms/1.0/Description"),
@@ -40,6 +45,36 @@ public enum Extension {
    * @see <a href="http://rs.gbif.org/extension/gbif/1.0/distribution.xml">extension definition</a>
    */
   DISTRIBUTION("http://rs.gbif.org/terms/1.0/Distribution"),
+
+  /**
+   * @see <a href="http://eol.org/schema/media_extension.xml">extension definition</a>
+   */
+  EOL_MEDIA("http://eol.org/schema/media/Document"),
+
+  /**
+   * @see <a href="http://eol.org/schema/reference_extension.xml">extension definition</a>
+   */
+  EOL_REFERENCE("http://eol.org/schema/reference/Reference"),
+
+  /**
+   * @see <a href="http://rs.gbif.org/extension/germplasm/GermplasmAccession.xml">extension definition</a>
+   */
+  GERMPLASM_ACCESSION("http://purl.org/germplasm/germplasmTerm#GermplasmAccession"),
+
+  /**
+   * @see <a href="http://rs.gbif.org/extension/germplasm/MeasurementScore.xml">extension definition</a>
+   */
+  GERMPLASM_MEASUREMENT_SCORE("http://purl.org/germplasm/germplasmTerm#MeasurementScore"),
+
+  /**
+   * @see <a href="http://rs.gbif.org/extension/germplasm/MeasurementTrait.xml">extension definition</a>
+   */
+  GERMPLASM_MEASUREMENT_TRAIT("http://purl.org/germplasm/germplasmTerm#MeasurementTrait"),
+
+  /**
+   * @see <a href="http://rs.gbif.org/extension/germplasm/MeasurementTrial.xml">extension definition</a>
+   */
+  GERMPLASM_MEASUREMENT_TRIAL("http://purl.org/germplasm/germplasmTerm#MeasurementTrial"),
 
   /**
    * @see <a href="http://rs.gbif.org/extension/dwc/identification.xml">extension definition</a>

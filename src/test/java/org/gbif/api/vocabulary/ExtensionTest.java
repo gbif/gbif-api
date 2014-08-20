@@ -37,6 +37,8 @@ public class ExtensionTest {
     assertEquals(Extension.DESCRIPTION, Extension.fromRowType("description"));
     assertEquals(Extension.VERNACULAR_NAME, Extension.fromRowType("VERNACULARNAME"));
     assertEquals(Extension.VERNACULAR_NAME, Extension.fromRowType("VernacularName"));
+
+    assertEquals(Extension.GERMPLASM_MEASUREMENT_TRAIT, Extension.fromRowType("http://purl.org/germplasm/germplasmTerm#MeasurementTrait"));
   }
 
 }
