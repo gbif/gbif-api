@@ -19,6 +19,7 @@ import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.util.ClassificationUtils;
 import org.gbif.api.vocabulary.NameType;
+import org.gbif.api.vocabulary.NameUsageIssue;
 import org.gbif.api.vocabulary.NomenclaturalStatus;
 import org.gbif.api.vocabulary.Origin;
 import org.gbif.api.vocabulary.Rank;
@@ -26,6 +27,7 @@ import org.gbif.api.vocabulary.TaxonomicStatus;
 
 import java.net.URI;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.UUID;
@@ -33,6 +35,7 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -103,6 +106,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   private Date modified;
   private Date lastCrawled;
   private Date lastInterpreted;
+  private Set<NameUsageIssue> issues = EnumSet.noneOf(NameUsageIssue.class);
 
   /**
    * For backbone taxa the source taxon key refers to the original name usage that was used during nub building
@@ -810,6 +814,21 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.lastInterpreted = lastInterpreted;
   }
 
+  @NotNull
+  public Set<NameUsageIssue> getIssues() {
+    return issues;
+  }
+
+  public void setIssues(Set<NameUsageIssue> issues) {
+    Preconditions.checkNotNull("Issues cannot be null", issues);
+    this.issues = Sets.newEnumSet(issues, NameUsageIssue.class);
+  }
+
+  public void addIssue(NameUsageIssue issue) {
+    Preconditions.checkNotNull("Issue needs to be specified", issue);
+    this.issues.add(issue);
+  }
+
   @JsonIgnore
   public boolean isNub() {
     return key.equals(nubKey);
@@ -890,7 +909,8 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
         taxonID,
         modified,
         lastCrawled,
-        lastInterpreted);
+        lastInterpreted,
+        issues);
   }
 
   @Override
@@ -950,7 +970,8 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
            && Objects.equal(this.remarks, other.remarks)
            && Objects.equal(this.modified, other.modified)
            && Objects.equal(this.lastCrawled, other.lastCrawled)
-           && Objects.equal(this.lastInterpreted, other.lastInterpreted);
+           && Objects.equal(this.lastInterpreted, other.lastInterpreted)
+           && Objects.equal(this.issues, other.issues);
   }
 
   @Override
@@ -1002,6 +1023,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
       .add("modified", modified)
       .add("lastCrawled", lastCrawled)
       .add("lastInterpreted", lastInterpreted)
+      .add("issues", issues)
       .toString();
   }
 }
