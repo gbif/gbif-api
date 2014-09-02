@@ -38,6 +38,11 @@ public enum Origin {
   VERBATIM_PARENT,
 
   /**
+   * Implicit usage from a verbatim accepted name usage.
+  */
+  VERBATIM_ACCEPTED,
+
+    /**
    * Implicit usage from a verbatim basionym/original name.
    */
   VERBATIM_BASIONYM,
