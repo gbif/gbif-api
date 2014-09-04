@@ -7,6 +7,7 @@ import javax.annotation.concurrent.ThreadSafe;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -14,170 +15,86 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * A report of the state of unique identifiers (triplets and occurrenceId) in a DwC-A. The rules followed here should
- * match the document at: http://dev.gbif.org/wiki/display/INT/Identifier+problems+and+how+to+solve+them.
+ * A report of the state of a dwc archive, mainly testing the existance and use of unique identifiers.
+ * It combines checklist and occurrence reports.
  */
 @Immutable
 @ThreadSafe
 public class DwcaValidationReport {
-
-  // if the percentage of invalid triplets (eg missing catalog number) is greater than this, the archive is invalid
-  private static final double INVALID_TRIPLET_THRESHOLD = 0.25;
-
   private final UUID datasetKey;
 
-  // the number of records checked in the validation
-  private final int checkedRecords;
+  private final OccurrenceValidationReport occurrenceReport;
 
-  // the number of triplets that were unique
-  private final int uniqueTriplets;
+  private final ChecklistValidationReport checklistReport;
 
-  /**
-   * the number of triplets that were invalid (because one or more of institutionCode, collectionCode or catalogNumber
-   * were null or empty)
-   */
-  private final int recordsWithInvalidTriplets;
-
-  // the number of occurrenceIds that were unique (therefore also == the number of records with unique occurrenceId)
-  private final int uniqueOccurrenceIds;
-
-  // records that had no occurrenceId
-  private final int recordsMissingOccurrenceId;
-
-  // false if we had to stop at our memory-saving limit
-  private final boolean allRecordsChecked;
-
-  // if the archive is not valid this will hold a readable reason
-  private String invalidationReason;
-
-  // is this archive valid
-  private final boolean valid;
-
-  @JsonCreator
-  public DwcaValidationReport(@JsonProperty("datasetKey") UUID datasetKey,
-    @JsonProperty("checkedRecords") int checkedRecords, @JsonProperty("uniqueTriplets") int uniqueTriplets,
-    @JsonProperty("invalidTriplets") int recordsWithInvalidTriplets,
-    @JsonProperty("uniqueOccIds") int uniqueOccurrenceIds,
-    @JsonProperty("missingOccIds") int recordsMissingOccurrenceId,
-    @JsonProperty("allRecordsChecked") boolean allRecordsChecked) {
-    this.datasetKey = checkNotNull(datasetKey, "datasetKey can't be null");
-    this.checkedRecords = checkedRecords;
-    this.uniqueTriplets = uniqueTriplets;
-    this.recordsWithInvalidTriplets = recordsWithInvalidTriplets;
-    this.uniqueOccurrenceIds = uniqueOccurrenceIds;
-    this.recordsMissingOccurrenceId = recordsMissingOccurrenceId;
-    this.allRecordsChecked = allRecordsChecked;
-    this.valid = validate();
-  }
-
-  /**
-   * At the moment the only truly fatal conditions are:
-   * - whole archive is empty or unreadable
-   * - triplets are invalid (% invalid > than our threshold) && occIds are invalid (must be 100% coverage and unique)
-   * - any duplicate triplets && occIds are invalid
-   */
-  private boolean validate() {
-    boolean hasRecords = checkedRecords > 0;
-    double invalidRatio = hasRecords ? (double) recordsWithInvalidTriplets / checkedRecords : 0;
-    boolean invalidTripletsBelowLimit = invalidRatio <= INVALID_TRIPLET_THRESHOLD;
-    boolean hasUniqueTriplets = uniqueTriplets == checkedRecords - recordsWithInvalidTriplets;
-    boolean hasUniqueOccIds = uniqueOccurrenceIds == checkedRecords - recordsMissingOccurrenceId;
-    boolean hasGoodOccIds = uniqueOccurrenceIds == checkedRecords;
-    boolean looksValid = hasRecords && (invalidTripletsBelowLimit && hasUniqueTriplets || hasGoodOccIds);
-
-    if (!looksValid) {
-      List<String> reasons = Lists.newArrayList();
-      if (!hasRecords) {
-        reasons.add("No readable records");
-      }
-      if (!invalidTripletsBelowLimit) {
-        reasons.add(Math.round(100 * invalidRatio) + "% invalid triplets is > than threshold of " + Math
-          .round(100 * INVALID_TRIPLET_THRESHOLD) + '%');
-      }
-      if (!hasUniqueTriplets) {
-        reasons.add((checkedRecords - recordsWithInvalidTriplets - uniqueTriplets) + " duplicate triplets detected");
-      }
-      if (!hasGoodOccIds) {
-        if (recordsMissingOccurrenceId != 0) {
-          reasons.add(recordsMissingOccurrenceId + " records without an occurrence id (should be 0)");
-        }
-        if (!hasUniqueOccIds) {
-          reasons.add(
-            (checkedRecords - recordsMissingOccurrenceId - uniqueOccurrenceIds) + " duplicate occurrence ids detected");
-        }
-      }
-      String reason = Joiner.on("; ").join(reasons);
-      invalidationReason = "Archive invalid because [" + reason + ']';
-    }
-
-    return looksValid;
-  }
+  private final String invalidationReason;
 
   public boolean isValid() {
-    return valid;
+    return invalidationReason == null
+      && (occurrenceReport == null || occurrenceReport.isValid())
+      && (checklistReport == null || checklistReport.isValid());
+  }
+
+  public DwcaValidationReport(@JsonProperty("datasetKey") UUID datasetKey, OccurrenceValidationReport occurrenceReport,
+    ChecklistValidationReport checklistReport) {
+    this.datasetKey = checkNotNull(datasetKey, "datasetKey can't be null");
+    this.occurrenceReport = checkNotNull(occurrenceReport, "occurrenceReport can't be null");
+    this.checklistReport = checkNotNull(checklistReport, "checklistReport can't be null");
+    this.invalidationReason = null;
+  }
+
+  public DwcaValidationReport(@JsonProperty("datasetKey") UUID datasetKey, OccurrenceValidationReport occurrenceReport) {
+    this.datasetKey = checkNotNull(datasetKey, "datasetKey can't be null");
+    this.occurrenceReport = checkNotNull(occurrenceReport, "occurrenceReport can't be null");
+    this.checklistReport = null;
+    this.invalidationReason = null;
+  }
+
+  public DwcaValidationReport(@JsonProperty("datasetKey") UUID datasetKey, ChecklistValidationReport checklistReport) {
+    this.datasetKey = checkNotNull(datasetKey, "datasetKey can't be null");
+    this.occurrenceReport = null;
+    this.checklistReport = checkNotNull(checklistReport, "checklistReport can't be null");
+    this.invalidationReason = null;
+  }
+
+  public DwcaValidationReport(@JsonProperty("datasetKey") UUID datasetKey, String invalidationReason) {
+    this.datasetKey = checkNotNull(datasetKey, "datasetKey can't be null");
+    this.occurrenceReport = null;
+    this.checklistReport = null;
+    this.invalidationReason = checkNotNull(invalidationReason, "invalidationReason can't be null");
   }
 
   public UUID getDatasetKey() {
     return datasetKey;
   }
 
-  public int getCheckedRecords() {
-    return checkedRecords;
-  }
-
-  public int getUniqueTriplets() {
-    return uniqueTriplets;
-  }
-
-  public int getRecordsWithInvalidTriplets() {
-    return recordsWithInvalidTriplets;
-  }
-
-  public int getUniqueOccurrenceIds() {
-    return uniqueOccurrenceIds;
-  }
-
-  public int getRecordsMissingOccurrenceId() {
-    return recordsMissingOccurrenceId;
-  }
-
-  public boolean isAllRecordsChecked() {
-    return allRecordsChecked;
-  }
-
   public String getInvalidationReason() {
-    return invalidationReason;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(datasetKey, checkedRecords, uniqueTriplets, recordsWithInvalidTriplets, uniqueOccurrenceIds,
-      recordsMissingOccurrenceId, allRecordsChecked, valid);
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
+    StringBuilder sb = new StringBuilder();
+    if (invalidationReason != null) {
+      sb.append(invalidationReason);
     }
-    if (obj == null || getClass() != obj.getClass()) {
-      return false;
+    if (occurrenceReport != null && !occurrenceReport.isValid()) {
+      if (sb.length() > 1) {
+        sb.append("\n");
+      }
+      sb.append("Invalid Occurrences: ");
+      sb.append(occurrenceReport.getInvalidationReason());
     }
-    final DwcaValidationReport other = (DwcaValidationReport) obj;
-    return Objects.equal(this.datasetKey, other.datasetKey) && Objects.equal(this.checkedRecords, other.checkedRecords)
-           && Objects.equal(this.uniqueTriplets, other.uniqueTriplets) && Objects
-      .equal(this.recordsWithInvalidTriplets, other.recordsWithInvalidTriplets) && Objects
-             .equal(this.uniqueOccurrenceIds, other.uniqueOccurrenceIds) && Objects
-             .equal(this.recordsMissingOccurrenceId, other.recordsMissingOccurrenceId) && Objects
-             .equal(this.allRecordsChecked, other.allRecordsChecked) && Objects.equal(this.valid, other.valid);
+    if (checklistReport != null && !checklistReport.isValid()) {
+      if (sb.length() > 1) {
+        sb.append("\n");
+      }
+      sb.append("Invalid Checklist: ");
+      sb.append(checklistReport.getInvalidationReason());
+    }
+    return Strings.emptyToNull(sb.toString());
   }
 
-  @Override
-  public String toString() {
-    return Objects.toStringHelper(this).add("datasetKey", datasetKey).add("checkedRecords", checkedRecords)
-      .add("uniqueTriplets", uniqueTriplets).add("recordsWithInvalidTriplets", recordsWithInvalidTriplets)
-      .add("uniqueOccurrenceIds", uniqueOccurrenceIds).add("recordsMissingOccurrenceId", recordsMissingOccurrenceId)
-      .add("allRecordsChecked", allRecordsChecked).add("invalidationReason", invalidationReason).add("valid", valid)
-      .toString();
+  public OccurrenceValidationReport getOccurrenceReport() {
+    return occurrenceReport;
+  }
+
+  public ChecklistValidationReport getChecklistReport() {
+    return checklistReport;
   }
 }
