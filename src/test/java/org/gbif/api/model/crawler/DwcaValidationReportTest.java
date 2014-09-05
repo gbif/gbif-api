@@ -17,7 +17,7 @@ public class DwcaValidationReportTest {
   public void testIsValid() throws Exception {
     assertTrue(new DwcaValidationReport(UUID.randomUUID(),
       new OccurrenceValidationReport(10, 10, 0, 10, 0, true),
-      new ChecklistValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList())
+      new ChecklistValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList()), null
     ).isValid());
 
     assertTrue(new DwcaValidationReport(UUID.randomUUID(),
@@ -31,17 +31,17 @@ public class DwcaValidationReportTest {
 
     assertFalse(new DwcaValidationReport(UUID.randomUUID(),
       new OccurrenceValidationReport(10, 4, 0, 6, 0, true),
-      new ChecklistValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList())
+      new ChecklistValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList()), null
     ).isValid());
 
     assertFalse(new DwcaValidationReport(UUID.randomUUID(),
       new OccurrenceValidationReport(10, 10, 0, 10, 0, true),
-      new ChecklistValidationReport(10, true, Lists.<String>newArrayList("r23"), Lists.<Integer>newArrayList())
+      new ChecklistValidationReport(10, true, Lists.<String>newArrayList("r23"), Lists.<Integer>newArrayList()), null
     ).isValid());
 
     assertFalse(new DwcaValidationReport(UUID.randomUUID(),
       new OccurrenceValidationReport(10, 10, 0, 10, 0, true),
-      new ChecklistValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList(32))
+      new ChecklistValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList(32)), null
     ).isValid());
 
 

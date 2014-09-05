@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 public class ChecklistValidationReport {
   // the number of records checked in the validation
@@ -24,8 +26,11 @@ public class ChecklistValidationReport {
   // is this archive valid
   private final boolean valid;
 
-  public ChecklistValidationReport(int checkedRecords, boolean allRecordsChecked, List<String> duplicateIds,
-    List<Integer> missingIds) {
+  @JsonCreator
+  public ChecklistValidationReport(@JsonProperty("checkedRecords") int checkedRecords,
+    @JsonProperty("allRecordsChecked") boolean allRecordsChecked,
+    @JsonProperty("duplicateIds") List<String> duplicateIds,
+    @JsonProperty("missingIds") List<Integer> missingIds) {
     this.checkedRecords = checkedRecords;
     this.allRecordsChecked = allRecordsChecked;
     this.duplicateIds = Preconditions.checkNotNull(duplicateIds, "duplicateIds cannot be null");

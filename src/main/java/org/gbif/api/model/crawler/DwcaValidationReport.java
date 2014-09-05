@@ -12,6 +12,7 @@ import com.google.common.collect.Lists;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -35,29 +36,35 @@ public class DwcaValidationReport {
       && (checklistReport == null || checklistReport.isValid());
   }
 
-  public DwcaValidationReport(@JsonProperty("datasetKey") UUID datasetKey, OccurrenceValidationReport occurrenceReport,
-    ChecklistValidationReport checklistReport) {
+  @JsonCreator
+  public DwcaValidationReport(@JsonProperty("datasetKey") UUID datasetKey,
+    @JsonProperty("occurrenceReport") OccurrenceValidationReport occurrenceReport,
+    @JsonProperty("checklistReport") ChecklistValidationReport checklistReport,
+    @JsonProperty("invalidationReason") String invalidationReason) {
     this.datasetKey = checkNotNull(datasetKey, "datasetKey can't be null");
-    this.occurrenceReport = checkNotNull(occurrenceReport, "occurrenceReport can't be null");
-    this.checklistReport = checkNotNull(checklistReport, "checklistReport can't be null");
-    this.invalidationReason = null;
+    // verify one of the 3 is not null
+    checkArgument(invalidationReason!=null || occurrenceReport != null || checklistReport != null,
+        "Either a report or invalidationReason cannot be null");
+    this.occurrenceReport = occurrenceReport;
+    this.checklistReport = checklistReport;
+    this.invalidationReason = invalidationReason;
   }
 
-  public DwcaValidationReport(@JsonProperty("datasetKey") UUID datasetKey, OccurrenceValidationReport occurrenceReport) {
+  public DwcaValidationReport(UUID datasetKey, OccurrenceValidationReport occurrenceReport) {
     this.datasetKey = checkNotNull(datasetKey, "datasetKey can't be null");
     this.occurrenceReport = checkNotNull(occurrenceReport, "occurrenceReport can't be null");
     this.checklistReport = null;
     this.invalidationReason = null;
   }
 
-  public DwcaValidationReport(@JsonProperty("datasetKey") UUID datasetKey, ChecklistValidationReport checklistReport) {
+  public DwcaValidationReport(UUID datasetKey, ChecklistValidationReport checklistReport) {
     this.datasetKey = checkNotNull(datasetKey, "datasetKey can't be null");
     this.occurrenceReport = null;
     this.checklistReport = checkNotNull(checklistReport, "checklistReport can't be null");
     this.invalidationReason = null;
   }
 
-  public DwcaValidationReport(@JsonProperty("datasetKey") UUID datasetKey, String invalidationReason) {
+  public DwcaValidationReport(UUID datasetKey, String invalidationReason) {
     this.datasetKey = checkNotNull(datasetKey, "datasetKey can't be null");
     this.occurrenceReport = null;
     this.checklistReport = null;
@@ -96,5 +103,35 @@ public class DwcaValidationReport {
 
   public ChecklistValidationReport getChecklistReport() {
     return checklistReport;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(datasetKey, occurrenceReport, checklistReport, invalidationReason);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    final DwcaValidationReport other = (DwcaValidationReport) obj;
+    return Objects.equal(this.datasetKey, other.datasetKey)
+           && Objects.equal(this.occurrenceReport, other.occurrenceReport)
+           && Objects.equal(this.checklistReport, other.checklistReport)
+           && Objects.equal(this.invalidationReason, other.invalidationReason);
+  }
+
+  @Override
+  public String toString() {
+    return Objects.toStringHelper(this)
+      .add("datasetKey", datasetKey)
+      .add("invalidationReason", invalidationReason)
+      .add("occurrenceReport", occurrenceReport)
+      .add("checklistReport", checklistReport)
+      .toString();
   }
 }
