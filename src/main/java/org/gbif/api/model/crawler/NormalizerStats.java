@@ -15,7 +15,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class NormalizerStats {
 
-  private final int records;
   private final int roots;
   private final int depth;
   private final int synonyms;
@@ -24,14 +23,12 @@ public class NormalizerStats {
   private final List<String> cycles;
 
   @JsonCreator
-  public NormalizerStats(@JsonProperty("records") int records,
-    @JsonProperty("roots") int roots,
+  public NormalizerStats(@JsonProperty("roots") int roots,
     @JsonProperty("depth") int depth,
     @JsonProperty("synonyms") int synonyms,
     @JsonProperty("countByOrigin") Map<Origin, Integer> countByOrigin,
     @JsonProperty("countByRank") Map<Rank, Integer> countByRank,
     @JsonProperty("cycles") List<String> cycles) {
-    this.records = records;
     this.roots = roots;
     this.depth = depth;
     this.synonyms = synonyms;
@@ -47,37 +44,10 @@ public class NormalizerStats {
     return cycles;
   }
 
-  public void incOrigin(Origin origin) {
-    if (origin != null) {
-      if (!countByOrigin.containsKey(origin)) {
-        countByOrigin.put(origin, 1);
-      } else {
-        countByOrigin.put(origin, countByOrigin.get(origin) + 1);
-      }
-    }
-  }
-
-  public void incRank(Rank rank) {
-    if (rank != null) {
-      if (!countByRank.containsKey(rank)) {
-        countByRank.put(rank, 1);
-      } else {
-        countByRank.put(rank, countByRank.get(rank) + 1);
-      }
-    }
-  }
-
   /**
-   * @return raw number of processed source records in dwc archive
+   * @return total count of name usages existing as neo nodes, both accepted and synonyms and regardless of their Origin
    */
-  public int getRecords() {
-    return records;
-  }
-
-  /**
-   * @return total number of name usages existing as neo nodes, both accepted and synonyms
-   */
-  public int getUsages() {
+  public int getCount() {
     int total = 0;
     for (int x : countByOrigin.values()) {
       total += x;
@@ -128,7 +98,6 @@ public class NormalizerStats {
   @Override
   public String toString() {
     return "NormalizerStats{" +
-           "records=" + records +
            ", roots=" + roots +
            ", depth=" + depth +
            ", synonyms=" + synonyms +
@@ -140,7 +109,7 @@ public class NormalizerStats {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(records, roots, depth, synonyms, cycles, countByOrigin, countByRank);
+    return Objects.hashCode(roots, depth, synonyms, cycles, countByOrigin, countByRank);
   }
 
   @Override
@@ -152,8 +121,7 @@ public class NormalizerStats {
       return false;
     }
     final NormalizerStats other = (NormalizerStats) obj;
-    return Objects.equal(this.records, other.records)
-           && Objects.equal(this.roots, other.roots)
+    return Objects.equal(this.roots, other.roots)
            && Objects.equal(this.depth, other.depth)
            && Objects.equal(this.synonyms, other.synonyms)
            && Objects.equal(this.cycles, other.cycles)
