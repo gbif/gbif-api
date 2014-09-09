@@ -75,13 +75,10 @@ public class OccurrenceValidationReport {
     boolean hasUniqueTriplets = uniqueTriplets == checkedRecords - recordsWithInvalidTriplets;
     boolean hasUniqueOccIds = uniqueOccurrenceIds == checkedRecords - recordsMissingOccurrenceId;
     boolean hasGoodOccIds = uniqueOccurrenceIds == checkedRecords;
-    boolean looksValid = hasRecords && (invalidTripletsBelowLimit && hasUniqueTriplets || hasGoodOccIds);
+    boolean looksValid = invalidTripletsBelowLimit && hasUniqueTriplets || hasGoodOccIds;
 
     if (!looksValid) {
       List<String> reasons = Lists.newArrayList();
-      if (!hasRecords) {
-        reasons.add("No readable records");
-      }
       if (!invalidTripletsBelowLimit) {
         reasons.add(Math.round(100 * invalidRatio) + "% invalid triplets is > than threshold of " + Math
           .round(100 * INVALID_TRIPLET_THRESHOLD) + '%');

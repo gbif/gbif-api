@@ -25,6 +25,7 @@ public class ChecklistValidationReportTest {
   @Test
   public void testIsValid() throws Exception {
     assertTrue(new ChecklistValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList()).isValid());
+    assertTrue(new ChecklistValidationReport(0, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList()).isValid());
     assertFalse(new ChecklistValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList(1)).isValid());
     assertFalse(new ChecklistValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList(1,2,3,4)).isValid());
     assertFalse(new ChecklistValidationReport(10, true, Lists.<String>newArrayList("r32"), Lists.<Integer>newArrayList(1,2)).isValid());

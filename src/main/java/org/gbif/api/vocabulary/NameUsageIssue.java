@@ -51,7 +51,42 @@ public enum NameUsageIssue {
    * The denormalized classification could not be applied to the name usage.
    * For example if the id based classification has no ranks.
    */
-  CLASSIFICATION_NOT_APPLIED
+  CLASSIFICATION_NOT_APPLIED,
 
+  /**
+   * At least one vernacular name extension record attached to this name usage is invalid.
+   */
+  VERNACULAR_NAME_INVALID,
 
+  /**
+   * At least one description extension record attached to this name usage is invalid.
+   */
+  DESCRIPTION_INVALID,
+
+  /**
+   * At least one distribution extension record attached to this name usage is invalid.
+   */
+  DISTRIBUTION_INVALID,
+
+  /**
+   * At least one species profile extension record attached to this name usage is invalid.
+   */
+  SPECIES_PROFILE_INVALID,
+
+  /**
+   * At least one multimedia extension record attached to this name usage is invalid.
+   * This covers multimedia coming in through various extensions including
+   * Audubon core, Simple images or multimedia or EOL media.
+   */
+  MULTIMEDIA_INVALID,
+
+  /**
+   * At least one bibliographic reference extension record attached to this name usage is invalid.
+   */
+  BIB_REFERENCE_INVALID,
+
+  /**
+   * At least one alternative identifier extension record attached to this name usage is invalid.
+   */
+  ALT_IDENTIFIER_INVALID,
 }

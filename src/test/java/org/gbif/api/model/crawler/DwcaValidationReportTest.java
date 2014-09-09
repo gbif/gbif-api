@@ -20,6 +20,14 @@ public class DwcaValidationReportTest {
       new ChecklistValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList()), null
     ).isValid());
 
+    // this is a regular case with Plazi checklist archives.
+    // Occurrences are declared in meta.xml but the data file is empty
+    // needs to validate for checklist indexing to happen!
+    assertTrue(new DwcaValidationReport(UUID.randomUUID(),
+      new OccurrenceValidationReport(0, 0, 0, 0, 0, true),
+      new ChecklistValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList()), null
+    ).isValid());
+
     assertTrue(new DwcaValidationReport(UUID.randomUUID(),
       new ChecklistValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList())
     ).isValid());

@@ -9,6 +9,13 @@ import static org.junit.Assert.*;
 public class OccurrenceValidationReportTest {
 
   @Test
+  public void testEmpty() {
+    OccurrenceValidationReport report = new OccurrenceValidationReport(0, 0, 0, 0, 0, true);
+    assertNull(report.getInvalidationReason());
+    assertTrue(report.isValid());
+  }
+
+  @Test
   public void testGoodTripletsNoOccId() {
     OccurrenceValidationReport report = new OccurrenceValidationReport(100, 100, 0, 0, 100, true);
     assertNull(report.getInvalidationReason());
