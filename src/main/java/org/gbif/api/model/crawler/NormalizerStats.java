@@ -18,20 +18,20 @@ public class NormalizerStats {
   private final int roots;
   private final int depth;
   private final int synonyms;
+  private final int ignored;
   private final Map<Origin, Integer> countByOrigin;
   private final Map<Rank, Integer> countByRank;
   private final List<String> cycles;
 
   @JsonCreator
-  public NormalizerStats(@JsonProperty("roots") int roots,
-    @JsonProperty("depth") int depth,
-    @JsonProperty("synonyms") int synonyms,
+  public NormalizerStats(@JsonProperty("roots") int roots, @JsonProperty("depth") int depth,
+    @JsonProperty("synonyms") int synonyms, @JsonProperty("ignored") int ignored,
     @JsonProperty("countByOrigin") Map<Origin, Integer> countByOrigin,
-    @JsonProperty("countByRank") Map<Rank, Integer> countByRank,
-    @JsonProperty("cycles") List<String> cycles) {
+    @JsonProperty("countByRank") Map<Rank, Integer> countByRank, @JsonProperty("cycles") List<String> cycles) {
     this.roots = roots;
     this.depth = depth;
     this.synonyms = synonyms;
+    this.ignored = ignored;
     this.countByOrigin = countByOrigin;
     this.countByRank = countByRank;
     this.cycles = cycles;
@@ -76,6 +76,10 @@ public class NormalizerStats {
     return synonyms;
   }
 
+  public int getIgnored() {
+    return ignored;
+  }
+
   public int getCountByRank(Rank rank) {
     if (countByRank.containsKey(rank)) {
       return countByRank.get(rank);
@@ -101,6 +105,7 @@ public class NormalizerStats {
            ", roots=" + roots +
            ", depth=" + depth +
            ", synonyms=" + synonyms +
+           ", ignored=" + ignored+
            ", cycles=" + cycles.size() +
            ", countByOrigin=" + countByOrigin +
            ", countByRank=" + countByRank +
@@ -109,7 +114,7 @@ public class NormalizerStats {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(roots, depth, synonyms, cycles, countByOrigin, countByRank);
+    return Objects.hashCode(roots, depth, synonyms, ignored, cycles, countByOrigin, countByRank);
   }
 
   @Override
@@ -124,6 +129,7 @@ public class NormalizerStats {
     return Objects.equal(this.roots, other.roots)
            && Objects.equal(this.depth, other.depth)
            && Objects.equal(this.synonyms, other.synonyms)
+           && Objects.equal(this.ignored, other.ignored)
            && Objects.equal(this.cycles, other.cycles)
            && Objects.equal(this.countByOrigin, other.countByOrigin)
            && Objects.equal(this.countByRank, other.countByRank);
