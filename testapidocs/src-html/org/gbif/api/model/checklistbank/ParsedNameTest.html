@@ -47,7 +47,58 @@
 <span class="sourceLineNo">039</span>    assertEquals("Abies alba", pn.canonicalSpeciesName());<a name="line.39"></a>
 <span class="sourceLineNo">040</span>    assertEquals("?Abies alba var. alpina (Carl.) Mill., 1887 D?ring, nom. illeg. [lost]", pn.fullName());<a name="line.40"></a>
 <span class="sourceLineNo">041</span>  }<a name="line.41"></a>
-<span class="sourceLineNo">042</span>}<a name="line.42"></a>
+<span class="sourceLineNo">042</span><a name="line.42"></a>
+<span class="sourceLineNo">043</span>  @Test<a name="line.43"></a>
+<span class="sourceLineNo">044</span>  public void testBuildName() throws Exception {<a name="line.44"></a>
+<span class="sourceLineNo">045</span>    ParsedName pn = new ParsedName();<a name="line.45"></a>
+<span class="sourceLineNo">046</span>    pn.setGenusOrAbove("Pseudomonas");<a name="line.46"></a>
+<span class="sourceLineNo">047</span>    assertBuildName(pn, "Pseudomonas");<a name="line.47"></a>
+<span class="sourceLineNo">048</span><a name="line.48"></a>
+<span class="sourceLineNo">049</span>    pn.setSpecificEpithet("syringae");<a name="line.49"></a>
+<span class="sourceLineNo">050</span>    assertBuildName(pn, "Pseudomonas syringae");<a name="line.50"></a>
+<span class="sourceLineNo">051</span><a name="line.51"></a>
+<span class="sourceLineNo">052</span>    pn.setAuthorsParsed(true);<a name="line.52"></a>
+<span class="sourceLineNo">053</span>    pn.setAuthorship("Van Hall");<a name="line.53"></a>
+<span class="sourceLineNo">054</span>    assertBuildName(pn, "Pseudomonas syringae Van Hall", "Pseudomonas syringae", "Pseudomonas syringae Van Hall", "Pseudomonas syringae");<a name="line.54"></a>
+<span class="sourceLineNo">055</span><a name="line.55"></a>
+<span class="sourceLineNo">056</span>    pn.setYear("1904");<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    assertBuildName(pn, "Pseudomonas syringae Van Hall, 1904", "Pseudomonas syringae", "Pseudomonas syringae Van Hall, 1904", "Pseudomonas syringae");<a name="line.57"></a>
+<span class="sourceLineNo">058</span><a name="line.58"></a>
+<span class="sourceLineNo">059</span>    pn.setBracketAuthorship("Carl.");<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    assertBuildName(pn, "Pseudomonas syringae (Carl.) Van Hall, 1904", "Pseudomonas syringae", "Pseudomonas syringae (Carl.) Van Hall, 1904", "Pseudomonas syringae");<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>    pn.setRank(Rank.PATHOVAR);<a name="line.62"></a>
+<span class="sourceLineNo">063</span>    pn.setInfraSpecificEpithet("aceris");<a name="line.63"></a>
+<span class="sourceLineNo">064</span>    pn.setBracketAuthorship(null);<a name="line.64"></a>
+<span class="sourceLineNo">065</span>    assertBuildName(pn, "Pseudomonas syringae pv. aceris Van Hall, 1904", "Pseudomonas syringae aceris", "Pseudomonas syringae pv. aceris Van Hall, 1904", "Pseudomonas syringae pv. aceris");<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>    pn.setStrain("CFBP 2339");<a name="line.67"></a>
+<span class="sourceLineNo">068</span>    assertBuildName(pn, "Pseudomonas syringae pv. aceris Van Hall, 1904 CFBP 2339", "Pseudomonas syringae aceris", "Pseudomonas syringae pv. aceris Van Hall, 1904 CFBP 2339", "Pseudomonas syringae pv. aceris CFBP 2339");<a name="line.68"></a>
+<span class="sourceLineNo">069</span><a name="line.69"></a>
+<span class="sourceLineNo">070</span>    pn.setYear(null);<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    pn.setAuthorship(null);<a name="line.71"></a>
+<span class="sourceLineNo">072</span>    assertBuildName(pn, "Pseudomonas syringae pv. aceris CFBP 2339", "Pseudomonas syringae aceris", "Pseudomonas syringae pv. aceris CFBP 2339", "Pseudomonas syringae pv. aceris CFBP 2339");<a name="line.72"></a>
+<span class="sourceLineNo">073</span>  }<a name="line.73"></a>
+<span class="sourceLineNo">074</span><a name="line.74"></a>
+<span class="sourceLineNo">075</span>  /**<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   * assert all build name methods return the same string<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   * @param pn<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   * @param name expected string<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   */<a name="line.79"></a>
+<span class="sourceLineNo">080</span>  private void assertBuildName(ParsedName pn, String name) {<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    assertEquals(name, pn.fullName());<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    assertEquals(name, pn.canonicalName());<a name="line.82"></a>
+<span class="sourceLineNo">083</span>    assertEquals(name, pn.canonicalNameComplete());<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    assertEquals(name, pn.canonicalNameWithMarker());<a name="line.84"></a>
+<span class="sourceLineNo">085</span>  }<a name="line.85"></a>
+<span class="sourceLineNo">086</span><a name="line.86"></a>
+<span class="sourceLineNo">087</span>  private void assertBuildName(ParsedName pn, String full, String canonical, String canonicalComplete, String canonicalMarker) {<a name="line.87"></a>
+<span class="sourceLineNo">088</span>    assertEquals(full, pn.fullName());<a name="line.88"></a>
+<span class="sourceLineNo">089</span>    assertEquals(canonical, pn.canonicalName());<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    assertEquals(canonicalComplete, pn.canonicalNameComplete());<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    assertEquals(canonicalMarker, pn.canonicalNameWithMarker());<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  }<a name="line.92"></a>
+<span class="sourceLineNo">093</span>}<a name="line.93"></a>
 
 
 
