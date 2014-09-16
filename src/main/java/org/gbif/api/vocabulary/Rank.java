@@ -84,6 +84,14 @@ public enum Rank {
     INFRASUBSPECIFIC_NAME("infrasubsp."),
     VARIETY("var."),
     SUBVARIETY("subvar."),
+    /**
+     * Infrasubspecific rank given to pathogenic bacteria.
+     * See <a href="http://www.isppweb.org/about_tppb_naming.asp">International Standards for Naming Pathovars of Phytopathogenic Bacteria</a>
+     * See <a href="http://sipav.org/main/jpp/index.php/jpp/article/view/682">Demystifying the nomenclature of bacterial plant pathogens</a>
+     * See <a href="http://link.springer.com/chapter/10.1007/978-94-009-3555-6_171">Problems with the Pathovar Concept</a>
+     *
+    */
+    PATHOVAR("pv."),
     FORM("f."),
     SUBFORM("subf."),
     CULTIVAR_GROUP,
@@ -219,6 +227,7 @@ public enum Rank {
         ranks.add(INFRASUBSPECIFIC_NAME);
         ranks.add(VARIETY);
         ranks.add(SUBVARIETY);
+        ranks.add(PATHOVAR);
         ranks.add(FORM);
         ranks.add(SUBFORM);
         ranks.add(CULTIVAR_GROUP);
@@ -267,6 +276,7 @@ public enum Rank {
         ranks.put("subvar", SUBVARIETY);
         ranks.put("subv", SUBVARIETY);
         ranks.put("sv", SUBVARIETY);
+        ranks.put("pv", PATHOVAR);
         ranks.put("forma", FORM);
         ranks.put("form", FORM);
         ranks.put("fo", FORM);

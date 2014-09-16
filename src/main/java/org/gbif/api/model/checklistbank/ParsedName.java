@@ -55,6 +55,7 @@ public class ParsedName {
   private String specificEpithet;
   private String infraSpecificEpithet;
   private String cultivarEpithet;
+  private String strain;
   private NamePart notho;
   private String rank;
   private boolean authorsParsed = true;
@@ -118,6 +119,7 @@ public class ParsedName {
     String bracketAuthorship,
     String bracketYear,
     String cultivarEpithet,
+    String strain,
     String sensu,
     String nomStatus,
     String remarks
@@ -134,6 +136,7 @@ public class ParsedName {
     this.bracketAuthorship = bracketAuthorship;
     this.bracketYear = bracketYear;
     this.cultivarEpithet = cultivarEpithet;
+    this.strain = strain;
     this.sensu = sensu;
     this.nomStatus = nomStatus;
     this.remarks = remarks;
@@ -169,6 +172,18 @@ public class ParsedName {
 
   public void setCultivarEpithet(String cultivarEpithet) {
     this.cultivarEpithet = cultivarEpithet;
+  }
+
+  /**
+   * The strain or isolate name. Usually a capital collection code string followed by an accession number.
+   * See <a href="http://www.bacterio.net/-collections.html">List of culture collection codes</a>
+   */
+  public String getStrain() {
+    return strain;
+  }
+
+  public void setStrain(String strain) {
+    this.strain = strain;
   }
 
   public String getGenusOrAbove() {
@@ -283,7 +298,8 @@ public class ParsedName {
     boolean nomNote,
     boolean remarks,
     boolean showSensu,
-    boolean showCultivar
+    boolean showCultivar,
+    boolean showStrain
   ) {
     return buildName(hybridMarker,
                      rankMarker,
@@ -296,6 +312,7 @@ public class ParsedName {
                      remarks,
                      showSensu,
                      showCultivar,
+                     showStrain,
                      null);
   }
 
@@ -324,6 +341,7 @@ public class ParsedName {
     boolean remarks,
     boolean showSensu,
     boolean showCultivar,
+    boolean showStrain,
     @Nullable NomenclaturalCode code
   ) {
     StringBuilder sb = new StringBuilder();
@@ -427,6 +445,12 @@ public class ParsedName {
     }
 
     // add cultivar name
+    if (showStrain && strain != null) {
+      sb.append(" ");
+      sb.append(strain);
+    }
+
+    // add cultivar name
     if (showCultivar && cultivarEpithet != null) {
       sb.append(" '");
       sb.append(cultivarEpithet);
@@ -504,7 +528,7 @@ public class ParsedName {
    */
   @JsonProperty
   public String canonicalName() {
-    return buildName(false, false, false, false, false, true, true, false, false, false, false);
+    return buildName(false, false, false, false, false, true, true, false, false, false, false, false);
   }
 
   /**
@@ -523,7 +547,7 @@ public class ParsedName {
    */
   @JsonProperty
   public String canonicalNameWithMarker() {
-    return buildName(true, true, false, false, false, true, true, false, false, false, true);
+    return buildName(true, true, false, false, false, true, true, false, false, false, true, true);
   }
 
   /**
@@ -533,7 +557,7 @@ public class ParsedName {
    */
   @JsonProperty
   public String canonicalNameComplete() {
-    return buildName(true, true, true, false, false, true, true, false, false, false, true);
+    return buildName(true, true, true, false, false, true, true, false, false, false, true, true);
   }
 
   /**
@@ -550,7 +574,7 @@ public class ParsedName {
    * @return the name with all details that exist.
    */
   public String fullName() {
-    return buildName(true, true, true, true, false, false, true, true, true, true, true);
+    return buildName(true, true, true, true, false, false, true, true, true, true, true, true);
   }
 
   @JsonIgnore
@@ -701,6 +725,7 @@ public class ParsedName {
            && equal(specificEpithet, o.specificEpithet)
            && equal(infraSpecificEpithet, o.infraSpecificEpithet)
            && equal(cultivarEpithet, o.cultivarEpithet)
+           && equal(strain, o.strain)
            && equal(authorship, o.authorship)
            && equal(year, o.year)
            && equal(bracketAuthorship, o.bracketAuthorship)
@@ -718,6 +743,7 @@ public class ParsedName {
                             specificEpithet,
                             infraSpecificEpithet,
                             cultivarEpithet,
+                            strain,
                             authorship,
                             year,
                             bracketAuthorship,
@@ -752,6 +778,9 @@ public class ParsedName {
     }
     if (cultivarEpithet != null) {
       sb.append(" CV:").append(cultivarEpithet);
+    }
+    if (strain != null) {
+      sb.append(" STR:").append(strain);
     }
     if (authorship != null) {
       sb.append(" A:").append(authorship);

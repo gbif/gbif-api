@@ -48,6 +48,7 @@ public class RankTest {
         assertEquals(Rank.INFRAGENERIC_NAME, Rank.inferRank(null, "Abies", null, null, null));
         assertEquals(Rank.INFRAGENERIC_NAME, Rank.inferRank("", "Abies", null, null, null));
         assertEquals(Rank.VARIETY, Rank.inferRank(null, "Abies", "alba", "var.", "alpina"));
+        assertEquals(Rank.PATHOVAR, Rank.inferRank(null, "Pseudomonas", "syringae ", "pv.", "aceris"));
         assertEquals(Rank.SUBSPECIES, Rank.inferRank(null, "Abies", "alba", "ssp.", null));
         assertEquals(Rank.SPECIES, Rank.inferRank(null, "Abies", null, "spec.", null));
         assertEquals(Rank.SUPRAGENERIC_NAME, Rank.inferRank("Neurolaenodinae", null, null, "ib.", null));
@@ -68,6 +69,7 @@ public class RankTest {
         assertFalse(Rank.STRAIN.isInfraspecific());
         assertFalse(Rank.CULTIVAR.isInfraspecific());
         assertTrue(Rank.VARIETY.isInfraspecific());
+        assertTrue(Rank.PATHOVAR.isInfraspecific());
     }
 
     @Test
@@ -84,6 +86,7 @@ public class RankTest {
         assertFalse(Rank.SUPERFAMILY.isLinnean());
         assertFalse(Rank.INFRAGENERIC_NAME.isLinnean());
         assertFalse(Rank.INFORMAL.isLinnean());
+        assertFalse(Rank.PATHOVAR.isLinnean());
     }
 
     @Test
@@ -97,6 +100,7 @@ public class RankTest {
         assertTrue(Rank.STRAIN.isSpeciesOrBelow());
         assertTrue(Rank.CULTIVAR.isSpeciesOrBelow());
         assertTrue(Rank.VARIETY.isSpeciesOrBelow());
+        assertTrue(Rank.PATHOVAR.isSpeciesOrBelow());
     }
 
     @Test
