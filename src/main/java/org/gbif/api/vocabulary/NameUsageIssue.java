@@ -89,4 +89,14 @@ public enum NameUsageIssue {
    * At least one alternative identifier extension record attached to this name usage is invalid.
    */
   ALT_IDENTIFIER_INVALID,
+
+  /**
+   * Name usage could not be matched to the GBIF backbone.
+   */
+  BACKBONE_MATCH_NONE,
+
+  /**
+   * Name usage could only be matched to the GBIF backbone using fuzzy matching.
+   */
+  BACKBONE_MATCH_FUZZY
 }
