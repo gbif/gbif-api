@@ -22,6 +22,11 @@ public enum FinishReason {
   ABORT,
 
   /**
+   * Crawling has stopped because the source data was not modified since the last crawl.
+   */
+  NOT_MODIFIED,
+
+  /**
    * This status means that we don't know why the crawl aborted. This is a sign of a programming error and should be
    * investigated.
    */

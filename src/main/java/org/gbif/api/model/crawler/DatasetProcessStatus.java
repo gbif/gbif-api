@@ -38,6 +38,8 @@ public class DatasetProcessStatus {
   private Date finishedCrawling;
   private String crawlContext;
   private FinishReason finishReason;
+  private ProcessState processStateOccurrence;
+  private ProcessState processStateChecklist;
 
   // Long instead of Optional<Long> because of JSON serialization issues, Jackson doesn't honor the NON_NULL setting
   // for the Guava extension
@@ -83,6 +85,8 @@ public class DatasetProcessStatus {
     startedCrawling = builder.startedCrawling;
     finishedCrawling = builder.finishedCrawling;
     finishReason = builder.finishReason;
+    processStateOccurrence = builder.processStateOccurrence;
+    processStateChecklist = builder.processStateChecklist;
     crawlContext = builder.crawlContext;
 
     declaredCount = builder.declaredCount;
@@ -185,6 +189,15 @@ public class DatasetProcessStatus {
     return finishReason;
   }
 
+  @Nullable
+  public ProcessState getProcessStateOccurrence() {
+    return processStateOccurrence;
+  }
+
+  @Nullable
+  public ProcessState getProcessStateChecklist() {
+    return processStateChecklist;
+  }
 
   @Min(0)
   public long getFragmentsEmitted() {
@@ -311,6 +324,13 @@ public class DatasetProcessStatus {
     this.finishReason = finishReason;
   }
 
+  public void setProcessStateOccurrence(ProcessState processStateOccurrence) {
+    this.processStateOccurrence = processStateOccurrence;
+  }
+
+  public void setProcessStateChecklist(ProcessState processStateChecklist) {
+    this.processStateChecklist = processStateChecklist;
+  }
 
   public void setDeclaredCount(Long declaredCount) {
     this.declaredCount = declaredCount;
@@ -400,6 +420,8 @@ public class DatasetProcessStatus {
            && Objects.equal(this.startedCrawling, other.startedCrawling)
            && Objects.equal(this.finishedCrawling, other.finishedCrawling)
            && Objects.equal(this.finishReason, other.finishReason)
+           && Objects.equal(this.processStateOccurrence, other.processStateOccurrence)
+           && Objects.equal(this.processStateChecklist, other.processStateChecklist)
            && Objects.equal(this.crawlContext, other.crawlContext)
            && Objects.equal(this.declaredCount, other.declaredCount)
            && Objects.equal(this.pagesCrawled, other.pagesCrawled)
@@ -426,6 +448,8 @@ public class DatasetProcessStatus {
                             startedCrawling,
                             finishedCrawling,
                             finishReason,
+                            processStateOccurrence,
+                            processStateChecklist,
                             crawlContext,
                             declaredCount,
                             pagesCrawled,
@@ -452,6 +476,8 @@ public class DatasetProcessStatus {
       .add("startedCrawling", startedCrawling)
       .add("finishedCrawling", finishedCrawling)
       .add("finisReason", finishReason)
+      .add("processStateOccurrence", processStateOccurrence)
+      .add("processStateChecklist", processStateChecklist)
       .add("crawlContext", crawlContext)
       .add("declaredCount", declaredCount)
       .add("pagesCrawled", pagesCrawled)
@@ -479,6 +505,8 @@ public class DatasetProcessStatus {
     private Date finishedCrawling;
     private String crawlContext;
     private FinishReason finishReason;
+    private ProcessState processStateOccurrence;
+    private ProcessState processStateChecklist;
     private Long declaredCount;
     private long pagesCrawled;
     private long pagesFragmentedSuccessful;
@@ -526,6 +554,16 @@ public class DatasetProcessStatus {
 
     public Builder finishReason(FinishReason finishReason) {
       this.finishReason = finishReason;
+      return this;
+    }
+
+    public Builder processStateOccurrence(ProcessState processStateOccurrence) {
+      this.processStateOccurrence = processStateOccurrence;
+      return this;
+    }
+
+    public Builder processStateChecklist(ProcessState processStateChecklist) {
+      this.processStateChecklist = processStateChecklist;
       return this;
     }
 
