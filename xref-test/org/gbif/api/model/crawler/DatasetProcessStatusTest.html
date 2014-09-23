@@ -48,58 +48,62 @@
 <a class="jxr_linenumber" name="38" href="#38">38</a>        .startedCrawling(now)
 <a class="jxr_linenumber" name="39" href="#39">39</a>        .crawlJob(<strong class="jxr_keyword">new</strong> CrawlJob(uuid, EndpointType.BIOCASE, URI.create(<span class="jxr_string">"http://www.foo.com"</span>), 1, <strong class="jxr_keyword">null</strong>))
 <a class="jxr_linenumber" name="40" href="#40">40</a>        .crawlContext(<span class="jxr_string">"foo"</span>)
-<a class="jxr_linenumber" name="41" href="#41">41</a>        .declaredCount(100L)
-<a class="jxr_linenumber" name="42" href="#42">42</a>        .pagesCrawled(10L)
-<a class="jxr_linenumber" name="43" href="#43">43</a>        .pagesFragmentedSuccessful(11L)
-<a class="jxr_linenumber" name="44" href="#44">44</a>        .pagesFragmentedError(12L)
-<a class="jxr_linenumber" name="45" href="#45">45</a>        .fragmentsEmitted(13L)
-<a class="jxr_linenumber" name="46" href="#46">46</a>        .fragmentsReceived(14L)
-<a class="jxr_linenumber" name="47" href="#47">47</a>        .fragmentsProcessed(15L)
-<a class="jxr_linenumber" name="48" href="#48">48</a>        .rawOccurrencesPersistedNew(16L)
-<a class="jxr_linenumber" name="49" href="#49">49</a>        .rawOccurrencesPersistedUnchanged(17L)
-<a class="jxr_linenumber" name="50" href="#50">50</a>        .rawOccurrencesPersistedUpdated(18L)
-<a class="jxr_linenumber" name="51" href="#51">51</a>        .rawOccurrencesPersistedError(19L)
-<a class="jxr_linenumber" name="52" href="#52">52</a>        .verbatimOccurrencesPersistedSuccessful(20L)
-<a class="jxr_linenumber" name="53" href="#53">53</a>        .verbatimOccurrencesPersistedError(21L)
-<a class="jxr_linenumber" name="54" href="#54">54</a>        .interpretedOccurrencesPersistedSuccessful(22L)
-<a class="jxr_linenumber" name="55" href="#55">55</a>        .interpretedOccurrencesPersistedError(23L)
-<a class="jxr_linenumber" name="56" href="#56">56</a>        .build();
-<a class="jxr_linenumber" name="57" href="#57">57</a>  
-<a class="jxr_linenumber" name="58" href="#58">58</a>      DatasetProcessStatus s2 = DatasetProcessStatus.builder()
-<a class="jxr_linenumber" name="59" href="#59">59</a>        .datasetKey(uuid)
-<a class="jxr_linenumber" name="60" href="#60">60</a>        .startedCrawling(<strong class="jxr_keyword">new</strong> Date(now.getTime()))
-<a class="jxr_linenumber" name="61" href="#61">61</a>        .crawlJob(<strong class="jxr_keyword">new</strong> CrawlJob(uuid, EndpointType.BIOCASE, URI.create(<span class="jxr_string">"http://www.foo.com"</span>), 1, <strong class="jxr_keyword">null</strong>))
-<a class="jxr_linenumber" name="62" href="#62">62</a>        .crawlContext(<span class="jxr_string">"foo"</span>)
-<a class="jxr_linenumber" name="63" href="#63">63</a>        .declaredCount(100L)
-<a class="jxr_linenumber" name="64" href="#64">64</a>        .pagesCrawled(10L)
-<a class="jxr_linenumber" name="65" href="#65">65</a>        .pagesFragmentedSuccessful(11L)
-<a class="jxr_linenumber" name="66" href="#66">66</a>        .pagesFragmentedError(12L)
-<a class="jxr_linenumber" name="67" href="#67">67</a>        .fragmentsEmitted(13L)
-<a class="jxr_linenumber" name="68" href="#68">68</a>        .fragmentsReceived(14L)
-<a class="jxr_linenumber" name="69" href="#69">69</a>        .fragmentsProcessed(15L)
-<a class="jxr_linenumber" name="70" href="#70">70</a>        .rawOccurrencesPersistedNew(16L)
-<a class="jxr_linenumber" name="71" href="#71">71</a>        .rawOccurrencesPersistedUnchanged(17L)
-<a class="jxr_linenumber" name="72" href="#72">72</a>        .rawOccurrencesPersistedUpdated(18L)
-<a class="jxr_linenumber" name="73" href="#73">73</a>        .rawOccurrencesPersistedError(19L)
-<a class="jxr_linenumber" name="74" href="#74">74</a>        .verbatimOccurrencesPersistedSuccessful(20L)
-<a class="jxr_linenumber" name="75" href="#75">75</a>        .verbatimOccurrencesPersistedError(21L)
-<a class="jxr_linenumber" name="76" href="#76">76</a>        .interpretedOccurrencesPersistedSuccessful(22L)
-<a class="jxr_linenumber" name="77" href="#77">77</a>        .interpretedOccurrencesPersistedError(23L)
-<a class="jxr_linenumber" name="78" href="#78">78</a>        .build();
-<a class="jxr_linenumber" name="79" href="#79">79</a>  
-<a class="jxr_linenumber" name="80" href="#80">80</a>      assertEquals(s1, s2);
-<a class="jxr_linenumber" name="81" href="#81">81</a>      assertEquals(s1.hashCode(), s2.hashCode());
-<a class="jxr_linenumber" name="82" href="#82">82</a>  
-<a class="jxr_linenumber" name="83" href="#83">83</a>      ObjectMapper om = <strong class="jxr_keyword">new</strong> ObjectMapper();
-<a class="jxr_linenumber" name="84" href="#84">84</a>  
-<a class="jxr_linenumber" name="85" href="#85">85</a>      byte[] bytes = om.writeValueAsBytes(s1);
-<a class="jxr_linenumber" name="86" href="#86">86</a>      DatasetProcessStatus s3 = om.readValue(bytes, DatasetProcessStatus.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="87" href="#87">87</a>      assertEquals(s1, s3);
-<a class="jxr_linenumber" name="88" href="#88">88</a>      assertEquals(s1.hashCode(), s3.hashCode());
-<a class="jxr_linenumber" name="89" href="#89">89</a>    }
-<a class="jxr_linenumber" name="90" href="#90">90</a>  
-<a class="jxr_linenumber" name="91" href="#91">91</a>  
-<a class="jxr_linenumber" name="92" href="#92">92</a>  }
+<a class="jxr_linenumber" name="41" href="#41">41</a>        .processStateOccurrence(ProcessState.RUNNING)
+<a class="jxr_linenumber" name="42" href="#42">42</a>        .processStateChecklist(ProcessState.EMPTY)
+<a class="jxr_linenumber" name="43" href="#43">43</a>        .declaredCount(100L)
+<a class="jxr_linenumber" name="44" href="#44">44</a>        .pagesCrawled(10L)
+<a class="jxr_linenumber" name="45" href="#45">45</a>        .pagesFragmentedSuccessful(11L)
+<a class="jxr_linenumber" name="46" href="#46">46</a>        .pagesFragmentedError(12L)
+<a class="jxr_linenumber" name="47" href="#47">47</a>        .fragmentsEmitted(13L)
+<a class="jxr_linenumber" name="48" href="#48">48</a>        .fragmentsReceived(14L)
+<a class="jxr_linenumber" name="49" href="#49">49</a>        .fragmentsProcessed(15L)
+<a class="jxr_linenumber" name="50" href="#50">50</a>        .rawOccurrencesPersistedNew(16L)
+<a class="jxr_linenumber" name="51" href="#51">51</a>        .rawOccurrencesPersistedUnchanged(17L)
+<a class="jxr_linenumber" name="52" href="#52">52</a>        .rawOccurrencesPersistedUpdated(18L)
+<a class="jxr_linenumber" name="53" href="#53">53</a>        .rawOccurrencesPersistedError(19L)
+<a class="jxr_linenumber" name="54" href="#54">54</a>        .verbatimOccurrencesPersistedSuccessful(20L)
+<a class="jxr_linenumber" name="55" href="#55">55</a>        .verbatimOccurrencesPersistedError(21L)
+<a class="jxr_linenumber" name="56" href="#56">56</a>        .interpretedOccurrencesPersistedSuccessful(22L)
+<a class="jxr_linenumber" name="57" href="#57">57</a>        .interpretedOccurrencesPersistedError(23L)
+<a class="jxr_linenumber" name="58" href="#58">58</a>        .build();
+<a class="jxr_linenumber" name="59" href="#59">59</a>  
+<a class="jxr_linenumber" name="60" href="#60">60</a>      DatasetProcessStatus s2 = DatasetProcessStatus.builder()
+<a class="jxr_linenumber" name="61" href="#61">61</a>        .datasetKey(uuid)
+<a class="jxr_linenumber" name="62" href="#62">62</a>        .startedCrawling(<strong class="jxr_keyword">new</strong> Date(now.getTime()))
+<a class="jxr_linenumber" name="63" href="#63">63</a>        .crawlJob(<strong class="jxr_keyword">new</strong> CrawlJob(uuid, EndpointType.BIOCASE, URI.create(<span class="jxr_string">"http://www.foo.com"</span>), 1, <strong class="jxr_keyword">null</strong>))
+<a class="jxr_linenumber" name="64" href="#64">64</a>        .crawlContext(<span class="jxr_string">"foo"</span>)
+<a class="jxr_linenumber" name="65" href="#65">65</a>        .processStateOccurrence(ProcessState.RUNNING)
+<a class="jxr_linenumber" name="66" href="#66">66</a>        .processStateChecklist(ProcessState.EMPTY)
+<a class="jxr_linenumber" name="67" href="#67">67</a>        .declaredCount(100L)
+<a class="jxr_linenumber" name="68" href="#68">68</a>        .pagesCrawled(10L)
+<a class="jxr_linenumber" name="69" href="#69">69</a>        .pagesFragmentedSuccessful(11L)
+<a class="jxr_linenumber" name="70" href="#70">70</a>        .pagesFragmentedError(12L)
+<a class="jxr_linenumber" name="71" href="#71">71</a>        .fragmentsEmitted(13L)
+<a class="jxr_linenumber" name="72" href="#72">72</a>        .fragmentsReceived(14L)
+<a class="jxr_linenumber" name="73" href="#73">73</a>        .fragmentsProcessed(15L)
+<a class="jxr_linenumber" name="74" href="#74">74</a>        .rawOccurrencesPersistedNew(16L)
+<a class="jxr_linenumber" name="75" href="#75">75</a>        .rawOccurrencesPersistedUnchanged(17L)
+<a class="jxr_linenumber" name="76" href="#76">76</a>        .rawOccurrencesPersistedUpdated(18L)
+<a class="jxr_linenumber" name="77" href="#77">77</a>        .rawOccurrencesPersistedError(19L)
+<a class="jxr_linenumber" name="78" href="#78">78</a>        .verbatimOccurrencesPersistedSuccessful(20L)
+<a class="jxr_linenumber" name="79" href="#79">79</a>        .verbatimOccurrencesPersistedError(21L)
+<a class="jxr_linenumber" name="80" href="#80">80</a>        .interpretedOccurrencesPersistedSuccessful(22L)
+<a class="jxr_linenumber" name="81" href="#81">81</a>        .interpretedOccurrencesPersistedError(23L)
+<a class="jxr_linenumber" name="82" href="#82">82</a>        .build();
+<a class="jxr_linenumber" name="83" href="#83">83</a>  
+<a class="jxr_linenumber" name="84" href="#84">84</a>      assertEquals(s1, s2);
+<a class="jxr_linenumber" name="85" href="#85">85</a>      assertEquals(s1.hashCode(), s2.hashCode());
+<a class="jxr_linenumber" name="86" href="#86">86</a>  
+<a class="jxr_linenumber" name="87" href="#87">87</a>      ObjectMapper om = <strong class="jxr_keyword">new</strong> ObjectMapper();
+<a class="jxr_linenumber" name="88" href="#88">88</a>  
+<a class="jxr_linenumber" name="89" href="#89">89</a>      byte[] bytes = om.writeValueAsBytes(s1);
+<a class="jxr_linenumber" name="90" href="#90">90</a>      DatasetProcessStatus s3 = om.readValue(bytes, DatasetProcessStatus.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="91" href="#91">91</a>      assertEquals(s1, s3);
+<a class="jxr_linenumber" name="92" href="#92">92</a>      assertEquals(s1.hashCode(), s3.hashCode());
+<a class="jxr_linenumber" name="93" href="#93">93</a>    }
+<a class="jxr_linenumber" name="94" href="#94">94</a>  
+<a class="jxr_linenumber" name="95" href="#95">95</a>  
+<a class="jxr_linenumber" name="96" href="#96">96</a>  }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
