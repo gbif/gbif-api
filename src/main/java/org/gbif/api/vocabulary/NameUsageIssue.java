@@ -9,6 +9,11 @@ public enum NameUsageIssue {
   ORIGINAL_NAME_USAGE_ID_INVALID,
 
   /**
+   * Synonym lacking an accepted name.
+   */
+  ACCEPTED_NAME_MISSING,
+
+  /**
    * dwc:taxonRank could not be interpreted
    */
   RANK_INVALID,
