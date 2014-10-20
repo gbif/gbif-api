@@ -18,6 +18,7 @@ package org.gbif.api.model.checklistbank;
 import org.gbif.api.vocabulary.Extension;
 import org.gbif.api.vocabulary.Kingdom;
 import org.gbif.api.vocabulary.Language;
+import org.gbif.api.vocabulary.NameUsageIssue;
 import org.gbif.api.vocabulary.Origin;
 import org.gbif.api.vocabulary.Rank;
 
@@ -56,6 +57,8 @@ public class DatasetMetrics {
   private Map<Extension, Integer> countExtRecordsByExtension = Maps.newHashMap();
   // breakdown by kingdom
   private Map<Origin, Integer> countByOrigin = Maps.newHashMap();
+  // breakdown by issue
+  private Map<NameUsageIssue, Integer> countByIssue = Maps.newHashMap();
   // any other dynamic counts
   private Map<String, Integer> otherCount = Maps.newHashMap();
   private Date created;
@@ -193,6 +196,18 @@ public class DatasetMetrics {
   }
 
   /**
+   * @return map of total name usage counts by their interpretation issue
+   */
+  @NotNull
+  public Map<NameUsageIssue, Integer> getCountByIssue() {
+    return countByIssue;
+  }
+
+  public void setCountByIssue(Map<NameUsageIssue, Integer> countByIssue) {
+    this.countByIssue = countByIssue;
+  }
+
+  /**
    * @return date this metric was generated. Roughly equivalent with date of indexing
    */
   @NotNull
@@ -276,6 +291,14 @@ public class DatasetMetrics {
   }
 
   /**
+   * Get the metrics by name usage issue.
+   */
+  @Min(0)
+  public int getCountByIssue(NameUsageIssue issue) {
+    return getCountFromMap(countByIssue, issue);
+  }
+
+  /**
    * Get the metrics for other dynamic counts.
    */
   @Min(0)
@@ -355,6 +378,7 @@ public class DatasetMetrics {
            && Objects.equal(this.countNamesByLanguage, that.countNamesByLanguage)
            && Objects.equal(this.countExtRecordsByExtension, that.countExtRecordsByExtension)
            && Objects.equal(this.countByOrigin, that.countByOrigin)
+           && Objects.equal(this.countByIssue, that.countByIssue)
            && Objects.equal(this.otherCount, that.otherCount)
            && Objects.equal(this.created, that.created)
            && Objects.equal(this.downloaded, that.downloaded);
@@ -364,7 +388,7 @@ public class DatasetMetrics {
   public int hashCode() {
     return Objects.hashCode(key, datasetKey, usagesCount, synonymsCount, distinctNamesCount, nubMatchingCount,
       colMatchingCount, nubCoveragePct, colCoveragePct, countByKingdom, countByRank, countNamesByLanguage,
-      countExtRecordsByExtension, countByOrigin, otherCount, created, downloaded);
+      countExtRecordsByExtension, countByOrigin, countByIssue, otherCount, created, downloaded);
   }
 
   @Override
@@ -384,6 +408,7 @@ public class DatasetMetrics {
       .add("countNamesByLanguage", countNamesByLanguage)
       .add("countExtRecordsByExtension", countExtRecordsByExtension)
       .add("countByOrigin", countByOrigin)
+      .add("countByIssue", countByIssue)
       .add("otherCount", otherCount)
       .add("created", created)
       .add("downloaded", downloaded)
