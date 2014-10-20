@@ -14,6 +14,7 @@ package org.gbif.api.model.checklistbank.search;
 
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.FacetedSearchRequest;
+import org.gbif.api.vocabulary.NameUsageIssue;
 import org.gbif.api.vocabulary.NomenclaturalStatus;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
@@ -69,4 +70,7 @@ public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearch
     addParameter(NameUsageSearchParameter.THREAT, threat);
   }
 
+  public void addIssueFilter(NameUsageIssue issue) {
+    addParameter(NameUsageSearchParameter.ISSUE, issue);
+  }
 }

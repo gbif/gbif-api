@@ -18,6 +18,7 @@ package org.gbif.api.model.checklistbank.search;
 
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.vocabulary.NameType;
+import org.gbif.api.vocabulary.NameUsageIssue;
 import org.gbif.api.vocabulary.NomenclaturalStatus;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
@@ -74,7 +75,12 @@ public enum NameUsageSearchParameter implements SearchParameter {
   /**
    * Filter by the name type.
    */
-  NAME_TYPE(NameType.class);
+  NAME_TYPE(NameType.class),
+
+  /**
+   * Searches name usages for those that have a specific issue.
+   */
+  ISSUE(NameUsageIssue.class);
 
   private NameUsageSearchParameter(Class<?> type) {
     this.type = type;
