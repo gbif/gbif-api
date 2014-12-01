@@ -12,6 +12,7 @@
  */
 package org.gbif.api.model.registry;
 
+import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.eml.Collection;
 import org.gbif.api.model.registry.eml.DataDescription;
 import org.gbif.api.model.registry.eml.KeywordCollection;
@@ -84,6 +85,7 @@ public class Dataset
   private UUID duplicateOfDatasetKey;
   private UUID installationKey;
   private UUID publishingOrganizationKey;
+  private DOI doi;
   private boolean external;
   private int numConstituents;
   private DatasetType type;
@@ -258,6 +260,17 @@ public class Dataset
    */
   public void setPublishingOrganizationKey(UUID publishingOrganizationKey) {
     this.publishingOrganizationKey = publishingOrganizationKey;
+  }
+
+  /**
+   * @return the primary DOI for this dataset regardless if issued by GBIF or publisher
+   */
+  public DOI getDoi() {
+    return doi;
+  }
+
+  public void setDoi(DOI doi) {
+    this.doi = doi;
   }
 
   public boolean isExternal() {
@@ -648,7 +661,7 @@ public class Dataset
   @Override
   public int hashCode() {
     return Objects
-      .hashCode(key, parentDatasetKey, duplicateOfDatasetKey, installationKey, publishingOrganizationKey, external,
+      .hashCode(key, doi, parentDatasetKey, duplicateOfDatasetKey, installationKey, publishingOrganizationKey, external,
         numConstituents, type, subtype, title, alias, abbreviation, description, language, homepage, logoUrl, citation,
         rights, lockedForAutoUpdate, createdBy, modifiedBy, created, modified, deleted, contacts, endpoints,
         machineTags, tags, identifiers, comments, bibliographicCitations, curatorialUnits, taxonomicCoverages,
@@ -661,43 +674,61 @@ public class Dataset
   public boolean equals(Object object) {
     if (object instanceof Dataset) {
       Dataset that = (Dataset) object;
-      return Objects.equal(this.key, that.key) && Objects.equal(this.parentDatasetKey, that.parentDatasetKey)
-        && Objects
-          .equal(this.duplicateOfDatasetKey, that.duplicateOfDatasetKey) && Objects
-          .equal(this.installationKey, that.installationKey) && Objects
-          .equal(this.publishingOrganizationKey, that.publishingOrganizationKey) && Objects
-          .equal(this.external, that.external) && Objects.equal(this.numConstituents, that.numConstituents)
-        && Objects.equal(this.type, that.type) && Objects.equal(this.subtype, that.subtype) && Objects
-          .equal(this.title, that.title) && Objects.equal(this.alias, that.alias) && Objects
-          .equal(this.abbreviation, that.abbreviation) && Objects.equal(this.description, that.description)
-        && Objects.equal(this.language, that.language) && Objects.equal(this.homepage, that.homepage) && Objects
-          .equal(this.logoUrl, that.logoUrl) && Objects.equal(this.citation, that.citation) && Objects
-          .equal(this.rights, that.rights) && Objects.equal(this.lockedForAutoUpdate, that.lockedForAutoUpdate)
-        && Objects.equal(this.createdBy, that.createdBy) && Objects.equal(this.modifiedBy, that.modifiedBy)
-        && Objects.equal(this.created, that.created) && Objects.equal(this.modified, that.modified) && Objects
-          .equal(this.deleted, that.deleted) && Objects.equal(this.contacts, that.contacts) && Objects
-          .equal(this.endpoints, that.endpoints) && Objects.equal(this.machineTags, that.machineTags) && Objects
-          .equal(this.tags, that.tags) && Objects.equal(this.identifiers, that.identifiers) && Objects
-          .equal(this.comments, that.comments) && Objects
-          .equal(this.bibliographicCitations, that.bibliographicCitations) && Objects
-          .equal(this.curatorialUnits, that.curatorialUnits) && Objects
-          .equal(this.taxonomicCoverages, that.taxonomicCoverages) && Objects
-          .equal(this.geographicCoverageDescription, that.geographicCoverageDescription) && Objects
-          .equal(this.geographicCoverages, that.geographicCoverages) && Objects
-          .equal(this.temporalCoverages, that.temporalCoverages) && Objects
-          .equal(this.keywordCollections, that.keywordCollections) && Objects.equal(this.project, that.project)
-        && Objects.equal(this.samplingDescription, that.samplingDescription) && Objects
-          .equal(this.countryCoverage, that.countryCoverage) && Objects.equal(this.collections, that.collections)
-        && Objects.equal(this.dataDescriptions, that.dataDescriptions) && Objects
-          .equal(this.dataLanguage, that.dataLanguage) && Objects.equal(this.purpose, that.purpose) && Objects
-          .equal(this.additionalInfo, that.additionalInfo) && Objects.equal(this.pubDate, that.pubDate);
+      return Objects.equal(this.key, that.key)
+             && Objects.equal(this.doi, that.doi)
+             && Objects.equal(this.parentDatasetKey, that.parentDatasetKey)
+             && Objects.equal(this.duplicateOfDatasetKey, that.duplicateOfDatasetKey)
+             && Objects.equal(this.installationKey, that.installationKey)
+             && Objects.equal(this.publishingOrganizationKey, that.publishingOrganizationKey)
+             && Objects.equal(this.external, that.external)
+             && Objects.equal(this.numConstituents, that.numConstituents)
+             && Objects.equal(this.type, that.type)
+             && Objects.equal(this.subtype, that.subtype)
+             && Objects.equal(this.title, that.title)
+             && Objects.equal(this.alias, that.alias)
+             && Objects.equal(this.abbreviation, that.abbreviation)
+             && Objects.equal(this.description, that.description)
+             && Objects.equal(this.language, that.language)
+             && Objects.equal(this.homepage, that.homepage)
+             && Objects.equal(this.logoUrl, that.logoUrl)
+             && Objects.equal(this.citation, that.citation)
+             && Objects.equal(this.rights, that.rights)
+             && Objects.equal(this.lockedForAutoUpdate, that.lockedForAutoUpdate)
+             && Objects.equal(this.createdBy, that.createdBy)
+             && Objects.equal(this.modifiedBy, that.modifiedBy)
+             && Objects.equal(this.created, that.created)
+             && Objects.equal(this.modified, that.modified)
+             && Objects.equal(this.deleted, that.deleted)
+             && Objects.equal(this.contacts, that.contacts)
+             && Objects.equal(this.endpoints, that.endpoints)
+             && Objects.equal(this.machineTags, that.machineTags)
+             && Objects.equal(this.tags, that.tags)
+             && Objects.equal(this.identifiers, that.identifiers)
+             && Objects.equal(this.comments, that.comments)
+             && Objects.equal(this.bibliographicCitations, that.bibliographicCitations)
+             && Objects.equal(this.curatorialUnits, that.curatorialUnits)
+             && Objects.equal(this.taxonomicCoverages, that.taxonomicCoverages)
+             && Objects.equal(this.geographicCoverageDescription, that.geographicCoverageDescription)
+             && Objects.equal(this.geographicCoverages, that.geographicCoverages)
+             && Objects.equal(this.temporalCoverages, that.temporalCoverages)
+             && Objects.equal(this.keywordCollections, that.keywordCollections)
+             && Objects.equal(this.project, that.project)
+             && Objects.equal(this.samplingDescription, that.samplingDescription)
+             && Objects.equal(this.countryCoverage, that.countryCoverage)
+             && Objects.equal(this.collections, that.collections)
+             && Objects.equal(this.dataDescriptions, that.dataDescriptions)
+             && Objects.equal(this.dataLanguage, that.dataLanguage)
+             && Objects.equal(this.purpose, that.purpose)
+             && Objects.equal(this.additionalInfo, that.additionalInfo)
+             && Objects.equal(this.pubDate, that.pubDate);
     }
     return false;
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("key", key).add("parentDatasetKey", parentDatasetKey)
+    return Objects.toStringHelper(this)
+      .add("key", key).add("doi", doi).add("parentDatasetKey", parentDatasetKey)
       .add("duplicateOfDatasetKey", duplicateOfDatasetKey).add("installationKey", installationKey)
       .add("publishingOrganizationKey", publishingOrganizationKey).add("numConstituents", numConstituents).add("type", type)
       .add("subtype", subtype).add("title", title).add("alias", alias).add("abbreviation", abbreviation)
@@ -729,6 +760,7 @@ public class Dataset
       && Objects.equal(this.duplicateOfDatasetKey, other.duplicateOfDatasetKey)
       && Objects.equal(this.installationKey, other.installationKey)
       && Objects.equal(this.publishingOrganizationKey, other.publishingOrganizationKey)
+      && Objects.equal(this.doi, other.doi)
       && Objects.equal(this.external, other.external)
       && Objects.equal(this.type, other.type)
       && Objects.equal(this.subtype, other.subtype)
