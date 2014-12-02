@@ -1,8 +1,11 @@
 package org.gbif.api.model.common;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class DOITest {
@@ -67,6 +70,45 @@ public class DOITest {
       fail("Invalid DOI expected: " + doi);
     } catch (IllegalArgumentException e) {
       // expected!
+    }
+  }
+
+
+
+  /**
+   * A container of Languages using 2 properties.
+   */
+  private static class Container {
+
+    public DOI doi1;
+    public DOI doi2; // verify that the names don't matter
+
+    public Container(DOI doi1, DOI doi2) {
+      this.doi1 = doi1;
+      this.doi2 = doi2;
+    }
+
+    // used by serializer below
+    public Container() {
+    }
+  }
+
+  @Test
+  public void testSerDe() {
+    ObjectMapper mapper = new ObjectMapper();
+    Container source = new Container(new DOI("doi:10.1038/nature.2014.16460"), new DOI("http://dx.doi.org/10.1034/gbif.2014.xscdf2"));
+
+    try {
+      String json = mapper.writeValueAsString(source);
+      assertTrue("DOIs should start with doi:10.", json.contains("\"doi:10."));
+      assertFalse("DOIs should not use http resolvers", json.contains("http"));
+      assertFalse("DOIs should not use http resolvers", json.contains("doi.org"));
+      System.out.println(json);
+      Container target = mapper.readValue(json, Container.class);
+      assertEquals("doi1 differs", source.doi1, target.doi1);
+      assertEquals("doi2 differs", source.doi2, target.doi2);
+    } catch (Exception e) {
+      fail(e.getMessage());
     }
   }
 }

@@ -1,17 +1,28 @@
 package org.gbif.api.model.common;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Preconditions;
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.map.DeserializationContext;
+import org.codehaus.jackson.map.JsonDeserializer;
+import org.codehaus.jackson.map.SerializerProvider;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.ser.std.SerializerBase;
 
 /**
  * Class representing a single Digital Object Identifier (DOI) breaking it down to a prefix and suffix.
  * For the syntax of DOI names see the <a href="http://www.doi.org/doi_handbook/2_Numbering.html#2.2">DOI Handbook</a>.
  * All parsing is case insensitive and resulting components will all be upper cased.
  */
+@JsonSerialize(using = DOI.Serializer.class)
+@JsonDeserialize(using = DOI.Deserializer.class)
 public class DOI {
   private static final Pattern HTTP = Pattern.compile("^https?://(dx\\.)?doi\\.org/"
                                                       + "(urn:)?(doi:)?", Pattern.CASE_INSENSITIVE);
@@ -114,4 +125,38 @@ public class DOI {
     // prefix and suffix are always upper cased so we can do simple equals here
     return Objects.equals(this.prefix, other.prefix) && Objects.equals(this.suffix, other.suffix);
   }
+
+
+
+  /**
+   * Serializes a DOI as doi name with a doi: scheme.
+   * For example doi:10.1038/nature.2014.16460
+   */
+  public static class Serializer extends SerializerBase<DOI> {
+
+    public Serializer() {
+      super(DOI.class);
+    }
+
+    @Override
+    public void serialize(DOI value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+      jgen.writeString(value.toString());
+    }
+  }
+
+  /**
+   * Deserializes a DOI from various string based formats.
+   * See DOI constructor for details.
+   */
+  public static class Deserializer extends JsonDeserializer<DOI> {
+
+    @Override
+    public DOI deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+      if (jp != null && jp.getTextLength() > 0) {
+        return new DOI(jp.getText());
+      }
+      return null;
+    }
+  }
+
 }
