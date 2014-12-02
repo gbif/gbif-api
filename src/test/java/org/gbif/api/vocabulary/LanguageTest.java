@@ -17,10 +17,13 @@ package org.gbif.api.vocabulary;
 
 import java.util.Locale;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class LanguageTest {
 
@@ -87,6 +90,42 @@ public class LanguageTest {
     assertEquals("English", Language.ENGLISH.getTitleNative());
     assertEquals("Deutsch", Language.GERMAN.getTitleNative());
     assertEquals("", Language.UNKNOWN.getTitleNative());
+  }
+
+
+  /**
+   * A container of Languages using 2 properties.
+   */
+  private static class Container {
+
+    public Language language;
+    public Language island; // verify that the names don't matter
+
+    public Container(Language language, Language island) {
+      this.language = language;
+      this.island = island;
+    }
+
+    // used by serializer below
+    public Container() {
+    }
+  }
+
+  @Test
+  public void testSerDe() {
+    ObjectMapper mapper = new ObjectMapper();
+    Container source = new Container(Language.DANISH, Language.SUNDANESE);
+    try {
+      String json = mapper.writeValueAsString(source);
+      assertTrue("Only lower case letters allowed for language iso codes", json.equals(json.toLowerCase()));
+      assertEquals(33, json.length());
+      System.out.println(json);
+      Container target = mapper.readValue(json, Container.class);
+      assertEquals("language differs", source.language, target.language);
+      assertEquals("island differs", source.island, target.island);
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
   }
 
 }

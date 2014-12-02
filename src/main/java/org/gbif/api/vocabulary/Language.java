@@ -15,11 +15,21 @@
  */
 package org.gbif.api.vocabulary;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.map.DeserializationContext;
+import org.codehaus.jackson.map.JsonDeserializer;
+import org.codehaus.jackson.map.SerializerProvider;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.ser.std.SerializerBase;
 
 /**
  * Enumeration for all ISO 639-1 language codes using 2 lower case letters.
@@ -28,6 +38,8 @@ import com.google.common.collect.ImmutableList;
  * @see <a href="http://en.wikipedia.org/wiki/ISO_639">Wikipedia on ISO-639</a>
  * @see <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Locale.html">Locale javadoc</a>
  */
+@JsonSerialize(using = Language.IsoSerializer.class)
+@JsonDeserialize(using = Language.IsoDeserializer.class)
 public enum Language {
 
   /**
@@ -1028,6 +1040,43 @@ public enum Language {
   public String getTitleNative() {
     Locale loc = getLocale();
     return loc.getDisplayLanguage(loc);
+  }
+
+  /**
+   * Serializes the value in a 3 letter ISO format.
+   */
+  public static class IsoSerializer extends SerializerBase<Language> {
+
+    public IsoSerializer() {
+      super(Language.class);
+    }
+
+    @Override
+    public void serialize(Language value, JsonGenerator jgen, SerializerProvider provider) throws IOException,
+      JsonGenerationException {
+      jgen.writeString(value.getIso3LetterCode());
+    }
+
+  }
+
+  /**
+   * Deserializes the value from a 3 letter ISO format.
+   */
+  public static class IsoDeserializer extends JsonDeserializer<Language> {
+
+    @Override
+    public Language deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+      try {
+        if (jp != null && jp.getTextLength() > 0) {
+          return Language.fromIsoCode(jp.getText());
+        } else {
+          return Language.UNKNOWN; // none provided
+        }
+      } catch (Exception e) {
+        throw new IOException("Unable to deserialize language from provided value (not an ISO 2 or 3 character?): "
+                              + jp.getText());
+      }
+    }
   }
 
 }
