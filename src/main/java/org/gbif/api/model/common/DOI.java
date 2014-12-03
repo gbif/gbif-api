@@ -41,7 +41,7 @@ public class DOI {
    * @throws java.lang.IllegalArgumentException if invalid DOI string is passed
    */
   public DOI(String doi) {
-    Preconditions.checkNotNull("DOI required", doi);
+    Preconditions.checkNotNull(doi, "DOI required");
     Matcher m = PARSER.matcher(decodeUrl(doi));
     if (m.find()) {
       this.prefix = m.group(1).toUpperCase();
@@ -58,9 +58,9 @@ public class DOI {
    * @throws java.lang.IllegalArgumentException if invalid DOI prefix is given
    */
   public DOI(String prefix, String suffix) {
-    this.prefix = Preconditions.checkNotNull("DOI prefix required", prefix).toUpperCase();
+    this.prefix = Preconditions.checkNotNull(prefix, "DOI prefix required").toUpperCase();
     Preconditions.checkArgument(prefix.startsWith("10."));
-    this.suffix = Preconditions.checkNotNull("DOI suffix required", suffix).toUpperCase();
+    this.suffix = Preconditions.checkNotNull(suffix, "DOI suffix required").toUpperCase();
   }
 
   /**

@@ -11,6 +11,12 @@ import static org.junit.Assert.fail;
 public class DOITest {
 
   @Test
+  public void testPrefixConstructor() throws Exception {
+    DOI d = new DOI("10.1234", "1ASCDU");
+    assertEquals(d, new DOI("doi:10.1234/1ASCDU"));
+  }
+
+  @Test
   public void testCreate() throws Exception {
     DOI d = new DOI("http://dx.doi.org/10.1234/1ASCDU");
 
