@@ -49,7 +49,7 @@
 <span class="sourceLineNo">041</span>   * @throws java.lang.IllegalArgumentException if invalid DOI string is passed<a name="line.41"></a>
 <span class="sourceLineNo">042</span>   */<a name="line.42"></a>
 <span class="sourceLineNo">043</span>  public DOI(String doi) {<a name="line.43"></a>
-<span class="sourceLineNo">044</span>    Preconditions.checkNotNull("DOI required", doi);<a name="line.44"></a>
+<span class="sourceLineNo">044</span>    Preconditions.checkNotNull(doi, "DOI required");<a name="line.44"></a>
 <span class="sourceLineNo">045</span>    Matcher m = PARSER.matcher(decodeUrl(doi));<a name="line.45"></a>
 <span class="sourceLineNo">046</span>    if (m.find()) {<a name="line.46"></a>
 <span class="sourceLineNo">047</span>      this.prefix = m.group(1).toUpperCase();<a name="line.47"></a>
@@ -66,9 +66,9 @@
 <span class="sourceLineNo">058</span>   * @throws java.lang.IllegalArgumentException if invalid DOI prefix is given<a name="line.58"></a>
 <span class="sourceLineNo">059</span>   */<a name="line.59"></a>
 <span class="sourceLineNo">060</span>  public DOI(String prefix, String suffix) {<a name="line.60"></a>
-<span class="sourceLineNo">061</span>    this.prefix = Preconditions.checkNotNull("DOI prefix required", prefix).toUpperCase();<a name="line.61"></a>
+<span class="sourceLineNo">061</span>    this.prefix = Preconditions.checkNotNull(prefix, "DOI prefix required").toUpperCase();<a name="line.61"></a>
 <span class="sourceLineNo">062</span>    Preconditions.checkArgument(prefix.startsWith("10."));<a name="line.62"></a>
-<span class="sourceLineNo">063</span>    this.suffix = Preconditions.checkNotNull("DOI suffix required", suffix).toUpperCase();<a name="line.63"></a>
+<span class="sourceLineNo">063</span>    this.suffix = Preconditions.checkNotNull(suffix, "DOI suffix required").toUpperCase();<a name="line.63"></a>
 <span class="sourceLineNo">064</span>  }<a name="line.64"></a>
 <span class="sourceLineNo">065</span><a name="line.65"></a>
 <span class="sourceLineNo">066</span>  /**<a name="line.66"></a>
