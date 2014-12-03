@@ -36,6 +36,13 @@ public class DOI {
   private String suffix;
 
   /**
+   * Do not use this constructor.
+   * Required by JAXB to marshall this object without introducing adapters.
+   */
+  public DOI() {
+  }
+
+  /**
    * Parses a simple DOI string of various forms incl URN, URL or plain DOI names.
    * @param doi the full simple DOI string
    * @throws java.lang.IllegalArgumentException if invalid DOI string is passed

@@ -119,10 +119,25 @@ public class LanguageTest {
       String json = mapper.writeValueAsString(source);
       assertTrue("Only lower case letters allowed for language iso codes", json.equals(json.toLowerCase()));
       assertEquals(33, json.length());
-      System.out.println(json);
       Container target = mapper.readValue(json, Container.class);
       assertEquals("language differs", source.language, target.language);
       assertEquals("island differs", source.island, target.island);
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+  }
+
+  /**
+   * Ensure the decision to use iso 3 codes is as backwards compatible as possible.
+   */
+  @Test
+  public void testSerDeBackwardsCompatible() {
+    try {
+      assertEquals(Language.PORTUGUESE, Language.LenientDeserializer.lenientParse("pt"));
+      assertEquals(Language.PORTUGUESE, Language.LenientDeserializer.lenientParse("PT"));
+      assertEquals(Language.PORTUGUESE, Language.LenientDeserializer.lenientParse("POR"));
+      assertEquals(Language.PORTUGUESE, Language.LenientDeserializer.lenientParse("por"));
+      assertEquals(Language.PORTUGUESE, Language.LenientDeserializer.lenientParse("PORTUGUESE"));
     } catch (Exception e) {
       fail(e.getMessage());
     }

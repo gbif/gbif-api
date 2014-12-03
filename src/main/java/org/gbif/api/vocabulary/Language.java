@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import org.codehaus.jackson.JsonGenerationException;
@@ -39,7 +41,7 @@ import org.codehaus.jackson.map.ser.std.SerializerBase;
  * @see <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Locale.html">Locale javadoc</a>
  */
 @JsonSerialize(using = Language.IsoSerializer.class)
-@JsonDeserialize(using = Language.IsoDeserializer.class)
+@JsonDeserialize(using = Language.LenientDeserializer.class)
 public enum Language {
 
   /**
@@ -1060,23 +1062,37 @@ public enum Language {
   }
 
   /**
-   * Deserializes the value from a 3 letter ISO format.
+   * Deserializes the value from a 3 letter ISO format or the enumeration name itself to maintain as much
+   * backwards compatibility as possible with e.g. the registry api.
    */
-  public static class IsoDeserializer extends JsonDeserializer<Language> {
+  public static class LenientDeserializer extends JsonDeserializer<Language> {
 
     @Override
     public Language deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
       try {
         if (jp != null && jp.getTextLength() > 0) {
-          return Language.fromIsoCode(jp.getText());
+          return lenientParse(jp.getText());
         } else {
           return Language.UNKNOWN; // none provided
         }
       } catch (Exception e) {
-        throw new IOException("Unable to deserialize language from provided value (not an ISO 2 or 3 character?): "
+        throw new IOException("Unable to deserialize language from provided value (hint: not an ISO 2 or 3 character?): "
                               + jp.getText());
       }
     }
-  }
 
+    @VisibleForTesting
+    static Language lenientParse(String value) {
+      Language l = Language.fromIsoCode(value);
+      // backwards compatible
+      if (UNKNOWN == l) {
+        try {
+          l = valueOf(value);
+        } catch( IllegalArgumentException e) {
+          l = UNKNOWN;
+        }
+      }
+      return l;
+    }
+  }
 }
