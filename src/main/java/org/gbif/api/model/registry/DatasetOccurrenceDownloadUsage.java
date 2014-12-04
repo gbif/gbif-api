@@ -1,5 +1,6 @@
 package org.gbif.api.model.registry;
 
+import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.occurrence.Download;
 
 import java.util.UUID;
@@ -17,6 +18,9 @@ public class DatasetOccurrenceDownloadUsage {
 
   private String downloadKey;
   private UUID datasetKey;
+  private String datasetTitle;
+  private DOI datasetDOI;
+  private String datasetCitation;
   private long numberRecords;
   private Download download;
 
@@ -50,11 +54,33 @@ public class DatasetOccurrenceDownloadUsage {
     return numberRecords;
   }
 
+  /**
+   * Dataset title at the moment when the download was created.
+   */
+  @NotNull
+  public String getDatasetTitle() {
+    return datasetTitle;
+  }
+
+  /**
+   * Dataset DOI at the moment when the download was created.
+   */
+  @NotNull
+  public DOI getDatasetDOI() {
+    return datasetDOI;
+  }
+
+  /**
+   * Dataset citation at the moment when the download was created.
+   */
+  @NotNull
+  public String getDatasetCitation() {
+    return datasetCitation;
+  }
 
   public void setDatasetKey(UUID datasetKey) {
     this.datasetKey = datasetKey;
   }
-
 
   public void setDownload(Download download) {
     this.download = download;
@@ -68,24 +94,40 @@ public class DatasetOccurrenceDownloadUsage {
     this.numberRecords = numberOfRecords;
   }
 
+  public void setDatasetTitle(String datasetTitle) {
+    this.datasetTitle = datasetTitle;
+  }
+
+  public void setDatasetDOI(DOI datasetDOI) {
+    this.datasetDOI = datasetDOI;
+  }
+
+  public void setDatasetCitation(String datasetCitation) {
+    this.datasetCitation = datasetCitation;
+  }
+
   @Override
   public String toString() {
     return Objects.toStringHelper(this).add("downloadKey", downloadKey).add("datasetKey", datasetKey)
+      .add("datasetTitle", datasetTitle).add("datasetDOI", datasetDOI).add("datasetCitation",datasetCitation)
       .add("numberRecords", numberRecords).add("download", download).toString();
   }
-  
+
   @Override
   public int hashCode() {
     return Objects
-      .hashCode(downloadKey, datasetKey, numberRecords, download);
+      .hashCode(downloadKey, datasetKey, datasetTitle, datasetDOI, datasetDOI, numberRecords, download);
   }
-  
+
   @Override
   public boolean equals(Object object) {
     if (object instanceof DatasetOccurrenceDownloadUsage) {
       DatasetOccurrenceDownloadUsage that = (DatasetOccurrenceDownloadUsage) object;
       return Objects.equal(this.downloadKey, that.downloadKey)
         && Objects.equal(this.datasetKey, that.datasetKey)
+        && Objects.equal(this.datasetTitle, that.datasetTitle)
+        && Objects.equal(this.datasetDOI, that.datasetDOI)
+        && Objects.equal(this.datasetCitation, that.datasetCitation)
         && Objects.equal(this.numberRecords, that.numberRecords)
         && Objects.equal(this.download, that.download);
     }

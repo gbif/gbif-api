@@ -1,5 +1,6 @@
 package org.gbif.api.model.occurrence;
 
+import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
 
@@ -32,6 +33,8 @@ public class Download {
 
   private String key;
 
+  private DOI doi;
+
   private DownloadRequest request;
 
   private Date created;
@@ -43,9 +46,9 @@ public class Download {
   private String downloadLink;
 
   private long size;
-  
+
   private long totalRecords;
-  
+
   private long numberDatasets;
 
   /**
@@ -110,7 +113,7 @@ public class Download {
   public boolean isAvailable() {
     return status == Status.SUCCEEDED;
   }
-  
+
   /**
    * Size in bytes of the produced file.
    */
@@ -118,7 +121,7 @@ public class Download {
   public long getSize() {
     return size;
   }
-  
+
   /**
    * Number of occurrence records in the download file.
    */
@@ -126,13 +129,21 @@ public class Download {
   public long getTotalRecords() {
     return totalRecords;
   }
-  
+
   /**
    * Number of occurrence records in the download file.
    */
   @Nullable
   public long getNumberDatasets() {
     return numberDatasets;
+  }
+
+  /**
+   * Occurrence download Digital Object Identifier.
+   */
+  @NotNull
+  public DOI getDoi() {
+    return doi;
   }
 
   public void setCreated(Date created) {
@@ -145,6 +156,10 @@ public class Download {
 
   public void setKey(String key) {
     this.key = key;
+  }
+
+  public void setDoi(DOI doi) {
+    this.doi = doi;
   }
 
   public void setModified(Date modified) {
@@ -162,18 +177,18 @@ public class Download {
   public void setSize(long size) {
     this.size = size;
   }
-  
+
   public void setTotalRecords(long totalRecords) {
     this.totalRecords = totalRecords;
   }
-  
+
   public void setNumberDatasets(long numberDatasets) {
     this.numberDatasets = numberDatasets;
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("key", key)
+    return Objects.toStringHelper(this).add("key", key).add("doi", doi)
       .add("status", status).add("downloadLink", downloadLink)
       .add("request", request).add("created", created)
       .add("modified", modified)
@@ -194,6 +209,7 @@ public class Download {
     Download that = (Download) obj;
     return Objects.equal(this.request, that.request)
       && Objects.equal(this.key, that.key)
+      && Objects.equal(this.doi, that.doi)
       && Objects.equal(this.created, that.created)
       && Objects.equal(this.modified, that.modified)
       && Objects.equal(this.status, that.status)
@@ -205,6 +221,6 @@ public class Download {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(key, request, created, modified, status, downloadLink, size, totalRecords, numberDatasets);
+    return Objects.hashCode(key, doi, request, created, modified, status, downloadLink, size, totalRecords, numberDatasets);
   }
 }

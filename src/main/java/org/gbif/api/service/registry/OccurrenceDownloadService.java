@@ -15,6 +15,7 @@ package org.gbif.api.service.registry;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.occurrence.Download;
+import org.gbif.api.model.registry.DatasetOccurrenceDownloadUsage;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -51,4 +52,11 @@ public interface OccurrenceDownloadService {
    * Update an existing occurrence download.
    */
   void update(@NotNull Download download);
+
+
+  /**
+   * Retrieves a pageable result of the dataset usages in a occurrence download.
+   */
+  PagingResponse<DatasetOccurrenceDownloadUsage> listDatasetUsages(@NotNull String downloadKey,
+                                                                @Nullable Pageable page);
 }
