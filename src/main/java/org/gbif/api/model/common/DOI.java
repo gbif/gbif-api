@@ -110,6 +110,13 @@ public class DOI {
     return URI.create(RESOLVER + prefix + '/' + suffix);
   }
 
+  /**
+   * @return the pure DOI name without any initial scheme name starting with the prefix, i.e. 10.
+   */
+  public String getDoiName() {
+    return prefix + '/' + suffix;
+  }
+
   @Override
   public String toString() {
     return SCHEME + prefix + '/' + suffix;
