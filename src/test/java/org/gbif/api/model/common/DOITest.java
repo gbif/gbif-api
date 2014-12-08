@@ -17,6 +17,14 @@ public class DOITest {
   }
 
   @Test
+  public void testGbif() throws Exception {
+    assertFalse(new DOI("10.1234/1ASCDU").isGbif());
+    assertFalse(new DOI("10.321/1ASCDU").isGbif());
+    assertFalse(new DOI("10.1234.21/1ASCDU").isGbif());
+    assertTrue(new DOI("10.15468/1ASCDU").isGbif());
+  }
+
+  @Test
   public void testCreate() throws Exception {
     DOI d = new DOI("http://dx.doi.org/10.1234/1ASCDU");
 

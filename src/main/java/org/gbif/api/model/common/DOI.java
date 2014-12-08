@@ -24,6 +24,7 @@ import org.codehaus.jackson.map.ser.std.SerializerBase;
 @JsonSerialize(using = DOI.Serializer.class)
 @JsonDeserialize(using = DOI.Deserializer.class)
 public class DOI {
+  public static final String GBIF_PREFIX = "10.15468";
   private static final Pattern HTTP = Pattern.compile("^https?://(dx\\.)?doi\\.org/"
                                                       + "(urn:)?(doi:)?", Pattern.CASE_INSENSITIVE);
   private static final Pattern PARSER = Pattern.compile("^(?:urn:)?(?:doi:)?"           // optional
@@ -110,6 +111,12 @@ public class DOI {
     return URI.create(RESOLVER + prefix + '/' + suffix);
   }
 
+  /**
+   * @return true if the DOI is a GBIF issued identifier with a GBIF_PREFIX
+   */
+  public boolean isGbif() {
+    return GBIF_PREFIX.equals(prefix);
+  }
   /**
    * @return the pure DOI name without any initial scheme name starting with the prefix, i.e. 10.
    */
