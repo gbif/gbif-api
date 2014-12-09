@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.DeserializationContext;
@@ -35,6 +36,16 @@ public class DOI {
   private static String SCHEME = "doi:";
   private String prefix;
   private String suffix;
+
+  /**
+   * Returns true only if the source can be parsed into a DOI.
+   */
+  public static boolean isParsable(String source) {
+    if (!Strings.isNullOrEmpty(source)) {
+      return PARSER.matcher(decodeUrl(source)).find();
+    }
+    return false;
+  }
 
   /**
    * Do not use this constructor.
@@ -111,12 +122,6 @@ public class DOI {
     return URI.create(RESOLVER + prefix + '/' + suffix);
   }
 
-  /**
-   * @return true if the DOI is a GBIF issued identifier with a GBIF_PREFIX
-   */
-  public boolean isGbif() {
-    return GBIF_PREFIX.equals(prefix);
-  }
   /**
    * @return the pure DOI name without any initial scheme name starting with the prefix, i.e. 10.
    */

@@ -17,11 +17,37 @@ public class DOITest {
   }
 
   @Test
-  public void testGbif() throws Exception {
-    assertFalse(new DOI("10.1234/1ASCDU").isGbif());
-    assertFalse(new DOI("10.321/1ASCDU").isGbif());
-    assertFalse(new DOI("10.1234.21/1ASCDU").isGbif());
-    assertTrue(new DOI("10.15468/1ASCDU").isGbif());
+  public void testIsParsable() throws Exception {
+    assertFalse(DOI.isParsable(null));
+    assertFalse(DOI.isParsable(""));
+    assertFalse(DOI.isParsable("10.1234.1ASCDU"));
+    assertFalse(DOI.isParsable("DOI:123"));
+    assertFalse(DOI.isParsable("   "));
+
+    assertTrue(DOI.isParsable("http://dx.doi.org/urn:doi:10.1234/1ASCDU"));
+    assertTrue(DOI.isParsable("http://doi.org/urn:doi:10.1234/1ASCDU"));
+    assertTrue(DOI.isParsable("http://dx.doi.org/doi:10.1234/1ASCDU"));
+    assertTrue(DOI.isParsable("http://doi.org/doi:10.1234/1ASCDU"));
+    assertTrue(DOI.isParsable("http://dx.doi.org/10.1234/1ASCDU"));
+    assertTrue(DOI.isParsable("http://doi.org/10.1234/1ASCDU"));
+    assertTrue(DOI.isParsable("https://dx.doi.org/10.1234/1ASCDU"));
+    assertTrue(DOI.isParsable("https://doi.org/10.1234/1ASCDU"));
+
+    assertTrue(DOI.isParsable("doi:10.1234/1ASCDU"));
+    assertTrue(DOI.isParsable("urn:doi:10.1234/1ASCDU"));
+    assertTrue(DOI.isParsable("doi:10.1234/1ASCDU"));
+    assertTrue(DOI.isParsable("urn:doi:10.1234/1ASCDU"));
+    assertTrue(DOI.isParsable("doi:10.1234/1ascdu"));
+    assertTrue(DOI.isParsable("urn:doi:10.1234/1ascdu"));
+    assertTrue(DOI.isParsable("10.1234/1ascdu"));
+    assertTrue(DOI.isParsable("10.1234/1ASCDU"));
+
+    // try subdivisions
+    assertTrue(DOI.isParsable("http://dx.doi.org/10.1234.999/1ASCDU"));
+    assertTrue(DOI.isParsable("http://dx.doi.org/10.1234.999.123/1ASCDU"));
+    assertTrue(DOI.isParsable("http://dx.doi.org/10.1234.999.123/1ASCDU/more/and/more"));
+    assertTrue(DOI.isParsable("http://dx.doi.org/10.1234.999.123/1ASCDU.more.and/more"));
+    assertTrue(DOI.isParsable("http://dx.doi.org/10.1234.999.123/unicode-isällöwéd_h&$e"));
   }
 
   @Test
