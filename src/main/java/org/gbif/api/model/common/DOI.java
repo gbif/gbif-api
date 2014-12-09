@@ -25,7 +25,17 @@ import org.codehaus.jackson.map.ser.std.SerializerBase;
 @JsonSerialize(using = DOI.Serializer.class)
 @JsonDeserialize(using = DOI.Deserializer.class)
 public class DOI {
+
+  /**
+   * The DOI prefix registered with DataCite to be used by GBIF issued production DOIs.
+   */
   public static final String GBIF_PREFIX = "10.15468";
+
+  /**
+   * A DOI prefix provided by DataCite to be used in tests.
+   */
+  public static final String TEST_PREFIX = "10.5072";
+
   private static final Pattern HTTP = Pattern.compile("^https?://(dx\\.)?doi\\.org/"
                                                       + "(urn:)?(doi:)?", Pattern.CASE_INSENSITIVE);
   private static final Pattern PARSER = Pattern.compile("^(?:urn:)?(?:doi:)?"           // optional
