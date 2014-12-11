@@ -15,8 +15,10 @@
  */
 package org.gbif.api.model.common;
 
+import org.gbif.api.SerdeTestUtils;
 import org.gbif.api.vocabulary.UserRole;
 
+import java.io.IOException;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -99,5 +101,16 @@ public class UserTest {
       assertEquals(1, err.size());
       assertEquals(property, err.iterator().next().getPropertyPath().toString());
     }
+  }
+
+  @Test
+  public void testSerDe() throws IOException {
+    User u = new User();
+    u.setKey(100);
+    u.setUserName("be");
+    u.setEmail("betty@gbif.org");
+    u.setFirstName("Betty");
+    u.setLastName("Ford");
+    SerdeTestUtils.testSerDe(u, User.class);
   }
 }
