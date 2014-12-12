@@ -27,7 +27,13 @@ public enum DoiStatus {
    * In EZID the identifier redirects to an EZID-provided "tombstone" page regardless of its target URL.
    * In DataCite the original target URL is still available.
    */
-  DELETED("unavailable");
+  DELETED("unavailable"),
+
+  /**
+   * A failed DOI status indicates we could not communicate with DataCite cause we had invalid metadata.
+   * This DOI then requires a manual cleanup.
+   */
+  FAILED("failed");
 
   private final String ezid;
 
