@@ -15,4 +15,9 @@ public class DoiDataTest {
     SerdeTestUtils.testSerDe(status, DoiData.class);
   }
 
+  @Test(expected = NullPointerException.class)
+  public void testStatusNull() throws IOException {
+    new DoiData((DoiStatus) null, URI.create("http://www.google.de"));
+  }
+
 }

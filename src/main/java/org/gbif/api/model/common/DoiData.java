@@ -2,7 +2,11 @@ package org.gbif.api.model.common;
 
 import java.net.URI;
 
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -15,19 +19,21 @@ public class DoiData {
 
   @JsonCreator
   public DoiData(@JsonProperty("status") DoiStatus status, @JsonProperty("target") URI target) {
-    this.status = status;
+    this.status = Preconditions.checkNotNull(status, "DOI status is required");
     this.target = target;
   }
 
   public DoiData(String ezidStatus, URI target) {
-    this.status = DoiStatus.fromString(ezidStatus);
+    this.status = Preconditions.checkNotNull(DoiStatus.fromString(ezidStatus));
     this.target = target;
   }
 
+  @NotNull
   public DoiStatus getStatus() {
     return status;
   }
 
+  @Nullable
   public URI getTarget() {
     return target;
   }
