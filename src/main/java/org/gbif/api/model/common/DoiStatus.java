@@ -5,6 +5,11 @@ package org.gbif.api.model.common;
  * It represents both EZID and DataCite DOIs.
  */
 public enum DoiStatus {
+   /**
+   * A NEW DOI status indicates the DOI has been minted in GBIF only and has not yet been passed on to DataCite.
+   */
+  NEW(null),
+
   /**
    * The identifier is known only to the DOI registration agency.
    * This status may be used to reserve an identifier name without advertising the identifier's existence
@@ -31,9 +36,9 @@ public enum DoiStatus {
 
   /**
    * A failed DOI status indicates we could not communicate with DataCite cause we had invalid metadata.
-   * This DOI then requires a manual cleanup.
+   * This DOI then requires a manual cleanup. The status is GBIF internal only!
    */
-  FAILED("failed");
+  FAILED(null);
 
   private final String ezid;
 
@@ -52,12 +57,12 @@ public enum DoiStatus {
    * @return true if the identifier is registered
    */
   public boolean isRegistered() {
-    return this != RESERVED;
+    return this == REGISTERED || this == DELETED;
   }
 
   public static DoiStatus fromString(String status) {
     for (DoiStatus s : DoiStatus.values()) {
-      if (status.equalsIgnoreCase(s.name()) || status.equalsIgnoreCase(s.getEzid())) {
+      if (status.equalsIgnoreCase(s.name()) || (s.getEzid() != null && status.equalsIgnoreCase(s.getEzid()))) {
         return s;
       }
     }
