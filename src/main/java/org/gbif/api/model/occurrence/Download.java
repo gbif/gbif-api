@@ -141,7 +141,7 @@ public class Download {
   /**
    * Occurrence download Digital Object Identifier.
    */
-  @NotNull
+  @Nullable
   public DOI getDoi() {
     return doi;
   }
