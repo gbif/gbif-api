@@ -81,8 +81,8 @@
 <span class="sourceLineNo">073</span>    Preconditions.checkNotNull(doi, "DOI required");<a name="line.73"></a>
 <span class="sourceLineNo">074</span>    Matcher m = PARSER.matcher(decodeUrl(doi));<a name="line.74"></a>
 <span class="sourceLineNo">075</span>    if (m.find()) {<a name="line.75"></a>
-<span class="sourceLineNo">076</span>      this.prefix = m.group(1).toUpperCase();<a name="line.76"></a>
-<span class="sourceLineNo">077</span>      this.suffix = m.group(2).toUpperCase();<a name="line.77"></a>
+<span class="sourceLineNo">076</span>      this.prefix = m.group(1).toLowerCase();<a name="line.76"></a>
+<span class="sourceLineNo">077</span>      this.suffix = m.group(2).toLowerCase();<a name="line.77"></a>
 <span class="sourceLineNo">078</span>    } else {<a name="line.78"></a>
 <span class="sourceLineNo">079</span>      throw new IllegalArgumentException(doi + " is not a valid DOI");<a name="line.79"></a>
 <span class="sourceLineNo">080</span>    }<a name="line.80"></a>
@@ -95,9 +95,9 @@
 <span class="sourceLineNo">087</span>   * @throws java.lang.IllegalArgumentException if invalid DOI prefix is given<a name="line.87"></a>
 <span class="sourceLineNo">088</span>   */<a name="line.88"></a>
 <span class="sourceLineNo">089</span>  public DOI(String prefix, String suffix) {<a name="line.89"></a>
-<span class="sourceLineNo">090</span>    this.prefix = Preconditions.checkNotNull(prefix, "DOI prefix required").toUpperCase();<a name="line.90"></a>
+<span class="sourceLineNo">090</span>    this.prefix = Preconditions.checkNotNull(prefix, "DOI prefix required").toLowerCase();<a name="line.90"></a>
 <span class="sourceLineNo">091</span>    Preconditions.checkArgument(prefix.startsWith("10."));<a name="line.91"></a>
-<span class="sourceLineNo">092</span>    this.suffix = Preconditions.checkNotNull(suffix, "DOI suffix required").toUpperCase();<a name="line.92"></a>
+<span class="sourceLineNo">092</span>    this.suffix = Preconditions.checkNotNull(suffix, "DOI suffix required").toLowerCase();<a name="line.92"></a>
 <span class="sourceLineNo">093</span>  }<a name="line.93"></a>
 <span class="sourceLineNo">094</span><a name="line.94"></a>
 <span class="sourceLineNo">095</span>  /**<a name="line.95"></a>
