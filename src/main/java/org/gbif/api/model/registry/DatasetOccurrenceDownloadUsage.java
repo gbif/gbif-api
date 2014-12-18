@@ -42,6 +42,7 @@ public class DatasetOccurrenceDownloadUsage {
   /**
    * Occurrence download key.
    */
+  @NotNull
   public String getDownloadKey() {
     return downloadKey;
   }
@@ -57,7 +58,6 @@ public class DatasetOccurrenceDownloadUsage {
   /**
    * Dataset title at the moment when the download was created.
    */
-  @NotNull
   public String getDatasetTitle() {
     return datasetTitle;
   }
@@ -65,7 +65,6 @@ public class DatasetOccurrenceDownloadUsage {
   /**
    * Dataset DOI at the moment when the download was created.
    */
-  @NotNull
   public DOI getDatasetDOI() {
     return datasetDOI;
   }
@@ -73,7 +72,6 @@ public class DatasetOccurrenceDownloadUsage {
   /**
    * Dataset citation at the moment when the download was created.
    */
-  @NotNull
   public String getDatasetCitation() {
     return datasetCitation;
   }
