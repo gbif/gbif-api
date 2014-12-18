@@ -73,8 +73,8 @@ public class DOI {
     Preconditions.checkNotNull(doi, "DOI required");
     Matcher m = PARSER.matcher(decodeUrl(doi));
     if (m.find()) {
-      this.prefix = m.group(1).toUpperCase();
-      this.suffix = m.group(2).toUpperCase();
+      this.prefix = m.group(1).toLowerCase();
+      this.suffix = m.group(2).toLowerCase();
     } else {
       throw new IllegalArgumentException(doi + " is not a valid DOI");
     }
@@ -87,9 +87,9 @@ public class DOI {
    * @throws java.lang.IllegalArgumentException if invalid DOI prefix is given
    */
   public DOI(String prefix, String suffix) {
-    this.prefix = Preconditions.checkNotNull(prefix, "DOI prefix required").toUpperCase();
+    this.prefix = Preconditions.checkNotNull(prefix, "DOI prefix required").toLowerCase();
     Preconditions.checkArgument(prefix.startsWith("10."));
-    this.suffix = Preconditions.checkNotNull(suffix, "DOI suffix required").toUpperCase();
+    this.suffix = Preconditions.checkNotNull(suffix, "DOI suffix required").toLowerCase();
   }
 
   /**
