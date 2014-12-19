@@ -33,13 +33,10 @@ import org.gbif.api.util.VocabularyUtils;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
@@ -63,7 +60,7 @@ public class HumanFilterBuilder {
   }
 
   private static final Logger LOG = LoggerFactory.getLogger(HumanFilterBuilder.class);
-  private static final String DEFAULT_BUNDLE = "org/gbif/api/util/occurrence/filter.properties";
+  private static final String DEFAULT_BUNDLE = "org/gbif/api/util/occurrence/filter";
 
   private static final String EQUALS_OPERATOR = "";
   private static final String GREATER_THAN_OPERATOR_XML = "&gt; ";
@@ -95,12 +92,7 @@ public class HumanFilterBuilder {
     this.datasetService = datasetService;
     this.nameUsageService = nameUsageService;
     this.escapeXML = escapeXML;
-    try {
-      InputStream bundleStream = HumanFilterBuilder.class.getClassLoader().getResourceAsStream(DEFAULT_BUNDLE);
-      this.resourceBundle = new PropertyResourceBundle(bundleStream);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    resourceBundle = ResourceBundle.getBundle(DEFAULT_BUNDLE);
   }
 
   /**
