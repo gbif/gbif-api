@@ -22,10 +22,10 @@
 <a class="jxr_linenumber" name="12" href="#12">12</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="13" href="#13">13</a>  <strong class="jxr_keyword">package</strong> org.gbif.api.util;
 <a class="jxr_linenumber" name="14" href="#14">14</a>  
-<a class="jxr_linenumber" name="15" href="#15">15</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.TechnicalInstallationType;
-<a class="jxr_linenumber" name="16" href="#16">16</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.ContactType;
-<a class="jxr_linenumber" name="17" href="#17">17</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.EndpointType;
-<a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.IdentifierType;
+<a class="jxr_linenumber" name="15" href="#15">15</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.ContactType;
+<a class="jxr_linenumber" name="16" href="#16">16</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.EndpointType;
+<a class="jxr_linenumber" name="17" href="#17">17</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.IdentifierType;
+<a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.TechnicalInstallationType;
 <a class="jxr_linenumber" name="19" href="#19">19</a>  
 <a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> com.google.common.base.Strings;
 <a class="jxr_linenumber" name="21" href="#21">21</a>  
@@ -55,14 +55,14 @@
 <a class="jxr_linenumber" name="45" href="#45">45</a>  <em class="jxr_javadoccomment">   * @param vocab the enumeration class</em>
 <a class="jxr_linenumber" name="46" href="#46">46</a>  <em class="jxr_javadoccomment">   * @return the matching enum member or null</em>
 <a class="jxr_linenumber" name="47" href="#47">47</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="48" href="#48">48</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> Enum&lt;?&gt; lookupEnum(String name, Class&lt;? <strong class="jxr_keyword">extends</strong> Enum&lt;?&gt;&gt; vocab) {
+<a class="jxr_linenumber" name="48" href="#48">48</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> &lt;T <strong class="jxr_keyword">extends</strong> Enum&lt;?&gt;&gt; T lookupEnum(String name, Class&lt;T&gt; vocab) {
 <a class="jxr_linenumber" name="49" href="#49">49</a>      <strong class="jxr_keyword">if</strong> (Strings.isNullOrEmpty(name)) {
 <a class="jxr_linenumber" name="50" href="#50">50</a>        <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="51" href="#51">51</a>      }
 <a class="jxr_linenumber" name="52" href="#52">52</a>      <strong class="jxr_keyword">final</strong> String normedType = name.toUpperCase().replaceAll(<span class="jxr_string">"[. _-]"</span>, <span class="jxr_string">""</span>);
-<a class="jxr_linenumber" name="53" href="#53">53</a>      Enum&lt;?&gt;[] values = vocab.getEnumConstants();
+<a class="jxr_linenumber" name="53" href="#53">53</a>      T[] values = vocab.getEnumConstants();
 <a class="jxr_linenumber" name="54" href="#54">54</a>      <strong class="jxr_keyword">if</strong> (values != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="55" href="#55">55</a>        <strong class="jxr_keyword">for</strong> (Enum&lt;?&gt; val : values) {
+<a class="jxr_linenumber" name="55" href="#55">55</a>        <strong class="jxr_keyword">for</strong> (T val : values) {
 <a class="jxr_linenumber" name="56" href="#56">56</a>          <strong class="jxr_keyword">final</strong> String normedVal = val.name().toUpperCase().replaceAll(<span class="jxr_string">"[. _-]"</span>, <span class="jxr_string">""</span>);
 <a class="jxr_linenumber" name="57" href="#57">57</a>          <strong class="jxr_keyword">if</strong> (normedType.equals(normedVal)) {
 <a class="jxr_linenumber" name="58" href="#58">58</a>            <strong class="jxr_keyword">return</strong> val;
