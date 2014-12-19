@@ -12,10 +12,10 @@
  */
 package org.gbif.api.util;
 
-import org.gbif.api.vocabulary.TechnicalInstallationType;
 import org.gbif.api.vocabulary.ContactType;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.IdentifierType;
+import org.gbif.api.vocabulary.TechnicalInstallationType;
 
 import com.google.common.base.Strings;
 
@@ -45,14 +45,14 @@ public final class VocabularyUtils {
    * @param vocab the enumeration class
    * @return the matching enum member or null
    */
-  public static Enum<?> lookupEnum(String name, Class<? extends Enum<?>> vocab) {
+  public static <T extends Enum<?>> T lookupEnum(String name, Class<T> vocab) {
     if (Strings.isNullOrEmpty(name)) {
       return null;
     }
     final String normedType = name.toUpperCase().replaceAll("[. _-]", "");
-    Enum<?>[] values = vocab.getEnumConstants();
+    T[] values = vocab.getEnumConstants();
     if (values != null) {
-      for (Enum<?> val : values) {
+      for (T val : values) {
         final String normedVal = val.name().toUpperCase().replaceAll("[. _-]", "");
         if (normedType.equals(normedVal)) {
           return val;

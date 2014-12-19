@@ -29,12 +29,17 @@ import org.gbif.api.model.occurrence.predicate.WithinPredicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.util.VocabularyUtils;
+import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
@@ -58,18 +63,21 @@ public class HumanFilterBuilder {
   }
 
   private static final Logger LOG = LoggerFactory.getLogger(HumanFilterBuilder.class);
+  private static final String DEFAULT_BUNDLE = "org/gbif/api/util/occurrence/filter.properties";
+
   private static final String EQUALS_OPERATOR = "";
-  private static final String GREATER_THAN_OPERATOR_XML = "&gt;";
-  private static final String GREATER_THAN_EQUALS_OPERATOR_XML = "&gt;=";
-  private static final String LESS_THAN_OPERATOR_XML = "&lt;";
-  private static final String LESS_THAN_EQUALS_OPERATOR_XML = "&lt;=";
+  private static final String GREATER_THAN_OPERATOR_XML = "&gt; ";
+  private static final String GREATER_THAN_EQUALS_OPERATOR_XML = "&gt;= ";
+  private static final String LESS_THAN_OPERATOR_XML = "&lt; ";
+  private static final String LESS_THAN_EQUALS_OPERATOR_XML = "&lt;= ";
 
-  private static final String GREATER_THAN_OPERATOR = ">";
-  private static final String GREATER_THAN_EQUALS_OPERATOR = ">=";
-  private static final String LESS_THAN_OPERATOR = "<";
-  private static final String LESS_THAN_EQUALS_OPERATOR = "<=";
+  private static final String GREATER_THAN_OPERATOR = "> ";
+  private static final String GREATER_THAN_EQUALS_OPERATOR = ">= ";
+  private static final String LESS_THAN_OPERATOR = "< ";
+  private static final String LESS_THAN_EQUALS_OPERATOR = "<= ";
 
-  private static final String IS_NOT_NULL_OPERATOR = "IS NOT NULL";
+  private static final String NOT_OPERATOR = "not";
+  private static final String IS_NOT_NULL_OPERATOR = "is not null";
 
   private static final String LIKE_OPERATOR = "~";
   private Map<OccurrenceSearchParameter, LinkedList<String>> filter;;
@@ -80,6 +88,26 @@ public class HumanFilterBuilder {
   private final ResourceBundle resourceBundle;
   private final boolean escapeXML;
 
+  /**
+   * Creates a new human filter builder using the default resource bundle for enumerations from the GBIF API.
+   */
+  public HumanFilterBuilder(DatasetService datasetService, NameUsageService nameUsageService, boolean escapeXML) {
+    this.datasetService = datasetService;
+    this.nameUsageService = nameUsageService;
+    this.escapeXML = escapeXML;
+    try {
+      InputStream bundleStream = HumanFilterBuilder.class.getClassLoader().getResourceAsStream(DEFAULT_BUNDLE);
+      this.resourceBundle = new PropertyResourceBundle(bundleStream);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * Creates a new human filter builder using the supplied resource bundle.
+   * You must make sure all possible enum values for the OccurrenceSearchParameter are listed in this bundle!
+   * For default english text it is recommended to use the default bundle with the other constructor.
+   */
   public HumanFilterBuilder(ResourceBundle resourceBundle, DatasetService datasetService,
     NameUsageService nameUsageService, boolean escapeXML) {
     this.datasetService = datasetService;
@@ -94,7 +122,7 @@ public class HumanFilterBuilder {
    * @throws IllegalStateException if more complex predicates than the portal handles are supplied
    */
   public synchronized Map<OccurrenceSearchParameter, LinkedList<String>> humanFilter(Predicate p) {
-    filter = Maps.newHashMap();
+    filter = Maps.newLinkedHashMap();
     state = State.ROOT;
     lastParam = null;
     visit(p);
@@ -119,25 +147,39 @@ public class HumanFilterBuilder {
         humanValue = lookupDatasetKey(value);
         break;
       case COUNTRY:
+      case PUBLISHING_COUNTRY:
         humanValue = lookupCountryCode(value);
         break;
-      case BASIS_OF_RECORD:
-        humanValue = lookupBasisOfRecord(value);
+      case CONTINENT:
+        humanValue = lookupContinent(value);
         break;
       case MONTH:
         humanValue = lookupMonth(value);
         break;
 
       default:
-        humanValue = value;
+        if (param.type().isEnum()) {
+          humanValue = lookupEnum(param.type(), value);
+        } else {
+          humanValue = value;
+        }
+    }
+    // add unit symbol
+    if (param==OccurrenceSearchParameter.DEPTH || param==OccurrenceSearchParameter.ELEVATION) {
+      humanValue = humanValue + "m";
     }
     return humanValue;
+  }
+
+  private String lookupContinent(String value) {
+    Continent c = VocabularyUtils.lookupEnum(value, Continent.class);
+    return c.getTitle();
   }
 
   private void addParamValue(OccurrenceSearchParameter param, String op) {
     // verify that last param if existed was the same
     if (lastParam != null && param != lastParam) {
-      throw new IllegalArgumentException("Mix of search params not supported");
+      throw new IllegalArgumentException("Mix of search params not supported: "+param);
     }
 
     if (!filter.containsKey(param)) {
@@ -176,8 +218,8 @@ public class HumanFilterBuilder {
     return escapeXML ? LESS_THAN_OPERATOR_XML : LESS_THAN_OPERATOR;
   }
 
-  private String lookupBasisOfRecord(String value) {
-    return resourceBundle.getString("enum.basisofrecord." + value);
+  private String lookupEnum(Class clazz, String value) {
+    return resourceBundle.getString("enum." + clazz.getSimpleName().toLowerCase() + "." + value);
   }
 
   private String lookupCountryCode(String code) {
@@ -279,7 +321,7 @@ public class HumanFilterBuilder {
       visit(not.getPredicate());
       SimplePredicate sp = (SimplePredicate) not.getPredicate();
       // now prefix the last value with NOT
-      String notValue = "NOT (" + filter.get(sp.getKey()).removeLast() + ")";
+      String notValue = NOT_OPERATOR + " (" + filter.get(sp.getKey()).removeLast() + ")";
       filter.get(sp.getKey()).add(notValue);
 
     } else {
@@ -312,7 +354,7 @@ public class HumanFilterBuilder {
         "This should never happen as we set accessible to true explicitly before. Probably a programming error", e);
       throw new RuntimeException("Programming error", e);
     } catch (InvocationTargetException e) {
-      LOG.info("Exception thrown while building the Hive Download", e);
+      LOG.info("Exception thrown while building the human query string", e);
       throw new IllegalArgumentException(e);
     }
   }
