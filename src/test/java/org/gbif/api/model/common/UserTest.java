@@ -113,4 +113,16 @@ public class UserTest {
     u.setLastName("Ford");
     SerdeTestUtils.testSerDe(u, User.class);
   }
+
+  @Test
+  public void testName() throws IOException {
+    User u = new User();
+    u.setKey(100);
+    u.setUserName("be");
+    u.setEmail("betty@gbif.org");
+    u.setFirstName("Betty");
+    u.setLastName("Ford");
+    assertEquals("Betty Ford", u.getName());
+  }
+
 }

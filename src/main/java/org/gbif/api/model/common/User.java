@@ -26,6 +26,7 @@ import javax.validation.constraints.Size;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Sets;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * A GBIF user account registered in the drupal user database.
@@ -113,6 +114,15 @@ public class User {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  /**
+   * @return the first and last name of the user concatenated with a space
+   */
+  @NotNull
+  @JsonIgnore
+  public String getName() {
+    return firstName + " " + lastName;
   }
 
   /**
