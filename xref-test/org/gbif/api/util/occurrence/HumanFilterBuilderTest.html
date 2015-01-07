@@ -151,107 +151,135 @@
 <a class="jxr_linenumber" name="141" href="#141">141</a>     assertEquals(<span class="jxr_string">"is not null"</span>, x.get(OccurrenceSearchParameter.YEAR).getLast());
 <a class="jxr_linenumber" name="142" href="#142">142</a>   }
 <a class="jxr_linenumber" name="143" href="#143">143</a> 
-<a class="jxr_linenumber" name="144" href="#144">144</a>   <em class="jxr_comment">// http://www.gbif-dev.org/occurrence/search?COUNTRY=DE&amp;BASIS_OF_RECORD=HUMAN_OBSERVATION</em>
-<a class="jxr_linenumber" name="145" href="#145">145</a>   <em class="jxr_comment">// &amp;DATASET_KEY=7a22e1e4-f762-11e1-a439-00145eb45e9a</em>
-<a class="jxr_linenumber" name="146" href="#146">146</a>   <em class="jxr_comment">// &amp;DATASET_KEY=78ff18a6-1c32-11e2-af65-00145eb45e9a</em>
-<a class="jxr_linenumber" name="147" href="#147">147</a>   <em class="jxr_comment">// &amp;DATASET_KEY=856734ce-f762-11e1-a439-00145eb45e9a</em>
-<a class="jxr_linenumber" name="148" href="#148">148</a>   <em class="jxr_comment">// &amp;DATASET_KEY=85685a84-f762-11e1-a439-00145eb45e9a</em>
-<a class="jxr_linenumber" name="149" href="#149">149</a>   <em class="jxr_comment">// &amp;DEPTH=0%2C*#</em>
-<a class="jxr_linenumber" name="150" href="#150">150</a>   @Test
-<a class="jxr_linenumber" name="151" href="#151">151</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testHumanFilter2() {
-<a class="jxr_linenumber" name="152" href="#152">152</a>     List&lt;Predicate&gt; ors = Lists.newArrayList();
-<a class="jxr_linenumber" name="153" href="#153">153</a>     ors.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.DATASET_KEY, <span class="jxr_string">"7a22e1e4-f762-11e1-a439-00145eb45e9a"</span>));
-<a class="jxr_linenumber" name="154" href="#154">154</a>     ors.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.DATASET_KEY, <span class="jxr_string">"78ff18a6-1c32-11e2-af65-00145eb45e9a"</span>));
-<a class="jxr_linenumber" name="155" href="#155">155</a>     ors.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.DATASET_KEY, <span class="jxr_string">"856734ce-f762-11e1-a439-00145eb45e9a"</span>));
-<a class="jxr_linenumber" name="156" href="#156">156</a>     ors.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.DATASET_KEY, <span class="jxr_string">"85685a84-f762-11e1-a439-00145eb45e9a"</span>));
+<a class="jxr_linenumber" name="144" href="#144">144</a>   @Test
+<a class="jxr_linenumber" name="145" href="#145">145</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testHumanFilterString() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="146" href="#146">146</a>     List&lt;Predicate&gt; ands = Lists.newArrayList();
+<a class="jxr_linenumber" name="147" href="#147">147</a> 
+<a class="jxr_linenumber" name="148" href="#148">148</a>     List&lt;Predicate&gt; years = Lists.newArrayList();
+<a class="jxr_linenumber" name="149" href="#149">149</a>     years.add(<strong class="jxr_keyword">new</strong> GreaterThanOrEqualsPredicate(OccurrenceSearchParameter.YEAR, <span class="jxr_string">"2000"</span>));
+<a class="jxr_linenumber" name="150" href="#150">150</a>     years.add(<strong class="jxr_keyword">new</strong> LessThanOrEqualsPredicate(OccurrenceSearchParameter.YEAR, <span class="jxr_string">"1760"</span>));
+<a class="jxr_linenumber" name="151" href="#151">151</a>     ands.add(<strong class="jxr_keyword">new</strong> DisjunctionPredicate(years));
+<a class="jxr_linenumber" name="152" href="#152">152</a> 
+<a class="jxr_linenumber" name="153" href="#153">153</a>     List&lt;Predicate&gt; depth = Lists.newArrayList();
+<a class="jxr_linenumber" name="154" href="#154">154</a>     depth.add(<strong class="jxr_keyword">new</strong> GreaterThanPredicate(OccurrenceSearchParameter.DEPTH, <span class="jxr_string">"2001"</span>));
+<a class="jxr_linenumber" name="155" href="#155">155</a>     depth.add(<strong class="jxr_keyword">new</strong> LessThanPredicate(OccurrenceSearchParameter.DEPTH, <span class="jxr_string">"1750"</span>));
+<a class="jxr_linenumber" name="156" href="#156">156</a>     ands.add(<strong class="jxr_keyword">new</strong> DisjunctionPredicate(depth));
 <a class="jxr_linenumber" name="157" href="#157">157</a> 
-<a class="jxr_linenumber" name="158" href="#158">158</a>     List&lt;Predicate&gt; ands = Lists.newArrayList();
-<a class="jxr_linenumber" name="159" href="#159">159</a>     ands.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.BASIS_OF_RECORD, <span class="jxr_string">"HUMAN_OBSERVATION"</span>));
-<a class="jxr_linenumber" name="160" href="#160">160</a>     ands.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.COUNTRY, <span class="jxr_string">"DE"</span>));
-<a class="jxr_linenumber" name="161" href="#161">161</a>     ands.add(<strong class="jxr_keyword">new</strong> DisjunctionPredicate(ors));
-<a class="jxr_linenumber" name="162" href="#162">162</a>     ands.add(<strong class="jxr_keyword">new</strong> GreaterThanOrEqualsPredicate(OccurrenceSearchParameter.DEPTH, <span class="jxr_string">"0"</span>));
-<a class="jxr_linenumber" name="163" href="#163">163</a> 
-<a class="jxr_linenumber" name="164" href="#164">164</a>     Map&lt;OccurrenceSearchParameter, LinkedList&lt;String&gt;&gt; x = builder.humanFilter(<strong class="jxr_keyword">new</strong> ConjunctionPredicate(ands));
-<a class="jxr_linenumber" name="165" href="#165">165</a>     assertEquals(4, x.size());
-<a class="jxr_linenumber" name="166" href="#166">166</a>     assertEquals(<span class="jxr_string">"Human Observation"</span>, x.get(OccurrenceSearchParameter.BASIS_OF_RECORD).getFirst());
-<a class="jxr_linenumber" name="167" href="#167">167</a>     assertEquals(<span class="jxr_string">"Germany"</span>, x.get(OccurrenceSearchParameter.COUNTRY).getFirst());
-<a class="jxr_linenumber" name="168" href="#168">168</a>     assertEquals(4, x.get(OccurrenceSearchParameter.DATASET_KEY).size());
-<a class="jxr_linenumber" name="169" href="#169">169</a>     assertEquals(<span class="jxr_string">"&gt;= 0m"</span>, x.get(OccurrenceSearchParameter.DEPTH).getFirst());
+<a class="jxr_linenumber" name="158" href="#158">158</a>     ands.add(<strong class="jxr_keyword">new</strong> IsNotNullPredicate(OccurrenceSearchParameter.TYPE_STATUS));
+<a class="jxr_linenumber" name="159" href="#159">159</a> 
+<a class="jxr_linenumber" name="160" href="#160">160</a>     List&lt;Predicate&gt; countries = Lists.newArrayList();
+<a class="jxr_linenumber" name="161" href="#161">161</a>     countries.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.COUNTRY, Country.ANGOLA.getIso2LetterCode()));
+<a class="jxr_linenumber" name="162" href="#162">162</a>     countries.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.COUNTRY, Country.DENMARK.getIso2LetterCode()));
+<a class="jxr_linenumber" name="163" href="#163">163</a>     ands.add(<strong class="jxr_keyword">new</strong> DisjunctionPredicate(countries));
+<a class="jxr_linenumber" name="164" href="#164">164</a> 
+<a class="jxr_linenumber" name="165" href="#165">165</a>     assertEquals(<span class="jxr_string">"Year: &gt;= 2000 or &lt;= 1760 \n"</span>
+<a class="jxr_linenumber" name="166" href="#166">166</a>                  + <span class="jxr_string">"Depth: &gt; 2001m or &lt; 1750m \n"</span>
+<a class="jxr_linenumber" name="167" href="#167">167</a>                  + <span class="jxr_string">"TypeStatus: is not null \n"</span>
+<a class="jxr_linenumber" name="168" href="#168">168</a>                  + <span class="jxr_string">"Country: Angola or Denmark"</span>
+<a class="jxr_linenumber" name="169" href="#169">169</a>                  , builder.humanFilterString(<strong class="jxr_keyword">new</strong> ConjunctionPredicate(ands)));
 <a class="jxr_linenumber" name="170" href="#170">170</a>   }
 <a class="jxr_linenumber" name="171" href="#171">171</a> 
-<a class="jxr_linenumber" name="172" href="#172">172</a>   @Test
-<a class="jxr_linenumber" name="173" href="#173">173</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testHumanFilterXmlEscape() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="174" href="#174">174</a>     builder = <strong class="jxr_keyword">new</strong> HumanFilterBuilder(<strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="175" href="#175">175</a>     Predicate p = <strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.COUNTRY, Country.AFGHANISTAN.getIso2LetterCode());
-<a class="jxr_linenumber" name="176" href="#176">176</a> 
-<a class="jxr_linenumber" name="177" href="#177">177</a>     Map&lt;OccurrenceSearchParameter, LinkedList&lt;String&gt;&gt; x = builder.humanFilter(p);
-<a class="jxr_linenumber" name="178" href="#178">178</a>     assertEquals(1, x.size());
-<a class="jxr_linenumber" name="179" href="#179">179</a>     assertEquals(1, x.get(OccurrenceSearchParameter.COUNTRY).size());
-<a class="jxr_linenumber" name="180" href="#180">180</a>     assertEquals(<span class="jxr_string">"Afghanistan"</span>, x.get(OccurrenceSearchParameter.COUNTRY).get(0));
-<a class="jxr_linenumber" name="181" href="#181">181</a> 
-<a class="jxr_linenumber" name="182" href="#182">182</a>     List&lt;Predicate&gt; ors = Lists.newArrayList();
-<a class="jxr_linenumber" name="183" href="#183">183</a>     ors.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.YEAR, <span class="jxr_string">"2000"</span>));
-<a class="jxr_linenumber" name="184" href="#184">184</a>     ors.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.YEAR, <span class="jxr_string">"2001"</span>));
-<a class="jxr_linenumber" name="185" href="#185">185</a>     ors.add(<strong class="jxr_keyword">new</strong> LessThanOrEqualsPredicate(OccurrenceSearchParameter.YEAR, <span class="jxr_string">"1760"</span>));
-<a class="jxr_linenumber" name="186" href="#186">186</a>     DisjunctionPredicate or = <strong class="jxr_keyword">new</strong> DisjunctionPredicate(ors);
-<a class="jxr_linenumber" name="187" href="#187">187</a> 
-<a class="jxr_linenumber" name="188" href="#188">188</a>     List&lt;Predicate&gt; ands = Lists.newArrayList(p, or);
-<a class="jxr_linenumber" name="189" href="#189">189</a> 
-<a class="jxr_linenumber" name="190" href="#190">190</a>     x = builder.humanFilter(<strong class="jxr_keyword">new</strong> ConjunctionPredicate(ands));
-<a class="jxr_linenumber" name="191" href="#191">191</a>     assertEquals(2, x.size());
-<a class="jxr_linenumber" name="192" href="#192">192</a>     assertEquals(3, x.get(OccurrenceSearchParameter.YEAR).size());
-<a class="jxr_linenumber" name="193" href="#193">193</a>     assertEquals(<span class="jxr_string">"&amp;lt;= 1760"</span>, x.get(OccurrenceSearchParameter.YEAR).getLast());
-<a class="jxr_linenumber" name="194" href="#194">194</a> 
-<a class="jxr_linenumber" name="195" href="#195">195</a>     NotPredicate noBirds = <strong class="jxr_keyword">new</strong> NotPredicate(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.TAXON_KEY, <span class="jxr_string">"212"</span>));
-<a class="jxr_linenumber" name="196" href="#196">196</a>     ands.add(noBirds);
-<a class="jxr_linenumber" name="197" href="#197">197</a> 
-<a class="jxr_linenumber" name="198" href="#198">198</a>     x = builder.humanFilter(<strong class="jxr_keyword">new</strong> ConjunctionPredicate(ands));
-<a class="jxr_linenumber" name="199" href="#199">199</a>     assertEquals(3, x.size());
-<a class="jxr_linenumber" name="200" href="#200">200</a>     assertEquals(3, x.get(OccurrenceSearchParameter.YEAR).size());
-<a class="jxr_linenumber" name="201" href="#201">201</a>     assertEquals(1, x.get(OccurrenceSearchParameter.TAXON_KEY).size());
-<a class="jxr_linenumber" name="202" href="#202">202</a>     assertEquals(<span class="jxr_string">"not (212)"</span>, x.get(OccurrenceSearchParameter.TAXON_KEY).getLast());
-<a class="jxr_linenumber" name="203" href="#203">203</a>   }
+<a class="jxr_linenumber" name="172" href="#172">172</a>   <em class="jxr_comment">// http://www.gbif-dev.org/occurrence/search?COUNTRY=DE&amp;BASIS_OF_RECORD=HUMAN_OBSERVATION</em>
+<a class="jxr_linenumber" name="173" href="#173">173</a>   <em class="jxr_comment">// &amp;DATASET_KEY=7a22e1e4-f762-11e1-a439-00145eb45e9a</em>
+<a class="jxr_linenumber" name="174" href="#174">174</a>   <em class="jxr_comment">// &amp;DATASET_KEY=78ff18a6-1c32-11e2-af65-00145eb45e9a</em>
+<a class="jxr_linenumber" name="175" href="#175">175</a>   <em class="jxr_comment">// &amp;DATASET_KEY=856734ce-f762-11e1-a439-00145eb45e9a</em>
+<a class="jxr_linenumber" name="176" href="#176">176</a>   <em class="jxr_comment">// &amp;DATASET_KEY=85685a84-f762-11e1-a439-00145eb45e9a</em>
+<a class="jxr_linenumber" name="177" href="#177">177</a>   <em class="jxr_comment">// &amp;DEPTH=0%2C*#</em>
+<a class="jxr_linenumber" name="178" href="#178">178</a>   @Test
+<a class="jxr_linenumber" name="179" href="#179">179</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testHumanFilter2() {
+<a class="jxr_linenumber" name="180" href="#180">180</a>     List&lt;Predicate&gt; ors = Lists.newArrayList();
+<a class="jxr_linenumber" name="181" href="#181">181</a>     ors.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.DATASET_KEY, <span class="jxr_string">"7a22e1e4-f762-11e1-a439-00145eb45e9a"</span>));
+<a class="jxr_linenumber" name="182" href="#182">182</a>     ors.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.DATASET_KEY, <span class="jxr_string">"78ff18a6-1c32-11e2-af65-00145eb45e9a"</span>));
+<a class="jxr_linenumber" name="183" href="#183">183</a>     ors.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.DATASET_KEY, <span class="jxr_string">"856734ce-f762-11e1-a439-00145eb45e9a"</span>));
+<a class="jxr_linenumber" name="184" href="#184">184</a>     ors.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.DATASET_KEY, <span class="jxr_string">"85685a84-f762-11e1-a439-00145eb45e9a"</span>));
+<a class="jxr_linenumber" name="185" href="#185">185</a> 
+<a class="jxr_linenumber" name="186" href="#186">186</a>     List&lt;Predicate&gt; ands = Lists.newArrayList();
+<a class="jxr_linenumber" name="187" href="#187">187</a>     ands.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.BASIS_OF_RECORD, <span class="jxr_string">"HUMAN_OBSERVATION"</span>));
+<a class="jxr_linenumber" name="188" href="#188">188</a>     ands.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.COUNTRY, <span class="jxr_string">"DE"</span>));
+<a class="jxr_linenumber" name="189" href="#189">189</a>     ands.add(<strong class="jxr_keyword">new</strong> DisjunctionPredicate(ors));
+<a class="jxr_linenumber" name="190" href="#190">190</a>     ands.add(<strong class="jxr_keyword">new</strong> GreaterThanOrEqualsPredicate(OccurrenceSearchParameter.DEPTH, <span class="jxr_string">"0"</span>));
+<a class="jxr_linenumber" name="191" href="#191">191</a> 
+<a class="jxr_linenumber" name="192" href="#192">192</a>     Map&lt;OccurrenceSearchParameter, LinkedList&lt;String&gt;&gt; x = builder.humanFilter(<strong class="jxr_keyword">new</strong> ConjunctionPredicate(ands));
+<a class="jxr_linenumber" name="193" href="#193">193</a>     assertEquals(4, x.size());
+<a class="jxr_linenumber" name="194" href="#194">194</a>     assertEquals(<span class="jxr_string">"Human Observation"</span>, x.get(OccurrenceSearchParameter.BASIS_OF_RECORD).getFirst());
+<a class="jxr_linenumber" name="195" href="#195">195</a>     assertEquals(<span class="jxr_string">"Germany"</span>, x.get(OccurrenceSearchParameter.COUNTRY).getFirst());
+<a class="jxr_linenumber" name="196" href="#196">196</a>     assertEquals(4, x.get(OccurrenceSearchParameter.DATASET_KEY).size());
+<a class="jxr_linenumber" name="197" href="#197">197</a>     assertEquals(<span class="jxr_string">"&gt;= 0m"</span>, x.get(OccurrenceSearchParameter.DEPTH).getFirst());
+<a class="jxr_linenumber" name="198" href="#198">198</a>   }
+<a class="jxr_linenumber" name="199" href="#199">199</a> 
+<a class="jxr_linenumber" name="200" href="#200">200</a>   @Test
+<a class="jxr_linenumber" name="201" href="#201">201</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testHumanFilterXmlEscape() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="202" href="#202">202</a>     builder = <strong class="jxr_keyword">new</strong> HumanFilterBuilder(<strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="203" href="#203">203</a>     Predicate p = <strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.COUNTRY, Country.AFGHANISTAN.getIso2LetterCode());
 <a class="jxr_linenumber" name="204" href="#204">204</a> 
-<a class="jxr_linenumber" name="205" href="#205">205</a> 
-<a class="jxr_linenumber" name="206" href="#206">206</a>   @Test
-<a class="jxr_linenumber" name="207" href="#207">207</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testPolygon() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="208" href="#208">208</a>     <strong class="jxr_keyword">final</strong> String wkt = <span class="jxr_string">"POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))"</span>;
-<a class="jxr_linenumber" name="209" href="#209">209</a>     Map&lt;OccurrenceSearchParameter, LinkedList&lt;String&gt;&gt; x =
-<a class="jxr_linenumber" name="210" href="#210">210</a>       builder.humanFilter(<strong class="jxr_keyword">new</strong> ConjunctionPredicate(Lists.&lt;Predicate&gt;newArrayList(<strong class="jxr_keyword">new</strong> WithinPredicate(wkt))));
-<a class="jxr_linenumber" name="211" href="#211">211</a>     assertEquals(1, x.size());
-<a class="jxr_linenumber" name="212" href="#212">212</a>     assertEquals(1, x.get(OccurrenceSearchParameter.GEOMETRY).size());
-<a class="jxr_linenumber" name="213" href="#213">213</a>     assertEquals(wkt, x.get(OccurrenceSearchParameter.GEOMETRY).getLast());
-<a class="jxr_linenumber" name="214" href="#214">214</a>   }
+<a class="jxr_linenumber" name="205" href="#205">205</a>     Map&lt;OccurrenceSearchParameter, LinkedList&lt;String&gt;&gt; x = builder.humanFilter(p);
+<a class="jxr_linenumber" name="206" href="#206">206</a>     assertEquals(1, x.size());
+<a class="jxr_linenumber" name="207" href="#207">207</a>     assertEquals(1, x.get(OccurrenceSearchParameter.COUNTRY).size());
+<a class="jxr_linenumber" name="208" href="#208">208</a>     assertEquals(<span class="jxr_string">"Afghanistan"</span>, x.get(OccurrenceSearchParameter.COUNTRY).get(0));
+<a class="jxr_linenumber" name="209" href="#209">209</a> 
+<a class="jxr_linenumber" name="210" href="#210">210</a>     List&lt;Predicate&gt; ors = Lists.newArrayList();
+<a class="jxr_linenumber" name="211" href="#211">211</a>     ors.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.YEAR, <span class="jxr_string">"2000"</span>));
+<a class="jxr_linenumber" name="212" href="#212">212</a>     ors.add(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.YEAR, <span class="jxr_string">"2001"</span>));
+<a class="jxr_linenumber" name="213" href="#213">213</a>     ors.add(<strong class="jxr_keyword">new</strong> LessThanOrEqualsPredicate(OccurrenceSearchParameter.YEAR, <span class="jxr_string">"1760"</span>));
+<a class="jxr_linenumber" name="214" href="#214">214</a>     DisjunctionPredicate or = <strong class="jxr_keyword">new</strong> DisjunctionPredicate(ors);
 <a class="jxr_linenumber" name="215" href="#215">215</a> 
-<a class="jxr_linenumber" name="216" href="#216">216</a>   @Test
-<a class="jxr_linenumber" name="217" href="#217">217</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testRange() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="218" href="#218">218</a>     List&lt;Predicate&gt; rangeAnd = Lists.newArrayList();
-<a class="jxr_linenumber" name="219" href="#219">219</a>     rangeAnd.add(<strong class="jxr_keyword">new</strong> GreaterThanOrEqualsPredicate(OccurrenceSearchParameter.YEAR, <span class="jxr_string">"2000"</span>));
-<a class="jxr_linenumber" name="220" href="#220">220</a>     rangeAnd.add(<strong class="jxr_keyword">new</strong> LessThanOrEqualsPredicate(OccurrenceSearchParameter.YEAR, <span class="jxr_string">"2011"</span>));
-<a class="jxr_linenumber" name="221" href="#221">221</a>     Predicate range = <strong class="jxr_keyword">new</strong> ConjunctionPredicate(rangeAnd);
+<a class="jxr_linenumber" name="216" href="#216">216</a>     List&lt;Predicate&gt; ands = Lists.newArrayList(p, or);
+<a class="jxr_linenumber" name="217" href="#217">217</a> 
+<a class="jxr_linenumber" name="218" href="#218">218</a>     x = builder.humanFilter(<strong class="jxr_keyword">new</strong> ConjunctionPredicate(ands));
+<a class="jxr_linenumber" name="219" href="#219">219</a>     assertEquals(2, x.size());
+<a class="jxr_linenumber" name="220" href="#220">220</a>     assertEquals(3, x.get(OccurrenceSearchParameter.YEAR).size());
+<a class="jxr_linenumber" name="221" href="#221">221</a>     assertEquals(<span class="jxr_string">"&amp;lt;= 1760"</span>, x.get(OccurrenceSearchParameter.YEAR).getLast());
 <a class="jxr_linenumber" name="222" href="#222">222</a> 
-<a class="jxr_linenumber" name="223" href="#223">223</a>     Map&lt;OccurrenceSearchParameter, LinkedList&lt;String&gt;&gt; x = builder.humanFilter(range);
-<a class="jxr_linenumber" name="224" href="#224">224</a>     assertEquals(1, x.size());
-<a class="jxr_linenumber" name="225" href="#225">225</a>     assertEquals(1, x.get(OccurrenceSearchParameter.YEAR).size());
-<a class="jxr_linenumber" name="226" href="#226">226</a> 
-<a class="jxr_linenumber" name="227" href="#227">227</a>     <em class="jxr_comment">// now test with other filters combined</em>
-<a class="jxr_linenumber" name="228" href="#228">228</a>     Predicate eq = <strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.TAXON_KEY, <span class="jxr_string">"212"</span>);
-<a class="jxr_linenumber" name="229" href="#229">229</a>     x = builder.humanFilter(<strong class="jxr_keyword">new</strong> ConjunctionPredicate(Lists.newArrayList(eq, range)));
-<a class="jxr_linenumber" name="230" href="#230">230</a>     assertEquals(2, x.size());
-<a class="jxr_linenumber" name="231" href="#231">231</a>     assertEquals(1, x.get(OccurrenceSearchParameter.TAXON_KEY).size());
-<a class="jxr_linenumber" name="232" href="#232">232</a>     assertEquals(1, x.get(OccurrenceSearchParameter.YEAR).size());
-<a class="jxr_linenumber" name="233" href="#233">233</a>   }
-<a class="jxr_linenumber" name="234" href="#234">234</a> 
-<a class="jxr_linenumber" name="235" href="#235">235</a>   @Test
-<a class="jxr_linenumber" name="236" href="#236">236</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testIsNotNull() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="223" href="#223">223</a>     NotPredicate noBirds = <strong class="jxr_keyword">new</strong> NotPredicate(<strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.TAXON_KEY, <span class="jxr_string">"212"</span>));
+<a class="jxr_linenumber" name="224" href="#224">224</a>     ands.add(noBirds);
+<a class="jxr_linenumber" name="225" href="#225">225</a> 
+<a class="jxr_linenumber" name="226" href="#226">226</a>     x = builder.humanFilter(<strong class="jxr_keyword">new</strong> ConjunctionPredicate(ands));
+<a class="jxr_linenumber" name="227" href="#227">227</a>     assertEquals(3, x.size());
+<a class="jxr_linenumber" name="228" href="#228">228</a>     assertEquals(3, x.get(OccurrenceSearchParameter.YEAR).size());
+<a class="jxr_linenumber" name="229" href="#229">229</a>     assertEquals(1, x.get(OccurrenceSearchParameter.TAXON_KEY).size());
+<a class="jxr_linenumber" name="230" href="#230">230</a>     assertEquals(<span class="jxr_string">"not (212)"</span>, x.get(OccurrenceSearchParameter.TAXON_KEY).getLast());
+<a class="jxr_linenumber" name="231" href="#231">231</a>   }
+<a class="jxr_linenumber" name="232" href="#232">232</a> 
+<a class="jxr_linenumber" name="233" href="#233">233</a> 
+<a class="jxr_linenumber" name="234" href="#234">234</a>   @Test
+<a class="jxr_linenumber" name="235" href="#235">235</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testPolygon() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="236" href="#236">236</a>     <strong class="jxr_keyword">final</strong> String wkt = <span class="jxr_string">"POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))"</span>;
 <a class="jxr_linenumber" name="237" href="#237">237</a>     Map&lt;OccurrenceSearchParameter, LinkedList&lt;String&gt;&gt; x =
-<a class="jxr_linenumber" name="238" href="#238">238</a>       builder.humanFilter(<strong class="jxr_keyword">new</strong> IsNotNullPredicate(OccurrenceSearchParameter.MEDIA_TYPE));
+<a class="jxr_linenumber" name="238" href="#238">238</a>       builder.humanFilter(<strong class="jxr_keyword">new</strong> ConjunctionPredicate(Lists.&lt;Predicate&gt;newArrayList(<strong class="jxr_keyword">new</strong> WithinPredicate(wkt))));
 <a class="jxr_linenumber" name="239" href="#239">239</a>     assertEquals(1, x.size());
-<a class="jxr_linenumber" name="240" href="#240">240</a>     assertEquals(1, x.get(OccurrenceSearchParameter.MEDIA_TYPE).size());
-<a class="jxr_linenumber" name="241" href="#241">241</a>     assertEquals(<span class="jxr_string">"is not null"</span>, x.get(OccurrenceSearchParameter.MEDIA_TYPE).getLast());
+<a class="jxr_linenumber" name="240" href="#240">240</a>     assertEquals(1, x.get(OccurrenceSearchParameter.GEOMETRY).size());
+<a class="jxr_linenumber" name="241" href="#241">241</a>     assertEquals(wkt, x.get(OccurrenceSearchParameter.GEOMETRY).getLast());
 <a class="jxr_linenumber" name="242" href="#242">242</a>   }
 <a class="jxr_linenumber" name="243" href="#243">243</a> 
-<a class="jxr_linenumber" name="244" href="#244">244</a> }
+<a class="jxr_linenumber" name="244" href="#244">244</a>   @Test
+<a class="jxr_linenumber" name="245" href="#245">245</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testRange() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="246" href="#246">246</a>     List&lt;Predicate&gt; rangeAnd = Lists.newArrayList();
+<a class="jxr_linenumber" name="247" href="#247">247</a>     rangeAnd.add(<strong class="jxr_keyword">new</strong> GreaterThanOrEqualsPredicate(OccurrenceSearchParameter.YEAR, <span class="jxr_string">"2000"</span>));
+<a class="jxr_linenumber" name="248" href="#248">248</a>     rangeAnd.add(<strong class="jxr_keyword">new</strong> LessThanOrEqualsPredicate(OccurrenceSearchParameter.YEAR, <span class="jxr_string">"2011"</span>));
+<a class="jxr_linenumber" name="249" href="#249">249</a>     Predicate range = <strong class="jxr_keyword">new</strong> ConjunctionPredicate(rangeAnd);
+<a class="jxr_linenumber" name="250" href="#250">250</a> 
+<a class="jxr_linenumber" name="251" href="#251">251</a>     Map&lt;OccurrenceSearchParameter, LinkedList&lt;String&gt;&gt; x = builder.humanFilter(range);
+<a class="jxr_linenumber" name="252" href="#252">252</a>     assertEquals(1, x.size());
+<a class="jxr_linenumber" name="253" href="#253">253</a>     assertEquals(1, x.get(OccurrenceSearchParameter.YEAR).size());
+<a class="jxr_linenumber" name="254" href="#254">254</a> 
+<a class="jxr_linenumber" name="255" href="#255">255</a>     <em class="jxr_comment">// now test with other filters combined</em>
+<a class="jxr_linenumber" name="256" href="#256">256</a>     Predicate eq = <strong class="jxr_keyword">new</strong> EqualsPredicate(OccurrenceSearchParameter.TAXON_KEY, <span class="jxr_string">"212"</span>);
+<a class="jxr_linenumber" name="257" href="#257">257</a>     x = builder.humanFilter(<strong class="jxr_keyword">new</strong> ConjunctionPredicate(Lists.newArrayList(eq, range)));
+<a class="jxr_linenumber" name="258" href="#258">258</a>     assertEquals(2, x.size());
+<a class="jxr_linenumber" name="259" href="#259">259</a>     assertEquals(1, x.get(OccurrenceSearchParameter.TAXON_KEY).size());
+<a class="jxr_linenumber" name="260" href="#260">260</a>     assertEquals(1, x.get(OccurrenceSearchParameter.YEAR).size());
+<a class="jxr_linenumber" name="261" href="#261">261</a>   }
+<a class="jxr_linenumber" name="262" href="#262">262</a> 
+<a class="jxr_linenumber" name="263" href="#263">263</a>   @Test
+<a class="jxr_linenumber" name="264" href="#264">264</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testIsNotNull() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="265" href="#265">265</a>     Map&lt;OccurrenceSearchParameter, LinkedList&lt;String&gt;&gt; x =
+<a class="jxr_linenumber" name="266" href="#266">266</a>       builder.humanFilter(<strong class="jxr_keyword">new</strong> IsNotNullPredicate(OccurrenceSearchParameter.MEDIA_TYPE));
+<a class="jxr_linenumber" name="267" href="#267">267</a>     assertEquals(1, x.size());
+<a class="jxr_linenumber" name="268" href="#268">268</a>     assertEquals(1, x.get(OccurrenceSearchParameter.MEDIA_TYPE).size());
+<a class="jxr_linenumber" name="269" href="#269">269</a>     assertEquals(<span class="jxr_string">"is not null"</span>, x.get(OccurrenceSearchParameter.MEDIA_TYPE).getLast());
+<a class="jxr_linenumber" name="270" href="#270">270</a>   }
+<a class="jxr_linenumber" name="271" href="#271">271</a> 
+<a class="jxr_linenumber" name="272" href="#272">272</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
