@@ -141,6 +141,34 @@ public class HumanFilterBuilderTest {
     assertEquals("is not null", x.get(OccurrenceSearchParameter.YEAR).getLast());
   }
 
+  @Test
+  public void testHumanFilterString() throws Exception {
+    List<Predicate> ands = Lists.newArrayList();
+
+    List<Predicate> years = Lists.newArrayList();
+    years.add(new GreaterThanOrEqualsPredicate(OccurrenceSearchParameter.YEAR, "2000"));
+    years.add(new LessThanOrEqualsPredicate(OccurrenceSearchParameter.YEAR, "1760"));
+    ands.add(new DisjunctionPredicate(years));
+
+    List<Predicate> depth = Lists.newArrayList();
+    depth.add(new GreaterThanPredicate(OccurrenceSearchParameter.DEPTH, "2001"));
+    depth.add(new LessThanPredicate(OccurrenceSearchParameter.DEPTH, "1750"));
+    ands.add(new DisjunctionPredicate(depth));
+
+    ands.add(new IsNotNullPredicate(OccurrenceSearchParameter.TYPE_STATUS));
+
+    List<Predicate> countries = Lists.newArrayList();
+    countries.add(new EqualsPredicate(OccurrenceSearchParameter.COUNTRY, Country.ANGOLA.getIso2LetterCode()));
+    countries.add(new EqualsPredicate(OccurrenceSearchParameter.COUNTRY, Country.DENMARK.getIso2LetterCode()));
+    ands.add(new DisjunctionPredicate(countries));
+
+    assertEquals("Year: >= 2000 or <= 1760 \n"
+                 + "Depth: > 2001m or < 1750m \n"
+                 + "TypeStatus: is not null \n"
+                 + "Country: Angola or Denmark"
+                 , builder.humanFilterString(new ConjunctionPredicate(ands)));
+  }
+
   // http://www.gbif-dev.org/occurrence/search?COUNTRY=DE&BASIS_OF_RECORD=HUMAN_OBSERVATION
   // &DATASET_KEY=7a22e1e4-f762-11e1-a439-00145eb45e9a
   // &DATASET_KEY=78ff18a6-1c32-11e2-af65-00145eb45e9a

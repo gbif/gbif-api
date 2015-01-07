@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
+import com.google.common.base.CaseFormat;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
@@ -119,6 +120,33 @@ public class HumanFilterBuilder {
     lastParam = null;
     visit(p);
     return filter;
+  }
+
+  /**
+   * @param p the predicate to convert
+   * @return a list of anded parameters with multiple values to be combined with OR
+   * @throws IllegalStateException if more complex predicates than the portal handles are supplied
+   */
+  public synchronized String humanFilterString(Predicate p) {
+    humanFilter(p);
+    StringBuilder sb = new StringBuilder();
+    for (Map.Entry<OccurrenceSearchParameter, LinkedList<String>> entry : filter.entrySet()) {
+      if (sb.length() > 0) {
+        sb.append(" \n");
+      }
+      sb.append(CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, entry.getKey().name()));
+      sb.append(": ");
+      boolean delimit = false;
+      for (String val : entry.getValue()) {
+        if (delimit) {
+          sb.append(" or ");
+        } else {
+          delimit = true;
+        }
+        sb.append(val);
+      }
+    }
+    return sb.toString();
   }
 
   private void addParamValue(OccurrenceSearchParameter param, String op, String value) {
