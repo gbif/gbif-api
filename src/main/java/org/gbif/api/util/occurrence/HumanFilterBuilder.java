@@ -118,7 +118,9 @@ public class HumanFilterBuilder {
     filter = Maps.newLinkedHashMap();
     state = State.ROOT;
     lastParam = null;
-    visit(p);
+    if (p != null) {
+      visit(p);
+    }
     return filter;
   }
 
@@ -128,6 +130,9 @@ public class HumanFilterBuilder {
    * @throws IllegalStateException if more complex predicates than the portal handles are supplied
    */
   public synchronized String humanFilterString(Predicate p) {
+    if (p == null) {
+      return "All data";
+    }
     humanFilter(p);
     StringBuilder sb = new StringBuilder();
     for (Map.Entry<OccurrenceSearchParameter, LinkedList<String>> entry : filter.entrySet()) {

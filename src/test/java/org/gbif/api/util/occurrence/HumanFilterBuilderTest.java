@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -167,6 +168,16 @@ public class HumanFilterBuilderTest {
                  + "TypeStatus: is not null \n"
                  + "Country: Angola or Denmark"
                  , builder.humanFilterString(new ConjunctionPredicate(ands)));
+  }
+
+  @Test
+  public void testHumanFilterNull() throws Exception {
+    assertEquals(Maps.newLinkedHashMap(), builder.humanFilter(null));
+  }
+
+  @Test
+  public void testHumanFilterStringNull() throws Exception {
+    assertEquals("All data", builder.humanFilterString(null));
   }
 
   // http://www.gbif-dev.org/occurrence/search?COUNTRY=DE&BASIS_OF_RECORD=HUMAN_OBSERVATION
