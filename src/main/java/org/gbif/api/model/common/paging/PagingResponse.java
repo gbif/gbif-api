@@ -115,7 +115,7 @@ public class PagingResponse<T> extends PageableBase {
     if (endOfRecords == null) {
       // automatically determine end
       if (count != null) {
-        return count < offset + limit;
+        return count <= offset + limit;
       } else if (results != null) {
         return results.size() < limit;
       } else {
