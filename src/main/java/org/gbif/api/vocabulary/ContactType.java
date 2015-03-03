@@ -25,13 +25,10 @@ import com.google.common.collect.ImmutableMap;
 
 /**
  * Enumeration for all contact types.
- * See vocabulary used by the IPT:
- * http://rs.gbif.org/vocabulary/gbif/agent_role.xml
+ * A utility to infer types is provided which has historically been used during data migration activities from legacy
+ * systems such as the previous "GBRDS" which was built on MySQL.
  *
- * The IMS contains these types, most of them are not mappable to this enumeration:
- * <ul>
- *
- * </ul>
+ * @see <a href="http://rs.gbif.org/vocabulary/gbif/agent_role.xml">The IPT vocabulary</a>
  */
 public enum ContactType {
 
@@ -68,31 +65,28 @@ public enum ContactType {
     return (ContactType) VocabularyUtils.lookupEnum(contactType, ContactType.class);
   }
 
-  private static final ImmutableMap<String, ContactType> TYPE_LOOKUP;
-
-  static {
-
-    Map<String, ContactType> lookup = new HashMap<String, ContactType>();
-    lookup.put("administrative", ADMINISTRATIVE_POINT_OF_CONTACT);
-    lookup.put("technical", TECHNICAL_POINT_OF_CONTACT);
-    lookup.put("pointofcontact", POINT_OF_CONTACT);
-    lookup.put("originator", ORIGINATOR);
-    lookup.put("metadataprovider", METADATA_AUTHOR);
-    lookup.put("principleinvestigator", PRINCIPAL_INVESTIGATOR);
-    lookup.put("author", AUTHOR);
-    lookup.put("contentprovider", CONTENT_PROVIDER);
-    lookup.put("custodiansteward", CUSTODIAN_STEWARD);
-    lookup.put("distributor", DISTRIBUTOR);
-    lookup.put("editor", EDITOR);
-    lookup.put("owner", OWNER);
-    lookup.put("processor", PROCESSOR);
-    lookup.put("publisher", PUBLISHER);
-    lookup.put("user", USER);
-    lookup.put("programmer", PROGRAMMER);
-    lookup.put("data administrator", DATA_ADMINISTRATOR);
-    lookup.put("system adminsitrator", SYSTEM_ADMINISTRATOR);
-    TYPE_LOOKUP = ImmutableMap.copyOf(lookup);
-  }
+  // deliberate typos have existed and might be in genuine use
+  private static final ImmutableMap<String, ContactType> TYPE_LOOKUP = ImmutableMap.<String, ContactType> builder()
+    .put("administrative", ADMINISTRATIVE_POINT_OF_CONTACT)
+    .put("technical", TECHNICAL_POINT_OF_CONTACT)
+    .put("pointofcontact", POINT_OF_CONTACT)
+    .put("originator", ORIGINATOR)
+    .put("metadataprovider", METADATA_AUTHOR)
+    .put("principleinvestigator", PRINCIPAL_INVESTIGATOR)
+    .put("author", AUTHOR)
+    .put("contentprovider", CONTENT_PROVIDER)
+    .put("custodiansteward", CUSTODIAN_STEWARD)
+    .put("distributor", DISTRIBUTOR)
+    .put("editor", EDITOR)
+    .put("owner", OWNER)
+    .put("processor", PROCESSOR)
+    .put("publisher", PUBLISHER)
+    .put("user", USER)
+    .put("programmer", PROGRAMMER)
+    .put("data administrator", DATA_ADMINISTRATOR)
+    .put("system adminsitrator", SYSTEM_ADMINISTRATOR) // deliberate typo
+    .put("system administrator", SYSTEM_ADMINISTRATOR)
+  .build();
 
   /**
    * Tries its best to infer a ContactType from a given string. This can for example be used for the various contact
@@ -110,5 +104,4 @@ public enum ContactType {
     }
     return null;
   }
-
 }
