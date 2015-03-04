@@ -165,6 +165,18 @@ public class IsoDateParsingUtils {
   }
 
   /**
+   * Calculates the last day of a year or month for the date parameter and return it a new date instance.
+   */
+  public static Date toLastDayOf(Date value, IsoDateFormat isoDateFormat) {
+    if (IsoDateFormat.YEAR_MONTH == isoDateFormat) {
+      return toLastDayOf(value, Calendar.DAY_OF_MONTH);
+    } else if(IsoDateFormat.YEAR == isoDateFormat){
+      return toLastDayOf(value, Calendar.DAY_OF_YEAR);
+    }
+    return value;
+  }
+
+  /**
    * Gets the actual maximum value for a field of a date value.
    */
   private static Date toLastDayOf(Date value, int field) {

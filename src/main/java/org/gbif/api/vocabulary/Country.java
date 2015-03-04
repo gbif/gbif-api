@@ -306,14 +306,14 @@ public enum Country {
   COMOROS("KM", "COM", 174, "Comoros"),
 
   /**
-   * Congo.
-   */
-  CONGO("CG", "COG", 178, "Congo"),
-
-  /**
    * Congo, the Democratic Republic of the.
    */
   CONGO_DEMOCRATIC_REPUBLIC("CD", "COD", 180, "The Democratic Republic of the Congo"),
+
+  /**
+   * Congo.
+   */
+  CONGO("CG", "COG", 178, "Congo"),
 
   /**
    * Cook Islands.
