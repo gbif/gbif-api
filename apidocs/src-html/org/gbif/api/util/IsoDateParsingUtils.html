@@ -173,16 +173,28 @@
 <span class="sourceLineNo">165</span>  }<a name="line.165"></a>
 <span class="sourceLineNo">166</span><a name="line.166"></a>
 <span class="sourceLineNo">167</span>  /**<a name="line.167"></a>
-<span class="sourceLineNo">168</span>   * Gets the actual maximum value for a field of a date value.<a name="line.168"></a>
+<span class="sourceLineNo">168</span>   * Calculates the last day of a year or month for the date parameter and return it a new date instance.<a name="line.168"></a>
 <span class="sourceLineNo">169</span>   */<a name="line.169"></a>
-<span class="sourceLineNo">170</span>  private static Date toLastDayOf(Date value, int field) {<a name="line.170"></a>
-<span class="sourceLineNo">171</span>    Calendar calendar = Calendar.getInstance();<a name="line.171"></a>
-<span class="sourceLineNo">172</span>    calendar.setTime(value);<a name="line.172"></a>
-<span class="sourceLineNo">173</span>    calendar.set(field, calendar.getActualMaximum(field));<a name="line.173"></a>
-<span class="sourceLineNo">174</span>    return calendar.getTime();<a name="line.174"></a>
-<span class="sourceLineNo">175</span>  }<a name="line.175"></a>
-<span class="sourceLineNo">176</span><a name="line.176"></a>
-<span class="sourceLineNo">177</span>}<a name="line.177"></a>
+<span class="sourceLineNo">170</span>  public static Date toLastDayOf(Date value, IsoDateFormat isoDateFormat) {<a name="line.170"></a>
+<span class="sourceLineNo">171</span>    if (IsoDateFormat.YEAR_MONTH == isoDateFormat) {<a name="line.171"></a>
+<span class="sourceLineNo">172</span>      return toLastDayOf(value, Calendar.DAY_OF_MONTH);<a name="line.172"></a>
+<span class="sourceLineNo">173</span>    } else if(IsoDateFormat.YEAR == isoDateFormat){<a name="line.173"></a>
+<span class="sourceLineNo">174</span>      return toLastDayOf(value, Calendar.DAY_OF_YEAR);<a name="line.174"></a>
+<span class="sourceLineNo">175</span>    }<a name="line.175"></a>
+<span class="sourceLineNo">176</span>    return value;<a name="line.176"></a>
+<span class="sourceLineNo">177</span>  }<a name="line.177"></a>
+<span class="sourceLineNo">178</span><a name="line.178"></a>
+<span class="sourceLineNo">179</span>  /**<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   * Gets the actual maximum value for a field of a date value.<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   */<a name="line.181"></a>
+<span class="sourceLineNo">182</span>  private static Date toLastDayOf(Date value, int field) {<a name="line.182"></a>
+<span class="sourceLineNo">183</span>    Calendar calendar = Calendar.getInstance();<a name="line.183"></a>
+<span class="sourceLineNo">184</span>    calendar.setTime(value);<a name="line.184"></a>
+<span class="sourceLineNo">185</span>    calendar.set(field, calendar.getActualMaximum(field));<a name="line.185"></a>
+<span class="sourceLineNo">186</span>    return calendar.getTime();<a name="line.186"></a>
+<span class="sourceLineNo">187</span>  }<a name="line.187"></a>
+<span class="sourceLineNo">188</span><a name="line.188"></a>
+<span class="sourceLineNo">189</span>}<a name="line.189"></a>
 
 
 
