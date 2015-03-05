@@ -53,6 +53,8 @@ public class RankTest {
         assertEquals(Rank.SPECIES, Rank.inferRank(null, "Abies", null, "spec.", null));
         assertEquals(Rank.SUPRAGENERIC_NAME, Rank.inferRank("Neurolaenodinae", null, null, "ib.", null));
         assertEquals(Rank.SUPRAGENERIC_NAME, Rank.inferRank("Neurolaenodinae", null, null, "supersubtrib.", null));
+        assertEquals(Rank.BIOVAR, Rank.inferRank(null, "Pseudomonas", "syringae ", "bv.", "aceris"));
+        assertEquals(Rank.CHEMOFORM, Rank.inferRank(null, "Thymus", "vulgaris", "ct.", "geraniol"));
 
         // should not be able to infer the correct family
         assertEquals(Rank.UNRANKED, Rank.inferRank("Compositae", null, null, null, null));
@@ -70,6 +72,9 @@ public class RankTest {
         assertFalse(Rank.CULTIVAR.isInfraspecific());
         assertTrue(Rank.VARIETY.isInfraspecific());
         assertTrue(Rank.PATHOVAR.isInfraspecific());
+        for (Rank r : Rank.INFRASUBSPECIFIC_MICROBIAL_RANKS) {
+          assertTrue(r.isInfraspecific());
+        }
     }
 
     @Test
@@ -87,6 +92,7 @@ public class RankTest {
         assertFalse(Rank.INFRAGENERIC_NAME.isLinnean());
         assertFalse(Rank.INFORMAL.isLinnean());
         assertFalse(Rank.PATHOVAR.isLinnean());
+        assertFalse(Rank.CHEMOFORM.isLinnean());
     }
 
     @Test
@@ -138,6 +144,27 @@ public class RankTest {
         assertFalse(Rank.CULTIVAR.isSuprageneric());
         assertFalse(Rank.VARIETY.isSuprageneric());
     }
+
+  @Test
+  public void testIsMicrobial() {
+    assertFalse(Rank.SUPERFAMILY.isMicrobial());
+    assertFalse(Rank.KINGDOM.isMicrobial());
+    assertFalse(Rank.PHYLUM.isMicrobial());
+    assertFalse(Rank.SUPERFAMILY.isMicrobial());
+    assertFalse(Rank.SUPRAGENERIC_NAME.isMicrobial());
+    assertFalse(Rank.TRIBE.isMicrobial());
+    assertFalse(Rank.SUBFAMILY.isMicrobial());
+    assertFalse(Rank.INFRAGENERIC_NAME.isMicrobial());
+    assertFalse(Rank.GENUS.isMicrobial());
+    assertFalse(Rank.SPECIES.isMicrobial());
+    assertFalse(Rank.SUBFORM.isMicrobial());
+    assertFalse(Rank.STRAIN.isMicrobial());
+    assertFalse(Rank.VARIETY.isMicrobial());
+
+    assertTrue(Rank.PATHOVAR.isMicrobial());
+    assertTrue(Rank.CHEMOFORM.isMicrobial());
+    assertTrue(Rank.BIOVAR.isMicrobial());
+  }
 
     @Test
     public void testIsUncomparable() {

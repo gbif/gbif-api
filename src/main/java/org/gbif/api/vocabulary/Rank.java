@@ -84,22 +84,97 @@ public enum Rank {
     INFRASUBSPECIFIC_NAME("infrasubsp."),
     VARIETY("var."),
     SUBVARIETY("subvar."),
-    /**
-     * Infrasubspecific rank given to pathogenic bacteria.
-     * See <a href="http://www.isppweb.org/about_tppb_naming.asp">International Standards for Naming Pathovars of Phytopathogenic Bacteria</a>
-     * See <a href="http://sipav.org/main/jpp/index.php/jpp/article/view/682">Demystifying the nomenclature of bacterial plant pathogens</a>
-     * See <a href="http://link.springer.com/chapter/10.1007/978-94-009-3555-6_171">Problems with the Pathovar Concept</a>
-     *
-    */
-    PATHOVAR("pv."),
+
     FORM("f."),
     SUBFORM("subf."),
-    CULTIVAR_GROUP,
-    CULTIVAR("cv."),
+
     /**
      * A microbial strain.
      */
     STRAIN("strain"),
+
+    /**
+     * Microbial rank.
+     * Pathogenic reactions in one or more hosts.
+     * For recommendations on designating pathovars and use of designations when reviving names see
+     * Dye et al. (1980) Standards for naming pathovars of phytopathogenic bacteria and a list of pathovar names and pathotype strains.
+     * Rev. Plant Pathol. 59:153–168.
+     * See <a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly">Bacteriological Code</a>
+     * See <a href="http://www.isppweb.org/about_tppb_naming.asp">International Standards for Naming Pathovars of Phytopathogenic Bacteria</a>
+     * See <a href="http://sipav.org/main/jpp/index.php/jpp/article/view/682">Demystifying the nomenclature of bacterial plant pathogens</a>
+     * See <a href="http://link.springer.com/chapter/10.1007/978-94-009-3555-6_171">Problems with the Pathovar Concept</a>
+     *
+     * For example Pseudomonas syringae pv. lachrymans
+     */
+    PATHOVAR("pv."),
+
+    /**
+     * Microbial rank.
+     * Biochemical or physiological properties.
+     * See <a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly">Bacteriological Code</a>
+     *
+     * For example Francisella tularensis biovar tularensis
+     */
+    BIOVAR("biovar"),
+
+    /**
+     * Microbial rank.
+     * Production or amount of production of a particular chemical.
+     * See <a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly">Bacteriological Code</a>
+     *
+     * For example Vibrio alginolyticus chemovar iophagus
+     */
+    CHEMOVAR("chemovar"),
+
+    /**
+     * Microbial rank.
+     * Morphological characterislics.
+     * See <a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly">Bacteriological Code</a>
+     *
+     * For example Acinetobacter junii morphovar I
+     */
+    MORPHOVAR("morphovar"),
+
+    /**
+     * Microbial rank.
+     * Biochemical or physiological properties.
+     * See <a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly">Bacteriological Code</a>
+     *
+     * For example Staphyloccocus aureus phagovar 42D
+     */
+    PHAGOVAR("phagovar"),
+
+    /**
+     * Microbial rank.
+     * Biochemical or physiological properties.
+     * See <a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly">Bacteriological Code</a>
+     *
+     * For example Salmonella enterica serovar Dublin
+     */
+    SEROVAR("serovar"),
+
+    /**
+     * Microbial rank.
+     * Chemical constitution.
+     * See <a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly">Bacteriological Code</a>
+     *
+     * For example Thymus vulgaris ct. geraniol
+     */
+    CHEMOFORM("chemoform"),
+
+    /**
+     * Microbial rank.
+     * A parasitic, symbiotic, or commensal microorganism distinguished primarily by adaptation to a particular host or habitat.
+     * Named preferably by the scientific name of the host in the genitive.
+     * See <a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly">Bacteriological Code</a>
+     *
+     * For example Puccinia graminis f. sp. avenae
+     */
+    FORMA_SPECIALIS("f.sp."),
+
+    CULTIVAR_GROUP,
+    CULTIVAR("cv."),
+
     INFORMAL,
     UNRANKED;
 
@@ -117,11 +192,17 @@ public enum Rank {
      * so one cannot say if its higher or lower than a species for example.
      */
     public static final Set<Rank> UNCOMPARABLE_RANKS;
+
     /**
      * Set of all ranks including uncomparable ones which are species or below.
      */
     public static final Set<Rank> SPECIES_OR_BELOW;
 
+    /**
+     * Set of all infrasubspecific ranks used in microbiology.
+     */
+    public static final Set<Rank> INFRASUBSPECIFIC_MICROBIAL_RANKS = ImmutableSet.of(PATHOVAR,BIOVAR,CHEMOVAR,MORPHOVAR,
+      PHAGOVAR,SEROVAR,CHEMOFORM,FORMA_SPECIALIS);
 
     /**
      * Map of rank markers to their respective rank enum.
@@ -227,12 +308,12 @@ public enum Rank {
         ranks.add(INFRASUBSPECIFIC_NAME);
         ranks.add(VARIETY);
         ranks.add(SUBVARIETY);
-        ranks.add(PATHOVAR);
         ranks.add(FORM);
         ranks.add(SUBFORM);
         ranks.add(CULTIVAR_GROUP);
         ranks.add(CULTIVAR);
         ranks.add(STRAIN);
+        ranks.addAll(INFRASUBSPECIFIC_MICROBIAL_RANKS);
         SPECIES_OR_BELOW = ImmutableSet.copyOf(ranks);
     }
 
@@ -276,7 +357,6 @@ public enum Rank {
         ranks.put("subvar", SUBVARIETY);
         ranks.put("subv", SUBVARIETY);
         ranks.put("sv", SUBVARIETY);
-        ranks.put("pv", PATHOVAR);
         ranks.put("forma", FORM);
         ranks.put("form", FORM);
         ranks.put("fo", FORM);
@@ -284,6 +364,10 @@ public enum Rank {
         ranks.put("subform", SUBFORM);
         ranks.put("subf", SUBFORM);
         ranks.put("sf", SUBFORM);
+        ranks.put("pv", PATHOVAR);
+        ranks.put("ct", CHEMOFORM);
+        ranks.put("bv", BIOVAR);
+        ranks.put("fsp", FORMA_SPECIALIS);
         ranks.put("cv", CULTIVAR);
         ranks.put("hort", CULTIVAR);
         ranks.put("m", INFRASUBSPECIFIC_NAME);
@@ -411,6 +495,13 @@ public enum Rank {
     public boolean isSpeciesOrBelow() {
         return SPECIES_OR_BELOW.contains(this);
     }
+
+    /**
+     * True for all infrasubspecific ranks used in microbiology.
+     */
+    public boolean isMicrobial() {
+    return INFRASUBSPECIFIC_MICROBIAL_RANKS.contains(this);
+  }
 
     /**
      * @return true if the rank is a above genus.
