@@ -62,179 +62,183 @@
 <span class="sourceLineNo">054</span>        assertEquals(Rank.SUPRAGENERIC_NAME, Rank.inferRank("Neurolaenodinae", null, null, "ib.", null));<a name="line.54"></a>
 <span class="sourceLineNo">055</span>        assertEquals(Rank.SUPRAGENERIC_NAME, Rank.inferRank("Neurolaenodinae", null, null, "supersubtrib.", null));<a name="line.55"></a>
 <span class="sourceLineNo">056</span>        assertEquals(Rank.BIOVAR, Rank.inferRank(null, "Pseudomonas", "syringae ", "bv.", "aceris"));<a name="line.56"></a>
-<span class="sourceLineNo">057</span>        assertEquals(Rank.CHEMOFORM, Rank.inferRank(null, "Thymus", "vulgaris", "ct.", "geraniol"));<a name="line.57"></a>
-<span class="sourceLineNo">058</span><a name="line.58"></a>
-<span class="sourceLineNo">059</span>        // should not be able to infer the correct family<a name="line.59"></a>
-<span class="sourceLineNo">060</span>        assertEquals(Rank.UNRANKED, Rank.inferRank("Compositae", null, null, null, null));<a name="line.60"></a>
-<span class="sourceLineNo">061</span>    }<a name="line.61"></a>
+<span class="sourceLineNo">057</span>        assertEquals(Rank.BIOVAR, Rank.inferRank(null, "Thymus", "vulgaris", "biovar", "geraniol"));<a name="line.57"></a>
+<span class="sourceLineNo">058</span>        assertEquals(Rank.CHEMOFORM, Rank.inferRank(null, "Thymus", "vulgaris", "ct.", "geraniol"));<a name="line.58"></a>
+<span class="sourceLineNo">059</span>        assertEquals(Rank.CHEMOFORM, Rank.inferRank(null, "Thymus", "vulgaris", "chemoform", "geraniol"));<a name="line.59"></a>
+<span class="sourceLineNo">060</span>        assertEquals(Rank.CHEMOVAR, Rank.inferRank(null, "Thymus", "vulgaris", "chemovar", "geraniol"));<a name="line.60"></a>
+<span class="sourceLineNo">061</span>        assertEquals(Rank.SEROVAR, Rank.inferRank(null, "Thymus", "vulgaris", "serovar", "geraniol"));<a name="line.61"></a>
 <span class="sourceLineNo">062</span><a name="line.62"></a>
-<span class="sourceLineNo">063</span>    @Test<a name="line.63"></a>
-<span class="sourceLineNo">064</span>    public void testIsInfraspecific() {<a name="line.64"></a>
-<span class="sourceLineNo">065</span>        assertFalse(Rank.SUPERFAMILY.isInfraspecific());<a name="line.65"></a>
-<span class="sourceLineNo">066</span>        assertFalse(Rank.KINGDOM.isInfraspecific());<a name="line.66"></a>
-<span class="sourceLineNo">067</span>        assertFalse(Rank.INFRAGENERIC_NAME.isInfraspecific());<a name="line.67"></a>
-<span class="sourceLineNo">068</span>        assertFalse(Rank.GENUS.isInfraspecific());<a name="line.68"></a>
-<span class="sourceLineNo">069</span>        assertFalse(Rank.SPECIES.isInfraspecific());<a name="line.69"></a>
-<span class="sourceLineNo">070</span>        assertTrue(Rank.SUBFORM.isInfraspecific());<a name="line.70"></a>
-<span class="sourceLineNo">071</span>        assertFalse(Rank.STRAIN.isInfraspecific());<a name="line.71"></a>
-<span class="sourceLineNo">072</span>        assertFalse(Rank.CULTIVAR.isInfraspecific());<a name="line.72"></a>
-<span class="sourceLineNo">073</span>        assertTrue(Rank.VARIETY.isInfraspecific());<a name="line.73"></a>
-<span class="sourceLineNo">074</span>        assertTrue(Rank.PATHOVAR.isInfraspecific());<a name="line.74"></a>
-<span class="sourceLineNo">075</span>        for (Rank r : Rank.INFRASUBSPECIFIC_MICROBIAL_RANKS) {<a name="line.75"></a>
-<span class="sourceLineNo">076</span>          assertTrue(r.isInfraspecific());<a name="line.76"></a>
-<span class="sourceLineNo">077</span>        }<a name="line.77"></a>
-<span class="sourceLineNo">078</span>    }<a name="line.78"></a>
-<span class="sourceLineNo">079</span><a name="line.79"></a>
-<span class="sourceLineNo">080</span>    @Test<a name="line.80"></a>
-<span class="sourceLineNo">081</span>    public void testIsLinnean() {<a name="line.81"></a>
-<span class="sourceLineNo">082</span>        assertTrue(Rank.KINGDOM.isLinnean());<a name="line.82"></a>
-<span class="sourceLineNo">083</span>        assertTrue(Rank.PHYLUM.isLinnean());<a name="line.83"></a>
-<span class="sourceLineNo">084</span>        assertTrue(Rank.CLASS.isLinnean());<a name="line.84"></a>
-<span class="sourceLineNo">085</span>        assertTrue(Rank.ORDER.isLinnean());<a name="line.85"></a>
-<span class="sourceLineNo">086</span>        assertTrue(Rank.FAMILY.isLinnean());<a name="line.86"></a>
-<span class="sourceLineNo">087</span>        assertTrue(Rank.GENUS.isLinnean());<a name="line.87"></a>
-<span class="sourceLineNo">088</span>        assertTrue(Rank.SPECIES.isLinnean());<a name="line.88"></a>
-<span class="sourceLineNo">089</span>        assertFalse(Rank.SUBSECTION.isLinnean());<a name="line.89"></a>
-<span class="sourceLineNo">090</span>        assertFalse(Rank.SUBGENUS.isLinnean());<a name="line.90"></a>
-<span class="sourceLineNo">091</span>        assertFalse(Rank.SUPERFAMILY.isLinnean());<a name="line.91"></a>
-<span class="sourceLineNo">092</span>        assertFalse(Rank.INFRAGENERIC_NAME.isLinnean());<a name="line.92"></a>
-<span class="sourceLineNo">093</span>        assertFalse(Rank.INFORMAL.isLinnean());<a name="line.93"></a>
-<span class="sourceLineNo">094</span>        assertFalse(Rank.PATHOVAR.isLinnean());<a name="line.94"></a>
-<span class="sourceLineNo">095</span>        assertFalse(Rank.CHEMOFORM.isLinnean());<a name="line.95"></a>
-<span class="sourceLineNo">096</span>    }<a name="line.96"></a>
-<span class="sourceLineNo">097</span><a name="line.97"></a>
-<span class="sourceLineNo">098</span>    @Test<a name="line.98"></a>
-<span class="sourceLineNo">099</span>    public void testIsSpeciesOrBelow() {<a name="line.99"></a>
-<span class="sourceLineNo">100</span>        assertFalse(Rank.SUPERFAMILY.isSpeciesOrBelow());<a name="line.100"></a>
-<span class="sourceLineNo">101</span>        assertFalse(Rank.KINGDOM.isSpeciesOrBelow());<a name="line.101"></a>
-<span class="sourceLineNo">102</span>        assertFalse(Rank.INFRAGENERIC_NAME.isSpeciesOrBelow());<a name="line.102"></a>
-<span class="sourceLineNo">103</span>        assertFalse(Rank.GENUS.isSpeciesOrBelow());<a name="line.103"></a>
-<span class="sourceLineNo">104</span>        assertTrue(Rank.SPECIES.isSpeciesOrBelow());<a name="line.104"></a>
-<span class="sourceLineNo">105</span>        assertTrue(Rank.SUBFORM.isSpeciesOrBelow());<a name="line.105"></a>
-<span class="sourceLineNo">106</span>        assertTrue(Rank.STRAIN.isSpeciesOrBelow());<a name="line.106"></a>
-<span class="sourceLineNo">107</span>        assertTrue(Rank.CULTIVAR.isSpeciesOrBelow());<a name="line.107"></a>
-<span class="sourceLineNo">108</span>        assertTrue(Rank.VARIETY.isSpeciesOrBelow());<a name="line.108"></a>
-<span class="sourceLineNo">109</span>        assertTrue(Rank.PATHOVAR.isSpeciesOrBelow());<a name="line.109"></a>
-<span class="sourceLineNo">110</span>    }<a name="line.110"></a>
-<span class="sourceLineNo">111</span><a name="line.111"></a>
-<span class="sourceLineNo">112</span>    @Test<a name="line.112"></a>
-<span class="sourceLineNo">113</span>    public void testIsInfrageneric() {<a name="line.113"></a>
-<span class="sourceLineNo">114</span>        assertFalse(Rank.SUPERFAMILY.isInfrageneric());<a name="line.114"></a>
-<span class="sourceLineNo">115</span>        assertFalse(Rank.FAMILY.isInfrageneric());<a name="line.115"></a>
-<span class="sourceLineNo">116</span>        assertFalse(Rank.SUPRAGENERIC_NAME.isInfrageneric());<a name="line.116"></a>
-<span class="sourceLineNo">117</span>        assertFalse(Rank.SUBFAMILY.isInfrageneric());<a name="line.117"></a>
-<span class="sourceLineNo">118</span>        assertFalse(Rank.TRIBE.isInfrageneric());<a name="line.118"></a>
-<span class="sourceLineNo">119</span>        assertFalse(Rank.GENUS.isInfrageneric());<a name="line.119"></a>
-<span class="sourceLineNo">120</span><a name="line.120"></a>
-<span class="sourceLineNo">121</span>        assertTrue(Rank.SUBGENUS.isInfrageneric());<a name="line.121"></a>
-<span class="sourceLineNo">122</span>        assertTrue(Rank.INFRAGENERIC_NAME.isInfrageneric());<a name="line.122"></a>
-<span class="sourceLineNo">123</span>        assertTrue(Rank.SPECIES.isInfrageneric());<a name="line.123"></a>
-<span class="sourceLineNo">124</span>        assertTrue(Rank.SUBFORM.isInfrageneric());<a name="line.124"></a>
-<span class="sourceLineNo">125</span>        assertTrue(Rank.STRAIN.isInfrageneric());<a name="line.125"></a>
-<span class="sourceLineNo">126</span>        assertTrue(Rank.CULTIVAR.isInfrageneric());<a name="line.126"></a>
-<span class="sourceLineNo">127</span>        assertTrue(Rank.VARIETY.isInfrageneric());<a name="line.127"></a>
-<span class="sourceLineNo">128</span>    }<a name="line.128"></a>
-<span class="sourceLineNo">129</span><a name="line.129"></a>
-<span class="sourceLineNo">130</span>    @Test<a name="line.130"></a>
-<span class="sourceLineNo">131</span>    public void testIsSuprageneric() {<a name="line.131"></a>
-<span class="sourceLineNo">132</span>        assertTrue(Rank.SUPERFAMILY.isSuprageneric());<a name="line.132"></a>
-<span class="sourceLineNo">133</span>        assertTrue(Rank.KINGDOM.isSuprageneric());<a name="line.133"></a>
-<span class="sourceLineNo">134</span>        assertTrue(Rank.PHYLUM.isSuprageneric());<a name="line.134"></a>
-<span class="sourceLineNo">135</span>        assertTrue(Rank.SUPERFAMILY.isSuprageneric());<a name="line.135"></a>
-<span class="sourceLineNo">136</span>        assertTrue(Rank.SUPRAGENERIC_NAME.isSuprageneric());<a name="line.136"></a>
-<span class="sourceLineNo">137</span>        assertTrue(Rank.TRIBE.isSuprageneric());<a name="line.137"></a>
-<span class="sourceLineNo">138</span>        assertTrue(Rank.SUBFAMILY.isSuprageneric());<a name="line.138"></a>
-<span class="sourceLineNo">139</span>        assertFalse(Rank.INFRAGENERIC_NAME.isSuprageneric());<a name="line.139"></a>
-<span class="sourceLineNo">140</span>        assertFalse(Rank.GENUS.isSuprageneric());<a name="line.140"></a>
-<span class="sourceLineNo">141</span>        assertFalse(Rank.SPECIES.isSuprageneric());<a name="line.141"></a>
-<span class="sourceLineNo">142</span>        assertFalse(Rank.SUBFORM.isSuprageneric());<a name="line.142"></a>
-<span class="sourceLineNo">143</span>        assertFalse(Rank.STRAIN.isSuprageneric());<a name="line.143"></a>
-<span class="sourceLineNo">144</span>        assertFalse(Rank.CULTIVAR.isSuprageneric());<a name="line.144"></a>
-<span class="sourceLineNo">145</span>        assertFalse(Rank.VARIETY.isSuprageneric());<a name="line.145"></a>
-<span class="sourceLineNo">146</span>    }<a name="line.146"></a>
-<span class="sourceLineNo">147</span><a name="line.147"></a>
-<span class="sourceLineNo">148</span>  @Test<a name="line.148"></a>
-<span class="sourceLineNo">149</span>  public void testIsMicrobial() {<a name="line.149"></a>
-<span class="sourceLineNo">150</span>    assertFalse(Rank.SUPERFAMILY.isMicrobial());<a name="line.150"></a>
-<span class="sourceLineNo">151</span>    assertFalse(Rank.KINGDOM.isMicrobial());<a name="line.151"></a>
-<span class="sourceLineNo">152</span>    assertFalse(Rank.PHYLUM.isMicrobial());<a name="line.152"></a>
-<span class="sourceLineNo">153</span>    assertFalse(Rank.SUPERFAMILY.isMicrobial());<a name="line.153"></a>
-<span class="sourceLineNo">154</span>    assertFalse(Rank.SUPRAGENERIC_NAME.isMicrobial());<a name="line.154"></a>
-<span class="sourceLineNo">155</span>    assertFalse(Rank.TRIBE.isMicrobial());<a name="line.155"></a>
-<span class="sourceLineNo">156</span>    assertFalse(Rank.SUBFAMILY.isMicrobial());<a name="line.156"></a>
-<span class="sourceLineNo">157</span>    assertFalse(Rank.INFRAGENERIC_NAME.isMicrobial());<a name="line.157"></a>
-<span class="sourceLineNo">158</span>    assertFalse(Rank.GENUS.isMicrobial());<a name="line.158"></a>
-<span class="sourceLineNo">159</span>    assertFalse(Rank.SPECIES.isMicrobial());<a name="line.159"></a>
-<span class="sourceLineNo">160</span>    assertFalse(Rank.SUBFORM.isMicrobial());<a name="line.160"></a>
-<span class="sourceLineNo">161</span>    assertFalse(Rank.STRAIN.isMicrobial());<a name="line.161"></a>
-<span class="sourceLineNo">162</span>    assertFalse(Rank.VARIETY.isMicrobial());<a name="line.162"></a>
-<span class="sourceLineNo">163</span><a name="line.163"></a>
-<span class="sourceLineNo">164</span>    assertTrue(Rank.PATHOVAR.isMicrobial());<a name="line.164"></a>
-<span class="sourceLineNo">165</span>    assertTrue(Rank.CHEMOFORM.isMicrobial());<a name="line.165"></a>
-<span class="sourceLineNo">166</span>    assertTrue(Rank.BIOVAR.isMicrobial());<a name="line.166"></a>
-<span class="sourceLineNo">167</span>  }<a name="line.167"></a>
-<span class="sourceLineNo">168</span><a name="line.168"></a>
-<span class="sourceLineNo">169</span>    @Test<a name="line.169"></a>
-<span class="sourceLineNo">170</span>    public void testIsUncomparable() {<a name="line.170"></a>
-<span class="sourceLineNo">171</span>        assertFalse(Rank.KINGDOM.isUncomparable());<a name="line.171"></a>
-<span class="sourceLineNo">172</span>        assertFalse(Rank.PHYLUM.isUncomparable());<a name="line.172"></a>
-<span class="sourceLineNo">173</span>        assertFalse(Rank.CLASS.isUncomparable());<a name="line.173"></a>
-<span class="sourceLineNo">174</span>        assertFalse(Rank.ORDER.isUncomparable());<a name="line.174"></a>
-<span class="sourceLineNo">175</span>        assertFalse(Rank.FAMILY.isUncomparable());<a name="line.175"></a>
-<span class="sourceLineNo">176</span>        assertFalse(Rank.GENUS.isUncomparable());<a name="line.176"></a>
-<span class="sourceLineNo">177</span>        assertFalse(Rank.SPECIES.isUncomparable());<a name="line.177"></a>
-<span class="sourceLineNo">178</span>        assertFalse(Rank.SUBSECTION.isUncomparable());<a name="line.178"></a>
-<span class="sourceLineNo">179</span>        assertFalse(Rank.SUBGENUS.isUncomparable());<a name="line.179"></a>
-<span class="sourceLineNo">180</span>        assertFalse(Rank.SUPERFAMILY.isUncomparable());<a name="line.180"></a>
-<span class="sourceLineNo">181</span>        assertTrue(Rank.INFRAGENERIC_NAME.isUncomparable());<a name="line.181"></a>
-<span class="sourceLineNo">182</span>        assertTrue(Rank.INFORMAL.isUncomparable());<a name="line.182"></a>
-<span class="sourceLineNo">183</span>    }<a name="line.183"></a>
-<span class="sourceLineNo">184</span><a name="line.184"></a>
-<span class="sourceLineNo">185</span>    @Test<a name="line.185"></a>
-<span class="sourceLineNo">186</span>    public void testSuffixMap() {<a name="line.186"></a>
-<span class="sourceLineNo">187</span>        // wrong matches<a name="line.187"></a>
+<span class="sourceLineNo">063</span>        // should not be able to infer the correct family<a name="line.63"></a>
+<span class="sourceLineNo">064</span>        assertEquals(Rank.UNRANKED, Rank.inferRank("Compositae", null, null, null, null));<a name="line.64"></a>
+<span class="sourceLineNo">065</span>    }<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>    @Test<a name="line.67"></a>
+<span class="sourceLineNo">068</span>    public void testIsInfraspecific() {<a name="line.68"></a>
+<span class="sourceLineNo">069</span>        assertFalse(Rank.SUPERFAMILY.isInfraspecific());<a name="line.69"></a>
+<span class="sourceLineNo">070</span>        assertFalse(Rank.KINGDOM.isInfraspecific());<a name="line.70"></a>
+<span class="sourceLineNo">071</span>        assertFalse(Rank.INFRAGENERIC_NAME.isInfraspecific());<a name="line.71"></a>
+<span class="sourceLineNo">072</span>        assertFalse(Rank.GENUS.isInfraspecific());<a name="line.72"></a>
+<span class="sourceLineNo">073</span>        assertFalse(Rank.SPECIES.isInfraspecific());<a name="line.73"></a>
+<span class="sourceLineNo">074</span>        assertTrue(Rank.SUBFORM.isInfraspecific());<a name="line.74"></a>
+<span class="sourceLineNo">075</span>        assertFalse(Rank.STRAIN.isInfraspecific());<a name="line.75"></a>
+<span class="sourceLineNo">076</span>        assertFalse(Rank.CULTIVAR.isInfraspecific());<a name="line.76"></a>
+<span class="sourceLineNo">077</span>        assertTrue(Rank.VARIETY.isInfraspecific());<a name="line.77"></a>
+<span class="sourceLineNo">078</span>        assertTrue(Rank.PATHOVAR.isInfraspecific());<a name="line.78"></a>
+<span class="sourceLineNo">079</span>        for (Rank r : Rank.INFRASUBSPECIFIC_MICROBIAL_RANKS) {<a name="line.79"></a>
+<span class="sourceLineNo">080</span>          assertTrue(r.isInfraspecific());<a name="line.80"></a>
+<span class="sourceLineNo">081</span>        }<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    }<a name="line.82"></a>
+<span class="sourceLineNo">083</span><a name="line.83"></a>
+<span class="sourceLineNo">084</span>    @Test<a name="line.84"></a>
+<span class="sourceLineNo">085</span>    public void testIsLinnean() {<a name="line.85"></a>
+<span class="sourceLineNo">086</span>        assertTrue(Rank.KINGDOM.isLinnean());<a name="line.86"></a>
+<span class="sourceLineNo">087</span>        assertTrue(Rank.PHYLUM.isLinnean());<a name="line.87"></a>
+<span class="sourceLineNo">088</span>        assertTrue(Rank.CLASS.isLinnean());<a name="line.88"></a>
+<span class="sourceLineNo">089</span>        assertTrue(Rank.ORDER.isLinnean());<a name="line.89"></a>
+<span class="sourceLineNo">090</span>        assertTrue(Rank.FAMILY.isLinnean());<a name="line.90"></a>
+<span class="sourceLineNo">091</span>        assertTrue(Rank.GENUS.isLinnean());<a name="line.91"></a>
+<span class="sourceLineNo">092</span>        assertTrue(Rank.SPECIES.isLinnean());<a name="line.92"></a>
+<span class="sourceLineNo">093</span>        assertFalse(Rank.SUBSECTION.isLinnean());<a name="line.93"></a>
+<span class="sourceLineNo">094</span>        assertFalse(Rank.SUBGENUS.isLinnean());<a name="line.94"></a>
+<span class="sourceLineNo">095</span>        assertFalse(Rank.SUPERFAMILY.isLinnean());<a name="line.95"></a>
+<span class="sourceLineNo">096</span>        assertFalse(Rank.INFRAGENERIC_NAME.isLinnean());<a name="line.96"></a>
+<span class="sourceLineNo">097</span>        assertFalse(Rank.INFORMAL.isLinnean());<a name="line.97"></a>
+<span class="sourceLineNo">098</span>        assertFalse(Rank.PATHOVAR.isLinnean());<a name="line.98"></a>
+<span class="sourceLineNo">099</span>        assertFalse(Rank.CHEMOFORM.isLinnean());<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    }<a name="line.100"></a>
+<span class="sourceLineNo">101</span><a name="line.101"></a>
+<span class="sourceLineNo">102</span>    @Test<a name="line.102"></a>
+<span class="sourceLineNo">103</span>    public void testIsSpeciesOrBelow() {<a name="line.103"></a>
+<span class="sourceLineNo">104</span>        assertFalse(Rank.SUPERFAMILY.isSpeciesOrBelow());<a name="line.104"></a>
+<span class="sourceLineNo">105</span>        assertFalse(Rank.KINGDOM.isSpeciesOrBelow());<a name="line.105"></a>
+<span class="sourceLineNo">106</span>        assertFalse(Rank.INFRAGENERIC_NAME.isSpeciesOrBelow());<a name="line.106"></a>
+<span class="sourceLineNo">107</span>        assertFalse(Rank.GENUS.isSpeciesOrBelow());<a name="line.107"></a>
+<span class="sourceLineNo">108</span>        assertTrue(Rank.SPECIES.isSpeciesOrBelow());<a name="line.108"></a>
+<span class="sourceLineNo">109</span>        assertTrue(Rank.SUBFORM.isSpeciesOrBelow());<a name="line.109"></a>
+<span class="sourceLineNo">110</span>        assertTrue(Rank.STRAIN.isSpeciesOrBelow());<a name="line.110"></a>
+<span class="sourceLineNo">111</span>        assertTrue(Rank.CULTIVAR.isSpeciesOrBelow());<a name="line.111"></a>
+<span class="sourceLineNo">112</span>        assertTrue(Rank.VARIETY.isSpeciesOrBelow());<a name="line.112"></a>
+<span class="sourceLineNo">113</span>        assertTrue(Rank.PATHOVAR.isSpeciesOrBelow());<a name="line.113"></a>
+<span class="sourceLineNo">114</span>    }<a name="line.114"></a>
+<span class="sourceLineNo">115</span><a name="line.115"></a>
+<span class="sourceLineNo">116</span>    @Test<a name="line.116"></a>
+<span class="sourceLineNo">117</span>    public void testIsInfrageneric() {<a name="line.117"></a>
+<span class="sourceLineNo">118</span>        assertFalse(Rank.SUPERFAMILY.isInfrageneric());<a name="line.118"></a>
+<span class="sourceLineNo">119</span>        assertFalse(Rank.FAMILY.isInfrageneric());<a name="line.119"></a>
+<span class="sourceLineNo">120</span>        assertFalse(Rank.SUPRAGENERIC_NAME.isInfrageneric());<a name="line.120"></a>
+<span class="sourceLineNo">121</span>        assertFalse(Rank.SUBFAMILY.isInfrageneric());<a name="line.121"></a>
+<span class="sourceLineNo">122</span>        assertFalse(Rank.TRIBE.isInfrageneric());<a name="line.122"></a>
+<span class="sourceLineNo">123</span>        assertFalse(Rank.GENUS.isInfrageneric());<a name="line.123"></a>
+<span class="sourceLineNo">124</span><a name="line.124"></a>
+<span class="sourceLineNo">125</span>        assertTrue(Rank.SUBGENUS.isInfrageneric());<a name="line.125"></a>
+<span class="sourceLineNo">126</span>        assertTrue(Rank.INFRAGENERIC_NAME.isInfrageneric());<a name="line.126"></a>
+<span class="sourceLineNo">127</span>        assertTrue(Rank.SPECIES.isInfrageneric());<a name="line.127"></a>
+<span class="sourceLineNo">128</span>        assertTrue(Rank.SUBFORM.isInfrageneric());<a name="line.128"></a>
+<span class="sourceLineNo">129</span>        assertTrue(Rank.STRAIN.isInfrageneric());<a name="line.129"></a>
+<span class="sourceLineNo">130</span>        assertTrue(Rank.CULTIVAR.isInfrageneric());<a name="line.130"></a>
+<span class="sourceLineNo">131</span>        assertTrue(Rank.VARIETY.isInfrageneric());<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    }<a name="line.132"></a>
+<span class="sourceLineNo">133</span><a name="line.133"></a>
+<span class="sourceLineNo">134</span>    @Test<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    public void testIsSuprageneric() {<a name="line.135"></a>
+<span class="sourceLineNo">136</span>        assertTrue(Rank.SUPERFAMILY.isSuprageneric());<a name="line.136"></a>
+<span class="sourceLineNo">137</span>        assertTrue(Rank.KINGDOM.isSuprageneric());<a name="line.137"></a>
+<span class="sourceLineNo">138</span>        assertTrue(Rank.PHYLUM.isSuprageneric());<a name="line.138"></a>
+<span class="sourceLineNo">139</span>        assertTrue(Rank.SUPERFAMILY.isSuprageneric());<a name="line.139"></a>
+<span class="sourceLineNo">140</span>        assertTrue(Rank.SUPRAGENERIC_NAME.isSuprageneric());<a name="line.140"></a>
+<span class="sourceLineNo">141</span>        assertTrue(Rank.TRIBE.isSuprageneric());<a name="line.141"></a>
+<span class="sourceLineNo">142</span>        assertTrue(Rank.SUBFAMILY.isSuprageneric());<a name="line.142"></a>
+<span class="sourceLineNo">143</span>        assertFalse(Rank.INFRAGENERIC_NAME.isSuprageneric());<a name="line.143"></a>
+<span class="sourceLineNo">144</span>        assertFalse(Rank.GENUS.isSuprageneric());<a name="line.144"></a>
+<span class="sourceLineNo">145</span>        assertFalse(Rank.SPECIES.isSuprageneric());<a name="line.145"></a>
+<span class="sourceLineNo">146</span>        assertFalse(Rank.SUBFORM.isSuprageneric());<a name="line.146"></a>
+<span class="sourceLineNo">147</span>        assertFalse(Rank.STRAIN.isSuprageneric());<a name="line.147"></a>
+<span class="sourceLineNo">148</span>        assertFalse(Rank.CULTIVAR.isSuprageneric());<a name="line.148"></a>
+<span class="sourceLineNo">149</span>        assertFalse(Rank.VARIETY.isSuprageneric());<a name="line.149"></a>
+<span class="sourceLineNo">150</span>    }<a name="line.150"></a>
+<span class="sourceLineNo">151</span><a name="line.151"></a>
+<span class="sourceLineNo">152</span>  @Test<a name="line.152"></a>
+<span class="sourceLineNo">153</span>  public void testIsMicrobial() {<a name="line.153"></a>
+<span class="sourceLineNo">154</span>    assertFalse(Rank.SUPERFAMILY.isMicrobial());<a name="line.154"></a>
+<span class="sourceLineNo">155</span>    assertFalse(Rank.KINGDOM.isMicrobial());<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    assertFalse(Rank.PHYLUM.isMicrobial());<a name="line.156"></a>
+<span class="sourceLineNo">157</span>    assertFalse(Rank.SUPERFAMILY.isMicrobial());<a name="line.157"></a>
+<span class="sourceLineNo">158</span>    assertFalse(Rank.SUPRAGENERIC_NAME.isMicrobial());<a name="line.158"></a>
+<span class="sourceLineNo">159</span>    assertFalse(Rank.TRIBE.isMicrobial());<a name="line.159"></a>
+<span class="sourceLineNo">160</span>    assertFalse(Rank.SUBFAMILY.isMicrobial());<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    assertFalse(Rank.INFRAGENERIC_NAME.isMicrobial());<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    assertFalse(Rank.GENUS.isMicrobial());<a name="line.162"></a>
+<span class="sourceLineNo">163</span>    assertFalse(Rank.SPECIES.isMicrobial());<a name="line.163"></a>
+<span class="sourceLineNo">164</span>    assertFalse(Rank.SUBFORM.isMicrobial());<a name="line.164"></a>
+<span class="sourceLineNo">165</span>    assertFalse(Rank.STRAIN.isMicrobial());<a name="line.165"></a>
+<span class="sourceLineNo">166</span>    assertFalse(Rank.VARIETY.isMicrobial());<a name="line.166"></a>
+<span class="sourceLineNo">167</span><a name="line.167"></a>
+<span class="sourceLineNo">168</span>    assertTrue(Rank.PATHOVAR.isMicrobial());<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    assertTrue(Rank.CHEMOFORM.isMicrobial());<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    assertTrue(Rank.BIOVAR.isMicrobial());<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  }<a name="line.171"></a>
+<span class="sourceLineNo">172</span><a name="line.172"></a>
+<span class="sourceLineNo">173</span>    @Test<a name="line.173"></a>
+<span class="sourceLineNo">174</span>    public void testIsUncomparable() {<a name="line.174"></a>
+<span class="sourceLineNo">175</span>        assertFalse(Rank.KINGDOM.isUncomparable());<a name="line.175"></a>
+<span class="sourceLineNo">176</span>        assertFalse(Rank.PHYLUM.isUncomparable());<a name="line.176"></a>
+<span class="sourceLineNo">177</span>        assertFalse(Rank.CLASS.isUncomparable());<a name="line.177"></a>
+<span class="sourceLineNo">178</span>        assertFalse(Rank.ORDER.isUncomparable());<a name="line.178"></a>
+<span class="sourceLineNo">179</span>        assertFalse(Rank.FAMILY.isUncomparable());<a name="line.179"></a>
+<span class="sourceLineNo">180</span>        assertFalse(Rank.GENUS.isUncomparable());<a name="line.180"></a>
+<span class="sourceLineNo">181</span>        assertFalse(Rank.SPECIES.isUncomparable());<a name="line.181"></a>
+<span class="sourceLineNo">182</span>        assertFalse(Rank.SUBSECTION.isUncomparable());<a name="line.182"></a>
+<span class="sourceLineNo">183</span>        assertFalse(Rank.SUBGENUS.isUncomparable());<a name="line.183"></a>
+<span class="sourceLineNo">184</span>        assertFalse(Rank.SUPERFAMILY.isUncomparable());<a name="line.184"></a>
+<span class="sourceLineNo">185</span>        assertTrue(Rank.INFRAGENERIC_NAME.isUncomparable());<a name="line.185"></a>
+<span class="sourceLineNo">186</span>        assertTrue(Rank.INFORMAL.isUncomparable());<a name="line.186"></a>
+<span class="sourceLineNo">187</span>    }<a name="line.187"></a>
 <span class="sourceLineNo">188</span><a name="line.188"></a>
-<span class="sourceLineNo">189</span>        for (Map.Entry&lt;String, Rank&gt; stringRankEntry : NAMES.entrySet()) {<a name="line.189"></a>
-<span class="sourceLineNo">190</span>            Rank r = null;<a name="line.190"></a>
-<span class="sourceLineNo">191</span>            for (String suffix : Rank.SUFFICES_RANK_MAP.keySet()) {<a name="line.191"></a>
-<span class="sourceLineNo">192</span>                if (stringRankEntry.getKey().endsWith(suffix)) {<a name="line.192"></a>
-<span class="sourceLineNo">193</span>                    r = Rank.SUFFICES_RANK_MAP.get(suffix);<a name="line.193"></a>
-<span class="sourceLineNo">194</span>                    break;<a name="line.194"></a>
-<span class="sourceLineNo">195</span>                }<a name="line.195"></a>
-<span class="sourceLineNo">196</span>            }<a name="line.196"></a>
-<span class="sourceLineNo">197</span>            assertEquals(stringRankEntry.getValue(), r);<a name="line.197"></a>
-<span class="sourceLineNo">198</span>        }<a name="line.198"></a>
-<span class="sourceLineNo">199</span>    }<a name="line.199"></a>
-<span class="sourceLineNo">200</span><a name="line.200"></a>
-<span class="sourceLineNo">201</span>    @Test<a name="line.201"></a>
-<span class="sourceLineNo">202</span>    public void testHigher() {<a name="line.202"></a>
-<span class="sourceLineNo">203</span>        assertFalse(Rank.SUPERFAMILY.higherThan(Rank.KINGDOM));<a name="line.203"></a>
-<span class="sourceLineNo">204</span>        assertFalse(Rank.SUPERFAMILY.higherThan(Rank.KINGDOM));<a name="line.204"></a>
-<span class="sourceLineNo">205</span>        assertFalse(Rank.SPECIES.higherThan(Rank.SUBGENUS));<a name="line.205"></a>
-<span class="sourceLineNo">206</span><a name="line.206"></a>
-<span class="sourceLineNo">207</span>        assertTrue(Rank.INFRASPECIFIC_NAME.higherThan(Rank.VARIETY));<a name="line.207"></a>
-<span class="sourceLineNo">208</span>        assertTrue(Rank.SUPERFAMILY.higherThan(Rank.FAMILY));<a name="line.208"></a>
-<span class="sourceLineNo">209</span>        assertTrue(Rank.SPECIES.higherThan(Rank.VARIETY));<a name="line.209"></a>
-<span class="sourceLineNo">210</span>        assertTrue(Rank.GENUS.higherThan(Rank.INFRAGENERIC_NAME));<a name="line.210"></a>
-<span class="sourceLineNo">211</span><a name="line.211"></a>
-<span class="sourceLineNo">212</span>        int expectedHigher = Rank.DWC_RANKS.size() -1;<a name="line.212"></a>
-<span class="sourceLineNo">213</span>        for (Rank r : Rank.DWC_RANKS) {<a name="line.213"></a>
-<span class="sourceLineNo">214</span>            int higherCount = 0;<a name="line.214"></a>
-<span class="sourceLineNo">215</span>            for (Rank r2 : Rank.DWC_RANKS) {<a name="line.215"></a>
-<span class="sourceLineNo">216</span>                if (r.higherThan(r2)) {<a name="line.216"></a>
-<span class="sourceLineNo">217</span>                    higherCount++;<a name="line.217"></a>
-<span class="sourceLineNo">218</span>                }<a name="line.218"></a>
-<span class="sourceLineNo">219</span>            }<a name="line.219"></a>
-<span class="sourceLineNo">220</span>            assertEquals(expectedHigher, higherCount);<a name="line.220"></a>
-<span class="sourceLineNo">221</span>            expectedHigher--;<a name="line.221"></a>
-<span class="sourceLineNo">222</span>        }<a name="line.222"></a>
-<span class="sourceLineNo">223</span><a name="line.223"></a>
-<span class="sourceLineNo">224</span>        // questionable<a name="line.224"></a>
-<span class="sourceLineNo">225</span>        assertFalse(Rank.INFORMAL.higherThan(Rank.VARIETY));<a name="line.225"></a>
-<span class="sourceLineNo">226</span>        assertFalse(Rank.UNRANKED.higherThan(Rank.VARIETY));<a name="line.226"></a>
-<span class="sourceLineNo">227</span>    }<a name="line.227"></a>
-<span class="sourceLineNo">228</span><a name="line.228"></a>
-<span class="sourceLineNo">229</span>}<a name="line.229"></a>
+<span class="sourceLineNo">189</span>    @Test<a name="line.189"></a>
+<span class="sourceLineNo">190</span>    public void testSuffixMap() {<a name="line.190"></a>
+<span class="sourceLineNo">191</span>        // wrong matches<a name="line.191"></a>
+<span class="sourceLineNo">192</span><a name="line.192"></a>
+<span class="sourceLineNo">193</span>        for (Map.Entry&lt;String, Rank&gt; stringRankEntry : NAMES.entrySet()) {<a name="line.193"></a>
+<span class="sourceLineNo">194</span>            Rank r = null;<a name="line.194"></a>
+<span class="sourceLineNo">195</span>            for (String suffix : Rank.SUFFICES_RANK_MAP.keySet()) {<a name="line.195"></a>
+<span class="sourceLineNo">196</span>                if (stringRankEntry.getKey().endsWith(suffix)) {<a name="line.196"></a>
+<span class="sourceLineNo">197</span>                    r = Rank.SUFFICES_RANK_MAP.get(suffix);<a name="line.197"></a>
+<span class="sourceLineNo">198</span>                    break;<a name="line.198"></a>
+<span class="sourceLineNo">199</span>                }<a name="line.199"></a>
+<span class="sourceLineNo">200</span>            }<a name="line.200"></a>
+<span class="sourceLineNo">201</span>            assertEquals(stringRankEntry.getValue(), r);<a name="line.201"></a>
+<span class="sourceLineNo">202</span>        }<a name="line.202"></a>
+<span class="sourceLineNo">203</span>    }<a name="line.203"></a>
+<span class="sourceLineNo">204</span><a name="line.204"></a>
+<span class="sourceLineNo">205</span>    @Test<a name="line.205"></a>
+<span class="sourceLineNo">206</span>    public void testHigher() {<a name="line.206"></a>
+<span class="sourceLineNo">207</span>        assertFalse(Rank.SUPERFAMILY.higherThan(Rank.KINGDOM));<a name="line.207"></a>
+<span class="sourceLineNo">208</span>        assertFalse(Rank.SUPERFAMILY.higherThan(Rank.KINGDOM));<a name="line.208"></a>
+<span class="sourceLineNo">209</span>        assertFalse(Rank.SPECIES.higherThan(Rank.SUBGENUS));<a name="line.209"></a>
+<span class="sourceLineNo">210</span><a name="line.210"></a>
+<span class="sourceLineNo">211</span>        assertTrue(Rank.INFRASPECIFIC_NAME.higherThan(Rank.VARIETY));<a name="line.211"></a>
+<span class="sourceLineNo">212</span>        assertTrue(Rank.SUPERFAMILY.higherThan(Rank.FAMILY));<a name="line.212"></a>
+<span class="sourceLineNo">213</span>        assertTrue(Rank.SPECIES.higherThan(Rank.VARIETY));<a name="line.213"></a>
+<span class="sourceLineNo">214</span>        assertTrue(Rank.GENUS.higherThan(Rank.INFRAGENERIC_NAME));<a name="line.214"></a>
+<span class="sourceLineNo">215</span><a name="line.215"></a>
+<span class="sourceLineNo">216</span>        int expectedHigher = Rank.DWC_RANKS.size() -1;<a name="line.216"></a>
+<span class="sourceLineNo">217</span>        for (Rank r : Rank.DWC_RANKS) {<a name="line.217"></a>
+<span class="sourceLineNo">218</span>            int higherCount = 0;<a name="line.218"></a>
+<span class="sourceLineNo">219</span>            for (Rank r2 : Rank.DWC_RANKS) {<a name="line.219"></a>
+<span class="sourceLineNo">220</span>                if (r.higherThan(r2)) {<a name="line.220"></a>
+<span class="sourceLineNo">221</span>                    higherCount++;<a name="line.221"></a>
+<span class="sourceLineNo">222</span>                }<a name="line.222"></a>
+<span class="sourceLineNo">223</span>            }<a name="line.223"></a>
+<span class="sourceLineNo">224</span>            assertEquals(expectedHigher, higherCount);<a name="line.224"></a>
+<span class="sourceLineNo">225</span>            expectedHigher--;<a name="line.225"></a>
+<span class="sourceLineNo">226</span>        }<a name="line.226"></a>
+<span class="sourceLineNo">227</span><a name="line.227"></a>
+<span class="sourceLineNo">228</span>        // questionable<a name="line.228"></a>
+<span class="sourceLineNo">229</span>        assertFalse(Rank.INFORMAL.higherThan(Rank.VARIETY));<a name="line.229"></a>
+<span class="sourceLineNo">230</span>        assertFalse(Rank.UNRANKED.higherThan(Rank.VARIETY));<a name="line.230"></a>
+<span class="sourceLineNo">231</span>    }<a name="line.231"></a>
+<span class="sourceLineNo">232</span><a name="line.232"></a>
+<span class="sourceLineNo">233</span>}<a name="line.233"></a>
 
 
 
