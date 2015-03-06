@@ -54,7 +54,11 @@ public class RankTest {
         assertEquals(Rank.SUPRAGENERIC_NAME, Rank.inferRank("Neurolaenodinae", null, null, "ib.", null));
         assertEquals(Rank.SUPRAGENERIC_NAME, Rank.inferRank("Neurolaenodinae", null, null, "supersubtrib.", null));
         assertEquals(Rank.BIOVAR, Rank.inferRank(null, "Pseudomonas", "syringae ", "bv.", "aceris"));
+        assertEquals(Rank.BIOVAR, Rank.inferRank(null, "Thymus", "vulgaris", "biovar", "geraniol"));
         assertEquals(Rank.CHEMOFORM, Rank.inferRank(null, "Thymus", "vulgaris", "ct.", "geraniol"));
+        assertEquals(Rank.CHEMOFORM, Rank.inferRank(null, "Thymus", "vulgaris", "chemoform", "geraniol"));
+        assertEquals(Rank.CHEMOVAR, Rank.inferRank(null, "Thymus", "vulgaris", "chemovar", "geraniol"));
+        assertEquals(Rank.SEROVAR, Rank.inferRank(null, "Thymus", "vulgaris", "serovar", "geraniol"));
 
         // should not be able to infer the correct family
         assertEquals(Rank.UNRANKED, Rank.inferRank("Compositae", null, null, null, null));

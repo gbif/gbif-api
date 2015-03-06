@@ -89,8 +89,7 @@ public enum Rank {
     SUBFORM("subf."),
 
     /**
-     * Microbial rank.
-     * Pathogenic reactions in one or more hosts.
+     * Microbial rank based on pathogenic reactions in one or more hosts.
      * For recommendations on designating pathovars and use of designations when reviving names see
      * Dye et al. (1980) Standards for naming pathovars of phytopathogenic bacteria and a list of pathovar names and pathotype strains.
      * Rev. Plant Pathol. 59:153–168.
@@ -104,8 +103,7 @@ public enum Rank {
     PATHOVAR("pv."),
 
     /**
-     * Microbial rank.
-     * Biochemical or physiological properties.
+     * Microbial rank based on biochemical or physiological properties.
      * See <a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly">Bacteriological Code</a>
      *
      * For example Francisella tularensis biovar tularensis
@@ -113,8 +111,7 @@ public enum Rank {
     BIOVAR("biovar"),
 
     /**
-     * Microbial rank.
-     * Production or amount of production of a particular chemical.
+     * Microbial rank based on production or amount of production of a particular chemical.
      * See <a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly">Bacteriological Code</a>
      *
      * For example Vibrio alginolyticus chemovar iophagus
@@ -122,8 +119,7 @@ public enum Rank {
     CHEMOVAR("chemovar"),
 
     /**
-     * Microbial rank.
-     * Morphological characterislics.
+     * Microbial rank based on morphological characterislics.
      * See <a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly">Bacteriological Code</a>
      *
      * For example Acinetobacter junii morphovar I
@@ -131,8 +127,7 @@ public enum Rank {
     MORPHOVAR("morphovar"),
 
     /**
-     * Microbial rank.
-     * Biochemical or physiological properties.
+     * Microbial infrasubspecific rank based on reactions to bacteriophage.
      * See <a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly">Bacteriological Code</a>
      *
      * For example Staphyloccocus aureus phagovar 42D
@@ -140,8 +135,7 @@ public enum Rank {
     PHAGOVAR("phagovar"),
 
     /**
-     * Microbial rank.
-     * Biochemical or physiological properties.
+     * Microbial infrasubspecific rank based on antigenic characteristics.
      * See <a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly">Bacteriological Code</a>
      *
      * For example Salmonella enterica serovar Dublin
@@ -149,8 +143,7 @@ public enum Rank {
     SEROVAR("serovar"),
 
     /**
-     * Microbial rank.
-     * Chemical constitution.
+     * Microbial infrasubspecific rank based on chemical constitution.
      * See <a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly">Bacteriological Code</a>
      *
      * For example Thymus vulgaris ct. geraniol
@@ -158,7 +151,7 @@ public enum Rank {
     CHEMOFORM("chemoform"),
 
     /**
-     * Microbial rank.
+     * Microbial infrasubspecific rank.
      * A parasitic, symbiotic, or commensal microorganism distinguished primarily by adaptation to a particular host or habitat.
      * Named preferably by the scientific name of the host in the genitive.
      * See <a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly">Bacteriological Code</a>
@@ -378,6 +371,9 @@ public enum Rank {
         ranks.put("v", VARIETY);
         ranks.put("var", VARIETY);
         ranks.put("\\*+", INFRASPECIFIC_NAME);
+        for (Rank r : INFRASUBSPECIFIC_MICROBIAL_RANKS) {
+          ranks.put(r.getMarker(), r);
+        }
         RANK_MARKER_MAP_INFRASPECIFIC = ImmutableMap.copyOf(ranks);
 
         ranks = new HashMap<String, Rank>();
