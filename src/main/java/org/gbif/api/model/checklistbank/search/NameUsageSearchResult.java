@@ -20,6 +20,7 @@ import org.gbif.api.model.checklistbank.VernacularName;
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.util.ClassificationUtils;
+import org.gbif.api.vocabulary.Habitat;
 import org.gbif.api.vocabulary.NameType;
 import org.gbif.api.vocabulary.NomenclaturalStatus;
 import org.gbif.api.vocabulary.Origin;
@@ -91,7 +92,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
 
   private String taxonID;
   private Boolean extinct;
-  private Boolean marine;
+  private List<Habitat> habitats = newArrayList();
   private List<NomenclaturalStatus> nomenclaturalStatus = newArrayList();
   private List<ThreatStatus> threatStatuses = newArrayList();
   private List<Description> descriptions = newArrayList();
@@ -319,12 +320,12 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
     this.extinct = extinct;
   }
 
-  public Boolean isMarine() {
-    return marine;
+  public List<Habitat> getHabitats() {
+    return habitats;
   }
 
-  public void setMarine(Boolean marine) {
-    this.marine = marine;
+  public void setHabitats(List<Habitat> habitats) {
+    this.habitats = habitats;
   }
 
   @Override
@@ -524,7 +525,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
         isSynonym, kingdom, phylum, clazz, order, family, genus, subgenus, species, kingdomKey, phylumKey, classKey,
         orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, canonicalName,
         authorship, publishedIn, accordingTo, nameType, taxonomicStatus, nomenclaturalStatus, rank, origin,
-        numDescendants, numOccurrences, taxonID, extinct, marine, threatStatuses, descriptions, vernacularNames);
+        numDescendants, numOccurrences, taxonID, extinct, habitats, threatStatuses, descriptions, vernacularNames);
   }
 
   @Override
@@ -576,7 +577,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
            && Objects.equal(this.numOccurrences, other.numOccurrences)
            && Objects.equal(this.taxonID, other.taxonID)
            && Objects.equal(this.extinct, other.extinct)
-           && Objects.equal(this.marine, other.marine)
+           && Objects.equal(this.habitats, other.habitats)
            && Objects.equal(this.threatStatuses, other.threatStatuses)
            && Objects.equal(this.descriptions, other.descriptions)
            && Objects.equal(this.vernacularNames, other.vernacularNames);
@@ -625,7 +626,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
            ", numOccurrences=" + numOccurrences +
            ", taxonID='" + taxonID + '\'' +
            ", extinct=" + extinct +
-           ", marine=" + marine +
+           ", habitats=" + habitats +
            ", threatStatuses=" + threatStatuses +
            ", descriptions=" + descriptions +
            ", vernacularNames=" + vernacularNames +

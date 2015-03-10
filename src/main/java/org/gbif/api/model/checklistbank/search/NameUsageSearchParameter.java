@@ -17,6 +17,7 @@ package org.gbif.api.model.checklistbank.search;
 
 
 import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.vocabulary.Habitat;
 import org.gbif.api.vocabulary.NameType;
 import org.gbif.api.vocabulary.NameUsageIssue;
 import org.gbif.api.vocabulary.NomenclaturalStatus;
@@ -60,7 +61,7 @@ public enum NameUsageSearchParameter implements SearchParameter {
   /**
    * Filter by the known habitats.
    */
-  HABITAT(String.class),
+  HABITAT(Habitat.class),
 
   /**
    * Filter by the threat status.

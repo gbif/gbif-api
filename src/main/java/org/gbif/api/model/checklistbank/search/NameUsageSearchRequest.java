@@ -14,6 +14,7 @@ package org.gbif.api.model.checklistbank.search;
 
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.FacetedSearchRequest;
+import org.gbif.api.vocabulary.Habitat;
 import org.gbif.api.vocabulary.NameUsageIssue;
 import org.gbif.api.vocabulary.NomenclaturalStatus;
 import org.gbif.api.vocabulary.Rank;
@@ -50,8 +51,8 @@ public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearch
     addParameter(NameUsageSearchParameter.HIGHERTAXON_KEY, taxonKey);
   }
 
-  public void addMarineFilter(boolean isMarine) {
-    addParameter(NameUsageSearchParameter.HABITAT, isMarine);
+  public void addHabitatFilter(Habitat habitat) {
+    addParameter(NameUsageSearchParameter.HABITAT, habitat);
   }
 
   public void addRankFilter(Rank rank) {
