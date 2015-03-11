@@ -17,6 +17,7 @@ import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.TypeStatus;
@@ -253,8 +254,19 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * Recommended terms from the DCMI Type Vocabulary are StillImage, Sound or MovingImage for GBIF to index and show the
    * media files.
    */
-  MEDIA_TYPE(MediaType.class);
+  MEDIA_TYPE(MediaType.class),
 
+  /**
+   *  An identifier for the Occurrence (as opposed to a particular digital record of the occurrence).
+   *  In the absence of a persistent global unique identifier, construct one from a combination of identifiers in the
+   *  record that will most closely make the occurrenceID globally unique.
+   */
+  OCCURRENCE_ID(String.class),
+
+  /**
+   * The process by which the biological individual(s) represented in the Occurrence became established at the location.
+   */
+  ESTABLISHMENT_MEANS(EstablishmentMeans.class);
 
   private final Class<?> type;
 
