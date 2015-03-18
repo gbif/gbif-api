@@ -15,6 +15,15 @@
  */
 package org.gbif.api.model.checklistbank;
 
+import org.gbif.api.model.common.Identifier;
+import org.gbif.api.vocabulary.IdentifierType;
+import org.gbif.api.vocabulary.ThreatStatus;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Set;
+import javax.validation.constraints.NotNull;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
@@ -22,14 +31,6 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.gbif.api.model.common.Identifier;
-import org.gbif.api.vocabulary.IdentifierType;
-import org.gbif.api.vocabulary.ThreatStatus;
-
-import javax.validation.constraints.NotNull;
-import java.io.IOException;
-import java.util.List;
-import java.util.Set;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -64,8 +65,8 @@ public class NameUsageContainer extends NameUsage {
    * Constructs a NameUsageContainer from an existing NameUsage instance.
    */
   public NameUsageContainer(NameUsage usage) {
-    JsonNode propTree = mapper.convertValue(usage, JsonNode.class);
     try {
+      JsonNode propTree = mapper.convertValue(usage, JsonNode.class);
       mapper.readerForUpdating(this).readValue(propTree);
     } catch (IOException e) {
       throw new IllegalStateException("Failed to copy NameUsage properties to NameUsageContainer", e);

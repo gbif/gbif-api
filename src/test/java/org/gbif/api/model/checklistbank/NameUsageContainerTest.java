@@ -17,6 +17,7 @@ package org.gbif.api.model.checklistbank;
 
 import org.gbif.api.model.common.Identifier;
 import org.gbif.api.vocabulary.IdentifierType;
+import org.gbif.api.vocabulary.NameUsageIssue;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
@@ -50,6 +51,9 @@ public class NameUsageContainerTest {
     src.setScientificName("Puma concolor Linné");
     src.setReferences(URI.create("http://wisdom.org/1234"));
     src.setSourceTaxonKey(12345);
+    src.getIssues().add(NameUsageIssue.ACCEPTED_NAME_MISSING);
+    src.getIssues().add(NameUsageIssue.BACKBONE_MATCH_NONE);
+    src.getIssues().add(NameUsageIssue.BASIONYM_AUTHOR_MISMATCH);
 
     NameUsageContainer nu = new NameUsageContainer(src);
     Identifier id1 = new Identifier();
@@ -78,6 +82,7 @@ public class NameUsageContainerTest {
     assertEquals(0, nu.getDescriptions().size());
     assertEquals(0, nu.getDistributions().size());
     assertEquals(0, nu.getReferenceList().size());
+    assertEquals(3, nu.getIssues().size());
   }
 
   @Test
@@ -355,6 +360,39 @@ public class NameUsageContainerTest {
     nu.getSpeciesProfiles().add(sp);
     assertEquals(10, nu.getSpeciesProfiles().size());
     assertTrue(nu.isTerrestrial());
+  }
+
+  @Test
+  public void testFreshwater() {
+    NameUsageContainer nu = new NameUsageContainer();
+    nu.setKey(6);
+    assertNull(nu.isFreshwater());
+
+    SpeciesProfile sp = new SpeciesProfile();
+    sp.setFreshwater(true);
+    nu.getSpeciesProfiles().add(sp);
+    assertTrue(nu.isFreshwater());
+    sp.setFreshwater(false);
+    assertFalse(nu.isFreshwater());
+    sp.setFreshwater(null);
+    assertNull(nu.isFreshwater());
+
+    nu.getSpeciesProfiles().clear();
+
+    for (int i = 1; i < 10; i++) {
+      sp = new SpeciesProfile();
+      sp.setFreshwater(i % 2 == 0);
+      nu.getSpeciesProfiles().add(sp);
+    }
+
+    assertEquals(9, nu.getSpeciesProfiles().size());
+    assertFalse(nu.isFreshwater());
+
+    sp = new SpeciesProfile();
+    sp.setFreshwater(true);
+    nu.getSpeciesProfiles().add(sp);
+    assertEquals(10, nu.getSpeciesProfiles().size());
+    assertTrue(nu.isFreshwater());
   }
 
   @Test

@@ -17,6 +17,7 @@ import org.gbif.api.model.common.search.SearchRequest;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.TypeStatus;
@@ -41,6 +42,14 @@ public class OccurrenceSearchRequest extends SearchRequest<OccurrenceSearchParam
 
   public OccurrenceSearchRequest(Pageable page) {
     super(page);
+  }
+
+  public void addOccurrenceIDFilter(String occurrenceID) {
+    addParameter(OccurrenceSearchParameter.OCCURRENCE_ID, occurrenceID);
+  }
+
+  public void addEstablishmentMeansFilter(EstablishmentMeans establishmentMeans) {
+    addParameter(OccurrenceSearchParameter.ESTABLISHMENT_MEANS, establishmentMeans);
   }
 
   public void addBasisOfRecordFilter(BasisOfRecord basisOfRecord) {
