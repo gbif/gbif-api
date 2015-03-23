@@ -19,6 +19,7 @@ import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.util.ClassificationUtils;
 import org.gbif.api.vocabulary.Rank;
+import org.gbif.api.vocabulary.TaxonomicStatus;
 
 import java.io.Serializable;
 import java.util.List;
@@ -41,7 +42,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
   private String scientificName;
   private String canonicalName;
   private Rank rank;
-  private boolean synonym;
+  private TaxonomicStatus status; // ACCEPTED, SYNONYM or DOUBTFUL only!
   private Integer confidence;
   private String note;
   private MatchType matchType = MatchType.NONE;
@@ -143,11 +144,23 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
    * @return true if its a synonym
    */
   public boolean isSynonym() {
-    return synonym;
+    return status.isSynonym();
   }
 
-  public void setSynonym(boolean synonym) {
-    this.synonym = synonym;
+  /**
+   * The taxonomic status of the backbone usage. This field is required and only 3 values are allowed:
+   * <ul>
+   *   <li>accepted: regular accepted taxon</li>
+   *   <li>synonym: any kind of synonym</li>
+   *   <li>doubtful: treated as accepted but in doubt for some reason</li>
+   * </ul>
+   */
+  public TaxonomicStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(TaxonomicStatus status) {
+    this.status = status;
   }
 
   @Override
@@ -378,7 +391,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
         scientificName,
         canonicalName,
         rank,
-        synonym,
+        status,
         confidence,
         note,
         matchType,
@@ -418,7 +431,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
            && Objects.equal(this.scientificName, other.scientificName)
            && Objects.equal(this.canonicalName, other.canonicalName)
            && Objects.equal(this.rank, other.rank)
-           && Objects.equal(this.synonym, other.synonym)
+           && Objects.equal(this.status, other.status)
            && Objects.equal(this.confidence, other.confidence)
            && Objects.equal(this.note, other.note)
            && Objects.equal(this.matchType, other.matchType)
@@ -448,7 +461,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     .add("scientificName", scientificName)
     .add("canonicalName", canonicalName)
     .add("rank", rank)
-    .add("synonym", synonym)
+    .add("status", status)
     .add("confidence", confidence)
     .add("note", note)
     .add("matchType", matchType)
