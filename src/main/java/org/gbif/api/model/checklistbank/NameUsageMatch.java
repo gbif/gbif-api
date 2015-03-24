@@ -144,7 +144,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
    * @return true if its a synonym
    */
   public boolean isSynonym() {
-    return status.isSynonym();
+    return status == null ? false : status.isSynonym();
   }
 
   /**
