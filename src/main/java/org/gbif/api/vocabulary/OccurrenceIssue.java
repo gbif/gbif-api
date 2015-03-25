@@ -221,7 +221,12 @@ public enum OccurrenceIssue {
   /**
    * An invalid uri is given for dc:references.
    */
-  REFERENCES_URI_INVALID;
+  REFERENCES_URI_INVALID,
+
+  /**
+   * An error occurred during interpretation, leaving the record interpretion incomplete.
+   */
+  INTERPRETATION_ERROR;
 
   /**
    * All issues that indicate problems with the coordinates and thus should not be shown on maps.
