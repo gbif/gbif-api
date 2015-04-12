@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
@@ -37,6 +38,8 @@ public class DownloadRequest {
 
   private boolean sendNotification;
 
+  private DownloadFormat format;
+
   /**
    * Default constructor.
    */
@@ -51,12 +54,14 @@ public class DownloadRequest {
   public DownloadRequest(
     @JsonProperty("predicate") Predicate predicate, @JsonProperty("creator") String creator,
     @JsonProperty("notification_address") @Nullable Collection<String> notificationAddresses,
-    @JsonProperty("send_notification") @Nullable boolean sendNotification) {
+    @JsonProperty("send_notification") @Nullable boolean sendNotification,
+    @JsonProperty("format") DownloadFormat format) {
     this.creator = Preconditions.checkNotNull(creator, "Creator cannot be null");
     this.predicate = predicate;
     this.notificationAddresses = notificationAddresses == null ?
       ImmutableSet.<String>of() : ImmutableSet.copyOf(notificationAddresses);
     this.sendNotification = sendNotification;
+    this.format = format;
   }
 
   @Override
@@ -72,7 +77,8 @@ public class DownloadRequest {
     return Objects.equal(this.creator, that.creator)
       && Objects.equal(this.predicate, that.predicate)
       && Objects.equal(this.notificationAddresses, that.notificationAddresses)
-      && Objects.equal(this.sendNotification, that.sendNotification);
+      && Objects.equal(this.sendNotification, that.sendNotification)
+      && Objects.equal(this.format, that.format);
   }
 
   /**
@@ -115,7 +121,7 @@ public class DownloadRequest {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(creator, predicate, notificationAddresses, sendNotification);
+    return Objects.hashCode(creator, predicate, notificationAddresses, sendNotification, format);
   }
 
 
@@ -153,10 +159,22 @@ public class DownloadRequest {
     this.sendNotification = sendNotification;
   }
 
+  public DownloadFormat getFormat() {
+    return format;
+  }
+
+  /**
+   * This parameter determines the output format of the requested download.
+   */
+  public void setFormat(DownloadFormat format) {
+    this.format = format;
+  }
+
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("creator", creator).add("predicate", predicate)
-      .add("notificationAddresses", notificationAddresses).add("emailNotification", sendNotification).toString();
+    return MoreObjects.toStringHelper(this).add("creator", creator).add("predicate", predicate)
+      .add("notificationAddresses", notificationAddresses).add("emailNotification", sendNotification)
+      .add("format", format).toString();
   }
 
 }
