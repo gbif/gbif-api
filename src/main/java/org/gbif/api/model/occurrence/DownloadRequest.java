@@ -26,9 +26,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class DownloadRequest {
 
-  private static final String DELIMITTER = ",";
-  private static final Joiner COMMA_JOINER = Joiner.on(DELIMITTER).skipNulls();
-  private static final Splitter COMMA_SPLITTER = Splitter.on(DELIMITTER).omitEmptyStrings().trimResults();
+  private static final String DELIMITER = ",";
+  private static final Joiner COMMA_JOINER = Joiner.on(DELIMITER).skipNulls();
+  private static final Splitter COMMA_SPLITTER = Splitter.on(DELIMITER).omitEmptyStrings().trimResults();
 
   private String creator;
 
