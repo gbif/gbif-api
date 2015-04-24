@@ -40,6 +40,8 @@ public class DownloadRequest {
 
   private DownloadFormat format;
 
+  private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.DWCA;
+
   /**
    * Default constructor.
    */
@@ -61,7 +63,7 @@ public class DownloadRequest {
     this.notificationAddresses = notificationAddresses == null ?
       ImmutableSet.<String>of() : ImmutableSet.copyOf(notificationAddresses);
     this.sendNotification = sendNotification;
-    this.format = format;
+    this.format = format == null ? DEFAULT_DOWNLOAD_FORMAT : format;
   }
 
   @Override
