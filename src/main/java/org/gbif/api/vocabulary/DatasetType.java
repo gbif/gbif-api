@@ -32,7 +32,11 @@ public enum DatasetType {
   /**
    * External metadata about any kind of biodiversity dataset.
    */
-  METADATA;
+  METADATA,
+  /**
+   * A dataset about a sampling event.
+   */
+  SAMPLING_EVENT;
 
   /**
    * @return the matching DatasetType or null
