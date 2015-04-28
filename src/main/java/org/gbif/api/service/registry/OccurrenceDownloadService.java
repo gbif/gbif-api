@@ -17,6 +17,7 @@ import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.occurrence.Download;
 import org.gbif.api.model.registry.DatasetOccurrenceDownloadUsage;
 
+import java.util.Set;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
@@ -39,14 +40,14 @@ public interface OccurrenceDownloadService {
 
 
   /**
-   * Retrieves a pageable result of all the downloads.
+   * Retrieves a pageable result of all the downloads, optionally the downloads can be filtered by status.
    */
-  PagingResponse<Download> list(@Nullable Pageable page);
+  PagingResponse<Download> list(@Nullable Pageable page,@Nullable Set<Download.Status> status);
 
   /**
-   * Retrieves a pageable result of the downloads created by a user.
+   * Retrieves a pageable result of the downloads created by a user in a given status.
    */
-  PagingResponse<Download> listByUser(@NotNull String user, @Nullable Pageable page);
+  PagingResponse<Download> listByUser(@NotNull String user,  @Nullable Pageable page, @Nullable Set<Download.Status> status);
 
   /**
    * Update an existing occurrence download.

@@ -5,6 +5,7 @@ import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
 
 import java.util.Date;
+import java.util.EnumSet;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -29,6 +30,16 @@ public class Download {
    */
   public enum Status {
     PREPARING, RUNNING, SUCCEEDED, CANCELLED, KILLED, FAILED, SUSPENDED;
+
+    /**
+     * Statuses that represent a download that that hasn't finished.
+     */
+    public static final EnumSet<Status> EXECUTING_STATUSES = EnumSet.of(PREPARING,RUNNING,SUSPENDED);
+
+    /**
+     * Statuses that represent a download that that has finished.
+     */
+    public static final EnumSet<Status> FINISH_STATUSES = EnumSet.of(SUCCEEDED, CANCELLED, KILLED, FAILED);
   }
 
   private String key;
