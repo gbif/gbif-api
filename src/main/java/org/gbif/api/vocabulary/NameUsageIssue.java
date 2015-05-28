@@ -4,8 +4,19 @@ package org.gbif.api.vocabulary;
  * Enumeration of issues for each name usage record encountered during checklist processing.
  */
 public enum NameUsageIssue {
+  /**
+   * The value for dwc:parentNameUsageID could not be resolved.
+   */
   PARENT_NAME_USAGE_ID_INVALID,
+
+  /**
+   * The value for dwc:acceptedNameUsageID could not be resolved.
+   */
   ACCEPTED_NAME_USAGE_ID_INVALID,
+
+  /**
+   * The value for dwc:originalNameUsageID could not be resolved.
+   */
   ORIGINAL_NAME_USAGE_ID_INVALID,
 
   /**
@@ -103,5 +114,27 @@ public enum NameUsageIssue {
   /**
    * Name usage could only be matched to the GBIF backbone using fuzzy matching.
    */
-  BACKBONE_MATCH_FUZZY
+  BACKBONE_MATCH_FUZZY,
+
+  /**
+   * Synonym has a verbatim accepted name which is not unique and refers to several records.
+   */
+  ACCEPTED_NAME_NOT_UNIQUE,
+
+  /**
+   * Record has a verbatim parent name which is not unique and refers to several records.
+   */
+  PARENT_NAME_NOT_UNIQUE,
+
+  /**
+   * Record has a verbatim original name (basionym) which is not unique and refers to several records.
+   */
+  ORIGINAL_NAME_NOT_UNIQUE,
+
+  /**
+   * There were problems representing all name usage relationships,
+   * i.e. the link to the parent, accepted and/or original name.
+   * The interpreted record in ChecklistBank is lacking some of the original source relation.
+   */
+  RELATIONSHIP_MISSING
 }

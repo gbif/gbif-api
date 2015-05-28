@@ -218,9 +218,12 @@ public enum Rank {
      * An immutable map of name suffices to corresponding ranks across all kingdoms.
      * To minimize wrong matches this map is sorted by suffix length with the first suffices being the longest and
      * therefore most accurate matches.
+     *
+     * See http://www.nhm.ac.uk/hosted-sites/iczn/code/index.jsp?nfv=true&article=29
      */
     public static final SortedMap<String, Rank> SUFFICES_RANK_MAP =
-            new ImmutableSortedMap.Builder<String, Rank>(Ordering.natural()).put("mycetidae", SUBCLASS)
+            new ImmutableSortedMap.Builder<String, Rank>(Ordering.natural())
+                    .put("mycetidae", SUBCLASS)
                     .put("phycidae", SUBCLASS)
                     .put("mycotina", SUBPHYLUM)
                     .put("phytina", SUBPHYLUM)
@@ -232,6 +235,7 @@ public enum Rank {
                     .put("aceae", FAMILY)
                     .put("phyta", PHYLUM)
                     .put("oidea", SUPERFAMILY)
+                    .put("ineae", SUBORDER)
                     .put("anae", SUPERORDER)
                     .put("ales", ORDER)
                     .put("acea", SUPERFAMILY)
@@ -239,6 +243,7 @@ public enum Rank {
                     .put("inae", SUBFAMILY)
                     .put("eae", TRIBE)
                     .put("ini", TRIBE)
+                    .put("ina", SUBTRIBE)
                     .build();
 
     /**
