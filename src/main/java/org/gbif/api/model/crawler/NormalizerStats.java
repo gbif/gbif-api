@@ -101,8 +101,7 @@ public class NormalizerStats {
 
   @Override
   public String toString() {
-    return "NormalizerStats{" +
-           ", roots=" + roots +
+    return "NormalizerStats{roots=" + roots +
            ", depth=" + depth +
            ", synonyms=" + synonyms +
            ", ignored=" + ignored+
