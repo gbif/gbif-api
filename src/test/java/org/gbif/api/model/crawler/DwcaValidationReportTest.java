@@ -17,7 +17,7 @@ public class DwcaValidationReportTest {
   public void testIsValid() throws Exception {
     assertTrue(new DwcaValidationReport(UUID.randomUUID(),
       new OccurrenceValidationReport(10, 10, 0, 10, 0, true),
-      new ChecklistValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList()), null
+      new GenericValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList()), null
     ).isValid());
 
     // this is a regular case with Plazi checklist archives.
@@ -25,11 +25,11 @@ public class DwcaValidationReportTest {
     // needs to validate for checklist indexing to happen!
     assertTrue(new DwcaValidationReport(UUID.randomUUID(),
       new OccurrenceValidationReport(0, 0, 0, 0, 0, true),
-      new ChecklistValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList()), null
+      new GenericValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList()), null
     ).isValid());
 
     assertTrue(new DwcaValidationReport(UUID.randomUUID(),
-      new ChecklistValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList())
+      new GenericValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList())
     ).isValid());
 
     assertTrue(new DwcaValidationReport(UUID.randomUUID(),
@@ -39,17 +39,17 @@ public class DwcaValidationReportTest {
 
     assertFalse(new DwcaValidationReport(UUID.randomUUID(),
       new OccurrenceValidationReport(10, 4, 0, 6, 0, true),
-      new ChecklistValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList()), null
+      new GenericValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList()), null
     ).isValid());
 
     assertFalse(new DwcaValidationReport(UUID.randomUUID(),
       new OccurrenceValidationReport(10, 10, 0, 10, 0, true),
-      new ChecklistValidationReport(10, true, Lists.<String>newArrayList("r23"), Lists.<Integer>newArrayList()), null
+      new GenericValidationReport(10, true, Lists.<String>newArrayList("r23"), Lists.<Integer>newArrayList()), null
     ).isValid());
 
     assertFalse(new DwcaValidationReport(UUID.randomUUID(),
       new OccurrenceValidationReport(10, 10, 0, 10, 0, true),
-      new ChecklistValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList(32)), null
+      new GenericValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList(32)), null
     ).isValid());
 
 

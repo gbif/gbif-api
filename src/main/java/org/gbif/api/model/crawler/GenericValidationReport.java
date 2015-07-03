@@ -7,18 +7,27 @@ import com.google.common.base.Preconditions;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class ChecklistValidationReport {
+/**
+ * A container class used to capture the information necessary for a generic validation report.
+ * <p/>
+ * This is written with the intention to capture the information about e.g. the sample core or the taxon core of a
+ * DwC-A.
+ * <p/>
+ * Generic validation includes information about the number of records checked, whether all records where checked
+ * (implementations often cannot check everything) and information about the validity of primary keys.
+ */
+public class GenericValidationReport {
   // the number of records checked in the validation
   private final int checkedRecords;
 
-  // false if we had to stop at our memory-saving limit
+  // false if we had to stop at an implementation imposed limit (e.g. due to memory restrictions)
   private final boolean allRecordsChecked;
 
-  // a sample of non unique core/taxon identifier
+  // a sample of duplicate ids which are expected to be unique (i.e. primary keys)
   private final List<String> duplicateIds;
 
-  // a sample of data file line numbers with records missing a core/taxon identifier
-  private final List<Integer> missingIds;
+  // a sample of data file line numbers with records missing a core identifier
+  private final List<Integer> rowNumbersMissingId;
 
   // if the archive is not valid this will hold a readable reason
   private String invalidationReason;
@@ -27,24 +36,26 @@ public class ChecklistValidationReport {
   private final boolean valid;
 
   @JsonCreator
-  public ChecklistValidationReport(@JsonProperty("checkedRecords") int checkedRecords,
+  public GenericValidationReport(
+    @JsonProperty("checkedRecords") int checkedRecords,
     @JsonProperty("allRecordsChecked") boolean allRecordsChecked,
     @JsonProperty("duplicateIds") List<String> duplicateIds,
-    @JsonProperty("missingIds") List<Integer> missingIds) {
+    @JsonProperty("rowNumbersMissingId") List<Integer> rowNumbersMissingId
+  ) {
     this.checkedRecords = checkedRecords;
     this.allRecordsChecked = allRecordsChecked;
     this.duplicateIds = Preconditions.checkNotNull(duplicateIds, "duplicateIds cannot be null");
-    this.missingIds = Preconditions.checkNotNull(missingIds, "missingIds cannot be null");
+    this.rowNumbersMissingId = Preconditions.checkNotNull(rowNumbersMissingId, "rowNumbersMissingId cannot be null");
     this.valid = validate();
   }
 
   private boolean validate() {
     if (!duplicateIds.isEmpty()) {
-      invalidationReason = "Non unique taxon ids";
+      invalidationReason = "Non unique core ids";
       return false;
     }
-    if (!missingIds.isEmpty()) {
-      invalidationReason = "Missing taxon ids";
+    if (!rowNumbersMissingId.isEmpty()) {
+      invalidationReason = "Missing core ids";
       return false;
     }
     return true;
@@ -62,8 +73,8 @@ public class ChecklistValidationReport {
     return duplicateIds;
   }
 
-  public List<Integer> getMissingIds() {
-    return missingIds;
+  public List<Integer> getRowNumbersMissingId() {
+    return rowNumbersMissingId;
   }
 
   public String getInvalidationReason() {
@@ -76,7 +87,8 @@ public class ChecklistValidationReport {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(checkedRecords, allRecordsChecked, duplicateIds, missingIds, invalidationReason,valid);
+    return Objects.hashCode(checkedRecords, allRecordsChecked, duplicateIds,
+                            rowNumbersMissingId, invalidationReason,valid);
   }
 
   @Override
@@ -87,11 +99,11 @@ public class ChecklistValidationReport {
     if (obj == null || getClass() != obj.getClass()) {
       return false;
     }
-    final ChecklistValidationReport other = (ChecklistValidationReport) obj;
+    final GenericValidationReport other = (GenericValidationReport) obj;
     return Objects.equal(this.checkedRecords, other.checkedRecords)
            && Objects.equal(this.allRecordsChecked, other.allRecordsChecked)
            && Objects.equal(this.duplicateIds, other.duplicateIds)
-           && Objects.equal(this.missingIds, other.missingIds)
+           && Objects.equal(this.rowNumbersMissingId, other.rowNumbersMissingId)
            && Objects.equal(this.invalidationReason, other.invalidationReason)
            && Objects.equal(this.valid, other.valid);
   }
@@ -101,7 +113,7 @@ public class ChecklistValidationReport {
     return Objects.toStringHelper(this)
       .add("checkedRecords", checkedRecords)
       .add("duplicateIds", duplicateIds)
-      .add("missingIds", missingIds)
+      .add("rowNumbersMissingId", rowNumbersMissingId)
       .add("allRecordsChecked", allRecordsChecked)
       .add("invalidationReason", invalidationReason)
       .add("valid", valid)

@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
@@ -174,7 +173,7 @@ public class DownloadRequest {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this).add("creator", creator).add("predicate", predicate)
+    return Objects.toStringHelper(this).add("creator", creator).add("predicate", predicate)
       .add("notificationAddresses", notificationAddresses).add("emailNotification", sendNotification)
       .add("format", format).toString();
   }
