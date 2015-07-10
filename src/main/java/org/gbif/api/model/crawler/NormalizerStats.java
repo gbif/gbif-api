@@ -88,7 +88,10 @@ public class NormalizerStats {
   }
 
   public int getCountByOrigin(Origin o) {
-    return countByOrigin.get(o);
+    if (countByOrigin.containsKey(o)) {
+      return countByOrigin.get(o);
+    }
+    return 0;
   }
 
   public Map<Origin, Integer> getCountByOrigin() {
