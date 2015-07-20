@@ -136,5 +136,10 @@ public enum NameUsageIssue {
    * i.e. the link to the parent, accepted and/or original name.
    * The interpreted record in ChecklistBank is lacking some of the original source relation.
    */
-  RELATIONSHIP_MISSING
+  RELATIONSHIP_MISSING,
+
+  /**
+   * Record has a original name (basionym) relationship which was derived from name & authorship comparison, but did not exist explicitly in the data.
+   */
+  ORIGINAL_NAME_DERIVED
 }

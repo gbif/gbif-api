@@ -250,6 +250,11 @@ public class ParsedName {
     this.year = year;
   }
 
+  @JsonIgnore
+  public boolean hasAuthorship() {
+    return authorship != null || year != null || bracketAuthorship != null || bracketYear != null;
+  }
+
   public boolean isAuthorsParsed() {
     return authorsParsed;
   }
