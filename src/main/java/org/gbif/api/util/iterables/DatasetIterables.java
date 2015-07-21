@@ -4,6 +4,7 @@ import org.gbif.api.model.common.paging.PagingConstants;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.InstallationService;
+import org.gbif.api.service.registry.NetworkService;
 import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.api.vocabulary.DatasetType;
 
@@ -17,15 +18,16 @@ import org.slf4j.LoggerFactory;
 /**
  * Factory constructing dataset iterables that exclude deleted datasets.
  */
-public class DatasetPagerFactory {
-    private static final Logger LOG = LoggerFactory.getLogger(DatasetPagerFactory.class);
+public class DatasetIterables {
+    private static final Logger LOG = LoggerFactory.getLogger(DatasetIterables.class);
 
     /**
      * @param key a valid dataset, organization or installation key. If null all datasets will be iterated over
      * @throws IllegalArgumentException if given key is not existing
      */
-    public static Iterable<Dataset> datasets(@Nullable UUID key, @Nullable DatasetType type, DatasetService ds, OrganizationService os, InstallationService is) {
-        return datasets(key, type, ds, os, is, PagingConstants.DEFAULT_PARAM_LIMIT);
+    public static Iterable<Dataset> datasets(@Nullable UUID key, @Nullable DatasetType type,
+                                             DatasetService ds, OrganizationService os, InstallationService is, NetworkService ns) {
+        return datasets(key, type, ds, os, is, ns, PagingConstants.DEFAULT_PARAM_LIMIT);
     }
 
     /**
@@ -36,7 +38,8 @@ public class DatasetPagerFactory {
      * @param pageSize to use when talking to the registry
      * @throws IllegalArgumentException if given key is not existing
      */
-    public static Iterable<Dataset> datasets(@Nullable UUID key, @Nullable DatasetType type, DatasetService ds, OrganizationService os, InstallationService is, int pageSize) {
+    public static Iterable<Dataset> datasets(@Nullable UUID key, @Nullable DatasetType type,
+                                             DatasetService ds, OrganizationService os, InstallationService is, NetworkService ns, int pageSize) {
         if (key == null) {
             LOG.info("Iterate over all {} datasets", type == null ? "" : type);
             return new DatasetPager(ds, type, pageSize);
@@ -52,6 +55,10 @@ public class DatasetPagerFactory {
         } else if (isInstallation(key, is)) {
             LOG.info("Iterate over all {} datasets hosted by installation {}", type == null ? "" : type, key);
             return new InstallationPager(is, key, type, pageSize);
+
+        } else if (isNetwork(key, ns)) {
+            LOG.info("Iterate over all {} datasets belonging to network {}", type == null ? "" : type, key);
+            return new NetworkPager(ns, key, type, pageSize);
         }
         throw new IllegalArgumentException("Given key is no valid GBIF registry key: " + key);
     }
@@ -91,6 +98,15 @@ public class DatasetPagerFactory {
         return new InstallationPager(service, key, type, PagingConstants.DEFAULT_PARAM_LIMIT);
     }
 
+    /**
+     * @param key a valid installation key
+     * @param type an optional filter to just include the given dataset type
+     */
+    public static Iterable<Dataset> networkDatasets(UUID key, @Nullable DatasetType type, NetworkService service) {
+        LOG.info("Iterate over all {} datasets belonging to network {}", type == null ? "" : type, key);
+        return new NetworkPager(service, key, type, PagingConstants.DEFAULT_PARAM_LIMIT);
+    }
+
     private static boolean isDataset(UUID key, DatasetService ds) {
         return ds.get(key) != null;
     }
@@ -101,5 +117,9 @@ public class DatasetPagerFactory {
 
     private static boolean isInstallation(UUID key, InstallationService is) {
         return is.get(key) != null;
+    }
+
+    private static boolean isNetwork(UUID key, NetworkService ns) {
+        return ns.get(key) != null;
     }
 }
