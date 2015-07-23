@@ -13,7 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Iterator over datasets from paging responses that filters out deleted datasets and adds an optional type filter.
+ * Iterator over datasets from paging responses that filters out deleted and constituent datasets
+ * It also allows for an optional type filter.
  */
 abstract class DatasetBasePager implements Iterable<Dataset> {
     private static final Logger LOG = LoggerFactory.getLogger(DatasetBasePager.class);
@@ -71,6 +72,8 @@ abstract class DatasetBasePager implements Iterable<Dataset> {
                 Dataset d = iter.next();
                 if (d.getDeleted() != null) {
                     LOG.debug("Ignore deleted dataset {}: {}", d.getKey(), d.getTitle().replaceAll("\n", " "));
+                } else if (d.getParentDatasetKey() != null) {
+                    LOG.debug("Ignore constituent dataset {} {} of parent {}", d.getKey(), d.getTitle().replaceAll("\n", " "), d.getParentDatasetKey());
                 } else if (type != null && d.getType() != type) {
                     LOG.debug("Ignore {} dataset {}: {}", d.getType(), d.getKey(), d.getTitle().replaceAll("\n", " "));
                 } else {
