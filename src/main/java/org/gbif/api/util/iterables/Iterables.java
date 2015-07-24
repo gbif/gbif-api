@@ -2,10 +2,14 @@ package org.gbif.api.util.iterables;
 
 import org.gbif.api.model.common.paging.PagingConstants;
 import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.Node;
+import org.gbif.api.model.registry.Organization;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.InstallationService;
 import org.gbif.api.service.registry.NetworkService;
+import org.gbif.api.service.registry.NodeService;
 import org.gbif.api.service.registry.OrganizationService;
+import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetType;
 
 import java.util.UUID;
@@ -16,10 +20,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Factory constructing dataset iterables that exclude deleted datasets.
+ * Factory constructing registry entity iterables using specific pagers under the hood.
  */
-public class DatasetIterables {
-    private static final Logger LOG = LoggerFactory.getLogger(DatasetIterables.class);
+public class Iterables {
+    private static final Logger LOG = LoggerFactory.getLogger(Iterables.class);
 
     /**
      * @param key a valid dataset, organization or installation key. If null all datasets will be iterated over
@@ -66,7 +70,7 @@ public class DatasetIterables {
     /**
      * @param type an optional filter to just include the given dataset type
      */
-    public static Iterable<Dataset> allDatasets(@Nullable DatasetType type, DatasetService service) {
+    public static Iterable<Dataset> datasets(@Nullable DatasetType type, DatasetService service) {
         LOG.info("Iterate over all {} datasets", type == null ? "" : type);
         return new DatasetPager(service, type, PagingConstants.DEFAULT_PARAM_LIMIT);
     }
@@ -105,6 +109,39 @@ public class DatasetIterables {
     public static Iterable<Dataset> networkDatasets(UUID key, @Nullable DatasetType type, NetworkService service) {
         LOG.info("Iterate over all {} datasets belonging to network {}", type == null ? "" : type, key);
         return new NetworkPager(service, key, type, PagingConstants.DEFAULT_PARAM_LIMIT);
+    }
+
+    /**
+     * @param nodeKey a valid endorsing node key
+     * @param type an optional filter to just include the given dataset type
+     */
+    public static Iterable<Dataset> endorsedDatasets(UUID nodeKey, @Nullable DatasetType type, NodeService service) {
+        LOG.info("Iterate over all {} datasets endorsed by node {}", type == null ? "" : type, nodeKey);
+        return new NodeDatasetPager(service, nodeKey, type, PagingConstants.DEFAULT_PARAM_LIMIT);
+    }
+
+    /**
+     * @param country an optional country filter
+     */
+    public static Iterable<Organization> organizations(@Nullable Country country, OrganizationService service) {
+        LOG.info("Iterate over all organizations {}", country == null ? "" : "from country "+country);
+        return new OrganizationPager(service, country, PagingConstants.DEFAULT_PARAM_LIMIT);
+    }
+
+    /**
+     * @param nodeKey a valid endorsing node key
+     */
+    public static Iterable<Organization> endorsedOrganizations(UUID nodeKey, NodeService service) {
+        LOG.info("Iterate over all organizations endorsed by node {}", nodeKey);
+        return new NodeOrganizationPager(service, nodeKey, PagingConstants.DEFAULT_PARAM_LIMIT);
+    }
+
+    /**
+     * Iterate over all endorsing nodes
+     */
+    public static Iterable<Node> nodes(NodeService service) {
+        LOG.info("Iterate over all nodes");
+        return new NodePager(service, PagingConstants.DEFAULT_PARAM_LIMIT);
     }
 
     private static boolean isDataset(UUID key, DatasetService ds) {
