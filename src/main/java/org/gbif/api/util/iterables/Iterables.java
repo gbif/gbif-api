@@ -30,8 +30,8 @@ public class Iterables {
      * @throws IllegalArgumentException if given key is not existing
      */
     public static Iterable<Dataset> datasets(@Nullable UUID key, @Nullable DatasetType type,
-                                             DatasetService ds, OrganizationService os, InstallationService is, NetworkService ns) {
-        return datasets(key, type, ds, os, is, ns, PagingConstants.DEFAULT_PARAM_LIMIT);
+                                             DatasetService ds, OrganizationService os, InstallationService is, NetworkService ns, NodeService nos) {
+        return datasets(key, type, ds, os, is, ns, nos, PagingConstants.DEFAULT_PARAM_LIMIT);
     }
 
     /**
@@ -43,7 +43,8 @@ public class Iterables {
      * @throws IllegalArgumentException if given key is not existing
      */
     public static Iterable<Dataset> datasets(@Nullable UUID key, @Nullable DatasetType type,
-                                             DatasetService ds, OrganizationService os, InstallationService is, NetworkService ns, int pageSize) {
+                                             DatasetService ds, OrganizationService os, InstallationService is, NetworkService ns, NodeService nos,
+                                             int pageSize) {
         if (key == null) {
             LOG.info("Iterate over all {} datasets", type == null ? "" : type);
             return new DatasetPager(ds, type, pageSize);
@@ -60,9 +61,13 @@ public class Iterables {
             LOG.info("Iterate over all {} datasets hosted by installation {}", type == null ? "" : type, key);
             return new InstallationPager(is, key, type, pageSize);
 
+        } else if (isNode(key, nos)) {
+            LOG.info("Iterate over all {} datasets endorsed by node {}", type == null ? "" : type, key);
+            return new NetworkPager(ns, key, type, pageSize);
+
         } else if (isNetwork(key, ns)) {
             LOG.info("Iterate over all {} datasets belonging to network {}", type == null ? "" : type, key);
-            return new NetworkPager(ns, key, type, pageSize);
+            return new NodeDatasetPager(nos, key, type, pageSize);
         }
         throw new IllegalArgumentException("Given key is no valid GBIF registry key: " + key);
     }
@@ -157,6 +162,10 @@ public class Iterables {
     }
 
     private static boolean isNetwork(UUID key, NetworkService ns) {
+        return ns.get(key) != null;
+    }
+
+    private static boolean isNode(UUID key, NodeService ns) {
         return ns.get(key) != null;
     }
 }
