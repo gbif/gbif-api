@@ -17,7 +17,6 @@ import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.crawler.DatasetProcessStatus;
 
 import java.util.UUID;
-
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
@@ -52,4 +51,9 @@ public interface DatasetProcessStatusService {
    */
   PagingResponse<DatasetProcessStatus> listDatasetProcessStatus(@NotNull UUID datasetKey, @Nullable Pageable page);
 
+
+  /**
+   * Retrieves a pageable result of all dataset processing statuses that have been aborted in their latest crawl
+   */
+  PagingResponse<DatasetProcessStatus> listAbortedDatasetProcesses(@Nullable Pageable page);
 }
