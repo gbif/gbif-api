@@ -64,4 +64,8 @@ public interface DatasetProcessService {
    */
   List<DatasetProcessStatus> getPendingDwcaDatasetProcesses();
 
+  /**
+   * @return an ordered list of dataset processing statuses for all datasets that have been aborted in their latest crawl
+   */
+  List<DatasetProcessStatus> getAbortedDatasetProcesses();
 }

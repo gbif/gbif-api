@@ -58,6 +58,8 @@ public interface NetworkEntity {
 
   void setModified(Date modified);
 
+  boolean isDeleted();
+
   @Nullable
   Date getDeleted();
 

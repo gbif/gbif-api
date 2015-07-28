@@ -120,6 +120,12 @@ public class Installation implements NetworkEntity, Contactable, Endpointable, M
   }
 
   @Override
+  @JsonIgnore
+  public boolean isDeleted() {
+    return deleted != null;
+  }
+
+  @Override
   public Date getDeleted() {
     return deleted;
   }

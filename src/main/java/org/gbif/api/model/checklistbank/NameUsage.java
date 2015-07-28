@@ -104,6 +104,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   private URI references;
 
   private Date modified;
+  private Date deleted;
   private Date lastCrawled;
   private Date lastInterpreted;
   private Set<NameUsageIssue> issues = EnumSet.noneOf(NameUsageIssue.class);
@@ -789,6 +790,24 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.modified = modified;
   }
 
+  @JsonIgnore
+  public boolean isDeleted() {
+    return deleted != null;
+  }
+
+  @Nullable
+  /**
+   * The date this record was deleted.
+   * Logical deletions only occur for backbone usages!
+   */
+  public Date getDeleted() {
+    return deleted;
+  }
+
+  public void setDeleted(Date deleted) {
+    this.deleted = deleted;
+  }
+
   @Nullable
   /**
    * The date this record was last crawled during clb indexing.
@@ -908,6 +927,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
         references,
         taxonID,
         modified,
+        deleted,
         lastCrawled,
         lastInterpreted,
         issues);
@@ -969,6 +989,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
            && Objects.equal(this.taxonID, other.taxonID)
            && Objects.equal(this.remarks, other.remarks)
            && Objects.equal(this.modified, other.modified)
+           && Objects.equal(this.deleted, other.deleted)
            && Objects.equal(this.lastCrawled, other.lastCrawled)
            && Objects.equal(this.lastInterpreted, other.lastInterpreted)
            && Objects.equal(this.issues, other.issues);
@@ -1021,6 +1042,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
       .add("references", references)
       .add("taxonID", taxonID)
       .add("modified", modified)
+      .add("deleted", deleted)
       .add("lastCrawled", lastCrawled)
       .add("lastInterpreted", lastInterpreted)
       .add("issues", issues)

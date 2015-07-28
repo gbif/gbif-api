@@ -42,6 +42,7 @@ import javax.validation.constraints.Size;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * A GBIF dataset which provides occurrence data, checklist data or metadata.
@@ -193,6 +194,12 @@ public class Dataset
    */
   public void setModified(Date modified) {
     this.modified = modified;
+  }
+
+  @Override
+  @JsonIgnore
+  public boolean isDeleted() {
+    return deleted != null;
   }
 
   @Override

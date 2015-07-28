@@ -121,6 +121,12 @@ public class Organization
   }
 
   @Override
+  @JsonIgnore
+  public boolean isDeleted() {
+    return deleted != null;
+  }
+
+  @Override
   public Date getDeleted() {
     return deleted;
   }

@@ -29,6 +29,7 @@ import javax.validation.constraints.Size;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * A GBIF participant node.
@@ -135,6 +136,12 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
   @Override
   public void setModified(Date modified) {
     this.modified = modified;
+  }
+
+  @Override
+  @JsonIgnore
+  public boolean isDeleted() {
+    return deleted != null;
   }
 
   @Override
