@@ -139,12 +139,6 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
   }
 
   @Override
-  @JsonIgnore
-  public boolean isDeleted() {
-    return deleted != null;
-  }
-
-  @Override
   public Date getDeleted() {
     return deleted;
   }

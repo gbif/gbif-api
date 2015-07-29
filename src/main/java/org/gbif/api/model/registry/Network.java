@@ -112,12 +112,6 @@ public class Network implements NetworkEntity, Contactable, Endpointable, Machin
   }
 
   @Override
-  @JsonIgnore
-  public boolean isDeleted() {
-    return deleted != null;
-  }
-
-  @Override
   public Date getDeleted() {
     return deleted;
   }

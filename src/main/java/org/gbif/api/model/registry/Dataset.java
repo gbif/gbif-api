@@ -197,12 +197,6 @@ public class Dataset
   }
 
   @Override
-  @JsonIgnore
-  public boolean isDeleted() {
-    return deleted != null;
-  }
-
-  @Override
   @Nullable
   public Date getDeleted() {
     return deleted;

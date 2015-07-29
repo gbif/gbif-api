@@ -790,11 +790,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.modified = modified;
   }
 
-  @JsonIgnore
-  public boolean isDeleted() {
-    return deleted != null;
-  }
-
   @Nullable
   /**
    * The date this record was deleted.
