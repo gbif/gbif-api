@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.checklistbank;
 
+import org.gbif.api.model.Constants;
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.util.ClassificationUtils;
@@ -845,7 +846,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
 
   @JsonIgnore
   public boolean isNub() {
-    return key.equals(nubKey);
+    return datasetKey.equals(Constants.NUB_DATASET_KEY);
   }
 
   /**
