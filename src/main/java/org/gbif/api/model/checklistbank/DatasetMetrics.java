@@ -47,6 +47,8 @@ public class DatasetMetrics {
   private int colMatchingCount;
   private int nubCoveragePct;
   private int colCoveragePct;
+  // breakdown by constituent
+  private Map<UUID, Integer> countByConstituent = Maps.newHashMap();
   // breakdown by kingdom
   private Map<Kingdom, Integer> countByKingdom = Maps.newHashMap();
   // breakdown by rank
@@ -84,6 +86,15 @@ public class DatasetMetrics {
 
   public void setColCoveragePct(int colCoveragePct) {
     this.colCoveragePct = colCoveragePct;
+  }
+
+  @NotNull
+  public Map<UUID, Integer> getCountByConstituent() {
+    return countByConstituent;
+  }
+
+  public void setCountByConstituent(Map<UUID, Integer> countByConstituent) {
+    this.countByConstituent = countByConstituent;
   }
 
   @NotNull
@@ -373,6 +384,7 @@ public class DatasetMetrics {
            && Objects.equal(this.colMatchingCount, that.colMatchingCount)
            && Objects.equal(this.nubCoveragePct, that.nubCoveragePct)
            && Objects.equal(this.colCoveragePct, that.colCoveragePct)
+           && Objects.equal(this.countByConstituent, that.countByConstituent)
            && Objects.equal(this.countByKingdom, that.countByKingdom)
            && Objects.equal(this.countByRank, that.countByRank)
            && Objects.equal(this.countNamesByLanguage, that.countNamesByLanguage)
@@ -387,7 +399,7 @@ public class DatasetMetrics {
   @Override
   public int hashCode() {
     return Objects.hashCode(key, datasetKey, usagesCount, synonymsCount, distinctNamesCount, nubMatchingCount,
-      colMatchingCount, nubCoveragePct, colCoveragePct, countByKingdom, countByRank, countNamesByLanguage,
+      colMatchingCount, nubCoveragePct, colCoveragePct, countByConstituent, countByKingdom, countByRank, countNamesByLanguage,
       countExtRecordsByExtension, countByOrigin, countByIssue, otherCount, created, downloaded);
   }
 
@@ -403,7 +415,8 @@ public class DatasetMetrics {
       .add("colMatchingCount", colMatchingCount)
       .add("nubCoveragePct", nubCoveragePct)
       .add("colCoveragePct", colCoveragePct)
-      .add("countByKingdom", countByKingdom)
+      .add("countByConstituent", countByConstituent)
+            .add("countByKingdom", countByKingdom)
       .add("countByRank", countByRank)
       .add("countNamesByLanguage", countNamesByLanguage)
       .add("countExtRecordsByExtension", countExtRecordsByExtension)
