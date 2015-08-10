@@ -23,18 +23,17 @@ import java.util.UUID;
 public final class Constants {
 
   /**
-   * The key for the GBIF network.
-   * @deprecated since we do not use a Network to group datasets registered in the GBIF registry
-   */
-  @Deprecated
-  public static final UUID GBIF_NETWORK_KEY = UUID.fromString("542c9658-b512-4c1f-ae51-fdcf28c04b70");
-
-  /**
    * The dataset key for the GBIF backbone (nub) taxonomy.
    */
   public static final UUID NUB_DATASET_KEY = UUID.fromString("d7dddbf4-2cf0-4f39-9b2a-bb099caae36c");
 
   /**
+   * The network key for the GBIF backbone sources.
+   */
+  public static final UUID NUB_NETWORK_KEY = UUID.fromString("029f9226-0d8a-4f28-97fe-13180e9eb0e5");
+
+
+    /**
    * The dataset key for the Catalog of Life.
    */
   public static final UUID COL_DATASET_KEY = UUID.fromString("7ddf754f-d193-4cc9-b351-99906754a03b");
