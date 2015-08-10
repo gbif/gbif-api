@@ -370,10 +370,6 @@ public class DatasetMetrics {
     if (!(object instanceof DatasetMetrics)) {
       return false;
     }
-    if (!super.equals(object)) {
-      return false;
-    }
-
     DatasetMetrics that = (DatasetMetrics) object;
     return  Objects.equal(this.key, that.key)
            && Objects.equal(this.datasetKey, that.datasetKey)
