@@ -108,7 +108,16 @@ public class Iterables {
     }
 
     /**
-     * @param key a valid installation key
+     * @param key a valid dataset key
+     */
+    public static Iterable<Dataset> constituentDatasets(UUID key, DatasetService service) {
+        LOG.info("Iterate over all constituent datasets of {}", key);
+        return new DatasetConstituentPager(service, key, PagingConstants.DEFAULT_PARAM_LIMIT);
+    }
+
+    /**
+     * Iterates over all constituents of a given network.
+     * @param key a valid network key
      * @param type an optional filter to just include the given dataset type
      */
     public static Iterable<Dataset> networkDatasets(UUID key, @Nullable DatasetType type, NetworkService service) {
