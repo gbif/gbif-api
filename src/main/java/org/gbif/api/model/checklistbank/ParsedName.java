@@ -380,16 +380,18 @@ public class ParsedName {
         }
       } else if (infraGeneric != null) {
         // this is the terminal name part - always show it!
-        // We dont use parenthesis to indicate a subgenus, but use explicit rank markers instead
-        if (rankMarker) {
-          if (rank == null) {
-            // assume its subgenus. Zoological subgenera in brackets dont have a rank marker in the parsed name
-            sb.append(' ').append(Rank.SUBGENUS.getMarker());
-          } else {
-            sb.append(' ').append(rank);
-          }
+        if (rankMarker && rank != null) {
+          // If we know the rank we dont use parenthesis to indicate an infrageneric, but use explicit rank markers instead
+          // this is how botanical infrageneric names are formed, see http://www.iapt-taxon.org/nomen/main.php?page=art21
+          sb.append(' ')
+            .append(rank)
+            .append(' ')
+            .append(infraGeneric);
+        } else {
+          sb.append(" (")
+            .append(infraGeneric)
+            .append(")");
         }
-        sb.append(' ').append(infraGeneric);
       }
       // genus/infrageneric authorship
       if (authorship) {
