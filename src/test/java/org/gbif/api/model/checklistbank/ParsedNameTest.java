@@ -51,11 +51,13 @@ public class ParsedNameTest {
     pn.setInfraGeneric("Odontohypopomus");
     pn.setAuthorship("Sullivan, Zuanon & Cox Fernandes");
     pn.setYear("2013");
-    assertEquals("Brachyhypopomus (Odontohypopomus)", pn.canonicalName());
+    assertEquals("Odontohypopomus", pn.canonicalName());
+    assertEquals("Odontohypopomus", pn.canonicalNameWithMarker());
     assertEquals("Brachyhypopomus (Odontohypopomus) Sullivan, Zuanon & Cox Fernandes, 2013", pn.canonicalNameComplete());
     // with given rank marker it is shown instead of brackets
     pn.setRank(Rank.SUBGENUS);
-    assertEquals("Brachyhypopomus (Odontohypopomus)", pn.canonicalName());
+    assertEquals("Odontohypopomus", pn.canonicalName());
+    assertEquals("subgen. Odontohypopomus", pn.canonicalNameWithMarker());
     assertEquals("Brachyhypopomus subgen. Odontohypopomus Sullivan, Zuanon & Cox Fernandes, 2013", pn.canonicalNameComplete());
 
     // Achillea sect. Ptarmica (Mill.) W.D.J.Koch
@@ -65,7 +67,8 @@ public class ParsedNameTest {
     pn.setAuthorship("W.D.J.Koch");
     pn.setBracketAuthorship("Mill.");
 
-    assertEquals("Achillea (Ptarmica)", pn.canonicalName());
+    assertEquals("Ptarmica", pn.canonicalName());
+    assertEquals("Achillea (Ptarmica) (Mill.) W.D.J.Koch", pn.canonicalNameComplete());
     pn.setRank(Rank.SECTION);
     assertEquals("Achillea sect. Ptarmica (Mill.) W.D.J.Koch", pn.canonicalNameComplete());
   }

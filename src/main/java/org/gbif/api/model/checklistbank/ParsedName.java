@@ -20,8 +20,6 @@ import org.gbif.api.vocabulary.NameType;
 import org.gbif.api.vocabulary.NomenclaturalCode;
 import org.gbif.api.vocabulary.Rank;
 
-import javax.annotation.Nullable;
-
 import com.google.common.base.Objects;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -292,42 +290,14 @@ public class ParsedName {
     return sb.toString().trim();
   }
 
-  public String buildName(
-    boolean hybridMarker,
-    boolean rankMarker,
-    boolean authorship,
-    boolean subgenus,
-    boolean abbreviateGenus,
-    boolean decomposition,
-    boolean showIndet,
-    boolean nomNote,
-    boolean remarks,
-    boolean showSensu,
-    boolean showCultivar,
-    boolean showStrain
-  ) {
-    return buildName(hybridMarker,
-                     rankMarker,
-                     authorship,
-                     subgenus,
-                     abbreviateGenus,
-                     decomposition,
-                     showIndet,
-                     nomNote,
-                     remarks,
-                     showSensu,
-                     showCultivar,
-                     showStrain,
-                     null);
-  }
-
   /**
    * build a name controlling all available flags for name parts to be included in the resulting name.
    *
    * @param hybridMarker    include the hybrid marker with the name if existing
    * @param rankMarker      include the infraspecific or infrageneric rank marker with the name if existing
    * @param authorship      include the names authorship (authorteam and year)
-   * @param subgenus        include the subgenus in brackets in species or subspecies
+   * @param infrageneric include the infrageneric name in brackets for species or infraspecies
+   * @param genusForInfrageneric include the genus name in front of an infrageneric name (not a species)
    * @param abbreviateGenus if true abreviate the genus with its first character
    * @param decomposition   decompose unicode letters into their corresponding ascii ones, e.g. æ beomes ae
    * @param showIndet       if true include the rank marker for incomplete determinations, for example Puma spec.
@@ -338,7 +308,8 @@ public class ParsedName {
     boolean hybridMarker,
     boolean rankMarker,
     boolean authorship,
-    boolean subgenus,
+    boolean infrageneric,
+    boolean genusForInfrageneric,
     boolean abbreviateGenus,
     boolean decomposition,
     boolean showIndet,
@@ -346,8 +317,7 @@ public class ParsedName {
     boolean remarks,
     boolean showSensu,
     boolean showCultivar,
-    boolean showStrain,
-    @Nullable NomenclaturalCode code
+    boolean showStrain
   ) {
     StringBuilder sb = new StringBuilder();
     Rank rnk = getRank();
@@ -356,7 +326,7 @@ public class ParsedName {
       sb.append("Candidatus ");
     }
 
-    if (genusOrAbove != null) {
+    if (genusOrAbove != null && (genusForInfrageneric || infraGeneric == null || specificEpithet != null)) {
       if (hybridMarker && NamePart.GENERIC == notho) {
         sb.append(HYBRID_MARKER);
       }
@@ -381,16 +351,22 @@ public class ParsedName {
       } else if (infraGeneric != null) {
         // this is the terminal name part - always show it!
         if (rankMarker && rank != null) {
-          // If we know the rank we dont use parenthesis to indicate an infrageneric, but use explicit rank markers instead
+          // If we know the rank we use explicit rank markers
           // this is how botanical infrageneric names are formed, see http://www.iapt-taxon.org/nomen/main.php?page=art21
           sb.append(' ')
             .append(rank)
             .append(' ')
             .append(infraGeneric);
         } else {
-          sb.append(" (")
-            .append(infraGeneric)
-            .append(")");
+            if (genusForInfrageneric && genusOrAbove != null) {
+              // if we have shown the genus already and we do not know the rank we use parenthesis to indicate an infrageneric
+              sb.append(" (")
+                      .append(infraGeneric)
+                      .append(")");
+            } else {
+              // no genus shown yet, just show the plain infrageneric name
+              sb.append(infraGeneric);
+            }
         }
       }
       // genus/infrageneric authorship
@@ -398,7 +374,7 @@ public class ParsedName {
         appendAuthorship(sb);
       }
     } else {
-      if (subgenus && infraGeneric != null && (rank == null || getRank() == Rank.GENUS)) {
+      if (infrageneric && infraGeneric != null && (rank == null || getRank() == Rank.GENUS)) {
         // only show subgenus if requested
         sb.append(" (");
         sb.append(infraGeneric);
@@ -436,11 +412,8 @@ public class ParsedName {
           }
         }
         if (rankMarker) {
-          String rm = getInfraspecificRankMarker(code);
-          if (rm != null) {
-            sb.append(rm);
-            sb.append(' ');
-          }
+          sb.append(rank);
+          sb.append(' ');
         }
         epi = infraSpecificEpithet.replaceAll("[ _-]", "-");
         sb.append(epi);
@@ -524,6 +497,7 @@ public class ParsedName {
   /**
    * The canonical name sensu strictu with nothing else but 3 name parts at max (genus, species, infraspecific). No
    * rank or hybrid markers and no authorship, cultivar or strain information.
+   * Infrageneric names are represented without a leading genus.
    * <p/>
    * For example:
    * Abies alba
@@ -535,7 +509,7 @@ public class ParsedName {
    */
   @JsonProperty
   public String canonicalName() {
-    return buildName(false, false, false, false, false, true, true, false, false, false, false, false);
+    return buildName(false, false, false, false, false, false, true, true, false, false, false, false, false);
   }
 
   /**
@@ -554,7 +528,7 @@ public class ParsedName {
    */
   @JsonProperty
   public String canonicalNameWithMarker() {
-    return buildName(true, true, false, false, false, true, true, false, false, false, true, true);
+    return buildName(true, true, false, false, false, false, true, true, false, false, false, true, true);
   }
 
   /**
@@ -564,7 +538,7 @@ public class ParsedName {
    */
   @JsonProperty
   public String canonicalNameComplete() {
-    return buildName(true, true, true, false, false, true, true, false, false, false, true, true);
+    return buildName(true, true, true, false, true, false, true, true, false, false, false, true, true);
   }
 
   /**
@@ -581,7 +555,7 @@ public class ParsedName {
    * @return the name with all details that exist.
    */
   public String fullName() {
-    return buildName(true, true, true, true, false, false, true, true, true, true, true, true);
+    return buildName(true, true, true, true, true, false, false, true, true, true, true, true, true);
   }
 
   @JsonIgnore
