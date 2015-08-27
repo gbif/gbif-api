@@ -50,7 +50,7 @@ public enum NameUsageIssue {
   CHAINED_SYNOYM,
 
   /**
-   * The authorship of the original name does not match the authorshipin brackets of the actual name.
+   * The authorship of the original name does not match the authorship in brackets of the actual name.
    */
   BASIONYM_AUTHOR_MISMATCH,
 
@@ -113,7 +113,9 @@ public enum NameUsageIssue {
 
   /**
    * Name usage could only be matched to the GBIF backbone using fuzzy matching.
+   * @deprecated because there should be no fuzzy matching being used anymore for matching checklist names
    */
+  @Deprecated
   BACKBONE_MATCH_FUZZY,
 
   /**
@@ -140,6 +142,20 @@ public enum NameUsageIssue {
 
   /**
    * Record has a original name (basionym) relationship which was derived from name & authorship comparison, but did not exist explicitly in the data.
+   * This should only be flagged in programmatically generated GBIF backbone usages.
    */
-  ORIGINAL_NAME_DERIVED
+  ORIGINAL_NAME_DERIVED,
+
+  /**
+   * The taxonomic status was inferred from the name or relations.
+   * Typically this is used to indicate that a name of a original name group has been turned into a synonym
+   * because there cannot be more than one accepted name in a homotypical group of names.
+   */
+  STATUS_DERIVED,
+
+  /**
+   * The (accepted) bi/trinomial name does not match the parent name and should be recombined into the parent genus/species.
+   * For example the species Picea alba with a parent genus Abies is a mismatch and should be replaced by Abies alba.
+   */
+  NAME_PARENT_MISMATCH
 }

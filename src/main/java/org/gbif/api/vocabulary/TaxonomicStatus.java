@@ -58,11 +58,13 @@ public enum TaxonomicStatus {
   /**
    * Used in nub only.
    */
+  @Deprecated
   INTERMEDIATE_RANK_SYNONYM,
 
   /**
    * Used for unknown child taxa referred to via spec, ssp, ...
    */
+  @Deprecated
   DETERMINATION_SYNONYM;
 
   public boolean isSynonym() {
