@@ -23,43 +23,27 @@ import com.google.common.base.Strings;
 public enum NameType {
 
   /**
-   * a scientific name which is not well formed.
+   * A scientific latin name that might contain authorship but is not any of the other name types below (virus, hybrid, cultivar, etc).
    */
-  SCINAME,
+  SCIENTIFIC,
 
   /**
-   * a well formed scientific name according to present nomenclatural rules.
-   * This is either the canonical orcanonical with authorship.
-   */
-  WELLFORMED,
-
-  /**
-   * doubtful whether this is a scientific name at all.
-   */
-  DOUBTFUL,
-
-  /**
-   * surely not a scientific name.
-   */
-  BLACKLISTED,
-
-  /**
-   * a virus name.
+   * A virus name.
    */
   VIRUS,
 
   /**
-   * a hybrid <b>formula</b> (not a hybrid name).
+   * A hybrid <b>formula</b> (not a hybrid name).
    */
   HYBRID,
 
   /**
-   * a scientific name with some informal addition like "cf." or indetermined like Abies spec.
+   * A scientific name with some informal addition like "cf." or indetermined like Abies spec.
    */
   INFORMAL,
 
   /**
-   * a cultivated plant name.
+   * A cultivated plant name.
    */
   CULTIVAR,
 
@@ -73,7 +57,22 @@ public enum NameType {
    * @see <a href="http://www.bacterio.cict.fr/candidatus.html">J.P. Euzéby</a>
    *
    */
-  CANDIDATUS;
+  CANDIDATUS,
+
+  /**
+   * Doubtful whether this is a scientific name at all.
+   */
+  DOUBTFUL,
+
+  /**
+   * A placeholder name like "incertae sedis" or "unknown genus".
+   */
+  PLACEHOLDER,
+
+  /**
+   * Surely not a scientific name of any kind.
+   */
+  NO_NAME;
 
   /**
    * Case insensitive lookup of a name type by its name that does not throw an exception but returns null
@@ -95,29 +94,17 @@ public enum NameType {
   }
 
   /**
-   * @return true if this name type is "better", ie more correct than the given name
+   * @return true if the type of name is included in the GBIF backbone
    */
-  public boolean isBetterThan(NameType other) {
-    if (other == null) {
-      return true;
-    }
-    if (BLACKLISTED != this) {
-      if (INFORMAL == this && BLACKLISTED == other) {
-        return true;
-      } else if (DOUBTFUL == this && (BLACKLISTED == other || INFORMAL == other)) {
-        return true;
-      } else if ((SCINAME == this || VIRUS == this || HYBRID == this)
-          && (BLACKLISTED == other || INFORMAL == other || DOUBTFUL == other)) {
-        return true;
-      } else if (WELLFORMED == this && WELLFORMED != other) {
-        return true;
-      }
-    }
-    return false;
+  public boolean isBackboneType() {
+    return this == SCIENTIFIC || this == VIRUS || this == DOUBTFUL;
   }
 
+  /**
+   * @return true if the GBIF name parser can parse such a name into a ParsedName instance
+   */
   public boolean isParsable() {
-    return !(this == HYBRID || VIRUS == this || BLACKLISTED == this);
+    return this == SCIENTIFIC || this == INFORMAL || this == CULTIVAR || this == CANDIDATUS || this == DOUBTFUL;
   }
 
 }

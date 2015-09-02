@@ -23,29 +23,26 @@ import static org.junit.Assert.assertTrue;
 public class NameTypeTest {
 
   @Test
-  public void testIsBetterThan() throws Exception {
-    assertTrue(NameType.WELLFORMED.isBetterThan(NameType.SCINAME));
-    assertTrue(NameType.WELLFORMED.isBetterThan(NameType.VIRUS));
-    assertTrue(NameType.WELLFORMED.isBetterThan(NameType.DOUBTFUL));
-    assertTrue(NameType.WELLFORMED.isBetterThan(NameType.BLACKLISTED));
-    assertTrue(NameType.WELLFORMED.isBetterThan(NameType.INFORMAL));
-    assertTrue(NameType.SCINAME.isBetterThan(NameType.DOUBTFUL));
-    assertTrue(NameType.VIRUS.isBetterThan(NameType.DOUBTFUL));
-    assertTrue(NameType.HYBRID.isBetterThan(NameType.DOUBTFUL));
+  public void testIsBackbone() throws Exception {
+    assertTrue(NameType.SCIENTIFIC.isBackboneType());
+    assertTrue(NameType.VIRUS.isBackboneType());
+    assertTrue(NameType.DOUBTFUL.isBackboneType());
 
-    assertFalse(NameType.HYBRID.isBetterThan(NameType.VIRUS));
-    assertFalse(NameType.VIRUS.isBetterThan(NameType.HYBRID));
-    assertFalse(NameType.HYBRID.isBetterThan(NameType.SCINAME));
-    assertFalse(NameType.BLACKLISTED.isBetterThan(NameType.DOUBTFUL));
+    assertFalse(NameType.PLACEHOLDER.isBackboneType());
+    assertFalse(NameType.HYBRID.isBackboneType());
+    assertFalse(NameType.INFORMAL.isBackboneType());
+    assertFalse(NameType.CULTIVAR.isBackboneType());
+    assertFalse(NameType.NO_NAME.isBackboneType());
   }
 
   @Test
   public void testIsParsable() throws Exception {
-    assertTrue(NameType.SCINAME.isParsable());
-    assertTrue(NameType.WELLFORMED.isParsable());
+    assertTrue(NameType.SCIENTIFIC.isParsable());
+    assertTrue(NameType.INFORMAL.isParsable());
     assertTrue(NameType.DOUBTFUL.isParsable());
+
     assertFalse(NameType.VIRUS.isParsable());
-    assertFalse(NameType.BLACKLISTED.isParsable());
+    assertFalse(NameType.NO_NAME.isParsable());
     assertFalse(NameType.HYBRID.isParsable());
   }
 
