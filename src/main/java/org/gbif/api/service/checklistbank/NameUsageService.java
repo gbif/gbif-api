@@ -168,4 +168,16 @@ public interface NameUsageService {
    */
   PagingResponse<NameUsage> listSynonyms(int taxonKey, Locale locale, @Nullable Pageable page);
 
+  /**
+   * Lists all combinations or names at different rank that are based on this basionym, i.e. a list of all name usages sharing the same basionym (homotypical group).
+   * The basionym itself is not included in this list.
+   *
+   * @param basionymKey the name usage key of the basionym
+   * @param locale   the locale defining the best vernacular name to use for a usage.
+   *                 Use null to not load any common name
+   *
+   * @return List of name usages sharing the same basionym.
+   */
+  List<NameUsage> listCombinations(int basionymKey, Locale locale);
+
 }
