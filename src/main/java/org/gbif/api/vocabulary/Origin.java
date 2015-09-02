@@ -68,6 +68,11 @@ public enum Origin {
   MISSING_ACCEPTED,
 
   /**
+   * Placeholder usage for a missing or implicit basionym.
+   */
+  BASIONYM_PLACEHOLDER,
+
+  /**
    * Automatic recombination to preserve the consistency of the classification.
    * For example recombining a species name into a new genus if the original genus was considered a synonym.
    */
