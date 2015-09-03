@@ -54,6 +54,7 @@ public class NameUsageContainer extends NameUsage {
   private List<Reference> referenceList = newArrayList();
   private List<SpeciesProfile> speciesProfiles = newArrayList();
   private List<NameUsage> synonyms = newArrayList();
+  private List<NameUsage> combinations = newArrayList();
   private List<TypeSpecimen> typeSpecimens = newArrayList();
   private List<VernacularName> vernacularNames = newArrayList();
 
@@ -202,6 +203,18 @@ public class NameUsageContainer extends NameUsage {
   }
 
   /**
+   * @return the list of combinations known for the basionym
+   */
+  @NotNull
+  public List<NameUsage> getCombinations() {
+    return combinations;
+  }
+
+  public void setCombinations(List<NameUsage> combinations) {
+    this.combinations = combinations;
+  }
+
+    /**
    * @return the list of TypeSpecimen
    */
   @NotNull
