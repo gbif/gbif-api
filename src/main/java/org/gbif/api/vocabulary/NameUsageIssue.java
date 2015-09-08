@@ -147,11 +147,14 @@ public enum NameUsageIssue {
   ORIGINAL_NAME_DERIVED,
 
   /**
-   * The taxonomic status was inferred from the name or relations.
-   * Typically this is used to indicate that a name of a original name group has been turned into a synonym
-   * because there cannot be more than one accepted name in a homotypical group of names.
+   * There is more than one accepted name in a homotypical basionym group of names.
    */
-  STATUS_DERIVED,
+  BASIONYM_GROUP_MULTI_ACCEPTED,
+
+  /**
+   * The group (currently only genera are tested) are lacking any accepted species
+   */
+  LACKING_SPECIES,
 
   /**
    * The (accepted) bi/trinomial name does not match the parent name and should be recombined into the parent genus/species.
