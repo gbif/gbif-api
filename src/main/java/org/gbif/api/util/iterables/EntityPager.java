@@ -73,7 +73,7 @@ abstract class EntityPager<T extends NetworkEntity> implements Iterable<T> {
         }
 
         private void loadPage() {
-            LOG.info("Loading page {}-{}", page.getOffset(), page.getOffset()+page.getLimit());
+            LOG.debug("Loading page {}-{}", page.getOffset(), page.getOffset()+page.getLimit());
             resp = nextPage(page);
             iter = resp.getResults().iterator();
             page.nextPage();
