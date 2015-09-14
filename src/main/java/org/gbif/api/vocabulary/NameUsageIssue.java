@@ -147,14 +147,14 @@ public enum NameUsageIssue {
   ORIGINAL_NAME_DERIVED,
 
   /**
-   * There is more than one accepted name in a homotypical basionym group of names.
+   * There have been more than one accepted name in a homotypical basionym group of names.
    */
-  BASIONYM_GROUP_MULTI_ACCEPTED,
+  CONFLICTING_BASIONYM_COMBINATION,
 
   /**
    * The group (currently only genera are tested) are lacking any accepted species
    */
-  LACKING_SPECIES,
+  NO_SPECIES,
 
   /**
    * The (accepted) bi/trinomial name does not match the parent name and should be recombined into the parent genus/species.

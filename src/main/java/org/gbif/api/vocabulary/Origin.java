@@ -73,12 +73,6 @@ public enum Origin {
   BASIONYM_PLACEHOLDER,
 
   /**
-   * Automatic recombination to preserve the consistency of the classification.
-   * For example recombining a species name into a new genus if the original genus was considered a synonym.
-   */
-  AUTO_RECOMBINATION,
-
-  /**
    * Any other origin not covered by the above.
    */
   OTHER;
