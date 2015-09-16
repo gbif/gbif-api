@@ -41,7 +41,7 @@ public class ParsedNameTest {
   }
 
   @Test
-  public void testTerminalEPithet() throws Exception {
+  public void testTerminalEpithet() throws Exception {
     ParsedName pn = new ParsedName();
     pn.setGenusOrAbove("Abies");
     assertNull(pn.getTerminalEpithet());
@@ -54,6 +54,15 @@ public class ParsedNameTest {
 
     pn.setInfraSpecificEpithet(null);
     assertEquals("vulgaris", pn.getTerminalEpithet());
+  }
+
+  @Test
+  public void testCanonicalAscii() throws Exception {
+    ParsedName pn = new ParsedName();
+    pn.setGenusOrAbove("Abies");
+    pn.setSpecificEpithet("vülgårîs");
+    pn.setInfraSpecificEpithet("æbiéñtø");
+    assertEquals("Abies vulgaris aebiento", pn.canonicalName());
   }
 
   /**

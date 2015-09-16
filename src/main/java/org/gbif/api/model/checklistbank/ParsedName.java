@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.checklistbank;
 
+import org.gbif.api.util.UnicodeUtils;
 import org.gbif.api.vocabulary.NamePart;
 import org.gbif.api.vocabulary.NameType;
 import org.gbif.api.vocabulary.NomenclaturalCode;
@@ -70,36 +71,6 @@ public class ParsedName {
    */
   private String nomStatus;
   private String remarks;
-
-  /**
-   * Replaces all digraphs and ligatures with their underlying 2 latin letters.
-   *
-   * @param x the string to decompose
-   */
-  public static String decompose(String x) {
-    if (x == null) {
-      return x;
-    }
-    // god knows why, but on OSX with java 1.5&6 at least this doesnt work as it should! Use custom replace method
-    // return Normalizer.normalize(x, Form.NFD);
-    return x.replaceAll("æ", "ae")
-      .replaceAll("Æ", "Ae")
-      .replaceAll("œ", "oe")
-      .replaceAll("Œ", "Oe")
-      .replaceAll("Ĳ", "Ij")
-      .replaceAll("ĳ", "ij")
-      .replaceAll("ǈ", "Lj")
-      .replaceAll("ǉ", "lj")
-      .replaceAll("ȸ", "db")
-      .replaceAll("ȹ", "qp")
-      .replaceAll("ß", "ss")
-      .replaceAll("ﬆ", "st")
-      .replaceAll("ﬀ", "ff")
-      .replaceAll("ﬁ", "fi")
-      .replaceAll("ﬂ", "fl")
-      .replaceAll("ﬃ", "ffi")
-      .replaceAll("ﬄ", "ffl");
-  }
 
   public ParsedName() {
   }
@@ -307,7 +278,8 @@ public class ParsedName {
    * @param infrageneric include the infrageneric name in brackets for species or infraspecies
    * @param genusForInfrageneric include the genus name in front of an infrageneric name (not a species)
    * @param abbreviateGenus if true abreviate the genus with its first character
-   * @param decomposition   decompose unicode letters into their corresponding ascii ones, e.g. æ beomes ae
+   * @param decomposition   decompose unicode ligatures into their corresponding ascii ones, e.g. æ beomes ae
+   * @param asciiOnly       transform unicode letters into their corresponding ascii ones, e.g. ø beomes o and ü u
    * @param showIndet       if true include the rank marker for incomplete determinations, for example Puma spec.
    * @param nomNote         include nomenclatural notes
    * @param remarks         include informal remarks
@@ -320,6 +292,7 @@ public class ParsedName {
     boolean genusForInfrageneric,
     boolean abbreviateGenus,
     boolean decomposition,
+    boolean asciiOnly,
     boolean showIndet,
     boolean nomNote,
     boolean remarks,
@@ -464,10 +437,14 @@ public class ParsedName {
       sb.append("]");
     }
 
+    String name = sb.toString().trim();
     if (decomposition) {
-      return decompose(sb.toString().trim());
+      name = UnicodeUtils.decompose(name);
     }
-    return sb.toString().trim();
+    if (asciiOnly) {
+      name = UnicodeUtils.ascii(name);
+    }
+    return name;
   }
 
   private String getInfraspecificRankMarker(NomenclaturalCode code) {
@@ -506,6 +483,7 @@ public class ParsedName {
    * The canonical name sensu strictu with nothing else but 3 name parts at max (genus, species, infraspecific). No
    * rank or hybrid markers and no authorship, cultivar or strain information.
    * Infrageneric names are represented without a leading genus.
+   * Unicode characters will be replaced by their matching ASCII characters.
    * <p/>
    * For example:
    * Abies alba
@@ -517,7 +495,7 @@ public class ParsedName {
    */
   @JsonProperty
   public String canonicalName() {
-    return buildName(false, false, false, false, false, false, true, true, false, false, false, false, false);
+    return buildName(false, false, false, false, false, false, true, true, true, false, false, false, false, false);
   }
 
   /**
@@ -525,6 +503,7 @@ public class ParsedName {
    * infraspecific names and cultivar or strain epithets. The canonical name can be a 1, 2 or 3 parted name, but does
    * not include any informal notes or
    * authorships. Notho taxa will have the hybrid marker.
+   * Unicode characters will be replaced by their matching ASCII characters.
    * <p/>
    * For example:
    * Abies alba
@@ -536,7 +515,7 @@ public class ParsedName {
    */
   @JsonProperty
   public String canonicalNameWithMarker() {
-    return buildName(true, true, false, false, false, false, true, true, false, false, false, true, true);
+    return buildName(true, true, false, false, false, false, true, true, true, false, false, false, true, true);
   }
 
   /**
@@ -546,7 +525,7 @@ public class ParsedName {
    */
   @JsonProperty
   public String canonicalNameComplete() {
-    return buildName(true, true, true, false, true, false, true, true, false, false, false, true, true);
+    return buildName(true, true, true, false, true, false, true, false, true, false, false, false, true, true);
   }
 
   /**
@@ -563,7 +542,7 @@ public class ParsedName {
    * @return the name with all details that exist.
    */
   public String fullName() {
-    return buildName(true, true, true, true, true, false, false, true, true, true, true, true, true);
+    return buildName(true, true, true, true, true, false, false, false, true, true, true, true, true, true);
   }
 
   @JsonIgnore
