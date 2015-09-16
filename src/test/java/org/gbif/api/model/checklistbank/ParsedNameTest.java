@@ -6,6 +6,7 @@ import org.gbif.api.vocabulary.Rank;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class ParsedNameTest {
 
@@ -17,7 +18,6 @@ public class ParsedNameTest {
 
     pn.setSpecificEpithet("alba");
     assertEquals("Abies alba", pn.canonicalName());
-
 
     pn = new ParsedName();
     pn.setGenusOrAbove("Abies");
@@ -38,6 +38,22 @@ public class ParsedNameTest {
     assertEquals("×Abies alba var. alpina (Carl.) Mill., 1887", pn.canonicalNameComplete());
     assertEquals("Abies alba", pn.canonicalSpeciesName());
     assertEquals("×Abies alba var. alpina (Carl.) Mill., 1887 Döring, nom. illeg. [lost]", pn.fullName());
+  }
+
+  @Test
+  public void testTerminalEPithet() throws Exception {
+    ParsedName pn = new ParsedName();
+    pn.setGenusOrAbove("Abies");
+    assertNull(pn.getTerminalEpithet());
+
+    pn.setInfraSpecificEpithet("abieta");
+    assertEquals("abieta", pn.getTerminalEpithet());
+
+    pn.setSpecificEpithet("vulgaris");
+    assertEquals("abieta", pn.getTerminalEpithet());
+
+    pn.setInfraSpecificEpithet(null);
+    assertEquals("vulgaris", pn.getTerminalEpithet());
   }
 
   /**
@@ -80,29 +96,29 @@ public class ParsedNameTest {
     assertBuildName(pn, "Pseudomonas");
 
     pn.setSpecificEpithet("syringae");
-      assertBuildName(pn, "Pseudomonas syringae");
+    assertBuildName(pn, "Pseudomonas syringae");
 
     pn.setAuthorsParsed(true);
     pn.setAuthorship("Van Hall");
-      assertBuildName(pn, "Pseudomonas syringae Van Hall", "Pseudomonas syringae", "Pseudomonas syringae Van Hall", "Pseudomonas syringae");
+    assertBuildName(pn, "Pseudomonas syringae Van Hall", "Pseudomonas syringae", "Pseudomonas syringae Van Hall", "Pseudomonas syringae");
 
-      pn.setYear("1904");
-      assertBuildName(pn, "Pseudomonas syringae Van Hall, 1904", "Pseudomonas syringae", "Pseudomonas syringae Van Hall, 1904", "Pseudomonas syringae");
+    pn.setYear("1904");
+    assertBuildName(pn, "Pseudomonas syringae Van Hall, 1904", "Pseudomonas syringae", "Pseudomonas syringae Van Hall, 1904", "Pseudomonas syringae");
 
     pn.setBracketAuthorship("Carl.");
-      assertBuildName(pn, "Pseudomonas syringae (Carl.) Van Hall, 1904", "Pseudomonas syringae", "Pseudomonas syringae (Carl.) Van Hall, 1904", "Pseudomonas syringae");
+    assertBuildName(pn, "Pseudomonas syringae (Carl.) Van Hall, 1904", "Pseudomonas syringae", "Pseudomonas syringae (Carl.) Van Hall, 1904", "Pseudomonas syringae");
 
     pn.setRank(Rank.PATHOVAR);
     pn.setInfraSpecificEpithet("aceris");
     pn.setBracketAuthorship(null);
-      assertBuildName(pn, "Pseudomonas syringae pv. aceris Van Hall, 1904", "Pseudomonas syringae aceris", "Pseudomonas syringae pv. aceris Van Hall, 1904", "Pseudomonas syringae pv. aceris");
+    assertBuildName(pn, "Pseudomonas syringae pv. aceris Van Hall, 1904", "Pseudomonas syringae aceris", "Pseudomonas syringae pv. aceris Van Hall, 1904", "Pseudomonas syringae pv. aceris");
 
     pn.setStrain("CFBP 2339");
-      assertBuildName(pn, "Pseudomonas syringae pv. aceris Van Hall, 1904 CFBP 2339", "Pseudomonas syringae aceris", "Pseudomonas syringae pv. aceris Van Hall, 1904 CFBP 2339", "Pseudomonas syringae pv. aceris CFBP 2339");
+    assertBuildName(pn, "Pseudomonas syringae pv. aceris Van Hall, 1904 CFBP 2339", "Pseudomonas syringae aceris", "Pseudomonas syringae pv. aceris Van Hall, 1904 CFBP 2339", "Pseudomonas syringae pv. aceris CFBP 2339");
 
-      pn.setYear(null);
+    pn.setYear(null);
     pn.setAuthorship(null);
-      assertBuildName(pn, "Pseudomonas syringae pv. aceris CFBP 2339", "Pseudomonas syringae aceris", "Pseudomonas syringae pv. aceris CFBP 2339", "Pseudomonas syringae pv. aceris CFBP 2339");
+    assertBuildName(pn, "Pseudomonas syringae pv. aceris CFBP 2339", "Pseudomonas syringae aceris", "Pseudomonas syringae pv. aceris CFBP 2339", "Pseudomonas syringae pv. aceris CFBP 2339");
   }
 
   /**

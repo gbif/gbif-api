@@ -232,6 +232,14 @@ public class ParsedName {
     return specificEpithet;
   }
 
+  /**
+   * @return the terminal epithet, infraspecific epithet if existing, the species epithet or null
+   */
+  @JsonIgnore
+  public String getTerminalEpithet() {
+    return infraSpecificEpithet == null ? specificEpithet : infraSpecificEpithet;
+  }
+
   public NameType getType() {
     return type;
   }
