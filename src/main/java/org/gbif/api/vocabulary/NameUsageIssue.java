@@ -143,22 +143,32 @@ public enum NameUsageIssue {
   /**
    * Record has a original name (basionym) relationship which was derived from name & authorship comparison, but did not exist explicitly in the data.
    * This should only be flagged in programmatically generated GBIF backbone usages.
+   * GBIF backbone specific issue.
    */
   ORIGINAL_NAME_DERIVED,
 
   /**
    * There have been more than one accepted name in a homotypical basionym group of names.
+   * GBIF backbone specific issue.
    */
   CONFLICTING_BASIONYM_COMBINATION,
 
   /**
    * The group (currently only genera are tested) are lacking any accepted species
+   * GBIF backbone specific issue.
    */
   NO_SPECIES,
 
   /**
    * The (accepted) bi/trinomial name does not match the parent name and should be recombined into the parent genus/species.
    * For example the species Picea alba with a parent genus Abies is a mismatch and should be replaced by Abies alba.
+   * GBIF backbone specific issue.
    */
-  NAME_PARENT_MISMATCH
+  NAME_PARENT_MISMATCH,
+
+  /**
+   * A potential orthographic variant exists in the backbone.
+   * GBIF backbone specific issue.
+   */
+  ORTHOGRAPHIC_VARIANT
 }
