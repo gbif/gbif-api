@@ -170,5 +170,10 @@ public enum NameUsageIssue {
    * A potential orthographic variant exists in the backbone.
    * GBIF backbone specific issue.
    */
-  ORTHOGRAPHIC_VARIANT
+  ORTHOGRAPHIC_VARIANT,
+
+  /**
+   * A not synonymized homonym exists for this name in some other backbone source which have been ignored at build time.
+   */
+  HOMONYM,
 }
