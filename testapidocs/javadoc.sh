@@ -1,1 +1,1 @@
-/var/lib/jenkins/tools/hudson.model.JDK/JDK8/jre/../bin/javadoc @options @packages
+/usr/java/jdk1.8.0_45/jre/../bin/javadoc @options @packages
