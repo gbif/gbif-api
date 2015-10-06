@@ -68,7 +68,10 @@ public enum TaxonomicStatus {
   DETERMINATION_SYNONYM;
 
   public boolean isSynonym() {
-    return this != ACCEPTED && this != DOUBTFUL;
+    return !isAccepted();
   }
 
+  public boolean isAccepted() {
+    return this == ACCEPTED || this == DOUBTFUL;
+  }
 }
