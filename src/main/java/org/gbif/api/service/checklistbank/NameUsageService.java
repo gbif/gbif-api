@@ -87,7 +87,7 @@ public interface NameUsageService {
    *                   Use null to not load any common name
    * @param page       paging parameters or null for first page with default size
    *
-   * @return List of usages
+   * @return Paged list of usages
    */
   PagingResponse<NameUsage> list(Locale locale, @Nullable UUID datasetKey, @Nullable String sourceId,
                                  @Nullable Pageable page);
@@ -101,7 +101,7 @@ public interface NameUsageService {
    * @param datasetKey   the optional list of checklist keys to limit paging to.
    * @param page          paging parameters or null for first page with default size
    *
-   * @return List of usages matching the exact canonical name
+   * @return Paged list of usages matching the exact canonical name
    */
   PagingResponse<NameUsage> listByCanonicalName(Locale locale, String canonicalName, @Nullable Pageable page,
     @Nullable UUID ... datasetKey);
@@ -114,7 +114,7 @@ public interface NameUsageService {
    *                  Use null to not load any common name
    * @param page      paging parameters or null for first page with default size
    *
-   * @return List of child usages.
+   * @return Paged list of child usages.
    */
   PagingResponse<NameUsage> listChildren(int parentKey, Locale locale, @Nullable Pageable page);
 
@@ -135,24 +135,25 @@ public interface NameUsageService {
    * @param taxonKey   that identifies a nub usage
    * @param locale     the locale defining the best vernacular name to use for a usage.
    *                   Use null to not load any common name
+   * @param page       paging parameters or null for first page with default size
    * @param datasetKey Optional list of checklist keys to restrict related usages to
    *
-   * @return List of synonym name usages.
+   * @return Paged list of related name usages.
    */
-  List<NameUsage> listRelated(int taxonKey, Locale locale, @Nullable UUID... datasetKey);
+  PagingResponse<NameUsage> listRelated(int taxonKey, Locale locale, @Nullable Pageable page, @Nullable UUID... datasetKey);
 
   /**
    * Lists all root usages for a given checklist, i.e. accepted usages without a parent.
    * To list the 8 root kingdoms of the nub use the respective datasetKey,
+   * @see org.gbif.api.model.Constants#NUB_DATASET_KEY
    *
    * @param datasetKey the registered dataset key for the checklist in question
    * @param locale     the locale defining the best vernacular name to use for a usage.
    *                   Use null to not load any common name
    * @param page       paging parameters or null for first page with default size
    *
-   * @return Wrapper that contains a list of name usages.
+   * @return Paged list of root name usages.
    *
-   * @see org.gbif.api.model.Constants#NUB_DATASET_KEY
    */
   PagingResponse<NameUsage> listRoot(UUID datasetKey, Locale locale, @Nullable Pageable page);
 
@@ -164,7 +165,7 @@ public interface NameUsageService {
    *                 Use null to not load any common name
    * @param page     paging parameters or null for first page with default size
    *
-   * @return List of synonym name usages.
+   * @return Paged list of synonym name usages.
    */
   PagingResponse<NameUsage> listSynonyms(int taxonKey, Locale locale, @Nullable Pageable page);
 
