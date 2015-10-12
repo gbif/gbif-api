@@ -178,7 +178,8 @@ public enum NameUsageIssue {
   HOMONYM,
 
   /**
-   * A name that probably is a subsequent recombination and not an original combination.
+   * A bi/trinomial name published earlier than the parent genus was published.
+   * This might indicate that the name should rather be a recombination.
    */
-  DOUBTFUL_ORIGINAL_NAME
+  PUBLISHED_BEFORE_GENUS
 }
