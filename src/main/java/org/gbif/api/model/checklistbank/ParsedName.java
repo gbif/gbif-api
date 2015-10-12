@@ -22,6 +22,7 @@ import org.gbif.api.vocabulary.NomenclaturalCode;
 import org.gbif.api.vocabulary.Rank;
 
 import com.google.common.base.Objects;
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -613,6 +614,15 @@ public class ParsedName {
            || (bracketAuthorship != null && !bracketAuthorship.isEmpty())
            || (bracketYear != null && !bracketYear.isEmpty());
   }
+
+  /**
+   * @return true if a bracket authorship is given, indicating that the name has been subsequently recombined.
+   */
+  @JsonIgnore
+  public boolean isRecombination() {
+    return (!StringUtils.isBlank(bracketAuthorship) || !StringUtils.isBlank(bracketYear));
+  }
+
 
   public void setGenusOrAbove(String genusOrAbove) {
     if (genusOrAbove != null && genusOrAbove.startsWith(HYBRID_MARKER.toString())) {

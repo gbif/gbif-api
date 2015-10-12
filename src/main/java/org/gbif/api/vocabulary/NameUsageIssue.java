@@ -176,4 +176,9 @@ public enum NameUsageIssue {
    * A not synonymized homonym exists for this name in some other backbone source which have been ignored at build time.
    */
   HOMONYM,
+
+  /**
+   * A name that probably is a subsequent recombination and not an original combination.
+   */
+  DOUBTFUL_ORIGINAL_NAME
 }
