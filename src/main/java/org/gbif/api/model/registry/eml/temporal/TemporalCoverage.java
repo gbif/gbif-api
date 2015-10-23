@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.registry.eml.temporal;
 import org.gbif.api.model.registry.eml.Keywords;
+import org.gbif.api.util.formatter.TemporalCoverageFormatterVisitor;
 
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
@@ -33,5 +34,14 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
   @JsonSubTypes.Type(value = VerbatimTimePeriod.class, name = "verbatim")
 })
 public abstract class TemporalCoverage implements Keywords {
+
+  /**
+   * Accept a TemporalCoverageFormatterVisitor for formatting purpose.
+   * The concrete class should simply returns formatter.format(this);
+   *
+   * @param formatter
+   * @return
+   */
+  public abstract String acceptFormatter(TemporalCoverageFormatterVisitor formatter);
 
 }

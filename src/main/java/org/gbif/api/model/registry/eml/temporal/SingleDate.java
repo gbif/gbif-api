@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.registry.eml.temporal;
 
+import org.gbif.api.util.formatter.TemporalCoverageFormatterVisitor;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -78,4 +80,8 @@ public class SingleDate extends TemporalCoverage implements Serializable {
     return Objects.toStringHelper(this).add("super", super.toString()).add("date", date).toString();
   }
 
+  @Override
+  public String acceptFormatter(TemporalCoverageFormatterVisitor formatter) {
+    return formatter.format(this);
+  }
 }

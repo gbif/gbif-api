@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.registry.eml.temporal;
 
+import org.gbif.api.util.formatter.TemporalCoverageFormatterVisitor;
+
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -85,4 +87,8 @@ public class VerbatimTimePeriod extends TemporalCoverage implements Serializable
       .toString();
   }
 
+  @Override
+  public String acceptFormatter(TemporalCoverageFormatterVisitor formatter) {
+    return formatter.format(this);
+  }
 }

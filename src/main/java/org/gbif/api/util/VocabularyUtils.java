@@ -43,7 +43,8 @@ public final class VocabularyUtils {
    *
    * @param name the enum members name to lookup
    * @param vocab the enumeration class
-   * @return the matching enum member or null
+   * @return the matching enum member or null if {@code name} is null or empty (see http://dev.gbif.org/issues/browse/POR-2858)
+   * @throws IllegalArgumentException if the name cannot be parsed into a known name
    */
   public static <T extends Enum<?>> T lookupEnum(String name, Class<T> vocab) {
     if (Strings.isNullOrEmpty(name)) {
@@ -72,10 +73,9 @@ public final class VocabularyUtils {
    * }
    * </pre>
    *
-   * Illegal classes will result in an IllegalArgumentException.
-   *
    * @param fullyQualifiedClassName Which should name the enumeration (e.g. org.gbif.api.vocabulary.Country)
-   * @return The enumeration.
+   * @return The enumeration or null if {@code fullyQualifiedClassName} is null or empty (see http://dev.gbif.org/issues/browse/POR-2858)
+   * @throws IllegalArgumentException if {@code fullyQualifiedClassName} class cannot be located
    */
   @SuppressWarnings("unchecked")
   public static Class<? extends Enum<?>> lookupVocabulary(String fullyQualifiedClassName) {

@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.registry.eml.temporal;
 
+import org.gbif.api.util.formatter.TemporalCoverageFormatterVisitor;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -98,6 +100,11 @@ public class DateRange extends TemporalCoverage implements Serializable {
   @Override
   public String toString() {
     return Objects.toStringHelper(this).add("super", super.toString()).add("start", start).add("end", end).toString();
+  }
+
+  @Override
+  public String acceptFormatter(TemporalCoverageFormatterVisitor formatter) {
+    return formatter.format(this);
   }
 
 }
