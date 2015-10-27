@@ -8,4 +8,4 @@ mvn clean install
 ```
 
 ## Note
- * Will build as Java 6 artifact until the [IPT](https://github.com/gbif/ipt) move to Java 7.
+ * Will build as Java 6 artifact until the [IPT](https://github.com/gbif/ipt) moves to Java 7.
