@@ -25,8 +25,11 @@ import com.google.common.base.Objects;
 
 
 /**
- * TypeSpecimen Model for specimens and types, including type specimens, type species and type genera and simple
+ * TypeSpecimen Model originally designed for both specimens and types, including type specimens, type species and type genera and simple
  * specimens unrelated to types.
+ *
+ * Since the initial release of the GBIF API version 1.0 ChecklistBank has been modified to only store type species or type genera.
+ * All specimens including types are stored in the Occurrence store, hence the majority of properties in this class are now deprecated!
  *
  * @see <a href="http://rs.gbif.org/extension/gbif/1.0/typesandspecimen.xml">Types And Specimen Definition</a>
  */
@@ -34,22 +37,34 @@ public class TypeSpecimen implements NameUsageExtension {
 
   private String source;
   private Integer sourceTaxonKey;
-  private String citation;
-  private TypeStatus typeStatus;
   private TypeDesignationType typeDesignationType;
   private String typeDesignatedBy;
   private String scientificName;
-  private String verbatimLabel;
-  private String locality;
-  private String recordedBy;
-  private String verbatimEventDate;
-  private String verbatimLongitude;
-  private String verbatimLatitude;
-  private String occurrenceId;
   private Rank taxonRank;
-  // TODO: consider if we can collapse the next 3 properties into the occurrenceId - do we ever need them atomized?
+
+  @Deprecated
+  private TypeStatus typeStatus;
+  @Deprecated
+  private String citation;
+  @Deprecated
+  private String verbatimLabel;
+  @Deprecated
+  private String locality;
+  @Deprecated
+  private String recordedBy;
+  @Deprecated
+  private String verbatimEventDate;
+  @Deprecated
+  private String verbatimLongitude;
+  @Deprecated
+  private String verbatimLatitude;
+  @Deprecated
+  private String occurrenceId;
+  @Deprecated
   private String institutionCode;
+  @Deprecated
   private String collectionCode;
+  @Deprecated
   private String catalogNumber;
 
   /**
@@ -63,6 +78,7 @@ public class TypeSpecimen implements NameUsageExtension {
    * @return the catalogNumber
    */
   @Nullable
+  @Deprecated
   public String getCatalogNumber() {
     return catalogNumber;
   }
@@ -70,6 +86,7 @@ public class TypeSpecimen implements NameUsageExtension {
   /**
    * @param catalogNumber the catalogNumber to set.
    */
+  @Deprecated
   public void setCatalogNumber(String catalogNumber) {
     this.catalogNumber = catalogNumber;
   }
@@ -87,6 +104,7 @@ public class TypeSpecimen implements NameUsageExtension {
    * @return the citation
    */
   @Nullable
+  @Deprecated
   public String getCitation() {
     return citation;
   }
@@ -94,6 +112,7 @@ public class TypeSpecimen implements NameUsageExtension {
   /**
    * @param citation the citation to set
    */
+  @Deprecated
   public void setCitation(String citation) {
     this.citation = citation;
   }
@@ -109,6 +128,7 @@ public class TypeSpecimen implements NameUsageExtension {
    * @return the collectionCode
    */
   @Nullable
+  @Deprecated
   public String getCollectionCode() {
     return collectionCode;
   }
@@ -116,6 +136,7 @@ public class TypeSpecimen implements NameUsageExtension {
   /**
    * @param collectionCode the collectionCode to set
    */
+  @Deprecated
   public void setCollectionCode(String collectionCode) {
     this.collectionCode = collectionCode;
   }
@@ -132,6 +153,7 @@ public class TypeSpecimen implements NameUsageExtension {
    * @return the institutionCode
    */
   @Nullable
+  @Deprecated
   public String getInstitutionCode() {
     return institutionCode;
   }
@@ -139,6 +161,7 @@ public class TypeSpecimen implements NameUsageExtension {
   /**
    * @param institutionCode the institutionCode to set
    */
+  @Deprecated
   public void setInstitutionCode(String institutionCode) {
     this.institutionCode = institutionCode;
   }
@@ -154,6 +177,7 @@ public class TypeSpecimen implements NameUsageExtension {
    * @return the locality
    */
   @Nullable
+  @Deprecated
   public String getLocality() {
     return locality;
   }
@@ -161,6 +185,7 @@ public class TypeSpecimen implements NameUsageExtension {
   /**
    * @param locality the locality to set
    */
+  @Deprecated
   public void setLocality(String locality) {
     this.locality = locality;
   }
@@ -171,6 +196,7 @@ public class TypeSpecimen implements NameUsageExtension {
    * @return the occurrenceId
    */
   @Nullable
+  @Deprecated
   public String getOccurrenceId() {
     return occurrenceId;
   }
@@ -178,6 +204,7 @@ public class TypeSpecimen implements NameUsageExtension {
   /**
    * @param occurrenceId the occurrenceId to set
    */
+  @Deprecated
   public void setOccurrenceId(String occurrenceId) {
     this.occurrenceId = occurrenceId;
   }
@@ -194,6 +221,7 @@ public class TypeSpecimen implements NameUsageExtension {
    * @return the recordedBy
    */
   @Nullable
+  @Deprecated
   public String getRecordedBy() {
     return recordedBy;
   }
@@ -201,6 +229,7 @@ public class TypeSpecimen implements NameUsageExtension {
   /**
    * @param recordedBy the recordedBy to set
    */
+  @Deprecated
   public void setRecordedBy(String recordedBy) {
     this.recordedBy = recordedBy;
   }
@@ -326,6 +355,7 @@ public class TypeSpecimen implements NameUsageExtension {
    * @return the typeStatus
    */
   @Nullable
+  @Deprecated
   public TypeStatus getTypeStatus() {
     return typeStatus;
   }
@@ -333,6 +363,7 @@ public class TypeSpecimen implements NameUsageExtension {
   /**
    * @param typeStatus the typeStatus to set
    */
+  @Deprecated
   public void setTypeStatus(TypeStatus typeStatus) {
     this.typeStatus = typeStatus;
   }
@@ -348,6 +379,7 @@ public class TypeSpecimen implements NameUsageExtension {
    * @return the verbatimEventDate
    */
   @Nullable
+  @Deprecated
   public String getVerbatimEventDate() {
     return verbatimEventDate;
   }
@@ -355,6 +387,7 @@ public class TypeSpecimen implements NameUsageExtension {
   /**
    * @param verbatimEventDate the verbatimEventDate to set
    */
+  @Deprecated
   public void setVerbatimEventDate(String verbatimEventDate) {
     this.verbatimEventDate = verbatimEventDate;
   }
@@ -365,6 +398,7 @@ public class TypeSpecimen implements NameUsageExtension {
    * @return the verbatimLabel
    */
   @Nullable
+  @Deprecated
   public String getVerbatimLabel() {
     return verbatimLabel;
   }
@@ -372,6 +406,7 @@ public class TypeSpecimen implements NameUsageExtension {
   /**
    * @param verbatimLabel the verbatimLabel to set
    */
+  @Deprecated
   public void setVerbatimLabel(String verbatimLabel) {
     this.verbatimLabel = verbatimLabel;
   }
@@ -387,6 +422,7 @@ public class TypeSpecimen implements NameUsageExtension {
    * @return the verbatimLatitude
    */
   @Nullable
+  @Deprecated
   public String getVerbatimLatitude() {
     return verbatimLatitude;
   }
@@ -394,6 +430,7 @@ public class TypeSpecimen implements NameUsageExtension {
   /**
    * @param verbatimLatitude the verbatimLatitude to set
    */
+  @Deprecated
   public void setVerbatimLatitude(String verbatimLatitude) {
     this.verbatimLatitude = verbatimLatitude;
   }
@@ -409,6 +446,7 @@ public class TypeSpecimen implements NameUsageExtension {
    * @return the verbatimLongitude
    */
   @Nullable
+  @Deprecated
   public String getVerbatimLongitude() {
     return verbatimLongitude;
   }
@@ -416,6 +454,7 @@ public class TypeSpecimen implements NameUsageExtension {
   /**
    * @param verbatimLongitude the verbatimLongitude to set
    */
+  @Deprecated
   public void setVerbatimLongitude(String verbatimLongitude) {
     this.verbatimLongitude = verbatimLongitude;
   }
@@ -432,11 +471,12 @@ public class TypeSpecimen implements NameUsageExtension {
     TypeSpecimen that = (TypeSpecimen) object;
     return Objects.equal(this.source, that.source)
            && Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey)
-           && Objects.equal(this.citation, that.citation)
-           && Objects.equal(this.typeStatus, that.typeStatus)
            && Objects.equal(this.typeDesignationType, that.typeDesignationType)
            && Objects.equal(this.typeDesignatedBy, that.typeDesignatedBy)
            && Objects.equal(this.scientificName, that.scientificName)
+           && Objects.equal(this.taxonRank, that.taxonRank)
+           && Objects.equal(this.citation, that.citation)
+           && Objects.equal(this.typeStatus, that.typeStatus)
            && Objects.equal(this.verbatimLabel, that.verbatimLabel)
            && Objects.equal(this.locality, that.locality)
            && Objects.equal(this.recordedBy, that.recordedBy)
@@ -444,7 +484,6 @@ public class TypeSpecimen implements NameUsageExtension {
            && Objects.equal(this.verbatimLongitude, that.verbatimLongitude)
            && Objects.equal(this.verbatimLatitude, that.verbatimLatitude)
            && Objects.equal(this.occurrenceId, that.occurrenceId)
-           && Objects.equal(this.taxonRank, that.taxonRank)
            && Objects.equal(this.institutionCode, that.institutionCode)
            && Objects.equal(this.collectionCode, that.collectionCode)
            && Objects.equal(this.catalogNumber, that.catalogNumber);
@@ -453,11 +492,13 @@ public class TypeSpecimen implements NameUsageExtension {
   @Override
   public int hashCode() {
     return Objects.hashCode(source,
-                            citation,
-                            typeStatus,
+                            sourceTaxonKey,
                             typeDesignationType,
                             typeDesignatedBy,
                             scientificName,
+                            taxonRank,
+                            citation,
+                            typeStatus,
                             verbatimLabel,
                             locality,
                             recordedBy,
@@ -465,7 +506,6 @@ public class TypeSpecimen implements NameUsageExtension {
                             verbatimLongitude,
                             verbatimLatitude,
                             occurrenceId,
-                            taxonRank,
                             institutionCode,
                             collectionCode,
                             catalogNumber);
@@ -476,22 +516,10 @@ public class TypeSpecimen implements NameUsageExtension {
     return Objects.toStringHelper(this)
       .add("source", source)
       .add("sourceTaxonKey", sourceTaxonKey)
-      .add("citation", citation)
-      .add("typeStatus", typeStatus)
       .add("typeDesignationType", typeDesignationType)
       .add("typeDesignatedBy", typeDesignatedBy)
       .add("scientificName", scientificName)
-      .add("verbatimLabel", verbatimLabel)
-      .add("locality", locality)
-      .add("recordedBy", recordedBy)
-      .add("verbatimEventDate", verbatimEventDate)
-      .add("verbatimLongitude", verbatimLongitude)
-      .add("verbatimLatitude", verbatimLatitude)
-      .add("occurrenceId", occurrenceId)
       .add("taxonRank", taxonRank)
-      .add("institutionCode", institutionCode)
-      .add("collectionCode", collectionCode)
-      .add("catalogNumber", catalogNumber)
       .toString();
   }
 
