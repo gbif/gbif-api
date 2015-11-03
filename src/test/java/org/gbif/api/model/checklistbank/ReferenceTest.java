@@ -25,11 +25,11 @@ public class ReferenceTest {
   public void testEquals() {
     Reference r1 = new Reference();
     r1.setLink("http://www.example.org");
-    r1.setTitle("Please cite www.example.org");
+    r1.setCitation("Please cite www.example.org");
 
     Reference r2 = new Reference();
     r2.setLink("http://www.example.org");
-    r2.setTitle("Please cite www.example.org");
+    r2.setCitation("Please cite www.example.org");
 
     assertEquals(r1, r2);
 

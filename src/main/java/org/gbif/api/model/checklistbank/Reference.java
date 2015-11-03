@@ -24,20 +24,27 @@ import com.google.common.base.Objects;
 /**
  * Reference Model Object represents a literature reference stating a bibliography for a taxon.
  *
+ * Since the initial release of the GBIF API version 1.0 ChecklistBank has been modified to only store the entire citation string of a reference and
+ * none of the atomised fields which are now deprecated.
+ *
  * @see <a href="http://rs.gbif.org/extension/gbif/1.0/references.xml">Reference Definition</a>
  */
 public class Reference implements NameUsageExtension {
 
   private String citation;
-  private String title;
-  private String author;
-  private String date;
   private String link;
   private String doi;
   private String type;
   private String remarks;
   private String source;
   private Integer sourceTaxonKey;
+
+  @Deprecated
+  private String title;
+  @Deprecated
+  private String author;
+  @Deprecated
+  private String date;
 
   /**
    * The author or authors of the referenced work.
@@ -50,6 +57,7 @@ public class Reference implements NameUsageExtension {
    * @return the author
    */
   @Nullable
+  @Deprecated
   public String getAuthor() {
     return author;
   }
@@ -57,6 +65,7 @@ public class Reference implements NameUsageExtension {
   /**
    * @param author the author to set
    */
+  @Deprecated
   public void setAuthor(String author) {
     this.author = author;
   }
@@ -92,10 +101,12 @@ public class Reference implements NameUsageExtension {
    * @return the publication date
    */
   @Nullable
+  @Deprecated
   public String getDate() {
     return date;
   }
 
+  @Deprecated
   public void setDate(String date) {
     this.date = date;
   }
@@ -168,6 +179,7 @@ public class Reference implements NameUsageExtension {
    * @return the title
    */
   @Nullable
+  @Deprecated
   public String getTitle() {
     return title;
   }
@@ -175,6 +187,7 @@ public class Reference implements NameUsageExtension {
   /**
    * @param title the title to set
    */
+  @Deprecated
   public void setTitle(String title) {
     this.title = title;
   }
@@ -228,29 +241,30 @@ public class Reference implements NameUsageExtension {
 
     Reference that = (Reference) object;
     return Objects.equal(this.citation, that.citation)
-           && Objects.equal(this.title, that.title)
-           && Objects.equal(this.author, that.author)
            && Objects.equal(this.link, that.link)
            && Objects.equal(this.type, that.type)
            && Objects.equal(this.remarks, that.remarks)
-           && Objects.equal(this.date, that.date)
            && Objects.equal(this.doi, that.doi)
            && Objects.equal(this.source, that.source)
-           && Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey);
+           && Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey)
+           && Objects.equal(this.title, that.title)
+           && Objects.equal(this.author, that.author)
+           && Objects.equal(this.date, that.date);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(citation, title, author, date, link, doi, type, remarks, source, sourceTaxonKey);
+    return Objects.hashCode(citation, link, doi, type, remarks, source, sourceTaxonKey, title, author, date);
   }
 
   @Override
   public String toString() {
     return Objects.toStringHelper(this)
       .add("citation", citation)
-      .add("title", title)
-      .add("author", author)
       .add("link", link)
+      .add("type", type)
+      .add("remarks", remarks)
+      .add("doi", doi)
       .add("source", source)
       .add("sourceTaxonKey", sourceTaxonKey)
       .toString();
