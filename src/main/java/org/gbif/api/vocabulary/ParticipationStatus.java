@@ -25,7 +25,8 @@ public enum ParticipationStatus {
   VOTING,
   ASSOCIATE,
   OBSERVER,
-  FORMER;
+  FORMER,
+  AFFILIATE;
 
   /**
    * @param participationStatus GBIF node's participation status
@@ -33,7 +34,7 @@ public enum ParticipationStatus {
    * @return the matching participation status
    */
   public static ParticipationStatus fromString(String participationStatus) {
-    return (ParticipationStatus) VocabularyUtils.lookupEnum(participationStatus, ParticipationStatus.class);
+    return VocabularyUtils.lookupEnum(participationStatus, ParticipationStatus.class);
   }
 
 }
