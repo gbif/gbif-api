@@ -17,6 +17,7 @@ import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.TechnicalInstallationType;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 
 public final class VocabularyUtils {
@@ -61,6 +62,25 @@ public final class VocabularyUtils {
       }
     }
     throw new IllegalArgumentException("Cannot parse " + name + " into a known " + vocab.getSimpleName());
+  }
+
+  /**
+   * Same as {@link #lookupEnum(String, Class)} } without IllegalArgumentException.
+   * On failure, this method will return Optional.absent().
+   *
+   * @param name
+   * @param vocab
+   * @param <T>
+   * @return instance of com.google.common.base.Optional, never null.
+   */
+  public static <T extends Enum<?>> Optional<T> lookup(String name, Class<T> vocab) {
+    T result = null;
+    // this try/catch in needed until we replace all calls to lookupEnum() in favor of this method
+    try{
+      result = lookupEnum(name, vocab);
+    }
+    catch (IllegalArgumentException iaEx){/*ignore*/}
+    return Optional.fromNullable(result);
   }
 
   /**

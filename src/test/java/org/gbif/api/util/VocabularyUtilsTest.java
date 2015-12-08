@@ -18,6 +18,7 @@ import org.gbif.api.vocabulary.ContactType;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.IdentifierType;
 
+import com.google.common.base.Optional;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -61,5 +62,15 @@ public class VocabularyUtilsTest {
   @Test(expected = IllegalArgumentException.class)
   public void testReflectionLookupError() {
     VocabularyUtils.lookupVocabulary("WTFMate");
+  }
+
+  @Test
+  public void testLookupUsingOptional() {
+    assertEquals(ContactType.AUTHOR, VocabularyUtils.lookup("author", ContactType.class).get());
+
+    //Optional.absent() should be returned for all the following values
+    assertEquals(Optional.absent(), VocabularyUtils.lookup("thor", ContactType.class));
+    assertEquals(Optional.absent(), VocabularyUtils.lookup("", ContactType.class));
+    assertEquals(Optional.absent(), VocabularyUtils.lookup(null, ContactType.class));
   }
 }
