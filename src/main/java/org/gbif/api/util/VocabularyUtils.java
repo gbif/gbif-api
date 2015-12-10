@@ -17,10 +17,19 @@ import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.TechnicalInstallationType;
 
+import java.util.List;
+import java.util.Map;
+
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.reflect.ClassPath;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class VocabularyUtils {
+
+  private static final Logger LOG = LoggerFactory.getLogger(VocabularyUtils.class);
 
   public static ContactType parseContactType(String type) {
     return (ContactType) lookupEnum(type, ContactType.class);
@@ -110,6 +119,32 @@ public final class VocabularyUtils {
       }
     }
     return null;
+  }
+
+  /**
+   * Utility method to get a map of all enumerations within a package.
+   * The map will use the enumeration class simple name as key and the enum itself as value.
+   *
+   * @return a map of all enumeration within the package or an empty map in all other cases.
+   */
+  public static Map<String, Enum<?>[]> listEnumerations(String packageName) {
+    try {
+      ClassPath cp = ClassPath.from(VocabularyUtils.class.getClassLoader());
+      ImmutableMap.Builder<String, Enum<?>[]> builder = ImmutableMap.builder();
+
+      List<ClassPath.ClassInfo> infos = cp.getTopLevelClasses(packageName).asList();
+      for (ClassPath.ClassInfo info : infos) {
+        Class<? extends Enum<?>> vocab = lookupVocabulary(info.getName());
+        // verify that it is an Enumeration
+        if (vocab != null && vocab.getEnumConstants() != null) {
+          builder.put(info.getSimpleName(), vocab.getEnumConstants());
+        }
+      }
+      return builder.build();
+    } catch (Exception e) {
+      LOG.error("Unable to read the classpath for enumerations", e);
+      return ImmutableMap.<String, Enum<?>[]>of(); // empty
+    }
   }
 
   /**
