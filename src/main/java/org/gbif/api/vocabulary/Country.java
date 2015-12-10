@@ -308,12 +308,12 @@ public enum Country {
   /**
    * Congo, the Democratic Republic of the.
    */
-  CONGO_DEMOCRATIC_REPUBLIC("CD", "COD", 180, "The Democratic Republic of the Congo"),
+  CONGO_DEMOCRATIC_REPUBLIC("CD", "COD", 180, "Congo, Democratic Republic of the"),
 
   /**
    * Congo.
    */
-  CONGO("CG", "COG", 178, "Congo"),
+  CONGO_REPUBLIC("CG", "COG", 178, "Congo, Republic of the"),
 
   /**
    * Cook Islands.
