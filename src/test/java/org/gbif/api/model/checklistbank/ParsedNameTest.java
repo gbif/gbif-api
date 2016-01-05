@@ -1,6 +1,7 @@
 package org.gbif.api.model.checklistbank;
 
 import org.gbif.api.vocabulary.NamePart;
+import org.gbif.api.vocabulary.NameType;
 import org.gbif.api.vocabulary.Rank;
 
 import org.junit.Test;
@@ -63,6 +64,14 @@ public class ParsedNameTest {
     pn.setSpecificEpithet("vülgårîs");
     pn.setInfraSpecificEpithet("æbiéñtø");
     assertEquals("Abies vulgaris aebiento", pn.canonicalName());
+  }
+
+  @Test
+  public void testUnparsableCanonical() throws Exception {
+    ParsedName pn = new ParsedName();
+    pn.setScientificName("? hostilis Gravenhorst, 1829");
+    pn.setType(NameType.PLACEHOLDER);
+    assertNull(pn.canonicalName());
   }
 
   /**

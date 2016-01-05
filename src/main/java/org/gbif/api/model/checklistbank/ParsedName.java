@@ -22,6 +22,7 @@ import org.gbif.api.vocabulary.NomenclaturalCode;
 import org.gbif.api.vocabulary.Rank;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -445,7 +446,7 @@ public class ParsedName {
     if (asciiOnly) {
       name = UnicodeUtils.ascii(name);
     }
-    return name;
+    return Strings.emptyToNull(name);
   }
 
   private String getInfraspecificRankMarker(NomenclaturalCode code) {
