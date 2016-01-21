@@ -16,9 +16,9 @@
 package org.gbif.api.service.checklistbank;
 
 import org.gbif.api.model.checklistbank.DatasetMetrics;
+import org.gbif.api.model.common.Count;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import javax.annotation.Nullable;
 
@@ -39,7 +39,6 @@ public interface DatasetMetricsService {
 
   /**
    * Lists the constituent dataset keys together with a name usage count for a given main dataset
-   * @return map of constituent datset key to name usage count
    */
-  Map<UUID, Integer> constituents(UUID datasetKey);
+  List<Count<UUID>> constituents(UUID datasetKey);
 }
