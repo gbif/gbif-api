@@ -18,6 +18,7 @@ package org.gbif.api.service.checklistbank;
 import org.gbif.api.model.checklistbank.DatasetMetrics;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import javax.annotation.Nullable;
 
@@ -36,4 +37,9 @@ public interface DatasetMetricsService {
   @Nullable
   List<DatasetMetrics> list(UUID datasetKey);
 
+  /**
+   * Lists the constituent dataset keys together with a name usage count for a given main dataset
+   * @return map of constituent datset key to name usage count
+   */
+  Map<UUID, Integer> constituents(UUID datasetKey);
 }
