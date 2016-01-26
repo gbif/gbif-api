@@ -74,6 +74,21 @@ public class ParsedNameTest {
     assertNull(pn.canonicalName());
   }
 
+  @Test
+  public void testSetGetRanks() throws Exception {
+    ParsedName pn = new ParsedName();
+    for (Rank r : Rank.values()) {
+      if (r.getMarker() != null) {
+        pn.setRank(null);
+        pn.setRank(r);
+        System.out.print(r + " -> ");
+        System.out.print(pn.getRankMarker() + " -> ");
+        System.out.println(pn.getRank());
+        assertEquals(r, pn.getRank());
+      }
+    }
+  }
+
   /**
    * http://dev.gbif.org/issues/browse/POR-2624
    */
