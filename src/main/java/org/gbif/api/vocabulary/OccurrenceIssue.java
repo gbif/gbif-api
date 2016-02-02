@@ -57,9 +57,14 @@ public enum OccurrenceIssue {
   COORDINATE_REPROJECTION_SUSPICIOUS,
 
   /**
-   * Indicates a suspicous coordinate accurracy derived from precision or uncertainty in meters.
+   * Indicates an invalid or very unlikely coordinate accurracy derived from precision or uncertainty in meters.
    */
-  COORDINATE_ACCURRACY_SUSPICIOUS,
+  COORDINATE_ACCURRACY_INVALID,
+
+  /**
+   * There is a mismatch between coordinate uncertainty in meters and coordinate precision.
+   */
+  COORDINATE_PRECISION_UNCERTAINTY_MISMATCH,
 
   /**
    * The interpreted occurrence coordinates fall outside of the indicated country.

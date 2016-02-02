@@ -17,6 +17,7 @@ import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.model.common.MediaObject;
 import org.gbif.api.util.ClassificationUtils;
+import org.gbif.api.util.LengthUtils;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
@@ -526,7 +527,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Nullable
   /**
-   * The uncertainty radius for lat/lon in decimal degrees.
+   * The uncertainty for latitude in decimal degrees.
+   * Note that the longitude degrees have a different accurracy in degrees which changes with latitude and is largest at the poles.
    */
   public Double getCoordinateAccuracy() {
     return coordinateAccuracy;
@@ -534,6 +536,17 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setCoordinateAccuracy(@Nullable Double coordinateAccuracy) {
     this.coordinateAccuracy = coordinateAccuracy;
+  }
+
+  /**
+   * The uncertainty radius for lat/lon in meters.
+   */
+  @Nullable
+  public Double getCoordinateAccuracyInMeters() {
+    if (coordinateAccuracy != null) {
+      return LengthUtils.latDegreeToMeters(coordinateAccuracy);
+    }
+    return null;
   }
 
   /**
