@@ -313,7 +313,7 @@ public enum Country {
   /**
    * Congo.
    */
-  CONGO_REPUBLIC("CG", "COG", 178, "Congo, Republic of the"),
+  CONGO("CG", "COG", 178, "Congo, Republic of the"),
 
   /**
    * Cook Islands.
