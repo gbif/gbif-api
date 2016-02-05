@@ -16,8 +16,9 @@ import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.vocabulary.IdentifierType;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.UUID;
-
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
@@ -32,23 +33,28 @@ public interface NetworkEntityService<T> extends MachineTagService, TagService, 
   T get(@NotNull UUID key);
 
   /**
-   * Used to retrieve a list of network entities.
-   *
-   * To iterate over <em>all</em> entities you can use code like this:
-   * {@code
-   * PagingRequest req = new PagingRequest();
-   * PagingResponse<T> response;
-   * do {
-   *   response = service.list(req);
-   *   for (T obj : response.getResults()) {
-   *     doStuff();
-   *   }
-   *   req.nextPage();
-   * } while (!response.isEndOfRecords());
-   * }
-   *
-   * @return a list of network entities ordered by their creation date, newest coming first
+   * Retrieves all titles for the requested entity keys in one go
    */
+  Map<UUID, String> getTitles(Collection<UUID> keys);
+
+    /**
+     * Used to retrieve a list of network entities.
+     *
+     * To iterate over <em>all</em> entities you can use code like this:
+     * {@code
+     * PagingRequest req = new PagingRequest();
+     * PagingResponse<T> response;
+     * do {
+     *   response = service.list(req);
+     *   for (T obj : response.getResults()) {
+     *     doStuff();
+     *   }
+     *   req.nextPage();
+     * } while (!response.isEndOfRecords());
+     * }
+     *
+     * @return a list of network entities ordered by their creation date, newest coming first
+     */
   PagingResponse<T> list(@Nullable Pageable page);
 
   /**
