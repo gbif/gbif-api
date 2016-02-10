@@ -41,7 +41,7 @@ public interface NameUsageService {
    * with null ignoring any vernacular name.
    *
    * @param taxonKey that identifies a name usage
-   * @param locale   the locale defining the best vernacular name to use for a usage.
+   * @param locale   the locale's language determines the vernacular name to use for a usage.
    *                 Use null to not load any common name
    *
    * @return a matching name usage, or null if no name usage found
@@ -83,7 +83,7 @@ public interface NameUsageService {
    *
    * @param datasetKey the optional checklist key to limit paging to.
    * @param sourceId   the optional checklist key to limit paging to.
-   * @param locale     the locale defining the best vernacular name to use for a usage.
+   * @param locale     the locale's language determines the vernacular name to use for a usage
    *                   Use null to not load any common name
    * @param page       paging parameters or null for first page with default size
    *
@@ -96,7 +96,7 @@ public interface NameUsageService {
    * Page through all usages with a given canonical name across all or some checklists.
    *
    * @param canonicalName the canonical name of a name usage.
-   * @param locale        the locale defining the best vernacular name to use for a usage.
+   * @param locale        the locale's language determines the vernacular name to use for a usage
    *                      Use null to not load any common name
    * @param datasetKey   the optional list of checklist keys to limit paging to.
    * @param page          paging parameters or null for first page with default size
@@ -110,7 +110,7 @@ public interface NameUsageService {
    * Lists all accepted child name usages for a given parent.
    *
    * @param parentKey that identifies the parent name usage
-   * @param locale    the locale defining the best vernacular name to use for a usage.
+   * @param locale    the locale's language determines the vernacular name to use for a usage
    *                  Use null to not load any common name
    * @param page      paging parameters or null for first page with default size
    *
@@ -122,7 +122,7 @@ public interface NameUsageService {
    * Lists the complete parental hierarchy of a name usage regardless of their ranks.
    *
    * @param taxonKey that identifies the name usage to show parents of
-   * @param locale   the locale defining the best vernacular name to use for a usage.
+   * @param locale   the locale's language determines the vernacular name to use for a usage
    *                 Use null to not load any common name
    *
    * @return List of parent usages with the last usage being the immediate parent
@@ -133,7 +133,7 @@ public interface NameUsageService {
    * Lists all related checklist usages for a given nub usage.
    *
    * @param taxonKey   that identifies a nub usage
-   * @param locale     the locale defining the best vernacular name to use for a usage.
+   * @param locale     the locale's language determines the vernacular name to use for a usage
    *                   Use null to not load any common name
    * @param page       paging parameters or null for first page with default size
    * @param datasetKey Optional list of checklist keys to restrict related usages to
@@ -148,7 +148,7 @@ public interface NameUsageService {
    * @see org.gbif.api.model.Constants#NUB_DATASET_KEY
    *
    * @param datasetKey the registered dataset key for the checklist in question
-   * @param locale     the locale defining the best vernacular name to use for a usage.
+   * @param locale     the locale's language determines the vernacular name to use for a usage
    *                   Use null to not load any common name
    * @param page       paging parameters or null for first page with default size
    *
@@ -161,7 +161,7 @@ public interface NameUsageService {
    * Lists all synonym name usages for a given accepted name usage.
    *
    * @param taxonKey that identifies any name usage
-   * @param locale   the locale defining the best vernacular name to use for a usage.
+   * @param locale   the locale's language determines the vernacular name to use for a usage
    *                 Use null to not load any common name
    * @param page     paging parameters or null for first page with default size
    *
@@ -174,7 +174,7 @@ public interface NameUsageService {
    * The basionym itself is not included in this list.
    *
    * @param basionymKey the name usage key of the basionym
-   * @param locale   the locale defining the best vernacular name to use for a usage.
+   * @param locale   the locale's language determines the vernacular name to use for a usage
    *                 Use null to not load any common name
    *
    * @return List of name usages sharing the same basionym.
