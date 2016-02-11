@@ -528,7 +528,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @Nullable
   /**
    * The uncertainty for latitude in decimal degrees.
-   * Note that the longitude degrees have a different accurracy in degrees which changes with latitude and is largest at the poles.
+   * Note that the longitude degrees have a different accuracy in degrees which changes with latitude and is largest at the poles.
    */
   public Double getCoordinateAccuracy() {
     return coordinateAccuracy;
