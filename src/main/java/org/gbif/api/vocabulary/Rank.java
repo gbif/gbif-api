@@ -520,10 +520,17 @@ public enum Rank {
   }
 
   /**
-   * @return true if the rank is a above genus.
+   * @return true if the rank is above genus.
    */
   public boolean isSuprageneric() {
     return ordinal() < GENUS.ordinal();
+  }
+
+  /**
+   * @return true if the rank is above rank species.
+   */
+  public boolean isSupraspecific() {
+    return ordinal() < SPECIES.ordinal();
   }
 
   /**
