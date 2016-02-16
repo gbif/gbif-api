@@ -232,8 +232,10 @@ public class VerbatimOccurrence {
    */
   @JsonAnySetter
   private void addJsonVerbatimField(String key, String value) {
-    Term t = TermFactory.instance().findTerm(key);
-    verbatimFields.put(t, value);
+    if(value != null) {
+      Term t = TermFactory.instance().findTerm(key);
+      verbatimFields.put(t, value);
+    }
   }
 
   /**
