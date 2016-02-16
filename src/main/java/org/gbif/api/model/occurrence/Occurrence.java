@@ -68,7 +68,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private static final Set<String> PROPERTIES = ImmutableSet.copyOf(
     Iterables.concat(
       // we need to these json properties manually cause we have a fixed getter but no field for it
-      Lists.newArrayList(DwcTerm.geodeticDatum.simpleName(), "class", "countryCode"),
+      Lists.newArrayList(DwcTerm.geodeticDatum.simpleName(), "class", "countryCode", "coordinateAccuracyInMeters"),
       Iterables.transform(
         Iterables.concat(Lists.newArrayList(Occurrence.class.getDeclaredFields()),
           Lists.newArrayList(VerbatimOccurrence.class.getDeclaredFields())
@@ -549,6 +549,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     return null;
   }
 
+  private void setCoordinateAccuracyInMeters(Double m) {
+    // ignore, setter only to avoid json being written into the fields map
+  }
+
   /**
    * The geodetic datum for the interpreted decimal coordinates.
    * This is always WGS84 if there a coordinate exists as we reproject other datums into WGS84.
@@ -1013,8 +1017,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       if (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())) {
         extendedProps.put(t.qualifiedName(), prop.getValue());
       } else {
-        // render all terms in controlled enumerations as simple names only - unless we have a property of that name
-// already!
+        // render all terms in controlled enumerations as simple names only - unless we have a property of that name already!
         extendedProps.put(t.simpleName(), prop.getValue());
       }
     }

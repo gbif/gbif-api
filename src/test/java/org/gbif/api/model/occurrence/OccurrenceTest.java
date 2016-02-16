@@ -25,6 +25,7 @@ import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.terms.IucnTerm;
 import org.gbif.dwc.terms.Term;
+import org.gbif.dwc.terms.TermFactory;
 import org.gbif.dwc.terms.UnknownTerm;
 
 import java.io.IOException;
@@ -259,6 +260,7 @@ public class OccurrenceTest {
     o.setDay(21);
     o.setMonth(1);
     o.setYear(1973);
+    o.setCoordinateAccuracy(0.002);
 
     for (DwcTerm term : DwcTerm.values()) {
       if (!term.isClass()) {
@@ -291,7 +293,7 @@ public class OccurrenceTest {
     o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/co2"), RandomStringUtils.randomAlphabetic(30));
     o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/modified"), new Date().toString());
     o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/scientificName"),
-      RandomStringUtils.randomAlphabetic(30));
+        RandomStringUtils.randomAlphabetic(30));
 
     String json = mapper.writeValueAsString(o);
     System.out.println(json);
@@ -303,9 +305,10 @@ public class OccurrenceTest {
     Iterator<Term> iter = diff.iterator();
     while (iter.hasNext()) {
       Term t = iter.next();
-      System.out.println(t.qualifiedName());
+      System.out.println("TERM DIFF: " + t.qualifiedName());
     }
 
+    assertNull(o2.getVerbatimField(TermFactory.instance().findTerm("coordinateAccuracyInMeters")));
     assertEquals(o.getVerbatimFields().size(), o2.getVerbatimFields().size());
     assertTrue(diff.isEmpty());
   }

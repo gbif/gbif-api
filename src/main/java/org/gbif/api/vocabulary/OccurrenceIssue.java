@@ -236,7 +236,12 @@ public enum OccurrenceIssue {
   /**
    * An error occurred during interpretation, leaving the record interpretion incomplete.
    */
-  INTERPRETATION_ERROR;
+  INTERPRETATION_ERROR,
+
+  /**
+   * Individual count value not parsable into an integer.
+   */
+  INDIVIDUAL_COUNT_INVALID;
 
   /**
    * All issues that indicate problems with the coordinates and thus should not be shown on maps.

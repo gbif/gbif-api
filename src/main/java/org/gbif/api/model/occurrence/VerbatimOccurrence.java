@@ -232,7 +232,7 @@ public class VerbatimOccurrence {
    */
   @JsonAnySetter
   private void addJsonVerbatimField(String key, String value) {
-    if(value != null) {
+    if(!Strings.isNullOrEmpty(value)) {
       Term t = TermFactory.instance().findTerm(key);
       verbatimFields.put(t, value);
     }
@@ -243,8 +243,7 @@ public class VerbatimOccurrence {
    * It maps the verbatimField terms into properties with their full qualified name.
    */
   @JsonAnyGetter
-  private Map<String, String> jsonVerbatimFields() { // note: for 1.6.0 MUST use non-getter name; otherwise doesn't
-// matter
+  private Map<String, String> jsonVerbatimFields() { // note: for 1.6.0 MUST use non-getter name; otherwise doesn't matter
     Map<String, String> extendedProps = Maps.newHashMap();
     for (Map.Entry<Term, String> prop : verbatimFields.entrySet()) {
       extendedProps.put(prop.getKey().qualifiedName(), prop.getValue());
