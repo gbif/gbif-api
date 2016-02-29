@@ -394,7 +394,7 @@ public class ParsedName {
             sb.append(HYBRID_MARKER);
           }
         }
-        if (rankMarker) {
+        if (rankMarker && rank != null) {
           sb.append(rank);
           sb.append(' ');
         }

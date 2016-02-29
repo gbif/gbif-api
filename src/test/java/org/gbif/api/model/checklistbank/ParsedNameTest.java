@@ -152,6 +152,25 @@ public class ParsedNameTest {
     pn.setYear(null);
     pn.setAuthorship(null);
     assertBuildName(pn, "Pseudomonas syringae pv. aceris CFBP 2339", "Pseudomonas syringae aceris", "Pseudomonas syringae pv. aceris CFBP 2339", "Pseudomonas syringae pv. aceris CFBP 2339");
+
+    pn = new ParsedName();
+    pn.setGenusOrAbove("Abax");
+    pn.setSpecificEpithet("carinatus");
+    pn.setInfraSpecificEpithet("carinatus");
+    pn.setBracketAuthorship("Duftschmid");
+    pn.setBracketYear("1812");
+    pn.setRank(Rank.UNRANKED);
+    assertBuildName(pn, "Abax carinatus carinatus", "Abax carinatus carinatus", "Abax carinatus carinatus", "Abax carinatus carinatus");
+
+    pn.setInfraSpecificEpithet("urinatus");
+    assertBuildName(pn, "Abax carinatus urinatus (Duftschmid, 1812)", "Abax carinatus urinatus", "Abax carinatus urinatus (Duftschmid, 1812)", "Abax carinatus urinatus");
+
+    pn.setRank(null);
+    assertBuildName(pn, "Abax carinatus urinatus (Duftschmid, 1812)", "Abax carinatus urinatus", "Abax carinatus urinatus (Duftschmid, 1812)", "Abax carinatus urinatus");
+
+    pn.setRank(Rank.SUBSPECIES);
+    assertBuildName(pn, "Abax carinatus subsp. urinatus (Duftschmid, 1812)", "Abax carinatus urinatus", "Abax carinatus subsp. urinatus (Duftschmid, 1812)", "Abax carinatus subsp. urinatus");
+
   }
 
   /**
