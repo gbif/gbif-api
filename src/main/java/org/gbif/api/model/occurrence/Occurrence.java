@@ -17,7 +17,6 @@ import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.model.common.MediaObject;
 import org.gbif.api.util.ClassificationUtils;
-import org.gbif.api.util.LengthUtils;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
@@ -32,6 +31,7 @@ import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.UnknownTerm;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.Date;
 import java.util.EnumSet;
@@ -68,11 +68,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private static final Set<String> PROPERTIES = ImmutableSet.copyOf(
     Iterables.concat(
       // we need to these json properties manually cause we have a fixed getter but no field for it
-      Lists.newArrayList(DwcTerm.geodeticDatum.simpleName(), "class", "countryCode", "coordinateAccuracyInMeters"),
+      Lists.newArrayList(DwcTerm.geodeticDatum.simpleName(), "class", "countryCode"),
       Iterables.transform(
         Iterables.concat(Lists.newArrayList(Occurrence.class.getDeclaredFields()),
-          Lists.newArrayList(VerbatimOccurrence.class.getDeclaredFields())
-          ), new Function<Field, String>() {
+                Lists.newArrayList(VerbatimOccurrence.class.getDeclaredFields())
+        ), new Function<Field, String>() {
 
           @Nullable
           @Override
@@ -119,7 +119,13 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   // location
   private Double decimalLongitude;
   private Double decimalLatitude;
+
+  private BigDecimal coordinatePrecision;
+  //use BigDecimal to control decimal behavior when we will fill this field automatically when not provided
+  private BigDecimal coordinateUncertaintyInMeters;
+  @Deprecated //see getter
   private Double coordinateAccuracy;
+
   private Double elevation;
   private Double elevationAccuracy;
   private Double depth;
@@ -525,8 +531,31 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.decimalLatitude = decimalLatitude;
   }
 
-  @Nullable
   /**
+   * The uncertainty radius for lat/lon in meters.
+   */
+  @Nullable
+  public BigDecimal getCoordinateUncertaintyInMeters() {
+    return coordinateUncertaintyInMeters;
+  }
+
+  public void setCoordinateUncertaintyInMeters(@Nullable BigDecimal coordinateUncertaintyInMeters) {
+    this.coordinateUncertaintyInMeters = coordinateUncertaintyInMeters;
+  }
+
+  @Nullable
+  public BigDecimal getCoordinatePrecision() {
+    return coordinatePrecision;
+  }
+
+  public void setCoordinatePrecision(BigDecimal coordinatePrecision) {
+    this.coordinatePrecision = coordinatePrecision;
+  }
+
+  @Nullable
+  @Deprecated
+  /**
+   * @Deprecated to be removed in the public v2 of the API (see POR-3061)
    * The uncertainty for latitude in decimal degrees.
    * Note that the longitude degrees have a different accuracy in degrees which changes with latitude and is largest at the poles.
    */
@@ -536,21 +565,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setCoordinateAccuracy(@Nullable Double coordinateAccuracy) {
     this.coordinateAccuracy = coordinateAccuracy;
-  }
-
-  /**
-   * The uncertainty radius for lat/lon in meters.
-   */
-  @Nullable
-  public Double getCoordinateAccuracyInMeters() {
-    if (coordinateAccuracy != null) {
-      return LengthUtils.latDegreeToMeters(coordinateAccuracy);
-    }
-    return null;
-  }
-
-  private void setCoordinateAccuracyInMeters(Double m) {
-    // ignore, setter only to avoid json being written into the fields map
   }
 
   /**
@@ -569,7 +583,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * This private method is needed for jackson deserialization only.
    */
   private void setGeodeticDatum(String datum) {
-    // ignore, we have a statig WGS84 value
+    // ignore, we have a static WGS84 value
   }
 
 
@@ -876,8 +890,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, kingdom, phylum, clazz,
         order,
         family, genus, subgenus, species, genericName, specificEpithet, infraspecificEpithet, taxonRank,
-        dateIdentified, year, month, day, eventDate, decimalLongitude, decimalLatitude,
-        coordinateAccuracy, elevation, elevationAccuracy, depth, depthAccuracy,
+        dateIdentified, year, month, day, eventDate, decimalLongitude, decimalLatitude, coordinatePrecision,
+        coordinateUncertaintyInMeters, elevation, elevationAccuracy, depth, depthAccuracy,
         continent, country,
         stateProvince, waterBody, typeStatus, typifiedName, issues, modified, lastInterpreted, references,
         identifiers, media, facts, relations);
@@ -929,7 +943,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       && Objects.equal(this.eventDate, that.eventDate)
       && Objects.equal(this.decimalLongitude, that.decimalLongitude)
       && Objects.equal(this.decimalLatitude, that.decimalLatitude)
-      && Objects.equal(this.coordinateAccuracy, that.coordinateAccuracy)
+      && Objects.equal(this.coordinatePrecision, that.coordinatePrecision)
+      && Objects.equal(this.coordinateUncertaintyInMeters, that.coordinateUncertaintyInMeters)
       && Objects.equal(this.elevation, that.elevation)
       && Objects.equal(this.elevationAccuracy, that.elevationAccuracy)
       && Objects.equal(this.depth, that.depth)
@@ -983,6 +998,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("dateIdentified", dateIdentified)
       .add("decimalLongitude", decimalLongitude)
       .add("decimalLatitude", decimalLatitude)
+      .add("coordinatePrecision", coordinatePrecision)
+      .add("coordinateUncertaintyInMeters", coordinateUncertaintyInMeters)
       .add("coordinateAccuracy", coordinateAccuracy)
       .add("elevation", elevation)
       .add("elevationAccuracy", elevationAccuracy)

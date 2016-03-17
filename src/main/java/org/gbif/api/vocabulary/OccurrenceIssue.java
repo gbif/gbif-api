@@ -59,11 +59,23 @@ public enum OccurrenceIssue {
   /**
    * Indicates an invalid or very unlikely coordinate accuracy derived from precision or uncertainty in meters.
    */
+  @Deprecated //see POR-3061
   COORDINATE_ACCURACY_INVALID,
+
+  /**
+   * Indicates an invalid or very unlikely coordinatePrecision
+   */
+  COORDINATE_PRECISION_INVALID,
+
+  /**
+   * Indicates an invalid or very unlikely dwc:uncertaintyInMeters.
+   */
+  COORDINATE_UNCERTAINTY_METERS_INVALID,
 
   /**
    * There is a mismatch between coordinate uncertainty in meters and coordinate precision.
    */
+  @Deprecated //see POR-1804
   COORDINATE_PRECISION_UNCERTAINTY_MISMATCH,
 
   /**
