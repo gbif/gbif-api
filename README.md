@@ -16,5 +16,5 @@ mvn clean install
  * A pre-commit peer review on all commits, ideally referencing the review in the commit message
  * All commits must reference a Jira to which they relate
 
-## JavaDocs
-http://gbif.github.io/gbif-api/apidocs/
+## Documentation
+[JavaDocs](http://gbif.github.io/gbif-api/apidocs/)
