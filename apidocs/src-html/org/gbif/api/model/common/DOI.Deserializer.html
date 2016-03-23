@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package org.gbif.api.model.common;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import java.io.IOException;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import java.net.URI;<a name="line.4"></a>
+<span class="sourceLineNo">005</span>import java.util.Objects;<a name="line.5"></a>
+<span class="sourceLineNo">006</span>import java.util.regex.Matcher;<a name="line.6"></a>
+<span class="sourceLineNo">007</span>import java.util.regex.Pattern;<a name="line.7"></a>
+<span class="sourceLineNo">008</span><a name="line.8"></a>
+<span class="sourceLineNo">009</span>import com.google.common.base.Preconditions;<a name="line.9"></a>
+<span class="sourceLineNo">010</span>import com.google.common.base.Strings;<a name="line.10"></a>
+<span class="sourceLineNo">011</span>import org.codehaus.jackson.JsonGenerator;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>import org.codehaus.jackson.JsonParser;<a name="line.12"></a>
+<span class="sourceLineNo">013</span>import org.codehaus.jackson.map.DeserializationContext;<a name="line.13"></a>
+<span class="sourceLineNo">014</span>import org.codehaus.jackson.map.JsonDeserializer;<a name="line.14"></a>
+<span class="sourceLineNo">015</span>import org.codehaus.jackson.map.SerializerProvider;<a name="line.15"></a>
+<span class="sourceLineNo">016</span>import org.codehaus.jackson.map.annotate.JsonDeserialize;<a name="line.16"></a>
+<span class="sourceLineNo">017</span>import org.codehaus.jackson.map.annotate.JsonSerialize;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import org.codehaus.jackson.map.ser.std.SerializerBase;<a name="line.18"></a>
+<span class="sourceLineNo">019</span><a name="line.19"></a>
+<span class="sourceLineNo">020</span>/**<a name="line.20"></a>
+<span class="sourceLineNo">021</span> * Class representing a single Digital Object Identifier (DOI) breaking it down to a prefix and suffix.<a name="line.21"></a>
+<span class="sourceLineNo">022</span> * For the syntax of DOI names see the &lt;a href="http://www.doi.org/doi_handbook/2_Numbering.html#2.2"&gt;DOI Handbook&lt;/a&gt;.<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * All parsing is case insensitive and resulting components will all be upper cased.<a name="line.23"></a>
+<span class="sourceLineNo">024</span> */<a name="line.24"></a>
+<span class="sourceLineNo">025</span>@JsonSerialize(using = DOI.Serializer.class)<a name="line.25"></a>
+<span class="sourceLineNo">026</span>@JsonDeserialize(using = DOI.Deserializer.class)<a name="line.26"></a>
+<span class="sourceLineNo">027</span>public class DOI {<a name="line.27"></a>
+<span class="sourceLineNo">028</span><a name="line.28"></a>
+<span class="sourceLineNo">029</span>  /**<a name="line.29"></a>
+<span class="sourceLineNo">030</span>   * The DOI prefix registered with DataCite to be used by GBIF issued production DOIs.<a name="line.30"></a>
+<span class="sourceLineNo">031</span>   */<a name="line.31"></a>
+<span class="sourceLineNo">032</span>  public static final String GBIF_PREFIX = "10.15468";<a name="line.32"></a>
+<span class="sourceLineNo">033</span><a name="line.33"></a>
+<span class="sourceLineNo">034</span>  /**<a name="line.34"></a>
+<span class="sourceLineNo">035</span>   * A DOI prefix provided by DataCite to be used in tests.<a name="line.35"></a>
+<span class="sourceLineNo">036</span>   */<a name="line.36"></a>
+<span class="sourceLineNo">037</span>  public static final String TEST_PREFIX = "10.5072";<a name="line.37"></a>
+<span class="sourceLineNo">038</span><a name="line.38"></a>
+<span class="sourceLineNo">039</span>  private static final Pattern HTTP = Pattern.compile("^https?://(dx\\.)?doi\\.org/"<a name="line.39"></a>
+<span class="sourceLineNo">040</span>                                                      + "(urn:)?(doi:)?", Pattern.CASE_INSENSITIVE);<a name="line.40"></a>
+<span class="sourceLineNo">041</span>  private static final Pattern PARSER = Pattern.compile("^(?:urn:)?(?:doi:)?"           // optional<a name="line.41"></a>
+<span class="sourceLineNo">042</span>                                                        + "(10(?:\\.[0-9]+)+)"<a name="line.42"></a>
+<span class="sourceLineNo">043</span>                                                        + "/(.+)$", Pattern.CASE_INSENSITIVE);<a name="line.43"></a>
+<span class="sourceLineNo">044</span><a name="line.44"></a>
+<span class="sourceLineNo">045</span>  private static String RESOLVER = "http://doi.org/";<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  private static String SCHEME = "doi:";<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  private String prefix;<a name="line.47"></a>
+<span class="sourceLineNo">048</span>  private String suffix;<a name="line.48"></a>
+<span class="sourceLineNo">049</span><a name="line.49"></a>
+<span class="sourceLineNo">050</span>  /**<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   * Returns true only if the source can be parsed into a DOI.<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   */<a name="line.52"></a>
+<span class="sourceLineNo">053</span>  public static boolean isParsable(String source) {<a name="line.53"></a>
+<span class="sourceLineNo">054</span>    if (!Strings.isNullOrEmpty(source)) {<a name="line.54"></a>
+<span class="sourceLineNo">055</span>      return PARSER.matcher(decodeUrl(source)).find();<a name="line.55"></a>
+<span class="sourceLineNo">056</span>    }<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    return false;<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  }<a name="line.58"></a>
+<span class="sourceLineNo">059</span><a name="line.59"></a>
+<span class="sourceLineNo">060</span>  /**<a name="line.60"></a>
+<span class="sourceLineNo">061</span>   * Do not use this constructor.<a name="line.61"></a>
+<span class="sourceLineNo">062</span>   * Required by JAXB to marshall this object without introducing adapters.<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   */<a name="line.63"></a>
+<span class="sourceLineNo">064</span>  public DOI() {<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  }<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>  /**<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   * Parses a simple DOI string of various forms incl URN, URL or plain DOI names.<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   * @param doi the full simple DOI string<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * @throws java.lang.IllegalArgumentException if invalid DOI string is passed<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   */<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  public DOI(String doi) {<a name="line.72"></a>
+<span class="sourceLineNo">073</span>    Preconditions.checkNotNull(doi, "DOI required");<a name="line.73"></a>
+<span class="sourceLineNo">074</span>    Matcher m = PARSER.matcher(decodeUrl(doi));<a name="line.74"></a>
+<span class="sourceLineNo">075</span>    if (m.find()) {<a name="line.75"></a>
+<span class="sourceLineNo">076</span>      this.prefix = m.group(1).toLowerCase();<a name="line.76"></a>
+<span class="sourceLineNo">077</span>      this.suffix = m.group(2).toLowerCase();<a name="line.77"></a>
+<span class="sourceLineNo">078</span>    } else {<a name="line.78"></a>
+<span class="sourceLineNo">079</span>      throw new IllegalArgumentException(doi + " is not a valid DOI");<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    }<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  }<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>  /**<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   * Parses a simple DOI string of various forms incl URN, URL or plain DOI names.<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   * @param prefix a simple DOI prefix starting with 10.<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * @param suffix arbitrary suffix part of the DOI<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * @throws java.lang.IllegalArgumentException if invalid DOI prefix is given<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   */<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  public DOI(String prefix, String suffix) {<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    this.prefix = Preconditions.checkNotNull(prefix, "DOI prefix required").toLowerCase();<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    Preconditions.checkArgument(prefix.startsWith("10."));<a name="line.91"></a>
+<span class="sourceLineNo">092</span>    this.suffix = Preconditions.checkNotNull(suffix, "DOI suffix required").toLowerCase();<a name="line.92"></a>
+<span class="sourceLineNo">093</span>  }<a name="line.93"></a>
+<span class="sourceLineNo">094</span><a name="line.94"></a>
+<span class="sourceLineNo">095</span>  /**<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   * If the doi is encoded as a URL this method strips the resolver and decodes the URL encoded string entities.<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   */<a name="line.97"></a>
+<span class="sourceLineNo">098</span>  private static String decodeUrl(String doi) {<a name="line.98"></a>
+<span class="sourceLineNo">099</span>    Matcher m = HTTP.matcher(doi);<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    if (m.find()) {<a name="line.100"></a>
+<span class="sourceLineNo">101</span>      // strip resolver incl potentially starting paths using a badly encoded urn:doi<a name="line.101"></a>
+<span class="sourceLineNo">102</span>      // (the colon would need to be encoded in a proper URL)<a name="line.102"></a>
+<span class="sourceLineNo">103</span>      doi = m.replaceFirst("");<a name="line.103"></a>
+<span class="sourceLineNo">104</span>      // now decode the URL path, we cannot possibly have query parameters or anchors as the DOIs encoded as a URL<a name="line.104"></a>
+<span class="sourceLineNo">105</span>      // will just be a path<a name="line.105"></a>
+<span class="sourceLineNo">106</span>      return URI.create(doi).getPath();<a name="line.106"></a>
+<span class="sourceLineNo">107</span>    }<a name="line.107"></a>
+<span class="sourceLineNo">108</span>    return doi;<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  }<a name="line.109"></a>
+<span class="sourceLineNo">110</span><a name="line.110"></a>
+<span class="sourceLineNo">111</span>  public String getPrefix() {<a name="line.111"></a>
+<span class="sourceLineNo">112</span>    return prefix;<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  }<a name="line.113"></a>
+<span class="sourceLineNo">114</span><a name="line.114"></a>
+<span class="sourceLineNo">115</span>  public void setPrefix(String prefix) {<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    this.prefix = prefix;<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  }<a name="line.117"></a>
+<span class="sourceLineNo">118</span><a name="line.118"></a>
+<span class="sourceLineNo">119</span>  public String getSuffix() {<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    return suffix;<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  }<a name="line.121"></a>
+<span class="sourceLineNo">122</span><a name="line.122"></a>
+<span class="sourceLineNo">123</span>  public void setSuffix(String suffix) {<a name="line.123"></a>
+<span class="sourceLineNo">124</span>    this.suffix = suffix;<a name="line.124"></a>
+<span class="sourceLineNo">125</span>  }<a name="line.125"></a>
+<span class="sourceLineNo">126</span><a name="line.126"></a>
+<span class="sourceLineNo">127</span>  /**<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * See &lt;a href="http://www.doi.org/doi_handbook/2_Numbering.html#2.6"&gt;DOI Hanbook, Visual presentation and other representation of DOI names&lt;/a&gt;.<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   * @return the resolved DOI using http://dx.doi.org<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   */<a name="line.130"></a>
+<span class="sourceLineNo">131</span>  public URI getUrl() {<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    return URI.create(RESOLVER + prefix + '/' + suffix);<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  }<a name="line.133"></a>
+<span class="sourceLineNo">134</span><a name="line.134"></a>
+<span class="sourceLineNo">135</span>  /**<a name="line.135"></a>
+<span class="sourceLineNo">136</span>   * @return the pure DOI name without any initial scheme name starting with the prefix, i.e. 10.<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   */<a name="line.137"></a>
+<span class="sourceLineNo">138</span>  public String getDoiName() {<a name="line.138"></a>
+<span class="sourceLineNo">139</span>    return prefix + '/' + suffix;<a name="line.139"></a>
+<span class="sourceLineNo">140</span>  }<a name="line.140"></a>
+<span class="sourceLineNo">141</span><a name="line.141"></a>
+<span class="sourceLineNo">142</span>  @Override<a name="line.142"></a>
+<span class="sourceLineNo">143</span>  public String toString() {<a name="line.143"></a>
+<span class="sourceLineNo">144</span>    return SCHEME + prefix + '/' + suffix;<a name="line.144"></a>
+<span class="sourceLineNo">145</span>  }<a name="line.145"></a>
+<span class="sourceLineNo">146</span><a name="line.146"></a>
+<span class="sourceLineNo">147</span>  @Override<a name="line.147"></a>
+<span class="sourceLineNo">148</span>  public int hashCode() {<a name="line.148"></a>
+<span class="sourceLineNo">149</span>    return Objects.hash(prefix, suffix);<a name="line.149"></a>
+<span class="sourceLineNo">150</span>  }<a name="line.150"></a>
+<span class="sourceLineNo">151</span><a name="line.151"></a>
+<span class="sourceLineNo">152</span>  @Override<a name="line.152"></a>
+<span class="sourceLineNo">153</span>  public boolean equals(Object obj) {<a name="line.153"></a>
+<span class="sourceLineNo">154</span>    if (this == obj) {<a name="line.154"></a>
+<span class="sourceLineNo">155</span>      return true;<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    }<a name="line.156"></a>
+<span class="sourceLineNo">157</span>    if (obj == null || getClass() != obj.getClass()) {<a name="line.157"></a>
+<span class="sourceLineNo">158</span>      return false;<a name="line.158"></a>
+<span class="sourceLineNo">159</span>    }<a name="line.159"></a>
+<span class="sourceLineNo">160</span>    final DOI other = (DOI) obj;<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    // prefix and suffix are always upper cased so we can do simple equals here<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    return Objects.equals(this.prefix, other.prefix) &amp;&amp; Objects.equals(this.suffix, other.suffix);<a name="line.162"></a>
+<span class="sourceLineNo">163</span>  }<a name="line.163"></a>
+<span class="sourceLineNo">164</span><a name="line.164"></a>
+<span class="sourceLineNo">165</span><a name="line.165"></a>
+<span class="sourceLineNo">166</span><a name="line.166"></a>
+<span class="sourceLineNo">167</span>  /**<a name="line.167"></a>
+<span class="sourceLineNo">168</span>   * Serializes a DOI as doi name with a doi: scheme.<a name="line.168"></a>
+<span class="sourceLineNo">169</span>   * For example doi:10.1038/nature.2014.16460<a name="line.169"></a>
+<span class="sourceLineNo">170</span>   */<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  public static class Serializer extends SerializerBase&lt;DOI&gt; {<a name="line.171"></a>
+<span class="sourceLineNo">172</span><a name="line.172"></a>
+<span class="sourceLineNo">173</span>    public Serializer() {<a name="line.173"></a>
+<span class="sourceLineNo">174</span>      super(DOI.class);<a name="line.174"></a>
+<span class="sourceLineNo">175</span>    }<a name="line.175"></a>
+<span class="sourceLineNo">176</span><a name="line.176"></a>
+<span class="sourceLineNo">177</span>    @Override<a name="line.177"></a>
+<span class="sourceLineNo">178</span>    public void serialize(DOI value, JsonGenerator jgen, SerializerProvider provider) throws IOException {<a name="line.178"></a>
+<span class="sourceLineNo">179</span>      jgen.writeString(value.toString());<a name="line.179"></a>
+<span class="sourceLineNo">180</span>    }<a name="line.180"></a>
+<span class="sourceLineNo">181</span>  }<a name="line.181"></a>
+<span class="sourceLineNo">182</span><a name="line.182"></a>
+<span class="sourceLineNo">183</span>  /**<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   * Deserializes a DOI from various string based formats.<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   * See DOI constructor for details.<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   */<a name="line.186"></a>
+<span class="sourceLineNo">187</span>  public static class Deserializer extends JsonDeserializer&lt;DOI&gt; {<a name="line.187"></a>
+<span class="sourceLineNo">188</span><a name="line.188"></a>
+<span class="sourceLineNo">189</span>    @Override<a name="line.189"></a>
+<span class="sourceLineNo">190</span>    public DOI deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {<a name="line.190"></a>
+<span class="sourceLineNo">191</span>      if (jp != null &amp;&amp; jp.getTextLength() &gt; 0) {<a name="line.191"></a>
+<span class="sourceLineNo">192</span>        return new DOI(jp.getText());<a name="line.192"></a>
+<span class="sourceLineNo">193</span>      }<a name="line.193"></a>
+<span class="sourceLineNo">194</span>      return null;<a name="line.194"></a>
+<span class="sourceLineNo">195</span>    }<a name="line.195"></a>
+<span class="sourceLineNo">196</span>  }<a name="line.196"></a>
+<span class="sourceLineNo">197</span><a name="line.197"></a>
+<span class="sourceLineNo">198</span>}<a name="line.198"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

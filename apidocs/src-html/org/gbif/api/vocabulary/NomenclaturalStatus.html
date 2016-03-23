@@ -1,0 +1,482 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright 2014 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span>package org.gbif.api.vocabulary;<a name="line.16"></a>
+<span class="sourceLineNo">017</span><a name="line.17"></a>
+<span class="sourceLineNo">018</span>import com.google.common.base.Strings;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.google.common.collect.ImmutableMap;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.collect.ImmutableSet;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import com.google.common.collect.Maps;<a name="line.21"></a>
+<span class="sourceLineNo">022</span><a name="line.22"></a>
+<span class="sourceLineNo">023</span>import javax.annotation.Nullable;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.util.Map;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.util.Set;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.util.regex.Pattern;<a name="line.26"></a>
+<span class="sourceLineNo">027</span><a name="line.27"></a>
+<span class="sourceLineNo">028</span>/**<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * Vocabulary for the nomenclatural status of a name.<a name="line.29"></a>
+<span class="sourceLineNo">030</span> *<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * @see &lt;a href="http://dev.e-taxonomy.eu/trac/wiki/NomenclaturalStatus"&gt;EDIT CDM&lt;/a&gt;<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * @see &lt;a href="http://wiki.tdwg.org/twiki/bin/view/UBIF/LinneanCoreNomenclaturalStatus"&gt;TDWG LinneanCoreNomenclaturalStatus&lt;/a&gt;<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * @see &lt;a href="http://www.biologybrowser.org/nomglos"&gt;Nomenclatural Glossary for Zoology&lt;/a&gt;<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * @see &lt;a href="http://www.northernontarioflora.ca/definitions.cfm"&gt;Northern Ontario plant database&lt;/a&gt;<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * @see &lt;a href="http://rs.gbif.org/vocabulary/gbif/nomenclatural_status.xml"&gt;rs.gbif.org vocabulary&lt;/a&gt;<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * @see &lt;a href="http://darwin.eeb.uconn.edu/systsem/table.html"&gt;Nomenclatural equivalences&lt;/a&gt;<a name="line.36"></a>
+<span class="sourceLineNo">037</span> *<a name="line.37"></a>
+<span class="sourceLineNo">038</span> */<a name="line.38"></a>
+<span class="sourceLineNo">039</span>public enum NomenclaturalStatus {<a name="line.39"></a>
+<span class="sourceLineNo">040</span><a name="line.40"></a>
+<span class="sourceLineNo">041</span>  /**<a name="line.41"></a>
+<span class="sourceLineNo">042</span>   *<a name="line.42"></a>
+<span class="sourceLineNo">043</span>   */<a name="line.43"></a>
+<span class="sourceLineNo">044</span> LEGITIMATE(null, null,    "acceptable", "potentially valid"),<a name="line.44"></a>
+<span class="sourceLineNo">045</span><a name="line.45"></a>
+<span class="sourceLineNo">046</span>  /**<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * A name that is correctly proposed according to the a Code of Nomenclature.<a name="line.47"></a>
+<span class="sourceLineNo">048</span> * The different codes have various terminology for the same concept:<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * &lt;ul&gt;<a name="line.49"></a>
+<span class="sourceLineNo">050</span> *   &lt;li&gt;Zoology: available name&lt;/li&gt;<a name="line.50"></a>
+<span class="sourceLineNo">051</span> *   &lt;li&gt;Botany: validly published name&lt;/li&gt;<a name="line.51"></a>
+<span class="sourceLineNo">052</span> *   &lt;li&gt;BioCode: established name&lt;/li&gt;<a name="line.52"></a>
+<span class="sourceLineNo">053</span> *   &lt;li&gt;Bacteria: validly published name&lt;/li&gt;<a name="line.53"></a>
+<span class="sourceLineNo">054</span> * &lt;/ul&gt;<a name="line.54"></a>
+<span class="sourceLineNo">055</span> * An available name is not necessarily the correct name.<a name="line.55"></a>
+<span class="sourceLineNo">056</span> * @See &lt;a href="http://en.wikipedia.org/wiki/Validly_published_name_(botany)"&gt;wikipedia&lt;/a&gt;<a name="line.56"></a>
+<span class="sourceLineNo">057</span> * @See &lt;a href="http://en.wikipedia.org/wiki/Available_name"&gt;wikipedia&lt;/a&gt;<a name="line.57"></a>
+<span class="sourceLineNo">058</span> */<a name="line.58"></a>
+<span class="sourceLineNo">059</span> VALIDLY_PUBLISHED(null, null, "available","valid", "established"),<a name="line.59"></a>
+<span class="sourceLineNo">060</span><a name="line.60"></a>
+<span class="sourceLineNo">061</span>  /**<a name="line.61"></a>
+<span class="sourceLineNo">062</span>   * The name is a new combination, i.e. a name change involving the epithet of the basionym.<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   * ICBN: Name of the original author being kept within parantheses.<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   *<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   * A new name is introduced consisting of a new generic name for an earlier named species<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   * combined with the existing epitheton of said species.<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   * For exxample when Calymmatobacterium granulomatis was renamed Klebsiella granulomatis,<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   * it was referred to as Klebsiella granulomatis comb. nov. to denote it is a new combination.<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   */<a name="line.69"></a>
+<span class="sourceLineNo">070</span> NEW_COMBINATION("combinatio nova", "comb. nov."),<a name="line.70"></a>
+<span class="sourceLineNo">071</span><a name="line.71"></a>
+<span class="sourceLineNo">072</span>  /**<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   * A scientific name that is created specifically to replace a name which is a junior synonym or homonym.<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   * New name designated when a name cannot be used for nomenclaturalpurposes and no type or original material exists.<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   * A name established expressly to replace an already established name. A nominal taxon denoted by a new<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   * replacement name (nomen novum) has the same name-bearing type as the nominal taxon denoted by the replaced name.<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   * ICZN: new name which is expressly proposed as a replacement name for a preoccupied name, automatically takes<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   * the same type and type locality. (= a replacement name or substitute name for a preoccupied name).<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   * Commonly applied to names proposed to replace junior homonyms. A name proposed as a substitute for a previously<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   * published name (ICBN Art. 7.3 and 33.4).<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   */<a name="line.81"></a>
+<span class="sourceLineNo">082</span> REPLACEMENT("nomen novum", "nom. nov.",      "replacement name", "substitute name"),<a name="line.82"></a>
+<span class="sourceLineNo">083</span><a name="line.83"></a>
+<span class="sourceLineNo">084</span>  /**<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   * A scientific name that enjoys special nomenclatural protection, i.e. a name conserved in respective code.<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * Names classed as available and valid by action of the ICZN or ICBN exercising its Plenary Powers .<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * Includes rulings to conserve junior/later synonyms in place of rejected forgotten names (nomen oblitum).<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   * Such names are entered on the Official Lists.<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   */<a name="line.89"></a>
+<span class="sourceLineNo">090</span> CONSERVED("nomen conservandum", "nom. cons.",     "orth. cons."),<a name="line.90"></a>
+<span class="sourceLineNo">091</span><a name="line.91"></a>
+<span class="sourceLineNo">092</span>  /**<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * Protected names are conserved names applied to a name which has been given precedence over it unused senior synonym<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   * or senior homonym relegated to the status of nomen oblitum (see Article 23.9.2).<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   */<a name="line.95"></a>
+<span class="sourceLineNo">096</span> PROTECTED("nomen protectum", "nom. prot."),<a name="line.96"></a>
+<span class="sourceLineNo">097</span><a name="line.97"></a>
+<span class="sourceLineNo">098</span>  /**<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * Corrected names or 'improved' names, available names which are mandatory and allowable emendations<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   * of imperfect names (qv) or of taxonomic names higher than family<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   * (which are not subject to name form and ending regulations).<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   * Do not depend on transfer in taxon rank or assignment. (= an emended name).<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   */<a name="line.103"></a>
+<span class="sourceLineNo">104</span> CORRECTED("nomen correctum", "nom. corr.",    "improved"),<a name="line.104"></a>
+<span class="sourceLineNo">105</span><a name="line.105"></a>
+<span class="sourceLineNo">106</span>  /**<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   * The original combination of a newly described any name regardless of the rank.<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   */<a name="line.108"></a>
+<span class="sourceLineNo">109</span> ORIGINAL_COMBINATION(null, null),<a name="line.109"></a>
+<span class="sourceLineNo">110</span><a name="line.110"></a>
+<span class="sourceLineNo">111</span>  /**<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   * The original combination of a newly described species.<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   * Specific type of ORIGINAL_COMBINATION.<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   */<a name="line.114"></a>
+<span class="sourceLineNo">115</span> NEW_SPECIES("species novum", "sp. nov."),<a name="line.115"></a>
+<span class="sourceLineNo">116</span><a name="line.116"></a>
+<span class="sourceLineNo">117</span>  /**<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   * The original combination of a newly described genus.<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   * Specific type of ORIGINAL_COMBINATION.<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   */<a name="line.120"></a>
+<span class="sourceLineNo">121</span> NEW_GENUS("genus novum", "gen. nov."),<a name="line.121"></a>
+<span class="sourceLineNo">122</span><a name="line.122"></a>
+<span class="sourceLineNo">123</span>  /**<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * An alternative name given in the original publication before 1953 based on the same type.<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   */<a name="line.125"></a>
+<span class="sourceLineNo">126</span> ALTERNATIVE("nomen alternativum", "nom. altern."),<a name="line.126"></a>
+<span class="sourceLineNo">127</span><a name="line.127"></a>
+<span class="sourceLineNo">128</span>  /**<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   * A name, which was published in an obscure publication, was never widely used.<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   * In botanical literature, the name remained in obscurity.<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   * This has no influence on the formal evaluation of valid publication under ICBN.<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   * It may be valuable information nevertheless.<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   */<a name="line.133"></a>
+<span class="sourceLineNo">134</span> OBSCURE("nomen obscurum", "nom. obsc."),<a name="line.134"></a>
+<span class="sourceLineNo">135</span><a name="line.135"></a>
+<span class="sourceLineNo">136</span>  /**<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   * A proposed conserved name. See CONSERVED.<a name="line.137"></a>
+<span class="sourceLineNo">138</span>   */<a name="line.138"></a>
+<span class="sourceLineNo">139</span> CONSERVED_PROPOSED("nomen conservandum propositum", "orth. cons. prop."),<a name="line.139"></a>
+<span class="sourceLineNo">140</span><a name="line.140"></a>
+<span class="sourceLineNo">141</span>  /**<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   * Provisional name, a name proposed in anticipation of the future acceptance of the taxon concerned,<a name="line.142"></a>
+<span class="sourceLineNo">143</span>   * or of a particular circumscription, position, or rank of the taxon (ICBN Art. 34.1).<a name="line.143"></a>
+<span class="sourceLineNo">144</span>   */<a name="line.144"></a>
+<span class="sourceLineNo">145</span> PROVISIONAL("nomen provisorium", "nom. prov."),<a name="line.145"></a>
+<span class="sourceLineNo">146</span><a name="line.146"></a>
+<span class="sourceLineNo">147</span><a name="line.147"></a>
+<span class="sourceLineNo">148</span>  /**<a name="line.148"></a>
+<span class="sourceLineNo">149</span>   * Formerly, a new taxon with a scant diagnosis/description<a name="line.149"></a>
+<span class="sourceLineNo">150</span>   * (e.g., perennial; robust plant; large leaf; aromatic plant; fragrant flower; Red flowers; large fruits; etc.).<a name="line.150"></a>
+<span class="sourceLineNo">151</span>   * Such short descriptions/diagnoses were termed as nom. subnud.<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   *<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * Occasionally, a short diagnosis may be a key character providing an ID of a taxon.<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   * Formally, any arbitrary short description is valid under ICBN ("small fungus, spores not seen").<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   * Thus the qualifiers "nom. ambig", "nom. confus.", "nom. obsc." and "nom. subnud.",<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   * are applicable either to a currently "botany: valid and legitimate" or "zoology: available" name,<a name="line.156"></a>
+<span class="sourceLineNo">157</span>   * or are reasons given for "nom. rej."/"nom. utique rej.".<a name="line.157"></a>
+<span class="sourceLineNo">158</span>   * The are not actual status codes, rather highlight potential problems.<a name="line.158"></a>
+<span class="sourceLineNo">159</span>   */<a name="line.159"></a>
+<span class="sourceLineNo">160</span> SUBNUDUM("nomen subnudum", "nom. subnud."),<a name="line.160"></a>
+<span class="sourceLineNo">161</span><a name="line.161"></a>
+<span class="sourceLineNo">162</span>  /**<a name="line.162"></a>
+<span class="sourceLineNo">163</span>   * proposed rejected name. Temporary status until the next botanical congress decides about the proposal.<a name="line.163"></a>
+<span class="sourceLineNo">164</span>   */<a name="line.164"></a>
+<span class="sourceLineNo">165</span> REJECTED_PROPOSED("nomen rejiciendum propositum", "nom. rej. prop."),<a name="line.165"></a>
+<span class="sourceLineNo">166</span><a name="line.166"></a>
+<span class="sourceLineNo">167</span>  /**<a name="line.167"></a>
+<span class="sourceLineNo">168</span>   * proposed rejected name on the basis of appendix V of ICBN<a name="line.168"></a>
+<span class="sourceLineNo">169</span>  */<a name="line.169"></a>
+<span class="sourceLineNo">170</span> REJECTED_OUTRIGHT_PROPOSED("nomen utique rejiciendum propositum", "nom. utique rej. prop."),<a name="line.170"></a>
+<span class="sourceLineNo">171</span><a name="line.171"></a>
+<span class="sourceLineNo">172</span>  /**<a name="line.172"></a>
+<span class="sourceLineNo">173</span>   * A name of uncertain sense, of doubtful validity.<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   * E.g. the name Encephalartos tridentatus (Willdenow) Lehmann (Pugillus 6, 1834) is a nomen dubium<a name="line.174"></a>
+<span class="sourceLineNo">175</span>   * which may refer to several species of Encephalartos or Macrozamia.<a name="line.175"></a>
+<span class="sourceLineNo">176</span>   * ICZN: doubtful or dubious names, names which are not certainly applicable to any known taxon or<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   * for which the evidence is insufficient to permit recognition of the taxon to which they belong.<a name="line.177"></a>
+<span class="sourceLineNo">178</span>   * May possess availability conducive to uncertainty and instability.<a name="line.178"></a>
+<span class="sourceLineNo">179</span>   * Also 'names under enquiry': NOMEN INQUIRENDUM (NOMINA INQUIRENDA).<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   *<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   * In botany a name whose application is uncertain;<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   * the confusion being derived from an incomplete or confusing description.<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   * Example: Platanus hispanica auct., non Mill. ex Münchh., nom. dub.<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   * The application of the name Platanus hispanica is uncertain, so the name has been rejected<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   * in favour of Platanus ×acerifolia (Aiton) Willd., pro. sp.<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   */<a name="line.186"></a>
+<span class="sourceLineNo">187</span> DOUBTFUL("nomen dubium", "nom. dub.",     "dubious"),<a name="line.187"></a>
+<span class="sourceLineNo">188</span><a name="line.188"></a>
+<span class="sourceLineNo">189</span>  /**<a name="line.189"></a>
+<span class="sourceLineNo">190</span>   * Ambiguous name, one which has been used so long by different authors in different senses that it has become<a name="line.190"></a>
+<span class="sourceLineNo">191</span>   * a persistent cause of error and confusion. It is used in senses other than originally intended,<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   * and thus the source of much confusion. A nom. ambig. is a rejected name.<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   * Example: Trifolium agrarium L., nom. ambig.<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   * The name Trifolium agrarium was misapplied to three taxa, so the name has been rejected in favour of the names<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   * Trifolium aureum Pollich, T. dubium Sibth., and T. campestre Schreb., each referring to different taxa.<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   */<a name="line.196"></a>
+<span class="sourceLineNo">197</span> AMBIGUOUS("nomen ambigua", "nom. ambig."),<a name="line.197"></a>
+<span class="sourceLineNo">198</span><a name="line.198"></a>
+<span class="sourceLineNo">199</span>  /**<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   * A rejected name that is based on a type consisting of two or more entirely discordant elements,<a name="line.200"></a>
+<span class="sourceLineNo">201</span>   * so that it is difficult to select a satisfactory lectotype.<a name="line.201"></a>
+<span class="sourceLineNo">202</span>   */<a name="line.202"></a>
+<span class="sourceLineNo">203</span> CONFUSED("nomen confusum", "nom. confus."),<a name="line.203"></a>
+<span class="sourceLineNo">204</span><a name="line.204"></a>
+<span class="sourceLineNo">205</span>  /**<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   * a name that has not been used in the scientific community for more than fifty years after its original proposal.<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * forgotten names, senior synonyms which have remained unused in the literature for many years.<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   * Have been treated differently by different editions of the Code, and remain unavailable names.<a name="line.208"></a>
+<span class="sourceLineNo">209</span>   */<a name="line.209"></a>
+<span class="sourceLineNo">210</span> FORGOTTEN("nomen oblitum", "nom. obl."),<a name="line.210"></a>
+<span class="sourceLineNo">211</span><a name="line.211"></a>
+<span class="sourceLineNo">212</span>  /**<a name="line.212"></a>
+<span class="sourceLineNo">213</span>   * A name which violated the Code in operation at that time.<a name="line.213"></a>
+<span class="sourceLineNo">214</span>   */<a name="line.214"></a>
+<span class="sourceLineNo">215</span> ABORTED("nomen abortivum", "nom. abort."),<a name="line.215"></a>
+<span class="sourceLineNo">216</span><a name="line.216"></a>
+<span class="sourceLineNo">217</span>  /**<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   * In botanical nomenclature, an orthographical variant (abbreviated orth. var.) is a variant spelling<a name="line.218"></a>
+<span class="sourceLineNo">219</span>   * of the same name. For example, Hieronima and Hyeronima are orthographical variants of Hieronyma.<a name="line.219"></a>
+<span class="sourceLineNo">220</span>   * One of the spellings must be treated as the correct one. In this case, the spelling Hieronyma has been conserved<a name="line.220"></a>
+<span class="sourceLineNo">221</span>   * and is to be used as the correct spelling.<a name="line.221"></a>
+<span class="sourceLineNo">222</span>   *<a name="line.222"></a>
+<span class="sourceLineNo">223</span>   * An inadvertent use of one of the other spellings has no consequences:<a name="line.223"></a>
+<span class="sourceLineNo">224</span>   * the name is to be treated as if it were correctly spelled.<a name="line.224"></a>
+<span class="sourceLineNo">225</span>   * Any subsequent use is to be corrected. Orthographical variants are treated in Art 61 of the ICBN.<a name="line.225"></a>
+<span class="sourceLineNo">226</span>   *<a name="line.226"></a>
+<span class="sourceLineNo">227</span>   * In zoology, orthographical variants in the formal sense do not exist;<a name="line.227"></a>
+<span class="sourceLineNo">228</span>   * a misspelling or orthographic error is treated as a lapsus, a form of inadvertent error.<a name="line.228"></a>
+<span class="sourceLineNo">229</span>   * The first reviser is allowed to choose one variant for mandatory further use, but in other ways,<a name="line.229"></a>
+<span class="sourceLineNo">230</span>   * these errors generally have no further formal standing.<a name="line.230"></a>
+<span class="sourceLineNo">231</span>   * Inadvertent misspellings are treated in Art. 32-33 of the ICZN.<a name="line.231"></a>
+<span class="sourceLineNo">232</span>   */<a name="line.232"></a>
+<span class="sourceLineNo">233</span><a name="line.233"></a>
+<span class="sourceLineNo">234</span> ORTHOGRAPHIC_VARIANT("nomen orthographia", "orth. var.",     "spelling variant"),<a name="line.234"></a>
+<span class="sourceLineNo">235</span><a name="line.235"></a>
+<span class="sourceLineNo">236</span>  /**<a name="line.236"></a>
+<span class="sourceLineNo">237</span>   * A name superfluous when published, an unnecessary substitute name.<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   * In botany a name for which a validly published name existed previously and should have been adopted,<a name="line.238"></a>
+<span class="sourceLineNo">239</span>   * thus the name is deemed nomenclaturally superfluous.<a name="line.239"></a>
+<span class="sourceLineNo">240</span>   * Example: Astragalus astragalinus (Hook.) Á. &amp; D. Löve, nom. illeg. superfl.<a name="line.240"></a>
+<span class="sourceLineNo">241</span>   * The GRIN database reports that the combination Astragalus astragalinus (Hook.) Á.&amp; D. Löve, is a superfluous name,<a name="line.241"></a>
+<span class="sourceLineNo">242</span>   * based on an incorrect basionym, see R.C. Barneby, Taxon, 25(5-6): 628 (1976).<a name="line.242"></a>
+<span class="sourceLineNo">243</span>   * The correct basionym is Phaca astragalina DC., not Astragalus astragalinus (DC.) Hook.<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   * This taxon is a synonym of Astragalus alpinus L.<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   */<a name="line.245"></a>
+<span class="sourceLineNo">246</span> SUPERFLUOUS("nomen superfluum", "nom. superfl."),<a name="line.246"></a>
+<span class="sourceLineNo">247</span><a name="line.247"></a>
+<span class="sourceLineNo">248</span>  /**<a name="line.248"></a>
+<span class="sourceLineNo">249</span>   * A nomen nudum (plural nomina nuda) is used for a name which is unavailable because it does not have a description,<a name="line.249"></a>
+<span class="sourceLineNo">250</span>   * reference or indication (specifically a name published before 1931 which fails to conform to Article 12,<a name="line.250"></a>
+<span class="sourceLineNo">251</span>   * or after 1930 but fails to conform to Article 13).<a name="line.251"></a>
+<span class="sourceLineNo">252</span>   *<a name="line.252"></a>
+<span class="sourceLineNo">253</span>   * Nomina nuda and other unavailable names can be made available if they are published again in a way<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   * that meets the criteria of availability;<a name="line.254"></a>
+<span class="sourceLineNo">255</span>   * however, they are attributed to the author who first made them available, not the person who first used them.<a name="line.255"></a>
+<span class="sourceLineNo">256</span>   */<a name="line.256"></a>
+<span class="sourceLineNo">257</span> NUDUM("nomen nudum", "nom. nud.",   "nomen solum","nom. sol."),<a name="line.257"></a>
+<span class="sourceLineNo">258</span><a name="line.258"></a>
+<span class="sourceLineNo">259</span>  /**<a name="line.259"></a>
+<span class="sourceLineNo">260</span>   * Null names, unavailable names which as defined by the Code are non demonstrably intentional changes of<a name="line.260"></a>
+<span class="sourceLineNo">261</span>   * an original spelling i.e. a form of incorrect subsequent spelling.<a name="line.261"></a>
+<span class="sourceLineNo">262</span>   */<a name="line.262"></a>
+<span class="sourceLineNo">263</span> NULL_NAME("nomen nullum", "nom. null."),<a name="line.263"></a>
+<span class="sourceLineNo">264</span><a name="line.264"></a>
+<span class="sourceLineNo">265</span>  /**<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   * Names in specified ranks included in publications listed as suppressed works (opera utique oppressa; App. VI)<a name="line.266"></a>
+<span class="sourceLineNo">267</span>   * are not validly published.<a name="line.267"></a>
+<span class="sourceLineNo">268</span>   */<a name="line.268"></a>
+<span class="sourceLineNo">269</span> SUPPRESSED("nomen oppressa", "nom. opp."),<a name="line.269"></a>
+<span class="sourceLineNo">270</span><a name="line.270"></a>
+<span class="sourceLineNo">271</span>  /**<a name="line.271"></a>
+<span class="sourceLineNo">272</span>   * Name rejected outright, i. e. without proposing another name to be conserved in favor of this name<a name="line.272"></a>
+<span class="sourceLineNo">273</span>   * (nomen utique rejiciendum). This status applies to explicitly listed protonym names as well as to any<a name="line.273"></a>
+<span class="sourceLineNo">274</span>   * combinations based on the protonym. See ICBN (Art. 56.1, Appendix V) because otherwise it would cause a<a name="line.274"></a>
+<span class="sourceLineNo">275</span>   * disadvantageous nomenclatural change.<a name="line.275"></a>
+<span class="sourceLineNo">276</span>   *<a name="line.276"></a>
+<span class="sourceLineNo">277</span>   * Example: Cerastium vulgatum L. 1755, non 1762, nom. utique rej.<a name="line.277"></a>
+<span class="sourceLineNo">278</span>   * For a discussion on why this name was rejected, see Brummitt 2000. Taxon 49 (2): 262.<a name="line.278"></a>
+<span class="sourceLineNo">279</span>   */<a name="line.279"></a>
+<span class="sourceLineNo">280</span> REJECTED_OUTRIGHT("nomen utique rejiciendum", "nom. utique rej."),<a name="line.280"></a>
+<span class="sourceLineNo">281</span><a name="line.281"></a>
+<span class="sourceLineNo">282</span>  /**<a name="line.282"></a>
+<span class="sourceLineNo">283</span>   * Rejected / surpressed name. Inverse of conserved against<a name="line.283"></a>
+<span class="sourceLineNo">284</span>   */<a name="line.284"></a>
+<span class="sourceLineNo">285</span> REJECTED("nomen rejiciendum", "nom. rej."),<a name="line.285"></a>
+<span class="sourceLineNo">286</span><a name="line.286"></a>
+<span class="sourceLineNo">287</span>  /**<a name="line.287"></a>
+<span class="sourceLineNo">288</span>   * A nomen illegitimum is a validly published name, but one that contravenes some of the articles laid down by<a name="line.288"></a>
+<span class="sourceLineNo">289</span>   * the International Botanical Congress. The name could be illegitimate because:<a name="line.289"></a>
+<span class="sourceLineNo">290</span>   * &lt;ul&gt;<a name="line.290"></a>
+<span class="sourceLineNo">291</span>   *   &lt;li&gt;(article 52) it was superfluous at its time of publication, i.e., the taxon (as represented by the type) already has a name&lt;/li&gt;<a name="line.291"></a>
+<span class="sourceLineNo">292</span>   *   &lt;li&gt;(articles 53 and 54) the name has already been applied to another plant (a homonym)&lt;/li&gt;<a name="line.292"></a>
+<span class="sourceLineNo">293</span>   * &lt;/ul&gt;<a name="line.293"></a>
+<span class="sourceLineNo">294</span>   * For the procedure of rejecting otherwise legitimate names, see conserved name.<a name="line.294"></a>
+<span class="sourceLineNo">295</span>   */<a name="line.295"></a>
+<span class="sourceLineNo">296</span> ILLEGITIMATE("nomen illegitimum", "nom. illeg."),<a name="line.296"></a>
+<span class="sourceLineNo">297</span><a name="line.297"></a>
+<span class="sourceLineNo">298</span>  /**<a name="line.298"></a>
+<span class="sourceLineNo">299</span>   * A name that was not validly published according to the rules of the code,<a name="line.299"></a>
+<span class="sourceLineNo">300</span>   * or a name that was not accepted by the author in the original publication, for example,<a name="line.300"></a>
+<span class="sourceLineNo">301</span>   * if the name was suggested as a synonym of an accepted name.<a name="line.301"></a>
+<span class="sourceLineNo">302</span>   * In zoology this is called an UNAVAILABLE name.<a name="line.302"></a>
+<span class="sourceLineNo">303</span>   * Example: Linaria vulgaris Hill, nom. inval.<a name="line.303"></a>
+<span class="sourceLineNo">304</span>   * Many names published by John Hill between 1753 and 1757 were not accepted as validly published.<a name="line.304"></a>
+<span class="sourceLineNo">305</span>   */<a name="line.305"></a>
+<span class="sourceLineNo">306</span> INVALID("nomen invalidum", "nom. inval.",    "unavailable"),<a name="line.306"></a>
+<span class="sourceLineNo">307</span><a name="line.307"></a>
+<span class="sourceLineNo">308</span>  /**<a name="line.308"></a>
+<span class="sourceLineNo">309</span>   * denied names, unavailable names which are incorrect original spellings as defined by the Code.<a name="line.309"></a>
+<span class="sourceLineNo">310</span>   * Subset of nom.inval. based only on spellings<a name="line.310"></a>
+<span class="sourceLineNo">311</span>   */<a name="line.311"></a>
+<span class="sourceLineNo">312</span> DENIED("nomen negatum", "nom. neg.");<a name="line.312"></a>
+<span class="sourceLineNo">313</span><a name="line.313"></a>
+<span class="sourceLineNo">314</span><a name="line.314"></a>
+<span class="sourceLineNo">315</span><a name="line.315"></a>
+<span class="sourceLineNo">316</span>  private static final Set VALID_VALUES = ImmutableSet.of(VALIDLY_PUBLISHED, LEGITIMATE, NEW_COMBINATION, REPLACEMENT,<a name="line.316"></a>
+<span class="sourceLineNo">317</span>    NEW_COMBINATION, NEW_GENUS, NEW_SPECIES,SUBNUDUM,CONSERVED, PROTECTED, CORRECTED,ALTERNATIVE, CONSERVED_PROPOSED,<a name="line.317"></a>
+<span class="sourceLineNo">318</span>    PROVISIONAL);<a name="line.318"></a>
+<span class="sourceLineNo">319</span>  private static final Set DOUBTFUL_VALUES = ImmutableSet.of(DOUBTFUL, OBSCURE);<a name="line.319"></a>
+<span class="sourceLineNo">320</span><a name="line.320"></a>
+<span class="sourceLineNo">321</span>  private static final Pattern NORMALIZE_TERM = Pattern.compile("[._ -]+");<a name="line.321"></a>
+<span class="sourceLineNo">322</span>  private static String normalize(String x) {<a name="line.322"></a>
+<span class="sourceLineNo">323</span>    return NORMALIZE_TERM.matcher(x.toUpperCase()).replaceAll("");<a name="line.323"></a>
+<span class="sourceLineNo">324</span>  }<a name="line.324"></a>
+<span class="sourceLineNo">325</span><a name="line.325"></a>
+<span class="sourceLineNo">326</span>  private static final Map&lt;String, NomenclaturalStatus&gt; LOOKUP;<a name="line.326"></a>
+<span class="sourceLineNo">327</span>  static {<a name="line.327"></a>
+<span class="sourceLineNo">328</span>    Map&lt;String, NomenclaturalStatus&gt; lookup = Maps.newHashMap();<a name="line.328"></a>
+<span class="sourceLineNo">329</span>    for (NomenclaturalStatus n : values()) {<a name="line.329"></a>
+<span class="sourceLineNo">330</span>      lookup.put(normalize(n.name()), n);<a name="line.330"></a>
+<span class="sourceLineNo">331</span>      if (n.getLatinLabel() != null) {<a name="line.331"></a>
+<span class="sourceLineNo">332</span>        lookup.put(normalize(n.getLatinLabel()), n);<a name="line.332"></a>
+<span class="sourceLineNo">333</span>        lookup.put(normalize(n.getLatinLabel().replace("nomen ", "")), n);<a name="line.333"></a>
+<span class="sourceLineNo">334</span>      }<a name="line.334"></a>
+<span class="sourceLineNo">335</span>      if (n.getAbbreviatedLabel() != null) {<a name="line.335"></a>
+<span class="sourceLineNo">336</span>        lookup.put(normalize(n.getAbbreviatedLabel()), n);<a name="line.336"></a>
+<span class="sourceLineNo">337</span>      }<a name="line.337"></a>
+<span class="sourceLineNo">338</span>      if (n.alternatives != null) {<a name="line.338"></a>
+<span class="sourceLineNo">339</span>        for (String alt : n.alternatives) {<a name="line.339"></a>
+<span class="sourceLineNo">340</span>          lookup.put(normalize(alt), n);<a name="line.340"></a>
+<span class="sourceLineNo">341</span>        }<a name="line.341"></a>
+<span class="sourceLineNo">342</span>      }<a name="line.342"></a>
+<span class="sourceLineNo">343</span>    }<a name="line.343"></a>
+<span class="sourceLineNo">344</span>    LOOKUP = ImmutableMap.copyOf(lookup);<a name="line.344"></a>
+<span class="sourceLineNo">345</span>  }<a name="line.345"></a>
+<span class="sourceLineNo">346</span><a name="line.346"></a>
+<span class="sourceLineNo">347</span><a name="line.347"></a>
+<span class="sourceLineNo">348</span>  /**<a name="line.348"></a>
+<span class="sourceLineNo">349</span>   * Tries to case insenitively interpret a nomenclatural status given as a string appliying the enums name,<a name="line.349"></a>
+<span class="sourceLineNo">350</span>   * the latin and abbreviated name of a term.<a name="line.350"></a>
+<span class="sourceLineNo">351</span>   *<a name="line.351"></a>
+<span class="sourceLineNo">352</span>   * @param nomStatus<a name="line.352"></a>
+<span class="sourceLineNo">353</span>   * @return<a name="line.353"></a>
+<span class="sourceLineNo">354</span>   *<a name="line.354"></a>
+<span class="sourceLineNo">355</span>   * @deprecated use NomStatusParser instead<a name="line.355"></a>
+<span class="sourceLineNo">356</span>   */<a name="line.356"></a>
+<span class="sourceLineNo">357</span>  @Deprecated<a name="line.357"></a>
+<span class="sourceLineNo">358</span>  public static NomenclaturalStatus fromString(String nomStatus) {<a name="line.358"></a>
+<span class="sourceLineNo">359</span>    if (Strings.isNullOrEmpty(nomStatus)) {<a name="line.359"></a>
+<span class="sourceLineNo">360</span>      return null;<a name="line.360"></a>
+<span class="sourceLineNo">361</span>    }<a name="line.361"></a>
+<span class="sourceLineNo">362</span>    return LOOKUP.get(normalize(nomStatus));<a name="line.362"></a>
+<span class="sourceLineNo">363</span>  }<a name="line.363"></a>
+<span class="sourceLineNo">364</span><a name="line.364"></a>
+<span class="sourceLineNo">365</span><a name="line.365"></a>
+<span class="sourceLineNo">366</span><a name="line.366"></a>
+<span class="sourceLineNo">367</span>  private final String latin;<a name="line.367"></a>
+<span class="sourceLineNo">368</span>  private final String abbreviated;<a name="line.368"></a>
+<span class="sourceLineNo">369</span>  private final String[] alternatives;<a name="line.369"></a>
+<span class="sourceLineNo">370</span><a name="line.370"></a>
+<span class="sourceLineNo">371</span>  private NomenclaturalStatus(String latin, String abbreviated, String ... alternatives) {<a name="line.371"></a>
+<span class="sourceLineNo">372</span>    this.latin = latin;<a name="line.372"></a>
+<span class="sourceLineNo">373</span>    this.abbreviated = abbreviated;<a name="line.373"></a>
+<span class="sourceLineNo">374</span>    this.alternatives = alternatives;<a name="line.374"></a>
+<span class="sourceLineNo">375</span>  }<a name="line.375"></a>
+<span class="sourceLineNo">376</span><a name="line.376"></a>
+<span class="sourceLineNo">377</span>  public String getLatinLabel() {<a name="line.377"></a>
+<span class="sourceLineNo">378</span>    return latin;<a name="line.378"></a>
+<span class="sourceLineNo">379</span>  }<a name="line.379"></a>
+<span class="sourceLineNo">380</span><a name="line.380"></a>
+<span class="sourceLineNo">381</span>  /**<a name="line.381"></a>
+<span class="sourceLineNo">382</span>   * The abbreviated status name, often used in botany.<a name="line.382"></a>
+<span class="sourceLineNo">383</span>   * For example nom. inval.<a name="line.383"></a>
+<span class="sourceLineNo">384</span>   * @return<a name="line.384"></a>
+<span class="sourceLineNo">385</span>   */<a name="line.385"></a>
+<span class="sourceLineNo">386</span>  @Nullable<a name="line.386"></a>
+<span class="sourceLineNo">387</span>  public String getAbbreviatedLabel() {<a name="line.387"></a>
+<span class="sourceLineNo">388</span>    return abbreviated;<a name="line.388"></a>
+<span class="sourceLineNo">389</span>  }<a name="line.389"></a>
+<span class="sourceLineNo">390</span><a name="line.390"></a>
+<span class="sourceLineNo">391</span>  /**<a name="line.391"></a>
+<span class="sourceLineNo">392</span>   * A vague grouping of nomenclatural status terms including all that can be used to name a correct/valid taxon.<a name="line.392"></a>
+<span class="sourceLineNo">393</span>   * Specifically avoid the confusing terms valid, accepted or correct here as they mean different things in the<a name="line.393"></a>
+<span class="sourceLineNo">394</span>   * different codes.<a name="line.394"></a>
+<span class="sourceLineNo">395</span>   */<a name="line.395"></a>
+<span class="sourceLineNo">396</span>  public boolean isGood() {<a name="line.396"></a>
+<span class="sourceLineNo">397</span>    return VALID_VALUES.contains(this);<a name="line.397"></a>
+<span class="sourceLineNo">398</span>  }<a name="line.398"></a>
+<span class="sourceLineNo">399</span><a name="line.399"></a>
+<span class="sourceLineNo">400</span>  public boolean isDoubtful() {<a name="line.400"></a>
+<span class="sourceLineNo">401</span>    return DOUBTFUL_VALUES.contains(this);<a name="line.401"></a>
+<span class="sourceLineNo">402</span>  }<a name="line.402"></a>
+<span class="sourceLineNo">403</span><a name="line.403"></a>
+<span class="sourceLineNo">404</span>  /**<a name="line.404"></a>
+<span class="sourceLineNo">405</span>   * Opposite of good and not doubtful.<a name="line.405"></a>
+<span class="sourceLineNo">406</span>   */<a name="line.406"></a>
+<span class="sourceLineNo">407</span>  public boolean isBad() {<a name="line.407"></a>
+<span class="sourceLineNo">408</span>    return !(isGood() || isDoubtful());<a name="line.408"></a>
+<span class="sourceLineNo">409</span>  }<a name="line.409"></a>
+<span class="sourceLineNo">410</span>}<a name="line.410"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

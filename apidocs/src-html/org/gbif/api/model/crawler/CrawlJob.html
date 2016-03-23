@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package org.gbif.api.model.crawler;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import org.gbif.api.vocabulary.EndpointType;<a name="line.3"></a>
+<span class="sourceLineNo">004</span><a name="line.4"></a>
+<span class="sourceLineNo">005</span>import java.net.URI;<a name="line.5"></a>
+<span class="sourceLineNo">006</span>import java.util.Map;<a name="line.6"></a>
+<span class="sourceLineNo">007</span>import java.util.UUID;<a name="line.7"></a>
+<span class="sourceLineNo">008</span>import javax.annotation.Nullable;<a name="line.8"></a>
+<span class="sourceLineNo">009</span>import javax.annotation.concurrent.Immutable;<a name="line.9"></a>
+<span class="sourceLineNo">010</span>import javax.annotation.concurrent.ThreadSafe;<a name="line.10"></a>
+<span class="sourceLineNo">011</span><a name="line.11"></a>
+<span class="sourceLineNo">012</span>import com.google.common.base.Objects;<a name="line.12"></a>
+<span class="sourceLineNo">013</span>import com.google.common.collect.ImmutableMap;<a name="line.13"></a>
+<span class="sourceLineNo">014</span>import org.codehaus.jackson.annotate.JsonCreator;<a name="line.14"></a>
+<span class="sourceLineNo">015</span>import org.codehaus.jackson.annotate.JsonIgnore;<a name="line.15"></a>
+<span class="sourceLineNo">016</span>import org.codehaus.jackson.annotate.JsonProperty;<a name="line.16"></a>
+<span class="sourceLineNo">017</span><a name="line.17"></a>
+<span class="sourceLineNo">018</span>import static com.google.common.base.Preconditions.checkArgument;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import static com.google.common.base.Preconditions.checkNotNull;<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>/**<a name="line.21"></a>
+<span class="sourceLineNo">022</span> * This class represents a job to be worked on by a crawler. That can be either one of the XML based protocols<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * (BioCASe, DiGIR, TAPIR) or a DwC-Archive.<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * &lt;p/&gt;<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * For now this object will be used in JSON serialized form in ZooKeeper.<a name="line.25"></a>
+<span class="sourceLineNo">026</span> */<a name="line.26"></a>
+<span class="sourceLineNo">027</span>@Immutable<a name="line.27"></a>
+<span class="sourceLineNo">028</span>@ThreadSafe<a name="line.28"></a>
+<span class="sourceLineNo">029</span>public class CrawlJob {<a name="line.29"></a>
+<span class="sourceLineNo">030</span><a name="line.30"></a>
+<span class="sourceLineNo">031</span>  private final UUID datasetKey;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>  private final EndpointType endpointType;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>  private final URI targetUrl;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>  private final int attempt;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>  private final ImmutableMap&lt;String, String&gt; properties;<a name="line.35"></a>
+<span class="sourceLineNo">036</span><a name="line.36"></a>
+<span class="sourceLineNo">037</span>  /**<a name="line.37"></a>
+<span class="sourceLineNo">038</span>   * Creates a new crawl job.<a name="line.38"></a>
+<span class="sourceLineNo">039</span>   *<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   * @param datasetKey  of the dataset to crawl<a name="line.40"></a>
+<span class="sourceLineNo">041</span>   * @param endpointType of the dataset<a name="line.41"></a>
+<span class="sourceLineNo">042</span>   * @param targetUrl    of the dataset<a name="line.42"></a>
+<span class="sourceLineNo">043</span>   * @param attempt      a monotonously increasing counter, increased every time we try to crawl a dataset whether that<a name="line.43"></a>
+<span class="sourceLineNo">044</span>   *                     attempt is successful or not<a name="line.44"></a>
+<span class="sourceLineNo">045</span>   * @param properties   a way to provide protocol or crawl specific options<a name="line.45"></a>
+<span class="sourceLineNo">046</span>   */<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  @JsonCreator<a name="line.47"></a>
+<span class="sourceLineNo">048</span>  public CrawlJob(<a name="line.48"></a>
+<span class="sourceLineNo">049</span>    @JsonProperty("datasetKey") UUID datasetKey,<a name="line.49"></a>
+<span class="sourceLineNo">050</span>    @JsonProperty("endpointType") EndpointType endpointType,<a name="line.50"></a>
+<span class="sourceLineNo">051</span>    @JsonProperty("targetUrl") URI targetUrl,<a name="line.51"></a>
+<span class="sourceLineNo">052</span>    @JsonProperty("attempt") int attempt,<a name="line.52"></a>
+<span class="sourceLineNo">053</span>    @Nullable @JsonProperty("properties") Map&lt;String, String&gt; properties<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  ) {<a name="line.54"></a>
+<span class="sourceLineNo">055</span>    this.datasetKey = checkNotNull(datasetKey);<a name="line.55"></a>
+<span class="sourceLineNo">056</span>    this.endpointType = checkNotNull(endpointType);<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    this.targetUrl = checkNotNull(targetUrl);<a name="line.57"></a>
+<span class="sourceLineNo">058</span>    checkArgument(attempt &gt; 0, "attempt has to be greater than 0");<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    this.attempt = attempt;<a name="line.59"></a>
+<span class="sourceLineNo">060</span><a name="line.60"></a>
+<span class="sourceLineNo">061</span>    if (properties == null) {<a name="line.61"></a>
+<span class="sourceLineNo">062</span>      this.properties = ImmutableMap.of();<a name="line.62"></a>
+<span class="sourceLineNo">063</span>    } else {<a name="line.63"></a>
+<span class="sourceLineNo">064</span>      this.properties = ImmutableMap.copyOf(properties);<a name="line.64"></a>
+<span class="sourceLineNo">065</span>    }<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  }<a name="line.66"></a>
+<span class="sourceLineNo">067</span><a name="line.67"></a>
+<span class="sourceLineNo">068</span>  /**<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   * Constructor with mandatory fields.<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * Properties field is set to null.<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   * @param datasetKey  of the dataset to crawl<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   * @param endpointType of the dataset<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   * @param targetUrl    of the dataset<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   * @param attempt      a monotonously increasing counter, increased every time we try to crawl a dataset whether that<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   *                     attempt is successful or not<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   */<a name="line.76"></a>
+<span class="sourceLineNo">077</span>  public CrawlJob(UUID datasetKey, Integer attempt,EndpointType endpointType, URI targetUrl){<a name="line.77"></a>
+<span class="sourceLineNo">078</span>    //This constructor is used for the MyBatis persistence layer.<a name="line.78"></a>
+<span class="sourceLineNo">079</span>    this.datasetKey = datasetKey;<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    this.attempt = attempt;<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    this.endpointType = endpointType;<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    this.targetUrl = targetUrl;<a name="line.82"></a>
+<span class="sourceLineNo">083</span>    this.properties = null;<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  }<a name="line.84"></a>
+<span class="sourceLineNo">085</span><a name="line.85"></a>
+<span class="sourceLineNo">086</span>  public UUID getDatasetKey() {<a name="line.86"></a>
+<span class="sourceLineNo">087</span>    return datasetKey;<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  }<a name="line.88"></a>
+<span class="sourceLineNo">089</span><a name="line.89"></a>
+<span class="sourceLineNo">090</span>  public EndpointType getEndpointType() {<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    return endpointType;<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  }<a name="line.92"></a>
+<span class="sourceLineNo">093</span><a name="line.93"></a>
+<span class="sourceLineNo">094</span>  /**<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * Used to save protocol specific information (e.g. contentNamespace for TAPIR and BioCASe).<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   *<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * @return an immutable map of all the properties<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   */<a name="line.98"></a>
+<span class="sourceLineNo">099</span>  // NOTE: This should be an ImmutableMap but Jackson 1.x can't easily deserialize that<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  public Map&lt;String, String&gt; getProperties() {<a name="line.100"></a>
+<span class="sourceLineNo">101</span>    return properties;<a name="line.101"></a>
+<span class="sourceLineNo">102</span>  }<a name="line.102"></a>
+<span class="sourceLineNo">103</span><a name="line.103"></a>
+<span class="sourceLineNo">104</span>  public URI getTargetUrl() {<a name="line.104"></a>
+<span class="sourceLineNo">105</span>    return targetUrl;<a name="line.105"></a>
+<span class="sourceLineNo">106</span>  }<a name="line.106"></a>
+<span class="sourceLineNo">107</span><a name="line.107"></a>
+<span class="sourceLineNo">108</span>  public int getAttempt() {<a name="line.108"></a>
+<span class="sourceLineNo">109</span>    return attempt;<a name="line.109"></a>
+<span class="sourceLineNo">110</span>  }<a name="line.110"></a>
+<span class="sourceLineNo">111</span><a name="line.111"></a>
+<span class="sourceLineNo">112</span>  @JsonIgnore<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  public String getProperty(String name) {<a name="line.113"></a>
+<span class="sourceLineNo">114</span>    return properties.get(name);<a name="line.114"></a>
+<span class="sourceLineNo">115</span>  }<a name="line.115"></a>
+<span class="sourceLineNo">116</span><a name="line.116"></a>
+<span class="sourceLineNo">117</span>  @Override<a name="line.117"></a>
+<span class="sourceLineNo">118</span>  public boolean equals(Object obj) {<a name="line.118"></a>
+<span class="sourceLineNo">119</span>    if (this == obj) {<a name="line.119"></a>
+<span class="sourceLineNo">120</span>      return true;<a name="line.120"></a>
+<span class="sourceLineNo">121</span>    }<a name="line.121"></a>
+<span class="sourceLineNo">122</span>    if (!(obj instanceof CrawlJob)) {<a name="line.122"></a>
+<span class="sourceLineNo">123</span>      return false;<a name="line.123"></a>
+<span class="sourceLineNo">124</span>    }<a name="line.124"></a>
+<span class="sourceLineNo">125</span><a name="line.125"></a>
+<span class="sourceLineNo">126</span>    final CrawlJob other = (CrawlJob) obj;<a name="line.126"></a>
+<span class="sourceLineNo">127</span>    return Objects.equal(this.datasetKey, other.datasetKey)<a name="line.127"></a>
+<span class="sourceLineNo">128</span>           &amp;&amp; Objects.equal(this.endpointType, other.endpointType)<a name="line.128"></a>
+<span class="sourceLineNo">129</span>           &amp;&amp; Objects.equal(this.targetUrl, other.targetUrl)<a name="line.129"></a>
+<span class="sourceLineNo">130</span>           &amp;&amp; Objects.equal(this.attempt, other.attempt)<a name="line.130"></a>
+<span class="sourceLineNo">131</span>           &amp;&amp; Objects.equal(this.properties, other.properties);<a name="line.131"></a>
+<span class="sourceLineNo">132</span>  }<a name="line.132"></a>
+<span class="sourceLineNo">133</span><a name="line.133"></a>
+<span class="sourceLineNo">134</span>  @Override<a name="line.134"></a>
+<span class="sourceLineNo">135</span>  public int hashCode() {<a name="line.135"></a>
+<span class="sourceLineNo">136</span>    return Objects.hashCode(datasetKey, endpointType, targetUrl, attempt, properties);<a name="line.136"></a>
+<span class="sourceLineNo">137</span>  }<a name="line.137"></a>
+<span class="sourceLineNo">138</span><a name="line.138"></a>
+<span class="sourceLineNo">139</span>  @Override<a name="line.139"></a>
+<span class="sourceLineNo">140</span>  public String toString() {<a name="line.140"></a>
+<span class="sourceLineNo">141</span>    return Objects.toStringHelper(this)<a name="line.141"></a>
+<span class="sourceLineNo">142</span>      .add("datasetKey", datasetKey)<a name="line.142"></a>
+<span class="sourceLineNo">143</span>      .add("endpointType", endpointType)<a name="line.143"></a>
+<span class="sourceLineNo">144</span>      .add("targetUrl", targetUrl)<a name="line.144"></a>
+<span class="sourceLineNo">145</span>      .add("attempt", attempt)<a name="line.145"></a>
+<span class="sourceLineNo">146</span>      .add("properties", properties)<a name="line.146"></a>
+<span class="sourceLineNo">147</span>      .toString();<a name="line.147"></a>
+<span class="sourceLineNo">148</span>  }<a name="line.148"></a>
+<span class="sourceLineNo">149</span><a name="line.149"></a>
+<span class="sourceLineNo">150</span>}<a name="line.150"></a>
+<span class="sourceLineNo">151</span><a name="line.151"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
