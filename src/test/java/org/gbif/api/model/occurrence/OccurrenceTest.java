@@ -202,6 +202,7 @@ public class OccurrenceTest {
     occ.setFamilyKey(16);
     occ.setKingdom("Plants");
     occ.setKingdomKey(6);
+    occ.setCoordinateUncertaintyInMeters(25.5);
 
     occ.getVerbatimFields().put(DwcTerm.catalogNumber, "MD10782");
     occ.addIssue(OccurrenceIssue.COORDINATE_OUT_OF_RANGE);

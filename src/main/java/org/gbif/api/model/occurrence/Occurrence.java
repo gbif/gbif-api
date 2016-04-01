@@ -31,7 +31,6 @@ import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.UnknownTerm;
 
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
 import java.net.URI;
 import java.util.Date;
 import java.util.EnumSet;
@@ -120,9 +119,9 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Double decimalLongitude;
   private Double decimalLatitude;
 
-  private BigDecimal coordinatePrecision;
-  //use BigDecimal to control decimal behavior when we will fill this field automatically when not provided
-  private BigDecimal coordinateUncertaintyInMeters;
+  //coordinatePrecision and coordinateUncertaintyInMeters should be BigDecimal see POR-2795
+  private Double coordinatePrecision;
+  private Double coordinateUncertaintyInMeters;
   @Deprecated //see getter
   private Double coordinateAccuracy;
 
@@ -535,20 +534,20 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * The uncertainty radius for lat/lon in meters.
    */
   @Nullable
-  public BigDecimal getCoordinateUncertaintyInMeters() {
+  public Double getCoordinateUncertaintyInMeters() {
     return coordinateUncertaintyInMeters;
   }
 
-  public void setCoordinateUncertaintyInMeters(@Nullable BigDecimal coordinateUncertaintyInMeters) {
+  public void setCoordinateUncertaintyInMeters(@Nullable Double coordinateUncertaintyInMeters) {
     this.coordinateUncertaintyInMeters = coordinateUncertaintyInMeters;
   }
 
   @Nullable
-  public BigDecimal getCoordinatePrecision() {
+  public Double getCoordinatePrecision() {
     return coordinatePrecision;
   }
 
-  public void setCoordinatePrecision(BigDecimal coordinatePrecision) {
+  public void setCoordinatePrecision(Double coordinatePrecision) {
     this.coordinatePrecision = coordinatePrecision;
   }
 
