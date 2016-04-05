@@ -7,7 +7,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 /**
- * Contains the response information of a spellcheck request.
+ * Contains the response information of a spell check request.
  */
 public class SpellCheckResponse {
 
