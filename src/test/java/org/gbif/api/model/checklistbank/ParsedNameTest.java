@@ -162,6 +162,9 @@ public class ParsedNameTest {
     pn.setRank(Rank.UNRANKED);
     assertBuildName(pn, "Abax carinatus carinatus", "Abax carinatus carinatus", "Abax carinatus carinatus", "Abax carinatus carinatus");
 
+    pn.setRank(null);
+    assertBuildName(pn, "Abax carinatus carinatus", "Abax carinatus carinatus", "Abax carinatus carinatus", "Abax carinatus carinatus");
+
     pn.setInfraSpecificEpithet("urinatus");
     assertBuildName(pn, "Abax carinatus urinatus (Duftschmid, 1812)", "Abax carinatus urinatus", "Abax carinatus urinatus (Duftschmid, 1812)", "Abax carinatus urinatus");
 
