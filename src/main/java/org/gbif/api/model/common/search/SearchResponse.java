@@ -20,6 +20,7 @@ import org.gbif.api.model.common.paging.PagingResponse;
 
 import java.util.List;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 
@@ -34,6 +35,8 @@ import com.google.common.collect.Lists;
 public class SearchResponse<T, P extends SearchParameter> extends PagingResponse<T> {
 
   private final List<Facet<P>> facets = Lists.newArrayList();
+
+  private SpellCheckResponse spellCheckResponse;
 
   /**
    * Default constructor.
@@ -94,6 +97,22 @@ public class SearchResponse<T, P extends SearchParameter> extends PagingResponse
     }
   }
 
+  /**
+   *
+   * @return the spellcheck response if it was requested
+   */
+  public SpellCheckResponse getSpellCheckResponse() {
+    return spellCheckResponse;
+  }
+
+  /**
+   * Sets the spellcheck response.
+   * @param spellCheckResponse if it was requested
+   */
+  public void setSpellCheckResponse(SpellCheckResponse spellCheckResponse) {
+    this.spellCheckResponse = spellCheckResponse;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -104,20 +123,21 @@ public class SearchResponse<T, P extends SearchParameter> extends PagingResponse
     }
 
     SearchResponse<?, ?> that = (SearchResponse<?, ?>) o;
-    return Objects.equal(getCount(), that.getCount()) && Objects.equal(getResults(), that.getResults()) && Objects
-      .equal(facets, that.getFacets()) && Objects.equal(getOffset(), that.getOffset()) && Objects
-      .equal(getLimit(), that.getLimit());
+    return Objects.equal(getCount(), that.getCount()) && Objects.equal(getResults(), that.getResults()) &&
+           Objects.equal(facets, that.getFacets()) && Objects.equal(getOffset(), that.getOffset()) &&
+           Objects.equal(getLimit(), that.getLimit()) &&
+           Objects.equal(spellCheckResponse, that.getSpellCheckResponse());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), facets);
+    return Objects.hashCode(super.hashCode(), facets, spellCheckResponse);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("count", getCount()).add("results", getResults()).add("facets", facets)
-      .add("offset", getOffset()).add("limit", getLimit()).toString();
+    return MoreObjects.toStringHelper(this).add("count", getCount()).add("results", getResults()).add("facets", facets)
+      .add("offset", getOffset()).add("limit", getLimit()).add("spellCheckResponse",spellCheckResponse).toString();
   }
 
 }
