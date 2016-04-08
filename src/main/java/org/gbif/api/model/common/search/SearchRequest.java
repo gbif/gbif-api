@@ -37,7 +37,8 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
   private Multimap<P, String> parameters = HashMultimap.create();
   private String q;
   private boolean highlight;
-  private boolean spellcheck;
+  private boolean spellCheck;
+  private int spellCheckCount;
 
   /**
    * Constructor with default paging offset & limit.
@@ -87,17 +88,33 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
 
   /**
    *
-   * @return true if spellcheck search is requested
+   * @return true if spellCheck search is requested
    */
-  public boolean isSpellcheck() {
-    return spellcheck;
+  public boolean isSpellCheck() {
+    return spellCheck;
   }
 
   /**
-   * @param spellcheck the highlight to set
+   * @param spellCheck the highlight to set
    */
-  public void setSpellcheck(boolean spellcheck) {
-    this.spellcheck = spellcheck;
+  public void setSpellCheck(boolean spellCheck) {
+    this.spellCheck = spellCheck;
+  }
+
+  /**
+   *
+   * @return max number of spell check suggestions requested
+   */
+  public int getSpellCheckCount() {
+    return spellCheckCount;
+  }
+
+  /**
+   *
+   * @param spellCheckCount number of spell check suggestions
+   */
+  public void setSpellCheckCount(int spellCheckCount) {
+    this.spellCheckCount = spellCheckCount;
   }
 
   /**
