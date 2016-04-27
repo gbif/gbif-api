@@ -43,10 +43,12 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * A usage of a <em>scientific name</em> according to one particular Checklist including the GBIF Taxonomic Backbone,
- * the nub. It is shown as species in the new Portal.
- * All nub usages will have a nubKey equal to their key and belong to the nub checklist registry resource.
- * Name usages from other checklists with names that also exist in the nub will have
- * a nubKey that points to the related usage in the nub.
+ * the nub. It is shown as species in the portal and API.
+ *
+ * All nub usages will have an empty nubKey. Backbone usages can be detected by either the NameUsage.isNub() method or by manually comparing the datasetKey
+ * with the fixed backbone datasetKey, see Constants.NUB_DATASET_KEY.
+ *
+ * Name usages from other checklists with names that also exist in the nub will have a nubKey that points to the related usage in the nub.
  * To store not eagerly loaded subresources such as vernacular names or synonyms with a usage please use
  * the {@link NameUsageContainer} class.
  */
