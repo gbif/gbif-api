@@ -13,7 +13,7 @@
 package org.gbif.api.model.occurrence.search;
 
 import org.gbif.api.model.common.paging.Pageable;
-import org.gbif.api.model.common.search.SearchRequest;
+import org.gbif.api.model.common.search.FacetedSearchRequest;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
@@ -29,7 +29,7 @@ import java.util.UUID;
 /**
  * Request class for issuing search request to the occurrence search service.
  */
-public class OccurrenceSearchRequest extends SearchRequest<OccurrenceSearchParameter> {
+public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSearchParameter> {
 
   public OccurrenceSearchRequest() {
     // empty block
