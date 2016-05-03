@@ -104,6 +104,38 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     addParameter(OccurrenceSearchParameter.TAXON_KEY, taxonKey);
   }
 
+  public void addKingdomKeyFilter(int kingdomKey) {
+    addParameter(OccurrenceSearchParameter.KINGDOM_KEY, kingdomKey);
+  }
+
+  public void addPhylumKeyFilter(int phylumKey) {
+    addParameter(OccurrenceSearchParameter.PHYLUM_KEY, phylumKey);
+  }
+
+  public void addClassKeyFilter(int classKey) {
+    addParameter(OccurrenceSearchParameter.CLASS_KEY, classKey);
+  }
+
+  public void addOrderKeyFilter(int orderKey) {
+    addParameter(OccurrenceSearchParameter.ORDER_KEY, orderKey);
+  }
+
+  public void addFamilyKeyFilter(int familyKey) {
+    addParameter(OccurrenceSearchParameter.FAMILY_KEY, familyKey);
+  }
+
+  public void addGenusKeyFilter(int genusKey) {
+    addParameter(OccurrenceSearchParameter.GENUS_KEY, genusKey);
+  }
+
+  public void addSubGenusKeyFilter(int subGenusKey) {
+    addParameter(OccurrenceSearchParameter.SUBGENUS_KEY, subGenusKey);
+  }
+
+  public void addSpeciesKeyFilter(int speciesKey) {
+    addParameter(OccurrenceSearchParameter.SPECIES_KEY, speciesKey);
+  }
+
   public void addYearFilter(int year) {
     addParameter(OccurrenceSearchParameter.YEAR, year);
   }

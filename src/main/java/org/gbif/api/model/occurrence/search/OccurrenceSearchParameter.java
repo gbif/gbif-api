@@ -201,10 +201,49 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   TAXON_KEY(Integer.class),
 
   /**
+   * A kingdom key from the GBIF backbone.
+   */
+  KINGDOM_KEY(Integer.class),
+
+  /**
+   * A phylum key from the GBIF backbone.
+   */
+  PHYLUM_KEY(Integer.class),
+
+  /**
+   * A class key from the GBIF backbone.
+   */
+  CLASS_KEY(Integer.class),
+
+  /**
+   * A order key from the GBIF backbone.
+   */
+  ORDER_KEY(Integer.class),
+
+  /**
+   * A family key from the GBIF backbone.
+   */
+  FAMILY_KEY(Integer.class),
+
+  /**
+   * A genus key from the GBIF backbone.
+   */
+  GENUS_KEY(Integer.class),
+
+  /**
+   * A subgenus key from the GBIF backbone.
+   */
+  SUBGENUS_KEY(Integer.class),
+
+  /**
+   * A species key from the GBIF backbone.
+   */
+  SPECIES_KEY(Integer.class),
+
+  /**
    * Searches the interpreted, full scientific name of the occurrence.
    */
   SCIENTIFIC_NAME(String.class),
-
 
   /**
    * Searches for occurrence records which contain a value on its coordinate fields (latitude and longitude).
