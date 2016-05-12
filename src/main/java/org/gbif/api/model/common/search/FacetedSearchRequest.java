@@ -13,7 +13,11 @@
 package org.gbif.api.model.common.search;
 
 import org.gbif.api.model.common.paging.Pageable;
+import org.gbif.api.model.common.paging.PageableBase;
+import org.gbif.api.model.common.paging.PagingRequest;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
@@ -28,6 +32,11 @@ public class FacetedSearchRequest<P extends SearchParameter> extends SearchReque
 
   private boolean multiSelectFacets;
   private Integer facetMinCount;
+  private Integer facetLimit = 10;
+  private Integer facetOffset;
+
+  //Holds the paging configuration for each requested facet
+  private Map<P,Pageable> facetPages = new HashMap<P, Pageable>();
 
   public FacetedSearchRequest() {
   }
@@ -87,6 +96,52 @@ public class FacetedSearchRequest<P extends SearchParameter> extends SearchReque
     this.multiSelectFacets = multiSelectFacets;
   }
 
+  /**
+   * Page size of the facet request.
+   */
+  public Integer getFacetLimit() {
+    return facetLimit;
+  }
+
+  public void setFacetLimit(Integer facetLimit) {
+    this.facetLimit = facetLimit;
+  }
+
+  /**
+   * Holds the paging configuration for each requested facet.
+   */
+  public Map<P, Pageable> getFacetPages() {
+    return facetPages;
+  }
+
+  public void setFacetPages(Map<P, Pageable> facetPages) {
+    this.facetPages = facetPages;
+  }
+
+  /**
+   * Sets the paging setting of facet parameter.
+   */
+  public void addFacetPage(P parameter, int facetOffset, int facetLimit){
+    facetPages.put(parameter, new PagingRequest(facetOffset,facetLimit));
+  }
+
+  /**
+   * Gets the paging configuration of a facet parameter.
+   */
+  public Pageable getFacetPage(P parameter) {
+    return facetPages.get(parameter);
+  }
+
+  /**
+   * Offset of the facet request.
+   */
+  public Integer getFacetOffset() {
+    return facetOffset;
+  }
+
+  public void setFacetOffset(Integer facetOffset) {
+    this.facetOffset = facetOffset;
+  }
 
   public void addFacets(P... facets) {
     if (this.facets == null) {
