@@ -305,7 +305,12 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * The process by which the biological individual(s) represented in the Occurrence became established at the location.
    */
-  ESTABLISHMENT_MEANS(EstablishmentMeans.class);
+  ESTABLISHMENT_MEANS(EstablishmentMeans.class),
+
+  /**
+   * Searches for records whose publishing country is different to the country where the record was recorded in.
+   */
+  REPATRIATED(Boolean.class);
 
   private final Class<?> type;
 
