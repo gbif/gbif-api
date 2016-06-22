@@ -21,17 +21,22 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.google.common.base.Objects;
 
 
 /**
- * A dataset can be part of a project.
+ * A dataset can be part of a project. A project can have a unique identifier, used to link datasets associated with
+ * the same project.
  */
 public class Project implements Serializable {
 
   private static final long serialVersionUID = -2625204169061362016L;
 
   private String title;
+  // TODO: enable searching datasets by their project identifier: http://dev.gbif.org/issues/browse/POR-3129
+  private String identifier;
   private String description;
 
   private List<Contact> contacts;
@@ -43,9 +48,10 @@ public class Project implements Serializable {
   }
 
   public Project(
-    String title, List<Contact> contacts, String funding, String studyAreaDescription, String designDescription
-  ) {
+    String title, String identifier, List<Contact> contacts, String funding, String studyAreaDescription,
+    String designDescription) {
     this.title = title;
+    this.identifier = identifier;
     this.contacts = contacts;
     this.funding = funding;
     this.studyAreaDescription = studyAreaDescription;
@@ -92,6 +98,20 @@ public class Project implements Serializable {
     this.title = title;
   }
 
+  /**
+   * A unique identifier for the project. Used to link multiple datasets associated with the same project.
+   *
+   * @return the unique identifier for the project
+   */
+  @Nullable
+  public String getIdentifier() {
+    return identifier;
+  }
+
+  public void setIdentifier(String identifier) {
+    this.identifier = identifier;
+  }
+
   public String getDescription() {
     return description;
   }
@@ -121,6 +141,7 @@ public class Project implements Serializable {
 
     Project that = (Project) obj;
     return Objects.equal(this.title, that.title)
+           && Objects.equal(this.identifier, that.identifier)
            && Objects.equal(this.description, that.description)
            && Objects.equal(this.contacts, that.contacts)
            && Objects.equal(this.funding, that.funding)
@@ -130,13 +151,14 @@ public class Project implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(title, contacts, funding, studyAreaDescription, designDescription);
+    return Objects.hashCode(title, identifier, contacts, funding, studyAreaDescription, designDescription);
   }
 
   @Override
   public String toString() {
     return Objects.toStringHelper(this)
       .add("title", title)
+      .add("identifier", identifier)
       .add("description", description)
       .add("contacts", contacts)
       .add("funding", funding)
