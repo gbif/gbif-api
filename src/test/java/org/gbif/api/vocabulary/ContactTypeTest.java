@@ -13,6 +13,7 @@ public class ContactTypeTest {
     assertEquals(ContactType.POINT_OF_CONTACT, ContactType.fromString("point_of_contact"));
     assertEquals(ContactType.POINT_OF_CONTACT, ContactType.fromString("pointOfContact"));
     assertEquals(ContactType.POINT_OF_CONTACT, ContactType.fromString("pointofcontact"));
+    assertEquals(ContactType.CURATOR, ContactType.fromString("curator"));
   }
 
 }

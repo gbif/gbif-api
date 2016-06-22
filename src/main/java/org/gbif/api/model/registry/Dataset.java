@@ -27,6 +27,8 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetSubtype;
 import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.api.vocabulary.Language;
+import org.gbif.api.vocabulary.License;
+import org.gbif.api.vocabulary.MaintenanceUpdateFrequency;
 
 import java.net.URI;
 import java.util.Date;
@@ -42,11 +44,10 @@ import javax.validation.constraints.Size;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
- * A GBIF dataset which provides occurrence data, checklist data or metadata.
- * This Dataset class is covering all of the GBIF metadata profile, but only few properties are kept in the
+ * A GBIF dataset which provides occurrence data, checklist data, sampling event data or metadata.
+ * This Dataset class is covering all of the GBIF metadata profile v1.1, but only few properties are kept in the
  * database table:
  * <ul>
  * <li>key</li>
@@ -54,6 +55,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * <li>duplicateOfDatasetKey</li>
  * <li>installationKey</li>
  * <li>publishingOrganizationKey</li>
+ * <li>license</li>
+ * <li>maintenanceUpdateFrequency</li>
  * <li>external</li>
  * <li>numConstituents</li>
  * <li>type</li>
@@ -129,6 +132,8 @@ public class Dataset
   private String purpose;
   private String additionalInfo;
   private Date pubDate;
+  private MaintenanceUpdateFrequency maintenanceUpdateFrequency;
+  private License license;
 
   @Override
   public UUID getKey() {
@@ -261,6 +266,45 @@ public class Dataset
    */
   public void setPublishingOrganizationKey(UUID publishingOrganizationKey) {
     this.publishingOrganizationKey = publishingOrganizationKey;
+  }
+
+  /**
+   * Persisted in the database table.
+   *
+   * @return the frequency with which changes are made to the dataset
+   */
+  @Nullable
+  public MaintenanceUpdateFrequency getMaintenanceUpdateFrequency() {
+    return maintenanceUpdateFrequency;
+  }
+  /**
+   * Persisted in the database table.
+   */
+  public void setMaintenanceUpdateFrequency(MaintenanceUpdateFrequency maintenanceUpdateFrequency) {
+    this.maintenanceUpdateFrequency = maintenanceUpdateFrequency;
+  }
+
+  /**
+   * TODO add @NotNull when all datasets have a license applied to them
+   * @return the License applied to the dataset
+   */
+  @Nullable
+  public License getLicense() {
+    return license;
+  }
+
+  /**
+   * Persisted in the database table. Can be interpreted from EML.intellectualRights using machine readable format:
+   * <pre>
+   * {@code
+   * <intellectualRights>
+   *   <para>This work is licensed under a <ulink url="http://creativecommons.org/licenses/by/4.0/legalcode"><citetitle>Creative Commons Attribution (CC-BY) 4.0 License</citetitle></ulink>.</para>
+   * </intellectualRights>
+   * }
+   * </pre>
+   */
+  public void setLicense(License license) {
+    this.license = license;
   }
 
   /**
@@ -668,7 +712,7 @@ public class Dataset
         machineTags, tags, identifiers, comments, bibliographicCitations, curatorialUnits, taxonomicCoverages,
         geographicCoverageDescription, geographicCoverages, temporalCoverages, keywordCollections, project,
         samplingDescription, countryCoverage, collections, dataDescriptions, dataLanguage, purpose, additionalInfo,
-        pubDate);
+        pubDate, maintenanceUpdateFrequency, license);
   }
 
   @Override
@@ -721,7 +765,9 @@ public class Dataset
              && Objects.equal(this.dataLanguage, that.dataLanguage)
              && Objects.equal(this.purpose, that.purpose)
              && Objects.equal(this.additionalInfo, that.additionalInfo)
-             && Objects.equal(this.pubDate, that.pubDate);
+             && Objects.equal(this.pubDate, that.pubDate)
+             && Objects.equal(this.maintenanceUpdateFrequency, that.maintenanceUpdateFrequency)
+             && Objects.equal(this.license, that.license);
     }
     return false;
   }
@@ -745,7 +791,8 @@ public class Dataset
       .add("keywordCollections", keywordCollections).add("project", project)
       .add("samplingDescription", samplingDescription).add("countryCoverage", countryCoverage)
       .add("collections", collections).add("dataDescriptions", dataDescriptions).add("dataLanguage", dataLanguage)
-      .add("purpose", purpose).add("additionalInfo", additionalInfo).add("pubDate", pubDate).toString();
+      .add("purpose", purpose).add("additionalInfo", additionalInfo).add("pubDate", pubDate)
+      .add("maintenanceUpdateFrequency", maintenanceUpdateFrequency).add("license", license).toString();
   }
 
   /**
@@ -775,7 +822,9 @@ public class Dataset
       && Objects.equal(this.citation, other.citation)
       && Objects.equal(this.rights, other.rights)
       && Objects.equal(this.lockedForAutoUpdate, other.lockedForAutoUpdate)
-      && Objects.equal(this.deleted, other.deleted);
+      && Objects.equal(this.deleted, other.deleted)
+      && Objects.equal(this.maintenanceUpdateFrequency, other.maintenanceUpdateFrequency)
+      && Objects.equal(this.license, other.license);
   }
 
 }
