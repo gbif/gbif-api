@@ -73,6 +73,12 @@ public enum Origin {
   BASIONYM_PLACEHOLDER,
 
   /**
+   * Implicit synonym based on the illegitimate ex author.
+   * See ICN article 46: http://www.iapt-taxon.org/nomen/main.php?page=art46
+   */
+  EX_AUTHOR_SYNONYM,
+
+  /**
    * Any other origin not covered by the above.
    */
   OTHER;
