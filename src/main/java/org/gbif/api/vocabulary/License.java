@@ -1,5 +1,8 @@
 package org.gbif.api.vocabulary;
 
+import javax.annotation.Nullable;
+
+import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import org.apache.commons.lang3.StringUtils;
 
@@ -32,7 +35,15 @@ public enum License {
    *
    * @see <a href="http://creativecommons.org/licenses/by-nc/4.0/legalcode">legal document</a>
    */
-  CC_BY_NC_4_0("Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0", "http://creativecommons.org/licenses/by-nc/4.0/legalcode");
+  CC_BY_NC_4_0("Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0", "http://creativecommons.org/licenses/by-nc/4.0/legalcode"),
+  /**
+   * No license has been specified.
+   */
+  UNSPECIFIED(null, null),
+  /**
+   * A license not supported by GBIF.
+   */
+  UNSUPPORTED(null, null);
 
 
   private final String licenseTitle;
@@ -43,27 +54,26 @@ public enum License {
    *
    * @param licenseUrl the case insensitive URL for the license.
    *
-   * @return the matching License or null
+   * @return instance of com.google.common.base.Optional, never null
    */
-  public static License fromLicenseUrl(String licenseUrl) {
+  public static Optional<License> fromLicenseUrl(String licenseUrl) {
     if (!Strings.isNullOrEmpty(licenseUrl)) {
-      // trim URL, and remove trailing forward slash ("/")
       licenseUrl = licenseUrl.trim();
       if (licenseUrl.endsWith("/")) {
         licenseUrl = StringUtils.removeEnd(licenseUrl, "/");
       }
       // do lookup by legal code URL or human readable summary URL (excluding "/legalcode")
       for (License license : License.values()) {
-        if (licenseUrl.equalsIgnoreCase(license.getLicenseUrl())
-            || license.getLicenseUrl().startsWith(licenseUrl)) {
-          return license;
+        if (license.getLicenseUrl() != null && (licenseUrl.equalsIgnoreCase(license.getLicenseUrl())
+            || license.getLicenseUrl().startsWith(licenseUrl))) {
+          return Optional.fromNullable(license);
         }
       }
     }
-    return null;
+    return Optional.absent();
   }
 
-  License(String licenseTitle, String licenseUrl) {
+  License(@Nullable String licenseTitle, @Nullable String licenseUrl) {
     this.licenseTitle = licenseTitle;
     this.licenseUrl = licenseUrl;
   }

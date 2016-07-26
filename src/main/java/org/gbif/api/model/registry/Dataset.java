@@ -285,10 +285,13 @@ public class Dataset
   }
 
   /**
-   * TODO add @NotNull when all datasets have a license applied to them
+   * Persisted in the database table.
+   *
    * @return the License applied to the dataset
+   *
+   * @see <a href="http://dev.gbif.org/issues/browse/POR-3133">POR-3133</a>
    */
-  @Nullable
+  @NotNull
   public License getLicense() {
     return license;
   }

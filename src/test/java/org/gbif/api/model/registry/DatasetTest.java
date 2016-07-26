@@ -44,10 +44,10 @@ public class DatasetTest {
     Set<ConstraintViolation<Dataset>> violations = validator.validate(ds);
     assertTrue("Violations were expected", !violations.isEmpty());
 
-    // ensure all 6 expected violations are caught
+    // ensure all 7 expected violations are caught
     Set<String> propertiesInViolation =
-      Sets.newHashSet("title", "homepage", "logoUrl", "type", "installationKey", "publishingOrganisationKey");
-    assertEquals(6, violations.size());
+      Sets.newHashSet("title", "homepage", "logoUrl", "type", "installationKey", "publishingOrganisationKey", "license");
+    assertEquals(7, violations.size());
     for (ConstraintViolation<?> cv : violations) {
       propertiesInViolation.contains(cv.getPropertyPath().toString());
     }
@@ -61,6 +61,7 @@ public class DatasetTest {
     ds.setType(DatasetType.SAMPLING_EVENT);
     ds.setInstallationKey(UUID.randomUUID());
     ds.setPublishingOrganizationKey(UUID.randomUUID());
+    ds.setLicense(License.CC_BY_NC_4_0);
 
     // perform validation again
     violations = validator.validate(ds);
