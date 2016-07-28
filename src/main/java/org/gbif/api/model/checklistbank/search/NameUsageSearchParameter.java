@@ -38,6 +38,11 @@ public enum NameUsageSearchParameter implements SearchParameter {
   DATASET_KEY(UUID.class),
 
   /**
+   * The (sub)dataset constituent key as a uuid. Useful to query larger assembled datasets such as the GBIF Backbone or the Catalogue of Life
+   */
+  CONSTITUENT_KEY(UUID.class),
+
+  /**
    * Filters by the rank of the name usage.
    */
   RANK(Rank.class),
