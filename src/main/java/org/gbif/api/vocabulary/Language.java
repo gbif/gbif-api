@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Locale;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import org.codehaus.jackson.JsonGenerationException;
@@ -347,7 +346,7 @@ public enum Language {
   /**
    * Hebrew.
    */
-  HEBREW("iw"),
+  HEBREW("he"),
 
   /**
    * Herero.
@@ -387,7 +386,7 @@ public enum Language {
   /**
    * Indonesian.
    */
-  INDONESIAN("in"),
+  INDONESIAN("id"),
 
   /**
    * Interlingua.
@@ -952,7 +951,7 @@ public enum Language {
   /**
    * Yiddish.
    */
-  YIDDISH("ji"),
+  YIDDISH("yi"),
 
   /**
    * Yoruba.
