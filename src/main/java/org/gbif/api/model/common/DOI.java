@@ -6,6 +6,8 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.validation.constraints.NotNull;
+
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import org.codehaus.jackson.JsonGenerator;
@@ -52,7 +54,11 @@ public class DOI {
    */
   public static boolean isParsable(String source) {
     if (!Strings.isNullOrEmpty(source)) {
-      return PARSER.matcher(decodeUrl(source)).find();
+      try {
+        return PARSER.matcher(decodeUrl(source)).find();
+      }
+      catch (IllegalArgumentException iaEx){ /*ignore*/
+      }
     }
     return false;
   }
@@ -94,8 +100,11 @@ public class DOI {
 
   /**
    * If the doi is encoded as a URL this method strips the resolver and decodes the URL encoded string entities.
+   * @param doi not null doi represented as a String
+   * @return the path part if the doi is a URL otherwise the doi is returned as is.
+   * @throws IllegalArgumentException
    */
-  private static String decodeUrl(String doi) {
+  private static String decodeUrl(@NotNull String doi) {
     Matcher m = HTTP.matcher(doi);
     if (m.find()) {
       // strip resolver incl potentially starting paths using a badly encoded urn:doi
