@@ -106,7 +106,7 @@ public class Contact implements Address, LenientEquals<Contact> {
         URI dir = URI.create(directory);
         if (dir.isAbsolute()) {
           String dir2 = dir.toString();
-          if (!dir2.endsWith("/")) {
+          if (!dir2.endsWith("/") && !dir2.endsWith("=")) {
             dir2 = dir2 + "/";
           }
           userId.add( dir2 + id);

@@ -31,5 +31,14 @@ public class ContactTest {
 
     c.addUserId("http://orcid.org", "de/12-3421423");
     assertEquals("http://orcid.org/de/12-3421423", c.getUserId().get(5));
+
+    c.addUserId("https://scholar.google.com/citations?user=", "jvW0IrIAAAAJ");
+    assertEquals("https://scholar.google.com/citations?user=jvW0IrIAAAAJ", c.getUserId().get(6));
+
+    c.addUserId("https://www.linkedin.com/in/", "john-smith-12345");
+    assertEquals("https://www.linkedin.com/in/john-smith-12345", c.getUserId().get(7));
+
+    c.addUserId("https://www.linkedin.com/profile/view?id=", "AAkAAABiOnwBeoX3a3wKqe4IEqDkJ_ifoVj1234");
+    assertEquals("https://www.linkedin.com/profile/view?id=AAkAAABiOnwBeoX3a3wKqe4IEqDkJ_ifoVj1234", c.getUserId().get(8));
   }
 }

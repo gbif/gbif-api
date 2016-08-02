@@ -133,6 +133,7 @@ public class Dataset
   private String additionalInfo;
   private Date pubDate;
   private MaintenanceUpdateFrequency maintenanceUpdateFrequency;
+  private String maintenanceDescription;
   private License license;
 
   @Override
@@ -282,6 +283,19 @@ public class Dataset
    */
   public void setMaintenanceUpdateFrequency(MaintenanceUpdateFrequency maintenanceUpdateFrequency) {
     this.maintenanceUpdateFrequency = maintenanceUpdateFrequency;
+  }
+
+  /**
+   * A description of the maintenance frequency of this resource.
+   *
+   * @return the description of the maintenance frequency of this resource
+   */
+  public String getMaintenanceDescription() {
+    return maintenanceDescription;
+  }
+
+  public void setMaintenanceDescription(String maintenanceDescription) {
+    this.maintenanceDescription = maintenanceDescription;
   }
 
   /**
@@ -715,7 +729,7 @@ public class Dataset
         machineTags, tags, identifiers, comments, bibliographicCitations, curatorialUnits, taxonomicCoverages,
         geographicCoverageDescription, geographicCoverages, temporalCoverages, keywordCollections, project,
         samplingDescription, countryCoverage, collections, dataDescriptions, dataLanguage, purpose, additionalInfo,
-        pubDate, maintenanceUpdateFrequency, license);
+        pubDate, maintenanceUpdateFrequency, maintenanceDescription, license);
   }
 
   @Override
@@ -770,6 +784,7 @@ public class Dataset
              && Objects.equal(this.additionalInfo, that.additionalInfo)
              && Objects.equal(this.pubDate, that.pubDate)
              && Objects.equal(this.maintenanceUpdateFrequency, that.maintenanceUpdateFrequency)
+             && Objects.equal(this.maintenanceDescription, that.maintenanceDescription)
              && Objects.equal(this.license, that.license);
     }
     return false;
@@ -780,7 +795,8 @@ public class Dataset
     return Objects.toStringHelper(this)
       .add("key", key).add("doi", doi).add("parentDatasetKey", parentDatasetKey)
       .add("duplicateOfDatasetKey", duplicateOfDatasetKey).add("installationKey", installationKey)
-      .add("publishingOrganizationKey", publishingOrganizationKey).add("numConstituents", numConstituents).add("type", type)
+      .add("publishingOrganizationKey", publishingOrganizationKey).add("numConstituents", numConstituents).add("type",
+        type)
       .add("subtype", subtype).add("title", title).add("alias", alias).add("abbreviation", abbreviation)
       .add("description", description).add("language", language).add("homepage", homepage).add("logoUrl", logoUrl)
       .add("citation", citation).add("rights", rights).add("lockedForAutoUpdate", lockedForAutoUpdate)
@@ -795,7 +811,8 @@ public class Dataset
       .add("samplingDescription", samplingDescription).add("countryCoverage", countryCoverage)
       .add("collections", collections).add("dataDescriptions", dataDescriptions).add("dataLanguage", dataLanguage)
       .add("purpose", purpose).add("additionalInfo", additionalInfo).add("pubDate", pubDate)
-      .add("maintenanceUpdateFrequency", maintenanceUpdateFrequency).add("license", license).toString();
+      .add("maintenanceUpdateFrequency", maintenanceUpdateFrequency)
+      .add("maintenanceDescription", maintenanceDescription).add("license", license).toString();
   }
 
   /**
@@ -827,7 +844,7 @@ public class Dataset
       && Objects.equal(this.lockedForAutoUpdate, other.lockedForAutoUpdate)
       && Objects.equal(this.deleted, other.deleted)
       && Objects.equal(this.maintenanceUpdateFrequency, other.maintenanceUpdateFrequency)
+      && Objects.equal(this.maintenanceDescription, other.maintenanceDescription)
       && Objects.equal(this.license, other.license);
   }
-
 }

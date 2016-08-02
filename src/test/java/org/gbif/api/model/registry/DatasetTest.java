@@ -72,11 +72,13 @@ public class DatasetTest {
   public void testLenientEquals() {
     Dataset ds1 = new Dataset();
     ds1.setMaintenanceUpdateFrequency(MaintenanceUpdateFrequency.DAILY);
+    ds1.setMaintenanceDescription("Daily, except for holidays");
     ds1.setLicense(License.CC_BY_4_0);
     ds1.setCreated(new Date());
 
     Dataset ds2 = new Dataset();
     ds2.setMaintenanceUpdateFrequency(MaintenanceUpdateFrequency.DAILY);
+    ds2.setMaintenanceDescription("Daily, except for holidays");
     ds2.setLicense(License.CC_BY_4_0);
     ds1.setCreated(new Date()); // different created date!
 
