@@ -47,6 +47,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
 
   private Integer key;
   private UUID datasetKey;
+  private UUID constituentKey;
   private Integer nubKey;
   private Integer parentKey;
   private String parent;
@@ -160,6 +161,14 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
 
   public void setDatasetKey(UUID datasetKey) {
     this.datasetKey = datasetKey;
+  }
+
+  public UUID getConstituentKey() {
+    return constituentKey;
+  }
+
+  public void setConstituentKey(UUID constituentKey) {
+    this.constituentKey = constituentKey;
   }
 
   /**
@@ -521,7 +530,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
   @Override
   public int hashCode() {
     return Objects
-      .hashCode(key, datasetKey, nubKey, parentKey, parent, acceptedKey, accepted, basionymKey, basionym,
+      .hashCode(key, datasetKey, constituentKey, nubKey, parentKey, parent, acceptedKey, accepted, basionymKey, basionym,
         isSynonym, kingdom, phylum, clazz, order, family, genus, subgenus, species, kingdomKey, phylumKey, classKey,
         orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, canonicalName,
         authorship, publishedIn, accordingTo, nameType, taxonomicStatus, nomenclaturalStatus, rank, origin,
@@ -539,6 +548,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
     final NameUsageSearchResult other = (NameUsageSearchResult) obj;
     return Objects.equal(this.key, other.key)
            && Objects.equal(this.datasetKey, other.datasetKey)
+           && Objects.equal(this.constituentKey, other.constituentKey)
            && Objects.equal(this.nubKey, other.nubKey)
            && Objects.equal(this.parentKey, other.parentKey)
            && Objects.equal(this.parent, other.parent)
@@ -588,6 +598,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
     return "NameUsageSearchResult{" +
            "key=" + key +
            ", datasetKey=" + datasetKey +
+           ", constituentKey=" + constituentKey +
            ", nubKey=" + nubKey +
            ", parentKey=" + parentKey +
            ", parent='" + parent + '\'' +

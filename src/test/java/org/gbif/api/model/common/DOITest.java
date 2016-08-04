@@ -27,6 +27,7 @@ public class DOITest {
     assertFalse(DOI.isParsable("10.1234.1ASCDU"));
     assertFalse(DOI.isParsable("DOI:123"));
     assertFalse(DOI.isParsable("   "));
+    assertFalse(DOI.isParsable("http://dx.doi.org/10.1643/0045-8511(2007)2007[699:Tnvsot]2.0.Co;2"));
 
     assertTrue(DOI.isParsable("http://dx.doi.org/urn:doi:10.1234/1ASCDU"));
     assertTrue(DOI.isParsable("http://doi.org/urn:doi:10.1234/1ASCDU"));
@@ -45,6 +46,7 @@ public class DOITest {
     assertTrue(DOI.isParsable("urn:doi:10.1234/1ascdu"));
     assertTrue(DOI.isParsable("10.1234/1ascdu"));
     assertTrue(DOI.isParsable("10.1234/1ASCDU"));
+    assertTrue(DOI.isParsable("doi:10.1643/0045-8511(2007)2007[699:Tnvsot]2.0.Co;2"));
 
     // try subdivisions
     assertTrue(DOI.isParsable("http://dx.doi.org/10.1234.999/1ASCDU"));
@@ -116,6 +118,8 @@ public class DOITest {
       // expected!
     }
   }
+
+
 
 
 

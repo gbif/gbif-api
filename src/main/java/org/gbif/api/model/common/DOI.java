@@ -5,6 +5,7 @@ import java.net.URI;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
@@ -16,6 +17,8 @@ import org.codehaus.jackson.map.SerializerProvider;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.ser.std.SerializerBase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class representing a single Digital Object Identifier (DOI) breaking it down to a prefix and suffix.
@@ -25,6 +28,8 @@ import org.codehaus.jackson.map.ser.std.SerializerBase;
 @JsonSerialize(using = DOI.Serializer.class)
 @JsonDeserialize(using = DOI.Deserializer.class)
 public class DOI {
+
+  private static final Logger LOG = LoggerFactory.getLogger(DOI.class);
 
   /**
    * The DOI prefix registered with DataCite to be used by GBIF issued production DOIs.
@@ -52,7 +57,12 @@ public class DOI {
    */
   public static boolean isParsable(String source) {
     if (!Strings.isNullOrEmpty(source)) {
-      return PARSER.matcher(decodeUrl(source)).find();
+      try {
+        return PARSER.matcher(decodeUrl(source)).find();
+      }
+      catch (IllegalArgumentException iaEx){
+        LOG.debug("Can not decode URL from the following DOI: {}", source);
+      }
     }
     return false;
   }
@@ -94,8 +104,11 @@ public class DOI {
 
   /**
    * If the doi is encoded as a URL this method strips the resolver and decodes the URL encoded string entities.
+   * @param doi not null doi represented as a String
+   * @return the path part if the doi is a URL otherwise the doi is returned as is.
+   * @throws IllegalArgumentException
    */
-  private static String decodeUrl(String doi) {
+  private static String decodeUrl(@NotNull String doi) {
     Matcher m = HTTP.matcher(doi);
     if (m.find()) {
       // strip resolver incl potentially starting paths using a badly encoded urn:doi
