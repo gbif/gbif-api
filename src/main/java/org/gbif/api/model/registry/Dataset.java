@@ -300,12 +300,17 @@ public class Dataset
 
   /**
    * Persisted in the database table.
+   * </br>
+   * Note for backwards compatibility, we cannot apply @NotNull to license. Otherwise existing users of our API
+   * would have to ensure Dataset objects always populate license.
+   * </br>
+   * In the Registry DB, Dataset.license defaults to CC-BY 4.0. Therefore license must be excluded from lenientEquals
+   * method.
    *
    * @return the License applied to the dataset
    *
    * @see <a href="http://dev.gbif.org/issues/browse/POR-3133">POR-3133</a>
    */
-  @NotNull
   public License getLicense() {
     return license;
   }
@@ -816,7 +821,7 @@ public class Dataset
   }
 
   /**
-   * Only checks the persisted properties, excluding the server controlled fields (key, created etc).
+   * Only checks the persisted properties, excluding the server controlled fields (key, created, license etc).
    * Does not include the nested properties.
    */
   @Override
@@ -844,7 +849,6 @@ public class Dataset
       && Objects.equal(this.lockedForAutoUpdate, other.lockedForAutoUpdate)
       && Objects.equal(this.deleted, other.deleted)
       && Objects.equal(this.maintenanceUpdateFrequency, other.maintenanceUpdateFrequency)
-      && Objects.equal(this.maintenanceDescription, other.maintenanceDescription)
-      && Objects.equal(this.license, other.license);
+      && Objects.equal(this.maintenanceDescription, other.maintenanceDescription);
   }
 }
