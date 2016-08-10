@@ -51,6 +51,7 @@ public enum License {
 
   /**
    * Lookup a License by either its a) legal code URL or b) human readable summary URL.
+   * For any parsing see LicenseParser in GBIF parsers project.
    *
    * @param licenseUrl the case insensitive URL for the license.
    *
