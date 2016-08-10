@@ -58,13 +58,12 @@ public enum License {
    */
   public static Optional<License> fromLicenseUrl(String licenseUrl) {
     if (!Strings.isNullOrEmpty(licenseUrl)) {
-      licenseUrl = licenseUrl.trim();
-      if (licenseUrl.endsWith("/")) {
-        licenseUrl = StringUtils.removeEnd(licenseUrl, "/");
-      }
+      licenseUrl = licenseUrl.trim().toLowerCase();
+      licenseUrl = StringUtils.removeEnd(licenseUrl, "/");
+
       // do lookup by legal code URL or human readable summary URL (excluding "/legalcode")
       for (License license : License.values()) {
-        if (license.getLicenseUrl() != null && (licenseUrl.equalsIgnoreCase(license.getLicenseUrl())
+        if (license.getLicenseUrl() != null && (licenseUrl.equals(license.getLicenseUrl())
             || license.getLicenseUrl().startsWith(licenseUrl))) {
           return Optional.fromNullable(license);
         }
@@ -75,7 +74,13 @@ public enum License {
 
   License(@Nullable String licenseTitle, @Nullable String licenseUrl) {
     this.licenseTitle = licenseTitle;
-    this.licenseUrl = licenseUrl;
+    // ensure license information is kept in lowercase internally
+    if(licenseUrl != null){
+      this.licenseUrl = licenseUrl.toLowerCase();
+    }
+    else{
+      this.licenseUrl = null;
+    }
   }
 
   /**

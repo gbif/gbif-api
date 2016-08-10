@@ -12,6 +12,7 @@ public class LicenseTest {
   public void testFromString() throws Exception {
     // positive matches
     assertEquals(License.CC0_1_0, License.fromLicenseUrl("http://creativecommons.org/publicdomain/zero/1.0/legalcode").get());
+    assertEquals(License.CC0_1_0, License.fromLicenseUrl("HTTP://creativecommons.org/publicdomain/zero/1.0/legalcode").get());
     assertEquals(License.CC0_1_0, License.fromLicenseUrl(" http://creativecommons.org/publicdomain/zero/1.0/legalcode ").get());
     assertEquals(License.CC0_1_0, License.fromLicenseUrl("http://creativecommons.org/publicdomain/zero/1.0/legalcode/").get());
     assertEquals(License.CC0_1_0, License.fromLicenseUrl("http://creativecommons.org/publicdomain/zero/1.0").get());
