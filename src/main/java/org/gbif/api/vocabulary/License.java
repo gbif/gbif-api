@@ -109,4 +109,13 @@ public enum License {
   public String getLicenseTitle() {
     return licenseTitle;
   }
+
+  /**
+   * Indicates if a license is a concrete license (true) or an abstracted license (false) like
+   * UNSPECIFIED or UNSUPPORTED.
+   * @return
+   */
+  public boolean isConcrete(){
+    return licenseUrl != null;
+  }
 }
