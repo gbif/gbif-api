@@ -1,5 +1,7 @@
 package org.gbif.api.vocabulary;
 
+import org.gbif.api.util.VocabularyUtils;
+
 import javax.annotation.Nullable;
 
 import com.google.common.base.Optional;
@@ -50,6 +52,16 @@ public enum License {
   private final String licenseUrl;
 
   /**
+   * Get an {@link License} from its name as String.
+   *
+   * @param license
+   * @return instance of com.google.common.base.Optional, never null
+   */
+  public static Optional<License> fromString(String license) {
+    return VocabularyUtils.lookup(license, License.class);
+  }
+
+  /**
    * Lookup a License by either its a) legal code URL or b) human readable summary URL.
    * For any parsing see LicenseParser in GBIF parsers project.
    *
@@ -96,5 +108,14 @@ public enum License {
    */
   public String getLicenseTitle() {
     return licenseTitle;
+  }
+
+  /**
+   * Indicates if a license is a concrete license (true) or an abstracted license (false) like
+   * UNSPECIFIED or UNSUPPORTED.
+   * @return
+   */
+  public boolean isConcrete(){
+    return licenseUrl != null;
   }
 }
