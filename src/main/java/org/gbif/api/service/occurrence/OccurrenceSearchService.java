@@ -98,4 +98,49 @@ public interface OccurrenceSearchService
    */
   List<String> suggestOccurrenceIds(@Min(1) String prefix, @Nullable Integer limit);
 
+
+  /**
+   * Searches DwC organismsIds which start with the input prefix.
+   * If the limit is set to a number less than 0, then no maximum limit is enforced.
+   * If limit contains a null value, a default value is set by the service implementation.
+   *
+   * @param prefix search pattern
+   * @param limit maximum number of results to return
+   * @return of organismIds
+   */
+  List<String> suggestOrganismIds(@Min(1) String prefix, @Nullable Integer limit);
+
+
+  /**
+   * Searches DwC localities which start with the input prefix.
+   * If the limit is set to a number less than 0, then no maximum limit is enforced.
+   * If limit contains a null value, a default value is set by the service implementation.
+   *
+   * @param prefix search pattern
+   * @param limit maximum number of results to return
+   * @return of localities
+   */
+  List<String> suggestLocalities(@Min(1) String prefix, @Nullable Integer limit);
+
+  /**
+   * Searches DwC water bodies which start with the input prefix.
+   * If the limit is set to a number less than 0, then no maximum limit is enforced.
+   * If limit contains a null value, a default value is set by the service implementation.
+   *
+   * @param prefix search pattern
+   * @param limit maximum number of results to return
+   * @return of water bodies
+   */
+  List<String> suggestWaterBodies(@Min(1) String prefix, @Nullable Integer limit);
+
+  /**
+   * Searches DwC state/provinces which start with the input prefix.
+   * If the limit is set to a number less than 0, then no maximum limit is enforced.
+   * If limit contains a null value, a default value is set by the service implementation.
+   *
+   * @param prefix search pattern
+   * @param limit maximum number of results to return
+   * @return of state provinces
+   */
+  List<String> suggestStateProvinces(@Min(1) String prefix, @Nullable Integer limit);
 }
