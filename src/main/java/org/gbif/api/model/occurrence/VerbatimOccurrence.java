@@ -19,6 +19,7 @@ import org.gbif.api.jackson.TermMapListSerializer;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.Extension;
+import org.gbif.api.vocabulary.License;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.TermFactory;
 
@@ -48,6 +49,7 @@ public class VerbatimOccurrence {
 
   private Integer key;
   private UUID datasetKey;
+  private License datasetLicense;
   private UUID publishingOrgKey;
   private Country publishingCountry;
   private EndpointType protocol;
@@ -107,6 +109,15 @@ public class VerbatimOccurrence {
 
   public void setDatasetKey(UUID datasetKey) {
     this.datasetKey = datasetKey;
+  }
+
+  @NotNull
+  public License getDatasetLicense() {
+    return datasetLicense;
+  }
+
+  public void setDatasetLicense(License datasetLicense) {
+    this.datasetLicense = datasetLicense;
   }
 
   @NotNull

@@ -17,7 +17,9 @@ import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.EstablishmentMeans;
+import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.TypeStatus;
@@ -310,7 +312,39 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Searches for records whose publishing country is different to the country where the record was recorded in.
    */
-  REPATRIATED(Boolean.class);
+  REPATRIATED(Boolean.class),
+
+  /**
+   * An identifier for the Organism instance (as opposed to a particular digital record of the Organism).
+   * May be a globally unique identifier or an identifier specific to the data set.
+   */
+  ORGANISM_ID(String.class),
+
+  /**
+   * The name of the next smaller administrative region than country in which the Location occurs.
+   */
+  STATE_PROVINCE(String.class),
+
+  /**
+   * The name of the water body in which the Location occurs.
+   */
+  WATER_BODY(String.class),
+
+  /**
+   * The specific description of the place.
+   * It may contain information modified from the original to correct perceived errors or standardize the description.
+   */
+  LOCALITY(String.class),
+
+  /**
+   * Protocol used to provide the occurrence record.
+   */
+  PROTOCOL(EndpointType.class),
+
+  /**
+   * The license applied to the dataset.
+   */
+  DATASET_LICENSE(License.class);
 
   private final Class<?> type;
 
