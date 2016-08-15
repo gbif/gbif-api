@@ -344,7 +344,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * The license applied to the dataset.
    */
-  DATASET_LICENSE(License.class);
+  LICENSE(License.class);
 
   private final Class<?> type;
 

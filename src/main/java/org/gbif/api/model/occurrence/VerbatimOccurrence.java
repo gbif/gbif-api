@@ -49,7 +49,7 @@ public class VerbatimOccurrence {
 
   private Integer key;
   private UUID datasetKey;
-  private License datasetLicense;
+  private License license;
   private UUID publishingOrgKey;
   private Country publishingCountry;
   private EndpointType protocol;
@@ -112,12 +112,12 @@ public class VerbatimOccurrence {
   }
 
   @NotNull
-  public License getDatasetLicense() {
-    return datasetLicense;
+  public License getLicense() {
+    return license;
   }
 
-  public void setDatasetLicense(License datasetLicense) {
-    this.datasetLicense = datasetLicense;
+  public void setLicense(License license) {
+    this.license = license;
   }
 
   @NotNull
