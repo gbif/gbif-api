@@ -74,6 +74,7 @@ public final class VocabularyUtils {
   }
 
   /**
+   * FIXME returning Guava Optional will cause issues, Java 8 Optional should be returned.
    * Same as {@link #lookupEnum(String, Class)} } without IllegalArgumentException.
    * On failure, this method will return Optional.absent().
    *
