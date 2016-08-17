@@ -21,6 +21,7 @@ import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EstablishmentMeans;
+import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.LifeStage;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.Rank;
@@ -150,6 +151,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Date modified;  // interpreted dc:modified, i.e. date changed in source
   private Date lastInterpreted;
   private URI references;
+  private License license;
   // interpreted extension data
   private List<Identifier> identifiers = Lists.newArrayList();
   private List<MediaObject> media = Lists.newArrayList();
@@ -829,6 +831,15 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setReferences(URI references) {
     this.references = references;
+  }
+
+  @NotNull
+  public License getLicense() {
+    return license;
+  }
+
+  public void setLicense(License license) {
+    this.license = license;
   }
 
   @NotNull
