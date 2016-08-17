@@ -52,6 +52,7 @@ public enum License {
   private final String licenseUrl;
 
   /**
+   * FIXME returning Guava Optional will cause issues, Java 8 Optional should be returned.
    * Get an {@link License} from its name as String.
    *
    * @param license
@@ -62,6 +63,7 @@ public enum License {
   }
 
   /**
+   * FIXME returning Guava Optional will cause issues, Java 8 Optional should be returned.
    * Lookup a License by either its a) legal code URL or b) human readable summary URL.
    * For any parsing see LicenseParser in GBIF parsers project.
    *

@@ -32,11 +32,15 @@ public final class Constants {
    */
   public static final UUID NUB_NETWORK_KEY = UUID.fromString("029f9226-0d8a-4f28-97fe-13180e9eb0e5");
 
-
-    /**
+  /**
    * The dataset key for the Catalog of Life.
    */
   public static final UUID COL_DATASET_KEY = UUID.fromString("7ddf754f-d193-4cc9-b351-99906754a03b");
+
+  /**
+   * The publisher/organisation key for Plazi.
+   */
+  public static final UUID PLAZI_ORG_KEY = UUID.fromString("7ce8aef0-9e92-11dc-8738-b8a03c50a862");
 
   /**
    * The maximum key for a nub usage. All non nub usages have a key above this limit, so it can be used as a simple way
