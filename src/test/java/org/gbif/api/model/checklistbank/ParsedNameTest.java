@@ -39,6 +39,13 @@ public class ParsedNameTest {
     assertEquals("×Abies alba var. alpina (Carl.) Mill., 1887", pn.canonicalNameComplete());
     assertEquals("Abies alba", pn.canonicalSpeciesName());
     assertEquals("×Abies alba var. alpina (Carl.) Mill., 1887 Döring, nom. illeg. [lost]", pn.fullName());
+
+    pn.setGenusOrAbove(null);
+    assertEquals("alba alpina", pn.canonicalName());
+    assertEquals("alba var. alpina", pn.canonicalNameWithMarker());
+    assertEquals("alba var. alpina (Carl.) Mill., 1887", pn.canonicalNameComplete());
+    assertNull(pn.canonicalSpeciesName());
+    assertEquals("alba var. alpina (Carl.) Mill., 1887 Döring, nom. illeg. [lost]", pn.fullName());
   }
 
   @Test
@@ -55,7 +62,12 @@ public class ParsedNameTest {
 
     pn.setInfraSpecificEpithet(null);
     assertEquals("vulgaris", pn.getTerminalEpithet());
+
+    pn.setGenusOrAbove(null);
+    assertEquals("vulgaris", pn.getTerminalEpithet());
   }
+
+
 
   @Test
   public void testCanonicalAscii() throws Exception {
