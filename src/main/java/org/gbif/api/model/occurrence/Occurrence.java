@@ -833,6 +833,9 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.references = references;
   }
 
+  /**
+   * Applied license to the occurrence record or dataset to which this record belongs to.
+   */
   @NotNull
   public License getLicense() {
     return license;
