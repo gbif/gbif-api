@@ -4,6 +4,7 @@ import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetSubtype;
 import org.gbif.api.vocabulary.DatasetType;
+import org.gbif.api.vocabulary.License;
 
 import java.util.List;
 import java.util.Set;
@@ -30,6 +31,7 @@ public class DatasetSearchResult {
   private Country publishingCountry;
   private UUID publishingOrganizationKey;
   private String publishingOrganizationTitle;
+  private License license;
   private List<Integer> decades;
   private List<String> keywords;
 
@@ -151,6 +153,14 @@ public class DatasetSearchResult {
 
   public void setPublishingOrganizationTitle(String publishingOrganizationTitle) {
     this.publishingOrganizationTitle = publishingOrganizationTitle;
+  }
+
+  public License getLicense() {
+    return license;
+  }
+
+  public void setLicense(License license) {
+    this.license = license;
   }
 
   public List<Integer> getDecades() {

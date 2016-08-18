@@ -20,6 +20,7 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.DatasetSubtype;
 import org.gbif.api.vocabulary.DatasetType;
+import org.gbif.api.vocabulary.License;
 
 import java.util.UUID;
 
@@ -72,7 +73,12 @@ public enum DatasetSearchParameter implements SearchParameter {
   /**
    * {@link org.gbif.api.vocabulary.Continent} of the geospatial coverage of a dataset.
    */
-  CONTINENT(Continent.class);
+  CONTINENT(Continent.class),
+
+  /**
+   * {@link org.gbif.api.vocabulary.License} of a dataset.
+   */
+  LICENSE(License.class);
 
 
   private DatasetSearchParameter(Class<?> type) {
