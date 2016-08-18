@@ -184,7 +184,7 @@ public class DatasetSearchResult {
     return Objects
       .hashCode(key, title, description, type, subtype, fullText, hostingOrganizationKey, hostingOrganizationTitle,
         publisherTitle, countryCoverage, continent, publishingCountry, publishingOrganizationKey, publishingOrganizationTitle,
-        decades, keywords);
+        decades, keywords, license);
   }
 
   @Override
@@ -206,7 +206,8 @@ public class DatasetSearchResult {
         && Objects.equal(this.publishingOrganizationKey, that.publishingOrganizationKey)
         && Objects.equal(this.publishingOrganizationTitle, that.publishingOrganizationTitle)
         && Objects.equal(this.decades, that.decades)
-        && Objects.equal(this.keywords, that.keywords);
+        && Objects.equal(this.keywords, that.keywords)
+        && Objects.equal(this.license, that.license);
     }
     return false;
   }
@@ -230,6 +231,7 @@ public class DatasetSearchResult {
       .add("publishingOrganizationTitle", publishingOrganizationTitle)
       .add("decades", decades)
       .add("keywords", keywords)
+      .add("license", license)
       .toString();
   }
 }

@@ -901,13 +901,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     return Objects
       .hashCode(basisOfRecord, individualCount, sex, lifeStage, establishmentMeans, taxonKey, kingdomKey, phylumKey,
         classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, kingdom, phylum, clazz,
-        order,
-        family, genus, subgenus, species, genericName, specificEpithet, infraspecificEpithet, taxonRank,
+        order, family, genus, subgenus, species, genericName, specificEpithet, infraspecificEpithet, taxonRank,
         dateIdentified, year, month, day, eventDate, decimalLongitude, decimalLatitude, coordinatePrecision,
         coordinateUncertaintyInMeters, elevation, elevationAccuracy, depth, depthAccuracy,
-        continent, country,
-        stateProvince, waterBody, typeStatus, typifiedName, issues, modified, lastInterpreted, references,
-        identifiers, media, facts, relations);
+        continent, country, stateProvince, waterBody, typeStatus, typifiedName, issues, modified,
+        lastInterpreted, references, identifiers, media, facts, relations, license);
   }
 
   @Override
@@ -975,7 +973,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       && Objects.equal(this.identifiers, that.identifiers)
       && Objects.equal(this.media, that.media)
       && Objects.equal(this.facts, that.facts)
-      && Objects.equal(this.relations, that.relations);
+      && Objects.equal(this.relations, that.relations)
+      && Objects.equal(this.license, that.license);
   }
 
   @Override
@@ -1032,6 +1031,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("modified", modified)
       .add("lastInterpreted", lastInterpreted)
       .add("references", references)
+      .add("license", license)
       .toString();
   }
 
