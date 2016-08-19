@@ -29,7 +29,6 @@ import javax.validation.constraints.Size;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * A GBIF participant node.

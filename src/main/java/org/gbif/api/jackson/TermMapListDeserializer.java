@@ -21,14 +21,14 @@ import org.codehaus.jackson.map.JsonDeserializer;
  */
 public class TermMapListDeserializer extends JsonDeserializer<List<Map<Term, String>>> {
 
-  private TermFactory termFactory = TermFactory.instance();
+  private final TermFactory termFactory = TermFactory.instance();
 
   @Override
   public List<Map<Term, String>> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
     if (jp.getCurrentToken() == JsonToken.START_ARRAY) {
       JsonDeserializer<Object> deserializer =
-        ctxt.getDeserializerProvider().findTypedValueDeserializer(ctxt.getConfig(), ctxt.constructType(List.class),
-          null);
+        ctxt.getDeserializerProvider().findTypedValueDeserializer(ctxt.getConfig(),
+                                                                  ctxt.constructType(List.class),null);
       List<Map<String, String>> verbatimTerms = (List<Map<String, String>>) deserializer.deserialize(jp, ctxt);
       List<Map<Term, String>> interpretedTerms = Lists.newArrayList();
       for (Map<String, String> verbExtension : verbatimTerms) {

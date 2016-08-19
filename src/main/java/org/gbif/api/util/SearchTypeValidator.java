@@ -237,10 +237,8 @@ public class SearchTypeValidator {
           // ISO date strings
           validateDate(value);
 
-        } else if (String.class.isAssignableFrom(pType)) {
+        } else if (!String.class.isAssignableFrom(pType)) {
           // any string allowed
-
-        } else {
           // an unexpected data type - update this method!!
           throw new IllegalArgumentException("Unknown SearchParameter data type " + pType.getCanonicalName());
         }

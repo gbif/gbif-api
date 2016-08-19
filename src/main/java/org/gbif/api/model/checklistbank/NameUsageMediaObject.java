@@ -17,6 +17,7 @@ public class NameUsageMediaObject extends MediaObject implements NameUsageExtens
     return sourceTaxonKey;
   }
 
+  @Override
   public void setSourceTaxonKey(Integer sourceTaxonKey) {
     this.sourceTaxonKey = sourceTaxonKey;
   }

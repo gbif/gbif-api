@@ -59,8 +59,7 @@ public class SimplePredicate implements Predicate {
    * @throws IllegalArgumentException if the key SearchParameter allows other comparators than equals
    */
   private void checkNonEqualsComparatorAllowed() {
-    if (Number.class.isAssignableFrom(key.type()) || Date.class.isAssignableFrom(key.type())){
-    } else {
+    if (!(Number.class.isAssignableFrom(key.type()) || Date.class.isAssignableFrom(key.type()))){
       throw new IllegalArgumentException("Only equals comparisons are allowed for search parameter " + key);
     }
   }

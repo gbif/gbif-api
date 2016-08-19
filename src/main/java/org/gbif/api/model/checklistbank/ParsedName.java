@@ -341,15 +341,15 @@ public class ParsedName {
             .append(' ')
             .append(infraGeneric);
         } else {
-            if (genusForInfrageneric && genusOrAbove != null) {
-              // if we have shown the genus already and we do not know the rank we use parenthesis to indicate an infrageneric
-              sb.append(" (")
-                      .append(infraGeneric)
-                      .append(")");
-            } else {
-              // no genus shown yet, just show the plain infrageneric name
-              sb.append(infraGeneric);
-            }
+          if (genusForInfrageneric && genusOrAbove != null) {
+            // if we have shown the genus already and we do not know the rank we use parenthesis to indicate an infrageneric
+            sb.append(" (")
+              .append(infraGeneric)
+              .append(")");
+          } else {
+            // no genus shown yet, just show the plain infrageneric name
+            sb.append(infraGeneric);
+          }
         }
       }
       // genus/infrageneric authorship

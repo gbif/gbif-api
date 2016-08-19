@@ -530,11 +530,12 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
   @Override
   public int hashCode() {
     return Objects
-      .hashCode(key, datasetKey, constituentKey, nubKey, parentKey, parent, acceptedKey, accepted, basionymKey, basionym,
-        isSynonym, kingdom, phylum, clazz, order, family, genus, subgenus, species, kingdomKey, phylumKey, classKey,
-        orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, canonicalName,
-        authorship, publishedIn, accordingTo, nameType, taxonomicStatus, nomenclaturalStatus, rank, origin,
-        numDescendants, numOccurrences, taxonID, extinct, habitats, threatStatuses, descriptions, vernacularNames);
+      .hashCode(key, datasetKey, constituentKey, nubKey, parentKey, parent, acceptedKey, accepted, basionymKey,
+                basionym, isSynonym, kingdom, phylum, clazz, order, family, genus, subgenus, species, kingdomKey,
+                phylumKey, classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName,
+                canonicalName, authorship, publishedIn, accordingTo, nameType, taxonomicStatus, nomenclaturalStatus,
+                rank, origin, numDescendants, numOccurrences, taxonID, extinct, habitats, threatStatuses, descriptions,
+                vernacularNames);
   }
 
   @Override
@@ -595,52 +596,52 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
 
   @Override
   public String toString() {
-    return "NameUsageSearchResult{" +
-           "key=" + key +
-           ", datasetKey=" + datasetKey +
-           ", constituentKey=" + constituentKey +
-           ", nubKey=" + nubKey +
-           ", parentKey=" + parentKey +
-           ", parent='" + parent + '\'' +
-           ", acceptedKey=" + acceptedKey +
-           ", accepted='" + accepted + '\'' +
-           ", basionymKey=" + basionymKey +
-           ", basionym='" + basionym + '\'' +
-           ", isSynonym=" + isSynonym +
-           ", kingdom='" + kingdom + '\'' +
-           ", phylum='" + phylum + '\'' +
-           ", clazz='" + clazz + '\'' +
-           ", order='" + order + '\'' +
-           ", family='" + family + '\'' +
-           ", genus='" + genus + '\'' +
-           ", subgenus='" + subgenus + '\'' +
-           ", species='" + species + '\'' +
-           ", kingdomKey=" + kingdomKey +
-           ", phylumKey=" + phylumKey +
-           ", classKey=" + classKey +
-           ", orderKey=" + orderKey +
-           ", familyKey=" + familyKey +
-           ", genusKey=" + genusKey +
-           ", subgenusKey=" + subgenusKey +
-           ", speciesKey=" + speciesKey +
-           ", scientificName='" + scientificName + '\'' +
-           ", canonicalName='" + canonicalName + '\'' +
-           ", authorship='" + authorship + '\'' +
-           ", publishedIn='" + publishedIn + '\'' +
-           ", accordingTo='" + accordingTo + '\'' +
-           ", nameType=" + nameType +
-           ", taxonomicStatus=" + taxonomicStatus +
-           ", nomenclaturalStatus=" + nomenclaturalStatus +
-           ", rank=" + rank +
-           ", origin=" + origin +
-           ", numDescendants=" + numDescendants +
-           ", numOccurrences=" + numOccurrences +
-           ", taxonID='" + taxonID + '\'' +
-           ", extinct=" + extinct +
-           ", habitats=" + habitats +
-           ", threatStatuses=" + threatStatuses +
-           ", descriptions=" + descriptions +
-           ", vernacularNames=" + vernacularNames +
-           '}';
+    return "NameUsageSearchResult{"
+           + "key=" + key
+           + ", datasetKey=" + datasetKey
+           + ", constituentKey=" + constituentKey
+           + ", nubKey=" + nubKey
+           + ", parentKey=" + parentKey
+           + ", parent='" + parent + '\''
+           + ", acceptedKey=" + acceptedKey
+           + ", accepted='" + accepted + '\''
+           + ", basionymKey=" + basionymKey
+           + ", basionym='" + basionym + '\''
+           + ", isSynonym=" + isSynonym
+           + ", kingdom='" + kingdom + '\''
+           + ", phylum='" + phylum + '\''
+           + ", clazz='" + clazz + '\''
+           + ", order='" + order + '\''
+           + ", family='" + family + '\''
+           + ", genus='" + genus + '\''
+           + ", subgenus='" + subgenus + '\''
+           + ", species='" + species + '\''
+           + ", kingdomKey=" + kingdomKey
+           + ", phylumKey=" + phylumKey
+           + ", classKey=" + classKey
+           + ", orderKey=" + orderKey
+           + ", familyKey=" + familyKey
+           + ", genusKey=" + genusKey
+           + ", subgenusKey=" + subgenusKey
+           + ", speciesKey=" + speciesKey
+           + ", scientificName='" + scientificName + '\''
+           + ", canonicalName='" + canonicalName + '\''
+           + ", authorship='" + authorship + '\''
+           + ", publishedIn='" + publishedIn + '\''
+           + ", accordingTo='" + accordingTo + '\''
+           + ", nameType=" + nameType
+           + ", taxonomicStatus=" + taxonomicStatus
+           + ", nomenclaturalStatus=" + nomenclaturalStatus
+           + ", rank=" + rank
+           + ", origin=" + origin
+           + ", numDescendants=" + numDescendants
+           + ", numOccurrences=" + numOccurrences
+           + ", taxonID='" + taxonID + '\''
+           + ", extinct=" + extinct
+           + ", habitats=" + habitats
+           + ", threatStatuses=" + threatStatuses
+           + ", descriptions=" + descriptions
+           + ", vernacularNames=" + vernacularNames
+           +  '}';
   }
 }

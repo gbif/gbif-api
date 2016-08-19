@@ -395,8 +395,8 @@ public class DatasetMetrics {
   @Override
   public int hashCode() {
     return Objects.hashCode(key, datasetKey, usagesCount, synonymsCount, distinctNamesCount, nubMatchingCount,
-      colMatchingCount, nubCoveragePct, colCoveragePct, countByConstituent, countByKingdom, countByRank, countNamesByLanguage,
-      countExtRecordsByExtension, countByOrigin, countByIssue, otherCount, created, downloaded);
+      colMatchingCount, nubCoveragePct, colCoveragePct, countByConstituent, countByKingdom, countByRank,
+      countNamesByLanguage, countExtRecordsByExtension, countByOrigin, countByIssue, otherCount, created, downloaded);
   }
 
   @Override
@@ -412,7 +412,7 @@ public class DatasetMetrics {
       .add("nubCoveragePct", nubCoveragePct)
       .add("colCoveragePct", colCoveragePct)
       .add("countByConstituent", countByConstituent)
-            .add("countByKingdom", countByKingdom)
+      .add("countByKingdom", countByKingdom)
       .add("countByRank", countByRank)
       .add("countNamesByLanguage", countNamesByLanguage)
       .add("countExtRecordsByExtension", countExtRecordsByExtension)

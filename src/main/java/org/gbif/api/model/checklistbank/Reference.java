@@ -213,19 +213,23 @@ public class Reference implements NameUsageExtension {
   }
 
   @Nullable
+  @Override
   public String getSource() {
     return source;
   }
 
+  @Override
   public void setSource(String source) {
     this.source = source;
   }
 
   @Nullable
+  @Override
   public Integer getSourceTaxonKey() {
     return sourceTaxonKey;
   }
 
+  @Override
   public void setSourceTaxonKey(Integer sourceTaxonKey) {
     this.sourceTaxonKey = sourceTaxonKey;
   }

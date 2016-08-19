@@ -11,9 +11,9 @@ public interface NameUsageExtension {
    * @return a source reference string
    */
   @Nullable
-  public String getSource();
+  String getSource();
 
-  public void setSource(String source);
+  void setSource(String source);
 
   /**
    * If the source is another name usage this is the taxonKey of that usage.
@@ -22,9 +22,8 @@ public interface NameUsageExtension {
    * @return The key of the name usage this instance is derived from.
    */
   @Nullable
-  public Integer getSourceTaxonKey();
+  Integer getSourceTaxonKey();
 
-  public void setSourceTaxonKey(Integer sourceTaxonKey);
+  void setSourceTaxonKey(Integer sourceTaxonKey);
 
-
-  }
+}

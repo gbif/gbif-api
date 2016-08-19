@@ -837,12 +837,12 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   public void setIssues(Set<NameUsageIssue> issues) {
-    Preconditions.checkNotNull("Issues cannot be null", issues);
+    Preconditions.checkNotNull(issues, "Issues cannot be null");
     this.issues = Sets.newEnumSet(issues, NameUsageIssue.class);
   }
 
   public void addIssue(NameUsageIssue issue) {
-    Preconditions.checkNotNull("Issue needs to be specified", issue);
+    Preconditions.checkNotNull(issue, "Issue needs to be specified");
     this.issues.add(issue);
   }
 

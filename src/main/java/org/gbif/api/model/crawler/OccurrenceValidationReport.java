@@ -1,15 +1,12 @@
 package org.gbif.api.model.crawler;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * The rules followed here should match the document at:

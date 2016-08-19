@@ -42,9 +42,10 @@ import static com.google.common.collect.Lists.newArrayList;
  * setters or the constructor.
  */
 public class NameUsageContainer extends NameUsage {
-  private static final ObjectMapper mapper = new ObjectMapper();
+
+  private static final ObjectMapper MAPPER = new ObjectMapper();
   static {
-      mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    MAPPER.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
   private List<Description> descriptions = newArrayList();
@@ -58,8 +59,11 @@ public class NameUsageContainer extends NameUsage {
   private List<TypeSpecimen> typeSpecimens = newArrayList();
   private List<VernacularName> vernacularNames = newArrayList();
 
+  /**
+   * Default constructor.
+   */
   public NameUsageContainer() {
-
+    //empty constructor
   }
 
   /**
@@ -67,8 +71,8 @@ public class NameUsageContainer extends NameUsage {
    */
   public NameUsageContainer(NameUsage usage) {
     try {
-      JsonNode propTree = mapper.convertValue(usage, JsonNode.class);
-      mapper.readerForUpdating(this).readValue(propTree);
+      JsonNode propTree = MAPPER.convertValue(usage, JsonNode.class);
+      MAPPER.readerForUpdating(this).readValue(propTree);
     } catch (IOException e) {
       throw new IllegalStateException("Failed to copy NameUsage properties to NameUsageContainer", e);
     }
