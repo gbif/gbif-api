@@ -9,14 +9,10 @@ import org.gbif.api.vocabulary.DatasetType;
 import java.util.UUID;
 import javax.annotation.Nullable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Iterates over all datasets belonging to a given network.
  */
 public class NetworkPager extends DatasetBasePager {
-    private static final Logger LOG = LoggerFactory.getLogger(NetworkPager.class);
 
     private final NetworkService service;
     private final UUID key;

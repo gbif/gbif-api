@@ -8,14 +8,10 @@ import org.gbif.api.vocabulary.DatasetType;
 
 import javax.annotation.Nullable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Pages through all datasets filtering by type only.
  */
 public class DatasetPager extends DatasetBasePager {
-    private static final Logger LOG = LoggerFactory.getLogger(DatasetPager.class);
 
     private final DatasetService ds;
     private final DatasetType type;

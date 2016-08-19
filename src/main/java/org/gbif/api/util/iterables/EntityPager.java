@@ -83,7 +83,7 @@ abstract class EntityPager<T extends NetworkEntity> implements Iterable<T> {
     abstract PagingResponse<T> nextPage(PagingRequest page);
 
     /**
-     * Override this method to implement other exclusion filters
+     * Override this method to implement other exclusion filters.
      */
     protected boolean exclude(T entity) {
         return false;

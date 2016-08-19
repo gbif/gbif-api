@@ -26,11 +26,19 @@ public class Iterables {
     private static final Logger LOG = LoggerFactory.getLogger(Iterables.class);
 
     /**
+     * Private default constructor.
+     */
+    private Iterables() {
+        //empty private constructor
+    }
+
+    /**
      * @param key a valid dataset, organization or installation key. If null all datasets will be iterated over
      * @throws IllegalArgumentException if given key is not existing
      */
     public static Iterable<Dataset> datasets(@Nullable UUID key, @Nullable DatasetType type,
-                                             DatasetService ds, OrganizationService os, InstallationService is, NetworkService ns, NodeService nos) {
+                                             DatasetService ds, OrganizationService os, InstallationService is,
+                                             NetworkService ns, NodeService nos) {
         return datasets(key, type, ds, os, is, ns, nos, PagingConstants.DEFAULT_PARAM_LIMIT);
     }
 
@@ -43,8 +51,8 @@ public class Iterables {
      * @throws IllegalArgumentException if given key is not existing
      */
     public static Iterable<Dataset> datasets(@Nullable UUID key, @Nullable DatasetType type,
-                                             DatasetService ds, OrganizationService os, InstallationService is, NetworkService ns, NodeService nos,
-                                             int pageSize) {
+                                             DatasetService ds, OrganizationService os, InstallationService is,
+                                             NetworkService ns, NodeService nos, int pageSize) {
         if (key == null) {
             LOG.info("Iterate over all {} datasets", type == null ? "" : type);
             return new DatasetPager(ds, type, pageSize);

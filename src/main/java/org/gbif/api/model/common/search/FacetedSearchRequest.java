@@ -13,7 +13,6 @@
 package org.gbif.api.model.common.search;
 
 import org.gbif.api.model.common.paging.Pageable;
-import org.gbif.api.model.common.paging.PageableBase;
 import org.gbif.api.model.common.paging.PagingRequest;
 
 import java.util.HashMap;

@@ -8,14 +8,10 @@ import org.gbif.api.vocabulary.Country;
 
 import javax.annotation.Nullable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Pages through all organizations optionally filtering by country.
  */
 public class OrganizationPager extends EntityPager<Organization> {
-    private static final Logger LOG = LoggerFactory.getLogger(OrganizationPager.class);
 
     private final OrganizationService service;
     private final @Nullable Country country;

@@ -19,7 +19,6 @@ import org.gbif.api.jackson.TermMapListSerializer;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.Extension;
-import org.gbif.api.vocabulary.License;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.TermFactory;
 

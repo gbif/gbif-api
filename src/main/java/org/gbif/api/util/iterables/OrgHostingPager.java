@@ -9,14 +9,10 @@ import org.gbif.api.vocabulary.DatasetType;
 import java.util.UUID;
 import javax.annotation.Nullable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Iterates over all datasets hosted by a given organisation.
  */
 public class OrgHostingPager extends DatasetBasePager {
-    private static final Logger LOG = LoggerFactory.getLogger(OrgHostingPager.class);
 
     private final OrganizationService os;
     private final UUID orgKey;

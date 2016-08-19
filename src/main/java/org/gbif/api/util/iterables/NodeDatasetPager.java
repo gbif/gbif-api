@@ -9,14 +9,10 @@ import org.gbif.api.vocabulary.DatasetType;
 import java.util.UUID;
 import javax.annotation.Nullable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Pages through all datasets endorsed by a given node.
  */
 public class NodeDatasetPager extends DatasetBasePager {
-    private static final Logger LOG = LoggerFactory.getLogger(NodeDatasetPager.class);
 
     private final NodeService service;
     private final UUID nodeKey;
