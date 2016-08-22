@@ -26,7 +26,8 @@ public enum InstallationType {
   DIGIR_INSTALLATION,
   TAPIR_INSTALLATION,
   BIOCASE_INSTALLATION,
-  HTTP_INSTALLATION;
+  HTTP_INSTALLATION,
+  SYMBIOTA_INSTALLATION;
 
   /**
    * @return the matching InstallationType or null
