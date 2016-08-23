@@ -15,6 +15,8 @@ import org.apache.commons.lang3.StringUtils;
  * GBIF's recommended best practice is to use the most recent license version, which for CC-BY and CC-BY-NC is 4.0.
  * This is in line with the recommendation from Creative Commons.
  *
+ * The ordinal number in the Enum implicitly defines the level of restriction, see LicenseTest.
+ *
  * @see <a href="https://creativecommons.org/faq/#why-should-i-use-the-latest-version-of-the-creative-commons-licenses">Creative Commons recommendation</a>
  * @see <a href="http://www.gbif.org/terms/licences">GBIF Licensing</a>
  */
