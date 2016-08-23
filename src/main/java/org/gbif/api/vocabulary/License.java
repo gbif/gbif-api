@@ -14,10 +14,10 @@ import org.apache.commons.lang3.StringUtils;
  * </br>
  * GBIF's recommended best practice is to use the most recent license version, which for CC-BY and CC-BY-NC is 4.0.
  * This is in line with the recommendation from Creative Commons.
- *
  * The ordinal number in the Enum implicitly defines the level of restriction, see LicenseTest.
  *
- * @see <a href="https://creativecommons.org/faq/#why-should-i-use-the-latest-version-of-the-creative-commons-licenses">Creative Commons recommendation</a>
+ * @see <a href="https://creativecommons.org/faq/#why-should-i-use-the-latest-version-of-the-creative-commons-licenses">Creative
+ * Commons recommendation</a>
  * @see <a href="http://www.gbif.org/terms/licences">GBIF Licensing</a>
  */
 public enum License {
@@ -57,7 +57,6 @@ public enum License {
    * FIXME returning Guava Optional will cause issues, Java 8 Optional should be returned.
    * Get an {@link License} from its name as String.
    *
-   * @param license
    * @return instance of com.google.common.base.Optional, never null
    */
   public static Optional<License> fromString(String license) {
@@ -81,7 +80,7 @@ public enum License {
       // do lookup by legal code URL or human readable summary URL (excluding "/legalcode")
       for (License license : License.values()) {
         if (license.getLicenseUrl() != null && (licenseUrl.equals(license.getLicenseUrl())
-            || license.getLicenseUrl().startsWith(licenseUrl))) {
+                || license.getLicenseUrl().startsWith(licenseUrl))) {
           return Optional.fromNullable(license);
         }
       }
@@ -89,13 +88,27 @@ public enum License {
     return Optional.absent();
   }
 
+  /**
+   * Get the most restrictive license between the 2 provided licenses.
+   * If one or the two licenses are null or not concrete, this method returns the fallback License.
+   *
+   * @param fallback License to return if one or the two licenses are null or not concrete
+   *
+   * @return the most restrictive License or the fallback License
+   */
+  public static License getMostRestrictive(License license1, License license2, License fallback) {
+    if (license1 == null || license2 == null || !license1.isConcrete() || !license2.isConcrete()) {
+      return fallback;
+    }
+    return (license1.compareTo(license2) > 0) ? license1 : license2;
+  }
+
   License(@Nullable String licenseTitle, @Nullable String licenseUrl) {
     this.licenseTitle = licenseTitle;
     // ensure license information is kept in lowercase internally
-    if(licenseUrl != null){
+    if (licenseUrl != null) {
       this.licenseUrl = licenseUrl.toLowerCase();
-    }
-    else{
+    } else {
       this.licenseUrl = null;
     }
   }
@@ -117,9 +130,9 @@ public enum License {
   /**
    * Indicates if a license is a concrete license (true) or an abstracted license (false) like
    * UNSPECIFIED or UNSUPPORTED.
-   * @return
+   * @return the license if concrete or not
    */
-  public boolean isConcrete(){
+  public boolean isConcrete() {
     return licenseUrl != null;
   }
 }

@@ -39,6 +39,17 @@ public class LicenseTest {
   }
 
   @Test
+  public void testGetMostRestrictive(){
+    assertEquals(License.CC_BY_4_0, License.getMostRestrictive(License.CC0_1_0, License.CC_BY_4_0, License.UNSPECIFIED));
+    assertEquals(License.CC_BY_4_0, License.getMostRestrictive(License.CC_BY_4_0, License.CC0_1_0, License.UNSPECIFIED));
+
+    assertEquals(License.CC_BY_NC_4_0, License.getMostRestrictive(License.CC_BY_4_0, License.CC_BY_NC_4_0, License.UNSPECIFIED));
+
+    assertEquals(License.UNSPECIFIED, License.getMostRestrictive(License.UNSUPPORTED, License.CC0_1_0, License.UNSPECIFIED));
+    assertEquals(License.UNSPECIFIED, License.getMostRestrictive(License.UNSUPPORTED, License.UNSPECIFIED, License.UNSPECIFIED));
+  }
+
+  @Test
   public void testLicenseOrdinalNumber() {
     int numberOfConcreteLicense = 0;
     for (License currLicense : License.values()) {
