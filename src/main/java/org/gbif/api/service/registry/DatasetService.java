@@ -99,13 +99,6 @@ public interface DatasetService
   Metadata insertMetadata(UUID datasetKey, InputStream document);
 
   /**
-   * Updates dataset by reinterpreting its preferred metadata document, if it exists.
-   *
-   * @param datasetKey the dataset in question
-   */
-  void updateFromPreferredMetadata(UUID datasetKey);
-
-  /**
    * Retrieves a GBIF generated EML document overlaying GBIF information with any existing metadata document data.
    */
   InputStream getMetadataDocument(UUID datasetKey);
