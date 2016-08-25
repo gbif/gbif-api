@@ -53,6 +53,7 @@ public class VerbatimOccurrence {
   private EndpointType protocol;
   private Date lastCrawled;
   private Date lastParsed;
+  private Integer crawlId;
 
   // the verbatim fields for the occurrence
   private Map<Term, String> verbatimFields = Maps.newHashMap();
@@ -164,6 +165,19 @@ public class VerbatimOccurrence {
   }
 
   /**
+   * Crawling attempt id.
+   */
+  @Nullable
+  @JsonIgnore
+  public Integer getCrawlId() {
+    return crawlId;
+  }
+
+  public void setCrawlId(Integer crawlId) {
+    this.crawlId = crawlId;
+  }
+
+  /**
    * A map holding all verbatim core terms.
    */
   @NotNull
@@ -194,6 +208,7 @@ public class VerbatimOccurrence {
   public String toString() {
     return Objects.toStringHelper(this).add("lastParsed", lastParsed).add("key", key).add("datasetKey", datasetKey)
       .add("publishingOrgKey", publishingOrgKey).add("publishingCountry", publishingCountry).add("protocol", protocol)
+      .add("crawlId",crawlId)
       .add("lastCrawled", lastCrawled)
       .add("extensions", extensions)
       .toString();
@@ -202,9 +217,8 @@ public class VerbatimOccurrence {
   @Override
   public int hashCode() {
     return Objects
-      .hashCode(key, datasetKey, publishingOrgKey, publishingCountry, protocol, lastCrawled, lastParsed,
-        verbatimFields,
-        extensions);
+      .hashCode(key, datasetKey, publishingOrgKey, publishingCountry, protocol, lastCrawled, lastParsed, crawlId,
+                verbatimFields, extensions);
   }
 
   @Override
@@ -224,7 +238,8 @@ public class VerbatimOccurrence {
       && Objects.equal(this.lastCrawled, other.lastCrawled)
       && Objects.equal(this.lastParsed, other.lastParsed)
       && Objects.equal(this.verbatimFields, other.verbatimFields)
-      && Objects.equal(this.extensions, other.extensions);
+      && Objects.equal(this.extensions, other.extensions)
+      && Objects.equal(this.crawlId, other.crawlId);
   }
 
   /**

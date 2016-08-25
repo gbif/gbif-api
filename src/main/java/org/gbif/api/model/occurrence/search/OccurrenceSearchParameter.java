@@ -344,7 +344,17 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * The license applied to the dataset.
    */
-  LICENSE(License.class);
+  LICENSE(License.class),
+
+  /**
+   * The owning organizations uuid key.
+   */
+  PUBLISHING_ORG(UUID.class),
+
+  /**
+   * Crawl attempt that harvested this record.
+   */
+  CRAWL_ID(UUID.class);
 
   private final Class<?> type;
 
