@@ -168,7 +168,6 @@ public class VerbatimOccurrence {
    * Crawling attempt id.
    */
   @Nullable
-  @JsonIgnore
   public Integer getCrawlId() {
     return crawlId;
   }
