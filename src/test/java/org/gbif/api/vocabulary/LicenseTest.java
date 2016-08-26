@@ -47,6 +47,7 @@ public class LicenseTest {
 
     assertEquals(License.UNSPECIFIED, License.getMostRestrictive(License.UNSUPPORTED, License.CC0_1_0, License.UNSPECIFIED));
     assertEquals(License.UNSPECIFIED, License.getMostRestrictive(License.UNSUPPORTED, License.UNSPECIFIED, License.UNSPECIFIED));
+    assertEquals(License.UNSPECIFIED, License.getMostRestrictive(License.CC_BY_NC_4_0, null, License.UNSPECIFIED));
   }
 
   @Test

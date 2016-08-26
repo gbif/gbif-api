@@ -3,6 +3,7 @@ package org.gbif.api.model.occurrence;
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
+import org.gbif.api.vocabulary.License;
 
 import java.util.Date;
 import java.util.EnumSet;
@@ -45,6 +46,8 @@ public class Download {
   private String key;
 
   private DOI doi;
+
+  private License license;
 
   private DownloadRequest request;
 
@@ -157,6 +160,15 @@ public class Download {
     return doi;
   }
 
+  /**
+   * Get the license assigned to this occurrence download.
+   * @return
+   */
+  @Nullable
+  public License getLicense() {
+    return license;
+  }
+
   public void setCreated(Date created) {
     this.created = created;
   }
@@ -171,6 +183,10 @@ public class Download {
 
   public void setDoi(DOI doi) {
     this.doi = doi;
+  }
+
+  public void setLicense(License license) {
+    this.license = license;
   }
 
   public void setModified(Date modified) {
@@ -202,6 +218,7 @@ public class Download {
     return Objects.toStringHelper(this).add("key", key).add("doi", doi)
       .add("status", status).add("downloadLink", downloadLink)
       .add("request", request).add("created", created)
+      .add("license", license)
       .add("modified", modified)
       .add("size", size)
       .add("totalRecords", totalRecords)
@@ -221,6 +238,7 @@ public class Download {
     return Objects.equal(this.request, that.request)
       && Objects.equal(this.key, that.key)
       && Objects.equal(this.doi, that.doi)
+      && Objects.equal(this.license, that.license)
       && Objects.equal(this.created, that.created)
       && Objects.equal(this.modified, that.modified)
       && Objects.equal(this.status, that.status)
@@ -232,6 +250,7 @@ public class Download {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(key, doi, request, created, modified, status, downloadLink, size, totalRecords, numberDatasets);
+    return Objects.hashCode(key, doi, license, request, created, modified, status, downloadLink, size, totalRecords,
+            numberDatasets);
   }
 }
