@@ -164,7 +164,6 @@ public class Download {
    * Get the license assigned to this occurrence download.
    * @return
    */
-  @NotNull
   public License getLicense() {
     return license;
   }
