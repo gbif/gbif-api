@@ -80,10 +80,13 @@ public class SearchTypeValidator {
    */
   private static final String WKT_LINE = "\\s*\\(" + WKT_COORD + "(?:," + WKT_COORD + ")*\\)\\s*";
 
+  private static final String WKT_POLYGON = "\\(" + WKT_LINE + "(?:," + WKT_LINE + ")*\\)";
+
   private static final List<Pattern> WKT_PATTERNS = ImmutableList.of(
     Pattern.compile("^POINT\\s*\\(" + WKT_COORD + "\\)$", Pattern.CASE_INSENSITIVE),
     Pattern.compile("^(?:LINESTRING|LINEARRING)\\s*" + WKT_LINE + "$", Pattern.CASE_INSENSITIVE),
-    Pattern.compile("^POLYGON\\s*\\(" + WKT_LINE + "(?:," + WKT_LINE + ")*\\)$", Pattern.CASE_INSENSITIVE));
+    Pattern.compile("^POLYGON\\s*" + WKT_POLYGON + "$", Pattern.CASE_INSENSITIVE),
+    Pattern.compile("^MULTIPOLYGON\\s*\\(" + WKT_POLYGON + "(?:," + WKT_POLYGON + ")*\\)$", Pattern.CASE_INSENSITIVE));
 
   /**
    * Private default constructor.
