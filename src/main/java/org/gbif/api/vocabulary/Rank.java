@@ -33,6 +33,8 @@ public enum Rank {
 
   DOMAIN("dom."),
 
+  SUPERKINGDOM("superreg."),
+
   KINGDOM("reg."),
 
   SUBKINGDOM("subreg."),
@@ -55,6 +57,32 @@ public enum Rank {
 
   INFRACLASS("infracl."),
 
+  PARVCLASS("parvcl."),
+
+  SUPERLEGION("superleg."),
+
+  /**
+   * Sometimes used in zoology, e.g. for birds and mammals
+   */
+  LEGION("leg."),
+
+  SUBLEGION("subleg."),
+
+  INFRALEGION("infraleg."),
+
+  SUPERCOHORT("supercohort"),
+
+  /**
+   * Sometimes used in zoology, e.g. for birds and mammals
+   */
+  COHORT("cohort"),
+
+  SUBCOHORT("subcohort"),
+
+  INFRACOHORT("infracohort"),
+
+  MAGNORDER("magnord."),
+
   SUPERORDER("superord."),
 
   ORDER("ord."),
@@ -63,6 +91,8 @@ public enum Rank {
 
   INFRAORDER("infraord."),
 
+  PARVORDER("parvord."),
+
   SUPERFAMILY("superfam."),
 
   FAMILY("fam."),
@@ -70,6 +100,8 @@ public enum Rank {
   SUBFAMILY("subfam."),
 
   INFRAFAMILY("infrafam."),
+
+  SUPERTRIBE("supertrib."),
 
   TRIBE("trib."),
 
@@ -313,6 +345,15 @@ public enum Rank {
   );
 
   private static final Map<Rank, NomenclaturalCode> RANK2CODE= ImmutableMap.<Rank, NomenclaturalCode>builder()
+      .put(MAGNORDER, NomenclaturalCode.ZOOLOGICAL)
+      .put(SUPERLEGION, NomenclaturalCode.ZOOLOGICAL)
+      .put(LEGION, NomenclaturalCode.ZOOLOGICAL)
+      .put(SUBLEGION, NomenclaturalCode.ZOOLOGICAL)
+      .put(INFRALEGION, NomenclaturalCode.ZOOLOGICAL)
+      .put(SUPERCOHORT, NomenclaturalCode.ZOOLOGICAL)
+      .put(COHORT, NomenclaturalCode.ZOOLOGICAL)
+      .put(SUBCOHORT, NomenclaturalCode.ZOOLOGICAL)
+      .put(INFRACOHORT, NomenclaturalCode.ZOOLOGICAL)
       .put(MORPH, NomenclaturalCode.ZOOLOGICAL)
       .put(ABERRATION, NomenclaturalCode.ZOOLOGICAL)
       .put(NATIO, NomenclaturalCode.ZOOLOGICAL)

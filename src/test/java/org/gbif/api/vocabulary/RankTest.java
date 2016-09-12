@@ -36,7 +36,7 @@ public class RankTest {
     assertTrue(Rank.VARIETY.isInfraspecific());
     assertTrue(Rank.PATHOVAR.isInfraspecific());
     for (Rank r : Rank.values()) {
-      if (r.isRestrictedToCode() == NomenclaturalCode.BACTERIAL || r.isRestrictedToCode() == NomenclaturalCode.ZOOLOGICAL)
+      if (r.isRestrictedToCode() == NomenclaturalCode.BACTERIAL)
       assertTrue(r.isInfraspecific());
     }
   }
