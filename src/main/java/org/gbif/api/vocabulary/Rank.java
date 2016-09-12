@@ -85,6 +85,8 @@ public enum Rank {
 
   SUPERORDER("superord."),
 
+  GRANDORDER("grandord."),
+
   ORDER("ord."),
 
   SUBORDER("subord."),
@@ -345,7 +347,10 @@ public enum Rank {
   );
 
   private static final Map<Rank, NomenclaturalCode> RANK2CODE= ImmutableMap.<Rank, NomenclaturalCode>builder()
+      .put(PARVCLASS, NomenclaturalCode.ZOOLOGICAL)
       .put(MAGNORDER, NomenclaturalCode.ZOOLOGICAL)
+      .put(GRANDORDER, NomenclaturalCode.ZOOLOGICAL)
+      .put(PARVORDER, NomenclaturalCode.ZOOLOGICAL)
       .put(SUPERLEGION, NomenclaturalCode.ZOOLOGICAL)
       .put(LEGION, NomenclaturalCode.ZOOLOGICAL)
       .put(SUBLEGION, NomenclaturalCode.ZOOLOGICAL)
