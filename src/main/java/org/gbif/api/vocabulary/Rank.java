@@ -361,7 +361,14 @@ public enum Rank {
   }
 
   /**
-   * @return true for rank is below genus.
+   * @return true for infra subspecific ranks.
+   */
+  public boolean isInfrasubspecific() {
+    return ordinal() > SUBSPECIES.ordinal() && notOtherOrUnknown();
+  }
+
+  /**
+   * @return true for rank is below genus. Also incluse species and infraspecific ranks
    */
   public boolean isInfrageneric() {
     return ordinal() > GENUS.ordinal() && notOtherOrUnknown();

@@ -591,13 +591,17 @@ public class ParsedName {
   }
 
   /**
-   * @return true for names with a rank marker but missing lowest name part. E.g. Coccyzuz americanus ssp. or
+   * @return true for names with an infraspecifc rank but missing lowest name part. E.g. Coccyzuz americanus ssp. or
    *         Asteraceae
    *         spec. but not Maxillaria sect. Acaules
    */
   @JsonIgnore
   public boolean isIndetermined() {
-    return rank != null && infraSpecificEpithet == null && (specificEpithet != null || infraGeneric == null);
+    return rank != null && (
+           (rank.isInfrageneric() && rank.isSupraspecific() && infraGeneric == null)
+        || (rank.isSpeciesOrBelow() && specificEpithet == null)
+        || (rank.isInfraspecific() && infraSpecificEpithet == null)
+    );
   }
 
   @JsonIgnore

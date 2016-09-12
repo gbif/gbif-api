@@ -10,7 +10,9 @@ import java.io.IOException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class ParsedNameTest {
 
@@ -70,7 +72,44 @@ public class ParsedNameTest {
     assertEquals("vulgaris", pn.getTerminalEpithet());
   }
 
+  @Test
+  public void testIndet() throws Exception {
+    ParsedName pn = new ParsedName();
+    pn.setGenusOrAbove("Abies");
+    assertFalse(pn.isIndetermined());
 
+    pn.setRank(Rank.SPECIES);
+    assertTrue(pn.isIndetermined());
+
+    pn.setSpecificEpithet("vulgaris");
+    assertFalse(pn.isIndetermined());
+
+    pn.setRank(Rank.SUBSPECIES);
+    assertTrue(pn.isIndetermined());
+
+    pn.setInfraSpecificEpithet("kingkong");
+    assertFalse(pn.isIndetermined());
+
+    for (Rank r : Rank.values()) {
+      if (r.isInfraspecific()) {
+        assertFalse(r.toString(), pn.isIndetermined());
+      }
+    }
+
+    pn.setInfraSpecificEpithet(null);
+    for (Rank r : Rank.values()) {
+      if (r.isInfraspecific()) {
+        assertTrue(r.toString(), pn.isIndetermined());
+      }
+    }
+
+    pn.setRank(Rank.SUBGENUS);
+    pn.setSpecificEpithet(null);
+    assertTrue(pn.isIndetermined());
+
+    pn.setInfraGeneric("Mysubgenus");
+    assertFalse(pn.isIndetermined());
+  }
 
   @Test
   public void testCanonicalAscii() throws Exception {
