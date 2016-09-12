@@ -15,10 +15,10 @@
  */
 package org.gbif.api.model.checklistbank;
 
+import org.gbif.api.jackson.RankSerde;
 import org.gbif.api.util.UnicodeUtils;
 import org.gbif.api.vocabulary.NamePart;
 import org.gbif.api.vocabulary.NameType;
-import org.gbif.api.vocabulary.NomenclaturalCode;
 import org.gbif.api.vocabulary.Rank;
 
 import com.google.common.base.Objects;
@@ -26,6 +26,8 @@ import com.google.common.base.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import static com.google.common.base.Objects.equal;
 
@@ -45,11 +47,15 @@ import static com.google.common.base.Objects.equal;
  */
 public class ParsedName {
 
-  private static final Character HYBRID_MARKER = '×';
+  public static final Character HYBRID_MARKER = '×';
   private static final String HYBRID_MARKER_STR = HYBRID_MARKER.toString();
 
   private Integer key;
   private String scientificName;
+  @JsonProperty("rankMarker")
+  @JsonSerialize(using=RankSerde.RankJsonSerializer.class)
+  @JsonDeserialize(using=RankSerde.RankJsonDeserializer.class)
+  private Rank rank;
   private NameType type;
   private String genusOrAbove;
   private String infraGeneric;
@@ -58,7 +64,6 @@ public class ParsedName {
   private String cultivarEpithet;
   private String strain;
   private NamePart notho;
-  private String rank;
   private boolean authorsParsed = true;
   // the original author of this name, e.g basionym or current author for new names
   private String authorship;
@@ -84,7 +89,7 @@ public class ParsedName {
     String specificEpithet,
     String infraSpecificEpithet,
     NamePart notho,
-    String rank,
+    Rank rank,
     String authorship,
     String year,
     String bracketAuthorship,
@@ -243,7 +248,7 @@ public class ParsedName {
   }
 
   public void setRank(Rank rank) {
-    this.rank = rank == null ? null : rank.getMarker();
+    this.rank = rank;
   }
 
   public Integer getKey() {
@@ -303,7 +308,6 @@ public class ParsedName {
     boolean showStrain
   ) {
     StringBuilder sb = new StringBuilder();
-    Rank rnk = getRank();
 
     if (NameType.CANDIDATUS == type) {
       sb.append("Candidatus ");
@@ -320,32 +324,32 @@ public class ParsedName {
       }
     }
     if (specificEpithet == null) {
-      if (Rank.SPECIES == rnk) {
+      if (Rank.SPECIES == rank) {
         // no species epitheton given, but rank=species. Indetermined species!
         if (showIndet) {
           sb.append(" spec.");
         }
-      } else if (rnk != null && rnk.isInfraspecific()) {
+      } else if (rank != null && rank.isInfraspecific()) {
         // no species epitheton given, but rank below species. Indetermined!
         if (showIndet) {
           sb.append(' ');
-          sb.append(rnk.getMarker());
+          sb.append(rank.getMarker());
         }
       } else if (infraGeneric != null) {
         // this is the terminal name part - always show it!
         if (rankMarker && rank != null) {
           // If we know the rank we use explicit rank markers
           // this is how botanical infrageneric names are formed, see http://www.iapt-taxon.org/nomen/main.php?page=art21
-          sb.append(' ')
-            .append(rank)
-            .append(' ')
-            .append(infraGeneric);
+          sb.append(' ');
+          appendRankMarker(sb, rank);
+          sb.append(infraGeneric);
+
         } else {
           if (genusForInfrageneric && genusOrAbove != null) {
             // if we have shown the genus already and we do not know the rank we use parenthesis to indicate an infrageneric
             sb.append(" (")
-              .append(infraGeneric)
-              .append(")");
+            .append(infraGeneric)
+            .append(")");
           } else {
             // no genus shown yet, just show the plain infrageneric name
             sb.append(infraGeneric);
@@ -357,7 +361,7 @@ public class ParsedName {
         appendAuthorship(sb);
       }
     } else {
-      if (infrageneric && infraGeneric != null && (rank == null || getRank() == Rank.GENUS)) {
+      if (infrageneric && infraGeneric != null && (rank == null || rank == Rank.GENUS)) {
         // only show subgenus if requested
         sb.append(" (");
         sb.append(infraGeneric);
@@ -374,10 +378,10 @@ public class ParsedName {
 
       if (infraSpecificEpithet == null) {
         // Indetermined? Only show indet cultivar marker if no cultivar epithet exists
-        if (showIndet && rnk != null && rnk.isInfraspecific() && (Rank.CULTIVAR != rnk || cultivarEpithet == null)) {
+        if (showIndet && rank != null && rank.isInfraspecific() && (Rank.CULTIVAR != rank || cultivarEpithet == null)) {
           // no infraspecific epitheton given, but rank below species. Indetermined!
           sb.append(' ');
-          sb.append(rnk.getMarker());
+          sb.append(rank.getMarker());
         }
 
         // species authorship
@@ -394,9 +398,8 @@ public class ParsedName {
             sb.append(HYBRID_MARKER);
           }
         }
-        if (rankMarker && rank != null) {
-          sb.append(rank);
-          sb.append(' ');
+        if (rankMarker) {
+          appendRankMarker(sb, rank);
         }
         epi = infraSpecificEpithet.replaceAll("[ _-]", "-");
         sb.append(epi);
@@ -449,11 +452,11 @@ public class ParsedName {
     return Strings.emptyToNull(name);
   }
 
-  private String getInfraspecificRankMarker(NomenclaturalCode code) {
-    if (getRank() == Rank.SUBSPECIES && NomenclaturalCode.ZOOLOGICAL == code) {
-      return null;
+  private void appendRankMarker(StringBuilder sb, Rank rank) {
+    if (rank != null && rank.getMarker() != null) {
+      sb.append(rank.getMarker());
+      sb.append(' ');
     }
-    return rank;
   }
 
   private void appendAuthorship(StringBuilder sb) {
@@ -557,15 +560,9 @@ public class ParsedName {
   }
 
   /**
-   * @return interpreted rank as enumeration or null
+   * @return rank as enumeration or null
    */
-  @JsonIgnore
   public Rank getRank() {
-    Rank rankEnum = Rank.inferRank(genusOrAbove, infraGeneric, specificEpithet, rank, infraSpecificEpithet);
-    return Rank.UNRANKED == rankEnum ? null : rankEnum;
-  }
-
-  public String getRankMarker() {
     return rank;
   }
 
@@ -657,24 +654,6 @@ public class ParsedName {
       this.notho = NamePart.INFRASPECIFIC;
     } else {
       this.infraSpecificEpithet = infraSpecies;
-    }
-  }
-
-  public void setRankMarker(String rankMarker) {
-    if (rankMarker == null) {
-      rank = null;
-    } else {
-      rankMarker = rankMarker.trim().toLowerCase();
-      if (rankMarker.startsWith("notho")) {
-        rankMarker = rankMarker.substring(5);
-        notho = NamePart.INFRASPECIFIC;
-      }
-      Rank r = Rank.inferRank(rankMarker);
-      if (r == null || Rank.UNCOMPARABLE_RANKS.contains(r)) {
-        this.rank = rankMarker;
-      } else {
-        this.rank = r.getMarker();
-      }
     }
   }
 

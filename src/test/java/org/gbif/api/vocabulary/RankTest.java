@@ -15,9 +15,6 @@
  */
 package org.gbif.api.vocabulary;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -25,54 +22,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class RankTest {
-
-  private static final Map<String, Rank> NAMES = new HashMap<String, Rank>();
-
-  static {
-    NAMES.put("Asteraceae", Rank.FAMILY);
-    NAMES.put("Magnoliophyta", Rank.PHYLUM);
-    NAMES.put("Fabales", Rank.ORDER);
-    NAMES.put("Hominidae", Rank.FAMILY);
-    NAMES.put("Drosophilinae", Rank.SUBFAMILY);
-    NAMES.put("Agaricomycetes", Rank.CLASS);
-  }
-
-  @Test
-  public void testInferRank() {
-    for (Map.Entry<String, Rank> stringRankEntry : NAMES.entrySet()) {
-      assertEquals(stringRankEntry.getValue(), Rank.inferRank(stringRankEntry.getKey(), null, null, null, null));
-    }
-
-    assertEquals(Rank.SPECIES, Rank.inferRank("Abies", "Abies", "alba", null, null));
-    assertEquals(Rank.SPECIES, Rank.inferRank("Abies", null, "alba", null, null));
-    assertEquals(Rank.INFRAGENERIC_NAME, Rank.inferRank(null, "Abies", null, null, null));
-    assertEquals(Rank.INFRAGENERIC_NAME, Rank.inferRank("", "Abies", null, null, null));
-    assertEquals(Rank.VARIETY, Rank.inferRank(null, "Abies", "alba", "var.", "alpina"));
-    assertEquals(Rank.PATHOVAR, Rank.inferRank(null, "Pseudomonas", "syringae ", "pv.", "aceris"));
-    assertEquals(Rank.SUBSPECIES, Rank.inferRank(null, "Abies", "alba", "ssp.", null));
-    assertEquals(Rank.SPECIES, Rank.inferRank(null, "Abies", null, "spec.", null));
-    assertEquals(Rank.SUPRAGENERIC_NAME, Rank.inferRank("Neurolaenodinae", null, null, "ib.", null));
-    assertEquals(Rank.SUPRAGENERIC_NAME, Rank.inferRank("Neurolaenodinae", null, null, "supersubtrib.", null));
-    assertEquals(Rank.BIOVAR, Rank.inferRank(null, "Pseudomonas", "syringae ", "bv.", "aceris"));
-    assertEquals(Rank.BIOVAR, Rank.inferRank(null, "Thymus", "vulgaris", "biovar", "geraniol"));
-    assertEquals(Rank.CHEMOFORM, Rank.inferRank(null, "Thymus", "vulgaris", "ct.", "geraniol"));
-    assertEquals(Rank.CHEMOFORM, Rank.inferRank(null, "Thymus", "vulgaris", "chemoform", "geraniol"));
-    assertEquals(Rank.CHEMOVAR, Rank.inferRank(null, "Thymus", "vulgaris", "chemovar", "geraniol"));
-    assertEquals(Rank.SEROVAR, Rank.inferRank(null, "Thymus", "vulgaris", "serovar", "geraniol"));
-
-    // should not be able to infer the correct family
-    assertEquals(Rank.UNRANKED, Rank.inferRank("Compositae", null, null, null, null));
-  }
-
-  @Test
-  public void testInferRank2() {
-    for (Rank r : Rank.values()) {
-      if (r.getMarker() != null) {
-        assertEquals(r, Rank.inferRank(r.getMarker()));
-        assertEquals(r, Rank.inferRank("Gagga", null, null, r.getMarker(), null));
-      }
-    }
-  }
 
   @Test
   public void testIsInfraspecific() {
@@ -82,11 +31,12 @@ public class RankTest {
     assertFalse(Rank.GENUS.isInfraspecific());
     assertFalse(Rank.SPECIES.isInfraspecific());
     assertTrue(Rank.SUBFORM.isInfraspecific());
-    assertFalse(Rank.STRAIN.isInfraspecific());
-    assertFalse(Rank.CULTIVAR.isInfraspecific());
+    assertTrue(Rank.STRAIN.isInfraspecific());
+    assertTrue(Rank.CULTIVAR.isInfraspecific());
     assertTrue(Rank.VARIETY.isInfraspecific());
     assertTrue(Rank.PATHOVAR.isInfraspecific());
-    for (Rank r : Rank.INFRASUBSPECIFIC_MICROBIAL_RANKS) {
+    for (Rank r : Rank.values()) {
+      if (r.isRestrictedToCode() == NomenclaturalCode.BACTERIAL || r.isRestrictedToCode() == NomenclaturalCode.ZOOLOGICAL)
       assertTrue(r.isInfraspecific());
     }
   }
@@ -104,9 +54,20 @@ public class RankTest {
     assertFalse(Rank.SUBGENUS.isLinnean());
     assertFalse(Rank.SUPERFAMILY.isLinnean());
     assertFalse(Rank.INFRAGENERIC_NAME.isLinnean());
-    assertFalse(Rank.INFORMAL.isLinnean());
     assertFalse(Rank.PATHOVAR.isLinnean());
     assertFalse(Rank.CHEMOFORM.isLinnean());
+  }
+
+  @Test
+  public void testIsDwC() {
+    assertTrue(Rank.DWC_RANKS.contains(Rank.KINGDOM));
+    assertTrue(Rank.DWC_RANKS.contains(Rank.PHYLUM));
+    assertTrue(Rank.DWC_RANKS.contains(Rank.CLASS));
+    assertTrue(Rank.DWC_RANKS.contains(Rank.ORDER));
+    assertTrue(Rank.DWC_RANKS.contains(Rank.FAMILY));
+    assertTrue(Rank.DWC_RANKS.contains(Rank.GENUS));
+    assertTrue(Rank.DWC_RANKS.contains(Rank.SUBGENUS));
+    assertTrue(Rank.DWC_RANKS.contains(Rank.SPECIES));
   }
 
   @Test
@@ -121,6 +82,14 @@ public class RankTest {
     assertTrue(Rank.CULTIVAR.isSpeciesOrBelow());
     assertTrue(Rank.VARIETY.isSpeciesOrBelow());
     assertTrue(Rank.PATHOVAR.isSpeciesOrBelow());
+    assertTrue(Rank.NATIO.isSpeciesOrBelow());
+    assertTrue(Rank.GREX.isSpeciesOrBelow());
+  }
+
+  @Test
+  public void testIsLegacy() {
+    assertTrue(Rank.NATIO.isLegacy());
+    assertTrue(Rank.PROLES.isLegacy());
   }
 
   @Test
@@ -160,27 +129,6 @@ public class RankTest {
   }
 
   @Test
-  public void testIsMicrobial() {
-    assertFalse(Rank.SUPERFAMILY.isMicrobial());
-    assertFalse(Rank.KINGDOM.isMicrobial());
-    assertFalse(Rank.PHYLUM.isMicrobial());
-    assertFalse(Rank.SUPERFAMILY.isMicrobial());
-    assertFalse(Rank.SUPRAGENERIC_NAME.isMicrobial());
-    assertFalse(Rank.TRIBE.isMicrobial());
-    assertFalse(Rank.SUBFAMILY.isMicrobial());
-    assertFalse(Rank.INFRAGENERIC_NAME.isMicrobial());
-    assertFalse(Rank.GENUS.isMicrobial());
-    assertFalse(Rank.SPECIES.isMicrobial());
-    assertFalse(Rank.SUBFORM.isMicrobial());
-    assertFalse(Rank.STRAIN.isMicrobial());
-    assertFalse(Rank.VARIETY.isMicrobial());
-
-    assertTrue(Rank.PATHOVAR.isMicrobial());
-    assertTrue(Rank.CHEMOFORM.isMicrobial());
-    assertTrue(Rank.BIOVAR.isMicrobial());
-  }
-
-  @Test
   public void testIsUncomparable() {
     assertFalse(Rank.KINGDOM.isUncomparable());
     assertFalse(Rank.PHYLUM.isUncomparable());
@@ -193,23 +141,6 @@ public class RankTest {
     assertFalse(Rank.SUBGENUS.isUncomparable());
     assertFalse(Rank.SUPERFAMILY.isUncomparable());
     assertTrue(Rank.INFRAGENERIC_NAME.isUncomparable());
-    assertTrue(Rank.INFORMAL.isUncomparable());
-  }
-
-  @Test
-  public void testSuffixMap() {
-    // wrong matches
-
-    for (Map.Entry<String, Rank> stringRankEntry : NAMES.entrySet()) {
-      Rank r = null;
-      for (String suffix : Rank.SUFFICES_RANK_MAP.keySet()) {
-        if (stringRankEntry.getKey().endsWith(suffix)) {
-          r = Rank.SUFFICES_RANK_MAP.get(suffix);
-          break;
-        }
-      }
-      assertEquals(stringRankEntry.getValue(), r);
-    }
   }
 
   @Test
@@ -236,7 +167,6 @@ public class RankTest {
     }
 
     // questionable
-    assertFalse(Rank.INFORMAL.higherThan(Rank.VARIETY));
     assertFalse(Rank.UNRANKED.higherThan(Rank.VARIETY));
   }
 

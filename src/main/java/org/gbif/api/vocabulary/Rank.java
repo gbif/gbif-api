@@ -15,22 +15,13 @@
  */
 package org.gbif.api.vocabulary;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedMap;
-import java.util.regex.Pattern;
-import javax.annotation.Nullable;
 
-import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSortedMap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Ordering;
 
 /**
  * An ordered taxonomic rank enumeration with the most frequently used values.
@@ -41,51 +32,157 @@ import com.google.common.collect.Ordering;
 public enum Rank {
 
   DOMAIN("dom."),
+
   KINGDOM("king."),
+
   SUBKINGDOM("subking."),
+
+  INFRAKINGDOM("infraking."),
+
   SUPERPHYLUM("superphyl."),
+
   PHYLUM("phyl."),
+
   SUBPHYLUM("subphyl."),
+
+  INFRAPHYLUM("infraphyl."),
+
   SUPERCLASS("supercl."),
+
   CLASS("cl."),
+
   SUBCLASS("subcl."),
+
+  INFRACLASS("infracl."),
+
   SUPERORDER("superord."),
+
   ORDER("ord."),
+
   SUBORDER("subord."),
-  INFRAORDER(null),
+
+  INFRAORDER("infraord."),
+
   SUPERFAMILY("superfam."),
+
   FAMILY("fam."),
+
   SUBFAMILY("subfam."),
+
+  INFRAFAMILY("infrafam."),
+
   TRIBE("trib."),
+
   SUBTRIBE("subtrib."),
+
+  INFRATRIBE("infratrib."),
+
   /**
    * Used for any other unspecific rank above genera.
    */
-  SUPRAGENERIC_NAME("supergen."),
+  SUPRAGENERIC_NAME("supragen."),
+
   GENUS("gen."),
+
   SUBGENUS("subgen."),
+
+  INFRAGENUS("infragen."),
+
   SECTION("sect."),
+
   SUBSECTION("subsect."),
+
   SERIES("ser."),
+
   SUBSERIES("subser."),
+
   /**
    * used for any other unspecific rank below genera and above species.
    */
-  INFRAGENERIC_NAME("infragen."),
+  INFRAGENERIC_NAME("infrageneric"),
+
+  /**
+   * A loosely defined group of species.
+   * Zoology: Aggregate - a group of species, other than a subgenus, within a genus. An aggregate may be denoted by a group name interpolated in parentheses.
+   * The Berlin/MoreTax model notes: [these] aren't taxonomic ranks but cirumscriptions because on the one hand they are necessary for the concatenation
+   * of the fullname and on the other hand they are necessary for distinguishing the aggregate or species group from the microspecies.
+   */
+  SPECIES_AGGREGATE("aggr."),
+
   SPECIES("sp."),
+
   /**
    * used for any other unspecific rank below species.
    */
   INFRASPECIFIC_NAME("infrasp."),
+
+  /**
+   * The term grex has been coined to expand botanical nomenclature to describe hybrids of orchids.
+   * Grex names are one of the three categories of plant names governed by the International Code of Nomenclature for Cultivated Plants
+   * Within a grex the Groups category can be used to refer to plants by their shared characteristics (rather than by their parentage),
+   * and individual orchid plants can be selected (and propagated) and named as cultivars
+   * https://en.wikipedia.org/wiki/Grex_(horticulture)
+   */
+  GREX("grex"),
+
   SUBSPECIES("subsp."),
+
+  /**
+   * Rank in use from the code for cultivated plants.
+   * It does not use a classic rank marker but indicated the Group rank after the actual groups name
+   * For example Rhododendron boothii Mishmiense Group
+   * or Primula Border Auricula Group
+   *
+   * Sometimes authors also used the words "sort", "type", "selections" or "hybrids" instead of Group which is not legal according to the code.
+   */
+  CULTIVAR_GROUP,
+
+  /**
+   * A group of cultivars. These can be roughly comparable to cultivar groups, but convarieties, unlike cultivar groups,
+   * do not necessarily contain named varieties, and convarieties are members of traditional "Linnaean" ranks.
+   * The ICNCP replaced this term with the term cultivar-group, and convarieties should not be used in modern cultivated plant taxonomy.
+   *
+   * From Spooner et al., Horticultural Reviews 28 (2003): 1-60
+   */
+  CONVARIETY("convar."),
+
   /**
    * used also for any other unspecific rank below subspecies.
    */
   INFRASUBSPECIFIC_NAME("infrasubsp."),
+
+  /**
+   * Botanical legacy rank
+   */
+
+  PROLES("prol."),
+
+  /**
+   * Botanical legacy rank
+   */
+  RACE("race"),
+
+  /**
+   * Zoological legacy rank
+   */
+  NATIO("natio"),
+
+  /**
+   * Zoological legacy rank
+   */
+  ABERRATION("ab."),
+
+  /**
+   * Zoological legacy rank
+   */
+  MORPH("morph"),
+
   VARIETY("var."),
+
   SUBVARIETY("subvar."),
 
   FORM("f."),
+
   SUBFORM("subf."),
 
   /**
@@ -152,7 +249,6 @@ public enum Rank {
    */
   FORMA_SPECIALIS("f.sp."),
 
-  CULTIVAR_GROUP,
   CULTIVAR("cv."),
 
   /**
@@ -160,315 +256,90 @@ public enum Rank {
    */
   STRAIN("strain"),
 
-  INFORMAL,
+  /**
+   * Any other rank we cannot map to this enumeration
+   */
+  OTHER,
+
   UNRANKED;
 
   /**
    * All main Linnean ranks ordered.
    */
-  public static final List<Rank> LINNEAN_RANKS;
+  public static final List<Rank> LINNEAN_RANKS = ImmutableList.of(
+      KINGDOM,
+      PHYLUM,
+      CLASS,
+      ORDER,
+      FAMILY,
+      GENUS,
+      SPECIES
+  );
+
   /**
    * An ordered list of all ranks that appear in Darwin Core with their own term.
    */
-  public static final List<Rank> DWC_RANKS;
+  public static final List<Rank> DWC_RANKS = ImmutableList.of(
+      KINGDOM,
+      PHYLUM,
+      CLASS,
+      ORDER,
+      FAMILY,
+      GENUS,
+      SUBGENUS,
+      SPECIES
+  );
+
   /**
    * A set of ranks which cannot clearly be compared to any other rank as they represent rank "ranges".
    * For example a subgeneric rank is anything below genus,
    * so one cannot say if its higher or lower than a species for example.
    */
-  public static final Set<Rank> UNCOMPARABLE_RANKS;
+  private static final Set<Rank> UNCOMPARABLE_RANKS = ImmutableSet.of(
+      INFRAGENERIC_NAME,
+      INFRASPECIFIC_NAME,
+      INFRASUBSPECIFIC_NAME,
+      OTHER,
+      UNRANKED
+  );
 
-  /**
-   * Set of all ranks including uncomparable ones which are species or below.
-   */
-  public static final Set<Rank> SPECIES_OR_BELOW;
+  private static final Set<Rank> LEGACY_RANKS = ImmutableSet.of(
+      MORPH,
+      ABERRATION,
+      NATIO,
+      RACE,
+      PROLES,
+      CONVARIETY
+  );
 
-  /**
-   * Set of all infrasubspecific ranks used in microbiology.
-   */
-  public static final Set<Rank> INFRASUBSPECIFIC_MICROBIAL_RANKS = ImmutableSet.of(PATHOVAR, BIOVAR, CHEMOVAR, MORPHOVAR,
-      PHAGOVAR, SEROVAR, CHEMOFORM, FORMA_SPECIALIS);
+  private static final Map<Rank, NomenclaturalCode> RANK2CODE= ImmutableMap.<Rank, NomenclaturalCode>builder()
+      .put(MORPH, NomenclaturalCode.ZOOLOGICAL)
+      .put(ABERRATION, NomenclaturalCode.ZOOLOGICAL)
+      .put(NATIO, NomenclaturalCode.ZOOLOGICAL)
 
-  /**
-   * Map of rank markers to their respective rank enum.
-   */
-  public static final Map<String, Rank> RANK_MARKER_MAP;
-  /**
-   * Map of only suprageneric rank markers to their respective rank enum.
-   */
-  public static final Map<String, Rank> RANK_MARKER_MAP_SUPRAGENERIC;
-  /**
-   * Map of only infrageneric rank markers to their respective rank enum.
-   */
-  public static final Map<String, Rank> RANK_MARKER_MAP_INFRAGENERIC;
-  /**
-   * Map of only infraspecific rank markers to their respective rank enum.
-   */
-  public static final Map<String, Rank> RANK_MARKER_MAP_INFRASPECIFIC;
+      .put(RACE, NomenclaturalCode.BOTANICAL)
+      .put(PROLES, NomenclaturalCode.BOTANICAL)
+      .put(SECTION, NomenclaturalCode.BOTANICAL)
+      .put(SUBSECTION, NomenclaturalCode.BOTANICAL)
+      .put(SERIES, NomenclaturalCode.BOTANICAL)
+      .put(SUBSERIES, NomenclaturalCode.BOTANICAL)
 
-  /**
-   * An immutable map of name suffices to corresponding ranks across all kingdoms.
-   * To minimize wrong matches this map is sorted by suffix length with the first suffices being the longest and
-   * therefore most accurate matches.
-   * See http://www.nhm.ac.uk/hosted-sites/iczn/code/index.jsp?nfv=true&article=29
-   */
-  public static final SortedMap<String, Rank> SUFFICES_RANK_MAP =
-      new ImmutableSortedMap.Builder<String, Rank>(Ordering.natural())
-          .put("mycetidae", SUBCLASS)
-          .put("phycidae", SUBCLASS)
-          .put("mycotina", SUBPHYLUM)
-          .put("phytina", SUBPHYLUM)
-          .put("phyceae", CLASS)
-          .put("mycetes", CLASS)
-          .put("mycota", PHYLUM)
-          .put("opsida", CLASS)
-          .put("oideae", SUBFAMILY)
-          .put("aceae", FAMILY)
-          .put("phyta", PHYLUM)
-          .put("oidea", SUPERFAMILY)
-          .put("ineae", SUBORDER)
-          .put("anae", SUPERORDER)
-          .put("ales", ORDER)
-          .put("acea", SUPERFAMILY)
-          .put("idae", FAMILY)
-          .put("inae", SUBFAMILY)
-          .put("eae", TRIBE)
-          .put("ini", TRIBE)
-          .put("ina", SUBTRIBE)
-          .build();
+      .put(CULTIVAR, NomenclaturalCode.CULTIVARS)
+      .put(CULTIVAR_GROUP, NomenclaturalCode.CULTIVARS)
+      .put(CONVARIETY, NomenclaturalCode.CULTIVARS)
+      .put(GREX, NomenclaturalCode.CULTIVARS)
 
-  /**
-   * A map of very short abbreviations, e.g k,p,g,sg for mayor ranks often used to construct bean properties.
-   */
-  @Deprecated
-  public static final Map<String, Rank> ABBREVIATION_RANK_BI_MAP =
-      new ImmutableBiMap.Builder<String, Rank>().put("k", KINGDOM)
-          .put("sk", SUBKINGDOM)
-          .put("p", PHYLUM)
-          .put("sp", SUBPHYLUM)
-          .put("c", CLASS)
-          .put("sc", SUBCLASS)
-          .put("o", ORDER)
-          .put("so", SUBORDER)
-          .put("f", FAMILY)
-          .put("sf", SUBFAMILY)
-          .put("g", GENUS)
-          .put("sg", SUBGENUS)
-          .put("s", SPECIES)
-          .put("ss", SUBSPECIES)
-          .put("is", INFRASPECIFIC_NAME)
-          .put("v", VARIETY)
-          .put("ff", FORM)
-          .build();
-
-  /**
-   * Matches all dots ("."), underscores ("_") and dashes ("-").
-   */
-  private static final Pattern NORMALIZE_TERM = Pattern.compile("[._ -]+");
+      .put(PATHOVAR, NomenclaturalCode.BACTERIAL)
+      .put(BIOVAR, NomenclaturalCode.BACTERIAL)
+      .put(CHEMOVAR, NomenclaturalCode.BACTERIAL)
+      .put(MORPHOVAR, NomenclaturalCode.BACTERIAL)
+      .put(PHAGOVAR, NomenclaturalCode.BACTERIAL)
+      .put(SEROVAR, NomenclaturalCode.BACTERIAL)
+      .put(CHEMOFORM, NomenclaturalCode.BACTERIAL)
+      .put(FORMA_SPECIALIS, NomenclaturalCode.BACTERIAL)
+      .build();
 
   private final String marker;
-
-  static {
-    List<Rank> dwcRanks = Lists.newArrayList();
-    dwcRanks.add(KINGDOM);
-    dwcRanks.add(PHYLUM);
-    dwcRanks.add(CLASS);
-    dwcRanks.add(ORDER);
-    dwcRanks.add(FAMILY);
-    dwcRanks.add(GENUS);
-    dwcRanks.add(SUBGENUS);
-    dwcRanks.add(SPECIES);
-    DWC_RANKS = ImmutableList.copyOf(dwcRanks);
-
-    dwcRanks.remove(SUBGENUS);
-    LINNEAN_RANKS = ImmutableList.copyOf(dwcRanks);
-
-    Set<Rank> ranks = new HashSet<Rank>();
-    ranks.add(INFRAGENERIC_NAME);
-    ranks.add(INFRASPECIFIC_NAME);
-    ranks.add(INFRASUBSPECIFIC_NAME);
-    ranks.add(INFORMAL);
-    ranks.add(UNRANKED);
-    UNCOMPARABLE_RANKS = ImmutableSet.copyOf(ranks);
-
-    ranks = new HashSet<Rank>();
-    ranks.add(SPECIES);
-    ranks.add(INFRASPECIFIC_NAME);
-    ranks.add(SUBSPECIES);
-    ranks.add(INFRASUBSPECIFIC_NAME);
-    ranks.add(VARIETY);
-    ranks.add(SUBVARIETY);
-    ranks.add(FORM);
-    ranks.add(SUBFORM);
-    ranks.add(CULTIVAR_GROUP);
-    ranks.add(CULTIVAR);
-    ranks.add(STRAIN);
-    ranks.addAll(INFRASUBSPECIFIC_MICROBIAL_RANKS);
-    SPECIES_OR_BELOW = ImmutableSet.copyOf(ranks);
-  }
-
-
-  static {
-    Map<String, Rank> ranks = new HashMap<String, Rank>();
-    for (Rank r : values()) {
-      if (r.isSuprageneric() && r.getMarker() != null) {
-        ranks.put(r.getMarker().replaceAll("\\.", ""), r);
-      }
-    }
-    ranks.put("fam", FAMILY);
-    ranks.put("gen", GENUS);
-    ranks.put("ib", SUPRAGENERIC_NAME);
-    ranks.put("sect", SECTION);
-    ranks.put("supersubtrib", SUPRAGENERIC_NAME);
-    ranks.put("supertrib", SUPRAGENERIC_NAME);
-    ranks.put("trib", TRIBE);
-
-    RANK_MARKER_MAP_SUPRAGENERIC = ImmutableMap.copyOf(ranks);
-
-
-    ranks = new HashMap<String, Rank>();
-    for (Rank r : values()) {
-      if (r.isInfrageneric() && !r.isSpeciesOrBelow() && r.getMarker() != null) {
-        ranks.put(r.getMarker().replaceAll("\\.", ""), r);
-      }
-    }
-    ranks.put("agg", INFRAGENERIC_NAME);
-    ranks.put("sect", SECTION);
-    ranks.put("section", SECTION);
-    ranks.put("ser", SERIES);
-    ranks.put("series", SERIES);
-    ranks.put("sp", SPECIES);
-    ranks.put("spec", SPECIES);
-    ranks.put("species", SPECIES);
-    ranks.put("spp", SPECIES);
-    ranks.put("subg", SUBGENUS);
-    ranks.put("subgen", SUBGENUS);
-    ranks.put("subgenus", SUBGENUS);
-    ranks.put("subsect", SUBSECTION);
-    ranks.put("subsection", SUBSECTION);
-    ranks.put("subser", SUBSERIES);
-    ranks.put("subseries", SUBSERIES);
-    RANK_MARKER_MAP_INFRAGENERIC = ImmutableMap.copyOf(ranks);
-
-    ranks = new HashMap<String, Rank>();
-    for (Rank r : values()) {
-      if (r.isInfraspecific() && r.getMarker() != null) {
-        ranks.put(r.getMarker().replaceAll("\\.", ""), r);
-      }
-    }
-    ranks.put("ab", INFRASUBSPECIFIC_NAME);
-    ranks.put("aberration", INFRASUBSPECIFIC_NAME);
-    ranks.put("bv", BIOVAR);
-    ranks.put("ct", CHEMOFORM);
-    ranks.put("cv", CULTIVAR);
-    ranks.put("f", FORM);
-    ranks.put("fo", FORM);
-    ranks.put("form", FORM);
-    ranks.put("forma", FORM);
-    ranks.put("fsp", FORMA_SPECIALIS);
-    ranks.put("hort", CULTIVAR);
-    ranks.put("m", INFRASUBSPECIFIC_NAME);
-    ranks.put("morph", INFRASUBSPECIFIC_NAME);
-    ranks.put("nat", INFRASUBSPECIFIC_NAME);
-    ranks.put("pv", PATHOVAR);
-    ranks.put("sf", SUBFORM);
-    ranks.put("ssp", SUBSPECIES);
-    ranks.put("st", STRAIN);
-    ranks.put("subf", SUBFORM);
-    ranks.put("subform", SUBFORM);
-    ranks.put("subsp", SUBSPECIES);
-    ranks.put("subv", SUBVARIETY);
-    ranks.put("subvar", SUBVARIETY);
-    ranks.put("sv", SUBVARIETY);
-    ranks.put("v", VARIETY);
-    ranks.put("var", VARIETY);
-    ranks.put("\\*+", INFRASPECIFIC_NAME);
-    for (Rank r : INFRASUBSPECIFIC_MICROBIAL_RANKS) {
-      ranks.put(r.getMarker(), r);
-    }
-    RANK_MARKER_MAP_INFRASPECIFIC = ImmutableMap.copyOf(ranks);
-
-    ranks = new HashMap<String, Rank>();
-    for (Rank r : values()) {
-      if (r.getMarker() != null) {
-        ranks.put(r.getMarker().replaceAll("\\.", ""), r);
-      }
-    }
-    ranks.putAll(RANK_MARKER_MAP_SUPRAGENERIC);
-    ranks.putAll(RANK_MARKER_MAP_INFRAGENERIC);
-    ranks.putAll(RANK_MARKER_MAP_INFRASPECIFIC);
-    ranks.put("subser", SUBSERIES);
-    RANK_MARKER_MAP = ImmutableMap.copyOf(ranks);
-  }
-
-  /**
-   * Tries its best to infer a rank from a given rank marker such as subsp.
-   *
-   * @return the inferred rank or null
-   */
-  public static Rank inferRank(@Nullable String rankMarker) {
-    // first try rank marker
-    if (rankMarker != null) {
-      Rank markerRank = RANK_MARKER_MAP.get(NORMALIZE_TERM.matcher(rankMarker.toLowerCase()).replaceAll(""));
-      if (markerRank != null) {
-        return markerRank;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Tries its best to infer a rank from an atomised name.
-   * As a final resort for higher monomials the suffices are inspected, but no attempt is made to disambiguate
-   * the 2 known homonym suffices -idae and -inae, but instead the far more widespread zoological versions are
-   * interpreted.
-   * TODO: pass optional nomenclatural code paraemeter to disambiguate homonym suffices.
-   *
-   * @param genusOrAbove         an optional uninomial at genus level or above
-   * @param infraGeneric         an optional subgeneric name part, e.g. the subgenus
-   * @param specificEpithet      an optional specific epithet
-   * @param rankMarker           an optional rank marker such as subsp.
-   * @param infraSpecificEpithet an optional infraspecific epithet
-   *
-   * @return the inferred rank or Unranked if it cant be found, never null.
-   */
-
-  public static Rank inferRank(
-      @Nullable String genusOrAbove,
-      @Nullable String infraGeneric,
-      @Nullable String specificEpithet,
-      @Nullable String rankMarker,
-      @Nullable String infraSpecificEpithet
-  ) {
-    // first try rank marker
-    Rank markerRank = inferRank(rankMarker);
-    if (markerRank != null) {
-      return markerRank;
-    }
-
-    // default if we cant find anything else
-    Rank rank = UNRANKED;
-    // detect rank based on parsed name
-    if (infraSpecificEpithet != null) {
-      // some infraspecific name
-      rank = INFRASPECIFIC_NAME;
-    } else if (specificEpithet != null) {
-      // a species
-      rank = SPECIES;
-    } else if (infraGeneric != null) {
-      // some infrageneric name
-      rank = INFRAGENERIC_NAME;
-    } else if (genusOrAbove != null) {
-      // a suprageneric name, check suffices
-      for (String suffix : SUFFICES_RANK_MAP.keySet()) {
-        if (genusOrAbove.endsWith(suffix)) {
-          rank = SUFFICES_RANK_MAP.get(suffix);
-          break;
-        }
-      }
-    }
-    return rank;
-  }
 
   Rank() {
     this(null);
@@ -483,17 +354,17 @@ public enum Rank {
   }
 
   /**
-   * @return true for infraspecific ranks excluding cultivars and strains.
+   * @return true for infraspecific ranks.
    */
   public boolean isInfraspecific() {
-    return isSpeciesOrBelow() && this != SPECIES && this != CULTIVAR && this != CULTIVAR_GROUP && this != STRAIN;
+    return this != SPECIES && isSpeciesOrBelow();
   }
 
   /**
    * @return true for rank is below genus.
    */
   public boolean isInfrageneric() {
-    return ordinal() > GENUS.ordinal() && this != UNRANKED && this != INFORMAL;
+    return ordinal() > GENUS.ordinal() && notOtherOrUnknown();
   }
 
   /**
@@ -509,14 +380,11 @@ public enum Rank {
   }
 
   public boolean isSpeciesOrBelow() {
-    return SPECIES_OR_BELOW.contains(this);
+    return ordinal() >= SPECIES.ordinal() && notOtherOrUnknown();
   }
 
-  /**
-   * True for all infrasubspecific ranks used in microbiology.
-   */
-  public boolean isMicrobial() {
-    return INFRASUBSPECIFIC_MICROBIAL_RANKS.contains(this);
+  public boolean notOtherOrUnknown() {
+    return this != OTHER && this != UNRANKED;
   }
 
   /**
@@ -536,12 +404,26 @@ public enum Rank {
   /**
    * True for names of informal ranks that represent a range of ranks really and therefore cannot safely be compared to
    * other ranks in all cases.
-   * Example ranks are infraspecies or subgeneric
+   * Example ranks are INFRASPECIFIC_NAME or INFRAGENERIC_NAME
    *
    * @return true if uncomparable
    */
   public boolean isUncomparable() {
     return UNCOMPARABLE_RANKS.contains(this);
+  }
+
+  /**
+   * @return true if the rank is considered a legacy rank not used anymore in current nomenclature.
+   */
+  public boolean isLegacy() {
+    return LEGACY_RANKS.contains(this);
+  }
+
+  /**
+   * @return the nomenclatural code if the rank is restricted to just one code or null otherwise
+   */
+  public NomenclaturalCode isRestrictedToCode() {
+    return RANK2CODE.get(this);
   }
 
   /**

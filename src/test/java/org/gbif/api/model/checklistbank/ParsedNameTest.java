@@ -1,8 +1,11 @@
 package org.gbif.api.model.checklistbank;
 
+import org.gbif.api.SerdeTestUtils;
 import org.gbif.api.vocabulary.NamePart;
 import org.gbif.api.vocabulary.NameType;
 import org.gbif.api.vocabulary.Rank;
+
+import java.io.IOException;
 
 import org.junit.Test;
 
@@ -84,21 +87,6 @@ public class ParsedNameTest {
     pn.setScientificName("? hostilis Gravenhorst, 1829");
     pn.setType(NameType.PLACEHOLDER);
     assertNull(pn.canonicalName());
-  }
-
-  @Test
-  public void testSetGetRanks() throws Exception {
-    ParsedName pn = new ParsedName();
-    for (Rank r : Rank.values()) {
-      if (r.getMarker() != null) {
-        pn.setRank(null);
-        pn.setRank(r);
-        System.out.print(r + " -> ");
-        System.out.print(pn.getRankMarker() + " -> ");
-        System.out.println(pn.getRank());
-        assertEquals(r, pn.getRank());
-      }
-    }
   }
 
   /**
@@ -186,7 +174,53 @@ public class ParsedNameTest {
     pn.setRank(Rank.SUBSPECIES);
     assertBuildName(pn, "Abax carinatus subsp. urinatus (Duftschmid, 1812)", "Abax carinatus urinatus", "Abax carinatus subsp. urinatus (Duftschmid, 1812)", "Abax carinatus subsp. urinatus");
 
+    pn = new ParsedName();
+    pn.setGenusOrAbove("Polypodium");
+    pn.setSpecificEpithet("vulgare");
+    pn.setInfraSpecificEpithet("mantoniae");
+    pn.setBracketAuthorship("Rothm.");
+    pn.setAuthorship("Schidlay");
+    pn.setRank(Rank.SUBSPECIES);
+    pn.setNotho(NamePart.INFRASPECIFIC);
+    assertBuildName(pn, "Polypodium vulgare nothosubsp. mantoniae (Rothm.) Schidlay",
+        "Polypodium vulgare mantoniae",
+        "Polypodium vulgare nothosubsp. mantoniae (Rothm.) Schidlay",
+        "Polypodium vulgare nothosubsp. mantoniae");
   }
+
+  @Test
+  public void testJsonSerde() throws IOException {
+    ParsedName pn = new ParsedName();
+    pn.setGenusOrAbove("Brachyhypopomus");
+    pn.setInfraGeneric("Odontohypopomus");
+    pn.setAuthorship("Sullivan, Zuanon & Cox Fernandes");
+    pn.setYear("2013");
+    pn.setRank(Rank.SUBGENUS);
+    SerdeTestUtils.testSerDe(pn, ParsedName.class);
+
+    pn = new ParsedName();
+    pn.setKey(123);
+    pn.setType(NameType.SCIENTIFIC);
+    pn.setGenusOrAbove("Abax");
+    pn.setSpecificEpithet("carinatus");
+    pn.setInfraSpecificEpithet("carinatus");
+    pn.setBracketAuthorship("Duftschmid");
+    pn.setBracketYear("1812");
+    pn.setRank(Rank.INFRASUBSPECIFIC_NAME);
+    SerdeTestUtils.testSerDe(pn, ParsedName.class);
+
+    pn.setAuthorship("Carlos & Kamera");
+    pn.setYear("1999");
+
+    for (Rank rank : Rank.values()) {
+      pn.setRank(rank);
+      // UNRANKED intentionally becomes null!
+      if (rank.notOtherOrUnknown()) {
+        SerdeTestUtils.testSerDe(pn, ParsedName.class);
+      }
+    }
+  }
+
 
   /**
    * assert all build name methods return the same string
@@ -201,9 +235,9 @@ public class ParsedNameTest {
   }
 
   private void assertBuildName(ParsedName pn, String full, String canonical, String canonicalComplete, String canonicalMarker) {
-    assertEquals(full, pn.fullName());
-    assertEquals(canonical, pn.canonicalName());
-    assertEquals(canonicalComplete, pn.canonicalNameComplete());
-    assertEquals(canonicalMarker, pn.canonicalNameWithMarker());
+    assertEquals("wrong fullName", full, pn.fullName());
+    assertEquals("wrong canonicalName", canonical, pn.canonicalName());
+    assertEquals("wrong canonicalNameComplete", canonicalComplete, pn.canonicalNameComplete());
+    assertEquals("wrong canonicalNameWithMarker", canonicalMarker, pn.canonicalNameWithMarker());
   }
 }
