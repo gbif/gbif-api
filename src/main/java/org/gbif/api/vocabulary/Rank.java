@@ -33,11 +33,11 @@ public enum Rank {
 
   DOMAIN("dom."),
 
-  KINGDOM("king."),
+  KINGDOM("reg."),
 
-  SUBKINGDOM("subking."),
+  SUBKINGDOM("subreg."),
 
-  INFRAKINGDOM("infraking."),
+  INFRAKINGDOM("infrareg."),
 
   SUPERPHYLUM("superphyl."),
 
