@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.checklistbank;
 
+import org.gbif.api.SerdeTestUtils;
 import org.gbif.api.vocabulary.NomenclaturalStatus;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
@@ -25,9 +26,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.UUID;
 
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -178,26 +176,32 @@ public class NameUsageTest {
     NameUsage nu = new NameUsage();
     nu.setKey(6);
     nu.setScientificName("Vicia faba L.");
-    nu.setSynonym(true);
     nu.setTaxonomicStatus(null);
+    assertNull(nu.getTaxonomicStatus());
+    assertFalse(nu.isSynonym());
+
+    nu.setTaxonomicStatus(TaxonomicStatus.PROPARTE_SYNONYM);
+    assertEquals(TaxonomicStatus.PROPARTE_SYNONYM, nu.getTaxonomicStatus());
+    assertTrue(nu.isSynonym());
+
+    nu.setTaxonomicStatus(TaxonomicStatus.SYNONYM);
     assertEquals(TaxonomicStatus.SYNONYM, nu.getTaxonomicStatus());
+    assertTrue(nu.isSynonym());
+
+    nu.setTaxonomicStatus(TaxonomicStatus.DOUBTFUL);
+    assertEquals(TaxonomicStatus.DOUBTFUL, nu.getTaxonomicStatus());
+    assertFalse(nu.isSynonym());
 
     nu.setProParteKey(432);
-    assertEquals(TaxonomicStatus.PROPARTE_SYNONYM, nu.getTaxonomicStatus());
-
-    nu.setSynonym(false);
-    assertNull(nu.getTaxonomicStatus());
+    assertTrue(nu.isProParte());
 
     nu.setTaxonomicStatus(TaxonomicStatus.HETEROTYPIC_SYNONYM);
     assertEquals(TaxonomicStatus.HETEROTYPIC_SYNONYM, nu.getTaxonomicStatus());
+    assertTrue(nu.isSynonym());
   }
 
   @Test
   public void testJsonSerde() throws IOException {
-    final ObjectMapper mapper = new ObjectMapper();
-    mapper.enable(DeserializationConfig.Feature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-    mapper.enable(SerializationConfig.Feature.INDENT_OUTPUT);
-    mapper.disable(SerializationConfig.Feature.WRITE_NULL_PROPERTIES);
 
     NameUsage u = new NameUsage();
     u.setKey(123);
@@ -207,9 +211,7 @@ public class NameUsageTest {
     u.setKingdomKey(6);
     u.setKingdom("Plants");
 
-    String json = mapper.writeValueAsString(u);
-    System.out.println(json);
-    assertEquals(u, mapper.readValue(json, NameUsage.class));
+    SerdeTestUtils.testSerDe(u, NameUsage.class);
   }
 
 

@@ -17,6 +17,7 @@ import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.util.ClassificationUtils;
 import org.gbif.api.vocabulary.Rank;
+import org.gbif.api.vocabulary.TaxonomicStatus;
 
 import java.util.LinkedHashMap;
 
@@ -56,9 +57,33 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   private String parent;
   private Integer parentKey;
   private Integer nubKey;
+  private String scientificName;
   private String canonicalName;
   private Rank rank;
+  private TaxonomicStatus status;
 
+  /**
+   * @return true if its a synonym
+   */
+  public boolean isSynonym() {
+    return status != null && status.isSynonym();
+  }
+
+  public String getScientificName() {
+    return scientificName;
+  }
+
+  public void setScientificName(String scientificName) {
+    this.scientificName = scientificName;
+  }
+
+  public TaxonomicStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(TaxonomicStatus status) {
+    this.status = status;
+  }
 
   public Integer getNubKey() {
     return nubKey;
@@ -250,11 +275,9 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
     this.subgenusKey = subgenusKey;
   }
 
-
   public String getParent() {
     return parent;
   }
-
 
   public Integer getParentKey() {
     return parentKey;
@@ -303,7 +326,7 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   public int hashCode() {
     return Objects
       .hashCode(key, parentKey, parent, kingdom, phylum, clazz, order, family, genus, subgenus, species, kingdomKey,
-        phylumKey, classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, canonicalName, rank, nubKey);
+        phylumKey, classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, canonicalName, rank, status, nubKey);
   }
 
   @Override
@@ -334,8 +357,10 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
       && Objects.equal(this.genusKey, other.genusKey)
       && Objects.equal(this.subgenusKey, other.subgenusKey)
       && Objects.equal(this.speciesKey, other.speciesKey)
+      && Objects.equal(this.scientificName, other.scientificName)
       && Objects.equal(this.canonicalName, other.canonicalName)
       && Objects.equal(this.rank, other.rank)
+      && Objects.equal(this.status, other.status)
       && Objects.equal(this.nubKey, other.nubKey);
   }
 
@@ -361,8 +386,10 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
       ", genusKey=" + genusKey +
       ", subgenusKey=" + subgenusKey +
       ", speciesKey=" + speciesKey +
+      ", scientificName='" + scientificName + '\'' +
       ", canonicalName='" + canonicalName + '\'' +
       ", rank=" + rank +
+      ", status=" + status +
       ", nubKey=" + nubKey +
       '}';
   }

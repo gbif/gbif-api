@@ -55,7 +55,6 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
   private String accepted;
   private Integer basionymKey;
   private String basionym;
-  private boolean isSynonym;
 
   // for LinneanClassification
   private String kingdom;
@@ -519,19 +518,19 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
     return ClassificationUtils.getHigherClassificationMap(this, key, parentKey, parent);
   }
 
+  /**
+   * Convenience method using the taxonomicStatus field.
+   * @return true if its a synonym
+   */
   public boolean isSynonym() {
-    return isSynonym;
-  }
-
-  public void setSynonym(boolean synonym) {
-    isSynonym = synonym;
+    return taxonomicStatus != null && taxonomicStatus.isSynonym();
   }
 
   @Override
   public int hashCode() {
     return Objects
       .hashCode(key, datasetKey, constituentKey, nubKey, parentKey, parent, acceptedKey, accepted, basionymKey,
-                basionym, isSynonym, kingdom, phylum, clazz, order, family, genus, subgenus, species, kingdomKey,
+                basionym, kingdom, phylum, clazz, order, family, genus, subgenus, species, kingdomKey,
                 phylumKey, classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName,
                 canonicalName, authorship, publishedIn, accordingTo, nameType, taxonomicStatus, nomenclaturalStatus,
                 rank, origin, numDescendants, numOccurrences, taxonID, extinct, habitats, threatStatuses, descriptions,
@@ -557,7 +556,6 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
            && Objects.equal(this.accepted, other.accepted)
            && Objects.equal(this.basionymKey, other.basionymKey)
            && Objects.equal(this.basionym, other.basionym)
-           && Objects.equal(this.isSynonym, other.isSynonym)
            && Objects.equal(this.kingdom, other.kingdom)
            && Objects.equal(this.phylum, other.phylum)
            && Objects.equal(this.clazz, other.clazz)
@@ -607,7 +605,6 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
            + ", accepted='" + accepted + '\''
            + ", basionymKey=" + basionymKey
            + ", basionym='" + basionym + '\''
-           + ", isSynonym=" + isSynonym
            + ", kingdom='" + kingdom + '\''
            + ", phylum='" + phylum + '\''
            + ", clazz='" + clazz + '\''

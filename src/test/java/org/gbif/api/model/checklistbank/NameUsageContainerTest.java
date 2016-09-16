@@ -312,21 +312,31 @@ public class NameUsageContainerTest {
 
   @Test
   public void testTaxonomicStatus() {
-    NameUsageContainer nu = new NameUsageContainer();
+    NameUsage nu = new NameUsage();
     nu.setKey(6);
     nu.setScientificName("Vicia faba L.");
-    nu.setSynonym(true);
     nu.setTaxonomicStatus(null);
+    assertNull(nu.getTaxonomicStatus());
+    assertFalse(nu.isSynonym());
+
+    nu.setTaxonomicStatus(TaxonomicStatus.PROPARTE_SYNONYM);
+    assertEquals(TaxonomicStatus.PROPARTE_SYNONYM, nu.getTaxonomicStatus());
+    assertTrue(nu.isSynonym());
+
+    nu.setTaxonomicStatus(TaxonomicStatus.SYNONYM);
     assertEquals(TaxonomicStatus.SYNONYM, nu.getTaxonomicStatus());
+    assertTrue(nu.isSynonym());
+
+    nu.setTaxonomicStatus(TaxonomicStatus.DOUBTFUL);
+    assertEquals(TaxonomicStatus.DOUBTFUL, nu.getTaxonomicStatus());
+    assertFalse(nu.isSynonym());
 
     nu.setProParteKey(432);
-    assertEquals(TaxonomicStatus.PROPARTE_SYNONYM, nu.getTaxonomicStatus());
-
-    nu.setSynonym(false);
-    assertNull(nu.getTaxonomicStatus());
+    assertTrue(nu.isProParte());
 
     nu.setTaxonomicStatus(TaxonomicStatus.HETEROTYPIC_SYNONYM);
     assertEquals(TaxonomicStatus.HETEROTYPIC_SYNONYM, nu.getTaxonomicStatus());
+    assertTrue(nu.isSynonym());
   }
 
   @Test

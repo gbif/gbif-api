@@ -42,6 +42,13 @@ public class RankTest {
   }
 
   @Test
+  public void testIsLinnean2() {
+    for (Rank r : Rank.values()) {
+      System.out.print("'"+r.name()+"', ");
+    }
+
+  }
+  @Test
   public void testIsLinnean() {
     assertTrue(Rank.KINGDOM.isLinnean());
     assertTrue(Rank.PHYLUM.isLinnean());

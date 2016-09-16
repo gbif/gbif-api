@@ -56,6 +56,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
 
   private Integer key;
   private Integer nubKey;
+  private Integer nameKey;
   private String taxonID;
   private Integer sourceTaxonKey;
   // for LinneanClassification
@@ -102,8 +103,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   private String accordingTo;
 
   private int numDescendants;
-
-  private boolean isSynonym;
   private URI references;
 
   private Date modified;
@@ -111,6 +110,17 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   private Date lastCrawled;
   private Date lastInterpreted;
   private Set<NameUsageIssue> issues = EnumSet.noneOf(NameUsageIssue.class);
+
+  /**
+   * @return the name key for retrieving a parsed name object
+   */
+  public Integer getNameKey() {
+    return nameKey;
+  }
+
+  public void setNameKey(Integer nameKey) {
+    this.nameKey = nameKey;
+  }
 
   /**
    * For backbone taxa the source taxon key refers to the original name usage that was used during nub building
@@ -757,27 +767,14 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   /**
-   * The status of the use of the scientificName as a label for the taxon.
-   * If it's not set explicit the isSynonym and isProParte flags are used to calculate values.
-   * <blockquote>
-   * <p>
-   * <i>Example:</i> "invalid", "misapplied", "homotypic synonym", "accepted"
-   * </p>
-   * </blockquote>
+   * The taxonomic status of the name usage.
+   * Can be null, but for all synonyms with an accepted name usage it is guaranteed to exist.
    *
    * @return the taxonomicStatus, can be null
    */
   @Nullable
   public TaxonomicStatus getTaxonomicStatus() {
-    if (taxonomicStatus != null) {
-      return taxonomicStatus;
-    }
-
-    if (isSynonym) {
-      return isProParte() ? TaxonomicStatus.PROPARTE_SYNONYM : TaxonomicStatus.SYNONYM;
-    }
-
-    return null;
+    return taxonomicStatus;
   }
 
   @Nullable
@@ -862,21 +859,15 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   /**
-   * @return the isSynonym
+   * Convenience method using the taxonomicStatus field.
+   * @return true if its a synonym
    */
   public boolean isSynonym() {
-    return isSynonym;
+    return taxonomicStatus != null && taxonomicStatus.isSynonym();
   }
 
   public void setTaxonID(String taxonID) {
     this.taxonID = taxonID;
-  }
-
-  /**
-   * @param isSynonym the isSynonym to set
-   */
-  public void setSynonym(boolean isSynonym) {
-    this.isSynonym = isSynonym;
   }
 
   @Override
@@ -884,6 +875,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     return Objects
       .hashCode(
         key,
+        nameKey,
         kingdom,
         phylum,
         clazz,
@@ -919,7 +911,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
         publishedIn,
         accordingTo,
         numDescendants,
-        isSynonym,
         origin,
         remarks,
         references,
@@ -944,6 +935,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     }
     final NameUsage other = (NameUsage) obj;
     return Objects.equal(this.key, other.key)
+           && Objects.equal(this.nameKey, other.nameKey)
            && Objects.equal(this.kingdom, other.kingdom)
            && Objects.equal(this.phylum, other.phylum)
            && Objects.equal(this.clazz, other.clazz)
@@ -981,7 +973,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
            && Objects.equal(this.publishedIn, other.publishedIn)
            && Objects.equal(this.accordingTo, other.accordingTo)
            && Objects.equal(this.numDescendants, other.numDescendants)
-           && Objects.equal(this.isSynonym, other.isSynonym)
            && Objects.equal(this.origin, other.origin)
            && Objects.equal(this.references, other.references)
            && Objects.equal(this.taxonID, other.taxonID)
@@ -997,6 +988,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   public String toString() {
     return Objects.toStringHelper(this)
       .add("key", key)
+      .add("nameKey", nameKey)
       .add("kingdom", kingdom)
       .add("phylum", phylum)
       .add("clazz", clazz)
@@ -1034,7 +1026,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
       .add("publishedIn", publishedIn)
       .add("accordingTo", accordingTo)
       .add("numDescendants", numDescendants)
-      .add("isSynonym", isSynonym)
       .add("origin", origin)
       .add("remarks", remarks)
       .add("references", references)
