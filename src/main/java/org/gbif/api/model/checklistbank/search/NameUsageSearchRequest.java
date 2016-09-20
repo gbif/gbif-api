@@ -36,7 +36,7 @@ public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearch
   private boolean extended = true;
   private MatchType match = MatchType.ALL;
   private List<HighlightField> highlightFields = Lists.newArrayList(DESCRIPTION, VERNACULAR);
-  private Integer hlVicinity = 100;
+  private Integer highlightContext = 100;
 
   public enum HighlightField {
     DESCRIPTION,
@@ -82,14 +82,14 @@ public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearch
   }
 
   /**
-   * @return the number of characters to show of the vicinity of the highlighted match
+   * @return the number of characters of the context to show for the highlighted match, including the match itself.
    */
-  public Integer getHlVicinity() {
-    return hlVicinity;
+  public Integer getHighlightContext() {
+    return highlightContext;
   }
 
-  public void setHlVicinity(Integer hlVicinity) {
-    this.hlVicinity = hlVicinity;
+  public void setHighlightContext(Integer highlightContext) {
+    this.highlightContext = highlightContext;
   }
 
   /**
