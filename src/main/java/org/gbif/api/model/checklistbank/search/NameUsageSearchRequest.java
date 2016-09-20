@@ -27,7 +27,7 @@ import java.util.UUID;
  * A name usage specific search request with convenience methods to add enum based search filters.
  */
 public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearchParameter> {
-  private boolean dense = false;
+  private boolean extended = true;
 
   public NameUsageSearchRequest() {
   }
@@ -41,7 +41,7 @@ public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearch
   }
 
   /**
-   * Allows to request a more performant and much smaller dense search result without the larger list properties:
+   * Allows to request an extended search object with the larger list properties:
    * <ul>
    *  <li>habitats</li>
    *  <li>nomenclaturalStatus</li>
@@ -50,14 +50,14 @@ public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearch
    *  <li>vernacularNames</li>
    * </ul>
    *
-   * @return if true ask for a dense search result
+   * @return if true request the extended search model
    */
-  public boolean isDense() {
-    return dense;
+  public boolean isExtended() {
+    return extended;
   }
 
-  public void setDense(boolean dense) {
-    this.dense = dense;
+  public void setExtended(boolean extended) {
+    this.extended = extended;
   }
 
   public void addChecklistFilter(UUID datasetKey) {
