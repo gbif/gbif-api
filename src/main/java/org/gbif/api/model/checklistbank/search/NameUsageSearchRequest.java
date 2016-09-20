@@ -21,13 +21,32 @@ import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
 
+import java.util.List;
 import java.util.UUID;
+
+import com.google.common.collect.Lists;
+
+import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.HighlightField.DESCRIPTION;
+import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.HighlightField.VERNACULAR;
 
 /**
  * A name usage specific search request with convenience methods to add enum based search filters.
  */
 public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearchParameter> {
   private boolean extended = true;
+  private MatchType match = MatchType.ALL;
+  private List<HighlightField> highlightFields = Lists.newArrayList(DESCRIPTION, VERNACULAR);
+  private Integer hlVicinity = 100;
+
+  public enum HighlightField {
+    DESCRIPTION,
+    VERNACULAR
+  }
+  public enum MatchType {
+    ALL,
+    SCIENTIFIC,
+    VERNACULAR
+  }
 
   public NameUsageSearchRequest() {
   }
@@ -41,6 +60,39 @@ public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearch
   }
 
   /**
+   * Defines whether to match against fields with scientific or vernacular names or both.
+   */
+  public MatchType getMatch() {
+    return match;
+  }
+
+  public void setMatch(MatchType match) {
+    this.match = match;
+  }
+
+  /**
+   * Defines the fields to be highlighted if highlighting is activated.
+   */
+  public List<HighlightField> getHighlightFields() {
+    return highlightFields;
+  }
+
+  public void setHighlightFields(List<HighlightField> highlightFields) {
+    this.highlightFields = highlightFields;
+  }
+
+  /**
+   * @return the number of characters to show of the vicinity of the highlighted match
+   */
+  public Integer getHlVicinity() {
+    return hlVicinity;
+  }
+
+  public void setHlVicinity(Integer hlVicinity) {
+    this.hlVicinity = hlVicinity;
+  }
+
+  /**
    * Allows to request an extended search object with the larger list properties:
    * <ul>
    *  <li>habitats</li>
@@ -49,6 +101,9 @@ public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearch
    *  <li>descriptions</li>
    *  <li>vernacularNames</li>
    * </ul>
+   *
+   * If extended=false and highlighting is activated, the highlighted matches will still be added to the extended properties.
+   * In that case only the matched parts are shown, e.g. just the one vernacular name that matched.
    *
    * @return if true request the extended search model
    */
