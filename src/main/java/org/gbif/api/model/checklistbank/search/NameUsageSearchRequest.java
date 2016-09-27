@@ -21,33 +21,30 @@ import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
 
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.HighlightField.DESCRIPTION;
-import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.HighlightField.VERNACULAR;
+import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.DESCRIPTION;
+import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.SCIENTIFIC;
+import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.VERNACULAR;
 
 /**
  * A name usage specific search request with convenience methods to add enum based search filters.
+ * By default the query q is send to all available query fields.
+ * Highlighting by default works for descriptions and vernacular names - if turned on.
  */
 public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearchParameter> {
   private boolean extended = true;
-  private MatchType match = MatchType.ALL;
-  private Set<HighlightField> highlightFields = Sets.newHashSet(DESCRIPTION, VERNACULAR);
+  private Set<QueryField> queryFields = Sets.newHashSet(SCIENTIFIC, DESCRIPTION, VERNACULAR);
+  private Set<QueryField> highlightFields = Sets.newHashSet(DESCRIPTION, VERNACULAR);
   private Integer highlightContext = 100;
 
-  public enum HighlightField {
-    DESCRIPTION,
-    VERNACULAR
-  }
-  public enum MatchType {
-    ALL,
+  public enum QueryField {
     SCIENTIFIC,
-    VERNACULAR
+    VERNACULAR,
+    DESCRIPTION
   }
 
   public NameUsageSearchRequest() {
@@ -64,22 +61,23 @@ public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearch
   /**
    * Defines whether to match against fields with scientific or vernacular names or both.
    */
-  public MatchType getMatch() {
-    return match;
+  public Set<QueryField> getQueryFields() {
+    return queryFields;
   }
 
-  public void setMatch(MatchType match) {
-    this.match = match;
+  public void setQueryFields(Set<QueryField> queryFields) {
+    this.queryFields = queryFields;
   }
 
   /**
+
    * Defines the fields to be highlighted if highlighting is activated.
    */
-  public Set<HighlightField> getHighlightFields() {
+  public Set<QueryField> getHighlightFields() {
     return highlightFields;
   }
 
-  public void setHighlightFields(Set<HighlightField> highlightFields) {
+  public void setHighlightFields(Set<QueryField> highlightFields) {
     this.highlightFields = highlightFields;
   }
 
@@ -152,4 +150,5 @@ public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearch
   public void addIssueFilter(NameUsageIssue issue) {
     addParameter(NameUsageSearchParameter.ISSUE, issue);
   }
+
 }
