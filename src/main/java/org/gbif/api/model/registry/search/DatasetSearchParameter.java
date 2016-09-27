@@ -78,7 +78,12 @@ public enum DatasetSearchParameter implements SearchParameter {
   /**
    * {@link org.gbif.api.vocabulary.License} of a dataset.
    */
-  LICENSE(License.class);
+  LICENSE(License.class),
+
+  /**
+   * Identifier of the associated project.
+   */
+  PROJECT_ID(String.class);
 
 
   private DatasetSearchParameter(Class<?> type) {

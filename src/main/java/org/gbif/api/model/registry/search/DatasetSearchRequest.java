@@ -35,7 +35,7 @@ public class DatasetSearchRequest extends FacetedSearchRequest<DatasetSearchPara
 
   /**
    * Filters dataset by a country of the geospatial coverage.
-   * 
+   *
    * @param country appearing in geospatial coverage
    */
   public void addCountryFilter(Country country) {
@@ -44,7 +44,7 @@ public class DatasetSearchRequest extends FacetedSearchRequest<DatasetSearchPara
 
   /**
    * Filters dataset by a continent of the geospatial coverage.
-   * 
+   *
    * @param continent appearing in geospatial coverage
    */
   public void addContinentFilter(Continent continent) {
@@ -53,7 +53,7 @@ public class DatasetSearchRequest extends FacetedSearchRequest<DatasetSearchPara
 
   /**
    * Filters datasets by their temporal coverage broken down to decades.
-   * 
+   *
    * @param decade the decade given as a 4 digit integer
    */
   public void addDecadeFilter(int decade) {
@@ -67,7 +67,7 @@ public class DatasetSearchRequest extends FacetedSearchRequest<DatasetSearchPara
   /**
    * Filters datasets by a keyword as generated through {@link org.gbif.api.model.registry.Dataset#getKeywords()} by
    * merging tags, the keywordCollections and temporalCoverages property.
-   * 
+   *
    * @param keyword a plain keyword e.g. created by Tag.toString()
    */
   // TODO: Fix Javadoc, what does this do? Keywords don't exist
@@ -77,7 +77,7 @@ public class DatasetSearchRequest extends FacetedSearchRequest<DatasetSearchPara
 
   /**
    * Filters dataset by a tag.
-   * 
+   *
    * @param keyword given as a tag
    */
   public void addKeywordFilter(Tag keyword) {
@@ -94,6 +94,10 @@ public class DatasetSearchRequest extends FacetedSearchRequest<DatasetSearchPara
 
   public void addTypeFilter(DatasetType type) {
     addParameter(DatasetSearchParameter.TYPE, type);
+  }
+
+  public void addProjectIdentifier(String identifier) {
+    addParameter(DatasetSearchParameter.PROJECT_ID, identifier);
   }
 
 }
