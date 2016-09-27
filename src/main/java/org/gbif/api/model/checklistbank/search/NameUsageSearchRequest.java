@@ -22,9 +22,11 @@ import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.HighlightField.DESCRIPTION;
 import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.HighlightField.VERNACULAR;
@@ -35,7 +37,7 @@ import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.Hig
 public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearchParameter> {
   private boolean extended = true;
   private MatchType match = MatchType.ALL;
-  private List<HighlightField> highlightFields = Lists.newArrayList(DESCRIPTION, VERNACULAR);
+  private Set<HighlightField> highlightFields = Sets.newHashSet(DESCRIPTION, VERNACULAR);
   private Integer highlightContext = 100;
 
   public enum HighlightField {
@@ -73,11 +75,11 @@ public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearch
   /**
    * Defines the fields to be highlighted if highlighting is activated.
    */
-  public List<HighlightField> getHighlightFields() {
+  public Set<HighlightField> getHighlightFields() {
     return highlightFields;
   }
 
-  public void setHighlightFields(List<HighlightField> highlightFields) {
+  public void setHighlightFields(Set<HighlightField> highlightFields) {
     this.highlightFields = highlightFields;
   }
 
