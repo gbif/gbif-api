@@ -141,7 +141,7 @@ public enum Rank {
    * The Berlin/MoreTax model notes: [these] aren't taxonomic ranks but cirumscriptions because on the one hand they are necessary for the concatenation
    * of the fullname and on the other hand they are necessary for distinguishing the aggregate or species group from the microspecies.
    */
-  SPECIES_AGGREGATE("aggr."),
+  SPECIES_AGGREGATE("agg."),
 
   SPECIES("sp."),
 
