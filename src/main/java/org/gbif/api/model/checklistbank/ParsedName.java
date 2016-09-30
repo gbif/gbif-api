@@ -64,15 +64,14 @@ public class ParsedName {
   private String cultivarEpithet;
   private String strain;
   private NamePart notho;
-  private boolean authorsParsed = true;
-  // the original author of this name, e.g basionym or current author for new names
   private String authorship;
   private String year;
-  // original bracket authorship. Only used in addition to current author
-  // so for new names when the original author = "current" author the property bracketAuthorship is not set!
   private String bracketAuthorship;
   private String bracketYear;
   private String sensu;
+  private boolean parsed = true;
+  private boolean authorsParsed = true;
+
   /**
    * nomenclatural status note.
    */
@@ -118,6 +117,9 @@ public class ParsedName {
     this.remarks = remarks;
   }
 
+  /**
+   * The original author of this name, e.g basionym or recombination author
+   */
   public String getAuthorship() {
     return authorship;
   }
@@ -126,6 +128,9 @@ public class ParsedName {
     this.authorship = authorship;
   }
 
+  /**
+   * The authorship of the original name, i.e. basionym, given in brackets.
+   */
   public String getBracketAuthorship() {
     return bracketAuthorship;
   }
@@ -134,6 +139,9 @@ public class ParsedName {
     this.bracketAuthorship = bracketAuthorship;
   }
 
+  /**
+   * The code relevant year of publication of the original name, i.e. basionym, given in brackets.
+   */
   public String getBracketYear() {
     return bracketYear;
   }
@@ -142,6 +150,10 @@ public class ParsedName {
     this.bracketYear = bracketYear;
   }
 
+  /**
+   * The cultivar, cultivar group or grex part of a cultivated plant name.
+   * If given the name should be of type NameType.CULTIVAR
+   */
   public String getCultivarEpithet() {
     return cultivarEpithet;
   }
@@ -153,6 +165,7 @@ public class ParsedName {
   /**
    * The strain or isolate name. Usually a capital collection code string followed by an accession number.
    * See <a href="http://www.bacterio.net/-collections.html">List of culture collection codes</a>
+   * If given the name should be of type NameType.STRAIN
    */
   public String getStrain() {
     return strain;
@@ -162,10 +175,16 @@ public class ParsedName {
     this.strain = strain;
   }
 
+  /**
+   * The genus part of a bi/trinomial or the monomial in case of names of higher ranks
+   */
   public String getGenusOrAbove() {
     return genusOrAbove;
   }
 
+  /**
+   * The infrageneric part of a name, often given in parenthesis between genus and species epithet, e.g. for a subgenus
+   */
   public String getInfraGeneric() {
     return infraGeneric;
   }
@@ -174,6 +193,9 @@ public class ParsedName {
     return infraSpecificEpithet;
   }
 
+  /**
+   * Any nomenclatoral remarks given in this name, e.g. nom. illeg.
+   */
   public String getNomStatus() {
     return nomStatus;
   }
@@ -182,6 +204,10 @@ public class ParsedName {
     this.nomStatus = nomStatus;
   }
 
+  /**
+   * For hybrid names notho indicates which part of the name is considered a hybrid,
+   * i.e. genus, species or infraspecific epithet.
+   */
   public NamePart getNotho() {
     return notho;
   }
@@ -190,6 +216,9 @@ public class ParsedName {
     this.notho = notho;
   }
 
+  /**
+   * Any further remarks found
+   */
   public String getRemarks() {
     return remarks;
   }
@@ -198,6 +227,10 @@ public class ParsedName {
     this.remarks = remarks;
   }
 
+  /**
+   * Taxon concept references as part of the name,
+   * e.g. "MSW2005" for Gorilla gorilla (Savage, 1847) sec. MSW2005
+   */
   public String getSensu() {
     return sensu;
   }
@@ -218,6 +251,9 @@ public class ParsedName {
     return infraSpecificEpithet == null ? specificEpithet : infraSpecificEpithet;
   }
 
+  /**
+   * A coarse classification of names helping to deal with different syntactical name string structures.
+   */
   public NameType getType() {
     return type;
   }
@@ -226,6 +262,9 @@ public class ParsedName {
     this.type = type;
   }
 
+  /**
+   * The year of publication as given in the authorship.
+   */
   public String getYear() {
     return year;
   }
@@ -237,14 +276,6 @@ public class ParsedName {
   @JsonIgnore
   public boolean hasAuthorship() {
     return authorship != null || year != null || bracketAuthorship != null || bracketYear != null;
-  }
-
-  public boolean isAuthorsParsed() {
-    return authorsParsed;
-  }
-
-  public void setAuthorsParsed(boolean authorsParsed) {
-    this.authorsParsed = authorsParsed;
   }
 
   public void setRank(Rank rank) {
@@ -259,12 +290,42 @@ public class ParsedName {
     this.key = key;
   }
 
+  /**
+   * The exact verbatim, full scientific name as given before parsing.
+   */
   public String getScientificName() {
     return scientificName;
   }
 
   public void setScientificName(String scientificName) {
     this.scientificName = scientificName;
+  }
+
+  /**
+   * Name parsing is not always easy and parsing the authorship can be the hardest part.
+   * The GBIF name parser falls back to parsing the canonical name only without authorships if it cannot handle the entire name.
+   * This flag helps to recognise that state. A name without authorship that is parsed successfully does have authorsParsed=true.
+   *
+   * @return false if full parsing incl authorship failed
+   */
+  public boolean isAuthorsParsed() {
+    return authorsParsed;
+  }
+
+  public void setAuthorsParsed(boolean authorsParsed) {
+    this.authorsParsed = authorsParsed;
+  }
+
+  /**
+   * A flag indicating if a name could not be parsed at all.
+   * In that case only the scientific name, rank and potentially the name type is given.
+   */
+  public boolean isParsed() {
+    return parsed;
+  }
+
+  public void setParsed(boolean parsed) {
+    this.parsed = parsed;
   }
 
   /**
