@@ -33,6 +33,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class NameUsageSuggestResult implements LinneanClassification, LinneanClassificationKeys {
 
   private Integer key;
+  private Integer nameKey;
 
   // for LinneanClassification
   private String kingdom;
@@ -61,6 +62,17 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   private String canonicalName;
   private Rank rank;
   private TaxonomicStatus status;
+
+  /**
+   * @return the name key for retrieving a parsed name object
+   */
+  public Integer getNameKey() {
+    return nameKey;
+  }
+
+  public void setNameKey(Integer nameKey) {
+    this.nameKey = nameKey;
+  }
 
   /**
    * @return true if its a synonym
@@ -325,7 +337,7 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   @Override
   public int hashCode() {
     return Objects
-      .hashCode(key, parentKey, parent, kingdom, phylum, clazz, order, family, genus, subgenus, species, kingdomKey,
+      .hashCode(key, nameKey, parentKey, parent, kingdom, phylum, clazz, order, family, genus, subgenus, species, kingdomKey,
         phylumKey, classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, canonicalName, rank, status, nubKey);
   }
 
@@ -339,6 +351,7 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
     }
     final NameUsageSuggestResult other = (NameUsageSuggestResult) obj;
     return Objects.equal(this.key, other.key)
+      && Objects.equal(this.nameKey, other.nameKey)
       && Objects.equal(this.parentKey, other.parentKey)
       && Objects.equal(this.parent, other.parent)
       && Objects.equal(this.kingdom, other.kingdom)
@@ -368,6 +381,7 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   public String toString() {
     return "NameUsageSearchResult{" +
       "key=" + key +
+      ", nameKey=" + nameKey +
       ", parentKey=" + parentKey +
       ", parent='" + parent + '\'' +
       ", kingdom='" + kingdom + '\'' +

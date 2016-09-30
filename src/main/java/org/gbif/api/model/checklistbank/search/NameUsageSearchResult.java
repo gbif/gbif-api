@@ -46,6 +46,7 @@ import static com.google.common.collect.Lists.newArrayList;
 public class NameUsageSearchResult implements LinneanClassification, LinneanClassificationKeys {
 
   private Integer key;
+  private Integer nameKey;
   private UUID datasetKey;
   private UUID constituentKey;
   private Integer nubKey;
@@ -97,6 +98,17 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
   private List<ThreatStatus> threatStatuses = newArrayList();
   private List<Description> descriptions = newArrayList();
   private List<VernacularName> vernacularNames = newArrayList();
+
+  /**
+   * @return the name key for retrieving a parsed name object
+   */
+  public Integer getNameKey() {
+    return nameKey;
+  }
+
+  public void setNameKey(Integer nameKey) {
+    this.nameKey = nameKey;
+  }
 
   public String getAccepted() {
     return accepted;
@@ -529,7 +541,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
   @Override
   public int hashCode() {
     return Objects
-      .hashCode(key, datasetKey, constituentKey, nubKey, parentKey, parent, acceptedKey, accepted, basionymKey,
+      .hashCode(key, nameKey, datasetKey, constituentKey, nubKey, parentKey, parent, acceptedKey, accepted, basionymKey,
                 basionym, kingdom, phylum, clazz, order, family, genus, subgenus, species, kingdomKey,
                 phylumKey, classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName,
                 canonicalName, authorship, publishedIn, accordingTo, nameType, taxonomicStatus, nomenclaturalStatus,
@@ -547,6 +559,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
     }
     final NameUsageSearchResult other = (NameUsageSearchResult) obj;
     return Objects.equal(this.key, other.key)
+           && Objects.equal(this.nameKey, other.nameKey)
            && Objects.equal(this.datasetKey, other.datasetKey)
            && Objects.equal(this.constituentKey, other.constituentKey)
            && Objects.equal(this.nubKey, other.nubKey)
@@ -596,6 +609,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
   public String toString() {
     return "NameUsageSearchResult{"
            + "key=" + key
+           + ", nameKey=" + nameKey
            + ", datasetKey=" + datasetKey
            + ", constituentKey=" + constituentKey
            + ", nubKey=" + nubKey
