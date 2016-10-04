@@ -57,7 +57,7 @@ public class DownloadRequest {
     @JsonProperty("notification_address") @Nullable Collection<String> notificationAddresses,
     @JsonProperty("send_notification") @Nullable boolean sendNotification,
     @JsonProperty("format") DownloadFormat format) {
-    this.creator = Preconditions.checkNotNull(creator, "Creator cannot be null");
+    this.creator = creator;
     this.predicate = predicate;
     this.notificationAddresses = notificationAddresses == null ?
       ImmutableSet.<String>of() : ImmutableSet.copyOf(notificationAddresses);
