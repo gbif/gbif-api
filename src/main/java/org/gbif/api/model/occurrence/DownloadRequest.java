@@ -53,7 +53,8 @@ public class DownloadRequest {
    */
   @JsonCreator
   public DownloadRequest(
-    @JsonProperty("predicate") Predicate predicate, @JsonProperty("creator") String creator,
+    @JsonProperty("predicate") Predicate predicate,
+    @JsonProperty("creator") @Nullable String creator,
     @JsonProperty("notification_address") @Nullable Collection<String> notificationAddresses,
     @JsonProperty("send_notification") @Nullable boolean sendNotification,
     @JsonProperty("format") DownloadFormat format) {
@@ -85,7 +86,7 @@ public class DownloadRequest {
   /**
    * @return the user account that initiated the download
    */
-  @NotNull
+  @Nullable
   public String getCreator() {
     return creator;
   }
