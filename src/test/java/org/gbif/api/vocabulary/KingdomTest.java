@@ -15,16 +15,31 @@ public class KingdomTest {
   }
 
   @Test
-  public void testNubUsageID() throws Exception {
-    assertEquals((Integer)0, Kingdom.INCERTAE_SEDIS.nubUsageID());
-    assertEquals((Integer)1, Kingdom.ANIMALIA.nubUsageID());
-    assertEquals((Integer)6, Kingdom.PLANTAE.nubUsageID());
+  public void testNubUsageKey() throws Exception {
+    assertEquals(0, Kingdom.INCERTAE_SEDIS.nubUsageKey());
+    assertEquals(1, Kingdom.ANIMALIA.nubUsageKey());
+    assertEquals(6, Kingdom.PLANTAE.nubUsageKey());
+
+    for (Kingdom k : Kingdom.values()) {
+      assertEquals(k.ordinal(), k.nubUsageKey());
+    }
   }
 
   @Test
-  public void testClbNameID() throws Exception {
-    assertEquals((Integer)9, Kingdom.INCERTAE_SEDIS.clbNameID());
-    assertEquals((Integer)1, Kingdom.ANIMALIA.clbNameID());
-    assertEquals((Integer)6, Kingdom.PLANTAE.clbNameID());
+  public void testByKey() throws Exception {
+    assertEquals(Kingdom.INCERTAE_SEDIS, Kingdom.byNubUsageKey(0));
+    assertEquals(Kingdom.ANIMALIA, Kingdom.byNubUsageKey(1));
+    assertEquals(Kingdom.PLANTAE, Kingdom.byNubUsageKey(6));
+    assertEquals(Kingdom.VIRUSES, Kingdom.byNubUsageKey(8));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testByKeyException() throws Exception {
+    Kingdom.byNubUsageKey(9);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testByKeyException2() throws Exception {
+    Kingdom.byNubUsageKey(-1);
   }
 }

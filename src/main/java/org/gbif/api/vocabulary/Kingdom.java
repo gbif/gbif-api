@@ -30,23 +30,19 @@ public enum Kingdom {
   PROTOZOA,
   VIRUSES;
 
-  // the constant name id used in checklistbank for the "incertae sedis" name string
-  private static final int INCERTAE_SEDIS_NAME_ID = 9;
-
   /**
-   * Looks up a kingdom by its nub usage id.
+   * Looks up a kingdom by its nub usage key.
    *
-   * @param usageID the nub usage id to lookup, must be < 9 to get a result.
+   * @param usageKey the nub usage key to lookup, must be < 9 to get a result.
    *
    * @return the matching kingdom or null
    */
-  public static Kingdom byNubUsageId(Integer usageID) {
-    for (Kingdom term : Kingdom.values()) {
-      if (term.nubUsageID().equals(usageID)) {
-        return term;
-      }
+  public static Kingdom byNubUsageKey(int usageKey) {
+    try {
+      return Kingdom.values()[usageKey];
+    } catch (IndexOutOfBoundsException e) {
+      throw new IllegalArgumentException("There is no kingdom with usage key " + usageKey);
     }
-    return null;
   }
 
   /**
@@ -57,18 +53,23 @@ public enum Kingdom {
     return this==INCERTAE_SEDIS ? lower : Character.toUpperCase(lower.charAt(0)) + lower.substring(1);
   }
 
-  /**
-   * @return the nub usage id for the kingdom.
-   */
-  public Integer nubUsageID() {
+  public int nubUsageKey() {
     return ordinal();
   }
 
   /**
-   * @return the checklistbank name id for the kingdom.
+   * @deprecated please use nubUsageKey() instead
    */
-  public Integer clbNameID() {
-    return this==INCERTAE_SEDIS ? INCERTAE_SEDIS_NAME_ID : ordinal();
+  @Deprecated
+  public Integer nubUsageID() {
+    return nubUsageKey();
   }
 
+  /**
+   * @deprecated please use byNubUsageId(int) instead
+   */
+  @Deprecated
+  public static Kingdom byNubUsageId(int usageKey) {
+    return byNubUsageKey(usageKey);
+  }
 }
