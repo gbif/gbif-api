@@ -7,7 +7,7 @@ import com.google.common.collect.ImmutableList;
 /**
  * An enumeration of validation rules for single occurrence records.
  */
-public enum OccurrenceIssue implements EvaluationDetailType {
+public enum OccurrenceIssue {
 
   /**
    * Coordinate is the exact 0/0 coordinate, often indicating a bad null coordinate.
