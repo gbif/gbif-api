@@ -20,14 +20,15 @@ import org.gbif.api.model.common.User;
 import javax.annotation.Nullable;
 
 /**
- * This read only service used to connect to a Drupal DB is deprecated in favour of the IdentityService.
+ * The identity service provides means to create, update and delete User accounts, and provide the mechanims to
+ * authenticate a user with their password.
+ * This is a replacement of the deprecated UserService which was a read only service, backed by a managed database
+ * (Drupal) and provides a writable option.
  */
-@Deprecated
-public interface UserService {
+public interface IdentityService extends CrudService<User, User, String> {
 
   /**
    * Authenticates a user.
-   *
    * @param password clear text password
    *
    * @return the authenticated user or null if not found or wrong credentials provided
@@ -36,18 +37,11 @@ public interface UserService {
   User authenticate(String username, String password);
 
   /**
-   * Retrieves a user by its case insensitive username.
-   */
-  @Nullable
-  User get(String username);
-
-  /**
-   * Retrieves a user by a currently open Drupal (login) session.
-   * The session name is stored by Drupal clientside in a cookie.
-   * @param session the drupal session name as found in the drupal cookie
+   * Retrieves a user by a currently open login session.
+   * The session name is stored by in a cookie.
+   * @param session the session name as found in the cookie
    * @return the user of an existing session or NULL if not found
    */
   @Nullable
   User getBySession(String session);
-
 }

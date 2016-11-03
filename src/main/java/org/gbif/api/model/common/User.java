@@ -18,6 +18,7 @@ package org.gbif.api.model.common;
 import org.gbif.api.vocabulary.UserRole;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Set;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -25,6 +26,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -45,6 +47,8 @@ public class User {
   private String passwordHash;
   private Set<UserRole> roles = Sets.newHashSet();
   private Date lastLogin;
+  // Note: Settings was introduced in the system developed to replace Drupal
+  private Map<String, String> settings = Maps.newHashMap();
 
   @NotNull
   public Integer getKey() {
@@ -166,6 +170,24 @@ public class User {
     return roles.contains(UserRole.ADMIN);
   }
 
+
+  /**
+   * Gets the settings which may be empty but never null.
+   * @return
+   */
+  @NotNull
+  public Map<String, String> getSettings() {
+    return settings;
+  }
+
+  /**
+   * Sets the settings object, setting an empty map if null is provided.
+   */
+  public void setSettings(Map<String, String> settings) {
+    // safeguard against misuse to avoid NPE
+    this.settings = settings == null ? Maps.<String,String>newHashMap() : settings;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
@@ -183,12 +205,13 @@ public class User {
            && Objects.equal(this.email, that.email)
            && Objects.equal(this.roles, that.roles)
            && Objects.equal(this.lastLogin, that.lastLogin)
-           && Objects.equal(this.passwordHash, that.passwordHash);
+           && Objects.equal(this.passwordHash, that.passwordHash)
+           && Objects.equal(this.settings, that.settings);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(key, userName, firstName, lastName, email, roles, lastLogin, passwordHash);
+    return Objects.hashCode(key, userName, firstName, lastName, email, roles, lastLogin, passwordHash, settings);
   }
 
   @Override
@@ -202,6 +225,7 @@ public class User {
       .add("roles", roles)
       .add("lastLogin", lastLogin)
       .add("passwordHash", passwordHash)
+      .add("settings", settings)
       .toString();
   }
 
