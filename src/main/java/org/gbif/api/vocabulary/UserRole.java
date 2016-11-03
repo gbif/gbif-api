@@ -23,12 +23,16 @@ public enum UserRole {
 
   /**
    * A drupal system administrator.
+   * To be removed when Drupal is decommissioned.
    */
+  @Deprecated
   ADMIN,
 
   /**
    * A drupal news and content editor.
+   * To be removed when Drupal is decommissioned.
    */
+  @Deprecated
   EDITOR,
 
   /**

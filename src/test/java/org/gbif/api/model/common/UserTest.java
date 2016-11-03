@@ -19,11 +19,13 @@ import org.gbif.api.SerdeTestUtils;
 import org.gbif.api.vocabulary.UserRole;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
+import com.google.common.collect.Maps;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -111,6 +113,20 @@ public class UserTest {
     u.setEmail("betty@gbif.org");
     u.setFirstName("Betty");
     u.setLastName("Ford");
+    SerdeTestUtils.testSerDe(u, User.class);
+  }
+
+  @Test
+  public void testSerDeSettings() throws IOException {
+    User u = new User();
+    u.setKey(100);
+    u.setUserName("be");
+    u.setEmail("betty@gbif.org");
+    u.setFirstName("Betty");
+    u.setLastName("Ford");
+    Map<String, String> settings = Maps.newHashMap();
+    settings.put("name", "tim");
+    u.setSettings(settings);
     SerdeTestUtils.testSerDe(u, User.class);
   }
 
