@@ -95,23 +95,31 @@ public class Contact implements Address, LenientEquals<Contact> {
   /**
    * Adds a new user id that is assembled from a directory name and a local id within it.
    * Format used by EML.
-   * @param directory identifier for the directory, preferrably a URL domain like http://orcid.org
-   * @param id the iddentifier in that directory
+   * The directory should be a valid URI, if it's not, it will be ignored by this method.
+   *
+   * @param directory identifier for the directory, preferably a URL domain like http://orcid.org
+   * @param id the identifier in that directory
    */
   public void addUserId(String directory, String id) {
     if (!Strings.isNullOrEmpty(id)) {
       if (Strings.isNullOrEmpty(directory)) {
         userId.add(id);
       } else {
-        URI dir = URI.create(directory);
-        if (dir.isAbsolute()) {
-          String dir2 = dir.toString();
-          if (!dir2.endsWith("/") && !dir2.endsWith("=")) {
-            dir2 = dir2 + "/";
+        try {
+          URI dir = URI.create(directory);
+          if (dir.isAbsolute()) {
+            String dir2 = dir.toString();
+            if (!dir2.endsWith("/") && !dir2.endsWith("=")) {
+              dir2 = dir2 + "/";
+            }
+            userId.add(dir2 + id);
+          } else {
+            userId.add(dir + ":" + id);
           }
-          userId.add( dir2 + id);
-        } else {
-          userId.add(dir + ":" + id);
+        }
+        catch (IllegalArgumentException iaEx) {
+          //in case the directory is not a valid url keep only the user id
+          userId.add(id);
         }
       }
     }
