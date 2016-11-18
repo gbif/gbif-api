@@ -40,5 +40,8 @@ public class ContactTest {
 
     c.addUserId("https://www.linkedin.com/profile/view?id=", "AAkAAABiOnwBeoX3a3wKqe4IEqDkJ_ifoVj1234");
     assertEquals("https://www.linkedin.com/profile/view?id=AAkAAABiOnwBeoX3a3wKqe4IEqDkJ_ifoVj1234", c.getUserId().get(8));
+
+    c.addUserId(", ,", ", ,");
+    assertEquals(", ,", c.getUserId().get(9));
   }
 }
