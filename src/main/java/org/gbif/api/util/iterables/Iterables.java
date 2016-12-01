@@ -102,7 +102,7 @@ public class Iterables {
      * @param type an optional filter to just include the given dataset type
      */
     public static Iterable<Dataset> hostedDatasets(UUID key, @Nullable DatasetType type, OrganizationService service) {
-        LOG.info("Iterate over all {} datasets hosted organization by {}", type == null ? "" : type, key);
+        LOG.info("Iterate over all {} datasets hosted by organization {}", type == null ? "" : type, key);
         return new OrgHostingPager(service, key, type, PagingConstants.DEFAULT_PARAM_LIMIT);
     }
 
@@ -111,7 +111,7 @@ public class Iterables {
      * @param type an optional filter to just include the given dataset type
      */
     public static Iterable<Dataset> hostedDatasets(UUID key, @Nullable DatasetType type, InstallationService service) {
-        LOG.info("Iterate over all {} datasets hosted organization by {}", type == null ? "" : type, key);
+        LOG.info("Iterate over all {} datasets hosted by installation {}", type == null ? "" : type, key);
         return new InstallationPager(service, key, type, PagingConstants.DEFAULT_PARAM_LIMIT);
     }
 

@@ -83,8 +83,24 @@ public enum DatasetSearchParameter implements SearchParameter {
   /**
    * Identifier of the associated project.
    */
-  PROJECT_ID(String.class);
+  PROJECT_ID(String.class),
 
+  /**
+   * Backbone name usage key that this dataset covers.
+   */
+  TAXON_KEY(Integer.class),
+
+  /**
+   * Number of indexed records.
+   * Depending on type of dataset these are occurrences or name usages.
+   */
+  RECORD_COUNT(Integer.class),
+
+  /**
+   * Filters datasets by their temporal coverage broken down to years
+   * as extracted from the occurrence data.
+   */
+  YEAR(Integer.class);
 
   private DatasetSearchParameter(Class<?> type) {
     this.type = type;

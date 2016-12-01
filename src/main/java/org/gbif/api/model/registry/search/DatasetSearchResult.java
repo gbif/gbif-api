@@ -35,6 +35,7 @@ public class DatasetSearchResult {
   private List<Integer> decades;
   private List<String> keywords;
   private String projectIdentifier;
+  private Integer recordCount;
 
   public UUID getKey() {
     return key;
@@ -188,12 +189,20 @@ public class DatasetSearchResult {
     this.projectIdentifier = projectIdentifier;
   }
 
+  public Integer getRecordCount() {
+    return recordCount;
+  }
+
+  public void setRecordCount(Integer recordCount) {
+    this.recordCount = recordCount;
+  }
+
   @Override
   public int hashCode() {
     return Objects
       .hashCode(key, title, description, type, subtype, fullText, hostingOrganizationKey, hostingOrganizationTitle,
         publisherTitle, countryCoverage, continent, publishingCountry, publishingOrganizationKey, publishingOrganizationTitle,
-        decades, keywords, license, projectIdentifier);
+        decades, keywords, license, projectIdentifier, recordCount);
   }
 
   @Override
@@ -217,7 +226,8 @@ public class DatasetSearchResult {
         && Objects.equal(this.decades, that.decades)
         && Objects.equal(this.keywords, that.keywords)
         && Objects.equal(this.license, that.license)
-        && Objects.equal(this.projectIdentifier, that.projectIdentifier);
+        && Objects.equal(this.projectIdentifier, that.projectIdentifier)
+        && Objects.equal(this.recordCount, that.recordCount);
     }
     return false;
   }
@@ -243,6 +253,7 @@ public class DatasetSearchResult {
       .add("keywords", keywords)
       .add("license", license)
       .add("projectIdentifier", projectIdentifier)
+      .add("recordCount", recordCount)
       .toString();
   }
 }

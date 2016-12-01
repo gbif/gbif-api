@@ -14,6 +14,7 @@ import java.util.UUID;
  * A dataset specific search request with convenience methods to add facet filters.
  */
 public class DatasetSearchRequest extends FacetedSearchRequest<DatasetSearchParameter> {
+  private Integer highlightContext = -1;
 
   public DatasetSearchRequest() {
   }
@@ -24,6 +25,17 @@ public class DatasetSearchRequest extends FacetedSearchRequest<DatasetSearchPara
 
   public DatasetSearchRequest(long offset, int limit) {
     super(offset, limit);
+  }
+
+  /**
+   * @return the number of characters of the context to show for the highlighted match, including the match itself.
+   */
+  public Integer getHighlightContext() {
+    return highlightContext;
+  }
+
+  public void setHighlightContext(Integer highlightContext) {
+    this.highlightContext = highlightContext;
   }
 
   /**
@@ -65,12 +77,10 @@ public class DatasetSearchRequest extends FacetedSearchRequest<DatasetSearchPara
   }
 
   /**
-   * Filters datasets by a keyword as generated through {@link org.gbif.api.model.registry.Dataset#getKeywords()} by
-   * merging tags, the keywordCollections and temporalCoverages property.
+   * Filters datasets by a keyword given in EML or as simple, public tags.
    *
    * @param keyword a plain keyword e.g. created by Tag.toString()
    */
-  // TODO: Fix Javadoc, what does this do? Keywords don't exist
   public void addKeywordFilter(String keyword) {
     addParameter(DatasetSearchParameter.KEYWORD, keyword);
   }
@@ -100,4 +110,11 @@ public class DatasetSearchRequest extends FacetedSearchRequest<DatasetSearchPara
     addParameter(DatasetSearchParameter.PROJECT_ID, identifier);
   }
 
+  public void addTaxonKey(int taxonKey) {
+    addParameter(DatasetSearchParameter.TAXON_KEY, taxonKey);
+  }
+
+  public void addYear(int year) {
+    addParameter(DatasetSearchParameter.YEAR, year);
+  }
 }
