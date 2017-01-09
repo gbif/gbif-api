@@ -36,6 +36,10 @@ public class ClassificationUtilsTest {
     ClassificationUtils.setHigherRank(lck, Rank.GENUS, "harrys", 432);
     assertEquals("harrys", lck.getGenus());
     assertEquals((Integer) 432, lck.getGenusKey());
+
+    ClassificationUtils.setHigherRank(lck, null, "klinke", 1);
+    assertEquals("harrys", lck.getGenus());
+    assertEquals((Integer) 432, lck.getGenusKey());
   }
 
 }

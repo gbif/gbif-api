@@ -45,26 +45,27 @@ public class ClassificationUtils {
    */
   @Nullable
   public static String getHigherRank(LinneanClassification lc, Rank rank) {
-    switch (rank) {
-      case KINGDOM:
-        return lc.getKingdom();
-      case PHYLUM:
-        return lc.getPhylum();
-      case CLASS:
-        return lc.getClazz();
-      case ORDER:
-        return lc.getOrder();
-      case FAMILY:
-        return lc.getFamily();
-      case GENUS:
-        return lc.getGenus();
-      case SUBGENUS:
-        return lc.getSubgenus();
-      case SPECIES:
-        return lc.getSpecies();
-      default:
-        return null;
+    if (rank != null) {
+      switch (rank) {
+        case KINGDOM:
+          return lc.getKingdom();
+        case PHYLUM:
+          return lc.getPhylum();
+        case CLASS:
+          return lc.getClazz();
+        case ORDER:
+          return lc.getOrder();
+        case FAMILY:
+          return lc.getFamily();
+        case GENUS:
+          return lc.getGenus();
+        case SUBGENUS:
+          return lc.getSubgenus();
+        case SPECIES:
+          return lc.getSpecies();
+      }
     }
+    return null;
   }
 
   /**
@@ -75,31 +76,33 @@ public class ClassificationUtils {
    * @param name the higher ranks name
    */
   public static void setHigherRank(LinneanClassification lc, Rank rank, String name) {
-    switch (rank) {
-      case KINGDOM:
-        lc.setKingdom(name);
-        break;
-      case PHYLUM:
-        lc.setPhylum(name);
-        break;
-      case CLASS:
-        lc.setClazz(name);
-        break;
-      case ORDER:
-        lc.setOrder(name);
-        break;
-      case FAMILY:
-        lc.setFamily(name);
-        break;
-      case GENUS:
-        lc.setGenus(name);
-        break;
-      case SUBGENUS:
-        lc.setSubgenus(name);
-        break;
-      case SPECIES:
-        lc.setSpecies(name);
-        break;
+    if (rank != null) {
+      switch (rank) {
+        case KINGDOM:
+          lc.setKingdom(name);
+          break;
+        case PHYLUM:
+          lc.setPhylum(name);
+          break;
+        case CLASS:
+          lc.setClazz(name);
+          break;
+        case ORDER:
+          lc.setOrder(name);
+          break;
+        case FAMILY:
+          lc.setFamily(name);
+          break;
+        case GENUS:
+          lc.setGenus(name);
+          break;
+        case SUBGENUS:
+          lc.setSubgenus(name);
+          break;
+        case SPECIES:
+          lc.setSpecies(name);
+          break;
+      }
     }
   }
 
@@ -180,26 +183,27 @@ public class ClassificationUtils {
    */
   @Nullable
   public static Integer getHigherRankKey(LinneanClassificationKeys lck, Rank rank) {
-    switch (rank) {
-      case KINGDOM:
-        return lck.getKingdomKey();
-      case PHYLUM:
-        return lck.getPhylumKey();
-      case CLASS:
-        return lck.getClassKey();
-      case ORDER:
-        return lck.getOrderKey();
-      case FAMILY:
-        return lck.getFamilyKey();
-      case GENUS:
-        return lck.getGenusKey();
-      case SUBGENUS:
-        return lck.getSubgenusKey();
-      case SPECIES:
-        return lck.getSpeciesKey();
-      default:
-        return null;
+    if (rank != null) {
+      switch (rank) {
+        case KINGDOM:
+          return lck.getKingdomKey();
+        case PHYLUM:
+          return lck.getPhylumKey();
+        case CLASS:
+          return lck.getClassKey();
+        case ORDER:
+          return lck.getOrderKey();
+        case FAMILY:
+          return lck.getFamilyKey();
+        case GENUS:
+          return lck.getGenusKey();
+        case SUBGENUS:
+          return lck.getSubgenusKey();
+        case SPECIES:
+          return lck.getSpeciesKey();
+      }
     }
+    return null;
   }
 
   /**
@@ -210,31 +214,33 @@ public class ClassificationUtils {
    * @param usageKey key of the higher ranks usage
    */
   public static void setHigherRankKey(LinneanClassificationKeys lck, Rank rank, Integer usageKey) {
-    switch (rank) {
-      case KINGDOM:
-        lck.setKingdomKey(usageKey);
-        break;
-      case PHYLUM:
-        lck.setPhylumKey(usageKey);
-        break;
-      case CLASS:
-        lck.setClassKey(usageKey);
-        break;
-      case ORDER:
-        lck.setOrderKey(usageKey);
-        break;
-      case FAMILY:
-        lck.setFamilyKey(usageKey);
-        break;
-      case GENUS:
-        lck.setGenusKey(usageKey);
-        break;
-      case SUBGENUS:
-        lck.setSubgenusKey(usageKey);
-        break;
-      case SPECIES:
-        lck.setSpeciesKey(usageKey);
-        break;
+    if (rank != null) {
+      switch (rank) {
+        case KINGDOM:
+          lck.setKingdomKey(usageKey);
+          break;
+        case PHYLUM:
+          lck.setPhylumKey(usageKey);
+          break;
+        case CLASS:
+          lck.setClassKey(usageKey);
+          break;
+        case ORDER:
+          lck.setOrderKey(usageKey);
+          break;
+        case FAMILY:
+          lck.setFamilyKey(usageKey);
+          break;
+        case GENUS:
+          lck.setGenusKey(usageKey);
+          break;
+        case SUBGENUS:
+          lck.setSubgenusKey(usageKey);
+          break;
+        case SPECIES:
+          lck.setSpeciesKey(usageKey);
+          break;
+      }
     }
   }
 
