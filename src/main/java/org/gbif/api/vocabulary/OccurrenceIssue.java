@@ -322,7 +322,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
     };
   }
 
-  final Set<Term> relatedTerms;
+  private final Set<Term> relatedTerms;
 
   /**
    * {@link OccurrenceIssue} not linked to any specific {@link Term}.
