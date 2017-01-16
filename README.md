@@ -12,7 +12,6 @@ mvn clean install
 ```
 
 ## Policies
- * Built as Java 6 artifact until the [IPT](https://github.com/gbif/ipt) upgrades its minimal Java version (see https://github.com/gbif/ipt/issues/1222).
  * A pre-commit peer review on all commits, ideally referencing the review in the commit message
  * All commits must reference a Jira to which they relate
 
