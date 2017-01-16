@@ -25,6 +25,7 @@ import com.google.common.base.Objects;
 /**
  * Error reports for a single Record (occurrence, species).
  */
+@Deprecated
 public class RecordError implements Serializable {
 
   private static final long serialVersionUID = 4942485228689322658L;

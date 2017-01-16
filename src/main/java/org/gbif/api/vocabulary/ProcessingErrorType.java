@@ -15,6 +15,7 @@
  */
 package org.gbif.api.vocabulary;
 
+@Deprecated
 public enum ProcessingErrorType {
 
   NOT_PARSEABLE_COUNTRY_NAME,
