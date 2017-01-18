@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2017 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,11 @@ public enum GbifRegion {
   EUROPE,
   NORTH_AMERICA,
   OCEANIA,
-  LATIN_AMERICA;
+  LATIN_AMERICA,
+  /**
+   * Antarctica and adjacent islands.
+   */
+  ANTARCTICA;
 
   /**
    * @param region GBIF's region name
@@ -35,7 +39,7 @@ public enum GbifRegion {
    * @return the matching GBIF region or null
    */
   public static GbifRegion fromString(String region) {
-    return (GbifRegion) VocabularyUtils.lookupEnum(region, GbifRegion.class);
+    return VocabularyUtils.lookupEnum(region, GbifRegion.class);
   }
 
 }
