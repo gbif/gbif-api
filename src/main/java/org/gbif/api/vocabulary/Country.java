@@ -358,7 +358,7 @@ public enum Country {
   /**
    * Denmark.
    */
-  DENMARK("DK", "DNK", 208, "Denmark"),
+  DENMARK("DK", "DNK", 208, "Denmark", GbifRegion.EUROPE),
 
   /**
    * Djibouti.
@@ -1348,6 +1348,7 @@ public enum Country {
   private final String alpha3;
   private final int numericalCode;
   private final String title;
+  private final GbifRegion gbifRegion;
 
   static {
     List<Country> officials = Lists.newArrayList();
@@ -1404,11 +1405,33 @@ public enum Country {
     return null;
   }
 
+  /**
+   * Temporary constructor to keep the code stable until https://github.com/gbif/gbif-api/issues/6 is fully
+   * implemented.
+   *
+   * @param alpha2
+   * @param alpha3
+   * @param numericalCode
+   * @param title
+   */
   Country(String alpha2, String alpha3, int numericalCode, String title) {
+    this(alpha2, alpha3, numericalCode, title, null);
+  }
+
+  /**
+   * @param alpha2
+   * @param alpha3
+   * @param numericalCode
+   * @param title
+   * @param gbifRegion    GBIF region is NOT a geographic region. Participant countries make an active decision which
+   *                      GBIF region they want to belong to.
+   */
+  Country(String alpha2, String alpha3, int numericalCode, String title, GbifRegion gbifRegion) {
     this.alpha2 = alpha2;
     this.alpha3 = alpha3;
     this.numericalCode = numericalCode;
     this.title = title;
+    this.gbifRegion = gbifRegion;
   }
 
   /**
@@ -1437,6 +1460,15 @@ public enum Country {
    */
   public Integer getIsoNumericalCode() {
     return numericalCode;
+  }
+
+  /**
+   * Get the {@link GbifRegion} associated with this {@link Country}.
+   *
+   * @return
+   */
+  public GbifRegion getGbifRegion() {
+    return gbifRegion;
   }
 
   /**
