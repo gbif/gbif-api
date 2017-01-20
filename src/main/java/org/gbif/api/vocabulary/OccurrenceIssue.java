@@ -347,11 +347,11 @@ public enum OccurrenceIssue implements InterpretationRemark {
    * All issues that indicate problems with the coordinates and thus should not be shown on maps.
    */
   public static final List<OccurrenceIssue> GEOSPATIAL_RULES = ImmutableList.of(ZERO_COORDINATE,
+                                                                                COORDINATE_INVALID,
                                                                                 COORDINATE_OUT_OF_RANGE,
-                                                                                   COUNTRY_COORDINATE_MISMATCH);
+                                                                                COUNTRY_COORDINATE_MISMATCH);
   public static final List<OccurrenceIssue> TAXONOMIC_RULES = ImmutableList.of(TAXON_MATCH_FUZZY,
                                                                                TAXON_MATCH_HIGHERRANK,
                                                                                TAXON_MATCH_NONE);
 
 }
-
