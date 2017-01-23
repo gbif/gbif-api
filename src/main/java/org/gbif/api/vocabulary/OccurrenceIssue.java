@@ -4,6 +4,7 @@ import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.terms.Term;
+import org.gbif.utils.AnnotationUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -328,6 +329,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
 
   private final Set<Term> relatedTerms;
   private final InterpretationRemarkSeverity severity;
+  private final boolean isDeprecated;
 
   /**
    * {@link OccurrenceIssue} not linked to any specific {@link Term}.
@@ -335,6 +337,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
   OccurrenceIssue(InterpretationRemarkSeverity severity) {
     this.severity = severity;
     this.relatedTerms = Collections.emptySet();
+    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());
   }
 
   /**
@@ -345,6 +348,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
   OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {
     this.severity = severity;
     this.relatedTerms = ImmutableSet.<Term>builder().add(relatedTerms).build();
+    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());
   }
 
   @Override
@@ -360,6 +364,11 @@ public enum OccurrenceIssue implements InterpretationRemark {
   @Override
   public InterpretationRemarkSeverity getSeverity(){
     return severity;
+  }
+
+  @Override
+  public boolean isDeprecated(){
+    return isDeprecated;
   }
 
   /**

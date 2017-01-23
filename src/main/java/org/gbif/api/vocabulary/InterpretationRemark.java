@@ -34,4 +34,10 @@ public interface InterpretationRemark {
    */
   InterpretationRemarkSeverity getSeverity();
 
+  /**
+   * Checks if the {@link InterpretationRemark} is deprecated or not.
+   * @return true if the {@link InterpretationRemark} is marked with @Deprecated.
+   */
+  boolean isDeprecated();
+
 }

@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import com.google.common.reflect.ClassPath;
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -74,5 +75,10 @@ public class InterpretationRemarkTest {
     );
   }
 
+  @Test
+  public void testInterpretationRemarkDeprecated() {
+    assertTrue(OccurrenceIssue.COORDINATE_PRECISION_UNCERTAINTY_MISMATCH.isDeprecated());
+    assertFalse(OccurrenceIssue.BASIS_OF_RECORD_INVALID.isDeprecated());
+  }
 
 }

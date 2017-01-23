@@ -3,6 +3,7 @@ package org.gbif.api.vocabulary;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.terms.Term;
+import org.gbif.utils.AnnotationUtils;
 
 import java.util.Set;
 
@@ -195,6 +196,7 @@ public enum NameUsageIssue implements InterpretationRemark {
 
   private final Set<Term> related;
   private final InterpretationRemarkSeverity severity;
+  private final boolean isDeprecated;
 
   NameUsageIssue(Term ... related) {
     if (related == null) {
@@ -203,6 +205,7 @@ public enum NameUsageIssue implements InterpretationRemark {
       this.related = ImmutableSet.copyOf(related);
     }
     this.severity = WARNING;
+    this.isDeprecated = AnnotationUtils.isFieldDeprecated(NameUsageIssue.class, this.name());
   }
 
   @Override
@@ -218,6 +221,11 @@ public enum NameUsageIssue implements InterpretationRemark {
   @Override
   public InterpretationRemarkSeverity getSeverity(){
     return severity;
+  }
+
+  @Override
+  public boolean isDeprecated(){
+    return isDeprecated;
   }
 
 }
