@@ -10,6 +10,15 @@ import java.util.Set;
 public interface InterpretationRemark {
 
   /**
+   * Returns the identifier of the {@link InterpretationRemark}.
+   * This is normally implemented to return the result of {@link Enum#name}.
+   * Potential name clashes are detected by unit tests.
+   *
+   * @return identifier of the {@link InterpretationRemark}. Never null.
+   */
+  String getId();
+
+  /**
    * {@link Set} containing the {@link Term} considered to flag this remark.
    *
    * @return {@link Set} of {@link Term} or empty {@link Set}. Never null.

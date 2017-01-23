@@ -206,6 +206,11 @@ public enum NameUsageIssue implements InterpretationRemark {
   }
 
   @Override
+  public String getId() {
+    return name();
+  }
+
+  @Override
   public Set<Term> getRelatedTerms() {
     return related;
   }

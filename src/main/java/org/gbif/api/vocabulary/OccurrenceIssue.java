@@ -348,6 +348,11 @@ public enum OccurrenceIssue implements InterpretationRemark {
   }
 
   @Override
+  public String getId() {
+    return name();
+  }
+
+  @Override
   public Set<Term> getRelatedTerms(){
     return relatedTerms;
   }

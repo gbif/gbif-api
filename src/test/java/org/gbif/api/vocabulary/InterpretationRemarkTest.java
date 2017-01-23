@@ -53,9 +53,14 @@ public class InterpretationRemarkTest {
   @Test
   public void testInterpretationRemarkImplementations() {
     Set<String> interpretationRemarks = new HashSet<>();
+    Set<String> interpretationRemarksId = new HashSet<>();
     IMPLEMENTING_CLASSES.forEach(cl -> Arrays.asList((InterpretationRemark[]) cl.getEnumConstants()).forEach(
-            ir -> assertTrue("Enumeration value " + ir + " is unique within all InterpretationRemark implementations.",
-                    interpretationRemarks.add(ir.toString()))
+            ir -> {
+              assertTrue("Enumeration value " + ir + " is unique within all InterpretationRemark implementations.",
+                      interpretationRemarks.add(ir.toString()));
+              assertTrue("Enumeration value " + ir + " with getID " + ir.getId() + " is unique within all InterpretationRemark implementations.",
+                      interpretationRemarksId.add(ir.getId()));
+            }
     )
     );
   }
