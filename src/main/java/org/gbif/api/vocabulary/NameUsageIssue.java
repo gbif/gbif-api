@@ -8,6 +8,8 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
+import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
+
 /**
  * Enumeration of issues for each name usage record encountered during checklist processing.
  */
@@ -192,6 +194,7 @@ public enum NameUsageIssue implements InterpretationRemark {
   PUBLISHED_BEFORE_GENUS(DwcTerm.scientificName, DwcTerm.scientificNameAuthorship, DwcTerm.namePublishedInYear, DwcTerm.genus, DwcTerm.parentNameUsageID, DwcTerm.parentNameUsage);
 
   private final Set<Term> related;
+  private final InterpretationRemarkSeverity severity;
 
   NameUsageIssue(Term ... related) {
     if (related == null) {
@@ -199,10 +202,17 @@ public enum NameUsageIssue implements InterpretationRemark {
     } else {
       this.related = ImmutableSet.copyOf(related);
     }
+    this.severity = WARNING;
   }
 
+  @Override
   public Set<Term> getRelatedTerms() {
     return related;
+  }
+
+  @Override
+  public InterpretationRemarkSeverity getSeverity(){
+    return severity;
   }
 
 }

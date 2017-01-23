@@ -2,8 +2,11 @@ package org.gbif.api.vocabulary;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.google.common.reflect.ClassPath;
 import org.junit.Test;
@@ -18,30 +21,53 @@ public class InterpretationRemarkTest {
 
   private static final String ROOT_PACKAGE = "org.gbif.api.vocabulary";
 
+  private static final List<Class<?>> IMPLEMENTING_CLASSES = loadInterpretationRemarkImplementations();
+
   /**
-   * Checks all classes (enumerations) that implement {@link InterpretationRemark} to ensure they have unique entry names.
+   * Get all {@link Class} that implement the {@link InterpretationRemark} interface from ROOT_PACKAGE.
+   *
+   * @return
+   */
+  private static List<Class<?>> loadInterpretationRemarkImplementations() {
+    try {
+      Set<ClassPath.ClassInfo> classes =
+              ClassPath.from(InterpretationRemarkTest.class.getClassLoader()).getTopLevelClasses(ROOT_PACKAGE);
+
+      return classes.stream()
+              .map(ClassPath.ClassInfo::load)
+              .filter(c -> Arrays.asList(c.getInterfaces()).contains(InterpretationRemark.class))
+              .collect(Collectors.toList());
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+    return Collections.emptyList();
+  }
+
+  /**
+   * Checks all classes (enumerations) that implement {@link InterpretationRemark} to ensure they have unique entry
+   * names.
    * {@link InterpretationRemark} implementations can be used as keys and can also be serialized as String. For this
    * reason we want to ensure we have unique entries among implementations. This is mainly to avoid confusion when we
    * do aggregation.
    */
   @Test
   public void testInterpretationRemarkImplementations() {
-    try {
-      Set<ClassPath.ClassInfo> classes =
-              ClassPath.from(InterpretationRemarkTest.class.getClassLoader()).getTopLevelClasses(ROOT_PACKAGE);
-
-      Set<String> interpretationRemarks = new HashSet<String>();
-      for (ClassPath.ClassInfo c : classes) {
-        Class<?> loadedClass = c.load();
-        if (Arrays.asList(loadedClass.getInterfaces()).contains(InterpretationRemark.class)) {
-          for (InterpretationRemark enumEntry : Arrays.asList((InterpretationRemark[]) loadedClass.getEnumConstants())) {
-            assertTrue("Enumeration value " + enumEntry + " is unique within all InterpretationRemark implementations.",
-                    interpretationRemarks.add(enumEntry.toString()));
-          }
-        }
-      }
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
+    Set<String> interpretationRemarks = new HashSet<>();
+    IMPLEMENTING_CLASSES.forEach(cl -> Arrays.asList((InterpretationRemark[]) cl.getEnumConstants()).forEach(
+            ir -> assertTrue("Enumeration value " + ir + " is unique within all InterpretationRemark implementations.",
+                    interpretationRemarks.add(ir.toString()))
+    )
+    );
   }
+
+  @Test
+  public void testInterpretationRemarkNotNulls() {
+    IMPLEMENTING_CLASSES.forEach(cl -> Arrays.asList((InterpretationRemark[]) cl.getEnumConstants()).forEach(
+            ir -> assertTrue("InterpretationRemark implementations return a not null value for getSeverity()",
+                    ir.getSeverity() != null)
+            )
+    );
+  }
+
+
 }
