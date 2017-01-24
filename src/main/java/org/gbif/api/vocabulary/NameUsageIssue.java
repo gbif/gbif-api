@@ -9,6 +9,8 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
+import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.ERROR;
+import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.INFO;
 import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
 
 /**
@@ -18,17 +20,17 @@ public enum NameUsageIssue implements InterpretationRemark {
   /**
    * The value for dwc:parentNameUsageID could not be resolved.
    */
-  PARENT_NAME_USAGE_ID_INVALID(DwcTerm.parentNameUsageID),
+  PARENT_NAME_USAGE_ID_INVALID(ERROR, DwcTerm.parentNameUsageID),
 
   /**
    * The value for dwc:acceptedNameUsageID could not be resolved.
    */
-  ACCEPTED_NAME_USAGE_ID_INVALID(DwcTerm.acceptedNameUsageID),
+  ACCEPTED_NAME_USAGE_ID_INVALID(ERROR, DwcTerm.acceptedNameUsageID),
 
   /**
    * The value for dwc:originalNameUsageID could not be resolved.
    */
-  ORIGINAL_NAME_USAGE_ID_INVALID(DwcTerm.originalNameUsageID),
+  ORIGINAL_NAME_USAGE_ID_INVALID(ERROR, DwcTerm.originalNameUsageID),
 
   /**
    * Synonym lacking an accepted name.
@@ -53,7 +55,7 @@ public enum NameUsageIssue implements InterpretationRemark {
   /**
    * The scientific name was assembled from the individual name parts and not given as a whole string.
    */
-  SCIENTIFIC_NAME_ASSEMBLED(DwcTerm.scientificName, DwcTerm.genus, DwcTerm.specificEpithet, DwcTerm.infraspecificEpithet, DwcTerm.taxonRank, DwcTerm.scientificNameAuthorship, DwcTerm.namePublishedInYear),
+  SCIENTIFIC_NAME_ASSEMBLED(INFO, DwcTerm.scientificName, DwcTerm.genus, DwcTerm.specificEpithet, DwcTerm.infraspecificEpithet, DwcTerm.taxonRank, DwcTerm.scientificNameAuthorship, DwcTerm.namePublishedInYear),
 
   /**
    * If a synonym points to another synonym as its accepted taxon the chain is resolved.
@@ -70,9 +72,12 @@ public enum NameUsageIssue implements InterpretationRemark {
   /**
    * The child parent classification resulted into a cycle that needed to be resolved/cut.
    */
-  PARENT_CYCLE(DwcTerm.parentNameUsageID, DwcTerm.parentNameUsage),
+  PARENT_CYCLE(ERROR, DwcTerm.parentNameUsageID, DwcTerm.parentNameUsage),
 
-  CLASSIFICATION_RANK_ORDER_INVALID(DwcTerm.parentNameUsageID, DwcTerm.parentNameUsage, DwcTerm.taxonRank),
+  /**
+   * The given ranks of the names in the classification hierarchy do not follow the hierarchy of ranks.
+   */
+  CLASSIFICATION_RANK_ORDER_INVALID(ERROR, DwcTerm.parentNameUsageID, DwcTerm.parentNameUsage, DwcTerm.taxonRank),
 
   /**
    * The denormalized classification could not be applied to the name usage.
@@ -120,7 +125,7 @@ public enum NameUsageIssue implements InterpretationRemark {
   /**
    * Name usage could not be matched to the GBIF backbone.
    */
-  BACKBONE_MATCH_NONE(DwcTerm.scientificName, DwcTerm.scientificNameAuthorship, DwcTerm.kingdom, DwcTerm.taxonRank),
+  BACKBONE_MATCH_NONE(INFO, DwcTerm.scientificName, DwcTerm.scientificNameAuthorship, DwcTerm.kingdom, DwcTerm.taxonRank),
 
   /**
    * Name usage could only be matched to the GBIF backbone using fuzzy matching.
@@ -156,7 +161,7 @@ public enum NameUsageIssue implements InterpretationRemark {
    * This should only be flagged in programmatically generated GBIF backbone usages.
    * GBIF backbone specific issue.
    */
-  ORIGINAL_NAME_DERIVED(),
+  ORIGINAL_NAME_DERIVED(INFO),
 
   /**
    * There have been more than one accepted name in a homotypical basionym group of names.
@@ -168,7 +173,7 @@ public enum NameUsageIssue implements InterpretationRemark {
    * The group (currently only genera are tested) are lacking any accepted species
    * GBIF backbone specific issue.
    */
-  NO_SPECIES(),
+  NO_SPECIES(INFO),
 
   /**
    * The (accepted) bi/trinomial name does not match the parent name and should be recombined into the parent genus/species.
@@ -181,12 +186,12 @@ public enum NameUsageIssue implements InterpretationRemark {
    * A potential orthographic variant exists in the backbone.
    * GBIF backbone specific issue.
    */
-  ORTHOGRAPHIC_VARIANT(),
+  ORTHOGRAPHIC_VARIANT(INFO),
 
   /**
    * A not synonymized homonym exists for this name in some other backbone source which have been ignored at build time.
    */
-  HOMONYM(DwcTerm.scientificName),
+  HOMONYM(INFO, DwcTerm.scientificName),
 
   /**
    * A bi/trinomial name published earlier than the parent genus was published.
@@ -199,12 +204,16 @@ public enum NameUsageIssue implements InterpretationRemark {
   private final boolean isDeprecated;
 
   NameUsageIssue(Term ... related) {
+    this(WARNING, related);
+  }
+
+  NameUsageIssue(InterpretationRemarkSeverity severity, Term ... related) {
     if (related == null) {
       this.related = ImmutableSet.of();
     } else {
       this.related = ImmutableSet.copyOf(related);
     }
-    this.severity = WARNING;
+    this.severity = severity;
     this.isDeprecated = AnnotationUtils.isFieldDeprecated(NameUsageIssue.class, this.name());
   }
 
