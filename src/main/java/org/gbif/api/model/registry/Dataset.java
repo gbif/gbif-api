@@ -90,6 +90,7 @@ public class Dataset
   private UUID installationKey;
   private UUID publishingOrganizationKey;
   private DOI doi;
+  private String version;
   private boolean external;
   private int numConstituents;
   private DatasetType type;
@@ -147,6 +148,15 @@ public class Dataset
    */
   public void setKey(UUID key) {
     this.key = key;
+  }
+
+  @Nullable
+  public String getVersion() {
+    return version;
+  }
+
+  public void setVersion(String version) {
+    this.version = version;
   }
 
   @Override
@@ -728,7 +738,7 @@ public class Dataset
   @Override
   public int hashCode() {
     return Objects
-      .hashCode(key, doi, parentDatasetKey, duplicateOfDatasetKey, installationKey, publishingOrganizationKey, external,
+      .hashCode(key, doi, version, parentDatasetKey, duplicateOfDatasetKey, installationKey, publishingOrganizationKey, external,
         numConstituents, type, subtype, title, alias, abbreviation, description, language, homepage, logoUrl, citation,
         rights, lockedForAutoUpdate, createdBy, modifiedBy, created, modified, deleted, contacts, endpoints,
         machineTags, tags, identifiers, comments, bibliographicCitations, curatorialUnits, taxonomicCoverages,
@@ -745,6 +755,7 @@ public class Dataset
              && Objects.equal(this.doi, that.doi)
              && Objects.equal(this.parentDatasetKey, that.parentDatasetKey)
              && Objects.equal(this.duplicateOfDatasetKey, that.duplicateOfDatasetKey)
+             && Objects.equal(this.version, that.version)
              && Objects.equal(this.installationKey, that.installationKey)
              && Objects.equal(this.publishingOrganizationKey, that.publishingOrganizationKey)
              && Objects.equal(this.external, that.external)
@@ -798,7 +809,7 @@ public class Dataset
   @Override
   public String toString() {
     return Objects.toStringHelper(this)
-      .add("key", key).add("doi", doi).add("parentDatasetKey", parentDatasetKey)
+      .add("key", key).add("doi", doi).add("version", version).add("parentDatasetKey", parentDatasetKey)
       .add("duplicateOfDatasetKey", duplicateOfDatasetKey).add("installationKey", installationKey)
       .add("publishingOrganizationKey", publishingOrganizationKey).add("numConstituents", numConstituents).add("type",
         type)
