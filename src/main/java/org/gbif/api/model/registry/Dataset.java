@@ -53,6 +53,7 @@ import com.google.common.collect.Sets;
  * <li>key</li>
  * <li>parentDatasetKey</li>
  * <li>duplicateOfDatasetKey</li>
+ * <li>version</li>
  * <li>installationKey</li>
  * <li>publishingOrganizationKey</li>
  * <li>license</li>
@@ -102,6 +103,8 @@ public class Dataset
   private Language language = Language.ENGLISH; // sensible default as it is not null
   private URI homepage;
   private URI logoUrl;
+
+  private String gbifCitation;
   private Citation citation = new Citation();
   private String rights;
   private boolean lockedForAutoUpdate;
@@ -482,6 +485,14 @@ public class Dataset
    */
   public void setCitation(Citation citation) {
     this.citation = citation;
+  }
+
+  public String getGbifCitation() {
+    return gbifCitation;
+  }
+
+  public void setGbifCitation(String gbifCitation) {
+    this.gbifCitation = gbifCitation;
   }
 
   /**
