@@ -8,6 +8,13 @@ import javax.annotation.Nullable;
 public interface NameUsageExtension {
 
   /**
+   * The name usage "taxon" key this extension record belongs to.
+   */
+  Integer getTaxonKey();
+
+  void setTaxonKey(Integer taxonKey);
+
+  /**
    * @return a source reference string
    */
   @Nullable

@@ -33,6 +33,7 @@ import com.google.common.base.Objects;
  */
 public class VernacularName implements NameUsageExtension {
 
+  private Integer taxonKey;
   private String vernacularName;
   private Language language;
   private LifeStage lifeStage;
@@ -43,6 +44,19 @@ public class VernacularName implements NameUsageExtension {
   private Integer sourceTaxonKey;
   private Boolean preferred;
   private Boolean plural;
+
+  /**
+   * The name usage "taxon" key this description belongs to.
+   */
+  @Override
+  public Integer getTaxonKey() {
+    return taxonKey;
+  }
+
+  @Override
+  public void setTaxonKey(Integer taxonKey) {
+    this.taxonKey = taxonKey;
+  }
 
   /**
    * The area for the vernacular name.

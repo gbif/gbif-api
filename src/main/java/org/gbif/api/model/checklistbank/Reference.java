@@ -31,6 +31,7 @@ import com.google.common.base.Objects;
  */
 public class Reference implements NameUsageExtension {
 
+  private Integer taxonKey;
   private String citation;
   private String link;
   private String doi;
@@ -45,6 +46,19 @@ public class Reference implements NameUsageExtension {
   private String author;
   @Deprecated
   private String date;
+
+  /**
+   * The name usage "taxon" key this description belongs to.
+   */
+  @Override
+  public Integer getTaxonKey() {
+    return taxonKey;
+  }
+
+  @Override
+  public void setTaxonKey(Integer taxonKey) {
+    this.taxonKey = taxonKey;
+  }
 
   /**
    * The author or authors of the referenced work.

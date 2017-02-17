@@ -35,6 +35,7 @@ import com.google.common.base.Objects;
  */
 public class Distribution implements NameUsageExtension {
 
+  private Integer taxonKey;
   private String locationId;
   private String locality;
   private Country country;
@@ -49,6 +50,19 @@ public class Distribution implements NameUsageExtension {
   private Integer startDayOfYear;
   private Integer endDayOfYear;
   private String remarks;
+
+  /**
+   * The name usage "taxon" key this description belongs to.
+   */
+  @Override
+  public Integer getTaxonKey() {
+    return taxonKey;
+  }
+
+  @Override
+  public void setTaxonKey(Integer taxonKey) {
+    this.taxonKey = taxonKey;
+  }
 
   /**
    * The CITES (Convention on International Trade in Endangered Species of Wild Fauna and Flora) Appendix number the

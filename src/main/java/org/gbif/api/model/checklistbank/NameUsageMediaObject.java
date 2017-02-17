@@ -9,7 +9,21 @@ import javax.annotation.Nullable;
  */
 public class NameUsageMediaObject extends MediaObject implements NameUsageExtension {
 
+  private Integer taxonKey;
   private Integer sourceTaxonKey;
+
+  /**
+   * The name usage "taxon" key this description belongs to.
+   */
+  @Override
+  public Integer getTaxonKey() {
+    return taxonKey;
+  }
+
+  @Override
+  public void setTaxonKey(Integer taxonKey) {
+    this.taxonKey = taxonKey;
+  }
 
   @Nullable
   @Override

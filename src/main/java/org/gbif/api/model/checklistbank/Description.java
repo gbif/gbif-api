@@ -30,6 +30,7 @@ import com.google.common.base.Objects;
 public class Description implements NameUsageExtension {
 
   private Integer key;
+  private Integer taxonKey;
   private String type;
   private Language language;
   private String description;
@@ -49,6 +50,19 @@ public class Description implements NameUsageExtension {
 
   public void setKey(Integer key) {
     this.key = key;
+  }
+
+  /**
+   * The name usage "taxon" key this description belongs to.
+   */
+  @Override
+  public Integer getTaxonKey() {
+    return taxonKey;
+  }
+
+  @Override
+  public void setTaxonKey(Integer taxonKey) {
+    this.taxonKey = taxonKey;
   }
 
   /**

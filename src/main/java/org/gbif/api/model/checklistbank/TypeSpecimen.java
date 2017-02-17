@@ -35,6 +35,7 @@ import com.google.common.base.Objects;
  */
 public class TypeSpecimen implements NameUsageExtension {
 
+  private Integer taxonKey;
   private String source;
   private Integer sourceTaxonKey;
   private TypeDesignationType typeDesignationType;
@@ -66,6 +67,19 @@ public class TypeSpecimen implements NameUsageExtension {
   private String collectionCode;
   @Deprecated
   private String catalogNumber;
+
+  /**
+   * The name usage "taxon" key this description belongs to.
+   */
+  @Override
+  public Integer getTaxonKey() {
+    return taxonKey;
+  }
+
+  @Override
+  public void setTaxonKey(Integer taxonKey) {
+    this.taxonKey = taxonKey;
+  }
 
   /**
    * An identifier (preferably unique) for the record within the data set or collection.

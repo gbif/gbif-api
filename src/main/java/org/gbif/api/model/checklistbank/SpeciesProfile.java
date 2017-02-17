@@ -27,6 +27,7 @@ import com.google.common.base.Objects;
  */
 public class SpeciesProfile implements NameUsageExtension {
 
+  private Integer taxonKey;
   private String livingPeriod;
   private String lifeForm;
   private String habitat;
@@ -40,6 +41,19 @@ public class SpeciesProfile implements NameUsageExtension {
   private Integer massInGram;
   private String source;
   private Integer sourceTaxonKey;
+
+  /**
+   * The name usage "taxon" key this description belongs to.
+   */
+  @Override
+  public Integer getTaxonKey() {
+    return taxonKey;
+  }
+
+  @Override
+  public void setTaxonKey(Integer taxonKey) {
+    this.taxonKey = taxonKey;
+  }
 
   /**
    * Maximum observed age of an organism given as number of days.
