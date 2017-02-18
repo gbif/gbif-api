@@ -104,7 +104,6 @@ public class Dataset
   private URI homepage;
   private URI logoUrl;
 
-  private String gbifCitation;
   private Citation citation = new Citation();
   private String rights;
   private boolean lockedForAutoUpdate;
@@ -486,15 +485,7 @@ public class Dataset
   public void setCitation(Citation citation) {
     this.citation = citation;
   }
-
-  public String getGbifCitation() {
-    return gbifCitation;
-  }
-
-  public void setGbifCitation(String gbifCitation) {
-    this.gbifCitation = gbifCitation;
-  }
-
+  
   /**
    * Any kind of (copy)rights/IPR statements that apply to the datasets data.
    */
