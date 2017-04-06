@@ -60,6 +60,20 @@ public enum NameType {
   CANDIDATUS,
 
   /**
+   * Operational Taxonomic Unit.
+   * An OTU is a pragmatic definition to group individuals by similarity, equivalent to but not necessarily in line
+   * with classical Linnaean taxonomy or modern Evolutionary taxonomy.
+   *
+   * A OTU usually refers to clusters of organisms, grouped by DNA sequence similarity of a specific taxonomic marker gene.
+   * In other words, OTUs are pragmatic proxies for "species" at different taxonomic levels.
+   *
+   * Sequences can be clustered according to their similarity to one another,
+   * and operational taxonomic units are defined based on the similarity threshold (usually 97% similarity) set by the researcher.
+   * Typically, OTU's are based on similar 16S rRNA sequences.
+   */
+  OTU,
+
+  /**
    * Doubtful whether this is a scientific name at all.
    */
   DOUBTFUL,

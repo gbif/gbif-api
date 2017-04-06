@@ -33,6 +33,7 @@ public class NameTypeTest {
     assertFalse(NameType.INFORMAL.isBackboneType());
     assertFalse(NameType.CULTIVAR.isBackboneType());
     assertFalse(NameType.NO_NAME.isBackboneType());
+    assertFalse(NameType.OTU.isBackboneType());
   }
 
   @Test
@@ -44,6 +45,7 @@ public class NameTypeTest {
     assertFalse(NameType.VIRUS.isParsable());
     assertFalse(NameType.NO_NAME.isParsable());
     assertFalse(NameType.HYBRID.isParsable());
+    assertFalse(NameType.OTU.isParsable());
   }
 
 }
