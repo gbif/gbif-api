@@ -3,6 +3,7 @@ package org.gbif.api.model.common;
 import org.gbif.api.SerdeTestUtils;
 
 import java.io.IOException;
+import java.net.URI;
 
 import com.google.common.base.Objects;
 import org.junit.Test;
@@ -103,6 +104,9 @@ public class DOITest {
     DOI d = new DOI("http://doi.org/10.1000/456%23789");
     assertEquals("456#789", d.getSuffix());
     assertSame(d, "10.1000/456#789");
+
+    //getUrl will be returned as https (preferred http://www.doi.org/doi_handbook/3_Resolution.html)
+    assertEquals(URI.create("https://doi.org/10.1000/456#789"), d.getUrl());
   }
 
   private void assertSame(DOI doi, String doi2) {
@@ -118,10 +122,6 @@ public class DOITest {
       // expected!
     }
   }
-
-
-
-
 
   /**
    * A container of Languages using 2 properties.
@@ -164,7 +164,6 @@ public class DOITest {
     SerdeTestUtils.testSerDe(d, DOI.class);
 
     Container source = new Container(new DOI("doi:10.1038/nature.2014.16460"), new DOI("http://dx.doi.org/10.1034/gbif.2014.xscdf2"));
-
     try {
       String json = SerdeTestUtils.testSerDe(source, Container.class);
       assertTrue("DOIs should start with doi:10.", json.contains("\"doi:10."));

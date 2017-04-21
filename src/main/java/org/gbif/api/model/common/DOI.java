@@ -47,8 +47,8 @@ public class DOI {
                                                         + "(10(?:\\.[0-9]+)+)"
                                                         + "/(.+)$", Pattern.CASE_INSENSITIVE);
 
-  private static String RESOLVER = "http://doi.org/";
-  private static String SCHEME = "doi:";
+  private static final String RESOLVER = "https://doi.org/";
+  private static final String SCHEME = "doi:";
   private String prefix;
   private String suffix;
 
