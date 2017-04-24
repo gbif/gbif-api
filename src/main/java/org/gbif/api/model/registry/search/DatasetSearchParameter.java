@@ -22,6 +22,7 @@ import org.gbif.api.vocabulary.DatasetSubtype;
 import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.api.vocabulary.License;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -100,7 +101,12 @@ public enum DatasetSearchParameter implements SearchParameter {
    * Filters datasets by their temporal coverage broken down to years
    * as extracted from the occurrence data.
    */
-  YEAR(Integer.class);
+  YEAR(Integer.class),
+
+  /**
+   * Date when the dataset was last updated
+   */
+  MODIFIED_DATE(LocalDateTime.class);
 
   private DatasetSearchParameter(Class<?> type) {
     this.type = type;
