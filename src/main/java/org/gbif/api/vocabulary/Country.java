@@ -37,13 +37,14 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.ser.std.SerializerBase;
 
 /**
- * Enumeration for all current ISO 3166-1 ALPHA2 country codes using 2 letters, with the exception of PS and TW which
- * are overridden by GBIF.
+ * Enumeration for all current ISO 3166-1 ALPHA2 country codes using 2 letters, with the exception of TW which
+ * is overridden by GBIF.
  * Older country codes will be supported soon, @see #isDeprecated().
  * All user assigned codes (e.g. XX and QS) are mapped to the single enum USER_DEFINED.
  * The enumeration maps to ALPHA3 3-letter codes.
  *
  * @see <a href="https://www.iso.org/obp/ui/#home">ISO Online Browsing Platform</a>
+ * @see <a href="http://data.okfn.org/data/core/country-codes">ISO 3166 in the Open Knowledge International database</a>
  * @see <a href="http://en.wikipedia.org/wiki/ISO_3166">ISO 3166 on Wikipedia</a>
  * @see <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha2 on Wikipedia</a>
  * @see <a href="http://en.wikipedia.org/wiki/ISO_3166-3">ISO_3166-3 on Wikipedia</a>
@@ -256,9 +257,9 @@ public enum Country {
   CANADA("CA", "CAN", 124, "Canada", GbifRegion.NORTH_AMERICA),
 
   /**
-   * Cape Verde.
+   * Cabo Verde.
    */
-  CAPE_VERDE("CV", "CPV", 132, "Cape Verde", GbifRegion.AFRICA),
+  CAPE_VERDE("CV", "CPV", 132, "Cabo Verde", GbifRegion.AFRICA),
 
   /**
    * Cayman Islands.
@@ -351,9 +352,9 @@ public enum Country {
   CYPRUS("CY", "CYP", 196, "Cyprus", GbifRegion.EUROPE),
 
   /**
-   * Czech Republic.
+   * Czechia.
    */
-  CZECH_REPUBLIC("CZ", "CZE", 203, "Czech Republic", GbifRegion.EUROPE),
+  CZECH_REPUBLIC("CZ", "CZE", 203, "Czechia", GbifRegion.EUROPE),
 
   /**
    * Denmark.
@@ -411,7 +412,7 @@ public enum Country {
   ETHIOPIA("ET", "ETH", 231, "Ethiopia", GbifRegion.AFRICA),
 
   /**
-   * FALKLAND ISLANDS (Malvinas).
+   * Falkland Islands (Malvinas).
    */
   FALKLAND_ISLANDS("FK", "FLK", 238, "Falkland Islands (Malvinas)", GbifRegion.LATIN_AMERICA),
 
