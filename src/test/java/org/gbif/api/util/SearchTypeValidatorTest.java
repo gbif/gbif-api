@@ -2,6 +2,8 @@ package org.gbif.api.util;
 
 import org.gbif.api.model.common.search.SearchParameter;
 
+import java.time.LocalDateTime;
+import java.time.temporal.Temporal;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.UUID;
@@ -126,6 +128,7 @@ public class SearchTypeValidatorTest {
       {EVENT_DATE, "*", true, false},
       {EVENT_DATE, "*,2000", true, true},
       {EVENT_DATE, "2000-10,*", true, true},
+      {SearchLocalDateTime.SEARCH_LOCAL_DATE_TIME, "2000-10,*", true, true},
       {LAST_INTERPRETED, "1900-06", true, false},
       {LAST_INTERPRETED, "01-01", false, false},
       {LAST_INTERPRETED, "1900-01-01", true, false},
@@ -172,5 +175,16 @@ public class SearchTypeValidatorTest {
 
     // test isRange
     assertEquals("Wrong isRange parsing of value " + arg, range, SearchTypeValidator.isRange(arg));
+  }
+
+  /**
+   * Mock implementation of SearchParameter that used a {@link Temporal}.
+   */
+  private enum SearchLocalDateTime implements SearchParameter {
+    SEARCH_LOCAL_DATE_TIME;
+    @Override
+    public Class<?> type() {
+      return LocalDateTime.class;
+    }
   }
 }

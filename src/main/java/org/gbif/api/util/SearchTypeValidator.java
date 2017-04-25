@@ -5,6 +5,7 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Language;
 
+import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -236,7 +237,7 @@ public class SearchTypeValidator {
           Class<? extends Enum<?>> eType = (Class<? extends Enum<?>>) pType;
           Preconditions.checkNotNull(VocabularyUtils.lookupEnum(value, eType));
 
-        } else if (Date.class.isAssignableFrom(pType)) {
+        } else if (Date.class.isAssignableFrom(pType) || Temporal.class.isAssignableFrom(pType)) {
           // ISO date strings
           validateDate(value);
 
