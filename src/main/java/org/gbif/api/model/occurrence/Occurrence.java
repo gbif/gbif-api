@@ -172,6 +172,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       setPublishingOrgKey(verbatim.getPublishingOrgKey());
       setPublishingCountry(verbatim.getPublishingCountry());
       setProtocol(verbatim.getProtocol());
+      setCrawlId(verbatim.getCrawlId());
       if (verbatim.getLastCrawled() != null) {
         setLastCrawled(new Date(verbatim.getLastCrawled().getTime()));
       }
