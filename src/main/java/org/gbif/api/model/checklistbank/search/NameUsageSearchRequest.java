@@ -12,23 +12,15 @@
  */
 package org.gbif.api.model.checklistbank.search;
 
+import com.google.common.collect.Sets;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.FacetedSearchRequest;
-import org.gbif.api.vocabulary.Habitat;
-import org.gbif.api.vocabulary.NameUsageIssue;
-import org.gbif.api.vocabulary.NomenclaturalStatus;
-import org.gbif.api.vocabulary.Rank;
-import org.gbif.api.vocabulary.TaxonomicStatus;
-import org.gbif.api.vocabulary.ThreatStatus;
+import org.gbif.api.vocabulary.*;
 
 import java.util.Set;
 import java.util.UUID;
 
-import com.google.common.collect.Sets;
-
-import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.DESCRIPTION;
-import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.SCIENTIFIC;
-import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.VERNACULAR;
+import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.*;
 
 /**
  * A name usage specific search request with convenience methods to add enum based search filters.
@@ -149,6 +141,10 @@ public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearch
 
   public void addIssueFilter(NameUsageIssue issue) {
     addParameter(NameUsageSearchParameter.ISSUE, issue);
+  }
+
+  public void addOriginFilter(Origin origin) {
+    addParameter(NameUsageSearchParameter.ORIGIN, origin);
   }
 
 }

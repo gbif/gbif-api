@@ -17,13 +17,7 @@ package org.gbif.api.model.checklistbank.search;
 
 
 import org.gbif.api.model.common.search.SearchParameter;
-import org.gbif.api.vocabulary.Habitat;
-import org.gbif.api.vocabulary.NameType;
-import org.gbif.api.vocabulary.NameUsageIssue;
-import org.gbif.api.vocabulary.NomenclaturalStatus;
-import org.gbif.api.vocabulary.Rank;
-import org.gbif.api.vocabulary.TaxonomicStatus;
-import org.gbif.api.vocabulary.ThreatStatus;
+import org.gbif.api.vocabulary.*;
 
 import java.util.UUID;
 
@@ -86,7 +80,12 @@ public enum NameUsageSearchParameter implements SearchParameter {
   /**
    * Searches name usages for those that have a specific issue.
    */
-  ISSUE(NameUsageIssue.class);
+  ISSUE(NameUsageIssue.class),
+
+  /**
+   * Searches name usages for those with a specific origin.
+   */
+  ORIGIN(Origin.class);
 
   private NameUsageSearchParameter(Class<?> type) {
     this.type = type;
