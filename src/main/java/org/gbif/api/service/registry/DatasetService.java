@@ -124,4 +124,14 @@ public interface DatasetService
    * endpoint.
    */
   PagingResponse<Dataset> listDatasetsWithNoEndpoint(@Nullable Pageable page);
+
+  /**
+   * Get a Dataset list from a DOI.
+   * Multiple dataset could share the same DOI since this is not enforced.
+   *
+   *
+   * @param doi
+   * @return
+   */
+  List<Dataset> listByDOI(String doi);
 }
