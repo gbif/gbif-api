@@ -127,11 +127,8 @@ public interface DatasetService
 
   /**
    * Get a Dataset list from a DOI.
+   * GBIF assigned DOIs and alternate identifiers are returned.
    * Multiple dataset could share the same DOI since this is not enforced.
-   *
-   *
-   * @param doi
-   * @return
    */
-  List<Dataset> listByDOI(String doi);
+  PagingResponse<Dataset> listByDOI(String doi, @Nullable Pageable page);
 }
