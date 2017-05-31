@@ -1,8 +1,5 @@
 package org.gbif.api.model.registry.search;
 
-import org.gbif.api.vocabulary.DatasetSubtype;
-import org.gbif.api.vocabulary.DatasetType;
-
 import java.util.UUID;
 
 import com.google.common.base.Objects;
