@@ -17,8 +17,10 @@ import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Installation;
 import org.gbif.api.model.registry.Organization;
+import org.gbif.api.model.registry.search.KeyTitleResult;
 import org.gbif.api.vocabulary.Country;
 
+import java.util.List;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -60,4 +62,9 @@ public interface OrganizationService
    * Provides access to organizations that are not publishing (e.g. owning) any datasets.
    */
   PagingResponse<Organization> listNonPublishing(@Nullable Pageable page);
+
+  /**
+   * Provides a simple suggest service.
+   */
+  List<KeyTitleResult> suggest(@Nullable String q);
 }
