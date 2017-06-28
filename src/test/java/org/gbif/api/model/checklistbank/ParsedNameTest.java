@@ -4,15 +4,11 @@ import org.gbif.api.SerdeTestUtils;
 import org.gbif.api.vocabulary.NamePart;
 import org.gbif.api.vocabulary.NameType;
 import org.gbif.api.vocabulary.Rank;
+import org.junit.Test;
 
 import java.io.IOException;
 
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ParsedNameTest {
 
@@ -255,11 +251,15 @@ public class ParsedNameTest {
       pn.setRank(rank);
       // UNRANKED intentionally becomes null!
       if (rank.notOtherOrUnknown()) {
-        SerdeTestUtils.testSerDe(pn, ParsedName.class);
+        String json = SerdeTestUtils.testSerDe(pn, ParsedName.class);
+        assertTrue(json.contains("\"rankMarker\""));
       }
     }
+    // check that rankMarker=null gets removed from json
+    pn.setRank(null);
+    String json = SerdeTestUtils.serialize(pn);
+    assertFalse(json.contains("\"rankMarker\""));
   }
-
 
   /**
    * assert all build name methods return the same string

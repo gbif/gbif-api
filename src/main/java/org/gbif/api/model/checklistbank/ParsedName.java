@@ -15,12 +15,6 @@
  */
 package org.gbif.api.model.checklistbank;
 
-import org.gbif.api.jackson.RankSerde;
-import org.gbif.api.util.UnicodeUtils;
-import org.gbif.api.vocabulary.NamePart;
-import org.gbif.api.vocabulary.NameType;
-import org.gbif.api.vocabulary.Rank;
-
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +22,11 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.gbif.api.jackson.RankSerde;
+import org.gbif.api.util.UnicodeUtils;
+import org.gbif.api.vocabulary.NamePart;
+import org.gbif.api.vocabulary.NameType;
+import org.gbif.api.vocabulary.Rank;
 
 import static com.google.common.base.Objects.equal;
 
@@ -53,7 +52,7 @@ public class ParsedName {
   private Integer key;
   private String scientificName;
   @JsonProperty("rankMarker")
-  @JsonSerialize(using=RankSerde.RankJsonSerializer.class)
+  @JsonSerialize(using=RankSerde.RankJsonSerializer.class, include = JsonSerialize.Inclusion.NON_NULL)
   @JsonDeserialize(using=RankSerde.RankJsonDeserializer.class)
   private Rank rank;
   private NameType type;
