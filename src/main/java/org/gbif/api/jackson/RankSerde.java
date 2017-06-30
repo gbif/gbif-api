@@ -5,7 +5,6 @@ import org.gbif.api.vocabulary.Rank;
 import java.io.IOException;
 import java.util.Map;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParser;
@@ -43,11 +42,11 @@ public class RankSerde {
    * Jackson {@link JsonDeserializer} for {@link Rank}.
    */
   public static class RankJsonDeserializer extends JsonDeserializer<Rank> {
-    private static final Map<String, Rank> ranks = Maps.newHashMap();
+    private static final Map<String, Rank> RANKS = Maps.newHashMap();
     static {
       for (Rank r : Rank.values()) {
         if (r.getMarker() != null) {
-          ranks.put(r.getMarker(), r);
+          RANKS.put(r.getMarker(), r);
         }
       }
     }
@@ -55,8 +54,8 @@ public class RankSerde {
     @Override
     public Rank deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
       if (jp.getCurrentToken() == JsonToken.VALUE_STRING) {
-        if (ranks.containsKey(jp.getText())) {
-          return ranks.get(jp.getText());
+        if (RANKS.containsKey(jp.getText())) {
+          return RANKS.get(jp.getText());
 
         } else {
           // try enum name as last resort
