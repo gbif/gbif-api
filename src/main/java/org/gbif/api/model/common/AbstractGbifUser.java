@@ -16,6 +16,9 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * An abstract GBIF user account.
+ * The main purpose of this abstraction is to let subclasses handle key and password information only if required.
+ * By doing so, it is possible to have classes working for user information without having to carry those
+ * information around.
  */
 public abstract class AbstractGbifUser {
   protected static final String EMAIL_PATTERN =
