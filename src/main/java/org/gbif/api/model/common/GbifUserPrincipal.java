@@ -2,7 +2,8 @@ package org.gbif.api.model.common;
 
 import org.gbif.api.vocabulary.UserRole;
 
-import com.google.common.base.Preconditions;
+import java.util.Objects;
+
 import com.google.common.base.Strings;
 
 /**
@@ -13,7 +14,7 @@ public class GbifUserPrincipal implements ExtendedPrincipal {
   private final GbifUser user;
 
   public GbifUserPrincipal(GbifUser user) {
-    Preconditions.checkNotNull(user);
+    Objects.requireNonNull(user, "user shall be provided");
     this.user = user;
   }
 
