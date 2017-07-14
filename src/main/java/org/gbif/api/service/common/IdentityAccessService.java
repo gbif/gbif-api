@@ -10,16 +10,25 @@ import javax.annotation.Nullable;
  */
 public interface IdentityAccessService {
 
+  /**
+   * Get a {@link GbifUser} by identifier (username or email).
+   *
+   * @param identifier username or email
+   *
+   * @return the user or null if the user is not found
+   */
   @Nullable
-  GbifUser get(String userName);
+  GbifUser get(String identifier);
 
   /**
    * Authenticates a user.
+   *
+   * @param identifier username or email
    * @param password clear text password
    *
    * @return the authenticated user or null if not found or wrong credentials provided
    */
   @Nullable
-  GbifUser authenticate(String username, String password);
+  GbifUser authenticate(String identifier, String password);
 
 }

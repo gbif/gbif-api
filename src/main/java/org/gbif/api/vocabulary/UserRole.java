@@ -15,6 +15,9 @@
  */
 package org.gbif.api.vocabulary;
 
+/**
+ * Roles here shall not be defined in {@link AppRole} (validated by unit test).
+ */
 public enum UserRole {
   /**
    * A regular, registered GBIF drupal user.
