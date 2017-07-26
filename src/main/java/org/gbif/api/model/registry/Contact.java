@@ -16,8 +16,11 @@ import org.gbif.api.vocabulary.ContactType;
 import org.gbif.api.vocabulary.Country;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -26,6 +29,7 @@ import javax.validation.constraints.Size;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
 
 // TODO: Should have a cross-field validation for key & created
 public class Contact implements Address, LenientEquals<Contact> {
@@ -143,6 +147,19 @@ public class Contact implements Address, LenientEquals<Contact> {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  /**
+   * Returns the complete name in the form: FirstName LastName.
+   * Since all parts are optional, this method can return an empty string (but never null)
+   *
+   * @return the non-empty parts of FirstName LastName or empty string if none
+   */
+  public String getCompleteName() {
+    List<String> nameParts = new ArrayList<>();
+    Optional.ofNullable(StringUtils.trimToNull(firstName)).ifPresent(nameParts::add);
+    Optional.ofNullable(StringUtils.trimToNull(lastName)).ifPresent(nameParts::add);
+    return nameParts.stream().collect(Collectors.joining(" "));
   }
 
   public List<String> getPosition() {
