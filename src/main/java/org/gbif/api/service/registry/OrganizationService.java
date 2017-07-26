@@ -67,4 +67,16 @@ public interface OrganizationService
    * Provides a simple suggest service.
    */
   List<KeyTitleResult> suggest(@Nullable String q);
+
+  /**
+   * Confirm the endorsement of a new {@link Organization} by providing a confirmationKey.
+   * Confirming the endorsement of an {@link Organization} may not be required or possible depending how the
+   * {@link Organization} was created.
+   *
+   * @param organizationKey
+   * @param confirmationKey (aka challenge code)
+   * @return endorsement was confirmed using the provided keys
+   */
+  boolean confirmEndorsement(@NotNull UUID organizationKey, @NotNull UUID confirmationKey);
+
 }
