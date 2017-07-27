@@ -48,16 +48,16 @@ public class ContactTest {
   @Test
   public void testGetCompleteName() {
     Contact c = new Contact();
-    assertTrue(c.getCompleteName().equals(""));
+    assertTrue(c.computeCompleteName().equals(""));
 
     c.setFirstName("FirstName ");
-    assertTrue(c.getCompleteName().equals("FirstName"));
+    assertTrue(c.computeCompleteName().equals("FirstName"));
 
     c.setLastName("LastName");
-    assertTrue(c.getCompleteName().equals("FirstName LastName"));
+    assertTrue(c.computeCompleteName().equals("FirstName LastName"));
 
     c.setFirstName(" ");
-    assertTrue(c.getCompleteName().equals("LastName"));
+    assertTrue(c.computeCompleteName().equals("LastName"));
   }
 
 }
