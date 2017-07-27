@@ -30,6 +30,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 // TODO: Should have a cross-field validation for key & created
 public class Contact implements Address, LenientEquals<Contact> {
@@ -155,6 +156,7 @@ public class Contact implements Address, LenientEquals<Contact> {
    *
    * @return the non-empty parts of FirstName LastName or empty string if none
    */
+  @JsonIgnore
   public String getCompleteName() {
     List<String> nameParts = new ArrayList<>();
     Optional.ofNullable(StringUtils.trimToNull(firstName)).ifPresent(nameParts::add);

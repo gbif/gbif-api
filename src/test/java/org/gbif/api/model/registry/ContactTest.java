@@ -44,4 +44,20 @@ public class ContactTest {
     c.addUserId(", ,", ", ,");
     assertEquals(", ,", c.getUserId().get(9));
   }
+
+  @Test
+  public void testGetCompleteName() {
+    Contact c = new Contact();
+    assertTrue(c.getCompleteName().equals(""));
+
+    c.setFirstName("FirstName ");
+    assertTrue(c.getCompleteName().equals("FirstName"));
+
+    c.setLastName("LastName");
+    assertTrue(c.getCompleteName().equals("FirstName LastName"));
+
+    c.setFirstName(" ");
+    assertTrue(c.getCompleteName().equals("LastName"));
+  }
+
 }
