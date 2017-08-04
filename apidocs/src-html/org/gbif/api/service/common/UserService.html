@@ -27,34 +27,38 @@
 <span class="sourceLineNo">019</span><a name="line.19"></a>
 <span class="sourceLineNo">020</span>import javax.annotation.Nullable;<a name="line.20"></a>
 <span class="sourceLineNo">021</span><a name="line.21"></a>
-<span class="sourceLineNo">022</span>public interface UserService {<a name="line.22"></a>
-<span class="sourceLineNo">023</span><a name="line.23"></a>
-<span class="sourceLineNo">024</span>  /**<a name="line.24"></a>
-<span class="sourceLineNo">025</span>   * Authenticates a user.<a name="line.25"></a>
-<span class="sourceLineNo">026</span>   *<a name="line.26"></a>
-<span class="sourceLineNo">027</span>   * @param password clear text password<a name="line.27"></a>
-<span class="sourceLineNo">028</span>   *<a name="line.28"></a>
-<span class="sourceLineNo">029</span>   * @return the authenticated user or null if not found or wrong credentials provided<a name="line.29"></a>
-<span class="sourceLineNo">030</span>   */<a name="line.30"></a>
-<span class="sourceLineNo">031</span>  @Nullable<a name="line.31"></a>
-<span class="sourceLineNo">032</span>  User authenticate(String username, String password);<a name="line.32"></a>
-<span class="sourceLineNo">033</span><a name="line.33"></a>
-<span class="sourceLineNo">034</span>  /**<a name="line.34"></a>
-<span class="sourceLineNo">035</span>   * Retrieves a user by its case insensitive username.<a name="line.35"></a>
-<span class="sourceLineNo">036</span>   */<a name="line.36"></a>
-<span class="sourceLineNo">037</span>  @Nullable<a name="line.37"></a>
-<span class="sourceLineNo">038</span>  User get(String username);<a name="line.38"></a>
-<span class="sourceLineNo">039</span><a name="line.39"></a>
-<span class="sourceLineNo">040</span>  /**<a name="line.40"></a>
-<span class="sourceLineNo">041</span>   * Retrieves a user by a currently open Drupal (login) session.<a name="line.41"></a>
-<span class="sourceLineNo">042</span>   * The session name is stored by Drupal clientside in a cookie.<a name="line.42"></a>
-<span class="sourceLineNo">043</span>   * @param session the drupal session name as found in the drupal cookie<a name="line.43"></a>
-<span class="sourceLineNo">044</span>   * @return the user of an existing session or NULL if not found<a name="line.44"></a>
-<span class="sourceLineNo">045</span>   */<a name="line.45"></a>
-<span class="sourceLineNo">046</span>  @Nullable<a name="line.46"></a>
-<span class="sourceLineNo">047</span>  User getBySession(String session);<a name="line.47"></a>
-<span class="sourceLineNo">048</span><a name="line.48"></a>
-<span class="sourceLineNo">049</span>}<a name="line.49"></a>
+<span class="sourceLineNo">022</span>/**<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * This read only service used to connect to a Drupal DB is deprecated in favour of the IdentityAccessService.<a name="line.23"></a>
+<span class="sourceLineNo">024</span> */<a name="line.24"></a>
+<span class="sourceLineNo">025</span>@Deprecated<a name="line.25"></a>
+<span class="sourceLineNo">026</span>public interface UserService {<a name="line.26"></a>
+<span class="sourceLineNo">027</span><a name="line.27"></a>
+<span class="sourceLineNo">028</span>  /**<a name="line.28"></a>
+<span class="sourceLineNo">029</span>   * Authenticates a user.<a name="line.29"></a>
+<span class="sourceLineNo">030</span>   *<a name="line.30"></a>
+<span class="sourceLineNo">031</span>   * @param password clear text password<a name="line.31"></a>
+<span class="sourceLineNo">032</span>   *<a name="line.32"></a>
+<span class="sourceLineNo">033</span>   * @return the authenticated user or null if not found or wrong credentials provided<a name="line.33"></a>
+<span class="sourceLineNo">034</span>   */<a name="line.34"></a>
+<span class="sourceLineNo">035</span>  @Nullable<a name="line.35"></a>
+<span class="sourceLineNo">036</span>  User authenticate(String username, String password);<a name="line.36"></a>
+<span class="sourceLineNo">037</span><a name="line.37"></a>
+<span class="sourceLineNo">038</span>  /**<a name="line.38"></a>
+<span class="sourceLineNo">039</span>   * Retrieves a user by its case insensitive username.<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   */<a name="line.40"></a>
+<span class="sourceLineNo">041</span>  @Nullable<a name="line.41"></a>
+<span class="sourceLineNo">042</span>  User get(String username);<a name="line.42"></a>
+<span class="sourceLineNo">043</span><a name="line.43"></a>
+<span class="sourceLineNo">044</span>  /**<a name="line.44"></a>
+<span class="sourceLineNo">045</span>   * Retrieves a user by a currently open Drupal (login) session.<a name="line.45"></a>
+<span class="sourceLineNo">046</span>   * The session name is stored by Drupal clientside in a cookie.<a name="line.46"></a>
+<span class="sourceLineNo">047</span>   * @param session the drupal session name as found in the drupal cookie<a name="line.47"></a>
+<span class="sourceLineNo">048</span>   * @return the user of an existing session or NULL if not found<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   */<a name="line.49"></a>
+<span class="sourceLineNo">050</span>  @Nullable<a name="line.50"></a>
+<span class="sourceLineNo">051</span>  User getBySession(String session);<a name="line.51"></a>
+<span class="sourceLineNo">052</span><a name="line.52"></a>
+<span class="sourceLineNo">053</span>}<a name="line.53"></a>
 
 
 

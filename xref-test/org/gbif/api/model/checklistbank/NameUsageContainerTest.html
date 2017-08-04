@@ -320,122 +320,132 @@
 <a class="jxr_linenumber" name="L312" href="#L312">312</a> 
 <a class="jxr_linenumber" name="L313" href="#L313">313</a>   @Test
 <a class="jxr_linenumber" name="L314" href="#L314">314</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testTaxonomicStatus() {
-<a class="jxr_linenumber" name="L315" href="#L315">315</a>     NameUsageContainer nu = <strong class="jxr_keyword">new</strong> NameUsageContainer();
+<a class="jxr_linenumber" name="L315" href="#L315">315</a>     NameUsage nu = <strong class="jxr_keyword">new</strong> NameUsage();
 <a class="jxr_linenumber" name="L316" href="#L316">316</a>     nu.setKey(6);
 <a class="jxr_linenumber" name="L317" href="#L317">317</a>     nu.setScientificName(<span class="jxr_string">"Vicia faba L."</span>);
-<a class="jxr_linenumber" name="L318" href="#L318">318</a>     nu.setSynonym(<strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="L319" href="#L319">319</a>     nu.setTaxonomicStatus(<strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L320" href="#L320">320</a>     assertEquals(TaxonomicStatus.SYNONYM, nu.getTaxonomicStatus());
+<a class="jxr_linenumber" name="L318" href="#L318">318</a>     nu.setTaxonomicStatus(<strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L319" href="#L319">319</a>     assertNull(nu.getTaxonomicStatus());
+<a class="jxr_linenumber" name="L320" href="#L320">320</a>     assertFalse(nu.isSynonym());
 <a class="jxr_linenumber" name="L321" href="#L321">321</a> 
-<a class="jxr_linenumber" name="L322" href="#L322">322</a>     nu.setProParteKey(432);
+<a class="jxr_linenumber" name="L322" href="#L322">322</a>     nu.setTaxonomicStatus(TaxonomicStatus.PROPARTE_SYNONYM);
 <a class="jxr_linenumber" name="L323" href="#L323">323</a>     assertEquals(TaxonomicStatus.PROPARTE_SYNONYM, nu.getTaxonomicStatus());
-<a class="jxr_linenumber" name="L324" href="#L324">324</a> 
-<a class="jxr_linenumber" name="L325" href="#L325">325</a>     nu.setSynonym(false);
-<a class="jxr_linenumber" name="L326" href="#L326">326</a>     assertNull(nu.getTaxonomicStatus());
-<a class="jxr_linenumber" name="L327" href="#L327">327</a> 
-<a class="jxr_linenumber" name="L328" href="#L328">328</a>     nu.setTaxonomicStatus(TaxonomicStatus.HETEROTYPIC_SYNONYM);
-<a class="jxr_linenumber" name="L329" href="#L329">329</a>     assertEquals(TaxonomicStatus.HETEROTYPIC_SYNONYM, nu.getTaxonomicStatus());
-<a class="jxr_linenumber" name="L330" href="#L330">330</a>   }
-<a class="jxr_linenumber" name="L331" href="#L331">331</a> 
-<a class="jxr_linenumber" name="L332" href="#L332">332</a>   @Test
-<a class="jxr_linenumber" name="L333" href="#L333">333</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testTerrestrial() {
-<a class="jxr_linenumber" name="L334" href="#L334">334</a>     NameUsageContainer nu = <strong class="jxr_keyword">new</strong> NameUsageContainer();
-<a class="jxr_linenumber" name="L335" href="#L335">335</a>     nu.setKey(6);
-<a class="jxr_linenumber" name="L336" href="#L336">336</a>     assertNull(nu.isTerrestrial());
-<a class="jxr_linenumber" name="L337" href="#L337">337</a> 
-<a class="jxr_linenumber" name="L338" href="#L338">338</a>     SpeciesProfile sp = <strong class="jxr_keyword">new</strong> SpeciesProfile();
-<a class="jxr_linenumber" name="L339" href="#L339">339</a>     sp.setTerrestrial(<strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="L340" href="#L340">340</a>     nu.getSpeciesProfiles().add(sp);
-<a class="jxr_linenumber" name="L341" href="#L341">341</a>     assertTrue(nu.isTerrestrial());
-<a class="jxr_linenumber" name="L342" href="#L342">342</a>     sp.setTerrestrial(false);
-<a class="jxr_linenumber" name="L343" href="#L343">343</a>     assertFalse(nu.isTerrestrial());
-<a class="jxr_linenumber" name="L344" href="#L344">344</a>     sp.setTerrestrial(<strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L345" href="#L345">345</a>     assertNull(nu.isTerrestrial());
-<a class="jxr_linenumber" name="L346" href="#L346">346</a> 
-<a class="jxr_linenumber" name="L347" href="#L347">347</a>     nu.getSpeciesProfiles().clear();
-<a class="jxr_linenumber" name="L348" href="#L348">348</a> 
-<a class="jxr_linenumber" name="L349" href="#L349">349</a>     <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 1; i &lt; 10; i++) {
-<a class="jxr_linenumber" name="L350" href="#L350">350</a>       sp = <strong class="jxr_keyword">new</strong> SpeciesProfile();
-<a class="jxr_linenumber" name="L351" href="#L351">351</a>       sp.setTerrestrial(i % 2 == 0);
-<a class="jxr_linenumber" name="L352" href="#L352">352</a>       nu.getSpeciesProfiles().add(sp);
-<a class="jxr_linenumber" name="L353" href="#L353">353</a>     }
-<a class="jxr_linenumber" name="L354" href="#L354">354</a> 
-<a class="jxr_linenumber" name="L355" href="#L355">355</a>     assertEquals(9, nu.getSpeciesProfiles().size());
-<a class="jxr_linenumber" name="L356" href="#L356">356</a>     assertFalse(nu.isTerrestrial());
-<a class="jxr_linenumber" name="L357" href="#L357">357</a> 
-<a class="jxr_linenumber" name="L358" href="#L358">358</a>     sp = <strong class="jxr_keyword">new</strong> SpeciesProfile();
-<a class="jxr_linenumber" name="L359" href="#L359">359</a>     sp.setTerrestrial(<strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="L360" href="#L360">360</a>     nu.getSpeciesProfiles().add(sp);
-<a class="jxr_linenumber" name="L361" href="#L361">361</a>     assertEquals(10, nu.getSpeciesProfiles().size());
-<a class="jxr_linenumber" name="L362" href="#L362">362</a>     assertTrue(nu.isTerrestrial());
-<a class="jxr_linenumber" name="L363" href="#L363">363</a>   }
+<a class="jxr_linenumber" name="L324" href="#L324">324</a>     assertTrue(nu.isSynonym());
+<a class="jxr_linenumber" name="L325" href="#L325">325</a> 
+<a class="jxr_linenumber" name="L326" href="#L326">326</a>     nu.setTaxonomicStatus(TaxonomicStatus.SYNONYM);
+<a class="jxr_linenumber" name="L327" href="#L327">327</a>     assertEquals(TaxonomicStatus.SYNONYM, nu.getTaxonomicStatus());
+<a class="jxr_linenumber" name="L328" href="#L328">328</a>     assertTrue(nu.isSynonym());
+<a class="jxr_linenumber" name="L329" href="#L329">329</a> 
+<a class="jxr_linenumber" name="L330" href="#L330">330</a>     nu.setTaxonomicStatus(TaxonomicStatus.DOUBTFUL);
+<a class="jxr_linenumber" name="L331" href="#L331">331</a>     assertEquals(TaxonomicStatus.DOUBTFUL, nu.getTaxonomicStatus());
+<a class="jxr_linenumber" name="L332" href="#L332">332</a>     assertFalse(nu.isSynonym());
+<a class="jxr_linenumber" name="L333" href="#L333">333</a> 
+<a class="jxr_linenumber" name="L334" href="#L334">334</a>     nu.setProParteKey(432);
+<a class="jxr_linenumber" name="L335" href="#L335">335</a>     assertTrue(nu.isProParte());
+<a class="jxr_linenumber" name="L336" href="#L336">336</a> 
+<a class="jxr_linenumber" name="L337" href="#L337">337</a>     nu.setTaxonomicStatus(TaxonomicStatus.HETEROTYPIC_SYNONYM);
+<a class="jxr_linenumber" name="L338" href="#L338">338</a>     assertEquals(TaxonomicStatus.HETEROTYPIC_SYNONYM, nu.getTaxonomicStatus());
+<a class="jxr_linenumber" name="L339" href="#L339">339</a>     assertTrue(nu.isSynonym());
+<a class="jxr_linenumber" name="L340" href="#L340">340</a>   }
+<a class="jxr_linenumber" name="L341" href="#L341">341</a> 
+<a class="jxr_linenumber" name="L342" href="#L342">342</a>   @Test
+<a class="jxr_linenumber" name="L343" href="#L343">343</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testTerrestrial() {
+<a class="jxr_linenumber" name="L344" href="#L344">344</a>     NameUsageContainer nu = <strong class="jxr_keyword">new</strong> NameUsageContainer();
+<a class="jxr_linenumber" name="L345" href="#L345">345</a>     nu.setKey(6);
+<a class="jxr_linenumber" name="L346" href="#L346">346</a>     assertNull(nu.isTerrestrial());
+<a class="jxr_linenumber" name="L347" href="#L347">347</a> 
+<a class="jxr_linenumber" name="L348" href="#L348">348</a>     SpeciesProfile sp = <strong class="jxr_keyword">new</strong> SpeciesProfile();
+<a class="jxr_linenumber" name="L349" href="#L349">349</a>     sp.setTerrestrial(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L350" href="#L350">350</a>     nu.getSpeciesProfiles().add(sp);
+<a class="jxr_linenumber" name="L351" href="#L351">351</a>     assertTrue(nu.isTerrestrial());
+<a class="jxr_linenumber" name="L352" href="#L352">352</a>     sp.setTerrestrial(false);
+<a class="jxr_linenumber" name="L353" href="#L353">353</a>     assertFalse(nu.isTerrestrial());
+<a class="jxr_linenumber" name="L354" href="#L354">354</a>     sp.setTerrestrial(<strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L355" href="#L355">355</a>     assertNull(nu.isTerrestrial());
+<a class="jxr_linenumber" name="L356" href="#L356">356</a> 
+<a class="jxr_linenumber" name="L357" href="#L357">357</a>     nu.getSpeciesProfiles().clear();
+<a class="jxr_linenumber" name="L358" href="#L358">358</a> 
+<a class="jxr_linenumber" name="L359" href="#L359">359</a>     <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 1; i &lt; 10; i++) {
+<a class="jxr_linenumber" name="L360" href="#L360">360</a>       sp = <strong class="jxr_keyword">new</strong> SpeciesProfile();
+<a class="jxr_linenumber" name="L361" href="#L361">361</a>       sp.setTerrestrial(i % 2 == 0);
+<a class="jxr_linenumber" name="L362" href="#L362">362</a>       nu.getSpeciesProfiles().add(sp);
+<a class="jxr_linenumber" name="L363" href="#L363">363</a>     }
 <a class="jxr_linenumber" name="L364" href="#L364">364</a> 
-<a class="jxr_linenumber" name="L365" href="#L365">365</a>   @Test
-<a class="jxr_linenumber" name="L366" href="#L366">366</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testFreshwater() {
-<a class="jxr_linenumber" name="L367" href="#L367">367</a>     NameUsageContainer nu = <strong class="jxr_keyword">new</strong> NameUsageContainer();
-<a class="jxr_linenumber" name="L368" href="#L368">368</a>     nu.setKey(6);
-<a class="jxr_linenumber" name="L369" href="#L369">369</a>     assertNull(nu.isFreshwater());
-<a class="jxr_linenumber" name="L370" href="#L370">370</a> 
-<a class="jxr_linenumber" name="L371" href="#L371">371</a>     SpeciesProfile sp = <strong class="jxr_keyword">new</strong> SpeciesProfile();
-<a class="jxr_linenumber" name="L372" href="#L372">372</a>     sp.setFreshwater(<strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="L373" href="#L373">373</a>     nu.getSpeciesProfiles().add(sp);
-<a class="jxr_linenumber" name="L374" href="#L374">374</a>     assertTrue(nu.isFreshwater());
-<a class="jxr_linenumber" name="L375" href="#L375">375</a>     sp.setFreshwater(false);
-<a class="jxr_linenumber" name="L376" href="#L376">376</a>     assertFalse(nu.isFreshwater());
-<a class="jxr_linenumber" name="L377" href="#L377">377</a>     sp.setFreshwater(<strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L378" href="#L378">378</a>     assertNull(nu.isFreshwater());
-<a class="jxr_linenumber" name="L379" href="#L379">379</a> 
-<a class="jxr_linenumber" name="L380" href="#L380">380</a>     nu.getSpeciesProfiles().clear();
-<a class="jxr_linenumber" name="L381" href="#L381">381</a> 
-<a class="jxr_linenumber" name="L382" href="#L382">382</a>     <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 1; i &lt; 10; i++) {
-<a class="jxr_linenumber" name="L383" href="#L383">383</a>       sp = <strong class="jxr_keyword">new</strong> SpeciesProfile();
-<a class="jxr_linenumber" name="L384" href="#L384">384</a>       sp.setFreshwater(i % 2 == 0);
-<a class="jxr_linenumber" name="L385" href="#L385">385</a>       nu.getSpeciesProfiles().add(sp);
-<a class="jxr_linenumber" name="L386" href="#L386">386</a>     }
-<a class="jxr_linenumber" name="L387" href="#L387">387</a> 
-<a class="jxr_linenumber" name="L388" href="#L388">388</a>     assertEquals(9, nu.getSpeciesProfiles().size());
-<a class="jxr_linenumber" name="L389" href="#L389">389</a>     assertFalse(nu.isFreshwater());
-<a class="jxr_linenumber" name="L390" href="#L390">390</a> 
-<a class="jxr_linenumber" name="L391" href="#L391">391</a>     sp = <strong class="jxr_keyword">new</strong> SpeciesProfile();
-<a class="jxr_linenumber" name="L392" href="#L392">392</a>     sp.setFreshwater(<strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="L393" href="#L393">393</a>     nu.getSpeciesProfiles().add(sp);
-<a class="jxr_linenumber" name="L394" href="#L394">394</a>     assertEquals(10, nu.getSpeciesProfiles().size());
-<a class="jxr_linenumber" name="L395" href="#L395">395</a>     assertTrue(nu.isFreshwater());
-<a class="jxr_linenumber" name="L396" href="#L396">396</a>   }
+<a class="jxr_linenumber" name="L365" href="#L365">365</a>     assertEquals(9, nu.getSpeciesProfiles().size());
+<a class="jxr_linenumber" name="L366" href="#L366">366</a>     assertFalse(nu.isTerrestrial());
+<a class="jxr_linenumber" name="L367" href="#L367">367</a> 
+<a class="jxr_linenumber" name="L368" href="#L368">368</a>     sp = <strong class="jxr_keyword">new</strong> SpeciesProfile();
+<a class="jxr_linenumber" name="L369" href="#L369">369</a>     sp.setTerrestrial(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L370" href="#L370">370</a>     nu.getSpeciesProfiles().add(sp);
+<a class="jxr_linenumber" name="L371" href="#L371">371</a>     assertEquals(10, nu.getSpeciesProfiles().size());
+<a class="jxr_linenumber" name="L372" href="#L372">372</a>     assertTrue(nu.isTerrestrial());
+<a class="jxr_linenumber" name="L373" href="#L373">373</a>   }
+<a class="jxr_linenumber" name="L374" href="#L374">374</a> 
+<a class="jxr_linenumber" name="L375" href="#L375">375</a>   @Test
+<a class="jxr_linenumber" name="L376" href="#L376">376</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testFreshwater() {
+<a class="jxr_linenumber" name="L377" href="#L377">377</a>     NameUsageContainer nu = <strong class="jxr_keyword">new</strong> NameUsageContainer();
+<a class="jxr_linenumber" name="L378" href="#L378">378</a>     nu.setKey(6);
+<a class="jxr_linenumber" name="L379" href="#L379">379</a>     assertNull(nu.isFreshwater());
+<a class="jxr_linenumber" name="L380" href="#L380">380</a> 
+<a class="jxr_linenumber" name="L381" href="#L381">381</a>     SpeciesProfile sp = <strong class="jxr_keyword">new</strong> SpeciesProfile();
+<a class="jxr_linenumber" name="L382" href="#L382">382</a>     sp.setFreshwater(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L383" href="#L383">383</a>     nu.getSpeciesProfiles().add(sp);
+<a class="jxr_linenumber" name="L384" href="#L384">384</a>     assertTrue(nu.isFreshwater());
+<a class="jxr_linenumber" name="L385" href="#L385">385</a>     sp.setFreshwater(false);
+<a class="jxr_linenumber" name="L386" href="#L386">386</a>     assertFalse(nu.isFreshwater());
+<a class="jxr_linenumber" name="L387" href="#L387">387</a>     sp.setFreshwater(<strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L388" href="#L388">388</a>     assertNull(nu.isFreshwater());
+<a class="jxr_linenumber" name="L389" href="#L389">389</a> 
+<a class="jxr_linenumber" name="L390" href="#L390">390</a>     nu.getSpeciesProfiles().clear();
+<a class="jxr_linenumber" name="L391" href="#L391">391</a> 
+<a class="jxr_linenumber" name="L392" href="#L392">392</a>     <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 1; i &lt; 10; i++) {
+<a class="jxr_linenumber" name="L393" href="#L393">393</a>       sp = <strong class="jxr_keyword">new</strong> SpeciesProfile();
+<a class="jxr_linenumber" name="L394" href="#L394">394</a>       sp.setFreshwater(i % 2 == 0);
+<a class="jxr_linenumber" name="L395" href="#L395">395</a>       nu.getSpeciesProfiles().add(sp);
+<a class="jxr_linenumber" name="L396" href="#L396">396</a>     }
 <a class="jxr_linenumber" name="L397" href="#L397">397</a> 
-<a class="jxr_linenumber" name="L398" href="#L398">398</a>   @Test
-<a class="jxr_linenumber" name="L399" href="#L399">399</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testThreats() {
-<a class="jxr_linenumber" name="L400" href="#L400">400</a>     NameUsageContainer nu = <strong class="jxr_keyword">new</strong> NameUsageContainer();
-<a class="jxr_linenumber" name="L401" href="#L401">401</a>     nu.setKey(6);
-<a class="jxr_linenumber" name="L402" href="#L402">402</a> 
-<a class="jxr_linenumber" name="L403" href="#L403">403</a>     assertEquals(0, nu.getDistributions().size());
-<a class="jxr_linenumber" name="L404" href="#L404">404</a>     assertEquals(0, nu.getThreatStatus().size());
-<a class="jxr_linenumber" name="L405" href="#L405">405</a> 
-<a class="jxr_linenumber" name="L406" href="#L406">406</a>     Distribution d = <strong class="jxr_keyword">new</strong> Distribution();
-<a class="jxr_linenumber" name="L407" href="#L407">407</a>     d.setThreatStatus(ThreatStatus.ENDANGERED);
-<a class="jxr_linenumber" name="L408" href="#L408">408</a>     nu.getDistributions().add(d);
-<a class="jxr_linenumber" name="L409" href="#L409">409</a>     assertEquals(1, nu.getDistributions().size());
-<a class="jxr_linenumber" name="L410" href="#L410">410</a>     assertEquals(1, nu.getThreatStatus().size());
-<a class="jxr_linenumber" name="L411" href="#L411">411</a>     assertEquals(ThreatStatus.ENDANGERED, nu.getThreatStatus().iterator().next());
+<a class="jxr_linenumber" name="L398" href="#L398">398</a>     assertEquals(9, nu.getSpeciesProfiles().size());
+<a class="jxr_linenumber" name="L399" href="#L399">399</a>     assertFalse(nu.isFreshwater());
+<a class="jxr_linenumber" name="L400" href="#L400">400</a> 
+<a class="jxr_linenumber" name="L401" href="#L401">401</a>     sp = <strong class="jxr_keyword">new</strong> SpeciesProfile();
+<a class="jxr_linenumber" name="L402" href="#L402">402</a>     sp.setFreshwater(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L403" href="#L403">403</a>     nu.getSpeciesProfiles().add(sp);
+<a class="jxr_linenumber" name="L404" href="#L404">404</a>     assertEquals(10, nu.getSpeciesProfiles().size());
+<a class="jxr_linenumber" name="L405" href="#L405">405</a>     assertTrue(nu.isFreshwater());
+<a class="jxr_linenumber" name="L406" href="#L406">406</a>   }
+<a class="jxr_linenumber" name="L407" href="#L407">407</a> 
+<a class="jxr_linenumber" name="L408" href="#L408">408</a>   @Test
+<a class="jxr_linenumber" name="L409" href="#L409">409</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testThreats() {
+<a class="jxr_linenumber" name="L410" href="#L410">410</a>     NameUsageContainer nu = <strong class="jxr_keyword">new</strong> NameUsageContainer();
+<a class="jxr_linenumber" name="L411" href="#L411">411</a>     nu.setKey(6);
 <a class="jxr_linenumber" name="L412" href="#L412">412</a> 
-<a class="jxr_linenumber" name="L413" href="#L413">413</a>     d = <strong class="jxr_keyword">new</strong> Distribution();
-<a class="jxr_linenumber" name="L414" href="#L414">414</a>     d.setThreatStatus(ThreatStatus.ENDANGERED);
-<a class="jxr_linenumber" name="L415" href="#L415">415</a>     nu.getDistributions().add(d);
-<a class="jxr_linenumber" name="L416" href="#L416">416</a>     assertEquals(2, nu.getDistributions().size());
-<a class="jxr_linenumber" name="L417" href="#L417">417</a>     assertEquals(1, nu.getThreatStatus().size());
-<a class="jxr_linenumber" name="L418" href="#L418">418</a>     assertEquals(ThreatStatus.ENDANGERED, nu.getThreatStatus().iterator().next());
-<a class="jxr_linenumber" name="L419" href="#L419">419</a> 
-<a class="jxr_linenumber" name="L420" href="#L420">420</a>     d = <strong class="jxr_keyword">new</strong> Distribution();
-<a class="jxr_linenumber" name="L421" href="#L421">421</a>     d.setThreatStatus(ThreatStatus.CRITICALLY_ENDANGERED);
-<a class="jxr_linenumber" name="L422" href="#L422">422</a>     nu.getDistributions().add(d);
-<a class="jxr_linenumber" name="L423" href="#L423">423</a>     assertEquals(3, nu.getDistributions().size());
-<a class="jxr_linenumber" name="L424" href="#L424">424</a>     assertEquals(2, nu.getThreatStatus().size());
-<a class="jxr_linenumber" name="L425" href="#L425">425</a>     assertEquals(ThreatStatus.ENDANGERED, nu.getThreatStatus().iterator().next());
-<a class="jxr_linenumber" name="L426" href="#L426">426</a>   }
-<a class="jxr_linenumber" name="L427" href="#L427">427</a> 
-<a class="jxr_linenumber" name="L428" href="#L428">428</a> }
+<a class="jxr_linenumber" name="L413" href="#L413">413</a>     assertEquals(0, nu.getDistributions().size());
+<a class="jxr_linenumber" name="L414" href="#L414">414</a>     assertEquals(0, nu.getThreatStatus().size());
+<a class="jxr_linenumber" name="L415" href="#L415">415</a> 
+<a class="jxr_linenumber" name="L416" href="#L416">416</a>     Distribution d = <strong class="jxr_keyword">new</strong> Distribution();
+<a class="jxr_linenumber" name="L417" href="#L417">417</a>     d.setThreatStatus(ThreatStatus.ENDANGERED);
+<a class="jxr_linenumber" name="L418" href="#L418">418</a>     nu.getDistributions().add(d);
+<a class="jxr_linenumber" name="L419" href="#L419">419</a>     assertEquals(1, nu.getDistributions().size());
+<a class="jxr_linenumber" name="L420" href="#L420">420</a>     assertEquals(1, nu.getThreatStatus().size());
+<a class="jxr_linenumber" name="L421" href="#L421">421</a>     assertEquals(ThreatStatus.ENDANGERED, nu.getThreatStatus().iterator().next());
+<a class="jxr_linenumber" name="L422" href="#L422">422</a> 
+<a class="jxr_linenumber" name="L423" href="#L423">423</a>     d = <strong class="jxr_keyword">new</strong> Distribution();
+<a class="jxr_linenumber" name="L424" href="#L424">424</a>     d.setThreatStatus(ThreatStatus.ENDANGERED);
+<a class="jxr_linenumber" name="L425" href="#L425">425</a>     nu.getDistributions().add(d);
+<a class="jxr_linenumber" name="L426" href="#L426">426</a>     assertEquals(2, nu.getDistributions().size());
+<a class="jxr_linenumber" name="L427" href="#L427">427</a>     assertEquals(1, nu.getThreatStatus().size());
+<a class="jxr_linenumber" name="L428" href="#L428">428</a>     assertEquals(ThreatStatus.ENDANGERED, nu.getThreatStatus().iterator().next());
+<a class="jxr_linenumber" name="L429" href="#L429">429</a> 
+<a class="jxr_linenumber" name="L430" href="#L430">430</a>     d = <strong class="jxr_keyword">new</strong> Distribution();
+<a class="jxr_linenumber" name="L431" href="#L431">431</a>     d.setThreatStatus(ThreatStatus.CRITICALLY_ENDANGERED);
+<a class="jxr_linenumber" name="L432" href="#L432">432</a>     nu.getDistributions().add(d);
+<a class="jxr_linenumber" name="L433" href="#L433">433</a>     assertEquals(3, nu.getDistributions().size());
+<a class="jxr_linenumber" name="L434" href="#L434">434</a>     assertEquals(2, nu.getThreatStatus().size());
+<a class="jxr_linenumber" name="L435" href="#L435">435</a>     assertEquals(ThreatStatus.ENDANGERED, nu.getThreatStatus().iterator().next());
+<a class="jxr_linenumber" name="L436" href="#L436">436</a>   }
+<a class="jxr_linenumber" name="L437" href="#L437">437</a> 
+<a class="jxr_linenumber" name="L438" href="#L438">438</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2017 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>
 </body>
 </html>

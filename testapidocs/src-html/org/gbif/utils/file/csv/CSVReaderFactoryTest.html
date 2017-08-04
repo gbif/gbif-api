@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package org.gbif.utils.file.csv;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import org.gbif.utils.file.FileUtils;<a name="line.3"></a>
+<span class="sourceLineNo">004</span><a name="line.4"></a>
+<span class="sourceLineNo">005</span>import java.io.File;<a name="line.5"></a>
+<span class="sourceLineNo">006</span>import java.io.IOException;<a name="line.6"></a>
+<span class="sourceLineNo">007</span><a name="line.7"></a>
+<span class="sourceLineNo">008</span>import org.junit.Test;<a name="line.8"></a>
+<span class="sourceLineNo">009</span><a name="line.9"></a>
+<span class="sourceLineNo">010</span>import static org.junit.Assert.assertEquals;<a name="line.10"></a>
+<span class="sourceLineNo">011</span>import static org.junit.Assert.assertNull;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>import static org.junit.Assert.assertTrue;<a name="line.12"></a>
+<span class="sourceLineNo">013</span><a name="line.13"></a>
+<span class="sourceLineNo">014</span>/**<a name="line.14"></a>
+<span class="sourceLineNo">015</span> *<a name="line.15"></a>
+<span class="sourceLineNo">016</span> */<a name="line.16"></a>
+<span class="sourceLineNo">017</span>public class CSVReaderFactoryTest {<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>  @Test<a name="line.19"></a>
+<span class="sourceLineNo">020</span>  public void detectCsvAlwaysQuoted() throws IOException {<a name="line.20"></a>
+<span class="sourceLineNo">021</span>    File source = FileUtils.getClasspathFile("csv/csv_always_quoted.csv");<a name="line.21"></a>
+<span class="sourceLineNo">022</span>    CSVReader reader = CSVReaderFactory.build(source);<a name="line.22"></a>
+<span class="sourceLineNo">023</span>    assertEquals(",", reader.delimiter);<a name="line.23"></a>
+<span class="sourceLineNo">024</span>    assertEquals(new Character('"'), reader.quoteChar);<a name="line.24"></a>
+<span class="sourceLineNo">025</span>    assertEquals(1, reader.headerRows);<a name="line.25"></a>
+<span class="sourceLineNo">026</span>    reader.close();<a name="line.26"></a>
+<span class="sourceLineNo">027</span>  }<a name="line.27"></a>
+<span class="sourceLineNo">028</span><a name="line.28"></a>
+<span class="sourceLineNo">029</span>  /**<a name="line.29"></a>
+<span class="sourceLineNo">030</span>   * We dont want unquoted CSVs, See detectCsvOptionallyQuoted()<a name="line.30"></a>
+<span class="sourceLineNo">031</span>   */<a name="line.31"></a>
+<span class="sourceLineNo">032</span>  public void detectCsvUnquoted() throws IOException {<a name="line.32"></a>
+<span class="sourceLineNo">033</span>    String[] files = {"csv/csv_unquoted.txt"};<a name="line.33"></a>
+<span class="sourceLineNo">034</span>    for (String fn : files) {<a name="line.34"></a>
+<span class="sourceLineNo">035</span>      File source = FileUtils.getClasspathFile(fn);<a name="line.35"></a>
+<span class="sourceLineNo">036</span>      CSVReader reader = CSVReaderFactory.build(source);<a name="line.36"></a>
+<span class="sourceLineNo">037</span>      assertEquals(",", reader.delimiter);<a name="line.37"></a>
+<span class="sourceLineNo">038</span>      assertNull(reader.quoteChar);<a name="line.38"></a>
+<span class="sourceLineNo">039</span>      assertEquals(1, reader.headerRows);<a name="line.39"></a>
+<span class="sourceLineNo">040</span>      reader.close();<a name="line.40"></a>
+<span class="sourceLineNo">041</span>    }<a name="line.41"></a>
+<span class="sourceLineNo">042</span>  }<a name="line.42"></a>
+<span class="sourceLineNo">043</span><a name="line.43"></a>
+<span class="sourceLineNo">044</span>  @Test<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  public void detectPipe() throws IOException {<a name="line.45"></a>
+<span class="sourceLineNo">046</span>    String[] files = new String[] {"csv/pipe_separator.txt"};<a name="line.46"></a>
+<span class="sourceLineNo">047</span>    for (String fn : files) {<a name="line.47"></a>
+<span class="sourceLineNo">048</span>      File source = FileUtils.getClasspathFile(fn);<a name="line.48"></a>
+<span class="sourceLineNo">049</span>      CSVReader reader = CSVReaderFactory.build(source);<a name="line.49"></a>
+<span class="sourceLineNo">050</span>      assertEquals("|", reader.delimiter);<a name="line.50"></a>
+<span class="sourceLineNo">051</span>      assertNull(reader.quoteChar);<a name="line.51"></a>
+<span class="sourceLineNo">052</span>      assertEquals(1, reader.headerRows);<a name="line.52"></a>
+<span class="sourceLineNo">053</span>      reader.close();<a name="line.53"></a>
+<span class="sourceLineNo">054</span>    }<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  }<a name="line.55"></a>
+<span class="sourceLineNo">056</span><a name="line.56"></a>
+<span class="sourceLineNo">057</span>  @Test<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  public void detectSemicolon() throws IOException {<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    String[] files = {"csv/semicolon_separator.csv"};<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    for (String fn : files) {<a name="line.60"></a>
+<span class="sourceLineNo">061</span>      File source = FileUtils.getClasspathFile(fn);<a name="line.61"></a>
+<span class="sourceLineNo">062</span>      CSVReader reader = CSVReaderFactory.build(source);<a name="line.62"></a>
+<span class="sourceLineNo">063</span>      assertEquals(";", reader.delimiter);<a name="line.63"></a>
+<span class="sourceLineNo">064</span>      assertNull(reader.quoteChar);<a name="line.64"></a>
+<span class="sourceLineNo">065</span>      assertEquals(1, reader.headerRows);<a name="line.65"></a>
+<span class="sourceLineNo">066</span>      reader.close();<a name="line.66"></a>
+<span class="sourceLineNo">067</span>    }<a name="line.67"></a>
+<span class="sourceLineNo">068</span>  }<a name="line.68"></a>
+<span class="sourceLineNo">069</span><a name="line.69"></a>
+<span class="sourceLineNo">070</span>  /**<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   * As CSV files with rare optional quotes are hard to detect but cause problems<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   * we prefer to default to the " quotation in case comma seperated files are used.<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   * This is why test detectCsvUnquoted() is outcommented right now!<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   */<a name="line.74"></a>
+<span class="sourceLineNo">075</span>  @Test<a name="line.75"></a>
+<span class="sourceLineNo">076</span>  public void detectCsvOptionallyQuoted() throws IOException {<a name="line.76"></a>
+<span class="sourceLineNo">077</span>    String[] files = {"csv/csv_optional_quotes_puma.csv", "csv/csv_optional_quotes_excel2008.csv",<a name="line.77"></a>
+<span class="sourceLineNo">078</span>            "csv/csv_incl_single_quotes.csv", "csv/iucn100.csv", "csv/csv_unquoted.txt", "csv/csv_unquoted_coordinates.txt"};<a name="line.78"></a>
+<span class="sourceLineNo">079</span>    for (String fn : files) {<a name="line.79"></a>
+<span class="sourceLineNo">080</span>      File source = FileUtils.getClasspathFile(fn);<a name="line.80"></a>
+<span class="sourceLineNo">081</span>      CSVReader reader = CSVReaderFactory.build(source);<a name="line.81"></a>
+<span class="sourceLineNo">082</span>      assertEquals(",", reader.delimiter);<a name="line.82"></a>
+<span class="sourceLineNo">083</span>      assertEquals(new Character('"'), reader.quoteChar);<a name="line.83"></a>
+<span class="sourceLineNo">084</span>      assertEquals(1, reader.headerRows);<a name="line.84"></a>
+<span class="sourceLineNo">085</span>      reader.close();<a name="line.85"></a>
+<span class="sourceLineNo">086</span>    }<a name="line.86"></a>
+<span class="sourceLineNo">087</span>  }<a name="line.87"></a>
+<span class="sourceLineNo">088</span><a name="line.88"></a>
+<span class="sourceLineNo">089</span>  @Test<a name="line.89"></a>
+<span class="sourceLineNo">090</span>  public void detectTab() throws IOException {<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    String[] files = {"csv/ipni.tab.txt", "csv/tab_separated_generic.txt", "csv/iucn100.tab.txt", "csv/ebird.tab.txt",<a name="line.91"></a>
+<span class="sourceLineNo">092</span>            "csv/empty_line.tab", "csv/irmng.tail", "csv/MOBOT.tab.csv"};<a name="line.92"></a>
+<span class="sourceLineNo">093</span>    for (String fn : files) {<a name="line.93"></a>
+<span class="sourceLineNo">094</span>      File source = FileUtils.getClasspathFile(fn);<a name="line.94"></a>
+<span class="sourceLineNo">095</span>      CSVReader reader = CSVReaderFactory.build(source);<a name="line.95"></a>
+<span class="sourceLineNo">096</span>      assertEquals("\t", reader.delimiter);<a name="line.96"></a>
+<span class="sourceLineNo">097</span>      assertNull(reader.quoteChar);<a name="line.97"></a>
+<span class="sourceLineNo">098</span>      assertEquals(1, reader.headerRows);<a name="line.98"></a>
+<span class="sourceLineNo">099</span>      reader.close();<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    }<a name="line.100"></a>
+<span class="sourceLineNo">101</span>  }<a name="line.101"></a>
+<span class="sourceLineNo">102</span><a name="line.102"></a>
+<span class="sourceLineNo">103</span>  @Test<a name="line.103"></a>
+<span class="sourceLineNo">104</span>  public void detectTabQuoted() throws IOException {<a name="line.104"></a>
+<span class="sourceLineNo">105</span>    String[] files = {"csv/eol/my_darwincore_tab_separated_quoted.txt",<a name="line.105"></a>
+<span class="sourceLineNo">106</span>            "csv/eol/my_dataobject_tab_separated_quoted.txt", "csv/borza_tab_separated_quoted.txt"};<a name="line.106"></a>
+<span class="sourceLineNo">107</span>    for (String fn : files) {<a name="line.107"></a>
+<span class="sourceLineNo">108</span>      File source = FileUtils.getClasspathFile(fn);<a name="line.108"></a>
+<span class="sourceLineNo">109</span>      CSVReader reader = CSVReaderFactory.build(source);<a name="line.109"></a>
+<span class="sourceLineNo">110</span>      assertEquals("\t", reader.delimiter);<a name="line.110"></a>
+<span class="sourceLineNo">111</span>      assertTrue(reader.quoteChar == '"');<a name="line.111"></a>
+<span class="sourceLineNo">112</span>      assertEquals(1, reader.headerRows);<a name="line.112"></a>
+<span class="sourceLineNo">113</span>      reader.close();<a name="line.113"></a>
+<span class="sourceLineNo">114</span>    }<a name="line.114"></a>
+<span class="sourceLineNo">115</span>  }<a name="line.115"></a>
+<span class="sourceLineNo">116</span><a name="line.116"></a>
+<span class="sourceLineNo">117</span>}<a name="line.117"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

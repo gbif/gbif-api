@@ -320,120 +320,130 @@
 <span class="sourceLineNo">312</span><a name="line.312"></a>
 <span class="sourceLineNo">313</span>  @Test<a name="line.313"></a>
 <span class="sourceLineNo">314</span>  public void testTaxonomicStatus() {<a name="line.314"></a>
-<span class="sourceLineNo">315</span>    NameUsageContainer nu = new NameUsageContainer();<a name="line.315"></a>
+<span class="sourceLineNo">315</span>    NameUsage nu = new NameUsage();<a name="line.315"></a>
 <span class="sourceLineNo">316</span>    nu.setKey(6);<a name="line.316"></a>
 <span class="sourceLineNo">317</span>    nu.setScientificName("Vicia faba L.");<a name="line.317"></a>
-<span class="sourceLineNo">318</span>    nu.setSynonym(true);<a name="line.318"></a>
-<span class="sourceLineNo">319</span>    nu.setTaxonomicStatus(null);<a name="line.319"></a>
-<span class="sourceLineNo">320</span>    assertEquals(TaxonomicStatus.SYNONYM, nu.getTaxonomicStatus());<a name="line.320"></a>
+<span class="sourceLineNo">318</span>    nu.setTaxonomicStatus(null);<a name="line.318"></a>
+<span class="sourceLineNo">319</span>    assertNull(nu.getTaxonomicStatus());<a name="line.319"></a>
+<span class="sourceLineNo">320</span>    assertFalse(nu.isSynonym());<a name="line.320"></a>
 <span class="sourceLineNo">321</span><a name="line.321"></a>
-<span class="sourceLineNo">322</span>    nu.setProParteKey(432);<a name="line.322"></a>
+<span class="sourceLineNo">322</span>    nu.setTaxonomicStatus(TaxonomicStatus.PROPARTE_SYNONYM);<a name="line.322"></a>
 <span class="sourceLineNo">323</span>    assertEquals(TaxonomicStatus.PROPARTE_SYNONYM, nu.getTaxonomicStatus());<a name="line.323"></a>
-<span class="sourceLineNo">324</span><a name="line.324"></a>
-<span class="sourceLineNo">325</span>    nu.setSynonym(false);<a name="line.325"></a>
-<span class="sourceLineNo">326</span>    assertNull(nu.getTaxonomicStatus());<a name="line.326"></a>
-<span class="sourceLineNo">327</span><a name="line.327"></a>
-<span class="sourceLineNo">328</span>    nu.setTaxonomicStatus(TaxonomicStatus.HETEROTYPIC_SYNONYM);<a name="line.328"></a>
-<span class="sourceLineNo">329</span>    assertEquals(TaxonomicStatus.HETEROTYPIC_SYNONYM, nu.getTaxonomicStatus());<a name="line.329"></a>
-<span class="sourceLineNo">330</span>  }<a name="line.330"></a>
-<span class="sourceLineNo">331</span><a name="line.331"></a>
-<span class="sourceLineNo">332</span>  @Test<a name="line.332"></a>
-<span class="sourceLineNo">333</span>  public void testTerrestrial() {<a name="line.333"></a>
-<span class="sourceLineNo">334</span>    NameUsageContainer nu = new NameUsageContainer();<a name="line.334"></a>
-<span class="sourceLineNo">335</span>    nu.setKey(6);<a name="line.335"></a>
-<span class="sourceLineNo">336</span>    assertNull(nu.isTerrestrial());<a name="line.336"></a>
-<span class="sourceLineNo">337</span><a name="line.337"></a>
-<span class="sourceLineNo">338</span>    SpeciesProfile sp = new SpeciesProfile();<a name="line.338"></a>
-<span class="sourceLineNo">339</span>    sp.setTerrestrial(true);<a name="line.339"></a>
-<span class="sourceLineNo">340</span>    nu.getSpeciesProfiles().add(sp);<a name="line.340"></a>
-<span class="sourceLineNo">341</span>    assertTrue(nu.isTerrestrial());<a name="line.341"></a>
-<span class="sourceLineNo">342</span>    sp.setTerrestrial(false);<a name="line.342"></a>
-<span class="sourceLineNo">343</span>    assertFalse(nu.isTerrestrial());<a name="line.343"></a>
-<span class="sourceLineNo">344</span>    sp.setTerrestrial(null);<a name="line.344"></a>
-<span class="sourceLineNo">345</span>    assertNull(nu.isTerrestrial());<a name="line.345"></a>
-<span class="sourceLineNo">346</span><a name="line.346"></a>
-<span class="sourceLineNo">347</span>    nu.getSpeciesProfiles().clear();<a name="line.347"></a>
-<span class="sourceLineNo">348</span><a name="line.348"></a>
-<span class="sourceLineNo">349</span>    for (int i = 1; i &lt; 10; i++) {<a name="line.349"></a>
-<span class="sourceLineNo">350</span>      sp = new SpeciesProfile();<a name="line.350"></a>
-<span class="sourceLineNo">351</span>      sp.setTerrestrial(i % 2 == 0);<a name="line.351"></a>
-<span class="sourceLineNo">352</span>      nu.getSpeciesProfiles().add(sp);<a name="line.352"></a>
-<span class="sourceLineNo">353</span>    }<a name="line.353"></a>
-<span class="sourceLineNo">354</span><a name="line.354"></a>
-<span class="sourceLineNo">355</span>    assertEquals(9, nu.getSpeciesProfiles().size());<a name="line.355"></a>
-<span class="sourceLineNo">356</span>    assertFalse(nu.isTerrestrial());<a name="line.356"></a>
-<span class="sourceLineNo">357</span><a name="line.357"></a>
-<span class="sourceLineNo">358</span>    sp = new SpeciesProfile();<a name="line.358"></a>
-<span class="sourceLineNo">359</span>    sp.setTerrestrial(true);<a name="line.359"></a>
-<span class="sourceLineNo">360</span>    nu.getSpeciesProfiles().add(sp);<a name="line.360"></a>
-<span class="sourceLineNo">361</span>    assertEquals(10, nu.getSpeciesProfiles().size());<a name="line.361"></a>
-<span class="sourceLineNo">362</span>    assertTrue(nu.isTerrestrial());<a name="line.362"></a>
-<span class="sourceLineNo">363</span>  }<a name="line.363"></a>
+<span class="sourceLineNo">324</span>    assertTrue(nu.isSynonym());<a name="line.324"></a>
+<span class="sourceLineNo">325</span><a name="line.325"></a>
+<span class="sourceLineNo">326</span>    nu.setTaxonomicStatus(TaxonomicStatus.SYNONYM);<a name="line.326"></a>
+<span class="sourceLineNo">327</span>    assertEquals(TaxonomicStatus.SYNONYM, nu.getTaxonomicStatus());<a name="line.327"></a>
+<span class="sourceLineNo">328</span>    assertTrue(nu.isSynonym());<a name="line.328"></a>
+<span class="sourceLineNo">329</span><a name="line.329"></a>
+<span class="sourceLineNo">330</span>    nu.setTaxonomicStatus(TaxonomicStatus.DOUBTFUL);<a name="line.330"></a>
+<span class="sourceLineNo">331</span>    assertEquals(TaxonomicStatus.DOUBTFUL, nu.getTaxonomicStatus());<a name="line.331"></a>
+<span class="sourceLineNo">332</span>    assertFalse(nu.isSynonym());<a name="line.332"></a>
+<span class="sourceLineNo">333</span><a name="line.333"></a>
+<span class="sourceLineNo">334</span>    nu.setProParteKey(432);<a name="line.334"></a>
+<span class="sourceLineNo">335</span>    assertTrue(nu.isProParte());<a name="line.335"></a>
+<span class="sourceLineNo">336</span><a name="line.336"></a>
+<span class="sourceLineNo">337</span>    nu.setTaxonomicStatus(TaxonomicStatus.HETEROTYPIC_SYNONYM);<a name="line.337"></a>
+<span class="sourceLineNo">338</span>    assertEquals(TaxonomicStatus.HETEROTYPIC_SYNONYM, nu.getTaxonomicStatus());<a name="line.338"></a>
+<span class="sourceLineNo">339</span>    assertTrue(nu.isSynonym());<a name="line.339"></a>
+<span class="sourceLineNo">340</span>  }<a name="line.340"></a>
+<span class="sourceLineNo">341</span><a name="line.341"></a>
+<span class="sourceLineNo">342</span>  @Test<a name="line.342"></a>
+<span class="sourceLineNo">343</span>  public void testTerrestrial() {<a name="line.343"></a>
+<span class="sourceLineNo">344</span>    NameUsageContainer nu = new NameUsageContainer();<a name="line.344"></a>
+<span class="sourceLineNo">345</span>    nu.setKey(6);<a name="line.345"></a>
+<span class="sourceLineNo">346</span>    assertNull(nu.isTerrestrial());<a name="line.346"></a>
+<span class="sourceLineNo">347</span><a name="line.347"></a>
+<span class="sourceLineNo">348</span>    SpeciesProfile sp = new SpeciesProfile();<a name="line.348"></a>
+<span class="sourceLineNo">349</span>    sp.setTerrestrial(true);<a name="line.349"></a>
+<span class="sourceLineNo">350</span>    nu.getSpeciesProfiles().add(sp);<a name="line.350"></a>
+<span class="sourceLineNo">351</span>    assertTrue(nu.isTerrestrial());<a name="line.351"></a>
+<span class="sourceLineNo">352</span>    sp.setTerrestrial(false);<a name="line.352"></a>
+<span class="sourceLineNo">353</span>    assertFalse(nu.isTerrestrial());<a name="line.353"></a>
+<span class="sourceLineNo">354</span>    sp.setTerrestrial(null);<a name="line.354"></a>
+<span class="sourceLineNo">355</span>    assertNull(nu.isTerrestrial());<a name="line.355"></a>
+<span class="sourceLineNo">356</span><a name="line.356"></a>
+<span class="sourceLineNo">357</span>    nu.getSpeciesProfiles().clear();<a name="line.357"></a>
+<span class="sourceLineNo">358</span><a name="line.358"></a>
+<span class="sourceLineNo">359</span>    for (int i = 1; i &lt; 10; i++) {<a name="line.359"></a>
+<span class="sourceLineNo">360</span>      sp = new SpeciesProfile();<a name="line.360"></a>
+<span class="sourceLineNo">361</span>      sp.setTerrestrial(i % 2 == 0);<a name="line.361"></a>
+<span class="sourceLineNo">362</span>      nu.getSpeciesProfiles().add(sp);<a name="line.362"></a>
+<span class="sourceLineNo">363</span>    }<a name="line.363"></a>
 <span class="sourceLineNo">364</span><a name="line.364"></a>
-<span class="sourceLineNo">365</span>  @Test<a name="line.365"></a>
-<span class="sourceLineNo">366</span>  public void testFreshwater() {<a name="line.366"></a>
-<span class="sourceLineNo">367</span>    NameUsageContainer nu = new NameUsageContainer();<a name="line.367"></a>
-<span class="sourceLineNo">368</span>    nu.setKey(6);<a name="line.368"></a>
-<span class="sourceLineNo">369</span>    assertNull(nu.isFreshwater());<a name="line.369"></a>
-<span class="sourceLineNo">370</span><a name="line.370"></a>
-<span class="sourceLineNo">371</span>    SpeciesProfile sp = new SpeciesProfile();<a name="line.371"></a>
-<span class="sourceLineNo">372</span>    sp.setFreshwater(true);<a name="line.372"></a>
-<span class="sourceLineNo">373</span>    nu.getSpeciesProfiles().add(sp);<a name="line.373"></a>
-<span class="sourceLineNo">374</span>    assertTrue(nu.isFreshwater());<a name="line.374"></a>
-<span class="sourceLineNo">375</span>    sp.setFreshwater(false);<a name="line.375"></a>
-<span class="sourceLineNo">376</span>    assertFalse(nu.isFreshwater());<a name="line.376"></a>
-<span class="sourceLineNo">377</span>    sp.setFreshwater(null);<a name="line.377"></a>
-<span class="sourceLineNo">378</span>    assertNull(nu.isFreshwater());<a name="line.378"></a>
-<span class="sourceLineNo">379</span><a name="line.379"></a>
-<span class="sourceLineNo">380</span>    nu.getSpeciesProfiles().clear();<a name="line.380"></a>
-<span class="sourceLineNo">381</span><a name="line.381"></a>
-<span class="sourceLineNo">382</span>    for (int i = 1; i &lt; 10; i++) {<a name="line.382"></a>
-<span class="sourceLineNo">383</span>      sp = new SpeciesProfile();<a name="line.383"></a>
-<span class="sourceLineNo">384</span>      sp.setFreshwater(i % 2 == 0);<a name="line.384"></a>
-<span class="sourceLineNo">385</span>      nu.getSpeciesProfiles().add(sp);<a name="line.385"></a>
-<span class="sourceLineNo">386</span>    }<a name="line.386"></a>
-<span class="sourceLineNo">387</span><a name="line.387"></a>
-<span class="sourceLineNo">388</span>    assertEquals(9, nu.getSpeciesProfiles().size());<a name="line.388"></a>
-<span class="sourceLineNo">389</span>    assertFalse(nu.isFreshwater());<a name="line.389"></a>
-<span class="sourceLineNo">390</span><a name="line.390"></a>
-<span class="sourceLineNo">391</span>    sp = new SpeciesProfile();<a name="line.391"></a>
-<span class="sourceLineNo">392</span>    sp.setFreshwater(true);<a name="line.392"></a>
-<span class="sourceLineNo">393</span>    nu.getSpeciesProfiles().add(sp);<a name="line.393"></a>
-<span class="sourceLineNo">394</span>    assertEquals(10, nu.getSpeciesProfiles().size());<a name="line.394"></a>
-<span class="sourceLineNo">395</span>    assertTrue(nu.isFreshwater());<a name="line.395"></a>
-<span class="sourceLineNo">396</span>  }<a name="line.396"></a>
+<span class="sourceLineNo">365</span>    assertEquals(9, nu.getSpeciesProfiles().size());<a name="line.365"></a>
+<span class="sourceLineNo">366</span>    assertFalse(nu.isTerrestrial());<a name="line.366"></a>
+<span class="sourceLineNo">367</span><a name="line.367"></a>
+<span class="sourceLineNo">368</span>    sp = new SpeciesProfile();<a name="line.368"></a>
+<span class="sourceLineNo">369</span>    sp.setTerrestrial(true);<a name="line.369"></a>
+<span class="sourceLineNo">370</span>    nu.getSpeciesProfiles().add(sp);<a name="line.370"></a>
+<span class="sourceLineNo">371</span>    assertEquals(10, nu.getSpeciesProfiles().size());<a name="line.371"></a>
+<span class="sourceLineNo">372</span>    assertTrue(nu.isTerrestrial());<a name="line.372"></a>
+<span class="sourceLineNo">373</span>  }<a name="line.373"></a>
+<span class="sourceLineNo">374</span><a name="line.374"></a>
+<span class="sourceLineNo">375</span>  @Test<a name="line.375"></a>
+<span class="sourceLineNo">376</span>  public void testFreshwater() {<a name="line.376"></a>
+<span class="sourceLineNo">377</span>    NameUsageContainer nu = new NameUsageContainer();<a name="line.377"></a>
+<span class="sourceLineNo">378</span>    nu.setKey(6);<a name="line.378"></a>
+<span class="sourceLineNo">379</span>    assertNull(nu.isFreshwater());<a name="line.379"></a>
+<span class="sourceLineNo">380</span><a name="line.380"></a>
+<span class="sourceLineNo">381</span>    SpeciesProfile sp = new SpeciesProfile();<a name="line.381"></a>
+<span class="sourceLineNo">382</span>    sp.setFreshwater(true);<a name="line.382"></a>
+<span class="sourceLineNo">383</span>    nu.getSpeciesProfiles().add(sp);<a name="line.383"></a>
+<span class="sourceLineNo">384</span>    assertTrue(nu.isFreshwater());<a name="line.384"></a>
+<span class="sourceLineNo">385</span>    sp.setFreshwater(false);<a name="line.385"></a>
+<span class="sourceLineNo">386</span>    assertFalse(nu.isFreshwater());<a name="line.386"></a>
+<span class="sourceLineNo">387</span>    sp.setFreshwater(null);<a name="line.387"></a>
+<span class="sourceLineNo">388</span>    assertNull(nu.isFreshwater());<a name="line.388"></a>
+<span class="sourceLineNo">389</span><a name="line.389"></a>
+<span class="sourceLineNo">390</span>    nu.getSpeciesProfiles().clear();<a name="line.390"></a>
+<span class="sourceLineNo">391</span><a name="line.391"></a>
+<span class="sourceLineNo">392</span>    for (int i = 1; i &lt; 10; i++) {<a name="line.392"></a>
+<span class="sourceLineNo">393</span>      sp = new SpeciesProfile();<a name="line.393"></a>
+<span class="sourceLineNo">394</span>      sp.setFreshwater(i % 2 == 0);<a name="line.394"></a>
+<span class="sourceLineNo">395</span>      nu.getSpeciesProfiles().add(sp);<a name="line.395"></a>
+<span class="sourceLineNo">396</span>    }<a name="line.396"></a>
 <span class="sourceLineNo">397</span><a name="line.397"></a>
-<span class="sourceLineNo">398</span>  @Test<a name="line.398"></a>
-<span class="sourceLineNo">399</span>  public void testThreats() {<a name="line.399"></a>
-<span class="sourceLineNo">400</span>    NameUsageContainer nu = new NameUsageContainer();<a name="line.400"></a>
-<span class="sourceLineNo">401</span>    nu.setKey(6);<a name="line.401"></a>
-<span class="sourceLineNo">402</span><a name="line.402"></a>
-<span class="sourceLineNo">403</span>    assertEquals(0, nu.getDistributions().size());<a name="line.403"></a>
-<span class="sourceLineNo">404</span>    assertEquals(0, nu.getThreatStatus().size());<a name="line.404"></a>
-<span class="sourceLineNo">405</span><a name="line.405"></a>
-<span class="sourceLineNo">406</span>    Distribution d = new Distribution();<a name="line.406"></a>
-<span class="sourceLineNo">407</span>    d.setThreatStatus(ThreatStatus.ENDANGERED);<a name="line.407"></a>
-<span class="sourceLineNo">408</span>    nu.getDistributions().add(d);<a name="line.408"></a>
-<span class="sourceLineNo">409</span>    assertEquals(1, nu.getDistributions().size());<a name="line.409"></a>
-<span class="sourceLineNo">410</span>    assertEquals(1, nu.getThreatStatus().size());<a name="line.410"></a>
-<span class="sourceLineNo">411</span>    assertEquals(ThreatStatus.ENDANGERED, nu.getThreatStatus().iterator().next());<a name="line.411"></a>
+<span class="sourceLineNo">398</span>    assertEquals(9, nu.getSpeciesProfiles().size());<a name="line.398"></a>
+<span class="sourceLineNo">399</span>    assertFalse(nu.isFreshwater());<a name="line.399"></a>
+<span class="sourceLineNo">400</span><a name="line.400"></a>
+<span class="sourceLineNo">401</span>    sp = new SpeciesProfile();<a name="line.401"></a>
+<span class="sourceLineNo">402</span>    sp.setFreshwater(true);<a name="line.402"></a>
+<span class="sourceLineNo">403</span>    nu.getSpeciesProfiles().add(sp);<a name="line.403"></a>
+<span class="sourceLineNo">404</span>    assertEquals(10, nu.getSpeciesProfiles().size());<a name="line.404"></a>
+<span class="sourceLineNo">405</span>    assertTrue(nu.isFreshwater());<a name="line.405"></a>
+<span class="sourceLineNo">406</span>  }<a name="line.406"></a>
+<span class="sourceLineNo">407</span><a name="line.407"></a>
+<span class="sourceLineNo">408</span>  @Test<a name="line.408"></a>
+<span class="sourceLineNo">409</span>  public void testThreats() {<a name="line.409"></a>
+<span class="sourceLineNo">410</span>    NameUsageContainer nu = new NameUsageContainer();<a name="line.410"></a>
+<span class="sourceLineNo">411</span>    nu.setKey(6);<a name="line.411"></a>
 <span class="sourceLineNo">412</span><a name="line.412"></a>
-<span class="sourceLineNo">413</span>    d = new Distribution();<a name="line.413"></a>
-<span class="sourceLineNo">414</span>    d.setThreatStatus(ThreatStatus.ENDANGERED);<a name="line.414"></a>
-<span class="sourceLineNo">415</span>    nu.getDistributions().add(d);<a name="line.415"></a>
-<span class="sourceLineNo">416</span>    assertEquals(2, nu.getDistributions().size());<a name="line.416"></a>
-<span class="sourceLineNo">417</span>    assertEquals(1, nu.getThreatStatus().size());<a name="line.417"></a>
-<span class="sourceLineNo">418</span>    assertEquals(ThreatStatus.ENDANGERED, nu.getThreatStatus().iterator().next());<a name="line.418"></a>
-<span class="sourceLineNo">419</span><a name="line.419"></a>
-<span class="sourceLineNo">420</span>    d = new Distribution();<a name="line.420"></a>
-<span class="sourceLineNo">421</span>    d.setThreatStatus(ThreatStatus.CRITICALLY_ENDANGERED);<a name="line.421"></a>
-<span class="sourceLineNo">422</span>    nu.getDistributions().add(d);<a name="line.422"></a>
-<span class="sourceLineNo">423</span>    assertEquals(3, nu.getDistributions().size());<a name="line.423"></a>
-<span class="sourceLineNo">424</span>    assertEquals(2, nu.getThreatStatus().size());<a name="line.424"></a>
-<span class="sourceLineNo">425</span>    assertEquals(ThreatStatus.ENDANGERED, nu.getThreatStatus().iterator().next());<a name="line.425"></a>
-<span class="sourceLineNo">426</span>  }<a name="line.426"></a>
-<span class="sourceLineNo">427</span><a name="line.427"></a>
-<span class="sourceLineNo">428</span>}<a name="line.428"></a>
+<span class="sourceLineNo">413</span>    assertEquals(0, nu.getDistributions().size());<a name="line.413"></a>
+<span class="sourceLineNo">414</span>    assertEquals(0, nu.getThreatStatus().size());<a name="line.414"></a>
+<span class="sourceLineNo">415</span><a name="line.415"></a>
+<span class="sourceLineNo">416</span>    Distribution d = new Distribution();<a name="line.416"></a>
+<span class="sourceLineNo">417</span>    d.setThreatStatus(ThreatStatus.ENDANGERED);<a name="line.417"></a>
+<span class="sourceLineNo">418</span>    nu.getDistributions().add(d);<a name="line.418"></a>
+<span class="sourceLineNo">419</span>    assertEquals(1, nu.getDistributions().size());<a name="line.419"></a>
+<span class="sourceLineNo">420</span>    assertEquals(1, nu.getThreatStatus().size());<a name="line.420"></a>
+<span class="sourceLineNo">421</span>    assertEquals(ThreatStatus.ENDANGERED, nu.getThreatStatus().iterator().next());<a name="line.421"></a>
+<span class="sourceLineNo">422</span><a name="line.422"></a>
+<span class="sourceLineNo">423</span>    d = new Distribution();<a name="line.423"></a>
+<span class="sourceLineNo">424</span>    d.setThreatStatus(ThreatStatus.ENDANGERED);<a name="line.424"></a>
+<span class="sourceLineNo">425</span>    nu.getDistributions().add(d);<a name="line.425"></a>
+<span class="sourceLineNo">426</span>    assertEquals(2, nu.getDistributions().size());<a name="line.426"></a>
+<span class="sourceLineNo">427</span>    assertEquals(1, nu.getThreatStatus().size());<a name="line.427"></a>
+<span class="sourceLineNo">428</span>    assertEquals(ThreatStatus.ENDANGERED, nu.getThreatStatus().iterator().next());<a name="line.428"></a>
+<span class="sourceLineNo">429</span><a name="line.429"></a>
+<span class="sourceLineNo">430</span>    d = new Distribution();<a name="line.430"></a>
+<span class="sourceLineNo">431</span>    d.setThreatStatus(ThreatStatus.CRITICALLY_ENDANGERED);<a name="line.431"></a>
+<span class="sourceLineNo">432</span>    nu.getDistributions().add(d);<a name="line.432"></a>
+<span class="sourceLineNo">433</span>    assertEquals(3, nu.getDistributions().size());<a name="line.433"></a>
+<span class="sourceLineNo">434</span>    assertEquals(2, nu.getThreatStatus().size());<a name="line.434"></a>
+<span class="sourceLineNo">435</span>    assertEquals(ThreatStatus.ENDANGERED, nu.getThreatStatus().iterator().next());<a name="line.435"></a>
+<span class="sourceLineNo">436</span>  }<a name="line.436"></a>
+<span class="sourceLineNo">437</span><a name="line.437"></a>
+<span class="sourceLineNo">438</span>}<a name="line.438"></a>
 
 
 

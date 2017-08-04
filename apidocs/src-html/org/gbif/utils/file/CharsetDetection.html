@@ -1,0 +1,624 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package org.gbif.utils.file;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import java.io.File;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import java.io.IOException;<a name="line.4"></a>
+<span class="sourceLineNo">005</span>import java.nio.ByteBuffer;<a name="line.5"></a>
+<span class="sourceLineNo">006</span>import java.nio.CharBuffer;<a name="line.6"></a>
+<span class="sourceLineNo">007</span>import java.nio.charset.CharacterCodingException;<a name="line.7"></a>
+<span class="sourceLineNo">008</span>import java.nio.charset.Charset;<a name="line.8"></a>
+<span class="sourceLineNo">009</span>import java.nio.charset.CharsetDecoder;<a name="line.9"></a>
+<span class="sourceLineNo">010</span><a name="line.10"></a>
+<span class="sourceLineNo">011</span>import com.google.common.base.Charsets;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>import org.slf4j.Logger;<a name="line.12"></a>
+<span class="sourceLineNo">013</span>import org.slf4j.LoggerFactory;<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>import static org.gbif.utils.file.FileUtils.readByteBuffer;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>/**<a name="line.17"></a>
+<span class="sourceLineNo">018</span> * &lt;p&gt;<a name="line.18"></a>
+<span class="sourceLineNo">019</span> * Utility class to guess the encoding of a given file or byte array. The guess is unfortunately not 100% sure.<a name="line.19"></a>
+<span class="sourceLineNo">020</span> * Especially for 8-bit charsets. It's not possible<a name="line.20"></a>
+<span class="sourceLineNo">021</span> * to know which 8-bit charset is used. Except through statistical analysis.<a name="line.21"></a>
+<span class="sourceLineNo">022</span> * &lt;/p&gt;<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * &lt;p/&gt;<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * &lt;p&gt;<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * On the other hand, unicode files encoded in UTF-16 (low or big endian) or UTF-8 files with a Byte Order Marker are<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * easy to find. For UTF-8 files with no BOM,<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * if the buffer is wide enough, it's easy to guess.<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * &lt;/p&gt;<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * &lt;p/&gt;<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * &lt;p&gt;<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * A byte buffer of 4KB or 8KB is sufficient to be able to guess the encoding.<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * &lt;/p&gt;<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * This class is a heavily modified version of the original written by Guillaume LAFORGE:<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * com.glaforge.i18n.io.CharsetToolkit<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * taken from<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * http://glaforge.free.fr/wiki/index.php?wiki=GuessEncoding<a name="line.36"></a>
+<span class="sourceLineNo">037</span> *<a name="line.37"></a>
+<span class="sourceLineNo">038</span> * @author Guillaume LAFORGE<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * @author Markus Döring<a name="line.39"></a>
+<span class="sourceLineNo">040</span> */<a name="line.40"></a>
+<span class="sourceLineNo">041</span>public class CharsetDetection {<a name="line.41"></a>
+<span class="sourceLineNo">042</span><a name="line.42"></a>
+<span class="sourceLineNo">043</span>  private static final Logger LOG = LoggerFactory.getLogger(CharsetDetection.class);<a name="line.43"></a>
+<span class="sourceLineNo">044</span>  // encodings to test and very unlikely chars in that encoding<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  private static final byte LF = 0x0a;<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  private static final byte CR = 0x0d;<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  private static final byte TAB = 0x09;<a name="line.47"></a>
+<span class="sourceLineNo">048</span><a name="line.48"></a>
+<span class="sourceLineNo">049</span>  private static final int UNDEFINED_PENALTY = 100;<a name="line.49"></a>
+<span class="sourceLineNo">050</span>  private static final char[] COMMON_NON_ASCII_CHARS;<a name="line.50"></a>
+<span class="sourceLineNo">051</span><a name="line.51"></a>
+<span class="sourceLineNo">052</span>  static {<a name="line.52"></a>
+<span class="sourceLineNo">053</span>    String commonChars = "äåáàæœčéèêëïñøöüßšž";<a name="line.53"></a>
+<span class="sourceLineNo">054</span>    CharBuffer cbuf = CharBuffer.allocate(commonChars.length() * 2);<a name="line.54"></a>
+<span class="sourceLineNo">055</span>    for (char c : commonChars.toCharArray()) {<a name="line.55"></a>
+<span class="sourceLineNo">056</span>      cbuf.append(c);<a name="line.56"></a>
+<span class="sourceLineNo">057</span>      cbuf.append(Character.toUpperCase(c));<a name="line.57"></a>
+<span class="sourceLineNo">058</span>    }<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    COMMON_NON_ASCII_CHARS = cbuf.array();<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  }<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>  private static final Charset LATIN1 = Charsets.ISO_8859_1;<a name="line.62"></a>
+<span class="sourceLineNo">063</span>  private static final Charset WINDOWS1252;<a name="line.63"></a>
+<span class="sourceLineNo">064</span>  private static final Charset MACROMAN;<a name="line.64"></a>
+<span class="sourceLineNo">065</span><a name="line.65"></a>
+<span class="sourceLineNo">066</span>  static {<a name="line.66"></a>
+<span class="sourceLineNo">067</span>    Charset cs = null;<a name="line.67"></a>
+<span class="sourceLineNo">068</span>    try {<a name="line.68"></a>
+<span class="sourceLineNo">069</span>      cs = Charset.forName("Cp1252");<a name="line.69"></a>
+<span class="sourceLineNo">070</span>    } catch (Exception e) {<a name="line.70"></a>
+<span class="sourceLineNo">071</span>      LOG.warn("Windows 1252 encoding not supported on this Virtual Machine");<a name="line.71"></a>
+<span class="sourceLineNo">072</span>    }<a name="line.72"></a>
+<span class="sourceLineNo">073</span>    WINDOWS1252 = cs;<a name="line.73"></a>
+<span class="sourceLineNo">074</span><a name="line.74"></a>
+<span class="sourceLineNo">075</span>    cs = null;<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    try {<a name="line.76"></a>
+<span class="sourceLineNo">077</span>      cs = Charset.forName("MacRoman");<a name="line.77"></a>
+<span class="sourceLineNo">078</span>    } catch (Exception e) {<a name="line.78"></a>
+<span class="sourceLineNo">079</span>      LOG.warn("MacRoman encoding not supported on this Virtual Machine");<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    }<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    MACROMAN = cs;<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  }<a name="line.82"></a>
+<span class="sourceLineNo">083</span><a name="line.83"></a>
+<span class="sourceLineNo">084</span>  private final byte[] buffer;<a name="line.84"></a>
+<span class="sourceLineNo">085</span><a name="line.85"></a>
+<span class="sourceLineNo">086</span>  /**<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * Constructor of the &lt;code&gt;com.glaforge.i18n.io.CharsetToolkit&lt;/code&gt; utility class.<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   *<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * @param buffer the byte buffer of which we want to know the encoding.<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   */<a name="line.90"></a>
+<span class="sourceLineNo">091</span>  private CharsetDetection(byte[] buffer) {<a name="line.91"></a>
+<span class="sourceLineNo">092</span>    this.buffer = buffer;<a name="line.92"></a>
+<span class="sourceLineNo">093</span>  }<a name="line.93"></a>
+<span class="sourceLineNo">094</span><a name="line.94"></a>
+<span class="sourceLineNo">095</span>  public static Charset detectEncoding(File file) throws IOException {<a name="line.95"></a>
+<span class="sourceLineNo">096</span>    byte[] data = readByteBuffer(file).array();<a name="line.96"></a>
+<span class="sourceLineNo">097</span><a name="line.97"></a>
+<span class="sourceLineNo">098</span>    CharsetDetection detector = new CharsetDetection(data);<a name="line.98"></a>
+<span class="sourceLineNo">099</span>    Charset charset = detector.detectEncoding();<a name="line.99"></a>
+<span class="sourceLineNo">100</span><a name="line.100"></a>
+<span class="sourceLineNo">101</span>    LOG.debug("Detected character encoding " + charset.displayName());<a name="line.101"></a>
+<span class="sourceLineNo">102</span>    return charset;<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  }<a name="line.103"></a>
+<span class="sourceLineNo">104</span><a name="line.104"></a>
+<span class="sourceLineNo">105</span>  /**<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   * @param bufferLength number of bytes to read in for the detection. 8192 is a reasonable value<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   */<a name="line.107"></a>
+<span class="sourceLineNo">108</span>  public static Charset detectEncoding(File file, int bufferLength) throws IOException {<a name="line.108"></a>
+<span class="sourceLineNo">109</span>    byte[] data = readByteBuffer(file, bufferLength).array();<a name="line.109"></a>
+<span class="sourceLineNo">110</span><a name="line.110"></a>
+<span class="sourceLineNo">111</span>    CharsetDetection detector = new CharsetDetection(data);<a name="line.111"></a>
+<span class="sourceLineNo">112</span>    Charset charset = detector.detectEncoding();<a name="line.112"></a>
+<span class="sourceLineNo">113</span><a name="line.113"></a>
+<span class="sourceLineNo">114</span>    LOG.debug("Detected character encoding " + charset.displayName());<a name="line.114"></a>
+<span class="sourceLineNo">115</span>    return charset;<a name="line.115"></a>
+<span class="sourceLineNo">116</span>  }<a name="line.116"></a>
+<span class="sourceLineNo">117</span><a name="line.117"></a>
+<span class="sourceLineNo">118</span>  /**<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   * Retrieve the default charset of the system.<a name="line.119"></a>
+<span class="sourceLineNo">120</span>   *<a name="line.120"></a>
+<span class="sourceLineNo">121</span>   * @return the default &lt;code&gt;Charset&lt;/code&gt;.<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   */<a name="line.122"></a>
+<span class="sourceLineNo">123</span>  public static Charset getDefaultSystemCharset() {<a name="line.123"></a>
+<span class="sourceLineNo">124</span>    return Charset.forName(System.getProperty("file.encoding"));<a name="line.124"></a>
+<span class="sourceLineNo">125</span>  }<a name="line.125"></a>
+<span class="sourceLineNo">126</span><a name="line.126"></a>
+<span class="sourceLineNo">127</span>  /**<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * Has a Byte Order Marker for UTF-16 Big Endian<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   * (utf-16 and ucs-2).<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   *<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   * @param bom a buffer.<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   *<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   * @return true if the buffer has a BOM for UTF-16 Big Endian.<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   */<a name="line.134"></a>
+<span class="sourceLineNo">135</span>  protected static boolean hasUTF16BEBom(byte[] bom) {<a name="line.135"></a>
+<span class="sourceLineNo">136</span>    return bom[0] == -2 &amp;&amp; bom[1] == -1;<a name="line.136"></a>
+<span class="sourceLineNo">137</span>  }<a name="line.137"></a>
+<span class="sourceLineNo">138</span><a name="line.138"></a>
+<span class="sourceLineNo">139</span>  /**<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   * Has a Byte Order Marker for UTF-16 Low Endian<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   * (ucs-2le, ucs-4le, and ucs-16le).<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   *<a name="line.142"></a>
+<span class="sourceLineNo">143</span>   * @param bom a buffer.<a name="line.143"></a>
+<span class="sourceLineNo">144</span>   *<a name="line.144"></a>
+<span class="sourceLineNo">145</span>   * @return true if the buffer has a BOM for UTF-16 Low Endian.<a name="line.145"></a>
+<span class="sourceLineNo">146</span>   */<a name="line.146"></a>
+<span class="sourceLineNo">147</span>  protected static boolean hasUTF16LEBom(byte[] bom) {<a name="line.147"></a>
+<span class="sourceLineNo">148</span>    return bom[0] == -1 &amp;&amp; bom[1] == -2;<a name="line.148"></a>
+<span class="sourceLineNo">149</span>  }<a name="line.149"></a>
+<span class="sourceLineNo">150</span><a name="line.150"></a>
+<span class="sourceLineNo">151</span>  /**<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   * Has a Byte Order Marker for UTF-8 (Used by Microsoft's Notepad and other editors).<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   *<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   * @param bom a buffer.<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   *<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   * @return true if the buffer has a BOM for UTF8.<a name="line.156"></a>
+<span class="sourceLineNo">157</span>   */<a name="line.157"></a>
+<span class="sourceLineNo">158</span>  protected static boolean hasUTF8Bom(byte[] bom) {<a name="line.158"></a>
+<span class="sourceLineNo">159</span>    return bom[0] == -17 &amp;&amp; bom[1] == -69 &amp;&amp; bom[2] == -65;<a name="line.159"></a>
+<span class="sourceLineNo">160</span>  }<a name="line.160"></a>
+<span class="sourceLineNo">161</span><a name="line.161"></a>
+<span class="sourceLineNo">162</span>  private static boolean isCommonChar(char c) {<a name="line.162"></a>
+<span class="sourceLineNo">163</span>    for (char cc : COMMON_NON_ASCII_CHARS) {<a name="line.163"></a>
+<span class="sourceLineNo">164</span>      if (c == cc) {<a name="line.164"></a>
+<span class="sourceLineNo">165</span>        return true;<a name="line.165"></a>
+<span class="sourceLineNo">166</span>      }<a name="line.166"></a>
+<span class="sourceLineNo">167</span>    }<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    return false;<a name="line.168"></a>
+<span class="sourceLineNo">169</span>  }<a name="line.169"></a>
+<span class="sourceLineNo">170</span><a name="line.170"></a>
+<span class="sourceLineNo">171</span>  /**<a name="line.171"></a>
+<span class="sourceLineNo">172</span>   * If the byte has the form 10xxxxx, then it's a continuation byte of a multiple byte character;<a name="line.172"></a>
+<span class="sourceLineNo">173</span>   *<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   * @param b a byte.<a name="line.174"></a>
+<span class="sourceLineNo">175</span>   *<a name="line.175"></a>
+<span class="sourceLineNo">176</span>   * @return true if it's a continuation char.<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   */<a name="line.177"></a>
+<span class="sourceLineNo">178</span>  private static boolean isContinuationChar(byte b) {<a name="line.178"></a>
+<span class="sourceLineNo">179</span>    return -128 &lt;= b &amp;&amp; b &lt;= -65;<a name="line.179"></a>
+<span class="sourceLineNo">180</span>  }<a name="line.180"></a>
+<span class="sourceLineNo">181</span><a name="line.181"></a>
+<span class="sourceLineNo">182</span>  /**<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   * If the byte has the form 11110xx, then it's the first byte of a five-bytes sequence character.<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   *<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   * @param b a byte.<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   *<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   * @return true if it's the first byte of a five-bytes sequence.<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   */<a name="line.188"></a>
+<span class="sourceLineNo">189</span>  private static boolean isFiveBytesSequence(byte b) {<a name="line.189"></a>
+<span class="sourceLineNo">190</span>    return -8 &lt;= b &amp;&amp; b &lt;= -5;<a name="line.190"></a>
+<span class="sourceLineNo">191</span>  }<a name="line.191"></a>
+<span class="sourceLineNo">192</span><a name="line.192"></a>
+<span class="sourceLineNo">193</span>  /**<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   * If the byte has the form 11110xx, then it's the first byte of a four-bytes sequence character.<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   *<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   * @param b a byte.<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   *<a name="line.197"></a>
+<span class="sourceLineNo">198</span>   * @return true if it's the first byte of a four-bytes sequence.<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   */<a name="line.199"></a>
+<span class="sourceLineNo">200</span>  private static boolean isFourBytesSequence(byte b) {<a name="line.200"></a>
+<span class="sourceLineNo">201</span>    return -16 &lt;= b &amp;&amp; b &lt;= -9;<a name="line.201"></a>
+<span class="sourceLineNo">202</span>  }<a name="line.202"></a>
+<span class="sourceLineNo">203</span><a name="line.203"></a>
+<span class="sourceLineNo">204</span>  /**<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   * If the byte has the form 1110xxx, then it's the first byte of a six-bytes sequence character.<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   *<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * @param b a byte.<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   *<a name="line.208"></a>
+<span class="sourceLineNo">209</span>   * @return true if it's the first byte of a six-bytes sequence.<a name="line.209"></a>
+<span class="sourceLineNo">210</span>   */<a name="line.210"></a>
+<span class="sourceLineNo">211</span>  private static boolean isSixBytesSequence(byte b) {<a name="line.211"></a>
+<span class="sourceLineNo">212</span>    return -4 &lt;= b &amp;&amp; b &lt;= -3;<a name="line.212"></a>
+<span class="sourceLineNo">213</span>  }<a name="line.213"></a>
+<span class="sourceLineNo">214</span><a name="line.214"></a>
+<span class="sourceLineNo">215</span>  /**<a name="line.215"></a>
+<span class="sourceLineNo">216</span>   * If the byte has the form 1110xxx, then it's the first byte of a three-bytes sequence character.<a name="line.216"></a>
+<span class="sourceLineNo">217</span>   *<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   * @param b a byte.<a name="line.218"></a>
+<span class="sourceLineNo">219</span>   *<a name="line.219"></a>
+<span class="sourceLineNo">220</span>   * @return true if it's the first byte of a three-bytes sequence.<a name="line.220"></a>
+<span class="sourceLineNo">221</span>   */<a name="line.221"></a>
+<span class="sourceLineNo">222</span>  private static boolean isThreeBytesSequence(byte b) {<a name="line.222"></a>
+<span class="sourceLineNo">223</span>    return -32 &lt;= b &amp;&amp; b &lt;= -17;<a name="line.223"></a>
+<span class="sourceLineNo">224</span>  }<a name="line.224"></a>
+<span class="sourceLineNo">225</span><a name="line.225"></a>
+<span class="sourceLineNo">226</span>  /**<a name="line.226"></a>
+<span class="sourceLineNo">227</span>   * If the byte has the form 110xxxx, then it's the first byte of a two-bytes sequence character.<a name="line.227"></a>
+<span class="sourceLineNo">228</span>   *<a name="line.228"></a>
+<span class="sourceLineNo">229</span>   * @param b a byte.<a name="line.229"></a>
+<span class="sourceLineNo">230</span>   *<a name="line.230"></a>
+<span class="sourceLineNo">231</span>   * @return true if it's the first byte of a two-bytes sequence.<a name="line.231"></a>
+<span class="sourceLineNo">232</span>   */<a name="line.232"></a>
+<span class="sourceLineNo">233</span>  private static boolean isTwoBytesSequence(byte b) {<a name="line.233"></a>
+<span class="sourceLineNo">234</span>    return -64 &lt;= b &amp;&amp; b &lt;= -33;<a name="line.234"></a>
+<span class="sourceLineNo">235</span>  }<a name="line.235"></a>
+<span class="sourceLineNo">236</span><a name="line.236"></a>
+<span class="sourceLineNo">237</span>  private Charset detectCharacterEncoding8bit() {<a name="line.237"></a>
+<span class="sourceLineNo">238</span><a name="line.238"></a>
+<span class="sourceLineNo">239</span>    // the number of "bad" chars for the best guess. A better guess will have<a name="line.239"></a>
+<span class="sourceLineNo">240</span>    long leastSuspicousChars = testLatin1();<a name="line.240"></a>
+<span class="sourceLineNo">241</span>    long suspicousChars;<a name="line.241"></a>
+<span class="sourceLineNo">242</span><a name="line.242"></a>
+<span class="sourceLineNo">243</span>    // the best guess so far<a name="line.243"></a>
+<span class="sourceLineNo">244</span>    Charset bestEncoding = LATIN1;<a name="line.244"></a>
+<span class="sourceLineNo">245</span><a name="line.245"></a>
+<span class="sourceLineNo">246</span>    if (WINDOWS1252 != null) {<a name="line.246"></a>
+<span class="sourceLineNo">247</span>      suspicousChars = testWindows1252();<a name="line.247"></a>
+<span class="sourceLineNo">248</span>      if (suspicousChars &lt; leastSuspicousChars) {<a name="line.248"></a>
+<span class="sourceLineNo">249</span>        leastSuspicousChars = suspicousChars;<a name="line.249"></a>
+<span class="sourceLineNo">250</span>        bestEncoding = WINDOWS1252;<a name="line.250"></a>
+<span class="sourceLineNo">251</span>      }<a name="line.251"></a>
+<span class="sourceLineNo">252</span>    }<a name="line.252"></a>
+<span class="sourceLineNo">253</span><a name="line.253"></a>
+<span class="sourceLineNo">254</span>    if (MACROMAN != null) {<a name="line.254"></a>
+<span class="sourceLineNo">255</span>      suspicousChars = testMacRoman();<a name="line.255"></a>
+<span class="sourceLineNo">256</span>      if (suspicousChars &lt; leastSuspicousChars) {<a name="line.256"></a>
+<span class="sourceLineNo">257</span>        leastSuspicousChars = suspicousChars;<a name="line.257"></a>
+<span class="sourceLineNo">258</span>        bestEncoding = MACROMAN;<a name="line.258"></a>
+<span class="sourceLineNo">259</span>      }<a name="line.259"></a>
+<span class="sourceLineNo">260</span>    }<a name="line.260"></a>
+<span class="sourceLineNo">261</span><a name="line.261"></a>
+<span class="sourceLineNo">262</span>    LOG.debug("8bit Encoding guessed: {} with {} rare characters", bestEncoding, leastSuspicousChars);<a name="line.262"></a>
+<span class="sourceLineNo">263</span>    return bestEncoding;<a name="line.263"></a>
+<span class="sourceLineNo">264</span>  }<a name="line.264"></a>
+<span class="sourceLineNo">265</span><a name="line.265"></a>
+<span class="sourceLineNo">266</span>  /**<a name="line.266"></a>
+<span class="sourceLineNo">267</span>   * &lt;p&gt;<a name="line.267"></a>
+<span class="sourceLineNo">268</span>   * Guess the encoding of the provided buffer.<a name="line.268"></a>
+<span class="sourceLineNo">269</span>   * &lt;/p&gt;<a name="line.269"></a>
+<span class="sourceLineNo">270</span>   * If Byte Order Markers are encountered at the beginning of the buffer, we immidiately<a name="line.270"></a>
+<span class="sourceLineNo">271</span>   * return the charset implied by this BOM. Otherwise, the file would not be a human<a name="line.271"></a>
+<span class="sourceLineNo">272</span>   * readable text file.&lt;/p&gt;<a name="line.272"></a>
+<span class="sourceLineNo">273</span>   * &lt;p/&gt;<a name="line.273"></a>
+<span class="sourceLineNo">274</span>   * &lt;p&gt;<a name="line.274"></a>
+<span class="sourceLineNo">275</span>   * If there is no BOM, this method tries to discern whether the file is UTF-8 or not. If it is not UTF-8, we assume<a name="line.275"></a>
+<span class="sourceLineNo">276</span>   * the encoding is the default system<a name="line.276"></a>
+<span class="sourceLineNo">277</span>   * encoding (of course, it might be any 8-bit charset, but usually, an 8-bit charset is the default one).<a name="line.277"></a>
+<span class="sourceLineNo">278</span>   * &lt;/p&gt;<a name="line.278"></a>
+<span class="sourceLineNo">279</span>   * &lt;p/&gt;<a name="line.279"></a>
+<span class="sourceLineNo">280</span>   * &lt;p&gt;<a name="line.280"></a>
+<span class="sourceLineNo">281</span>   * It is possible to discern UTF-8 thanks to the pattern of characters with a multi-byte sequence.<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   * &lt;/p&gt;<a name="line.282"></a>
+<span class="sourceLineNo">283</span>   * &lt;p/&gt;<a name="line.283"></a>
+<span class="sourceLineNo">284</span>   * &lt;pre&gt;<a name="line.284"></a>
+<span class="sourceLineNo">285</span>   * UCS-4 range (hex.)        UTF-8 octet sequence (binary)<a name="line.285"></a>
+<span class="sourceLineNo">286</span>   * 0000 0000-0000 007F       0xxxxxxx<a name="line.286"></a>
+<span class="sourceLineNo">287</span>   * 0000 0080-0000 07FF       110xxxxx 10xxxxxx<a name="line.287"></a>
+<span class="sourceLineNo">288</span>   * 0000 0800-0000 FFFF       1110xxxx 10xxxxxx 10xxxxxx<a name="line.288"></a>
+<span class="sourceLineNo">289</span>   * 0001 0000-001F FFFF       11110xxx 10xxxxxx 10xxxxxx 10xxxxxx<a name="line.289"></a>
+<span class="sourceLineNo">290</span>   * 0020 0000-03FF FFFF       111110xx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx<a name="line.290"></a>
+<span class="sourceLineNo">291</span>   * 0400 0000-7FFF FFFF       1111110x 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx<a name="line.291"></a>
+<span class="sourceLineNo">292</span>   * &lt;/pre&gt;<a name="line.292"></a>
+<span class="sourceLineNo">293</span>   * &lt;p&gt;<a name="line.293"></a>
+<span class="sourceLineNo">294</span>   * With UTF-8, 0xFE and 0xFF never appear.<a name="line.294"></a>
+<span class="sourceLineNo">295</span>   * &lt;/p&gt;<a name="line.295"></a>
+<span class="sourceLineNo">296</span>   *<a name="line.296"></a>
+<span class="sourceLineNo">297</span>   * @return the Charset recognized or the system default.<a name="line.297"></a>
+<span class="sourceLineNo">298</span>   */<a name="line.298"></a>
+<span class="sourceLineNo">299</span>  public Charset detectEncoding() {<a name="line.299"></a>
+<span class="sourceLineNo">300</span>    // if the file has a Byte Order Marker, we can assume the file is in UTF-xx<a name="line.300"></a>
+<span class="sourceLineNo">301</span>    // otherwise, the file would not be human readable<a name="line.301"></a>
+<span class="sourceLineNo">302</span>    if (hasUTF8Bom(buffer)) {<a name="line.302"></a>
+<span class="sourceLineNo">303</span>      return Charsets.UTF_8;<a name="line.303"></a>
+<span class="sourceLineNo">304</span>    }<a name="line.304"></a>
+<span class="sourceLineNo">305</span>    if (hasUTF16LEBom(buffer)) {<a name="line.305"></a>
+<span class="sourceLineNo">306</span>      return Charsets.UTF_16LE;<a name="line.306"></a>
+<span class="sourceLineNo">307</span>    }<a name="line.307"></a>
+<span class="sourceLineNo">308</span>    if (hasUTF16BEBom(buffer)) {<a name="line.308"></a>
+<span class="sourceLineNo">309</span>      return Charsets.UTF_16BE;<a name="line.309"></a>
+<span class="sourceLineNo">310</span>    }<a name="line.310"></a>
+<span class="sourceLineNo">311</span><a name="line.311"></a>
+<span class="sourceLineNo">312</span>    // if it's not UTF-8 or a BOM present check for UTF16 zeros<a name="line.312"></a>
+<span class="sourceLineNo">313</span>    Charset cs = detectUtf16();<a name="line.313"></a>
+<span class="sourceLineNo">314</span>    if (cs != null) {<a name="line.314"></a>
+<span class="sourceLineNo">315</span>      return cs;<a name="line.315"></a>
+<span class="sourceLineNo">316</span>    }<a name="line.316"></a>
+<span class="sourceLineNo">317</span><a name="line.317"></a>
+<span class="sourceLineNo">318</span>    // if the file is in UTF-8, high order bytes must have a certain value, in order to be valid<a name="line.318"></a>
+<span class="sourceLineNo">319</span>    // if it's not the case, we can assume the encoding is some 8 bit one<a name="line.319"></a>
+<span class="sourceLineNo">320</span>    boolean validU8Char = true;<a name="line.320"></a>
+<span class="sourceLineNo">321</span><a name="line.321"></a>
+<span class="sourceLineNo">322</span>    // TODO the buffer is not read up to the end, but up to length - 6<a name="line.322"></a>
+<span class="sourceLineNo">323</span><a name="line.323"></a>
+<span class="sourceLineNo">324</span>    int length = buffer.length;<a name="line.324"></a>
+<span class="sourceLineNo">325</span>    int i = 0;<a name="line.325"></a>
+<span class="sourceLineNo">326</span>    while (i &lt; length - 6) {<a name="line.326"></a>
+<span class="sourceLineNo">327</span>      byte b0 = buffer[i];<a name="line.327"></a>
+<span class="sourceLineNo">328</span>      byte b1 = buffer[i + 1];<a name="line.328"></a>
+<span class="sourceLineNo">329</span>      byte b2 = buffer[i + 2];<a name="line.329"></a>
+<span class="sourceLineNo">330</span>      byte b3 = buffer[i + 3];<a name="line.330"></a>
+<span class="sourceLineNo">331</span>      byte b4 = buffer[i + 4];<a name="line.331"></a>
+<span class="sourceLineNo">332</span>      byte b5 = buffer[i + 5];<a name="line.332"></a>
+<span class="sourceLineNo">333</span>      if (b0 &lt; 0) {<a name="line.333"></a>
+<span class="sourceLineNo">334</span>        // a high order bit was encountered, thus the encoding is not US-ASCII<a name="line.334"></a>
+<span class="sourceLineNo">335</span>        // a two-bytes sequence was encoutered<a name="line.335"></a>
+<span class="sourceLineNo">336</span>        if (isTwoBytesSequence(b0)) {<a name="line.336"></a>
+<span class="sourceLineNo">337</span>          // there must be one continuation byte of the form 10xxxxxx,<a name="line.337"></a>
+<span class="sourceLineNo">338</span>          // otherwise the following characteris is not a valid UTF-8 construct<a name="line.338"></a>
+<span class="sourceLineNo">339</span>          if (isContinuationChar(b1)) {<a name="line.339"></a>
+<span class="sourceLineNo">340</span>            i++;<a name="line.340"></a>
+<span class="sourceLineNo">341</span>          } else {<a name="line.341"></a>
+<span class="sourceLineNo">342</span>            validU8Char = false;<a name="line.342"></a>
+<span class="sourceLineNo">343</span>          }<a name="line.343"></a>
+<span class="sourceLineNo">344</span>        }<a name="line.344"></a>
+<span class="sourceLineNo">345</span>        // a three-bytes sequence was encoutered<a name="line.345"></a>
+<span class="sourceLineNo">346</span>        else if (isThreeBytesSequence(b0)) {<a name="line.346"></a>
+<span class="sourceLineNo">347</span>          // there must be two continuation bytes of the form 10xxxxxx,<a name="line.347"></a>
+<span class="sourceLineNo">348</span>          // otherwise the following characteris is not a valid UTF-8 construct<a name="line.348"></a>
+<span class="sourceLineNo">349</span>          if (isContinuationChar(b1) &amp;&amp; isContinuationChar(b2)) {<a name="line.349"></a>
+<span class="sourceLineNo">350</span>            i += 2;<a name="line.350"></a>
+<span class="sourceLineNo">351</span>          } else {<a name="line.351"></a>
+<span class="sourceLineNo">352</span>            validU8Char = false;<a name="line.352"></a>
+<span class="sourceLineNo">353</span>          }<a name="line.353"></a>
+<span class="sourceLineNo">354</span>        }<a name="line.354"></a>
+<span class="sourceLineNo">355</span>        // a four-bytes sequence was encoutered<a name="line.355"></a>
+<span class="sourceLineNo">356</span>        else if (isFourBytesSequence(b0)) {<a name="line.356"></a>
+<span class="sourceLineNo">357</span>          // there must be three continuation bytes of the form 10xxxxxx,<a name="line.357"></a>
+<span class="sourceLineNo">358</span>          // otherwise the following characteris is not a valid UTF-8 construct<a name="line.358"></a>
+<span class="sourceLineNo">359</span>          if (isContinuationChar(b1) &amp;&amp; isContinuationChar(b2) &amp;&amp; isContinuationChar(b3)) {<a name="line.359"></a>
+<span class="sourceLineNo">360</span>            i += 3;<a name="line.360"></a>
+<span class="sourceLineNo">361</span>          } else {<a name="line.361"></a>
+<span class="sourceLineNo">362</span>            validU8Char = false;<a name="line.362"></a>
+<span class="sourceLineNo">363</span>          }<a name="line.363"></a>
+<span class="sourceLineNo">364</span>        }<a name="line.364"></a>
+<span class="sourceLineNo">365</span>        // a five-bytes sequence was encoutered<a name="line.365"></a>
+<span class="sourceLineNo">366</span>        else if (isFiveBytesSequence(b0)) {<a name="line.366"></a>
+<span class="sourceLineNo">367</span>          // there must be four continuation bytes of the form 10xxxxxx,<a name="line.367"></a>
+<span class="sourceLineNo">368</span>          // otherwise the following characteris is not a valid UTF-8 construct<a name="line.368"></a>
+<span class="sourceLineNo">369</span>          if (isContinuationChar(b1) &amp;&amp; isContinuationChar(b2) &amp;&amp; isContinuationChar(b3) &amp;&amp; isContinuationChar(b4)) {<a name="line.369"></a>
+<span class="sourceLineNo">370</span>            i += 4;<a name="line.370"></a>
+<span class="sourceLineNo">371</span>          } else {<a name="line.371"></a>
+<span class="sourceLineNo">372</span>            validU8Char = false;<a name="line.372"></a>
+<span class="sourceLineNo">373</span>          }<a name="line.373"></a>
+<span class="sourceLineNo">374</span>        }<a name="line.374"></a>
+<span class="sourceLineNo">375</span>        // a six-bytes sequence was encoutered<a name="line.375"></a>
+<span class="sourceLineNo">376</span>        else if (isSixBytesSequence(b0)) {<a name="line.376"></a>
+<span class="sourceLineNo">377</span>          // there must be five continuation bytes of the form 10xxxxxx,<a name="line.377"></a>
+<span class="sourceLineNo">378</span>          // otherwise the following characteris is not a valid UTF-8 construct<a name="line.378"></a>
+<span class="sourceLineNo">379</span>          if (isContinuationChar(b1) &amp;&amp; isContinuationChar(b2) &amp;&amp; isContinuationChar(b3) &amp;&amp; isContinuationChar(b4)<a name="line.379"></a>
+<span class="sourceLineNo">380</span>              &amp;&amp; isContinuationChar(b5)) {<a name="line.380"></a>
+<span class="sourceLineNo">381</span>            i += 5;<a name="line.381"></a>
+<span class="sourceLineNo">382</span>          } else {<a name="line.382"></a>
+<span class="sourceLineNo">383</span>            validU8Char = false;<a name="line.383"></a>
+<span class="sourceLineNo">384</span>          }<a name="line.384"></a>
+<span class="sourceLineNo">385</span>        } else {<a name="line.385"></a>
+<span class="sourceLineNo">386</span>          validU8Char = false;<a name="line.386"></a>
+<span class="sourceLineNo">387</span>        }<a name="line.387"></a>
+<span class="sourceLineNo">388</span>      }<a name="line.388"></a>
+<span class="sourceLineNo">389</span>      if (!validU8Char) {<a name="line.389"></a>
+<span class="sourceLineNo">390</span>        break;<a name="line.390"></a>
+<span class="sourceLineNo">391</span>      }<a name="line.391"></a>
+<span class="sourceLineNo">392</span>      i++;<a name="line.392"></a>
+<span class="sourceLineNo">393</span>    }<a name="line.393"></a>
+<span class="sourceLineNo">394</span><a name="line.394"></a>
+<span class="sourceLineNo">395</span>    // if no invalid UTF-8 were encountered, we can assume the encoding is UTF-8,<a name="line.395"></a>
+<span class="sourceLineNo">396</span>    // otherwise the file would not be human readable<a name="line.396"></a>
+<span class="sourceLineNo">397</span>    if (validU8Char) {<a name="line.397"></a>
+<span class="sourceLineNo">398</span>      return Charsets.UTF_8;<a name="line.398"></a>
+<span class="sourceLineNo">399</span>    }<a name="line.399"></a>
+<span class="sourceLineNo">400</span><a name="line.400"></a>
+<span class="sourceLineNo">401</span>    // finally it must be some 8bit encoding we try to detect statistically<a name="line.401"></a>
+<span class="sourceLineNo">402</span>    return detectCharacterEncoding8bit();<a name="line.402"></a>
+<span class="sourceLineNo">403</span>  }<a name="line.403"></a>
+<span class="sourceLineNo">404</span><a name="line.404"></a>
+<span class="sourceLineNo">405</span>  private Charset detectUtf16() {<a name="line.405"></a>
+<span class="sourceLineNo">406</span><a name="line.406"></a>
+<span class="sourceLineNo">407</span>    // first try to see if we got a little or big endian, i.e. lots of zeros as the first byte or second byte if we deal<a name="line.407"></a>
+<span class="sourceLineNo">408</span>    // with latin characters at least<a name="line.408"></a>
+<span class="sourceLineNo">409</span>    int zerosLE = 0;<a name="line.409"></a>
+<span class="sourceLineNo">410</span>    int zerosBE = 0;<a name="line.410"></a>
+<span class="sourceLineNo">411</span>    boolean even = true;<a name="line.411"></a>
+<span class="sourceLineNo">412</span><a name="line.412"></a>
+<span class="sourceLineNo">413</span>    int length = buffer.length;<a name="line.413"></a>
+<span class="sourceLineNo">414</span>    int i = 0;<a name="line.414"></a>
+<span class="sourceLineNo">415</span>    while (i &lt; length) {<a name="line.415"></a>
+<span class="sourceLineNo">416</span>      byte b = buffer[i];<a name="line.416"></a>
+<span class="sourceLineNo">417</span>      i++;<a name="line.417"></a>
+<span class="sourceLineNo">418</span>      even = !even;<a name="line.418"></a>
+<span class="sourceLineNo">419</span>      if (b == 0x00) {<a name="line.419"></a>
+<span class="sourceLineNo">420</span>        // zero occurr a lot in utf16 with latin characters<a name="line.420"></a>
+<span class="sourceLineNo">421</span>        if (even) {<a name="line.421"></a>
+<span class="sourceLineNo">422</span>          zerosLE++;<a name="line.422"></a>
+<span class="sourceLineNo">423</span>        } else {<a name="line.423"></a>
+<span class="sourceLineNo">424</span>          zerosBE++;<a name="line.424"></a>
+<span class="sourceLineNo">425</span>        }<a name="line.425"></a>
+<span class="sourceLineNo">426</span>      }<a name="line.426"></a>
+<span class="sourceLineNo">427</span>    }<a name="line.427"></a>
+<span class="sourceLineNo">428</span><a name="line.428"></a>
+<span class="sourceLineNo">429</span>    // a UTF16 encoding with many latin characters would have either lots of even or uneven bytes as zero - but not both<a name="line.429"></a>
+<span class="sourceLineNo">430</span>    int min = buffer.length / 10;<a name="line.430"></a>
+<span class="sourceLineNo">431</span>    if ((zerosBE &gt; min || zerosLE &gt; min) &amp;&amp; Math.abs(zerosBE - zerosLE) &gt; min) {<a name="line.431"></a>
+<span class="sourceLineNo">432</span>      Charset charset = zerosBE &gt; zerosLE ? Charsets.UTF_16BE : Charsets.UTF_16LE;<a name="line.432"></a>
+<span class="sourceLineNo">433</span><a name="line.433"></a>
+<span class="sourceLineNo">434</span>      // now try to decode the whole lot just to make sure<a name="line.434"></a>
+<span class="sourceLineNo">435</span>      try {<a name="line.435"></a>
+<span class="sourceLineNo">436</span>        CharsetDecoder decoder = charset.newDecoder();<a name="line.436"></a>
+<span class="sourceLineNo">437</span>        decoder.decode(ByteBuffer.wrap(buffer));<a name="line.437"></a>
+<span class="sourceLineNo">438</span>        // that worked without a problem - think we got it!<a name="line.438"></a>
+<span class="sourceLineNo">439</span>        return charset;<a name="line.439"></a>
+<span class="sourceLineNo">440</span>      } catch (CharacterCodingException e) {<a name="line.440"></a>
+<span class="sourceLineNo">441</span>        // finally try with the plain UTF16 encoding<a name="line.441"></a>
+<span class="sourceLineNo">442</span>        charset = Charsets.UTF_16;<a name="line.442"></a>
+<span class="sourceLineNo">443</span>        try {<a name="line.443"></a>
+<span class="sourceLineNo">444</span>          CharsetDecoder decoder = charset.newDecoder();<a name="line.444"></a>
+<span class="sourceLineNo">445</span>          decoder.decode(ByteBuffer.wrap(buffer));<a name="line.445"></a>
+<span class="sourceLineNo">446</span>          // that worked without a problem - think we got it!<a name="line.446"></a>
+<span class="sourceLineNo">447</span>          return charset;<a name="line.447"></a>
+<span class="sourceLineNo">448</span>        } catch (CharacterCodingException e2) {<a name="line.448"></a>
+<span class="sourceLineNo">449</span>        }<a name="line.449"></a>
+<span class="sourceLineNo">450</span>      }<a name="line.450"></a>
+<span class="sourceLineNo">451</span>    }<a name="line.451"></a>
+<span class="sourceLineNo">452</span><a name="line.452"></a>
+<span class="sourceLineNo">453</span>    return null;<a name="line.453"></a>
+<span class="sourceLineNo">454</span>  }<a name="line.454"></a>
+<span class="sourceLineNo">455</span><a name="line.455"></a>
+<span class="sourceLineNo">456</span>  private long testLatin1() {<a name="line.456"></a>
+<span class="sourceLineNo">457</span>    Charset charset = Charsets.ISO_8859_1;<a name="line.457"></a>
+<span class="sourceLineNo">458</span>    CharsetDecoder decoder = charset.newDecoder();<a name="line.458"></a>
+<span class="sourceLineNo">459</span><a name="line.459"></a>
+<span class="sourceLineNo">460</span>    long suspicous = 0;<a name="line.460"></a>
+<span class="sourceLineNo">461</span>    // count the following<a name="line.461"></a>
+<span class="sourceLineNo">462</span><a name="line.462"></a>
+<span class="sourceLineNo">463</span>    // first try to decode the whole lot and count common non ascii chars<a name="line.463"></a>
+<span class="sourceLineNo">464</span>    try {<a name="line.464"></a>
+<span class="sourceLineNo">465</span>      CharBuffer cbuf = decoder.decode(ByteBuffer.wrap(buffer));<a name="line.465"></a>
+<span class="sourceLineNo">466</span>      while (cbuf.hasRemaining()) {<a name="line.466"></a>
+<span class="sourceLineNo">467</span>        char c = cbuf.get();<a name="line.467"></a>
+<span class="sourceLineNo">468</span>        if (isCommonChar(c)) {<a name="line.468"></a>
+<span class="sourceLineNo">469</span>          suspicous--;<a name="line.469"></a>
+<span class="sourceLineNo">470</span>        }<a name="line.470"></a>
+<span class="sourceLineNo">471</span>      }<a name="line.471"></a>
+<span class="sourceLineNo">472</span><a name="line.472"></a>
+<span class="sourceLineNo">473</span>      // if that worked without a problem try to count suspicous characters which are rarely used in our texts<a name="line.473"></a>
+<span class="sourceLineNo">474</span>      int length = buffer.length;<a name="line.474"></a>
+<span class="sourceLineNo">475</span>      int i = 0;<a name="line.475"></a>
+<span class="sourceLineNo">476</span>      while (i &lt; length) {<a name="line.476"></a>
+<span class="sourceLineNo">477</span>        byte b = buffer[i];<a name="line.477"></a>
+<span class="sourceLineNo">478</span>        i++;<a name="line.478"></a>
+<span class="sourceLineNo">479</span>        // range 7f-9f undefined, see http://de.wikipedia.org/wiki/ISO_8859-1<a name="line.479"></a>
+<span class="sourceLineNo">480</span>        if (b &gt;= (byte) 0x80 &amp;&amp; b &lt;= (byte) 0x9f) {<a name="line.480"></a>
+<span class="sourceLineNo">481</span>          suspicous += UNDEFINED_PENALTY;<a name="line.481"></a>
+<span class="sourceLineNo">482</span>        }<a name="line.482"></a>
+<span class="sourceLineNo">483</span>      }<a name="line.483"></a>
+<span class="sourceLineNo">484</span>    } catch (CharacterCodingException e) {<a name="line.484"></a>
+<span class="sourceLineNo">485</span>      suspicous = Long.MAX_VALUE;<a name="line.485"></a>
+<span class="sourceLineNo">486</span>    }<a name="line.486"></a>
+<span class="sourceLineNo">487</span><a name="line.487"></a>
+<span class="sourceLineNo">488</span>    return suspicous;<a name="line.488"></a>
+<span class="sourceLineNo">489</span>  }<a name="line.489"></a>
+<span class="sourceLineNo">490</span><a name="line.490"></a>
+<span class="sourceLineNo">491</span>  private long testMacRoman() {<a name="line.491"></a>
+<span class="sourceLineNo">492</span>    CharsetDecoder decoder = MACROMAN.newDecoder();<a name="line.492"></a>
+<span class="sourceLineNo">493</span><a name="line.493"></a>
+<span class="sourceLineNo">494</span>    long suspicous = 0;<a name="line.494"></a>
+<span class="sourceLineNo">495</span><a name="line.495"></a>
+<span class="sourceLineNo">496</span>    // first try to decode the whole lot<a name="line.496"></a>
+<span class="sourceLineNo">497</span>    try {<a name="line.497"></a>
+<span class="sourceLineNo">498</span>      CharBuffer cbuf = decoder.decode(ByteBuffer.wrap(buffer));<a name="line.498"></a>
+<span class="sourceLineNo">499</span>      while (cbuf.hasRemaining()) {<a name="line.499"></a>
+<span class="sourceLineNo">500</span>        char c = cbuf.get();<a name="line.500"></a>
+<span class="sourceLineNo">501</span>        if (isCommonChar(c)) {<a name="line.501"></a>
+<span class="sourceLineNo">502</span>          suspicous--;<a name="line.502"></a>
+<span class="sourceLineNo">503</span>        }<a name="line.503"></a>
+<span class="sourceLineNo">504</span>      }<a name="line.504"></a>
+<span class="sourceLineNo">505</span>      // if that worked without a problem try to count suspicious characters which are rarely used in our texts<a name="line.505"></a>
+<span class="sourceLineNo">506</span>      int length = buffer.length;<a name="line.506"></a>
+<span class="sourceLineNo">507</span>      int i = 0;<a name="line.507"></a>
+<span class="sourceLineNo">508</span>      while (i &lt; length) {<a name="line.508"></a>
+<span class="sourceLineNo">509</span>        byte b = buffer[i];<a name="line.509"></a>
+<span class="sourceLineNo">510</span>        i++;<a name="line.510"></a>
+<span class="sourceLineNo">511</span>        // all ranges defined I am afraid<a name="line.511"></a>
+<span class="sourceLineNo">512</span>      }<a name="line.512"></a>
+<span class="sourceLineNo">513</span>    } catch (CharacterCodingException e) {<a name="line.513"></a>
+<span class="sourceLineNo">514</span>      suspicous = Long.MAX_VALUE;<a name="line.514"></a>
+<span class="sourceLineNo">515</span>    }<a name="line.515"></a>
+<span class="sourceLineNo">516</span><a name="line.516"></a>
+<span class="sourceLineNo">517</span>    return suspicous;<a name="line.517"></a>
+<span class="sourceLineNo">518</span>  }<a name="line.518"></a>
+<span class="sourceLineNo">519</span><a name="line.519"></a>
+<span class="sourceLineNo">520</span>  private long testWindows1252() {<a name="line.520"></a>
+<span class="sourceLineNo">521</span>    CharsetDecoder decoder = WINDOWS1252.newDecoder();<a name="line.521"></a>
+<span class="sourceLineNo">522</span>    long suspicous = 0;<a name="line.522"></a>
+<span class="sourceLineNo">523</span><a name="line.523"></a>
+<span class="sourceLineNo">524</span>    // first try to decode the whole lot<a name="line.524"></a>
+<span class="sourceLineNo">525</span>    try {<a name="line.525"></a>
+<span class="sourceLineNo">526</span>      CharBuffer cbuf = decoder.decode(ByteBuffer.wrap(buffer));<a name="line.526"></a>
+<span class="sourceLineNo">527</span>      while (cbuf.hasRemaining()) {<a name="line.527"></a>
+<span class="sourceLineNo">528</span>        char c = cbuf.get();<a name="line.528"></a>
+<span class="sourceLineNo">529</span>        if (isCommonChar(c)) {<a name="line.529"></a>
+<span class="sourceLineNo">530</span>          suspicous--;<a name="line.530"></a>
+<span class="sourceLineNo">531</span>        }<a name="line.531"></a>
+<span class="sourceLineNo">532</span>      }<a name="line.532"></a>
+<span class="sourceLineNo">533</span>      // if that worked without a problem try to count suspicous characters which are rarely used in our texts<a name="line.533"></a>
+<span class="sourceLineNo">534</span>      // see http://de.wikipedia.org/wiki/ISO_8859-1<a name="line.534"></a>
+<span class="sourceLineNo">535</span>      int length = buffer.length;<a name="line.535"></a>
+<span class="sourceLineNo">536</span>      int i = 0;<a name="line.536"></a>
+<span class="sourceLineNo">537</span>      while (i &lt; length) {<a name="line.537"></a>
+<span class="sourceLineNo">538</span>        byte b = buffer[i];<a name="line.538"></a>
+<span class="sourceLineNo">539</span>        i++;<a name="line.539"></a>
+<span class="sourceLineNo">540</span>        // 5 undefined chars<a name="line.540"></a>
+<span class="sourceLineNo">541</span>        if (b == (byte) 0x81 || b == (byte) 0x8d || b == (byte) 0x8f || b == (byte) 0x90 || b == (byte) 0x9d) {<a name="line.541"></a>
+<span class="sourceLineNo">542</span>          suspicous += UNDEFINED_PENALTY;<a name="line.542"></a>
+<span class="sourceLineNo">543</span>        }<a name="line.543"></a>
+<span class="sourceLineNo">544</span>      }<a name="line.544"></a>
+<span class="sourceLineNo">545</span>    } catch (CharacterCodingException e) {<a name="line.545"></a>
+<span class="sourceLineNo">546</span>      suspicous = Long.MAX_VALUE;<a name="line.546"></a>
+<span class="sourceLineNo">547</span>    }<a name="line.547"></a>
+<span class="sourceLineNo">548</span><a name="line.548"></a>
+<span class="sourceLineNo">549</span>    return suspicous;<a name="line.549"></a>
+<span class="sourceLineNo">550</span>  }<a name="line.550"></a>
+<span class="sourceLineNo">551</span><a name="line.551"></a>
+<span class="sourceLineNo">552</span>}<a name="line.552"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

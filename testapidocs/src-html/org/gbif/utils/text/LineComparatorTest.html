@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package org.gbif.utils.text;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import java.io.IOException;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import java.util.ArrayList;<a name="line.4"></a>
+<span class="sourceLineNo">005</span>import java.util.Collections;<a name="line.5"></a>
+<span class="sourceLineNo">006</span>import java.util.Comparator;<a name="line.6"></a>
+<span class="sourceLineNo">007</span>import java.util.List;<a name="line.7"></a>
+<span class="sourceLineNo">008</span><a name="line.8"></a>
+<span class="sourceLineNo">009</span>import com.google.common.collect.Ordering;<a name="line.9"></a>
+<span class="sourceLineNo">010</span>import junit.framework.TestCase;<a name="line.10"></a>
+<span class="sourceLineNo">011</span>import org.junit.Test;<a name="line.11"></a>
+<span class="sourceLineNo">012</span><a name="line.12"></a>
+<span class="sourceLineNo">013</span>public class LineComparatorTest extends TestCase {<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>  @Test<a name="line.15"></a>
+<span class="sourceLineNo">016</span>  public void testLineComparatorCSV() {<a name="line.16"></a>
+<span class="sourceLineNo">017</span>    LineComparator comp = new LineComparator(3, ",", '"');<a name="line.17"></a>
+<span class="sourceLineNo">018</span>    List&lt;String&gt; lines = new ArrayList&lt;String&gt;();<a name="line.18"></a>
+<span class="sourceLineNo">019</span>    String l1 = "121,432423,9099053,\"Frieda karla L.,Ahrens\"";<a name="line.19"></a>
+<span class="sourceLineNo">020</span>    String l2 = "adshjhg,fsdfsd,fdsfdsfsd,Forunkel forunculus,Janssen";<a name="line.20"></a>
+<span class="sourceLineNo">021</span>    String l3 = ",,,,zzz";<a name="line.21"></a>
+<span class="sourceLineNo">022</span>    String l4 = "321,2453,432423,berndef,ahrene32";<a name="line.22"></a>
+<span class="sourceLineNo">023</span>    lines.add(l1);<a name="line.23"></a>
+<span class="sourceLineNo">024</span>    lines.add(l2);<a name="line.24"></a>
+<span class="sourceLineNo">025</span>    lines.add(l3);<a name="line.25"></a>
+<span class="sourceLineNo">026</span>    lines.add(l4);<a name="line.26"></a>
+<span class="sourceLineNo">027</span><a name="line.27"></a>
+<span class="sourceLineNo">028</span>    Collections.sort(lines, comp);<a name="line.28"></a>
+<span class="sourceLineNo">029</span><a name="line.29"></a>
+<span class="sourceLineNo">030</span>    assertEquals(l2, lines.get(0));<a name="line.30"></a>
+<span class="sourceLineNo">031</span>    assertEquals(l1, lines.get(1));<a name="line.31"></a>
+<span class="sourceLineNo">032</span>    assertEquals(l4, lines.get(2));<a name="line.32"></a>
+<span class="sourceLineNo">033</span>    assertEquals(l3, lines.get(3));<a name="line.33"></a>
+<span class="sourceLineNo">034</span>  }<a name="line.34"></a>
+<span class="sourceLineNo">035</span><a name="line.35"></a>
+<span class="sourceLineNo">036</span>  @Test<a name="line.36"></a>
+<span class="sourceLineNo">037</span>  public void testLineComparatorPipe() {<a name="line.37"></a>
+<span class="sourceLineNo">038</span>    LineComparator comp = new LineComparator(3, "|");<a name="line.38"></a>
+<span class="sourceLineNo">039</span>    List&lt;String&gt; lines = new ArrayList&lt;String&gt;();<a name="line.39"></a>
+<span class="sourceLineNo">040</span>    String l1 = "121|432423|9099053|Frieda karla L.|Ahrens";<a name="line.40"></a>
+<span class="sourceLineNo">041</span>    String l2 = "adshjhg|fsdfsd|fdsfdsfsd|Forunkel forunculus|Janssen";<a name="line.41"></a>
+<span class="sourceLineNo">042</span>    String l3 = "||||zzz";<a name="line.42"></a>
+<span class="sourceLineNo">043</span>    String l4 = "321|2453|432423|berndef|ahrene32";<a name="line.43"></a>
+<span class="sourceLineNo">044</span>    lines.add(l1);<a name="line.44"></a>
+<span class="sourceLineNo">045</span>    lines.add(l2);<a name="line.45"></a>
+<span class="sourceLineNo">046</span>    lines.add(l3);<a name="line.46"></a>
+<span class="sourceLineNo">047</span>    lines.add(l4);<a name="line.47"></a>
+<span class="sourceLineNo">048</span><a name="line.48"></a>
+<span class="sourceLineNo">049</span>    Collections.sort(lines, comp);<a name="line.49"></a>
+<span class="sourceLineNo">050</span><a name="line.50"></a>
+<span class="sourceLineNo">051</span>    assertEquals(l2, lines.get(0));<a name="line.51"></a>
+<span class="sourceLineNo">052</span>    assertEquals(l1, lines.get(1));<a name="line.52"></a>
+<span class="sourceLineNo">053</span>    assertEquals(l4, lines.get(2));<a name="line.53"></a>
+<span class="sourceLineNo">054</span>    assertEquals(l3, lines.get(3));<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  }<a name="line.55"></a>
+<span class="sourceLineNo">056</span><a name="line.56"></a>
+<span class="sourceLineNo">057</span>  @Test<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  public void testLineComparatorTab() {<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    LineComparator comp = new LineComparator(3, "\t");<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    List&lt;String&gt; lines = new ArrayList&lt;String&gt;();<a name="line.60"></a>
+<span class="sourceLineNo">061</span>    String l1 = "121\t432423\t9099053\tFrieda karla L.\tAhrens";<a name="line.61"></a>
+<span class="sourceLineNo">062</span>    String l2 = "adshjhg\tfsdfsd\tfdsfdsfsd\tForunkel forunculus\tJanssen";<a name="line.62"></a>
+<span class="sourceLineNo">063</span>    String l3 = "\t\t\t\tzzz";<a name="line.63"></a>
+<span class="sourceLineNo">064</span>    String l4 = "321\t2453\t432423\tberndef\tahrene32";<a name="line.64"></a>
+<span class="sourceLineNo">065</span>    lines.add(l1);<a name="line.65"></a>
+<span class="sourceLineNo">066</span>    lines.add(l2);<a name="line.66"></a>
+<span class="sourceLineNo">067</span>    lines.add(l3);<a name="line.67"></a>
+<span class="sourceLineNo">068</span>    lines.add(l4);<a name="line.68"></a>
+<span class="sourceLineNo">069</span><a name="line.69"></a>
+<span class="sourceLineNo">070</span>    Collections.sort(lines, comp);<a name="line.70"></a>
+<span class="sourceLineNo">071</span><a name="line.71"></a>
+<span class="sourceLineNo">072</span>    assertEquals(l2, lines.get(0));<a name="line.72"></a>
+<span class="sourceLineNo">073</span>    assertEquals(l1, lines.get(1));<a name="line.73"></a>
+<span class="sourceLineNo">074</span>    assertEquals(l4, lines.get(2));<a name="line.74"></a>
+<span class="sourceLineNo">075</span>    assertEquals(l3, lines.get(3));<a name="line.75"></a>
+<span class="sourceLineNo">076</span>  }<a name="line.76"></a>
+<span class="sourceLineNo">077</span><a name="line.77"></a>
+<span class="sourceLineNo">078</span>  // Direct copy from From IPT codebase<a name="line.78"></a>
+<span class="sourceLineNo">079</span>  // see https://code.google.com/p/gbif-providertoolkit/source/browse/trunk/gbif-ipt/src/main/java/org/gbif/ipt/task/GenerateDwca.java#93<a name="line.79"></a>
+<span class="sourceLineNo">080</span>  private static final Comparator&lt;String&gt; IGNORE_CASE_COMPARATOR = Ordering.from(new Comparator&lt;String&gt;() {<a name="line.80"></a>
+<span class="sourceLineNo">081</span><a name="line.81"></a>
+<span class="sourceLineNo">082</span>    public int compare(String o1, String o2) {<a name="line.82"></a>
+<span class="sourceLineNo">083</span>      return o1.compareToIgnoreCase(o2);<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    }<a name="line.84"></a>
+<span class="sourceLineNo">085</span>  }).nullsFirst();<a name="line.85"></a>
+<span class="sourceLineNo">086</span><a name="line.86"></a>
+<span class="sourceLineNo">087</span>  /**<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   * Test for respecting equals and compareTo to ensure comparator respects java contracts.<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * http://dev.gbif.org/issues/browse/POR-2730<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   */<a name="line.90"></a>
+<span class="sourceLineNo">091</span>  @Test<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  public void testEqualsCompareToContract() throws IOException {<a name="line.92"></a>
+<span class="sourceLineNo">093</span><a name="line.93"></a>
+<span class="sourceLineNo">094</span>    LineComparator comp = new LineComparator(0, ",", null, IGNORE_CASE_COMPARATOR);<a name="line.94"></a>
+<span class="sourceLineNo">095</span><a name="line.95"></a>
+<span class="sourceLineNo">096</span>    String s1 = ",2,3"; // null in first instance<a name="line.96"></a>
+<span class="sourceLineNo">097</span>    String s2 = ",2,3"; // null in first instance<a name="line.97"></a>
+<span class="sourceLineNo">098</span><a name="line.98"></a>
+<span class="sourceLineNo">099</span>    // http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html#compare(T,%20T)<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    int sign1 = (int) Math.signum(comp.compare(s1, s2));<a name="line.100"></a>
+<span class="sourceLineNo">101</span>    int sign2 = (int) Math.signum(comp.compare(s2, s1));<a name="line.101"></a>
+<span class="sourceLineNo">102</span><a name="line.102"></a>
+<span class="sourceLineNo">103</span>    assertEquals(sign1 * -1, sign2);<a name="line.103"></a>
+<span class="sourceLineNo">104</span><a name="line.104"></a>
+<span class="sourceLineNo">105</span>  }<a name="line.105"></a>
+<span class="sourceLineNo">106</span>}<a name="line.106"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

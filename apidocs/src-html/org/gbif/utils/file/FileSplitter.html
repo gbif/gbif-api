@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/**<a name="line.1"></a>
+<span class="sourceLineNo">002</span> *<a name="line.2"></a>
+<span class="sourceLineNo">003</span> */<a name="line.3"></a>
+<span class="sourceLineNo">004</span>package org.gbif.utils.file;<a name="line.4"></a>
+<span class="sourceLineNo">005</span><a name="line.5"></a>
+<span class="sourceLineNo">006</span>import java.io.File;<a name="line.6"></a>
+<span class="sourceLineNo">007</span>import java.io.FileInputStream;<a name="line.7"></a>
+<span class="sourceLineNo">008</span>import java.io.FileOutputStream;<a name="line.8"></a>
+<span class="sourceLineNo">009</span>import java.io.IOException;<a name="line.9"></a>
+<span class="sourceLineNo">010</span>import java.nio.ByteBuffer;<a name="line.10"></a>
+<span class="sourceLineNo">011</span>import java.nio.channels.FileChannel;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>import java.util.ArrayList;<a name="line.12"></a>
+<span class="sourceLineNo">013</span>import java.util.List;<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>import org.slf4j.Logger;<a name="line.15"></a>
+<span class="sourceLineNo">016</span>import org.slf4j.LoggerFactory;<a name="line.16"></a>
+<span class="sourceLineNo">017</span><a name="line.17"></a>
+<span class="sourceLineNo">018</span>/**<a name="line.18"></a>
+<span class="sourceLineNo">019</span> * A utility to split files into chucks.<a name="line.19"></a>
+<span class="sourceLineNo">020</span> * This is done on file size, but then extended to read to the end of the current line.<a name="line.20"></a>
+<span class="sourceLineNo">021</span> * Therefore a chunksize of 32meg will result in a split files of slightly more (assuming lines are<a name="line.21"></a>
+<span class="sourceLineNo">022</span> * not very long).<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * This is done using NIO libraries for high performance.<a name="line.23"></a>
+<span class="sourceLineNo">024</span> */<a name="line.24"></a>
+<span class="sourceLineNo">025</span>public class FileSplitter {<a name="line.25"></a>
+<span class="sourceLineNo">026</span><a name="line.26"></a>
+<span class="sourceLineNo">027</span>  private static final Logger LOG = LoggerFactory.getLogger(FileSplitter.class);<a name="line.27"></a>
+<span class="sourceLineNo">028</span>  public static final String SEPARATOR = "_";<a name="line.28"></a>
+<span class="sourceLineNo">029</span>  public static final int READ_AHEAD_BYTES = 256;<a name="line.29"></a>
+<span class="sourceLineNo">030</span><a name="line.30"></a>
+<span class="sourceLineNo">031</span>  // for the file, gives the Byte markers for reading lines, such that the lines read will approximately<a name="line.31"></a>
+<span class="sourceLineNo">032</span>  // equate be the chunk size (slightly more as it reads to the end of the row)<a name="line.32"></a>
+<span class="sourceLineNo">033</span>  public static List&lt;Long&gt; scanToChunk(File from, long chunkSizeBytes) throws IOException {<a name="line.33"></a>
+<span class="sourceLineNo">034</span>    List&lt;Long&gt; chunkBytes = new ArrayList&lt;Long&gt;();<a name="line.34"></a>
+<span class="sourceLineNo">035</span>    FileInputStream fis = new FileInputStream(from);<a name="line.35"></a>
+<span class="sourceLineNo">036</span>    FileChannel fcin = fis.getChannel();<a name="line.36"></a>
+<span class="sourceLineNo">037</span><a name="line.37"></a>
+<span class="sourceLineNo">038</span>    long byteCount = chunkSizeBytes;<a name="line.38"></a>
+<span class="sourceLineNo">039</span><a name="line.39"></a>
+<span class="sourceLineNo">040</span>    // now we need to read and transfer to the end of the line...<a name="line.40"></a>
+<span class="sourceLineNo">041</span>    ByteBuffer bb = ByteBuffer.allocate(READ_AHEAD_BYTES);<a name="line.41"></a>
+<span class="sourceLineNo">042</span><a name="line.42"></a>
+<span class="sourceLineNo">043</span>    while (byteCount &lt; fcin.size()) {<a name="line.43"></a>
+<span class="sourceLineNo">044</span>      fcin.read(bb, byteCount);<a name="line.44"></a>
+<span class="sourceLineNo">045</span>      int i = 0;<a name="line.45"></a>
+<span class="sourceLineNo">046</span>      for (i = 0; i &lt; bb.limit(); i++) {<a name="line.46"></a>
+<span class="sourceLineNo">047</span>        if ((char) bb.get(i) == '\n') {<a name="line.47"></a>
+<span class="sourceLineNo">048</span>          i++;<a name="line.48"></a>
+<span class="sourceLineNo">049</span>          break;<a name="line.49"></a>
+<span class="sourceLineNo">050</span>        }<a name="line.50"></a>
+<span class="sourceLineNo">051</span>      }<a name="line.51"></a>
+<span class="sourceLineNo">052</span>      // bb.rewind();<a name="line.52"></a>
+<span class="sourceLineNo">053</span>      chunkBytes.add(i + byteCount);<a name="line.53"></a>
+<span class="sourceLineNo">054</span>      byteCount += chunkSizeBytes;<a name="line.54"></a>
+<span class="sourceLineNo">055</span>    }<a name="line.55"></a>
+<span class="sourceLineNo">056</span>    fcin.close();<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    fis.close();<a name="line.57"></a>
+<span class="sourceLineNo">058</span>    return chunkBytes;<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  }<a name="line.59"></a>
+<span class="sourceLineNo">060</span><a name="line.60"></a>
+<span class="sourceLineNo">061</span>  /**<a name="line.61"></a>
+<span class="sourceLineNo">062</span>   * Splits a file "pumaConcolor.txt" into the target directory using the suffix ("part") like so:<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   * - pumaConcolor_part_0.txt<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   * - pumaConcolor_part_1.txt<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   * - pumaConcolor_part_2.txt<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   * Returns the files parts<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   */<a name="line.67"></a>
+<span class="sourceLineNo">068</span>  public static List&lt;File&gt; split(File from, File targetDirectory, String suffix, long chunkSizeBytes)<a name="line.68"></a>
+<span class="sourceLineNo">069</span>    throws IOException {<a name="line.69"></a>
+<span class="sourceLineNo">070</span>    List&lt;File&gt; files = new ArrayList&lt;File&gt;();<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    FileInputStream fis = new FileInputStream(from);<a name="line.71"></a>
+<span class="sourceLineNo">072</span>    FileChannel fcin = fis.getChannel();<a name="line.72"></a>
+<span class="sourceLineNo">073</span><a name="line.73"></a>
+<span class="sourceLineNo">074</span>    String filePartNamePrefix = "";<a name="line.74"></a>
+<span class="sourceLineNo">075</span>    String filePartNameSuffix = "";<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    if (from.getName().contains(".")) {<a name="line.76"></a>
+<span class="sourceLineNo">077</span>      filePartNamePrefix = from.getName().substring(0, from.getName().indexOf("."));<a name="line.77"></a>
+<span class="sourceLineNo">078</span>      filePartNameSuffix = from.getName().substring(from.getName().indexOf("."));<a name="line.78"></a>
+<span class="sourceLineNo">079</span>    } else {<a name="line.79"></a>
+<span class="sourceLineNo">080</span>      filePartNamePrefix = from.getName();<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    }<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>    long byteCount = 0;<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    int filePartCount = 0;<a name="line.84"></a>
+<span class="sourceLineNo">085</span><a name="line.85"></a>
+<span class="sourceLineNo">086</span>    while (byteCount &lt; fcin.size()) {<a name="line.86"></a>
+<span class="sourceLineNo">087</span>      long time = System.currentTimeMillis();<a name="line.87"></a>
+<span class="sourceLineNo">088</span>      // create the output file<a name="line.88"></a>
+<span class="sourceLineNo">089</span>      String fileName = filePartNamePrefix + SEPARATOR + suffix + SEPARATOR + filePartCount + filePartNameSuffix;<a name="line.89"></a>
+<span class="sourceLineNo">090</span>      File to = new File(targetDirectory, fileName);<a name="line.90"></a>
+<span class="sourceLineNo">091</span>      files.add(to);<a name="line.91"></a>
+<span class="sourceLineNo">092</span><a name="line.92"></a>
+<span class="sourceLineNo">093</span>      // copy to the new file<a name="line.93"></a>
+<span class="sourceLineNo">094</span>      FileOutputStream fos = new FileOutputStream(to);<a name="line.94"></a>
+<span class="sourceLineNo">095</span>      FileChannel fcout = fos.getChannel();<a name="line.95"></a>
+<span class="sourceLineNo">096</span>      fcin.transferTo(byteCount, chunkSizeBytes, fcout);<a name="line.96"></a>
+<span class="sourceLineNo">097</span>      byteCount += chunkSizeBytes;<a name="line.97"></a>
+<span class="sourceLineNo">098</span><a name="line.98"></a>
+<span class="sourceLineNo">099</span>      // now we need to read and transfer to the end of the line...<a name="line.99"></a>
+<span class="sourceLineNo">100</span>      ByteBuffer bb = ByteBuffer.allocate(READ_AHEAD_BYTES);<a name="line.100"></a>
+<span class="sourceLineNo">101</span>      fcin.read(bb, byteCount);<a name="line.101"></a>
+<span class="sourceLineNo">102</span>      int i = 0;<a name="line.102"></a>
+<span class="sourceLineNo">103</span>      for (i = 0; i &lt; bb.limit(); i++) {<a name="line.103"></a>
+<span class="sourceLineNo">104</span>        if ((char) bb.get(i) == '\n') {<a name="line.104"></a>
+<span class="sourceLineNo">105</span>          i++;<a name="line.105"></a>
+<span class="sourceLineNo">106</span>          break;<a name="line.106"></a>
+<span class="sourceLineNo">107</span>        }<a name="line.107"></a>
+<span class="sourceLineNo">108</span>      }<a name="line.108"></a>
+<span class="sourceLineNo">109</span>      bb.rewind();<a name="line.109"></a>
+<span class="sourceLineNo">110</span>      bb.limit(i);<a name="line.110"></a>
+<span class="sourceLineNo">111</span>      fcout.write(bb);<a name="line.111"></a>
+<span class="sourceLineNo">112</span>      byteCount += i;<a name="line.112"></a>
+<span class="sourceLineNo">113</span><a name="line.113"></a>
+<span class="sourceLineNo">114</span>      fcout.close();<a name="line.114"></a>
+<span class="sourceLineNo">115</span>      fos.close();<a name="line.115"></a>
+<span class="sourceLineNo">116</span>      filePartCount++;<a name="line.116"></a>
+<span class="sourceLineNo">117</span>      LOG.debug("Filepart[" + fileName + "] created in " + (1 + System.currentTimeMillis() - time) / 1000 + " secs");<a name="line.117"></a>
+<span class="sourceLineNo">118</span>    }<a name="line.118"></a>
+<span class="sourceLineNo">119</span><a name="line.119"></a>
+<span class="sourceLineNo">120</span>    // TODO - have tested but need to test thoroughly...<a name="line.120"></a>
+<span class="sourceLineNo">121</span>    // what if the file was smaller than 32 meg?<a name="line.121"></a>
+<span class="sourceLineNo">122</span>    // what if the chunk size was exactly the file size?<a name="line.122"></a>
+<span class="sourceLineNo">123</span>    // did the joins line up properly?<a name="line.123"></a>
+<span class="sourceLineNo">124</span>    // what if the read ahead line did not get to the end of the line?<a name="line.124"></a>
+<span class="sourceLineNo">125</span><a name="line.125"></a>
+<span class="sourceLineNo">126</span>    fcin.close();<a name="line.126"></a>
+<span class="sourceLineNo">127</span>    fis.close();<a name="line.127"></a>
+<span class="sourceLineNo">128</span>    return files;<a name="line.128"></a>
+<span class="sourceLineNo">129</span>  }<a name="line.129"></a>
+<span class="sourceLineNo">130</span><a name="line.130"></a>
+<span class="sourceLineNo">131</span>  private FileSplitter() {<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    throw new UnsupportedOperationException("Can't initialize class");<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  }<a name="line.133"></a>
+<span class="sourceLineNo">134</span><a name="line.134"></a>
+<span class="sourceLineNo">135</span>}<a name="line.135"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

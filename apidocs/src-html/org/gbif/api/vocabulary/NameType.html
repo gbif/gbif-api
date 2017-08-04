@@ -68,54 +68,68 @@
 <span class="sourceLineNo">060</span>  CANDIDATUS,<a name="line.60"></a>
 <span class="sourceLineNo">061</span><a name="line.61"></a>
 <span class="sourceLineNo">062</span>  /**<a name="line.62"></a>
-<span class="sourceLineNo">063</span>   * Doubtful whether this is a scientific name at all.<a name="line.63"></a>
-<span class="sourceLineNo">064</span>   */<a name="line.64"></a>
-<span class="sourceLineNo">065</span>  DOUBTFUL,<a name="line.65"></a>
-<span class="sourceLineNo">066</span><a name="line.66"></a>
-<span class="sourceLineNo">067</span>  /**<a name="line.67"></a>
-<span class="sourceLineNo">068</span>   * A placeholder name like "incertae sedis" or "unknown genus".<a name="line.68"></a>
-<span class="sourceLineNo">069</span>   */<a name="line.69"></a>
-<span class="sourceLineNo">070</span>  PLACEHOLDER,<a name="line.70"></a>
-<span class="sourceLineNo">071</span><a name="line.71"></a>
-<span class="sourceLineNo">072</span>  /**<a name="line.72"></a>
-<span class="sourceLineNo">073</span>   * Surely not a scientific name of any kind.<a name="line.73"></a>
-<span class="sourceLineNo">074</span>   */<a name="line.74"></a>
-<span class="sourceLineNo">075</span>  NO_NAME;<a name="line.75"></a>
-<span class="sourceLineNo">076</span><a name="line.76"></a>
-<span class="sourceLineNo">077</span>  /**<a name="line.77"></a>
-<span class="sourceLineNo">078</span>   * Case insensitive lookup of a name type by its name that does not throw an exception but returns null<a name="line.78"></a>
-<span class="sourceLineNo">079</span>   * for not found name types.<a name="line.79"></a>
-<span class="sourceLineNo">080</span>   *<a name="line.80"></a>
-<span class="sourceLineNo">081</span>   * @param nameType case insensitive name of name type<a name="line.81"></a>
-<span class="sourceLineNo">082</span>   *<a name="line.82"></a>
-<span class="sourceLineNo">083</span>   * @return the matching NameType or null<a name="line.83"></a>
-<span class="sourceLineNo">084</span>   */<a name="line.84"></a>
-<span class="sourceLineNo">085</span>  public static NameType fromString(String nameType) {<a name="line.85"></a>
-<span class="sourceLineNo">086</span>    if (!Strings.isNullOrEmpty(nameType)) {<a name="line.86"></a>
-<span class="sourceLineNo">087</span>      try {<a name="line.87"></a>
-<span class="sourceLineNo">088</span>        return valueOf(nameType.toUpperCase().trim());<a name="line.88"></a>
-<span class="sourceLineNo">089</span>      } catch (IllegalArgumentException e) {<a name="line.89"></a>
-<span class="sourceLineNo">090</span>        // swallow<a name="line.90"></a>
-<span class="sourceLineNo">091</span>      }<a name="line.91"></a>
-<span class="sourceLineNo">092</span>    }<a name="line.92"></a>
-<span class="sourceLineNo">093</span>    return null;<a name="line.93"></a>
-<span class="sourceLineNo">094</span>  }<a name="line.94"></a>
-<span class="sourceLineNo">095</span><a name="line.95"></a>
-<span class="sourceLineNo">096</span>  /**<a name="line.96"></a>
-<span class="sourceLineNo">097</span>   * @return true if the type of name is included in the GBIF backbone<a name="line.97"></a>
+<span class="sourceLineNo">063</span>   * Operational Taxonomic Unit.<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   * An OTU is a pragmatic definition to group individuals by similarity, equivalent to but not necessarily in line<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   * with classical Linnaean taxonomy or modern Evolutionary taxonomy.<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   *<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   * A OTU usually refers to clusters of organisms, grouped by DNA sequence similarity of a specific taxonomic marker gene.<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   * In other words, OTUs are pragmatic proxies for "species" at different taxonomic levels.<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   *<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * Sequences can be clustered according to their similarity to one another,<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   * and operational taxonomic units are defined based on the similarity threshold (usually 97% similarity) set by the researcher.<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   * Typically, OTU's are based on similar 16S rRNA sequences.<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   */<a name="line.73"></a>
+<span class="sourceLineNo">074</span>  OTU,<a name="line.74"></a>
+<span class="sourceLineNo">075</span><a name="line.75"></a>
+<span class="sourceLineNo">076</span>  /**<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   * Doubtful whether this is a scientific name at all.<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   */<a name="line.78"></a>
+<span class="sourceLineNo">079</span>  DOUBTFUL,<a name="line.79"></a>
+<span class="sourceLineNo">080</span><a name="line.80"></a>
+<span class="sourceLineNo">081</span>  /**<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   * A placeholder name like "incertae sedis" or "unknown genus".<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   */<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  PLACEHOLDER,<a name="line.84"></a>
+<span class="sourceLineNo">085</span><a name="line.85"></a>
+<span class="sourceLineNo">086</span>  /**<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * Surely not a scientific name of any kind.<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   */<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  NO_NAME;<a name="line.89"></a>
+<span class="sourceLineNo">090</span><a name="line.90"></a>
+<span class="sourceLineNo">091</span>  /**<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   * Case insensitive lookup of a name type by its name that does not throw an exception but returns null<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * for not found name types.<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   *<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * @param nameType case insensitive name of name type<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   *<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * @return the matching NameType or null<a name="line.97"></a>
 <span class="sourceLineNo">098</span>   */<a name="line.98"></a>
-<span class="sourceLineNo">099</span>  public boolean isBackboneType() {<a name="line.99"></a>
-<span class="sourceLineNo">100</span>    return this == SCIENTIFIC || this == VIRUS || this == DOUBTFUL;<a name="line.100"></a>
-<span class="sourceLineNo">101</span>  }<a name="line.101"></a>
-<span class="sourceLineNo">102</span><a name="line.102"></a>
-<span class="sourceLineNo">103</span>  /**<a name="line.103"></a>
-<span class="sourceLineNo">104</span>   * @return true if the GBIF name parser can parse such a name into a ParsedName instance<a name="line.104"></a>
-<span class="sourceLineNo">105</span>   */<a name="line.105"></a>
-<span class="sourceLineNo">106</span>  public boolean isParsable() {<a name="line.106"></a>
-<span class="sourceLineNo">107</span>    return this == SCIENTIFIC || this == INFORMAL || this == CULTIVAR || this == CANDIDATUS || this == DOUBTFUL;<a name="line.107"></a>
+<span class="sourceLineNo">099</span>  public static NameType fromString(String nameType) {<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    if (!Strings.isNullOrEmpty(nameType)) {<a name="line.100"></a>
+<span class="sourceLineNo">101</span>      try {<a name="line.101"></a>
+<span class="sourceLineNo">102</span>        return valueOf(nameType.toUpperCase().trim());<a name="line.102"></a>
+<span class="sourceLineNo">103</span>      } catch (IllegalArgumentException e) {<a name="line.103"></a>
+<span class="sourceLineNo">104</span>        // swallow<a name="line.104"></a>
+<span class="sourceLineNo">105</span>      }<a name="line.105"></a>
+<span class="sourceLineNo">106</span>    }<a name="line.106"></a>
+<span class="sourceLineNo">107</span>    return null;<a name="line.107"></a>
 <span class="sourceLineNo">108</span>  }<a name="line.108"></a>
 <span class="sourceLineNo">109</span><a name="line.109"></a>
-<span class="sourceLineNo">110</span>}<a name="line.110"></a>
+<span class="sourceLineNo">110</span>  /**<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   * @return true if the type of name is included in the GBIF backbone<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   */<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  public boolean isBackboneType() {<a name="line.113"></a>
+<span class="sourceLineNo">114</span>    return this == SCIENTIFIC || this == VIRUS || this == DOUBTFUL;<a name="line.114"></a>
+<span class="sourceLineNo">115</span>  }<a name="line.115"></a>
+<span class="sourceLineNo">116</span><a name="line.116"></a>
+<span class="sourceLineNo">117</span>  /**<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   * @return true if the GBIF name parser can parse such a name into a ParsedName instance<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   */<a name="line.119"></a>
+<span class="sourceLineNo">120</span>  public boolean isParsable() {<a name="line.120"></a>
+<span class="sourceLineNo">121</span>    return this == SCIENTIFIC || this == INFORMAL || this == CULTIVAR || this == CANDIDATUS || this == DOUBTFUL;<a name="line.121"></a>
+<span class="sourceLineNo">122</span>  }<a name="line.122"></a>
+<span class="sourceLineNo">123</span><a name="line.123"></a>
+<span class="sourceLineNo">124</span>}<a name="line.124"></a>
 
 
 

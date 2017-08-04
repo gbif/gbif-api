@@ -39,10 +39,38 @@
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>      c.addUserId(<span class="jxr_string">"http://orcid.org"</span>, <span class="jxr_string">"de/12-3421423"</span>);
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>      assertEquals(<span class="jxr_string">"http://orcid.org/de/12-3421423"</span>, c.getUserId().get(5));
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>    }
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  }
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>      c.addUserId(<span class="jxr_string">"https://scholar.google.com/citations?user="</span>, <span class="jxr_string">"jvW0IrIAAAAJ"</span>);
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>      assertEquals(<span class="jxr_string">"https://scholar.google.com/citations?user=jvW0IrIAAAAJ"</span>, c.getUserId().get(6));
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>      c.addUserId(<span class="jxr_string">"https://www.linkedin.com/in/"</span>, <span class="jxr_string">"john-smith-12345"</span>);
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>      assertEquals(<span class="jxr_string">"https://www.linkedin.com/in/john-smith-12345"</span>, c.getUserId().get(7));
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>      c.addUserId(<span class="jxr_string">"https://www.linkedin.com/profile/view?id="</span>, <span class="jxr_string">"AAkAAABiOnwBeoX3a3wKqe4IEqDkJ_ifoVj1234"</span>);
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>      assertEquals(<span class="jxr_string">"https://www.linkedin.com/profile/view?id=AAkAAABiOnwBeoX3a3wKqe4IEqDkJ_ifoVj1234"</span>, c.getUserId().get(8));
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>      c.addUserId(<span class="jxr_string">", ,"</span>, <span class="jxr_string">", ,"</span>);
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>      assertEquals(<span class="jxr_string">", ,"</span>, c.getUserId().get(9));
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>    }
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>    @Test
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testGetCompleteName() {
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>      Contact c = <strong class="jxr_keyword">new</strong> Contact();
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>      assertTrue(c.computeCompleteName().equals(<span class="jxr_string">""</span>));
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>      c.setFirstName(<span class="jxr_string">"FirstName "</span>);
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>      assertTrue(c.computeCompleteName().equals(<span class="jxr_string">"FirstName"</span>));
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>      c.setLastName(<span class="jxr_string">"LastName"</span>);
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>      assertTrue(c.computeCompleteName().equals(<span class="jxr_string">"FirstName LastName"</span>));
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>      c.setFirstName(<span class="jxr_string">" "</span>);
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>      assertTrue(c.computeCompleteName().equals(<span class="jxr_string">"LastName"</span>));
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>    }
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2017 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>
 </body>
 </html>

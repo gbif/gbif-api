@@ -21,7 +21,7 @@
 <a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">package</strong> org.gbif.api.model.occurrence.search;
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>  
 <a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.common.paging.Pageable;
-<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.common.search.SearchRequest;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.common.search.FacetedSearchRequest;
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.BasisOfRecord;
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.Continent;
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.Country;
@@ -37,7 +37,7 @@
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment"> * Request class for issuing search request to the occurrence search service.</em>
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../org/gbif/api/model/occurrence/search/OccurrenceSearchRequest.html">OccurrenceSearchRequest</a> <strong class="jxr_keyword">extends</strong> SearchRequest&lt;OccurrenceSearchParameter&gt; {
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../org/gbif/api/model/occurrence/search/OccurrenceSearchRequest.html">OccurrenceSearchRequest</a> <strong class="jxr_keyword">extends</strong> FacetedSearchRequest&lt;OccurrenceSearchParameter&gt; {
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../../../org/gbif/api/model/occurrence/search/OccurrenceSearchRequest.html">OccurrenceSearchRequest</a>() {
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>      <em class="jxr_comment">// empty block</em>
@@ -112,49 +112,81 @@
 <a class="jxr_linenumber" name="L104" href="#L104">104</a>     addParameter(OccurrenceSearchParameter.TAXON_KEY, taxonKey);
 <a class="jxr_linenumber" name="L105" href="#L105">105</a>   }
 <a class="jxr_linenumber" name="L106" href="#L106">106</a> 
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addYearFilter(<strong class="jxr_keyword">int</strong> year) {
-<a class="jxr_linenumber" name="L108" href="#L108">108</a>     addParameter(OccurrenceSearchParameter.YEAR, year);
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addKingdomKeyFilter(<strong class="jxr_keyword">int</strong> kingdomKey) {
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>     addParameter(OccurrenceSearchParameter.KINGDOM_KEY, kingdomKey);
 <a class="jxr_linenumber" name="L109" href="#L109">109</a>   }
 <a class="jxr_linenumber" name="L110" href="#L110">110</a> 
-<a class="jxr_linenumber" name="L111" href="#L111">111</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addEventDateFilter(Date date) {
-<a class="jxr_linenumber" name="L112" href="#L112">112</a>     addParameter(OccurrenceSearchParameter.EVENT_DATE, date);
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addPhylumKeyFilter(<strong class="jxr_keyword">int</strong> phylumKey) {
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>     addParameter(OccurrenceSearchParameter.PHYLUM_KEY, phylumKey);
 <a class="jxr_linenumber" name="L113" href="#L113">113</a>   }
 <a class="jxr_linenumber" name="L114" href="#L114">114</a> 
-<a class="jxr_linenumber" name="L115" href="#L115">115</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addLastInterpretedFilter(Date modified) {
-<a class="jxr_linenumber" name="L116" href="#L116">116</a>     addParameter(OccurrenceSearchParameter.LAST_INTERPRETED, modified);
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addClassKeyFilter(<strong class="jxr_keyword">int</strong> classKey) {
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>     addParameter(OccurrenceSearchParameter.CLASS_KEY, classKey);
 <a class="jxr_linenumber" name="L117" href="#L117">117</a>   }
 <a class="jxr_linenumber" name="L118" href="#L118">118</a> 
-<a class="jxr_linenumber" name="L119" href="#L119">119</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addPublishingCountryFilter(<a href="../../../../../../org/gbif/api/vocabulary/Country.html">Country</a> country) {
-<a class="jxr_linenumber" name="L120" href="#L120">120</a>     addParameter(OccurrenceSearchParameter.PUBLISHING_COUNTRY, country);
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addOrderKeyFilter(<strong class="jxr_keyword">int</strong> orderKey) {
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>     addParameter(OccurrenceSearchParameter.ORDER_KEY, orderKey);
 <a class="jxr_linenumber" name="L121" href="#L121">121</a>   }
 <a class="jxr_linenumber" name="L122" href="#L122">122</a> 
-<a class="jxr_linenumber" name="L123" href="#L123">123</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addInstitutionCodeFilter(String code) {
-<a class="jxr_linenumber" name="L124" href="#L124">124</a>     addParameter(OccurrenceSearchParameter.INSTITUTION_CODE, code);
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addFamilyKeyFilter(<strong class="jxr_keyword">int</strong> familyKey) {
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>     addParameter(OccurrenceSearchParameter.FAMILY_KEY, familyKey);
 <a class="jxr_linenumber" name="L125" href="#L125">125</a>   }
 <a class="jxr_linenumber" name="L126" href="#L126">126</a> 
-<a class="jxr_linenumber" name="L127" href="#L127">127</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addHasCoordinateFilter(<strong class="jxr_keyword">boolean</strong> hasCoordinate) {
-<a class="jxr_linenumber" name="L128" href="#L128">128</a>     addParameter(OccurrenceSearchParameter.HAS_COORDINATE, hasCoordinate);
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addGenusKeyFilter(<strong class="jxr_keyword">int</strong> genusKey) {
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>     addParameter(OccurrenceSearchParameter.GENUS_KEY, genusKey);
 <a class="jxr_linenumber" name="L129" href="#L129">129</a>   }
 <a class="jxr_linenumber" name="L130" href="#L130">130</a> 
-<a class="jxr_linenumber" name="L131" href="#L131">131</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addSpatialIssueFilter(<strong class="jxr_keyword">boolean</strong> hasSpatialIssue) {
-<a class="jxr_linenumber" name="L132" href="#L132">132</a>     addParameter(OccurrenceSearchParameter.HAS_GEOSPATIAL_ISSUE, hasSpatialIssue);
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addSubGenusKeyFilter(<strong class="jxr_keyword">int</strong> subGenusKey) {
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>     addParameter(OccurrenceSearchParameter.SUBGENUS_KEY, subGenusKey);
 <a class="jxr_linenumber" name="L133" href="#L133">133</a>   }
 <a class="jxr_linenumber" name="L134" href="#L134">134</a> 
-<a class="jxr_linenumber" name="L135" href="#L135">135</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addIssueFilter(<a href="../../../../../../org/gbif/api/vocabulary/OccurrenceIssue.html">OccurrenceIssue</a> issue) {
-<a class="jxr_linenumber" name="L136" href="#L136">136</a>     addParameter(OccurrenceSearchParameter.ISSUE, issue);
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addSpeciesKeyFilter(<strong class="jxr_keyword">int</strong> speciesKey) {
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>     addParameter(OccurrenceSearchParameter.SPECIES_KEY, speciesKey);
 <a class="jxr_linenumber" name="L137" href="#L137">137</a>   }
 <a class="jxr_linenumber" name="L138" href="#L138">138</a> 
-<a class="jxr_linenumber" name="L139" href="#L139">139</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addElevationFilter(<strong class="jxr_keyword">int</strong> elevation) {
-<a class="jxr_linenumber" name="L140" href="#L140">140</a>     addParameter(OccurrenceSearchParameter.ELEVATION, elevation);
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addYearFilter(<strong class="jxr_keyword">int</strong> year) {
+<a class="jxr_linenumber" name="L140" href="#L140">140</a>     addParameter(OccurrenceSearchParameter.YEAR, year);
 <a class="jxr_linenumber" name="L141" href="#L141">141</a>   }
 <a class="jxr_linenumber" name="L142" href="#L142">142</a> 
-<a class="jxr_linenumber" name="L143" href="#L143">143</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addMediaTypeFilter(<a href="../../../../../../org/gbif/api/vocabulary/MediaType.html">MediaType</a> mediaType) {
-<a class="jxr_linenumber" name="L144" href="#L144">144</a>     addParameter(OccurrenceSearchParameter.MEDIA_TYPE, mediaType);
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addEventDateFilter(Date date) {
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>     addParameter(OccurrenceSearchParameter.EVENT_DATE, date);
 <a class="jxr_linenumber" name="L145" href="#L145">145</a>   }
 <a class="jxr_linenumber" name="L146" href="#L146">146</a> 
-<a class="jxr_linenumber" name="L147" href="#L147">147</a> }
+<a class="jxr_linenumber" name="L147" href="#L147">147</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addLastInterpretedFilter(Date modified) {
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>     addParameter(OccurrenceSearchParameter.LAST_INTERPRETED, modified);
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>   }
+<a class="jxr_linenumber" name="L150" href="#L150">150</a> 
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addPublishingCountryFilter(<a href="../../../../../../org/gbif/api/vocabulary/Country.html">Country</a> country) {
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>     addParameter(OccurrenceSearchParameter.PUBLISHING_COUNTRY, country);
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>   }
+<a class="jxr_linenumber" name="L154" href="#L154">154</a> 
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addInstitutionCodeFilter(String code) {
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>     addParameter(OccurrenceSearchParameter.INSTITUTION_CODE, code);
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>   }
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> 
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addHasCoordinateFilter(<strong class="jxr_keyword">boolean</strong> hasCoordinate) {
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>     addParameter(OccurrenceSearchParameter.HAS_COORDINATE, hasCoordinate);
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>   }
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> 
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addSpatialIssueFilter(<strong class="jxr_keyword">boolean</strong> hasSpatialIssue) {
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>     addParameter(OccurrenceSearchParameter.HAS_GEOSPATIAL_ISSUE, hasSpatialIssue);
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>   }
+<a class="jxr_linenumber" name="L166" href="#L166">166</a> 
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addIssueFilter(<a href="../../../../../../org/gbif/api/vocabulary/OccurrenceIssue.html">OccurrenceIssue</a> issue) {
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>     addParameter(OccurrenceSearchParameter.ISSUE, issue);
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>   }
+<a class="jxr_linenumber" name="L170" href="#L170">170</a> 
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addElevationFilter(<strong class="jxr_keyword">int</strong> elevation) {
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>     addParameter(OccurrenceSearchParameter.ELEVATION, elevation);
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>   }
+<a class="jxr_linenumber" name="L174" href="#L174">174</a> 
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addMediaTypeFilter(<a href="../../../../../../org/gbif/api/vocabulary/MediaType.html">MediaType</a> mediaType) {
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>     addParameter(OccurrenceSearchParameter.MEDIA_TYPE, mediaType);
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>   }
+<a class="jxr_linenumber" name="L178" href="#L178">178</a> 
+<a class="jxr_linenumber" name="L179" href="#L179">179</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2017 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>
 </body>
 </html>

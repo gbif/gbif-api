@@ -50,362 +50,366 @@
 <span class="sourceLineNo">042</span> * setters or the constructor.<a name="line.42"></a>
 <span class="sourceLineNo">043</span> */<a name="line.43"></a>
 <span class="sourceLineNo">044</span>public class NameUsageContainer extends NameUsage {<a name="line.44"></a>
-<span class="sourceLineNo">045</span>  private static final ObjectMapper mapper = new ObjectMapper();<a name="line.45"></a>
-<span class="sourceLineNo">046</span>  static {<a name="line.46"></a>
-<span class="sourceLineNo">047</span>      mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);<a name="line.47"></a>
-<span class="sourceLineNo">048</span>  }<a name="line.48"></a>
-<span class="sourceLineNo">049</span><a name="line.49"></a>
-<span class="sourceLineNo">050</span>  private List&lt;Description&gt; descriptions = newArrayList();<a name="line.50"></a>
-<span class="sourceLineNo">051</span>  private List&lt;Distribution&gt; distributions = newArrayList();<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  private List&lt;Identifier&gt; identifiers = newArrayList();<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  private List&lt;NameUsageMediaObject&gt; media = newArrayList();<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  private List&lt;Reference&gt; referenceList = newArrayList();<a name="line.54"></a>
-<span class="sourceLineNo">055</span>  private List&lt;SpeciesProfile&gt; speciesProfiles = newArrayList();<a name="line.55"></a>
-<span class="sourceLineNo">056</span>  private List&lt;NameUsage&gt; synonyms = newArrayList();<a name="line.56"></a>
-<span class="sourceLineNo">057</span>  private List&lt;NameUsage&gt; combinations = newArrayList();<a name="line.57"></a>
-<span class="sourceLineNo">058</span>  private List&lt;TypeSpecimen&gt; typeSpecimens = newArrayList();<a name="line.58"></a>
-<span class="sourceLineNo">059</span>  private List&lt;VernacularName&gt; vernacularNames = newArrayList();<a name="line.59"></a>
-<span class="sourceLineNo">060</span><a name="line.60"></a>
-<span class="sourceLineNo">061</span>  public NameUsageContainer() {<a name="line.61"></a>
-<span class="sourceLineNo">062</span><a name="line.62"></a>
-<span class="sourceLineNo">063</span>  }<a name="line.63"></a>
-<span class="sourceLineNo">064</span><a name="line.64"></a>
-<span class="sourceLineNo">065</span>  /**<a name="line.65"></a>
-<span class="sourceLineNo">066</span>   * Constructs a NameUsageContainer from an existing NameUsage instance.<a name="line.66"></a>
-<span class="sourceLineNo">067</span>   */<a name="line.67"></a>
-<span class="sourceLineNo">068</span>  public NameUsageContainer(NameUsage usage) {<a name="line.68"></a>
-<span class="sourceLineNo">069</span>    try {<a name="line.69"></a>
-<span class="sourceLineNo">070</span>      JsonNode propTree = mapper.convertValue(usage, JsonNode.class);<a name="line.70"></a>
-<span class="sourceLineNo">071</span>      mapper.readerForUpdating(this).readValue(propTree);<a name="line.71"></a>
-<span class="sourceLineNo">072</span>    } catch (IOException e) {<a name="line.72"></a>
-<span class="sourceLineNo">073</span>      throw new IllegalStateException("Failed to copy NameUsage properties to NameUsageContainer", e);<a name="line.73"></a>
-<span class="sourceLineNo">074</span>    }<a name="line.74"></a>
-<span class="sourceLineNo">075</span>  }<a name="line.75"></a>
-<span class="sourceLineNo">076</span><a name="line.76"></a>
-<span class="sourceLineNo">077</span>  /**<a name="line.77"></a>
-<span class="sourceLineNo">078</span>   * @return the list of Description<a name="line.78"></a>
-<span class="sourceLineNo">079</span>   */<a name="line.79"></a>
-<span class="sourceLineNo">080</span>  @NotNull<a name="line.80"></a>
-<span class="sourceLineNo">081</span>  public List&lt;Description&gt; getDescriptions() {<a name="line.81"></a>
-<span class="sourceLineNo">082</span>    return descriptions;<a name="line.82"></a>
-<span class="sourceLineNo">083</span>  }<a name="line.83"></a>
-<span class="sourceLineNo">084</span><a name="line.84"></a>
-<span class="sourceLineNo">085</span>  /**<a name="line.85"></a>
-<span class="sourceLineNo">086</span>   * @param descriptions the list of Description<a name="line.86"></a>
-<span class="sourceLineNo">087</span>   */<a name="line.87"></a>
-<span class="sourceLineNo">088</span>  public void setDescriptions(List&lt;Description&gt; descriptions) {<a name="line.88"></a>
-<span class="sourceLineNo">089</span>    this.descriptions = descriptions;<a name="line.89"></a>
-<span class="sourceLineNo">090</span>  }<a name="line.90"></a>
-<span class="sourceLineNo">091</span><a name="line.91"></a>
-<span class="sourceLineNo">092</span>  /**<a name="line.92"></a>
-<span class="sourceLineNo">093</span>   * @return the list of Distribution<a name="line.93"></a>
-<span class="sourceLineNo">094</span>   */<a name="line.94"></a>
-<span class="sourceLineNo">095</span>  @NotNull<a name="line.95"></a>
-<span class="sourceLineNo">096</span>  public List&lt;Distribution&gt; getDistributions() {<a name="line.96"></a>
-<span class="sourceLineNo">097</span>    return distributions;<a name="line.97"></a>
-<span class="sourceLineNo">098</span>  }<a name="line.98"></a>
-<span class="sourceLineNo">099</span><a name="line.99"></a>
-<span class="sourceLineNo">100</span>  /**<a name="line.100"></a>
-<span class="sourceLineNo">101</span>   * @param distributions the Distribution list to set<a name="line.101"></a>
-<span class="sourceLineNo">102</span>   */<a name="line.102"></a>
-<span class="sourceLineNo">103</span>  public void setDistributions(List&lt;Distribution&gt; distributions) {<a name="line.103"></a>
-<span class="sourceLineNo">104</span>    this.distributions = distributions;<a name="line.104"></a>
-<span class="sourceLineNo">105</span>  }<a name="line.105"></a>
-<span class="sourceLineNo">106</span><a name="line.106"></a>
-<span class="sourceLineNo">107</span>  /**<a name="line.107"></a>
-<span class="sourceLineNo">108</span>   * Convenience method that analyzes all species profile records and returns the distinct list of known habitats.<a name="line.108"></a>
-<span class="sourceLineNo">109</span>   *<a name="line.109"></a>
-<span class="sourceLineNo">110</span>   * @return list of unique habitats<a name="line.110"></a>
-<span class="sourceLineNo">111</span>   */<a name="line.111"></a>
-<span class="sourceLineNo">112</span>  @NotNull<a name="line.112"></a>
-<span class="sourceLineNo">113</span>  public Set&lt;String&gt; getHabitats() {<a name="line.113"></a>
-<span class="sourceLineNo">114</span>    Set&lt;String&gt; habitats = Sets.newLinkedHashSet();<a name="line.114"></a>
-<span class="sourceLineNo">115</span>    for (SpeciesProfile sp : speciesProfiles) {<a name="line.115"></a>
-<span class="sourceLineNo">116</span>      if (!Strings.isNullOrEmpty(sp.getHabitat())) {<a name="line.116"></a>
-<span class="sourceLineNo">117</span>        habitats.add(sp.getHabitat());<a name="line.117"></a>
-<span class="sourceLineNo">118</span>      }<a name="line.118"></a>
-<span class="sourceLineNo">119</span>    }<a name="line.119"></a>
-<span class="sourceLineNo">120</span>    return habitats;<a name="line.120"></a>
-<span class="sourceLineNo">121</span>  }<a name="line.121"></a>
-<span class="sourceLineNo">122</span><a name="line.122"></a>
-<span class="sourceLineNo">123</span>  public List&lt;NameUsageMediaObject&gt; getMedia() {<a name="line.123"></a>
-<span class="sourceLineNo">124</span>    return media;<a name="line.124"></a>
+<span class="sourceLineNo">045</span><a name="line.45"></a>
+<span class="sourceLineNo">046</span>  private static final ObjectMapper MAPPER = new ObjectMapper();<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  static {<a name="line.47"></a>
+<span class="sourceLineNo">048</span>    MAPPER.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);<a name="line.48"></a>
+<span class="sourceLineNo">049</span>  }<a name="line.49"></a>
+<span class="sourceLineNo">050</span><a name="line.50"></a>
+<span class="sourceLineNo">051</span>  private List&lt;Description&gt; descriptions = newArrayList();<a name="line.51"></a>
+<span class="sourceLineNo">052</span>  private List&lt;Distribution&gt; distributions = newArrayList();<a name="line.52"></a>
+<span class="sourceLineNo">053</span>  private List&lt;Identifier&gt; identifiers = newArrayList();<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  private List&lt;NameUsageMediaObject&gt; media = newArrayList();<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  private List&lt;Reference&gt; referenceList = newArrayList();<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  private List&lt;SpeciesProfile&gt; speciesProfiles = newArrayList();<a name="line.56"></a>
+<span class="sourceLineNo">057</span>  private List&lt;NameUsage&gt; synonyms = newArrayList();<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  private List&lt;NameUsage&gt; combinations = newArrayList();<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  private List&lt;TypeSpecimen&gt; typeSpecimens = newArrayList();<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  private List&lt;VernacularName&gt; vernacularNames = newArrayList();<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>  /**<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   * Default constructor.<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   */<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  public NameUsageContainer() {<a name="line.65"></a>
+<span class="sourceLineNo">066</span>    //empty constructor<a name="line.66"></a>
+<span class="sourceLineNo">067</span>  }<a name="line.67"></a>
+<span class="sourceLineNo">068</span><a name="line.68"></a>
+<span class="sourceLineNo">069</span>  /**<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * Constructs a NameUsageContainer from an existing NameUsage instance.<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   */<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  public NameUsageContainer(NameUsage usage) {<a name="line.72"></a>
+<span class="sourceLineNo">073</span>    try {<a name="line.73"></a>
+<span class="sourceLineNo">074</span>      JsonNode propTree = MAPPER.convertValue(usage, JsonNode.class);<a name="line.74"></a>
+<span class="sourceLineNo">075</span>      MAPPER.readerForUpdating(this).readValue(propTree);<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    } catch (IOException e) {<a name="line.76"></a>
+<span class="sourceLineNo">077</span>      throw new IllegalStateException("Failed to copy NameUsage properties to NameUsageContainer", e);<a name="line.77"></a>
+<span class="sourceLineNo">078</span>    }<a name="line.78"></a>
+<span class="sourceLineNo">079</span>  }<a name="line.79"></a>
+<span class="sourceLineNo">080</span><a name="line.80"></a>
+<span class="sourceLineNo">081</span>  /**<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   * @return the list of Description<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   */<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  @NotNull<a name="line.84"></a>
+<span class="sourceLineNo">085</span>  public List&lt;Description&gt; getDescriptions() {<a name="line.85"></a>
+<span class="sourceLineNo">086</span>    return descriptions;<a name="line.86"></a>
+<span class="sourceLineNo">087</span>  }<a name="line.87"></a>
+<span class="sourceLineNo">088</span><a name="line.88"></a>
+<span class="sourceLineNo">089</span>  /**<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   * @param descriptions the list of Description<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   */<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  public void setDescriptions(List&lt;Description&gt; descriptions) {<a name="line.92"></a>
+<span class="sourceLineNo">093</span>    this.descriptions = descriptions;<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  }<a name="line.94"></a>
+<span class="sourceLineNo">095</span><a name="line.95"></a>
+<span class="sourceLineNo">096</span>  /**<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * @return the list of Distribution<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   */<a name="line.98"></a>
+<span class="sourceLineNo">099</span>  @NotNull<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  public List&lt;Distribution&gt; getDistributions() {<a name="line.100"></a>
+<span class="sourceLineNo">101</span>    return distributions;<a name="line.101"></a>
+<span class="sourceLineNo">102</span>  }<a name="line.102"></a>
+<span class="sourceLineNo">103</span><a name="line.103"></a>
+<span class="sourceLineNo">104</span>  /**<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   * @param distributions the Distribution list to set<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   */<a name="line.106"></a>
+<span class="sourceLineNo">107</span>  public void setDistributions(List&lt;Distribution&gt; distributions) {<a name="line.107"></a>
+<span class="sourceLineNo">108</span>    this.distributions = distributions;<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  }<a name="line.109"></a>
+<span class="sourceLineNo">110</span><a name="line.110"></a>
+<span class="sourceLineNo">111</span>  /**<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   * Convenience method that analyzes all species profile records and returns the distinct list of known habitats.<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   *<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   * @return list of unique habitats<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   */<a name="line.115"></a>
+<span class="sourceLineNo">116</span>  @NotNull<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  public Set&lt;String&gt; getHabitats() {<a name="line.117"></a>
+<span class="sourceLineNo">118</span>    Set&lt;String&gt; habitats = Sets.newLinkedHashSet();<a name="line.118"></a>
+<span class="sourceLineNo">119</span>    for (SpeciesProfile sp : speciesProfiles) {<a name="line.119"></a>
+<span class="sourceLineNo">120</span>      if (!Strings.isNullOrEmpty(sp.getHabitat())) {<a name="line.120"></a>
+<span class="sourceLineNo">121</span>        habitats.add(sp.getHabitat());<a name="line.121"></a>
+<span class="sourceLineNo">122</span>      }<a name="line.122"></a>
+<span class="sourceLineNo">123</span>    }<a name="line.123"></a>
+<span class="sourceLineNo">124</span>    return habitats;<a name="line.124"></a>
 <span class="sourceLineNo">125</span>  }<a name="line.125"></a>
 <span class="sourceLineNo">126</span><a name="line.126"></a>
-<span class="sourceLineNo">127</span>  public void setMedia(List&lt;NameUsageMediaObject&gt; media) {<a name="line.127"></a>
-<span class="sourceLineNo">128</span>    this.media = media;<a name="line.128"></a>
+<span class="sourceLineNo">127</span>  public List&lt;NameUsageMediaObject&gt; getMedia() {<a name="line.127"></a>
+<span class="sourceLineNo">128</span>    return media;<a name="line.128"></a>
 <span class="sourceLineNo">129</span>  }<a name="line.129"></a>
 <span class="sourceLineNo">130</span><a name="line.130"></a>
-<span class="sourceLineNo">131</span>  /**<a name="line.131"></a>
-<span class="sourceLineNo">132</span>   * @return the list of all Identifier<a name="line.132"></a>
-<span class="sourceLineNo">133</span>   */<a name="line.133"></a>
-<span class="sourceLineNo">134</span>  @NotNull<a name="line.134"></a>
-<span class="sourceLineNo">135</span>  public List&lt;Identifier&gt; getIdentifiers() {<a name="line.135"></a>
-<span class="sourceLineNo">136</span>    return identifiers;<a name="line.136"></a>
-<span class="sourceLineNo">137</span>  }<a name="line.137"></a>
-<span class="sourceLineNo">138</span><a name="line.138"></a>
-<span class="sourceLineNo">139</span>  /**<a name="line.139"></a>
-<span class="sourceLineNo">140</span>   * @param identifiers the Identifier list to set<a name="line.140"></a>
-<span class="sourceLineNo">141</span>   */<a name="line.141"></a>
-<span class="sourceLineNo">142</span>  public void setIdentifiers(List&lt;Identifier&gt; identifiers) {<a name="line.142"></a>
-<span class="sourceLineNo">143</span>    this.identifiers = identifiers;<a name="line.143"></a>
-<span class="sourceLineNo">144</span>  }<a name="line.144"></a>
-<span class="sourceLineNo">145</span><a name="line.145"></a>
-<span class="sourceLineNo">146</span>  /**<a name="line.146"></a>
-<span class="sourceLineNo">147</span>   * @return the list of all URL Identifier<a name="line.147"></a>
-<span class="sourceLineNo">148</span>   */<a name="line.148"></a>
-<span class="sourceLineNo">149</span>  @NotNull<a name="line.149"></a>
-<span class="sourceLineNo">150</span>  @JsonIgnore<a name="line.150"></a>
-<span class="sourceLineNo">151</span>  public List&lt;Identifier&gt; getIdentifierByType(final IdentifierType type) {<a name="line.151"></a>
-<span class="sourceLineNo">152</span>    List&lt;Identifier&gt; ids = newArrayList();<a name="line.152"></a>
-<span class="sourceLineNo">153</span>    for (Identifier i : identifiers) {<a name="line.153"></a>
-<span class="sourceLineNo">154</span>      if (type == i.getType()) {<a name="line.154"></a>
-<span class="sourceLineNo">155</span>        ids.add(i);<a name="line.155"></a>
-<span class="sourceLineNo">156</span>      }<a name="line.156"></a>
-<span class="sourceLineNo">157</span>    }<a name="line.157"></a>
-<span class="sourceLineNo">158</span>    return ids;<a name="line.158"></a>
-<span class="sourceLineNo">159</span>  }<a name="line.159"></a>
-<span class="sourceLineNo">160</span><a name="line.160"></a>
-<span class="sourceLineNo">161</span>  /**<a name="line.161"></a>
-<span class="sourceLineNo">162</span>   * @return the list of Reference<a name="line.162"></a>
-<span class="sourceLineNo">163</span>   */<a name="line.163"></a>
-<span class="sourceLineNo">164</span>  @NotNull<a name="line.164"></a>
-<span class="sourceLineNo">165</span>  public List&lt;Reference&gt; getReferenceList() {<a name="line.165"></a>
-<span class="sourceLineNo">166</span>    return referenceList;<a name="line.166"></a>
-<span class="sourceLineNo">167</span>  }<a name="line.167"></a>
-<span class="sourceLineNo">168</span><a name="line.168"></a>
-<span class="sourceLineNo">169</span>  /**<a name="line.169"></a>
-<span class="sourceLineNo">170</span>   * @param referenceList the Reference list to set<a name="line.170"></a>
-<span class="sourceLineNo">171</span>   */<a name="line.171"></a>
-<span class="sourceLineNo">172</span>  public void setReferenceList(List&lt;Reference&gt; referenceList) {<a name="line.172"></a>
-<span class="sourceLineNo">173</span>    this.referenceList = referenceList;<a name="line.173"></a>
-<span class="sourceLineNo">174</span>  }<a name="line.174"></a>
-<span class="sourceLineNo">175</span><a name="line.175"></a>
-<span class="sourceLineNo">176</span>  /**<a name="line.176"></a>
-<span class="sourceLineNo">177</span>   * @return the list of SpeciesProfile<a name="line.177"></a>
-<span class="sourceLineNo">178</span>   */<a name="line.178"></a>
-<span class="sourceLineNo">179</span>  @NotNull<a name="line.179"></a>
-<span class="sourceLineNo">180</span>  public List&lt;SpeciesProfile&gt; getSpeciesProfiles() {<a name="line.180"></a>
-<span class="sourceLineNo">181</span>    return speciesProfiles;<a name="line.181"></a>
-<span class="sourceLineNo">182</span>  }<a name="line.182"></a>
-<span class="sourceLineNo">183</span><a name="line.183"></a>
-<span class="sourceLineNo">184</span>  /**<a name="line.184"></a>
-<span class="sourceLineNo">185</span>   * @param speciesProfiles the SpeciesProfile list to set<a name="line.185"></a>
-<span class="sourceLineNo">186</span>   */<a name="line.186"></a>
-<span class="sourceLineNo">187</span>  public void setSpeciesProfiles(List&lt;SpeciesProfile&gt; speciesProfiles) {<a name="line.187"></a>
-<span class="sourceLineNo">188</span>    this.speciesProfiles = speciesProfiles;<a name="line.188"></a>
-<span class="sourceLineNo">189</span>  }<a name="line.189"></a>
-<span class="sourceLineNo">190</span><a name="line.190"></a>
-<span class="sourceLineNo">191</span>  /**<a name="line.191"></a>
-<span class="sourceLineNo">192</span>   * @return the list of synonyms<a name="line.192"></a>
-<span class="sourceLineNo">193</span>   */<a name="line.193"></a>
-<span class="sourceLineNo">194</span>  public List&lt;NameUsage&gt; getSynonyms() {<a name="line.194"></a>
-<span class="sourceLineNo">195</span>    return synonyms;<a name="line.195"></a>
-<span class="sourceLineNo">196</span>  }<a name="line.196"></a>
-<span class="sourceLineNo">197</span><a name="line.197"></a>
-<span class="sourceLineNo">198</span>  /**<a name="line.198"></a>
-<span class="sourceLineNo">199</span>   * @param synonyms list of synonyms<a name="line.199"></a>
-<span class="sourceLineNo">200</span>   */<a name="line.200"></a>
-<span class="sourceLineNo">201</span>  public void setSynonyms(List&lt;NameUsage&gt; synonyms) {<a name="line.201"></a>
-<span class="sourceLineNo">202</span>    this.synonyms = synonyms;<a name="line.202"></a>
-<span class="sourceLineNo">203</span>  }<a name="line.203"></a>
-<span class="sourceLineNo">204</span><a name="line.204"></a>
-<span class="sourceLineNo">205</span>  /**<a name="line.205"></a>
-<span class="sourceLineNo">206</span>   * @return the list of combinations known for the basionym<a name="line.206"></a>
-<span class="sourceLineNo">207</span>   */<a name="line.207"></a>
-<span class="sourceLineNo">208</span>  @NotNull<a name="line.208"></a>
-<span class="sourceLineNo">209</span>  public List&lt;NameUsage&gt; getCombinations() {<a name="line.209"></a>
-<span class="sourceLineNo">210</span>    return combinations;<a name="line.210"></a>
-<span class="sourceLineNo">211</span>  }<a name="line.211"></a>
-<span class="sourceLineNo">212</span><a name="line.212"></a>
-<span class="sourceLineNo">213</span>  public void setCombinations(List&lt;NameUsage&gt; combinations) {<a name="line.213"></a>
-<span class="sourceLineNo">214</span>    this.combinations = combinations;<a name="line.214"></a>
+<span class="sourceLineNo">131</span>  public void setMedia(List&lt;NameUsageMediaObject&gt; media) {<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    this.media = media;<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  }<a name="line.133"></a>
+<span class="sourceLineNo">134</span><a name="line.134"></a>
+<span class="sourceLineNo">135</span>  /**<a name="line.135"></a>
+<span class="sourceLineNo">136</span>   * @return the list of all Identifier<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   */<a name="line.137"></a>
+<span class="sourceLineNo">138</span>  @NotNull<a name="line.138"></a>
+<span class="sourceLineNo">139</span>  public List&lt;Identifier&gt; getIdentifiers() {<a name="line.139"></a>
+<span class="sourceLineNo">140</span>    return identifiers;<a name="line.140"></a>
+<span class="sourceLineNo">141</span>  }<a name="line.141"></a>
+<span class="sourceLineNo">142</span><a name="line.142"></a>
+<span class="sourceLineNo">143</span>  /**<a name="line.143"></a>
+<span class="sourceLineNo">144</span>   * @param identifiers the Identifier list to set<a name="line.144"></a>
+<span class="sourceLineNo">145</span>   */<a name="line.145"></a>
+<span class="sourceLineNo">146</span>  public void setIdentifiers(List&lt;Identifier&gt; identifiers) {<a name="line.146"></a>
+<span class="sourceLineNo">147</span>    this.identifiers = identifiers;<a name="line.147"></a>
+<span class="sourceLineNo">148</span>  }<a name="line.148"></a>
+<span class="sourceLineNo">149</span><a name="line.149"></a>
+<span class="sourceLineNo">150</span>  /**<a name="line.150"></a>
+<span class="sourceLineNo">151</span>   * @return the list of all URL Identifier<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   */<a name="line.152"></a>
+<span class="sourceLineNo">153</span>  @NotNull<a name="line.153"></a>
+<span class="sourceLineNo">154</span>  @JsonIgnore<a name="line.154"></a>
+<span class="sourceLineNo">155</span>  public List&lt;Identifier&gt; getIdentifierByType(final IdentifierType type) {<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    List&lt;Identifier&gt; ids = newArrayList();<a name="line.156"></a>
+<span class="sourceLineNo">157</span>    for (Identifier i : identifiers) {<a name="line.157"></a>
+<span class="sourceLineNo">158</span>      if (type == i.getType()) {<a name="line.158"></a>
+<span class="sourceLineNo">159</span>        ids.add(i);<a name="line.159"></a>
+<span class="sourceLineNo">160</span>      }<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    }<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    return ids;<a name="line.162"></a>
+<span class="sourceLineNo">163</span>  }<a name="line.163"></a>
+<span class="sourceLineNo">164</span><a name="line.164"></a>
+<span class="sourceLineNo">165</span>  /**<a name="line.165"></a>
+<span class="sourceLineNo">166</span>   * @return the list of Reference<a name="line.166"></a>
+<span class="sourceLineNo">167</span>   */<a name="line.167"></a>
+<span class="sourceLineNo">168</span>  @NotNull<a name="line.168"></a>
+<span class="sourceLineNo">169</span>  public List&lt;Reference&gt; getReferenceList() {<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    return referenceList;<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  }<a name="line.171"></a>
+<span class="sourceLineNo">172</span><a name="line.172"></a>
+<span class="sourceLineNo">173</span>  /**<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   * @param referenceList the Reference list to set<a name="line.174"></a>
+<span class="sourceLineNo">175</span>   */<a name="line.175"></a>
+<span class="sourceLineNo">176</span>  public void setReferenceList(List&lt;Reference&gt; referenceList) {<a name="line.176"></a>
+<span class="sourceLineNo">177</span>    this.referenceList = referenceList;<a name="line.177"></a>
+<span class="sourceLineNo">178</span>  }<a name="line.178"></a>
+<span class="sourceLineNo">179</span><a name="line.179"></a>
+<span class="sourceLineNo">180</span>  /**<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   * @return the list of SpeciesProfile<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   */<a name="line.182"></a>
+<span class="sourceLineNo">183</span>  @NotNull<a name="line.183"></a>
+<span class="sourceLineNo">184</span>  public List&lt;SpeciesProfile&gt; getSpeciesProfiles() {<a name="line.184"></a>
+<span class="sourceLineNo">185</span>    return speciesProfiles;<a name="line.185"></a>
+<span class="sourceLineNo">186</span>  }<a name="line.186"></a>
+<span class="sourceLineNo">187</span><a name="line.187"></a>
+<span class="sourceLineNo">188</span>  /**<a name="line.188"></a>
+<span class="sourceLineNo">189</span>   * @param speciesProfiles the SpeciesProfile list to set<a name="line.189"></a>
+<span class="sourceLineNo">190</span>   */<a name="line.190"></a>
+<span class="sourceLineNo">191</span>  public void setSpeciesProfiles(List&lt;SpeciesProfile&gt; speciesProfiles) {<a name="line.191"></a>
+<span class="sourceLineNo">192</span>    this.speciesProfiles = speciesProfiles;<a name="line.192"></a>
+<span class="sourceLineNo">193</span>  }<a name="line.193"></a>
+<span class="sourceLineNo">194</span><a name="line.194"></a>
+<span class="sourceLineNo">195</span>  /**<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   * @return the list of synonyms<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   */<a name="line.197"></a>
+<span class="sourceLineNo">198</span>  public List&lt;NameUsage&gt; getSynonyms() {<a name="line.198"></a>
+<span class="sourceLineNo">199</span>    return synonyms;<a name="line.199"></a>
+<span class="sourceLineNo">200</span>  }<a name="line.200"></a>
+<span class="sourceLineNo">201</span><a name="line.201"></a>
+<span class="sourceLineNo">202</span>  /**<a name="line.202"></a>
+<span class="sourceLineNo">203</span>   * @param synonyms list of synonyms<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   */<a name="line.204"></a>
+<span class="sourceLineNo">205</span>  public void setSynonyms(List&lt;NameUsage&gt; synonyms) {<a name="line.205"></a>
+<span class="sourceLineNo">206</span>    this.synonyms = synonyms;<a name="line.206"></a>
+<span class="sourceLineNo">207</span>  }<a name="line.207"></a>
+<span class="sourceLineNo">208</span><a name="line.208"></a>
+<span class="sourceLineNo">209</span>  /**<a name="line.209"></a>
+<span class="sourceLineNo">210</span>   * @return the list of combinations known for the basionym<a name="line.210"></a>
+<span class="sourceLineNo">211</span>   */<a name="line.211"></a>
+<span class="sourceLineNo">212</span>  @NotNull<a name="line.212"></a>
+<span class="sourceLineNo">213</span>  public List&lt;NameUsage&gt; getCombinations() {<a name="line.213"></a>
+<span class="sourceLineNo">214</span>    return combinations;<a name="line.214"></a>
 <span class="sourceLineNo">215</span>  }<a name="line.215"></a>
 <span class="sourceLineNo">216</span><a name="line.216"></a>
-<span class="sourceLineNo">217</span>    /**<a name="line.217"></a>
-<span class="sourceLineNo">218</span>   * @return the list of TypeSpecimen<a name="line.218"></a>
-<span class="sourceLineNo">219</span>   */<a name="line.219"></a>
-<span class="sourceLineNo">220</span>  @NotNull<a name="line.220"></a>
-<span class="sourceLineNo">221</span>  public List&lt;TypeSpecimen&gt; getTypeSpecimens() {<a name="line.221"></a>
-<span class="sourceLineNo">222</span>    return typeSpecimens;<a name="line.222"></a>
-<span class="sourceLineNo">223</span>  }<a name="line.223"></a>
-<span class="sourceLineNo">224</span><a name="line.224"></a>
-<span class="sourceLineNo">225</span>  /**<a name="line.225"></a>
-<span class="sourceLineNo">226</span>   * @param typeSpecimens the TypeSpecimen list to set<a name="line.226"></a>
-<span class="sourceLineNo">227</span>   */<a name="line.227"></a>
-<span class="sourceLineNo">228</span>  public void setTypeSpecimens(List&lt;TypeSpecimen&gt; typeSpecimens) {<a name="line.228"></a>
-<span class="sourceLineNo">229</span>    this.typeSpecimens = typeSpecimens;<a name="line.229"></a>
-<span class="sourceLineNo">230</span>  }<a name="line.230"></a>
-<span class="sourceLineNo">231</span><a name="line.231"></a>
-<span class="sourceLineNo">232</span>  /**<a name="line.232"></a>
-<span class="sourceLineNo">233</span>   * @return the list of VernacularName<a name="line.233"></a>
-<span class="sourceLineNo">234</span>   */<a name="line.234"></a>
-<span class="sourceLineNo">235</span>  @NotNull<a name="line.235"></a>
-<span class="sourceLineNo">236</span>  public List&lt;VernacularName&gt; getVernacularNames() {<a name="line.236"></a>
-<span class="sourceLineNo">237</span>    return vernacularNames;<a name="line.237"></a>
-<span class="sourceLineNo">238</span>  }<a name="line.238"></a>
-<span class="sourceLineNo">239</span><a name="line.239"></a>
-<span class="sourceLineNo">240</span>  /**<a name="line.240"></a>
-<span class="sourceLineNo">241</span>   * @param vernacularNames the VernacularName list to set<a name="line.241"></a>
-<span class="sourceLineNo">242</span>   */<a name="line.242"></a>
-<span class="sourceLineNo">243</span>  public void setVernacularNames(List&lt;VernacularName&gt; vernacularNames) {<a name="line.243"></a>
-<span class="sourceLineNo">244</span>    this.vernacularNames = vernacularNames;<a name="line.244"></a>
-<span class="sourceLineNo">245</span>  }<a name="line.245"></a>
-<span class="sourceLineNo">246</span><a name="line.246"></a>
-<span class="sourceLineNo">247</span>  /**<a name="line.247"></a>
-<span class="sourceLineNo">248</span>   * Convenience method that analyzes all species profile records and returns the distinct list of known living<a name="line.248"></a>
-<span class="sourceLineNo">249</span>   * periods.<a name="line.249"></a>
-<span class="sourceLineNo">250</span>   *<a name="line.250"></a>
-<span class="sourceLineNo">251</span>   * @return list of unique living periods<a name="line.251"></a>
-<span class="sourceLineNo">252</span>   */<a name="line.252"></a>
-<span class="sourceLineNo">253</span>  @NotNull<a name="line.253"></a>
-<span class="sourceLineNo">254</span>  public Set&lt;String&gt; getLivingPeriods() {<a name="line.254"></a>
-<span class="sourceLineNo">255</span>    Set&lt;String&gt; periods = Sets.newLinkedHashSet();<a name="line.255"></a>
-<span class="sourceLineNo">256</span>    for (SpeciesProfile sp : speciesProfiles) {<a name="line.256"></a>
-<span class="sourceLineNo">257</span>      if (!Strings.isNullOrEmpty(sp.getLivingPeriod())) {<a name="line.257"></a>
-<span class="sourceLineNo">258</span>        periods.add(sp.getLivingPeriod());<a name="line.258"></a>
-<span class="sourceLineNo">259</span>      }<a name="line.259"></a>
-<span class="sourceLineNo">260</span>    }<a name="line.260"></a>
-<span class="sourceLineNo">261</span>    return periods;<a name="line.261"></a>
-<span class="sourceLineNo">262</span>  }<a name="line.262"></a>
-<span class="sourceLineNo">263</span><a name="line.263"></a>
-<span class="sourceLineNo">264</span>  /**<a name="line.264"></a>
-<span class="sourceLineNo">265</span>   * Convenience method that analyzes all distribution records and returns the distinct list of known threat status.<a name="line.265"></a>
-<span class="sourceLineNo">266</span>   *<a name="line.266"></a>
-<span class="sourceLineNo">267</span>   * @return list of unique threat status<a name="line.267"></a>
-<span class="sourceLineNo">268</span>   */<a name="line.268"></a>
-<span class="sourceLineNo">269</span>  @NotNull<a name="line.269"></a>
-<span class="sourceLineNo">270</span>  public Set&lt;ThreatStatus&gt; getThreatStatus() {<a name="line.270"></a>
-<span class="sourceLineNo">271</span>    Set&lt;ThreatStatus&gt; threats = Sets.newLinkedHashSet();<a name="line.271"></a>
-<span class="sourceLineNo">272</span>    for (Distribution d : distributions) {<a name="line.272"></a>
-<span class="sourceLineNo">273</span>      if (d.getThreatStatus() != null) {<a name="line.273"></a>
-<span class="sourceLineNo">274</span>        threats.add(d.getThreatStatus());<a name="line.274"></a>
-<span class="sourceLineNo">275</span>      }<a name="line.275"></a>
-<span class="sourceLineNo">276</span>    }<a name="line.276"></a>
-<span class="sourceLineNo">277</span>    return threats;<a name="line.277"></a>
-<span class="sourceLineNo">278</span>  }<a name="line.278"></a>
-<span class="sourceLineNo">279</span><a name="line.279"></a>
-<span class="sourceLineNo">280</span>  /**<a name="line.280"></a>
-<span class="sourceLineNo">281</span>   * Convenience method that analyzes all species profile records for extinct.<a name="line.281"></a>
-<span class="sourceLineNo">282</span>   * If several records contradict use the majority or if numbers are equal true.<a name="line.282"></a>
-<span class="sourceLineNo">283</span>   *<a name="line.283"></a>
-<span class="sourceLineNo">284</span>   * @return true if extinct<a name="line.284"></a>
-<span class="sourceLineNo">285</span>   */<a name="line.285"></a>
-<span class="sourceLineNo">286</span>  public Boolean isExtinct() {<a name="line.286"></a>
-<span class="sourceLineNo">287</span>    int ctrue = 0;<a name="line.287"></a>
-<span class="sourceLineNo">288</span>    int cfalse = 0;<a name="line.288"></a>
-<span class="sourceLineNo">289</span>    for (SpeciesProfile sp : speciesProfiles) {<a name="line.289"></a>
-<span class="sourceLineNo">290</span>      if (sp.isExtinct() == null) {<a name="line.290"></a>
-<span class="sourceLineNo">291</span>        continue;<a name="line.291"></a>
-<span class="sourceLineNo">292</span>      }<a name="line.292"></a>
-<span class="sourceLineNo">293</span><a name="line.293"></a>
-<span class="sourceLineNo">294</span>      if (sp.isExtinct()) {<a name="line.294"></a>
-<span class="sourceLineNo">295</span>        ctrue++;<a name="line.295"></a>
-<span class="sourceLineNo">296</span>      } else if (!sp.isExtinct()) {<a name="line.296"></a>
-<span class="sourceLineNo">297</span>        cfalse++;<a name="line.297"></a>
-<span class="sourceLineNo">298</span>      }<a name="line.298"></a>
-<span class="sourceLineNo">299</span>    }<a name="line.299"></a>
-<span class="sourceLineNo">300</span>    return ctrue + cfalse == 0 ? null : ctrue &gt;= cfalse;<a name="line.300"></a>
-<span class="sourceLineNo">301</span>  }<a name="line.301"></a>
-<span class="sourceLineNo">302</span><a name="line.302"></a>
-<span class="sourceLineNo">303</span>  /**<a name="line.303"></a>
-<span class="sourceLineNo">304</span>   * Convenience method that analyzes all species profile records for freshwater habitat flags.<a name="line.304"></a>
-<span class="sourceLineNo">305</span>   *<a name="line.305"></a>
-<span class="sourceLineNo">306</span>   * @return true if freshwater<a name="line.306"></a>
-<span class="sourceLineNo">307</span>   */<a name="line.307"></a>
-<span class="sourceLineNo">308</span>  public Boolean isFreshwater() {<a name="line.308"></a>
-<span class="sourceLineNo">309</span>    int ctrue = 0;<a name="line.309"></a>
-<span class="sourceLineNo">310</span>    int cfalse = 0;<a name="line.310"></a>
-<span class="sourceLineNo">311</span>    for (SpeciesProfile sp : speciesProfiles) {<a name="line.311"></a>
-<span class="sourceLineNo">312</span>      if (sp.isFreshwater() == null) {<a name="line.312"></a>
-<span class="sourceLineNo">313</span>        continue;<a name="line.313"></a>
-<span class="sourceLineNo">314</span>      }<a name="line.314"></a>
-<span class="sourceLineNo">315</span><a name="line.315"></a>
-<span class="sourceLineNo">316</span>      if (sp.isFreshwater()) {<a name="line.316"></a>
-<span class="sourceLineNo">317</span>        ctrue++;<a name="line.317"></a>
-<span class="sourceLineNo">318</span>      } else if (!sp.isFreshwater()) {<a name="line.318"></a>
-<span class="sourceLineNo">319</span>        cfalse++;<a name="line.319"></a>
-<span class="sourceLineNo">320</span>      }<a name="line.320"></a>
-<span class="sourceLineNo">321</span>    }<a name="line.321"></a>
-<span class="sourceLineNo">322</span>    return ctrue + cfalse == 0 ? null : ctrue &gt;= cfalse;<a name="line.322"></a>
-<span class="sourceLineNo">323</span>  }<a name="line.323"></a>
-<span class="sourceLineNo">324</span><a name="line.324"></a>
-<span class="sourceLineNo">325</span>  /**<a name="line.325"></a>
-<span class="sourceLineNo">326</span>   * Convenience method that analyzes all species profile records for marine habitat flags.<a name="line.326"></a>
-<span class="sourceLineNo">327</span>   *<a name="line.327"></a>
-<span class="sourceLineNo">328</span>   * @return true if marine<a name="line.328"></a>
-<span class="sourceLineNo">329</span>   */<a name="line.329"></a>
-<span class="sourceLineNo">330</span>  public Boolean isMarine() {<a name="line.330"></a>
-<span class="sourceLineNo">331</span>    int ctrue = 0;<a name="line.331"></a>
-<span class="sourceLineNo">332</span>    int cfalse = 0;<a name="line.332"></a>
-<span class="sourceLineNo">333</span>    for (SpeciesProfile sp : speciesProfiles) {<a name="line.333"></a>
-<span class="sourceLineNo">334</span>      if (sp.isMarine() == null) {<a name="line.334"></a>
-<span class="sourceLineNo">335</span>        continue;<a name="line.335"></a>
-<span class="sourceLineNo">336</span>      }<a name="line.336"></a>
-<span class="sourceLineNo">337</span><a name="line.337"></a>
-<span class="sourceLineNo">338</span>      if (sp.isMarine()) {<a name="line.338"></a>
-<span class="sourceLineNo">339</span>        ctrue++;<a name="line.339"></a>
-<span class="sourceLineNo">340</span>      } else if (!sp.isMarine()) {<a name="line.340"></a>
-<span class="sourceLineNo">341</span>        cfalse++;<a name="line.341"></a>
-<span class="sourceLineNo">342</span>      }<a name="line.342"></a>
-<span class="sourceLineNo">343</span>    }<a name="line.343"></a>
-<span class="sourceLineNo">344</span>    return ctrue + cfalse == 0 ? null : ctrue &gt;= cfalse;<a name="line.344"></a>
-<span class="sourceLineNo">345</span>  }<a name="line.345"></a>
-<span class="sourceLineNo">346</span><a name="line.346"></a>
-<span class="sourceLineNo">347</span>  /**<a name="line.347"></a>
-<span class="sourceLineNo">348</span>   * Convenience method that analyzes all species profile records for terrestrial habitat flags.<a name="line.348"></a>
-<span class="sourceLineNo">349</span>   *<a name="line.349"></a>
-<span class="sourceLineNo">350</span>   * @return true if terrestrial<a name="line.350"></a>
-<span class="sourceLineNo">351</span>   */<a name="line.351"></a>
-<span class="sourceLineNo">352</span>  public Boolean isTerrestrial() {<a name="line.352"></a>
-<span class="sourceLineNo">353</span>    int ctrue = 0;<a name="line.353"></a>
-<span class="sourceLineNo">354</span>    int cfalse = 0;<a name="line.354"></a>
-<span class="sourceLineNo">355</span>    for (SpeciesProfile sp : speciesProfiles) {<a name="line.355"></a>
-<span class="sourceLineNo">356</span>      if (sp.isTerrestrial() == null) {<a name="line.356"></a>
-<span class="sourceLineNo">357</span>        continue;<a name="line.357"></a>
-<span class="sourceLineNo">358</span>      }<a name="line.358"></a>
-<span class="sourceLineNo">359</span><a name="line.359"></a>
-<span class="sourceLineNo">360</span>      if (sp.isTerrestrial()) {<a name="line.360"></a>
-<span class="sourceLineNo">361</span>        ctrue++;<a name="line.361"></a>
-<span class="sourceLineNo">362</span>      } else if (!sp.isTerrestrial()) {<a name="line.362"></a>
-<span class="sourceLineNo">363</span>        cfalse++;<a name="line.363"></a>
-<span class="sourceLineNo">364</span>      }<a name="line.364"></a>
-<span class="sourceLineNo">365</span>    }<a name="line.365"></a>
-<span class="sourceLineNo">366</span>    return ctrue + cfalse == 0 ? null : ctrue &gt;= cfalse;<a name="line.366"></a>
-<span class="sourceLineNo">367</span>  }<a name="line.367"></a>
-<span class="sourceLineNo">368</span><a name="line.368"></a>
-<span class="sourceLineNo">369</span>  @Override<a name="line.369"></a>
-<span class="sourceLineNo">370</span>  public boolean equals(Object object) {<a name="line.370"></a>
-<span class="sourceLineNo">371</span>    if (object instanceof NameUsageContainer) {<a name="line.371"></a>
-<span class="sourceLineNo">372</span>      if (!super.equals(object)) {<a name="line.372"></a>
-<span class="sourceLineNo">373</span>        return false;<a name="line.373"></a>
-<span class="sourceLineNo">374</span>      }<a name="line.374"></a>
-<span class="sourceLineNo">375</span>      final NameUsageContainer other = (NameUsageContainer) object;<a name="line.375"></a>
-<span class="sourceLineNo">376</span>      return Objects.equal(this.descriptions, other.descriptions)<a name="line.376"></a>
-<span class="sourceLineNo">377</span>             &amp;&amp; Objects.equal(this.distributions, other.distributions)<a name="line.377"></a>
-<span class="sourceLineNo">378</span>             &amp;&amp; Objects.equal(this.media, other.media)<a name="line.378"></a>
-<span class="sourceLineNo">379</span>             &amp;&amp; Objects.equal(this.referenceList, other.referenceList)<a name="line.379"></a>
-<span class="sourceLineNo">380</span>             &amp;&amp; Objects.equal(this.speciesProfiles, other.speciesProfiles)<a name="line.380"></a>
-<span class="sourceLineNo">381</span>             &amp;&amp; Objects.equal(this.synonyms, other.synonyms)<a name="line.381"></a>
-<span class="sourceLineNo">382</span>             &amp;&amp; Objects.equal(this.typeSpecimens, other.typeSpecimens)<a name="line.382"></a>
-<span class="sourceLineNo">383</span>             &amp;&amp; Objects.equal(this.vernacularNames, other.vernacularNames);<a name="line.383"></a>
-<span class="sourceLineNo">384</span>    }<a name="line.384"></a>
-<span class="sourceLineNo">385</span>    return false;<a name="line.385"></a>
-<span class="sourceLineNo">386</span>  }<a name="line.386"></a>
-<span class="sourceLineNo">387</span><a name="line.387"></a>
-<span class="sourceLineNo">388</span>  @Override<a name="line.388"></a>
-<span class="sourceLineNo">389</span>  public int hashCode() {<a name="line.389"></a>
-<span class="sourceLineNo">390</span>    return Objects.hashCode(descriptions,<a name="line.390"></a>
-<span class="sourceLineNo">391</span>                            distributions,<a name="line.391"></a>
-<span class="sourceLineNo">392</span>                            media,<a name="line.392"></a>
-<span class="sourceLineNo">393</span>                            referenceList,<a name="line.393"></a>
-<span class="sourceLineNo">394</span>                            speciesProfiles,<a name="line.394"></a>
-<span class="sourceLineNo">395</span>                            synonyms,<a name="line.395"></a>
-<span class="sourceLineNo">396</span>                            typeSpecimens,<a name="line.396"></a>
-<span class="sourceLineNo">397</span>                            vernacularNames);<a name="line.397"></a>
-<span class="sourceLineNo">398</span>  }<a name="line.398"></a>
-<span class="sourceLineNo">399</span><a name="line.399"></a>
-<span class="sourceLineNo">400</span>}<a name="line.400"></a>
+<span class="sourceLineNo">217</span>  public void setCombinations(List&lt;NameUsage&gt; combinations) {<a name="line.217"></a>
+<span class="sourceLineNo">218</span>    this.combinations = combinations;<a name="line.218"></a>
+<span class="sourceLineNo">219</span>  }<a name="line.219"></a>
+<span class="sourceLineNo">220</span><a name="line.220"></a>
+<span class="sourceLineNo">221</span>    /**<a name="line.221"></a>
+<span class="sourceLineNo">222</span>   * @return the list of TypeSpecimen<a name="line.222"></a>
+<span class="sourceLineNo">223</span>   */<a name="line.223"></a>
+<span class="sourceLineNo">224</span>  @NotNull<a name="line.224"></a>
+<span class="sourceLineNo">225</span>  public List&lt;TypeSpecimen&gt; getTypeSpecimens() {<a name="line.225"></a>
+<span class="sourceLineNo">226</span>    return typeSpecimens;<a name="line.226"></a>
+<span class="sourceLineNo">227</span>  }<a name="line.227"></a>
+<span class="sourceLineNo">228</span><a name="line.228"></a>
+<span class="sourceLineNo">229</span>  /**<a name="line.229"></a>
+<span class="sourceLineNo">230</span>   * @param typeSpecimens the TypeSpecimen list to set<a name="line.230"></a>
+<span class="sourceLineNo">231</span>   */<a name="line.231"></a>
+<span class="sourceLineNo">232</span>  public void setTypeSpecimens(List&lt;TypeSpecimen&gt; typeSpecimens) {<a name="line.232"></a>
+<span class="sourceLineNo">233</span>    this.typeSpecimens = typeSpecimens;<a name="line.233"></a>
+<span class="sourceLineNo">234</span>  }<a name="line.234"></a>
+<span class="sourceLineNo">235</span><a name="line.235"></a>
+<span class="sourceLineNo">236</span>  /**<a name="line.236"></a>
+<span class="sourceLineNo">237</span>   * @return the list of VernacularName<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   */<a name="line.238"></a>
+<span class="sourceLineNo">239</span>  @NotNull<a name="line.239"></a>
+<span class="sourceLineNo">240</span>  public List&lt;VernacularName&gt; getVernacularNames() {<a name="line.240"></a>
+<span class="sourceLineNo">241</span>    return vernacularNames;<a name="line.241"></a>
+<span class="sourceLineNo">242</span>  }<a name="line.242"></a>
+<span class="sourceLineNo">243</span><a name="line.243"></a>
+<span class="sourceLineNo">244</span>  /**<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   * @param vernacularNames the VernacularName list to set<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   */<a name="line.246"></a>
+<span class="sourceLineNo">247</span>  public void setVernacularNames(List&lt;VernacularName&gt; vernacularNames) {<a name="line.247"></a>
+<span class="sourceLineNo">248</span>    this.vernacularNames = vernacularNames;<a name="line.248"></a>
+<span class="sourceLineNo">249</span>  }<a name="line.249"></a>
+<span class="sourceLineNo">250</span><a name="line.250"></a>
+<span class="sourceLineNo">251</span>  /**<a name="line.251"></a>
+<span class="sourceLineNo">252</span>   * Convenience method that analyzes all species profile records and returns the distinct list of known living<a name="line.252"></a>
+<span class="sourceLineNo">253</span>   * periods.<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   *<a name="line.254"></a>
+<span class="sourceLineNo">255</span>   * @return list of unique living periods<a name="line.255"></a>
+<span class="sourceLineNo">256</span>   */<a name="line.256"></a>
+<span class="sourceLineNo">257</span>  @NotNull<a name="line.257"></a>
+<span class="sourceLineNo">258</span>  public Set&lt;String&gt; getLivingPeriods() {<a name="line.258"></a>
+<span class="sourceLineNo">259</span>    Set&lt;String&gt; periods = Sets.newLinkedHashSet();<a name="line.259"></a>
+<span class="sourceLineNo">260</span>    for (SpeciesProfile sp : speciesProfiles) {<a name="line.260"></a>
+<span class="sourceLineNo">261</span>      if (!Strings.isNullOrEmpty(sp.getLivingPeriod())) {<a name="line.261"></a>
+<span class="sourceLineNo">262</span>        periods.add(sp.getLivingPeriod());<a name="line.262"></a>
+<span class="sourceLineNo">263</span>      }<a name="line.263"></a>
+<span class="sourceLineNo">264</span>    }<a name="line.264"></a>
+<span class="sourceLineNo">265</span>    return periods;<a name="line.265"></a>
+<span class="sourceLineNo">266</span>  }<a name="line.266"></a>
+<span class="sourceLineNo">267</span><a name="line.267"></a>
+<span class="sourceLineNo">268</span>  /**<a name="line.268"></a>
+<span class="sourceLineNo">269</span>   * Convenience method that analyzes all distribution records and returns the distinct list of known threat status.<a name="line.269"></a>
+<span class="sourceLineNo">270</span>   *<a name="line.270"></a>
+<span class="sourceLineNo">271</span>   * @return list of unique threat status<a name="line.271"></a>
+<span class="sourceLineNo">272</span>   */<a name="line.272"></a>
+<span class="sourceLineNo">273</span>  @NotNull<a name="line.273"></a>
+<span class="sourceLineNo">274</span>  public Set&lt;ThreatStatus&gt; getThreatStatus() {<a name="line.274"></a>
+<span class="sourceLineNo">275</span>    Set&lt;ThreatStatus&gt; threats = Sets.newLinkedHashSet();<a name="line.275"></a>
+<span class="sourceLineNo">276</span>    for (Distribution d : distributions) {<a name="line.276"></a>
+<span class="sourceLineNo">277</span>      if (d.getThreatStatus() != null) {<a name="line.277"></a>
+<span class="sourceLineNo">278</span>        threats.add(d.getThreatStatus());<a name="line.278"></a>
+<span class="sourceLineNo">279</span>      }<a name="line.279"></a>
+<span class="sourceLineNo">280</span>    }<a name="line.280"></a>
+<span class="sourceLineNo">281</span>    return threats;<a name="line.281"></a>
+<span class="sourceLineNo">282</span>  }<a name="line.282"></a>
+<span class="sourceLineNo">283</span><a name="line.283"></a>
+<span class="sourceLineNo">284</span>  /**<a name="line.284"></a>
+<span class="sourceLineNo">285</span>   * Convenience method that analyzes all species profile records for extinct.<a name="line.285"></a>
+<span class="sourceLineNo">286</span>   * If several records contradict use the majority or if numbers are equal true.<a name="line.286"></a>
+<span class="sourceLineNo">287</span>   *<a name="line.287"></a>
+<span class="sourceLineNo">288</span>   * @return true if extinct<a name="line.288"></a>
+<span class="sourceLineNo">289</span>   */<a name="line.289"></a>
+<span class="sourceLineNo">290</span>  public Boolean isExtinct() {<a name="line.290"></a>
+<span class="sourceLineNo">291</span>    int ctrue = 0;<a name="line.291"></a>
+<span class="sourceLineNo">292</span>    int cfalse = 0;<a name="line.292"></a>
+<span class="sourceLineNo">293</span>    for (SpeciesProfile sp : speciesProfiles) {<a name="line.293"></a>
+<span class="sourceLineNo">294</span>      if (sp.isExtinct() == null) {<a name="line.294"></a>
+<span class="sourceLineNo">295</span>        continue;<a name="line.295"></a>
+<span class="sourceLineNo">296</span>      }<a name="line.296"></a>
+<span class="sourceLineNo">297</span><a name="line.297"></a>
+<span class="sourceLineNo">298</span>      if (sp.isExtinct()) {<a name="line.298"></a>
+<span class="sourceLineNo">299</span>        ctrue++;<a name="line.299"></a>
+<span class="sourceLineNo">300</span>      } else if (!sp.isExtinct()) {<a name="line.300"></a>
+<span class="sourceLineNo">301</span>        cfalse++;<a name="line.301"></a>
+<span class="sourceLineNo">302</span>      }<a name="line.302"></a>
+<span class="sourceLineNo">303</span>    }<a name="line.303"></a>
+<span class="sourceLineNo">304</span>    return ctrue + cfalse == 0 ? null : ctrue &gt;= cfalse;<a name="line.304"></a>
+<span class="sourceLineNo">305</span>  }<a name="line.305"></a>
+<span class="sourceLineNo">306</span><a name="line.306"></a>
+<span class="sourceLineNo">307</span>  /**<a name="line.307"></a>
+<span class="sourceLineNo">308</span>   * Convenience method that analyzes all species profile records for freshwater habitat flags.<a name="line.308"></a>
+<span class="sourceLineNo">309</span>   *<a name="line.309"></a>
+<span class="sourceLineNo">310</span>   * @return true if freshwater<a name="line.310"></a>
+<span class="sourceLineNo">311</span>   */<a name="line.311"></a>
+<span class="sourceLineNo">312</span>  public Boolean isFreshwater() {<a name="line.312"></a>
+<span class="sourceLineNo">313</span>    int ctrue = 0;<a name="line.313"></a>
+<span class="sourceLineNo">314</span>    int cfalse = 0;<a name="line.314"></a>
+<span class="sourceLineNo">315</span>    for (SpeciesProfile sp : speciesProfiles) {<a name="line.315"></a>
+<span class="sourceLineNo">316</span>      if (sp.isFreshwater() == null) {<a name="line.316"></a>
+<span class="sourceLineNo">317</span>        continue;<a name="line.317"></a>
+<span class="sourceLineNo">318</span>      }<a name="line.318"></a>
+<span class="sourceLineNo">319</span><a name="line.319"></a>
+<span class="sourceLineNo">320</span>      if (sp.isFreshwater()) {<a name="line.320"></a>
+<span class="sourceLineNo">321</span>        ctrue++;<a name="line.321"></a>
+<span class="sourceLineNo">322</span>      } else if (!sp.isFreshwater()) {<a name="line.322"></a>
+<span class="sourceLineNo">323</span>        cfalse++;<a name="line.323"></a>
+<span class="sourceLineNo">324</span>      }<a name="line.324"></a>
+<span class="sourceLineNo">325</span>    }<a name="line.325"></a>
+<span class="sourceLineNo">326</span>    return ctrue + cfalse == 0 ? null : ctrue &gt;= cfalse;<a name="line.326"></a>
+<span class="sourceLineNo">327</span>  }<a name="line.327"></a>
+<span class="sourceLineNo">328</span><a name="line.328"></a>
+<span class="sourceLineNo">329</span>  /**<a name="line.329"></a>
+<span class="sourceLineNo">330</span>   * Convenience method that analyzes all species profile records for marine habitat flags.<a name="line.330"></a>
+<span class="sourceLineNo">331</span>   *<a name="line.331"></a>
+<span class="sourceLineNo">332</span>   * @return true if marine<a name="line.332"></a>
+<span class="sourceLineNo">333</span>   */<a name="line.333"></a>
+<span class="sourceLineNo">334</span>  public Boolean isMarine() {<a name="line.334"></a>
+<span class="sourceLineNo">335</span>    int ctrue = 0;<a name="line.335"></a>
+<span class="sourceLineNo">336</span>    int cfalse = 0;<a name="line.336"></a>
+<span class="sourceLineNo">337</span>    for (SpeciesProfile sp : speciesProfiles) {<a name="line.337"></a>
+<span class="sourceLineNo">338</span>      if (sp.isMarine() == null) {<a name="line.338"></a>
+<span class="sourceLineNo">339</span>        continue;<a name="line.339"></a>
+<span class="sourceLineNo">340</span>      }<a name="line.340"></a>
+<span class="sourceLineNo">341</span><a name="line.341"></a>
+<span class="sourceLineNo">342</span>      if (sp.isMarine()) {<a name="line.342"></a>
+<span class="sourceLineNo">343</span>        ctrue++;<a name="line.343"></a>
+<span class="sourceLineNo">344</span>      } else if (!sp.isMarine()) {<a name="line.344"></a>
+<span class="sourceLineNo">345</span>        cfalse++;<a name="line.345"></a>
+<span class="sourceLineNo">346</span>      }<a name="line.346"></a>
+<span class="sourceLineNo">347</span>    }<a name="line.347"></a>
+<span class="sourceLineNo">348</span>    return ctrue + cfalse == 0 ? null : ctrue &gt;= cfalse;<a name="line.348"></a>
+<span class="sourceLineNo">349</span>  }<a name="line.349"></a>
+<span class="sourceLineNo">350</span><a name="line.350"></a>
+<span class="sourceLineNo">351</span>  /**<a name="line.351"></a>
+<span class="sourceLineNo">352</span>   * Convenience method that analyzes all species profile records for terrestrial habitat flags.<a name="line.352"></a>
+<span class="sourceLineNo">353</span>   *<a name="line.353"></a>
+<span class="sourceLineNo">354</span>   * @return true if terrestrial<a name="line.354"></a>
+<span class="sourceLineNo">355</span>   */<a name="line.355"></a>
+<span class="sourceLineNo">356</span>  public Boolean isTerrestrial() {<a name="line.356"></a>
+<span class="sourceLineNo">357</span>    int ctrue = 0;<a name="line.357"></a>
+<span class="sourceLineNo">358</span>    int cfalse = 0;<a name="line.358"></a>
+<span class="sourceLineNo">359</span>    for (SpeciesProfile sp : speciesProfiles) {<a name="line.359"></a>
+<span class="sourceLineNo">360</span>      if (sp.isTerrestrial() == null) {<a name="line.360"></a>
+<span class="sourceLineNo">361</span>        continue;<a name="line.361"></a>
+<span class="sourceLineNo">362</span>      }<a name="line.362"></a>
+<span class="sourceLineNo">363</span><a name="line.363"></a>
+<span class="sourceLineNo">364</span>      if (sp.isTerrestrial()) {<a name="line.364"></a>
+<span class="sourceLineNo">365</span>        ctrue++;<a name="line.365"></a>
+<span class="sourceLineNo">366</span>      } else if (!sp.isTerrestrial()) {<a name="line.366"></a>
+<span class="sourceLineNo">367</span>        cfalse++;<a name="line.367"></a>
+<span class="sourceLineNo">368</span>      }<a name="line.368"></a>
+<span class="sourceLineNo">369</span>    }<a name="line.369"></a>
+<span class="sourceLineNo">370</span>    return ctrue + cfalse == 0 ? null : ctrue &gt;= cfalse;<a name="line.370"></a>
+<span class="sourceLineNo">371</span>  }<a name="line.371"></a>
+<span class="sourceLineNo">372</span><a name="line.372"></a>
+<span class="sourceLineNo">373</span>  @Override<a name="line.373"></a>
+<span class="sourceLineNo">374</span>  public boolean equals(Object object) {<a name="line.374"></a>
+<span class="sourceLineNo">375</span>    if (object instanceof NameUsageContainer) {<a name="line.375"></a>
+<span class="sourceLineNo">376</span>      if (!super.equals(object)) {<a name="line.376"></a>
+<span class="sourceLineNo">377</span>        return false;<a name="line.377"></a>
+<span class="sourceLineNo">378</span>      }<a name="line.378"></a>
+<span class="sourceLineNo">379</span>      final NameUsageContainer other = (NameUsageContainer) object;<a name="line.379"></a>
+<span class="sourceLineNo">380</span>      return Objects.equal(this.descriptions, other.descriptions)<a name="line.380"></a>
+<span class="sourceLineNo">381</span>             &amp;&amp; Objects.equal(this.distributions, other.distributions)<a name="line.381"></a>
+<span class="sourceLineNo">382</span>             &amp;&amp; Objects.equal(this.media, other.media)<a name="line.382"></a>
+<span class="sourceLineNo">383</span>             &amp;&amp; Objects.equal(this.referenceList, other.referenceList)<a name="line.383"></a>
+<span class="sourceLineNo">384</span>             &amp;&amp; Objects.equal(this.speciesProfiles, other.speciesProfiles)<a name="line.384"></a>
+<span class="sourceLineNo">385</span>             &amp;&amp; Objects.equal(this.synonyms, other.synonyms)<a name="line.385"></a>
+<span class="sourceLineNo">386</span>             &amp;&amp; Objects.equal(this.typeSpecimens, other.typeSpecimens)<a name="line.386"></a>
+<span class="sourceLineNo">387</span>             &amp;&amp; Objects.equal(this.vernacularNames, other.vernacularNames);<a name="line.387"></a>
+<span class="sourceLineNo">388</span>    }<a name="line.388"></a>
+<span class="sourceLineNo">389</span>    return false;<a name="line.389"></a>
+<span class="sourceLineNo">390</span>  }<a name="line.390"></a>
+<span class="sourceLineNo">391</span><a name="line.391"></a>
+<span class="sourceLineNo">392</span>  @Override<a name="line.392"></a>
+<span class="sourceLineNo">393</span>  public int hashCode() {<a name="line.393"></a>
+<span class="sourceLineNo">394</span>    return Objects.hashCode(descriptions,<a name="line.394"></a>
+<span class="sourceLineNo">395</span>                            distributions,<a name="line.395"></a>
+<span class="sourceLineNo">396</span>                            media,<a name="line.396"></a>
+<span class="sourceLineNo">397</span>                            referenceList,<a name="line.397"></a>
+<span class="sourceLineNo">398</span>                            speciesProfiles,<a name="line.398"></a>
+<span class="sourceLineNo">399</span>                            synonyms,<a name="line.399"></a>
+<span class="sourceLineNo">400</span>                            typeSpecimens,<a name="line.400"></a>
+<span class="sourceLineNo">401</span>                            vernacularNames);<a name="line.401"></a>
+<span class="sourceLineNo">402</span>  }<a name="line.402"></a>
+<span class="sourceLineNo">403</span><a name="line.403"></a>
+<span class="sourceLineNo">404</span>}<a name="line.404"></a>
 
 
 
