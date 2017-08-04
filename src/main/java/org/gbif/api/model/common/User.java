@@ -32,7 +32,9 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * A GBIF user account registered in the drupal user database.
+ * @Deprecated replaced by {@link GbifUser}
  */
+@Deprecated
 public class User {
 
   private static final String EMAIL_PATTERN =

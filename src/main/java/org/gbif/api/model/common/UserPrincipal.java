@@ -9,7 +9,9 @@ import com.google.common.base.Strings;
 
 /**
  * A wrapper class for a GBIF User that exposes the unique account name as the principal name.
+ * @Deprecated replaced by {@link GbifUserPrincipal}
  */
+@Deprecated
 public class UserPrincipal implements Principal {
   private final User user;
 

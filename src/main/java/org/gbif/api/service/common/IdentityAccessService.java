@@ -5,7 +5,7 @@ import org.gbif.api.model.common.GbifUser;
 import javax.annotation.Nullable;
 
 /**
- * Identity service accessing a single user.
+ * Identity service accessing a single user, in read-only.
  * This is a replacement of the deprecated {@link UserService}.
  */
 public interface IdentityAccessService {

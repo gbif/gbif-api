@@ -20,7 +20,7 @@ import org.gbif.api.model.common.User;
 import javax.annotation.Nullable;
 
 /**
- * This read only service used to connect to a Drupal DB is deprecated in favour of the IdentityService.
+ * This read only service used to connect to a Drupal DB is deprecated in favour of the IdentityAccessService.
  */
 @Deprecated
 public interface UserService {

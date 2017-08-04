@@ -13,7 +13,10 @@ mvn clean install
 
 ## Policies
  * A pre-commit peer review on all commits, ideally referencing the review in the commit message
- * All commits must reference a Jira to which they relate
+ * All commits must reference a GitHub issue to which they relate
+
+## Change Log
+[Change Log](CHANGELOG.md)
 
 ## Documentation
 [JavaDocs](http://gbif.github.io/gbif-api/apidocs/)
