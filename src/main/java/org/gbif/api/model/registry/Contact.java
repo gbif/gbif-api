@@ -16,11 +16,8 @@ import org.gbif.api.vocabulary.ContactType;
 import org.gbif.api.vocabulary.Country;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -156,10 +153,7 @@ public class Contact implements Address, LenientEquals<Contact> {
    * @return the non-empty parts of FirstName LastName or empty string if none
    */
   public String computeCompleteName() {
-    List<String> nameParts = new ArrayList<>();
-    Optional.ofNullable(StringUtils.trimToNull(firstName)).ifPresent(nameParts::add);
-    Optional.ofNullable(StringUtils.trimToNull(lastName)).ifPresent(nameParts::add);
-    return nameParts.stream().collect(Collectors.joining(" "));
+    return org.gbif.utils.text.StringUtils.thenJoin(StringUtils::trimToNull, firstName, lastName);
   }
 
   public List<String> getPosition() {

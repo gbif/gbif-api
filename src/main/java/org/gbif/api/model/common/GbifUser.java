@@ -74,7 +74,7 @@ public class GbifUser extends AbstractGbifUser {
     if (this == obj) {
       return true;
     }
-    if (!(obj instanceof User)) {
+    if (!(obj instanceof GbifUser)) {
       return false;
     }
 
