@@ -8,85 +8,97 @@
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>package org.gbif.utils.text;<a name="line.1"></a>
 <span class="sourceLineNo">002</span><a name="line.2"></a>
-<span class="sourceLineNo">003</span>import org.junit.Test;<a name="line.3"></a>
+<span class="sourceLineNo">003</span>import java.util.function.Function;<a name="line.3"></a>
 <span class="sourceLineNo">004</span><a name="line.4"></a>
-<span class="sourceLineNo">005</span>import static org.junit.Assert.assertEquals;<a name="line.5"></a>
-<span class="sourceLineNo">006</span>import static org.junit.Assert.assertNull;<a name="line.6"></a>
-<span class="sourceLineNo">007</span><a name="line.7"></a>
-<span class="sourceLineNo">008</span>public class StringUtilsTest {<a name="line.8"></a>
+<span class="sourceLineNo">005</span>import org.junit.Test;<a name="line.5"></a>
+<span class="sourceLineNo">006</span><a name="line.6"></a>
+<span class="sourceLineNo">007</span>import static org.junit.Assert.assertEquals;<a name="line.7"></a>
+<span class="sourceLineNo">008</span>import static org.junit.Assert.assertNull;<a name="line.8"></a>
 <span class="sourceLineNo">009</span><a name="line.9"></a>
-<span class="sourceLineNo">010</span>        @Test<a name="line.10"></a>
-<span class="sourceLineNo">011</span>        public void testIncrease() {<a name="line.11"></a>
-<span class="sourceLineNo">012</span>                assertEquals("Carlb",StringUtils.increase("Carla"));<a name="line.12"></a>
-<span class="sourceLineNo">013</span>                assertEquals("Homa",StringUtils.increase("Holz"));<a name="line.13"></a>
-<span class="sourceLineNo">014</span>                assertEquals("Aua",StringUtils.increase("Atz"));<a name="line.14"></a>
-<span class="sourceLineNo">015</span>                assertEquals("b",StringUtils.increase("a"));<a name="line.15"></a>
-<span class="sourceLineNo">016</span>                assertEquals("aa",StringUtils.increase("z"));<a name="line.16"></a>
-<span class="sourceLineNo">017</span>    assertEquals("AAA",StringUtils.increase("ZZ"));<a name="line.17"></a>
-<span class="sourceLineNo">018</span>    assertEquals("Aaa",StringUtils.increase("Zz"));<a name="line.18"></a>
-<span class="sourceLineNo">019</span>    assertEquals("aaa",StringUtils.increase("zz"));<a name="line.19"></a>
-<span class="sourceLineNo">020</span>    assertEquals("Abiet aaa",StringUtils.increase("Abies zzz"));<a name="line.20"></a>
-<span class="sourceLineNo">021</span>    assertEquals("Alle31.3-a ",StringUtils.increase("Alld31.3-z "));<a name="line.21"></a>
-<span class="sourceLineNo">022</span>    assertEquals("31.3-a a",StringUtils.increase("31.3-z "));<a name="line.22"></a>
-<span class="sourceLineNo">023</span>    assertEquals("aAaa",StringUtils.increase("zZz"));<a name="line.23"></a>
-<span class="sourceLineNo">024</span>                assertEquals("",StringUtils.increase(""));<a name="line.24"></a>
-<span class="sourceLineNo">025</span>                assertNull(StringUtils.increase(null));<a name="line.25"></a>
-<span class="sourceLineNo">026</span>        }<a name="line.26"></a>
-<span class="sourceLineNo">027</span><a name="line.27"></a>
-<span class="sourceLineNo">028</span>  @Test<a name="line.28"></a>
-<span class="sourceLineNo">029</span>  public void testRandomString() {<a name="line.29"></a>
-<span class="sourceLineNo">030</span>    assertEquals(10, StringUtils.randomString(10).length());<a name="line.30"></a>
-<span class="sourceLineNo">031</span><a name="line.31"></a>
-<span class="sourceLineNo">032</span>    // all upper case<a name="line.32"></a>
-<span class="sourceLineNo">033</span>    String rnd = StringUtils.randomString(22);<a name="line.33"></a>
-<span class="sourceLineNo">034</span>    assertEquals(rnd, rnd.toUpperCase());<a name="line.34"></a>
-<span class="sourceLineNo">035</span>  }<a name="line.35"></a>
-<span class="sourceLineNo">036</span><a name="line.36"></a>
-<span class="sourceLineNo">037</span>  @Test<a name="line.37"></a>
-<span class="sourceLineNo">038</span>  public void testDecodeUtf8Garbage() {<a name="line.38"></a>
-<span class="sourceLineNo">039</span>    assertUtf8(null, null);<a name="line.39"></a>
-<span class="sourceLineNo">040</span>    assertUtf8("", "");<a name="line.40"></a>
-<span class="sourceLineNo">041</span>    assertUtf8("a", "a");<a name="line.41"></a>
-<span class="sourceLineNo">042</span>    assertUtf8("ä-üOØ", "ä-üOØ");<a name="line.42"></a>
-<span class="sourceLineNo">043</span>    assertUtf8("(Günther, 1887)", "(GÃ¼nther, 1887)");<a name="line.43"></a>
-<span class="sourceLineNo">044</span>    assertUtf8("Böhlke, 1955", "BÃ¶hlke, 1955");<a name="line.44"></a>
-<span class="sourceLineNo">045</span>    assertUtf8("Nielsen &amp; Quéro, 1991\n", "Nielsen &amp; QuÃ©ro, 1991\n");<a name="line.45"></a>
-<span class="sourceLineNo">046</span>    assertUtf8("Rosinés", "RosinÃ©s");<a name="line.46"></a>
-<span class="sourceLineNo">047</span>    assertUtf8("S. Calderón &amp; Standl.", "S. CalderÃ³n &amp; Standl.");<a name="line.47"></a>
-<span class="sourceLineNo">048</span>    assertUtf8("Strömman, 1896", "StrÃ¶mman, 1896");<a name="line.48"></a>
-<span class="sourceLineNo">049</span>    assertUtf8("Sérus.", "SÃ©rus.");<a name="line.49"></a>
-<span class="sourceLineNo">050</span>    assertUtf8("Thér.", "ThÃ©r.");<a name="line.50"></a>
-<span class="sourceLineNo">051</span>    assertUtf8("Trécul", "TrÃ©cul");<a name="line.51"></a>
-<span class="sourceLineNo">052</span>    assertUtf8("Hale &amp; López-Fig.\n", "Hale &amp; LÃ³pez-Fig.\n");<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  }<a name="line.53"></a>
-<span class="sourceLineNo">054</span><a name="line.54"></a>
-<span class="sourceLineNo">055</span>  private void assertUtf8(String expected, String src) {<a name="line.55"></a>
-<span class="sourceLineNo">056</span>    String decoded = StringUtils.decodeUtf8Garbage(src);<a name="line.56"></a>
-<span class="sourceLineNo">057</span>    assertEquals(expected, decoded);<a name="line.57"></a>
-<span class="sourceLineNo">058</span>    // make sure if we had gotten the correct string it would not be modified<a name="line.58"></a>
-<span class="sourceLineNo">059</span>    assertEquals(expected, StringUtils.decodeUtf8Garbage(decoded));<a name="line.59"></a>
-<span class="sourceLineNo">060</span>  }<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  @Test<a name="line.61"></a>
-<span class="sourceLineNo">062</span>  public void testFoldToAscii() throws Exception {<a name="line.62"></a>
-<span class="sourceLineNo">063</span>    assertEquals(null, StringUtils.foldToAscii(null));<a name="line.63"></a>
-<span class="sourceLineNo">064</span>    assertEquals("", StringUtils.foldToAscii(""));<a name="line.64"></a>
-<span class="sourceLineNo">065</span>    assertEquals("Schulhof, Gymnasium Hurth", StringUtils.foldToAscii("Schulhof, Gymnasium Hürth"));<a name="line.65"></a>
-<span class="sourceLineNo">066</span>    assertEquals("Doring", StringUtils.foldToAscii("Döring"));<a name="line.66"></a>
-<span class="sourceLineNo">067</span>    assertEquals("Desireno", StringUtils.foldToAscii("Désírèñø"));<a name="line.67"></a>
-<span class="sourceLineNo">068</span>    assertEquals("Debreczy &amp; I. Racz", StringUtils.foldToAscii("Debreçzÿ &amp; Ï. Rácz"));<a name="line.68"></a>
-<span class="sourceLineNo">069</span>    assertEquals("Donatia novae-zelandiae", StringUtils.foldToAscii("Donatia novae-zelandiæ"));<a name="line.69"></a>
-<span class="sourceLineNo">070</span>    assertEquals("Carex ×cayouettei", StringUtils.foldToAscii("Carex ×cayouettei"));<a name="line.70"></a>
-<span class="sourceLineNo">071</span>    assertEquals("Carex comosa × Carex lupulina", StringUtils.foldToAscii("Carex comosa × Carex lupulina"));<a name="line.71"></a>
-<span class="sourceLineNo">072</span>    assertEquals("Aeropyrum coil-shaped virus", StringUtils.foldToAscii("Aeropyrum coil-shaped virus"));<a name="line.72"></a>
-<span class="sourceLineNo">073</span>    assertEquals("†Lachnus bonneti", StringUtils.foldToAscii("†Lachnus bonneti"));<a name="line.73"></a>
-<span class="sourceLineNo">074</span><a name="line.74"></a>
-<span class="sourceLineNo">075</span>    assertEquals("lachs", StringUtils.foldToAscii("łachs"));<a name="line.75"></a>
+<span class="sourceLineNo">010</span>public class StringUtilsTest {<a name="line.10"></a>
+<span class="sourceLineNo">011</span><a name="line.11"></a>
+<span class="sourceLineNo">012</span>        @Test<a name="line.12"></a>
+<span class="sourceLineNo">013</span>        public void testIncrease() {<a name="line.13"></a>
+<span class="sourceLineNo">014</span>                assertEquals("Carlb",StringUtils.increase("Carla"));<a name="line.14"></a>
+<span class="sourceLineNo">015</span>                assertEquals("Homa",StringUtils.increase("Holz"));<a name="line.15"></a>
+<span class="sourceLineNo">016</span>                assertEquals("Aua",StringUtils.increase("Atz"));<a name="line.16"></a>
+<span class="sourceLineNo">017</span>                assertEquals("b",StringUtils.increase("a"));<a name="line.17"></a>
+<span class="sourceLineNo">018</span>                assertEquals("aa",StringUtils.increase("z"));<a name="line.18"></a>
+<span class="sourceLineNo">019</span>    assertEquals("AAA",StringUtils.increase("ZZ"));<a name="line.19"></a>
+<span class="sourceLineNo">020</span>    assertEquals("Aaa",StringUtils.increase("Zz"));<a name="line.20"></a>
+<span class="sourceLineNo">021</span>    assertEquals("aaa",StringUtils.increase("zz"));<a name="line.21"></a>
+<span class="sourceLineNo">022</span>    assertEquals("Abiet aaa",StringUtils.increase("Abies zzz"));<a name="line.22"></a>
+<span class="sourceLineNo">023</span>    assertEquals("Alle31.3-a ",StringUtils.increase("Alld31.3-z "));<a name="line.23"></a>
+<span class="sourceLineNo">024</span>    assertEquals("31.3-a a",StringUtils.increase("31.3-z "));<a name="line.24"></a>
+<span class="sourceLineNo">025</span>    assertEquals("aAaa",StringUtils.increase("zZz"));<a name="line.25"></a>
+<span class="sourceLineNo">026</span>                assertEquals("",StringUtils.increase(""));<a name="line.26"></a>
+<span class="sourceLineNo">027</span>                assertNull(StringUtils.increase(null));<a name="line.27"></a>
+<span class="sourceLineNo">028</span>        }<a name="line.28"></a>
+<span class="sourceLineNo">029</span><a name="line.29"></a>
+<span class="sourceLineNo">030</span>  @Test<a name="line.30"></a>
+<span class="sourceLineNo">031</span>  public void testRandomString() {<a name="line.31"></a>
+<span class="sourceLineNo">032</span>    assertEquals(10, StringUtils.randomString(10).length());<a name="line.32"></a>
+<span class="sourceLineNo">033</span><a name="line.33"></a>
+<span class="sourceLineNo">034</span>    // all upper case<a name="line.34"></a>
+<span class="sourceLineNo">035</span>    String rnd = StringUtils.randomString(22);<a name="line.35"></a>
+<span class="sourceLineNo">036</span>    assertEquals(rnd, rnd.toUpperCase());<a name="line.36"></a>
+<span class="sourceLineNo">037</span>  }<a name="line.37"></a>
+<span class="sourceLineNo">038</span><a name="line.38"></a>
+<span class="sourceLineNo">039</span>  @Test<a name="line.39"></a>
+<span class="sourceLineNo">040</span>  public void testDecodeUtf8Garbage() {<a name="line.40"></a>
+<span class="sourceLineNo">041</span>    assertUtf8(null, null);<a name="line.41"></a>
+<span class="sourceLineNo">042</span>    assertUtf8("", "");<a name="line.42"></a>
+<span class="sourceLineNo">043</span>    assertUtf8("a", "a");<a name="line.43"></a>
+<span class="sourceLineNo">044</span>    assertUtf8("ä-üOØ", "ä-üOØ");<a name="line.44"></a>
+<span class="sourceLineNo">045</span>    assertUtf8("(Günther, 1887)", "(GÃ¼nther, 1887)");<a name="line.45"></a>
+<span class="sourceLineNo">046</span>    assertUtf8("Böhlke, 1955", "BÃ¶hlke, 1955");<a name="line.46"></a>
+<span class="sourceLineNo">047</span>    assertUtf8("Nielsen &amp; Quéro, 1991\n", "Nielsen &amp; QuÃ©ro, 1991\n");<a name="line.47"></a>
+<span class="sourceLineNo">048</span>    assertUtf8("Rosinés", "RosinÃ©s");<a name="line.48"></a>
+<span class="sourceLineNo">049</span>    assertUtf8("S. Calderón &amp; Standl.", "S. CalderÃ³n &amp; Standl.");<a name="line.49"></a>
+<span class="sourceLineNo">050</span>    assertUtf8("Strömman, 1896", "StrÃ¶mman, 1896");<a name="line.50"></a>
+<span class="sourceLineNo">051</span>    assertUtf8("Sérus.", "SÃ©rus.");<a name="line.51"></a>
+<span class="sourceLineNo">052</span>    assertUtf8("Thér.", "ThÃ©r.");<a name="line.52"></a>
+<span class="sourceLineNo">053</span>    assertUtf8("Trécul", "TrÃ©cul");<a name="line.53"></a>
+<span class="sourceLineNo">054</span>    assertUtf8("Hale &amp; López-Fig.\n", "Hale &amp; LÃ³pez-Fig.\n");<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  }<a name="line.55"></a>
+<span class="sourceLineNo">056</span><a name="line.56"></a>
+<span class="sourceLineNo">057</span>  private void assertUtf8(String expected, String src) {<a name="line.57"></a>
+<span class="sourceLineNo">058</span>    String decoded = StringUtils.decodeUtf8Garbage(src);<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    assertEquals(expected, decoded);<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    // make sure if we had gotten the correct string it would not be modified<a name="line.60"></a>
+<span class="sourceLineNo">061</span>    assertEquals(expected, StringUtils.decodeUtf8Garbage(decoded));<a name="line.61"></a>
+<span class="sourceLineNo">062</span>  }<a name="line.62"></a>
+<span class="sourceLineNo">063</span>  @Test<a name="line.63"></a>
+<span class="sourceLineNo">064</span>  public void testFoldToAscii() throws Exception {<a name="line.64"></a>
+<span class="sourceLineNo">065</span>    assertEquals(null, StringUtils.foldToAscii(null));<a name="line.65"></a>
+<span class="sourceLineNo">066</span>    assertEquals("", StringUtils.foldToAscii(""));<a name="line.66"></a>
+<span class="sourceLineNo">067</span>    assertEquals("Schulhof, Gymnasium Hurth", StringUtils.foldToAscii("Schulhof, Gymnasium Hürth"));<a name="line.67"></a>
+<span class="sourceLineNo">068</span>    assertEquals("Doring", StringUtils.foldToAscii("Döring"));<a name="line.68"></a>
+<span class="sourceLineNo">069</span>    assertEquals("Desireno", StringUtils.foldToAscii("Désírèñø"));<a name="line.69"></a>
+<span class="sourceLineNo">070</span>    assertEquals("Debreczy &amp; I. Racz", StringUtils.foldToAscii("Debreçzÿ &amp; Ï. Rácz"));<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    assertEquals("Donatia novae-zelandiae", StringUtils.foldToAscii("Donatia novae-zelandiæ"));<a name="line.71"></a>
+<span class="sourceLineNo">072</span>    assertEquals("Carex ×cayouettei", StringUtils.foldToAscii("Carex ×cayouettei"));<a name="line.72"></a>
+<span class="sourceLineNo">073</span>    assertEquals("Carex comosa × Carex lupulina", StringUtils.foldToAscii("Carex comosa × Carex lupulina"));<a name="line.73"></a>
+<span class="sourceLineNo">074</span>    assertEquals("Aeropyrum coil-shaped virus", StringUtils.foldToAscii("Aeropyrum coil-shaped virus"));<a name="line.74"></a>
+<span class="sourceLineNo">075</span>    assertEquals("†Lachnus bonneti", StringUtils.foldToAscii("†Lachnus bonneti"));<a name="line.75"></a>
 <span class="sourceLineNo">076</span><a name="line.76"></a>
-<span class="sourceLineNo">077</span>    String test = "ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ";<a name="line.77"></a>
-<span class="sourceLineNo">078</span>    assertEquals("SOEZsoezY¥µAAAAAAAECEEEEIIIIDNOOOOOOUUUUYssaaaaaaaeceeeeiiiidnoooooouuuuyy", StringUtils.foldToAscii(test));<a name="line.78"></a>
-<span class="sourceLineNo">079</span><a name="line.79"></a>
-<span class="sourceLineNo">080</span>  }<a name="line.80"></a>
-<span class="sourceLineNo">081</span>}<a name="line.81"></a>
+<span class="sourceLineNo">077</span>    assertEquals("lachs", StringUtils.foldToAscii("łachs"));<a name="line.77"></a>
+<span class="sourceLineNo">078</span><a name="line.78"></a>
+<span class="sourceLineNo">079</span>    String test = "ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ";<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    assertEquals("SOEZsoezY¥µAAAAAAAECEEEEIIIIDNOOOOOOUUUUYssaaaaaaaeceeeeiiiidnoooooouuuuyy", StringUtils.foldToAscii(test));<a name="line.80"></a>
+<span class="sourceLineNo">081</span><a name="line.81"></a>
+<span class="sourceLineNo">082</span>  }<a name="line.82"></a>
+<span class="sourceLineNo">083</span><a name="line.83"></a>
+<span class="sourceLineNo">084</span>  @Test<a name="line.84"></a>
+<span class="sourceLineNo">085</span>  public void testThenJoin() {<a name="line.85"></a>
+<span class="sourceLineNo">086</span>    assertEquals("", StringUtils.thenJoin(org.apache.commons.lang3.StringUtils::trimToNull, (String[]) null));<a name="line.86"></a>
+<span class="sourceLineNo">087</span>    assertEquals("", StringUtils.thenJoin(org.apache.commons.lang3.StringUtils::trimToNull, (String) null));<a name="line.87"></a>
+<span class="sourceLineNo">088</span>    assertEquals("", StringUtils.thenJoin(org.apache.commons.lang3.StringUtils::trimToNull, "", " "));<a name="line.88"></a>
+<span class="sourceLineNo">089</span>    assertEquals("x", StringUtils.thenJoin(org.apache.commons.lang3.StringUtils::trimToNull, "", "  x "));<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    assertEquals("x y", StringUtils.thenJoin(org.apache.commons.lang3.StringUtils::trimToNull, "x", "  y "));<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    assertEquals("x   y ", StringUtils.thenJoin(Function.identity(), "x", "  y "));<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  }<a name="line.92"></a>
+<span class="sourceLineNo">093</span>}<a name="line.93"></a>
 
 
 

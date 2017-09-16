@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package org.gbif.utils.file.tabular;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import java.io.IOException;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import java.io.Reader;<a name="line.4"></a>
+<span class="sourceLineNo">005</span>import java.io.Writer;<a name="line.5"></a>
+<span class="sourceLineNo">006</span>import java.nio.charset.Charset;<a name="line.6"></a>
+<span class="sourceLineNo">007</span>import java.nio.charset.StandardCharsets;<a name="line.7"></a>
+<span class="sourceLineNo">008</span>import java.nio.file.Files;<a name="line.8"></a>
+<span class="sourceLineNo">009</span>import java.nio.file.Path;<a name="line.9"></a>
+<span class="sourceLineNo">010</span>import java.util.List;<a name="line.10"></a>
+<span class="sourceLineNo">011</span>import java.util.Objects;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>import java.util.Optional;<a name="line.12"></a>
+<span class="sourceLineNo">013</span>import java.util.stream.Collectors;<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>import com.fasterxml.jackson.databind.MappingIterator;<a name="line.15"></a>
+<span class="sourceLineNo">016</span>import com.fasterxml.jackson.databind.SequenceWriter;<a name="line.16"></a>
+<span class="sourceLineNo">017</span>import com.fasterxml.jackson.dataformat.csv.CsvMapper;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import com.fasterxml.jackson.dataformat.csv.CsvParser;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import com.fasterxml.jackson.dataformat.csv.CsvSchema;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import com.google.common.base.CharMatcher;<a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
+<span class="sourceLineNo">022</span>import static org.gbif.utils.file.tabular.JacksonUtils.buildCsvSchema;<a name="line.22"></a>
+<span class="sourceLineNo">023</span><a name="line.23"></a>
+<span class="sourceLineNo">024</span>/**<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * Utility class to rewrite a tabular file (e.g. CSV) into a normalized format.<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * The regular use case is to allow external tools to work as expected (e.g. unix split, unix sort).<a name="line.26"></a>
+<span class="sourceLineNo">027</span> */<a name="line.27"></a>
+<span class="sourceLineNo">028</span>public class TabularFileNormalizer {<a name="line.28"></a>
+<span class="sourceLineNo">029</span><a name="line.29"></a>
+<span class="sourceLineNo">030</span>  // A character is considered to be an ISO control character if its code is in<a name="line.30"></a>
+<span class="sourceLineNo">031</span>  // the range '\u0000' through '\u001F' or in the range '\u007F' through '\u009F'.<a name="line.31"></a>
+<span class="sourceLineNo">032</span>  private static CharMatcher CONTROL_CHAR_MATCHER = CharMatcher.JAVA_ISO_CONTROL;<a name="line.32"></a>
+<span class="sourceLineNo">033</span><a name="line.33"></a>
+<span class="sourceLineNo">034</span>  public static String NORMALIZED_END_OF_LINE = "\n";<a name="line.34"></a>
+<span class="sourceLineNo">035</span><a name="line.35"></a>
+<span class="sourceLineNo">036</span>  /**<a name="line.36"></a>
+<span class="sourceLineNo">037</span>   * Normalizes the provided tabular "file" (provided as {@link Reader} to let the caller deal with charset).<a name="line.37"></a>
+<span class="sourceLineNo">038</span>   * Normalization includes: striping of Control Characters (see {@link #CONTROL_CHAR_MATCHER}),<a name="line.38"></a>
+<span class="sourceLineNo">039</span>   * usage of \n as end-line-character, ensuring there is an end-of-line character on the last line and<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   * removing empty (completely empty) lines.<a name="line.40"></a>
+<span class="sourceLineNo">041</span>   * The normalized content will have unnecessary quotes removed.<a name="line.41"></a>
+<span class="sourceLineNo">042</span>   *<a name="line.42"></a>
+<span class="sourceLineNo">043</span>   * @param source           {@link Path} representing the source<a name="line.43"></a>
+<span class="sourceLineNo">044</span>   * @param destination      {@link Path} representing the destination. If the file already exists it will be overwritten.<a name="line.44"></a>
+<span class="sourceLineNo">045</span>   * @param sourceCharset    optionally, the {@link Charset} of the source. If null UTF-8 will be used.<a name="line.45"></a>
+<span class="sourceLineNo">046</span>   * @param delimiterChar<a name="line.46"></a>
+<span class="sourceLineNo">047</span>   * @param endOfLineSymbols<a name="line.47"></a>
+<span class="sourceLineNo">048</span>   * @param quoteChar        optional<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   *<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   * @return number of lines written<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   *<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   * @throws IOException<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   */<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  public static int normalizeFile(Path source, Path destination, Charset sourceCharset,<a name="line.54"></a>
+<span class="sourceLineNo">055</span>                                  char delimiterChar, String endOfLineSymbols, Character quoteChar) throws IOException {<a name="line.55"></a>
+<span class="sourceLineNo">056</span>    Objects.requireNonNull(source, "source path shall be provided");<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    Objects.requireNonNull(destination, "normalizedWriter shall be provided");<a name="line.57"></a>
+<span class="sourceLineNo">058</span><a name="line.58"></a>
+<span class="sourceLineNo">059</span>    int numberOfLine = 0;<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    CsvMapper mapper = new CsvMapper();<a name="line.60"></a>
+<span class="sourceLineNo">061</span>    mapper.enable(CsvParser.Feature.WRAP_AS_ARRAY);<a name="line.61"></a>
+<span class="sourceLineNo">062</span><a name="line.62"></a>
+<span class="sourceLineNo">063</span>    CsvSchema readerSchema = buildCsvSchema(delimiterChar, endOfLineSymbols, quoteChar);<a name="line.63"></a>
+<span class="sourceLineNo">064</span>    CsvSchema writerSchema = buildCsvSchema(delimiterChar, NORMALIZED_END_OF_LINE, quoteChar);<a name="line.64"></a>
+<span class="sourceLineNo">065</span><a name="line.65"></a>
+<span class="sourceLineNo">066</span>    Charset charset = Optional.ofNullable(sourceCharset).orElse(StandardCharsets.UTF_8);<a name="line.66"></a>
+<span class="sourceLineNo">067</span>    try (Reader sourceReader = Files.newBufferedReader(source, charset);<a name="line.67"></a>
+<span class="sourceLineNo">068</span>         Writer writer = Files.newBufferedWriter(destination, charset);<a name="line.68"></a>
+<span class="sourceLineNo">069</span>         MappingIterator&lt;List&lt;String&gt;&gt; it = mapper.readerFor(List.class)<a name="line.69"></a>
+<span class="sourceLineNo">070</span>                 .with(readerSchema)<a name="line.70"></a>
+<span class="sourceLineNo">071</span>                 .readValues(sourceReader);<a name="line.71"></a>
+<span class="sourceLineNo">072</span>         SequenceWriter csvWriter = mapper.writerFor(List.class).with(writerSchema).writeValues(writer)) {<a name="line.72"></a>
+<span class="sourceLineNo">073</span>      Optional&lt;List&lt;String&gt;&gt; line;<a name="line.73"></a>
+<span class="sourceLineNo">074</span>      while (it.hasNext()) {<a name="line.74"></a>
+<span class="sourceLineNo">075</span>        line = normalizeLine(it.next());<a name="line.75"></a>
+<span class="sourceLineNo">076</span>        if (line.isPresent()) {<a name="line.76"></a>
+<span class="sourceLineNo">077</span>          csvWriter.write(line.get());<a name="line.77"></a>
+<span class="sourceLineNo">078</span>          numberOfLine++;<a name="line.78"></a>
+<span class="sourceLineNo">079</span>        }<a name="line.79"></a>
+<span class="sourceLineNo">080</span>      }<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    }<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    catch (IOException ioEx) {<a name="line.82"></a>
+<span class="sourceLineNo">083</span>      //avoid keeping incomplete file<a name="line.83"></a>
+<span class="sourceLineNo">084</span>      Files.deleteIfExists(destination);<a name="line.84"></a>
+<span class="sourceLineNo">085</span>      throw ioEx;<a name="line.85"></a>
+<span class="sourceLineNo">086</span>    }<a name="line.86"></a>
+<span class="sourceLineNo">087</span>    return numberOfLine;<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  }<a name="line.88"></a>
+<span class="sourceLineNo">089</span><a name="line.89"></a>
+<span class="sourceLineNo">090</span>  /**<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   * For a given line in a tabular file, normalize it if it contains something.<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   *<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * @param line<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   *<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * @return normalized line as String or {@code Optional.empty()} is the line was empty<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   */<a name="line.96"></a>
+<span class="sourceLineNo">097</span>  private static Optional&lt;List&lt;String&gt;&gt; normalizeLine(List&lt;String&gt; line) {<a name="line.97"></a>
+<span class="sourceLineNo">098</span>    if (line == null || line.isEmpty()) {<a name="line.98"></a>
+<span class="sourceLineNo">099</span>      return Optional.empty();<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    }<a name="line.100"></a>
+<span class="sourceLineNo">101</span><a name="line.101"></a>
+<span class="sourceLineNo">102</span>    return Optional.of(<a name="line.102"></a>
+<span class="sourceLineNo">103</span>            line.stream()<a name="line.103"></a>
+<span class="sourceLineNo">104</span>                    .map(s -&gt; s == null ? "" : s)<a name="line.104"></a>
+<span class="sourceLineNo">105</span>                    .map(CONTROL_CHAR_MATCHER::removeFrom)<a name="line.105"></a>
+<span class="sourceLineNo">106</span>                    .collect(Collectors.toList()));<a name="line.106"></a>
+<span class="sourceLineNo">107</span>  }<a name="line.107"></a>
+<span class="sourceLineNo">108</span>}<a name="line.108"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
