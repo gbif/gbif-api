@@ -56,7 +56,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
   /**
    * The original coordinate was successfully reprojected from a different geodetic datum to WGS84.
    */
-  COORDINATE_REPROJECTED(WARNING, TermsGroup.COORDINATES_TERMS),
+  COORDINATE_REPROJECTED(INFO, TermsGroup.COORDINATES_TERMS),
 
   /**
    * The given decimal latitude and longitude could not be reprojected to WGS84 based on the provided datum.
