@@ -1,5 +1,8 @@
 package org.gbif.api.jackson;
 
+import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.Term;
+
 import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.List;
@@ -28,7 +31,13 @@ public class MapEntrySerdeTest {
 
     MapEntryWrapper rebuiltKeyValue = MAPPER.readValue(json, MapEntryWrapper.class);
     assertEquals(kv.getSingleElement().getValue(), rebuiltKeyValue.getSingleElement().getValue());
-    assertEquals(2, rebuiltKeyValue.getAsList().size());
+
+    MapEntryListTermWrapper kvl = new MapEntryListTermWrapper(DwcTerm.country, 19);
+    json = MAPPER.writeValueAsString(kvl);
+
+    MapEntryListTermWrapper rebuiltKeyValueList = MAPPER.readValue(json, MapEntryListTermWrapper.class);
+    assertEquals(2, rebuiltKeyValueList.getListTerm().size());
+
   }
 
   /**
@@ -36,26 +45,36 @@ public class MapEntrySerdeTest {
    */
   static class MapEntryWrapper {
 
-    private Map.Entry<String, Object> singleElement;
-    private List<Map.Entry<String, Object>> asList;
+    private Map.Entry<Object, Object> singleElement;
 
     MapEntryWrapper() {}
 
-    MapEntryWrapper(String key, Object value){
+    MapEntryWrapper(Object key, Object value){
       singleElement = new AbstractMap.SimpleImmutableEntry<>(key, value);
-      asList = ImmutableList.of(singleElement, singleElement);
     }
 
     @JsonSerialize(using = MapEntrySerde.MapEntryJsonSerializer.class)
     @JsonDeserialize(using = MapEntrySerde.MapEntryJsonDeserializer.class)
-    Map.Entry<String, Object> getSingleElement() {
+    Map.Entry<Object, Object> getSingleElement() {
       return singleElement;
+    }
+  }
+
+  static class MapEntryListTermWrapper {
+
+    private List<Map.Entry<Term, Object>> listTerm;
+
+    MapEntryListTermWrapper() {}
+
+    MapEntryListTermWrapper(Term key, Object value){
+      listTerm = ImmutableList.of(new AbstractMap.SimpleImmutableEntry<>(key, value),
+              new AbstractMap.SimpleImmutableEntry<>(key, value));
     }
 
     @JsonSerialize(contentUsing = MapEntrySerde.MapEntryJsonSerializer.class)
     @JsonDeserialize(contentUsing = MapEntrySerde.MapEntryJsonDeserializer.class)
-    List<Map.Entry<String, Object>> getAsList() {
-      return asList;
+    List<Map.Entry<Term, Object>> getListTerm() {
+      return listTerm;
     }
   }
 

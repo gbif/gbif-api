@@ -22,7 +22,7 @@ import org.codehaus.jackson.map.SerializerProvider;
  *
  * {"key":"mykey","value":18} becomes {"mykey":18}
  *
- * The key shall be a String and the value can only be a String or a Number (int or float) for now.
+ * The key will use toString() and the value can only be a String or a Number (int or float) for now.
  *
  * <pre>
  * {@code
@@ -34,25 +34,25 @@ import org.codehaus.jackson.map.SerializerProvider;
  */
 public class MapEntrySerde {
 
-  public static class MapEntryJsonSerializer extends JsonSerializer<Map.Entry<String, Object>> {
+  public static class MapEntryJsonSerializer extends JsonSerializer<Map.Entry<Object, Object>> {
 
     @Override
-    public void serialize(Map.Entry<String, Object> value, JsonGenerator jgen,
+    public void serialize(Map.Entry<Object, Object> value, JsonGenerator jgen,
                           SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
       if(value == null){
         jgen.writeNull();
         return;
       }
       jgen.writeStartObject();
-      jgen.writeFieldName(value.getKey());
+      jgen.writeFieldName(value.getKey().toString());
       jgen.writeObject(value.getValue());
       jgen.writeEndObject();
     }
   }
 
-  public static class MapEntryJsonDeserializer extends JsonDeserializer<Map.Entry<String, Object>> {
+  public static class MapEntryJsonDeserializer extends JsonDeserializer<Map.Entry<Object, Object>> {
     @Override
-    public Map.Entry<String, Object> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+    public Map.Entry<Object, Object> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
       String tmp = jp.getText(); // {
       jp.nextToken();
       String key = jp.getText();
