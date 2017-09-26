@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.57 (unreleased)
+ * Added `MapEntrySerde`
+
 ## 0.56 (2017-09-15)
  * Fixed `GbifUser` e-mail regex. [Issue #20](https://github.com/gbif/gbif-api/issues/20)
 
