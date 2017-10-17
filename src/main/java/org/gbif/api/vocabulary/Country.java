@@ -542,7 +542,7 @@ public enum Country {
   HEARD_MCDONALD_ISLANDS("HM", "HMD", 334, "Heard Island and McDonald Islands", GbifRegion.ANTARCTICA),
 
   /**
-   * HOLY SEE (Vatican City State).
+   * Holy See (Vatican City State).
    */
   VATICAN("VA", "VAT", 336, "Holy See (Vatican City State)", GbifRegion.EUROPE),
 
@@ -1314,20 +1314,16 @@ public enum Country {
   USER_DEFINED("AA", "AAA", 900, "user defined"),
 
   /**
+   * Kosovo.
+   * User-assigned temporary code, XK and XKX are the same as used by several other international organizations.
+   * 902 is assigned by GBIF, but these codes aren't used anywhere.
+   */
+  KOSOVO("XK", "XKX", 902, "Kosovo", GbifRegion.EUROPE),
+
+  /**
    * @see <a href="http://en.wikipedia.org/wiki/UN/LOCODE">UN/LOCODE</a>
    */
   INTERNATIONAL_WATERS("XZ", "XZZ", 901, "international waters"),
-
-  /**
-   * A multi-territory region containing Antarctica, Bouvet Island, the Cocos (Keeling) Islands, Christmas Island,
-   * South Georgia and the South Sandwich Islands, Heard Island and McDonald Islands,
-   * the British Indian Ocean Territory, the French Southern Territories, and the United States Minor Outlying
-   * Islands).
-   *
-   * @see <a href="http://en.wikipedia.org/wiki/Common_Locale_Data_Repository">Unicode Common Locale Data Repository</a>
-   */
-  OCEANIA("QO", "QOO", 902, "Oceania"),
-
 
   /**
    * Unknown or Invalid territory.
@@ -1476,7 +1472,7 @@ public enum Country {
    * @return true if its a non user defined, current ISO 3166-1 alpha2 code.
    */
   public boolean isOfficial() {
-    return !(this == UNKNOWN || this == USER_DEFINED || this == INTERNATIONAL_WATERS || this == OCEANIA);
+    return !(this == UNKNOWN || this == USER_DEFINED || this == INTERNATIONAL_WATERS || this == KOSOVO);
   }
 
   /**
