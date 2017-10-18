@@ -278,7 +278,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
             DwcTerm.decimalLatitude,
             DwcTerm.decimalLongitude,
             DwcTerm.verbatimLatitude,
-            DwcTerm.verbatimLatitude,
+            DwcTerm.verbatimLongitude,
             DwcTerm.verbatimCoordinates
     };
 
@@ -286,7 +286,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
             DwcTerm.decimalLatitude,
             DwcTerm.decimalLongitude,
             DwcTerm.verbatimLatitude,
-            DwcTerm.verbatimLatitude,
+            DwcTerm.verbatimLongitude,
             DwcTerm.verbatimCoordinates,
             DwcTerm.geodeticDatum
     };
@@ -300,7 +300,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
             DwcTerm.decimalLatitude,
             DwcTerm.decimalLongitude,
             DwcTerm.verbatimLatitude,
-            DwcTerm.verbatimLatitude,
+            DwcTerm.verbatimLongitude,
             DwcTerm.verbatimCoordinates,
             DwcTerm.geodeticDatum,
             DwcTerm.country,
