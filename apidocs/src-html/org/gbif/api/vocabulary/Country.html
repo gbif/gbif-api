@@ -550,7 +550,7 @@
 <span class="sourceLineNo">542</span>  HEARD_MCDONALD_ISLANDS("HM", "HMD", 334, "Heard Island and McDonald Islands", GbifRegion.ANTARCTICA),<a name="line.542"></a>
 <span class="sourceLineNo">543</span><a name="line.543"></a>
 <span class="sourceLineNo">544</span>  /**<a name="line.544"></a>
-<span class="sourceLineNo">545</span>   * HOLY SEE (Vatican City State).<a name="line.545"></a>
+<span class="sourceLineNo">545</span>   * Holy See (Vatican City State).<a name="line.545"></a>
 <span class="sourceLineNo">546</span>   */<a name="line.546"></a>
 <span class="sourceLineNo">547</span>  VATICAN("VA", "VAT", 336, "Holy See (Vatican City State)", GbifRegion.EUROPE),<a name="line.547"></a>
 <span class="sourceLineNo">548</span><a name="line.548"></a>
@@ -1322,247 +1322,243 @@
 <span class="sourceLineNo">1314</span>  USER_DEFINED("AA", "AAA", 900, "user defined"),<a name="line.1314"></a>
 <span class="sourceLineNo">1315</span><a name="line.1315"></a>
 <span class="sourceLineNo">1316</span>  /**<a name="line.1316"></a>
-<span class="sourceLineNo">1317</span>   * @see &lt;a href="http://en.wikipedia.org/wiki/UN/LOCODE"&gt;UN/LOCODE&lt;/a&gt;<a name="line.1317"></a>
-<span class="sourceLineNo">1318</span>   */<a name="line.1318"></a>
-<span class="sourceLineNo">1319</span>  INTERNATIONAL_WATERS("XZ", "XZZ", 901, "international waters"),<a name="line.1319"></a>
-<span class="sourceLineNo">1320</span><a name="line.1320"></a>
-<span class="sourceLineNo">1321</span>  /**<a name="line.1321"></a>
-<span class="sourceLineNo">1322</span>   * A multi-territory region containing Antarctica, Bouvet Island, the Cocos (Keeling) Islands, Christmas Island,<a name="line.1322"></a>
-<span class="sourceLineNo">1323</span>   * South Georgia and the South Sandwich Islands, Heard Island and McDonald Islands,<a name="line.1323"></a>
-<span class="sourceLineNo">1324</span>   * the British Indian Ocean Territory, the French Southern Territories, and the United States Minor Outlying<a name="line.1324"></a>
-<span class="sourceLineNo">1325</span>   * Islands).<a name="line.1325"></a>
-<span class="sourceLineNo">1326</span>   *<a name="line.1326"></a>
-<span class="sourceLineNo">1327</span>   * @see &lt;a href="http://en.wikipedia.org/wiki/Common_Locale_Data_Repository"&gt;Unicode Common Locale Data Repository&lt;/a&gt;<a name="line.1327"></a>
-<span class="sourceLineNo">1328</span>   */<a name="line.1328"></a>
-<span class="sourceLineNo">1329</span>  OCEANIA("QO", "QOO", 902, "Oceania"),<a name="line.1329"></a>
-<span class="sourceLineNo">1330</span><a name="line.1330"></a>
-<span class="sourceLineNo">1331</span><a name="line.1331"></a>
-<span class="sourceLineNo">1332</span>  /**<a name="line.1332"></a>
-<span class="sourceLineNo">1333</span>   * Unknown or Invalid territory.<a name="line.1333"></a>
-<span class="sourceLineNo">1334</span>   *<a name="line.1334"></a>
-<span class="sourceLineNo">1335</span>   * @see &lt;a href="http://en.wikipedia.org/wiki/Common_Locale_Data_Repository"&gt;Unicode Common Locale Data Repository&lt;/a&gt;<a name="line.1335"></a>
-<span class="sourceLineNo">1336</span>   */<a name="line.1336"></a>
-<span class="sourceLineNo">1337</span>  UNKNOWN("ZZ", "ZZZ", 999, "unknown or invalid");<a name="line.1337"></a>
-<span class="sourceLineNo">1338</span><a name="line.1338"></a>
-<span class="sourceLineNo">1339</span>  /**<a name="line.1339"></a>
-<span class="sourceLineNo">1340</span>   * A set of all 2 and 3 letter codes that are reserved by ISO for custom application specific usages.<a name="line.1340"></a>
-<span class="sourceLineNo">1341</span>   * The following codes can be user-assigned:<a name="line.1341"></a>
-<span class="sourceLineNo">1342</span>   * Alpha-2: AA, QM to QZ, XA to XZ, and ZZ<a name="line.1342"></a>
-<span class="sourceLineNo">1343</span>   * Alpha-3: AAA to AAZ, QMA to QZZ, XAA to XZZ, and ZZA to ZZZ<a name="line.1343"></a>
-<span class="sourceLineNo">1344</span>   */<a name="line.1344"></a>
-<span class="sourceLineNo">1345</span>  public static final Set&lt;String&gt; CUSTOM_CODES;<a name="line.1345"></a>
-<span class="sourceLineNo">1346</span>  public static final List&lt;Country&gt; OFFICIAL_COUNTRIES;<a name="line.1346"></a>
-<span class="sourceLineNo">1347</span><a name="line.1347"></a>
-<span class="sourceLineNo">1348</span>  private final String alpha2;<a name="line.1348"></a>
-<span class="sourceLineNo">1349</span>  private final String alpha3;<a name="line.1349"></a>
-<span class="sourceLineNo">1350</span>  private final int numericalCode;<a name="line.1350"></a>
-<span class="sourceLineNo">1351</span>  private final String title;<a name="line.1351"></a>
-<span class="sourceLineNo">1352</span>  private final GbifRegion gbifRegion;<a name="line.1352"></a>
-<span class="sourceLineNo">1353</span><a name="line.1353"></a>
-<span class="sourceLineNo">1354</span>  static {<a name="line.1354"></a>
-<span class="sourceLineNo">1355</span>    List&lt;Country&gt; officials = Lists.newArrayList();<a name="line.1355"></a>
-<span class="sourceLineNo">1356</span>    for (Country c : Country.values()) {<a name="line.1356"></a>
-<span class="sourceLineNo">1357</span>      if (c.isOfficial()) {<a name="line.1357"></a>
-<span class="sourceLineNo">1358</span>        officials.add(c);<a name="line.1358"></a>
-<span class="sourceLineNo">1359</span>      }<a name="line.1359"></a>
-<span class="sourceLineNo">1360</span>    }<a name="line.1360"></a>
-<span class="sourceLineNo">1361</span>    OFFICIAL_COUNTRIES = ImmutableList.copyOf(officials);<a name="line.1361"></a>
-<span class="sourceLineNo">1362</span><a name="line.1362"></a>
-<span class="sourceLineNo">1363</span>    Set&lt;String&gt; custom = Sets.newHashSet("AA", "ZZ");<a name="line.1363"></a>
-<span class="sourceLineNo">1364</span>    // QM-QZ<a name="line.1364"></a>
-<span class="sourceLineNo">1365</span>    for (char c = 'M'; c &lt;= 'Z'; c++) {<a name="line.1365"></a>
-<span class="sourceLineNo">1366</span>      custom.add("Q" + c);<a name="line.1366"></a>
-<span class="sourceLineNo">1367</span>    }<a name="line.1367"></a>
-<span class="sourceLineNo">1368</span>    // AAA-AAZ, ZZA-ZZZ<a name="line.1368"></a>
-<span class="sourceLineNo">1369</span>    for (char c = 'A'; c &lt;= 'Z'; c++) {<a name="line.1369"></a>
-<span class="sourceLineNo">1370</span>      custom.add("AA" + c);<a name="line.1370"></a>
-<span class="sourceLineNo">1371</span>      custom.add("ZZ" + c);<a name="line.1371"></a>
-<span class="sourceLineNo">1372</span>    }<a name="line.1372"></a>
-<span class="sourceLineNo">1373</span>    // QMA-QZZ<a name="line.1373"></a>
-<span class="sourceLineNo">1374</span>    for (char c = 'M'; c &lt;= 'Z'; c++) {<a name="line.1374"></a>
-<span class="sourceLineNo">1375</span>      for (char c2 = 'A'; c2 &lt;= 'Z'; c2++) {<a name="line.1375"></a>
-<span class="sourceLineNo">1376</span>        custom.add("Q" + c + c2);<a name="line.1376"></a>
-<span class="sourceLineNo">1377</span>      }<a name="line.1377"></a>
-<span class="sourceLineNo">1378</span>    }<a name="line.1378"></a>
-<span class="sourceLineNo">1379</span>    // XA-XZ, XAA to XZZ<a name="line.1379"></a>
-<span class="sourceLineNo">1380</span>    for (char c = 'A'; c &lt;= 'Z'; c++) {<a name="line.1380"></a>
-<span class="sourceLineNo">1381</span>      custom.add("X" + c);<a name="line.1381"></a>
-<span class="sourceLineNo">1382</span>      for (char c2 = 'A'; c2 &lt;= 'Z'; c2++) {<a name="line.1382"></a>
-<span class="sourceLineNo">1383</span>        custom.add("X" + c + c2);<a name="line.1383"></a>
-<span class="sourceLineNo">1384</span>      }<a name="line.1384"></a>
-<span class="sourceLineNo">1385</span>    }<a name="line.1385"></a>
-<span class="sourceLineNo">1386</span>    CUSTOM_CODES = ImmutableSet.copyOf(custom);<a name="line.1386"></a>
+<span class="sourceLineNo">1317</span>   * Kosovo.<a name="line.1317"></a>
+<span class="sourceLineNo">1318</span>   * User-assigned temporary code, XK and XKX are the same as used by several other international organizations.<a name="line.1318"></a>
+<span class="sourceLineNo">1319</span>   * 902 is assigned by GBIF, but these codes aren't used anywhere.<a name="line.1319"></a>
+<span class="sourceLineNo">1320</span>   */<a name="line.1320"></a>
+<span class="sourceLineNo">1321</span>  KOSOVO("XK", "XKX", 902, "Kosovo", GbifRegion.EUROPE),<a name="line.1321"></a>
+<span class="sourceLineNo">1322</span><a name="line.1322"></a>
+<span class="sourceLineNo">1323</span>  /**<a name="line.1323"></a>
+<span class="sourceLineNo">1324</span>   * @see &lt;a href="http://en.wikipedia.org/wiki/UN/LOCODE"&gt;UN/LOCODE&lt;/a&gt;<a name="line.1324"></a>
+<span class="sourceLineNo">1325</span>   */<a name="line.1325"></a>
+<span class="sourceLineNo">1326</span>  INTERNATIONAL_WATERS("XZ", "XZZ", 901, "international waters"),<a name="line.1326"></a>
+<span class="sourceLineNo">1327</span><a name="line.1327"></a>
+<span class="sourceLineNo">1328</span>  /**<a name="line.1328"></a>
+<span class="sourceLineNo">1329</span>   * Unknown or Invalid territory.<a name="line.1329"></a>
+<span class="sourceLineNo">1330</span>   *<a name="line.1330"></a>
+<span class="sourceLineNo">1331</span>   * @see &lt;a href="http://en.wikipedia.org/wiki/Common_Locale_Data_Repository"&gt;Unicode Common Locale Data Repository&lt;/a&gt;<a name="line.1331"></a>
+<span class="sourceLineNo">1332</span>   */<a name="line.1332"></a>
+<span class="sourceLineNo">1333</span>  UNKNOWN("ZZ", "ZZZ", 999, "unknown or invalid");<a name="line.1333"></a>
+<span class="sourceLineNo">1334</span><a name="line.1334"></a>
+<span class="sourceLineNo">1335</span>  /**<a name="line.1335"></a>
+<span class="sourceLineNo">1336</span>   * A set of all 2 and 3 letter codes that are reserved by ISO for custom application specific usages.<a name="line.1336"></a>
+<span class="sourceLineNo">1337</span>   * The following codes can be user-assigned:<a name="line.1337"></a>
+<span class="sourceLineNo">1338</span>   * Alpha-2: AA, QM to QZ, XA to XZ, and ZZ<a name="line.1338"></a>
+<span class="sourceLineNo">1339</span>   * Alpha-3: AAA to AAZ, QMA to QZZ, XAA to XZZ, and ZZA to ZZZ<a name="line.1339"></a>
+<span class="sourceLineNo">1340</span>   */<a name="line.1340"></a>
+<span class="sourceLineNo">1341</span>  public static final Set&lt;String&gt; CUSTOM_CODES;<a name="line.1341"></a>
+<span class="sourceLineNo">1342</span>  public static final List&lt;Country&gt; OFFICIAL_COUNTRIES;<a name="line.1342"></a>
+<span class="sourceLineNo">1343</span><a name="line.1343"></a>
+<span class="sourceLineNo">1344</span>  private final String alpha2;<a name="line.1344"></a>
+<span class="sourceLineNo">1345</span>  private final String alpha3;<a name="line.1345"></a>
+<span class="sourceLineNo">1346</span>  private final int numericalCode;<a name="line.1346"></a>
+<span class="sourceLineNo">1347</span>  private final String title;<a name="line.1347"></a>
+<span class="sourceLineNo">1348</span>  private final GbifRegion gbifRegion;<a name="line.1348"></a>
+<span class="sourceLineNo">1349</span><a name="line.1349"></a>
+<span class="sourceLineNo">1350</span>  static {<a name="line.1350"></a>
+<span class="sourceLineNo">1351</span>    List&lt;Country&gt; officials = Lists.newArrayList();<a name="line.1351"></a>
+<span class="sourceLineNo">1352</span>    for (Country c : Country.values()) {<a name="line.1352"></a>
+<span class="sourceLineNo">1353</span>      if (c.isOfficial()) {<a name="line.1353"></a>
+<span class="sourceLineNo">1354</span>        officials.add(c);<a name="line.1354"></a>
+<span class="sourceLineNo">1355</span>      }<a name="line.1355"></a>
+<span class="sourceLineNo">1356</span>    }<a name="line.1356"></a>
+<span class="sourceLineNo">1357</span>    OFFICIAL_COUNTRIES = ImmutableList.copyOf(officials);<a name="line.1357"></a>
+<span class="sourceLineNo">1358</span><a name="line.1358"></a>
+<span class="sourceLineNo">1359</span>    Set&lt;String&gt; custom = Sets.newHashSet("AA", "ZZ");<a name="line.1359"></a>
+<span class="sourceLineNo">1360</span>    // QM-QZ<a name="line.1360"></a>
+<span class="sourceLineNo">1361</span>    for (char c = 'M'; c &lt;= 'Z'; c++) {<a name="line.1361"></a>
+<span class="sourceLineNo">1362</span>      custom.add("Q" + c);<a name="line.1362"></a>
+<span class="sourceLineNo">1363</span>    }<a name="line.1363"></a>
+<span class="sourceLineNo">1364</span>    // AAA-AAZ, ZZA-ZZZ<a name="line.1364"></a>
+<span class="sourceLineNo">1365</span>    for (char c = 'A'; c &lt;= 'Z'; c++) {<a name="line.1365"></a>
+<span class="sourceLineNo">1366</span>      custom.add("AA" + c);<a name="line.1366"></a>
+<span class="sourceLineNo">1367</span>      custom.add("ZZ" + c);<a name="line.1367"></a>
+<span class="sourceLineNo">1368</span>    }<a name="line.1368"></a>
+<span class="sourceLineNo">1369</span>    // QMA-QZZ<a name="line.1369"></a>
+<span class="sourceLineNo">1370</span>    for (char c = 'M'; c &lt;= 'Z'; c++) {<a name="line.1370"></a>
+<span class="sourceLineNo">1371</span>      for (char c2 = 'A'; c2 &lt;= 'Z'; c2++) {<a name="line.1371"></a>
+<span class="sourceLineNo">1372</span>        custom.add("Q" + c + c2);<a name="line.1372"></a>
+<span class="sourceLineNo">1373</span>      }<a name="line.1373"></a>
+<span class="sourceLineNo">1374</span>    }<a name="line.1374"></a>
+<span class="sourceLineNo">1375</span>    // XA-XZ, XAA to XZZ<a name="line.1375"></a>
+<span class="sourceLineNo">1376</span>    for (char c = 'A'; c &lt;= 'Z'; c++) {<a name="line.1376"></a>
+<span class="sourceLineNo">1377</span>      custom.add("X" + c);<a name="line.1377"></a>
+<span class="sourceLineNo">1378</span>      for (char c2 = 'A'; c2 &lt;= 'Z'; c2++) {<a name="line.1378"></a>
+<span class="sourceLineNo">1379</span>        custom.add("X" + c + c2);<a name="line.1379"></a>
+<span class="sourceLineNo">1380</span>      }<a name="line.1380"></a>
+<span class="sourceLineNo">1381</span>    }<a name="line.1381"></a>
+<span class="sourceLineNo">1382</span>    CUSTOM_CODES = ImmutableSet.copyOf(custom);<a name="line.1382"></a>
+<span class="sourceLineNo">1383</span>  }<a name="line.1383"></a>
+<span class="sourceLineNo">1384</span><a name="line.1384"></a>
+<span class="sourceLineNo">1385</span>  public static boolean isCustomCode(String code) {<a name="line.1385"></a>
+<span class="sourceLineNo">1386</span>    return code != null &amp;&amp; CUSTOM_CODES.contains(code.toUpperCase());<a name="line.1386"></a>
 <span class="sourceLineNo">1387</span>  }<a name="line.1387"></a>
 <span class="sourceLineNo">1388</span><a name="line.1388"></a>
-<span class="sourceLineNo">1389</span>  public static boolean isCustomCode(String code) {<a name="line.1389"></a>
-<span class="sourceLineNo">1390</span>    return code != null &amp;&amp; CUSTOM_CODES.contains(code.toUpperCase());<a name="line.1390"></a>
-<span class="sourceLineNo">1391</span>  }<a name="line.1391"></a>
-<span class="sourceLineNo">1392</span><a name="line.1392"></a>
-<span class="sourceLineNo">1393</span>  /**<a name="line.1393"></a>
-<span class="sourceLineNo">1394</span>   * @param code the case insensitive 2 or 3 letter codes<a name="line.1394"></a>
-<span class="sourceLineNo">1395</span>   * @return the matching country or null<a name="line.1395"></a>
-<span class="sourceLineNo">1396</span>   */<a name="line.1396"></a>
-<span class="sourceLineNo">1397</span>  public static Country fromIsoCode(String code) {<a name="line.1397"></a>
-<span class="sourceLineNo">1398</span>    if (!Strings.isNullOrEmpty(code)) {<a name="line.1398"></a>
-<span class="sourceLineNo">1399</span>      String codeUpper = code.toUpperCase().trim();<a name="line.1399"></a>
-<span class="sourceLineNo">1400</span>      for (Country c : Country.values()) {<a name="line.1400"></a>
-<span class="sourceLineNo">1401</span>        if (codeUpper.equals(c.getIso2LetterCode()) || codeUpper.equals(c.getIso3LetterCode())) {<a name="line.1401"></a>
-<span class="sourceLineNo">1402</span>          return c;<a name="line.1402"></a>
-<span class="sourceLineNo">1403</span>        }<a name="line.1403"></a>
-<span class="sourceLineNo">1404</span>      }<a name="line.1404"></a>
-<span class="sourceLineNo">1405</span>    }<a name="line.1405"></a>
-<span class="sourceLineNo">1406</span>    return null;<a name="line.1406"></a>
-<span class="sourceLineNo">1407</span>  }<a name="line.1407"></a>
-<span class="sourceLineNo">1408</span><a name="line.1408"></a>
-<span class="sourceLineNo">1409</span>  /**<a name="line.1409"></a>
-<span class="sourceLineNo">1410</span>   * Temporary constructor to keep the code stable until https://github.com/gbif/gbif-api/issues/6 is fully<a name="line.1410"></a>
-<span class="sourceLineNo">1411</span>   * implemented.<a name="line.1411"></a>
-<span class="sourceLineNo">1412</span>   *<a name="line.1412"></a>
-<span class="sourceLineNo">1413</span>   * @param alpha2<a name="line.1413"></a>
-<span class="sourceLineNo">1414</span>   * @param alpha3<a name="line.1414"></a>
-<span class="sourceLineNo">1415</span>   * @param numericalCode<a name="line.1415"></a>
-<span class="sourceLineNo">1416</span>   * @param title<a name="line.1416"></a>
-<span class="sourceLineNo">1417</span>   */<a name="line.1417"></a>
-<span class="sourceLineNo">1418</span>  Country(String alpha2, String alpha3, int numericalCode, String title) {<a name="line.1418"></a>
-<span class="sourceLineNo">1419</span>    this(alpha2, alpha3, numericalCode, title, null);<a name="line.1419"></a>
-<span class="sourceLineNo">1420</span>  }<a name="line.1420"></a>
-<span class="sourceLineNo">1421</span><a name="line.1421"></a>
-<span class="sourceLineNo">1422</span>  /**<a name="line.1422"></a>
-<span class="sourceLineNo">1423</span>   * @param alpha2<a name="line.1423"></a>
-<span class="sourceLineNo">1424</span>   * @param alpha3<a name="line.1424"></a>
-<span class="sourceLineNo">1425</span>   * @param numericalCode<a name="line.1425"></a>
-<span class="sourceLineNo">1426</span>   * @param title<a name="line.1426"></a>
-<span class="sourceLineNo">1427</span>   * @param gbifRegion    GBIF region is NOT a geographic region. Participant countries make an active decision which<a name="line.1427"></a>
-<span class="sourceLineNo">1428</span>   *                      GBIF region they want to belong to.<a name="line.1428"></a>
-<span class="sourceLineNo">1429</span>   */<a name="line.1429"></a>
-<span class="sourceLineNo">1430</span>  Country(String alpha2, String alpha3, int numericalCode, String title, GbifRegion gbifRegion) {<a name="line.1430"></a>
-<span class="sourceLineNo">1431</span>    this.alpha2 = alpha2;<a name="line.1431"></a>
-<span class="sourceLineNo">1432</span>    this.alpha3 = alpha3;<a name="line.1432"></a>
-<span class="sourceLineNo">1433</span>    this.numericalCode = numericalCode;<a name="line.1433"></a>
-<span class="sourceLineNo">1434</span>    this.title = title;<a name="line.1434"></a>
-<span class="sourceLineNo">1435</span>    this.gbifRegion = gbifRegion;<a name="line.1435"></a>
-<span class="sourceLineNo">1436</span>  }<a name="line.1436"></a>
-<span class="sourceLineNo">1437</span><a name="line.1437"></a>
-<span class="sourceLineNo">1438</span>  /**<a name="line.1438"></a>
-<span class="sourceLineNo">1439</span>   * @return the country name in the English language as maintained by ISO.<a name="line.1439"></a>
-<span class="sourceLineNo">1440</span>   */<a name="line.1440"></a>
-<span class="sourceLineNo">1441</span>  public String getTitle() {<a name="line.1441"></a>
-<span class="sourceLineNo">1442</span>    return title;<a name="line.1442"></a>
-<span class="sourceLineNo">1443</span>  }<a name="line.1443"></a>
-<span class="sourceLineNo">1444</span><a name="line.1444"></a>
-<span class="sourceLineNo">1445</span>  /**<a name="line.1445"></a>
-<span class="sourceLineNo">1446</span>   * @return the 2 letter ISO 3166-1 ALPHA2 code in upper case.<a name="line.1446"></a>
-<span class="sourceLineNo">1447</span>   */<a name="line.1447"></a>
-<span class="sourceLineNo">1448</span>  public String getIso2LetterCode() {<a name="line.1448"></a>
-<span class="sourceLineNo">1449</span>    return alpha2;<a name="line.1449"></a>
-<span class="sourceLineNo">1450</span>  }<a name="line.1450"></a>
-<span class="sourceLineNo">1451</span><a name="line.1451"></a>
-<span class="sourceLineNo">1452</span>  /**<a name="line.1452"></a>
-<span class="sourceLineNo">1453</span>   * @return the 3 letter ISO 3166-1 ALPHA3 code in upper case.<a name="line.1453"></a>
-<span class="sourceLineNo">1454</span>   */<a name="line.1454"></a>
-<span class="sourceLineNo">1455</span>  public String getIso3LetterCode() {<a name="line.1455"></a>
-<span class="sourceLineNo">1456</span>    return alpha3;<a name="line.1456"></a>
-<span class="sourceLineNo">1457</span>  }<a name="line.1457"></a>
-<span class="sourceLineNo">1458</span><a name="line.1458"></a>
-<span class="sourceLineNo">1459</span>  /**<a name="line.1459"></a>
-<span class="sourceLineNo">1460</span>   * @return the numerical ISO 3166-1 code.<a name="line.1460"></a>
-<span class="sourceLineNo">1461</span>   */<a name="line.1461"></a>
-<span class="sourceLineNo">1462</span>  public Integer getIsoNumericalCode() {<a name="line.1462"></a>
-<span class="sourceLineNo">1463</span>    return numericalCode;<a name="line.1463"></a>
-<span class="sourceLineNo">1464</span>  }<a name="line.1464"></a>
-<span class="sourceLineNo">1465</span><a name="line.1465"></a>
-<span class="sourceLineNo">1466</span>  /**<a name="line.1466"></a>
-<span class="sourceLineNo">1467</span>   * Get the {@link GbifRegion} associated with this {@link Country}.<a name="line.1467"></a>
-<span class="sourceLineNo">1468</span>   *<a name="line.1468"></a>
-<span class="sourceLineNo">1469</span>   * @return<a name="line.1469"></a>
-<span class="sourceLineNo">1470</span>   */<a name="line.1470"></a>
-<span class="sourceLineNo">1471</span>  public GbifRegion getGbifRegion() {<a name="line.1471"></a>
-<span class="sourceLineNo">1472</span>    return gbifRegion;<a name="line.1472"></a>
-<span class="sourceLineNo">1473</span>  }<a name="line.1473"></a>
-<span class="sourceLineNo">1474</span><a name="line.1474"></a>
-<span class="sourceLineNo">1475</span>  /**<a name="line.1475"></a>
-<span class="sourceLineNo">1476</span>   * @return true if its a non user defined, current ISO 3166-1 alpha2 code.<a name="line.1476"></a>
-<span class="sourceLineNo">1477</span>   */<a name="line.1477"></a>
-<span class="sourceLineNo">1478</span>  public boolean isOfficial() {<a name="line.1478"></a>
-<span class="sourceLineNo">1479</span>    return !(this == UNKNOWN || this == USER_DEFINED || this == INTERNATIONAL_WATERS || this == OCEANIA);<a name="line.1479"></a>
-<span class="sourceLineNo">1480</span>  }<a name="line.1480"></a>
-<span class="sourceLineNo">1481</span><a name="line.1481"></a>
-<span class="sourceLineNo">1482</span>  /**<a name="line.1482"></a>
-<span class="sourceLineNo">1483</span>   * Serializes the value in a 2 letter ISO format.<a name="line.1483"></a>
-<span class="sourceLineNo">1484</span>   */<a name="line.1484"></a>
-<span class="sourceLineNo">1485</span>  public static class IsoSerializer extends SerializerBase&lt;Country&gt; {<a name="line.1485"></a>
+<span class="sourceLineNo">1389</span>  /**<a name="line.1389"></a>
+<span class="sourceLineNo">1390</span>   * @param code the case insensitive 2 or 3 letter codes<a name="line.1390"></a>
+<span class="sourceLineNo">1391</span>   * @return the matching country or null<a name="line.1391"></a>
+<span class="sourceLineNo">1392</span>   */<a name="line.1392"></a>
+<span class="sourceLineNo">1393</span>  public static Country fromIsoCode(String code) {<a name="line.1393"></a>
+<span class="sourceLineNo">1394</span>    if (!Strings.isNullOrEmpty(code)) {<a name="line.1394"></a>
+<span class="sourceLineNo">1395</span>      String codeUpper = code.toUpperCase().trim();<a name="line.1395"></a>
+<span class="sourceLineNo">1396</span>      for (Country c : Country.values()) {<a name="line.1396"></a>
+<span class="sourceLineNo">1397</span>        if (codeUpper.equals(c.getIso2LetterCode()) || codeUpper.equals(c.getIso3LetterCode())) {<a name="line.1397"></a>
+<span class="sourceLineNo">1398</span>          return c;<a name="line.1398"></a>
+<span class="sourceLineNo">1399</span>        }<a name="line.1399"></a>
+<span class="sourceLineNo">1400</span>      }<a name="line.1400"></a>
+<span class="sourceLineNo">1401</span>    }<a name="line.1401"></a>
+<span class="sourceLineNo">1402</span>    return null;<a name="line.1402"></a>
+<span class="sourceLineNo">1403</span>  }<a name="line.1403"></a>
+<span class="sourceLineNo">1404</span><a name="line.1404"></a>
+<span class="sourceLineNo">1405</span>  /**<a name="line.1405"></a>
+<span class="sourceLineNo">1406</span>   * Temporary constructor to keep the code stable until https://github.com/gbif/gbif-api/issues/6 is fully<a name="line.1406"></a>
+<span class="sourceLineNo">1407</span>   * implemented.<a name="line.1407"></a>
+<span class="sourceLineNo">1408</span>   *<a name="line.1408"></a>
+<span class="sourceLineNo">1409</span>   * @param alpha2<a name="line.1409"></a>
+<span class="sourceLineNo">1410</span>   * @param alpha3<a name="line.1410"></a>
+<span class="sourceLineNo">1411</span>   * @param numericalCode<a name="line.1411"></a>
+<span class="sourceLineNo">1412</span>   * @param title<a name="line.1412"></a>
+<span class="sourceLineNo">1413</span>   */<a name="line.1413"></a>
+<span class="sourceLineNo">1414</span>  Country(String alpha2, String alpha3, int numericalCode, String title) {<a name="line.1414"></a>
+<span class="sourceLineNo">1415</span>    this(alpha2, alpha3, numericalCode, title, null);<a name="line.1415"></a>
+<span class="sourceLineNo">1416</span>  }<a name="line.1416"></a>
+<span class="sourceLineNo">1417</span><a name="line.1417"></a>
+<span class="sourceLineNo">1418</span>  /**<a name="line.1418"></a>
+<span class="sourceLineNo">1419</span>   * @param alpha2<a name="line.1419"></a>
+<span class="sourceLineNo">1420</span>   * @param alpha3<a name="line.1420"></a>
+<span class="sourceLineNo">1421</span>   * @param numericalCode<a name="line.1421"></a>
+<span class="sourceLineNo">1422</span>   * @param title<a name="line.1422"></a>
+<span class="sourceLineNo">1423</span>   * @param gbifRegion    GBIF region is NOT a geographic region. Participant countries make an active decision which<a name="line.1423"></a>
+<span class="sourceLineNo">1424</span>   *                      GBIF region they want to belong to.<a name="line.1424"></a>
+<span class="sourceLineNo">1425</span>   */<a name="line.1425"></a>
+<span class="sourceLineNo">1426</span>  Country(String alpha2, String alpha3, int numericalCode, String title, GbifRegion gbifRegion) {<a name="line.1426"></a>
+<span class="sourceLineNo">1427</span>    this.alpha2 = alpha2;<a name="line.1427"></a>
+<span class="sourceLineNo">1428</span>    this.alpha3 = alpha3;<a name="line.1428"></a>
+<span class="sourceLineNo">1429</span>    this.numericalCode = numericalCode;<a name="line.1429"></a>
+<span class="sourceLineNo">1430</span>    this.title = title;<a name="line.1430"></a>
+<span class="sourceLineNo">1431</span>    this.gbifRegion = gbifRegion;<a name="line.1431"></a>
+<span class="sourceLineNo">1432</span>  }<a name="line.1432"></a>
+<span class="sourceLineNo">1433</span><a name="line.1433"></a>
+<span class="sourceLineNo">1434</span>  /**<a name="line.1434"></a>
+<span class="sourceLineNo">1435</span>   * @return the country name in the English language as maintained by ISO.<a name="line.1435"></a>
+<span class="sourceLineNo">1436</span>   */<a name="line.1436"></a>
+<span class="sourceLineNo">1437</span>  public String getTitle() {<a name="line.1437"></a>
+<span class="sourceLineNo">1438</span>    return title;<a name="line.1438"></a>
+<span class="sourceLineNo">1439</span>  }<a name="line.1439"></a>
+<span class="sourceLineNo">1440</span><a name="line.1440"></a>
+<span class="sourceLineNo">1441</span>  /**<a name="line.1441"></a>
+<span class="sourceLineNo">1442</span>   * @return the 2 letter ISO 3166-1 ALPHA2 code in upper case.<a name="line.1442"></a>
+<span class="sourceLineNo">1443</span>   */<a name="line.1443"></a>
+<span class="sourceLineNo">1444</span>  public String getIso2LetterCode() {<a name="line.1444"></a>
+<span class="sourceLineNo">1445</span>    return alpha2;<a name="line.1445"></a>
+<span class="sourceLineNo">1446</span>  }<a name="line.1446"></a>
+<span class="sourceLineNo">1447</span><a name="line.1447"></a>
+<span class="sourceLineNo">1448</span>  /**<a name="line.1448"></a>
+<span class="sourceLineNo">1449</span>   * @return the 3 letter ISO 3166-1 ALPHA3 code in upper case.<a name="line.1449"></a>
+<span class="sourceLineNo">1450</span>   */<a name="line.1450"></a>
+<span class="sourceLineNo">1451</span>  public String getIso3LetterCode() {<a name="line.1451"></a>
+<span class="sourceLineNo">1452</span>    return alpha3;<a name="line.1452"></a>
+<span class="sourceLineNo">1453</span>  }<a name="line.1453"></a>
+<span class="sourceLineNo">1454</span><a name="line.1454"></a>
+<span class="sourceLineNo">1455</span>  /**<a name="line.1455"></a>
+<span class="sourceLineNo">1456</span>   * @return the numerical ISO 3166-1 code.<a name="line.1456"></a>
+<span class="sourceLineNo">1457</span>   */<a name="line.1457"></a>
+<span class="sourceLineNo">1458</span>  public Integer getIsoNumericalCode() {<a name="line.1458"></a>
+<span class="sourceLineNo">1459</span>    return numericalCode;<a name="line.1459"></a>
+<span class="sourceLineNo">1460</span>  }<a name="line.1460"></a>
+<span class="sourceLineNo">1461</span><a name="line.1461"></a>
+<span class="sourceLineNo">1462</span>  /**<a name="line.1462"></a>
+<span class="sourceLineNo">1463</span>   * Get the {@link GbifRegion} associated with this {@link Country}.<a name="line.1463"></a>
+<span class="sourceLineNo">1464</span>   *<a name="line.1464"></a>
+<span class="sourceLineNo">1465</span>   * @return<a name="line.1465"></a>
+<span class="sourceLineNo">1466</span>   */<a name="line.1466"></a>
+<span class="sourceLineNo">1467</span>  public GbifRegion getGbifRegion() {<a name="line.1467"></a>
+<span class="sourceLineNo">1468</span>    return gbifRegion;<a name="line.1468"></a>
+<span class="sourceLineNo">1469</span>  }<a name="line.1469"></a>
+<span class="sourceLineNo">1470</span><a name="line.1470"></a>
+<span class="sourceLineNo">1471</span>  /**<a name="line.1471"></a>
+<span class="sourceLineNo">1472</span>   * @return true if its a non user defined, current ISO 3166-1 alpha2 code.<a name="line.1472"></a>
+<span class="sourceLineNo">1473</span>   */<a name="line.1473"></a>
+<span class="sourceLineNo">1474</span>  public boolean isOfficial() {<a name="line.1474"></a>
+<span class="sourceLineNo">1475</span>    return !(this == UNKNOWN || this == USER_DEFINED || this == INTERNATIONAL_WATERS || this == KOSOVO);<a name="line.1475"></a>
+<span class="sourceLineNo">1476</span>  }<a name="line.1476"></a>
+<span class="sourceLineNo">1477</span><a name="line.1477"></a>
+<span class="sourceLineNo">1478</span>  /**<a name="line.1478"></a>
+<span class="sourceLineNo">1479</span>   * Serializes the value in a 2 letter ISO format.<a name="line.1479"></a>
+<span class="sourceLineNo">1480</span>   */<a name="line.1480"></a>
+<span class="sourceLineNo">1481</span>  public static class IsoSerializer extends SerializerBase&lt;Country&gt; {<a name="line.1481"></a>
+<span class="sourceLineNo">1482</span><a name="line.1482"></a>
+<span class="sourceLineNo">1483</span>    public IsoSerializer() {<a name="line.1483"></a>
+<span class="sourceLineNo">1484</span>      super(Country.class);<a name="line.1484"></a>
+<span class="sourceLineNo">1485</span>    }<a name="line.1485"></a>
 <span class="sourceLineNo">1486</span><a name="line.1486"></a>
-<span class="sourceLineNo">1487</span>    public IsoSerializer() {<a name="line.1487"></a>
-<span class="sourceLineNo">1488</span>      super(Country.class);<a name="line.1488"></a>
-<span class="sourceLineNo">1489</span>    }<a name="line.1489"></a>
-<span class="sourceLineNo">1490</span><a name="line.1490"></a>
-<span class="sourceLineNo">1491</span>    @Override<a name="line.1491"></a>
-<span class="sourceLineNo">1492</span>    public void serialize(Country value, JsonGenerator jgen, SerializerProvider provider) throws IOException,<a name="line.1492"></a>
-<span class="sourceLineNo">1493</span>      JsonGenerationException {<a name="line.1493"></a>
-<span class="sourceLineNo">1494</span>      jgen.writeString(value.alpha2);<a name="line.1494"></a>
-<span class="sourceLineNo">1495</span>    }<a name="line.1495"></a>
-<span class="sourceLineNo">1496</span><a name="line.1496"></a>
-<span class="sourceLineNo">1497</span>  }<a name="line.1497"></a>
-<span class="sourceLineNo">1498</span><a name="line.1498"></a>
-<span class="sourceLineNo">1499</span>  /**<a name="line.1499"></a>
-<span class="sourceLineNo">1500</span>   * Deserializes the value from a 2 letter ISO format.<a name="line.1500"></a>
-<span class="sourceLineNo">1501</span>   */<a name="line.1501"></a>
-<span class="sourceLineNo">1502</span>  public static class IsoDeserializer extends JsonDeserializer&lt;Country&gt; {<a name="line.1502"></a>
-<span class="sourceLineNo">1503</span><a name="line.1503"></a>
-<span class="sourceLineNo">1504</span>    @Override<a name="line.1504"></a>
-<span class="sourceLineNo">1505</span>    public Country deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {<a name="line.1505"></a>
-<span class="sourceLineNo">1506</span>      try {<a name="line.1506"></a>
-<span class="sourceLineNo">1507</span>        if (jp != null &amp;&amp; jp.getTextLength() &gt; 0) {<a name="line.1507"></a>
-<span class="sourceLineNo">1508</span>          return Country.fromIsoCode(jp.getText());<a name="line.1508"></a>
-<span class="sourceLineNo">1509</span>        } else {<a name="line.1509"></a>
-<span class="sourceLineNo">1510</span>          return Country.UNKNOWN; // none provided<a name="line.1510"></a>
-<span class="sourceLineNo">1511</span>        }<a name="line.1511"></a>
-<span class="sourceLineNo">1512</span>      } catch (Exception e) {<a name="line.1512"></a>
-<span class="sourceLineNo">1513</span>        throw new IOException("Unable to deserialize country from provided value (not an ISO 2 character?): "<a name="line.1513"></a>
-<span class="sourceLineNo">1514</span>          + jp.getText());<a name="line.1514"></a>
-<span class="sourceLineNo">1515</span>      }<a name="line.1515"></a>
-<span class="sourceLineNo">1516</span>    }<a name="line.1516"></a>
-<span class="sourceLineNo">1517</span>  }<a name="line.1517"></a>
-<span class="sourceLineNo">1518</span><a name="line.1518"></a>
-<span class="sourceLineNo">1519</span>  /**<a name="line.1519"></a>
-<span class="sourceLineNo">1520</span>   * Serializes the value as the english country title.<a name="line.1520"></a>
-<span class="sourceLineNo">1521</span>   */<a name="line.1521"></a>
-<span class="sourceLineNo">1522</span>  public static class TitleSerializer extends SerializerBase&lt;Country&gt; {<a name="line.1522"></a>
+<span class="sourceLineNo">1487</span>    @Override<a name="line.1487"></a>
+<span class="sourceLineNo">1488</span>    public void serialize(Country value, JsonGenerator jgen, SerializerProvider provider) throws IOException,<a name="line.1488"></a>
+<span class="sourceLineNo">1489</span>      JsonGenerationException {<a name="line.1489"></a>
+<span class="sourceLineNo">1490</span>      jgen.writeString(value.alpha2);<a name="line.1490"></a>
+<span class="sourceLineNo">1491</span>    }<a name="line.1491"></a>
+<span class="sourceLineNo">1492</span><a name="line.1492"></a>
+<span class="sourceLineNo">1493</span>  }<a name="line.1493"></a>
+<span class="sourceLineNo">1494</span><a name="line.1494"></a>
+<span class="sourceLineNo">1495</span>  /**<a name="line.1495"></a>
+<span class="sourceLineNo">1496</span>   * Deserializes the value from a 2 letter ISO format.<a name="line.1496"></a>
+<span class="sourceLineNo">1497</span>   */<a name="line.1497"></a>
+<span class="sourceLineNo">1498</span>  public static class IsoDeserializer extends JsonDeserializer&lt;Country&gt; {<a name="line.1498"></a>
+<span class="sourceLineNo">1499</span><a name="line.1499"></a>
+<span class="sourceLineNo">1500</span>    @Override<a name="line.1500"></a>
+<span class="sourceLineNo">1501</span>    public Country deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {<a name="line.1501"></a>
+<span class="sourceLineNo">1502</span>      try {<a name="line.1502"></a>
+<span class="sourceLineNo">1503</span>        if (jp != null &amp;&amp; jp.getTextLength() &gt; 0) {<a name="line.1503"></a>
+<span class="sourceLineNo">1504</span>          return Country.fromIsoCode(jp.getText());<a name="line.1504"></a>
+<span class="sourceLineNo">1505</span>        } else {<a name="line.1505"></a>
+<span class="sourceLineNo">1506</span>          return Country.UNKNOWN; // none provided<a name="line.1506"></a>
+<span class="sourceLineNo">1507</span>        }<a name="line.1507"></a>
+<span class="sourceLineNo">1508</span>      } catch (Exception e) {<a name="line.1508"></a>
+<span class="sourceLineNo">1509</span>        throw new IOException("Unable to deserialize country from provided value (not an ISO 2 character?): "<a name="line.1509"></a>
+<span class="sourceLineNo">1510</span>          + jp.getText());<a name="line.1510"></a>
+<span class="sourceLineNo">1511</span>      }<a name="line.1511"></a>
+<span class="sourceLineNo">1512</span>    }<a name="line.1512"></a>
+<span class="sourceLineNo">1513</span>  }<a name="line.1513"></a>
+<span class="sourceLineNo">1514</span><a name="line.1514"></a>
+<span class="sourceLineNo">1515</span>  /**<a name="line.1515"></a>
+<span class="sourceLineNo">1516</span>   * Serializes the value as the english country title.<a name="line.1516"></a>
+<span class="sourceLineNo">1517</span>   */<a name="line.1517"></a>
+<span class="sourceLineNo">1518</span>  public static class TitleSerializer extends SerializerBase&lt;Country&gt; {<a name="line.1518"></a>
+<span class="sourceLineNo">1519</span><a name="line.1519"></a>
+<span class="sourceLineNo">1520</span>    public TitleSerializer() {<a name="line.1520"></a>
+<span class="sourceLineNo">1521</span>      super(Country.class);<a name="line.1521"></a>
+<span class="sourceLineNo">1522</span>    }<a name="line.1522"></a>
 <span class="sourceLineNo">1523</span><a name="line.1523"></a>
-<span class="sourceLineNo">1524</span>    public TitleSerializer() {<a name="line.1524"></a>
-<span class="sourceLineNo">1525</span>      super(Country.class);<a name="line.1525"></a>
-<span class="sourceLineNo">1526</span>    }<a name="line.1526"></a>
-<span class="sourceLineNo">1527</span><a name="line.1527"></a>
-<span class="sourceLineNo">1528</span>    @Override<a name="line.1528"></a>
-<span class="sourceLineNo">1529</span>    public void serialize(Country value, JsonGenerator jgen, SerializerProvider provider) throws IOException {<a name="line.1529"></a>
-<span class="sourceLineNo">1530</span>      jgen.writeString(value.title);<a name="line.1530"></a>
-<span class="sourceLineNo">1531</span>    }<a name="line.1531"></a>
-<span class="sourceLineNo">1532</span><a name="line.1532"></a>
-<span class="sourceLineNo">1533</span>  }<a name="line.1533"></a>
-<span class="sourceLineNo">1534</span><a name="line.1534"></a>
-<span class="sourceLineNo">1535</span>  /**<a name="line.1535"></a>
-<span class="sourceLineNo">1536</span>   * Deserializes the value from an english country title exactly as given by the enumeration.<a name="line.1536"></a>
-<span class="sourceLineNo">1537</span>   */<a name="line.1537"></a>
-<span class="sourceLineNo">1538</span>  public static class TitleDeserializer extends JsonDeserializer&lt;Country&gt; {<a name="line.1538"></a>
-<span class="sourceLineNo">1539</span>    private static Map&lt;String, Country&gt; TITLE_LOOKUP = Maps.uniqueIndex(Lists.newArrayList(Country.values()),<a name="line.1539"></a>
-<span class="sourceLineNo">1540</span>                                                                       new Function&lt;Country, String&gt;() {<a name="line.1540"></a>
-<span class="sourceLineNo">1541</span>      @Nullable<a name="line.1541"></a>
-<span class="sourceLineNo">1542</span>      @Override<a name="line.1542"></a>
-<span class="sourceLineNo">1543</span>      public String apply(@Nullable Country c) {<a name="line.1543"></a>
-<span class="sourceLineNo">1544</span>        return c.title;<a name="line.1544"></a>
-<span class="sourceLineNo">1545</span>      }<a name="line.1545"></a>
-<span class="sourceLineNo">1546</span>    });<a name="line.1546"></a>
-<span class="sourceLineNo">1547</span><a name="line.1547"></a>
-<span class="sourceLineNo">1548</span>    @Override<a name="line.1548"></a>
-<span class="sourceLineNo">1549</span>    public Country deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {<a name="line.1549"></a>
-<span class="sourceLineNo">1550</span>      try {<a name="line.1550"></a>
-<span class="sourceLineNo">1551</span>        return TITLE_LOOKUP.get(jp.getText());<a name="line.1551"></a>
-<span class="sourceLineNo">1552</span>      } catch (Exception e) {<a name="line.1552"></a>
-<span class="sourceLineNo">1553</span>        throw new IOException("Unable to deserialize country from provided title : " + jp.getText());<a name="line.1553"></a>
-<span class="sourceLineNo">1554</span>      }<a name="line.1554"></a>
-<span class="sourceLineNo">1555</span>    }<a name="line.1555"></a>
-<span class="sourceLineNo">1556</span>  }<a name="line.1556"></a>
-<span class="sourceLineNo">1557</span>}<a name="line.1557"></a>
+<span class="sourceLineNo">1524</span>    @Override<a name="line.1524"></a>
+<span class="sourceLineNo">1525</span>    public void serialize(Country value, JsonGenerator jgen, SerializerProvider provider) throws IOException {<a name="line.1525"></a>
+<span class="sourceLineNo">1526</span>      jgen.writeString(value.title);<a name="line.1526"></a>
+<span class="sourceLineNo">1527</span>    }<a name="line.1527"></a>
+<span class="sourceLineNo">1528</span><a name="line.1528"></a>
+<span class="sourceLineNo">1529</span>  }<a name="line.1529"></a>
+<span class="sourceLineNo">1530</span><a name="line.1530"></a>
+<span class="sourceLineNo">1531</span>  /**<a name="line.1531"></a>
+<span class="sourceLineNo">1532</span>   * Deserializes the value from an english country title exactly as given by the enumeration.<a name="line.1532"></a>
+<span class="sourceLineNo">1533</span>   */<a name="line.1533"></a>
+<span class="sourceLineNo">1534</span>  public static class TitleDeserializer extends JsonDeserializer&lt;Country&gt; {<a name="line.1534"></a>
+<span class="sourceLineNo">1535</span>    private static Map&lt;String, Country&gt; TITLE_LOOKUP = Maps.uniqueIndex(Lists.newArrayList(Country.values()),<a name="line.1535"></a>
+<span class="sourceLineNo">1536</span>                                                                       new Function&lt;Country, String&gt;() {<a name="line.1536"></a>
+<span class="sourceLineNo">1537</span>      @Nullable<a name="line.1537"></a>
+<span class="sourceLineNo">1538</span>      @Override<a name="line.1538"></a>
+<span class="sourceLineNo">1539</span>      public String apply(@Nullable Country c) {<a name="line.1539"></a>
+<span class="sourceLineNo">1540</span>        return c.title;<a name="line.1540"></a>
+<span class="sourceLineNo">1541</span>      }<a name="line.1541"></a>
+<span class="sourceLineNo">1542</span>    });<a name="line.1542"></a>
+<span class="sourceLineNo">1543</span><a name="line.1543"></a>
+<span class="sourceLineNo">1544</span>    @Override<a name="line.1544"></a>
+<span class="sourceLineNo">1545</span>    public Country deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {<a name="line.1545"></a>
+<span class="sourceLineNo">1546</span>      try {<a name="line.1546"></a>
+<span class="sourceLineNo">1547</span>        return TITLE_LOOKUP.get(jp.getText());<a name="line.1547"></a>
+<span class="sourceLineNo">1548</span>      } catch (Exception e) {<a name="line.1548"></a>
+<span class="sourceLineNo">1549</span>        throw new IOException("Unable to deserialize country from provided title : " + jp.getText());<a name="line.1549"></a>
+<span class="sourceLineNo">1550</span>      }<a name="line.1550"></a>
+<span class="sourceLineNo">1551</span>    }<a name="line.1551"></a>
+<span class="sourceLineNo">1552</span>  }<a name="line.1552"></a>
+<span class="sourceLineNo">1553</span>}<a name="line.1553"></a>
 
 
 
