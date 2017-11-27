@@ -48,6 +48,12 @@ public enum UserRole {
    * Exact permissions are handled by the registry itself.
    * Often used for external applications.
    */
-  REGISTRY_EDITOR
+  REGISTRY_EDITOR,
+
+
+  /**
+   * A user that has permissions to create data packages.
+   */
+  DATA_REPO_USER
 
 }
