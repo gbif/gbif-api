@@ -1142,9 +1142,13 @@ public enum Country {
   SYRIA("SY", "SYR", 760, "Syrian Arab Republic", GbifRegion.ASIA),
 
   /**
-   * Chinese Taipei.
+   * Taiwan.
    */
-  TAIWAN("TW", "TWN", 158, "Chinese Taipei", GbifRegion.ASIA),
+  /*
+   * The GBIF participant is called Chinese Taipei, but the location is still Taiwan.
+   * https://github.com/gbif/portal-feedback/issues/686
+   */
+  TAIWAN("TW", "TWN", 158, "Taiwan", GbifRegion.ASIA),
 
   /**
    * Tajikistan.
