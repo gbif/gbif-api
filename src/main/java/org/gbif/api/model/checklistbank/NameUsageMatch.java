@@ -15,20 +15,19 @@
  */
 package org.gbif.api.model.checklistbank;
 
+import com.google.common.base.Objects;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.util.ClassificationUtils;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 
-import java.io.Serializable;
-import java.util.List;
 import javax.annotation.Nullable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-
-import com.google.common.base.Objects;
-import org.codehaus.jackson.annotate.JsonProperty;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * The resulting lookup of a name usage match.
@@ -39,6 +38,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
   private static final long serialVersionUID = -8927655067465421358L;
 
   private Integer usageKey;
+  private Integer acceptedUsageKey;
   private String scientificName;
   private String canonicalName;
   private Rank rank;
@@ -138,6 +138,18 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
    */
   public void setUsageKey(Integer usageKey) {
     this.usageKey = usageKey;
+  }
+
+  /**
+   * The key of the accepted name usage in case the matched usage was a synonym.
+   */
+  @Nullable
+  public Integer getAcceptedUsageKey() {
+    return acceptedUsageKey;
+  }
+
+  public void setAcceptedUsageKey(Integer acceptedUsageKey) {
+    this.acceptedUsageKey = acceptedUsageKey;
   }
 
   /**
@@ -388,6 +400,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     return Objects
       .hashCode(
         usageKey,
+        acceptedUsageKey,
         scientificName,
         canonicalName,
         rank,
@@ -428,6 +441,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     }
     final NameUsageMatch other = (NameUsageMatch) obj;
     return Objects.equal(this.usageKey, other.usageKey)
+           && Objects.equal(this.acceptedUsageKey, other.acceptedUsageKey)
            && Objects.equal(this.scientificName, other.scientificName)
            && Objects.equal(this.canonicalName, other.canonicalName)
            && Objects.equal(this.rank, other.rank)
@@ -458,6 +472,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
   public String toString() {
     return Objects.toStringHelper(this)
     .add("usageKey", usageKey)
+    .add("acceptedUsageKey", acceptedUsageKey)
     .add("scientificName", scientificName)
     .add("canonicalName", canonicalName)
     .add("rank", rank)
