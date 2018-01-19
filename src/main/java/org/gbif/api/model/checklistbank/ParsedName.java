@@ -386,12 +386,12 @@ public class ParsedName {
     if (specificEpithet == null) {
       if (Rank.SPECIES == rank) {
         // no species epitheton given, but rank=species. Indetermined species!
-        if (showIndet) {
+        if (showIndet(showIndet)) {
           sb.append(" spec.");
         }
       } else if (rank != null && rank.isInfraspecific()) {
         // no species epitheton given, but rank below species. Indetermined!
-        if (showIndet) {
+        if (showIndet(showIndet)) {
           sb.append(' ');
           sb.append(rank.getMarker());
         }
@@ -438,7 +438,7 @@ public class ParsedName {
 
       if (infraSpecificEpithet == null) {
         // Indetermined? Only show indet cultivar marker if no cultivar epithet exists
-        if (showIndet && rank != null && rank.isInfraspecific() && (Rank.CULTIVAR != rank || cultivarEpithet == null)) {
+        if (showIndet(showIndet) && rank != null && rank.isInfraspecific() && (Rank.CULTIVAR != rank || cultivarEpithet == null)) {
           // no infraspecific epitheton given, but rank below species. Indetermined!
           sb.append(' ');
           sb.append(rank.getMarker());
@@ -510,6 +510,10 @@ public class ParsedName {
       name = UnicodeUtils.ascii(name);
     }
     return Strings.emptyToNull(name);
+  }
+
+  private boolean showIndet(boolean showIndet) {
+    return showIndet && (type == null || type.isParsable());
   }
 
   private void appendRankMarker(StringBuilder sb, Rank rank) {

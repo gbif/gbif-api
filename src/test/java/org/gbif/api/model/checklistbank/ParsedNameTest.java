@@ -231,6 +231,19 @@ public class ParsedNameTest {
         "Polypodium vulgare mantoniae",
         "Polypodium vulgare mantoniae",
         "Polypodium vulgare mantoniae");
+
+    // OTU
+    pn = new ParsedName();
+    for (NameType t : NameType.values()) {
+      if (!t.isParsable()) {
+        pn.setType(t);
+        pn.setScientificName("SH035824.07FU");
+        for (Rank r : Rank.values()) {
+          pn.setRank(r);
+          assertBuildName(pn, null, null, null, null);
+        }
+      }
+    }
   }
 
   @Test
