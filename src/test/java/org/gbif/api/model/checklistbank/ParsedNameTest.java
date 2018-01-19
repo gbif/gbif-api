@@ -221,6 +221,16 @@ public class ParsedNameTest {
         "Polypodium vulgare mantoniae",
         "Polypodium vulgare nothosubsp. mantoniae (Rothm.) Schidlay",
         "Polypodium vulgare nothosubsp. mantoniae");
+
+    pn = new ParsedName();
+    pn.setGenusOrAbove("Polypodium");
+    pn.setSpecificEpithet("vulgare");
+    pn.setInfraSpecificEpithet("mantoniae");
+    pn.setRank(Rank.INFRASPECIFIC_NAME);
+    assertBuildName(pn, "Polypodium vulgare mantoniae",
+        "Polypodium vulgare mantoniae",
+        "Polypodium vulgare mantoniae",
+        "Polypodium vulgare mantoniae");
   }
 
   @Test
@@ -274,9 +284,9 @@ public class ParsedNameTest {
   }
 
   private void assertBuildName(ParsedName pn, String full, String canonical, String canonicalComplete, String canonicalMarker) {
-    assertEquals("wrong fullName", full, pn.fullName());
     assertEquals("wrong canonicalName", canonical, pn.canonicalName());
-    assertEquals("wrong canonicalNameComplete", canonicalComplete, pn.canonicalNameComplete());
     assertEquals("wrong canonicalNameWithMarker", canonicalMarker, pn.canonicalNameWithMarker());
+    assertEquals("wrong canonicalNameComplete", canonicalComplete, pn.canonicalNameComplete());
+    assertEquals("wrong fullName", full, pn.fullName());
   }
 }

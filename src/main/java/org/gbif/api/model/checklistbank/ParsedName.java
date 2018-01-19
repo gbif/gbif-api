@@ -513,7 +513,7 @@ public class ParsedName {
   }
 
   private void appendRankMarker(StringBuilder sb, Rank rank) {
-    if (rank != null && rank.getMarker() != null) {
+    if (rank != null && !rank.isUncomparable() && rank.getMarker() != null) {
       sb.append(rank.getMarker());
       sb.append(' ');
     }
