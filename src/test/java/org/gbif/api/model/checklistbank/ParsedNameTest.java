@@ -232,7 +232,7 @@ public class ParsedNameTest {
         "Polypodium vulgare mantoniae",
         "Polypodium vulgare mantoniae");
 
-    // OTU
+    // unparsable names
     pn = new ParsedName();
     for (NameType t : NameType.values()) {
       if (!t.isParsable()) {
