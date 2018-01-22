@@ -51,7 +51,9 @@ import org.codehaus.jackson.map.ser.std.SerializerBase;
  *
  * TODO: deal with outdated codes from ISO_3166-3
  */
-
+/*
+ * When updating this file, remember also to update http://rs.gbif.org/vocabulary/iso/3166-1_alpha2.xml
+ */
 @JsonSerialize(using = Country.IsoSerializer.class)
 @JsonDeserialize(using = Country.IsoDeserializer.class)
 public enum Country {
