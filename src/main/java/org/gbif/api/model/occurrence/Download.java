@@ -27,20 +27,28 @@ public class Download {
    * - CANCELLED: the download was cancelled by the user
    * - KILLED: the download was killed by the workflow engine
    * - FAILED: the download failed
-   * - SUSPENDED: the download was paused and its executing will be resumed later
+   * - SUSPENDED: the download was paused and its execution will be resumed later
+   * - FILE_DELETED: the download was successful, but the download file has been deleted
    */
   public enum Status {
-    PREPARING, RUNNING, SUCCEEDED, CANCELLED, KILLED, FAILED, SUSPENDED;
+    PREPARING,
+    RUNNING,
+    SUCCEEDED,
+    CANCELLED,
+    KILLED,
+    FAILED,
+    SUSPENDED,
+    FILE_ERASED;
 
     /**
      * Statuses that represent a download that that hasn't finished.
      */
-    public static final EnumSet<Status> EXECUTING_STATUSES = EnumSet.of(PREPARING,RUNNING,SUSPENDED);
+    public static final EnumSet<Status> EXECUTING_STATUSES = EnumSet.of(PREPARING, RUNNING, SUSPENDED);
 
     /**
      * Statuses that represent a download that that has finished.
      */
-    public static final EnumSet<Status> FINISH_STATUSES = EnumSet.of(SUCCEEDED, CANCELLED, KILLED, FAILED);
+    public static final EnumSet<Status> FINISH_STATUSES = EnumSet.of(SUCCEEDED, CANCELLED, KILLED, FAILED, FILE_ERASED);
   }
 
   private String key;
@@ -54,6 +62,8 @@ public class Download {
   private Date created;
 
   private Date modified;
+
+  private Date eraseAfter;
 
   private Status status;
 
@@ -104,6 +114,14 @@ public class Download {
   }
 
   /**
+   * @return timestamp after which the download file may be erased
+   */
+  @Nullable
+  public Date getEraseAfter() {
+    return eraseAfter;
+  }
+
+  /**
    * Request that originated the download.
    */
   @NotNull
@@ -145,7 +163,7 @@ public class Download {
   }
 
   /**
-   * Number of occurrence records in the download file.
+   * Number of datasets in the download file.
    */
   @Nullable
   public long getNumberDatasets() {
@@ -192,6 +210,10 @@ public class Download {
     this.modified = modified;
   }
 
+  public void setEraseAfter(Date eraseAfter) {
+    this.eraseAfter = eraseAfter;
+  }
+
   public void setRequest(DownloadRequest request) {
     this.request = request;
   }
@@ -219,6 +241,7 @@ public class Download {
       .add("request", request).add("created", created)
       .add("license", license)
       .add("modified", modified)
+      .add("eraseAfter", eraseAfter)
       .add("size", size)
       .add("totalRecords", totalRecords)
       .add("numberDatasets", numberDatasets).toString();
@@ -240,6 +263,7 @@ public class Download {
       && Objects.equal(this.license, that.license)
       && Objects.equal(this.created, that.created)
       && Objects.equal(this.modified, that.modified)
+      && Objects.equal(this.eraseAfter, that.eraseAfter)
       && Objects.equal(this.status, that.status)
       && Objects.equal(this.downloadLink, that.downloadLink)
       && Objects.equal(this.size, that.size)
@@ -249,7 +273,7 @@ public class Download {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(key, doi, license, request, created, modified, status, downloadLink, size, totalRecords,
-            numberDatasets);
+    return Objects.hashCode(key, doi, license, request, created, modified, eraseAfter, status, downloadLink, size,
+        totalRecords, numberDatasets);
   }
 }

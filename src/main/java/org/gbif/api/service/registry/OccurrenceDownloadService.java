@@ -22,10 +22,9 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 /**
- * Interface to access and persists information about occurrence download events.
+ * Interface to access and persist information about occurrence download events.
  */
 public interface OccurrenceDownloadService {
-
 
   /**
    * Persists the occurrence download object. The object must contain a unique key, the persistence storage doesn't
@@ -42,12 +41,12 @@ public interface OccurrenceDownloadService {
   /**
    * Retrieves a pageable result of all the downloads, optionally the downloads can be filtered by status.
    */
-  PagingResponse<Download> list(@Nullable Pageable page,@Nullable Set<Download.Status> status);
+  PagingResponse<Download> list(@Nullable Pageable page, @Nullable Set<Download.Status> status);
 
   /**
    * Retrieves a pageable result of the downloads created by a user in a given status.
    */
-  PagingResponse<Download> listByUser(@NotNull String user,  @Nullable Pageable page, @Nullable Set<Download.Status> status);
+  PagingResponse<Download> listByUser(@NotNull String user, @Nullable Pageable page, @Nullable Set<Download.Status> status);
 
   /**
    * Update an existing occurrence download.
