@@ -661,9 +661,9 @@ public class ParsedName {
    */
   @JsonIgnore
   public boolean isIndetermined() {
-    return rank != null && isParsed() && isParsableType() && (
-           (rank.isInfrageneric() && rank.isSupraspecific() && infraGeneric == null)
-        || (rank.isSpeciesOrBelow() && specificEpithet == null)
+    return rank != null && isParsed() && isParsableType() && rank.notOtherOrUnknown() && (
+           (rank.isInfragenericStrictly() && infraGeneric == null)
+        || (rank.isSpeciesAggregateOrBelow() && specificEpithet == null)
         || (rank.isInfraspecific() && infraSpecificEpithet == null)
     );
   }

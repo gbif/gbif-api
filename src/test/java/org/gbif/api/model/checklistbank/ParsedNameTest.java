@@ -116,6 +116,15 @@ public class ParsedNameTest {
 
     pn.setInfraGeneric("Mysubgenus");
     assertFalse(pn.isIndetermined());
+
+
+    pn = new ParsedName();
+    pn.setType(NameType.SCIENTIFIC);
+    pn.setRank(Rank.SPECIES_AGGREGATE);
+    pn.setGenusOrAbove("Achillea");
+    pn.setSpecificEpithet("millefolium");
+    pn.setAuthorship("L.");
+    assertFalse(pn.isIndetermined());
   }
 
   @Test

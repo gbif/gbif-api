@@ -15,13 +15,13 @@
  */
 package org.gbif.api.vocabulary;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * An ordered taxonomic rank enumeration with the most frequently used values.
@@ -421,6 +421,13 @@ public enum Rank {
   }
 
   /**
+   * @return true for real infrageneric ranks with an infragenericEpithet below genus and above species aggregate.
+   */
+  public boolean isInfragenericStrictly() {
+    return isInfrageneric() && ordinal() < SPECIES_AGGREGATE.ordinal();
+  }
+
+  /**
    * True for all mayor Linnéan ranks, ie kingdom,phylum,class,order,family,genus and species.
    */
   public boolean isLinnean() {
@@ -434,6 +441,10 @@ public enum Rank {
 
   public boolean isSpeciesOrBelow() {
     return ordinal() >= SPECIES.ordinal() && notOtherOrUnknown();
+  }
+
+  public boolean isSpeciesAggregateOrBelow() {
+    return ordinal() >= SPECIES_AGGREGATE.ordinal() && notOtherOrUnknown();
   }
 
   public boolean notOtherOrUnknown() {
