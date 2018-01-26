@@ -317,7 +317,7 @@ public class ParsedName {
 
   /**
    * A flag indicating if a name could not be parsed at all.
-   * In that case only the scientific name, rank and potentially the name type is given.
+   * If false, only the scientific name, rank and potentially the name type is given.
    */
   public boolean isParsed() {
     return parsed;
@@ -661,7 +661,7 @@ public class ParsedName {
    */
   @JsonIgnore
   public boolean isIndetermined() {
-    return rank != null && isParsableType() && (
+    return rank != null && isParsed() && isParsableType() && (
            (rank.isInfrageneric() && rank.isSupraspecific() && infraGeneric == null)
         || (rank.isSpeciesOrBelow() && specificEpithet == null)
         || (rank.isInfraspecific() && infraSpecificEpithet == null)
