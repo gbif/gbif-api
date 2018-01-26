@@ -71,11 +71,22 @@ public class ParsedNameTest {
   @Test
   public void testIndet() throws Exception {
     ParsedName pn = new ParsedName();
+    pn.setType(NameType.SCIENTIFIC);
     pn.setGenusOrAbove("Abies");
     assertFalse(pn.isIndetermined());
 
     pn.setRank(Rank.SPECIES);
     assertTrue(pn.isIndetermined());
+
+    for (NameType t : NameType.values()) {
+      pn.setType(t);
+      if (t.isParsable()) {
+        assertTrue(pn.isIndetermined());
+      } else {
+        assertFalse(pn.isIndetermined());
+      }
+    }
+    pn.setType(NameType.SCIENTIFIC);
 
     pn.setSpecificEpithet("vulgaris");
     assertFalse(pn.isIndetermined());
