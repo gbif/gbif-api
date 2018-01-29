@@ -153,8 +153,12 @@ public class NameUsageMatch2 {
     this.acceptedUsage = acceptedUsage;
   }
 
-  public Object getNomenclature() {
+  public Nomenclature getNomenclature() {
     return nomenclature;
+  }
+
+  public void setNomenclature(Nomenclature nomenclature) {
+    this.nomenclature = nomenclature;
   }
 
   /**
