@@ -24,14 +24,17 @@ public class IdentifierUtilsTest {
    */
   @Parameterized.Parameters
   public static Collection<Object[]> getTestParameters() {
-    return Arrays.asList(new Object[][] { {null, "49c5b4ac-e3bf-401b-94b1-c94a2ad5c8d6", IdentifierType.UUID},
-      {"http://data.gbif.org/datasets/resource/ds1", "ds1", IdentifierType.GBIF_PORTAL}, {null, "local_1:dx:4", IdentifierType.UNKNOWN},
+    return Arrays.asList(new Object[][] {
+      {null, "49c5b4ac-e3bf-401b-94b1-c94a2ad5c8d6", IdentifierType.UUID},
+      {"https://www.gbif.org/dataset/ds1", "ds1", IdentifierType.GBIF_PORTAL},
+      {null, "local_1:dx:4", IdentifierType.UNKNOWN},
       {"http://en.wikipedia.org/wiki/Handle_1", "http://en.wikipedia.org/wiki/Handle_1", IdentifierType.HANDLER},
       {"urn:ds:acns:1", "urn:ds:acns:1", IdentifierType.URI},
       {"http://ipt.gbif.org/resource.do?r=ds1", "http://ipt.gbif.org/resource.do?r=ds1", IdentifierType.URL},
       {"ftp://ftp.gbif.org", "ftp://ftp.gbif.org", IdentifierType.FTP},
-      {"http://dx.doi.org/10.1016/S1097-2765(03)00225-9", "10.1016/S1097-2765(03)00225-9", IdentifierType.DOI},
-      {"http://lsid.tdwg.org/summary/132187", "132187", IdentifierType.LSID},});
+      {"https://doi.org/10.1016/S1097-2765(03)00225-9", "10.1016/S1097-2765(03)00225-9", IdentifierType.DOI},
+      {"http://www.lsid.info/132187", "132187", IdentifierType.LSID},
+    });
   }
 
   public IdentifierUtilsTest(String expected, String identifier, IdentifierType type) {

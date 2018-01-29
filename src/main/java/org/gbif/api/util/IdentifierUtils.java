@@ -37,11 +37,11 @@ public class IdentifierUtils {
       case FTP:
         return identifier;
       case DOI:
-        return "http://dx.doi.org/" + identifier;
+        return "https://doi.org/" + identifier;
       case LSID:
-        return "http://lsid.tdwg.org/summary/" + identifier;
+        return "http://www.lsid.info/" + identifier;
       case GBIF_PORTAL:
-        return "http://data.gbif.org/datasets/resource/" + identifier;
+        return "https://www.gbif.org/dataset/" + identifier;
     }
     return null;
   }

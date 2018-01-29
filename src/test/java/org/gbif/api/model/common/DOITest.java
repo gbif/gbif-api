@@ -28,7 +28,6 @@ public class DOITest {
     assertFalse(DOI.isParsable("10.1234.1ASCDU"));
     assertFalse(DOI.isParsable("DOI:123"));
     assertFalse(DOI.isParsable("   "));
-    assertFalse(DOI.isParsable("http://dx.doi.org/10.1643/0045-8511(2007)2007[699:Tnvsot]2.0.Co;2"));
 
     assertTrue(DOI.isParsable("http://dx.doi.org/urn:doi:10.1234/1ASCDU"));
     assertTrue(DOI.isParsable("http://doi.org/urn:doi:10.1234/1ASCDU"));
@@ -47,7 +46,11 @@ public class DOITest {
     assertTrue(DOI.isParsable("urn:doi:10.1234/1ascdu"));
     assertTrue(DOI.isParsable("10.1234/1ascdu"));
     assertTrue(DOI.isParsable("10.1234/1ASCDU"));
+
+    // This is real.
+    assertTrue(DOI.isParsable("10.1643/0045-8511(2007)2007[699:Tnvsot]2.0.Co;2"));
     assertTrue(DOI.isParsable("doi:10.1643/0045-8511(2007)2007[699:Tnvsot]2.0.Co;2"));
+    assertTrue(DOI.isParsable("https://doi.org/10.1643/0045-8511(2007)2007%5b699%3aTnvsot%5d2.0.Co%3b2"));
 
     // try subdivisions
     assertTrue(DOI.isParsable("http://dx.doi.org/10.1234.999/1ASCDU"));
@@ -78,6 +81,8 @@ public class DOITest {
     assertSame(d, "urn:doi:10.1234/1ascdu");
     assertSame(d, "10.1234/1ascdu");
     assertSame(d, "10.1234/1ASCDU");
+
+    new DOI("https://doi.org/10.1643/0045-8511(2007)2007%5b699%3aTnvsot%5d2.0.Co%3b2");
 
     // try subdivisions
     new DOI("http://dx.doi.org/10.1234.999/1ASCDU");
@@ -166,7 +171,7 @@ public class DOITest {
     Container source = new Container(new DOI("doi:10.1038/nature.2014.16460"), new DOI("http://dx.doi.org/10.1034/gbif.2014.xscdf2"));
     try {
       String json = SerdeTestUtils.testSerDe(source, Container.class);
-      assertTrue("DOIs should start with doi:10.", json.contains("\"doi:10."));
+      assertFalse("DOIs should be shown without a scheme", json.contains("doi:10."));
       assertFalse("DOIs should not use http resolvers", json.contains("http"));
       assertFalse("DOIs should not use http resolvers", json.contains("doi.org"));
       System.out.println(json);

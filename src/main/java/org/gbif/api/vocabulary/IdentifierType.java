@@ -51,7 +51,7 @@ public enum IdentifierType {
   GBIF_NODE,
 
   /**
-   * Participant identifier from the GBIF IMS Filemaker system.
+   * Participant identifier from the GBIF Directory.
    */
   GBIF_PARTICIPANT;
 
@@ -84,9 +84,16 @@ public enum IdentifierType {
       return UNKNOWN;
     }
 
+    if (lcIdentifier.startsWith(org.gbif.api.model.common.DOI.GBIF_PREFIX)
+        || lcIdentifier.startsWith(org.gbif.api.model.common.DOI.TEST_PREFIX)) {
+      return DOI;
+    }
     if (lcIdentifier.startsWith("doi:10")
         || lcIdentifier.startsWith("urn:doi:")
-        || lcIdentifier.startsWith("http://dx.doi.org/10.")) {
+        || lcIdentifier.startsWith("http://dx.doi.org/10.")
+        || lcIdentifier.startsWith("https://dx.doi.org/10.")
+        || lcIdentifier.startsWith("http://doi.org/10.")
+        || lcIdentifier.startsWith("https://doi.org/10.")) {
       return DOI;
     }
     if (lcIdentifier.startsWith("http:")

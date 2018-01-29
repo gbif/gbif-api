@@ -139,7 +139,7 @@ public class DOI {
 
   /**
    * See <a href="http://www.doi.org/doi_handbook/2_Numbering.html#2.6">DOI Hanbook, Visual presentation and other representation of DOI names</a>.
-   * @return the resolved DOI using http://dx.doi.org
+   * @return the resolved DOI using https://doi.org/
    */
   public URI getUrl() {
     return URI.create(RESOLVER + prefix + '/' + suffix);
@@ -154,7 +154,7 @@ public class DOI {
 
   @Override
   public String toString() {
-    return SCHEME + prefix + '/' + suffix;
+    return prefix + '/' + suffix;
   }
 
   @Override
@@ -178,8 +178,8 @@ public class DOI {
 
 
   /**
-   * Serializes a DOI as doi name with a doi: scheme.
-   * For example doi:10.1038/nature.2014.16460
+   * Serializes a DOI – no scheme, no resolver.
+   * For example 10.1038/nature.2014.16460
    */
   public static class Serializer extends SerializerBase<DOI> {
 

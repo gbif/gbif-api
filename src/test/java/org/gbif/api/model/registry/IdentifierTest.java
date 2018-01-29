@@ -14,6 +14,6 @@ public class IdentifierTest {
     i1.setIdentifier("10.1594/PANGAEA.819874");
     i1.setType(IdentifierType.DOI);
 
-    assertEquals("http://dx.doi.org/10.1594/PANGAEA.819874", i1.getIdentifierLink());
+    assertEquals("https://doi.org/10.1594/PANGAEA.819874", i1.getIdentifierLink());
   }
 }
