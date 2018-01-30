@@ -88,8 +88,9 @@ public enum IdentifierType {
         || lcIdentifier.startsWith(org.gbif.api.model.common.DOI.TEST_PREFIX)) {
       return DOI;
     }
-    if (lcIdentifier.startsWith("doi:10")
-        || lcIdentifier.startsWith("urn:doi:")
+    if (lcIdentifier.startsWith("10.")
+        || lcIdentifier.startsWith("doi:10.")
+        || lcIdentifier.startsWith("urn:doi:10.")
         || lcIdentifier.startsWith("http://dx.doi.org/10.")
         || lcIdentifier.startsWith("https://dx.doi.org/10.")
         || lcIdentifier.startsWith("http://doi.org/10.")
