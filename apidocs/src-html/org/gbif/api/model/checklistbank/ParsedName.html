@@ -325,7 +325,7 @@
 <span class="sourceLineNo">317</span><a name="line.317"></a>
 <span class="sourceLineNo">318</span>  /**<a name="line.318"></a>
 <span class="sourceLineNo">319</span>   * A flag indicating if a name could not be parsed at all.<a name="line.319"></a>
-<span class="sourceLineNo">320</span>   * In that case only the scientific name, rank and potentially the name type is given.<a name="line.320"></a>
+<span class="sourceLineNo">320</span>   * If false, only the scientific name, rank and potentially the name type is given.<a name="line.320"></a>
 <span class="sourceLineNo">321</span>   */<a name="line.321"></a>
 <span class="sourceLineNo">322</span>  public boolean isParsed() {<a name="line.322"></a>
 <span class="sourceLineNo">323</span>    return parsed;<a name="line.323"></a>
@@ -394,12 +394,12 @@
 <span class="sourceLineNo">386</span>    if (specificEpithet == null) {<a name="line.386"></a>
 <span class="sourceLineNo">387</span>      if (Rank.SPECIES == rank) {<a name="line.387"></a>
 <span class="sourceLineNo">388</span>        // no species epitheton given, but rank=species. Indetermined species!<a name="line.388"></a>
-<span class="sourceLineNo">389</span>        if (showIndet) {<a name="line.389"></a>
+<span class="sourceLineNo">389</span>        if (showIndet(showIndet)) {<a name="line.389"></a>
 <span class="sourceLineNo">390</span>          sb.append(" spec.");<a name="line.390"></a>
 <span class="sourceLineNo">391</span>        }<a name="line.391"></a>
 <span class="sourceLineNo">392</span>      } else if (rank != null &amp;&amp; rank.isInfraspecific()) {<a name="line.392"></a>
 <span class="sourceLineNo">393</span>        // no species epitheton given, but rank below species. Indetermined!<a name="line.393"></a>
-<span class="sourceLineNo">394</span>        if (showIndet) {<a name="line.394"></a>
+<span class="sourceLineNo">394</span>        if (showIndet(showIndet)) {<a name="line.394"></a>
 <span class="sourceLineNo">395</span>          sb.append(' ');<a name="line.395"></a>
 <span class="sourceLineNo">396</span>          sb.append(rank.getMarker());<a name="line.396"></a>
 <span class="sourceLineNo">397</span>        }<a name="line.397"></a>
@@ -446,7 +446,7 @@
 <span class="sourceLineNo">438</span><a name="line.438"></a>
 <span class="sourceLineNo">439</span>      if (infraSpecificEpithet == null) {<a name="line.439"></a>
 <span class="sourceLineNo">440</span>        // Indetermined? Only show indet cultivar marker if no cultivar epithet exists<a name="line.440"></a>
-<span class="sourceLineNo">441</span>        if (showIndet &amp;&amp; rank != null &amp;&amp; rank.isInfraspecific() &amp;&amp; (Rank.CULTIVAR != rank || cultivarEpithet == null)) {<a name="line.441"></a>
+<span class="sourceLineNo">441</span>        if (showIndet(showIndet) &amp;&amp; rank != null &amp;&amp; rank.isInfraspecific() &amp;&amp; (Rank.CULTIVAR != rank || cultivarEpithet == null)) {<a name="line.441"></a>
 <span class="sourceLineNo">442</span>          // no infraspecific epitheton given, but rank below species. Indetermined!<a name="line.442"></a>
 <span class="sourceLineNo">443</span>          sb.append(' ');<a name="line.443"></a>
 <span class="sourceLineNo">444</span>          sb.append(rank.getMarker());<a name="line.444"></a>
@@ -520,319 +520,323 @@
 <span class="sourceLineNo">512</span>    return Strings.emptyToNull(name);<a name="line.512"></a>
 <span class="sourceLineNo">513</span>  }<a name="line.513"></a>
 <span class="sourceLineNo">514</span><a name="line.514"></a>
-<span class="sourceLineNo">515</span>  private void appendRankMarker(StringBuilder sb, Rank rank) {<a name="line.515"></a>
-<span class="sourceLineNo">516</span>    if (rank != null &amp;&amp; rank.getMarker() != null) {<a name="line.516"></a>
-<span class="sourceLineNo">517</span>      sb.append(rank.getMarker());<a name="line.517"></a>
-<span class="sourceLineNo">518</span>      sb.append(' ');<a name="line.518"></a>
-<span class="sourceLineNo">519</span>    }<a name="line.519"></a>
-<span class="sourceLineNo">520</span>  }<a name="line.520"></a>
-<span class="sourceLineNo">521</span><a name="line.521"></a>
-<span class="sourceLineNo">522</span>  private void appendAuthorship(StringBuilder sb) {<a name="line.522"></a>
-<span class="sourceLineNo">523</span>    if (bracketAuthorship == null) {<a name="line.523"></a>
-<span class="sourceLineNo">524</span>      if (bracketYear != null) {<a name="line.524"></a>
-<span class="sourceLineNo">525</span>        sb.append(" (");<a name="line.525"></a>
-<span class="sourceLineNo">526</span>        sb.append(bracketYear);<a name="line.526"></a>
-<span class="sourceLineNo">527</span>        sb.append(")");<a name="line.527"></a>
-<span class="sourceLineNo">528</span>      }<a name="line.528"></a>
-<span class="sourceLineNo">529</span>    } else {<a name="line.529"></a>
-<span class="sourceLineNo">530</span>      sb.append(" (");<a name="line.530"></a>
-<span class="sourceLineNo">531</span>      sb.append(bracketAuthorship);<a name="line.531"></a>
-<span class="sourceLineNo">532</span>      if (bracketYear != null) {<a name="line.532"></a>
-<span class="sourceLineNo">533</span>        sb.append(", ");<a name="line.533"></a>
-<span class="sourceLineNo">534</span>        sb.append(bracketYear);<a name="line.534"></a>
-<span class="sourceLineNo">535</span>      }<a name="line.535"></a>
-<span class="sourceLineNo">536</span>      sb.append(")");<a name="line.536"></a>
-<span class="sourceLineNo">537</span>    }<a name="line.537"></a>
-<span class="sourceLineNo">538</span>    if (authorship != null) {<a name="line.538"></a>
-<span class="sourceLineNo">539</span>      sb.append(" ").append(authorship);<a name="line.539"></a>
-<span class="sourceLineNo">540</span>    }<a name="line.540"></a>
-<span class="sourceLineNo">541</span>    if (year != null) {<a name="line.541"></a>
-<span class="sourceLineNo">542</span>      sb.append(", ");<a name="line.542"></a>
-<span class="sourceLineNo">543</span>      sb.append(year);<a name="line.543"></a>
+<span class="sourceLineNo">515</span>  private boolean showIndet(boolean showIndet) {<a name="line.515"></a>
+<span class="sourceLineNo">516</span>    return showIndet &amp;&amp; (type == null || type.isParsable());<a name="line.516"></a>
+<span class="sourceLineNo">517</span>  }<a name="line.517"></a>
+<span class="sourceLineNo">518</span><a name="line.518"></a>
+<span class="sourceLineNo">519</span>  private void appendRankMarker(StringBuilder sb, Rank rank) {<a name="line.519"></a>
+<span class="sourceLineNo">520</span>    if (rank != null &amp;&amp; !rank.isUncomparable() &amp;&amp; rank.getMarker() != null) {<a name="line.520"></a>
+<span class="sourceLineNo">521</span>      sb.append(rank.getMarker());<a name="line.521"></a>
+<span class="sourceLineNo">522</span>      sb.append(' ');<a name="line.522"></a>
+<span class="sourceLineNo">523</span>    }<a name="line.523"></a>
+<span class="sourceLineNo">524</span>  }<a name="line.524"></a>
+<span class="sourceLineNo">525</span><a name="line.525"></a>
+<span class="sourceLineNo">526</span>  private void appendAuthorship(StringBuilder sb) {<a name="line.526"></a>
+<span class="sourceLineNo">527</span>    if (bracketAuthorship == null) {<a name="line.527"></a>
+<span class="sourceLineNo">528</span>      if (bracketYear != null) {<a name="line.528"></a>
+<span class="sourceLineNo">529</span>        sb.append(" (");<a name="line.529"></a>
+<span class="sourceLineNo">530</span>        sb.append(bracketYear);<a name="line.530"></a>
+<span class="sourceLineNo">531</span>        sb.append(")");<a name="line.531"></a>
+<span class="sourceLineNo">532</span>      }<a name="line.532"></a>
+<span class="sourceLineNo">533</span>    } else {<a name="line.533"></a>
+<span class="sourceLineNo">534</span>      sb.append(" (");<a name="line.534"></a>
+<span class="sourceLineNo">535</span>      sb.append(bracketAuthorship);<a name="line.535"></a>
+<span class="sourceLineNo">536</span>      if (bracketYear != null) {<a name="line.536"></a>
+<span class="sourceLineNo">537</span>        sb.append(", ");<a name="line.537"></a>
+<span class="sourceLineNo">538</span>        sb.append(bracketYear);<a name="line.538"></a>
+<span class="sourceLineNo">539</span>      }<a name="line.539"></a>
+<span class="sourceLineNo">540</span>      sb.append(")");<a name="line.540"></a>
+<span class="sourceLineNo">541</span>    }<a name="line.541"></a>
+<span class="sourceLineNo">542</span>    if (authorship != null) {<a name="line.542"></a>
+<span class="sourceLineNo">543</span>      sb.append(" ").append(authorship);<a name="line.543"></a>
 <span class="sourceLineNo">544</span>    }<a name="line.544"></a>
-<span class="sourceLineNo">545</span>  }<a name="line.545"></a>
-<span class="sourceLineNo">546</span><a name="line.546"></a>
-<span class="sourceLineNo">547</span>  /**<a name="line.547"></a>
-<span class="sourceLineNo">548</span>   * The canonical name sensu strictu with nothing else but 3 name parts at max (genus, species, infraspecific). No<a name="line.548"></a>
-<span class="sourceLineNo">549</span>   * rank or hybrid markers and no authorship, cultivar or strain information.<a name="line.549"></a>
-<span class="sourceLineNo">550</span>   * Infrageneric names are represented without a leading genus.<a name="line.550"></a>
-<span class="sourceLineNo">551</span>   * Unicode characters will be replaced by their matching ASCII characters.<a name="line.551"></a>
-<span class="sourceLineNo">552</span>   * &lt;p/&gt;<a name="line.552"></a>
-<span class="sourceLineNo">553</span>   * For example:<a name="line.553"></a>
-<span class="sourceLineNo">554</span>   * Abies alba<a name="line.554"></a>
-<span class="sourceLineNo">555</span>   * Abies alba alpina<a name="line.555"></a>
-<span class="sourceLineNo">556</span>   * Abies Bracteata<a name="line.556"></a>
-<span class="sourceLineNo">557</span>   * Heucherella tiarelloides<a name="line.557"></a>
-<span class="sourceLineNo">558</span>   *<a name="line.558"></a>
-<span class="sourceLineNo">559</span>   * @return the 1,2 or 3 parted name as a single string<a name="line.559"></a>
-<span class="sourceLineNo">560</span>   */<a name="line.560"></a>
-<span class="sourceLineNo">561</span>  @JsonProperty<a name="line.561"></a>
-<span class="sourceLineNo">562</span>  public String canonicalName() {<a name="line.562"></a>
-<span class="sourceLineNo">563</span>    return buildName(false, false, false, false, false, false, true, true, true, false, false, false, false, false);<a name="line.563"></a>
-<span class="sourceLineNo">564</span>  }<a name="line.564"></a>
-<span class="sourceLineNo">565</span><a name="line.565"></a>
-<span class="sourceLineNo">566</span>  /**<a name="line.566"></a>
-<span class="sourceLineNo">567</span>   * The code compliant, canonical name with 3 name parts at max (genus, species, infraspecific), a rank marker for<a name="line.567"></a>
-<span class="sourceLineNo">568</span>   * infraspecific names and cultivar or strain epithets. The canonical name can be a 1, 2 or 3 parted name, but does<a name="line.568"></a>
-<span class="sourceLineNo">569</span>   * not include any informal notes or<a name="line.569"></a>
-<span class="sourceLineNo">570</span>   * authorships. Notho taxa will have the hybrid marker.<a name="line.570"></a>
-<span class="sourceLineNo">571</span>   * Unicode characters will be replaced by their matching ASCII characters.<a name="line.571"></a>
-<span class="sourceLineNo">572</span>   * &lt;p/&gt;<a name="line.572"></a>
-<span class="sourceLineNo">573</span>   * For example:<a name="line.573"></a>
-<span class="sourceLineNo">574</span>   * Abies alba<a name="line.574"></a>
-<span class="sourceLineNo">575</span>   * Abies alba subsp. alpina<a name="line.575"></a>
-<span class="sourceLineNo">576</span>   * Abies sect. Bracteata<a name="line.576"></a>
-<span class="sourceLineNo">577</span>   * ×Heucherella tiarelloides<a name="line.577"></a>
-<span class="sourceLineNo">578</span>   *<a name="line.578"></a>
-<span class="sourceLineNo">579</span>   * @return the 1,2 or 3 parted name as a single string<a name="line.579"></a>
-<span class="sourceLineNo">580</span>   */<a name="line.580"></a>
-<span class="sourceLineNo">581</span>  @JsonProperty<a name="line.581"></a>
-<span class="sourceLineNo">582</span>  public String canonicalNameWithMarker() {<a name="line.582"></a>
-<span class="sourceLineNo">583</span>    return buildName(true, true, false, false, false, false, true, true, true, false, false, false, true, true);<a name="line.583"></a>
-<span class="sourceLineNo">584</span>  }<a name="line.584"></a>
-<span class="sourceLineNo">585</span><a name="line.585"></a>
-<span class="sourceLineNo">586</span>  /**<a name="line.586"></a>
-<span class="sourceLineNo">587</span>   * The code compliant, canonical name with rank &amp; hybrid marker, authorship and cultivar or strain name included.<a name="line.587"></a>
-<span class="sourceLineNo">588</span>   * Informal or nomenclatoral notes, concept references, subgenus and non terminal authorships are removed.<a name="line.588"></a>
-<span class="sourceLineNo">589</span>   * @return the 1,2 or 3 parted name as a single string<a name="line.589"></a>
-<span class="sourceLineNo">590</span>   */<a name="line.590"></a>
-<span class="sourceLineNo">591</span>  @JsonProperty<a name="line.591"></a>
-<span class="sourceLineNo">592</span>  public String canonicalNameComplete() {<a name="line.592"></a>
-<span class="sourceLineNo">593</span>    return buildName(true, true, true, false, true, false, true, false, true, false, false, false, true, true);<a name="line.593"></a>
-<span class="sourceLineNo">594</span>  }<a name="line.594"></a>
-<span class="sourceLineNo">595</span><a name="line.595"></a>
-<span class="sourceLineNo">596</span>  /**<a name="line.596"></a>
-<span class="sourceLineNo">597</span>   * @return the species binomial if this parsed name is a species or below. Or null in case its superspecific<a name="line.597"></a>
-<span class="sourceLineNo">598</span>   */<a name="line.598"></a>
-<span class="sourceLineNo">599</span>  public String canonicalSpeciesName() {<a name="line.599"></a>
-<span class="sourceLineNo">600</span>    if (genusOrAbove != null &amp;&amp; specificEpithet != null) {<a name="line.600"></a>
-<span class="sourceLineNo">601</span>      return genusOrAbove + " " + specificEpithet;<a name="line.601"></a>
-<span class="sourceLineNo">602</span>    }<a name="line.602"></a>
-<span class="sourceLineNo">603</span>    return null;<a name="line.603"></a>
-<span class="sourceLineNo">604</span>  }<a name="line.604"></a>
-<span class="sourceLineNo">605</span><a name="line.605"></a>
-<span class="sourceLineNo">606</span>  /**<a name="line.606"></a>
-<span class="sourceLineNo">607</span>   * @return the name with all details that exist.<a name="line.607"></a>
-<span class="sourceLineNo">608</span>   */<a name="line.608"></a>
-<span class="sourceLineNo">609</span>  public String fullName() {<a name="line.609"></a>
-<span class="sourceLineNo">610</span>    return buildName(true, true, true, true, true, false, false, false, true, true, true, true, true, true);<a name="line.610"></a>
-<span class="sourceLineNo">611</span>  }<a name="line.611"></a>
-<span class="sourceLineNo">612</span><a name="line.612"></a>
-<span class="sourceLineNo">613</span>  @JsonIgnore<a name="line.613"></a>
-<span class="sourceLineNo">614</span>  public Integer getBracketYearInt() {<a name="line.614"></a>
-<span class="sourceLineNo">615</span>    try {<a name="line.615"></a>
-<span class="sourceLineNo">616</span>      return Integer.parseInt(bracketYear);<a name="line.616"></a>
-<span class="sourceLineNo">617</span>    } catch (NumberFormatException e) {<a name="line.617"></a>
-<span class="sourceLineNo">618</span>      return null;<a name="line.618"></a>
-<span class="sourceLineNo">619</span>    }<a name="line.619"></a>
-<span class="sourceLineNo">620</span>  }<a name="line.620"></a>
-<span class="sourceLineNo">621</span><a name="line.621"></a>
-<span class="sourceLineNo">622</span>  /**<a name="line.622"></a>
-<span class="sourceLineNo">623</span>   * @return rank as enumeration or null<a name="line.623"></a>
-<span class="sourceLineNo">624</span>   */<a name="line.624"></a>
-<span class="sourceLineNo">625</span>  public Rank getRank() {<a name="line.625"></a>
-<span class="sourceLineNo">626</span>    return rank;<a name="line.626"></a>
-<span class="sourceLineNo">627</span>  }<a name="line.627"></a>
-<span class="sourceLineNo">628</span><a name="line.628"></a>
-<span class="sourceLineNo">629</span>  @JsonIgnore<a name="line.629"></a>
-<span class="sourceLineNo">630</span>  public Integer getYearInt() {<a name="line.630"></a>
-<span class="sourceLineNo">631</span>    try {<a name="line.631"></a>
-<span class="sourceLineNo">632</span>      return Integer.parseInt(year);<a name="line.632"></a>
-<span class="sourceLineNo">633</span>    } catch (NumberFormatException e) {<a name="line.633"></a>
-<span class="sourceLineNo">634</span>      return null;<a name="line.634"></a>
-<span class="sourceLineNo">635</span>    }<a name="line.635"></a>
-<span class="sourceLineNo">636</span>  }<a name="line.636"></a>
-<span class="sourceLineNo">637</span><a name="line.637"></a>
-<span class="sourceLineNo">638</span>  @JsonIgnore<a name="line.638"></a>
-<span class="sourceLineNo">639</span>  public boolean isAutonym() {<a name="line.639"></a>
-<span class="sourceLineNo">640</span>    return specificEpithet != null &amp;&amp; infraSpecificEpithet != null &amp;&amp; specificEpithet.equals(infraSpecificEpithet);<a name="line.640"></a>
-<span class="sourceLineNo">641</span>  }<a name="line.641"></a>
-<span class="sourceLineNo">642</span><a name="line.642"></a>
-<span class="sourceLineNo">643</span>  @JsonIgnore<a name="line.643"></a>
-<span class="sourceLineNo">644</span>  public boolean isBinomial() {<a name="line.644"></a>
-<span class="sourceLineNo">645</span>    return genusOrAbove != null &amp;&amp; specificEpithet != null;<a name="line.645"></a>
-<span class="sourceLineNo">646</span>  }<a name="line.646"></a>
-<span class="sourceLineNo">647</span><a name="line.647"></a>
-<span class="sourceLineNo">648</span>  @JsonIgnore<a name="line.648"></a>
-<span class="sourceLineNo">649</span>  public boolean isHybridFormula() {<a name="line.649"></a>
-<span class="sourceLineNo">650</span>    return NameType.HYBRID == type;<a name="line.650"></a>
-<span class="sourceLineNo">651</span>  }<a name="line.651"></a>
-<span class="sourceLineNo">652</span><a name="line.652"></a>
-<span class="sourceLineNo">653</span>  /**<a name="line.653"></a>
-<span class="sourceLineNo">654</span>   * @return true for names with an infraspecifc rank but missing lowest name part. E.g. Coccyzuz americanus ssp. or<a name="line.654"></a>
-<span class="sourceLineNo">655</span>   *         Asteraceae<a name="line.655"></a>
-<span class="sourceLineNo">656</span>   *         spec. but not Maxillaria sect. Acaules<a name="line.656"></a>
-<span class="sourceLineNo">657</span>   */<a name="line.657"></a>
-<span class="sourceLineNo">658</span>  @JsonIgnore<a name="line.658"></a>
-<span class="sourceLineNo">659</span>  public boolean isIndetermined() {<a name="line.659"></a>
-<span class="sourceLineNo">660</span>    return rank != null &amp;&amp; (<a name="line.660"></a>
-<span class="sourceLineNo">661</span>           (rank.isInfrageneric() &amp;&amp; rank.isSupraspecific() &amp;&amp; infraGeneric == null)<a name="line.661"></a>
-<span class="sourceLineNo">662</span>        || (rank.isSpeciesOrBelow() &amp;&amp; specificEpithet == null)<a name="line.662"></a>
-<span class="sourceLineNo">663</span>        || (rank.isInfraspecific() &amp;&amp; infraSpecificEpithet == null)<a name="line.663"></a>
-<span class="sourceLineNo">664</span>    );<a name="line.664"></a>
-<span class="sourceLineNo">665</span>  }<a name="line.665"></a>
-<span class="sourceLineNo">666</span><a name="line.666"></a>
-<span class="sourceLineNo">667</span>  @JsonIgnore<a name="line.667"></a>
-<span class="sourceLineNo">668</span>  public boolean isParsableType() {<a name="line.668"></a>
-<span class="sourceLineNo">669</span>    return type != null &amp;&amp; type.isParsable();<a name="line.669"></a>
-<span class="sourceLineNo">670</span>  }<a name="line.670"></a>
-<span class="sourceLineNo">671</span><a name="line.671"></a>
-<span class="sourceLineNo">672</span>  @JsonIgnore<a name="line.672"></a>
-<span class="sourceLineNo">673</span>  public boolean isQualified() {<a name="line.673"></a>
-<span class="sourceLineNo">674</span>    return (authorship != null &amp;&amp; !authorship.isEmpty())<a name="line.674"></a>
-<span class="sourceLineNo">675</span>           || (year != null &amp;&amp; !year.isEmpty())<a name="line.675"></a>
-<span class="sourceLineNo">676</span>           || (bracketAuthorship != null &amp;&amp; !bracketAuthorship.isEmpty())<a name="line.676"></a>
-<span class="sourceLineNo">677</span>           || (bracketYear != null &amp;&amp; !bracketYear.isEmpty());<a name="line.677"></a>
-<span class="sourceLineNo">678</span>  }<a name="line.678"></a>
-<span class="sourceLineNo">679</span><a name="line.679"></a>
-<span class="sourceLineNo">680</span>  /**<a name="line.680"></a>
-<span class="sourceLineNo">681</span>   * @return true if a bracket authorship is given, indicating that the name has been subsequently recombined.<a name="line.681"></a>
-<span class="sourceLineNo">682</span>   */<a name="line.682"></a>
-<span class="sourceLineNo">683</span>  @JsonIgnore<a name="line.683"></a>
-<span class="sourceLineNo">684</span>  public boolean isRecombination() {<a name="line.684"></a>
-<span class="sourceLineNo">685</span>    return (!StringUtils.isBlank(bracketAuthorship) || !StringUtils.isBlank(bracketYear));<a name="line.685"></a>
-<span class="sourceLineNo">686</span>  }<a name="line.686"></a>
-<span class="sourceLineNo">687</span><a name="line.687"></a>
-<span class="sourceLineNo">688</span><a name="line.688"></a>
-<span class="sourceLineNo">689</span>  public void setGenusOrAbove(String genusOrAbove) {<a name="line.689"></a>
-<span class="sourceLineNo">690</span>    if (genusOrAbove != null &amp;&amp; genusOrAbove.startsWith(HYBRID_MARKER.toString())) {<a name="line.690"></a>
-<span class="sourceLineNo">691</span>      this.genusOrAbove = genusOrAbove.substring(1);<a name="line.691"></a>
-<span class="sourceLineNo">692</span>      notho = NamePart.GENERIC;<a name="line.692"></a>
-<span class="sourceLineNo">693</span>    } else {<a name="line.693"></a>
-<span class="sourceLineNo">694</span>      this.genusOrAbove = genusOrAbove;<a name="line.694"></a>
-<span class="sourceLineNo">695</span>    }<a name="line.695"></a>
-<span class="sourceLineNo">696</span>  }<a name="line.696"></a>
-<span class="sourceLineNo">697</span><a name="line.697"></a>
-<span class="sourceLineNo">698</span>  public void setHybridFormula(boolean hybrid) {<a name="line.698"></a>
-<span class="sourceLineNo">699</span>    if (hybrid) {<a name="line.699"></a>
-<span class="sourceLineNo">700</span>      type = NameType.HYBRID;<a name="line.700"></a>
-<span class="sourceLineNo">701</span>    } else if (NameType.HYBRID == type) {<a name="line.701"></a>
-<span class="sourceLineNo">702</span>      type = null;<a name="line.702"></a>
-<span class="sourceLineNo">703</span>    }<a name="line.703"></a>
-<span class="sourceLineNo">704</span>  }<a name="line.704"></a>
-<span class="sourceLineNo">705</span><a name="line.705"></a>
-<span class="sourceLineNo">706</span>  public void setInfraGeneric(String infraGeneric) {<a name="line.706"></a>
-<span class="sourceLineNo">707</span>    if (infraGeneric != null &amp;&amp; infraGeneric.startsWith(HYBRID_MARKER_STR)) {<a name="line.707"></a>
-<span class="sourceLineNo">708</span>      this.infraGeneric = infraGeneric.substring(1);<a name="line.708"></a>
-<span class="sourceLineNo">709</span>      notho = NamePart.INFRAGENERIC;<a name="line.709"></a>
-<span class="sourceLineNo">710</span>    } else {<a name="line.710"></a>
-<span class="sourceLineNo">711</span>      this.infraGeneric = infraGeneric;<a name="line.711"></a>
-<span class="sourceLineNo">712</span>    }<a name="line.712"></a>
-<span class="sourceLineNo">713</span>  }<a name="line.713"></a>
-<span class="sourceLineNo">714</span><a name="line.714"></a>
-<span class="sourceLineNo">715</span>  public void setInfraSpecificEpithet(String infraSpecies) {<a name="line.715"></a>
-<span class="sourceLineNo">716</span>    if (infraSpecies != null &amp;&amp; infraSpecies.startsWith(HYBRID_MARKER_STR)) {<a name="line.716"></a>
-<span class="sourceLineNo">717</span>      this.infraSpecificEpithet = infraSpecies.substring(1);<a name="line.717"></a>
-<span class="sourceLineNo">718</span>      this.notho = NamePart.INFRASPECIFIC;<a name="line.718"></a>
-<span class="sourceLineNo">719</span>    } else {<a name="line.719"></a>
-<span class="sourceLineNo">720</span>      this.infraSpecificEpithet = infraSpecies;<a name="line.720"></a>
-<span class="sourceLineNo">721</span>    }<a name="line.721"></a>
-<span class="sourceLineNo">722</span>  }<a name="line.722"></a>
-<span class="sourceLineNo">723</span><a name="line.723"></a>
-<span class="sourceLineNo">724</span>  public void setSpecificEpithet(String species) {<a name="line.724"></a>
-<span class="sourceLineNo">725</span>    if (species != null &amp;&amp; species.startsWith(HYBRID_MARKER_STR)) {<a name="line.725"></a>
-<span class="sourceLineNo">726</span>      specificEpithet = species.substring(1);<a name="line.726"></a>
-<span class="sourceLineNo">727</span>      notho = NamePart.SPECIFIC;<a name="line.727"></a>
-<span class="sourceLineNo">728</span>    } else {<a name="line.728"></a>
-<span class="sourceLineNo">729</span>      specificEpithet = species;<a name="line.729"></a>
-<span class="sourceLineNo">730</span>    }<a name="line.730"></a>
-<span class="sourceLineNo">731</span>  }<a name="line.731"></a>
-<span class="sourceLineNo">732</span><a name="line.732"></a>
-<span class="sourceLineNo">733</span>  @Override<a name="line.733"></a>
-<span class="sourceLineNo">734</span>  public boolean equals(Object obj) {<a name="line.734"></a>
-<span class="sourceLineNo">735</span>    if (this == obj) {<a name="line.735"></a>
-<span class="sourceLineNo">736</span>      return true;<a name="line.736"></a>
-<span class="sourceLineNo">737</span>    }<a name="line.737"></a>
-<span class="sourceLineNo">738</span>    if (!(obj instanceof ParsedName)) {<a name="line.738"></a>
-<span class="sourceLineNo">739</span>      return false;<a name="line.739"></a>
-<span class="sourceLineNo">740</span>    }<a name="line.740"></a>
-<span class="sourceLineNo">741</span>    ParsedName o = (ParsedName) obj;<a name="line.741"></a>
-<span class="sourceLineNo">742</span>    return equal(key, o.key)<a name="line.742"></a>
-<span class="sourceLineNo">743</span>           &amp;&amp; equal(scientificName, o.scientificName)<a name="line.743"></a>
-<span class="sourceLineNo">744</span>           &amp;&amp; equal(type, o.type)<a name="line.744"></a>
-<span class="sourceLineNo">745</span>           &amp;&amp; equal(genusOrAbove, o.genusOrAbove)<a name="line.745"></a>
-<span class="sourceLineNo">746</span>           &amp;&amp; equal(infraGeneric, o.infraGeneric)<a name="line.746"></a>
-<span class="sourceLineNo">747</span>           &amp;&amp; equal(specificEpithet, o.specificEpithet)<a name="line.747"></a>
-<span class="sourceLineNo">748</span>           &amp;&amp; equal(infraSpecificEpithet, o.infraSpecificEpithet)<a name="line.748"></a>
-<span class="sourceLineNo">749</span>           &amp;&amp; equal(cultivarEpithet, o.cultivarEpithet)<a name="line.749"></a>
-<span class="sourceLineNo">750</span>           &amp;&amp; equal(strain, o.strain)<a name="line.750"></a>
-<span class="sourceLineNo">751</span>           &amp;&amp; equal(authorship, o.authorship)<a name="line.751"></a>
-<span class="sourceLineNo">752</span>           &amp;&amp; equal(year, o.year)<a name="line.752"></a>
-<span class="sourceLineNo">753</span>           &amp;&amp; equal(bracketAuthorship, o.bracketAuthorship)<a name="line.753"></a>
-<span class="sourceLineNo">754</span>           &amp;&amp; equal(bracketYear, o.bracketYear)<a name="line.754"></a>
-<span class="sourceLineNo">755</span>           &amp;&amp; equal(rank, o.rank);<a name="line.755"></a>
-<span class="sourceLineNo">756</span>  }<a name="line.756"></a>
-<span class="sourceLineNo">757</span><a name="line.757"></a>
-<span class="sourceLineNo">758</span>  @Override<a name="line.758"></a>
-<span class="sourceLineNo">759</span>  public int hashCode() {<a name="line.759"></a>
-<span class="sourceLineNo">760</span>    return Objects.hashCode(key,<a name="line.760"></a>
-<span class="sourceLineNo">761</span>                            scientificName,<a name="line.761"></a>
-<span class="sourceLineNo">762</span>                            type,<a name="line.762"></a>
-<span class="sourceLineNo">763</span>                            genusOrAbove,<a name="line.763"></a>
-<span class="sourceLineNo">764</span>                            infraGeneric,<a name="line.764"></a>
-<span class="sourceLineNo">765</span>                            specificEpithet,<a name="line.765"></a>
-<span class="sourceLineNo">766</span>                            infraSpecificEpithet,<a name="line.766"></a>
-<span class="sourceLineNo">767</span>                            cultivarEpithet,<a name="line.767"></a>
-<span class="sourceLineNo">768</span>                            strain,<a name="line.768"></a>
-<span class="sourceLineNo">769</span>                            authorship,<a name="line.769"></a>
-<span class="sourceLineNo">770</span>                            year,<a name="line.770"></a>
-<span class="sourceLineNo">771</span>                            bracketAuthorship,<a name="line.771"></a>
-<span class="sourceLineNo">772</span>                            bracketYear,<a name="line.772"></a>
-<span class="sourceLineNo">773</span>                            rank<a name="line.773"></a>
-<span class="sourceLineNo">774</span>    );<a name="line.774"></a>
-<span class="sourceLineNo">775</span>  }<a name="line.775"></a>
-<span class="sourceLineNo">776</span><a name="line.776"></a>
-<span class="sourceLineNo">777</span>  @Override<a name="line.777"></a>
-<span class="sourceLineNo">778</span>  public String toString() {<a name="line.778"></a>
-<span class="sourceLineNo">779</span>    StringBuilder sb = new StringBuilder();<a name="line.779"></a>
-<span class="sourceLineNo">780</span>    sb.append(scientificName);<a name="line.780"></a>
-<span class="sourceLineNo">781</span>    if (key != null) {<a name="line.781"></a>
-<span class="sourceLineNo">782</span>      sb.append(" [");<a name="line.782"></a>
-<span class="sourceLineNo">783</span>      sb.append(key);<a name="line.783"></a>
-<span class="sourceLineNo">784</span>      sb.append("]");<a name="line.784"></a>
-<span class="sourceLineNo">785</span>    }<a name="line.785"></a>
-<span class="sourceLineNo">786</span>    if (genusOrAbove != null) {<a name="line.786"></a>
-<span class="sourceLineNo">787</span>      sb.append(" G:").append(genusOrAbove);<a name="line.787"></a>
-<span class="sourceLineNo">788</span>    }<a name="line.788"></a>
-<span class="sourceLineNo">789</span>    if (infraGeneric != null) {<a name="line.789"></a>
-<span class="sourceLineNo">790</span>      sb.append(" IG:").append(infraGeneric);<a name="line.790"></a>
-<span class="sourceLineNo">791</span>    }<a name="line.791"></a>
-<span class="sourceLineNo">792</span>    if (specificEpithet != null) {<a name="line.792"></a>
-<span class="sourceLineNo">793</span>      sb.append(" S:").append(specificEpithet);<a name="line.793"></a>
-<span class="sourceLineNo">794</span>    }<a name="line.794"></a>
-<span class="sourceLineNo">795</span>    if (rank != null) {<a name="line.795"></a>
-<span class="sourceLineNo">796</span>      sb.append(" R:").append(rank);<a name="line.796"></a>
-<span class="sourceLineNo">797</span>    }<a name="line.797"></a>
-<span class="sourceLineNo">798</span>    if (infraSpecificEpithet != null) {<a name="line.798"></a>
-<span class="sourceLineNo">799</span>      sb.append(" IS:").append(infraSpecificEpithet);<a name="line.799"></a>
-<span class="sourceLineNo">800</span>    }<a name="line.800"></a>
-<span class="sourceLineNo">801</span>    if (cultivarEpithet != null) {<a name="line.801"></a>
-<span class="sourceLineNo">802</span>      sb.append(" CV:").append(cultivarEpithet);<a name="line.802"></a>
-<span class="sourceLineNo">803</span>    }<a name="line.803"></a>
-<span class="sourceLineNo">804</span>    if (strain != null) {<a name="line.804"></a>
-<span class="sourceLineNo">805</span>      sb.append(" STR:").append(strain);<a name="line.805"></a>
-<span class="sourceLineNo">806</span>    }<a name="line.806"></a>
-<span class="sourceLineNo">807</span>    if (authorship != null) {<a name="line.807"></a>
-<span class="sourceLineNo">808</span>      sb.append(" A:").append(authorship);<a name="line.808"></a>
-<span class="sourceLineNo">809</span>    }<a name="line.809"></a>
-<span class="sourceLineNo">810</span>    if (year != null) {<a name="line.810"></a>
-<span class="sourceLineNo">811</span>      sb.append(" Y:").append(year);<a name="line.811"></a>
-<span class="sourceLineNo">812</span>    }<a name="line.812"></a>
-<span class="sourceLineNo">813</span>    if (bracketAuthorship != null) {<a name="line.813"></a>
-<span class="sourceLineNo">814</span>      sb.append(" BA:").append(bracketAuthorship);<a name="line.814"></a>
-<span class="sourceLineNo">815</span>    }<a name="line.815"></a>
-<span class="sourceLineNo">816</span>    if (bracketYear != null) {<a name="line.816"></a>
-<span class="sourceLineNo">817</span>      sb.append(" BY:").append(bracketYear);<a name="line.817"></a>
-<span class="sourceLineNo">818</span>    }<a name="line.818"></a>
-<span class="sourceLineNo">819</span>    if (type != null) {<a name="line.819"></a>
-<span class="sourceLineNo">820</span>      sb.append(" [");<a name="line.820"></a>
-<span class="sourceLineNo">821</span>      sb.append(type);<a name="line.821"></a>
-<span class="sourceLineNo">822</span>      sb.append("]");<a name="line.822"></a>
-<span class="sourceLineNo">823</span>    }<a name="line.823"></a>
-<span class="sourceLineNo">824</span>    return isHybridFormula() ? " [hybrid]" : sb.toString();<a name="line.824"></a>
-<span class="sourceLineNo">825</span>  }<a name="line.825"></a>
-<span class="sourceLineNo">826</span><a name="line.826"></a>
-<span class="sourceLineNo">827</span>}<a name="line.827"></a>
+<span class="sourceLineNo">545</span>    if (year != null) {<a name="line.545"></a>
+<span class="sourceLineNo">546</span>      sb.append(", ");<a name="line.546"></a>
+<span class="sourceLineNo">547</span>      sb.append(year);<a name="line.547"></a>
+<span class="sourceLineNo">548</span>    }<a name="line.548"></a>
+<span class="sourceLineNo">549</span>  }<a name="line.549"></a>
+<span class="sourceLineNo">550</span><a name="line.550"></a>
+<span class="sourceLineNo">551</span>  /**<a name="line.551"></a>
+<span class="sourceLineNo">552</span>   * The canonical name sensu strictu with nothing else but 3 name parts at max (genus, species, infraspecific). No<a name="line.552"></a>
+<span class="sourceLineNo">553</span>   * rank or hybrid markers and no authorship, cultivar or strain information.<a name="line.553"></a>
+<span class="sourceLineNo">554</span>   * Infrageneric names are represented without a leading genus.<a name="line.554"></a>
+<span class="sourceLineNo">555</span>   * Unicode characters will be replaced by their matching ASCII characters.<a name="line.555"></a>
+<span class="sourceLineNo">556</span>   * &lt;p/&gt;<a name="line.556"></a>
+<span class="sourceLineNo">557</span>   * For example:<a name="line.557"></a>
+<span class="sourceLineNo">558</span>   * Abies alba<a name="line.558"></a>
+<span class="sourceLineNo">559</span>   * Abies alba alpina<a name="line.559"></a>
+<span class="sourceLineNo">560</span>   * Abies Bracteata<a name="line.560"></a>
+<span class="sourceLineNo">561</span>   * Heucherella tiarelloides<a name="line.561"></a>
+<span class="sourceLineNo">562</span>   *<a name="line.562"></a>
+<span class="sourceLineNo">563</span>   * @return the 1,2 or 3 parted name as a single string<a name="line.563"></a>
+<span class="sourceLineNo">564</span>   */<a name="line.564"></a>
+<span class="sourceLineNo">565</span>  @JsonProperty<a name="line.565"></a>
+<span class="sourceLineNo">566</span>  public String canonicalName() {<a name="line.566"></a>
+<span class="sourceLineNo">567</span>    return buildName(false, false, false, false, false, false, true, true, true, false, false, false, false, false);<a name="line.567"></a>
+<span class="sourceLineNo">568</span>  }<a name="line.568"></a>
+<span class="sourceLineNo">569</span><a name="line.569"></a>
+<span class="sourceLineNo">570</span>  /**<a name="line.570"></a>
+<span class="sourceLineNo">571</span>   * The code compliant, canonical name with 3 name parts at max (genus, species, infraspecific), a rank marker for<a name="line.571"></a>
+<span class="sourceLineNo">572</span>   * infraspecific names and cultivar or strain epithets. The canonical name can be a 1, 2 or 3 parted name, but does<a name="line.572"></a>
+<span class="sourceLineNo">573</span>   * not include any informal notes or<a name="line.573"></a>
+<span class="sourceLineNo">574</span>   * authorships. Notho taxa will have the hybrid marker.<a name="line.574"></a>
+<span class="sourceLineNo">575</span>   * Unicode characters will be replaced by their matching ASCII characters.<a name="line.575"></a>
+<span class="sourceLineNo">576</span>   * &lt;p/&gt;<a name="line.576"></a>
+<span class="sourceLineNo">577</span>   * For example:<a name="line.577"></a>
+<span class="sourceLineNo">578</span>   * Abies alba<a name="line.578"></a>
+<span class="sourceLineNo">579</span>   * Abies alba subsp. alpina<a name="line.579"></a>
+<span class="sourceLineNo">580</span>   * Abies sect. Bracteata<a name="line.580"></a>
+<span class="sourceLineNo">581</span>   * ×Heucherella tiarelloides<a name="line.581"></a>
+<span class="sourceLineNo">582</span>   *<a name="line.582"></a>
+<span class="sourceLineNo">583</span>   * @return the 1,2 or 3 parted name as a single string<a name="line.583"></a>
+<span class="sourceLineNo">584</span>   */<a name="line.584"></a>
+<span class="sourceLineNo">585</span>  @JsonProperty<a name="line.585"></a>
+<span class="sourceLineNo">586</span>  public String canonicalNameWithMarker() {<a name="line.586"></a>
+<span class="sourceLineNo">587</span>    return buildName(true, true, false, false, false, false, true, true, true, false, false, false, true, true);<a name="line.587"></a>
+<span class="sourceLineNo">588</span>  }<a name="line.588"></a>
+<span class="sourceLineNo">589</span><a name="line.589"></a>
+<span class="sourceLineNo">590</span>  /**<a name="line.590"></a>
+<span class="sourceLineNo">591</span>   * The code compliant, canonical name with rank &amp; hybrid marker, authorship and cultivar or strain name included.<a name="line.591"></a>
+<span class="sourceLineNo">592</span>   * Informal or nomenclatoral notes, concept references, subgenus and non terminal authorships are removed.<a name="line.592"></a>
+<span class="sourceLineNo">593</span>   * @return the 1,2 or 3 parted name as a single string<a name="line.593"></a>
+<span class="sourceLineNo">594</span>   */<a name="line.594"></a>
+<span class="sourceLineNo">595</span>  @JsonProperty<a name="line.595"></a>
+<span class="sourceLineNo">596</span>  public String canonicalNameComplete() {<a name="line.596"></a>
+<span class="sourceLineNo">597</span>    return buildName(true, true, true, false, true, false, true, false, true, false, false, false, true, true);<a name="line.597"></a>
+<span class="sourceLineNo">598</span>  }<a name="line.598"></a>
+<span class="sourceLineNo">599</span><a name="line.599"></a>
+<span class="sourceLineNo">600</span>  /**<a name="line.600"></a>
+<span class="sourceLineNo">601</span>   * @return the species binomial if this parsed name is a species or below. Or null in case its superspecific<a name="line.601"></a>
+<span class="sourceLineNo">602</span>   */<a name="line.602"></a>
+<span class="sourceLineNo">603</span>  public String canonicalSpeciesName() {<a name="line.603"></a>
+<span class="sourceLineNo">604</span>    if (genusOrAbove != null &amp;&amp; specificEpithet != null) {<a name="line.604"></a>
+<span class="sourceLineNo">605</span>      return genusOrAbove + " " + specificEpithet;<a name="line.605"></a>
+<span class="sourceLineNo">606</span>    }<a name="line.606"></a>
+<span class="sourceLineNo">607</span>    return null;<a name="line.607"></a>
+<span class="sourceLineNo">608</span>  }<a name="line.608"></a>
+<span class="sourceLineNo">609</span><a name="line.609"></a>
+<span class="sourceLineNo">610</span>  /**<a name="line.610"></a>
+<span class="sourceLineNo">611</span>   * @return the name with all details that exist.<a name="line.611"></a>
+<span class="sourceLineNo">612</span>   */<a name="line.612"></a>
+<span class="sourceLineNo">613</span>  public String fullName() {<a name="line.613"></a>
+<span class="sourceLineNo">614</span>    return buildName(true, true, true, true, true, false, false, false, true, true, true, true, true, true);<a name="line.614"></a>
+<span class="sourceLineNo">615</span>  }<a name="line.615"></a>
+<span class="sourceLineNo">616</span><a name="line.616"></a>
+<span class="sourceLineNo">617</span>  @JsonIgnore<a name="line.617"></a>
+<span class="sourceLineNo">618</span>  public Integer getBracketYearInt() {<a name="line.618"></a>
+<span class="sourceLineNo">619</span>    try {<a name="line.619"></a>
+<span class="sourceLineNo">620</span>      return Integer.parseInt(bracketYear);<a name="line.620"></a>
+<span class="sourceLineNo">621</span>    } catch (NumberFormatException e) {<a name="line.621"></a>
+<span class="sourceLineNo">622</span>      return null;<a name="line.622"></a>
+<span class="sourceLineNo">623</span>    }<a name="line.623"></a>
+<span class="sourceLineNo">624</span>  }<a name="line.624"></a>
+<span class="sourceLineNo">625</span><a name="line.625"></a>
+<span class="sourceLineNo">626</span>  /**<a name="line.626"></a>
+<span class="sourceLineNo">627</span>   * @return rank as enumeration or null<a name="line.627"></a>
+<span class="sourceLineNo">628</span>   */<a name="line.628"></a>
+<span class="sourceLineNo">629</span>  public Rank getRank() {<a name="line.629"></a>
+<span class="sourceLineNo">630</span>    return rank;<a name="line.630"></a>
+<span class="sourceLineNo">631</span>  }<a name="line.631"></a>
+<span class="sourceLineNo">632</span><a name="line.632"></a>
+<span class="sourceLineNo">633</span>  @JsonIgnore<a name="line.633"></a>
+<span class="sourceLineNo">634</span>  public Integer getYearInt() {<a name="line.634"></a>
+<span class="sourceLineNo">635</span>    try {<a name="line.635"></a>
+<span class="sourceLineNo">636</span>      return Integer.parseInt(year);<a name="line.636"></a>
+<span class="sourceLineNo">637</span>    } catch (NumberFormatException e) {<a name="line.637"></a>
+<span class="sourceLineNo">638</span>      return null;<a name="line.638"></a>
+<span class="sourceLineNo">639</span>    }<a name="line.639"></a>
+<span class="sourceLineNo">640</span>  }<a name="line.640"></a>
+<span class="sourceLineNo">641</span><a name="line.641"></a>
+<span class="sourceLineNo">642</span>  @JsonIgnore<a name="line.642"></a>
+<span class="sourceLineNo">643</span>  public boolean isAutonym() {<a name="line.643"></a>
+<span class="sourceLineNo">644</span>    return specificEpithet != null &amp;&amp; infraSpecificEpithet != null &amp;&amp; specificEpithet.equals(infraSpecificEpithet);<a name="line.644"></a>
+<span class="sourceLineNo">645</span>  }<a name="line.645"></a>
+<span class="sourceLineNo">646</span><a name="line.646"></a>
+<span class="sourceLineNo">647</span>  @JsonIgnore<a name="line.647"></a>
+<span class="sourceLineNo">648</span>  public boolean isBinomial() {<a name="line.648"></a>
+<span class="sourceLineNo">649</span>    return genusOrAbove != null &amp;&amp; specificEpithet != null;<a name="line.649"></a>
+<span class="sourceLineNo">650</span>  }<a name="line.650"></a>
+<span class="sourceLineNo">651</span><a name="line.651"></a>
+<span class="sourceLineNo">652</span>  @JsonIgnore<a name="line.652"></a>
+<span class="sourceLineNo">653</span>  public boolean isHybridFormula() {<a name="line.653"></a>
+<span class="sourceLineNo">654</span>    return NameType.HYBRID == type;<a name="line.654"></a>
+<span class="sourceLineNo">655</span>  }<a name="line.655"></a>
+<span class="sourceLineNo">656</span><a name="line.656"></a>
+<span class="sourceLineNo">657</span>  /**<a name="line.657"></a>
+<span class="sourceLineNo">658</span>   * @return true for names with an infraspecifc rank but missing lowest name part. E.g. Coccyzuz americanus ssp. or<a name="line.658"></a>
+<span class="sourceLineNo">659</span>   *         Asteraceae<a name="line.659"></a>
+<span class="sourceLineNo">660</span>   *         spec. but not Maxillaria sect. Acaules<a name="line.660"></a>
+<span class="sourceLineNo">661</span>   */<a name="line.661"></a>
+<span class="sourceLineNo">662</span>  @JsonIgnore<a name="line.662"></a>
+<span class="sourceLineNo">663</span>  public boolean isIndetermined() {<a name="line.663"></a>
+<span class="sourceLineNo">664</span>    return rank != null &amp;&amp; isParsed() &amp;&amp; isParsableType() &amp;&amp; rank.notOtherOrUnknown() &amp;&amp; (<a name="line.664"></a>
+<span class="sourceLineNo">665</span>           (rank.isInfragenericStrictly() &amp;&amp; infraGeneric == null)<a name="line.665"></a>
+<span class="sourceLineNo">666</span>        || (rank.isSpeciesAggregateOrBelow() &amp;&amp; specificEpithet == null)<a name="line.666"></a>
+<span class="sourceLineNo">667</span>        || (rank.isInfraspecific() &amp;&amp; infraSpecificEpithet == null)<a name="line.667"></a>
+<span class="sourceLineNo">668</span>    );<a name="line.668"></a>
+<span class="sourceLineNo">669</span>  }<a name="line.669"></a>
+<span class="sourceLineNo">670</span><a name="line.670"></a>
+<span class="sourceLineNo">671</span>  @JsonIgnore<a name="line.671"></a>
+<span class="sourceLineNo">672</span>  public boolean isParsableType() {<a name="line.672"></a>
+<span class="sourceLineNo">673</span>    return type != null &amp;&amp; type.isParsable();<a name="line.673"></a>
+<span class="sourceLineNo">674</span>  }<a name="line.674"></a>
+<span class="sourceLineNo">675</span><a name="line.675"></a>
+<span class="sourceLineNo">676</span>  @JsonIgnore<a name="line.676"></a>
+<span class="sourceLineNo">677</span>  public boolean isQualified() {<a name="line.677"></a>
+<span class="sourceLineNo">678</span>    return (authorship != null &amp;&amp; !authorship.isEmpty())<a name="line.678"></a>
+<span class="sourceLineNo">679</span>           || (year != null &amp;&amp; !year.isEmpty())<a name="line.679"></a>
+<span class="sourceLineNo">680</span>           || (bracketAuthorship != null &amp;&amp; !bracketAuthorship.isEmpty())<a name="line.680"></a>
+<span class="sourceLineNo">681</span>           || (bracketYear != null &amp;&amp; !bracketYear.isEmpty());<a name="line.681"></a>
+<span class="sourceLineNo">682</span>  }<a name="line.682"></a>
+<span class="sourceLineNo">683</span><a name="line.683"></a>
+<span class="sourceLineNo">684</span>  /**<a name="line.684"></a>
+<span class="sourceLineNo">685</span>   * @return true if a bracket authorship is given, indicating that the name has been subsequently recombined.<a name="line.685"></a>
+<span class="sourceLineNo">686</span>   */<a name="line.686"></a>
+<span class="sourceLineNo">687</span>  @JsonIgnore<a name="line.687"></a>
+<span class="sourceLineNo">688</span>  public boolean isRecombination() {<a name="line.688"></a>
+<span class="sourceLineNo">689</span>    return (!StringUtils.isBlank(bracketAuthorship) || !StringUtils.isBlank(bracketYear));<a name="line.689"></a>
+<span class="sourceLineNo">690</span>  }<a name="line.690"></a>
+<span class="sourceLineNo">691</span><a name="line.691"></a>
+<span class="sourceLineNo">692</span><a name="line.692"></a>
+<span class="sourceLineNo">693</span>  public void setGenusOrAbove(String genusOrAbove) {<a name="line.693"></a>
+<span class="sourceLineNo">694</span>    if (genusOrAbove != null &amp;&amp; genusOrAbove.startsWith(HYBRID_MARKER.toString())) {<a name="line.694"></a>
+<span class="sourceLineNo">695</span>      this.genusOrAbove = genusOrAbove.substring(1);<a name="line.695"></a>
+<span class="sourceLineNo">696</span>      notho = NamePart.GENERIC;<a name="line.696"></a>
+<span class="sourceLineNo">697</span>    } else {<a name="line.697"></a>
+<span class="sourceLineNo">698</span>      this.genusOrAbove = genusOrAbove;<a name="line.698"></a>
+<span class="sourceLineNo">699</span>    }<a name="line.699"></a>
+<span class="sourceLineNo">700</span>  }<a name="line.700"></a>
+<span class="sourceLineNo">701</span><a name="line.701"></a>
+<span class="sourceLineNo">702</span>  public void setHybridFormula(boolean hybrid) {<a name="line.702"></a>
+<span class="sourceLineNo">703</span>    if (hybrid) {<a name="line.703"></a>
+<span class="sourceLineNo">704</span>      type = NameType.HYBRID;<a name="line.704"></a>
+<span class="sourceLineNo">705</span>    } else if (NameType.HYBRID == type) {<a name="line.705"></a>
+<span class="sourceLineNo">706</span>      type = null;<a name="line.706"></a>
+<span class="sourceLineNo">707</span>    }<a name="line.707"></a>
+<span class="sourceLineNo">708</span>  }<a name="line.708"></a>
+<span class="sourceLineNo">709</span><a name="line.709"></a>
+<span class="sourceLineNo">710</span>  public void setInfraGeneric(String infraGeneric) {<a name="line.710"></a>
+<span class="sourceLineNo">711</span>    if (infraGeneric != null &amp;&amp; infraGeneric.startsWith(HYBRID_MARKER_STR)) {<a name="line.711"></a>
+<span class="sourceLineNo">712</span>      this.infraGeneric = infraGeneric.substring(1);<a name="line.712"></a>
+<span class="sourceLineNo">713</span>      notho = NamePart.INFRAGENERIC;<a name="line.713"></a>
+<span class="sourceLineNo">714</span>    } else {<a name="line.714"></a>
+<span class="sourceLineNo">715</span>      this.infraGeneric = infraGeneric;<a name="line.715"></a>
+<span class="sourceLineNo">716</span>    }<a name="line.716"></a>
+<span class="sourceLineNo">717</span>  }<a name="line.717"></a>
+<span class="sourceLineNo">718</span><a name="line.718"></a>
+<span class="sourceLineNo">719</span>  public void setInfraSpecificEpithet(String infraSpecies) {<a name="line.719"></a>
+<span class="sourceLineNo">720</span>    if (infraSpecies != null &amp;&amp; infraSpecies.startsWith(HYBRID_MARKER_STR)) {<a name="line.720"></a>
+<span class="sourceLineNo">721</span>      this.infraSpecificEpithet = infraSpecies.substring(1);<a name="line.721"></a>
+<span class="sourceLineNo">722</span>      this.notho = NamePart.INFRASPECIFIC;<a name="line.722"></a>
+<span class="sourceLineNo">723</span>    } else {<a name="line.723"></a>
+<span class="sourceLineNo">724</span>      this.infraSpecificEpithet = infraSpecies;<a name="line.724"></a>
+<span class="sourceLineNo">725</span>    }<a name="line.725"></a>
+<span class="sourceLineNo">726</span>  }<a name="line.726"></a>
+<span class="sourceLineNo">727</span><a name="line.727"></a>
+<span class="sourceLineNo">728</span>  public void setSpecificEpithet(String species) {<a name="line.728"></a>
+<span class="sourceLineNo">729</span>    if (species != null &amp;&amp; species.startsWith(HYBRID_MARKER_STR)) {<a name="line.729"></a>
+<span class="sourceLineNo">730</span>      specificEpithet = species.substring(1);<a name="line.730"></a>
+<span class="sourceLineNo">731</span>      notho = NamePart.SPECIFIC;<a name="line.731"></a>
+<span class="sourceLineNo">732</span>    } else {<a name="line.732"></a>
+<span class="sourceLineNo">733</span>      specificEpithet = species;<a name="line.733"></a>
+<span class="sourceLineNo">734</span>    }<a name="line.734"></a>
+<span class="sourceLineNo">735</span>  }<a name="line.735"></a>
+<span class="sourceLineNo">736</span><a name="line.736"></a>
+<span class="sourceLineNo">737</span>  @Override<a name="line.737"></a>
+<span class="sourceLineNo">738</span>  public boolean equals(Object obj) {<a name="line.738"></a>
+<span class="sourceLineNo">739</span>    if (this == obj) {<a name="line.739"></a>
+<span class="sourceLineNo">740</span>      return true;<a name="line.740"></a>
+<span class="sourceLineNo">741</span>    }<a name="line.741"></a>
+<span class="sourceLineNo">742</span>    if (!(obj instanceof ParsedName)) {<a name="line.742"></a>
+<span class="sourceLineNo">743</span>      return false;<a name="line.743"></a>
+<span class="sourceLineNo">744</span>    }<a name="line.744"></a>
+<span class="sourceLineNo">745</span>    ParsedName o = (ParsedName) obj;<a name="line.745"></a>
+<span class="sourceLineNo">746</span>    return equal(key, o.key)<a name="line.746"></a>
+<span class="sourceLineNo">747</span>           &amp;&amp; equal(scientificName, o.scientificName)<a name="line.747"></a>
+<span class="sourceLineNo">748</span>           &amp;&amp; equal(type, o.type)<a name="line.748"></a>
+<span class="sourceLineNo">749</span>           &amp;&amp; equal(genusOrAbove, o.genusOrAbove)<a name="line.749"></a>
+<span class="sourceLineNo">750</span>           &amp;&amp; equal(infraGeneric, o.infraGeneric)<a name="line.750"></a>
+<span class="sourceLineNo">751</span>           &amp;&amp; equal(specificEpithet, o.specificEpithet)<a name="line.751"></a>
+<span class="sourceLineNo">752</span>           &amp;&amp; equal(infraSpecificEpithet, o.infraSpecificEpithet)<a name="line.752"></a>
+<span class="sourceLineNo">753</span>           &amp;&amp; equal(cultivarEpithet, o.cultivarEpithet)<a name="line.753"></a>
+<span class="sourceLineNo">754</span>           &amp;&amp; equal(strain, o.strain)<a name="line.754"></a>
+<span class="sourceLineNo">755</span>           &amp;&amp; equal(authorship, o.authorship)<a name="line.755"></a>
+<span class="sourceLineNo">756</span>           &amp;&amp; equal(year, o.year)<a name="line.756"></a>
+<span class="sourceLineNo">757</span>           &amp;&amp; equal(bracketAuthorship, o.bracketAuthorship)<a name="line.757"></a>
+<span class="sourceLineNo">758</span>           &amp;&amp; equal(bracketYear, o.bracketYear)<a name="line.758"></a>
+<span class="sourceLineNo">759</span>           &amp;&amp; equal(rank, o.rank);<a name="line.759"></a>
+<span class="sourceLineNo">760</span>  }<a name="line.760"></a>
+<span class="sourceLineNo">761</span><a name="line.761"></a>
+<span class="sourceLineNo">762</span>  @Override<a name="line.762"></a>
+<span class="sourceLineNo">763</span>  public int hashCode() {<a name="line.763"></a>
+<span class="sourceLineNo">764</span>    return Objects.hashCode(key,<a name="line.764"></a>
+<span class="sourceLineNo">765</span>                            scientificName,<a name="line.765"></a>
+<span class="sourceLineNo">766</span>                            type,<a name="line.766"></a>
+<span class="sourceLineNo">767</span>                            genusOrAbove,<a name="line.767"></a>
+<span class="sourceLineNo">768</span>                            infraGeneric,<a name="line.768"></a>
+<span class="sourceLineNo">769</span>                            specificEpithet,<a name="line.769"></a>
+<span class="sourceLineNo">770</span>                            infraSpecificEpithet,<a name="line.770"></a>
+<span class="sourceLineNo">771</span>                            cultivarEpithet,<a name="line.771"></a>
+<span class="sourceLineNo">772</span>                            strain,<a name="line.772"></a>
+<span class="sourceLineNo">773</span>                            authorship,<a name="line.773"></a>
+<span class="sourceLineNo">774</span>                            year,<a name="line.774"></a>
+<span class="sourceLineNo">775</span>                            bracketAuthorship,<a name="line.775"></a>
+<span class="sourceLineNo">776</span>                            bracketYear,<a name="line.776"></a>
+<span class="sourceLineNo">777</span>                            rank<a name="line.777"></a>
+<span class="sourceLineNo">778</span>    );<a name="line.778"></a>
+<span class="sourceLineNo">779</span>  }<a name="line.779"></a>
+<span class="sourceLineNo">780</span><a name="line.780"></a>
+<span class="sourceLineNo">781</span>  @Override<a name="line.781"></a>
+<span class="sourceLineNo">782</span>  public String toString() {<a name="line.782"></a>
+<span class="sourceLineNo">783</span>    StringBuilder sb = new StringBuilder();<a name="line.783"></a>
+<span class="sourceLineNo">784</span>    sb.append(scientificName);<a name="line.784"></a>
+<span class="sourceLineNo">785</span>    if (key != null) {<a name="line.785"></a>
+<span class="sourceLineNo">786</span>      sb.append(" [");<a name="line.786"></a>
+<span class="sourceLineNo">787</span>      sb.append(key);<a name="line.787"></a>
+<span class="sourceLineNo">788</span>      sb.append("]");<a name="line.788"></a>
+<span class="sourceLineNo">789</span>    }<a name="line.789"></a>
+<span class="sourceLineNo">790</span>    if (genusOrAbove != null) {<a name="line.790"></a>
+<span class="sourceLineNo">791</span>      sb.append(" G:").append(genusOrAbove);<a name="line.791"></a>
+<span class="sourceLineNo">792</span>    }<a name="line.792"></a>
+<span class="sourceLineNo">793</span>    if (infraGeneric != null) {<a name="line.793"></a>
+<span class="sourceLineNo">794</span>      sb.append(" IG:").append(infraGeneric);<a name="line.794"></a>
+<span class="sourceLineNo">795</span>    }<a name="line.795"></a>
+<span class="sourceLineNo">796</span>    if (specificEpithet != null) {<a name="line.796"></a>
+<span class="sourceLineNo">797</span>      sb.append(" S:").append(specificEpithet);<a name="line.797"></a>
+<span class="sourceLineNo">798</span>    }<a name="line.798"></a>
+<span class="sourceLineNo">799</span>    if (rank != null) {<a name="line.799"></a>
+<span class="sourceLineNo">800</span>      sb.append(" R:").append(rank);<a name="line.800"></a>
+<span class="sourceLineNo">801</span>    }<a name="line.801"></a>
+<span class="sourceLineNo">802</span>    if (infraSpecificEpithet != null) {<a name="line.802"></a>
+<span class="sourceLineNo">803</span>      sb.append(" IS:").append(infraSpecificEpithet);<a name="line.803"></a>
+<span class="sourceLineNo">804</span>    }<a name="line.804"></a>
+<span class="sourceLineNo">805</span>    if (cultivarEpithet != null) {<a name="line.805"></a>
+<span class="sourceLineNo">806</span>      sb.append(" CV:").append(cultivarEpithet);<a name="line.806"></a>
+<span class="sourceLineNo">807</span>    }<a name="line.807"></a>
+<span class="sourceLineNo">808</span>    if (strain != null) {<a name="line.808"></a>
+<span class="sourceLineNo">809</span>      sb.append(" STR:").append(strain);<a name="line.809"></a>
+<span class="sourceLineNo">810</span>    }<a name="line.810"></a>
+<span class="sourceLineNo">811</span>    if (authorship != null) {<a name="line.811"></a>
+<span class="sourceLineNo">812</span>      sb.append(" A:").append(authorship);<a name="line.812"></a>
+<span class="sourceLineNo">813</span>    }<a name="line.813"></a>
+<span class="sourceLineNo">814</span>    if (year != null) {<a name="line.814"></a>
+<span class="sourceLineNo">815</span>      sb.append(" Y:").append(year);<a name="line.815"></a>
+<span class="sourceLineNo">816</span>    }<a name="line.816"></a>
+<span class="sourceLineNo">817</span>    if (bracketAuthorship != null) {<a name="line.817"></a>
+<span class="sourceLineNo">818</span>      sb.append(" BA:").append(bracketAuthorship);<a name="line.818"></a>
+<span class="sourceLineNo">819</span>    }<a name="line.819"></a>
+<span class="sourceLineNo">820</span>    if (bracketYear != null) {<a name="line.820"></a>
+<span class="sourceLineNo">821</span>      sb.append(" BY:").append(bracketYear);<a name="line.821"></a>
+<span class="sourceLineNo">822</span>    }<a name="line.822"></a>
+<span class="sourceLineNo">823</span>    if (type != null) {<a name="line.823"></a>
+<span class="sourceLineNo">824</span>      sb.append(" [");<a name="line.824"></a>
+<span class="sourceLineNo">825</span>      sb.append(type);<a name="line.825"></a>
+<span class="sourceLineNo">826</span>      sb.append("]");<a name="line.826"></a>
+<span class="sourceLineNo">827</span>    }<a name="line.827"></a>
+<span class="sourceLineNo">828</span>    return isHybridFormula() ? " [hybrid]" : sb.toString();<a name="line.828"></a>
+<span class="sourceLineNo">829</span>  }<a name="line.829"></a>
+<span class="sourceLineNo">830</span><a name="line.830"></a>
+<span class="sourceLineNo">831</span>}<a name="line.831"></a>
 
 
 

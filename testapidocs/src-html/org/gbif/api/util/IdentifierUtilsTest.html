@@ -32,38 +32,41 @@
 <span class="sourceLineNo">024</span>   */<a name="line.24"></a>
 <span class="sourceLineNo">025</span>  @Parameterized.Parameters<a name="line.25"></a>
 <span class="sourceLineNo">026</span>  public static Collection&lt;Object[]&gt; getTestParameters() {<a name="line.26"></a>
-<span class="sourceLineNo">027</span>    return Arrays.asList(new Object[][] { {null, "49c5b4ac-e3bf-401b-94b1-c94a2ad5c8d6", IdentifierType.UUID},<a name="line.27"></a>
-<span class="sourceLineNo">028</span>      {"http://data.gbif.org/datasets/resource/ds1", "ds1", IdentifierType.GBIF_PORTAL}, {null, "local_1:dx:4", IdentifierType.UNKNOWN},<a name="line.28"></a>
-<span class="sourceLineNo">029</span>      {"http://en.wikipedia.org/wiki/Handle_1", "http://en.wikipedia.org/wiki/Handle_1", IdentifierType.HANDLER},<a name="line.29"></a>
-<span class="sourceLineNo">030</span>      {"urn:ds:acns:1", "urn:ds:acns:1", IdentifierType.URI},<a name="line.30"></a>
-<span class="sourceLineNo">031</span>      {"http://ipt.gbif.org/resource.do?r=ds1", "http://ipt.gbif.org/resource.do?r=ds1", IdentifierType.URL},<a name="line.31"></a>
-<span class="sourceLineNo">032</span>      {"ftp://ftp.gbif.org", "ftp://ftp.gbif.org", IdentifierType.FTP},<a name="line.32"></a>
-<span class="sourceLineNo">033</span>      {"http://dx.doi.org/10.1016/S1097-2765(03)00225-9", "10.1016/S1097-2765(03)00225-9", IdentifierType.DOI},<a name="line.33"></a>
-<span class="sourceLineNo">034</span>      {"http://lsid.tdwg.org/summary/132187", "132187", IdentifierType.LSID},});<a name="line.34"></a>
-<span class="sourceLineNo">035</span>  }<a name="line.35"></a>
-<span class="sourceLineNo">036</span><a name="line.36"></a>
-<span class="sourceLineNo">037</span>  public IdentifierUtilsTest(String expected, String identifier, IdentifierType type) {<a name="line.37"></a>
-<span class="sourceLineNo">038</span>    this.expected = expected;<a name="line.38"></a>
-<span class="sourceLineNo">039</span>    this.identifier = identifier;<a name="line.39"></a>
-<span class="sourceLineNo">040</span>    this.type = type;<a name="line.40"></a>
-<span class="sourceLineNo">041</span>  }<a name="line.41"></a>
-<span class="sourceLineNo">042</span><a name="line.42"></a>
-<span class="sourceLineNo">043</span>  @Test<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  public void testGetIdentifierLink() {<a name="line.44"></a>
-<span class="sourceLineNo">045</span>    assertEquals(expected, IdentifierUtils.getIdentifierLink(identifier, type));<a name="line.45"></a>
-<span class="sourceLineNo">046</span>  }<a name="line.46"></a>
-<span class="sourceLineNo">047</span><a name="line.47"></a>
-<span class="sourceLineNo">048</span>  @Test<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  public void testGetIdentifierLinkWithoutIdentifer() {<a name="line.49"></a>
-<span class="sourceLineNo">050</span>    assertNull(IdentifierUtils.getIdentifierLink(null, type));<a name="line.50"></a>
-<span class="sourceLineNo">051</span>  }<a name="line.51"></a>
-<span class="sourceLineNo">052</span><a name="line.52"></a>
-<span class="sourceLineNo">053</span>  @Test<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  public void testGetIdentifierLinkWithoutType() {<a name="line.54"></a>
-<span class="sourceLineNo">055</span>    assertNull(IdentifierUtils.getIdentifierLink(identifier, null));<a name="line.55"></a>
-<span class="sourceLineNo">056</span>  }<a name="line.56"></a>
-<span class="sourceLineNo">057</span><a name="line.57"></a>
-<span class="sourceLineNo">058</span>}<a name="line.58"></a>
+<span class="sourceLineNo">027</span>    return Arrays.asList(new Object[][] {<a name="line.27"></a>
+<span class="sourceLineNo">028</span>      {null, "49c5b4ac-e3bf-401b-94b1-c94a2ad5c8d6", IdentifierType.UUID},<a name="line.28"></a>
+<span class="sourceLineNo">029</span>      {"https://www.gbif.org/dataset/ds1", "ds1", IdentifierType.GBIF_PORTAL},<a name="line.29"></a>
+<span class="sourceLineNo">030</span>      {null, "local_1:dx:4", IdentifierType.UNKNOWN},<a name="line.30"></a>
+<span class="sourceLineNo">031</span>      {"http://en.wikipedia.org/wiki/Handle_1", "http://en.wikipedia.org/wiki/Handle_1", IdentifierType.HANDLER},<a name="line.31"></a>
+<span class="sourceLineNo">032</span>      {"urn:ds:acns:1", "urn:ds:acns:1", IdentifierType.URI},<a name="line.32"></a>
+<span class="sourceLineNo">033</span>      {"http://ipt.gbif.org/resource.do?r=ds1", "http://ipt.gbif.org/resource.do?r=ds1", IdentifierType.URL},<a name="line.33"></a>
+<span class="sourceLineNo">034</span>      {"ftp://ftp.gbif.org", "ftp://ftp.gbif.org", IdentifierType.FTP},<a name="line.34"></a>
+<span class="sourceLineNo">035</span>      {"https://doi.org/10.1016/S1097-2765(03)00225-9", "10.1016/S1097-2765(03)00225-9", IdentifierType.DOI},<a name="line.35"></a>
+<span class="sourceLineNo">036</span>      {"http://www.lsid.info/132187", "132187", IdentifierType.LSID},<a name="line.36"></a>
+<span class="sourceLineNo">037</span>    });<a name="line.37"></a>
+<span class="sourceLineNo">038</span>  }<a name="line.38"></a>
+<span class="sourceLineNo">039</span><a name="line.39"></a>
+<span class="sourceLineNo">040</span>  public IdentifierUtilsTest(String expected, String identifier, IdentifierType type) {<a name="line.40"></a>
+<span class="sourceLineNo">041</span>    this.expected = expected;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>    this.identifier = identifier;<a name="line.42"></a>
+<span class="sourceLineNo">043</span>    this.type = type;<a name="line.43"></a>
+<span class="sourceLineNo">044</span>  }<a name="line.44"></a>
+<span class="sourceLineNo">045</span><a name="line.45"></a>
+<span class="sourceLineNo">046</span>  @Test<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  public void testGetIdentifierLink() {<a name="line.47"></a>
+<span class="sourceLineNo">048</span>    assertEquals(expected, IdentifierUtils.getIdentifierLink(identifier, type));<a name="line.48"></a>
+<span class="sourceLineNo">049</span>  }<a name="line.49"></a>
+<span class="sourceLineNo">050</span><a name="line.50"></a>
+<span class="sourceLineNo">051</span>  @Test<a name="line.51"></a>
+<span class="sourceLineNo">052</span>  public void testGetIdentifierLinkWithoutIdentifer() {<a name="line.52"></a>
+<span class="sourceLineNo">053</span>    assertNull(IdentifierUtils.getIdentifierLink(null, type));<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  }<a name="line.54"></a>
+<span class="sourceLineNo">055</span><a name="line.55"></a>
+<span class="sourceLineNo">056</span>  @Test<a name="line.56"></a>
+<span class="sourceLineNo">057</span>  public void testGetIdentifierLinkWithoutType() {<a name="line.57"></a>
+<span class="sourceLineNo">058</span>    assertNull(IdentifierUtils.getIdentifierLink(identifier, null));<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  }<a name="line.59"></a>
+<span class="sourceLineNo">060</span><a name="line.60"></a>
+<span class="sourceLineNo">061</span>}<a name="line.61"></a>
 
 
 
