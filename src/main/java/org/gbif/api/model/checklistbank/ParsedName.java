@@ -302,8 +302,10 @@ public class ParsedName {
 
   /**
    * Name parsing is not always easy and parsing the authorship can be the hardest part.
-   * The GBIF name parser falls back to parsing the canonical name only without authorships if it cannot handle the entire name.
-   * This flag helps to recognise that state. A name without authorship that is parsed successfully does have authorsParsed=true.
+   * The GBIF name parser cannot always parse the entire name.
+   * If the authorship is missing and the name was only partially parsed (NameUsageIssue.PARTIALLY_PARSABLE)
+   * this flag should be true.
+   * A name without authorship that is parsed successfully does have authorsParsed=true.
    *
    * @return false if full parsing incl authorship failed
    */

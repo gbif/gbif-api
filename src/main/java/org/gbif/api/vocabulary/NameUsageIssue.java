@@ -1,5 +1,6 @@
 package org.gbif.api.vocabulary;
 
+import com.google.common.collect.ImmutableSet;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.terms.Term;
@@ -7,11 +8,7 @@ import org.gbif.utils.AnnotationUtils;
 
 import java.util.Set;
 
-import com.google.common.collect.ImmutableSet;
-
-import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.ERROR;
-import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.INFO;
-import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
+import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.*;
 
 /**
  * Enumeration of issues for each name usage record encountered during checklist processing.
@@ -197,7 +194,20 @@ public enum NameUsageIssue implements InterpretationRemark {
    * A bi/trinomial name published earlier than the parent genus was published.
    * This might indicate that the name should rather be a recombination.
    */
-  PUBLISHED_BEFORE_GENUS(DwcTerm.scientificName, DwcTerm.scientificNameAuthorship, DwcTerm.namePublishedInYear, DwcTerm.genus, DwcTerm.parentNameUsageID, DwcTerm.parentNameUsage);
+  PUBLISHED_BEFORE_GENUS(DwcTerm.scientificName, DwcTerm.scientificNameAuthorship, DwcTerm.namePublishedInYear, DwcTerm.genus, DwcTerm.parentNameUsageID, DwcTerm.parentNameUsage),
+
+  /**
+   * The scientific name string could not be parsed at all, but appears to be a parsable name type,
+   * i.e. it is not classified as a virus or hybrid formula.
+   */
+  UNPARSABLE(DwcTerm.scientificName),
+
+  /**
+   * The beginning of the scientific name string was parsed,
+   * but there is additional information in the string that was not understood.
+   */
+  PARTIALLY_PARSABLE(DwcTerm.scientificName);
+
 
   private final Set<Term> related;
   private final InterpretationRemarkSeverity severity;
