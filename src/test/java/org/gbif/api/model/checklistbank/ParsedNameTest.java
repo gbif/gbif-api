@@ -33,7 +33,7 @@ public class ParsedNameTest {
     pn.setSensu("Döring");
     pn.setRemarks("lost");
     pn.setNomStatus("nom. illeg.");
-    pn.setAuthorsParsed(true);
+    pn.setParsedPartially(true);
 
     assertEquals("Abies alba alpina", pn.canonicalName());
     assertEquals("×Abies alba var. alpina", pn.canonicalNameWithMarker());
@@ -186,7 +186,7 @@ public class ParsedNameTest {
     pn.setSpecificEpithet("syringae");
     assertBuildName(pn, "Pseudomonas syringae");
 
-    pn.setAuthorsParsed(true);
+    pn.setParsedPartially(true);
     pn.setAuthorship("Van Hall");
     assertBuildName(pn, "Pseudomonas syringae Van Hall", "Pseudomonas syringae", "Pseudomonas syringae Van Hall", "Pseudomonas syringae");
 

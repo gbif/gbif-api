@@ -69,7 +69,7 @@ public class ParsedName {
   private String bracketYear;
   private String sensu;
   private boolean parsed = true;
-  private boolean authorsParsed = true;
+  private boolean parsedPartially = false;
 
   /**
    * nomenclatural status note.
@@ -301,20 +301,21 @@ public class ParsedName {
   }
 
   /**
-   * Name parsing is not always easy and parsing the authorship can be the hardest part.
    * The GBIF name parser cannot always parse the entire name.
-   * If the authorship is missing and the name was only partially parsed (NameUsageIssue.PARTIALLY_PARSABLE)
+   * This is often the case when taxonomic, nomenclatural or identification notes are added to the end of the name.
+   * In such cases when the name was only partially parsed (NameUsageIssue.PARTIALLY_PARSABLE)
    * this flag should be true.
-   * A name without authorship that is parsed successfully does have authorsParsed=true.
    *
-   * @return false if full parsing incl authorship failed
+   * If the name was not parsed at all this will be false.
+   *
+   * @return true if name was only partially parsed, false otherwise
    */
-  public boolean isAuthorsParsed() {
-    return authorsParsed;
+  public boolean isParsedPartially() {
+    return parsedPartially;
   }
 
-  public void setAuthorsParsed(boolean authorsParsed) {
-    this.authorsParsed = authorsParsed;
+  public void setParsedPartially(boolean parsedPartially) {
+    this.parsedPartially = parsedPartially;
   }
 
   /**
