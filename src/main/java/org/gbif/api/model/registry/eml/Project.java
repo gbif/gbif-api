@@ -40,6 +40,7 @@ public class Project implements Serializable {
   private String description;
 
   private List<Contact> contacts;
+  private String abstract_;
   private String funding;
   private String studyAreaDescription;
   private String designDescription;
@@ -48,14 +49,23 @@ public class Project implements Serializable {
   }
 
   public Project(
-    String title, String identifier, List<Contact> contacts, String funding, String studyAreaDescription,
-    String designDescription) {
+    String title, String identifier, List<Contact> contacts, String abstract_, String funding,
+    String studyAreaDescription, String designDescription) {
     this.title = title;
     this.identifier = identifier;
     this.contacts = contacts;
+    this.abstract_ = abstract_;
     this.funding = funding;
     this.studyAreaDescription = studyAreaDescription;
     this.designDescription = designDescription;
+  }
+
+  public String getAbstract() {
+    return abstract_;
+  }
+
+  public void setAbstract(String abstract_) {
+    this.abstract_ = abstract_;
   }
 
   public List<Contact> getContacts() {
@@ -144,6 +154,7 @@ public class Project implements Serializable {
            && Objects.equal(this.identifier, that.identifier)
            && Objects.equal(this.description, that.description)
            && Objects.equal(this.contacts, that.contacts)
+           && Objects.equal(this.abstract_, that.abstract_)
            && Objects.equal(this.funding, that.funding)
            && Objects.equal(this.studyAreaDescription, that.studyAreaDescription)
            && Objects.equal(this.designDescription, that.designDescription);
@@ -151,7 +162,7 @@ public class Project implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(title, identifier, contacts, funding, studyAreaDescription, designDescription);
+    return Objects.hashCode(title, identifier, contacts, abstract_, funding, studyAreaDescription, designDescription);
   }
 
   @Override
@@ -161,6 +172,7 @@ public class Project implements Serializable {
       .add("identifier", identifier)
       .add("description", description)
       .add("contacts", contacts)
+      .add("abstract", abstract_)
       .add("funding", funding)
       .add("studyAreaDescription", studyAreaDescription)
       .add("designDescription", designDescription)
