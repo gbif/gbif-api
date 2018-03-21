@@ -23,7 +23,7 @@ import java.util.UUID;
 public final class Constants {
 
   /**
-   * The dataset key for the GBIF backbone (nub) taxonomy.
+   * The dataset key for the GBIF backbone (NUB) taxonomy.
    */
   public static final UUID NUB_DATASET_KEY = UUID.fromString("d7dddbf4-2cf0-4f39-9b2a-bb099caae36c");
 
@@ -41,6 +41,16 @@ public final class Constants {
    * The publisher/organisation key for Plazi.
    */
   public static final UUID PLAZI_ORG_KEY = UUID.fromString("7ce8aef0-9e92-11dc-8738-b8a03c50a862");
+
+  /**
+   * The network key for the Ocean Biogeographic Information System (OBIS).
+   */
+  public static final UUID OBIS_NETWORK_KEY = UUID.fromString("838f42d6-f762-11e1-a439-00145eb45e9a");
+
+  /**
+   * The dataset key for the EOD - eBird Observation Dataset.
+   */
+  public static final UUID EBIRD_DATASET_KEY = UUID.fromString("4fa7b334-ce0d-4e88-aaae-2e0c138d049e");
 
   /**
    * The maximum key for a nub usage. All non nub usages have a key above this limit, so it can be used as a simple way
