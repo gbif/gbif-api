@@ -138,11 +138,18 @@ public class DOI {
   }
 
   /**
-   * See <a href="http://www.doi.org/doi_handbook/2_Numbering.html#2.6">DOI Hanbook, Visual presentation and other representation of DOI names</a>.
+   * See <a href="http://www.doi.org/doi_handbook/2_Numbering.html#2.6">DOI Handbook, Visual presentation and other representation of DOI names</a>.
    * @return the resolved DOI using https://doi.org/
    */
   public URI getUrl() {
-    return URI.create(RESOLVER + prefix + '/' + suffix);
+    return URI.create(RESOLVER + getDoiName());
+  }
+
+  /**
+   * @return the DOI name prefixed with "doi:", as recommended by the DOI Handbook.
+   */
+  public String getDoiString() {
+    return SCHEME + getDoiName();
   }
 
   /**
@@ -154,7 +161,7 @@ public class DOI {
 
   @Override
   public String toString() {
-    return prefix + '/' + suffix;
+    return getDoiName();
   }
 
   @Override
