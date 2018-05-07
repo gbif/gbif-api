@@ -31,7 +31,7 @@ public interface OccurrenceDatasetIndexService {
    * @param country to filter occurrence datasets by
    * @return a map of dataset keys to counts sorted by count descending
    */
-  SortedMap<UUID, Integer> occurrenceDatasetsForCountry(Country country);
+  SortedMap<UUID, Long> occurrenceDatasetsForCountry(Country country);
 
 
   /**
@@ -45,5 +45,5 @@ public interface OccurrenceDatasetIndexService {
    * @param taxonKey to filter occurrence datasets by
    * @return a map of dataset keys to counts sorted by count descending
    */
-  SortedMap<UUID, Integer> occurrenceDatasetsForNubKey(int taxonKey);
+  SortedMap<UUID, Long> occurrenceDatasetsForNubKey(int taxonKey);
 }
