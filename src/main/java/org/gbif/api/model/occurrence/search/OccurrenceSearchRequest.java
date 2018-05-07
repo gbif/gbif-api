@@ -73,7 +73,7 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
   }
 
   public void addCountryFilter(Country country) {
-    addParameter(OccurrenceSearchParameter.COUNTRY, country);
+    addParameter(OccurrenceSearchParameter.COUNTRY, country.getIso2LetterCode());
   }
 
   public void addContinentFilter(Continent continent) {
@@ -149,7 +149,7 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
   }
 
   public void addPublishingCountryFilter(Country country) {
-    addParameter(OccurrenceSearchParameter.PUBLISHING_COUNTRY, country);
+    addParameter(OccurrenceSearchParameter.PUBLISHING_COUNTRY, country.getIso2LetterCode());
   }
 
   public void addInstitutionCodeFilter(String code) {
