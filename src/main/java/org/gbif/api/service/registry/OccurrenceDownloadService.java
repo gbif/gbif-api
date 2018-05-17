@@ -69,4 +69,10 @@ public interface OccurrenceDownloadService {
    * Retrieves downloads monthly stats by country.
    */
   Map<Integer,Map<Integer,Long>> getMonthlyStats(@Nullable Date fromDate, @Nullable  Date toDate, @Nullable Country country);
+
+  /**
+   * Retrieves an aggregation of the downloaded records of datasets published by organization hosted by a country.
+   * If the country param is not specified returns global records.
+   */
+  Map<Integer,Map<Integer,Long>> getDownloadRecordsHostedByCountry(@Nullable Date fromDate, @Nullable  Date toDate, @Nullable Country country);
 }
