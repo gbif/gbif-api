@@ -14,9 +14,14 @@ package org.gbif.api.service.registry;
 
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
+import org.gbif.api.model.common.search.Facet;
 import org.gbif.api.model.occurrence.Download;
 import org.gbif.api.model.registry.DatasetOccurrenceDownloadUsage;
+import org.gbif.api.vocabulary.Country;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -59,4 +64,9 @@ public interface OccurrenceDownloadService {
    */
   PagingResponse<DatasetOccurrenceDownloadUsage> listDatasetUsages(@NotNull String downloadKey,
                                                                 @Nullable Pageable page);
+
+  /**
+   * Retrieves downloads monthly stats by country.
+   */
+  Map<Integer,Map<Integer,Long>> getMonthlyStats(@Nullable Date fromDate, @Nullable  Date toDate, @Nullable Country country);
 }
