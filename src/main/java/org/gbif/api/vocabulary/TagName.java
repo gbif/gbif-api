@@ -15,201 +15,13 @@
  */
 package org.gbif.api.vocabulary;
 
-import static org.gbif.api.vocabulary.TagNamespace.CHECKLISTBANK;
-import static org.gbif.api.vocabulary.TagNamespace.CRAWLER;
-import static org.gbif.api.vocabulary.TagNamespace.GBIF;
-import static org.gbif.api.vocabulary.TagNamespace.GBIF_HARVESTING;
+import static org.gbif.api.vocabulary.TagNamespace.*;
 
 /**
  * Known {@link org.gbif.api.model.registry.MachineTag#getName()} name value.
  * The tag names listed here are used/recognized by different services.
  */
 public enum TagName {
-
-  /**
-   * BioCASE (ABCD 2.0.6) metadata response element: the dataset disclaimer.
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  DISCLAIMER("Disclaimer", GBIF_HARVESTING),
-
-  /**
-   * BioCASE (ABCD 1.2 & 2.0.6) metadata response element: the dataset's owning organization name.
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  ORGANISATION_NAME("OrganisationName", GBIF_HARVESTING),
-
-  /**
-   * BioCASE (ABCD 2.0.6) metadata response element: the dataset owner URL.
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  OWNER_URL("OwnerURL", GBIF_HARVESTING),
-
-  /**
-   * BioCASE (ABCD 1.2) metadata response element: the dataset rights URL.
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  RIGHTS_URL("RightsURL", GBIF_HARVESTING),
-
-  /**
-   * BioCASE (ABCD 1.2) metadata response element: the supplier URL.
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  SUPPLIER_URL("SupplierURL", GBIF_HARVESTING),
-
-  /**
-   * BioCASE (ABCD 1.2 & 2.0.6) metadata response element: the dataset's terms of usage.
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  TERMS_OF_USE("TermsOfUse", GBIF_HARVESTING),
-
-  /**
-   * TAPIR and BioCASE (ABCD 1.2 & 2.0.6) metadata response element: the intellectual property rights description.
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  IPR_DECLARATION("IPRDeclaration", GBIF_HARVESTING),
-
-  /**
-   * TAPIR metadata response indexing preferences attribute: the frequency the publisher wishes the resource to be
-   * re-indexed.
-   * For example: frequency="P7D"
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  FREQUENCY("frequency", GBIF_HARVESTING),
-
-  /**
-   * TAPIR metadata response indexing preferences attribute: the maximum duration permitted for indexing.
-   * For example: maxDuration="PT1H"
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  MAX_DURATION("maxDuration", GBIF_HARVESTING),
-
-  /**
-   * TAPIR metadata response indexing preferences attribute: the preferred start time for indexing.
-   * For example: startTime="01:30:00Z"
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  START_TIME("startTime", GBIF_HARVESTING),
-
-  /**
-   * TAPIR metadata response element: the date the resource was last modified.
-   * For example: 2009-05-25T02:00:00+02:00
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  MODIFIED("modified", GBIF_HARVESTING),
-
-  /**
-   * TAPIR metadata response element: the date the resource was created.
-   * For example: 2008-04-01T13:45:26+02:00
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  CREATED("created", GBIF_HARVESTING),
-
-  /**
-   * DiGIR metadata response resource element: the basis of record describing all records in the resource.
-   * For example: "Observations"
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  BASIS_OF_RECORD("basisOfRecord", GBIF_HARVESTING),
-
-  /**
-   * Multiple protocols: the record count as declared by the resource publisher. For DiGIR, this could come from the
-   * metadata response resource element called numberOfRecords.
-   * For example: 35548
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  DECLARED_RECORD_COUNT("declaredRecordCount", GBIF_HARVESTING),
-
-  /**
-   * DiGIR metadata response resource element: the date the resource was last modified.
-   * For example: 1991-12-31T00:00:00-05:00
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  DATE_LAST_UPDATED("dateLastUpdated", GBIF_HARVESTING),
-
-  /**
-   * DiGIR metadata response resource element: maximum number of records that can be returned in a single inventory
-   * response.
-   * For example: 1000
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  MAX_INVENTORY_RESPONSE_RECORDS("maxInventoryResponseRecords", GBIF_HARVESTING),
-
-  /**
-   * DiGIR metadata response resource element: maximum number of records that can be returned in a single search
-   * response.
-   * For example: 1000
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  MAX_SEARCH_RESPONSE_RECORDS("maxSearchResponseRecords", GBIF_HARVESTING),
-
-  /**
-   * DiGIR metadata response resource element: minimum length of a string that can be used in an XML request.
-   * For example: 3
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  MIN_QUERY_TERM_LENGTH("minQueryTermLength", GBIF_HARVESTING),
-
-  /**
-   * DiGIR metadata response resource element: the URL location of the conceptual schema.
-   * For example: "http://digir.net/schema/conceptual/darwin/2003/1.0"
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  CONCEPTUAL_SCHEMA("conceptualSchema", GBIF_HARVESTING),
-
-
-  /**
-   * DiGIR metadata response resource element: the URL location of the schema.
-   * For example: "http://bnhm.berkeley.edu/manis/DwC/darwin2jrw030315.xsd"
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  SCHEMA_LOCATION("schemaLocation", GBIF_HARVESTING),
-
-  /**
-   * BioCASE capabilities response Concept attribute: flag that indicates whether the dataset title is a searchable
-   * concept or not.
-   * For example: searchable="1"
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  IS_TITLE_SEARCHABLE("isTitleSearchable", GBIF_HARVESTING),
-
-  /**
-   * BioCASE capabilities response SupportedSchemas attribute: the URL location of the content namespace.
-   * For example: namespace="http://www.tdwg.org/schemas/abcd/2.06"
-   * </p>
-   * TAPIR capabilities response concepts/schema attribute: the URL location of the content namespace.
-   * For example: namespace="http://rs.tdwg.org/dwc/terms/"
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  CONTENT_NAMESPACE("contentNamespace", GBIF_HARVESTING),
-
-  /**
-   * TAPIR metadata response settings element: sets the maximum number of records in a response.
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  MAX_ELEMENT_REPETITIONS("maxElementRepetitions", GBIF_HARVESTING),
 
   /**
    * The Darwin Core term datasetID which is found in dwc archives to reference subdatasets
@@ -222,110 +34,82 @@ public enum TagName {
   DATASET_ID("dataset_id", GBIF_HARVESTING),
 
   /**
-   * The Darwin Core term datasetName which is found in dwc archives to reference subdatasets
-   * such as the Catalogue of Life GSDs. Stored in the registry to keep a mapping between the subdataset registry key
-   * and the dwca datasetID value.
-   *
-   * @see <a href="http://rs.tdwg.org/dwc/terms/datasetName">DWC Term</a>
-   * @see <a href="http://kos.gbif.org/wiki/Dwc:datasetName">KOS wiki</a>
-   */
-  DATASET_NAME("dataset_name", GBIF_HARVESTING),
-
-  /**
-   * Flag whose very presence indicates the dataset should be ignored by GBIF harvesters and consequently never be
-   * (re)indexed by GBIF. A reason explaining why the dataset is being ignored should be given in the Tag's value.
-   * </p>
-   * Some potential reasons for ignoring a dataset during indexing include the dataset is a duplicate, the publisher
-   * has requested that it not be indexed, or it is currently on hold while the publisher performs updates.
-   * </p>
-   * This predicate belongs to the HIT namespace.
-   */
-  IS_IGNORED("isIgnored", GBIF_HARVESTING),
-
-  /**
-   * Flag that indicates the dataset has been manually deleted by a Registry administrator. Should a dataset be
-   * logically deleted and not have this tag, it can be inferred the deletion was done by machine, for example by the
-   * registry metadata synchronizer. A reason explaining why the dataset is being flagged as deleted should be given in
-   * the Tag's value.
-   * <p/>
-   * This predicate belongs to the GBIF namespace.
-   */
-  IS_MANUALLY_DELETED("isManuallyDeleted", GBIF),
-
-  /**
-   * Flag that indicates if a dataset has been locked for automatic updates based on metadata documents.
-   * If this tag is present the dataset registry information should only manually be editable.
-   */
-  IS_MANUALLY_CURATED("isManuallyCurated", GBIF),
-
-  /**
    * This is a counter starting at 1 incremented every time we try to crawl a dataset.
    * This is even incremented when a crawl fails for any reason.
    */
-  CRAWL_ATTEMPT("crawl_attempt", CRAWLER),
+  CRAWL_ATTEMPT("crawl_attempt", GBIF_CRAWLER),
 
   /**
-   * Any checklist participating as a source for the GBIF backbone must be tagged with a positive integer priority
-   * value. The lowest value 1 has highest priority.
+   * <em>Datasets</em> marked with this tag will not be in the periodic crawl.
    */
-  NUB_PRIORITY("nubPriority", CHECKLISTBANK),
+  OMIT_FROM_SCHEDULED_CRAWL("omitFromScheduledCrawl", GBIF_CRAWLER),
 
   /**
-   * The absolute number of usages matched to corresponding usages in the currently indexed Catalog of Life.
+   * Records the source of an archive endpoint, e.g. that it is from a BioCASe installation.
    */
-  NUM_COL("numCol", CHECKLISTBANK),
+  ARCHIVE_ORIGIN("archiveOrigin", GBIF_METASYNC),
 
   /**
-   * The absolute number of usages matched to corresponding usages in the GBIF backbone.
+   * TaPIR or BioCASe conceptual schema.
    */
-  NUM_NUB("numNub", CHECKLISTBANK),
+  CONCEPTUAL_SCHEMA("conceptualSchema", GBIF_METASYNC),
 
   /**
-   * A URL template to be used to create dynamic links to source web pages for individual name usages in this dataset.
-   * If the variable {ID} is found in this template it will be replaced by the actual name usage key. If it
-   * does not exist the key will be appended to the end of the URL.
+   * Dataset title for BioCASe, no longer used.
    */
-  RECORD_SOURCE_URL("recordSourceUrl", CHECKLISTBANK),
+  @Deprecated
+  DATASET_TITLE("datasetTitle", GBIF_METASYNC),
 
   /**
-   * The kingdom the entire checklist dataset should be classified under.
+   * Date the records in the dataset were last updated.
    */
-  KINGDOM("kingdom", CHECKLISTBANK),
+  DATE_LAST_UPDATED("dateLastUpdated", GBIF_METASYNC),
 
   /**
-   * The number of image records in this dataset.
+   * Number of records declared in the dataset by the source.
    */
-  NUM_IMAGES("numImages", CHECKLISTBANK),
+  DECLARED_COUNT("declaredCount", GBIF_METASYNC),
 
   /**
-   * The number of description records in this dataset.
+   * DiGIR code.
    */
-  NUM_DESCRIPTION("numDescriptions", CHECKLISTBANK),
+  DIGIR_CODE("code", GBIF_METASYNC),
 
   /**
-   * The number of bibliographic reference records in this dataset.
+   * Not sure, no longer in use?
    */
-  NUM_REFERENCES("numReferences", CHECKLISTBANK),
+  @Deprecated
+  LOCAL_ID("localId", GBIF_METASYNC),
 
   /**
-   * The number of vernacular name records in this dataset.
+   * Number of records to request in each search.
    */
-  NUM_VERNACULAR_NAMES("numVernacularNames", CHECKLISTBANK),
+  MAX_SEARCH_RESPONSE_RECORDS("maxSearchResponseRecords", GBIF_METASYNC),
 
   /**
-   * The number of type records in this dataset.
+   * Records whether an orphan dataset has been RESCUED.
    */
-  NUM_TYPES("numTypes", CHECKLISTBANK),
+  ORPHAN_STATUS("status", GBIF_ORPHANS),
 
   /**
-   * The number of species information records in this dataset.
+   * The endpoint which was not working when the dataset was rescued.
    */
-  NUM_SPECIES_INFOS("numSpeciesInfos", CHECKLISTBANK);
+  ORPHANED_ENDPOINT("orphanEndpoint", GBIF_ORPHANS),
+
+  /**
+   * The GBIF download used to rescue the orphaned dataset.
+   */
+  ORPHAN_DOWNLOAD("download", GBIF_ORPHANS),
+
+  /**
+   * The modification time of the last-available Darwin Core Archive from temporary storage,
+   * used to rescue the dataset.
+   */
+  ORPHAN_DWCA_CACHE_TIME("crawlerDwcaCacheTime", GBIF_ORPHANS);
 
   private final String name;
 
   private final TagNamespace namespace;
-
 
   /**
    * Default constructor.

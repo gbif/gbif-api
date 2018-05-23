@@ -18,6 +18,7 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 import com.google.common.base.Objects;
+import org.gbif.api.vocabulary.TagName;
 
 /**
  * A tag that has a namespace, name and a value. {@code created} and {@code createdBy} are automatically set upon
@@ -37,6 +38,10 @@ public class MachineTag implements LenientEquals<MachineTag> {
     return new MachineTag(namespace, name, value);
   }
 
+  public static MachineTag newInstance(TagName tagName, String value) {
+    return new MachineTag(tagName, value);
+  }
+
   public MachineTag() {
     // Needed
   }
@@ -48,6 +53,13 @@ public class MachineTag implements LenientEquals<MachineTag> {
     this.namespace = namespace;
     this.name = name;
     this.value = value;
+  }
+
+  /**
+   * This is the other constructor to create new Machine Tags which takes all user settable properties.
+   */
+  public MachineTag(TagName tagName, String value) {
+    this(tagName.getNamespace().getNamespace(), tagName.getName(), value);
   }
 
   @Null(groups = {PrePersist.class})
@@ -153,7 +165,5 @@ public class MachineTag implements LenientEquals<MachineTag> {
     return Objects.equal(this.namespace, other.namespace)
       && Objects.equal(this.name, other.name)
       && Objects.equal(this.value, other.value);
-    // TODO: http://dev.gbif.org/issues/browse/REG-401
-    // && Objects.equal(this.createdBy, other.createdBy);
   }
 }

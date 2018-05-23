@@ -30,29 +30,29 @@ public enum TagNamespace {
   PUBLIC(null),
 
   /**
-   * The GBIF general namespace.
-   */
-  GBIF("gbif.org"),
-
-  /**
-   * The GBIF ChecklistBank namespace.
-   */
-  CHECKLISTBANK("clb.gbif.org"),
-
-  /**
    * Used by the Crawler and related projects.
    */
-  CRAWLER("crawler.gbif.org"),
+  GBIF_CRAWLER("crawler.gbif.org"),
 
   /**
    * The GBIF DwC-Archive Validator namespace.
    */
-  VALIDATOR("validator.gbif.org"),
+  GBIF_VALIDATOR("validator.gbif.org"),
 
   /**
    * The GBIF Harvesting and Indexing Toolkit (HIT) namespace.
    */
   GBIF_HARVESTING("hit.gbif.org"),
+
+  /**
+   * The GBIF Registry Metasynchronizer namespace.
+   */
+  GBIF_METASYNC("metasync.gbif.org"),
+
+  /**
+   * The GBIF Orphans namespace.
+   */
+  GBIF_ORPHANS("orphans.gbif.org"),
 
   /**
    * The Encyclopedia of Life (EOL) namespace.
