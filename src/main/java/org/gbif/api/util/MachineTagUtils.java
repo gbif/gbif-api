@@ -5,6 +5,7 @@ import org.gbif.api.model.registry.MachineTaggable;
 import org.gbif.api.vocabulary.TagName;
 
 import java.util.List;
+import java.util.function.Function;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
@@ -70,7 +71,7 @@ public class MachineTagUtils {
   }
 
   /**
-   * @return the first machine tag that with the given namespace and name.
+   * @return the first machine tag that with the given TagName.
    */
   public static MachineTag firstTag(MachineTaggable taggable, TagName tagName) {
     return firstTag(taggable, tagName.getNamespace().getNamespace(), tagName.getName());
@@ -86,6 +87,20 @@ public class MachineTagUtils {
       }
     }
     return null;
+  }
+
+  /**
+   * @return the result of applying the supplied function to the first machine tag with the given TagName.
+   */
+  public static <T> T firstTag(MachineTaggable taggable, TagName tagName, Function<MachineTag, T> function) {
+    return function.apply(firstTag(taggable, tagName));
+  }
+
+  /**
+   * @return the result of applying the supplied function to the first machine tag with the given namespace and name.
+   */
+  public static <T> T firstTag(MachineTaggable taggable, String namespace, String tagName, Function<MachineTag, T> function) {
+    return function.apply(firstTag(taggable, namespace, tagName));
   }
 
   /**
