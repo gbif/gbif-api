@@ -19,10 +19,7 @@ import org.gbif.api.model.occurrence.Download;
 import org.gbif.api.model.registry.DatasetOccurrenceDownloadUsage;
 import org.gbif.api.vocabulary.Country;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
@@ -66,13 +63,18 @@ public interface OccurrenceDownloadService {
                                                                 @Nullable Pageable page);
 
   /**
-   * Retrieves downloads monthly stats by country.
+   * Retrieves downloads monthly stats by country (user and publishing country) and dataset.
    */
-  Map<Integer,Map<Integer,Long>> getMonthlyStats(@Nullable Date fromDate, @Nullable  Date toDate, @Nullable Country country);
+  Map<Integer,Map<Integer,Long>> getMonthlyStats(@Nullable Date fromDate, @Nullable  Date toDate,
+                                                 @Nullable Country userCountry,
+                                                 @Nullable Country publishingCountry,
+                                                 @Nullable UUID datasetKey);
 
   /**
-   * Retrieves an aggregation of the downloaded records of datasets published by organization hosted by a country.
-   * If the country param is not specified returns global records.
+   * Retrieves downloaded records monthly stats by country (user and publishing country) and dataset.
    */
-  Map<Integer,Map<Integer,Long>> getDownloadRecordsHostedByCountry(@Nullable Date fromDate, @Nullable  Date toDate, @Nullable Country country);
+  Map<Integer,Map<Integer,Long>> getDownloadedRecordsStats(@Nullable Date fromDate, @Nullable  Date toDate,
+                                                           @Nullable Country userCountry,
+                                                           @Nullable Country publishingCountry,
+                                                           @Nullable UUID datasetKey);
 }
