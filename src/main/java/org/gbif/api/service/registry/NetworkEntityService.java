@@ -59,24 +59,45 @@ public interface NetworkEntityService<T> extends MachineTagService, TagService, 
 
   /**
    * A simple search that supports paging.
-   * 
+   *
    * @return a pageable response of network entities, with accurate counts.
    */
   PagingResponse<T> search(String query, @Nullable Pageable page);
 
   /**
    * Lists the entities by the provided identifier, scoped by type.
-   * 
+   *
    * @return a pageable response of network entities, with accurate counts for the identifier provided
    */
   PagingResponse<T> listByIdentifier(IdentifierType type, String identifier, @Nullable Pageable page);
 
   /**
    * Lists the entities by the provided identifier, which may be of any type.
-   * 
+   *
    * @return a pageable response of network entities, with accurate counts for the identifier provided
    */
   PagingResponse<T> listByIdentifier(String identifier, @Nullable Pageable page);
+
+  /**
+   * Lists the entities having a machine tag in the provided namespace, with the provided name and value.
+   *
+   * @return a pageable response of network entities, with accurate counts for the machine tag provided
+   */
+  PagingResponse<T> listByMachineTag(String namespace, String name, String value, @Nullable Pageable page);
+
+  /**
+   * Lists the entities having a machine tag in the provided namespace, with the provided name.
+   *
+   * @return a pageable response of network entities, with accurate counts for the machine tag provided
+   */
+  PagingResponse<T> listByMachineTag(String namespace, String name, @Nullable Pageable page);
+
+  /**
+   * Lists the entities having a machine tag in the provided namespace.
+   *
+   * @return a pageable response of network entities, with accurate counts for the machine tag provided
+   */
+  PagingResponse<T> listByMachineTag(String namespace, @Nullable Pageable page);
 
   void update(@NotNull T entity);
 
