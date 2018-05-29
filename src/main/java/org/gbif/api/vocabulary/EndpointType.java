@@ -51,7 +51,7 @@ public enum EndpointType {
    */
   TCS_XML,
   /**
-   * A Darwin Core Archive as defined by the <a href="http://rs.tdwg.org/dwc/terms/guides/text/index.htm">Darwin Core Text Guidelines</a>.
+   * A Darwin Core Archive as defined by the <a href="http://rs.tdwg.org/dwc/terms/guides/text/">Darwin Core Text Guidelines</a>.
    */
   DWC_ARCHIVE,
   /**
@@ -67,9 +67,14 @@ public enum EndpointType {
    */
   TAPIR,
   /**
-   * A <a href="http://www.biocase.org/products/protocols/index.shtml">BioCASe</a> protocl compliant service.
+   * A <a href="http://www.biocase.org/products/protocols/">BioCASe</a> protocol compliant service.
    */
   BIOCASE,
+  /**
+   * A <a href="http://www.biocase.org/products/protocols/">BioCASe</a> XML Archive, as explained by the
+   * <a href="http://wiki.bgbm.org/bps/index.php/Archiving">BioCASe wiki</a>.
+   */
+  BIOCASE_XML_ARCHIVE,
   /**
    * The Open Archives Initiative Protocol for Metadata Harvesting.
    * A <a href="http://www.openarchives.org/OAI/openarchivesprotocol.html">OAI-PMH</a> compliant data provider service.
@@ -84,7 +89,7 @@ public enum EndpointType {
    * @return the matching EndpointType or null
    */
   public static EndpointType fromString(String endpointType) {
-    return (EndpointType) VocabularyUtils.lookupEnum(endpointType, EndpointType.class);
+    return VocabularyUtils.lookupEnum(endpointType, EndpointType.class);
   }
 
 }
