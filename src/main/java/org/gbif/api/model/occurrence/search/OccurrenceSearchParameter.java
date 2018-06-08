@@ -61,7 +61,6 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    */
   MONTH(Integer.class),
 
-
   /**
    * Event date (date the occurrence was recorded) in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
    * This parameter accepts comma separated range values, examples of valid ranges are:
@@ -85,6 +84,22 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * </dl>
    */
   EVENT_DATE(Date.class),
+
+  /**
+   * An identifier for the set of information associated with an Event (something that occurs at a place and time).
+   * May be a global unique identifier or an identifier specific to the data set.
+   */
+  EVENT_ID(String.class),
+
+  /**
+   * An identifier for the broader Event that groups this and potentially other Events.
+   */
+  PARENT_EVENT_ID(String.class),
+
+  /**
+   * The name of, reference to, or description of the method or protocol used during an Event.
+   */
+  SAMPLING_PROTOCOL(String.class),
 
   /**
    * Last interpreted date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
@@ -350,6 +365,16 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * The owning organizations uuid key.
    */
   PUBLISHING_ORG(UUID.class),
+
+  /**
+   * The GBIF network that the publishing organisation belongs to.
+   */
+  GBIF_NETWORK(String.class),
+
+  /**
+   *The technical installation key that hosts/publishes this record.
+   */
+  INSTALLATION_KEY(String.class),
 
   /**
    * Crawl attempt that harvested this record.

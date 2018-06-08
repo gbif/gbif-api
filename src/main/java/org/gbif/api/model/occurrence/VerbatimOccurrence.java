@@ -12,6 +12,7 @@
  */
 package org.gbif.api.model.occurrence;
 
+import com.google.common.base.MoreObjects;
 import org.gbif.api.jackson.ExtensionKeyDeserializer;
 import org.gbif.api.jackson.ExtensionSerializer;
 import org.gbif.api.jackson.TermMapListDeserializer;
@@ -49,6 +50,8 @@ public class VerbatimOccurrence {
   private Integer key;
   private UUID datasetKey;
   private UUID publishingOrgKey;
+  private List<UUID> networkKeys;
+  private UUID installationKey;
   private Country publishingCountry;
   private EndpointType protocol;
   private Date lastCrawled;
@@ -117,6 +120,30 @@ public class VerbatimOccurrence {
 
   public void setPublishingOrgKey(UUID publishingOrgKey) {
     this.publishingOrgKey = publishingOrgKey;
+  }
+
+  /**
+   * The GBIF Network associated to the publishing dataset.
+   */
+  @Nullable
+  public List<UUID> getNetworkKeys() {
+    return networkKeys;
+  }
+
+  public void setNetworkKeys(List<UUID> networkKeys) {
+    this.networkKeys = networkKeys;
+  }
+
+  /**
+   * Technical installation that publishes this occurrence record.
+   */
+  @Nullable
+  public UUID getInstallationKey() {
+    return installationKey;
+  }
+
+  public void setInstallationKey(UUID installationKey) {
+    this.installationKey = installationKey;
   }
 
   /**
@@ -205,8 +232,15 @@ public class VerbatimOccurrence {
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("lastParsed", lastParsed).add("key", key).add("datasetKey", datasetKey)
-      .add("publishingOrgKey", publishingOrgKey).add("publishingCountry", publishingCountry).add("protocol", protocol)
+    return MoreObjects.toStringHelper(this)
+      .add("key", key)
+      .add("lastParsed", lastParsed)
+      .add("datasetKey", datasetKey)
+      .add("publishingOrgKey", publishingOrgKey)
+      .add("publishingCountry", publishingCountry)
+      .add("installationKey", installationKey)
+      .add("networkKeys", networkKeys)
+      .add("protocol", protocol)
       .add("crawlId",crawlId)
       .add("lastCrawled", lastCrawled)
       .add("extensions", extensions)
@@ -233,6 +267,8 @@ public class VerbatimOccurrence {
       && Objects.equal(this.datasetKey, other.datasetKey)
       && Objects.equal(this.publishingOrgKey, other.publishingOrgKey)
       && Objects.equal(this.publishingCountry, other.publishingCountry)
+      && Objects.equal(this.installationKey, other.installationKey)
+      && Objects.equal(this.networkKeys, other.networkKeys)
       && Objects.equal(this.protocol, other.protocol)
       && Objects.equal(this.lastCrawled, other.lastCrawled)
       && Objects.equal(this.lastParsed, other.lastParsed)
