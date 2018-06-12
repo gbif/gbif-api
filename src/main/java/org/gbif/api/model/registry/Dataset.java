@@ -118,7 +118,7 @@ public class Dataset
   private List<Tag> tags = Lists.newArrayList();
   private List<Identifier> identifiers = Lists.newArrayList();
   private List<Comment> comments = Lists.newArrayList();
-  private List<Network> networks = Lists.newArrayList();
+  private List<UUID> networks = Lists.newArrayList();
   // EML specific properties which are not persisted on the dataset table!
   private List<Citation> bibliographicCitations = Lists.newArrayList();
   private List<CuratorialUnitComposite> curatorialUnits = Lists.newArrayList();
@@ -610,11 +610,11 @@ public class Dataset
     this.comments = comments;
   }
 
-  public List<Network> getNetworks() {
+  public List<UUID> getNetworks() {
     return networks;
   }
 
-  public void setNetworks(List<Network> networks) {
+  public void setNetworks(List<UUID> networks) {
     this.networks = networks;
   }
 
