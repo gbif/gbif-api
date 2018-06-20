@@ -118,7 +118,6 @@ public class Dataset
   private List<Tag> tags = Lists.newArrayList();
   private List<Identifier> identifiers = Lists.newArrayList();
   private List<Comment> comments = Lists.newArrayList();
-  private List<UUID> networks = Lists.newArrayList();
   // EML specific properties which are not persisted on the dataset table!
   private List<Citation> bibliographicCitations = Lists.newArrayList();
   private List<CuratorialUnitComposite> curatorialUnits = Lists.newArrayList();
@@ -486,7 +485,7 @@ public class Dataset
   public void setCitation(Citation citation) {
     this.citation = citation;
   }
-
+  
   /**
    * Any kind of (copy)rights/IPR statements that apply to the datasets data.
    */
@@ -608,14 +607,6 @@ public class Dataset
   @Override
   public void setComments(List<Comment> comments) {
     this.comments = comments;
-  }
-
-  public List<UUID> getNetworks() {
-    return networks;
-  }
-
-  public void setNetworks(List<UUID> networks) {
-    this.networks = networks;
   }
 
   public List<Citation> getBibliographicCitations() {
