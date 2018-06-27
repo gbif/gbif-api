@@ -369,12 +369,12 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * The GBIF network that the publishing organisation belongs to.
    */
-  GBIF_NETWORK(String.class),
+  NETWORK_KEY(UUID.class),
 
   /**
-   *The technical installation key that hosts/publishes this record.
+   * The technical installation key that hosts/publishes this record.
    */
-  INSTALLATION_KEY(String.class),
+  INSTALLATION_KEY(UUID.class),
 
   /**
    * Crawl attempt that harvested this record.
