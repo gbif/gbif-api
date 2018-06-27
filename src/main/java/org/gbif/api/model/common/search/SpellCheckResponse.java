@@ -3,7 +3,6 @@ package org.gbif.api.model.common.search;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 /**
@@ -72,7 +71,7 @@ public class SpellCheckResponse {
 
     @Override
     public String toString() {
-      return MoreObjects.toStringHelper(this)
+      return Objects.toStringHelper(this)
         .add("numFound", numFound)
         .add("alternatives", alternatives)
         .toString();
@@ -139,7 +138,7 @@ public class SpellCheckResponse {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
+    return Objects.toStringHelper(this)
       .add("suggestions", suggestions)
       .add("correctlySpelled", correctlySpelled)
       .toString();

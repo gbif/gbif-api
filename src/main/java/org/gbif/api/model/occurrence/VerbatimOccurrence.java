@@ -12,7 +12,6 @@
  */
 package org.gbif.api.model.occurrence;
 
-import com.google.common.base.MoreObjects;
 import org.gbif.api.jackson.ExtensionKeyDeserializer;
 import org.gbif.api.jackson.ExtensionSerializer;
 import org.gbif.api.jackson.TermMapListDeserializer;
@@ -232,7 +231,7 @@ public class VerbatimOccurrence {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
+    return Objects.toStringHelper(this)
       .add("key", key)
       .add("lastParsed", lastParsed)
       .add("datasetKey", datasetKey)

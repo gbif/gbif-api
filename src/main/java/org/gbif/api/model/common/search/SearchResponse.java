@@ -20,7 +20,6 @@ import org.gbif.api.model.common.paging.PagingResponse;
 
 import java.util.List;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 
@@ -136,7 +135,7 @@ public class SearchResponse<T, P extends SearchParameter> extends PagingResponse
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this).add("count", getCount()).add("results", getResults()).add("facets", facets)
+    return Objects.toStringHelper(this).add("count", getCount()).add("results", getResults()).add("facets", facets)
       .add("offset", getOffset()).add("limit", getLimit()).add("spellCheckResponse",spellCheckResponse).toString();
   }
 
