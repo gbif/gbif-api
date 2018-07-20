@@ -65,16 +65,13 @@ public interface OccurrenceDownloadService {
   /**
    * Retrieves downloads monthly stats by country (user and publishing country) and dataset.
    */
-  Map<Integer,Map<Integer,Long>> getMonthlyStats(@Nullable Date fromDate, @Nullable  Date toDate,
-                                                 @Nullable Country userCountry,
-                                                 @Nullable Country publishingCountry,
-                                                 @Nullable UUID datasetKey);
+  Map<Integer,Map<Integer,Long>> getDownloadsByUserCountry(@Nullable Date fromDate, @Nullable  Date toDate,
+                                                           @Nullable Country userCountry);
 
   /**
    * Retrieves downloaded records monthly stats by country (user and publishing country) and dataset.
    */
-  Map<Integer,Map<Integer,Long>> getDownloadedRecordsStats(@Nullable Date fromDate, @Nullable  Date toDate,
-                                                           @Nullable Country userCountry,
-                                                           @Nullable Country publishingCountry,
-                                                           @Nullable UUID datasetKey);
+  Map<Integer,Map<Integer,Long>> getDownloadedRecordsByDataset(@Nullable Date fromDate, @Nullable  Date toDate,
+                                                               @Nullable Country publishingCountry,
+                                                               @Nullable UUID datasetKey);
 }
