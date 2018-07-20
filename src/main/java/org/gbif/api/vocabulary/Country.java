@@ -1126,7 +1126,7 @@ public enum Country {
   /**
    * Swaziland.
    */
-  SWAZILAND("SZ", "SWZ", 748, "Swaziland", GbifRegion.AFRICA),
+  SWAZILAND("SZ", "SWZ", 748, "Eswatini", GbifRegion.AFRICA),
 
   /**
    * Sweden.
@@ -1240,7 +1240,7 @@ public enum Country {
   /**
    * United States.
    */
-  UNITED_STATES("US", "USA", 840, "United States", GbifRegion.NORTH_AMERICA),
+  UNITED_STATES("US", "USA", 840, "United States of America", GbifRegion.NORTH_AMERICA),
 
   /**
    * United States Minor Outlying Islands.
