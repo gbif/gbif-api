@@ -24,7 +24,7 @@
 <span class="sourceLineNo">016</span>package org.gbif.utils.file.csv;<a name="line.16"></a>
 <span class="sourceLineNo">017</span><a name="line.17"></a>
 <span class="sourceLineNo">018</span>import org.gbif.utils.file.CharsetDetection;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import org.gbif.utils.file.UnkownCharsetException;<a name="line.19"></a>
+<span class="sourceLineNo">019</span>import org.gbif.utils.file.UnknownCharsetException;<a name="line.19"></a>
 <span class="sourceLineNo">020</span>import org.gbif.utils.file.tabular.TabularFileMetadataExtractor;<a name="line.20"></a>
 <span class="sourceLineNo">021</span><a name="line.21"></a>
 <span class="sourceLineNo">022</span>import java.io.File;<a name="line.22"></a>
@@ -167,13 +167,13 @@
 <span class="sourceLineNo">159</span>   *<a name="line.159"></a>
 <span class="sourceLineNo">160</span>   * Extract metadata from a CSV file.<a name="line.160"></a>
 <span class="sourceLineNo">161</span>   * Metadata includes delimiter and quotes character.<a name="line.161"></a>
-<span class="sourceLineNo">162</span>   * <a name="line.162"></a>
+<span class="sourceLineNo">162</span>   *<a name="line.162"></a>
 <span class="sourceLineNo">163</span>   * @param source<a name="line.163"></a>
 <span class="sourceLineNo">164</span>   * @param encoding<a name="line.164"></a>
 <span class="sourceLineNo">165</span>   * @return<a name="line.165"></a>
-<span class="sourceLineNo">166</span>   * @throws UnkownDelimitersException<a name="line.166"></a>
+<span class="sourceLineNo">166</span>   * @throws UnknownDelimitersException<a name="line.166"></a>
 <span class="sourceLineNo">167</span>   */<a name="line.167"></a>
-<span class="sourceLineNo">168</span>  public static CSVMetadata extractCsvMetadata(File source, String encoding) throws UnkownDelimitersException {<a name="line.168"></a>
+<span class="sourceLineNo">168</span>  public static CSVMetadata extractCsvMetadata(File source, String encoding) throws UnknownDelimitersException {<a name="line.168"></a>
 <span class="sourceLineNo">169</span>    CSVMetadata csvMetadata = new CSVMetadata();<a name="line.169"></a>
 <span class="sourceLineNo">170</span>    // try csv, tab and then other popular delimiters<a name="line.170"></a>
 <span class="sourceLineNo">171</span>    // keep number of resulting columns for comparisons<a name="line.171"></a>
@@ -223,7 +223,7 @@
 <span class="sourceLineNo">215</span>    }<a name="line.215"></a>
 <span class="sourceLineNo">216</span><a name="line.216"></a>
 <span class="sourceLineNo">217</span>    if (maxColumns &lt; 1) {<a name="line.217"></a>
-<span class="sourceLineNo">218</span>      throw new UnkownDelimitersException("Unable to detect field delimiter");<a name="line.218"></a>
+<span class="sourceLineNo">218</span>      throw new UnknownDelimitersException("Unable to detect field delimiter");<a name="line.218"></a>
 <span class="sourceLineNo">219</span>    }<a name="line.219"></a>
 <span class="sourceLineNo">220</span><a name="line.220"></a>
 <span class="sourceLineNo">221</span>    return csvMetadata;<a name="line.221"></a>
@@ -256,15 +256,15 @@
 <span class="sourceLineNo">248</span>    return columns;<a name="line.248"></a>
 <span class="sourceLineNo">249</span>  }<a name="line.249"></a>
 <span class="sourceLineNo">250</span><a name="line.250"></a>
-<span class="sourceLineNo">251</span>  private static String detectEncoding(File source) throws UnkownCharsetException {<a name="line.251"></a>
+<span class="sourceLineNo">251</span>  private static String detectEncoding(File source) throws UnknownCharsetException {<a name="line.251"></a>
 <span class="sourceLineNo">252</span>    Charset encoding;<a name="line.252"></a>
 <span class="sourceLineNo">253</span>    try {<a name="line.253"></a>
 <span class="sourceLineNo">254</span>      encoding = CharsetDetection.detectEncoding(source, 16384);<a name="line.254"></a>
 <span class="sourceLineNo">255</span>      if (encoding == null) {<a name="line.255"></a>
-<span class="sourceLineNo">256</span>        throw new UnkownCharsetException("Unable to detect the files character encoding");<a name="line.256"></a>
+<span class="sourceLineNo">256</span>        throw new UnknownCharsetException("Unable to detect the files character encoding");<a name="line.256"></a>
 <span class="sourceLineNo">257</span>      }<a name="line.257"></a>
 <span class="sourceLineNo">258</span>    } catch (IOException e) {<a name="line.258"></a>
-<span class="sourceLineNo">259</span>      throw new UnkownCharsetException(e);<a name="line.259"></a>
+<span class="sourceLineNo">259</span>      throw new UnknownCharsetException(e);<a name="line.259"></a>
 <span class="sourceLineNo">260</span>    }<a name="line.260"></a>
 <span class="sourceLineNo">261</span>    return encoding.displayName();<a name="line.261"></a>
 <span class="sourceLineNo">262</span>  }<a name="line.262"></a>

@@ -31,7 +31,7 @@
 <span class="sourceLineNo">023</span>  private static final String UTF8 = Charsets.UTF_8.name();<a name="line.23"></a>
 <span class="sourceLineNo">024</span><a name="line.24"></a>
 <span class="sourceLineNo">025</span>  @Test<a name="line.25"></a>
-<span class="sourceLineNo">026</span>  public void testCsvAllwaysQuotes() throws IOException {<a name="line.26"></a>
+<span class="sourceLineNo">026</span>  public void testCsvAlwaysQuotes() throws IOException {<a name="line.26"></a>
 <span class="sourceLineNo">027</span>    File csv = FileUtils.getClasspathFile("csv/csv_always_quoted.csv");<a name="line.27"></a>
 <span class="sourceLineNo">028</span>    try (CSVReader reader = new CSVReader(csv, "utf8", ",", '"', 1)) {<a name="line.28"></a>
 <span class="sourceLineNo">029</span>      String[] rec = reader.next();<a name="line.29"></a>
@@ -192,7 +192,29 @@
 <span class="sourceLineNo">184</span>    assertEquals(8, lineCount);<a name="line.184"></a>
 <span class="sourceLineNo">185</span>  }<a name="line.185"></a>
 <span class="sourceLineNo">186</span><a name="line.186"></a>
-<span class="sourceLineNo">187</span>}<a name="line.187"></a>
+<span class="sourceLineNo">187</span>  /**<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   * Test extracting a CSV file containing embedded JSON, which itself contains escaped quotes.<a name="line.188"></a>
+<span class="sourceLineNo">189</span>   *<a name="line.189"></a>
+<span class="sourceLineNo">190</span>   * JSON value like: { "test": "value, \"like\" this" }<a name="line.190"></a>
+<span class="sourceLineNo">191</span>   *<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   * Would become in CSV: "{ ""test"": ""value, \""like\"" this"" }"<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   */<a name="line.193"></a>
+<span class="sourceLineNo">194</span>  @Test<a name="line.194"></a>
+<span class="sourceLineNo">195</span>  public void testCsvJsonEscapedQuotes() throws IOException {<a name="line.195"></a>
+<span class="sourceLineNo">196</span>    File csv = FileUtils.getClasspathFile("csv/csv_json_escaped_quotes.csv");<a name="line.196"></a>
+<span class="sourceLineNo">197</span>    CSVReader reader = new CSVReader(csv, UTF8, ",", '"', 1);<a name="line.197"></a>
+<span class="sourceLineNo">198</span><a name="line.198"></a>
+<span class="sourceLineNo">199</span>    String[] atom = reader.next();<a name="line.199"></a>
+<span class="sourceLineNo">200</span>    assertEquals(71, atom.length);<a name="line.200"></a>
+<span class="sourceLineNo">201</span>    assertEquals("779", atom[0]);<a name="line.201"></a>
+<span class="sourceLineNo">202</span>    assertEquals("Cambridge, Cambridge", atom[62]);<a name="line.202"></a>
+<span class="sourceLineNo">203</span>    // Without the Java escapes: {"chronostratigraphy": "Cretaceous, Early Cretaceous, Albian - Late Cretaceous, Cenomanian", "cataloguedescription": "Very worn vertebra. Old catalogue says \"fragments of bone\".", "created": "2009-05-13", "barcode": "010039076", "project": "eMesozoic", "determinationnames": "Ornithocheirus", "subdepartment": "Vertebrates", "lithostratigraphy": "Selborne Group, Upper Greensand Formation, Cambridge Greensand Member", "imagecategory": ["Register;Specimen"]}<a name="line.203"></a>
+<span class="sourceLineNo">204</span>    assertEquals("{\"chronostratigraphy\": \"Cretaceous, Early Cretaceous, Albian - Late Cretaceous, Cenomanian\", \"cataloguedescription\": \"Very worn vertebra. Old catalogue says \\\"fragments of bone\\\".\", \"created\": \"2009-05-13\", \"barcode\": \"010039076\", \"project\": \"eMesozoic\", \"determinationnames\": \"Ornithocheirus\", \"subdepartment\": \"Vertebrates\", \"lithostratigraphy\": \"Selborne Group, Upper Greensand Formation, Cambridge Greensand Member\", \"imagecategory\": [\"Register;Specimen\"]}", atom[2]);<a name="line.204"></a>
+<span class="sourceLineNo">205</span><a name="line.205"></a>
+<span class="sourceLineNo">206</span>    reader.close();<a name="line.206"></a>
+<span class="sourceLineNo">207</span>  }<a name="line.207"></a>
+<span class="sourceLineNo">208</span><a name="line.208"></a>
+<span class="sourceLineNo">209</span>}<a name="line.209"></a>
 
 
 
