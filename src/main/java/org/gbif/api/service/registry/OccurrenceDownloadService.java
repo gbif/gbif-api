@@ -14,7 +14,6 @@ package org.gbif.api.service.registry;
 
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
-import org.gbif.api.model.common.search.Facet;
 import org.gbif.api.model.occurrence.Download;
 import org.gbif.api.model.registry.DatasetOccurrenceDownloadUsage;
 import org.gbif.api.vocabulary.Country;
@@ -74,4 +73,8 @@ public interface OccurrenceDownloadService {
   Map<Integer,Map<Integer,Long>> getDownloadedRecordsByDataset(@Nullable Date fromDate, @Nullable  Date toDate,
                                                                @Nullable Country publishingCountry,
                                                                @Nullable UUID datasetKey);
+  /**
+   * Persists data about the usage of dataset in an occurrence download at bulk.
+   */
+  void createUsages(@NotNull String downloadKey, @NotNull Map<UUID, Long> datasetCitations);
 }

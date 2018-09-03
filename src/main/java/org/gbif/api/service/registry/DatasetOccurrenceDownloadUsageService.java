@@ -15,7 +15,6 @@ package org.gbif.api.service.registry;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.DatasetOccurrenceDownloadUsage;
-
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -26,13 +25,6 @@ import javax.validation.constraints.NotNull;
  * This interface was initially implemented as a internal GBIF component that shouldn't be exposed for the public use.
  */
 public interface DatasetOccurrenceDownloadUsageService {
-
-  /**
-   * Persists data about the usage of dataset in an occurrence download.
-   */
-  void create(@NotNull DatasetOccurrenceDownloadUsage downloadDataset);
-
-
   /**
    * Retrieves a pageable result of the downloads which contain data taken from a dataset.
    */
