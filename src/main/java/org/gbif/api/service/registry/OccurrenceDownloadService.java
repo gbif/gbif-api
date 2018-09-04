@@ -74,7 +74,9 @@ public interface OccurrenceDownloadService {
                                                                @Nullable Country publishingCountry,
                                                                @Nullable UUID datasetKey);
   /**
-   * Persists data about the usage of dataset in an occurrence download at bulk.
+   * Persists usages of datasets in an occurrence download.
+   * @param downloadKey downloadkey of the datasets usage information.
+   * @param datasetCitations map of datasetkey as key and number of records as value.
    */
   void createUsages(@NotNull String downloadKey, @NotNull Map<UUID, Long> datasetCitations);
 }
