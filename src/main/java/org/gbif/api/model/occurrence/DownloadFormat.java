@@ -13,6 +13,6 @@ public enum DownloadFormat {
   // AVRO (with Deflate compression codec) format export of the most common indexed terms.
   SIMPLE_AVRO,
   
-  //CSV format export of the distinct species and field associated to it.
+  //CSV format export of the distinct species and taxonomic field associated to it.
   SPECIES_LIST;
 }
