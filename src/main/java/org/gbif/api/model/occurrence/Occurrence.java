@@ -26,29 +26,32 @@ import org.gbif.api.vocabulary.LifeStage;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.Sex;
+import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.TypeStatus;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.UnknownTerm;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.net.URI;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -65,23 +68,14 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public static final String GEO_DATUM = "WGS84";
   // keep names of ALL properties of this class in a set for jackson serialization, see #properties()
-  private static final Set<String> PROPERTIES = ImmutableSet.copyOf(
-    Iterables.concat(
+  private static final Set<String> PROPERTIES =  Collections.unmodifiableSet(
+    Stream.concat(
       // we need to these json properties manually cause we have a fixed getter but no field for it
-      Lists.newArrayList(DwcTerm.geodeticDatum.simpleName(), "class", "countryCode"),
-      Iterables.transform(
-        Iterables.concat(Lists.newArrayList(Occurrence.class.getDeclaredFields()),
-                Lists.newArrayList(VerbatimOccurrence.class.getDeclaredFields())
-        ), new Function<Field, String>() {
-
-          @Nullable
-          @Override
-          public String apply(@Nullable Field f) {
-            return f.getName();
-          }
-        })
-      )
-    );
+      Stream.of(DwcTerm.geodeticDatum.simpleName(), "class", "countryCode"),
+      Stream.concat(Arrays.stream(Occurrence.class.getDeclaredFields()),
+                    Arrays.stream(VerbatimOccurrence.class.getDeclaredFields()))
+                     .filter(field -> !Modifier.isStatic(field.getModifiers()))
+                     .map(Field::getName)).collect(Collectors.toSet()));
   // occurrence fields
   private BasisOfRecord basisOfRecord;
   private Integer individualCount;
@@ -114,6 +108,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private String specificEpithet;
   private String infraspecificEpithet;
   private Rank taxonRank;
+  private TaxonomicStatus taxonomicStatus;
   // identification
   private Date dateIdentified;
   // location
@@ -129,9 +124,9 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Double elevation;
   private Double elevationAccuracy;
   private Double depth;
-  private Double depthAccuracy;
   private Continent continent;
   @JsonSerialize(using = Country.IsoSerializer.class)
+  private Double depthAccuracy;
   @JsonDeserialize(using = Country.IsoDeserializer.class)
   private Country country;
   private String stateProvince;
@@ -382,6 +377,19 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setTaxonRank(Rank taxonRank) {
     this.taxonRank = taxonRank;
+  }
+
+  /**
+   * The status of the use of the scientificName as a label for a taxon.
+   * The GBIF recommended controlled value vocabulary can be found at <a href="http://rs.gbif.org/vocabulary/gbif/taxonomic_status.xm">http://rs.gbif.org/vocabulary/gbif/taxonomic_status.xm</a>.
+   */
+  @Nullable
+  public TaxonomicStatus getTaxonomicStatus() {
+    return taxonomicStatus;
+  }
+
+  public void setTaxonomicStatus(TaxonomicStatus taxonomicStatus) {
+    this.taxonomicStatus = taxonomicStatus;
   }
 
   @Nullable
@@ -1054,4 +1062,5 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     }
     return extendedProps;
   }
+
 }
