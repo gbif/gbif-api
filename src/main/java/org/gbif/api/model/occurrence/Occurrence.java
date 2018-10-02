@@ -92,8 +92,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Integer genusKey;
   private Integer subgenusKey;
   private Integer speciesKey;
+  private Integer acceptedTaxonKey;
   // taxonomy as name strings -> LinneanClassification
   private String scientificName;  // the interpreted name matching taxonKey
+  private String acceptedScientificName;
   private String kingdom;
   private String phylum;
   @JsonProperty("class")
@@ -353,6 +355,18 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
+  /**
+   * The accepted taxon key from the GBIF backbone.
+   */
+  public Integer getAcceptedTaxonKey() {
+    return acceptedTaxonKey;
+  }
+
+  public void setAcceptedTaxonKey(Integer acceptedTaxonKey) {
+    this.acceptedTaxonKey = acceptedTaxonKey;
+  }
+
+  @Nullable
   public String getSpecificEpithet() {
     return specificEpithet;
   }
@@ -402,6 +416,18 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setScientificName(@Nullable String scientificName) {
     this.scientificName = scientificName;
+  }
+
+  @Nullable
+  /**
+   * The accepted scientific name for the acceptedTaxonKey from the GBIF backbone.
+   */
+  public String getAcceptedScientificName() {
+    return acceptedScientificName;
+  }
+
+  public void setAcceptedScientificName(String acceptedScientificName) {
+    this.acceptedScientificName = acceptedScientificName;
   }
 
   @Nullable
@@ -943,6 +969,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       && Objects.equal(this.genusKey, that.genusKey)
       && Objects.equal(this.subgenusKey, that.subgenusKey)
       && Objects.equal(this.speciesKey, that.speciesKey)
+      && Objects.equal(this.acceptedTaxonKey, that.acceptedTaxonKey)
+      && Objects.equal(this.acceptedScientificName, that.acceptedScientificName)
       && Objects.equal(this.scientificName, that.scientificName)
       && Objects.equal(this.kingdom, that.kingdom)
       && Objects.equal(this.phylum, that.phylum)
@@ -956,6 +984,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       && Objects.equal(this.specificEpithet, that.specificEpithet)
       && Objects.equal(this.infraspecificEpithet, that.infraspecificEpithet)
       && Objects.equal(this.taxonRank, that.taxonRank)
+      && Objects.equal(this.taxonomicStatus, that.taxonomicStatus)
       && Objects.equal(this.dateIdentified, that.dateIdentified)
       && Objects.equal(this.year, that.year)
       && Objects.equal(this.month, that.month)
@@ -1003,7 +1032,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("genusKey", genusKey)
       .add("subgenusKey", subgenusKey)
       .add("speciesKey", speciesKey)
-      .add("scientificName", scientificName)
+      .add("acceptedTaxonKey", acceptedTaxonKey)
+      .add("acceptedScientificName", acceptedScientificName)
       .add("kingdom", kingdom)
       .add("phylum", phylum)
       .add("clazz", clazz)
@@ -1016,6 +1046,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("specificEpithet", specificEpithet)
       .add("infraspecificEpithet", infraspecificEpithet)
       .add("taxonRank", taxonRank)
+      .add("taxonomicStatus", taxonomicStatus)
       .add("dateIdentified", dateIdentified)
       .add("decimalLongitude", decimalLongitude)
       .add("decimalLatitude", decimalLatitude)
