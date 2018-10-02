@@ -12,45 +12,55 @@
  */
 package org.gbif.api.model.occurrence;
 
-import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
-import org.gbif.api.model.occurrence.predicate.Predicate;
-import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Date;
-
-import com.google.common.collect.Lists;
-import com.google.common.io.Closer;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.hamcrest.core.IsCollectionContaining;
-import org.junit.Test;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.matchers.JUnitMatchers.both;
 import static org.mockito.Mockito.mock;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Date;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
+import org.gbif.api.model.occurrence.predicate.Predicate;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+import org.hamcrest.core.IsCollectionContaining;
+import org.junit.Test;
+import com.google.common.collect.Lists;
+import com.google.common.io.Closer;
 
 public class DownloadRequestTest {
 
   private static final String TEST_USER = "user@gbif.org";
   private static final String TEST_EMAIL = "test@gbif.org";
+  
+  private static final String SQLREQUEST = "{\n" + 
+      "  \"creator\": \"userName\",\n" + 
+      "  \"notification_address\": [\n" + 
+      "    \"userEmail@example.com\"\n" + 
+      "  ],\n" + 
+      "  \"format\": \"SQL\",\n" + 
+      "  \"sql\": \"SELECT basisOfRecord, count(DISTINCT speciesKey) AS speciesCount FROM occurrence WHERE year=2018 GROUP BY basisOfRecord\"\n" + 
+      "}\n" + 
+      "";
 
-  private static DownloadRequest newDownload(Predicate p) {
+  private static PredicateDownloadRequest newDownload(Predicate p) {
     return newDownload(p, TEST_USER);
   }
 
-  private static DownloadRequest newDownload(Predicate p, String user) {
+  private static PredicateDownloadRequest newDownload(Predicate p, String user) {
     return newDownload(p, user, null);
   }
 
-  private static DownloadRequest newDownload(Predicate p, String user, Date completed) {
-    return new DownloadRequest(p, user, Lists.newArrayList(TEST_EMAIL), false, DownloadFormat.DWCA);
+  private static PredicateDownloadRequest newDownload(Predicate p, String user, Date completed) {
+    return new PredicateDownloadRequest(p, user, Lists.newArrayList(TEST_EMAIL), false, DownloadFormat.DWCA);
   }
 
   @Test
@@ -66,7 +76,7 @@ public class DownloadRequestTest {
   @Test
   public void testBasic() {
     Predicate p = mock(Predicate.class);
-    DownloadRequest dl = newDownload(p);
+    PredicateDownloadRequest dl = newDownload(p);
 
     assertThat(dl.getNotificationAddresses(), IsCollectionContaining.hasItem(TEST_EMAIL));
     assertThat(dl.getPredicate(), equalTo(p));
@@ -100,14 +110,14 @@ public class DownloadRequestTest {
   @Test
   public void testSerde() throws IOException {
     ObjectMapper mapper = new ObjectMapper();
-    DownloadRequest d = newDownload(new EqualsPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, "b"));
+    PredicateDownloadRequest d = newDownload(new EqualsPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, "b"));
 
     Closer closer = Closer.create();
     try {
       ByteArrayOutputStream baos = closer.register(new ByteArrayOutputStream());
       mapper.writeValue(baos, d);
       baos.flush();
-      DownloadRequest d2 = mapper.readValue(baos.toByteArray(), DownloadRequest.class);
+      PredicateDownloadRequest d2 = mapper.readValue(baos.toByteArray(), PredicateDownloadRequest.class);
       assertEquals(d, d2);
 
     } catch (Throwable e) { // closer must catch Throwable
@@ -118,5 +128,13 @@ public class DownloadRequestTest {
       closer.close();
     }
   }
-
+  
+  @Test
+  public void testSerde2() throws JsonProcessingException, IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    SQLDownloadRequest request = mapper.readValue(SQLREQUEST, SQLDownloadRequest.class);
+    assertEquals("userName", request.getCreator());
+    assertNotNull(request.getSQL());
+  }
+  
 }
