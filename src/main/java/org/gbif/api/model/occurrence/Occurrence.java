@@ -126,9 +126,9 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Double elevation;
   private Double elevationAccuracy;
   private Double depth;
+  private Double depthAccuracy;
   private Continent continent;
   @JsonSerialize(using = Country.IsoSerializer.class)
-  private Double depthAccuracy;
   @JsonDeserialize(using = Country.IsoDeserializer.class)
   private Country country;
   private String stateProvince;
