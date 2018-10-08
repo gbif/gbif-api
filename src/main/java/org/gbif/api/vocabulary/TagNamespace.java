@@ -55,6 +55,11 @@ public enum TagNamespace {
   GBIF_ORPHANS("orphans.gbif.org"),
 
   /**
+   * The GBIF Default Term values namespace.
+   */
+  GBIF_DEFAULT_TERM("default-term.gbif.org"),
+
+  /**
    * The Encyclopedia of Life (EOL) namespace.
    */
   EOL("eol.org"),

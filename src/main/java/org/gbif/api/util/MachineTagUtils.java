@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import org.gbif.api.vocabulary.TagNamespace;
 
 /**
  * Utility class to simplify your life when dealing with machine tags.
@@ -101,6 +102,19 @@ public class MachineTagUtils {
    */
   public static <T> T firstTag(MachineTaggable taggable, String namespace, String tagName, Function<MachineTag, T> function) {
     return function.apply(firstTag(taggable, namespace, tagName));
+  }
+
+  /**
+   * @return a new list of machine tags which have the given tagNamespace.
+   */
+  public static List<MachineTag> list(MachineTaggable taggable, TagNamespace tagNamespace) {
+    List<MachineTag> tags = Lists.newArrayList();
+    for (MachineTag mt : taggable.getMachineTags()) {
+      if (mt.getNamespace().equals(tagNamespace.getNamespace())) {
+        tags.add(mt);
+      }
+    }
+    return tags;
   }
 
   /**
