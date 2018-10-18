@@ -14,5 +14,8 @@ public enum DownloadFormat {
   SIMPLE_AVRO,
   
   //CSV format export of the distinct species and taxonomic field associated to it.
-  SPECIES_LIST;
+  SPECIES_LIST,
+  
+  //Supports SQL Download exported as CSV.
+  SQL;
 }
