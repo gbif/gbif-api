@@ -16,6 +16,6 @@ public enum DownloadFormat {
   //CSV format export of the distinct species and taxonomic field associated to it.
   SPECIES_LIST,
   
-  //Supports SQL Download exported as CSV.
+  //Executes SQL command and provides download
   SQL;
 }
