@@ -22,6 +22,7 @@ import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
+import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.TypeStatus;
 
 import java.util.Date;
@@ -217,6 +218,12 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    */
   TAXON_KEY(Integer.class),
 
+
+  /**
+   * A taxon key from the GBIF backbone for the name usage of the currently valid or accepted taxon.
+   */
+  ACCEPTED_TAXON_KEY(Integer.class),
+
   /**
    * A kingdom key from the GBIF backbone.
    */
@@ -261,6 +268,11 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * Searches the interpreted, full scientific name of the occurrence.
    */
   SCIENTIFIC_NAME(String.class),
+
+  /**
+   * The status of the use of the  GBIF Backbone taxonKey.
+   */
+  TAXONOMIC_STATUS(TaxonomicStatus.class),
 
   /**
    * Searches for occurrence records which contain a value on its coordinate fields (latitude and longitude).

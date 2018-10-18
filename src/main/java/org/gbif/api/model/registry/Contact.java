@@ -95,7 +95,7 @@ public class Contact implements Address, LenientEquals<Contact> {
 
   /**
    * Adds a new user id that is assembled from a directory name and a local id within it.
-   * Format used by EML.
+   * Format used by EML, though see https://github.com/gbif/gbif-api/issues/30.
    * The directory should be a valid URI, if it's not, it will be ignored by this method.
    *
    * @param directory identifier for the directory, preferably a URL domain like http://orcid.org
@@ -113,13 +113,25 @@ public class Contact implements Address, LenientEquals<Contact> {
             if (!dir2.endsWith("/") && !dir2.endsWith("=")) {
               dir2 = dir2 + "/";
             }
-            userId.add(dir2 + id);
+
+            // Check if the id is already prefixed with the directory URI, either HTTP or HTTPS.
+            if (id.startsWith(dir2)
+              || id.startsWith(dir2.replace("http://", "https://"))
+              || id.startsWith(dir2.replace("https://", "http://"))) {
+              userId.add(id);
+            } else {
+              userId.add(dir2 + id);
+            }
           } else {
-            userId.add(dir + ":" + id);
+            if (id.startsWith(dir.toString())) {
+              userId.add(id);
+            } else {
+              userId.add(dir + ":" + id);
+            }
           }
         }
         catch (IllegalArgumentException iaEx) {
-          //in case the directory is not a valid url keep only the user id
+          // in case the directory is not a valid URL keep only the user id
           userId.add(id);
         }
       }
