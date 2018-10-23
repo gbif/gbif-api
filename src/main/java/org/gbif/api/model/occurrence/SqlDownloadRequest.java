@@ -8,7 +8,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableSet;
 
-public class SQLDownloadRequest extends DownloadRequest {
+public class SqlDownloadRequest extends DownloadRequest {
 
   private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.SQL;
   private String sql;
@@ -17,7 +17,7 @@ public class SQLDownloadRequest extends DownloadRequest {
    * Full constructor. Used to create instances using JSON serialization.
    */
   @JsonCreator
-  public SQLDownloadRequest(@JsonProperty("sql") String sql, @JsonProperty("creator") @Nullable String creator,
+  public SqlDownloadRequest(@JsonProperty("sql") String sql, @JsonProperty("creator") @Nullable String creator,
       @JsonProperty("notification_address") @Nullable Collection<String> notificationAddresses,
       @JsonProperty("send_notification") @Nullable boolean sendNotification, @JsonProperty("format") DownloadFormat format) {
     this.creator = creator;
@@ -57,7 +57,7 @@ public class SQLDownloadRequest extends DownloadRequest {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    SQLDownloadRequest other = (SQLDownloadRequest) obj;
+    SqlDownloadRequest other = (SqlDownloadRequest) obj;
     if (sql == null) {
       if (other.sql != null)
         return false;

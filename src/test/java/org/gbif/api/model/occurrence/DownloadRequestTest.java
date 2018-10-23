@@ -132,7 +132,7 @@ public class DownloadRequestTest {
   @Test
   public void testSerde2() throws JsonProcessingException, IOException {
     ObjectMapper mapper = new ObjectMapper();
-    SQLDownloadRequest request = mapper.readValue(SQLREQUEST, SQLDownloadRequest.class);
+    SqlDownloadRequest request = mapper.readValue(SQLREQUEST, SqlDownloadRequest.class);
     assertEquals("userName", request.getCreator());
     assertNotNull(request.getSQL());
   }
