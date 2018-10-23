@@ -17,7 +17,6 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -98,8 +97,8 @@ public class DownloadRequestTest {
   public void testHashcode() {
     Predicate p = mock(Predicate.class);
 
-    DownloadRequest dl1 = newDownload(p);
-    DownloadRequest dl2 = newDownload(p);
+    PredicateDownloadRequest dl1 = newDownload(p);
+    PredicateDownloadRequest dl2 = newDownload(p);
 
     assertThat(dl1.hashCode(), both(equalTo(dl1.hashCode())).and(equalTo(dl2.hashCode())));
 
@@ -132,9 +131,9 @@ public class DownloadRequestTest {
   @Test
   public void testSerde2() throws JsonProcessingException, IOException {
     ObjectMapper mapper = new ObjectMapper();
-    SQLDownloadRequest request = mapper.readValue(SQLREQUEST, SQLDownloadRequest.class);
+    SqlDownloadRequest request = mapper.readValue(SQLREQUEST, SqlDownloadRequest.class);
     assertEquals("userName", request.getCreator());
-    assertNotNull(request.getSQL());
+    assertNotNull(request.getSql());
   }
   
 }

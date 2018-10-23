@@ -1,38 +1,60 @@
 package org.gbif.api.model.occurrence;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 import javax.annotation.Nullable;
+
+import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableSet;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Sets;
+import org.codehaus.jackson.annotate.JsonSubTypes;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Represents a request to download occurrence records.
  * A download request with a null predicate is interpreted as a "download all" request.
  */
-public class DownloadRequest {
+@JsonTypeInfo(
+  use=JsonTypeInfo.Id.NAME,
+  include= JsonTypeInfo.As.EXTERNAL_PROPERTY,
+  property = "format",
+  defaultImpl = PredicateDownloadRequest.class)
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = SqlDownloadRequest.class, name = "SQL")
+})
+public abstract class DownloadRequest {
 
   private static final String DELIMITER = ",";
   private static final Joiner COMMA_JOINER = Joiner.on(DELIMITER).skipNulls();
   private static final Splitter COMMA_SPLITTER = Splitter.on(DELIMITER).omitEmptyStrings().trimResults();
 
-  protected String creator;
+  private String creator;
 
-  protected Set<String> notificationAddresses;
+  private Set<String> notificationAddresses;
 
-  protected boolean sendNotification;
+  private boolean sendNotification;
 
-  protected DownloadFormat format;
+  private DownloadFormat format;
 
   /**
    * Default constructor.
    */
-  protected DownloadRequest() {
+  public DownloadRequest() {
     // Empty constructor required to create instances from the data access layer.
   }
-  
+
+  public DownloadRequest(String creator, Collection<String> notificationAddresses, boolean sendNotification, DownloadFormat format) {
+    this.creator = creator;
+    this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() : ImmutableSet.copyOf(notificationAddresses);
+    this.sendNotification = sendNotification;
+    this.format = format;
+  }
+
   /**
    * @return the user account that initiated the download
    */
@@ -102,9 +124,30 @@ public class DownloadRequest {
   }
 
   @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof PredicateDownloadRequest)) {
+      return false;
+    }
+
+    DownloadRequest that = (DownloadRequest) obj;
+    return Objects.equal(this.creator, that.creator)
+      && Objects.equal(this.notificationAddresses, that.notificationAddresses)
+      && Objects.equal(this.sendNotification, that.sendNotification) && Objects.equal(this.format, that.format);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(creator, notificationAddresses, sendNotification, format);
+  }
+
+  @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("creator", creator)
-      .add("notificationAddresses", notificationAddresses).add("emailNotification", sendNotification)
+    return MoreObjects.toStringHelper(this).add("creator", creator)
+      .add("notificationAddresses", notificationAddresses)
+      .add("emailNotification", sendNotification)
       .add("format", format).toString();
   }
 
