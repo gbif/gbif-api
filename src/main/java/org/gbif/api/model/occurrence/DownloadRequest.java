@@ -27,7 +27,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 @JsonSubTypes({
   @JsonSubTypes.Type(value = SqlDownloadRequest.class, name = "SQL")
 })
-public class DownloadRequest {
+public abstract class DownloadRequest {
 
   private static final String DELIMITER = ",";
   private static final Joiner COMMA_JOINER = Joiner.on(DELIMITER).skipNulls();
