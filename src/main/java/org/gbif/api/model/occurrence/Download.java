@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -75,7 +76,6 @@ public class Download {
 
   private long numberDatasets;
 
-  private String filter;
   /**
    * @return timestamp when the download was created
    */
@@ -186,10 +186,6 @@ public class Download {
   public License getLicense() {
     return license;
   }
-  
-  public String getFilter() {
-    return filter;
-  }
 
   public void setCreated(Date created) {
     this.created = created;
@@ -238,14 +234,10 @@ public class Download {
   public void setNumberDatasets(long numberDatasets) {
     this.numberDatasets = numberDatasets;
   }
-  
-  public void setFilter(String filter) {
-    this.filter = filter;
-  }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("key", key).add("doi", doi)
+    return MoreObjects.toStringHelper(this).add("key", key).add("doi", doi)
       .add("status", status).add("downloadLink", downloadLink)
       .add("request", request).add("created", created)
       .add("license", license)
@@ -253,8 +245,7 @@ public class Download {
       .add("eraseAfter", eraseAfter)
       .add("size", size)
       .add("totalRecords", totalRecords)
-      .add("numberDatasets", numberDatasets)
-      .add("filter", filter).toString();
+      .add("numberDatasets", numberDatasets).toString();
   }
 
   @Override
@@ -278,13 +269,12 @@ public class Download {
       && Objects.equal(this.downloadLink, that.downloadLink)
       && Objects.equal(this.size, that.size)
       && Objects.equal(this.totalRecords, that.totalRecords)
-      && Objects.equal(this.numberDatasets, that.numberDatasets)
-      && Objects.equal(this.filter, that.filter);
+      && Objects.equal(this.numberDatasets, that.numberDatasets);
   }
 
   @Override
   public int hashCode() {
     return Objects.hashCode(key, doi, license, request, created, modified, eraseAfter, status, downloadLink, size,
-        totalRecords, numberDatasets, filter);
+                            totalRecords, numberDatasets);
   }
 }

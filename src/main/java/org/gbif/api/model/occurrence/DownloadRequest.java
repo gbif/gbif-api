@@ -128,14 +128,15 @@ public class DownloadRequest {
     if (this == obj) {
       return true;
     }
-    if (!(obj instanceof PredicateDownloadRequest)) {
+    if (!(obj instanceof DownloadRequest)) {
       return false;
     }
 
     DownloadRequest that = (DownloadRequest) obj;
     return Objects.equal(this.creator, that.creator)
       && Objects.equal(this.notificationAddresses, that.notificationAddresses)
-      && Objects.equal(this.sendNotification, that.sendNotification) && Objects.equal(this.format, that.format);
+      && Objects.equal(this.sendNotification, that.sendNotification)
+      && Objects.equal(this.format, that.format);
   }
 
   @Override
