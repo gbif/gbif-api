@@ -16,7 +16,7 @@ public class SqlDownloadRequest extends DownloadRequest {
   public SqlDownloadRequest() {
 
   }
-  
+
   /**
    * Full constructor. Used to create instances using JSON serialization.
    */
@@ -29,14 +29,14 @@ public class SqlDownloadRequest extends DownloadRequest {
   }
 
   /**
-   * 
+   *
    * @return the sql query.
    */
   @Valid
   public String getSql() {
     return sql;
   }
-  
+
   /**
    * This parameter when present provides the SQL query for custom download
    * @param sql
@@ -66,6 +66,6 @@ public class SqlDownloadRequest extends DownloadRequest {
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).addValue(super.toString())
-            .add("sql", sql).toString();
+      .add("sql", sql).toString();
   }
 }
