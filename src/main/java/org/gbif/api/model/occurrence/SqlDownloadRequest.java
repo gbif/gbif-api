@@ -12,6 +12,10 @@ import com.google.common.base.Objects;
 public class SqlDownloadRequest extends DownloadRequest {
 
   private String sql;
+
+  public SqlDownloadRequest() {
+
+  }
   
   /**
    * Full constructor. Used to create instances using JSON serialization.

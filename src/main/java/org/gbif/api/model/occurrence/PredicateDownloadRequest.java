@@ -16,7 +16,9 @@ public class PredicateDownloadRequest extends DownloadRequest {
   private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.DWCA;
   private Predicate predicate;
 
-  
+  public PredicateDownloadRequest() {
+
+  }
   /**
    * Full constructor. Used to create instances using JSON serialization.
    */
