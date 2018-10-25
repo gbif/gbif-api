@@ -32,8 +32,8 @@ public class DateSerde {
 
     @Override
     public void serialize(Date value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-      if (value == null){
-        jgen.writeNull();
+      if (value == null) {
+        // Empty fields aren't included in the JSON.
         return;
       } else {
         jgen.writeString(noTimezoneFormat.format(value));
