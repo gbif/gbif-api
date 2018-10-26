@@ -23,10 +23,6 @@ public interface InstitutionService extends TagService, IdentifierService {
 
   PagingResponse<Institution> search(String query, @Nullable Pageable page);
 
-  PagingResponse<Institution> listByIdentifier(IdentifierType type, String identifier, @Nullable Pageable page);
-
-  PagingResponse<Institution> listByIdentifier(String identifier, @Nullable Pageable page);
-
   void update(@NotNull Institution entity);
 
 }

@@ -23,10 +23,6 @@ public interface StaffService extends TagService, IdentifierService {
 
   PagingResponse<Staff> search(String query, @Nullable Pageable page);
 
-  PagingResponse<Staff> listByIdentifier(IdentifierType type, String identifier, @Nullable Pageable page);
-  
-  PagingResponse<Staff> listByIdentifier(String identifier, @Nullable Pageable page);
-
   PagingResponse<Staff> listByInstitution(UUID institutionKey, @Nullable Pageable page);
 
   PagingResponse<Staff> listByCollection(UUID collectionKey, @Nullable Pageable page);

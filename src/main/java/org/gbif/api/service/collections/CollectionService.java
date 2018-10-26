@@ -23,10 +23,6 @@ public interface CollectionService extends TagService, IdentifierService {
 
   PagingResponse<Collection> search(String query, @Nullable Pageable page);
 
-  PagingResponse<Collection> listByIdentifier(IdentifierType type, String identifier, @Nullable Pageable page);
-  
-  PagingResponse<Collection> listByIdentifier(String identifier, @Nullable Pageable page);
-
   PagingResponse<Collection> listByInstitution(UUID institutionKey, @Nullable Pageable page);
 
   void update(@NotNull Collection entity);
