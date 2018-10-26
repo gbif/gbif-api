@@ -5,7 +5,6 @@ import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.service.registry.IdentifierService;
 import org.gbif.api.service.registry.TagService;
-import org.gbif.api.vocabulary.IdentifierType;
 
 import java.util.UUID;
 import javax.annotation.Nullable;
