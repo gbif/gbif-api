@@ -6,12 +6,16 @@ import javax.validation.Valid;
 
 import com.google.common.base.MoreObjects;
 import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import com.google.common.base.Objects;
 
 public class SqlDownloadRequest extends DownloadRequest {
 
   private String sql;
+  // tab separated names of selected fields
+  @JsonIgnore
+  private String sqlHeader;
 
   public SqlDownloadRequest() {
 
@@ -44,10 +48,18 @@ public class SqlDownloadRequest extends DownloadRequest {
   public void setSql(String sql) {
     this.sql = sql;
   }
+  
+  public String getSqlHeader() {
+    return sqlHeader;
+  }
+
+  public void setSqlHeader(String sqlHeader) {
+    this.sqlHeader = sqlHeader;
+  }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), sql);
+    return Objects.hashCode(super.hashCode(), sql, sqlHeader);
   }
 
   @Override
@@ -60,12 +72,12 @@ public class SqlDownloadRequest extends DownloadRequest {
     }
 
     SqlDownloadRequest that = (SqlDownloadRequest) obj;
-    return super.equals(that) && Objects.equal(this.sql, that.sql);
+    return super.equals(that) && Objects.equal(this.sql, that.sql) && Objects.equal(this.sqlHeader, that.sqlHeader);
   }
 
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).addValue(super.toString())
-      .add("sql", sql).toString();
+      .add("sql", sql).add("sqlHeader", sqlHeader).toString();
   }
 }
