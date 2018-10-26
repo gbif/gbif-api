@@ -6,7 +6,6 @@ import org.gbif.api.vocabulary.Country;
 
 import java.util.Objects;
 import java.util.StringJoiner;
-import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -81,8 +80,7 @@ public class Address {
     Address address1 = (Address) o;
     return Objects.equals(key, address1.key)
            && Objects.equals(address, address1.address)
-           && Objects.equals(city,
-                             address1.city)
+           && Objects.equals(city, address1.city)
            && Objects.equals(province, address1.province)
            && Objects.equals(postalCode, address1.postalCode)
            && country == address1.country;

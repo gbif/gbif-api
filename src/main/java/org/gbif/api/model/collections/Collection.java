@@ -6,6 +6,7 @@ import org.gbif.api.model.collections.vocabulary.PreservationType;
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.Identifiable;
 import org.gbif.api.model.registry.Identifier;
+import org.gbif.api.model.registry.LenientEquals;
 import org.gbif.api.model.registry.Tag;
 import org.gbif.api.model.registry.Taggable;
 import org.gbif.api.util.HttpURI;
@@ -17,10 +18,11 @@ import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
 import javax.annotation.Nullable;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class Collection implements Taggable, Identifiable {
+public class Collection implements Taggable, Identifiable, LenientEquals<Collection> {
 
   private UUID key;
   private String code;
@@ -188,6 +190,7 @@ public class Collection implements Taggable, Identifiable {
     this.institutionKey = institutionKey;
   }
 
+  @Valid
   public Address getMailingAddress() {
     return mailingAddress;
   }
@@ -196,6 +199,7 @@ public class Collection implements Taggable, Identifiable {
     this.mailingAddress = mailingAddress;
   }
 
+  @Valid
   public Address getAddress() {
     return address;
   }
@@ -338,5 +342,29 @@ public class Collection implements Taggable, Identifiable {
       .add("identifiers=" + identifiers)
       .add("contacts=" + contacts)
       .toString();
+  }
+
+  @Override
+  public boolean lenientEquals(Collection other) {
+    if (this == other) {
+      return true;
+    }
+    return active == other.active
+           && personalCollection == other.personalCollection
+           && Objects.equals(key, other.key)
+           && Objects.equals(code, other.code)
+           && Objects.equals(name, other.name)
+           && Objects.equals(description, other.description)
+           && Objects.equals(contentType, other.contentType)
+           && Objects.equals(doi, other.doi)
+           && Objects.equals(homepage, other.homepage)
+           && Objects.equals(catalogUrl, other.catalogUrl)
+           && Objects.equals(apiUrl, other.apiUrl)
+           && Objects.equals(preservationTypes, other.preservationTypes)
+           && accessionStatus == other.accessionStatus
+           && Objects.equals(institutionKey, other.institutionKey)
+           && Objects.equals(mailingAddress, other.mailingAddress)
+           && Objects.equals(address, other.address)
+           && Objects.equals(deleted, other.deleted);
   }
 }

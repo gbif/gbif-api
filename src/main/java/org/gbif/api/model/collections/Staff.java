@@ -1,12 +1,15 @@
 package org.gbif.api.model.collections;
 
+import org.gbif.api.model.registry.LenientEquals;
+
 import java.util.Date;
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-public class Staff {
+public class Staff implements LenientEquals<Staff> {
 
   private UUID key;
   private String firstName;
@@ -99,6 +102,7 @@ public class Staff {
     this.email = email;
   }
 
+  @Valid
   public Address getMailingAddress() {
     return mailingAddress;
   }
@@ -229,5 +233,25 @@ public class Staff {
       .add("modified=" + modified)
       .add("deleted=" + deleted)
       .toString();
+  }
+
+  @Override
+  public boolean lenientEquals(Staff other) {
+    if (this == other) {
+      return true;
+    }
+    return Objects.equals(key, other.key)
+           && Objects.equals(firstName, other.firstName)
+           && Objects.equals(lastName, other.lastName)
+           && Objects.equals(position, other.position)
+           && Objects.equals(areaResponsibility, other.areaResponsibility)
+           && Objects.equals(researchPursuits, other.researchPursuits)
+           && Objects.equals(phone, other.phone)
+           && Objects.equals(fax, other.fax)
+           && Objects.equals(email, other.email)
+           && Objects.equals(mailingAddress, other.mailingAddress)
+           && Objects.equals(institutionKey, other.institutionKey)
+           && Objects.equals(collectionKey, other.collectionKey)
+           && Objects.equals(deleted, other.deleted);
   }
 }

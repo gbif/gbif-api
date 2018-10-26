@@ -5,6 +5,7 @@ import org.gbif.api.model.collections.vocabulary.InstitutionGovernance;
 import org.gbif.api.model.collections.vocabulary.InstitutionType;
 import org.gbif.api.model.registry.Identifiable;
 import org.gbif.api.model.registry.Identifier;
+import org.gbif.api.model.registry.LenientEquals;
 import org.gbif.api.model.registry.Tag;
 import org.gbif.api.model.registry.Taggable;
 import org.gbif.api.util.HttpURI;
@@ -21,7 +22,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class Institution implements Taggable, Identifiable {
+public class Institution implements Taggable, Identifiable, LenientEquals<Institution> {
 
   private UUID key;
   private String code;
@@ -292,7 +293,6 @@ public class Institution implements Taggable, Identifiable {
     this.deleted = deleted;
   }
 
-  @NotNull
   @Override
   public List<Identifier> getIdentifiers() {
     return identifiers;
@@ -303,7 +303,6 @@ public class Institution implements Taggable, Identifiable {
     this.identifiers = identifiers;
   }
 
-  @NotNull
   @Override
   public List<Tag> getTags() {
     return tags;
@@ -429,5 +428,36 @@ public class Institution implements Taggable, Identifiable {
       .add("identifiers=" + identifiers)
       .add("contacts=" + contacts)
       .toString();
+  }
+
+  @Override
+  public boolean lenientEquals(Institution other) {
+    if (this == other) {
+      return true;
+    }
+    return active == other.active
+           && numberSpecimens == other.numberSpecimens
+           && indexHerbariorumRecord == other.indexHerbariorumRecord
+           && Objects.equals(key, other.key)
+           && Objects.equals(code, other.code)
+           && Objects.equals(name, other.name)
+           && Objects.equals(description, other.description)
+           && type == other.type
+           && Objects.equals(homepage, other.homepage)
+           && Objects.equals(catalogUrl, other.catalogUrl)
+           && Objects.equals(apiUrl, other.apiUrl)
+           && institutionalGovernance == other.institutionalGovernance
+           && Objects.equals(disciplines, other.disciplines)
+           && Objects.equals(latitude, other.latitude)
+           && Objects.equals(longitude, other.longitude)
+           && Objects.equals(mailingAddress, other.mailingAddress)
+           && Objects.equals(address, other.address)
+           && Objects.equals(additionalNames, other.additionalNames)
+           && Objects.equals(foundingDate, other.foundingDate)
+           && Objects.equals(geographicDescription, other.geographicDescription)
+           && Objects.equals(taxonomicDescription, other.taxonomicDescription)
+           && Objects.equals(logoUrl, other.logoUrl)
+           && Objects.equals(citesPermitNumber, other.citesPermitNumber)
+           && Objects.equals(deleted, other.deleted);
   }
 }
