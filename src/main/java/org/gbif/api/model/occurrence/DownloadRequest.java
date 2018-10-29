@@ -146,7 +146,8 @@ public abstract class DownloadRequest {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this).add("creator", creator)
+    return MoreObjects.toStringHelper(this)
+      .add("creator", creator)
       .add("notificationAddresses", notificationAddresses)
       .add("emailNotification", sendNotification)
       .add("format", format).toString();
