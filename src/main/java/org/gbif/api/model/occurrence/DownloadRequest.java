@@ -4,16 +4,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 import javax.annotation.Nullable;
-
-import com.google.common.base.MoreObjects;
-import com.google.common.collect.ImmutableSet;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
+import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 
 /**
  * Represents a request to download occurrence records.
