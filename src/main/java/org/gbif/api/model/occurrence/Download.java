@@ -237,9 +237,13 @@ public class Download {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this).add("key", key).add("doi", doi)
-      .add("status", status).add("downloadLink", downloadLink)
-      .add("request", request).add("created", created)
+    return MoreObjects.toStringHelper(this)
+      .add("key", key)
+      .add("doi", doi)
+      .add("status", status)
+      .add("downloadLink", downloadLink)
+      .add("request", request)
+      .add("created", created)
       .add("license", license)
       .add("modified", modified)
       .add("eraseAfter", eraseAfter)

@@ -20,7 +20,8 @@ public class SqlDownloadRequest extends DownloadRequest {
    * Full constructor. Used to create instances using JSON serialization.
    */
   @JsonCreator
-  public SqlDownloadRequest(@JsonProperty("sql") String sql, @JsonProperty("creator") @Nullable String creator,
+  public SqlDownloadRequest(@JsonProperty("sql") String sql,
+                            @JsonProperty("creator") @Nullable String creator,
                             @JsonProperty("notification_address") @Nullable Collection<String> notificationAddresses,
                             @JsonProperty("send_notification") @Nullable boolean sendNotification) {
     super(creator, notificationAddresses, sendNotification, DownloadFormat.SQL);

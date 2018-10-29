@@ -23,9 +23,11 @@ public class PredicateDownloadRequest extends DownloadRequest {
    * Full constructor. Used to create instances using JSON serialization.
    */
   @JsonCreator
-  public PredicateDownloadRequest(@JsonProperty("predicate") Predicate predicate, @JsonProperty("creator") @Nullable String creator,
-      @JsonProperty("notification_address") @Nullable Collection<String> notificationAddresses,
-      @JsonProperty("send_notification") @Nullable boolean sendNotification, @JsonProperty("format") DownloadFormat format) {
+  public PredicateDownloadRequest(@JsonProperty("predicate") Predicate predicate,
+                                  @JsonProperty("creator") @Nullable String creator,
+                                  @JsonProperty("notification_address") @Nullable Collection<String> notificationAddresses,
+                                  @JsonProperty("send_notification") @Nullable boolean sendNotification,
+                                  @JsonProperty("format") DownloadFormat format) {
     super(creator, notificationAddresses, sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format);
     this.predicate = predicate;
   }
