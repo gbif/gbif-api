@@ -8,22 +8,9 @@ import org.gbif.api.service.registry.TagService;
 
 import java.util.UUID;
 import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
 
-public interface CollectionService extends TagService, IdentifierService {
-
-  UUID create(@NotNull Collection entity);
-
-  void delete(@NotNull UUID key);
-
-  Collection get(@NotNull UUID key);
-
-  PagingResponse<Collection> list(@Nullable Pageable page);
-
-  PagingResponse<Collection> search(String query, @Nullable Pageable page);
+public interface CollectionService extends CrudService<Collection>, ContactService, TagService, IdentifierService {
 
   PagingResponse<Collection> listByInstitution(UUID institutionKey, @Nullable Pageable page);
-
-  void update(@NotNull Collection entity);
 
 }

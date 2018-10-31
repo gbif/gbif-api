@@ -9,7 +9,7 @@ import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-public class Staff implements LenientEquals<Staff> {
+public class Staff implements CollectionEntity, LenientEquals<Staff> {
 
   private UUID key;
   private String firstName;
@@ -29,10 +29,12 @@ public class Staff implements LenientEquals<Staff> {
   private Date modified;
   private Date deleted;
 
+  @Override
   public UUID getKey() {
     return key;
   }
 
+  @Override
   public void setKey(UUID key) {
     this.key = key;
   }
@@ -127,42 +129,52 @@ public class Staff implements LenientEquals<Staff> {
     this.collectionKey = collectionKey;
   }
 
+  @Override
   public String getCreatedBy() {
     return createdBy;
   }
 
+  @Override
   public void setCreatedBy(String createdBy) {
     this.createdBy = createdBy;
   }
 
+  @Override
   public String getModifiedBy() {
     return modifiedBy;
   }
 
+  @Override
   public void setModifiedBy(String modifiedBy) {
     this.modifiedBy = modifiedBy;
   }
 
+  @Override
   public Date getCreated() {
     return created;
   }
 
+  @Override
   public void setCreated(Date created) {
     this.created = created;
   }
 
+  @Override
   public Date getModified() {
     return modified;
   }
 
+  @Override
   public void setModified(Date modified) {
     this.modified = modified;
   }
 
+  @Override
   public Date getDeleted() {
     return deleted;
   }
 
+  @Override
   public void setDeleted(Date deleted) {
     this.deleted = deleted;
   }

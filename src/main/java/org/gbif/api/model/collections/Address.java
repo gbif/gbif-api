@@ -63,7 +63,6 @@ public class Address {
     this.postalCode = postalCode;
   }
 
-  @Size(min = 2, max = 2)
   @Nullable
   public Country getCountry() {
     return country;

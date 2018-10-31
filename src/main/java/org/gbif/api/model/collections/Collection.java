@@ -12,6 +12,7 @@ import org.gbif.api.model.registry.Taggable;
 import org.gbif.api.util.HttpURI;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +23,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class Collection implements Taggable, Identifiable, LenientEquals<Collection> {
+public class Collection implements CollectionEntity, Contactable, Taggable, Identifiable, LenientEquals<Collection> {
 
   private UUID key;
   private String code;
@@ -45,8 +46,8 @@ public class Collection implements Taggable, Identifiable, LenientEquals<Collect
   private Date created;
   private Date modified;
   private Date deleted;
-  private List<Tag> tags;
-  private List<Identifier> identifiers;
+  private List<Tag> tags = new ArrayList<>();
+  private List<Identifier> identifiers = new ArrayList<>();
   private List<Staff> contacts;
 
   @Override
@@ -69,10 +70,12 @@ public class Collection implements Taggable, Identifiable, LenientEquals<Collect
     this.tags = tags;
   }
 
+  @Override
   public UUID getKey() {
     return key;
   }
 
+  @Override
   public void setKey(UUID key) {
     this.key = key;
   }
@@ -190,68 +193,86 @@ public class Collection implements Taggable, Identifiable, LenientEquals<Collect
     this.institutionKey = institutionKey;
   }
 
+  @Nullable
   @Valid
+  @Override
   public Address getMailingAddress() {
     return mailingAddress;
   }
 
+  @Override
   public void setMailingAddress(Address mailingAddress) {
     this.mailingAddress = mailingAddress;
   }
 
+  @Nullable
   @Valid
+  @Override
   public Address getAddress() {
     return address;
   }
 
+  @Override
   public void setAddress(Address address) {
     this.address = address;
   }
 
+  @Override
   public String getCreatedBy() {
     return createdBy;
   }
 
+  @Override
   public void setCreatedBy(String createdBy) {
     this.createdBy = createdBy;
   }
 
+  @Override
   public String getModifiedBy() {
     return modifiedBy;
   }
 
+  @Override
   public void setModifiedBy(String modifiedBy) {
     this.modifiedBy = modifiedBy;
   }
 
+  @Override
   public Date getCreated() {
     return created;
   }
 
+  @Override
   public void setCreated(Date created) {
     this.created = created;
   }
 
+  @Override
   public Date getModified() {
     return modified;
   }
 
+  @Override
   public void setModified(Date modified) {
     this.modified = modified;
   }
 
+  @Override
   public Date getDeleted() {
     return deleted;
   }
 
+  @Override
   public void setDeleted(Date deleted) {
     this.deleted = deleted;
   }
 
+  @Override
   public List<Staff> getContacts() {
     return contacts;
   }
 
+  @Override
   public void setContacts(List<Staff> contacts) {
     this.contacts = contacts;
   }
