@@ -54,6 +54,17 @@ public enum UserRole {
   /**
    * A user that has permissions to create data packages.
    */
-  DATA_REPO_USER
-
+  DATA_REPO_USER,
+  
+  /**
+   * A Catalogue of Life administrator with all permissions.
+   */
+  COL_ADMIN,
+  
+  /**
+   * A Catalogue of Life editor with permissions to manage datasets and assemblies.
+   * Exact permissions are handled by the CoL itself.
+   */
+  COL_EDITOR
+  
 }

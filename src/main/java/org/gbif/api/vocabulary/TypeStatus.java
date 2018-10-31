@@ -111,6 +111,11 @@ public enum TypeStatus {
   HOLOTYPE,
 
   /**
+   * A specimen that was not part of the original type series of the species, but is known from a published description, figure, or listing.
+   */
+  HYPOTYPE,
+
+  /**
    * A drawing or photograph (also called 'phototype') of a type specimen. Note: the term 'iconotype' is not used in the ICBN, but implicit in, e. g., ICBN Art. 7 and 38. [Zoo./Bot.]
    */
   ICONOTYPE,
@@ -204,6 +209,11 @@ public enum TypeStatus {
    * A copy or cast of type material, esp. relevant for fossil types. Not regulated by the botanical or zoological code (?). [Zoo./Bot.]
    */
   PLASTOTYPE,
+
+  /**
+   * A specimen that is both a homeotype and a hypotype.
+   */
+  PLESIOTYPE,
 
   /**
    * A referred, described, measured or figured specimen in the original publication (including a neo/lectotypification publication) that is not a primary type. [Zoo.]
