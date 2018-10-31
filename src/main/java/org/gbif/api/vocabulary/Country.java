@@ -546,7 +546,7 @@ public enum Country {
   /**
    * Holy See (Vatican City State).
    */
-  VATICAN("VA", "VAT", 336, "Holy See (Vatican City State)", GbifRegion.EUROPE),
+  VATICAN("VA", "VAT", 336, "Holy See", GbifRegion.EUROPE),
 
   /**
    * Honduras.

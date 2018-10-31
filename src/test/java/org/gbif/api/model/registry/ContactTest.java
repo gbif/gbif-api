@@ -20,6 +20,7 @@ public class ContactTest {
     c.addUserId("", "3421423");
     assertEquals("3421423", c.getUserId().get(1));
 
+    // Directory prefix absent from the id.
     c.addUserId("gbif", "3421423");
     assertEquals("gbif:3421423", c.getUserId().get(2));
 
@@ -43,6 +44,28 @@ public class ContactTest {
 
     c.addUserId(", ,", ", ,");
     assertEquals(", ,", c.getUserId().get(9));
+
+    // Directory prefix included in the id
+    c.addUserId("gbif", "gbif:105539");
+    assertEquals("gbif:105539", c.getUserId().get(10));
+
+    c.addUserId("http://orcid.org/", "http://orcid.org/0000-0003-0623-6682");
+    assertEquals("http://orcid.org/0000-0003-0623-6682", c.getUserId().get(11));
+
+    c.addUserId("http://orcid.org", "http://orcid.org/0000-0003-0623-6682");
+    assertEquals("http://orcid.org/0000-0003-0623-6682", c.getUserId().get(12));
+
+    c.addUserId("https://orcid.org", "http://orcid.org/0000-0003-0623-6682");
+    assertEquals("http://orcid.org/0000-0003-0623-6682", c.getUserId().get(13));
+
+    c.addUserId("http://orcid.org", "https://orcid.org/0000-0003-0623-6682");
+    assertEquals("https://orcid.org/0000-0003-0623-6682", c.getUserId().get(14));
+
+    c.addUserId("https://scholar.google.com/citations?user=", "https://scholar.google.com/citations?user=jvW0IrIAAAAJ");
+    assertEquals("https://scholar.google.com/citations?user=jvW0IrIAAAAJ", c.getUserId().get(15));
+
+    // Just to check this test is written correctly.
+    assertEquals(16, c.getUserId().size());
   }
 
   @Test
