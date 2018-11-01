@@ -1,4 +1,8 @@
 package org.gbif.api.model.collections.vocabulary;
+
+/**
+ * Enumeration to represent the discipline of an institution (collections).
+ */
 public enum Discipline {
 
   ARCHAEOLOGY("Archaeology: General"),

@@ -8,6 +8,9 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Base CRUD service for collection entities.
+ */
 public interface CrudService<T extends CollectionEntity> {
 
   UUID create(@NotNull T entity);

@@ -11,6 +11,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
+/**
+ * Models an address in the collections context.
+ */
 public class Address {
 
   private Integer key;

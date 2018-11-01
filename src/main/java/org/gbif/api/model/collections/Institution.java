@@ -23,6 +23,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * Models an institution in the collections context.
+ */
 public class Institution implements CollectionEntity, Contactable, Taggable, Identifiable, LenientEquals<Institution> {
 
   private UUID key;

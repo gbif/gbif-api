@@ -3,6 +3,9 @@ package org.gbif.api.model.collections;
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * Interface to represent a collection entity.
+ */
 public interface CollectionEntity {
 
   UUID getKey();

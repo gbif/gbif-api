@@ -1,5 +1,8 @@
 package org.gbif.api.model.collections.vocabulary;
 
+/**
+ * Enumeration for the presevation types of a collection.
+ */
 public enum PreservationType {
 
   STORAGE_OUTDOORS("Storage Environment: Ambient uncontrolled environment (outdoors)"),

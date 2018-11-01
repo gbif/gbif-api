@@ -9,6 +9,9 @@ import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Models a staff member in the collections context.
+ */
 public class Staff implements CollectionEntity, LenientEquals<Staff> {
 
   private UUID key;

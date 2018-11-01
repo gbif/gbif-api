@@ -4,6 +4,9 @@ import java.util.List;
 import javax.annotation.Nullable;
 import javax.validation.Valid;
 
+/**
+ * Interface to represent a contact in the collections context.
+ */
 public interface Contactable {
 
   List<Staff> getContacts();

@@ -1,5 +1,8 @@
 package org.gbif.api.model.collections.vocabulary;
 
+/**
+ * Enumeration to represent the content type of a collection.
+ */
 public enum CollectionContentType {
 
   ARCHAEOLOGICAL_OTHER("Archaeological: Other or Undefined"),

@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.UUID;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Service for the contacts in the collections service.
+ */
 public interface ContactService {
 
   List<Staff> listContacts(@NotNull UUID key);
@@ -13,6 +16,5 @@ public interface ContactService {
   void addContact(@NotNull UUID entityKey, @NotNull UUID staffKey);
 
   void removeContact(@NotNull UUID entityKey, @NotNull UUID staffKey);
-
 
 }
