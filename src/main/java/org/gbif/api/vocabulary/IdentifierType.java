@@ -53,7 +53,17 @@ public enum IdentifierType {
   /**
    * Participant identifier from the GBIF Directory.
    */
-  GBIF_PARTICIPANT;
+  GBIF_PARTICIPANT,
+
+  /**
+   * ID migrated from GRBIO.
+   */
+  GRBIO_ID,
+
+  /**
+   * Cool URI migrated from GBRIO.
+   */
+  GRBIO_URI;
 
   // TODO: Check if this is used, it didn't exist in the new Registry2 API, but I preserved it from the old vocabulary
   public static final List<IdentifierType> TYPES;
