@@ -19,7 +19,7 @@ import com.google.common.collect.Sets;
  * A download request with a null predicate is interpreted as a "download all" request.
  */
 @JsonTypeInfo(
-  use=JsonTypeInfo.Id.NAME,
+  use=JsonTypeInfo.Id.NONE,
   include= JsonTypeInfo.As.EXTERNAL_PROPERTY,
   property = "format",
   defaultImpl = PredicateDownloadRequest.class)

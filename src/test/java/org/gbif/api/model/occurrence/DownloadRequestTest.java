@@ -49,6 +49,14 @@ public class DownloadRequestTest {
       "  \"sql\": \"SELECT basisOfRecord, count(DISTINCT speciesKey) AS speciesCount FROM occurrence WHERE year=2018 GROUP BY basisOfRecord\"\n" + 
       "}\n" + 
       "";
+  
+  private static final String SIMPLE_CSV = "{\n" + 
+      "  \"creator\":\"rpathak\",\n" + 
+      "  \"notification_address\": [\"rpathak@gbif.org\"],\n" + 
+      "  \"send_notification\":\"true\",\n" + 
+      "  \"format\": \"SIMPLE_CSV\",\n" + 
+      "  \"predicate\":{\"type\":\"equals\",\"key\":\"TAXON_KEY\",\"value\":\"3\"}\n" + 
+      "}";
 
   private static PredicateDownloadRequest newDownload(Predicate p) {
     return newDownload(p, TEST_USER);
@@ -129,11 +137,21 @@ public class DownloadRequestTest {
   }
   
   @Test
-  public void testSerde2() throws JsonProcessingException, IOException {
+  public void testSQLDownloadSerde() throws JsonProcessingException, IOException {
     ObjectMapper mapper = new ObjectMapper();
     SqlDownloadRequest request = mapper.readValue(SQLREQUEST, SqlDownloadRequest.class);
     assertEquals("userName", request.getCreator());
     assertNotNull(request.getSql());
+    assertEquals(DownloadFormat.SQL, request.getFormat());
+    System.out.println(mapper.writeValueAsString(request));
   }
   
+  @Test
+  public void testPredicateDownloadSerde() throws JsonProcessingException, IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    PredicateDownloadRequest request = mapper.readValue(SIMPLE_CSV, PredicateDownloadRequest.class);
+    assertEquals("rpathak", request.getCreator());
+    assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
+    System.out.println(mapper.writeValueAsString(request));
+  }
 }
