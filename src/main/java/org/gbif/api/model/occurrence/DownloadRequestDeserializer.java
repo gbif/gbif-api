@@ -25,7 +25,7 @@ public class DownloadRequestDeserializer extends JsonDeserializer<DownloadReques
     JsonNode node = jp.getCodec().readTree(jp);
     
     String format = Optional.ofNullable(node.get("format")).map(JsonNode::asText).orElse(DownloadFormat.DWCA.name());
-    String creator = Optional.ofNullable(node.get("creator")).map(JsonNode::asText).orElseThrow(RuntimeException::new);
+    String creator = Optional.ofNullable(node.get("creator")).map(JsonNode::asText).orElse(null);
     List<String> notificationAddress = Optional.ofNullable(node.get("notification_address")).map( jsonNode -> {
       try {
         return Arrays.asList(new ObjectMapper().readValue(jsonNode, String[].class));
@@ -37,7 +37,7 @@ public class DownloadRequestDeserializer extends JsonDeserializer<DownloadReques
     boolean sendNotification = Optional.ofNullable(node.get("send_notification")).map(JsonNode::asBoolean).orElse(Boolean.FALSE);
     
     if(format.equals(DownloadFormat.SQL.name())) {
-      String sql = Optional.ofNullable(node.get("sql")).map(JsonNode::asText).orElseThrow(RuntimeException::new);
+      String sql = Optional.ofNullable(node.get("sql")).map(JsonNode::asText).orElse(null);
       
       return new SqlDownloadRequest(sql, creator, notificationAddress, sendNotification);
     }

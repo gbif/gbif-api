@@ -154,4 +154,13 @@ public class DownloadRequestTest {
     assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
     System.out.println(mapper.writeValueAsString(request));
   }
+  
+  @Test
+  public void testPredicateDownloadSerde2() throws JsonProcessingException, IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    DownloadRequest request = mapper.readValue(SIMPLE_CSV, DownloadRequest.class);
+    assertEquals("rpathak", request.getCreator());
+    assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
+    System.out.println(mapper.writeValueAsString(request));
+  }
 }
