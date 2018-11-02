@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 import javax.annotation.Nullable;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonSubTypes;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
@@ -19,10 +19,11 @@ import com.google.common.collect.Sets;
  * A download request with a null predicate is interpreted as a "download all" request.
  */
 @JsonTypeInfo(
-  use=JsonTypeInfo.Id.NONE,
+  use=JsonTypeInfo.Id.NAME,
   include= JsonTypeInfo.As.EXTERNAL_PROPERTY,
   property = "format",
-  defaultImpl = PredicateDownloadRequest.class)
+  defaultImpl = PredicateDownloadRequest.class,
+  visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = SqlDownloadRequest.class, name = "SQL")
 })

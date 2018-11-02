@@ -3,11 +3,10 @@ package org.gbif.api.model.occurrence;
 import java.util.Collection;
 import javax.annotation.Nullable;
 import javax.validation.Valid;
-
-import com.google.common.base.MoreObjects;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.gbif.api.model.occurrence.predicate.Predicate;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 public class PredicateDownloadRequest extends DownloadRequest {
