@@ -6,8 +6,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.annotate.JsonSubTypes;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
@@ -19,26 +18,19 @@ import com.google.common.collect.Sets;
  * Represents a request to download occurrence records.
  * A download request with a null predicate is interpreted as a "download all" request.
  */
-@JsonTypeInfo(
-    use=JsonTypeInfo.Id.NAME,
-    include= JsonTypeInfo.As.EXTERNAL_PROPERTY,
-    property = "format",
-    defaultImpl = PredicateDownloadRequest.class)
-  @JsonSubTypes({
-    @JsonSubTypes.Type(value = SqlDownloadRequest.class, name = "SQL")
-  })
+@JsonDeserialize(using = DownloadRequestDeserializer.class)
 public abstract class DownloadRequest {
 
   private static final String DELIMITER = ",";
   private static final Joiner COMMA_JOINER = Joiner.on(DELIMITER).skipNulls();
   private static final Splitter COMMA_SPLITTER = Splitter.on(DELIMITER).omitEmptyStrings().trimResults();
-
+  @JsonProperty("creator")
   private String creator;
-
+  @JsonProperty("notification_address")
   private Set<String> notificationAddresses;
-
+  @JsonProperty("send_notification")
   private boolean sendNotification;
-
+  @JsonProperty("format")
   private DownloadFormat format;
 
   /**
