@@ -1,7 +1,5 @@
 package org.gbif.api.model.collections;
 
-import org.gbif.api.jackson.EnumListDeserializer;
-import org.gbif.api.jackson.EnumListSerializer;
 import org.gbif.api.model.collections.vocabulary.AccessionStatus;
 import org.gbif.api.model.collections.vocabulary.CollectionContentType;
 import org.gbif.api.model.collections.vocabulary.PreservationType;
@@ -25,9 +23,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
 /**
  * Models a collection.
  */
@@ -37,22 +32,14 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
   private String code;
   private String name;
   private String description;
-
-  @JsonSerialize(using = EnumListSerializer.class)
-  @JsonDeserialize(using = EnumListDeserializer.class)
   private List<CollectionContentType> contentType;
-
   private boolean active;
   private boolean personalCollection;
   private DOI doi;
   private URI homepage;
   private URI catalogUrl;
   private URI apiUrl;
-
-  @JsonSerialize(using = EnumListSerializer.class)
-  @JsonDeserialize(using = EnumListDeserializer.class)
   private List<PreservationType> preservationTypes;
-
   private AccessionStatus accessionStatus;
   private UUID institutionKey;
   private Address mailingAddress;

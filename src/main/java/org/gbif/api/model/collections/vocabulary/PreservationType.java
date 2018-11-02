@@ -2,6 +2,8 @@ package org.gbif.api.model.collections.vocabulary;
 
 /**
  * Enumeration for the presevation types of a collection.
+ *
+ * The descriptions are the original values migrated from GRBIO.
  */
 public enum PreservationType {
 
@@ -32,5 +34,9 @@ public enum PreservationType {
 
   PreservationType(String description) {
     this.description = description;
+  }
+
+  public String getDescription() {
+    return description;
   }
 }

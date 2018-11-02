@@ -1,7 +1,5 @@
 package org.gbif.api.model.collections;
 
-import org.gbif.api.jackson.EnumListDeserializer;
-import org.gbif.api.jackson.EnumListSerializer;
 import org.gbif.api.model.collections.vocabulary.Discipline;
 import org.gbif.api.model.collections.vocabulary.InstitutionGovernance;
 import org.gbif.api.model.collections.vocabulary.InstitutionType;
@@ -25,9 +23,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
 /**
  * Models an institution in the collections context.
  */
@@ -43,11 +38,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
   private URI catalogUrl;
   private URI apiUrl;
   private InstitutionGovernance institutionalGovernance;
-
-  @JsonSerialize(using = EnumListSerializer.class)
-  @JsonDeserialize(using = EnumListDeserializer.class)
   private List<Discipline> disciplines;
-
   private BigDecimal latitude;
   private BigDecimal longitude;
   private Address mailingAddress;

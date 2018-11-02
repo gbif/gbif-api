@@ -2,6 +2,8 @@ package org.gbif.api.model.collections.vocabulary;
 
 /**
  * Enumeration to represent the content type of a collection.
+ *
+ * The descriptions are the original values migrated from GRBIO.
  */
 public enum CollectionContentType {
 
@@ -80,4 +82,7 @@ public enum CollectionContentType {
     this.description = description;
   }
 
+  public String getDescription() {
+    return description;
+  }
 }

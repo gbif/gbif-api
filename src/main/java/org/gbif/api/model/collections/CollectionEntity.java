@@ -2,9 +2,10 @@ package org.gbif.api.model.collections;
 
 import java.util.Date;
 import java.util.UUID;
+import javax.annotation.Nullable;
 
 /**
- * Interface to represent a collection entity.
+ * Interface to model a collection entity.
  */
 public interface CollectionEntity {
 
@@ -28,6 +29,7 @@ public interface CollectionEntity {
 
   void setModified(Date modified);
 
+  @Nullable
   Date getDeleted();
 
   void setDeleted(Date deleted);

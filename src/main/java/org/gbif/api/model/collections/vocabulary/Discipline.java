@@ -2,6 +2,8 @@ package org.gbif.api.model.collections.vocabulary;
 
 /**
  * Enumeration to represent the discipline of an institution (collections).
+ *
+ * The descriptions are the original values migrated from GRBIO.
  */
 public enum Discipline {
 
@@ -109,5 +111,8 @@ public enum Discipline {
     this.description = description;
   }
 
+  public String getDescription() {
+    return description;
+  }
 
 }

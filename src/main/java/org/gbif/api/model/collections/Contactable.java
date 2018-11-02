@@ -5,10 +5,11 @@ import javax.annotation.Nullable;
 import javax.validation.Valid;
 
 /**
- * Interface to represent a contact in the collections context.
+ * Interface to model a contact in the collections context.
  */
 public interface Contactable {
 
+  @Nullable
   List<Staff> getContacts();
 
   void setContacts(List<Staff> contacts);
