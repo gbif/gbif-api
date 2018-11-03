@@ -18,15 +18,22 @@ import com.google.common.base.Throwables;
  * Download request deserializer.
  *
  */
-public class DownloadRequestDeserializer extends JsonDeserializer<DownloadRequest>{
+public class DownloadRequestDeserializer extends JsonDeserializer<DownloadRequest> {
+
+  private static final String PREDICATE = "predicate";
+  private static final String SQL = "sql";
+  private static final String SEND_NOTIFICATION = "send_notification";
+  private static final String NOTIFICATION_ADDRESS = "notification_address";
+  private static final String CREATOR = "creator";
+  private static final String FORMAT = "format";
 
   @Override
   public DownloadRequest deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
     JsonNode node = jp.getCodec().readTree(jp);
-    
-    String format = Optional.ofNullable(node.get("format")).map(JsonNode::asText).orElse(DownloadFormat.DWCA.name());
-    String creator = Optional.ofNullable(node.get("creator")).map(JsonNode::asText).orElse(null);
-    List<String> notificationAddress = Optional.ofNullable(node.get("notification_address")).map( jsonNode -> {
+
+    String format = Optional.ofNullable(node.get(FORMAT)).map(JsonNode::asText).orElse(DownloadFormat.DWCA.name());
+    String creator = Optional.ofNullable(node.get(CREATOR)).map(JsonNode::asText).orElse(null);
+    List<String> notificationAddress = Optional.ofNullable(node.get(NOTIFICATION_ADDRESS)).map(jsonNode -> {
       try {
         return Arrays.asList(new ObjectMapper().readValue(jsonNode, String[].class));
       } catch (Exception e) {
@@ -34,17 +41,16 @@ public class DownloadRequestDeserializer extends JsonDeserializer<DownloadReques
       }
       return new ArrayList<String>();
     }).orElse(new ArrayList<>());
-    boolean sendNotification = Optional.ofNullable(node.get("send_notification")).map(JsonNode::asBoolean).orElse(Boolean.FALSE);
-    
-    if(format.equals(DownloadFormat.SQL.name())) {
-      String sql = Optional.ofNullable(node.get("sql")).map(JsonNode::asText).orElse(null);
-      
+    boolean sendNotification = Optional.ofNullable(node.get(SEND_NOTIFICATION)).map(JsonNode::asBoolean).orElse(Boolean.FALSE);
+
+    if (format.equals(DownloadFormat.SQL.name())) {
+      String sql = Optional.ofNullable(node.get(SQL)).map(JsonNode::asText).orElse(null);
+
       return new SqlDownloadRequest(sql, creator, notificationAddress, sendNotification);
-    }
-    else {
-      JsonNode predicate = Optional.ofNullable(node.get("predicate")).orElse(null);
+    } else {
+      JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);
       Predicate predicateObj = new ObjectMapper().readValue(predicate, Predicate.class);
-      return new PredicateDownloadRequest(predicateObj, creator, notificationAddress, sendNotification,DownloadFormat.valueOf(format));
+      return new PredicateDownloadRequest(predicateObj, creator, notificationAddress, sendNotification, DownloadFormat.valueOf(format));
     }
   }
 
