@@ -8,6 +8,11 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
+/**
+ * SQL Based downloads.
+ * This type of downloads accept and simple SELECT query that follows the  pattern:
+ *   SELECT field1, field2, ...fieldN FROM occurrence WHERE [multiple simple predicates] GROUP BY field1,field2..fieldN.
+ */
 public class SqlDownloadRequest extends DownloadRequest {
 
   private String sql;

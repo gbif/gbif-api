@@ -9,15 +9,21 @@ import org.gbif.api.model.occurrence.predicate.Predicate;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
+/**
+ * An occurrence download request whose filters are based on predicates ( see {@link Predicate}).
+ */
 public class PredicateDownloadRequest extends DownloadRequest {
 
 
+  //Default download format.
   private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.DWCA;
+
   private Predicate predicate;
 
   public PredicateDownloadRequest() {
 
   }
+
   /**
    * Full constructor. Used to create instances using JSON serialization.
    */
@@ -25,7 +31,7 @@ public class PredicateDownloadRequest extends DownloadRequest {
   public PredicateDownloadRequest(@JsonProperty("predicate") Predicate predicate,
                                   @JsonProperty("creator") @Nullable String creator,
                                   @JsonProperty("notification_address") @Nullable Collection<String> notificationAddresses,
-                                  @JsonProperty("send_notification") @Nullable boolean sendNotification,
+                                  @JsonProperty("send_notification") boolean sendNotification,
                                   @JsonProperty("format") DownloadFormat format) {
     super(creator, notificationAddresses, sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format);
     this.predicate = predicate;
@@ -43,7 +49,6 @@ public class PredicateDownloadRequest extends DownloadRequest {
   public void setPredicate(Predicate predicate) {
     this.predicate = predicate;
   }
-
   
   @Override
   public boolean equals(Object obj) {

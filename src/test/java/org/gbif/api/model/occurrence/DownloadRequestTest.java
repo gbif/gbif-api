@@ -14,18 +14,16 @@ package org.gbif.api.model.occurrence;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.both;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.junit.matchers.JUnitMatchers.both;
 import static org.mockito.Mockito.mock;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Date;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.Predicate;
@@ -33,40 +31,45 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.hamcrest.core.IsCollectionContaining;
 import org.junit.Test;
 import com.google.common.collect.Lists;
-import com.google.common.io.Closer;
 
+/**
+ * Test cases for DownloadRequest serialization and building.
+ */
 public class DownloadRequestTest {
 
   private static final String TEST_USER = "user@gbif.org";
   private static final String TEST_EMAIL = "test@gbif.org";
 
-  private static final String SQLREQUEST = "{\n" + "  \"creator\": \"userName\",\n" + "  \"notification_address\": [\n"
-      + "    \"userEmail@example.com\"\n" + "  ],\n" + "  \"format\": \"SQL\",\n"
-      + "  \"sql\": \"SELECT basisOfRecord, count(DISTINCT speciesKey) AS speciesCount FROM occurrence WHERE year=2018 GROUP BY basisOfRecord\"\n"
-      + "}\n" + "";
+  private static final String SQL_REQUEST = "{\"creator\":\"" + TEST_USER + "\","
+      + "\"notification_address\": [\"" + TEST_EMAIL +"\"],"
+      + " \"format\": \"SQL\","
+      + " \"sql\": \"SELECT basisOfRecord, count(DISTINCT speciesKey) AS speciesCount FROM occurrence WHERE year=2018 GROUP BY basisOfRecord\""
+      + "}";
 
-  private static final String SIMPLE_CSV = "{\n" + "  \"creator\":\"rpathak\",\n" + "  \"notification_address\": [\"rpathak@gbif.org\"],\n"
-      + "  \"send_notification\":\"true\",\n" + "  \"format\": \"SIMPLE_CSV\",\n"
-      + "  \"predicate\":{\"type\":\"equals\",\"key\":\"TAXON_KEY\",\"value\":\"3\"}\n" + "}";
+  private static final String SIMPLE_CSV = "{\"creator\":\"" + TEST_USER + "\", "
+      + "\"notification_address\": [\"" + TEST_EMAIL +"\"],"
+      + "  \"send_notification\":\"true\"," + "  \"format\": \"SIMPLE_CSV\","
+      + "  \"predicate\":{\"type\":\"equals\",\"key\":\"TAXON_KEY\",\"value\":\"3\"}"
+    + "}";
+
+  private static final ObjectMapper MAPPER = new ObjectMapper();
 
   private static PredicateDownloadRequest newDownload(Predicate p) {
     return newDownload(p, TEST_USER);
   }
 
   private static PredicateDownloadRequest newDownload(Predicate p, String user) {
-    return newDownload(p, user, null);
-  }
-
-  private static PredicateDownloadRequest newDownload(Predicate p, String user, Date completed) {
     return new PredicateDownloadRequest(p, user, Lists.newArrayList(TEST_EMAIL), false, DownloadFormat.DWCA);
   }
 
   @Test
   public void testAvailable() {
+    //When a Download is created it has RUNNING as its status
     Download download = new Download();
     download.setStatus(Download.Status.RUNNING);
     assertFalse(download.isAvailable());
 
+    //Status changed
     download.setStatus(Download.Status.SUCCEEDED);
     assertTrue(download.isAvailable());
   }
@@ -107,51 +110,36 @@ public class DownloadRequestTest {
 
   @Test
   public void testSerde() throws IOException {
-    ObjectMapper mapper = new ObjectMapper();
     PredicateDownloadRequest d = newDownload(new EqualsPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, "b"));
-
-    Closer closer = Closer.create();
-    try {
-      ByteArrayOutputStream baos = closer.register(new ByteArrayOutputStream());
-      mapper.writeValue(baos, d);
-      baos.flush();
-      PredicateDownloadRequest d2 = mapper.readValue(baos.toByteArray(), PredicateDownloadRequest.class);
+    try(ByteArrayOutputStream baos = new ByteArrayOutputStream()){
+      MAPPER.writeValue(baos, d);
+      PredicateDownloadRequest d2 = MAPPER.readValue(baos.toByteArray(), PredicateDownloadRequest.class);
       assertEquals(d, d2);
-
     } catch (Throwable e) { // closer must catch Throwable
       fail(e.getMessage());
-      throw closer.rethrow(e);
-
-    } finally {
-      closer.close();
+      throw e;
     }
   }
 
   @Test
-  public void testSQLDownloadSerde() throws JsonProcessingException, IOException {
-    ObjectMapper mapper = new ObjectMapper();
-    SqlDownloadRequest request = mapper.readValue(SQLREQUEST, SqlDownloadRequest.class);
-    assertEquals("userName", request.getCreator());
+  public void testSQLDownloadSerde() throws IOException {
+    SqlDownloadRequest request = MAPPER.readValue(SQL_REQUEST, SqlDownloadRequest.class);
+    assertEquals(TEST_USER, request.getCreator());
     assertNotNull(request.getSql());
     assertEquals(DownloadFormat.SQL, request.getFormat());
-    System.out.println(mapper.writeValueAsString(request));
   }
 
   @Test
-  public void testPredicateDownloadSerde() throws JsonProcessingException, IOException {
-    ObjectMapper mapper = new ObjectMapper();
-    DownloadRequest request = mapper.readValue(SIMPLE_CSV, PredicateDownloadRequest.class);
-    assertEquals("rpathak", request.getCreator());
+  public void testPredicateDownloadSerde() throws IOException {
+    DownloadRequest request = MAPPER.readValue(SIMPLE_CSV, PredicateDownloadRequest.class);
+    assertEquals(TEST_USER, request.getCreator());
     assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
-    System.out.println(mapper.writeValueAsString(request));
   }
 
   @Test
-  public void testPredicateDownloadSerde2() throws JsonProcessingException, IOException {
-    ObjectMapper mapper = new ObjectMapper();
-    DownloadRequest request = mapper.readValue(SIMPLE_CSV, DownloadRequest.class);
-    assertEquals("rpathak", request.getCreator());
+  public void testDownloadRequestSerde() throws IOException {
+    DownloadRequest request = MAPPER.readValue(SIMPLE_CSV, DownloadRequest.class);
+    assertEquals(TEST_USER, request.getCreator());
     assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
-    System.out.println(mapper.writeValueAsString(request));
   }
 }

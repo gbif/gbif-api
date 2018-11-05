@@ -1,5 +1,7 @@
 package org.gbif.api.model.occurrence;
 
+import org.gbif.api.jackson.DownloadRequestSerde;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
@@ -16,20 +18,24 @@ import com.google.common.collect.Sets;
 
 /**
  * Represents a request to download occurrence records.
- * A download request with a null predicate is interpreted as a "download all" request.
+ * This is the base class for specific type of downloads: predicate based downloads and SQL downloads..
  */
-@JsonDeserialize(using = DownloadRequestDeserializer.class)
+@JsonDeserialize(using = DownloadRequestSerde.class)
 public abstract class DownloadRequest {
 
   private static final String DELIMITER = ",";
   private static final Joiner COMMA_JOINER = Joiner.on(DELIMITER).skipNulls();
   private static final Splitter COMMA_SPLITTER = Splitter.on(DELIMITER).omitEmptyStrings().trimResults();
+
   @JsonProperty("creator")
   private String creator;
+
   @JsonProperty("notification_address")
   private Set<String> notificationAddresses;
+
   @JsonProperty("send_notification")
   private boolean sendNotification;
+
   @JsonProperty("format")
   private DownloadFormat format;
 
