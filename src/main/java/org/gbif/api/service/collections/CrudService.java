@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 /** Base CRUD service for {@link CollectionEntity} entities. */
-public interface CrudService<T extends CollectionEntity> {
+interface CrudService<T extends CollectionEntity> {
 
   /**
    * Creates a new entity.

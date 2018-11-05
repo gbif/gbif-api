@@ -24,7 +24,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * Models a collection.
+ * A group of specimens or other natural history objects.
+ * Types of collections can be: specimens, original artwork, archives, observations, library materials,
+ * datasets, photographs or mixed collections such as those that result from expeditions and voyages of discovery.
  */
 public class Collection implements CollectionEntity, Contactable, Taggable, Identifiable, LenientEquals<Collection> {
 
@@ -53,6 +55,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
   private List<Identifier> identifiers = new ArrayList<>();
   private List<Staff> contacts;
 
+  /**
+   * List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc..
+   */
   @Override
   public List<Identifier> getIdentifiers() {
     return identifiers;
@@ -63,6 +68,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.identifiers = identifiers;
   }
 
+  /**
+   * (Meta)Tags or labels.
+   */
   @Override
   public List<Tag> getTags() {
     return tags;
@@ -73,6 +81,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.tags = tags;
   }
 
+  /**
+   * GBIF Unique identifier of this collection.
+   */
   @Override
   public UUID getKey() {
     return key;
@@ -83,6 +94,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.key = key;
   }
 
+  /**
+   * Collection code: identifies a collection at the owner's location.
+   */
   @NotNull
   public String getCode() {
     return code;
@@ -92,6 +106,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.code = code;
   }
 
+  /**
+   * Descriptive name of a collection.
+   */
   @NotNull
   public String getName() {
     return name;
@@ -101,6 +118,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.name = name;
   }
 
+  /**
+   * Textual description/summary of the contents of a collection.
+   */
   @Size(min = 5)
   public String getDescription() {
     return description;
@@ -110,6 +130,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.description = description;
   }
 
+  /**
+   * Content type of the elements found in a collection.
+   */
   public List<CollectionContentType> getContentType() {
     return contentType;
   }
@@ -118,6 +141,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.contentType = contentType;
   }
 
+  /**
+   * Is this collection currently active/maintained.
+   */
   public boolean isActive() {
     return active;
   }
@@ -126,6 +152,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.active = active;
   }
 
+  /**
+   * Does this collections belong to an individual?.
+   */
   public boolean isPersonalCollection() {
     return personalCollection;
   }
@@ -134,6 +163,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.personalCollection = personalCollection;
   }
 
+  /**
+   * Digital Object Identifier assigned to this collection.
+   */
   public DOI getDoi() {
     return doi;
   }
@@ -142,6 +174,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.doi = doi;
   }
 
+  /**
+   * URL containing information about a collection.
+   */
   @HttpURI
   @Nullable
   public URI getHomepage() {
@@ -152,6 +187,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.homepage = homepage;
   }
 
+  /**
+   * URI that exposes data about the catalog associated to a collection.
+   */
   @HttpURI
   @Nullable
   public URI getCatalogUrl() {
@@ -162,6 +200,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.catalogUrl = catalogUrl;
   }
 
+  /**
+   * Machine consumable endpoint of information about a collection.
+   */
   @HttpURI
   @Nullable
   public URI getApiUrl() {
@@ -172,6 +213,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.apiUrl = apiUrl;
   }
 
+  /**
+   * Types of preservation mechanisms used  for this collections.
+   */
   public List<PreservationType> getPreservationTypes() {
     return preservationTypes;
   }
@@ -180,6 +224,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.preservationTypes = preservationTypes;
   }
 
+  /**
+   * Defines how a collection as been added or joined.
+   */
   public AccessionStatus getAccessionStatus() {
     return accessionStatus;
   }
@@ -188,6 +235,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.accessionStatus = accessionStatus;
   }
 
+  /**
+   * Institution that owns or hosts this collection.
+   */
   public UUID getInstitutionKey() {
     return institutionKey;
   }
@@ -196,6 +246,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.institutionKey = institutionKey;
   }
 
+  /**
+   * Address used to send/receive physical mail.
+   */
   @Nullable
   @Valid
   @Override
@@ -208,6 +261,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.mailingAddress = mailingAddress;
   }
 
+  /**
+   * Directions of where this collections is situated.
+   */
   @Nullable
   @Valid
   @Override

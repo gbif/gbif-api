@@ -1,6 +1,8 @@
 package org.gbif.api.model.collections.vocabulary;
 
-/** Type of an institution (collections). */
+/**
+ * Categorization of institutions (collection holders) types.
+ */
 public enum InstitutionType {
   BIOMEDICAL_RESEARCH_INSTITUTE,
   BOTANICAL_GARDEN,

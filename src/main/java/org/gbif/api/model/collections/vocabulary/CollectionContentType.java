@@ -1,9 +1,9 @@
 package org.gbif.api.model.collections.vocabulary;
 
 /**
- * Enumeration to represent the content type of a collection.
+ * Types of a (sub) group of elements contained in collection..
  *
- * The descriptions are the original values migrated from GRBIO.
+ * Note: The descriptions are the original values migrated from GRBIO.
  */
 public enum CollectionContentType {
 

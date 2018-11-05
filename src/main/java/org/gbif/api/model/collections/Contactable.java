@@ -5,21 +5,30 @@ import javax.annotation.Nullable;
 import javax.validation.Valid;
 
 /**
- * Interface to model a contact in the collections context.
+ * Entity that can have a list of contacts and addresses.
  */
 public interface Contactable {
 
+  /**
+   * List if associated contacts.
+   */
   @Nullable
   List<Staff> getContacts();
 
   void setContacts(List<Staff> contacts);
 
+  /**
+   * Address used to send and receive mail.
+   */
   @Nullable
   @Valid
   Address getMailingAddress();
 
   void setMailingAddress(Address mailingAddress);
 
+  /**
+   * Physical or associated address.
+   */
   @Nullable
   @Valid
   Address getAddress();

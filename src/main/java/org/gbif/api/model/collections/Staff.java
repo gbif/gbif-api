@@ -10,7 +10,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- * Models a staff member in the collections context.
+ * Person associated to a collection or institution.
  */
 public class Staff implements CollectionEntity, LenientEquals<Staff> {
 
@@ -32,6 +32,9 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
   private Date modified;
   private Date deleted;
 
+  /**
+   * GBIF Unique identifier.
+   */
   @Override
   public UUID getKey() {
     return key;
@@ -42,6 +45,9 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
     this.key = key;
   }
 
+  /**
+   * Firs name, it can also include the first and last name in some cases.
+   */
   @NotNull
   public String getFirstName() {
     return firstName;
@@ -51,6 +57,9 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
     this.firstName = firstName;
   }
 
+  /**
+   * Last and secondary names.
+   */
   public String getLastName() {
     return lastName;
   }
@@ -59,6 +68,9 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
     this.lastName = lastName;
   }
 
+  /**
+   * Textual description  of the role performed.
+   */
   public String getPosition() {
     return position;
   }
@@ -67,6 +79,9 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
     this.position = position;
   }
 
+  /**
+   * Description of the main responsibility assigned to a staff member.
+   */
   public String getAreaResponsibility() {
     return areaResponsibility;
   }
@@ -75,6 +90,9 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
     this.areaResponsibility = areaResponsibility;
   }
 
+  /**
+   * Description of main research activities.
+   */
   public String getResearchPursuits() {
     return researchPursuits;
   }
@@ -83,6 +101,9 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
     this.researchPursuits = researchPursuits;
   }
 
+  /**
+   * Primary telephone number.
+   */
   public String getPhone() {
     return phone;
   }
@@ -91,6 +112,9 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
     this.phone = phone;
   }
 
+  /**
+   * Fax number.
+   */
   public String getFax() {
     return fax;
   }
@@ -99,6 +123,9 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
     this.fax = fax;
   }
 
+  /**
+   * Staff email.
+   */
   public String getEmail() {
     return email;
   }
@@ -107,6 +134,9 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
     this.email = email;
   }
 
+  /**
+   * Address used to send physical mail.
+   */
   @Valid
   public Address getMailingAddress() {
     return mailingAddress;
@@ -116,6 +146,9 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
     this.mailingAddress = mailingAddress;
   }
 
+  /**
+   * Institution where staff work.
+   */
   public UUID getInstitutionKey() {
     return institutionKey;
   }
@@ -124,6 +157,9 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
     this.institutionKey = institutionKey;
   }
 
+  /**
+   * Collection linked to a staff member.
+   */
   public UUID getCollectionKey() {
     return collectionKey;
   }

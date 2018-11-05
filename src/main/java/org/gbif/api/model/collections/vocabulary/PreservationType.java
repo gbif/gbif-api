@@ -1,9 +1,9 @@
 package org.gbif.api.model.collections.vocabulary;
 
 /**
- * Enumeration for the presevation types of a collection.
+ * Mechanism of preservation applied to a collection.
  *
- * The descriptions are the original values migrated from GRBIO.
+ * Note: The descriptions are the original values migrated from GRBIO.
  */
 public enum PreservationType {
 

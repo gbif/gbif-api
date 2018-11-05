@@ -7,7 +7,9 @@ import org.gbif.api.model.common.paging.PagingResponse;
 import java.util.UUID;
 import javax.annotation.Nullable;
 
-/** Service for the collections-related staff. */
+/**
+ * API Service for the collections-related staff.
+ */
 public interface StaffService extends CrudService<Staff> {
 
   /**

@@ -1,9 +1,9 @@
 package org.gbif.api.model.collections.vocabulary;
 
 /**
- * Enumeration to represent the discipline of an institution (collections).
+ * Academic or research discipline to which an institution is dedicated.
  *
- * The descriptions are the original values migrated from GRBIO.
+ * Note: The descriptions are the original values migrated from GRBIO.
  */
 public enum Discipline {
 

@@ -12,7 +12,7 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 /**
- * Models an address in the collections context.
+ * The particulars of the place where a institution of collection is situated.
  */
 public class Address {
 
@@ -23,6 +23,9 @@ public class Address {
   private String postalCode;
   private Country country;
 
+  /**
+   * Unique identifier, assigned by the persistence store.
+   */
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   public Integer getKey() {
@@ -33,6 +36,9 @@ public class Address {
     this.key = key;
   }
 
+  /**
+   * Textual direction of this address.
+   */
   @Size(min = 1)
   public String getAddress() {
     return address;
@@ -42,6 +48,9 @@ public class Address {
     this.address = address;
   }
 
+  /**
+   * City where this address is located.
+   */
   public String getCity() {
     return city;
   }
@@ -50,6 +59,9 @@ public class Address {
     this.city = city;
   }
 
+  /**
+   * Province, region or area where this address is located.
+   */
   public String getProvince() {
     return province;
   }
@@ -58,6 +70,9 @@ public class Address {
     this.province = province;
   }
 
+  /**
+   * International postal code of this address.
+   */
   public String getPostalCode() {
     return postalCode;
   }
@@ -66,6 +81,9 @@ public class Address {
     this.postalCode = postalCode;
   }
 
+  /**
+   * Country where this address is located.
+   */
   @Nullable
   public Country getCountry() {
     return country;

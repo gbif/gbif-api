@@ -24,7 +24,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * Models an institution in the collections context.
+ * The owner or location of collection.
+ * Usually an established organization or foundation, especially one dedicated to education, public service, or culture.
  */
 public class Institution implements CollectionEntity, Contactable, Taggable, Identifiable, LenientEquals<Institution> {
 
@@ -60,6 +61,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
   private List<Identifier> identifiers = new ArrayList<>();
   private List<Staff> contacts;
 
+  /**
+   * GBIF unique identifier.
+   */
   @Override
   public UUID getKey() {
     return key;
@@ -70,6 +74,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.key = key;
   }
 
+  /**
+   * Code used to identified the collection.
+   */
   @NotNull
   public String getCode() {
     return code;
@@ -79,6 +86,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.code = code;
   }
 
+  /**
+   * Name or title of a institution.
+   */
   @NotNull
   public String getName() {
     return name;
@@ -88,6 +98,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.name = name;
   }
 
+  /**
+   * Textual description of institution.
+   */
   @Nullable
   @Size(min = 10)
   public String getDescription() {
@@ -98,6 +111,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.description = description;
   }
 
+  /**
+   * Describes the main activity of a institution.
+   */
   public InstitutionType getType() {
     return type;
   }
@@ -106,6 +122,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.type = type;
   }
 
+  /**
+   * Is the institution active/operational?.
+   */
   public boolean isActive() {
     return active;
   }
@@ -114,6 +133,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.active = active;
   }
 
+  /**
+   * URL to the home page of a institution.
+   */
   @HttpURI
   @Nullable
   public URI getHomepage() {
@@ -124,6 +146,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.homepage = homepage;
   }
 
+  /**
+   * URL to the main catalog of a institution.
+   */
   @HttpURI
   @Nullable
   public URI getCatalogUrl() {
@@ -134,6 +159,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.catalogUrl = catalogUrl;
   }
 
+  /**
+   * Machine consumable endpoint of a institution and probably its collections.
+   */
   @HttpURI
   @Nullable
   public URI getApiUrl() {
@@ -144,6 +172,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.apiUrl = apiUrl;
   }
 
+  /**
+   * Governance nature of a institution.
+   */
   public InstitutionGovernance getInstitutionalGovernance() {
     return institutionalGovernance;
   }
@@ -152,6 +183,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.institutionalGovernance = institutionalGovernance;
   }
 
+  /**
+   * Activities to which an institution is dedicated.
+   */
   public List<Discipline> getDisciplines() {
     return disciplines;
   }
@@ -160,6 +194,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.disciplines = disciplines;
   }
 
+  /**
+   * Decimal latitude of where this institution is located.
+   */
   public BigDecimal getLatitude() {
     return latitude;
   }
@@ -168,6 +205,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.latitude = latitude;
   }
 
+  /**
+   * Decimal longitude of where this institution is located.
+   */
   public BigDecimal getLongitude() {
     return longitude;
   }
@@ -200,6 +240,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.address = address;
   }
 
+  /**
+   * Alternative names of institution.
+   */
   public List<String> getAdditionalNames() {
     return additionalNames;
   }
@@ -208,6 +251,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.additionalNames = additionalNames;
   }
 
+  /**
+   * Date when the institution was founded or established.
+   */
   public Date getFoundingDate() {
     return foundingDate;
   }
@@ -216,6 +262,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.foundingDate = foundingDate;
   }
 
+  /**
+   * Geographical coverage of the activities performed by an institution.
+   */
   public String getGeographicDescription() {
     return geographicDescription;
   }
@@ -224,6 +273,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.geographicDescription = geographicDescription;
   }
 
+  /**
+   * Taxonomic description of the collections maintained by a institution.
+   */
   public String getTaxonomicDescription() {
     return taxonomicDescription;
   }
@@ -232,6 +284,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.taxonomicDescription = taxonomicDescription;
   }
 
+  /**
+   * Estimated number of specimens hosted by an institution.
+   */
   public int getNumberSpecimens() {
     return numberSpecimens;
   }
@@ -240,6 +295,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.numberSpecimens = numberSpecimens;
   }
 
+  /**
+   * Was the institution record imported form IndexHerbariorum.
+   */
   public boolean isIndexHerbariorumRecord() {
     return indexHerbariorumRecord;
   }
@@ -248,6 +306,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.indexHerbariorumRecord = indexHerbariorumRecord;
   }
 
+  /**
+   * Logo/Image that identifies the institution.
+   */
   @HttpURI
   @Nullable
   public URI getLogoUrl() {
@@ -258,6 +319,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
     this.logoUrl = logoUrl;
   }
 
+  /**
+   * Cites (see http://ec.europa.eu/environment/cites/info_permits_en.htm) license given for this collection.
+   */
   public String getCitesPermitNumber() {
     return citesPermitNumber;
   }

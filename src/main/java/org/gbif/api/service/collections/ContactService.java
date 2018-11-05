@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.UUID;
 import javax.validation.constraints.NotNull;
 
-/** Service for the contacts in the collections service. */
+/**
+ * API Service for the contacts in the collections service.
+ */
 public interface ContactService {
 
   /**

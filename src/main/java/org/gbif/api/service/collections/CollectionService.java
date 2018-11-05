@@ -9,7 +9,9 @@ import org.gbif.api.service.registry.TagService;
 import java.util.UUID;
 import javax.annotation.Nullable;
 
-/** Service to work with collections. */
+/**
+ * API Service to work with collections.
+ */
 public interface CollectionService
     extends CrudService<Collection>, ContactService, TagService, IdentifierService {
 

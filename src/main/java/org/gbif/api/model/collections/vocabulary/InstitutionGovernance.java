@@ -1,6 +1,8 @@
 package org.gbif.api.model.collections.vocabulary;
 
-/** Enumeration to represent the governance of an institution (collections). */
+/**
+ *  Mechanisms, processes and relations by which a institution is controlled and directed.
+ */
 public enum InstitutionGovernance {
   ACADEMIC_FEDERAL,
   ACADEMIC_FOR_PROFIT,
