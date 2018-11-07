@@ -1,6 +1,6 @@
 package org.gbif.api.service.collections;
 
-import org.gbif.api.model.collections.Staff;
+import org.gbif.api.model.collections.Person;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,23 +15,23 @@ public interface ContactService {
    * Lists all the contacts of an entity.
    *
    * @param entityKey of the entity
-   * @return list of {@link Staff}
+   * @return list of {@link Person}
    */
-  List<Staff> listContacts(@NotNull UUID entityKey);
+  List<Person> listContacts(@NotNull UUID entityKey);
 
   /**
-   * Adds a {@link Staff} contact to an entity.
+   * Adds a {@link Person} contact to an entity.
    *
    * @param entityKey key of the entity where the contact will be added to.
-   * @param staffKey key of the contact to add.
+   * @param personKey key of the contact to add.
    */
-  void addContact(@NotNull UUID entityKey, @NotNull UUID staffKey);
+  void addContact(@NotNull UUID entityKey, @NotNull UUID personKey);
 
   /**
-   * Removes a {@link Staff} contact from an entity.
+   * Removes a {@link Person} contact from an entity.
    *
    * @param entityKey key of the entity where the contact will be removed from.
-   * @param staffKey key of the contact to remove.
+   * @param personKey key of the contact to remove.
    */
-  void removeContact(@NotNull UUID entityKey, @NotNull UUID staffKey);
+  void removeContact(@NotNull UUID entityKey, @NotNull UUID personKey);
 }

@@ -13,9 +13,9 @@ public interface Contactable {
    * List if associated contacts.
    */
   @Nullable
-  List<Staff> getContacts();
+  List<Person> getContacts();
 
-  void setContacts(List<Staff> contacts);
+  void setContacts(List<Person> contacts);
 
   /**
    * Address used to send and receive mail.

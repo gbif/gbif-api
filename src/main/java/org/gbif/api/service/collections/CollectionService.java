@@ -16,11 +16,26 @@ public interface CollectionService
     extends CrudService<Collection>, ContactService, TagService, IdentifierService {
 
   /**
-   * Pages {@link Collection} entities by {@link org.gbif.api.model.collections.Institution}.
+   * Pages {@link Collection} entities based on the parameters received.
    *
-   * @param institutionKey key of the institution to filter by.
-   * @param page with the parameters for paging
-   * @return pages
+   * To iterate over <em>all</em> entities you can use code like this:
+   * {@code
+   * PagingRequest req = new PagingRequest();
+   * PagingResponse<T> response;
+   * do {
+   *   response = service.list(req);
+   *   for (T obj : response.getResults()) {
+   *     doStuff();
+   *   }
+   *   req.nextPage();
+   * } while (!response.isEndOfRecords());
+   * }
+   *
+   * @param query          to make a full text search
+   * @param institutionKey key of an institution to filter by
+   * @param page           paging parameters
+   *
+   * @return a list of entities ordered by their creation date, newest coming first
    */
-  PagingResponse<Collection> listByInstitution(UUID institutionKey, @Nullable Pageable page);
+  PagingResponse<Collection> list(@Nullable String query, @Nullable UUID institutionKey, @Nullable Pageable page);
 }
