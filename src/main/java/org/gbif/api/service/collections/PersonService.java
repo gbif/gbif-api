@@ -1,21 +1,19 @@
 package org.gbif.api.service.collections;
 
-import org.gbif.api.model.collections.Institution;
+import org.gbif.api.model.collections.Person;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
-import org.gbif.api.service.registry.IdentifierService;
-import org.gbif.api.service.registry.TagService;
 
+import java.util.UUID;
 import javax.annotation.Nullable;
 
 /**
- * Service for institutions in the collections context.
+ * API Service for the collections-related staff.
  */
-public interface InstitutionService
-  extends CrudService<Institution>, ContactService, TagService, IdentifierService {
+public interface PersonService extends CrudService<Person> {
 
   /**
-   * Pages {@link Institution} entities based on the parameters received.
+   * Pages {@link Person} entities based on the parameters received.
    *
    * To iterate over <em>all</em> entities you can use code like this:
    * {@code
@@ -31,10 +29,11 @@ public interface InstitutionService
    * }
    *
    * @param query          to make a full text search
+   * @param institutionKey key of an institution to filter by
+   * @param collectionKey  key of a collection to filter by
    * @param page           paging parameters
    *
    * @return a list of entities ordered by their creation date, newest coming first
    */
-  PagingResponse<Institution> list(@Nullable String query, @Nullable Pageable page);
-
+  PagingResponse<Person> list(@Nullable String query, @Nullable UUID institutionKey, @Nullable UUID collectionKey, @Nullable Pageable page);
 }

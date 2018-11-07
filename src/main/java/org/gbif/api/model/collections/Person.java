@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Person associated to a collection or institution.
  */
-public class Staff implements CollectionEntity, LenientEquals<Staff> {
+public class Person implements CollectionEntity, LenientEquals<Person> {
 
   private UUID key;
   private String firstName;
@@ -24,8 +24,8 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
   private String fax;
   private String email;
   private Address mailingAddress;
-  private UUID institutionKey;
-  private UUID collectionKey;
+  private UUID primaryInstitutionKey;
+  private UUID primaryCollectionKey;
   private String createdBy;
   private String modifiedBy;
   private Date created;
@@ -80,7 +80,7 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
   }
 
   /**
-   * Description of the main responsibility assigned to a staff member.
+   * Description of the main responsibility assigned to a person.
    */
   public String getAreaResponsibility() {
     return areaResponsibility;
@@ -124,7 +124,7 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
   }
 
   /**
-   * Staff email.
+   * Person email.
    */
   public String getEmail() {
     return email;
@@ -147,25 +147,25 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
   }
 
   /**
-   * Institution where staff work.
+   * Primary institution where the person works.
    */
-  public UUID getInstitutionKey() {
-    return institutionKey;
+  public UUID getPrimaryInstitutionKey() {
+    return primaryInstitutionKey;
   }
 
-  public void setInstitutionKey(UUID institutionKey) {
-    this.institutionKey = institutionKey;
+  public void setPrimaryInstitutionKey(UUID primaryInstitutionKey) {
+    this.primaryInstitutionKey = primaryInstitutionKey;
   }
 
   /**
-   * Collection linked to a staff member.
+   * Primary collection linked of the person.
    */
-  public UUID getCollectionKey() {
-    return collectionKey;
+  public UUID getPrimaryCollectionKey() {
+    return primaryCollectionKey;
   }
 
-  public void setCollectionKey(UUID collectionKey) {
-    this.collectionKey = collectionKey;
+  public void setPrimaryCollectionKey(UUID primaryCollectionKey) {
+    this.primaryCollectionKey = primaryCollectionKey;
   }
 
   @Override
@@ -222,25 +222,25 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    Staff staff = (Staff) o;
-    return Objects.equals(key, staff.key)
-           && Objects.equals(firstName, staff.firstName)
+    Person person = (Person) o;
+    return Objects.equals(key, person.key)
+           && Objects.equals(firstName, person.firstName)
            && Objects.equals(lastName,
-                             staff.lastName)
-           && Objects.equals(position, staff.position)
-           && Objects.equals(areaResponsibility, staff.areaResponsibility)
-           && Objects.equals(researchPursuits, staff.researchPursuits)
-           && Objects.equals(phone, staff.phone)
-           && Objects.equals(fax, staff.fax)
-           && Objects.equals(email, staff.email)
-           && Objects.equals(mailingAddress, staff.mailingAddress)
-           && Objects.equals(institutionKey, staff.institutionKey)
-           && Objects.equals(collectionKey, staff.collectionKey)
-           && Objects.equals(createdBy, staff.createdBy)
-           && Objects.equals(modifiedBy, staff.modifiedBy)
-           && Objects.equals(created, staff.created)
-           && Objects.equals(modified, staff.modified)
-           && Objects.equals(deleted, staff.deleted);
+                             person.lastName)
+           && Objects.equals(position, person.position)
+           && Objects.equals(areaResponsibility, person.areaResponsibility)
+           && Objects.equals(researchPursuits, person.researchPursuits)
+           && Objects.equals(phone, person.phone)
+           && Objects.equals(fax, person.fax)
+           && Objects.equals(email, person.email)
+           && Objects.equals(mailingAddress, person.mailingAddress)
+           && Objects.equals(primaryInstitutionKey, person.primaryInstitutionKey)
+           && Objects.equals(primaryCollectionKey, person.primaryCollectionKey)
+           && Objects.equals(createdBy, person.createdBy)
+           && Objects.equals(modifiedBy, person.modifiedBy)
+           && Objects.equals(created, person.created)
+           && Objects.equals(modified, person.modified)
+           && Objects.equals(deleted, person.deleted);
   }
 
   @Override
@@ -255,8 +255,8 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
                         fax,
                         email,
                         mailingAddress,
-                        institutionKey,
-                        collectionKey,
+                        primaryInstitutionKey,
+                        primaryCollectionKey,
                         createdBy,
                         modifiedBy,
                         created,
@@ -266,7 +266,7 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
 
   @Override
   public String toString() {
-    return new StringJoiner(", ", Staff.class.getSimpleName() + "[", "]").add("key=" + key)
+    return new StringJoiner(", ", Person.class.getSimpleName() + "[", "]").add("key=" + key)
       .add("firstName='" + firstName + "'")
       .add("lastName='" + lastName + "'")
       .add("position='" + position + "'")
@@ -276,8 +276,8 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
       .add("fax='" + fax + "'")
       .add("email='" + email + "'")
       .add("mailingAddress=" + mailingAddress)
-      .add("institutionKey=" + institutionKey)
-      .add("collectionKey=" + collectionKey)
+      .add("institutionKey=" + primaryInstitutionKey)
+      .add("collectionKey=" + primaryCollectionKey)
       .add("createdBy='" + createdBy + "'")
       .add("modifiedBy='" + modifiedBy + "'")
       .add("created=" + created)
@@ -287,7 +287,7 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
   }
 
   @Override
-  public boolean lenientEquals(Staff other) {
+  public boolean lenientEquals(Person other) {
     if (this == other) {
       return true;
     }
@@ -301,8 +301,8 @@ public class Staff implements CollectionEntity, LenientEquals<Staff> {
            && Objects.equals(fax, other.fax)
            && Objects.equals(email, other.email)
            && Objects.equals(mailingAddress, other.mailingAddress)
-           && Objects.equals(institutionKey, other.institutionKey)
-           && Objects.equals(collectionKey, other.collectionKey)
+           && Objects.equals(primaryInstitutionKey, other.primaryInstitutionKey)
+           && Objects.equals(primaryCollectionKey, other.primaryCollectionKey)
            && Objects.equals(deleted, other.deleted);
   }
 }

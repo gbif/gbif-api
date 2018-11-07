@@ -53,7 +53,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
   private Date deleted;
   private List<Tag> tags = new ArrayList<>();
   private List<Identifier> identifiers = new ArrayList<>();
-  private List<Staff> contacts;
+  private List<Person> contacts;
 
   /**
    * List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc..
@@ -327,12 +327,12 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
   }
 
   @Override
-  public List<Staff> getContacts() {
+  public List<Person> getContacts() {
     return contacts;
   }
 
   @Override
-  public void setContacts(List<Staff> contacts) {
+  public void setContacts(List<Person> contacts) {
     this.contacts = contacts;
   }
 
