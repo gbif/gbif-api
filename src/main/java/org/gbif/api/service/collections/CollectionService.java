@@ -33,9 +33,10 @@ public interface CollectionService
    *
    * @param query          to make a full text search
    * @param institutionKey key of an institution to filter by
+   * @param contactKey     to filter by a contact
    * @param page           paging parameters
    *
    * @return a list of entities ordered by their creation date, newest coming first
    */
-  PagingResponse<Collection> list(@Nullable String query, @Nullable UUID institutionKey, @Nullable Pageable page);
+  PagingResponse<Collection> list(@Nullable String query, @Nullable UUID institutionKey, @Nullable UUID contactKey, @Nullable Pageable page);
 }
