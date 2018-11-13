@@ -1,45 +1,43 @@
 package org.gbif.api.model.occurrence;
 
-import org.gbif.api.model.occurrence.predicate.Predicate;
+import org.gbif.api.jackson.DownloadRequestSerde;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
-
 import javax.annotation.Nullable;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Represents a request to download occurrence records.
- * A download request with a null predicate is interpreted as a "download all" request.
+ * This is the base class for specific type of downloads: predicate based downloads and SQL downloads..
  */
-public class DownloadRequest {
+@JsonDeserialize(using = DownloadRequestSerde.class)
+public abstract class DownloadRequest {
 
   private static final String DELIMITER = ",";
   private static final Joiner COMMA_JOINER = Joiner.on(DELIMITER).skipNulls();
   private static final Splitter COMMA_SPLITTER = Splitter.on(DELIMITER).omitEmptyStrings().trimResults();
 
+  @JsonProperty("creator")
   private String creator;
 
-  private Predicate predicate;
-
+  @JsonProperty("notification_address")
   private Set<String> notificationAddresses;
 
+  @JsonProperty("send_notification")
   private boolean sendNotification;
 
+  @JsonProperty("format")
   private DownloadFormat format;
-
-  private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.DWCA;
 
   /**
    * Default constructor.
@@ -48,39 +46,11 @@ public class DownloadRequest {
     // Empty constructor required to create instances from the data access layer.
   }
 
-  /**
-   * Full constructor. Used to create instances using JSON serialization.
-   */
-  @JsonCreator
-  public DownloadRequest(
-    @JsonProperty("predicate") Predicate predicate,
-    @JsonProperty("creator") @Nullable String creator,
-    @JsonProperty("notification_address") @Nullable Collection<String> notificationAddresses,
-    @JsonProperty("send_notification") @Nullable boolean sendNotification,
-    @JsonProperty("format") DownloadFormat format) {
+  public DownloadRequest(String creator, Collection<String> notificationAddresses, boolean sendNotification, DownloadFormat format) {
     this.creator = creator;
-    this.predicate = predicate;
-    this.notificationAddresses = notificationAddresses == null ?
-      ImmutableSet.<String>of() : ImmutableSet.copyOf(notificationAddresses);
+    this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() : ImmutableSet.copyOf(notificationAddresses);
     this.sendNotification = sendNotification;
-    this.format = format == null ? DEFAULT_DOWNLOAD_FORMAT : format;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (!(obj instanceof DownloadRequest)) {
-      return false;
-    }
-
-    DownloadRequest that = (DownloadRequest) obj;
-    return Objects.equal(this.creator, that.creator)
-      && Objects.equal(this.predicate, that.predicate)
-      && Objects.equal(this.notificationAddresses, that.notificationAddresses)
-      && Objects.equal(this.sendNotification, that.sendNotification)
-      && Objects.equal(this.format, that.format);
+    this.format = format;
   }
 
   /**
@@ -111,22 +81,6 @@ public class DownloadRequest {
     return null;
   }
 
-  /**
-   * @return the download filter
-   */
-  @Nullable
-  @Valid
-  public Predicate getPredicate() {
-    return predicate;
-  }
-
-
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(creator, predicate, notificationAddresses, sendNotification, format);
-  }
-
-
   public void setCreator(String creator) {
     this.creator = creator;
   }
@@ -144,11 +98,6 @@ public class DownloadRequest {
       notificationAddresses = Sets.newHashSet(COMMA_SPLITTER.split(notificationAddressesAsString));
     }
   }
-
-  public void setPredicate(Predicate predicate) {
-    this.predicate = predicate;
-  }
-
 
   public boolean getSendNotification() {
     return sendNotification;
@@ -173,9 +122,32 @@ public class DownloadRequest {
   }
 
   @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof DownloadRequest)) {
+      return false;
+    }
+
+    DownloadRequest that = (DownloadRequest) obj;
+    return Objects.equal(this.creator, that.creator)
+      && Objects.equal(this.notificationAddresses, that.notificationAddresses)
+      && Objects.equal(this.sendNotification, that.sendNotification)
+      && Objects.equal(this.format, that.format);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(creator, notificationAddresses, sendNotification, format);
+  }
+
+  @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("creator", creator).add("predicate", predicate)
-      .add("notificationAddresses", notificationAddresses).add("emailNotification", sendNotification)
+    return MoreObjects.toStringHelper(this)
+      .add("creator", creator)
+      .add("notificationAddresses", notificationAddresses)
+      .add("emailNotification", sendNotification)
       .add("format", format).toString();
   }
 

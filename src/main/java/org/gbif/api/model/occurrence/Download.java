@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -236,9 +237,13 @@ public class Download {
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("key", key).add("doi", doi)
-      .add("status", status).add("downloadLink", downloadLink)
-      .add("request", request).add("created", created)
+    return MoreObjects.toStringHelper(this)
+      .add("key", key)
+      .add("doi", doi)
+      .add("status", status)
+      .add("downloadLink", downloadLink)
+      .add("request", request)
+      .add("created", created)
       .add("license", license)
       .add("modified", modified)
       .add("eraseAfter", eraseAfter)
@@ -274,6 +279,6 @@ public class Download {
   @Override
   public int hashCode() {
     return Objects.hashCode(key, doi, license, request, created, modified, eraseAfter, status, downloadLink, size,
-        totalRecords, numberDatasets);
+                            totalRecords, numberDatasets);
   }
 }
