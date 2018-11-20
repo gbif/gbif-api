@@ -60,10 +60,9 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
       return new SqlDownloadRequest(sql, creator, notificationAddress, sendNotification);
     } else {
       JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);
-      Predicate predicateObj = MAPPER.readValue(predicate, Predicate.class);
+      Predicate predicateObj = predicate == null ? null : MAPPER.readValue(predicate, Predicate.class);
       return new PredicateDownloadRequest(predicateObj, creator, notificationAddress, sendNotification, format);
     }
   }
-
 }
 

@@ -12,12 +12,13 @@
  */
 package org.gbif.api.model.occurrence;
 
+import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.both;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -50,6 +51,11 @@ public class DownloadRequestTest {
       + "\"notification_address\": [\"" + TEST_EMAIL +"\"],"
       + "  \"send_notification\":\"true\"," + "  \"format\": \"SIMPLE_CSV\","
       + "  \"predicate\":{\"type\":\"equals\",\"key\":\"TAXON_KEY\",\"value\":\"3\"}"
+    + "}";
+  
+  private static final String SIMPLE_CSV_NULL_PREDICATE = "{\"creator\":\"" + TEST_USER + "\", "
+      + "\"notification_address\": [\"" + TEST_EMAIL +"\"],"
+      + "  \"send_notification\":\"true\"," + "  \"format\": \"SIMPLE_CSV\""
     + "}";
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
@@ -142,4 +148,10 @@ public class DownloadRequestTest {
     assertEquals(TEST_USER, request.getCreator());
     assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
   }
+  
+  @Test
+  public void testDownloadRequestSerde1() throws IOException {
+    DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE, DownloadRequest.class);
+    assertNull(((PredicateDownloadRequest)request).getPredicate());
+  }  
 }
