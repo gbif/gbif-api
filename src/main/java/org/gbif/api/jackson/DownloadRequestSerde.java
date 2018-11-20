@@ -11,14 +11,14 @@ import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.codehaus.jackson.map.ObjectMapper;
-
 import org.gbif.api.model.occurrence.DownloadFormat;
 import org.gbif.api.model.occurrence.DownloadRequest;
 import org.gbif.api.model.occurrence.PredicateDownloadRequest;
 import org.gbif.api.model.occurrence.SqlDownloadRequest;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.util.VocabularyUtils;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.google.common.base.Throwables;
 
 /**
@@ -34,13 +34,13 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
   private static final String NOTIFICATION_ADDRESS = "notification_address";
   private static final String CREATOR = "creator";
   private static final String FORMAT = "format";
-
+  private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
   @Override
   public DownloadRequest deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
     JsonNode node = jp.getCodec().readTree(jp);
-
+    LOG.info("DownloadRequest for deserialization: {}", node.toString());
     DownloadFormat format = Optional.ofNullable(node.get(FORMAT))
       .map(n -> VocabularyUtils.lookupEnum(n.asText(), DownloadFormat.class)).orElse(DownloadFormat.DWCA);
     String creator = Optional.ofNullable(node.get(CREATOR)).map(JsonNode::asText).orElse(null);

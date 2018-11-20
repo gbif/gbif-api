@@ -57,6 +57,12 @@ public class DownloadRequestTest {
       + "\"notification_address\": [\"" + TEST_EMAIL +"\"],"
       + "  \"send_notification\":\"true\"," + "  \"format\": \"SIMPLE_CSV\""
     + "}";
+  
+  private static final String SIMPLE_CSV_NULL_PREDICATE_AVAIL = "{\"creator\":\"" + TEST_USER + "\", "
+      + "\"notification_address\": [\"" + TEST_EMAIL +"\"],"
+      + "  \"send_notification\":\"true\"," + "  \"format\": \"SIMPLE_CSV\","
+      + "  \"predicate\": null"
+    + "}";
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -153,5 +159,11 @@ public class DownloadRequestTest {
   public void testDownloadRequestSerde1() throws IOException {
     DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE, DownloadRequest.class);
     assertNull(((PredicateDownloadRequest)request).getPredicate());
-  }  
+  }
+  
+  @Test
+  public void testDownloadRequestSerde2() throws IOException {
+    DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE_AVAIL, DownloadRequest.class);
+    assertNull(((PredicateDownloadRequest)request).getPredicate());
+  } 
 }
