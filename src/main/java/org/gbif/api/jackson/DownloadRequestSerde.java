@@ -40,7 +40,11 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
   @Override
   public DownloadRequest deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
     JsonNode node = jp.getCodec().readTree(jp);
-    LOG.info("DownloadRequest for deserialization: {}", node.toString());
+    LOG.debug("DownloadRequest for deserialization: {}", node);
+    //at least one element must be defined
+    if (node.size() == 0) {
+      return null;
+    }
     DownloadFormat format = Optional.ofNullable(node.get(FORMAT))
       .map(n -> VocabularyUtils.lookupEnum(n.asText(), DownloadFormat.class)).orElse(DownloadFormat.DWCA);
     String creator = Optional.ofNullable(node.get(CREATOR)).map(JsonNode::asText).orElse(null);

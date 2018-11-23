@@ -165,5 +165,16 @@ public class DownloadRequestTest {
   public void testDownloadRequestSerde2() throws IOException {
     DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE_AVAIL, DownloadRequest.class);
     assertNull(((PredicateDownloadRequest)request).getPredicate());
-  } 
+  }
+
+
+  /**
+   * Tests that an empty JSON {} is translated into null.
+   */
+  @Test
+  public void testDownloadRequestSerdeNull() throws IOException {
+    String json = "{}";
+    DownloadRequest request = MAPPER.readValue(json, DownloadRequest.class);
+    assertNull(request);
+  }
 }
