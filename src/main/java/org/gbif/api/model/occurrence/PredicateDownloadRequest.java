@@ -16,7 +16,7 @@ public class PredicateDownloadRequest extends DownloadRequest {
 
 
   //Default download format.
-  private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.DWCA;
+  private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.SIMPLE_CSV;
 
   private Predicate predicate;
 
