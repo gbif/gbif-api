@@ -65,7 +65,7 @@ public enum License {
 
   /**
    * FIXME returning Guava Optional will cause issues, Java 8 Optional should be returned.
-   * Lookup a License by either its a) legal code URL or b) human readable summary URL.
+   * Lookup a License by either its a) legal code URL or b) human readable summary URL, with HTTP or HTTPS.
    * For any parsing see LicenseParser in GBIF parsers project.
    *
    * @param licenseUrl the case insensitive URL for the license.
@@ -76,6 +76,7 @@ public enum License {
     if (!Strings.isNullOrEmpty(licenseUrl)) {
       licenseUrl = licenseUrl.trim().toLowerCase();
       licenseUrl = StringUtils.removeEnd(licenseUrl, "/");
+      licenseUrl = licenseUrl.replace("https://", "http://");
 
       // do lookup by legal code URL or human readable summary URL (excluding "/legalcode")
       for (License license : License.values()) {

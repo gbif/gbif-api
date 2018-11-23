@@ -19,9 +19,9 @@ public class LicenseTest {
     assertEquals(License.CC0_1_0, License.fromLicenseUrl("http://creativecommons.org/publicdomain/zero/1.0/legalcode/").get());
     assertEquals(License.CC0_1_0, License.fromLicenseUrl("http://creativecommons.org/publicdomain/zero/1.0").get());
     assertEquals(License.CC0_1_0, License.fromLicenseUrl("http://creativecommons.org/publicdomain/zero/1.0/").get());
+    assertEquals(License.CC0_1_0, License.fromLicenseUrl("HTTPS://CREATIVECOMMONS.ORG/PUBLICDOMAIN/ZERO/1.0/").get());
     assertEquals(License.CC_BY_4_0, License.fromLicenseUrl("http://creativecommons.org/licenses/by/4.0/legalcode").get());
-    assertEquals(License.CC_BY_NC_4_0,
-            License.fromLicenseUrl("http://creativecommons.org/licenses/by-nc/4.0/legalcode").get());
+    assertEquals(License.CC_BY_NC_4_0, License.fromLicenseUrl("http://creativecommons.org/licenses/by-nc/4.0/legalcode").get());
 
     // negative matches
     assertNull(License.fromLicenseUrl("CC0").orNull());
