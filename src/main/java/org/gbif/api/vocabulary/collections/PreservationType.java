@@ -1,4 +1,4 @@
-package org.gbif.api.model.collections.vocabulary;
+package org.gbif.api.vocabulary.collections;
 
 /**
  * Mechanism of preservation applied to a collection.

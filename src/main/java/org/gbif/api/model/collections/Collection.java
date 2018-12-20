@@ -1,8 +1,8 @@
 package org.gbif.api.model.collections;
 
-import org.gbif.api.model.collections.vocabulary.AccessionStatus;
-import org.gbif.api.model.collections.vocabulary.CollectionContentType;
-import org.gbif.api.model.collections.vocabulary.PreservationType;
+import org.gbif.api.vocabulary.collections.AccessionStatus;
+import org.gbif.api.vocabulary.collections.CollectionContentType;
+import org.gbif.api.vocabulary.collections.PreservationType;
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.Identifiable;
 import org.gbif.api.model.registry.Identifier;
@@ -34,7 +34,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
   private String code;
   private String name;
   private String description;
-  private List<CollectionContentType> contentType;
+  private List<CollectionContentType> contentTypes;
   private boolean active;
   private boolean personalCollection;
   private DOI doi;
@@ -133,12 +133,12 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
   /**
    * Content type of the elements found in a collection.
    */
-  public List<CollectionContentType> getContentType() {
-    return contentType;
+  public List<CollectionContentType> getContentTypes() {
+    return contentTypes;
   }
 
-  public void setContentType(List<CollectionContentType> contentType) {
-    this.contentType = contentType;
+  public void setContentTypes(List<CollectionContentType> contentTypes) {
+    this.contentTypes = contentTypes;
   }
 
   /**
@@ -347,7 +347,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
            && Objects.equals(code, that.code)
            && Objects.equals(name, that.name)
            && Objects.equals(description, that.description)
-           && Objects.equals(contentType, that.contentType)
+           && Objects.equals(contentTypes, that.contentTypes)
            && Objects.equals(doi, that.doi)
            && Objects.equals(homepage, that.homepage)
            && Objects.equals(catalogUrl, that.catalogUrl)
@@ -373,7 +373,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
                         code,
                         name,
                         description,
-                        contentType,
+                        contentTypes,
                         active,
                         personalCollection,
                         doi,
@@ -401,7 +401,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
       .add("code='" + code + "'")
       .add("name='" + name + "'")
       .add("description='" + description + "'")
-      .add("contentType=" + contentType)
+      .add("contentTypes=" + contentTypes)
       .add("active=" + active)
       .add("personalCollection=" + personalCollection)
       .add("doi=" + doi)
@@ -435,7 +435,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
            && Objects.equals(code, other.code)
            && Objects.equals(name, other.name)
            && Objects.equals(description, other.description)
-           && Objects.equals(contentType, other.contentType)
+           && Objects.equals(contentTypes, other.contentTypes)
            && Objects.equals(doi, other.doi)
            && Objects.equals(homepage, other.homepage)
            && Objects.equals(catalogUrl, other.catalogUrl)

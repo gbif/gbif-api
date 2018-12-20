@@ -1,8 +1,8 @@
 package org.gbif.api.model.collections;
 
-import org.gbif.api.model.collections.vocabulary.Discipline;
-import org.gbif.api.model.collections.vocabulary.InstitutionGovernance;
-import org.gbif.api.model.collections.vocabulary.InstitutionType;
+import org.gbif.api.vocabulary.collections.Discipline;
+import org.gbif.api.vocabulary.collections.InstitutionGovernance;
+import org.gbif.api.vocabulary.collections.InstitutionType;
 import org.gbif.api.model.registry.Identifiable;
 import org.gbif.api.model.registry.Identifier;
 import org.gbif.api.model.registry.LenientEquals;

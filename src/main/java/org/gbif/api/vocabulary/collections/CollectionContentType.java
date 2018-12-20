@@ -1,4 +1,4 @@
-package org.gbif.api.model.collections.vocabulary;
+package org.gbif.api.vocabulary.collections;
 
 /**
  * Types of a (sub) group of elements contained in collection..

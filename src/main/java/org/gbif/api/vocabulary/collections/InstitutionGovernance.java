@@ -1,4 +1,4 @@
-package org.gbif.api.model.collections.vocabulary;
+package org.gbif.api.vocabulary.collections;
 
 /**
  *  Mechanisms, processes and relations by which a institution is controlled and directed.

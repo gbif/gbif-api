@@ -1,4 +1,4 @@
-package org.gbif.api.model.collections.vocabulary;
+package org.gbif.api.vocabulary.collections;
 
 /**
  * Categorization of institutions (collection holders) types.

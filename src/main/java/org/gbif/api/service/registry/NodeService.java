@@ -18,6 +18,7 @@ import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Installation;
 import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
+import org.gbif.api.model.registry.search.KeyTitleResult;
 import org.gbif.api.vocabulary.Country;
 
 import java.util.List;
@@ -78,4 +79,9 @@ public interface NodeService extends NetworkEntityService<Node> {
    * @return list of datasets ordered by creation date with latest coming first
    */
   PagingResponse<Dataset> endorsedDatasets(@NotNull UUID nodeKey, @Nullable Pageable page);
+
+  /**
+   * Provides a simple suggest service.
+   */
+  List<KeyTitleResult> suggest(@Nullable String q);
 }

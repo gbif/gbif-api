@@ -1,4 +1,4 @@
-package org.gbif.api.model.collections.vocabulary;
+package org.gbif.api.vocabulary.collections;
 
 /**
  * Describe how a collection is added or joined to an institution.
