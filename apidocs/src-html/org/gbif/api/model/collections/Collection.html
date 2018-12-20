@@ -8,9 +8,9 @@
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>package org.gbif.api.model.collections;<a name="line.1"></a>
 <span class="sourceLineNo">002</span><a name="line.2"></a>
-<span class="sourceLineNo">003</span>import org.gbif.api.model.collections.vocabulary.AccessionStatus;<a name="line.3"></a>
-<span class="sourceLineNo">004</span>import org.gbif.api.model.collections.vocabulary.CollectionContentType;<a name="line.4"></a>
-<span class="sourceLineNo">005</span>import org.gbif.api.model.collections.vocabulary.PreservationType;<a name="line.5"></a>
+<span class="sourceLineNo">003</span>import org.gbif.api.vocabulary.collections.AccessionStatus;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import org.gbif.api.vocabulary.collections.CollectionContentType;<a name="line.4"></a>
+<span class="sourceLineNo">005</span>import org.gbif.api.vocabulary.collections.PreservationType;<a name="line.5"></a>
 <span class="sourceLineNo">006</span>import org.gbif.api.model.common.DOI;<a name="line.6"></a>
 <span class="sourceLineNo">007</span>import org.gbif.api.model.registry.Identifiable;<a name="line.7"></a>
 <span class="sourceLineNo">008</span>import org.gbif.api.model.registry.Identifier;<a name="line.8"></a>
@@ -42,7 +42,7 @@
 <span class="sourceLineNo">034</span>  private String code;<a name="line.34"></a>
 <span class="sourceLineNo">035</span>  private String name;<a name="line.35"></a>
 <span class="sourceLineNo">036</span>  private String description;<a name="line.36"></a>
-<span class="sourceLineNo">037</span>  private List&lt;CollectionContentType&gt; contentType;<a name="line.37"></a>
+<span class="sourceLineNo">037</span>  private List&lt;CollectionContentType&gt; contentTypes;<a name="line.37"></a>
 <span class="sourceLineNo">038</span>  private boolean active;<a name="line.38"></a>
 <span class="sourceLineNo">039</span>  private boolean personalCollection;<a name="line.39"></a>
 <span class="sourceLineNo">040</span>  private DOI doi;<a name="line.40"></a>
@@ -141,12 +141,12 @@
 <span class="sourceLineNo">133</span>  /**<a name="line.133"></a>
 <span class="sourceLineNo">134</span>   * Content type of the elements found in a collection.<a name="line.134"></a>
 <span class="sourceLineNo">135</span>   */<a name="line.135"></a>
-<span class="sourceLineNo">136</span>  public List&lt;CollectionContentType&gt; getContentType() {<a name="line.136"></a>
-<span class="sourceLineNo">137</span>    return contentType;<a name="line.137"></a>
+<span class="sourceLineNo">136</span>  public List&lt;CollectionContentType&gt; getContentTypes() {<a name="line.136"></a>
+<span class="sourceLineNo">137</span>    return contentTypes;<a name="line.137"></a>
 <span class="sourceLineNo">138</span>  }<a name="line.138"></a>
 <span class="sourceLineNo">139</span><a name="line.139"></a>
-<span class="sourceLineNo">140</span>  public void setContentType(List&lt;CollectionContentType&gt; contentType) {<a name="line.140"></a>
-<span class="sourceLineNo">141</span>    this.contentType = contentType;<a name="line.141"></a>
+<span class="sourceLineNo">140</span>  public void setContentTypes(List&lt;CollectionContentType&gt; contentTypes) {<a name="line.140"></a>
+<span class="sourceLineNo">141</span>    this.contentTypes = contentTypes;<a name="line.141"></a>
 <span class="sourceLineNo">142</span>  }<a name="line.142"></a>
 <span class="sourceLineNo">143</span><a name="line.143"></a>
 <span class="sourceLineNo">144</span>  /**<a name="line.144"></a>
@@ -355,7 +355,7 @@
 <span class="sourceLineNo">347</span>           &amp;&amp; Objects.equals(code, that.code)<a name="line.347"></a>
 <span class="sourceLineNo">348</span>           &amp;&amp; Objects.equals(name, that.name)<a name="line.348"></a>
 <span class="sourceLineNo">349</span>           &amp;&amp; Objects.equals(description, that.description)<a name="line.349"></a>
-<span class="sourceLineNo">350</span>           &amp;&amp; Objects.equals(contentType, that.contentType)<a name="line.350"></a>
+<span class="sourceLineNo">350</span>           &amp;&amp; Objects.equals(contentTypes, that.contentTypes)<a name="line.350"></a>
 <span class="sourceLineNo">351</span>           &amp;&amp; Objects.equals(doi, that.doi)<a name="line.351"></a>
 <span class="sourceLineNo">352</span>           &amp;&amp; Objects.equals(homepage, that.homepage)<a name="line.352"></a>
 <span class="sourceLineNo">353</span>           &amp;&amp; Objects.equals(catalogUrl, that.catalogUrl)<a name="line.353"></a>
@@ -381,7 +381,7 @@
 <span class="sourceLineNo">373</span>                        code,<a name="line.373"></a>
 <span class="sourceLineNo">374</span>                        name,<a name="line.374"></a>
 <span class="sourceLineNo">375</span>                        description,<a name="line.375"></a>
-<span class="sourceLineNo">376</span>                        contentType,<a name="line.376"></a>
+<span class="sourceLineNo">376</span>                        contentTypes,<a name="line.376"></a>
 <span class="sourceLineNo">377</span>                        active,<a name="line.377"></a>
 <span class="sourceLineNo">378</span>                        personalCollection,<a name="line.378"></a>
 <span class="sourceLineNo">379</span>                        doi,<a name="line.379"></a>
@@ -409,7 +409,7 @@
 <span class="sourceLineNo">401</span>      .add("code='" + code + "'")<a name="line.401"></a>
 <span class="sourceLineNo">402</span>      .add("name='" + name + "'")<a name="line.402"></a>
 <span class="sourceLineNo">403</span>      .add("description='" + description + "'")<a name="line.403"></a>
-<span class="sourceLineNo">404</span>      .add("contentType=" + contentType)<a name="line.404"></a>
+<span class="sourceLineNo">404</span>      .add("contentTypes=" + contentTypes)<a name="line.404"></a>
 <span class="sourceLineNo">405</span>      .add("active=" + active)<a name="line.405"></a>
 <span class="sourceLineNo">406</span>      .add("personalCollection=" + personalCollection)<a name="line.406"></a>
 <span class="sourceLineNo">407</span>      .add("doi=" + doi)<a name="line.407"></a>
@@ -443,7 +443,7 @@
 <span class="sourceLineNo">435</span>           &amp;&amp; Objects.equals(code, other.code)<a name="line.435"></a>
 <span class="sourceLineNo">436</span>           &amp;&amp; Objects.equals(name, other.name)<a name="line.436"></a>
 <span class="sourceLineNo">437</span>           &amp;&amp; Objects.equals(description, other.description)<a name="line.437"></a>
-<span class="sourceLineNo">438</span>           &amp;&amp; Objects.equals(contentType, other.contentType)<a name="line.438"></a>
+<span class="sourceLineNo">438</span>           &amp;&amp; Objects.equals(contentTypes, other.contentTypes)<a name="line.438"></a>
 <span class="sourceLineNo">439</span>           &amp;&amp; Objects.equals(doi, other.doi)<a name="line.439"></a>
 <span class="sourceLineNo">440</span>           &amp;&amp; Objects.equals(homepage, other.homepage)<a name="line.440"></a>
 <span class="sourceLineNo">441</span>           &amp;&amp; Objects.equals(catalogUrl, other.catalogUrl)<a name="line.441"></a>
