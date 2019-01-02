@@ -61,11 +61,17 @@ public class ContactTest {
     c.addUserId("http://orcid.org", "https://orcid.org/0000-0003-0623-6682");
     assertEquals("https://orcid.org/0000-0003-0623-6682", c.getUserId().get(14));
 
+    c.addUserId("http://orcid.org", "orcid.org/0000-0003-0623-6682");
+    assertEquals("http://orcid.org/0000-0003-0623-6682", c.getUserId().get(15));
+
+    c.addUserId("https://orcid.org", "orcid.org/0000-0003-0623-6682");
+    assertEquals("https://orcid.org/0000-0003-0623-6682", c.getUserId().get(16));
+
     c.addUserId("https://scholar.google.com/citations?user=", "https://scholar.google.com/citations?user=jvW0IrIAAAAJ");
-    assertEquals("https://scholar.google.com/citations?user=jvW0IrIAAAAJ", c.getUserId().get(15));
+    assertEquals("https://scholar.google.com/citations?user=jvW0IrIAAAAJ", c.getUserId().get(17));
 
     // Just to check this test is written correctly.
-    assertEquals(16, c.getUserId().size());
+    assertEquals(18, c.getUserId().size());
   }
 
   @Test

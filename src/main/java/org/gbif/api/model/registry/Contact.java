@@ -119,6 +119,9 @@ public class Contact implements Address, LenientEquals<Contact> {
               || id.startsWith(dir2.replace("http://", "https://"))
               || id.startsWith(dir2.replace("https://", "http://"))) {
               userId.add(id);
+            // Check if the id is prefixed with the hostname.
+            } else if (id.startsWith(dir.getHost())) {
+              userId.add(dir.getScheme() + "://" + id);
             } else {
               userId.add(dir2 + id);
             }
