@@ -4,6 +4,9 @@ import org.gbif.api.model.occurrence.sql.serde.QueryIssueSerde;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+/**
+ * SQL Download API Query Issues listed with there descriptions.
+ */
 public class Query {
 
   private static final String FORMAT =
