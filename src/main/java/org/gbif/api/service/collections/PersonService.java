@@ -3,7 +3,9 @@ package org.gbif.api.service.collections;
 import org.gbif.api.model.collections.Person;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
+import org.gbif.api.model.registry.search.collections.PersonSuggestResult;
 
+import java.util.List;
 import java.util.UUID;
 import javax.annotation.Nullable;
 
@@ -36,4 +38,9 @@ public interface PersonService extends CrudService<Person> {
    * @return a list of entities ordered by their creation date, newest coming first
    */
   PagingResponse<Person> list(@Nullable String query, @Nullable UUID institutionKey, @Nullable UUID collectionKey, @Nullable Pageable page);
+
+  /**
+   * Provides a simple suggest service.
+   */
+  List<PersonSuggestResult> suggest(@Nullable String q);
 }
