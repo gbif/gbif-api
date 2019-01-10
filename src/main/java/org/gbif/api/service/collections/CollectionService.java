@@ -3,9 +3,11 @@ package org.gbif.api.service.collections;
 import org.gbif.api.model.collections.Collection;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
+import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;
 import org.gbif.api.service.registry.IdentifierService;
 import org.gbif.api.service.registry.TagService;
 
+import java.util.List;
 import java.util.UUID;
 import javax.annotation.Nullable;
 
@@ -39,4 +41,9 @@ public interface CollectionService
    * @return a list of entities ordered by their creation date, newest coming first
    */
   PagingResponse<Collection> list(@Nullable String query, @Nullable UUID institutionKey, @Nullable UUID contactKey, @Nullable Pageable page);
+
+  /**
+   * Provides a simple suggest service.
+   */
+  List<KeyCodeNameResult> suggest(@Nullable String q);
 }

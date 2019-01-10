@@ -16,7 +16,9 @@ import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Installation;
+import org.gbif.api.model.registry.search.KeyTitleResult;
 
+import java.util.List;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -40,4 +42,9 @@ public interface InstallationService
    * Provides access to installations that serve no datasets.
    */
   PagingResponse<Installation> listNonPublishing(@Nullable Pageable page);
+
+  /**
+   * Provides a simple suggest service.
+   */
+  List<KeyTitleResult> suggest(@Nullable String q);
 }
