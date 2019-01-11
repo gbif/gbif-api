@@ -43,6 +43,11 @@ public interface CollectionService
   PagingResponse<Collection> list(@Nullable String query, @Nullable UUID institutionKey, @Nullable UUID contactKey, @Nullable Pageable page);
 
   /**
+   * Provides access to deleted collections.
+   */
+  PagingResponse<Collection> listDeleted(@Nullable Pageable page);
+
+  /**
    * Provides a simple suggest service.
    */
   List<KeyCodeNameResult> suggest(@Nullable String q);

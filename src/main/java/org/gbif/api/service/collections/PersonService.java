@@ -40,6 +40,11 @@ public interface PersonService extends CrudService<Person> {
   PagingResponse<Person> list(@Nullable String query, @Nullable UUID institutionKey, @Nullable UUID collectionKey, @Nullable Pageable page);
 
   /**
+   * Provides access to deleted persons.
+   */
+  PagingResponse<Person> listDeleted(@Nullable Pageable page);
+
+  /**
    * Provides a simple suggest service.
    */
   List<PersonSuggestResult> suggest(@Nullable String q);

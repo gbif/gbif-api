@@ -42,6 +42,11 @@ public interface InstitutionService
   PagingResponse<Institution> list(@Nullable String query, @Nullable UUID contactKey, @Nullable Pageable page);
 
   /**
+   * Provides access to deleted institutions.
+   */
+  PagingResponse<Institution> listDeleted(@Nullable Pageable page);
+
+  /**
    * Provides a simple suggest service.
    */
   List<KeyCodeNameResult> suggest(@Nullable String q);
