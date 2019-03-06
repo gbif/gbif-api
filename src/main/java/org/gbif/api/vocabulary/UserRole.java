@@ -65,6 +65,15 @@ public enum UserRole {
    * A Catalogue of Life editor with permissions to manage datasets and assemblies.
    * Exact permissions are handled by the CoL itself.
    */
-  COL_EDITOR
-  
+  COL_EDITOR,
+
+  /**
+   * A vocabulary administrator with all permissions.
+   */
+  VOCABULARY_ADMIN,
+
+  /**
+   * A vocabulary editor with limited permissions.
+   */
+  VOCABULARY_EDITOR
 }
