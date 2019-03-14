@@ -714,9 +714,9 @@ public enum Country {
   MACAO("MO", "MAC", 446, "Macao", GbifRegion.ASIA),
 
   /**
-   * Macedonia, the former Yugoslav Republic of.
+   * North Macedonia.
    */
-  MACEDONIA("MK", "MKD", 807, "Macedonia, the former Yugoslav Republic of", GbifRegion.EUROPE),
+  MACEDONIA("MK", "MKD", 807, "North Macedonia", GbifRegion.EUROPE),
 
   /**
    * Madagascar.
