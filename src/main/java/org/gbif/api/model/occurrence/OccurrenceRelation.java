@@ -8,8 +8,8 @@ import com.google.common.base.Objects;
  */
 public class OccurrenceRelation {
   private String id;  // resourceRelationshipID
-  private int occurrenceId;  // "from" resourceID
-  private int relatedOccurrenceId;  // "to" relatedResourceID
+  private long occurrenceId;  // "from" resourceID
+  private long relatedOccurrenceId;  // "to" relatedResourceID
   private String type;  // relationshipOfResource
   private String accordingTo; // relationshipAccordingTo
   private String establishedDate;  // relationshipEstablishedDate
@@ -23,19 +23,19 @@ public class OccurrenceRelation {
     this.id = id;
   }
 
-  public int getOccurrenceId() {
+  public long getOccurrenceId() {
     return occurrenceId;
   }
 
-  public void setOccurrenceId(int occurrenceId) {
+  public void setOccurrenceId(long occurrenceId) {
     this.occurrenceId = occurrenceId;
   }
 
-  public int getRelatedOccurrenceId() {
+  public long getRelatedOccurrenceId() {
     return relatedOccurrenceId;
   }
 
-  public void setRelatedOccurrenceId(int relatedOccurrenceId) {
+  public void setRelatedOccurrenceId(long relatedOccurrenceId) {
     this.relatedOccurrenceId = relatedOccurrenceId;
   }
 

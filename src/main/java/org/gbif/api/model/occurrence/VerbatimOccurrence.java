@@ -46,7 +46,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class VerbatimOccurrence {
 
-  private Integer key;
+  private Long key;
   private UUID datasetKey;
   private UUID publishingOrgKey;
   private List<UUID> networkKeys;
@@ -95,11 +95,11 @@ public class VerbatimOccurrence {
    * OccurrenceID itself is kept in the verbatim verbatimFields map.
    */
   @NotNull
-  public Integer getKey() {
+  public Long getKey() {
     return key;
   }
 
-  public void setKey(Integer key) {
+  public void setKey(Long key) {
     this.key = key;
   }
 

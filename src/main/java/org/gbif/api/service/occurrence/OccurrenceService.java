@@ -26,14 +26,14 @@ public interface OccurrenceService {
   /**
    * Attempt to find an occurrence matching the passed key.
    *
-   * @param key that identifies an occurrence (Integer rather than int for use in methods/classes using generic types)
+   * @param key that identifies an occurrence (Long rather than long for use in methods/classes using generic types)
    *
    * @return a matching occurrence, or null if no occurrence can be found
    *
    * @throws ServiceUnavailableException if the underlying data connection fails
    */
   @Nullable
-  Occurrence get(Integer key);
+  Occurrence get(Long key);
 
   /**
    * Attempt to find the verbatim values for an occurrence matching the passed key.
@@ -45,7 +45,7 @@ public interface OccurrenceService {
    * @throws ServiceUnavailableException if the underlying data connection fails
    */
   @Nullable
-  VerbatimOccurrence getVerbatim(Integer key);
+  VerbatimOccurrence getVerbatim(Long key);
 
   /**
    * Returns the "fragment" of raw data (either xml response fragment or json dwca fragment) for the passed in key.
@@ -58,5 +58,5 @@ public interface OccurrenceService {
    * @throws ServiceUnavailableException if the underlying data connection fails
    */
   @Nullable
-  String getFragment(int key);
+  String getFragment(long key);
 }

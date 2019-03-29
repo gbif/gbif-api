@@ -55,7 +55,7 @@ public class OccurrenceTest {
 
   private ObjectMapper mapper;
 
-  private final Integer key = 321;
+  private final Long key = 321l;
   private final UUID datasetKey = UUID.randomUUID();
   private final String sciName = "Abies alba";
   private final Country country = Country.ALGERIA;
@@ -171,7 +171,7 @@ public class OccurrenceTest {
   @Test
   public void testProtocolAndPublishingCountry() {
     Occurrence occ = new Occurrence();
-    occ.setKey(1);
+    occ.setKey(1l);
     occ.setDatasetKey(UUID.randomUUID());
     occ.setProtocol(EndpointType.BIOCASE);
     occ.setPublishingCountry(Country.AFGHANISTAN);
@@ -217,7 +217,7 @@ public class OccurrenceTest {
   @Test
   public void testVerbatimConstructor() {
     VerbatimOccurrence verb = new VerbatimOccurrence();
-    verb.setKey(123);
+    verb.setKey(123l);
     verb.setDatasetKey(UUID.randomUUID());
     verb.setPublishingOrgKey(UUID.randomUUID());
     verb.setPublishingCountry(Country.AFGHANISTAN);
@@ -251,7 +251,7 @@ public class OccurrenceTest {
   @Test
   public void testVerbatimMapSerde() throws Exception {
     Occurrence o = new Occurrence();
-    o.setKey(7);
+    o.setKey(7l);
     o.setLastParsed(new Date());
     o.setDatasetKey(UUID.randomUUID());
     o.setCountry(Country.ALBANIA);
@@ -320,7 +320,7 @@ public class OccurrenceTest {
   @Test
   public void testCustomSerlializations() throws Exception {
     Occurrence o = new Occurrence();
-    o.setKey(7);
+    o.setKey(7l);
     o.setCountry(Country.ALGERIA);
     o.setClassKey(999);
     o.setClazz("Insecta");
@@ -367,7 +367,7 @@ public class OccurrenceTest {
   @Test
   public void testExtensionsSerlializations() throws Exception {
     Occurrence o = new Occurrence();
-    o.setKey(7);
+    o.setKey(7l);
     o.setCountry(Country.ALGERIA);
     o.setClassKey(999);
     o.setClazz("Insecta");

@@ -96,7 +96,7 @@ public class VerbatimOccurrenceTest {
 
 
     VerbatimOccurrence verb = new VerbatimOccurrence();
-    verb.setKey(123);
+    verb.setKey(123l);
     String termPrefix = "I am Jack's ";
     for (Term term : DwcTerm.values()) {
       verb.setVerbatimField(term, termPrefix + term);
@@ -140,7 +140,7 @@ public class VerbatimOccurrenceTest {
     mapper.disable(SerializationConfig.Feature.WRITE_NULL_PROPERTIES);
 
     VerbatimOccurrence v = new VerbatimOccurrence();
-    v.setKey(7);
+    v.setKey(7l);
     v.setLastParsed(new Date());
     v.setDatasetKey(UUID.randomUUID());
 
@@ -209,7 +209,7 @@ public class VerbatimOccurrenceTest {
     verbatimRecord.put(DcTerm.identifier, "http://www.gbif.org/");
 
     VerbatimOccurrence v = new VerbatimOccurrence();
-    v.setKey(7);
+    v.setKey(7l);
     v.setLastParsed(new Date());
     v.setDatasetKey(UUID.randomUUID());
     Map<Extension, List<Map<Term, String>>> extensions = new HashMap<Extension, List<Map<Term, String>>>();
