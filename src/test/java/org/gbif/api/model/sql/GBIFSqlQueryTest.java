@@ -31,7 +31,8 @@ public class GBIFSqlQueryTest {
       {"SELECT * from occ WHERE X > 23 EXPORT   AS    TSV", "SELECT * from occ WHERE X > 23", SqlDownloadExportFormat.TSV },
       {"SELECT * from occ WHERE X > 23 EXPORT   AS    tsv", "SELECT * from occ WHERE X > 23", SqlDownloadExportFormat.TSV },
       {"SELECT * from occ WHERE X > 23 EXPORT AS AVRO", "SELECT * from occ WHERE X > 23", SqlDownloadExportFormat.AVRO },
-      {"SELECT * from occ WHERE X > 23 EXPORT   AS    AVRO", "SELECT * from occ WHERE X > 23", SqlDownloadExportFormat.AVRO },
+      {"SELECT * from occ WHERE X > 23 export as AVRO", "SELECT * from occ WHERE X > 23", SqlDownloadExportFormat.AVRO },
+      {"SELECT * from occ WHERE X > 23 EXPORT   as    AVRO", "SELECT * from occ WHERE X > 23", SqlDownloadExportFormat.AVRO },
       {"SELECT * from occ WHERE X > 23 EXPORT   AS    Avro", "SELECT * from occ WHERE X > 23", SqlDownloadExportFormat.AVRO }
     });
   }

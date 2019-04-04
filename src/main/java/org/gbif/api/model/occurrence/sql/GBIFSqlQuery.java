@@ -9,7 +9,7 @@ import javax.validation.ValidationException;
  */
 public class GBIFSqlQuery {
 
-  private static final String EXPORT_AS = "EXPORT\\s+AS";
+  private static final String EXPORT_AS = "(?i)EXPORT\\s+AS";
 
   private final String uncheckedHiveQuery;
   private final SqlDownloadExportFormat sqlDownloadExportFormat;
