@@ -75,5 +75,15 @@ public enum UserRole {
   /**
    * A vocabulary editor with limited permissions.
    */
-  VOCABULARY_EDITOR
+  VOCABULARY_EDITOR,
+
+  /**
+   * A grscicoll administrator with all permissions.
+   */
+  GRSCICOLL_ADMIN,
+
+  /**
+   * A grscicoll editor with limited permissions.
+   */
+  GRSCICOLL_EDITOR
 }
