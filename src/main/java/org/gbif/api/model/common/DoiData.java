@@ -28,8 +28,7 @@ public class DoiData {
     this.target = target;
   }
 
-  @JsonCreator
-  public DoiData(@JsonProperty("status") DoiStatus status) {
+  public DoiData(DoiStatus status) {
     this.status = Preconditions.checkNotNull(status, "DOI status is required");
     this.target = null;
   }
