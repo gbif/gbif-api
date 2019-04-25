@@ -28,6 +28,11 @@ public class DoiData {
     this.target = target;
   }
 
+  public DoiData(DoiStatus status) {
+    this.status = Preconditions.checkNotNull(status, "DOI status is required");
+    this.target = null;
+  }
+
   @NotNull
   public DoiStatus getStatus() {
     return status;
