@@ -35,12 +35,12 @@ import java.util.UUID;
 public enum OccurrenceSearchParameter implements SearchParameter {
 
   /**
-   * The dataset key as a uuid.
+   * The dataset key as a UUID.
    */
   DATASET_KEY(UUID.class),
 
   /**
-   * The 4 digit year. A year of 98 will be 98 after christ, no 1998.
+   * The 4 digit year. A year of 98 will be 98 common era, not 1998.
    * This parameter accepts comma separated range values, e.g.:
    * <dl>
    * <dt>*,1810</dt>
@@ -283,7 +283,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
 
 
   /**
-   * Geometry in <a href="http://en.wikipedia.org/wiki/Well-known_text">Well Known Text</a> (WKT) format.
+   * Geometry in <a href="https://en.wikipedia.org/wiki/Well-known_text">Well Known Text</a> (WKT) format.
    * E.g.: POLYGON ((30.0 10.0, 10.12 20.23, 20 40, 40 40, 30 10)).
    * Multi geometries like MULTIPOLYGON are not supported and multiple parameters should be used instead.
    * Valid geometries are:
@@ -391,7 +391,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Crawl attempt that harvested this record.
    */
-  CRAWL_ID(UUID.class);
+  CRAWL_ID(Integer.class);
 
   private final Class<?> type;
 
