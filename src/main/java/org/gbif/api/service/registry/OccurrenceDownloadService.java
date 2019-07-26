@@ -57,9 +57,12 @@ public interface OccurrenceDownloadService {
 
   /**
    * Retrieves a pageable result of the dataset usages in a occurrence download.
+   *
+   * The Downloads in the DatasetOccurrenceDownloadUsages are null, to avoid redundant repetition of potentially large
+   * objects.
    */
   PagingResponse<DatasetOccurrenceDownloadUsage> listDatasetUsages(@NotNull String downloadKey,
-                                                                @Nullable Pageable page);
+                                                                   @Nullable Pageable page);
 
   /**
    * Retrieves downloads monthly stats by country (user and publishing country) and dataset.
