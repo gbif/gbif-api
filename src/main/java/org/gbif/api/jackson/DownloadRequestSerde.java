@@ -22,16 +22,14 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Throwables;
 
 /**
- * 
  * Download request deserializer.
- *
  */
 public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
 
   private static final String PREDICATE = "predicate";
   private static final String SQL = "sql";
   private static final String SEND_NOTIFICATION = "send_notification";
-  private static final String NOTIFICATION_ADDRESS = "notification_address";
+  private static final String NOTIFICATION_ADDRESSES = "notification_addresses";
   private static final String CREATOR = "creator";
   private static final String FORMAT = "format";
   private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);
@@ -49,7 +47,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
       .map(n -> VocabularyUtils.lookupEnum(n.asText(), DownloadFormat.class)).orElse(DownloadFormat.DWCA);
     String creator = Optional.ofNullable(node.get(CREATOR)).map(JsonNode::asText).orElse(null);
 
-    List<String> notificationAddress = Optional.ofNullable(node.get(NOTIFICATION_ADDRESS)).map(jsonNode -> {
+    List<String> notificationAddresses = Optional.ofNullable(node.get(NOTIFICATION_ADDRESSES)).map(jsonNode -> {
       try {
         return Arrays.asList(MAPPER.readValue(jsonNode, String[].class));
       } catch (Exception e) {
@@ -61,12 +59,11 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
 
     if (DownloadFormat.SQL == format) {
       String sql = Optional.ofNullable(node.get(SQL)).map(JsonNode::asText).orElse(null);
-      return new SqlDownloadRequest(sql, creator, notificationAddress, sendNotification);
+      return new SqlDownloadRequest(sql, creator, notificationAddresses, sendNotification);
     } else {
       JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);
       Predicate predicateObj = predicate == null ? null : MAPPER.readValue(predicate, Predicate.class);
-      return new PredicateDownloadRequest(predicateObj, creator, notificationAddress, sendNotification, format);
+      return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format);
     }
   }
 }
-
