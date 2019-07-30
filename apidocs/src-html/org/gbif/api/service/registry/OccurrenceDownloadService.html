@@ -65,29 +65,32 @@
 <span class="sourceLineNo">057</span><a name="line.57"></a>
 <span class="sourceLineNo">058</span>  /**<a name="line.58"></a>
 <span class="sourceLineNo">059</span>   * Retrieves a pageable result of the dataset usages in a occurrence download.<a name="line.59"></a>
-<span class="sourceLineNo">060</span>   */<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  PagingResponse&lt;DatasetOccurrenceDownloadUsage&gt; listDatasetUsages(@NotNull String downloadKey,<a name="line.61"></a>
-<span class="sourceLineNo">062</span>                                                                @Nullable Pageable page);<a name="line.62"></a>
-<span class="sourceLineNo">063</span><a name="line.63"></a>
-<span class="sourceLineNo">064</span>  /**<a name="line.64"></a>
-<span class="sourceLineNo">065</span>   * Retrieves downloads monthly stats by country (user and publishing country) and dataset.<a name="line.65"></a>
-<span class="sourceLineNo">066</span>   */<a name="line.66"></a>
-<span class="sourceLineNo">067</span>  Map&lt;Integer,Map&lt;Integer,Long&gt;&gt; getDownloadsByUserCountry(@Nullable Date fromDate, @Nullable  Date toDate,<a name="line.67"></a>
-<span class="sourceLineNo">068</span>                                                           @Nullable Country userCountry);<a name="line.68"></a>
-<span class="sourceLineNo">069</span><a name="line.69"></a>
-<span class="sourceLineNo">070</span>  /**<a name="line.70"></a>
-<span class="sourceLineNo">071</span>   * Retrieves downloaded records monthly stats by country (user and publishing country) and dataset.<a name="line.71"></a>
-<span class="sourceLineNo">072</span>   */<a name="line.72"></a>
-<span class="sourceLineNo">073</span>  Map&lt;Integer,Map&lt;Integer,Long&gt;&gt; getDownloadedRecordsByDataset(@Nullable Date fromDate, @Nullable  Date toDate,<a name="line.73"></a>
-<span class="sourceLineNo">074</span>                                                               @Nullable Country publishingCountry,<a name="line.74"></a>
-<span class="sourceLineNo">075</span>                                                               @Nullable UUID datasetKey);<a name="line.75"></a>
-<span class="sourceLineNo">076</span>  /**<a name="line.76"></a>
-<span class="sourceLineNo">077</span>   * Persists usages of datasets in an occurrence download.<a name="line.77"></a>
-<span class="sourceLineNo">078</span>   * @param downloadKey downloadkey of the datasets usage information.<a name="line.78"></a>
-<span class="sourceLineNo">079</span>   * @param datasetCitations map of datasetkey as key and number of records as value.<a name="line.79"></a>
-<span class="sourceLineNo">080</span>   */<a name="line.80"></a>
-<span class="sourceLineNo">081</span>  void createUsages(@NotNull String downloadKey, @NotNull Map&lt;UUID, Long&gt; datasetCitations);<a name="line.81"></a>
-<span class="sourceLineNo">082</span>}<a name="line.82"></a>
+<span class="sourceLineNo">060</span>   *<a name="line.60"></a>
+<span class="sourceLineNo">061</span>   * The Downloads in the DatasetOccurrenceDownloadUsages are null, to avoid redundant repetition of potentially large<a name="line.61"></a>
+<span class="sourceLineNo">062</span>   * objects.<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   */<a name="line.63"></a>
+<span class="sourceLineNo">064</span>  PagingResponse&lt;DatasetOccurrenceDownloadUsage&gt; listDatasetUsages(@NotNull String downloadKey,<a name="line.64"></a>
+<span class="sourceLineNo">065</span>                                                                   @Nullable Pageable page);<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>  /**<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   * Retrieves downloads monthly stats by country (user and publishing country) and dataset.<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   */<a name="line.69"></a>
+<span class="sourceLineNo">070</span>  Map&lt;Integer,Map&lt;Integer,Long&gt;&gt; getDownloadsByUserCountry(@Nullable Date fromDate, @Nullable  Date toDate,<a name="line.70"></a>
+<span class="sourceLineNo">071</span>                                                           @Nullable Country userCountry);<a name="line.71"></a>
+<span class="sourceLineNo">072</span><a name="line.72"></a>
+<span class="sourceLineNo">073</span>  /**<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   * Retrieves downloaded records monthly stats by country (user and publishing country) and dataset.<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   */<a name="line.75"></a>
+<span class="sourceLineNo">076</span>  Map&lt;Integer,Map&lt;Integer,Long&gt;&gt; getDownloadedRecordsByDataset(@Nullable Date fromDate, @Nullable  Date toDate,<a name="line.76"></a>
+<span class="sourceLineNo">077</span>                                                               @Nullable Country publishingCountry,<a name="line.77"></a>
+<span class="sourceLineNo">078</span>                                                               @Nullable UUID datasetKey);<a name="line.78"></a>
+<span class="sourceLineNo">079</span>  /**<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   * Persists usages of datasets in an occurrence download.<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   * @param downloadKey downloadkey of the datasets usage information.<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   * @param datasetCitations map of datasetkey as key and number of records as value.<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   */<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  void createUsages(@NotNull String downloadKey, @NotNull Map&lt;UUID, Long&gt; datasetCitations);<a name="line.84"></a>
+<span class="sourceLineNo">085</span>}<a name="line.85"></a>
 
 
 
