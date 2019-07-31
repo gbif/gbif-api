@@ -30,10 +30,10 @@ public abstract class DownloadRequest {
   @JsonProperty("creator")
   private String creator;
 
-  @JsonProperty("notification_addresses")
+  @JsonProperty("notificationAddresses")
   private Set<String> notificationAddresses;
 
-  @JsonProperty("send_notification")
+  @JsonProperty("sendNotification")
   private boolean sendNotification;
 
   @JsonProperty("format")

@@ -41,28 +41,38 @@ public class DownloadRequestTest {
   private static final String TEST_USER = "user@gbif.org";
   private static final String TEST_EMAIL = "test@gbif.org";
 
-  private static final String SQL_REQUEST = "{\"creator\":\"" + TEST_USER + "\","
-      + "\"notification_address\": [\"" + TEST_EMAIL +"\"],"
+  // Note these include each combination of underscores or camel case for notificationAddresses and sendNotification.
+
+  private static final String SQL_REQUEST = "{"
+      + " \"creator\":\"" + TEST_USER + "\","
+      + " \"notificationAddresses\": [\"" + TEST_EMAIL +"\"],"
+      + " \"sendNotification\":\"true\","
       + " \"format\": \"SQL\","
       + " \"sql\": \"SELECT basisOfRecord, count(DISTINCT speciesKey) AS speciesCount FROM occurrence WHERE year=2018 GROUP BY basisOfRecord\""
       + "}";
 
-  private static final String SIMPLE_CSV = "{\"creator\":\"" + TEST_USER + "\", "
-      + "\"notification_address\": [\"" + TEST_EMAIL +"\"],"
-      + "  \"send_notification\":\"true\"," + "  \"format\": \"SIMPLE_CSV\","
-      + "  \"predicate\":{\"type\":\"equals\",\"key\":\"TAXON_KEY\",\"value\":\"3\"}"
-    + "}";
+  private static final String SIMPLE_CSV = "{"
+      + " \"creator\":\"" + TEST_USER + "\", "
+      + " \"notification_addresses\": [\"" + TEST_EMAIL +"\"],"
+      + " \"send_notification\":\"true\","
+      + " \"format\": \"SIMPLE_CSV\","
+      + " \"predicate\":{\"type\":\"equals\",\"key\":\"TAXON_KEY\",\"value\":\"3\"}"
+      + "}";
   
-  private static final String SIMPLE_CSV_NULL_PREDICATE = "{\"creator\":\"" + TEST_USER + "\", "
-      + "\"notification_address\": [\"" + TEST_EMAIL +"\"],"
-      + "  \"send_notification\":\"true\"," + "  \"format\": \"SIMPLE_CSV\""
-    + "}";
+  private static final String SIMPLE_CSV_NULL_PREDICATE = "{"
+      + " \"creator\":\"" + TEST_USER + "\", "
+      + " \"notificationAddress\": [\"" + TEST_EMAIL +"\"],"
+      + " \"sendNotification\":\"true\","
+      + " \"format\": \"SIMPLE_CSV\""
+      + "}";
   
-  private static final String SIMPLE_CSV_NULL_PREDICATE_AVAIL = "{\"creator\":\"" + TEST_USER + "\", "
-      + "\"notification_address\": [\"" + TEST_EMAIL +"\"],"
-      + "  \"send_notification\":\"true\"," + "  \"format\": \"SIMPLE_CSV\","
-      + "  \"predicate\": null"
-    + "}";
+  private static final String SIMPLE_CSV_NULL_PREDICATE_AVAIL = "{"
+      + " \"creator\":\"" + TEST_USER + "\", "
+      + " \"notification_address\": [\"" + TEST_EMAIL +"\"],"
+      + " \"send_notification\":\"true\","
+      + " \"format\": \"SIMPLE_CSV\","
+      + " \"predicate\": null"
+      + "}";
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -95,7 +105,6 @@ public class DownloadRequestTest {
     assertThat(dl.getPredicate(), equalTo(p));
   }
 
-
   @Test
   public void testEquals() {
     Predicate p = mock(Predicate.class);
@@ -105,7 +114,6 @@ public class DownloadRequestTest {
 
     assertThat(dl1, both(equalTo(dl1)).and(equalTo(dl2)));
   }
-
 
   @Test
   public void testHashcode() {
@@ -139,6 +147,8 @@ public class DownloadRequestTest {
     assertEquals(TEST_USER, request.getCreator());
     assertNotNull(request.getSql());
     assertEquals(DownloadFormat.SQL, request.getFormat());
+    assertTrue(request.getSendNotification());
+    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
   }
 
   @Test
@@ -146,6 +156,8 @@ public class DownloadRequestTest {
     DownloadRequest request = MAPPER.readValue(SIMPLE_CSV, PredicateDownloadRequest.class);
     assertEquals(TEST_USER, request.getCreator());
     assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
+    assertTrue(request.getSendNotification());
+    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
   }
 
   @Test
@@ -153,20 +165,25 @@ public class DownloadRequestTest {
     DownloadRequest request = MAPPER.readValue(SIMPLE_CSV, DownloadRequest.class);
     assertEquals(TEST_USER, request.getCreator());
     assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
+    assertTrue(request.getSendNotification());
+    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
   }
   
   @Test
   public void testDownloadRequestSerde1() throws IOException {
     DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE, DownloadRequest.class);
     assertNull(((PredicateDownloadRequest)request).getPredicate());
+    assertTrue(request.getSendNotification());
+    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
   }
   
   @Test
   public void testDownloadRequestSerde2() throws IOException {
     DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE_AVAIL, DownloadRequest.class);
     assertNull(((PredicateDownloadRequest)request).getPredicate());
+    assertTrue(request.getSendNotification());
+    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
   }
-
 
   /**
    * Tests that an empty JSON {} is translated into null.

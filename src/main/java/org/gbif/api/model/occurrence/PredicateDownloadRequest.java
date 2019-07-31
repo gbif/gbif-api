@@ -30,8 +30,8 @@ public class PredicateDownloadRequest extends DownloadRequest {
   @JsonCreator
   public PredicateDownloadRequest(@JsonProperty("predicate") Predicate predicate,
                                   @JsonProperty("creator") @Nullable String creator,
-                                  @JsonProperty("notification_address") @Nullable Collection<String> notificationAddresses,
-                                  @JsonProperty("send_notification") boolean sendNotification,
+                                  @JsonProperty("notificationAddresses") @Nullable Collection<String> notificationAddresses,
+                                  @JsonProperty("sendNotification") boolean sendNotification,
                                   @JsonProperty("format") DownloadFormat format) {
     super(creator, notificationAddresses, sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format);
     this.predicate = predicate;

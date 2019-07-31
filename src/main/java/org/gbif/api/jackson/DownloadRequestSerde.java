@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import com.google.common.collect.ImmutableList;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonProcessingException;
@@ -23,13 +25,23 @@ import com.google.common.base.Throwables;
 
 /**
  * Download request deserializer.
+ *
+ * For most of the time, the serialization has been to "notificationAddresses" and "sendNotification".  For a few months
+ * in 2018-2019, it was "notification_address" and "send_notification".
+ *
+ * The API documentation has previously specified "notification_address" and "sendNotification".
+ *
+ * We therefore accept all combinations.
+ *
+ * https://github.com/gbif/portal-feedback/issues/2046
  */
 public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
 
   private static final String PREDICATE = "predicate";
   private static final String SQL = "sql";
-  private static final String SEND_NOTIFICATION = "send_notification";
-  private static final String NOTIFICATION_ADDRESSES = "notification_addresses";
+  private static final List<String> SEND_NOTIFICATION = ImmutableList.of("sendNotification", "send_notification");
+  private static final List<String> NOTIFICATION_ADDRESSES =
+    ImmutableList.of("notificationAddresses", "notificationAddress", "notification_addresses", "notification_address");
   private static final String CREATOR = "creator";
   private static final String FORMAT = "format";
   private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);
@@ -47,15 +59,21 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
       .map(n -> VocabularyUtils.lookupEnum(n.asText(), DownloadFormat.class)).orElse(DownloadFormat.DWCA);
     String creator = Optional.ofNullable(node.get(CREATOR)).map(JsonNode::asText).orElse(null);
 
-    List<String> notificationAddresses = Optional.ofNullable(node.get(NOTIFICATION_ADDRESSES)).map(jsonNode -> {
-      try {
-        return Arrays.asList(MAPPER.readValue(jsonNode, String[].class));
-      } catch (Exception e) {
-       throw Throwables.propagate(e);
-      }
-    }).orElse(new ArrayList<>());
+    List<String> notificationAddresses = new ArrayList<>();
+    for (final String jsonKey : NOTIFICATION_ADDRESSES) {
+      notificationAddresses.addAll(Optional.ofNullable(node.get(jsonKey)).map(jsonNode -> {
+        try {
+          return Arrays.asList(MAPPER.readValue(jsonNode, String[].class));
+        } catch (Exception e) {
+          throw Throwables.propagate(e);
+        }
+      }).orElse(new ArrayList<>()));
+    }
 
-    boolean sendNotification = Optional.ofNullable(node.get(SEND_NOTIFICATION)).map(JsonNode::asBoolean).orElse(Boolean.FALSE);
+    boolean sendNotification = false;
+    for (final String jsonKey : SEND_NOTIFICATION) {
+      sendNotification |= Optional.ofNullable(node.get(jsonKey)).map(JsonNode::asBoolean).orElse(Boolean.FALSE);
+    }
 
     if (DownloadFormat.SQL == format) {
       String sql = Optional.ofNullable(node.get(SQL)).map(JsonNode::asText).orElse(null);
