@@ -126,4 +126,8 @@ public class SimplePredicateTest {
     new EqualsPredicate(OccurrenceSearchParameter.DATASET_KEY, "133-4312-443-2-43-32432423-");
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testGeometryEquals() {
+    new EqualsPredicate(OccurrenceSearchParameter.GEOMETRY, "POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))");
+  }
 }

@@ -42,6 +42,7 @@ public class SimplePredicate implements Predicate {
     this.key = key;
     this.value = value;
 
+    checkPredicateAllowed();
     if (checkForNonEquals) {
       checkNonEqualsComparatorAllowed();
     }
@@ -53,6 +54,15 @@ public class SimplePredicate implements Predicate {
 
   public String getValue() {
     return value;
+  }
+
+  /**
+   * @throws IllegalArgumentException if the key SearchParameter is Geometry
+   */
+  private void checkPredicateAllowed() {
+    if (OccurrenceSearchParameter.GEOMETRY == key) {
+      throw new IllegalArgumentException("Geometry parameter must use a Within predicate");
+    }
   }
 
   /**
