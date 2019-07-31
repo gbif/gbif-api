@@ -1,5 +1,8 @@
 package org.gbif.api.util;
 
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.PrecisionModel;
+import org.locationtech.jts.operation.valid.IsValidOp;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.vocabulary.Country;
@@ -15,13 +18,12 @@ import java.util.regex.Pattern;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Range;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.io.ParseException;
-import com.vividsolutions.jts.io.WKTReader;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
 
 import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
 
@@ -70,24 +72,6 @@ public class SearchTypeValidator {
    */
   private static final Pattern DECIMAL_RANGE_PATTERN = Pattern.compile(
     "^" + DECIMAL_OR_WILDCARD + "\\s*,\\s*" + DECIMAL_OR_WILDCARD + "$", Pattern.CASE_INSENSITIVE);
-  /**
-   * Matches without groups a space delimited coordinate pair allowing prefixing or trailing whitespace: 10.12 -90.12
-   */
-  private static final String WKT_COORD = "\\s*" + DECIMAL + "\\s+" + DECIMAL + "\\s*";
-
-  /**
-   * Matches without groups a comma separated list of coordinates enclosed in brackets:
-   * (10.12 -90.12, 30 10, 10 20, 20 40)
-   */
-  private static final String WKT_LINE = "\\s*\\(" + WKT_COORD + "(?:," + WKT_COORD + ")*\\)\\s*";
-
-  private static final String WKT_POLYGON = "\\(" + WKT_LINE + "(?:," + WKT_LINE + ")*\\)";
-
-  private static final List<Pattern> WKT_PATTERNS = ImmutableList.of(
-    Pattern.compile("^POINT\\s*\\(" + WKT_COORD + "\\)$", Pattern.CASE_INSENSITIVE),
-    Pattern.compile("^(?:LINESTRING|LINEARRING)\\s*" + WKT_LINE + "$", Pattern.CASE_INSENSITIVE),
-    Pattern.compile("^POLYGON\\s*" + WKT_POLYGON + "$", Pattern.CASE_INSENSITIVE),
-    Pattern.compile("^MULTIPOLYGON\\s*\\(" + WKT_POLYGON + "(?:," + WKT_POLYGON + ")*\\)$", Pattern.CASE_INSENSITIVE));
 
   /**
    * Private default constructor.
@@ -329,40 +313,44 @@ public class SearchTypeValidator {
 
   /**
    * Verify that we have indeed a wellKnownText parameter.
-   * See <a href="http://en.wikipedia.org/wiki/Well-known_text">wikipedia</a> for basic WKT specs.
-   * The validation implemented does both syntactic and topological validation (for polygons only): only convex polygons
-   * are accepted.
+   * See <a href="https://en.wikipedia.org/wiki/Well-known_text">Wikipedia</a> for basic WKT specs.
+   * The validation implemented does both syntactic and topological validation (for polygons only).
    */
   private static void validateGeometry(String wellKnownText) {
-    validateGeometrySyntax(wellKnownText);
     try {
       Geometry geometry = new WKTReader().read(wellKnownText);
+      IsValidOp validator = new IsValidOp(geometry);
+
+      if (!validator.isValid()) {
+        throw new IllegalArgumentException("Invalid geometry: " + validator.getValidationError());
+      }
+
+      if (geometry.isEmpty()) {
+        throw new IllegalArgumentException("Empty geometry: " + wellKnownText);
+      }
+
       // Calculating the area > 0 ensures that polygons that are representing lines or points are invalidated
-      if (geometry instanceof Polygon && (!geometry.isValid() || geometry.getArea() == 0.0)) {
-        throw new IllegalArgumentException("Invalid polygon " + wellKnownText);
+      if (geometry instanceof Polygon && geometry.getArea() == 0.0) {
+        throw new IllegalArgumentException("Polygon with zero area: " + wellKnownText);
+      }
+
+      switch (geometry.getGeometryType().toUpperCase()) {
+        case "POINT":
+        case "LINESTRING":
+        case "LINEARRING":
+        case "POLYGON":
+        case "MULTIPOLYGON":
+          return;
+
+        case "MULTIPOINT":
+        case "MULTILINESTRING":
+        case "GEOMETRYCOLLECTION":
+        default:
+          throw new IllegalArgumentException("Unsupported simple WKT (unsupported type " + geometry.getGeometryType() + "): " + wellKnownText);
       }
     } catch (ParseException e) {
-      throw new IllegalArgumentException("Invalid simple WKT: " + wellKnownText);
+      throw new IllegalArgumentException("Cannot parse simple WKT: " + wellKnownText);
     }
-  }
-
-  /**
-   * Verify that we have indeed a wellKnownText parameter.
-   * See <a href="http://en.wikipedia.org/wiki/Well-known_text">wikipedia</a> for basic WKT specs.
-   * The validation implemented does a basic syntax check for the following geometries, but does not
-   * verify that the resulting geometries are topologically valid (see the OGC SFS specification).
-   */
-  private static void validateGeometrySyntax(String wellKnownText) {
-    if (Strings.isNullOrEmpty(wellKnownText)) {
-      throw new IllegalArgumentException("Well Known Text cannot be empty or null");
-    }
-    // test all 4 supported geometry types with their respective regex - one must match!
-    for (Pattern regex : WKT_PATTERNS) {
-      if (regex.matcher(wellKnownText).find()) {
-        return;
-      }
-    }
-    throw new IllegalArgumentException("Invalid simple WKT: " + wellKnownText);
   }
 
   /**
