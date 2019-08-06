@@ -95,8 +95,6 @@ public class SearchTypeValidatorTest {
       {GEOMETRY, "MULTIPOLYGON(((-125 38.4, -121.8 38.4, -121.8 40.9, -125 40.9, -125 38.4)),((-115 22.4, -111.8 22.4, -111.8 30.9, -115 30.9, -115 22.4)))", true, false},
       {GEOMETRY, "LINESTRING (30 10, 10 30, 40 40)", true, false},
       {GEOMETRY, "LINESTRING (30 10, 10 30, 40 40,)", false, false},
-      {GEOMETRY, "LINEARRING(30 10,10 20,20 40,40 40,30 10)", true, false},
-      {GEOMETRY, "LINEARRING(30 10,10 20,20 40,40 40,30 )", false, false},
       {YEAR, "1991", true, false},
       {YEAR, "1991-01-31", false, false},
       {YEAR, "860", true, false},

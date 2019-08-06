@@ -1,6 +1,5 @@
 package org.gbif.api.util;
 
-import com.vividsolutions.jts.operation.valid.IsValidOp;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.vocabulary.Country;
@@ -18,10 +17,15 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Range;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.io.ParseException;
-import com.vividsolutions.jts.io.WKTReader;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.operation.valid.IsValidOp;
+import org.locationtech.spatial4j.context.jts.DatelineRule;
+import org.locationtech.spatial4j.context.jts.JtsSpatialContextFactory;
+import org.locationtech.spatial4j.exception.InvalidShapeException;
+import org.locationtech.spatial4j.io.WKTReader;
+import org.locationtech.spatial4j.shape.Shape;
+import org.locationtech.spatial4j.shape.jts.JtsGeometry;
 
 import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
 
@@ -33,7 +37,6 @@ public class SearchTypeValidator {
   private static final Pattern BOOLEAN = Pattern.compile("^(true|false)$", Pattern.CASE_INSENSITIVE);
   // this regex matches a double with an optional dot separated fracture and negative signing
   private static final String DEC = "-?\\d+(?:\\.\\d+)?";
-  private static final String DECIMAL = "(" + DEC + ")";
 
   private static final String DECIMAL_OR_WILDCARD = "(" + DEC + "|\\*)";
 
@@ -315,39 +318,55 @@ public class SearchTypeValidator {
    * The validation implemented does both syntactic and topological validation (for polygons only).
    */
   private static void validateGeometry(String wellKnownText) {
+    JtsSpatialContextFactory spatialContextFactory = new JtsSpatialContextFactory();
+    spatialContextFactory.normWrapLongitude = true;
+    spatialContextFactory.srid = 4326;
+    spatialContextFactory.datelineRule = DatelineRule.ccwRect;
+
+    WKTReader reader = new WKTReader(spatialContextFactory.newSpatialContext(), spatialContextFactory);
+
     try {
-      Geometry geometry = new WKTReader().read(wellKnownText);
-      IsValidOp validator = new IsValidOp(geometry);
+      // This validates some errors, such as a latitude > 90°
+      Shape shape = reader.parse(wellKnownText);
 
-      if (!validator.isValid()) {
-        throw new IllegalArgumentException("Invalid geometry: " + validator.getValidationError());
+      if (shape instanceof JtsGeometry) {
+        Geometry geometry = ((JtsGeometry) shape).getGeom();
+
+        IsValidOp validator = new IsValidOp(geometry);
+
+        if (!validator.isValid()) {
+          throw new IllegalArgumentException("Invalid geometry: " + validator.getValidationError());
+        }
+
+        if (geometry.isEmpty()) {
+          throw new IllegalArgumentException("Empty geometry: " + wellKnownText);
+        }
+
+        // Calculating the area > 0 ensures that polygons that are representing lines or points are invalidated
+        if (geometry instanceof Polygon && geometry.getArea() == 0.0) {
+          throw new IllegalArgumentException("Polygon with zero area: " + wellKnownText);
+        }
+
+        switch (geometry.getGeometryType().toUpperCase()) {
+          case "POINT":
+          case "LINESTRING":
+          case "POLYGON":
+          case "MULTIPOLYGON":
+            return;
+
+          case "MULTIPOINT":
+          case "MULTILINESTRING":
+          case "GEOMETRYCOLLECTION":
+          default:
+            throw new IllegalArgumentException("Unsupported simple WKT (unsupported type " + geometry.getGeometryType() + "): " + wellKnownText);
+        }
       }
-
-      if (geometry.isEmpty()) {
-        throw new IllegalArgumentException("Empty geometry: " + wellKnownText);
-      }
-
-      // Calculating the area > 0 ensures that polygons that are representing lines or points are invalidated
-      if (geometry instanceof Polygon && geometry.getArea() == 0.0) {
-        throw new IllegalArgumentException("Polygon with zero area: " + wellKnownText);
-      }
-
-      switch (geometry.getGeometryType().toUpperCase()) {
-        case "POINT":
-        case "LINESTRING":
-        case "LINEARRING":
-        case "POLYGON":
-        case "MULTIPOLYGON":
-          return;
-
-        case "MULTIPOINT":
-        case "MULTILINESTRING":
-        case "GEOMETRYCOLLECTION":
-        default:
-          throw new IllegalArgumentException("Unsupported simple WKT (unsupported type " + geometry.getGeometryType() + "): " + wellKnownText);
-      }
-    } catch (ParseException e) {
+    } catch (java.text.ParseException e) {
+      e.printStackTrace();
       throw new IllegalArgumentException("Cannot parse simple WKT: " + wellKnownText);
+    } catch (InvalidShapeException e) {
+      e.printStackTrace();
+      throw new IllegalArgumentException("Invalid shape in WKT: " + wellKnownText);
     }
   }
 
