@@ -86,7 +86,12 @@ public enum NameType {
   /**
    * Surely not a scientific name of any kind.
    */
-  NO_NAME;
+  NO_NAME,
+  
+  /**
+   * A name that has been flagged by the name parser due to the use of blacklisted epithets/words.
+   */
+  BLACKLISTED;
 
   /**
    * Case insensitive lookup of a name type by its name that does not throw an exception but returns null
@@ -118,7 +123,7 @@ public enum NameType {
    * @return true if the GBIF name parser can parse such a name into a ParsedName instance
    */
   public boolean isParsable() {
-    return this == SCIENTIFIC || this == INFORMAL || this == CULTIVAR || this == CANDIDATUS || this == DOUBTFUL;
+    return this == SCIENTIFIC || this == INFORMAL || this == CULTIVAR || this == CANDIDATUS || this == DOUBTFUL || this == BLACKLISTED;
   }
 
 }
