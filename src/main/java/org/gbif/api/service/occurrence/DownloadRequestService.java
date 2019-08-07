@@ -14,6 +14,7 @@ package org.gbif.api.service.occurrence;
 
 import org.gbif.api.model.occurrence.DownloadRequest;
 
+import java.io.File;
 import java.io.InputStream;
 
 import javax.annotation.Nullable;
@@ -24,7 +25,8 @@ import javax.validation.constraints.NotNull;
  * <ul>
  * <li><strong>request</strong> inits a new download and assigns it a key</li> *
  * <li><strong>cancel</strong> cancels an existing download</li>
- * <li><strong>getResult</strong> retrieves the download file, if it is ready</li>
+ * <li><strong>getResult</strong> retrieves the download file stream, if it is ready</li>
+ * <li><strong>getResultFile</strong> retrieves the download file, if it is ready</li>
  * </ul>
  */
 public interface DownloadRequestService {
@@ -46,4 +48,10 @@ public interface DownloadRequestService {
   @Nullable
   InputStream getResult(String downloadKey);
 
+  /**
+   * @param downloadKey of the corresponding download request
+   * @return the zipped download result file or null if it's not existing or ready yet
+   */
+  @Nullable
+  File getResultFile(String downloadKey);
 }
