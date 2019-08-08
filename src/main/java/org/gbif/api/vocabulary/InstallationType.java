@@ -27,7 +27,8 @@ public enum InstallationType {
   TAPIR_INSTALLATION,
   BIOCASE_INSTALLATION,
   HTTP_INSTALLATION,
-  SYMBIOTA_INSTALLATION;
+  SYMBIOTA_INSTALLATION,
+  EARTHCAPE_INSTALLATION;
 
   /**
    * @return the matching InstallationType or null
