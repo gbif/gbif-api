@@ -28,7 +28,8 @@ public enum PreservationType {
   SAMPLE_SURFACE_COATING("Sample Treatment: Surface coating"),
   SAMPLE_TANNED("Sample Treatment: Tanned"),
   SAMPLE_WAX_BLOCK("Sample Treatment: Wax Block"),
-  SAMPLE_OTHER("Sample Treatment: Other (please define)");
+  SAMPLE_OTHER("Sample Treatment: Other (please define)"),
+  SAMPLE_FREEZE_DRYING("Sample Treatment: Freeze-drying (or lyophilization)");
 
   private String description;
 
