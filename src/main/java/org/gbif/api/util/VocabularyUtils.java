@@ -43,6 +43,7 @@ public final class VocabularyUtils {
     return (IdentifierType) lookupEnum(type, IdentifierType.class);
   }
 
+  @Deprecated
   public static TechnicalInstallationType parseTechnicalInstallationType(String type) {
     return (TechnicalInstallationType) lookupEnum(type, TechnicalInstallationType.class);
   }

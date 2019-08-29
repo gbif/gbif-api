@@ -15,6 +15,11 @@
  */
 package org.gbif.api.vocabulary;
 
+/**
+ * @see InstallationType
+ * @deprecated This class is no longer used.
+ */
+@Deprecated
 public enum TechnicalInstallationType {
 
   /**
@@ -25,7 +30,6 @@ public enum TechnicalInstallationType {
   /**
    * DiGIR technical installation.
    */
-  // TODO: Rename to all upper case
   DiGIR_INSTALLATION,
 
   /**

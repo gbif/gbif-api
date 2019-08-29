@@ -18,7 +18,7 @@ package org.gbif.api.vocabulary;
 import org.gbif.api.util.VocabularyUtils;
 
 /**
- * Enumeration for all possible technical installation types.
+ * Enumeration for all possible installation types.
  */
 public enum InstallationType {
 

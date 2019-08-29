@@ -51,6 +51,7 @@ public class VocabularyUtilsTest {
     VocabularyUtils.parseIdentifierType("bad");
   }
 
+  @Deprecated
   @Test(expected = IllegalArgumentException.class)
   public void testParseTechnicalInstallationType() throws Exception {
     assertEquals(TechnicalInstallationType.IPT_INSTALLATION,
