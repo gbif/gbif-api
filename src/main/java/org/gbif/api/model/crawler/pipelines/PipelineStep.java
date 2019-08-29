@@ -132,7 +132,6 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
 
   /** Enum to represent the status of a step. */
   public enum Status {
-    SUBMITTED,
     RUNNING,
     FAILED,
     COMPLETED
