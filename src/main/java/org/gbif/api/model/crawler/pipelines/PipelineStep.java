@@ -15,7 +15,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
   private static final long serialVersionUID = 460047082156621661L;
 
   private long key;
-  private StepType name;
+  private StepType type;
   private StepRunner runner;
   private LocalDateTime started;
   private LocalDateTime finished;
@@ -31,12 +31,12 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     return key;
   }
 
-  public StepType getName() {
-    return name;
+  public StepType getType() {
+    return type;
   }
 
-  public PipelineStep setName(StepType name) {
-    this.name = name;
+  public PipelineStep setType(StepType type) {
+    this.type = type;
     return this;
   }
 
@@ -191,7 +191,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     if (o == null || getClass() != o.getClass()) return false;
     PipelineStep that = (PipelineStep) o;
     return key == that.key
-        && Objects.equals(name, that.name)
+        && Objects.equals(type, that.type)
         && Objects.equals(runner, that.runner)
         && Objects.equals(started, that.started)
         && Objects.equals(finished, that.finished)
@@ -208,7 +208,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
   public int hashCode() {
     return Objects.hash(
         key,
-        name,
+        type,
         runner,
         started,
         finished,
@@ -224,7 +224,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
   @Override
   public String toString() {
     return new StringJoiner(", ", PipelineStep.class.getSimpleName() + "[", "]").add("key=" + key)
-      .add("name=" + name)
+      .add("type=" + type)
       .add("runner=" + runner)
       .add("started=" + started)
       .add("finished=" + finished)
@@ -241,7 +241,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
   @Override
   public boolean lenientEquals(PipelineStep other) {
     if (this == other) return true;
-    return Objects.equals(name, other.name)
+    return Objects.equals(type, other.type)
         && Objects.equals(runner, other.runner)
         && Objects.equals(finished, other.finished)
         && state == other.state

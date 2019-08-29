@@ -2,6 +2,7 @@ package org.gbif.api.model.crawler.pipelines;
 
 /** Enum to represent the pipelines step names. */
 public enum StepType {
+  ALL (0),
   DWCA_TO_VERBATIM(1),
   XML_TO_VERBATIM(1),
   ABCD_TO_VERBATIM(1),
