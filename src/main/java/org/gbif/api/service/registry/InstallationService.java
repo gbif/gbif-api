@@ -17,6 +17,7 @@ import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Installation;
 import org.gbif.api.model.registry.search.KeyTitleResult;
+import org.gbif.api.vocabulary.InstallationType;
 
 import java.util.List;
 import java.util.UUID;
@@ -47,4 +48,12 @@ public interface InstallationService
    * Provides a simple suggest service.
    */
   List<KeyTitleResult> suggest(@Nullable String q);
+
+  /**
+   * Provides paging service to list installations filtered by a particular installation type.
+   *
+   * @param type the installation type filter
+   * @return list of installations ordered by creation date with latest coming first
+   */
+  PagingResponse<Installation> listByType(InstallationType type, @Nullable Pageable page);
 }
