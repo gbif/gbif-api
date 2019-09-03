@@ -1,4 +1,4 @@
-package org.gbif.api.model.crawler.pipelines;
+package org.gbif.api.model.pipelines;
 
 import java.io.Serializable;
 import java.util.List;

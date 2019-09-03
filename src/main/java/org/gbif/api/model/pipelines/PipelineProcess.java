@@ -1,10 +1,15 @@
-package org.gbif.api.model.crawler.pipelines;
+package org.gbif.api.model.pipelines;
+
+import org.gbif.api.jackson.LocalDateTimeSerDe;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /** Base POJO model for the Pipelines status service */
 public class PipelineProcess implements Serializable {
@@ -15,7 +20,11 @@ public class PipelineProcess implements Serializable {
   private UUID datasetKey;
   private int attempt;
   private String datasetTitle;
+
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
   private LocalDateTime created;
+
   private String createdBy;
   private Set<PipelineStep> steps = new HashSet<>();
 

@@ -1,4 +1,4 @@
-package org.gbif.api.model.crawler.pipelines;
+package org.gbif.api.model.pipelines;
 
 /**
  * General runners, STANDALONE - run an app using local resources, DISTRIBUTED - run an app using

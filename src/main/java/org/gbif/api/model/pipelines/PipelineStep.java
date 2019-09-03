@@ -1,5 +1,6 @@
-package org.gbif.api.model.crawler.pipelines;
+package org.gbif.api.model.pipelines;
 
+import org.gbif.api.jackson.LocalDateTimeSerDe;
 import org.gbif.api.model.registry.LenientEquals;
 
 import java.io.Serializable;
@@ -9,6 +10,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 /** Models a step in pipelines. */
 public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
 
@@ -17,13 +21,24 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
   private long key;
   private StepType type;
   private StepRunner runner;
+
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
   private LocalDateTime started;
+
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
   private LocalDateTime finished;
+
   private Status state;
   private String message;
   private String rerunReason;
   private String createdBy;
+
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
   private LocalDateTime modified;
+
   private String modifiedBy;
   private Set<MetricInfo> metrics = new HashSet<>();
 
@@ -222,19 +237,20 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
 
   @Override
   public String toString() {
-    return new StringJoiner(", ", PipelineStep.class.getSimpleName() + "[", "]").add("key=" + key)
-      .add("type=" + type)
-      .add("runner=" + runner)
-      .add("started=" + started)
-      .add("finished=" + finished)
-      .add("state=" + state)
-      .add("message='" + message + "'")
-      .add("rerunReason='" + rerunReason + "'")
-      .add("createdBy='" + createdBy + "'")
-      .add("modified=" + modified)
-      .add("modifiedBy='" + modifiedBy + "'")
-      .add("metrics=" + metrics)
-      .toString();
+    return new StringJoiner(", ", PipelineStep.class.getSimpleName() + "[", "]")
+        .add("key=" + key)
+        .add("type=" + type)
+        .add("runner=" + runner)
+        .add("started=" + started)
+        .add("finished=" + finished)
+        .add("state=" + state)
+        .add("message='" + message + "'")
+        .add("rerunReason='" + rerunReason + "'")
+        .add("createdBy='" + createdBy + "'")
+        .add("modified=" + modified)
+        .add("modifiedBy='" + modifiedBy + "'")
+        .add("metrics=" + metrics)
+        .toString();
   }
 
   @Override
