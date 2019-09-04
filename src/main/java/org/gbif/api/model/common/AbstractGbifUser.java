@@ -1,10 +1,12 @@
 package org.gbif.api.model.common;
 
+import com.google.common.base.Joiner;
 import org.gbif.api.vocabulary.UserRole;
 
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringJoiner;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -23,6 +25,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 public abstract class AbstractGbifUser {
   protected static final String EMAIL_PATTERN =
           "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+
+  private static final Joiner JOINER = Joiner.on(" ").skipNulls();
 
   protected String userName;
   protected String firstName;
@@ -94,7 +98,7 @@ public abstract class AbstractGbifUser {
    */
   @JsonIgnore
   public String getName() {
-    return firstName + " " + lastName;
+    return JOINER.join(firstName, lastName);
   }
 
   @NotNull
