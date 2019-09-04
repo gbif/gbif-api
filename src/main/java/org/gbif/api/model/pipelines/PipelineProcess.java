@@ -4,9 +4,7 @@ import org.gbif.api.jackson.LocalDateTimeSerDe;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -26,7 +24,9 @@ public class PipelineProcess implements Serializable {
   private LocalDateTime created;
 
   private String createdBy;
-  private Set<PipelineStep> steps = new HashSet<>();
+  private Set<PipelineStep> steps =
+      new TreeSet<>(
+          Comparator.comparing(PipelineStep::getStarted).thenComparing(PipelineStep::getType));
 
   public long getKey() {
     return key;
