@@ -2,6 +2,7 @@ package org.gbif.api.model.pipelines;
 
 import org.gbif.api.jackson.LocalDateTimeSerDe;
 import org.gbif.api.model.registry.LenientEquals;
+import org.gbif.common.shaded.com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -18,7 +19,9 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
 
   private static final long serialVersionUID = 460047082156621661L;
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private long key;
+
   private StepType type;
   private StepRunner runner;
 

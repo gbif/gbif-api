@@ -1,6 +1,7 @@
 package org.gbif.api.model.pipelines;
 
 import org.gbif.api.jackson.LocalDateTimeSerDe;
+import org.gbif.common.shaded.com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -14,10 +15,11 @@ public class PipelineProcess implements Serializable {
 
   private static final long serialVersionUID = -3992826055732414678L;
 
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private long key;
+
   private UUID datasetKey;
   private int attempt;
-  private String datasetTitle;
 
   @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
   @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
@@ -47,15 +49,6 @@ public class PipelineProcess implements Serializable {
 
   public PipelineProcess setAttempt(int attempt) {
     this.attempt = attempt;
-    return this;
-  }
-
-  public String getDatasetTitle() {
-    return datasetTitle;
-  }
-
-  public PipelineProcess setDatasetTitle(String datasetTitle) {
-    this.datasetTitle = datasetTitle;
     return this;
   }
 
