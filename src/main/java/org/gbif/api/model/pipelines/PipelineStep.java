@@ -148,6 +148,10 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     return this;
   }
 
+  public void addMetricInfo(MetricInfo metricInfo) {
+    metrics.add(metricInfo);
+  }
+
   /** Enum to represent the status of a step. */
   public enum Status {
     RUNNING,
