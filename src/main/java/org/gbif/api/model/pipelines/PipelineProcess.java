@@ -26,9 +26,7 @@ public class PipelineProcess implements Serializable {
   private LocalDateTime created;
 
   private String createdBy;
-  private Set<PipelineStep> steps =
-      new TreeSet<>(
-          Comparator.comparing(PipelineStep::getStarted).thenComparing(PipelineStep::getType));
+  private Set<PipelineStep> steps = new TreeSet<>(Comparator.comparing(PipelineStep::getStarted));
 
   public long getKey() {
     return key;
