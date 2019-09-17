@@ -15,10 +15,6 @@
  */
 package org.gbif.api.vocabulary;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -32,6 +28,10 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.ser.std.SerializerBase;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 /**
  * Enumeration for all ISO 639-1 language codes using 2 lower case letters.
  * The enumeration maps to 3 letter codes and Locales.
@@ -41,6 +41,8 @@ import org.codehaus.jackson.map.ser.std.SerializerBase;
  */
 @JsonSerialize(using = Language.IsoSerializer.class)
 @JsonDeserialize(using = Language.LenientDeserializer.class)
+@com.fasterxml.jackson.databind.annotation.JsonSerialize(using = Language.Jackson2IsoSerializer.class)
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = Language.Jackson2LenientDeserializer.class)
 public enum Language {
 
   /**
@@ -983,13 +985,12 @@ public enum Language {
 
   /**
    * @param code the case insensitive 2 or 3 letter codes
-   *
    * @return the matching language or UNKNOWN
    */
   public static Language fromIsoCode(String code) {
     if (!Strings.isNullOrEmpty(code)) {
       String codeLower = code.toLowerCase().trim();
-      if (codeLower.length() == 2){
+      if (codeLower.length() == 2) {
         for (Language language : Language.values()) {
           if (codeLower.equals(language.getIso2LetterCode())) {
             return language;
@@ -1076,7 +1077,7 @@ public enum Language {
         }
       } catch (Exception e) {
         throw new IOException("Unable to deserialize language from provided value (hint: not an ISO 2 or 3 character?): "
-                              + jp.getText());
+          + jp.getText());
       }
     }
 
@@ -1087,8 +1088,50 @@ public enum Language {
       if (UNKNOWN == l) {
         try {
           l = valueOf(value);
-        } catch( IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
           l = UNKNOWN;
+        }
+      }
+      return l;
+    }
+  }
+
+  public static class Jackson2IsoSerializer extends com.fasterxml.jackson.databind.JsonSerializer<Language> {
+
+    @Override
+    public void serialize(Language value, com.fasterxml.jackson.core.JsonGenerator jgen, com.fasterxml.jackson.databind.SerializerProvider provider) throws IOException {
+      jgen.writeString(value.getIso3LetterCode());
+    }
+  }
+
+  public static class Jackson2LenientDeserializer extends com.fasterxml.jackson.databind.JsonDeserializer<Language> {
+
+    public Jackson2LenientDeserializer() {
+    }
+
+    @Override
+    public Language deserialize(com.fasterxml.jackson.core.JsonParser jp, com.fasterxml.jackson.databind.DeserializationContext ctxt) throws IOException {
+      try {
+        if (jp != null && jp.getTextLength() > 0) {
+          return lenientParse(jp.getText());
+        } else {
+          return Language.UNKNOWN; // none provided
+        }
+      } catch (Exception e) {
+        throw new IOException("Unable to deserialize language from provided value (hint: not an ISO 2 or 3 character?): "
+          + jp.getText());
+      }
+    }
+
+    @VisibleForTesting
+    static Language lenientParse(String value) {
+      Language l = Language.fromIsoCode(value);
+      // backwards compatible
+      if (Language.UNKNOWN == l) {
+        try {
+          l = Language.valueOf(value);
+        } catch (IllegalArgumentException e) {
+          l = Language.UNKNOWN;
         }
       }
       return l;

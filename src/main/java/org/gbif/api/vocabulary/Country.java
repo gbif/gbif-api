@@ -19,6 +19,8 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -56,6 +58,8 @@ import org.codehaus.jackson.map.ser.std.SerializerBase;
  */
 @JsonSerialize(using = Country.IsoSerializer.class)
 @JsonDeserialize(using = Country.IsoDeserializer.class)
+@com.fasterxml.jackson.databind.annotation.JsonSerialize(using = Country.Jackson2IsoSerializer.class)
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = Country.Jackson2IsoDeserializer.class)
 public enum Country {
 
   /**
@@ -1553,6 +1557,35 @@ public enum Country {
         return TITLE_LOOKUP.get(jp.getText());
       } catch (Exception e) {
         throw new IOException("Unable to deserialize country from provided title : " + jp.getText());
+      }
+    }
+  }
+
+  public static class Jackson2IsoSerializer extends JsonSerializer<Country> {
+
+    @Override
+    public void serialize(Country value, com.fasterxml.jackson.core.JsonGenerator jgen, com.fasterxml.jackson.databind.SerializerProvider provider) throws IOException {
+      jgen.writeString(value.getIso2LetterCode());
+    }
+  }
+
+  public static class Jackson2IsoDeserializer extends StdDeserializer<Country> {
+
+    public Jackson2IsoDeserializer() {
+      super(Country.class);
+    }
+
+    @Override
+    public Country deserialize(com.fasterxml.jackson.core.JsonParser jp, com.fasterxml.jackson.databind.DeserializationContext ctxt) throws IOException {
+      try {
+        if (jp != null && jp.getTextLength() > 0) {
+          return Country.fromIsoCode(jp.getText());
+        } else {
+          return Country.UNKNOWN; // none provided
+        }
+      } catch (Exception e) {
+        throw new IOException("Unable to deserialize country from provided value (not an ISO 2 character?): "
+          + jp.getText());
       }
     }
   }

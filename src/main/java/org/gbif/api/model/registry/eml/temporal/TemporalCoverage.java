@@ -33,6 +33,15 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
   @JsonSubTypes.Type(value = SingleDate.class, name = "single"),
   @JsonSubTypes.Type(value = VerbatimTimePeriod.class, name = "verbatim")
 })
+@com.fasterxml.jackson.annotation.JsonTypeInfo(
+  use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME,
+  property = "@type"
+)
+@com.fasterxml.jackson.annotation.JsonSubTypes({
+  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = DateRange.class, name = "range"),
+  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = SingleDate.class, name = "single"),
+  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = VerbatimTimePeriod.class, name = "verbatim")
+})
 public abstract class TemporalCoverage implements Keywords {
 
   /**
