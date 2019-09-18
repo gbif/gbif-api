@@ -1,20 +1,18 @@
 package org.gbif.api.model.common;
 
 import com.google.common.base.Joiner;
-import org.gbif.api.vocabulary.UserRole;
-
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
-import java.util.StringJoiner;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.gbif.api.vocabulary.UserRole;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * An abstract GBIF user account.
@@ -97,6 +95,7 @@ public abstract class AbstractGbifUser {
    * @return the first and last name of the user concatenated with a space
    */
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public String getName() {
     return JOINER.join(firstName, lastName);
   }

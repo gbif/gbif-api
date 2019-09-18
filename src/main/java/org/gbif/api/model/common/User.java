@@ -127,6 +127,7 @@ public class User {
    */
   @NotNull
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public String getName() {
     return firstName + " " + lastName;
   }

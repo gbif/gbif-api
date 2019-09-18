@@ -7,6 +7,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import org.codehaus.jackson.JsonGenerator;
@@ -27,6 +29,8 @@ import org.slf4j.LoggerFactory;
  */
 @JsonSerialize(using = DOI.Serializer.class)
 @JsonDeserialize(using = DOI.Deserializer.class)
+@com.fasterxml.jackson.databind.annotation.JsonSerialize(using = DOI.Jackson2Serializer.class)
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = DOI.Jackson2Deserializer.class)
 public class DOI {
 
   private static final Logger LOG = LoggerFactory.getLogger(DOI.class);
@@ -215,4 +219,22 @@ public class DOI {
     }
   }
 
+  public static class Jackson2Serializer extends JsonSerializer<DOI> {
+
+    @Override
+    public void serialize(DOI value, com.fasterxml.jackson.core.JsonGenerator gen, com.fasterxml.jackson.databind.SerializerProvider serializers) throws IOException {
+      gen.writeString(value.toString());
+    }
+  }
+
+  public static class Jackson2Deserializer extends com.fasterxml.jackson.databind.JsonDeserializer {
+
+    @Override
+    public Object deserialize(com.fasterxml.jackson.core.JsonParser p, com.fasterxml.jackson.databind.DeserializationContext ctxt) throws IOException, JsonProcessingException {
+      if (p != null && p.getTextLength() > 0) {
+        return new DOI(p.getText());
+      }
+      return null;
+    }
+  }
 }

@@ -61,6 +61,7 @@ public class GbifUser extends AbstractGbifUser {
    */
   @NotNull
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public String getPasswordHash() {
     return passwordHash;
   }

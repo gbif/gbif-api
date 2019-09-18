@@ -143,6 +143,7 @@ public class MediaObject {
    */
   @NotNull
   @JsonProperty("identifier")
+  @com.fasterxml.jackson.annotation.JsonProperty("identifier")
   public URI getIdentifier() {
     return identifier;
   }

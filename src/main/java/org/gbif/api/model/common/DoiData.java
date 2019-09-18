@@ -18,7 +18,9 @@ public class DoiData {
   private final URI target;
 
   @JsonCreator
-  public DoiData(@JsonProperty("status") DoiStatus status, @JsonProperty("target") URI target) {
+  @com.fasterxml.jackson.annotation.JsonCreator
+  public DoiData(@com.fasterxml.jackson.annotation.JsonProperty("status") @JsonProperty("status") DoiStatus status,
+                 @com.fasterxml.jackson.annotation.JsonProperty("target") @JsonProperty("target") URI target) {
     this.status = Preconditions.checkNotNull(status, "DOI status is required");
     this.target = target;
   }
