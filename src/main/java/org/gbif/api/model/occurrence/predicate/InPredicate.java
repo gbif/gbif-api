@@ -40,8 +40,11 @@ public class InPredicate implements Predicate {
   @Size(min = 1)
   private final Collection<String> values;
 
+  @com.fasterxml.jackson.annotation.JsonCreator
   @JsonCreator
-  public InPredicate(@JsonProperty("key") OccurrenceSearchParameter key, @JsonProperty("values") Collection<String> values) {
+  public InPredicate(
+    @com.fasterxml.jackson.annotation.JsonProperty("key") @JsonProperty("key") OccurrenceSearchParameter key,
+    @com.fasterxml.jackson.annotation.JsonProperty("values")@JsonProperty("values") Collection<String> values) {
     Preconditions.checkNotNull(key, "<key> may not be null");
     Preconditions.checkNotNull(values, "<values> may not be null");
     Preconditions.checkArgument(!values.isEmpty(), "<values> may not be empty");

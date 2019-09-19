@@ -31,8 +31,10 @@ public class NotPredicate implements Predicate {
   @NotNull
   private final Predicate predicate;
 
+  @com.fasterxml.jackson.annotation.JsonCreator
   @JsonCreator
-  public NotPredicate(@JsonProperty("predicate") Predicate predicate) {
+  public NotPredicate(
+    @com.fasterxml.jackson.annotation.JsonProperty("predicate") @JsonProperty("predicate") Predicate predicate) {
     Preconditions.checkNotNull(predicate);
 
     this.predicate = predicate;

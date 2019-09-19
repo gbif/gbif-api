@@ -20,6 +20,24 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 import static org.codehaus.jackson.annotate.JsonSubTypes.Type;
 
+@com.fasterxml.jackson.annotation.JsonTypeInfo(
+  use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME,
+  property = "type"
+)
+@com.fasterxml.jackson.annotation.JsonSubTypes({
+  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = ConjunctionPredicate.class, name = "and"),
+  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = DisjunctionPredicate.class, name = "or"),
+  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = EqualsPredicate.class, name = "equals"),
+  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = LikePredicate.class, name = "like"),
+  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = LessThanPredicate.class, name = "lessThan"),
+  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = LessThanOrEqualsPredicate.class, name = "lessThanOrEquals"),
+  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = GreaterThanPredicate.class, name = "greaterThan"),
+  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = GreaterThanOrEqualsPredicate.class, name = "greaterThanOrEquals"),
+  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = InPredicate.class, name = "in"),
+  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = WithinPredicate.class, name = "within"),
+  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = NotPredicate.class, name = "not"),
+  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = IsNotNullPredicate.class, name = "isNotNull")
+})
 @JsonTypeInfo(
   use = JsonTypeInfo.Id.NAME,
   include = JsonTypeInfo.As.PROPERTY,
@@ -37,5 +55,4 @@ import static org.codehaus.jackson.annotate.JsonSubTypes.Type;
                @Type(value = NotPredicate.class, name = "not"),
                @Type(value = IsNotNullPredicate.class, name = "isNotNull")})
 public interface Predicate {
-
 }

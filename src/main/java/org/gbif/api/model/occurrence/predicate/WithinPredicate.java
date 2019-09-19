@@ -45,8 +45,10 @@ public class WithinPredicate implements Predicate {
    * </ul>
    * @param geometry
    */
+  @com.fasterxml.jackson.annotation.JsonCreator
   @JsonCreator
-  public WithinPredicate(@JsonProperty("geometry") String geometry) {
+  public WithinPredicate(
+    @com.fasterxml.jackson.annotation.JsonProperty("geometry") @JsonProperty("geometry") String geometry) {
     Preconditions.checkNotNull(geometry, "<geometry> may not be null");
     // make sure its a valid WKT
     SearchTypeValidator.validate(OccurrenceSearchParameter.GEOMETRY, geometry);

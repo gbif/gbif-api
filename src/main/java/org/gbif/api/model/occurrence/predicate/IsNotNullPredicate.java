@@ -26,8 +26,10 @@ public class IsNotNullPredicate implements Predicate {
   @NotNull
   private final OccurrenceSearchParameter parameter;
 
+  @com.fasterxml.jackson.annotation.JsonCreator
   @JsonCreator
-  public IsNotNullPredicate(@JsonProperty("parameter") OccurrenceSearchParameter parameter) {
+  public IsNotNullPredicate(
+    @com.fasterxml.jackson.annotation.JsonProperty("parameter") @JsonProperty("parameter") OccurrenceSearchParameter parameter) {
     Preconditions.checkNotNull(parameter, "<parameter> may not be null");
     this.parameter = parameter;
     checkPredicateAllowed();

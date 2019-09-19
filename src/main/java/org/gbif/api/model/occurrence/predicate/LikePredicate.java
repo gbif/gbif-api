@@ -26,8 +26,11 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class LikePredicate extends SimplePredicate {
 
+  @com.fasterxml.jackson.annotation.JsonCreator
   @JsonCreator
-  public LikePredicate(@JsonProperty("key") OccurrenceSearchParameter key, @JsonProperty("value") String value) {
+  public LikePredicate(
+    @com.fasterxml.jackson.annotation.JsonProperty("key") @JsonProperty("key") OccurrenceSearchParameter key,
+    @com.fasterxml.jackson.annotation.JsonProperty("value") @JsonProperty("value") String value) {
     super(false, key, value);
     // make sure we deal with a String type
     if (!String.class.equals(key.type())) {

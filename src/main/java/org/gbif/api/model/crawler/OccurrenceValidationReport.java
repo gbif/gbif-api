@@ -44,12 +44,13 @@ public class OccurrenceValidationReport {
   private final boolean valid;
 
   @JsonCreator
-  public OccurrenceValidationReport(@JsonProperty("checkedRecords") int checkedRecords,
-    @JsonProperty("uniqueTriplets") int uniqueTriplets,
-    @JsonProperty("invalidTriplets") int recordsWithInvalidTriplets,
-    @JsonProperty("uniqueOccIds") int uniqueOccurrenceIds,
-    @JsonProperty("missingOccIds") int recordsMissingOccurrenceId,
-    @JsonProperty("allRecordsChecked") boolean allRecordsChecked) {
+  @com.fasterxml.jackson.annotation.JsonCreator
+  public OccurrenceValidationReport(@com.fasterxml.jackson.annotation.JsonProperty("checkedRecords") @JsonProperty("checkedRecords") int checkedRecords,
+                                    @com.fasterxml.jackson.annotation.JsonProperty("uniqueTriplets") @JsonProperty("uniqueTriplets") int uniqueTriplets,
+                                    @com.fasterxml.jackson.annotation.JsonProperty("invalidTriplets") @JsonProperty("invalidTriplets") int recordsWithInvalidTriplets,
+                                    @com.fasterxml.jackson.annotation.JsonProperty("uniqueOccIds") @JsonProperty("uniqueOccIds") int uniqueOccurrenceIds,
+                                    @com.fasterxml.jackson.annotation.JsonProperty("missingOccIds") @JsonProperty("missingOccIds") int recordsMissingOccurrenceId,
+                                    @com.fasterxml.jackson.annotation.JsonProperty("allRecordsChecked") @JsonProperty("allRecordsChecked") boolean allRecordsChecked) {
     this.checkedRecords = checkedRecords;
     this.uniqueTriplets = uniqueTriplets;
     this.recordsWithInvalidTriplets = recordsWithInvalidTriplets;

@@ -23,8 +23,11 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class GreaterThanPredicate extends SimplePredicate {
 
+  @com.fasterxml.jackson.annotation.JsonCreator
   @JsonCreator
-  public GreaterThanPredicate(@JsonProperty("key") OccurrenceSearchParameter key, @JsonProperty("value") String value) {
+  public GreaterThanPredicate(
+    @com.fasterxml.jackson.annotation.JsonProperty("key") @JsonProperty("key") OccurrenceSearchParameter key,
+    @com.fasterxml.jackson.annotation.JsonProperty("value") @JsonProperty("value") String value) {
     super(true, key, value);
   }
 

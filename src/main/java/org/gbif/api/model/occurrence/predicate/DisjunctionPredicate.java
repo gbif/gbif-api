@@ -23,8 +23,11 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class DisjunctionPredicate extends CompoundPredicate {
 
+  @com.fasterxml.jackson.annotation.JsonCreator
   @JsonCreator
-  public DisjunctionPredicate(@JsonProperty("predicates") Collection<Predicate> predicates) {
+  public DisjunctionPredicate(
+    @com.fasterxml.jackson.annotation.JsonProperty("predicates")
+    @JsonProperty("predicates") Collection<Predicate> predicates) {
     super(predicates);
   }
 
