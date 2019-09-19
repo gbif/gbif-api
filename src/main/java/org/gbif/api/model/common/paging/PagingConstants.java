@@ -39,7 +39,7 @@ public final class PagingConstants {
   /**
    * Default number of records to return.
    */
-  public static final int DEFAULT_PARAM_LIMIT = 20;
+  public static final int DEFAULT_PARAM_LIMIT = 100;
 
   private PagingConstants() {
     throw new UnsupportedOperationException("Can't initialize class");
