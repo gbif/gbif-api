@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.checklistbank;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import org.apache.commons.lang3.StringUtils;
@@ -51,9 +52,13 @@ public class ParsedName {
 
   private Integer key;
   private String scientificName;
+  @com.fasterxml.jackson.annotation.JsonProperty("rankMarker")
   @JsonProperty("rankMarker")
   @JsonSerialize(using=RankSerde.RankJsonSerializer.class, include = JsonSerialize.Inclusion.NON_NULL)
   @JsonDeserialize(using=RankSerde.RankJsonDeserializer.class)
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = RankSerde.Jackson2RankJsonSerializer.class)
+  @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = RankSerde.Jackson2RankJsonDeserializer.class)
   private Rank rank;
   private NameType type;
   private String genusOrAbove;
@@ -246,6 +251,7 @@ public class ParsedName {
    * @return the terminal epithet, infraspecific epithet if existing, the species epithet or null
    */
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public String getTerminalEpithet() {
     return infraSpecificEpithet == null ? specificEpithet : infraSpecificEpithet;
   }
@@ -273,6 +279,7 @@ public class ParsedName {
   }
 
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public boolean hasAuthorship() {
     return authorship != null || year != null || bracketAuthorship != null || bracketYear != null;
   }
@@ -566,6 +573,7 @@ public class ParsedName {
    * @return the 1,2 or 3 parted name as a single string
    */
   @JsonProperty
+  @com.fasterxml.jackson.annotation.JsonProperty
   public String canonicalName() {
     return buildName(false, false, false, false, false, false, true, true, true, false, false, false, false, false);
   }
@@ -586,6 +594,7 @@ public class ParsedName {
    * @return the 1,2 or 3 parted name as a single string
    */
   @JsonProperty
+  @com.fasterxml.jackson.annotation.JsonProperty
   public String canonicalNameWithMarker() {
     return buildName(true, true, false, false, false, false, true, true, true, false, false, false, true, true);
   }
@@ -596,6 +605,7 @@ public class ParsedName {
    * @return the 1,2 or 3 parted name as a single string
    */
   @JsonProperty
+  @com.fasterxml.jackson.annotation.JsonProperty
   public String canonicalNameComplete() {
     return buildName(true, true, true, false, true, false, true, false, true, false, false, false, true, true);
   }
@@ -618,6 +628,7 @@ public class ParsedName {
   }
 
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public Integer getBracketYearInt() {
     try {
       return Integer.parseInt(bracketYear);
@@ -634,6 +645,7 @@ public class ParsedName {
   }
 
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public Integer getYearInt() {
     try {
       return Integer.parseInt(year);
@@ -643,16 +655,19 @@ public class ParsedName {
   }
 
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public boolean isAutonym() {
     return specificEpithet != null && infraSpecificEpithet != null && specificEpithet.equals(infraSpecificEpithet);
   }
 
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public boolean isBinomial() {
     return genusOrAbove != null && specificEpithet != null;
   }
 
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public boolean isHybridFormula() {
     return NameType.HYBRID == type;
   }
@@ -663,6 +678,7 @@ public class ParsedName {
    *         spec. but not Maxillaria sect. Acaules
    */
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public boolean isIndetermined() {
     return rank != null && isParsed() && isParsableType() && rank.notOtherOrUnknown() && (
            (rank.isInfragenericStrictly() && infraGeneric == null)
@@ -672,11 +688,13 @@ public class ParsedName {
   }
 
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public boolean isParsableType() {
     return type != null && type.isParsable();
   }
 
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public boolean isQualified() {
     return (authorship != null && !authorship.isEmpty())
            || (year != null && !year.isEmpty())
@@ -688,6 +706,7 @@ public class ParsedName {
    * @return true if a bracket authorship is given, indicating that the name has been subsequently recombined.
    */
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public boolean isRecombination() {
     return (!StringUtils.isBlank(bracketAuthorship) || !StringUtils.isBlank(bracketYear));
   }

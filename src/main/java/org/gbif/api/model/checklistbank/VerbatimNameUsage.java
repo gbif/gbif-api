@@ -15,21 +15,6 @@
  */
 package org.gbif.api.model.checklistbank;
 
-import org.gbif.api.jackson.ExtensionKeyDeserializer;
-import org.gbif.api.jackson.ExtensionSerializer;
-import org.gbif.api.jackson.TermMapListDeserializer;
-import org.gbif.api.jackson.TermMapListSerializer;
-import org.gbif.api.vocabulary.Extension;
-import org.gbif.dwc.terms.Term;
-import org.gbif.dwc.terms.TermFactory;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
-
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
@@ -38,6 +23,23 @@ import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.gbif.api.jackson.ExtensionKeyDeserializer;
+import org.gbif.api.jackson.ExtensionSerializer;
+import org.gbif.api.jackson.Jackson2ExtensionKeyDeserializer;
+import org.gbif.api.jackson.Jackson2ExtensionSerializer;
+import org.gbif.api.jackson.Jackson2TermMapListDeserializer;
+import org.gbif.api.jackson.Jackson2TermMapListSerializer;
+import org.gbif.api.jackson.TermMapListDeserializer;
+import org.gbif.api.jackson.TermMapListSerializer;
+import org.gbif.api.vocabulary.Extension;
+import org.gbif.dwc.terms.Term;
+import org.gbif.dwc.terms.TermFactory;
+
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -68,6 +70,12 @@ public class VerbatimNameUsage {
   @NotNull
   @JsonSerialize(keyUsing = ExtensionSerializer.class, contentUsing = TermMapListSerializer.class)
   @JsonDeserialize(keyUsing = ExtensionKeyDeserializer.class, contentUsing = TermMapListDeserializer.class)
+  @com.fasterxml.jackson.databind.annotation.JsonSerialize(
+    keyUsing = Jackson2ExtensionSerializer.class,
+    contentUsing = Jackson2TermMapListSerializer.class)
+  @com.fasterxml.jackson.databind.annotation.JsonDeserialize(
+    keyUsing = Jackson2ExtensionKeyDeserializer.class,
+    contentUsing = Jackson2TermMapListDeserializer.class)
   public Map<Extension, List<Map<Term, String>>> getExtensions() {
     return extensions;
   }
@@ -81,6 +89,7 @@ public class VerbatimNameUsage {
    */
   @NotNull
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public Map<Term, String> getFields() {
     return fields;
   }
@@ -134,7 +143,7 @@ public class VerbatimNameUsage {
   /**
    * For setting a specific field without having to replace the entire fields Map.
    *
-   * @param term the field to set
+   * @param term       the field to set
    * @param fieldValue the field's value
    */
   public void setCoreField(Term term, @Nullable String fieldValue) {
@@ -146,6 +155,7 @@ public class VerbatimNameUsage {
    * This private method is only for deserialization via jackson and not exposed anywhere else!
    */
   @JsonAnySetter
+  @com.fasterxml.jackson.annotation.JsonAnySetter
   private void addJsonVerbatimField(String key, String value) {
     Term t = TermFactory.instance().findTerm(key);
     fields.put(t, value);
@@ -156,6 +166,7 @@ public class VerbatimNameUsage {
    * It maps the verbatimField terms into properties with their full qualified name.
    */
   @JsonAnyGetter
+  @com.fasterxml.jackson.annotation.JsonAnyGetter
   private Map<String, String> jsonVerbatimFields() {
     Map<String, String> extendedProps = Maps.newHashMap();
     for (Map.Entry<Term, String> prop : fields.entrySet()) {
@@ -163,8 +174,6 @@ public class VerbatimNameUsage {
     }
     return extendedProps;
   }
-
-
 
 
   @Override
@@ -178,17 +187,17 @@ public class VerbatimNameUsage {
 
     VerbatimNameUsage that = (VerbatimNameUsage) object;
     return Objects.equal(this.key, that.key)
-           && Objects.equal(this.fields, that.fields)
-           && Objects.equal(this.extensions, that.extensions)
-           && Objects.equal(this.lastCrawled, that.lastCrawled);
+      && Objects.equal(this.fields, that.fields)
+      && Objects.equal(this.extensions, that.extensions)
+      && Objects.equal(this.lastCrawled, that.lastCrawled);
   }
 
   @Override
   public int hashCode() {
     return Objects.hashCode(key,
-                            fields,
-                            extensions,
-                            lastCrawled);
+      fields,
+      extensions,
+      lastCrawled);
   }
 
   @Override

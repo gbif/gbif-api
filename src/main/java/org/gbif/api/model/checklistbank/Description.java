@@ -21,7 +21,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Objects;
 
-
 /**
  * Description Model Object represents a taxon description.
  *

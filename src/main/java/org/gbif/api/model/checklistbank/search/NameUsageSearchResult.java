@@ -38,7 +38,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import static com.google.common.collect.Lists.newArrayList;
 
-
 /**
  * Class used for returning results of a full text search operation.
  * This class contains additional attributes that are required for displaying/providing textual information.
@@ -61,6 +60,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
   private String kingdom;
   private String phylum;
   @JsonProperty("class")
+  @com.fasterxml.jackson.annotation.JsonProperty("class")
   private String clazz;
   private String order;
   private String family;

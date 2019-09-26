@@ -15,12 +15,20 @@ package org.gbif.api.model.checklistbank.search;
 import com.google.common.collect.Sets;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.FacetedSearchRequest;
-import org.gbif.api.vocabulary.*;
+import org.gbif.api.vocabulary.Habitat;
+import org.gbif.api.vocabulary.NameUsageIssue;
+import org.gbif.api.vocabulary.NomenclaturalStatus;
+import org.gbif.api.vocabulary.Origin;
+import org.gbif.api.vocabulary.Rank;
+import org.gbif.api.vocabulary.TaxonomicStatus;
+import org.gbif.api.vocabulary.ThreatStatus;
 
 import java.util.Set;
 import java.util.UUID;
 
-import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.*;
+import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.DESCRIPTION;
+import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.SCIENTIFIC;
+import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.VERNACULAR;
 
 /**
  * A name usage specific search request with convenience methods to add enum based search filters.

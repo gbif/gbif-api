@@ -12,7 +12,6 @@
  */
 package org.gbif.api.model.checklistbank.search;
 
-
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.util.ClassificationUtils;
@@ -39,6 +38,7 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   private String kingdom;
   private String phylum;
   @JsonProperty("class")
+  @com.fasterxml.jackson.annotation.JsonProperty("class")
   private String clazz;
   private String order;
   private String family;
@@ -325,7 +325,7 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
    * An ordered map with entries for all higher Linnean ranks down to the actual direct parent of this usage.
    * The map starts with the highest rank, e.g. the kingdom and maps the name usage key to its canonical name.
    * The name usage itself is never included, even though a higher rank might point to the usage itself.
-   * 
+   *
    * @return map of higher ranks
    */
   @NotNull

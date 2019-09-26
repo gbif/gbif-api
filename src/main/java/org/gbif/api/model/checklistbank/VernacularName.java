@@ -25,7 +25,6 @@ import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Objects;
 
-
 /**
  * VernacularName Model Object represents a vernacular name for a scientific taxon.
  *

@@ -51,6 +51,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
   private String kingdom;
   private String phylum;
   @JsonProperty("class")
+  @com.fasterxml.jackson.annotation.JsonProperty("class")
   private String clazz;
   private String order;
   private String family;

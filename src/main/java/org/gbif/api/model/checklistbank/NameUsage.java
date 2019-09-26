@@ -63,6 +63,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   private String kingdom;
   private String phylum;
   @JsonProperty("class")
+  @com.fasterxml.jackson.annotation.JsonProperty("class")
   private String clazz;
   private String order;
   private String family;
@@ -711,6 +712,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    */
   @Nullable
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public String getCanonicalOrScientificName() {
     return canonicalName == null ? scientificName : canonicalName;
   }
@@ -753,6 +755,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    */
   @NotNull
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public LinkedHashMap<Integer, String> getHigherClassificationMap() {
     return ClassificationUtils.getHigherClassificationMap(this, key, parentKey, parent);
   }
@@ -844,6 +847,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public boolean isNub() {
     return datasetKey.equals(Constants.NUB_DATASET_KEY);
   }
@@ -854,6 +858,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    * @return true if proParte, false otherwise
    */
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public boolean isProParte() {
     return proParteKey != null;
   }

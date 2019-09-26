@@ -38,6 +38,7 @@ public class TableOfContents {
   }
 
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public boolean isEmpty() {
     return toc.isEmpty();
   }
@@ -46,6 +47,7 @@ public class TableOfContents {
    * @return list of all languages available for this ToC
    */
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public List<Language> listLanguages() {
     return Lists.newArrayList(toc.keySet());
   }
@@ -54,6 +56,7 @@ public class TableOfContents {
    * @return map of all topics for a given language with a list of entry keys for each language
    */
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public Map<String, List<Integer>> listTopicEntries(Language lang) {
     if (toc.containsKey(lang)) {
       return toc.get(lang);

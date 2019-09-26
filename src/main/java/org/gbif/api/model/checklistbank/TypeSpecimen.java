@@ -23,7 +23,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Objects;
 
-
 /**
  * TypeSpecimen Model originally designed for both specimens and types, including type specimens, type species and type genera and simple
  * specimens unrelated to types.

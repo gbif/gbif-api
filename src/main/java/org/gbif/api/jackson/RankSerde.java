@@ -38,6 +38,24 @@ public class RankSerde {
     }
   }
 
+  public static class Jackson2RankJsonSerializer extends com.fasterxml.jackson.databind.JsonSerializer<Rank> {
+
+    @Override
+    public void serialize(Rank value,
+                          com.fasterxml.jackson.core.JsonGenerator jgen,
+                          com.fasterxml.jackson.databind.SerializerProvider provider) throws IOException {
+      if (value == null) {
+        jgen.writeNull();
+        return;
+      }
+      if (value.getMarker() == null) {
+        jgen.writeString(value.name().toLowerCase().replaceAll("_", " "));
+      } else {
+        jgen.writeString(value.getMarker());
+      }
+    }
+  }
+
   /**
    * Jackson {@link JsonDeserializer} for {@link Rank}.
    */
@@ -61,6 +79,37 @@ public class RankSerde {
           // try enum name as last resort
           try {
             return Rank.valueOf(jp.getText().toUpperCase().replaceAll(" ", "_"));
+          } catch (IllegalArgumentException e) {
+            // swallow
+          }
+        }
+        return null;
+      }
+      throw ctxt.mappingException("Expected String");
+    }
+  }
+
+  public static class Jackson2RankJsonDeserializer extends com.fasterxml.jackson.databind.JsonDeserializer<Rank> {
+    private static final Map<String, Rank> RANKS = Maps.newHashMap();
+    static {
+      for (Rank r : Rank.values()) {
+        if (r.getMarker() != null) {
+          RANKS.put(r.getMarker(), r);
+        }
+      }
+    }
+
+    @Override
+    public Rank deserialize(com.fasterxml.jackson.core.JsonParser jp,
+                            com.fasterxml.jackson.databind.DeserializationContext ctxt) throws IOException {
+      if (jp.getCurrentToken() == com.fasterxml.jackson.core.JsonToken.VALUE_STRING) {
+        if (RANKS.containsKey(jp.getText())) {
+          return RANKS.get(jp.getText());
+
+        } else {
+          // try enum name as last resort
+          try {
+            return Rank.valueOf(jp.getText().toUpperCase().replace(" ", "_"));
           } catch (IllegalArgumentException e) {
             // swallow
           }

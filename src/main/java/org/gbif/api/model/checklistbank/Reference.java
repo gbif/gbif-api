@@ -20,7 +20,6 @@ import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Objects;
 
-
 /**
  * Reference Model Object represents a literature reference stating a bibliography for a taxon.
  *

@@ -1,5 +1,11 @@
 package org.gbif.api.jackson;
 
+import com.google.common.collect.Lists;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.JsonToken;
+import org.codehaus.jackson.map.DeserializationConfig.Feature;
+import org.codehaus.jackson.map.DeserializationContext;
+import org.codehaus.jackson.map.JsonDeserializer;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.TermFactory;
 
@@ -8,13 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.google.common.collect.Lists;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
-import org.codehaus.jackson.map.DeserializationConfig.Feature;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
 
 /**
  * Deserializes list of maps of terms values.
@@ -28,11 +27,11 @@ public class TermMapListDeserializer extends JsonDeserializer<List<Map<Term, Str
     if (jp.getCurrentToken() == JsonToken.START_ARRAY) {
       JsonDeserializer<Object> deserializer =
         ctxt.getDeserializerProvider().findTypedValueDeserializer(ctxt.getConfig(),
-                                                                  ctxt.constructType(List.class),null);
+          ctxt.constructType(List.class), null);
       List<Map<String, String>> verbatimTerms = (List<Map<String, String>>) deserializer.deserialize(jp, ctxt);
       List<Map<Term, String>> interpretedTerms = Lists.newArrayList();
       for (Map<String, String> verbExtension : verbatimTerms) {
-        Map<Term, String> extension = new HashMap<Term, String>();
+        Map<Term, String> extension = new HashMap<>();
         for (Entry<String, String> entry : verbExtension.entrySet()) {
           Term term = termFactory.findTerm(entry.getKey());
           if (term == null && ctxt.getConfig().isEnabled(Feature.FAIL_ON_UNKNOWN_PROPERTIES)) {

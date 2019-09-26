@@ -19,7 +19,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Objects;
 
-
 /**
  * SpeciesProfile Model Object represents a species profile which describes basic species characteristics.
  *

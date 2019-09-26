@@ -15,22 +15,18 @@
  */
 package org.gbif.api.model.checklistbank;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
 import org.gbif.api.model.common.Identifier;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.ThreatStatus;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
-import javax.validation.constraints.NotNull;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -41,11 +37,14 @@ import static com.google.common.collect.Lists.newArrayList;
  * This is just a simple container class with a few convenience methods which needs to be populated manually via its
  * setters or the constructor.
  */
+// TODO: 26/09/2019 do not support jackson 1
 public class NameUsageContainer extends NameUsage {
 
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+  private static final com.fasterxml.jackson.databind.ObjectMapper JACKSON2_MAPPER =
+    new com.fasterxml.jackson.databind.ObjectMapper();
+
   static {
-    MAPPER.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    JACKSON2_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
   private List<Description> descriptions = newArrayList();
@@ -71,8 +70,10 @@ public class NameUsageContainer extends NameUsage {
    */
   public NameUsageContainer(NameUsage usage) {
     try {
-      JsonNode propTree = MAPPER.convertValue(usage, JsonNode.class);
-      MAPPER.readerForUpdating(this).readValue(propTree);
+      final com.fasterxml.jackson.databind.JsonNode propTreeJackson2 =
+        JACKSON2_MAPPER.convertValue(usage, com.fasterxml.jackson.databind.JsonNode.class);
+      JACKSON2_MAPPER.readerForUpdating(this).readValue(propTreeJackson2);
+
     } catch (IOException e) {
       throw new IllegalStateException("Failed to copy NameUsage properties to NameUsageContainer", e);
     }
@@ -151,7 +152,7 @@ public class NameUsageContainer extends NameUsage {
    * @return the list of all URL Identifier
    */
   @NotNull
-  @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public List<Identifier> getIdentifierByType(final IdentifierType type) {
     List<Identifier> ids = newArrayList();
     for (Identifier i : identifiers) {
@@ -218,7 +219,7 @@ public class NameUsageContainer extends NameUsage {
     this.combinations = combinations;
   }
 
-    /**
+  /**
    * @return the list of TypeSpecimen
    */
   @NotNull
@@ -378,13 +379,13 @@ public class NameUsageContainer extends NameUsage {
       }
       final NameUsageContainer other = (NameUsageContainer) object;
       return Objects.equal(this.descriptions, other.descriptions)
-             && Objects.equal(this.distributions, other.distributions)
-             && Objects.equal(this.media, other.media)
-             && Objects.equal(this.referenceList, other.referenceList)
-             && Objects.equal(this.speciesProfiles, other.speciesProfiles)
-             && Objects.equal(this.synonyms, other.synonyms)
-             && Objects.equal(this.typeSpecimens, other.typeSpecimens)
-             && Objects.equal(this.vernacularNames, other.vernacularNames);
+        && Objects.equal(this.distributions, other.distributions)
+        && Objects.equal(this.media, other.media)
+        && Objects.equal(this.referenceList, other.referenceList)
+        && Objects.equal(this.speciesProfiles, other.speciesProfiles)
+        && Objects.equal(this.synonyms, other.synonyms)
+        && Objects.equal(this.typeSpecimens, other.typeSpecimens)
+        && Objects.equal(this.vernacularNames, other.vernacularNames);
     }
     return false;
   }
@@ -392,13 +393,13 @@ public class NameUsageContainer extends NameUsage {
   @Override
   public int hashCode() {
     return Objects.hashCode(descriptions,
-                            distributions,
-                            media,
-                            referenceList,
-                            speciesProfiles,
-                            synonyms,
-                            typeSpecimens,
-                            vernacularNames);
+      distributions,
+      media,
+      referenceList,
+      speciesProfiles,
+      synonyms,
+      typeSpecimens,
+      vernacularNames);
   }
 
 }
