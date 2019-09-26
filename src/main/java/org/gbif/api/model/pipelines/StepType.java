@@ -3,6 +3,8 @@ package org.gbif.api.model.pipelines;
 /** Enum to represent the pipelines step names. */
 public enum StepType {
 
+  //Generic step name used to be a replace of the following three when client doesn't know the endpoint type of a dataset
+  TO_VERBATIM("toVerbatim", 1),
   DWCA_TO_VERBATIM("dwcaToVerbatim", 1),
   XML_TO_VERBATIM("xmlToVerbatim", 1),
   ABCD_TO_VERBATIM("abcdToVerbatim", 1),
