@@ -1,8 +1,8 @@
 package org.gbif.api.model.pipelines;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.gbif.api.jackson.LocalDateTimeSerDe;
 import org.gbif.api.model.registry.LenientEquals;
-import org.gbif.common.shaded.com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -27,10 +27,14 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
 
   @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
   @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
+  @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeSerializer.class)
+  @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeDeserializer.class)
   private LocalDateTime started;
 
   @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
   @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
+  @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeSerializer.class)
+  @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeDeserializer.class)
   private LocalDateTime finished;
 
   private Status state;
@@ -40,6 +44,8 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
 
   @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
   @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
+  @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeSerializer.class)
+  @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeDeserializer.class)
   private LocalDateTime modified;
 
   private String modifiedBy;

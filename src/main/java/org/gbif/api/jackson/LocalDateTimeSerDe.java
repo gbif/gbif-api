@@ -36,4 +36,24 @@ public class LocalDateTimeSerDe {
       return LocalDateTime.parse(jp.getText());
     }
   }
+
+  public static class Jackson2LocalDateTimeSerializer
+    extends com.fasterxml.jackson.databind.JsonSerializer<LocalDateTime> {
+
+    @Override
+    public void serialize(LocalDateTime value,
+                          com.fasterxml.jackson.core.JsonGenerator jgen,
+                          com.fasterxml.jackson.databind.SerializerProvider provider) throws IOException {
+        jgen.writeString((value.toString()));
+      }
+  }
+
+  public static class Jackson2LocalDateTimeDeserializer
+    extends com.fasterxml.jackson.databind.JsonDeserializer<LocalDateTime> {
+    @Override
+    public LocalDateTime deserialize(com.fasterxml.jackson.core.JsonParser jp,
+                                     com.fasterxml.jackson.databind.DeserializationContext ctxt) throws IOException {
+      return LocalDateTime.parse(jp.getText());
+    }
+  }
 }

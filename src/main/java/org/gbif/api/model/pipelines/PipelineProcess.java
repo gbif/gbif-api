@@ -1,14 +1,16 @@
 package org.gbif.api.model.pipelines;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.gbif.api.jackson.LocalDateTimeSerDe;
-import org.gbif.common.shaded.com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.*;
-
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import java.util.Comparator;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.UUID;
 
 /** Base POJO model for the Pipelines status service */
 public class PipelineProcess implements Serializable {
@@ -23,6 +25,8 @@ public class PipelineProcess implements Serializable {
 
   @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
   @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
+  @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeSerializer.class)
+  @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeDeserializer.class)
   private LocalDateTime created;
 
   private String createdBy;
