@@ -14,6 +14,10 @@ package org.gbif.api.model.occurrence;
 
 import org.gbif.api.jackson.ExtensionKeyDeserializer;
 import org.gbif.api.jackson.ExtensionSerializer;
+import org.gbif.api.jackson.Jackson2ExtensionKeyDeserializer;
+import org.gbif.api.jackson.Jackson2ExtensionSerializer;
+import org.gbif.api.jackson.Jackson2TermMapListDeserializer;
+import org.gbif.api.jackson.Jackson2TermMapListSerializer;
 import org.gbif.api.jackson.TermMapListDeserializer;
 import org.gbif.api.jackson.TermMapListSerializer;
 import org.gbif.api.vocabulary.Country;
@@ -207,6 +211,7 @@ public class VerbatimOccurrence {
    */
   @NotNull
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public Map<Term, String> getVerbatimFields() {
     return verbatimFields;
   }
@@ -221,6 +226,12 @@ public class VerbatimOccurrence {
   @NotNull
   @JsonSerialize(keyUsing = ExtensionSerializer.class, contentUsing = TermMapListSerializer.class)
   @JsonDeserialize(keyUsing = ExtensionKeyDeserializer.class, contentUsing = TermMapListDeserializer.class)
+  @com.fasterxml.jackson.databind.annotation.JsonSerialize(
+    keyUsing = Jackson2ExtensionSerializer.class,
+    contentUsing = Jackson2TermMapListSerializer.class)
+  @com.fasterxml.jackson.databind.annotation.JsonDeserialize(
+    keyUsing = Jackson2ExtensionKeyDeserializer.class,
+    contentUsing = Jackson2TermMapListDeserializer.class)
   public Map<Extension, List<Map<Term, String>>> getExtensions() {
     return extensions;
   }
@@ -280,6 +291,7 @@ public class VerbatimOccurrence {
    * This private method is only for deserialization via jackson and not exposed anywhere else!
    */
   @JsonAnySetter
+  @com.fasterxml.jackson.annotation.JsonAnySetter
   private void addJsonVerbatimField(String key, String value) {
     if(!Strings.isNullOrEmpty(value)) {
       Term t = TermFactory.instance().findTerm(key);
@@ -292,6 +304,7 @@ public class VerbatimOccurrence {
    * It maps the verbatimField terms into properties with their full qualified name.
    */
   @JsonAnyGetter
+  @com.fasterxml.jackson.annotation.JsonAnyGetter
   private Map<String, String> jsonVerbatimFields() { // note: for 1.6.0 MUST use non-getter name; otherwise doesn't matter
     Map<String, String> extendedProps = Maps.newHashMap();
     for (Map.Entry<Term, String> prop : verbatimFields.entrySet()) {

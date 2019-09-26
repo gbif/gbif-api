@@ -16,7 +16,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-
 public class Download {
 
   /**
@@ -143,6 +142,7 @@ public class Download {
    * @return true if the download is completed and a result is available
    */
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public boolean isAvailable() {
     return status == Status.SUCCEEDED;
   }

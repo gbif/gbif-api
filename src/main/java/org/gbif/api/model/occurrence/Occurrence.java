@@ -99,6 +99,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private String kingdom;
   private String phylum;
   @JsonProperty("class")
+  @com.fasterxml.jackson.annotation.JsonProperty("class")
   private String clazz;
   private String order;
   private String family;
@@ -130,6 +131,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Continent continent;
   @JsonSerialize(using = Country.IsoSerializer.class)
   @JsonDeserialize(using = Country.IsoDeserializer.class)
+  @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = Country.Jackson2IsoSerializer.class)
+  @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = Country.Jackson2IsoDeserializer.class)
   private Country country;
   private String stateProvince;
   private String waterBody;
@@ -333,6 +336,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    */
   @NotNull
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public LinkedHashMap<Integer, String> getHigherClassificationMap() {
     return taxonKey == null ? ClassificationUtils.getHigherClassificationMap(this)
       : ClassificationUtils.getHigherClassificationMap(this, taxonKey, null, null);
@@ -691,6 +695,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Nullable
   @JsonProperty("countryCode")
+  @com.fasterxml.jackson.annotation.JsonProperty("countryCode")
   public Country getCountry() {
     return country;
   }
@@ -706,6 +711,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    */
   @Nullable
   @JsonProperty("country")
+  @com.fasterxml.jackson.annotation.JsonProperty("country")
   private String getCountryTitle() {
     return country == null ? null : country.getTitle();
   }
@@ -918,6 +924,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
 
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   /**
    * Convenience method checking if any spatial validation rule has not passed.
    * Primarily used to indicate that the record should not be displayed on a map.
@@ -1080,6 +1087,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * It maps the verbatimField terms into properties with their simple name or qualified names for UnknownTerms.
    */
   @JsonAnyGetter
+  @com.fasterxml.jackson.annotation.JsonAnyGetter
   private Map<String, String> jsonVerbatimFields() {
     Map<String, String> extendedProps = Maps.newHashMap();
     for (Map.Entry<Term, String> prop : getVerbatimFields().entrySet()) {
