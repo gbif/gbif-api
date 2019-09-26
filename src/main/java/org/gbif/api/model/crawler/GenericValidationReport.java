@@ -36,11 +36,12 @@ public class GenericValidationReport {
   private final boolean valid;
 
   @JsonCreator
+  @com.fasterxml.jackson.annotation.JsonCreator
   public GenericValidationReport(
-    @JsonProperty("checkedRecords") int checkedRecords,
-    @JsonProperty("allRecordsChecked") boolean allRecordsChecked,
-    @JsonProperty("duplicateIds") List<String> duplicateIds,
-    @JsonProperty("rowNumbersMissingId") List<Integer> rowNumbersMissingId
+    @com.fasterxml.jackson.annotation.JsonProperty("checkedRecords") @JsonProperty("checkedRecords") int checkedRecords,
+    @com.fasterxml.jackson.annotation.JsonProperty("allRecordsChecked") @JsonProperty("allRecordsChecked") boolean allRecordsChecked,
+    @com.fasterxml.jackson.annotation.JsonProperty("duplicateIds") @JsonProperty("duplicateIds") List<String> duplicateIds,
+    @com.fasterxml.jackson.annotation.JsonProperty("rowNumbersMissingId") @JsonProperty("rowNumbersMissingId") List<Integer> rowNumbersMissingId
   ) {
     this.checkedRecords = checkedRecords;
     this.allRecordsChecked = allRecordsChecked;

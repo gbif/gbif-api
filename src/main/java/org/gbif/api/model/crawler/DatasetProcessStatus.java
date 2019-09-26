@@ -25,7 +25,6 @@ import com.google.common.base.Objects;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-
 /**
  * Information about a dataset that is currently being processed. That usually means that we are crawling it at the
  * moment or are in the process of persisting and interpreting its occurrences.

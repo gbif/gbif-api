@@ -46,10 +46,12 @@ public class DwcaValidationReport {
   }
 
   @JsonCreator
-  public DwcaValidationReport(@JsonProperty("datasetKey") UUID datasetKey,
-    @JsonProperty("occurrenceReport") OccurrenceValidationReport occurrenceReport,
-    @JsonProperty("genericReport") GenericValidationReport genericReport,
-    @JsonProperty("invalidationReason") String invalidationReason) {
+  @com.fasterxml.jackson.annotation.JsonCreator
+  public DwcaValidationReport(
+    @com.fasterxml.jackson.annotation.JsonProperty("datasetKey") @JsonProperty("datasetKey") UUID datasetKey,
+    @com.fasterxml.jackson.annotation.JsonProperty("occurrenceReport") @JsonProperty("occurrenceReport") OccurrenceValidationReport occurrenceReport,
+    @com.fasterxml.jackson.annotation.JsonProperty("genericReport") @JsonProperty("genericReport") GenericValidationReport genericReport,
+    @com.fasterxml.jackson.annotation.JsonProperty("invalidationReason") @JsonProperty("invalidationReason") String invalidationReason) {
     this.datasetKey = checkNotNull(datasetKey, "datasetKey can't be null");
     // verify one of the 3 is not null
     checkArgument(invalidationReason!=null || occurrenceReport != null || genericReport != null,

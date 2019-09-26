@@ -45,12 +45,13 @@ public class CrawlJob {
    * @param properties   a way to provide protocol or crawl specific options
    */
   @JsonCreator
+  @com.fasterxml.jackson.annotation.JsonCreator
   public CrawlJob(
-    @JsonProperty("datasetKey") UUID datasetKey,
-    @JsonProperty("endpointType") EndpointType endpointType,
-    @JsonProperty("targetUrl") URI targetUrl,
-    @JsonProperty("attempt") int attempt,
-    @Nullable @JsonProperty("properties") Map<String, String> properties
+    @com.fasterxml.jackson.annotation.JsonProperty("datasetKey") @JsonProperty("datasetKey") UUID datasetKey,
+    @com.fasterxml.jackson.annotation.JsonProperty("endpointType") @JsonProperty("endpointType") EndpointType endpointType,
+    @com.fasterxml.jackson.annotation.JsonProperty("targetUrl") @JsonProperty("targetUrl") URI targetUrl,
+    @com.fasterxml.jackson.annotation.JsonProperty("attempt") @JsonProperty("attempt") int attempt,
+    @Nullable @com.fasterxml.jackson.annotation.JsonProperty("properties") @JsonProperty("properties") Map<String, String> properties
   ) {
     this.datasetKey = checkNotNull(datasetKey);
     this.endpointType = checkNotNull(endpointType);
@@ -110,6 +111,7 @@ public class CrawlJob {
   }
 
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public String getProperty(String name) {
     return properties.get(name);
   }
