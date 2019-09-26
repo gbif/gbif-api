@@ -320,6 +320,7 @@ public class Network implements NetworkEntity, Contactable, Endpointable, Machin
   @Nullable
   @Override
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public String getOrganization() {
     return getTitle();
   }

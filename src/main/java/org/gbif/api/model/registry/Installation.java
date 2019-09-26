@@ -141,10 +141,11 @@ public class Installation implements NetworkEntity, Contactable, Endpointable, M
   /**
    * Get the installation password. This method is to be ignored on serialization, so that the password is not
    * revealed in the web service response.
-   * 
+   *
    * @return organization password
    */
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   @Nullable
   public String getPassword() {
     return password;

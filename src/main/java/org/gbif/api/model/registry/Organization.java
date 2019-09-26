@@ -154,6 +154,7 @@ public class Organization
    * @return organization password
    */
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   @Nullable
   public String getPassword() {
     return password;
@@ -267,6 +268,7 @@ public class Organization
   @Nullable
   @Override
   @JsonIgnore
+  @com.fasterxml.jackson.annotation.JsonIgnore
   public String getOrganization() {
     return getTitle();
   }
