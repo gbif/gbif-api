@@ -73,7 +73,8 @@ public class PipelineProcess implements Serializable {
   }
 
   public void setSteps(Set<PipelineStep> steps) {
-    this.steps = steps;
+    this.steps.clear();
+    this.steps.addAll(steps);
   }
 
   public void addStep(PipelineStep step) {
