@@ -112,7 +112,7 @@ public class DOITest {
     assertSame(d, "10.1000/456#789");
 
     //getUrl will be returned as https (preferred http://www.doi.org/doi_handbook/3_Resolution.html)
-    assertEquals(URI.create("https://doi.org/" + URLEncoder.encode("10.1000/456#789", "UTF-8")), d.getUrl());
+    assertEquals(URI.create("https://doi.org/10.1000/" + URLEncoder.encode("456#789", "UTF-8")), d.getUrl());
   }
 
   private void assertSame(DOI doi, String doi2) {
