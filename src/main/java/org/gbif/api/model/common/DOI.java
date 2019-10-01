@@ -1,7 +1,9 @@
 package org.gbif.api.model.common;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -140,9 +142,14 @@ public class DOI {
   /**
    * See <a href="http://www.doi.org/doi_handbook/2_Numbering.html#2.6">DOI Handbook, Visual presentation and other representation of DOI names</a>.
    * @return the resolved DOI using https://doi.org/
+   * @throws IllegalStateException if the encoding of the DOI is not supported
    */
   public URI getUrl() {
-    return URI.create(RESOLVER + getDoiName());
+    try {
+      return URI.create(RESOLVER + URLEncoder.encode(getDoiName(), "UTF-8"));
+    } catch (UnsupportedEncodingException e) {
+      throw new IllegalStateException("Unsupported DOI encoding", e);
+    }
   }
 
   /**
