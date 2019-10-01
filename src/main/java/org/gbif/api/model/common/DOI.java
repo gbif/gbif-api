@@ -146,7 +146,7 @@ public class DOI {
    */
   public URI getUrl() {
     try {
-      return URI.create(RESOLVER + URLEncoder.encode(getDoiName(), "UTF-8"));
+      return URI.create(RESOLVER + prefix + '/' + URLEncoder.encode(suffix, "UTF-8"));
     } catch (UnsupportedEncodingException e) {
       throw new IllegalStateException("Unsupported DOI encoding", e);
     }
