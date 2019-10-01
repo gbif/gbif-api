@@ -3,6 +3,7 @@ package org.gbif.api.model.common;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -32,6 +33,11 @@ import org.slf4j.LoggerFactory;
 public class DOI {
 
   private static final Logger LOG = LoggerFactory.getLogger(DOI.class);
+
+  /**
+   * Encoding to create URLs.
+   */
+  private static final String CHAR_ENCODING = "UTF-8";
 
   /**
    * The DOI prefix registered with DataCite to be used by GBIF issued production DOIs.
@@ -118,7 +124,11 @@ public class DOI {
       doi = m.replaceFirst("");
       // now decode the URL path, we cannot possibly have query parameters or anchors as the DOIs encoded as a URL
       // will just be a path
-      return URI.create(doi).getPath();
+      try {
+        return URI.create(URLEncoder.encode(doi, CHAR_ENCODING)).getPath();
+      } catch (UnsupportedEncodingException e) {
+        throw new IllegalArgumentException("Unsupported DOI encoding", e);
+      }
     }
     return doi;
   }
@@ -146,7 +156,7 @@ public class DOI {
    */
   public URI getUrl() {
     try {
-      return URI.create(RESOLVER + prefix + '/' + URLEncoder.encode(suffix, "UTF-8"));
+      return URI.create(RESOLVER + prefix + '/' + URLEncoder.encode(suffix, CHAR_ENCODING));
     } catch (UnsupportedEncodingException e) {
       throw new IllegalStateException("Unsupported DOI encoding", e);
     }
