@@ -1,7 +1,10 @@
 package org.gbif.api.model.common;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,6 +37,11 @@ import org.slf4j.LoggerFactory;
 public class DOI {
 
   private static final Logger LOG = LoggerFactory.getLogger(DOI.class);
+
+  /**
+   * Encoding to create URLs.
+   */
+  private static final String CHAR_ENCODING = "UTF-8";
 
   /**
    * The DOI prefix registered with DataCite to be used by GBIF issued production DOIs.
@@ -120,7 +128,11 @@ public class DOI {
       doi = m.replaceFirst("");
       // now decode the URL path, we cannot possibly have query parameters or anchors as the DOIs encoded as a URL
       // will just be a path
-      return URI.create(doi).getPath();
+      try {
+        return URI.create(URLEncoder.encode(doi, CHAR_ENCODING)).getPath();
+      } catch (UnsupportedEncodingException e) {
+        throw new IllegalArgumentException("Unsupported DOI encoding", e);
+      }
     }
     return doi;
   }
@@ -144,9 +156,14 @@ public class DOI {
   /**
    * See <a href="http://www.doi.org/doi_handbook/2_Numbering.html#2.6">DOI Handbook, Visual presentation and other representation of DOI names</a>.
    * @return the resolved DOI using https://doi.org/
+   * @throws IllegalStateException if the encoding of the DOI is not supported
    */
   public URI getUrl() {
-    return URI.create(RESOLVER + getDoiName());
+    try {
+      return URI.create(RESOLVER + prefix + '/' + URLEncoder.encode(suffix, CHAR_ENCODING));
+    } catch (UnsupportedEncodingException e) {
+      throw new IllegalStateException("Unsupported DOI encoding", e);
+    }
   }
 
   /**

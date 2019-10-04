@@ -1,19 +1,18 @@
 package org.gbif.api.model.crawler;
 
-import org.gbif.api.vocabulary.EndpointType;
-
-import java.net.URI;
-import java.util.Map;
-import java.util.UUID;
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.ThreadSafe;
-
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.gbif.api.vocabulary.EndpointType;
+
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.ThreadSafe;
+import java.net.URI;
+import java.util.Map;
+import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -37,7 +36,7 @@ public class CrawlJob {
   /**
    * Creates a new crawl job.
    *
-   * @param datasetKey  of the dataset to crawl
+   * @param datasetKey   of the dataset to crawl
    * @param endpointType of the dataset
    * @param targetUrl    of the dataset
    * @param attempt      a monotonously increasing counter, increased every time we try to crawl a dataset whether that
@@ -69,19 +68,20 @@ public class CrawlJob {
   /**
    * Constructor with mandatory fields.
    * Properties field is set to null.
-   * @param datasetKey  of the dataset to crawl
+   *
+   * @param datasetKey   of the dataset to crawl
    * @param endpointType of the dataset
    * @param targetUrl    of the dataset
    * @param attempt      a monotonously increasing counter, increased every time we try to crawl a dataset whether that
    *                     attempt is successful or not
    */
-  public CrawlJob(UUID datasetKey, Integer attempt,EndpointType endpointType, URI targetUrl){
+  public CrawlJob(UUID datasetKey, Integer attempt, EndpointType endpointType, URI targetUrl) {
     //This constructor is used for the MyBatis persistence layer.
     this.datasetKey = datasetKey;
     this.attempt = attempt;
     this.endpointType = endpointType;
     this.targetUrl = targetUrl;
-    this.properties = null;
+    this.properties = ImmutableMap.of();
   }
 
   public UUID getDatasetKey() {
@@ -127,10 +127,10 @@ public class CrawlJob {
 
     final CrawlJob other = (CrawlJob) obj;
     return Objects.equal(this.datasetKey, other.datasetKey)
-           && Objects.equal(this.endpointType, other.endpointType)
-           && Objects.equal(this.targetUrl, other.targetUrl)
-           && Objects.equal(this.attempt, other.attempt)
-           && Objects.equal(this.properties, other.properties);
+      && Objects.equal(this.endpointType, other.endpointType)
+      && Objects.equal(this.targetUrl, other.targetUrl)
+      && Objects.equal(this.attempt, other.attempt)
+      && Objects.equal(this.properties, other.properties);
   }
 
   @Override
