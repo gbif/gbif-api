@@ -189,7 +189,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
         return false;
       }
       MetricInfo that = (MetricInfo) o;
-      return name.equals(that.name) && value.equals(that.value);
+      return Objects.equals(name, that.name) && Objects.equals(value, that.value);
     }
 
     @Override
