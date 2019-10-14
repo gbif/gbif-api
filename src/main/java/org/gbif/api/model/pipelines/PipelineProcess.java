@@ -22,6 +22,7 @@ public class PipelineProcess implements Serializable {
 
   private UUID datasetKey;
   private int attempt;
+  private long numberRecords;
 
   @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
   @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
@@ -54,6 +55,14 @@ public class PipelineProcess implements Serializable {
     return this;
   }
 
+  public long getNumberRecords() {
+    return numberRecords;
+  }
+
+  public void setNumberRecords(long numberRecords) {
+    this.numberRecords = numberRecords;
+  }
+
   public LocalDateTime getCreated() {
     return created;
   }
@@ -83,5 +92,30 @@ public class PipelineProcess implements Serializable {
 
   public void addStep(PipelineStep step) {
     steps.add(step);
+  }
+
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", PipelineProcess.class.getSimpleName() + "[", "]").add("key=" + key)
+      .add("datasetKey=" + datasetKey)
+      .add("attempt=" + attempt)
+      .add("numberRecords=" + numberRecords)
+      .add("created=" + created)
+      .add("createdBy='" + createdBy + "'")
+      .add("steps=" + steps)
+      .toString();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    PipelineProcess process = (PipelineProcess) o;
+    return attempt == process.attempt && Objects.equals(datasetKey, process.datasetKey);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(datasetKey, attempt);
   }
 }
