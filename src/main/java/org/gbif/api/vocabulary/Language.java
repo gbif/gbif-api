@@ -15,6 +15,7 @@
  */
 package org.gbif.api.vocabulary;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -41,8 +42,12 @@ import java.util.Locale;
  */
 @JsonSerialize(using = Language.IsoSerializer.class)
 @JsonDeserialize(using = Language.LenientDeserializer.class)
-@com.fasterxml.jackson.databind.annotation.JsonSerialize(using = Language.Jackson2IsoSerializer.class)
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = Language.Jackson2LenientDeserializer.class)
+@com.fasterxml.jackson.databind.annotation.JsonSerialize(
+    using = Language.Jackson2IsoSerializer.class,
+    keyUsing = Language.Jackson2IsoSerializer.class)
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
+    using = Language.Jackson2LenientDeserializer.class,
+    keyUsing = Language.Jackson2LenientKeyDeserializer.class)
 public enum Language {
 
   /**
@@ -1021,6 +1026,7 @@ public enum Language {
   /**
    * @return the 3 letter iso 639-2 code in lower case.
    */
+  @JsonValue
   public String getIso3LetterCode() {
     return getLocale().getISO3Language();
   }
@@ -1135,6 +1141,26 @@ public enum Language {
         }
       }
       return l;
+    }
+  }
+
+  public static class Jackson2LenientKeyDeserializer
+      extends com.fasterxml.jackson.databind.KeyDeserializer {
+
+    @Override
+    public Object deserializeKey(
+        String key, com.fasterxml.jackson.databind.DeserializationContext ctxt) throws IOException {
+      try {
+        if (!Strings.isNullOrEmpty(key)) {
+          return Jackson2LenientDeserializer.lenientParse(key);
+        } else {
+          return Language.UNKNOWN; // none provided
+        }
+      } catch (Exception e) {
+        throw new IOException(
+            "Unable to deserialize language from provided value (hint: not an ISO 2 or 3 character?): "
+                + key);
+      }
     }
   }
 }
