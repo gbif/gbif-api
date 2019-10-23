@@ -1,17 +1,6 @@
 package org.gbif.api.model.common;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import org.codehaus.jackson.JsonGenerator;
@@ -24,6 +13,15 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.ser.std.SerializerBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.validation.constraints.NotNull;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Class representing a single Digital Object Identifier (DOI) breaking it down to a prefix and suffix.
@@ -51,13 +49,13 @@ public class DOI {
   /**
    * A DOI prefix provided by DataCite to be used in tests.
    */
-  public static final String TEST_PREFIX = "10.5072";
+  public static final String TEST_PREFIX = "10.21373";
 
   private static final Pattern HTTP = Pattern.compile("^https?://(dx\\.)?doi\\.org/"
-                                                      + "(urn:)?(doi:)?", Pattern.CASE_INSENSITIVE);
+    + "(urn:)?(doi:)?", Pattern.CASE_INSENSITIVE);
   private static final Pattern PARSER = Pattern.compile("^(?:urn:)?(?:doi:)?"           // optional
-                                                        + "(10(?:\\.[0-9]+)+)"
-                                                        + "/(.+)$", Pattern.CASE_INSENSITIVE);
+    + "(10(?:\\.[0-9]+)+)"
+    + "/(.+)$", Pattern.CASE_INSENSITIVE);
 
   private static final String RESOLVER = "https://doi.org/";
   private static final String SCHEME = "doi:";
@@ -71,8 +69,7 @@ public class DOI {
     if (!Strings.isNullOrEmpty(source)) {
       try {
         return PARSER.matcher(decodeUrl(source)).find();
-      }
-      catch (IllegalArgumentException iaEx){
+      } catch (IllegalArgumentException iaEx) {
         LOG.debug("Can not decode URL from the following DOI: {}", source);
       }
     }
@@ -88,6 +85,7 @@ public class DOI {
 
   /**
    * Parses a simple DOI string of various forms incl URN, URL or plain DOI names.
+   *
    * @param doi the full simple DOI string
    * @throws java.lang.IllegalArgumentException if invalid DOI string is passed
    */
@@ -104,6 +102,7 @@ public class DOI {
 
   /**
    * Parses a simple DOI string of various forms incl URN, URL or plain DOI names.
+   *
    * @param prefix a simple DOI prefix starting with 10.
    * @param suffix arbitrary suffix part of the DOI
    * @throws java.lang.IllegalArgumentException if invalid DOI prefix is given
@@ -116,6 +115,7 @@ public class DOI {
 
   /**
    * If the doi is encoded as a URL this method strips the resolver and decodes the URL encoded string entities.
+   *
    * @param doi not null doi represented as a String
    * @return the path part if the doi is a URL otherwise the doi is returned as is.
    * @throws IllegalArgumentException
@@ -155,6 +155,7 @@ public class DOI {
 
   /**
    * See <a href="http://www.doi.org/doi_handbook/2_Numbering.html#2.6">DOI Handbook, Visual presentation and other representation of DOI names</a>.
+   *
    * @return the resolved DOI using https://doi.org/
    * @throws IllegalStateException if the encoding of the DOI is not supported
    */
@@ -203,8 +204,6 @@ public class DOI {
     return Objects.equals(this.prefix, other.prefix) && Objects.equals(this.suffix, other.suffix);
   }
 
-
-
   /**
    * Serializes a DOI – no scheme, no resolver.
    * For example 10.1038/nature.2014.16460
@@ -236,7 +235,7 @@ public class DOI {
     }
   }
 
-  public static class Jackson2Serializer extends JsonSerializer<DOI> {
+  public static class Jackson2Serializer extends com.fasterxml.jackson.databind.JsonSerializer<DOI> {
 
     @Override
     public void serialize(DOI value, com.fasterxml.jackson.core.JsonGenerator gen, com.fasterxml.jackson.databind.SerializerProvider serializers) throws IOException {
