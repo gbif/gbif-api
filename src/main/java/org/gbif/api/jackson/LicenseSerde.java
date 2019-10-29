@@ -1,10 +1,5 @@
 package org.gbif.api.jackson;
 
-import org.gbif.api.vocabulary.License;
-
-import java.io.IOException;
-
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParser;
@@ -13,6 +8,10 @@ import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
+import org.gbif.api.vocabulary.License;
+
+import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Jackson {@link JsonSerializer} and Jackson {@link JsonDeserializer} classes for {@link License}.
@@ -26,12 +25,12 @@ public class LicenseSerde {
 
     @Override
     public void serialize(License value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-      if(value == null){
+      if (value == null) {
         jgen.writeNull();
         return;
       }
 
-      if(value.getLicenseUrl() != null){
+      if (value.getLicenseUrl() != null) {
         jgen.writeString(value.getLicenseUrl());
         return;
       }
@@ -52,17 +51,17 @@ public class LicenseSerde {
     @Override
     public License deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
       if (jp.getCurrentToken() == JsonToken.VALUE_STRING) {
-        if(Strings.isNullOrEmpty(jp.getText())){
+        if (Strings.isNullOrEmpty(jp.getText())) {
           return License.UNSPECIFIED;
         }
-        //first, try by url
+        // first, try by url
         Optional<License> license = License.fromLicenseUrl(jp.getText());
-        if(license.isPresent()){
+        if (license.isPresent()) {
           return license.get();
         }
-        //then, try by name
-        license = License.fromString(jp.getText());
-        return license.or(License.UNSUPPORTED);
+
+        // then, try by name
+        return License.fromString(jp.getText()).orElse(License.UNSUPPORTED);
       }
       throw ctxt.mappingException("Expected String");
     }

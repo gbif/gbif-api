@@ -75,12 +75,12 @@ public final class VocabularyUtils {
 
   /**
    * Same as {@link #lookupEnum(String, Class)} } without IllegalArgumentException.
-   * On failure, this method will return Optional.absent().
+   * On failure, this method will return Optional.empty().
    *
    * @param name
    * @param vocab
    * @param <T>
-   * @return instance of com.google.common.base.Optional, never null.
+   * @return instance of Optional, never null.
    */
   public static <T extends Enum<?>> Optional<T> lookup(String name, Class<T> vocab) {
     T result = null;

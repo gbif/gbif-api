@@ -4,9 +4,10 @@ import org.gbif.api.util.VocabularyUtils;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Optional;
 
 /**
  * Enumeration of the set of licenses GBIF supports for applying to a dataset. The license provides a standardised way
@@ -54,23 +55,21 @@ public enum License {
   private final String licenseUrl;
 
   /**
-   * FIXME returning Guava Optional will cause issues, Java 8 Optional should be returned.
    * Get an {@link License} from its name as String.
    *
-   * @return instance of com.google.common.base.Optional, never null
+   * @return instance of Optional, never null
    */
   public static Optional<License> fromString(String license) {
     return VocabularyUtils.lookup(license, License.class);
   }
 
   /**
-   * FIXME returning Guava Optional will cause issues, Java 8 Optional should be returned.
    * Lookup a License by either its a) legal code URL or b) human readable summary URL, with HTTP or HTTPS.
    * For any parsing see LicenseParser in GBIF parsers project.
    *
    * @param licenseUrl the case insensitive URL for the license.
    *
-   * @return instance of com.google.common.base.Optional, never null
+   * @return instance of Optional, never null
    */
   public static Optional<License> fromLicenseUrl(String licenseUrl) {
     if (!Strings.isNullOrEmpty(licenseUrl)) {
@@ -82,11 +81,11 @@ public enum License {
       for (License license : License.values()) {
         if (license.getLicenseUrl() != null && (licenseUrl.equals(license.getLicenseUrl())
                 || license.getLicenseUrl().startsWith(licenseUrl))) {
-          return Optional.fromNullable(license);
+          return Optional.of(license);
         }
       }
     }
-    return Optional.absent();
+    return Optional.empty();
   }
 
   /**
