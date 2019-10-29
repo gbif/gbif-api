@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatasetSubtype.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">DatasetSubtype.java</span></div><h1>DatasetSubtype.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.vocabulary;
+
+import org.gbif.api.util.VocabularyUtils;
+
+import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
+
+/**
+ * Enumeration for all possible dataset subtypes.
+ */
+<span class="fc" id="L24">public enum DatasetSubtype {</span>
+  /**
+   * A taxonomic checklist that is authoritative in its classification and synonymy.
+   */
+<span class="fc" id="L28">  TAXONOMIC_AUTHORITY,</span>
+  /**
+   * A nomenclatoral checklist that is authoritative in the pure names and publication information.
+   */
+<span class="fc" id="L32">  NOMENCLATOR_AUTHORITY,</span>
+  /**
+   * A thematic checklist that has a theme for grouping names, e.g. parasites of elephants.
+   */
+<span class="fc" id="L36">  INVENTORY_THEMATIC,</span>
+  /**
+   * A regional checklist that has a regional commonality in grouping names, e.g. species in a protected area.
+   */
+<span class="fc" id="L40">  INVENTORY_REGIONAL,</span>
+  /**
+   * A taxonomic checklist with a global, spatial coverage.
+   * This subtype is used in particular by the catalogue of life to assemble its aggregated checklist.
+   */
+<span class="fc" id="L45">  GLOBAL_SPECIES_DATASET,</span>
+  /**
+   * A taxonomic checklist that has been derived from data that was originally occurrence data.
+   */
+<span class="fc" id="L49">  DERIVED_FROM_OCCURRENCE,</span>
+  /**
+   * Specimen data. Possible museum collection.
+   */
+<span class="fc" id="L53">  SPECIMEN,</span>
+  /**
+   * Observation data. Possible monitoring and field observations.
+   */
+<span class="fc" id="L57">  OBSERVATION;</span>
+
+  /**
+   * A set of all DatasetSubtype that belong to DatasetType OCCURRENCE.
+   *
+   * @see DatasetType#OCCURRENCE
+   */
+<span class="fc" id="L64">  public static final Set&lt;DatasetSubtype&gt; OCCURRENCE_DATASET_SUBTYPES = ImmutableSet.of(SPECIMEN, OBSERVATION);</span>
+
+  /**
+   * A set of all DatasetSubtype that belong to DatasetType CHECKLIST.
+   *
+   * @see DatasetType#CHECKLIST
+   */
+<span class="fc" id="L71">  public static final Set&lt;DatasetSubtype&gt; CHECKLIST_DATASET_SUBTYPES = ImmutableSet</span>
+<span class="fc" id="L72">    .of(TAXONOMIC_AUTHORITY, NOMENCLATOR_AUTHORITY, INVENTORY_THEMATIC, INVENTORY_REGIONAL, GLOBAL_SPECIES_DATASET,</span>
+      DERIVED_FROM_OCCURRENCE);
+
+  /**
+   * @return the matching DatasetSubtype or null
+   */
+  public static DatasetSubtype fromString(String datasetSubType) {
+<span class="fc" id="L79">    return (DatasetSubtype) VocabularyUtils.lookupEnum(datasetSubType, DatasetSubtype.class);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

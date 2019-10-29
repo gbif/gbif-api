@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserPrincipal.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common</a> &gt; <span class="el_source">UserPrincipal.java</span></div><h1>UserPrincipal.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.common;
+
+import org.gbif.api.vocabulary.UserRole;
+
+import java.security.Principal;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+
+/**
+ * A wrapper class for a GBIF User that exposes the unique account name as the principal name.
+ * @Deprecated replaced by {@link GbifUserPrincipal}
+ */
+@Deprecated
+public class UserPrincipal implements Principal {
+  private final User user;
+
+<span class="fc" id="L18">  public UserPrincipal(User user) {</span>
+<span class="fc" id="L19">    Preconditions.checkNotNull(user);</span>
+<span class="fc" id="L20">    this.user = user;</span>
+<span class="fc" id="L21">  }</span>
+
+  @Override
+  public String getName() {
+<span class="nc" id="L25">    return user.getUserName();</span>
+  }
+
+  public User getUser() {
+<span class="nc" id="L29">    return user;</span>
+  }
+
+  /**
+   * Checks if the user has the given string based role.
+   * We use strings here and not the enum to facilitate the use of the method with the standard SecurityContext
+   * which uses Strings for roles.
+   *
+   * @param role case insensitive role
+   *
+   * @return true if the user has the requested role
+   */
+  public boolean hasRole(String role) {
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">    if (!Strings.isNullOrEmpty(role)) {</span>
+      try {
+<span class="fc" id="L44">        UserRole r = UserRole.valueOf(role.toUpperCase());</span>
+<span class="fc" id="L45">        return user.hasRole(r);</span>
+<span class="nc" id="L46">      } catch (IllegalArgumentException e) {</span>
+        // ignore
+      }
+    }
+<span class="nc" id="L50">    return false;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WithinPredicate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence.predicate</a> &gt; <span class="el_source">WithinPredicate.java</span></div><h1>WithinPredicate.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.occurrence.predicate;
+
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+import org.gbif.api.util.SearchTypeValidator;
+
+import javax.validation.constraints.NotNull;
+
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+/**
+ * This predicate checks if an occurrence location falls within the given WKT geometry {@code value}.
+ */
+public class WithinPredicate implements Predicate {
+
+  @NotNull
+  private final String geometry;
+
+  /**
+   * Builds a new within predicate for a single, simple geometry as
+   * &lt;a href=&quot;http://en.wikipedia.org/wiki/Well-known_text&quot;&gt;Well Known Text&lt;/a&gt; (WKT).
+   * Multi geometries like MULTIPOLYGON are not supported and multiple predicates should be used instead.
+   * &lt;br/&gt;
+   * The validation implemented does a basic syntax check for the following simple geometries, but does not
+   * verify that the resulting geometries are topologically valid (see the OGC SFS specification).
+   * &lt;ul&gt;
+   *   &lt;li&gt;POINT&lt;/li&gt;
+   *   &lt;li&gt;LINESTRING&lt;/li&gt;
+   *   &lt;li&gt;POLYGON&lt;/li&gt;
+   *   &lt;li&gt;LINEARRING&lt;/li&gt;
+   * &lt;/ul&gt;
+   * @param geometry
+   */
+  @JsonCreator
+<span class="fc" id="L49">  public WithinPredicate(@JsonProperty(&quot;geometry&quot;) String geometry) {</span>
+<span class="fc" id="L50">    Preconditions.checkNotNull(geometry, &quot;&lt;geometry&gt; may not be null&quot;);</span>
+    // make sure its a valid WKT
+<span class="fc" id="L52">    SearchTypeValidator.validate(OccurrenceSearchParameter.GEOMETRY, geometry);</span>
+<span class="fc" id="L53">    this.geometry = geometry;</span>
+<span class="fc" id="L54">  }</span>
+
+  public String getGeometry() {
+<span class="nc" id="L57">    return geometry;</span>
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">    if (this == obj) {</span>
+<span class="nc" id="L63">      return true;</span>
+    }
+
+<span class="nc bnc" id="L66" title="All 2 branches missed.">    if (!(obj instanceof WithinPredicate)) {</span>
+<span class="nc" id="L67">      return false;</span>
+    }
+
+<span class="nc" id="L70">    WithinPredicate that = (WithinPredicate) obj;</span>
+<span class="nc" id="L71">    return Objects.equal(this.geometry, that.geometry);</span>
+  }
+
+  @Override
+   public int hashCode() {
+<span class="nc" id="L76">     return Objects.hashCode(geometry);</span>
+   }
+
+   @Override
+   public String toString() {
+<span class="nc" id="L81">     return Objects.toStringHelper(this).add(&quot;geometry&quot;, geometry).toString();</span>
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

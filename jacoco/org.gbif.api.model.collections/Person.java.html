@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Person.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections</a> &gt; <span class="el_source">Person.java</span></div><h1>Person.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.collections;
+
+import org.gbif.api.model.registry.LenientEquals;
+
+import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.UUID;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+/**
+ * Person associated to a collection or institution.
+ */
+<span class="nc" id="L15">public class Person implements CollectionEntity, LenientEquals&lt;Person&gt; {</span>
+
+  private UUID key;
+  private String firstName;
+  private String lastName;
+  private String position;
+  private String areaResponsibility;
+  private String researchPursuits;
+  private String phone;
+  private String fax;
+  private String email;
+  private Address mailingAddress;
+  private UUID primaryInstitutionKey;
+  private UUID primaryCollectionKey;
+  private String createdBy;
+  private String modifiedBy;
+  private Date created;
+  private Date modified;
+  private Date deleted;
+
+  /**
+   * GBIF Unique identifier.
+   */
+  @Override
+  public UUID getKey() {
+<span class="nc" id="L40">    return key;</span>
+  }
+
+  @Override
+  public void setKey(UUID key) {
+<span class="nc" id="L45">    this.key = key;</span>
+<span class="nc" id="L46">  }</span>
+
+  /**
+   * Firs name, it can also include the first and last name in some cases.
+   */
+  @NotNull
+  public String getFirstName() {
+<span class="nc" id="L53">    return firstName;</span>
+  }
+
+  public void setFirstName(String firstName) {
+<span class="nc" id="L57">    this.firstName = firstName;</span>
+<span class="nc" id="L58">  }</span>
+
+  /**
+   * Last and secondary names.
+   */
+  public String getLastName() {
+<span class="nc" id="L64">    return lastName;</span>
+  }
+
+  public void setLastName(String lastName) {
+<span class="nc" id="L68">    this.lastName = lastName;</span>
+<span class="nc" id="L69">  }</span>
+
+  /**
+   * Textual description  of the role performed.
+   */
+  public String getPosition() {
+<span class="nc" id="L75">    return position;</span>
+  }
+
+  public void setPosition(String position) {
+<span class="nc" id="L79">    this.position = position;</span>
+<span class="nc" id="L80">  }</span>
+
+  /**
+   * Description of the main responsibility assigned to a person.
+   */
+  public String getAreaResponsibility() {
+<span class="nc" id="L86">    return areaResponsibility;</span>
+  }
+
+  public void setAreaResponsibility(String areaResponsibility) {
+<span class="nc" id="L90">    this.areaResponsibility = areaResponsibility;</span>
+<span class="nc" id="L91">  }</span>
+
+  /**
+   * Description of main research activities.
+   */
+  public String getResearchPursuits() {
+<span class="nc" id="L97">    return researchPursuits;</span>
+  }
+
+  public void setResearchPursuits(String researchPursuits) {
+<span class="nc" id="L101">    this.researchPursuits = researchPursuits;</span>
+<span class="nc" id="L102">  }</span>
+
+  /**
+   * Primary telephone number.
+   */
+  public String getPhone() {
+<span class="nc" id="L108">    return phone;</span>
+  }
+
+  public void setPhone(String phone) {
+<span class="nc" id="L112">    this.phone = phone;</span>
+<span class="nc" id="L113">  }</span>
+
+  /**
+   * Fax number.
+   */
+  public String getFax() {
+<span class="nc" id="L119">    return fax;</span>
+  }
+
+  public void setFax(String fax) {
+<span class="nc" id="L123">    this.fax = fax;</span>
+<span class="nc" id="L124">  }</span>
+
+  /**
+   * Person email.
+   */
+  public String getEmail() {
+<span class="nc" id="L130">    return email;</span>
+  }
+
+  public void setEmail(String email) {
+<span class="nc" id="L134">    this.email = email;</span>
+<span class="nc" id="L135">  }</span>
+
+  /**
+   * Address used to send physical mail.
+   */
+  @Valid
+  public Address getMailingAddress() {
+<span class="nc" id="L142">    return mailingAddress;</span>
+  }
+
+  public void setMailingAddress(Address mailingAddress) {
+<span class="nc" id="L146">    this.mailingAddress = mailingAddress;</span>
+<span class="nc" id="L147">  }</span>
+
+  /**
+   * Primary institution where the person works.
+   */
+  public UUID getPrimaryInstitutionKey() {
+<span class="nc" id="L153">    return primaryInstitutionKey;</span>
+  }
+
+  public void setPrimaryInstitutionKey(UUID primaryInstitutionKey) {
+<span class="nc" id="L157">    this.primaryInstitutionKey = primaryInstitutionKey;</span>
+<span class="nc" id="L158">  }</span>
+
+  /**
+   * Primary collection linked of the person.
+   */
+  public UUID getPrimaryCollectionKey() {
+<span class="nc" id="L164">    return primaryCollectionKey;</span>
+  }
+
+  public void setPrimaryCollectionKey(UUID primaryCollectionKey) {
+<span class="nc" id="L168">    this.primaryCollectionKey = primaryCollectionKey;</span>
+<span class="nc" id="L169">  }</span>
+
+  @Override
+  public String getCreatedBy() {
+<span class="nc" id="L173">    return createdBy;</span>
+  }
+
+  @Override
+  public void setCreatedBy(String createdBy) {
+<span class="nc" id="L178">    this.createdBy = createdBy;</span>
+<span class="nc" id="L179">  }</span>
+
+  @Override
+  public String getModifiedBy() {
+<span class="nc" id="L183">    return modifiedBy;</span>
+  }
+
+  @Override
+  public void setModifiedBy(String modifiedBy) {
+<span class="nc" id="L188">    this.modifiedBy = modifiedBy;</span>
+<span class="nc" id="L189">  }</span>
+
+  @Override
+  public Date getCreated() {
+<span class="nc" id="L193">    return created;</span>
+  }
+
+  @Override
+  public void setCreated(Date created) {
+<span class="nc" id="L198">    this.created = created;</span>
+<span class="nc" id="L199">  }</span>
+
+  @Override
+  public Date getModified() {
+<span class="nc" id="L203">    return modified;</span>
+  }
+
+  @Override
+  public void setModified(Date modified) {
+<span class="nc" id="L208">    this.modified = modified;</span>
+<span class="nc" id="L209">  }</span>
+
+  @Override
+  public Date getDeleted() {
+<span class="nc" id="L213">    return deleted;</span>
+  }
+
+  @Override
+  public void setDeleted(Date deleted) {
+<span class="nc" id="L218">    this.deleted = deleted;</span>
+<span class="nc" id="L219">  }</span>
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L223" title="All 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L224" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L225">    Person person = (Person) o;</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">    return Objects.equals(key, person.key)</span>
+<span class="nc bnc" id="L227" title="All 2 branches missed.">           &amp;&amp; Objects.equals(firstName, person.firstName)</span>
+<span class="nc bnc" id="L228" title="All 2 branches missed.">           &amp;&amp; Objects.equals(lastName,</span>
+                             person.lastName)
+<span class="nc bnc" id="L230" title="All 2 branches missed.">           &amp;&amp; Objects.equals(position, person.position)</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">           &amp;&amp; Objects.equals(areaResponsibility, person.areaResponsibility)</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">           &amp;&amp; Objects.equals(researchPursuits, person.researchPursuits)</span>
+<span class="nc bnc" id="L233" title="All 2 branches missed.">           &amp;&amp; Objects.equals(phone, person.phone)</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">           &amp;&amp; Objects.equals(fax, person.fax)</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">           &amp;&amp; Objects.equals(email, person.email)</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">           &amp;&amp; Objects.equals(mailingAddress, person.mailingAddress)</span>
+<span class="nc bnc" id="L237" title="All 2 branches missed.">           &amp;&amp; Objects.equals(primaryInstitutionKey, person.primaryInstitutionKey)</span>
+<span class="nc bnc" id="L238" title="All 2 branches missed.">           &amp;&amp; Objects.equals(primaryCollectionKey, person.primaryCollectionKey)</span>
+<span class="nc bnc" id="L239" title="All 2 branches missed.">           &amp;&amp; Objects.equals(createdBy, person.createdBy)</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">           &amp;&amp; Objects.equals(modifiedBy, person.modifiedBy)</span>
+<span class="nc bnc" id="L241" title="All 2 branches missed.">           &amp;&amp; Objects.equals(created, person.created)</span>
+<span class="nc bnc" id="L242" title="All 2 branches missed.">           &amp;&amp; Objects.equals(modified, person.modified)</span>
+<span class="nc bnc" id="L243" title="All 2 branches missed.">           &amp;&amp; Objects.equals(deleted, person.deleted);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L248">    return Objects.hash(key,</span>
+                        firstName,
+                        lastName,
+                        position,
+                        areaResponsibility,
+                        researchPursuits,
+                        phone,
+                        fax,
+                        email,
+                        mailingAddress,
+                        primaryInstitutionKey,
+                        primaryCollectionKey,
+                        createdBy,
+                        modifiedBy,
+                        created,
+                        modified,
+                        deleted);
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L269">    return new StringJoiner(&quot;, &quot;, Person.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L270">      .add(&quot;firstName='&quot; + firstName + &quot;'&quot;)</span>
+<span class="nc" id="L271">      .add(&quot;lastName='&quot; + lastName + &quot;'&quot;)</span>
+<span class="nc" id="L272">      .add(&quot;position='&quot; + position + &quot;'&quot;)</span>
+<span class="nc" id="L273">      .add(&quot;areaResponsibility='&quot; + areaResponsibility + &quot;'&quot;)</span>
+<span class="nc" id="L274">      .add(&quot;researchPursuits='&quot; + researchPursuits + &quot;'&quot;)</span>
+<span class="nc" id="L275">      .add(&quot;phone='&quot; + phone + &quot;'&quot;)</span>
+<span class="nc" id="L276">      .add(&quot;fax='&quot; + fax + &quot;'&quot;)</span>
+<span class="nc" id="L277">      .add(&quot;email='&quot; + email + &quot;'&quot;)</span>
+<span class="nc" id="L278">      .add(&quot;mailingAddress=&quot; + mailingAddress)</span>
+<span class="nc" id="L279">      .add(&quot;institutionKey=&quot; + primaryInstitutionKey)</span>
+<span class="nc" id="L280">      .add(&quot;collectionKey=&quot; + primaryCollectionKey)</span>
+<span class="nc" id="L281">      .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L282">      .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
+<span class="nc" id="L283">      .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L284">      .add(&quot;modified=&quot; + modified)</span>
+<span class="nc" id="L285">      .add(&quot;deleted=&quot; + deleted)</span>
+<span class="nc" id="L286">      .toString();</span>
+  }
+
+  @Override
+  public boolean lenientEquals(Person other) {
+<span class="nc bnc" id="L291" title="All 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L292">      return true;</span>
+    }
+<span class="nc bnc" id="L294" title="All 2 branches missed.">    return Objects.equals(key, other.key)</span>
+<span class="nc bnc" id="L295" title="All 2 branches missed.">           &amp;&amp; Objects.equals(firstName, other.firstName)</span>
+<span class="nc bnc" id="L296" title="All 2 branches missed.">           &amp;&amp; Objects.equals(lastName, other.lastName)</span>
+<span class="nc bnc" id="L297" title="All 2 branches missed.">           &amp;&amp; Objects.equals(position, other.position)</span>
+<span class="nc bnc" id="L298" title="All 2 branches missed.">           &amp;&amp; Objects.equals(areaResponsibility, other.areaResponsibility)</span>
+<span class="nc bnc" id="L299" title="All 2 branches missed.">           &amp;&amp; Objects.equals(researchPursuits, other.researchPursuits)</span>
+<span class="nc bnc" id="L300" title="All 2 branches missed.">           &amp;&amp; Objects.equals(phone, other.phone)</span>
+<span class="nc bnc" id="L301" title="All 2 branches missed.">           &amp;&amp; Objects.equals(fax, other.fax)</span>
+<span class="nc bnc" id="L302" title="All 2 branches missed.">           &amp;&amp; Objects.equals(email, other.email)</span>
+<span class="nc bnc" id="L303" title="All 2 branches missed.">           &amp;&amp; Objects.equals(mailingAddress, other.mailingAddress)</span>
+<span class="nc bnc" id="L304" title="All 2 branches missed.">           &amp;&amp; Objects.equals(primaryInstitutionKey, other.primaryInstitutionKey)</span>
+<span class="nc bnc" id="L305" title="All 2 branches missed.">           &amp;&amp; Objects.equals(primaryCollectionKey, other.primaryCollectionKey)</span>
+<span class="nc bnc" id="L306" title="All 2 branches missed.">           &amp;&amp; Objects.equals(deleted, other.deleted);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

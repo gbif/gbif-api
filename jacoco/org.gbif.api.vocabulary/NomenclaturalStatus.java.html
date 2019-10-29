@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NomenclaturalStatus.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">NomenclaturalStatus.java</span></div><h1>NomenclaturalStatus.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.vocabulary;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
+
+import javax.annotation.Nullable;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
+
+/**
+ * Vocabulary for the nomenclatural status of a name.
+ *
+ * @see &lt;a href=&quot;http://dev.e-taxonomy.eu/trac/wiki/NomenclaturalStatus&quot;&gt;EDIT CDM&lt;/a&gt;
+ * @see &lt;a href=&quot;http://wiki.tdwg.org/twiki/bin/view/UBIF/LinneanCoreNomenclaturalStatus&quot;&gt;TDWG LinneanCoreNomenclaturalStatus&lt;/a&gt;
+ * @see &lt;a href=&quot;http://www.biologybrowser.org/nomglos&quot;&gt;Nomenclatural Glossary for Zoology&lt;/a&gt;
+ * @see &lt;a href=&quot;http://www.northernontarioflora.ca/definitions.cfm&quot;&gt;Northern Ontario plant database&lt;/a&gt;
+ * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/gbif/nomenclatural_status.xml&quot;&gt;rs.gbif.org vocabulary&lt;/a&gt;
+ * @see &lt;a href=&quot;http://darwin.eeb.uconn.edu/systsem/table.html&quot;&gt;Nomenclatural equivalences&lt;/a&gt;
+ *
+ */
+<span class="fc" id="L39">public enum NomenclaturalStatus {</span>
+
+  /**
+   *
+   */
+<span class="fc" id="L44"> LEGITIMATE(null, null,    &quot;acceptable&quot;, &quot;potentially valid&quot;),</span>
+
+  /**
+ * A name that is correctly proposed according to the a Code of Nomenclature.
+ * The different codes have various terminology for the same concept:
+ * &lt;ul&gt;
+ *   &lt;li&gt;Zoology: available name&lt;/li&gt;
+ *   &lt;li&gt;Botany: validly published name&lt;/li&gt;
+ *   &lt;li&gt;BioCode: established name&lt;/li&gt;
+ *   &lt;li&gt;Bacteria: validly published name&lt;/li&gt;
+ * &lt;/ul&gt;
+ * An available name is not necessarily the correct name.
+ * @See &lt;a href=&quot;http://en.wikipedia.org/wiki/Validly_published_name_(botany)&quot;&gt;wikipedia&lt;/a&gt;
+ * @See &lt;a href=&quot;http://en.wikipedia.org/wiki/Available_name&quot;&gt;wikipedia&lt;/a&gt;
+ */
+<span class="fc" id="L59"> VALIDLY_PUBLISHED(null, null, &quot;available&quot;,&quot;valid&quot;, &quot;established&quot;),</span>
+
+  /**
+   * The name is a new combination, i.e. a name change involving the epithet of the basionym.
+   * ICBN: Name of the original author being kept within parantheses.
+   *
+   * A new name is introduced consisting of a new generic name for an earlier named species
+   * combined with the existing epitheton of said species.
+   * For exxample when Calymmatobacterium granulomatis was renamed Klebsiella granulomatis,
+   * it was referred to as Klebsiella granulomatis comb. nov. to denote it is a new combination.
+   */
+<span class="fc" id="L70"> NEW_COMBINATION(&quot;combinatio nova&quot;, &quot;comb. nov.&quot;),</span>
+
+  /**
+   * A scientific name that is created specifically to replace a name which is a junior synonym or homonym.
+   * New name designated when a name cannot be used for nomenclaturalpurposes and no type or original material exists.
+   * A name established expressly to replace an already established name. A nominal taxon denoted by a new
+   * replacement name (nomen novum) has the same name-bearing type as the nominal taxon denoted by the replaced name.
+   * ICZN: new name which is expressly proposed as a replacement name for a preoccupied name, automatically takes
+   * the same type and type locality. (= a replacement name or substitute name for a preoccupied name).
+   * Commonly applied to names proposed to replace junior homonyms. A name proposed as a substitute for a previously
+   * published name (ICBN Art. 7.3 and 33.4).
+   */
+<span class="fc" id="L82"> REPLACEMENT(&quot;nomen novum&quot;, &quot;nom. nov.&quot;,      &quot;replacement name&quot;, &quot;substitute name&quot;),</span>
+
+  /**
+   * A scientific name that enjoys special nomenclatural protection, i.e. a name conserved in respective code.
+   * Names classed as available and valid by action of the ICZN or ICBN exercising its Plenary Powers .
+   * Includes rulings to conserve junior/later synonyms in place of rejected forgotten names (nomen oblitum).
+   * Such names are entered on the Official Lists.
+   */
+<span class="fc" id="L90"> CONSERVED(&quot;nomen conservandum&quot;, &quot;nom. cons.&quot;,     &quot;orth. cons.&quot;),</span>
+
+  /**
+   * Protected names are conserved names applied to a name which has been given precedence over it unused senior synonym
+   * or senior homonym relegated to the status of nomen oblitum (see Article 23.9.2).
+   */
+<span class="fc" id="L96"> PROTECTED(&quot;nomen protectum&quot;, &quot;nom. prot.&quot;),</span>
+
+  /**
+   * Corrected names or 'improved' names, available names which are mandatory and allowable emendations
+   * of imperfect names (qv) or of taxonomic names higher than family
+   * (which are not subject to name form and ending regulations).
+   * Do not depend on transfer in taxon rank or assignment. (= an emended name).
+   */
+<span class="fc" id="L104"> CORRECTED(&quot;nomen correctum&quot;, &quot;nom. corr.&quot;,    &quot;improved&quot;),</span>
+
+  /**
+   * The original combination of a newly described any name regardless of the rank.
+   */
+<span class="fc" id="L109"> ORIGINAL_COMBINATION(null, null),</span>
+
+  /**
+   * The original combination of a newly described species.
+   * Specific type of ORIGINAL_COMBINATION.
+   */
+<span class="fc" id="L115"> NEW_SPECIES(&quot;species novum&quot;, &quot;sp. nov.&quot;),</span>
+
+  /**
+   * The original combination of a newly described genus.
+   * Specific type of ORIGINAL_COMBINATION.
+   */
+<span class="fc" id="L121"> NEW_GENUS(&quot;genus novum&quot;, &quot;gen. nov.&quot;),</span>
+
+  /**
+   * An alternative name given in the original publication before 1953 based on the same type.
+   */
+<span class="fc" id="L126"> ALTERNATIVE(&quot;nomen alternativum&quot;, &quot;nom. altern.&quot;),</span>
+
+  /**
+   * A name, which was published in an obscure publication, was never widely used.
+   * In botanical literature, the name remained in obscurity.
+   * This has no influence on the formal evaluation of valid publication under ICBN.
+   * It may be valuable information nevertheless.
+   */
+<span class="fc" id="L134"> OBSCURE(&quot;nomen obscurum&quot;, &quot;nom. obsc.&quot;),</span>
+
+  /**
+   * A proposed conserved name. See CONSERVED.
+   */
+<span class="fc" id="L139"> CONSERVED_PROPOSED(&quot;nomen conservandum propositum&quot;, &quot;orth. cons. prop.&quot;),</span>
+
+  /**
+   * Provisional name, a name proposed in anticipation of the future acceptance of the taxon concerned,
+   * or of a particular circumscription, position, or rank of the taxon (ICBN Art. 34.1).
+   */
+<span class="fc" id="L145"> PROVISIONAL(&quot;nomen provisorium&quot;, &quot;nom. prov.&quot;),</span>
+
+
+  /**
+   * Formerly, a new taxon with a scant diagnosis/description
+   * (e.g., perennial; robust plant; large leaf; aromatic plant; fragrant flower; Red flowers; large fruits; etc.).
+   * Such short descriptions/diagnoses were termed as nom. subnud.
+   *
+   * Occasionally, a short diagnosis may be a key character providing an ID of a taxon.
+   * Formally, any arbitrary short description is valid under ICBN (&quot;small fungus, spores not seen&quot;).
+   * Thus the qualifiers &quot;nom. ambig&quot;, &quot;nom. confus.&quot;, &quot;nom. obsc.&quot; and &quot;nom. subnud.&quot;,
+   * are applicable either to a currently &quot;botany: valid and legitimate&quot; or &quot;zoology: available&quot; name,
+   * or are reasons given for &quot;nom. rej.&quot;/&quot;nom. utique rej.&quot;.
+   * The are not actual status codes, rather highlight potential problems.
+   */
+<span class="fc" id="L160"> SUBNUDUM(&quot;nomen subnudum&quot;, &quot;nom. subnud.&quot;),</span>
+
+  /**
+   * proposed rejected name. Temporary status until the next botanical congress decides about the proposal.
+   */
+<span class="fc" id="L165"> REJECTED_PROPOSED(&quot;nomen rejiciendum propositum&quot;, &quot;nom. rej. prop.&quot;),</span>
+
+  /**
+   * proposed rejected name on the basis of appendix V of ICBN
+  */
+<span class="fc" id="L170"> REJECTED_OUTRIGHT_PROPOSED(&quot;nomen utique rejiciendum propositum&quot;, &quot;nom. utique rej. prop.&quot;),</span>
+
+  /**
+   * A name of uncertain sense, of doubtful validity.
+   * E.g. the name Encephalartos tridentatus (Willdenow) Lehmann (Pugillus 6, 1834) is a nomen dubium
+   * which may refer to several species of Encephalartos or Macrozamia.
+   * ICZN: doubtful or dubious names, names which are not certainly applicable to any known taxon or
+   * for which the evidence is insufficient to permit recognition of the taxon to which they belong.
+   * May possess availability conducive to uncertainty and instability.
+   * Also 'names under enquiry': NOMEN INQUIRENDUM (NOMINA INQUIRENDA).
+   *
+   * In botany a name whose application is uncertain;
+   * the confusion being derived from an incomplete or confusing description.
+   * Example: Platanus hispanica auct., non Mill. ex Münchh., nom. dub.
+   * The application of the name Platanus hispanica is uncertain, so the name has been rejected
+   * in favour of Platanus ×acerifolia (Aiton) Willd., pro. sp.
+   */
+<span class="fc" id="L187"> DOUBTFUL(&quot;nomen dubium&quot;, &quot;nom. dub.&quot;,     &quot;dubious&quot;),</span>
+
+  /**
+   * Ambiguous name, one which has been used so long by different authors in different senses that it has become
+   * a persistent cause of error and confusion. It is used in senses other than originally intended,
+   * and thus the source of much confusion. A nom. ambig. is a rejected name.
+   * Example: Trifolium agrarium L., nom. ambig.
+   * The name Trifolium agrarium was misapplied to three taxa, so the name has been rejected in favour of the names
+   * Trifolium aureum Pollich, T. dubium Sibth., and T. campestre Schreb., each referring to different taxa.
+   */
+<span class="fc" id="L197"> AMBIGUOUS(&quot;nomen ambigua&quot;, &quot;nom. ambig.&quot;),</span>
+
+  /**
+   * A rejected name that is based on a type consisting of two or more entirely discordant elements,
+   * so that it is difficult to select a satisfactory lectotype.
+   */
+<span class="fc" id="L203"> CONFUSED(&quot;nomen confusum&quot;, &quot;nom. confus.&quot;),</span>
+
+  /**
+   * a name that has not been used in the scientific community for more than fifty years after its original proposal.
+   * forgotten names, senior synonyms which have remained unused in the literature for many years.
+   * Have been treated differently by different editions of the Code, and remain unavailable names.
+   */
+<span class="fc" id="L210"> FORGOTTEN(&quot;nomen oblitum&quot;, &quot;nom. obl.&quot;),</span>
+
+  /**
+   * A name which violated the Code in operation at that time.
+   */
+<span class="fc" id="L215"> ABORTED(&quot;nomen abortivum&quot;, &quot;nom. abort.&quot;),</span>
+
+  /**
+   * In botanical nomenclature, an orthographical variant (abbreviated orth. var.) is a variant spelling
+   * of the same name. For example, Hieronima and Hyeronima are orthographical variants of Hieronyma.
+   * One of the spellings must be treated as the correct one. In this case, the spelling Hieronyma has been conserved
+   * and is to be used as the correct spelling.
+   *
+   * An inadvertent use of one of the other spellings has no consequences:
+   * the name is to be treated as if it were correctly spelled.
+   * Any subsequent use is to be corrected. Orthographical variants are treated in Art 61 of the ICBN.
+   *
+   * In zoology, orthographical variants in the formal sense do not exist;
+   * a misspelling or orthographic error is treated as a lapsus, a form of inadvertent error.
+   * The first reviser is allowed to choose one variant for mandatory further use, but in other ways,
+   * these errors generally have no further formal standing.
+   * Inadvertent misspellings are treated in Art. 32-33 of the ICZN.
+   */
+
+<span class="fc" id="L234"> ORTHOGRAPHIC_VARIANT(&quot;nomen orthographia&quot;, &quot;orth. var.&quot;,     &quot;spelling variant&quot;),</span>
+
+  /**
+   * A name superfluous when published, an unnecessary substitute name.
+   * In botany a name for which a validly published name existed previously and should have been adopted,
+   * thus the name is deemed nomenclaturally superfluous.
+   * Example: Astragalus astragalinus (Hook.) Á. &amp; D. Löve, nom. illeg. superfl.
+   * The GRIN database reports that the combination Astragalus astragalinus (Hook.) Á.&amp; D. Löve, is a superfluous name,
+   * based on an incorrect basionym, see R.C. Barneby, Taxon, 25(5-6): 628 (1976).
+   * The correct basionym is Phaca astragalina DC., not Astragalus astragalinus (DC.) Hook.
+   * This taxon is a synonym of Astragalus alpinus L.
+   */
+<span class="fc" id="L246"> SUPERFLUOUS(&quot;nomen superfluum&quot;, &quot;nom. superfl.&quot;),</span>
+
+  /**
+   * A nomen nudum (plural nomina nuda) is used for a name which is unavailable because it does not have a description,
+   * reference or indication (specifically a name published before 1931 which fails to conform to Article 12,
+   * or after 1930 but fails to conform to Article 13).
+   *
+   * Nomina nuda and other unavailable names can be made available if they are published again in a way
+   * that meets the criteria of availability;
+   * however, they are attributed to the author who first made them available, not the person who first used them.
+   */
+<span class="fc" id="L257"> NUDUM(&quot;nomen nudum&quot;, &quot;nom. nud.&quot;,   &quot;nomen solum&quot;,&quot;nom. sol.&quot;),</span>
+
+  /**
+   * Null names, unavailable names which as defined by the Code are non demonstrably intentional changes of
+   * an original spelling i.e. a form of incorrect subsequent spelling.
+   */
+<span class="fc" id="L263"> NULL_NAME(&quot;nomen nullum&quot;, &quot;nom. null.&quot;),</span>
+
+  /**
+   * Names in specified ranks included in publications listed as suppressed works (opera utique oppressa; App. VI)
+   * are not validly published.
+   */
+<span class="fc" id="L269"> SUPPRESSED(&quot;nomen oppressa&quot;, &quot;nom. opp.&quot;),</span>
+
+  /**
+   * Name rejected outright, i. e. without proposing another name to be conserved in favor of this name
+   * (nomen utique rejiciendum). This status applies to explicitly listed protonym names as well as to any
+   * combinations based on the protonym. See ICBN (Art. 56.1, Appendix V) because otherwise it would cause a
+   * disadvantageous nomenclatural change.
+   *
+   * Example: Cerastium vulgatum L. 1755, non 1762, nom. utique rej.
+   * For a discussion on why this name was rejected, see Brummitt 2000. Taxon 49 (2): 262.
+   */
+<span class="fc" id="L280"> REJECTED_OUTRIGHT(&quot;nomen utique rejiciendum&quot;, &quot;nom. utique rej.&quot;),</span>
+
+  /**
+   * Rejected / surpressed name. Inverse of conserved against
+   */
+<span class="fc" id="L285"> REJECTED(&quot;nomen rejiciendum&quot;, &quot;nom. rej.&quot;),</span>
+
+  /**
+   * A nomen illegitimum is a validly published name, but one that contravenes some of the articles laid down by
+   * the International Botanical Congress. The name could be illegitimate because:
+   * &lt;ul&gt;
+   *   &lt;li&gt;(article 52) it was superfluous at its time of publication, i.e., the taxon (as represented by the type) already has a name&lt;/li&gt;
+   *   &lt;li&gt;(articles 53 and 54) the name has already been applied to another plant (a homonym)&lt;/li&gt;
+   * &lt;/ul&gt;
+   * For the procedure of rejecting otherwise legitimate names, see conserved name.
+   */
+<span class="fc" id="L296"> ILLEGITIMATE(&quot;nomen illegitimum&quot;, &quot;nom. illeg.&quot;),</span>
+
+  /**
+   * A name that was not validly published according to the rules of the code,
+   * or a name that was not accepted by the author in the original publication, for example,
+   * if the name was suggested as a synonym of an accepted name.
+   * In zoology this is called an UNAVAILABLE name.
+   * Example: Linaria vulgaris Hill, nom. inval.
+   * Many names published by John Hill between 1753 and 1757 were not accepted as validly published.
+   */
+<span class="fc" id="L306"> INVALID(&quot;nomen invalidum&quot;, &quot;nom. inval.&quot;,    &quot;unavailable&quot;),</span>
+
+  /**
+   * denied names, unavailable names which are incorrect original spellings as defined by the Code.
+   * Subset of nom.inval. based only on spellings
+   */
+<span class="fc" id="L312"> DENIED(&quot;nomen negatum&quot;, &quot;nom. neg.&quot;);</span>
+
+
+
+<span class="fc" id="L316">  private static final Set VALID_VALUES = ImmutableSet.of(VALIDLY_PUBLISHED, LEGITIMATE, NEW_COMBINATION, REPLACEMENT,</span>
+    NEW_COMBINATION, NEW_GENUS, NEW_SPECIES,SUBNUDUM,CONSERVED, PROTECTED, CORRECTED,ALTERNATIVE, CONSERVED_PROPOSED,
+    PROVISIONAL);
+<span class="fc" id="L319">  private static final Set DOUBTFUL_VALUES = ImmutableSet.of(DOUBTFUL, OBSCURE);</span>
+
+<span class="fc" id="L321">  private static final Pattern NORMALIZE_TERM = Pattern.compile(&quot;[._ -]+&quot;);</span>
+  private static String normalize(String x) {
+<span class="fc" id="L323">    return NORMALIZE_TERM.matcher(x.toUpperCase()).replaceAll(&quot;&quot;);</span>
+  }
+
+  private static final Map&lt;String, NomenclaturalStatus&gt; LOOKUP;
+  static {
+<span class="fc" id="L328">    Map&lt;String, NomenclaturalStatus&gt; lookup = Maps.newHashMap();</span>
+<span class="fc bfc" id="L329" title="All 2 branches covered.">    for (NomenclaturalStatus n : values()) {</span>
+<span class="fc" id="L330">      lookup.put(normalize(n.name()), n);</span>
+<span class="fc bfc" id="L331" title="All 2 branches covered.">      if (n.getLatinLabel() != null) {</span>
+<span class="fc" id="L332">        lookup.put(normalize(n.getLatinLabel()), n);</span>
+<span class="fc" id="L333">        lookup.put(normalize(n.getLatinLabel().replace(&quot;nomen &quot;, &quot;&quot;)), n);</span>
+      }
+<span class="fc bfc" id="L335" title="All 2 branches covered.">      if (n.getAbbreviatedLabel() != null) {</span>
+<span class="fc" id="L336">        lookup.put(normalize(n.getAbbreviatedLabel()), n);</span>
+      }
+<span class="pc bpc" id="L338" title="1 of 2 branches missed.">      if (n.alternatives != null) {</span>
+<span class="fc bfc" id="L339" title="All 2 branches covered.">        for (String alt : n.alternatives) {</span>
+<span class="fc" id="L340">          lookup.put(normalize(alt), n);</span>
+        }
+      }
+    }
+<span class="fc" id="L344">    LOOKUP = ImmutableMap.copyOf(lookup);</span>
+<span class="fc" id="L345">  }</span>
+
+
+  /**
+   * Tries to case insenitively interpret a nomenclatural status given as a string appliying the enums name,
+   * the latin and abbreviated name of a term.
+   *
+   * @param nomStatus
+   * @return
+   *
+   * @deprecated use NomStatusParser instead
+   */
+  @Deprecated
+  public static NomenclaturalStatus fromString(String nomStatus) {
+<span class="fc bfc" id="L359" title="All 2 branches covered.">    if (Strings.isNullOrEmpty(nomStatus)) {</span>
+<span class="fc" id="L360">      return null;</span>
+    }
+<span class="fc" id="L362">    return LOOKUP.get(normalize(nomStatus));</span>
+  }
+
+
+
+  private final String latin;
+  private final String abbreviated;
+  private final String[] alternatives;
+
+<span class="fc" id="L371">  private NomenclaturalStatus(String latin, String abbreviated, String ... alternatives) {</span>
+<span class="fc" id="L372">    this.latin = latin;</span>
+<span class="fc" id="L373">    this.abbreviated = abbreviated;</span>
+<span class="fc" id="L374">    this.alternatives = alternatives;</span>
+<span class="fc" id="L375">  }</span>
+
+  public String getLatinLabel() {
+<span class="fc" id="L378">    return latin;</span>
+  }
+
+  /**
+   * The abbreviated status name, often used in botany.
+   * For example nom. inval.
+   * @return
+   */
+  @Nullable
+  public String getAbbreviatedLabel() {
+<span class="fc" id="L388">    return abbreviated;</span>
+  }
+
+  /**
+   * A vague grouping of nomenclatural status terms including all that can be used to name a correct/valid taxon.
+   * Specifically avoid the confusing terms valid, accepted or correct here as they mean different things in the
+   * different codes.
+   */
+  public boolean isGood() {
+<span class="nc" id="L397">    return VALID_VALUES.contains(this);</span>
+  }
+
+  public boolean isDoubtful() {
+<span class="nc" id="L401">    return DOUBTFUL_VALUES.contains(this);</span>
+  }
+
+  /**
+   * Opposite of good and not doubtful.
+   */
+  public boolean isBad() {
+<span class="nc bnc" id="L408" title="All 4 branches missed.">    return !(isGood() || isDoubtful());</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

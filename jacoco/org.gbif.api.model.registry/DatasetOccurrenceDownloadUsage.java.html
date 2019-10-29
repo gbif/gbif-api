@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatasetOccurrenceDownloadUsage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry</a> &gt; <span class="el_source">DatasetOccurrenceDownloadUsage.java</span></div><h1>DatasetOccurrenceDownloadUsage.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.registry;
+
+import org.gbif.api.model.common.DOI;
+import org.gbif.api.model.occurrence.Download;
+
+import java.util.UUID;
+
+import javax.validation.constraints.NotNull;
+
+import com.google.common.base.Objects;
+
+/**
+ * Represents the information about the usage of one dataset in an occurrence download.
+ * Provides information about the number of records that the dataset provided to the download; additionally, provide the
+ * references to the download and dataset entities.
+ */
+<span class="nc" id="L17">public class DatasetOccurrenceDownloadUsage {</span>
+
+  private String downloadKey;
+  private UUID datasetKey;
+  private String datasetTitle;
+  private DOI datasetDOI;
+  private String datasetCitation;
+  private long numberRecords;
+  private Download download;
+
+  /**
+   * Dataset key.
+   */
+  @NotNull
+  public UUID getDatasetKey() {
+<span class="nc" id="L32">    return datasetKey;</span>
+  }
+
+  /**
+   * @return the download
+   */
+  public Download getDownload() {
+<span class="nc" id="L39">    return download;</span>
+  }
+
+  /**
+   * Occurrence download key.
+   */
+  @NotNull
+  public String getDownloadKey() {
+<span class="nc" id="L47">    return downloadKey;</span>
+  }
+
+  /**
+   * Number of records that the dataset has provided to the occurrence download.
+   */
+  @NotNull
+  public long getNumberRecords() {
+<span class="nc" id="L55">    return numberRecords;</span>
+  }
+
+  /**
+   * Dataset title at the moment when the download was created.
+   */
+  public String getDatasetTitle() {
+<span class="nc" id="L62">    return datasetTitle;</span>
+  }
+
+  /**
+   * Dataset DOI at the moment when the download was created.
+   */
+  public DOI getDatasetDOI() {
+<span class="nc" id="L69">    return datasetDOI;</span>
+  }
+
+  /**
+   * Dataset citation at the moment when the download was created.
+   */
+  public String getDatasetCitation() {
+<span class="nc" id="L76">    return datasetCitation;</span>
+  }
+
+  public void setDatasetKey(UUID datasetKey) {
+<span class="nc" id="L80">    this.datasetKey = datasetKey;</span>
+<span class="nc" id="L81">  }</span>
+
+  public void setDownload(Download download) {
+<span class="nc" id="L84">    this.download = download;</span>
+<span class="nc" id="L85">  }</span>
+
+  public void setDownloadKey(String downloadKey) {
+<span class="nc" id="L88">    this.downloadKey = downloadKey;</span>
+<span class="nc" id="L89">  }</span>
+
+  public void setNumberRecords(long numberOfRecords) {
+<span class="nc" id="L92">    this.numberRecords = numberOfRecords;</span>
+<span class="nc" id="L93">  }</span>
+
+  public void setDatasetTitle(String datasetTitle) {
+<span class="nc" id="L96">    this.datasetTitle = datasetTitle;</span>
+<span class="nc" id="L97">  }</span>
+
+  public void setDatasetDOI(DOI datasetDOI) {
+<span class="nc" id="L100">    this.datasetDOI = datasetDOI;</span>
+<span class="nc" id="L101">  }</span>
+
+  public void setDatasetCitation(String datasetCitation) {
+<span class="nc" id="L104">    this.datasetCitation = datasetCitation;</span>
+<span class="nc" id="L105">  }</span>
+
+  @Override
+  public String toString() {
+<span class="nc" id="L109">    return Objects.toStringHelper(this).add(&quot;downloadKey&quot;, downloadKey).add(&quot;datasetKey&quot;, datasetKey)</span>
+<span class="nc" id="L110">      .add(&quot;datasetTitle&quot;, datasetTitle).add(&quot;datasetDOI&quot;, datasetDOI).add(&quot;datasetCitation&quot;,datasetCitation)</span>
+<span class="nc" id="L111">      .add(&quot;numberRecords&quot;, numberRecords).add(&quot;download&quot;, download).toString();</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L116">    return Objects</span>
+<span class="nc" id="L117">      .hashCode(downloadKey, datasetKey, datasetTitle, datasetDOI, datasetDOI, numberRecords, download);</span>
+  }
+
+  @Override
+  public boolean equals(Object object) {
+<span class="nc bnc" id="L122" title="All 2 branches missed.">    if (object instanceof DatasetOccurrenceDownloadUsage) {</span>
+<span class="nc" id="L123">      DatasetOccurrenceDownloadUsage that = (DatasetOccurrenceDownloadUsage) object;</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">      return Objects.equal(this.downloadKey, that.downloadKey)</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.datasetKey, that.datasetKey)</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.datasetTitle, that.datasetTitle)</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.datasetDOI, that.datasetDOI)</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.datasetCitation, that.datasetCitation)</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.numberRecords, that.numberRecords)</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.download, that.download);</span>
+    }
+<span class="nc" id="L132">    return false;</span>
+  }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

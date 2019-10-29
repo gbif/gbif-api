@@ -1,0 +1,868 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Dataset.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry</a> &gt; <span class="el_source">Dataset.java</span></div><h1>Dataset.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.registry;
+
+import org.gbif.api.model.common.DOI;
+import org.gbif.api.model.registry.eml.Collection;
+import org.gbif.api.model.registry.eml.DataDescription;
+import org.gbif.api.model.registry.eml.KeywordCollection;
+import org.gbif.api.model.registry.eml.Project;
+import org.gbif.api.model.registry.eml.SamplingDescription;
+import org.gbif.api.model.registry.eml.TaxonomicCoverages;
+import org.gbif.api.model.registry.eml.curatorial.CuratorialUnitComposite;
+import org.gbif.api.model.registry.eml.geospatial.GeospatialCoverage;
+import org.gbif.api.model.registry.eml.temporal.TemporalCoverage;
+import org.gbif.api.util.HttpURI;
+import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.DatasetSubtype;
+import org.gbif.api.vocabulary.DatasetType;
+import org.gbif.api.vocabulary.Language;
+import org.gbif.api.vocabulary.License;
+import org.gbif.api.vocabulary.MaintenanceUpdateFrequency;
+
+import java.net.URI;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import javax.annotation.Nullable;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import com.google.common.base.Objects;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+
+/**
+ * A GBIF dataset which provides occurrence data, checklist data, sampling event data or metadata.
+ * This Dataset class is covering all of the GBIF metadata profile v1.1, but only few properties are kept in the
+ * database table:
+ * &lt;ul&gt;
+ * &lt;li&gt;key&lt;/li&gt;
+ * &lt;li&gt;parentDatasetKey&lt;/li&gt;
+ * &lt;li&gt;duplicateOfDatasetKey&lt;/li&gt;
+ * &lt;li&gt;version&lt;/li&gt;
+ * &lt;li&gt;installationKey&lt;/li&gt;
+ * &lt;li&gt;publishingOrganizationKey&lt;/li&gt;
+ * &lt;li&gt;license&lt;/li&gt;
+ * &lt;li&gt;maintenanceUpdateFrequency&lt;/li&gt;
+ * &lt;li&gt;external&lt;/li&gt;
+ * &lt;li&gt;numConstituents&lt;/li&gt;
+ * &lt;li&gt;type&lt;/li&gt;
+ * &lt;li&gt;subtype&lt;/li&gt;
+ * &lt;li&gt;title&lt;/li&gt;
+ * &lt;li&gt;alias&lt;/li&gt;
+ * &lt;li&gt;abbreviation&lt;/li&gt;
+ * &lt;li&gt;description&lt;/li&gt;
+ * &lt;li&gt;language&lt;/li&gt;
+ * &lt;li&gt;homepage&lt;/li&gt;
+ * &lt;li&gt;logoUrl&lt;/li&gt;
+ * &lt;li&gt;citation&lt;/li&gt;
+ * &lt;li&gt;rights&lt;/li&gt;
+ * &lt;li&gt;lockedForAutoUpdate&lt;/li&gt;
+ * &lt;li&gt;createdBy&lt;/li&gt;
+ * &lt;li&gt;modifiedBy&lt;/li&gt;
+ * &lt;li&gt;created&lt;/li&gt;
+ * &lt;li&gt;modified&lt;/li&gt;
+ * &lt;li&gt;deleted&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @see &lt;a href=&quot;http://rs.gbif.org/schema/eml-gbif-profile/dev/eml.xsd&quot;&gt;GBIF EML Profile XML Schema&lt;/a&gt;
+ */
+<span class="fc" id="L84">public class Dataset</span>
+  implements NetworkEntity, Contactable, Endpointable, MachineTaggable, Taggable, Identifiable, Commentable,
+  LenientEquals&lt;Dataset&gt; {
+
+  private UUID key;
+  private UUID parentDatasetKey;
+  private UUID duplicateOfDatasetKey;
+  private UUID installationKey;
+  private UUID publishingOrganizationKey;
+  private DOI doi;
+  private String version;
+  private boolean external;
+  private int numConstituents;
+  private DatasetType type;
+  private DatasetSubtype subtype;
+  private String title;
+  private String alias;
+  private String abbreviation;
+  private String description;
+<span class="fc" id="L103">  private Language language = Language.ENGLISH; // sensible default as it is not null</span>
+  private URI homepage;
+  private URI logoUrl;
+
+<span class="fc" id="L107">  private Citation citation = new Citation();</span>
+  private String rights;
+  private boolean lockedForAutoUpdate;
+  private String createdBy;
+  private String modifiedBy;
+  private Date created;
+  private Date modified;
+  private Date deleted;
+<span class="fc" id="L115">  private List&lt;Contact&gt; contacts = Lists.newArrayList();</span>
+<span class="fc" id="L116">  private List&lt;Endpoint&gt; endpoints = Lists.newArrayList();</span>
+<span class="fc" id="L117">  private List&lt;MachineTag&gt; machineTags = Lists.newArrayList();</span>
+<span class="fc" id="L118">  private List&lt;Tag&gt; tags = Lists.newArrayList();</span>
+<span class="fc" id="L119">  private List&lt;Identifier&gt; identifiers = Lists.newArrayList();</span>
+<span class="fc" id="L120">  private List&lt;Comment&gt; comments = Lists.newArrayList();</span>
+  // EML specific properties which are not persisted on the dataset table!
+<span class="fc" id="L122">  private List&lt;Citation&gt; bibliographicCitations = Lists.newArrayList();</span>
+<span class="fc" id="L123">  private List&lt;CuratorialUnitComposite&gt; curatorialUnits = Lists.newArrayList();</span>
+<span class="fc" id="L124">  private List&lt;TaxonomicCoverages&gt; taxonomicCoverages = Lists.newArrayList();</span>
+  private String geographicCoverageDescription;
+<span class="fc" id="L126">  private List&lt;GeospatialCoverage&gt; geographicCoverages = Lists.newArrayList();</span>
+<span class="fc" id="L127">  private List&lt;TemporalCoverage&gt; temporalCoverages = Lists.newArrayList();</span>
+<span class="fc" id="L128">  private List&lt;KeywordCollection&gt; keywordCollections = Lists.newArrayList();</span>
+  private Project project;
+  private SamplingDescription samplingDescription;
+<span class="fc" id="L131">  private Set&lt;Country&gt; countryCoverage = Sets.newHashSet();</span>
+<span class="fc" id="L132">  private List&lt;Collection&gt; collections = Lists.newArrayList();</span>
+<span class="fc" id="L133">  private List&lt;DataDescription&gt; dataDescriptions = Lists.newArrayList();</span>
+  private Language dataLanguage;
+  private String purpose;
+  private String additionalInfo;
+  private Date pubDate;
+  private MaintenanceUpdateFrequency maintenanceUpdateFrequency;
+  private String maintenanceDescription;
+  private License license;
+
+  @Override
+  public UUID getKey() {
+<span class="nc" id="L144">    return key;</span>
+  }
+
+  @Override
+  /**
+   * Persisted in the database table.
+   */
+  public void setKey(UUID key) {
+<span class="nc" id="L152">    this.key = key;</span>
+<span class="nc" id="L153">  }</span>
+
+  @Nullable
+  public String getVersion() {
+<span class="nc" id="L157">    return version;</span>
+  }
+
+  public void setVersion(String version) {
+<span class="nc" id="L161">    this.version = version;</span>
+<span class="nc" id="L162">  }</span>
+
+  @Override
+  public String getTitle() {
+<span class="fc" id="L166">    return title;</span>
+  }
+
+  @Override
+  /**
+   * Persisted in the database table.
+   */
+  public void setTitle(String title) {
+<span class="fc" id="L174">    this.title = title;</span>
+<span class="fc" id="L175">  }</span>
+
+  @Override
+  @Nullable
+  public String getDescription() {
+<span class="nc" id="L180">    return description;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  @Override
+  public void setDescription(String description) {
+<span class="nc" id="L188">    this.description = description;</span>
+<span class="nc" id="L189">  }</span>
+
+  @Override
+  public Date getCreated() {
+<span class="nc" id="L193">    return created;</span>
+  }
+
+  @Override
+  /**
+   * Autoassigned in the database table, ignored when persisted.
+   */
+  public void setCreated(Date created) {
+<span class="fc" id="L201">    this.created = created;</span>
+<span class="fc" id="L202">  }</span>
+
+  @Override
+  public Date getModified() {
+<span class="nc" id="L206">    return modified;</span>
+  }
+
+  @Override
+  /**
+   * Persisted in the database table.
+   */
+  public void setModified(Date modified) {
+<span class="nc" id="L214">    this.modified = modified;</span>
+<span class="nc" id="L215">  }</span>
+
+  @Override
+  @Nullable
+  public Date getDeleted() {
+<span class="nc" id="L220">    return deleted;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  @Override
+  public void setDeleted(Date deleted) {
+<span class="nc" id="L228">    this.deleted = deleted;</span>
+<span class="nc" id="L229">  }</span>
+
+  @Nullable
+  public UUID getParentDatasetKey() {
+<span class="nc" id="L233">    return parentDatasetKey;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  public void setParentDatasetKey(UUID parentDatasetKey) {
+<span class="nc" id="L240">    this.parentDatasetKey = parentDatasetKey;</span>
+<span class="nc" id="L241">  }</span>
+
+  /**
+   * If a dataset is registered with GBIF through more than one place we'll mark all but one as a duplicate by pointing
+   * it to the canonical dataset. That is done using this field. If it is {@code null} then this is not a known
+   * duplicate.
+   */
+  @Nullable
+  public UUID getDuplicateOfDatasetKey() {
+<span class="nc" id="L250">    return duplicateOfDatasetKey;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  public void setDuplicateOfDatasetKey(UUID duplicateOfDatasetKey) {
+<span class="nc" id="L257">    this.duplicateOfDatasetKey = duplicateOfDatasetKey;</span>
+<span class="nc" id="L258">  }</span>
+
+  @NotNull
+  public UUID getInstallationKey() {
+<span class="fc" id="L262">    return installationKey;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  public void setInstallationKey(UUID installationKey) {
+<span class="fc" id="L269">    this.installationKey = installationKey;</span>
+<span class="fc" id="L270">  }</span>
+
+  @NotNull
+  public UUID getPublishingOrganizationKey() {
+<span class="fc" id="L274">    return publishingOrganizationKey;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  public void setPublishingOrganizationKey(UUID publishingOrganizationKey) {
+<span class="fc" id="L281">    this.publishingOrganizationKey = publishingOrganizationKey;</span>
+<span class="fc" id="L282">  }</span>
+
+  /**
+   * Persisted in the database table.
+   *
+   * @return the frequency with which changes are made to the dataset
+   */
+  @Nullable
+  public MaintenanceUpdateFrequency getMaintenanceUpdateFrequency() {
+<span class="nc" id="L291">    return maintenanceUpdateFrequency;</span>
+  }
+  /**
+   * Persisted in the database table.
+   */
+  public void setMaintenanceUpdateFrequency(MaintenanceUpdateFrequency maintenanceUpdateFrequency) {
+<span class="fc" id="L297">    this.maintenanceUpdateFrequency = maintenanceUpdateFrequency;</span>
+<span class="fc" id="L298">  }</span>
+
+  /**
+   * A description of the maintenance frequency of this resource.
+   *
+   * @return the description of the maintenance frequency of this resource
+   */
+  public String getMaintenanceDescription() {
+<span class="nc" id="L306">    return maintenanceDescription;</span>
+  }
+
+  public void setMaintenanceDescription(String maintenanceDescription) {
+<span class="fc" id="L310">    this.maintenanceDescription = maintenanceDescription;</span>
+<span class="fc" id="L311">  }</span>
+
+  /**
+   * Persisted in the database table.
+   * &lt;/br&gt;
+   * Note for backwards compatibility, we cannot apply @NotNull to license. Otherwise existing users of our API
+   * would have to ensure Dataset objects always populate license.
+   * &lt;/br&gt;
+   * In the Registry DB, Dataset.license defaults to CC-BY 4.0. Therefore license must be excluded from lenientEquals
+   * method.
+   *
+   * @return the License applied to the dataset
+   *
+   * @see &lt;a href=&quot;http://dev.gbif.org/issues/browse/POR-3133&quot;&gt;POR-3133&lt;/a&gt;
+   */
+  public License getLicense() {
+<span class="nc" id="L327">    return license;</span>
+  }
+
+  /**
+   * Persisted in the database table. Can be interpreted from EML.intellectualRights using machine readable format:
+   * &lt;pre&gt;
+   * {@code
+   * &lt;intellectualRights&gt;
+   *   &lt;para&gt;This work is licensed under a &lt;ulink url=&quot;http://creativecommons.org/licenses/by/4.0/legalcode&quot;&gt;&lt;citetitle&gt;Creative Commons Attribution (CC-BY) 4.0 License&lt;/citetitle&gt;&lt;/ulink&gt;.&lt;/para&gt;
+   * &lt;/intellectualRights&gt;
+   * }
+   * &lt;/pre&gt;
+   */
+  public void setLicense(License license) {
+<span class="fc" id="L341">    this.license = license;</span>
+<span class="fc" id="L342">  }</span>
+
+  /**
+   * @return the primary DOI for this dataset regardless if issued by GBIF or publisher
+   */
+  public DOI getDoi() {
+<span class="nc" id="L348">    return doi;</span>
+  }
+
+  public void setDoi(DOI doi) {
+<span class="nc" id="L352">    this.doi = doi;</span>
+<span class="nc" id="L353">  }</span>
+
+  public boolean isExternal() {
+<span class="nc" id="L356">    return external;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  public void setExternal(boolean external) {
+<span class="nc" id="L363">    this.external = external;</span>
+<span class="nc" id="L364">  }</span>
+
+  @Min(0)
+  public int getNumConstituents() {
+<span class="fc" id="L368">    return numConstituents;</span>
+  }
+
+  /**
+   * Not persisted in the database table, but calculated on the fly.
+   */
+  public void setNumConstituents(int numConstituents) {
+<span class="nc" id="L375">    this.numConstituents = numConstituents;</span>
+<span class="nc" id="L376">  }</span>
+
+  @NotNull
+  public DatasetType getType() {
+<span class="fc" id="L380">    return type;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  public void setType(DatasetType type) {
+<span class="fc" id="L387">    this.type = type;</span>
+<span class="fc" id="L388">  }</span>
+
+  @Nullable
+  public DatasetSubtype getSubtype() {
+<span class="nc" id="L392">    return subtype;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  public void setSubtype(DatasetSubtype subtype) {
+<span class="nc" id="L399">    this.subtype = subtype;</span>
+<span class="nc" id="L400">  }</span>
+
+  /**
+   * TODO: Document what this is
+   */
+  @Nullable
+  @Size(min = 2, max = 50)
+  public String getAlias() {
+<span class="fc" id="L408">    return alias;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  public void setAlias(String alias) {
+<span class="nc" id="L415">    this.alias = alias;</span>
+<span class="nc" id="L416">  }</span>
+
+  /**
+   * TODO: Document what this is
+   * TODO: are both alias &amp; abbreviation needed?
+   */
+  @Nullable
+  @Size(min = 1, max = 50)
+  public String getAbbreviation() {
+<span class="fc" id="L425">    return abbreviation;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  public void setAbbreviation(String abbreviation) {
+<span class="nc" id="L432">    this.abbreviation = abbreviation;</span>
+<span class="nc" id="L433">  }</span>
+
+  @NotNull
+  public Language getLanguage() {
+<span class="fc" id="L437">    return language;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  public void setLanguage(Language language) {
+<span class="nc" id="L444">    this.language = language;</span>
+<span class="nc" id="L445">  }</span>
+
+  @HttpURI
+  @Nullable
+  public URI getHomepage() {
+<span class="fc" id="L450">    return homepage;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  public void setHomepage(URI homepage) {
+<span class="fc" id="L457">    this.homepage = homepage;</span>
+<span class="fc" id="L458">  }</span>
+
+  @HttpURI
+  @Nullable
+  public URI getLogoUrl() {
+<span class="fc" id="L463">    return logoUrl;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  public void setLogoUrl(URI logoUrl) {
+<span class="fc" id="L470">    this.logoUrl = logoUrl;</span>
+<span class="fc" id="L471">  }</span>
+
+  /**
+   * The exact form of how to cite this dataset.
+   */
+  @Nullable
+  @Valid
+  public Citation getCitation() {
+<span class="fc" id="L479">    return citation;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  public void setCitation(Citation citation) {
+<span class="nc" id="L486">    this.citation = citation;</span>
+<span class="nc" id="L487">  }</span>
+  
+  /**
+   * Any kind of (copy)rights/IPR statements that apply to the datasets data.
+   */
+  @Nullable
+  @Size(min = 1)
+  public String getRights() {
+<span class="fc" id="L495">    return rights;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  public void setRights(String rights) {
+<span class="nc" id="L502">    this.rights = rights;</span>
+<span class="nc" id="L503">  }</span>
+
+  public boolean isLockedForAutoUpdate() {
+<span class="nc" id="L506">    return lockedForAutoUpdate;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  public void setLockedForAutoUpdate(boolean lockedForAutoUpdate) {
+<span class="nc" id="L513">    this.lockedForAutoUpdate = lockedForAutoUpdate;</span>
+<span class="nc" id="L514">  }</span>
+
+  @Override
+  public String getCreatedBy() {
+<span class="fc" id="L518">    return createdBy;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  @Override
+  public void setCreatedBy(String createdBy) {
+<span class="nc" id="L526">    this.createdBy = createdBy;</span>
+<span class="nc" id="L527">  }</span>
+
+  @Override
+  public String getModifiedBy() {
+<span class="fc" id="L531">    return modifiedBy;</span>
+  }
+
+  /**
+   * Persisted in the database table.
+   */
+  @Override
+  public void setModifiedBy(String modifiedBy) {
+<span class="nc" id="L539">    this.modifiedBy = modifiedBy;</span>
+<span class="nc" id="L540">  }</span>
+
+  @Override
+  public List&lt;Contact&gt; getContacts() {
+<span class="fc" id="L544">    return contacts;</span>
+  }
+
+  @Override
+  public void setContacts(List&lt;Contact&gt; contacts) {
+<span class="nc" id="L549">    this.contacts = contacts;</span>
+<span class="nc" id="L550">  }</span>
+
+  @Override
+  public List&lt;Endpoint&gt; getEndpoints() {
+<span class="fc" id="L554">    return endpoints;</span>
+  }
+
+  @Override
+  public void setEndpoints(List&lt;Endpoint&gt; endpoints) {
+<span class="nc" id="L559">    this.endpoints = endpoints;</span>
+<span class="nc" id="L560">  }</span>
+
+  @Override
+  public void addEndpoint(Endpoint endpoint) {
+<span class="nc" id="L564">    endpoints.add(endpoint);</span>
+<span class="nc" id="L565">  }</span>
+
+  @Override
+  public List&lt;MachineTag&gt; getMachineTags() {
+<span class="fc" id="L569">    return machineTags;</span>
+  }
+
+  @Override
+  public void setMachineTags(List&lt;MachineTag&gt; machineTags) {
+<span class="nc" id="L574">    this.machineTags = machineTags;</span>
+<span class="nc" id="L575">  }</span>
+
+  @Override
+  public void addMachineTag(MachineTag machineTag) {
+<span class="nc" id="L579">    machineTags.add(machineTag);</span>
+<span class="nc" id="L580">  }</span>
+
+  @Override
+  public List&lt;Tag&gt; getTags() {
+<span class="fc" id="L584">    return tags;</span>
+  }
+
+  @Override
+  public void setTags(List&lt;Tag&gt; tags) {
+<span class="nc" id="L589">    this.tags = tags;</span>
+<span class="nc" id="L590">  }</span>
+
+  @Override
+  public List&lt;Identifier&gt; getIdentifiers() {
+<span class="fc" id="L594">    return identifiers;</span>
+  }
+
+  @Override
+  public void setIdentifiers(List&lt;Identifier&gt; identifiers) {
+<span class="nc" id="L599">    this.identifiers = identifiers;</span>
+<span class="nc" id="L600">  }</span>
+
+  @Override
+  public List&lt;Comment&gt; getComments() {
+<span class="fc" id="L604">    return comments;</span>
+  }
+
+  @Override
+  public void setComments(List&lt;Comment&gt; comments) {
+<span class="nc" id="L609">    this.comments = comments;</span>
+<span class="nc" id="L610">  }</span>
+
+  public List&lt;Citation&gt; getBibliographicCitations() {
+<span class="nc" id="L613">    return bibliographicCitations;</span>
+  }
+
+  public void setBibliographicCitations(List&lt;Citation&gt; bibliographicCitations) {
+<span class="nc" id="L617">    this.bibliographicCitations = bibliographicCitations;</span>
+<span class="nc" id="L618">  }</span>
+
+  public List&lt;CuratorialUnitComposite&gt; getCuratorialUnits() {
+<span class="nc" id="L621">    return curatorialUnits;</span>
+  }
+
+  public void setCuratorialUnits(List&lt;CuratorialUnitComposite&gt; curatorialUnits) {
+<span class="nc" id="L625">    this.curatorialUnits = curatorialUnits;</span>
+<span class="nc" id="L626">  }</span>
+
+  public List&lt;TaxonomicCoverages&gt; getTaxonomicCoverages() {
+<span class="nc" id="L629">    return taxonomicCoverages;</span>
+  }
+
+  public void setTaxonomicCoverages(List&lt;TaxonomicCoverages&gt; taxonomicCoverages) {
+<span class="nc" id="L633">    this.taxonomicCoverages = taxonomicCoverages;</span>
+<span class="nc" id="L634">  }</span>
+
+  public String getGeographicCoverageDescription() {
+<span class="nc" id="L637">    return geographicCoverageDescription;</span>
+  }
+
+  public void setGeographicCoverageDescription(String geographicCoverageDescription) {
+<span class="nc" id="L641">    this.geographicCoverageDescription = geographicCoverageDescription;</span>
+<span class="nc" id="L642">  }</span>
+
+  public List&lt;GeospatialCoverage&gt; getGeographicCoverages() {
+<span class="nc" id="L645">    return geographicCoverages;</span>
+  }
+
+  public void setGeographicCoverages(List&lt;GeospatialCoverage&gt; geographicCoverages) {
+<span class="nc" id="L649">    this.geographicCoverages = geographicCoverages;</span>
+<span class="nc" id="L650">  }</span>
+
+  public List&lt;TemporalCoverage&gt; getTemporalCoverages() {
+<span class="nc" id="L653">    return temporalCoverages;</span>
+  }
+
+  public void setTemporalCoverages(List&lt;TemporalCoverage&gt; temporalCoverages) {
+<span class="nc" id="L657">    this.temporalCoverages = temporalCoverages;</span>
+<span class="nc" id="L658">  }</span>
+
+  public List&lt;KeywordCollection&gt; getKeywordCollections() {
+<span class="nc" id="L661">    return keywordCollections;</span>
+  }
+
+  public void setKeywordCollections(List&lt;KeywordCollection&gt; keywordCollections) {
+<span class="nc" id="L665">    this.keywordCollections = keywordCollections;</span>
+<span class="nc" id="L666">  }</span>
+
+  public Project getProject() {
+<span class="nc" id="L669">    return project;</span>
+  }
+
+  public void setProject(Project project) {
+<span class="nc" id="L673">    this.project = project;</span>
+<span class="nc" id="L674">  }</span>
+
+  public SamplingDescription getSamplingDescription() {
+<span class="nc" id="L677">    return samplingDescription;</span>
+  }
+
+  public void setSamplingDescription(SamplingDescription samplingDescription) {
+<span class="nc" id="L681">    this.samplingDescription = samplingDescription;</span>
+<span class="nc" id="L682">  }</span>
+
+  public Set&lt;Country&gt; getCountryCoverage() {
+<span class="nc" id="L685">    return countryCoverage;</span>
+  }
+
+  public void setCountryCoverage(Set&lt;Country&gt; countryCoverage) {
+<span class="nc" id="L689">    this.countryCoverage = countryCoverage;</span>
+<span class="nc" id="L690">  }</span>
+
+  public List&lt;Collection&gt; getCollections() {
+<span class="nc" id="L693">    return collections;</span>
+  }
+
+  public void setCollections(List&lt;Collection&gt; collections) {
+<span class="nc" id="L697">    this.collections = collections;</span>
+<span class="nc" id="L698">  }</span>
+
+  public List&lt;DataDescription&gt; getDataDescriptions() {
+<span class="nc" id="L701">    return dataDescriptions;</span>
+  }
+
+  public void setDataDescriptions(List&lt;DataDescription&gt; dataDescriptions) {
+<span class="nc" id="L705">    this.dataDescriptions = dataDescriptions;</span>
+<span class="nc" id="L706">  }</span>
+
+  public Language getDataLanguage() {
+<span class="nc" id="L709">    return dataLanguage;</span>
+  }
+
+  public void setDataLanguage(Language dataLanguage) {
+<span class="nc" id="L713">    this.dataLanguage = dataLanguage;</span>
+<span class="nc" id="L714">  }</span>
+
+  public String getPurpose() {
+<span class="nc" id="L717">    return purpose;</span>
+  }
+
+  public void setPurpose(String purpose) {
+<span class="nc" id="L721">    this.purpose = purpose;</span>
+<span class="nc" id="L722">  }</span>
+
+  public String getAdditionalInfo() {
+<span class="nc" id="L725">    return additionalInfo;</span>
+  }
+
+  public void setAdditionalInfo(String additionalInfo) {
+<span class="nc" id="L729">    this.additionalInfo = additionalInfo;</span>
+<span class="nc" id="L730">  }</span>
+
+  public Date getPubDate() {
+<span class="nc" id="L733">    return pubDate;</span>
+  }
+
+  public void setPubDate(Date pubDate) {
+<span class="nc" id="L737">    this.pubDate = pubDate;</span>
+<span class="nc" id="L738">  }</span>
+
+  @Override
+  public int hashCode() {
+<span class="fc" id="L742">    return Objects</span>
+<span class="fc" id="L743">      .hashCode(key, doi, version, parentDatasetKey, duplicateOfDatasetKey, installationKey, publishingOrganizationKey, external,</span>
+<span class="fc" id="L744">        numConstituents, type, subtype, title, alias, abbreviation, description, language, homepage, logoUrl, citation,</span>
+<span class="fc" id="L745">        rights, lockedForAutoUpdate, createdBy, modifiedBy, created, modified, deleted, contacts, endpoints,</span>
+        machineTags, tags, identifiers, comments, bibliographicCitations, curatorialUnits, taxonomicCoverages,
+        geographicCoverageDescription, geographicCoverages, temporalCoverages, keywordCollections, project,
+        samplingDescription, countryCoverage, collections, dataDescriptions, dataLanguage, purpose, additionalInfo,
+        pubDate, maintenanceUpdateFrequency, maintenanceDescription, license);
+  }
+
+  @Override
+  public boolean equals(Object object) {
+<span class="nc bnc" id="L754" title="All 2 branches missed.">    if (object instanceof Dataset) {</span>
+<span class="nc" id="L755">      Dataset that = (Dataset) object;</span>
+<span class="nc bnc" id="L756" title="All 2 branches missed.">      return Objects.equal(this.key, that.key)</span>
+<span class="nc bnc" id="L757" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.doi, that.doi)</span>
+<span class="nc bnc" id="L758" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.parentDatasetKey, that.parentDatasetKey)</span>
+<span class="nc bnc" id="L759" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.duplicateOfDatasetKey, that.duplicateOfDatasetKey)</span>
+<span class="nc bnc" id="L760" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.version, that.version)</span>
+<span class="nc bnc" id="L761" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.installationKey, that.installationKey)</span>
+<span class="nc bnc" id="L762" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.publishingOrganizationKey, that.publishingOrganizationKey)</span>
+<span class="nc bnc" id="L763" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.external, that.external)</span>
+<span class="nc bnc" id="L764" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.numConstituents, that.numConstituents)</span>
+<span class="nc bnc" id="L765" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.type, that.type)</span>
+<span class="nc bnc" id="L766" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.subtype, that.subtype)</span>
+<span class="nc bnc" id="L767" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.title, that.title)</span>
+<span class="nc bnc" id="L768" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.alias, that.alias)</span>
+<span class="nc bnc" id="L769" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.abbreviation, that.abbreviation)</span>
+<span class="nc bnc" id="L770" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.description, that.description)</span>
+<span class="nc bnc" id="L771" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.language, that.language)</span>
+<span class="nc bnc" id="L772" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.homepage, that.homepage)</span>
+<span class="nc bnc" id="L773" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.logoUrl, that.logoUrl)</span>
+<span class="nc bnc" id="L774" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.citation, that.citation)</span>
+<span class="nc bnc" id="L775" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.rights, that.rights)</span>
+<span class="nc bnc" id="L776" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.lockedForAutoUpdate, that.lockedForAutoUpdate)</span>
+<span class="nc bnc" id="L777" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.createdBy, that.createdBy)</span>
+<span class="nc bnc" id="L778" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.modifiedBy, that.modifiedBy)</span>
+<span class="nc bnc" id="L779" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.created, that.created)</span>
+<span class="nc bnc" id="L780" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.modified, that.modified)</span>
+<span class="nc bnc" id="L781" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.deleted, that.deleted)</span>
+<span class="nc bnc" id="L782" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.contacts, that.contacts)</span>
+<span class="nc bnc" id="L783" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.endpoints, that.endpoints)</span>
+<span class="nc bnc" id="L784" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.machineTags, that.machineTags)</span>
+<span class="nc bnc" id="L785" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.tags, that.tags)</span>
+<span class="nc bnc" id="L786" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.identifiers, that.identifiers)</span>
+<span class="nc bnc" id="L787" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.comments, that.comments)</span>
+<span class="nc bnc" id="L788" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.bibliographicCitations, that.bibliographicCitations)</span>
+<span class="nc bnc" id="L789" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.curatorialUnits, that.curatorialUnits)</span>
+<span class="nc bnc" id="L790" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.taxonomicCoverages, that.taxonomicCoverages)</span>
+<span class="nc bnc" id="L791" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.geographicCoverageDescription, that.geographicCoverageDescription)</span>
+<span class="nc bnc" id="L792" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.geographicCoverages, that.geographicCoverages)</span>
+<span class="nc bnc" id="L793" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.temporalCoverages, that.temporalCoverages)</span>
+<span class="nc bnc" id="L794" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.keywordCollections, that.keywordCollections)</span>
+<span class="nc bnc" id="L795" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.project, that.project)</span>
+<span class="nc bnc" id="L796" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.samplingDescription, that.samplingDescription)</span>
+<span class="nc bnc" id="L797" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.countryCoverage, that.countryCoverage)</span>
+<span class="nc bnc" id="L798" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.collections, that.collections)</span>
+<span class="nc bnc" id="L799" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.dataDescriptions, that.dataDescriptions)</span>
+<span class="nc bnc" id="L800" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.dataLanguage, that.dataLanguage)</span>
+<span class="nc bnc" id="L801" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.purpose, that.purpose)</span>
+<span class="nc bnc" id="L802" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.additionalInfo, that.additionalInfo)</span>
+<span class="nc bnc" id="L803" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.pubDate, that.pubDate)</span>
+<span class="nc bnc" id="L804" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.maintenanceUpdateFrequency, that.maintenanceUpdateFrequency)</span>
+<span class="nc bnc" id="L805" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.maintenanceDescription, that.maintenanceDescription)</span>
+<span class="nc bnc" id="L806" title="All 2 branches missed.">             &amp;&amp; Objects.equal(this.license, that.license);</span>
+    }
+<span class="nc" id="L808">    return false;</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L813">    return Objects.toStringHelper(this)</span>
+<span class="nc" id="L814">      .add(&quot;key&quot;, key).add(&quot;doi&quot;, doi).add(&quot;version&quot;, version).add(&quot;parentDatasetKey&quot;, parentDatasetKey)</span>
+<span class="nc" id="L815">      .add(&quot;duplicateOfDatasetKey&quot;, duplicateOfDatasetKey).add(&quot;installationKey&quot;, installationKey)</span>
+<span class="nc" id="L816">      .add(&quot;publishingOrganizationKey&quot;, publishingOrganizationKey).add(&quot;numConstituents&quot;, numConstituents).add(&quot;type&quot;,</span>
+        type)
+<span class="nc" id="L818">      .add(&quot;subtype&quot;, subtype).add(&quot;title&quot;, title).add(&quot;alias&quot;, alias).add(&quot;abbreviation&quot;, abbreviation)</span>
+<span class="nc" id="L819">      .add(&quot;description&quot;, description).add(&quot;language&quot;, language).add(&quot;homepage&quot;, homepage).add(&quot;logoUrl&quot;, logoUrl)</span>
+<span class="nc" id="L820">      .add(&quot;citation&quot;, citation).add(&quot;rights&quot;, rights).add(&quot;lockedForAutoUpdate&quot;, lockedForAutoUpdate)</span>
+<span class="nc" id="L821">      .add(&quot;createdBy&quot;, createdBy).add(&quot;modifiedBy&quot;, modifiedBy).add(&quot;created&quot;, created).add(&quot;modified&quot;, modified)</span>
+<span class="nc" id="L822">      .add(&quot;deleted&quot;, deleted).add(&quot;contacts&quot;, contacts).add(&quot;endpoints&quot;, endpoints).add(&quot;machineTags&quot;, machineTags)</span>
+<span class="nc" id="L823">      .add(&quot;tags&quot;, tags).add(&quot;identifiers&quot;, identifiers).add(&quot;comments&quot;, comments)</span>
+<span class="nc" id="L824">      .add(&quot;bibliographicCitations&quot;, bibliographicCitations).add(&quot;curatorialUnits&quot;, curatorialUnits)</span>
+<span class="nc" id="L825">      .add(&quot;taxonomicCoverages&quot;, taxonomicCoverages)</span>
+<span class="nc" id="L826">      .add(&quot;geographicCoverageDescription&quot;, geographicCoverageDescription)</span>
+<span class="nc" id="L827">      .add(&quot;geographicCoverages&quot;, geographicCoverages).add(&quot;temporalCoverages&quot;, temporalCoverages)</span>
+<span class="nc" id="L828">      .add(&quot;keywordCollections&quot;, keywordCollections).add(&quot;project&quot;, project)</span>
+<span class="nc" id="L829">      .add(&quot;samplingDescription&quot;, samplingDescription).add(&quot;countryCoverage&quot;, countryCoverage)</span>
+<span class="nc" id="L830">      .add(&quot;collections&quot;, collections).add(&quot;dataDescriptions&quot;, dataDescriptions).add(&quot;dataLanguage&quot;, dataLanguage)</span>
+<span class="nc" id="L831">      .add(&quot;purpose&quot;, purpose).add(&quot;additionalInfo&quot;, additionalInfo).add(&quot;pubDate&quot;, pubDate)</span>
+<span class="nc" id="L832">      .add(&quot;maintenanceUpdateFrequency&quot;, maintenanceUpdateFrequency)</span>
+<span class="nc" id="L833">      .add(&quot;maintenanceDescription&quot;, maintenanceDescription).add(&quot;license&quot;, license).toString();</span>
+  }
+
+  /**
+   * Only checks the persisted properties, excluding the server controlled fields (key, created, license etc).
+   * Does not include the nested properties.
+   */
+  @Override
+  public boolean lenientEquals(Dataset other) {
+<span class="pc bpc" id="L842" title="1 of 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L843">      return true;</span>
+    }
+<span class="pc bpc" id="L845" title="1 of 2 branches missed.">    return Objects.equal(this.parentDatasetKey, other.parentDatasetKey)</span>
+<span class="pc bpc" id="L846" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.duplicateOfDatasetKey, other.duplicateOfDatasetKey)</span>
+<span class="pc bpc" id="L847" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.installationKey, other.installationKey)</span>
+<span class="pc bpc" id="L848" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.publishingOrganizationKey, other.publishingOrganizationKey)</span>
+<span class="pc bpc" id="L849" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.doi, other.doi)</span>
+<span class="pc bpc" id="L850" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.external, other.external)</span>
+<span class="pc bpc" id="L851" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.type, other.type)</span>
+<span class="pc bpc" id="L852" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.subtype, other.subtype)</span>
+<span class="pc bpc" id="L853" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.title, other.title)</span>
+<span class="pc bpc" id="L854" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.alias, other.alias)</span>
+<span class="pc bpc" id="L855" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.abbreviation, other.abbreviation)</span>
+<span class="pc bpc" id="L856" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.description, other.description)</span>
+<span class="pc bpc" id="L857" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.language, other.language)</span>
+<span class="pc bpc" id="L858" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.homepage, other.homepage)</span>
+<span class="pc bpc" id="L859" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.logoUrl, other.logoUrl)</span>
+<span class="pc bpc" id="L860" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.citation, other.citation)</span>
+<span class="pc bpc" id="L861" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.rights, other.rights)</span>
+<span class="pc bpc" id="L862" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.lockedForAutoUpdate, other.lockedForAutoUpdate)</span>
+<span class="pc bpc" id="L863" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.deleted, other.deleted)</span>
+<span class="pc bpc" id="L864" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.maintenanceUpdateFrequency, other.maintenanceUpdateFrequency)</span>
+<span class="pc bpc" id="L865" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.maintenanceDescription, other.maintenanceDescription);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

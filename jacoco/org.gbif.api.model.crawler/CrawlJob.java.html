@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CrawlJob.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.crawler</a> &gt; <span class="el_source">CrawlJob.java</span></div><h1>CrawlJob.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.crawler;
+
+import com.google.common.base.Objects;
+import com.google.common.collect.ImmutableMap;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.gbif.api.vocabulary.EndpointType;
+
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.ThreadSafe;
+import java.net.URI;
+import java.util.Map;
+import java.util.UUID;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+/**
+ * This class represents a job to be worked on by a crawler. That can be either one of the XML based protocols
+ * (BioCASe, DiGIR, TAPIR) or a DwC-Archive.
+ * &lt;p/&gt;
+ * For now this object will be used in JSON serialized form in ZooKeeper.
+ */
+@Immutable
+@ThreadSafe
+public class CrawlJob {
+
+  private final UUID datasetKey;
+  private final EndpointType endpointType;
+  private final URI targetUrl;
+  private final int attempt;
+  private final ImmutableMap&lt;String, String&gt; properties;
+
+  /**
+   * Creates a new crawl job.
+   *
+   * @param datasetKey   of the dataset to crawl
+   * @param endpointType of the dataset
+   * @param targetUrl    of the dataset
+   * @param attempt      a monotonously increasing counter, increased every time we try to crawl a dataset whether that
+   *                     attempt is successful or not
+   * @param properties   a way to provide protocol or crawl specific options
+   */
+  @JsonCreator
+  public CrawlJob(
+    @JsonProperty(&quot;datasetKey&quot;) UUID datasetKey,
+    @JsonProperty(&quot;endpointType&quot;) EndpointType endpointType,
+    @JsonProperty(&quot;targetUrl&quot;) URI targetUrl,
+    @JsonProperty(&quot;attempt&quot;) int attempt,
+    @Nullable @JsonProperty(&quot;properties&quot;) Map&lt;String, String&gt; properties
+<span class="fc" id="L53">  ) {</span>
+<span class="fc" id="L54">    this.datasetKey = checkNotNull(datasetKey);</span>
+<span class="fc" id="L55">    this.endpointType = checkNotNull(endpointType);</span>
+<span class="fc" id="L56">    this.targetUrl = checkNotNull(targetUrl);</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">    checkArgument(attempt &gt; 0, &quot;attempt has to be greater than 0&quot;);</span>
+<span class="fc" id="L58">    this.attempt = attempt;</span>
+
+<span class="fc bfc" id="L60" title="All 2 branches covered.">    if (properties == null) {</span>
+<span class="fc" id="L61">      this.properties = ImmutableMap.of();</span>
+    } else {
+<span class="fc" id="L63">      this.properties = ImmutableMap.copyOf(properties);</span>
+    }
+<span class="fc" id="L65">  }</span>
+
+  /**
+   * Constructor with mandatory fields.
+   * Properties field is set to null.
+   *
+   * @param datasetKey   of the dataset to crawl
+   * @param endpointType of the dataset
+   * @param targetUrl    of the dataset
+   * @param attempt      a monotonously increasing counter, increased every time we try to crawl a dataset whether that
+   *                     attempt is successful or not
+   */
+<span class="nc" id="L77">  public CrawlJob(UUID datasetKey, Integer attempt, EndpointType endpointType, URI targetUrl) {</span>
+    //This constructor is used for the MyBatis persistence layer.
+<span class="nc" id="L79">    this.datasetKey = datasetKey;</span>
+<span class="nc" id="L80">    this.attempt = attempt;</span>
+<span class="nc" id="L81">    this.endpointType = endpointType;</span>
+<span class="nc" id="L82">    this.targetUrl = targetUrl;</span>
+<span class="nc" id="L83">    this.properties = ImmutableMap.of();</span>
+<span class="nc" id="L84">  }</span>
+
+  public UUID getDatasetKey() {
+<span class="fc" id="L87">    return datasetKey;</span>
+  }
+
+  public EndpointType getEndpointType() {
+<span class="fc" id="L91">    return endpointType;</span>
+  }
+
+  /**
+   * Used to save protocol specific information (e.g. contentNamespace for TAPIR and BioCASe).
+   *
+   * @return an immutable map of all the properties
+   */
+  // NOTE: This should be an ImmutableMap but Jackson 1.x can't easily deserialize that
+  public Map&lt;String, String&gt; getProperties() {
+<span class="fc" id="L101">    return properties;</span>
+  }
+
+  public URI getTargetUrl() {
+<span class="fc" id="L105">    return targetUrl;</span>
+  }
+
+  public int getAttempt() {
+<span class="fc" id="L109">    return attempt;</span>
+  }
+
+  @JsonIgnore
+  public String getProperty(String name) {
+<span class="nc" id="L114">    return properties.get(name);</span>
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">    if (this == obj) {</span>
+<span class="nc" id="L120">      return true;</span>
+    }
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">    if (!(obj instanceof CrawlJob)) {</span>
+<span class="nc" id="L123">      return false;</span>
+    }
+
+<span class="fc" id="L126">    final CrawlJob other = (CrawlJob) obj;</span>
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">    return Objects.equal(this.datasetKey, other.datasetKey)</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.endpointType, other.endpointType)</span>
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.targetUrl, other.targetUrl)</span>
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.attempt, other.attempt)</span>
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.properties, other.properties);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="fc" id="L136">    return Objects.hashCode(datasetKey, endpointType, targetUrl, attempt, properties);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L141">    return Objects.toStringHelper(this)</span>
+<span class="nc" id="L142">      .add(&quot;datasetKey&quot;, datasetKey)</span>
+<span class="nc" id="L143">      .add(&quot;endpointType&quot;, endpointType)</span>
+<span class="nc" id="L144">      .add(&quot;targetUrl&quot;, targetUrl)</span>
+<span class="nc" id="L145">      .add(&quot;attempt&quot;, attempt)</span>
+<span class="nc" id="L146">      .add(&quot;properties&quot;, properties)</span>
+<span class="nc" id="L147">      .toString();</span>
+  }
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

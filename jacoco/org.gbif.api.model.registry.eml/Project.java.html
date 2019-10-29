@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Project.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry.eml</a> &gt; <span class="el_source">Project.java</span></div><h1>Project.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.registry.eml;
+
+import org.gbif.api.model.registry.Contact;
+
+import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import com.google.common.base.Objects;
+
+
+/**
+ * A dataset can be part of a project. A project can have a unique identifier, used to link datasets associated with
+ * the same project.
+ */
+public class Project implements Serializable {
+
+  private static final long serialVersionUID = -2625204169061362016L;
+
+  private String title;
+  // TODO: enable searching datasets by their project identifier: http://dev.gbif.org/issues/browse/POR-3129
+  private String identifier;
+  private String description;
+
+  private List&lt;Contact&gt; contacts;
+  private String abstract_;
+  private String funding;
+  private String studyAreaDescription;
+  private String designDescription;
+
+<span class="nc" id="L48">  public Project() {</span>
+<span class="nc" id="L49">  }</span>
+
+  public Project(
+    String title, String identifier, List&lt;Contact&gt; contacts, String abstract_, String funding,
+<span class="fc" id="L53">    String studyAreaDescription, String designDescription) {</span>
+<span class="fc" id="L54">    this.title = title;</span>
+<span class="fc" id="L55">    this.identifier = identifier;</span>
+<span class="fc" id="L56">    this.contacts = contacts;</span>
+<span class="fc" id="L57">    this.abstract_ = abstract_;</span>
+<span class="fc" id="L58">    this.funding = funding;</span>
+<span class="fc" id="L59">    this.studyAreaDescription = studyAreaDescription;</span>
+<span class="fc" id="L60">    this.designDescription = designDescription;</span>
+<span class="fc" id="L61">  }</span>
+
+  public String getAbstract() {
+<span class="nc" id="L64">    return abstract_;</span>
+  }
+
+  public void setAbstract(String abstract_) {
+<span class="nc" id="L68">    this.abstract_ = abstract_;</span>
+<span class="nc" id="L69">  }</span>
+
+  public List&lt;Contact&gt; getContacts() {
+<span class="nc" id="L72">    return contacts;</span>
+  }
+
+  public void setContacts(List&lt;Contact&gt; contacts) {
+<span class="nc" id="L76">    this.contacts = contacts;</span>
+<span class="nc" id="L77">  }</span>
+
+  public String getDesignDescription() {
+<span class="nc" id="L80">    return designDescription;</span>
+  }
+
+  public void setDesignDescription(String designDescription) {
+<span class="nc" id="L84">    this.designDescription = designDescription;</span>
+<span class="nc" id="L85">  }</span>
+
+  public String getFunding() {
+<span class="nc" id="L88">    return funding;</span>
+  }
+
+  public void setFunding(String funding) {
+<span class="nc" id="L92">    this.funding = funding;</span>
+<span class="nc" id="L93">  }</span>
+
+  public String getStudyAreaDescription() {
+<span class="nc" id="L96">    return studyAreaDescription;</span>
+  }
+
+  public void setStudyAreaDescription(String studyAreaDescription) {
+<span class="nc" id="L100">    this.studyAreaDescription = studyAreaDescription;</span>
+<span class="nc" id="L101">  }</span>
+
+  public String getTitle() {
+<span class="nc" id="L104">    return title;</span>
+  }
+
+  public void setTitle(String title) {
+<span class="nc" id="L108">    this.title = title;</span>
+<span class="nc" id="L109">  }</span>
+
+  /**
+   * A unique identifier for the project. Used to link multiple datasets associated with the same project.
+   *
+   * @return the unique identifier for the project
+   */
+  @Nullable
+  public String getIdentifier() {
+<span class="nc" id="L118">    return identifier;</span>
+  }
+
+  public void setIdentifier(String identifier) {
+<span class="nc" id="L122">    this.identifier = identifier;</span>
+<span class="nc" id="L123">  }</span>
+
+  public String getDescription() {
+<span class="nc" id="L126">    return description;</span>
+  }
+
+  public void setDescription(String description) {
+<span class="nc" id="L130">    this.description = description;</span>
+<span class="nc" id="L131">  }</span>
+
+  /**
+   * Add contact to Contact List.
+   */
+  public void addContact(Contact contact) {
+<span class="nc bnc" id="L137" title="All 2 branches missed.">    if (contacts == null) {</span>
+<span class="nc" id="L138">      contacts = new LinkedList&lt;Contact&gt;();</span>
+    }
+<span class="nc" id="L140">    contacts.add(contact);</span>
+<span class="nc" id="L141">  }</span>
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">    if (this == obj) {</span>
+<span class="nc" id="L146">      return true;</span>
+    }
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">    if (!(obj instanceof Project)) {</span>
+<span class="nc" id="L149">      return false;</span>
+    }
+
+<span class="fc" id="L152">    Project that = (Project) obj;</span>
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">    return Objects.equal(this.title, that.title)</span>
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.identifier, that.identifier)</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.description, that.description)</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.contacts, that.contacts)</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.abstract_, that.abstract_)</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.funding, that.funding)</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.studyAreaDescription, that.studyAreaDescription)</span>
+<span class="pc bnc" id="L160" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.designDescription, that.designDescription);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L165">    return Objects.hashCode(title, identifier, contacts, abstract_, funding, studyAreaDescription, designDescription);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L170">    return Objects.toStringHelper(this)</span>
+<span class="nc" id="L171">      .add(&quot;title&quot;, title)</span>
+<span class="nc" id="L172">      .add(&quot;identifier&quot;, identifier)</span>
+<span class="nc" id="L173">      .add(&quot;description&quot;, description)</span>
+<span class="nc" id="L174">      .add(&quot;contacts&quot;, contacts)</span>
+<span class="nc" id="L175">      .add(&quot;abstract&quot;, abstract_)</span>
+<span class="nc" id="L176">      .add(&quot;funding&quot;, funding)</span>
+<span class="nc" id="L177">      .add(&quot;studyAreaDescription&quot;, studyAreaDescription)</span>
+<span class="nc" id="L178">      .add(&quot;designDescription&quot;, designDescription)</span>
+<span class="nc" id="L179">      .toString();</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

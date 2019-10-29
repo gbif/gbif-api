@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TagNamespace.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">TagNamespace.java</span></div><h1>TagNamespace.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.vocabulary;
+
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
+/**
+ * Known namespaces for tags.
+ */
+<span class="fc" id="L25">public enum TagNamespace {</span>
+
+  /**
+   * The public namespace.
+   */
+<span class="fc" id="L30">  PUBLIC(null),</span>
+
+  /**
+   * Used by the Crawler and related projects.
+   */
+<span class="fc" id="L35">  GBIF_CRAWLER(&quot;crawler.gbif.org&quot;),</span>
+
+  /**
+   * The GBIF DwC-Archive Validator namespace.
+   */
+<span class="fc" id="L40">  GBIF_VALIDATOR(&quot;validator.gbif.org&quot;),</span>
+
+  /**
+   * The GBIF Harvesting and Indexing Toolkit (HIT) namespace.
+   */
+<span class="fc" id="L45">  GBIF_HARVESTING(&quot;hit.gbif.org&quot;),</span>
+
+  /**
+   * The GBIF Registry Metasynchronizer namespace.
+   */
+<span class="fc" id="L50">  GBIF_METASYNC(&quot;metasync.gbif.org&quot;),</span>
+
+  /**
+   * The GBIF Orphans namespace.
+   */
+<span class="fc" id="L55">  GBIF_ORPHANS(&quot;orphans.gbif.org&quot;),</span>
+
+  /**
+   * The GBIF Default Term values namespace.
+   */
+<span class="fc" id="L60">  GBIF_DEFAULT_TERM(&quot;default-term.gbif.org&quot;),</span>
+
+  /**
+   * The Encyclopedia of Life (EOL) namespace.
+   */
+<span class="fc" id="L65">  EOL(&quot;eol.org&quot;),</span>
+
+  /**
+   * The Catalogue of Life (COL) namespace.
+   */
+<span class="fc" id="L70">  COL(&quot;catalogueoflife.org&quot;),</span>
+
+  /**
+   * The Atlas of Living Australia namespace.
+   */
+<span class="fc" id="L75">  ALA(&quot;ala.org.au&quot;);</span>
+
+  private final String namespace;
+
+<span class="fc" id="L79">  TagNamespace(String namespace) {</span>
+<span class="fc" id="L80">    this.namespace = namespace;</span>
+<span class="fc" id="L81">  }</span>
+
+  /**
+   * @return the unique full namespace uri in lower case.
+   */
+  public String getNamespace() {
+<span class="nc" id="L87">    return namespace;</span>
+  }
+
+  /**
+   * Gets the list of {@link TagName} which belongs to the namespace.
+   */
+  public List&lt;TagName&gt; getPredicates() {
+<span class="nc" id="L94">    List&lt;TagName&gt; tagNames = Lists.newArrayList();</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">    for (TagName tagName : TagName.values()) {</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">      if (tagName.getNamespace() == this) {</span>
+<span class="nc" id="L97">        tagNames.add(tagName);</span>
+      }
+    }
+<span class="nc" id="L100">    return tagNames;</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

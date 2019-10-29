@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LengthUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util</a> &gt; <span class="el_source">LengthUtils.java</span></div><h1>LengthUtils.java</h1><pre class="source lang-java linenums">package org.gbif.api.util;
+
+/**
+ *
+ */
+<span class="nc" id="L6">public class LengthUtils {</span>
+  public static final int LAT_DEGREE_IN_METER = 110580;
+
+  /**
+   * Latitude degrees are roughly linear to meters on the earth spheroid.
+   * Just the longitudinal degree changes considerably with distance to the equator
+   * See https://en.wikipedia.org/wiki/Geographic_coordinate_system#Expressing_latitude_and_longitude_as_linear_units
+   *
+   * @return the decimal latitudinal degree equivalent to the given length in meters
+   */
+  public static double metersToLatDegree(double meter) {
+    // http://gis.stackexchange.com/questions/14449/java-vividsolutions-jts-wgs-84-distance-to-meters
+<span class="fc" id="L18">    return Math.round(meter/ LAT_DEGREE_IN_METER * 1000000.0) / 1000000.0;</span>
+  }
+
+  /**
+   * Latitude degrees are roughly linear to meters on the earth spheroid.
+   * Just the longitudinal degree changes considerably with distance to the equator
+   * See https://en.wikipedia.org/wiki/Geographic_coordinate_system#Expressing_latitude_and_longitude_as_linear_units
+   *
+   * @return the length in meters equivalent to the given decimal latitudinal degree
+   */
+  public static double latDegreeToMeters(double latDegrees) {
+    // http://gis.stackexchange.com/questions/14449/java-vividsolutions-jts-wgs-84-distance-to-meters
+<span class="fc" id="L30">    return Math.round(latDegrees * LAT_DEGREE_IN_METER * 100.0) / 100.0;</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

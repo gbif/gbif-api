@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SearchResponse.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common.search</a> &gt; <span class="el_source">SearchResponse.java</span></div><h1>SearchResponse.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.common.search;
+
+import org.gbif.api.model.common.paging.Pageable;
+import org.gbif.api.model.common.paging.PagingResponse;
+
+import java.util.List;
+
+import com.google.common.base.Objects;
+import com.google.common.collect.Lists;
+
+/**
+ * Generic response of a search operation. The result is a {@link java.util.List} of elements.
+ * The type of the elements is bounded by the type parameter T. The list of results can be a empty list.
+ * Optionally the response can contain: a count of the total returned elements, an offset, a pageSize and
+ * the list of facets (if those were requested).
+ *
+ * @param &lt;T&gt; the actual type of response content
+ */
+public class SearchResponse&lt;T, P extends SearchParameter&gt; extends PagingResponse&lt;T&gt; {
+
+<span class="pc" id="L36">  private final List&lt;Facet&lt;P&gt;&gt; facets = Lists.newArrayList();</span>
+
+  private SpellCheckResponse spellCheckResponse;
+
+  /**
+   * Default constructor.
+   */
+<span class="nc" id="L43">  public SearchResponse() {</span>
+<span class="nc" id="L44">  }</span>
+
+  /**
+   * Minimal paging constructor.
+   */
+  public SearchResponse(Pageable page) {
+<span class="nc" id="L50">    super(page);</span>
+<span class="nc" id="L51">  }</span>
+
+  /**
+   * Minimal paging constructor.
+   */
+  public SearchResponse(PagingResponse&lt;T&gt; response) {
+<span class="nc" id="L57">    super(response, response.getCount(), response.getResults());</span>
+<span class="nc" id="L58">  }</span>
+
+  /**
+   * Minimal paging constructor.
+   */
+  public SearchResponse(long offset, int limit) {
+<span class="nc" id="L64">    super(offset, limit);</span>
+<span class="nc" id="L65">  }</span>
+
+  /**
+   * Full constructor.
+   *
+   * @param facets list of facets, never null
+   */
+  public SearchResponse(long offset, int pageSize, Long count, List&lt;T&gt; results, List&lt;Facet&lt;P&gt;&gt; facets) {
+<span class="fc" id="L73">    super(offset, pageSize, count, results);</span>
+<span class="fc" id="L74">    setFacets(facets);</span>
+<span class="fc" id="L75">  }</span>
+
+  /**
+   * Gets the resulting facets of a search operation, the list can be empty if no facets were requested.
+   * If there are no values for a facet, it will not be included in the list, i.e.: a facet should have
+   * at least 1 occurrence.
+   */
+  public List&lt;Facet&lt;P&gt;&gt; getFacets() {
+<span class="fc" id="L83">    return facets;</span>
+  }
+
+  /**
+   * Sets the list of facets.
+   *
+   * @param facets list of facets, never null
+   */
+  public final void setFacets(List&lt;Facet&lt;P&gt;&gt; facets) {
+    // copy entries
+<span class="fc" id="L93">    this.facets.clear();</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">    if (facets != null) {</span>
+<span class="nc" id="L95">      this.facets.addAll(facets);</span>
+    }
+<span class="fc" id="L97">  }</span>
+
+  /**
+   *
+   * @return the spellcheck response if it was requested
+   */
+  public SpellCheckResponse getSpellCheckResponse() {
+<span class="fc" id="L104">    return spellCheckResponse;</span>
+  }
+
+  /**
+   * Sets the spellcheck response.
+   * @param spellCheckResponse if it was requested
+   */
+  public void setSpellCheckResponse(SpellCheckResponse spellCheckResponse) {
+<span class="nc" id="L112">    this.spellCheckResponse = spellCheckResponse;</span>
+<span class="nc" id="L113">  }</span>
+
+  @Override
+  public boolean equals(Object o) {
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L118">      return true;</span>
+    }
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">    if (!(o instanceof SearchResponse)) {</span>
+<span class="nc" id="L121">      return false;</span>
+    }
+
+<span class="fc" id="L124">    SearchResponse&lt;?, ?&gt; that = (SearchResponse&lt;?, ?&gt;) o;</span>
+<span class="pc bpc" id="L125" title="2 of 4 branches missed.">    return Objects.equal(getCount(), that.getCount()) &amp;&amp; Objects.equal(getResults(), that.getResults()) &amp;&amp;</span>
+<span class="pc bpc" id="L126" title="2 of 4 branches missed.">           Objects.equal(facets, that.getFacets()) &amp;&amp; Objects.equal(getOffset(), that.getOffset()) &amp;&amp;</span>
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">           Objects.equal(getLimit(), that.getLimit()) &amp;&amp;</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">           Objects.equal(spellCheckResponse, that.getSpellCheckResponse());</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L133">    return Objects.hashCode(super.hashCode(), facets, spellCheckResponse);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L138">    return Objects.toStringHelper(this).add(&quot;count&quot;, getCount()).add(&quot;results&quot;, getResults()).add(&quot;facets&quot;, facets)</span>
+<span class="nc" id="L139">      .add(&quot;offset&quot;, getOffset()).add(&quot;limit&quot;, getLimit()).add(&quot;spellCheckResponse&quot;,spellCheckResponse).toString();</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

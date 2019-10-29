@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TermMapListDeserializer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.jackson</a> &gt; <span class="el_source">TermMapListDeserializer.java</span></div><h1>TermMapListDeserializer.java</h1><pre class="source lang-java linenums">package org.gbif.api.jackson;
+
+import org.gbif.dwc.terms.Term;
+import org.gbif.dwc.terms.TermFactory;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import com.google.common.collect.Lists;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.JsonToken;
+import org.codehaus.jackson.map.DeserializationConfig.Feature;
+import org.codehaus.jackson.map.DeserializationContext;
+import org.codehaus.jackson.map.JsonDeserializer;
+
+/**
+ * Deserializes list of maps of terms values.
+ */
+<span class="fc" id="L22">public class TermMapListDeserializer extends JsonDeserializer&lt;List&lt;Map&lt;Term, String&gt;&gt;&gt; {</span>
+
+<span class="fc" id="L24">  private final TermFactory termFactory = TermFactory.instance();</span>
+
+  @Override
+  public List&lt;Map&lt;Term, String&gt;&gt; deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">    if (jp.getCurrentToken() == JsonToken.START_ARRAY) {</span>
+<span class="fc" id="L29">      JsonDeserializer&lt;Object&gt; deserializer =</span>
+<span class="fc" id="L30">        ctxt.getDeserializerProvider().findTypedValueDeserializer(ctxt.getConfig(),</span>
+<span class="fc" id="L31">                                                                  ctxt.constructType(List.class),null);</span>
+<span class="fc" id="L32">      List&lt;Map&lt;String, String&gt;&gt; verbatimTerms = (List&lt;Map&lt;String, String&gt;&gt;) deserializer.deserialize(jp, ctxt);</span>
+<span class="fc" id="L33">      List&lt;Map&lt;Term, String&gt;&gt; interpretedTerms = Lists.newArrayList();</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">      for (Map&lt;String, String&gt; verbExtension : verbatimTerms) {</span>
+<span class="fc" id="L35">        Map&lt;Term, String&gt; extension = new HashMap&lt;Term, String&gt;();</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        for (Entry&lt;String, String&gt; entry : verbExtension.entrySet()) {</span>
+<span class="fc" id="L37">          Term term = termFactory.findTerm(entry.getKey());</span>
+<span class="pc bpc" id="L38" title="3 of 4 branches missed.">          if (term == null &amp;&amp; ctxt.getConfig().isEnabled(Feature.FAIL_ON_UNKNOWN_PROPERTIES)) {</span>
+<span class="nc" id="L39">            throw ctxt.mappingException(&quot;Term not found &quot; + entry.getKey());</span>
+          }
+<span class="fc" id="L41">          extension.put(term, entry.getValue());</span>
+<span class="fc" id="L42">        }</span>
+<span class="fc" id="L43">        interpretedTerms.add(extension);</span>
+<span class="fc" id="L44">      }</span>
+<span class="fc" id="L45">      return interpretedTerms;</span>
+    }
+<span class="nc" id="L47">    throw ctxt.mappingException(&quot;Expected JSON String&quot;);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

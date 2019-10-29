@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SamplingDescription.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry.eml</a> &gt; <span class="el_source">SamplingDescription.java</span></div><h1>SamplingDescription.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.registry.eml;
+
+import java.io.Serializable;
+import java.util.List;
+
+import com.google.common.base.Objects;
+import com.google.common.collect.Lists;
+
+
+public class SamplingDescription implements Serializable {
+
+  private static final long serialVersionUID = -9075523119279155795L;
+
+  private String studyExtent;
+
+  private String sampling;
+  private String qualityControl;
+<span class="nc" id="L33">  private List&lt;String&gt; methodSteps = Lists.newArrayList();</span>
+
+<span class="nc" id="L35">  public SamplingDescription() {</span>
+<span class="nc" id="L36">  }</span>
+
+<span class="nc" id="L38">  public SamplingDescription(String studyExtent, String sampling, String qualityControl, List&lt;String&gt; methodSteps) {</span>
+<span class="nc" id="L39">    this.studyExtent = studyExtent;</span>
+<span class="nc" id="L40">    this.sampling = sampling;</span>
+<span class="nc" id="L41">    this.qualityControl = qualityControl;</span>
+<span class="nc" id="L42">    this.methodSteps = methodSteps;</span>
+<span class="nc" id="L43">  }</span>
+
+  public List&lt;String&gt; getMethodSteps() {
+<span class="nc" id="L46">    return methodSteps;</span>
+  }
+
+  public void setMethodSteps(List&lt;String&gt; methodSteps) {
+<span class="nc" id="L50">    this.methodSteps = methodSteps;</span>
+<span class="nc" id="L51">  }</span>
+
+  public void addMethodStep(String methodStep) {
+<span class="nc" id="L54">    this.methodSteps.add(methodStep);</span>
+<span class="nc" id="L55">  }</span>
+
+  public String getQualityControl() {
+<span class="nc" id="L58">    return qualityControl;</span>
+  }
+
+  public void setQualityControl(String qualityControl) {
+<span class="nc" id="L62">    this.qualityControl = qualityControl;</span>
+<span class="nc" id="L63">  }</span>
+
+  public String getSampling() {
+<span class="nc" id="L66">    return sampling;</span>
+  }
+
+  public void setSampling(String sampling) {
+<span class="nc" id="L70">    this.sampling = sampling;</span>
+<span class="nc" id="L71">  }</span>
+
+  public String getStudyExtent() {
+<span class="nc" id="L74">    return studyExtent;</span>
+  }
+
+  public void setStudyExtent(String studyExtent) {
+<span class="nc" id="L78">    this.studyExtent = studyExtent;</span>
+<span class="nc" id="L79">  }</span>
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="nc bnc" id="L83" title="All 2 branches missed.">    if (this == obj) {</span>
+<span class="nc" id="L84">      return true;</span>
+    }
+<span class="nc bnc" id="L86" title="All 2 branches missed.">    if (!(obj instanceof SamplingDescription)) {</span>
+<span class="nc" id="L87">      return false;</span>
+    }
+
+    SamplingDescription
+<span class="nc" id="L91">      that = (SamplingDescription) obj;</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">    return Objects.equal(this.studyExtent, that.studyExtent)</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.sampling, that.sampling)</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.qualityControl, that.qualityControl)</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.methodSteps, that.methodSteps);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L100">    return Objects.hashCode(studyExtent, sampling, qualityControl, methodSteps);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L105">    return Objects.toStringHelper(this)</span>
+<span class="nc" id="L106">      .add(&quot;studyExtent&quot;, studyExtent)</span>
+<span class="nc" id="L107">      .add(&quot;sampling&quot;, sampling)</span>
+<span class="nc" id="L108">      .add(&quot;qualityControl&quot;, qualityControl)</span>
+<span class="nc" id="L109">      .add(&quot;methodSteps&quot;, methodSteps)</span>
+<span class="nc" id="L110">      .toString();</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

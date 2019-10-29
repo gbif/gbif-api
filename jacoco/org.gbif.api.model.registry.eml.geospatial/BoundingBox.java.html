@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BoundingBox.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry.eml.geospatial</a> &gt; <span class="el_source">BoundingBox.java</span></div><h1>BoundingBox.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.registry.eml.geospatial;
+
+import java.io.Serializable;
+import java.util.Locale;
+
+
+/**
+ * Geographic coverage geometry in the form of 4 sided bounding box.
+ */
+public class BoundingBox implements Serializable, Geometry {
+
+  private static final long serialVersionUID = 9101833933868378174L;
+
+  private static final int MIN_MIN_LONGITUDE = -180;
+  private static final int MAX_MAX_LONGITUDE = 180;
+
+  private static final int MIN_MIN_LATITUDE = -90;
+  private static final int MAX_MAX_LATITUDE = 90;
+
+  private double minLatitude;
+  private double maxLatitude;
+  private double minLongitude;
+  private double maxLongitude;
+  private boolean isGlobalCoverage;
+
+
+<span class="nc" id="L42">  public BoundingBox() {</span>
+<span class="nc" id="L43">  }</span>
+
+<span class="nc" id="L45">  public BoundingBox(double minLatitude, double maxLatitude, double minLongitude, double maxLongitude) {</span>
+<span class="nc" id="L46">    this.minLatitude = minLatitude;</span>
+<span class="nc" id="L47">    this.maxLatitude = maxLatitude;</span>
+<span class="nc" id="L48">    this.minLongitude = minLongitude;</span>
+<span class="nc" id="L49">    this.maxLongitude = maxLongitude;</span>
+<span class="nc" id="L50">    this.isGlobalCoverage = checkIsGlobalCoverage(minLatitude, maxLatitude, minLongitude, maxLongitude);</span>
+<span class="nc" id="L51">  }</span>
+
+  public double getMaxLatitude() {
+<span class="nc" id="L54">    return maxLatitude;</span>
+  }
+
+  public void setMaxLatitude(double maxLatitude) {
+<span class="nc" id="L58">    this.maxLatitude = maxLatitude;</span>
+<span class="nc" id="L59">  }</span>
+
+  public double getMaxLongitude() {
+<span class="nc" id="L62">    return maxLongitude;</span>
+  }
+
+  public void setMaxLongitude(double maxLongitude) {
+<span class="nc" id="L66">    this.maxLongitude = maxLongitude;</span>
+<span class="nc" id="L67">  }</span>
+
+  public double getMinLatitude() {
+<span class="nc" id="L70">    return minLatitude;</span>
+  }
+
+  public void setMinLatitude(double minLatitude) {
+<span class="nc" id="L74">    this.minLatitude = minLatitude;</span>
+<span class="nc" id="L75">  }</span>
+
+  public double getMinLongitude() {
+<span class="nc" id="L78">    return minLongitude;</span>
+  }
+
+  public void setMinLongitude(double minLongitude) {
+<span class="nc" id="L82">    this.minLongitude = minLongitude;</span>
+<span class="nc" id="L83">  }</span>
+
+  @Override
+  public String toWellKnownText() {
+<span class="nc" id="L87">    return String.format(Locale.ENGLISH, &quot;POLYGON ((%f %f, %f %f, %f %f, %f %f))&quot;,</span>
+<span class="nc" id="L88">                         minLongitude,</span>
+<span class="nc" id="L89">                         minLatitude,</span>
+<span class="nc" id="L90">                         minLongitude,</span>
+<span class="nc" id="L91">                         maxLatitude,</span>
+<span class="nc" id="L92">                         maxLongitude,</span>
+<span class="nc" id="L93">                         maxLatitude,</span>
+<span class="nc" id="L94">                         maxLongitude,</span>
+<span class="nc" id="L95">                         minLatitude);</span>
+  }
+
+  /**
+   * @return whether the BoundingBox represents global coverage
+   */
+  public boolean isGlobalCoverage() {
+<span class="nc" id="L102">    return isGlobalCoverage;</span>
+  }
+
+  /**
+   * Set whether this binding box represents global coverage or not. Setter ensures all 4 required params are provided.
+   *
+   * @param minLatitude  min latitude
+   * @param maxLatitude  max latitude
+   * @param minLongitude min longitude
+   * @param maxLongitude max longitude
+   */
+  public void setGlobalCoverage(double minLatitude, double maxLatitude, double minLongitude, double maxLongitude) {
+<span class="nc" id="L114">    isGlobalCoverage = checkIsGlobalCoverage(minLatitude, maxLatitude, minLongitude, maxLongitude);</span>
+<span class="nc" id="L115">  }</span>
+
+  /**
+   * Determine whether the bounding box represents global coverage. This is the case, when all North, East, South,
+   * and West lines represent the maximum possible degree values (90, 180, -90, -180).
+   *
+   * @param minLatitude  min latitude
+   * @param maxLatitude  max latitude
+   * @param minLongitude min longitude
+   * @param maxLongitude max longitude
+   *
+   * @return whether the bounding box represents global coverage
+   */
+  private boolean checkIsGlobalCoverage(
+    double minLatitude, double maxLatitude, double minLongitude, double maxLongitude
+  ) {
+<span class="nc bnc" id="L131" title="All 8 branches missed.">    return minLatitude == MIN_MIN_LATITUDE</span>
+           &amp;&amp; maxLatitude == MAX_MAX_LATITUDE
+           &amp;&amp; minLongitude == MIN_MIN_LONGITUDE
+           &amp;&amp; maxLongitude == MAX_MAX_LONGITUDE;
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

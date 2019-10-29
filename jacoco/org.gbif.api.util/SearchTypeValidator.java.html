@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SearchTypeValidator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util</a> &gt; <span class="el_source">SearchTypeValidator.java</span></div><h1>SearchTypeValidator.java</h1><pre class="source lang-java linenums">package org.gbif.api.util;
+
+import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.Language;
+
+import java.time.temporal.Temporal;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Range;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.operation.valid.IsValidOp;
+import org.locationtech.spatial4j.context.jts.DatelineRule;
+import org.locationtech.spatial4j.context.jts.JtsSpatialContextFactory;
+import org.locationtech.spatial4j.exception.InvalidShapeException;
+import org.locationtech.spatial4j.io.WKTReader;
+import org.locationtech.spatial4j.shape.Shape;
+import org.locationtech.spatial4j.shape.jts.JtsGeometry;
+
+import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
+
+/**
+ * Utility class to do basic validation of all search enum based values.
+ */
+public class SearchTypeValidator {
+
+<span class="fc" id="L37">  private static final Pattern BOOLEAN = Pattern.compile(&quot;^(true|false)$&quot;, Pattern.CASE_INSENSITIVE);</span>
+  // this regex matches a double with an optional dot separated fracture and negative signing
+  private static final String DEC = &quot;-?\\d+(?:\\.\\d+)?&quot;;
+
+  private static final String DECIMAL_OR_WILDCARD = &quot;(&quot; + DEC + &quot;|\\*)&quot;;
+
+<span class="fc" id="L43">  private static final Range&lt;Double&gt; LATITUDE_RNG = Range.closed(-90.0, 90.0);</span>
+<span class="fc" id="L44">  private static final Range&lt;Double&gt; LONGITUDE_RNG = Range.closed(-180.0, 180.0);</span>
+
+  private static final String LATITUDE_ERROR_MSG = &quot;%s is not valid value, latitude must be between -90 and 90.&quot;;
+
+  private static final String LONGITUDE_ERROR_MSG = &quot;%s is not valid value, longitude must be between -180 and 180.&quot;;
+
+  private static final String WILD_CARD = &quot;*&quot;;
+
+  /**
+   * Matches ranges in formats
+   *
+   * &lt;pre&gt;
+   * 23.1,55.2
+   * &lt;/pre&gt;
+   *
+   * &lt;pre&gt;
+   * *,88
+   * &lt;/pre&gt;
+   *
+   * and
+   *
+   * &lt;pre&gt;
+   * 55,*
+   * &lt;/pre&gt;
+   *
+   * .
+   * The matcher returns 2 groups:
+   * group 1: lower bound
+   * group 2: upper bound
+   */
+<span class="fc" id="L74">  private static final Pattern DECIMAL_RANGE_PATTERN = Pattern.compile(</span>
+    &quot;^&quot; + DECIMAL_OR_WILDCARD + &quot;\\s*,\\s*&quot; + DECIMAL_OR_WILDCARD + &quot;$&quot;, Pattern.CASE_INSENSITIVE);
+
+  /**
+   * Private default constructor.
+   */
+  private SearchTypeValidator() {
+    // empty block
+  }
+
+  /**
+   * Builds a closed range from two given values, but accepts nulls which are converted into unbound ranges
+   * in the guava instance.
+   */
+  public static &lt;T extends Comparable&lt;?&gt;&gt; Range&lt;T&gt; buildRange(final T lower, final T upper) {
+<span class="pc bpc" id="L89" title="1 of 4 branches missed.">    if (lower == null &amp;&amp; upper != null) {</span>
+<span class="fc" id="L90">      return Range.atMost(upper);</span>
+
+<span class="pc bpc" id="L92" title="1 of 4 branches missed.">    } else if (lower != null &amp;&amp; upper == null) {</span>
+<span class="fc" id="L93">      return Range.atLeast(lower);</span>
+
+<span class="pc bpc" id="L95" title="3 of 4 branches missed.">    } else if (lower == null &amp;&amp; upper == null) {</span>
+<span class="nc" id="L96">      return Range.&lt;T&gt;all();</span>
+
+    } else {
+<span class="fc" id="L99">      return Range.closed(lower, upper);</span>
+    }
+  }
+
+  /**
+   * Determines whether the value given is a valid decimal or date range, delimiting two values by a comma.
+   *
+   * @return true if the given value is a valid range
+   */
+  public static boolean isRange(String value) {
+<span class="fc bfc" id="L109" title="All 2 branches covered.">    if (!Strings.isNullOrEmpty(value)) {</span>
+      // decimal range for ints or doubles
+<span class="fc bfc" id="L111" title="All 2 branches covered.">      if (DECIMAL_RANGE_PATTERN.matcher(value).find()) {</span>
+<span class="fc" id="L112">        return true;</span>
+      }
+      // check date range
+      try {
+<span class="fc" id="L116">        IsoDateParsingUtils.parseDateRange(value);</span>
+<span class="fc" id="L117">        return true;</span>
+<span class="fc" id="L118">      } catch (Exception e) {</span>
+        // aha, no range
+      }
+    }
+<span class="fc" id="L122">    return false;</span>
+  }
+
+  /**
+   * Parses a range of ISO dates.
+   * The date format used is the first date format that successfully parses the lower range limit.
+   *
+   * @return the parsed range with wildcards represented as null values
+   * @throws IllegalArgumentException if value is invalid or null
+   */
+  public static Range&lt;Date&gt; parseDateRange(String value) {
+<span class="nc" id="L133">    return IsoDateParsingUtils.parseDateRange(value);</span>
+  }
+
+  /**
+   * Parses a decimal range in the format 123.1,456.
+   *
+   * @return the parsed range with wildcards represented as null values
+   * @throws IllegalArgumentException if value is invalid or null
+   */
+  public static Range&lt;Double&gt; parseDecimalRange(String value) {
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">    if (!Strings.isNullOrEmpty(value)) {</span>
+<span class="fc" id="L144">      Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">      if (m.find()) {</span>
+<span class="fc" id="L146">        return buildRange(parseDouble(m.group(1)), parseDouble(m.group(2)));</span>
+      }
+    }
+<span class="fc" id="L149">    throw new IllegalArgumentException(&quot;Invalid decimal range: &quot; + value);</span>
+  }
+
+  /**
+   * Parses an integer range in the format 123,456
+   *
+   * @return the parsed range with wildcards represented as null values
+   * @throws IllegalArgumentException if value is invalid or null
+   */
+  public static Range&lt;Integer&gt; parseIntegerRange(String value) {
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">    if (!Strings.isNullOrEmpty(value)) {</span>
+<span class="fc" id="L160">      Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">      if (m.find()) {</span>
+
+<span class="fc" id="L163">        return buildRange(parseInteger(m.group(1)), parseInteger(m.group(2)));</span>
+      }
+    }
+<span class="fc" id="L166">    throw new IllegalArgumentException(&quot;Invalid integer range: &quot; + value);</span>
+  }
+
+  /**
+   * Validates that a given parameter value matches the expected type of the parameter as defined by
+   * {@link SearchParameter#type()} and throws an IllegalArgumentException otherwise.
+   *
+   * @param param the search parameter defining the expected type
+   * @param value the parameter value to be validated
+   * @throws IllegalArgumentException if the value cannot be converted to the expected type
+   */
+  public static void validate(SearchParameter param, String value) throws IllegalArgumentException {
+<span class="fc" id="L178">    final Class&lt;?&gt; pType = param.type();</span>
+
+    try {
+<span class="fc bfc" id="L181" title="All 2 branches covered.">      if (OccurrenceSearchParameter.GEOMETRY == param) {</span>
+<span class="fc" id="L182">        validateGeometry(value);</span>
+
+      }
+      // All the parameters except by GEOMETRY accept the wild card value
+<span class="fc bfc" id="L186" title="All 2 branches covered.">      if (!WILD_CARD.equalsIgnoreCase(Strings.nullToEmpty(value).trim())) {</span>
+<span class="fc bfc" id="L187" title="All 2 branches covered.">        if (OccurrenceSearchParameter.DECIMAL_LATITUDE == param) {</span>
+<span class="fc" id="L188">          validateLatitude(value);</span>
+
+<span class="fc bfc" id="L190" title="All 2 branches covered.">        } else if (OccurrenceSearchParameter.DECIMAL_LONGITUDE == param) {</span>
+<span class="fc" id="L191">          validateLongitude(value);</span>
+
+<span class="fc bfc" id="L193" title="All 2 branches covered.">        } else if (UUID.class.isAssignableFrom(pType)) {</span>
+<span class="fc" id="L194">          UUID.fromString(value);</span>
+
+<span class="fc bfc" id="L196" title="All 2 branches covered.">        } else if (Double.class.isAssignableFrom(pType)) {</span>
+<span class="fc" id="L197">          validateDouble(value);</span>
+
+<span class="fc bfc" id="L199" title="All 2 branches covered.">        } else if (Integer.class.isAssignableFrom(pType)) {</span>
+<span class="fc" id="L200">          Collection&lt;Integer&gt; intsFound = validateInteger(value);</span>
+<span class="fc bfc" id="L201" title="All 2 branches covered.">          if (OccurrenceSearchParameter.MONTH == param) {</span>
+<span class="fc" id="L202">            validateMonth(intsFound);</span>
+          }
+
+<span class="fc bfc" id="L205" title="All 2 branches covered.">        } else if (Boolean.class.isAssignableFrom(pType)) {</span>
+          // we cannot use Boolean.parseBoolean as this accepted anything as false
+<span class="fc bfc" id="L207" title="All 2 branches covered.">          if (!BOOLEAN.matcher(value).find()) {</span>
+<span class="fc" id="L208">            throw new IllegalArgumentException(&quot;Value &quot; + value + &quot; is no valid boolean&quot;);</span>
+          }
+
+<span class="fc bfc" id="L211" title="All 2 branches covered.">        } else if (Country.class.isAssignableFrom(pType)) {</span>
+          // iso codes expected
+<span class="fc" id="L213">          Preconditions.checkNotNull(Country.fromIsoCode(value));</span>
+
+<span class="pc bpc" id="L215" title="1 of 2 branches missed.">        } else if (Language.class.isAssignableFrom(pType)) {</span>
+          // iso codes expected
+<span class="nc" id="L217">          Preconditions.checkNotNull(Language.fromIsoCode(value));</span>
+
+<span class="fc bfc" id="L219" title="All 2 branches covered.">        } else if (Enum.class.isAssignableFrom(pType)) {</span>
+          // enum value expected, cast to enum
+          @SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L222">          Class&lt;? extends Enum&lt;?&gt;&gt; eType = (Class&lt;? extends Enum&lt;?&gt;&gt;) pType;</span>
+<span class="fc" id="L223">          Preconditions.checkNotNull(VocabularyUtils.lookupEnum(value, eType));</span>
+
+<span class="fc bfc" id="L225" title="All 4 branches covered.">        } else if (Date.class.isAssignableFrom(pType) || Temporal.class.isAssignableFrom(pType)) {</span>
+          // ISO date strings
+<span class="fc" id="L227">          validateDate(value);</span>
+
+<span class="pc bpc" id="L229" title="1 of 2 branches missed.">        } else if (!String.class.isAssignableFrom(pType)) {</span>
+          // any string allowed
+          // an unexpected data type - update this method!!
+<span class="nc" id="L232">          throw new IllegalArgumentException(&quot;Unknown SearchParameter data type &quot; + pType.getCanonicalName());</span>
+        }
+      }
+<span class="fc" id="L235">    } catch (NullPointerException e) {</span>
+      // Preconditions.checkNotNull throws NPE but we want IllegalArgumentException
+<span class="fc" id="L237">      throw new IllegalArgumentException(&quot;Value &quot; + value + &quot; invalid for filter parameter &quot; + param, e);</span>
+<span class="fc" id="L238">    }</span>
+<span class="fc" id="L239">  }</span>
+
+
+  /**
+   * @return the parsed double or null for wildcards
+   * @throws NumberFormatException if invalid double
+   */
+  private static Double parseDouble(String d) {
+<span class="fc bfc" id="L247" title="All 2 branches covered.">    if (QUERY_WILDCARD.equals(d)) {</span>
+<span class="fc" id="L248">      return null;</span>
+    }
+<span class="fc" id="L250">    return Double.parseDouble(d);</span>
+  }
+
+  /**
+   * @return the parsed integer or null for wildcards
+   * @throws NumberFormatException if invalid integer
+   */
+  private static Integer parseInteger(String d) {
+<span class="fc bfc" id="L258" title="All 2 branches covered.">    if (QUERY_WILDCARD.equals(d)) {</span>
+<span class="fc" id="L259">      return null;</span>
+    }
+<span class="fc" id="L261">    return Integer.parseInt(d);</span>
+  }
+
+  /**
+   * Validates if the string value is a valid ISO 8601 format.
+   */
+  private static void validateDate(String value) {
+<span class="fc bfc" id="L268" title="All 2 branches covered.">    if (isRange(value)) {</span>
+<span class="fc" id="L269">      IsoDateParsingUtils.parseDateRange(value);</span>
+    } else {
+<span class="fc" id="L271">      IsoDateParsingUtils.parseDate(value);</span>
+    }
+<span class="fc" id="L273">  }</span>
+
+  /**
+   * Validates if the value is a valid single double or a range of double values.
+   * If the value is a range each limit is validated and the wildcard character '*' is skipped.
+   */
+  private static void validateDouble(String value) {
+<span class="pc bpc" id="L280" title="1 of 2 branches missed.">    if (Strings.isNullOrEmpty(value)) {</span>
+<span class="nc" id="L281">      throw new IllegalArgumentException(&quot;Double cannot be null or empty&quot;);</span>
+    }
+    try {
+<span class="fc" id="L284">      Double.parseDouble(value);</span>
+<span class="fc" id="L285">    } catch (NumberFormatException e) {</span>
+<span class="fc" id="L286">      parseDecimalRange(value);</span>
+<span class="fc" id="L287">    }</span>
+<span class="fc" id="L288">  }</span>
+
+
+  /**
+   * Validates if the value is a valid single double and its value is between a range.
+   */
+  private static void validateDoubleInRange(String value, Range&lt;Double&gt; range, String errorMsg) {
+<span class="pc bpc" id="L295" title="1 of 2 branches missed.">    if (Strings.isNullOrEmpty(value)) {</span>
+<span class="nc" id="L296">      throw new IllegalArgumentException(&quot;Double cannot be null or empty&quot;);</span>
+    }
+    try {
+<span class="fc" id="L299">      final Double doubleValue = Double.parseDouble(value);</span>
+<span class="fc bfc" id="L300" title="All 2 branches covered.">      if (!range.contains(doubleValue)) {</span>
+<span class="fc" id="L301">        throw new IllegalArgumentException(String.format(errorMsg, value));</span>
+      }
+<span class="fc" id="L303">    } catch (NumberFormatException e) {</span>
+<span class="fc bfc" id="L304" title="All 2 branches covered.">      if (isRange(value)) {</span>
+<span class="fc" id="L305">        Range&lt;Double&gt; rangeValue = parseDecimalRange(value);</span>
+<span class="fc bfc" id="L306" title="All 2 branches covered.">        if (!range.encloses(rangeValue)) {</span>
+<span class="fc" id="L307">          throw new IllegalArgumentException(String.format(errorMsg, value));</span>
+        }
+<span class="fc" id="L309">      } else {</span>
+<span class="fc" id="L310">        throw new IllegalArgumentException(&quot;Argument is not a valid number&quot;);</span>
+      }
+<span class="fc" id="L312">    }</span>
+<span class="fc" id="L313">  }</span>
+
+  /**
+   * Verify that we have indeed a wellKnownText parameter.
+   * See &lt;a href=&quot;https://en.wikipedia.org/wiki/Well-known_text&quot;&gt;Wikipedia&lt;/a&gt; for basic WKT specs.
+   * The validation implemented does both syntactic and topological validation (for polygons only).
+   */
+  private static void validateGeometry(String wellKnownText) {
+<span class="fc" id="L321">    JtsSpatialContextFactory spatialContextFactory = new JtsSpatialContextFactory();</span>
+<span class="fc" id="L322">    spatialContextFactory.normWrapLongitude = true;</span>
+<span class="fc" id="L323">    spatialContextFactory.srid = 4326;</span>
+<span class="fc" id="L324">    spatialContextFactory.datelineRule = DatelineRule.ccwRect;</span>
+
+<span class="fc" id="L326">    WKTReader reader = new WKTReader(spatialContextFactory.newSpatialContext(), spatialContextFactory);</span>
+
+    try {
+      // This validates some errors, such as a latitude &gt; 90°
+<span class="fc" id="L330">      Shape shape = reader.parse(wellKnownText);</span>
+
+<span class="fc bfc" id="L332" title="All 2 branches covered.">      if (shape instanceof JtsGeometry) {</span>
+<span class="fc" id="L333">        Geometry geometry = ((JtsGeometry) shape).getGeom();</span>
+
+<span class="fc" id="L335">        IsValidOp validator = new IsValidOp(geometry);</span>
+
+<span class="pc bpc" id="L337" title="1 of 2 branches missed.">        if (!validator.isValid()) {</span>
+<span class="nc" id="L338">          throw new IllegalArgumentException(&quot;Invalid geometry: &quot; + validator.getValidationError());</span>
+        }
+
+<span class="pc bpc" id="L341" title="1 of 2 branches missed.">        if (geometry.isEmpty()) {</span>
+<span class="nc" id="L342">          throw new IllegalArgumentException(&quot;Empty geometry: &quot; + wellKnownText);</span>
+        }
+
+        // Calculating the area &gt; 0 ensures that polygons that are representing lines or points are invalidated
+<span class="pc bpc" id="L346" title="1 of 4 branches missed.">        if (geometry instanceof Polygon &amp;&amp; geometry.getArea() == 0.0) {</span>
+<span class="nc" id="L347">          throw new IllegalArgumentException(&quot;Polygon with zero area: &quot; + wellKnownText);</span>
+        }
+
+<span class="pc bpc" id="L350" title="1 of 2 branches missed.">        switch (geometry.getGeometryType().toUpperCase()) {</span>
+          case &quot;POINT&quot;:
+          case &quot;LINESTRING&quot;:
+          case &quot;POLYGON&quot;:
+          case &quot;MULTIPOLYGON&quot;:
+<span class="fc" id="L355">            return;</span>
+
+          case &quot;MULTIPOINT&quot;:
+          case &quot;MULTILINESTRING&quot;:
+          case &quot;GEOMETRYCOLLECTION&quot;:
+          default:
+<span class="nc" id="L361">            throw new IllegalArgumentException(&quot;Unsupported simple WKT (unsupported type &quot; + geometry.getGeometryType() + &quot;): &quot; + wellKnownText);</span>
+        }
+      }
+<span class="fc" id="L364">    } catch (java.text.ParseException e) {</span>
+<span class="fc" id="L365">      e.printStackTrace();</span>
+<span class="fc" id="L366">      throw new IllegalArgumentException(&quot;Cannot parse simple WKT: &quot; + wellKnownText);</span>
+<span class="fc" id="L367">    } catch (InvalidShapeException e) {</span>
+<span class="fc" id="L368">      e.printStackTrace();</span>
+<span class="fc" id="L369">      throw new IllegalArgumentException(&quot;Invalid shape in WKT: &quot; + wellKnownText);</span>
+<span class="fc" id="L370">    }</span>
+<span class="fc" id="L371">  }</span>
+
+  /**
+   * Validates if the value is a valid single integer or a range of integer values.
+   * If the value is a range each limit is validated and the wildcard character '*' is skipped.
+   *
+   * @throws IllegalArgumentException if value is invalid or null
+   */
+  private static Collection&lt;Integer&gt; validateInteger(String value) {
+<span class="fc bfc" id="L380" title="All 2 branches covered.">    if (Strings.isNullOrEmpty(value)) {</span>
+<span class="fc" id="L381">      throw new IllegalArgumentException(&quot;Integer cannot be null or empty&quot;);</span>
+    }
+    try {
+<span class="fc" id="L384">      return Lists.newArrayList(Integer.parseInt(value));</span>
+<span class="fc" id="L385">    } catch (NumberFormatException e) {</span>
+<span class="fc" id="L386">      Range&lt;Integer&gt; range = parseIntegerRange(value);</span>
+<span class="fc" id="L387">      List&lt;Integer&gt; ints = Lists.newArrayList();</span>
+<span class="pc bpc" id="L388" title="1 of 2 branches missed.">      if (range.hasLowerBound()) {</span>
+<span class="fc" id="L389">        ints.add(range.lowerEndpoint());</span>
+      }
+<span class="pc bpc" id="L391" title="1 of 2 branches missed.">      if (range.hasUpperBound()) {</span>
+<span class="fc" id="L392">        ints.add(range.upperEndpoint());</span>
+      }
+<span class="fc" id="L394">      return ints;</span>
+    }
+  }
+
+  /**
+   * Validates if the parameter is a valid latitude value.
+   */
+  private static void validateLatitude(String value) {
+<span class="fc" id="L402">    validateDoubleInRange(value, LATITUDE_RNG, LATITUDE_ERROR_MSG);</span>
+<span class="fc" id="L403">  }</span>
+
+  /**
+   * Validates if the parameter is a valid longitude value.
+   */
+  private static void validateLongitude(String value) {
+<span class="fc" id="L409">    validateDoubleInRange(value, LONGITUDE_RNG, LONGITUDE_ERROR_MSG);</span>
+<span class="fc" id="L410">  }</span>
+
+  private static void validateMonth(Collection&lt;Integer&gt; months) {
+<span class="fc bfc" id="L413" title="All 2 branches covered.">    for (Integer month : months) {</span>
+<span class="pc bpc" id="L414" title="1 of 6 branches missed.">      if (month != null &amp;&amp; (month &lt; 1 || month &gt; 12)) {</span>
+<span class="fc" id="L415">        throw new IllegalArgumentException(&quot;Month needs to be between 1 - 12&quot;);</span>
+      }
+<span class="fc" id="L417">    }</span>
+<span class="fc" id="L418">  }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

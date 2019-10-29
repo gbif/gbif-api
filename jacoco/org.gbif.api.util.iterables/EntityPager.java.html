@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EntityPager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util.iterables</a> &gt; <span class="el_source">EntityPager.java</span></div><h1>EntityPager.java</h1><pre class="source lang-java linenums">package org.gbif.api.util.iterables;
+
+import org.gbif.api.model.common.paging.PagingRequest;
+import org.gbif.api.model.common.paging.PagingResponse;
+import org.gbif.api.model.registry.NetworkEntity;
+
+import java.util.Iterator;
+
+import com.google.common.base.Preconditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Iterator over registry entities from paging responses that filters out deleted entities.
+ */
+abstract class EntityPager&lt;T extends NetworkEntity&gt; implements Iterable&lt;T&gt; {
+<span class="nc" id="L17">    private static final Logger LOG = LoggerFactory.getLogger(EntityPager.class);</span>
+    private final int pageSize;
+
+    /**
+     * @param pageSize to use when talking to the registry
+     */
+<span class="nc" id="L23">    public EntityPager(int pageSize) {</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        Preconditions.checkArgument(pageSize &gt; 0, &quot;pageSize must at least be 1&quot;);</span>
+<span class="nc" id="L25">        this.pageSize = pageSize;</span>
+<span class="nc" id="L26">    }</span>
+
+    class ResponseIterator implements Iterator&lt;T&gt;{
+<span class="nc" id="L29">        private final PagingRequest page = new PagingRequest(0, pageSize);</span>
+<span class="nc" id="L30">        private PagingResponse&lt;T&gt; resp = null;</span>
+        private Iterator&lt;T&gt; iter;
+        private T next;
+
+<span class="nc" id="L34">        public ResponseIterator() {</span>
+<span class="nc" id="L35">            loadPage();</span>
+<span class="nc" id="L36">            next = nextEntity();</span>
+<span class="nc" id="L37">        }</span>
+
+        @Override
+        public boolean hasNext() {
+<span class="nc bnc" id="L41" title="All 2 branches missed.">            return next != null;</span>
+        }
+
+        @Override
+        public T next() {
+<span class="nc" id="L46">            T entity = next;</span>
+<span class="nc" id="L47">            next = nextEntity();</span>
+<span class="nc" id="L48">            return entity;</span>
+        }
+
+        @Override
+        public void remove() {
+<span class="nc" id="L53">            throw new UnsupportedOperationException();</span>
+        }
+
+        private T nextEntity() {
+            while (true) {
+<span class="nc bnc" id="L58" title="All 2 branches missed.">                if (!iter.hasNext()) {</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">                    if (resp.isEndOfRecords()) {</span>
+                        // no more records to load, stop!
+<span class="nc" id="L61">                        return null;</span>
+                    } else {
+<span class="nc" id="L63">                        loadPage();</span>
+                    }
+                }
+<span class="nc" id="L66">                T entity = iter.next();</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                if (entity.getDeleted() != null) {</span>
+<span class="nc" id="L68">                    LOG.debug(&quot;Ignore deleted entity {}: {}&quot;, entity.getKey(), entity.getTitle().replaceAll(&quot;\n&quot;, &quot; &quot;));</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">                } else if (!exclude(entity)) {</span>
+<span class="nc" id="L70">                    return entity;</span>
+                }
+<span class="nc" id="L72">            }</span>
+        }
+
+        private void loadPage() {
+<span class="nc" id="L76">            LOG.debug(&quot;Loading page {}-{}&quot;, page.getOffset(), page.getOffset()+page.getLimit());</span>
+<span class="nc" id="L77">            resp = nextPage(page);</span>
+<span class="nc" id="L78">            iter = resp.getResults().iterator();</span>
+<span class="nc" id="L79">            page.nextPage();</span>
+<span class="nc" id="L80">        }</span>
+    }
+
+    abstract PagingResponse&lt;T&gt; nextPage(PagingRequest page);
+
+    /**
+     * Override this method to implement other exclusion filters.
+     */
+    protected boolean exclude(T entity) {
+<span class="nc" id="L89">        return false;</span>
+    }
+
+    @Override
+    public Iterator&lt;T&gt; iterator() {
+<span class="nc" id="L94">        return new ResponseIterator();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

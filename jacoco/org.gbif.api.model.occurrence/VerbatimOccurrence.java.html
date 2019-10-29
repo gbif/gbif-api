@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VerbatimOccurrence.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence</a> &gt; <span class="el_source">VerbatimOccurrence.java</span></div><h1>VerbatimOccurrence.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.occurrence;
+
+import org.gbif.api.jackson.ExtensionKeyDeserializer;
+import org.gbif.api.jackson.ExtensionSerializer;
+import org.gbif.api.jackson.TermMapListDeserializer;
+import org.gbif.api.jackson.TermMapListSerializer;
+import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.EndpointType;
+import org.gbif.api.vocabulary.Extension;
+import org.gbif.dwc.terms.Term;
+import org.gbif.dwc.terms.TermFactory;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
+import org.codehaus.jackson.annotate.JsonAnyGetter;
+import org.codehaus.jackson.annotate.JsonAnySetter;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+/**
+ * An extended map holding all core terms of an occurrence record.
+ * Major extensions that we index are also supported, i.e. media, identifiers and measurements or facts.
+ */
+<span class="fc" id="L47">public class VerbatimOccurrence {</span>
+
+  private Long key;
+  private UUID datasetKey;
+  private UUID publishingOrgKey;
+  private List&lt;UUID&gt; networkKeys;
+  private UUID installationKey;
+  private Country publishingCountry;
+  private EndpointType protocol;
+  private Date lastCrawled;
+  private Date lastParsed;
+  private Integer crawlId;
+
+  // the verbatim fields for the occurrence
+<span class="fc" id="L61">  private Map&lt;Term, String&gt; verbatimFields = Maps.newHashMap();</span>
+  // verbatim extension data
+<span class="fc" id="L63">  private Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions = Maps.newHashMap();</span>
+
+  /**
+   * Get the value of a specific field (Term).
+   */
+  @Nullable
+  public String getVerbatimField(Term term) {
+<span class="fc" id="L70">    checkNotNull(term, &quot;term can't be null&quot;);</span>
+<span class="fc" id="L71">    return verbatimFields.get(term);</span>
+  }
+
+  /**
+   * @return true if a verbatim field exists and is not null or an empty string
+   */
+  public boolean hasVerbatimField(Term term) {
+<span class="fc" id="L78">    checkNotNull(term, &quot;term can't be null&quot;);</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">    return !Strings.isNullOrEmpty(verbatimFields.get(term));</span>
+  }
+
+  /**
+   * For setting a specific field without having to replace the entire verbatimFields Map.
+   *
+   * @param term the field to set
+   * @param fieldValue the field's value
+   */
+  public void setVerbatimField(Term term, @Nullable String fieldValue) {
+<span class="fc" id="L89">    checkNotNull(term, &quot;term can't be null&quot;);</span>
+<span class="fc" id="L90">    verbatimFields.put(term, fieldValue);</span>
+<span class="fc" id="L91">  }</span>
+
+  /**
+   * The GBIF assigned, persistent key to the occurrence record.
+   * OccurrenceID itself is kept in the verbatim verbatimFields map.
+   */
+  @NotNull
+  public Long getKey() {
+<span class="fc" id="L99">    return key;</span>
+  }
+
+  public void setKey(Long key) {
+<span class="fc" id="L103">    this.key = key;</span>
+<span class="fc" id="L104">  }</span>
+
+  @NotNull
+  public UUID getDatasetKey() {
+<span class="fc" id="L108">    return datasetKey;</span>
+  }
+
+  public void setDatasetKey(UUID datasetKey) {
+<span class="fc" id="L112">    this.datasetKey = datasetKey;</span>
+<span class="fc" id="L113">  }</span>
+
+  @NotNull
+  public UUID getPublishingOrgKey() {
+<span class="fc" id="L117">    return publishingOrgKey;</span>
+  }
+
+  public void setPublishingOrgKey(UUID publishingOrgKey) {
+<span class="fc" id="L121">    this.publishingOrgKey = publishingOrgKey;</span>
+<span class="fc" id="L122">  }</span>
+
+  /**
+   * The GBIF Network associated to the publishing dataset.
+   */
+  @Nullable
+  public List&lt;UUID&gt; getNetworkKeys() {
+<span class="fc" id="L129">    return networkKeys;</span>
+  }
+
+  public void setNetworkKeys(List&lt;UUID&gt; networkKeys) {
+<span class="fc" id="L133">    this.networkKeys = networkKeys;</span>
+<span class="fc" id="L134">  }</span>
+
+  /**
+   * Technical installation that publishes this occurrence record.
+   */
+  @Nullable
+  public UUID getInstallationKey() {
+<span class="fc" id="L141">    return installationKey;</span>
+  }
+
+  public void setInstallationKey(UUID installationKey) {
+<span class="fc" id="L145">    this.installationKey = installationKey;</span>
+<span class="fc" id="L146">  }</span>
+
+  /**
+   * The country of the organization that publishes the dataset to which the occurrence belongs.
+   */
+  @Nullable
+  public Country getPublishingCountry() {
+<span class="fc" id="L153">    return publishingCountry;</span>
+  }
+
+  public void setPublishingCountry(Country publishingCountry) {
+<span class="fc" id="L157">    this.publishingCountry = publishingCountry;</span>
+<span class="fc" id="L158">  }</span>
+
+  @NotNull
+  public EndpointType getProtocol() {
+<span class="fc" id="L162">    return protocol;</span>
+  }
+
+  public void setProtocol(EndpointType protocol) {
+<span class="fc" id="L166">    this.protocol = protocol;</span>
+<span class="fc" id="L167">  }</span>
+
+  @Nullable
+  /**
+   * The date this record was last crawled/harvested from the endpoint.
+   */
+  public Date getLastCrawled() {
+<span class="fc bfc" id="L174" title="All 2 branches covered.">    return lastCrawled == null ? null : new Date(lastCrawled.getTime());</span>
+  }
+
+  public void setLastCrawled(@Nullable Date lastCrawled) {
+<span class="fc bfc" id="L178" title="All 2 branches covered.">    this.lastCrawled = lastCrawled == null ? null : new Date(lastCrawled.getTime());</span>
+<span class="fc" id="L179">  }</span>
+
+  /**
+   * The date this record was last parsed from raw xml/json into verbatim verbatimFields.
+   */
+  @Nullable
+  public Date getLastParsed() {
+<span class="fc" id="L186">    return lastParsed;</span>
+  }
+
+  public void setLastParsed(@Nullable Date lastParsed) {
+<span class="fc bfc" id="L190" title="All 2 branches covered.">    this.lastParsed = lastParsed == null ? null : new Date(lastParsed.getTime());</span>
+<span class="fc" id="L191">  }</span>
+
+  /**
+   * Crawling attempt id.
+   */
+  @Nullable
+  public Integer getCrawlId() {
+<span class="fc" id="L198">    return crawlId;</span>
+  }
+
+  public void setCrawlId(Integer crawlId) {
+<span class="fc" id="L202">    this.crawlId = crawlId;</span>
+<span class="fc" id="L203">  }</span>
+
+  /**
+   * A map holding all verbatim core terms.
+   */
+  @NotNull
+  @JsonIgnore
+  public Map&lt;Term, String&gt; getVerbatimFields() {
+<span class="fc" id="L211">    return verbatimFields;</span>
+  }
+
+  public void setVerbatimFields(Map&lt;Term, String&gt; verbatimFields) {
+<span class="nc" id="L215">    this.verbatimFields = verbatimFields;</span>
+<span class="nc" id="L216">  }</span>
+
+  /**
+   * A map holding all verbatim extension terms.
+   */
+  @NotNull
+  @JsonSerialize(keyUsing = ExtensionSerializer.class, contentUsing = TermMapListSerializer.class)
+  @JsonDeserialize(keyUsing = ExtensionKeyDeserializer.class, contentUsing = TermMapListDeserializer.class)
+  public Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; getExtensions() {
+<span class="fc" id="L225">    return extensions;</span>
+  }
+
+  public void setExtensions(Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions) {
+<span class="fc" id="L229">    this.extensions = extensions;</span>
+<span class="fc" id="L230">  }</span>
+
+  @Override
+  public String toString() {
+<span class="nc" id="L234">    return Objects.toStringHelper(this)</span>
+<span class="nc" id="L235">      .add(&quot;key&quot;, key)</span>
+<span class="nc" id="L236">      .add(&quot;lastParsed&quot;, lastParsed)</span>
+<span class="nc" id="L237">      .add(&quot;datasetKey&quot;, datasetKey)</span>
+<span class="nc" id="L238">      .add(&quot;publishingOrgKey&quot;, publishingOrgKey)</span>
+<span class="nc" id="L239">      .add(&quot;publishingCountry&quot;, publishingCountry)</span>
+<span class="nc" id="L240">      .add(&quot;installationKey&quot;, installationKey)</span>
+<span class="nc" id="L241">      .add(&quot;networkKeys&quot;, networkKeys)</span>
+<span class="nc" id="L242">      .add(&quot;protocol&quot;, protocol)</span>
+<span class="nc" id="L243">      .add(&quot;crawlId&quot;,crawlId)</span>
+<span class="nc" id="L244">      .add(&quot;lastCrawled&quot;, lastCrawled)</span>
+<span class="nc" id="L245">      .add(&quot;extensions&quot;, extensions)</span>
+<span class="nc" id="L246">      .toString();</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L251">    return Objects</span>
+<span class="nc" id="L252">      .hashCode(key, datasetKey, publishingOrgKey, publishingCountry, protocol, lastCrawled, lastParsed, crawlId,</span>
+                verbatimFields, extensions);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="pc bpc" id="L258" title="1 of 2 branches missed.">    if (this == obj) {</span>
+<span class="nc" id="L259">      return true;</span>
+    }
+<span class="pc bpc" id="L261" title="2 of 4 branches missed.">    if (obj == null || getClass() != obj.getClass()) {</span>
+<span class="nc" id="L262">      return false;</span>
+    }
+<span class="fc" id="L264">    final VerbatimOccurrence other = (VerbatimOccurrence) obj;</span>
+<span class="pc bpc" id="L265" title="1 of 2 branches missed.">    return Objects.equal(this.key, other.key)</span>
+<span class="pc bpc" id="L266" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.datasetKey, other.datasetKey)</span>
+<span class="pc bpc" id="L267" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.publishingOrgKey, other.publishingOrgKey)</span>
+<span class="pc bpc" id="L268" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.publishingCountry, other.publishingCountry)</span>
+<span class="pc bpc" id="L269" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.installationKey, other.installationKey)</span>
+<span class="pc bpc" id="L270" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.networkKeys, other.networkKeys)</span>
+<span class="pc bpc" id="L271" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.protocol, other.protocol)</span>
+<span class="pc bpc" id="L272" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.lastCrawled, other.lastCrawled)</span>
+<span class="pc bpc" id="L273" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.lastParsed, other.lastParsed)</span>
+<span class="pc bpc" id="L274" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.verbatimFields, other.verbatimFields)</span>
+<span class="pc bpc" id="L275" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.extensions, other.extensions)</span>
+<span class="pc bpc" id="L276" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.crawlId, other.crawlId);</span>
+  }
+
+  /**
+   * This private method is only for deserialization via jackson and not exposed anywhere else!
+   */
+  @JsonAnySetter
+  private void addJsonVerbatimField(String key, String value) {
+<span class="pc bpc" id="L284" title="1 of 2 branches missed.">    if(!Strings.isNullOrEmpty(value)) {</span>
+<span class="fc" id="L285">      Term t = TermFactory.instance().findTerm(key);</span>
+<span class="fc" id="L286">      verbatimFields.put(t, value);</span>
+    }
+<span class="fc" id="L288">  }</span>
+
+  /**
+   * This private method is only for serialization via jackson and not exposed anywhere else!
+   * It maps the verbatimField terms into properties with their full qualified name.
+   */
+  @JsonAnyGetter
+  private Map&lt;String, String&gt; jsonVerbatimFields() { // note: for 1.6.0 MUST use non-getter name; otherwise doesn't matter
+<span class="fc" id="L296">    Map&lt;String, String&gt; extendedProps = Maps.newHashMap();</span>
+<span class="fc bfc" id="L297" title="All 2 branches covered.">    for (Map.Entry&lt;Term, String&gt; prop : verbatimFields.entrySet()) {</span>
+<span class="fc" id="L298">      extendedProps.put(prop.getKey().qualifiedName(), prop.getValue());</span>
+<span class="fc" id="L299">    }</span>
+<span class="fc" id="L300">    return extendedProps;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

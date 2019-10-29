@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatasetBasePager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util.iterables</a> &gt; <span class="el_source">DatasetBasePager.java</span></div><h1>DatasetBasePager.java</h1><pre class="source lang-java linenums">package org.gbif.api.util.iterables;
+
+import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.vocabulary.DatasetType;
+
+import javax.annotation.Nullable;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Iterator over datasets from paging responses that filters out deleted and constituent datasets
+ * It also allows for an optional type filter.
+ */
+abstract class DatasetBasePager extends EntityPager&lt;Dataset&gt; {
+<span class="nc" id="L16">    private static final Logger LOG = LoggerFactory.getLogger(DatasetBasePager.class);</span>
+    private final DatasetType type;
+
+    /**
+     * @param pageSize to use when talking to the registry
+     * @param type the accepted dataset type, null for all
+     */
+    public DatasetBasePager(@Nullable DatasetType type, int pageSize) {
+<span class="nc" id="L24">        super(pageSize);</span>
+<span class="nc" id="L25">        this.type = type;</span>
+<span class="nc" id="L26">    }</span>
+
+    @Override
+    protected boolean exclude(Dataset d) {
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        if (d.getParentDatasetKey() != null) {</span>
+<span class="nc" id="L31">            LOG.debug(&quot;Ignore constituent dataset {} {} of parent {}&quot;, d.getKey(), d.getTitle().replaceAll(&quot;\n&quot;, &quot; &quot;), d.getParentDatasetKey());</span>
+<span class="nc bnc" id="L32" title="All 4 branches missed.">        } else if (type != null &amp;&amp; d.getType() != type) {</span>
+<span class="nc" id="L33">            LOG.debug(&quot;Ignore {} dataset {}: {}&quot;, d.getType(), d.getKey(), d.getTitle().replaceAll(&quot;\n&quot;, &quot; &quot;));</span>
+        }
+<span class="nc" id="L35">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

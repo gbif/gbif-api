@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NameUsageSearchParameter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank.search</a> &gt; <span class="el_source">NameUsageSearchParameter.java</span></div><h1>NameUsageSearchParameter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.checklistbank.search;
+
+
+import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.vocabulary.*;
+
+import java.util.UUID;
+
+/**
+ * Each value in the enum represents a search parameter or facet of the name usage search.
+ */
+<span class="fc" id="L27">public enum NameUsageSearchParameter implements SearchParameter {</span>
+
+  /**
+   * The checklist dataset key as a uuid.
+   */
+<span class="fc" id="L32">  DATASET_KEY(UUID.class),</span>
+
+  /**
+   * The (sub)dataset constituent key as a uuid. Useful to query larger assembled datasets such as the GBIF Backbone or the Catalogue of Life
+   */
+<span class="fc" id="L37">  CONSTITUENT_KEY(UUID.class),</span>
+
+  /**
+   * Filters by the rank of the name usage.
+   */
+<span class="fc" id="L42">  RANK(Rank.class),</span>
+
+  /**
+   * Filters by any of the higher linnean rank keys.
+   * Note this is within the respective checklist and not searching nunb keys across all checklists.
+   */
+<span class="fc" id="L48">  HIGHERTAXON_KEY(Integer.class),</span>
+
+  /**
+   * Filter by the taxonomis status.
+   */
+<span class="fc" id="L53">  STATUS(TaxonomicStatus.class),</span>
+
+  /**
+   * Boolean filter for extinct taxa.
+   */
+<span class="fc" id="L58">  IS_EXTINCT(Boolean.class),</span>
+
+  /**
+   * Filter by the known habitats.
+   */
+<span class="fc" id="L63">  HABITAT(Habitat.class),</span>
+
+  /**
+   * Filter by the threat status.
+   */
+<span class="fc" id="L68">  THREAT(ThreatStatus.class),</span>
+
+  /**
+   * Filter by the nomenclatural status.
+   */
+<span class="fc" id="L73">  NOMENCLATURAL_STATUS(NomenclaturalStatus.class),</span>
+
+  /**
+   * Filter by the name type.
+   */
+<span class="fc" id="L78">  NAME_TYPE(NameType.class),</span>
+
+  /**
+   * Searches name usages for those that have a specific issue.
+   */
+<span class="fc" id="L83">  ISSUE(NameUsageIssue.class),</span>
+
+  /**
+   * Searches name usages for those with a specific origin.
+   */
+<span class="fc" id="L88">  ORIGIN(Origin.class);</span>
+
+<span class="fc" id="L90">  private NameUsageSearchParameter(Class&lt;?&gt; type) {</span>
+<span class="fc" id="L91">    this.type = type;</span>
+<span class="fc" id="L92">  }</span>
+
+  private final Class&lt;?&gt; type;
+
+  /**
+   * @return the data type expected for the value of the respective search parameter
+   */
+  public Class&lt;?&gt; type() {
+<span class="fc" id="L100">    return type;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

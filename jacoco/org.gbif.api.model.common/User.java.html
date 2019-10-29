@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.common;
+
+import org.gbif.api.vocabulary.UserRole;
+
+import java.util.Date;
+import java.util.Map;
+import java.util.Set;
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import com.google.common.base.Objects;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import org.codehaus.jackson.annotate.JsonIgnore;
+
+/**
+ * A GBIF user account registered in the drupal user database.
+ * @Deprecated replaced by {@link GbifUser}
+ */
+@Deprecated
+<span class="fc" id="L38">public class User {</span>
+
+  private static final String EMAIL_PATTERN =
+ 		&quot;^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@&quot;
+ 		+ &quot;[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$&quot;;
+
+  private Integer key;
+  private String userName;
+  private String firstName;
+  private String lastName;
+  private String email;
+  private String passwordHash;
+<span class="fc" id="L50">  private Set&lt;UserRole&gt; roles = Sets.newHashSet();</span>
+  private Date lastLogin;
+  // Note: Settings was introduced in the system developed to replace Drupal
+<span class="fc" id="L53">  private Map&lt;String, String&gt; settings = Maps.newHashMap();</span>
+
+  @NotNull
+  public Integer getKey() {
+<span class="fc" id="L57">    return key;</span>
+  }
+
+  public void setKey(Integer key) {
+<span class="fc" id="L61">    this.key = key;</span>
+<span class="fc" id="L62">  }</span>
+
+  @NotNull
+  @Pattern(regexp = EMAIL_PATTERN)
+  public String getEmail() {
+<span class="fc" id="L67">    return email;</span>
+  }
+
+  public void setEmail(String email) {
+<span class="fc" id="L71">    this.email = email;</span>
+<span class="fc" id="L72">  }</span>
+
+  @Nullable
+  public Date getLastLogin() {
+<span class="fc" id="L76">    return lastLogin;</span>
+  }
+
+  public void setLastLogin(Date lastLogin) {
+<span class="nc" id="L80">    this.lastLogin = lastLogin;</span>
+<span class="nc" id="L81">  }</span>
+
+
+  /**
+   * The unique, immutable drupal user account name.
+   * This name should be used for referring to a user.
+   * The account name is made of ASCII lower case alphanumerics, underscore, dash or dots and is in particular void
+   * of whitespace.
+   */
+  @NotNull
+  @Pattern(regexp = &quot;^[a-z0-9_.-]+$&quot;)
+  @Size(min = 3, max = 64)
+  public String getUserName() {
+<span class="fc" id="L94">    return userName;</span>
+  }
+
+  public void setUserName(String userName) {
+<span class="fc" id="L98">    this.userName = userName;</span>
+<span class="fc" id="L99">  }</span>
+
+  /**
+   * @return the first name of a person
+   */
+  @NotNull
+  public String getFirstName() {
+<span class="fc" id="L106">    return firstName;</span>
+  }
+
+  public void setFirstName(String firstName) {
+<span class="fc" id="L110">    this.firstName = firstName;</span>
+<span class="fc" id="L111">  }</span>
+
+  /**
+   * @return the last name of the user
+   */
+  @NotNull
+  public String getLastName() {
+<span class="fc" id="L118">    return lastName;</span>
+  }
+
+  public void setLastName(String lastName) {
+<span class="fc" id="L122">    this.lastName = lastName;</span>
+<span class="fc" id="L123">  }</span>
+
+  /**
+   * @return the first and last name of the user concatenated with a space
+   */
+  @NotNull
+  @JsonIgnore
+  public String getName() {
+<span class="fc" id="L131">    return firstName + &quot; &quot; + lastName;</span>
+  }
+
+  /**
+   * @return the drupal hashed version of the user password.
+   */
+  public String getPasswordHash() {
+<span class="fc" id="L138">    return passwordHash;</span>
+  }
+
+  public void setPasswordHash(String passwordHash) {
+<span class="nc" id="L142">    this.passwordHash = passwordHash;</span>
+<span class="nc" id="L143">  }</span>
+
+  @NotNull
+  public Set&lt;UserRole&gt; getRoles() {
+<span class="fc" id="L147">    return roles;</span>
+  }
+
+  public void setRoles(Set&lt;UserRole&gt; roles) {
+<span class="fc" id="L151">    this.roles = roles;</span>
+<span class="fc" id="L152">  }</span>
+
+  public void addRole(UserRole role) {
+<span class="fc" id="L155">    roles.add(role);</span>
+<span class="fc" id="L156">  }</span>
+
+  /**
+   * Checks if the user has the given user role.
+   * @param role
+   *
+   * @return true if the user has the requested role
+   */
+  public boolean hasRole(UserRole role) {
+<span class="fc bfc" id="L165" title="All 4 branches covered.">    if (role != null &amp;&amp; roles.contains(role)) {</span>
+<span class="fc" id="L166">      return true;</span>
+    }
+<span class="fc" id="L168">    return false;</span>
+  }
+
+  public boolean isAdmin() {
+<span class="fc" id="L172">    return roles.contains(UserRole.ADMIN);</span>
+  }
+
+
+  /**
+   * Gets the settings which may be empty but never null.
+   * @return
+   */
+  @NotNull
+  public Map&lt;String, String&gt; getSettings() {
+<span class="fc" id="L182">    return settings;</span>
+  }
+
+  /**
+   * Sets the settings object, setting an empty map if null is provided.
+   */
+  public void setSettings(Map&lt;String, String&gt; settings) {
+    // safeguard against misuse to avoid NPE
+<span class="pc bpc" id="L190" title="1 of 2 branches missed.">    this.settings = settings == null ? Maps.&lt;String,String&gt;newHashMap() : settings;</span>
+<span class="fc" id="L191">  }</span>
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">    if (this == obj) {</span>
+<span class="nc" id="L196">      return true;</span>
+    }
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">    if (!(obj instanceof User)) {</span>
+<span class="nc" id="L199">      return false;</span>
+    }
+
+<span class="fc" id="L202">    User that = (User) obj;</span>
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">    return Objects.equal(this.key, that.key)</span>
+<span class="pc bpc" id="L204" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.userName, that.userName)</span>
+<span class="pc bpc" id="L205" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.firstName, that.firstName)</span>
+<span class="pc bpc" id="L206" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.lastName, that.lastName)</span>
+<span class="pc bpc" id="L207" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.email, that.email)</span>
+<span class="pc bpc" id="L208" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.roles, that.roles)</span>
+<span class="pc bpc" id="L209" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.lastLogin, that.lastLogin)</span>
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.passwordHash, that.passwordHash)</span>
+<span class="pc bpc" id="L211" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.settings, that.settings);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="fc" id="L216">    return Objects.hashCode(key, userName, firstName, lastName, email, roles, lastLogin, passwordHash, settings);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="fc" id="L221">    return Objects.toStringHelper(this)</span>
+<span class="fc" id="L222">      .add(&quot;key&quot;, key)</span>
+<span class="fc" id="L223">      .add(&quot;accountName&quot;, userName)</span>
+<span class="fc" id="L224">      .add(&quot;firstName&quot;, firstName)</span>
+<span class="fc" id="L225">      .add(&quot;lastName&quot;, lastName)</span>
+<span class="fc" id="L226">      .add(&quot;email&quot;, email)</span>
+<span class="fc" id="L227">      .add(&quot;roles&quot;, roles)</span>
+<span class="fc" id="L228">      .add(&quot;lastLogin&quot;, lastLogin)</span>
+<span class="fc" id="L229">      .add(&quot;passwordHash&quot;, passwordHash)</span>
+<span class="fc" id="L230">      .add(&quot;settings&quot;, settings)</span>
+<span class="fc" id="L231">      .toString();</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SearchRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common.search</a> &gt; <span class="el_source">SearchRequest.java</span></div><h1>SearchRequest.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.common.search;
+
+import org.gbif.api.model.common.paging.Pageable;
+import org.gbif.api.model.common.paging.PageableBase;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+
+import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
+import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
+
+/**
+ * Generic request class for search operations. This class contains a list of parameters,
+ * a list of desired facets and paging options (page size and offset).
+ */
+public class SearchRequest&lt;P extends SearchParameter&gt; extends PageableBase {
+
+<span class="pc" id="L37">  private Multimap&lt;P, String&gt; parameters = HashMultimap.create();</span>
+  private String q;
+  private boolean highlight;
+  private boolean spellCheck;
+  private int spellCheckCount;
+
+  /**
+   * Constructor with default paging offset &amp; limit.
+   */
+  public SearchRequest() {
+<span class="fc" id="L47">    super(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);</span>
+<span class="fc" id="L48">  }</span>
+
+  /**
+   * Simple query constructor with default paging offset &amp; limit.
+   *
+   * @param query string for request
+   */
+  public SearchRequest(String query) {
+<span class="nc" id="L56">    super(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);</span>
+<span class="nc" id="L57">    q = query;</span>
+<span class="nc" id="L58">  }</span>
+
+  /**
+   * Minimal paging constructor.
+   */
+  public SearchRequest(Pageable page) {
+<span class="nc" id="L64">    super(page.getOffset(), page.getLimit());</span>
+<span class="nc" id="L65">  }</span>
+
+  /**
+   * Minimal paging constructor.
+   */
+  public SearchRequest(long offset, int limit) {
+<span class="nc" id="L71">    super(offset, limit);</span>
+<span class="nc" id="L72">  }</span>
+
+
+  /**
+   * @return true if highlighted search matches are requested
+   */
+  public boolean isHighlight() {
+<span class="nc" id="L79">    return highlight;</span>
+  }
+
+  /**
+   * @param highlight the highlight to set
+   */
+  public void setHighlight(boolean highlight) {
+<span class="nc" id="L86">    this.highlight = highlight;</span>
+<span class="nc" id="L87">  }</span>
+
+  /**
+   *
+   * @return true if spellCheck search is requested
+   */
+  public boolean isSpellCheck() {
+<span class="nc" id="L94">    return spellCheck;</span>
+  }
+
+  /**
+   * @param spellCheck the highlight to set
+   */
+  public void setSpellCheck(boolean spellCheck) {
+<span class="nc" id="L101">    this.spellCheck = spellCheck;</span>
+<span class="nc" id="L102">  }</span>
+
+  /**
+   *
+   * @return max number of spell check suggestions requested
+   */
+  public int getSpellCheckCount() {
+<span class="nc" id="L109">    return spellCheckCount;</span>
+  }
+
+  /**
+   *
+   * @param spellCheckCount number of spell check suggestions
+   */
+  public void setSpellCheckCount(int spellCheckCount) {
+<span class="nc" id="L117">    this.spellCheckCount = spellCheckCount;</span>
+<span class="nc" id="L118">  }</span>
+
+  /**
+   * List of input parameters of the search operation.
+   * The parameters are handled as the parameter name and the string representation of its value.
+   *
+   * @return the list of parameters
+   */
+  public Multimap&lt;P, String&gt; getParameters() {
+<span class="fc" id="L127">    return parameters;</span>
+  }
+
+  /**
+   * Sets the list of parameters.
+   */
+  public void setParameters(Multimap&lt;P, String&gt; parameters) {
+<span class="nc" id="L134">    this.parameters = parameters;</span>
+<span class="nc" id="L135">  }</span>
+
+  /**
+   * Query parameter.
+   *
+   * @return the q
+   */
+  public String getQ() {
+<span class="nc" id="L143">    return q;</span>
+  }
+
+  /**
+   * @param q the q to set
+   */
+  public void setQ(String q) {
+<span class="nc" id="L150">    this.q = q;</span>
+<span class="nc" id="L151">  }</span>
+
+  /**
+   * Adds the specified parameter.
+   *
+   * @param parameter parameter to add values for
+   * @param values    list of values of the parameter to add
+   */
+  public void addParameter(P parameter, Iterable&lt;String&gt; values) {
+<span class="nc bnc" id="L160" title="All 2 branches missed.">    for (String parameterValue : values) {</span>
+<span class="nc" id="L161">      parameters.put(parameter, parameterValue);</span>
+<span class="nc" id="L162">    }</span>
+<span class="nc" id="L163">  }</span>
+
+  /**
+   * Adds the specified parameter.
+   *
+   * @param parameter parameter to add values for
+   * @param values    list of values of the parameter to add
+   */
+  public void addParameter(P parameter, String... values) {
+<span class="nc bnc" id="L172" title="All 2 branches missed.">    for (String value : values) {</span>
+<span class="nc" id="L173">      addParameter(parameter, value);</span>
+    }
+<span class="nc" id="L175">  }</span>
+
+  /**
+   * Adds the specified parameter.
+   *
+   * @param parameter parameter to add values for
+   * @param value     value of the parameter to add
+   */
+  public void addParameter(P parameter, String value) {
+<span class="nc bnc" id="L184" title="All 2 branches missed.">    if (value != null) {</span>
+<span class="nc" id="L185">      parameters.put(parameter, value);</span>
+    }
+<span class="nc" id="L187">  }</span>
+
+  /**
+   * Adds the specified long parameter.
+   *
+   * @param parameter parameter to add values for
+   * @param value     value of the parameter to add
+   */
+  public void addParameter(P parameter, long value) {
+<span class="nc" id="L196">    parameters.put(parameter, String.valueOf(value));</span>
+<span class="nc" id="L197">  }</span>
+
+  /**
+   * Adds the specified int parameter.
+   *
+   * @param parameter parameter to add values for
+   * @param value     value of the parameter to add
+   */
+  public void addParameter(P parameter, int value) {
+<span class="nc" id="L206">    parameters.put(parameter, String.valueOf(value));</span>
+<span class="nc" id="L207">  }</span>
+
+  /**
+   * Adds the specified double parameter.
+   *
+   * @param parameter parameter to add values for
+   * @param value     value of the parameter to add
+   */
+  public void addParameter(P parameter, double value) {
+<span class="nc" id="L216">    parameters.put(parameter, String.valueOf(value));</span>
+<span class="nc" id="L217">  }</span>
+
+  /**
+   * Adds the specified boolean parameter.
+   *
+   * @param parameter parameter to add values for
+   * @param value     value of the parameter to add
+   */
+  public void addParameter(P parameter, boolean value) {
+<span class="nc" id="L226">    parameters.put(parameter, String.valueOf(value));</span>
+<span class="nc" id="L227">  }</span>
+
+  /**
+   * Adds the specified parameter.
+   *
+   * @param parameter parameter to add values for
+   * @param value     enum value of the parameter to add
+   */
+  public void addParameter(P parameter, Enum&lt;?&gt; value) {
+<span class="pc bpc" id="L236" title="1 of 2 branches missed.">    if (value != null) {</span>
+<span class="fc" id="L237">      parameters.put(parameter, value.name());</span>
+    }
+<span class="fc" id="L239">  }</span>
+
+
+  /**
+   * Adds the specified date parameter as an ISO date.
+   *
+   * @param parameter parameter to add date for
+   * @param value     date value of the parameter to add
+   */
+  public void addParameter(P parameter, Date value) {
+<span class="nc bnc" id="L249" title="All 2 branches missed.">    if (value != null) {</span>
+      // not thread safe, new instance
+<span class="nc" id="L251">      DateFormat iso = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</span>
+<span class="nc" id="L252">      parameters.put(parameter, iso.format(value));</span>
+    }
+<span class="nc" id="L254">  }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

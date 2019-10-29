@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DoiData.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common</a> &gt; <span class="el_source">DoiData.java</span></div><h1>DoiData.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.common;
+
+import java.net.URI;
+
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+/**
+ * Data about a DOI with a target URI and a status enumeration.
+ */
+public class DoiData {
+  private final DoiStatus status;
+  private final URI target;
+
+  @JsonCreator
+<span class="fc" id="L21">  public DoiData(@JsonProperty(&quot;status&quot;) DoiStatus status, @JsonProperty(&quot;target&quot;) URI target) {</span>
+<span class="fc" id="L22">    this.status = Preconditions.checkNotNull(status, &quot;DOI status is required&quot;);</span>
+<span class="fc" id="L23">    this.target = target;</span>
+<span class="fc" id="L24">  }</span>
+
+<span class="nc" id="L26">  public DoiData(String ezidStatus, URI target) {</span>
+<span class="nc" id="L27">    this.status = Preconditions.checkNotNull(DoiStatus.fromString(ezidStatus));</span>
+<span class="nc" id="L28">    this.target = target;</span>
+<span class="nc" id="L29">  }</span>
+
+<span class="nc" id="L31">  public DoiData(DoiStatus status) {</span>
+<span class="nc" id="L32">    this.status = Preconditions.checkNotNull(status, &quot;DOI status is required&quot;);</span>
+<span class="nc" id="L33">    this.target = null;</span>
+<span class="nc" id="L34">  }</span>
+
+  @NotNull
+  public DoiStatus getStatus() {
+<span class="fc" id="L38">    return status;</span>
+  }
+
+  @Nullable
+  public URI getTarget() {
+<span class="fc" id="L43">    return target;</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="fc" id="L48">    return Objects.hashCode(status, target);</span>
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">    if (this == obj) {</span>
+<span class="nc" id="L54">      return true;</span>
+    }
+<span class="pc bpc" id="L56" title="2 of 4 branches missed.">    if (obj == null || getClass() != obj.getClass()) {</span>
+<span class="nc" id="L57">      return false;</span>
+    }
+<span class="fc" id="L59">    final DoiData other = (DoiData) obj;</span>
+<span class="pc bpc" id="L60" title="2 of 4 branches missed.">    return Objects.equal(this.status, other.status) &amp;&amp; Objects.equal(this.target, other.target);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L65">    return Objects.toStringHelper(this)</span>
+<span class="nc" id="L66">      .add(&quot;status&quot;, status)</span>
+<span class="nc" id="L67">      .add(&quot;target&quot;, target)</span>
+<span class="nc" id="L68">      .toString();</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

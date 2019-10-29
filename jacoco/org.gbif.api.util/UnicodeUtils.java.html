@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UnicodeUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util</a> &gt; <span class="el_source">UnicodeUtils.java</span></div><h1>UnicodeUtils.java</h1><pre class="source lang-java linenums">package org.gbif.api.util;
+
+import java.text.Normalizer;
+
+import org.apache.commons.lang3.StringUtils;
+
+/**
+ * Utilities dealing with unicode strings
+ */
+<span class="nc" id="L10">public class UnicodeUtils {</span>
+
+    /**
+     * Replaces all diacretics with their ascii counterpart.
+     */
+    public static String ascii(String x) {
+<span class="fc bfc" id="L16" title="All 2 branches covered.">        if (x == null) {</span>
+<span class="fc" id="L17">            return null;</span>
+        }
+        // manually normalize characters not dealt with by the java Normalizer
+<span class="fc" id="L20">        x = StringUtils.replaceChars(x, &quot;øØðÐ&quot;, &quot;oOdD&quot;);</span>
+
+        // use java unicode normalizer to remove accents and punctuation
+<span class="fc" id="L23">        x = Normalizer.normalize(x, Normalizer.Form.NFD);</span>
+<span class="fc" id="L24">        x = x.replaceAll(&quot;\\p{M}&quot;, &quot;&quot;);</span>
+<span class="fc" id="L25">        return x;</span>
+    }
+
+    /**
+     * Replaces all digraphs and ligatures with their underlying 2 latin letters.
+     *
+     * @param x the string to decompose
+     */
+    public static String decompose(String x) {
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (x == null) {</span>
+<span class="fc" id="L35">            return null;</span>
+        }
+<span class="fc" id="L37">        return x.replaceAll(&quot;æ&quot;, &quot;ae&quot;)</span>
+<span class="fc" id="L38">                .replaceAll(&quot;Æ&quot;, &quot;Ae&quot;)</span>
+<span class="fc" id="L39">                .replaceAll(&quot;œ&quot;, &quot;oe&quot;)</span>
+<span class="fc" id="L40">                .replaceAll(&quot;Œ&quot;, &quot;Oe&quot;)</span>
+<span class="fc" id="L41">                .replaceAll(&quot;Ĳ&quot;, &quot;Ij&quot;)</span>
+<span class="fc" id="L42">                .replaceAll(&quot;ĳ&quot;, &quot;ij&quot;)</span>
+<span class="fc" id="L43">                .replaceAll(&quot;ǈ&quot;, &quot;Lj&quot;)</span>
+<span class="fc" id="L44">                .replaceAll(&quot;ǉ&quot;, &quot;lj&quot;)</span>
+<span class="fc" id="L45">                .replaceAll(&quot;ȸ&quot;, &quot;db&quot;)</span>
+<span class="fc" id="L46">                .replaceAll(&quot;ȹ&quot;, &quot;qp&quot;)</span>
+<span class="fc" id="L47">                .replaceAll(&quot;ß&quot;, &quot;ss&quot;)</span>
+<span class="fc" id="L48">                .replaceAll(&quot;ﬆ&quot;, &quot;st&quot;)</span>
+<span class="fc" id="L49">                .replaceAll(&quot;ﬅ&quot;, &quot;ft&quot;)</span>
+<span class="fc" id="L50">                .replaceAll(&quot;ﬀ&quot;, &quot;ff&quot;)</span>
+<span class="fc" id="L51">                .replaceAll(&quot;ﬁ&quot;, &quot;fi&quot;)</span>
+<span class="fc" id="L52">                .replaceAll(&quot;ﬂ&quot;, &quot;fl&quot;)</span>
+<span class="fc" id="L53">                .replaceAll(&quot;ﬃ&quot;, &quot;ffi&quot;)</span>
+<span class="fc" id="L54">                .replaceAll(&quot;ﬄ&quot;, &quot;ffl&quot;);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

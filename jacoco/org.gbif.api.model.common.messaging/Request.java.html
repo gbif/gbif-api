@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Request.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common.messaging</a> &gt; <span class="el_source">Request.java</span></div><h1>Request.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.common.messaging;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import com.google.common.collect.ImmutableMap;
+
+/**
+ * Class that represents a generic invocation of operation.
+ * This class encapsulates the parameters required to perform the operation by the request consumer.
+ *
+ * @param &lt;T&gt; content type of the request object
+ */
+<span class="nc" id="L30">public class Request&lt;T&gt; {</span>
+
+  private OperationType operationType;
+
+  private Map&lt;String, String&gt; context;
+
+  private T content;
+
+  /**
+   * @return the content
+   */
+  public T getContent() {
+<span class="nc" id="L42">    return content;</span>
+  }
+
+  /**
+   * Context contains additional request parameters.
+   *
+   * @return the context
+   */
+  public Map&lt;String, String&gt; getContext() {
+<span class="nc" id="L51">    return context;</span>
+  }
+
+  /**
+   * @param context the context to set
+   */
+  public void setContext(Map&lt;String, String&gt; context) {
+<span class="nc" id="L58">    this.context = context;</span>
+<span class="nc" id="L59">  }</span>
+
+  /**
+   * Type of the operation to be performed.
+   * This field is optional.
+   *
+   * @return the operationType
+   */
+  protected OperationType getOperationType() {
+<span class="nc" id="L68">    return operationType;</span>
+  }
+
+  /**
+   * @param operationType the operationType to set
+   */
+  protected void setOperationType(OperationType operationType) {
+<span class="nc" id="L75">    this.operationType = operationType;</span>
+<span class="nc" id="L76">  }</span>
+
+  /**
+   * @param content the content to set
+   */
+  public void setParameter(T content) {
+<span class="nc" id="L82">    this.content = content;</span>
+<span class="nc" id="L83">  }</span>
+
+  /**
+   * CRUD operation types.
+   */
+<span class="nc" id="L88">  public enum OperationType {</span>
+
+<span class="nc" id="L90">    CREATE, RETRIEVE, UPDATE, DELETE, SELECT</span>
+
+  }
+
+  /**
+   * Builder class for {@link Request} instances.
+   */
+<span class="nc" id="L97">  public static class Builder&lt;T&gt; {</span>
+
+    private OperationType operationType;
+    private Map&lt;String, String&gt; context;
+    private T content;
+
+    public Request&lt;T&gt; build() {
+<span class="nc" id="L104">      Request&lt;T&gt; request = new Request&lt;T&gt;();</span>
+<span class="nc" id="L105">      request.operationType = operationType;</span>
+<span class="nc" id="L106">      request.content = content;</span>
+<span class="nc" id="L107">      request.context = new ImmutableMap.Builder&lt;String, String&gt;().putAll(context).build();</span>
+<span class="nc" id="L108">      return request;</span>
+    }
+
+    public Builder&lt;T&gt; content(T content) {
+<span class="nc" id="L112">      this.content = content;</span>
+<span class="nc" id="L113">      context = new HashMap&lt;String, String&gt;();</span>
+<span class="nc" id="L114">      return this;</span>
+    }
+
+    public Builder&lt;T&gt; context(Map&lt;String, String&gt; context) {
+<span class="nc" id="L118">      this.context = context;</span>
+<span class="nc" id="L119">      return this;</span>
+    }
+
+    public Builder&lt;T&gt; contextParam(Entry&lt;String, String&gt; entry) {
+<span class="nc" id="L123">      context.entrySet().add(entry);</span>
+<span class="nc" id="L124">      return this;</span>
+    }
+
+    public Builder&lt;T&gt; contextParam(String key, String value) {
+<span class="nc" id="L128">      context.put(key, value);</span>
+<span class="nc" id="L129">      return this;</span>
+    }
+
+    public Builder&lt;T&gt; operationType(OperationType operationType) {
+<span class="nc" id="L133">      this.operationType = operationType;</span>
+<span class="nc" id="L134">      return this;</span>
+    }
+
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

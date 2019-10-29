@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IdentifierUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util</a> &gt; <span class="el_source">IdentifierUtils.java</span></div><h1>IdentifierUtils.java</h1><pre class="source lang-java linenums">package org.gbif.api.util;
+
+import org.gbif.api.vocabulary.IdentifierType;
+
+import javax.annotation.Nullable;
+
+/**
+ * This class contains utility methods for identifiers. Currently there are 3 separate Identifier
+ * classes:
+ * &lt;/br&gt;
+ * 1) org.gbif.api.model.checklistbank.Identifier
+ * 2) org.gbif.api.model.common.Identifier
+ * 3) org.gbif.api.model.registry.Identifier
+ * &lt;/br&gt;
+ * Methods common to 2 or more classes should be listed here.
+ */
+<span class="nc" id="L17">public class IdentifierUtils {</span>
+
+  /**
+   * Creates a http link for an identifier if possible by passing it to some known resolvers for the specific id type.
+   * If no link can be constructed, null is returned.
+   *
+   * @param identifier Identifier's identifier
+   * @param type Identifier's type
+   *
+   * @return the url or null if it cannot be created
+   */
+  @Nullable
+  public static String getIdentifierLink(String identifier, IdentifierType type) {
+<span class="fc bfc" id="L30" title="All 4 branches covered.">    if (identifier == null || type == null) {</span>
+<span class="fc" id="L31">      return null;</span>
+    }
+<span class="fc bfc" id="L33" title="All 5 branches covered.">    switch (type) {</span>
+      case HANDLER:
+      case URI:
+      case URL:
+      case FTP:
+<span class="fc" id="L38">        return identifier;</span>
+      case DOI:
+<span class="fc" id="L40">        return &quot;https://doi.org/&quot; + identifier;</span>
+      case LSID:
+<span class="fc" id="L42">        return &quot;http://www.lsid.info/&quot; + identifier;</span>
+      case GBIF_PORTAL:
+<span class="fc" id="L44">        return &quot;https://www.gbif.org/dataset/&quot; + identifier;</span>
+    }
+<span class="fc" id="L46">    return null;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

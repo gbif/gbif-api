@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Tag.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry</a> &gt; <span class="el_source">Tag.java</span></div><h1>Tag.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.registry;
+
+import java.util.Date;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
+
+import com.google.common.base.Objects;
+
+public class Tag implements LenientEquals&lt;Tag&gt; {
+
+  private Integer key;
+  private String value;
+  private String createdBy;
+  private Date created;
+
+<span class="nc" id="L30">  public Tag() {</span>
+<span class="nc" id="L31">  }</span>
+
+<span class="nc" id="L33">  public Tag(String value) {</span>
+<span class="nc" id="L34">    this.value = value;</span>
+<span class="nc" id="L35">  }</span>
+
+<span class="fc" id="L37">  public Tag(String value, String createdBy) {</span>
+<span class="fc" id="L38">    this.value = value;</span>
+<span class="fc" id="L39">    this.createdBy = createdBy;</span>
+<span class="fc" id="L40">  }</span>
+
+  @Null(groups = {PrePersist.class})
+  @NotNull(groups = {PostPersist.class})
+  @Min(1)
+  public Integer getKey() {
+<span class="fc" id="L46">    return key;</span>
+  }
+
+  public void setKey(Integer key) {
+<span class="fc" id="L50">    this.key = key;</span>
+<span class="fc" id="L51">  }</span>
+
+  @NotNull
+  @Size(min = 1)
+  public String getValue() {
+<span class="fc" id="L56">    return value;</span>
+  }
+
+  public void setValue(String value) {
+<span class="nc" id="L60">    this.value = value;</span>
+<span class="nc" id="L61">  }</span>
+
+  @Size(min = 3)
+  public String getCreatedBy() {
+<span class="fc" id="L65">    return createdBy;</span>
+  }
+
+  public void setCreatedBy(String createdBy) {
+<span class="nc" id="L69">    this.createdBy = createdBy;</span>
+<span class="nc" id="L70">  }</span>
+
+  @Null(groups = {PrePersist.class})
+  @NotNull(groups = {PostPersist.class})
+  public Date getCreated() {
+<span class="nc" id="L75">    return created;</span>
+  }
+
+  public void setCreated(Date created) {
+<span class="nc" id="L79">    this.created = created;</span>
+<span class="nc" id="L80">  }</span>
+
+  @Override
+  public int hashCode() {
+<span class="fc" id="L84">    return Objects.hashCode(key, value, createdBy, created);</span>
+  }
+
+  @Override
+  public boolean equals(Object object) {
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">    if (object instanceof Tag) {</span>
+<span class="fc" id="L90">      Tag that = (Tag) object;</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">      return Objects.equal(this.key, that.key)</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">        &amp;&amp; Objects.equal(this.value, that.value)</span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">        &amp;&amp; Objects.equal(this.createdBy, that.createdBy)</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        &amp;&amp; Objects.equal(this.created, that.created);</span>
+    }
+<span class="nc" id="L96">    return false;</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L101">    return Objects.toStringHelper(this)</span>
+<span class="nc" id="L102">      .add(&quot;key&quot;, key)</span>
+<span class="nc" id="L103">      .add(&quot;value&quot;, value)</span>
+<span class="nc" id="L104">      .add(&quot;createdBy&quot;, createdBy)</span>
+<span class="nc" id="L105">      .add(&quot;created&quot;, created)</span>
+<span class="nc" id="L106">      .toString();</span>
+  }
+
+  /**
+   * A lenient test that returns true if they are the same object or have the same value.
+   */
+  @Override
+  public boolean lenientEquals(Tag other) {
+<span class="nc bnc" id="L114" title="All 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L115">      return true;</span>
+    }
+<span class="nc" id="L117">    return Objects.equal(this.value, other.value);</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

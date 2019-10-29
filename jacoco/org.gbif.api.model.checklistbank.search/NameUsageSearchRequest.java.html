@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NameUsageSearchRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank.search</a> &gt; <span class="el_source">NameUsageSearchRequest.java</span></div><h1>NameUsageSearchRequest.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.checklistbank.search;
+
+import com.google.common.collect.Sets;
+import org.gbif.api.model.common.paging.Pageable;
+import org.gbif.api.model.common.search.FacetedSearchRequest;
+import org.gbif.api.vocabulary.*;
+
+import java.util.Set;
+import java.util.UUID;
+
+import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.*;
+
+/**
+ * A name usage specific search request with convenience methods to add enum based search filters.
+ * By default the query q is send to all available query fields.
+ * Highlighting by default works for descriptions and vernacular names - if turned on.
+ */
+public class NameUsageSearchRequest extends FacetedSearchRequest&lt;NameUsageSearchParameter&gt; {
+<span class="nc" id="L31">  private boolean extended = true;</span>
+<span class="nc" id="L32">  private Set&lt;QueryField&gt; queryFields = Sets.newHashSet(SCIENTIFIC, DESCRIPTION, VERNACULAR);</span>
+<span class="nc" id="L33">  private Set&lt;QueryField&gt; highlightFields = Sets.newHashSet(DESCRIPTION, VERNACULAR);</span>
+<span class="nc" id="L34">  private Integer highlightContext = 100;</span>
+
+<span class="nc" id="L36">  public enum QueryField {</span>
+<span class="nc" id="L37">    SCIENTIFIC,</span>
+<span class="nc" id="L38">    VERNACULAR,</span>
+<span class="nc" id="L39">    DESCRIPTION</span>
+  }
+
+<span class="nc" id="L42">  public NameUsageSearchRequest() {</span>
+<span class="nc" id="L43">  }</span>
+
+  public NameUsageSearchRequest(Pageable page) {
+<span class="nc" id="L46">    super(page);</span>
+<span class="nc" id="L47">  }</span>
+
+  public NameUsageSearchRequest(long offset, int limit) {
+<span class="nc" id="L50">    super(offset, limit);</span>
+<span class="nc" id="L51">  }</span>
+
+  /**
+   * Defines whether to match against fields with scientific or vernacular names or both.
+   */
+  public Set&lt;QueryField&gt; getQueryFields() {
+<span class="nc" id="L57">    return queryFields;</span>
+  }
+
+  public void setQueryFields(Set&lt;QueryField&gt; queryFields) {
+<span class="nc" id="L61">    this.queryFields = queryFields;</span>
+<span class="nc" id="L62">  }</span>
+
+  /**
+
+   * Defines the fields to be highlighted if highlighting is activated.
+   */
+  public Set&lt;QueryField&gt; getHighlightFields() {
+<span class="nc" id="L69">    return highlightFields;</span>
+  }
+
+  public void setHighlightFields(Set&lt;QueryField&gt; highlightFields) {
+<span class="nc" id="L73">    this.highlightFields = highlightFields;</span>
+<span class="nc" id="L74">  }</span>
+
+  /**
+   * @return the number of characters of the context to show for the highlighted match, including the match itself.
+   */
+  public Integer getHighlightContext() {
+<span class="nc" id="L80">    return highlightContext;</span>
+  }
+
+  public void setHighlightContext(Integer highlightContext) {
+<span class="nc" id="L84">    this.highlightContext = highlightContext;</span>
+<span class="nc" id="L85">  }</span>
+
+  /**
+   * Allows to request an extended search object with the larger list properties:
+   * &lt;ul&gt;
+   *  &lt;li&gt;habitats&lt;/li&gt;
+   *  &lt;li&gt;nomenclaturalStatus&lt;/li&gt;
+   *  &lt;li&gt;threatStatuses&lt;/li&gt;
+   *  &lt;li&gt;descriptions&lt;/li&gt;
+   *  &lt;li&gt;vernacularNames&lt;/li&gt;
+   * &lt;/ul&gt;
+   *
+   * If extended=false and highlighting is activated, the highlighted matches will still be added to the extended properties.
+   * In that case only the matched parts are shown, e.g. just the one vernacular name that matched.
+   *
+   * @return if true request the extended search model
+   */
+  public boolean isExtended() {
+<span class="nc" id="L103">    return extended;</span>
+  }
+
+  public void setExtended(boolean extended) {
+<span class="nc" id="L107">    this.extended = extended;</span>
+<span class="nc" id="L108">  }</span>
+
+  public void addChecklistFilter(UUID datasetKey) {
+<span class="nc" id="L111">    addParameter(NameUsageSearchParameter.DATASET_KEY, datasetKey.toString());</span>
+<span class="nc" id="L112">  }</span>
+
+  public void addExtinctFilter(boolean isExtinct) {
+<span class="nc" id="L115">    addParameter(NameUsageSearchParameter.IS_EXTINCT, String.valueOf(isExtinct));</span>
+<span class="nc" id="L116">  }</span>
+
+  public void addHigherTaxonFilter(int taxonKey) {
+<span class="nc" id="L119">    addParameter(NameUsageSearchParameter.HIGHERTAXON_KEY, taxonKey);</span>
+<span class="nc" id="L120">  }</span>
+
+  public void addHabitatFilter(Habitat habitat) {
+<span class="nc" id="L123">    addParameter(NameUsageSearchParameter.HABITAT, habitat);</span>
+<span class="nc" id="L124">  }</span>
+
+  public void addRankFilter(Rank rank) {
+<span class="nc" id="L127">    addParameter(NameUsageSearchParameter.RANK, rank);</span>
+<span class="nc" id="L128">  }</span>
+
+  public void addTaxonomicStatusFilter(TaxonomicStatus status) {
+<span class="nc" id="L131">    addParameter(NameUsageSearchParameter.STATUS, status);</span>
+<span class="nc" id="L132">  }</span>
+
+  public void addTaxonomicStatusFilter(NomenclaturalStatus nomenclaturalStatus) {
+<span class="nc" id="L135">    addParameter(NameUsageSearchParameter.NOMENCLATURAL_STATUS, nomenclaturalStatus);</span>
+<span class="nc" id="L136">  }</span>
+
+  public void addThreatStatusFilter(ThreatStatus threat) {
+<span class="nc" id="L139">    addParameter(NameUsageSearchParameter.THREAT, threat);</span>
+<span class="nc" id="L140">  }</span>
+
+  public void addIssueFilter(NameUsageIssue issue) {
+<span class="nc" id="L143">    addParameter(NameUsageSearchParameter.ISSUE, issue);</span>
+<span class="nc" id="L144">  }</span>
+
+  public void addOriginFilter(Origin origin) {
+<span class="nc" id="L147">    addParameter(NameUsageSearchParameter.ORIGIN, origin);</span>
+<span class="nc" id="L148">  }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

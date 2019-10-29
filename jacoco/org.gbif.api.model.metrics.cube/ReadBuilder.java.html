@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReadBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.metrics.cube</a> &gt; <span class="el_source">ReadBuilder.java</span></div><h1>ReadBuilder.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.metrics.cube;
+
+import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.Language;
+
+import java.util.Map;
+import java.util.UUID;
+import javax.annotation.concurrent.NotThreadSafe;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
+
+/**
+ * Provides building of addresses for reading the cube.
+ * This class ensures the type safety of dimensions as they are added to the builder.
+ */
+@NotThreadSafe
+<span class="fc" id="L30">public class ReadBuilder {</span>
+
+<span class="fc" id="L32">  private final Map&lt;Dimension&lt;?&gt;, String&gt; address = Maps.newHashMap();</span>
+
+  /**
+   * Adds an country type dimension to the address.
+   */
+  public ReadBuilder at(Dimension&lt;Country&gt; dim, Country value) {
+<span class="fc" id="L38">    Preconditions.checkNotNull(value, &quot;Dimension cannot be null&quot;);</span>
+<span class="fc" id="L39">    address.put(dim, value.getIso2LetterCode());</span>
+<span class="fc" id="L40">    return this;</span>
+  }
+
+  /**
+   * Adds an language type dimension to the address.
+   */
+  public ReadBuilder at(Dimension&lt;Language&gt; dim, Language value) {
+<span class="nc" id="L47">    Preconditions.checkNotNull(value, &quot;Dimension cannot be null&quot;);</span>
+<span class="nc" id="L48">    address.put(dim, value.getIso2LetterCode());</span>
+<span class="nc" id="L49">    return this;</span>
+  }
+
+  /**
+   * Adds an enumerated type dimension to the address.
+   */
+  public ReadBuilder at(Dimension&lt;? extends Enum&lt;?&gt;&gt; dim, Enum&lt;?&gt; value) {
+<span class="fc" id="L56">    Preconditions.checkNotNull(value, &quot;Dimension cannot be null&quot;);</span>
+<span class="fc" id="L57">    address.put(dim, value.name());</span>
+<span class="fc" id="L58">    return this;</span>
+  }
+
+  /**
+   * Adds a boolen typed dimension to the address.
+   */
+  public ReadBuilder at(Dimension&lt;Boolean&gt; dim, boolean value) {
+<span class="fc" id="L65">    address.put(dim, String.valueOf(value));</span>
+<span class="fc" id="L66">    return this;</span>
+  }
+
+  /**
+   * Adds a double typed dimension to the address.
+   */
+  public ReadBuilder at(Dimension&lt;Double&gt; dim, double value) {
+<span class="fc" id="L73">    address.put(dim, String.valueOf(value));</span>
+<span class="fc" id="L74">    return this;</span>
+  }
+
+  /**
+   * Adds a float typed dimension to the address.
+   */
+  public ReadBuilder at(Dimension&lt;Float&gt; dim, float value) {
+<span class="fc" id="L81">    address.put(dim, String.valueOf(value));</span>
+<span class="fc" id="L82">    return this;</span>
+  }
+
+  /**
+   * Adds an integer typed dimension to the address.
+   */
+  public ReadBuilder at(Dimension&lt;Integer&gt; dim, int value) {
+<span class="fc" id="L89">    address.put(dim, String.valueOf(value));</span>
+<span class="fc" id="L90">    return this;</span>
+  }
+
+  /**
+   * Adds an String typed dimension to the address.
+   */
+  public ReadBuilder at(Dimension&lt;String&gt; dim, String value) {
+<span class="fc" id="L97">    Preconditions.checkNotNull(value, &quot;Dimension cannot be null&quot;);</span>
+<span class="fc" id="L98">    address.put(dim, value);</span>
+<span class="fc" id="L99">    return this;</span>
+  }
+
+  /**
+   * Adds a UUID typed dimension to the address.
+   */
+  public ReadBuilder at(Dimension&lt;UUID&gt; dim, UUID value) {
+<span class="fc" id="L106">    Preconditions.checkNotNull(value, &quot;Dimension cannot be null&quot;);</span>
+<span class="fc" id="L107">    address.put(dim, value.toString());</span>
+<span class="fc" id="L108">    return this;</span>
+  }
+
+  /**
+   * @return The built address.
+   */
+  public Map&lt;Dimension&lt;?&gt;, String&gt; build() {
+<span class="fc" id="L115">    return address;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OccurrenceSearchParameter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence.search</a> &gt; <span class="el_source">OccurrenceSearchParameter.java</span></div><h1>OccurrenceSearchParameter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.occurrence.search;
+
+
+import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.vocabulary.BasisOfRecord;
+import org.gbif.api.vocabulary.Continent;
+import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.EndpointType;
+import org.gbif.api.vocabulary.EstablishmentMeans;
+import org.gbif.api.vocabulary.License;
+import org.gbif.api.vocabulary.MediaType;
+import org.gbif.api.vocabulary.OccurrenceIssue;
+import org.gbif.api.vocabulary.TaxonomicStatus;
+import org.gbif.api.vocabulary.TypeStatus;
+
+import java.util.Date;
+import java.util.UUID;
+
+/**
+ * Supported query parameters by the occurrence search and download service.
+ * For download predicates only the numerical types support comparisons other than equals.
+ */
+<span class="fc" id="L35">public enum OccurrenceSearchParameter implements SearchParameter {</span>
+
+  /**
+   * The dataset key as a UUID.
+   */
+<span class="fc" id="L40">  DATASET_KEY(UUID.class),</span>
+
+  /**
+   * The 4 digit year. A year of 98 will be 98 common era, not 1998.
+   * This parameter accepts comma separated range values, e.g.:
+   * &lt;dl&gt;
+   * &lt;dt&gt;*,1810&lt;/dt&gt;
+   * &lt;dd&gt;Found before or equal to 1810&lt;/dd&gt;
+   * &lt;dt&gt;1848,1933&lt;/dt&gt;
+   * &lt;dd&gt;Year between 1848 and 1933&lt;/dd&gt;
+   * &lt;/dl&gt;
+   */
+<span class="fc" id="L52">  YEAR(Integer.class),</span>
+
+  /**
+   * The month of the year, starting with 1 for January.
+   * A month query can be used to retrieve seasonal records when used without a year or a year range.
+   * This parameter accepts comma separated range values, e.g.:
+   * &lt;dl&gt;
+   * &lt;dt&gt;4,8&lt;/dt&gt;
+   * &lt;dd&gt;Month between April and August&lt;/dd&gt;
+   * &lt;/dl&gt;
+   */
+<span class="fc" id="L63">  MONTH(Integer.class),</span>
+
+  /**
+   * Event date (date the occurrence was recorded) in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
+   * This parameter accepts comma separated range values, examples of valid ranges are:
+   * &lt;dl&gt;
+   * &lt;dt&gt;2001-02-11,2010-01-10&lt;/dt&gt;
+   * &lt;dd&gt;Dates between 2001-02-11 and 2010-01-10&lt;/dd&gt;
+   * &lt;dt&gt;2001-02,2010-01&lt;/dt&gt;
+   * &lt;dd&gt;Dates between first day of 2001-02 and last day of 2010-01&lt;/dd&gt;
+   * &lt;dt&gt;2001,2010&lt;/dt&gt;
+   * &lt;dd&gt;Dates between first day of 2001 and last day of 2010&lt;/dd&gt;
+   * &lt;dt&gt;2001,2010-01&lt;/dt&gt;
+   * &lt;dd&gt;Dates between first day of 2001 and last day of 2010-01&lt;/dd&gt;
+   * &lt;dt&gt;2001-01-10,2010&lt;/dt&gt;
+   * &lt;dd&gt;Dates between 2001-01-10 and last day of 2010&lt;/dd&gt;
+   * &lt;dt&gt;2001-01-10,*&lt;/dt&gt;
+   * &lt;dd&gt;Dates after 2001-01-10&lt;/dd&gt;
+   * &lt;dt&gt;*,2001-01-10&lt;/dt&gt;
+   * &lt;dd&gt;Dates before 2001-01-10&lt;/dd&gt;
+   * &lt;dt&gt;*&lt;/dt&gt;
+   * &lt;dd&gt;all dates&lt;/dd&gt;
+   * &lt;/dl&gt;
+   */
+<span class="fc" id="L87">  EVENT_DATE(Date.class),</span>
+
+  /**
+   * An identifier for the set of information associated with an Event (something that occurs at a place and time).
+   * May be a global unique identifier or an identifier specific to the data set.
+   */
+<span class="fc" id="L93">  EVENT_ID(String.class),</span>
+
+  /**
+   * An identifier for the broader Event that groups this and potentially other Events.
+   */
+<span class="fc" id="L98">  PARENT_EVENT_ID(String.class),</span>
+
+  /**
+   * The name of, reference to, or description of the method or protocol used during an Event.
+   */
+<span class="fc" id="L103">  SAMPLING_PROTOCOL(String.class),</span>
+
+  /**
+   * Last interpreted date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
+   * This parameter accepts comma separated range values, examples of valid ranges are:
+   * &lt;dl&gt;
+   * &lt;dt&gt;2001-02-11,2010-01-10&lt;/dt&gt;
+   * &lt;dd&gt;Dates between 2001-02-11 and 2010-01-10&lt;/dd&gt;
+   * &lt;dt&gt;2001-02,2010-01&lt;/dt&gt;
+   * &lt;dd&gt;Dates between first day of 2001-02 and last day of 2010-01&lt;/dd&gt;
+   * &lt;dt&gt;2001,2010&lt;/dt&gt;
+   * &lt;dd&gt;Dates between first day of 2001 and last day of 2010&lt;/dd&gt;
+   * &lt;dt&gt;2001,2010-01&lt;/dt&gt;
+   * &lt;dd&gt;Dates between first day of 2001 and last day of 2010-01&lt;/dd&gt;
+   * &lt;dt&gt;2001-01-10,2010&lt;/dt&gt;
+   * &lt;dd&gt;Dates between 2001-01-10 and last day of 2010&lt;/dd&gt;
+   * &lt;dt&gt;2001-01-10,*&lt;/dt&gt;
+   * &lt;dd&gt;Dates after 2001-01-10&lt;/dd&gt;
+   * &lt;dt&gt;*,2001-01-10&lt;/dt&gt;
+   * &lt;dd&gt;Dates before 2001-01-10&lt;/dd&gt;
+   * &lt;dt&gt;*&lt;/dt&gt;
+   * &lt;dd&gt;all dates&lt;/dd&gt;
+   * &lt;/dl&gt;
+   */
+<span class="fc" id="L127">  LAST_INTERPRETED(Date.class),</span>
+
+  /**
+   * Latitude in decimals between -90 and 90 based on WGS 84.
+   */
+<span class="fc" id="L132">  DECIMAL_LATITUDE(Double.class),</span>
+
+  /**
+   * Longitude in decimals between -180 and 180 based on WGS 84.
+   */
+<span class="fc" id="L137">  DECIMAL_LONGITUDE(Double.class),</span>
+
+  /**
+   * Country the occurrence was recorded in.
+   */
+<span class="fc" id="L142">  COUNTRY(Country.class),</span>
+
+  /**
+   * Continent the occurrence was recorded in.
+   */
+<span class="fc" id="L147">  CONTINENT(Continent.class),</span>
+
+  /**
+   * The country of the organization that publishes the dataset the occurrence belongs to.
+   */
+<span class="fc" id="L152">  PUBLISHING_COUNTRY(Country.class),</span>
+
+  /**
+   * Altitude/elevation in meters above sea level.
+   * This parameter accepts comma separated range values, e.g.:
+   * &lt;dl&gt;
+   * &lt;dt&gt;*,100&lt;/dt&gt;
+   * &lt;dd&gt;Altitude below or equals 100m&lt;/dd&gt;
+   * &lt;dt&gt;100,*&lt;/dt&gt;
+   * &lt;dd&gt;Altitude above or equals 100m&lt;/dd&gt;
+   * &lt;dt&gt;-2,8.8&lt;/dt&gt;
+   * &lt;dd&gt;Altitude between or equals -2m and 8.8m&lt;/dd&gt;
+   * &lt;/dl&gt;
+   */
+<span class="fc" id="L166">  ELEVATION(Double.class),</span>
+
+  /**
+   * Depth in meters relative to altitude. For example 10 meters below a lake surface with given altitude.
+   * This parameter accepts comma separated range values, e.g.:
+   * &lt;dl&gt;
+   * &lt;dt&gt;*,10&lt;/dt&gt;
+   * &lt;dd&gt;Depth below or equals 10m&lt;/dd&gt;
+   * &lt;dt&gt;100,*&lt;/dt&gt;
+   * &lt;dd&gt;Depth above or equals 100m&lt;/dd&gt;
+   * &lt;dt&gt;12.1,28.8&lt;/dt&gt;
+   * &lt;dd&gt;Depth between or equals 12.1m and 28.8m&lt;/dd&gt;
+   * &lt;/dl&gt;
+   */
+<span class="fc" id="L180">  DEPTH(Double.class),</span>
+
+  /**
+   * An identifier of any form assigned by the source to identify the institution
+   * the record belongs to. Not guaranteed to be unique.
+   */
+<span class="fc" id="L186">  INSTITUTION_CODE(String.class),</span>
+
+  /**
+   * An identifier of any form assigned by the source to identify the physical collection or digital dataset
+   * uniquely within the context of an institution.
+   */
+<span class="fc" id="L192">  COLLECTION_CODE(String.class),</span>
+
+  /**
+   * An identifier of any form assigned by the source within a physical collection or digital dataset for the record
+   * which may not be unique, but should be fairly unique in combination with the institution and collection code.
+   */
+<span class="fc" id="L198">  CATALOG_NUMBER(String.class),</span>
+
+  /**
+   * The person who recorded the occurrence.
+   */
+<span class="fc" id="L203">  RECORDED_BY(String.class),</span>
+
+  /**
+   * An identifier given to the Occurrence at the time it was recorded.
+   */
+<span class="fc" id="L208">  RECORD_NUMBER(String.class),</span>
+
+  /**
+   * A basis of record enumeration value.
+   */
+<span class="fc" id="L213">  BASIS_OF_RECORD(BasisOfRecord.class),</span>
+
+  /**
+   * A taxon key from the GBIF backbone. All included and synonym taxa are included in the search, so a search for
+   * aves with taxonKey=212 will match all birds, no matter which species.
+   */
+<span class="fc" id="L219">  TAXON_KEY(Integer.class),</span>
+
+
+  /**
+   * A taxon key from the GBIF backbone for the name usage of the currently valid or accepted taxon.
+   */
+<span class="fc" id="L225">  ACCEPTED_TAXON_KEY(Integer.class),</span>
+
+  /**
+   * A kingdom key from the GBIF backbone.
+   */
+<span class="fc" id="L230">  KINGDOM_KEY(Integer.class),</span>
+
+  /**
+   * A phylum key from the GBIF backbone.
+   */
+<span class="fc" id="L235">  PHYLUM_KEY(Integer.class),</span>
+
+  /**
+   * A class key from the GBIF backbone.
+   */
+<span class="fc" id="L240">  CLASS_KEY(Integer.class),</span>
+
+  /**
+   * A order key from the GBIF backbone.
+   */
+<span class="fc" id="L245">  ORDER_KEY(Integer.class),</span>
+
+  /**
+   * A family key from the GBIF backbone.
+   */
+<span class="fc" id="L250">  FAMILY_KEY(Integer.class),</span>
+
+  /**
+   * A genus key from the GBIF backbone.
+   */
+<span class="fc" id="L255">  GENUS_KEY(Integer.class),</span>
+
+  /**
+   * A subgenus key from the GBIF backbone.
+   */
+<span class="fc" id="L260">  SUBGENUS_KEY(Integer.class),</span>
+
+  /**
+   * A species key from the GBIF backbone.
+   */
+<span class="fc" id="L265">  SPECIES_KEY(Integer.class),</span>
+
+  /**
+   * Searches the interpreted, full scientific name of the occurrence.
+   */
+<span class="fc" id="L270">  SCIENTIFIC_NAME(String.class),</span>
+
+  /**
+   * The status of the use of the  GBIF Backbone taxonKey.
+   */
+<span class="fc" id="L275">  TAXONOMIC_STATUS(TaxonomicStatus.class),</span>
+
+  /**
+   * Searches for occurrence records which contain a value on its coordinate fields (latitude and longitude).
+   * HAS_COORDINATE=true searches for occurrence records with a coordinate value.
+   * HAS_COORDINATE=false searches for occurrence records without a coordinate value.
+   */
+<span class="fc" id="L282">  HAS_COORDINATE(Boolean.class),</span>
+
+
+  /**
+   * Geometry in &lt;a href=&quot;https://en.wikipedia.org/wiki/Well-known_text&quot;&gt;Well Known Text&lt;/a&gt; (WKT) format.
+   * E.g.: POLYGON ((30.0 10.0, 10.12 20.23, 20 40, 40 40, 30 10)).
+   * Multi geometries like MULTIPOLYGON are not supported and multiple parameters should be used instead.
+   * Valid geometries are:
+   * &lt;ul&gt;
+   * &lt;li&gt;POINT&lt;/li&gt;
+   * &lt;li&gt;LINESTRING&lt;/li&gt;
+   * &lt;li&gt;POLYGON&lt;/li&gt;
+   * &lt;li&gt;LINEARRING&lt;/li&gt;
+   * &lt;/ul&gt;
+   */
+<span class="fc" id="L297">  GEOMETRY(String.class),</span>
+
+
+  /**
+   * Includes/excludes occurrence records which contain geospatial issues for their coordinate.
+   * See {@link org.gbif.api.vocabulary.OccurrenceIssue#GEOSPATIAL_RULES}
+   * HAS_GEOSPATIAL_ISSUE=true include records with spatial issues.
+   * HAS_GEOSPATIAL_ISSUE=false exclude records with spatial issues.
+   * The absence of this parameter returns any record with or without spatial issues.
+   */
+<span class="fc" id="L307">  HAS_GEOSPATIAL_ISSUE(Boolean.class),</span>
+
+  /**
+   * Searches occurrence for those that have a specific issue.
+   */
+<span class="fc" id="L312">  ISSUE(OccurrenceIssue.class),</span>
+
+  /**
+   * Nomenclatural type (type status, typified scientific name, publication) applied to the subject.
+   */
+<span class="fc" id="L317">  TYPE_STATUS(TypeStatus.class),</span>
+
+
+  /**
+   * The kind of media object.
+   * Recommended terms from the DCMI Type Vocabulary are StillImage, Sound or MovingImage for GBIF to index and show the
+   * media files.
+   */
+<span class="fc" id="L325">  MEDIA_TYPE(MediaType.class),</span>
+
+  /**
+   *  An identifier for the Occurrence (as opposed to a particular digital record of the occurrence).
+   *  In the absence of a persistent global unique identifier, construct one from a combination of identifiers in the
+   *  record that will most closely make the occurrenceID globally unique.
+   */
+<span class="fc" id="L332">  OCCURRENCE_ID(String.class),</span>
+
+  /**
+   * The process by which the biological individual(s) represented in the Occurrence became established at the location.
+   */
+<span class="fc" id="L337">  ESTABLISHMENT_MEANS(EstablishmentMeans.class),</span>
+
+  /**
+   * Searches for records whose publishing country is different to the country where the record was recorded in.
+   */
+<span class="fc" id="L342">  REPATRIATED(Boolean.class),</span>
+
+  /**
+   * An identifier for the Organism instance (as opposed to a particular digital record of the Organism).
+   * May be a globally unique identifier or an identifier specific to the data set.
+   */
+<span class="fc" id="L348">  ORGANISM_ID(String.class),</span>
+
+  /**
+   * The name of the next smaller administrative region than country in which the Location occurs.
+   */
+<span class="fc" id="L353">  STATE_PROVINCE(String.class),</span>
+
+  /**
+   * The name of the water body in which the Location occurs.
+   */
+<span class="fc" id="L358">  WATER_BODY(String.class),</span>
+
+  /**
+   * The specific description of the place.
+   * It may contain information modified from the original to correct perceived errors or standardize the description.
+   */
+<span class="fc" id="L364">  LOCALITY(String.class),</span>
+
+  /**
+   * Protocol used to provide the occurrence record.
+   */
+<span class="fc" id="L369">  PROTOCOL(EndpointType.class),</span>
+
+  /**
+   * The license applied to the dataset.
+   */
+<span class="fc" id="L374">  LICENSE(License.class),</span>
+
+  /**
+   * The owning organizations uuid key.
+   */
+<span class="fc" id="L379">  PUBLISHING_ORG(UUID.class),</span>
+
+  /**
+   * The GBIF network that the publishing organisation belongs to.
+   */
+<span class="fc" id="L384">  NETWORK_KEY(UUID.class),</span>
+
+  /**
+   * The technical installation key that hosts/publishes this record.
+   */
+<span class="fc" id="L389">  INSTALLATION_KEY(UUID.class),</span>
+
+  /**
+   * Crawl attempt that harvested this record.
+   */
+<span class="fc" id="L394">  CRAWL_ID(Integer.class);</span>
+
+  private final Class&lt;?&gt; type;
+
+<span class="fc" id="L398">  private OccurrenceSearchParameter(Class&lt;?&gt; type) {</span>
+<span class="fc" id="L399">    this.type = type;</span>
+<span class="fc" id="L400">  }</span>
+
+  /**
+   * @return the data type expected for the value of the respective search parameter
+   */
+  public Class&lt;?&gt; type() {
+<span class="fc" id="L406">    return type;</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

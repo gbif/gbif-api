@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatasetProcessStatus.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.crawler</a> &gt; <span class="el_source">DatasetProcessStatus.java</span></div><h1>DatasetProcessStatus.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.crawler;
+
+import java.util.Date;
+import java.util.UUID;
+import javax.annotation.Nullable;
+import javax.validation.constraints.Min;
+
+import com.google.common.base.Objects;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+
+/**
+ * Information about a dataset that is currently being processed. That usually means that we are crawling it at the
+ * moment or are in the process of persisting and interpreting its occurrences.
+ */
+public class DatasetProcessStatus {
+
+  private UUID datasetKey;
+  private CrawlJob crawlJob;
+  private Date startedCrawling;
+  private Date finishedCrawling;
+  private String crawlContext;
+  private FinishReason finishReason;
+  private ProcessState processStateOccurrence;
+  private ProcessState processStateChecklist;
+  private ProcessState processStateSample;
+
+  // Long instead of Optional&lt;Long&gt; because of JSON serialization issues, Jackson doesn't honor the NON_NULL setting
+  // for the Guava extension
+  private Long declaredCount;
+
+  private long pagesCrawled;
+
+  private long pagesFragmentedSuccessful;
+  private long pagesFragmentedError;
+  private long fragmentsEmitted;
+
+  private long fragmentsReceived;
+  private long rawOccurrencesPersistedNew;
+  private long rawOccurrencesPersistedUpdated;
+  private long rawOccurrencesPersistedUnchanged;
+  private long rawOccurrencesPersistedError;
+  private long fragmentsProcessed;
+
+  private long verbatimOccurrencesPersistedSuccessful;
+  private long verbatimOccurrencesPersistedError;
+
+  private long interpretedOccurrencesPersistedSuccessful;
+  private long interpretedOccurrencesPersistedError;
+
+  public static Builder builder() {
+<span class="fc" id="L69">    return new Builder();</span>
+  }
+
+<span class="fc" id="L72">  public DatasetProcessStatus() {</span>
+    // This constructor is needed for Jackson deserialization
+<span class="fc" id="L74">  }</span>
+
+  /**
+   * Builds a new object from the builder validating it in the process.
+   * &lt;p/&gt;
+   * We only validate very little (all counts have to be greater than or equal to zero, a few null checks etc.) but not
+   */
+<span class="fc" id="L81">  public DatasetProcessStatus(Builder builder) {</span>
+<span class="fc" id="L82">    checkNotNull(builder, &quot;builder can't be null&quot;);</span>
+
+<span class="fc" id="L84">    datasetKey = checkNotNull(builder.datasetKey, &quot;datasetKey can't be null&quot;);</span>
+<span class="fc" id="L85">    crawlJob = checkNotNull(builder.crawlJob, &quot;crawlJob can't be null&quot;);</span>
+<span class="fc" id="L86">    startedCrawling = builder.startedCrawling;</span>
+<span class="fc" id="L87">    finishedCrawling = builder.finishedCrawling;</span>
+<span class="fc" id="L88">    finishReason = builder.finishReason;</span>
+<span class="fc" id="L89">    processStateOccurrence = builder.processStateOccurrence;</span>
+<span class="fc" id="L90">    processStateChecklist = builder.processStateChecklist;</span>
+<span class="fc" id="L91">    processStateSample = builder.processStateSample;</span>
+<span class="fc" id="L92">    crawlContext = builder.crawlContext;</span>
+
+<span class="fc" id="L94">    declaredCount = builder.declaredCount;</span>
+
+<span class="fc" id="L96">    pagesCrawled = builder.pagesCrawled;</span>
+
+<span class="fc" id="L98">    pagesFragmentedSuccessful = builder.pagesFragmentedSuccessful;</span>
+<span class="fc" id="L99">    pagesFragmentedError = builder.pagesFragmentedError;</span>
+<span class="fc" id="L100">    fragmentsEmitted = builder.fragmentsEmitted;</span>
+
+<span class="fc" id="L102">    fragmentsReceived = builder.fragmentsReceived;</span>
+<span class="fc" id="L103">    rawOccurrencesPersistedNew = builder.rawOccurrencesPersistedNew;</span>
+<span class="fc" id="L104">    rawOccurrencesPersistedUpdated = builder.rawOccurrencesPersistedUpdated;</span>
+<span class="fc" id="L105">    rawOccurrencesPersistedUnchanged = builder.rawOccurrencesPersistedUnchanged;</span>
+<span class="fc" id="L106">    rawOccurrencesPersistedError = builder.rawOccurrencesPersistedError;</span>
+<span class="fc" id="L107">    fragmentsProcessed = builder.fragmentsProcessed;</span>
+
+<span class="fc" id="L109">    verbatimOccurrencesPersistedSuccessful = builder.verbatimOccurrencesPersistedSuccessful;</span>
+<span class="fc" id="L110">    verbatimOccurrencesPersistedError = builder.verbatimOccurrencesPersistedError;</span>
+
+<span class="fc" id="L112">    interpretedOccurrencesPersistedSuccessful = builder.interpretedOccurrencesPersistedSuccessful;</span>
+<span class="fc" id="L113">    interpretedOccurrencesPersistedError = builder.interpretedOccurrencesPersistedError;</span>
+
+<span class="pc bpc" id="L115" title="2 of 4 branches missed.">    checkArgument(declaredCount == null || declaredCount &gt;= 0,</span>
+                  &quot;declaredCount must be either null or greater than or equal to zero&quot;);
+
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">    checkArgument(pagesCrawled &gt;= 0, &quot;pagesCrawled has to be greater than or equal to zero&quot;);</span>
+
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">    checkArgument(pagesFragmentedSuccessful &gt;= 0, &quot;pagesFragmentedSuccessful&quot;);</span>
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">    checkArgument(pagesFragmentedError &gt;= 0, &quot;pagesFragmentedError has to be greater than or equal to zero&quot;);</span>
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">    checkArgument(fragmentsEmitted &gt;= 0, &quot;fragmentsEmitted has to be greater than or equal to zero&quot;);</span>
+
+<span class="pc bpc" id="L124" title="1 of 2 branches missed.">    checkArgument(fragmentsReceived &gt;= 0, &quot;fragmentsReceived has to be greater than or equal to zero&quot;);</span>
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">    checkArgument(rawOccurrencesPersistedNew &gt;= 0,</span>
+                  &quot;rawOccurrencesPersistedNew has to be greater than or equal to zero&quot;);
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">    checkArgument(rawOccurrencesPersistedUpdated &gt;= 0,</span>
+                  &quot;rawOccurrencesPersistedUpdated has to be greater than or equal to zero&quot;);
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">    checkArgument(rawOccurrencesPersistedUnchanged &gt;= 0,</span>
+                  &quot;rawOccurrencesPersistedUnchanged has to be greater than or equal to zero&quot;);
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">    checkArgument(rawOccurrencesPersistedError &gt;= 0,</span>
+                  &quot;rawOccurrencesPersistedError has to be greater than or equal to zero&quot;);
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">    checkArgument(fragmentsProcessed &gt;= 0, &quot;fragmentsProcessed has to be greater than or equal to zero&quot;);</span>
+
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">    checkArgument(verbatimOccurrencesPersistedSuccessful &gt;= 0,</span>
+                  &quot;verbatimOccurrencesPersistedSuccessful has to be greater than or equal to zero&quot;);
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">    checkArgument(verbatimOccurrencesPersistedError &gt;= 0,</span>
+                  &quot;verbatimOccurrencesPersistedError has to be greater than or equal to zero&quot;);
+
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">    checkArgument(interpretedOccurrencesPersistedSuccessful &gt;= 0,</span>
+                  &quot;interpretedOccurrencesPersistedSuccessful has to be greater than or equal to zero&quot;);
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">    checkArgument(interpretedOccurrencesPersistedError &gt;= 0,</span>
+                  &quot;interpretedOccurrencesPersistedError has to be greater than or equal to zero&quot;);
+<span class="fc" id="L144">  }</span>
+
+  /**
+   * Last successful crawl context, this is a JSON string.
+   *
+   * @return the last successful crawl context, this is a JSON string
+   */
+  @Nullable
+  public String getCrawlContext() {
+<span class="fc" id="L153">    return crawlContext;</span>
+  }
+
+  public CrawlJob getCrawlJob() {
+<span class="fc" id="L157">    return crawlJob;</span>
+  }
+
+  /**
+   * Key that identifies the Dataset.
+   *
+   * @return the UUID key that identifies the dataset
+   */
+  public UUID getDatasetKey() {
+<span class="fc" id="L166">    return datasetKey;</span>
+  }
+
+  @Nullable
+  public Long getDeclaredCount() {
+<span class="fc" id="L171">    return declaredCount;</span>
+  }
+
+  /**
+   * Timestamp of when the crawl was finished.
+   *
+   * @return the timestamp when the crawl finished
+   */
+  @Nullable
+  public Date getFinishedCrawling() {
+<span class="fc" id="L181">    return finishedCrawling;</span>
+  }
+
+  /**
+   * The reason a crawl is finished. Will be {@code null} if {@link #getFinishedCrawling()} returns {@code null}.
+   *
+   * @return the reason the crawl finished
+   */
+  @Nullable
+  public FinishReason getFinishReason() {
+<span class="fc" id="L191">    return finishReason;</span>
+  }
+
+  @Nullable
+  public ProcessState getProcessStateOccurrence() {
+<span class="fc" id="L196">    return processStateOccurrence;</span>
+  }
+
+  @Nullable
+  public ProcessState getProcessStateChecklist() {
+<span class="fc" id="L201">    return processStateChecklist;</span>
+  }
+
+  @Nullable
+  public ProcessState getProcessStateSample() {
+<span class="fc" id="L206">    return processStateSample;</span>
+  }
+
+  @Min(0)
+  public long getFragmentsEmitted() {
+<span class="fc" id="L211">    return fragmentsEmitted;</span>
+  }
+
+  /**
+   * Number of fragments that have been processed.
+   *
+   * @return the number of fragments that have been processed
+   */
+  @Min(0)
+  public long getFragmentsProcessed() {
+<span class="fc" id="L221">    return fragmentsProcessed;</span>
+  }
+
+  @Min(0)
+  public long getFragmentsReceived() {
+<span class="fc" id="L226">    return fragmentsReceived;</span>
+  }
+
+  @Min(0)
+  public long getInterpretedOccurrencesPersistedError() {
+<span class="fc" id="L231">    return interpretedOccurrencesPersistedError;</span>
+  }
+
+  @Min(0)
+  public long getInterpretedOccurrencesPersistedSuccessful() {
+<span class="fc" id="L236">    return interpretedOccurrencesPersistedSuccessful;</span>
+  }
+
+  /**
+   * Number of pages crawled in total.
+   *
+   * @return number of pages crawled
+   */
+  @Min(0)
+  public long getPagesCrawled() {
+<span class="fc" id="L246">    return pagesCrawled;</span>
+  }
+
+  @Min(0)
+  public long getPagesFragmentedError() {
+<span class="fc" id="L251">    return pagesFragmentedError;</span>
+  }
+
+  /**
+   * Number of pages that have been fragmented.
+   *
+   * @return the number of pages that have been fragmented
+   */
+  @Min(0)
+  public long getPagesFragmentedSuccessful() {
+<span class="fc" id="L261">    return pagesFragmentedSuccessful;</span>
+  }
+
+  @Min(0)
+  public long getRawOccurrencesPersistedError() {
+<span class="fc" id="L266">    return rawOccurrencesPersistedError;</span>
+  }
+
+  @Min(0)
+  public long getRawOccurrencesPersistedNew() {
+<span class="fc" id="L271">    return rawOccurrencesPersistedNew;</span>
+  }
+
+  @Min(0)
+  public long getRawOccurrencesPersistedUnchanged() {
+<span class="fc" id="L276">    return rawOccurrencesPersistedUnchanged;</span>
+  }
+
+  @Min(0)
+  public long getRawOccurrencesPersistedUpdated() {
+<span class="fc" id="L281">    return rawOccurrencesPersistedUpdated;</span>
+  }
+
+  /**
+   * Timestamp of when the crawl was actually started by a crawler.
+   *
+   * @return the timestamp when the crawl started
+   */
+  @Nullable
+  public Date getStartedCrawling() {
+<span class="fc" id="L291">    return startedCrawling;</span>
+  }
+
+  @Min(0)
+  public long getVerbatimOccurrencesPersistedError() {
+<span class="fc" id="L296">    return verbatimOccurrencesPersistedError;</span>
+  }
+
+  @Min(0)
+  public long getVerbatimOccurrencesPersistedSuccessful() {
+<span class="fc" id="L301">    return verbatimOccurrencesPersistedSuccessful;</span>
+  }
+
+
+  public void setDatasetKey(UUID datasetKey) {
+<span class="fc" id="L306">    this.datasetKey = datasetKey;</span>
+<span class="fc" id="L307">  }</span>
+
+
+  public void setCrawlJob(CrawlJob crawlJob) {
+<span class="fc" id="L311">    this.crawlJob = crawlJob;</span>
+<span class="fc" id="L312">  }</span>
+
+
+  public void setStartedCrawling(Date startedCrawling) {
+<span class="fc" id="L316">    this.startedCrawling = startedCrawling;</span>
+<span class="fc" id="L317">  }</span>
+
+
+  public void setFinishedCrawling(Date finishedCrawling) {
+<span class="fc" id="L321">    this.finishedCrawling = finishedCrawling;</span>
+<span class="fc" id="L322">  }</span>
+
+
+  public void setCrawlContext(String crawlContext) {
+<span class="fc" id="L326">    this.crawlContext = crawlContext;</span>
+<span class="fc" id="L327">  }</span>
+
+
+  public void setFinishReason(FinishReason finishReason) {
+<span class="fc" id="L331">    this.finishReason = finishReason;</span>
+<span class="fc" id="L332">  }</span>
+
+  public void setProcessStateOccurrence(ProcessState processStateOccurrence) {
+<span class="fc" id="L335">    this.processStateOccurrence = processStateOccurrence;</span>
+<span class="fc" id="L336">  }</span>
+
+  public void setProcessStateChecklist(ProcessState processStateChecklist) {
+<span class="fc" id="L339">    this.processStateChecklist = processStateChecklist;</span>
+<span class="fc" id="L340">  }</span>
+
+  public void setProcessStateSample(ProcessState processStateSample) {
+<span class="fc" id="L343">    this.processStateSample = processStateSample;</span>
+<span class="fc" id="L344">  }</span>
+
+  public void setDeclaredCount(Long declaredCount) {
+<span class="fc" id="L347">    this.declaredCount = declaredCount;</span>
+<span class="fc" id="L348">  }</span>
+
+
+  public void setPagesCrawled(long pagesCrawled) {
+<span class="fc" id="L352">    this.pagesCrawled = pagesCrawled;</span>
+<span class="fc" id="L353">  }</span>
+
+
+  public void setPagesFragmentedSuccessful(long pagesFragmentedSuccessful) {
+<span class="fc" id="L357">    this.pagesFragmentedSuccessful = pagesFragmentedSuccessful;</span>
+<span class="fc" id="L358">  }</span>
+
+
+  public void setPagesFragmentedError(long pagesFragmentedError) {
+<span class="fc" id="L362">    this.pagesFragmentedError = pagesFragmentedError;</span>
+<span class="fc" id="L363">  }</span>
+
+
+  public void setFragmentsEmitted(long fragmentsEmitted) {
+<span class="fc" id="L367">    this.fragmentsEmitted = fragmentsEmitted;</span>
+<span class="fc" id="L368">  }</span>
+
+
+  public void setFragmentsReceived(long fragmentsReceived) {
+<span class="fc" id="L372">    this.fragmentsReceived = fragmentsReceived;</span>
+<span class="fc" id="L373">  }</span>
+
+
+  public void setRawOccurrencesPersistedNew(long rawOccurrencesPersistedNew) {
+<span class="fc" id="L377">    this.rawOccurrencesPersistedNew = rawOccurrencesPersistedNew;</span>
+<span class="fc" id="L378">  }</span>
+
+
+  public void setRawOccurrencesPersistedUpdated(long rawOccurrencesPersistedUpdated) {
+<span class="fc" id="L382">    this.rawOccurrencesPersistedUpdated = rawOccurrencesPersistedUpdated;</span>
+<span class="fc" id="L383">  }</span>
+
+
+  public void setRawOccurrencesPersistedUnchanged(long rawOccurrencesPersistedUnchanged) {
+<span class="fc" id="L387">    this.rawOccurrencesPersistedUnchanged = rawOccurrencesPersistedUnchanged;</span>
+<span class="fc" id="L388">  }</span>
+
+
+  public void setRawOccurrencesPersistedError(long rawOccurrencesPersistedError) {
+<span class="fc" id="L392">    this.rawOccurrencesPersistedError = rawOccurrencesPersistedError;</span>
+<span class="fc" id="L393">  }</span>
+
+
+  public void setFragmentsProcessed(long fragmentsProcessed) {
+<span class="fc" id="L397">    this.fragmentsProcessed = fragmentsProcessed;</span>
+<span class="fc" id="L398">  }</span>
+
+
+  public void setVerbatimOccurrencesPersistedSuccessful(long verbatimOccurrencesPersistedSuccessful) {
+<span class="fc" id="L402">    this.verbatimOccurrencesPersistedSuccessful = verbatimOccurrencesPersistedSuccessful;</span>
+<span class="fc" id="L403">  }</span>
+
+
+  public void setVerbatimOccurrencesPersistedError(long verbatimOccurrencesPersistedError) {
+<span class="fc" id="L407">    this.verbatimOccurrencesPersistedError = verbatimOccurrencesPersistedError;</span>
+<span class="fc" id="L408">  }</span>
+
+
+  public void setInterpretedOccurrencesPersistedSuccessful(long interpretedOccurrencesPersistedSuccessful) {
+<span class="fc" id="L412">    this.interpretedOccurrencesPersistedSuccessful = interpretedOccurrencesPersistedSuccessful;</span>
+<span class="fc" id="L413">  }</span>
+
+
+  public void setInterpretedOccurrencesPersistedError(long interpretedOccurrencesPersistedError) {
+<span class="fc" id="L417">    this.interpretedOccurrencesPersistedError = interpretedOccurrencesPersistedError;</span>
+<span class="fc" id="L418">  }</span>
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="pc bpc" id="L422" title="1 of 2 branches missed.">    if (obj == null) {</span>
+<span class="nc" id="L423">      return false;</span>
+    }
+<span class="pc bpc" id="L425" title="1 of 2 branches missed.">    if (getClass() != obj.getClass()) {</span>
+<span class="nc" id="L426">      return false;</span>
+    }
+<span class="fc" id="L428">    final DatasetProcessStatus other = (DatasetProcessStatus) obj;</span>
+<span class="pc bpc" id="L429" title="1 of 2 branches missed.">    return Objects.equal(this.datasetKey, other.datasetKey)</span>
+<span class="pc bpc" id="L430" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.crawlJob, other.crawlJob)</span>
+<span class="pc bpc" id="L431" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.startedCrawling, other.startedCrawling)</span>
+<span class="pc bpc" id="L432" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.finishedCrawling, other.finishedCrawling)</span>
+<span class="pc bpc" id="L433" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.finishReason, other.finishReason)</span>
+<span class="pc bpc" id="L434" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.processStateOccurrence, other.processStateOccurrence)</span>
+<span class="pc bpc" id="L435" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.processStateChecklist, other.processStateChecklist)</span>
+<span class="pc bpc" id="L436" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.processStateSample, other.processStateSample)</span>
+<span class="pc bpc" id="L437" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.crawlContext, other.crawlContext)</span>
+<span class="pc bpc" id="L438" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.declaredCount, other.declaredCount)</span>
+<span class="pc bpc" id="L439" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.pagesCrawled, other.pagesCrawled)</span>
+<span class="pc bpc" id="L440" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.pagesFragmentedSuccessful, other.pagesFragmentedSuccessful)</span>
+<span class="pc bpc" id="L441" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.pagesFragmentedError, other.pagesFragmentedError)</span>
+<span class="pc bpc" id="L442" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.fragmentsEmitted, other.fragmentsEmitted)</span>
+<span class="pc bpc" id="L443" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.fragmentsReceived, other.fragmentsReceived)</span>
+<span class="pc bpc" id="L444" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.rawOccurrencesPersistedNew, other.rawOccurrencesPersistedNew)</span>
+<span class="pc bpc" id="L445" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.rawOccurrencesPersistedUpdated, other.rawOccurrencesPersistedUpdated)</span>
+<span class="pc bpc" id="L446" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.rawOccurrencesPersistedUnchanged, other.rawOccurrencesPersistedUnchanged)</span>
+<span class="pc bpc" id="L447" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.rawOccurrencesPersistedError, other.rawOccurrencesPersistedError)</span>
+<span class="pc bpc" id="L448" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.fragmentsProcessed, other.fragmentsProcessed)</span>
+<span class="pc bpc" id="L449" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.verbatimOccurrencesPersistedSuccessful, other.verbatimOccurrencesPersistedSuccessful)</span>
+<span class="pc bpc" id="L450" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.verbatimOccurrencesPersistedError, other.verbatimOccurrencesPersistedError)</span>
+<span class="pc bpc" id="L451" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.interpretedOccurrencesPersistedSuccessful,</span>
+<span class="fc" id="L452">                            other.interpretedOccurrencesPersistedSuccessful)</span>
+<span class="pc bpc" id="L453" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.interpretedOccurrencesPersistedError, other.interpretedOccurrencesPersistedError);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="fc" id="L458">    return Objects.hashCode(datasetKey,</span>
+                            crawlJob,
+                            startedCrawling,
+                            finishedCrawling,
+                            finishReason,
+                            processStateOccurrence,
+                            processStateChecklist,
+                            processStateSample,
+                            crawlContext,
+                            declaredCount,
+<span class="fc" id="L468">                            pagesCrawled,</span>
+<span class="fc" id="L469">                            pagesFragmentedSuccessful,</span>
+<span class="fc" id="L470">                            pagesFragmentedError,</span>
+<span class="fc" id="L471">                            fragmentsEmitted,</span>
+<span class="fc" id="L472">                            fragmentsReceived,</span>
+<span class="fc" id="L473">                            rawOccurrencesPersistedNew,</span>
+<span class="fc" id="L474">                            rawOccurrencesPersistedUpdated,</span>
+<span class="fc" id="L475">                            rawOccurrencesPersistedUnchanged,</span>
+<span class="fc" id="L476">                            rawOccurrencesPersistedError,</span>
+<span class="fc" id="L477">                            fragmentsProcessed,</span>
+<span class="fc" id="L478">                            verbatimOccurrencesPersistedSuccessful,</span>
+<span class="fc" id="L479">                            verbatimOccurrencesPersistedError,</span>
+<span class="fc" id="L480">                            interpretedOccurrencesPersistedSuccessful,</span>
+<span class="fc" id="L481">                            interpretedOccurrencesPersistedError);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L486">    return Objects.toStringHelper(this)</span>
+<span class="nc" id="L487">      .add(&quot;datasetKey&quot;, datasetKey)</span>
+<span class="nc" id="L488">      .add(&quot;crawlJob&quot;, crawlJob)</span>
+<span class="nc" id="L489">      .add(&quot;startedCrawling&quot;, startedCrawling)</span>
+<span class="nc" id="L490">      .add(&quot;finishedCrawling&quot;, finishedCrawling)</span>
+<span class="nc" id="L491">      .add(&quot;finisReason&quot;, finishReason)</span>
+<span class="nc" id="L492">      .add(&quot;processStateOccurrence&quot;, processStateOccurrence)</span>
+<span class="nc" id="L493">      .add(&quot;processStateChecklist&quot;, processStateChecklist)</span>
+<span class="nc" id="L494">      .add(&quot;processStateSample&quot;, processStateSample)</span>
+<span class="nc" id="L495">      .add(&quot;crawlContext&quot;, crawlContext)</span>
+<span class="nc" id="L496">      .add(&quot;declaredCount&quot;, declaredCount)</span>
+<span class="nc" id="L497">      .add(&quot;pagesCrawled&quot;, pagesCrawled)</span>
+<span class="nc" id="L498">      .add(&quot;pagesFragmentedSuccessful&quot;, pagesFragmentedSuccessful)</span>
+<span class="nc" id="L499">      .add(&quot;pagesFragmentedError&quot;, pagesFragmentedError)</span>
+<span class="nc" id="L500">      .add(&quot;fragmentsEmitted&quot;, fragmentsEmitted)</span>
+<span class="nc" id="L501">      .add(&quot;fragmentsReceived&quot;, fragmentsReceived)</span>
+<span class="nc" id="L502">      .add(&quot;rawOccurrencesPersistedNew&quot;, rawOccurrencesPersistedNew)</span>
+<span class="nc" id="L503">      .add(&quot;rawOccurrencesPersistedUpdated&quot;, rawOccurrencesPersistedUpdated)</span>
+<span class="nc" id="L504">      .add(&quot;rawOccurrencesPersistedUnchanged&quot;, rawOccurrencesPersistedUnchanged)</span>
+<span class="nc" id="L505">      .add(&quot;rawOccurrencesPersistedError&quot;, rawOccurrencesPersistedError)</span>
+<span class="nc" id="L506">      .add(&quot;fragmentsProcessed&quot;, fragmentsProcessed)</span>
+<span class="nc" id="L507">      .add(&quot;verbatimOccurrencesPersistedSuccessful&quot;, verbatimOccurrencesPersistedSuccessful)</span>
+<span class="nc" id="L508">      .add(&quot;verbatimOccurrencesPersistedError&quot;, verbatimOccurrencesPersistedError)</span>
+<span class="nc" id="L509">      .add(&quot;interpretedOccurrencesPersistedSuccessful&quot;, interpretedOccurrencesPersistedSuccessful)</span>
+<span class="nc" id="L510">      .add(&quot;interpretedOccurrencesPersistedError&quot;, interpretedOccurrencesPersistedError)</span>
+<span class="nc" id="L511">      .toString();</span>
+  }
+
+<span class="fc" id="L514">  public static class Builder {</span>
+
+    private UUID datasetKey;
+    private CrawlJob crawlJob;
+    private Date startedCrawling;
+    private Date finishedCrawling;
+    private String crawlContext;
+    private FinishReason finishReason;
+    private ProcessState processStateOccurrence;
+    private ProcessState processStateChecklist;
+    private ProcessState processStateSample;
+    private Long declaredCount;
+    private long pagesCrawled;
+    private long pagesFragmentedSuccessful;
+    private long pagesFragmentedError;
+    private long fragmentsEmitted;
+    private long fragmentsReceived;
+    private long rawOccurrencesPersistedNew;
+    private long rawOccurrencesPersistedUpdated;
+    private long rawOccurrencesPersistedUnchanged;
+    private long rawOccurrencesPersistedError;
+    private long fragmentsProcessed;
+    private long verbatimOccurrencesPersistedSuccessful;
+    private long verbatimOccurrencesPersistedError;
+    private long interpretedOccurrencesPersistedSuccessful;
+    private long interpretedOccurrencesPersistedError;
+
+    public DatasetProcessStatus build() {
+<span class="fc" id="L542">      return new DatasetProcessStatus(this);</span>
+    }
+
+    public Builder crawlContext(String crawlContext) {
+<span class="fc" id="L546">      this.crawlContext = crawlContext;</span>
+<span class="fc" id="L547">      return this;</span>
+    }
+
+    public Builder crawlJob(CrawlJob crawlJob) {
+<span class="fc" id="L551">      this.crawlJob = crawlJob;</span>
+<span class="fc" id="L552">      return this;</span>
+    }
+
+    public Builder datasetKey(UUID datasetKey) {
+<span class="fc" id="L556">      this.datasetKey = datasetKey;</span>
+<span class="fc" id="L557">      return this;</span>
+    }
+
+    public Builder declaredCount(Long declaredCount) {
+<span class="fc" id="L561">      this.declaredCount = declaredCount;</span>
+<span class="fc" id="L562">      return this;</span>
+    }
+
+    public Builder finishedCrawling(Date finishedCrawling) {
+<span class="nc" id="L566">      this.finishedCrawling = finishedCrawling;</span>
+<span class="nc" id="L567">      return this;</span>
+    }
+
+    public Builder finishReason(FinishReason finishReason) {
+<span class="nc" id="L571">      this.finishReason = finishReason;</span>
+<span class="nc" id="L572">      return this;</span>
+    }
+
+    public Builder processStateOccurrence(ProcessState processStateOccurrence) {
+<span class="fc" id="L576">      this.processStateOccurrence = processStateOccurrence;</span>
+<span class="fc" id="L577">      return this;</span>
+    }
+
+    public Builder processStateChecklist(ProcessState processStateChecklist) {
+<span class="fc" id="L581">      this.processStateChecklist = processStateChecklist;</span>
+<span class="fc" id="L582">      return this;</span>
+    }
+
+    public Builder processStateSample(ProcessState processStateSample) {
+<span class="nc" id="L586">      this.processStateSample = processStateSample;</span>
+<span class="nc" id="L587">      return this;</span>
+    }
+
+    public Builder fragmentsEmitted(long fragmentsEmitted) {
+<span class="fc" id="L591">      this.fragmentsEmitted = fragmentsEmitted;</span>
+<span class="fc" id="L592">      return this;</span>
+    }
+
+    public Builder fragmentsProcessed(long fragmentsProcessed) {
+<span class="fc" id="L596">      this.fragmentsProcessed = fragmentsProcessed;</span>
+<span class="fc" id="L597">      return this;</span>
+    }
+
+    public Builder fragmentsReceived(long fragmentsReceived) {
+<span class="fc" id="L601">      this.fragmentsReceived = fragmentsReceived;</span>
+<span class="fc" id="L602">      return this;</span>
+    }
+
+    public Builder interpretedOccurrencesPersistedError(long interpretedOccurrencesPersistedError) {
+<span class="fc" id="L606">      this.interpretedOccurrencesPersistedError = interpretedOccurrencesPersistedError;</span>
+<span class="fc" id="L607">      return this;</span>
+    }
+
+    public Builder interpretedOccurrencesPersistedSuccessful(long interpretedOccurrencesPersistedSuccessful) {
+<span class="fc" id="L611">      this.interpretedOccurrencesPersistedSuccessful = interpretedOccurrencesPersistedSuccessful;</span>
+<span class="fc" id="L612">      return this;</span>
+    }
+
+    public Builder pagesCrawled(long pagesCrawled) {
+<span class="fc" id="L616">      this.pagesCrawled = pagesCrawled;</span>
+<span class="fc" id="L617">      return this;</span>
+    }
+
+    public Builder pagesFragmentedError(long pagesFragmentedError) {
+<span class="fc" id="L621">      this.pagesFragmentedError = pagesFragmentedError;</span>
+<span class="fc" id="L622">      return this;</span>
+    }
+
+    public Builder pagesFragmentedSuccessful(long pagesFragmentedSuccessful) {
+<span class="fc" id="L626">      this.pagesFragmentedSuccessful = pagesFragmentedSuccessful;</span>
+<span class="fc" id="L627">      return this;</span>
+    }
+
+    public Builder rawOccurrencesPersistedError(long rawOccurrencesPersistedError) {
+<span class="fc" id="L631">      this.rawOccurrencesPersistedError = rawOccurrencesPersistedError;</span>
+<span class="fc" id="L632">      return this;</span>
+    }
+
+    public Builder rawOccurrencesPersistedNew(long rawOccurrencesPersistedNew) {
+<span class="fc" id="L636">      this.rawOccurrencesPersistedNew = rawOccurrencesPersistedNew;</span>
+<span class="fc" id="L637">      return this;</span>
+    }
+
+    public Builder rawOccurrencesPersistedUnchanged(long rawOccurrencesPersistedUnchanged) {
+<span class="fc" id="L641">      this.rawOccurrencesPersistedUnchanged = rawOccurrencesPersistedUnchanged;</span>
+<span class="fc" id="L642">      return this;</span>
+    }
+
+    public Builder rawOccurrencesPersistedUpdated(long rawOccurrencesPersistedUpdated) {
+<span class="fc" id="L646">      this.rawOccurrencesPersistedUpdated = rawOccurrencesPersistedUpdated;</span>
+<span class="fc" id="L647">      return this;</span>
+    }
+
+    public Builder startedCrawling(Date startedCrawling) {
+<span class="fc" id="L651">      this.startedCrawling = startedCrawling;</span>
+<span class="fc" id="L652">      return this;</span>
+    }
+
+    public Builder verbatimOccurrencesPersistedError(long verbatimOccurrencesPersistedError) {
+<span class="fc" id="L656">      this.verbatimOccurrencesPersistedError = verbatimOccurrencesPersistedError;</span>
+<span class="fc" id="L657">      return this;</span>
+    }
+
+    public Builder verbatimOccurrencesPersistedSuccessful(long verbatimOccurrencesPersistedSuccessful) {
+<span class="fc" id="L661">      this.verbatimOccurrencesPersistedSuccessful = verbatimOccurrencesPersistedSuccessful;</span>
+<span class="fc" id="L662">      return this;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

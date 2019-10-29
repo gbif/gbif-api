@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RecordError.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.metrics</a> &gt; <span class="el_source">RecordError.java</span></div><h1>RecordError.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.metrics;
+
+import org.gbif.api.vocabulary.ProcessingErrorType;
+
+import java.io.Serializable;
+
+import com.google.common.base.Objects;
+
+
+/**
+ * Error reports for a single Record (occurrence, species).
+ */
+@Deprecated
+public class RecordError implements Serializable {
+
+  private static final long serialVersionUID = 4942485228689322658L;
+
+  /**
+   * type of error.
+   */
+  private ProcessingErrorType processingErrorType;
+
+  /**
+   * ID of the problematic record (occurrence, species).
+   */
+  private long recordId;
+
+  /**
+   * catalog number.
+   */
+  private String catalogNumber;
+
+  /**
+   * collection code.
+   */
+  private String collectionCode;
+
+  /**
+   * institution code.
+   */
+  private String institutionCode;
+
+  public static Builder builder() {
+<span class="fc" id="L59">    return new Builder();</span>
+  }
+
+<span class="fc" id="L62">  public RecordError() {</span>
+<span class="fc" id="L63">  }</span>
+
+<span class="fc" id="L65">  public RecordError(Builder builder) {</span>
+<span class="fc" id="L66">    processingErrorType = builder.processingErrorType;</span>
+<span class="fc" id="L67">    recordId = builder.recordId;</span>
+<span class="fc" id="L68">    catalogNumber = builder.catalogNumber;</span>
+<span class="fc" id="L69">    collectionCode = builder.collectionCode;</span>
+<span class="fc" id="L70">    institutionCode = builder.institutionCode;</span>
+<span class="fc" id="L71">  }</span>
+
+  /**
+   * @return the catalogNumber
+   */
+  public String getCatalogNumber() {
+<span class="nc" id="L77">    return catalogNumber;</span>
+  }
+
+  /**
+   * @param catalogNumber the catalogNumber to set
+   */
+  public void setCatalogNumber(String catalogNumber) {
+<span class="fc" id="L84">    this.catalogNumber = catalogNumber;</span>
+<span class="fc" id="L85">  }</span>
+
+  /**
+   * @return the collectionCode
+   */
+  public String getCollectionCode() {
+<span class="nc" id="L91">    return collectionCode;</span>
+  }
+
+  /**
+   * @param collectionCode the collectionCode to set
+   */
+  public void setCollectionCode(String collectionCode) {
+<span class="fc" id="L98">    this.collectionCode = collectionCode;</span>
+<span class="fc" id="L99">  }</span>
+
+  /**
+   * @return the processingErrorType
+   */
+  public ProcessingErrorType getProcessingErrorType() {
+<span class="nc" id="L105">    return processingErrorType;</span>
+  }
+
+  /**
+   * @param processingErrorType the processingErrorType to set
+   */
+  public void setProcessingErrorType(ProcessingErrorType processingErrorType) {
+<span class="fc" id="L112">    this.processingErrorType = processingErrorType;</span>
+<span class="fc" id="L113">  }</span>
+
+  /**
+   * @return the institutionCode
+   */
+  public String getInstitutionCode() {
+<span class="nc" id="L119">    return institutionCode;</span>
+  }
+
+  /**
+   * @param institutionCode the institutionCode to set
+   */
+  public void setInstitutionCode(String institutionCode) {
+<span class="fc" id="L126">    this.institutionCode = institutionCode;</span>
+<span class="fc" id="L127">  }</span>
+
+  /**
+   * @return the recordId
+   */
+  public long getRecordId() {
+<span class="nc" id="L133">    return recordId;</span>
+  }
+
+  /**
+   * @param recordId the recordId to set
+   */
+  public void setRecordId(long recordId) {
+<span class="fc" id="L140">    this.recordId = recordId;</span>
+<span class="fc" id="L141">  }</span>
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">    if (this == obj) {</span>
+<span class="nc" id="L146">      return true;</span>
+    }
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">    if (!(obj instanceof RecordError)) {</span>
+<span class="nc" id="L149">      return false;</span>
+    }
+
+<span class="fc" id="L152">    RecordError that = (RecordError) obj;</span>
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">    return Objects.equal(this.processingErrorType, that.processingErrorType)</span>
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.recordId, that.recordId)</span>
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.catalogNumber, that.catalogNumber)</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.collectionCode, that.collectionCode)</span>
+<span class="pc bpc" id="L157" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.institutionCode, that.institutionCode);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L162">    return Objects.hashCode(processingErrorType, recordId, catalogNumber, collectionCode, institutionCode);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L167">    return Objects.toStringHelper(this)</span>
+<span class="nc" id="L168">      .add(&quot;processingErrorType&quot;, processingErrorType)</span>
+<span class="nc" id="L169">      .add(&quot;recordId&quot;, recordId)</span>
+<span class="nc" id="L170">      .add(&quot;catalogNumber&quot;, catalogNumber)</span>
+<span class="nc" id="L171">      .add(&quot;collectionCode&quot;, collectionCode)</span>
+<span class="nc" id="L172">      .add(&quot;institutionCode&quot;, institutionCode)</span>
+<span class="nc" id="L173">      .toString();</span>
+  }
+
+<span class="fc" id="L176">  public static class Builder {</span>
+
+    private ProcessingErrorType processingErrorType;
+    private long recordId;
+    private String catalogNumber;
+    private String collectionCode;
+    private String institutionCode;
+
+    public RecordError build() {
+<span class="fc" id="L185">      return new RecordError(this);</span>
+    }
+
+    public Builder catalogNumber(String catalogNumber) {
+<span class="fc" id="L189">      this.catalogNumber = catalogNumber;</span>
+<span class="fc" id="L190">      return this;</span>
+    }
+
+    public Builder collectionCode(String collectionCode) {
+<span class="fc" id="L194">      this.collectionCode = collectionCode;</span>
+<span class="fc" id="L195">      return this;</span>
+    }
+
+    public Builder errorType(ProcessingErrorType processingErrorType) {
+<span class="fc" id="L199">      this.processingErrorType = processingErrorType;</span>
+<span class="fc" id="L200">      return this;</span>
+    }
+
+    public Builder institutionCode(String institutionCode) {
+<span class="fc" id="L204">      this.institutionCode = institutionCode;</span>
+<span class="fc" id="L205">      return this;</span>
+    }
+
+    public Builder recordId(long recordId) {
+<span class="fc" id="L209">      this.recordId = recordId;</span>
+<span class="fc" id="L210">      return this;</span>
+    }
+
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OccurrenceSearchRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence.search</a> &gt; <span class="el_source">OccurrenceSearchRequest.java</span></div><h1>OccurrenceSearchRequest.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.occurrence.search;
+
+import org.gbif.api.model.common.paging.Pageable;
+import org.gbif.api.model.common.search.FacetedSearchRequest;
+import org.gbif.api.vocabulary.BasisOfRecord;
+import org.gbif.api.vocabulary.Continent;
+import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.EstablishmentMeans;
+import org.gbif.api.vocabulary.MediaType;
+import org.gbif.api.vocabulary.OccurrenceIssue;
+import org.gbif.api.vocabulary.TypeStatus;
+
+import java.util.Date;
+import java.util.UUID;
+
+
+/**
+ * Request class for issuing search request to the occurrence search service.
+ */
+public class OccurrenceSearchRequest extends FacetedSearchRequest&lt;OccurrenceSearchParameter&gt; {
+
+  public OccurrenceSearchRequest() {
+    // empty block
+<span class="nc" id="L36">    super();</span>
+<span class="nc" id="L37">  }</span>
+
+  public OccurrenceSearchRequest(long offset, int limit) {
+<span class="nc" id="L40">    super(offset, limit);</span>
+<span class="nc" id="L41">  }</span>
+
+  public OccurrenceSearchRequest(Pageable page) {
+<span class="nc" id="L44">    super(page);</span>
+<span class="nc" id="L45">  }</span>
+
+  public void addOccurrenceIDFilter(String occurrenceID) {
+<span class="nc" id="L48">    addParameter(OccurrenceSearchParameter.OCCURRENCE_ID, occurrenceID);</span>
+<span class="nc" id="L49">  }</span>
+
+  public void addEstablishmentMeansFilter(EstablishmentMeans establishmentMeans) {
+<span class="nc" id="L52">    addParameter(OccurrenceSearchParameter.ESTABLISHMENT_MEANS, establishmentMeans);</span>
+<span class="nc" id="L53">  }</span>
+
+  public void addBasisOfRecordFilter(BasisOfRecord basisOfRecord) {
+<span class="nc" id="L56">    addParameter(OccurrenceSearchParameter.BASIS_OF_RECORD, basisOfRecord);</span>
+<span class="nc" id="L57">  }</span>
+
+  public void addTypeStatusFilter(TypeStatus typeStatus) {
+<span class="nc" id="L60">    addParameter(OccurrenceSearchParameter.TYPE_STATUS, typeStatus);</span>
+<span class="nc" id="L61">  }</span>
+
+  public void addCatalogNumberFilter(String catalogNumber) {
+<span class="nc" id="L64">    addParameter(OccurrenceSearchParameter.CATALOG_NUMBER, catalogNumber);</span>
+<span class="nc" id="L65">  }</span>
+
+  public void addRecordedByFilter(String collectorName) {
+<span class="nc" id="L68">    addParameter(OccurrenceSearchParameter.RECORDED_BY, collectorName);</span>
+<span class="nc" id="L69">  }</span>
+
+  public void addRecordNumberFilter(String recordNumber) {
+<span class="nc" id="L72">    addParameter(OccurrenceSearchParameter.RECORD_NUMBER, recordNumber);</span>
+<span class="nc" id="L73">  }</span>
+
+  public void addCountryFilter(Country country) {
+<span class="nc" id="L76">    addParameter(OccurrenceSearchParameter.COUNTRY, country.getIso2LetterCode());</span>
+<span class="nc" id="L77">  }</span>
+
+  public void addContinentFilter(Continent continent) {
+<span class="nc" id="L80">    addParameter(OccurrenceSearchParameter.CONTINENT, continent);</span>
+<span class="nc" id="L81">  }</span>
+
+  public void addDatasetKeyFilter(UUID datasetKey) {
+<span class="nc" id="L84">    addParameter(OccurrenceSearchParameter.DATASET_KEY, datasetKey.toString());</span>
+<span class="nc" id="L85">  }</span>
+
+  public void addGeometryFilter(String geometryAsWkt) {
+<span class="nc" id="L88">    addParameter(OccurrenceSearchParameter.GEOMETRY, geometryAsWkt);</span>
+<span class="nc" id="L89">  }</span>
+
+  public void addDecimalLatitudeFilter(double latitude) {
+<span class="nc" id="L92">    addParameter(OccurrenceSearchParameter.DECIMAL_LATITUDE, latitude);</span>
+<span class="nc" id="L93">  }</span>
+
+  public void addDecimalLongitudeFilter(double longitude) {
+<span class="nc" id="L96">    addParameter(OccurrenceSearchParameter.DECIMAL_LONGITUDE, longitude);</span>
+<span class="nc" id="L97">  }</span>
+
+  public void addMonthFilter(int month) {
+<span class="nc" id="L100">    addParameter(OccurrenceSearchParameter.MONTH, month);</span>
+<span class="nc" id="L101">  }</span>
+
+  public void addTaxonKeyFilter(int taxonKey) {
+<span class="nc" id="L104">    addParameter(OccurrenceSearchParameter.TAXON_KEY, taxonKey);</span>
+<span class="nc" id="L105">  }</span>
+
+  public void addKingdomKeyFilter(int kingdomKey) {
+<span class="nc" id="L108">    addParameter(OccurrenceSearchParameter.KINGDOM_KEY, kingdomKey);</span>
+<span class="nc" id="L109">  }</span>
+
+  public void addPhylumKeyFilter(int phylumKey) {
+<span class="nc" id="L112">    addParameter(OccurrenceSearchParameter.PHYLUM_KEY, phylumKey);</span>
+<span class="nc" id="L113">  }</span>
+
+  public void addClassKeyFilter(int classKey) {
+<span class="nc" id="L116">    addParameter(OccurrenceSearchParameter.CLASS_KEY, classKey);</span>
+<span class="nc" id="L117">  }</span>
+
+  public void addOrderKeyFilter(int orderKey) {
+<span class="nc" id="L120">    addParameter(OccurrenceSearchParameter.ORDER_KEY, orderKey);</span>
+<span class="nc" id="L121">  }</span>
+
+  public void addFamilyKeyFilter(int familyKey) {
+<span class="nc" id="L124">    addParameter(OccurrenceSearchParameter.FAMILY_KEY, familyKey);</span>
+<span class="nc" id="L125">  }</span>
+
+  public void addGenusKeyFilter(int genusKey) {
+<span class="nc" id="L128">    addParameter(OccurrenceSearchParameter.GENUS_KEY, genusKey);</span>
+<span class="nc" id="L129">  }</span>
+
+  public void addSubGenusKeyFilter(int subGenusKey) {
+<span class="nc" id="L132">    addParameter(OccurrenceSearchParameter.SUBGENUS_KEY, subGenusKey);</span>
+<span class="nc" id="L133">  }</span>
+
+  public void addSpeciesKeyFilter(int speciesKey) {
+<span class="nc" id="L136">    addParameter(OccurrenceSearchParameter.SPECIES_KEY, speciesKey);</span>
+<span class="nc" id="L137">  }</span>
+
+  public void addYearFilter(int year) {
+<span class="nc" id="L140">    addParameter(OccurrenceSearchParameter.YEAR, year);</span>
+<span class="nc" id="L141">  }</span>
+
+  public void addEventDateFilter(Date date) {
+<span class="nc" id="L144">    addParameter(OccurrenceSearchParameter.EVENT_DATE, date);</span>
+<span class="nc" id="L145">  }</span>
+
+  public void addLastInterpretedFilter(Date modified) {
+<span class="nc" id="L148">    addParameter(OccurrenceSearchParameter.LAST_INTERPRETED, modified);</span>
+<span class="nc" id="L149">  }</span>
+
+  public void addPublishingCountryFilter(Country country) {
+<span class="nc" id="L152">    addParameter(OccurrenceSearchParameter.PUBLISHING_COUNTRY, country.getIso2LetterCode());</span>
+<span class="nc" id="L153">  }</span>
+
+  public void addInstitutionCodeFilter(String code) {
+<span class="nc" id="L156">    addParameter(OccurrenceSearchParameter.INSTITUTION_CODE, code);</span>
+<span class="nc" id="L157">  }</span>
+
+  public void addHasCoordinateFilter(boolean hasCoordinate) {
+<span class="nc" id="L160">    addParameter(OccurrenceSearchParameter.HAS_COORDINATE, hasCoordinate);</span>
+<span class="nc" id="L161">  }</span>
+
+  public void addSpatialIssueFilter(boolean hasSpatialIssue) {
+<span class="nc" id="L164">    addParameter(OccurrenceSearchParameter.HAS_GEOSPATIAL_ISSUE, hasSpatialIssue);</span>
+<span class="nc" id="L165">  }</span>
+
+  public void addIssueFilter(OccurrenceIssue issue) {
+<span class="nc" id="L168">    addParameter(OccurrenceSearchParameter.ISSUE, issue);</span>
+<span class="nc" id="L169">  }</span>
+
+  public void addElevationFilter(int elevation) {
+<span class="nc" id="L172">    addParameter(OccurrenceSearchParameter.ELEVATION, elevation);</span>
+<span class="nc" id="L173">  }</span>
+
+  public void addMediaTypeFilter(MediaType mediaType) {
+<span class="nc" id="L176">    addParameter(OccurrenceSearchParameter.MEDIA_TYPE, mediaType);</span>
+<span class="nc" id="L177">  }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

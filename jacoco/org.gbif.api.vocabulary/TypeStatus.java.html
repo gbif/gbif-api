@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TypeStatus.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">TypeStatus.java</span></div><h1>TypeStatus.java</h1><pre class="source lang-java linenums">package org.gbif.api.vocabulary;
+
+import java.util.List;
+import javax.annotation.Nullable;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+
+/**
+ * A vocabulary to be used for a nomenclatural type status of a specimen or name.
+ * See also the related TypeDesignationType enumeration.
+ * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/gbif/type_status.xml&quot;&gt;rs.gbif.org vocabulary&lt;/a&gt;
+ * @see &lt;a href=&quot;http://www.bgbm.org/TDWG/CODATA/Schema/ABCD_2.06/HTML/ABCD_2.06.html#element_NomenclaturalTypeDesignations_Link&gt;Types in ABCD&lt;/a&gt;
+ */
+<span class="fc" id="L17">public enum TypeStatus {</span>
+
+  /**
+   * General type designation.
+   * A specimen designated or indicated any kind of type of a species or infraspecific taxon.
+   * If possible more specific type terms (holotype, syntype, etc.) should be applied.
+   *
+   * Or the type name of a name of higher rank for taxa above the species rank.
+   */
+<span class="fc" id="L26">  TYPE,</span>
+
+  /**
+   * For designating a type record as a reference to type information tied to a genus
+   */
+<span class="fc" id="L31">  TYPE_SPECIES,</span>
+
+  /**
+   * For designating a type record as a reference to type information tied to a Family
+   */
+<span class="fc" id="L36">  TYPE_GENUS,</span>
+
+  /**
+   * A paralectotype specimen that is the opposite sex of the lectotype. The term is not regulated by the ICZN. [Zoo.]
+   */
+<span class="fc" id="L41">  ALLOLECTOTYPE,</span>
+
+  /**
+   * A paraneotype specimen that is the opposite sex of the neotype. The term is not regulated by the ICZN. [Zoo.]
+   */
+<span class="fc" id="L46">  ALLONEOTYPE,</span>
+
+  /**
+   * A paratype specimen designated from the type series by the original author that is the opposite sex of the holotype. The term is not regulated by the ICZN. [Zoo.]
+   */
+<span class="fc" id="L51">  ALLOTYPE,</span>
+
+  /**
+   * A deprecated term no longer recognized in the ICZN; formerly used for either syntype or paratype [see ICZN Recommendation 73E]. [Zoo.]
+   */
+<span class="fc" id="L56">  COTYPE,</span>
+
+  /**
+   * An epitype is a specimen or illustration selected to serve as an interpretative type when any kind of holotype, lectotype, etc. is demonstrably ambiguous and cannot be critically identified for purposes of the precise application of the name of a taxon (see Art. ICBN 9.7, 9.18). An epitype supplements, rather than replaces existing types. [Bot./Bio.]
+   */
+<span class="fc" id="L61">  EPITYPE,</span>
+
+  /**
+   * A strain or cultivation derived from epitype material. Ex-types are not regulated by the botanical or zoological code. [Bot.]
+   */
+<span class="fc" id="L66">  EXEPITYPE,</span>
+
+  /**
+   * A strain or cultivation derived from holotype material. Ex-types are not regulated by the botanical or zoological code. [Zoo./Bot.]
+   */
+<span class="fc" id="L71">  EXHOLOTYPE,</span>
+
+  /**
+   * A strain or cultivation derived from isotype material. Ex-types are not regulated by the botanical or zoological code. [Zoo./Bot.]
+   */
+<span class="fc" id="L76">  EXISOTYPE,</span>
+
+  /**
+   * A strain or cultivation derived from lectotype material. Ex-types are not regulated by the botanical or zoological code. [Zoo./Bot.]
+   */
+<span class="fc" id="L81">  EXLECTOTYPE,</span>
+
+  /**
+   * A strain or cultivation derived from neotype material. Ex-types are not regulated by the botanical or zoological code. [Zoo./Bot.]
+   */
+<span class="fc" id="L86">  EXNEOTYPE,</span>
+
+  /**
+   * A strain or cultivation derived from paratype material. Ex-types are not regulated by the botanical or zoological code. [Zoo./Bot.]
+   */
+<span class="fc" id="L91">  EXPARATYPE,</span>
+
+  /**
+   * A strain or cultivation derived from neotype material. Ex-types are not regulated by the botanical or zoological code. [Zoo./Bot.]
+   */
+<span class="fc" id="L96">  EXSYNTYPE,</span>
+
+  /**
+   * A strain or cultivation derived from some kind of type material. Ex-types are not regulated by the botanical or zoological code. [Zoo./Bot.]
+   */
+<span class="fc" id="L101">  EXTYPE,</span>
+
+  /**
+   * One or more preparations of directly related individuals representing distinct stages in the life cycle, which together form the type in an extant species of protistan [ICZN Article 72.5.4]. A hapantotype, while a series of individuals, is a holotype that must not be restricted by lectotype selection. If an hapantotype is found to contain individuals of more than one species, however, components may be excluded until it contains individuals of only one species [ICZN Article 73.3.2]. [Zoo.]
+   */
+<span class="fc" id="L106">  HAPANTOTYPE,</span>
+
+  /**
+   * The one specimen or other element used or designated by the original author at the time of publication of the original description as the nomenclatural type of a species or infraspecific taxon. A holotype may be 'explicit' if it is clearly stated in the originating publication or 'implicit' if it is the single specimen proved to have been in the hands of the originating author when the description was published. [Zoo./Bot./Bio.]
+   */
+<span class="fc" id="L111">  HOLOTYPE,</span>
+
+  /**
+   * A specimen that was not part of the original type series of the species, but is known from a published description, figure, or listing.
+   */
+<span class="fc" id="L116">  HYPOTYPE,</span>
+
+  /**
+   * A drawing or photograph (also called 'phototype') of a type specimen. Note: the term 'iconotype' is not used in the ICBN, but implicit in, e. g., ICBN Art. 7 and 38. [Zoo./Bot.]
+   */
+<span class="fc" id="L121">  ICONOTYPE,</span>
+
+  /**
+   * A duplicate of a lectotype, compare lectotype. [Bot.]
+   */
+<span class="fc" id="L126">  ISOLECTOTYPE,</span>
+
+  /**
+   * A duplicate of a neotype, compare neotype. [Bot.]
+   */
+<span class="fc" id="L131">  ISONEOTYPE,</span>
+
+  /**
+   * A duplicate of a syntype, compare isotype = duplicate of holotype. [Bot.]
+   */
+<span class="fc" id="L136">  ISOSYNTYPE,</span>
+
+  /**
+   * An isotype is any duplicate of the holotype (i. e. part of a single gathering made by a collector at one time, from which the holotype was derived); it is always a specimen (ICBN Art. 7). [Bot.]
+   */
+<span class="fc" id="L141">  ISOTYPE,</span>
+
+  /**
+   * A specimen or other element designated subsequent to the publication of the original description from the original material (syntypes or paratypes) to serve as nomenclatural type. Lectotype designation can occur only where no holotype was designated at the time of publication or if it is missing (ICBN Art. 7, ICZN Art. 74). [Zoo./Bot.] -- Note: the BioCode defines lectotype as selection from holotype material in cases where the holotype material contains more than one taxon [Bio.].
+   */
+<span class="fc" id="L146">  LECTOTYPE,</span>
+
+  /**
+   * A specimen designated as nomenclatural type subsequent to the publication of the original description in cases where the original holotype, lectotype, all paratypes and syntypes are lost or destroyed, or suppressed by the (botanical or zoological) commission on nomenclature. In zoology also called 'Standard specimen' or 'Representative specimen'. [Zoo./Bot./Bio.]
+   */
+<span class="fc" id="L151">  NEOTYPE,</span>
+
+  /**
+   * For specimens erroneously labelled as types an explicit negative statement may be desirable. [General]
+   */
+<span class="fc" id="L156">  NOTATYPE,</span>
+
+  /**
+   * 'type-suspicious' material. The term is in accordance with the Botanical Code, where it is used for material that has been at the disposal of an author describing a new species, and is distinct from a type only in the fact that either the Type has not been officially assigned yet, or that the specific material has not been explicitly cited in the typification process (i.e. it was part of the swarm of specimens examined in the process, but not labelled as type itself).
+   */
+<span class="fc" id="L161">  ORIGINALMATERIAL,</span>
+
+  /**
+   * All of the specimens in the syntype series of a species or infraspecific taxon other than the lectotype itself. Also called 'lectoparatype'. [Zoo.]
+   */
+<span class="fc" id="L166">  PARALECTOTYPE,</span>
+
+  /**
+   * All of the specimens in the syntype series of a species or infraspecific taxon other than the neotype itself. Also called 'neoparatype'. [Zoo.]
+   */
+<span class="fc" id="L171">  PARANEOTYPE,</span>
+
+  /**
+   * All of the specimens in the type series of a species or infraspecific taxon other than the holotype (and, in botany, isotypes). Paratypes must have been at the disposition of the author at the time when the original description was created and must have been designated and indicated in the publication. Judgment must be exercised on paratype status, for only rarely are specimens explicitly cited as paratypes, but usually as 'specimens examined,' 'other material seen', etc. [Zoo./Bot.]
+   */
+<span class="fc" id="L176">  PARATYPE,</span>
+
+  /**
+   * A copy or cast of holotype material (compare Plastotype).
+   */
+<span class="fc" id="L181">  PLASTOHOLOTYPE,</span>
+
+  /**
+   * A copy or cast of isotype material (compare Plastotype).
+   */
+<span class="fc" id="L186">  PLASTOISOTYPE,</span>
+
+  /**
+   * A copy or cast of lectotype material (compare Plastotype).
+   */
+<span class="fc" id="L191">  PLASTOLECTOTYPE,</span>
+
+  /**
+   * A copy or cast of neotype material (compare Plastotype).
+   */
+<span class="fc" id="L196">  PLASTONEOTYPE,</span>
+
+  /**
+   * A copy or cast of paratype material (compare Plastotype).
+   */
+<span class="fc" id="L201">  PLASTOPARATYPE,</span>
+
+  /**
+   * A copy or cast of syntype material (compare Plastotype).
+   */
+<span class="fc" id="L206">  PLASTOSYNTYPE,</span>
+
+  /**
+   * A copy or cast of type material, esp. relevant for fossil types. Not regulated by the botanical or zoological code (?). [Zoo./Bot.]
+   */
+<span class="fc" id="L211">  PLASTOTYPE,</span>
+
+  /**
+   * A specimen that is both a homeotype and a hypotype.
+   */
+<span class="fc" id="L216">  PLESIOTYPE,</span>
+
+  /**
+   * A referred, described, measured or figured specimen in the original publication (including a neo/lectotypification publication) that is not a primary type. [Zoo.]
+   */
+<span class="fc" id="L221">  SECONDARYTYPE,</span>
+
+  /**
+   * A referred, described, measured or figured specimen in a revision of a previously described taxon. [Zoo.]
+   */
+<span class="fc" id="L226">  SUPPLEMENTARYTYPE,</span>
+
+  /**
+   * One of the series of specimens used to describe a species or infraspecific taxon when neither a single holotype nor a lectotype has been designated. The syntypes collectively constitute the name-bearing type. [Zoo./Bot.]
+   */
+<span class="fc" id="L231">  SYNTYPE,</span>
+
+  /**
+   * One or more specimens collected at the same location as the type series (type locality), regardless of whether they are part of the type series. Topotypes are not regulated by the botanical or zoological code. Also called 'locotype'. [Zoo./Bot.]
+   */
+<span class="fc" id="L236">  TOPOTYPE;</span>
+
+  /**
+   * @return a list of all type status values applicable for specimens.
+   */
+  public static List&lt;TypeStatus&gt; specimenTypeStatusList() {
+<span class="fc" id="L242">    return ImmutableList.copyOf(Collections2.filter(Lists.newArrayList(values()), new Predicate&lt;TypeStatus&gt;() {</span>
+      @Override
+      public boolean apply(@Nullable TypeStatus status) {
+<span class="fc" id="L245">        return status.isTypeSpecimen();</span>
+      }
+    }));
+  }
+
+  /**
+   * @return a list of all type status values applicable for scientific names, not specimens.
+   */
+  public static List&lt;TypeStatus&gt; nameTypeStatusList() {
+<span class="fc" id="L254">    return ImmutableList.copyOf(Collections2.filter(Lists.newArrayList(values()), new Predicate&lt;TypeStatus&gt;() {</span>
+      @Override
+      public boolean apply(@Nullable TypeStatus status) {
+<span class="fc bfc" id="L257" title="All 4 branches covered.">        return TypeStatus.TYPE == status || !status.isTypeSpecimen();</span>
+      }
+    }));
+  }
+
+  /**
+   * @return true if the type status is referring to a type specimen in contrast to a type genus or species name
+   */
+  public boolean isTypeSpecimen() {
+<span class="fc bfc" id="L266" title="All 4 branches covered.">    return this != TYPE_GENUS &amp;&amp; this != TYPE_SPECIES;</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PipelineProcess.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.pipelines</a> &gt; <span class="el_source">PipelineProcess.java</span></div><h1>PipelineProcess.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.pipelines;
+
+import org.gbif.api.jackson.LocalDateTimeSerDe;
+import org.gbif.common.shaded.com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.*;
+
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+/** Base POJO model for the Pipelines status service */
+<span class="nc" id="L14">public class PipelineProcess implements Serializable {</span>
+
+  private static final long serialVersionUID = -3992826055732414678L;
+
+  @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+  private long key;
+
+  private UUID datasetKey;
+  private int attempt;
+  private long numberRecords;
+
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
+  private LocalDateTime created;
+
+  private String createdBy;
+<span class="nc" id="L30">  private Set&lt;PipelineStep&gt; steps = new TreeSet&lt;&gt;(Comparator.comparing(PipelineStep::getStarted));</span>
+
+  public long getKey() {
+<span class="nc" id="L33">    return key;</span>
+  }
+
+  public UUID getDatasetKey() {
+<span class="nc" id="L37">    return datasetKey;</span>
+  }
+
+  public PipelineProcess setDatasetKey(UUID datasetKey) {
+<span class="nc" id="L41">    this.datasetKey = datasetKey;</span>
+<span class="nc" id="L42">    return this;</span>
+  }
+
+  public int getAttempt() {
+<span class="nc" id="L46">    return attempt;</span>
+  }
+
+  public PipelineProcess setAttempt(int attempt) {
+<span class="nc" id="L50">    this.attempt = attempt;</span>
+<span class="nc" id="L51">    return this;</span>
+  }
+
+  public long getNumberRecords() {
+<span class="nc" id="L55">    return numberRecords;</span>
+  }
+
+  public void setNumberRecords(long numberRecords) {
+<span class="nc" id="L59">    this.numberRecords = numberRecords;</span>
+<span class="nc" id="L60">  }</span>
+
+  public LocalDateTime getCreated() {
+<span class="nc" id="L63">    return created;</span>
+  }
+
+  public PipelineProcess setCreated(LocalDateTime created) {
+<span class="nc" id="L67">    this.created = created;</span>
+<span class="nc" id="L68">    return this;</span>
+  }
+
+  public String getCreatedBy() {
+<span class="nc" id="L72">    return createdBy;</span>
+  }
+
+  public PipelineProcess setCreatedBy(String createdBy) {
+<span class="nc" id="L76">    this.createdBy = createdBy;</span>
+<span class="nc" id="L77">    return this;</span>
+  }
+
+  public Set&lt;PipelineStep&gt; getSteps() {
+<span class="nc" id="L81">    return steps;</span>
+  }
+
+  public void setSteps(Set&lt;PipelineStep&gt; steps) {
+<span class="nc" id="L85">    this.steps.clear();</span>
+<span class="nc" id="L86">    this.steps.addAll(steps);</span>
+<span class="nc" id="L87">  }</span>
+
+  public void addStep(PipelineStep step) {
+<span class="nc" id="L90">    steps.add(step);</span>
+<span class="nc" id="L91">  }</span>
+
+  @Override
+  public String toString() {
+<span class="nc" id="L95">    return new StringJoiner(&quot;, &quot;, PipelineProcess.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L96">      .add(&quot;datasetKey=&quot; + datasetKey)</span>
+<span class="nc" id="L97">      .add(&quot;attempt=&quot; + attempt)</span>
+<span class="nc" id="L98">      .add(&quot;numberRecords=&quot; + numberRecords)</span>
+<span class="nc" id="L99">      .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L100">      .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L101">      .add(&quot;steps=&quot; + steps)</span>
+<span class="nc" id="L102">      .toString();</span>
+  }
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L107" title="All 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L108" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L109">    PipelineProcess process = (PipelineProcess) o;</span>
+<span class="nc bnc" id="L110" title="All 4 branches missed.">    return attempt == process.attempt &amp;&amp; Objects.equals(datasetKey, process.datasetKey);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L115">    return Objects.hash(datasetKey, attempt);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

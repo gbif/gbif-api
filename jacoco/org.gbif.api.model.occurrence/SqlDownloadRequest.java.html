@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SqlDownloadRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence</a> &gt; <span class="el_source">SqlDownloadRequest.java</span></div><h1>SqlDownloadRequest.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.occurrence;
+
+import java.util.Collection;
+import javax.annotation.Nullable;
+import javax.validation.Valid;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+
+/**
+ * SQL Based downloads.
+ * This type of downloads accept and simple SELECT query that follows the  pattern:
+ *   SELECT field1, field2, ...fieldN FROM occurrence WHERE [multiple simple predicates] GROUP BY field1,field2..fieldN.
+ */
+public class SqlDownloadRequest extends DownloadRequest {
+
+  private String sql;
+
+<span class="nc" id="L20">  public SqlDownloadRequest() {</span>
+
+<span class="nc" id="L22">  }</span>
+
+  /**
+   * Full constructor. Used to create instances using JSON serialization.
+   */
+  @JsonCreator
+  public SqlDownloadRequest(@JsonProperty(&quot;sql&quot;) String sql,
+                            @JsonProperty(&quot;creator&quot;) @Nullable String creator,
+                            @JsonProperty(&quot;notificationAddresses&quot;) @Nullable Collection&lt;String&gt; notificationAddresses,
+                            @JsonProperty(&quot;sendNotification&quot;) @Nullable boolean sendNotification) {
+<span class="fc" id="L32">    super(creator, notificationAddresses, sendNotification, DownloadFormat.SQL);</span>
+<span class="fc" id="L33">    this.sql = sql;</span>
+<span class="fc" id="L34">  }</span>
+
+  /**
+   *
+   * @return the sql query.
+   */
+  @Valid
+  public String getSql() {
+<span class="fc" id="L42">    return sql;</span>
+  }
+
+  /**
+   * This parameter when present provides the SQL query for custom download
+   * @param sql
+   */
+  public void setSql(String sql) {
+<span class="nc" id="L50">    this.sql = sql;</span>
+<span class="nc" id="L51">  }</span>
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L55">    return Objects.hashCode(super.hashCode(), sql);</span>
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="nc bnc" id="L60" title="All 2 branches missed.">    if (this == obj) {</span>
+<span class="nc" id="L61">      return true;</span>
+    }
+<span class="nc bnc" id="L63" title="All 2 branches missed.">    if (!(obj instanceof SqlDownloadRequest)) {</span>
+<span class="nc" id="L64">      return false;</span>
+    }
+
+<span class="nc" id="L67">    SqlDownloadRequest that = (SqlDownloadRequest) obj;</span>
+<span class="nc bnc" id="L68" title="All 4 branches missed.">    return super.equals(that) &amp;&amp; Objects.equal(this.sql, that.sql);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L73">    return MoreObjects.toStringHelper(this).addValue(super.toString())</span>
+<span class="nc" id="L74">      .add(&quot;sql&quot;, sql).toString();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

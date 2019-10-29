@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Extension.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">Extension.java</span></div><h1>Extension.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.vocabulary;
+
+import org.gbif.api.jackson.ExtensionDeserializer;
+import org.gbif.api.jackson.ExtensionSerializer;
+
+import com.google.common.base.Strings;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+/**
+ * Enumeration of dwc extensions for both Occurrence and Taxon that are indexed by GBIF.
+ *
+ * @see &lt;a href=&quot;http://rs.gbif.org/extension&quot;&gt;GBIF Resources&lt;/a&gt;
+ */
+<span class="fc" id="L30">@JsonSerialize(using= ExtensionSerializer.class)</span>
+@JsonDeserialize(using= ExtensionDeserializer.class)
+public enum Extension {
+
+  /**
+   * @see &lt;a href=&quot;http://rs.gbif.org/extension/audubon/audubon.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L37">  AUDUBON(&quot;http://rs.tdwg.org/ac/terms/Multimedia&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/description.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L42">  DESCRIPTION(&quot;http://rs.gbif.org/terms/1.0/Description&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/distribution.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L47">  DISTRIBUTION(&quot;http://rs.gbif.org/terms/1.0/Distribution&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://eol.org/schema/media_extension.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L52">  EOL_MEDIA(&quot;http://eol.org/schema/media/Document&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://eol.org/schema/reference_extension.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L57">  EOL_REFERENCE(&quot;http://eol.org/schema/reference/Reference&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://rs.gbif.org/extension/germplasm/GermplasmAccession.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L62">  GERMPLASM_ACCESSION(&quot;http://purl.org/germplasm/germplasmTerm#GermplasmAccession&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://rs.gbif.org/extension/germplasm/MeasurementScore.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L67">  GERMPLASM_MEASUREMENT_SCORE(&quot;http://purl.org/germplasm/germplasmTerm#MeasurementScore&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://rs.gbif.org/extension/germplasm/MeasurementTrait.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L72">  GERMPLASM_MEASUREMENT_TRAIT(&quot;http://purl.org/germplasm/germplasmTerm#MeasurementTrait&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://rs.gbif.org/extension/germplasm/MeasurementTrial.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L77">  GERMPLASM_MEASUREMENT_TRIAL(&quot;http://purl.org/germplasm/germplasmTerm#MeasurementTrial&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://rs.gbif.org/extension/dwc/identification.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L82">  IDENTIFICATION(&quot;http://rs.tdwg.org/dwc/terms/Identification&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/identifier.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L87">  IDENTIFIER(&quot;http://rs.gbif.org/terms/1.0/Identifier&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/images.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L92">  IMAGE(&quot;http://rs.gbif.org/terms/1.0/Image&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/images.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L97">  MEASUREMENT_OR_FACT(&quot;http://rs.tdwg.org/dwc/terms/MeasurementOrFact&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/multimedia.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L102">  MULTIMEDIA(&quot;http://rs.gbif.org/terms/1.0/Multimedia&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://rs.gbif.org/extension/dwc/measurements_or_facts.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L107">  REFERENCE(&quot;http://rs.gbif.org/terms/1.0/Reference&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://rs.gbif.org/extension/dwc/resource_relation.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L112">  RESOURCE_RELATIONSHIP(&quot;http://rs.tdwg.org/dwc/terms/ResourceRelationship&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/speciesprofile.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L117">  SPECIES_PROFILE(&quot;http://rs.gbif.org/terms/1.0/SpeciesProfile&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/typesandspecimen.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L122">  TYPES_AND_SPECIMEN(&quot;http://rs.gbif.org/terms/1.0/TypesAndSpecimen&quot;),</span>
+
+  /**
+   * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/vernacularname.xml&quot;&gt;extension definition&lt;/a&gt;
+   */
+<span class="fc" id="L127">  VERNACULAR_NAME(&quot;http://rs.gbif.org/terms/1.0/VernacularName&quot;);</span>
+
+
+  private final String rowType;
+
+  /**
+   * @param rowType the case insensitive row type uri for the extension
+   *
+   * @return the matching extension or null
+   */
+  public static Extension fromRowType(String rowType) {
+<span class="fc bfc" id="L138" title="All 2 branches covered.">    if (!Strings.isNullOrEmpty(rowType)) {</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">      for (Extension extension : Extension.values()) {</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        if (rowType.equalsIgnoreCase(extension.getRowType())</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">            || rowType.equalsIgnoreCase(extension.name().replaceAll(&quot;_&quot;, &quot;&quot;))) {</span>
+<span class="fc" id="L142">          return extension;</span>
+        }
+      }
+    }
+<span class="fc" id="L146">    return null;</span>
+  }
+
+<span class="fc" id="L149">  Extension(String rowType) {</span>
+<span class="fc" id="L150">    this.rowType = rowType;</span>
+<span class="fc" id="L151">  }</span>
+
+  public String getRowType() {
+<span class="fc" id="L154">    return rowType;</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

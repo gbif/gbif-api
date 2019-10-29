@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TagName.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">TagName.java</span></div><h1>TagName.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.vocabulary;
+
+import static org.gbif.api.vocabulary.TagNamespace.*;
+
+/**
+ * Known {@link org.gbif.api.model.registry.MachineTag#getName()} name value.
+ * The tag names listed here are used/recognized by different services.
+ */
+<span class="fc" id="L24">public enum TagName {</span>
+
+  /**
+   * The Darwin Core term datasetID which is found in dwc archives to reference subdatasets
+   * such as the Catalogue of Life GSDs. Stored in the registry to keep a mapping between the subdataset registry key
+   * and the dwca datasetID value.
+   *
+   * @see &lt;a href=&quot;http://rs.tdwg.org/dwc/terms/datasetID&quot;&gt;DWC Term&lt;/a&gt;
+   * @see &lt;a href=&quot;http://kos.gbif.org/wiki/Dwc:datasetID&quot;&gt;KOS wiki&lt;/a&gt;
+   */
+<span class="fc" id="L34">  DATASET_ID(&quot;dataset_id&quot;, GBIF_HARVESTING),</span>
+
+  /**
+   * This is a counter starting at 1 incremented every time we try to crawl a dataset.
+   * This is even incremented when a crawl fails for any reason.
+   */
+<span class="fc" id="L40">  CRAWL_ATTEMPT(&quot;crawl_attempt&quot;, GBIF_CRAWLER),</span>
+
+  /**
+   * &lt;em&gt;Datasets&lt;/em&gt; marked with this tag will not be in the periodic crawl.
+   */
+<span class="fc" id="L45">  OMIT_FROM_SCHEDULED_CRAWL(&quot;omitFromScheduledCrawl&quot;, GBIF_CRAWLER),</span>
+
+  /**
+   * Records the source of an archive endpoint, e.g. that it is from a BioCASe installation.
+   */
+<span class="fc" id="L50">  ARCHIVE_ORIGIN(&quot;archiveOrigin&quot;, GBIF_METASYNC),</span>
+
+  /**
+   * TaPIR or BioCASe conceptual schema.
+   */
+<span class="fc" id="L55">  CONCEPTUAL_SCHEMA(&quot;conceptualSchema&quot;, GBIF_METASYNC),</span>
+
+  /**
+   * Dataset title for BioCASe, no longer used.
+   */
+<span class="fc" id="L60">  @Deprecated</span>
+  DATASET_TITLE(&quot;datasetTitle&quot;, GBIF_METASYNC),
+
+  /**
+   * Date the records in the dataset were last updated.
+   */
+<span class="fc" id="L66">  DATE_LAST_UPDATED(&quot;dateLastUpdated&quot;, GBIF_METASYNC),</span>
+
+  /**
+   * Number of records declared in the dataset by the source.
+   */
+<span class="fc" id="L71">  DECLARED_COUNT(&quot;declaredCount&quot;, GBIF_METASYNC),</span>
+
+  /**
+   * DiGIR code.
+   */
+<span class="fc" id="L76">  DIGIR_CODE(&quot;code&quot;, GBIF_METASYNC),</span>
+
+  /**
+   * Not sure, no longer in use?
+   */
+<span class="fc" id="L81">  @Deprecated</span>
+  LOCAL_ID(&quot;localId&quot;, GBIF_METASYNC),
+
+  /**
+   * Number of records to request in each search.
+   */
+<span class="fc" id="L87">  MAX_SEARCH_RESPONSE_RECORDS(&quot;maxSearchResponseRecords&quot;, GBIF_METASYNC),</span>
+
+  /**
+   * Records whether an orphan dataset has been RESCUED.
+   */
+<span class="fc" id="L92">  ORPHAN_STATUS(&quot;status&quot;, GBIF_ORPHANS),</span>
+
+  /**
+   * The endpoint which was not working when the dataset was rescued.
+   */
+<span class="fc" id="L97">  ORPHANED_ENDPOINT(&quot;orphanEndpoint&quot;, GBIF_ORPHANS),</span>
+
+  /**
+   * The GBIF download used to rescue the orphaned dataset.
+   */
+<span class="fc" id="L102">  ORPHAN_DOWNLOAD(&quot;download&quot;, GBIF_ORPHANS),</span>
+
+  /**
+   * The modification time of the last-available Darwin Core Archive from temporary storage,
+   * used to rescue the dataset.
+   */
+<span class="fc" id="L108">  ORPHAN_DWCA_CACHE_TIME(&quot;crawlerDwcaCacheTime&quot;, GBIF_ORPHANS);</span>
+
+  private final String name;
+
+  private final TagNamespace namespace;
+
+  /**
+   * Default constructor.
+   *
+   * @param name      namespace value
+   * @param namespace, Enum namespace to which belongs the predicate
+   */
+<span class="fc" id="L120">  TagName(String name, TagNamespace namespace) {</span>
+<span class="fc" id="L121">    this.name = name;</span>
+<span class="fc" id="L122">    this.namespace = namespace;</span>
+<span class="fc" id="L123">  }</span>
+
+  /**
+   * Namespace to which belong this tag.
+   *
+   * @return the namespace
+   */
+  public TagNamespace getNamespace() {
+<span class="nc" id="L131">    return namespace;</span>
+  }
+
+  /**
+   * Actual machine tag name.
+   *
+   * @return the machine tag name
+   */
+  public String getName() {
+<span class="nc" id="L140">    return name;</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

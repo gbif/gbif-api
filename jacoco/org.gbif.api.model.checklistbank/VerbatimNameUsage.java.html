@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VerbatimNameUsage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">VerbatimNameUsage.java</span></div><h1>VerbatimNameUsage.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.checklistbank;
+
+import org.gbif.api.jackson.ExtensionKeyDeserializer;
+import org.gbif.api.jackson.ExtensionSerializer;
+import org.gbif.api.jackson.TermMapListDeserializer;
+import org.gbif.api.jackson.TermMapListSerializer;
+import org.gbif.api.vocabulary.Extension;
+import org.gbif.dwc.terms.Term;
+import org.gbif.dwc.terms.TermFactory;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
+import org.codehaus.jackson.annotate.JsonAnyGetter;
+import org.codehaus.jackson.annotate.JsonAnySetter;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
+<span class="fc" id="L44">public class VerbatimNameUsage {</span>
+  private Integer key;
+  // the verbatim taxon fields for the usage
+<span class="fc" id="L47">  private Map&lt;Term, String&gt; fields = Maps.newHashMap();</span>
+  // the verbatim extension records as read by a dwc star record, keyed on the extension
+<span class="fc" id="L49">  private Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions = Maps.newHashMap();</span>
+
+  private Date lastCrawled;
+
+  /**
+   * @return The name usage key
+   */
+  @NotNull
+  public Integer getKey() {
+<span class="fc" id="L58">    return key;</span>
+  }
+
+  public void setKey(Integer key) {
+<span class="fc" id="L62">    this.key = key;</span>
+<span class="fc" id="L63">  }</span>
+
+  /**
+   * A map of extension records, holding all verbatim extension terms.
+   */
+  @NotNull
+  @JsonSerialize(keyUsing = ExtensionSerializer.class, contentUsing = TermMapListSerializer.class)
+  @JsonDeserialize(keyUsing = ExtensionKeyDeserializer.class, contentUsing = TermMapListDeserializer.class)
+  public Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; getExtensions() {
+<span class="fc" id="L72">    return extensions;</span>
+  }
+
+  public void setExtensions(Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions) {
+<span class="fc" id="L76">    this.extensions = extensions;</span>
+<span class="fc" id="L77">  }</span>
+
+  /**
+   * A map holding all verbatim core terms.
+   */
+  @NotNull
+  @JsonIgnore
+  public Map&lt;Term, String&gt; getFields() {
+<span class="fc" id="L85">    return fields;</span>
+  }
+
+  public void setFields(Map&lt;Term, String&gt; fields) {
+<span class="nc" id="L89">    this.fields = fields;</span>
+<span class="nc" id="L90">  }</span>
+
+  @Nullable
+  /**
+   * The date this record was last crawled during clb indexing.
+   */
+  public Date getLastCrawled() {
+<span class="fc bfc" id="L97" title="All 2 branches covered.">    return lastCrawled == null ? null : new Date(lastCrawled.getTime());</span>
+  }
+
+  public void setLastCrawled(@Nullable Date lastCrawled) {
+<span class="fc bfc" id="L101" title="All 2 branches covered.">    this.lastCrawled = lastCrawled == null ? null : new Date(lastCrawled.getTime());</span>
+<span class="fc" id="L102">  }</span>
+
+  /**
+   * Get the value of a specific field (Term).
+   */
+  @Nullable
+  public String getCoreField(Term term) {
+<span class="fc" id="L109">    checkNotNull(term, &quot;term can't be null&quot;);</span>
+<span class="fc" id="L110">    return fields.get(term);</span>
+  }
+
+  /**
+   * @return true if a verbatim field exists and is not null or an empty string
+   */
+  public boolean hasCoreField(Term term) {
+<span class="fc" id="L117">    checkNotNull(term, &quot;term can't be null&quot;);</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">    return !Strings.isNullOrEmpty(fields.get(term));</span>
+  }
+
+  /**
+   * @return true if at least one extension record exists
+   */
+  public boolean hasExtension(Extension extension) {
+<span class="fc bfc" id="L125" title="All 4 branches covered.">    return extensions.containsKey(extension) &amp;&amp; !extensions.get(extension).isEmpty();</span>
+  }
+
+  public boolean hasExtension(Term term) {
+<span class="fc" id="L129">    checkNotNull(term, &quot;term can't be null&quot;);</span>
+<span class="fc" id="L130">    Extension ext = Extension.fromRowType(term.qualifiedName());</span>
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">    return ext == null ? false : hasExtension(ext);</span>
+  }
+
+  /**
+   * For setting a specific field without having to replace the entire fields Map.
+   *
+   * @param term the field to set
+   * @param fieldValue the field's value
+   */
+  public void setCoreField(Term term, @Nullable String fieldValue) {
+<span class="fc" id="L141">    checkNotNull(term, &quot;term can't be null&quot;);</span>
+<span class="fc" id="L142">    fields.put(term, fieldValue);</span>
+<span class="fc" id="L143">  }</span>
+
+  /**
+   * This private method is only for deserialization via jackson and not exposed anywhere else!
+   */
+  @JsonAnySetter
+  private void addJsonVerbatimField(String key, String value) {
+<span class="fc" id="L150">    Term t = TermFactory.instance().findTerm(key);</span>
+<span class="fc" id="L151">    fields.put(t, value);</span>
+<span class="fc" id="L152">  }</span>
+
+  /**
+   * This private method is only for serialization via jackson and not exposed anywhere else!
+   * It maps the verbatimField terms into properties with their full qualified name.
+   */
+  @JsonAnyGetter
+  private Map&lt;String, String&gt; jsonVerbatimFields() {
+<span class="fc" id="L160">    Map&lt;String, String&gt; extendedProps = Maps.newHashMap();</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">    for (Map.Entry&lt;Term, String&gt; prop : fields.entrySet()) {</span>
+<span class="fc" id="L162">      extendedProps.put(prop.getKey().qualifiedName(), prop.getValue());</span>
+<span class="fc" id="L163">    }</span>
+<span class="fc" id="L164">    return extendedProps;</span>
+  }
+
+
+
+
+  @Override
+  public boolean equals(Object object) {
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">    if (this == object) {</span>
+<span class="nc" id="L173">      return true;</span>
+    }
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">    if (!(object instanceof VerbatimNameUsage)) {</span>
+<span class="nc" id="L176">      return false;</span>
+    }
+
+<span class="fc" id="L179">    VerbatimNameUsage that = (VerbatimNameUsage) object;</span>
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">    return Objects.equal(this.key, that.key)</span>
+<span class="pc bpc" id="L181" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.fields, that.fields)</span>
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.extensions, that.extensions)</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">           &amp;&amp; Objects.equal(this.lastCrawled, that.lastCrawled);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L188">    return Objects.hashCode(key,</span>
+                            fields,
+                            extensions,
+                            lastCrawled);
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L196">    return Objects.toStringHelper(this)</span>
+<span class="nc" id="L197">      .add(&quot;key&quot;, key)</span>
+<span class="nc" id="L198">      .add(&quot;fields&quot;, fields)</span>
+<span class="nc" id="L199">      .add(&quot;extensions&quot;, extensions)</span>
+<span class="nc" id="L200">      .add(&quot;lastCrawled&quot;, lastCrawled)</span>
+<span class="nc" id="L201">      .toString();</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

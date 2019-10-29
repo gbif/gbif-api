@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TypeSpecimen.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">TypeSpecimen.java</span></div><h1>TypeSpecimen.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.checklistbank;
+
+import org.gbif.api.vocabulary.Rank;
+import org.gbif.api.vocabulary.TypeDesignationType;
+import org.gbif.api.vocabulary.TypeStatus;
+
+import javax.annotation.Nullable;
+
+import com.google.common.base.Objects;
+
+
+/**
+ * TypeSpecimen Model originally designed for both specimens and types, including type specimens, type species and type genera and simple
+ * specimens unrelated to types.
+ *
+ * Since the initial release of the GBIF API version 1.0 ChecklistBank has been modified to only store type species or type genera.
+ * All specimens including types are stored in the Occurrence store, hence the majority of properties in this class are now deprecated!
+ *
+ * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/typesandspecimen.xml&quot;&gt;Types And Specimen Definition&lt;/a&gt;
+ */
+<span class="fc" id="L36">public class TypeSpecimen implements NameUsageExtension {</span>
+
+  private Integer taxonKey;
+  private String source;
+  private Integer sourceTaxonKey;
+  private TypeDesignationType typeDesignationType;
+  private String typeDesignatedBy;
+  private String scientificName;
+  private Rank taxonRank;
+
+  @Deprecated
+  private TypeStatus typeStatus;
+  @Deprecated
+  private String citation;
+  @Deprecated
+  private String verbatimLabel;
+  @Deprecated
+  private String locality;
+  @Deprecated
+  private String recordedBy;
+  @Deprecated
+  private String verbatimEventDate;
+  @Deprecated
+  private String verbatimLongitude;
+  @Deprecated
+  private String verbatimLatitude;
+  @Deprecated
+  private String occurrenceId;
+  @Deprecated
+  private String institutionCode;
+  @Deprecated
+  private String collectionCode;
+  @Deprecated
+  private String catalogNumber;
+
+  /**
+   * The name usage &quot;taxon&quot; key this description belongs to.
+   */
+  @Override
+  public Integer getTaxonKey() {
+<span class="nc" id="L76">    return taxonKey;</span>
+  }
+
+  @Override
+  public void setTaxonKey(Integer taxonKey) {
+<span class="nc" id="L81">    this.taxonKey = taxonKey;</span>
+<span class="nc" id="L82">  }</span>
+
+  /**
+   * An identifier (preferably unique) for the record within the data set or collection.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Examples:&lt;/i&gt; &quot;2008.1334&quot;, &quot;145732a&quot;, &quot;145732&quot;.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the catalogNumber
+   */
+  @Nullable
+  @Deprecated
+  public String getCatalogNumber() {
+<span class="nc" id="L97">    return catalogNumber;</span>
+  }
+
+  /**
+   * @param catalogNumber the catalogNumber to set.
+   */
+  @Deprecated
+  public void setCatalogNumber(String catalogNumber) {
+<span class="fc" id="L105">    this.catalogNumber = catalogNumber;</span>
+<span class="fc" id="L106">  }</span>
+
+  /**
+   * A text string citating the described specimen. Often found in taxonomic treatments and frequently based on
+   * institution code and catalog number.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Examples:&lt;/i&gt; Iraq: Mosul: Jabal Khantur prope Sharanish N. Zakho, in fissures rupium calc., 1200 m, Rech.
+   * 12083. (W!).
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the citation
+   */
+  @Nullable
+  @Deprecated
+  public String getCitation() {
+<span class="nc" id="L123">    return citation;</span>
+  }
+
+  /**
+   * @param citation the citation to set
+   */
+  @Deprecated
+  public void setCitation(String citation) {
+<span class="nc" id="L131">    this.citation = citation;</span>
+<span class="nc" id="L132">  }</span>
+
+  /**
+   * The name, acronym, coden, or initialism identifying the collection or data set from which the record was derived.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Examples:&lt;/i&gt; &quot;Mammals&quot;, &quot;Hildebrandt&quot;, &quot;eBird&quot;.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the collectionCode
+   */
+  @Nullable
+  @Deprecated
+  public String getCollectionCode() {
+<span class="nc" id="L147">    return collectionCode;</span>
+  }
+
+  /**
+   * @param collectionCode the collectionCode to set
+   */
+  @Deprecated
+  public void setCollectionCode(String collectionCode) {
+<span class="nc" id="L155">    this.collectionCode = collectionCode;</span>
+<span class="nc" id="L156">  }</span>
+
+  /**
+   * The name (or acronym) in use by the institution having custody of the object(s) or information referred to in the
+   * record.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Examples:&lt;/i&gt; &quot;MVZ&quot;, &quot;FMNH&quot;, &quot;AKN-CLO&quot;, &quot;University of California Museum of Paleontology (UCMP)&quot;.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the institutionCode
+   */
+  @Nullable
+  @Deprecated
+  public String getInstitutionCode() {
+<span class="nc" id="L172">    return institutionCode;</span>
+  }
+
+  /**
+   * @param institutionCode the institutionCode to set
+   */
+  @Deprecated
+  public void setInstitutionCode(String institutionCode) {
+<span class="nc" id="L180">    this.institutionCode = institutionCode;</span>
+<span class="nc" id="L181">  }</span>
+
+  /**
+   * The location where the the specimen was collected. In case of type specimens the type locality.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Examples:&lt;/i&gt; Iraq: Mosul: Jabal Khantur prope Sharanish N. Zakho, in fissures rupium calc., 1200 m.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the locality
+   */
+  @Nullable
+  @Deprecated
+  public String getLocality() {
+<span class="nc" id="L196">    return locality;</span>
+  }
+
+  /**
+   * @param locality the locality to set
+   */
+  @Deprecated
+  public void setLocality(String locality) {
+<span class="nc" id="L204">    this.locality = locality;</span>
+<span class="nc" id="L205">  }</span>
+
+  /**
+   * An identifier for the specimen, preferably a resolvable globally unique identifier.
+   *
+   * @return the occurrenceId
+   */
+  @Nullable
+  @Deprecated
+  public String getOccurrenceId() {
+<span class="nc" id="L215">    return occurrenceId;</span>
+  }
+
+  /**
+   * @param occurrenceId the occurrenceId to set
+   */
+  @Deprecated
+  public void setOccurrenceId(String occurrenceId) {
+<span class="nc" id="L223">    this.occurrenceId = occurrenceId;</span>
+<span class="nc" id="L224">  }</span>
+
+  /**
+   * The primary collector or observer, especially one who applies a personal identifier (recordNumber), should be
+   * listed first.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Examples:&lt;/i&gt; KH Rechinger.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the recordedBy
+   */
+  @Nullable
+  @Deprecated
+  public String getRecordedBy() {
+<span class="nc" id="L240">    return recordedBy;</span>
+  }
+
+  /**
+   * @param recordedBy the recordedBy to set
+   */
+  @Deprecated
+  public void setRecordedBy(String recordedBy) {
+<span class="nc" id="L248">    this.recordedBy = recordedBy;</span>
+<span class="nc" id="L249">  }</span>
+
+  /**
+   * The scientific name originally used for the specimen, species or genus. Not necessarily the same as the currently
+   * recognized name. For type species this is the species name.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Examples:&lt;/i&gt; &quot;Ctenomys sociabilis&quot; - &quot;Roptrocerus typographi (Györfi, 1952)&quot;.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the scientificName
+   */
+  @Nullable
+  public String getScientificName() {
+<span class="nc" id="L264">    return scientificName;</span>
+  }
+
+  /**
+   * @param scientificName the scientificName to set
+   */
+  public void setScientificName(String scientificName) {
+<span class="nc" id="L271">    this.scientificName = scientificName;</span>
+<span class="nc" id="L272">  }</span>
+
+  /**
+   * The source.
+   *
+   * @return the source
+   */
+  @Nullable
+  @Override
+  public String getSource() {
+<span class="nc" id="L282">    return source;</span>
+  }
+
+  /**
+   * @param source the source to set
+   */
+  @Override
+  public void setSource(String source) {
+<span class="nc" id="L290">    this.source = source;</span>
+<span class="nc" id="L291">  }</span>
+
+  @Nullable
+  @Override
+  public Integer getSourceTaxonKey() {
+<span class="nc" id="L296">    return sourceTaxonKey;</span>
+  }
+
+  @Override
+  public void setSourceTaxonKey(Integer sourceTaxonKey) {
+<span class="fc" id="L301">    this.sourceTaxonKey = sourceTaxonKey;</span>
+<span class="fc" id="L302">  }</span>
+
+  /**
+   * The rank of the taxon bearing the scientific name.
+   *
+   * @return the taxonRank
+   */
+  public Rank getTaxonRank() {
+<span class="nc" id="L310">    return taxonRank;</span>
+  }
+
+  /**
+   * @param taxonRank the taxonRank to set
+   */
+  public void setTaxonRank(Rank taxonRank) {
+<span class="fc" id="L317">    this.taxonRank = taxonRank;</span>
+<span class="fc" id="L318">  }</span>
+
+  /**
+   * The citation of the publication where the type designation is found.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Examples:&lt;/i&gt; Vachal, J. (1897) Éclaircissements sur de genre Scrapter et description d’une espéce nouvelle de
+   * Dufourea. Bulletin de la Société Entomologique de France, 1897, 61–64.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the typeDesignatedBy
+   */
+  @Nullable
+  public String getTypeDesignatedBy() {
+<span class="nc" id="L333">    return typeDesignatedBy;</span>
+  }
+
+  /**
+   * @param typeDesignatedBy the typeDesignatedBy to set
+   */
+  public void setTypeDesignatedBy(String typeDesignatedBy) {
+<span class="nc" id="L340">    this.typeDesignatedBy = typeDesignatedBy;</span>
+<span class="nc" id="L341">  }</span>
+
+  /**
+   * The reason why this specimen or name is designated as a type.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Examples:&lt;/i&gt; monotypy, original designation, tautonomy.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the typeDesignationType
+   */
+  @Nullable
+  public TypeDesignationType getTypeDesignationType() {
+<span class="nc" id="L355">    return typeDesignationType;</span>
+  }
+
+  /**
+   * @param typeDesignationType the typeDesignationType to set
+   */
+  public void setTypeDesignationType(TypeDesignationType typeDesignationType) {
+<span class="nc" id="L362">    this.typeDesignationType = typeDesignationType;</span>
+<span class="nc" id="L363">  }</span>
+
+  /**
+   * The type status of the specimen, not used for type species or type genus.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Examples:&lt;/i&gt; holotype, syntype, lectotype, type species.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the typeStatus
+   */
+  @Nullable
+  @Deprecated
+  public TypeStatus getTypeStatus() {
+<span class="nc" id="L378">    return typeStatus;</span>
+  }
+
+  /**
+   * @param typeStatus the typeStatus to set
+   */
+  @Deprecated
+  public void setTypeStatus(TypeStatus typeStatus) {
+<span class="nc" id="L386">    this.typeStatus = typeStatus;</span>
+<span class="nc" id="L387">  }</span>
+
+  /**
+   * The date when the specimen was collected.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Examples:&lt;/i&gt; &quot;spring 1910&quot;, &quot;Marzo 2002&quot;, &quot;1999-03-XX&quot;, &quot;17IV1934&quot;.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the verbatimEventDate
+   */
+  @Nullable
+  @Deprecated
+  public String getVerbatimEventDate() {
+<span class="nc" id="L402">    return verbatimEventDate;</span>
+  }
+
+  /**
+   * @param verbatimEventDate the verbatimEventDate to set
+   */
+  @Deprecated
+  public void setVerbatimEventDate(String verbatimEventDate) {
+<span class="nc" id="L410">    this.verbatimEventDate = verbatimEventDate;</span>
+<span class="nc" id="L411">  }</span>
+
+  /**
+   * The full, verbatim text from the specimen label.
+   *
+   * @return the verbatimLabel
+   */
+  @Nullable
+  @Deprecated
+  public String getVerbatimLabel() {
+<span class="nc" id="L421">    return verbatimLabel;</span>
+  }
+
+  /**
+   * @param verbatimLabel the verbatimLabel to set
+   */
+  @Deprecated
+  public void setVerbatimLabel(String verbatimLabel) {
+<span class="nc" id="L429">    this.verbatimLabel = verbatimLabel;</span>
+<span class="nc" id="L430">  }</span>
+
+  /**
+   * The geographic latitude.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Examples:&lt;/i&gt; 41 05 54.03 S.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the verbatimLatitude
+   */
+  @Nullable
+  @Deprecated
+  public String getVerbatimLatitude() {
+<span class="nc" id="L445">    return verbatimLatitude;</span>
+  }
+
+  /**
+   * @param verbatimLatitude the verbatimLatitude to set
+   */
+  @Deprecated
+  public void setVerbatimLatitude(String verbatimLatitude) {
+<span class="nc" id="L453">    this.verbatimLatitude = verbatimLatitude;</span>
+<span class="nc" id="L454">  }</span>
+
+  /**
+   * The geographic longitude.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Examples:&lt;/i&gt; 121d 10' 34 W.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the verbatimLongitude
+   */
+  @Nullable
+  @Deprecated
+  public String getVerbatimLongitude() {
+<span class="nc" id="L469">    return verbatimLongitude;</span>
+  }
+
+  /**
+   * @param verbatimLongitude the verbatimLongitude to set
+   */
+  @Deprecated
+  public void setVerbatimLongitude(String verbatimLongitude) {
+<span class="nc" id="L477">    this.verbatimLongitude = verbatimLongitude;</span>
+<span class="nc" id="L478">  }</span>
+
+  @Override
+  public boolean equals(Object object) {
+<span class="pc bpc" id="L482" title="1 of 2 branches missed.">    if (this == object) {</span>
+<span class="nc" id="L483">      return true;</span>
+    }
+<span class="pc bpc" id="L485" title="1 of 2 branches missed.">    if (!(object instanceof TypeSpecimen)) {</span>
+<span class="nc" id="L486">      return false;</span>
+    }
+
+<span class="fc" id="L489">    TypeSpecimen that = (TypeSpecimen) object;</span>
+<span class="pc bpc" id="L490" title="1 of 2 branches missed.">    return Objects.equal(this.source, that.source)</span>
+<span class="pc bpc" id="L491" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey)</span>
+<span class="pc bpc" id="L492" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.typeDesignationType, that.typeDesignationType)</span>
+<span class="pc bpc" id="L493" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.typeDesignatedBy, that.typeDesignatedBy)</span>
+<span class="pc bpc" id="L494" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.scientificName, that.scientificName)</span>
+<span class="pc bpc" id="L495" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.taxonRank, that.taxonRank)</span>
+<span class="pc bpc" id="L496" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.citation, that.citation)</span>
+<span class="pc bpc" id="L497" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.typeStatus, that.typeStatus)</span>
+<span class="pc bpc" id="L498" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.verbatimLabel, that.verbatimLabel)</span>
+<span class="pc bpc" id="L499" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.locality, that.locality)</span>
+<span class="pc bpc" id="L500" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.recordedBy, that.recordedBy)</span>
+<span class="pc bpc" id="L501" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.verbatimEventDate, that.verbatimEventDate)</span>
+<span class="pc bpc" id="L502" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.verbatimLongitude, that.verbatimLongitude)</span>
+<span class="pc bpc" id="L503" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.verbatimLatitude, that.verbatimLatitude)</span>
+<span class="pc bpc" id="L504" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.occurrenceId, that.occurrenceId)</span>
+<span class="pc bpc" id="L505" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.institutionCode, that.institutionCode)</span>
+<span class="pc bpc" id="L506" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.collectionCode, that.collectionCode)</span>
+<span class="pc bpc" id="L507" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.catalogNumber, that.catalogNumber);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L512">    return Objects.hashCode(source,</span>
+                            sourceTaxonKey,
+                            typeDesignationType,
+                            typeDesignatedBy,
+                            scientificName,
+                            taxonRank,
+                            citation,
+                            typeStatus,
+                            verbatimLabel,
+                            locality,
+                            recordedBy,
+                            verbatimEventDate,
+                            verbatimLongitude,
+                            verbatimLatitude,
+                            occurrenceId,
+                            institutionCode,
+                            collectionCode,
+                            catalogNumber);
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L534">    return Objects.toStringHelper(this)</span>
+<span class="nc" id="L535">      .add(&quot;source&quot;, source)</span>
+<span class="nc" id="L536">      .add(&quot;sourceTaxonKey&quot;, sourceTaxonKey)</span>
+<span class="nc" id="L537">      .add(&quot;typeDesignationType&quot;, typeDesignationType)</span>
+<span class="nc" id="L538">      .add(&quot;typeDesignatedBy&quot;, typeDesignatedBy)</span>
+<span class="nc" id="L539">      .add(&quot;scientificName&quot;, scientificName)</span>
+<span class="nc" id="L540">      .add(&quot;taxonRank&quot;, taxonRank)</span>
+<span class="nc" id="L541">      .toString();</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

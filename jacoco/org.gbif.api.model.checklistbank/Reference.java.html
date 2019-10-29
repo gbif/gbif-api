@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Reference.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">Reference.java</span></div><h1>Reference.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.checklistbank;
+
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+
+import com.google.common.base.Objects;
+
+
+/**
+ * Reference Model Object represents a literature reference stating a bibliography for a taxon.
+ *
+ * Since the initial release of the GBIF API version 1.0 ChecklistBank has been modified to only store the entire citation string of a reference and
+ * none of the atomised fields which are now deprecated.
+ *
+ * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/references.xml&quot;&gt;Reference Definition&lt;/a&gt;
+ */
+<span class="fc" id="L32">public class Reference implements NameUsageExtension {</span>
+
+  private Integer taxonKey;
+  private String citation;
+  private String link;
+  private String doi;
+  private String type;
+  private String remarks;
+  private String source;
+  private Integer sourceTaxonKey;
+
+  @Deprecated
+  private String title;
+  @Deprecated
+  private String author;
+  @Deprecated
+  private String date;
+
+  /**
+   * The name usage &quot;taxon&quot; key this description belongs to.
+   */
+  @Override
+  public Integer getTaxonKey() {
+<span class="nc" id="L55">    return taxonKey;</span>
+  }
+
+  @Override
+  public void setTaxonKey(Integer taxonKey) {
+<span class="nc" id="L60">    this.taxonKey = taxonKey;</span>
+<span class="nc" id="L61">  }</span>
+
+  /**
+   * The author or authors of the referenced work.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; Patricia Hartge.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the author
+   */
+  @Nullable
+  @Deprecated
+  public String getAuthor() {
+<span class="nc" id="L76">    return author;</span>
+  }
+
+  /**
+   * @param author the author to set
+   */
+  @Deprecated
+  public void setAuthor(String author) {
+<span class="nc" id="L84">    this.author = author;</span>
+<span class="nc" id="L85">  }</span>
+
+  /**
+   * A text string referring to an un-parsed bibliographic citation.
+   * The full citation given here should include all the details potentially found in the other atomised fields,
+   * i.e. includes authorship, title, etc.
+   * &lt;p/&gt;
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; Hartge, P., Genetics of reproductive lifespan. Nature Genetics 41, 637 - 638 (2009).
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the citation
+   */
+  @NotNull
+  public String getCitation() {
+<span class="nc" id="L102">    return citation;</span>
+  }
+
+  /**
+   * @param citation the citation to set
+   */
+  public void setCitation(String citation) {
+<span class="fc" id="L109">    this.citation = citation;</span>
+<span class="fc" id="L110">  }</span>
+
+  /**
+   * Date of publication, recommended ISO format YYYY or YYYY-MM-DD.
+   *
+   * @return the publication date
+   */
+  @Nullable
+  @Deprecated
+  public String getDate() {
+<span class="nc" id="L120">    return date;</span>
+  }
+
+  @Deprecated
+  public void setDate(String date) {
+<span class="nc" id="L125">    this.date = date;</span>
+<span class="nc" id="L126">  }</span>
+
+  /**
+   * The pure DOI for the publication without potential http resolver or URI prefix.
+   * For example {@code 10.1038/ng0609-637} instead of {@code doi:10.1038/ng0609-637} or {@code
+   * http://dx.doi.org/10.1038/ng0609-637}. A valid DOI always starts with {@code 10.}.
+   *
+   * @return the doi
+   *
+   * @see &lt;a href=&quot;http://www.crossref.org/01company/15doi_info.html&quot;&gt;Crossref DOI Info&lt;/a&gt;
+   * @see &lt;a href=&quot;http://www.doi.org/hb.html&quot;&gt;DOI Handbook&lt;/a&gt;
+   * @see &lt;a href=&quot;http://de.wikipedia.org/wiki/Digital_Object_Identifier&quot;&gt;Wikipedia&lt;/a&gt;
+   */
+  @Nullable
+  public String getDoi() {
+<span class="nc" id="L141">    return doi;</span>
+  }
+
+  public void setDoi(String doi) {
+<span class="nc" id="L145">    this.doi = doi;</span>
+<span class="nc" id="L146">  }</span>
+
+  /**
+   * Link.
+   *
+   * @return the link
+   */
+  @Nullable
+  public String getLink() {
+<span class="nc" id="L155">    return link;</span>
+  }
+
+  /**
+   * @param link the link to set
+   */
+  public void setLink(String link) {
+<span class="fc" id="L162">    this.link = link;</span>
+<span class="fc" id="L163">  }</span>
+
+  /**
+   * Annotation of taxon-specific information related to the referenced publication.
+   * &lt;p/&gt;
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Examples:&lt;/i&gt; &quot;transferred H. nigritarsus to Acanolonia&quot;; &quot;Type specimen is a skeleton&quot;
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the taxonomic remarks
+   */
+  @Nullable
+  public String getRemarks() {
+<span class="nc" id="L178">    return remarks;</span>
+  }
+
+  public void setRemarks(String remarks) {
+<span class="nc" id="L182">    this.remarks = remarks;</span>
+<span class="nc" id="L183">  }</span>
+
+  /**
+   * Title of book or article.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; &quot;Genetics of reproductive lifespan&quot;, &quot;Field Guide to Moths of Eastern North America&quot;.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the title
+   */
+  @Nullable
+  @Deprecated
+  public String getTitle() {
+<span class="nc" id="L198">    return title;</span>
+  }
+
+  /**
+   * @param title the title to set
+   */
+  @Deprecated
+  public void setTitle(String title) {
+<span class="nc" id="L206">    this.title = title;</span>
+<span class="nc" id="L207">  }</span>
+
+  /**
+   * Used to assign a bibliographic reference to list of taxonomic or nomenclatural categories. Best practice is to use
+   * a controlled vocabulary.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Examples:&lt;/i&gt; Original publication of new combination (comb nov.)
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the publication type
+   */
+  @Nullable
+  public String getType() {
+<span class="nc" id="L222">    return type;</span>
+  }
+
+  public void setType(String type) {
+<span class="nc" id="L226">    this.type = type;</span>
+<span class="nc" id="L227">  }</span>
+
+  @Nullable
+  @Override
+  public String getSource() {
+<span class="nc" id="L232">    return source;</span>
+  }
+
+  @Override
+  public void setSource(String source) {
+<span class="nc" id="L237">    this.source = source;</span>
+<span class="nc" id="L238">  }</span>
+
+  @Nullable
+  @Override
+  public Integer getSourceTaxonKey() {
+<span class="nc" id="L243">    return sourceTaxonKey;</span>
+  }
+
+  @Override
+  public void setSourceTaxonKey(Integer sourceTaxonKey) {
+<span class="nc" id="L248">    this.sourceTaxonKey = sourceTaxonKey;</span>
+<span class="nc" id="L249">  }</span>
+
+  @Override
+  public boolean equals(Object object) {
+<span class="pc bpc" id="L253" title="1 of 2 branches missed.">    if (this == object) {</span>
+<span class="nc" id="L254">      return true;</span>
+    }
+<span class="pc bpc" id="L256" title="1 of 2 branches missed.">    if (!(object instanceof Reference)) {</span>
+<span class="nc" id="L257">      return false;</span>
+    }
+
+<span class="fc" id="L260">    Reference that = (Reference) object;</span>
+<span class="pc bpc" id="L261" title="1 of 2 branches missed.">    return Objects.equal(this.citation, that.citation)</span>
+<span class="pc bpc" id="L262" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.link, that.link)</span>
+<span class="pc bpc" id="L263" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.type, that.type)</span>
+<span class="pc bpc" id="L264" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.remarks, that.remarks)</span>
+<span class="pc bpc" id="L265" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.doi, that.doi)</span>
+<span class="pc bpc" id="L266" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.source, that.source)</span>
+<span class="pc bpc" id="L267" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey)</span>
+<span class="pc bpc" id="L268" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.title, that.title)</span>
+<span class="pc bpc" id="L269" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.author, that.author)</span>
+<span class="pc bpc" id="L270" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.date, that.date);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L275">    return Objects.hashCode(citation, link, doi, type, remarks, source, sourceTaxonKey, title, author, date);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L280">    return Objects.toStringHelper(this)</span>
+<span class="nc" id="L281">      .add(&quot;citation&quot;, citation)</span>
+<span class="nc" id="L282">      .add(&quot;link&quot;, link)</span>
+<span class="nc" id="L283">      .add(&quot;type&quot;, type)</span>
+<span class="nc" id="L284">      .add(&quot;remarks&quot;, remarks)</span>
+<span class="nc" id="L285">      .add(&quot;doi&quot;, doi)</span>
+<span class="nc" id="L286">      .add(&quot;source&quot;, source)</span>
+<span class="nc" id="L287">      .add(&quot;sourceTaxonKey&quot;, sourceTaxonKey)</span>
+<span class="nc" id="L288">      .toString();</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

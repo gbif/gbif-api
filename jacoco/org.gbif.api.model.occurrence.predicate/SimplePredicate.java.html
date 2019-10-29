@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SimplePredicate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence.predicate</a> &gt; <span class="el_source">SimplePredicate.java</span></div><h1>SimplePredicate.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.occurrence.predicate;
+
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+import org.gbif.api.util.SearchTypeValidator;
+
+import java.util.Date;
+import javax.validation.constraints.NotNull;
+
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+
+public class SimplePredicate implements Predicate {
+
+  @NotNull
+  private final OccurrenceSearchParameter key;
+
+  @NotNull
+  private final String value;
+
+<span class="fc" id="L35">  protected SimplePredicate(boolean checkForNonEquals, OccurrenceSearchParameter key, String value) {</span>
+<span class="fc" id="L36">    Preconditions.checkNotNull(key, &quot;&lt;key&gt; may not be null&quot;);</span>
+<span class="fc" id="L37">    Preconditions.checkNotNull(value, &quot;&lt;value&gt; may not be null&quot;);</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">    Preconditions.checkArgument(!value.isEmpty(), &quot;&lt;value&gt; may not be empty&quot;);</span>
+    // make sure the value is of the right type according to the key given
+<span class="fc" id="L40">    SearchTypeValidator.validate(key, value);</span>
+
+<span class="fc" id="L42">    this.key = key;</span>
+<span class="fc" id="L43">    this.value = value;</span>
+
+<span class="fc" id="L45">    checkPredicateAllowed();</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">    if (checkForNonEquals) {</span>
+<span class="fc" id="L47">      checkNonEqualsComparatorAllowed();</span>
+    }
+<span class="fc" id="L49">  }</span>
+
+  public OccurrenceSearchParameter getKey() {
+<span class="fc" id="L52">    return key;</span>
+  }
+
+  public String getValue() {
+<span class="fc" id="L56">    return value;</span>
+  }
+
+  /**
+   * @throws IllegalArgumentException if the key SearchParameter is Geometry
+   */
+  private void checkPredicateAllowed() {
+<span class="fc bfc" id="L63" title="All 2 branches covered.">    if (OccurrenceSearchParameter.GEOMETRY == key) {</span>
+<span class="fc" id="L64">      throw new IllegalArgumentException(&quot;Geometry parameter must use a Within predicate&quot;);</span>
+    }
+<span class="fc" id="L66">  }</span>
+
+  /**
+   * @throws IllegalArgumentException if the key SearchParameter allows other comparators than equals
+   */
+  private void checkNonEqualsComparatorAllowed() {
+<span class="pc bpc" id="L72" title="1 of 4 branches missed.">    if (!(Number.class.isAssignableFrom(key.type()) || Date.class.isAssignableFrom(key.type()))){</span>
+<span class="fc" id="L73">      throw new IllegalArgumentException(&quot;Only equals comparisons are allowed for search parameter &quot; + key);</span>
+    }
+<span class="fc" id="L75">  }</span>
+
+  @Override
+  public int hashCode() {
+<span class="fc" id="L79">    return Objects.hashCode(key, value);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="fc" id="L84">    return Objects.toStringHelper(this).add(&quot;key&quot;, key).add(&quot;value&quot;, value).toString();</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

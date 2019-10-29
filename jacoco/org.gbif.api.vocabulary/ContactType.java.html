@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ContactType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">ContactType.java</span></div><h1>ContactType.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.vocabulary;
+
+import org.gbif.api.util.VocabularyUtils;
+
+import javax.annotation.Nullable;
+
+import com.google.common.collect.ImmutableMap;
+
+/**
+ * Enumeration for all contact types.
+ * A utility to infer types is provided which has historically been used during data migration activities from legacy
+ * systems such as the previous &quot;GBRDS&quot; which was built on MySQL.
+ *
+ * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/gbif/agent_role.xml&quot;&gt;rs.gbif.org vocabulary&lt;/a&gt;
+ */
+<span class="fc" id="L31">public enum ContactType {</span>
+  /**
+   * A contact to contact for further technical information related to the dataset.
+   */
+<span class="fc" id="L35">  TECHNICAL_POINT_OF_CONTACT,</span>
+  /**
+   * A contact to contact for further non-technical information related to the dataset.
+   */
+<span class="fc" id="L39">  ADMINISTRATIVE_POINT_OF_CONTACT,</span>
+  /**
+   * A contact to contact for further information about the dataset.
+   */
+<span class="fc" id="L43">  POINT_OF_CONTACT,</span>
+  /**
+   * A contact who originally gathered/prepared the dataset.
+   */
+<span class="fc" id="L47">  ORIGINATOR,</span>
+  /**
+   * A contact responsible for providing the metadata.
+   */
+<span class="fc" id="L51">  METADATA_AUTHOR,</span>
+  /**
+   * A primary scientific contact associated with the dataset.
+   */
+<span class="fc" id="L55">  PRINCIPAL_INVESTIGATOR,</span>
+  /**
+   * A contact who is an author of a publication that used the dataset, or author of a data paper.
+   */
+<span class="fc" id="L59">  AUTHOR,</span>
+  /**
+   * A contact who contributed content to a dataset (the dataset being described may be a composite).
+   */
+<span class="fc" id="L63">  CONTENT_PROVIDER,</span>
+  /**
+   * A contact who is responsible for/takes care of the dataset.
+   */
+<span class="fc" id="L67">  CUSTODIAN_STEWARD,</span>
+  /**
+   * A contact involved in the publishing/distribution chain of a dataset.
+   */
+<span class="fc" id="L71">  DISTRIBUTOR,</span>
+  /**
+   * A contact associated with editing a publication that used the dataset, or a data paper.
+   */
+<span class="fc" id="L75">  EDITOR,</span>
+  /**
+   * A contact who owns the dataset (may or may not be the custodian).
+   */
+<span class="fc" id="L79">  OWNER,</span>
+  /**
+   * A contact responsible for any post-collection processing of the dataset.
+   */
+<span class="fc" id="L83">  PROCESSOR,</span>
+  /**
+   * A contact associated with the publishing of some entity (paper, article, book, etc) based on the dataset, or of a
+   * data paper.
+   */
+<span class="fc" id="L88">  PUBLISHER,</span>
+  /**
+   * The contact that makes use of the dataset.
+   */
+<span class="fc" id="L92">  USER,</span>
+  /**
+   * The contact providing informatics/programming support related to the dataset.
+   */
+<span class="fc" id="L96">  PROGRAMMER,</span>
+  /**
+   * The contact that maintains and documents the specimens in a collection. Some of their duties include preparing and
+   * labeling specimens so they are ready for identification, and protecting the specimens.
+   */
+<span class="fc" id="L101">  CURATOR,</span>
+  /**
+   * A contact who manages the operation of a data system.
+   */
+<span class="fc" id="L105">  DATA_ADMINISTRATOR,</span>
+  /**
+   * A contact who manages the operation of a computer system.
+   */
+<span class="fc" id="L109">  SYSTEM_ADMINISTRATOR,</span>
+  /**
+   * A contact appointed to lead and represent a Participant's delegation at the GBIF Governing Board.
+   */
+<span class="fc" id="L113">  HEAD_OF_DELEGATION,</span>
+  /**
+   * A contact temporarily appointed to lead and represent a Participant's delegation at the GBIF Governing Board.
+   */
+<span class="fc" id="L117">  TEMPORARY_HEAD_OF_DELEGATION,</span>
+  /**
+   * A contact appointed to a Participant's delegation at the GBIF Governing Board.
+   */
+<span class="fc" id="L121">  ADDITIONAL_DELEGATE,</span>
+  /**
+   * A contact temporarily appointed to a Participant's delegation at the GBIF Governing Board.
+   */
+<span class="fc" id="L125">  TEMPORARY_DELEGATE,</span>
+  /**
+   * A contact representing a regional group of Nodes.
+   */
+<span class="fc" id="L129">  REGIONAL_NODE_REPRESENTATIVE,</span>
+  /**
+   * A contact leading the work of the Node and representing the Node in the Nodes Committee.
+   */
+<span class="fc" id="L133">  NODE_MANAGER,</span>
+  /**
+   * A contact who is a member of the Node's staff.
+   */
+<span class="fc" id="L137">  NODE_STAFF;</span>
+
+  /**
+   * @return the matching ContactType or null
+   */
+  public static ContactType fromString(String contactType) {
+<span class="fc" id="L143">    return (ContactType) VocabularyUtils.lookupEnum(contactType, ContactType.class);</span>
+  }
+
+  // deliberate typos have existed and might be in genuine use
+<span class="fc" id="L147">  private static final ImmutableMap&lt;String, ContactType&gt; TYPE_LOOKUP = ImmutableMap.&lt;String, ContactType&gt; builder()</span>
+<span class="fc" id="L148">    .put(&quot;administrative&quot;, ADMINISTRATIVE_POINT_OF_CONTACT)</span>
+<span class="fc" id="L149">    .put(&quot;technical&quot;, TECHNICAL_POINT_OF_CONTACT)</span>
+<span class="fc" id="L150">    .put(&quot;pointofcontact&quot;, POINT_OF_CONTACT)</span>
+<span class="fc" id="L151">    .put(&quot;originator&quot;, ORIGINATOR)</span>
+<span class="fc" id="L152">    .put(&quot;metadataprovider&quot;, METADATA_AUTHOR)</span>
+<span class="fc" id="L153">    .put(&quot;principleinvestigator&quot;, PRINCIPAL_INVESTIGATOR)</span>
+<span class="fc" id="L154">    .put(&quot;author&quot;, AUTHOR)</span>
+<span class="fc" id="L155">    .put(&quot;contentprovider&quot;, CONTENT_PROVIDER)</span>
+<span class="fc" id="L156">    .put(&quot;custodiansteward&quot;, CUSTODIAN_STEWARD)</span>
+<span class="fc" id="L157">    .put(&quot;distributor&quot;, DISTRIBUTOR)</span>
+<span class="fc" id="L158">    .put(&quot;editor&quot;, EDITOR)</span>
+<span class="fc" id="L159">    .put(&quot;owner&quot;, OWNER)</span>
+<span class="fc" id="L160">    .put(&quot;processor&quot;, PROCESSOR)</span>
+<span class="fc" id="L161">    .put(&quot;publisher&quot;, PUBLISHER)</span>
+<span class="fc" id="L162">    .put(&quot;user&quot;, USER)</span>
+<span class="fc" id="L163">    .put(&quot;programmer&quot;, PROGRAMMER)</span>
+<span class="fc" id="L164">    .put(&quot;curator&quot;, CURATOR)</span>
+<span class="fc" id="L165">    .put(&quot;data administrator&quot;, DATA_ADMINISTRATOR)</span>
+<span class="fc" id="L166">    .put(&quot;system adminsitrator&quot;, SYSTEM_ADMINISTRATOR) // deliberate typo</span>
+<span class="fc" id="L167">    .put(&quot;system administrator&quot;, SYSTEM_ADMINISTRATOR)</span>
+<span class="fc" id="L168">  .build();</span>
+
+  /**
+   * Tries its best to infer a ContactType from a given string. This can for example be used for the various contact
+   * types from DiGIR, TAPIR and BioCASe.
+   *
+   * @return the inferred ContactType
+   */
+  public static ContactType inferType(@Nullable String type) {
+<span class="nc bnc" id="L177" title="All 2 branches missed.">    if (type != null) {</span>
+<span class="nc" id="L178">      ContactType contactType = TYPE_LOOKUP.get(type.toLowerCase());</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">      if (contactType != null) {</span>
+<span class="nc" id="L180">        return contactType;</span>
+      }
+<span class="nc" id="L182">      return fromString(type);</span>
+    }
+<span class="nc" id="L184">    return null;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

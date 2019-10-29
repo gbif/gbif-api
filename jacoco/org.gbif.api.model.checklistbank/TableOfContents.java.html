@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TableOfContents.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">TableOfContents.java</span></div><h1>TableOfContents.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.checklistbank;
+
+import org.gbif.api.vocabulary.Language;
+
+import java.util.List;
+import java.util.Map;
+
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import org.codehaus.jackson.annotate.JsonIgnore;
+
+/**
+ * A simple class to represent a table of contents for multiple languages.
+ * It is used by species pages to generate a table of contents menu with asynchronous loading of full descriptions.
+ */
+<span class="nc" id="L18">public class TableOfContents {</span>
+  private static final String DEFAULT_TOPIC = &quot;general&quot;;
+
+<span class="nc" id="L21">  private final Map&lt;Language, Map&lt;String, List&lt;Integer&gt;&gt;&gt; toc = Maps.newTreeMap();</span>
+
+  public void addDescription(int key, Language lang, String topic) {
+<span class="nc bnc" id="L24" title="All 2 branches missed.">    topic = Strings.isNullOrEmpty(topic) ? DEFAULT_TOPIC : topic.toLowerCase().trim();</span>
+
+<span class="nc bnc" id="L26" title="All 2 branches missed.">    if (lang == null) {</span>
+      // default to english
+<span class="nc" id="L28">      lang = Language.ENGLISH;</span>
+    }
+
+<span class="nc bnc" id="L31" title="All 2 branches missed.">    if (!toc.containsKey(lang)) {</span>
+<span class="nc" id="L32">      toc.put(lang, Maps.&lt;String, List&lt;Integer&gt;&gt;newTreeMap());</span>
+    }
+<span class="nc bnc" id="L34" title="All 2 branches missed.">    if (!toc.get(lang).containsKey(topic)) {</span>
+<span class="nc" id="L35">      toc.get(lang).put(topic, Lists.&lt;Integer&gt;newArrayList());</span>
+    }
+<span class="nc" id="L37">    toc.get(lang).get(topic).add(key);</span>
+<span class="nc" id="L38">  }</span>
+
+  @JsonIgnore
+  public boolean isEmpty() {
+<span class="nc" id="L42">    return toc.isEmpty();</span>
+  }
+
+  /**
+   * @return list of all languages available for this ToC
+   */
+  @JsonIgnore
+  public List&lt;Language&gt; listLanguages() {
+<span class="nc" id="L50">    return Lists.newArrayList(toc.keySet());</span>
+  }
+
+  /**
+   * @return map of all topics for a given language with a list of entry keys for each language
+   */
+  @JsonIgnore
+  public Map&lt;String, List&lt;Integer&gt;&gt; listTopicEntries(Language lang) {
+<span class="nc bnc" id="L58" title="All 2 branches missed.">    if (toc.containsKey(lang)) {</span>
+<span class="nc" id="L59">      return toc.get(lang);</span>
+    }
+<span class="nc" id="L61">    return Maps.newHashMap();</span>
+  }
+
+  public Map&lt;Language, Map&lt;String, List&lt;Integer&gt;&gt;&gt; getToc() {
+<span class="nc" id="L65">    return toc;</span>
+  }
+
+  @Override
+  public boolean equals(Object object) {
+<span class="nc bnc" id="L70" title="All 2 branches missed.">    if (this == object) {</span>
+<span class="nc" id="L71">      return true;</span>
+    }
+<span class="nc bnc" id="L73" title="All 2 branches missed.">    if (!(object instanceof TableOfContents)) {</span>
+<span class="nc" id="L74">      return false;</span>
+    }
+
+<span class="nc" id="L77">    TableOfContents that = (TableOfContents) object;</span>
+<span class="nc" id="L78">    return Objects.equal(this.toc, that.toc);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L83">    return Objects.hashCode(toc);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L88">    return Objects.toStringHelper(this)</span>
+<span class="nc" id="L89">      .add(&quot;toc&quot;, toc)</span>
+<span class="nc" id="L90">      .toString();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Distribution.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">Distribution.java</span></div><h1>Distribution.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.checklistbank;
+
+import org.gbif.api.vocabulary.CitesAppendix;
+import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.EstablishmentMeans;
+import org.gbif.api.vocabulary.LifeStage;
+import org.gbif.api.vocabulary.OccurrenceStatus;
+import org.gbif.api.vocabulary.ThreatStatus;
+
+import javax.annotation.Nullable;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
+import com.google.common.base.Objects;
+
+/**
+ * Distribution Model Object represents a species distribution.
+ *
+ * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/distribution.xml&quot;&gt;Distribution Definition&lt;/a&gt;
+ */
+<span class="fc" id="L36">public class Distribution implements NameUsageExtension {</span>
+
+  private Integer taxonKey;
+  private String locationId;
+  private String locality;
+  private Country country;
+  private OccurrenceStatus status;
+  private LifeStage lifeStage;
+  private String temporal;
+  private ThreatStatus threatStatus;
+  private EstablishmentMeans establishmentMeans;
+  private CitesAppendix appendixCites;
+  private String source;
+  private Integer sourceTaxonKey;
+  private Integer startDayOfYear;
+  private Integer endDayOfYear;
+  private String remarks;
+
+  /**
+   * The name usage &quot;taxon&quot; key this description belongs to.
+   */
+  @Override
+  public Integer getTaxonKey() {
+<span class="nc" id="L59">    return taxonKey;</span>
+  }
+
+  @Override
+  public void setTaxonKey(Integer taxonKey) {
+<span class="nc" id="L64">    this.taxonKey = taxonKey;</span>
+<span class="nc" id="L65">  }</span>
+
+  /**
+   * The CITES (Convention on International Trade in Endangered Species of Wild Fauna and Flora) Appendix number the
+   * taxa is listed. It is possible to have different appendix numbers for different areas, but &quot;global&quot; as an area is
+   * also valid if its the same worldwide see also http://www.cites.org/eng/app/index.shtml
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; II
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the appendixCites.
+   */
+  @Nullable
+  public CitesAppendix getAppendixCites() {
+<span class="nc" id="L81">    return appendixCites;</span>
+  }
+
+  /**
+   * @param appendixCites the appendixCites to set
+   */
+  public void setAppendixCites(CitesAppendix appendixCites) {
+<span class="nc" id="L88">    this.appendixCites = appendixCites;</span>
+<span class="nc" id="L89">  }</span>
+
+  /**
+   * @return the country
+   */
+  @Nullable
+  public Country getCountry() {
+<span class="nc" id="L96">    return country;</span>
+  }
+
+  /**
+   * @param country the country to set
+   */
+  public void setCountry(Country country) {
+<span class="fc" id="L103">    this.country = country;</span>
+<span class="fc" id="L104">  }</span>
+
+  /**
+   * Seasonal temporal subcontext within the eventDate context. The latest ordinal day of the year on which the
+   * distribution record is valid.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; 120
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the endDayOfYear.
+   */
+  @Nullable
+  @Min(1)
+  @Max(366)
+  public Integer getEndDayOfYear() {
+<span class="nc" id="L121">    return endDayOfYear;</span>
+  }
+
+  /**
+   * @param endDayOfYear the endDayOfYear to set
+   */
+  public void setEndDayOfYear(Integer endDayOfYear) {
+<span class="nc" id="L128">    this.endDayOfYear = endDayOfYear;</span>
+<span class="nc" id="L129">  }</span>
+
+  /**
+   * Term describing whether the organism occurs natively, is introduced or cultivated.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; introduced
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the establishmentMeans
+   */
+  @Nullable
+  public EstablishmentMeans getEstablishmentMeans() {
+<span class="nc" id="L143">    return establishmentMeans;</span>
+  }
+
+  /**
+   * @param establishmentMeans the establishmentMeans to set
+   */
+  public void setEstablishmentMeans(EstablishmentMeans establishmentMeans) {
+<span class="nc" id="L150">    this.establishmentMeans = establishmentMeans;</span>
+<span class="nc" id="L151">  }</span>
+
+  /**
+   * The distribution information pertains solely to a specific life stage of the taxon.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; adult
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the lifeStage
+   *
+   * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/gbif/life_stage.xml&quot;&gt;life stage vocabulary for recommended values&lt;/a&gt;
+   */
+  @Nullable
+  public LifeStage getLifeStage() {
+<span class="nc" id="L167">    return lifeStage;</span>
+  }
+
+  /**
+   * @param lifeStage the lifeStage to set
+   */
+  public void setLifeStage(LifeStage lifeStage) {
+<span class="nc" id="L174">    this.lifeStage = lifeStage;</span>
+<span class="nc" id="L175">  }</span>
+
+  /**
+   * The verbatim name of the area this distribution record is about.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; Patagonia
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the locality
+   */
+  @Nullable
+  public String getLocality() {
+<span class="nc" id="L189">    return locality;</span>
+  }
+
+  /**
+   * @param locality the locality to set
+   */
+  public void setLocality(String locality) {
+<span class="nc" id="L196">    this.locality = locality;</span>
+<span class="nc" id="L197">  }</span>
+
+  /**
+   * A code for the named area this distributon record is about.
+   * See http://en.wikipedia.org/wiki/ISO_3166-2 for state codes within a country,
+   * otherwise use a prefix for each code to indicate the source of the code.
+   * &lt;p/&gt;
+   * &lt;blockqoute&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; TDWG:AGS-TF &lt;i&gt;Example:&lt;/i&gt; ISO3166:AR &lt;i&gt;Example:&lt;/i&gt; WOEID:564721
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the location id
+   */
+  public String getLocationId() {
+<span class="nc" id="L213">    return locationId;</span>
+  }
+
+  /**
+   * @param locationId the locationId to set
+   */
+  public void setLocationId(String locationId) {
+<span class="nc" id="L220">    this.locationId = locationId;</span>
+<span class="nc" id="L221">  }</span>
+
+  /**
+   * Additional notes on the distribution.
+   *
+   * @return the notes
+   */
+  @Nullable
+  public String getRemarks() {
+<span class="nc" id="L230">    return remarks;</span>
+  }
+
+  public void setRemarks(String remarks) {
+<span class="nc" id="L234">    this.remarks = remarks;</span>
+<span class="nc" id="L235">  }</span>
+
+  /**
+   * Source reference for this distribution record. Can be proper publication citation, a webpage URL, etc.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; &quot;Euro+Med Plantbase - the information resource for Euro-Mediterranean plant diversity (2006-).
+   * Published on the Internet http://ww2.bgbm.org/EuroPlusMed/ July, 2009&quot;
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the source
+   */
+  @Nullable
+  public String getSource() {
+<span class="nc" id="L250">    return source;</span>
+  }
+
+  /**
+   * @param source the source to set
+   */
+  public void setSource(String source) {
+<span class="nc" id="L257">    this.source = source;</span>
+<span class="nc" id="L258">  }</span>
+
+  @Nullable
+  public Integer getSourceTaxonKey() {
+<span class="nc" id="L262">    return sourceTaxonKey;</span>
+  }
+
+  public void setSourceTaxonKey(Integer sourceTaxonKey) {
+<span class="nc" id="L266">    this.sourceTaxonKey = sourceTaxonKey;</span>
+<span class="nc" id="L267">  }</span>
+
+  /**
+   * Seasonal temporal subcontext within the eventDate context. Useful for migratory species. The earliest ordinal day
+   * of the year on which the distribution record is valid. Numbering starts with 1 for January 1 and ends with 365 for
+   * December 31.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; 90
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the startDayOfYear.
+   */
+  @Nullable
+  @Min(1)
+  @Max(366)
+  public Integer getStartDayOfYear() {
+<span class="nc" id="L285">    return startDayOfYear;</span>
+  }
+
+  /**
+   * @param startDayOfYear the startDayOfYear to set
+   */
+  public void setStartDayOfYear(Integer startDayOfYear) {
+<span class="fc" id="L292">    this.startDayOfYear = startDayOfYear;</span>
+<span class="fc" id="L293">  }</span>
+
+  /**
+   * Term describing the occurrence status of the organism in the given area based on how frequent the species occurs.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; absent
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the status.
+   *
+   * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/gbif/occurrence_status.xml&quot;&gt;occurrence status vocabulary for
+   *      recommended
+   *      values&lt;/a&gt;
+   */
+  @Nullable
+  public OccurrenceStatus getStatus() {
+<span class="nc" id="L311">    return status;</span>
+  }
+
+  /**
+   * @param status the status to set
+   */
+  public void setStatus(OccurrenceStatus status) {
+<span class="nc" id="L318">    this.status = status;</span>
+<span class="nc" id="L319">  }</span>
+
+  /**
+   * @return the temporal
+   */
+  @Nullable
+  public String getTemporal() {
+<span class="nc" id="L326">    return temporal;</span>
+  }
+
+  /**
+   * @param temporal the temporal to set
+   */
+  public void setTemporal(String temporal) {
+<span class="nc" id="L333">    this.temporal = temporal;</span>
+<span class="nc" id="L334">  }</span>
+
+  /**
+   * Threat status of a species as defined by IUCN
+   * (http://www.iucnredlist.org/static/categories_criteria_3_1#categories).
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Examples:&lt;/i&gt; &quot;EX&quot; - &quot;EW&quot; - &quot;CR&quot;
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the threatStatus.
+   *
+   * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/iucn/threat_status.xml&quot;&gt;threat status vocabulary for recommended
+   *      values&lt;/a&gt;
+   */
+  @Nullable
+  public ThreatStatus getThreatStatus() {
+<span class="fc" id="L352">    return threatStatus;</span>
+  }
+
+  /**
+   * @param threatStatus the threatStatus to set
+   */
+  public void setThreatStatus(ThreatStatus threatStatus) {
+<span class="fc" id="L359">    this.threatStatus = threatStatus;</span>
+<span class="fc" id="L360">  }</span>
+
+  @Override
+  public boolean equals(Object object) {
+<span class="pc bpc" id="L364" title="1 of 2 branches missed.">    if (this == object) {</span>
+<span class="nc" id="L365">      return true;</span>
+    }
+<span class="pc bpc" id="L367" title="1 of 2 branches missed.">    if (!(object instanceof Distribution)) {</span>
+<span class="nc" id="L368">      return false;</span>
+    }
+
+<span class="fc" id="L371">    Distribution that = (Distribution) object;</span>
+<span class="pc bpc" id="L372" title="1 of 2 branches missed.">    return Objects.equal(this.locality, that.locality)</span>
+<span class="pc bpc" id="L373" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.country, that.country)</span>
+<span class="pc bpc" id="L374" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.status, that.status)</span>
+<span class="pc bpc" id="L375" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.lifeStage, that.lifeStage)</span>
+<span class="pc bpc" id="L376" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.temporal, that.temporal)</span>
+<span class="pc bpc" id="L377" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.threatStatus, that.threatStatus)</span>
+<span class="pc bpc" id="L378" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.establishmentMeans, that.establishmentMeans)</span>
+<span class="pc bpc" id="L379" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.appendixCites, that.appendixCites)</span>
+<span class="pc bpc" id="L380" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.source, that.source)</span>
+<span class="pc bpc" id="L381" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey)</span>
+<span class="pc bpc" id="L382" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.startDayOfYear, that.startDayOfYear)</span>
+<span class="pc bpc" id="L383" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.endDayOfYear, that.endDayOfYear);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L388">    return Objects.hashCode(locality,</span>
+                            country,
+                            status,
+                            lifeStage,
+                            temporal,
+                            threatStatus,
+                            establishmentMeans,
+                            appendixCites,
+                            source,
+                            startDayOfYear,
+                            endDayOfYear);
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L403">    return Objects.toStringHelper(this)</span>
+<span class="nc" id="L404">      .add(&quot;locality&quot;, locality)</span>
+<span class="nc" id="L405">      .add(&quot;country&quot;, country)</span>
+<span class="nc" id="L406">      .add(&quot;status&quot;, status)</span>
+<span class="nc" id="L407">      .add(&quot;lifeStage&quot;, lifeStage)</span>
+<span class="nc" id="L408">      .add(&quot;temporal&quot;, temporal)</span>
+<span class="nc" id="L409">      .add(&quot;threatStatus&quot;, threatStatus)</span>
+<span class="nc" id="L410">      .add(&quot;establishmentMeans&quot;, establishmentMeans)</span>
+<span class="nc" id="L411">      .add(&quot;appendixCites&quot;, appendixCites)</span>
+<span class="nc" id="L412">      .add(&quot;source&quot;, source)</span>
+<span class="nc" id="L413">      .add(&quot;sourceTaxonKey&quot;, sourceTaxonKey)</span>
+<span class="nc" id="L414">      .add(&quot;startDayOfYear&quot;, startDayOfYear)</span>
+<span class="nc" id="L415">      .add(&quot;endDayOfYear&quot;, endDayOfYear)</span>
+<span class="nc" id="L416">      .add(&quot;locationId&quot;, locationId)</span>
+<span class="nc" id="L417">      .add(&quot;remarks&quot;, remarks)</span>
+<span class="nc" id="L418">      .toString();</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

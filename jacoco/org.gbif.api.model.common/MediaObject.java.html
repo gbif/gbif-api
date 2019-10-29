@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MediaObject.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common</a> &gt; <span class="el_source">MediaObject.java</span></div><h1>MediaObject.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.common;
+
+import org.gbif.api.vocabulary.MediaType;
+
+import java.net.URI;
+import java.util.Date;
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+
+import com.google.common.base.Objects;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+/**
+ * Metadata for a multimedia object representing an image, video or audio file.
+ * Based on DublinCore and the Simple Multimedia dwc archive extension:
+ * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/multimedia.xml&quot;&gt;Multimedia Definition&lt;/a&gt;
+ */
+<span class="fc" id="L33">public class MediaObject {</span>
+  private MediaType type;
+  private String format;
+  private URI identifier;
+  private URI references;
+  private String title;
+  private String description;
+  private String source;
+  private String audience;
+  private Date created;
+  private String creator;
+  private String contributor;
+  private String publisher;
+  private String license;
+  private String rightsHolder;
+
+  /**
+   * @return mime type of the file
+   */
+  public String getFormat() {
+<span class="fc" id="L53">    return format;</span>
+  }
+
+  public void setFormat(String format) {
+<span class="fc" id="L57">    this.format = format;</span>
+<span class="fc" id="L58">  }</span>
+
+  /**
+   * The date and time this media item was taken.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; 2010-09-29.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the created
+   */
+  @Nullable
+  public Date getCreated() {
+<span class="fc" id="L72">    return created;</span>
+  }
+
+  /**
+   * @param created the created to set
+   */
+  public void setCreated(Date created) {
+<span class="fc" id="L79">    this.created = created;</span>
+<span class="fc" id="L80">  }</span>
+
+  /**
+   * The person that created the media item.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; David Remsen.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the creator
+   */
+  @Nullable
+  public String getCreator() {
+<span class="fc" id="L94">    return creator;</span>
+  }
+
+  /**
+   * @param creator the creator to set
+   */
+  public void setCreator(String creator) {
+<span class="fc" id="L101">    this.creator = creator;</span>
+<span class="fc" id="L102">  }</span>
+
+  /**
+   * A longer description for this media item.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; Female Tachycineta albiventer photographed in the Amazon, Brazil, in November 2010.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the description
+   */
+  @Nullable
+  public String getDescription() {
+<span class="fc" id="L116">    return description;</span>
+  }
+
+  /**
+   * @param description the description to set
+   */
+  public void setDescription(String description) {
+<span class="nc" id="L123">    this.description = description;</span>
+<span class="nc" id="L124">  }</span>
+
+  @NotNull
+  public MediaType getType() {
+<span class="fc" id="L128">    return type;</span>
+  }
+
+  public void setType(MediaType type) {
+<span class="fc" id="L132">    this.type = type;</span>
+<span class="fc" id="L133">  }</span>
+
+  /**
+   * The public URL that identifies and locates the media item.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; &lt;a
+   * href=&quot;http://farm6.static.flickr.com/5127/5242866958_98afd8cbce_o.jpg&quot;&gt;http://farm6.static.flickr.com/5127/5242866958_98afd8cbce_o.jpg&lt;/a&gt;
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   */
+  @NotNull
+  @JsonProperty(&quot;identifier&quot;)
+  public URI getIdentifier() {
+<span class="fc" id="L147">    return identifier;</span>
+  }
+
+  public void setIdentifier(URI identifier) {
+<span class="fc" id="L151">    this.identifier = identifier;</span>
+<span class="fc" id="L152">  }</span>
+
+  /**
+   * License for this media item.
+   * Can be text or a identifier like creative commons uses.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; &lt;a
+   * href=&quot;http://creativecommons.org/licenses/by-nc-sa/2.0/deed.en&quot;&gt;http://creativecommons.org/licenses
+   * /by-nc-sa/2.0/deed.en&lt;/a&gt;
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the license
+   */
+  @Nullable
+  public String getLicense() {
+<span class="fc" id="L169">    return license;</span>
+  }
+
+  /**
+   * @param license the license to set
+   */
+  public void setLicense(String license) {
+<span class="fc" id="L176">    this.license = license;</span>
+<span class="fc" id="L177">  }</span>
+
+  /**
+   * @return link to html webpage with the media item on
+   */
+  public URI getReferences() {
+<span class="fc" id="L183">    return references;</span>
+  }
+
+  public void setReferences(URI references) {
+<span class="fc" id="L187">    this.references = references;</span>
+<span class="fc" id="L188">  }</span>
+
+  /**
+   * An entity responsible for making the media item available.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; Encyclopedia of Life.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the publisher
+   */
+  @Nullable
+  public String getPublisher() {
+<span class="fc" id="L202">    return publisher;</span>
+  }
+
+  /**
+   * @param publisher the publisher to set
+   */
+  public void setPublisher(String publisher) {
+<span class="fc" id="L209">    this.publisher = publisher;</span>
+<span class="fc" id="L210">  }</span>
+
+  /**
+   * The media item title.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; Andorinha-do-rio (Tachycineta albiventer).
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the title.
+   */
+  @Nullable
+  public String getTitle() {
+<span class="fc" id="L224">    return title;</span>
+  }
+
+  /**
+   * @param title the title to set
+   */
+  public void setTitle(String title) {
+<span class="fc" id="L231">    this.title = title;</span>
+<span class="fc" id="L232">  }</span>
+
+  public String getSource() {
+<span class="fc" id="L235">    return source;</span>
+  }
+
+  public void setSource(String source) {
+<span class="nc" id="L239">    this.source = source;</span>
+<span class="nc" id="L240">  }</span>
+
+  public String getAudience() {
+<span class="fc" id="L243">    return audience;</span>
+  }
+
+  public void setAudience(String audience) {
+<span class="nc" id="L247">    this.audience = audience;</span>
+<span class="nc" id="L248">  }</span>
+
+  public String getContributor() {
+<span class="fc" id="L251">    return contributor;</span>
+  }
+
+  public void setContributor(String contributor) {
+<span class="nc" id="L255">    this.contributor = contributor;</span>
+<span class="nc" id="L256">  }</span>
+
+  public String getRightsHolder() {
+<span class="fc" id="L259">    return rightsHolder;</span>
+  }
+
+  public void setRightsHolder(String rightsHolder) {
+<span class="nc" id="L263">    this.rightsHolder = rightsHolder;</span>
+<span class="nc" id="L264">  }</span>
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="pc bpc" id="L268" title="1 of 2 branches missed.">    if (this == obj) {</span>
+<span class="nc" id="L269">      return true;</span>
+    }
+<span class="pc bpc" id="L271" title="1 of 2 branches missed.">    if (!(obj instanceof MediaObject)) {</span>
+<span class="nc" id="L272">      return false;</span>
+    }
+<span class="fc" id="L274">    MediaObject that = (MediaObject) obj;</span>
+<span class="pc bpc" id="L275" title="1 of 2 branches missed.">    return Objects.equal(this.identifier, that.identifier)</span>
+<span class="pc bpc" id="L276" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.type, that.type)</span>
+<span class="pc bpc" id="L277" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.format, that.format)</span>
+<span class="pc bpc" id="L278" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.references, that.references)</span>
+<span class="pc bpc" id="L279" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.title, that.title)</span>
+<span class="pc bpc" id="L280" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.description, that.description)</span>
+<span class="pc bpc" id="L281" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.license, that.license)</span>
+<span class="pc bpc" id="L282" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.publisher, that.publisher)</span>
+<span class="pc bpc" id="L283" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.source, that.source)</span>
+<span class="pc bpc" id="L284" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.audience, that.audience)</span>
+<span class="pc bpc" id="L285" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.contributor, that.contributor)</span>
+<span class="pc bpc" id="L286" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.rightsHolder, that.rightsHolder)</span>
+<span class="fc bfc" id="L287" title="All 2 branches covered.">           &amp;&amp; Objects.equal(this.creator, that.creator)</span>
+<span class="pc bpc" id="L288" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.created, that.created);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L293">    return Objects.hashCode(type,</span>
+                            format, identifier,
+                            references,
+                            title,
+                            description,
+                            license,
+                            publisher,
+                            source,
+                            audience, contributor,
+                            rightsHolder,
+                            creator,
+                            created);
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L309">    return Objects.toStringHelper(this)</span>
+<span class="nc" id="L310">      .add(&quot;type&quot;, type)</span>
+<span class="nc" id="L311">      .add(&quot;format&quot;, format)</span>
+<span class="nc" id="L312">      .add(&quot;identifier&quot;, identifier)</span>
+<span class="nc" id="L313">      .add(&quot;references&quot;, references)</span>
+<span class="nc" id="L314">      .add(&quot;title&quot;, title)</span>
+<span class="nc" id="L315">      .add(&quot;description&quot;, description)</span>
+<span class="nc" id="L316">      .add(&quot;license&quot;, license)</span>
+<span class="nc" id="L317">      .add(&quot;publisher&quot;, publisher)</span>
+<span class="nc" id="L318">      .add(&quot;source&quot;, source)</span>
+<span class="nc" id="L319">      .add(&quot;audience&quot;, audience)</span>
+<span class="nc" id="L320">      .add(&quot;contributor&quot;, contributor)</span>
+<span class="nc" id="L321">      .add(&quot;rightsHolder&quot;, rightsHolder)</span>
+<span class="nc" id="L322">      .add(&quot;creator&quot;, creator)</span>
+<span class="nc" id="L323">      .add(&quot;created&quot;, created)</span>
+<span class="nc" id="L324">      .toString();</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

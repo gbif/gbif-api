@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Rank.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">Rank.java</span></div><h1>Rank.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.vocabulary;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * An ordered taxonomic rank enumeration with the most frequently used values.
+ * Several static methods, lists, sets and maps are provided to help with ordering and lookup from strings.
+ *
+ * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/gbif/rank.xml&quot;&gt;rs.gbif.org vocabulary&lt;/a&gt;
+ */
+<span class="fc" id="L32">public enum Rank {</span>
+
+<span class="fc" id="L34">  DOMAIN(&quot;dom.&quot;),</span>
+
+<span class="fc" id="L36">  SUPERKINGDOM(&quot;superreg.&quot;),</span>
+
+<span class="fc" id="L38">  KINGDOM(&quot;reg.&quot;),</span>
+
+<span class="fc" id="L40">  SUBKINGDOM(&quot;subreg.&quot;),</span>
+
+<span class="fc" id="L42">  INFRAKINGDOM(&quot;infrareg.&quot;),</span>
+
+<span class="fc" id="L44">  SUPERPHYLUM(&quot;superphyl.&quot;),</span>
+
+<span class="fc" id="L46">  PHYLUM(&quot;phyl.&quot;),</span>
+
+<span class="fc" id="L48">  SUBPHYLUM(&quot;subphyl.&quot;),</span>
+
+<span class="fc" id="L50">  INFRAPHYLUM(&quot;infraphyl.&quot;),</span>
+
+<span class="fc" id="L52">  SUPERCLASS(&quot;supercl.&quot;),</span>
+
+<span class="fc" id="L54">  CLASS(&quot;cl.&quot;),</span>
+
+<span class="fc" id="L56">  SUBCLASS(&quot;subcl.&quot;),</span>
+
+<span class="fc" id="L58">  INFRACLASS(&quot;infracl.&quot;),</span>
+
+<span class="fc" id="L60">  PARVCLASS(&quot;parvcl.&quot;),</span>
+
+<span class="fc" id="L62">  SUPERLEGION(&quot;superleg.&quot;),</span>
+
+  /**
+   * Sometimes used in zoology, e.g. for birds and mammals
+   */
+<span class="fc" id="L67">  LEGION(&quot;leg.&quot;),</span>
+
+<span class="fc" id="L69">  SUBLEGION(&quot;subleg.&quot;),</span>
+
+<span class="fc" id="L71">  INFRALEGION(&quot;infraleg.&quot;),</span>
+
+<span class="fc" id="L73">  SUPERCOHORT(&quot;supercohort&quot;),</span>
+
+  /**
+   * Sometimes used in zoology, e.g. for birds and mammals
+   */
+<span class="fc" id="L78">  COHORT(&quot;cohort&quot;),</span>
+
+<span class="fc" id="L80">  SUBCOHORT(&quot;subcohort&quot;),</span>
+
+<span class="fc" id="L82">  INFRACOHORT(&quot;infracohort&quot;),</span>
+
+<span class="fc" id="L84">  MAGNORDER(&quot;magnord.&quot;),</span>
+
+<span class="fc" id="L86">  SUPERORDER(&quot;superord.&quot;),</span>
+
+<span class="fc" id="L88">  GRANDORDER(&quot;grandord.&quot;),</span>
+
+<span class="fc" id="L90">  ORDER(&quot;ord.&quot;),</span>
+
+<span class="fc" id="L92">  SUBORDER(&quot;subord.&quot;),</span>
+
+<span class="fc" id="L94">  INFRAORDER(&quot;infraord.&quot;),</span>
+
+<span class="fc" id="L96">  PARVORDER(&quot;parvord.&quot;),</span>
+
+<span class="fc" id="L98">  SUPERFAMILY(&quot;superfam.&quot;),</span>
+
+<span class="fc" id="L100">  FAMILY(&quot;fam.&quot;),</span>
+
+<span class="fc" id="L102">  SUBFAMILY(&quot;subfam.&quot;),</span>
+
+<span class="fc" id="L104">  INFRAFAMILY(&quot;infrafam.&quot;),</span>
+
+<span class="fc" id="L106">  SUPERTRIBE(&quot;supertrib.&quot;),</span>
+
+<span class="fc" id="L108">  TRIBE(&quot;trib.&quot;),</span>
+
+<span class="fc" id="L110">  SUBTRIBE(&quot;subtrib.&quot;),</span>
+
+<span class="fc" id="L112">  INFRATRIBE(&quot;infratrib.&quot;),</span>
+
+  /**
+   * Used for any other unspecific rank above genera.
+   */
+<span class="fc" id="L117">  SUPRAGENERIC_NAME(&quot;supragen.&quot;),</span>
+
+<span class="fc" id="L119">  GENUS(&quot;gen.&quot;),</span>
+
+<span class="fc" id="L121">  SUBGENUS(&quot;subgen.&quot;),</span>
+
+<span class="fc" id="L123">  INFRAGENUS(&quot;infragen.&quot;),</span>
+
+<span class="fc" id="L125">  SECTION(&quot;sect.&quot;),</span>
+
+<span class="fc" id="L127">  SUBSECTION(&quot;subsect.&quot;),</span>
+
+<span class="fc" id="L129">  SERIES(&quot;ser.&quot;),</span>
+
+<span class="fc" id="L131">  SUBSERIES(&quot;subser.&quot;),</span>
+
+  /**
+   * used for any other unspecific rank below genera and above species.
+   */
+<span class="fc" id="L136">  INFRAGENERIC_NAME(&quot;infrageneric&quot;),</span>
+
+  /**
+   * A loosely defined group of species.
+   * Zoology: Aggregate - a group of species, other than a subgenus, within a genus. An aggregate may be denoted by a group name interpolated in parentheses.
+   * The Berlin/MoreTax model notes: [these] aren't taxonomic ranks but cirumscriptions because on the one hand they are necessary for the concatenation
+   * of the fullname and on the other hand they are necessary for distinguishing the aggregate or species group from the microspecies.
+   */
+<span class="fc" id="L144">  SPECIES_AGGREGATE(&quot;agg.&quot;),</span>
+
+<span class="fc" id="L146">  SPECIES(&quot;sp.&quot;),</span>
+
+  /**
+   * used for any other unspecific rank below species.
+   */
+<span class="fc" id="L151">  INFRASPECIFIC_NAME(&quot;infrasp.&quot;),</span>
+
+  /**
+   * The term grex has been coined to expand botanical nomenclature to describe hybrids of orchids.
+   * Grex names are one of the three categories of plant names governed by the International Code of Nomenclature for Cultivated Plants
+   * Within a grex the Groups category can be used to refer to plants by their shared characteristics (rather than by their parentage),
+   * and individual orchid plants can be selected (and propagated) and named as cultivars
+   * https://en.wikipedia.org/wiki/Grex_(horticulture)
+   */
+<span class="fc" id="L160">  GREX(&quot;grex&quot;),</span>
+
+<span class="fc" id="L162">  SUBSPECIES(&quot;subsp.&quot;),</span>
+
+  /**
+   * Rank in use from the code for cultivated plants.
+   * It does not use a classic rank marker but indicated the Group rank after the actual groups name
+   * For example Rhododendron boothii Mishmiense Group
+   * or Primula Border Auricula Group
+   *
+   * Sometimes authors also used the words &quot;sort&quot;, &quot;type&quot;, &quot;selections&quot; or &quot;hybrids&quot; instead of Group which is not legal according to the code.
+   */
+<span class="fc" id="L172">  CULTIVAR_GROUP,</span>
+
+  /**
+   * A group of cultivars. These can be roughly comparable to cultivar groups, but convarieties, unlike cultivar groups,
+   * do not necessarily contain named varieties, and convarieties are members of traditional &quot;Linnaean&quot; ranks.
+   * The ICNCP replaced this term with the term cultivar-group, and convarieties should not be used in modern cultivated plant taxonomy.
+   *
+   * From Spooner et al., Horticultural Reviews 28 (2003): 1-60
+   */
+<span class="fc" id="L181">  CONVARIETY(&quot;convar.&quot;),</span>
+
+  /**
+   * used also for any other unspecific rank below subspecies.
+   */
+<span class="fc" id="L186">  INFRASUBSPECIFIC_NAME(&quot;infrasubsp.&quot;),</span>
+
+  /**
+   * Botanical legacy rank
+   */
+
+<span class="fc" id="L192">  PROLES(&quot;prol.&quot;),</span>
+
+  /**
+   * Botanical legacy rank
+   */
+<span class="fc" id="L197">  RACE(&quot;race&quot;),</span>
+
+  /**
+   * Zoological legacy rank
+   */
+<span class="fc" id="L202">  NATIO(&quot;natio&quot;),</span>
+
+  /**
+   * Zoological legacy rank
+   */
+<span class="fc" id="L207">  ABERRATION(&quot;ab.&quot;),</span>
+
+  /**
+   * Zoological legacy rank
+   */
+<span class="fc" id="L212">  MORPH(&quot;morph&quot;),</span>
+
+<span class="fc" id="L214">  VARIETY(&quot;var.&quot;),</span>
+
+<span class="fc" id="L216">  SUBVARIETY(&quot;subvar.&quot;),</span>
+
+<span class="fc" id="L218">  FORM(&quot;f.&quot;),</span>
+
+<span class="fc" id="L220">  SUBFORM(&quot;subf.&quot;),</span>
+
+  /**
+   * Microbial rank based on pathogenic reactions in one or more hosts.
+   * For recommendations on designating pathovars and use of designations when reviving names see
+   * Dye et al. (1980) Standards for naming pathovars of phytopathogenic bacteria and a list of pathovar names and pathotype strains.
+   * Rev. Plant Pathol. 59:153–168.
+   * See &lt;a href=&quot;http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly&quot;&gt;Bacteriological Code&lt;/a&gt;
+   * See &lt;a href=&quot;http://www.isppweb.org/about_tppb_naming.asp&quot;&gt;International Standards for Naming Pathovars of Phytopathogenic Bacteria&lt;/a&gt;
+   * See &lt;a href=&quot;http://sipav.org/main/jpp/index.php/jpp/article/view/682&quot;&gt;Demystifying the nomenclature of bacterial plant pathogens&lt;/a&gt;
+   * See &lt;a href=&quot;http://link.springer.com/chapter/10.1007/978-94-009-3555-6_171&quot;&gt;Problems with the Pathovar Concept&lt;/a&gt;
+   * For example Pseudomonas syringae pv. lachrymans
+   */
+<span class="fc" id="L233">  PATHOVAR(&quot;pv.&quot;),</span>
+
+  /**
+   * Microbial rank based on biochemical or physiological properties.
+   * See &lt;a href=&quot;http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly&quot;&gt;Bacteriological Code&lt;/a&gt;
+   * For example Francisella tularensis biovar tularensis
+   */
+<span class="fc" id="L240">  BIOVAR(&quot;biovar&quot;),</span>
+
+  /**
+   * Microbial rank based on production or amount of production of a particular chemical.
+   * See &lt;a href=&quot;http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly&quot;&gt;Bacteriological Code&lt;/a&gt;
+   * For example Vibrio alginolyticus chemovar iophagus
+   */
+<span class="fc" id="L247">  CHEMOVAR(&quot;chemovar&quot;),</span>
+
+  /**
+   * Microbial rank based on morphological characterislics.
+   * See &lt;a href=&quot;http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly&quot;&gt;Bacteriological Code&lt;/a&gt;
+   * For example Acinetobacter junii morphovar I
+   */
+<span class="fc" id="L254">  MORPHOVAR(&quot;morphovar&quot;),</span>
+
+  /**
+   * Microbial infrasubspecific rank based on reactions to bacteriophage.
+   * See &lt;a href=&quot;http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly&quot;&gt;Bacteriological Code&lt;/a&gt;
+   * For example Staphyloccocus aureus phagovar 42D
+   */
+<span class="fc" id="L261">  PHAGOVAR(&quot;phagovar&quot;),</span>
+
+  /**
+   * Microbial infrasubspecific rank based on antigenic characteristics.
+   * See &lt;a href=&quot;http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly&quot;&gt;Bacteriological Code&lt;/a&gt;
+   * For example Salmonella enterica serovar Dublin
+   */
+<span class="fc" id="L268">  SEROVAR(&quot;serovar&quot;),</span>
+
+  /**
+   * Microbial infrasubspecific rank based on chemical constitution.
+   * See &lt;a href=&quot;http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly&quot;&gt;Bacteriological Code&lt;/a&gt;
+   * For example Thymus vulgaris ct. geraniol
+   */
+<span class="fc" id="L275">  CHEMOFORM(&quot;chemoform&quot;),</span>
+
+  /**
+   * Microbial infrasubspecific rank.
+   * A parasitic, symbiotic, or commensal microorganism distinguished primarily by adaptation to a particular host or habitat.
+   * Named preferably by the scientific name of the host in the genitive.
+   * See &lt;a href=&quot;http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly&quot;&gt;Bacteriological Code&lt;/a&gt;
+   * For example Puccinia graminis f. sp. avenae
+   */
+<span class="fc" id="L284">  FORMA_SPECIALIS(&quot;f.sp.&quot;),</span>
+
+<span class="fc" id="L286">  CULTIVAR(&quot;cv.&quot;),</span>
+
+  /**
+   * A microbial strain.
+   */
+<span class="fc" id="L291">  STRAIN(&quot;strain&quot;),</span>
+
+  /**
+   * Any other rank we cannot map to this enumeration
+   */
+<span class="fc" id="L296">  OTHER,</span>
+
+<span class="fc" id="L298">  UNRANKED;</span>
+
+  /**
+   * All main Linnean ranks ordered.
+   */
+<span class="fc" id="L303">  public static final List&lt;Rank&gt; LINNEAN_RANKS = ImmutableList.of(</span>
+      KINGDOM,
+      PHYLUM,
+      CLASS,
+      ORDER,
+      FAMILY,
+      GENUS,
+      SPECIES
+  );
+
+  /**
+   * An ordered list of all ranks that appear in Darwin Core with their own term.
+   */
+<span class="fc" id="L316">  public static final List&lt;Rank&gt; DWC_RANKS = ImmutableList.of(</span>
+      KINGDOM,
+      PHYLUM,
+      CLASS,
+      ORDER,
+      FAMILY,
+      GENUS,
+      SUBGENUS,
+      SPECIES
+  );
+
+  /**
+   * A set of ranks which cannot clearly be compared to any other rank as they represent rank &quot;ranges&quot;.
+   * For example a subgeneric rank is anything below genus,
+   * so one cannot say if its higher or lower than a species for example.
+   */
+<span class="fc" id="L332">  private static final Set&lt;Rank&gt; UNCOMPARABLE_RANKS = ImmutableSet.of(</span>
+      INFRAGENERIC_NAME,
+      INFRASPECIFIC_NAME,
+      INFRASUBSPECIFIC_NAME,
+      OTHER,
+      UNRANKED
+  );
+
+<span class="fc" id="L340">  private static final Set&lt;Rank&gt; LEGACY_RANKS = ImmutableSet.of(</span>
+      MORPH,
+      ABERRATION,
+      NATIO,
+      RACE,
+      PROLES,
+      CONVARIETY
+  );
+
+<span class="fc" id="L349">  private static final Map&lt;Rank, NomenclaturalCode&gt; RANK2CODE= ImmutableMap.&lt;Rank, NomenclaturalCode&gt;builder()</span>
+<span class="fc" id="L350">      .put(PARVCLASS, NomenclaturalCode.ZOOLOGICAL)</span>
+<span class="fc" id="L351">      .put(MAGNORDER, NomenclaturalCode.ZOOLOGICAL)</span>
+<span class="fc" id="L352">      .put(GRANDORDER, NomenclaturalCode.ZOOLOGICAL)</span>
+<span class="fc" id="L353">      .put(PARVORDER, NomenclaturalCode.ZOOLOGICAL)</span>
+<span class="fc" id="L354">      .put(SUPERLEGION, NomenclaturalCode.ZOOLOGICAL)</span>
+<span class="fc" id="L355">      .put(LEGION, NomenclaturalCode.ZOOLOGICAL)</span>
+<span class="fc" id="L356">      .put(SUBLEGION, NomenclaturalCode.ZOOLOGICAL)</span>
+<span class="fc" id="L357">      .put(INFRALEGION, NomenclaturalCode.ZOOLOGICAL)</span>
+<span class="fc" id="L358">      .put(SUPERCOHORT, NomenclaturalCode.ZOOLOGICAL)</span>
+<span class="fc" id="L359">      .put(COHORT, NomenclaturalCode.ZOOLOGICAL)</span>
+<span class="fc" id="L360">      .put(SUBCOHORT, NomenclaturalCode.ZOOLOGICAL)</span>
+<span class="fc" id="L361">      .put(INFRACOHORT, NomenclaturalCode.ZOOLOGICAL)</span>
+<span class="fc" id="L362">      .put(MORPH, NomenclaturalCode.ZOOLOGICAL)</span>
+<span class="fc" id="L363">      .put(ABERRATION, NomenclaturalCode.ZOOLOGICAL)</span>
+<span class="fc" id="L364">      .put(NATIO, NomenclaturalCode.ZOOLOGICAL)</span>
+
+<span class="fc" id="L366">      .put(RACE, NomenclaturalCode.BOTANICAL)</span>
+<span class="fc" id="L367">      .put(PROLES, NomenclaturalCode.BOTANICAL)</span>
+<span class="fc" id="L368">      .put(SECTION, NomenclaturalCode.BOTANICAL)</span>
+<span class="fc" id="L369">      .put(SUBSECTION, NomenclaturalCode.BOTANICAL)</span>
+<span class="fc" id="L370">      .put(SERIES, NomenclaturalCode.BOTANICAL)</span>
+<span class="fc" id="L371">      .put(SUBSERIES, NomenclaturalCode.BOTANICAL)</span>
+
+<span class="fc" id="L373">      .put(CULTIVAR, NomenclaturalCode.CULTIVARS)</span>
+<span class="fc" id="L374">      .put(CULTIVAR_GROUP, NomenclaturalCode.CULTIVARS)</span>
+<span class="fc" id="L375">      .put(CONVARIETY, NomenclaturalCode.CULTIVARS)</span>
+<span class="fc" id="L376">      .put(GREX, NomenclaturalCode.CULTIVARS)</span>
+
+<span class="fc" id="L378">      .put(PATHOVAR, NomenclaturalCode.BACTERIAL)</span>
+<span class="fc" id="L379">      .put(BIOVAR, NomenclaturalCode.BACTERIAL)</span>
+<span class="fc" id="L380">      .put(CHEMOVAR, NomenclaturalCode.BACTERIAL)</span>
+<span class="fc" id="L381">      .put(MORPHOVAR, NomenclaturalCode.BACTERIAL)</span>
+<span class="fc" id="L382">      .put(PHAGOVAR, NomenclaturalCode.BACTERIAL)</span>
+<span class="fc" id="L383">      .put(SEROVAR, NomenclaturalCode.BACTERIAL)</span>
+<span class="fc" id="L384">      .put(CHEMOFORM, NomenclaturalCode.BACTERIAL)</span>
+<span class="fc" id="L385">      .put(FORMA_SPECIALIS, NomenclaturalCode.BACTERIAL)</span>
+<span class="fc" id="L386">      .build();</span>
+
+  private final String marker;
+
+  Rank() {
+<span class="fc" id="L391">    this(null);</span>
+<span class="fc" id="L392">  }</span>
+
+<span class="fc" id="L394">  Rank(String marker) {</span>
+<span class="fc" id="L395">    this.marker = marker;</span>
+<span class="fc" id="L396">  }</span>
+
+  public String getMarker() {
+<span class="fc" id="L399">    return marker;</span>
+  }
+
+  /**
+   * @return true for infraspecific ranks.
+   */
+  public boolean isInfraspecific() {
+<span class="fc bfc" id="L406" title="All 4 branches covered.">    return this != SPECIES &amp;&amp; isSpeciesOrBelow();</span>
+  }
+
+  /**
+   * @return true for infra subspecific ranks.
+   */
+  public boolean isInfrasubspecific() {
+<span class="nc bnc" id="L413" title="All 4 branches missed.">    return ordinal() &gt; SUBSPECIES.ordinal() &amp;&amp; notOtherOrUnknown();</span>
+  }
+
+  /**
+   * @return true for rank is below genus. Also incluse species and infraspecific ranks
+   */
+  public boolean isInfrageneric() {
+<span class="pc bpc" id="L420" title="1 of 4 branches missed.">    return ordinal() &gt; GENUS.ordinal() &amp;&amp; notOtherOrUnknown();</span>
+  }
+
+  /**
+   * @return true for real infrageneric ranks with an infragenericEpithet below genus and above species aggregate.
+   */
+  public boolean isInfragenericStrictly() {
+<span class="pc bpc" id="L427" title="1 of 4 branches missed.">    return isInfrageneric() &amp;&amp; ordinal() &lt; SPECIES_AGGREGATE.ordinal();</span>
+  }
+
+  /**
+   * True for all mayor Linnéan ranks, ie kingdom,phylum,class,order,family,genus and species.
+   */
+  public boolean isLinnean() {
+<span class="fc bfc" id="L434" title="All 2 branches covered.">    for (Rank r : LINNEAN_RANKS) {</span>
+<span class="fc bfc" id="L435" title="All 2 branches covered.">      if (r == this) {</span>
+<span class="fc" id="L436">        return true;</span>
+      }
+<span class="fc" id="L438">    }</span>
+<span class="fc" id="L439">    return false;</span>
+  }
+
+  public boolean isSpeciesOrBelow() {
+<span class="fc bfc" id="L443" title="All 4 branches covered.">    return ordinal() &gt;= SPECIES.ordinal() &amp;&amp; notOtherOrUnknown();</span>
+  }
+
+  public boolean isSpeciesAggregateOrBelow() {
+<span class="pc bpc" id="L447" title="1 of 4 branches missed.">    return ordinal() &gt;= SPECIES_AGGREGATE.ordinal() &amp;&amp; notOtherOrUnknown();</span>
+  }
+
+  public boolean notOtherOrUnknown() {
+<span class="fc bfc" id="L451" title="All 4 branches covered.">    return this != OTHER &amp;&amp; this != UNRANKED;</span>
+  }
+
+  /**
+   * @return true if the rank is above genus.
+   */
+  public boolean isSuprageneric() {
+<span class="fc bfc" id="L458" title="All 2 branches covered.">    return ordinal() &lt; GENUS.ordinal();</span>
+  }
+
+  /**
+   * @return true if the rank is above rank species.
+   */
+  public boolean isSupraspecific() {
+<span class="nc bnc" id="L465" title="All 2 branches missed.">    return ordinal() &lt; SPECIES.ordinal();</span>
+  }
+
+  /**
+   * True for names of informal ranks that represent a range of ranks really and therefore cannot safely be compared to
+   * other ranks in all cases.
+   * Example ranks are INFRASPECIFIC_NAME or INFRAGENERIC_NAME
+   *
+   * @return true if uncomparable
+   */
+  public boolean isUncomparable() {
+<span class="fc" id="L476">    return UNCOMPARABLE_RANKS.contains(this);</span>
+  }
+
+  /**
+   * @return true if the rank is considered a legacy rank not used anymore in current nomenclature.
+   */
+  public boolean isLegacy() {
+<span class="fc" id="L483">    return LEGACY_RANKS.contains(this);</span>
+  }
+
+  /**
+   * @return the nomenclatural code if the rank is restricted to just one code or null otherwise
+   */
+  public NomenclaturalCode isRestrictedToCode() {
+<span class="fc" id="L490">    return RANK2CODE.get(this);</span>
+  }
+
+  /**
+   * @return true if this rank is higher than the given other
+   */
+  public boolean higherThan(Rank other) {
+<span class="fc bfc" id="L497" title="All 2 branches covered.">    return ordinal() &lt; other.ordinal();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

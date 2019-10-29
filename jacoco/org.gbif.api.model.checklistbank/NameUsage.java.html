@@ -1,0 +1,1041 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NameUsage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">NameUsage.java</span></div><h1>NameUsage.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.checklistbank;
+
+import org.gbif.api.model.Constants;
+import org.gbif.api.model.common.LinneanClassification;
+import org.gbif.api.model.common.LinneanClassificationKeys;
+import org.gbif.api.util.ClassificationUtils;
+import org.gbif.api.vocabulary.NameType;
+import org.gbif.api.vocabulary.NameUsageIssue;
+import org.gbif.api.vocabulary.NomenclaturalStatus;
+import org.gbif.api.vocabulary.Origin;
+import org.gbif.api.vocabulary.Rank;
+import org.gbif.api.vocabulary.TaxonomicStatus;
+
+import java.net.URI;
+import java.util.Date;
+import java.util.EnumSet;
+import java.util.LinkedHashMap;
+import java.util.Set;
+import java.util.UUID;
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Sets;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+/**
+ * A usage of a &lt;em&gt;scientific name&lt;/em&gt; according to one particular Checklist including the GBIF Taxonomic Backbone,
+ * the nub. It is shown as species in the portal and API.
+ *
+ * All nub usages will have an empty nubKey. Backbone usages can be detected by either the NameUsage.isNub() method or by manually comparing the datasetKey
+ * with the fixed backbone datasetKey, see Constants.NUB_DATASET_KEY.
+ *
+ * Name usages from other checklists with names that also exist in the nub will have a nubKey that points to the related usage in the nub.
+ * To store not eagerly loaded subresources such as vernacular names or synonyms with a usage please use
+ * the {@link NameUsageContainer} class.
+ */
+<span class="fc" id="L55">public class NameUsage implements LinneanClassification, LinneanClassificationKeys {</span>
+
+  private Integer key;
+  private Integer nubKey;
+  private Integer nameKey;
+  private String taxonID;
+  private Integer sourceTaxonKey;
+  // for LinneanClassification
+  private String kingdom;
+  private String phylum;
+  @JsonProperty(&quot;class&quot;)
+  private String clazz;
+  private String order;
+  private String family;
+  private String genus;
+  private String subgenus;
+  private String species;
+  // for LinneanClassificationKeys
+  private Integer kingdomKey;
+  private Integer phylumKey;
+  private Integer classKey;
+  private Integer orderKey;
+  private Integer familyKey;
+  private Integer genusKey;
+  private Integer subgenusKey;
+  private Integer speciesKey;
+
+  private UUID datasetKey;
+  private UUID constituentKey;
+  private Integer parentKey;
+  private String parent;
+  private Integer proParteKey;
+  private Integer acceptedKey;
+  private String accepted;
+  private Integer basionymKey;
+  private String basionym;
+
+  private String scientificName;
+  private String canonicalName;
+  private String vernacularName;
+  private String authorship;
+  private NameType nameType;
+  private Rank rank;
+  private Origin origin;
+  private TaxonomicStatus taxonomicStatus;
+<span class="fc" id="L100">  private Set&lt;NomenclaturalStatus&gt; nomenclaturalStatus = Sets.newHashSet();</span>
+  private String remarks;
+  private String publishedIn;
+  private String accordingTo;
+
+  private int numDescendants;
+  private URI references;
+
+  private Date modified;
+  private Date deleted;
+  private Date lastCrawled;
+  private Date lastInterpreted;
+<span class="fc" id="L112">  private Set&lt;NameUsageIssue&gt; issues = EnumSet.noneOf(NameUsageIssue.class);</span>
+
+  /**
+   * @return the name key for retrieving a parsed name object
+   */
+  public Integer getNameKey() {
+<span class="fc" id="L118">    return nameKey;</span>
+  }
+
+  public void setNameKey(Integer nameKey) {
+<span class="fc" id="L122">    this.nameKey = nameKey;</span>
+<span class="fc" id="L123">  }</span>
+
+  /**
+   * For backbone taxa the source taxon key refers to the original name usage that was used during nub building
+   * and is the primary reason that this taxon exists in the backbone.
+   * &lt;br/&gt;
+   * All nub usages are build from several underlying checklist usages,
+   * but these are sorted by priority and the usage key for the highest priority one becomes the sourceTaxonKey
+   * for a nub usage.
+   * &lt;br/&gt;
+   * Some nub usages do not have any source record altogether.
+   * For example if there is a subspecies found, but no matching parent species,
+   * the missing species will be created nevertheless and has no primary source.
+   *
+   * @return The key of the name usage this backbone taxon is derived from.
+   */
+  @Nullable
+  public Integer getSourceTaxonKey() {
+<span class="fc" id="L141">    return sourceTaxonKey;</span>
+  }
+
+  public void setSourceTaxonKey(Integer sourceTaxonKey) {
+<span class="fc" id="L145">    this.sourceTaxonKey = sourceTaxonKey;</span>
+<span class="fc" id="L146">  }</span>
+
+  /**
+   * @return the scientific name of the accepted name
+   */
+  public String getAccepted() {
+<span class="fc" id="L152">    return accepted;</span>
+  }
+
+  /**
+   * Sets the scientific name of the basionym, i.e. original name usage.
+   */
+  public void setAccepted(String accepted) {
+<span class="fc" id="L159">    this.accepted = accepted;</span>
+<span class="fc" id="L160">  }</span>
+
+  /**
+   * @return the name usage key of the accepted name
+   */
+  public Integer getAcceptedKey() {
+<span class="fc" id="L166">    return acceptedKey;</span>
+  }
+
+  /**
+   * Sets the usage key for the accepted name.
+   */
+  public void setAcceptedKey(Integer acceptedKey) {
+<span class="fc" id="L173">    this.acceptedKey = acceptedKey;</span>
+<span class="fc" id="L174">  }</span>
+
+  /**
+   * The taxon concept reference usually a reference to some publication or author + year.
+   * The dwc:taxonAccordingTo reference is usually appended to the scientific name to further qualify the concept
+   * with &quot;sensu&quot; or &quot;sec.&quot; being used for concatenation. E.g. &quot;Acer nigrum sec. Gleason Cronquist 1991&quot;.
+   * In the case of backbone taxa this refers to the primary checklist the name was found in.
+   *
+   * @return the taxon concept reference
+   */
+  @Nullable
+  public String getAccordingTo() {
+<span class="fc" id="L186">    return accordingTo;</span>
+  }
+
+  /**
+   * @param accordingTo the accordingTo to set
+   */
+  public void setAccordingTo(String accordingTo) {
+<span class="fc" id="L193">    this.accordingTo = accordingTo;</span>
+<span class="fc" id="L194">  }</span>
+
+  /**
+   * Returns the authorship information for the scientific name.
+   *
+   * @return the authorship
+   */
+  @Nullable
+  public String getAuthorship() {
+<span class="fc" id="L203">    return authorship;</span>
+  }
+
+  /**
+   * @param authorship the authorship to set
+   */
+  public void setAuthorship(String authorship) {
+<span class="fc" id="L210">    this.authorship = authorship;</span>
+<span class="fc" id="L211">  }</span>
+
+  /**
+   * @return the scientific name of the basionym
+   */
+  public String getBasionym() {
+<span class="fc" id="L217">    return basionym;</span>
+  }
+
+  /**
+   * sets the basionym name.
+   */
+  public void setBasionym(String basionym) {
+<span class="fc" id="L224">    this.basionym = basionym;</span>
+<span class="fc" id="L225">  }</span>
+
+  /**
+   * Returns the earlier name (basionym) for this scientific name. Return null if the basionym does not exists.
+   *
+   * @return the basionymKey
+   */
+  @Nullable
+  public Integer getBasionymKey() {
+<span class="fc" id="L234">    return basionymKey;</span>
+  }
+
+  /**
+   * @param basionymKey the basionymKey to set
+   */
+  public void setBasionymKey(Integer basionymKey) {
+<span class="fc" id="L241">    this.basionymKey = basionymKey;</span>
+<span class="fc" id="L242">  }</span>
+
+  /**
+   * @return the canonicalName
+   */
+  @Nullable
+  public String getCanonicalName() {
+<span class="fc" id="L249">    return canonicalName;</span>
+  }
+
+  /**
+   * @param canonicalName the canonicalName to set
+   */
+  public void setCanonicalName(String canonicalName) {
+<span class="fc" id="L256">    this.canonicalName = canonicalName;</span>
+<span class="fc" id="L257">  }</span>
+
+  /**
+   * Returns the key of the checklist that &quot;hosts&quot; this name usage.
+   *
+   * @return the datasetKey
+   */
+  @NotNull
+  public UUID getDatasetKey() {
+<span class="fc" id="L266">    return datasetKey;</span>
+  }
+
+  /**
+   * @param datasetKey the datasetKey to set
+   */
+  public void setDatasetKey(UUID datasetKey) {
+<span class="fc" id="L273">    this.datasetKey = datasetKey;</span>
+<span class="fc" id="L274">  }</span>
+
+  /**
+   * Return the key that uniquely identifies this name usage.
+   *
+   * @return the key
+   */
+  @NotNull
+  public Integer getKey() {
+<span class="fc" id="L283">    return key;</span>
+  }
+
+  /**
+   * @param key the key to set
+   */
+  public void setKey(Integer key) {
+<span class="fc" id="L290">    this.key = key;</span>
+<span class="fc" id="L291">  }</span>
+
+  /**
+   * @return the type of name string classified by CLB.
+   */
+  public NameType getNameType() {
+<span class="fc" id="L297">    return nameType;</span>
+  }
+
+  /**
+   * @param nameType the type of name string
+   */
+  public void setNameType(NameType nameType) {
+<span class="fc" id="L304">    this.nameType = nameType;</span>
+<span class="fc" id="L305">  }</span>
+
+  /**
+   * The status related to the conformance to the relevant rules of nomenclature.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; &quot;invalid&quot;, &quot;misapplied&quot;, &quot;homotypic synonym&quot;, &quot;accepted&quot;
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the set of known nomenclaturalStatus values
+   *
+   * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/gbif/nomenclatural_status.xml&quot;&gt;Nomenclatural Status GBIF
+   *      Vocabulary&lt;/a&gt;
+   */
+  public Set&lt;NomenclaturalStatus&gt; getNomenclaturalStatus() {
+<span class="fc" id="L321">    return nomenclaturalStatus;</span>
+  }
+
+  /**
+   * @param nomenclaturalStatus the nomenclaturalStatus to set
+   */
+  public void setNomenclaturalStatus(Set&lt;NomenclaturalStatus&gt; nomenclaturalStatus) {
+<span class="fc" id="L328">    this.nomenclaturalStatus = nomenclaturalStatus;</span>
+<span class="fc" id="L329">  }</span>
+
+  /**
+   * @return the taxon key of the matching backbone name usage
+   */
+  @Nullable
+  public Integer getNubKey() {
+<span class="fc" id="L336">    return nubKey;</span>
+  }
+
+  /**
+   * @param nubKey the nubKey to set
+   */
+  public void setNubKey(Integer nubKey) {
+<span class="fc" id="L343">    this.nubKey = nubKey;</span>
+<span class="fc" id="L344">  }</span>
+
+  /**
+   * The number of all accepted taxonomic elements under this usage.
+   *
+   * @return the number of descendants
+   */
+  public int getNumDescendants() {
+<span class="fc" id="L352">    return numDescendants;</span>
+  }
+
+  /**
+   * @param numDescendants the n umber of descendants to set
+   */
+  public void setNumDescendants(int numDescendants) {
+<span class="fc" id="L359">    this.numDescendants = numDescendants;</span>
+<span class="fc" id="L360">  }</span>
+
+  /**
+   * The origin of this name usage record, i.e. the reason why it exists.
+   * In most cases this is because the record existed explicitly in the checklist sources, but
+   * some usages are created de novo because they exist implicitly in the data.
+   *
+   * @return the name usage origin
+   *
+   * @see Origin
+   */
+  @NotNull
+  public Origin getOrigin() {
+<span class="fc" id="L373">    return origin;</span>
+  }
+
+  /**
+   * @param origin the origin to set
+   */
+  public void setOrigin(Origin origin) {
+<span class="fc" id="L380">    this.origin = origin;</span>
+<span class="fc" id="L381">  }</span>
+
+  /**
+   * The scientific name of the parent.
+   *
+   * @return the parent name
+   */
+  public String getParent() {
+<span class="fc" id="L389">    return parent;</span>
+  }
+
+  /**
+   * @param parent the parent name to set
+   */
+  public void setParent(String parent) {
+<span class="fc" id="L396">    this.parent = parent;</span>
+<span class="fc" id="L397">  }</span>
+
+  /**
+   * Returns the immediate parent. If this usage if for the highest taxonomic level, return null.
+   *
+   * @return the parentKey
+   */
+  @Nullable
+  public Integer getParentKey() {
+<span class="fc" id="L406">    return parentKey;</span>
+  }
+
+  /**
+   * @param parentKey the parentKey to set
+   */
+  public void setParentKey(Integer parentKey) {
+<span class="fc" id="L413">    this.parentKey = parentKey;</span>
+<span class="fc" id="L414">  }</span>
+
+  /**
+   * Pro parte synonyms, i.e. a synonym with multiple accepted names, are grouped by a single, primary name usage key.
+   *
+   * @return the primary name usage key for a prop parte synonym or null
+   */
+  public Integer getProParteKey() {
+<span class="fc" id="L422">    return proParteKey;</span>
+  }
+
+  /**
+   * Sets the pro parte usage key.
+   */
+  public void setProParteKey(Integer proParteKey) {
+<span class="fc" id="L429">    this.proParteKey = proParteKey;</span>
+<span class="fc" id="L430">  }</span>
+
+  /**
+   * Original publication for this name usage.
+   *
+   * @return the publishedIn
+   */
+  @Nullable
+  public String getPublishedIn() {
+<span class="fc" id="L439">    return publishedIn;</span>
+  }
+
+  /**
+   * @param publishedIn the publishedIn to set
+   */
+  public void setPublishedIn(String publishedIn) {
+<span class="fc" id="L446">    this.publishedIn = publishedIn;</span>
+<span class="fc" id="L447">  }</span>
+
+  /**
+   * Returns the rank for this usage.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; &quot;Kingdom&quot;, &quot;Genus&quot;
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the rank
+   */
+  @Nullable
+  public Rank getRank() {
+<span class="fc" id="L461">    return rank;</span>
+  }
+
+  /**
+   * @param rank the rank to set
+   */
+  public void setRank(Rank rank) {
+<span class="fc" id="L468">    this.rank = rank;</span>
+<span class="fc" id="L469">  }</span>
+
+  /**
+   * The taxon name (with date and authorship information if applicable).
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; &quot;Coleoptera&quot; (order), &quot;Vespertilionidae&quot; (family), &quot;Manis&quot; (genus), &quot;Ctenomys sociabilis&quot; (genus +
+   * specificEpithet), &quot;Ambystoma tigrinum diaboli&quot; (genus + specificEpithet + infraspecificEpithet),
+   * &quot;Quercus agrifolia var. oxyadenia (Torr.)&quot;
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the scientificName
+   */
+  @NotNull
+  public String getScientificName() {
+<span class="fc" id="L485">    return scientificName;</span>
+  }
+
+  /**
+   * @param scientificName the scientificName to set
+   */
+  public void setScientificName(String scientificName) {
+<span class="fc" id="L492">    this.scientificName = scientificName;</span>
+<span class="fc" id="L493">  }</span>
+
+  /**
+   * Return the optional sub dataset key for this usage.
+   *
+   * @return the subDatasetKey or null
+   */
+  @Nullable
+  public UUID getConstituentKey() {
+<span class="fc" id="L502">    return constituentKey;</span>
+  }
+
+  /**
+   * @param constituentKey to set
+   */
+  public void setConstituentKey(UUID constituentKey) {
+<span class="fc" id="L509">    this.constituentKey = constituentKey;</span>
+<span class="fc" id="L510">  }</span>
+
+  /**
+   * A common or vernacular name for this usage.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; Andean Condor&quot;, &quot;Condor Andino&quot;, &quot;American Eagle&quot;, &quot;Gänsegeier&quot;.
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the vernacularName
+   */
+  @Nullable
+  public String getVernacularName() {
+<span class="fc" id="L524">    return vernacularName;</span>
+  }
+
+  /**
+   * @param vernacularName the vernacularName to set
+   */
+  public void setVernacularName(String vernacularName) {
+<span class="fc" id="L531">    this.vernacularName = vernacularName;</span>
+<span class="fc" id="L532">  }</span>
+
+  /**
+   * @param taxonomicStatus the taxonomicStatus to set
+   */
+  public void setTaxonomicStatus(TaxonomicStatus taxonomicStatus) {
+<span class="fc" id="L538">    this.taxonomicStatus = taxonomicStatus;</span>
+<span class="fc" id="L539">  }</span>
+
+  @Override
+  public String getKingdom() {
+<span class="fc" id="L543">    return kingdom;</span>
+  }
+
+  @Override
+  public void setKingdom(String kingdom) {
+<span class="fc" id="L548">    this.kingdom = kingdom;</span>
+<span class="fc" id="L549">  }</span>
+
+  @Override
+  public String getPhylum() {
+<span class="fc" id="L553">    return phylum;</span>
+  }
+
+  @Override
+  public void setPhylum(String phylum) {
+<span class="fc" id="L558">    this.phylum = phylum;</span>
+<span class="fc" id="L559">  }</span>
+
+  @Override
+  public String getClazz() {
+<span class="fc" id="L563">    return clazz;</span>
+  }
+
+  @Override
+  public void setClazz(String clazz) {
+<span class="fc" id="L568">    this.clazz = clazz;</span>
+<span class="fc" id="L569">  }</span>
+
+  @Override
+  public String getOrder() {
+<span class="fc" id="L573">    return order;</span>
+  }
+
+  @Override
+  public void setOrder(String order) {
+<span class="fc" id="L578">    this.order = order;</span>
+<span class="fc" id="L579">  }</span>
+
+  @Override
+  public String getFamily() {
+<span class="fc" id="L583">    return family;</span>
+  }
+
+  @Override
+  public void setFamily(String family) {
+<span class="fc" id="L588">    this.family = family;</span>
+<span class="fc" id="L589">  }</span>
+
+  @Override
+  public String getGenus() {
+<span class="fc" id="L593">    return genus;</span>
+  }
+
+  @Override
+  public void setGenus(String genus) {
+<span class="fc" id="L598">    this.genus = genus;</span>
+<span class="fc" id="L599">  }</span>
+
+  @Override
+  public String getSubgenus() {
+<span class="fc" id="L603">    return subgenus;</span>
+  }
+
+  @Override
+  public void setSubgenus(String subgenus) {
+<span class="fc" id="L608">    this.subgenus = subgenus;</span>
+<span class="fc" id="L609">  }</span>
+
+  @Override
+  public String getSpecies() {
+<span class="fc" id="L613">    return species;</span>
+  }
+
+  @Override
+  public void setSpecies(String species) {
+<span class="fc" id="L618">    this.species = species;</span>
+<span class="fc" id="L619">  }</span>
+
+  @Override
+  public Integer getKingdomKey() {
+<span class="fc" id="L623">    return kingdomKey;</span>
+  }
+
+  @Override
+  public void setKingdomKey(Integer kingdomKey) {
+<span class="fc" id="L628">    this.kingdomKey = kingdomKey;</span>
+<span class="fc" id="L629">  }</span>
+
+  @Override
+  public Integer getPhylumKey() {
+<span class="fc" id="L633">    return phylumKey;</span>
+  }
+
+  @Override
+  public void setPhylumKey(Integer phylumKey) {
+<span class="fc" id="L638">    this.phylumKey = phylumKey;</span>
+<span class="fc" id="L639">  }</span>
+
+  @Override
+  public Integer getClassKey() {
+<span class="fc" id="L643">    return classKey;</span>
+  }
+
+  @Override
+  public void setClassKey(Integer classKey) {
+<span class="fc" id="L648">    this.classKey = classKey;</span>
+<span class="fc" id="L649">  }</span>
+
+  @Override
+  public Integer getOrderKey() {
+<span class="fc" id="L653">    return orderKey;</span>
+  }
+
+  @Override
+  public void setOrderKey(Integer orderKey) {
+<span class="fc" id="L658">    this.orderKey = orderKey;</span>
+<span class="fc" id="L659">  }</span>
+
+  @Override
+  public Integer getFamilyKey() {
+<span class="fc" id="L663">    return familyKey;</span>
+  }
+
+  @Override
+  public void setFamilyKey(Integer familyKey) {
+<span class="fc" id="L668">    this.familyKey = familyKey;</span>
+<span class="fc" id="L669">  }</span>
+
+  @Override
+  public Integer getGenusKey() {
+<span class="fc" id="L673">    return genusKey;</span>
+  }
+
+  @Override
+  public void setGenusKey(Integer genusKey) {
+<span class="fc" id="L678">    this.genusKey = genusKey;</span>
+<span class="fc" id="L679">  }</span>
+
+  @Override
+  public Integer getSubgenusKey() {
+<span class="fc" id="L683">    return subgenusKey;</span>
+  }
+
+  @Override
+  public void setSubgenusKey(Integer subgenusKey) {
+<span class="fc" id="L688">    this.subgenusKey = subgenusKey;</span>
+<span class="fc" id="L689">  }</span>
+
+  @Override
+  public Integer getSpeciesKey() {
+<span class="fc" id="L693">    return speciesKey;</span>
+  }
+
+  @Override
+  public void setSpeciesKey(Integer speciesKey) {
+<span class="fc" id="L698">    this.speciesKey = speciesKey;</span>
+<span class="fc" id="L699">  }</span>
+
+  public String getRemarks() {
+<span class="fc" id="L702">    return remarks;</span>
+  }
+
+  public void setRemarks(String remarks) {
+<span class="fc" id="L706">    this.remarks = remarks;</span>
+<span class="fc" id="L707">  }</span>
+
+  /**
+   * @return the canonicalName or scientific name in case its null
+   */
+  @Nullable
+  @JsonIgnore
+  public String getCanonicalOrScientificName() {
+<span class="nc bnc" id="L715" title="All 2 branches missed.">    return canonicalName == null ? scientificName : canonicalName;</span>
+  }
+
+  @Nullable
+  /**
+   * A URI link or reference to the source of this record, the records &quot;homepage&quot;.
+   * &lt;blockquote&gt;
+   * &lt;p&gt;
+   * &lt;i&gt;Example:&lt;/i&gt; http://www.catalogueoflife.org/annual-checklist/show_species_details.php?record_id=6197868
+   * &lt;/p&gt;
+   * &lt;/blockquote&gt;
+   *
+   * @return the link
+   */
+  public URI getReferences() {
+<span class="fc" id="L730">    return references;</span>
+  }
+
+  public void setReferences(URI references) {
+<span class="fc" id="L734">    this.references = references;</span>
+<span class="fc" id="L735">  }</span>
+
+  @Override
+  public String getHigherRank(Rank rank) {
+<span class="nc" id="L739">    return ClassificationUtils.getHigherRank(this, rank);</span>
+  }
+
+  @Override
+  public Integer getHigherRankKey(Rank rank) {
+<span class="nc" id="L744">    return ClassificationUtils.getHigherRankKey(this, rank);</span>
+  }
+
+  /**
+   * An ordered map with entries for all higher Linnean ranks down to the actual direct parent of this usage.
+   * The map starts with the highest rank, e.g. the kingdom and maps the name usage key to its canonical name.
+   * The name usage itself is never included, even though a higher rank might point to the usage itself.
+   *
+   * @return map of higher ranks
+   */
+  @NotNull
+  @JsonIgnore
+  public LinkedHashMap&lt;Integer, String&gt; getHigherClassificationMap() {
+<span class="fc" id="L757">    return ClassificationUtils.getHigherClassificationMap(this, key, parentKey, parent);</span>
+  }
+
+  /**
+   * The original taxonID of the name usage as found in the source.
+   * For backbone taxa and name usages with an origin different to SOURCE this is null.
+   */
+  @Nullable
+  public String getTaxonID() {
+<span class="fc" id="L766">    return taxonID;</span>
+  }
+
+  /**
+   * The taxonomic status of the name usage.
+   * Can be null, but for all synonyms with an accepted name usage it is guaranteed to exist.
+   *
+   * @return the taxonomicStatus, can be null
+   */
+  @Nullable
+  public TaxonomicStatus getTaxonomicStatus() {
+<span class="fc" id="L777">    return taxonomicStatus;</span>
+  }
+
+  @Nullable
+  /**
+   * The interpreted dc:modified from the verbatim source data.
+   * Ideally indicating when a record was last modified in the source.
+   */
+  public Date getModified() {
+<span class="fc" id="L786">    return modified;</span>
+  }
+
+  public void setModified(Date modified) {
+<span class="fc" id="L790">    this.modified = modified;</span>
+<span class="fc" id="L791">  }</span>
+
+  @Nullable
+  /**
+   * The date this record was deleted.
+   * Logical deletions only occur for backbone usages!
+   */
+  public Date getDeleted() {
+<span class="fc" id="L799">    return deleted;</span>
+  }
+
+  public void setDeleted(Date deleted) {
+<span class="fc" id="L803">    this.deleted = deleted;</span>
+<span class="fc" id="L804">  }</span>
+
+  @Nullable
+  /**
+   * The date this record was last crawled during clb indexing.
+   */
+  public Date getLastCrawled() {
+<span class="fc" id="L811">    return lastCrawled;</span>
+  }
+
+  public void setLastCrawled(Date lastCrawled) {
+<span class="fc" id="L815">    this.lastCrawled = lastCrawled;</span>
+<span class="fc" id="L816">  }</span>
+
+  @Nullable
+  /**
+   * The date this record was last interpreted during indexing.
+   * This includes matching to the backbone.
+   */
+  public Date getLastInterpreted() {
+<span class="fc" id="L824">    return lastInterpreted;</span>
+  }
+
+  public void setLastInterpreted(Date lastInterpreted) {
+<span class="fc" id="L828">    this.lastInterpreted = lastInterpreted;</span>
+<span class="fc" id="L829">  }</span>
+
+  @NotNull
+  public Set&lt;NameUsageIssue&gt; getIssues() {
+<span class="fc" id="L833">    return issues;</span>
+  }
+
+  public void setIssues(Set&lt;NameUsageIssue&gt; issues) {
+<span class="fc" id="L837">    Preconditions.checkNotNull(issues, &quot;Issues cannot be null&quot;);</span>
+<span class="fc" id="L838">    this.issues = Sets.newEnumSet(issues, NameUsageIssue.class);</span>
+<span class="fc" id="L839">  }</span>
+
+  public void addIssue(NameUsageIssue issue) {
+<span class="nc" id="L842">    Preconditions.checkNotNull(issue, &quot;Issue needs to be specified&quot;);</span>
+<span class="nc" id="L843">    this.issues.add(issue);</span>
+<span class="nc" id="L844">  }</span>
+
+  @JsonIgnore
+  public boolean isNub() {
+<span class="nc" id="L848">    return datasetKey.equals(Constants.NUB_DATASET_KEY);</span>
+  }
+
+  /**
+   * True for pro parte synonyms with multiple accepted usages.
+   *
+   * @return true if proParte, false otherwise
+   */
+  @JsonIgnore
+  public boolean isProParte() {
+<span class="pc bpc" id="L858" title="1 of 2 branches missed.">    return proParteKey != null;</span>
+  }
+
+  /**
+   * Convenience method using the taxonomicStatus field.
+   * @return true if its a synonym
+   */
+  public boolean isSynonym() {
+<span class="fc bfc" id="L866" title="All 4 branches covered.">    return taxonomicStatus != null &amp;&amp; taxonomicStatus.isSynonym();</span>
+  }
+
+  public void setTaxonID(String taxonID) {
+<span class="fc" id="L870">    this.taxonID = taxonID;</span>
+<span class="fc" id="L871">  }</span>
+
+  @Override
+  public int hashCode() {
+<span class="fc" id="L875">    return Objects</span>
+<span class="fc" id="L876">      .hashCode(</span>
+        key,
+        nameKey,
+        kingdom,
+        phylum,
+        clazz,
+        order,
+        family,
+        genus,
+        subgenus,
+        species,
+        kingdomKey,
+        phylumKey,
+        classKey,
+        orderKey,
+        familyKey,
+        genusKey,
+        subgenusKey,
+        speciesKey,
+        datasetKey, constituentKey, nubKey,
+        parentKey,
+        parent,
+        proParteKey,
+        acceptedKey,
+        accepted,
+        basionymKey,
+        basionym,
+        scientificName,
+        canonicalName,
+        vernacularName,
+        authorship,
+        nameType,
+        taxonomicStatus,
+        nomenclaturalStatus,
+        rank,
+        publishedIn,
+        accordingTo,
+<span class="fc" id="L913">        numDescendants,</span>
+        origin,
+        remarks,
+        references,
+        taxonID,
+        modified,
+        deleted,
+        lastCrawled,
+        lastInterpreted,
+        issues);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="fc bfc" id="L927" title="All 2 branches covered.">    if (this == obj) {</span>
+<span class="fc" id="L928">      return true;</span>
+    }
+<span class="fc bfc" id="L930" title="All 2 branches covered.">    if (obj == null) {</span>
+<span class="fc" id="L931">      return false;</span>
+    }
+<span class="pc bpc" id="L933" title="1 of 2 branches missed.">    if (getClass() != obj.getClass()) {</span>
+<span class="nc" id="L934">      return false;</span>
+    }
+<span class="fc" id="L936">    final NameUsage other = (NameUsage) obj;</span>
+<span class="fc bfc" id="L937" title="All 2 branches covered.">    return Objects.equal(this.key, other.key)</span>
+<span class="pc bpc" id="L938" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.nameKey, other.nameKey)</span>
+<span class="pc bpc" id="L939" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.kingdom, other.kingdom)</span>
+<span class="pc bpc" id="L940" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.phylum, other.phylum)</span>
+<span class="pc bpc" id="L941" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.clazz, other.clazz)</span>
+<span class="pc bpc" id="L942" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.order, other.order)</span>
+<span class="pc bpc" id="L943" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.family, other.family)</span>
+<span class="pc bpc" id="L944" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.genus, other.genus)</span>
+<span class="pc bpc" id="L945" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.subgenus, other.subgenus)</span>
+<span class="pc bpc" id="L946" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.species, other.species)</span>
+<span class="pc bpc" id="L947" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.kingdomKey, other.kingdomKey)</span>
+<span class="pc bpc" id="L948" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.phylumKey, other.phylumKey)</span>
+<span class="pc bpc" id="L949" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.classKey, other.classKey)</span>
+<span class="pc bpc" id="L950" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.orderKey, other.orderKey)</span>
+<span class="pc bpc" id="L951" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.familyKey, other.familyKey)</span>
+<span class="pc bpc" id="L952" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.genusKey, other.genusKey)</span>
+<span class="pc bpc" id="L953" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.subgenusKey, other.subgenusKey)</span>
+<span class="pc bpc" id="L954" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.speciesKey, other.speciesKey)</span>
+<span class="pc bpc" id="L955" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.datasetKey, other.datasetKey)</span>
+<span class="pc bpc" id="L956" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.constituentKey, other.constituentKey)</span>
+<span class="pc bpc" id="L957" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.nubKey, other.nubKey)</span>
+<span class="pc bpc" id="L958" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.parentKey, other.parentKey)</span>
+<span class="pc bpc" id="L959" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.parent, other.parent)</span>
+<span class="pc bpc" id="L960" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.proParteKey, other.proParteKey)</span>
+<span class="pc bpc" id="L961" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.acceptedKey, other.acceptedKey)</span>
+<span class="pc bpc" id="L962" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.accepted, other.accepted)</span>
+<span class="pc bpc" id="L963" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.basionymKey, other.basionymKey)</span>
+<span class="pc bpc" id="L964" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.basionym, other.basionym)</span>
+<span class="pc bpc" id="L965" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.scientificName, other.scientificName)</span>
+<span class="pc bpc" id="L966" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.canonicalName, other.canonicalName)</span>
+<span class="pc bpc" id="L967" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.vernacularName, other.vernacularName)</span>
+<span class="pc bpc" id="L968" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.authorship, other.authorship)</span>
+<span class="pc bpc" id="L969" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.nameType, other.nameType)</span>
+<span class="pc bpc" id="L970" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.taxonomicStatus, other.taxonomicStatus)</span>
+<span class="pc bpc" id="L971" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.nomenclaturalStatus, other.nomenclaturalStatus)</span>
+<span class="pc bpc" id="L972" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.rank, other.rank)</span>
+<span class="pc bpc" id="L973" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.publishedIn, other.publishedIn)</span>
+<span class="pc bpc" id="L974" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.accordingTo, other.accordingTo)</span>
+<span class="pc bpc" id="L975" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.numDescendants, other.numDescendants)</span>
+<span class="pc bpc" id="L976" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.origin, other.origin)</span>
+<span class="pc bpc" id="L977" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.references, other.references)</span>
+<span class="pc bpc" id="L978" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.taxonID, other.taxonID)</span>
+<span class="pc bpc" id="L979" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.remarks, other.remarks)</span>
+<span class="pc bpc" id="L980" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.modified, other.modified)</span>
+<span class="pc bpc" id="L981" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.deleted, other.deleted)</span>
+<span class="pc bpc" id="L982" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.lastCrawled, other.lastCrawled)</span>
+<span class="pc bpc" id="L983" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.lastInterpreted, other.lastInterpreted)</span>
+<span class="pc bpc" id="L984" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.issues, other.issues);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L989">    return Objects.toStringHelper(this)</span>
+<span class="nc" id="L990">      .add(&quot;key&quot;, key)</span>
+<span class="nc" id="L991">      .add(&quot;nameKey&quot;, nameKey)</span>
+<span class="nc" id="L992">      .add(&quot;kingdom&quot;, kingdom)</span>
+<span class="nc" id="L993">      .add(&quot;phylum&quot;, phylum)</span>
+<span class="nc" id="L994">      .add(&quot;clazz&quot;, clazz)</span>
+<span class="nc" id="L995">      .add(&quot;order&quot;, order)</span>
+<span class="nc" id="L996">      .add(&quot;family&quot;, family)</span>
+<span class="nc" id="L997">      .add(&quot;genus&quot;, genus)</span>
+<span class="nc" id="L998">      .add(&quot;subgenus&quot;, subgenus)</span>
+<span class="nc" id="L999">      .add(&quot;species&quot;, species)</span>
+<span class="nc" id="L1000">      .add(&quot;kingdomKey&quot;, kingdomKey)</span>
+<span class="nc" id="L1001">      .add(&quot;phylumKey&quot;, phylumKey)</span>
+<span class="nc" id="L1002">      .add(&quot;classKey&quot;, classKey)</span>
+<span class="nc" id="L1003">      .add(&quot;orderKey&quot;, orderKey)</span>
+<span class="nc" id="L1004">      .add(&quot;familyKey&quot;, familyKey)</span>
+<span class="nc" id="L1005">      .add(&quot;genusKey&quot;, genusKey)</span>
+<span class="nc" id="L1006">      .add(&quot;subgenusKey&quot;, subgenusKey)</span>
+<span class="nc" id="L1007">      .add(&quot;speciesKey&quot;, speciesKey)</span>
+<span class="nc" id="L1008">      .add(&quot;datasetKey&quot;, datasetKey)</span>
+<span class="nc" id="L1009">      .add(&quot;subDatasetKey&quot;, constituentKey)</span>
+<span class="nc" id="L1010">      .add(&quot;nubKey&quot;, nubKey)</span>
+<span class="nc" id="L1011">      .add(&quot;parentKey&quot;, parentKey)</span>
+<span class="nc" id="L1012">      .add(&quot;parent&quot;, parent)</span>
+<span class="nc" id="L1013">      .add(&quot;proParteKey&quot;, proParteKey)</span>
+<span class="nc" id="L1014">      .add(&quot;acceptedKey&quot;, acceptedKey)</span>
+<span class="nc" id="L1015">      .add(&quot;accepted&quot;, accepted)</span>
+<span class="nc" id="L1016">      .add(&quot;basionymKey&quot;, basionymKey)</span>
+<span class="nc" id="L1017">      .add(&quot;basionym&quot;, basionym)</span>
+<span class="nc" id="L1018">      .add(&quot;scientificName&quot;, scientificName)</span>
+<span class="nc" id="L1019">      .add(&quot;canonicalName&quot;, canonicalName)</span>
+<span class="nc" id="L1020">      .add(&quot;vernacularName&quot;, vernacularName)</span>
+<span class="nc" id="L1021">      .add(&quot;authorship&quot;, authorship)</span>
+<span class="nc" id="L1022">      .add(&quot;nameType&quot;, nameType)</span>
+<span class="nc" id="L1023">      .add(&quot;taxonomicStatus&quot;, taxonomicStatus)</span>
+<span class="nc" id="L1024">      .add(&quot;nomenclaturalStatus&quot;, nomenclaturalStatus)</span>
+<span class="nc" id="L1025">      .add(&quot;rank&quot;, rank)</span>
+<span class="nc" id="L1026">      .add(&quot;publishedIn&quot;, publishedIn)</span>
+<span class="nc" id="L1027">      .add(&quot;accordingTo&quot;, accordingTo)</span>
+<span class="nc" id="L1028">      .add(&quot;numDescendants&quot;, numDescendants)</span>
+<span class="nc" id="L1029">      .add(&quot;origin&quot;, origin)</span>
+<span class="nc" id="L1030">      .add(&quot;remarks&quot;, remarks)</span>
+<span class="nc" id="L1031">      .add(&quot;references&quot;, references)</span>
+<span class="nc" id="L1032">      .add(&quot;taxonID&quot;, taxonID)</span>
+<span class="nc" id="L1033">      .add(&quot;modified&quot;, modified)</span>
+<span class="nc" id="L1034">      .add(&quot;deleted&quot;, deleted)</span>
+<span class="nc" id="L1035">      .add(&quot;lastCrawled&quot;, lastCrawled)</span>
+<span class="nc" id="L1036">      .add(&quot;lastInterpreted&quot;, lastInterpreted)</span>
+<span class="nc" id="L1037">      .add(&quot;issues&quot;, issues)</span>
+<span class="nc" id="L1038">      .toString();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

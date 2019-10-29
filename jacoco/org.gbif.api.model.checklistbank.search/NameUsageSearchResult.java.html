@@ -1,0 +1,659 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NameUsageSearchResult.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank.search</a> &gt; <span class="el_source">NameUsageSearchResult.java</span></div><h1>NameUsageSearchResult.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.checklistbank.search;
+
+import org.gbif.api.model.checklistbank.Description;
+import org.gbif.api.model.checklistbank.VernacularName;
+import org.gbif.api.model.common.LinneanClassification;
+import org.gbif.api.model.common.LinneanClassificationKeys;
+import org.gbif.api.util.ClassificationUtils;
+import org.gbif.api.vocabulary.Habitat;
+import org.gbif.api.vocabulary.NameType;
+import org.gbif.api.vocabulary.NomenclaturalStatus;
+import org.gbif.api.vocabulary.Origin;
+import org.gbif.api.vocabulary.Rank;
+import org.gbif.api.vocabulary.TaxonomicStatus;
+import org.gbif.api.vocabulary.ThreatStatus;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.UUID;
+import javax.validation.constraints.NotNull;
+
+import com.google.common.base.Objects;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+import static com.google.common.collect.Lists.newArrayList;
+
+
+/**
+ * Class used for returning results of a full text search operation.
+ * This class contains additional attributes that are required for displaying/providing textual information.
+ */
+<span class="nc" id="L46">public class NameUsageSearchResult implements LinneanClassification, LinneanClassificationKeys {</span>
+
+  private Integer key;
+  private Integer nameKey;
+  private UUID datasetKey;
+  private UUID constituentKey;
+  private Integer nubKey;
+  private Integer parentKey;
+  private String parent;
+  private Integer acceptedKey;
+  private String accepted;
+  private Integer basionymKey;
+  private String basionym;
+
+  // for LinneanClassification
+  private String kingdom;
+  private String phylum;
+  @JsonProperty(&quot;class&quot;)
+  private String clazz;
+  private String order;
+  private String family;
+  private String genus;
+  private String subgenus;
+  private String species;
+  // for LinneanClassificationKeys
+  private Integer kingdomKey;
+  private Integer phylumKey;
+  private Integer classKey;
+  private Integer orderKey;
+  private Integer familyKey;
+  private Integer genusKey;
+  private Integer subgenusKey;
+  private Integer speciesKey;
+
+  private String scientificName;
+  private String canonicalName;
+  private String authorship;
+  private String publishedIn;
+  private String accordingTo;
+
+  private NameType nameType;
+  private TaxonomicStatus taxonomicStatus;
+  private Rank rank;
+  private Origin origin;
+
+  private int numDescendants;
+  private int numOccurrences;
+
+  private String taxonID;
+  private Boolean extinct;
+<span class="nc" id="L96">  private List&lt;Habitat&gt; habitats = newArrayList();</span>
+<span class="nc" id="L97">  private List&lt;NomenclaturalStatus&gt; nomenclaturalStatus = newArrayList();</span>
+<span class="nc" id="L98">  private List&lt;ThreatStatus&gt; threatStatuses = newArrayList();</span>
+<span class="nc" id="L99">  private List&lt;Description&gt; descriptions = newArrayList();</span>
+<span class="nc" id="L100">  private List&lt;VernacularName&gt; vernacularNames = newArrayList();</span>
+
+  /**
+   * @return the name key for retrieving a parsed name object
+   */
+  public Integer getNameKey() {
+<span class="nc" id="L106">    return nameKey;</span>
+  }
+
+  public void setNameKey(Integer nameKey) {
+<span class="nc" id="L110">    this.nameKey = nameKey;</span>
+<span class="nc" id="L111">  }</span>
+
+  public String getAccepted() {
+<span class="nc" id="L114">    return accepted;</span>
+  }
+
+  public void setAccepted(String accepted) {
+<span class="nc" id="L118">    this.accepted = accepted;</span>
+<span class="nc" id="L119">  }</span>
+
+  public Integer getAcceptedKey() {
+<span class="nc" id="L122">    return acceptedKey;</span>
+  }
+
+  public void setAcceptedKey(Integer acceptedKey) {
+<span class="nc" id="L126">    this.acceptedKey = acceptedKey;</span>
+<span class="nc" id="L127">  }</span>
+
+  public String getAccordingTo() {
+<span class="nc" id="L130">    return accordingTo;</span>
+  }
+
+  public void setAccordingTo(String accordingTo) {
+<span class="nc" id="L134">    this.accordingTo = accordingTo;</span>
+<span class="nc" id="L135">  }</span>
+
+  public String getAuthorship() {
+<span class="nc" id="L138">    return authorship;</span>
+  }
+
+  public void setAuthorship(String authorship) {
+<span class="nc" id="L142">    this.authorship = authorship;</span>
+<span class="nc" id="L143">  }</span>
+
+  public String getBasionym() {
+<span class="nc" id="L146">    return basionym;</span>
+  }
+
+  public void setBasionym(String basionym) {
+<span class="nc" id="L150">    this.basionym = basionym;</span>
+<span class="nc" id="L151">  }</span>
+
+  public Integer getBasionymKey() {
+<span class="nc" id="L154">    return basionymKey;</span>
+  }
+
+  public void setBasionymKey(Integer basionymKey) {
+<span class="nc" id="L158">    this.basionymKey = basionymKey;</span>
+<span class="nc" id="L159">  }</span>
+
+  public String getCanonicalName() {
+<span class="nc" id="L162">    return canonicalName;</span>
+  }
+
+  public void setCanonicalName(String canonicalName) {
+<span class="nc" id="L166">    this.canonicalName = canonicalName;</span>
+<span class="nc" id="L167">  }</span>
+
+  public UUID getDatasetKey() {
+<span class="nc" id="L170">    return datasetKey;</span>
+  }
+
+  public void setDatasetKey(UUID datasetKey) {
+<span class="nc" id="L174">    this.datasetKey = datasetKey;</span>
+<span class="nc" id="L175">  }</span>
+
+  public UUID getConstituentKey() {
+<span class="nc" id="L178">    return constituentKey;</span>
+  }
+
+  public void setConstituentKey(UUID constituentKey) {
+<span class="nc" id="L182">    this.constituentKey = constituentKey;</span>
+<span class="nc" id="L183">  }</span>
+
+  /**
+   * @return the list of Description
+   */
+  @NotNull
+  public List&lt;Description&gt; getDescriptions() {
+<span class="nc" id="L190">    return descriptions;</span>
+  }
+
+  /**
+   * @param descriptions the list of Description
+   */
+  public void setDescriptions(List&lt;Description&gt; descriptions) {
+<span class="nc" id="L197">    this.descriptions = descriptions;</span>
+<span class="nc" id="L198">  }</span>
+
+  public Integer getKey() {
+<span class="nc" id="L201">    return key;</span>
+  }
+
+  public void setKey(Integer key) {
+<span class="nc" id="L205">    this.key = key;</span>
+<span class="nc" id="L206">  }</span>
+
+  public NameType getNameType() {
+<span class="nc" id="L209">    return nameType;</span>
+  }
+
+  public void setNameType(NameType nameType) {
+<span class="nc" id="L213">    this.nameType = nameType;</span>
+<span class="nc" id="L214">  }</span>
+
+  public Integer getNubKey() {
+<span class="nc" id="L217">    return nubKey;</span>
+  }
+
+  public void setNubKey(Integer nubKey) {
+<span class="nc" id="L221">    this.nubKey = nubKey;</span>
+<span class="nc" id="L222">  }</span>
+
+  public int getNumDescendants() {
+<span class="nc" id="L225">    return numDescendants;</span>
+  }
+
+  public void setNumDescendants(int numDescendants) {
+<span class="nc" id="L229">    this.numDescendants = numDescendants;</span>
+<span class="nc" id="L230">  }</span>
+
+  public int getNumOccurrences() {
+<span class="nc" id="L233">    return numOccurrences;</span>
+  }
+
+  public void setNumOccurrences(int numOccurrences) {
+<span class="nc" id="L237">    this.numOccurrences = numOccurrences;</span>
+<span class="nc" id="L238">  }</span>
+
+  public Origin getOrigin() {
+<span class="nc" id="L241">    return origin;</span>
+  }
+
+  public void setOrigin(Origin origin) {
+<span class="nc" id="L245">    this.origin = origin;</span>
+<span class="nc" id="L246">  }</span>
+
+  public String getParent() {
+<span class="nc" id="L249">    return parent;</span>
+  }
+
+  public void setParent(String parent) {
+<span class="nc" id="L253">    this.parent = parent;</span>
+<span class="nc" id="L254">  }</span>
+
+  public Integer getParentKey() {
+<span class="nc" id="L257">    return parentKey;</span>
+  }
+
+  public void setParentKey(Integer parentKey) {
+<span class="nc" id="L261">    this.parentKey = parentKey;</span>
+<span class="nc" id="L262">  }</span>
+
+  public String getPublishedIn() {
+<span class="nc" id="L265">    return publishedIn;</span>
+  }
+
+  public void setPublishedIn(String publishedIn) {
+<span class="nc" id="L269">    this.publishedIn = publishedIn;</span>
+<span class="nc" id="L270">  }</span>
+
+  public Rank getRank() {
+<span class="nc" id="L273">    return rank;</span>
+  }
+
+  public void setRank(Rank rank) {
+<span class="nc" id="L277">    this.rank = rank;</span>
+<span class="nc" id="L278">  }</span>
+
+  public String getScientificName() {
+<span class="nc" id="L281">    return scientificName;</span>
+  }
+
+  public void setScientificName(String scientificName) {
+<span class="nc" id="L285">    this.scientificName = scientificName;</span>
+<span class="nc" id="L286">  }</span>
+
+  public String getTaxonID() {
+<span class="nc" id="L289">    return taxonID;</span>
+  }
+
+  public void setTaxonID(String taxonID) {
+<span class="nc" id="L293">    this.taxonID = taxonID;</span>
+<span class="nc" id="L294">  }</span>
+
+  public TaxonomicStatus getTaxonomicStatus() {
+<span class="nc" id="L297">    return taxonomicStatus;</span>
+  }
+
+  public void setTaxonomicStatus(TaxonomicStatus taxonomicStatus) {
+<span class="nc" id="L301">    this.taxonomicStatus = taxonomicStatus;</span>
+<span class="nc" id="L302">  }</span>
+
+  public List&lt;ThreatStatus&gt; getThreatStatuses() {
+<span class="nc" id="L305">    return threatStatuses;</span>
+  }
+
+  public void setThreatStatuses(List&lt;ThreatStatus&gt; threatStatuses) {
+<span class="nc" id="L309">    this.threatStatuses = threatStatuses;</span>
+<span class="nc" id="L310">  }</span>
+
+  public List&lt;NomenclaturalStatus&gt; getNomenclaturalStatus() {
+<span class="nc" id="L313">    return nomenclaturalStatus;</span>
+  }
+
+  public void setNomenclaturalStatus(List&lt;NomenclaturalStatus&gt; nomenclaturalStatus) {
+<span class="nc" id="L317">    this.nomenclaturalStatus = nomenclaturalStatus;</span>
+<span class="nc" id="L318">  }</span>
+
+  /**
+   * @return the list of VernacularName
+   */
+  @NotNull
+  public List&lt;VernacularName&gt; getVernacularNames() {
+<span class="nc" id="L325">    return vernacularNames;</span>
+  }
+
+  /**
+   * @param vernacularNames the VernacularName list to set
+   */
+  public void setVernacularNames(List&lt;VernacularName&gt; vernacularNames) {
+<span class="nc" id="L332">    this.vernacularNames = vernacularNames;</span>
+<span class="nc" id="L333">  }</span>
+
+  public Boolean isExtinct() {
+<span class="nc" id="L336">    return extinct;</span>
+  }
+
+  public void setExtinct(Boolean extinct) {
+<span class="nc" id="L340">    this.extinct = extinct;</span>
+<span class="nc" id="L341">  }</span>
+
+  public List&lt;Habitat&gt; getHabitats() {
+<span class="nc" id="L344">    return habitats;</span>
+  }
+
+  public void setHabitats(List&lt;Habitat&gt; habitats) {
+<span class="nc" id="L348">    this.habitats = habitats;</span>
+<span class="nc" id="L349">  }</span>
+
+  @Override
+  public String getKingdom() {
+<span class="nc" id="L353">    return kingdom;</span>
+  }
+
+  @Override
+  public void setKingdom(String kingdom) {
+<span class="nc" id="L358">    this.kingdom = kingdom;</span>
+<span class="nc" id="L359">  }</span>
+
+  @Override
+  public String getPhylum() {
+<span class="nc" id="L363">    return phylum;</span>
+  }
+
+  @Override
+  public void setPhylum(String phylum) {
+<span class="nc" id="L368">    this.phylum = phylum;</span>
+<span class="nc" id="L369">  }</span>
+
+  @Override
+  public String getClazz() {
+<span class="nc" id="L373">    return clazz;</span>
+  }
+
+  @Override
+  public void setClazz(String clazz) {
+<span class="nc" id="L378">    this.clazz = clazz;</span>
+<span class="nc" id="L379">  }</span>
+
+  @Override
+  public String getOrder() {
+<span class="nc" id="L383">    return order;</span>
+  }
+
+  @Override
+  public void setOrder(String order) {
+<span class="nc" id="L388">    this.order = order;</span>
+<span class="nc" id="L389">  }</span>
+
+  @Override
+  public String getFamily() {
+<span class="nc" id="L393">    return family;</span>
+  }
+
+  @Override
+  public void setFamily(String family) {
+<span class="nc" id="L398">    this.family = family;</span>
+<span class="nc" id="L399">  }</span>
+
+  @Override
+  public String getGenus() {
+<span class="nc" id="L403">    return genus;</span>
+  }
+
+  @Override
+  public void setGenus(String genus) {
+<span class="nc" id="L408">    this.genus = genus;</span>
+<span class="nc" id="L409">  }</span>
+
+  @Override
+  public String getSubgenus() {
+<span class="nc" id="L413">    return subgenus;</span>
+  }
+
+  @Override
+  public void setSubgenus(String subgenus) {
+<span class="nc" id="L418">    this.subgenus = subgenus;</span>
+<span class="nc" id="L419">  }</span>
+
+  @Override
+  public String getSpecies() {
+<span class="nc" id="L423">    return species;</span>
+  }
+
+  @Override
+  public void setSpecies(String species) {
+<span class="nc" id="L428">    this.species = species;</span>
+<span class="nc" id="L429">  }</span>
+
+  @Override
+  public Integer getKingdomKey() {
+<span class="nc" id="L433">    return kingdomKey;</span>
+  }
+
+  @Override
+  public void setKingdomKey(Integer kingdomKey) {
+<span class="nc" id="L438">    this.kingdomKey = kingdomKey;</span>
+<span class="nc" id="L439">  }</span>
+
+  @Override
+  public Integer getPhylumKey() {
+<span class="nc" id="L443">    return phylumKey;</span>
+  }
+
+  @Override
+  public void setPhylumKey(Integer phylumKey) {
+<span class="nc" id="L448">    this.phylumKey = phylumKey;</span>
+<span class="nc" id="L449">  }</span>
+
+  @Override
+  public Integer getClassKey() {
+<span class="nc" id="L453">    return classKey;</span>
+  }
+
+  @Override
+  public void setClassKey(Integer classKey) {
+<span class="nc" id="L458">    this.classKey = classKey;</span>
+<span class="nc" id="L459">  }</span>
+
+  @Override
+  public Integer getOrderKey() {
+<span class="nc" id="L463">    return orderKey;</span>
+  }
+
+  @Override
+  public void setOrderKey(Integer orderKey) {
+<span class="nc" id="L468">    this.orderKey = orderKey;</span>
+<span class="nc" id="L469">  }</span>
+
+  @Override
+  public Integer getFamilyKey() {
+<span class="nc" id="L473">    return familyKey;</span>
+  }
+
+  @Override
+  public void setFamilyKey(Integer familyKey) {
+<span class="nc" id="L478">    this.familyKey = familyKey;</span>
+<span class="nc" id="L479">  }</span>
+
+  @Override
+  public Integer getGenusKey() {
+<span class="nc" id="L483">    return genusKey;</span>
+  }
+
+  @Override
+  public void setGenusKey(Integer genusKey) {
+<span class="nc" id="L488">    this.genusKey = genusKey;</span>
+<span class="nc" id="L489">  }</span>
+
+  @Override
+  public Integer getSubgenusKey() {
+<span class="nc" id="L493">    return subgenusKey;</span>
+  }
+
+  @Override
+  public void setSubgenusKey(Integer subgenusKey) {
+<span class="nc" id="L498">    this.subgenusKey = subgenusKey;</span>
+<span class="nc" id="L499">  }</span>
+
+  @Override
+  public Integer getSpeciesKey() {
+<span class="nc" id="L503">    return speciesKey;</span>
+  }
+
+  @Override
+  public void setSpeciesKey(Integer speciesKey) {
+<span class="nc" id="L508">    this.speciesKey = speciesKey;</span>
+<span class="nc" id="L509">  }</span>
+
+  @Override
+  public String getHigherRank(Rank rank) {
+<span class="nc" id="L513">    return ClassificationUtils.getHigherRank(this, rank);</span>
+  }
+
+  @Override
+  public Integer getHigherRankKey(Rank rank) {
+<span class="nc" id="L518">    return ClassificationUtils.getHigherRankKey(this, rank);</span>
+  }
+
+  /**
+   * An ordered map with entries for all higher Linnean ranks down to the actual direct parent of this usage.
+   * The map starts with the highest rank, e.g. the kingdom and maps the name usage key to its canonical name.
+   * The name usage itself is never included, even though a higher rank might point to the usage itself.
+   *
+   * @return map of higher ranks
+   */
+  @NotNull
+  public LinkedHashMap&lt;Integer, String&gt; getHigherClassificationMap() {
+<span class="nc" id="L530">    return ClassificationUtils.getHigherClassificationMap(this, key, parentKey, parent);</span>
+  }
+
+  /**
+   * Convenience method using the taxonomicStatus field.
+   * @return true if its a synonym
+   */
+  public boolean isSynonym() {
+<span class="nc bnc" id="L538" title="All 4 branches missed.">    return taxonomicStatus != null &amp;&amp; taxonomicStatus.isSynonym();</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L543">    return Objects</span>
+<span class="nc" id="L544">      .hashCode(key, nameKey, datasetKey, constituentKey, nubKey, parentKey, parent, acceptedKey, accepted, basionymKey,</span>
+                basionym, kingdom, phylum, clazz, order, family, genus, subgenus, species, kingdomKey,
+                phylumKey, classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName,
+                canonicalName, authorship, publishedIn, accordingTo, nameType, taxonomicStatus, nomenclaturalStatus,
+<span class="nc" id="L548">                rank, origin, numDescendants, numOccurrences, taxonID, extinct, habitats, threatStatuses, descriptions,</span>
+                vernacularNames);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="nc bnc" id="L554" title="All 2 branches missed.">    if (obj == null) {</span>
+<span class="nc" id="L555">      return false;</span>
+    }
+<span class="nc bnc" id="L557" title="All 2 branches missed.">    if (getClass() != obj.getClass()) {</span>
+<span class="nc" id="L558">      return false;</span>
+    }
+<span class="nc" id="L560">    final NameUsageSearchResult other = (NameUsageSearchResult) obj;</span>
+<span class="nc bnc" id="L561" title="All 2 branches missed.">    return Objects.equal(this.key, other.key)</span>
+<span class="nc bnc" id="L562" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.nameKey, other.nameKey)</span>
+<span class="nc bnc" id="L563" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.datasetKey, other.datasetKey)</span>
+<span class="nc bnc" id="L564" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.constituentKey, other.constituentKey)</span>
+<span class="nc bnc" id="L565" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.nubKey, other.nubKey)</span>
+<span class="nc bnc" id="L566" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.parentKey, other.parentKey)</span>
+<span class="nc bnc" id="L567" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.parent, other.parent)</span>
+<span class="nc bnc" id="L568" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.acceptedKey, other.acceptedKey)</span>
+<span class="nc bnc" id="L569" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.accepted, other.accepted)</span>
+<span class="nc bnc" id="L570" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.basionymKey, other.basionymKey)</span>
+<span class="nc bnc" id="L571" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.basionym, other.basionym)</span>
+<span class="nc bnc" id="L572" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.kingdom, other.kingdom)</span>
+<span class="nc bnc" id="L573" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.phylum, other.phylum)</span>
+<span class="nc bnc" id="L574" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.clazz, other.clazz)</span>
+<span class="nc bnc" id="L575" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.order, other.order)</span>
+<span class="nc bnc" id="L576" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.family, other.family)</span>
+<span class="nc bnc" id="L577" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.genus, other.genus)</span>
+<span class="nc bnc" id="L578" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.subgenus, other.subgenus)</span>
+<span class="nc bnc" id="L579" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.species, other.species)</span>
+<span class="nc bnc" id="L580" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.kingdomKey, other.kingdomKey)</span>
+<span class="nc bnc" id="L581" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.phylumKey, other.phylumKey)</span>
+<span class="nc bnc" id="L582" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.classKey, other.classKey)</span>
+<span class="nc bnc" id="L583" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.orderKey, other.orderKey)</span>
+<span class="nc bnc" id="L584" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.familyKey, other.familyKey)</span>
+<span class="nc bnc" id="L585" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.genusKey, other.genusKey)</span>
+<span class="nc bnc" id="L586" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.subgenusKey, other.subgenusKey)</span>
+<span class="nc bnc" id="L587" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.speciesKey, other.speciesKey)</span>
+<span class="nc bnc" id="L588" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.scientificName, other.scientificName)</span>
+<span class="nc bnc" id="L589" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.canonicalName, other.canonicalName)</span>
+<span class="nc bnc" id="L590" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.authorship, other.authorship)</span>
+<span class="nc bnc" id="L591" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.publishedIn, other.publishedIn)</span>
+<span class="nc bnc" id="L592" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.accordingTo, other.accordingTo)</span>
+<span class="nc bnc" id="L593" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.nameType, other.nameType)</span>
+<span class="nc bnc" id="L594" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.taxonomicStatus, other.taxonomicStatus)</span>
+<span class="nc bnc" id="L595" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.nomenclaturalStatus, other.nomenclaturalStatus)</span>
+<span class="nc bnc" id="L596" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.rank, other.rank)</span>
+<span class="nc bnc" id="L597" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.origin, other.origin)</span>
+<span class="nc bnc" id="L598" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numDescendants, other.numDescendants)</span>
+<span class="nc bnc" id="L599" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numOccurrences, other.numOccurrences)</span>
+<span class="nc bnc" id="L600" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.taxonID, other.taxonID)</span>
+<span class="nc bnc" id="L601" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.extinct, other.extinct)</span>
+<span class="nc bnc" id="L602" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.habitats, other.habitats)</span>
+<span class="nc bnc" id="L603" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.threatStatuses, other.threatStatuses)</span>
+<span class="nc bnc" id="L604" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.descriptions, other.descriptions)</span>
+<span class="nc bnc" id="L605" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.vernacularNames, other.vernacularNames);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L610">    return &quot;NameUsageSearchResult{&quot;</span>
+           + &quot;key=&quot; + key
+           + &quot;, nameKey=&quot; + nameKey
+           + &quot;, datasetKey=&quot; + datasetKey
+           + &quot;, constituentKey=&quot; + constituentKey
+           + &quot;, nubKey=&quot; + nubKey
+           + &quot;, parentKey=&quot; + parentKey
+           + &quot;, parent='&quot; + parent + '\''
+           + &quot;, acceptedKey=&quot; + acceptedKey
+           + &quot;, accepted='&quot; + accepted + '\''
+           + &quot;, basionymKey=&quot; + basionymKey
+           + &quot;, basionym='&quot; + basionym + '\''
+           + &quot;, kingdom='&quot; + kingdom + '\''
+           + &quot;, phylum='&quot; + phylum + '\''
+           + &quot;, clazz='&quot; + clazz + '\''
+           + &quot;, order='&quot; + order + '\''
+           + &quot;, family='&quot; + family + '\''
+           + &quot;, genus='&quot; + genus + '\''
+           + &quot;, subgenus='&quot; + subgenus + '\''
+           + &quot;, species='&quot; + species + '\''
+           + &quot;, kingdomKey=&quot; + kingdomKey
+           + &quot;, phylumKey=&quot; + phylumKey
+           + &quot;, classKey=&quot; + classKey
+           + &quot;, orderKey=&quot; + orderKey
+           + &quot;, familyKey=&quot; + familyKey
+           + &quot;, genusKey=&quot; + genusKey
+           + &quot;, subgenusKey=&quot; + subgenusKey
+           + &quot;, speciesKey=&quot; + speciesKey
+           + &quot;, scientificName='&quot; + scientificName + '\''
+           + &quot;, canonicalName='&quot; + canonicalName + '\''
+           + &quot;, authorship='&quot; + authorship + '\''
+           + &quot;, publishedIn='&quot; + publishedIn + '\''
+           + &quot;, accordingTo='&quot; + accordingTo + '\''
+           + &quot;, nameType=&quot; + nameType
+           + &quot;, taxonomicStatus=&quot; + taxonomicStatus
+           + &quot;, nomenclaturalStatus=&quot; + nomenclaturalStatus
+           + &quot;, rank=&quot; + rank
+           + &quot;, origin=&quot; + origin
+           + &quot;, numDescendants=&quot; + numDescendants
+           + &quot;, numOccurrences=&quot; + numOccurrences
+           + &quot;, taxonID='&quot; + taxonID + '\''
+           + &quot;, extinct=&quot; + extinct
+           + &quot;, habitats=&quot; + habitats
+           + &quot;, threatStatuses=&quot; + threatStatuses
+           + &quot;, descriptions=&quot; + descriptions
+           + &quot;, vernacularNames=&quot; + vernacularNames
+           +  '}';
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NameType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">NameType.java</span></div><h1>NameType.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.vocabulary;
+
+import com.google.common.base.Strings;
+
+/**
+ * A short classification of scientific name strings used in Checklist Bank.
+ */
+<span class="fc" id="L23">public enum NameType {</span>
+
+  /**
+   * A scientific latin name that might contain authorship but is not any of the other name types below (virus, hybrid, cultivar, etc).
+   */
+<span class="fc" id="L28">  SCIENTIFIC,</span>
+
+  /**
+   * A virus name.
+   */
+<span class="fc" id="L33">  VIRUS,</span>
+
+  /**
+   * A hybrid &lt;b&gt;formula&lt;/b&gt; (not a hybrid name).
+   */
+<span class="fc" id="L38">  HYBRID,</span>
+
+  /**
+   * A scientific name with some informal addition like &quot;cf.&quot; or indetermined like Abies spec.
+   */
+<span class="fc" id="L43">  INFORMAL,</span>
+
+  /**
+   * A cultivated plant name.
+   */
+<span class="fc" id="L48">  CULTIVAR,</span>
+
+  /**
+   * Candidatus is a component of the taxonomic name for a bacterium that cannot be maintained in a
+   * Bacteriology Culture Collection. It is an interim taxonomic status for noncultivable organisms.
+   * An example would be &quot;Candidatus Phytoplasma allocasuarinae&quot;.
+   * This can be abbreviated to &quot;Ca. Phytoplasma allocasuarinae&quot;.
+   *
+   * @see &lt;a href=&quot;http://en.wikipedia.org/wiki/Candidatus&quot;&gt;wikipedia&lt;/a&gt;
+   * @see &lt;a href=&quot;http://www.bacterio.cict.fr/candidatus.html&quot;&gt;J.P. Euzéby&lt;/a&gt;
+   *
+   */
+<span class="fc" id="L60">  CANDIDATUS,</span>
+
+  /**
+   * Operational Taxonomic Unit.
+   * An OTU is a pragmatic definition to group individuals by similarity, equivalent to but not necessarily in line
+   * with classical Linnaean taxonomy or modern Evolutionary taxonomy.
+   *
+   * A OTU usually refers to clusters of organisms, grouped by DNA sequence similarity of a specific taxonomic marker gene.
+   * In other words, OTUs are pragmatic proxies for &quot;species&quot; at different taxonomic levels.
+   *
+   * Sequences can be clustered according to their similarity to one another,
+   * and operational taxonomic units are defined based on the similarity threshold (usually 97% similarity) set by the researcher.
+   * Typically, OTU's are based on similar 16S rRNA sequences.
+   */
+<span class="fc" id="L74">  OTU,</span>
+
+  /**
+   * Doubtful whether this is a scientific name at all.
+   */
+<span class="fc" id="L79">  DOUBTFUL,</span>
+
+  /**
+   * A placeholder name like &quot;incertae sedis&quot; or &quot;unknown genus&quot;.
+   */
+<span class="fc" id="L84">  PLACEHOLDER,</span>
+
+  /**
+   * Surely not a scientific name of any kind.
+   */
+<span class="fc" id="L89">  NO_NAME,</span>
+  
+  /**
+   * A name that has been flagged by the name parser due to the use of blacklisted epithets/words.
+   */
+<span class="fc" id="L94">  BLACKLISTED;</span>
+
+  /**
+   * Case insensitive lookup of a name type by its name that does not throw an exception but returns null
+   * for not found name types.
+   *
+   * @param nameType case insensitive name of name type
+   *
+   * @return the matching NameType or null
+   */
+  public static NameType fromString(String nameType) {
+<span class="nc bnc" id="L105" title="All 2 branches missed.">    if (!Strings.isNullOrEmpty(nameType)) {</span>
+      try {
+<span class="nc" id="L107">        return valueOf(nameType.toUpperCase().trim());</span>
+<span class="nc" id="L108">      } catch (IllegalArgumentException e) {</span>
+        // swallow
+      }
+    }
+<span class="nc" id="L112">    return null;</span>
+  }
+
+  /**
+   * @return true if the type of name is included in the GBIF backbone
+   */
+  public boolean isBackboneType() {
+<span class="fc bfc" id="L119" title="All 6 branches covered.">    return this == SCIENTIFIC || this == VIRUS || this == DOUBTFUL;</span>
+  }
+
+  /**
+   * @return true if the GBIF name parser can parse such a name into a ParsedName instance
+   */
+  public boolean isParsable() {
+<span class="fc bfc" id="L126" title="All 12 branches covered.">    return this == SCIENTIFIC || this == INFORMAL || this == CULTIVAR || this == CANDIDATUS || this == DOUBTFUL || this == BLACKLISTED;</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

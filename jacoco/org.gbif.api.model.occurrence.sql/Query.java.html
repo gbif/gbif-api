@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Query.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence.sql</a> &gt; <span class="el_source">Query.java</span></div><h1>Query.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.occurrence.sql;
+
+import org.gbif.api.model.occurrence.sql.serde.QueryIssueSerde;
+
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+/**
+ * SQL Download API Query Issues listed with there descriptions.
+ */
+<span class="nc" id="L10">public class Query {</span>
+
+  private static final String FORMAT =
+    &quot;Format of LEGAL query is : SELECT ... \nFROM occurrence \nWHERE ... \nGROUP BY ...&quot;;
+
+<span class="nc" id="L15">  @JsonSerialize(using = QueryIssueSerde.class)</span>
+  public enum Issue {
+
+<span class="nc" id="L18">    NO_ISSUE(&quot;No Issue.&quot;),</span>
+<span class="nc" id="L19">    EMPTY_SQL(&quot;SQL query cannot be empty.&quot;),</span>
+<span class="nc" id="L20">    ONLY_ONE_SELECT_ALLOWED(&quot;SQL query should be a SELECT query with SELECT keyword used only once.&quot;),</span>
+<span class="nc" id="L21">    DDL_JOINS_UNION_NOT_ALLOWED(&quot;SQL query cannot use ORDER BY, INSERT, UPDATE, DELETE, MERGE, PROCEDURE_CALL, EXCEPT, INTERSECT, UNION, JOIN or AS.&quot;),</span>
+<span class="nc" id="L22">    DATASET_AND_LICENSE_REQUIRED(&quot;SQL query should select on 'datasetkey' and 'license' fields as they are required for citations.&quot;),</span>
+<span class="nc" id="L23">    CANNOT_EXECUTE(&quot;Query cannot be executed because of&quot;),</span>
+<span class="nc" id="L24">    TABLE_NAME_NOT_OCCURRENCE(&quot;Query should have table name as 'occurrence'.&quot;),</span>
+<span class="nc" id="L25">    PARSE_FAILED(String.format(&quot;Cannot parse the query, the sql query is invalid, Make sure provided query should follow the format %n %s.&quot;, FORMAT)),</span>
+<span class="nc" id="L26">    CANNOT_USE_ALLFIELDS(&quot;Usage of '*' for selecting all fields not allowed, Please explicitly add the desired fields, refer the fields from occurrence/download/request/sql/describe endpoint.&quot;),</span>
+<span class="nc" id="L27">    HAVING_CLAUSE_NOT_SUPPORTED(&quot;SQL Download API donot support query with HAVING clause&quot;);</span>
+
+<span class="nc" id="L29">    Issue(String description) {</span>
+<span class="nc" id="L30">      this.description = description;</span>
+<span class="nc" id="L31">    }</span>
+
+    private final String description;
+<span class="nc" id="L34">    private String comment = &quot;&quot;;</span>
+
+    public String description() {
+<span class="nc" id="L37">      return description;</span>
+    }
+
+    public String comment() {
+<span class="nc" id="L41">      return comment;</span>
+    }
+
+    public Issue withComment(String comment) {
+<span class="nc" id="L45">      this.comment = comment;</span>
+<span class="nc" id="L46">      return this;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

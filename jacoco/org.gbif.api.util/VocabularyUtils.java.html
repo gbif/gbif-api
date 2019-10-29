@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VocabularyUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util</a> &gt; <span class="el_source">VocabularyUtils.java</span></div><h1>VocabularyUtils.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.util;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.reflect.ClassPath;
+import org.gbif.api.vocabulary.ContactType;
+import org.gbif.api.vocabulary.EndpointType;
+import org.gbif.api.vocabulary.IdentifierType;
+import org.gbif.api.vocabulary.TechnicalInstallationType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+public final class VocabularyUtils {
+
+<span class="fc" id="L31">  private static final Logger LOG = LoggerFactory.getLogger(VocabularyUtils.class);</span>
+
+  public static ContactType parseContactType(String type) {
+<span class="fc" id="L34">    return lookupEnum(type, ContactType.class);</span>
+  }
+
+  public static EndpointType parseEndpointType(String type) {
+<span class="fc" id="L38">    return lookupEnum(type, EndpointType.class);</span>
+  }
+
+  public static IdentifierType parseIdentifierType(String type) {
+<span class="fc" id="L42">    return lookupEnum(type, IdentifierType.class);</span>
+  }
+
+  @Deprecated
+  public static TechnicalInstallationType parseTechnicalInstallationType(String type) {
+<span class="fc" id="L47">    return lookupEnum(type, TechnicalInstallationType.class);</span>
+  }
+
+  /**
+   * Generic method to lookup an enumeration value for a given string based on the name of the enum member.
+   * The lookup is case insensitive and ignore whitespaces, underscores and dashes.
+   *
+   * @param name  the enum members name to lookup
+   * @param vocab the enumeration class
+   * @return the matching enum member or null if {@code name} is null or empty (see http://dev.gbif.org/issues/browse/POR-2858)
+   * @throws IllegalArgumentException if the name cannot be parsed into a known name
+   */
+  public static &lt;T extends Enum&lt;?&gt;&gt; T lookupEnum(String name, Class&lt;T&gt; vocab) {
+<span class="fc bfc" id="L60" title="All 2 branches covered.">    if (Strings.isNullOrEmpty(name)) {</span>
+<span class="fc" id="L61">      return null;</span>
+    }
+<span class="fc" id="L63">    final String normedType = name.toUpperCase().replaceAll(&quot;[. _-]&quot;, &quot;&quot;);</span>
+<span class="fc" id="L64">    T[] values = vocab.getEnumConstants();</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">    if (values != null) {</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">      for (T val : values) {</span>
+<span class="fc" id="L67">        final String normedVal = val.name().toUpperCase().replaceAll(&quot;[. _-]&quot;, &quot;&quot;);</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (normedType.equals(normedVal)) {</span>
+<span class="fc" id="L69">          return val;</span>
+        }
+      }
+    }
+<span class="fc" id="L73">    throw new IllegalArgumentException(&quot;Cannot parse &quot; + name + &quot; into a known &quot; + vocab.getSimpleName());</span>
+  }
+
+  /**
+   * Same as {@link #lookupEnum(String, Class)} } without IllegalArgumentException.
+   * On failure, this method will return Optional.empty().
+   *
+   * @param name
+   * @param vocab
+   * @param &lt;T&gt;
+   * @return instance of Optional, never null.
+   */
+  public static &lt;T extends Enum&lt;?&gt;&gt; Optional&lt;T&gt; lookup(String name, Class&lt;T&gt; vocab) {
+<span class="fc" id="L86">    T result = null;</span>
+    // this try/catch in needed until we replace all calls to lookupEnum() in favor of this method
+    try {
+<span class="fc" id="L89">      result = lookupEnum(name, vocab);</span>
+<span class="fc" id="L90">    } catch (IllegalArgumentException iaEx) {/*ignore*/}</span>
+<span class="fc" id="L91">    return Optional.ofNullable(result);</span>
+  }
+
+  /**
+   * Looks up an enumeration by class name. One can get the classname using the likes of:
+   * &lt;p/&gt;
+   *
+   * &lt;pre&gt;
+   * {@code
+   * Country.class.getName()
+   * }
+   * &lt;/pre&gt;
+   *
+   * @param fullyQualifiedClassName Which should name the enumeration (e.g. org.gbif.api.vocabulary.Country)
+   * @return The enumeration or null if {@code fullyQualifiedClassName} is null or empty (see http://dev.gbif.org/issues/browse/POR-2858)
+   * @throws IllegalArgumentException if {@code fullyQualifiedClassName} class cannot be located
+   */
+  @SuppressWarnings(&quot;unchecked&quot;)
+  public static Class&lt;? extends Enum&lt;?&gt;&gt; lookupVocabulary(String fullyQualifiedClassName) {
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">    if (!Strings.isNullOrEmpty(fullyQualifiedClassName)) {</span>
+      try {
+<span class="fc" id="L112">        Class&lt;?&gt; cl = Class.forName(fullyQualifiedClassName);</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        if (Enum.class.isAssignableFrom(cl)) {</span>
+<span class="fc" id="L114">          return (Class&lt;? extends Enum&lt;?&gt;&gt;) cl;</span>
+        }
+<span class="fc" id="L116">      } catch (Exception e) {</span>
+<span class="fc" id="L117">        throw new IllegalArgumentException(&quot;Unable to lookup the vocabulary: &quot; + fullyQualifiedClassName, e);</span>
+<span class="fc" id="L118">      }</span>
+    }
+<span class="fc" id="L120">    return null;</span>
+  }
+
+  /**
+   * Utility method to get a map of all enumerations within a package.
+   * The map will use the enumeration class simple name as key and the enum itself as value.
+   *
+   * @return a map of all enumeration within the package or an empty map in all other cases.
+   */
+  public static Map&lt;String, Enum&lt;?&gt;[]&gt; listEnumerations(String packageName) {
+    try {
+<span class="fc" id="L131">      ClassPath cp = ClassPath.from(VocabularyUtils.class.getClassLoader());</span>
+<span class="fc" id="L132">      ImmutableMap.Builder&lt;String, Enum&lt;?&gt;[]&gt; builder = ImmutableMap.builder();</span>
+
+<span class="fc" id="L134">      List&lt;ClassPath.ClassInfo&gt; infos = cp.getTopLevelClasses(packageName).asList();</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">      for (ClassPath.ClassInfo info : infos) {</span>
+<span class="fc" id="L136">        Class&lt;? extends Enum&lt;?&gt;&gt; vocab = lookupVocabulary(info.getName());</span>
+        // verify that it is an Enumeration
+<span class="pc bpc" id="L138" title="1 of 4 branches missed.">        if (vocab != null &amp;&amp; vocab.getEnumConstants() != null) {</span>
+<span class="fc" id="L139">          builder.put(info.getSimpleName(), vocab.getEnumConstants());</span>
+        }
+<span class="fc" id="L141">      }</span>
+<span class="fc" id="L142">      return builder.build();</span>
+<span class="nc" id="L143">    } catch (Exception e) {</span>
+<span class="nc" id="L144">      LOG.error(&quot;Unable to read the classpath for enumerations&quot;, e);</span>
+<span class="nc" id="L145">      return ImmutableMap.of(); // empty</span>
+    }
+  }
+
+  /**
+   * A static utils class.
+   */
+  private VocabularyUtils() {
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

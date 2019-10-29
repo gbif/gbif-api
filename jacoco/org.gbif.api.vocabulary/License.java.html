@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>License.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">License.java</span></div><h1>License.java</h1><pre class="source lang-java linenums">package org.gbif.api.vocabulary;
+
+import org.gbif.api.util.VocabularyUtils;
+
+import javax.annotation.Nullable;
+
+import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Optional;
+
+/**
+ * Enumeration of the set of licenses GBIF supports for applying to a dataset. The license provides a standardised way
+ * to define appropriate uses of a dataset.
+ * &lt;/br&gt;
+ * GBIF's recommended best practice is to use the most recent license version, which for CC-BY and CC-BY-NC is 4.0.
+ * This is in line with the recommendation from Creative Commons.
+ * The ordinal number in the Enum implicitly defines the level of restriction, see LicenseTest.
+ *
+ * @see &lt;a href=&quot;https://creativecommons.org/faq/#why-should-i-use-the-latest-version-of-the-creative-commons-licenses&quot;&gt;Creative
+ * Commons recommendation&lt;/a&gt;
+ * @see &lt;a href=&quot;http://www.gbif.org/terms/licences&quot;&gt;GBIF Licensing&lt;/a&gt;
+ */
+<span class="fc" id="L24">public enum License {</span>
+
+  /**
+   * Creative Commons Zero / Public Domain version 1.0. Technically a waiver, not a license.
+   *
+   * @see &lt;a href=&quot;http://creativecommons.org/publicdomain/zero/1.0/legalcode&quot;&gt;legal document&lt;/a&gt;
+   */
+<span class="fc" id="L31">  CC0_1_0(&quot;Public Domain (CC0 1.0)&quot;, &quot;http://creativecommons.org/publicdomain/zero/1.0/legalcode&quot;),</span>
+  /**
+   * Creative Commons Attribution version 4.0.
+   *
+   * @see &lt;a href=&quot;http://creativecommons.org/licenses/by/4.0/legalcode&quot;&gt;legal document&lt;/a&gt;
+   */
+<span class="fc" id="L37">  CC_BY_4_0(&quot;Creative Commons Attribution (CC-BY) 4.0&quot;, &quot;http://creativecommons.org/licenses/by/4.0/legalcode&quot;),</span>
+  /**
+   * Creative Commons Attribution-NonCommercial version 4.0.
+   *
+   * @see &lt;a href=&quot;http://creativecommons.org/licenses/by-nc/4.0/legalcode&quot;&gt;legal document&lt;/a&gt;
+   */
+<span class="fc" id="L43">  CC_BY_NC_4_0(&quot;Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0&quot;, &quot;http://creativecommons.org/licenses/by-nc/4.0/legalcode&quot;),</span>
+  /**
+   * No license has been specified.
+   */
+<span class="fc" id="L47">  UNSPECIFIED(null, null),</span>
+  /**
+   * A license not supported by GBIF.
+   */
+<span class="fc" id="L51">  UNSUPPORTED(null, null);</span>
+
+
+  private final String licenseTitle;
+  private final String licenseUrl;
+
+  /**
+   * Get an {@link License} from its name as String.
+   *
+   * @return instance of Optional, never null
+   */
+  public static Optional&lt;License&gt; fromString(String license) {
+<span class="fc" id="L63">    return VocabularyUtils.lookup(license, License.class);</span>
+  }
+
+  /**
+   * Lookup a License by either its a) legal code URL or b) human readable summary URL, with HTTP or HTTPS.
+   * For any parsing see LicenseParser in GBIF parsers project.
+   *
+   * @param licenseUrl the case insensitive URL for the license.
+   *
+   * @return instance of Optional, never null
+   */
+  public static Optional&lt;License&gt; fromLicenseUrl(String licenseUrl) {
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">    if (!Strings.isNullOrEmpty(licenseUrl)) {</span>
+<span class="fc" id="L76">      licenseUrl = licenseUrl.trim().toLowerCase();</span>
+<span class="fc" id="L77">      licenseUrl = StringUtils.removeEnd(licenseUrl, &quot;/&quot;);</span>
+<span class="fc" id="L78">      licenseUrl = licenseUrl.replace(&quot;https://&quot;, &quot;http://&quot;);</span>
+
+      // do lookup by legal code URL or human readable summary URL (excluding &quot;/legalcode&quot;)
+<span class="fc bfc" id="L81" title="All 2 branches covered.">      for (License license : License.values()) {</span>
+<span class="fc bfc" id="L82" title="All 4 branches covered.">        if (license.getLicenseUrl() != null &amp;&amp; (licenseUrl.equals(license.getLicenseUrl())</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">                || license.getLicenseUrl().startsWith(licenseUrl))) {</span>
+<span class="fc" id="L84">          return Optional.of(license);</span>
+        }
+      }
+    }
+<span class="fc" id="L88">    return Optional.empty();</span>
+  }
+
+  /**
+   * Get the most restrictive license between the 2 provided licenses.
+   * If one or the two licenses are null or not concrete, this method returns the fallback License.
+   *
+   * @param fallback License to return if one or the two licenses are null or not concrete
+   *
+   * @return the most restrictive License or the fallback License
+   */
+  public static License getMostRestrictive(License license1, License license2, License fallback) {
+<span class="pc bpc" id="L100" title="2 of 8 branches missed.">    if (license1 == null || license2 == null || !license1.isConcrete() || !license2.isConcrete()) {</span>
+<span class="fc" id="L101">      return fallback;</span>
+    }
+<span class="fc bfc" id="L103" title="All 2 branches covered.">    return (license1.compareTo(license2) &gt; 0) ? license1 : license2;</span>
+  }
+
+<span class="fc" id="L106">  License(@Nullable String licenseTitle, @Nullable String licenseUrl) {</span>
+<span class="fc" id="L107">    this.licenseTitle = licenseTitle;</span>
+    // ensure license information is kept in lowercase internally
+<span class="fc bfc" id="L109" title="All 2 branches covered.">    if (licenseUrl != null) {</span>
+<span class="fc" id="L110">      this.licenseUrl = licenseUrl.toLowerCase();</span>
+    } else {
+<span class="fc" id="L112">      this.licenseUrl = null;</span>
+    }
+<span class="fc" id="L114">  }</span>
+
+  /**
+   * @return the License URL
+   */
+  public String getLicenseUrl() {
+<span class="fc" id="L120">    return licenseUrl;</span>
+  }
+
+  /**
+   * @return the License title
+   */
+  public String getLicenseTitle() {
+<span class="nc" id="L127">    return licenseTitle;</span>
+  }
+
+  /**
+   * Indicates if a license is a concrete license (true) or an abstracted license (false) like
+   * UNSPECIFIED or UNSUPPORTED.
+   * @return the license if concrete or not
+   */
+  public boolean isConcrete() {
+<span class="fc bfc" id="L136" title="All 2 branches covered.">    return licenseUrl != null;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

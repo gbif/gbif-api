@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Download.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence</a> &gt; <span class="el_source">Download.java</span></div><h1>Download.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.occurrence;
+
+import org.gbif.api.model.common.DOI;
+import org.gbif.api.model.registry.PostPersist;
+import org.gbif.api.model.registry.PrePersist;
+import org.gbif.api.vocabulary.License;
+
+import java.util.Date;
+import java.util.EnumSet;
+
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+import org.codehaus.jackson.annotate.JsonIgnore;
+
+
+<span class="fc" id="L20">public class Download {</span>
+
+  /**
+   * Reflects the possibles statuses of a download during its execution.
+   * The download statuses are:
+   * - PREPARING: the download is initiating
+   * - RUNNING: the download is being processed
+   * - SUCCEEDED: the file is ready to be downloaded
+   * - CANCELLED: the download was cancelled by the user
+   * - KILLED: the download was killed by the workflow engine
+   * - FAILED: the download failed
+   * - SUSPENDED: the download was paused and its execution will be resumed later
+   * - FILE_DELETED: the download was successful, but the download file has been deleted
+   */
+<span class="fc" id="L34">  public enum Status {</span>
+<span class="fc" id="L35">    PREPARING,</span>
+<span class="fc" id="L36">    RUNNING,</span>
+<span class="fc" id="L37">    SUCCEEDED,</span>
+<span class="fc" id="L38">    CANCELLED,</span>
+<span class="fc" id="L39">    KILLED,</span>
+<span class="fc" id="L40">    FAILED,</span>
+<span class="fc" id="L41">    SUSPENDED,</span>
+<span class="fc" id="L42">    FILE_ERASED;</span>
+
+    /**
+     * Statuses that represent a download that that hasn't finished.
+     */
+<span class="fc" id="L47">    public static final EnumSet&lt;Status&gt; EXECUTING_STATUSES = EnumSet.of(PREPARING, RUNNING, SUSPENDED);</span>
+
+    /**
+     * Statuses that represent a download that that has finished.
+     */
+<span class="fc" id="L52">    public static final EnumSet&lt;Status&gt; FINISH_STATUSES = EnumSet.of(SUCCEEDED, CANCELLED, KILLED, FAILED, FILE_ERASED);</span>
+  }
+
+  private String key;
+
+  private DOI doi;
+
+  private License license;
+
+  private DownloadRequest request;
+
+  private Date created;
+
+  private Date modified;
+
+  private Date eraseAfter;
+
+  private Status status;
+
+  private String downloadLink;
+
+  private long size;
+
+  private long totalRecords;
+
+  private long numberDatasets;
+
+  /**
+   * @return timestamp when the download was created
+   */
+  @Null(groups = {PrePersist.class})
+  @NotNull(groups = {PostPersist.class})
+  @Nullable
+  public Date getCreated() {
+<span class="nc" id="L86">    return created;</span>
+  }
+
+  /**
+   * @return the downloadLink
+   */
+  @Nullable
+  public String getDownloadLink() {
+<span class="nc" id="L94">    return downloadLink;</span>
+  }
+
+
+  /**
+   * @return unique key that can be used in the REST service to retrieve its status
+   */
+  @NotNull
+  public String getKey() {
+<span class="nc" id="L103">    return key;</span>
+  }
+
+
+  /**
+   * @return timestamp when the download result was last modified
+   */
+  @Null(groups = {PrePersist.class})
+  @NotNull(groups = {PostPersist.class})
+  @Nullable
+  public Date getModified() {
+<span class="nc" id="L114">    return modified;</span>
+  }
+
+  /**
+   * @return timestamp after which the download file may be erased
+   */
+  @Nullable
+  public Date getEraseAfter() {
+<span class="nc" id="L122">    return eraseAfter;</span>
+  }
+
+  /**
+   * Request that originated the download.
+   */
+  @NotNull
+  public DownloadRequest getRequest() {
+<span class="nc" id="L130">    return request;</span>
+  }
+
+
+  /**
+   * @return the current download status
+   */
+  @NotNull
+  public Status getStatus() {
+<span class="nc" id="L139">    return status;</span>
+  }
+
+  /**
+   * @return true if the download is completed and a result is available
+   */
+  @JsonIgnore
+  public boolean isAvailable() {
+<span class="fc bfc" id="L147" title="All 2 branches covered.">    return status == Status.SUCCEEDED;</span>
+  }
+
+  /**
+   * Size in bytes of the produced file.
+   */
+  @Nullable
+  public long getSize() {
+<span class="nc" id="L155">    return size;</span>
+  }
+
+  /**
+   * Number of occurrence records in the download file.
+   */
+  @Nullable
+  public long getTotalRecords() {
+<span class="nc" id="L163">    return totalRecords;</span>
+  }
+
+  /**
+   * Number of datasets in the download file.
+   */
+  @Nullable
+  public long getNumberDatasets() {
+<span class="nc" id="L171">    return numberDatasets;</span>
+  }
+
+  /**
+   * Occurrence download Digital Object Identifier.
+   */
+  @Nullable
+  public DOI getDoi() {
+<span class="nc" id="L179">    return doi;</span>
+  }
+
+  /**
+   * Get the license assigned to this occurrence download.
+   * @return
+   */
+  public License getLicense() {
+<span class="nc" id="L187">    return license;</span>
+  }
+
+  public void setCreated(Date created) {
+<span class="nc" id="L191">    this.created = created;</span>
+<span class="nc" id="L192">  }</span>
+
+  public void setDownloadLink(String downloadLink) {
+<span class="nc" id="L195">    this.downloadLink = downloadLink;</span>
+<span class="nc" id="L196">  }</span>
+
+  public void setKey(String key) {
+<span class="nc" id="L199">    this.key = key;</span>
+<span class="nc" id="L200">  }</span>
+
+  public void setDoi(DOI doi) {
+<span class="nc" id="L203">    this.doi = doi;</span>
+<span class="nc" id="L204">  }</span>
+
+  public void setLicense(License license) {
+<span class="nc" id="L207">    this.license = license;</span>
+<span class="nc" id="L208">  }</span>
+
+  public void setModified(Date modified) {
+<span class="nc" id="L211">    this.modified = modified;</span>
+<span class="nc" id="L212">  }</span>
+
+  public void setEraseAfter(Date eraseAfter) {
+<span class="nc" id="L215">    this.eraseAfter = eraseAfter;</span>
+<span class="nc" id="L216">  }</span>
+
+  public void setRequest(DownloadRequest request) {
+<span class="nc" id="L219">    this.request = request;</span>
+<span class="nc" id="L220">  }</span>
+
+  public void setStatus(Status status) {
+<span class="fc" id="L223">    this.status = status;</span>
+<span class="fc" id="L224">  }</span>
+
+  public void setSize(long size) {
+<span class="nc" id="L227">    this.size = size;</span>
+<span class="nc" id="L228">  }</span>
+
+  public void setTotalRecords(long totalRecords) {
+<span class="nc" id="L231">    this.totalRecords = totalRecords;</span>
+<span class="nc" id="L232">  }</span>
+
+  public void setNumberDatasets(long numberDatasets) {
+<span class="nc" id="L235">    this.numberDatasets = numberDatasets;</span>
+<span class="nc" id="L236">  }</span>
+
+  @Override
+  public String toString() {
+<span class="nc" id="L240">    return MoreObjects.toStringHelper(this)</span>
+<span class="nc" id="L241">      .add(&quot;key&quot;, key)</span>
+<span class="nc" id="L242">      .add(&quot;doi&quot;, doi)</span>
+<span class="nc" id="L243">      .add(&quot;status&quot;, status)</span>
+<span class="nc" id="L244">      .add(&quot;downloadLink&quot;, downloadLink)</span>
+<span class="nc" id="L245">      .add(&quot;request&quot;, request)</span>
+<span class="nc" id="L246">      .add(&quot;created&quot;, created)</span>
+<span class="nc" id="L247">      .add(&quot;license&quot;, license)</span>
+<span class="nc" id="L248">      .add(&quot;modified&quot;, modified)</span>
+<span class="nc" id="L249">      .add(&quot;eraseAfter&quot;, eraseAfter)</span>
+<span class="nc" id="L250">      .add(&quot;size&quot;, size)</span>
+<span class="nc" id="L251">      .add(&quot;totalRecords&quot;, totalRecords)</span>
+<span class="nc" id="L252">      .add(&quot;numberDatasets&quot;, numberDatasets).toString();</span>
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="nc bnc" id="L257" title="All 2 branches missed.">    if (this == obj) {</span>
+<span class="nc" id="L258">      return true;</span>
+    }
+<span class="nc bnc" id="L260" title="All 2 branches missed.">    if (!(obj instanceof Download)) {</span>
+<span class="nc" id="L261">      return false;</span>
+    }
+
+<span class="nc" id="L264">    Download that = (Download) obj;</span>
+<span class="nc bnc" id="L265" title="All 2 branches missed.">    return Objects.equal(this.request, that.request)</span>
+<span class="nc bnc" id="L266" title="All 2 branches missed.">      &amp;&amp; Objects.equal(this.key, that.key)</span>
+<span class="nc bnc" id="L267" title="All 2 branches missed.">      &amp;&amp; Objects.equal(this.doi, that.doi)</span>
+<span class="nc bnc" id="L268" title="All 2 branches missed.">      &amp;&amp; Objects.equal(this.license, that.license)</span>
+<span class="nc bnc" id="L269" title="All 2 branches missed.">      &amp;&amp; Objects.equal(this.created, that.created)</span>
+<span class="nc bnc" id="L270" title="All 2 branches missed.">      &amp;&amp; Objects.equal(this.modified, that.modified)</span>
+<span class="nc bnc" id="L271" title="All 2 branches missed.">      &amp;&amp; Objects.equal(this.eraseAfter, that.eraseAfter)</span>
+<span class="nc bnc" id="L272" title="All 2 branches missed.">      &amp;&amp; Objects.equal(this.status, that.status)</span>
+<span class="nc bnc" id="L273" title="All 2 branches missed.">      &amp;&amp; Objects.equal(this.downloadLink, that.downloadLink)</span>
+<span class="nc bnc" id="L274" title="All 2 branches missed.">      &amp;&amp; Objects.equal(this.size, that.size)</span>
+<span class="nc bnc" id="L275" title="All 2 branches missed.">      &amp;&amp; Objects.equal(this.totalRecords, that.totalRecords)</span>
+<span class="nc bnc" id="L276" title="All 2 branches missed.">      &amp;&amp; Objects.equal(this.numberDatasets, that.numberDatasets);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L281">    return Objects.hashCode(key, doi, license, request, created, modified, eraseAfter, status, downloadLink, size,</span>
+<span class="nc" id="L282">                            totalRecords, numberDatasets);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

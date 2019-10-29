@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PageableBase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common.paging</a> &gt; <span class="el_source">PageableBase.java</span></div><h1>PageableBase.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.common.paging;
+
+import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
+import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
+
+/**
+ * Generically is a class that contains attributes used by operations that are aware of pagination.
+ * Its properties are final to allow calculations in other setter methods.
+ */
+public class PageableBase implements Pageable {
+
+  protected long offset;
+  protected int limit;
+
+  /**
+   * Default constructor with default paging values.
+   */
+<span class="nc" id="L33">  protected PageableBase() {</span>
+<span class="nc" id="L34">    offset = DEFAULT_PARAM_OFFSET;</span>
+<span class="nc" id="L35">    limit = DEFAULT_PARAM_LIMIT;</span>
+<span class="nc" id="L36">  }</span>
+
+  /**
+   * Full constructor based on a request.
+   *
+   * @throws IllegalArgumentException if negative offset or limit.
+   */
+<span class="nc" id="L43">  protected PageableBase(Pageable page) {</span>
+<span class="nc" id="L44">    setOffset(page.getOffset());</span>
+<span class="nc" id="L45">    setLimit(page.getLimit());</span>
+<span class="nc" id="L46">  }</span>
+
+  /**
+   * Full constructor.
+   *
+   * @throws IllegalArgumentException if negative offset or limit.
+   */
+<span class="fc" id="L53">  protected PageableBase(long offset, int limit) {</span>
+<span class="fc" id="L54">    setOffset(offset);</span>
+<span class="fc" id="L55">    setLimit(limit);</span>
+<span class="fc" id="L56">  }</span>
+
+  /**
+   * Total of rows that are returned.
+   */
+  @Override
+  public int getLimit() {
+<span class="fc" id="L63">    return limit;</span>
+  }
+
+  /**
+   * @param limit the non negative limit to set
+   *
+   * @throws IllegalArgumentException if negative
+   */
+  public void setLimit(int limit) {
+<span class="fc bfc" id="L72" title="All 2 branches covered.">    if (limit &lt; 0) {</span>
+<span class="fc" id="L73">      throw new IllegalArgumentException(&quot;Limit cannot be negative&quot;);</span>
+    }
+<span class="fc" id="L75">    this.limit = limit;</span>
+<span class="fc" id="L76">  }</span>
+
+  /**
+   * Defines how many items to skip before beginning to return rows.
+   */
+  @Override
+  public long getOffset() {
+<span class="fc" id="L83">    return offset;</span>
+  }
+
+  /**
+   * @param offset the non negative offset to set
+   *
+   * @throws IllegalArgumentException if negative
+   */
+  public void setOffset(long offset) {
+<span class="fc bfc" id="L92" title="All 2 branches covered.">    if (offset &lt; 0) {</span>
+<span class="fc" id="L93">      throw new IllegalArgumentException(&quot;Offset cannot be negative&quot;);</span>
+    }
+<span class="fc" id="L95">    this.offset = offset;</span>
+<span class="fc" id="L96">  }</span>
+
+  /**
+   * Adds to existing offset, setting offset to zero if it would be negative.
+   *
+   * @param offsetDiff to be added to existing offset.
+   */
+  public void addOffset(long offsetDiff) {
+<span class="nc" id="L104">    offset += offsetDiff;</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">    if (offset &lt; 0) {</span>
+<span class="nc" id="L106">      offset = 0;</span>
+    }
+<span class="nc" id="L108">  }</span>
+
+  /**
+   * Utility method to copy paging values.
+   */
+  public void copyPagingValues(Pageable pageable) {
+<span class="nc" id="L114">    limit = pageable.getLimit();</span>
+<span class="nc" id="L115">    offset = pageable.getOffset();</span>
+<span class="nc" id="L116">  }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocalDateTimeSerDe.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.jackson</a> &gt; <span class="el_source">LocalDateTimeSerDe.java</span></div><h1>LocalDateTimeSerDe.java</h1><pre class="source lang-java linenums">package org.gbif.api.jackson;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.DeserializationContext;
+import org.codehaus.jackson.map.JsonDeserializer;
+import org.codehaus.jackson.map.JsonSerializer;
+import org.codehaus.jackson.map.SerializerProvider;
+
+/**
+ * Jackson {@link JsonSerializer} and Jackson {@link JsonDeserializer} classes for {@link
+ * LocalDateTime}.
+ */
+<span class="nc" id="L18">public class LocalDateTimeSerDe {</span>
+
+  /** Jackson {@link JsonSerializer} for {@link LocalDateTime}. */
+<span class="nc" id="L21">  public static class LocalDateTimeSerializer extends JsonSerializer&lt;LocalDateTime&gt; {</span>
+
+    @Override
+    public void serialize(LocalDateTime value, JsonGenerator jgen, SerializerProvider provider)
+      throws IOException, JsonProcessingException {
+<span class="nc" id="L26">      jgen.writeString((value.toString()));</span>
+<span class="nc" id="L27">    }</span>
+  }
+
+  /** Jackson {@link JsonDeserializer} for {@link LocalDateTime}. */
+<span class="nc" id="L31">  public static class LocalDateTimeDeserializer extends JsonDeserializer&lt;LocalDateTime&gt; {</span>
+
+    @Override
+    public LocalDateTime deserialize(JsonParser jp, DeserializationContext ctxt)
+      throws IOException, JsonProcessingException {
+<span class="nc" id="L36">      return LocalDateTime.parse(jp.getText());</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

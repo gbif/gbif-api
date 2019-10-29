@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClassificationUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util</a> &gt; <span class="el_source">ClassificationUtils.java</span></div><h1>ClassificationUtils.java</h1><pre class="source lang-java linenums">package org.gbif.api.util;
+
+import org.gbif.api.model.common.LinneanClassification;
+import org.gbif.api.model.common.LinneanClassificationKeys;
+import org.gbif.api.vocabulary.Rank;
+
+import java.util.LinkedHashMap;
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
+
+public class ClassificationUtils {
+
+<span class="fc" id="L17">  private static final Joiner JOINER = Joiner.on(&quot;, &quot;).skipNulls();</span>
+
+  /**
+   * Concatenates all higher Linnean taxa into a single dwc:higherClassification string, skipping
+   * null values.
+   *
+   * @param lc the LinneanClassification to join into the higher classification string
+   *
+   * @return the concatenated dwc:higherClassification string
+   */
+  @Nullable
+  public static String getHigherClassification(LinneanClassification lc) {
+<span class="nc" id="L29">    return Strings.emptyToNull(JOINER.join(lc.getKingdom(),</span>
+<span class="nc" id="L30">                                           lc.getPhylum(),</span>
+<span class="nc" id="L31">                                           lc.getClazz(),</span>
+<span class="nc" id="L32">                                           lc.getOrder(),</span>
+<span class="nc" id="L33">                                           lc.getFamily(),</span>
+<span class="nc" id="L34">                                           lc.getGenus()));</span>
+  }
+
+  /**
+   * Gets a higher taxon property by passing the rank of it.
+   * Only Linnean ranks are supported.
+   *
+   * @param lc   the LinneanClassification holding the taxon property to be retrieved
+   * @param rank the higher linnean rank to retrieve
+   *
+   * @return the name of the higher taxon or null if rank doesnt exist
+   */
+  @Nullable
+  public static String getHigherRank(LinneanClassification lc, Rank rank) {
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">    if (rank != null) {</span>
+<span class="pc bpc" id="L49" title="8 of 9 branches missed.">      switch (rank) {</span>
+        case KINGDOM:
+<span class="fc" id="L51">          return lc.getKingdom();</span>
+        case PHYLUM:
+<span class="nc" id="L53">          return lc.getPhylum();</span>
+        case CLASS:
+<span class="nc" id="L55">          return lc.getClazz();</span>
+        case ORDER:
+<span class="nc" id="L57">          return lc.getOrder();</span>
+        case FAMILY:
+<span class="nc" id="L59">          return lc.getFamily();</span>
+        case GENUS:
+<span class="nc" id="L61">          return lc.getGenus();</span>
+        case SUBGENUS:
+<span class="nc" id="L63">          return lc.getSubgenus();</span>
+        case SPECIES:
+<span class="nc" id="L65">          return lc.getSpecies();</span>
+      }
+    }
+<span class="nc" id="L68">    return null;</span>
+  }
+
+  /**
+   * Sets a higher taxon property by passing the rank of it.
+   *
+   * @param lc   the LinneanClassification on which to set the new property
+   * @param rank the higher linnean rank to set
+   * @param name the higher ranks name
+   */
+  public static void setHigherRank(LinneanClassification lc, Rank rank, String name) {
+<span class="fc bfc" id="L79" title="All 2 branches covered.">    if (rank != null) {</span>
+<span class="pc bpc" id="L80" title="8 of 9 branches missed.">      switch (rank) {</span>
+        case KINGDOM:
+<span class="nc" id="L82">          lc.setKingdom(name);</span>
+<span class="nc" id="L83">          break;</span>
+        case PHYLUM:
+<span class="nc" id="L85">          lc.setPhylum(name);</span>
+<span class="nc" id="L86">          break;</span>
+        case CLASS:
+<span class="nc" id="L88">          lc.setClazz(name);</span>
+<span class="nc" id="L89">          break;</span>
+        case ORDER:
+<span class="nc" id="L91">          lc.setOrder(name);</span>
+<span class="nc" id="L92">          break;</span>
+        case FAMILY:
+<span class="nc" id="L94">          lc.setFamily(name);</span>
+<span class="nc" id="L95">          break;</span>
+        case GENUS:
+<span class="fc" id="L97">          lc.setGenus(name);</span>
+<span class="fc" id="L98">          break;</span>
+        case SUBGENUS:
+<span class="nc" id="L100">          lc.setSubgenus(name);</span>
+<span class="nc" id="L101">          break;</span>
+        case SPECIES:
+<span class="nc" id="L103">          lc.setSpecies(name);</span>
+          break;
+      }
+    }
+<span class="fc" id="L107">  }</span>
+
+  /**
+   * An ordered map with entries for all higher Linnean ranks down to species which are not null.
+   * The map starts with the highest rank, e.g. the kingdom and maps the name usage key to its canonical name.
+   *
+   * @param lc the object that implements both LinneanClassification and LinneanClassificationKeys from which to build
+   *           the map
+   *
+   * @return map of higher ranks
+   */
+  @NotNull
+  public static &lt;T extends LinneanClassification &amp; LinneanClassificationKeys&gt; LinkedHashMap&lt;Integer, String&gt; getHigherClassificationMap(
+    T lc) {
+<span class="fc" id="L121">    return getHigherClassificationBaseMap(lc);</span>
+  }
+
+  /**
+   * An ordered map with entries for all higher Linnean ranks down to the actual direct parent of this usage.
+   * The map starts with the highest rank, e.g. the kingdom and maps the name usage key to its canonical name.
+   * The name usage itself is never included, even though a higher rank might point to the usage itself.
+   *
+   * @param lc the object that implements both LinneanClassification and LinneanClassificationKeys from which to build
+   *           the map
+   *
+   * @return map of higher ranks
+   */
+  @NotNull
+  public static &lt;T extends LinneanClassification &amp; LinneanClassificationKeys&gt; LinkedHashMap&lt;Integer, String&gt; getHigherClassificationMap(
+    T lc, int key, Integer parentKey, String parent) {
+<span class="fc" id="L137">    LinkedHashMap&lt;Integer, String&gt; map = getHigherClassificationBaseMap(lc);</span>
+
+<span class="fc bfc" id="L139" title="All 2 branches covered.">    if (parentKey != null) {</span>
+<span class="fc" id="L140">      map.put(parentKey, parent);</span>
+    }
+    // remove notion to this usage
+<span class="fc" id="L143">    map.remove(key);</span>
+
+<span class="fc" id="L145">    return map;</span>
+  }
+
+  private static &lt;T extends LinneanClassification &amp; LinneanClassificationKeys&gt; LinkedHashMap&lt;Integer, String&gt; getHigherClassificationBaseMap(
+    T lc) {
+<span class="fc" id="L150">    LinkedHashMap&lt;Integer, String&gt; map = Maps.newLinkedHashMap();</span>
+<span class="pc bpc" id="L151" title="1 of 2 branches missed.">    if (lc.getKingdomKey() != null) {</span>
+<span class="fc" id="L152">      map.put(lc.getKingdomKey(), lc.getKingdom());</span>
+    }
+<span class="fc bfc" id="L154" title="All 2 branches covered.">    if (lc.getPhylumKey() != null) {</span>
+<span class="fc" id="L155">      map.put(lc.getPhylumKey(), lc.getPhylum());</span>
+    }
+<span class="pc bpc" id="L157" title="1 of 2 branches missed.">    if (lc.getClassKey() != null) {</span>
+<span class="nc" id="L158">      map.put(lc.getClassKey(), lc.getClazz());</span>
+    }
+<span class="fc bfc" id="L160" title="All 2 branches covered.">    if (lc.getOrderKey() != null) {</span>
+<span class="fc" id="L161">      map.put(lc.getOrderKey(), lc.getOrder());</span>
+    }
+<span class="fc bfc" id="L163" title="All 2 branches covered.">    if (lc.getFamilyKey() != null) {</span>
+<span class="fc" id="L164">      map.put(lc.getFamilyKey(), lc.getFamily());</span>
+    }
+<span class="fc bfc" id="L166" title="All 2 branches covered.">    if (lc.getGenusKey() != null) {</span>
+<span class="fc" id="L167">      map.put(lc.getGenusKey(), lc.getGenus());</span>
+    }
+<span class="fc bfc" id="L169" title="All 2 branches covered.">    if (lc.getSpeciesKey() != null) {</span>
+<span class="fc" id="L170">      map.put(lc.getSpeciesKey(), lc.getSpecies());</span>
+    }
+<span class="fc" id="L172">    return map;</span>
+  }
+
+  /**
+   * Gets a higher taxon key by passing the rank of it.
+   * Only Linnean ranks are supported.
+   *
+   * @param lck  the classification that holds the taxon key
+   * @param rank the higher linnean rank to retrieve
+   *
+   * @return the key of the higher taxon or null if rank doesnt exist
+   */
+  @Nullable
+  public static Integer getHigherRankKey(LinneanClassificationKeys lck, Rank rank) {
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">    if (rank != null) {</span>
+<span class="pc bpc" id="L187" title="8 of 9 branches missed.">      switch (rank) {</span>
+        case KINGDOM:
+<span class="fc" id="L189">          return lck.getKingdomKey();</span>
+        case PHYLUM:
+<span class="nc" id="L191">          return lck.getPhylumKey();</span>
+        case CLASS:
+<span class="nc" id="L193">          return lck.getClassKey();</span>
+        case ORDER:
+<span class="nc" id="L195">          return lck.getOrderKey();</span>
+        case FAMILY:
+<span class="nc" id="L197">          return lck.getFamilyKey();</span>
+        case GENUS:
+<span class="nc" id="L199">          return lck.getGenusKey();</span>
+        case SUBGENUS:
+<span class="nc" id="L201">          return lck.getSubgenusKey();</span>
+        case SPECIES:
+<span class="nc" id="L203">          return lck.getSpeciesKey();</span>
+      }
+    }
+<span class="nc" id="L206">    return null;</span>
+  }
+
+  /**
+   * Sets a higher taxon property by passing the rank of it.
+   *
+   * @param lck      the classification on which to set the taxon property
+   * @param rank     the higher rank to set
+   * @param usageKey key of the higher ranks usage
+   */
+  public static void setHigherRankKey(LinneanClassificationKeys lck, Rank rank, Integer usageKey) {
+<span class="fc bfc" id="L217" title="All 2 branches covered.">    if (rank != null) {</span>
+<span class="pc bpc" id="L218" title="8 of 9 branches missed.">      switch (rank) {</span>
+        case KINGDOM:
+<span class="nc" id="L220">          lck.setKingdomKey(usageKey);</span>
+<span class="nc" id="L221">          break;</span>
+        case PHYLUM:
+<span class="nc" id="L223">          lck.setPhylumKey(usageKey);</span>
+<span class="nc" id="L224">          break;</span>
+        case CLASS:
+<span class="nc" id="L226">          lck.setClassKey(usageKey);</span>
+<span class="nc" id="L227">          break;</span>
+        case ORDER:
+<span class="nc" id="L229">          lck.setOrderKey(usageKey);</span>
+<span class="nc" id="L230">          break;</span>
+        case FAMILY:
+<span class="nc" id="L232">          lck.setFamilyKey(usageKey);</span>
+<span class="nc" id="L233">          break;</span>
+        case GENUS:
+<span class="fc" id="L235">          lck.setGenusKey(usageKey);</span>
+<span class="fc" id="L236">          break;</span>
+        case SUBGENUS:
+<span class="nc" id="L238">          lck.setSubgenusKey(usageKey);</span>
+<span class="nc" id="L239">          break;</span>
+        case SPECIES:
+<span class="nc" id="L241">          lck.setSpeciesKey(usageKey);</span>
+          break;
+      }
+    }
+<span class="fc" id="L245">  }</span>
+
+  /**
+   * Sets a higher taxon property by passing the rank of it.
+   *
+   * @param lc       the object that implements both LinneanClassification and LinneanClassificationKeys on which to set
+   *                 the taxon property
+   * @param rank     the higher linnean rank to set
+   * @param name     the higher ranks name
+   * @param usageKey key of the higher ranks usage
+   */
+  public static &lt;T extends LinneanClassification &amp; LinneanClassificationKeys&gt; void setHigherRank(
+    T lc, Rank rank, String name, Integer usageKey
+  ) {
+<span class="fc" id="L259">    setHigherRank(lc, rank, name);</span>
+<span class="fc" id="L260">    setHigherRankKey(lc, rank, usageKey);</span>
+<span class="fc" id="L261">  }</span>
+
+  /**
+   * @return true if at least one higher rank of the classification is given, i.e. not null or empty
+   */
+  public static boolean hasContent(LinneanClassification lc) {
+<span class="nc bnc" id="L267" title="All 2 branches missed.">    for (Rank qr : Rank.DWC_RANKS) {</span>
+<span class="nc bnc" id="L268" title="All 2 branches missed.">      if (!Strings.isNullOrEmpty(getHigherRank(lc, qr))) {</span>
+<span class="nc" id="L269">        return true;</span>
+      }
+<span class="nc" id="L271">    }</span>
+<span class="nc" id="L272">    return false;</span>
+  }
+
+  /**
+   * Copies all linnean classification based higher taxon keys from one instance to another.
+   */
+  public static void copyLinneanClassificationKeys(LinneanClassificationKeys source, LinneanClassificationKeys target) {
+<span class="nc bnc" id="L279" title="All 2 branches missed.">    for (Rank r : Rank.DWC_RANKS) {</span>
+<span class="nc" id="L280">      setHigherRankKey(target, r, source.getHigherRankKey(r));</span>
+<span class="nc" id="L281">    }</span>
+<span class="nc" id="L282">  }</span>
+
+  /**
+   * Copies all linnean classification based higher taxon names from one instance to another.
+   */
+  public static void copyLinneanClassification(LinneanClassification source, LinneanClassification target) {
+<span class="nc bnc" id="L288" title="All 2 branches missed.">    for (Rank r : Rank.DWC_RANKS) {</span>
+<span class="nc" id="L289">      setHigherRank(target, r, source.getHigherRank(r));</span>
+<span class="nc" id="L290">    }</span>
+<span class="nc" id="L291">  }</span>
+
+  /**
+   * Utility class.
+   */
+  private ClassificationUtils() {
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NameUsageMetrics.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">NameUsageMetrics.java</span></div><h1>NameUsageMetrics.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.checklistbank;
+
+import org.gbif.api.vocabulary.Rank;
+
+import javax.annotation.Nullable;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import com.google.common.base.Objects;
+
+/**
+ * Basic metrics for a single name usage. These metrics have been embedded in the NameUsage class before
+ * but are rarely being used. They are therefore split out into a separate class to be retrieved only when needed.
+ */
+<span class="nc" id="L30">public class NameUsageMetrics {</span>
+
+  private Integer key;
+  private int numPhylum;
+  private int numClass;
+  private int numOrder;
+  private int numFamily;
+  private int numGenus;
+  private int numSubgenus;
+  private int numSpecies;
+  private int numChildren;
+  private int numDescendants;
+  private int numSynonyms;
+
+
+  /**
+   * Return the key that uniquely identifies this name usage.
+   *
+   * @return the key
+   */
+  @NotNull
+  public Integer getKey() {
+<span class="nc" id="L52">    return key;</span>
+  }
+
+  /**
+   * @param key the key to set
+   */
+  public void setKey(Integer key) {
+<span class="nc" id="L59">    this.key = key;</span>
+<span class="nc" id="L60">  }</span>
+
+
+  /**
+   * Returns the number of direct taxonomic elements under this usage. &quot;Direct&quot; means that children should have
+   * this usageKey as their parentKey.
+   *
+   * @return the numChildren
+   */
+  @Min(0)
+  public int getNumChildren() {
+<span class="nc" id="L71">    return numChildren;</span>
+  }
+
+  /**
+   * @param numChildren the numChildren to set
+   */
+  public void setNumChildren(int numChildren) {
+<span class="nc" id="L78">    this.numChildren = numChildren;</span>
+<span class="nc" id="L79">  }</span>
+
+  /**
+   * Returns the number of classes that are below this taxon. Typically this would mean
+   * this usage is of something above the &quot;class&quot; taxonomic level.
+   *
+   * @return the numClass
+   */
+  @Min(0)
+  public int getNumClass() {
+<span class="nc" id="L89">    return numClass;</span>
+  }
+
+  /**
+   * @param numClass the numClass to set
+   */
+  public void setNumClass(int numClass) {
+<span class="nc" id="L96">    this.numClass = numClass;</span>
+<span class="nc" id="L97">  }</span>
+
+  /**
+   * The number of all accepted taxonomic elements under this usage.
+   *
+   * @return the number of descendants
+   */
+  public int getNumDescendants() {
+<span class="nc" id="L105">    return numDescendants;</span>
+  }
+
+  /**
+   * @param numDescendants the n umber of descendants to set
+   */
+  public void setNumDescendants(int numDescendants) {
+<span class="nc" id="L112">    this.numDescendants = numDescendants;</span>
+<span class="nc" id="L113">  }</span>
+
+  /**
+   * Returns the number of families that are below this taxon. Typically this would mean
+   * this usage is of something above the &quot;family&quot; taxonomic level.
+   *
+   * @return the numFamily
+   */
+  @Min(0)
+  public int getNumFamily() {
+<span class="nc" id="L123">    return numFamily;</span>
+  }
+
+  /**
+   * @param numFamily the numFamily to set
+   */
+  public void setNumFamily(int numFamily) {
+<span class="nc" id="L130">    this.numFamily = numFamily;</span>
+<span class="nc" id="L131">  }</span>
+
+  /**
+   * Returns the number of genus that are below this taxon. Typically this would mean
+   * this usage is of something above the &quot;genus&quot; taxonomic level.
+   *
+   * @return the numGenus
+   */
+  @Min(0)
+  public int getNumGenus() {
+<span class="nc" id="L141">    return numGenus;</span>
+  }
+
+  /**
+   * @param numGenus the numGenus to set
+   */
+  public void setNumGenus(int numGenus) {
+<span class="nc" id="L148">    this.numGenus = numGenus;</span>
+<span class="nc" id="L149">  }</span>
+
+  /**
+   * Returns the number of orders that are below this taxon. Typically this would mean
+   * this usage is of something above the &quot;order&quot; taxonomic level.
+   *
+   * @return the numOrder
+   */
+  @Min(0)
+  public int getNumOrder() {
+<span class="nc" id="L159">    return numOrder;</span>
+  }
+
+  /**
+   * @param numOrder the numOrder to set
+   */
+  public void setNumOrder(int numOrder) {
+<span class="nc" id="L166">    this.numOrder = numOrder;</span>
+<span class="nc" id="L167">  }</span>
+
+  /**
+   * Returns the number of phyla that are below this taxon. Typically this would mean
+   * this usage is of something above the &quot;phylum&quot; taxonomic level.
+   *
+   * @return the numPhylum
+   */
+  @Min(0)
+  public int getNumPhylum() {
+<span class="nc" id="L177">    return numPhylum;</span>
+  }
+
+  /**
+   * @param numPhylum the numPhylum to set
+   */
+  public void setNumPhylum(int numPhylum) {
+<span class="nc" id="L184">    this.numPhylum = numPhylum;</span>
+<span class="nc" id="L185">  }</span>
+
+  /**
+   * Returns the number of species that are below this taxon. Typically this would mean
+   * this usage is of something above the &quot;species&quot; taxonomic level.
+   *
+   * @return the numSpecies.
+   */
+  @Min(0)
+  public int getNumSpecies() {
+<span class="nc" id="L195">    return numSpecies;</span>
+  }
+
+  /**
+   * @param numSpecies the numSpecies to set
+   */
+  public void setNumSpecies(int numSpecies) {
+<span class="nc" id="L202">    this.numSpecies = numSpecies;</span>
+<span class="nc" id="L203">  }</span>
+
+  /**
+   * Returns the number of distinct subgenera that are below this taxon. Typically this would mean
+   * this usage is of something above the &quot;subgenus&quot; taxonomic level.
+   *
+   * @return the numSubgenus
+   */
+  @Min(0)
+  public int getNumSubgenus() {
+<span class="nc" id="L213">    return numSubgenus;</span>
+  }
+
+  /**
+   * @param numSubgenus the number of distinct subgenera
+   */
+  public void setNumSubgenus(int numSubgenus) {
+<span class="nc" id="L220">    this.numSubgenus = numSubgenus;</span>
+<span class="nc" id="L221">  }</span>
+
+  /**
+   * Returns the number of related synonyms this usage possses.
+   *
+   * @return the numSynonyms.
+   */
+  @Min(0)
+  public int getNumSynonyms() {
+<span class="nc" id="L230">    return numSynonyms;</span>
+  }
+
+  /**
+   * @param numSynonyms the numSynonyms to set
+   */
+  public void setNumSynonyms(int numSynonyms) {
+<span class="nc" id="L237">    this.numSynonyms = numSynonyms;</span>
+<span class="nc" id="L238">  }</span>
+
+  /**
+   * Gets the count of usages by a rank.
+   * Only Linnean ranks are supported.
+   *
+   * @param rank the linnean rank to retrieve counts for
+   *
+   * @return the count or null if rank doesnt exist
+   */
+  @Nullable
+  public Integer getNumByRank(Rank rank) {
+<span class="nc bnc" id="L250" title="All 2 branches missed.">    if (rank == Rank.PHYLUM) {</span>
+<span class="nc" id="L251">      return numPhylum;</span>
+    }
+<span class="nc bnc" id="L253" title="All 2 branches missed.">    if (rank == Rank.CLASS) {</span>
+<span class="nc" id="L254">      return numClass;</span>
+    }
+<span class="nc bnc" id="L256" title="All 2 branches missed.">    if (rank == Rank.ORDER) {</span>
+<span class="nc" id="L257">      return numOrder;</span>
+    }
+<span class="nc bnc" id="L259" title="All 2 branches missed.">    if (rank == Rank.FAMILY) {</span>
+<span class="nc" id="L260">      return numFamily;</span>
+    }
+<span class="nc bnc" id="L262" title="All 2 branches missed.">    if (rank == Rank.GENUS) {</span>
+<span class="nc" id="L263">      return numGenus;</span>
+    }
+<span class="nc bnc" id="L265" title="All 2 branches missed.">    if (rank == Rank.SUBGENUS) {</span>
+<span class="nc" id="L266">      return numSubgenus;</span>
+    }
+<span class="nc bnc" id="L268" title="All 2 branches missed.">    if (rank == Rank.SPECIES) {</span>
+<span class="nc" id="L269">      return numSpecies;</span>
+    }
+<span class="nc" id="L271">    return null;</span>
+  }
+
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L277">    return Objects</span>
+<span class="nc" id="L278">      .hashCode(</span>
+        key,
+<span class="nc" id="L280">        numPhylum,</span>
+<span class="nc" id="L281">        numClass,</span>
+<span class="nc" id="L282">        numOrder,</span>
+<span class="nc" id="L283">        numFamily,</span>
+<span class="nc" id="L284">        numGenus,</span>
+<span class="nc" id="L285">        numSubgenus,</span>
+<span class="nc" id="L286">        numSpecies,</span>
+<span class="nc" id="L287">        numChildren,</span>
+<span class="nc" id="L288">        numDescendants,</span>
+<span class="nc" id="L289">        numSynonyms);</span>
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="nc bnc" id="L294" title="All 2 branches missed.">    if (this == obj) {</span>
+<span class="nc" id="L295">      return true;</span>
+    }
+<span class="nc bnc" id="L297" title="All 2 branches missed.">    if (obj == null) {</span>
+<span class="nc" id="L298">      return false;</span>
+    }
+<span class="nc bnc" id="L300" title="All 2 branches missed.">    if (getClass() != obj.getClass()) {</span>
+<span class="nc" id="L301">      return false;</span>
+    }
+<span class="nc" id="L303">    final NameUsageMetrics other = (NameUsageMetrics) obj;</span>
+<span class="nc bnc" id="L304" title="All 2 branches missed.">    return Objects.equal(this.key, other.key)</span>
+<span class="nc bnc" id="L305" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numPhylum, other.numPhylum)</span>
+<span class="nc bnc" id="L306" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numClass, other.numClass)</span>
+<span class="nc bnc" id="L307" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numOrder, other.numOrder)</span>
+<span class="nc bnc" id="L308" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numFamily, other.numFamily)</span>
+<span class="nc bnc" id="L309" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numGenus, other.numGenus)</span>
+<span class="nc bnc" id="L310" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numSubgenus, other.numSubgenus)</span>
+<span class="nc bnc" id="L311" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numSpecies, other.numSpecies)</span>
+<span class="nc bnc" id="L312" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numChildren, other.numChildren)</span>
+<span class="nc bnc" id="L313" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numDescendants, other.numDescendants)</span>
+<span class="nc bnc" id="L314" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numSynonyms, other.numSynonyms);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L319">    return Objects.toStringHelper(this)</span>
+<span class="nc" id="L320">      .add(&quot;key&quot;, key)</span>
+<span class="nc" id="L321">      .add(&quot;numPhylum&quot;, numPhylum)</span>
+<span class="nc" id="L322">      .add(&quot;numClass&quot;, numClass)</span>
+<span class="nc" id="L323">      .add(&quot;numOrder&quot;, numOrder)</span>
+<span class="nc" id="L324">      .add(&quot;numFamily&quot;, numFamily)</span>
+<span class="nc" id="L325">      .add(&quot;numGenus&quot;, numGenus)</span>
+<span class="nc" id="L326">      .add(&quot;numSubgenus&quot;, numSubgenus)</span>
+<span class="nc" id="L327">      .add(&quot;numSpecies&quot;, numSpecies)</span>
+<span class="nc" id="L328">      .add(&quot;numChildren&quot;, numChildren)</span>
+<span class="nc" id="L329">      .add(&quot;numDescendants&quot;, numDescendants)</span>
+<span class="nc" id="L330">      .add(&quot;numSynonyms&quot;, numSynonyms)</span>
+<span class="nc" id="L331">      .toString();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DOI.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common</a> &gt; <span class="el_source">DOI.java</span></div><h1>DOI.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.common;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.map.DeserializationContext;
+import org.codehaus.jackson.map.JsonDeserializer;
+import org.codehaus.jackson.map.SerializerProvider;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.ser.std.SerializerBase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.validation.constraints.NotNull;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * Class representing a single Digital Object Identifier (DOI) breaking it down to a prefix and suffix.
+ * For the syntax of DOI names see the &lt;a href=&quot;http://www.doi.org/doi_handbook/2_Numbering.html#2.2&quot;&gt;DOI Handbook&lt;/a&gt;.
+ * All parsing is case insensitive and resulting components will all be upper cased.
+ */
+@JsonSerialize(using = DOI.Serializer.class)
+@JsonDeserialize(using = DOI.Deserializer.class)
+public class DOI {
+
+<span class="fc" id="L34">  private static final Logger LOG = LoggerFactory.getLogger(DOI.class);</span>
+
+  /**
+   * Encoding to create URLs.
+   */
+  private static final String CHAR_ENCODING = &quot;UTF-8&quot;;
+
+  /**
+   * The DOI prefix registered with DataCite to be used by GBIF issued production DOIs.
+   */
+  public static final String GBIF_PREFIX = &quot;10.15468&quot;;
+
+  /**
+   * A DOI prefix provided by DataCite to be used in tests.
+   */
+  public static final String TEST_PREFIX = &quot;10.21373&quot;;
+
+<span class="fc" id="L51">  private static final Pattern HTTP = Pattern.compile(&quot;^https?://(dx\\.)?doi\\.org/&quot;</span>
+    + &quot;(urn:)?(doi:)?&quot;, Pattern.CASE_INSENSITIVE);
+<span class="fc" id="L53">  private static final Pattern PARSER = Pattern.compile(&quot;^(?:urn:)?(?:doi:)?&quot;           // optional</span>
+    + &quot;(10(?:\\.[0-9]+)+)&quot;
+    + &quot;/(.+)$&quot;, Pattern.CASE_INSENSITIVE);
+
+  private static final String RESOLVER = &quot;https://doi.org/&quot;;
+  private static final String SCHEME = &quot;doi:&quot;;
+  private String prefix;
+  private String suffix;
+
+  /**
+   * Returns true only if the source can be parsed into a DOI.
+   */
+  public static boolean isParsable(String source) {
+<span class="fc bfc" id="L66" title="All 2 branches covered.">    if (!Strings.isNullOrEmpty(source)) {</span>
+      try {
+<span class="fc" id="L68">        return PARSER.matcher(decodeUrl(source)).find();</span>
+<span class="nc" id="L69">      } catch (IllegalArgumentException iaEx) {</span>
+<span class="nc" id="L70">        LOG.debug(&quot;Can not decode URL from the following DOI: {}&quot;, source);</span>
+      }
+    }
+<span class="fc" id="L73">    return false;</span>
+  }
+
+  /**
+   * Do not use this constructor.
+   * Required by JAXB to marshall this object without introducing adapters.
+   */
+<span class="nc" id="L80">  public DOI() {</span>
+<span class="nc" id="L81">  }</span>
+
+  /**
+   * Parses a simple DOI string of various forms incl URN, URL or plain DOI names.
+   *
+   * @param doi the full simple DOI string
+   * @throws java.lang.IllegalArgumentException if invalid DOI string is passed
+   */
+<span class="fc" id="L89">  public DOI(String doi) {</span>
+<span class="fc" id="L90">    Preconditions.checkNotNull(doi, &quot;DOI required&quot;);</span>
+<span class="fc" id="L91">    Matcher m = PARSER.matcher(decodeUrl(doi));</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">    if (m.find()) {</span>
+<span class="fc" id="L93">      this.prefix = m.group(1).toLowerCase();</span>
+<span class="fc" id="L94">      this.suffix = m.group(2).toLowerCase();</span>
+    } else {
+<span class="fc" id="L96">      throw new IllegalArgumentException(doi + &quot; is not a valid DOI&quot;);</span>
+    }
+<span class="fc" id="L98">  }</span>
+
+  /**
+   * Parses a simple DOI string of various forms incl URN, URL or plain DOI names.
+   *
+   * @param prefix a simple DOI prefix starting with 10.
+   * @param suffix arbitrary suffix part of the DOI
+   * @throws java.lang.IllegalArgumentException if invalid DOI prefix is given
+   */
+<span class="fc" id="L107">  public DOI(String prefix, String suffix) {</span>
+<span class="fc" id="L108">    this.prefix = Preconditions.checkNotNull(prefix, &quot;DOI prefix required&quot;).toLowerCase();</span>
+<span class="fc" id="L109">    Preconditions.checkArgument(prefix.startsWith(&quot;10.&quot;));</span>
+<span class="fc" id="L110">    this.suffix = Preconditions.checkNotNull(suffix, &quot;DOI suffix required&quot;).toLowerCase();</span>
+<span class="fc" id="L111">  }</span>
+
+  /**
+   * If the doi is encoded as a URL this method strips the resolver and decodes the URL encoded string entities.
+   *
+   * @param doi not null doi represented as a String
+   * @return the path part if the doi is a URL otherwise the doi is returned as is.
+   * @throws IllegalArgumentException
+   */
+  private static String decodeUrl(@NotNull String doi) {
+<span class="fc" id="L121">    Matcher m = HTTP.matcher(doi);</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">    if (m.find()) {</span>
+      // strip resolver incl potentially starting paths using a badly encoded urn:doi
+      // (the colon would need to be encoded in a proper URL)
+<span class="fc" id="L125">      doi = m.replaceFirst(&quot;&quot;);</span>
+      // now decode the URL path, we cannot possibly have query parameters or anchors as the DOIs encoded as a URL
+      // will just be a path
+      try {
+<span class="fc" id="L129">        return URI.create(URLEncoder.encode(doi, CHAR_ENCODING)).getPath();</span>
+<span class="nc" id="L130">      } catch (UnsupportedEncodingException e) {</span>
+<span class="nc" id="L131">        throw new IllegalArgumentException(&quot;Unsupported DOI encoding&quot;, e);</span>
+      }
+    }
+<span class="fc" id="L134">    return doi;</span>
+  }
+
+  public String getPrefix() {
+<span class="nc" id="L138">    return prefix;</span>
+  }
+
+  public void setPrefix(String prefix) {
+<span class="nc" id="L142">    this.prefix = prefix;</span>
+<span class="nc" id="L143">  }</span>
+
+  public String getSuffix() {
+<span class="fc" id="L146">    return suffix;</span>
+  }
+
+  public void setSuffix(String suffix) {
+<span class="nc" id="L150">    this.suffix = suffix;</span>
+<span class="nc" id="L151">  }</span>
+
+  /**
+   * See &lt;a href=&quot;http://www.doi.org/doi_handbook/2_Numbering.html#2.6&quot;&gt;DOI Handbook, Visual presentation and other representation of DOI names&lt;/a&gt;.
+   *
+   * @return the resolved DOI using https://doi.org/
+   * @throws IllegalStateException if the encoding of the DOI is not supported
+   */
+  public URI getUrl() {
+    try {
+<span class="fc" id="L161">      return URI.create(RESOLVER + prefix + '/' + URLEncoder.encode(suffix, CHAR_ENCODING));</span>
+<span class="nc" id="L162">    } catch (UnsupportedEncodingException e) {</span>
+<span class="nc" id="L163">      throw new IllegalStateException(&quot;Unsupported DOI encoding&quot;, e);</span>
+    }
+  }
+
+  /**
+   * @return the DOI name prefixed with &quot;doi:&quot;, as recommended by the DOI Handbook.
+   */
+  public String getDoiString() {
+<span class="nc" id="L171">    return SCHEME + getDoiName();</span>
+  }
+
+  /**
+   * @return the pure DOI name without any initial scheme name starting with the prefix, i.e. 10.
+   */
+  public String getDoiName() {
+<span class="fc" id="L178">    return prefix + '/' + suffix;</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="fc" id="L183">    return getDoiName();</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="fc" id="L188">    return Objects.hash(prefix, suffix);</span>
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="pc bpc" id="L193" title="1 of 2 branches missed.">    if (this == obj) {</span>
+<span class="nc" id="L194">      return true;</span>
+    }
+<span class="pc bpc" id="L196" title="2 of 4 branches missed.">    if (obj == null || getClass() != obj.getClass()) {</span>
+<span class="nc" id="L197">      return false;</span>
+    }
+<span class="fc" id="L199">    final DOI other = (DOI) obj;</span>
+    // prefix and suffix are always upper cased so we can do simple equals here
+<span class="pc bpc" id="L201" title="2 of 4 branches missed.">    return Objects.equals(this.prefix, other.prefix) &amp;&amp; Objects.equals(this.suffix, other.suffix);</span>
+  }
+
+  /**
+   * Serializes a DOI – no scheme, no resolver.
+   * For example 10.1038/nature.2014.16460
+   */
+  public static class Serializer extends SerializerBase&lt;DOI&gt; {
+
+    public Serializer() {
+<span class="fc" id="L211">      super(DOI.class);</span>
+<span class="fc" id="L212">    }</span>
+
+    @Override
+    public void serialize(DOI value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+<span class="fc" id="L216">      jgen.writeString(value.toString());</span>
+<span class="fc" id="L217">    }</span>
+  }
+
+  /**
+   * Deserializes a DOI from various string based formats.
+   * See DOI constructor for details.
+   */
+<span class="fc" id="L224">  public static class Deserializer extends JsonDeserializer&lt;DOI&gt; {</span>
+
+    @Override
+    public DOI deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+<span class="pc bpc" id="L228" title="2 of 4 branches missed.">      if (jp != null &amp;&amp; jp.getTextLength() &gt; 0) {</span>
+<span class="fc" id="L229">        return new DOI(jp.getText());</span>
+      }
+<span class="nc" id="L231">      return null;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

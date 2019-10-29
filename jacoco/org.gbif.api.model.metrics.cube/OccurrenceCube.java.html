@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OccurrenceCube.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.metrics.cube</a> &gt; <span class="el_source">OccurrenceCube.java</span></div><h1>OccurrenceCube.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.metrics.cube;
+
+import org.gbif.api.vocabulary.BasisOfRecord;
+import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.EndpointType;
+import org.gbif.api.vocabulary.OccurrenceIssue;
+import org.gbif.api.vocabulary.TypeStatus;
+
+import java.util.List;
+import java.util.UUID;
+
+import com.google.common.collect.ImmutableList;
+
+/**
+ * The occurrence cube dimension definitions and the way in which they are rolled up into counts.
+ */
+public class OccurrenceCube {
+
+<span class="nc" id="L31">  public static final Dimension&lt;UUID&gt; DATASET_KEY = new Dimension&lt;UUID&gt;(&quot;datasetKey&quot;, UUID.class);</span>
+<span class="nc" id="L32">  public static final Dimension&lt;Integer&gt; TAXON_KEY = new Dimension&lt;Integer&gt;(&quot;taxonKey&quot;, Integer.class);</span>
+<span class="nc" id="L33">  public static final Dimension&lt;BasisOfRecord&gt; BASIS_OF_RECORD = new Dimension&lt;BasisOfRecord&gt;(&quot;basisOfRecord&quot;, BasisOfRecord.class);</span>
+  // georeferenced is different from hasCoordinate and includes a no geospatial issue check!
+<span class="nc" id="L35">  public static final Dimension&lt;Boolean&gt; IS_GEOREFERENCED = new Dimension&lt;Boolean&gt;(&quot;isGeoreferenced&quot;, Boolean.class);</span>
+<span class="nc" id="L36">  public static final Dimension&lt;Country&gt; COUNTRY = new Dimension&lt;Country&gt;(&quot;country&quot;, Country.class);</span>
+<span class="nc" id="L37">  public static final Dimension&lt;Country&gt; PUBLISHING_COUNTRY = new Dimension&lt;Country&gt;(&quot;publishingCountry&quot;, Country.class);</span>
+<span class="nc" id="L38">  public static final Dimension&lt;Integer&gt; YEAR = new Dimension&lt;Integer&gt;(&quot;year&quot;, Integer.class);</span>
+<span class="nc" id="L39">  public static final Dimension&lt;EndpointType&gt; PROTOCOL = new Dimension&lt;EndpointType&gt;(&quot;protocol&quot;, EndpointType.class);</span>
+<span class="nc" id="L40">  public static final Dimension&lt;TypeStatus&gt; TYPE_STATUS = new Dimension&lt;TypeStatus&gt;(&quot;typeStatus&quot;, TypeStatus.class);</span>
+<span class="nc" id="L41">  public static final Dimension&lt;OccurrenceIssue&gt; ISSUE = new Dimension&lt;OccurrenceIssue&gt;(&quot;issue&quot;, OccurrenceIssue.class);</span>
+
+<span class="nc" id="L43">  public static final List&lt;Dimension&lt;?&gt;&gt; DIMENSIONS = ImmutableList.&lt;Dimension&lt;?&gt;&gt;of(COUNTRY, IS_GEOREFERENCED,</span>
+         BASIS_OF_RECORD, PUBLISHING_COUNTRY, DATASET_KEY, TAXON_KEY, PROTOCOL, YEAR, TYPE_STATUS, ISSUE
+  );
+
+  // PLEASE KEEP THIS LIST MAINTAINED ALPHABETICALLY so we can spot duplicates and groupings
+  // sort rows as well as dimensions within each row
+<span class="nc" id="L49">  public static final List&lt;Rollup&gt; ROLLUPS = ImmutableList.of(</span>
+    new Rollup(BASIS_OF_RECORD),
+    new Rollup(BASIS_OF_RECORD, COUNTRY),
+    new Rollup(BASIS_OF_RECORD, COUNTRY, IS_GEOREFERENCED),
+    new Rollup(BASIS_OF_RECORD, COUNTRY, IS_GEOREFERENCED, TAXON_KEY),
+    new Rollup(BASIS_OF_RECORD, COUNTRY, TAXON_KEY),
+    new Rollup(BASIS_OF_RECORD, DATASET_KEY),
+    new Rollup(BASIS_OF_RECORD, DATASET_KEY, IS_GEOREFERENCED),
+    new Rollup(BASIS_OF_RECORD, DATASET_KEY, IS_GEOREFERENCED, TAXON_KEY),
+    new Rollup(BASIS_OF_RECORD, DATASET_KEY, TAXON_KEY),
+    new Rollup(BASIS_OF_RECORD, IS_GEOREFERENCED, TAXON_KEY),
+    new Rollup(BASIS_OF_RECORD, IS_GEOREFERENCED, PUBLISHING_COUNTRY),
+    new Rollup(BASIS_OF_RECORD, IS_GEOREFERENCED, PUBLISHING_COUNTRY, TAXON_KEY),
+    new Rollup(BASIS_OF_RECORD, PUBLISHING_COUNTRY),
+    new Rollup(BASIS_OF_RECORD, PUBLISHING_COUNTRY, TAXON_KEY),
+    new Rollup(BASIS_OF_RECORD, TAXON_KEY),
+    new Rollup(COUNTRY),
+    new Rollup(COUNTRY, DATASET_KEY, IS_GEOREFERENCED),
+    new Rollup(COUNTRY, IS_GEOREFERENCED),
+    new Rollup(COUNTRY, IS_GEOREFERENCED, PUBLISHING_COUNTRY),
+    new Rollup(COUNTRY, IS_GEOREFERENCED, TAXON_KEY),
+    new Rollup(COUNTRY, PUBLISHING_COUNTRY),
+    new Rollup(COUNTRY, TAXON_KEY),
+    new Rollup(COUNTRY, TYPE_STATUS),
+    new Rollup(DATASET_KEY),
+    new Rollup(DATASET_KEY, IS_GEOREFERENCED),
+    new Rollup(DATASET_KEY, IS_GEOREFERENCED, TAXON_KEY),
+    new Rollup(DATASET_KEY, ISSUE),
+    new Rollup(DATASET_KEY, TAXON_KEY),
+    new Rollup(DATASET_KEY, TYPE_STATUS),
+    new Rollup(IS_GEOREFERENCED),
+    new Rollup(IS_GEOREFERENCED, PUBLISHING_COUNTRY),
+    new Rollup(IS_GEOREFERENCED, PUBLISHING_COUNTRY, TAXON_KEY),
+    new Rollup(IS_GEOREFERENCED, TAXON_KEY),
+    new Rollup(ISSUE),
+    new Rollup(PUBLISHING_COUNTRY),
+    new Rollup(PUBLISHING_COUNTRY, TAXON_KEY),
+    new Rollup(PUBLISHING_COUNTRY, TYPE_STATUS),
+    new Rollup(TAXON_KEY),
+    new Rollup(TAXON_KEY, TYPE_STATUS),
+    new Rollup(TYPE_STATUS),
+    new Rollup(PROTOCOL),
+    new Rollup(YEAR)
+    );
+
+  // Not intended for instantiation
+  private OccurrenceCube() {
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
