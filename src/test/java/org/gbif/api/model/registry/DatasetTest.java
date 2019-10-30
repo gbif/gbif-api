@@ -1,21 +1,19 @@
 package org.gbif.api.model.registry;
 
+import com.google.common.collect.Sets;
 import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.MaintenanceUpdateFrequency;
+import org.junit.Test;
 
-import java.net.URI;
-import java.util.Date;
-import java.util.Set;
-import java.util.UUID;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-
-import com.google.common.collect.Sets;
-import org.apache.bval.jsr303.ApacheValidationProvider;
-import org.junit.Test;
+import java.net.URI;
+import java.util.Date;
+import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -24,8 +22,7 @@ public class DatasetTest {
 
   @Test
   public void testValidations() {
-    ValidatorFactory validatorFactory =
-      Validation.byProvider(ApacheValidationProvider.class).configure().buildValidatorFactory();
+    ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
     Validator validator = validatorFactory.getValidator();
 
     Dataset ds = new Dataset();
