@@ -10,6 +10,7 @@ import javax.validation.ValidatorFactory;
 import java.net.URI;
 import java.util.Set;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class NodeTest {
@@ -23,7 +24,7 @@ public class NodeTest {
     node.setTitle("a"); // too short
     node.setLogoUrl(URI.create("file:///tmp/aha")); // bad http URI
     Set<ConstraintViolation<Node>> violations = validator.validate(node);
-    assertTrue("Violations were expected", !violations.isEmpty());
+    assertFalse("Violations were expected", violations.isEmpty());
 
     // ensure all expected properties are caught
     Set<String> propertiesInViolation = Sets.newHashSet("title", "logoUrl");

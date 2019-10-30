@@ -10,6 +10,7 @@ import javax.validation.ValidatorFactory;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class TagTest {
@@ -21,7 +22,7 @@ public class TagTest {
     assertEquals("Tags are equal", t1, t2);
     assertEquals("Tags are equal", t2, t1);
     t2.setKey(1);
-    assertTrue("Tags are equal", !t2.equals(t1));
+    assertFalse("Tags are equal", t2.equals(t1));
   }
 
   @Test
@@ -31,7 +32,7 @@ public class TagTest {
 
     Tag tag = new Tag("", null);
     Set<ConstraintViolation<Tag>> violations = validator.validate(tag);
-    assertTrue("Violations were expected", !violations.isEmpty());
+    assertFalse("Violations were expected", violations.isEmpty());
 
     // ensure all expected properties are caught
     Set<String> propertiesInViolation = Sets.newHashSet("value");

@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class DatasetTest {
@@ -39,7 +40,7 @@ public class DatasetTest {
 
     // perform validation
     Set<ConstraintViolation<Dataset>> violations = validator.validate(ds);
-    assertTrue("Violations were expected", !violations.isEmpty());
+    assertFalse("Violations were expected", violations.isEmpty());
 
     // ensure all 6 expected violations are caught
     Set<String> propertiesInViolation =
