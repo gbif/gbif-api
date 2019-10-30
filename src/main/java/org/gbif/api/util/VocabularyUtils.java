@@ -12,47 +12,46 @@
  */
 package org.gbif.api.util;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.reflect.ClassPath;
 import org.gbif.api.vocabulary.ContactType;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.TechnicalInstallationType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.base.Optional;
-import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.reflect.ClassPath;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Optional;
 
 public final class VocabularyUtils {
 
   private static final Logger LOG = LoggerFactory.getLogger(VocabularyUtils.class);
 
   public static ContactType parseContactType(String type) {
-    return (ContactType) lookupEnum(type, ContactType.class);
+    return lookupEnum(type, ContactType.class);
   }
 
   public static EndpointType parseEndpointType(String type) {
-    return (EndpointType) lookupEnum(type, EndpointType.class);
+    return lookupEnum(type, EndpointType.class);
   }
 
   public static IdentifierType parseIdentifierType(String type) {
-    return (IdentifierType) lookupEnum(type, IdentifierType.class);
+    return lookupEnum(type, IdentifierType.class);
   }
 
   @Deprecated
   public static TechnicalInstallationType parseTechnicalInstallationType(String type) {
-    return (TechnicalInstallationType) lookupEnum(type, TechnicalInstallationType.class);
+    return lookupEnum(type, TechnicalInstallationType.class);
   }
 
   /**
    * Generic method to lookup an enumeration value for a given string based on the name of the enum member.
    * The lookup is case insensitive and ignore whitespaces, underscores and dashes.
    *
-   * @param name the enum members name to lookup
+   * @param name  the enum members name to lookup
    * @param vocab the enumeration class
    * @return the matching enum member or null if {@code name} is null or empty (see http://dev.gbif.org/issues/browse/POR-2858)
    * @throws IllegalArgumentException if the name cannot be parsed into a known name
@@ -75,23 +74,21 @@ public final class VocabularyUtils {
   }
 
   /**
-   * FIXME returning Guava Optional will cause issues, Java 8 Optional should be returned.
    * Same as {@link #lookupEnum(String, Class)} } without IllegalArgumentException.
-   * On failure, this method will return Optional.absent().
+   * On failure, this method will return Optional.empty().
    *
    * @param name
    * @param vocab
    * @param <T>
-   * @return instance of com.google.common.base.Optional, never null.
+   * @return instance of Optional, never null.
    */
   public static <T extends Enum<?>> Optional<T> lookup(String name, Class<T> vocab) {
     T result = null;
     // this try/catch in needed until we replace all calls to lookupEnum() in favor of this method
-    try{
+    try {
       result = lookupEnum(name, vocab);
-    }
-    catch (IllegalArgumentException iaEx){/*ignore*/}
-    return Optional.fromNullable(result);
+    } catch (IllegalArgumentException iaEx) {/*ignore*/}
+    return Optional.ofNullable(result);
   }
 
   /**
@@ -145,7 +142,7 @@ public final class VocabularyUtils {
       return builder.build();
     } catch (Exception e) {
       LOG.error("Unable to read the classpath for enumerations", e);
-      return ImmutableMap.<String, Enum<?>[]>of(); // empty
+      return ImmutableMap.of(); // empty
     }
   }
 

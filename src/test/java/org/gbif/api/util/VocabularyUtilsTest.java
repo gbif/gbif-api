@@ -12,17 +12,16 @@
  */
 package org.gbif.api.util;
 
-import org.gbif.api.vocabulary.Country;
-import org.gbif.api.vocabulary.Kingdom;
-import org.gbif.api.vocabulary.TechnicalInstallationType;
 import org.gbif.api.vocabulary.ContactType;
+import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.IdentifierType;
+import org.gbif.api.vocabulary.Kingdom;
+import org.gbif.api.vocabulary.TechnicalInstallationType;
+import org.junit.Test;
 
 import java.util.Map;
-
-import com.google.common.base.Optional;
-import org.junit.Test;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -74,13 +73,13 @@ public class VocabularyUtilsTest {
     assertEquals(ContactType.AUTHOR, VocabularyUtils.lookup("author", ContactType.class).get());
 
     //Optional.absent() should be returned for all the following values
-    assertEquals(Optional.absent(), VocabularyUtils.lookup("thor", ContactType.class));
-    assertEquals(Optional.absent(), VocabularyUtils.lookup("", ContactType.class));
-    assertEquals(Optional.absent(), VocabularyUtils.lookup(null, ContactType.class));
+    assertEquals(Optional.empty(), VocabularyUtils.lookup("thor", ContactType.class));
+    assertEquals(Optional.empty(), VocabularyUtils.lookup("", ContactType.class));
+    assertEquals(Optional.empty(), VocabularyUtils.lookup(null, ContactType.class));
   }
 
   @Test
-  public void testListEnumerations(){
+  public void testListEnumerations() {
     Map<String, Enum<?>[]> enums = VocabularyUtils.listEnumerations(Kingdom.class.getPackage().getName());
     assertTrue(enums.containsKey(Kingdom.class.getSimpleName()));
 
