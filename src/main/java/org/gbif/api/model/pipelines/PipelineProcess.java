@@ -23,6 +23,7 @@ public class PipelineProcess implements Serializable {
   private long key;
 
   private UUID datasetKey;
+  private String datasetTitle;
   private int attempt;
   private long numberRecords;
 
@@ -46,6 +47,14 @@ public class PipelineProcess implements Serializable {
   public PipelineProcess setDatasetKey(UUID datasetKey) {
     this.datasetKey = datasetKey;
     return this;
+  }
+
+  public String getDatasetTitle() {
+    return datasetTitle;
+  }
+
+  public void setDatasetTitle(String datasetTitle) {
+    this.datasetTitle = datasetTitle;
   }
 
   public int getAttempt() {
@@ -100,6 +109,7 @@ public class PipelineProcess implements Serializable {
   public String toString() {
     return new StringJoiner(", ", PipelineProcess.class.getSimpleName() + "[", "]").add("key=" + key)
       .add("datasetKey=" + datasetKey)
+      .add("datasetTitle=" + datasetTitle)
       .add("attempt=" + attempt)
       .add("numberRecords=" + numberRecords)
       .add("created=" + created)
