@@ -15,6 +15,33 @@ public class PipelineProcess implements Serializable {
 
   private static final long serialVersionUID = -3992826055732414678L;
 
+  public static final Comparator<PipelineStep> STEPS_COMPARATOR =
+      (s1, s2) -> {
+        LocalDateTime started1 = s1 != null ? s1.getStarted() : null;
+        LocalDateTime started2 = s2 != null ? s2.getStarted() : null;
+
+        if (started1 == null) {
+          return (started2 == null) ? 0 : 1;
+        } else if (started2 == null) {
+          return -1;
+        } else {
+          int comparison = started1.compareTo(started2);
+          if (comparison != 0) {
+            return comparison;
+          } else {
+            LocalDateTime finished1 = s1.getFinished();
+            LocalDateTime finished2 = s2.getFinished();
+            if (finished1 == null) {
+              return (finished2 == null) ? 0 : 1;
+            } else if (finished2 == null) {
+              return -1;
+            } else {
+              return finished1.compareTo(finished2);
+            }
+          }
+        }
+      };
+
   @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private long key;
 
@@ -28,7 +55,7 @@ public class PipelineProcess implements Serializable {
   private LocalDateTime created;
 
   private String createdBy;
-  private Set<PipelineStep> steps = new TreeSet<>(Comparator.comparing(PipelineStep::getStarted));
+  private Set<PipelineStep> steps = new TreeSet<>(STEPS_COMPARATOR);
 
   public long getKey() {
     return key;
@@ -101,15 +128,16 @@ public class PipelineProcess implements Serializable {
 
   @Override
   public String toString() {
-    return new StringJoiner(", ", PipelineProcess.class.getSimpleName() + "[", "]").add("key=" + key)
-      .add("datasetKey=" + datasetKey)
-      .add("datasetTitle=" + datasetTitle)
-      .add("attempt=" + attempt)
-      .add("numberRecords=" + numberRecords)
-      .add("created=" + created)
-      .add("createdBy='" + createdBy + "'")
-      .add("steps=" + steps)
-      .toString();
+    return new StringJoiner(", ", PipelineProcess.class.getSimpleName() + "[", "]")
+        .add("key=" + key)
+        .add("datasetKey=" + datasetKey)
+        .add("datasetTitle=" + datasetTitle)
+        .add("attempt=" + attempt)
+        .add("numberRecords=" + numberRecords)
+        .add("created=" + created)
+        .add("createdBy='" + createdBy + "'")
+        .add("steps=" + steps)
+        .toString();
   }
 
   @Override
