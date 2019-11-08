@@ -15,6 +15,33 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 
   private static final long serialVersionUID = -3992826055732414678L;
 
+<span class="nc" id="L18">  public static final Comparator&lt;PipelineStep&gt; STEPS_COMPARATOR =</span>
+      (s1, s2) -&gt; {
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        LocalDateTime started1 = s1 != null ? s1.getStarted() : null;</span>
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        LocalDateTime started2 = s2 != null ? s2.getStarted() : null;</span>
+
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        if (started1 == null) {</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">          return (started2 == null) ? 0 : 1;</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        } else if (started2 == null) {</span>
+<span class="nc" id="L26">          return -1;</span>
+        } else {
+<span class="nc" id="L28">          int comparison = started1.compareTo(started2);</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">          if (comparison != 0) {</span>
+<span class="nc" id="L30">            return comparison;</span>
+          } else {
+<span class="nc" id="L32">            LocalDateTime finished1 = s1.getFinished();</span>
+<span class="nc" id="L33">            LocalDateTime finished2 = s2.getFinished();</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">            if (finished1 == null) {</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">              return (finished2 == null) ? 0 : 1;</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">            } else if (finished2 == null) {</span>
+<span class="nc" id="L37">              return -1;</span>
+            } else {
+<span class="nc" id="L39">              return finished1.compareTo(finished2);</span>
+            }
+          }
+        }
+      };
+
   @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private long key;
 
@@ -28,101 +55,102 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
   private LocalDateTime created;
 
   private String createdBy;
-<span class="nc" id="L31">  private Set&lt;PipelineStep&gt; steps = new TreeSet&lt;&gt;(Comparator.comparing(PipelineStep::getStarted));</span>
+<span class="nc" id="L58">  private Set&lt;PipelineStep&gt; steps = new TreeSet&lt;&gt;(STEPS_COMPARATOR);</span>
 
   public long getKey() {
-<span class="nc" id="L34">    return key;</span>
+<span class="nc" id="L61">    return key;</span>
   }
 
   public UUID getDatasetKey() {
-<span class="nc" id="L38">    return datasetKey;</span>
+<span class="nc" id="L65">    return datasetKey;</span>
   }
 
   public PipelineProcess setDatasetKey(UUID datasetKey) {
-<span class="nc" id="L42">    this.datasetKey = datasetKey;</span>
-<span class="nc" id="L43">    return this;</span>
+<span class="nc" id="L69">    this.datasetKey = datasetKey;</span>
+<span class="nc" id="L70">    return this;</span>
   }
 
   public String getDatasetTitle() {
-<span class="nc" id="L47">    return datasetTitle;</span>
+<span class="nc" id="L74">    return datasetTitle;</span>
   }
 
   public void setDatasetTitle(String datasetTitle) {
-<span class="nc" id="L51">    this.datasetTitle = datasetTitle;</span>
-<span class="nc" id="L52">  }</span>
+<span class="nc" id="L78">    this.datasetTitle = datasetTitle;</span>
+<span class="nc" id="L79">  }</span>
 
   public int getAttempt() {
-<span class="nc" id="L55">    return attempt;</span>
+<span class="nc" id="L82">    return attempt;</span>
   }
 
   public PipelineProcess setAttempt(int attempt) {
-<span class="nc" id="L59">    this.attempt = attempt;</span>
-<span class="nc" id="L60">    return this;</span>
+<span class="nc" id="L86">    this.attempt = attempt;</span>
+<span class="nc" id="L87">    return this;</span>
   }
 
   public long getNumberRecords() {
-<span class="nc" id="L64">    return numberRecords;</span>
+<span class="nc" id="L91">    return numberRecords;</span>
   }
 
   public void setNumberRecords(long numberRecords) {
-<span class="nc" id="L68">    this.numberRecords = numberRecords;</span>
-<span class="nc" id="L69">  }</span>
+<span class="nc" id="L95">    this.numberRecords = numberRecords;</span>
+<span class="nc" id="L96">  }</span>
 
   public LocalDateTime getCreated() {
-<span class="nc" id="L72">    return created;</span>
+<span class="nc" id="L99">    return created;</span>
   }
 
   public PipelineProcess setCreated(LocalDateTime created) {
-<span class="nc" id="L76">    this.created = created;</span>
-<span class="nc" id="L77">    return this;</span>
+<span class="nc" id="L103">    this.created = created;</span>
+<span class="nc" id="L104">    return this;</span>
   }
 
   public String getCreatedBy() {
-<span class="nc" id="L81">    return createdBy;</span>
+<span class="nc" id="L108">    return createdBy;</span>
   }
 
   public PipelineProcess setCreatedBy(String createdBy) {
-<span class="nc" id="L85">    this.createdBy = createdBy;</span>
-<span class="nc" id="L86">    return this;</span>
+<span class="nc" id="L112">    this.createdBy = createdBy;</span>
+<span class="nc" id="L113">    return this;</span>
   }
 
   public Set&lt;PipelineStep&gt; getSteps() {
-<span class="nc" id="L90">    return steps;</span>
+<span class="nc" id="L117">    return steps;</span>
   }
 
   public void setSteps(Set&lt;PipelineStep&gt; steps) {
-<span class="nc" id="L94">    this.steps.clear();</span>
-<span class="nc" id="L95">    this.steps.addAll(steps);</span>
-<span class="nc" id="L96">  }</span>
+<span class="nc" id="L121">    this.steps.clear();</span>
+<span class="nc" id="L122">    this.steps.addAll(steps);</span>
+<span class="nc" id="L123">  }</span>
 
   public void addStep(PipelineStep step) {
-<span class="nc" id="L99">    steps.add(step);</span>
-<span class="nc" id="L100">  }</span>
+<span class="nc" id="L126">    steps.add(step);</span>
+<span class="nc" id="L127">  }</span>
 
   @Override
   public String toString() {
-<span class="nc" id="L104">    return new StringJoiner(&quot;, &quot;, PipelineProcess.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L105">      .add(&quot;datasetKey=&quot; + datasetKey)</span>
-<span class="nc" id="L106">      .add(&quot;datasetTitle=&quot; + datasetTitle)</span>
-<span class="nc" id="L107">      .add(&quot;attempt=&quot; + attempt)</span>
-<span class="nc" id="L108">      .add(&quot;numberRecords=&quot; + numberRecords)</span>
-<span class="nc" id="L109">      .add(&quot;created=&quot; + created)</span>
-<span class="nc" id="L110">      .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
-<span class="nc" id="L111">      .add(&quot;steps=&quot; + steps)</span>
-<span class="nc" id="L112">      .toString();</span>
+<span class="nc" id="L131">    return new StringJoiner(&quot;, &quot;, PipelineProcess.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L132">        .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L133">        .add(&quot;datasetKey=&quot; + datasetKey)</span>
+<span class="nc" id="L134">        .add(&quot;datasetTitle=&quot; + datasetTitle)</span>
+<span class="nc" id="L135">        .add(&quot;attempt=&quot; + attempt)</span>
+<span class="nc" id="L136">        .add(&quot;numberRecords=&quot; + numberRecords)</span>
+<span class="nc" id="L137">        .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L138">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L139">        .add(&quot;steps=&quot; + steps)</span>
+<span class="nc" id="L140">        .toString();</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L117" title="All 2 branches missed.">    if (this == o) return true;</span>
-<span class="nc bnc" id="L118" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L119">    PipelineProcess process = (PipelineProcess) o;</span>
-<span class="nc bnc" id="L120" title="All 4 branches missed.">    return attempt == process.attempt &amp;&amp; Objects.equals(datasetKey, process.datasetKey);</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L146" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L147">    PipelineProcess process = (PipelineProcess) o;</span>
+<span class="nc bnc" id="L148" title="All 4 branches missed.">    return attempt == process.attempt &amp;&amp; Objects.equals(datasetKey, process.datasetKey);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L125">    return Objects.hash(datasetKey, attempt);</span>
+<span class="nc" id="L153">    return Objects.hash(datasetKey, attempt);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
