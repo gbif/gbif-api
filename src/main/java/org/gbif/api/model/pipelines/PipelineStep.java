@@ -43,7 +43,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
   private Set<MetricInfo> metrics = new HashSet<>();
 
   /**
-   * Comparator that sorts pipeline steps by start date and then by finished date ascending.
+   * Comparator that sorts pipeline steps by start date and then by finished date in an ascending order.
    */
   public static final Comparator<PipelineStep> STEPS_BY_START_AND_FINISH_ASC =
     (s1, s2) -> {

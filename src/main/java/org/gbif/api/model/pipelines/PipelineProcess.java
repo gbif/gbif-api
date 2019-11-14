@@ -33,8 +33,7 @@ public class PipelineProcess implements Serializable {
   private Set<PipelineStep> steps = new TreeSet<>(STEPS_BY_START_AND_FINISH_ASC);
 
   /**
-   * Comparator that sorts pipeline processes by the start and finish date of their latest step. The
-   * steps are sorted using {@link PipelineStep#STEPS_BY_START_AND_FINISH_ASC}.
+   * Comparator that sorts pipeline processes by the start of their latest step in a descending order.
    */
   public static final Comparator<PipelineProcess> PIPELINE_PROCESS_BY_LATEST_STEP_DESC =
       (p1, p2) -> {
@@ -42,7 +41,7 @@ public class PipelineProcess implements Serializable {
         if (p1 != null && p1.getSteps() != null) {
           lastStepStarted1 =
               p1.getSteps().stream()
-                  .max(STEPS_BY_START_AND_FINISH_ASC)
+                  .max(Comparator.comparing(PipelineStep::getStarted))
                   .map(PipelineStep::getStarted)
                   .orElse(LocalDateTime.MIN);
         }
@@ -51,7 +50,7 @@ public class PipelineProcess implements Serializable {
         if (p2 != null && p2.getSteps() != null) {
           lastStepStarted2 =
               p2.getSteps().stream()
-                  .max(STEPS_BY_START_AND_FINISH_ASC)
+                  .max(Comparator.comparing(PipelineStep::getStarted))
                   .map(PipelineStep::getStarted)
                   .orElse(LocalDateTime.MIN);
         }
