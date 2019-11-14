@@ -10,37 +10,12 @@ import java.util.*;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+import static org.gbif.api.model.pipelines.PipelineStep.STEPS_BY_START_AND_FINISH_DATE_ASC;
+
 /** Base POJO model for the Pipelines status service */
 public class PipelineProcess implements Serializable {
 
   private static final long serialVersionUID = -3992826055732414678L;
-
-  public static final Comparator<PipelineStep> STEPS_COMPARATOR =
-      (s1, s2) -> {
-        LocalDateTime started1 = s1 != null ? s1.getStarted() : null;
-        LocalDateTime started2 = s2 != null ? s2.getStarted() : null;
-
-        if (started1 == null) {
-          return (started2 == null) ? 0 : 1;
-        } else if (started2 == null) {
-          return -1;
-        } else {
-          int comparison = started1.compareTo(started2);
-          if (comparison != 0) {
-            return comparison;
-          } else {
-            LocalDateTime finished1 = s1.getFinished();
-            LocalDateTime finished2 = s2.getFinished();
-            if (finished1 == null) {
-              return (finished2 == null) ? 0 : 1;
-            } else if (finished2 == null) {
-              return -1;
-            } else {
-              return finished1.compareTo(finished2);
-            }
-          }
-        }
-      };
 
   @JsonInclude(JsonInclude.Include.NON_DEFAULT)
   private long key;
@@ -55,7 +30,34 @@ public class PipelineProcess implements Serializable {
   private LocalDateTime created;
 
   private String createdBy;
-  private Set<PipelineStep> steps = new TreeSet<>(STEPS_COMPARATOR);
+  private Set<PipelineStep> steps = new TreeSet<>(STEPS_BY_START_AND_FINISH_DATE_ASC);
+
+  /**
+   * Comparator that sorts pipeline processes by the start and finish date of their latest step. The
+   * steps are sorted using {@link PipelineStep#STEPS_BY_START_AND_FINISH_DATE_ASC}.
+   */
+  public static final Comparator<PipelineProcess> PIPELINE_PROCESS_BY_LATEST_STEP_DATE_DESC =
+      (p1, p2) -> {
+        LocalDateTime lastStepStarted1 = LocalDateTime.MIN;
+        if (p1 != null && p1.getSteps() != null) {
+          lastStepStarted1 =
+              p1.getSteps().stream()
+                  .max(STEPS_BY_START_AND_FINISH_DATE_ASC)
+                  .map(PipelineStep::getStarted)
+                  .orElse(LocalDateTime.MIN);
+        }
+
+        LocalDateTime lastStepStarted2 = LocalDateTime.MIN;
+        if (p2 != null && p2.getSteps() != null) {
+          lastStepStarted2 =
+              p2.getSteps().stream()
+                  .max(STEPS_BY_START_AND_FINISH_DATE_ASC)
+                  .map(PipelineStep::getStarted)
+                  .orElse(LocalDateTime.MIN);
+        }
+
+        return lastStepStarted1.compareTo(lastStepStarted2);
+      };
 
   public long getKey() {
     return key;
