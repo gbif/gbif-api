@@ -10,7 +10,7 @@ import java.util.*;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import static org.gbif.api.model.pipelines.PipelineStep.STEPS_BY_START_AND_FINISH_DATE_ASC;
+import static org.gbif.api.model.pipelines.PipelineStep.STEPS_BY_START_AND_FINISH_ASC;
 
 /** Base POJO model for the Pipelines status service */
 public class PipelineProcess implements Serializable {
@@ -30,19 +30,19 @@ public class PipelineProcess implements Serializable {
   private LocalDateTime created;
 
   private String createdBy;
-  private Set<PipelineStep> steps = new TreeSet<>(STEPS_BY_START_AND_FINISH_DATE_ASC);
+  private Set<PipelineStep> steps = new TreeSet<>(STEPS_BY_START_AND_FINISH_ASC);
 
   /**
    * Comparator that sorts pipeline processes by the start and finish date of their latest step. The
-   * steps are sorted using {@link PipelineStep#STEPS_BY_START_AND_FINISH_DATE_ASC}.
+   * steps are sorted using {@link PipelineStep#STEPS_BY_START_AND_FINISH_ASC}.
    */
-  public static final Comparator<PipelineProcess> PIPELINE_PROCESS_BY_LATEST_STEP_DATE_DESC =
+  public static final Comparator<PipelineProcess> PIPELINE_PROCESS_BY_LATEST_STEP_DESC =
       (p1, p2) -> {
         LocalDateTime lastStepStarted1 = LocalDateTime.MIN;
         if (p1 != null && p1.getSteps() != null) {
           lastStepStarted1 =
               p1.getSteps().stream()
-                  .max(STEPS_BY_START_AND_FINISH_DATE_ASC)
+                  .max(STEPS_BY_START_AND_FINISH_ASC)
                   .map(PipelineStep::getStarted)
                   .orElse(LocalDateTime.MIN);
         }
@@ -51,7 +51,7 @@ public class PipelineProcess implements Serializable {
         if (p2 != null && p2.getSteps() != null) {
           lastStepStarted2 =
               p2.getSteps().stream()
-                  .max(STEPS_BY_START_AND_FINISH_DATE_ASC)
+                  .max(STEPS_BY_START_AND_FINISH_ASC)
                   .map(PipelineStep::getStarted)
                   .orElse(LocalDateTime.MIN);
         }

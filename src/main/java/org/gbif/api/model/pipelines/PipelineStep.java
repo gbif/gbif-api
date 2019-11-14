@@ -45,7 +45,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
   /**
    * Comparator that sorts pipeline steps by start date and then by finished date ascending.
    */
-  public static final Comparator<PipelineStep> STEPS_BY_START_AND_FINISH_DATE_ASC =
+  public static final Comparator<PipelineStep> STEPS_BY_START_AND_FINISH_ASC =
     (s1, s2) -> {
       LocalDateTime started1 = s1 != null ? s1.getStarted() : null;
       LocalDateTime started2 = s2 != null ? s2.getStarted() : null;
