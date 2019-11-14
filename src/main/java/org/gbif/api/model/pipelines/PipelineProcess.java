@@ -35,7 +35,7 @@ public class PipelineProcess implements Serializable {
   /**
    * Comparator that sorts pipeline processes by the start of their latest step in a descending order.
    */
-  public static final Comparator<PipelineProcess> PIPELINE_PROCESS_BY_LATEST_STEP_DESC =
+  public static final Comparator<PipelineProcess> PIPELINE_PROCESS_BY_LATEST_STEP_ASC =
       (p1, p2) -> {
         LocalDateTime lastStepStarted1 = LocalDateTime.MIN;
         if (p1 != null && p1.getSteps() != null) {
