@@ -11,6 +11,7 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import static org.gbif.api.model.pipelines.PipelineStep.STEPS_BY_START_AND_FINISH_ASC;
+import static org.gbif.api.model.pipelines.PipelineStep.Status.RUNNING;
 
 /** Base POJO model for the Pipelines status service */
 public class PipelineProcess implements Serializable {
@@ -33,29 +34,51 @@ public class PipelineProcess implements Serializable {
   private Set<PipelineStep> steps = new TreeSet<>(STEPS_BY_START_AND_FINISH_ASC);
 
   /**
-   * Comparator that sorts pipeline processes by the start of their latest step in a descending order.
+   * Comparator that sorts pipeline processes by the start date of their latest step in an ascending
+   * order. The steps that are running have preference.
    */
   public static final Comparator<PipelineProcess> PIPELINE_PROCESS_BY_LATEST_STEP_ASC =
       (p1, p2) -> {
-        LocalDateTime lastStepStarted1 = LocalDateTime.MIN;
+        Optional<PipelineStep> lastStepOpt1 = Optional.empty();
         if (p1 != null && p1.getSteps() != null) {
-          lastStepStarted1 =
+          lastStepOpt1 =
               p1.getSteps().stream()
-                  .max(Comparator.comparing(PipelineStep::getStarted))
-                  .map(PipelineStep::getStarted)
-                  .orElse(LocalDateTime.MIN);
+                  .filter(p -> p.getState() != null)
+                  .max(Comparator.comparing(PipelineStep::getStarted));
         }
 
-        LocalDateTime lastStepStarted2 = LocalDateTime.MIN;
+        Optional<PipelineStep> lastStepOpt2 = Optional.empty();
         if (p2 != null && p2.getSteps() != null) {
-          lastStepStarted2 =
+          lastStepOpt2 =
               p2.getSteps().stream()
-                  .max(Comparator.comparing(PipelineStep::getStarted))
-                  .map(PipelineStep::getStarted)
-                  .orElse(LocalDateTime.MIN);
+                  .filter(p -> p.getState() != null)
+                  .max(Comparator.comparing(PipelineStep::getStarted));
         }
 
-        return lastStepStarted1.compareTo(lastStepStarted2);
+        if (!lastStepOpt1.isPresent()) {
+          return !lastStepOpt2.isPresent() ? 0 : 1;
+        } else if (!lastStepOpt2.isPresent()) {
+          return -1;
+        }
+
+        PipelineStep step1 = lastStepOpt1.get();
+        PipelineStep step2 = lastStepOpt2.get();
+
+        if (step1.getStarted() == null) {
+          return step2.getStarted() == null ? 0 : 1;
+        } else if (step2.getStarted() == null) {
+          return -1;
+        }
+
+        // steps that are running have preference
+        if (step1.getState() == RUNNING) {
+          return step2.getState() == RUNNING ? step1.getStarted().compareTo(step2.getStarted()) : 1;
+        } else if (step2.getState() == RUNNING) {
+          return -1;
+        } else {
+          return Objects.compare(
+              step1.getState(), step2.getState(), Comparator.nullsLast(Comparator.naturalOrder()));
+        }
       };
 
   public long getKey() {
