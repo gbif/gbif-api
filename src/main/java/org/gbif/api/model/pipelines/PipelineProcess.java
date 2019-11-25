@@ -76,8 +76,7 @@ public class PipelineProcess implements Serializable {
         } else if (step2.getState() == RUNNING) {
           return -1;
         } else {
-          return Objects.compare(
-              step1.getState(), step2.getState(), Comparator.nullsLast(Comparator.naturalOrder()));
+          return step1.getStarted().compareTo(step2.getStarted());
         }
       };
 
