@@ -32,7 +32,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
 
   private Status state;
   private String message;
-  private String rerunReason;
+  private Long numberRecords;
   private String createdBy;
 
   @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
@@ -130,13 +130,16 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     return this;
   }
 
-  public String getRerunReason() {
-    return rerunReason;
+  public void setKey(long key) {
+    this.key = key;
   }
 
-  public PipelineStep setRerunReason(String rerunReason) {
-    this.rerunReason = rerunReason;
-    return this;
+  public Long getNumberRecords() {
+    return numberRecords;
+  }
+
+  public void setNumberRecords(Long numberRecords) {
+    this.numberRecords = numberRecords;
   }
 
   public String getCreatedBy() {
@@ -175,8 +178,9 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     return this;
   }
 
-  public void addMetricInfo(MetricInfo metricInfo) {
+  public PipelineStep addMetricInfo(MetricInfo metricInfo) {
     metrics.add(metricInfo);
+    return this;
   }
 
   /** Enum to represent the status of a step. */
@@ -246,7 +250,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
         && state == that.state
         && Objects.equals(message, that.message)
         && Objects.equals(metrics, that.metrics)
-        && Objects.equals(rerunReason, that.rerunReason)
+        && Objects.equals(numberRecords, that.numberRecords)
         && Objects.equals(createdBy, that.createdBy)
         && Objects.equals(modified, that.modified)
         && Objects.equals(modifiedBy, that.modifiedBy);
@@ -263,7 +267,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
         state,
         message,
         metrics,
-        rerunReason,
+        numberRecords,
         createdBy,
         modified,
         modifiedBy);
@@ -279,7 +283,7 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
         .add("finished=" + finished)
         .add("state=" + state)
         .add("message='" + message + "'")
-        .add("rerunReason='" + rerunReason + "'")
+        .add("numberRecords='" + numberRecords + "'")
         .add("createdBy='" + createdBy + "'")
         .add("modified=" + modified)
         .add("modifiedBy='" + modifiedBy + "'")
@@ -296,6 +300,6 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
         && state == other.state
         && Objects.equals(message, other.message)
         && Objects.equals(metrics, other.metrics)
-        && Objects.equals(rerunReason, other.rerunReason);
+        && Objects.equals(numberRecords, other.numberRecords);
   }
 }
