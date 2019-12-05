@@ -17,7 +17,6 @@ public class PipelineExecution implements Serializable {
 
   private long key;
   private List<StepType> stepsToRun = new ArrayList<>();
-  private String pipelinesVersion;
   private String rerunReason;
   private String remarks;
 
@@ -88,15 +87,6 @@ public class PipelineExecution implements Serializable {
     return this;
   }
 
-  public String getPipelinesVersion() {
-    return pipelinesVersion;
-  }
-
-  public PipelineExecution setPipelinesVersion(String pipelinesVersion) {
-    this.pipelinesVersion = pipelinesVersion;
-    return this;
-  }
-
   public String getRerunReason() {
     return rerunReason;
   }
@@ -154,7 +144,6 @@ public class PipelineExecution implements Serializable {
     PipelineExecution that = (PipelineExecution) o;
     return key == that.key
         && Objects.equals(stepsToRun, that.stepsToRun)
-        && Objects.equals(pipelinesVersion, that.pipelinesVersion)
         && Objects.equals(rerunReason, that.rerunReason)
         && Objects.equals(remarks, that.remarks)
         && Objects.equals(created, that.created)
@@ -165,7 +154,7 @@ public class PipelineExecution implements Serializable {
   @Override
   public int hashCode() {
     return Objects.hash(
-        key, stepsToRun, pipelinesVersion, rerunReason, remarks, created, createdBy);
+        key, stepsToRun, rerunReason, remarks, created, createdBy);
   }
 
   @Override
@@ -173,7 +162,6 @@ public class PipelineExecution implements Serializable {
     return new StringJoiner(", ", PipelineExecution.class.getSimpleName() + "[", "]")
         .add("key=" + key)
         .add("stepsToRun=" + stepsToRun)
-        .add("pipelinesVersion='" + pipelinesVersion + "'")
         .add("rerunReason='" + rerunReason + "'")
         .add("remarks='" + remarks + "'")
         .add("created=" + created)
