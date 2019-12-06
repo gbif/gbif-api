@@ -10,7 +10,7 @@ import java.util.*;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import static org.gbif.api.model.pipelines.PipelineExecution.PIPELINE_EXECUTION_BY_LATEST_STEP_ASC;
+import static org.gbif.api.model.pipelines.PipelineStep.Status.RUNNING;
 
 /** Models a pipeline process for a specific dataset and attempt. */
 public class PipelineProcess implements Serializable {
@@ -30,7 +30,66 @@ public class PipelineProcess implements Serializable {
 
   private String createdBy;
   private Set<PipelineExecution> executions =
-      new TreeSet<>(PIPELINE_EXECUTION_BY_LATEST_STEP_ASC.reversed());
+      new TreeSet<>(Comparator.comparing(PipelineExecution::getCreated).reversed());
+
+  /**
+   * Comparator that sorts pipeline processes by the start date of their latest step in an ascending
+   * order. The steps that are running have preference and we take into account only the steps of
+   * the latest execution.
+   */
+  public static final Comparator<PipelineProcess> PIPELINE_PROCESS_BY_LATEST_STEP_RUNNING_ASC =
+      (p1, p2) -> {
+        if (p1 == null) {
+          return p2 == null ? 0 : 1;
+        } else if (p2 == null) {
+          return -1;
+        }
+
+        PipelineExecution latestExecution1 =
+            p1.getExecutions().isEmpty() ? null : p1.getExecutions().iterator().next();
+        PipelineExecution latestExecution2 =
+            p2.getExecutions().isEmpty() ? null : p2.getExecutions().iterator().next();
+
+        Optional<PipelineStep> lastStepOpt1 = Optional.empty();
+        if (latestExecution1 != null && latestExecution1.getSteps() != null) {
+          lastStepOpt1 =
+              latestExecution1.getSteps().stream()
+                  .filter(p -> p.getState() != null)
+                  .max(Comparator.comparing(PipelineStep::getStarted));
+        }
+
+        Optional<PipelineStep> lastStepOpt2 = Optional.empty();
+        if (latestExecution2 != null && latestExecution2.getSteps() != null) {
+          lastStepOpt2 =
+              latestExecution2.getSteps().stream()
+                  .filter(p -> p.getState() != null)
+                  .max(Comparator.comparing(PipelineStep::getStarted));
+        }
+
+        if (!lastStepOpt1.isPresent()) {
+          return !lastStepOpt2.isPresent() ? 0 : 1;
+        } else if (!lastStepOpt2.isPresent()) {
+          return -1;
+        }
+
+        PipelineStep step1 = lastStepOpt1.get();
+        PipelineStep step2 = lastStepOpt2.get();
+
+        if (step1.getStarted() == null) {
+          return step2.getStarted() == null ? 0 : 1;
+        } else if (step2.getStarted() == null) {
+          return -1;
+        }
+
+        // steps that are running have preference
+        if (step1.getState() == RUNNING) {
+          return step2.getState() == RUNNING ? step1.getStarted().compareTo(step2.getStarted()) : 1;
+        } else if (step2.getState() == RUNNING) {
+          return -1;
+        } else {
+          return step1.getStarted().compareTo(step2.getStarted());
+        }
+      };
 
   public long getKey() {
     return key;

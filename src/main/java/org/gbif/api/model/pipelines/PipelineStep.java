@@ -209,6 +209,10 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     private String name;
     private String value;
 
+    public MetricInfo() {
+      // needed for jackson
+    }
+
     public MetricInfo(String name, String value) {
       this.name = name;
       this.value = value;
@@ -220,6 +224,14 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
 
     public String getValue() {
       return value;
+    }
+
+    public void setName(String name) {
+      this.name = name;
+    }
+
+    public void setValue(String value) {
+      this.value = value;
     }
 
     @Override

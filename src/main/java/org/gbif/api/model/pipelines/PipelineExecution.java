@@ -10,7 +10,6 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import static org.gbif.api.model.pipelines.PipelineStep.STEPS_BY_START_AND_FINISH_ASC;
-import static org.gbif.api.model.pipelines.PipelineStep.Status.RUNNING;
 
 /** Models a execution of a pipeline that can include one or more steps. */
 public class PipelineExecution implements Serializable {
@@ -27,55 +26,13 @@ public class PipelineExecution implements Serializable {
   private String createdBy;
   private Set<PipelineStep> steps = new TreeSet<>(STEPS_BY_START_AND_FINISH_ASC);
 
-  /**
-   * Comparator that sorts pipeline executions by the start date of their latest step in an
-   * ascending order. The steps that are running have preference.
-   */
-  public static final Comparator<PipelineExecution> PIPELINE_EXECUTION_BY_LATEST_STEP_ASC =
-      (p1, p2) -> {
-        Optional<PipelineStep> lastStepOpt1 = Optional.empty();
-        if (p1 != null && p1.getSteps() != null) {
-          lastStepOpt1 =
-              p1.getSteps().stream()
-                  .filter(p -> p.getState() != null)
-                  .max(Comparator.comparing(PipelineStep::getStarted));
-        }
-
-        Optional<PipelineStep> lastStepOpt2 = Optional.empty();
-        if (p2 != null && p2.getSteps() != null) {
-          lastStepOpt2 =
-              p2.getSteps().stream()
-                  .filter(p -> p.getState() != null)
-                  .max(Comparator.comparing(PipelineStep::getStarted));
-        }
-
-        if (!lastStepOpt1.isPresent()) {
-          return !lastStepOpt2.isPresent() ? 0 : 1;
-        } else if (!lastStepOpt2.isPresent()) {
-          return -1;
-        }
-
-        PipelineStep step1 = lastStepOpt1.get();
-        PipelineStep step2 = lastStepOpt2.get();
-
-        if (step1.getStarted() == null) {
-          return step2.getStarted() == null ? 0 : 1;
-        } else if (step2.getStarted() == null) {
-          return -1;
-        }
-
-        // steps that are running have preference
-        if (step1.getState() == RUNNING) {
-          return step2.getState() == RUNNING ? step1.getStarted().compareTo(step2.getStarted()) : 1;
-        } else if (step2.getState() == RUNNING) {
-          return -1;
-        } else {
-          return step1.getStarted().compareTo(step2.getStarted());
-        }
-      };
-
   public long getKey() {
     return key;
+  }
+
+  public PipelineExecution setKey(long key) {
+    this.key = key;
+    return this;
   }
 
   public List<StepType> getStepsToRun() {
@@ -153,8 +110,7 @@ public class PipelineExecution implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(
-        key, stepsToRun, rerunReason, remarks, created, createdBy);
+    return Objects.hash(key, stepsToRun, rerunReason, remarks, created, createdBy);
   }
 
   @Override
