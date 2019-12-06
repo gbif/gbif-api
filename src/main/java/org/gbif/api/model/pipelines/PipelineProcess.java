@@ -10,6 +10,7 @@ import java.util.*;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+import static org.gbif.api.model.pipelines.PipelineExecution.PIPELINE_EXECUTION_BY_CREATED_ASC;
 import static org.gbif.api.model.pipelines.PipelineStep.Status.RUNNING;
 
 /** Models a pipeline process for a specific dataset and attempt. */
@@ -30,7 +31,7 @@ public class PipelineProcess implements Serializable {
 
   private String createdBy;
   private Set<PipelineExecution> executions =
-      new TreeSet<>(Comparator.comparing(PipelineExecution::getCreated).reversed());
+      new TreeSet<>(PIPELINE_EXECUTION_BY_CREATED_ASC.reversed());
 
   /**
    * Comparator that sorts pipeline processes by the start date of their latest step in an ascending

@@ -26,6 +26,20 @@ public class PipelineExecution implements Serializable {
   private String createdBy;
   private Set<PipelineStep> steps = new TreeSet<>(STEPS_BY_START_AND_FINISH_ASC);
 
+  public static final Comparator<PipelineExecution> PIPELINE_EXECUTION_BY_CREATED_ASC =
+      (e1, e2) -> {
+        LocalDateTime created1 = e1 != null ? e1.getCreated() : null;
+        LocalDateTime created2 = e2 != null ? e2.getCreated() : null;
+
+        if (created1 == null) {
+          return created2 == null ? 0 : 1;
+        } else if (created2 == null) {
+          return -1;
+        }
+
+        return created1.compareTo(created2);
+      };
+
   public long getKey() {
     return key;
   }
