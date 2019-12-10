@@ -1,16 +1,16 @@
 package org.gbif.api.model.common;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.SerializerProvider;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.ser.std.SerializerBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,10 +28,8 @@ import java.util.regex.Pattern;
  * For the syntax of DOI names see the <a href="http://www.doi.org/doi_handbook/2_Numbering.html#2.2">DOI Handbook</a>.
  * All parsing is case insensitive and resulting components will all be upper cased.
  */
-@JsonSerialize(using = DOI.Serializer.class)
-@JsonDeserialize(using = DOI.Deserializer.class)
-@com.fasterxml.jackson.databind.annotation.JsonSerialize(using = DOI.Jackson2Serializer.class)
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = DOI.Jackson2Deserializer.class)
+@JsonSerialize(using = DOI.Jackson2Serializer.class)
+@JsonDeserialize(using = DOI.Jackson2Deserializer.class)
 public class DOI {
 
   private static final Logger LOG = LoggerFactory.getLogger(DOI.class);
@@ -204,49 +202,18 @@ public class DOI {
     return Objects.equals(this.prefix, other.prefix) && Objects.equals(this.suffix, other.suffix);
   }
 
-  /**
-   * Serializes a DOI – no scheme, no resolver.
-   * For example 10.1038/nature.2014.16460
-   */
-  public static class Serializer extends SerializerBase<DOI> {
-
-    public Serializer() {
-      super(DOI.class);
-    }
+  public static class Jackson2Serializer extends JsonSerializer<DOI> {
 
     @Override
-    public void serialize(DOI value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-      jgen.writeString(value.toString());
-    }
-  }
-
-  /**
-   * Deserializes a DOI from various string based formats.
-   * See DOI constructor for details.
-   */
-  public static class Deserializer extends JsonDeserializer<DOI> {
-
-    @Override
-    public DOI deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-      if (jp != null && jp.getTextLength() > 0) {
-        return new DOI(jp.getText());
-      }
-      return null;
-    }
-  }
-
-  public static class Jackson2Serializer extends com.fasterxml.jackson.databind.JsonSerializer<DOI> {
-
-    @Override
-    public void serialize(DOI value, com.fasterxml.jackson.core.JsonGenerator gen, com.fasterxml.jackson.databind.SerializerProvider serializers) throws IOException {
+    public void serialize(DOI value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
       gen.writeString(value.toString());
     }
   }
 
-  public static class Jackson2Deserializer extends com.fasterxml.jackson.databind.JsonDeserializer {
+  public static class Jackson2Deserializer extends JsonDeserializer {
 
     @Override
-    public Object deserialize(com.fasterxml.jackson.core.JsonParser p, com.fasterxml.jackson.databind.DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
       if (p != null && p.getTextLength() > 0) {
         return new DOI(p.getText());
       }

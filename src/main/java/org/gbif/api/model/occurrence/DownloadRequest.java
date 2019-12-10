@@ -1,15 +1,14 @@
 package org.gbif.api.model.occurrence;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.gbif.api.jackson.DownloadRequestSerde;
 import org.gbif.api.jackson.Jackson2DownloadRequestSerde;
 
 import javax.annotation.Nullable;
@@ -21,8 +20,7 @@ import java.util.Set;
  * Represents a request to download occurrence records.
  * This is the base class for specific type of downloads: predicate based downloads and SQL downloads..
  */
-@JsonDeserialize(using = DownloadRequestSerde.class)
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = Jackson2DownloadRequestSerde.class)
+@JsonDeserialize(using = Jackson2DownloadRequestSerde.class)
 public abstract class DownloadRequest {
 
   private static final String DELIMITER = ",";
@@ -30,19 +28,15 @@ public abstract class DownloadRequest {
   private static final Splitter COMMA_SPLITTER = Splitter.on(DELIMITER).omitEmptyStrings().trimResults();
 
   @JsonProperty("creator")
-  @com.fasterxml.jackson.annotation.JsonProperty("creator")
   private String creator;
 
   @JsonProperty("notificationAddresses")
-  @com.fasterxml.jackson.annotation.JsonProperty("notificationAddresses")
   private Set<String> notificationAddresses;
 
   @JsonProperty("sendNotification")
-  @com.fasterxml.jackson.annotation.JsonProperty("sendNotification")
   private boolean sendNotification;
 
   @JsonProperty("format")
-  @com.fasterxml.jackson.annotation.JsonProperty("format")
   private DownloadFormat format;
 
   /**
@@ -80,7 +74,6 @@ public abstract class DownloadRequest {
    */
   @Nullable
   @JsonIgnore
-  @com.fasterxml.jackson.annotation.JsonIgnore
   public String getNotificationAddressesAsString() {
     if (notificationAddresses != null) {
       return COMMA_JOINER.join(notificationAddresses);
