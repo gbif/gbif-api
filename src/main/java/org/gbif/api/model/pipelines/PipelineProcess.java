@@ -14,6 +14,9 @@ import java.util.StringJoiner;
 import java.util.TreeSet;
 import java.util.UUID;
 
+import static org.gbif.api.model.pipelines.PipelineStep.STEPS_BY_START_AND_FINISH_ASC;
+import static org.gbif.api.model.pipelines.PipelineStep.Status.RUNNING;
+
 /** Base POJO model for the Pipelines status service */
 public class PipelineProcess implements Serializable {
 
@@ -34,7 +37,54 @@ public class PipelineProcess implements Serializable {
   private LocalDateTime created;
 
   private String createdBy;
-  private Set<PipelineStep> steps = new TreeSet<>(Comparator.comparing(PipelineStep::getStarted));
+  private Set<PipelineStep> steps = new TreeSet<>(STEPS_BY_START_AND_FINISH_ASC);
+
+  /**
+   * Comparator that sorts pipeline processes by the start date of their latest step in an ascending
+   * order. The steps that are running have preference.
+   */
+  public static final Comparator<PipelineProcess> PIPELINE_PROCESS_BY_LATEST_STEP_ASC =
+      (p1, p2) -> {
+        Optional<PipelineStep> lastStepOpt1 = Optional.empty();
+        if (p1 != null && p1.getSteps() != null) {
+          lastStepOpt1 =
+              p1.getSteps().stream()
+                  .filter(p -> p.getState() != null)
+                  .max(Comparator.comparing(PipelineStep::getStarted));
+        }
+
+        Optional<PipelineStep> lastStepOpt2 = Optional.empty();
+        if (p2 != null && p2.getSteps() != null) {
+          lastStepOpt2 =
+              p2.getSteps().stream()
+                  .filter(p -> p.getState() != null)
+                  .max(Comparator.comparing(PipelineStep::getStarted));
+        }
+
+        if (!lastStepOpt1.isPresent()) {
+          return !lastStepOpt2.isPresent() ? 0 : 1;
+        } else if (!lastStepOpt2.isPresent()) {
+          return -1;
+        }
+
+        PipelineStep step1 = lastStepOpt1.get();
+        PipelineStep step2 = lastStepOpt2.get();
+
+        if (step1.getStarted() == null) {
+          return step2.getStarted() == null ? 0 : 1;
+        } else if (step2.getStarted() == null) {
+          return -1;
+        }
+
+        // steps that are running have preference
+        if (step1.getState() == RUNNING) {
+          return step2.getState() == RUNNING ? step1.getStarted().compareTo(step2.getStarted()) : 1;
+        } else if (step2.getState() == RUNNING) {
+          return -1;
+        } else {
+          return step1.getStarted().compareTo(step2.getStarted());
+        }
+      };
 
   public long getKey() {
     return key;
@@ -107,15 +157,16 @@ public class PipelineProcess implements Serializable {
 
   @Override
   public String toString() {
-    return new StringJoiner(", ", PipelineProcess.class.getSimpleName() + "[", "]").add("key=" + key)
-      .add("datasetKey=" + datasetKey)
-      .add("datasetTitle=" + datasetTitle)
-      .add("attempt=" + attempt)
-      .add("numberRecords=" + numberRecords)
-      .add("created=" + created)
-      .add("createdBy='" + createdBy + "'")
-      .add("steps=" + steps)
-      .toString();
+    return new StringJoiner(", ", PipelineProcess.class.getSimpleName() + "[", "]")
+        .add("key=" + key)
+        .add("datasetKey=" + datasetKey)
+        .add("datasetTitle=" + datasetTitle)
+        .add("attempt=" + attempt)
+        .add("numberRecords=" + numberRecords)
+        .add("created=" + created)
+        .add("createdBy='" + createdBy + "'")
+        .add("steps=" + steps)
+        .toString();
   }
 
   @Override

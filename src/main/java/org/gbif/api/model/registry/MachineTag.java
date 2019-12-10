@@ -12,6 +12,7 @@
  */
 package org.gbif.api.model.registry;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -25,7 +26,9 @@ import org.gbif.api.vocabulary.TagName;
  * persisting.
  */
 // TODO: Document the rules regarding duplicate names and values
-public class MachineTag implements LenientEquals<MachineTag> {
+public class MachineTag implements LenientEquals<MachineTag>, Serializable {
+
+  private static final long serialVersionUID = 3475968899219274852L;
 
   private Integer key;
   private String namespace;

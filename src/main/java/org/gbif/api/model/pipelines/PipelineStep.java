@@ -6,10 +6,7 @@ import org.gbif.api.model.registry.LenientEquals;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.StringJoiner;
+import java.util.*;
 
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -50,6 +47,36 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
 
   private String modifiedBy;
   private Set<MetricInfo> metrics = new HashSet<>();
+
+  /**
+   * Comparator that sorts pipeline steps by start date and then by finished date in an ascending
+   * order.
+   */
+  public static final Comparator<PipelineStep> STEPS_BY_START_AND_FINISH_ASC =
+      (s1, s2) -> {
+        LocalDateTime started1 = s1 != null ? s1.getStarted() : null;
+        LocalDateTime started2 = s2 != null ? s2.getStarted() : null;
+
+        if (started1 == null) {
+          return (started2 == null) ? 0 : 1;
+        } else if (started2 == null) {
+          return -1;
+        }
+
+        int comparison = started1.compareTo(started2);
+        if (comparison != 0) {
+          return comparison;
+        }
+
+        LocalDateTime finished1 = s1.getFinished();
+        LocalDateTime finished2 = s2.getFinished();
+        if (finished1 == null) {
+          return (finished2 == null) ? 0 : 1;
+        } else if (finished2 == null) {
+          return -1;
+        }
+        return finished1.compareTo(finished2);
+      };
 
   public long getKey() {
     return key;
