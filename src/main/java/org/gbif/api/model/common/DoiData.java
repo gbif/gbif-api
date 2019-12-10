@@ -5,10 +5,9 @@ import java.net.URI;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Data about a DOI with a target URI and a status enumeration.
@@ -17,10 +16,8 @@ public class DoiData {
   private final DoiStatus status;
   private final URI target;
 
-  @JsonCreator
   @com.fasterxml.jackson.annotation.JsonCreator
-  public DoiData(@com.fasterxml.jackson.annotation.JsonProperty("status") @JsonProperty("status") DoiStatus status,
-                 @com.fasterxml.jackson.annotation.JsonProperty("target") @JsonProperty("target") URI target) {
+  public DoiData(@JsonProperty("status") DoiStatus status, @JsonProperty("target") URI target) {
     this.status = Preconditions.checkNotNull(status, "DOI status is required");
     this.target = target;
   }

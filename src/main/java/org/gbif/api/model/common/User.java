@@ -15,31 +15,31 @@
  */
 package org.gbif.api.model.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.Objects;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import org.gbif.api.vocabulary.UserRole;
 
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import com.google.common.base.Objects;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A GBIF user account registered in the drupal user database.
+ *
  * @Deprecated replaced by {@link GbifUser}
  */
 @Deprecated
 public class User {
 
   private static final String EMAIL_PATTERN =
- 		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
- 		+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+      + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
   private Integer key;
   private String userName;
@@ -127,7 +127,6 @@ public class User {
    */
   @NotNull
   @JsonIgnore
-  @com.fasterxml.jackson.annotation.JsonIgnore
   public String getName() {
     return firstName + " " + lastName;
   }
@@ -158,8 +157,8 @@ public class User {
 
   /**
    * Checks if the user has the given user role.
-   * @param role
    *
+   * @param role
    * @return true if the user has the requested role
    */
   public boolean hasRole(UserRole role) {
@@ -176,6 +175,7 @@ public class User {
 
   /**
    * Gets the settings which may be empty but never null.
+   *
    * @return
    */
   @NotNull
@@ -188,7 +188,7 @@ public class User {
    */
   public void setSettings(Map<String, String> settings) {
     // safeguard against misuse to avoid NPE
-    this.settings = settings == null ? Maps.<String,String>newHashMap() : settings;
+    this.settings = settings == null ? Maps.<String, String>newHashMap() : settings;
   }
 
   @Override
@@ -202,14 +202,14 @@ public class User {
 
     User that = (User) obj;
     return Objects.equal(this.key, that.key)
-           && Objects.equal(this.userName, that.userName)
-           && Objects.equal(this.firstName, that.firstName)
-           && Objects.equal(this.lastName, that.lastName)
-           && Objects.equal(this.email, that.email)
-           && Objects.equal(this.roles, that.roles)
-           && Objects.equal(this.lastLogin, that.lastLogin)
-           && Objects.equal(this.passwordHash, that.passwordHash)
-           && Objects.equal(this.settings, that.settings);
+      && Objects.equal(this.userName, that.userName)
+      && Objects.equal(this.firstName, that.firstName)
+      && Objects.equal(this.lastName, that.lastName)
+      && Objects.equal(this.email, that.email)
+      && Objects.equal(this.roles, that.roles)
+      && Objects.equal(this.lastLogin, that.lastLogin)
+      && Objects.equal(this.passwordHash, that.passwordHash)
+      && Objects.equal(this.settings, that.settings);
   }
 
   @Override

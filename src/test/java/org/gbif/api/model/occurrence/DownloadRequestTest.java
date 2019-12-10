@@ -25,7 +25,8 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import org.codehaus.jackson.map.ObjectMapper;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
@@ -58,14 +59,14 @@ public class DownloadRequestTest {
       + " \"format\": \"SIMPLE_CSV\","
       + " \"predicate\":{\"type\":\"equals\",\"key\":\"TAXON_KEY\",\"value\":\"3\"}"
       + "}";
-  
+
   private static final String SIMPLE_CSV_NULL_PREDICATE = "{"
       + " \"creator\":\"" + TEST_USER + "\", "
       + " \"notificationAddress\": [\"" + TEST_EMAIL +"\"],"
       + " \"sendNotification\":\"true\","
       + " \"format\": \"SIMPLE_CSV\""
       + "}";
-  
+
   private static final String SIMPLE_CSV_NULL_PREDICATE_AVAIL = "{"
       + " \"creator\":\"" + TEST_USER + "\", "
       + " \"notification_address\": [\"" + TEST_EMAIL +"\"],"
@@ -168,7 +169,7 @@ public class DownloadRequestTest {
     assertTrue(request.getSendNotification());
     assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
   }
-  
+
   @Test
   public void testDownloadRequestSerde1() throws IOException {
     DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE, DownloadRequest.class);
@@ -176,7 +177,7 @@ public class DownloadRequestTest {
     assertTrue(request.getSendNotification());
     assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
   }
-  
+
   @Test
   public void testDownloadRequestSerde2() throws IOException {
     DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE_AVAIL, DownloadRequest.class);

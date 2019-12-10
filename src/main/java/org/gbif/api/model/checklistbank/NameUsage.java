@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.checklistbank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.gbif.api.model.Constants;
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
@@ -38,8 +40,6 @@ import javax.validation.constraints.NotNull;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * A usage of a <em>scientific name</em> according to one particular Checklist including the GBIF Taxonomic Backbone,
@@ -63,7 +63,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   private String kingdom;
   private String phylum;
   @JsonProperty("class")
-  @com.fasterxml.jackson.annotation.JsonProperty("class")
   private String clazz;
   private String order;
   private String family;
@@ -712,7 +711,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    */
   @Nullable
   @JsonIgnore
-  @com.fasterxml.jackson.annotation.JsonIgnore
   public String getCanonicalOrScientificName() {
     return canonicalName == null ? scientificName : canonicalName;
   }
@@ -755,7 +753,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    */
   @NotNull
   @JsonIgnore
-  @com.fasterxml.jackson.annotation.JsonIgnore
   public LinkedHashMap<Integer, String> getHigherClassificationMap() {
     return ClassificationUtils.getHigherClassificationMap(this, key, parentKey, parent);
   }
@@ -847,7 +844,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   @JsonIgnore
-  @com.fasterxml.jackson.annotation.JsonIgnore
   public boolean isNub() {
     return datasetKey.equals(Constants.NUB_DATASET_KEY);
   }
@@ -858,7 +854,6 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    * @return true if proParte, false otherwise
    */
   @JsonIgnore
-  @com.fasterxml.jackson.annotation.JsonIgnore
   public boolean isProParte() {
     return proParteKey != null;
   }

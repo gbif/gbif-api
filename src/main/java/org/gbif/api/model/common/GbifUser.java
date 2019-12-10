@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
 
@@ -24,7 +25,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 import com.google.common.base.Objects;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * A GBIF user account registered in the user Identity database (previously Drupal).
@@ -61,7 +61,6 @@ public class GbifUser extends AbstractGbifUser {
    */
   @NotNull
   @JsonIgnore
-  @com.fasterxml.jackson.annotation.JsonIgnore
   public String getPasswordHash() {
     return passwordHash;
   }
