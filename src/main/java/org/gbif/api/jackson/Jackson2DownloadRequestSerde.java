@@ -31,7 +31,7 @@ public class Jackson2DownloadRequestSerde extends JsonDeserializer<DownloadReque
     ImmutableList.of("notificationAddresses", "notificationAddress", "notification_addresses", "notification_address");
   private static final String CREATOR = "creator";
   private static final String FORMAT = "format";
-  private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);
+  private static final Logger LOG = LoggerFactory.getLogger(Jackson2DownloadRequestSerde.class);
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
   @Override
