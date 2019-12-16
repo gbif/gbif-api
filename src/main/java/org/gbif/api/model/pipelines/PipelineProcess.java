@@ -33,6 +33,9 @@ public class PipelineProcess implements Serializable {
   private Set<PipelineExecution> executions =
       new TreeSet<>(PIPELINE_EXECUTION_BY_CREATED_ASC.reversed());
 
+  /**
+   * Comparator that sorts the pipeline processes by the created date of the latest execution.
+   */
   public static final Comparator<PipelineProcess> PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC =
       (p1, p2) -> {
         if (p1 == null) {
