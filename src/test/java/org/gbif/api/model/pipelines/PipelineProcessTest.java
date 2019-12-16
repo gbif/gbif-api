@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 public class PipelineProcessTest {
 
   @Test
-  public void pipelineProcessComparatorTest() {
+  public void pipelineProcessComparatorByLatestStepTest() {
     PipelineProcess p1 = new PipelineProcess();
     PipelineProcess p2 = new PipelineProcess();
 
@@ -61,5 +61,25 @@ public class PipelineProcessTest {
     e1.addStep(p1e1s4);
     assertEquals(
         1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_STEP_RUNNING_ASC));
+  }
+
+  @Test
+  public void pipelineProcessComparatorByLatestExecutionTest() {
+    PipelineProcess p1 = new PipelineProcess();
+    PipelineProcess p2 = new PipelineProcess();
+
+    assertEquals(0, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC));
+
+    PipelineExecution e1 = new PipelineExecution().setCreated(LocalDateTime.now().minusMinutes(20));
+    p1.addExecution(e1);
+    assertEquals(-1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC));
+
+    PipelineExecution e2 = new PipelineExecution().setCreated(LocalDateTime.now().minusMinutes(30));
+    p2.addExecution(e2);
+    assertEquals(1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC));
+
+    PipelineExecution e3 = new PipelineExecution().setCreated(LocalDateTime.now().minusMinutes(10));
+    p2.addExecution(e3);
+    assertEquals(-1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC));
   }
 }
