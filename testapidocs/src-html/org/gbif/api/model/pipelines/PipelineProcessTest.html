@@ -19,7 +19,7 @@
 <span class="sourceLineNo">011</span>public class PipelineProcessTest {<a name="line.11"></a>
 <span class="sourceLineNo">012</span><a name="line.12"></a>
 <span class="sourceLineNo">013</span>  @Test<a name="line.13"></a>
-<span class="sourceLineNo">014</span>  public void pipelineProcessComparatorTest() {<a name="line.14"></a>
+<span class="sourceLineNo">014</span>  public void pipelineProcessComparatorByLatestStepTest() {<a name="line.14"></a>
 <span class="sourceLineNo">015</span>    PipelineProcess p1 = new PipelineProcess();<a name="line.15"></a>
 <span class="sourceLineNo">016</span>    PipelineProcess p2 = new PipelineProcess();<a name="line.16"></a>
 <span class="sourceLineNo">017</span><a name="line.17"></a>
@@ -70,7 +70,27 @@
 <span class="sourceLineNo">062</span>    assertEquals(<a name="line.62"></a>
 <span class="sourceLineNo">063</span>        1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_STEP_RUNNING_ASC));<a name="line.63"></a>
 <span class="sourceLineNo">064</span>  }<a name="line.64"></a>
-<span class="sourceLineNo">065</span>}<a name="line.65"></a>
+<span class="sourceLineNo">065</span><a name="line.65"></a>
+<span class="sourceLineNo">066</span>  @Test<a name="line.66"></a>
+<span class="sourceLineNo">067</span>  public void pipelineProcessComparatorByLatestExecutionTest() {<a name="line.67"></a>
+<span class="sourceLineNo">068</span>    PipelineProcess p1 = new PipelineProcess();<a name="line.68"></a>
+<span class="sourceLineNo">069</span>    PipelineProcess p2 = new PipelineProcess();<a name="line.69"></a>
+<span class="sourceLineNo">070</span><a name="line.70"></a>
+<span class="sourceLineNo">071</span>    assertEquals(0, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC));<a name="line.71"></a>
+<span class="sourceLineNo">072</span><a name="line.72"></a>
+<span class="sourceLineNo">073</span>    PipelineExecution e1 = new PipelineExecution().setCreated(LocalDateTime.now().minusMinutes(20));<a name="line.73"></a>
+<span class="sourceLineNo">074</span>    p1.addExecution(e1);<a name="line.74"></a>
+<span class="sourceLineNo">075</span>    assertEquals(-1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC));<a name="line.75"></a>
+<span class="sourceLineNo">076</span><a name="line.76"></a>
+<span class="sourceLineNo">077</span>    PipelineExecution e2 = new PipelineExecution().setCreated(LocalDateTime.now().minusMinutes(30));<a name="line.77"></a>
+<span class="sourceLineNo">078</span>    p2.addExecution(e2);<a name="line.78"></a>
+<span class="sourceLineNo">079</span>    assertEquals(1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC));<a name="line.79"></a>
+<span class="sourceLineNo">080</span><a name="line.80"></a>
+<span class="sourceLineNo">081</span>    PipelineExecution e3 = new PipelineExecution().setCreated(LocalDateTime.now().minusMinutes(10));<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    p2.addExecution(e3);<a name="line.82"></a>
+<span class="sourceLineNo">083</span>    assertEquals(-1, Objects.compare(p1, p2, PipelineProcess.PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC));<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  }<a name="line.84"></a>
+<span class="sourceLineNo">085</span>}<a name="line.85"></a>
 
 
 

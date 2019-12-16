@@ -34,150 +34,170 @@ import static org.gbif.api.model.pipelines.PipelineStep.Status.RUNNING;
 <span class="fc" id="L34">      new TreeSet&lt;&gt;(PIPELINE_EXECUTION_BY_CREATED_ASC.reversed());</span>
 
   /**
+   * Comparator that sorts the pipeline processes by the created date of the latest execution.
+   */
+<span class="fc" id="L39">  public static final Comparator&lt;PipelineProcess&gt; PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC =</span>
+      (p1, p2) -&gt; {
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        if (p1 == null) {</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">          return p2 == null ? 0 : 1;</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        } else if (p2 == null) {</span>
+<span class="nc" id="L44">          return -1;</span>
+        }
+
+<span class="fc" id="L47">        PipelineExecution latestExecution1 =</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">            p1.getExecutions().isEmpty() ? null : p1.getExecutions().iterator().next();</span>
+<span class="fc" id="L49">        PipelineExecution latestExecution2 =</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">            p2.getExecutions().isEmpty() ? null : p2.getExecutions().iterator().next();</span>
+
+<span class="fc" id="L52">        return Objects.compare(</span>
+            latestExecution1, latestExecution2, PIPELINE_EXECUTION_BY_CREATED_ASC);
+      };
+
+  /**
    * Comparator that sorts pipeline processes by the start date of their latest step in an ascending
    * order. The steps that are running have preference and we take into account only the steps of
    * the latest execution.
    */
-<span class="fc" id="L41">  public static final Comparator&lt;PipelineProcess&gt; PIPELINE_PROCESS_BY_LATEST_STEP_RUNNING_ASC =</span>
+<span class="fc" id="L61">  public static final Comparator&lt;PipelineProcess&gt; PIPELINE_PROCESS_BY_LATEST_STEP_RUNNING_ASC =</span>
       (p1, p2) -&gt; {
-<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        if (p1 == null) {</span>
-<span class="nc bnc" id="L44" title="All 2 branches missed.">          return p2 == null ? 0 : 1;</span>
-<span class="pc bpc" id="L45" title="1 of 2 branches missed.">        } else if (p2 == null) {</span>
-<span class="nc" id="L46">          return -1;</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if (p1 == null) {</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">          return p2 == null ? 0 : 1;</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        } else if (p2 == null) {</span>
+<span class="nc" id="L66">          return -1;</span>
         }
 
-<span class="fc" id="L49">        PipelineExecution latestExecution1 =</span>
-<span class="pc bpc" id="L50" title="1 of 2 branches missed.">            p1.getExecutions().isEmpty() ? null : p1.getExecutions().iterator().next();</span>
-<span class="fc" id="L51">        PipelineExecution latestExecution2 =</span>
-<span class="pc bpc" id="L52" title="1 of 2 branches missed.">            p2.getExecutions().isEmpty() ? null : p2.getExecutions().iterator().next();</span>
+<span class="fc" id="L69">        PipelineExecution latestExecution1 =</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">            p1.getExecutions().isEmpty() ? null : p1.getExecutions().iterator().next();</span>
+<span class="fc" id="L71">        PipelineExecution latestExecution2 =</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">            p2.getExecutions().isEmpty() ? null : p2.getExecutions().iterator().next();</span>
 
-<span class="fc" id="L54">        Optional&lt;PipelineStep&gt; lastStepOpt1 = Optional.empty();</span>
-<span class="pc bpc" id="L55" title="2 of 4 branches missed.">        if (latestExecution1 != null &amp;&amp; latestExecution1.getSteps() != null) {</span>
-<span class="fc" id="L56">          lastStepOpt1 =</span>
-<span class="fc" id="L57">              latestExecution1.getSteps().stream()</span>
-<span class="fc bfc" id="L58" title="All 2 branches covered.">                  .filter(p -&gt; p.getState() != null)</span>
-<span class="fc" id="L59">                  .max(Comparator.comparing(PipelineStep::getStarted));</span>
+<span class="fc" id="L74">        Optional&lt;PipelineStep&gt; lastStepOpt1 = Optional.empty();</span>
+<span class="pc bpc" id="L75" title="2 of 4 branches missed.">        if (latestExecution1 != null &amp;&amp; latestExecution1.getSteps() != null) {</span>
+<span class="fc" id="L76">          lastStepOpt1 =</span>
+<span class="fc" id="L77">              latestExecution1.getSteps().stream()</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">                  .filter(p -&gt; p.getState() != null)</span>
+<span class="fc" id="L79">                  .max(Comparator.comparing(PipelineStep::getStarted));</span>
         }
 
-<span class="fc" id="L62">        Optional&lt;PipelineStep&gt; lastStepOpt2 = Optional.empty();</span>
-<span class="pc bpc" id="L63" title="2 of 4 branches missed.">        if (latestExecution2 != null &amp;&amp; latestExecution2.getSteps() != null) {</span>
-<span class="fc" id="L64">          lastStepOpt2 =</span>
-<span class="fc" id="L65">              latestExecution2.getSteps().stream()</span>
-<span class="pc bpc" id="L66" title="1 of 2 branches missed.">                  .filter(p -&gt; p.getState() != null)</span>
-<span class="fc" id="L67">                  .max(Comparator.comparing(PipelineStep::getStarted));</span>
+<span class="fc" id="L82">        Optional&lt;PipelineStep&gt; lastStepOpt2 = Optional.empty();</span>
+<span class="pc bpc" id="L83" title="2 of 4 branches missed.">        if (latestExecution2 != null &amp;&amp; latestExecution2.getSteps() != null) {</span>
+<span class="fc" id="L84">          lastStepOpt2 =</span>
+<span class="fc" id="L85">              latestExecution2.getSteps().stream()</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">                  .filter(p -&gt; p.getState() != null)</span>
+<span class="fc" id="L87">                  .max(Comparator.comparing(PipelineStep::getStarted));</span>
         }
 
-<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (!lastStepOpt1.isPresent()) {</span>
-<span class="pc bpc" id="L71" title="1 of 2 branches missed.">          return !lastStepOpt2.isPresent() ? 0 : 1;</span>
-<span class="fc bfc" id="L72" title="All 2 branches covered.">        } else if (!lastStepOpt2.isPresent()) {</span>
-<span class="fc" id="L73">          return -1;</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if (!lastStepOpt1.isPresent()) {</span>
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">          return !lastStepOpt2.isPresent() ? 0 : 1;</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        } else if (!lastStepOpt2.isPresent()) {</span>
+<span class="fc" id="L93">          return -1;</span>
         }
 
-<span class="fc" id="L76">        PipelineStep step1 = lastStepOpt1.get();</span>
-<span class="fc" id="L77">        PipelineStep step2 = lastStepOpt2.get();</span>
+<span class="fc" id="L96">        PipelineStep step1 = lastStepOpt1.get();</span>
+<span class="fc" id="L97">        PipelineStep step2 = lastStepOpt2.get();</span>
 
-<span class="pc bpc" id="L79" title="1 of 2 branches missed.">        if (step1.getStarted() == null) {</span>
-<span class="nc bnc" id="L80" title="All 2 branches missed.">          return step2.getStarted() == null ? 0 : 1;</span>
-<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        } else if (step2.getStarted() == null) {</span>
-<span class="nc" id="L82">          return -1;</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">        if (step1.getStarted() == null) {</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">          return step2.getStarted() == null ? 0 : 1;</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        } else if (step2.getStarted() == null) {</span>
+<span class="nc" id="L102">          return -1;</span>
         }
 
         // steps that are running have preference
-<span class="pc bpc" id="L86" title="1 of 2 branches missed.">        if (step1.getState() == RUNNING) {</span>
-<span class="pc bpc" id="L87" title="1 of 2 branches missed.">          return step2.getState() == RUNNING ? step1.getStarted().compareTo(step2.getStarted()) : 1;</span>
-<span class="nc bnc" id="L88" title="All 2 branches missed.">        } else if (step2.getState() == RUNNING) {</span>
-<span class="nc" id="L89">          return -1;</span>
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">        if (step1.getState() == RUNNING) {</span>
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">          return step2.getState() == RUNNING ? step1.getStarted().compareTo(step2.getStarted()) : 1;</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        } else if (step2.getState() == RUNNING) {</span>
+<span class="nc" id="L109">          return -1;</span>
         } else {
-<span class="nc" id="L91">          return step1.getStarted().compareTo(step2.getStarted());</span>
+<span class="nc" id="L111">          return step1.getStarted().compareTo(step2.getStarted());</span>
         }
       };
 
   public long getKey() {
-<span class="nc" id="L96">    return key;</span>
+<span class="nc" id="L116">    return key;</span>
   }
 
   public UUID getDatasetKey() {
-<span class="nc" id="L100">    return datasetKey;</span>
+<span class="nc" id="L120">    return datasetKey;</span>
   }
 
   public PipelineProcess setDatasetKey(UUID datasetKey) {
-<span class="nc" id="L104">    this.datasetKey = datasetKey;</span>
-<span class="nc" id="L105">    return this;</span>
+<span class="nc" id="L124">    this.datasetKey = datasetKey;</span>
+<span class="nc" id="L125">    return this;</span>
   }
 
   public String getDatasetTitle() {
-<span class="nc" id="L109">    return datasetTitle;</span>
+<span class="nc" id="L129">    return datasetTitle;</span>
   }
 
   public void setDatasetTitle(String datasetTitle) {
-<span class="nc" id="L113">    this.datasetTitle = datasetTitle;</span>
-<span class="nc" id="L114">  }</span>
+<span class="nc" id="L133">    this.datasetTitle = datasetTitle;</span>
+<span class="nc" id="L134">  }</span>
 
   public int getAttempt() {
-<span class="nc" id="L117">    return attempt;</span>
+<span class="nc" id="L137">    return attempt;</span>
   }
 
   public PipelineProcess setAttempt(int attempt) {
-<span class="nc" id="L121">    this.attempt = attempt;</span>
-<span class="nc" id="L122">    return this;</span>
+<span class="nc" id="L141">    this.attempt = attempt;</span>
+<span class="nc" id="L142">    return this;</span>
   }
 
   public LocalDateTime getCreated() {
-<span class="nc" id="L126">    return created;</span>
+<span class="nc" id="L146">    return created;</span>
   }
 
   public PipelineProcess setCreated(LocalDateTime created) {
-<span class="nc" id="L130">    this.created = created;</span>
-<span class="nc" id="L131">    return this;</span>
+<span class="nc" id="L150">    this.created = created;</span>
+<span class="nc" id="L151">    return this;</span>
   }
 
   public String getCreatedBy() {
-<span class="nc" id="L135">    return createdBy;</span>
+<span class="nc" id="L155">    return createdBy;</span>
   }
 
   public PipelineProcess setCreatedBy(String createdBy) {
-<span class="nc" id="L139">    this.createdBy = createdBy;</span>
-<span class="nc" id="L140">    return this;</span>
+<span class="nc" id="L159">    this.createdBy = createdBy;</span>
+<span class="nc" id="L160">    return this;</span>
   }
 
   public Set&lt;PipelineExecution&gt; getExecutions() {
-<span class="fc" id="L144">    return executions;</span>
+<span class="fc" id="L164">    return executions;</span>
   }
 
   public void setExecutions(Set&lt;PipelineExecution&gt; executions) {
-<span class="nc" id="L148">    this.executions.clear();</span>
-<span class="nc" id="L149">    this.executions.addAll(executions);</span>
-<span class="nc" id="L150">  }</span>
+<span class="nc" id="L168">    this.executions.clear();</span>
+<span class="nc" id="L169">    this.executions.addAll(executions);</span>
+<span class="nc" id="L170">  }</span>
 
   public PipelineProcess addExecution(PipelineExecution execution) {
-<span class="fc" id="L153">    executions.add(execution);</span>
-<span class="fc" id="L154">    return this;</span>
+<span class="fc" id="L173">    executions.add(execution);</span>
+<span class="fc" id="L174">    return this;</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L159">    return new StringJoiner(&quot;, &quot;, PipelineProcess.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L160">        .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L161">        .add(&quot;datasetKey=&quot; + datasetKey)</span>
-<span class="nc" id="L162">        .add(&quot;datasetTitle=&quot; + datasetTitle)</span>
-<span class="nc" id="L163">        .add(&quot;attempt=&quot; + attempt)</span>
-<span class="nc" id="L164">        .add(&quot;created=&quot; + created)</span>
-<span class="nc" id="L165">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
-<span class="nc" id="L166">        .add(&quot;executions=&quot; + executions)</span>
-<span class="nc" id="L167">        .toString();</span>
+<span class="nc" id="L179">    return new StringJoiner(&quot;, &quot;, PipelineProcess.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L180">        .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L181">        .add(&quot;datasetKey=&quot; + datasetKey)</span>
+<span class="nc" id="L182">        .add(&quot;datasetTitle=&quot; + datasetTitle)</span>
+<span class="nc" id="L183">        .add(&quot;attempt=&quot; + attempt)</span>
+<span class="nc" id="L184">        .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L185">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L186">        .add(&quot;executions=&quot; + executions)</span>
+<span class="nc" id="L187">        .toString();</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L172" title="All 2 branches missed.">    if (this == o) return true;</span>
-<span class="nc bnc" id="L173" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L174">    PipelineProcess process = (PipelineProcess) o;</span>
-<span class="nc bnc" id="L175" title="All 4 branches missed.">    return attempt == process.attempt &amp;&amp; Objects.equals(datasetKey, process.datasetKey);</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L193" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L194">    PipelineProcess process = (PipelineProcess) o;</span>
+<span class="nc bnc" id="L195" title="All 4 branches missed.">    return attempt == process.attempt &amp;&amp; Objects.equals(datasetKey, process.datasetKey);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L180">    return Objects.hash(datasetKey, attempt);</span>
+<span class="nc" id="L200">    return Objects.hash(datasetKey, attempt);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
