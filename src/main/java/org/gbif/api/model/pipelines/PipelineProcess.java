@@ -15,10 +15,10 @@ import java.util.StringJoiner;
 import java.util.TreeSet;
 import java.util.UUID;
 
-import static org.gbif.api.model.pipelines.PipelineStep.STEPS_BY_START_AND_FINISH_ASC;
+import static org.gbif.api.model.pipelines.PipelineExecution.PIPELINE_EXECUTION_BY_CREATED_ASC;
 import static org.gbif.api.model.pipelines.PipelineStep.Status.RUNNING;
 
-/** Base POJO model for the Pipelines status service */
+/** Models a pipeline process for a specific dataset and attempt. */
 public class PipelineProcess implements Serializable {
 
   private static final long serialVersionUID = -3992826055732414678L;
@@ -29,7 +29,6 @@ public class PipelineProcess implements Serializable {
   private UUID datasetKey;
   private String datasetTitle;
   private int attempt;
-  private long numberRecords;
 
   @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
   @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
@@ -38,26 +37,59 @@ public class PipelineProcess implements Serializable {
   private LocalDateTime created;
 
   private String createdBy;
-  private Set<PipelineStep> steps = new TreeSet<>(STEPS_BY_START_AND_FINISH_ASC);
+  private Set<PipelineExecution> executions =
+      new TreeSet<>(PIPELINE_EXECUTION_BY_CREATED_ASC.reversed());
+
+  /**
+   * Comparator that sorts the pipeline processes by the created date of the latest execution.
+   */
+  public static final Comparator<PipelineProcess> PIPELINE_PROCESS_BY_LATEST_EXEUCTION_ASC =
+      (p1, p2) -> {
+        if (p1 == null) {
+          return p2 == null ? 0 : 1;
+        } else if (p2 == null) {
+          return -1;
+        }
+
+        PipelineExecution latestExecution1 =
+            p1.getExecutions().isEmpty() ? null : p1.getExecutions().iterator().next();
+        PipelineExecution latestExecution2 =
+            p2.getExecutions().isEmpty() ? null : p2.getExecutions().iterator().next();
+
+        return Objects.compare(
+            latestExecution1, latestExecution2, PIPELINE_EXECUTION_BY_CREATED_ASC);
+      };
 
   /**
    * Comparator that sorts pipeline processes by the start date of their latest step in an ascending
-   * order. The steps that are running have preference.
+   * order. The steps that are running have preference and we take into account only the steps of
+   * the latest execution.
    */
-  public static final Comparator<PipelineProcess> PIPELINE_PROCESS_BY_LATEST_STEP_ASC =
+  public static final Comparator<PipelineProcess> PIPELINE_PROCESS_BY_LATEST_STEP_RUNNING_ASC =
       (p1, p2) -> {
+        if (p1 == null) {
+          return p2 == null ? 0 : 1;
+        } else if (p2 == null) {
+          return -1;
+        }
+
+        PipelineExecution latestExecution1 =
+            p1.getExecutions().isEmpty() ? null : p1.getExecutions().iterator().next();
+        PipelineExecution latestExecution2 =
+            p2.getExecutions().isEmpty() ? null : p2.getExecutions().iterator().next();
+
         Optional<PipelineStep> lastStepOpt1 = Optional.empty();
-        if (p1 != null && p1.getSteps() != null) {
+        if (latestExecution1 != null && latestExecution1.getSteps() != null) {
           lastStepOpt1 =
-              p1.getSteps().stream()
+              latestExecution1.getSteps().stream()
                   .filter(p -> p.getState() != null)
                   .max(Comparator.comparing(PipelineStep::getStarted));
         }
 
         Optional<PipelineStep> lastStepOpt2 = Optional.empty();
-        if (p2 != null && p2.getSteps() != null) {
+        if (latestExecution2 != null && latestExecution2.getSteps() != null) {
           lastStepOpt2 =
-              p2.getSteps().stream()
+              latestExecution2.getSteps().stream()
                   .filter(p -> p.getState() != null)
                   .max(Comparator.comparing(PipelineStep::getStarted));
         }
@@ -117,14 +149,6 @@ public class PipelineProcess implements Serializable {
     return this;
   }
 
-  public long getNumberRecords() {
-    return numberRecords;
-  }
-
-  public void setNumberRecords(long numberRecords) {
-    this.numberRecords = numberRecords;
-  }
-
   public LocalDateTime getCreated() {
     return created;
   }
@@ -143,17 +167,18 @@ public class PipelineProcess implements Serializable {
     return this;
   }
 
-  public Set<PipelineStep> getSteps() {
-    return steps;
+  public Set<PipelineExecution> getExecutions() {
+    return executions;
   }
 
-  public void setSteps(Set<PipelineStep> steps) {
-    this.steps.clear();
-    this.steps.addAll(steps);
+  public void setExecutions(Set<PipelineExecution> executions) {
+    this.executions.clear();
+    this.executions.addAll(executions);
   }
 
-  public void addStep(PipelineStep step) {
-    steps.add(step);
+  public PipelineProcess addExecution(PipelineExecution execution) {
+    executions.add(execution);
+    return this;
   }
 
   @Override
@@ -163,10 +188,9 @@ public class PipelineProcess implements Serializable {
         .add("datasetKey=" + datasetKey)
         .add("datasetTitle=" + datasetTitle)
         .add("attempt=" + attempt)
-        .add("numberRecords=" + numberRecords)
         .add("created=" + created)
         .add("createdBy='" + createdBy + "'")
-        .add("steps=" + steps)
+        .add("executions=" + executions)
         .toString();
   }
 
