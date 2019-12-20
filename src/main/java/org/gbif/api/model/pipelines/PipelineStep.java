@@ -1,17 +1,22 @@
 package org.gbif.api.model.pipelines;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.gbif.api.jackson.LocalDateTimeSerDe;
 import org.gbif.api.model.registry.LenientEquals;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.StringJoiner;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
-/** Models a step in pipelines. */
+/**
+ * Models a step in pipelines.
+ */
 public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
 
   private static final long serialVersionUID = 460047082156621661L;
@@ -22,16 +27,12 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
   private StepType type;
   private StepRunner runner;
 
-  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
-  @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeSerializer.class)
-  @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeDeserializer.class)
+  @JsonSerialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeDeserializer.class)
   private LocalDateTime started;
 
-  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
-  @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeSerializer.class)
-  @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeDeserializer.class)
+  @JsonSerialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeDeserializer.class)
   private LocalDateTime finished;
 
   private Status state;
@@ -40,10 +41,8 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
   private String pipelinesVersion;
   private String createdBy;
 
-  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
-  @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeSerializer.class)
-  @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeDeserializer.class)
+  @JsonSerialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeDeserializer.class)
   private LocalDateTime modified;
 
   private String modifiedBy;
@@ -54,30 +53,30 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
    * order.
    */
   public static final Comparator<PipelineStep> STEPS_BY_START_AND_FINISH_ASC =
-      (s1, s2) -> {
-        LocalDateTime started1 = s1 != null ? s1.getStarted() : null;
-        LocalDateTime started2 = s2 != null ? s2.getStarted() : null;
+    (s1, s2) -> {
+      LocalDateTime started1 = s1 != null ? s1.getStarted() : null;
+      LocalDateTime started2 = s2 != null ? s2.getStarted() : null;
 
-        if (started1 == null) {
-          return (started2 == null) ? 0 : 1;
-        } else if (started2 == null) {
-          return -1;
-        }
+      if (started1 == null) {
+        return (started2 == null) ? 0 : 1;
+      } else if (started2 == null) {
+        return -1;
+      }
 
-        int comparison = started1.compareTo(started2);
-        if (comparison != 0) {
-          return comparison;
-        }
+      int comparison = started1.compareTo(started2);
+      if (comparison != 0) {
+        return comparison;
+      }
 
-        LocalDateTime finished1 = s1.getFinished();
-        LocalDateTime finished2 = s2.getFinished();
-        if (finished1 == null) {
-          return (finished2 == null) ? 0 : 1;
-        } else if (finished2 == null) {
-          return -1;
-        }
-        return finished1.compareTo(finished2);
-      };
+      LocalDateTime finished1 = s1.getFinished();
+      LocalDateTime finished2 = s2.getFinished();
+      if (finished1 == null) {
+        return (finished2 == null) ? 0 : 1;
+      } else if (finished2 == null) {
+        return -1;
+      }
+      return finished1.compareTo(finished2);
+    };
 
   public long getKey() {
     return key;
@@ -200,14 +199,18 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     return this;
   }
 
-  /** Enum to represent the status of a step. */
+  /**
+   * Enum to represent the status of a step.
+   */
   public enum Status {
     RUNNING,
     FAILED,
     COMPLETED
   }
 
-  /** Inner class to store metrics. */
+  /**
+   * Inner class to store metrics.
+   */
   public static class MetricInfo implements Serializable {
 
     private static final long serialVersionUID = 1872427841009786709L;
@@ -260,9 +263,9 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     @Override
     public String toString() {
       return new StringJoiner(", ", MetricInfo.class.getSimpleName() + "[", "]")
-          .add("name='" + name + "'")
-          .add("value='" + value + "'")
-          .toString();
+        .add("name='" + name + "'")
+        .add("value='" + value + "'")
+        .toString();
     }
   }
 
@@ -272,67 +275,67 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
     if (o == null || getClass() != o.getClass()) return false;
     PipelineStep that = (PipelineStep) o;
     return key == that.key
-        && Objects.equals(type, that.type)
-        && Objects.equals(runner, that.runner)
-        && Objects.equals(started, that.started)
-        && Objects.equals(finished, that.finished)
-        && state == that.state
-        && Objects.equals(message, that.message)
-        && Objects.equals(metrics, that.metrics)
-        && Objects.equals(numberRecords, that.numberRecords)
-        && Objects.equals(pipelinesVersion, that.pipelinesVersion)
-        && Objects.equals(createdBy, that.createdBy)
-        && Objects.equals(modified, that.modified)
-        && Objects.equals(modifiedBy, that.modifiedBy);
+      && Objects.equals(type, that.type)
+      && Objects.equals(runner, that.runner)
+      && Objects.equals(started, that.started)
+      && Objects.equals(finished, that.finished)
+      && state == that.state
+      && Objects.equals(message, that.message)
+      && Objects.equals(metrics, that.metrics)
+      && Objects.equals(numberRecords, that.numberRecords)
+      && Objects.equals(pipelinesVersion, that.pipelinesVersion)
+      && Objects.equals(createdBy, that.createdBy)
+      && Objects.equals(modified, that.modified)
+      && Objects.equals(modifiedBy, that.modifiedBy);
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
-        key,
-        type,
-        runner,
-        started,
-        finished,
-        state,
-        message,
-        metrics,
-        numberRecords,
-        pipelinesVersion,
-        createdBy,
-        modified,
-        modifiedBy);
+      key,
+      type,
+      runner,
+      started,
+      finished,
+      state,
+      message,
+      metrics,
+      numberRecords,
+      pipelinesVersion,
+      createdBy,
+      modified,
+      modifiedBy);
   }
 
   @Override
   public String toString() {
     return new StringJoiner(", ", PipelineStep.class.getSimpleName() + "[", "]")
-        .add("key=" + key)
-        .add("type=" + type)
-        .add("runner=" + runner)
-        .add("started=" + started)
-        .add("finished=" + finished)
-        .add("state=" + state)
-        .add("message='" + message + "'")
-        .add("numberRecords='" + numberRecords + "'")
-        .add("pipelinesVersion='" + pipelinesVersion + "'")
-        .add("createdBy='" + createdBy + "'")
-        .add("modified=" + modified)
-        .add("modifiedBy='" + modifiedBy + "'")
-        .add("metrics=" + metrics)
-        .toString();
+      .add("key=" + key)
+      .add("type=" + type)
+      .add("runner=" + runner)
+      .add("started=" + started)
+      .add("finished=" + finished)
+      .add("state=" + state)
+      .add("message='" + message + "'")
+      .add("numberRecords='" + numberRecords + "'")
+      .add("pipelinesVersion='" + pipelinesVersion + "'")
+      .add("createdBy='" + createdBy + "'")
+      .add("modified=" + modified)
+      .add("modifiedBy='" + modifiedBy + "'")
+      .add("metrics=" + metrics)
+      .toString();
   }
 
   @Override
   public boolean lenientEquals(PipelineStep other) {
     if (this == other) return true;
     return Objects.equals(type, other.type)
-        && Objects.equals(runner, other.runner)
-        && Objects.equals(finished, other.finished)
-        && state == other.state
-        && Objects.equals(message, other.message)
-        && Objects.equals(metrics, other.metrics)
-        && Objects.equals(numberRecords, other.numberRecords)
-        && Objects.equals(pipelinesVersion, other.pipelinesVersion);
+      && Objects.equals(runner, other.runner)
+      && Objects.equals(finished, other.finished)
+      && state == other.state
+      && Objects.equals(message, other.message)
+      && Objects.equals(metrics, other.metrics)
+      && Objects.equals(numberRecords, other.numberRecords)
+      && Objects.equals(pipelinesVersion, other.pipelinesVersion);
   }
 }
