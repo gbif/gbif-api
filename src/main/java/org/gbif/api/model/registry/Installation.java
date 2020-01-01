@@ -12,19 +12,17 @@
  */
 package org.gbif.api.model.registry;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.Objects;
+import com.google.common.collect.Lists;
 import org.gbif.api.vocabulary.InstallationType;
-
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-
-import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * A technical installation which can serve dataset(s).
@@ -145,7 +143,6 @@ public class Installation implements NetworkEntity, Contactable, Endpointable, M
    * @return organization password
    */
   @JsonIgnore
-  @com.fasterxml.jackson.annotation.JsonIgnore
   @Nullable
   public String getPassword() {
     return password;

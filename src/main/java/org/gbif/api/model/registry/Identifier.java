@@ -12,6 +12,7 @@
  */
 package org.gbif.api.model.registry;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.gbif.api.util.IdentifierUtils;
 import org.gbif.api.vocabulary.IdentifierType;
 
@@ -23,7 +24,6 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 import com.google.common.base.Objects;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 public class Identifier implements LenientEquals<Identifier> {
 

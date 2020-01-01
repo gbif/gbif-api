@@ -12,22 +12,21 @@
  */
 package org.gbif.api.model.registry;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.Objects;
+import com.google.common.collect.Lists;
 import org.gbif.api.util.HttpURI;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Language;
 
-import java.net.URI;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import java.net.URI;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * A GBIF network.
@@ -320,7 +319,6 @@ public class Network implements NetworkEntity, Contactable, Endpointable, Machin
   @Nullable
   @Override
   @JsonIgnore
-  @com.fasterxml.jackson.annotation.JsonIgnore
   public String getOrganization() {
     return getTitle();
   }

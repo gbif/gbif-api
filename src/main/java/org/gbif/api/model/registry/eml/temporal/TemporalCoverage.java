@@ -14,33 +14,23 @@
  * limitations under the License.
  */
 package org.gbif.api.model.registry.eml.temporal;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.gbif.api.model.registry.eml.Keywords;
 import org.gbif.api.util.formatter.TemporalCoverageFormatterVisitor;
-
-import org.codehaus.jackson.annotate.JsonSubTypes;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * The base of all types of temporal coverages.
  */
 @JsonTypeInfo(
   use = JsonTypeInfo.Id.NAME,
-  include = JsonTypeInfo.As.PROPERTY,
   property = "@type"
 )
 @JsonSubTypes({
   @JsonSubTypes.Type(value = DateRange.class, name = "range"),
   @JsonSubTypes.Type(value = SingleDate.class, name = "single"),
   @JsonSubTypes.Type(value = VerbatimTimePeriod.class, name = "verbatim")
-})
-@com.fasterxml.jackson.annotation.JsonTypeInfo(
-  use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME,
-  property = "@type"
-)
-@com.fasterxml.jackson.annotation.JsonSubTypes({
-  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = DateRange.class, name = "range"),
-  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = SingleDate.class, name = "single"),
-  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = VerbatimTimePeriod.class, name = "verbatim")
 })
 public abstract class TemporalCoverage implements Keywords {
 
