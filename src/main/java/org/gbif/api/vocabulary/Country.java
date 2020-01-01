@@ -12,14 +12,14 @@
  */
 package org.gbif.api.vocabulary;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
@@ -28,15 +28,12 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.SerializerProvider;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.ser.std.SerializerBase;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Enumeration for all current ISO 3166-1 ALPHA2 country codes using 2 letters, with the exception of TW which
@@ -50,7 +47,7 @@ import org.codehaus.jackson.map.ser.std.SerializerBase;
  * @see <a href="http://en.wikipedia.org/wiki/ISO_3166">ISO 3166 on Wikipedia</a>
  * @see <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha2 on Wikipedia</a>
  * @see <a href="http://en.wikipedia.org/wiki/ISO_3166-3">ISO_3166-3 on Wikipedia</a>
- *
+ * <p>
  * TODO: deal with outdated codes from ISO_3166-3
  */
 /*
@@ -58,8 +55,6 @@ import org.codehaus.jackson.map.ser.std.SerializerBase;
  */
 @JsonSerialize(using = Country.IsoSerializer.class)
 @JsonDeserialize(using = Country.IsoDeserializer.class)
-@com.fasterxml.jackson.databind.annotation.JsonSerialize(using = Country.Jackson2IsoSerializer.class)
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = Country.Jackson2IsoDeserializer.class)
 public enum Country {
 
   /**
@@ -1486,56 +1481,13 @@ public enum Country {
   }
 
   /**
-   * Serializes the value in a 2 letter ISO format.
-   */
-  public static class IsoSerializer extends SerializerBase<Country> {
-
-    public IsoSerializer() {
-      super(Country.class);
-    }
-
-    @Override
-    public void serialize(Country value, JsonGenerator jgen, SerializerProvider provider) throws IOException,
-      JsonGenerationException {
-      jgen.writeString(value.alpha2);
-    }
-
-  }
-
-  /**
-   * Deserializes the value from a 2 letter ISO format.
-   */
-  public static class IsoDeserializer extends JsonDeserializer<Country> {
-
-    @Override
-    public Country deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-      try {
-        if (jp != null && jp.getTextLength() > 0) {
-          return Country.fromIsoCode(jp.getText());
-        } else {
-          return Country.UNKNOWN; // none provided
-        }
-      } catch (Exception e) {
-        throw new IOException("Unable to deserialize country from provided value (not an ISO 2 character?): "
-          + jp.getText());
-      }
-    }
-  }
-
-  /**
    * Serializes the value as the english country title.
    */
-  public static class TitleSerializer extends SerializerBase<Country> {
-
-    public TitleSerializer() {
-      super(Country.class);
-    }
-
+  public static class TitleSerializer extends JsonSerializer<Country> {
     @Override
     public void serialize(Country value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
       jgen.writeString(value.title);
     }
-
   }
 
   /**
@@ -1543,13 +1495,13 @@ public enum Country {
    */
   public static class TitleDeserializer extends JsonDeserializer<Country> {
     private static Map<String, Country> TITLE_LOOKUP = Maps.uniqueIndex(Lists.newArrayList(Country.values()),
-                                                                       new Function<Country, String>() {
-      @Nullable
-      @Override
-      public String apply(@Nullable Country c) {
-        return c.title;
-      }
-    });
+      new Function<Country, String>() {
+        @Nullable
+        @Override
+        public String apply(@Nullable Country c) {
+          return c.title;
+        }
+      });
 
     @Override
     public Country deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
@@ -1561,17 +1513,22 @@ public enum Country {
     }
   }
 
-  public static class Jackson2IsoSerializer extends JsonSerializer<Country> {
-
+  /**
+   * Serializes the value in a 2 letter ISO format.
+   */
+  public static class IsoSerializer extends JsonSerializer<Country> {
     @Override
     public void serialize(Country value, com.fasterxml.jackson.core.JsonGenerator jgen, com.fasterxml.jackson.databind.SerializerProvider provider) throws IOException {
       jgen.writeString(value.getIso2LetterCode());
     }
   }
 
-  public static class Jackson2IsoDeserializer extends StdDeserializer<Country> {
+  /**
+   * Deserializes the value from a 2 letter ISO format.
+   */
+  public static class IsoDeserializer extends StdDeserializer<Country> {
 
-    public Jackson2IsoDeserializer() {
+    public IsoDeserializer() {
       super(Country.class);
     }
 

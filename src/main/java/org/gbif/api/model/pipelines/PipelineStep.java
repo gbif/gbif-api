@@ -27,12 +27,12 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
   private StepType type;
   private StepRunner runner;
 
-  @JsonSerialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeDeserializer.class)
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
   private LocalDateTime started;
 
-  @JsonSerialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeDeserializer.class)
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
   private LocalDateTime finished;
 
   private Status state;
@@ -41,8 +41,8 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
   private String pipelinesVersion;
   private String createdBy;
 
-  @JsonSerialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeDeserializer.class)
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
   private LocalDateTime modified;
 
   private String modifiedBy;

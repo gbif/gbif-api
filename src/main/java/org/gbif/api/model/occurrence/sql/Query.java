@@ -1,9 +1,7 @@
 package org.gbif.api.model.occurrence.sql;
 
-import org.gbif.api.model.occurrence.sql.serde.Jackson2QueryIssueSerde;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.gbif.api.model.occurrence.sql.serde.QueryIssueSerde;
-
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * SQL Download API Query Issues listed with there descriptions.
@@ -14,7 +12,6 @@ public class Query {
     "Format of LEGAL query is : SELECT ... \nFROM occurrence \nWHERE ... \nGROUP BY ...";
 
   @JsonSerialize(using = QueryIssueSerde.class)
-  @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = Jackson2QueryIssueSerde.class)
   public enum Issue {
 
     NO_ISSUE("No Issue."),

@@ -1,9 +1,9 @@
 package org.gbif.api.model.occurrence;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 
 import javax.annotation.Nullable;
@@ -29,13 +29,12 @@ public class PredicateDownloadRequest extends DownloadRequest {
    * Full constructor. Used to create instances using JSON serialization.
    */
   @JsonCreator
-  @com.fasterxml.jackson.annotation.JsonCreator
   public PredicateDownloadRequest(
-    @com.fasterxml.jackson.annotation.JsonProperty("predicate") @JsonProperty("predicate") Predicate predicate,
-    @com.fasterxml.jackson.annotation.JsonProperty("creator") @JsonProperty("creator") @Nullable String creator,
-    @com.fasterxml.jackson.annotation.JsonProperty("notificationAddresses") @JsonProperty("notificationAddresses") @Nullable Collection<String> notificationAddresses,
-    @com.fasterxml.jackson.annotation.JsonProperty("sendNotification") @JsonProperty("sendNotification") boolean sendNotification,
-    @com.fasterxml.jackson.annotation.JsonProperty("format") @JsonProperty("format") DownloadFormat format) {
+    @JsonProperty("predicate") Predicate predicate,
+    @JsonProperty("creator") @Nullable String creator,
+    @JsonProperty("notificationAddresses") @Nullable Collection<String> notificationAddresses,
+    @JsonProperty("sendNotification") boolean sendNotification,
+    @JsonProperty("format") DownloadFormat format) {
     super(creator, notificationAddresses, sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format);
     this.predicate = predicate;
   }

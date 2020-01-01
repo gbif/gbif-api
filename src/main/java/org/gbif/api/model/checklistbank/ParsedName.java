@@ -54,8 +54,8 @@ public class ParsedName {
   private String scientificName;
   @JsonProperty("rankMarker")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  @JsonSerialize(using = RankSerde.Jackson2RankJsonSerializer.class)
-  @JsonDeserialize(using = RankSerde.Jackson2RankJsonDeserializer.class)
+  @JsonSerialize(using = RankSerde.RankJsonSerializer.class)
+  @JsonDeserialize(using = RankSerde.RankJsonDeserializer.class)
   private Rank rank;
   private NameType type;
   private String genusOrAbove;

@@ -1,18 +1,16 @@
 package org.gbif.api.model.occurrence.sql.serde;
 
-import org.gbif.api.model.occurrence.sql.Query;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import org.gbif.api.model.occurrence.sql.Query.Issue;
 
 import java.io.IOException;
 
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.SerializerProvider;
-
 /**
  * Json serializer, to use issue name with description and comment upon serialization.
  */
-public class QueryIssueSerde extends JsonSerializer<Query.Issue> {
+public class QueryIssueSerde extends JsonSerializer<Issue> {
 
   @Override
   public void serialize(Issue value, JsonGenerator generator, SerializerProvider provider) throws IOException {

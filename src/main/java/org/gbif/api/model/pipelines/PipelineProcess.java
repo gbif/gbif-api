@@ -32,8 +32,8 @@ public class PipelineProcess implements Serializable {
   private String datasetTitle;
   private int attempt;
 
-  @JsonSerialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeDeserializer.class)
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
   private LocalDateTime created;
 
   private String createdBy;

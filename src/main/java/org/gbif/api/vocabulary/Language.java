@@ -16,18 +16,18 @@
 package org.gbif.api.vocabulary;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.KeyDeserializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.SerializerProvider;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.ser.std.SerializerBase;
 
 import java.io.IOException;
 import java.util.List;
@@ -40,14 +40,12 @@ import java.util.Locale;
  * @see <a href="http://en.wikipedia.org/wiki/ISO_639">Wikipedia on ISO-639</a>
  * @see <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Locale.html">Locale javadoc</a>
  */
-@JsonSerialize(using = Language.IsoSerializer.class)
-@JsonDeserialize(using = Language.LenientDeserializer.class)
-@com.fasterxml.jackson.databind.annotation.JsonSerialize(
-    using = Language.Jackson2IsoSerializer.class,
-    keyUsing = Language.Jackson2IsoSerializer.class)
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(
-    using = Language.Jackson2LenientDeserializer.class,
-    keyUsing = Language.Jackson2LenientKeyDeserializer.class)
+@JsonSerialize(
+  using = Language.IsoSerializer.class,
+  keyUsing = Language.IsoSerializer.class)
+@JsonDeserialize(
+  using = Language.LenientDeserializer.class,
+  keyUsing = Language.LenientKeyDeserializer.class)
 public enum Language {
 
   /**
@@ -1053,18 +1051,12 @@ public enum Language {
   /**
    * Serializes the value in a 3 letter ISO format.
    */
-  public static class IsoSerializer extends SerializerBase<Language> {
-
-    public IsoSerializer() {
-      super(Language.class);
-    }
+  public static class IsoSerializer extends JsonSerializer<Language> {
 
     @Override
-    public void serialize(Language value, JsonGenerator jgen, SerializerProvider provider) throws IOException,
-      JsonGenerationException {
+    public void serialize(Language value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
       jgen.writeString(value.getIso3LetterCode());
     }
-
   }
 
   /**
@@ -1072,51 +1064,8 @@ public enum Language {
    * backwards compatibility as possible with e.g. the registry api.
    */
   public static class LenientDeserializer extends JsonDeserializer<Language> {
-
     @Override
     public Language deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-      try {
-        if (jp != null && jp.getTextLength() > 0) {
-          return lenientParse(jp.getText());
-        } else {
-          return Language.UNKNOWN; // none provided
-        }
-      } catch (Exception e) {
-        throw new IOException("Unable to deserialize language from provided value (hint: not an ISO 2 or 3 character?): "
-          + jp.getText());
-      }
-    }
-
-    @VisibleForTesting
-    static Language lenientParse(String value) {
-      Language l = Language.fromIsoCode(value);
-      // backwards compatible
-      if (UNKNOWN == l) {
-        try {
-          l = valueOf(value);
-        } catch (IllegalArgumentException e) {
-          l = UNKNOWN;
-        }
-      }
-      return l;
-    }
-  }
-
-  public static class Jackson2IsoSerializer extends com.fasterxml.jackson.databind.JsonSerializer<Language> {
-
-    @Override
-    public void serialize(Language value, com.fasterxml.jackson.core.JsonGenerator jgen, com.fasterxml.jackson.databind.SerializerProvider provider) throws IOException {
-      jgen.writeString(value.getIso3LetterCode());
-    }
-  }
-
-  public static class Jackson2LenientDeserializer extends com.fasterxml.jackson.databind.JsonDeserializer<Language> {
-
-    public Jackson2LenientDeserializer() {
-    }
-
-    @Override
-    public Language deserialize(com.fasterxml.jackson.core.JsonParser jp, com.fasterxml.jackson.databind.DeserializationContext ctxt) throws IOException {
       try {
         if (jp != null && jp.getTextLength() > 0) {
           return lenientParse(jp.getText());
@@ -1144,22 +1093,21 @@ public enum Language {
     }
   }
 
-  public static class Jackson2LenientKeyDeserializer
-      extends com.fasterxml.jackson.databind.KeyDeserializer {
+  public static class LenientKeyDeserializer extends KeyDeserializer {
 
     @Override
     public Object deserializeKey(
-        String key, com.fasterxml.jackson.databind.DeserializationContext ctxt) throws IOException {
+      String key, DeserializationContext ctxt) throws IOException {
       try {
         if (!Strings.isNullOrEmpty(key)) {
-          return Jackson2LenientDeserializer.lenientParse(key);
+          return LenientDeserializer.lenientParse(key);
         } else {
           return Language.UNKNOWN; // none provided
         }
       } catch (Exception e) {
         throw new IOException(
-            "Unable to deserialize language from provided value (hint: not an ISO 2 or 3 character?): "
-                + key);
+          "Unable to deserialize language from provided value (hint: not an ISO 2 or 3 character?): "
+            + key);
       }
     }
   }

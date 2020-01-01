@@ -2,7 +2,6 @@ package org.gbif.api.model.common;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -28,8 +27,8 @@ import java.util.regex.Pattern;
  * For the syntax of DOI names see the <a href="http://www.doi.org/doi_handbook/2_Numbering.html#2.2">DOI Handbook</a>.
  * All parsing is case insensitive and resulting components will all be upper cased.
  */
-@JsonSerialize(using = DOI.Jackson2Serializer.class)
-@JsonDeserialize(using = DOI.Jackson2Deserializer.class)
+@JsonSerialize(using = DOI.DoiSerializer.class)
+@JsonDeserialize(using = DOI.DoiDeserializer.class)
 public class DOI {
 
   private static final Logger LOG = LoggerFactory.getLogger(DOI.class);
@@ -202,7 +201,7 @@ public class DOI {
     return Objects.equals(this.prefix, other.prefix) && Objects.equals(this.suffix, other.suffix);
   }
 
-  public static class Jackson2Serializer extends JsonSerializer<DOI> {
+  public static class DoiSerializer extends JsonSerializer<DOI> {
 
     @Override
     public void serialize(DOI value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
@@ -210,10 +209,10 @@ public class DOI {
     }
   }
 
-  public static class Jackson2Deserializer extends JsonDeserializer {
+  public static class DoiDeserializer extends JsonDeserializer<DOI> {
 
     @Override
-    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public DOI deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
       if (p != null && p.getTextLength() > 0) {
         return new DOI(p.getText());
       }

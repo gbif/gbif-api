@@ -16,6 +16,8 @@
 package org.gbif.api.model.checklistbank;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
@@ -37,11 +39,9 @@ import static com.google.common.collect.Lists.newArrayList;
  * This is just a simple container class with a few convenience methods which needs to be populated manually via its
  * setters or the constructor.
  */
-// TODO: 26/09/2019 do not support jackson 1
 public class NameUsageContainer extends NameUsage {
 
-  private static final com.fasterxml.jackson.databind.ObjectMapper JACKSON2_MAPPER =
-    new com.fasterxml.jackson.databind.ObjectMapper();
+  private static final ObjectMapper JACKSON2_MAPPER = new ObjectMapper();
 
   static {
     JACKSON2_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -70,10 +70,8 @@ public class NameUsageContainer extends NameUsage {
    */
   public NameUsageContainer(NameUsage usage) {
     try {
-      final com.fasterxml.jackson.databind.JsonNode propTreeJackson2 =
-        JACKSON2_MAPPER.convertValue(usage, com.fasterxml.jackson.databind.JsonNode.class);
+      final JsonNode propTreeJackson2 = JACKSON2_MAPPER.convertValue(usage, JsonNode.class);
       JACKSON2_MAPPER.readerForUpdating(this).readValue(propTreeJackson2);
-
     } catch (IOException e) {
       throw new IllegalStateException("Failed to copy NameUsage properties to NameUsageContainer", e);
     }

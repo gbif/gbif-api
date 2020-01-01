@@ -12,35 +12,31 @@
  */
 package org.gbif.api.model.occurrence;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import org.gbif.api.jackson.ExtensionKeyDeserializer;
 import org.gbif.api.jackson.ExtensionSerializer;
-import org.gbif.api.jackson.Jackson2ExtensionKeyDeserializer;
-import org.gbif.api.jackson.Jackson2ExtensionSerializer;
-import org.gbif.api.jackson.Jackson2TermMapListDeserializer;
-import org.gbif.api.jackson.TermMapListSerializer;
 import org.gbif.api.jackson.TermMapListDeserializer;
+import org.gbif.api.jackson.TermMapListSerializer;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.Extension;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.TermFactory;
 
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
-import org.codehaus.jackson.annotate.JsonAnyGetter;
-import org.codehaus.jackson.annotate.JsonAnySetter;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -85,7 +81,7 @@ public class VerbatimOccurrence {
   /**
    * For setting a specific field without having to replace the entire verbatimFields Map.
    *
-   * @param term the field to set
+   * @param term       the field to set
    * @param fieldValue the field's value
    */
   public void setVerbatimField(Term term, @Nullable String fieldValue) {
@@ -210,7 +206,6 @@ public class VerbatimOccurrence {
    */
   @NotNull
   @JsonIgnore
-  @com.fasterxml.jackson.annotation.JsonIgnore
   public Map<Term, String> getVerbatimFields() {
     return verbatimFields;
   }
@@ -225,12 +220,6 @@ public class VerbatimOccurrence {
   @NotNull
   @JsonSerialize(keyUsing = ExtensionSerializer.class, contentUsing = TermMapListSerializer.class)
   @JsonDeserialize(keyUsing = ExtensionKeyDeserializer.class, contentUsing = TermMapListDeserializer.class)
-  @com.fasterxml.jackson.databind.annotation.JsonSerialize(
-    keyUsing = Jackson2ExtensionSerializer.class,
-    contentUsing = TermMapListSerializer.class)
-  @com.fasterxml.jackson.databind.annotation.JsonDeserialize(
-    keyUsing = Jackson2ExtensionKeyDeserializer.class,
-    contentUsing = Jackson2TermMapListDeserializer.class)
   public Map<Extension, List<Map<Term, String>>> getExtensions() {
     return extensions;
   }
@@ -250,7 +239,7 @@ public class VerbatimOccurrence {
       .add("installationKey", installationKey)
       .add("networkKeys", networkKeys)
       .add("protocol", protocol)
-      .add("crawlId",crawlId)
+      .add("crawlId", crawlId)
       .add("lastCrawled", lastCrawled)
       .add("extensions", extensions)
       .toString();
@@ -260,7 +249,7 @@ public class VerbatimOccurrence {
   public int hashCode() {
     return Objects
       .hashCode(key, datasetKey, publishingOrgKey, publishingCountry, protocol, lastCrawled, lastParsed, crawlId,
-                verbatimFields, extensions);
+        verbatimFields, extensions);
   }
 
   @Override
@@ -290,9 +279,8 @@ public class VerbatimOccurrence {
    * This private method is only for deserialization via jackson and not exposed anywhere else!
    */
   @JsonAnySetter
-  @com.fasterxml.jackson.annotation.JsonAnySetter
   private void addJsonVerbatimField(String key, String value) {
-    if(!Strings.isNullOrEmpty(value)) {
+    if (!Strings.isNullOrEmpty(value)) {
       Term t = TermFactory.instance().findTerm(key);
       verbatimFields.put(t, value);
     }
@@ -303,7 +291,6 @@ public class VerbatimOccurrence {
    * It maps the verbatimField terms into properties with their full qualified name.
    */
   @JsonAnyGetter
-  @com.fasterxml.jackson.annotation.JsonAnyGetter
   private Map<String, String> jsonVerbatimFields() { // note: for 1.6.0 MUST use non-getter name; otherwise doesn't matter
     Map<String, String> extendedProps = Maps.newHashMap();
     for (Map.Entry<Term, String> prop : verbatimFields.entrySet()) {

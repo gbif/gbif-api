@@ -15,13 +15,11 @@
  */
 package org.gbif.api.vocabulary;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Strings;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.gbif.api.jackson.ExtensionDeserializer;
 import org.gbif.api.jackson.ExtensionSerializer;
-import org.gbif.api.jackson.Jackson2ExtensionDeserializer;
-import org.gbif.api.jackson.Jackson2ExtensionSerializer;
 
 /**
  * Enumeration of dwc extensions for both Occurrence and Taxon that are indexed by GBIF.
@@ -30,8 +28,6 @@ import org.gbif.api.jackson.Jackson2ExtensionSerializer;
  */
 @JsonSerialize(using = ExtensionSerializer.class)
 @JsonDeserialize(using = ExtensionDeserializer.class)
-@com.fasterxml.jackson.databind.annotation.JsonSerialize(using = Jackson2ExtensionSerializer.class)
-@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = Jackson2ExtensionDeserializer.class)
 public enum Extension {
 
   /**

@@ -26,8 +26,8 @@ public class PipelineExecution implements Serializable {
   private String rerunReason;
   private String remarks;
 
-  @JsonSerialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeSerDe.Jackson2LocalDateTimeDeserializer.class)
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
   private LocalDateTime created;
 
   private String createdBy;

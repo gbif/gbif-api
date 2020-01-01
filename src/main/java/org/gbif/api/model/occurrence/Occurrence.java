@@ -12,6 +12,16 @@
  */
 package org.gbif.api.model.occurrence;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import org.gbif.api.model.common.Identifier;
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
@@ -32,6 +42,10 @@ import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.UnknownTerm;
 
+import javax.annotation.Nullable;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.URI;
@@ -45,21 +59,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.annotation.Nullable;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import org.codehaus.jackson.annotate.JsonAnyGetter;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * Represents an Occurrence as interpreted by GBIF, adding typed properties on top of the verbatim ones.
@@ -68,14 +67,14 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public static final String GEO_DATUM = "WGS84";
   // keep names of ALL properties of this class in a set for jackson serialization, see #properties()
-  private static final Set<String> PROPERTIES =  Collections.unmodifiableSet(
+  private static final Set<String> PROPERTIES = Collections.unmodifiableSet(
     Stream.concat(
       // we need to these json properties manually cause we have a fixed getter but no field for it
       Stream.of(DwcTerm.geodeticDatum.simpleName(), "class", "countryCode"),
       Stream.concat(Arrays.stream(Occurrence.class.getDeclaredFields()),
-                    Arrays.stream(VerbatimOccurrence.class.getDeclaredFields()))
-                     .filter(field -> !Modifier.isStatic(field.getModifiers()))
-                     .map(Field::getName)).collect(Collectors.toSet()));
+        Arrays.stream(VerbatimOccurrence.class.getDeclaredFields()))
+        .filter(field -> !Modifier.isStatic(field.getModifiers()))
+        .map(Field::getName)).collect(Collectors.toSet()));
   // occurrence fields
   private BasisOfRecord basisOfRecord;
   private Integer individualCount;
@@ -99,7 +98,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private String kingdom;
   private String phylum;
   @JsonProperty("class")
-  @com.fasterxml.jackson.annotation.JsonProperty("class")
   private String clazz;
   private String order;
   private String family;
@@ -131,8 +129,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Continent continent;
   @JsonSerialize(using = Country.IsoSerializer.class)
   @JsonDeserialize(using = Country.IsoDeserializer.class)
-  @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = Country.Jackson2IsoSerializer.class)
-  @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = Country.Jackson2IsoDeserializer.class)
   private Country country;
   private String stateProvince;
   private String waterBody;
@@ -336,7 +332,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    */
   @NotNull
   @JsonIgnore
-  @com.fasterxml.jackson.annotation.JsonIgnore
   public LinkedHashMap<Integer, String> getHigherClassificationMap() {
     return taxonKey == null ? ClassificationUtils.getHigherClassificationMap(this)
       : ClassificationUtils.getHigherClassificationMap(this, taxonKey, null, null);
@@ -695,7 +690,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Nullable
   @JsonProperty("countryCode")
-  @com.fasterxml.jackson.annotation.JsonProperty("countryCode")
   public Country getCountry() {
     return country;
   }
@@ -711,7 +705,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    */
   @Nullable
   @JsonProperty("country")
-  @com.fasterxml.jackson.annotation.JsonProperty("country")
   private String getCountryTitle() {
     return country == null ? null : country.getTitle();
   }
@@ -922,9 +915,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.relations = relations;
   }
 
-
   @JsonIgnore
-  @com.fasterxml.jackson.annotation.JsonIgnore
   /**
    * Convenience method checking if any spatial validation rule has not passed.
    * Primarily used to indicate that the record should not be displayed on a map.
@@ -1087,7 +1078,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * It maps the verbatimField terms into properties with their simple name or qualified names for UnknownTerms.
    */
   @JsonAnyGetter
-  @com.fasterxml.jackson.annotation.JsonAnyGetter
   private Map<String, String> jsonVerbatimFields() {
     Map<String, String> extendedProps = Maps.newHashMap();
     for (Map.Entry<Term, String> prop : getVerbatimFields().entrySet()) {
