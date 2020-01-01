@@ -17,6 +17,7 @@ package org.gbif.api.model.checklistbank;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Objects;
@@ -81,7 +82,7 @@ public class VerbatimNameUsage {
    * A map holding all verbatim core terms.
    */
   @NotNull
-  @com.fasterxml.jackson.annotation.JsonIgnore
+  @JsonIgnore
   public Map<Term, String> getFields() {
     return fields;
   }

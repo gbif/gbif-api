@@ -1,5 +1,12 @@
 package org.gbif.api.model.checklistbank;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.gbif.api.util.IsoDateParsingUtils;
 import org.gbif.api.vocabulary.Extension;
 import org.gbif.dwc.terms.DcTerm;
@@ -9,20 +16,13 @@ import org.gbif.dwc.terms.IucnTerm;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.TermFactory;
 import org.gbif.dwc.terms.UnknownTerm;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
-import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -49,7 +49,6 @@ public class VerbatimNameUsageTest {
     assertTrue(v1.hasExtension(Extension.IDENTIFICATION));
     assertTrue(v1.hasExtension(DwcTerm.Identification));
     assertFalse(v1.hasExtension(DwcTerm.MeasurementOrFact));
-
   }
 
   @Test
@@ -176,9 +175,9 @@ public class VerbatimNameUsageTest {
   @Test
   public void testVerbatimMapSerde() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
-    mapper.enable(DeserializationConfig.Feature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-    mapper.enable(SerializationConfig.Feature.INDENT_OUTPUT);
-    mapper.disable(SerializationConfig.Feature.WRITE_NULL_PROPERTIES);
+    mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+    mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
     VerbatimNameUsage v = new VerbatimNameUsage();
     v.setKey(7);
@@ -227,15 +226,14 @@ public class VerbatimNameUsageTest {
 
   }
 
-
   @Test
   public void testVerbatimExtensionsMapSerde() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
-    mapper.enable(DeserializationConfig.Feature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-    mapper.enable(SerializationConfig.Feature.INDENT_OUTPUT);
-    mapper.disable(SerializationConfig.Feature.WRITE_NULL_PROPERTIES);
+    mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+    mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
-    Map<Term, String> verbatimRecord = new HashMap<Term, String>();
+    Map<Term, String> verbatimRecord = new HashMap<>();
     Date today = new Date();
     verbatimRecord.put(DcTerm.created, IsoDateParsingUtils.IsoDateFormat.FULL.getDateFormat().format(today));
     verbatimRecord.put(DcTerm.creator, "fede");
@@ -256,15 +254,12 @@ public class VerbatimNameUsageTest {
     extensions.put(Extension.MULTIMEDIA, verbatimRecords);
     v.setExtensions(extensions);
 
-
     String json = mapper.writeValueAsString(v);
     System.out.println(json);
 
     VerbatimNameUsage v2 = mapper.readValue(json, VerbatimNameUsage.class);
     assertNotNull(v2.getExtensions());
-    assertTrue(!v2.getExtensions().get(Extension.MULTIMEDIA).isEmpty());
+    assertFalse(v2.getExtensions().get(Extension.MULTIMEDIA).isEmpty());
     assertEquals(v2.getExtensions().get(Extension.MULTIMEDIA).get(0), verbatimRecord);
-
-
   }
 }

@@ -1,5 +1,8 @@
 package org.gbif.api.model.occurrence;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.gbif.api.util.IsoDateParsingUtils.IsoDateFormat;
 import org.gbif.api.vocabulary.Extension;
 import org.gbif.dwc.terms.DcTerm;
@@ -19,9 +22,7 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -135,9 +136,9 @@ public class VerbatimOccurrenceTest {
   @Test
   public void testVerbatimMapSerde() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
-    mapper.enable(DeserializationConfig.Feature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-    mapper.enable(SerializationConfig.Feature.INDENT_OUTPUT);
-    mapper.disable(SerializationConfig.Feature.WRITE_NULL_PROPERTIES);
+    mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+    mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
     VerbatimOccurrence v = new VerbatimOccurrence();
     v.setKey(7l);
@@ -192,9 +193,9 @@ public class VerbatimOccurrenceTest {
   @Test
   public void testVerbatimExtensionsMapSerde() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
-    mapper.enable(DeserializationConfig.Feature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-    mapper.enable(SerializationConfig.Feature.INDENT_OUTPUT);
-    mapper.disable(SerializationConfig.Feature.WRITE_NULL_PROPERTIES);
+    mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+    mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
     Map<Term, String> verbatimRecord = new HashMap<Term, String>();
     Date today = new Date();

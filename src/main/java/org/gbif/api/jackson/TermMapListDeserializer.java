@@ -2,9 +2,11 @@ package org.gbif.api.jackson;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.TermFactory;
@@ -25,11 +27,9 @@ public class TermMapListDeserializer extends JsonDeserializer<List<Map<Term, Str
   @Override
   public List<Map<Term, String>> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
     if (jp.getCurrentToken() == JsonToken.START_ARRAY) {
-
-      // TODO: 01/01/2020 test it
-      JsonDeserializer<Object> deserializer = ctxt.findNonContextualValueDeserializer(ctxt.constructType(List.class));
-
-      List<Map<String, String>> verbatimTerms = (List<Map<String, String>>) deserializer.deserialize(jp, ctxt);
+      ObjectMapper objectMapper = new ObjectMapper();
+      List<Map<String, String>> verbatimTerms = objectMapper.readValue(jp, new TypeReference<List<Map<String, String>>>() {
+      });
       List<Map<Term, String>> interpretedTerms = Lists.newArrayList();
       for (Map<String, String> verbExtension : verbatimTerms) {
         Map<Term, String> extension = new HashMap<>();
