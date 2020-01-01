@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.checklistbank.search;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Objects;
 import org.gbif.api.model.checklistbank.Description;
 import org.gbif.api.model.checklistbank.VernacularName;
 import org.gbif.api.model.common.LinneanClassification;
@@ -28,13 +30,10 @@ import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
 
+import javax.validation.constraints.NotNull;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
-import javax.validation.constraints.NotNull;
-
-import com.google.common.base.Objects;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -60,7 +59,6 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
   private String kingdom;
   private String phylum;
   @JsonProperty("class")
-  @com.fasterxml.jackson.annotation.JsonProperty("class")
   private String clazz;
   private String order;
   private String family;
@@ -532,6 +530,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
 
   /**
    * Convenience method using the taxonomicStatus field.
+   *
    * @return true if its a synonym
    */
   public boolean isSynonym() {
@@ -542,11 +541,11 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
   public int hashCode() {
     return Objects
       .hashCode(key, nameKey, datasetKey, constituentKey, nubKey, parentKey, parent, acceptedKey, accepted, basionymKey,
-                basionym, kingdom, phylum, clazz, order, family, genus, subgenus, species, kingdomKey,
-                phylumKey, classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName,
-                canonicalName, authorship, publishedIn, accordingTo, nameType, taxonomicStatus, nomenclaturalStatus,
-                rank, origin, numDescendants, numOccurrences, taxonID, extinct, habitats, threatStatuses, descriptions,
-                vernacularNames);
+        basionym, kingdom, phylum, clazz, order, family, genus, subgenus, species, kingdomKey,
+        phylumKey, classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName,
+        canonicalName, authorship, publishedIn, accordingTo, nameType, taxonomicStatus, nomenclaturalStatus,
+        rank, origin, numDescendants, numOccurrences, taxonID, extinct, habitats, threatStatuses, descriptions,
+        vernacularNames);
   }
 
   @Override
@@ -559,100 +558,100 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
     }
     final NameUsageSearchResult other = (NameUsageSearchResult) obj;
     return Objects.equal(this.key, other.key)
-           && Objects.equal(this.nameKey, other.nameKey)
-           && Objects.equal(this.datasetKey, other.datasetKey)
-           && Objects.equal(this.constituentKey, other.constituentKey)
-           && Objects.equal(this.nubKey, other.nubKey)
-           && Objects.equal(this.parentKey, other.parentKey)
-           && Objects.equal(this.parent, other.parent)
-           && Objects.equal(this.acceptedKey, other.acceptedKey)
-           && Objects.equal(this.accepted, other.accepted)
-           && Objects.equal(this.basionymKey, other.basionymKey)
-           && Objects.equal(this.basionym, other.basionym)
-           && Objects.equal(this.kingdom, other.kingdom)
-           && Objects.equal(this.phylum, other.phylum)
-           && Objects.equal(this.clazz, other.clazz)
-           && Objects.equal(this.order, other.order)
-           && Objects.equal(this.family, other.family)
-           && Objects.equal(this.genus, other.genus)
-           && Objects.equal(this.subgenus, other.subgenus)
-           && Objects.equal(this.species, other.species)
-           && Objects.equal(this.kingdomKey, other.kingdomKey)
-           && Objects.equal(this.phylumKey, other.phylumKey)
-           && Objects.equal(this.classKey, other.classKey)
-           && Objects.equal(this.orderKey, other.orderKey)
-           && Objects.equal(this.familyKey, other.familyKey)
-           && Objects.equal(this.genusKey, other.genusKey)
-           && Objects.equal(this.subgenusKey, other.subgenusKey)
-           && Objects.equal(this.speciesKey, other.speciesKey)
-           && Objects.equal(this.scientificName, other.scientificName)
-           && Objects.equal(this.canonicalName, other.canonicalName)
-           && Objects.equal(this.authorship, other.authorship)
-           && Objects.equal(this.publishedIn, other.publishedIn)
-           && Objects.equal(this.accordingTo, other.accordingTo)
-           && Objects.equal(this.nameType, other.nameType)
-           && Objects.equal(this.taxonomicStatus, other.taxonomicStatus)
-           && Objects.equal(this.nomenclaturalStatus, other.nomenclaturalStatus)
-           && Objects.equal(this.rank, other.rank)
-           && Objects.equal(this.origin, other.origin)
-           && Objects.equal(this.numDescendants, other.numDescendants)
-           && Objects.equal(this.numOccurrences, other.numOccurrences)
-           && Objects.equal(this.taxonID, other.taxonID)
-           && Objects.equal(this.extinct, other.extinct)
-           && Objects.equal(this.habitats, other.habitats)
-           && Objects.equal(this.threatStatuses, other.threatStatuses)
-           && Objects.equal(this.descriptions, other.descriptions)
-           && Objects.equal(this.vernacularNames, other.vernacularNames);
+      && Objects.equal(this.nameKey, other.nameKey)
+      && Objects.equal(this.datasetKey, other.datasetKey)
+      && Objects.equal(this.constituentKey, other.constituentKey)
+      && Objects.equal(this.nubKey, other.nubKey)
+      && Objects.equal(this.parentKey, other.parentKey)
+      && Objects.equal(this.parent, other.parent)
+      && Objects.equal(this.acceptedKey, other.acceptedKey)
+      && Objects.equal(this.accepted, other.accepted)
+      && Objects.equal(this.basionymKey, other.basionymKey)
+      && Objects.equal(this.basionym, other.basionym)
+      && Objects.equal(this.kingdom, other.kingdom)
+      && Objects.equal(this.phylum, other.phylum)
+      && Objects.equal(this.clazz, other.clazz)
+      && Objects.equal(this.order, other.order)
+      && Objects.equal(this.family, other.family)
+      && Objects.equal(this.genus, other.genus)
+      && Objects.equal(this.subgenus, other.subgenus)
+      && Objects.equal(this.species, other.species)
+      && Objects.equal(this.kingdomKey, other.kingdomKey)
+      && Objects.equal(this.phylumKey, other.phylumKey)
+      && Objects.equal(this.classKey, other.classKey)
+      && Objects.equal(this.orderKey, other.orderKey)
+      && Objects.equal(this.familyKey, other.familyKey)
+      && Objects.equal(this.genusKey, other.genusKey)
+      && Objects.equal(this.subgenusKey, other.subgenusKey)
+      && Objects.equal(this.speciesKey, other.speciesKey)
+      && Objects.equal(this.scientificName, other.scientificName)
+      && Objects.equal(this.canonicalName, other.canonicalName)
+      && Objects.equal(this.authorship, other.authorship)
+      && Objects.equal(this.publishedIn, other.publishedIn)
+      && Objects.equal(this.accordingTo, other.accordingTo)
+      && Objects.equal(this.nameType, other.nameType)
+      && Objects.equal(this.taxonomicStatus, other.taxonomicStatus)
+      && Objects.equal(this.nomenclaturalStatus, other.nomenclaturalStatus)
+      && Objects.equal(this.rank, other.rank)
+      && Objects.equal(this.origin, other.origin)
+      && Objects.equal(this.numDescendants, other.numDescendants)
+      && Objects.equal(this.numOccurrences, other.numOccurrences)
+      && Objects.equal(this.taxonID, other.taxonID)
+      && Objects.equal(this.extinct, other.extinct)
+      && Objects.equal(this.habitats, other.habitats)
+      && Objects.equal(this.threatStatuses, other.threatStatuses)
+      && Objects.equal(this.descriptions, other.descriptions)
+      && Objects.equal(this.vernacularNames, other.vernacularNames);
   }
 
   @Override
   public String toString() {
     return "NameUsageSearchResult{"
-           + "key=" + key
-           + ", nameKey=" + nameKey
-           + ", datasetKey=" + datasetKey
-           + ", constituentKey=" + constituentKey
-           + ", nubKey=" + nubKey
-           + ", parentKey=" + parentKey
-           + ", parent='" + parent + '\''
-           + ", acceptedKey=" + acceptedKey
-           + ", accepted='" + accepted + '\''
-           + ", basionymKey=" + basionymKey
-           + ", basionym='" + basionym + '\''
-           + ", kingdom='" + kingdom + '\''
-           + ", phylum='" + phylum + '\''
-           + ", clazz='" + clazz + '\''
-           + ", order='" + order + '\''
-           + ", family='" + family + '\''
-           + ", genus='" + genus + '\''
-           + ", subgenus='" + subgenus + '\''
-           + ", species='" + species + '\''
-           + ", kingdomKey=" + kingdomKey
-           + ", phylumKey=" + phylumKey
-           + ", classKey=" + classKey
-           + ", orderKey=" + orderKey
-           + ", familyKey=" + familyKey
-           + ", genusKey=" + genusKey
-           + ", subgenusKey=" + subgenusKey
-           + ", speciesKey=" + speciesKey
-           + ", scientificName='" + scientificName + '\''
-           + ", canonicalName='" + canonicalName + '\''
-           + ", authorship='" + authorship + '\''
-           + ", publishedIn='" + publishedIn + '\''
-           + ", accordingTo='" + accordingTo + '\''
-           + ", nameType=" + nameType
-           + ", taxonomicStatus=" + taxonomicStatus
-           + ", nomenclaturalStatus=" + nomenclaturalStatus
-           + ", rank=" + rank
-           + ", origin=" + origin
-           + ", numDescendants=" + numDescendants
-           + ", numOccurrences=" + numOccurrences
-           + ", taxonID='" + taxonID + '\''
-           + ", extinct=" + extinct
-           + ", habitats=" + habitats
-           + ", threatStatuses=" + threatStatuses
-           + ", descriptions=" + descriptions
-           + ", vernacularNames=" + vernacularNames
-           +  '}';
+      + "key=" + key
+      + ", nameKey=" + nameKey
+      + ", datasetKey=" + datasetKey
+      + ", constituentKey=" + constituentKey
+      + ", nubKey=" + nubKey
+      + ", parentKey=" + parentKey
+      + ", parent='" + parent + '\''
+      + ", acceptedKey=" + acceptedKey
+      + ", accepted='" + accepted + '\''
+      + ", basionymKey=" + basionymKey
+      + ", basionym='" + basionym + '\''
+      + ", kingdom='" + kingdom + '\''
+      + ", phylum='" + phylum + '\''
+      + ", clazz='" + clazz + '\''
+      + ", order='" + order + '\''
+      + ", family='" + family + '\''
+      + ", genus='" + genus + '\''
+      + ", subgenus='" + subgenus + '\''
+      + ", species='" + species + '\''
+      + ", kingdomKey=" + kingdomKey
+      + ", phylumKey=" + phylumKey
+      + ", classKey=" + classKey
+      + ", orderKey=" + orderKey
+      + ", familyKey=" + familyKey
+      + ", genusKey=" + genusKey
+      + ", subgenusKey=" + subgenusKey
+      + ", speciesKey=" + speciesKey
+      + ", scientificName='" + scientificName + '\''
+      + ", canonicalName='" + canonicalName + '\''
+      + ", authorship='" + authorship + '\''
+      + ", publishedIn='" + publishedIn + '\''
+      + ", accordingTo='" + accordingTo + '\''
+      + ", nameType=" + nameType
+      + ", taxonomicStatus=" + taxonomicStatus
+      + ", nomenclaturalStatus=" + nomenclaturalStatus
+      + ", rank=" + rank
+      + ", origin=" + origin
+      + ", numDescendants=" + numDescendants
+      + ", numOccurrences=" + numOccurrences
+      + ", taxonID='" + taxonID + '\''
+      + ", extinct=" + extinct
+      + ", habitats=" + habitats
+      + ", threatStatuses=" + threatStatuses
+      + ", descriptions=" + descriptions
+      + ", vernacularNames=" + vernacularNames
+      + '}';
   }
 }

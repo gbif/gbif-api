@@ -26,6 +26,7 @@ public class TermMapListDeserializer extends JsonDeserializer<List<Map<Term, Str
   public List<Map<Term, String>> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
     if (jp.getCurrentToken() == JsonToken.START_ARRAY) {
 
+      // TODO: 01/01/2020 test it
       JsonDeserializer<Object> deserializer = ctxt.findNonContextualValueDeserializer(ctxt.constructType(List.class));
 
       List<Map<String, String>> verbatimTerms = (List<Map<String, String>>) deserializer.deserialize(jp, ctxt);

@@ -15,8 +15,8 @@
  */
 package org.gbif.api.model.checklistbank;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.util.ClassificationUtils;
@@ -51,7 +51,6 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
   private String kingdom;
   private String phylum;
   @JsonProperty("class")
-  @com.fasterxml.jackson.annotation.JsonProperty("class")
   private String clazz;
   private String order;
   private String family;
@@ -442,63 +441,63 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     }
     final NameUsageMatch other = (NameUsageMatch) obj;
     return Objects.equal(this.usageKey, other.usageKey)
-           && Objects.equal(this.acceptedUsageKey, other.acceptedUsageKey)
-           && Objects.equal(this.scientificName, other.scientificName)
-           && Objects.equal(this.canonicalName, other.canonicalName)
-           && Objects.equal(this.rank, other.rank)
-           && Objects.equal(this.status, other.status)
-           && Objects.equal(this.confidence, other.confidence)
-           && Objects.equal(this.note, other.note)
-           && Objects.equal(this.matchType, other.matchType)
-           && Objects.equal(this.alternatives, other.alternatives)
-           && Objects.equal(this.kingdom, other.kingdom)
-           && Objects.equal(this.phylum, other.phylum)
-           && Objects.equal(this.clazz, other.clazz)
-           && Objects.equal(this.order, other.order)
-           && Objects.equal(this.family, other.family)
-           && Objects.equal(this.genus, other.genus)
-           && Objects.equal(this.subgenus, other.subgenus)
-           && Objects.equal(this.species, other.species)
-           && Objects.equal(this.kingdomKey, other.kingdomKey)
-           && Objects.equal(this.phylumKey, other.phylumKey)
-           && Objects.equal(this.classKey, other.classKey)
-           && Objects.equal(this.orderKey, other.orderKey)
-           && Objects.equal(this.familyKey, other.familyKey)
-           && Objects.equal(this.genusKey, other.genusKey)
-           && Objects.equal(this.subgenusKey, other.subgenusKey)
-           && Objects.equal(this.speciesKey, other.speciesKey);
+      && Objects.equal(this.acceptedUsageKey, other.acceptedUsageKey)
+      && Objects.equal(this.scientificName, other.scientificName)
+      && Objects.equal(this.canonicalName, other.canonicalName)
+      && Objects.equal(this.rank, other.rank)
+      && Objects.equal(this.status, other.status)
+      && Objects.equal(this.confidence, other.confidence)
+      && Objects.equal(this.note, other.note)
+      && Objects.equal(this.matchType, other.matchType)
+      && Objects.equal(this.alternatives, other.alternatives)
+      && Objects.equal(this.kingdom, other.kingdom)
+      && Objects.equal(this.phylum, other.phylum)
+      && Objects.equal(this.clazz, other.clazz)
+      && Objects.equal(this.order, other.order)
+      && Objects.equal(this.family, other.family)
+      && Objects.equal(this.genus, other.genus)
+      && Objects.equal(this.subgenus, other.subgenus)
+      && Objects.equal(this.species, other.species)
+      && Objects.equal(this.kingdomKey, other.kingdomKey)
+      && Objects.equal(this.phylumKey, other.phylumKey)
+      && Objects.equal(this.classKey, other.classKey)
+      && Objects.equal(this.orderKey, other.orderKey)
+      && Objects.equal(this.familyKey, other.familyKey)
+      && Objects.equal(this.genusKey, other.genusKey)
+      && Objects.equal(this.subgenusKey, other.subgenusKey)
+      && Objects.equal(this.speciesKey, other.speciesKey);
   }
 
   @Override
   public String toString() {
     return Objects.toStringHelper(this)
-    .add("usageKey", usageKey)
-    .add("acceptedUsageKey", acceptedUsageKey)
-    .add("scientificName", scientificName)
-    .add("canonicalName", canonicalName)
-    .add("rank", rank)
-    .add("status", status)
-    .add("confidence", confidence)
-    .add("note", note)
-    .add("matchType", matchType)
-    .add("alternatives", alternatives)
-    .add("kingdom", kingdom)
-    .add("phylum", phylum)
-    .add("clazz", clazz)
-    .add("order", order)
-    .add("family", family)
-    .add("genus", genus)
-    .add("subgenus", subgenus)
-    .add("species", species)
-    .add("kingdomKey", kingdomKey)
-    .add("phylumKey", phylumKey)
-    .add("classKey", classKey)
-    .add("orderKey", orderKey)
-    .add("familyKey", familyKey)
-    .add("genusKey", genusKey)
-    .add("subgenusKey", subgenusKey)
-    .add("speciesKey", speciesKey)
-    .toString();
+      .add("usageKey", usageKey)
+      .add("acceptedUsageKey", acceptedUsageKey)
+      .add("scientificName", scientificName)
+      .add("canonicalName", canonicalName)
+      .add("rank", rank)
+      .add("status", status)
+      .add("confidence", confidence)
+      .add("note", note)
+      .add("matchType", matchType)
+      .add("alternatives", alternatives)
+      .add("kingdom", kingdom)
+      .add("phylum", phylum)
+      .add("clazz", clazz)
+      .add("order", order)
+      .add("family", family)
+      .add("genus", genus)
+      .add("subgenus", subgenus)
+      .add("species", species)
+      .add("kingdomKey", kingdomKey)
+      .add("phylumKey", phylumKey)
+      .add("classKey", classKey)
+      .add("orderKey", orderKey)
+      .add("familyKey", familyKey)
+      .add("genusKey", genusKey)
+      .add("subgenusKey", subgenusKey)
+      .add("speciesKey", speciesKey)
+      .toString();
   }
 
   public enum MatchType {

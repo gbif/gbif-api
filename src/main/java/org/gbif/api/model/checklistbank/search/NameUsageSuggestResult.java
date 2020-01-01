@@ -12,18 +12,16 @@
  */
 package org.gbif.api.model.checklistbank.search;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Objects;
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.util.ClassificationUtils;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 
-import java.util.LinkedHashMap;
-
 import javax.validation.constraints.NotNull;
-
-import com.google.common.base.Objects;
-import org.codehaus.jackson.annotate.JsonProperty;
+import java.util.LinkedHashMap;
 
 /**
  * Class used for returning results of a suggest operation.
@@ -38,7 +36,6 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   private String kingdom;
   private String phylum;
   @JsonProperty("class")
-  @com.fasterxml.jackson.annotation.JsonProperty("class")
   private String clazz;
   private String order;
   private String family;

@@ -17,9 +17,8 @@ import org.gbif.api.jackson.ExtensionSerializer;
 import org.gbif.api.jackson.Jackson2ExtensionKeyDeserializer;
 import org.gbif.api.jackson.Jackson2ExtensionSerializer;
 import org.gbif.api.jackson.Jackson2TermMapListDeserializer;
-import org.gbif.api.jackson.Jackson2TermMapListSerializer;
-import org.gbif.api.jackson.TermMapListDeserializer;
 import org.gbif.api.jackson.TermMapListSerializer;
+import org.gbif.api.jackson.TermMapListDeserializer;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.Extension;
@@ -228,7 +227,7 @@ public class VerbatimOccurrence {
   @JsonDeserialize(keyUsing = ExtensionKeyDeserializer.class, contentUsing = TermMapListDeserializer.class)
   @com.fasterxml.jackson.databind.annotation.JsonSerialize(
     keyUsing = Jackson2ExtensionSerializer.class,
-    contentUsing = Jackson2TermMapListSerializer.class)
+    contentUsing = TermMapListSerializer.class)
   @com.fasterxml.jackson.databind.annotation.JsonDeserialize(
     keyUsing = Jackson2ExtensionKeyDeserializer.class,
     contentUsing = Jackson2TermMapListDeserializer.class)

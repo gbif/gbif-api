@@ -1,15 +1,14 @@
 package org.gbif.api.model.checklistbank;
 
-import org.gbif.api.vocabulary.Language;
-
-import java.util.List;
-import java.util.Map;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import org.gbif.api.vocabulary.Language;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * A simple class to represent a table of contents for multiple languages.
@@ -38,7 +37,6 @@ public class TableOfContents {
   }
 
   @JsonIgnore
-  @com.fasterxml.jackson.annotation.JsonIgnore
   public boolean isEmpty() {
     return toc.isEmpty();
   }
@@ -47,7 +45,6 @@ public class TableOfContents {
    * @return list of all languages available for this ToC
    */
   @JsonIgnore
-  @com.fasterxml.jackson.annotation.JsonIgnore
   public List<Language> listLanguages() {
     return Lists.newArrayList(toc.keySet());
   }
@@ -56,7 +53,6 @@ public class TableOfContents {
    * @return map of all topics for a given language with a list of entry keys for each language
    */
   @JsonIgnore
-  @com.fasterxml.jackson.annotation.JsonIgnore
   public Map<String, List<Integer>> listTopicEntries(Language lang) {
     if (toc.containsKey(lang)) {
       return toc.get(lang);

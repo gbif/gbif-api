@@ -9,7 +9,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import org.gbif.api.jackson.Jackson2DownloadRequestSerde;
+import org.gbif.api.jackson.DownloadRequestSerde;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -20,7 +20,7 @@ import java.util.Set;
  * Represents a request to download occurrence records.
  * This is the base class for specific type of downloads: predicate based downloads and SQL downloads..
  */
-@JsonDeserialize(using = Jackson2DownloadRequestSerde.class)
+@JsonDeserialize(using = DownloadRequestSerde.class)
 public abstract class DownloadRequest {
 
   private static final String DELIMITER = ",";
