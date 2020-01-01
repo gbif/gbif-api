@@ -17,10 +17,10 @@ package org.gbif.api.model.occurrence.predicate;
 
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * This predicate negates its subpredicate.
@@ -31,10 +31,8 @@ public class NotPredicate implements Predicate {
   @NotNull
   private final Predicate predicate;
 
-  @com.fasterxml.jackson.annotation.JsonCreator
   @JsonCreator
-  public NotPredicate(
-    @com.fasterxml.jackson.annotation.JsonProperty("predicate") @JsonProperty("predicate") Predicate predicate) {
+  public NotPredicate(@JsonProperty("predicate") Predicate predicate) {
     Preconditions.checkNotNull(predicate);
 
     this.predicate = predicate;

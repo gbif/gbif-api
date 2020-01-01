@@ -12,22 +12,19 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
-import java.util.Collection;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
+
+import java.util.Collection;
 
 /**
  * This predicate is "AND"-ing its subpredicates together.
  */
 public class ConjunctionPredicate extends CompoundPredicate {
 
-  @com.fasterxml.jackson.annotation.JsonCreator
   @JsonCreator
-  public ConjunctionPredicate(
-    @com.fasterxml.jackson.annotation.JsonProperty("predicates")
-    @JsonProperty("predicates") Collection<Predicate> predicates) {
+  public ConjunctionPredicate(@JsonProperty("predicates") Collection<Predicate> predicates) {
     super(predicates);
   }
 

@@ -1,10 +1,10 @@
 package org.gbif.api.model.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.gbif.api.vocabulary.UserRole;
 
 import javax.validation.constraints.NotNull;
@@ -22,7 +22,7 @@ import java.util.Set;
  */
 public abstract class AbstractGbifUser {
   protected static final String EMAIL_PATTERN =
-          "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+    "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
   private static final Joiner JOINER = Joiner.on(" ").skipNulls();
 
@@ -95,7 +95,6 @@ public abstract class AbstractGbifUser {
    * @return the first and last name of the user concatenated with a space
    */
   @JsonIgnore
-  @com.fasterxml.jackson.annotation.JsonIgnore
   public String getName() {
     return JOINER.join(firstName, lastName);
   }
@@ -115,8 +114,8 @@ public abstract class AbstractGbifUser {
 
   /**
    * Checks if the user has the given user role.
-   * @param role
    *
+   * @param role
    * @return true if the user has the requested role
    */
   public boolean hasRole(UserRole role) {
@@ -133,6 +132,7 @@ public abstract class AbstractGbifUser {
 
   /**
    * Gets the settings which may be empty but never null.
+   *
    * @return
    */
   @NotNull
@@ -147,8 +147,10 @@ public abstract class AbstractGbifUser {
     // safeguard against misuse to avoid NPE
     this.systemSettings = systemSettings == null ? Maps.newHashMap() : systemSettings;
   }
+
   /**
    * Gets the settings which may be empty but never null.
+   *
    * @return
    */
   @NotNull
@@ -175,33 +177,33 @@ public abstract class AbstractGbifUser {
 
     AbstractGbifUser that = (AbstractGbifUser) obj;
     return Objects.equal(this.userName, that.userName)
-            && Objects.equal(this.firstName, that.firstName)
-            && Objects.equal(this.lastName, that.lastName)
-            && Objects.equal(this.email, that.email)
-            && Objects.equal(this.roles, that.roles)
-            && Objects.equal(this.settings, that.settings)
-            && Objects.equal(this.systemSettings, that.systemSettings)
-            && Objects.equal(this.deleted, that.deleted);
+      && Objects.equal(this.firstName, that.firstName)
+      && Objects.equal(this.lastName, that.lastName)
+      && Objects.equal(this.email, that.email)
+      && Objects.equal(this.roles, that.roles)
+      && Objects.equal(this.settings, that.settings)
+      && Objects.equal(this.systemSettings, that.systemSettings)
+      && Objects.equal(this.deleted, that.deleted);
   }
 
   @Override
   public int hashCode() {
     return Objects.hashCode(userName, firstName, lastName, email, roles, settings,
-            systemSettings, deleted);
+      systemSettings, deleted);
   }
 
   @Override
   public String toString() {
     return Objects.toStringHelper(this)
-            .add("userName", userName)
-            .add("firstName", firstName)
-            .add("lastName", lastName)
-            .add("email", email)
-            .add("roles", roles)
-            .add("settings", settings)
-            .add("systemSettings", systemSettings)
-            .add("deleted", deleted)
-            .toString();
+      .add("userName", userName)
+      .add("firstName", firstName)
+      .add("lastName", lastName)
+      .add("email", email)
+      .add("roles", roles)
+      .add("settings", settings)
+      .add("systemSettings", systemSettings)
+      .add("deleted", deleted)
+      .toString();
   }
 
 }

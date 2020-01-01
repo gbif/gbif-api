@@ -12,25 +12,23 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
-import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 /**
  * This predicate checks if its {@code key} is LIKE its {@code value}.
  * The syntax for one (_) or any (%) arbitrary matching characters is the one used by Hive.
  * See the <a href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual+UDF#Relational_Operators">
- *   Hive Language Reference for LIKE</a>.
+ * Hive Language Reference for LIKE</a>.
  */
 public class LikePredicate extends SimplePredicate {
 
-  @com.fasterxml.jackson.annotation.JsonCreator
   @JsonCreator
   public LikePredicate(
-    @com.fasterxml.jackson.annotation.JsonProperty("key") @JsonProperty("key") OccurrenceSearchParameter key,
-    @com.fasterxml.jackson.annotation.JsonProperty("value") @JsonProperty("value") String value) {
+    @JsonProperty("key") OccurrenceSearchParameter key,
+    @JsonProperty("value") String value) {
     super(false, key, value);
     // make sure we deal with a String type
     if (!String.class.equals(key.type())) {

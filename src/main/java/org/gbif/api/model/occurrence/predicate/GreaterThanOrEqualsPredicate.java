@@ -12,22 +12,21 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import com.google.common.base.Objects;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * This predicate checks if its {@code key} is greater than or equal its {@code value}.
  */
 public class GreaterThanOrEqualsPredicate extends SimplePredicate {
 
-  @com.fasterxml.jackson.annotation.JsonCreator
   @JsonCreator
   public GreaterThanOrEqualsPredicate(
-    @com.fasterxml.jackson.annotation.JsonProperty("key") @JsonProperty("key") OccurrenceSearchParameter key,
-    @com.fasterxml.jackson.annotation.JsonProperty("value") @JsonProperty("value") String value) {
+    @JsonProperty("key") OccurrenceSearchParameter key,
+    @JsonProperty("value") String value) {
     super(true, key, value);
   }
 

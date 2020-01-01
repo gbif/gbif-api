@@ -1,12 +1,12 @@
 package org.gbif.api.model.crawler;
 
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
+
+import java.util.List;
 
 /**
  * The rules followed here should match the document at:
@@ -44,13 +44,12 @@ public class OccurrenceValidationReport {
   private final boolean valid;
 
   @JsonCreator
-  @com.fasterxml.jackson.annotation.JsonCreator
-  public OccurrenceValidationReport(@com.fasterxml.jackson.annotation.JsonProperty("checkedRecords") @JsonProperty("checkedRecords") int checkedRecords,
-                                    @com.fasterxml.jackson.annotation.JsonProperty("uniqueTriplets") @JsonProperty("uniqueTriplets") int uniqueTriplets,
-                                    @com.fasterxml.jackson.annotation.JsonProperty("invalidTriplets") @JsonProperty("invalidTriplets") int recordsWithInvalidTriplets,
-                                    @com.fasterxml.jackson.annotation.JsonProperty("uniqueOccIds") @JsonProperty("uniqueOccIds") int uniqueOccurrenceIds,
-                                    @com.fasterxml.jackson.annotation.JsonProperty("missingOccIds") @JsonProperty("missingOccIds") int recordsMissingOccurrenceId,
-                                    @com.fasterxml.jackson.annotation.JsonProperty("allRecordsChecked") @JsonProperty("allRecordsChecked") boolean allRecordsChecked) {
+  public OccurrenceValidationReport(@JsonProperty("checkedRecords") int checkedRecords,
+                                    @JsonProperty("uniqueTriplets") int uniqueTriplets,
+                                    @JsonProperty("invalidTriplets") int recordsWithInvalidTriplets,
+                                    @JsonProperty("uniqueOccIds") int uniqueOccurrenceIds,
+                                    @JsonProperty("missingOccIds") int recordsMissingOccurrenceId,
+                                    @JsonProperty("allRecordsChecked") boolean allRecordsChecked) {
     this.checkedRecords = checkedRecords;
     this.uniqueTriplets = uniqueTriplets;
     this.recordsWithInvalidTriplets = recordsWithInvalidTriplets;
@@ -148,12 +147,12 @@ public class OccurrenceValidationReport {
     }
     final OccurrenceValidationReport other = (OccurrenceValidationReport) obj;
     return Objects.equal(this.checkedRecords, other.checkedRecords)
-           && Objects.equal(this.uniqueTriplets, other.uniqueTriplets)
-           && Objects.equal(this.recordsWithInvalidTriplets, other.recordsWithInvalidTriplets)
-           && Objects.equal(this.uniqueOccurrenceIds, other.uniqueOccurrenceIds)
-           && Objects.equal(this.recordsMissingOccurrenceId, other.recordsMissingOccurrenceId)
-           && Objects.equal(this.allRecordsChecked, other.allRecordsChecked)
-           && Objects.equal(this.valid, other.valid);
+      && Objects.equal(this.uniqueTriplets, other.uniqueTriplets)
+      && Objects.equal(this.recordsWithInvalidTriplets, other.recordsWithInvalidTriplets)
+      && Objects.equal(this.uniqueOccurrenceIds, other.uniqueOccurrenceIds)
+      && Objects.equal(this.recordsMissingOccurrenceId, other.recordsMissingOccurrenceId)
+      && Objects.equal(this.allRecordsChecked, other.allRecordsChecked)
+      && Objects.equal(this.valid, other.valid);
   }
 
   @Override

@@ -1,14 +1,13 @@
 package org.gbif.api.model.crawler;
 
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
+
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
+import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -45,17 +44,16 @@ public class DwcaValidationReport {
       && (genericReport == null || genericReport.isValid());
   }
 
-  @JsonCreator
   @com.fasterxml.jackson.annotation.JsonCreator
   public DwcaValidationReport(
-    @com.fasterxml.jackson.annotation.JsonProperty("datasetKey") @JsonProperty("datasetKey") UUID datasetKey,
-    @com.fasterxml.jackson.annotation.JsonProperty("occurrenceReport") @JsonProperty("occurrenceReport") OccurrenceValidationReport occurrenceReport,
-    @com.fasterxml.jackson.annotation.JsonProperty("genericReport") @JsonProperty("genericReport") GenericValidationReport genericReport,
-    @com.fasterxml.jackson.annotation.JsonProperty("invalidationReason") @JsonProperty("invalidationReason") String invalidationReason) {
+    @JsonProperty("datasetKey") UUID datasetKey,
+    @JsonProperty("occurrenceReport") OccurrenceValidationReport occurrenceReport,
+    @JsonProperty("genericReport") GenericValidationReport genericReport,
+    @JsonProperty("invalidationReason") String invalidationReason) {
     this.datasetKey = checkNotNull(datasetKey, "datasetKey can't be null");
     // verify one of the 3 is not null
-    checkArgument(invalidationReason!=null || occurrenceReport != null || genericReport != null,
-        "Either a report or invalidationReason cannot be null");
+    checkArgument(invalidationReason != null || occurrenceReport != null || genericReport != null,
+      "Either a report or invalidationReason cannot be null");
     this.occurrenceReport = occurrenceReport;
     this.genericReport = genericReport;
     this.invalidationReason = invalidationReason;
@@ -131,9 +129,9 @@ public class DwcaValidationReport {
     }
     final DwcaValidationReport other = (DwcaValidationReport) obj;
     return Objects.equal(this.datasetKey, other.datasetKey)
-           && Objects.equal(this.occurrenceReport, other.occurrenceReport)
-           && Objects.equal(this.genericReport, other.genericReport)
-           && Objects.equal(this.invalidationReason, other.invalidationReason);
+      && Objects.equal(this.occurrenceReport, other.occurrenceReport)
+      && Objects.equal(this.genericReport, other.genericReport)
+      && Objects.equal(this.invalidationReason, other.invalidationReason);
   }
 
   @Override

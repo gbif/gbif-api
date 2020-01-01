@@ -15,18 +15,17 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
-import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
-import org.gbif.api.util.SearchTypeValidator;
-
-import java.util.Collection;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+import org.gbif.api.util.SearchTypeValidator;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Collection;
 
 /**
  * This predicate checks if its {@code key} contains any of its {@code values}.
@@ -40,11 +39,10 @@ public class InPredicate implements Predicate {
   @Size(min = 1)
   private final Collection<String> values;
 
-  @com.fasterxml.jackson.annotation.JsonCreator
   @JsonCreator
   public InPredicate(
-    @com.fasterxml.jackson.annotation.JsonProperty("key") @JsonProperty("key") OccurrenceSearchParameter key,
-    @com.fasterxml.jackson.annotation.JsonProperty("values")@JsonProperty("values") Collection<String> values) {
+    @JsonProperty("key") OccurrenceSearchParameter key,
+    @JsonProperty("values") Collection<String> values) {
     Preconditions.checkNotNull(key, "<key> may not be null");
     Preconditions.checkNotNull(values, "<values> may not be null");
     Preconditions.checkArgument(!values.isEmpty(), "<values> may not be empty");

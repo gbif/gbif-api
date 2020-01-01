@@ -1,11 +1,11 @@
 package org.gbif.api.model.crawler;
 
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
+
+import java.util.List;
 
 /**
  * A container class used to capture the information necessary for a generic validation report.
@@ -36,12 +36,11 @@ public class GenericValidationReport {
   private final boolean valid;
 
   @JsonCreator
-  @com.fasterxml.jackson.annotation.JsonCreator
   public GenericValidationReport(
-    @com.fasterxml.jackson.annotation.JsonProperty("checkedRecords") @JsonProperty("checkedRecords") int checkedRecords,
-    @com.fasterxml.jackson.annotation.JsonProperty("allRecordsChecked") @JsonProperty("allRecordsChecked") boolean allRecordsChecked,
-    @com.fasterxml.jackson.annotation.JsonProperty("duplicateIds") @JsonProperty("duplicateIds") List<String> duplicateIds,
-    @com.fasterxml.jackson.annotation.JsonProperty("rowNumbersMissingId") @JsonProperty("rowNumbersMissingId") List<Integer> rowNumbersMissingId
+    @JsonProperty("checkedRecords") int checkedRecords,
+    @JsonProperty("allRecordsChecked") boolean allRecordsChecked,
+    @JsonProperty("duplicateIds") List<String> duplicateIds,
+    @JsonProperty("rowNumbersMissingId") List<Integer> rowNumbersMissingId
   ) {
     this.checkedRecords = checkedRecords;
     this.allRecordsChecked = allRecordsChecked;
@@ -89,7 +88,7 @@ public class GenericValidationReport {
   @Override
   public int hashCode() {
     return Objects.hashCode(checkedRecords, allRecordsChecked, duplicateIds,
-                            rowNumbersMissingId, invalidationReason,valid);
+      rowNumbersMissingId, invalidationReason, valid);
   }
 
   @Override
@@ -102,11 +101,11 @@ public class GenericValidationReport {
     }
     final GenericValidationReport other = (GenericValidationReport) obj;
     return Objects.equal(this.checkedRecords, other.checkedRecords)
-           && Objects.equal(this.allRecordsChecked, other.allRecordsChecked)
-           && Objects.equal(this.duplicateIds, other.duplicateIds)
-           && Objects.equal(this.rowNumbersMissingId, other.rowNumbersMissingId)
-           && Objects.equal(this.invalidationReason, other.invalidationReason)
-           && Objects.equal(this.valid, other.valid);
+      && Objects.equal(this.allRecordsChecked, other.allRecordsChecked)
+      && Objects.equal(this.duplicateIds, other.duplicateIds)
+      && Objects.equal(this.rowNumbersMissingId, other.rowNumbersMissingId)
+      && Objects.equal(this.invalidationReason, other.invalidationReason)
+      && Objects.equal(this.valid, other.valid);
   }
 
   @Override

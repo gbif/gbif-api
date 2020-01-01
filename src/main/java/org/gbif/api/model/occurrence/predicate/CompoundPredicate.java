@@ -15,14 +15,14 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
-import java.util.Collection;
-import javax.validation.constraints.NotNull;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
+
+import javax.validation.constraints.NotNull;
+import java.util.Collection;
 
 /**
  * A compound predicate is a Predicate that itself contains other Predicates.

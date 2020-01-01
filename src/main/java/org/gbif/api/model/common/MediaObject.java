@@ -15,19 +15,19 @@
  */
 package org.gbif.api.model.common;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Objects;
 import org.gbif.api.vocabulary.MediaType;
 
-import java.net.URI;
-import java.util.Date;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
-
-import com.google.common.base.Objects;
-import org.codehaus.jackson.annotate.JsonProperty;
+import java.net.URI;
+import java.util.Date;
 
 /**
  * Metadata for a multimedia object representing an image, video or audio file.
  * Based on DublinCore and the Simple Multimedia dwc archive extension:
+ *
  * @see <a href="http://rs.gbif.org/extension/gbif/1.0/multimedia.xml">Multimedia Definition</a>
  */
 public class MediaObject {
@@ -143,7 +143,6 @@ public class MediaObject {
    */
   @NotNull
   @JsonProperty("identifier")
-  @com.fasterxml.jackson.annotation.JsonProperty("identifier")
   public URI getIdentifier() {
     return identifier;
   }
@@ -274,35 +273,35 @@ public class MediaObject {
     }
     MediaObject that = (MediaObject) obj;
     return Objects.equal(this.identifier, that.identifier)
-           && Objects.equal(this.type, that.type)
-           && Objects.equal(this.format, that.format)
-           && Objects.equal(this.references, that.references)
-           && Objects.equal(this.title, that.title)
-           && Objects.equal(this.description, that.description)
-           && Objects.equal(this.license, that.license)
-           && Objects.equal(this.publisher, that.publisher)
-           && Objects.equal(this.source, that.source)
-           && Objects.equal(this.audience, that.audience)
-           && Objects.equal(this.contributor, that.contributor)
-           && Objects.equal(this.rightsHolder, that.rightsHolder)
-           && Objects.equal(this.creator, that.creator)
-           && Objects.equal(this.created, that.created);
+      && Objects.equal(this.type, that.type)
+      && Objects.equal(this.format, that.format)
+      && Objects.equal(this.references, that.references)
+      && Objects.equal(this.title, that.title)
+      && Objects.equal(this.description, that.description)
+      && Objects.equal(this.license, that.license)
+      && Objects.equal(this.publisher, that.publisher)
+      && Objects.equal(this.source, that.source)
+      && Objects.equal(this.audience, that.audience)
+      && Objects.equal(this.contributor, that.contributor)
+      && Objects.equal(this.rightsHolder, that.rightsHolder)
+      && Objects.equal(this.creator, that.creator)
+      && Objects.equal(this.created, that.created);
   }
 
   @Override
   public int hashCode() {
     return Objects.hashCode(type,
-                            format, identifier,
-                            references,
-                            title,
-                            description,
-                            license,
-                            publisher,
-                            source,
-                            audience, contributor,
-                            rightsHolder,
-                            creator,
-                            created);
+      format, identifier,
+      references,
+      title,
+      description,
+      license,
+      publisher,
+      source,
+      audience, contributor,
+      rightsHolder,
+      creator,
+      created);
   }
 
   @Override

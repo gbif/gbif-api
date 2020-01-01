@@ -12,24 +12,21 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import javax.validation.constraints.NotNull;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 public class IsNotNullPredicate implements Predicate {
 
   @NotNull
   private final OccurrenceSearchParameter parameter;
 
-  @com.fasterxml.jackson.annotation.JsonCreator
   @JsonCreator
-  public IsNotNullPredicate(
-    @com.fasterxml.jackson.annotation.JsonProperty("parameter") @JsonProperty("parameter") OccurrenceSearchParameter parameter) {
+  public IsNotNullPredicate(@JsonProperty("parameter") OccurrenceSearchParameter parameter) {
     Preconditions.checkNotNull(parameter, "<parameter> may not be null");
     this.parameter = parameter;
     checkPredicateAllowed();

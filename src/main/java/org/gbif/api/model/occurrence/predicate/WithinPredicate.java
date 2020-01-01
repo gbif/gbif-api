@@ -12,15 +12,14 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
 
 import javax.validation.constraints.NotNull;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * This predicate checks if an occurrence location falls within the given WKT geometry {@code value}.
@@ -43,12 +42,11 @@ public class WithinPredicate implements Predicate {
    *   <li>POLYGON</li>
    *   <li>LINEARRING</li>
    * </ul>
+   *
    * @param geometry
    */
-  @com.fasterxml.jackson.annotation.JsonCreator
   @JsonCreator
-  public WithinPredicate(
-    @com.fasterxml.jackson.annotation.JsonProperty("geometry") @JsonProperty("geometry") String geometry) {
+  public WithinPredicate(@JsonProperty("geometry") String geometry) {
     Preconditions.checkNotNull(geometry, "<geometry> may not be null");
     // make sure its a valid WKT
     SearchTypeValidator.validate(OccurrenceSearchParameter.GEOMETRY, geometry);
@@ -74,13 +72,13 @@ public class WithinPredicate implements Predicate {
   }
 
   @Override
-   public int hashCode() {
-     return Objects.hashCode(geometry);
-   }
+  public int hashCode() {
+    return Objects.hashCode(geometry);
+  }
 
-   @Override
-   public String toString() {
-     return Objects.toStringHelper(this).add("geometry", geometry).toString();
-   }
+  @Override
+  public String toString() {
+    return Objects.toStringHelper(this).add("geometry", geometry).toString();
+  }
 
 }
