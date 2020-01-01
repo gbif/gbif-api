@@ -1,27 +1,27 @@
 package org.gbif.api.jackson;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+
 import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.Map;
-
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.SerializerProvider;
 
 /**
  * Jackson Serializer and Deserializer for {@link java.util.Map.Entry}.
  * This is mostly for pre 2.7 version of Jackson see
  * https://github.com/fasterxml/jackson-databind/issues/565
- *
+ * <p>
  * The goal is to omit the key/value field name since they are implicit
  * for a Map.Entry.
- *
+ * <p>
  * {"key":"mykey","value":18} becomes {"mykey":18}
- *
+ * <p>
  * The key will use toString() and the value can only be a String or a Number (int or float) for now.
  *
  * <pre>
@@ -38,8 +38,8 @@ public class MapEntrySerde {
 
     @Override
     public void serialize(Map.Entry<Object, Object> value, JsonGenerator jgen,
-                          SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
-      if(value == null){
+                          SerializerProvider serializerProvider) throws IOException {
+      if (value == null) {
         jgen.writeNull();
         return;
       }
@@ -60,13 +60,16 @@ public class MapEntrySerde {
       Object value;
 
       switch (jp.getCurrentToken()) {
-        case VALUE_STRING: value = jp.getText();
+        case VALUE_STRING:
+          value = jp.getText();
           break;
-        case VALUE_NUMBER_INT: value = jp.getIntValue();
+        case VALUE_NUMBER_INT:
+          value = jp.getIntValue();
           break;
-        case VALUE_NUMBER_FLOAT: value = jp.getFloatValue();
+        case VALUE_NUMBER_FLOAT:
+          value = jp.getFloatValue();
           break;
-        default :
+        default:
           throw ctxt.mappingException("Expected String or Number");
       }
       jp.nextToken();

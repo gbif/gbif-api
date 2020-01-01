@@ -1,13 +1,12 @@
 package org.gbif.api.jackson;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import org.gbif.api.vocabulary.Extension;
 
 import java.io.IOException;
-
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
 
 public class ExtensionDeserializer extends JsonDeserializer<Extension> {
 

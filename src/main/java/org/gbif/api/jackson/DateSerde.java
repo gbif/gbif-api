@@ -1,13 +1,13 @@
 package org.gbif.api.jackson;
 
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.SerializerProvider;
-import org.codehaus.jackson.map.deser.std.DateDeserializer;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -21,6 +21,7 @@ import java.util.TimeZone;
 public class DateSerde {
 
   private static SimpleDateFormat noTimezoneFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+
   static {
     noTimezoneFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
   }
@@ -44,14 +45,14 @@ public class DateSerde {
   /**
    * Jackson {@link JsonDeserializer} for {@link Date}s formatted above, falling back to the Jackson way.
    */
-  public static class FlexibleDateJsonDeserializer extends DateDeserializer {
+  public static class FlexibleDateJsonDeserializer extends DateDeserializers.DateDeserializer {
 
     @Override
     public Date deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
       if (jp.getCurrentToken() == JsonToken.VALUE_STRING) {
         String text = jp.getText();
         if (text.length() == 19) {
-          return Date.from(Instant.parse(text+"Z"));
+          return Date.from(Instant.parse(text + "Z"));
         } else {
           return super.deserialize(jp, ctxt);
         }

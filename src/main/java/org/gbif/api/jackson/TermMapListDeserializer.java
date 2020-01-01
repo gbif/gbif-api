@@ -1,11 +1,11 @@
 package org.gbif.api.jackson;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.google.common.collect.Lists;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
-import org.codehaus.jackson.map.DeserializationConfig.Feature;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.TermFactory;
 
@@ -25,16 +25,16 @@ public class TermMapListDeserializer extends JsonDeserializer<List<Map<Term, Str
   @Override
   public List<Map<Term, String>> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
     if (jp.getCurrentToken() == JsonToken.START_ARRAY) {
-      JsonDeserializer<Object> deserializer =
-        ctxt.getDeserializerProvider().findTypedValueDeserializer(ctxt.getConfig(),
-          ctxt.constructType(List.class), null);
+
+      JsonDeserializer<Object> deserializer = ctxt.findNonContextualValueDeserializer(ctxt.constructType(List.class));
+
       List<Map<String, String>> verbatimTerms = (List<Map<String, String>>) deserializer.deserialize(jp, ctxt);
       List<Map<Term, String>> interpretedTerms = Lists.newArrayList();
       for (Map<String, String> verbExtension : verbatimTerms) {
         Map<Term, String> extension = new HashMap<>();
         for (Entry<String, String> entry : verbExtension.entrySet()) {
           Term term = termFactory.findTerm(entry.getKey());
-          if (term == null && ctxt.getConfig().isEnabled(Feature.FAIL_ON_UNKNOWN_PROPERTIES)) {
+          if (term == null && ctxt.getConfig().isEnabled(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)) {
             throw ctxt.mappingException("Term not found " + entry.getKey());
           }
           extension.put(term, entry.getValue());
