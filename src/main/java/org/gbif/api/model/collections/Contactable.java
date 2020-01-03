@@ -1,8 +1,7 @@
 package org.gbif.api.model.collections;
 
-import java.util.List;
 import javax.annotation.Nullable;
-import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Entity that can have a list of contacts and addresses.
@@ -21,7 +20,6 @@ public interface Contactable {
    * Address used to send and receive mail.
    */
   @Nullable
-  @Valid
   Address getMailingAddress();
 
   void setMailingAddress(Address mailingAddress);
@@ -30,7 +28,6 @@ public interface Contactable {
    * Physical or associated address.
    */
   @Nullable
-  @Valid
   Address getAddress();
 
   void setAddress(Address address);
