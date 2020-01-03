@@ -411,7 +411,32 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * GBIF Programme Acronym.
    */
-  PROGRAMME(String.class);
+  PROGRAMME(String.class),
+
+  /**
+   * A number or enumeration value for the quantity of organisms.
+   */
+  ORGANISM_QUANTITY(String.class),
+
+  /**
+   * The type of quantification system used for the quantity of organisms.
+   */
+  ORGANISM_QUANTITY_TYPE(String.class),
+
+  /**
+   * The unit of measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.
+   */
+  SAMPLE_SIZE_UNIT(String.class),
+
+  /**
+   * A numeric value for a measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.
+   */
+  SAMPLE_SIZE_VALUE(String.class),
+
+  /**
+   * Calculated organismQuantity relative to the sampleSizeValue i.e. -> organismQuantity / sampleSizeValue.
+   */
+  RELATIVE_ORGANISM_QUANTITY(Double.class);
 
   private final Class<?> type;
 
