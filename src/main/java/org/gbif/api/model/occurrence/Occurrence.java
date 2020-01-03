@@ -418,6 +418,15 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.scientificName = scientificName;
   }
 
+
+  @Nullable
+  /**
+   * The verbatim scientific name as provided by the source.
+   */
+  public String getVerbatimScientificName() {
+    return getVerbatimField(DwcTerm.scientificName);
+  }
+
   @Nullable
   /**
    * The accepted scientific name for the acceptedTaxonKey from the GBIF backbone.
