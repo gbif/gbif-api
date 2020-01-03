@@ -270,6 +270,16 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   SCIENTIFIC_NAME(String.class),
 
   /**
+   * Scientific name as provided byt the source.
+   */
+  VERBATIM_SCIENTIFIC_NAME(String.class),
+
+  /**
+   * Verbatim identifier for the set of taxon information. May be a global unique identifier or an identifier specific to the data set.
+   */
+  TAXON_ID(String.class),
+
+  /**
    * The status of the use of the  GBIF Backbone taxonKey.
    */
   TAXONOMIC_STATUS(TaxonomicStatus.class),
@@ -391,11 +401,21 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Crawl attempt that harvested this record.
    */
-  CRAWL_ID(Integer.class);
+  CRAWL_ID(Integer.class),
+
+  /**
+   * GBIF ProjectId.
+   */
+  PROJECT_ID(String.class),
+
+  /**
+   * GBIF Programme Acronym.
+   */
+  PROGRAMME(String.class);
 
   private final Class<?> type;
 
-  private OccurrenceSearchParameter(Class<?> type) {
+  OccurrenceSearchParameter(Class<?> type) {
     this.type = type;
   }
 
