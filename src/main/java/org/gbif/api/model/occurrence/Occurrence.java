@@ -57,6 +57,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonAnyGetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -423,8 +424,14 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   /**
    * The verbatim scientific name as provided by the source.
    */
+  @JsonProperty
   public String getVerbatimScientificName() {
     return getVerbatimField(DwcTerm.scientificName);
+  }
+
+  @JsonIgnore
+  public void setVerbatimScientificName(String scientificName) {
+    //DO NOTHING
   }
 
   @Nullable
