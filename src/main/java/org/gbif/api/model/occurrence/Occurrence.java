@@ -150,10 +150,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Date lastInterpreted;
   private URI references;
   private License license;
-  private String organismQuantity;
+  private Double organismQuantity;
   private String organismQuantityType;
   private String sampleSizeUnit;
-  private String sampleSizeValue;
+  private Double sampleSizeValue;
   private Double relativeOrganismQuantity;
   // interpreted extension data
   private List<Identifier> identifiers = Lists.newArrayList();
@@ -893,11 +893,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * A number or enumeration value for the quantity of organisms.
    */
   @Nullable
-  public String getOrganismQuantity() {
+  public Double getOrganismQuantity() {
     return organismQuantity;
   }
 
-  public void setOrganismQuantity(@Nullable String organismQuantity) {
+  public void setOrganismQuantity(@Nullable Double organismQuantity) {
     this.organismQuantity = organismQuantity;
   }
 
@@ -929,11 +929,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * A numeric value for a measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.
    */
   @Nullable
-  public String getSampleSizeValue() {
+  public Double getSampleSizeValue() {
     return sampleSizeValue;
   }
 
-  public void setSampleSizeValue(@Nullable String sampleSizeValue) {
+  public void setSampleSizeValue(@Nullable Double sampleSizeValue) {
     this.sampleSizeValue = sampleSizeValue;
   }
 

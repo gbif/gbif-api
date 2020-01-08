@@ -416,7 +416,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * A number or enumeration value for the quantity of organisms.
    */
-  ORGANISM_QUANTITY(String.class),
+  ORGANISM_QUANTITY(Double.class),
 
   /**
    * The type of quantification system used for the quantity of organisms.
@@ -431,7 +431,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * A numeric value for a measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.
    */
-  SAMPLE_SIZE_VALUE(String.class),
+  SAMPLE_SIZE_VALUE(Double.class),
 
   /**
    * Calculated organismQuantity relative to the sampleSizeValue i.e. -> organismQuantity / sampleSizeValue.
