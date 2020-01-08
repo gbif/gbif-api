@@ -436,7 +436,18 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Calculated organismQuantity relative to the sampleSizeValue i.e. -> organismQuantity / sampleSizeValue.
    */
-  RELATIVE_ORGANISM_QUANTITY(Double.class);
+  RELATIVE_ORGANISM_QUANTITY(Double.class),
+
+
+  /**
+   * Collection key as UUID. It links to the collection to which this record belongs.
+   */
+  COLLECTION_KEY(UUID.class),
+
+  /**
+   * Institution key as UUID. It links to the institution that maintains, recorded or digitized  this record.
+   */
+  INSTITUTION_KEY(UUID.class);
 
   private final Class<?> type;
 
