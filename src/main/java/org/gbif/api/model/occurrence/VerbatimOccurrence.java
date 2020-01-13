@@ -55,6 +55,9 @@ public class VerbatimOccurrence {
   private Date lastCrawled;
   private Date lastParsed;
   private Integer crawlId;
+  //GBIF Participation: Programme and Project
+  private String projectId;
+  private String programmeAcronym;
 
   // the verbatim fields for the occurrence
   private Map<Term, String> verbatimFields = Maps.newHashMap();
@@ -202,6 +205,30 @@ public class VerbatimOccurrence {
   }
 
   /**
+   * GBIF project identifier.
+   */
+  @Nullable
+  public String getProjectId() {
+    return projectId;
+  }
+
+  public void setProjectId(String projectId) {
+    this.projectId = projectId;
+  }
+
+  /**
+   * GBIF programme acronym/identifier.
+   */
+  @Nullable
+  public String getProgrammeAcronym() {
+    return programmeAcronym;
+  }
+
+  public void setProgrammeAcronym(String programmeAcronym) {
+    this.programmeAcronym = programmeAcronym;
+  }
+
+  /**
    * A map holding all verbatim core terms.
    */
   @NotNull
@@ -241,6 +268,8 @@ public class VerbatimOccurrence {
       .add("protocol", protocol)
       .add("crawlId", crawlId)
       .add("lastCrawled", lastCrawled)
+      .add("projectId", projectId)
+      .add("programmeAcronym", programmeAcronym)
       .add("extensions", extensions)
       .toString();
   }
@@ -249,7 +278,7 @@ public class VerbatimOccurrence {
   public int hashCode() {
     return Objects
       .hashCode(key, datasetKey, publishingOrgKey, publishingCountry, protocol, lastCrawled, lastParsed, crawlId,
-        verbatimFields, extensions);
+                projectId, programmeAcronym, verbatimFields, extensions);
   }
 
   @Override
@@ -272,7 +301,9 @@ public class VerbatimOccurrence {
       && Objects.equal(this.lastParsed, other.lastParsed)
       && Objects.equal(this.verbatimFields, other.verbatimFields)
       && Objects.equal(this.extensions, other.extensions)
-      && Objects.equal(this.crawlId, other.crawlId);
+      && Objects.equal(this.crawlId, other.crawlId)
+      && Objects.equal(this.projectId, other.projectId)
+      && Objects.equal(this.programmeAcronym, other.programmeAcronym);
   }
 
   /**

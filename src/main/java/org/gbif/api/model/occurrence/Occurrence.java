@@ -148,6 +148,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Date lastInterpreted;
   private URI references;
   private License license;
+  private Double organismQuantity;
+  private String organismQuantityType;
+  private String sampleSizeUnit;
+  private Double sampleSizeValue;
+  private Double relativeOrganismQuantity;
   // interpreted extension data
   private List<Identifier> identifiers = Lists.newArrayList();
   private List<MediaObject> media = Lists.newArrayList();
@@ -415,6 +420,21 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setScientificName(@Nullable String scientificName) {
     this.scientificName = scientificName;
+  }
+
+
+  @Nullable
+  /**
+   * The verbatim scientific name as provided by the source.
+   */
+  @JsonProperty
+  public String getVerbatimScientificName() {
+    return getVerbatimField(DwcTerm.scientificName);
+  }
+
+  @JsonIgnore
+  public void setVerbatimScientificName(String scientificName) {
+    //DO NOTHING
   }
 
   @Nullable
@@ -865,6 +885,66 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setReferences(URI references) {
     this.references = references;
+  }
+
+  /**
+   * A number or enumeration value for the quantity of organisms.
+   */
+  @Nullable
+  public Double getOrganismQuantity() {
+    return organismQuantity;
+  }
+
+  public void setOrganismQuantity(@Nullable Double organismQuantity) {
+    this.organismQuantity = organismQuantity;
+  }
+
+  /**
+   * The type of quantification system used for the quantity of organisms.
+   */
+  @Nullable
+  public String getOrganismQuantityType() {
+    return organismQuantityType;
+  }
+
+  public void setOrganismQuantityType(@Nullable String organismQuantityType) {
+    this.organismQuantityType = organismQuantityType;
+  }
+
+  /**
+   * The unit of measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.
+   */
+  @Nullable
+  public String getSampleSizeUnit() {
+    return sampleSizeUnit;
+  }
+
+  public void setSampleSizeUnit(@Nullable String sampleSizeUnit) {
+    this.sampleSizeUnit = sampleSizeUnit;
+  }
+
+  /**
+   * A numeric value for a measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.
+   */
+  @Nullable
+  public Double getSampleSizeValue() {
+    return sampleSizeValue;
+  }
+
+  public void setSampleSizeValue(@Nullable Double sampleSizeValue) {
+    this.sampleSizeValue = sampleSizeValue;
+  }
+
+  /**
+   * Calculated filed organismQuantity / sampleSizeValue, if the type is identical
+   */
+  @Nullable
+  public Double getRelativeOrganismQuantity() {
+    return relativeOrganismQuantity;
+  }
+
+  public void setRelativeOrganismQuantity(@Nullable Double relativeOrganismQuantity) {
+    this.relativeOrganismQuantity = relativeOrganismQuantity;
   }
 
   /**
