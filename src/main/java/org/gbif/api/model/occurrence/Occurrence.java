@@ -427,7 +427,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   /**
    * The verbatim scientific name as provided by the source.
    */
-  @JsonProperty
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   public String getVerbatimScientificName() {
     return getVerbatimField(DwcTerm.scientificName);
   }
