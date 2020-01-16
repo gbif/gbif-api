@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Strings;
 import org.gbif.api.jackson.ExtensionDeserializer;
+import org.gbif.api.jackson.ExtensionKeyDeserializer;
 import org.gbif.api.jackson.ExtensionSerializer;
 
 /**
@@ -26,8 +27,8 @@ import org.gbif.api.jackson.ExtensionSerializer;
  *
  * @see <a href="http://rs.gbif.org/extension">GBIF Resources</a>
  */
-@JsonSerialize(using = ExtensionSerializer.class)
-@JsonDeserialize(using = ExtensionDeserializer.class)
+@JsonSerialize(using = ExtensionSerializer.class, keyUsing = ExtensionSerializer.class)
+@JsonDeserialize(using = ExtensionDeserializer.class, keyUsing = ExtensionKeyDeserializer.class)
 public enum Extension {
 
   /**
