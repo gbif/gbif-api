@@ -21,11 +21,14 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This predicate checks if an occurrence location falls within the given WKT geometry {@code value}.
  */
 public class WithinPredicate implements Predicate {
+  private static final Logger LOG = LoggerFactory.getLogger(WithinPredicate.class);
 
   @NotNull
   private final String geometry;
@@ -43,13 +46,22 @@ public class WithinPredicate implements Predicate {
    *   <li>POLYGON</li>
    *   <li>LINEARRING</li>
    * </ul>
+   * <strong>Unlike other predicates, this validation only logs in case of an invalid string.</strong>
+   * This is because the WKT parser has been changed over time, and some old strings are not valid according
+   * to the current parser.
    * @param geometry
    */
   @JsonCreator
   public WithinPredicate(@JsonProperty("geometry") String geometry) {
     Preconditions.checkNotNull(geometry, "<geometry> may not be null");
-    // make sure its a valid WKT
-    SearchTypeValidator.validate(OccurrenceSearchParameter.GEOMETRY, geometry);
+    try {
+      // test if it is a valid WKT
+      SearchTypeValidator.validate(OccurrenceSearchParameter.GEOMETRY, geometry);
+    } catch (IllegalArgumentException e) {
+      // Log invalid strings, but continue - the geometry parser has changed over time, and some once-valid strings
+      // are no longer considered valid.  See https://github.com/gbif/gbif-api/issues/48.
+      LOG.warn("Invalid geometry string {}: {}", geometry, e.getMessage());
+    }
     this.geometry = geometry;
   }
 
