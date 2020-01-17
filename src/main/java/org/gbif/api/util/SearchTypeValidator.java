@@ -361,12 +361,12 @@ public class SearchTypeValidator {
             throw new IllegalArgumentException("Unsupported simple WKT (unsupported type " + geometry.getGeometryType() + "): " + wellKnownText);
         }
       }
+    } catch (AssertionError e) {
+      throw new IllegalArgumentException("Cannot parse simple WKT: " + wellKnownText + " " + e.getMessage());
     } catch (java.text.ParseException e) {
-      e.printStackTrace();
-      throw new IllegalArgumentException("Cannot parse simple WKT: " + wellKnownText);
+      throw new IllegalArgumentException("Cannot parse simple WKT: " + wellKnownText + " " + e.getMessage());
     } catch (InvalidShapeException e) {
-      e.printStackTrace();
-      throw new IllegalArgumentException("Invalid shape in WKT: " + wellKnownText);
+      throw new IllegalArgumentException("Invalid shape in WKT: " + wellKnownText + " " + e.getMessage());
     }
   }
 
