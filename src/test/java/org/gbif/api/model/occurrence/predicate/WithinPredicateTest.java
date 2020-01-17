@@ -8,7 +8,7 @@ import java.nio.file.Files;
 
 public class WithinPredicateTest {
 
-  @Test(expected = IllegalArgumentException.class)
+  // API no longer throws an exeception here.
   public void testEmptyConstructor() {
     new WithinPredicate("");
   }
@@ -18,7 +18,7 @@ public class WithinPredicateTest {
     new WithinPredicate(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  // API no longer throws an exeception here.
   public void testBadConstructor1() {
     new WithinPredicate("POLYGON");
   }
@@ -28,7 +28,7 @@ public class WithinPredicateTest {
     new WithinPredicate("POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))");
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  // API no longer throws an exeception here.
   public void testBadRectangle() {
     new WithinPredicate("POLYGON ((30 10, 100 100, 20 40, 40 40, 30 10))");
   }
