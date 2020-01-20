@@ -38,6 +38,8 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
   private boolean active;
   private boolean personalCollection;
   private DOI doi;
+  private List<String> email;
+  private List<String> phone;
   private URI homepage;
   private URI catalogUrl;
   private URI apiUrl;
@@ -54,6 +56,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
   private List<Tag> tags = new ArrayList<>();
   private List<Identifier> identifiers = new ArrayList<>();
   private List<Person> contacts;
+  private boolean indexHerbariorumRecord;
 
   /**
    * List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc..
@@ -172,6 +175,22 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
 
   public void setDoi(DOI doi) {
     this.doi = doi;
+  }
+
+  public List<String> getEmail() {
+    return email;
+  }
+
+  public void setEmail(List<String> email) {
+    this.email = email;
+  }
+
+  public List<String> getPhone() {
+    return phone;
+  }
+
+  public void setPhone(List<String> phone) {
+    this.phone = phone;
   }
 
   /**
@@ -336,6 +355,14 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.contacts = contacts;
   }
 
+  public boolean isIndexHerbariorumRecord() {
+    return indexHerbariorumRecord;
+  }
+
+  public void setIndexHerbariorumRecord(boolean indexHerbariorumRecord) {
+    this.indexHerbariorumRecord = indexHerbariorumRecord;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -349,6 +376,8 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
            && Objects.equals(description, that.description)
            && Objects.equals(contentTypes, that.contentTypes)
            && Objects.equals(doi, that.doi)
+           && Objects.equals(email, that.email)
+           && Objects.equals(phone, that.phone)
            && Objects.equals(homepage, that.homepage)
            && Objects.equals(catalogUrl, that.catalogUrl)
            && Objects.equals(apiUrl, that.apiUrl)
@@ -364,7 +393,8 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
            && Objects.equals(deleted, that.deleted)
            && Objects.equals(tags, that.tags)
            && Objects.equals(identifiers, that.identifiers)
-           && Objects.equals(contacts, that.contacts);
+           && Objects.equals(contacts, that.contacts)
+           && indexHerbariorumRecord == that.indexHerbariorumRecord;
   }
 
   @Override
@@ -377,6 +407,8 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
                         active,
                         personalCollection,
                         doi,
+                        email,
+                        phone,
                         homepage,
                         catalogUrl,
                         apiUrl,
@@ -392,7 +424,8 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
                         deleted,
                         tags,
                         identifiers,
-                        contacts);
+                        contacts,
+                        indexHerbariorumRecord);
   }
 
   @Override
@@ -405,6 +438,8 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
       .add("active=" + active)
       .add("personalCollection=" + personalCollection)
       .add("doi=" + doi)
+      .add("email=" + email)
+      .add("phone=" + phone)
       .add("homepage=" + homepage)
       .add("catalogUrl=" + catalogUrl)
       .add("apiUrl=" + apiUrl)
@@ -421,6 +456,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
       .add("tags=" + tags)
       .add("identifiers=" + identifiers)
       .add("contacts=" + contacts)
+      .add("indexHerbariorumRecord=" + indexHerbariorumRecord)
       .toString();
   }
 
@@ -437,6 +473,8 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
            && Objects.equals(description, other.description)
            && Objects.equals(contentTypes, other.contentTypes)
            && Objects.equals(doi, other.doi)
+           && Objects.equals(email, other.email)
+           && Objects.equals(phone, other.phone)
            && Objects.equals(homepage, other.homepage)
            && Objects.equals(catalogUrl, other.catalogUrl)
            && Objects.equals(apiUrl, other.apiUrl)
@@ -445,6 +483,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
            && Objects.equals(institutionKey, other.institutionKey)
            && Objects.equals(mailingAddress, other.mailingAddress)
            && Objects.equals(address, other.address)
-           && Objects.equals(deleted, other.deleted);
+           && Objects.equals(deleted, other.deleted)
+           && indexHerbariorumRecord == other.indexHerbariorumRecord;
   }
 }
