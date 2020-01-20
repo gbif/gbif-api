@@ -44,14 +44,6 @@ public class DownloadRequestTest {
 
   // Note these include each combination of underscores or camel case for notificationAddresses and sendNotification.
 
-  private static final String SQL_REQUEST = "{"
-      + " \"creator\":\"" + TEST_USER + "\","
-      + " \"notificationAddresses\": [\"" + TEST_EMAIL +"\"],"
-      + " \"sendNotification\":\"true\","
-      + " \"format\": \"SQL\","
-      + " \"sql\": \"SELECT basisOfRecord, count(DISTINCT speciesKey) AS speciesCount FROM occurrence WHERE year=2018 GROUP BY basisOfRecord\""
-      + "}";
-
   private static final String SIMPLE_CSV = "{"
       + " \"creator\":\"" + TEST_USER + "\", "
       + " \"notification_addresses\": [\"" + TEST_EMAIL +"\"],"
@@ -140,16 +132,6 @@ public class DownloadRequestTest {
       fail(e.getMessage());
       throw e;
     }
-  }
-
-  @Test
-  public void testSQLDownloadSerde() throws IOException {
-    SqlDownloadRequest request = MAPPER.readValue(SQL_REQUEST, SqlDownloadRequest.class);
-    assertEquals(TEST_USER, request.getCreator());
-    assertNotNull(request.getSql());
-    assertEquals(DownloadFormat.SQL, request.getFormat());
-    assertTrue(request.getSendNotification());
-    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
   }
 
   @Test
