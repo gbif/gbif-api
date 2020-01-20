@@ -4,6 +4,7 @@ import org.gbif.api.model.collections.Person;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.search.collections.PersonSuggestResult;
+import org.gbif.api.service.registry.IdentifierService;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +13,7 @@ import javax.annotation.Nullable;
 /**
  * API Service for the collections-related staff.
  */
-public interface PersonService extends CrudService<Person> {
+public interface PersonService extends CrudService<Person>, IdentifierService {
 
   /**
    * Pages {@link Person} entities based on the parameters received.

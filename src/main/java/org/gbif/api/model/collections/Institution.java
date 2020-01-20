@@ -35,6 +35,8 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
   private String description;
   private InstitutionType type;
   private boolean active;
+  private List<String> email;
+  private List<String> phone;
   private URI homepage;
   private URI catalogUrl;
   private URI apiUrl;
@@ -131,6 +133,22 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
 
   public void setActive(boolean active) {
     this.active = active;
+  }
+
+  public List<String> getEmail() {
+    return email;
+  }
+
+  public void setEmail(List<String> email) {
+    this.email = email;
+  }
+
+  public List<String> getPhone() {
+    return phone;
+  }
+
+  public void setPhone(List<String> phone) {
+    this.phone = phone;
   }
 
   /**
@@ -423,6 +441,8 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
            && Objects.equals(name, that.name)
            && Objects.equals(description, that.description)
            && type == that.type
+           && Objects.equals(email, that.email)
+           && Objects.equals(phone, that.phone)
            && Objects.equals(homepage, that.homepage)
            && Objects.equals(catalogUrl, that.catalogUrl)
            && Objects.equals(apiUrl, that.apiUrl)
@@ -456,6 +476,8 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
                         description,
                         type,
                         active,
+                        email,
+                        phone,
                         homepage,
                         catalogUrl,
                         apiUrl,
@@ -491,6 +513,8 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
       .add("description='" + description + "'")
       .add("type=" + type)
       .add("active=" + active)
+      .add("email=" + email)
+      .add("phone=" + phone)
       .add("homepage=" + homepage)
       .add("catalogUrl=" + catalogUrl)
       .add("apiUrl=" + apiUrl)
@@ -532,6 +556,8 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
            && Objects.equals(name, other.name)
            && Objects.equals(description, other.description)
            && type == other.type
+           && Objects.equals(email, other.email)
+           && Objects.equals(phone, other.phone)
            && Objects.equals(homepage, other.homepage)
            && Objects.equals(catalogUrl, other.catalogUrl)
            && Objects.equals(apiUrl, other.apiUrl)
@@ -549,5 +575,4 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
            && Objects.equals(citesPermitNumber, other.citesPermitNumber)
            && Objects.equals(deleted, other.deleted);
   }
-
 }

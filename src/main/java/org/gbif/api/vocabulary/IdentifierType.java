@@ -56,14 +56,22 @@ public enum IdentifierType {
   GBIF_PARTICIPANT,
 
   /**
-   * ID migrated from GRBIO.
+   * ID migrated from GrSciColl.
    */
-  GRBIO_ID,
+  GRSCICOLL_ID,
 
   /**
-   * Cool URI migrated from GBRIO.
+   * Cool URI migrated from GrSciColl.
    */
-  GRBIO_URI;
+  GRSCICOLL_URI,
+
+  // TODO: remove when deployed
+  GRBIO_URI, GRBIO_ID,
+
+  /**
+   * IRN of an IH record.
+   */
+  IH_IRN;
 
   // TODO: Check if this is used, it didn't exist in the new Registry2 API, but I preserved it from the old vocabulary
   public static final List<IdentifierType> TYPES;
@@ -122,6 +130,11 @@ public enum IdentifierType {
     if (lcIdentifier.startsWith("urn:uuid:") || lcIdentifier.startsWith("uuid:")) {
       return UUID;
     }
+
+    if (lcIdentifier.startsWith("gbif:ih:irn:")) {
+      return IH_IRN;
+    }
+
     try {
       java.util.UUID.fromString(lcIdentifier);
       return UUID;

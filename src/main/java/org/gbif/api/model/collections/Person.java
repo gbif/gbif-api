@@ -1,18 +1,17 @@
 package org.gbif.api.model.collections;
 
+import org.gbif.api.model.registry.Identifiable;
+import org.gbif.api.model.registry.Identifier;
 import org.gbif.api.model.registry.LenientEquals;
 
-import java.util.Date;
-import java.util.Objects;
-import java.util.StringJoiner;
-import java.util.UUID;
+import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
  * Person associated to a collection or institution.
  */
-public class Person implements CollectionEntity, LenientEquals<Person> {
+public class Person implements CollectionEntity, Identifiable, LenientEquals<Person> {
 
   private UUID key;
   private String firstName;
@@ -31,6 +30,7 @@ public class Person implements CollectionEntity, LenientEquals<Person> {
   private Date created;
   private Date modified;
   private Date deleted;
+  private List<Identifier> identifiers = new ArrayList<>();
 
   /**
    * GBIF Unique identifier.
@@ -218,6 +218,19 @@ public class Person implements CollectionEntity, LenientEquals<Person> {
     this.deleted = deleted;
   }
 
+  /**
+   * List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc..
+   */
+  @Override
+  public List<Identifier> getIdentifiers() {
+    return identifiers;
+  }
+
+  @Override
+  public void setIdentifiers(List<Identifier> identifiers) {
+    this.identifiers = identifiers;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -240,7 +253,8 @@ public class Person implements CollectionEntity, LenientEquals<Person> {
            && Objects.equals(modifiedBy, person.modifiedBy)
            && Objects.equals(created, person.created)
            && Objects.equals(modified, person.modified)
-           && Objects.equals(deleted, person.deleted);
+           && Objects.equals(deleted, person.deleted)
+           && Objects.equals(identifiers, person.identifiers);
   }
 
   @Override
@@ -261,7 +275,8 @@ public class Person implements CollectionEntity, LenientEquals<Person> {
                         modifiedBy,
                         created,
                         modified,
-                        deleted);
+                        deleted,
+                        identifiers);
   }
 
   @Override
@@ -283,6 +298,7 @@ public class Person implements CollectionEntity, LenientEquals<Person> {
       .add("created=" + created)
       .add("modified=" + modified)
       .add("deleted=" + deleted)
+      .add("identifiers=" + identifiers)
       .toString();
   }
 
