@@ -9,14 +9,12 @@ import java.util.Optional;
 import com.google.common.collect.ImmutableList;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.gbif.api.model.occurrence.DownloadFormat;
 import org.gbif.api.model.occurrence.DownloadRequest;
 import org.gbif.api.model.occurrence.PredicateDownloadRequest;
-import org.gbif.api.model.occurrence.SqlDownloadRequest;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.util.VocabularyUtils;
 import org.slf4j.Logger;
@@ -38,7 +36,6 @@ import com.google.common.base.Throwables;
 public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
 
   private static final String PREDICATE = "predicate";
-  private static final String SQL = "sql";
   private static final List<String> SEND_NOTIFICATION = ImmutableList.of("sendNotification", "send_notification");
   private static final List<String> NOTIFICATION_ADDRESSES =
     ImmutableList.of("notificationAddresses", "notificationAddress", "notification_addresses", "notification_address");
@@ -48,7 +45,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
   @Override
-  public DownloadRequest deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+  public DownloadRequest deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
     JsonNode node = jp.getCodec().readTree(jp);
     LOG.debug("DownloadRequest for deserialization: {}", node);
     //at least one element must be defined
@@ -74,14 +71,8 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
     for (final String jsonKey : SEND_NOTIFICATION) {
       sendNotification |= Optional.ofNullable(node.get(jsonKey)).map(JsonNode::asBoolean).orElse(Boolean.FALSE);
     }
-
-    if (DownloadFormat.SQL == format) {
-      String sql = Optional.ofNullable(node.get(SQL)).map(JsonNode::asText).orElse(null);
-      return new SqlDownloadRequest(sql, creator, notificationAddresses, sendNotification);
-    } else {
-      JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);
-      Predicate predicateObj = predicate == null ? null : MAPPER.readValue(predicate, Predicate.class);
-      return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format);
-    }
+    JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);
+    Predicate predicateObj = predicate == null ? null : MAPPER.readValue(predicate, Predicate.class);
+    return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format);
   }
 }

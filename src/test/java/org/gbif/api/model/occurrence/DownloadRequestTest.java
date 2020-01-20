@@ -17,7 +17,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -43,14 +42,6 @@ public class DownloadRequestTest {
 
   // Note these include each combination of underscores or camel case for notificationAddresses and sendNotification.
 
-  private static final String SQL_REQUEST = "{"
-      + " \"creator\":\"" + TEST_USER + "\","
-      + " \"notificationAddresses\": [\"" + TEST_EMAIL +"\"],"
-      + " \"sendNotification\":\"true\","
-      + " \"format\": \"SQL\","
-      + " \"sql\": \"SELECT basisOfRecord, count(DISTINCT speciesKey) AS speciesCount FROM occurrence WHERE year=2018 GROUP BY basisOfRecord\""
-      + "}";
-
   private static final String SIMPLE_CSV = "{"
       + " \"creator\":\"" + TEST_USER + "\", "
       + " \"notification_addresses\": [\"" + TEST_EMAIL +"\"],"
@@ -58,14 +49,14 @@ public class DownloadRequestTest {
       + " \"format\": \"SIMPLE_CSV\","
       + " \"predicate\":{\"type\":\"equals\",\"key\":\"TAXON_KEY\",\"value\":\"3\"}"
       + "}";
-  
+
   private static final String SIMPLE_CSV_NULL_PREDICATE = "{"
       + " \"creator\":\"" + TEST_USER + "\", "
       + " \"notificationAddress\": [\"" + TEST_EMAIL +"\"],"
       + " \"sendNotification\":\"true\","
       + " \"format\": \"SIMPLE_CSV\""
       + "}";
-  
+
   private static final String SIMPLE_CSV_NULL_PREDICATE_AVAIL = "{"
       + " \"creator\":\"" + TEST_USER + "\", "
       + " \"notification_address\": [\"" + TEST_EMAIL +"\"],"
@@ -142,16 +133,6 @@ public class DownloadRequestTest {
   }
 
   @Test
-  public void testSQLDownloadSerde() throws IOException {
-    SqlDownloadRequest request = MAPPER.readValue(SQL_REQUEST, SqlDownloadRequest.class);
-    assertEquals(TEST_USER, request.getCreator());
-    assertNotNull(request.getSql());
-    assertEquals(DownloadFormat.SQL, request.getFormat());
-    assertTrue(request.getSendNotification());
-    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
-  }
-
-  @Test
   public void testPredicateDownloadSerde() throws IOException {
     DownloadRequest request = MAPPER.readValue(SIMPLE_CSV, PredicateDownloadRequest.class);
     assertEquals(TEST_USER, request.getCreator());
@@ -168,7 +149,7 @@ public class DownloadRequestTest {
     assertTrue(request.getSendNotification());
     assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
   }
-  
+
   @Test
   public void testDownloadRequestSerde1() throws IOException {
     DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE, DownloadRequest.class);
@@ -176,7 +157,7 @@ public class DownloadRequestTest {
     assertTrue(request.getSendNotification());
     assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
   }
-  
+
   @Test
   public void testDownloadRequestSerde2() throws IOException {
     DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE_AVAIL, DownloadRequest.class);
