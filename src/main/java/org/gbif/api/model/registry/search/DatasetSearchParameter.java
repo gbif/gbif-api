@@ -106,9 +106,24 @@ public enum DatasetSearchParameter implements SearchParameter {
   /**
    * Date when the dataset was last updated
    */
-  MODIFIED_DATE(LocalDateTime.class);
+  MODIFIED_DATE(LocalDateTime.class),
 
-  private DatasetSearchParameter(Class<?> type) {
+  /**
+   * Dataset title/name.
+   */
+  DATASET_TITLE(String.class),
+
+  /**
+   * Collection key associate to this dataset.
+   */
+  COLLECTION_KEY(UUID.class),
+
+  /**
+   * Institution key associated to the dataset and/or to the collection.
+   */
+  INSTITUTION_KEY(UUID.class);
+
+  DatasetSearchParameter(Class<?> type) {
     this.type = type;
   }
 
