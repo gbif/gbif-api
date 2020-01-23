@@ -1,8 +1,6 @@
 package org.gbif.api.model.collections;
 
-import org.gbif.api.model.registry.Identifiable;
-import org.gbif.api.model.registry.Identifier;
-import org.gbif.api.model.registry.LenientEquals;
+import org.gbif.api.model.registry.*;
 
 import java.util.*;
 import javax.validation.Valid;
@@ -11,7 +9,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Person associated to a collection or institution.
  */
-public class Person implements CollectionEntity, Identifiable, LenientEquals<Person> {
+public class Person implements CollectionEntity, Identifiable, Taggable, MachineTaggable, LenientEquals<Person> {
 
   private UUID key;
   private String firstName;
@@ -30,6 +28,8 @@ public class Person implements CollectionEntity, Identifiable, LenientEquals<Per
   private Date created;
   private Date modified;
   private Date deleted;
+  private List<Tag> tags = new ArrayList<>();
+  private List<MachineTag> machineTags = new ArrayList<>();
   private List<Identifier> identifiers = new ArrayList<>();
 
   /**
@@ -232,6 +232,31 @@ public class Person implements CollectionEntity, Identifiable, LenientEquals<Per
   }
 
   @Override
+  public @NotNull List<MachineTag> getMachineTags() {
+    return machineTags;
+  }
+
+  @Override
+  public void setMachineTags(List<MachineTag> machineTags) {
+    this.machineTags = machineTags;
+  }
+
+  @Override
+  public void addMachineTag(MachineTag machineTag) {
+   machineTags.add(machineTag);
+  }
+
+  @Override
+  public @NotNull List<Tag> getTags() {
+    return tags;
+  }
+
+  @Override
+  public void setTags(List<Tag> tags) {
+    this.tags = tags;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
@@ -254,7 +279,9 @@ public class Person implements CollectionEntity, Identifiable, LenientEquals<Per
            && Objects.equals(created, person.created)
            && Objects.equals(modified, person.modified)
            && Objects.equals(deleted, person.deleted)
-           && Objects.equals(identifiers, person.identifiers);
+           && Objects.equals(identifiers, person.identifiers)
+           && Objects.equals(tags, person.tags)
+           && Objects.equals(machineTags, person.machineTags);
   }
 
   @Override
@@ -276,7 +303,9 @@ public class Person implements CollectionEntity, Identifiable, LenientEquals<Per
                         created,
                         modified,
                         deleted,
-                        identifiers);
+                        identifiers,
+                        tags,
+                        machineTags);
   }
 
   @Override
@@ -299,6 +328,8 @@ public class Person implements CollectionEntity, Identifiable, LenientEquals<Per
       .add("modified=" + modified)
       .add("deleted=" + deleted)
       .add("identifiers=" + identifiers)
+      .add("tags=" + tags)
+      .add("machineTags=" + machineTags)
       .toString();
   }
 

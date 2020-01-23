@@ -1,14 +1,10 @@
 package org.gbif.api.model.collections;
 
+import org.gbif.api.model.registry.*;
 import org.gbif.api.vocabulary.collections.AccessionStatus;
 import org.gbif.api.vocabulary.collections.CollectionContentType;
 import org.gbif.api.vocabulary.collections.PreservationType;
 import org.gbif.api.model.common.DOI;
-import org.gbif.api.model.registry.Identifiable;
-import org.gbif.api.model.registry.Identifier;
-import org.gbif.api.model.registry.LenientEquals;
-import org.gbif.api.model.registry.Tag;
-import org.gbif.api.model.registry.Taggable;
 import org.gbif.api.util.HttpURI;
 
 import java.net.URI;
@@ -28,7 +24,7 @@ import javax.validation.constraints.Size;
  * Types of collections can be: specimens, original artwork, archives, observations, library materials,
  * datasets, photographs or mixed collections such as those that result from expeditions and voyages of discovery.
  */
-public class Collection implements CollectionEntity, Contactable, Taggable, Identifiable, LenientEquals<Collection> {
+public class Collection implements CollectionEntity, Contactable, Taggable, MachineTaggable, Identifiable, LenientEquals<Collection> {
 
   private UUID key;
   private String code;
@@ -57,6 +53,8 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
   private List<Identifier> identifiers = new ArrayList<>();
   private List<Person> contacts;
   private boolean indexHerbariorumRecord;
+  private int numberSpecimens;
+  private List<MachineTag> machineTags = new ArrayList<>();
 
   /**
    * List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc..
@@ -363,6 +361,29 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
     this.indexHerbariorumRecord = indexHerbariorumRecord;
   }
 
+  public int getNumberSpecimens() {
+    return numberSpecimens;
+  }
+
+  public void setNumberSpecimens(int numberSpecimens) {
+    this.numberSpecimens = numberSpecimens;
+  }
+
+  @Override
+  public @NotNull List<MachineTag> getMachineTags() {
+    return machineTags;
+  }
+
+  @Override
+  public void setMachineTags(List<MachineTag> machineTags) {
+    this.machineTags = machineTags;
+  }
+
+  @Override
+  public void addMachineTag(MachineTag machineTag) {
+    machineTags.add(machineTag);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -394,7 +415,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
            && Objects.equals(tags, that.tags)
            && Objects.equals(identifiers, that.identifiers)
            && Objects.equals(contacts, that.contacts)
-           && indexHerbariorumRecord == that.indexHerbariorumRecord;
+           && indexHerbariorumRecord == that.indexHerbariorumRecord
+           && Objects.equals(numberSpecimens, that.numberSpecimens)
+           && Objects.equals(machineTags, that.machineTags);
   }
 
   @Override
@@ -425,7 +448,9 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
                         tags,
                         identifiers,
                         contacts,
-                        indexHerbariorumRecord);
+                        indexHerbariorumRecord,
+                        numberSpecimens,
+                        machineTags);
   }
 
   @Override
@@ -457,6 +482,8 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
       .add("identifiers=" + identifiers)
       .add("contacts=" + contacts)
       .add("indexHerbariorumRecord=" + indexHerbariorumRecord)
+      .add("numberSpecimens=" + numberSpecimens)
+      .add("machineTags=" + machineTags)
       .toString();
   }
 
@@ -484,6 +511,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Iden
            && Objects.equals(mailingAddress, other.mailingAddress)
            && Objects.equals(address, other.address)
            && Objects.equals(deleted, other.deleted)
-           && indexHerbariorumRecord == other.indexHerbariorumRecord;
+           && indexHerbariorumRecord == other.indexHerbariorumRecord
+           && Objects.equals(numberSpecimens, other.numberSpecimens);
   }
 }
