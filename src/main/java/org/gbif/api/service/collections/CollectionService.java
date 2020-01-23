@@ -5,6 +5,7 @@ import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;
 import org.gbif.api.service.registry.IdentifierService;
+import org.gbif.api.service.registry.MachineTagService;
 import org.gbif.api.service.registry.TagService;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import javax.annotation.Nullable;
  * API Service to work with collections.
  */
 public interface CollectionService
-    extends CrudService<Collection>, ContactService, TagService, IdentifierService {
+    extends CrudService<Collection>, ContactService, TagService, IdentifierService, MachineTagService {
 
   /**
    * Pages {@link Collection} entities based on the parameters received.

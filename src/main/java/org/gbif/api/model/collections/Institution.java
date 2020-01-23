@@ -1,23 +1,14 @@
 package org.gbif.api.model.collections;
 
+import org.gbif.api.model.registry.*;
+import org.gbif.api.util.HttpURI;
 import org.gbif.api.vocabulary.collections.Discipline;
 import org.gbif.api.vocabulary.collections.InstitutionGovernance;
 import org.gbif.api.vocabulary.collections.InstitutionType;
-import org.gbif.api.model.registry.Identifiable;
-import org.gbif.api.model.registry.Identifier;
-import org.gbif.api.model.registry.LenientEquals;
-import org.gbif.api.model.registry.Tag;
-import org.gbif.api.model.registry.Taggable;
-import org.gbif.api.util.HttpURI;
 
 import java.math.BigDecimal;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.StringJoiner;
-import java.util.UUID;
+import java.util.*;
 import javax.annotation.Nullable;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -27,7 +18,7 @@ import javax.validation.constraints.Size;
  * The owner or location of collection.
  * Usually an established organization or foundation, especially one dedicated to education, public service, or culture.
  */
-public class Institution implements CollectionEntity, Contactable, Taggable, Identifiable, LenientEquals<Institution> {
+public class Institution implements CollectionEntity, Contactable, Taggable, MachineTaggable, Identifiable, LenientEquals<Institution> {
 
   private UUID key;
   private String code;
@@ -62,6 +53,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
   private List<Tag> tags = new ArrayList<>();
   private List<Identifier> identifiers = new ArrayList<>();
   private List<Person> contacts;
+  private List<MachineTag> machineTags = new ArrayList<>();
 
   /**
    * GBIF unique identifier.
@@ -429,6 +421,21 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
   }
 
   @Override
+  public @NotNull List<MachineTag> getMachineTags() {
+    return machineTags;
+  }
+
+  @Override
+  public void setMachineTags(List<MachineTag> machineTags) {
+    this.machineTags = machineTags;
+  }
+
+  @Override
+  public void addMachineTag(MachineTag machineTag) {
+    this.machineTags.add(machineTag);
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
@@ -465,7 +472,8 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
            && Objects.equals(deleted, that.deleted)
            && Objects.equals(tags, that.tags)
            && Objects.equals(identifiers, that.identifiers)
-           && Objects.equals(contacts, that.contacts);
+           && Objects.equals(contacts, that.contacts)
+           && Objects.equals(machineTags, that.machineTags);
   }
 
   @Override
@@ -502,7 +510,8 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
                         deleted,
                         tags,
                         identifiers,
-                        contacts);
+                        contacts,
+                        machineTags);
   }
 
   @Override
@@ -540,6 +549,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Ide
       .add("tags=" + tags)
       .add("identifiers=" + identifiers)
       .add("contacts=" + contacts)
+      .add("machineTags=" + machineTags)
       .toString();
   }
 
