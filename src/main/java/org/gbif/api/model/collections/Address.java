@@ -39,7 +39,6 @@ public class Address {
   /**
    * Textual direction of this address.
    */
-  @Size(min = 1)
   public String getAddress() {
     return address;
   }
