@@ -1,18 +1,15 @@
 package org.gbif.api.model.collections;
 
-import org.gbif.api.model.registry.LenientEquals;
+import org.gbif.api.model.registry.*;
 
-import java.util.Date;
-import java.util.Objects;
-import java.util.StringJoiner;
-import java.util.UUID;
+import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
  * Person associated to a collection or institution.
  */
-public class Person implements CollectionEntity, LenientEquals<Person> {
+public class Person implements CollectionEntity, Identifiable, Taggable, MachineTaggable, LenientEquals<Person> {
 
   private UUID key;
   private String firstName;
@@ -31,6 +28,9 @@ public class Person implements CollectionEntity, LenientEquals<Person> {
   private Date created;
   private Date modified;
   private Date deleted;
+  private List<Tag> tags = new ArrayList<>();
+  private List<MachineTag> machineTags = new ArrayList<>();
+  private List<Identifier> identifiers = new ArrayList<>();
 
   /**
    * GBIF Unique identifier.
@@ -218,6 +218,44 @@ public class Person implements CollectionEntity, LenientEquals<Person> {
     this.deleted = deleted;
   }
 
+  /**
+   * List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc..
+   */
+  @Override
+  public List<Identifier> getIdentifiers() {
+    return identifiers;
+  }
+
+  @Override
+  public void setIdentifiers(List<Identifier> identifiers) {
+    this.identifiers = identifiers;
+  }
+
+  @Override
+  public @NotNull List<MachineTag> getMachineTags() {
+    return machineTags;
+  }
+
+  @Override
+  public void setMachineTags(List<MachineTag> machineTags) {
+    this.machineTags = machineTags;
+  }
+
+  @Override
+  public void addMachineTag(MachineTag machineTag) {
+   machineTags.add(machineTag);
+  }
+
+  @Override
+  public @NotNull List<Tag> getTags() {
+    return tags;
+  }
+
+  @Override
+  public void setTags(List<Tag> tags) {
+    this.tags = tags;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -240,7 +278,10 @@ public class Person implements CollectionEntity, LenientEquals<Person> {
            && Objects.equals(modifiedBy, person.modifiedBy)
            && Objects.equals(created, person.created)
            && Objects.equals(modified, person.modified)
-           && Objects.equals(deleted, person.deleted);
+           && Objects.equals(deleted, person.deleted)
+           && Objects.equals(identifiers, person.identifiers)
+           && Objects.equals(tags, person.tags)
+           && Objects.equals(machineTags, person.machineTags);
   }
 
   @Override
@@ -261,7 +302,10 @@ public class Person implements CollectionEntity, LenientEquals<Person> {
                         modifiedBy,
                         created,
                         modified,
-                        deleted);
+                        deleted,
+                        identifiers,
+                        tags,
+                        machineTags);
   }
 
   @Override
@@ -283,6 +327,9 @@ public class Person implements CollectionEntity, LenientEquals<Person> {
       .add("created=" + created)
       .add("modified=" + modified)
       .add("deleted=" + deleted)
+      .add("identifiers=" + identifiers)
+      .add("tags=" + tags)
+      .add("machineTags=" + machineTags)
       .toString();
   }
 
