@@ -65,9 +65,6 @@ public enum IdentifierType {
    */
   GRSCICOLL_URI,
 
-  // TODO: remove when deployed
-  GRBIO_URI, GRBIO_ID,
-
   /**
    * IRN of an IH record.
    */
