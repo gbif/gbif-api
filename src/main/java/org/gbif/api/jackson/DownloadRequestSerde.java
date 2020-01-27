@@ -10,7 +10,6 @@ import com.google.common.collect.ImmutableList;
 import org.gbif.api.model.occurrence.DownloadFormat;
 import org.gbif.api.model.occurrence.DownloadRequest;
 import org.gbif.api.model.occurrence.PredicateDownloadRequest;
-import org.gbif.api.model.occurrence.SqlDownloadRequest;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.util.VocabularyUtils;
 import org.slf4j.Logger;
@@ -62,13 +61,8 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
       sendNotification |= Optional.ofNullable(node.get(jsonKey)).map(JsonNode::asBoolean).orElse(Boolean.FALSE);
     }
 
-    if (DownloadFormat.SQL == format) {
-      String sql = Optional.ofNullable(node.get(SQL)).map(JsonNode::asText).orElse(null);
-      return new SqlDownloadRequest(sql, creator, notificationAddresses, sendNotification);
-    } else {
-      JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);
-      Predicate predicateObj = predicate == null ? null : MAPPER.treeToValue(predicate, Predicate.class);
-      return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format);
-    }
+    JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);
+    Predicate predicateObj = predicate == null ? null : MAPPER.treeToValue(predicate, Predicate.class);
+    return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format);
   }
 }
