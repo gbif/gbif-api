@@ -361,12 +361,12 @@ public class SearchTypeValidator {
 <span class="nc" id="L361">            throw new IllegalArgumentException(&quot;Unsupported simple WKT (unsupported type &quot; + geometry.getGeometryType() + &quot;): &quot; + wellKnownText);</span>
         }
       }
-<span class="fc" id="L364">    } catch (java.text.ParseException e) {</span>
-<span class="fc" id="L365">      e.printStackTrace();</span>
-<span class="fc" id="L366">      throw new IllegalArgumentException(&quot;Cannot parse simple WKT: &quot; + wellKnownText);</span>
-<span class="fc" id="L367">    } catch (InvalidShapeException e) {</span>
-<span class="fc" id="L368">      e.printStackTrace();</span>
-<span class="fc" id="L369">      throw new IllegalArgumentException(&quot;Invalid shape in WKT: &quot; + wellKnownText);</span>
+<span class="fc" id="L364">    } catch (AssertionError e) {</span>
+<span class="fc" id="L365">      throw new IllegalArgumentException(&quot;Cannot parse simple WKT: &quot; + wellKnownText + &quot; &quot; + e.getMessage());</span>
+<span class="fc" id="L366">    } catch (java.text.ParseException e) {</span>
+<span class="fc" id="L367">      throw new IllegalArgumentException(&quot;Cannot parse simple WKT: &quot; + wellKnownText + &quot; &quot; + e.getMessage());</span>
+<span class="fc" id="L368">    } catch (InvalidShapeException e) {</span>
+<span class="fc" id="L369">      throw new IllegalArgumentException(&quot;Invalid shape in WKT: &quot; + wellKnownText + &quot; &quot; + e.getMessage());</span>
 <span class="fc" id="L370">    }</span>
 <span class="fc" id="L371">  }</span>
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Mixins.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.ws.mixin</a> &gt; <span class="el_source">Mixins.java</span></div><h1>Mixins.java</h1><pre class="source lang-java linenums">package org.gbif.api.ws.mixin;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+import org.gbif.api.model.occurrence.Download;
+import org.gbif.api.model.occurrence.Occurrence;
+import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.search.DatasetSearchResult;
+
+import java.util.Map;
+
+/**
+ * Mixins are typically used to leave serialization-oriented annotations outside the models to avoid
+ * introducing coupling on a specific SerDe.
+ * &lt;p&gt;
+ * This class provides access to predefined mixins used in the GBIF web service application (client and server).
+ */
+public class Mixins {
+
+  // utility class
+  private Mixins() {
+  }
+
+<span class="nc" id="L25">  private static final ImmutableMap&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; PREDEFINED_MIXINS =</span>
+<span class="nc" id="L26">    ImmutableMap.of(</span>
+      Dataset.class, DatasetMixin.class,
+      DatasetSearchResult.class, DatasetMixin.class,
+      Download.class, LicenseMixin.class,
+      Occurrence.class, OccurrenceMixin.class
+    );
+
+  /**
+   * Return an immutable map of the predefined Jackson Mixins used by the web services.
+   *
+   * @return immutable map of the predefined Jackson Mixins
+   */
+  public static Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; getPredefinedMixins() {
+<span class="nc" id="L39">    return PREDEFINED_MIXINS;</span>
+  }
+
+  /**
+   * Get an immutable map of the predefined Jackson Mixins after the provided keyFilter is applied.
+   *
+   * @param keyFilter predicate to filter the predefined mixins based on the model class
+   * @return immutable map of the predefined Jackson Mixins after applying the predicate
+   */
+  public static Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; getPredefinedMixins(Predicate&lt;Class&lt;?&gt;&gt; keyFilter) {
+<span class="nc" id="L49">    return ImmutableMap.copyOf(Maps.filterKeys(PREDEFINED_MIXINS, keyFilter));</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

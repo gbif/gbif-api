@@ -369,12 +369,12 @@
 <a class="jxr_linenumber" name="L361" href="#L361">361</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Unsupported simple WKT (unsupported type "</span> + geometry.getGeometryType() + <span class="jxr_string">"): "</span> + wellKnownText);
 <a class="jxr_linenumber" name="L362" href="#L362">362</a>         }
 <a class="jxr_linenumber" name="L363" href="#L363">363</a>       }
-<a class="jxr_linenumber" name="L364" href="#L364">364</a>     } <strong class="jxr_keyword">catch</strong> (java.text.ParseException e) {
-<a class="jxr_linenumber" name="L365" href="#L365">365</a>       e.printStackTrace();
-<a class="jxr_linenumber" name="L366" href="#L366">366</a>       <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Cannot parse simple WKT: "</span> + wellKnownText);
-<a class="jxr_linenumber" name="L367" href="#L367">367</a>     } <strong class="jxr_keyword">catch</strong> (InvalidShapeException e) {
-<a class="jxr_linenumber" name="L368" href="#L368">368</a>       e.printStackTrace();
-<a class="jxr_linenumber" name="L369" href="#L369">369</a>       <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Invalid shape in WKT: "</span> + wellKnownText);
+<a class="jxr_linenumber" name="L364" href="#L364">364</a>     } <strong class="jxr_keyword">catch</strong> (AssertionError e) {
+<a class="jxr_linenumber" name="L365" href="#L365">365</a>       <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Cannot parse simple WKT: "</span> + wellKnownText + <span class="jxr_string">" "</span> + e.getMessage());
+<a class="jxr_linenumber" name="L366" href="#L366">366</a>     } <strong class="jxr_keyword">catch</strong> (java.text.ParseException e) {
+<a class="jxr_linenumber" name="L367" href="#L367">367</a>       <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Cannot parse simple WKT: "</span> + wellKnownText + <span class="jxr_string">" "</span> + e.getMessage());
+<a class="jxr_linenumber" name="L368" href="#L368">368</a>     } <strong class="jxr_keyword">catch</strong> (InvalidShapeException e) {
+<a class="jxr_linenumber" name="L369" href="#L369">369</a>       <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Invalid shape in WKT: "</span> + wellKnownText + <span class="jxr_string">" "</span> + e.getMessage());
 <a class="jxr_linenumber" name="L370" href="#L370">370</a>     }
 <a class="jxr_linenumber" name="L371" href="#L371">371</a>   }
 <a class="jxr_linenumber" name="L372" href="#L372">372</a> 
@@ -428,6 +428,6 @@
 <a class="jxr_linenumber" name="L420" href="#L420">420</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2019 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2020 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>
 </body>
 </html>

@@ -16,7 +16,7 @@
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../org/gbif/api/model/occurrence/predicate/WithinPredicateTest.html">WithinPredicateTest</a> {
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  
-<a class="jxr_linenumber" name="L11" href="#L11">11</a>    @Test(expected = IllegalArgumentException.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>    <em class="jxr_comment">// API no longer throws an exeception here.</em>
 <a class="jxr_linenumber" name="L12" href="#L12">12</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testEmptyConstructor() {
 <a class="jxr_linenumber" name="L13" href="#L13">13</a>      <strong class="jxr_keyword">new</strong> WithinPredicate(<span class="jxr_string">""</span>);
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>    }
@@ -26,7 +26,7 @@
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>      <strong class="jxr_keyword">new</strong> WithinPredicate(<strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>    }
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>  
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>    @Test(expected = IllegalArgumentException.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>    <em class="jxr_comment">// API no longer throws an exeception here.</em>
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testBadConstructor1() {
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>      <strong class="jxr_keyword">new</strong> WithinPredicate(<span class="jxr_string">"POLYGON"</span>);
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>    }
@@ -36,7 +36,7 @@
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>      <strong class="jxr_keyword">new</strong> WithinPredicate(<span class="jxr_string">"POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))"</span>);
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>    }
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>    @Test(expected = IllegalArgumentException.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>    <em class="jxr_comment">// API no longer throws an exeception here.</em>
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testBadRectangle() {
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>      <strong class="jxr_keyword">new</strong> WithinPredicate(<span class="jxr_string">"POLYGON ((30 10, 100 100, 20 40, 40 40, 30 10))"</span>);
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>    }
@@ -102,9 +102,15 @@
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>      <em class="jxr_comment">// The CAFF (ish) Arctic polygon, "fixed" by turning it into a WGS84 rectangle, and interpolating so the wrap-around doesn't have a distance of &gt;180°.</em>
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>      <strong class="jxr_keyword">new</strong> WithinPredicate(<span class="jxr_string">"POLYGON((-180 90,-180 50,-179 50,-170 51,-150 67,-130 62,-110 59,-90 55,-70 52,-50 59,-30 66,-10 62,10 66,30 66,50 66,70 65,90 64,110 63,130 63,150 62,170 53,178 50,179 50,180 50,180 90,60 90,-60 90,-180 90))"</span>);
 <a class="jxr_linenumber" name="L96" href="#L96">96</a>    }
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>  }
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>    @Test
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testOldDownload() {
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>     <em class="jxr_comment">// A polygon that is no longer valid should still be read.</em>
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>     <strong class="jxr_keyword">new</strong> WithinPredicate(<span class="jxr_string">"POLYGON((179.99706 50.42798,175.71729 50.32125,164.69551 54.46408,164.41784 58.23259,152.93250 62.42883,149.28338 61.42635,145.49908 63.19071,135.05338 62.47747,121.47856 63.88828,118.42940 61.72106,92.03338 63.48794,88.04893 65.83859,72.38348 64.83205,35.10765 65.27235,20.53798 66.27026,15.93477 63.64430,13.23228 64.16949,14.02329 66.20159,-3.98112 66.35560,-5.28656 60.41050,-24.62696 63.13864,-26.61983 66.37187,-35.26608 65.57732,-42.55152 58.69327,-51.84071 58.60134,-55.81483 49.91863,-85.07522 48.86776,-87.99834 53.35866,-109.22832 59.11742,-121.84178 55.37470,-134.08814 63.56701,-141.82291 64.54874,-141.93138 68.24804,-158.60607 65.39087,-150.05958 56.55879,-167.23505 51.12098,-180.00299 50.42801,-180.00000 90.00000,180.00000 90.00000,179.99706 50.42798))"</span>);
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>   }
+<a class="jxr_linenumber" name="L103" href="#L103">103</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2019 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2020 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>
 </body>
 </html>

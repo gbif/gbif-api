@@ -21,11 +21,14 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This predicate checks if an occurrence location falls within the given WKT geometry {@code value}.
  */
 public class WithinPredicate implements Predicate {
+<span class="fc" id="L31">  private static final Logger LOG = LoggerFactory.getLogger(WithinPredicate.class);</span>
 
   @NotNull
   private final String geometry;
@@ -43,42 +46,51 @@ public class WithinPredicate implements Predicate {
    *   &lt;li&gt;POLYGON&lt;/li&gt;
    *   &lt;li&gt;LINEARRING&lt;/li&gt;
    * &lt;/ul&gt;
+   * &lt;strong&gt;Unlike other predicates, this validation only logs in case of an invalid string.&lt;/strong&gt;
+   * This is because the WKT parser has been changed over time, and some old strings are not valid according
+   * to the current parser.
    * @param geometry
    */
   @JsonCreator
-<span class="fc" id="L49">  public WithinPredicate(@JsonProperty(&quot;geometry&quot;) String geometry) {</span>
-<span class="fc" id="L50">    Preconditions.checkNotNull(geometry, &quot;&lt;geometry&gt; may not be null&quot;);</span>
-    // make sure its a valid WKT
-<span class="fc" id="L52">    SearchTypeValidator.validate(OccurrenceSearchParameter.GEOMETRY, geometry);</span>
-<span class="fc" id="L53">    this.geometry = geometry;</span>
-<span class="fc" id="L54">  }</span>
+<span class="fc" id="L55">  public WithinPredicate(@JsonProperty(&quot;geometry&quot;) String geometry) {</span>
+<span class="fc" id="L56">    Preconditions.checkNotNull(geometry, &quot;&lt;geometry&gt; may not be null&quot;);</span>
+    try {
+      // test if it is a valid WKT
+<span class="fc" id="L59">      SearchTypeValidator.validate(OccurrenceSearchParameter.GEOMETRY, geometry);</span>
+<span class="fc" id="L60">    } catch (IllegalArgumentException e) {</span>
+      // Log invalid strings, but continue - the geometry parser has changed over time, and some once-valid strings
+      // are no longer considered valid.  See https://github.com/gbif/gbif-api/issues/48.
+<span class="fc" id="L63">      LOG.warn(&quot;Invalid geometry string {}: {}&quot;, geometry, e.getMessage());</span>
+<span class="fc" id="L64">    }</span>
+<span class="fc" id="L65">    this.geometry = geometry;</span>
+<span class="fc" id="L66">  }</span>
 
   public String getGeometry() {
-<span class="nc" id="L57">    return geometry;</span>
+<span class="nc" id="L69">    return geometry;</span>
   }
 
   @Override
   public boolean equals(Object obj) {
-<span class="nc bnc" id="L62" title="All 2 branches missed.">    if (this == obj) {</span>
-<span class="nc" id="L63">      return true;</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">    if (this == obj) {</span>
+<span class="nc" id="L75">      return true;</span>
     }
 
-<span class="nc bnc" id="L66" title="All 2 branches missed.">    if (!(obj instanceof WithinPredicate)) {</span>
-<span class="nc" id="L67">      return false;</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">    if (!(obj instanceof WithinPredicate)) {</span>
+<span class="nc" id="L79">      return false;</span>
     }
 
-<span class="nc" id="L70">    WithinPredicate that = (WithinPredicate) obj;</span>
-<span class="nc" id="L71">    return Objects.equal(this.geometry, that.geometry);</span>
+<span class="nc" id="L82">    WithinPredicate that = (WithinPredicate) obj;</span>
+<span class="nc" id="L83">    return Objects.equal(this.geometry, that.geometry);</span>
   }
 
   @Override
    public int hashCode() {
-<span class="nc" id="L76">     return Objects.hashCode(geometry);</span>
+<span class="nc" id="L88">     return Objects.hashCode(geometry);</span>
    }
 
    @Override
    public String toString() {
-<span class="nc" id="L81">     return Objects.toStringHelper(this).add(&quot;geometry&quot;, geometry).toString();</span>
+<span class="nc" id="L93">     return Objects.toStringHelper(this).add(&quot;geometry&quot;, geometry).toString();</span>
    }
 
 }
