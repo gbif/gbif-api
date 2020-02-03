@@ -26,18 +26,18 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
   private String description;
   private InstitutionType type;
   private boolean active;
-  private List<String> email;
-  private List<String> phone;
+  private List<String> email = new ArrayList<>();
+  private List<String> phone = new ArrayList<>();
   private URI homepage;
   private URI catalogUrl;
   private URI apiUrl;
   private InstitutionGovernance institutionalGovernance;
-  private List<Discipline> disciplines;
+  private List<Discipline> disciplines = new ArrayList<>();
   private BigDecimal latitude;
   private BigDecimal longitude;
   private Address mailingAddress;
   private Address address;
-  private List<String> additionalNames;
+  private List<String> additionalNames = new ArrayList<>();
   private Date foundingDate;
   private String geographicDescription;
   private String taxonomicDescription;
@@ -52,7 +52,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
   private Date deleted;
   private List<Tag> tags = new ArrayList<>();
   private List<Identifier> identifiers = new ArrayList<>();
-  private List<Person> contacts;
+  private List<Person> contacts = new ArrayList<>();
   private List<MachineTag> machineTags = new ArrayList<>();
 
   /**
