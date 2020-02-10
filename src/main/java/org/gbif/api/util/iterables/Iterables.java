@@ -1,6 +1,8 @@
 package org.gbif.api.util.iterables;
 
 import org.gbif.api.model.common.paging.PagingConstants;
+import org.gbif.api.model.common.paging.PagingRequest;
+import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
@@ -13,6 +15,7 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetType;
 
 import java.util.UUID;
+import java.util.function.Function;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableList;
@@ -140,6 +143,20 @@ public class Iterables {
     public static Iterable<Dataset> endorsedDatasets(UUID nodeKey, @Nullable DatasetType type, NodeService service) {
         LOG.info("Iterate over all {} datasets endorsed by node {}", type == null ? "" : type, nodeKey);
         return new NodeDatasetPager(service, nodeKey, type, PagingConstants.DEFAULT_PARAM_LIMIT);
+    }
+
+  /**
+   *
+   * @param pager producer function of next page response
+   * @return a  dataset iterable based on producer function
+   */
+  public static Iterable<Dataset> datasetsIterable(Function<PagingRequest, PagingResponse<Dataset>> pager) {
+      return new DatasetBasePager(null, PagingConstants.DEFAULT_PARAM_LIMIT) {
+        @Override
+        PagingResponse<Dataset> nextPage(PagingRequest page) {
+          return pager.apply(page);
+        }
+      };
     }
 
     /**
