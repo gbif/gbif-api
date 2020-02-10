@@ -145,19 +145,19 @@ public class Iterables {
         return new NodeDatasetPager(service, nodeKey, type, PagingConstants.DEFAULT_PARAM_LIMIT);
     }
 
-  /**
-   *
-   * @param pager producer function of next page response
-   * @return a  dataset iterable based on producer function
-   */
-  public static Iterable<Dataset> datasetsIterable(Function<PagingRequest, PagingResponse<Dataset>> pager) {
-      return new DatasetBasePager(null, PagingConstants.DEFAULT_PARAM_LIMIT) {
-        @Override
-        PagingResponse<Dataset> nextPage(PagingRequest page) {
-          return pager.apply(page);
-        }
-      };
-    }
+    /**
+     *
+     * @param pager producer function of next page response
+     * @return a  dataset iterable based on producer function
+     */
+    public static Iterable<Dataset> datasetsIterable(Function<PagingRequest, PagingResponse<Dataset>> pager) {
+        return new DatasetBasePager(null, PagingConstants.DEFAULT_PARAM_LIMIT) {
+          @Override
+          PagingResponse<Dataset> nextPage(PagingRequest page) {
+            return pager.apply(page);
+          }
+        };
+      }
 
     /**
      * @param country an optional country filter
