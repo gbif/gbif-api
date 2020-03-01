@@ -1,19 +1,14 @@
 package org.gbif.api.model.collections;
 
+import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.*;
+import org.gbif.api.util.HttpURI;
 import org.gbif.api.vocabulary.collections.AccessionStatus;
 import org.gbif.api.vocabulary.collections.CollectionContentType;
 import org.gbif.api.vocabulary.collections.PreservationType;
-import org.gbif.api.model.common.DOI;
-import org.gbif.api.util.HttpURI;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.StringJoiner;
-import java.util.UUID;
+import java.util.*;
 import javax.annotation.Nullable;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -30,16 +25,16 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
   private String code;
   private String name;
   private String description;
-  private List<CollectionContentType> contentTypes;
+  private List<CollectionContentType> contentTypes = new ArrayList<>();
   private boolean active;
   private boolean personalCollection;
   private DOI doi;
-  private List<String> email;
-  private List<String> phone;
+  private List<String> email = new ArrayList<>();
+  private List<String> phone = new ArrayList<>();
   private URI homepage;
   private URI catalogUrl;
   private URI apiUrl;
-  private List<PreservationType> preservationTypes;
+  private List<PreservationType> preservationTypes = new ArrayList<>();
   private AccessionStatus accessionStatus;
   private UUID institutionKey;
   private Address mailingAddress;
@@ -51,10 +46,16 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
   private Date deleted;
   private List<Tag> tags = new ArrayList<>();
   private List<Identifier> identifiers = new ArrayList<>();
-  private List<Person> contacts;
+  private List<Person> contacts = new ArrayList<>();
   private boolean indexHerbariorumRecord;
   private int numberSpecimens;
   private List<MachineTag> machineTags = new ArrayList<>();
+  private String taxonomicCoverage;
+  private String geography;
+  private String notes;
+  private List<String> incorporatedCollections = new ArrayList<>();
+  private List<String> importantCollectors = new ArrayList<>();
+  private Map<String, Integer> collectionSummary = new HashMap<>();
 
   /**
    * List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc..
@@ -384,6 +385,54 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
     machineTags.add(machineTag);
   }
 
+  public String getTaxonomicCoverage() {
+    return taxonomicCoverage;
+  }
+
+  public void setTaxonomicCoverage(String taxonomicCoverage) {
+    this.taxonomicCoverage = taxonomicCoverage;
+  }
+
+  public String getGeography() {
+    return geography;
+  }
+
+  public void setGeography(String geography) {
+    this.geography = geography;
+  }
+
+  public String getNotes() {
+    return notes;
+  }
+
+  public void setNotes(String notes) {
+    this.notes = notes;
+  }
+
+  public List<String> getIncorporatedCollections() {
+    return incorporatedCollections;
+  }
+
+  public void setIncorporatedCollections(List<String> incorporatedCollections) {
+    this.incorporatedCollections = incorporatedCollections;
+  }
+
+  public List<String> getImportantCollectors() {
+    return importantCollectors;
+  }
+
+  public void setImportantCollectors(List<String> importantCollectors) {
+    this.importantCollectors = importantCollectors;
+  }
+
+  public Map<String, Integer> getCollectionSummary() {
+    return collectionSummary;
+  }
+
+  public void setCollectionSummary(Map<String, Integer> collectionSummary) {
+    this.collectionSummary = collectionSummary;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -417,7 +466,13 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
            && Objects.equals(contacts, that.contacts)
            && indexHerbariorumRecord == that.indexHerbariorumRecord
            && Objects.equals(numberSpecimens, that.numberSpecimens)
-           && Objects.equals(machineTags, that.machineTags);
+           && Objects.equals(machineTags, that.machineTags)
+           && Objects.equals(taxonomicCoverage, that.taxonomicCoverage)
+           && Objects.equals(geography, that.geography)
+           && Objects.equals(notes, that.notes)
+           && Objects.equals(incorporatedCollections, that.incorporatedCollections)
+           && Objects.equals(importantCollectors, that.importantCollectors)
+           && Objects.equals(collectionSummary, that.collectionSummary);
   }
 
   @Override
@@ -450,7 +505,13 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
                         contacts,
                         indexHerbariorumRecord,
                         numberSpecimens,
-                        machineTags);
+                        machineTags,
+                        taxonomicCoverage,
+                        geography,
+                        notes,
+                        incorporatedCollections,
+                        importantCollectors,
+                        collectionSummary);
   }
 
   @Override
@@ -484,6 +545,12 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
       .add("indexHerbariorumRecord=" + indexHerbariorumRecord)
       .add("numberSpecimens=" + numberSpecimens)
       .add("machineTags=" + machineTags)
+      .add("taxonomicCoverage=" + taxonomicCoverage)
+      .add("geography=" + geography)
+      .add("notes=" + notes)
+      .add("incorporatedCollections=" + incorporatedCollections)
+      .add("importantCollectors=" + importantCollectors)
+      .add("collectionSummary=" + collectionSummary)
       .toString();
   }
 
@@ -512,6 +579,12 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
            && Objects.equals(address, other.address)
            && Objects.equals(deleted, other.deleted)
            && indexHerbariorumRecord == other.indexHerbariorumRecord
-           && Objects.equals(numberSpecimens, other.numberSpecimens);
+           && Objects.equals(numberSpecimens, other.numberSpecimens)
+           && Objects.equals(taxonomicCoverage, other.taxonomicCoverage)
+           && Objects.equals(geography, other.geography)
+           && Objects.equals(notes, other.notes)
+           && Objects.equals(incorporatedCollections, other.incorporatedCollections)
+           && Objects.equals(importantCollectors, other.importantCollectors)
+           && Objects.equals(collectionSummary, other.collectionSummary);
   }
 }

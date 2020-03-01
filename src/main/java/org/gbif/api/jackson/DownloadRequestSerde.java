@@ -21,10 +21,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Download request deserializer.
+ *
+ * For most of the time, the serialization has been to "notificationAddresses" and "sendNotification".  For a few months
+ * in 2018-2019, it was "notification_address" and "send_notification".
+ *
+ * The API documentation has previously specified "notification_address" and "sendNotification".
+ *
+ * We therefore accept all combinations.
+ *
+ * https://github.com/gbif/portal-feedback/issues/2046
+ */
 public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
 
   private static final String PREDICATE = "predicate";
-  private static final String SQL = "sql";
   private static final List<String> SEND_NOTIFICATION = ImmutableList.of("sendNotification", "send_notification");
   private static final List<String> NOTIFICATION_ADDRESSES =
     ImmutableList.of("notificationAddresses", "notificationAddress", "notification_addresses", "notification_address");
