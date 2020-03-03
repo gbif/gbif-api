@@ -12,4 +12,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NullToNotFound {
+
+  /**
+   * Resource URI which was not found.
+   */
+  String value();
 }
