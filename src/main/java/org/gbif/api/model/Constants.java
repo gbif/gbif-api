@@ -45,7 +45,7 @@ public final class Constants {
   /**
    * The network key for the Ocean Biogeographic Information System (OBIS).
    */
-  public static final UUID OBIS_NETWORK_KEY = UUID.fromString("838f42d6-f762-11e1-a439-00145eb45e9a");
+  public static final UUID OBIS_NETWORK_KEY = UUID.fromString("2b7c7b4f-4d4f-40d3-94de-c28b6fa054a6");
 
   /**
    * The dataset key for the EOD - eBird Observation Dataset.
