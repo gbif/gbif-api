@@ -1,6 +1,5 @@
 package org.gbif.api.model.registry.eml;
 
-
 import org.gbif.api.model.registry.Contact;
 
 import com.google.common.collect.Lists;

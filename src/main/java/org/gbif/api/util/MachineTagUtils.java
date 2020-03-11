@@ -4,6 +4,7 @@ import org.gbif.api.model.registry.MachineTag;
 import org.gbif.api.model.registry.MachineTaggable;
 import org.gbif.api.vocabulary.TagName;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import javax.annotation.Nullable;
@@ -108,7 +109,7 @@ public class MachineTagUtils {
    * @return a new list of machine tags which have the given tagNamespace.
    */
   public static List<MachineTag> list(MachineTaggable taggable, TagNamespace tagNamespace) {
-    List<MachineTag> tags = Lists.newArrayList();
+    List<MachineTag> tags = new ArrayList<>();
     for (MachineTag mt : taggable.getMachineTags()) {
       if (mt.getNamespace().equals(tagNamespace.getNamespace())) {
         tags.add(mt);
@@ -128,7 +129,7 @@ public class MachineTagUtils {
    * @return a new list of machine tags which have the given namespace and name.
    */
   public static List<MachineTag> list(MachineTaggable taggable, String namespace, String tagName) {
-    List<MachineTag> tags = Lists.newArrayList();
+    List<MachineTag> tags = new ArrayList<>();
     for (MachineTag mt : taggable.getMachineTags()) {
       if (mt.getNamespace().equals(namespace) && mt.getName().equals(tagName)) {
         tags.add(mt);
@@ -141,7 +142,7 @@ public class MachineTagUtils {
    * @return a new list of machine tags which have the given namespace and a name starting with a common prefix.
    */
   public static List<MachineTag> listByPrefix(MachineTaggable taggable, String namespace, String prefix) {
-    List<MachineTag> tags = Lists.newArrayList();
+    List<MachineTag> tags = new ArrayList<>();
     for (MachineTag mt : taggable.getMachineTags()) {
       if (mt.getNamespace().equals(namespace) && mt.getName().startsWith(prefix)) {
         tags.add(mt);

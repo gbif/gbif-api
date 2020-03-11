@@ -20,6 +20,7 @@ import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.ThreatStatus;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.validation.constraints.NotNull;
@@ -31,8 +32,6 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
-
-import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * An extension to a NameUsage adding all further properties that are not eagerly loaded.
@@ -48,16 +47,16 @@ public class NameUsageContainer extends NameUsage {
     MAPPER.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
-  private List<Description> descriptions = newArrayList();
-  private List<Distribution> distributions = newArrayList();
-  private List<Identifier> identifiers = newArrayList();
-  private List<NameUsageMediaObject> media = newArrayList();
-  private List<Reference> referenceList = newArrayList();
-  private List<SpeciesProfile> speciesProfiles = newArrayList();
-  private List<NameUsage> synonyms = newArrayList();
-  private List<NameUsage> combinations = newArrayList();
-  private List<TypeSpecimen> typeSpecimens = newArrayList();
-  private List<VernacularName> vernacularNames = newArrayList();
+  private List<Description> descriptions = new ArrayList<>();
+  private List<Distribution> distributions = new ArrayList<>();
+  private List<Identifier> identifiers = new ArrayList<>();
+  private List<NameUsageMediaObject> media = new ArrayList<>();
+  private List<Reference> referenceList = new ArrayList<>();
+  private List<SpeciesProfile> speciesProfiles = new ArrayList<>();
+  private List<NameUsage> synonyms = new ArrayList<>();
+  private List<NameUsage> combinations = new ArrayList<>();
+  private List<TypeSpecimen> typeSpecimens = new ArrayList<>();
+  private List<VernacularName> vernacularNames = new ArrayList<>();
 
   /**
    * Default constructor.
@@ -153,7 +152,7 @@ public class NameUsageContainer extends NameUsage {
   @NotNull
   @JsonIgnore
   public List<Identifier> getIdentifierByType(final IdentifierType type) {
-    List<Identifier> ids = newArrayList();
+    List<Identifier> ids = new ArrayList<>();
     for (Identifier i : identifiers) {
       if (type == i.getType()) {
         ids.add(i);

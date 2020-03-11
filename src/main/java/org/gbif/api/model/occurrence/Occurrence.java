@@ -35,6 +35,7 @@ import org.gbif.dwc.terms.UnknownTerm;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -52,12 +53,10 @@ import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonAnyGetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -156,10 +155,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Double sampleSizeValue;
   private Double relativeOrganismQuantity;
   // interpreted extension data
-  private List<Identifier> identifiers = Lists.newArrayList();
-  private List<MediaObject> media = Lists.newArrayList();
-  private List<FactOrMeasurment> facts = Lists.newArrayList();
-  private List<OccurrenceRelation> relations = Lists.newArrayList();
+  private List<Identifier> identifiers = new ArrayList<>();
+  private List<MediaObject> media = new ArrayList<>();
+  private List<FactOrMeasurment> facts = new ArrayList<>();
+  private List<OccurrenceRelation> relations = new ArrayList<>();
 
   public Occurrence() {
 

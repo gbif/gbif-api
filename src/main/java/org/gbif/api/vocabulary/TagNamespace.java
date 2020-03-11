@@ -15,9 +15,8 @@
  */
 package org.gbif.api.vocabulary;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.collect.Lists;
 
 /**
  * Known namespaces for tags.
@@ -91,7 +90,7 @@ public enum TagNamespace {
    * Gets the list of {@link TagName} which belongs to the namespace.
    */
   public List<TagName> getPredicates() {
-    List<TagName> tagNames = Lists.newArrayList();
+    List<TagName> tagNames = new ArrayList<>();
     for (TagName tagName : TagName.values()) {
       if (tagName.getNamespace() == this) {
         tagNames.add(tagName);

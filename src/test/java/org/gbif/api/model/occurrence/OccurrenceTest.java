@@ -30,12 +30,12 @@ import org.gbif.dwc.terms.UnknownTerm;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -382,7 +382,7 @@ public class OccurrenceTest {
     mediaObject.setTitle("mediaTestTitle");
     mediaObject.setType(MediaType.StillImage);
     mediaObject.setIdentifier(new URI("http://www.gbif.org"));
-    List<MediaObject> medias = Lists.newArrayList();
+    List<MediaObject> medias = new ArrayList<>();
     medias.add(mediaObject);
     o.setMedia(medias);
     String json = mapper.writeValueAsString(o);

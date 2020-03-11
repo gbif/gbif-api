@@ -1,6 +1,6 @@
 package org.gbif.api.v2;
 
-import com.google.common.collect.Lists;
+import java.util.ArrayList;
 import org.gbif.api.model.checklistbank.NameUsageMatch;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 
@@ -16,7 +16,7 @@ public class NameUsageMatch2 {
   private RankedName usage;
   private RankedName acceptedUsage;
   private Nomenclature nomenclature;
-  private List<RankedName> classification = Lists.newArrayList();
+  private List<RankedName> classification = new ArrayList<>();
   private Diagnostics diagnostics = new Diagnostics();
 
   public static class Nomenclature {
@@ -58,8 +58,8 @@ public class NameUsageMatch2 {
     private NameUsageMatch.MatchType matchType;
     private Integer confidence;
     private TaxonomicStatus status;
-    private List<String> lineage = Lists.newArrayList();
-    private List<NameUsageMatch2> alternatives = Lists.newArrayList();
+    private List<String> lineage = new ArrayList<>();
+    private List<NameUsageMatch2> alternatives = new ArrayList<>();
     private String note;
 
     public NameUsageMatch.MatchType getMatchType() {

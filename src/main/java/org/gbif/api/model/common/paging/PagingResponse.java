@@ -15,12 +15,12 @@
  */
 package org.gbif.api.model.common.paging;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 
 /**
  * Paging response bean.
@@ -29,7 +29,7 @@ public class PagingResponse<T> extends PageableBase {
 
   private Boolean endOfRecords;
   private Long count;
-  private List<T> results = Lists.newArrayList();
+  private List<T> results = new ArrayList<>();
 
   /**
    * Default constructor with default paging values.

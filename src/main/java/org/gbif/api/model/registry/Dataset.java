@@ -31,6 +31,7 @@ import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.MaintenanceUpdateFrequency;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -42,7 +43,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -112,25 +112,25 @@ public class Dataset
   private Date created;
   private Date modified;
   private Date deleted;
-  private List<Contact> contacts = Lists.newArrayList();
-  private List<Endpoint> endpoints = Lists.newArrayList();
-  private List<MachineTag> machineTags = Lists.newArrayList();
-  private List<Tag> tags = Lists.newArrayList();
-  private List<Identifier> identifiers = Lists.newArrayList();
-  private List<Comment> comments = Lists.newArrayList();
+  private List<Contact> contacts = new ArrayList<>();
+  private List<Endpoint> endpoints = new ArrayList<>();
+  private List<MachineTag> machineTags = new ArrayList<>();
+  private List<Tag> tags = new ArrayList<>();
+  private List<Identifier> identifiers = new ArrayList<>();
+  private List<Comment> comments = new ArrayList<>();
   // EML specific properties which are not persisted on the dataset table!
-  private List<Citation> bibliographicCitations = Lists.newArrayList();
-  private List<CuratorialUnitComposite> curatorialUnits = Lists.newArrayList();
-  private List<TaxonomicCoverages> taxonomicCoverages = Lists.newArrayList();
+  private List<Citation> bibliographicCitations = new ArrayList<>();
+  private List<CuratorialUnitComposite> curatorialUnits = new ArrayList<>();
+  private List<TaxonomicCoverages> taxonomicCoverages = new ArrayList<>();
   private String geographicCoverageDescription;
-  private List<GeospatialCoverage> geographicCoverages = Lists.newArrayList();
-  private List<TemporalCoverage> temporalCoverages = Lists.newArrayList();
-  private List<KeywordCollection> keywordCollections = Lists.newArrayList();
+  private List<GeospatialCoverage> geographicCoverages = new ArrayList<>();
+  private List<TemporalCoverage> temporalCoverages = new ArrayList<>();
+  private List<KeywordCollection> keywordCollections = new ArrayList<>();
   private Project project;
   private SamplingDescription samplingDescription;
   private Set<Country> countryCoverage = Sets.newHashSet();
-  private List<Collection> collections = Lists.newArrayList();
-  private List<DataDescription> dataDescriptions = Lists.newArrayList();
+  private List<Collection> collections = new ArrayList<>();
+  private List<DataDescription> dataDescriptions = new ArrayList<>();
   private Language dataLanguage;
   private String purpose;
   private String additionalInfo;
@@ -485,7 +485,7 @@ public class Dataset
   public void setCitation(Citation citation) {
     this.citation = citation;
   }
-  
+
   /**
    * Any kind of (copy)rights/IPR statements that apply to the datasets data.
    */

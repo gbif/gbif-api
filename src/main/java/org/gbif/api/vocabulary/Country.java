@@ -13,6 +13,7 @@
 package org.gbif.api.vocabulary;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1354,7 +1355,7 @@ public enum Country {
   private final GbifRegion gbifRegion;
 
   static {
-    List<Country> officials = Lists.newArrayList();
+    List<Country> officials = new ArrayList<>();
     for (Country c : Country.values()) {
       if (c.isOfficial()) {
         officials.add(c);

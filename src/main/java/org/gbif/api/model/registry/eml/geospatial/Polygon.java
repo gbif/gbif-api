@@ -15,11 +15,11 @@
  */
 package org.gbif.api.model.registry.eml.geospatial;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
 
 /**
  * A simple polygon made out of a list of points to be joined.
@@ -27,7 +27,7 @@ import com.google.common.collect.Lists;
 public class Polygon implements Geometry {
 
   private static final Joiner POINT_JOINER = Joiner.on(", ");
-  private List<Point> points = Lists.newArrayList();
+  private List<Point> points = new ArrayList<>();
 
   public List<Point> getPoints() {
     return points;

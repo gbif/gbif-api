@@ -18,10 +18,10 @@ package org.gbif.api.model.common.search;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
 
 /**
  * Generic response of a search operation. The result is a {@link java.util.List} of elements.
@@ -33,7 +33,7 @@ import com.google.common.collect.Lists;
  */
 public class SearchResponse<T, P extends SearchParameter> extends PagingResponse<T> {
 
-  private final List<Facet<P>> facets = Lists.newArrayList();
+  private final List<Facet<P>> facets = new ArrayList<>();
 
   private SpellCheckResponse spellCheckResponse;
 

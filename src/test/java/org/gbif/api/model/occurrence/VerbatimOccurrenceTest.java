@@ -11,13 +11,13 @@ import org.gbif.dwc.terms.TermFactory;
 import org.gbif.dwc.terms.UnknownTerm;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.google.common.collect.Lists;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -213,7 +213,7 @@ public class VerbatimOccurrenceTest {
     v.setLastParsed(new Date());
     v.setDatasetKey(UUID.randomUUID());
     Map<Extension, List<Map<Term, String>>> extensions = new HashMap<Extension, List<Map<Term, String>>>();
-    List<Map<Term, String>> verbatimRecords = Lists.newArrayList();
+    List<Map<Term, String>> verbatimRecords = new ArrayList<>();
     verbatimRecords.add(verbatimRecord);
     extensions.put(Extension.MULTIMEDIA, verbatimRecords);
     v.setExtensions(extensions);
