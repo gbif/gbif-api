@@ -23,6 +23,7 @@ import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -108,9 +109,9 @@ public class NameUsageContainerTest {
     ru2.setTitle("Puma concolor");
     ru2.setSourceTaxonKey(111);
 
-    List<NameUsageMediaObject> lru1 = Lists.newArrayList();
+    List<NameUsageMediaObject> lru1 = new ArrayList<>();
     lru1.add(ru1);
-    List<NameUsageMediaObject> lru2 = Lists.newArrayList();
+    List<NameUsageMediaObject> lru2 = new ArrayList<>();
     lru2.add(ru2);
 
     nu1.setMedia(lru1);

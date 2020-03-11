@@ -2,10 +2,12 @@ package org.gbif.api.model.crawler;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -75,7 +77,7 @@ public class OccurrenceValidationReport {
     boolean looksValid = invalidTripletsBelowLimit && hasUniqueTriplets || hasGoodOccIds;
 
     if (!looksValid) {
-      List<String> reasons = Lists.newArrayList();
+      List<String> reasons = new ArrayList<>();
       if (!invalidTripletsBelowLimit) {
         reasons.add(Math.round(100 * invalidRatio) + "% invalid triplets is > than threshold of " + Math
           .round(100 * INVALID_TRIPLET_THRESHOLD) + '%');

@@ -14,7 +14,6 @@ package org.gbif.api.model.registry;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
 import org.gbif.api.util.HttpURI;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Language;
@@ -26,6 +25,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -62,12 +62,12 @@ public class Organization
   private Date created;
   private Date modified;
   private Date deleted;
-  private List<Contact> contacts = Lists.newArrayList();
-  private List<Endpoint> endpoints = Lists.newArrayList();
-  private List<MachineTag> machineTags = Lists.newArrayList();
-  private List<Tag> tags = Lists.newArrayList();
-  private List<Identifier> identifiers = Lists.newArrayList();
-  private List<Comment> comments = Lists.newArrayList();
+  private List<Contact> contacts = new ArrayList<>();
+  private List<Endpoint> endpoints = new ArrayList<>();
+  private List<MachineTag> machineTags = new ArrayList<>();
+  private List<Tag> tags = new ArrayList<>();
+  private List<Identifier> identifiers = new ArrayList<>();
+  private List<Comment> comments = new ArrayList<>();
 
   @Override
   public UUID getKey() {

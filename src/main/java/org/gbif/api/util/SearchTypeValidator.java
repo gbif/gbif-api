@@ -6,6 +6,7 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Language;
 
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -384,7 +385,7 @@ public class SearchTypeValidator {
       return Lists.newArrayList(Integer.parseInt(value));
     } catch (NumberFormatException e) {
       Range<Integer> range = parseIntegerRange(value);
-      List<Integer> ints = Lists.newArrayList();
+      List<Integer> ints = new ArrayList<>();
       if (range.hasLowerBound()) {
         ints.add(range.lowerEndpoint());
       }

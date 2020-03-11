@@ -19,6 +19,7 @@ import org.gbif.dwc.terms.UnknownTerm;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +41,7 @@ public class VerbatimNameUsageTest {
     v1.setCoreField(DwcTerm.taxonRank, "species");
     assertFalse(v1.hasExtension(Extension.IDENTIFICATION));
 
-    List<Map<Term, String>> exts = Lists.newArrayList();
+    List<Map<Term, String>> exts = new ArrayList<>();
     v1.getExtensions().put(Extension.IDENTIFICATION, exts);
     assertFalse(v1.hasExtension(Extension.IDENTIFICATION));
     assertFalse(v1.hasExtension(DwcTerm.Identification));
@@ -249,7 +250,7 @@ public class VerbatimNameUsageTest {
     v.setKey(7);
     v.setLastCrawled(new Date());
     Map<Extension, List<Map<Term, String>>> extensions = new HashMap<Extension, List<Map<Term, String>>>();
-    List<Map<Term, String>> verbatimRecords = Lists.newArrayList();
+    List<Map<Term, String>> verbatimRecords = new ArrayList<>();
     verbatimRecords.add(verbatimRecord);
     extensions.put(Extension.MULTIMEDIA, verbatimRecords);
     v.setExtensions(extensions);

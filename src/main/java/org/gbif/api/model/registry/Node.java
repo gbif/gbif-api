@@ -20,6 +20,7 @@ import org.gbif.api.vocabulary.NodeType;
 import org.gbif.api.vocabulary.ParticipationStatus;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -28,7 +29,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
 
 /**
  * A GBIF participant node.
@@ -47,12 +47,12 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
   private String participantTitle;
   private String abbreviation;
   private String description;
-  private List<String> email = Lists.newArrayList();
-  private List<String> phone = Lists.newArrayList();
-  private List<URI> homepage = Lists.newArrayList();
+  private List<String> email = new ArrayList<>();
+  private List<String> phone = new ArrayList<>();
+  private List<URI> homepage = new ArrayList<>();
   private URI logoUrl;
   private String organization;
-  private List<String> address = Lists.newArrayList();
+  private List<String> address = new ArrayList<>();
   private String city;
   private String province;
   private Country country;
@@ -62,12 +62,12 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
   private Date created;
   private Date modified;
   private Date deleted;
-  private List<Contact> contacts = Lists.newArrayList();
-  private List<Endpoint> endpoints = Lists.newArrayList();
-  private List<MachineTag> machineTags = Lists.newArrayList();
-  private List<Tag> tags = Lists.newArrayList();
-  private List<Identifier> identifiers = Lists.newArrayList();
-  private List<Comment> comments = Lists.newArrayList();
+  private List<Contact> contacts = new ArrayList<>();
+  private List<Endpoint> endpoints = new ArrayList<>();
+  private List<MachineTag> machineTags = new ArrayList<>();
+  private List<Tag> tags = new ArrayList<>();
+  private List<Identifier> identifiers = new ArrayList<>();
+  private List<Comment> comments = new ArrayList<>();
 
   @Override
   public UUID getKey() {

@@ -7,11 +7,11 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.TermFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +30,7 @@ public class TermMapListDeserializer extends JsonDeserializer<List<Map<Term, Str
       ObjectMapper objectMapper = new ObjectMapper();
       List<Map<String, String>> verbatimTerms = objectMapper.readValue(jp, new TypeReference<List<Map<String, String>>>() {
       });
-      List<Map<Term, String>> interpretedTerms = Lists.newArrayList();
+      List<Map<Term, String>> interpretedTerms = new ArrayList();
       for (Map<String, String> verbExtension : verbatimTerms) {
         Map<Term, String> extension = new HashMap<>();
         for (Entry<String, String> entry : verbExtension.entrySet()) {

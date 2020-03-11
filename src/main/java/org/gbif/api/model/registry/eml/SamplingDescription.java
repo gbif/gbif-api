@@ -16,11 +16,10 @@
 package org.gbif.api.model.registry.eml;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
-
 
 public class SamplingDescription implements Serializable {
 
@@ -30,7 +29,7 @@ public class SamplingDescription implements Serializable {
 
   private String sampling;
   private String qualityControl;
-  private List<String> methodSteps = Lists.newArrayList();
+  private List<String> methodSteps = new ArrayList<>();
 
   public SamplingDescription() {
   }

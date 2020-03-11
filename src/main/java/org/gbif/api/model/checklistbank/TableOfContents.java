@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.gbif.api.vocabulary.Language;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class TableOfContents {
       toc.put(lang, Maps.<String, List<Integer>>newTreeMap());
     }
     if (!toc.get(lang).containsKey(topic)) {
-      toc.get(lang).put(topic, Lists.<Integer>newArrayList());
+      toc.get(lang).put(topic, new ArrayList<>());
     }
     toc.get(lang).get(topic).add(key);
   }

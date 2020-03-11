@@ -15,6 +15,7 @@ package org.gbif.api.model.registry;
 import org.gbif.api.vocabulary.EndpointType;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -24,7 +25,6 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
 
 public class Endpoint implements MachineTaggable, LenientEquals<Endpoint> {
 
@@ -36,7 +36,7 @@ public class Endpoint implements MachineTaggable, LenientEquals<Endpoint> {
   private String modifiedBy;
   private Date created;
   private Date modified;
-  private List<MachineTag> machineTags = Lists.newArrayList();
+  private List<MachineTag> machineTags = new ArrayList<>();
 
   @Null(groups = PrePersist.class)
   @NotNull(groups = PostPersist.class)

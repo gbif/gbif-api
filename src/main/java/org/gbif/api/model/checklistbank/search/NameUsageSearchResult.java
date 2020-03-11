@@ -31,6 +31,7 @@ import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
@@ -91,11 +92,11 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
 
   private String taxonID;
   private Boolean extinct;
-  private List<Habitat> habitats = newArrayList();
-  private List<NomenclaturalStatus> nomenclaturalStatus = newArrayList();
-  private List<ThreatStatus> threatStatuses = newArrayList();
-  private List<Description> descriptions = newArrayList();
-  private List<VernacularName> vernacularNames = newArrayList();
+  private List<Habitat> habitats = new ArrayList<>();
+  private List<NomenclaturalStatus> nomenclaturalStatus = new ArrayList<>();
+  private List<ThreatStatus> threatStatuses = new ArrayList<>();
+  private List<Description> descriptions = new ArrayList<>();
+  private List<VernacularName> vernacularNames = new ArrayList<>();
 
   /**
    * @return the name key for retrieving a parsed name object

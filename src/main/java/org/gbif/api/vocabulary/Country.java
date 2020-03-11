@@ -31,6 +31,7 @@ import com.google.common.collect.Sets;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1353,7 +1354,7 @@ public enum Country {
   private final GbifRegion gbifRegion;
 
   static {
-    List<Country> officials = Lists.newArrayList();
+    List<Country> officials = new ArrayList<>();
     for (Country c : Country.values()) {
       if (c.isOfficial()) {
         officials.add(c);

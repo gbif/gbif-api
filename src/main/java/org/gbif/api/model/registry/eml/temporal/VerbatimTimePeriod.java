@@ -23,7 +23,6 @@ import java.util.Collection;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 
-
 /**
  * A verbatim (e.g. free text) period of time.
  */
