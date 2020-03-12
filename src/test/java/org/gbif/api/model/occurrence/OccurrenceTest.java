@@ -255,7 +255,7 @@ public class OccurrenceTest {
   @Test
   public void testVerbatimMapSerde() throws Exception {
     Occurrence o = new Occurrence();
-    o.setKey(7l);
+    o.setKey(7L);
     o.setLastParsed(new Date());
     o.setDatasetKey(UUID.randomUUID());
     o.setCountry(Country.ALBANIA);
@@ -314,8 +314,9 @@ public class OccurrenceTest {
     }
 
     assertNull(o2.getVerbatimField(TermFactory.instance().findTerm("coordinateAccuracyInMeters")));
-    assertEquals(o.getVerbatimFields().size(), o2.getVerbatimFields().size());
-    assertTrue(diff.isEmpty());
+    assertEquals(o.getVerbatimFields().size() - 1, o2.getVerbatimFields().size());
+    assertEquals(1, diff.size());
+    assertTrue(diff.contains(GbifTerm.verbatimScientificName));
   }
 
   /**
@@ -324,7 +325,7 @@ public class OccurrenceTest {
   @Test
   public void testCustomSerlializations() throws Exception {
     Occurrence o = new Occurrence();
-    o.setKey(7l);
+    o.setKey(7L);
     o.setCountry(Country.ALGERIA);
     o.setClassKey(999);
     o.setClazz("Insecta");

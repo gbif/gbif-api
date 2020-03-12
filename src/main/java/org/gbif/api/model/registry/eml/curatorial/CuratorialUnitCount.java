@@ -15,8 +15,8 @@
  */
 package org.gbif.api.model.registry.eml.curatorial;
 
-import com.google.common.base.Objects;
-
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Used for acuratorial unit count with uncertainty.
@@ -56,34 +56,31 @@ public class CuratorialUnitCount extends CuratorialUnit {
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (this == object) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(object instanceof CuratorialUnitCount)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    if (!super.equals(object)) {
+    if (!super.equals(o)) {
       return false;
     }
-
-    CuratorialUnitCount
-      that = (CuratorialUnitCount) object;
-    return Objects.equal(this.count, that.count) && Objects.equal(this.deviation, that.deviation);
+    CuratorialUnitCount that = (CuratorialUnitCount) o;
+    return count == that.count &&
+      deviation == that.deviation;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), count, deviation);
+    return Objects.hash(super.hashCode(), count, deviation);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("super", super.toString())
-      .add("count", count)
-      .add("deviation", deviation)
+    return new StringJoiner(", ", CuratorialUnitCount.class.getSimpleName() + "[", "]")
+      .add("count=" + count)
+      .add("deviation=" + deviation)
       .toString();
   }
-
 }

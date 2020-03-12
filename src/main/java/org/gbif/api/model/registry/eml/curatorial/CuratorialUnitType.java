@@ -15,7 +15,6 @@
  */
 package org.gbif.api.model.registry.eml.curatorial;
 
-
 /**
  * Allows for typed units.
  */
