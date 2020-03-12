@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,6 @@ public class NameUsageMetrics {
   private int numDescendants;
   private int numSynonyms;
 
-
   /**
    * Return the key that uniquely identifies this name usage.
    *
@@ -58,7 +57,6 @@ public class NameUsageMetrics {
   public void setKey(Integer key) {
     this.key = key;
   }
-
 
   /**
    * Returns the number of direct taxonomic elements under this usage. "Direct" means that children should have
@@ -270,7 +268,6 @@ public class NameUsageMetrics {
     }
     return null;
   }
-
 
   @Override
   public int hashCode() {

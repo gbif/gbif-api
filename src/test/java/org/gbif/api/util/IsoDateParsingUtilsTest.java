@@ -1,3 +1,18 @@
+/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.gbif.api.util;
 
 import java.util.Calendar;
@@ -86,7 +101,6 @@ public class IsoDateParsingUtilsTest {
     Assert.assertNotNull(IsoDateParsingUtils.parseDateRange("2000-10,*"));
   }
 
-
   /**
    * Test case for method {@link IsoDateParsingUtils#parseDate(String)}.
    */
@@ -96,7 +110,6 @@ public class IsoDateParsingUtilsTest {
     Assert.assertNotNull(IsoDateParsingUtils.parseDate("2000"));
     Assert.assertNotNull(IsoDateParsingUtils.parseDate("2000-01-01"));
   }
-
 
   /**
    * Test case for method {@link IsoDateParsingUtils#toLastDayOfMonth(Date)}.
@@ -110,7 +123,6 @@ public class IsoDateParsingUtilsTest {
     assertEquals(0, lastDayOfMonthCal.get(Calendar.MONTH)); // January is 0, months start at index 0
     assertEquals(31, lastDayOfMonthCal.get(Calendar.DAY_OF_MONTH));
   }
-
 
   /**
    * Test case for method {@link IsoDateParsingUtils#toLastDayOfYear(Date)}.

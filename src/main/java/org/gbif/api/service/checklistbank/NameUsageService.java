@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import org.gbif.api.model.common.paging.PagingResponse;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
+
 import javax.annotation.Nullable;
 
 /**

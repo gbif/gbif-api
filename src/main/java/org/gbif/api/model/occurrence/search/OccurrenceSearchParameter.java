@@ -1,9 +1,12 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,7 +14,6 @@
  * limitations under the License.
  */
 package org.gbif.api.model.occurrence.search;
-
 
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.vocabulary.BasisOfRecord;
@@ -218,7 +220,6 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    */
   TAXON_KEY(Integer.class),
 
-
   /**
    * A taxon key from the GBIF backbone for the name usage of the currently valid or accepted taxon.
    */
@@ -291,7 +292,6 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    */
   HAS_COORDINATE(Boolean.class),
 
-
   /**
    * Geometry in <a href="https://en.wikipedia.org/wiki/Well-known_text">Well Known Text</a> (WKT) format.
    * E.g.: POLYGON ((30.0 10.0, 10.12 20.23, 20 40, 40 40, 30 10)).
@@ -305,7 +305,6 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * </ul>
    */
   GEOMETRY(String.class),
-
 
   /**
    * Includes/excludes occurrence records which contain geospatial issues for their coordinate.
@@ -325,7 +324,6 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * Nomenclatural type (type status, typified scientific name, publication) applied to the subject.
    */
   TYPE_STATUS(TypeStatus.class),
-
 
   /**
    * The kind of media object.
@@ -437,7 +435,6 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * Calculated organismQuantity relative to the sampleSizeValue i.e. -> organismQuantity / sampleSizeValue.
    */
   RELATIVE_ORGANISM_QUANTITY(Double.class),
-
 
   /**
    * Collection key as UUID. It links to the collection to which this record belongs.

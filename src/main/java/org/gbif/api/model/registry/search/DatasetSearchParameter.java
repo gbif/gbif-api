@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 package org.gbif.api.model.registry.search;
 
 import org.gbif.api.model.common.search.SearchParameter;
-import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Continent;
+import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetSubtype;
 import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.api.vocabulary.License;

@@ -1,9 +1,12 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +35,6 @@ public interface OccurrenceDatasetIndexService {
    * @return a map of dataset keys to counts sorted by count descending
    */
   SortedMap<UUID, Long> occurrenceDatasetsForCountry(Country country);
-
 
   /**
    * This provides a map of occurrence dataset keys to the number of records matching the given nub key.

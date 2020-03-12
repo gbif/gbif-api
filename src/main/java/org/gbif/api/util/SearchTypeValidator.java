@@ -1,3 +1,18 @@
+/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.gbif.api.util;
 
 import org.gbif.api.model.common.search.SearchParameter;
@@ -14,10 +29,6 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Range;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.operation.valid.IsValidOp;
@@ -27,6 +38,11 @@ import org.locationtech.spatial4j.exception.InvalidShapeException;
 import org.locationtech.spatial4j.io.WKTReader;
 import org.locationtech.spatial4j.shape.Shape;
 import org.locationtech.spatial4j.shape.jts.JtsGeometry;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Range;
 
 import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
 
@@ -238,7 +254,6 @@ public class SearchTypeValidator {
       throw new IllegalArgumentException("Value " + value + " invalid for filter parameter " + param, e);
     }
   }
-
 
   /**
    * @return the parsed double or null for wildcards

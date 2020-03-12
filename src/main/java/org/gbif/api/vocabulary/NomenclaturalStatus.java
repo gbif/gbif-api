@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,16 @@
  */
 package org.gbif.api.vocabulary;
 
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
+
+import javax.annotation.Nullable;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
-
-import javax.annotation.Nullable;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Pattern;
 
 /**
  * Vocabulary for the nomenclatural status of a name.
@@ -143,7 +144,6 @@ public enum NomenclaturalStatus {
    * or of a particular circumscription, position, or rank of the taxon (ICBN Art. 34.1).
    */
  PROVISIONAL("nomen provisorium", "nom. prov."),
-
 
   /**
    * Formerly, a new taxon with a scant diagnosis/description
@@ -311,8 +311,6 @@ public enum NomenclaturalStatus {
    */
  DENIED("nomen negatum", "nom. neg.");
 
-
-
   private static final Set VALID_VALUES = ImmutableSet.of(VALIDLY_PUBLISHED, LEGITIMATE, NEW_COMBINATION, REPLACEMENT,
     NEW_COMBINATION, NEW_GENUS, NEW_SPECIES,SUBNUDUM,CONSERVED, PROTECTED, CORRECTED,ALTERNATIVE, CONSERVED_PROPOSED,
     PROVISIONAL);
@@ -344,7 +342,6 @@ public enum NomenclaturalStatus {
     LOOKUP = ImmutableMap.copyOf(lookup);
   }
 
-
   /**
    * Tries to case insenitively interpret a nomenclatural status given as a string appliying the enums name,
    * the latin and abbreviated name of a term.
@@ -361,8 +358,6 @@ public enum NomenclaturalStatus {
     }
     return LOOKUP.get(normalize(nomStatus));
   }
-
-
 
   private final String latin;
   private final String abbreviated;
