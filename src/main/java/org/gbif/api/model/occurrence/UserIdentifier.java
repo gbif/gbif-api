@@ -1,6 +1,7 @@
 package org.gbif.api.model.occurrence;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.gbif.api.vocabulary.UserIdentifierType;
 
@@ -56,5 +57,23 @@ public class UserIdentifier {
       .add("type", type)
       .add("value", value)
       .toString();
+  }
+
+  /**
+   * @param value "ORCID:23123123"
+   */
+  public static Optional<UserIdentifier> valueOf(String value) {
+    if (value == null || value.isEmpty() || value.indexOf(':') == -1) {
+      return Optional.empty();
+    }
+    String[] split = value.split(":");
+    if (split.length < 2) {
+      return Optional.empty();
+    }
+    try {
+      return Optional.of(new UserIdentifier().setType(UserIdentifierType.valueOf(split[0])).setValue(split[1]));
+    } catch (IllegalArgumentException ex) {
+      return Optional.empty();
+    }
   }
 }
