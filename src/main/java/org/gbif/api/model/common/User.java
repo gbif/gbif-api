@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,15 +20,17 @@ import org.gbif.api.vocabulary.UserRole;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * A GBIF user account registered in the drupal user database.
@@ -79,7 +81,6 @@ public class User {
   public void setLastLogin(Date lastLogin) {
     this.lastLogin = lastLogin;
   }
-
 
   /**
    * The unique, immutable drupal user account name.
@@ -171,7 +172,6 @@ public class User {
   public boolean isAdmin() {
     return roles.contains(UserRole.ADMIN);
   }
-
 
   /**
    * Gets the settings which may be empty but never null.

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import org.gbif.api.vocabulary.Country;
 
 import java.net.URI;
 import java.util.List;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.Size;
 

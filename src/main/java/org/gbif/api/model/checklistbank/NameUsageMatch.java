@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,22 @@
  */
 package org.gbif.api.model.checklistbank;
 
-import com.google.common.base.Objects;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.util.ClassificationUtils;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 
+import java.io.Serializable;
+import java.util.List;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import java.io.Serializable;
-import java.util.List;
+
+import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.google.common.base.Objects;
 
 /**
  * The resulting lookup of a name usage match.

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Network;
 
 import java.util.UUID;
+
 import javax.annotation.Nullable;
 
 public interface NetworkService

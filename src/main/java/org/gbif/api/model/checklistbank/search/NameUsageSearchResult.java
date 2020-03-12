@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,10 +32,12 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
+
 import javax.validation.constraints.NotNull;
 
-import com.google.common.base.Objects;
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.google.common.base.Objects;
 
 /**
  * Class used for returning results of a full text search operation.

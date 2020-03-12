@@ -1,9 +1,12 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,20 +49,22 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonAnyGetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 /**
  * Represents an Occurrence as interpreted by GBIF, adding typed properties on top of the verbatim ones.
@@ -423,7 +428,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.scientificName = scientificName;
   }
 
-
   @Nullable
   /**
    * The verbatim scientific name as provided by the source.
@@ -641,7 +645,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private void setGeodeticDatum(String datum) {
     // ignore, we have a static WGS84 value
   }
-
 
   @Nullable
   /**
@@ -995,7 +998,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   public void setRelations(List<OccurrenceRelation> relations) {
     this.relations = relations;
   }
-
 
   @JsonIgnore
   /**
