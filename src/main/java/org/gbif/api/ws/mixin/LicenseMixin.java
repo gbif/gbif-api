@@ -15,10 +15,11 @@
  */
 package org.gbif.api.ws.mixin;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.gbif.api.jackson.LicenseSerde;
 import org.gbif.api.vocabulary.License;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Mixin interface used to serialize license enums into urls.

@@ -15,17 +15,19 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+import org.gbif.api.util.SearchTypeValidator;
+
+import java.util.Collection;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
-import org.gbif.api.util.SearchTypeValidator;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Collection;
 
 /**
  * This predicate checks if its {@code key} contains any of its {@code values}.

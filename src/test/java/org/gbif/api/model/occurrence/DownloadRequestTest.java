@@ -15,6 +15,19 @@
  */
 package org.gbif.api.model.occurrence;
 
+import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
+import org.gbif.api.model.occurrence.predicate.Predicate;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import org.hamcrest.core.IsCollectionContaining;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
+
 import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
@@ -25,16 +38,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
-import org.gbif.api.model.occurrence.predicate.Predicate;
-import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
-import org.hamcrest.core.IsCollectionContaining;
-import org.junit.Test;
-import com.google.common.collect.Lists;
 
 /**
  * Test cases for DownloadRequest serialization and building.

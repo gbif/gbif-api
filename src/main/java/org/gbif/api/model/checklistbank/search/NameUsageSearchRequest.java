@@ -15,7 +15,6 @@
  */
 package org.gbif.api.model.checklistbank.search;
 
-import com.google.common.collect.Sets;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.FacetedSearchRequest;
 import org.gbif.api.vocabulary.Habitat;
@@ -28,6 +27,8 @@ import org.gbif.api.vocabulary.ThreatStatus;
 
 import java.util.Set;
 import java.util.UUID;
+
+import com.google.common.collect.Sets;
 
 import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.DESCRIPTION;
 import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.SCIENTIFIC;

@@ -15,15 +15,16 @@
  */
 package org.gbif.api.model.common;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
 
 import java.util.Date;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
 
 /**

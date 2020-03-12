@@ -15,6 +15,10 @@
  */
 package org.gbif.api.vocabulary;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -28,10 +32,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 
 /**
  * Enumeration for all ISO 639-1 language codes using 2 lower case letters.

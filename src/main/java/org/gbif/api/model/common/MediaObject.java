@@ -15,14 +15,16 @@
  */
 package org.gbif.api.model.common;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Objects;
 import org.gbif.api.vocabulary.MediaType;
+
+import java.net.URI;
+import java.util.Date;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
-import java.net.URI;
-import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Objects;
 
 /**
  * Metadata for a multimedia object representing an image, video or audio file.

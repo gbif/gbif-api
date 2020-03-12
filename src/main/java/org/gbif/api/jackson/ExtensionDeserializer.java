@@ -15,13 +15,14 @@
  */
 package org.gbif.api.jackson;
 
+import org.gbif.api.vocabulary.Extension;
+
+import java.io.IOException;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import org.gbif.api.vocabulary.Extension;
-
-import java.io.IOException;
 
 public class ExtensionDeserializer extends JsonDeserializer<Extension> {
 

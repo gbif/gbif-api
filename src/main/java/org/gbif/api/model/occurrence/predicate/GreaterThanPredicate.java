@@ -15,10 +15,11 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
-import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 /**
  * This predicate checks if its {@code key} is greater than its {@code value}.

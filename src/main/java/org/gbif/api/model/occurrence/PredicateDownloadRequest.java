@@ -15,15 +15,17 @@
  */
 package org.gbif.api.model.occurrence;
 
+import org.gbif.api.model.occurrence.predicate.Predicate;
+
+import java.util.Collection;
+
+import javax.annotation.Nullable;
+import javax.validation.Valid;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import org.gbif.api.model.occurrence.predicate.Predicate;
-
-import javax.annotation.Nullable;
-import javax.validation.Valid;
-import java.util.Collection;
 
 /**
  * An occurrence download request whose filters are based on predicates ( see {@link Predicate}).

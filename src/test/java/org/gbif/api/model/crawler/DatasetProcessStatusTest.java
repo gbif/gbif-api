@@ -15,7 +15,6 @@
  */
 package org.gbif.api.model.crawler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.gbif.api.vocabulary.EndpointType;
 
 import java.io.IOException;
@@ -24,6 +23,8 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.junit.Assert.assertEquals;
 

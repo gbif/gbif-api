@@ -15,6 +15,14 @@
  */
 package org.gbif.api.model.occurrence;
 
+import org.gbif.api.jackson.DownloadRequestSerde;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
+
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -24,12 +32,6 @@ import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import org.gbif.api.jackson.DownloadRequestSerde;
-
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
 
 /**
  * Represents a request to download occurrence records.

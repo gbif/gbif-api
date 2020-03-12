@@ -15,21 +15,23 @@
  */
 package org.gbif.api.model.checklistbank;
 
+import org.gbif.api.model.common.Identifier;
+import org.gbif.api.vocabulary.IdentifierType;
+import org.gbif.api.vocabulary.ThreatStatus;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
-import org.gbif.api.model.common.Identifier;
-import org.gbif.api.vocabulary.IdentifierType;
-import org.gbif.api.vocabulary.ThreatStatus;
-
-import javax.validation.constraints.NotNull;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 /**
  * An extension to a NameUsage adding all further properties that are not eagerly loaded.

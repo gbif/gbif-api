@@ -15,19 +15,21 @@
  */
 package org.gbif.api.model.crawler;
 
+import org.gbif.api.vocabulary.EndpointType;
+
+import java.net.URI;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.ThreadSafe;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
-import org.gbif.api.vocabulary.EndpointType;
-
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.ThreadSafe;
-import java.net.URI;
-import java.util.Map;
-import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;

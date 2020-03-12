@@ -15,10 +15,11 @@
  */
 package org.gbif.api.model.registry.eml.temporal;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.gbif.api.model.registry.eml.Keywords;
 import org.gbif.api.util.formatter.TemporalCoverageFormatterVisitor;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 /**
  * The base of all types of temporal coverages.

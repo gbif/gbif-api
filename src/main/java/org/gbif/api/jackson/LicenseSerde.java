@@ -15,6 +15,11 @@
  */
 package org.gbif.api.jackson;
 
+import org.gbif.api.vocabulary.License;
+
+import java.io.IOException;
+import java.util.Optional;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
@@ -23,10 +28,6 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.google.common.base.Strings;
-import org.gbif.api.vocabulary.License;
-
-import java.io.IOException;
-import java.util.Optional;
 
 /**
  * Jackson {@link JsonSerializer} and Jackson {@link JsonDeserializer} classes for {@link License}.

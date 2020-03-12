@@ -15,11 +15,11 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import java.util.Collection;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
-
-import java.util.Collection;
 
 /**
  * This predicate is "AND"-ing its subpredicates together.

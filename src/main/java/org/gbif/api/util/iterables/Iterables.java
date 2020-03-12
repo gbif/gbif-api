@@ -31,11 +31,13 @@ import org.gbif.api.vocabulary.DatasetType;
 
 import java.util.UUID;
 import java.util.function.Function;
+
 import javax.annotation.Nullable;
 
-import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * Factory constructing registry entity iterables using specific pagers under the hood.

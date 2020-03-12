@@ -15,11 +15,12 @@
  */
 package org.gbif.api.jackson;
 
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.KeyDeserializer;
 import org.gbif.api.vocabulary.Extension;
 
 import java.io.IOException;
+
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.KeyDeserializer;
 
 /**
  * Deserializer for {@link Extension} in key values.

@@ -15,13 +15,14 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
-
-import javax.validation.constraints.NotNull;
 
 public class IsNotNullPredicate implements Predicate {
 

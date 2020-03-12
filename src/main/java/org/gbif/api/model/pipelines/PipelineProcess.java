@@ -15,9 +15,6 @@
  */
 package org.gbif.api.model.pipelines;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.gbif.api.jackson.LocalDateTimeSerDe;
 
 import java.io.Serializable;
@@ -29,6 +26,10 @@ import java.util.Set;
 import java.util.StringJoiner;
 import java.util.TreeSet;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import static org.gbif.api.model.pipelines.PipelineExecution.PIPELINE_EXECUTION_BY_CREATED_ASC;
 import static org.gbif.api.model.pipelines.PipelineStep.Status.RUNNING;

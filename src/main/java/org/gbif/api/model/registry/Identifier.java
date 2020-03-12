@@ -15,17 +15,18 @@
  */
 package org.gbif.api.model.registry;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.gbif.api.util.IdentifierUtils;
 import org.gbif.api.vocabulary.IdentifierType;
 
 import java.util.Date;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
 
 public class Identifier implements LenientEquals<Identifier> {

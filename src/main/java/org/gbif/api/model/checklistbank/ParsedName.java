@@ -15,6 +15,14 @@
  */
 package org.gbif.api.model.checklistbank;
 
+import org.gbif.api.jackson.RankSerde;
+import org.gbif.api.util.UnicodeUtils;
+import org.gbif.api.vocabulary.NamePart;
+import org.gbif.api.vocabulary.NameType;
+import org.gbif.api.vocabulary.Rank;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -22,12 +30,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
-import org.apache.commons.lang3.StringUtils;
-import org.gbif.api.jackson.RankSerde;
-import org.gbif.api.util.UnicodeUtils;
-import org.gbif.api.vocabulary.NamePart;
-import org.gbif.api.vocabulary.NameType;
-import org.gbif.api.vocabulary.Rank;
 
 import static com.google.common.base.Objects.equal;
 

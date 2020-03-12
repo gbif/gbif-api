@@ -15,12 +15,12 @@
  */
 package org.gbif.api.model.crawler;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-
-import java.util.List;
 
 /**
  * A container class used to capture the information necessary for a generic validation report.

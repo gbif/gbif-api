@@ -17,11 +17,12 @@ package org.gbif.api.vocabulary;
 
 import java.util.Set;
 
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Sets;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

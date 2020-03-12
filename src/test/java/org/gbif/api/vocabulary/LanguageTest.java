@@ -17,8 +17,9 @@ package org.gbif.api.vocabulary;
 
 import java.util.Locale;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

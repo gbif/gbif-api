@@ -15,9 +15,6 @@
  */
 package org.gbif.api.model.occurrence;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.gbif.api.util.IsoDateParsingUtils.IsoDateFormat;
 import org.gbif.api.vocabulary.Extension;
 import org.gbif.dwc.terms.DcTerm;
@@ -37,8 +34,12 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

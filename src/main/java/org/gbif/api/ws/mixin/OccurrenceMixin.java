@@ -15,11 +15,12 @@
  */
 package org.gbif.api.ws.mixin;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.gbif.api.jackson.DateSerde;
 
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public interface OccurrenceMixin extends LicenseMixin {
 
