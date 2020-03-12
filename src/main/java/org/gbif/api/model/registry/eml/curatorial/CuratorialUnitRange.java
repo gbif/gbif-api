@@ -15,8 +15,8 @@
  */
 package org.gbif.api.model.registry.eml.curatorial;
 
-import com.google.common.base.Objects;
-
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Used to indicate that the curatorial unit falls within a range of values.
@@ -53,34 +53,31 @@ public class CuratorialUnitRange extends CuratorialUnit {
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (this == object) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(object instanceof CuratorialUnitRange)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    if (!super.equals(object)) {
+    if (!super.equals(o)) {
       return false;
     }
-
-    CuratorialUnitRange
-      that = (CuratorialUnitRange) object;
-    return Objects.equal(this.lower, that.lower) && Objects.equal(this.upper, that.upper);
+    CuratorialUnitRange that = (CuratorialUnitRange) o;
+    return lower == that.lower &&
+      upper == that.upper;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), lower, upper);
+    return Objects.hash(super.hashCode(), lower, upper);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("super", super.toString())
-      .add("lower", lower)
-      .add("upper", upper)
+    return new StringJoiner(", ", CuratorialUnitRange.class.getSimpleName() + "[", "]")
+      .add("lower=" + lower)
+      .add("upper=" + upper)
       .toString();
   }
-
 }

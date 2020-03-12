@@ -15,7 +15,8 @@
  */
 package org.gbif.api.model.registry.eml.curatorial;
 
-import com.google.common.base.Objects;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Composite class, combining fields from CuratorialUnitCount and CuratorialUnitRange for simpler parsing of
@@ -84,38 +85,35 @@ public class CuratorialUnitComposite extends CuratorialUnit {
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (this == object) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(object instanceof CuratorialUnitComposite)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    if (!super.equals(object)) {
+    if (!super.equals(o)) {
       return false;
     }
-
-    CuratorialUnitComposite
-      that = (CuratorialUnitComposite) object;
-    return Objects.equal(count, that.count)
-           && Objects.equal(deviation, that.deviation)
-           && Objects.equal(lower, that.lower)
-           && Objects.equal(upper, that.upper);
+    CuratorialUnitComposite that = (CuratorialUnitComposite) o;
+    return count == that.count &&
+      deviation == that.deviation &&
+      lower == that.lower &&
+      upper == that.upper;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), count, deviation, lower, upper);
+    return Objects.hash(super.hashCode(), count, deviation, lower, upper);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("count", count)
-      .add("deviation", deviation)
-      .add("lower", lower)
-      .add("upper", upper)
+    return new StringJoiner(", ", CuratorialUnitComposite.class.getSimpleName() + "[", "]")
+      .add("count=" + count)
+      .add("deviation=" + deviation)
+      .add("lower=" + lower)
+      .add("upper=" + upper)
       .toString();
   }
-
 }
