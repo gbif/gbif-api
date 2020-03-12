@@ -447,7 +447,12 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Institution key as UUID. It links to the institution that maintains, recorded or digitized  this record.
    */
-  INSTITUTION_KEY(UUID.class);
+  INSTITUTION_KEY(UUID.class),
+
+  /**
+   * User identifiers from GbifTerm.recordedByID and GbifTerm.identifiedByID
+   */
+  RECORDED_BY_IDS(String.class);
 
   private final Class<?> type;
 

@@ -176,4 +176,8 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     addParameter(OccurrenceSearchParameter.MEDIA_TYPE, mediaType);
   }
 
+  public void addRecordedByIdsFilter(String recordedByIds) {
+    addParameter(OccurrenceSearchParameter.RECORDED_BY_IDS, recordedByIds);
+  }
+
 }
