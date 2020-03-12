@@ -43,7 +43,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.EnumSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -61,6 +60,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
@@ -164,6 +164,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private List<MediaObject> media = new ArrayList<>();
   private List<FactOrMeasurment> facts = new ArrayList<>();
   private List<OccurrenceRelation> relations = new ArrayList<>();
+  private List<UserIdentifier> recordedByIds = new ArrayList<>();
 
   public Occurrence() {
 
@@ -343,7 +344,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    */
   @NotNull
   @JsonIgnore
-  public LinkedHashMap<Integer, String> getHigherClassificationMap() {
+  public Map<Integer, String> getHigherClassificationMap() {
     return taxonKey == null ? ClassificationUtils.getHigherClassificationMap(this)
       : ClassificationUtils.getHigherClassificationMap(this, taxonKey, null, null);
   }
@@ -999,6 +1000,15 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.relations = relations;
   }
 
+  @NotNull
+  public List<UserIdentifier> getRecordedByIds() {
+    return recordedByIds;
+  }
+
+  public void setRecordedByIds(List<UserIdentifier> recordedByIds) {
+    this.recordedByIds = recordedByIds;
+  }
+
   @JsonIgnore
   /**
    * Convenience method checking if any spatial validation rule has not passed.
@@ -1022,7 +1032,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         dateIdentified, year, month, day, eventDate, decimalLongitude, decimalLatitude, coordinatePrecision,
         coordinateUncertaintyInMeters, elevation, elevationAccuracy, depth, depthAccuracy,
         continent, country, stateProvince, waterBody, typeStatus, typifiedName, issues, modified,
-        lastInterpreted, references, identifiers, media, facts, relations, license);
+        lastInterpreted, references, identifiers, media, facts, relations, license, recordedByIds);
   }
 
   @Override
@@ -1094,12 +1104,13 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       && Objects.equal(this.media, that.media)
       && Objects.equal(this.facts, that.facts)
       && Objects.equal(this.relations, that.relations)
-      && Objects.equal(this.license, that.license);
+      && Objects.equal(this.license, that.license)
+      && Objects.equal(this.recordedByIds, that.recordedByIds);
   }
 
   @Override
   public String toString() {
-    return super.toString() + Objects.toStringHelper(this)
+    return super.toString() + MoreObjects.toStringHelper(this)
       .add("basisOfRecord", basisOfRecord)
       .add("individualCount", individualCount)
       .add("sex", sex)
@@ -1154,6 +1165,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("lastInterpreted", lastInterpreted)
       .add("references", references)
       .add("license", license)
+      .add("userIdentifiers", recordedByIds)
       .toString();
   }
 
