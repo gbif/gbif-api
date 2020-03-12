@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.occurrence;
 
+import com.google.common.base.MoreObjects;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
