@@ -1,5 +1,6 @@
 package org.gbif.api.model.occurrence;
 
+import com.google.common.base.MoreObjects;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
@@ -128,7 +129,7 @@ public class FactOrMeasurment {
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
+    return MoreObjects.toStringHelper(this)
       .add("id", id)
       .add("type", type)
       .add("value", value)
