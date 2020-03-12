@@ -17,8 +17,6 @@ package org.gbif.api;
 
 import java.io.IOException;
 
-import org.codehaus.jackson.map.ObjectMapper;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
