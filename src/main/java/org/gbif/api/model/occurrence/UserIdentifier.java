@@ -28,6 +28,9 @@ public class UserIdentifier {
   private UserIdentifierType type;
   private String value;
 
+  public UserIdentifier() {
+  }
+
   public UserIdentifier(UserIdentifierType type, String value) {
     this.type = type;
     this.value = value;
