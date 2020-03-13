@@ -452,7 +452,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * User identifiers from GbifTerm.recordedByID and GbifTerm.identifiedByID
    */
-  RECORDED_BY_IDS(String.class);
+  RECORDED_BY_ID(String.class);
 
   private final Class<?> type;
 
