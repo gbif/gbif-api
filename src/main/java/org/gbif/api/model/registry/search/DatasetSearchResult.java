@@ -15,6 +15,9 @@
  */
 package org.gbif.api.model.registry.search;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetSubtype;
@@ -24,8 +27,6 @@ import org.gbif.api.vocabulary.License;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-
-import com.google.common.base.Objects;
 
 /**
  * The dataset search model object for faceted and full text search.
@@ -213,62 +214,65 @@ public class DatasetSearchResult {
   }
 
   @Override
-  public int hashCode() {
-    return Objects
-      .hashCode(key, title, description, type, subtype, fullText, hostingOrganizationKey, hostingOrganizationTitle,
-        publisherTitle, countryCoverage, continent, publishingCountry, publishingOrganizationKey, publishingOrganizationTitle,
-        decades, keywords, license, projectIdentifier, recordCount);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    DatasetSearchResult that = (DatasetSearchResult) o;
+    return Objects.equals(key, that.key) &&
+      Objects.equals(title, that.title) &&
+      Objects.equals(description, that.description) &&
+      type == that.type &&
+      subtype == that.subtype &&
+      Objects.equals(fullText, that.fullText) &&
+      Objects.equals(hostingOrganizationKey, that.hostingOrganizationKey) &&
+      Objects.equals(hostingOrganizationTitle, that.hostingOrganizationTitle) &&
+      Objects.equals(publisherTitle, that.publisherTitle) &&
+      Objects.equals(countryCoverage, that.countryCoverage) &&
+      Objects.equals(continent, that.continent) &&
+      publishingCountry == that.publishingCountry &&
+      Objects.equals(publishingOrganizationKey, that.publishingOrganizationKey) &&
+      Objects.equals(publishingOrganizationTitle, that.publishingOrganizationTitle) &&
+      license == that.license &&
+      Objects.equals(decades, that.decades) &&
+      Objects.equals(keywords, that.keywords) &&
+      Objects.equals(projectIdentifier, that.projectIdentifier) &&
+      Objects.equals(recordCount, that.recordCount);
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (object instanceof DatasetSearchResult) {
-      DatasetSearchResult that = (DatasetSearchResult) object;
-      return Objects.equal(this.key, that.key)
-        && Objects.equal(this.title, that.title)
-        && Objects.equal(this.description, that.description)
-        && Objects.equal(this.type, that.type)
-        && Objects.equal(this.subtype, that.subtype)
-        && Objects.equal(this.fullText, that.fullText)
-        && Objects.equal(this.hostingOrganizationKey, that.hostingOrganizationKey)
-        && Objects.equal(this.hostingOrganizationTitle, that.hostingOrganizationTitle)
-        && Objects.equal(this.publisherTitle, that.publisherTitle)
-        && Objects.equal(this.countryCoverage, that.countryCoverage)
-        && Objects.equal(this.continent, that.continent)
-        && Objects.equal(this.publishingCountry, that.publishingCountry)
-        && Objects.equal(this.publishingOrganizationKey, that.publishingOrganizationKey)
-        && Objects.equal(this.publishingOrganizationTitle, that.publishingOrganizationTitle)
-        && Objects.equal(this.decades, that.decades)
-        && Objects.equal(this.keywords, that.keywords)
-        && Objects.equal(this.license, that.license)
-        && Objects.equal(this.projectIdentifier, that.projectIdentifier)
-        && Objects.equal(this.recordCount, that.recordCount);
-    }
-    return false;
+  public int hashCode() {
+    return Objects.hash(key, title, description, type, subtype, fullText, hostingOrganizationKey,
+      hostingOrganizationTitle, publisherTitle, countryCoverage, continent, publishingCountry,
+      publishingOrganizationKey, publishingOrganizationTitle, license, decades, keywords,
+      projectIdentifier, recordCount);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("title", title)
-      .add("description", description)
-      .add("type", type)
-      .add("subtype", subtype)
-      .add("fullText", fullText)
-      .add("hostingOrganizationKey", hostingOrganizationKey)
-      .add("hostingOrganizationTitle", hostingOrganizationTitle)
-      .add("publisherTitle", publisherTitle)
-      .add("countryCoverage", countryCoverage)
-      .add("continent", continent)
-      .add("publishingCountry", publishingCountry)
-      .add("publishingOrganizationKey", publishingOrganizationKey)
-      .add("publishingOrganizationTitle", publishingOrganizationTitle)
-      .add("decades", decades)
-      .add("keywords", keywords)
-      .add("license", license)
-      .add("projectIdentifier", projectIdentifier)
-      .add("recordCount", recordCount)
+    return new StringJoiner(", ", DatasetSearchResult.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("title='" + title + "'")
+      .add("description='" + description + "'")
+      .add("type=" + type)
+      .add("subtype=" + subtype)
+      .add("fullText='" + fullText + "'")
+      .add("hostingOrganizationKey=" + hostingOrganizationKey)
+      .add("hostingOrganizationTitle='" + hostingOrganizationTitle + "'")
+      .add("publisherTitle='" + publisherTitle + "'")
+      .add("countryCoverage=" + countryCoverage)
+      .add("continent=" + continent)
+      .add("publishingCountry=" + publishingCountry)
+      .add("publishingOrganizationKey=" + publishingOrganizationKey)
+      .add("publishingOrganizationTitle='" + publishingOrganizationTitle + "'")
+      .add("license=" + license)
+      .add("decades=" + decades)
+      .add("keywords=" + keywords)
+      .add("projectIdentifier='" + projectIdentifier + "'")
+      .add("recordCount=" + recordCount)
       .toString();
   }
 }

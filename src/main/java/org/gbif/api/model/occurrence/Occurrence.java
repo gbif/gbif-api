@@ -163,7 +163,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private List<MediaObject> media = new ArrayList<>();
   private List<FactOrMeasurment> facts = new ArrayList<>();
   private List<OccurrenceRelation> relations = new ArrayList<>();
-  private List<UserIdentifier> recordedByIds = new ArrayList<>();
+  private List<AgentIdentifier> agentIds = new ArrayList<>();
 
   public Occurrence() {
 
@@ -1000,12 +1000,12 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @NotNull
-  public List<UserIdentifier> getRecordedByIds() {
-    return recordedByIds;
+  public List<AgentIdentifier> getAgentIds() {
+    return agentIds;
   }
 
-  public void setRecordedByIds(List<UserIdentifier> recordedByIds) {
-    this.recordedByIds = recordedByIds;
+  public void setAgentIds(List<AgentIdentifier> agentIds) {
+    this.agentIds = agentIds;
   }
 
   @JsonIgnore
@@ -1031,7 +1031,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         dateIdentified, year, month, day, eventDate, decimalLongitude, decimalLatitude, coordinatePrecision,
         coordinateUncertaintyInMeters, elevation, elevationAccuracy, depth, depthAccuracy,
         continent, country, stateProvince, waterBody, typeStatus, typifiedName, issues, modified,
-        lastInterpreted, references, identifiers, media, facts, relations, license, recordedByIds);
+        lastInterpreted, references, identifiers, media, facts, relations, license, agentIds);
   }
 
   @Override
@@ -1104,7 +1104,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       && Objects.equal(this.facts, that.facts)
       && Objects.equal(this.relations, that.relations)
       && Objects.equal(this.license, that.license)
-      && Objects.equal(this.recordedByIds, that.recordedByIds);
+      && Objects.equal(this.agentIds, that.agentIds);
   }
 
   @Override
@@ -1164,7 +1164,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("lastInterpreted", lastInterpreted)
       .add("references", references)
       .add("license", license)
-      .add("userIdentifiers", recordedByIds)
+      .add("agentIds", agentIds)
       .toString();
   }
 

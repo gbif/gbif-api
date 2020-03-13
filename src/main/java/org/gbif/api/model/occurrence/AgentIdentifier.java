@@ -15,26 +15,36 @@
  */
 package org.gbif.api.model.occurrence;
 
-import org.gbif.api.vocabulary.UserIdentifierType;
+import org.gbif.api.vocabulary.AgentIdentifierType;
 
 import java.util.Objects;
-import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.MoreObjects;
 
-public class UserIdentifier {
+public class AgentIdentifier {
 
-  private UserIdentifierType type;
+  private AgentIdentifierType type;
   private String value;
 
-  @NotNull
-  public UserIdentifierType getType() {
+  public AgentIdentifier() {
+  }
+
+  public AgentIdentifier(AgentIdentifierType type, String value) {
+    this.type = type;
+    this.value = value;
+  }
+
+  public AgentIdentifier(String value) {
+    this.value = value;
+  }
+
+  public AgentIdentifierType getType() {
     return type;
   }
 
-  public UserIdentifier setType(UserIdentifierType type) {
+  public AgentIdentifier setType(AgentIdentifierType type) {
     this.type = type;
     return this;
   }
@@ -44,7 +54,7 @@ public class UserIdentifier {
     return value;
   }
 
-  public UserIdentifier setValue(String value) {
+  public AgentIdentifier setValue(String value) {
     this.value = value;
     return this;
   }
@@ -57,7 +67,7 @@ public class UserIdentifier {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    UserIdentifier that = (UserIdentifier) o;
+    AgentIdentifier that = (AgentIdentifier) o;
     return type == that.type &&
       Objects.equals(value, that.value);
   }
@@ -75,21 +85,4 @@ public class UserIdentifier {
       .toString();
   }
 
-  /**
-   * @param value "ORCID:23123123"
-   */
-  public static Optional<UserIdentifier> valueOf(String value) {
-    if (value == null || value.isEmpty() || value.indexOf(':') == -1) {
-      return Optional.empty();
-    }
-    String[] split = value.split(":");
-    if (split.length < 2) {
-      return Optional.empty();
-    }
-    try {
-      return Optional.of(new UserIdentifier().setType(UserIdentifierType.valueOf(split[0])).setValue(split[1]));
-    } catch (IllegalArgumentException ex) {
-      return Optional.empty();
-    }
-  }
 }

@@ -18,7 +18,6 @@ package org.gbif.api.model.registry.eml.geospatial;
 import java.io.Serializable;
 import java.util.Locale;
 
-
 /**
  * Geographic coverage geometry in the form of 4 sided bounding box.
  */

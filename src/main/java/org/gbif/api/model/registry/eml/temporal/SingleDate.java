@@ -15,6 +15,9 @@
  */
 package org.gbif.api.model.registry.eml.temporal;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import org.gbif.api.util.formatter.TemporalCoverageFormatterVisitor;
 
 import java.io.Serializable;
@@ -22,8 +25,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-
-import com.google.common.base.Objects;
 
 /**
  * A single instance in time.
@@ -57,26 +58,27 @@ public class SingleDate extends TemporalCoverage implements Serializable {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof org.gbif.api.model.registry.eml.temporal.SingleDate)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    org.gbif.api.model.registry.eml.temporal.SingleDate that = (org.gbif.api.model.registry.eml.temporal.SingleDate) obj;
-    return Objects.equal(this.date, that.date);
+    SingleDate that = (SingleDate) o;
+    return Objects.equals(date, that.date);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), date);
+    return Objects.hash(date);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("super", super.toString()).add("date", date).toString();
+    return new StringJoiner(", ", SingleDate.class.getSimpleName() + "[", "]")
+      .add("date=" + date)
+      .toString();
   }
 
   @Override
