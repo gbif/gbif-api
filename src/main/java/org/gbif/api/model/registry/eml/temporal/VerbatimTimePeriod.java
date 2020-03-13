@@ -15,15 +15,14 @@
  */
 package org.gbif.api.model.registry.eml.temporal;
 
-import java.util.Objects;
-import java.util.StringJoiner;
-
 import org.gbif.api.util.formatter.TemporalCoverageFormatterVisitor;
 
 import java.io.Serializable;
 import java.util.Collection;
-
-import com.google.common.collect.Lists;
+import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A verbatim (e.g. free text) period of time.
@@ -57,7 +56,7 @@ public class VerbatimTimePeriod extends TemporalCoverage implements Serializable
 
   @Override
   public Collection<String> toKeywords() {
-    return Lists.newArrayList(period);
+    return Stream.of(period).collect(Collectors.toList());
   }
 
   @Override
