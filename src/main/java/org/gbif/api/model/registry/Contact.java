@@ -15,9 +15,6 @@
  */
 package org.gbif.api.model.registry;
 
-import java.util.Objects;
-import java.util.StringJoiner;
-
 import org.gbif.api.vocabulary.ContactType;
 import org.gbif.api.vocabulary.Country;
 
@@ -25,6 +22,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;

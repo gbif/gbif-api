@@ -15,8 +15,6 @@
  */
 package org.gbif.api.model.registry;
 
-import java.util.HashSet;
-
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.eml.Collection;
 import org.gbif.api.model.registry.eml.DataDescription;
@@ -38,6 +36,7 @@ import org.gbif.api.vocabulary.MaintenanceUpdateFrequency;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;

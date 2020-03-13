@@ -15,13 +15,12 @@
  */
 package org.gbif.api.model.registry;
 
-import java.util.Objects;
-import java.util.StringJoiner;
-
 import org.gbif.api.vocabulary.TagName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
