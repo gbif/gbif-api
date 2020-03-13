@@ -18,8 +18,8 @@ package org.gbif.api.model.registry.eml;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.base.Objects;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 public class SamplingDescription implements Serializable {
 
@@ -78,35 +78,32 @@ public class SamplingDescription implements Serializable {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof SamplingDescription)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    SamplingDescription
-      that = (SamplingDescription) obj;
-    return Objects.equal(this.studyExtent, that.studyExtent)
-           && Objects.equal(this.sampling, that.sampling)
-           && Objects.equal(this.qualityControl, that.qualityControl)
-           && Objects.equal(this.methodSteps, that.methodSteps);
+    SamplingDescription that = (SamplingDescription) o;
+    return Objects.equals(studyExtent, that.studyExtent) &&
+      Objects.equals(sampling, that.sampling) &&
+      Objects.equals(qualityControl, that.qualityControl) &&
+      Objects.equals(methodSteps, that.methodSteps);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(studyExtent, sampling, qualityControl, methodSteps);
+    return Objects.hash(studyExtent, sampling, qualityControl, methodSteps);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("studyExtent", studyExtent)
-      .add("sampling", sampling)
-      .add("qualityControl", qualityControl)
-      .add("methodSteps", methodSteps)
+    return new StringJoiner(", ", SamplingDescription.class.getSimpleName() + "[", "]")
+      .add("studyExtent='" + studyExtent + "'")
+      .add("sampling='" + sampling + "'")
+      .add("qualityControl='" + qualityControl + "'")
+      .add("methodSteps=" + methodSteps)
       .toString();
   }
-
 }

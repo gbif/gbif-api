@@ -15,7 +15,6 @@
  */
 package org.gbif.api.model.registry.eml.temporal;
 
-
 /**
  * The definition of the available contact types.
  */

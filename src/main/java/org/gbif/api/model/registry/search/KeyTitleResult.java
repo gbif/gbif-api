@@ -15,9 +15,9 @@
  */
 package org.gbif.api.model.registry.search;
 
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.UUID;
-
-import com.google.common.base.Objects;
 
 /**
  * A utility container for holding only the title and key of an entity.
@@ -52,26 +52,28 @@ public class KeyTitleResult {
   }
 
   @Override
-  public int hashCode() {
-    return Objects
-      .hashCode(key, title);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    KeyTitleResult that = (KeyTitleResult) o;
+    return Objects.equals(key, that.key) &&
+      Objects.equals(title, that.title);
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (object instanceof KeyTitleResult) {
-      KeyTitleResult that = (KeyTitleResult) object;
-      return Objects.equal(this.key, that.key)
-        && Objects.equal(this.title, that.title);
-    }
-    return false;
+  public int hashCode() {
+    return Objects.hash(key, title);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("title", title)
+    return new StringJoiner(", ", KeyTitleResult.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("title='" + title + "'")
       .toString();
   }
 }

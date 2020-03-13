@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package org.gbif.api.model.registry.eml.temporal;
+
 import org.gbif.api.model.registry.eml.Keywords;
 import org.gbif.api.util.formatter.TemporalCoverageFormatterVisitor;
 

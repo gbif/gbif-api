@@ -15,8 +15,8 @@
  */
 package org.gbif.api.model.registry.eml.geospatial;
 
-import com.google.common.base.Objects;
-
+import java.util.Objects;
+import java.util.StringJoiner;
 
 public class GeospatialCoverage implements Geometry {
 
@@ -59,27 +59,28 @@ public class GeospatialCoverage implements Geometry {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof org.gbif.api.model.registry.eml.geospatial.GeospatialCoverage)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    org.gbif.api.model.registry.eml.geospatial.GeospatialCoverage
-      that = (org.gbif.api.model.registry.eml.geospatial.GeospatialCoverage) obj;
-    return Objects.equal(this.description, that.description) && Objects.equal(this.boundingBox, that.boundingBox);
+    GeospatialCoverage that = (GeospatialCoverage) o;
+    return Objects.equals(description, that.description) &&
+      Objects.equals(boundingBox, that.boundingBox);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(description, boundingBox);
+    return Objects.hash(description, boundingBox);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("description", description).add("boundingBox", boundingBox).toString();
+    return new StringJoiner(", ", GeospatialCoverage.class.getSimpleName() + "[", "]")
+      .add("description='" + description + "'")
+      .add("boundingBox=" + boundingBox)
+      .toString();
   }
-
 }

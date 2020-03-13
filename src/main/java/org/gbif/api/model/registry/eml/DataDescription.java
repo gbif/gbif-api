@@ -17,9 +17,8 @@ package org.gbif.api.model.registry.eml;
 
 import java.io.Serializable;
 import java.net.URI;
-
-import com.google.common.base.Objects;
-
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Describes the format of externally available data on a URL.
@@ -111,36 +110,34 @@ public class DataDescription implements Serializable {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof DataDescription)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    DataDescription that = (DataDescription) obj;
-    return Objects.equal(this.name, that.name)
-           && Objects.equal(this.charset, that.charset)
-           && Objects.equal(this.url, that.url)
-           && Objects.equal(this.format, that.format)
-           && Objects.equal(this.formatVersion, that.formatVersion);
+    DataDescription that = (DataDescription) o;
+    return Objects.equals(name, that.name) &&
+      Objects.equals(charset, that.charset) &&
+      Objects.equals(url, that.url) &&
+      Objects.equals(format, that.format) &&
+      Objects.equals(formatVersion, that.formatVersion);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(name, charset, url, format, formatVersion);
+    return Objects.hash(name, charset, url, format, formatVersion);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("name", name)
-      .add("charset", charset)
-      .add("url", url)
-      .add("format", format)
-      .add("formatVersion", formatVersion)
+    return new StringJoiner(", ", DataDescription.class.getSimpleName() + "[", "]")
+      .add("name='" + name + "'")
+      .add("charset='" + charset + "'")
+      .add("url=" + url)
+      .add("format='" + format + "'")
+      .add("formatVersion='" + formatVersion + "'")
       .toString();
   }
-
 }
