@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package org.gbif.api.vocabulary;
 import org.gbif.api.util.VocabularyUtils;
 
 import java.util.List;
+
 import javax.annotation.Nullable;
 
 import com.google.common.base.Strings;
@@ -83,7 +84,6 @@ public enum IdentifierType {
   public static IdentifierType fromString(String identifierType) {
     return (IdentifierType) VocabularyUtils.lookupEnum(identifierType, IdentifierType.class);
   }
-
 
   /**
    * Tries to infer the identifier type from a given identifier.

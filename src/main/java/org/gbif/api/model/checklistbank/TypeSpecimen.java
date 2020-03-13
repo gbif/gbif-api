@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import org.gbif.api.vocabulary.TypeStatus;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Objects;
-
 
 /**
  * TypeSpecimen Model originally designed for both specimens and types, including type specimens, type species and type genera and simple

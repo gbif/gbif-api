@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,13 +23,15 @@ import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.UUID;
 
-import com.google.common.collect.Lists;
 import org.junit.Test;
+
+import com.google.common.collect.Lists;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -108,9 +110,9 @@ public class NameUsageContainerTest {
     ru2.setTitle("Puma concolor");
     ru2.setSourceTaxonKey(111);
 
-    List<NameUsageMediaObject> lru1 = Lists.newArrayList();
+    List<NameUsageMediaObject> lru1 = new ArrayList<>();
     lru1.add(ru1);
-    List<NameUsageMediaObject> lru2 = Lists.newArrayList();
+    List<NameUsageMediaObject> lru2 = new ArrayList<>();
     lru2.add(ru2);
 
     nu1.setMedia(lru1);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,8 @@
 package org.gbif.api.model.registry.eml.curatorial;
 
 import java.io.Serializable;
-
-import com.google.common.base.Objects;
-
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * The base class of all curatorial units.
@@ -55,33 +54,28 @@ public class CuratorialUnit implements Serializable {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof CuratorialUnit)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    if (!super.equals(obj)) {
-      return false;
-    }
-
-    CuratorialUnit that = (CuratorialUnit) obj;
-    return Objects.equal(this.type, that.type) && Objects.equal(this.typeVerbatim, that.typeVerbatim);
+    CuratorialUnit that = (CuratorialUnit) o;
+    return type == that.type &&
+      Objects.equals(typeVerbatim, that.typeVerbatim);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), type, typeVerbatim);
+    return Objects.hash(type, typeVerbatim);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("super", super.toString())
-      .add("type", type)
-      .add("typeVerbatim", typeVerbatim)
+    return new StringJoiner(", ", CuratorialUnit.class.getSimpleName() + "[", "]")
+      .add("type=" + type)
+      .add("typeVerbatim='" + typeVerbatim + "'")
       .toString();
   }
-
 }

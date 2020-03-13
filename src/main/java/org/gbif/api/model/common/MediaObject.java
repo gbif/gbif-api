@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,13 @@ import org.gbif.api.vocabulary.MediaType;
 
 import java.net.URI;
 import java.util.Date;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
-import com.google.common.base.Objects;
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.google.common.base.Objects;
 
 /**
  * Metadata for a multimedia object representing an image, video or audio file.

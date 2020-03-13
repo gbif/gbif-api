@@ -1,9 +1,12 @@
 /*
- * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,8 +18,10 @@ package org.gbif.api.model.registry;
 import org.gbif.api.vocabulary.EndpointType;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -24,7 +29,6 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
 
 public class Endpoint implements MachineTaggable, LenientEquals<Endpoint> {
 
@@ -36,7 +40,7 @@ public class Endpoint implements MachineTaggable, LenientEquals<Endpoint> {
   private String modifiedBy;
   private Date created;
   private Date modified;
-  private List<MachineTag> machineTags = Lists.newArrayList();
+  private List<MachineTag> machineTags = new ArrayList<>();
 
   @Null(groups = PrePersist.class)
   @NotNull(groups = PostPersist.class)

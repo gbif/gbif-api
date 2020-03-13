@@ -1,3 +1,18 @@
+/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.gbif.api.model.checklistbank;
 
 import org.gbif.api.util.IsoDateParsingUtils;
@@ -11,18 +26,19 @@ import org.gbif.dwc.terms.TermFactory;
 import org.gbif.dwc.terms.UnknownTerm;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 import org.junit.Test;
+
+import com.google.common.collect.Maps;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -40,7 +56,7 @@ public class VerbatimNameUsageTest {
     v1.setCoreField(DwcTerm.taxonRank, "species");
     assertFalse(v1.hasExtension(Extension.IDENTIFICATION));
 
-    List<Map<Term, String>> exts = Lists.newArrayList();
+    List<Map<Term, String>> exts = new ArrayList<>();
     v1.getExtensions().put(Extension.IDENTIFICATION, exts);
     assertFalse(v1.hasExtension(Extension.IDENTIFICATION));
     assertFalse(v1.hasExtension(DwcTerm.Identification));
@@ -135,7 +151,6 @@ public class VerbatimNameUsageTest {
   public void testJsonSerdeAllFields() throws IOException {
     ObjectMapper mapper = new ObjectMapper();
 
-
     VerbatimNameUsage verb = new VerbatimNameUsage();
     verb.setKey(123);
     String termPrefix = "I am Jack's ";
@@ -184,7 +199,6 @@ public class VerbatimNameUsageTest {
     v.setKey(7);
     v.setLastCrawled(new Date());
 
-
     for (Term term : DwcTerm.values()) {
       v.setCoreField(term, RandomStringUtils.randomAlphabetic(20));
     }
@@ -227,7 +241,6 @@ public class VerbatimNameUsageTest {
 
   }
 
-
   @Test
   public void testVerbatimExtensionsMapSerde() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
@@ -251,11 +264,10 @@ public class VerbatimNameUsageTest {
     v.setKey(7);
     v.setLastCrawled(new Date());
     Map<Extension, List<Map<Term, String>>> extensions = new HashMap<Extension, List<Map<Term, String>>>();
-    List<Map<Term, String>> verbatimRecords = Lists.newArrayList();
+    List<Map<Term, String>> verbatimRecords = new ArrayList<>();
     verbatimRecords.add(verbatimRecord);
     extensions.put(Extension.MULTIMEDIA, verbatimRecords);
     v.setExtensions(extensions);
-
 
     String json = mapper.writeValueAsString(v);
     System.out.println(json);
@@ -264,7 +276,5 @@ public class VerbatimNameUsageTest {
     assertNotNull(v2.getExtensions());
     assertTrue(!v2.getExtensions().get(Extension.MULTIMEDIA).isEmpty());
     assertEquals(v2.getExtensions().get(Extension.MULTIMEDIA).get(0), verbatimRecord);
-
-
   }
 }

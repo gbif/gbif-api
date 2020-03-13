@@ -1,9 +1,12 @@
 /*
- * Copyright 2011 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,7 +14,6 @@
  * limitations under the License.
  */
 package org.gbif.api.model.checklistbank.search;
-
 
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
@@ -23,8 +25,9 @@ import java.util.LinkedHashMap;
 
 import javax.validation.constraints.NotNull;
 
-import com.google.common.base.Objects;
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.google.common.base.Objects;
 
 /**
  * Class used for returning results of a suggest operation.
@@ -101,7 +104,6 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
     return nubKey;
   }
 
-
   public void setNubKey(Integer nubKey) {
     this.nubKey = nubKey;
   }
@@ -113,91 +115,73 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
     return key;
   }
 
-
   public String getKingdom() {
     return kingdom;
   }
-
 
   public String getPhylum() {
     return phylum;
   }
 
-
   public String getClazz() {
     return clazz;
   }
-
 
   public String getOrder() {
     return order;
   }
 
-
   public String getFamily() {
     return family;
   }
-
 
   public String getGenus() {
     return genus;
   }
 
-
   public String getSubgenus() {
     return subgenus;
   }
-
 
   public String getSpecies() {
     return species;
   }
 
-
   public Integer getKingdomKey() {
     return kingdomKey;
   }
-
 
   public Integer getPhylumKey() {
     return phylumKey;
   }
 
-
   public Integer getClassKey() {
     return classKey;
   }
-
 
   public Integer getOrderKey() {
     return orderKey;
   }
 
-
   public Integer getFamilyKey() {
     return familyKey;
   }
-
 
   public Integer getGenusKey() {
     return genusKey;
   }
 
-
   public Integer getSubgenusKey() {
     return subgenusKey;
   }
-
 
   public Integer getSpeciesKey() {
     return speciesKey;
   }
 
-
   public String getCanonicalName() {
     return canonicalName;
   }
-
 
   public void setCanonicalName(String canonicalName) {
     this.canonicalName = canonicalName;
@@ -325,14 +309,13 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
    * An ordered map with entries for all higher Linnean ranks down to the actual direct parent of this usage.
    * The map starts with the highest rank, e.g. the kingdom and maps the name usage key to its canonical name.
    * The name usage itself is never included, even though a higher rank might point to the usage itself.
-   * 
+   *
    * @return map of higher ranks
    */
   @NotNull
   public LinkedHashMap<Integer, String> getHigherClassificationMap() {
     return ClassificationUtils.getHigherClassificationMap(this, key, parentKey, parent);
   }
-
 
   @Override
   public int hashCode() {

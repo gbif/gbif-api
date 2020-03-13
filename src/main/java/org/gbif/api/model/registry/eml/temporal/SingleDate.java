@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,12 +19,11 @@ import org.gbif.api.util.formatter.TemporalCoverageFormatterVisitor;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
-
 
 /**
  * A single instance in time.
@@ -49,7 +48,7 @@ public class SingleDate extends TemporalCoverage implements Serializable {
 
   @Override
   public Collection<String> toKeywords() {
-    Collection<String> keywords = Lists.newArrayList();
+    Collection<String> keywords = new ArrayList<>();
     if (date != null) {
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
       keywords.add(sdf.format(date));

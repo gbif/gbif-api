@@ -1,9 +1,12 @@
 /*
- * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,6 +17,7 @@ package org.gbif.api.model.registry;
 
 import org.gbif.api.vocabulary.InstallationType;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -22,9 +26,9 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
 import org.codehaus.jackson.annotate.JsonIgnore;
+
+import com.google.common.base.Objects;
 
 /**
  * A technical installation which can serve dataset(s).
@@ -48,12 +52,12 @@ public class Installation implements NetworkEntity, Contactable, Endpointable, M
   private Date modified;
   private Date deleted;
   private boolean disabled;
-  private List<Contact> contacts = Lists.newArrayList();
-  private List<Endpoint> endpoints = Lists.newArrayList();
-  private List<MachineTag> machineTags = Lists.newArrayList();
-  private List<Tag> tags = Lists.newArrayList();
-  private List<Identifier> identifiers = Lists.newArrayList();
-  private List<Comment> comments = Lists.newArrayList();
+  private List<Contact> contacts = new ArrayList<>();
+  private List<Endpoint> endpoints = new ArrayList<>();
+  private List<MachineTag> machineTags = new ArrayList<>();
+  private List<Tag> tags = new ArrayList<>();
+  private List<Identifier> identifiers = new ArrayList<>();
+  private List<Comment> comments = new ArrayList<>();
 
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
@@ -141,7 +145,7 @@ public class Installation implements NetworkEntity, Contactable, Endpointable, M
   /**
    * Get the installation password. This method is to be ignored on serialization, so that the password is not
    * revealed in the web service response.
-   * 
+   *
    * @return organization password
    */
   @JsonIgnore

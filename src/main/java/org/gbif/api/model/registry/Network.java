@@ -1,9 +1,12 @@
 /*
- * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,17 +20,19 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Language;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
 import org.codehaus.jackson.annotate.JsonIgnore;
+
+import com.google.common.base.Objects;
 
 /**
  * A GBIF network.
@@ -54,12 +59,12 @@ public class Network implements NetworkEntity, Contactable, Endpointable, Machin
   private Date created;
   private Date modified;
   private Date deleted;
-  private List<Contact> contacts = Lists.newArrayList();
-  private List<Endpoint> endpoints = Lists.newArrayList();
-  private List<MachineTag> machineTags = Lists.newArrayList();
-  private List<Tag> tags = Lists.newArrayList();
-  private List<Identifier> identifiers = Lists.newArrayList();
-  private List<Comment> comments = Lists.newArrayList();
+  private List<Contact> contacts = new ArrayList<>();
+  private List<Endpoint> endpoints = new ArrayList<>();
+  private List<MachineTag> machineTags = new ArrayList<>();
+  private List<Tag> tags = new ArrayList<>();
+  private List<Identifier> identifiers = new ArrayList<>();
+  private List<Comment> comments = new ArrayList<>();
 
   @Override
   public UUID getKey() {

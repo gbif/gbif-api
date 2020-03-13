@@ -1,15 +1,32 @@
+/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.gbif.api.model.checklistbank;
 
 import org.gbif.api.vocabulary.Language;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * A simple class to represent a table of contents for multiple languages.
@@ -32,7 +49,7 @@ public class TableOfContents {
       toc.put(lang, Maps.<String, List<Integer>>newTreeMap());
     }
     if (!toc.get(lang).containsKey(topic)) {
-      toc.get(lang).put(topic, Lists.<Integer>newArrayList());
+      toc.get(lang).put(topic, new ArrayList<>());
     }
     toc.get(lang).get(topic).add(key);
   }

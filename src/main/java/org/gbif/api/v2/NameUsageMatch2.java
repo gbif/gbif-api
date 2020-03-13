@@ -1,9 +1,24 @@
+/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.gbif.api.v2;
 
-import com.google.common.collect.Lists;
 import org.gbif.api.model.checklistbank.NameUsageMatch;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,7 +31,7 @@ public class NameUsageMatch2 {
   private RankedName usage;
   private RankedName acceptedUsage;
   private Nomenclature nomenclature;
-  private List<RankedName> classification = Lists.newArrayList();
+  private List<RankedName> classification = new ArrayList<>();
   private Diagnostics diagnostics = new Diagnostics();
 
   public static class Nomenclature {
@@ -58,8 +73,8 @@ public class NameUsageMatch2 {
     private NameUsageMatch.MatchType matchType;
     private Integer confidence;
     private TaxonomicStatus status;
-    private List<String> lineage = Lists.newArrayList();
-    private List<NameUsageMatch2> alternatives = Lists.newArrayList();
+    private List<String> lineage = new ArrayList<>();
+    private List<NameUsageMatch2> alternatives = new ArrayList<>();
     private String note;
 
     public NameUsageMatch.MatchType getMatchType() {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,16 +28,16 @@ import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
+
 import javax.validation.constraints.NotNull;
 
-import com.google.common.base.Objects;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import static com.google.common.collect.Lists.newArrayList;
-
+import com.google.common.base.Objects;
 
 /**
  * Class used for returning results of a full text search operation.
@@ -93,11 +93,11 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
 
   private String taxonID;
   private Boolean extinct;
-  private List<Habitat> habitats = newArrayList();
-  private List<NomenclaturalStatus> nomenclaturalStatus = newArrayList();
-  private List<ThreatStatus> threatStatuses = newArrayList();
-  private List<Description> descriptions = newArrayList();
-  private List<VernacularName> vernacularNames = newArrayList();
+  private List<Habitat> habitats = new ArrayList<>();
+  private List<NomenclaturalStatus> nomenclaturalStatus = new ArrayList<>();
+  private List<ThreatStatus> threatStatuses = new ArrayList<>();
+  private List<Description> descriptions = new ArrayList<>();
+  private List<VernacularName> vernacularNames = new ArrayList<>();
 
   /**
    * @return the name key for retrieving a parsed name object

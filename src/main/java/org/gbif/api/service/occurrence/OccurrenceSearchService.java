@@ -1,9 +1,12 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -52,7 +55,6 @@ public interface OccurrenceSearchService
    */
   List<String> suggestCollectionCodes(@Min(1) String prefix, @Nullable Integer limit);
 
-
   /**
    * Searches collector names (dwc:recordedBy) which start with the input prefix.
    * If the limit is set to a number less than 0, then no maximum limit is enforced.
@@ -74,7 +76,6 @@ public interface OccurrenceSearchService
    * @return of collector names
    */
   List<String> suggestRecordNumbers(@Min(1) String prefix, @Nullable Integer limit);
-
 
   /**
    * Searches institution codes which start with the input prefix.
@@ -98,7 +99,6 @@ public interface OccurrenceSearchService
    */
   List<String> suggestOccurrenceIds(@Min(1) String prefix, @Nullable Integer limit);
 
-
   /**
    * Searches DwC organismsIds which start with the input prefix.
    * If the limit is set to a number less than 0, then no maximum limit is enforced.
@@ -109,7 +109,6 @@ public interface OccurrenceSearchService
    * @return of organismIds
    */
   List<String> suggestOrganismIds(@Min(1) String prefix, @Nullable Integer limit);
-
 
   /**
    * Searches DwC localities which start with the input prefix.

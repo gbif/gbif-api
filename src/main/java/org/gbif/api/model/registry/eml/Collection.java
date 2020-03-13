@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
 
 /**
  * Collection data for the Dataset.
@@ -36,7 +35,7 @@ public class Collection implements Serializable {
   private String identifier;
   private String parentIdentifier;
   private PreservationMethodType specimenPreservationMethod;
-  private List<CuratorialUnitComposite> curatorialUnits = Lists.newArrayList();
+  private List<CuratorialUnitComposite> curatorialUnits = new ArrayList<>();
 
   public Collection() {
   }

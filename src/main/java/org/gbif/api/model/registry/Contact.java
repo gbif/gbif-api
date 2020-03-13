@@ -1,9 +1,12 @@
 /*
- * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,17 +19,19 @@ import org.gbif.api.vocabulary.ContactType;
 import org.gbif.api.vocabulary.Country;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import org.apache.commons.lang3.StringUtils;
 
 // TODO: Should have a cross-field validation for key & created
 public class Contact implements Address, LenientEquals<Contact> {
@@ -34,16 +39,16 @@ public class Contact implements Address, LenientEquals<Contact> {
   private Integer key;
   private ContactType type;
   private boolean primary;
-  private List<String> userId = Lists.newArrayList();
+  private List<String> userId = new ArrayList<>();
   private String firstName;
   private String lastName;
-  private List<String> position = Lists.newArrayList();
+  private List<String> position = new ArrayList<>();
   private String description;
-  private List<String> email = Lists.newArrayList();
-  private List<String> phone = Lists.newArrayList();
-  private List<URI> homepage = Lists.newArrayList();
+  private List<String> email = new ArrayList<>();
+  private List<String> phone = new ArrayList<>();
+  private List<URI> homepage = new ArrayList<>();
   private String organization;
-  private List<String> address = Lists.newArrayList();
+  private List<String> address = new ArrayList<>();
   private String city;
   private String province;
   private Country country;

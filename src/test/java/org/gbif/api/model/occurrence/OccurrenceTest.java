@@ -1,9 +1,12 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,19 +33,20 @@ import org.gbif.dwc.terms.UnknownTerm;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.google.common.collect.Sets;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -110,7 +114,6 @@ public class OccurrenceTest {
     assertNotEquals(o1.hashCode(), o3.hashCode());
     assertNotEquals(o2.hashCode(), o3.hashCode());
   }
-
 
   @Test
   public void testNullConstructor() {
@@ -361,7 +364,6 @@ public class OccurrenceTest {
     assertTrue(diff.isEmpty());
   }
 
-
   /**
    * checks that countryCode, geodeticDatum and class are nicely exposed in json
    */
@@ -383,7 +385,7 @@ public class OccurrenceTest {
     mediaObject.setTitle("mediaTestTitle");
     mediaObject.setType(MediaType.StillImage);
     mediaObject.setIdentifier(new URI("http://www.gbif.org"));
-    List<MediaObject> medias = Lists.newArrayList();
+    List<MediaObject> medias = new ArrayList<>();
     medias.add(mediaObject);
     o.setMedia(medias);
     String json = mapper.writeValueAsString(o);
@@ -391,7 +393,6 @@ public class OccurrenceTest {
     assertTrue(json.contains("\"country\" : \"Algeria\""));
 
     Occurrence o2 = mapper.readValue(json, Occurrence.class);
-
 
     assertEquals(o2.getMedia().get(0), mediaObject);
   }

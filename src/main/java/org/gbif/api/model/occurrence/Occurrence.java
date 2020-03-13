@@ -1,9 +1,12 @@
 /*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,33 +38,33 @@ import org.gbif.dwc.terms.UnknownTerm;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.EnumSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.google.common.base.MoreObjects;
 import javax.annotation.Nullable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonAnyGetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 /**
  * Represents an Occurrence as interpreted by GBIF, adding typed properties on top of the verbatim ones.
@@ -157,11 +160,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Double sampleSizeValue;
   private Double relativeOrganismQuantity;
   // interpreted extension data
-  private List<Identifier> identifiers = Lists.newArrayList();
-  private List<MediaObject> media = Lists.newArrayList();
-  private List<FactOrMeasurment> facts = Lists.newArrayList();
-  private List<OccurrenceRelation> relations = Lists.newArrayList();
-  private List<UserIdentifier> recordedByIds = Lists.newArrayList();
+  private List<Identifier> identifiers = new ArrayList<>();
+  private List<MediaObject> media = new ArrayList<>();
+  private List<FactOrMeasurment> facts = new ArrayList<>();
+  private List<OccurrenceRelation> relations = new ArrayList<>();
+  private List<UserIdentifier> recordedByIds = new ArrayList<>();
 
   public Occurrence() {
 
@@ -426,7 +429,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.scientificName = scientificName;
   }
 
-
   @Nullable
   /**
    * The verbatim scientific name as provided by the source.
@@ -644,7 +646,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private void setGeodeticDatum(String datum) {
     // ignore, we have a static WGS84 value
   }
-
 
   @Nullable
   /**
