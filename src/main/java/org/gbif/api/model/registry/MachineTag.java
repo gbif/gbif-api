@@ -19,12 +19,12 @@ import org.gbif.api.vocabulary.TagName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
-
-import com.google.common.base.Objects;
 
 /**
  * A tag that has a namespace, name and a value. {@code created} and {@code createdBy} are automatically set upon
@@ -130,33 +130,36 @@ public class MachineTag implements LenientEquals<MachineTag>, Serializable {
   }
 
   @Override
-  public int hashCode() {
-    return Objects.hashCode(key, namespace, name, value, createdBy, created);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    MachineTag that = (MachineTag) o;
+    return Objects.equals(key, that.key) &&
+      Objects.equals(namespace, that.namespace) &&
+      Objects.equals(name, that.name) &&
+      Objects.equals(value, that.value) &&
+      Objects.equals(createdBy, that.createdBy) &&
+      Objects.equals(created, that.created);
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (object instanceof MachineTag) {
-      MachineTag that = (MachineTag) object;
-      return Objects.equal(this.key, that.key)
-        && Objects.equal(this.namespace, that.namespace)
-        && Objects.equal(this.name, that.name)
-        && Objects.equal(this.value, that.value)
-        && Objects.equal(this.createdBy, that.createdBy)
-        && Objects.equal(this.created, that.created);
-    }
-    return false;
+  public int hashCode() {
+    return Objects.hash(key, namespace, name, value, createdBy, created);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("namespace", namespace)
-      .add("name", name)
-      .add("value", value)
-      .add("createdBy", createdBy)
-      .add("created", created)
+    return new StringJoiner(", ", MachineTag.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("namespace='" + namespace + "'")
+      .add("name='" + name + "'")
+      .add("value='" + value + "'")
+      .add("createdBy='" + createdBy + "'")
+      .add("created=" + created)
       .toString();
   }
 
@@ -170,8 +173,8 @@ public class MachineTag implements LenientEquals<MachineTag>, Serializable {
       return true;
     }
 
-    return Objects.equal(this.namespace, other.namespace)
-      && Objects.equal(this.name, other.name)
-      && Objects.equal(this.value, other.value);
+    return Objects.equals(this.namespace, other.namespace)
+      && Objects.equals(this.name, other.name)
+      && Objects.equals(this.value, other.value);
   }
 }

@@ -20,6 +20,8 @@ import org.gbif.api.vocabulary.InstallationType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -27,7 +29,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.base.Objects;
 
 /**
  * A technical installation which can serve dataset(s).
@@ -257,59 +258,63 @@ public class Installation implements NetworkEntity, Contactable, Endpointable, M
   }
 
   @Override
-  public int hashCode() {
-    return Objects
-      .hashCode(key, organizationKey, password, type, title, description, createdBy, modifiedBy, created, modified,
-        deleted, disabled, contacts, endpoints, machineTags, tags, identifiers, comments);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Installation that = (Installation) o;
+    return disabled == that.disabled &&
+      Objects.equals(key, that.key) &&
+      Objects.equals(organizationKey, that.organizationKey) &&
+      Objects.equals(password, that.password) &&
+      type == that.type &&
+      Objects.equals(title, that.title) &&
+      Objects.equals(description, that.description) &&
+      Objects.equals(createdBy, that.createdBy) &&
+      Objects.equals(modifiedBy, that.modifiedBy) &&
+      Objects.equals(created, that.created) &&
+      Objects.equals(modified, that.modified) &&
+      Objects.equals(deleted, that.deleted) &&
+      Objects.equals(contacts, that.contacts) &&
+      Objects.equals(endpoints, that.endpoints) &&
+      Objects.equals(machineTags, that.machineTags) &&
+      Objects.equals(tags, that.tags) &&
+      Objects.equals(identifiers, that.identifiers) &&
+      Objects.equals(comments, that.comments);
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (object instanceof Installation) {
-      Installation that = (Installation) object;
-      return Objects.equal(this.key, that.key)
-        && Objects.equal(this.organizationKey, that.organizationKey)
-        && Objects.equal(this.password, that.password)
-        && Objects.equal(this.type, that.type)
-        && Objects.equal(this.title, that.title)
-        && Objects.equal(this.description, that.description)
-        && Objects.equal(this.createdBy, that.createdBy)
-        && Objects.equal(this.modifiedBy, that.modifiedBy)
-        && Objects.equal(this.created, that.created)
-        && Objects.equal(this.modified, that.modified)
-        && Objects.equal(this.deleted, that.deleted)
-        && Objects.equal(this.disabled, that.disabled)
-        && Objects.equal(this.contacts, that.contacts)
-        && Objects.equal(this.endpoints, that.endpoints)
-        && Objects.equal(this.machineTags, that.machineTags)
-        && Objects.equal(this.tags, that.tags)
-        && Objects.equal(this.identifiers, that.identifiers)
-        && Objects.equal(this.comments, that.comments);
-    }
-    return false;
+  public int hashCode() {
+    return Objects
+      .hash(key, organizationKey, password, type, title, description, createdBy, modifiedBy,
+        created, modified, deleted, disabled, contacts, endpoints, machineTags, tags, identifiers,
+        comments);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("organizationKey", organizationKey)
-      .add("password", password)
-      .add("type", type)
-      .add("title", title)
-      .add("description", description)
-      .add("createdBy", createdBy)
-      .add("modifiedBy", modifiedBy)
-      .add("created", created)
-      .add("modified", modified)
-      .add("deleted", deleted)
-      .add("disabled", disabled)
-      .add("contacts", contacts)
-      .add("endpoints", endpoints)
-      .add("machineTags", machineTags)
-      .add("tags", tags)
-      .add("identifiers", identifiers)
-      .add("comments", comments)
+    return new StringJoiner(", ", Installation.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("organizationKey=" + organizationKey)
+      .add("password='" + password + "'")
+      .add("type=" + type)
+      .add("title='" + title + "'")
+      .add("description='" + description + "'")
+      .add("createdBy='" + createdBy + "'")
+      .add("modifiedBy='" + modifiedBy + "'")
+      .add("created=" + created)
+      .add("modified=" + modified)
+      .add("deleted=" + deleted)
+      .add("disabled=" + disabled)
+      .add("contacts=" + contacts)
+      .add("endpoints=" + endpoints)
+      .add("machineTags=" + machineTags)
+      .add("tags=" + tags)
+      .add("identifiers=" + identifiers)
+      .add("comments=" + comments)
       .toString();
   }
 
@@ -322,9 +327,9 @@ public class Installation implements NetworkEntity, Contactable, Endpointable, M
     if (this == other) {
       return true;
     }
-    return Objects.equal(this.organizationKey, other.organizationKey)
-      && Objects.equal(this.type, other.type)
-      && Objects.equal(this.title, other.title)
-      && Objects.equal(this.description, other.description);
+    return Objects.equals(this.organizationKey, other.organizationKey)
+      && Objects.equals(this.type, other.type)
+      && Objects.equals(this.title, other.title)
+      && Objects.equals(this.description, other.description);
   }
 }

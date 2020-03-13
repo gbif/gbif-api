@@ -16,12 +16,12 @@
 package org.gbif.api.model.registry;
 
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
-
-import com.google.common.base.Objects;
 
 public class Comment implements LenientEquals<Comment> {
 
@@ -91,33 +91,36 @@ public class Comment implements LenientEquals<Comment> {
   }
 
   @Override
-  public int hashCode() {
-    return Objects.hashCode(key, content, createdBy, modifiedBy, created, modified);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Comment comment = (Comment) o;
+    return Objects.equals(key, comment.key) &&
+      Objects.equals(content, comment.content) &&
+      Objects.equals(createdBy, comment.createdBy) &&
+      Objects.equals(modifiedBy, comment.modifiedBy) &&
+      Objects.equals(created, comment.created) &&
+      Objects.equals(modified, comment.modified);
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (object instanceof Comment) {
-      Comment that = (Comment) object;
-      return Objects.equal(this.key, that.key)
-        && Objects.equal(this.content, that.content)
-        && Objects.equal(this.createdBy, that.createdBy)
-        && Objects.equal(this.modifiedBy, that.modifiedBy)
-        && Objects.equal(this.created, that.created)
-        && Objects.equal(this.modified, that.modified);
-    }
-    return false;
+  public int hashCode() {
+    return Objects.hash(key, content, createdBy, modifiedBy, created, modified);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("content", content)
-      .add("createdBy", createdBy)
-      .add("modifiedBy", modifiedBy)
-      .add("created", created)
-      .add("modified", modified)
+    return new StringJoiner(", ", Comment.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("content='" + content + "'")
+      .add("createdBy='" + createdBy + "'")
+      .add("modifiedBy='" + modifiedBy + "'")
+      .add("created=" + created)
+      .add("modified=" + modified)
       .toString();
   }
 
@@ -130,6 +133,6 @@ public class Comment implements LenientEquals<Comment> {
     if (this == other) {
       return true;
     }
-    return Objects.equal(this.content, other.content);
+    return Objects.equals(this.content, other.content);
   }
 }

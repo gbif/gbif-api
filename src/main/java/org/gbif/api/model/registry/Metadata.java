@@ -18,13 +18,13 @@ package org.gbif.api.model.registry;
 import org.gbif.api.vocabulary.MetadataType;
 
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import com.google.common.base.Objects;
 
 public class Metadata implements LenientEquals<Metadata> {
 
@@ -114,37 +114,40 @@ public class Metadata implements LenientEquals<Metadata> {
   }
 
   @Override
-  public int hashCode() {
-    return Objects.hashCode(key, datasetKey, type, content, createdBy, modifiedBy, created, modified);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Metadata metadata = (Metadata) o;
+    return Objects.equals(key, metadata.key) &&
+      Objects.equals(datasetKey, metadata.datasetKey) &&
+      type == metadata.type &&
+      Objects.equals(content, metadata.content) &&
+      Objects.equals(createdBy, metadata.createdBy) &&
+      Objects.equals(modifiedBy, metadata.modifiedBy) &&
+      Objects.equals(created, metadata.created) &&
+      Objects.equals(modified, metadata.modified);
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (object instanceof Metadata) {
-      Metadata that = (Metadata) object;
-      return Objects.equal(this.key, that.key)
-        && Objects.equal(this.datasetKey, that.datasetKey)
-        && Objects.equal(this.type, that.type)
-        && Objects.equal(this.content, that.content)
-        && Objects.equal(this.createdBy, that.createdBy)
-        && Objects.equal(this.modifiedBy, that.modifiedBy)
-        && Objects.equal(this.created, that.created)
-        && Objects.equal(this.modified, that.modified);
-    }
-    return false;
+  public int hashCode() {
+    return Objects.hash(key, datasetKey, type, content, createdBy, modifiedBy, created, modified);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("datasetKey", datasetKey)
-      .add("type", type)
-      .add("content", content)
-      .add("createdBy", createdBy)
-      .add("modifiedBy", modifiedBy)
-      .add("created", created)
-      .add("modified", modified)
+    return new StringJoiner(", ", Metadata.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("datasetKey=" + datasetKey)
+      .add("type=" + type)
+      .add("content='" + content + "'")
+      .add("createdBy='" + createdBy + "'")
+      .add("modifiedBy='" + modifiedBy + "'")
+      .add("created=" + created)
+      .add("modified=" + modified)
       .toString();
   }
 
@@ -156,8 +159,8 @@ public class Metadata implements LenientEquals<Metadata> {
     if (this == other) {
       return true;
     }
-    return Objects.equal(this.datasetKey, other.datasetKey)
-      && Objects.equal(this.type, other.type)
-      && Objects.equal(this.content, other.content);
+    return Objects.equals(this.datasetKey, other.datasetKey)
+      && Objects.equals(this.type, other.type)
+      && Objects.equals(this.content, other.content);
   }
 }

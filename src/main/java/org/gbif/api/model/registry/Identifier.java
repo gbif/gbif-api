@@ -19,6 +19,8 @@ import org.gbif.api.util.IdentifierUtils;
 import org.gbif.api.vocabulary.IdentifierType;
 
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.Min;
@@ -27,7 +29,6 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.base.Objects;
 
 public class Identifier implements LenientEquals<Identifier> {
 
@@ -109,31 +110,34 @@ public class Identifier implements LenientEquals<Identifier> {
   }
 
   @Override
-  public int hashCode() {
-    return Objects.hashCode(key, type, identifier, createdBy, created);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Identifier that = (Identifier) o;
+    return Objects.equals(key, that.key) &&
+      type == that.type &&
+      Objects.equals(identifier, that.identifier) &&
+      Objects.equals(createdBy, that.createdBy) &&
+      Objects.equals(created, that.created);
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (object instanceof Identifier) {
-      Identifier that = (Identifier) object;
-      return Objects.equal(this.key, that.key)
-        && Objects.equal(this.type, that.type)
-        && Objects.equal(this.identifier, that.identifier)
-        && Objects.equal(this.createdBy, that.createdBy)
-        && Objects.equal(this.created, that.created);
-    }
-    return false;
+  public int hashCode() {
+    return Objects.hash(key, type, identifier, createdBy, created);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("type", type)
-      .add("identifier", identifier)
-      .add("createdBy", createdBy)
-      .add("created", created)
+    return new StringJoiner(", ", Identifier.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("type=" + type)
+      .add("identifier='" + identifier + "'")
+      .add("createdBy='" + createdBy + "'")
+      .add("created=" + created)
       .toString();
   }
 
@@ -145,8 +149,7 @@ public class Identifier implements LenientEquals<Identifier> {
     if (this == other) {
       return true;
     }
-    return Objects.equal(this.type, other.type)
-      && Objects.equal(this.identifier, other.identifier);
+    return Objects.equals(this.type, other.type)
+      && Objects.equals(this.identifier, other.identifier);
   }
-
 }

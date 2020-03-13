@@ -23,6 +23,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -31,7 +33,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.base.Objects;
 
 /**
  * A GBIF network.
@@ -337,74 +338,77 @@ public class Network implements NetworkEntity, Contactable, Endpointable, Machin
   }
 
   @Override
-  public int hashCode() {
-    return Objects
-      .hashCode(key, title, description, language, email, phone, homepage, logoUrl, address, city, province, country,
-        postalCode, createdBy, modifiedBy, created, modified, deleted, contacts, endpoints, machineTags, tags,
-        identifiers, comments, numConstituents);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Network network = (Network) o;
+    return numConstituents == network.numConstituents &&
+      Objects.equals(key, network.key) &&
+      Objects.equals(title, network.title) &&
+      Objects.equals(description, network.description) &&
+      language == network.language &&
+      Objects.equals(email, network.email) &&
+      Objects.equals(phone, network.phone) &&
+      Objects.equals(homepage, network.homepage) &&
+      Objects.equals(logoUrl, network.logoUrl) &&
+      Objects.equals(address, network.address) &&
+      Objects.equals(city, network.city) &&
+      Objects.equals(province, network.province) &&
+      country == network.country &&
+      Objects.equals(postalCode, network.postalCode) &&
+      Objects.equals(createdBy, network.createdBy) &&
+      Objects.equals(modifiedBy, network.modifiedBy) &&
+      Objects.equals(created, network.created) &&
+      Objects.equals(modified, network.modified) &&
+      Objects.equals(deleted, network.deleted) &&
+      Objects.equals(contacts, network.contacts) &&
+      Objects.equals(endpoints, network.endpoints) &&
+      Objects.equals(machineTags, network.machineTags) &&
+      Objects.equals(tags, network.tags) &&
+      Objects.equals(identifiers, network.identifiers) &&
+      Objects.equals(comments, network.comments);
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (object instanceof Network) {
-      Network that = (Network) object;
-      return Objects.equal(this.key, that.key)
-        && Objects.equal(this.title, that.title)
-        && Objects.equal(this.description, that.description)
-        && Objects.equal(this.language, that.language)
-        && Objects.equal(this.email, that.email)
-        && Objects.equal(this.phone, that.phone)
-        && Objects.equal(this.homepage, that.homepage)
-        && Objects.equal(this.logoUrl, that.logoUrl)
-        && Objects.equal(this.address, that.address)
-        && Objects.equal(this.city, that.city)
-        && Objects.equal(this.province, that.province)
-        && Objects.equal(this.country, that.country)
-        && Objects.equal(this.postalCode, that.postalCode)
-        && Objects.equal(this.createdBy, that.createdBy)
-        && Objects.equal(this.modifiedBy, that.modifiedBy)
-        && Objects.equal(this.created, that.created)
-        && Objects.equal(this.modified, that.modified)
-        && Objects.equal(this.deleted, that.deleted)
-        && Objects.equal(this.contacts, that.contacts)
-        && Objects.equal(this.endpoints, that.endpoints)
-        && Objects.equal(this.machineTags, that.machineTags)
-        && Objects.equal(this.tags, that.tags)
-        && Objects.equal(this.identifiers, that.identifiers)
-        && Objects.equal(this.comments, that.comments)
-        && Objects.equal(this.numConstituents, that.numConstituents);
-    }
-    return false;
+  public int hashCode() {
+    return Objects
+      .hash(key, title, description, language, numConstituents, email, phone, homepage, logoUrl,
+        address, city, province, country, postalCode, createdBy, modifiedBy, created, modified,
+        deleted, contacts, endpoints, machineTags, tags, identifiers, comments);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("title", title)
-      .add("description", description)
-      .add("language", language)
-      .add("email", email)
-      .add("phone", phone)
-      .add("homepage", homepage)
-      .add("logoUrl", logoUrl)
-      .add("address", address)
-      .add("city", city)
-      .add("province", province)
-      .add("country", country)
-      .add("postalCode", postalCode)
-      .add("createdBy", createdBy)
-      .add("modifiedBy", modifiedBy)
-      .add("created", created)
-      .add("modified", modified)
-      .add("deleted", deleted)
-      .add("contacts", contacts)
-      .add("endpoints", endpoints)
-      .add("machineTags", machineTags)
-      .add("tags", tags)
-      .add("identifiers", identifiers)
-      .add("comments", comments)
-      .add("numConstituents", numConstituents)
+    return new StringJoiner(", ", Network.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("title='" + title + "'")
+      .add("description='" + description + "'")
+      .add("language=" + language)
+      .add("numConstituents=" + numConstituents)
+      .add("email=" + email)
+      .add("phone=" + phone)
+      .add("homepage=" + homepage)
+      .add("logoUrl=" + logoUrl)
+      .add("address=" + address)
+      .add("city='" + city + "'")
+      .add("province='" + province + "'")
+      .add("country=" + country)
+      .add("postalCode='" + postalCode + "'")
+      .add("createdBy='" + createdBy + "'")
+      .add("modifiedBy='" + modifiedBy + "'")
+      .add("created=" + created)
+      .add("modified=" + modified)
+      .add("deleted=" + deleted)
+      .add("contacts=" + contacts)
+      .add("endpoints=" + endpoints)
+      .add("machineTags=" + machineTags)
+      .add("tags=" + tags)
+      .add("identifiers=" + identifiers)
+      .add("comments=" + comments)
       .toString();
   }
 
@@ -417,18 +421,18 @@ public class Network implements NetworkEntity, Contactable, Endpointable, Machin
     if (this == other) {
       return true;
     }
-    return Objects.equal(this.title, other.title)
-      && Objects.equal(this.description, other.description)
-      && Objects.equal(this.language, other.language)
-      && Objects.equal(this.email, other.email)
-      && Objects.equal(this.phone, other.phone)
-      && Objects.equal(this.homepage, other.homepage)
-      && Objects.equal(this.logoUrl, other.logoUrl)
-      && Objects.equal(this.address, other.address)
-      && Objects.equal(this.city, other.city)
-      && Objects.equal(this.province, other.province)
-      && Objects.equal(this.country, other.country)
-      && Objects.equal(this.postalCode, other.postalCode);
+    return Objects.equals(this.title, other.title)
+      && Objects.equals(this.description, other.description)
+      && Objects.equals(this.language, other.language)
+      && Objects.equals(this.email, other.email)
+      && Objects.equals(this.phone, other.phone)
+      && Objects.equals(this.homepage, other.homepage)
+      && Objects.equals(this.logoUrl, other.logoUrl)
+      && Objects.equals(this.address, other.address)
+      && Objects.equals(this.city, other.city)
+      && Objects.equals(this.province, other.province)
+      && Objects.equals(this.country, other.country)
+      && Objects.equals(this.postalCode, other.postalCode);
   }
 
 }
