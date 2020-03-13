@@ -16,12 +16,11 @@
 package org.gbif.api.model.registry;
 
 import java.io.Serializable;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.Size;
-
-import com.google.common.base.Objects;
-
 
 /**
  * A citation can have one or both of a textual component and an identifier which can be
@@ -63,25 +62,28 @@ public class Citation implements Serializable {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (obj instanceof Citation) {
-      Citation that = (Citation) obj;
-      return Objects.equal(this.text, that.text) && Objects.equal(this.identifier, that.identifier);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-    return false;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Citation citation = (Citation) o;
+    return Objects.equals(text, citation.text) &&
+      Objects.equals(identifier, citation.identifier);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(text, identifier);
+    return Objects.hash(text, identifier);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("text", text)
-      .add("identifier", identifier)
+    return new StringJoiner(", ", Citation.class.getSimpleName() + "[", "]")
+      .add("text='" + text + "'")
+      .add("identifier='" + identifier + "'")
       .toString();
   }
-
 }

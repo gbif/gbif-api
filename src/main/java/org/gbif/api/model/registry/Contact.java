@@ -15,6 +15,9 @@
  */
 package org.gbif.api.model.registry;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import org.gbif.api.vocabulary.ContactType;
 import org.gbif.api.vocabulary.Country;
 
@@ -29,9 +32,6 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.StringUtils;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
 
 // TODO: Should have a cross-field validation for key & created
 public class Contact implements Address, LenientEquals<Contact> {
@@ -107,8 +107,8 @@ public class Contact implements Address, LenientEquals<Contact> {
    * @param id the identifier in that directory
    */
   public void addUserId(String directory, String id) {
-    if (!Strings.isNullOrEmpty(id)) {
-      if (Strings.isNullOrEmpty(directory)) {
+    if (StringUtils.isNotEmpty(id)) {
+      if (StringUtils.isEmpty(directory)) {
         userId.add(id);
       } else {
         try {
@@ -346,44 +346,70 @@ public class Contact implements Address, LenientEquals<Contact> {
   }
 
   @Override
-  public int hashCode() {
-    return Objects
-      .hashCode(key, type, primary, userId, firstName, lastName, position, description, email, phone, homepage,
-                organization, address, city, province, country, postalCode, createdBy, modifiedBy, created, modified);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Contact contact = (Contact) o;
+    return primary == contact.primary &&
+      Objects.equals(key, contact.key) &&
+      type == contact.type &&
+      Objects.equals(userId, contact.userId) &&
+      Objects.equals(firstName, contact.firstName) &&
+      Objects.equals(lastName, contact.lastName) &&
+      Objects.equals(position, contact.position) &&
+      Objects.equals(description, contact.description) &&
+      Objects.equals(email, contact.email) &&
+      Objects.equals(phone, contact.phone) &&
+      Objects.equals(homepage, contact.homepage) &&
+      Objects.equals(organization, contact.organization) &&
+      Objects.equals(address, contact.address) &&
+      Objects.equals(city, contact.city) &&
+      Objects.equals(province, contact.province) &&
+      country == contact.country &&
+      Objects.equals(postalCode, contact.postalCode) &&
+      Objects.equals(createdBy, contact.createdBy) &&
+      Objects.equals(modifiedBy, contact.modifiedBy) &&
+      Objects.equals(created, contact.created) &&
+      Objects.equals(modified, contact.modified);
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (this == object) {
-      return true;
-    }
-
-    if (object instanceof Contact) {
-      Contact that = (Contact) object;
-      return lenientEquals(that)
-        && Objects.equal(this.key, that.key)
-        && Objects.equal(this.primary, that.primary)
-        && Objects.equal(this.createdBy, that.createdBy)
-        && Objects.equal(this.modifiedBy, that.modifiedBy)
-        && Objects.equal(this.created, that.created)
-        && Objects.equal(this.modified, that.modified);
-    }
-    return false;
+  public int hashCode() {
+    return Objects
+      .hash(key, type, primary, userId, firstName, lastName, position, description, email, phone,
+        homepage, organization, address, city, province, country, postalCode, createdBy,
+        modifiedBy, created, modified);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("key", key).add("type", type)
-      .add("primary", primary)
-      .add("userId", userId)
-      .add("firstName", firstName).add("lastName", lastName).add("position", position)
-      .add("description", description).add("email", email).add("phone", phone)
-      .add("homepage", homepage)
-      .add("organization", organization)
-      .add("address", address).add("city", city).add("province", province).add("country", country)
-      .add("postalCode", postalCode)
-      .add("createdBy", createdBy).add("modifiedBy", modifiedBy).add("created", created)
-      .add("modified", modified).toString();
+    return new StringJoiner(", ", Contact.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("type=" + type)
+      .add("primary=" + primary)
+      .add("userId=" + userId)
+      .add("firstName='" + firstName + "'")
+      .add("lastName='" + lastName + "'")
+      .add("position=" + position)
+      .add("description='" + description + "'")
+      .add("email=" + email)
+      .add("phone=" + phone)
+      .add("homepage=" + homepage)
+      .add("organization='" + organization + "'")
+      .add("address=" + address)
+      .add("city='" + city + "'")
+      .add("province='" + province + "'")
+      .add("country=" + country)
+      .add("postalCode='" + postalCode + "'")
+      .add("createdBy='" + createdBy + "'")
+      .add("modifiedBy='" + modifiedBy + "'")
+      .add("created=" + created)
+      .add("modified=" + modified)
+      .toString();
   }
 
   /**
@@ -396,22 +422,21 @@ public class Contact implements Address, LenientEquals<Contact> {
       return true;
     }
 
-    return Objects.equal(type, contact.type)
-      && Objects.equal(primary, contact.primary)
-      && Objects.equal(userId, contact.userId)
-      && Objects.equal(firstName, contact.firstName)
-      && Objects.equal(lastName, contact.lastName)
-      && Objects.equal(position, contact.position)
-      && Objects.equal(description, contact.description)
-      && Objects.equal(email, contact.email)
-      && Objects.equal(phone, contact.phone)
-      && Objects.equal(homepage, contact.homepage)
-      && Objects.equal(organization, contact.organization)
-      && Objects.equal(address, contact.address)
-      && Objects.equal(city, contact.city)
-      && Objects.equal(province, contact.province)
-      && Objects.equal(country, contact.country)
-      && Objects.equal(postalCode, contact.postalCode);
+    return Objects.equals(type, contact.type)
+      && Objects.equals(primary, contact.primary)
+      && Objects.equals(userId, contact.userId)
+      && Objects.equals(firstName, contact.firstName)
+      && Objects.equals(lastName, contact.lastName)
+      && Objects.equals(position, contact.position)
+      && Objects.equals(description, contact.description)
+      && Objects.equals(email, contact.email)
+      && Objects.equals(phone, contact.phone)
+      && Objects.equals(homepage, contact.homepage)
+      && Objects.equals(organization, contact.organization)
+      && Objects.equals(address, contact.address)
+      && Objects.equals(city, contact.city)
+      && Objects.equals(province, contact.province)
+      && Objects.equals(country, contact.country)
+      && Objects.equals(postalCode, contact.postalCode);
   }
-
 }

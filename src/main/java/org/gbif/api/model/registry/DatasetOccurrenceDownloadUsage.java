@@ -18,11 +18,11 @@ package org.gbif.api.model.registry;
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.occurrence.Download;
 
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
-
-import com.google.common.base.Objects;
 
 /**
  * Represents the information about the usage of one dataset in an occurrence download.
@@ -120,32 +120,41 @@ public class DatasetOccurrenceDownloadUsage {
   }
 
   @Override
-  public String toString() {
-    return Objects.toStringHelper(this).add("downloadKey", downloadKey).add("datasetKey", datasetKey)
-      .add("datasetTitle", datasetTitle).add("datasetDOI", datasetDOI).add("datasetCitation",datasetCitation)
-      .add("numberRecords", numberRecords).add("download", download).toString();
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    DatasetOccurrenceDownloadUsage that = (DatasetOccurrenceDownloadUsage) o;
+    return numberRecords == that.numberRecords &&
+      Objects.equals(downloadKey, that.downloadKey) &&
+      Objects.equals(datasetKey, that.datasetKey) &&
+      Objects.equals(datasetTitle, that.datasetTitle) &&
+      Objects.equals(datasetDOI, that.datasetDOI) &&
+      Objects.equals(datasetCitation, that.datasetCitation) &&
+      Objects.equals(download, that.download);
   }
 
   @Override
   public int hashCode() {
     return Objects
-      .hashCode(downloadKey, datasetKey, datasetTitle, datasetDOI, datasetDOI, numberRecords, download);
+      .hash(downloadKey, datasetKey, datasetTitle, datasetDOI, datasetCitation, numberRecords,
+        download);
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (object instanceof DatasetOccurrenceDownloadUsage) {
-      DatasetOccurrenceDownloadUsage that = (DatasetOccurrenceDownloadUsage) object;
-      return Objects.equal(this.downloadKey, that.downloadKey)
-        && Objects.equal(this.datasetKey, that.datasetKey)
-        && Objects.equal(this.datasetTitle, that.datasetTitle)
-        && Objects.equal(this.datasetDOI, that.datasetDOI)
-        && Objects.equal(this.datasetCitation, that.datasetCitation)
-        && Objects.equal(this.numberRecords, that.numberRecords)
-        && Objects.equal(this.download, that.download);
-    }
-    return false;
+  public String toString() {
+    return new StringJoiner(", ",
+      DatasetOccurrenceDownloadUsage.class.getSimpleName() + "[", "]")
+      .add("downloadKey='" + downloadKey + "'")
+      .add("datasetKey=" + datasetKey)
+      .add("datasetTitle='" + datasetTitle + "'")
+      .add("datasetDOI=" + datasetDOI)
+      .add("datasetCitation='" + datasetCitation + "'")
+      .add("numberRecords=" + numberRecords)
+      .add("download=" + download)
+      .toString();
   }
-
-
 }
