@@ -18,7 +18,7 @@ package org.gbif.api.vocabulary;
 /**
  * Enumeration for user identifiers like ORCID, WIKIDATA and etc
  */
-public enum UserIdentifierType {
+public enum AgentIdentifierType {
 
   ORCID,
   WIKIDATA,

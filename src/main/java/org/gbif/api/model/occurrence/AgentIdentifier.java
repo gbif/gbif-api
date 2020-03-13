@@ -15,7 +15,7 @@
  */
 package org.gbif.api.model.occurrence;
 
-import org.gbif.api.vocabulary.UserIdentifierType;
+import org.gbif.api.vocabulary.AgentIdentifierType;
 
 import java.util.Objects;
 
@@ -23,28 +23,28 @@ import javax.validation.constraints.NotNull;
 
 import com.google.common.base.MoreObjects;
 
-public class UserIdentifier {
+public class AgentIdentifier {
 
-  private UserIdentifierType type;
+  private AgentIdentifierType type;
   private String value;
 
-  public UserIdentifier() {
+  public AgentIdentifier() {
   }
 
-  public UserIdentifier(UserIdentifierType type, String value) {
+  public AgentIdentifier(AgentIdentifierType type, String value) {
     this.type = type;
     this.value = value;
   }
 
-  public UserIdentifier(String value) {
+  public AgentIdentifier(String value) {
     this.value = value;
   }
 
-  public UserIdentifierType getType() {
+  public AgentIdentifierType getType() {
     return type;
   }
 
-  public UserIdentifier setType(UserIdentifierType type) {
+  public AgentIdentifier setType(AgentIdentifierType type) {
     this.type = type;
     return this;
   }
@@ -54,7 +54,7 @@ public class UserIdentifier {
     return value;
   }
 
-  public UserIdentifier setValue(String value) {
+  public AgentIdentifier setValue(String value) {
     this.value = value;
     return this;
   }
@@ -67,7 +67,7 @@ public class UserIdentifier {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    UserIdentifier that = (UserIdentifier) o;
+    AgentIdentifier that = (AgentIdentifier) o;
     return type == that.type &&
       Objects.equals(value, that.value);
   }
