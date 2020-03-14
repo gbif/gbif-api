@@ -18,15 +18,15 @@ package org.gbif.api.model.occurrence.predicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.validation.constraints.NotNull;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 
 /**
  * This predicate checks if an occurrence location falls within the given WKT geometry {@code value}.
@@ -57,7 +57,7 @@ public class WithinPredicate implements Predicate {
    */
   @JsonCreator
   public WithinPredicate(@JsonProperty("geometry") String geometry) {
-    Preconditions.checkNotNull(geometry, "<geometry> may not be null");
+    Objects.requireNonNull(geometry, "<geometry> may not be null");
     try {
       // test if it is a valid WKT
       SearchTypeValidator.validate(OccurrenceSearchParameter.GEOMETRY, geometry);
@@ -74,27 +74,26 @@ public class WithinPredicate implements Predicate {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-
-    if (!(obj instanceof WithinPredicate)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    WithinPredicate that = (WithinPredicate) obj;
-    return Objects.equal(this.geometry, that.geometry);
+    WithinPredicate that = (WithinPredicate) o;
+    return Objects.equals(geometry, that.geometry);
   }
 
   @Override
-   public int hashCode() {
-     return Objects.hashCode(geometry);
-   }
+  public int hashCode() {
+    return Objects.hash(geometry);
+  }
 
-   @Override
-   public String toString() {
-     return Objects.toStringHelper(this).add("geometry", geometry).toString();
-   }
-
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", WithinPredicate.class.getSimpleName() + "[", "]")
+      .add("geometry='" + geometry + "'")
+      .toString();
+  }
 }

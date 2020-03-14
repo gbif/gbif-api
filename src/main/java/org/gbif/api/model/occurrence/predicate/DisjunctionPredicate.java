@@ -16,11 +16,11 @@
 package org.gbif.api.model.occurrence.predicate;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.google.common.base.Objects;
 
 /**
  * This predicate is "OR"-ing its subpredicates together.
@@ -43,6 +43,6 @@ public class DisjunctionPredicate extends CompoundPredicate {
     }
 
     CompoundPredicate that = (CompoundPredicate) obj;
-    return Objects.equal(this.getPredicates(), that.getPredicates());
+    return Objects.equals(this.getPredicates(), that.getPredicates());
   }
 }

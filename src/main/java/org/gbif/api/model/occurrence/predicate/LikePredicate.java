@@ -20,8 +20,6 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.google.common.base.Objects;
-
 /**
  * This predicate checks if its {@code key} is LIKE its {@code value}.
  * The syntax for one (_) or any (%) arbitrary matching characters is the one used by Hive.
@@ -38,19 +36,4 @@ public class LikePredicate extends SimplePredicate {
       throw new IllegalArgumentException("Like comparisons are only allowed for strings but not parameter " + key);
     }
   }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-
-    if (!(obj instanceof LikePredicate)) {
-      return false;
-    }
-
-    SimplePredicate that = (SimplePredicate) obj;
-    return Objects.equal(this.getKey(), that.getKey()) && Objects.equal(this.getValue(), that.getValue());
-  }
-
 }

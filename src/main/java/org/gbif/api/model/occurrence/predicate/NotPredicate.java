@@ -15,13 +15,13 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.validation.constraints.NotNull;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 
 /**
  * This predicate negates its subpredicate.
@@ -34,7 +34,7 @@ public class NotPredicate implements Predicate {
 
   @JsonCreator
   public NotPredicate(@JsonProperty("predicate") Predicate predicate) {
-    Preconditions.checkNotNull(predicate);
+    Objects.requireNonNull(predicate);
 
     this.predicate = predicate;
   }
@@ -44,26 +44,26 @@ public class NotPredicate implements Predicate {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-
-    if (!(obj instanceof NotPredicate)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    NotPredicate that = (NotPredicate) obj;
-    return Objects.equal(this.predicate, that.predicate);
+    NotPredicate that = (NotPredicate) o;
+    return Objects.equals(predicate, that.predicate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(predicate);
+    return Objects.hash(predicate);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("predicate", predicate).toString();
+    return new StringJoiner(", ", NotPredicate.class.getSimpleName() + "[", "]")
+      .add("predicate=" + predicate)
+      .toString();
   }
 }

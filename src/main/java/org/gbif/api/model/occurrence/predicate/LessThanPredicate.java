@@ -20,8 +20,6 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.google.common.base.Objects;
-
 /**
  * This predicate checks if its {@code key} is less than its {@code value}.
  */
@@ -31,19 +29,4 @@ public class LessThanPredicate extends SimplePredicate {
   public LessThanPredicate(@JsonProperty("key") OccurrenceSearchParameter key, @JsonProperty("value") String value) {
     super(true, key, value);
   }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-
-    if (!(obj instanceof LessThanPredicate)) {
-      return false;
-    }
-
-    SimplePredicate that = (SimplePredicate) obj;
-    return Objects.equal(this.getKey(), that.getKey()) && Objects.equal(this.getValue(), that.getValue());
-  }
-
 }
