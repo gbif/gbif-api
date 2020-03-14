@@ -16,7 +16,14 @@
 package org.gbif.api.model.checklistbank.search;
 
 import org.gbif.api.model.common.search.SearchParameter;
-import org.gbif.api.vocabulary.*;
+import org.gbif.api.vocabulary.Habitat;
+import org.gbif.api.vocabulary.NameType;
+import org.gbif.api.vocabulary.NameUsageIssue;
+import org.gbif.api.vocabulary.NomenclaturalStatus;
+import org.gbif.api.vocabulary.Origin;
+import org.gbif.api.vocabulary.Rank;
+import org.gbif.api.vocabulary.TaxonomicStatus;
+import org.gbif.api.vocabulary.ThreatStatus;
 
 import java.util.UUID;
 
