@@ -15,18 +15,18 @@
  */
 package org.gbif.api.model.registry.eml.temporal;
 
-import java.util.Objects;
-import java.util.StringJoiner;
-
 import org.gbif.api.util.formatter.TemporalCoverageFormatterVisitor;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
+import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
 /**
  * A period of time.
@@ -43,7 +43,7 @@ public class DateRange extends TemporalCoverage implements Serializable {
   }
 
   public DateRange(Date start, Date end) {
-    Preconditions.checkArgument(start.before(end), "start date must be before end");
+    checkArgument(start.before(end), "start date must be before end");
     this.start = start;
     this.end = end;
   }
@@ -77,7 +77,8 @@ public class DateRange extends TemporalCoverage implements Serializable {
       }
       sb.append(sdf.format(end));
     }
-    return Lists.newArrayList(sb.toString());
+
+    return Stream.of(sb.toString()).collect(Collectors.toList());
   }
 
   @Override
