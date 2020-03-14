@@ -18,10 +18,11 @@ package org.gbif.api.model.common;
 import org.gbif.api.util.IdentifierUtils;
 import org.gbif.api.vocabulary.IdentifierType;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
-
-import com.google.common.base.Objects;
 
 /**
  * Identifier Model Object represents an alternative identifier for an occurrence or name usage.
@@ -107,32 +108,30 @@ public class Identifier {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof Identifier)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    Identifier that = (Identifier) obj;
-    return Objects.equal(this.identifier, that.identifier)
-           && Objects.equal(this.type, that.type)
-           && Objects.equal(this.title, that.title);
+    Identifier that = (Identifier) o;
+    return Objects.equals(identifier, that.identifier) &&
+      Objects.equals(title, that.title) &&
+      type == that.type;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(identifier, type, title);
+    return Objects.hash(identifier, title, type);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("identifier", identifier)
-      .add("type", type)
-      .add("title", title)
+    return new StringJoiner(", ", Identifier.class.getSimpleName() + "[", "]")
+      .add("identifier='" + identifier + "'")
+      .add("title='" + title + "'")
+      .add("type=" + type)
       .toString();
   }
-
 }

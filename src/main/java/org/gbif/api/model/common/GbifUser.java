@@ -19,13 +19,14 @@ import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
 
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.base.Objects;
 
 /**
  * A GBIF user account registered in the user Identity database (previously Drupal).
@@ -71,43 +72,39 @@ public class GbifUser extends AbstractGbifUser {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof GbifUser)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    GbifUser that = (GbifUser) obj;
-    return Objects.equal(this.key, that.key)
-           && Objects.equal(this.userName, that.userName)
-           && Objects.equal(this.firstName, that.firstName)
-           && Objects.equal(this.lastName, that.lastName)
-           && Objects.equal(this.email, that.email)
-           && Objects.equal(this.roles, that.roles)
-           && Objects.equal(this.lastLogin, that.lastLogin)
-           && Objects.equal(this.passwordHash, that.passwordHash)
-           && Objects.equal(this.settings, that.settings);
+    if (!super.equals(o)) {
+      return false;
+    }
+    GbifUser gbifUser = (GbifUser) o;
+    return Objects.equals(key, gbifUser.key) &&
+      Objects.equals(lastLogin, gbifUser.lastLogin);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(key, userName, firstName, lastName, email, roles, lastLogin, passwordHash, settings);
+    return Objects.hash(super.hashCode(), key, lastLogin);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("accountName", userName)
-      .add("firstName", firstName)
-      .add("lastName", lastName)
-      .add("email", email)
-      .add("roles", roles)
-      .add("lastLogin", lastLogin)
-      .add("settings", settings)
+    return new StringJoiner(", ", GbifUser.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("lastLogin=" + lastLogin)
+      .add("userName='" + userName + "'")
+      .add("firstName='" + firstName + "'")
+      .add("lastName='" + lastName + "'")
+      .add("email='" + email + "'")
+      .add("roles=" + roles)
+      .add("settings=" + settings)
+      .add("systemSettings=" + systemSettings)
+      .add("deleted=" + deleted)
       .toString();
   }
-
 }

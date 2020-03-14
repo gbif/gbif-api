@@ -18,9 +18,9 @@ package org.gbif.api.model.common;
 import org.gbif.api.vocabulary.UserRole;
 
 import java.security.Principal;
+import java.util.Objects;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A wrapper class for a GBIF User that exposes the unique account name as the principal name.
@@ -31,7 +31,7 @@ public class UserPrincipal implements Principal {
   private final User user;
 
   public UserPrincipal(User user) {
-    Preconditions.checkNotNull(user);
+    Objects.requireNonNull(user);
     this.user = user;
   }
 
@@ -54,7 +54,7 @@ public class UserPrincipal implements Principal {
    * @return true if the user has the requested role
    */
   public boolean hasRole(String role) {
-    if (!Strings.isNullOrEmpty(role)) {
+    if (StringUtils.isNotEmpty(role)) {
       try {
         UserRole r = UserRole.valueOf(role.toUpperCase());
         return user.hasRole(r);

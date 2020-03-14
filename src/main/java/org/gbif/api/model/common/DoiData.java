@@ -16,14 +16,14 @@
 package org.gbif.api.model.common;
 
 import java.net.URI;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 
 /**
  * Data about a DOI with a target URI and a status enumeration.
@@ -32,19 +32,19 @@ public class DoiData {
   private final DoiStatus status;
   private final URI target;
 
-  @com.fasterxml.jackson.annotation.JsonCreator
+  @JsonCreator
   public DoiData(@JsonProperty("status") DoiStatus status, @JsonProperty("target") URI target) {
-    this.status = Preconditions.checkNotNull(status, "DOI status is required");
+    this.status = Objects.requireNonNull(status, "DOI status is required");
     this.target = target;
   }
 
   public DoiData(String ezidStatus, URI target) {
-    this.status = Preconditions.checkNotNull(DoiStatus.fromString(ezidStatus));
+    this.status = Objects.requireNonNull(DoiStatus.fromString(ezidStatus));
     this.target = target;
   }
 
   public DoiData(DoiStatus status) {
-    this.status = Preconditions.checkNotNull(status, "DOI status is required");
+    this.status = Objects.requireNonNull(status, "DOI status is required");
     this.target = null;
   }
 
@@ -59,28 +59,28 @@ public class DoiData {
   }
 
   @Override
-  public int hashCode() {
-    return Objects.hashCode(status, target);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    DoiData doiData = (DoiData) o;
+    return status == doiData.status &&
+      Objects.equals(target, doiData.target);
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null || getClass() != obj.getClass()) {
-      return false;
-    }
-    final DoiData other = (DoiData) obj;
-    return Objects.equal(this.status, other.status) && Objects.equal(this.target, other.target);
+  public int hashCode() {
+    return Objects.hash(status, target);
   }
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("status", status)
-      .add("target", target)
+    return new StringJoiner(", ", DoiData.class.getSimpleName() + "[", "]")
+      .add("status=" + status)
+      .add("target=" + target)
       .toString();
   }
-
 }

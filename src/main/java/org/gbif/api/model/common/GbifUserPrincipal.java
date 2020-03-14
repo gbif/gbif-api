@@ -19,7 +19,7 @@ import org.gbif.api.vocabulary.UserRole;
 
 import java.util.Objects;
 
-import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A wrapper class for a GBIF User that exposes the unique account name as the principal name.
@@ -52,7 +52,7 @@ public class GbifUserPrincipal implements ExtendedPrincipal {
    * @return true if the user has the requested role
    */
   public boolean hasRole(String role) {
-    if (!Strings.isNullOrEmpty(role)) {
+    if (StringUtils.isNotEmpty(role)) {
       try {
         UserRole r = UserRole.valueOf(role.toUpperCase());
         return user.hasRole(r);

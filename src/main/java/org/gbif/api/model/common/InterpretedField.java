@@ -15,7 +15,8 @@
  */
 package org.gbif.api.model.common;
 
-import com.google.common.base.Objects;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Allows for encapsulating a verbatim and an interpreted value of any type.
@@ -51,27 +52,28 @@ public class InterpretedField<V, I> {
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (this == object) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(object instanceof InterpretedField)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    InterpretedField<?, ?> that = (InterpretedField<?, ?>) object;
-    return Objects.equal(this.verbatim, that.getVerbatim())
-           && Objects.equal(this.interpreted, that.getInterpreted());
+    InterpretedField<?, ?> that = (InterpretedField<?, ?>) o;
+    return Objects.equals(verbatim, that.verbatim) &&
+      Objects.equals(interpreted, that.interpreted);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(verbatim, interpreted);
+    return Objects.hash(verbatim, interpreted);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("verbatim", verbatim).add("interpreted", interpreted).toString();
+    return new StringJoiner(", ", InterpretedField.class.getSimpleName() + "[", "]")
+      .add("verbatim=" + verbatim)
+      .add("interpreted=" + interpreted)
+      .toString();
   }
-
 }

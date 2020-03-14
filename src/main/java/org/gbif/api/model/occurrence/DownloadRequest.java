@@ -15,6 +15,9 @@
  */
 package org.gbif.api.model.occurrence;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import org.gbif.api.jackson.DownloadRequestSerde;
 
 import java.util.Collection;
@@ -28,7 +31,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -138,33 +140,32 @@ public abstract class DownloadRequest {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof DownloadRequest)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    DownloadRequest that = (DownloadRequest) obj;
-    return Objects.equal(this.creator, that.creator)
-      && Objects.equal(this.notificationAddresses, that.notificationAddresses)
-      && Objects.equal(this.sendNotification, that.sendNotification)
-      && Objects.equal(this.format, that.format);
+    DownloadRequest that = (DownloadRequest) o;
+    return sendNotification == that.sendNotification &&
+      Objects.equals(creator, that.creator) &&
+      Objects.equals(notificationAddresses, that.notificationAddresses) &&
+      format == that.format;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(creator, notificationAddresses, sendNotification, format);
+    return Objects.hash(creator, notificationAddresses, sendNotification, format);
   }
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("creator", creator)
-      .add("notificationAddresses", notificationAddresses)
-      .add("emailNotification", sendNotification)
-      .add("format", format).toString();
+    return new StringJoiner(", ", DownloadRequest.class.getSimpleName() + "[", "]")
+      .add("creator='" + creator + "'")
+      .add("notificationAddresses=" + notificationAddresses)
+      .add("sendNotification=" + sendNotification)
+      .add("format=" + format)
+      .toString();
   }
-
 }

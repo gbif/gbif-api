@@ -20,8 +20,8 @@ import org.gbif.api.model.common.paging.PagingResponse;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.base.Objects;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Generic response of a search operation. The result is a {@link java.util.List} of elements.
@@ -117,26 +117,31 @@ public class SearchResponse<T, P extends SearchParameter> extends PagingResponse
     if (this == o) {
       return true;
     }
-    if (!(o instanceof SearchResponse)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
+    if (!super.equals(o)) {
+      return false;
+    }
     SearchResponse<?, ?> that = (SearchResponse<?, ?>) o;
-    return Objects.equal(getCount(), that.getCount()) && Objects.equal(getResults(), that.getResults()) &&
-           Objects.equal(facets, that.getFacets()) && Objects.equal(getOffset(), that.getOffset()) &&
-           Objects.equal(getLimit(), that.getLimit()) &&
-           Objects.equal(spellCheckResponse, that.getSpellCheckResponse());
+    return Objects.equals(facets, that.facets) &&
+      Objects.equals(spellCheckResponse, that.spellCheckResponse);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), facets, spellCheckResponse);
+    return Objects.hash(super.hashCode(), facets, spellCheckResponse);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("count", getCount()).add("results", getResults()).add("facets", facets)
-      .add("offset", getOffset()).add("limit", getLimit()).add("spellCheckResponse",spellCheckResponse).toString();
+    return new StringJoiner(", ", SearchResponse.class.getSimpleName() + "[", "]")
+      .add("facets=" + facets)
+      .add("spellCheckResponse=" + spellCheckResponse)
+      .add("offset=" + offset)
+      .add("limit=" + limit)
+      .add("results=" + getResults())
+      .add("count=" + getCount())
+      .toString();
   }
-
 }
