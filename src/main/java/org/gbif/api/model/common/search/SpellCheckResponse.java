@@ -17,8 +17,8 @@ package org.gbif.api.model.common.search;
 
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.base.Objects;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Contains the response information of a spell check request.
@@ -67,28 +67,28 @@ public class SpellCheckResponse {
     }
 
     @Override
-    public boolean equals(Object obj) {
-      if (this == obj) {
+    public boolean equals(Object o) {
+      if (this == o) {
         return true;
       }
-      if (!(obj instanceof Suggestion)) {
+      if (o == null || getClass() != o.getClass()) {
         return false;
       }
-      Suggestion that = (Suggestion) obj;
-      return Objects.equal(this.numFound, that.numFound)
-             && Objects.equal(this.alternatives, that.alternatives);
+      Suggestion that = (Suggestion) o;
+      return numFound == that.numFound &&
+        Objects.equals(alternatives, that.alternatives);
     }
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(numFound,alternatives);
+      return Objects.hash(numFound, alternatives);
     }
 
     @Override
     public String toString() {
-      return Objects.toStringHelper(this)
-        .add("numFound", numFound)
-        .add("alternatives", alternatives)
+      return new StringJoiner(", ", Suggestion.class.getSimpleName() + "[", "]")
+        .add("numFound=" + numFound)
+        .add("alternatives=" + alternatives)
         .toString();
     }
   }
@@ -132,30 +132,29 @@ public class SpellCheckResponse {
     this.suggestions = suggestions;
   }
 
-
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof SpellCheckResponse)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SpellCheckResponse that = (SpellCheckResponse) obj;
-    return Objects.equal(this.suggestions, that.suggestions)
-           && Objects.equal(this.correctlySpelled, that.correctlySpelled);
+    SpellCheckResponse that = (SpellCheckResponse) o;
+    return correctlySpelled == that.correctlySpelled &&
+      java.util.Objects.equals(suggestions, that.suggestions);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(suggestions,correctlySpelled);
+    return java.util.Objects.hash(correctlySpelled, suggestions);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("suggestions", suggestions)
-      .add("correctlySpelled", correctlySpelled)
+    return new StringJoiner(", ", SpellCheckResponse.class.getSimpleName() + "[", "]")
+      .add("correctlySpelled=" + correctlySpelled)
+      .add("suggestions=" + suggestions)
       .toString();
   }
 }

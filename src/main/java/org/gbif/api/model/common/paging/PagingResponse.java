@@ -17,11 +17,10 @@ package org.gbif.api.model.common.paging;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 
 /**
  * Paging response bean.
@@ -99,7 +98,7 @@ public class PagingResponse<T> extends PageableBase {
    * This method will not modify the endOfRecords flag.
    */
   public void setResults(List<T> results) {
-    Preconditions.checkNotNull(results, "results can't be null");
+    Objects.requireNonNull(results, "results can't be null");
     this.results = results;
   }
 
@@ -136,35 +135,34 @@ public class PagingResponse<T> extends PageableBase {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-
-    if (!(obj instanceof PagingResponse)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    PagingResponse<?> that = (PagingResponse<?>) obj;
-    return Objects.equal(count, that.getCount())
-           && Objects.equal(this.results, that.getResults())
-           && Objects.equal(this.getOffset(), that.getOffset())
-           && Objects.equal(this.getLimit(), that.getLimit());
+    if (!super.equals(o)) {
+      return false;
+    }
+    PagingResponse<?> that = (PagingResponse<?>) o;
+    return Objects.equals(endOfRecords, that.endOfRecords) &&
+      Objects.equals(count, that.count) &&
+      Objects.equals(results, that.results);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(count, results, endOfRecords, getLimit(), getOffset());
+    return Objects.hash(super.hashCode(), endOfRecords, count, results);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("count", count)
-      .add("results", results)
-      .add("offset", getOffset())
-      .add("limit", getLimit())
+    return new StringJoiner(", ", PagingResponse.class.getSimpleName() + "[", "]")
+      .add("count=" + count)
+      .add("results=" + results)
+      .add("offset=" + offset)
+      .add("limit=" + limit)
       .toString();
   }
-
 }

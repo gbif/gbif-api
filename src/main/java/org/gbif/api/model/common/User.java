@@ -18,8 +18,12 @@ package org.gbif.api.model.common;
 import org.gbif.api.vocabulary.UserRole;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -27,10 +31,6 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-
-import com.google.common.base.Objects;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 /**
  * A GBIF user account registered in the drupal user database.
@@ -49,10 +49,10 @@ public class User {
   private String lastName;
   private String email;
   private String passwordHash;
-  private Set<UserRole> roles = Sets.newHashSet();
+  private Set<UserRole> roles = new HashSet<>();
   private Date lastLogin;
   // Note: Settings was introduced in the system developed to replace Drupal
-  private Map<String, String> settings = Maps.newHashMap();
+  private Map<String, String> settings = new HashMap<>();
 
   @NotNull
   public Integer getKey() {
@@ -187,48 +187,46 @@ public class User {
    */
   public void setSettings(Map<String, String> settings) {
     // safeguard against misuse to avoid NPE
-    this.settings = settings == null ? Maps.<String,String>newHashMap() : settings;
+    this.settings = settings == null ? new HashMap<>() : settings;
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof User)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    User that = (User) obj;
-    return Objects.equal(this.key, that.key)
-           && Objects.equal(this.userName, that.userName)
-           && Objects.equal(this.firstName, that.firstName)
-           && Objects.equal(this.lastName, that.lastName)
-           && Objects.equal(this.email, that.email)
-           && Objects.equal(this.roles, that.roles)
-           && Objects.equal(this.lastLogin, that.lastLogin)
-           && Objects.equal(this.passwordHash, that.passwordHash)
-           && Objects.equal(this.settings, that.settings);
+    User user = (User) o;
+    return Objects.equals(key, user.key) &&
+      Objects.equals(userName, user.userName) &&
+      Objects.equals(firstName, user.firstName) &&
+      Objects.equals(lastName, user.lastName) &&
+      Objects.equals(email, user.email) &&
+      Objects.equals(passwordHash, user.passwordHash) &&
+      Objects.equals(roles, user.roles) &&
+      Objects.equals(lastLogin, user.lastLogin) &&
+      Objects.equals(settings, user.settings);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(key, userName, firstName, lastName, email, roles, lastLogin, passwordHash, settings);
+    return Objects
+      .hash(key, userName, firstName, lastName, email, passwordHash, roles, lastLogin, settings);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("accountName", userName)
-      .add("firstName", firstName)
-      .add("lastName", lastName)
-      .add("email", email)
-      .add("roles", roles)
-      .add("lastLogin", lastLogin)
-      .add("passwordHash", passwordHash)
-      .add("settings", settings)
+    return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("userName='" + userName + "'")
+      .add("firstName='" + firstName + "'")
+      .add("lastName='" + lastName + "'")
+      .add("email='" + email + "'")
+      .add("roles=" + roles)
+      .add("lastLogin=" + lastLogin)
+      .add("settings=" + settings)
       .toString();
   }
-
 }

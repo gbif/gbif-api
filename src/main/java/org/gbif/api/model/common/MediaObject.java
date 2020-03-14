@@ -19,13 +19,13 @@ import org.gbif.api.vocabulary.MediaType;
 
 import java.net.URI;
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import org.codehaus.jackson.annotate.JsonProperty;
-
-import com.google.common.base.Objects;
 
 /**
  * Metadata for a multimedia object representing an image, video or audio file.
@@ -266,64 +266,54 @@ public class MediaObject {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof MediaObject)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    MediaObject that = (MediaObject) obj;
-    return Objects.equal(this.identifier, that.identifier)
-           && Objects.equal(this.type, that.type)
-           && Objects.equal(this.format, that.format)
-           && Objects.equal(this.references, that.references)
-           && Objects.equal(this.title, that.title)
-           && Objects.equal(this.description, that.description)
-           && Objects.equal(this.license, that.license)
-           && Objects.equal(this.publisher, that.publisher)
-           && Objects.equal(this.source, that.source)
-           && Objects.equal(this.audience, that.audience)
-           && Objects.equal(this.contributor, that.contributor)
-           && Objects.equal(this.rightsHolder, that.rightsHolder)
-           && Objects.equal(this.creator, that.creator)
-           && Objects.equal(this.created, that.created);
+    MediaObject that = (MediaObject) o;
+    return type == that.type &&
+      Objects.equals(format, that.format) &&
+      Objects.equals(identifier, that.identifier) &&
+      Objects.equals(references, that.references) &&
+      Objects.equals(title, that.title) &&
+      Objects.equals(description, that.description) &&
+      Objects.equals(source, that.source) &&
+      Objects.equals(audience, that.audience) &&
+      Objects.equals(created, that.created) &&
+      Objects.equals(creator, that.creator) &&
+      Objects.equals(contributor, that.contributor) &&
+      Objects.equals(publisher, that.publisher) &&
+      Objects.equals(license, that.license) &&
+      Objects.equals(rightsHolder, that.rightsHolder);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(type,
-                            format, identifier,
-                            references,
-                            title,
-                            description,
-                            license,
-                            publisher,
-                            source,
-                            audience, contributor,
-                            rightsHolder,
-                            creator,
-                            created);
+    return Objects
+      .hash(type, format, identifier, references, title, description, source, audience, created,
+        creator, contributor, publisher, license, rightsHolder);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("type", type)
-      .add("format", format)
-      .add("identifier", identifier)
-      .add("references", references)
-      .add("title", title)
-      .add("description", description)
-      .add("license", license)
-      .add("publisher", publisher)
-      .add("source", source)
-      .add("audience", audience)
-      .add("contributor", contributor)
-      .add("rightsHolder", rightsHolder)
-      .add("creator", creator)
-      .add("created", created)
+    return new StringJoiner(", ", MediaObject.class.getSimpleName() + "[", "]")
+      .add("type=" + type)
+      .add("format='" + format + "'")
+      .add("identifier=" + identifier)
+      .add("references=" + references)
+      .add("title='" + title + "'")
+      .add("description='" + description + "'")
+      .add("source='" + source + "'")
+      .add("audience='" + audience + "'")
+      .add("created=" + created)
+      .add("creator='" + creator + "'")
+      .add("contributor='" + contributor + "'")
+      .add("publisher='" + publisher + "'")
+      .add("license='" + license + "'")
+      .add("rightsHolder='" + rightsHolder + "'")
       .toString();
   }
-
 }

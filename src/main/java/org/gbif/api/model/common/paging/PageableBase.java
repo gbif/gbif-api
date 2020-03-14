@@ -18,6 +18,9 @@ package org.gbif.api.model.common.paging;
 import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
 import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 /**
  * Generically is a class that contains attributes used by operations that are aware of pagination.
  * Its properties are final to allow calculations in other setter methods.
@@ -115,4 +118,29 @@ public class PageableBase implements Pageable {
     offset = pageable.getOffset();
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    PageableBase that = (PageableBase) o;
+    return offset == that.offset &&
+      limit == that.limit;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(offset, limit);
+  }
+
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", PageableBase.class.getSimpleName() + "[", "]")
+      .add("offset=" + offset)
+      .add("limit=" + limit)
+      .toString();
+  }
 }

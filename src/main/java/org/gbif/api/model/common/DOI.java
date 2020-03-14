@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.DeserializationContext;
@@ -36,8 +37,7 @@ import org.codehaus.jackson.map.ser.std.SerializerBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
+import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
 /**
  * Class representing a single Digital Object Identifier (DOI) breaking it down to a prefix and suffix.
@@ -80,7 +80,7 @@ public class DOI {
    * Returns true only if the source can be parsed into a DOI.
    */
   public static boolean isParsable(String source) {
-    if (!Strings.isNullOrEmpty(source)) {
+    if (StringUtils.isNotEmpty(source)) {
       try {
         return PARSER.matcher(decodeUrl(source)).find();
       } catch (IllegalArgumentException iaEx) {
@@ -104,7 +104,7 @@ public class DOI {
    * @throws java.lang.IllegalArgumentException if invalid DOI string is passed
    */
   public DOI(String doi) {
-    Preconditions.checkNotNull(doi, "DOI required");
+    Objects.requireNonNull(doi, "DOI required");
     Matcher m = PARSER.matcher(decodeUrl(doi));
     if (m.find()) {
       this.prefix = m.group(1).toLowerCase();
@@ -122,9 +122,9 @@ public class DOI {
    * @throws java.lang.IllegalArgumentException if invalid DOI prefix is given
    */
   public DOI(String prefix, String suffix) {
-    this.prefix = Preconditions.checkNotNull(prefix, "DOI prefix required").toLowerCase();
-    Preconditions.checkArgument(prefix.startsWith("10."));
-    this.suffix = Preconditions.checkNotNull(suffix, "DOI suffix required").toLowerCase();
+    this.prefix = Objects.requireNonNull(prefix, "DOI prefix required").toLowerCase();
+    checkArgument(prefix.startsWith("10."));
+    this.suffix = Objects.requireNonNull(suffix, "DOI suffix required").toLowerCase();
   }
 
   /**

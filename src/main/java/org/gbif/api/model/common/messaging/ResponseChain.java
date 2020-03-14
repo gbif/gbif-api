@@ -29,22 +29,22 @@ public class ResponseChain<T, R> extends Response<T> {
   private List<Response<R>> relatedResponses;
 
   public ResponseChain() {
-    relatedResponses = new ArrayList<Response<R>>();
+    relatedResponses = new ArrayList<>();
   }
 
   public ResponseChain(Response.Status status) {
     super(status);
-    relatedResponses = new ArrayList<Response<R>>();
+    relatedResponses = new ArrayList<>();
   }
 
   public ResponseChain(Response.Status status, String messageKey) {
     super(status, messageKey);
-    relatedResponses = new ArrayList<Response<R>>();
+    relatedResponses = new ArrayList<>();
   }
 
   public ResponseChain(Response.Status status, T content, String messageKey) {
     super(status, content, messageKey);
-    relatedResponses = new ArrayList<Response<R>>();
+    relatedResponses = new ArrayList<>();
   }
 
   /**

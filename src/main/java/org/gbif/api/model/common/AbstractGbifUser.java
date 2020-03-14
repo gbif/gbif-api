@@ -18,19 +18,20 @@ package org.gbif.api.model.common;
 import org.gbif.api.vocabulary.UserRole;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-
-import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 /**
  * An abstract GBIF user account.
@@ -42,21 +43,19 @@ public abstract class AbstractGbifUser {
   protected static final String EMAIL_PATTERN =
           "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
-  private static final Joiner JOINER = Joiner.on(" ").skipNulls();
-
   protected String userName;
   protected String firstName;
   protected String lastName;
   protected String email;
-  protected Set<UserRole> roles = Sets.newHashSet();
+  protected Set<UserRole> roles = new HashSet<>();
 
 //  //country of the user (user for stats)
 //  protected Country country;
 
-  protected Map<String, String> settings = Maps.newHashMap();
+  protected Map<String, String> settings = new HashMap<>();
 
   //settings that the user will not set directly
-  protected Map<String, String> systemSettings = Maps.newHashMap();
+  protected Map<String, String> systemSettings = new HashMap<>();
 
   protected Date deleted;
 
@@ -114,7 +113,9 @@ public abstract class AbstractGbifUser {
    */
   @JsonIgnore
   public String getName() {
-    return JOINER.join(firstName, lastName);
+    return Stream.of(firstName, lastName)
+      .filter(Objects::nonNull)
+      .collect(Collectors.joining(" "));
   }
 
   @NotNull
@@ -145,7 +146,7 @@ public abstract class AbstractGbifUser {
    */
   public void setSettings(Map<String, String> settings) {
     // safeguard against misuse to avoid NPE
-    this.settings = settings == null ? Maps.newHashMap() : settings;
+    this.settings = settings == null ? new HashMap<>() : settings;
   }
 
   /**
@@ -162,7 +163,7 @@ public abstract class AbstractGbifUser {
    */
   public void setSystemSettings(Map<String, String> systemSettings) {
     // safeguard against misuse to avoid NPE
-    this.systemSettings = systemSettings == null ? Maps.newHashMap() : systemSettings;
+    this.systemSettings = systemSettings == null ? new HashMap<>() : systemSettings;
   }
   /**
    * Gets the settings which may be empty but never null.
@@ -182,43 +183,41 @@ public abstract class AbstractGbifUser {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof AbstractGbifUser)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    AbstractGbifUser that = (AbstractGbifUser) obj;
-    return Objects.equal(this.userName, that.userName)
-            && Objects.equal(this.firstName, that.firstName)
-            && Objects.equal(this.lastName, that.lastName)
-            && Objects.equal(this.email, that.email)
-            && Objects.equal(this.roles, that.roles)
-            && Objects.equal(this.settings, that.settings)
-            && Objects.equal(this.systemSettings, that.systemSettings)
-            && Objects.equal(this.deleted, that.deleted);
+    AbstractGbifUser that = (AbstractGbifUser) o;
+    return Objects.equals(userName, that.userName) &&
+      Objects.equals(firstName, that.firstName) &&
+      Objects.equals(lastName, that.lastName) &&
+      Objects.equals(email, that.email) &&
+      Objects.equals(roles, that.roles) &&
+      Objects.equals(settings, that.settings) &&
+      Objects.equals(systemSettings, that.systemSettings) &&
+      Objects.equals(deleted, that.deleted);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(userName, firstName, lastName, email, roles, settings,
-            systemSettings, deleted);
+    return Objects
+      .hash(userName, firstName, lastName, email, roles, settings, systemSettings, deleted);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-            .add("userName", userName)
-            .add("firstName", firstName)
-            .add("lastName", lastName)
-            .add("email", email)
-            .add("roles", roles)
-            .add("settings", settings)
-            .add("systemSettings", systemSettings)
-            .add("deleted", deleted)
-            .toString();
+    return new StringJoiner(", ", AbstractGbifUser.class.getSimpleName() + "[", "]")
+      .add("userName='" + userName + "'")
+      .add("firstName='" + firstName + "'")
+      .add("lastName='" + lastName + "'")
+      .add("email='" + email + "'")
+      .add("roles=" + roles)
+      .add("settings=" + settings)
+      .add("systemSettings=" + systemSettings)
+      .add("deleted=" + deleted)
+      .toString();
   }
-
 }

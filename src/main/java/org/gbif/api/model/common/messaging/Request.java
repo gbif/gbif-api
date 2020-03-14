@@ -110,7 +110,7 @@ public class Request<T> {
 
     public Builder<T> content(T content) {
       this.content = content;
-      context = new HashMap<String, String>();
+      context = new HashMap<>();
       return this;
     }
 
