@@ -18,15 +18,14 @@ package org.gbif.api.model.occurrence;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 
 import java.util.Collection;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 import javax.validation.Valid;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
-
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 
 /**
  * An occurrence download request whose filters are based on predicates ( see {@link Predicate}).
@@ -69,25 +68,29 @@ public class PredicateDownloadRequest extends DownloadRequest {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof PredicateDownloadRequest)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    PredicateDownloadRequest that = (PredicateDownloadRequest) obj;
-    return super.equals(that) && Objects.equal(this.predicate, that.predicate);
+    if (!super.equals(o)) {
+      return false;
+    }
+    PredicateDownloadRequest that = (PredicateDownloadRequest) o;
+    return Objects.equals(predicate, that.predicate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), predicate);
+    return Objects.hash(super.hashCode(), predicate);
   }
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this).addValue(super.toString()).add("predicate", predicate).toString();
+    return new StringJoiner(", ", PredicateDownloadRequest.class.getSimpleName() + "[", "]")
+      .add("predicate=" + predicate)
+      .toString();
   }
 }

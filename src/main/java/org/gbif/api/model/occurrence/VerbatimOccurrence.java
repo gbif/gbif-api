@@ -26,29 +26,28 @@ import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.TermFactory;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonAnyGetter;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * An extended map holding all core terms of an occurrence record.
  * Major extensions that we index are also supported, i.e. media, identifiers and measurements or facts.
  */
+@SuppressWarnings("unused")
 public class VerbatimOccurrence {
 
   private Long key;
@@ -66,16 +65,16 @@ public class VerbatimOccurrence {
   private String programmeAcronym;
 
   // the verbatim fields for the occurrence
-  private Map<Term, String> verbatimFields = Maps.newHashMap();
+  private Map<Term, String> verbatimFields = new HashMap<>();
   // verbatim extension data
-  private Map<Extension, List<Map<Term, String>>> extensions = Maps.newHashMap();
+  private Map<Extension, List<Map<Term, String>>> extensions = new HashMap<>();
 
   /**
    * Get the value of a specific field (Term).
    */
   @Nullable
   public String getVerbatimField(Term term) {
-    checkNotNull(term, "term can't be null");
+    Objects.requireNonNull(term, "term can't be null");
     return verbatimFields.get(term);
   }
 
@@ -83,8 +82,8 @@ public class VerbatimOccurrence {
    * @return true if a verbatim field exists and is not null or an empty string
    */
   public boolean hasVerbatimField(Term term) {
-    checkNotNull(term, "term can't be null");
-    return !Strings.isNullOrEmpty(verbatimFields.get(term));
+    Objects.requireNonNull(term, "term can't be null");
+    return StringUtils.isNotEmpty(verbatimFields.get(term));
   }
 
   /**
@@ -94,7 +93,7 @@ public class VerbatimOccurrence {
    * @param fieldValue the field's value
    */
   public void setVerbatimField(Term term, @Nullable String fieldValue) {
-    checkNotNull(term, "term can't be null");
+    Objects.requireNonNull(term, "term can't be null");
     verbatimFields.put(term, fieldValue);
   }
 
@@ -174,10 +173,10 @@ public class VerbatimOccurrence {
     this.protocol = protocol;
   }
 
-  @Nullable
   /**
    * The date this record was last crawled/harvested from the endpoint.
    */
+  @Nullable
   public Date getLastCrawled() {
     return lastCrawled == null ? null : new Date(lastCrawled.getTime());
   }
@@ -262,54 +261,55 @@ public class VerbatimOccurrence {
   }
 
   @Override
-  public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("lastParsed", lastParsed)
-      .add("datasetKey", datasetKey)
-      .add("publishingOrgKey", publishingOrgKey)
-      .add("publishingCountry", publishingCountry)
-      .add("installationKey", installationKey)
-      .add("networkKeys", networkKeys)
-      .add("protocol", protocol)
-      .add("crawlId",crawlId)
-      .add("lastCrawled", lastCrawled)
-      .add("projectId", projectId)
-      .add("programmeAcronym", programmeAcronym)
-      .add("extensions", extensions)
-      .toString();
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    VerbatimOccurrence that = (VerbatimOccurrence) o;
+    return Objects.equals(key, that.key) &&
+      Objects.equals(datasetKey, that.datasetKey) &&
+      Objects.equals(publishingOrgKey, that.publishingOrgKey) &&
+      Objects.equals(networkKeys, that.networkKeys) &&
+      Objects.equals(installationKey, that.installationKey) &&
+      publishingCountry == that.publishingCountry &&
+      protocol == that.protocol &&
+      Objects.equals(lastCrawled, that.lastCrawled) &&
+      Objects.equals(lastParsed, that.lastParsed) &&
+      Objects.equals(crawlId, that.crawlId) &&
+      Objects.equals(projectId, that.projectId) &&
+      Objects.equals(programmeAcronym, that.programmeAcronym) &&
+      Objects.equals(verbatimFields, that.verbatimFields) &&
+      Objects.equals(extensions, that.extensions);
   }
 
   @Override
   public int hashCode() {
     return Objects
-      .hashCode(key, datasetKey, publishingOrgKey, publishingCountry, protocol, lastCrawled, lastParsed, crawlId,
-                projectId, programmeAcronym, verbatimFields, extensions);
+      .hash(key, datasetKey, publishingOrgKey, networkKeys, installationKey, publishingCountry,
+        protocol, lastCrawled, lastParsed, crawlId, projectId, programmeAcronym, verbatimFields,
+        extensions);
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null || getClass() != obj.getClass()) {
-      return false;
-    }
-    final VerbatimOccurrence other = (VerbatimOccurrence) obj;
-    return Objects.equal(this.key, other.key)
-      && Objects.equal(this.datasetKey, other.datasetKey)
-      && Objects.equal(this.publishingOrgKey, other.publishingOrgKey)
-      && Objects.equal(this.publishingCountry, other.publishingCountry)
-      && Objects.equal(this.installationKey, other.installationKey)
-      && Objects.equal(this.networkKeys, other.networkKeys)
-      && Objects.equal(this.protocol, other.protocol)
-      && Objects.equal(this.lastCrawled, other.lastCrawled)
-      && Objects.equal(this.lastParsed, other.lastParsed)
-      && Objects.equal(this.verbatimFields, other.verbatimFields)
-      && Objects.equal(this.extensions, other.extensions)
-      && Objects.equal(this.crawlId, other.crawlId)
-      && Objects.equal(this.projectId, other.projectId)
-      && Objects.equal(this.programmeAcronym, other.programmeAcronym);
+  public String toString() {
+    return new StringJoiner(", ", VerbatimOccurrence.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("datasetKey=" + datasetKey)
+      .add("publishingOrgKey=" + publishingOrgKey)
+      .add("networkKeys=" + networkKeys)
+      .add("installationKey=" + installationKey)
+      .add("publishingCountry=" + publishingCountry)
+      .add("protocol=" + protocol)
+      .add("lastCrawled=" + lastCrawled)
+      .add("lastParsed=" + lastParsed)
+      .add("crawlId=" + crawlId)
+      .add("projectId='" + projectId + "'")
+      .add("programmeAcronym='" + programmeAcronym + "'")
+      .add("extensions=" + extensions)
+      .toString();
   }
 
   /**
@@ -317,7 +317,7 @@ public class VerbatimOccurrence {
    */
   @JsonAnySetter
   private void addJsonVerbatimField(String key, String value) {
-    if(!Strings.isNullOrEmpty(value)) {
+    if(StringUtils.isNotEmpty(value)) {
       Term t = TermFactory.instance().findTerm(key);
       verbatimFields.put(t, value);
     }
@@ -329,7 +329,7 @@ public class VerbatimOccurrence {
    */
   @JsonAnyGetter
   private Map<String, String> jsonVerbatimFields() { // note: for 1.6.0 MUST use non-getter name; otherwise doesn't matter
-    Map<String, String> extendedProps = Maps.newHashMap();
+    Map<String, String> extendedProps = new HashMap<>();
     for (Map.Entry<Term, String> prop : verbatimFields.entrySet()) {
       extendedProps.put(prop.getKey().qualifiedName(), prop.getValue());
     }

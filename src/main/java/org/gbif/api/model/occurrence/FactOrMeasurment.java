@@ -15,11 +15,11 @@
  */
 package org.gbif.api.model.occurrence;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
-
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 
 /**
  * A fact or measurement about an occurrence.
@@ -118,43 +118,43 @@ public class FactOrMeasurment {
   }
 
   @Override
-  public int hashCode() {
-    return Objects.hashCode(id, type, value, unit, accuracy, method, determinedBy, determinedDate, remarks);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    FactOrMeasurment that = (FactOrMeasurment) o;
+    return Objects.equals(id, that.id) &&
+      Objects.equals(type, that.type) &&
+      Objects.equals(value, that.value) &&
+      Objects.equals(unit, that.unit) &&
+      Objects.equals(accuracy, that.accuracy) &&
+      Objects.equals(method, that.method) &&
+      Objects.equals(determinedBy, that.determinedBy) &&
+      Objects.equals(determinedDate, that.determinedDate) &&
+      Objects.equals(remarks, that.remarks);
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (!(obj instanceof FactOrMeasurment)) {
-      return false;
-    }
-    FactOrMeasurment that = (FactOrMeasurment) obj;
-    return Objects.equal(this.id, that.id)
-        && Objects.equal(this.type, that.type)
-        && Objects.equal(this.value, that.value)
-        && Objects.equal(this.unit, that.unit)
-        && Objects.equal(this.accuracy, that.accuracy)
-        && Objects.equal(this.method, that.method)
-        && Objects.equal(this.determinedBy, that.determinedBy)
-        && Objects.equal(this.determinedDate, that.determinedDate)
-        && Objects.equal(this.remarks, that.remarks);
+  public int hashCode() {
+    return Objects
+      .hash(id, type, value, unit, accuracy, method, determinedBy, determinedDate, remarks);
   }
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("id", id)
-      .add("type", type)
-      .add("value", value)
-      .add("unit", unit)
-      .add("accuracy", accuracy)
-      .add("method", method)
-      .add("determinedBy", determinedBy)
-      .add("determinedDate", determinedDate)
-      .add("remarks", remarks)
+    return new StringJoiner(", ", FactOrMeasurment.class.getSimpleName() + "[", "]")
+      .add("id='" + id + "'")
+      .add("type='" + type + "'")
+      .add("value='" + value + "'")
+      .add("unit='" + unit + "'")
+      .add("accuracy='" + accuracy + "'")
+      .add("method='" + method + "'")
+      .add("determinedBy='" + determinedBy + "'")
+      .add("determinedDate='" + determinedDate + "'")
+      .add("remarks='" + remarks + "'")
       .toString();
   }
-
  }

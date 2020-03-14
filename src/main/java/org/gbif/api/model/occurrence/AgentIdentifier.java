@@ -18,10 +18,9 @@ package org.gbif.api.model.occurrence;
 import org.gbif.api.vocabulary.AgentIdentifierType;
 
 import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.validation.constraints.NotNull;
-
-import com.google.common.base.MoreObjects;
 
 public class AgentIdentifier {
 
@@ -79,10 +78,9 @@ public class AgentIdentifier {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("type", type)
-      .add("value", value)
+    return new StringJoiner(", ", AgentIdentifier.class.getSimpleName() + "[", "]")
+      .add("type=" + type)
+      .add("value='" + value + "'")
       .toString();
   }
-
 }

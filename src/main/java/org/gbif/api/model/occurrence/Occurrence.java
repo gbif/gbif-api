@@ -43,9 +43,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -60,15 +63,10 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-
 /**
  * Represents an Occurrence as interpreted by GBIF, adding typed properties on top of the verbatim ones.
  */
+@SuppressWarnings("unused")
 public class Occurrence extends VerbatimOccurrence implements LinneanClassification, LinneanClassificationKeys {
 
   public static final String GEO_DATUM = "WGS84";
@@ -239,12 +237,12 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.establishmentMeans = establishmentMeans;
   }
 
-  @Nullable
   /**
    * The best matching, accepted GBIF backbone name usage representing this occurrence.
    * In case the verbatim scientific name and its classification can only be matched to a higher rank this will
    * represent the lowest matching rank. In the worst case this could just be for example Animalia.
    */
+  @Nullable
   public Integer getTaxonKey() {
     return taxonKey;
   }
@@ -349,13 +347,14 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       : ClassificationUtils.getHigherClassificationMap(this, taxonKey, null, null);
   }
 
-  @Nullable
-  @Override
+
   /**
    * The accepted species for this occurrence. In case the taxonKey is of a higher rank than species (e.g. genus)
    * speciesKey is null. In case taxonKey represents an infraspecific taxon the speciesKey points to the species
    * the infraspecies is classified as. In case of taxonKey being a species the speciesKey is the same.
    */
+  @Nullable
+  @Override
   public Integer getSpeciesKey() {
     return speciesKey;
   }
@@ -365,10 +364,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.speciesKey = speciesKey;
   }
 
-  @Nullable
   /**
    * The accepted taxon key from the GBIF backbone.
    */
+  @Nullable
   public Integer getAcceptedTaxonKey() {
     return acceptedTaxonKey;
   }
@@ -417,10 +416,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.taxonomicStatus = taxonomicStatus;
   }
 
-  @Nullable
   /**
    * The scientific name for taxonKey from the GBIF backbone.
    */
+  @Nullable
   public String getScientificName() {
     return scientificName;
   }
@@ -429,10 +428,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.scientificName = scientificName;
   }
 
-  @Nullable
   /**
    * The verbatim scientific name as provided by the source.
    */
+  @Nullable
   @JsonProperty
   public String getVerbatimScientificName() {
     return getVerbatimField(DwcTerm.scientificName);
@@ -443,10 +442,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     //DO NOTHING
   }
 
-  @Nullable
   /**
    * The accepted scientific name for the acceptedTaxonKey from the GBIF backbone.
    */
+  @Nullable
   public String getAcceptedScientificName() {
     return acceptedScientificName;
   }
@@ -547,11 +546,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     return ClassificationUtils.getHigherRank(this, rank);
   }
 
-  @Nullable
-  @Override
   /**
    * The corresponding scientific name of the speciesKey from the GBIF backbone.
    */
+  @Nullable
+  @Override
   public String getSpecies() {
     return species;
   }
@@ -570,11 +569,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.dateIdentified = dateIdentified == null ? null : new Date(dateIdentified.getTime());
   }
 
-  @Nullable
   /**
    * The decimalLongitude in decimal degrees always for the WGS84 datum. If a different geodetic datum was given the verbatim
    * coordinates are transformed into WGS84 values.
    */
+  @Nullable
   public Double getDecimalLongitude() {
     return decimalLongitude;
   }
@@ -613,13 +612,13 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.coordinatePrecision = coordinatePrecision;
   }
 
-  @Nullable
-  @Deprecated
   /**
    * @Deprecated to be removed in the public v2 of the API (see POR-3061)
    * The uncertainty for latitude in decimal degrees.
    * Note that the longitude degrees have a different accuracy in degrees which changes with latitude and is largest at the poles.
    */
+  @Nullable
+  @Deprecated
   public Double getCoordinateAccuracy() {
     return coordinateAccuracy;
   }
@@ -647,12 +646,12 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     // ignore, we have a static WGS84 value
   }
 
-  @Nullable
   /**
    * Elevation in meters usually above sea level (altitude).
    * </br>
    * The elevation is calculated using the equation: (minimumElevationInMeters + maximumElevationInMeters) / 2.
    */
+  @Nullable
   public Double getElevation() {
     return elevation;
   }
@@ -675,13 +674,13 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.elevationAccuracy = elevationAccuracy;
   }
 
-  @Nullable
   /**
    * Depth in meters below the surface. Complimentary to elevation, the depth can be 10 meters below the surface of a
    * lake in 1100m (=elevation).
    * </br>
    * The depth is calculated using the equation: (minimumDepthInMeters + maximumDepthInMeters) / 2.
    */
+  @Nullable
   public Double getDepth() {
     return depth;
   }
@@ -804,10 +803,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.day = day;
   }
 
-  @Nullable
   /**
    * The date the occurrence was recorded or collected.
    */
+  @Nullable
   public Date getEventDate() {
     return eventDate == null ? null : new Date(eventDate.getTime());
   }
@@ -825,10 +824,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.typeStatus = typeStatus;
   }
 
-  @Nullable
   /**
    * The scientific name the type status of this specimen applies to.
    */
+  @Nullable
   public String getTypifiedName() {
     return typifiedName;
   }
@@ -837,29 +836,31 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.typifiedName = typifiedName;
   }
 
-  @NotNull
   /**
    * A set of issues found for this occurrence.
    */
+  @NotNull
   public Set<OccurrenceIssue> getIssues() {
     return issues;
   }
 
   public void setIssues(Set<OccurrenceIssue> issues) {
-    Preconditions.checkNotNull("Issues cannot be null", issues);
-    this.issues = Sets.newEnumSet(issues, OccurrenceIssue.class);
+    Objects.requireNonNull(issues, "Issues cannot be null");
+    EnumSet<OccurrenceIssue> set = EnumSet.noneOf(OccurrenceIssue.class);
+    set.addAll(issues);
+    this.issues = set;
   }
 
   public void addIssue(OccurrenceIssue issue) {
-    Preconditions.checkNotNull("Issue needs to be specified", issue);
+    Objects.requireNonNull(issue, "Issue needs to be specified");
     issues.add(issue);
   }
 
-  @Nullable
   /**
    * The interpreted dc:modified from the verbatim source data.
    * Ideally indicating when a record was last modified in the source.
    */
+  @Nullable
   public Date getModified() {
     return modified == null ? null : new Date(modified.getTime());
   }
@@ -868,10 +869,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.modified = modified == null ? null : new Date(modified.getTime());
   }
 
-  @Nullable
   /**
    * The date this occurrence last went through the interpretation phase of the GBIF indexing.
    */
+  @Nullable
   public Date getLastInterpreted() {
     return lastInterpreted == null ? null : new Date(lastInterpreted.getTime());
   }
@@ -880,10 +881,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.lastInterpreted = lastInterpreted == null ? null : new Date(lastInterpreted.getTime());
   }
 
-  @Nullable
   /**
    * An external link to more details, the records "homepage".
    */
+  @Nullable
   public URI getReferences() {
     return references;
   }
@@ -1009,11 +1010,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.agentIds = agentIds;
   }
 
-  @JsonIgnore
   /**
    * Convenience method checking if any spatial validation rule has not passed.
    * Primarily used to indicate that the record should not be displayed on a map.
    */
+  @JsonIgnore
   public boolean hasSpatialIssue() {
     for (OccurrenceIssue rule : OccurrenceIssue.GEOSPATIAL_RULES) {
       if (issues.contains(rule)) {
@@ -1024,148 +1025,166 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Override
-  public int hashCode() {
-    return Objects
-      .hashCode(basisOfRecord, individualCount, sex, lifeStage, establishmentMeans, taxonKey, kingdomKey, phylumKey,
-        classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, kingdom, phylum, clazz,
-        order, family, genus, subgenus, species, genericName, specificEpithet, infraspecificEpithet, taxonRank,
-        dateIdentified, year, month, day, eventDate, decimalLongitude, decimalLatitude, coordinatePrecision,
-        coordinateUncertaintyInMeters, elevation, elevationAccuracy, depth, depthAccuracy,
-        continent, country, stateProvince, waterBody, typeStatus, typifiedName, issues, modified,
-        lastInterpreted, references, identifiers, media, facts, relations, license, agentIds);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    if (!super.equals(o)) {
+      return false;
+    }
+    Occurrence that = (Occurrence) o;
+    return basisOfRecord == that.basisOfRecord &&
+      Objects.equals(individualCount, that.individualCount) &&
+      sex == that.sex &&
+      lifeStage == that.lifeStage &&
+      establishmentMeans == that.establishmentMeans &&
+      Objects.equals(taxonKey, that.taxonKey) &&
+      Objects.equals(kingdomKey, that.kingdomKey) &&
+      Objects.equals(phylumKey, that.phylumKey) &&
+      Objects.equals(classKey, that.classKey) &&
+      Objects.equals(orderKey, that.orderKey) &&
+      Objects.equals(familyKey, that.familyKey) &&
+      Objects.equals(genusKey, that.genusKey) &&
+      Objects.equals(subgenusKey, that.subgenusKey) &&
+      Objects.equals(speciesKey, that.speciesKey) &&
+      Objects.equals(acceptedTaxonKey, that.acceptedTaxonKey) &&
+      Objects.equals(scientificName, that.scientificName) &&
+      Objects.equals(acceptedScientificName, that.acceptedScientificName) &&
+      Objects.equals(kingdom, that.kingdom) &&
+      Objects.equals(phylum, that.phylum) &&
+      Objects.equals(clazz, that.clazz) &&
+      Objects.equals(order, that.order) &&
+      Objects.equals(family, that.family) &&
+      Objects.equals(genus, that.genus) &&
+      Objects.equals(subgenus, that.subgenus) &&
+      Objects.equals(species, that.species) &&
+      Objects.equals(genericName, that.genericName) &&
+      Objects.equals(specificEpithet, that.specificEpithet) &&
+      Objects.equals(infraspecificEpithet, that.infraspecificEpithet) &&
+      taxonRank == that.taxonRank &&
+      taxonomicStatus == that.taxonomicStatus &&
+      Objects.equals(dateIdentified, that.dateIdentified) &&
+      Objects.equals(decimalLongitude, that.decimalLongitude) &&
+      Objects.equals(decimalLatitude, that.decimalLatitude) &&
+      Objects.equals(coordinatePrecision, that.coordinatePrecision) &&
+      Objects.equals(coordinateUncertaintyInMeters, that.coordinateUncertaintyInMeters) &&
+      Objects.equals(elevation, that.elevation) &&
+      Objects.equals(elevationAccuracy, that.elevationAccuracy) &&
+      Objects.equals(depth, that.depth) &&
+      Objects.equals(depthAccuracy, that.depthAccuracy) &&
+      continent == that.continent &&
+      country == that.country &&
+      Objects.equals(stateProvince, that.stateProvince) &&
+      Objects.equals(waterBody, that.waterBody) &&
+      Objects.equals(year, that.year) &&
+      Objects.equals(month, that.month) &&
+      Objects.equals(day, that.day) &&
+      Objects.equals(eventDate, that.eventDate) &&
+      typeStatus == that.typeStatus &&
+      Objects.equals(typifiedName, that.typifiedName) &&
+      Objects.equals(issues, that.issues) &&
+      Objects.equals(modified, that.modified) &&
+      Objects.equals(lastInterpreted, that.lastInterpreted) &&
+      Objects.equals(references, that.references) &&
+      license == that.license &&
+      Objects.equals(organismQuantity, that.organismQuantity) &&
+      Objects.equals(organismQuantityType, that.organismQuantityType) &&
+      Objects.equals(sampleSizeUnit, that.sampleSizeUnit) &&
+      Objects.equals(sampleSizeValue, that.sampleSizeValue) &&
+      Objects.equals(relativeOrganismQuantity, that.relativeOrganismQuantity) &&
+      Objects.equals(identifiers, that.identifiers) &&
+      Objects.equals(media, that.media) &&
+      Objects.equals(facts, that.facts) &&
+      Objects.equals(relations, that.relations) &&
+      Objects.equals(agentIds, that.agentIds);
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (!(obj instanceof Occurrence)) {
-      return false;
-    }
-    if (!super.equals(obj)) {
-      return false;
-    }
-    Occurrence that = (Occurrence) obj;
-    return Objects.equal(this.basisOfRecord, that.basisOfRecord)
-      && Objects.equal(this.individualCount, that.individualCount)
-      && Objects.equal(this.sex, that.sex)
-      && Objects.equal(this.lifeStage, that.lifeStage)
-      && Objects.equal(this.establishmentMeans, that.establishmentMeans)
-      && Objects.equal(this.taxonKey, that.taxonKey)
-      && Objects.equal(this.kingdomKey, that.kingdomKey)
-      && Objects.equal(this.phylumKey, that.phylumKey)
-      && Objects.equal(this.classKey, that.classKey)
-      && Objects.equal(this.orderKey, that.orderKey)
-      && Objects.equal(this.familyKey, that.familyKey)
-      && Objects.equal(this.genusKey, that.genusKey)
-      && Objects.equal(this.subgenusKey, that.subgenusKey)
-      && Objects.equal(this.speciesKey, that.speciesKey)
-      && Objects.equal(this.acceptedTaxonKey, that.acceptedTaxonKey)
-      && Objects.equal(this.acceptedScientificName, that.acceptedScientificName)
-      && Objects.equal(this.scientificName, that.scientificName)
-      && Objects.equal(this.kingdom, that.kingdom)
-      && Objects.equal(this.phylum, that.phylum)
-      && Objects.equal(this.clazz, that.clazz)
-      && Objects.equal(this.order, that.order)
-      && Objects.equal(this.family, that.family)
-      && Objects.equal(this.genus, that.genus)
-      && Objects.equal(this.subgenus, that.subgenus)
-      && Objects.equal(this.species, that.species)
-      && Objects.equal(this.genericName, that.genericName)
-      && Objects.equal(this.specificEpithet, that.specificEpithet)
-      && Objects.equal(this.infraspecificEpithet, that.infraspecificEpithet)
-      && Objects.equal(this.taxonRank, that.taxonRank)
-      && Objects.equal(this.taxonomicStatus, that.taxonomicStatus)
-      && Objects.equal(this.dateIdentified, that.dateIdentified)
-      && Objects.equal(this.year, that.year)
-      && Objects.equal(this.month, that.month)
-      && Objects.equal(this.day, that.day)
-      && Objects.equal(this.eventDate, that.eventDate)
-      && Objects.equal(this.decimalLongitude, that.decimalLongitude)
-      && Objects.equal(this.decimalLatitude, that.decimalLatitude)
-      && Objects.equal(this.coordinatePrecision, that.coordinatePrecision)
-      && Objects.equal(this.coordinateUncertaintyInMeters, that.coordinateUncertaintyInMeters)
-      && Objects.equal(this.elevation, that.elevation)
-      && Objects.equal(this.elevationAccuracy, that.elevationAccuracy)
-      && Objects.equal(this.depth, that.depth)
-      && Objects.equal(this.depthAccuracy, that.depthAccuracy)
-      && Objects.equal(this.continent, that.continent)
-      && Objects.equal(this.country, that.country)
-      && Objects.equal(this.stateProvince, that.stateProvince)
-      && Objects.equal(this.waterBody, that.waterBody)
-      && Objects.equal(this.typeStatus, that.typeStatus)
-      && Objects.equal(this.typifiedName, that.typifiedName)
-      && Objects.equal(this.issues, that.issues)
-      && Objects.equal(this.modified, that.modified)
-      && Objects.equal(this.lastInterpreted, that.lastInterpreted)
-      && Objects.equal(this.references, that.references)
-      && Objects.equal(this.identifiers, that.identifiers)
-      && Objects.equal(this.media, that.media)
-      && Objects.equal(this.facts, that.facts)
-      && Objects.equal(this.relations, that.relations)
-      && Objects.equal(this.license, that.license)
-      && Objects.equal(this.agentIds, that.agentIds);
+  public int hashCode() {
+    return Objects
+      .hash(super.hashCode(), basisOfRecord, individualCount, sex, lifeStage, establishmentMeans,
+        taxonKey, kingdomKey, phylumKey, classKey, orderKey, familyKey, genusKey, subgenusKey,
+        speciesKey, acceptedTaxonKey, scientificName, acceptedScientificName, kingdom, phylum,
+        clazz, order, family, genus, subgenus, species, genericName, specificEpithet,
+        infraspecificEpithet, taxonRank, taxonomicStatus, dateIdentified, decimalLongitude,
+        decimalLatitude, coordinatePrecision, coordinateUncertaintyInMeters, elevation,
+        elevationAccuracy, depth, depthAccuracy, continent, country, stateProvince, waterBody, year,
+        month, day, eventDate, typeStatus, typifiedName, issues, modified, lastInterpreted,
+        references, license, organismQuantity, organismQuantityType, sampleSizeUnit,
+        sampleSizeValue, relativeOrganismQuantity, identifiers, media, facts, relations, agentIds);
   }
 
   @Override
   public String toString() {
-    return super.toString() + MoreObjects.toStringHelper(this)
-      .add("basisOfRecord", basisOfRecord)
-      .add("individualCount", individualCount)
-      .add("sex", sex)
-      .add("lifeStage", lifeStage)
-      .add("establishmentMeans", establishmentMeans)
-      .add("taxonKey", taxonKey)
-      .add("kingdomKey", kingdomKey)
-      .add("phylumKey", phylumKey)
-      .add("classKey", classKey)
-      .add("orderKey", orderKey)
-      .add("familyKey", familyKey)
-      .add("genusKey", genusKey)
-      .add("subgenusKey", subgenusKey)
-      .add("speciesKey", speciesKey)
-      .add("acceptedTaxonKey", acceptedTaxonKey)
-      .add("acceptedScientificName", acceptedScientificName)
-      .add("kingdom", kingdom)
-      .add("phylum", phylum)
-      .add("clazz", clazz)
-      .add("order", order)
-      .add("family", family)
-      .add("genus", genus)
-      .add("subgenus", subgenus)
-      .add("species", species)
-      .add("genericName", genericName)
-      .add("specificEpithet", specificEpithet)
-      .add("infraspecificEpithet", infraspecificEpithet)
-      .add("taxonRank", taxonRank)
-      .add("taxonomicStatus", taxonomicStatus)
-      .add("dateIdentified", dateIdentified)
-      .add("decimalLongitude", decimalLongitude)
-      .add("decimalLatitude", decimalLatitude)
-      .add("coordinatePrecision", coordinatePrecision)
-      .add("coordinateUncertaintyInMeters", coordinateUncertaintyInMeters)
-      .add("coordinateAccuracy", coordinateAccuracy)
-      .add("elevation", elevation)
-      .add("elevationAccuracy", elevationAccuracy)
-      .add("depth", depth)
-      .add("depthAccuracy", depthAccuracy)
-      .add("continent", continent)
-      .add("country", country)
-      .add("stateProvince", stateProvince)
-      .add("waterBody", waterBody)
-      .add("year", year)
-      .add("month", month)
-      .add("day", day)
-      .add("eventDate", eventDate)
-      .add("typeStatus", typeStatus)
-      .add("typifiedName", typifiedName)
-      .add("issues", issues)
-      .add("modified", modified)
-      .add("lastInterpreted", lastInterpreted)
-      .add("references", references)
-      .add("license", license)
-      .add("agentIds", agentIds)
+    return new StringJoiner(", ", Occurrence.class.getSimpleName() + "[", "]")
+      .add("basisOfRecord=" + basisOfRecord)
+      .add("individualCount=" + individualCount)
+      .add("sex=" + sex)
+      .add("lifeStage=" + lifeStage)
+      .add("establishmentMeans=" + establishmentMeans)
+      .add("taxonKey=" + taxonKey)
+      .add("kingdomKey=" + kingdomKey)
+      .add("phylumKey=" + phylumKey)
+      .add("classKey=" + classKey)
+      .add("orderKey=" + orderKey)
+      .add("familyKey=" + familyKey)
+      .add("genusKey=" + genusKey)
+      .add("subgenusKey=" + subgenusKey)
+      .add("speciesKey=" + speciesKey)
+      .add("acceptedTaxonKey=" + acceptedTaxonKey)
+      .add("scientificName='" + scientificName + "'")
+      .add("acceptedScientificName='" + acceptedScientificName + "'")
+      .add("kingdom='" + kingdom + "'")
+      .add("phylum='" + phylum + "'")
+      .add("clazz='" + clazz + "'")
+      .add("order='" + order + "'")
+      .add("family='" + family + "'")
+      .add("genus='" + genus + "'")
+      .add("subgenus='" + subgenus + "'")
+      .add("species='" + species + "'")
+      .add("genericName='" + genericName + "'")
+      .add("specificEpithet='" + specificEpithet + "'")
+      .add("infraspecificEpithet='" + infraspecificEpithet + "'")
+      .add("taxonRank=" + taxonRank)
+      .add("taxonomicStatus=" + taxonomicStatus)
+      .add("dateIdentified=" + dateIdentified)
+      .add("decimalLongitude=" + decimalLongitude)
+      .add("decimalLatitude=" + decimalLatitude)
+      .add("coordinatePrecision=" + coordinatePrecision)
+      .add("coordinateUncertaintyInMeters=" + coordinateUncertaintyInMeters)
+      .add("coordinateAccuracy=" + coordinateAccuracy)
+      .add("elevation=" + elevation)
+      .add("elevationAccuracy=" + elevationAccuracy)
+      .add("depth=" + depth)
+      .add("depthAccuracy=" + depthAccuracy)
+      .add("continent=" + continent)
+      .add("country=" + country)
+      .add("stateProvince='" + stateProvince + "'")
+      .add("waterBody='" + waterBody + "'")
+      .add("year=" + year)
+      .add("month=" + month)
+      .add("day=" + day)
+      .add("eventDate=" + eventDate)
+      .add("typeStatus=" + typeStatus)
+      .add("typifiedName='" + typifiedName + "'")
+      .add("issues=" + issues)
+      .add("modified=" + modified)
+      .add("lastInterpreted=" + lastInterpreted)
+      .add("references=" + references)
+      .add("license=" + license)
+      .add("organismQuantity=" + organismQuantity)
+      .add("organismQuantityType='" + organismQuantityType + "'")
+      .add("sampleSizeUnit='" + sampleSizeUnit + "'")
+      .add("sampleSizeValue=" + sampleSizeValue)
+      .add("relativeOrganismQuantity=" + relativeOrganismQuantity)
+      .add("identifiers=" + identifiers)
+      .add("media=" + media)
+      .add("facts=" + facts)
+      .add("relations=" + relations)
+      .add("agentIds=" + agentIds)
       .toString();
   }
 
@@ -1175,7 +1194,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    */
   @JsonAnyGetter
   private Map<String, String> jsonVerbatimFields() {
-    Map<String, String> extendedProps = Maps.newHashMap();
+    Map<String, String> extendedProps = new HashMap<>();
     for (Map.Entry<Term, String> prop : getVerbatimFields().entrySet()) {
       Term t = prop.getKey();
       if (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())) {
@@ -1187,5 +1206,4 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     }
     return extendedProps;
   }
-
 }

@@ -22,15 +22,14 @@ import org.gbif.api.vocabulary.License;
 
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 
 public class Download {
 
@@ -162,7 +161,6 @@ public class Download {
   /**
    * Size in bytes of the produced file.
    */
-  @Nullable
   public long getSize() {
     return size;
   }
@@ -170,7 +168,6 @@ public class Download {
   /**
    * Number of occurrence records in the download file.
    */
-  @Nullable
   public long getTotalRecords() {
     return totalRecords;
   }
@@ -178,7 +175,6 @@ public class Download {
   /**
    * Number of datasets in the download file.
    */
-  @Nullable
   public long getNumberDatasets() {
     return numberDatasets;
   }
@@ -248,49 +244,50 @@ public class Download {
   }
 
   @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-      .add("key", key)
-      .add("doi", doi)
-      .add("status", status)
-      .add("downloadLink", downloadLink)
-      .add("request", request)
-      .add("created", created)
-      .add("license", license)
-      .add("modified", modified)
-      .add("eraseAfter", eraseAfter)
-      .add("size", size)
-      .add("totalRecords", totalRecords)
-      .add("numberDatasets", numberDatasets).toString();
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof Download)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    Download that = (Download) obj;
-    return Objects.equal(this.request, that.request)
-      && Objects.equal(this.key, that.key)
-      && Objects.equal(this.doi, that.doi)
-      && Objects.equal(this.license, that.license)
-      && Objects.equal(this.created, that.created)
-      && Objects.equal(this.modified, that.modified)
-      && Objects.equal(this.eraseAfter, that.eraseAfter)
-      && Objects.equal(this.status, that.status)
-      && Objects.equal(this.downloadLink, that.downloadLink)
-      && Objects.equal(this.size, that.size)
-      && Objects.equal(this.totalRecords, that.totalRecords)
-      && Objects.equal(this.numberDatasets, that.numberDatasets);
+    Download download = (Download) o;
+    return size == download.size &&
+      totalRecords == download.totalRecords &&
+      numberDatasets == download.numberDatasets &&
+      Objects.equals(key, download.key) &&
+      Objects.equals(doi, download.doi) &&
+      license == download.license &&
+      Objects.equals(request, download.request) &&
+      Objects.equals(created, download.created) &&
+      Objects.equals(modified, download.modified) &&
+      Objects.equals(eraseAfter, download.eraseAfter) &&
+      status == download.status &&
+      Objects.equals(downloadLink, download.downloadLink);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(key, doi, license, request, created, modified, eraseAfter, status, downloadLink, size,
-                            totalRecords, numberDatasets);
+    return Objects
+      .hash(key, doi, license, request, created, modified, eraseAfter, status, downloadLink, size,
+        totalRecords, numberDatasets);
+  }
+
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", Download.class.getSimpleName() + "[", "]")
+      .add("key='" + key + "'")
+      .add("doi=" + doi)
+      .add("license=" + license)
+      .add("request=" + request)
+      .add("created=" + created)
+      .add("modified=" + modified)
+      .add("eraseAfter=" + eraseAfter)
+      .add("status=" + status)
+      .add("downloadLink='" + downloadLink + "'")
+      .add("size=" + size)
+      .add("totalRecords=" + totalRecords)
+      .add("numberDatasets=" + numberDatasets)
+      .toString();
   }
 }
