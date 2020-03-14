@@ -18,27 +18,29 @@ package org.gbif.api.model.checklistbank;
 import org.gbif.api.vocabulary.Language;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.TreeMap;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 /**
- * A simple class to represent a table of contents for multiple languages.
- * It is used by species pages to generate a table of contents menu with asynchronous loading of full descriptions.
+ * A simple class to represent a table of contents for multiple languages. It is used by species
+ * pages to generate a table of contents menu with asynchronous loading of full descriptions.
  */
+@SuppressWarnings("unused")
 public class TableOfContents {
+
   private static final String DEFAULT_TOPIC = "general";
 
-  private final Map<Language, Map<String, List<Integer>>> toc = Maps.newTreeMap();
+  private final Map<Language, Map<String, List<Integer>>> toc = new HashMap<>();
 
   public void addDescription(int key, Language lang, String topic) {
-    topic = Strings.isNullOrEmpty(topic) ? DEFAULT_TOPIC : topic.toLowerCase().trim();
+    topic = StringUtils.isEmpty(topic) ? DEFAULT_TOPIC : topic.toLowerCase().trim();
 
     if (lang == null) {
       // default to english
@@ -46,7 +48,7 @@ public class TableOfContents {
     }
 
     if (!toc.containsKey(lang)) {
-      toc.put(lang, Maps.<String, List<Integer>>newTreeMap());
+      toc.put(lang, new TreeMap<>());
     }
     if (!toc.get(lang).containsKey(topic)) {
       toc.get(lang).put(topic, new ArrayList<>());
@@ -64,7 +66,7 @@ public class TableOfContents {
    */
   @JsonIgnore
   public List<Language> listLanguages() {
-    return Lists.newArrayList(toc.keySet());
+    return new ArrayList<>(toc.keySet());
   }
 
   /**
@@ -75,7 +77,7 @@ public class TableOfContents {
     if (toc.containsKey(lang)) {
       return toc.get(lang);
     }
-    return Maps.newHashMap();
+    return new HashMap<>();
   }
 
   public Map<Language, Map<String, List<Integer>>> getToc() {
@@ -83,27 +85,26 @@ public class TableOfContents {
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (this == object) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(object instanceof TableOfContents)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    TableOfContents that = (TableOfContents) object;
-    return Objects.equal(this.toc, that.toc);
+    TableOfContents that = (TableOfContents) o;
+    return Objects.equals(toc, that.toc);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(toc);
+    return Objects.hash(toc);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("toc", toc)
+    return new StringJoiner(", ", TableOfContents.class.getSimpleName() + "[", "]")
+      .add("toc=" + toc)
       .toString();
   }
 }

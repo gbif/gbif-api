@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.crawler;
 
+import org.gbif.api.util.ApiStringUtils;
+
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
@@ -23,7 +25,6 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 
-import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -120,7 +121,8 @@ public class DwcaValidationReport {
       sb.append("Invalid Checklist: ");
       sb.append(genericReport.getInvalidationReason());
     }
-    return StringUtils.isEmpty(sb.toString()) ? null : sb.toString();
+
+    return ApiStringUtils.emptyToNull(sb.toString());
   }
 
   public OccurrenceValidationReport getOccurrenceReport() {

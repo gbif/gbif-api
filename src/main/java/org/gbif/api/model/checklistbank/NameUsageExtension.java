@@ -17,9 +17,6 @@ package org.gbif.api.model.checklistbank;
 
 import javax.annotation.Nullable;
 
-/**
- *
- */
 public interface NameUsageExtension {
 
   /**
@@ -47,5 +44,4 @@ public interface NameUsageExtension {
   Integer getSourceTaxonKey();
 
   void setSourceTaxonKey(Integer sourceTaxonKey);
-
 }

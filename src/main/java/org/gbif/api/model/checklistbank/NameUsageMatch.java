@@ -15,6 +15,9 @@
  */
 package org.gbif.api.model.checklistbank;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.util.ClassificationUtils;
@@ -30,12 +33,11 @@ import javax.validation.constraints.Min;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.google.common.base.Objects;
-
 /**
  * The resulting lookup of a name usage match.
  * A single name usage key with its linnean classification and a confidence value for the match.
  */
+@SuppressWarnings("unused")
 public class NameUsageMatch implements LinneanClassification, LinneanClassificationKeys, Serializable {
 
   private static final long serialVersionUID = -8927655067465421358L;
@@ -399,108 +401,81 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
   }
 
   @Override
-  public int hashCode() {
-    return Objects
-      .hashCode(
-        usageKey,
-        acceptedUsageKey,
-        scientificName,
-        canonicalName,
-        rank,
-        status,
-        confidence,
-        note,
-        matchType,
-        alternatives,
-        kingdom,
-        phylum,
-        clazz,
-        order,
-        family,
-        genus,
-        subgenus,
-        species,
-        kingdomKey,
-        phylumKey,
-        classKey,
-        orderKey,
-        familyKey,
-        genusKey,
-        subgenusKey,
-        speciesKey
-      );
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    NameUsageMatch that = (NameUsageMatch) o;
+    return Objects.equals(usageKey, that.usageKey) &&
+      Objects.equals(acceptedUsageKey, that.acceptedUsageKey) &&
+      Objects.equals(scientificName, that.scientificName) &&
+      Objects.equals(canonicalName, that.canonicalName) &&
+      rank == that.rank &&
+      status == that.status &&
+      Objects.equals(confidence, that.confidence) &&
+      Objects.equals(note, that.note) &&
+      matchType == that.matchType &&
+      Objects.equals(alternatives, that.alternatives) &&
+      Objects.equals(kingdom, that.kingdom) &&
+      Objects.equals(phylum, that.phylum) &&
+      Objects.equals(clazz, that.clazz) &&
+      Objects.equals(order, that.order) &&
+      Objects.equals(family, that.family) &&
+      Objects.equals(genus, that.genus) &&
+      Objects.equals(subgenus, that.subgenus) &&
+      Objects.equals(species, that.species) &&
+      Objects.equals(kingdomKey, that.kingdomKey) &&
+      Objects.equals(phylumKey, that.phylumKey) &&
+      Objects.equals(classKey, that.classKey) &&
+      Objects.equals(orderKey, that.orderKey) &&
+      Objects.equals(familyKey, that.familyKey) &&
+      Objects.equals(genusKey, that.genusKey) &&
+      Objects.equals(subgenusKey, that.subgenusKey) &&
+      Objects.equals(speciesKey, that.speciesKey);
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    final NameUsageMatch other = (NameUsageMatch) obj;
-    return Objects.equal(this.usageKey, other.usageKey)
-           && Objects.equal(this.acceptedUsageKey, other.acceptedUsageKey)
-           && Objects.equal(this.scientificName, other.scientificName)
-           && Objects.equal(this.canonicalName, other.canonicalName)
-           && Objects.equal(this.rank, other.rank)
-           && Objects.equal(this.status, other.status)
-           && Objects.equal(this.confidence, other.confidence)
-           && Objects.equal(this.note, other.note)
-           && Objects.equal(this.matchType, other.matchType)
-           && Objects.equal(this.alternatives, other.alternatives)
-           && Objects.equal(this.kingdom, other.kingdom)
-           && Objects.equal(this.phylum, other.phylum)
-           && Objects.equal(this.clazz, other.clazz)
-           && Objects.equal(this.order, other.order)
-           && Objects.equal(this.family, other.family)
-           && Objects.equal(this.genus, other.genus)
-           && Objects.equal(this.subgenus, other.subgenus)
-           && Objects.equal(this.species, other.species)
-           && Objects.equal(this.kingdomKey, other.kingdomKey)
-           && Objects.equal(this.phylumKey, other.phylumKey)
-           && Objects.equal(this.classKey, other.classKey)
-           && Objects.equal(this.orderKey, other.orderKey)
-           && Objects.equal(this.familyKey, other.familyKey)
-           && Objects.equal(this.genusKey, other.genusKey)
-           && Objects.equal(this.subgenusKey, other.subgenusKey)
-           && Objects.equal(this.speciesKey, other.speciesKey);
+  public int hashCode() {
+    return Objects
+      .hash(usageKey, acceptedUsageKey, scientificName, canonicalName, rank, status, confidence,
+        note, matchType, alternatives, kingdom, phylum, clazz, order, family, genus, subgenus,
+        species, kingdomKey, phylumKey, classKey, orderKey, familyKey, genusKey, subgenusKey,
+        speciesKey);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-    .add("usageKey", usageKey)
-    .add("acceptedUsageKey", acceptedUsageKey)
-    .add("scientificName", scientificName)
-    .add("canonicalName", canonicalName)
-    .add("rank", rank)
-    .add("status", status)
-    .add("confidence", confidence)
-    .add("note", note)
-    .add("matchType", matchType)
-    .add("alternatives", alternatives)
-    .add("kingdom", kingdom)
-    .add("phylum", phylum)
-    .add("clazz", clazz)
-    .add("order", order)
-    .add("family", family)
-    .add("genus", genus)
-    .add("subgenus", subgenus)
-    .add("species", species)
-    .add("kingdomKey", kingdomKey)
-    .add("phylumKey", phylumKey)
-    .add("classKey", classKey)
-    .add("orderKey", orderKey)
-    .add("familyKey", familyKey)
-    .add("genusKey", genusKey)
-    .add("subgenusKey", subgenusKey)
-    .add("speciesKey", speciesKey)
-    .toString();
+    return new StringJoiner(", ", NameUsageMatch.class.getSimpleName() + "[", "]")
+      .add("usageKey=" + usageKey)
+      .add("acceptedUsageKey=" + acceptedUsageKey)
+      .add("scientificName='" + scientificName + "'")
+      .add("canonicalName='" + canonicalName + "'")
+      .add("rank=" + rank)
+      .add("status=" + status)
+      .add("confidence=" + confidence)
+      .add("note='" + note + "'")
+      .add("matchType=" + matchType)
+      .add("alternatives=" + alternatives)
+      .add("kingdom='" + kingdom + "'")
+      .add("phylum='" + phylum + "'")
+      .add("clazz='" + clazz + "'")
+      .add("order='" + order + "'")
+      .add("family='" + family + "'")
+      .add("genus='" + genus + "'")
+      .add("subgenus='" + subgenus + "'")
+      .add("species='" + species + "'")
+      .add("kingdomKey=" + kingdomKey)
+      .add("phylumKey=" + phylumKey)
+      .add("classKey=" + classKey)
+      .add("orderKey=" + orderKey)
+      .add("familyKey=" + familyKey)
+      .add("genusKey=" + genusKey)
+      .add("subgenusKey=" + subgenusKey)
+      .add("speciesKey=" + speciesKey)
+      .toString();
   }
 
   public enum MatchType {
@@ -521,7 +496,5 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
      * No match or matching several names with too little information to keep apart.
      */
     NONE
-
   }
-
 }

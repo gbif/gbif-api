@@ -15,9 +15,20 @@
  */
 package org.gbif.api.model.collections;
 
-import org.gbif.api.model.registry.*;
+import org.gbif.api.model.registry.Identifiable;
+import org.gbif.api.model.registry.Identifier;
+import org.gbif.api.model.registry.LenientEquals;
+import org.gbif.api.model.registry.MachineTag;
+import org.gbif.api.model.registry.MachineTaggable;
+import org.gbif.api.model.registry.Tag;
+import org.gbif.api.model.registry.Taggable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.UUID;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -25,6 +36,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Person associated to a collection or institution.
  */
+@SuppressWarnings("unused")
 public class Person implements CollectionEntity, Identifiable, Taggable, MachineTaggable, LenientEquals<Person> {
 
   private UUID key;
