@@ -15,7 +15,8 @@
  */
 package org.gbif.api.model.metrics.cube;
 
-import com.google.common.base.Objects;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * A typed dimension to a cube, which is constructed with a unique key. This key defines the HTTP parameter name during
@@ -46,21 +47,6 @@ public class Dimension<T> {
   public Dimension() {
   }
 
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (!(obj instanceof Dimension)) {
-      return false;
-    }
-    if (obj instanceof Dimension) {
-      Dimension<?> that = (Dimension<?>) obj;
-      return Objects.equal(this.key, that.key);
-    }
-    return false;
-  }
-
   public String getKey() {
     return key;
   }
@@ -79,12 +65,28 @@ public class Dimension<T> {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Dimension<?> dimension = (Dimension<?>) o;
+    return Objects.equals(key, dimension.key) &&
+      Objects.equals(type, dimension.type);
+  }
+
+  @Override
   public int hashCode() {
-    return Objects.hashCode(key,type);
+    return Objects.hash(key, type);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("key", key).add("type", type).toString();
+    return new StringJoiner(", ", Dimension.class.getSimpleName() + "[", "]")
+      .add("key='" + key + "'")
+      .add("type=" + type)
+      .toString();
   }
 }
