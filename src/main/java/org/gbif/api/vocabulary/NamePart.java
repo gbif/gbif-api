@@ -15,7 +15,7 @@
  */
 package org.gbif.api.vocabulary;
 
-import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Enumeration to indicate a part of a canonical scientific name.
@@ -36,7 +36,7 @@ public enum NamePart {
    * @return the matching NamePart or null
    */
   public static NamePart fromString(String namePart) {
-    if (!Strings.isNullOrEmpty(namePart)) {
+    if (StringUtils.isNotEmpty(namePart)) {
       try {
         return valueOf(namePart.toUpperCase().trim());
       } catch (IllegalArgumentException e) {

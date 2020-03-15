@@ -19,7 +19,6 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Objects;
 
 /**
  * This predicate checks if its {@code key} is LIKE its {@code value}.
@@ -39,19 +38,4 @@ public class LikePredicate extends SimplePredicate {
       throw new IllegalArgumentException("Like comparisons are only allowed for strings but not parameter " + key);
     }
   }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-
-    if (!(obj instanceof LikePredicate)) {
-      return false;
-    }
-
-    SimplePredicate that = (SimplePredicate) obj;
-    return Objects.equal(this.getKey(), that.getKey()) && Objects.equal(this.getValue(), that.getValue());
-  }
-
 }

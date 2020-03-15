@@ -29,6 +29,7 @@ import javax.validation.constraints.Null;
 /**
  * The particulars of the place where a institution of collection is situated.
  */
+@SuppressWarnings("unused")
 public class Address {
 
   private Integer key;

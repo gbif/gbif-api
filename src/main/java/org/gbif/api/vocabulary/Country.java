@@ -23,6 +23,8 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -33,7 +35,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.google.common.base.Function;
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -1401,7 +1402,7 @@ public enum Country {
    * @return the matching country or null
    */
   public static Country fromIsoCode(String code) {
-    if (!Strings.isNullOrEmpty(code)) {
+    if (StringUtils.isNotEmpty(code)) {
       String codeUpper = code.toUpperCase().trim();
       for (Country c : Country.values()) {
         if (codeUpper.equals(c.getIso2LetterCode()) || codeUpper.equals(c.getIso3LetterCode())) {

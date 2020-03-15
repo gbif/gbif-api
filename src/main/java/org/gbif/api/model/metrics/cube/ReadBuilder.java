@@ -18,28 +18,27 @@ package org.gbif.api.model.metrics.cube;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Language;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
-
 /**
- * Provides building of addresses for reading the cube.
- * This class ensures the type safety of dimensions as they are added to the builder.
+ * Provides building of addresses for reading the cube. This class ensures the type safety of
+ * dimensions as they are added to the builder.
  */
 @NotThreadSafe
 public class ReadBuilder {
 
-  private final Map<Dimension<?>, String> address = Maps.newHashMap();
+  private final Map<Dimension<?>, String> address = new HashMap<>();
 
   /**
    * Adds an country type dimension to the address.
    */
   public ReadBuilder at(Dimension<Country> dim, Country value) {
-    Preconditions.checkNotNull(value, "Dimension cannot be null");
+    Objects.requireNonNull(value, "Dimension cannot be null");
     address.put(dim, value.getIso2LetterCode());
     return this;
   }
@@ -48,7 +47,7 @@ public class ReadBuilder {
    * Adds an language type dimension to the address.
    */
   public ReadBuilder at(Dimension<Language> dim, Language value) {
-    Preconditions.checkNotNull(value, "Dimension cannot be null");
+    Objects.requireNonNull(value, "Dimension cannot be null");
     address.put(dim, value.getIso2LetterCode());
     return this;
   }
@@ -57,7 +56,7 @@ public class ReadBuilder {
    * Adds an enumerated type dimension to the address.
    */
   public ReadBuilder at(Dimension<? extends Enum<?>> dim, Enum<?> value) {
-    Preconditions.checkNotNull(value, "Dimension cannot be null");
+    Objects.requireNonNull(value, "Dimension cannot be null");
     address.put(dim, value.name());
     return this;
   }
@@ -98,7 +97,7 @@ public class ReadBuilder {
    * Adds an String typed dimension to the address.
    */
   public ReadBuilder at(Dimension<String> dim, String value) {
-    Preconditions.checkNotNull(value, "Dimension cannot be null");
+    Objects.requireNonNull(value, "Dimension cannot be null");
     address.put(dim, value);
     return this;
   }
@@ -107,7 +106,7 @@ public class ReadBuilder {
    * Adds a UUID typed dimension to the address.
    */
   public ReadBuilder at(Dimension<UUID> dim, UUID value) {
-    Preconditions.checkNotNull(value, "Dimension cannot be null");
+    Objects.requireNonNull(value, "Dimension cannot be null");
     address.put(dim, value.toString());
     return this;
   }

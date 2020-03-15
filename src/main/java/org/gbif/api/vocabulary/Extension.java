@@ -19,9 +19,9 @@ import org.gbif.api.jackson.ExtensionDeserializer;
 import org.gbif.api.jackson.ExtensionKeyDeserializer;
 import org.gbif.api.jackson.ExtensionSerializer;
 
+import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.google.common.base.Strings;
 
 /**
  * Enumeration of dwc extensions for both Occurrence and Taxon that are indexed by GBIF.
@@ -135,7 +135,7 @@ public enum Extension {
    * @return the matching extension or null
    */
   public static Extension fromRowType(String rowType) {
-    if (!Strings.isNullOrEmpty(rowType)) {
+    if (StringUtils.isNotEmpty(rowType)) {
       for (Extension extension : Extension.values()) {
         if (rowType.equalsIgnoreCase(extension.getRowType())
           || rowType.equalsIgnoreCase(extension.name().replaceAll("_", ""))) {

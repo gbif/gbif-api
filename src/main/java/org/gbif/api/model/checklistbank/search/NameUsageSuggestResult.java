@@ -22,16 +22,18 @@ import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 
 import java.util.LinkedHashMap;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Objects;
 
 /**
  * Class used for returning results of a suggest operation.
  * This class contains additional attributes that are required for displaying/providing textual information.
  */
+@SuppressWarnings("unused")
 public class NameUsageSuggestResult implements LinneanClassification, LinneanClassificationKeys {
 
   private Integer key;
@@ -317,77 +319,77 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   }
 
   @Override
-  public int hashCode() {
-    return Objects
-      .hashCode(key, nameKey, parentKey, parent, kingdom, phylum, clazz, order, family, genus, subgenus, species, kingdomKey,
-        phylumKey, classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, canonicalName, rank, status, nubKey);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    NameUsageSuggestResult that = (NameUsageSuggestResult) o;
+    return Objects.equals(key, that.key) &&
+      Objects.equals(nameKey, that.nameKey) &&
+      Objects.equals(kingdom, that.kingdom) &&
+      Objects.equals(phylum, that.phylum) &&
+      Objects.equals(clazz, that.clazz) &&
+      Objects.equals(order, that.order) &&
+      Objects.equals(family, that.family) &&
+      Objects.equals(genus, that.genus) &&
+      Objects.equals(subgenus, that.subgenus) &&
+      Objects.equals(species, that.species) &&
+      Objects.equals(kingdomKey, that.kingdomKey) &&
+      Objects.equals(phylumKey, that.phylumKey) &&
+      Objects.equals(classKey, that.classKey) &&
+      Objects.equals(orderKey, that.orderKey) &&
+      Objects.equals(familyKey, that.familyKey) &&
+      Objects.equals(genusKey, that.genusKey) &&
+      Objects.equals(subgenusKey, that.subgenusKey) &&
+      Objects.equals(speciesKey, that.speciesKey) &&
+      Objects.equals(parent, that.parent) &&
+      Objects.equals(parentKey, that.parentKey) &&
+      Objects.equals(nubKey, that.nubKey) &&
+      Objects.equals(scientificName, that.scientificName) &&
+      Objects.equals(canonicalName, that.canonicalName) &&
+      rank == that.rank &&
+      status == that.status;
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    final NameUsageSuggestResult other = (NameUsageSuggestResult) obj;
-    return Objects.equal(this.key, other.key)
-      && Objects.equal(this.nameKey, other.nameKey)
-      && Objects.equal(this.parentKey, other.parentKey)
-      && Objects.equal(this.parent, other.parent)
-      && Objects.equal(this.kingdom, other.kingdom)
-      && Objects.equal(this.phylum, other.phylum)
-      && Objects.equal(this.clazz, other.clazz)
-      && Objects.equal(this.order, other.order)
-      && Objects.equal(this.family, other.family)
-      && Objects.equal(this.genus, other.genus)
-      && Objects.equal(this.subgenus, other.subgenus)
-      && Objects.equal(this.species, other.species)
-      && Objects.equal(this.kingdomKey, other.kingdomKey)
-      && Objects.equal(this.phylumKey, other.phylumKey)
-      && Objects.equal(this.classKey, other.classKey)
-      && Objects.equal(this.orderKey, other.orderKey)
-      && Objects.equal(this.familyKey, other.familyKey)
-      && Objects.equal(this.genusKey, other.genusKey)
-      && Objects.equal(this.subgenusKey, other.subgenusKey)
-      && Objects.equal(this.speciesKey, other.speciesKey)
-      && Objects.equal(this.scientificName, other.scientificName)
-      && Objects.equal(this.canonicalName, other.canonicalName)
-      && Objects.equal(this.rank, other.rank)
-      && Objects.equal(this.status, other.status)
-      && Objects.equal(this.nubKey, other.nubKey);
+  public int hashCode() {
+    return Objects
+      .hash(key, nameKey, kingdom, phylum, clazz, order, family, genus, subgenus, species,
+        kingdomKey, phylumKey, classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey,
+        parent, parentKey, nubKey, scientificName, canonicalName, rank, status);
   }
 
   @Override
   public String toString() {
-    return "NameUsageSearchResult{" +
-      "key=" + key +
-      ", nameKey=" + nameKey +
-      ", parentKey=" + parentKey +
-      ", parent='" + parent + '\'' +
-      ", kingdom='" + kingdom + '\'' +
-      ", phylum='" + phylum + '\'' +
-      ", clazz='" + clazz + '\'' +
-      ", order='" + order + '\'' +
-      ", family='" + family + '\'' +
-      ", genus='" + genus + '\'' +
-      ", subgenus='" + subgenus + '\'' +
-      ", species='" + species + '\'' +
-      ", kingdomKey=" + kingdomKey +
-      ", phylumKey=" + phylumKey +
-      ", classKey=" + classKey +
-      ", orderKey=" + orderKey +
-      ", familyKey=" + familyKey +
-      ", genusKey=" + genusKey +
-      ", subgenusKey=" + subgenusKey +
-      ", speciesKey=" + speciesKey +
-      ", scientificName='" + scientificName + '\'' +
-      ", canonicalName='" + canonicalName + '\'' +
-      ", rank=" + rank +
-      ", status=" + status +
-      ", nubKey=" + nubKey +
-      '}';
+    return new StringJoiner(", ", NameUsageSuggestResult.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("nameKey=" + nameKey)
+      .add("kingdom='" + kingdom + "'")
+      .add("phylum='" + phylum + "'")
+      .add("clazz='" + clazz + "'")
+      .add("order='" + order + "'")
+      .add("family='" + family + "'")
+      .add("genus='" + genus + "'")
+      .add("subgenus='" + subgenus + "'")
+      .add("species='" + species + "'")
+      .add("kingdomKey=" + kingdomKey)
+      .add("phylumKey=" + phylumKey)
+      .add("classKey=" + classKey)
+      .add("orderKey=" + orderKey)
+      .add("familyKey=" + familyKey)
+      .add("genusKey=" + genusKey)
+      .add("subgenusKey=" + subgenusKey)
+      .add("speciesKey=" + speciesKey)
+      .add("parent='" + parent + "'")
+      .add("parentKey=" + parentKey)
+      .add("nubKey=" + nubKey)
+      .add("scientificName='" + scientificName + "'")
+      .add("canonicalName='" + canonicalName + "'")
+      .add("rank=" + rank)
+      .add("status=" + status)
+      .toString();
   }
-
 }

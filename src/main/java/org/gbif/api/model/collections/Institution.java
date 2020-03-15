@@ -15,7 +15,13 @@
  */
 package org.gbif.api.model.collections;
 
-import org.gbif.api.model.registry.*;
+import org.gbif.api.model.registry.Identifiable;
+import org.gbif.api.model.registry.Identifier;
+import org.gbif.api.model.registry.LenientEquals;
+import org.gbif.api.model.registry.MachineTag;
+import org.gbif.api.model.registry.MachineTaggable;
+import org.gbif.api.model.registry.Tag;
+import org.gbif.api.model.registry.Taggable;
 import org.gbif.api.util.HttpURI;
 import org.gbif.api.vocabulary.collections.Discipline;
 import org.gbif.api.vocabulary.collections.InstitutionGovernance;
@@ -23,7 +29,12 @@ import org.gbif.api.vocabulary.collections.InstitutionType;
 
 import java.math.BigDecimal;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.validation.Valid;
@@ -34,6 +45,7 @@ import javax.validation.constraints.Size;
  * The owner or location of collection.
  * Usually an established organization or foundation, especially one dedicated to education, public service, or culture.
  */
+@SuppressWarnings("unused")
 public class Institution implements CollectionEntity, Contactable, Taggable, MachineTaggable, Identifiable, LenientEquals<Institution> {
 
   private UUID key;

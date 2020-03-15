@@ -16,14 +16,16 @@
 package org.gbif.api.model.occurrence.predicate;
 
 import java.util.Collection;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+
+import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
 /**
  * A compound predicate is a Predicate that itself contains other Predicates.
@@ -37,8 +39,8 @@ public class CompoundPredicate implements Predicate {
 
   @JsonCreator
   protected CompoundPredicate(@JsonProperty("predicates") Collection<Predicate> predicates) {
-    Preconditions.checkNotNull(predicates, "Predicates may not be null");
-    Preconditions.checkArgument(!predicates.isEmpty(), "Predicates may not be empty");
+    Objects.requireNonNull(predicates, "Predicates may not be null");
+    checkArgument(!predicates.isEmpty(), "Predicates may not be empty");
     this.predicates = ImmutableList.copyOf(predicates);
   }
 
@@ -52,25 +54,26 @@ public class CompoundPredicate implements Predicate {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof CompoundPredicate)) {
-      return true;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
-
-    final CompoundPredicate other = (CompoundPredicate) obj;
-    return Objects.equal(this.predicates, other.predicates);
+    CompoundPredicate that = (CompoundPredicate) o;
+    return Objects.equals(predicates, that.predicates);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(predicates);
+    return Objects.hash(predicates);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("predicates", predicates).toString();
+    return new StringJoiner(", ", CompoundPredicate.class.getSimpleName() + "[", "]")
+      .add("predicates=" + predicates)
+      .toString();
   }
 }

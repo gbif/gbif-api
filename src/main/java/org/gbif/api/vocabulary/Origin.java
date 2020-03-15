@@ -15,7 +15,7 @@
  */
 package org.gbif.api.vocabulary;
 
-import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Enumeration to classify name usages by how they originated.
@@ -92,7 +92,7 @@ public enum Origin {
    * @return the matching Origin or null
    */
   public static Origin fromString(String origin) {
-    if (!Strings.isNullOrEmpty(origin)) {
+    if (StringUtils.isNotEmpty(origin)) {
       try {
         return valueOf(origin.toUpperCase().trim());
       } catch (IllegalArgumentException e) {

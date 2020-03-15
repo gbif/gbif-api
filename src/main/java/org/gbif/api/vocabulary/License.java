@@ -23,8 +23,6 @@ import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.common.base.Strings;
-
 /**
  * Enumeration of the set of licenses GBIF supports for applying to a dataset. The license provides a standardised way
  * to define appropriate uses of a dataset.
@@ -87,7 +85,7 @@ public enum License {
    * @return instance of Optional, never null
    */
   public static Optional<License> fromLicenseUrl(String licenseUrl) {
-    if (!Strings.isNullOrEmpty(licenseUrl)) {
+    if (StringUtils.isNotEmpty(licenseUrl)) {
       licenseUrl = licenseUrl.trim().toLowerCase();
       licenseUrl = StringUtils.removeEnd(licenseUrl, "/");
       licenseUrl = licenseUrl.replace("https://", "http://");

@@ -19,11 +19,12 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
 
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.validation.constraints.NotNull;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
+import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
 public class SimplePredicate implements Predicate {
 
@@ -33,10 +34,11 @@ public class SimplePredicate implements Predicate {
   @NotNull
   private final String value;
 
-  protected SimplePredicate(boolean checkForNonEquals, OccurrenceSearchParameter key, String value) {
-    Preconditions.checkNotNull(key, "<key> may not be null");
-    Preconditions.checkNotNull(value, "<value> may not be null");
-    Preconditions.checkArgument(!value.isEmpty(), "<value> may not be empty");
+  protected SimplePredicate(boolean checkForNonEquals, OccurrenceSearchParameter key,
+    String value) {
+    Objects.requireNonNull(key, "<key> may not be null");
+    Objects.requireNonNull(value, "<value> may not be null");
+    checkArgument(!value.isEmpty(), "<value> may not be empty");
     // make sure the value is of the right type according to the key given
     SearchTypeValidator.validate(key, value);
 
@@ -67,22 +69,39 @@ public class SimplePredicate implements Predicate {
   }
 
   /**
-   * @throws IllegalArgumentException if the key SearchParameter allows other comparators than equals
+   * @throws IllegalArgumentException if the key SearchParameter allows other comparators than
+   *                                  equals
    */
   private void checkNonEqualsComparatorAllowed() {
-    if (!(Number.class.isAssignableFrom(key.type()) || Date.class.isAssignableFrom(key.type()))){
-      throw new IllegalArgumentException("Only equals comparisons are allowed for search parameter " + key);
+    if (!(Number.class.isAssignableFrom(key.type()) || Date.class.isAssignableFrom(key.type()))) {
+      throw new IllegalArgumentException(
+        "Only equals comparisons are allowed for search parameter " + key);
     }
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    SimplePredicate that = (SimplePredicate) o;
+    return key == that.key &&
+      Objects.equals(value, that.value);
+  }
+
+  @Override
   public int hashCode() {
-    return Objects.hashCode(key, value);
+    return Objects.hash(key, value);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("key", key).add("value", value).toString();
+    return new StringJoiner(", ", SimplePredicate.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("value='" + value + "'")
+      .toString();
   }
-
 }

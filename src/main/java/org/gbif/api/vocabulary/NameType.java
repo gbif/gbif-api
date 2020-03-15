@@ -15,7 +15,7 @@
  */
 package org.gbif.api.vocabulary;
 
-import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A short classification of scientific name strings used in Checklist Bank.
@@ -87,7 +87,7 @@ public enum NameType {
    * Surely not a scientific name of any kind.
    */
   NO_NAME,
-  
+
   /**
    * A name that has been flagged by the name parser due to the use of blacklisted epithets/words.
    */
@@ -102,7 +102,7 @@ public enum NameType {
    * @return the matching NameType or null
    */
   public static NameType fromString(String nameType) {
-    if (!Strings.isNullOrEmpty(nameType)) {
+    if (StringUtils.isNotEmpty(nameType)) {
       try {
         return valueOf(nameType.toUpperCase().trim());
       } catch (IllegalArgumentException e) {

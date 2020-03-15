@@ -17,11 +17,11 @@ package org.gbif.api.model.crawler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
 
 /**
  * The rules followed here should match the document at:
@@ -107,7 +107,8 @@ public class OccurrenceValidationReport {
             (checkedRecords - recordsMissingOccurrenceId - uniqueOccurrenceIds) + " duplicate occurrence ids detected");
         }
       }
-      String reason = Joiner.on("; ").join(reasons);
+
+      String reason = String.join("; ", reasons);
       invalidationReason = "Archive invalid because [" + reason + ']';
     }
 
@@ -147,35 +148,42 @@ public class OccurrenceValidationReport {
   }
 
   @Override
-  public int hashCode() {
-    return Objects.hashCode(checkedRecords, uniqueTriplets, recordsWithInvalidTriplets, uniqueOccurrenceIds,
-      recordsMissingOccurrenceId, allRecordsChecked, valid);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    OccurrenceValidationReport that = (OccurrenceValidationReport) o;
+    return checkedRecords == that.checkedRecords &&
+      uniqueTriplets == that.uniqueTriplets &&
+      recordsWithInvalidTriplets == that.recordsWithInvalidTriplets &&
+      uniqueOccurrenceIds == that.uniqueOccurrenceIds &&
+      recordsMissingOccurrenceId == that.recordsMissingOccurrenceId &&
+      allRecordsChecked == that.allRecordsChecked &&
+      valid == that.valid;
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null || getClass() != obj.getClass()) {
-      return false;
-    }
-    final OccurrenceValidationReport other = (OccurrenceValidationReport) obj;
-    return Objects.equal(this.checkedRecords, other.checkedRecords)
-      && Objects.equal(this.uniqueTriplets, other.uniqueTriplets)
-      && Objects.equal(this.recordsWithInvalidTriplets, other.recordsWithInvalidTriplets)
-      && Objects.equal(this.uniqueOccurrenceIds, other.uniqueOccurrenceIds)
-      && Objects.equal(this.recordsMissingOccurrenceId, other.recordsMissingOccurrenceId)
-      && Objects.equal(this.allRecordsChecked, other.allRecordsChecked)
-      && Objects.equal(this.valid, other.valid);
+  public int hashCode() {
+    return Objects
+      .hash(checkedRecords, uniqueTriplets, recordsWithInvalidTriplets, uniqueOccurrenceIds,
+        recordsMissingOccurrenceId, allRecordsChecked, valid);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("checkedRecords", checkedRecords)
-      .add("uniqueTriplets", uniqueTriplets).add("recordsWithInvalidTriplets", recordsWithInvalidTriplets)
-      .add("uniqueOccurrenceIds", uniqueOccurrenceIds).add("recordsMissingOccurrenceId", recordsMissingOccurrenceId)
-      .add("allRecordsChecked", allRecordsChecked).add("invalidationReason", invalidationReason).add("valid", valid)
+    return new StringJoiner(", ", OccurrenceValidationReport.class.getSimpleName() + "[",
+      "]")
+      .add("checkedRecords=" + checkedRecords)
+      .add("uniqueTriplets=" + uniqueTriplets)
+      .add("recordsWithInvalidTriplets=" + recordsWithInvalidTriplets)
+      .add("uniqueOccurrenceIds=" + uniqueOccurrenceIds)
+      .add("recordsMissingOccurrenceId=" + recordsMissingOccurrenceId)
+      .add("allRecordsChecked=" + allRecordsChecked)
+      .add("invalidationReason='" + invalidationReason + "'")
+      .add("valid=" + valid)
       .toString();
   }
 }

@@ -19,7 +19,6 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Objects;
 
 /**
  * This predicate checks if its {@code key} is less or equal than its {@code value}.
@@ -32,19 +31,4 @@ public class LessThanOrEqualsPredicate extends SimplePredicate {
     @JsonProperty("value") String value) {
     super(true, key, value);
   }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-
-    if (!(obj instanceof LessThanOrEqualsPredicate)) {
-      return false;
-    }
-
-    SimplePredicate that = (SimplePredicate) obj;
-    return Objects.equal(this.getKey(), that.getKey()) && Objects.equal(this.getValue(), that.getValue());
-  }
-
 }

@@ -19,9 +19,10 @@ import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TypeDesignationType;
 import org.gbif.api.vocabulary.TypeStatus;
 
-import javax.annotation.Nullable;
+import java.util.Objects;
+import java.util.StringJoiner;
 
-import com.google.common.base.Objects;
+import javax.annotation.Nullable;
 
 /**
  * TypeSpecimen Model originally designed for both specimens and types, including type specimens, type species and type genera and simple
@@ -32,6 +33,7 @@ import com.google.common.base.Objects;
  *
  * @see <a href="http://rs.gbif.org/extension/gbif/1.0/typesandspecimen.xml">Types And Specimen Definition</a>
  */
+@SuppressWarnings("unused")
 public class TypeSpecimen implements NameUsageExtension {
 
   private Integer taxonKey;
@@ -477,67 +479,52 @@ public class TypeSpecimen implements NameUsageExtension {
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (this == object) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(object instanceof TypeSpecimen)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    TypeSpecimen that = (TypeSpecimen) object;
-    return Objects.equal(this.source, that.source)
-           && Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey)
-           && Objects.equal(this.typeDesignationType, that.typeDesignationType)
-           && Objects.equal(this.typeDesignatedBy, that.typeDesignatedBy)
-           && Objects.equal(this.scientificName, that.scientificName)
-           && Objects.equal(this.taxonRank, that.taxonRank)
-           && Objects.equal(this.citation, that.citation)
-           && Objects.equal(this.typeStatus, that.typeStatus)
-           && Objects.equal(this.verbatimLabel, that.verbatimLabel)
-           && Objects.equal(this.locality, that.locality)
-           && Objects.equal(this.recordedBy, that.recordedBy)
-           && Objects.equal(this.verbatimEventDate, that.verbatimEventDate)
-           && Objects.equal(this.verbatimLongitude, that.verbatimLongitude)
-           && Objects.equal(this.verbatimLatitude, that.verbatimLatitude)
-           && Objects.equal(this.occurrenceId, that.occurrenceId)
-           && Objects.equal(this.institutionCode, that.institutionCode)
-           && Objects.equal(this.collectionCode, that.collectionCode)
-           && Objects.equal(this.catalogNumber, that.catalogNumber);
+    TypeSpecimen that = (TypeSpecimen) o;
+    return Objects.equals(source, that.source) &&
+      Objects.equals(sourceTaxonKey, that.sourceTaxonKey) &&
+      typeDesignationType == that.typeDesignationType &&
+      Objects.equals(typeDesignatedBy, that.typeDesignatedBy) &&
+      Objects.equals(scientificName, that.scientificName) &&
+      taxonRank == that.taxonRank &&
+      typeStatus == that.typeStatus &&
+      Objects.equals(citation, that.citation) &&
+      Objects.equals(verbatimLabel, that.verbatimLabel) &&
+      Objects.equals(locality, that.locality) &&
+      Objects.equals(recordedBy, that.recordedBy) &&
+      Objects.equals(verbatimEventDate, that.verbatimEventDate) &&
+      Objects.equals(verbatimLongitude, that.verbatimLongitude) &&
+      Objects.equals(verbatimLatitude, that.verbatimLatitude) &&
+      Objects.equals(occurrenceId, that.occurrenceId) &&
+      Objects.equals(institutionCode, that.institutionCode) &&
+      Objects.equals(collectionCode, that.collectionCode) &&
+      Objects.equals(catalogNumber, that.catalogNumber);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(source,
-                            sourceTaxonKey,
-                            typeDesignationType,
-                            typeDesignatedBy,
-                            scientificName,
-                            taxonRank,
-                            citation,
-                            typeStatus,
-                            verbatimLabel,
-                            locality,
-                            recordedBy,
-                            verbatimEventDate,
-                            verbatimLongitude,
-                            verbatimLatitude,
-                            occurrenceId,
-                            institutionCode,
-                            collectionCode,
-                            catalogNumber);
+    return Objects
+      .hash(source, sourceTaxonKey, typeDesignationType, typeDesignatedBy, scientificName,
+        taxonRank, typeStatus, citation, verbatimLabel, locality, recordedBy, verbatimEventDate,
+        verbatimLongitude, verbatimLatitude, occurrenceId, institutionCode, collectionCode,
+        catalogNumber);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("source", source)
-      .add("sourceTaxonKey", sourceTaxonKey)
-      .add("typeDesignationType", typeDesignationType)
-      .add("typeDesignatedBy", typeDesignatedBy)
-      .add("scientificName", scientificName)
-      .add("taxonRank", taxonRank)
+    return new StringJoiner(", ", TypeSpecimen.class.getSimpleName() + "[", "]")
+      .add("source='" + source + "'")
+      .add("sourceTaxonKey=" + sourceTaxonKey)
+      .add("typeDesignationType=" + typeDesignationType)
+      .add("typeDesignatedBy='" + typeDesignatedBy + "'")
+      .add("scientificName='" + scientificName + "'")
+      .add("taxonRank=" + taxonRank)
       .toString();
   }
-
 }

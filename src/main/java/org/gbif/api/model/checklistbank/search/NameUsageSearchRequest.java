@@ -39,6 +39,7 @@ import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.Que
  * By default the query q is send to all available query fields.
  * Highlighting by default works for descriptions and vernacular names - if turned on.
  */
+@SuppressWarnings("unused")
 public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearchParameter> {
   private boolean extended = true;
   private Set<QueryField> queryFields = Sets.newHashSet(SCIENTIFIC, DESCRIPTION, VERNACULAR);

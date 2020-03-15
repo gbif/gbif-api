@@ -24,9 +24,9 @@ import java.util.LinkedHashMap;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
 
 public class ClassificationUtils {
 
@@ -42,7 +42,7 @@ public class ClassificationUtils {
    */
   @Nullable
   public static String getHigherClassification(LinneanClassification lc) {
-    return Strings.emptyToNull(JOINER.join(lc.getKingdom(),
+    return ApiStringUtils.emptyToNull(JOINER.join(lc.getKingdom(),
                                            lc.getPhylum(),
                                            lc.getClazz(),
                                            lc.getOrder(),
@@ -163,7 +163,7 @@ public class ClassificationUtils {
 
   private static <T extends LinneanClassification & LinneanClassificationKeys> LinkedHashMap<Integer, String> getHigherClassificationBaseMap(
     T lc) {
-    LinkedHashMap<Integer, String> map = Maps.newLinkedHashMap();
+    LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
     if (lc.getKingdomKey() != null) {
       map.put(lc.getKingdomKey(), lc.getKingdom());
     }
@@ -281,7 +281,7 @@ public class ClassificationUtils {
    */
   public static boolean hasContent(LinneanClassification lc) {
     for (Rank qr : Rank.DWC_RANKS) {
-      if (!Strings.isNullOrEmpty(getHigherRank(lc, qr))) {
+      if (StringUtils.isNotEmpty(getHigherRank(lc, qr))) {
         return true;
       }
     }

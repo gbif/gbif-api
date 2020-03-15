@@ -18,9 +18,8 @@ package org.gbif.api.model.metrics;
 import org.gbif.api.vocabulary.ProcessingErrorType;
 
 import java.io.Serializable;
-
-import com.google.common.base.Objects;
-
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Error reports for a single Record (occurrence, species).
@@ -141,35 +140,35 @@ public class RecordError implements Serializable {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof RecordError)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    RecordError that = (RecordError) obj;
-    return Objects.equal(this.processingErrorType, that.processingErrorType)
-           && Objects.equal(this.recordId, that.recordId)
-           && Objects.equal(this.catalogNumber, that.catalogNumber)
-           && Objects.equal(this.collectionCode, that.collectionCode)
-           && Objects.equal(this.institutionCode, that.institutionCode);
+    RecordError that = (RecordError) o;
+    return recordId == that.recordId &&
+      processingErrorType == that.processingErrorType &&
+      Objects.equals(catalogNumber, that.catalogNumber) &&
+      Objects.equals(collectionCode, that.collectionCode) &&
+      Objects.equals(institutionCode, that.institutionCode);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(processingErrorType, recordId, catalogNumber, collectionCode, institutionCode);
+    return Objects
+      .hash(processingErrorType, recordId, catalogNumber, collectionCode, institutionCode);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("processingErrorType", processingErrorType)
-      .add("recordId", recordId)
-      .add("catalogNumber", catalogNumber)
-      .add("collectionCode", collectionCode)
-      .add("institutionCode", institutionCode)
+    return new StringJoiner(", ", RecordError.class.getSimpleName() + "[", "]")
+      .add("processingErrorType=" + processingErrorType)
+      .add("recordId=" + recordId)
+      .add("catalogNumber='" + catalogNumber + "'")
+      .add("collectionCode='" + collectionCode + "'")
+      .add("institutionCode='" + institutionCode + "'")
       .toString();
   }
 
@@ -209,7 +208,5 @@ public class RecordError implements Serializable {
       this.recordId = recordId;
       return this;
     }
-
   }
-
 }

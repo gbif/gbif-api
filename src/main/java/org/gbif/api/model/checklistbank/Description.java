@@ -17,15 +17,17 @@ package org.gbif.api.model.checklistbank;
 
 import org.gbif.api.vocabulary.Language;
 
-import javax.annotation.Nullable;
+import java.util.Objects;
+import java.util.StringJoiner;
 
-import com.google.common.base.Objects;
+import javax.annotation.Nullable;
 
 /**
  * Description Model Object represents a taxon description.
  *
  * @see <a href="http://rs.gbif.org/extension/gbif/1.0/description.xml">Description Definition</a>
  */
+@SuppressWarnings("unused")
 public class Description implements NameUsageExtension {
 
   private Integer key;
@@ -206,42 +208,45 @@ public class Description implements NameUsageExtension {
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (this == object) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(object instanceof Description)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    Description that = (Description) object;
-    return Objects.equal(this.type, that.type)
-           && Objects.equal(this.language, that.language)
-           && Objects.equal(this.description, that.description)
-           && Objects.equal(this.source, that.source)
-           && Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey)
-           && Objects.equal(this.creator, that.creator)
-           && Objects.equal(this.contributor, that.contributor)
-           && Objects.equal(this.license, that.license);
+    Description that = (Description) o;
+    return Objects.equals(key, that.key) &&
+      Objects.equals(taxonKey, that.taxonKey) &&
+      Objects.equals(type, that.type) &&
+      language == that.language &&
+      Objects.equals(description, that.description) &&
+      Objects.equals(source, that.source) &&
+      Objects.equals(sourceTaxonKey, that.sourceTaxonKey) &&
+      Objects.equals(creator, that.creator) &&
+      Objects.equals(contributor, that.contributor) &&
+      Objects.equals(license, that.license);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(type, language, description, source, creator, contributor, license);
+    return Objects.hash(key, taxonKey, type, language, description, source, sourceTaxonKey, creator,
+      contributor, license);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("type", type)
-      .add("language", language)
-      .add("description", description)
-      .add("source", source)
-      .add("sourceTaxonKey", sourceTaxonKey)
-      .add("creator", creator)
-      .add("contributor", contributor)
-      .add("license", license)
+    return new StringJoiner(", ", Description.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("taxonKey=" + taxonKey)
+      .add("type='" + type + "'")
+      .add("language=" + language)
+      .add("description='" + description + "'")
+      .add("source='" + source + "'")
+      .add("sourceTaxonKey=" + sourceTaxonKey)
+      .add("creator='" + creator + "'")
+      .add("contributor='" + contributor + "'")
+      .add("license='" + license + "'")
       .toString();
   }
-
 }

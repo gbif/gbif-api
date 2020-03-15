@@ -15,16 +15,17 @@
  */
 package org.gbif.api.vocabulary;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
 
 /**
  * Vocabulary for the nomenclatural status of a name.
@@ -323,7 +324,7 @@ public enum NomenclaturalStatus {
 
   private static final Map<String, NomenclaturalStatus> LOOKUP;
   static {
-    Map<String, NomenclaturalStatus> lookup = Maps.newHashMap();
+    Map<String, NomenclaturalStatus> lookup = new HashMap<>();
     for (NomenclaturalStatus n : values()) {
       lookup.put(normalize(n.name()), n);
       if (n.getLatinLabel() != null) {
@@ -353,7 +354,7 @@ public enum NomenclaturalStatus {
    */
   @Deprecated
   public static NomenclaturalStatus fromString(String nomStatus) {
-    if (Strings.isNullOrEmpty(nomStatus)) {
+    if (StringUtils.isEmpty(nomStatus)) {
       return null;
     }
     return LOOKUP.get(normalize(nomStatus));

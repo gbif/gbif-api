@@ -15,6 +15,10 @@
  */
 package org.gbif.api.model.crawler;
 
+import org.gbif.api.util.ApiStringUtils;
+
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -22,12 +26,9 @@ import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
+import com.fasterxml.jackson.annotation.JsonCreator;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
+import static org.gbif.api.util.PreconditionUtils.checkArgument;
 /**
  * A report of the validity of a DwC-A.
  * <p/>
@@ -40,6 +41,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 @Immutable
 @ThreadSafe
+@SuppressWarnings("unused")
 public class DwcaValidationReport {
   private final UUID datasetKey;
 
@@ -60,13 +62,12 @@ public class DwcaValidationReport {
       && (genericReport == null || genericReport.isValid());
   }
 
-  @com.fasterxml.jackson.annotation.JsonCreator
-  public DwcaValidationReport(
-    @JsonProperty("datasetKey") UUID datasetKey,
+  @JsonCreator
+  public DwcaValidationReport(@JsonProperty("datasetKey") UUID datasetKey,
     @JsonProperty("occurrenceReport") OccurrenceValidationReport occurrenceReport,
     @JsonProperty("genericReport") GenericValidationReport genericReport,
     @JsonProperty("invalidationReason") String invalidationReason) {
-    this.datasetKey = checkNotNull(datasetKey, "datasetKey can't be null");
+    this.datasetKey = Objects.requireNonNull(datasetKey, "datasetKey can't be null");
     // verify one of the 3 is not null
     checkArgument(invalidationReason != null || occurrenceReport != null || genericReport != null,
       "Either a report or invalidationReason cannot be null");
@@ -76,24 +77,24 @@ public class DwcaValidationReport {
   }
 
   public DwcaValidationReport(UUID datasetKey, OccurrenceValidationReport occurrenceReport) {
-    this.datasetKey = checkNotNull(datasetKey, "datasetKey can't be null");
-    this.occurrenceReport = checkNotNull(occurrenceReport, "occurrenceReport can't be null");
+    this.datasetKey = Objects.requireNonNull(datasetKey, "datasetKey can't be null");
+    this.occurrenceReport = Objects.requireNonNull(occurrenceReport, "occurrenceReport can't be null");
     this.genericReport = null;
     this.invalidationReason = null;
   }
 
   public DwcaValidationReport(UUID datasetKey, GenericValidationReport genericReport) {
-    this.datasetKey = checkNotNull(datasetKey, "datasetKey can't be null");
+    this.datasetKey = Objects.requireNonNull(datasetKey, "datasetKey can't be null");
     this.occurrenceReport = null;
-    this.genericReport = checkNotNull(genericReport, "genericReport can't be null");
+    this.genericReport = Objects.requireNonNull(genericReport, "genericReport can't be null");
     this.invalidationReason = null;
   }
 
   public DwcaValidationReport(UUID datasetKey, String invalidationReason) {
-    this.datasetKey = checkNotNull(datasetKey, "datasetKey can't be null");
+    this.datasetKey = Objects.requireNonNull(datasetKey, "datasetKey can't be null");
     this.occurrenceReport = null;
     this.genericReport = null;
-    this.invalidationReason = checkNotNull(invalidationReason, "invalidationReason can't be null");
+    this.invalidationReason = Objects.requireNonNull(invalidationReason, "invalidationReason can't be null");
   }
 
   public UUID getDatasetKey() {
@@ -119,7 +120,8 @@ public class DwcaValidationReport {
       sb.append("Invalid Checklist: ");
       sb.append(genericReport.getInvalidationReason());
     }
-    return Strings.emptyToNull(sb.toString());
+
+    return ApiStringUtils.emptyToNull(sb.toString());
   }
 
   public OccurrenceValidationReport getOccurrenceReport() {
@@ -131,32 +133,32 @@ public class DwcaValidationReport {
   }
 
   @Override
-  public int hashCode() {
-    return Objects.hashCode(datasetKey, occurrenceReport, genericReport, invalidationReason);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    DwcaValidationReport that = (DwcaValidationReport) o;
+    return Objects.equals(datasetKey, that.datasetKey) &&
+      Objects.equals(occurrenceReport, that.occurrenceReport) &&
+      Objects.equals(genericReport, that.genericReport) &&
+      Objects.equals(invalidationReason, that.invalidationReason);
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null || getClass() != obj.getClass()) {
-      return false;
-    }
-    final DwcaValidationReport other = (DwcaValidationReport) obj;
-    return Objects.equal(this.datasetKey, other.datasetKey)
-      && Objects.equal(this.occurrenceReport, other.occurrenceReport)
-      && Objects.equal(this.genericReport, other.genericReport)
-      && Objects.equal(this.invalidationReason, other.invalidationReason);
+  public int hashCode() {
+    return Objects.hash(datasetKey, occurrenceReport, genericReport, invalidationReason);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("datasetKey", datasetKey)
-      .add("invalidationReason", invalidationReason)
-      .add("occurrenceReport", occurrenceReport)
-      .add("genericReport", genericReport)
+    return new StringJoiner(", ", DwcaValidationReport.class.getSimpleName() + "[", "]")
+      .add("datasetKey=" + datasetKey)
+      .add("occurrenceReport=" + occurrenceReport)
+      .add("genericReport=" + genericReport)
+      .add("invalidationReason='" + invalidationReason + "'")
       .toString();
   }
 }

@@ -15,10 +15,11 @@
  */
 package org.gbif.api.model.checklistbank;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
-
-import com.google.common.base.Objects;
 
 /**
  * Reference Model Object represents a literature reference stating a bibliography for a taxon.
@@ -28,6 +29,7 @@ import com.google.common.base.Objects;
  *
  * @see <a href="http://rs.gbif.org/extension/gbif/1.0/references.xml">Reference Definition</a>
  */
+@SuppressWarnings("unused")
 public class Reference implements NameUsageExtension {
 
   private Integer taxonKey;
@@ -248,43 +250,47 @@ public class Reference implements NameUsageExtension {
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (this == object) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(object instanceof Reference)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    Reference that = (Reference) object;
-    return Objects.equal(this.citation, that.citation)
-           && Objects.equal(this.link, that.link)
-           && Objects.equal(this.type, that.type)
-           && Objects.equal(this.remarks, that.remarks)
-           && Objects.equal(this.doi, that.doi)
-           && Objects.equal(this.source, that.source)
-           && Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey)
-           && Objects.equal(this.title, that.title)
-           && Objects.equal(this.author, that.author)
-           && Objects.equal(this.date, that.date);
+    Reference reference = (Reference) o;
+    return Objects.equals(citation, reference.citation) &&
+      Objects.equals(link, reference.link) &&
+      Objects.equals(doi, reference.doi) &&
+      Objects.equals(type, reference.type) &&
+      Objects.equals(remarks, reference.remarks) &&
+      Objects.equals(source, reference.source) &&
+      Objects.equals(sourceTaxonKey, reference.sourceTaxonKey) &&
+      Objects.equals(title, reference.title) &&
+      Objects.equals(author, reference.author) &&
+      Objects.equals(date, reference.date);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(citation, link, doi, type, remarks, source, sourceTaxonKey, title, author, date);
+    return Objects
+      .hash(citation, link, doi, type, remarks, source, sourceTaxonKey, title, author,
+        date);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("citation", citation)
-      .add("link", link)
-      .add("type", type)
-      .add("remarks", remarks)
-      .add("doi", doi)
-      .add("source", source)
-      .add("sourceTaxonKey", sourceTaxonKey)
+    return new StringJoiner(", ", Reference.class.getSimpleName() + "[", "]")
+      .add("taxonKey=" + taxonKey)
+      .add("citation='" + citation + "'")
+      .add("link='" + link + "'")
+      .add("doi='" + doi + "'")
+      .add("type='" + type + "'")
+      .add("remarks='" + remarks + "'")
+      .add("source='" + source + "'")
+      .add("sourceTaxonKey=" + sourceTaxonKey)
+      .add("title='" + title + "'")
+      .add("author='" + author + "'")
+      .add("date='" + date + "'")
       .toString();
   }
-
 }
