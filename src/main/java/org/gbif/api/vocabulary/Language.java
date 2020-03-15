@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParser;
@@ -30,7 +31,6 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.ser.std.SerializerBase;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 
 /**
@@ -988,7 +988,7 @@ public enum Language {
    * @return the matching language or UNKNOWN
    */
   public static Language fromIsoCode(String code) {
-    if (!Strings.isNullOrEmpty(code)) {
+    if (StringUtils.isNotEmpty(code)) {
       String codeLower = code.toLowerCase().trim();
       if (codeLower.length() == 2){
         for (Language language : Language.values()) {

@@ -23,6 +23,7 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParser;
@@ -34,7 +35,6 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.ser.std.SerializerBase;
 
 import com.google.common.base.Function;
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -1402,7 +1402,7 @@ public enum Country {
    * @return the matching country or null
    */
   public static Country fromIsoCode(String code) {
-    if (!Strings.isNullOrEmpty(code)) {
+    if (StringUtils.isNotEmpty(code)) {
       String codeUpper = code.toUpperCase().trim();
       for (Country c : Country.values()) {
         if (codeUpper.equals(c.getIso2LetterCode()) || codeUpper.equals(c.getIso3LetterCode())) {

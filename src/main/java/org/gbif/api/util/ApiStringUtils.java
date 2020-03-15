@@ -23,4 +23,14 @@ public final class ApiStringUtils {
   public static String emptyToNull(@Nullable String string) {
     return StringUtils.isEmpty(string) ? null : string;
   }
+
+  /**
+   * Returns the given string if it is non-null; the empty string otherwise.
+   *
+   * @param string the string to test and possibly return
+   * @return {@code string} itself if it is non-null; {@code ""} if it is null
+   */
+  public static String nullToEmpty(@Nullable String string) {
+    return (string == null) ? "" : string;
+  }
 }
