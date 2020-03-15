@@ -15,11 +15,11 @@
  */
 package org.gbif.api.model.common.paging;
 
-import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
-import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
-
 import java.util.Objects;
 import java.util.StringJoiner;
+
+import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
+import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
 
 /**
  * Generically is a class that contains attributes used by operations that are aware of pagination.

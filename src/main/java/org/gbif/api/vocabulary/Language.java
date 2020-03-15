@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -1099,7 +1100,7 @@ public enum Language {
     public Object deserializeKey(
       String key, DeserializationContext ctxt) throws IOException {
       try {
-        if (!Strings.isNullOrEmpty(key)) {
+        if (StringUtils.isNotEmpty(key)) {
           return LenientDeserializer.lenientParse(key);
         } else {
           return Language.UNKNOWN; // none provided

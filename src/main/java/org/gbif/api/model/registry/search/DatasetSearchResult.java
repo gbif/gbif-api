@@ -15,9 +15,6 @@
  */
 package org.gbif.api.model.registry.search;
 
-import java.util.Objects;
-import java.util.StringJoiner;
-
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetSubtype;
@@ -25,7 +22,9 @@ import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.api.vocabulary.License;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 /**

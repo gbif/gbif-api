@@ -15,15 +15,14 @@
  */
 package org.gbif.api.model.registry.eml;
 
-import java.util.Objects;
-import java.util.StringJoiner;
-
 import org.gbif.api.model.registry.eml.curatorial.CuratorialUnitComposite;
 import org.gbif.api.vocabulary.PreservationMethodType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Collection data for the Dataset.

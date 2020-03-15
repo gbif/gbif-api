@@ -15,9 +15,6 @@
  */
 package org.gbif.api.model.registry.eml.temporal;
 
-import java.util.Objects;
-import java.util.StringJoiner;
-
 import org.gbif.api.util.formatter.TemporalCoverageFormatterVisitor;
 
 import java.io.Serializable;
@@ -25,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * A single instance in time.
