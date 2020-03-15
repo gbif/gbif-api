@@ -24,7 +24,7 @@ import java.util.Iterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Preconditions;
+import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
 /**
  * Iterator over registry entities from paging responses that filters out deleted entities.
@@ -37,7 +37,7 @@ abstract class EntityPager<T extends NetworkEntity> implements Iterable<T> {
      * @param pageSize to use when talking to the registry
      */
     public EntityPager(int pageSize) {
-        Preconditions.checkArgument(pageSize > 0, "pageSize must at least be 1");
+        checkArgument(pageSize > 0, "pageSize must at least be 1");
         this.pageSize = pageSize;
     }
 

@@ -24,10 +24,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.ClassPath;
 
@@ -62,7 +62,7 @@ public final class VocabularyUtils {
    * @throws IllegalArgumentException if the name cannot be parsed into a known name
    */
   public static <T extends Enum<?>> T lookupEnum(String name, Class<T> vocab) {
-    if (Strings.isNullOrEmpty(name)) {
+    if (StringUtils.isEmpty(name)) {
       return null;
     }
     final String normedType = name.toUpperCase().replaceAll("[. _-]", "");
@@ -112,7 +112,7 @@ public final class VocabularyUtils {
    */
   @SuppressWarnings("unchecked")
   public static Class<? extends Enum<?>> lookupVocabulary(String fullyQualifiedClassName) {
-    if (!Strings.isNullOrEmpty(fullyQualifiedClassName)) {
+    if (StringUtils.isNotEmpty(fullyQualifiedClassName)) {
       try {
         Class<?> cl = Class.forName(fullyQualifiedClassName);
         if (Enum.class.isAssignableFrom(cl)) {
