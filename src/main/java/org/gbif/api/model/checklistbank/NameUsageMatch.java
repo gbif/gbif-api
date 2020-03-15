@@ -15,9 +15,6 @@
  */
 package org.gbif.api.model.checklistbank;
 
-import java.util.Objects;
-import java.util.StringJoiner;
-
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.util.ClassificationUtils;
@@ -26,6 +23,8 @@ import org.gbif.api.vocabulary.TaxonomicStatus;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.Max;

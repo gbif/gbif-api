@@ -15,10 +15,10 @@
  */
 package org.gbif.api.model.checklistbank;
 
+import org.gbif.api.vocabulary.Language;
+
 import java.util.Objects;
 import java.util.StringJoiner;
-
-import org.gbif.api.vocabulary.Language;
 
 import javax.annotation.Nullable;
 

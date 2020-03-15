@@ -15,9 +15,6 @@
  */
 package org.gbif.api.model.checklistbank;
 
-import java.util.Objects;
-import java.util.StringJoiner;
-
 import org.gbif.api.vocabulary.Extension;
 import org.gbif.api.vocabulary.Kingdom;
 import org.gbif.api.vocabulary.Language;
@@ -28,6 +25,8 @@ import org.gbif.api.vocabulary.Rank;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.validation.constraints.Max;

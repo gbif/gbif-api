@@ -15,13 +15,12 @@
  */
 package org.gbif.api.model.registry.eml;
 
-import java.util.Objects;
-import java.util.StringJoiner;
-
 import org.gbif.api.model.common.InterpretedEnum;
 import org.gbif.api.vocabulary.Rank;
 
 import java.io.Serializable;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * An individual coverage.

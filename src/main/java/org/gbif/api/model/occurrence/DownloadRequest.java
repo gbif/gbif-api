@@ -15,14 +15,13 @@
  */
 package org.gbif.api.model.occurrence;
 
-import java.util.Objects;
-import java.util.StringJoiner;
-
 import org.gbif.api.jackson.DownloadRequestSerde;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 

@@ -15,14 +15,13 @@
  */
 package org.gbif.api.model.registry.eml;
 
-import java.util.Objects;
-import java.util.StringJoiner;
-
 import org.gbif.api.model.registry.Contact;
 
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 
