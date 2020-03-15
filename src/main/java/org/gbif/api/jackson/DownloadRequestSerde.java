@@ -24,6 +24,7 @@ import org.gbif.api.util.VocabularyUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,26 +37,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Throwables;
-import com.google.common.collect.ImmutableList;
 
 /**
  * Download request deserializer.
- *
- * For most of the time, the serialization has been to "notificationAddresses" and "sendNotification".  For a few months
- * in 2018-2019, it was "notification_address" and "send_notification".
- *
+ * <p>
+ * For most of the time, the serialization has been to "notificationAddresses" and
+ * "sendNotification".  For a few months in 2018-2019, it was "notification_address" and
+ * "send_notification".
+ * <p>
  * The API documentation has previously specified "notification_address" and "sendNotification".
- *
+ * <p>
  * We therefore accept all combinations.
- *
+ * <p>
  * https://github.com/gbif/portal-feedback/issues/2046
  */
 public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
 
   private static final String PREDICATE = "predicate";
-  private static final List<String> SEND_NOTIFICATION = ImmutableList.of("sendNotification", "send_notification");
+  private static final List<String> SEND_NOTIFICATION = Collections
+    .unmodifiableList(Arrays.asList("sendNotification", "send_notification"));
   private static final List<String> NOTIFICATION_ADDRESSES =
-    ImmutableList.of("notificationAddresses", "notificationAddress", "notification_addresses", "notification_address");
+    Collections.unmodifiableList(
+      Arrays.asList("notificationAddresses", "notificationAddress", "notification_addresses",
+        "notification_address"));
   private static final String CREATOR = "creator";
   private static final String FORMAT = "format";
   private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);

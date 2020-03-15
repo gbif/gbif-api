@@ -18,11 +18,11 @@ package org.gbif.api.vocabulary;
 import org.gbif.api.util.ApiStringUtils;
 import org.gbif.api.util.VocabularyUtils;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nullable;
-
-import com.google.common.collect.ImmutableList;
 
 /**
  * Enumeration for all possible identifier types.
@@ -75,7 +75,7 @@ public enum IdentifierType {
   public static final List<IdentifierType> TYPES;
 
   static {
-    TYPES = ImmutableList.copyOf(IdentifierType.values());
+    TYPES = Collections.unmodifiableList(Arrays.asList(IdentifierType.values()));
   }
 
   /**

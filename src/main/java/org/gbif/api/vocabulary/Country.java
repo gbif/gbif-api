@@ -17,6 +17,7 @@ package org.gbif.api.vocabulary;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,7 +36,6 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.ser.std.SerializerBase;
 
 import com.google.common.base.Function;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -1365,7 +1365,7 @@ public enum Country {
         officials.add(c);
       }
     }
-    OFFICIAL_COUNTRIES = ImmutableList.copyOf(officials);
+    OFFICIAL_COUNTRIES = Collections.unmodifiableList(officials);
 
     Set<String> custom = Sets.newHashSet("AA", "ZZ");
     // QM-QZ

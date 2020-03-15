@@ -16,6 +16,8 @@
 package org.gbif.api.vocabulary;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -29,9 +31,6 @@ import org.codehaus.jackson.map.SerializerProvider;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.ser.std.SerializerBase;
-
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableList;
 
 /**
  * Enumeration for all ISO 639-1 language codes using 2 lower case letters.
@@ -979,7 +978,7 @@ public enum Language {
   private final String code;
 
   static {
-    LANGUAGES = ImmutableList.copyOf(Language.values());
+    LANGUAGES = Collections.unmodifiableList(Arrays.asList(Language.values()));
   }
 
   /**
@@ -1081,7 +1080,6 @@ public enum Language {
       }
     }
 
-    @VisibleForTesting
     static Language lenientParse(String value) {
       Language l = Language.fromIsoCode(value);
       // backwards compatible
