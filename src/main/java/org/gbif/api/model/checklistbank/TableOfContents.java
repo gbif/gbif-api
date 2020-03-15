@@ -37,7 +37,7 @@ public class TableOfContents {
 
   private static final String DEFAULT_TOPIC = "general";
 
-  private final Map<Language, Map<String, List<Integer>>> toc = new HashMap<>();
+  private final Map<Language, Map<String, List<Integer>>> toc = new TreeMap<>();
 
   public void addDescription(int key, Language lang, String topic) {
     topic = StringUtils.isEmpty(topic) ? DEFAULT_TOPIC : topic.toLowerCase().trim();
