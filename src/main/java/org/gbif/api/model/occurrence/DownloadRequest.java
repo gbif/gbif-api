@@ -19,31 +19,29 @@ import org.gbif.api.jackson.DownloadRequestSerde;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
-
-import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 
 /**
  * Represents a request to download occurrence records.
  * This is the base class for specific type of downloads: predicate based downloads and SQL downloads..
  */
+@SuppressWarnings("unused")
 @JsonDeserialize(using = DownloadRequestSerde.class)
 public abstract class DownloadRequest {
 
   private static final String DELIMITER = ",";
-  private static final Joiner COMMA_JOINER = Joiner.on(DELIMITER).skipNulls();
-  private static final Splitter COMMA_SPLITTER = Splitter.on(DELIMITER).omitEmptyStrings().trimResults();
 
   @JsonProperty("creator")
   private String creator;
@@ -64,9 +62,11 @@ public abstract class DownloadRequest {
     // Empty constructor required to create instances from the data access layer.
   }
 
-  public DownloadRequest(String creator, Collection<String> notificationAddresses, boolean sendNotification, DownloadFormat format) {
+  public DownloadRequest(String creator, Collection<String> notificationAddresses,
+    boolean sendNotification, DownloadFormat format) {
     this.creator = creator;
-    this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() : ImmutableSet.copyOf(notificationAddresses);
+    this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :
+      Collections.unmodifiableSet(new HashSet<>(notificationAddresses));
     this.sendNotification = sendNotification;
     this.format = format;
   }
@@ -94,7 +94,10 @@ public abstract class DownloadRequest {
   @JsonIgnore
   public String getNotificationAddressesAsString() {
     if (notificationAddresses != null) {
-      return COMMA_JOINER.join(notificationAddresses);
+      return notificationAddresses.stream()
+        .filter(Objects::nonNull)
+        .map(String::trim)
+        .collect(Collectors.joining(DELIMITER));
     }
     return null;
   }
@@ -112,7 +115,10 @@ public abstract class DownloadRequest {
    */
   public void setNotificationAddressesAsString(String notificationAddressesAsString) {
     if (notificationAddressesAsString != null) {
-      notificationAddresses = Sets.newHashSet(COMMA_SPLITTER.split(notificationAddressesAsString));
+      notificationAddresses = Stream.of(notificationAddressesAsString.split(DELIMITER))
+        .filter(StringUtils::isNotEmpty)
+        .map(String::trim)
+        .collect(Collectors.toSet());
     }
   }
 

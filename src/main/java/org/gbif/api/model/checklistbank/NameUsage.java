@@ -42,8 +42,6 @@ import javax.validation.constraints.NotNull;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.google.common.collect.Sets;
-
 /**
  * A usage of a <em>scientific name</em> according to one particular Checklist including the GBIF Taxonomic Backbone,
  * the nub. It is shown as species in the portal and API.
@@ -839,7 +837,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
 
   public void setIssues(Set<NameUsageIssue> issues) {
     Objects.requireNonNull(issues, "Issues cannot be null");
-    this.issues = Sets.newEnumSet(issues, NameUsageIssue.class);
+    this.issues = issues.isEmpty() ? EnumSet.noneOf(NameUsageIssue.class) : EnumSet.copyOf(issues);
   }
 
   public void addIssue(NameUsageIssue issue) {

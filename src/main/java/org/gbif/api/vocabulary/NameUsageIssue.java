@@ -20,11 +20,14 @@ import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.terms.Term;
 import org.gbif.utils.AnnotationUtils;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableSet;
-
-import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.*;
+import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.ERROR;
+import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.INFO;
+import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
 
 /**
  * Enumeration of issues for each name usage record encountered during checklist processing.
@@ -233,11 +236,11 @@ public enum NameUsageIssue implements InterpretationRemark {
     this(WARNING, related);
   }
 
-  NameUsageIssue(InterpretationRemarkSeverity severity, Term ... related) {
+  NameUsageIssue(InterpretationRemarkSeverity severity, Term... related) {
     if (related == null) {
-      this.related = ImmutableSet.of();
+      this.related = Collections.emptySet();
     } else {
-      this.related = ImmutableSet.copyOf(related);
+      this.related = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(related)));
     }
     this.severity = severity;
     this.isDeprecated = AnnotationUtils.isFieldDeprecated(NameUsageIssue.class, this.name());

@@ -18,12 +18,11 @@ package org.gbif.api.model.crawler;
 import org.gbif.api.vocabulary.EndpointType;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import org.junit.Test;
-
-import com.google.common.collect.Maps;
 
 import static org.junit.Assert.assertEquals;
 
@@ -31,11 +30,11 @@ public class CrawlJobTest {
 
   @Test
   public void testEquals() {
-    Map<String, String> m1 = Maps.newHashMap();
+    Map<String, String> m1 = new HashMap<>();
     m1.put("foo", "bar");
     CrawlJob c1 = new CrawlJob(UUID.randomUUID(), EndpointType.BIOCASE, URI.create("http://www.foo.com"), 1, m1);
 
-    Map<String, String> m2 = Maps.newHashMap();
+    Map<String, String> m2 = new HashMap<>();
     m2.put("foo", "bar");
     CrawlJob c2 = new CrawlJob(UUID.fromString(c1.getDatasetKey().toString()),
                                EndpointType.BIOCASE,

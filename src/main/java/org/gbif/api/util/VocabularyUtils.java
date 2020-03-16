@@ -20,6 +20,8 @@ import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.TechnicalInstallationType;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -28,7 +30,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.ClassPath;
 
 public final class VocabularyUtils {
@@ -134,7 +135,7 @@ public final class VocabularyUtils {
   public static Map<String, Enum<?>[]> listEnumerations(String packageName) {
     try {
       ClassPath cp = ClassPath.from(VocabularyUtils.class.getClassLoader());
-      ImmutableMap.Builder<String, Enum<?>[]> builder = ImmutableMap.builder();
+      Map<String, Enum<?>[]> builder = new HashMap<>();
 
       List<ClassPath.ClassInfo> infos = cp.getTopLevelClasses(packageName).asList();
       for (ClassPath.ClassInfo info : infos) {
@@ -144,10 +145,10 @@ public final class VocabularyUtils {
           builder.put(info.getSimpleName(), vocab.getEnumConstants());
         }
       }
-      return builder.build();
+      return Collections.unmodifiableMap(builder);
     } catch (Exception e) {
       LOG.error("Unable to read the classpath for enumerations", e);
-      return ImmutableMap.of(); // empty
+      return Collections.emptyMap(); // empty
     }
   }
 

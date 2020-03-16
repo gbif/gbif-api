@@ -20,17 +20,17 @@ import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.vocabulary.Rank;
 
 import java.util.LinkedHashMap;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.common.base.Joiner;
-
+@SuppressWarnings("unused")
 public class ClassificationUtils {
-
-  private static final Joiner JOINER = Joiner.on(", ").skipNulls();
 
   /**
    * Concatenates all higher Linnean taxa into a single dwc:higherClassification string, skipping
@@ -42,12 +42,11 @@ public class ClassificationUtils {
    */
   @Nullable
   public static String getHigherClassification(LinneanClassification lc) {
-    return ApiStringUtils.emptyToNull(JOINER.join(lc.getKingdom(),
-                                           lc.getPhylum(),
-                                           lc.getClazz(),
-                                           lc.getOrder(),
-                                           lc.getFamily(),
-                                           lc.getGenus()));
+    return ApiStringUtils.emptyToNull(
+      Stream.of(lc.getKingdom(), lc.getPhylum(), lc.getClazz(),
+        lc.getOrder(), lc.getFamily(), lc.getGenus())
+        .filter(Objects::nonNull)
+        .collect(Collectors.joining(", ")));
   }
 
   /**

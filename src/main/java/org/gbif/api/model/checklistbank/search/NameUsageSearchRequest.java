@@ -25,10 +25,10 @@ import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-
-import com.google.common.collect.Sets;
 
 import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.DESCRIPTION;
 import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.SCIENTIFIC;
@@ -42,8 +42,8 @@ import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.Que
 @SuppressWarnings("unused")
 public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearchParameter> {
   private boolean extended = true;
-  private Set<QueryField> queryFields = Sets.newHashSet(SCIENTIFIC, DESCRIPTION, VERNACULAR);
-  private Set<QueryField> highlightFields = Sets.newHashSet(DESCRIPTION, VERNACULAR);
+  private Set<QueryField> queryFields = new HashSet<>(Arrays.asList(SCIENTIFIC, DESCRIPTION, VERNACULAR));
+  private Set<QueryField> highlightFields = new HashSet<>(Arrays.asList(DESCRIPTION, VERNACULAR));
   private Integer highlightContext = 100;
 
   public enum QueryField {
