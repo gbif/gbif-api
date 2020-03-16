@@ -164,6 +164,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private List<MediaObject> media = new ArrayList<>();
   private List<FactOrMeasurment> facts = new ArrayList<>();
   private List<OccurrenceRelation> relations = new ArrayList<>();
+  @JsonProperty("agentIDs")
   private List<AgentIdentifier> agentIds = new ArrayList<>();
 
   public Occurrence() {
