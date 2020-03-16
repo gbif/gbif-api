@@ -16,8 +16,8 @@
 package org.gbif.api.model.common.search;
 
 import java.util.List;
-
-import com.google.common.base.Objects;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Represents a clustering of search results into categories.
@@ -78,26 +78,29 @@ public class Facet<T extends SearchParameter> {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof Facet)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    Facet that = (Facet) obj;
-    return Objects.equal(this.counts, that.getCounts()) && Objects.equal(this.field, that.getField());
+    Facet<?> facet = (Facet<?>) o;
+    return Objects.equals(field, facet.field) &&
+      Objects.equals(counts, facet.counts);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), counts, field);
+    return Objects.hash(field, counts);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("field", field).add("counts", counts).toString();
+    return new StringJoiner(", ", Facet.class.getSimpleName() + "[", "]")
+      .add("field=" + field)
+      .add("counts=" + counts)
+      .toString();
   }
 
   /**
@@ -157,28 +160,29 @@ public class Facet<T extends SearchParameter> {
     }
 
     @Override
-    public boolean equals(Object obj) {
-      if (this == obj) {
+    public boolean equals(Object o) {
+      if (this == o) {
         return true;
       }
-      if (!(obj instanceof Count)) {
+      if (o == null || getClass() != o.getClass()) {
         return false;
       }
-
-      Count that = (Count) obj;
-      return Objects.equal(this.count, that.getCount()) && Objects.equal(this.name, that.getName());
+      Count count1 = (Count) o;
+      return Objects.equals(name, count1.name) &&
+        Objects.equals(count, count1.count);
     }
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(super.hashCode(), count, name);
+      return Objects.hash(name, count);
     }
 
     @Override
     public String toString() {
-      return Objects.toStringHelper(this).add("name", name).add("count", count).toString();
+      return new StringJoiner(", ", Count.class.getSimpleName() + "[", "]")
+        .add("name='" + name + "'")
+        .add("count=" + count)
+        .toString();
     }
-
   }
-
 }

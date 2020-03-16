@@ -15,7 +15,8 @@
  */
 package org.gbif.api.model.occurrence;
 
-import com.google.common.base.Objects;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Occurrence relations based on the dwc:ResourceRelationship model.
@@ -87,38 +88,39 @@ public class OccurrenceRelation {
   }
 
   @Override
-  public int hashCode() {
-    return Objects.hashCode(id, occurrenceId, relatedOccurrenceId, type, accordingTo, establishedDate, remarks);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    OccurrenceRelation that = (OccurrenceRelation) o;
+    return occurrenceId == that.occurrenceId &&
+      relatedOccurrenceId == that.relatedOccurrenceId &&
+      Objects.equals(id, that.id) &&
+      Objects.equals(type, that.type) &&
+      Objects.equals(accordingTo, that.accordingTo) &&
+      Objects.equals(establishedDate, that.establishedDate) &&
+      Objects.equals(remarks, that.remarks);
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (!(obj instanceof OccurrenceRelation)) {
-      return false;
-    }
-    OccurrenceRelation that = (OccurrenceRelation) obj;
-    return Objects.equal(this.id, that.id)
-        && Objects.equal(this.occurrenceId, that.occurrenceId)
-        && Objects.equal(this.relatedOccurrenceId, that.relatedOccurrenceId)
-        && Objects.equal(this.type, that.type)
-        && Objects.equal(this.accordingTo, that.accordingTo)
-        && Objects.equal(this.establishedDate, that.establishedDate)
-        && Objects.equal(this.remarks, that.remarks);
+  public int hashCode() {
+    return Objects
+      .hash(id, occurrenceId, relatedOccurrenceId, type, accordingTo, establishedDate, remarks);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("id", id)
-      .add("occurrenceId", occurrenceId)
-      .add("relatedOccurrenceId", relatedOccurrenceId)
-      .add("type", type)
-      .add("accordingTo", accordingTo)
-      .add("establishedDate", establishedDate)
-      .add("remarks", remarks)
+    return new StringJoiner(", ", OccurrenceRelation.class.getSimpleName() + "[", "]")
+      .add("id='" + id + "'")
+      .add("occurrenceId=" + occurrenceId)
+      .add("relatedOccurrenceId=" + relatedOccurrenceId)
+      .add("type='" + type + "'")
+      .add("accordingTo='" + accordingTo + "'")
+      .add("establishedDate='" + establishedDate + "'")
+      .add("remarks='" + remarks + "'")
       .toString();
   }
 }

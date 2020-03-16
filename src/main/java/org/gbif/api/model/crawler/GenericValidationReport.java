@@ -16,12 +16,11 @@
 package org.gbif.api.model.crawler;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 
 /**
  * A container class used to capture the information necessary for a generic validation report.
@@ -60,8 +59,8 @@ public class GenericValidationReport {
   ) {
     this.checkedRecords = checkedRecords;
     this.allRecordsChecked = allRecordsChecked;
-    this.duplicateIds = Preconditions.checkNotNull(duplicateIds, "duplicateIds cannot be null");
-    this.rowNumbersMissingId = Preconditions.checkNotNull(rowNumbersMissingId, "rowNumbersMissingId cannot be null");
+    this.duplicateIds = Objects.requireNonNull(duplicateIds, "duplicateIds cannot be null");
+    this.rowNumbersMissingId = Objects.requireNonNull(rowNumbersMissingId, "rowNumbersMissingId cannot be null");
     this.valid = validate();
   }
 
@@ -102,37 +101,37 @@ public class GenericValidationReport {
   }
 
   @Override
-  public int hashCode() {
-    return Objects.hashCode(checkedRecords, allRecordsChecked, duplicateIds,
-                            rowNumbersMissingId, invalidationReason,valid);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    GenericValidationReport that = (GenericValidationReport) o;
+    return checkedRecords == that.checkedRecords &&
+      allRecordsChecked == that.allRecordsChecked &&
+      valid == that.valid &&
+      Objects.equals(duplicateIds, that.duplicateIds) &&
+      Objects.equals(rowNumbersMissingId, that.rowNumbersMissingId) &&
+      Objects.equals(invalidationReason, that.invalidationReason);
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null || getClass() != obj.getClass()) {
-      return false;
-    }
-    final GenericValidationReport other = (GenericValidationReport) obj;
-    return Objects.equal(this.checkedRecords, other.checkedRecords)
-           && Objects.equal(this.allRecordsChecked, other.allRecordsChecked)
-           && Objects.equal(this.duplicateIds, other.duplicateIds)
-           && Objects.equal(this.rowNumbersMissingId, other.rowNumbersMissingId)
-           && Objects.equal(this.invalidationReason, other.invalidationReason)
-           && Objects.equal(this.valid, other.valid);
+  public int hashCode() {
+    return Objects.hash(checkedRecords, allRecordsChecked, duplicateIds, rowNumbersMissingId,
+      invalidationReason, valid);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("checkedRecords", checkedRecords)
-      .add("duplicateIds", duplicateIds)
-      .add("rowNumbersMissingId", rowNumbersMissingId)
-      .add("allRecordsChecked", allRecordsChecked)
-      .add("invalidationReason", invalidationReason)
-      .add("valid", valid)
+    return new StringJoiner(", ", GenericValidationReport.class.getSimpleName() + "[", "]")
+      .add("checkedRecords=" + checkedRecords)
+      .add("allRecordsChecked=" + allRecordsChecked)
+      .add("duplicateIds=" + duplicateIds)
+      .add("rowNumbersMissingId=" + rowNumbersMissingId)
+      .add("invalidationReason='" + invalidationReason + "'")
+      .add("valid=" + valid)
       .toString();
   }
 }

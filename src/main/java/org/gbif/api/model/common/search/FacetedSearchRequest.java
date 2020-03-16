@@ -38,7 +38,7 @@ public class FacetedSearchRequest<P extends SearchParameter> extends SearchReque
   private Integer facetOffset;
 
   //Holds the paging configuration for each requested facet
-  private Map<P,Pageable> facetPages = new HashMap<P, Pageable>();
+  private Map<P, Pageable> facetPages = new HashMap<>();
 
   public FacetedSearchRequest() {
   }
@@ -152,5 +152,4 @@ public class FacetedSearchRequest<P extends SearchParameter> extends SearchReque
       this.facets.addAll(Sets.newHashSet(facets));
     }
   }
-
 }

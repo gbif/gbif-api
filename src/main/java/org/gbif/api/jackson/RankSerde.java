@@ -18,6 +18,7 @@ package org.gbif.api.jackson;
 import org.gbif.api.vocabulary.Rank;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.codehaus.jackson.JsonGenerator;
@@ -27,8 +28,6 @@ import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
-
-import com.google.common.collect.Maps;
 
 /**
  * Jackson {@link JsonSerializer} and Jackson {@link JsonDeserializer} classes for {@link Rank} that uses the common rank markers instead of enum names.
@@ -58,7 +57,7 @@ public class RankSerde {
    * Jackson {@link JsonDeserializer} for {@link Rank}.
    */
   public static class RankJsonDeserializer extends JsonDeserializer<Rank> {
-    private static final Map<String, Rank> RANKS = Maps.newHashMap();
+    private static final Map<String, Rank> RANKS = new HashMap<>();
     static {
       for (Rank r : Rank.values()) {
         if (r.getMarker() != null) {

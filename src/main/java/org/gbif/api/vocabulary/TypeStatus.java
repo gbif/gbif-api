@@ -15,14 +15,10 @@
  */
 package org.gbif.api.vocabulary;
 
+import java.util.Collections;
 import java.util.List;
-
-import javax.annotation.Nullable;
-
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A vocabulary to be used for a nomenclatural type status of a specimen or name.
@@ -255,24 +251,21 @@ public enum TypeStatus {
    * @return a list of all type status values applicable for specimens.
    */
   public static List<TypeStatus> specimenTypeStatusList() {
-    return ImmutableList.copyOf(Collections2.filter(Lists.newArrayList(values()), new Predicate<TypeStatus>() {
-      @Override
-      public boolean apply(@Nullable TypeStatus status) {
-        return status.isTypeSpecimen();
-      }
-    }));
+    return Collections.unmodifiableList(
+      Stream.of(values())
+        .filter(TypeStatus::isTypeSpecimen)
+        .collect(Collectors.toList()));
   }
 
   /**
    * @return a list of all type status values applicable for scientific names, not specimens.
    */
   public static List<TypeStatus> nameTypeStatusList() {
-    return ImmutableList.copyOf(Collections2.filter(Lists.newArrayList(values()), new Predicate<TypeStatus>() {
-      @Override
-      public boolean apply(@Nullable TypeStatus status) {
-        return TypeStatus.TYPE == status || !status.isTypeSpecimen();
-      }
-    }));
+    return Collections.unmodifiableList(
+      Stream.of(values())
+        .filter(status -> TypeStatus.TYPE == status || !status.isTypeSpecimen())
+        .collect(Collectors.toList())
+    );
   }
 
   /**

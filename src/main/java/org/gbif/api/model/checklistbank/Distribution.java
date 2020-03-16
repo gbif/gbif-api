@@ -22,17 +22,19 @@ import org.gbif.api.vocabulary.LifeStage;
 import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-
-import com.google.common.base.Objects;
 
 /**
  * Distribution Model Object represents a species distribution.
  *
  * @see <a href="http://rs.gbif.org/extension/gbif/1.0/distribution.xml">Distribution Definition</a>
  */
+@SuppressWarnings("unused")
 public class Distribution implements NameUsageExtension {
 
   private Integer taxonKey;
@@ -360,62 +362,55 @@ public class Distribution implements NameUsageExtension {
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (this == object) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(object instanceof Distribution)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    Distribution that = (Distribution) object;
-    return Objects.equal(this.locality, that.locality)
-           && Objects.equal(this.country, that.country)
-           && Objects.equal(this.status, that.status)
-           && Objects.equal(this.lifeStage, that.lifeStage)
-           && Objects.equal(this.temporal, that.temporal)
-           && Objects.equal(this.threatStatus, that.threatStatus)
-           && Objects.equal(this.establishmentMeans, that.establishmentMeans)
-           && Objects.equal(this.appendixCites, that.appendixCites)
-           && Objects.equal(this.source, that.source)
-           && Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey)
-           && Objects.equal(this.startDayOfYear, that.startDayOfYear)
-           && Objects.equal(this.endDayOfYear, that.endDayOfYear);
+    Distribution that = (Distribution) o;
+    return Objects.equals(taxonKey, that.taxonKey) &&
+      Objects.equals(locationId, that.locationId) &&
+      Objects.equals(locality, that.locality) &&
+      country == that.country &&
+      status == that.status &&
+      lifeStage == that.lifeStage &&
+      Objects.equals(temporal, that.temporal) &&
+      threatStatus == that.threatStatus &&
+      establishmentMeans == that.establishmentMeans &&
+      appendixCites == that.appendixCites &&
+      Objects.equals(source, that.source) &&
+      Objects.equals(sourceTaxonKey, that.sourceTaxonKey) &&
+      Objects.equals(startDayOfYear, that.startDayOfYear) &&
+      Objects.equals(endDayOfYear, that.endDayOfYear);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(locality,
-                            country,
-                            status,
-                            lifeStage,
-                            temporal,
-                            threatStatus,
-                            establishmentMeans,
-                            appendixCites,
-                            source,
-                            startDayOfYear,
-                            endDayOfYear);
+    return Objects
+      .hash(taxonKey, locationId, locality, country, status, lifeStage, temporal, threatStatus,
+        establishmentMeans, appendixCites, source, sourceTaxonKey, startDayOfYear, endDayOfYear);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("locality", locality)
-      .add("country", country)
-      .add("status", status)
-      .add("lifeStage", lifeStage)
-      .add("temporal", temporal)
-      .add("threatStatus", threatStatus)
-      .add("establishmentMeans", establishmentMeans)
-      .add("appendixCites", appendixCites)
-      .add("source", source)
-      .add("sourceTaxonKey", sourceTaxonKey)
-      .add("startDayOfYear", startDayOfYear)
-      .add("endDayOfYear", endDayOfYear)
-      .add("locationId", locationId)
-      .add("remarks", remarks)
+    return new StringJoiner(", ", Distribution.class.getSimpleName() + "[", "]")
+      .add("taxonKey=" + taxonKey)
+      .add("locationId='" + locationId + "'")
+      .add("locality='" + locality + "'")
+      .add("country=" + country)
+      .add("status=" + status)
+      .add("lifeStage=" + lifeStage)
+      .add("temporal='" + temporal + "'")
+      .add("threatStatus=" + threatStatus)
+      .add("establishmentMeans=" + establishmentMeans)
+      .add("appendixCites=" + appendixCites)
+      .add("source='" + source + "'")
+      .add("sourceTaxonKey=" + sourceTaxonKey)
+      .add("startDayOfYear=" + startDayOfYear)
+      .add("endDayOfYear=" + endDayOfYear)
+      .add("remarks='" + remarks + "'")
       .toString();
   }
-
 }

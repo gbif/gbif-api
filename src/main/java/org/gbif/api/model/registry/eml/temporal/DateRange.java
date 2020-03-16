@@ -21,10 +21,12 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
+import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
 /**
  * A period of time.
@@ -41,7 +43,7 @@ public class DateRange extends TemporalCoverage implements Serializable {
   }
 
   public DateRange(Date start, Date end) {
-    Preconditions.checkArgument(start.before(end), "start date must be before end");
+    checkArgument(start.before(end), "start date must be before end");
     this.start = start;
     this.end = end;
   }
@@ -75,35 +77,38 @@ public class DateRange extends TemporalCoverage implements Serializable {
       }
       sb.append(sdf.format(end));
     }
-    return Lists.newArrayList(sb.toString());
+
+    return Stream.of(sb.toString()).collect(Collectors.toList());
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof org.gbif.api.model.registry.eml.temporal.DateRange)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    org.gbif.api.model.registry.eml.temporal.DateRange that = (org.gbif.api.model.registry.eml.temporal.DateRange) obj;
-    return Objects.equal(this.start, that.start) && Objects.equal(this.end, that.end);
+    DateRange dateRange = (DateRange) o;
+    return Objects.equals(start, dateRange.start) &&
+      Objects.equals(end, dateRange.end);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), start, end);
+    return Objects.hash(start, end);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("super", super.toString()).add("start", start).add("end", end).toString();
+    return new StringJoiner(", ", DateRange.class.getSimpleName() + "[", "]")
+      .add("start=" + start)
+      .add("end=" + end)
+      .toString();
   }
 
   @Override
   public String acceptFormatter(TemporalCoverageFormatterVisitor formatter) {
     return formatter.format(this);
   }
-
 }

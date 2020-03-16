@@ -15,11 +15,12 @@
  */
 package org.gbif.api.vocabulary;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
@@ -300,7 +301,8 @@ public enum Rank {
   /**
    * All main Linnean ranks ordered.
    */
-  public static final List<Rank> LINNEAN_RANKS = ImmutableList.of(
+  public static final List<Rank> LINNEAN_RANKS = Collections.unmodifiableList(
+    Arrays.asList(
       KINGDOM,
       PHYLUM,
       CLASS,
@@ -308,12 +310,13 @@ public enum Rank {
       FAMILY,
       GENUS,
       SPECIES
-  );
+    ));
 
   /**
    * An ordered list of all ranks that appear in Darwin Core with their own term.
    */
-  public static final List<Rank> DWC_RANKS = ImmutableList.of(
+  public static final List<Rank> DWC_RANKS = Collections.unmodifiableList(
+    Arrays.asList(
       KINGDOM,
       PHYLUM,
       CLASS,
@@ -322,7 +325,7 @@ public enum Rank {
       GENUS,
       SUBGENUS,
       SPECIES
-  );
+  ));
 
   /**
    * A set of ranks which cannot clearly be compared to any other rank as they represent rank "ranges".

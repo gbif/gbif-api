@@ -15,15 +15,17 @@
  */
 package org.gbif.api.model.checklistbank;
 
-import javax.annotation.Nullable;
+import java.util.Objects;
+import java.util.StringJoiner;
 
-import com.google.common.base.Objects;
+import javax.annotation.Nullable;
 
 /**
  * SpeciesProfile Model Object represents a species profile which describes basic species characteristics.
  *
  * @see <a href="http://rs.gbif.org/extension/gbif/1.0/speciesprofile.xml">Species Profile Definition</a>
  */
+@SuppressWarnings("unused")
 public class SpeciesProfile implements NameUsageExtension {
 
   private Integer taxonKey;
@@ -318,61 +320,51 @@ public class SpeciesProfile implements NameUsageExtension {
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (this == object) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(object instanceof SpeciesProfile)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    SpeciesProfile that = (SpeciesProfile) object;
-    return Objects.equal(this.livingPeriod, that.livingPeriod)
-           && Objects.equal(this.lifeForm, that.lifeForm)
-           && Objects.equal(this.habitat, that.habitat)
-           && Objects.equal(this.marine, that.marine)
-           && Objects.equal(this.terrestrial, that.terrestrial)
-           && Objects.equal(this.extinct, that.extinct)
-           && Objects.equal(this.hybrid, that.hybrid)
-           && Objects.equal(this.ageInDays, that.ageInDays)
-           && Objects.equal(this.sizeInMillimeter, that.sizeInMillimeter)
-           && Objects.equal(this.massInGram, that.massInGram)
-           && Objects.equal(this.source, that.source)
-           && Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey);
+    SpeciesProfile that = (SpeciesProfile) o;
+    return Objects.equals(livingPeriod, that.livingPeriod) &&
+      Objects.equals(lifeForm, that.lifeForm) &&
+      Objects.equals(habitat, that.habitat) &&
+      Objects.equals(marine, that.marine) &&
+      Objects.equals(terrestrial, that.terrestrial) &&
+      Objects.equals(extinct, that.extinct) &&
+      Objects.equals(hybrid, that.hybrid) &&
+      Objects.equals(ageInDays, that.ageInDays) &&
+      Objects.equals(sizeInMillimeter, that.sizeInMillimeter) &&
+      Objects.equals(massInGram, that.massInGram) &&
+      Objects.equals(source, that.source) &&
+      Objects.equals(sourceTaxonKey, that.sourceTaxonKey);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(livingPeriod,
-                            lifeForm,
-                            habitat,
-                            marine,
-                            terrestrial,
-                            extinct,
-                            hybrid,
-                            ageInDays,
-                            sizeInMillimeter,
-                            massInGram,
-                            source,
-                            sourceTaxonKey);
+    return Objects
+      .hash(livingPeriod, lifeForm, habitat, marine, terrestrial, extinct, hybrid, ageInDays,
+        sizeInMillimeter, massInGram, source, sourceTaxonKey);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("livingPeriod", livingPeriod)
-      .add("lifeForm", lifeForm)
-      .add("habitat", habitat)
-      .add("marine", marine)
-      .add("terrestrial", terrestrial)
-      .add("extinct", extinct)
-      .add("hybrid", hybrid)
-      .add("ageInDays", ageInDays)
-      .add("sizeInMillimeter", sizeInMillimeter)
-      .add("massInGram", massInGram)
-      .add("source", source)
-      .add("sourceTaxonKey", sourceTaxonKey)
+    return new StringJoiner(", ", SpeciesProfile.class.getSimpleName() + "[", "]")
+      .add("livingPeriod='" + livingPeriod + "'")
+      .add("lifeForm='" + lifeForm + "'")
+      .add("habitat='" + habitat + "'")
+      .add("marine=" + marine)
+      .add("freshwater=" + freshwater)
+      .add("terrestrial=" + terrestrial)
+      .add("extinct=" + extinct)
+      .add("hybrid=" + hybrid)
+      .add("ageInDays=" + ageInDays)
+      .add("sizeInMillimeter=" + sizeInMillimeter)
+      .add("massInGram=" + massInGram)
+      .add("source='" + source + "'")
+      .add("sourceTaxonKey=" + sourceTaxonKey)
       .toString();
   }
-
 }

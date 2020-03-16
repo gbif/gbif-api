@@ -21,14 +21,14 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
-
-import com.google.common.base.Objects;
 
 public class Endpoint implements MachineTaggable, LenientEquals<Endpoint> {
 
@@ -134,39 +134,43 @@ public class Endpoint implements MachineTaggable, LenientEquals<Endpoint> {
   }
 
   @Override
-  public int hashCode() {
-    return Objects.hashCode(key, type, url, description, createdBy, modifiedBy, created, modified, machineTags);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Endpoint endpoint = (Endpoint) o;
+    return Objects.equals(key, endpoint.key) &&
+      type == endpoint.type &&
+      Objects.equals(url, endpoint.url) &&
+      Objects.equals(description, endpoint.description) &&
+      Objects.equals(createdBy, endpoint.createdBy) &&
+      Objects.equals(modifiedBy, endpoint.modifiedBy) &&
+      Objects.equals(created, endpoint.created) &&
+      Objects.equals(modified, endpoint.modified) &&
+      Objects.equals(machineTags, endpoint.machineTags);
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (object instanceof Endpoint) {
-      Endpoint that = (Endpoint) object;
-      return Objects.equal(this.key, that.key)
-        && Objects.equal(this.type, that.type)
-        && Objects.equal(this.url, that.url)
-        && Objects.equal(this.description, that.description)
-        && Objects.equal(this.createdBy, that.createdBy)
-        && Objects.equal(this.modifiedBy, that.modifiedBy)
-        && Objects.equal(this.created, that.created)
-        && Objects.equal(this.modified, that.modified)
-        && Objects.equal(this.machineTags, that.machineTags);
-    }
-    return false;
+  public int hashCode() {
+    return Objects
+      .hash(key, type, url, description, createdBy, modifiedBy, created, modified, machineTags);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("type", type)
-      .add("url", url)
-      .add("description", description)
-      .add("createdBy", createdBy)
-      .add("modifiedBy", modifiedBy)
-      .add("created", created)
-      .add("modified", modified)
-      .add("machineTags", machineTags)
+    return new StringJoiner(", ", Endpoint.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("type=" + type)
+      .add("url=" + url)
+      .add("description='" + description + "'")
+      .add("createdBy='" + createdBy + "'")
+      .add("modifiedBy='" + modifiedBy + "'")
+      .add("created=" + created)
+      .add("modified=" + modified)
+      .add("machineTags=" + machineTags)
       .toString();
   }
 
@@ -178,10 +182,9 @@ public class Endpoint implements MachineTaggable, LenientEquals<Endpoint> {
     if (this == other) {
       return true;
     } else {
-      return Objects.equal(this.type, other.type)
-        && Objects.equal(this.url, other.url)
-        && Objects.equal(this.description, other.description);
+      return Objects.equals(this.type, other.type)
+        && Objects.equals(this.url, other.url)
+        && Objects.equals(this.description, other.description);
     }
   }
-
 }

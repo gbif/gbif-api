@@ -19,9 +19,10 @@ import org.gbif.api.util.formatter.TemporalCoverageFormatterVisitor;
 
 import java.io.Serializable;
 import java.util.Collection;
-
-import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
+import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A verbatim (e.g. free text) period of time.
@@ -55,34 +56,32 @@ public class VerbatimTimePeriod extends TemporalCoverage implements Serializable
 
   @Override
   public Collection<String> toKeywords() {
-    return Lists.newArrayList(period);
+    return Stream.of(period).collect(Collectors.toList());
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof org.gbif.api.model.registry.eml.temporal.VerbatimTimePeriod)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    org.gbif.api.model.registry.eml.temporal.VerbatimTimePeriod
-      that = (org.gbif.api.model.registry.eml.temporal.VerbatimTimePeriod) obj;
-    return Objects.equal(this.period, that.period) && Objects.equal(this.type, that.type);
+    VerbatimTimePeriod that = (VerbatimTimePeriod) o;
+    return Objects.equals(period, that.period) &&
+      type == that.type;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(super.hashCode(), period, type);
+    return Objects.hash(period, type);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("super", super.toString())
-      .add("period", period)
-      .add("type", type)
+    return new StringJoiner(", ", VerbatimTimePeriod.class.getSimpleName() + "[", "]")
+      .add("period='" + period + "'")
+      .add("type=" + type)
       .toString();
   }
 

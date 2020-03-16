@@ -21,19 +21,19 @@ import org.gbif.api.vocabulary.ThreatStatus;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
 
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
 
 /**
  * An extension to a NameUsage adding all further properties that are not eagerly loaded.
@@ -42,6 +42,7 @@ import com.google.common.collect.Sets;
  * This is just a simple container class with a few convenience methods which needs to be populated manually via its
  * setters or the constructor.
  */
+@SuppressWarnings("unused")
 public class NameUsageContainer extends NameUsage {
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
@@ -116,9 +117,9 @@ public class NameUsageContainer extends NameUsage {
    */
   @NotNull
   public Set<String> getHabitats() {
-    Set<String> habitats = Sets.newLinkedHashSet();
+    Set<String> habitats = new LinkedHashSet<>();
     for (SpeciesProfile sp : speciesProfiles) {
-      if (!Strings.isNullOrEmpty(sp.getHabitat())) {
+      if (StringUtils.isNotEmpty(sp.getHabitat())) {
         habitats.add(sp.getHabitat());
       }
     }
@@ -257,9 +258,9 @@ public class NameUsageContainer extends NameUsage {
    */
   @NotNull
   public Set<String> getLivingPeriods() {
-    Set<String> periods = Sets.newLinkedHashSet();
+    Set<String> periods = new LinkedHashSet<>();
     for (SpeciesProfile sp : speciesProfiles) {
-      if (!Strings.isNullOrEmpty(sp.getLivingPeriod())) {
+      if (StringUtils.isNotEmpty(sp.getLivingPeriod())) {
         periods.add(sp.getLivingPeriod());
       }
     }
@@ -273,7 +274,7 @@ public class NameUsageContainer extends NameUsage {
    */
   @NotNull
   public Set<ThreatStatus> getThreatStatus() {
-    Set<ThreatStatus> threats = Sets.newLinkedHashSet();
+    Set<ThreatStatus> threats = new LinkedHashSet<>();
     for (Distribution d : distributions) {
       if (d.getThreatStatus() != null) {
         threats.add(d.getThreatStatus());
@@ -372,34 +373,47 @@ public class NameUsageContainer extends NameUsage {
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (object instanceof NameUsageContainer) {
-      if (!super.equals(object)) {
-        return false;
-      }
-      final NameUsageContainer other = (NameUsageContainer) object;
-      return Objects.equal(this.descriptions, other.descriptions)
-             && Objects.equal(this.distributions, other.distributions)
-             && Objects.equal(this.media, other.media)
-             && Objects.equal(this.referenceList, other.referenceList)
-             && Objects.equal(this.speciesProfiles, other.speciesProfiles)
-             && Objects.equal(this.synonyms, other.synonyms)
-             && Objects.equal(this.typeSpecimens, other.typeSpecimens)
-             && Objects.equal(this.vernacularNames, other.vernacularNames);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-    return false;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    if (!super.equals(o)) {
+      return false;
+    }
+    NameUsageContainer that = (NameUsageContainer) o;
+    return Objects.equals(descriptions, that.descriptions) &&
+      Objects.equals(distributions, that.distributions) &&
+      Objects.equals(media, that.media) &&
+      Objects.equals(referenceList, that.referenceList) &&
+      Objects.equals(speciesProfiles, that.speciesProfiles) &&
+      Objects.equals(synonyms, that.synonyms) &&
+      Objects.equals(typeSpecimens, that.typeSpecimens) &&
+      Objects.equals(vernacularNames, that.vernacularNames);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(descriptions,
-                            distributions,
-                            media,
-                            referenceList,
-                            speciesProfiles,
-                            synonyms,
-                            typeSpecimens,
-                            vernacularNames);
+    return Objects
+      .hash(super.hashCode(), descriptions, distributions, media, referenceList, speciesProfiles,
+        synonyms, typeSpecimens, vernacularNames);
   }
 
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", NameUsageContainer.class.getSimpleName() + "[", "]")
+      .add("descriptions=" + descriptions)
+      .add("distributions=" + distributions)
+      .add("identifiers=" + identifiers)
+      .add("media=" + media)
+      .add("referenceList=" + referenceList)
+      .add("speciesProfiles=" + speciesProfiles)
+      .add("synonyms=" + synonyms)
+      .add("combinations=" + combinations)
+      .add("typeSpecimens=" + typeSpecimens)
+      .add("vernacularNames=" + vernacularNames)
+      .toString();
+  }
 }

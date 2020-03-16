@@ -17,16 +17,18 @@ package org.gbif.api.model.checklistbank;
 
 import org.gbif.api.vocabulary.Rank;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-
-import com.google.common.base.Objects;
 
 /**
  * Basic metrics for a single name usage. These metrics have been embedded in the NameUsage class before
  * but are rarely being used. They are therefore split out into a separate class to be retrieved only when needed.
  */
+@SuppressWarnings("unused")
 public class NameUsageMetrics {
 
   private Integer key;
@@ -269,62 +271,50 @@ public class NameUsageMetrics {
     return null;
   }
 
+
   @Override
-  public int hashCode() {
-    return Objects
-      .hashCode(
-        key,
-        numPhylum,
-        numClass,
-        numOrder,
-        numFamily,
-        numGenus,
-        numSubgenus,
-        numSpecies,
-        numChildren,
-        numDescendants,
-        numSynonyms);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    NameUsageMetrics that = (NameUsageMetrics) o;
+    return numPhylum == that.numPhylum &&
+      numClass == that.numClass &&
+      numOrder == that.numOrder &&
+      numFamily == that.numFamily &&
+      numGenus == that.numGenus &&
+      numSubgenus == that.numSubgenus &&
+      numSpecies == that.numSpecies &&
+      numChildren == that.numChildren &&
+      numDescendants == that.numDescendants &&
+      numSynonyms == that.numSynonyms &&
+      Objects.equals(key, that.key);
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    final NameUsageMetrics other = (NameUsageMetrics) obj;
-    return Objects.equal(this.key, other.key)
-           && Objects.equal(this.numPhylum, other.numPhylum)
-           && Objects.equal(this.numClass, other.numClass)
-           && Objects.equal(this.numOrder, other.numOrder)
-           && Objects.equal(this.numFamily, other.numFamily)
-           && Objects.equal(this.numGenus, other.numGenus)
-           && Objects.equal(this.numSubgenus, other.numSubgenus)
-           && Objects.equal(this.numSpecies, other.numSpecies)
-           && Objects.equal(this.numChildren, other.numChildren)
-           && Objects.equal(this.numDescendants, other.numDescendants)
-           && Objects.equal(this.numSynonyms, other.numSynonyms);
+  public int hashCode() {
+    return Objects
+      .hash(key, numPhylum, numClass, numOrder, numFamily, numGenus, numSubgenus, numSpecies,
+        numChildren, numDescendants, numSynonyms);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("numPhylum", numPhylum)
-      .add("numClass", numClass)
-      .add("numOrder", numOrder)
-      .add("numFamily", numFamily)
-      .add("numGenus", numGenus)
-      .add("numSubgenus", numSubgenus)
-      .add("numSpecies", numSpecies)
-      .add("numChildren", numChildren)
-      .add("numDescendants", numDescendants)
-      .add("numSynonyms", numSynonyms)
+    return new StringJoiner(", ", NameUsageMetrics.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("numPhylum=" + numPhylum)
+      .add("numClass=" + numClass)
+      .add("numOrder=" + numOrder)
+      .add("numFamily=" + numFamily)
+      .add("numGenus=" + numGenus)
+      .add("numSubgenus=" + numSubgenus)
+      .add("numSpecies=" + numSpecies)
+      .add("numChildren=" + numChildren)
+      .add("numDescendants=" + numDescendants)
+      .add("numSynonyms=" + numSynonyms)
       .toString();
   }
 }

@@ -25,10 +25,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.operation.valid.IsValidOp;
@@ -39,9 +41,6 @@ import org.locationtech.spatial4j.io.WKTReader;
 import org.locationtech.spatial4j.shape.Shape;
 import org.locationtech.spatial4j.shape.jts.JtsGeometry;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Range;
 
 import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
@@ -123,7 +122,7 @@ public class SearchTypeValidator {
    * @return true if the given value is a valid range
    */
   public static boolean isRange(String value) {
-    if (!Strings.isNullOrEmpty(value)) {
+    if (StringUtils.isNotEmpty(value)) {
       // decimal range for ints or doubles
       if (DECIMAL_RANGE_PATTERN.matcher(value).find()) {
         return true;
@@ -157,7 +156,7 @@ public class SearchTypeValidator {
    * @throws IllegalArgumentException if value is invalid or null
    */
   public static Range<Double> parseDecimalRange(String value) {
-    if (!Strings.isNullOrEmpty(value)) {
+    if (StringUtils.isNotEmpty(value)) {
       Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);
       if (m.find()) {
         return buildRange(parseDouble(m.group(1)), parseDouble(m.group(2)));
@@ -173,7 +172,7 @@ public class SearchTypeValidator {
    * @throws IllegalArgumentException if value is invalid or null
    */
   public static Range<Integer> parseIntegerRange(String value) {
-    if (!Strings.isNullOrEmpty(value)) {
+    if (StringUtils.isNotEmpty(value)) {
       Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);
       if (m.find()) {
 
@@ -200,7 +199,7 @@ public class SearchTypeValidator {
 
       }
       // All the parameters except by GEOMETRY accept the wild card value
-      if (!WILD_CARD.equalsIgnoreCase(Strings.nullToEmpty(value).trim())) {
+      if (!WILD_CARD.equalsIgnoreCase(ApiStringUtils.nullToEmpty(value).trim())) {
         if (OccurrenceSearchParameter.DECIMAL_LATITUDE == param) {
           validateLatitude(value);
 
@@ -227,17 +226,17 @@ public class SearchTypeValidator {
 
         } else if (Country.class.isAssignableFrom(pType)) {
           // iso codes expected
-          Preconditions.checkNotNull(Country.fromIsoCode(value));
+          Objects.requireNonNull(Country.fromIsoCode(value));
 
         } else if (Language.class.isAssignableFrom(pType)) {
           // iso codes expected
-          Preconditions.checkNotNull(Language.fromIsoCode(value));
+          Objects.requireNonNull(Language.fromIsoCode(value));
 
         } else if (Enum.class.isAssignableFrom(pType)) {
           // enum value expected, cast to enum
           @SuppressWarnings("unchecked")
           Class<? extends Enum<?>> eType = (Class<? extends Enum<?>>) pType;
-          Preconditions.checkNotNull(VocabularyUtils.lookupEnum(value, eType));
+          Objects.requireNonNull(VocabularyUtils.lookupEnum(value, eType));
 
         } else if (Date.class.isAssignableFrom(pType) || Temporal.class.isAssignableFrom(pType)) {
           // ISO date strings
@@ -250,7 +249,7 @@ public class SearchTypeValidator {
         }
       }
     } catch (NullPointerException e) {
-      // Preconditions.checkNotNull throws NPE but we want IllegalArgumentException
+      // Objects.requireNonNull throws NPE but we want IllegalArgumentException
       throw new IllegalArgumentException("Value " + value + " invalid for filter parameter " + param, e);
     }
   }
@@ -293,7 +292,7 @@ public class SearchTypeValidator {
    * If the value is a range each limit is validated and the wildcard character '*' is skipped.
    */
   private static void validateDouble(String value) {
-    if (Strings.isNullOrEmpty(value)) {
+    if (StringUtils.isEmpty(value)) {
       throw new IllegalArgumentException("Double cannot be null or empty");
     }
     try {
@@ -308,7 +307,7 @@ public class SearchTypeValidator {
    * Validates if the value is a valid single double and its value is between a range.
    */
   private static void validateDoubleInRange(String value, Range<Double> range, String errorMsg) {
-    if (Strings.isNullOrEmpty(value)) {
+    if (StringUtils.isEmpty(value)) {
       throw new IllegalArgumentException("Double cannot be null or empty");
     }
     try {
@@ -393,11 +392,13 @@ public class SearchTypeValidator {
    * @throws IllegalArgumentException if value is invalid or null
    */
   private static Collection<Integer> validateInteger(String value) {
-    if (Strings.isNullOrEmpty(value)) {
+    if (StringUtils.isEmpty(value)) {
       throw new IllegalArgumentException("Integer cannot be null or empty");
     }
     try {
-      return Lists.newArrayList(Integer.parseInt(value));
+      List<Integer> list = new ArrayList<>();
+      list.add(Integer.parseInt(value));
+      return list;
     } catch (NumberFormatException e) {
       Range<Integer> range = parseIntegerRange(value);
       List<Integer> ints = new ArrayList<>();

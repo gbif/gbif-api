@@ -16,21 +16,20 @@
 package org.gbif.api.model.crawler;
 
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.Min;
 
-import com.google.common.base.Objects;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
+import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
 /**
  * Information about a dataset that is currently being processed. That usually means that we are crawling it at the
  * moment or are in the process of persisting and interpreting its occurrences.
  */
+@SuppressWarnings("unused")
 public class DatasetProcessStatus {
 
   private UUID datasetKey;
@@ -80,10 +79,10 @@ public class DatasetProcessStatus {
    * We only validate very little (all counts have to be greater than or equal to zero, a few null checks etc.) but not
    */
   public DatasetProcessStatus(Builder builder) {
-    checkNotNull(builder, "builder can't be null");
+    Objects.requireNonNull(builder, "builder can't be null");
 
-    datasetKey = checkNotNull(builder.datasetKey, "datasetKey can't be null");
-    crawlJob = checkNotNull(builder.crawlJob, "crawlJob can't be null");
+    datasetKey = Objects.requireNonNull(builder.datasetKey, "datasetKey can't be null");
+    crawlJob = Objects.requireNonNull(builder.crawlJob, "crawlJob can't be null");
     startedCrawling = builder.startedCrawling;
     finishedCrawling = builder.finishedCrawling;
     finishReason = builder.finishReason;
@@ -419,96 +418,79 @@ public class DatasetProcessStatus {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (obj == null) {
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    final DatasetProcessStatus other = (DatasetProcessStatus) obj;
-    return Objects.equal(this.datasetKey, other.datasetKey)
-           && Objects.equal(this.crawlJob, other.crawlJob)
-           && Objects.equal(this.startedCrawling, other.startedCrawling)
-           && Objects.equal(this.finishedCrawling, other.finishedCrawling)
-           && Objects.equal(this.finishReason, other.finishReason)
-           && Objects.equal(this.processStateOccurrence, other.processStateOccurrence)
-           && Objects.equal(this.processStateChecklist, other.processStateChecklist)
-           && Objects.equal(this.processStateSample, other.processStateSample)
-           && Objects.equal(this.crawlContext, other.crawlContext)
-           && Objects.equal(this.declaredCount, other.declaredCount)
-           && Objects.equal(this.pagesCrawled, other.pagesCrawled)
-           && Objects.equal(this.pagesFragmentedSuccessful, other.pagesFragmentedSuccessful)
-           && Objects.equal(this.pagesFragmentedError, other.pagesFragmentedError)
-           && Objects.equal(this.fragmentsEmitted, other.fragmentsEmitted)
-           && Objects.equal(this.fragmentsReceived, other.fragmentsReceived)
-           && Objects.equal(this.rawOccurrencesPersistedNew, other.rawOccurrencesPersistedNew)
-           && Objects.equal(this.rawOccurrencesPersistedUpdated, other.rawOccurrencesPersistedUpdated)
-           && Objects.equal(this.rawOccurrencesPersistedUnchanged, other.rawOccurrencesPersistedUnchanged)
-           && Objects.equal(this.rawOccurrencesPersistedError, other.rawOccurrencesPersistedError)
-           && Objects.equal(this.fragmentsProcessed, other.fragmentsProcessed)
-           && Objects.equal(this.verbatimOccurrencesPersistedSuccessful, other.verbatimOccurrencesPersistedSuccessful)
-           && Objects.equal(this.verbatimOccurrencesPersistedError, other.verbatimOccurrencesPersistedError)
-           && Objects.equal(this.interpretedOccurrencesPersistedSuccessful,
-                            other.interpretedOccurrencesPersistedSuccessful)
-           && Objects.equal(this.interpretedOccurrencesPersistedError, other.interpretedOccurrencesPersistedError);
+    DatasetProcessStatus that = (DatasetProcessStatus) o;
+    return pagesCrawled == that.pagesCrawled &&
+      pagesFragmentedSuccessful == that.pagesFragmentedSuccessful &&
+      pagesFragmentedError == that.pagesFragmentedError &&
+      fragmentsEmitted == that.fragmentsEmitted &&
+      fragmentsReceived == that.fragmentsReceived &&
+      rawOccurrencesPersistedNew == that.rawOccurrencesPersistedNew &&
+      rawOccurrencesPersistedUpdated == that.rawOccurrencesPersistedUpdated &&
+      rawOccurrencesPersistedUnchanged == that.rawOccurrencesPersistedUnchanged &&
+      rawOccurrencesPersistedError == that.rawOccurrencesPersistedError &&
+      fragmentsProcessed == that.fragmentsProcessed &&
+      verbatimOccurrencesPersistedSuccessful == that.verbatimOccurrencesPersistedSuccessful &&
+      verbatimOccurrencesPersistedError == that.verbatimOccurrencesPersistedError &&
+      interpretedOccurrencesPersistedSuccessful == that.interpretedOccurrencesPersistedSuccessful &&
+      interpretedOccurrencesPersistedError == that.interpretedOccurrencesPersistedError &&
+      Objects.equals(datasetKey, that.datasetKey) &&
+      Objects.equals(crawlJob, that.crawlJob) &&
+      Objects.equals(startedCrawling, that.startedCrawling) &&
+      Objects.equals(finishedCrawling, that.finishedCrawling) &&
+      Objects.equals(crawlContext, that.crawlContext) &&
+      finishReason == that.finishReason &&
+      processStateOccurrence == that.processStateOccurrence &&
+      processStateChecklist == that.processStateChecklist &&
+      processStateSample == that.processStateSample &&
+      Objects.equals(declaredCount, that.declaredCount);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(datasetKey,
-                            crawlJob,
-                            startedCrawling,
-                            finishedCrawling,
-                            finishReason,
-                            processStateOccurrence,
-                            processStateChecklist,
-                            processStateSample,
-                            crawlContext,
-                            declaredCount,
-                            pagesCrawled,
-                            pagesFragmentedSuccessful,
-                            pagesFragmentedError,
-                            fragmentsEmitted,
-                            fragmentsReceived,
-                            rawOccurrencesPersistedNew,
-                            rawOccurrencesPersistedUpdated,
-                            rawOccurrencesPersistedUnchanged,
-                            rawOccurrencesPersistedError,
-                            fragmentsProcessed,
-                            verbatimOccurrencesPersistedSuccessful,
-                            verbatimOccurrencesPersistedError,
-                            interpretedOccurrencesPersistedSuccessful,
-                            interpretedOccurrencesPersistedError);
+    return Objects
+      .hash(datasetKey, crawlJob, startedCrawling, finishedCrawling, crawlContext, finishReason,
+        processStateOccurrence, processStateChecklist, processStateSample, declaredCount,
+        pagesCrawled, pagesFragmentedSuccessful, pagesFragmentedError, fragmentsEmitted,
+        fragmentsReceived, rawOccurrencesPersistedNew, rawOccurrencesPersistedUpdated,
+        rawOccurrencesPersistedUnchanged, rawOccurrencesPersistedError, fragmentsProcessed,
+        verbatimOccurrencesPersistedSuccessful, verbatimOccurrencesPersistedError,
+        interpretedOccurrencesPersistedSuccessful, interpretedOccurrencesPersistedError);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("datasetKey", datasetKey)
-      .add("crawlJob", crawlJob)
-      .add("startedCrawling", startedCrawling)
-      .add("finishedCrawling", finishedCrawling)
-      .add("finisReason", finishReason)
-      .add("processStateOccurrence", processStateOccurrence)
-      .add("processStateChecklist", processStateChecklist)
-      .add("processStateSample", processStateSample)
-      .add("crawlContext", crawlContext)
-      .add("declaredCount", declaredCount)
-      .add("pagesCrawled", pagesCrawled)
-      .add("pagesFragmentedSuccessful", pagesFragmentedSuccessful)
-      .add("pagesFragmentedError", pagesFragmentedError)
-      .add("fragmentsEmitted", fragmentsEmitted)
-      .add("fragmentsReceived", fragmentsReceived)
-      .add("rawOccurrencesPersistedNew", rawOccurrencesPersistedNew)
-      .add("rawOccurrencesPersistedUpdated", rawOccurrencesPersistedUpdated)
-      .add("rawOccurrencesPersistedUnchanged", rawOccurrencesPersistedUnchanged)
-      .add("rawOccurrencesPersistedError", rawOccurrencesPersistedError)
-      .add("fragmentsProcessed", fragmentsProcessed)
-      .add("verbatimOccurrencesPersistedSuccessful", verbatimOccurrencesPersistedSuccessful)
-      .add("verbatimOccurrencesPersistedError", verbatimOccurrencesPersistedError)
-      .add("interpretedOccurrencesPersistedSuccessful", interpretedOccurrencesPersistedSuccessful)
-      .add("interpretedOccurrencesPersistedError", interpretedOccurrencesPersistedError)
+    return new StringJoiner(", ", DatasetProcessStatus.class.getSimpleName() + "[", "]")
+      .add("datasetKey=" + datasetKey)
+      .add("crawlJob=" + crawlJob)
+      .add("startedCrawling=" + startedCrawling)
+      .add("finishedCrawling=" + finishedCrawling)
+      .add("crawlContext='" + crawlContext + "'")
+      .add("finishReason=" + finishReason)
+      .add("processStateOccurrence=" + processStateOccurrence)
+      .add("processStateChecklist=" + processStateChecklist)
+      .add("processStateSample=" + processStateSample)
+      .add("declaredCount=" + declaredCount)
+      .add("pagesCrawled=" + pagesCrawled)
+      .add("pagesFragmentedSuccessful=" + pagesFragmentedSuccessful)
+      .add("pagesFragmentedError=" + pagesFragmentedError)
+      .add("fragmentsEmitted=" + fragmentsEmitted)
+      .add("fragmentsReceived=" + fragmentsReceived)
+      .add("rawOccurrencesPersistedNew=" + rawOccurrencesPersistedNew)
+      .add("rawOccurrencesPersistedUpdated=" + rawOccurrencesPersistedUpdated)
+      .add("rawOccurrencesPersistedUnchanged=" + rawOccurrencesPersistedUnchanged)
+      .add("rawOccurrencesPersistedError=" + rawOccurrencesPersistedError)
+      .add("fragmentsProcessed=" + fragmentsProcessed)
+      .add("verbatimOccurrencesPersistedSuccessful=" + verbatimOccurrencesPersistedSuccessful)
+      .add("verbatimOccurrencesPersistedError=" + verbatimOccurrencesPersistedError)
+      .add("interpretedOccurrencesPersistedSuccessful=" + interpretedOccurrencesPersistedSuccessful)
+      .add("interpretedOccurrencesPersistedError=" + interpretedOccurrencesPersistedError)
       .toString();
   }
 

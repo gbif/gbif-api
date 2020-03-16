@@ -16,12 +16,12 @@
 package org.gbif.api.model.registry.metasync;
 
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
-
-import com.google.common.base.Objects;
 
 /**
  * Metadata synchronization historical information.
@@ -90,31 +90,32 @@ public class MetasyncHistory {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (obj == null) {
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    final MetasyncHistory other = (MetasyncHistory) obj;
-    return Objects.equal(this.installationKey, other.installationKey)
-           && Objects.equal(this.syncDate, other.syncDate)
-           && Objects.equal(this.result, other.result)
-           && Objects.equal(this.details, other.details);
+    MetasyncHistory that = (MetasyncHistory) o;
+    return Objects.equals(installationKey, that.installationKey) &&
+      Objects.equals(syncDate, that.syncDate) &&
+      result == that.result &&
+      Objects.equals(details, that.details);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(installationKey,syncDate,result,details);
+    return Objects.hash(installationKey, syncDate, result, details);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("installationKey", installationKey)
-      .add("syncDate", syncDate)
-      .add("result", result)
-      .add("details", details).toString();
+    return new StringJoiner(", ", MetasyncHistory.class.getSimpleName() + "[", "]")
+      .add("installationKey=" + installationKey)
+      .add("syncDate=" + syncDate)
+      .add("result=" + result)
+      .add("details='" + details + "'")
+      .toString();
   }
 }

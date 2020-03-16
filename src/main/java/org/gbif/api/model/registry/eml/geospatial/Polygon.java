@@ -18,15 +18,13 @@ package org.gbif.api.model.registry.eml.geospatial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import com.google.common.base.Joiner;
+import java.util.stream.Collectors;
 
 /**
  * A simple polygon made out of a list of points to be joined.
  */
 public class Polygon implements Geometry {
 
-  private static final Joiner POINT_JOINER = Joiner.on(", ");
   private List<Point> points = new ArrayList<>();
 
   public List<Point> getPoints() {
@@ -39,11 +37,14 @@ public class Polygon implements Geometry {
 
   @Override
   public String toWellKnownText() {
-    return String.format(Locale.ENGLISH, "POLYGON ((%s))", POINT_JOINER.join(points));
+    return String.format(Locale.ENGLISH, "POLYGON ((%s))",
+      points.stream()
+        .map(p -> p.getLongitude() + " " + p.getLatitude())
+        .collect(Collectors.joining(", "))
+    );
   }
 
   public void addPoint(Point point) {
     points.add(point);
   }
-
 }

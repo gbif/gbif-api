@@ -17,9 +17,9 @@ package org.gbif.api.model.registry.eml;
 
 import org.gbif.api.model.registry.Contact;
 
-import org.junit.Test;
+import java.util.Collections;
 
-import com.google.common.collect.Lists;
+import org.junit.Test;
 
 import static org.junit.Assert.assertNotEquals;
 
@@ -27,12 +27,12 @@ public class ProjectTest {
 
   @Test
   public void testEquals() {
-    Project p1 = new Project("BioFresh Project", "226874", Lists.newArrayList(new Contact()), "Some Abstract",
+    Project p1 = new Project("BioFresh Project", "226874", Collections.singletonList(new Contact()), "Some Abstract",
       "Funded by the EU under the 7th Framework Programme", "Ran from November 2009 until April 2014.",
       "Established an internet platform bringing together information and data on freshwater biodiversity.");
 
     // identifier is null
-    Project p2 = new Project("BioFresh Project", null, Lists.newArrayList(new Contact()), "Some Abstract",
+    Project p2 = new Project("BioFresh Project", null, Collections.singletonList(new Contact()), "Some Abstract",
       "Funded by the EU under the 7th Framework Programme", "Ran from November 2009 until April 2014.",
       "Established an internet platform bringing together information and data on freshwater biodiversity.");
 

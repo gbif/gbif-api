@@ -23,7 +23,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
 
-import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.common.collect.Range;
 
 import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
@@ -117,7 +118,7 @@ public class IsoDateParsingUtils {
    * @throws IllegalArgumentException in case of unparsable dates
    */
   public static Date parseDate(String value) {
-    if (Strings.isNullOrEmpty(value)) {
+    if (StringUtils.isEmpty(value)) {
       throw new IllegalArgumentException("Date parameter can't be null or empty");
     }
     try {
@@ -140,7 +141,7 @@ public class IsoDateParsingUtils {
    * limit.
    */
   public static Range<Date> parseDateRange(String value) {
-    if (Strings.isNullOrEmpty(value)) {
+    if (StringUtils.isEmpty(value)) {
       throw new IllegalArgumentException("Date parameter can't be null or empty");
     }
     final String[] dateValues = value.split(",");

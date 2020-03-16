@@ -16,21 +16,19 @@
 package org.gbif.api.model.checklistbank;
 
 import org.gbif.api.jackson.RankSerde;
+import org.gbif.api.util.ApiStringUtils;
 import org.gbif.api.util.UnicodeUtils;
 import org.gbif.api.vocabulary.NamePart;
 import org.gbif.api.vocabulary.NameType;
 import org.gbif.api.vocabulary.Rank;
+
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
-
-import static com.google.common.base.Objects.equal;
 
 /**
  * A container of a taxon name that is atomised into it's relevant separate parts.
@@ -46,6 +44,7 @@ import static com.google.common.base.Objects.equal;
  * indicating the name part of named hybrids that is considered to be the hybrid. No authorship is kept. For subgenera
  * we don't use parenthesis to indicate the subgenus, but use explicit rank markers instead.
  */
+@SuppressWarnings("unused")
 public class ParsedName {
 
   public static final Character HYBRID_MARKER = '×';
@@ -514,7 +513,8 @@ public class ParsedName {
     if (asciiOnly) {
       name = UnicodeUtils.ascii(name);
     }
-    return Strings.emptyToNull(name);
+
+    return ApiStringUtils.emptyToNull(name);
   }
 
   private boolean showIndet(boolean showIndet) {
@@ -740,47 +740,36 @@ public class ParsedName {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof ParsedName)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ParsedName o = (ParsedName) obj;
-    return equal(key, o.key)
-           && equal(scientificName, o.scientificName)
-           && equal(type, o.type)
-           && equal(genusOrAbove, o.genusOrAbove)
-           && equal(infraGeneric, o.infraGeneric)
-           && equal(specificEpithet, o.specificEpithet)
-           && equal(infraSpecificEpithet, o.infraSpecificEpithet)
-           && equal(cultivarEpithet, o.cultivarEpithet)
-           && equal(strain, o.strain)
-           && equal(authorship, o.authorship)
-           && equal(year, o.year)
-           && equal(bracketAuthorship, o.bracketAuthorship)
-           && equal(bracketYear, o.bracketYear)
-           && equal(rank, o.rank);
+    ParsedName that = (ParsedName) o;
+    return Objects.equals(key, that.key) &&
+      Objects.equals(scientificName, that.scientificName) &&
+      rank == that.rank &&
+      type == that.type &&
+      Objects.equals(genusOrAbove, that.genusOrAbove) &&
+      Objects.equals(infraGeneric, that.infraGeneric) &&
+      Objects.equals(specificEpithet, that.specificEpithet) &&
+      Objects.equals(infraSpecificEpithet, that.infraSpecificEpithet) &&
+      Objects.equals(cultivarEpithet, that.cultivarEpithet) &&
+      Objects.equals(strain, that.strain) &&
+      Objects.equals(authorship, that.authorship) &&
+      Objects.equals(year, that.year) &&
+      Objects.equals(bracketAuthorship, that.bracketAuthorship) &&
+      Objects.equals(bracketYear, that.bracketYear);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(key,
-                            scientificName,
-                            type,
-                            genusOrAbove,
-                            infraGeneric,
-                            specificEpithet,
-                            infraSpecificEpithet,
-                            cultivarEpithet,
-                            strain,
-                            authorship,
-                            year,
-                            bracketAuthorship,
-                            bracketYear,
-                            rank
-    );
+    return Objects
+      .hash(key, scientificName, rank, type, genusOrAbove, infraGeneric, specificEpithet,
+        infraSpecificEpithet, cultivarEpithet, strain, authorship, year, bracketAuthorship,
+        bracketYear);
   }
 
   @Override
@@ -832,5 +821,4 @@ public class ParsedName {
     }
     return isHybridFormula() ? " [hybrid]" : sb.toString();
   }
-
 }

@@ -17,13 +17,13 @@ package org.gbif.api.model.occurrence.predicate;
 
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.validation.constraints.NotNull;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 
 public class IsNotNullPredicate implements Predicate {
 
@@ -32,7 +32,7 @@ public class IsNotNullPredicate implements Predicate {
 
   @JsonCreator
   public IsNotNullPredicate(@JsonProperty("parameter") OccurrenceSearchParameter parameter) {
-    Preconditions.checkNotNull(parameter, "<parameter> may not be null");
+    Objects.requireNonNull(parameter, "<parameter> may not be null");
     this.parameter = parameter;
     checkPredicateAllowed();
   }
@@ -51,13 +51,26 @@ public class IsNotNullPredicate implements Predicate {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    IsNotNullPredicate that = (IsNotNullPredicate) o;
+    return parameter == that.parameter;
+  }
+
+  @Override
   public int hashCode() {
-    return Objects.hashCode(parameter);
+    return Objects.hash(parameter);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("parameter", parameter).toString();
+    return new StringJoiner(", ", IsNotNullPredicate.class.getSimpleName() + "[", "]")
+      .add("parameter=" + parameter)
+      .toString();
   }
-
 }

@@ -20,6 +20,7 @@ import org.gbif.api.vocabulary.License;
 import java.io.IOException;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonToken;
@@ -27,8 +28,6 @@ import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
-
-import com.google.common.base.Strings;
 
 /**
  * Jackson {@link JsonSerializer} and Jackson {@link JsonDeserializer} classes for {@link License}.
@@ -68,7 +67,7 @@ public class LicenseSerde {
     @Override
     public License deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
       if (jp.getCurrentToken() == JsonToken.VALUE_STRING) {
-        if (Strings.isNullOrEmpty(jp.getText())) {
+        if (StringUtils.isEmpty(jp.getText())) {
           return License.UNSPECIFIED;
         }
         // first, try by url

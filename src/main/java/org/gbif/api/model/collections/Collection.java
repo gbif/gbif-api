@@ -16,14 +16,27 @@
 package org.gbif.api.model.collections;
 
 import org.gbif.api.model.common.DOI;
-import org.gbif.api.model.registry.*;
+import org.gbif.api.model.registry.Identifiable;
+import org.gbif.api.model.registry.Identifier;
+import org.gbif.api.model.registry.LenientEquals;
+import org.gbif.api.model.registry.MachineTag;
+import org.gbif.api.model.registry.MachineTaggable;
+import org.gbif.api.model.registry.Tag;
+import org.gbif.api.model.registry.Taggable;
 import org.gbif.api.util.HttpURI;
 import org.gbif.api.vocabulary.collections.AccessionStatus;
 import org.gbif.api.vocabulary.collections.CollectionContentType;
 import org.gbif.api.vocabulary.collections.PreservationType;
 
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.validation.Valid;
@@ -35,6 +48,7 @@ import javax.validation.constraints.Size;
  * Types of collections can be: specimens, original artwork, archives, observations, library materials,
  * datasets, photographs or mixed collections such as those that result from expeditions and voyages of discovery.
  */
+@SuppressWarnings("unused")
 public class Collection implements CollectionEntity, Contactable, Taggable, MachineTaggable, Identifiable, LenientEquals<Collection> {
 
   private UUID key;

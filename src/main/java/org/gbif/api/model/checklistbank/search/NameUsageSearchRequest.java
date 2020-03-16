@@ -17,20 +17,29 @@ package org.gbif.api.model.checklistbank.search;
 
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.FacetedSearchRequest;
-import org.gbif.api.vocabulary.*;
+import org.gbif.api.vocabulary.Habitat;
+import org.gbif.api.vocabulary.NameUsageIssue;
+import org.gbif.api.vocabulary.NomenclaturalStatus;
+import org.gbif.api.vocabulary.Origin;
+import org.gbif.api.vocabulary.Rank;
+import org.gbif.api.vocabulary.TaxonomicStatus;
+import org.gbif.api.vocabulary.ThreatStatus;
 
 import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.collect.Sets;
 
-import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.*;
+import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.DESCRIPTION;
+import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.SCIENTIFIC;
+import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.VERNACULAR;
 
 /**
  * A name usage specific search request with convenience methods to add enum based search filters.
  * By default the query q is send to all available query fields.
  * Highlighting by default works for descriptions and vernacular names - if turned on.
  */
+@SuppressWarnings("unused")
 public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearchParameter> {
   private boolean extended = true;
   private Set<QueryField> queryFields = Sets.newHashSet(SCIENTIFIC, DESCRIPTION, VERNACULAR);

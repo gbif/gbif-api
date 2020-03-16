@@ -21,8 +21,8 @@ import org.gbif.api.vocabulary.PreservationMethodType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.base.Objects;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Collection data for the Dataset.
@@ -142,38 +142,35 @@ public class Collection implements Serializable {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof Collection)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    final Collection other = (Collection) obj;
-    return Objects.equal(this.name, other.name)
-           && Objects.equal(this.identifier, other.identifier)
-           && Objects.equal(this.parentIdentifier, other.parentIdentifier)
-           && Objects.equal(this.specimenPreservationMethod, other.specimenPreservationMethod)
-           && Objects.equal(this.curatorialUnits, other.curatorialUnits);
+    Collection that = (Collection) o;
+    return Objects.equals(name, that.name) &&
+      Objects.equals(identifier, that.identifier) &&
+      Objects.equals(parentIdentifier, that.parentIdentifier) &&
+      specimenPreservationMethod == that.specimenPreservationMethod &&
+      Objects.equals(curatorialUnits, that.curatorialUnits);
   }
 
   @Override
   public int hashCode() {
     return Objects
-      .hashCode(name, identifier, parentIdentifier, specimenPreservationMethod,
-        curatorialUnits);
+      .hash(name, identifier, parentIdentifier, specimenPreservationMethod, curatorialUnits);
   }
 
   @Override
   public String toString() {
-    return "Collection{" +
-           "name='" + name + '\'' +
-           ", identifier='" + identifier + '\'' +
-           ", parentIdentifier='" + parentIdentifier + '\'' +
-           ", specimenPreservationMethod=" + specimenPreservationMethod +
-           ", curatorialUnits=" + curatorialUnits +
-           '}';
+    return new StringJoiner(", ", Collection.class.getSimpleName() + "[", "]")
+      .add("name='" + name + "'")
+      .add("identifier='" + identifier + "'")
+      .add("parentIdentifier='" + parentIdentifier + "'")
+      .add("specimenPreservationMethod=" + specimenPreservationMethod)
+      .add("curatorialUnits=" + curatorialUnits)
+      .toString();
   }
-
 }

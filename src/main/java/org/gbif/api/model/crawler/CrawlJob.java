@@ -18,7 +18,10 @@ package org.gbif.api.model.crawler;
 import org.gbif.api.vocabulary.EndpointType;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -29,11 +32,7 @@ import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.ImmutableMap;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
 /**
  * This class represents a job to be worked on by a crawler. That can be either one of the XML based protocols
@@ -43,13 +42,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 @Immutable
 @ThreadSafe
+@SuppressWarnings("unused")
 public class CrawlJob {
 
   private final UUID datasetKey;
   private final EndpointType endpointType;
   private final URI targetUrl;
   private final int attempt;
-  private final ImmutableMap<String, String> properties;
+  private final Map<String, String> properties;
 
   /**
    * Creates a new crawl job.
@@ -69,16 +69,16 @@ public class CrawlJob {
     @JsonProperty("attempt") int attempt,
     @Nullable @JsonProperty("properties") Map<String, String> properties
   ) {
-    this.datasetKey = checkNotNull(datasetKey);
-    this.endpointType = checkNotNull(endpointType);
-    this.targetUrl = checkNotNull(targetUrl);
+    this.datasetKey = Objects.requireNonNull(datasetKey);
+    this.endpointType = Objects.requireNonNull(endpointType);
+    this.targetUrl = Objects.requireNonNull(targetUrl);
     checkArgument(attempt > 0, "attempt has to be greater than 0");
     this.attempt = attempt;
 
     if (properties == null) {
-      this.properties = ImmutableMap.of();
+      this.properties = Collections.emptyMap();
     } else {
-      this.properties = ImmutableMap.copyOf(properties);
+      this.properties = Collections.unmodifiableMap(properties);
     }
   }
 
@@ -98,7 +98,7 @@ public class CrawlJob {
     this.attempt = attempt;
     this.endpointType = endpointType;
     this.targetUrl = targetUrl;
-    this.properties = ImmutableMap.of();
+    this.properties = Collections.emptyMap();
   }
 
   public UUID getDatasetKey() {
@@ -133,36 +133,34 @@ public class CrawlJob {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof CrawlJob)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    final CrawlJob other = (CrawlJob) obj;
-    return Objects.equal(this.datasetKey, other.datasetKey)
-      && Objects.equal(this.endpointType, other.endpointType)
-      && Objects.equal(this.targetUrl, other.targetUrl)
-      && Objects.equal(this.attempt, other.attempt)
-      && Objects.equal(this.properties, other.properties);
+    CrawlJob crawlJob = (CrawlJob) o;
+    return attempt == crawlJob.attempt &&
+      Objects.equals(datasetKey, crawlJob.datasetKey) &&
+      endpointType == crawlJob.endpointType &&
+      Objects.equals(targetUrl, crawlJob.targetUrl) &&
+      Objects.equals(properties, crawlJob.properties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(datasetKey, endpointType, targetUrl, attempt, properties);
+    return Objects.hash(datasetKey, endpointType, targetUrl, attempt, properties);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("datasetKey", datasetKey)
-      .add("endpointType", endpointType)
-      .add("targetUrl", targetUrl)
-      .add("attempt", attempt)
-      .add("properties", properties)
+    return new StringJoiner(", ", CrawlJob.class.getSimpleName() + "[", "]")
+      .add("datasetKey=" + datasetKey)
+      .add("endpointType=" + endpointType)
+      .add("targetUrl=" + targetUrl)
+      .add("attempt=" + attempt)
+      .add("properties=" + properties)
       .toString();
   }
-
 }

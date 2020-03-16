@@ -18,6 +18,8 @@ package org.gbif.api.model.registry;
 import org.gbif.api.vocabulary.Language;
 
 import java.net.URI;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -27,9 +29,6 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.junit.Test;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 import static org.junit.Assert.assertTrue;
 
@@ -42,7 +41,7 @@ public class OrganizationTest {
 
     Organization org = new Organization();
     org.setTitle("a");  // too short
-    org.setHomepage(Lists.newArrayList(URI.create("www.gbif.org"))); // doesn't start with http or https
+    org.setHomepage(Collections.singletonList(URI.create("www.gbif.org"))); // doesn't start with http or https
     org.setLogoUrl(URI.create("file:///tmp/aha")); // bad http URI
 
     // perform validation
@@ -50,7 +49,10 @@ public class OrganizationTest {
     assertTrue("Violations were expected", !violations.isEmpty());
 
     // ensure all expected properties are caught
-    Set<String> propertiesInViolation = Sets.newHashSet("title", "logoUrl");
+    Set<String> propertiesInViolation = new HashSet<>();
+    propertiesInViolation.add("title");
+    propertiesInViolation.add("logoUrl");
+
     for (ConstraintViolation<?> cv : violations) {
       propertiesInViolation.remove(cv.getPropertyPath().toString());
     }
@@ -58,7 +60,7 @@ public class OrganizationTest {
 
     // fix validation problems
     org.setTitle("Academy of Natural Sciences");
-    org.setHomepage(Lists.newArrayList(URI.create("http://www.gbif.org")));
+    org.setHomepage(Collections.singletonList(URI.create("http://www.gbif.org")));
     org.setLogoUrl(URI.create("http://www.gbif.org/logo.png"));
     org.setLanguage(Language.ENGLISH);
     org.setEndorsingNodeKey(UUID.randomUUID());

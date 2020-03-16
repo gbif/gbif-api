@@ -24,30 +24,30 @@ import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.TermFactory;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonAnyGetter;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-
+@SuppressWarnings("unused")
 public class VerbatimNameUsage {
+
   private Integer key;
   // the verbatim taxon fields for the usage
-  private Map<Term, String> fields = Maps.newHashMap();
+  private Map<Term, String> fields = new HashMap<>();
   // the verbatim extension records as read by a dwc star record, keyed on the extension
-  private Map<Extension, List<Map<Term, String>>> extensions = Maps.newHashMap();
+  private Map<Extension, List<Map<Term, String>>> extensions = new HashMap<>();
 
   private Date lastCrawled;
 
@@ -90,10 +90,10 @@ public class VerbatimNameUsage {
     this.fields = fields;
   }
 
-  @Nullable
   /**
    * The date this record was last crawled during clb indexing.
    */
+  @Nullable
   public Date getLastCrawled() {
     return lastCrawled == null ? null : new Date(lastCrawled.getTime());
   }
@@ -107,7 +107,7 @@ public class VerbatimNameUsage {
    */
   @Nullable
   public String getCoreField(Term term) {
-    checkNotNull(term, "term can't be null");
+    Objects.requireNonNull(term, "term can't be null");
     return fields.get(term);
   }
 
@@ -115,8 +115,8 @@ public class VerbatimNameUsage {
    * @return true if a verbatim field exists and is not null or an empty string
    */
   public boolean hasCoreField(Term term) {
-    checkNotNull(term, "term can't be null");
-    return !Strings.isNullOrEmpty(fields.get(term));
+    Objects.requireNonNull(term, "term can't be null");
+    return StringUtils.isNotEmpty(fields.get(term));
   }
 
   /**
@@ -127,9 +127,10 @@ public class VerbatimNameUsage {
   }
 
   public boolean hasExtension(Term term) {
-    checkNotNull(term, "term can't be null");
+    Objects.requireNonNull(term, "term can't be null");
     Extension ext = Extension.fromRowType(term.qualifiedName());
-    return ext == null ? false : hasExtension(ext);
+
+    return ext != null && hasExtension(ext);
   }
 
   /**
@@ -139,7 +140,7 @@ public class VerbatimNameUsage {
    * @param fieldValue the field's value
    */
   public void setCoreField(Term term, @Nullable String fieldValue) {
-    checkNotNull(term, "term can't be null");
+    Objects.requireNonNull(term, "term can't be null");
     fields.put(term, fieldValue);
   }
 
@@ -158,48 +159,40 @@ public class VerbatimNameUsage {
    */
   @JsonAnyGetter
   private Map<String, String> jsonVerbatimFields() {
-    Map<String, String> extendedProps = Maps.newHashMap();
+    Map<String, String> extendedProps = new HashMap<>();
     for (Map.Entry<Term, String> prop : fields.entrySet()) {
       extendedProps.put(prop.getKey().qualifiedName(), prop.getValue());
     }
     return extendedProps;
   }
 
-
-
-
   @Override
-  public boolean equals(Object object) {
-    if (this == object) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(object instanceof VerbatimNameUsage)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    VerbatimNameUsage that = (VerbatimNameUsage) object;
-    return Objects.equal(this.key, that.key)
-           && Objects.equal(this.fields, that.fields)
-           && Objects.equal(this.extensions, that.extensions)
-           && Objects.equal(this.lastCrawled, that.lastCrawled);
+    VerbatimNameUsage that = (VerbatimNameUsage) o;
+    return Objects.equals(key, that.key) &&
+      Objects.equals(fields, that.fields) &&
+      Objects.equals(extensions, that.extensions) &&
+      Objects.equals(lastCrawled, that.lastCrawled);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(key,
-                            fields,
-                            extensions,
-                            lastCrawled);
+    return Objects.hash(key, fields, extensions, lastCrawled);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("fields", fields)
-      .add("extensions", extensions)
-      .add("lastCrawled", lastCrawled)
+    return new StringJoiner(", ", VerbatimNameUsage.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("fields=" + fields)
+      .add("extensions=" + extensions)
+      .add("lastCrawled=" + lastCrawled)
       .toString();
   }
-
 }

@@ -17,11 +17,10 @@ package org.gbif.api.model.registry.eml;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
-
-import com.google.common.base.Objects;
-import com.google.common.collect.Sets;
-
+import java.util.StringJoiner;
 
 /**
  * Allows a collection of keywords which may declare a thesaurus from which they come from.
@@ -32,7 +31,7 @@ public class KeywordCollection implements Serializable, Keywords {
 
   private String thesaurus;
 
-  private Set<String> keywords = Sets.newHashSet();
+  private Set<String> keywords = new HashSet<>();
 
   public KeywordCollection() {
   }
@@ -71,26 +70,28 @@ public class KeywordCollection implements Serializable, Keywords {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof KeywordCollection)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    KeywordCollection that = (KeywordCollection) obj;
-    return Objects.equal(this.thesaurus, that.thesaurus) && Objects.equal(this.keywords, that.keywords);
+    KeywordCollection that = (KeywordCollection) o;
+    return Objects.equals(thesaurus, that.thesaurus) &&
+      Objects.equals(keywords, that.keywords);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(thesaurus, keywords);
+    return Objects.hash(thesaurus, keywords);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("thesaurus", thesaurus).add("keywords", keywords).toString();
+    return new StringJoiner(", ", KeywordCollection.class.getSimpleName() + "[", "]")
+      .add("thesaurus='" + thesaurus + "'")
+      .add("keywords=" + keywords)
+      .toString();
   }
-
 }

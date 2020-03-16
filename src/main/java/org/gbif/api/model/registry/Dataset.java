@@ -36,8 +36,11 @@ import org.gbif.api.vocabulary.MaintenanceUpdateFrequency;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -45,9 +48,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import com.google.common.base.Objects;
-import com.google.common.collect.Sets;
 
 /**
  * A GBIF dataset which provides occurrence data, checklist data, sampling event data or metadata.
@@ -132,7 +132,7 @@ public class Dataset
   private List<KeywordCollection> keywordCollections = new ArrayList<>();
   private Project project;
   private SamplingDescription samplingDescription;
-  private Set<Country> countryCoverage = Sets.newHashSet();
+  private Set<Country> countryCoverage = new HashSet<>();
   private List<Collection> collections = new ArrayList<>();
   private List<DataDescription> dataDescriptions = new ArrayList<>();
   private Language dataLanguage;
@@ -742,99 +742,136 @@ public class Dataset
   }
 
   @Override
-  public int hashCode() {
-    return Objects
-      .hashCode(key, doi, version, parentDatasetKey, duplicateOfDatasetKey, installationKey, publishingOrganizationKey, external,
-        numConstituents, type, subtype, title, alias, abbreviation, description, language, homepage, logoUrl, citation,
-        rights, lockedForAutoUpdate, createdBy, modifiedBy, created, modified, deleted, contacts, endpoints,
-        machineTags, tags, identifiers, comments, bibliographicCitations, curatorialUnits, taxonomicCoverages,
-        geographicCoverageDescription, geographicCoverages, temporalCoverages, keywordCollections, project,
-        samplingDescription, countryCoverage, collections, dataDescriptions, dataLanguage, purpose, additionalInfo,
-        pubDate, maintenanceUpdateFrequency, maintenanceDescription, license);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Dataset dataset = (Dataset) o;
+    return external == dataset.external &&
+      numConstituents == dataset.numConstituents &&
+      lockedForAutoUpdate == dataset.lockedForAutoUpdate &&
+      Objects.equals(key, dataset.key) &&
+      Objects.equals(parentDatasetKey, dataset.parentDatasetKey) &&
+      Objects.equals(duplicateOfDatasetKey, dataset.duplicateOfDatasetKey) &&
+      Objects.equals(installationKey, dataset.installationKey) &&
+      Objects.equals(publishingOrganizationKey, dataset.publishingOrganizationKey) &&
+      Objects.equals(doi, dataset.doi) &&
+      Objects.equals(version, dataset.version) &&
+      type == dataset.type &&
+      subtype == dataset.subtype &&
+      Objects.equals(title, dataset.title) &&
+      Objects.equals(alias, dataset.alias) &&
+      Objects.equals(abbreviation, dataset.abbreviation) &&
+      Objects.equals(description, dataset.description) &&
+      language == dataset.language &&
+      Objects.equals(homepage, dataset.homepage) &&
+      Objects.equals(logoUrl, dataset.logoUrl) &&
+      Objects.equals(citation, dataset.citation) &&
+      Objects.equals(rights, dataset.rights) &&
+      Objects.equals(createdBy, dataset.createdBy) &&
+      Objects.equals(modifiedBy, dataset.modifiedBy) &&
+      Objects.equals(created, dataset.created) &&
+      Objects.equals(modified, dataset.modified) &&
+      Objects.equals(deleted, dataset.deleted) &&
+      Objects.equals(contacts, dataset.contacts) &&
+      Objects.equals(endpoints, dataset.endpoints) &&
+      Objects.equals(machineTags, dataset.machineTags) &&
+      Objects.equals(tags, dataset.tags) &&
+      Objects.equals(identifiers, dataset.identifiers) &&
+      Objects.equals(comments, dataset.comments) &&
+      Objects.equals(bibliographicCitations, dataset.bibliographicCitations) &&
+      Objects.equals(curatorialUnits, dataset.curatorialUnits) &&
+      Objects.equals(taxonomicCoverages, dataset.taxonomicCoverages) &&
+      Objects.equals(geographicCoverageDescription, dataset.geographicCoverageDescription)
+      &&
+      Objects.equals(geographicCoverages, dataset.geographicCoverages) &&
+      Objects.equals(temporalCoverages, dataset.temporalCoverages) &&
+      Objects.equals(keywordCollections, dataset.keywordCollections) &&
+      Objects.equals(project, dataset.project) &&
+      Objects.equals(samplingDescription, dataset.samplingDescription) &&
+      Objects.equals(countryCoverage, dataset.countryCoverage) &&
+      Objects.equals(collections, dataset.collections) &&
+      Objects.equals(dataDescriptions, dataset.dataDescriptions) &&
+      dataLanguage == dataset.dataLanguage &&
+      Objects.equals(purpose, dataset.purpose) &&
+      Objects.equals(additionalInfo, dataset.additionalInfo) &&
+      Objects.equals(pubDate, dataset.pubDate) &&
+      maintenanceUpdateFrequency == dataset.maintenanceUpdateFrequency &&
+      Objects.equals(maintenanceDescription, dataset.maintenanceDescription) &&
+      license == dataset.license;
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (object instanceof Dataset) {
-      Dataset that = (Dataset) object;
-      return Objects.equal(this.key, that.key)
-             && Objects.equal(this.doi, that.doi)
-             && Objects.equal(this.parentDatasetKey, that.parentDatasetKey)
-             && Objects.equal(this.duplicateOfDatasetKey, that.duplicateOfDatasetKey)
-             && Objects.equal(this.version, that.version)
-             && Objects.equal(this.installationKey, that.installationKey)
-             && Objects.equal(this.publishingOrganizationKey, that.publishingOrganizationKey)
-             && Objects.equal(this.external, that.external)
-             && Objects.equal(this.numConstituents, that.numConstituents)
-             && Objects.equal(this.type, that.type)
-             && Objects.equal(this.subtype, that.subtype)
-             && Objects.equal(this.title, that.title)
-             && Objects.equal(this.alias, that.alias)
-             && Objects.equal(this.abbreviation, that.abbreviation)
-             && Objects.equal(this.description, that.description)
-             && Objects.equal(this.language, that.language)
-             && Objects.equal(this.homepage, that.homepage)
-             && Objects.equal(this.logoUrl, that.logoUrl)
-             && Objects.equal(this.citation, that.citation)
-             && Objects.equal(this.rights, that.rights)
-             && Objects.equal(this.lockedForAutoUpdate, that.lockedForAutoUpdate)
-             && Objects.equal(this.createdBy, that.createdBy)
-             && Objects.equal(this.modifiedBy, that.modifiedBy)
-             && Objects.equal(this.created, that.created)
-             && Objects.equal(this.modified, that.modified)
-             && Objects.equal(this.deleted, that.deleted)
-             && Objects.equal(this.contacts, that.contacts)
-             && Objects.equal(this.endpoints, that.endpoints)
-             && Objects.equal(this.machineTags, that.machineTags)
-             && Objects.equal(this.tags, that.tags)
-             && Objects.equal(this.identifiers, that.identifiers)
-             && Objects.equal(this.comments, that.comments)
-             && Objects.equal(this.bibliographicCitations, that.bibliographicCitations)
-             && Objects.equal(this.curatorialUnits, that.curatorialUnits)
-             && Objects.equal(this.taxonomicCoverages, that.taxonomicCoverages)
-             && Objects.equal(this.geographicCoverageDescription, that.geographicCoverageDescription)
-             && Objects.equal(this.geographicCoverages, that.geographicCoverages)
-             && Objects.equal(this.temporalCoverages, that.temporalCoverages)
-             && Objects.equal(this.keywordCollections, that.keywordCollections)
-             && Objects.equal(this.project, that.project)
-             && Objects.equal(this.samplingDescription, that.samplingDescription)
-             && Objects.equal(this.countryCoverage, that.countryCoverage)
-             && Objects.equal(this.collections, that.collections)
-             && Objects.equal(this.dataDescriptions, that.dataDescriptions)
-             && Objects.equal(this.dataLanguage, that.dataLanguage)
-             && Objects.equal(this.purpose, that.purpose)
-             && Objects.equal(this.additionalInfo, that.additionalInfo)
-             && Objects.equal(this.pubDate, that.pubDate)
-             && Objects.equal(this.maintenanceUpdateFrequency, that.maintenanceUpdateFrequency)
-             && Objects.equal(this.maintenanceDescription, that.maintenanceDescription)
-             && Objects.equal(this.license, that.license);
-    }
-    return false;
+  public int hashCode() {
+    return Objects.hash(key, parentDatasetKey, duplicateOfDatasetKey, installationKey,
+      publishingOrganizationKey, doi, version, external, numConstituents, type, subtype, title,
+      alias, abbreviation, description, language, homepage, logoUrl, citation, rights,
+      lockedForAutoUpdate, createdBy, modifiedBy, created, modified, deleted, contacts, endpoints,
+      machineTags, tags, identifiers, comments, bibliographicCitations, curatorialUnits,
+      taxonomicCoverages, geographicCoverageDescription, geographicCoverages, temporalCoverages,
+      keywordCollections, project, samplingDescription, countryCoverage, collections,
+      dataDescriptions, dataLanguage, purpose, additionalInfo, pubDate, maintenanceUpdateFrequency,
+      maintenanceDescription, license);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key).add("doi", doi).add("version", version).add("parentDatasetKey", parentDatasetKey)
-      .add("duplicateOfDatasetKey", duplicateOfDatasetKey).add("installationKey", installationKey)
-      .add("publishingOrganizationKey", publishingOrganizationKey).add("numConstituents", numConstituents).add("type",
-        type)
-      .add("subtype", subtype).add("title", title).add("alias", alias).add("abbreviation", abbreviation)
-      .add("description", description).add("language", language).add("homepage", homepage).add("logoUrl", logoUrl)
-      .add("citation", citation).add("rights", rights).add("lockedForAutoUpdate", lockedForAutoUpdate)
-      .add("createdBy", createdBy).add("modifiedBy", modifiedBy).add("created", created).add("modified", modified)
-      .add("deleted", deleted).add("contacts", contacts).add("endpoints", endpoints).add("machineTags", machineTags)
-      .add("tags", tags).add("identifiers", identifiers).add("comments", comments)
-      .add("bibliographicCitations", bibliographicCitations).add("curatorialUnits", curatorialUnits)
-      .add("taxonomicCoverages", taxonomicCoverages)
-      .add("geographicCoverageDescription", geographicCoverageDescription)
-      .add("geographicCoverages", geographicCoverages).add("temporalCoverages", temporalCoverages)
-      .add("keywordCollections", keywordCollections).add("project", project)
-      .add("samplingDescription", samplingDescription).add("countryCoverage", countryCoverage)
-      .add("collections", collections).add("dataDescriptions", dataDescriptions).add("dataLanguage", dataLanguage)
-      .add("purpose", purpose).add("additionalInfo", additionalInfo).add("pubDate", pubDate)
-      .add("maintenanceUpdateFrequency", maintenanceUpdateFrequency)
-      .add("maintenanceDescription", maintenanceDescription).add("license", license).toString();
+    return new StringJoiner(", ", Dataset.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("parentDatasetKey=" + parentDatasetKey)
+      .add("duplicateOfDatasetKey=" + duplicateOfDatasetKey)
+      .add("installationKey=" + installationKey)
+      .add("publishingOrganizationKey=" + publishingOrganizationKey)
+      .add("doi=" + doi)
+      .add("version='" + version + "'")
+      .add("external=" + external)
+      .add("numConstituents=" + numConstituents)
+      .add("type=" + type)
+      .add("subtype=" + subtype)
+      .add("title='" + title + "'")
+      .add("alias='" + alias + "'")
+      .add("abbreviation='" + abbreviation + "'")
+      .add("description='" + description + "'")
+      .add("language=" + language)
+      .add("homepage=" + homepage)
+      .add("logoUrl=" + logoUrl)
+      .add("citation=" + citation)
+      .add("rights='" + rights + "'")
+      .add("lockedForAutoUpdate=" + lockedForAutoUpdate)
+      .add("createdBy='" + createdBy + "'")
+      .add("modifiedBy='" + modifiedBy + "'")
+      .add("created=" + created)
+      .add("modified=" + modified)
+      .add("deleted=" + deleted)
+      .add("contacts=" + contacts)
+      .add("endpoints=" + endpoints)
+      .add("machineTags=" + machineTags)
+      .add("tags=" + tags)
+      .add("identifiers=" + identifiers)
+      .add("comments=" + comments)
+      .add("bibliographicCitations=" + bibliographicCitations)
+      .add("curatorialUnits=" + curatorialUnits)
+      .add("taxonomicCoverages=" + taxonomicCoverages)
+      .add("geographicCoverageDescription='" + geographicCoverageDescription + "'")
+      .add("geographicCoverages=" + geographicCoverages)
+      .add("temporalCoverages=" + temporalCoverages)
+      .add("keywordCollections=" + keywordCollections)
+      .add("project=" + project)
+      .add("samplingDescription=" + samplingDescription)
+      .add("countryCoverage=" + countryCoverage)
+      .add("collections=" + collections)
+      .add("dataDescriptions=" + dataDescriptions)
+      .add("dataLanguage=" + dataLanguage)
+      .add("purpose='" + purpose + "'")
+      .add("additionalInfo='" + additionalInfo + "'")
+      .add("pubDate=" + pubDate)
+      .add("maintenanceUpdateFrequency=" + maintenanceUpdateFrequency)
+      .add("maintenanceDescription='" + maintenanceDescription + "'")
+      .add("license=" + license)
+      .toString();
   }
 
   /**
@@ -846,26 +883,26 @@ public class Dataset
     if (this == other) {
       return true;
     }
-    return Objects.equal(this.parentDatasetKey, other.parentDatasetKey)
-      && Objects.equal(this.duplicateOfDatasetKey, other.duplicateOfDatasetKey)
-      && Objects.equal(this.installationKey, other.installationKey)
-      && Objects.equal(this.publishingOrganizationKey, other.publishingOrganizationKey)
-      && Objects.equal(this.doi, other.doi)
-      && Objects.equal(this.external, other.external)
-      && Objects.equal(this.type, other.type)
-      && Objects.equal(this.subtype, other.subtype)
-      && Objects.equal(this.title, other.title)
-      && Objects.equal(this.alias, other.alias)
-      && Objects.equal(this.abbreviation, other.abbreviation)
-      && Objects.equal(this.description, other.description)
-      && Objects.equal(this.language, other.language)
-      && Objects.equal(this.homepage, other.homepage)
-      && Objects.equal(this.logoUrl, other.logoUrl)
-      && Objects.equal(this.citation, other.citation)
-      && Objects.equal(this.rights, other.rights)
-      && Objects.equal(this.lockedForAutoUpdate, other.lockedForAutoUpdate)
-      && Objects.equal(this.deleted, other.deleted)
-      && Objects.equal(this.maintenanceUpdateFrequency, other.maintenanceUpdateFrequency)
-      && Objects.equal(this.maintenanceDescription, other.maintenanceDescription);
+    return Objects.equals(this.parentDatasetKey, other.parentDatasetKey)
+      && Objects.equals(this.duplicateOfDatasetKey, other.duplicateOfDatasetKey)
+      && Objects.equals(this.installationKey, other.installationKey)
+      && Objects.equals(this.publishingOrganizationKey, other.publishingOrganizationKey)
+      && Objects.equals(this.doi, other.doi)
+      && Objects.equals(this.external, other.external)
+      && Objects.equals(this.type, other.type)
+      && Objects.equals(this.subtype, other.subtype)
+      && Objects.equals(this.title, other.title)
+      && Objects.equals(this.alias, other.alias)
+      && Objects.equals(this.abbreviation, other.abbreviation)
+      && Objects.equals(this.description, other.description)
+      && Objects.equals(this.language, other.language)
+      && Objects.equals(this.homepage, other.homepage)
+      && Objects.equals(this.logoUrl, other.logoUrl)
+      && Objects.equals(this.citation, other.citation)
+      && Objects.equals(this.rights, other.rights)
+      && Objects.equals(this.lockedForAutoUpdate, other.lockedForAutoUpdate)
+      && Objects.equals(this.deleted, other.deleted)
+      && Objects.equals(this.maintenanceUpdateFrequency, other.maintenanceUpdateFrequency)
+      && Objects.equals(this.maintenanceDescription, other.maintenanceDescription);
   }
 }

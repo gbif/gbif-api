@@ -15,7 +15,7 @@
  */
 package org.gbif.api.model.common.messaging;
 
-import com.google.common.base.Objects;
+import java.util.StringJoiner;
 
 public class Response<T> {
 
@@ -156,13 +156,13 @@ public class Response<T> {
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("messageKey", messageKey)
-      .add("message", message)
-      .add("status", status)
-      .add("statusCode", statusCode)
-      .add("content", content)
-      .add("rootException", rootException)
+    return new StringJoiner(", ", Response.class.getSimpleName() + "[", "]")
+      .add("messageKey='" + messageKey + "'")
+      .add("message='" + message + "'")
+      .add("status=" + status)
+      .add("statusCode=" + statusCode)
+      .add("content=" + content)
+      .add("rootException=" + rootException)
       .toString();
   }
 
@@ -324,7 +324,5 @@ public class Response<T> {
       this.statusCode = statusCode;
       return this;
     }
-
   }
-
 }

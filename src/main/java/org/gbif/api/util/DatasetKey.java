@@ -15,10 +15,10 @@
  */
 package org.gbif.api.util;
 
+import java.util.Objects;
 import java.util.UUID;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A typed dataset key for both registered and external datasets.
@@ -47,7 +47,7 @@ public class DatasetKey {
    * @throws IllegalArgumentException for invalid external or registered dataset keys
    */
   public static DatasetKey fromString(String key) {
-    Preconditions.checkNotNull(key);
+    Objects.requireNonNull(key);
     if (key.length() == UUID_LENGTH) {
       // a registered dataset key
       return new DatasetKey(UUID.fromString(key));
@@ -65,7 +65,7 @@ public class DatasetKey {
    * Constructor for a registered dataset key.
    */
   public DatasetKey(UUID datasetKey) {
-    this.registryKey = Preconditions.checkNotNull(datasetKey);
+    this.registryKey = Objects.requireNonNull(datasetKey);
     this.datasetId = null;
   }
 
@@ -76,9 +76,9 @@ public class DatasetKey {
    * @param datasetId  the local dataset id within the network
    */
   public DatasetKey(UUID networkKey, String datasetId) {
-    this.registryKey = Preconditions.checkNotNull(networkKey);
+    this.registryKey = Objects.requireNonNull(networkKey);
     this.datasetId = datasetId.trim();
-    if (Strings.isNullOrEmpty(this.datasetId)) {
+    if (StringUtils.isEmpty(this.datasetId)) {
       throw new IllegalArgumentException("datasetId has to have non whitespace characters");
     }
   }

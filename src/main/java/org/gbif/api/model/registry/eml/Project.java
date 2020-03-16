@@ -20,11 +20,10 @@ import org.gbif.api.model.registry.Contact;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
-
-import com.google.common.base.Objects;
-
 
 /**
  * A dataset can be part of a project. A project can have a unique identifier, used to link datasets associated with
@@ -141,42 +140,42 @@ public class Project implements Serializable {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof Project)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    Project that = (Project) obj;
-    return Objects.equal(this.title, that.title)
-           && Objects.equal(this.identifier, that.identifier)
-           && Objects.equal(this.description, that.description)
-           && Objects.equal(this.contacts, that.contacts)
-           && Objects.equal(this.abstract_, that.abstract_)
-           && Objects.equal(this.funding, that.funding)
-           && Objects.equal(this.studyAreaDescription, that.studyAreaDescription)
-           && Objects.equal(this.designDescription, that.designDescription);
+    Project project = (Project) o;
+    return Objects.equals(title, project.title) &&
+      Objects.equals(identifier, project.identifier) &&
+      Objects.equals(description, project.description) &&
+      Objects.equals(contacts, project.contacts) &&
+      Objects.equals(abstract_, project.abstract_) &&
+      Objects.equals(funding, project.funding) &&
+      Objects.equals(studyAreaDescription, project.studyAreaDescription) &&
+      Objects.equals(designDescription, project.designDescription);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(title, identifier, contacts, abstract_, funding, studyAreaDescription, designDescription);
+    return Objects
+      .hash(title, identifier, description, contacts, abstract_, funding, studyAreaDescription,
+        designDescription);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("title", title)
-      .add("identifier", identifier)
-      .add("description", description)
-      .add("contacts", contacts)
-      .add("abstract", abstract_)
-      .add("funding", funding)
-      .add("studyAreaDescription", studyAreaDescription)
-      .add("designDescription", designDescription)
+    return new StringJoiner(", ", Project.class.getSimpleName() + "[", "]")
+      .add("title='" + title + "'")
+      .add("identifier='" + identifier + "'")
+      .add("description='" + description + "'")
+      .add("contacts=" + contacts)
+      .add("abstract_='" + abstract_ + "'")
+      .add("funding='" + funding + "'")
+      .add("studyAreaDescription='" + studyAreaDescription + "'")
+      .add("designDescription='" + designDescription + "'")
       .toString();
   }
-
 }

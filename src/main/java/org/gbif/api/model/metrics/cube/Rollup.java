@@ -17,8 +17,8 @@ package org.gbif.api.model.metrics.cube;
 
 import java.util.Arrays;
 import java.util.Set;
+import java.util.StringJoiner;
 
-import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableSet;
 
 /**
@@ -57,6 +57,8 @@ public class Rollup {
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("dimensions", dimensions).toString();
+    return new StringJoiner(", ", Rollup.class.getSimpleName() + "[", "]")
+      .add("dimensions=" + dimensions)
+      .toString();
   }
 }

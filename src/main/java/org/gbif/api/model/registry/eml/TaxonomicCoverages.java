@@ -18,8 +18,8 @@ package org.gbif.api.model.registry.eml;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.base.Objects;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 public class TaxonomicCoverages implements Serializable {
 
@@ -58,30 +58,28 @@ public class TaxonomicCoverages implements Serializable {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof TaxonomicCoverages)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    TaxonomicCoverages
-      that = (TaxonomicCoverages) obj;
-    return Objects.equal(this.description, that.description) && Objects.equal(this.coverages, that.coverages);
+    TaxonomicCoverages that = (TaxonomicCoverages) o;
+    return Objects.equals(description, that.description) &&
+      Objects.equals(coverages, that.coverages);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(description, coverages);
+    return Objects.hash(description, coverages);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("description", description)
-      .add("coverages", coverages)
+    return new StringJoiner(", ", TaxonomicCoverages.class.getSimpleName() + "[", "]")
+      .add("description='" + description + "'")
+      .add("coverages=" + coverages)
       .toString();
   }
-
 }

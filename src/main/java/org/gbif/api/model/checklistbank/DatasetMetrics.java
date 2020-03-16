@@ -23,7 +23,10 @@ import org.gbif.api.vocabulary.Origin;
 import org.gbif.api.vocabulary.Rank;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.validation.constraints.Max;
@@ -31,13 +34,11 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.Maps;
-
 /**
  * Simple metrics about a single, processed checklist dataset in time.
  * The created timestamp with the dataset key should be unique and can be used to create graphs over time.
  */
+@SuppressWarnings("unused")
 public class DatasetMetrics {
   private int key;
   private UUID datasetKey;
@@ -49,21 +50,21 @@ public class DatasetMetrics {
   private int nubCoveragePct;
   private int colCoveragePct;
   // breakdown by constituent
-  private Map<UUID, Integer> countByConstituent = Maps.newHashMap();
+  private Map<UUID, Integer> countByConstituent = new HashMap<>();
   // breakdown by kingdom
-  private Map<Kingdom, Integer> countByKingdom = Maps.newHashMap();
+  private Map<Kingdom, Integer> countByKingdom = new HashMap<>();
   // breakdown by rank
-  private Map<Rank, Integer> countByRank = Maps.newHashMap();
+  private Map<Rank, Integer> countByRank = new HashMap<>();
   // breakdown common names by language
-  private Map<Language, Integer> countNamesByLanguage = Maps.newHashMap();
+  private Map<Language, Integer> countNamesByLanguage = new HashMap<>();
   // number of extension records by extension
-  private Map<Extension, Integer> countExtRecordsByExtension = Maps.newHashMap();
+  private Map<Extension, Integer> countExtRecordsByExtension = new HashMap<>();
   // breakdown by kingdom
-  private Map<Origin, Integer> countByOrigin = Maps.newHashMap();
+  private Map<Origin, Integer> countByOrigin = new HashMap<>();
   // breakdown by issue
-  private Map<NameUsageIssue, Integer> countByIssue = Maps.newHashMap();
+  private Map<NameUsageIssue, Integer> countByIssue = new HashMap<>();
   // any other dynamic counts
-  private Map<String, Integer> otherCount = Maps.newHashMap();
+  private Map<String, Integer> otherCount = new HashMap<>();
   private Date created;
   private Date downloaded;
 
@@ -362,66 +363,67 @@ public class DatasetMetrics {
     return 0;
   }
 
-
   @Override
-  public boolean equals(Object object) {
-    if (this == object) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(object instanceof DatasetMetrics)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    DatasetMetrics that = (DatasetMetrics) object;
-    return  Objects.equal(this.key, that.key)
-           && Objects.equal(this.datasetKey, that.datasetKey)
-           && Objects.equal(this.usagesCount, that.usagesCount)
-           && Objects.equal(this.synonymsCount, that.synonymsCount)
-           && Objects.equal(this.distinctNamesCount, that.distinctNamesCount)
-           && Objects.equal(this.nubMatchingCount, that.nubMatchingCount)
-           && Objects.equal(this.colMatchingCount, that.colMatchingCount)
-           && Objects.equal(this.nubCoveragePct, that.nubCoveragePct)
-           && Objects.equal(this.colCoveragePct, that.colCoveragePct)
-           && Objects.equal(this.countByConstituent, that.countByConstituent)
-           && Objects.equal(this.countByKingdom, that.countByKingdom)
-           && Objects.equal(this.countByRank, that.countByRank)
-           && Objects.equal(this.countNamesByLanguage, that.countNamesByLanguage)
-           && Objects.equal(this.countExtRecordsByExtension, that.countExtRecordsByExtension)
-           && Objects.equal(this.countByOrigin, that.countByOrigin)
-           && Objects.equal(this.countByIssue, that.countByIssue)
-           && Objects.equal(this.otherCount, that.otherCount)
-           && Objects.equal(this.created, that.created)
-           && Objects.equal(this.downloaded, that.downloaded);
+    DatasetMetrics that = (DatasetMetrics) o;
+    return key == that.key &&
+      usagesCount == that.usagesCount &&
+      synonymsCount == that.synonymsCount &&
+      distinctNamesCount == that.distinctNamesCount &&
+      nubMatchingCount == that.nubMatchingCount &&
+      colMatchingCount == that.colMatchingCount &&
+      nubCoveragePct == that.nubCoveragePct &&
+      colCoveragePct == that.colCoveragePct &&
+      Objects.equals(datasetKey, that.datasetKey) &&
+      Objects.equals(countByConstituent, that.countByConstituent) &&
+      Objects.equals(countByKingdom, that.countByKingdom) &&
+      Objects.equals(countByRank, that.countByRank) &&
+      Objects.equals(countNamesByLanguage, that.countNamesByLanguage) &&
+      Objects.equals(countExtRecordsByExtension, that.countExtRecordsByExtension) &&
+      Objects.equals(countByOrigin, that.countByOrigin) &&
+      Objects.equals(countByIssue, that.countByIssue) &&
+      Objects.equals(otherCount, that.otherCount) &&
+      Objects.equals(created, that.created) &&
+      Objects.equals(downloaded, that.downloaded);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(key, datasetKey, usagesCount, synonymsCount, distinctNamesCount, nubMatchingCount,
-      colMatchingCount, nubCoveragePct, colCoveragePct, countByConstituent, countByKingdom, countByRank,
-      countNamesByLanguage, countExtRecordsByExtension, countByOrigin, countByIssue, otherCount, created, downloaded);
+    return Objects
+      .hash(key, datasetKey, usagesCount, synonymsCount, distinctNamesCount, nubMatchingCount,
+        colMatchingCount, nubCoveragePct, colCoveragePct, countByConstituent, countByKingdom,
+        countByRank, countNamesByLanguage, countExtRecordsByExtension, countByOrigin,
+        countByIssue, otherCount, created, downloaded);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("datasetKey", datasetKey)
-      .add("usagesCount", usagesCount)
-      .add("synonymsCount", synonymsCount)
-      .add("distinctNamesCount", distinctNamesCount)
-      .add("nubMatchingCount", nubMatchingCount)
-      .add("colMatchingCount", colMatchingCount)
-      .add("nubCoveragePct", nubCoveragePct)
-      .add("colCoveragePct", colCoveragePct)
-      .add("countByConstituent", countByConstituent)
-      .add("countByKingdom", countByKingdom)
-      .add("countByRank", countByRank)
-      .add("countNamesByLanguage", countNamesByLanguage)
-      .add("countExtRecordsByExtension", countExtRecordsByExtension)
-      .add("countByOrigin", countByOrigin)
-      .add("countByIssue", countByIssue)
-      .add("otherCount", otherCount)
-      .add("created", created)
-      .add("downloaded", downloaded)
+    return new StringJoiner(", ", DatasetMetrics.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("datasetKey=" + datasetKey)
+      .add("usagesCount=" + usagesCount)
+      .add("synonymsCount=" + synonymsCount)
+      .add("distinctNamesCount=" + distinctNamesCount)
+      .add("nubMatchingCount=" + nubMatchingCount)
+      .add("colMatchingCount=" + colMatchingCount)
+      .add("nubCoveragePct=" + nubCoveragePct)
+      .add("colCoveragePct=" + colCoveragePct)
+      .add("countByConstituent=" + countByConstituent)
+      .add("countByKingdom=" + countByKingdom)
+      .add("countByRank=" + countByRank)
+      .add("countNamesByLanguage=" + countNamesByLanguage)
+      .add("countExtRecordsByExtension=" + countExtRecordsByExtension)
+      .add("countByOrigin=" + countByOrigin)
+      .add("countByIssue=" + countByIssue)
+      .add("otherCount=" + otherCount)
+      .add("created=" + created)
+      .add("downloaded=" + downloaded)
       .toString();
   }
 }

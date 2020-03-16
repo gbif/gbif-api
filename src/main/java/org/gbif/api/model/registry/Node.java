@@ -26,13 +26,13 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import com.google.common.base.Objects;
 
 /**
  * A GBIF participant node.
@@ -392,90 +392,93 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
   }
 
   @Override
-  public int hashCode() {
-    return Objects
-      .hashCode(key, type, participationStatus, participantSince, dateSignedMOU, gbifRegion, continent, title, abbreviation,
-        description, email, phone, homepage, logoUrl,
-        organization, address, city, province, country, postalCode,
-        createdBy, modifiedBy, created, modified, deleted, contacts, endpoints, machineTags, tags, identifiers,
-        comments, participantTitle);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Node node = (Node) o;
+    return Objects.equals(key, node.key) &&
+      type == node.type &&
+      participationStatus == node.participationStatus &&
+      Objects.equals(participantSince, node.participantSince) &&
+      Objects.equals(dateSignedMOU, node.dateSignedMOU) &&
+      gbifRegion == node.gbifRegion &&
+      continent == node.continent &&
+      Objects.equals(title, node.title) &&
+      Objects.equals(participantTitle, node.participantTitle) &&
+      Objects.equals(abbreviation, node.abbreviation) &&
+      Objects.equals(description, node.description) &&
+      Objects.equals(email, node.email) &&
+      Objects.equals(phone, node.phone) &&
+      Objects.equals(homepage, node.homepage) &&
+      Objects.equals(logoUrl, node.logoUrl) &&
+      Objects.equals(organization, node.organization) &&
+      Objects.equals(address, node.address) &&
+      Objects.equals(city, node.city) &&
+      Objects.equals(province, node.province) &&
+      country == node.country &&
+      Objects.equals(postalCode, node.postalCode) &&
+      Objects.equals(createdBy, node.createdBy) &&
+      Objects.equals(modifiedBy, node.modifiedBy) &&
+      Objects.equals(created, node.created) &&
+      Objects.equals(modified, node.modified) &&
+      Objects.equals(deleted, node.deleted) &&
+      Objects.equals(contacts, node.contacts) &&
+      Objects.equals(endpoints, node.endpoints) &&
+      Objects.equals(machineTags, node.machineTags) &&
+      Objects.equals(tags, node.tags) &&
+      Objects.equals(identifiers, node.identifiers) &&
+      Objects.equals(comments, node.comments);
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (object instanceof Node) {
-      Node that = (Node) object;
-      return Objects.equal(this.key, that.key)
-        && Objects.equal(this.type, that.type)
-        && Objects.equal(this.participationStatus, that.participationStatus)
-        && Objects.equal(this.participantSince, that.participantSince)
-        && Objects.equal(this.dateSignedMOU, that.dateSignedMOU)
-        && Objects.equal(this.gbifRegion, that.gbifRegion)
-        && Objects.equal(this.continent, that.continent)
-        && Objects.equal(this.title, that.title)
-        && Objects.equal(this.participantTitle, that.participantTitle)
-        && Objects.equal(this.abbreviation, that.abbreviation)
-        && Objects.equal(this.description, that.description)
-        && Objects.equal(this.email, that.email)
-        && Objects.equal(this.phone, that.phone)
-        && Objects.equal(this.homepage, that.homepage)
-        && Objects.equal(this.logoUrl, that.logoUrl)
-        && Objects.equal(this.organization, that.organization)
-        && Objects.equal(this.address, that.address)
-        && Objects.equal(this.city, that.city)
-        && Objects.equal(this.province, that.province)
-        && Objects.equal(this.country, that.country)
-        && Objects.equal(this.postalCode, that.postalCode)
-        && Objects.equal(this.createdBy, that.createdBy)
-        && Objects.equal(this.modifiedBy, that.modifiedBy)
-        && Objects.equal(this.created, that.created)
-        && Objects.equal(this.modified, that.modified)
-        && Objects.equal(this.deleted, that.deleted)
-        && Objects.equal(this.contacts, that.contacts)
-        && Objects.equal(this.endpoints, that.endpoints)
-        && Objects.equal(this.machineTags, that.machineTags)
-        && Objects.equal(this.tags, that.tags)
-        && Objects.equal(this.identifiers, that.identifiers)
-        && Objects.equal(this.comments, that.comments);
-    }
-    return false;
+  public int hashCode() {
+    return Objects
+      .hash(key, type, participationStatus, participantSince, dateSignedMOU, gbifRegion, continent,
+        title, participantTitle, abbreviation, description, email, phone, homepage, logoUrl,
+        organization, address, city, province, country, postalCode, createdBy, modifiedBy,
+        created, modified, deleted, contacts, endpoints, machineTags, tags, identifiers,
+        comments);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("type", type)
-      .add("participationStatus", participationStatus)
-      .add("participantSince", participantSince)
-      .add("dateSignedMOU", dateSignedMOU)
-      .add("gbifRegion", gbifRegion)
-      .add("continent", continent)
-      .add("title", title)
-      .add("participantTitle", participantTitle)
-      .add("abbreviation", abbreviation)
-      .add("description", description)
-      .add("email", email)
-      .add("phone", phone)
-      .add("homepage", homepage)
-      .add("logoUrl", logoUrl)
-      .add("organization", organization)
-      .add("address", address)
-      .add("city", city)
-      .add("province", province)
-      .add("country", country)
-      .add("postalCode", postalCode)
-      .add("createdBy", createdBy)
-      .add("modifiedBy", modifiedBy)
-      .add("created", created)
-      .add("modified", modified)
-      .add("deleted", deleted)
-      .add("contacts", contacts)
-      .add("endpoints", endpoints)
-      .add("machineTags", machineTags)
-      .add("tags", tags)
-      .add("identifiers", identifiers)
-      .add("comments", comments)
+    return new StringJoiner(", ", Node.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("type=" + type)
+      .add("participationStatus=" + participationStatus)
+      .add("participantSince=" + participantSince)
+      .add("dateSignedMOU=" + dateSignedMOU)
+      .add("gbifRegion=" + gbifRegion)
+      .add("continent=" + continent)
+      .add("title='" + title + "'")
+      .add("participantTitle='" + participantTitle + "'")
+      .add("abbreviation='" + abbreviation + "'")
+      .add("description='" + description + "'")
+      .add("email=" + email)
+      .add("phone=" + phone)
+      .add("homepage=" + homepage)
+      .add("logoUrl=" + logoUrl)
+      .add("organization='" + organization + "'")
+      .add("address=" + address)
+      .add("city='" + city + "'")
+      .add("province='" + province + "'")
+      .add("country=" + country)
+      .add("postalCode='" + postalCode + "'")
+      .add("createdBy='" + createdBy + "'")
+      .add("modifiedBy='" + modifiedBy + "'")
+      .add("created=" + created)
+      .add("modified=" + modified)
+      .add("deleted=" + deleted)
+      .add("contacts=" + contacts)
+      .add("endpoints=" + endpoints)
+      .add("machineTags=" + machineTags)
+      .add("tags=" + tags)
+      .add("identifiers=" + identifiers)
+      .add("comments=" + comments)
       .toString();
   }
 
@@ -490,13 +493,13 @@ public class Node implements NetworkEntity, Contactable, Taggable, MachineTaggab
     if (this == other) {
       return true;
     }
-    return Objects.equal(this.type, other.type)
-      && Objects.equal(this.participationStatus, other.participationStatus)
-      && Objects.equal(this.gbifRegion, other.gbifRegion)
-      && Objects.equal(this.continent, other.continent)
-      && Objects.equal(this.title, other.title)
-      && Objects.equal(this.participantTitle, other.participantTitle)
-      && Objects.equal(this.country, other.country);
+    return Objects.equals(this.type, other.type)
+      && Objects.equals(this.participationStatus, other.participationStatus)
+      && Objects.equals(this.gbifRegion, other.gbifRegion)
+      && Objects.equals(this.continent, other.continent)
+      && Objects.equals(this.title, other.title)
+      && Objects.equals(this.participantTitle, other.participantTitle)
+      && Objects.equals(this.country, other.country);
   }
 
 }

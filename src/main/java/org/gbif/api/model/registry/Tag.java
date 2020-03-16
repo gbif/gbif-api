@@ -16,13 +16,13 @@
 package org.gbif.api.model.registry;
 
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
-
-import com.google.common.base.Objects;
 
 public class Tag implements LenientEquals<Tag> {
 
@@ -84,29 +84,32 @@ public class Tag implements LenientEquals<Tag> {
   }
 
   @Override
-  public int hashCode() {
-    return Objects.hashCode(key, value, createdBy, created);
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Tag tag = (Tag) o;
+    return Objects.equals(key, tag.key) &&
+      Objects.equals(value, tag.value) &&
+      Objects.equals(createdBy, tag.createdBy) &&
+      Objects.equals(created, tag.created);
   }
 
   @Override
-  public boolean equals(Object object) {
-    if (object instanceof Tag) {
-      Tag that = (Tag) object;
-      return Objects.equal(this.key, that.key)
-        && Objects.equal(this.value, that.value)
-        && Objects.equal(this.createdBy, that.createdBy)
-        && Objects.equal(this.created, that.created);
-    }
-    return false;
+  public int hashCode() {
+    return Objects.hash(key, value, createdBy, created);
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this)
-      .add("key", key)
-      .add("value", value)
-      .add("createdBy", createdBy)
-      .add("created", created)
+    return new StringJoiner(", ", Tag.class.getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("value='" + value + "'")
+      .add("createdBy='" + createdBy + "'")
+      .add("created=" + created)
       .toString();
   }
 
@@ -118,7 +121,7 @@ public class Tag implements LenientEquals<Tag> {
     if (this == other) {
       return true;
     }
-    return Objects.equal(this.value, other.value);
+    return Objects.equals(this.value, other.value);
   }
 
 }

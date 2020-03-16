@@ -17,12 +17,16 @@ package org.gbif.api.vocabulary;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import javax.annotation.Nullable;
-
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParser;
@@ -32,14 +36,6 @@ import org.codehaus.jackson.map.SerializerProvider;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.ser.std.SerializerBase;
-
-import com.google.common.base.Function;
-import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 /**
  * Enumeration for all current ISO 3166-1 ALPHA2 country codes using 2 letters, with the exception of TW which
@@ -1365,9 +1361,12 @@ public enum Country {
         officials.add(c);
       }
     }
-    OFFICIAL_COUNTRIES = ImmutableList.copyOf(officials);
+    OFFICIAL_COUNTRIES = Collections.unmodifiableList(officials);
 
-    Set<String> custom = Sets.newHashSet("AA", "ZZ");
+    Set<String> custom = new HashSet<>();
+    custom.add("AA");
+    custom.add("ZZ");
+
     // QM-QZ
     for (char c = 'M'; c <= 'Z'; c++) {
       custom.add("Q" + c);
@@ -1390,7 +1389,8 @@ public enum Country {
         custom.add("X" + c + c2);
       }
     }
-    CUSTOM_CODES = ImmutableSet.copyOf(custom);
+
+    CUSTOM_CODES = Collections.unmodifiableSet(custom);
   }
 
   public static boolean isCustomCode(String code) {
@@ -1402,7 +1402,7 @@ public enum Country {
    * @return the matching country or null
    */
   public static Country fromIsoCode(String code) {
-    if (!Strings.isNullOrEmpty(code)) {
+    if (StringUtils.isNotEmpty(code)) {
       String codeUpper = code.toUpperCase().trim();
       for (Country c : Country.values()) {
         if (codeUpper.equals(c.getIso2LetterCode()) || codeUpper.equals(c.getIso3LetterCode())) {
@@ -1543,14 +1543,15 @@ public enum Country {
    * Deserializes the value from an english country title exactly as given by the enumeration.
    */
   public static class TitleDeserializer extends JsonDeserializer<Country> {
-    private static Map<String, Country> TITLE_LOOKUP = Maps.uniqueIndex(Lists.newArrayList(Country.values()),
-                                                                       new Function<Country, String>() {
-      @Nullable
-      @Override
-      public String apply(@Nullable Country c) {
-        return c.title;
-      }
-    });
+
+    private static Map<String, Country> TITLE_LOOKUP =
+      Stream.of(Country.values())
+        .collect(
+          Collectors.toMap(
+            country -> country.title,
+            country -> country,
+            (e1, e2) -> e1,
+            LinkedHashMap::new));
 
     @Override
     public Country deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
