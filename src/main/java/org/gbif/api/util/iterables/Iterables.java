@@ -29,6 +29,7 @@ import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetType;
 
+import java.util.Collections;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -37,11 +38,10 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.ImmutableList;
-
 /**
  * Factory constructing registry entity iterables using specific pagers under the hood.
  */
+@SuppressWarnings("unused")
 public class Iterables {
     private static final Logger LOG = LoggerFactory.getLogger(Iterables.class);
 
@@ -79,7 +79,7 @@ public class Iterables {
 
         } else if (isDataset(key, ds)) {
             LOG.info("Iterate over dataset {}", key);
-            return ImmutableList.of(ds.get(key));
+            return Collections.unmodifiableList(Collections.singletonList(ds.get(key)));
 
         } else if (isOrganization(key, os)) {
             LOG.info("Iterate over all {} datasets published by {}", type == null ? "" : type, key);

@@ -21,12 +21,12 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Collections;
 
 import org.hamcrest.core.IsCollectionContaining;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
 
 import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -79,7 +79,7 @@ public class DownloadRequestTest {
   }
 
   private static PredicateDownloadRequest newDownload(Predicate p, String user) {
-    return new PredicateDownloadRequest(p, user, Lists.newArrayList(TEST_EMAIL), false, DownloadFormat.DWCA);
+    return new PredicateDownloadRequest(p, user, Collections.singleton(TEST_EMAIL), false, DownloadFormat.DWCA);
   }
 
   @Test

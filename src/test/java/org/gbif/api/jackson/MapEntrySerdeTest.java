@@ -20,6 +20,8 @@ import org.gbif.dwc.terms.Term;
 
 import java.io.IOException;
 import java.util.AbstractMap;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +30,6 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.google.common.collect.ImmutableList;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -83,8 +84,10 @@ public class MapEntrySerdeTest {
     MapEntryListTermWrapper() {}
 
     MapEntryListTermWrapper(Term key, Object value){
-      listTerm = ImmutableList.of(new AbstractMap.SimpleImmutableEntry<>(key, value),
-              new AbstractMap.SimpleImmutableEntry<>(key, value));
+      listTerm = Collections.unmodifiableList(
+        Arrays.asList(
+          new AbstractMap.SimpleImmutableEntry<>(key, value),
+          new AbstractMap.SimpleImmutableEntry<>(key, value)));
     }
 
     @JsonSerialize(contentUsing = MapEntrySerde.MapEntryJsonSerializer.class)

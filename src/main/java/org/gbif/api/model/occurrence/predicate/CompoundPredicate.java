@@ -15,7 +15,9 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -23,7 +25,6 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.ImmutableList;
 
 import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
@@ -41,7 +42,7 @@ public class CompoundPredicate implements Predicate {
   protected CompoundPredicate(@JsonProperty("predicates") Collection<Predicate> predicates) {
     Objects.requireNonNull(predicates, "Predicates may not be null");
     checkArgument(!predicates.isEmpty(), "Predicates may not be empty");
-    this.predicates = ImmutableList.copyOf(predicates);
+    this.predicates = Collections.unmodifiableList(new ArrayList<>(predicates));
   }
 
   /**

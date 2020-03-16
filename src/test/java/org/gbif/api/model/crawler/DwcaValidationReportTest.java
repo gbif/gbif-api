@@ -15,11 +15,10 @@
  */
 package org.gbif.api.model.crawler;
 
+import java.util.Collections;
 import java.util.UUID;
 
 import org.junit.Test;
-
-import com.google.common.collect.Lists;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -30,7 +29,7 @@ public class DwcaValidationReportTest {
   public void testIsValid() throws Exception {
     assertTrue(new DwcaValidationReport(UUID.randomUUID(),
       new OccurrenceValidationReport(10, 10, 0, 10, 0, true),
-      new GenericValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList()), null
+      new GenericValidationReport(10, true, Collections.emptyList(), Collections.emptyList()), null
     ).isValid());
 
     // this is a regular case with Plazi checklist archives.
@@ -38,11 +37,11 @@ public class DwcaValidationReportTest {
     // needs to validate for checklist indexing to happen!
     assertTrue(new DwcaValidationReport(UUID.randomUUID(),
       new OccurrenceValidationReport(0, 0, 0, 0, 0, true),
-      new GenericValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList()), null
+      new GenericValidationReport(10, true, Collections.emptyList(), Collections.emptyList()), null
     ).isValid());
 
     assertTrue(new DwcaValidationReport(UUID.randomUUID(),
-      new GenericValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList())
+      new GenericValidationReport(10, true, Collections.emptyList(), Collections.emptyList())
     ).isValid());
 
     assertTrue(new DwcaValidationReport(UUID.randomUUID(),
@@ -51,17 +50,17 @@ public class DwcaValidationReportTest {
 
     assertFalse(new DwcaValidationReport(UUID.randomUUID(),
       new OccurrenceValidationReport(10, 4, 0, 6, 0, true),
-      new GenericValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList()), null
+      new GenericValidationReport(10, true, Collections.emptyList(), Collections.emptyList()), null
     ).isValid());
 
     assertFalse(new DwcaValidationReport(UUID.randomUUID(),
       new OccurrenceValidationReport(10, 10, 0, 10, 0, true),
-      new GenericValidationReport(10, true, Lists.<String>newArrayList("r23"), Lists.<Integer>newArrayList()), null
+      new GenericValidationReport(10, true, Collections.singletonList("r32"), Collections.emptyList()), null
     ).isValid());
 
     assertFalse(new DwcaValidationReport(UUID.randomUUID(),
       new OccurrenceValidationReport(10, 10, 0, 10, 0, true),
-      new GenericValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList(32)), null
+      new GenericValidationReport(10, true, Collections.emptyList(), Collections.singletonList(32)), null
     ).isValid());
 
     assertFalse(new DwcaValidationReport(UUID.randomUUID(), "Dont like the smell").isValid());

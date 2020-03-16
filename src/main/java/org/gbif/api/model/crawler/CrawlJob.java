@@ -18,6 +18,7 @@ package org.gbif.api.model.crawler;
 import org.gbif.api.vocabulary.EndpointType;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -30,7 +31,6 @@ import javax.annotation.concurrent.ThreadSafe;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.ImmutableMap;
 
 import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
@@ -49,7 +49,7 @@ public class CrawlJob {
   private final EndpointType endpointType;
   private final URI targetUrl;
   private final int attempt;
-  private final ImmutableMap<String, String> properties;
+  private final Map<String, String> properties;
 
   /**
    * Creates a new crawl job.
@@ -76,9 +76,9 @@ public class CrawlJob {
     this.attempt = attempt;
 
     if (properties == null) {
-      this.properties = ImmutableMap.of();
+      this.properties = Collections.emptyMap();
     } else {
-      this.properties = ImmutableMap.copyOf(properties);
+      this.properties = Collections.unmodifiableMap(properties);
     }
   }
 
@@ -98,7 +98,7 @@ public class CrawlJob {
     this.attempt = attempt;
     this.endpointType = endpointType;
     this.targetUrl = targetUrl;
-    this.properties = ImmutableMap.of();
+    this.properties = Collections.emptyMap();
   }
 
   public UUID getDatasetKey() {

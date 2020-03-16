@@ -18,7 +18,9 @@ package org.gbif.api.model.occurrence.predicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -27,7 +29,6 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.ImmutableList;
 
 import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
@@ -54,7 +55,7 @@ public class InPredicate implements Predicate {
     }
 
     this.key = key;
-    this.values = ImmutableList.copyOf(values);
+    this.values = Collections.unmodifiableList(new ArrayList<>(values));
   }
 
   public OccurrenceSearchParameter getKey() {

@@ -20,10 +20,9 @@ import org.gbif.api.SerdeTestUtils;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
+import java.util.Objects;
 
 import org.junit.Test;
-
-import com.google.common.base.Objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -163,20 +162,21 @@ public class DOITest {
     }
 
     @Override
-    public int hashCode() {
-      return Objects.hashCode(doi1, doi2);
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      Container container = (Container) o;
+      return Objects.equals(doi1, container.doi1) &&
+        Objects.equals(doi2, container.doi2);
     }
 
     @Override
-    public boolean equals(Object obj) {
-      if (this == obj) {
-        return true;
-      }
-      if (obj == null || getClass() != obj.getClass()) {
-        return false;
-      }
-      final Container other = (Container) obj;
-      return Objects.equal(this.doi1, other.doi1) && Objects.equal(this.doi2, other.doi2);
+    public int hashCode() {
+      return Objects.hash(doi1, doi2);
     }
   }
 

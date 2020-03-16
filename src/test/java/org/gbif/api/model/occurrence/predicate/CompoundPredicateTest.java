@@ -18,11 +18,10 @@ package org.gbif.api.model.occurrence.predicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
-
-import com.google.common.collect.Lists;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
@@ -33,12 +32,14 @@ public class CompoundPredicateTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testEmptyPredicates() {
-    new ConjunctionPredicate(new ArrayList<Predicate>());
+    new ConjunctionPredicate(new ArrayList<>());
   }
 
   @Test
   public void testEquals() {
-    List<Predicate> mocks = Lists.newArrayList(mock(Predicate.class), mock(Predicate.class));
+    List<Predicate> mocks = new ArrayList<>();
+    mocks.add(mock(Predicate.class));
+    mocks.add(mock(Predicate.class));
 
     // Coming from the same list so should be the same
     Predicate cp1 = new ConjunctionPredicate(mocks);
@@ -64,10 +65,10 @@ public class CompoundPredicateTest {
 
   @Test
   public void testToString() {
-    Predicate p = new ConjunctionPredicate(Lists.newArrayList(
+    Predicate p = new ConjunctionPredicate(Arrays.asList(
       new EqualsPredicate(OccurrenceSearchParameter.BASIS_OF_RECORD, "FOSSIL_SPECIMEN"),
       new NotPredicate(
-        new DisjunctionPredicate(Lists.<Predicate>newArrayList(
+        new DisjunctionPredicate(Arrays.asList(
           new EqualsPredicate(OccurrenceSearchParameter.YEAR, "2001"),
           new EqualsPredicate(OccurrenceSearchParameter.YEAR, "2000"),
           new EqualsPredicate(OccurrenceSearchParameter.YEAR, "1999")
@@ -83,14 +84,18 @@ public class CompoundPredicateTest {
 
   @Test
   public void testGetPredicates() {
-    List<Predicate> mocks = Lists.newArrayList(mock(Predicate.class), mock(Predicate.class));
+    List<Predicate> mocks = new ArrayList<>();
+    mocks.add(mock(Predicate.class));
+    mocks.add(mock(Predicate.class));
     ConjunctionPredicate predicate = new ConjunctionPredicate(mocks);
     assertThat(mocks, equalTo(predicate.getPredicates()));
   }
 
   @Test
   public void testHashcode() {
-    List<Predicate> mocks = Lists.newArrayList(mock(Predicate.class), mock(Predicate.class));
+    List<Predicate> mocks = new ArrayList<>();
+    mocks.add(mock(Predicate.class));
+    mocks.add(mock(Predicate.class));
 
     Predicate p1 = new ConjunctionPredicate(mocks);
     Predicate p2 = new DisjunctionPredicate(mocks);
