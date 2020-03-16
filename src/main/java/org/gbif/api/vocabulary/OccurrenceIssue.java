@@ -23,10 +23,9 @@ import org.gbif.utils.AnnotationUtils;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import com.google.common.collect.ImmutableSet;
 
 import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.ERROR;
 import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.INFO;
@@ -373,7 +372,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
    */
   OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {
     this.severity = severity;
-    this.relatedTerms = ImmutableSet.<Term>builder().add(relatedTerms).build();
+    this.relatedTerms = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(relatedTerms)));
     this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());
   }
 

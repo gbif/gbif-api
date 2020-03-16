@@ -16,10 +16,10 @@
 package org.gbif.api.model.metrics.cube;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.StringJoiner;
-
-import com.google.common.collect.ImmutableSet;
 
 /**
  * A rollup defines an addressable count that is maintained for a set of dimensions.
@@ -37,11 +37,11 @@ public class Rollup {
   }
 
   public Rollup(Dimension<?>... d) {
-    this(new ImmutableSet.Builder<Dimension<?>>().addAll(Arrays.asList(d)).build());
+    this(Collections.unmodifiableSet(new HashSet<>(Arrays.asList(d))));
   }
 
   public Rollup(Set<Dimension<?>> components) {
-    this.dimensions = ImmutableSet.copyOf(components); // defensive copy
+    this.dimensions = Collections.unmodifiableSet(components); // defensive copy
   }
 
   public Set<Dimension<?>> getDimensions() {

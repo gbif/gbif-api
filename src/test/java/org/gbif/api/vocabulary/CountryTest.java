@@ -15,6 +15,7 @@
  */
 package org.gbif.api.vocabulary;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
@@ -22,7 +23,6 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.google.common.collect.Sets;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -40,7 +40,7 @@ public class CountryTest {
 
   @Test
   public void testGetIso2LetterCode() throws Exception {
-    Set<String> codes = Sets.newHashSet();
+    Set<String> codes = new HashSet<>();
     for (Country l : Country.values()) {
       assertNotNull(l.getIso2LetterCode());
       // make sure its upper case
@@ -55,7 +55,7 @@ public class CountryTest {
 
   @Test
   public void testGetIso3LetterCode() throws Exception {
-    Set<String> codes = Sets.newHashSet();
+    Set<String> codes = new HashSet<>();
     for (Country l : Country.values()) {
       assertNotNull(l.getIso3LetterCode());
       // make sure its upper case
@@ -70,7 +70,7 @@ public class CountryTest {
 
   @Test
   public void testGetIsoNumericalCode() throws Exception {
-    Set<Integer> codes = Sets.newHashSet();
+    Set<Integer> codes = new HashSet<>();
     for (Country l : Country.values()) {
       assertNotNull(l.getIsoNumericalCode());
       // make sure its unique
@@ -152,7 +152,7 @@ public class CountryTest {
 
   @Test
   public void testCodeUniqueness() {
-    Set<String> codes = Sets.newHashSet();
+    Set<String> codes = new HashSet<>();
     for (Country c : Country.values()) {
       assertFalse(codes.contains(c.getIso2LetterCode()));
       assertFalse(codes.contains(c.getIso3LetterCode()));
@@ -169,7 +169,7 @@ public class CountryTest {
 
   @Test
   public void testTitleUniqueness() {
-    Set<String> names = Sets.newHashSet();
+    Set<String> names = new HashSet<>();
     for (Country c : Country.values()) {
       assertFalse(names.contains(c.getTitle()));
       names.add(c.getTitle());

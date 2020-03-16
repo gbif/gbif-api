@@ -16,6 +16,7 @@
 package org.gbif.api.model.registry;
 
 import java.net.URI;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -24,8 +25,6 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.junit.Test;
-
-import com.google.common.collect.Sets;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -44,7 +43,9 @@ public class NetworkTest {
     assertFalse("Violations were expected", violations.isEmpty());
 
     // ensure all expected properties are caught
-    Set<String> propertiesInViolation = Sets.newHashSet("title", "logoUrl");
+    Set<String> propertiesInViolation = new HashSet<>();
+    propertiesInViolation.add("title");
+    propertiesInViolation.add("logoUrl");
     for (ConstraintViolation<?> cv : violations) {
       propertiesInViolation.remove(cv.getPropertyPath().toString());
     }

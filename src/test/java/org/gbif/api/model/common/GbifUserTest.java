@@ -19,6 +19,7 @@ import org.gbif.api.SerdeTestUtils;
 import org.gbif.api.vocabulary.UserRole;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,8 +28,6 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 
 import org.junit.Test;
-
-import com.google.common.collect.Maps;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -124,7 +123,7 @@ public class GbifUserTest {
     u.setEmail("betty@gbif.org");
     u.setFirstName("Betty");
     u.setLastName("Ford");
-    Map<String, String> settings = Maps.newHashMap();
+    Map<String, String> settings = new HashMap<>();
     settings.put("name", "tim");
     u.setSettings(settings);
     SerdeTestUtils.testSerDe(u, GbifUser.class);

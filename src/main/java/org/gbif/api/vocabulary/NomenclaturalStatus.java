@@ -15,7 +15,10 @@
  */
 package org.gbif.api.vocabulary;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -23,9 +26,6 @@ import java.util.regex.Pattern;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
-
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 
 /**
  * Vocabulary for the nomenclatural status of a name.
@@ -40,9 +40,6 @@ import com.google.common.collect.ImmutableSet;
  */
 public enum NomenclaturalStatus {
 
-  /**
-   *
-   */
  LEGITIMATE(null, null,    "acceptable", "potentially valid"),
 
   /**
@@ -312,17 +309,24 @@ public enum NomenclaturalStatus {
    */
  DENIED("nomen negatum", "nom. neg.");
 
-  private static final Set VALID_VALUES = ImmutableSet.of(VALIDLY_PUBLISHED, LEGITIMATE, NEW_COMBINATION, REPLACEMENT,
-    NEW_COMBINATION, NEW_GENUS, NEW_SPECIES,SUBNUDUM,CONSERVED, PROTECTED, CORRECTED,ALTERNATIVE, CONSERVED_PROPOSED,
-    PROVISIONAL);
-  private static final Set DOUBTFUL_VALUES = ImmutableSet.of(DOUBTFUL, OBSCURE);
+  private static final Set<NomenclaturalStatus> VALID_VALUES =
+    Collections.unmodifiableSet(
+      new HashSet<>(
+        Arrays.asList(VALIDLY_PUBLISHED, LEGITIMATE, NEW_COMBINATION, REPLACEMENT, NEW_COMBINATION,
+          NEW_GENUS, NEW_SPECIES, SUBNUDUM, CONSERVED, PROTECTED, CORRECTED, ALTERNATIVE,
+          CONSERVED_PROPOSED, PROVISIONAL)));
+
+  private static final Set<NomenclaturalStatus> DOUBTFUL_VALUES =
+    Collections.unmodifiableSet(new HashSet<>(Arrays.asList(DOUBTFUL, OBSCURE)));
 
   private static final Pattern NORMALIZE_TERM = Pattern.compile("[._ -]+");
+
   private static String normalize(String x) {
     return NORMALIZE_TERM.matcher(x.toUpperCase()).replaceAll("");
   }
 
   private static final Map<String, NomenclaturalStatus> LOOKUP;
+
   static {
     Map<String, NomenclaturalStatus> lookup = new HashMap<>();
     for (NomenclaturalStatus n : values()) {
@@ -340,7 +344,7 @@ public enum NomenclaturalStatus {
         }
       }
     }
-    LOOKUP = ImmutableMap.copyOf(lookup);
+    LOOKUP = Collections.unmodifiableMap(lookup);
   }
 
   /**

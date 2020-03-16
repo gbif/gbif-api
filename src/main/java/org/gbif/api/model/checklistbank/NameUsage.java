@@ -41,7 +41,6 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.Sets;
 
 /**
  * A usage of a <em>scientific name</em> according to one particular Checklist including the GBIF Taxonomic Backbone,
@@ -838,7 +837,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
 
   public void setIssues(Set<NameUsageIssue> issues) {
     Objects.requireNonNull(issues, "Issues cannot be null");
-    this.issues = Sets.newEnumSet(issues, NameUsageIssue.class);
+    this.issues = issues.isEmpty() ? EnumSet.noneOf(NameUsageIssue.class) : EnumSet.copyOf(issues);
   }
 
   public void addIssue(NameUsageIssue issue) {

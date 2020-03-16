@@ -15,11 +15,10 @@
  */
 package org.gbif.api.model.common.messaging;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.google.common.collect.ImmutableMap;
 
 /**
  * Class that represents a generic invocation of operation.
@@ -104,7 +103,7 @@ public class Request<T> {
       Request<T> request = new Request<T>();
       request.operationType = operationType;
       request.content = content;
-      request.context = new ImmutableMap.Builder<String, String>().putAll(context).build();
+      request.context = Collections.unmodifiableMap(context);
       return request;
     }
 

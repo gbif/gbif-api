@@ -39,7 +39,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.google.common.collect.Maps;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -62,7 +61,7 @@ public class VerbatimNameUsageTest {
     assertFalse(v1.hasExtension(Extension.IDENTIFICATION));
     assertFalse(v1.hasExtension(DwcTerm.Identification));
 
-    exts.add(Maps.<Term, String>newHashMap());
+    exts.add(new HashMap<>());
     assertTrue(v1.hasExtension(Extension.IDENTIFICATION));
     assertTrue(v1.hasExtension(DwcTerm.Identification));
     assertFalse(v1.hasExtension(DwcTerm.MeasurementOrFact));
