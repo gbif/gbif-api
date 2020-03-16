@@ -31,8 +31,6 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-import com.google.common.collect.Lists;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -267,7 +265,7 @@ public class NameUsageContainerTest {
     assertEquals(4, nu.getHigherClassificationMap().size());
     assertTrue(nu.getHigherClassificationMap().containsKey(3));
 
-    Queue<Integer> expectedKeyOrder = Lists.newLinkedList();
+    Queue<Integer> expectedKeyOrder = new LinkedList<>();
     expectedKeyOrder.add(1);
     expectedKeyOrder.add(5);
     expectedKeyOrder.add(4);

@@ -22,8 +22,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.google.common.collect.Lists;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
@@ -36,7 +34,10 @@ public class InPredicateTest {
 
   @Test
   public void testBasics() {
-    List<String> list = Lists.newArrayList("foo", "bar");
+    List<String> list = new ArrayList<>();
+    list.add("foo");
+    list.add("bar");
+
     InPredicate p = new InPredicate(TEST_KEY, list);
 
     assertThat(p.getKey(), equalTo(TEST_KEY));
@@ -58,7 +59,9 @@ public class InPredicateTest {
 
   @Test
   public void testEquals() {
-    List<String> list = Lists.newArrayList("foo", "bar");
+    List<String> list = new ArrayList<>();
+    list.add("foo");
+    list.add("bar");
     Predicate ip1 = new InPredicate(TEST_KEY, list);
     Predicate ip2 = new InPredicate(TEST_KEY, list);
 
@@ -74,7 +77,9 @@ public class InPredicateTest {
 
   @Test
   public void testHashcode() {
-    List<String> list = Lists.newArrayList("foo", "bar");
+    List<String> list = new ArrayList<>();
+    list.add("foo");
+    list.add("bar");
     Predicate ip1 = new InPredicate(TEST_KEY, list);
     Predicate ip2 = new InPredicate(TEST_KEY, list);
 

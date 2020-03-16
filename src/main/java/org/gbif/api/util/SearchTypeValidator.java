@@ -41,7 +41,6 @@ import org.locationtech.spatial4j.io.WKTReader;
 import org.locationtech.spatial4j.shape.Shape;
 import org.locationtech.spatial4j.shape.jts.JtsGeometry;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Range;
 
 import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
@@ -397,7 +396,9 @@ public class SearchTypeValidator {
       throw new IllegalArgumentException("Integer cannot be null or empty");
     }
     try {
-      return Lists.newArrayList(Integer.parseInt(value));
+      List<Integer> list = new ArrayList<>();
+      list.add(Integer.parseInt(value));
+      return list;
     } catch (NumberFormatException e) {
       Range<Integer> range = parseIntegerRange(value);
       List<Integer> ints = new ArrayList<>();

@@ -15,11 +15,13 @@
  */
 package org.gbif.api.model.crawler;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.junit.Test;
 
-import com.google.common.collect.Lists;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class GenericValidationReportTest {
 
@@ -30,22 +32,23 @@ public class GenericValidationReportTest {
 
   @Test(expected = NullPointerException.class)
   public void testConstructor2() throws Exception {
-    GenericValidationReport report = new GenericValidationReport(10, true, Lists.<String>newArrayList(), null);
+    GenericValidationReport report = new GenericValidationReport(10, true, Collections.emptyList(), null);
   }
 
   @Test(expected = NullPointerException.class)
   public void testConstructor3() throws Exception {
-    GenericValidationReport report = new GenericValidationReport(10, true, null, Lists.<Integer>newArrayList());
+    GenericValidationReport report = new GenericValidationReport(10, true, null, Collections.emptyList());
   }
 
   @Test
   public void testIsValid() throws Exception {
-    assertTrue(new GenericValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList()).isValid());
-    assertTrue(new GenericValidationReport(0, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList()).isValid());
-    assertFalse(new GenericValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList(1)).isValid());
-    assertFalse(new GenericValidationReport(10, true, Lists.<String>newArrayList(), Lists.<Integer>newArrayList(1,2,3,4)).isValid());
-    assertFalse(new GenericValidationReport(10, true, Lists.<String>newArrayList("r32"), Lists.<Integer>newArrayList(1,2)).isValid());
-    assertFalse(new GenericValidationReport(10, true, Lists.<String>newArrayList("r32"), Lists.<Integer>newArrayList()).isValid());
+    assertTrue(new GenericValidationReport(10, true, Collections.emptyList(), Collections.emptyList()).isValid());
+    assertTrue(new GenericValidationReport(0, true, Collections.emptyList(), Collections.emptyList()).isValid());
+    assertFalse(new GenericValidationReport(10, true, Collections.emptyList(), Collections.singletonList(1)).isValid());
+    assertFalse(new GenericValidationReport(10, true, Collections.emptyList(), Arrays.asList(1,2,3,4)).isValid());
+    assertFalse(new GenericValidationReport(10, true, Collections.singletonList("r32"),
+      Arrays.asList(1, 2)).isValid());
+    assertFalse(new GenericValidationReport(10, true, Collections.singletonList("r32"), Collections.emptyList()).isValid());
   }
 
 }

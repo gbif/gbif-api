@@ -23,12 +23,9 @@ import org.gbif.api.vocabulary.TagNamespace;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
-
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 
 /**
  * Utility class to simplify your life when dealing with machine tags.
@@ -41,24 +38,24 @@ public class MachineTagUtils {
   /**
    * Returns a copy of the original list of machine taggable entities, that have the machine tag.
    */
-  public static <T extends MachineTaggable> List<T> filter(List<T> source, @Nullable final String namespace, @Nullable final String name, @Nullable final String value) {
-    return Lists.newArrayList(Iterables.filter(source, new Predicate<T>() {
-
-      @Override
-      public boolean apply(@Nullable T e) {
-        for (MachineTag t : e.getMachineTags()) {
-          if ((namespace == null || t.getNamespace().equals(namespace)) &&
-              (name == null || t.getName().equals(name)) &&
-              (value == null || t.getValue().equals(value)))
-          {
-            return true;
-          }
-        }
-        return false;
-      }
-    }));
+  public static <T extends MachineTaggable> List<T> filter(List<T> source,
+    @Nullable final String namespace, @Nullable final String name, @Nullable final String value) {
+    return source.stream()
+      .filter(element -> predicate(namespace, name, value, element))
+      .collect(Collectors.toList());
   }
 
+  private static <T extends MachineTaggable> boolean predicate(
+    @Nullable String namespace, @Nullable String name, @Nullable String value, T element) {
+    for (MachineTag machineTag : element.getMachineTags()) {
+      if ((namespace == null || machineTag.getNamespace().equals(namespace)) &&
+        (name == null || machineTag.getName().equals(name)) &&
+        (value == null || machineTag.getValue().equals(value))) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   /**
    * @return the int value for the given machine tag or zero if its no valid integer or null
