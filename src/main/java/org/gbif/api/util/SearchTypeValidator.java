@@ -41,9 +41,8 @@ import org.locationtech.spatial4j.io.WKTReader;
 import org.locationtech.spatial4j.shape.Shape;
 import org.locationtech.spatial4j.shape.jts.JtsGeometry;
 
-import com.google.common.collect.Range;
-
 import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
+import static org.gbif.api.util.IsoDateParsingUtils.SIMPLE_ISO_DATE_STR_PATTERN;
 
 /**
  * Utility class to do basic validation of all search enum based values.
@@ -56,8 +55,8 @@ public class SearchTypeValidator {
 
   private static final String DECIMAL_OR_WILDCARD = "(" + DEC + "|\\*)";
 
-  private static final Range<Double> LATITUDE_RNG = Range.closed(-90.0, 90.0);
-  private static final Range<Double> LONGITUDE_RNG = Range.closed(-180.0, 180.0);
+  private static final Range<Double> LATITUDE_RNG = new Range<>(-90.0, 90.0);
+  private static final Range<Double> LONGITUDE_RNG = new Range<>(-180.0, 180.0);
 
   private static final String LATITUDE_ERROR_MSG = "%s is not valid value, latitude must be between -90 and 90.";
 
@@ -90,30 +89,16 @@ public class SearchTypeValidator {
   private static final Pattern DECIMAL_RANGE_PATTERN = Pattern.compile(
     "^" + DECIMAL_OR_WILDCARD + "\\s*,\\s*" + DECIMAL_OR_WILDCARD + "$", Pattern.CASE_INSENSITIVE);
 
+  private static final String DATE_OR_WILDCARD = "(" + SIMPLE_ISO_DATE_STR_PATTERN + "|\\*)";
+
+  private static final Pattern DATE_RANGE_PATTERN = Pattern.compile(
+    "^" + DATE_OR_WILDCARD + "\\s*,\\s*" + DATE_OR_WILDCARD + "$", Pattern.CASE_INSENSITIVE);
+
   /**
    * Private default constructor.
    */
   private SearchTypeValidator() {
     // empty block
-  }
-
-  /**
-   * Builds a closed range from two given values, but accepts nulls which are converted into unbound ranges
-   * in the guava instance.
-   */
-  public static <T extends Comparable<?>> Range<T> buildRange(final T lower, final T upper) {
-    if (lower == null && upper != null) {
-      return Range.atMost(upper);
-
-    } else if (lower != null && upper == null) {
-      return Range.atLeast(lower);
-
-    } else if (lower == null && upper == null) {
-      return Range.<T>all();
-
-    } else {
-      return Range.closed(lower, upper);
-    }
   }
 
   /**
@@ -123,17 +108,8 @@ public class SearchTypeValidator {
    */
   public static boolean isRange(String value) {
     if (StringUtils.isNotEmpty(value)) {
-      // decimal range for ints or doubles
-      if (DECIMAL_RANGE_PATTERN.matcher(value).find()) {
-        return true;
-      }
-      // check date range
-      try {
-        IsoDateParsingUtils.parseDateRange(value);
-        return true;
-      } catch (Exception e) {
-        // aha, no range
-      }
+      // decimal range for ints or doubles, or date range
+      return DECIMAL_RANGE_PATTERN.matcher(value).find() || DATE_RANGE_PATTERN.matcher(value).find();
     }
     return false;
   }
@@ -159,7 +135,7 @@ public class SearchTypeValidator {
     if (StringUtils.isNotEmpty(value)) {
       Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);
       if (m.find()) {
-        return buildRange(parseDouble(m.group(1)), parseDouble(m.group(2)));
+        return new Range<>(parseDouble(m.group(1)), parseDouble(m.group(2)));
       }
     }
     throw new IllegalArgumentException("Invalid decimal range: " + value);
@@ -176,7 +152,7 @@ public class SearchTypeValidator {
       Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);
       if (m.find()) {
 
-        return buildRange(parseInteger(m.group(1)), parseInteger(m.group(2)));
+        return new Range<>(parseInteger(m.group(1)), parseInteger(m.group(2)));
       }
     }
     throw new IllegalArgumentException("Invalid integer range: " + value);
@@ -301,7 +277,6 @@ public class SearchTypeValidator {
       parseDecimalRange(value);
     }
   }
-
 
   /**
    * Validates if the value is a valid single double and its value is between a range.
