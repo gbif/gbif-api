@@ -55,8 +55,8 @@ public class SearchTypeValidator {
 
   private static final String DECIMAL_OR_WILDCARD = "(" + DEC + "|\\*)";
 
-  private static final Range<Double> LATITUDE_RNG = new Range<>(-90.0, 90.0);
-  private static final Range<Double> LONGITUDE_RNG = new Range<>(-180.0, 180.0);
+  private static final Range<Double> LATITUDE_RNG = Range.closed(-90.0, 90.0);
+  private static final Range<Double> LONGITUDE_RNG = Range.closed(-180.0, 180.0);
 
   private static final String LATITUDE_ERROR_MSG = "%s is not valid value, latitude must be between -90 and 90.";
 
@@ -135,7 +135,7 @@ public class SearchTypeValidator {
     if (StringUtils.isNotEmpty(value)) {
       Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);
       if (m.find()) {
-        return new Range<>(parseDouble(m.group(1)), parseDouble(m.group(2)));
+        return Range.closed(parseDouble(m.group(1)), parseDouble(m.group(2)));
       }
     }
     throw new IllegalArgumentException("Invalid decimal range: " + value);
@@ -152,7 +152,7 @@ public class SearchTypeValidator {
       Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);
       if (m.find()) {
 
-        return new Range<>(parseInteger(m.group(1)), parseInteger(m.group(2)));
+        return Range.closed(parseInteger(m.group(1)), parseInteger(m.group(2)));
       }
     }
     throw new IllegalArgumentException("Invalid integer range: " + value);
