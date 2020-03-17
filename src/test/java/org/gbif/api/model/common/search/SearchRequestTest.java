@@ -30,11 +30,11 @@ public class SearchRequestTest {
 
   @Test
   public void testEnumFacet() {
-    SearchRequest<NameUsageSearchParameter> req = new SearchRequest<NameUsageSearchParameter>();
+    SearchRequest<NameUsageSearchParameter> req = new SearchRequest<>();
     req.addParameter(NameUsageSearchParameter.RANK, Rank.SPECIES);
     Assert.assertEquals("SPECIES", req.getParameters().get(NameUsageSearchParameter.RANK).iterator().next());
 
-    SearchRequest<OccurrenceSearchParameter> reqO = new SearchRequest<OccurrenceSearchParameter>();
+    SearchRequest<OccurrenceSearchParameter> reqO = new SearchRequest<>();
     reqO.addParameter(OccurrenceSearchParameter.BASIS_OF_RECORD, BasisOfRecord.LITERATURE);
     Assert.assertEquals("LITERATURE",
       reqO.getParameters().get(OccurrenceSearchParameter.BASIS_OF_RECORD).iterator().next());
