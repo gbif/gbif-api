@@ -36,7 +36,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Throwables;
 
 /**
  * Download request deserializer.
@@ -83,7 +82,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
         try {
           return Arrays.asList(MAPPER.treeToValue(jsonNode, String[].class));
         } catch (Exception e) {
-          throw Throwables.propagate(e);
+          throw new RuntimeException(e);
         }
       }).orElse(new ArrayList<>()));
     }

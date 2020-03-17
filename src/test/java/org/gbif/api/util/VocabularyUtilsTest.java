@@ -19,16 +19,13 @@ import org.gbif.api.vocabulary.ContactType;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.IdentifierType;
-import org.gbif.api.vocabulary.Kingdom;
 import org.gbif.api.vocabulary.TechnicalInstallationType;
 
-import java.util.Map;
 import java.util.Optional;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class VocabularyUtilsTest {
 
@@ -80,19 +77,5 @@ public class VocabularyUtilsTest {
     assertEquals(Optional.empty(), VocabularyUtils.lookup("thor", ContactType.class));
     assertEquals(Optional.empty(), VocabularyUtils.lookup("", ContactType.class));
     assertEquals(Optional.empty(), VocabularyUtils.lookup(null, ContactType.class));
-  }
-
-  @Test
-  public void testListEnumerations() {
-    Map<String, Enum<?>[]> enums = VocabularyUtils.listEnumerations(Kingdom.class.getPackage().getName());
-    assertTrue(enums.containsKey(Kingdom.class.getSimpleName()));
-
-    // the current package should not include any enumerations
-    enums = VocabularyUtils.listEnumerations(getClass().getPackage().getName());
-    assertTrue(enums.isEmpty());
-
-    // a non-existing package should return an empty map
-    enums = VocabularyUtils.listEnumerations("a.b.c");
-    assertTrue(enums.isEmpty());
   }
 }

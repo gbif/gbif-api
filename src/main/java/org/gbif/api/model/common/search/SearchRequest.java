@@ -21,9 +21,11 @@ import org.gbif.api.model.common.paging.PageableBase;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.StringJoiner;
 
 import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
 import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
@@ -32,9 +34,10 @@ import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFF
  * Generic request class for search operations. This class contains a list of parameters,
  * a list of desired facets and paging options (page size and offset).
  */
+@SuppressWarnings("unused")
 public class SearchRequest<P extends SearchParameter> extends PageableBase {
 
-  private Multimap<P, String> parameters = HashMultimap.create();
+  private Map<P, Set<String>> parameters = new HashMap<>();
   private String q;
   private boolean highlight;
   private boolean spellCheck;
@@ -123,14 +126,14 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
    *
    * @return the list of parameters
    */
-  public Multimap<P, String> getParameters() {
+  public Map<P, Set<String>> getParameters() {
     return parameters;
   }
 
   /**
    * Sets the list of parameters.
    */
-  public void setParameters(Multimap<P, String> parameters) {
+  public void setParameters(Map<P, Set<String>> parameters) {
     this.parameters = parameters;
   }
 
@@ -157,8 +160,13 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
    * @param values    list of values of the parameter to add
    */
   public void addParameter(P parameter, Iterable<String> values) {
-    for (String parameterValue : values) {
-      parameters.put(parameter, parameterValue);
+    if (parameters.containsKey(parameter)) {
+      Set<String> paramValues = parameters.get(parameter);
+      values.forEach(paramValues::add);
+    } else {
+      Set<String> paramValues = new HashSet<>();
+      values.forEach(paramValues::add);
+      parameters.put(parameter, paramValues);
     }
   }
 
@@ -182,7 +190,14 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
    */
   public void addParameter(P parameter, String value) {
     if (value != null) {
-      parameters.put(parameter, value);
+      if (parameters.containsKey(parameter)) {
+        Set<String> paramValues = parameters.get(parameter);
+        paramValues.add(value);
+      } else {
+        Set<String> paramValues = new HashSet<>();
+        paramValues.add(value);
+        parameters.put(parameter, paramValues);
+      }
     }
   }
 
@@ -193,7 +208,7 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
    * @param value     value of the parameter to add
    */
   public void addParameter(P parameter, long value) {
-    parameters.put(parameter, String.valueOf(value));
+    addParameter(parameter, String.valueOf(value));
   }
 
   /**
@@ -203,7 +218,7 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
    * @param value     value of the parameter to add
    */
   public void addParameter(P parameter, int value) {
-    parameters.put(parameter, String.valueOf(value));
+    addParameter(parameter, String.valueOf(value));
   }
 
   /**
@@ -213,7 +228,7 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
    * @param value     value of the parameter to add
    */
   public void addParameter(P parameter, double value) {
-    parameters.put(parameter, String.valueOf(value));
+    addParameter(parameter, String.valueOf(value));
   }
 
   /**
@@ -223,7 +238,7 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
    * @param value     value of the parameter to add
    */
   public void addParameter(P parameter, boolean value) {
-    parameters.put(parameter, String.valueOf(value));
+    addParameter(parameter, String.valueOf(value));
   }
 
   /**
@@ -234,10 +249,9 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
    */
   public void addParameter(P parameter, Enum<?> value) {
     if (value != null) {
-      parameters.put(parameter, value.name());
+      addParameter(parameter, value.name());
     }
   }
-
 
   /**
    * Adds the specified date parameter as an ISO date.
@@ -249,9 +263,20 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
     if (value != null) {
       // not thread safe, new instance
       DateFormat iso = new SimpleDateFormat("yyyy-MM-dd");
-      parameters.put(parameter, iso.format(value));
+      addParameter(parameter, iso.format(value));
     }
   }
 
-
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", SearchRequest.class.getSimpleName() + "[", "]")
+      .add("parameters=" + parameters)
+      .add("q='" + q + "'")
+      .add("highlight=" + highlight)
+      .add("spellCheck=" + spellCheck)
+      .add("spellCheckCount=" + spellCheckCount)
+      .add("offset=" + offset)
+      .add("limit=" + limit)
+      .toString();
+  }
 }

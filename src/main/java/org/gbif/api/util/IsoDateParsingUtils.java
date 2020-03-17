@@ -161,7 +161,7 @@ public class IsoDateParsingUtils {
       }
     }
 
-    return new Range<>(lowerDate, upperDate);
+    return Range.closed(lowerDate, upperDate);
   }
 
   /**

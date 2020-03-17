@@ -37,15 +37,23 @@ public class Range<T extends Comparable<T>> {
 
   /**
    * Create a range with bounds {@code from} and {@code to}.
+   * Use factory method instead.
    *
    * @throws IllegalArgumentException if {@code from} is greater than {@code to}
    */
-  public Range(T from, T to) {
+  private Range(T from, T to) {
     if (from != null && to != null && from.compareTo(to) > 0) {
       throw new IllegalArgumentException(String.format("Invalid range: (%s,%s)", from, to));
     }
     this.from = from;
     this.to = to;
+  }
+
+  /**
+   * Factory method.
+   */
+  public static <T extends Comparable<T>> Range<T> closed(T from, T to) {
+    return new Range<>(from, to);
   }
 
   /**

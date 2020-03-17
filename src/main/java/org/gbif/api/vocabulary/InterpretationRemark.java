@@ -21,12 +21,13 @@ import java.util.Set;
 
 /**
  * Represents a remark flagged during the interpretation phase.
+ * IMPORTANT: Make sure no name clashes in case new implementation were added.
  */
 public interface InterpretationRemark {
 
   /**
    * Returns the identifier of the {@link InterpretationRemark}.
-   * This is normally implemented to return the result of {@link Enum#name}.
+   * This is normally implemented to return the result of {@link Enum#name()}.
    * Potential name clashes are detected by unit tests.
    *
    * @return identifier of the {@link InterpretationRemark}. Never null.

@@ -18,20 +18,22 @@ package org.gbif.api.util.comparators;
 import org.gbif.api.model.registry.Endpoint;
 
 import java.io.Serializable;
-
-import com.google.common.collect.Ordering;
+import java.util.Comparator;
 
 /**
  * An ordering that uses the created date of an endpoint for ordering.
  */
-public class EndpointCreatedComparator extends Ordering<Endpoint> implements Serializable {
-  public static final EndpointCreatedComparator INSTANCE = new EndpointCreatedComparator();
-
-  @Override public int compare(Endpoint left, Endpoint right) {
-    return left.toString().compareTo(right.toString());
-  }
-
-  private EndpointCreatedComparator() {}
+public class EndpointCreatedComparator implements Comparator<Endpoint>, Serializable {
 
   private static final long serialVersionUID = 0;
+
+  public static final EndpointCreatedComparator INSTANCE = new EndpointCreatedComparator();
+
+  private EndpointCreatedComparator() {
+  }
+
+  @Override
+  public int compare(Endpoint left, Endpoint right) {
+    return left.toString().compareTo(right.toString());
+  }
 }
