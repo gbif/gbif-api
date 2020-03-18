@@ -36,8 +36,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Throwables;
-
 /**
  * Download request deserializer.
  * <p>
@@ -83,7 +81,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
         try {
           return Arrays.asList(MAPPER.readValue(jsonNode, String[].class));
         } catch (Exception e) {
-          throw Throwables.propagate(e);
+          throw new RuntimeException(e);
         }
       }).orElse(new ArrayList<>()));
     }

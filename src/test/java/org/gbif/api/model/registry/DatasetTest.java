@@ -21,6 +21,7 @@ import org.gbif.api.vocabulary.MaintenanceUpdateFrequency;
 
 import java.net.URI;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -30,8 +31,6 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.junit.Test;
-
-import com.google.common.collect.Sets;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -61,8 +60,14 @@ public class DatasetTest {
     assertFalse("Violations were expected", violations.isEmpty());
 
     // ensure all 6 expected violations are caught
-    Set<String> propertiesInViolation =
-      Sets.newHashSet("title", "homepage", "logoUrl", "type", "installationKey", "publishingOrganisationKey");
+    Set<String> propertiesInViolation = new HashSet<>();
+    propertiesInViolation.add("title");
+    propertiesInViolation.add("homepage");
+    propertiesInViolation.add("logoUrl");
+    propertiesInViolation.add("type");
+    propertiesInViolation.add("installationKey");
+    propertiesInViolation.add("publishingOrganisationKey");
+
     assertEquals(6, violations.size());
     for (ConstraintViolation<?> cv : violations) {
       propertiesInViolation.contains(cv.getPropertyPath().toString());

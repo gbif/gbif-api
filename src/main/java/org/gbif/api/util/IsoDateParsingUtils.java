@@ -25,16 +25,18 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.common.collect.Range;
-
 import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
-import static org.gbif.api.util.SearchTypeValidator.buildRange;
 
 /**
  * Utility class that parses date values, the allowed date formats are: "yyyy-MM-dd", "yyyy-MM" or "yyyy".
  */
 public class IsoDateParsingUtils {
-  private static Pattern SIMPLE_ISO_PATTERN = Pattern.compile("\\d{4}(?:-\\d{2}(?:-\\d{2})?)?");
+
+  public static final String SIMPLE_ISO_DATE_STR_PATTERN = "\\d{4}(?:-\\d{2}(?:-\\d{2})?)?";
+
+  // match formats 'yyyy', 'yyyy-MM' and 'yyyy-MM-dd'
+  public static final Pattern SIMPLE_ISO_PATTERN = Pattern.compile(SIMPLE_ISO_DATE_STR_PATTERN);
+
   /**
    * Enumerations with the allowed date formats by the occurrence search service.
    */
@@ -45,12 +47,11 @@ public class IsoDateParsingUtils {
 
     private final String datePattern;
 
-
     /**
      * Private constructors.
      * Receives a pattern and creates DateFormat instance with the pattern parameter.
      */
-    private IsoDateFormat(String datePattern) {
+    IsoDateFormat(String datePattern) {
       this.datePattern = datePattern;
     }
 
@@ -94,7 +95,6 @@ public class IsoDateParsingUtils {
     // empty block
   }
 
-
   /**
    * Iterates over all the OccurrenceDateFormat's and returns the first one that parses successfully the value.
    * @throws IllegalArgumentException in case of unparsable dates
@@ -121,18 +121,16 @@ public class IsoDateParsingUtils {
     if (StringUtils.isEmpty(value)) {
       throw new IllegalArgumentException("Date parameter can't be null or empty");
     }
+
+    // could be a wildcard
+    if (QUERY_WILDCARD.equals(value)) {
+      return null;
+    }
+
     try {
       return getFirstDateFormatMatch(value).parseDate(value);
-
     } catch (ParseException e) {
-      throw new IllegalArgumentException(String.format("{} is not a valid date parameter", value));
-
-    } catch (IllegalArgumentException e) {
-      // could be a wildcard
-      if (QUERY_WILDCARD.equals(value)) {
-        return null;
-      }
-      throw e;
+      throw new IllegalArgumentException(String.format("%s is not a valid date parameter", value));
     }
   }
 
@@ -163,7 +161,7 @@ public class IsoDateParsingUtils {
       }
     }
 
-    return buildRange(lowerDate, upperDate);
+    return Range.closed(lowerDate, upperDate);
   }
 
   /**
@@ -201,5 +199,4 @@ public class IsoDateParsingUtils {
     calendar.set(field, calendar.getActualMaximum(field));
     return calendar.getTime();
   }
-
 }

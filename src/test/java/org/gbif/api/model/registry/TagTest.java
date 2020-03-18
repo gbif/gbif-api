@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.registry;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -23,8 +24,6 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.junit.Test;
-
-import com.google.common.collect.Sets;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -52,7 +51,8 @@ public class TagTest {
     assertFalse("Violations were expected", violations.isEmpty());
 
     // ensure all expected properties are caught
-    Set<String> propertiesInViolation = Sets.newHashSet("value");
+    Set<String> propertiesInViolation = new HashSet<>();
+    propertiesInViolation.add("value");
     for (ConstraintViolation<?> cv : violations) {
       propertiesInViolation.remove(cv.getPropertyPath().toString());
     }

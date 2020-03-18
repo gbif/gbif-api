@@ -17,9 +17,10 @@ package org.gbif.api.vocabulary;
 
 import org.gbif.api.util.VocabularyUtils;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
-
-import com.google.common.collect.ImmutableSet;
 
 /**
  * Enumeration for all possible dataset subtypes.
@@ -64,16 +65,19 @@ public enum DatasetSubtype {
    *
    * @see DatasetType#OCCURRENCE
    */
-  public static final Set<DatasetSubtype> OCCURRENCE_DATASET_SUBTYPES = ImmutableSet.of(SPECIMEN, OBSERVATION);
+  public static final Set<DatasetSubtype> OCCURRENCE_DATASET_SUBTYPES =
+    Collections.unmodifiableSet(
+      new HashSet<>(Arrays.asList(SPECIMEN, OBSERVATION)));
 
   /**
    * A set of all DatasetSubtype that belong to DatasetType CHECKLIST.
    *
    * @see DatasetType#CHECKLIST
    */
-  public static final Set<DatasetSubtype> CHECKLIST_DATASET_SUBTYPES = ImmutableSet
-    .of(TAXONOMIC_AUTHORITY, NOMENCLATOR_AUTHORITY, INVENTORY_THEMATIC, INVENTORY_REGIONAL, GLOBAL_SPECIES_DATASET,
-      DERIVED_FROM_OCCURRENCE);
+  public static final Set<DatasetSubtype> CHECKLIST_DATASET_SUBTYPES =
+    Collections.unmodifiableSet(
+      new HashSet<>(Arrays.asList(TAXONOMIC_AUTHORITY, NOMENCLATOR_AUTHORITY, INVENTORY_THEMATIC,
+        INVENTORY_REGIONAL, GLOBAL_SPECIES_DATASET, DERIVED_FROM_OCCURRENCE)));
 
   /**
    * @return the matching DatasetSubtype or null

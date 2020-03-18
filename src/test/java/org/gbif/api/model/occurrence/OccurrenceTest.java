@@ -35,8 +35,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -45,8 +47,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.google.common.collect.Sets;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -304,7 +304,8 @@ public class OccurrenceTest {
 
     Occurrence o2 = mapper.readValue(json, Occurrence.class);
 
-    Sets.SetView<Term> diff = Sets.difference(o.getVerbatimFields().keySet(), o2.getVerbatimFields().keySet());
+    Set<Term> diff = new HashSet<>(o.getVerbatimFields().keySet());
+    diff.removeAll(o2.getVerbatimFields().keySet());
 
     Iterator<Term> iter = diff.iterator();
     while (iter.hasNext()) {
@@ -352,7 +353,8 @@ public class OccurrenceTest {
     o2 = mapper.readValue(json, Occurrence.class);
     assertEquals("WGS84", o2.getGeodeticDatum());
 
-    Sets.SetView<Term> diff = Sets.difference(o.getVerbatimFields().keySet(), o2.getVerbatimFields().keySet());
+    Set<Term> diff = new HashSet<>(o.getVerbatimFields().keySet());
+    diff.removeAll(o2.getVerbatimFields().keySet());
 
     Iterator<Term> iter = diff.iterator();
     while (iter.hasNext()) {

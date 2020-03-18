@@ -24,8 +24,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.google.common.collect.Ordering;
-
 /**
  * Compares two Endpoints.
  * <p></p>
@@ -61,11 +59,18 @@ public class EndpointPriorityComparator implements Comparator<Endpoint>, Seriali
     ));
 
   private static final long serialVersionUID = 8085216142750609841L;
-  private static final Ordering<EndpointType> PRIORITY_COMPARATOR = Ordering.explicit(PRIORITIES);
 
   @Override
   public int compare(Endpoint endpoint1, Endpoint endpoint2) {
-    return PRIORITY_COMPARATOR.compare(endpoint1.getType(), endpoint2.getType());
-  }
+    int firstEndpointTypeIndex = PRIORITIES.indexOf(endpoint1.getType());
+    int secondEndpointTypeIndex = PRIORITIES.indexOf(endpoint2.getType());
 
+    if (firstEndpointTypeIndex == -1) {
+      throw new ClassCastException("Cannot compare value: " + endpoint1.getType());
+    } else if (secondEndpointTypeIndex == -1) {
+      throw new ClassCastException("Cannot compare value: " + endpoint2.getType());
+    } else {
+      return Integer.compare(firstEndpointTypeIndex, secondEndpointTypeIndex);
+    }
+  }
 }

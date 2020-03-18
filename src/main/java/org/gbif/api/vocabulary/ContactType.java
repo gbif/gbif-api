@@ -17,9 +17,10 @@ package org.gbif.api.vocabulary;
 
 import org.gbif.api.util.VocabularyUtils;
 
-import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.google.common.collect.ImmutableMap;
+import javax.annotation.Nullable;
 
 /**
  * Enumeration for all contact types.
@@ -144,28 +145,30 @@ public enum ContactType {
   }
 
   // deliberate typos have existed and might be in genuine use
-  private static final ImmutableMap<String, ContactType> TYPE_LOOKUP = ImmutableMap.<String, ContactType> builder()
-    .put("administrative", ADMINISTRATIVE_POINT_OF_CONTACT)
-    .put("technical", TECHNICAL_POINT_OF_CONTACT)
-    .put("pointofcontact", POINT_OF_CONTACT)
-    .put("originator", ORIGINATOR)
-    .put("metadataprovider", METADATA_AUTHOR)
-    .put("principleinvestigator", PRINCIPAL_INVESTIGATOR)
-    .put("author", AUTHOR)
-    .put("contentprovider", CONTENT_PROVIDER)
-    .put("custodiansteward", CUSTODIAN_STEWARD)
-    .put("distributor", DISTRIBUTOR)
-    .put("editor", EDITOR)
-    .put("owner", OWNER)
-    .put("processor", PROCESSOR)
-    .put("publisher", PUBLISHER)
-    .put("user", USER)
-    .put("programmer", PROGRAMMER)
-    .put("curator", CURATOR)
-    .put("data administrator", DATA_ADMINISTRATOR)
-    .put("system adminsitrator", SYSTEM_ADMINISTRATOR) // deliberate typo
-    .put("system administrator", SYSTEM_ADMINISTRATOR)
-  .build();
+  private static final Map<String, ContactType> TYPE_LOOKUP = new HashMap<>();
+
+  static {
+    TYPE_LOOKUP.put("administrative", ADMINISTRATIVE_POINT_OF_CONTACT);
+    TYPE_LOOKUP.put("technical", TECHNICAL_POINT_OF_CONTACT);
+    TYPE_LOOKUP.put("pointofcontact", POINT_OF_CONTACT);
+    TYPE_LOOKUP.put("originator", ORIGINATOR);
+    TYPE_LOOKUP.put("metadataprovider", METADATA_AUTHOR);
+    TYPE_LOOKUP.put("principleinvestigator", PRINCIPAL_INVESTIGATOR);
+    TYPE_LOOKUP.put("author", AUTHOR);
+    TYPE_LOOKUP.put("contentprovider", CONTENT_PROVIDER);
+    TYPE_LOOKUP.put("custodiansteward", CUSTODIAN_STEWARD);
+    TYPE_LOOKUP.put("distributor", DISTRIBUTOR);
+    TYPE_LOOKUP.put("editor", EDITOR);
+    TYPE_LOOKUP.put("owner", OWNER);
+    TYPE_LOOKUP.put("processor", PROCESSOR);
+    TYPE_LOOKUP.put("publisher", PUBLISHER);
+    TYPE_LOOKUP.put("user", USER);
+    TYPE_LOOKUP.put("programmer", PROGRAMMER);
+    TYPE_LOOKUP.put("curator", CURATOR);
+    TYPE_LOOKUP.put("data administrator", DATA_ADMINISTRATOR);
+    TYPE_LOOKUP.put("system adminsitrator", SYSTEM_ADMINISTRATOR); // deliberate typo
+    TYPE_LOOKUP.put("system administrator", SYSTEM_ADMINISTRATOR);
+  }
 
   /**
    * Tries its best to infer a ContactType from a given string. This can for example be used for the various contact

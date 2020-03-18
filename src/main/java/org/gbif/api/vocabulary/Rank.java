@@ -17,12 +17,11 @@ package org.gbif.api.vocabulary;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 
 /**
  * An ordered taxonomic rank enumeration with the most frequently used values.
@@ -30,6 +29,7 @@ import com.google.common.collect.ImmutableSet;
  *
  * @see <a href="http://rs.gbif.org/vocabulary/gbif/rank.xml">rs.gbif.org vocabulary</a>
  */
+@SuppressWarnings("unused")
 public enum Rank {
 
   DOMAIN("dom."),
@@ -325,68 +325,75 @@ public enum Rank {
       GENUS,
       SUBGENUS,
       SPECIES
-  ));
+    ));
 
   /**
    * A set of ranks which cannot clearly be compared to any other rank as they represent rank "ranges".
    * For example a subgeneric rank is anything below genus,
    * so one cannot say if its higher or lower than a species for example.
    */
-  private static final Set<Rank> UNCOMPARABLE_RANKS = ImmutableSet.of(
+  private static final Set<Rank> UNCOMPARABLE_RANKS = Collections.unmodifiableSet(
+    new HashSet<>(Arrays.asList(
       INFRAGENERIC_NAME,
       INFRASPECIFIC_NAME,
       INFRASUBSPECIFIC_NAME,
       OTHER,
       UNRANKED
-  );
+    )));
 
-  private static final Set<Rank> LEGACY_RANKS = ImmutableSet.of(
+  private static final Set<Rank> LEGACY_RANKS = Collections.unmodifiableSet(
+    new HashSet<>(Arrays.asList(
       MORPH,
       ABERRATION,
       NATIO,
       RACE,
       PROLES,
       CONVARIETY
-  );
+    )));
 
-  private static final Map<Rank, NomenclaturalCode> RANK2CODE= ImmutableMap.<Rank, NomenclaturalCode>builder()
-      .put(PARVCLASS, NomenclaturalCode.ZOOLOGICAL)
-      .put(MAGNORDER, NomenclaturalCode.ZOOLOGICAL)
-      .put(GRANDORDER, NomenclaturalCode.ZOOLOGICAL)
-      .put(PARVORDER, NomenclaturalCode.ZOOLOGICAL)
-      .put(SUPERLEGION, NomenclaturalCode.ZOOLOGICAL)
-      .put(LEGION, NomenclaturalCode.ZOOLOGICAL)
-      .put(SUBLEGION, NomenclaturalCode.ZOOLOGICAL)
-      .put(INFRALEGION, NomenclaturalCode.ZOOLOGICAL)
-      .put(SUPERCOHORT, NomenclaturalCode.ZOOLOGICAL)
-      .put(COHORT, NomenclaturalCode.ZOOLOGICAL)
-      .put(SUBCOHORT, NomenclaturalCode.ZOOLOGICAL)
-      .put(INFRACOHORT, NomenclaturalCode.ZOOLOGICAL)
-      .put(MORPH, NomenclaturalCode.ZOOLOGICAL)
-      .put(ABERRATION, NomenclaturalCode.ZOOLOGICAL)
-      .put(NATIO, NomenclaturalCode.ZOOLOGICAL)
+  private static final Map<Rank, NomenclaturalCode> RANK2CODE;
 
-      .put(RACE, NomenclaturalCode.BOTANICAL)
-      .put(PROLES, NomenclaturalCode.BOTANICAL)
-      .put(SECTION, NomenclaturalCode.BOTANICAL)
-      .put(SUBSECTION, NomenclaturalCode.BOTANICAL)
-      .put(SERIES, NomenclaturalCode.BOTANICAL)
-      .put(SUBSERIES, NomenclaturalCode.BOTANICAL)
+  static {
+    Map<Rank, NomenclaturalCode> rank2code = new HashMap<>();
+    rank2code.put(PARVCLASS, NomenclaturalCode.ZOOLOGICAL);
+    rank2code.put(MAGNORDER, NomenclaturalCode.ZOOLOGICAL);
+    rank2code.put(GRANDORDER, NomenclaturalCode.ZOOLOGICAL);
+    rank2code.put(PARVORDER, NomenclaturalCode.ZOOLOGICAL);
+    rank2code.put(SUPERLEGION, NomenclaturalCode.ZOOLOGICAL);
+    rank2code.put(LEGION, NomenclaturalCode.ZOOLOGICAL);
+    rank2code.put(SUBLEGION, NomenclaturalCode.ZOOLOGICAL);
+    rank2code.put(INFRALEGION, NomenclaturalCode.ZOOLOGICAL);
+    rank2code.put(SUPERCOHORT, NomenclaturalCode.ZOOLOGICAL);
+    rank2code.put(COHORT, NomenclaturalCode.ZOOLOGICAL);
+    rank2code.put(SUBCOHORT, NomenclaturalCode.ZOOLOGICAL);
+    rank2code.put(INFRACOHORT, NomenclaturalCode.ZOOLOGICAL);
+    rank2code.put(MORPH, NomenclaturalCode.ZOOLOGICAL);
+    rank2code.put(ABERRATION, NomenclaturalCode.ZOOLOGICAL);
+    rank2code.put(NATIO, NomenclaturalCode.ZOOLOGICAL);
 
-      .put(CULTIVAR, NomenclaturalCode.CULTIVARS)
-      .put(CULTIVAR_GROUP, NomenclaturalCode.CULTIVARS)
-      .put(CONVARIETY, NomenclaturalCode.CULTIVARS)
-      .put(GREX, NomenclaturalCode.CULTIVARS)
+    rank2code.put(RACE, NomenclaturalCode.BOTANICAL);
+    rank2code.put(PROLES, NomenclaturalCode.BOTANICAL);
+    rank2code.put(SECTION, NomenclaturalCode.BOTANICAL);
+    rank2code.put(SUBSECTION, NomenclaturalCode.BOTANICAL);
+    rank2code.put(SERIES, NomenclaturalCode.BOTANICAL);
+    rank2code.put(SUBSERIES, NomenclaturalCode.BOTANICAL);
 
-      .put(PATHOVAR, NomenclaturalCode.BACTERIAL)
-      .put(BIOVAR, NomenclaturalCode.BACTERIAL)
-      .put(CHEMOVAR, NomenclaturalCode.BACTERIAL)
-      .put(MORPHOVAR, NomenclaturalCode.BACTERIAL)
-      .put(PHAGOVAR, NomenclaturalCode.BACTERIAL)
-      .put(SEROVAR, NomenclaturalCode.BACTERIAL)
-      .put(CHEMOFORM, NomenclaturalCode.BACTERIAL)
-      .put(FORMA_SPECIALIS, NomenclaturalCode.BACTERIAL)
-      .build();
+    rank2code.put(CULTIVAR, NomenclaturalCode.CULTIVARS);
+    rank2code.put(CULTIVAR_GROUP, NomenclaturalCode.CULTIVARS);
+    rank2code.put(CONVARIETY, NomenclaturalCode.CULTIVARS);
+    rank2code.put(GREX, NomenclaturalCode.CULTIVARS);
+
+    rank2code.put(PATHOVAR, NomenclaturalCode.BACTERIAL);
+    rank2code.put(BIOVAR, NomenclaturalCode.BACTERIAL);
+    rank2code.put(CHEMOVAR, NomenclaturalCode.BACTERIAL);
+    rank2code.put(MORPHOVAR, NomenclaturalCode.BACTERIAL);
+    rank2code.put(PHAGOVAR, NomenclaturalCode.BACTERIAL);
+    rank2code.put(SEROVAR, NomenclaturalCode.BACTERIAL);
+    rank2code.put(CHEMOFORM, NomenclaturalCode.BACTERIAL);
+    rank2code.put(FORMA_SPECIALIS, NomenclaturalCode.BACTERIAL);
+
+    RANK2CODE = Collections.unmodifiableMap(rank2code);
+  }
 
   private final String marker;
 

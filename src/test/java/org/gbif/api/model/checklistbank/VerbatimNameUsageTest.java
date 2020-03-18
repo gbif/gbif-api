@@ -38,8 +38,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 import org.junit.Test;
 
-import com.google.common.collect.Maps;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -61,7 +59,7 @@ public class VerbatimNameUsageTest {
     assertFalse(v1.hasExtension(Extension.IDENTIFICATION));
     assertFalse(v1.hasExtension(DwcTerm.Identification));
 
-    exts.add(Maps.<Term, String>newHashMap());
+    exts.add(new HashMap<>());
     assertTrue(v1.hasExtension(Extension.IDENTIFICATION));
     assertTrue(v1.hasExtension(DwcTerm.Identification));
     assertFalse(v1.hasExtension(DwcTerm.MeasurementOrFact));

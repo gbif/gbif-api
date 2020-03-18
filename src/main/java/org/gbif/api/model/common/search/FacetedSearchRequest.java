@@ -18,19 +18,20 @@ package org.gbif.api.model.common.search;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingRequest;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.common.collect.Sets;
 
 /**
  * Generic request class for search operations requesting facets.
  * It extends a search request with a list of desired facets and optional settings.
  */
+@SuppressWarnings("unused")
 public class FacetedSearchRequest<P extends SearchParameter> extends SearchRequest<P> {
 
-  private Set<P> facets = Sets.newHashSet();
+  private Set<P> facets = new HashSet<>();
 
   private boolean multiSelectFacets;
   private Integer facetMinCount;
@@ -147,9 +148,9 @@ public class FacetedSearchRequest<P extends SearchParameter> extends SearchReque
 
   public void addFacets(P... facets) {
     if (this.facets == null) {
-      this.facets = Sets.newHashSet(facets);
+      this.facets = new HashSet<>(Arrays.asList(facets));
     } else {
-      this.facets.addAll(Sets.newHashSet(facets));
+      this.facets.addAll(new HashSet<>(Arrays.asList(facets)));
     }
   }
 }

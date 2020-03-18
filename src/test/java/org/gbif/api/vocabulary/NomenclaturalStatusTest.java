@@ -15,11 +15,10 @@
  */
 package org.gbif.api.vocabulary;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
-
-import com.google.common.collect.Sets;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -44,7 +43,7 @@ public class NomenclaturalStatusTest {
 
     @Test
     public void testUniqueness() throws Exception {
-        Set<String> keys = Sets.newHashSet();
+        Set<String> keys = new HashSet<>();
         for (NomenclaturalStatus ns : NomenclaturalStatus.values()) {
             if (ns.getAbbreviatedLabel() != null) {
                 assertFalse(ns.name(), keys.contains(ns.getAbbreviatedLabel()));
