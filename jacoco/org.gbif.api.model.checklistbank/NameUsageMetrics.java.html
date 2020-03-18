@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NameUsageMetrics.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">NameUsageMetrics.java</span></div><h1>NameUsageMetrics.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -17,17 +17,19 @@ package org.gbif.api.model.checklistbank;
 
 import org.gbif.api.vocabulary.Rank;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-
-import com.google.common.base.Objects;
 
 /**
  * Basic metrics for a single name usage. These metrics have been embedded in the NameUsage class before
  * but are rarely being used. They are therefore split out into a separate class to be retrieved only when needed.
  */
-<span class="nc" id="L30">public class NameUsageMetrics {</span>
+@SuppressWarnings(&quot;unused&quot;)
+<span class="nc" id="L32">public class NameUsageMetrics {</span>
 
   private Integer key;
   private int numPhylum;
@@ -41,7 +43,6 @@ import com.google.common.base.Objects;
   private int numDescendants;
   private int numSynonyms;
 
-
   /**
    * Return the key that uniquely identifies this name usage.
    *
@@ -49,16 +50,15 @@ import com.google.common.base.Objects;
    */
   @NotNull
   public Integer getKey() {
-<span class="nc" id="L52">    return key;</span>
+<span class="nc" id="L53">    return key;</span>
   }
 
   /**
    * @param key the key to set
    */
   public void setKey(Integer key) {
-<span class="nc" id="L59">    this.key = key;</span>
-<span class="nc" id="L60">  }</span>
-
+<span class="nc" id="L60">    this.key = key;</span>
+<span class="nc" id="L61">  }</span>
 
   /**
    * Returns the number of direct taxonomic elements under this usage. &quot;Direct&quot; means that children should have
@@ -273,62 +273,49 @@ import com.google.common.base.Objects;
 
 
   @Override
-  public int hashCode() {
-<span class="nc" id="L277">    return Objects</span>
-<span class="nc" id="L278">      .hashCode(</span>
-        key,
-<span class="nc" id="L280">        numPhylum,</span>
-<span class="nc" id="L281">        numClass,</span>
-<span class="nc" id="L282">        numOrder,</span>
-<span class="nc" id="L283">        numFamily,</span>
-<span class="nc" id="L284">        numGenus,</span>
-<span class="nc" id="L285">        numSubgenus,</span>
-<span class="nc" id="L286">        numSpecies,</span>
-<span class="nc" id="L287">        numChildren,</span>
-<span class="nc" id="L288">        numDescendants,</span>
-<span class="nc" id="L289">        numSynonyms);</span>
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L277" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L278">      return true;</span>
+    }
+<span class="nc bnc" id="L280" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L281">      return false;</span>
+    }
+<span class="nc" id="L283">    NameUsageMetrics that = (NameUsageMetrics) o;</span>
+<span class="nc bnc" id="L284" title="All 20 branches missed.">    return numPhylum == that.numPhylum &amp;&amp;</span>
+      numClass == that.numClass &amp;&amp;
+      numOrder == that.numOrder &amp;&amp;
+      numFamily == that.numFamily &amp;&amp;
+      numGenus == that.numGenus &amp;&amp;
+      numSubgenus == that.numSubgenus &amp;&amp;
+      numSpecies == that.numSpecies &amp;&amp;
+      numChildren == that.numChildren &amp;&amp;
+      numDescendants == that.numDescendants &amp;&amp;
+      numSynonyms == that.numSynonyms &amp;&amp;
+<span class="nc bnc" id="L294" title="All 2 branches missed.">      Objects.equals(key, that.key);</span>
   }
 
   @Override
-  public boolean equals(Object obj) {
-<span class="nc bnc" id="L294" title="All 2 branches missed.">    if (this == obj) {</span>
-<span class="nc" id="L295">      return true;</span>
-    }
-<span class="nc bnc" id="L297" title="All 2 branches missed.">    if (obj == null) {</span>
-<span class="nc" id="L298">      return false;</span>
-    }
-<span class="nc bnc" id="L300" title="All 2 branches missed.">    if (getClass() != obj.getClass()) {</span>
-<span class="nc" id="L301">      return false;</span>
-    }
-<span class="nc" id="L303">    final NameUsageMetrics other = (NameUsageMetrics) obj;</span>
-<span class="nc bnc" id="L304" title="All 2 branches missed.">    return Objects.equal(this.key, other.key)</span>
-<span class="nc bnc" id="L305" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numPhylum, other.numPhylum)</span>
-<span class="nc bnc" id="L306" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numClass, other.numClass)</span>
-<span class="nc bnc" id="L307" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numOrder, other.numOrder)</span>
-<span class="nc bnc" id="L308" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numFamily, other.numFamily)</span>
-<span class="nc bnc" id="L309" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numGenus, other.numGenus)</span>
-<span class="nc bnc" id="L310" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numSubgenus, other.numSubgenus)</span>
-<span class="nc bnc" id="L311" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numSpecies, other.numSpecies)</span>
-<span class="nc bnc" id="L312" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numChildren, other.numChildren)</span>
-<span class="nc bnc" id="L313" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numDescendants, other.numDescendants)</span>
-<span class="nc bnc" id="L314" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.numSynonyms, other.numSynonyms);</span>
+  public int hashCode() {
+<span class="nc" id="L299">    return Objects</span>
+<span class="nc" id="L300">      .hash(key, numPhylum, numClass, numOrder, numFamily, numGenus, numSubgenus, numSpecies,</span>
+<span class="nc" id="L301">        numChildren, numDescendants, numSynonyms);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L319">    return Objects.toStringHelper(this)</span>
-<span class="nc" id="L320">      .add(&quot;key&quot;, key)</span>
-<span class="nc" id="L321">      .add(&quot;numPhylum&quot;, numPhylum)</span>
-<span class="nc" id="L322">      .add(&quot;numClass&quot;, numClass)</span>
-<span class="nc" id="L323">      .add(&quot;numOrder&quot;, numOrder)</span>
-<span class="nc" id="L324">      .add(&quot;numFamily&quot;, numFamily)</span>
-<span class="nc" id="L325">      .add(&quot;numGenus&quot;, numGenus)</span>
-<span class="nc" id="L326">      .add(&quot;numSubgenus&quot;, numSubgenus)</span>
-<span class="nc" id="L327">      .add(&quot;numSpecies&quot;, numSpecies)</span>
-<span class="nc" id="L328">      .add(&quot;numChildren&quot;, numChildren)</span>
-<span class="nc" id="L329">      .add(&quot;numDescendants&quot;, numDescendants)</span>
-<span class="nc" id="L330">      .add(&quot;numSynonyms&quot;, numSynonyms)</span>
-<span class="nc" id="L331">      .toString();</span>
+<span class="nc" id="L306">    return new StringJoiner(&quot;, &quot;, NameUsageMetrics.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L307">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L308">      .add(&quot;numPhylum=&quot; + numPhylum)</span>
+<span class="nc" id="L309">      .add(&quot;numClass=&quot; + numClass)</span>
+<span class="nc" id="L310">      .add(&quot;numOrder=&quot; + numOrder)</span>
+<span class="nc" id="L311">      .add(&quot;numFamily=&quot; + numFamily)</span>
+<span class="nc" id="L312">      .add(&quot;numGenus=&quot; + numGenus)</span>
+<span class="nc" id="L313">      .add(&quot;numSubgenus=&quot; + numSubgenus)</span>
+<span class="nc" id="L314">      .add(&quot;numSpecies=&quot; + numSpecies)</span>
+<span class="nc" id="L315">      .add(&quot;numChildren=&quot; + numChildren)</span>
+<span class="nc" id="L316">      .add(&quot;numDescendants=&quot; + numDescendants)</span>
+<span class="nc" id="L317">      .add(&quot;numSynonyms=&quot; + numSynonyms)</span>
+<span class="nc" id="L318">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

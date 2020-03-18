@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Description.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">Description.java</span></div><h1>Description.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -17,17 +17,18 @@ package org.gbif.api.model.checklistbank;
 
 import org.gbif.api.vocabulary.Language;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.annotation.Nullable;
-
-import com.google.common.base.Objects;
-
 
 /**
  * Description Model Object represents a taxon description.
  *
  * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/description.xml&quot;&gt;Description Definition&lt;/a&gt;
  */
-<span class="fc" id="L30">public class Description implements NameUsageExtension {</span>
+@SuppressWarnings(&quot;unused&quot;)
+<span class="fc" id="L31">public class Description implements NameUsageExtension {</span>
 
   private Integer key;
   private Integer taxonKey;
@@ -45,25 +46,25 @@ import com.google.common.base.Objects;
    * This key is used in the table of contents to retrieve the detailed description.
    */
   public Integer getKey() {
-<span class="nc" id="L48">    return key;</span>
+<span class="nc" id="L49">    return key;</span>
   }
 
   public void setKey(Integer key) {
-<span class="nc" id="L52">    this.key = key;</span>
-<span class="nc" id="L53">  }</span>
+<span class="nc" id="L53">    this.key = key;</span>
+<span class="nc" id="L54">  }</span>
 
   /**
    * The name usage &quot;taxon&quot; key this description belongs to.
    */
   @Override
   public Integer getTaxonKey() {
-<span class="nc" id="L60">    return taxonKey;</span>
+<span class="nc" id="L61">    return taxonKey;</span>
   }
 
   @Override
   public void setTaxonKey(Integer taxonKey) {
-<span class="nc" id="L65">    this.taxonKey = taxonKey;</span>
-<span class="nc" id="L66">  }</span>
+<span class="nc" id="L66">    this.taxonKey = taxonKey;</span>
+<span class="nc" id="L67">  }</span>
 
   /**
    * An entity responsible for making contributions to the textual information provided for a description.
@@ -72,15 +73,15 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public String getContributor() {
-<span class="nc" id="L75">    return contributor;</span>
+<span class="nc" id="L76">    return contributor;</span>
   }
 
   /**
    * @param contributor the contributor to set
    */
   public void setContributor(String contributor) {
-<span class="nc" id="L82">    this.contributor = contributor;</span>
-<span class="nc" id="L83">  }</span>
+<span class="nc" id="L83">    this.contributor = contributor;</span>
+<span class="nc" id="L84">  }</span>
 
   /**
    * The author(s) of the textual information provided for a description.
@@ -89,15 +90,15 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public String getCreator() {
-<span class="nc" id="L92">    return creator;</span>
+<span class="nc" id="L93">    return creator;</span>
   }
 
   /**
    * @param creator the creator to set.
    */
   public void setCreator(String creator) {
-<span class="nc" id="L99">    this.creator = creator;</span>
-<span class="nc" id="L100">  }</span>
+<span class="nc" id="L100">    this.creator = creator;</span>
+<span class="nc" id="L101">  }</span>
 
   /**
    * Any descriptive free text matching the category given as dc:type. The text should be either plain text or
@@ -107,15 +108,15 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public String getDescription() {
-<span class="nc" id="L110">    return description;</span>
+<span class="nc" id="L111">    return description;</span>
   }
 
   /**
    * @param description the description to set
    */
   public void setDescription(String description) {
-<span class="nc" id="L117">    this.description = description;</span>
-<span class="nc" id="L118">  }</span>
+<span class="nc" id="L118">    this.description = description;</span>
+<span class="nc" id="L119">  }</span>
 
   /**
    * ISO 639-1 language code used for the vernacular name value.
@@ -124,15 +125,15 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public Language getLanguage() {
-<span class="nc" id="L127">    return language;</span>
+<span class="nc" id="L128">    return language;</span>
   }
 
   /**
    * @param language the language to set
    */
   public void setLanguage(Language language) {
-<span class="fc" id="L134">    this.language = language;</span>
-<span class="fc" id="L135">  }</span>
+<span class="fc" id="L135">    this.language = language;</span>
+<span class="fc" id="L136">  }</span>
 
   /**
    * Official permission to do something with the resource. Please use Creative Commons URIs if you can. &lt;br/&gt;
@@ -146,15 +147,15 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public String getLicense() {
-<span class="nc" id="L149">    return license;</span>
+<span class="nc" id="L150">    return license;</span>
   }
 
   /**
    * @param license the license to set
    */
   public void setLicense(String license) {
-<span class="nc" id="L156">    this.license = license;</span>
-<span class="nc" id="L157">  }</span>
+<span class="nc" id="L157">    this.license = license;</span>
+<span class="nc" id="L158">  }</span>
 
   /**
    * Source reference of this description, a URL or full publication citation.
@@ -164,7 +165,7 @@ import com.google.common.base.Objects;
   @Nullable
   @Override
   public String getSource() {
-<span class="nc" id="L167">    return source;</span>
+<span class="nc" id="L168">    return source;</span>
   }
 
   /**
@@ -172,19 +173,19 @@ import com.google.common.base.Objects;
    */
   @Override
   public void setSource(String source) {
-<span class="nc" id="L175">    this.source = source;</span>
-<span class="nc" id="L176">  }</span>
+<span class="nc" id="L176">    this.source = source;</span>
+<span class="nc" id="L177">  }</span>
 
   @Nullable
   @Override
   public Integer getSourceTaxonKey() {
-<span class="nc" id="L181">    return sourceTaxonKey;</span>
+<span class="nc" id="L182">    return sourceTaxonKey;</span>
   }
 
   @Override
   public void setSourceTaxonKey(Integer sourceTaxonKey) {
-<span class="nc" id="L186">    this.sourceTaxonKey = sourceTaxonKey;</span>
-<span class="nc" id="L187">  }</span>
+<span class="nc" id="L187">    this.sourceTaxonKey = sourceTaxonKey;</span>
+<span class="nc" id="L188">  }</span>
 
   /**
    * Returns the type used to categorize paragraphs of a taxon description.
@@ -196,54 +197,57 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public String getType() {
-<span class="nc" id="L199">    return type;</span>
+<span class="nc" id="L200">    return type;</span>
   }
 
   /**
    * @param type the type to set
    */
   public void setType(String type) {
-<span class="fc" id="L206">    this.type = type;</span>
-<span class="fc" id="L207">  }</span>
+<span class="fc" id="L207">    this.type = type;</span>
+<span class="fc" id="L208">  }</span>
 
   @Override
-  public boolean equals(Object object) {
-<span class="pc bpc" id="L211" title="1 of 2 branches missed.">    if (this == object) {</span>
-<span class="nc" id="L212">      return true;</span>
+  public boolean equals(Object o) {
+<span class="pc bpc" id="L212" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L213">      return true;</span>
     }
-<span class="pc bpc" id="L214" title="1 of 2 branches missed.">    if (!(object instanceof Description)) {</span>
-<span class="nc" id="L215">      return false;</span>
+<span class="pc bpc" id="L215" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L216">      return false;</span>
     }
-
-<span class="fc" id="L218">    Description that = (Description) object;</span>
-<span class="pc bpc" id="L219" title="1 of 2 branches missed.">    return Objects.equal(this.type, that.type)</span>
-<span class="pc bpc" id="L220" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.language, that.language)</span>
-<span class="pc bpc" id="L221" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.description, that.description)</span>
-<span class="pc bpc" id="L222" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.source, that.source)</span>
-<span class="pc bpc" id="L223" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey)</span>
-<span class="pc bpc" id="L224" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.creator, that.creator)</span>
-<span class="pc bpc" id="L225" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.contributor, that.contributor)</span>
-<span class="pc bpc" id="L226" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.license, that.license);</span>
+<span class="fc" id="L218">    Description that = (Description) o;</span>
+<span class="pc bpc" id="L219" title="1 of 2 branches missed.">    return Objects.equals(key, that.key) &amp;&amp;</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">      Objects.equals(taxonKey, that.taxonKey) &amp;&amp;</span>
+<span class="pc bpc" id="L221" title="2 of 4 branches missed.">      Objects.equals(type, that.type) &amp;&amp;</span>
+      language == that.language &amp;&amp;
+<span class="pc bpc" id="L223" title="1 of 2 branches missed.">      Objects.equals(description, that.description) &amp;&amp;</span>
+<span class="pc bpc" id="L224" title="1 of 2 branches missed.">      Objects.equals(source, that.source) &amp;&amp;</span>
+<span class="pc bpc" id="L225" title="1 of 2 branches missed.">      Objects.equals(sourceTaxonKey, that.sourceTaxonKey) &amp;&amp;</span>
+<span class="pc bpc" id="L226" title="1 of 2 branches missed.">      Objects.equals(creator, that.creator) &amp;&amp;</span>
+<span class="pc bpc" id="L227" title="1 of 2 branches missed.">      Objects.equals(contributor, that.contributor) &amp;&amp;</span>
+<span class="pc bpc" id="L228" title="1 of 2 branches missed.">      Objects.equals(license, that.license);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L231">    return Objects.hashCode(type, language, description, source, creator, contributor, license);</span>
+<span class="nc" id="L233">    return Objects.hash(key, taxonKey, type, language, description, source, sourceTaxonKey, creator,</span>
+      contributor, license);
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L236">    return Objects.toStringHelper(this)</span>
-<span class="nc" id="L237">      .add(&quot;type&quot;, type)</span>
-<span class="nc" id="L238">      .add(&quot;language&quot;, language)</span>
-<span class="nc" id="L239">      .add(&quot;description&quot;, description)</span>
-<span class="nc" id="L240">      .add(&quot;source&quot;, source)</span>
-<span class="nc" id="L241">      .add(&quot;sourceTaxonKey&quot;, sourceTaxonKey)</span>
-<span class="nc" id="L242">      .add(&quot;creator&quot;, creator)</span>
-<span class="nc" id="L243">      .add(&quot;contributor&quot;, contributor)</span>
-<span class="nc" id="L244">      .add(&quot;license&quot;, license)</span>
-<span class="nc" id="L245">      .toString();</span>
+<span class="nc" id="L239">    return new StringJoiner(&quot;, &quot;, Description.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L240">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L241">      .add(&quot;taxonKey=&quot; + taxonKey)</span>
+<span class="nc" id="L242">      .add(&quot;type='&quot; + type + &quot;'&quot;)</span>
+<span class="nc" id="L243">      .add(&quot;language=&quot; + language)</span>
+<span class="nc" id="L244">      .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
+<span class="nc" id="L245">      .add(&quot;source='&quot; + source + &quot;'&quot;)</span>
+<span class="nc" id="L246">      .add(&quot;sourceTaxonKey=&quot; + sourceTaxonKey)</span>
+<span class="nc" id="L247">      .add(&quot;creator='&quot; + creator + &quot;'&quot;)</span>
+<span class="nc" id="L248">      .add(&quot;contributor='&quot; + contributor + &quot;'&quot;)</span>
+<span class="nc" id="L249">      .add(&quot;license='&quot; + license + &quot;'&quot;)</span>
+<span class="nc" id="L250">      .toString();</span>
   }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Request.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common.messaging</a> &gt; <span class="el_source">Request.java</span></div><h1>Request.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,10 @@
  */
 package org.gbif.api.model.common.messaging;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.google.common.collect.ImmutableMap;
 
 /**
  * Class that represents a generic invocation of operation.
@@ -27,7 +26,7 @@ import com.google.common.collect.ImmutableMap;
  *
  * @param &lt;T&gt; content type of the request object
  */
-<span class="nc" id="L30">public class Request&lt;T&gt; {</span>
+<span class="nc" id="L29">public class Request&lt;T&gt; {</span>
 
   private OperationType operationType;
 
@@ -39,7 +38,7 @@ import com.google.common.collect.ImmutableMap;
    * @return the content
    */
   public T getContent() {
-<span class="nc" id="L42">    return content;</span>
+<span class="nc" id="L41">    return content;</span>
   }
 
   /**
@@ -48,15 +47,15 @@ import com.google.common.collect.ImmutableMap;
    * @return the context
    */
   public Map&lt;String, String&gt; getContext() {
-<span class="nc" id="L51">    return context;</span>
+<span class="nc" id="L50">    return context;</span>
   }
 
   /**
    * @param context the context to set
    */
   public void setContext(Map&lt;String, String&gt; context) {
-<span class="nc" id="L58">    this.context = context;</span>
-<span class="nc" id="L59">  }</span>
+<span class="nc" id="L57">    this.context = context;</span>
+<span class="nc" id="L58">  }</span>
 
   /**
    * Type of the operation to be performed.
@@ -65,73 +64,73 @@ import com.google.common.collect.ImmutableMap;
    * @return the operationType
    */
   protected OperationType getOperationType() {
-<span class="nc" id="L68">    return operationType;</span>
+<span class="nc" id="L67">    return operationType;</span>
   }
 
   /**
    * @param operationType the operationType to set
    */
   protected void setOperationType(OperationType operationType) {
-<span class="nc" id="L75">    this.operationType = operationType;</span>
-<span class="nc" id="L76">  }</span>
+<span class="nc" id="L74">    this.operationType = operationType;</span>
+<span class="nc" id="L75">  }</span>
 
   /**
    * @param content the content to set
    */
   public void setParameter(T content) {
-<span class="nc" id="L82">    this.content = content;</span>
-<span class="nc" id="L83">  }</span>
+<span class="nc" id="L81">    this.content = content;</span>
+<span class="nc" id="L82">  }</span>
 
   /**
    * CRUD operation types.
    */
-<span class="nc" id="L88">  public enum OperationType {</span>
+<span class="nc" id="L87">  public enum OperationType {</span>
 
-<span class="nc" id="L90">    CREATE, RETRIEVE, UPDATE, DELETE, SELECT</span>
+<span class="nc" id="L89">    CREATE, RETRIEVE, UPDATE, DELETE, SELECT</span>
 
   }
 
   /**
    * Builder class for {@link Request} instances.
    */
-<span class="nc" id="L97">  public static class Builder&lt;T&gt; {</span>
+<span class="nc" id="L96">  public static class Builder&lt;T&gt; {</span>
 
     private OperationType operationType;
     private Map&lt;String, String&gt; context;
     private T content;
 
     public Request&lt;T&gt; build() {
-<span class="nc" id="L104">      Request&lt;T&gt; request = new Request&lt;T&gt;();</span>
-<span class="nc" id="L105">      request.operationType = operationType;</span>
-<span class="nc" id="L106">      request.content = content;</span>
-<span class="nc" id="L107">      request.context = new ImmutableMap.Builder&lt;String, String&gt;().putAll(context).build();</span>
-<span class="nc" id="L108">      return request;</span>
+<span class="nc" id="L103">      Request&lt;T&gt; request = new Request&lt;T&gt;();</span>
+<span class="nc" id="L104">      request.operationType = operationType;</span>
+<span class="nc" id="L105">      request.content = content;</span>
+<span class="nc" id="L106">      request.context = Collections.unmodifiableMap(context);</span>
+<span class="nc" id="L107">      return request;</span>
     }
 
     public Builder&lt;T&gt; content(T content) {
-<span class="nc" id="L112">      this.content = content;</span>
-<span class="nc" id="L113">      context = new HashMap&lt;String, String&gt;();</span>
-<span class="nc" id="L114">      return this;</span>
+<span class="nc" id="L111">      this.content = content;</span>
+<span class="nc" id="L112">      context = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L113">      return this;</span>
     }
 
     public Builder&lt;T&gt; context(Map&lt;String, String&gt; context) {
-<span class="nc" id="L118">      this.context = context;</span>
-<span class="nc" id="L119">      return this;</span>
+<span class="nc" id="L117">      this.context = context;</span>
+<span class="nc" id="L118">      return this;</span>
     }
 
     public Builder&lt;T&gt; contextParam(Entry&lt;String, String&gt; entry) {
-<span class="nc" id="L123">      context.entrySet().add(entry);</span>
-<span class="nc" id="L124">      return this;</span>
+<span class="nc" id="L122">      context.entrySet().add(entry);</span>
+<span class="nc" id="L123">      return this;</span>
     }
 
     public Builder&lt;T&gt; contextParam(String key, String value) {
-<span class="nc" id="L128">      context.put(key, value);</span>
-<span class="nc" id="L129">      return this;</span>
+<span class="nc" id="L127">      context.put(key, value);</span>
+<span class="nc" id="L128">      return this;</span>
     }
 
     public Builder&lt;T&gt; operationType(OperationType operationType) {
-<span class="nc" id="L133">      this.operationType = operationType;</span>
-<span class="nc" id="L134">      return this;</span>
+<span class="nc" id="L132">      this.operationType = operationType;</span>
+<span class="nc" id="L133">      return this;</span>
     }
 
   }

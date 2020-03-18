@@ -1,20 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClassificationUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util</a> &gt; <span class="el_source">ClassificationUtils.java</span></div><h1>ClassificationUtils.java</h1><pre class="source lang-java linenums">package org.gbif.api.util;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClassificationUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util</a> &gt; <span class="el_source">ClassificationUtils.java</span></div><h1>ClassificationUtils.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.util;
 
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.vocabulary.Rank;
 
 import java.util.LinkedHashMap;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
+import org.apache.commons.lang3.StringUtils;
 
+@SuppressWarnings(&quot;unused&quot;)
 public class ClassificationUtils {
-
-<span class="fc" id="L17">  private static final Joiner JOINER = Joiner.on(&quot;, &quot;).skipNulls();</span>
 
   /**
    * Concatenates all higher Linnean taxa into a single dwc:higherClassification string, skipping
@@ -26,12 +42,11 @@ public class ClassificationUtils {
    */
   @Nullable
   public static String getHigherClassification(LinneanClassification lc) {
-<span class="nc" id="L29">    return Strings.emptyToNull(JOINER.join(lc.getKingdom(),</span>
-<span class="nc" id="L30">                                           lc.getPhylum(),</span>
-<span class="nc" id="L31">                                           lc.getClazz(),</span>
-<span class="nc" id="L32">                                           lc.getOrder(),</span>
-<span class="nc" id="L33">                                           lc.getFamily(),</span>
-<span class="nc" id="L34">                                           lc.getGenus()));</span>
+<span class="nc" id="L45">    return ApiStringUtils.emptyToNull(</span>
+<span class="nc" id="L46">      Stream.of(lc.getKingdom(), lc.getPhylum(), lc.getClazz(),</span>
+<span class="nc" id="L47">        lc.getOrder(), lc.getFamily(), lc.getGenus())</span>
+<span class="nc" id="L48">        .filter(Objects::nonNull)</span>
+<span class="nc" id="L49">        .collect(Collectors.joining(&quot;, &quot;)));</span>
   }
 
   /**
@@ -45,27 +60,27 @@ public class ClassificationUtils {
    */
   @Nullable
   public static String getHigherRank(LinneanClassification lc, Rank rank) {
-<span class="pc bpc" id="L48" title="1 of 2 branches missed.">    if (rank != null) {</span>
-<span class="pc bpc" id="L49" title="8 of 9 branches missed.">      switch (rank) {</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">    if (rank != null) {</span>
+<span class="pc bpc" id="L64" title="8 of 9 branches missed.">      switch (rank) {</span>
         case KINGDOM:
-<span class="fc" id="L51">          return lc.getKingdom();</span>
+<span class="fc" id="L66">          return lc.getKingdom();</span>
         case PHYLUM:
-<span class="nc" id="L53">          return lc.getPhylum();</span>
+<span class="nc" id="L68">          return lc.getPhylum();</span>
         case CLASS:
-<span class="nc" id="L55">          return lc.getClazz();</span>
+<span class="nc" id="L70">          return lc.getClazz();</span>
         case ORDER:
-<span class="nc" id="L57">          return lc.getOrder();</span>
+<span class="nc" id="L72">          return lc.getOrder();</span>
         case FAMILY:
-<span class="nc" id="L59">          return lc.getFamily();</span>
+<span class="nc" id="L74">          return lc.getFamily();</span>
         case GENUS:
-<span class="nc" id="L61">          return lc.getGenus();</span>
+<span class="nc" id="L76">          return lc.getGenus();</span>
         case SUBGENUS:
-<span class="nc" id="L63">          return lc.getSubgenus();</span>
+<span class="nc" id="L78">          return lc.getSubgenus();</span>
         case SPECIES:
-<span class="nc" id="L65">          return lc.getSpecies();</span>
+<span class="nc" id="L80">          return lc.getSpecies();</span>
       }
     }
-<span class="nc" id="L68">    return null;</span>
+<span class="nc" id="L83">    return null;</span>
   }
 
   /**
@@ -76,35 +91,35 @@ public class ClassificationUtils {
    * @param name the higher ranks name
    */
   public static void setHigherRank(LinneanClassification lc, Rank rank, String name) {
-<span class="fc bfc" id="L79" title="All 2 branches covered.">    if (rank != null) {</span>
-<span class="pc bpc" id="L80" title="8 of 9 branches missed.">      switch (rank) {</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">    if (rank != null) {</span>
+<span class="pc bpc" id="L95" title="8 of 9 branches missed.">      switch (rank) {</span>
         case KINGDOM:
-<span class="nc" id="L82">          lc.setKingdom(name);</span>
-<span class="nc" id="L83">          break;</span>
+<span class="nc" id="L97">          lc.setKingdom(name);</span>
+<span class="nc" id="L98">          break;</span>
         case PHYLUM:
-<span class="nc" id="L85">          lc.setPhylum(name);</span>
-<span class="nc" id="L86">          break;</span>
-        case CLASS:
-<span class="nc" id="L88">          lc.setClazz(name);</span>
-<span class="nc" id="L89">          break;</span>
-        case ORDER:
-<span class="nc" id="L91">          lc.setOrder(name);</span>
-<span class="nc" id="L92">          break;</span>
-        case FAMILY:
-<span class="nc" id="L94">          lc.setFamily(name);</span>
-<span class="nc" id="L95">          break;</span>
-        case GENUS:
-<span class="fc" id="L97">          lc.setGenus(name);</span>
-<span class="fc" id="L98">          break;</span>
-        case SUBGENUS:
-<span class="nc" id="L100">          lc.setSubgenus(name);</span>
+<span class="nc" id="L100">          lc.setPhylum(name);</span>
 <span class="nc" id="L101">          break;</span>
+        case CLASS:
+<span class="nc" id="L103">          lc.setClazz(name);</span>
+<span class="nc" id="L104">          break;</span>
+        case ORDER:
+<span class="nc" id="L106">          lc.setOrder(name);</span>
+<span class="nc" id="L107">          break;</span>
+        case FAMILY:
+<span class="nc" id="L109">          lc.setFamily(name);</span>
+<span class="nc" id="L110">          break;</span>
+        case GENUS:
+<span class="fc" id="L112">          lc.setGenus(name);</span>
+<span class="fc" id="L113">          break;</span>
+        case SUBGENUS:
+<span class="nc" id="L115">          lc.setSubgenus(name);</span>
+<span class="nc" id="L116">          break;</span>
         case SPECIES:
-<span class="nc" id="L103">          lc.setSpecies(name);</span>
+<span class="nc" id="L118">          lc.setSpecies(name);</span>
           break;
       }
     }
-<span class="fc" id="L107">  }</span>
+<span class="fc" id="L122">  }</span>
 
   /**
    * An ordered map with entries for all higher Linnean ranks down to species which are not null.
@@ -118,7 +133,7 @@ public class ClassificationUtils {
   @NotNull
   public static &lt;T extends LinneanClassification &amp; LinneanClassificationKeys&gt; LinkedHashMap&lt;Integer, String&gt; getHigherClassificationMap(
     T lc) {
-<span class="fc" id="L121">    return getHigherClassificationBaseMap(lc);</span>
+<span class="fc" id="L136">    return getHigherClassificationBaseMap(lc);</span>
   }
 
   /**
@@ -134,42 +149,42 @@ public class ClassificationUtils {
   @NotNull
   public static &lt;T extends LinneanClassification &amp; LinneanClassificationKeys&gt; LinkedHashMap&lt;Integer, String&gt; getHigherClassificationMap(
     T lc, int key, Integer parentKey, String parent) {
-<span class="fc" id="L137">    LinkedHashMap&lt;Integer, String&gt; map = getHigherClassificationBaseMap(lc);</span>
+<span class="fc" id="L152">    LinkedHashMap&lt;Integer, String&gt; map = getHigherClassificationBaseMap(lc);</span>
 
-<span class="fc bfc" id="L139" title="All 2 branches covered.">    if (parentKey != null) {</span>
-<span class="fc" id="L140">      map.put(parentKey, parent);</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">    if (parentKey != null) {</span>
+<span class="fc" id="L155">      map.put(parentKey, parent);</span>
     }
     // remove notion to this usage
-<span class="fc" id="L143">    map.remove(key);</span>
+<span class="fc" id="L158">    map.remove(key);</span>
 
-<span class="fc" id="L145">    return map;</span>
+<span class="fc" id="L160">    return map;</span>
   }
 
   private static &lt;T extends LinneanClassification &amp; LinneanClassificationKeys&gt; LinkedHashMap&lt;Integer, String&gt; getHigherClassificationBaseMap(
     T lc) {
-<span class="fc" id="L150">    LinkedHashMap&lt;Integer, String&gt; map = Maps.newLinkedHashMap();</span>
-<span class="pc bpc" id="L151" title="1 of 2 branches missed.">    if (lc.getKingdomKey() != null) {</span>
-<span class="fc" id="L152">      map.put(lc.getKingdomKey(), lc.getKingdom());</span>
+<span class="fc" id="L165">    LinkedHashMap&lt;Integer, String&gt; map = new LinkedHashMap&lt;&gt;();</span>
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">    if (lc.getKingdomKey() != null) {</span>
+<span class="fc" id="L167">      map.put(lc.getKingdomKey(), lc.getKingdom());</span>
     }
-<span class="fc bfc" id="L154" title="All 2 branches covered.">    if (lc.getPhylumKey() != null) {</span>
-<span class="fc" id="L155">      map.put(lc.getPhylumKey(), lc.getPhylum());</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">    if (lc.getPhylumKey() != null) {</span>
+<span class="fc" id="L170">      map.put(lc.getPhylumKey(), lc.getPhylum());</span>
     }
-<span class="pc bpc" id="L157" title="1 of 2 branches missed.">    if (lc.getClassKey() != null) {</span>
-<span class="nc" id="L158">      map.put(lc.getClassKey(), lc.getClazz());</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">    if (lc.getClassKey() != null) {</span>
+<span class="nc" id="L173">      map.put(lc.getClassKey(), lc.getClazz());</span>
     }
-<span class="fc bfc" id="L160" title="All 2 branches covered.">    if (lc.getOrderKey() != null) {</span>
-<span class="fc" id="L161">      map.put(lc.getOrderKey(), lc.getOrder());</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">    if (lc.getOrderKey() != null) {</span>
+<span class="fc" id="L176">      map.put(lc.getOrderKey(), lc.getOrder());</span>
     }
-<span class="fc bfc" id="L163" title="All 2 branches covered.">    if (lc.getFamilyKey() != null) {</span>
-<span class="fc" id="L164">      map.put(lc.getFamilyKey(), lc.getFamily());</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">    if (lc.getFamilyKey() != null) {</span>
+<span class="fc" id="L179">      map.put(lc.getFamilyKey(), lc.getFamily());</span>
     }
-<span class="fc bfc" id="L166" title="All 2 branches covered.">    if (lc.getGenusKey() != null) {</span>
-<span class="fc" id="L167">      map.put(lc.getGenusKey(), lc.getGenus());</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">    if (lc.getGenusKey() != null) {</span>
+<span class="fc" id="L182">      map.put(lc.getGenusKey(), lc.getGenus());</span>
     }
-<span class="fc bfc" id="L169" title="All 2 branches covered.">    if (lc.getSpeciesKey() != null) {</span>
-<span class="fc" id="L170">      map.put(lc.getSpeciesKey(), lc.getSpecies());</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">    if (lc.getSpeciesKey() != null) {</span>
+<span class="fc" id="L185">      map.put(lc.getSpeciesKey(), lc.getSpecies());</span>
     }
-<span class="fc" id="L172">    return map;</span>
+<span class="fc" id="L187">    return map;</span>
   }
 
   /**
@@ -183,27 +198,27 @@ public class ClassificationUtils {
    */
   @Nullable
   public static Integer getHigherRankKey(LinneanClassificationKeys lck, Rank rank) {
-<span class="pc bpc" id="L186" title="1 of 2 branches missed.">    if (rank != null) {</span>
-<span class="pc bpc" id="L187" title="8 of 9 branches missed.">      switch (rank) {</span>
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">    if (rank != null) {</span>
+<span class="pc bpc" id="L202" title="8 of 9 branches missed.">      switch (rank) {</span>
         case KINGDOM:
-<span class="fc" id="L189">          return lck.getKingdomKey();</span>
+<span class="fc" id="L204">          return lck.getKingdomKey();</span>
         case PHYLUM:
-<span class="nc" id="L191">          return lck.getPhylumKey();</span>
+<span class="nc" id="L206">          return lck.getPhylumKey();</span>
         case CLASS:
-<span class="nc" id="L193">          return lck.getClassKey();</span>
+<span class="nc" id="L208">          return lck.getClassKey();</span>
         case ORDER:
-<span class="nc" id="L195">          return lck.getOrderKey();</span>
+<span class="nc" id="L210">          return lck.getOrderKey();</span>
         case FAMILY:
-<span class="nc" id="L197">          return lck.getFamilyKey();</span>
+<span class="nc" id="L212">          return lck.getFamilyKey();</span>
         case GENUS:
-<span class="nc" id="L199">          return lck.getGenusKey();</span>
+<span class="nc" id="L214">          return lck.getGenusKey();</span>
         case SUBGENUS:
-<span class="nc" id="L201">          return lck.getSubgenusKey();</span>
+<span class="nc" id="L216">          return lck.getSubgenusKey();</span>
         case SPECIES:
-<span class="nc" id="L203">          return lck.getSpeciesKey();</span>
+<span class="nc" id="L218">          return lck.getSpeciesKey();</span>
       }
     }
-<span class="nc" id="L206">    return null;</span>
+<span class="nc" id="L221">    return null;</span>
   }
 
   /**
@@ -214,35 +229,35 @@ public class ClassificationUtils {
    * @param usageKey key of the higher ranks usage
    */
   public static void setHigherRankKey(LinneanClassificationKeys lck, Rank rank, Integer usageKey) {
-<span class="fc bfc" id="L217" title="All 2 branches covered.">    if (rank != null) {</span>
-<span class="pc bpc" id="L218" title="8 of 9 branches missed.">      switch (rank) {</span>
+<span class="fc bfc" id="L232" title="All 2 branches covered.">    if (rank != null) {</span>
+<span class="pc bpc" id="L233" title="8 of 9 branches missed.">      switch (rank) {</span>
         case KINGDOM:
-<span class="nc" id="L220">          lck.setKingdomKey(usageKey);</span>
-<span class="nc" id="L221">          break;</span>
+<span class="nc" id="L235">          lck.setKingdomKey(usageKey);</span>
+<span class="nc" id="L236">          break;</span>
         case PHYLUM:
-<span class="nc" id="L223">          lck.setPhylumKey(usageKey);</span>
-<span class="nc" id="L224">          break;</span>
-        case CLASS:
-<span class="nc" id="L226">          lck.setClassKey(usageKey);</span>
-<span class="nc" id="L227">          break;</span>
-        case ORDER:
-<span class="nc" id="L229">          lck.setOrderKey(usageKey);</span>
-<span class="nc" id="L230">          break;</span>
-        case FAMILY:
-<span class="nc" id="L232">          lck.setFamilyKey(usageKey);</span>
-<span class="nc" id="L233">          break;</span>
-        case GENUS:
-<span class="fc" id="L235">          lck.setGenusKey(usageKey);</span>
-<span class="fc" id="L236">          break;</span>
-        case SUBGENUS:
-<span class="nc" id="L238">          lck.setSubgenusKey(usageKey);</span>
+<span class="nc" id="L238">          lck.setPhylumKey(usageKey);</span>
 <span class="nc" id="L239">          break;</span>
+        case CLASS:
+<span class="nc" id="L241">          lck.setClassKey(usageKey);</span>
+<span class="nc" id="L242">          break;</span>
+        case ORDER:
+<span class="nc" id="L244">          lck.setOrderKey(usageKey);</span>
+<span class="nc" id="L245">          break;</span>
+        case FAMILY:
+<span class="nc" id="L247">          lck.setFamilyKey(usageKey);</span>
+<span class="nc" id="L248">          break;</span>
+        case GENUS:
+<span class="fc" id="L250">          lck.setGenusKey(usageKey);</span>
+<span class="fc" id="L251">          break;</span>
+        case SUBGENUS:
+<span class="nc" id="L253">          lck.setSubgenusKey(usageKey);</span>
+<span class="nc" id="L254">          break;</span>
         case SPECIES:
-<span class="nc" id="L241">          lck.setSpeciesKey(usageKey);</span>
+<span class="nc" id="L256">          lck.setSpeciesKey(usageKey);</span>
           break;
       }
     }
-<span class="fc" id="L245">  }</span>
+<span class="fc" id="L260">  }</span>
 
   /**
    * Sets a higher taxon property by passing the rank of it.
@@ -256,39 +271,39 @@ public class ClassificationUtils {
   public static &lt;T extends LinneanClassification &amp; LinneanClassificationKeys&gt; void setHigherRank(
     T lc, Rank rank, String name, Integer usageKey
   ) {
-<span class="fc" id="L259">    setHigherRank(lc, rank, name);</span>
-<span class="fc" id="L260">    setHigherRankKey(lc, rank, usageKey);</span>
-<span class="fc" id="L261">  }</span>
+<span class="fc" id="L274">    setHigherRank(lc, rank, name);</span>
+<span class="fc" id="L275">    setHigherRankKey(lc, rank, usageKey);</span>
+<span class="fc" id="L276">  }</span>
 
   /**
    * @return true if at least one higher rank of the classification is given, i.e. not null or empty
    */
   public static boolean hasContent(LinneanClassification lc) {
-<span class="nc bnc" id="L267" title="All 2 branches missed.">    for (Rank qr : Rank.DWC_RANKS) {</span>
-<span class="nc bnc" id="L268" title="All 2 branches missed.">      if (!Strings.isNullOrEmpty(getHigherRank(lc, qr))) {</span>
-<span class="nc" id="L269">        return true;</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">    for (Rank qr : Rank.DWC_RANKS) {</span>
+<span class="nc bnc" id="L283" title="All 2 branches missed.">      if (StringUtils.isNotEmpty(getHigherRank(lc, qr))) {</span>
+<span class="nc" id="L284">        return true;</span>
       }
-<span class="nc" id="L271">    }</span>
-<span class="nc" id="L272">    return false;</span>
+<span class="nc" id="L286">    }</span>
+<span class="nc" id="L287">    return false;</span>
   }
 
   /**
    * Copies all linnean classification based higher taxon keys from one instance to another.
    */
   public static void copyLinneanClassificationKeys(LinneanClassificationKeys source, LinneanClassificationKeys target) {
-<span class="nc bnc" id="L279" title="All 2 branches missed.">    for (Rank r : Rank.DWC_RANKS) {</span>
-<span class="nc" id="L280">      setHigherRankKey(target, r, source.getHigherRankKey(r));</span>
-<span class="nc" id="L281">    }</span>
-<span class="nc" id="L282">  }</span>
+<span class="nc bnc" id="L294" title="All 2 branches missed.">    for (Rank r : Rank.DWC_RANKS) {</span>
+<span class="nc" id="L295">      setHigherRankKey(target, r, source.getHigherRankKey(r));</span>
+<span class="nc" id="L296">    }</span>
+<span class="nc" id="L297">  }</span>
 
   /**
    * Copies all linnean classification based higher taxon names from one instance to another.
    */
   public static void copyLinneanClassification(LinneanClassification source, LinneanClassification target) {
-<span class="nc bnc" id="L288" title="All 2 branches missed.">    for (Rank r : Rank.DWC_RANKS) {</span>
-<span class="nc" id="L289">      setHigherRank(target, r, source.getHigherRank(r));</span>
-<span class="nc" id="L290">    }</span>
-<span class="nc" id="L291">  }</span>
+<span class="nc bnc" id="L303" title="All 2 branches missed.">    for (Rank r : Rank.DWC_RANKS) {</span>
+<span class="nc" id="L304">      setHigherRank(target, r, source.getHigherRank(r));</span>
+<span class="nc" id="L305">    }</span>
+<span class="nc" id="L306">  }</span>
 
   /**
    * Utility class.

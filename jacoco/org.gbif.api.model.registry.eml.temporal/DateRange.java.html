@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DateRange.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry.eml.temporal</a> &gt; <span class="el_source">DateRange.java</span></div><h1>DateRange.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -21,11 +21,12 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-
+import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
 /**
  * A period of time.
@@ -38,74 +39,77 @@ public class DateRange extends TemporalCoverage implements Serializable {
 
   private Date end;
 
-<span class="fc" id="L41">  public DateRange() {</span>
-<span class="fc" id="L42">  }</span>
+<span class="fc" id="L42">  public DateRange() {</span>
+<span class="fc" id="L43">  }</span>
 
-<span class="nc" id="L44">  public DateRange(Date start, Date end) {</span>
-<span class="nc" id="L45">    Preconditions.checkArgument(start.before(end), &quot;start date must be before end&quot;);</span>
-<span class="nc" id="L46">    this.start = start;</span>
-<span class="nc" id="L47">    this.end = end;</span>
-<span class="nc" id="L48">  }</span>
+<span class="nc" id="L45">  public DateRange(Date start, Date end) {</span>
+<span class="nc" id="L46">    checkArgument(start.before(end), &quot;start date must be before end&quot;);</span>
+<span class="nc" id="L47">    this.start = start;</span>
+<span class="nc" id="L48">    this.end = end;</span>
+<span class="nc" id="L49">  }</span>
 
   public Date getEnd() {
-<span class="nc" id="L51">    return end;</span>
+<span class="nc" id="L52">    return end;</span>
   }
 
   public void setEnd(Date end) {
-<span class="nc" id="L55">    this.end = end;</span>
-<span class="nc" id="L56">  }</span>
+<span class="nc" id="L56">    this.end = end;</span>
+<span class="nc" id="L57">  }</span>
 
   public Date getStart() {
-<span class="nc" id="L59">    return start;</span>
+<span class="nc" id="L60">    return start;</span>
   }
 
   public void setStart(Date start) {
-<span class="nc" id="L63">    this.start = start;</span>
-<span class="nc" id="L64">  }</span>
+<span class="nc" id="L64">    this.start = start;</span>
+<span class="nc" id="L65">  }</span>
 
   @Override
   public Collection&lt;String&gt; toKeywords() {
-<span class="nc" id="L68">    StringBuilder sb = new StringBuilder();</span>
-<span class="nc" id="L69">    SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</span>
-<span class="nc bnc" id="L70" title="All 2 branches missed.">    if (start != null) {</span>
-<span class="nc" id="L71">      sb.append(sdf.format(start));</span>
+<span class="nc" id="L69">    StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L70">    SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">    if (start != null) {</span>
+<span class="nc" id="L72">      sb.append(sdf.format(start));</span>
     }
-<span class="nc bnc" id="L73" title="All 2 branches missed.">    if (end != null) {</span>
-<span class="nc bnc" id="L74" title="All 2 branches missed.">      if (sb.length() &gt; 0) {</span>
-<span class="nc" id="L75">        sb.append(&quot;-&quot;);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">    if (end != null) {</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">      if (sb.length() &gt; 0) {</span>
+<span class="nc" id="L76">        sb.append(&quot;-&quot;);</span>
       }
-<span class="nc" id="L77">      sb.append(sdf.format(end));</span>
+<span class="nc" id="L78">      sb.append(sdf.format(end));</span>
     }
-<span class="nc" id="L79">    return Lists.newArrayList(sb.toString());</span>
+
+<span class="nc" id="L81">    return Stream.of(sb.toString()).collect(Collectors.toList());</span>
   }
 
   @Override
-  public boolean equals(Object obj) {
-<span class="nc bnc" id="L84" title="All 2 branches missed.">    if (this == obj) {</span>
-<span class="nc" id="L85">      return true;</span>
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L86" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L87">      return true;</span>
     }
-<span class="nc bnc" id="L87" title="All 2 branches missed.">    if (!(obj instanceof org.gbif.api.model.registry.eml.temporal.DateRange)) {</span>
-<span class="nc" id="L88">      return false;</span>
+<span class="nc bnc" id="L89" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L90">      return false;</span>
     }
-
-<span class="nc" id="L91">    org.gbif.api.model.registry.eml.temporal.DateRange that = (org.gbif.api.model.registry.eml.temporal.DateRange) obj;</span>
-<span class="nc bnc" id="L92" title="All 4 branches missed.">    return Objects.equal(this.start, that.start) &amp;&amp; Objects.equal(this.end, that.end);</span>
+<span class="nc" id="L92">    DateRange dateRange = (DateRange) o;</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">    return Objects.equals(start, dateRange.start) &amp;&amp;</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">      Objects.equals(end, dateRange.end);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L97">    return Objects.hashCode(super.hashCode(), start, end);</span>
+<span class="nc" id="L99">    return Objects.hash(start, end);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L102">    return Objects.toStringHelper(this).add(&quot;super&quot;, super.toString()).add(&quot;start&quot;, start).add(&quot;end&quot;, end).toString();</span>
+<span class="nc" id="L104">    return new StringJoiner(&quot;, &quot;, DateRange.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L105">      .add(&quot;start=&quot; + start)</span>
+<span class="nc" id="L106">      .add(&quot;end=&quot; + end)</span>
+<span class="nc" id="L107">      .toString();</span>
   }
 
   @Override
   public String acceptFormatter(TemporalCoverageFormatterVisitor formatter) {
-<span class="fc" id="L107">    return formatter.format(this);</span>
+<span class="fc" id="L112">    return formatter.format(this);</span>
   }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Endpoint.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry</a> &gt; <span class="el_source">Endpoint.java</span></div><h1>Endpoint.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,18 +18,19 @@ package org.gbif.api.model.registry;
 import org.gbif.api.vocabulary.EndpointType;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
-
-<span class="fc" id="L29">public class Endpoint implements MachineTaggable, LenientEquals&lt;Endpoint&gt; {</span>
+<span class="fc" id="L33">public class Endpoint implements MachineTaggable, LenientEquals&lt;Endpoint&gt; {</span>
 
   private Integer key;
   private EndpointType type;
@@ -36,134 +40,138 @@ import com.google.common.collect.Lists;
   private String modifiedBy;
   private Date created;
   private Date modified;
-<span class="fc" id="L39">  private List&lt;MachineTag&gt; machineTags = Lists.newArrayList();</span>
+<span class="fc" id="L43">  private List&lt;MachineTag&gt; machineTags = new ArrayList&lt;&gt;();</span>
 
   @Null(groups = PrePersist.class)
   @NotNull(groups = PostPersist.class)
   @Min(1)
   public Integer getKey() {
-<span class="nc" id="L45">    return key;</span>
+<span class="nc" id="L49">    return key;</span>
   }
 
   public void setKey(Integer key) {
-<span class="nc" id="L49">    this.key = key;</span>
-<span class="nc" id="L50">  }</span>
+<span class="nc" id="L53">    this.key = key;</span>
+<span class="nc" id="L54">  }</span>
 
   @NotNull
   public EndpointType getType() {
-<span class="fc" id="L54">    return type;</span>
+<span class="fc" id="L58">    return type;</span>
   }
 
   public void setType(EndpointType type) {
-<span class="fc" id="L58">    this.type = type;</span>
-<span class="fc" id="L59">  }</span>
+<span class="fc" id="L62">    this.type = type;</span>
+<span class="fc" id="L63">  }</span>
 
   @Nullable
   public URI getUrl() {
-<span class="nc" id="L63">    return url;</span>
+<span class="nc" id="L67">    return url;</span>
   }
 
   public void setUrl(URI url) {
-<span class="nc" id="L67">    this.url = url;</span>
-<span class="nc" id="L68">  }</span>
+<span class="nc" id="L71">    this.url = url;</span>
+<span class="nc" id="L72">  }</span>
 
   @Nullable
   public String getDescription() {
-<span class="nc" id="L72">    return description;</span>
+<span class="nc" id="L76">    return description;</span>
   }
 
   public void setDescription(String description) {
-<span class="nc" id="L76">    this.description = description;</span>
-<span class="nc" id="L77">  }</span>
+<span class="nc" id="L80">    this.description = description;</span>
+<span class="nc" id="L81">  }</span>
 
   @Size(min = 3)
   public String getCreatedBy() {
-<span class="nc" id="L81">    return createdBy;</span>
+<span class="nc" id="L85">    return createdBy;</span>
   }
 
   public void setCreatedBy(String createdBy) {
-<span class="nc" id="L85">    this.createdBy = createdBy;</span>
-<span class="nc" id="L86">  }</span>
+<span class="nc" id="L89">    this.createdBy = createdBy;</span>
+<span class="nc" id="L90">  }</span>
 
   @Size(min = 3)
   public String getModifiedBy() {
-<span class="nc" id="L90">    return modifiedBy;</span>
+<span class="nc" id="L94">    return modifiedBy;</span>
   }
 
   public void setModifiedBy(String modifiedBy) {
-<span class="nc" id="L94">    this.modifiedBy = modifiedBy;</span>
-<span class="nc" id="L95">  }</span>
+<span class="nc" id="L98">    this.modifiedBy = modifiedBy;</span>
+<span class="nc" id="L99">  }</span>
 
   @Null(groups = PrePersist.class)
   @NotNull(groups = PostPersist.class)
   public Date getCreated() {
-<span class="nc" id="L100">    return created;</span>
+<span class="nc" id="L104">    return created;</span>
   }
 
   public void setCreated(Date created) {
-<span class="fc" id="L104">    this.created = created;</span>
-<span class="fc" id="L105">  }</span>
+<span class="fc" id="L108">    this.created = created;</span>
+<span class="fc" id="L109">  }</span>
 
   @Null(groups = PrePersist.class)
   @NotNull(groups = PostPersist.class)
   public Date getModified() {
-<span class="nc" id="L110">    return modified;</span>
+<span class="nc" id="L114">    return modified;</span>
   }
 
   public void setModified(Date modified) {
-<span class="nc" id="L114">    this.modified = modified;</span>
-<span class="nc" id="L115">  }</span>
+<span class="nc" id="L118">    this.modified = modified;</span>
+<span class="nc" id="L119">  }</span>
 
   @Override
   public List&lt;MachineTag&gt; getMachineTags() {
-<span class="nc" id="L119">    return machineTags;</span>
+<span class="nc" id="L123">    return machineTags;</span>
   }
 
   @Override
   public void setMachineTags(List&lt;MachineTag&gt; machineTags) {
-<span class="nc" id="L124">    this.machineTags = machineTags;</span>
-<span class="nc" id="L125">  }</span>
+<span class="nc" id="L128">    this.machineTags = machineTags;</span>
+<span class="nc" id="L129">  }</span>
 
   @Override
   public void addMachineTag(MachineTag machineTag) {
-<span class="nc" id="L129">    machineTags.add(machineTag);</span>
-<span class="nc" id="L130">  }</span>
+<span class="nc" id="L133">    machineTags.add(machineTag);</span>
+<span class="nc" id="L134">  }</span>
 
   @Override
-  public int hashCode() {
-<span class="nc" id="L134">    return Objects.hashCode(key, type, url, description, createdBy, modifiedBy, created, modified, machineTags);</span>
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L138" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L139">      return true;</span>
+    }
+<span class="nc bnc" id="L141" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L142">      return false;</span>
+    }
+<span class="nc" id="L144">    Endpoint endpoint = (Endpoint) o;</span>
+<span class="nc bnc" id="L145" title="All 4 branches missed.">    return Objects.equals(key, endpoint.key) &amp;&amp;</span>
+      type == endpoint.type &amp;&amp;
+<span class="nc bnc" id="L147" title="All 2 branches missed.">      Objects.equals(url, endpoint.url) &amp;&amp;</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">      Objects.equals(description, endpoint.description) &amp;&amp;</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">      Objects.equals(createdBy, endpoint.createdBy) &amp;&amp;</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">      Objects.equals(modifiedBy, endpoint.modifiedBy) &amp;&amp;</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">      Objects.equals(created, endpoint.created) &amp;&amp;</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">      Objects.equals(modified, endpoint.modified) &amp;&amp;</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">      Objects.equals(machineTags, endpoint.machineTags);</span>
   }
 
   @Override
-  public boolean equals(Object object) {
-<span class="nc bnc" id="L139" title="All 2 branches missed.">    if (object instanceof Endpoint) {</span>
-<span class="nc" id="L140">      Endpoint that = (Endpoint) object;</span>
-<span class="nc bnc" id="L141" title="All 2 branches missed.">      return Objects.equal(this.key, that.key)</span>
-<span class="nc bnc" id="L142" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.type, that.type)</span>
-<span class="nc bnc" id="L143" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.url, that.url)</span>
-<span class="nc bnc" id="L144" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.description, that.description)</span>
-<span class="nc bnc" id="L145" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.createdBy, that.createdBy)</span>
-<span class="nc bnc" id="L146" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.modifiedBy, that.modifiedBy)</span>
-<span class="nc bnc" id="L147" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.created, that.created)</span>
-<span class="nc bnc" id="L148" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.modified, that.modified)</span>
-<span class="nc bnc" id="L149" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.machineTags, that.machineTags);</span>
-    }
-<span class="nc" id="L151">    return false;</span>
+  public int hashCode() {
+<span class="nc" id="L158">    return Objects</span>
+<span class="nc" id="L159">      .hash(key, type, url, description, createdBy, modifiedBy, created, modified, machineTags);</span>
   }
 
   @Override
   public String toString() {
-<span class="fc" id="L156">    return Objects.toStringHelper(this)</span>
-<span class="fc" id="L157">      .add(&quot;key&quot;, key)</span>
-<span class="fc" id="L158">      .add(&quot;type&quot;, type)</span>
-<span class="fc" id="L159">      .add(&quot;url&quot;, url)</span>
-<span class="fc" id="L160">      .add(&quot;description&quot;, description)</span>
-<span class="fc" id="L161">      .add(&quot;createdBy&quot;, createdBy)</span>
-<span class="fc" id="L162">      .add(&quot;modifiedBy&quot;, modifiedBy)</span>
-<span class="fc" id="L163">      .add(&quot;created&quot;, created)</span>
-<span class="fc" id="L164">      .add(&quot;modified&quot;, modified)</span>
-<span class="fc" id="L165">      .add(&quot;machineTags&quot;, machineTags)</span>
-<span class="fc" id="L166">      .toString();</span>
+<span class="fc" id="L164">    return new StringJoiner(&quot;, &quot;, Endpoint.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="fc" id="L165">      .add(&quot;key=&quot; + key)</span>
+<span class="fc" id="L166">      .add(&quot;type=&quot; + type)</span>
+<span class="fc" id="L167">      .add(&quot;url=&quot; + url)</span>
+<span class="fc" id="L168">      .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
+<span class="fc" id="L169">      .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="fc" id="L170">      .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
+<span class="fc" id="L171">      .add(&quot;created=&quot; + created)</span>
+<span class="fc" id="L172">      .add(&quot;modified=&quot; + modified)</span>
+<span class="fc" id="L173">      .add(&quot;machineTags=&quot; + machineTags)</span>
+<span class="fc" id="L174">      .toString();</span>
   }
 
   /**
@@ -171,14 +179,13 @@ import com.google.common.collect.Lists;
    */
   @Override
   public boolean lenientEquals(Endpoint other) {
-<span class="nc bnc" id="L174" title="All 2 branches missed.">    if (this == other) {</span>
-<span class="nc" id="L175">      return true;</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L183">      return true;</span>
     } else {
-<span class="nc bnc" id="L177" title="All 2 branches missed.">      return Objects.equal(this.type, other.type)</span>
-<span class="nc bnc" id="L178" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.url, other.url)</span>
-<span class="nc bnc" id="L179" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.description, other.description);</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">      return Objects.equals(this.type, other.type)</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.url, other.url)</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.description, other.description);</span>
     }
   }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

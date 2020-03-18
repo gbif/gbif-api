@@ -7,7 +7,7 @@
 <body>
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2014 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
+<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
 <span class="sourceLineNo">003</span> *<a name="line.3"></a>
 <span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
 <span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
@@ -27,10 +27,10 @@
 <span class="sourceLineNo">019</span><a name="line.19"></a>
 <span class="sourceLineNo">020</span>import java.io.Serializable;<a name="line.20"></a>
 <span class="sourceLineNo">021</span>import java.util.Collection;<a name="line.21"></a>
-<span class="sourceLineNo">022</span><a name="line.22"></a>
-<span class="sourceLineNo">023</span>import com.google.common.base.Objects;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import com.google.common.collect.Lists;<a name="line.24"></a>
-<span class="sourceLineNo">025</span><a name="line.25"></a>
+<span class="sourceLineNo">022</span>import java.util.Objects;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import java.util.StringJoiner;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.util.stream.Collectors;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.util.stream.Stream;<a name="line.25"></a>
 <span class="sourceLineNo">026</span><a name="line.26"></a>
 <span class="sourceLineNo">027</span>/**<a name="line.27"></a>
 <span class="sourceLineNo">028</span> * A verbatim (e.g. free text) period of time.<a name="line.28"></a>
@@ -64,42 +64,40 @@
 <span class="sourceLineNo">056</span><a name="line.56"></a>
 <span class="sourceLineNo">057</span>  @Override<a name="line.57"></a>
 <span class="sourceLineNo">058</span>  public Collection&lt;String&gt; toKeywords() {<a name="line.58"></a>
-<span class="sourceLineNo">059</span>    return Lists.newArrayList(period);<a name="line.59"></a>
+<span class="sourceLineNo">059</span>    return Stream.of(period).collect(Collectors.toList());<a name="line.59"></a>
 <span class="sourceLineNo">060</span>  }<a name="line.60"></a>
 <span class="sourceLineNo">061</span><a name="line.61"></a>
 <span class="sourceLineNo">062</span>  @Override<a name="line.62"></a>
-<span class="sourceLineNo">063</span>  public boolean equals(Object obj) {<a name="line.63"></a>
-<span class="sourceLineNo">064</span>    if (this == obj) {<a name="line.64"></a>
+<span class="sourceLineNo">063</span>  public boolean equals(Object o) {<a name="line.63"></a>
+<span class="sourceLineNo">064</span>    if (this == o) {<a name="line.64"></a>
 <span class="sourceLineNo">065</span>      return true;<a name="line.65"></a>
 <span class="sourceLineNo">066</span>    }<a name="line.66"></a>
-<span class="sourceLineNo">067</span>    if (!(obj instanceof org.gbif.api.model.registry.eml.temporal.VerbatimTimePeriod)) {<a name="line.67"></a>
+<span class="sourceLineNo">067</span>    if (o == null || getClass() != o.getClass()) {<a name="line.67"></a>
 <span class="sourceLineNo">068</span>      return false;<a name="line.68"></a>
 <span class="sourceLineNo">069</span>    }<a name="line.69"></a>
-<span class="sourceLineNo">070</span><a name="line.70"></a>
-<span class="sourceLineNo">071</span>    org.gbif.api.model.registry.eml.temporal.VerbatimTimePeriod<a name="line.71"></a>
-<span class="sourceLineNo">072</span>      that = (org.gbif.api.model.registry.eml.temporal.VerbatimTimePeriod) obj;<a name="line.72"></a>
-<span class="sourceLineNo">073</span>    return Objects.equal(this.period, that.period) &amp;&amp; Objects.equal(this.type, that.type);<a name="line.73"></a>
-<span class="sourceLineNo">074</span>  }<a name="line.74"></a>
-<span class="sourceLineNo">075</span><a name="line.75"></a>
-<span class="sourceLineNo">076</span>  @Override<a name="line.76"></a>
-<span class="sourceLineNo">077</span>  public int hashCode() {<a name="line.77"></a>
-<span class="sourceLineNo">078</span>    return Objects.hashCode(super.hashCode(), period, type);<a name="line.78"></a>
-<span class="sourceLineNo">079</span>  }<a name="line.79"></a>
-<span class="sourceLineNo">080</span><a name="line.80"></a>
-<span class="sourceLineNo">081</span>  @Override<a name="line.81"></a>
-<span class="sourceLineNo">082</span>  public String toString() {<a name="line.82"></a>
-<span class="sourceLineNo">083</span>    return Objects.toStringHelper(this)<a name="line.83"></a>
-<span class="sourceLineNo">084</span>      .add("super", super.toString())<a name="line.84"></a>
-<span class="sourceLineNo">085</span>      .add("period", period)<a name="line.85"></a>
-<span class="sourceLineNo">086</span>      .add("type", type)<a name="line.86"></a>
-<span class="sourceLineNo">087</span>      .toString();<a name="line.87"></a>
-<span class="sourceLineNo">088</span>  }<a name="line.88"></a>
-<span class="sourceLineNo">089</span><a name="line.89"></a>
-<span class="sourceLineNo">090</span>  @Override<a name="line.90"></a>
-<span class="sourceLineNo">091</span>  public String acceptFormatter(TemporalCoverageFormatterVisitor formatter) {<a name="line.91"></a>
-<span class="sourceLineNo">092</span>    return formatter.format(this);<a name="line.92"></a>
-<span class="sourceLineNo">093</span>  }<a name="line.93"></a>
-<span class="sourceLineNo">094</span>}<a name="line.94"></a>
+<span class="sourceLineNo">070</span>    VerbatimTimePeriod that = (VerbatimTimePeriod) o;<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    return Objects.equals(period, that.period) &amp;&amp;<a name="line.71"></a>
+<span class="sourceLineNo">072</span>      type == that.type;<a name="line.72"></a>
+<span class="sourceLineNo">073</span>  }<a name="line.73"></a>
+<span class="sourceLineNo">074</span><a name="line.74"></a>
+<span class="sourceLineNo">075</span>  @Override<a name="line.75"></a>
+<span class="sourceLineNo">076</span>  public int hashCode() {<a name="line.76"></a>
+<span class="sourceLineNo">077</span>    return Objects.hash(period, type);<a name="line.77"></a>
+<span class="sourceLineNo">078</span>  }<a name="line.78"></a>
+<span class="sourceLineNo">079</span><a name="line.79"></a>
+<span class="sourceLineNo">080</span>  @Override<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  public String toString() {<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    return new StringJoiner(", ", VerbatimTimePeriod.class.getSimpleName() + "[", "]")<a name="line.82"></a>
+<span class="sourceLineNo">083</span>      .add("period='" + period + "'")<a name="line.83"></a>
+<span class="sourceLineNo">084</span>      .add("type=" + type)<a name="line.84"></a>
+<span class="sourceLineNo">085</span>      .toString();<a name="line.85"></a>
+<span class="sourceLineNo">086</span>  }<a name="line.86"></a>
+<span class="sourceLineNo">087</span><a name="line.87"></a>
+<span class="sourceLineNo">088</span>  @Override<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  public String acceptFormatter(TemporalCoverageFormatterVisitor formatter) {<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    return formatter.format(this);<a name="line.90"></a>
+<span class="sourceLineNo">091</span>  }<a name="line.91"></a>
+<span class="sourceLineNo">092</span>}<a name="line.92"></a>
 
 
 

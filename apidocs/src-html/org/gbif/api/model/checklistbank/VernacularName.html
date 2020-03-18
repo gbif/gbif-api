@@ -7,7 +7,7 @@
 <body>
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2014 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
+<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
 <span class="sourceLineNo">003</span> *<a name="line.3"></a>
 <span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
 <span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
@@ -28,319 +28,314 @@
 <span class="sourceLineNo">020</span>import org.gbif.api.vocabulary.LifeStage;<a name="line.20"></a>
 <span class="sourceLineNo">021</span>import org.gbif.api.vocabulary.Sex;<a name="line.21"></a>
 <span class="sourceLineNo">022</span><a name="line.22"></a>
-<span class="sourceLineNo">023</span>import javax.annotation.Nullable;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import javax.validation.constraints.NotNull;<a name="line.24"></a>
+<span class="sourceLineNo">023</span>import java.util.Objects;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.util.StringJoiner;<a name="line.24"></a>
 <span class="sourceLineNo">025</span><a name="line.25"></a>
-<span class="sourceLineNo">026</span>import com.google.common.base.Objects;<a name="line.26"></a>
-<span class="sourceLineNo">027</span><a name="line.27"></a>
+<span class="sourceLineNo">026</span>import javax.annotation.Nullable;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import javax.validation.constraints.NotNull;<a name="line.27"></a>
 <span class="sourceLineNo">028</span><a name="line.28"></a>
 <span class="sourceLineNo">029</span>/**<a name="line.29"></a>
 <span class="sourceLineNo">030</span> * VernacularName Model Object represents a vernacular name for a scientific taxon.<a name="line.30"></a>
 <span class="sourceLineNo">031</span> *<a name="line.31"></a>
-<span class="sourceLineNo">032</span> * @see &lt;a href="http://rs.gbif.org/extension/gbif/1.0/vernacularname.xml"&gt;Vernacular Name Definition&lt;/a&gt;<a name="line.32"></a>
-<span class="sourceLineNo">033</span> */<a name="line.33"></a>
-<span class="sourceLineNo">034</span>public class VernacularName implements NameUsageExtension {<a name="line.34"></a>
-<span class="sourceLineNo">035</span><a name="line.35"></a>
-<span class="sourceLineNo">036</span>  private Integer taxonKey;<a name="line.36"></a>
-<span class="sourceLineNo">037</span>  private String vernacularName;<a name="line.37"></a>
-<span class="sourceLineNo">038</span>  private Language language;<a name="line.38"></a>
-<span class="sourceLineNo">039</span>  private LifeStage lifeStage;<a name="line.39"></a>
-<span class="sourceLineNo">040</span>  private Sex sex;<a name="line.40"></a>
-<span class="sourceLineNo">041</span>  private Country country;<a name="line.41"></a>
-<span class="sourceLineNo">042</span>  private String area;<a name="line.42"></a>
-<span class="sourceLineNo">043</span>  private String source;<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  private Integer sourceTaxonKey;<a name="line.44"></a>
-<span class="sourceLineNo">045</span>  private Boolean preferred;<a name="line.45"></a>
-<span class="sourceLineNo">046</span>  private Boolean plural;<a name="line.46"></a>
-<span class="sourceLineNo">047</span><a name="line.47"></a>
-<span class="sourceLineNo">048</span>  /**<a name="line.48"></a>
-<span class="sourceLineNo">049</span>   * The name usage "taxon" key this description belongs to.<a name="line.49"></a>
-<span class="sourceLineNo">050</span>   */<a name="line.50"></a>
-<span class="sourceLineNo">051</span>  @Override<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  public Integer getTaxonKey() {<a name="line.52"></a>
-<span class="sourceLineNo">053</span>    return taxonKey;<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  }<a name="line.54"></a>
-<span class="sourceLineNo">055</span><a name="line.55"></a>
-<span class="sourceLineNo">056</span>  @Override<a name="line.56"></a>
-<span class="sourceLineNo">057</span>  public void setTaxonKey(Integer taxonKey) {<a name="line.57"></a>
-<span class="sourceLineNo">058</span>    this.taxonKey = taxonKey;<a name="line.58"></a>
-<span class="sourceLineNo">059</span>  }<a name="line.59"></a>
-<span class="sourceLineNo">060</span><a name="line.60"></a>
-<span class="sourceLineNo">061</span>  /**<a name="line.61"></a>
-<span class="sourceLineNo">062</span>   * The area for the vernacular name.<a name="line.62"></a>
-<span class="sourceLineNo">063</span>   *<a name="line.63"></a>
-<span class="sourceLineNo">064</span>   * @return the area<a name="line.64"></a>
-<span class="sourceLineNo">065</span>   */<a name="line.65"></a>
-<span class="sourceLineNo">066</span>  @Nullable<a name="line.66"></a>
-<span class="sourceLineNo">067</span>  public String getArea() {<a name="line.67"></a>
-<span class="sourceLineNo">068</span>    return area;<a name="line.68"></a>
-<span class="sourceLineNo">069</span>  }<a name="line.69"></a>
-<span class="sourceLineNo">070</span><a name="line.70"></a>
-<span class="sourceLineNo">071</span>  /**<a name="line.71"></a>
-<span class="sourceLineNo">072</span>   * @param area the area to set<a name="line.72"></a>
-<span class="sourceLineNo">073</span>   */<a name="line.73"></a>
-<span class="sourceLineNo">074</span>  public void setArea(String area) {<a name="line.74"></a>
-<span class="sourceLineNo">075</span>    this.area = area;<a name="line.75"></a>
-<span class="sourceLineNo">076</span>  }<a name="line.76"></a>
-<span class="sourceLineNo">077</span><a name="line.77"></a>
-<span class="sourceLineNo">078</span>  /**<a name="line.78"></a>
-<span class="sourceLineNo">079</span>   * The standard code for the country in which the vernacular name is used. Recommended best practice is to use the<a name="line.79"></a>
-<span class="sourceLineNo">080</span>   * ISO 3166-1-alpha-2 country codes available as a vocabulary at http://rs.gbif.org/vocabulary/iso/3166-1_alpha2.xml.<a name="line.80"></a>
-<span class="sourceLineNo">081</span>   * For multiple countries separate values with a comma ",".<a name="line.81"></a>
-<span class="sourceLineNo">082</span>   * &lt;blockquote&gt;<a name="line.82"></a>
-<span class="sourceLineNo">083</span>   * &lt;p&gt;<a name="line.83"></a>
-<span class="sourceLineNo">084</span>   * &lt;i&gt;Example:&lt;/i&gt; "AR" for Argentina, "SV" for El Salvador. "AR,CR,SV" for Argentina, Costa Rica, and El Salvador<a name="line.84"></a>
-<span class="sourceLineNo">085</span>   * combined.<a name="line.85"></a>
-<span class="sourceLineNo">086</span>   * &lt;/p&gt;<a name="line.86"></a>
-<span class="sourceLineNo">087</span>   * &lt;/blockquote&gt;<a name="line.87"></a>
-<span class="sourceLineNo">088</span>   *<a name="line.88"></a>
-<span class="sourceLineNo">089</span>   * @return the country<a name="line.89"></a>
-<span class="sourceLineNo">090</span>   */<a name="line.90"></a>
-<span class="sourceLineNo">091</span>  @Nullable<a name="line.91"></a>
-<span class="sourceLineNo">092</span>  public Country getCountry() {<a name="line.92"></a>
-<span class="sourceLineNo">093</span>    return country;<a name="line.93"></a>
-<span class="sourceLineNo">094</span>  }<a name="line.94"></a>
-<span class="sourceLineNo">095</span><a name="line.95"></a>
-<span class="sourceLineNo">096</span>  /**<a name="line.96"></a>
-<span class="sourceLineNo">097</span>   * @param country the country to set<a name="line.97"></a>
-<span class="sourceLineNo">098</span>   */<a name="line.98"></a>
-<span class="sourceLineNo">099</span>  public void setCountry(Country country) {<a name="line.99"></a>
-<span class="sourceLineNo">100</span>    this.country = country;<a name="line.100"></a>
-<span class="sourceLineNo">101</span>  }<a name="line.101"></a>
-<span class="sourceLineNo">102</span><a name="line.102"></a>
-<span class="sourceLineNo">103</span>  /**<a name="line.103"></a>
-<span class="sourceLineNo">104</span>   * ISO 639-1 language code used for the vernacular name value.<a name="line.104"></a>
-<span class="sourceLineNo">105</span>   * &lt;blockquote&gt;<a name="line.105"></a>
-<span class="sourceLineNo">106</span>   * &lt;p&gt;<a name="line.106"></a>
-<span class="sourceLineNo">107</span>   * &lt;i&gt;Example:&lt;/i&gt; es<a name="line.107"></a>
-<span class="sourceLineNo">108</span>   * &lt;/p&gt;<a name="line.108"></a>
-<span class="sourceLineNo">109</span>   * &lt;/blockquote&gt;<a name="line.109"></a>
-<span class="sourceLineNo">110</span>   *<a name="line.110"></a>
-<span class="sourceLineNo">111</span>   * @return the language<a name="line.111"></a>
-<span class="sourceLineNo">112</span>   */<a name="line.112"></a>
-<span class="sourceLineNo">113</span>  @Nullable<a name="line.113"></a>
-<span class="sourceLineNo">114</span>  public Language getLanguage() {<a name="line.114"></a>
-<span class="sourceLineNo">115</span>    return language;<a name="line.115"></a>
-<span class="sourceLineNo">116</span>  }<a name="line.116"></a>
-<span class="sourceLineNo">117</span><a name="line.117"></a>
-<span class="sourceLineNo">118</span>  /**<a name="line.118"></a>
-<span class="sourceLineNo">119</span>   * @param language the language to set<a name="line.119"></a>
-<span class="sourceLineNo">120</span>   */<a name="line.120"></a>
-<span class="sourceLineNo">121</span>  public void setLanguage(Language language) {<a name="line.121"></a>
-<span class="sourceLineNo">122</span>    this.language = language;<a name="line.122"></a>
-<span class="sourceLineNo">123</span>  }<a name="line.123"></a>
-<span class="sourceLineNo">124</span><a name="line.124"></a>
-<span class="sourceLineNo">125</span>  /**<a name="line.125"></a>
-<span class="sourceLineNo">126</span>   * The age class or life stage of the species for which the vernacular name applies. Best practice is to utilise a<a name="line.126"></a>
-<span class="sourceLineNo">127</span>   * controlled list of terms for this value.<a name="line.127"></a>
-<span class="sourceLineNo">128</span>   * &lt;blockquote&gt;<a name="line.128"></a>
-<span class="sourceLineNo">129</span>   * &lt;p&gt;<a name="line.129"></a>
-<span class="sourceLineNo">130</span>   * &lt;i&gt;Example:&lt;/i&gt; juvenile" is the life stage of the fish Pomatomus saltatrix for which the name "snapper blue"<a name="line.130"></a>
-<span class="sourceLineNo">131</span>   * refers.<a name="line.131"></a>
-<span class="sourceLineNo">132</span>   * &lt;/p&gt;<a name="line.132"></a>
-<span class="sourceLineNo">133</span>   * &lt;/blockquote&gt;<a name="line.133"></a>
-<span class="sourceLineNo">134</span>   *<a name="line.134"></a>
-<span class="sourceLineNo">135</span>   * @return the lifeStage<a name="line.135"></a>
-<span class="sourceLineNo">136</span>   *<a name="line.136"></a>
-<span class="sourceLineNo">137</span>   * @see &lt;a href="http://rs.gbif.org/vocabulary/gbif/life_stage.xml"&gt;Life Stage GBIF Vocabulary&lt;/a&gt;<a name="line.137"></a>
-<span class="sourceLineNo">138</span>   */<a name="line.138"></a>
-<span class="sourceLineNo">139</span>  @Nullable<a name="line.139"></a>
-<span class="sourceLineNo">140</span>  public LifeStage getLifeStage() {<a name="line.140"></a>
-<span class="sourceLineNo">141</span>    return lifeStage;<a name="line.141"></a>
-<span class="sourceLineNo">142</span>  }<a name="line.142"></a>
-<span class="sourceLineNo">143</span><a name="line.143"></a>
-<span class="sourceLineNo">144</span>  /**<a name="line.144"></a>
-<span class="sourceLineNo">145</span>   * @param lifeStage the lifeStage to set<a name="line.145"></a>
-<span class="sourceLineNo">146</span>   */<a name="line.146"></a>
-<span class="sourceLineNo">147</span>  public void setLifeStage(LifeStage lifeStage) {<a name="line.147"></a>
-<span class="sourceLineNo">148</span>    this.lifeStage = lifeStage;<a name="line.148"></a>
-<span class="sourceLineNo">149</span>  }<a name="line.149"></a>
-<span class="sourceLineNo">150</span><a name="line.150"></a>
-<span class="sourceLineNo">151</span>  /**<a name="line.151"></a>
-<span class="sourceLineNo">152</span>   * The sex (gender) of the taxon for which the vernacular name applies when the vernacular name is limited to a<a name="line.152"></a>
-<span class="sourceLineNo">153</span>   * specific gender of a species. If not limited sex should be empty. For example the vernacular name "Buck" applies<a name="line.153"></a>
-<span class="sourceLineNo">154</span>   * to the "Male" gender of the species, Odocoileus virginianus.<a name="line.154"></a>
-<span class="sourceLineNo">155</span>   * &lt;blockquote&gt;<a name="line.155"></a>
-<span class="sourceLineNo">156</span>   * &lt;p&gt;<a name="line.156"></a>
-<span class="sourceLineNo">157</span>   * &lt;i&gt;Example:&lt;/i&gt; male.<a name="line.157"></a>
-<span class="sourceLineNo">158</span>   * &lt;/p&gt;<a name="line.158"></a>
-<span class="sourceLineNo">159</span>   * &lt;/blockquote&gt;<a name="line.159"></a>
-<span class="sourceLineNo">160</span>   *<a name="line.160"></a>
-<span class="sourceLineNo">161</span>   * @return the sex<a name="line.161"></a>
-<span class="sourceLineNo">162</span>   *<a name="line.162"></a>
-<span class="sourceLineNo">163</span>   * @see &lt;a href="http://rs.gbif.org/vocabulary/gbif/sex.xml"&gt;Sex GBIF Vocabulary&lt;/a&gt;<a name="line.163"></a>
-<span class="sourceLineNo">164</span>   */<a name="line.164"></a>
-<span class="sourceLineNo">165</span>  @Nullable<a name="line.165"></a>
-<span class="sourceLineNo">166</span>  public Sex getSex() {<a name="line.166"></a>
-<span class="sourceLineNo">167</span>    return sex;<a name="line.167"></a>
-<span class="sourceLineNo">168</span>  }<a name="line.168"></a>
-<span class="sourceLineNo">169</span><a name="line.169"></a>
-<span class="sourceLineNo">170</span>  /**<a name="line.170"></a>
-<span class="sourceLineNo">171</span>   * @param sex the sex to set<a name="line.171"></a>
-<span class="sourceLineNo">172</span>   */<a name="line.172"></a>
-<span class="sourceLineNo">173</span>  public void setSex(Sex sex) {<a name="line.173"></a>
-<span class="sourceLineNo">174</span>    this.sex = sex;<a name="line.174"></a>
-<span class="sourceLineNo">175</span>  }<a name="line.175"></a>
-<span class="sourceLineNo">176</span><a name="line.176"></a>
-<span class="sourceLineNo">177</span>  /**<a name="line.177"></a>
-<span class="sourceLineNo">178</span>   * Bibliographic citation referencing a source where the vernacular name refers to the cited species.<a name="line.178"></a>
-<span class="sourceLineNo">179</span>   * &lt;blockquote&gt;<a name="line.179"></a>
-<span class="sourceLineNo">180</span>   * &lt;p&gt;<a name="line.180"></a>
-<span class="sourceLineNo">181</span>   * &lt;i&gt;Example:&lt;/i&gt; Peterson Field Guide to the Eastern Seashore, Houghton Mifflin Co, 1961, p131.<a name="line.181"></a>
-<span class="sourceLineNo">182</span>   * &lt;/p&gt;<a name="line.182"></a>
-<span class="sourceLineNo">183</span>   * &lt;/blockquote&gt;<a name="line.183"></a>
-<span class="sourceLineNo">184</span>   *<a name="line.184"></a>
-<span class="sourceLineNo">185</span>   * @return the source<a name="line.185"></a>
-<span class="sourceLineNo">186</span>   */<a name="line.186"></a>
-<span class="sourceLineNo">187</span>  @Nullable<a name="line.187"></a>
-<span class="sourceLineNo">188</span>  public String getSource() {<a name="line.188"></a>
-<span class="sourceLineNo">189</span>    return source;<a name="line.189"></a>
-<span class="sourceLineNo">190</span>  }<a name="line.190"></a>
-<span class="sourceLineNo">191</span><a name="line.191"></a>
-<span class="sourceLineNo">192</span>  /**<a name="line.192"></a>
-<span class="sourceLineNo">193</span>   * @param source the source to set<a name="line.193"></a>
-<span class="sourceLineNo">194</span>   */<a name="line.194"></a>
-<span class="sourceLineNo">195</span>  public void setSource(String source) {<a name="line.195"></a>
-<span class="sourceLineNo">196</span>    this.source = source;<a name="line.196"></a>
-<span class="sourceLineNo">197</span>  }<a name="line.197"></a>
-<span class="sourceLineNo">198</span><a name="line.198"></a>
-<span class="sourceLineNo">199</span>  @Nullable<a name="line.199"></a>
-<span class="sourceLineNo">200</span>  public Integer getSourceTaxonKey() {<a name="line.200"></a>
-<span class="sourceLineNo">201</span>    return sourceTaxonKey;<a name="line.201"></a>
-<span class="sourceLineNo">202</span>  }<a name="line.202"></a>
-<span class="sourceLineNo">203</span><a name="line.203"></a>
-<span class="sourceLineNo">204</span>  public void setSourceTaxonKey(Integer sourceTaxonKey) {<a name="line.204"></a>
-<span class="sourceLineNo">205</span>    this.sourceTaxonKey = sourceTaxonKey;<a name="line.205"></a>
+<span class="sourceLineNo">032</span> * @see &lt;a href="http://rs.gbif.org/extension/gbif/1.0/vernacularname.xml"&gt;Vernacular Name<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * Definition&lt;/a&gt;<a name="line.33"></a>
+<span class="sourceLineNo">034</span> */<a name="line.34"></a>
+<span class="sourceLineNo">035</span>@SuppressWarnings("unused")<a name="line.35"></a>
+<span class="sourceLineNo">036</span>public class VernacularName implements NameUsageExtension {<a name="line.36"></a>
+<span class="sourceLineNo">037</span><a name="line.37"></a>
+<span class="sourceLineNo">038</span>  private Integer taxonKey;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>  private String vernacularName;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>  private Language language;<a name="line.40"></a>
+<span class="sourceLineNo">041</span>  private LifeStage lifeStage;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>  private Sex sex;<a name="line.42"></a>
+<span class="sourceLineNo">043</span>  private Country country;<a name="line.43"></a>
+<span class="sourceLineNo">044</span>  private String area;<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  private String source;<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  private Integer sourceTaxonKey;<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  private Boolean preferred;<a name="line.47"></a>
+<span class="sourceLineNo">048</span>  private Boolean plural;<a name="line.48"></a>
+<span class="sourceLineNo">049</span><a name="line.49"></a>
+<span class="sourceLineNo">050</span>  /**<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   * The name usage "taxon" key this description belongs to.<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   */<a name="line.52"></a>
+<span class="sourceLineNo">053</span>  @Override<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  public Integer getTaxonKey() {<a name="line.54"></a>
+<span class="sourceLineNo">055</span>    return taxonKey;<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  }<a name="line.56"></a>
+<span class="sourceLineNo">057</span><a name="line.57"></a>
+<span class="sourceLineNo">058</span>  @Override<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  public void setTaxonKey(Integer taxonKey) {<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    this.taxonKey = taxonKey;<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  }<a name="line.61"></a>
+<span class="sourceLineNo">062</span><a name="line.62"></a>
+<span class="sourceLineNo">063</span>  /**<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   * The area for the vernacular name.<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   *<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   * @return the area<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   */<a name="line.67"></a>
+<span class="sourceLineNo">068</span>  @Nullable<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  public String getArea() {<a name="line.69"></a>
+<span class="sourceLineNo">070</span>    return area;<a name="line.70"></a>
+<span class="sourceLineNo">071</span>  }<a name="line.71"></a>
+<span class="sourceLineNo">072</span><a name="line.72"></a>
+<span class="sourceLineNo">073</span>  /**<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   * @param area the area to set<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   */<a name="line.75"></a>
+<span class="sourceLineNo">076</span>  public void setArea(String area) {<a name="line.76"></a>
+<span class="sourceLineNo">077</span>    this.area = area;<a name="line.77"></a>
+<span class="sourceLineNo">078</span>  }<a name="line.78"></a>
+<span class="sourceLineNo">079</span><a name="line.79"></a>
+<span class="sourceLineNo">080</span>  /**<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   * The standard code for the country in which the vernacular name is used. Recommended best<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   * practice is to use the ISO 3166-1-alpha-2 country codes available as a vocabulary at<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   * http://rs.gbif.org/vocabulary/iso/3166-1_alpha2.xml. For multiple countries separate values<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   * with a comma ",".<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   * &lt;blockquote&gt;<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * &lt;p&gt;<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * &lt;i&gt;Example:&lt;/i&gt; "AR" for Argentina, "SV" for El Salvador. "AR,CR,SV" for Argentina, Costa Rica,<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   * and El Salvador<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * combined.<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   * &lt;/p&gt;<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   * &lt;/blockquote&gt;<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   *<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * @return the country<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   */<a name="line.94"></a>
+<span class="sourceLineNo">095</span>  @Nullable<a name="line.95"></a>
+<span class="sourceLineNo">096</span>  public Country getCountry() {<a name="line.96"></a>
+<span class="sourceLineNo">097</span>    return country;<a name="line.97"></a>
+<span class="sourceLineNo">098</span>  }<a name="line.98"></a>
+<span class="sourceLineNo">099</span><a name="line.99"></a>
+<span class="sourceLineNo">100</span>  /**<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   * @param country the country to set<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   */<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  public void setCountry(Country country) {<a name="line.103"></a>
+<span class="sourceLineNo">104</span>    this.country = country;<a name="line.104"></a>
+<span class="sourceLineNo">105</span>  }<a name="line.105"></a>
+<span class="sourceLineNo">106</span><a name="line.106"></a>
+<span class="sourceLineNo">107</span>  /**<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   * ISO 639-1 language code used for the vernacular name value.<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   * &lt;blockquote&gt;<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   * &lt;p&gt;<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   * &lt;i&gt;Example:&lt;/i&gt; es<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   * &lt;/p&gt;<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   * &lt;/blockquote&gt;<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   *<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   * @return the language<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   */<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  @Nullable<a name="line.117"></a>
+<span class="sourceLineNo">118</span>  public Language getLanguage() {<a name="line.118"></a>
+<span class="sourceLineNo">119</span>    return language;<a name="line.119"></a>
+<span class="sourceLineNo">120</span>  }<a name="line.120"></a>
+<span class="sourceLineNo">121</span><a name="line.121"></a>
+<span class="sourceLineNo">122</span>  /**<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   * @param language the language to set<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   */<a name="line.124"></a>
+<span class="sourceLineNo">125</span>  public void setLanguage(Language language) {<a name="line.125"></a>
+<span class="sourceLineNo">126</span>    this.language = language;<a name="line.126"></a>
+<span class="sourceLineNo">127</span>  }<a name="line.127"></a>
+<span class="sourceLineNo">128</span><a name="line.128"></a>
+<span class="sourceLineNo">129</span>  /**<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   * The age class or life stage of the species for which the vernacular name applies. Best practice<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   * is to utilise a controlled list of terms for this value.<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   * &lt;blockquote&gt;<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   * &lt;p&gt;<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   * &lt;i&gt;Example:&lt;/i&gt; juvenile" is the life stage of the fish Pomatomus saltatrix for which the name<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   * "snapper blue"<a name="line.135"></a>
+<span class="sourceLineNo">136</span>   * refers.<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   * &lt;/p&gt;<a name="line.137"></a>
+<span class="sourceLineNo">138</span>   * &lt;/blockquote&gt;<a name="line.138"></a>
+<span class="sourceLineNo">139</span>   *<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   * @return the lifeStage<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   * @see &lt;a href="http://rs.gbif.org/vocabulary/gbif/life_stage.xml"&gt;Life Stage GBIF Vocabulary&lt;/a&gt;<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   */<a name="line.142"></a>
+<span class="sourceLineNo">143</span>  @Nullable<a name="line.143"></a>
+<span class="sourceLineNo">144</span>  public LifeStage getLifeStage() {<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    return lifeStage;<a name="line.145"></a>
+<span class="sourceLineNo">146</span>  }<a name="line.146"></a>
+<span class="sourceLineNo">147</span><a name="line.147"></a>
+<span class="sourceLineNo">148</span>  /**<a name="line.148"></a>
+<span class="sourceLineNo">149</span>   * @param lifeStage the lifeStage to set<a name="line.149"></a>
+<span class="sourceLineNo">150</span>   */<a name="line.150"></a>
+<span class="sourceLineNo">151</span>  public void setLifeStage(LifeStage lifeStage) {<a name="line.151"></a>
+<span class="sourceLineNo">152</span>    this.lifeStage = lifeStage;<a name="line.152"></a>
+<span class="sourceLineNo">153</span>  }<a name="line.153"></a>
+<span class="sourceLineNo">154</span><a name="line.154"></a>
+<span class="sourceLineNo">155</span>  /**<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   * The sex (gender) of the taxon for which the vernacular name applies when the vernacular name is<a name="line.156"></a>
+<span class="sourceLineNo">157</span>   * limited to a specific gender of a species. If not limited sex should be empty. For example the<a name="line.157"></a>
+<span class="sourceLineNo">158</span>   * vernacular name "Buck" applies to the "Male" gender of the species, Odocoileus virginianus.<a name="line.158"></a>
+<span class="sourceLineNo">159</span>   * &lt;blockquote&gt;<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   * &lt;p&gt;<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   * &lt;i&gt;Example:&lt;/i&gt; male.<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   * &lt;/p&gt;<a name="line.162"></a>
+<span class="sourceLineNo">163</span>   * &lt;/blockquote&gt;<a name="line.163"></a>
+<span class="sourceLineNo">164</span>   *<a name="line.164"></a>
+<span class="sourceLineNo">165</span>   * @return the sex<a name="line.165"></a>
+<span class="sourceLineNo">166</span>   * @see &lt;a href="http://rs.gbif.org/vocabulary/gbif/sex.xml"&gt;Sex GBIF Vocabulary&lt;/a&gt;<a name="line.166"></a>
+<span class="sourceLineNo">167</span>   */<a name="line.167"></a>
+<span class="sourceLineNo">168</span>  @Nullable<a name="line.168"></a>
+<span class="sourceLineNo">169</span>  public Sex getSex() {<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    return sex;<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  }<a name="line.171"></a>
+<span class="sourceLineNo">172</span><a name="line.172"></a>
+<span class="sourceLineNo">173</span>  /**<a name="line.173"></a>
+<span class="sourceLineNo">174</span>   * @param sex the sex to set<a name="line.174"></a>
+<span class="sourceLineNo">175</span>   */<a name="line.175"></a>
+<span class="sourceLineNo">176</span>  public void setSex(Sex sex) {<a name="line.176"></a>
+<span class="sourceLineNo">177</span>    this.sex = sex;<a name="line.177"></a>
+<span class="sourceLineNo">178</span>  }<a name="line.178"></a>
+<span class="sourceLineNo">179</span><a name="line.179"></a>
+<span class="sourceLineNo">180</span>  /**<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   * Bibliographic citation referencing a source where the vernacular name refers to the cited<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   * species.<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   * &lt;blockquote&gt;<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   * &lt;p&gt;<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   * &lt;i&gt;Example:&lt;/i&gt; Peterson Field Guide to the Eastern Seashore, Houghton Mifflin Co, 1961, p131.<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   * &lt;/p&gt;<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   * &lt;/blockquote&gt;<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   *<a name="line.188"></a>
+<span class="sourceLineNo">189</span>   * @return the source<a name="line.189"></a>
+<span class="sourceLineNo">190</span>   */<a name="line.190"></a>
+<span class="sourceLineNo">191</span>  @Nullable<a name="line.191"></a>
+<span class="sourceLineNo">192</span>  public String getSource() {<a name="line.192"></a>
+<span class="sourceLineNo">193</span>    return source;<a name="line.193"></a>
+<span class="sourceLineNo">194</span>  }<a name="line.194"></a>
+<span class="sourceLineNo">195</span><a name="line.195"></a>
+<span class="sourceLineNo">196</span>  /**<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   * @param source the source to set<a name="line.197"></a>
+<span class="sourceLineNo">198</span>   */<a name="line.198"></a>
+<span class="sourceLineNo">199</span>  public void setSource(String source) {<a name="line.199"></a>
+<span class="sourceLineNo">200</span>    this.source = source;<a name="line.200"></a>
+<span class="sourceLineNo">201</span>  }<a name="line.201"></a>
+<span class="sourceLineNo">202</span><a name="line.202"></a>
+<span class="sourceLineNo">203</span>  @Nullable<a name="line.203"></a>
+<span class="sourceLineNo">204</span>  public Integer getSourceTaxonKey() {<a name="line.204"></a>
+<span class="sourceLineNo">205</span>    return sourceTaxonKey;<a name="line.205"></a>
 <span class="sourceLineNo">206</span>  }<a name="line.206"></a>
 <span class="sourceLineNo">207</span><a name="line.207"></a>
-<span class="sourceLineNo">208</span>  /**<a name="line.208"></a>
-<span class="sourceLineNo">209</span>   * A common or vernacular name.<a name="line.209"></a>
-<span class="sourceLineNo">210</span>   * &lt;blockquote&gt;<a name="line.210"></a>
-<span class="sourceLineNo">211</span>   * &lt;p&gt;<a name="line.211"></a>
-<span class="sourceLineNo">212</span>   * &lt;i&gt;Example:&lt;/i&gt; Andean Condor", "Condor Andino", "American Eagle", "Gänsegeier".<a name="line.212"></a>
-<span class="sourceLineNo">213</span>   * &lt;/p&gt;<a name="line.213"></a>
-<span class="sourceLineNo">214</span>   * &lt;/blockquote&gt;<a name="line.214"></a>
-<span class="sourceLineNo">215</span>   *<a name="line.215"></a>
-<span class="sourceLineNo">216</span>   * @return the vernacularName<a name="line.216"></a>
-<span class="sourceLineNo">217</span>   */<a name="line.217"></a>
-<span class="sourceLineNo">218</span>  @NotNull<a name="line.218"></a>
-<span class="sourceLineNo">219</span>  public String getVernacularName() {<a name="line.219"></a>
-<span class="sourceLineNo">220</span>    return vernacularName;<a name="line.220"></a>
-<span class="sourceLineNo">221</span>  }<a name="line.221"></a>
-<span class="sourceLineNo">222</span><a name="line.222"></a>
-<span class="sourceLineNo">223</span>  /**<a name="line.223"></a>
-<span class="sourceLineNo">224</span>   * @param vernacularName the vernacularName to set<a name="line.224"></a>
-<span class="sourceLineNo">225</span>   */<a name="line.225"></a>
-<span class="sourceLineNo">226</span>  public void setVernacularName(String vernacularName) {<a name="line.226"></a>
-<span class="sourceLineNo">227</span>    this.vernacularName = vernacularName;<a name="line.227"></a>
-<span class="sourceLineNo">228</span>  }<a name="line.228"></a>
-<span class="sourceLineNo">229</span><a name="line.229"></a>
-<span class="sourceLineNo">230</span>  /**<a name="line.230"></a>
-<span class="sourceLineNo">231</span>   * This value is true if the vernacular name it qualifies refers to a plural form of the name.<a name="line.231"></a>
-<span class="sourceLineNo">232</span>   * &lt;blockquote&gt;<a name="line.232"></a>
-<span class="sourceLineNo">233</span>   * &lt;p&gt;<a name="line.233"></a>
-<span class="sourceLineNo">234</span>   * &lt;i&gt;Example:&lt;/i&gt; The term "Schoolies" is the plural form of a name used along the coastal Northeastern U.S. for<a name="line.234"></a>
-<span class="sourceLineNo">235</span>   * groups of juvenile fish of the species, Morone saxatilis.<a name="line.235"></a>
-<span class="sourceLineNo">236</span>   * &lt;/p&gt;<a name="line.236"></a>
-<span class="sourceLineNo">237</span>   * &lt;/blockquote&gt;<a name="line.237"></a>
-<span class="sourceLineNo">238</span>   *<a name="line.238"></a>
-<span class="sourceLineNo">239</span>   * @return the plural<a name="line.239"></a>
-<span class="sourceLineNo">240</span>   *<a name="line.240"></a>
-<span class="sourceLineNo">241</span>   * @see &lt;a href="http://rs.gbif.org/vocabulary/basic/boolean.xml"&gt;Boolean Vocabulary&lt;/a&gt;<a name="line.241"></a>
-<span class="sourceLineNo">242</span>   */<a name="line.242"></a>
-<span class="sourceLineNo">243</span>  @Nullable<a name="line.243"></a>
-<span class="sourceLineNo">244</span>  public Boolean isPlural() {<a name="line.244"></a>
-<span class="sourceLineNo">245</span>    return plural;<a name="line.245"></a>
-<span class="sourceLineNo">246</span>  }<a name="line.246"></a>
-<span class="sourceLineNo">247</span><a name="line.247"></a>
-<span class="sourceLineNo">248</span>  /**<a name="line.248"></a>
-<span class="sourceLineNo">249</span>   * @param plural the plural to set<a name="line.249"></a>
-<span class="sourceLineNo">250</span>   */<a name="line.250"></a>
-<span class="sourceLineNo">251</span>  public void setPlural(Boolean plural) {<a name="line.251"></a>
-<span class="sourceLineNo">252</span>    this.plural = plural;<a name="line.252"></a>
-<span class="sourceLineNo">253</span>  }<a name="line.253"></a>
-<span class="sourceLineNo">254</span><a name="line.254"></a>
-<span class="sourceLineNo">255</span>  /**<a name="line.255"></a>
-<span class="sourceLineNo">256</span>   * This term is true if the source citing the use of this vernacular name indicates the usage has some preference or<a name="line.256"></a>
-<span class="sourceLineNo">257</span>   * specific standing over other possible vernacular names used for the species.<a name="line.257"></a>
-<span class="sourceLineNo">258</span>   * &lt;blockquote&gt;<a name="line.258"></a>
-<span class="sourceLineNo">259</span>   * &lt;p&gt;<a name="line.259"></a>
-<span class="sourceLineNo">260</span>   * &lt;i&gt;Example:&lt;/i&gt; Some organisations have attempted to assign specific and unique vernacular names for particular<a name="line.260"></a>
-<span class="sourceLineNo">261</span>   * taxon groups in a systematic attempt to bring order and consistency to the use of these names. For example, the<a name="line.261"></a>
-<span class="sourceLineNo">262</span>   * American Ornithological Union assigns the name "Pearl Kite" for the taxon, Gampsonyx swainsonii. The value of<a name="line.262"></a>
-<span class="sourceLineNo">263</span>   * isPreferredName for this record would be true.<a name="line.263"></a>
-<span class="sourceLineNo">264</span>   * &lt;/p&gt;<a name="line.264"></a>
-<span class="sourceLineNo">265</span>   * &lt;/blockquote&gt;<a name="line.265"></a>
-<span class="sourceLineNo">266</span>   *<a name="line.266"></a>
-<span class="sourceLineNo">267</span>   * @return the preferred<a name="line.267"></a>
-<span class="sourceLineNo">268</span>   *<a name="line.268"></a>
-<span class="sourceLineNo">269</span>   * @see &lt;a href="http://rs.gbif.org/vocabulary/basic/boolean.xml"&gt;Boolean Vocabulary&lt;/a&gt;<a name="line.269"></a>
-<span class="sourceLineNo">270</span>   */<a name="line.270"></a>
-<span class="sourceLineNo">271</span>  @Nullable<a name="line.271"></a>
-<span class="sourceLineNo">272</span>  public Boolean isPreferred() {<a name="line.272"></a>
-<span class="sourceLineNo">273</span>    return preferred;<a name="line.273"></a>
-<span class="sourceLineNo">274</span>  }<a name="line.274"></a>
-<span class="sourceLineNo">275</span><a name="line.275"></a>
-<span class="sourceLineNo">276</span>  /**<a name="line.276"></a>
-<span class="sourceLineNo">277</span>   * @param preferred the preferred to set<a name="line.277"></a>
-<span class="sourceLineNo">278</span>   */<a name="line.278"></a>
-<span class="sourceLineNo">279</span>  public void setPreferred(Boolean preferred) {<a name="line.279"></a>
-<span class="sourceLineNo">280</span>    this.preferred = preferred;<a name="line.280"></a>
-<span class="sourceLineNo">281</span>  }<a name="line.281"></a>
-<span class="sourceLineNo">282</span><a name="line.282"></a>
-<span class="sourceLineNo">283</span>  @Override<a name="line.283"></a>
-<span class="sourceLineNo">284</span>  public boolean equals(Object object) {<a name="line.284"></a>
-<span class="sourceLineNo">285</span>    if (this == object) {<a name="line.285"></a>
-<span class="sourceLineNo">286</span>      return true;<a name="line.286"></a>
-<span class="sourceLineNo">287</span>    }<a name="line.287"></a>
-<span class="sourceLineNo">288</span>    if (!(object instanceof VernacularName)) {<a name="line.288"></a>
-<span class="sourceLineNo">289</span>      return false;<a name="line.289"></a>
-<span class="sourceLineNo">290</span>    }<a name="line.290"></a>
-<span class="sourceLineNo">291</span><a name="line.291"></a>
-<span class="sourceLineNo">292</span>    VernacularName that = (VernacularName) object;<a name="line.292"></a>
-<span class="sourceLineNo">293</span>    return Objects.equal(this.vernacularName, that.vernacularName)<a name="line.293"></a>
-<span class="sourceLineNo">294</span>           &amp;&amp; Objects.equal(this.language, that.language)<a name="line.294"></a>
-<span class="sourceLineNo">295</span>           &amp;&amp; Objects.equal(this.lifeStage, that.lifeStage)<a name="line.295"></a>
-<span class="sourceLineNo">296</span>           &amp;&amp; Objects.equal(this.sex, that.sex)<a name="line.296"></a>
-<span class="sourceLineNo">297</span>           &amp;&amp; Objects.equal(this.country, that.country)<a name="line.297"></a>
-<span class="sourceLineNo">298</span>           &amp;&amp; Objects.equal(this.area, that.area)<a name="line.298"></a>
-<span class="sourceLineNo">299</span>           &amp;&amp; Objects.equal(this.source, that.source)<a name="line.299"></a>
-<span class="sourceLineNo">300</span>           &amp;&amp; Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey)<a name="line.300"></a>
-<span class="sourceLineNo">301</span>           &amp;&amp; Objects.equal(this.preferred, that.preferred)<a name="line.301"></a>
-<span class="sourceLineNo">302</span>           &amp;&amp; Objects.equal(this.plural, that.plural);<a name="line.302"></a>
-<span class="sourceLineNo">303</span>  }<a name="line.303"></a>
-<span class="sourceLineNo">304</span><a name="line.304"></a>
-<span class="sourceLineNo">305</span>  @Override<a name="line.305"></a>
-<span class="sourceLineNo">306</span>  public int hashCode() {<a name="line.306"></a>
-<span class="sourceLineNo">307</span>    return Objects.hashCode(vernacularName,<a name="line.307"></a>
-<span class="sourceLineNo">308</span>                            language,<a name="line.308"></a>
-<span class="sourceLineNo">309</span>                            lifeStage,<a name="line.309"></a>
-<span class="sourceLineNo">310</span>                            sex,<a name="line.310"></a>
-<span class="sourceLineNo">311</span>                            country,<a name="line.311"></a>
-<span class="sourceLineNo">312</span>                            area,<a name="line.312"></a>
-<span class="sourceLineNo">313</span>                            source,<a name="line.313"></a>
-<span class="sourceLineNo">314</span>                            sourceTaxonKey,<a name="line.314"></a>
-<span class="sourceLineNo">315</span>                            preferred,<a name="line.315"></a>
-<span class="sourceLineNo">316</span>                            plural);<a name="line.316"></a>
-<span class="sourceLineNo">317</span>  }<a name="line.317"></a>
-<span class="sourceLineNo">318</span><a name="line.318"></a>
-<span class="sourceLineNo">319</span>  @Override<a name="line.319"></a>
-<span class="sourceLineNo">320</span>  public String toString() {<a name="line.320"></a>
-<span class="sourceLineNo">321</span>    return Objects.toStringHelper(this)<a name="line.321"></a>
-<span class="sourceLineNo">322</span>      .add("vernacularName", vernacularName)<a name="line.322"></a>
-<span class="sourceLineNo">323</span>      .add("language", language)<a name="line.323"></a>
-<span class="sourceLineNo">324</span>      .add("lifeStage", lifeStage)<a name="line.324"></a>
-<span class="sourceLineNo">325</span>      .add("sex", sex)<a name="line.325"></a>
-<span class="sourceLineNo">326</span>      .add("country", country)<a name="line.326"></a>
-<span class="sourceLineNo">327</span>      .add("area", area)<a name="line.327"></a>
-<span class="sourceLineNo">328</span>      .add("source", source)<a name="line.328"></a>
-<span class="sourceLineNo">329</span>      .add("sourceTaxonKey", sourceTaxonKey)<a name="line.329"></a>
-<span class="sourceLineNo">330</span>      .add("preferred", preferred)<a name="line.330"></a>
-<span class="sourceLineNo">331</span>      .add("plural", plural)<a name="line.331"></a>
-<span class="sourceLineNo">332</span>      .toString();<a name="line.332"></a>
-<span class="sourceLineNo">333</span>  }<a name="line.333"></a>
-<span class="sourceLineNo">334</span><a name="line.334"></a>
-<span class="sourceLineNo">335</span>}<a name="line.335"></a>
+<span class="sourceLineNo">208</span>  public void setSourceTaxonKey(Integer sourceTaxonKey) {<a name="line.208"></a>
+<span class="sourceLineNo">209</span>    this.sourceTaxonKey = sourceTaxonKey;<a name="line.209"></a>
+<span class="sourceLineNo">210</span>  }<a name="line.210"></a>
+<span class="sourceLineNo">211</span><a name="line.211"></a>
+<span class="sourceLineNo">212</span>  /**<a name="line.212"></a>
+<span class="sourceLineNo">213</span>   * A common or vernacular name.<a name="line.213"></a>
+<span class="sourceLineNo">214</span>   * &lt;blockquote&gt;<a name="line.214"></a>
+<span class="sourceLineNo">215</span>   * &lt;p&gt;<a name="line.215"></a>
+<span class="sourceLineNo">216</span>   * &lt;i&gt;Example:&lt;/i&gt; Andean Condor", "Condor Andino", "American Eagle", "Gänsegeier".<a name="line.216"></a>
+<span class="sourceLineNo">217</span>   * &lt;/p&gt;<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   * &lt;/blockquote&gt;<a name="line.218"></a>
+<span class="sourceLineNo">219</span>   *<a name="line.219"></a>
+<span class="sourceLineNo">220</span>   * @return the vernacularName<a name="line.220"></a>
+<span class="sourceLineNo">221</span>   */<a name="line.221"></a>
+<span class="sourceLineNo">222</span>  @NotNull<a name="line.222"></a>
+<span class="sourceLineNo">223</span>  public String getVernacularName() {<a name="line.223"></a>
+<span class="sourceLineNo">224</span>    return vernacularName;<a name="line.224"></a>
+<span class="sourceLineNo">225</span>  }<a name="line.225"></a>
+<span class="sourceLineNo">226</span><a name="line.226"></a>
+<span class="sourceLineNo">227</span>  /**<a name="line.227"></a>
+<span class="sourceLineNo">228</span>   * @param vernacularName the vernacularName to set<a name="line.228"></a>
+<span class="sourceLineNo">229</span>   */<a name="line.229"></a>
+<span class="sourceLineNo">230</span>  public void setVernacularName(String vernacularName) {<a name="line.230"></a>
+<span class="sourceLineNo">231</span>    this.vernacularName = vernacularName;<a name="line.231"></a>
+<span class="sourceLineNo">232</span>  }<a name="line.232"></a>
+<span class="sourceLineNo">233</span><a name="line.233"></a>
+<span class="sourceLineNo">234</span>  /**<a name="line.234"></a>
+<span class="sourceLineNo">235</span>   * This value is true if the vernacular name it qualifies refers to a plural form of the name.<a name="line.235"></a>
+<span class="sourceLineNo">236</span>   * &lt;blockquote&gt;<a name="line.236"></a>
+<span class="sourceLineNo">237</span>   * &lt;p&gt;<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   * &lt;i&gt;Example:&lt;/i&gt; The term "Schoolies" is the plural form of a name used along the coastal<a name="line.238"></a>
+<span class="sourceLineNo">239</span>   * Northeastern U.S. for<a name="line.239"></a>
+<span class="sourceLineNo">240</span>   * groups of juvenile fish of the species, Morone saxatilis.<a name="line.240"></a>
+<span class="sourceLineNo">241</span>   * &lt;/p&gt;<a name="line.241"></a>
+<span class="sourceLineNo">242</span>   * &lt;/blockquote&gt;<a name="line.242"></a>
+<span class="sourceLineNo">243</span>   *<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   * @return the plural<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   * @see &lt;a href="http://rs.gbif.org/vocabulary/basic/boolean.xml"&gt;Boolean Vocabulary&lt;/a&gt;<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   */<a name="line.246"></a>
+<span class="sourceLineNo">247</span>  @Nullable<a name="line.247"></a>
+<span class="sourceLineNo">248</span>  public Boolean isPlural() {<a name="line.248"></a>
+<span class="sourceLineNo">249</span>    return plural;<a name="line.249"></a>
+<span class="sourceLineNo">250</span>  }<a name="line.250"></a>
+<span class="sourceLineNo">251</span><a name="line.251"></a>
+<span class="sourceLineNo">252</span>  /**<a name="line.252"></a>
+<span class="sourceLineNo">253</span>   * @param plural the plural to set<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   */<a name="line.254"></a>
+<span class="sourceLineNo">255</span>  public void setPlural(Boolean plural) {<a name="line.255"></a>
+<span class="sourceLineNo">256</span>    this.plural = plural;<a name="line.256"></a>
+<span class="sourceLineNo">257</span>  }<a name="line.257"></a>
+<span class="sourceLineNo">258</span><a name="line.258"></a>
+<span class="sourceLineNo">259</span>  /**<a name="line.259"></a>
+<span class="sourceLineNo">260</span>   * This term is true if the source citing the use of this vernacular name indicates the usage has<a name="line.260"></a>
+<span class="sourceLineNo">261</span>   * some preference or specific standing over other possible vernacular names used for the<a name="line.261"></a>
+<span class="sourceLineNo">262</span>   * species.<a name="line.262"></a>
+<span class="sourceLineNo">263</span>   * &lt;blockquote&gt;<a name="line.263"></a>
+<span class="sourceLineNo">264</span>   * &lt;p&gt;<a name="line.264"></a>
+<span class="sourceLineNo">265</span>   * &lt;i&gt;Example:&lt;/i&gt; Some organisations have attempted to assign specific and unique vernacular<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   * names for particular<a name="line.266"></a>
+<span class="sourceLineNo">267</span>   * taxon groups in a systematic attempt to bring order and consistency to the use of these names.<a name="line.267"></a>
+<span class="sourceLineNo">268</span>   * For example, the American Ornithological Union assigns the name "Pearl Kite" for the taxon,<a name="line.268"></a>
+<span class="sourceLineNo">269</span>   * Gampsonyx swainsonii. The value of isPreferredName for this record would be true.<a name="line.269"></a>
+<span class="sourceLineNo">270</span>   * &lt;/p&gt;<a name="line.270"></a>
+<span class="sourceLineNo">271</span>   * &lt;/blockquote&gt;<a name="line.271"></a>
+<span class="sourceLineNo">272</span>   *<a name="line.272"></a>
+<span class="sourceLineNo">273</span>   * @return the preferred<a name="line.273"></a>
+<span class="sourceLineNo">274</span>   * @see &lt;a href="http://rs.gbif.org/vocabulary/basic/boolean.xml"&gt;Boolean Vocabulary&lt;/a&gt;<a name="line.274"></a>
+<span class="sourceLineNo">275</span>   */<a name="line.275"></a>
+<span class="sourceLineNo">276</span>  @Nullable<a name="line.276"></a>
+<span class="sourceLineNo">277</span>  public Boolean isPreferred() {<a name="line.277"></a>
+<span class="sourceLineNo">278</span>    return preferred;<a name="line.278"></a>
+<span class="sourceLineNo">279</span>  }<a name="line.279"></a>
+<span class="sourceLineNo">280</span><a name="line.280"></a>
+<span class="sourceLineNo">281</span>  /**<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   * @param preferred the preferred to set<a name="line.282"></a>
+<span class="sourceLineNo">283</span>   */<a name="line.283"></a>
+<span class="sourceLineNo">284</span>  public void setPreferred(Boolean preferred) {<a name="line.284"></a>
+<span class="sourceLineNo">285</span>    this.preferred = preferred;<a name="line.285"></a>
+<span class="sourceLineNo">286</span>  }<a name="line.286"></a>
+<span class="sourceLineNo">287</span><a name="line.287"></a>
+<span class="sourceLineNo">288</span>  @Override<a name="line.288"></a>
+<span class="sourceLineNo">289</span>  public boolean equals(Object o) {<a name="line.289"></a>
+<span class="sourceLineNo">290</span>    if (this == o) {<a name="line.290"></a>
+<span class="sourceLineNo">291</span>      return true;<a name="line.291"></a>
+<span class="sourceLineNo">292</span>    }<a name="line.292"></a>
+<span class="sourceLineNo">293</span>    if (o == null || getClass() != o.getClass()) {<a name="line.293"></a>
+<span class="sourceLineNo">294</span>      return false;<a name="line.294"></a>
+<span class="sourceLineNo">295</span>    }<a name="line.295"></a>
+<span class="sourceLineNo">296</span>    VernacularName that = (VernacularName) o;<a name="line.296"></a>
+<span class="sourceLineNo">297</span>    return Objects.equals(vernacularName, that.vernacularName) &amp;&amp;<a name="line.297"></a>
+<span class="sourceLineNo">298</span>      language == that.language &amp;&amp;<a name="line.298"></a>
+<span class="sourceLineNo">299</span>      lifeStage == that.lifeStage &amp;&amp;<a name="line.299"></a>
+<span class="sourceLineNo">300</span>      sex == that.sex &amp;&amp;<a name="line.300"></a>
+<span class="sourceLineNo">301</span>      country == that.country &amp;&amp;<a name="line.301"></a>
+<span class="sourceLineNo">302</span>      Objects.equals(area, that.area) &amp;&amp;<a name="line.302"></a>
+<span class="sourceLineNo">303</span>      Objects.equals(source, that.source) &amp;&amp;<a name="line.303"></a>
+<span class="sourceLineNo">304</span>      Objects.equals(sourceTaxonKey, that.sourceTaxonKey) &amp;&amp;<a name="line.304"></a>
+<span class="sourceLineNo">305</span>      Objects.equals(preferred, that.preferred) &amp;&amp;<a name="line.305"></a>
+<span class="sourceLineNo">306</span>      Objects.equals(plural, that.plural);<a name="line.306"></a>
+<span class="sourceLineNo">307</span>  }<a name="line.307"></a>
+<span class="sourceLineNo">308</span><a name="line.308"></a>
+<span class="sourceLineNo">309</span>  @Override<a name="line.309"></a>
+<span class="sourceLineNo">310</span>  public int hashCode() {<a name="line.310"></a>
+<span class="sourceLineNo">311</span>    return Objects.hash(vernacularName, language, lifeStage, sex, country, area, source,<a name="line.311"></a>
+<span class="sourceLineNo">312</span>      sourceTaxonKey, preferred, plural);<a name="line.312"></a>
+<span class="sourceLineNo">313</span>  }<a name="line.313"></a>
+<span class="sourceLineNo">314</span><a name="line.314"></a>
+<span class="sourceLineNo">315</span>  @Override<a name="line.315"></a>
+<span class="sourceLineNo">316</span>  public String toString() {<a name="line.316"></a>
+<span class="sourceLineNo">317</span>    return new StringJoiner(", ", VernacularName.class.getSimpleName() + "[", "]")<a name="line.317"></a>
+<span class="sourceLineNo">318</span>      .add("vernacularName='" + vernacularName + "'")<a name="line.318"></a>
+<span class="sourceLineNo">319</span>      .add("language=" + language)<a name="line.319"></a>
+<span class="sourceLineNo">320</span>      .add("lifeStage=" + lifeStage)<a name="line.320"></a>
+<span class="sourceLineNo">321</span>      .add("sex=" + sex)<a name="line.321"></a>
+<span class="sourceLineNo">322</span>      .add("country=" + country)<a name="line.322"></a>
+<span class="sourceLineNo">323</span>      .add("area='" + area + "'")<a name="line.323"></a>
+<span class="sourceLineNo">324</span>      .add("source='" + source + "'")<a name="line.324"></a>
+<span class="sourceLineNo">325</span>      .add("sourceTaxonKey=" + sourceTaxonKey)<a name="line.325"></a>
+<span class="sourceLineNo">326</span>      .add("preferred=" + preferred)<a name="line.326"></a>
+<span class="sourceLineNo">327</span>      .add("plural=" + plural)<a name="line.327"></a>
+<span class="sourceLineNo">328</span>      .toString();<a name="line.328"></a>
+<span class="sourceLineNo">329</span>  }<a name="line.329"></a>
+<span class="sourceLineNo">330</span>}<a name="line.330"></a>
 
 
 

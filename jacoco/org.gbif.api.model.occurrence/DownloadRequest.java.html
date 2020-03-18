@@ -1,31 +1,47 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DownloadRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence</a> &gt; <span class="el_source">DownloadRequest.java</span></div><h1>DownloadRequest.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.occurrence;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DownloadRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence</a> &gt; <span class="el_source">DownloadRequest.java</span></div><h1>DownloadRequest.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.occurrence;
 
 import org.gbif.api.jackson.DownloadRequestSerde;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import javax.annotation.Nullable;
+
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import com.google.common.base.Joiner;
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
-import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 
 /**
  * Represents a request to download occurrence records.
  * This is the base class for specific type of downloads: predicate based downloads and SQL downloads..
  */
+@SuppressWarnings(&quot;unused&quot;)
 @JsonDeserialize(using = DownloadRequestSerde.class)
 public abstract class DownloadRequest {
 
   private static final String DELIMITER = &quot;,&quot;;
-<span class="fc" id="L27">  private static final Joiner COMMA_JOINER = Joiner.on(DELIMITER).skipNulls();</span>
-<span class="fc" id="L28">  private static final Splitter COMMA_SPLITTER = Splitter.on(DELIMITER).omitEmptyStrings().trimResults();</span>
 
   @JsonProperty(&quot;creator&quot;)
   private String creator;
@@ -42,23 +58,25 @@ public abstract class DownloadRequest {
   /**
    * Default constructor.
    */
-<span class="nc" id="L45">  public DownloadRequest() {</span>
+<span class="nc" id="L61">  public DownloadRequest() {</span>
     // Empty constructor required to create instances from the data access layer.
-<span class="nc" id="L47">  }</span>
+<span class="nc" id="L63">  }</span>
 
-<span class="fc" id="L49">  public DownloadRequest(String creator, Collection&lt;String&gt; notificationAddresses, boolean sendNotification, DownloadFormat format) {</span>
-<span class="fc" id="L50">    this.creator = creator;</span>
-<span class="pc bpc" id="L51" title="1 of 2 branches missed.">    this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() : ImmutableSet.copyOf(notificationAddresses);</span>
-<span class="fc" id="L52">    this.sendNotification = sendNotification;</span>
-<span class="fc" id="L53">    this.format = format;</span>
-<span class="fc" id="L54">  }</span>
+  public DownloadRequest(String creator, Collection&lt;String&gt; notificationAddresses,
+<span class="fc" id="L66">    boolean sendNotification, DownloadFormat format) {</span>
+<span class="fc" id="L67">    this.creator = creator;</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">    this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :</span>
+<span class="fc" id="L69">      Collections.unmodifiableSet(new HashSet&lt;&gt;(notificationAddresses));</span>
+<span class="fc" id="L70">    this.sendNotification = sendNotification;</span>
+<span class="fc" id="L71">    this.format = format;</span>
+<span class="fc" id="L72">  }</span>
 
   /**
    * @return the user account that initiated the download
    */
   @Nullable
   public String getCreator() {
-<span class="fc" id="L61">    return creator;</span>
+<span class="fc" id="L79">    return creator;</span>
   }
 
   /**
@@ -66,7 +84,7 @@ public abstract class DownloadRequest {
    */
   @Nullable
   public Set&lt;String&gt; getNotificationAddresses() {
-<span class="fc" id="L69">    return notificationAddresses;</span>
+<span class="fc" id="L87">    return notificationAddresses;</span>
   }
 
   /**
@@ -75,81 +93,85 @@ public abstract class DownloadRequest {
   @Nullable
   @JsonIgnore
   public String getNotificationAddressesAsString() {
-<span class="pc bpc" id="L78" title="1 of 2 branches missed.">    if (notificationAddresses != null) {</span>
-<span class="fc" id="L79">      return COMMA_JOINER.join(notificationAddresses);</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">    if (notificationAddresses != null) {</span>
+<span class="fc" id="L97">      return notificationAddresses.stream()</span>
+<span class="fc" id="L98">        .filter(Objects::nonNull)</span>
+<span class="fc" id="L99">        .map(String::trim)</span>
+<span class="fc" id="L100">        .collect(Collectors.joining(DELIMITER));</span>
     }
-<span class="nc" id="L81">    return null;</span>
+<span class="nc" id="L102">    return null;</span>
   }
 
   public void setCreator(String creator) {
-<span class="nc" id="L85">    this.creator = creator;</span>
-<span class="nc" id="L86">  }</span>
-
+<span class="nc" id="L106">    this.creator = creator;</span>
+<span class="nc" id="L107">  }</span>
 
   public void setNotificationAddresses(Set&lt;String&gt; notificationAddresses) {
-<span class="nc" id="L90">    this.notificationAddresses = notificationAddresses;</span>
-<span class="nc" id="L91">  }</span>
+<span class="nc" id="L110">    this.notificationAddresses = notificationAddresses;</span>
+<span class="nc" id="L111">  }</span>
 
   /**
    * Sets the notificationAddresses using a single String value that is split by ','.
    */
   public void setNotificationAddressesAsString(String notificationAddressesAsString) {
-<span class="nc bnc" id="L97" title="All 2 branches missed.">    if (notificationAddressesAsString != null) {</span>
-<span class="nc" id="L98">      notificationAddresses = Sets.newHashSet(COMMA_SPLITTER.split(notificationAddressesAsString));</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">    if (notificationAddressesAsString != null) {</span>
+<span class="nc" id="L118">      notificationAddresses = Stream.of(notificationAddressesAsString.split(DELIMITER))</span>
+<span class="nc" id="L119">        .filter(StringUtils::isNotEmpty)</span>
+<span class="nc" id="L120">        .map(String::trim)</span>
+<span class="nc" id="L121">        .collect(Collectors.toSet());</span>
     }
-<span class="nc" id="L100">  }</span>
+<span class="nc" id="L123">  }</span>
 
   public boolean getSendNotification() {
-<span class="fc" id="L103">    return sendNotification;</span>
+<span class="fc" id="L126">    return sendNotification;</span>
   }
 
   /**
    * This parameter determines if the requested download must be notified to the created once it's ready.
    */
   public void setSendNotification(boolean sendNotification) {
-<span class="nc" id="L110">    this.sendNotification = sendNotification;</span>
-<span class="nc" id="L111">  }</span>
+<span class="nc" id="L133">    this.sendNotification = sendNotification;</span>
+<span class="nc" id="L134">  }</span>
 
   public DownloadFormat getFormat() {
-<span class="fc" id="L114">    return format;</span>
+<span class="fc" id="L137">    return format;</span>
   }
 
   /**
    * This parameter determines the output format of the requested download.
    */
   public void setFormat(DownloadFormat format) {
-<span class="nc" id="L121">    this.format = format;</span>
-<span class="nc" id="L122">  }</span>
+<span class="nc" id="L144">    this.format = format;</span>
+<span class="nc" id="L145">  }</span>
 
   @Override
-  public boolean equals(Object obj) {
-<span class="pc bpc" id="L126" title="1 of 2 branches missed.">    if (this == obj) {</span>
-<span class="nc" id="L127">      return true;</span>
+  public boolean equals(Object o) {
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L150">      return true;</span>
     }
-<span class="pc bpc" id="L129" title="1 of 2 branches missed.">    if (!(obj instanceof DownloadRequest)) {</span>
-<span class="nc" id="L130">      return false;</span>
+<span class="pc bpc" id="L152" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L153">      return false;</span>
     }
-
-<span class="fc" id="L133">    DownloadRequest that = (DownloadRequest) obj;</span>
-<span class="pc bpc" id="L134" title="1 of 2 branches missed.">    return Objects.equal(this.creator, that.creator)</span>
-<span class="pc bpc" id="L135" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.notificationAddresses, that.notificationAddresses)</span>
-<span class="pc bpc" id="L136" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.sendNotification, that.sendNotification)</span>
-<span class="pc bpc" id="L137" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.format, that.format);</span>
+<span class="fc" id="L155">    DownloadRequest that = (DownloadRequest) o;</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">    return sendNotification == that.sendNotification &amp;&amp;</span>
+<span class="pc bpc" id="L157" title="1 of 2 branches missed.">      Objects.equals(creator, that.creator) &amp;&amp;</span>
+<span class="pc bpc" id="L158" title="2 of 4 branches missed.">      Objects.equals(notificationAddresses, that.notificationAddresses) &amp;&amp;</span>
+      format == that.format;
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L142">    return Objects.hashCode(creator, notificationAddresses, sendNotification, format);</span>
+<span class="fc" id="L164">    return Objects.hash(creator, notificationAddresses, sendNotification, format);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L147">    return MoreObjects.toStringHelper(this)</span>
-<span class="nc" id="L148">      .add(&quot;creator&quot;, creator)</span>
-<span class="nc" id="L149">      .add(&quot;notificationAddresses&quot;, notificationAddresses)</span>
-<span class="nc" id="L150">      .add(&quot;emailNotification&quot;, sendNotification)</span>
-<span class="nc" id="L151">      .add(&quot;format&quot;, format).toString();</span>
+<span class="nc" id="L169">    return new StringJoiner(&quot;, &quot;, DownloadRequest.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L170">      .add(&quot;creator='&quot; + creator + &quot;'&quot;)</span>
+<span class="nc" id="L171">      .add(&quot;notificationAddresses=&quot; + notificationAddresses)</span>
+<span class="nc" id="L172">      .add(&quot;sendNotification=&quot; + sendNotification)</span>
+<span class="nc" id="L173">      .add(&quot;format=&quot; + format)</span>
+<span class="nc" id="L174">      .toString();</span>
   }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,35 +1,50 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FinishReason.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.crawler</a> &gt; <span class="el_source">FinishReason.java</span></div><h1>FinishReason.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.crawler;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FinishReason.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.crawler</a> &gt; <span class="el_source">FinishReason.java</span></div><h1>FinishReason.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.crawler;
 
 /**
  * This enum lists the reasons why a crawl is finished.
  */
-<span class="fc" id="L6">public enum FinishReason {</span>
+<span class="fc" id="L21">public enum FinishReason {</span>
   /**
    * This status means that we were able to finish the crawl without any fatal errors and without exhausting retries.
    * There could still have been intermittent errors but we managed to reach the end of an endpoint or a DwC-A file.
    */
-<span class="fc" id="L11">  NORMAL,</span>
+<span class="fc" id="L26">  NORMAL,</span>
 
   /**
    * This status means that the user requested an abort of the crawl and that is the reason this crawl is done.
    */
-<span class="fc" id="L16">  USER_ABORT,</span>
+<span class="fc" id="L31">  USER_ABORT,</span>
 
   /**
    * This status means that we had to abort the crawl for any abnormal reason (endpoint down, not a valid archive,
    * ...). To find the exact reason(s) you need to look at the logs to see past errors.
    */
-<span class="fc" id="L22">  ABORT,</span>
+<span class="fc" id="L37">  ABORT,</span>
 
   /**
    * Crawling has stopped because the source data was not modified since the last crawl.
    */
-<span class="fc" id="L27">  NOT_MODIFIED,</span>
+<span class="fc" id="L42">  NOT_MODIFIED,</span>
 
   /**
    * This status means that we don't know why the crawl aborted. This is a sign of a programming error and should be
    * investigated.
    */
-<span class="fc" id="L33">  UNKNOWN</span>
+<span class="fc" id="L48">  UNKNOWN</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

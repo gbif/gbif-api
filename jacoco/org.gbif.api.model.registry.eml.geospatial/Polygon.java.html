@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Polygon.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry.eml.geospatial</a> &gt; <span class="el_source">Polygon.java</span></div><h1>Polygon.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -15,36 +15,37 @@
  */
 package org.gbif.api.model.registry.eml.geospatial;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
+import java.util.stream.Collectors;
 
 /**
  * A simple polygon made out of a list of points to be joined.
  */
-<span class="nc" id="L27">public class Polygon implements Geometry {</span>
+<span class="nc" id="L26">public class Polygon implements Geometry {</span>
 
-<span class="nc" id="L29">  private static final Joiner POINT_JOINER = Joiner.on(&quot;, &quot;);</span>
-<span class="nc" id="L30">  private List&lt;Point&gt; points = Lists.newArrayList();</span>
+<span class="nc" id="L28">  private List&lt;Point&gt; points = new ArrayList&lt;&gt;();</span>
 
   public List&lt;Point&gt; getPoints() {
-<span class="nc" id="L33">    return points;</span>
+<span class="nc" id="L31">    return points;</span>
   }
 
   public void setPoints(List&lt;Point&gt; points) {
-<span class="nc" id="L37">    this.points = points;</span>
-<span class="nc" id="L38">  }</span>
+<span class="nc" id="L35">    this.points = points;</span>
+<span class="nc" id="L36">  }</span>
 
   @Override
   public String toWellKnownText() {
-<span class="nc" id="L42">    return String.format(Locale.ENGLISH, &quot;POLYGON ((%s))&quot;, POINT_JOINER.join(points));</span>
+<span class="nc" id="L40">    return String.format(Locale.ENGLISH, &quot;POLYGON ((%s))&quot;,</span>
+<span class="nc" id="L41">      points.stream()</span>
+<span class="nc" id="L42">        .map(p -&gt; p.getLongitude() + &quot; &quot; + p.getLatitude())</span>
+<span class="nc" id="L43">        .collect(Collectors.joining(&quot;, &quot;))</span>
+    );
   }
 
   public void addPoint(Point point) {
-<span class="nc" id="L46">    points.add(point);</span>
-<span class="nc" id="L47">  }</span>
-
+<span class="nc" id="L48">    points.add(point);</span>
+<span class="nc" id="L49">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

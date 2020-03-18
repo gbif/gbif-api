@@ -1,4 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PipelineExecution.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.pipelines</a> &gt; <span class="el_source">PipelineExecution.java</span></div><h1>PipelineExecution.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.pipelines;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PipelineExecution.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.pipelines</a> &gt; <span class="el_source">PipelineExecution.java</span></div><h1>PipelineExecution.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.pipelines;
 
 import org.gbif.api.jackson.LocalDateTimeSerDe;
 
@@ -12,10 +27,10 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import static org.gbif.api.model.pipelines.PipelineStep.STEPS_BY_START_AND_FINISH_ASC;
 
 /** Models a execution of a pipeline that can include one or more steps. */
-<span class="fc" id="L15">public class PipelineExecution implements Serializable {</span>
+<span class="fc" id="L30">public class PipelineExecution implements Serializable {</span>
 
   private long key;
-<span class="fc" id="L18">  private List&lt;StepType&gt; stepsToRun = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L33">  private List&lt;StepType&gt; stepsToRun = new ArrayList&lt;&gt;();</span>
   private String rerunReason;
   private String remarks;
 
@@ -24,120 +39,120 @@ import static org.gbif.api.model.pipelines.PipelineStep.STEPS_BY_START_AND_FINIS
   private LocalDateTime created;
 
   private String createdBy;
-<span class="fc" id="L27">  private Set&lt;PipelineStep&gt; steps = new TreeSet&lt;&gt;(STEPS_BY_START_AND_FINISH_ASC);</span>
+<span class="fc" id="L42">  private Set&lt;PipelineStep&gt; steps = new TreeSet&lt;&gt;(STEPS_BY_START_AND_FINISH_ASC);</span>
 
-<span class="fc" id="L29">  public static final Comparator&lt;PipelineExecution&gt; PIPELINE_EXECUTION_BY_CREATED_ASC =</span>
+<span class="fc" id="L44">  public static final Comparator&lt;PipelineExecution&gt; PIPELINE_EXECUTION_BY_CREATED_ASC =</span>
       (e1, e2) -&gt; {
-<span class="pc bpc" id="L31" title="1 of 2 branches missed.">        LocalDateTime created1 = e1 != null ? e1.getCreated() : null;</span>
-<span class="fc bfc" id="L32" title="All 2 branches covered.">        LocalDateTime created2 = e2 != null ? e2.getCreated() : null;</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">        LocalDateTime created1 = e1 != null ? e1.getCreated() : null;</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        LocalDateTime created2 = e2 != null ? e2.getCreated() : null;</span>
 
-<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (created1 == null) {</span>
-<span class="pc bpc" id="L35" title="1 of 2 branches missed.">          return created2 == null ? 0 : 1;</span>
-<span class="fc bfc" id="L36" title="All 2 branches covered.">        } else if (created2 == null) {</span>
-<span class="fc" id="L37">          return -1;</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if (created1 == null) {</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">          return created2 == null ? 0 : 1;</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        } else if (created2 == null) {</span>
+<span class="fc" id="L52">          return -1;</span>
         }
 
-<span class="fc" id="L40">        return created1.compareTo(created2);</span>
+<span class="fc" id="L55">        return created1.compareTo(created2);</span>
       };
 
   public long getKey() {
-<span class="nc" id="L44">    return key;</span>
+<span class="nc" id="L59">    return key;</span>
   }
 
   public PipelineExecution setKey(long key) {
-<span class="nc" id="L48">    this.key = key;</span>
-<span class="nc" id="L49">    return this;</span>
+<span class="nc" id="L63">    this.key = key;</span>
+<span class="nc" id="L64">    return this;</span>
   }
 
   public List&lt;StepType&gt; getStepsToRun() {
-<span class="nc" id="L53">    return stepsToRun;</span>
+<span class="nc" id="L68">    return stepsToRun;</span>
   }
 
   public PipelineExecution setStepsToRun(List&lt;StepType&gt; stepsToRun) {
-<span class="nc" id="L57">    this.stepsToRun = stepsToRun;</span>
-<span class="nc" id="L58">    return this;</span>
+<span class="nc" id="L72">    this.stepsToRun = stepsToRun;</span>
+<span class="nc" id="L73">    return this;</span>
   }
 
   public String getRerunReason() {
-<span class="nc" id="L62">    return rerunReason;</span>
+<span class="nc" id="L77">    return rerunReason;</span>
   }
 
   public PipelineExecution setRerunReason(String rerunReason) {
-<span class="nc" id="L66">    this.rerunReason = rerunReason;</span>
-<span class="nc" id="L67">    return this;</span>
+<span class="nc" id="L81">    this.rerunReason = rerunReason;</span>
+<span class="nc" id="L82">    return this;</span>
   }
 
   public String getRemarks() {
-<span class="nc" id="L71">    return remarks;</span>
+<span class="nc" id="L86">    return remarks;</span>
   }
 
   public PipelineExecution setRemarks(String remarks) {
-<span class="nc" id="L75">    this.remarks = remarks;</span>
-<span class="nc" id="L76">    return this;</span>
+<span class="nc" id="L90">    this.remarks = remarks;</span>
+<span class="nc" id="L91">    return this;</span>
   }
 
   public LocalDateTime getCreated() {
-<span class="fc" id="L80">    return created;</span>
+<span class="fc" id="L95">    return created;</span>
   }
 
   public PipelineExecution setCreated(LocalDateTime created) {
-<span class="fc" id="L84">    this.created = created;</span>
-<span class="fc" id="L85">    return this;</span>
+<span class="fc" id="L99">    this.created = created;</span>
+<span class="fc" id="L100">    return this;</span>
   }
 
   public String getCreatedBy() {
-<span class="nc" id="L89">    return createdBy;</span>
+<span class="nc" id="L104">    return createdBy;</span>
   }
 
   public PipelineExecution setCreatedBy(String createdBy) {
-<span class="nc" id="L93">    this.createdBy = createdBy;</span>
-<span class="nc" id="L94">    return this;</span>
+<span class="nc" id="L108">    this.createdBy = createdBy;</span>
+<span class="nc" id="L109">    return this;</span>
   }
 
   public Set&lt;PipelineStep&gt; getSteps() {
-<span class="fc" id="L98">    return steps;</span>
+<span class="fc" id="L113">    return steps;</span>
   }
 
   public void setSteps(Set&lt;PipelineStep&gt; steps) {
-<span class="nc" id="L102">    this.steps.clear();</span>
-<span class="nc" id="L103">    this.steps.addAll(steps);</span>
-<span class="nc" id="L104">  }</span>
+<span class="nc" id="L117">    this.steps.clear();</span>
+<span class="nc" id="L118">    this.steps.addAll(steps);</span>
+<span class="nc" id="L119">  }</span>
 
   public PipelineExecution addStep(PipelineStep step) {
-<span class="fc" id="L107">    steps.add(step);</span>
-<span class="fc" id="L108">    return this;</span>
+<span class="fc" id="L122">    steps.add(step);</span>
+<span class="fc" id="L123">    return this;</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L113" title="All 2 branches missed.">    if (this == o) return true;</span>
-<span class="nc bnc" id="L114" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L115">    PipelineExecution that = (PipelineExecution) o;</span>
-<span class="nc bnc" id="L116" title="All 2 branches missed.">    return key == that.key</span>
-<span class="nc bnc" id="L117" title="All 2 branches missed.">        &amp;&amp; Objects.equals(stepsToRun, that.stepsToRun)</span>
-<span class="nc bnc" id="L118" title="All 2 branches missed.">        &amp;&amp; Objects.equals(rerunReason, that.rerunReason)</span>
-<span class="nc bnc" id="L119" title="All 2 branches missed.">        &amp;&amp; Objects.equals(remarks, that.remarks)</span>
-<span class="nc bnc" id="L120" title="All 2 branches missed.">        &amp;&amp; Objects.equals(created, that.created)</span>
-<span class="nc bnc" id="L121" title="All 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, that.createdBy)</span>
-<span class="nc bnc" id="L122" title="All 2 branches missed.">        &amp;&amp; Objects.equals(steps, that.steps);</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L129" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L130">    PipelineExecution that = (PipelineExecution) o;</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">    return key == that.key</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        &amp;&amp; Objects.equals(stepsToRun, that.stepsToRun)</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        &amp;&amp; Objects.equals(rerunReason, that.rerunReason)</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        &amp;&amp; Objects.equals(remarks, that.remarks)</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        &amp;&amp; Objects.equals(created, that.created)</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, that.createdBy)</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        &amp;&amp; Objects.equals(steps, that.steps);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L127">    return Objects.hash(key, stepsToRun, rerunReason, remarks, created, createdBy);</span>
+<span class="nc" id="L142">    return Objects.hash(key, stepsToRun, rerunReason, remarks, created, createdBy);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L132">    return new StringJoiner(&quot;, &quot;, PipelineExecution.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L133">        .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L134">        .add(&quot;stepsToRun=&quot; + stepsToRun)</span>
-<span class="nc" id="L135">        .add(&quot;rerunReason='&quot; + rerunReason + &quot;'&quot;)</span>
-<span class="nc" id="L136">        .add(&quot;remarks='&quot; + remarks + &quot;'&quot;)</span>
-<span class="nc" id="L137">        .add(&quot;created=&quot; + created)</span>
-<span class="nc" id="L138">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
-<span class="nc" id="L139">        .add(&quot;steps='&quot; + steps + &quot;'&quot;)</span>
-<span class="nc" id="L140">        .toString();</span>
+<span class="nc" id="L147">    return new StringJoiner(&quot;, &quot;, PipelineExecution.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L148">        .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L149">        .add(&quot;stepsToRun=&quot; + stepsToRun)</span>
+<span class="nc" id="L150">        .add(&quot;rerunReason='&quot; + rerunReason + &quot;'&quot;)</span>
+<span class="nc" id="L151">        .add(&quot;remarks='&quot; + remarks + &quot;'&quot;)</span>
+<span class="nc" id="L152">        .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L153">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L154">        .add(&quot;steps='&quot; + steps + &quot;'&quot;)</span>
+<span class="nc" id="L155">        .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

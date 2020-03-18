@@ -1,4 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatasetSearchRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry.search</a> &gt; <span class="el_source">DatasetSearchRequest.java</span></div><h1>DatasetSearchRequest.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.registry.search;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatasetSearchRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry.search</a> &gt; <span class="el_source">DatasetSearchRequest.java</span></div><h1>DatasetSearchRequest.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.registry.search;
 
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.FacetedSearchRequest;
@@ -14,36 +29,36 @@ import java.util.UUID;
  * A dataset specific search request with convenience methods to add facet filters.
  */
 public class DatasetSearchRequest extends FacetedSearchRequest&lt;DatasetSearchParameter&gt; {
-<span class="nc" id="L17">  private Integer highlightContext = -1;</span>
+<span class="nc" id="L32">  private Integer highlightContext = -1;</span>
 
-<span class="nc" id="L19">  public DatasetSearchRequest() {</span>
-<span class="nc" id="L20">  }</span>
+<span class="nc" id="L34">  public DatasetSearchRequest() {</span>
+<span class="nc" id="L35">  }</span>
 
   public DatasetSearchRequest(Pageable page) {
-<span class="nc" id="L23">    super(page);</span>
-<span class="nc" id="L24">  }</span>
+<span class="nc" id="L38">    super(page);</span>
+<span class="nc" id="L39">  }</span>
 
   public DatasetSearchRequest(long offset, int limit) {
-<span class="nc" id="L27">    super(offset, limit);</span>
-<span class="nc" id="L28">  }</span>
+<span class="nc" id="L42">    super(offset, limit);</span>
+<span class="nc" id="L43">  }</span>
 
   /**
    * @return the number of characters of the context to show for the highlighted match, including the match itself.
    */
   public Integer getHighlightContext() {
-<span class="nc" id="L34">    return highlightContext;</span>
+<span class="nc" id="L49">    return highlightContext;</span>
   }
 
   public void setHighlightContext(Integer highlightContext) {
-<span class="nc" id="L38">    this.highlightContext = highlightContext;</span>
-<span class="nc" id="L39">  }</span>
+<span class="nc" id="L53">    this.highlightContext = highlightContext;</span>
+<span class="nc" id="L54">  }</span>
 
   /**
    * Filters dataset by the owning organizations country.
    */
   public void addPublishingCountryFilter(Country country) {
-<span class="nc" id="L45">    addParameter(DatasetSearchParameter.PUBLISHING_COUNTRY, country.getIso2LetterCode());</span>
-<span class="nc" id="L46">  }</span>
+<span class="nc" id="L60">    addParameter(DatasetSearchParameter.PUBLISHING_COUNTRY, country.getIso2LetterCode());</span>
+<span class="nc" id="L61">  }</span>
 
   /**
    * Filters dataset by a country of the geospatial coverage.
@@ -51,8 +66,8 @@ public class DatasetSearchRequest extends FacetedSearchRequest&lt;DatasetSearchP
    * @param country appearing in geospatial coverage
    */
   public void addCountryFilter(Country country) {
-<span class="nc" id="L54">    addParameter(DatasetSearchParameter.COUNTRY, country.getIso2LetterCode());</span>
-<span class="nc" id="L55">  }</span>
+<span class="nc" id="L69">    addParameter(DatasetSearchParameter.COUNTRY, country.getIso2LetterCode());</span>
+<span class="nc" id="L70">  }</span>
 
   /**
    * Filters dataset by a continent of the geospatial coverage.
@@ -60,8 +75,8 @@ public class DatasetSearchRequest extends FacetedSearchRequest&lt;DatasetSearchP
    * @param continent appearing in geospatial coverage
    */
   public void addContinentFilter(Continent continent) {
-<span class="nc" id="L63">    addParameter(DatasetSearchParameter.CONTINENT, continent);</span>
-<span class="nc" id="L64">  }</span>
+<span class="nc" id="L78">    addParameter(DatasetSearchParameter.CONTINENT, continent);</span>
+<span class="nc" id="L79">  }</span>
 
   /**
    * Filters datasets by their temporal coverage broken down to decades.
@@ -69,12 +84,12 @@ public class DatasetSearchRequest extends FacetedSearchRequest&lt;DatasetSearchP
    * @param decade the decade given as a 4 digit integer
    */
   public void addDecadeFilter(int decade) {
-<span class="nc" id="L72">    addParameter(DatasetSearchParameter.DECADE, decade);</span>
-<span class="nc" id="L73">  }</span>
+<span class="nc" id="L87">    addParameter(DatasetSearchParameter.DECADE, decade);</span>
+<span class="nc" id="L88">  }</span>
 
   public void addHostingOrgFilter(UUID orgKey) {
-<span class="nc" id="L76">    addParameter(DatasetSearchParameter.HOSTING_ORG, orgKey.toString());</span>
-<span class="nc" id="L77">  }</span>
+<span class="nc" id="L91">    addParameter(DatasetSearchParameter.HOSTING_ORG, orgKey.toString());</span>
+<span class="nc" id="L92">  }</span>
 
   /**
    * Filters datasets by a keyword given in EML or as simple, public tags.
@@ -82,8 +97,8 @@ public class DatasetSearchRequest extends FacetedSearchRequest&lt;DatasetSearchP
    * @param keyword a plain keyword e.g. created by Tag.toString()
    */
   public void addKeywordFilter(String keyword) {
-<span class="nc" id="L85">    addParameter(DatasetSearchParameter.KEYWORD, keyword);</span>
-<span class="nc" id="L86">  }</span>
+<span class="nc" id="L100">    addParameter(DatasetSearchParameter.KEYWORD, keyword);</span>
+<span class="nc" id="L101">  }</span>
 
   /**
    * Filters dataset by a tag.
@@ -91,31 +106,31 @@ public class DatasetSearchRequest extends FacetedSearchRequest&lt;DatasetSearchP
    * @param keyword given as a tag
    */
   public void addKeywordFilter(Tag keyword) {
-<span class="nc" id="L94">    addParameter(DatasetSearchParameter.KEYWORD, keyword.toString());</span>
-<span class="nc" id="L95">  }</span>
+<span class="nc" id="L109">    addParameter(DatasetSearchParameter.KEYWORD, keyword.toString());</span>
+<span class="nc" id="L110">  }</span>
 
   public void addPublishingOrgFilter(UUID orgKey) {
-<span class="nc" id="L98">    addParameter(DatasetSearchParameter.PUBLISHING_ORG, orgKey.toString());</span>
-<span class="nc" id="L99">  }</span>
+<span class="nc" id="L113">    addParameter(DatasetSearchParameter.PUBLISHING_ORG, orgKey.toString());</span>
+<span class="nc" id="L114">  }</span>
 
   public void addSubTypeFilter(DatasetSubtype subtype) {
-<span class="nc" id="L102">    addParameter(DatasetSearchParameter.SUBTYPE, subtype);</span>
-<span class="nc" id="L103">  }</span>
+<span class="nc" id="L117">    addParameter(DatasetSearchParameter.SUBTYPE, subtype);</span>
+<span class="nc" id="L118">  }</span>
 
   public void addTypeFilter(DatasetType type) {
-<span class="nc" id="L106">    addParameter(DatasetSearchParameter.TYPE, type);</span>
-<span class="nc" id="L107">  }</span>
+<span class="nc" id="L121">    addParameter(DatasetSearchParameter.TYPE, type);</span>
+<span class="nc" id="L122">  }</span>
 
   public void addProjectIdentifier(String identifier) {
-<span class="nc" id="L110">    addParameter(DatasetSearchParameter.PROJECT_ID, identifier);</span>
-<span class="nc" id="L111">  }</span>
+<span class="nc" id="L125">    addParameter(DatasetSearchParameter.PROJECT_ID, identifier);</span>
+<span class="nc" id="L126">  }</span>
 
   public void addTaxonKey(int taxonKey) {
-<span class="nc" id="L114">    addParameter(DatasetSearchParameter.TAXON_KEY, taxonKey);</span>
-<span class="nc" id="L115">  }</span>
+<span class="nc" id="L129">    addParameter(DatasetSearchParameter.TAXON_KEY, taxonKey);</span>
+<span class="nc" id="L130">  }</span>
 
   public void addYear(int year) {
-<span class="nc" id="L118">    addParameter(DatasetSearchParameter.YEAR, year);</span>
-<span class="nc" id="L119">  }</span>
+<span class="nc" id="L133">    addParameter(DatasetSearchParameter.YEAR, year);</span>
+<span class="nc" id="L134">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

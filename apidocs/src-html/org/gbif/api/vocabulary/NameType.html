@@ -7,7 +7,7 @@
 <body>
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2014 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
+<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
 <span class="sourceLineNo">003</span> *<a name="line.3"></a>
 <span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
 <span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
@@ -23,7 +23,7 @@
 <span class="sourceLineNo">015</span> */<a name="line.15"></a>
 <span class="sourceLineNo">016</span>package org.gbif.api.vocabulary;<a name="line.16"></a>
 <span class="sourceLineNo">017</span><a name="line.17"></a>
-<span class="sourceLineNo">018</span>import com.google.common.base.Strings;<a name="line.18"></a>
+<span class="sourceLineNo">018</span>import org.apache.commons.lang3.StringUtils;<a name="line.18"></a>
 <span class="sourceLineNo">019</span><a name="line.19"></a>
 <span class="sourceLineNo">020</span>/**<a name="line.20"></a>
 <span class="sourceLineNo">021</span> * A short classification of scientific name strings used in Checklist Bank.<a name="line.21"></a>
@@ -95,7 +95,7 @@
 <span class="sourceLineNo">087</span>   * Surely not a scientific name of any kind.<a name="line.87"></a>
 <span class="sourceLineNo">088</span>   */<a name="line.88"></a>
 <span class="sourceLineNo">089</span>  NO_NAME,<a name="line.89"></a>
-<span class="sourceLineNo">090</span>  <a name="line.90"></a>
+<span class="sourceLineNo">090</span><a name="line.90"></a>
 <span class="sourceLineNo">091</span>  /**<a name="line.91"></a>
 <span class="sourceLineNo">092</span>   * A name that has been flagged by the name parser due to the use of blacklisted epithets/words.<a name="line.92"></a>
 <span class="sourceLineNo">093</span>   */<a name="line.93"></a>
@@ -110,7 +110,7 @@
 <span class="sourceLineNo">102</span>   * @return the matching NameType or null<a name="line.102"></a>
 <span class="sourceLineNo">103</span>   */<a name="line.103"></a>
 <span class="sourceLineNo">104</span>  public static NameType fromString(String nameType) {<a name="line.104"></a>
-<span class="sourceLineNo">105</span>    if (!Strings.isNullOrEmpty(nameType)) {<a name="line.105"></a>
+<span class="sourceLineNo">105</span>    if (StringUtils.isNotEmpty(nameType)) {<a name="line.105"></a>
 <span class="sourceLineNo">106</span>      try {<a name="line.106"></a>
 <span class="sourceLineNo">107</span>        return valueOf(nameType.toUpperCase().trim());<a name="line.107"></a>
 <span class="sourceLineNo">108</span>      } catch (IllegalArgumentException e) {<a name="line.108"></a>

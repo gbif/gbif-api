@@ -7,7 +7,7 @@
 <body>
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2014 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
+<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
 <span class="sourceLineNo">003</span> *<a name="line.3"></a>
 <span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
 <span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
@@ -28,50 +28,51 @@
 <span class="sourceLineNo">020</span>import java.util.List;<a name="line.20"></a>
 <span class="sourceLineNo">021</span>import java.util.Set;<a name="line.21"></a>
 <span class="sourceLineNo">022</span>import java.util.UUID;<a name="line.22"></a>
-<span class="sourceLineNo">023</span>import javax.annotation.Nullable;<a name="line.23"></a>
-<span class="sourceLineNo">024</span><a name="line.24"></a>
-<span class="sourceLineNo">025</span>/**<a name="line.25"></a>
-<span class="sourceLineNo">026</span> * This service exposes information regarding the crawling process and is not intended to provide historical<a name="line.26"></a>
-<span class="sourceLineNo">027</span> * information at the moment. Only information about currently queued and running crawl jobs is exposed.<a name="line.27"></a>
-<span class="sourceLineNo">028</span> * &lt;p/&gt;<a name="line.28"></a>
-<span class="sourceLineNo">029</span> * We distinguish between XML based (BioCASe, DiGIR, TAPIR) and DwC-A datasets. These don't share the same work queues<a name="line.29"></a>
-<span class="sourceLineNo">030</span> * because their processing is different in the beginning (downloading an archive vs. request-response type iterating<a name="line.30"></a>
-<span class="sourceLineNo">031</span> * over the endpoint. They do however share the same pipeline for processing the gathered data.<a name="line.31"></a>
-<span class="sourceLineNo">032</span> */<a name="line.32"></a>
-<span class="sourceLineNo">033</span>public interface DatasetProcessService {<a name="line.33"></a>
-<span class="sourceLineNo">034</span><a name="line.34"></a>
-<span class="sourceLineNo">035</span>  /**<a name="line.35"></a>
-<span class="sourceLineNo">036</span>   * Returns the processing status for a particular dataset identified by a {@link UUID} key.<a name="line.36"></a>
-<span class="sourceLineNo">037</span>   *<a name="line.37"></a>
-<span class="sourceLineNo">038</span>   * @param datasetKey the dataset key<a name="line.38"></a>
-<span class="sourceLineNo">039</span>   *<a name="line.39"></a>
-<span class="sourceLineNo">040</span>   * @return a consolidated object populated with the crawl status for the specific dataset. Returns null if the<a name="line.40"></a>
-<span class="sourceLineNo">041</span>   *         dataset is not currently being processed<a name="line.41"></a>
-<span class="sourceLineNo">042</span>   */<a name="line.42"></a>
-<span class="sourceLineNo">043</span>  @Nullable<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  DatasetProcessStatus getDatasetProcessStatus(UUID datasetKey);<a name="line.44"></a>
-<span class="sourceLineNo">045</span><a name="line.45"></a>
-<span class="sourceLineNo">046</span>  /**<a name="line.46"></a>
-<span class="sourceLineNo">047</span>   * @return the processing status for all datasets that are currently being worked on (XML and DwC-A). These might be<a name="line.47"></a>
-<span class="sourceLineNo">048</span>   *         in different states, some can still be crawled on a page by page basis, some may be downloaded in the case<a name="line.48"></a>
-<span class="sourceLineNo">049</span>   *         of DwC-A and for some only the interpretation is still running.<a name="line.49"></a>
-<span class="sourceLineNo">050</span>   *         &lt;p/&gt;<a name="line.50"></a>
-<span class="sourceLineNo">051</span>   *         There is a chance that some processes will be returned that are already finished.<a name="line.51"></a>
-<span class="sourceLineNo">052</span>   */<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  Set&lt;DatasetProcessStatus&gt; getRunningDatasetProcesses();<a name="line.53"></a>
-<span class="sourceLineNo">054</span><a name="line.54"></a>
-<span class="sourceLineNo">055</span>  /**<a name="line.55"></a>
-<span class="sourceLineNo">056</span>   * @return an ordered list of dataset processing statuses for all XML based datasets that are currently waiting to be<a name="line.56"></a>
-<span class="sourceLineNo">057</span>   *         crawled<a name="line.57"></a>
-<span class="sourceLineNo">058</span>   */<a name="line.58"></a>
-<span class="sourceLineNo">059</span>  List&lt;DatasetProcessStatus&gt; getPendingXmlDatasetProcesses();<a name="line.59"></a>
-<span class="sourceLineNo">060</span><a name="line.60"></a>
-<span class="sourceLineNo">061</span>  /**<a name="line.61"></a>
-<span class="sourceLineNo">062</span>   * @return an ordered list of dataset processing statuses for all DwC-A based datasets that are currently waiting to<a name="line.62"></a>
-<span class="sourceLineNo">063</span>   *         be crawled<a name="line.63"></a>
-<span class="sourceLineNo">064</span>   */<a name="line.64"></a>
-<span class="sourceLineNo">065</span>  List&lt;DatasetProcessStatus&gt; getPendingDwcaDatasetProcesses();<a name="line.65"></a>
-<span class="sourceLineNo">066</span>}<a name="line.66"></a>
+<span class="sourceLineNo">023</span><a name="line.23"></a>
+<span class="sourceLineNo">024</span>import javax.annotation.Nullable;<a name="line.24"></a>
+<span class="sourceLineNo">025</span><a name="line.25"></a>
+<span class="sourceLineNo">026</span>/**<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * This service exposes information regarding the crawling process and is not intended to provide historical<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * information at the moment. Only information about currently queued and running crawl jobs is exposed.<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * &lt;p/&gt;<a name="line.29"></a>
+<span class="sourceLineNo">030</span> * We distinguish between XML based (BioCASe, DiGIR, TAPIR) and DwC-A datasets. These don't share the same work queues<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * because their processing is different in the beginning (downloading an archive vs. request-response type iterating<a name="line.31"></a>
+<span class="sourceLineNo">032</span> * over the endpoint. They do however share the same pipeline for processing the gathered data.<a name="line.32"></a>
+<span class="sourceLineNo">033</span> */<a name="line.33"></a>
+<span class="sourceLineNo">034</span>public interface DatasetProcessService {<a name="line.34"></a>
+<span class="sourceLineNo">035</span><a name="line.35"></a>
+<span class="sourceLineNo">036</span>  /**<a name="line.36"></a>
+<span class="sourceLineNo">037</span>   * Returns the processing status for a particular dataset identified by a {@link UUID} key.<a name="line.37"></a>
+<span class="sourceLineNo">038</span>   *<a name="line.38"></a>
+<span class="sourceLineNo">039</span>   * @param datasetKey the dataset key<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   *<a name="line.40"></a>
+<span class="sourceLineNo">041</span>   * @return a consolidated object populated with the crawl status for the specific dataset. Returns null if the<a name="line.41"></a>
+<span class="sourceLineNo">042</span>   *         dataset is not currently being processed<a name="line.42"></a>
+<span class="sourceLineNo">043</span>   */<a name="line.43"></a>
+<span class="sourceLineNo">044</span>  @Nullable<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  DatasetProcessStatus getDatasetProcessStatus(UUID datasetKey);<a name="line.45"></a>
+<span class="sourceLineNo">046</span><a name="line.46"></a>
+<span class="sourceLineNo">047</span>  /**<a name="line.47"></a>
+<span class="sourceLineNo">048</span>   * @return the processing status for all datasets that are currently being worked on (XML and DwC-A). These might be<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   *         in different states, some can still be crawled on a page by page basis, some may be downloaded in the case<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   *         of DwC-A and for some only the interpretation is still running.<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   *         &lt;p/&gt;<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   *         There is a chance that some processes will be returned that are already finished.<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   */<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  Set&lt;DatasetProcessStatus&gt; getRunningDatasetProcesses();<a name="line.54"></a>
+<span class="sourceLineNo">055</span><a name="line.55"></a>
+<span class="sourceLineNo">056</span>  /**<a name="line.56"></a>
+<span class="sourceLineNo">057</span>   * @return an ordered list of dataset processing statuses for all XML based datasets that are currently waiting to be<a name="line.57"></a>
+<span class="sourceLineNo">058</span>   *         crawled<a name="line.58"></a>
+<span class="sourceLineNo">059</span>   */<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  List&lt;DatasetProcessStatus&gt; getPendingXmlDatasetProcesses();<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>  /**<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   * @return an ordered list of dataset processing statuses for all DwC-A based datasets that are currently waiting to<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   *         be crawled<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   */<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  List&lt;DatasetProcessStatus&gt; getPendingDwcaDatasetProcesses();<a name="line.66"></a>
+<span class="sourceLineNo">067</span>}<a name="line.67"></a>
 
 
 

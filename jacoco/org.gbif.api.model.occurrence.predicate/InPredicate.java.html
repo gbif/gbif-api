@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InPredicate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence.predicate</a> &gt; <span class="el_source">InPredicate.java</span></div><h1>InPredicate.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -18,15 +18,19 @@ package org.gbif.api.model.occurrence.predicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
 /**
  * This predicate checks if its {@code key} contains any of its {@code values}.
@@ -41,49 +45,51 @@ public class InPredicate implements Predicate {
   private final Collection&lt;String&gt; values;
 
   @JsonCreator
-<span class="fc" id="L44">  public InPredicate(@JsonProperty(&quot;key&quot;) OccurrenceSearchParameter key, @JsonProperty(&quot;values&quot;) Collection&lt;String&gt; values) {</span>
-<span class="fc" id="L45">    Preconditions.checkNotNull(key, &quot;&lt;key&gt; may not be null&quot;);</span>
-<span class="fc" id="L46">    Preconditions.checkNotNull(values, &quot;&lt;values&gt; may not be null&quot;);</span>
-<span class="fc bfc" id="L47" title="All 2 branches covered.">    Preconditions.checkArgument(!values.isEmpty(), &quot;&lt;values&gt; may not be empty&quot;);</span>
+<span class="fc" id="L48">  public InPredicate(@JsonProperty(&quot;key&quot;) OccurrenceSearchParameter key, @JsonProperty(&quot;values&quot;) Collection&lt;String&gt; values) {</span>
+<span class="fc" id="L49">    Objects.requireNonNull(key, &quot;&lt;key&gt; may not be null&quot;);</span>
+<span class="fc" id="L50">    Objects.requireNonNull(values, &quot;&lt;values&gt; may not be null&quot;);</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">    checkArgument(!values.isEmpty(), &quot;&lt;values&gt; may not be empty&quot;);</span>
     // make sure the value is of the right type according to the key given
-<span class="fc bfc" id="L49" title="All 2 branches covered.">    for (String value : values) {</span>
-<span class="fc" id="L50">      SearchTypeValidator.validate(key, value);</span>
-<span class="fc" id="L51">    }</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">    for (String value : values) {</span>
+<span class="fc" id="L54">      SearchTypeValidator.validate(key, value);</span>
+<span class="fc" id="L55">    }</span>
 
-<span class="fc" id="L53">    this.key = key;</span>
-<span class="fc" id="L54">    this.values = ImmutableList.copyOf(values);</span>
-<span class="fc" id="L55">  }</span>
+<span class="fc" id="L57">    this.key = key;</span>
+<span class="fc" id="L58">    this.values = Collections.unmodifiableList(new ArrayList&lt;&gt;(values));</span>
+<span class="fc" id="L59">  }</span>
 
   public OccurrenceSearchParameter getKey() {
-<span class="fc" id="L58">    return key;</span>
+<span class="fc" id="L62">    return key;</span>
   }
 
   public Collection&lt;String&gt; getValues() {
-<span class="fc" id="L62">    return values;</span>
+<span class="fc" id="L66">    return values;</span>
   }
 
   @Override
-  public boolean equals(Object obj) {
-<span class="fc bfc" id="L67" title="All 2 branches covered.">    if (this == obj) {</span>
-<span class="fc" id="L68">      return true;</span>
+  public boolean equals(Object o) {
+<span class="fc bfc" id="L71" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L72">      return true;</span>
     }
-
-<span class="pc bpc" id="L71" title="1 of 2 branches missed.">    if (!(obj instanceof InPredicate)) {</span>
-<span class="nc" id="L72">      return false;</span>
+<span class="pc bpc" id="L74" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L75">      return false;</span>
     }
-
-<span class="fc" id="L75">    InPredicate that = (InPredicate) obj;</span>
-<span class="pc bpc" id="L76" title="1 of 4 branches missed.">    return Objects.equal(this.key, that.getKey()) &amp;&amp; Objects.equal(this.values, that.getValues());</span>
+<span class="fc" id="L77">    InPredicate that = (InPredicate) o;</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">    return key == that.key &amp;&amp;</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">      Objects.equals(values, that.values);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L81">    return Objects.hashCode(key, values);</span>
+<span class="fc" id="L84">    return Objects.hash(key, values);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L86">    return Objects.toStringHelper(this).add(&quot;key&quot;, key).add(&quot;values&quot;, values).toString();</span>
+<span class="nc" id="L89">    return new StringJoiner(&quot;, &quot;, InPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L90">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L91">      .add(&quot;values=&quot; + values)</span>
+<span class="nc" id="L92">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

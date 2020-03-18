@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Metadata.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry</a> &gt; <span class="el_source">Metadata.java</span></div><h1>Metadata.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,14 +18,15 @@ package org.gbif.api.model.registry;
 import org.gbif.api.vocabulary.MetadataType;
 
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.UUID;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.google.common.base.Objects;
-
-<span class="nc" id="L25">public class Metadata implements LenientEquals&lt;Metadata&gt; {</span>
+<span class="nc" id="L29">public class Metadata implements LenientEquals&lt;Metadata&gt; {</span>
 
   private Integer key;
   private UUID datasetKey;
@@ -36,112 +40,115 @@ import com.google.common.base.Objects;
 
   @Min(1)
   public Integer getKey() {
-<span class="nc" id="L39">    return key;</span>
+<span class="nc" id="L43">    return key;</span>
   }
 
   public void setKey(Integer key) {
-<span class="nc" id="L43">    this.key = key;</span>
-<span class="nc" id="L44">  }</span>
+<span class="nc" id="L47">    this.key = key;</span>
+<span class="nc" id="L48">  }</span>
 
   @NotNull
   public UUID getDatasetKey() {
-<span class="nc" id="L48">    return datasetKey;</span>
+<span class="nc" id="L52">    return datasetKey;</span>
   }
 
   public void setDatasetKey(UUID datasetKey) {
-<span class="nc" id="L52">    this.datasetKey = datasetKey;</span>
-<span class="nc" id="L53">  }</span>
+<span class="nc" id="L56">    this.datasetKey = datasetKey;</span>
+<span class="nc" id="L57">  }</span>
 
   @NotNull
   public MetadataType getType() {
-<span class="nc" id="L57">    return type;</span>
+<span class="nc" id="L61">    return type;</span>
   }
 
   public void setType(MetadataType type) {
-<span class="nc" id="L61">    this.type = type;</span>
-<span class="nc" id="L62">  }</span>
+<span class="nc" id="L65">    this.type = type;</span>
+<span class="nc" id="L66">  }</span>
 
   @NotNull
   @Size(min = 1)
   public String getContent() {
-<span class="nc" id="L67">    return content;</span>
+<span class="nc" id="L71">    return content;</span>
   }
 
   public void setContent(String content) {
-<span class="nc" id="L71">    this.content = content;</span>
-<span class="nc" id="L72">  }</span>
+<span class="nc" id="L75">    this.content = content;</span>
+<span class="nc" id="L76">  }</span>
 
   @NotNull
   @Size(min = 3)
   public String getCreatedBy() {
-<span class="nc" id="L77">    return createdBy;</span>
+<span class="nc" id="L81">    return createdBy;</span>
   }
 
   public void setCreatedBy(String createdBy) {
-<span class="nc" id="L81">    this.createdBy = createdBy;</span>
-<span class="nc" id="L82">  }</span>
+<span class="nc" id="L85">    this.createdBy = createdBy;</span>
+<span class="nc" id="L86">  }</span>
 
   @NotNull
   @Size(min = 3)
   public String getModifiedBy() {
-<span class="nc" id="L87">    return modifiedBy;</span>
+<span class="nc" id="L91">    return modifiedBy;</span>
   }
 
   public void setModifiedBy(String modifiedBy) {
-<span class="nc" id="L91">    this.modifiedBy = modifiedBy;</span>
-<span class="nc" id="L92">  }</span>
+<span class="nc" id="L95">    this.modifiedBy = modifiedBy;</span>
+<span class="nc" id="L96">  }</span>
 
   @NotNull
   public Date getCreated() {
-<span class="nc" id="L96">    return created;</span>
+<span class="nc" id="L100">    return created;</span>
   }
 
   public void setCreated(Date created) {
-<span class="nc" id="L100">    this.created = created;</span>
-<span class="nc" id="L101">  }</span>
+<span class="nc" id="L104">    this.created = created;</span>
+<span class="nc" id="L105">  }</span>
 
   @NotNull
   public Date getModified() {
-<span class="nc" id="L105">    return modified;</span>
+<span class="nc" id="L109">    return modified;</span>
   }
 
   public void setModified(Date modified) {
-<span class="nc" id="L109">    this.modified = modified;</span>
-<span class="nc" id="L110">  }</span>
+<span class="nc" id="L113">    this.modified = modified;</span>
+<span class="nc" id="L114">  }</span>
 
   @Override
-  public int hashCode() {
-<span class="nc" id="L114">    return Objects.hashCode(key, datasetKey, type, content, createdBy, modifiedBy, created, modified);</span>
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L118" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L119">      return true;</span>
+    }
+<span class="nc bnc" id="L121" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L122">      return false;</span>
+    }
+<span class="nc" id="L124">    Metadata metadata = (Metadata) o;</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">    return Objects.equals(key, metadata.key) &amp;&amp;</span>
+<span class="nc bnc" id="L126" title="All 4 branches missed.">      Objects.equals(datasetKey, metadata.datasetKey) &amp;&amp;</span>
+      type == metadata.type &amp;&amp;
+<span class="nc bnc" id="L128" title="All 2 branches missed.">      Objects.equals(content, metadata.content) &amp;&amp;</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">      Objects.equals(createdBy, metadata.createdBy) &amp;&amp;</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">      Objects.equals(modifiedBy, metadata.modifiedBy) &amp;&amp;</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">      Objects.equals(created, metadata.created) &amp;&amp;</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">      Objects.equals(modified, metadata.modified);</span>
   }
 
   @Override
-  public boolean equals(Object object) {
-<span class="nc bnc" id="L119" title="All 2 branches missed.">    if (object instanceof Metadata) {</span>
-<span class="nc" id="L120">      Metadata that = (Metadata) object;</span>
-<span class="nc bnc" id="L121" title="All 2 branches missed.">      return Objects.equal(this.key, that.key)</span>
-<span class="nc bnc" id="L122" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.datasetKey, that.datasetKey)</span>
-<span class="nc bnc" id="L123" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.type, that.type)</span>
-<span class="nc bnc" id="L124" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.content, that.content)</span>
-<span class="nc bnc" id="L125" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.createdBy, that.createdBy)</span>
-<span class="nc bnc" id="L126" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.modifiedBy, that.modifiedBy)</span>
-<span class="nc bnc" id="L127" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.created, that.created)</span>
-<span class="nc bnc" id="L128" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.modified, that.modified);</span>
-    }
-<span class="nc" id="L130">    return false;</span>
+  public int hashCode() {
+<span class="nc" id="L137">    return Objects.hash(key, datasetKey, type, content, createdBy, modifiedBy, created, modified);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L135">    return Objects.toStringHelper(this)</span>
-<span class="nc" id="L136">      .add(&quot;key&quot;, key)</span>
-<span class="nc" id="L137">      .add(&quot;datasetKey&quot;, datasetKey)</span>
-<span class="nc" id="L138">      .add(&quot;type&quot;, type)</span>
-<span class="nc" id="L139">      .add(&quot;content&quot;, content)</span>
-<span class="nc" id="L140">      .add(&quot;createdBy&quot;, createdBy)</span>
-<span class="nc" id="L141">      .add(&quot;modifiedBy&quot;, modifiedBy)</span>
-<span class="nc" id="L142">      .add(&quot;created&quot;, created)</span>
-<span class="nc" id="L143">      .add(&quot;modified&quot;, modified)</span>
-<span class="nc" id="L144">      .toString();</span>
+<span class="nc" id="L142">    return new StringJoiner(&quot;, &quot;, Metadata.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L143">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L144">      .add(&quot;datasetKey=&quot; + datasetKey)</span>
+<span class="nc" id="L145">      .add(&quot;type=&quot; + type)</span>
+<span class="nc" id="L146">      .add(&quot;content='&quot; + content + &quot;'&quot;)</span>
+<span class="nc" id="L147">      .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L148">      .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
+<span class="nc" id="L149">      .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L150">      .add(&quot;modified=&quot; + modified)</span>
+<span class="nc" id="L151">      .toString();</span>
   }
 
   /**
@@ -149,12 +156,12 @@ import com.google.common.base.Objects;
    */
   @Override
   public boolean lenientEquals(Metadata other) {
-<span class="nc bnc" id="L152" title="All 2 branches missed.">    if (this == other) {</span>
-<span class="nc" id="L153">      return true;</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L160">      return true;</span>
     }
-<span class="nc bnc" id="L155" title="All 2 branches missed.">    return Objects.equal(this.datasetKey, other.datasetKey)</span>
-<span class="nc bnc" id="L156" title="All 2 branches missed.">      &amp;&amp; Objects.equal(this.type, other.type)</span>
-<span class="nc bnc" id="L157" title="All 2 branches missed.">      &amp;&amp; Objects.equal(this.content, other.content);</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">    return Objects.equals(this.datasetKey, other.datasetKey)</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.type, other.type)</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.content, other.content);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

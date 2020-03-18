@@ -1,4 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WorkflowStep.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.pipelines</a> &gt; <span class="el_source">WorkflowStep.java</span></div><h1>WorkflowStep.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.pipelines;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WorkflowStep.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.pipelines</a> &gt; <span class="el_source">WorkflowStep.java</span></div><h1>WorkflowStep.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.pipelines;
 
 import java.io.Serializable;
 import java.util.*;
@@ -9,60 +24,60 @@ import java.util.*;
  * &lt;p&gt;These steps are identified by the {@link StepType} and are linked to their next steps in the
  * workflow.
  */
-<span class="nc" id="L12">public class WorkflowStep implements Serializable {</span>
+<span class="nc" id="L27">public class WorkflowStep implements Serializable {</span>
 
   private StepType stepType;
 
   private PipelineStep lastStep;
 
-<span class="nc" id="L18">  private Set&lt;PipelineStep&gt; allSteps =</span>
-<span class="nc" id="L19">      new TreeSet&lt;&gt;(Comparator.comparing(PipelineStep::getStarted).reversed());</span>
+<span class="nc" id="L33">  private Set&lt;PipelineStep&gt; allSteps =</span>
+<span class="nc" id="L34">      new TreeSet&lt;&gt;(Comparator.comparing(PipelineStep::getStarted).reversed());</span>
 
-<span class="nc" id="L21">  private List&lt;WorkflowStep&gt; nextSteps = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L36">  private List&lt;WorkflowStep&gt; nextSteps = new ArrayList&lt;&gt;();</span>
 
   public StepType getStepType() {
-<span class="nc" id="L24">    return stepType;</span>
+<span class="nc" id="L39">    return stepType;</span>
   }
 
   public void setStepType(StepType stepType) {
-<span class="nc" id="L28">    this.stepType = stepType;</span>
-<span class="nc" id="L29">  }</span>
+<span class="nc" id="L43">    this.stepType = stepType;</span>
+<span class="nc" id="L44">  }</span>
 
   public PipelineStep getLastStep() {
-<span class="nc" id="L32">    return lastStep;</span>
+<span class="nc" id="L47">    return lastStep;</span>
   }
 
   public void setLastStep(PipelineStep lastStep) {
-<span class="nc" id="L36">    this.lastStep = lastStep;</span>
-<span class="nc" id="L37">  }</span>
+<span class="nc" id="L51">    this.lastStep = lastStep;</span>
+<span class="nc" id="L52">  }</span>
 
   public Set&lt;PipelineStep&gt; getAllSteps() {
-<span class="nc" id="L40">    return allSteps;</span>
+<span class="nc" id="L55">    return allSteps;</span>
   }
 
   public void setAllSteps(Set&lt;PipelineStep&gt; allSteps) {
-<span class="nc" id="L44">    this.allSteps = allSteps;</span>
-<span class="nc" id="L45">  }</span>
+<span class="nc" id="L59">    this.allSteps = allSteps;</span>
+<span class="nc" id="L60">  }</span>
 
   public List&lt;WorkflowStep&gt; getNextSteps() {
-<span class="nc" id="L48">    return nextSteps;</span>
+<span class="nc" id="L63">    return nextSteps;</span>
   }
 
   public void setNextSteps(List&lt;WorkflowStep&gt; nextSteps) {
-<span class="nc" id="L52">    this.nextSteps = nextSteps;</span>
-<span class="nc" id="L53">  }</span>
+<span class="nc" id="L67">    this.nextSteps = nextSteps;</span>
+<span class="nc" id="L68">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L57" title="All 2 branches missed.">    if (this == o) return true;</span>
-<span class="nc bnc" id="L58" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L59">    WorkflowStep that = (WorkflowStep) o;</span>
-<span class="nc bnc" id="L60" title="All 2 branches missed.">    return stepType == that.stepType;</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L73" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L74">    WorkflowStep that = (WorkflowStep) o;</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">    return stepType == that.stepType;</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L65">    return Objects.hash(stepType);</span>
+<span class="nc" id="L80">    return Objects.hash(stepType);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

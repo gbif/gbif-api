@@ -6,265 +6,283 @@
 </head>
 <body>
 <div class="sourceContainer">
-<pre><span class="sourceLineNo">001</span>package org.gbif.api.model.registry.search;<a name="line.1"></a>
-<span class="sourceLineNo">002</span><a name="line.2"></a>
-<span class="sourceLineNo">003</span>import org.gbif.api.vocabulary.Continent;<a name="line.3"></a>
-<span class="sourceLineNo">004</span>import org.gbif.api.vocabulary.Country;<a name="line.4"></a>
-<span class="sourceLineNo">005</span>import org.gbif.api.vocabulary.DatasetSubtype;<a name="line.5"></a>
-<span class="sourceLineNo">006</span>import org.gbif.api.vocabulary.DatasetType;<a name="line.6"></a>
-<span class="sourceLineNo">007</span>import org.gbif.api.vocabulary.License;<a name="line.7"></a>
-<span class="sourceLineNo">008</span><a name="line.8"></a>
-<span class="sourceLineNo">009</span>import java.util.List;<a name="line.9"></a>
-<span class="sourceLineNo">010</span>import java.util.Set;<a name="line.10"></a>
-<span class="sourceLineNo">011</span>import java.util.UUID;<a name="line.11"></a>
-<span class="sourceLineNo">012</span><a name="line.12"></a>
-<span class="sourceLineNo">013</span>import com.google.common.base.Objects;<a name="line.13"></a>
-<span class="sourceLineNo">014</span><a name="line.14"></a>
-<span class="sourceLineNo">015</span>/**<a name="line.15"></a>
-<span class="sourceLineNo">016</span> * The dataset search model object for faceted and full text search.<a name="line.16"></a>
-<span class="sourceLineNo">017</span> */<a name="line.17"></a>
-<span class="sourceLineNo">018</span>public class DatasetSearchResult {<a name="line.18"></a>
-<span class="sourceLineNo">019</span><a name="line.19"></a>
-<span class="sourceLineNo">020</span>  private UUID key;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>  private String title;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>  private String description;<a name="line.22"></a>
-<span class="sourceLineNo">023</span>  private DatasetType type;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>  private DatasetSubtype subtype;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>  private String fullText;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>  private UUID hostingOrganizationKey;<a name="line.26"></a>
-<span class="sourceLineNo">027</span>  private String hostingOrganizationTitle;<a name="line.27"></a>
-<span class="sourceLineNo">028</span>  private String publisherTitle;<a name="line.28"></a>
-<span class="sourceLineNo">029</span>  private Set&lt;Country&gt; countryCoverage;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>  private Set&lt;Continent&gt; continent;<a name="line.30"></a>
-<span class="sourceLineNo">031</span>  private Country publishingCountry;<a name="line.31"></a>
-<span class="sourceLineNo">032</span>  private UUID publishingOrganizationKey;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>  private String publishingOrganizationTitle;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>  private License license;<a name="line.34"></a>
-<span class="sourceLineNo">035</span>  private List&lt;Integer&gt; decades;<a name="line.35"></a>
-<span class="sourceLineNo">036</span>  private List&lt;String&gt; keywords;<a name="line.36"></a>
-<span class="sourceLineNo">037</span>  private String projectIdentifier;<a name="line.37"></a>
-<span class="sourceLineNo">038</span>  private Integer recordCount;<a name="line.38"></a>
-<span class="sourceLineNo">039</span><a name="line.39"></a>
-<span class="sourceLineNo">040</span>  public UUID getKey() {<a name="line.40"></a>
-<span class="sourceLineNo">041</span>    return key;<a name="line.41"></a>
-<span class="sourceLineNo">042</span>  }<a name="line.42"></a>
-<span class="sourceLineNo">043</span><a name="line.43"></a>
-<span class="sourceLineNo">044</span>  public void setKey(UUID key) {<a name="line.44"></a>
-<span class="sourceLineNo">045</span>    this.key = key;<a name="line.45"></a>
-<span class="sourceLineNo">046</span>  }<a name="line.46"></a>
-<span class="sourceLineNo">047</span><a name="line.47"></a>
-<span class="sourceLineNo">048</span>  public String getTitle() {<a name="line.48"></a>
-<span class="sourceLineNo">049</span>    return title;<a name="line.49"></a>
-<span class="sourceLineNo">050</span>  }<a name="line.50"></a>
-<span class="sourceLineNo">051</span><a name="line.51"></a>
-<span class="sourceLineNo">052</span>  public void setTitle(String title) {<a name="line.52"></a>
-<span class="sourceLineNo">053</span>    this.title = title;<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  }<a name="line.54"></a>
-<span class="sourceLineNo">055</span><a name="line.55"></a>
-<span class="sourceLineNo">056</span>  public String getDescription() {<a name="line.56"></a>
-<span class="sourceLineNo">057</span>    return description;<a name="line.57"></a>
-<span class="sourceLineNo">058</span>  }<a name="line.58"></a>
-<span class="sourceLineNo">059</span><a name="line.59"></a>
-<span class="sourceLineNo">060</span>  public void setDescription(String description) {<a name="line.60"></a>
-<span class="sourceLineNo">061</span>    this.description = description;<a name="line.61"></a>
-<span class="sourceLineNo">062</span>  }<a name="line.62"></a>
-<span class="sourceLineNo">063</span><a name="line.63"></a>
-<span class="sourceLineNo">064</span>  public DatasetType getType() {<a name="line.64"></a>
-<span class="sourceLineNo">065</span>    return type;<a name="line.65"></a>
-<span class="sourceLineNo">066</span>  }<a name="line.66"></a>
-<span class="sourceLineNo">067</span><a name="line.67"></a>
-<span class="sourceLineNo">068</span>  public void setType(DatasetType type) {<a name="line.68"></a>
-<span class="sourceLineNo">069</span>    this.type = type;<a name="line.69"></a>
-<span class="sourceLineNo">070</span>  }<a name="line.70"></a>
-<span class="sourceLineNo">071</span><a name="line.71"></a>
-<span class="sourceLineNo">072</span>  public DatasetSubtype getSubtype() {<a name="line.72"></a>
-<span class="sourceLineNo">073</span>    return subtype;<a name="line.73"></a>
-<span class="sourceLineNo">074</span>  }<a name="line.74"></a>
-<span class="sourceLineNo">075</span><a name="line.75"></a>
-<span class="sourceLineNo">076</span>  public void setSubtype(DatasetSubtype subtype) {<a name="line.76"></a>
-<span class="sourceLineNo">077</span>    this.subtype = subtype;<a name="line.77"></a>
-<span class="sourceLineNo">078</span>  }<a name="line.78"></a>
-<span class="sourceLineNo">079</span><a name="line.79"></a>
-<span class="sourceLineNo">080</span>  public String getFullText() {<a name="line.80"></a>
-<span class="sourceLineNo">081</span>    return fullText;<a name="line.81"></a>
-<span class="sourceLineNo">082</span>  }<a name="line.82"></a>
-<span class="sourceLineNo">083</span><a name="line.83"></a>
-<span class="sourceLineNo">084</span>  public void setFullText(String fullText) {<a name="line.84"></a>
-<span class="sourceLineNo">085</span>    this.fullText = fullText;<a name="line.85"></a>
-<span class="sourceLineNo">086</span>  }<a name="line.86"></a>
-<span class="sourceLineNo">087</span><a name="line.87"></a>
-<span class="sourceLineNo">088</span>  public UUID getHostingOrganizationKey() {<a name="line.88"></a>
-<span class="sourceLineNo">089</span>    return hostingOrganizationKey;<a name="line.89"></a>
-<span class="sourceLineNo">090</span>  }<a name="line.90"></a>
-<span class="sourceLineNo">091</span><a name="line.91"></a>
-<span class="sourceLineNo">092</span>  public void setHostingOrganizationKey(UUID hostingOrganizationKey) {<a name="line.92"></a>
-<span class="sourceLineNo">093</span>    this.hostingOrganizationKey = hostingOrganizationKey;<a name="line.93"></a>
-<span class="sourceLineNo">094</span>  }<a name="line.94"></a>
-<span class="sourceLineNo">095</span><a name="line.95"></a>
-<span class="sourceLineNo">096</span>  public String getHostingOrganizationTitle() {<a name="line.96"></a>
-<span class="sourceLineNo">097</span>    return hostingOrganizationTitle;<a name="line.97"></a>
-<span class="sourceLineNo">098</span>  }<a name="line.98"></a>
-<span class="sourceLineNo">099</span><a name="line.99"></a>
-<span class="sourceLineNo">100</span>  public void setHostingOrganizationTitle(String hostingOrganizationTitle) {<a name="line.100"></a>
-<span class="sourceLineNo">101</span>    this.hostingOrganizationTitle = hostingOrganizationTitle;<a name="line.101"></a>
-<span class="sourceLineNo">102</span>  }<a name="line.102"></a>
-<span class="sourceLineNo">103</span><a name="line.103"></a>
-<span class="sourceLineNo">104</span>  public String getPublisherTitle() {<a name="line.104"></a>
-<span class="sourceLineNo">105</span>    return publisherTitle;<a name="line.105"></a>
-<span class="sourceLineNo">106</span>  }<a name="line.106"></a>
-<span class="sourceLineNo">107</span><a name="line.107"></a>
-<span class="sourceLineNo">108</span>  public void setPublisherTitle(String publisherTitle) {<a name="line.108"></a>
-<span class="sourceLineNo">109</span>    this.publisherTitle = publisherTitle;<a name="line.109"></a>
-<span class="sourceLineNo">110</span>  }<a name="line.110"></a>
-<span class="sourceLineNo">111</span><a name="line.111"></a>
-<span class="sourceLineNo">112</span>  /**<a name="line.112"></a>
-<span class="sourceLineNo">113</span>   * Currently not populated.<a name="line.113"></a>
-<span class="sourceLineNo">114</span>   * TODO: http://dev.gbif.org/issues/browse/REG-393<a name="line.114"></a>
-<span class="sourceLineNo">115</span>   */<a name="line.115"></a>
-<span class="sourceLineNo">116</span>  public Set&lt;Country&gt; getCountryCoverage() {<a name="line.116"></a>
-<span class="sourceLineNo">117</span>    return countryCoverage;<a name="line.117"></a>
-<span class="sourceLineNo">118</span>  }<a name="line.118"></a>
-<span class="sourceLineNo">119</span><a name="line.119"></a>
-<span class="sourceLineNo">120</span>  public void setCountryCoverage(Set&lt;Country&gt; countryCoverage) {<a name="line.120"></a>
-<span class="sourceLineNo">121</span>    this.countryCoverage = countryCoverage;<a name="line.121"></a>
-<span class="sourceLineNo">122</span>  }<a name="line.122"></a>
-<span class="sourceLineNo">123</span><a name="line.123"></a>
-<span class="sourceLineNo">124</span>  /**<a name="line.124"></a>
-<span class="sourceLineNo">125</span>   * Currently not populated.<a name="line.125"></a>
-<span class="sourceLineNo">126</span>   * TODO: http://dev.gbif.org/issues/browse/REG-393<a name="line.126"></a>
-<span class="sourceLineNo">127</span>   */<a name="line.127"></a>
-<span class="sourceLineNo">128</span>  public Set&lt;Continent&gt; getContinent() {<a name="line.128"></a>
-<span class="sourceLineNo">129</span>    return continent;<a name="line.129"></a>
-<span class="sourceLineNo">130</span>  }<a name="line.130"></a>
-<span class="sourceLineNo">131</span><a name="line.131"></a>
-<span class="sourceLineNo">132</span>  public void setContinent(Set&lt;Continent&gt; continent) {<a name="line.132"></a>
-<span class="sourceLineNo">133</span>    this.continent = continent;<a name="line.133"></a>
-<span class="sourceLineNo">134</span>  }<a name="line.134"></a>
-<span class="sourceLineNo">135</span><a name="line.135"></a>
-<span class="sourceLineNo">136</span>  public Country getPublishingCountry() {<a name="line.136"></a>
-<span class="sourceLineNo">137</span>    return publishingCountry;<a name="line.137"></a>
-<span class="sourceLineNo">138</span>  }<a name="line.138"></a>
-<span class="sourceLineNo">139</span><a name="line.139"></a>
-<span class="sourceLineNo">140</span>  public void setPublishingCountry(Country publishingCountry) {<a name="line.140"></a>
-<span class="sourceLineNo">141</span>    this.publishingCountry = publishingCountry;<a name="line.141"></a>
-<span class="sourceLineNo">142</span>  }<a name="line.142"></a>
-<span class="sourceLineNo">143</span><a name="line.143"></a>
-<span class="sourceLineNo">144</span>  public UUID getPublishingOrganizationKey() {<a name="line.144"></a>
-<span class="sourceLineNo">145</span>    return publishingOrganizationKey;<a name="line.145"></a>
-<span class="sourceLineNo">146</span>  }<a name="line.146"></a>
-<span class="sourceLineNo">147</span><a name="line.147"></a>
-<span class="sourceLineNo">148</span>  public void setPublishingOrganizationKey(UUID publishingOrganizationKey) {<a name="line.148"></a>
-<span class="sourceLineNo">149</span>    this.publishingOrganizationKey = publishingOrganizationKey;<a name="line.149"></a>
-<span class="sourceLineNo">150</span>  }<a name="line.150"></a>
-<span class="sourceLineNo">151</span><a name="line.151"></a>
-<span class="sourceLineNo">152</span>  public String getPublishingOrganizationTitle() {<a name="line.152"></a>
-<span class="sourceLineNo">153</span>    return publishingOrganizationTitle;<a name="line.153"></a>
-<span class="sourceLineNo">154</span>  }<a name="line.154"></a>
-<span class="sourceLineNo">155</span><a name="line.155"></a>
-<span class="sourceLineNo">156</span>  public void setPublishingOrganizationTitle(String publishingOrganizationTitle) {<a name="line.156"></a>
-<span class="sourceLineNo">157</span>    this.publishingOrganizationTitle = publishingOrganizationTitle;<a name="line.157"></a>
-<span class="sourceLineNo">158</span>  }<a name="line.158"></a>
-<span class="sourceLineNo">159</span><a name="line.159"></a>
-<span class="sourceLineNo">160</span>  public License getLicense() {<a name="line.160"></a>
-<span class="sourceLineNo">161</span>    return license;<a name="line.161"></a>
-<span class="sourceLineNo">162</span>  }<a name="line.162"></a>
-<span class="sourceLineNo">163</span><a name="line.163"></a>
-<span class="sourceLineNo">164</span>  public void setLicense(License license) {<a name="line.164"></a>
-<span class="sourceLineNo">165</span>    this.license = license;<a name="line.165"></a>
-<span class="sourceLineNo">166</span>  }<a name="line.166"></a>
-<span class="sourceLineNo">167</span><a name="line.167"></a>
-<span class="sourceLineNo">168</span>  public List&lt;Integer&gt; getDecades() {<a name="line.168"></a>
-<span class="sourceLineNo">169</span>    return decades;<a name="line.169"></a>
-<span class="sourceLineNo">170</span>  }<a name="line.170"></a>
-<span class="sourceLineNo">171</span><a name="line.171"></a>
-<span class="sourceLineNo">172</span>  public void setDecades(List&lt;Integer&gt; decades) {<a name="line.172"></a>
-<span class="sourceLineNo">173</span>    this.decades = decades;<a name="line.173"></a>
-<span class="sourceLineNo">174</span>  }<a name="line.174"></a>
-<span class="sourceLineNo">175</span><a name="line.175"></a>
-<span class="sourceLineNo">176</span>  public List&lt;String&gt; getKeywords() {<a name="line.176"></a>
-<span class="sourceLineNo">177</span>    return keywords;<a name="line.177"></a>
-<span class="sourceLineNo">178</span>  }<a name="line.178"></a>
-<span class="sourceLineNo">179</span><a name="line.179"></a>
-<span class="sourceLineNo">180</span>  public void setKeywords(List&lt;String&gt; keywords) {<a name="line.180"></a>
-<span class="sourceLineNo">181</span>    this.keywords = keywords;<a name="line.181"></a>
-<span class="sourceLineNo">182</span>  }<a name="line.182"></a>
-<span class="sourceLineNo">183</span><a name="line.183"></a>
-<span class="sourceLineNo">184</span>  public String getProjectIdentifier() {<a name="line.184"></a>
-<span class="sourceLineNo">185</span>    return projectIdentifier;<a name="line.185"></a>
-<span class="sourceLineNo">186</span>  }<a name="line.186"></a>
-<span class="sourceLineNo">187</span><a name="line.187"></a>
-<span class="sourceLineNo">188</span>  public void setProjectIdentifier(String projectIdentifier) {<a name="line.188"></a>
-<span class="sourceLineNo">189</span>    this.projectIdentifier = projectIdentifier;<a name="line.189"></a>
-<span class="sourceLineNo">190</span>  }<a name="line.190"></a>
-<span class="sourceLineNo">191</span><a name="line.191"></a>
-<span class="sourceLineNo">192</span>  public Integer getRecordCount() {<a name="line.192"></a>
-<span class="sourceLineNo">193</span>    return recordCount;<a name="line.193"></a>
-<span class="sourceLineNo">194</span>  }<a name="line.194"></a>
-<span class="sourceLineNo">195</span><a name="line.195"></a>
-<span class="sourceLineNo">196</span>  public void setRecordCount(Integer recordCount) {<a name="line.196"></a>
-<span class="sourceLineNo">197</span>    this.recordCount = recordCount;<a name="line.197"></a>
-<span class="sourceLineNo">198</span>  }<a name="line.198"></a>
-<span class="sourceLineNo">199</span><a name="line.199"></a>
-<span class="sourceLineNo">200</span>  @Override<a name="line.200"></a>
-<span class="sourceLineNo">201</span>  public int hashCode() {<a name="line.201"></a>
-<span class="sourceLineNo">202</span>    return Objects<a name="line.202"></a>
-<span class="sourceLineNo">203</span>      .hashCode(key, title, description, type, subtype, fullText, hostingOrganizationKey, hostingOrganizationTitle,<a name="line.203"></a>
-<span class="sourceLineNo">204</span>        publisherTitle, countryCoverage, continent, publishingCountry, publishingOrganizationKey, publishingOrganizationTitle,<a name="line.204"></a>
-<span class="sourceLineNo">205</span>        decades, keywords, license, projectIdentifier, recordCount);<a name="line.205"></a>
-<span class="sourceLineNo">206</span>  }<a name="line.206"></a>
-<span class="sourceLineNo">207</span><a name="line.207"></a>
-<span class="sourceLineNo">208</span>  @Override<a name="line.208"></a>
-<span class="sourceLineNo">209</span>  public boolean equals(Object object) {<a name="line.209"></a>
-<span class="sourceLineNo">210</span>    if (object instanceof DatasetSearchResult) {<a name="line.210"></a>
-<span class="sourceLineNo">211</span>      DatasetSearchResult that = (DatasetSearchResult) object;<a name="line.211"></a>
-<span class="sourceLineNo">212</span>      return Objects.equal(this.key, that.key)<a name="line.212"></a>
-<span class="sourceLineNo">213</span>        &amp;&amp; Objects.equal(this.title, that.title)<a name="line.213"></a>
-<span class="sourceLineNo">214</span>        &amp;&amp; Objects.equal(this.description, that.description)<a name="line.214"></a>
-<span class="sourceLineNo">215</span>        &amp;&amp; Objects.equal(this.type, that.type)<a name="line.215"></a>
-<span class="sourceLineNo">216</span>        &amp;&amp; Objects.equal(this.subtype, that.subtype)<a name="line.216"></a>
-<span class="sourceLineNo">217</span>        &amp;&amp; Objects.equal(this.fullText, that.fullText)<a name="line.217"></a>
-<span class="sourceLineNo">218</span>        &amp;&amp; Objects.equal(this.hostingOrganizationKey, that.hostingOrganizationKey)<a name="line.218"></a>
-<span class="sourceLineNo">219</span>        &amp;&amp; Objects.equal(this.hostingOrganizationTitle, that.hostingOrganizationTitle)<a name="line.219"></a>
-<span class="sourceLineNo">220</span>        &amp;&amp; Objects.equal(this.publisherTitle, that.publisherTitle)<a name="line.220"></a>
-<span class="sourceLineNo">221</span>        &amp;&amp; Objects.equal(this.countryCoverage, that.countryCoverage)<a name="line.221"></a>
-<span class="sourceLineNo">222</span>        &amp;&amp; Objects.equal(this.continent, that.continent)<a name="line.222"></a>
-<span class="sourceLineNo">223</span>        &amp;&amp; Objects.equal(this.publishingCountry, that.publishingCountry)<a name="line.223"></a>
-<span class="sourceLineNo">224</span>        &amp;&amp; Objects.equal(this.publishingOrganizationKey, that.publishingOrganizationKey)<a name="line.224"></a>
-<span class="sourceLineNo">225</span>        &amp;&amp; Objects.equal(this.publishingOrganizationTitle, that.publishingOrganizationTitle)<a name="line.225"></a>
-<span class="sourceLineNo">226</span>        &amp;&amp; Objects.equal(this.decades, that.decades)<a name="line.226"></a>
-<span class="sourceLineNo">227</span>        &amp;&amp; Objects.equal(this.keywords, that.keywords)<a name="line.227"></a>
-<span class="sourceLineNo">228</span>        &amp;&amp; Objects.equal(this.license, that.license)<a name="line.228"></a>
-<span class="sourceLineNo">229</span>        &amp;&amp; Objects.equal(this.projectIdentifier, that.projectIdentifier)<a name="line.229"></a>
-<span class="sourceLineNo">230</span>        &amp;&amp; Objects.equal(this.recordCount, that.recordCount);<a name="line.230"></a>
-<span class="sourceLineNo">231</span>    }<a name="line.231"></a>
-<span class="sourceLineNo">232</span>    return false;<a name="line.232"></a>
-<span class="sourceLineNo">233</span>  }<a name="line.233"></a>
-<span class="sourceLineNo">234</span><a name="line.234"></a>
-<span class="sourceLineNo">235</span>  @Override<a name="line.235"></a>
-<span class="sourceLineNo">236</span>  public String toString() {<a name="line.236"></a>
-<span class="sourceLineNo">237</span>    return Objects.toStringHelper(this)<a name="line.237"></a>
-<span class="sourceLineNo">238</span>      .add("key", key)<a name="line.238"></a>
-<span class="sourceLineNo">239</span>      .add("title", title)<a name="line.239"></a>
-<span class="sourceLineNo">240</span>      .add("description", description)<a name="line.240"></a>
-<span class="sourceLineNo">241</span>      .add("type", type)<a name="line.241"></a>
-<span class="sourceLineNo">242</span>      .add("subtype", subtype)<a name="line.242"></a>
-<span class="sourceLineNo">243</span>      .add("fullText", fullText)<a name="line.243"></a>
-<span class="sourceLineNo">244</span>      .add("hostingOrganizationKey", hostingOrganizationKey)<a name="line.244"></a>
-<span class="sourceLineNo">245</span>      .add("hostingOrganizationTitle", hostingOrganizationTitle)<a name="line.245"></a>
-<span class="sourceLineNo">246</span>      .add("publisherTitle", publisherTitle)<a name="line.246"></a>
-<span class="sourceLineNo">247</span>      .add("countryCoverage", countryCoverage)<a name="line.247"></a>
-<span class="sourceLineNo">248</span>      .add("continent", continent)<a name="line.248"></a>
-<span class="sourceLineNo">249</span>      .add("publishingCountry", publishingCountry)<a name="line.249"></a>
-<span class="sourceLineNo">250</span>      .add("publishingOrganizationKey", publishingOrganizationKey)<a name="line.250"></a>
-<span class="sourceLineNo">251</span>      .add("publishingOrganizationTitle", publishingOrganizationTitle)<a name="line.251"></a>
-<span class="sourceLineNo">252</span>      .add("decades", decades)<a name="line.252"></a>
-<span class="sourceLineNo">253</span>      .add("keywords", keywords)<a name="line.253"></a>
-<span class="sourceLineNo">254</span>      .add("license", license)<a name="line.254"></a>
-<span class="sourceLineNo">255</span>      .add("projectIdentifier", projectIdentifier)<a name="line.255"></a>
-<span class="sourceLineNo">256</span>      .add("recordCount", recordCount)<a name="line.256"></a>
-<span class="sourceLineNo">257</span>      .toString();<a name="line.257"></a>
-<span class="sourceLineNo">258</span>  }<a name="line.258"></a>
-<span class="sourceLineNo">259</span>}<a name="line.259"></a>
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span>package org.gbif.api.model.registry.search;<a name="line.16"></a>
+<span class="sourceLineNo">017</span><a name="line.17"></a>
+<span class="sourceLineNo">018</span>import org.gbif.api.vocabulary.Continent;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import org.gbif.api.vocabulary.Country;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import org.gbif.api.vocabulary.DatasetSubtype;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import org.gbif.api.vocabulary.DatasetType;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import org.gbif.api.vocabulary.License;<a name="line.22"></a>
+<span class="sourceLineNo">023</span><a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.util.List;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.util.Objects;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.util.Set;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import java.util.StringJoiner;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import java.util.UUID;<a name="line.28"></a>
+<span class="sourceLineNo">029</span><a name="line.29"></a>
+<span class="sourceLineNo">030</span>/**<a name="line.30"></a>
+<span class="sourceLineNo">031</span> * The dataset search model object for faceted and full text search.<a name="line.31"></a>
+<span class="sourceLineNo">032</span> */<a name="line.32"></a>
+<span class="sourceLineNo">033</span>public class DatasetSearchResult {<a name="line.33"></a>
+<span class="sourceLineNo">034</span><a name="line.34"></a>
+<span class="sourceLineNo">035</span>  private UUID key;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>  private String title;<a name="line.36"></a>
+<span class="sourceLineNo">037</span>  private String description;<a name="line.37"></a>
+<span class="sourceLineNo">038</span>  private DatasetType type;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>  private DatasetSubtype subtype;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>  private String fullText;<a name="line.40"></a>
+<span class="sourceLineNo">041</span>  private UUID hostingOrganizationKey;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>  private String hostingOrganizationTitle;<a name="line.42"></a>
+<span class="sourceLineNo">043</span>  private String publisherTitle;<a name="line.43"></a>
+<span class="sourceLineNo">044</span>  private Set&lt;Country&gt; countryCoverage;<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  private Set&lt;Continent&gt; continent;<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  private Country publishingCountry;<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  private UUID publishingOrganizationKey;<a name="line.47"></a>
+<span class="sourceLineNo">048</span>  private String publishingOrganizationTitle;<a name="line.48"></a>
+<span class="sourceLineNo">049</span>  private License license;<a name="line.49"></a>
+<span class="sourceLineNo">050</span>  private List&lt;Integer&gt; decades;<a name="line.50"></a>
+<span class="sourceLineNo">051</span>  private List&lt;String&gt; keywords;<a name="line.51"></a>
+<span class="sourceLineNo">052</span>  private String projectIdentifier;<a name="line.52"></a>
+<span class="sourceLineNo">053</span>  private Integer recordCount;<a name="line.53"></a>
+<span class="sourceLineNo">054</span><a name="line.54"></a>
+<span class="sourceLineNo">055</span>  public UUID getKey() {<a name="line.55"></a>
+<span class="sourceLineNo">056</span>    return key;<a name="line.56"></a>
+<span class="sourceLineNo">057</span>  }<a name="line.57"></a>
+<span class="sourceLineNo">058</span><a name="line.58"></a>
+<span class="sourceLineNo">059</span>  public void setKey(UUID key) {<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    this.key = key;<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  }<a name="line.61"></a>
+<span class="sourceLineNo">062</span><a name="line.62"></a>
+<span class="sourceLineNo">063</span>  public String getTitle() {<a name="line.63"></a>
+<span class="sourceLineNo">064</span>    return title;<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  }<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>  public void setTitle(String title) {<a name="line.67"></a>
+<span class="sourceLineNo">068</span>    this.title = title;<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  }<a name="line.69"></a>
+<span class="sourceLineNo">070</span><a name="line.70"></a>
+<span class="sourceLineNo">071</span>  public String getDescription() {<a name="line.71"></a>
+<span class="sourceLineNo">072</span>    return description;<a name="line.72"></a>
+<span class="sourceLineNo">073</span>  }<a name="line.73"></a>
+<span class="sourceLineNo">074</span><a name="line.74"></a>
+<span class="sourceLineNo">075</span>  public void setDescription(String description) {<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    this.description = description;<a name="line.76"></a>
+<span class="sourceLineNo">077</span>  }<a name="line.77"></a>
+<span class="sourceLineNo">078</span><a name="line.78"></a>
+<span class="sourceLineNo">079</span>  public DatasetType getType() {<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    return type;<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  }<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>  public void setType(DatasetType type) {<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    this.type = type;<a name="line.84"></a>
+<span class="sourceLineNo">085</span>  }<a name="line.85"></a>
+<span class="sourceLineNo">086</span><a name="line.86"></a>
+<span class="sourceLineNo">087</span>  public DatasetSubtype getSubtype() {<a name="line.87"></a>
+<span class="sourceLineNo">088</span>    return subtype;<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  }<a name="line.89"></a>
+<span class="sourceLineNo">090</span><a name="line.90"></a>
+<span class="sourceLineNo">091</span>  public void setSubtype(DatasetSubtype subtype) {<a name="line.91"></a>
+<span class="sourceLineNo">092</span>    this.subtype = subtype;<a name="line.92"></a>
+<span class="sourceLineNo">093</span>  }<a name="line.93"></a>
+<span class="sourceLineNo">094</span><a name="line.94"></a>
+<span class="sourceLineNo">095</span>  public String getFullText() {<a name="line.95"></a>
+<span class="sourceLineNo">096</span>    return fullText;<a name="line.96"></a>
+<span class="sourceLineNo">097</span>  }<a name="line.97"></a>
+<span class="sourceLineNo">098</span><a name="line.98"></a>
+<span class="sourceLineNo">099</span>  public void setFullText(String fullText) {<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    this.fullText = fullText;<a name="line.100"></a>
+<span class="sourceLineNo">101</span>  }<a name="line.101"></a>
+<span class="sourceLineNo">102</span><a name="line.102"></a>
+<span class="sourceLineNo">103</span>  public UUID getHostingOrganizationKey() {<a name="line.103"></a>
+<span class="sourceLineNo">104</span>    return hostingOrganizationKey;<a name="line.104"></a>
+<span class="sourceLineNo">105</span>  }<a name="line.105"></a>
+<span class="sourceLineNo">106</span><a name="line.106"></a>
+<span class="sourceLineNo">107</span>  public void setHostingOrganizationKey(UUID hostingOrganizationKey) {<a name="line.107"></a>
+<span class="sourceLineNo">108</span>    this.hostingOrganizationKey = hostingOrganizationKey;<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  }<a name="line.109"></a>
+<span class="sourceLineNo">110</span><a name="line.110"></a>
+<span class="sourceLineNo">111</span>  public String getHostingOrganizationTitle() {<a name="line.111"></a>
+<span class="sourceLineNo">112</span>    return hostingOrganizationTitle;<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  }<a name="line.113"></a>
+<span class="sourceLineNo">114</span><a name="line.114"></a>
+<span class="sourceLineNo">115</span>  public void setHostingOrganizationTitle(String hostingOrganizationTitle) {<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    this.hostingOrganizationTitle = hostingOrganizationTitle;<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  }<a name="line.117"></a>
+<span class="sourceLineNo">118</span><a name="line.118"></a>
+<span class="sourceLineNo">119</span>  public String getPublisherTitle() {<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    return publisherTitle;<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  }<a name="line.121"></a>
+<span class="sourceLineNo">122</span><a name="line.122"></a>
+<span class="sourceLineNo">123</span>  public void setPublisherTitle(String publisherTitle) {<a name="line.123"></a>
+<span class="sourceLineNo">124</span>    this.publisherTitle = publisherTitle;<a name="line.124"></a>
+<span class="sourceLineNo">125</span>  }<a name="line.125"></a>
+<span class="sourceLineNo">126</span><a name="line.126"></a>
+<span class="sourceLineNo">127</span>  /**<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * Currently not populated.<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   * TODO: http://dev.gbif.org/issues/browse/REG-393<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   */<a name="line.130"></a>
+<span class="sourceLineNo">131</span>  public Set&lt;Country&gt; getCountryCoverage() {<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    return countryCoverage;<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  }<a name="line.133"></a>
+<span class="sourceLineNo">134</span><a name="line.134"></a>
+<span class="sourceLineNo">135</span>  public void setCountryCoverage(Set&lt;Country&gt; countryCoverage) {<a name="line.135"></a>
+<span class="sourceLineNo">136</span>    this.countryCoverage = countryCoverage;<a name="line.136"></a>
+<span class="sourceLineNo">137</span>  }<a name="line.137"></a>
+<span class="sourceLineNo">138</span><a name="line.138"></a>
+<span class="sourceLineNo">139</span>  /**<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   * Currently not populated.<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   * TODO: http://dev.gbif.org/issues/browse/REG-393<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   */<a name="line.142"></a>
+<span class="sourceLineNo">143</span>  public Set&lt;Continent&gt; getContinent() {<a name="line.143"></a>
+<span class="sourceLineNo">144</span>    return continent;<a name="line.144"></a>
+<span class="sourceLineNo">145</span>  }<a name="line.145"></a>
+<span class="sourceLineNo">146</span><a name="line.146"></a>
+<span class="sourceLineNo">147</span>  public void setContinent(Set&lt;Continent&gt; continent) {<a name="line.147"></a>
+<span class="sourceLineNo">148</span>    this.continent = continent;<a name="line.148"></a>
+<span class="sourceLineNo">149</span>  }<a name="line.149"></a>
+<span class="sourceLineNo">150</span><a name="line.150"></a>
+<span class="sourceLineNo">151</span>  public Country getPublishingCountry() {<a name="line.151"></a>
+<span class="sourceLineNo">152</span>    return publishingCountry;<a name="line.152"></a>
+<span class="sourceLineNo">153</span>  }<a name="line.153"></a>
+<span class="sourceLineNo">154</span><a name="line.154"></a>
+<span class="sourceLineNo">155</span>  public void setPublishingCountry(Country publishingCountry) {<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    this.publishingCountry = publishingCountry;<a name="line.156"></a>
+<span class="sourceLineNo">157</span>  }<a name="line.157"></a>
+<span class="sourceLineNo">158</span><a name="line.158"></a>
+<span class="sourceLineNo">159</span>  public UUID getPublishingOrganizationKey() {<a name="line.159"></a>
+<span class="sourceLineNo">160</span>    return publishingOrganizationKey;<a name="line.160"></a>
+<span class="sourceLineNo">161</span>  }<a name="line.161"></a>
+<span class="sourceLineNo">162</span><a name="line.162"></a>
+<span class="sourceLineNo">163</span>  public void setPublishingOrganizationKey(UUID publishingOrganizationKey) {<a name="line.163"></a>
+<span class="sourceLineNo">164</span>    this.publishingOrganizationKey = publishingOrganizationKey;<a name="line.164"></a>
+<span class="sourceLineNo">165</span>  }<a name="line.165"></a>
+<span class="sourceLineNo">166</span><a name="line.166"></a>
+<span class="sourceLineNo">167</span>  public String getPublishingOrganizationTitle() {<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    return publishingOrganizationTitle;<a name="line.168"></a>
+<span class="sourceLineNo">169</span>  }<a name="line.169"></a>
+<span class="sourceLineNo">170</span><a name="line.170"></a>
+<span class="sourceLineNo">171</span>  public void setPublishingOrganizationTitle(String publishingOrganizationTitle) {<a name="line.171"></a>
+<span class="sourceLineNo">172</span>    this.publishingOrganizationTitle = publishingOrganizationTitle;<a name="line.172"></a>
+<span class="sourceLineNo">173</span>  }<a name="line.173"></a>
+<span class="sourceLineNo">174</span><a name="line.174"></a>
+<span class="sourceLineNo">175</span>  public License getLicense() {<a name="line.175"></a>
+<span class="sourceLineNo">176</span>    return license;<a name="line.176"></a>
+<span class="sourceLineNo">177</span>  }<a name="line.177"></a>
+<span class="sourceLineNo">178</span><a name="line.178"></a>
+<span class="sourceLineNo">179</span>  public void setLicense(License license) {<a name="line.179"></a>
+<span class="sourceLineNo">180</span>    this.license = license;<a name="line.180"></a>
+<span class="sourceLineNo">181</span>  }<a name="line.181"></a>
+<span class="sourceLineNo">182</span><a name="line.182"></a>
+<span class="sourceLineNo">183</span>  public List&lt;Integer&gt; getDecades() {<a name="line.183"></a>
+<span class="sourceLineNo">184</span>    return decades;<a name="line.184"></a>
+<span class="sourceLineNo">185</span>  }<a name="line.185"></a>
+<span class="sourceLineNo">186</span><a name="line.186"></a>
+<span class="sourceLineNo">187</span>  public void setDecades(List&lt;Integer&gt; decades) {<a name="line.187"></a>
+<span class="sourceLineNo">188</span>    this.decades = decades;<a name="line.188"></a>
+<span class="sourceLineNo">189</span>  }<a name="line.189"></a>
+<span class="sourceLineNo">190</span><a name="line.190"></a>
+<span class="sourceLineNo">191</span>  public List&lt;String&gt; getKeywords() {<a name="line.191"></a>
+<span class="sourceLineNo">192</span>    return keywords;<a name="line.192"></a>
+<span class="sourceLineNo">193</span>  }<a name="line.193"></a>
+<span class="sourceLineNo">194</span><a name="line.194"></a>
+<span class="sourceLineNo">195</span>  public void setKeywords(List&lt;String&gt; keywords) {<a name="line.195"></a>
+<span class="sourceLineNo">196</span>    this.keywords = keywords;<a name="line.196"></a>
+<span class="sourceLineNo">197</span>  }<a name="line.197"></a>
+<span class="sourceLineNo">198</span><a name="line.198"></a>
+<span class="sourceLineNo">199</span>  public String getProjectIdentifier() {<a name="line.199"></a>
+<span class="sourceLineNo">200</span>    return projectIdentifier;<a name="line.200"></a>
+<span class="sourceLineNo">201</span>  }<a name="line.201"></a>
+<span class="sourceLineNo">202</span><a name="line.202"></a>
+<span class="sourceLineNo">203</span>  public void setProjectIdentifier(String projectIdentifier) {<a name="line.203"></a>
+<span class="sourceLineNo">204</span>    this.projectIdentifier = projectIdentifier;<a name="line.204"></a>
+<span class="sourceLineNo">205</span>  }<a name="line.205"></a>
+<span class="sourceLineNo">206</span><a name="line.206"></a>
+<span class="sourceLineNo">207</span>  public Integer getRecordCount() {<a name="line.207"></a>
+<span class="sourceLineNo">208</span>    return recordCount;<a name="line.208"></a>
+<span class="sourceLineNo">209</span>  }<a name="line.209"></a>
+<span class="sourceLineNo">210</span><a name="line.210"></a>
+<span class="sourceLineNo">211</span>  public void setRecordCount(Integer recordCount) {<a name="line.211"></a>
+<span class="sourceLineNo">212</span>    this.recordCount = recordCount;<a name="line.212"></a>
+<span class="sourceLineNo">213</span>  }<a name="line.213"></a>
+<span class="sourceLineNo">214</span><a name="line.214"></a>
+<span class="sourceLineNo">215</span>  @Override<a name="line.215"></a>
+<span class="sourceLineNo">216</span>  public boolean equals(Object o) {<a name="line.216"></a>
+<span class="sourceLineNo">217</span>    if (this == o) {<a name="line.217"></a>
+<span class="sourceLineNo">218</span>      return true;<a name="line.218"></a>
+<span class="sourceLineNo">219</span>    }<a name="line.219"></a>
+<span class="sourceLineNo">220</span>    if (o == null || getClass() != o.getClass()) {<a name="line.220"></a>
+<span class="sourceLineNo">221</span>      return false;<a name="line.221"></a>
+<span class="sourceLineNo">222</span>    }<a name="line.222"></a>
+<span class="sourceLineNo">223</span>    DatasetSearchResult that = (DatasetSearchResult) o;<a name="line.223"></a>
+<span class="sourceLineNo">224</span>    return Objects.equals(key, that.key) &amp;&amp;<a name="line.224"></a>
+<span class="sourceLineNo">225</span>      Objects.equals(title, that.title) &amp;&amp;<a name="line.225"></a>
+<span class="sourceLineNo">226</span>      Objects.equals(description, that.description) &amp;&amp;<a name="line.226"></a>
+<span class="sourceLineNo">227</span>      type == that.type &amp;&amp;<a name="line.227"></a>
+<span class="sourceLineNo">228</span>      subtype == that.subtype &amp;&amp;<a name="line.228"></a>
+<span class="sourceLineNo">229</span>      Objects.equals(fullText, that.fullText) &amp;&amp;<a name="line.229"></a>
+<span class="sourceLineNo">230</span>      Objects.equals(hostingOrganizationKey, that.hostingOrganizationKey) &amp;&amp;<a name="line.230"></a>
+<span class="sourceLineNo">231</span>      Objects.equals(hostingOrganizationTitle, that.hostingOrganizationTitle) &amp;&amp;<a name="line.231"></a>
+<span class="sourceLineNo">232</span>      Objects.equals(publisherTitle, that.publisherTitle) &amp;&amp;<a name="line.232"></a>
+<span class="sourceLineNo">233</span>      Objects.equals(countryCoverage, that.countryCoverage) &amp;&amp;<a name="line.233"></a>
+<span class="sourceLineNo">234</span>      Objects.equals(continent, that.continent) &amp;&amp;<a name="line.234"></a>
+<span class="sourceLineNo">235</span>      publishingCountry == that.publishingCountry &amp;&amp;<a name="line.235"></a>
+<span class="sourceLineNo">236</span>      Objects.equals(publishingOrganizationKey, that.publishingOrganizationKey) &amp;&amp;<a name="line.236"></a>
+<span class="sourceLineNo">237</span>      Objects.equals(publishingOrganizationTitle, that.publishingOrganizationTitle) &amp;&amp;<a name="line.237"></a>
+<span class="sourceLineNo">238</span>      license == that.license &amp;&amp;<a name="line.238"></a>
+<span class="sourceLineNo">239</span>      Objects.equals(decades, that.decades) &amp;&amp;<a name="line.239"></a>
+<span class="sourceLineNo">240</span>      Objects.equals(keywords, that.keywords) &amp;&amp;<a name="line.240"></a>
+<span class="sourceLineNo">241</span>      Objects.equals(projectIdentifier, that.projectIdentifier) &amp;&amp;<a name="line.241"></a>
+<span class="sourceLineNo">242</span>      Objects.equals(recordCount, that.recordCount);<a name="line.242"></a>
+<span class="sourceLineNo">243</span>  }<a name="line.243"></a>
+<span class="sourceLineNo">244</span><a name="line.244"></a>
+<span class="sourceLineNo">245</span>  @Override<a name="line.245"></a>
+<span class="sourceLineNo">246</span>  public int hashCode() {<a name="line.246"></a>
+<span class="sourceLineNo">247</span>    return Objects.hash(key, title, description, type, subtype, fullText, hostingOrganizationKey,<a name="line.247"></a>
+<span class="sourceLineNo">248</span>      hostingOrganizationTitle, publisherTitle, countryCoverage, continent, publishingCountry,<a name="line.248"></a>
+<span class="sourceLineNo">249</span>      publishingOrganizationKey, publishingOrganizationTitle, license, decades, keywords,<a name="line.249"></a>
+<span class="sourceLineNo">250</span>      projectIdentifier, recordCount);<a name="line.250"></a>
+<span class="sourceLineNo">251</span>  }<a name="line.251"></a>
+<span class="sourceLineNo">252</span><a name="line.252"></a>
+<span class="sourceLineNo">253</span>  @Override<a name="line.253"></a>
+<span class="sourceLineNo">254</span>  public String toString() {<a name="line.254"></a>
+<span class="sourceLineNo">255</span>    return new StringJoiner(", ", DatasetSearchResult.class.getSimpleName() + "[", "]")<a name="line.255"></a>
+<span class="sourceLineNo">256</span>      .add("key=" + key)<a name="line.256"></a>
+<span class="sourceLineNo">257</span>      .add("title='" + title + "'")<a name="line.257"></a>
+<span class="sourceLineNo">258</span>      .add("description='" + description + "'")<a name="line.258"></a>
+<span class="sourceLineNo">259</span>      .add("type=" + type)<a name="line.259"></a>
+<span class="sourceLineNo">260</span>      .add("subtype=" + subtype)<a name="line.260"></a>
+<span class="sourceLineNo">261</span>      .add("fullText='" + fullText + "'")<a name="line.261"></a>
+<span class="sourceLineNo">262</span>      .add("hostingOrganizationKey=" + hostingOrganizationKey)<a name="line.262"></a>
+<span class="sourceLineNo">263</span>      .add("hostingOrganizationTitle='" + hostingOrganizationTitle + "'")<a name="line.263"></a>
+<span class="sourceLineNo">264</span>      .add("publisherTitle='" + publisherTitle + "'")<a name="line.264"></a>
+<span class="sourceLineNo">265</span>      .add("countryCoverage=" + countryCoverage)<a name="line.265"></a>
+<span class="sourceLineNo">266</span>      .add("continent=" + continent)<a name="line.266"></a>
+<span class="sourceLineNo">267</span>      .add("publishingCountry=" + publishingCountry)<a name="line.267"></a>
+<span class="sourceLineNo">268</span>      .add("publishingOrganizationKey=" + publishingOrganizationKey)<a name="line.268"></a>
+<span class="sourceLineNo">269</span>      .add("publishingOrganizationTitle='" + publishingOrganizationTitle + "'")<a name="line.269"></a>
+<span class="sourceLineNo">270</span>      .add("license=" + license)<a name="line.270"></a>
+<span class="sourceLineNo">271</span>      .add("decades=" + decades)<a name="line.271"></a>
+<span class="sourceLineNo">272</span>      .add("keywords=" + keywords)<a name="line.272"></a>
+<span class="sourceLineNo">273</span>      .add("projectIdentifier='" + projectIdentifier + "'")<a name="line.273"></a>
+<span class="sourceLineNo">274</span>      .add("recordCount=" + recordCount)<a name="line.274"></a>
+<span class="sourceLineNo">275</span>      .toString();<a name="line.275"></a>
+<span class="sourceLineNo">276</span>  }<a name="line.276"></a>
+<span class="sourceLineNo">277</span>}<a name="line.277"></a>
 
 
 

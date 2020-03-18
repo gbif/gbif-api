@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Comment.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry</a> &gt; <span class="el_source">Comment.java</span></div><h1>Comment.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,13 +16,14 @@
 package org.gbif.api.model.registry;
 
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
-import com.google.common.base.Objects;
-
-<span class="nc" id="L22">public class Comment implements LenientEquals&lt;Comment&gt; {</span>
+<span class="nc" id="L26">public class Comment implements LenientEquals&lt;Comment&gt; {</span>
 
   private Integer key;
   private String content;
@@ -31,90 +35,93 @@ import com.google.common.base.Objects;
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   public Integer getKey() {
-<span class="nc" id="L34">    return key;</span>
+<span class="nc" id="L38">    return key;</span>
   }
 
   public void setKey(Integer key) {
-<span class="nc" id="L38">    this.key = key;</span>
-<span class="nc" id="L39">  }</span>
+<span class="nc" id="L42">    this.key = key;</span>
+<span class="nc" id="L43">  }</span>
 
   @NotNull
   @Size(min = 1)
   public String getContent() {
-<span class="nc" id="L44">    return content;</span>
+<span class="nc" id="L48">    return content;</span>
   }
 
   public void setContent(String content) {
-<span class="nc" id="L48">    this.content = content;</span>
-<span class="nc" id="L49">  }</span>
+<span class="nc" id="L52">    this.content = content;</span>
+<span class="nc" id="L53">  }</span>
 
   @Size(min = 3)
   public String getCreatedBy() {
-<span class="nc" id="L53">    return createdBy;</span>
+<span class="nc" id="L57">    return createdBy;</span>
   }
 
   public void setCreatedBy(String createdBy) {
-<span class="nc" id="L57">    this.createdBy = createdBy;</span>
-<span class="nc" id="L58">  }</span>
+<span class="nc" id="L61">    this.createdBy = createdBy;</span>
+<span class="nc" id="L62">  }</span>
 
   @Size(min = 3)
   public String getModifiedBy() {
-<span class="nc" id="L62">    return modifiedBy;</span>
+<span class="nc" id="L66">    return modifiedBy;</span>
   }
 
   public void setModifiedBy(String modifiedBy) {
-<span class="nc" id="L66">    this.modifiedBy = modifiedBy;</span>
-<span class="nc" id="L67">  }</span>
+<span class="nc" id="L70">    this.modifiedBy = modifiedBy;</span>
+<span class="nc" id="L71">  }</span>
 
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   public Date getCreated() {
-<span class="nc" id="L72">    return created;</span>
+<span class="nc" id="L76">    return created;</span>
   }
 
   public void setCreated(Date created) {
-<span class="nc" id="L76">    this.created = created;</span>
-<span class="nc" id="L77">  }</span>
+<span class="nc" id="L80">    this.created = created;</span>
+<span class="nc" id="L81">  }</span>
 
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   public Date getModified() {
-<span class="nc" id="L82">    return modified;</span>
+<span class="nc" id="L86">    return modified;</span>
   }
 
   public void setModified(Date modified) {
-<span class="nc" id="L86">    this.modified = modified;</span>
-<span class="nc" id="L87">  }</span>
+<span class="nc" id="L90">    this.modified = modified;</span>
+<span class="nc" id="L91">  }</span>
 
   @Override
-  public int hashCode() {
-<span class="nc" id="L91">    return Objects.hashCode(key, content, createdBy, modifiedBy, created, modified);</span>
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L95" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L96">      return true;</span>
+    }
+<span class="nc bnc" id="L98" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L99">      return false;</span>
+    }
+<span class="nc" id="L101">    Comment comment = (Comment) o;</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">    return Objects.equals(key, comment.key) &amp;&amp;</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">      Objects.equals(content, comment.content) &amp;&amp;</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">      Objects.equals(createdBy, comment.createdBy) &amp;&amp;</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">      Objects.equals(modifiedBy, comment.modifiedBy) &amp;&amp;</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">      Objects.equals(created, comment.created) &amp;&amp;</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">      Objects.equals(modified, comment.modified);</span>
   }
 
   @Override
-  public boolean equals(Object object) {
-<span class="nc bnc" id="L96" title="All 2 branches missed.">    if (object instanceof Comment) {</span>
-<span class="nc" id="L97">      Comment that = (Comment) object;</span>
-<span class="nc bnc" id="L98" title="All 2 branches missed.">      return Objects.equal(this.key, that.key)</span>
-<span class="nc bnc" id="L99" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.content, that.content)</span>
-<span class="nc bnc" id="L100" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.createdBy, that.createdBy)</span>
-<span class="nc bnc" id="L101" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.modifiedBy, that.modifiedBy)</span>
-<span class="nc bnc" id="L102" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.created, that.created)</span>
-<span class="nc bnc" id="L103" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.modified, that.modified);</span>
-    }
-<span class="nc" id="L105">    return false;</span>
+  public int hashCode() {
+<span class="nc" id="L112">    return Objects.hash(key, content, createdBy, modifiedBy, created, modified);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L110">    return Objects.toStringHelper(this)</span>
-<span class="nc" id="L111">      .add(&quot;key&quot;, key)</span>
-<span class="nc" id="L112">      .add(&quot;content&quot;, content)</span>
-<span class="nc" id="L113">      .add(&quot;createdBy&quot;, createdBy)</span>
-<span class="nc" id="L114">      .add(&quot;modifiedBy&quot;, modifiedBy)</span>
-<span class="nc" id="L115">      .add(&quot;created&quot;, created)</span>
-<span class="nc" id="L116">      .add(&quot;modified&quot;, modified)</span>
-<span class="nc" id="L117">      .toString();</span>
+<span class="nc" id="L117">    return new StringJoiner(&quot;, &quot;, Comment.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L118">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L119">      .add(&quot;content='&quot; + content + &quot;'&quot;)</span>
+<span class="nc" id="L120">      .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L121">      .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
+<span class="nc" id="L122">      .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L123">      .add(&quot;modified=&quot; + modified)</span>
+<span class="nc" id="L124">      .toString();</span>
   }
 
   /**
@@ -123,10 +130,10 @@ import com.google.common.base.Objects;
    */
   @Override
   public boolean lenientEquals(Comment other) {
-<span class="nc bnc" id="L126" title="All 2 branches missed.">    if (this == other) {</span>
-<span class="nc" id="L127">      return true;</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L134">      return true;</span>
     }
-<span class="nc" id="L129">    return Objects.equal(this.content, other.content);</span>
+<span class="nc" id="L136">    return Objects.equals(this.content, other.content);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

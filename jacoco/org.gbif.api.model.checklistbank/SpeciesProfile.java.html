@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SpeciesProfile.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">SpeciesProfile.java</span></div><h1>SpeciesProfile.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,18 @@
  */
 package org.gbif.api.model.checklistbank;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.annotation.Nullable;
-
-import com.google.common.base.Objects;
-
 
 /**
  * SpeciesProfile Model Object represents a species profile which describes basic species characteristics.
  *
  * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/speciesprofile.xml&quot;&gt;Species Profile Definition&lt;/a&gt;
  */
-<span class="fc" id="L28">public class SpeciesProfile implements NameUsageExtension {</span>
+@SuppressWarnings(&quot;unused&quot;)
+<span class="fc" id="L29">public class SpeciesProfile implements NameUsageExtension {</span>
 
   private Integer taxonKey;
   private String livingPeriod;
@@ -47,13 +48,13 @@ import com.google.common.base.Objects;
    */
   @Override
   public Integer getTaxonKey() {
-<span class="nc" id="L50">    return taxonKey;</span>
+<span class="nc" id="L51">    return taxonKey;</span>
   }
 
   @Override
   public void setTaxonKey(Integer taxonKey) {
-<span class="nc" id="L55">    this.taxonKey = taxonKey;</span>
-<span class="nc" id="L56">  }</span>
+<span class="nc" id="L56">    this.taxonKey = taxonKey;</span>
+<span class="nc" id="L57">  }</span>
 
   /**
    * Maximum observed age of an organism given as number of days.
@@ -67,15 +68,15 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public Integer getAgeInDays() {
-<span class="nc" id="L70">    return ageInDays;</span>
+<span class="nc" id="L71">    return ageInDays;</span>
   }
 
   /**
    * @param ageInDays the ageInDays to set
    */
   public void setAgeInDays(Integer ageInDays) {
-<span class="nc" id="L77">    this.ageInDays = ageInDays;</span>
-<span class="nc" id="L78">  }</span>
+<span class="nc" id="L78">    this.ageInDays = ageInDays;</span>
+<span class="nc" id="L79">  }</span>
 
   /**
    * A Boolean flag indicating whether the taxon is a freshwater organism.
@@ -84,12 +85,12 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public Boolean isFreshwater() {
-<span class="fc" id="L87">    return freshwater;</span>
+<span class="fc" id="L88">    return freshwater;</span>
   }
 
   public void setFreshwater(Boolean freshwater) {
-<span class="fc" id="L91">    this.freshwater = freshwater;</span>
-<span class="fc" id="L92">  }</span>
+<span class="fc" id="L92">    this.freshwater = freshwater;</span>
+<span class="fc" id="L93">  }</span>
 
   /**
    * Comma seperated list of mayor habitat classification as defined by IUCN in which a species is known to exist:
@@ -104,15 +105,15 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public String getHabitat() {
-<span class="fc" id="L107">    return habitat;</span>
+<span class="fc" id="L108">    return habitat;</span>
   }
 
   /**
    * @param habitat the habitat to set.
    */
   public void setHabitat(String habitat) {
-<span class="fc" id="L114">    this.habitat = habitat;</span>
-<span class="fc" id="L115">  }</span>
+<span class="fc" id="L115">    this.habitat = habitat;</span>
+<span class="fc" id="L116">  }</span>
 
   /**
    * A term describing the growth/lifeform of an organism. Should be based on a vocabulary like Raunkiær for plants:
@@ -129,15 +130,15 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public String getLifeForm() {
-<span class="nc" id="L132">    return lifeForm;</span>
+<span class="nc" id="L133">    return lifeForm;</span>
   }
 
   /**
    * @param lifeForm the lifeForm to set
    */
   public void setLifeForm(String lifeForm) {
-<span class="nc" id="L139">    this.lifeForm = lifeForm;</span>
-<span class="nc" id="L140">  }</span>
+<span class="nc" id="L140">    this.lifeForm = lifeForm;</span>
+<span class="nc" id="L141">  }</span>
 
   /**
    * The (geological) time a currently extinct organism is known to have lived. For geological times of fossils ideally
@@ -153,15 +154,15 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public String getLivingPeriod() {
-<span class="nc" id="L156">    return livingPeriod;</span>
+<span class="nc" id="L157">    return livingPeriod;</span>
   }
 
   /**
    * @param livingPeriod the livingPeriod to set
    */
   public void setLivingPeriod(String livingPeriod) {
-<span class="nc" id="L163">    this.livingPeriod = livingPeriod;</span>
-<span class="nc" id="L164">  }</span>
+<span class="nc" id="L164">    this.livingPeriod = livingPeriod;</span>
+<span class="nc" id="L165">  }</span>
 
   /**
    * Maximum observed weight of an organism in grams.
@@ -175,15 +176,15 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public Integer getMassInGram() {
-<span class="nc" id="L178">    return massInGram;</span>
+<span class="nc" id="L179">    return massInGram;</span>
   }
 
   /**
    * @param massInGram the massInGram to set
    */
   public void setMassInGram(Integer massInGram) {
-<span class="fc" id="L185">    this.massInGram = massInGram;</span>
-<span class="fc" id="L186">  }</span>
+<span class="fc" id="L186">    this.massInGram = massInGram;</span>
+<span class="fc" id="L187">  }</span>
 
   /**
    * Maximum observed size of an organism in millimeter. Can be either height, length or width, whichever is greater.
@@ -197,15 +198,15 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public Integer getSizeInMillimeter() {
-<span class="nc" id="L200">    return sizeInMillimeter;</span>
+<span class="nc" id="L201">    return sizeInMillimeter;</span>
   }
 
   /**
    * @param sizeInMillimeter the sizeInMillimeter to se
    */
   public void setSizeInMillimeter(Integer sizeInMillimeter) {
-<span class="nc" id="L207">    this.sizeInMillimeter = sizeInMillimeter;</span>
-<span class="nc" id="L208">  }</span>
+<span class="nc" id="L208">    this.sizeInMillimeter = sizeInMillimeter;</span>
+<span class="nc" id="L209">  }</span>
 
   /**
    * Flag indicating an extinct organism. Details about the timeperiod the organism has lived in can be supplied below.
@@ -219,15 +220,15 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public Boolean isExtinct() {
-<span class="fc" id="L222">    return extinct;</span>
+<span class="fc" id="L223">    return extinct;</span>
   }
 
   /**
    * @param extinct the extinct to set
    */
   public void setExtinct(Boolean extinct) {
-<span class="fc" id="L229">    this.extinct = extinct;</span>
-<span class="fc" id="L230">  }</span>
+<span class="fc" id="L230">    this.extinct = extinct;</span>
+<span class="fc" id="L231">  }</span>
 
   /**
    * Flag indicating a hybrid organism. This does not have to be reflected in the name, but can be based on other
@@ -242,15 +243,15 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public Boolean isHybrid() {
-<span class="nc" id="L245">    return hybrid;</span>
+<span class="nc" id="L246">    return hybrid;</span>
   }
 
   /**
    * @param hybrid the hybrid to set
    */
   public void setHybrid(Boolean hybrid) {
-<span class="fc" id="L252">    this.hybrid = hybrid;</span>
-<span class="fc" id="L253">  }</span>
+<span class="fc" id="L253">    this.hybrid = hybrid;</span>
+<span class="fc" id="L254">  }</span>
 
   /**
    * A Boolean flag indicating whether the taxon is a marine organism, i.e. can be found in/above sea water
@@ -264,15 +265,15 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public Boolean isMarine() {
-<span class="fc" id="L267">    return marine;</span>
+<span class="fc" id="L268">    return marine;</span>
   }
 
   /**
    * @param marine the marine to set
    */
   public void setMarine(Boolean marine) {
-<span class="fc" id="L274">    this.marine = marine;</span>
-<span class="fc" id="L275">  }</span>
+<span class="fc" id="L275">    this.marine = marine;</span>
+<span class="fc" id="L276">  }</span>
 
   /**
    * A Boolean flag indicating the taxon is a terrestial organism, i.e. occurrs on land as opposed to the sea.
@@ -286,95 +287,85 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public Boolean isTerrestrial() {
-<span class="fc" id="L289">    return terrestrial;</span>
+<span class="fc" id="L290">    return terrestrial;</span>
   }
 
   /**
    * @param terrestrial the terrestrial to set
    */
   public void setTerrestrial(Boolean terrestrial) {
-<span class="fc" id="L296">    this.terrestrial = terrestrial;</span>
-<span class="fc" id="L297">  }</span>
+<span class="fc" id="L297">    this.terrestrial = terrestrial;</span>
+<span class="fc" id="L298">  }</span>
 
   @Nullable
   @Override
   public String getSource() {
-<span class="nc" id="L302">    return source;</span>
+<span class="nc" id="L303">    return source;</span>
   }
 
   @Override
   public void setSource(String source) {
-<span class="nc" id="L307">    this.source = source;</span>
-<span class="nc" id="L308">  }</span>
+<span class="nc" id="L308">    this.source = source;</span>
+<span class="nc" id="L309">  }</span>
 
   @Nullable
   @Override
   public Integer getSourceTaxonKey() {
-<span class="nc" id="L313">    return sourceTaxonKey;</span>
+<span class="nc" id="L314">    return sourceTaxonKey;</span>
   }
 
   @Override
   public void setSourceTaxonKey(Integer sourceTaxonKey) {
-<span class="nc" id="L318">    this.sourceTaxonKey = sourceTaxonKey;</span>
-<span class="nc" id="L319">  }</span>
+<span class="nc" id="L319">    this.sourceTaxonKey = sourceTaxonKey;</span>
+<span class="nc" id="L320">  }</span>
 
   @Override
-  public boolean equals(Object object) {
-<span class="pc bpc" id="L323" title="1 of 2 branches missed.">    if (this == object) {</span>
-<span class="nc" id="L324">      return true;</span>
+  public boolean equals(Object o) {
+<span class="pc bpc" id="L324" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L325">      return true;</span>
     }
-<span class="pc bpc" id="L326" title="1 of 2 branches missed.">    if (!(object instanceof SpeciesProfile)) {</span>
-<span class="nc" id="L327">      return false;</span>
+<span class="pc bpc" id="L327" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L328">      return false;</span>
     }
-
-<span class="fc" id="L330">    SpeciesProfile that = (SpeciesProfile) object;</span>
-<span class="pc bpc" id="L331" title="1 of 2 branches missed.">    return Objects.equal(this.livingPeriod, that.livingPeriod)</span>
-<span class="pc bpc" id="L332" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.lifeForm, that.lifeForm)</span>
-<span class="pc bpc" id="L333" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.habitat, that.habitat)</span>
-<span class="pc bpc" id="L334" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.marine, that.marine)</span>
-<span class="pc bpc" id="L335" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.terrestrial, that.terrestrial)</span>
-<span class="pc bpc" id="L336" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.extinct, that.extinct)</span>
-<span class="pc bpc" id="L337" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.hybrid, that.hybrid)</span>
-<span class="pc bpc" id="L338" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.ageInDays, that.ageInDays)</span>
-<span class="pc bpc" id="L339" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.sizeInMillimeter, that.sizeInMillimeter)</span>
-<span class="pc bpc" id="L340" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.massInGram, that.massInGram)</span>
-<span class="pc bpc" id="L341" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.source, that.source)</span>
-<span class="pc bpc" id="L342" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey);</span>
+<span class="fc" id="L330">    SpeciesProfile that = (SpeciesProfile) o;</span>
+<span class="pc bpc" id="L331" title="1 of 2 branches missed.">    return Objects.equals(livingPeriod, that.livingPeriod) &amp;&amp;</span>
+<span class="pc bpc" id="L332" title="1 of 2 branches missed.">      Objects.equals(lifeForm, that.lifeForm) &amp;&amp;</span>
+<span class="pc bpc" id="L333" title="1 of 2 branches missed.">      Objects.equals(habitat, that.habitat) &amp;&amp;</span>
+<span class="pc bpc" id="L334" title="1 of 2 branches missed.">      Objects.equals(marine, that.marine) &amp;&amp;</span>
+<span class="pc bpc" id="L335" title="1 of 2 branches missed.">      Objects.equals(terrestrial, that.terrestrial) &amp;&amp;</span>
+<span class="pc bpc" id="L336" title="1 of 2 branches missed.">      Objects.equals(extinct, that.extinct) &amp;&amp;</span>
+<span class="pc bpc" id="L337" title="1 of 2 branches missed.">      Objects.equals(hybrid, that.hybrid) &amp;&amp;</span>
+<span class="pc bpc" id="L338" title="1 of 2 branches missed.">      Objects.equals(ageInDays, that.ageInDays) &amp;&amp;</span>
+<span class="pc bpc" id="L339" title="1 of 2 branches missed.">      Objects.equals(sizeInMillimeter, that.sizeInMillimeter) &amp;&amp;</span>
+<span class="pc bpc" id="L340" title="1 of 2 branches missed.">      Objects.equals(massInGram, that.massInGram) &amp;&amp;</span>
+<span class="pc bpc" id="L341" title="1 of 2 branches missed.">      Objects.equals(source, that.source) &amp;&amp;</span>
+<span class="pc bpc" id="L342" title="1 of 2 branches missed.">      Objects.equals(sourceTaxonKey, that.sourceTaxonKey);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L347">    return Objects.hashCode(livingPeriod,</span>
-                            lifeForm,
-                            habitat,
-                            marine,
-                            terrestrial,
-                            extinct,
-                            hybrid,
-                            ageInDays,
-                            sizeInMillimeter,
-                            massInGram,
-                            source,
-                            sourceTaxonKey);
+<span class="nc" id="L347">    return Objects</span>
+<span class="nc" id="L348">      .hash(livingPeriod, lifeForm, habitat, marine, terrestrial, extinct, hybrid, ageInDays,</span>
+        sizeInMillimeter, massInGram, source, sourceTaxonKey);
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L363">    return Objects.toStringHelper(this)</span>
-<span class="nc" id="L364">      .add(&quot;livingPeriod&quot;, livingPeriod)</span>
-<span class="nc" id="L365">      .add(&quot;lifeForm&quot;, lifeForm)</span>
-<span class="nc" id="L366">      .add(&quot;habitat&quot;, habitat)</span>
-<span class="nc" id="L367">      .add(&quot;marine&quot;, marine)</span>
-<span class="nc" id="L368">      .add(&quot;terrestrial&quot;, terrestrial)</span>
-<span class="nc" id="L369">      .add(&quot;extinct&quot;, extinct)</span>
-<span class="nc" id="L370">      .add(&quot;hybrid&quot;, hybrid)</span>
-<span class="nc" id="L371">      .add(&quot;ageInDays&quot;, ageInDays)</span>
-<span class="nc" id="L372">      .add(&quot;sizeInMillimeter&quot;, sizeInMillimeter)</span>
-<span class="nc" id="L373">      .add(&quot;massInGram&quot;, massInGram)</span>
-<span class="nc" id="L374">      .add(&quot;source&quot;, source)</span>
-<span class="nc" id="L375">      .add(&quot;sourceTaxonKey&quot;, sourceTaxonKey)</span>
-<span class="nc" id="L376">      .toString();</span>
+<span class="nc" id="L354">    return new StringJoiner(&quot;, &quot;, SpeciesProfile.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L355">      .add(&quot;livingPeriod='&quot; + livingPeriod + &quot;'&quot;)</span>
+<span class="nc" id="L356">      .add(&quot;lifeForm='&quot; + lifeForm + &quot;'&quot;)</span>
+<span class="nc" id="L357">      .add(&quot;habitat='&quot; + habitat + &quot;'&quot;)</span>
+<span class="nc" id="L358">      .add(&quot;marine=&quot; + marine)</span>
+<span class="nc" id="L359">      .add(&quot;freshwater=&quot; + freshwater)</span>
+<span class="nc" id="L360">      .add(&quot;terrestrial=&quot; + terrestrial)</span>
+<span class="nc" id="L361">      .add(&quot;extinct=&quot; + extinct)</span>
+<span class="nc" id="L362">      .add(&quot;hybrid=&quot; + hybrid)</span>
+<span class="nc" id="L363">      .add(&quot;ageInDays=&quot; + ageInDays)</span>
+<span class="nc" id="L364">      .add(&quot;sizeInMillimeter=&quot; + sizeInMillimeter)</span>
+<span class="nc" id="L365">      .add(&quot;massInGram=&quot; + massInGram)</span>
+<span class="nc" id="L366">      .add(&quot;source='&quot; + source + &quot;'&quot;)</span>
+<span class="nc" id="L367">      .add(&quot;sourceTaxonKey=&quot; + sourceTaxonKey)</span>
+<span class="nc" id="L368">      .toString();</span>
   }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

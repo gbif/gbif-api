@@ -7,7 +7,7 @@
 <body>
 <div id="overview"><a href="../../../../../../testapidocs/org/gbif/api/model/checklistbank/NameUsageContainerTest.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/*</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright 2014 Global Biodiversity Information Facility (GBIF)</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright 2020 Global Biodiversity Information Facility (GBIF)</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> *</em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
@@ -31,12 +31,12 @@
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.ThreatStatus;
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>  
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> java.net.URI;
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> java.util.LinkedList;
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> java.util.List;
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> java.util.Queue;
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> java.util.UUID;
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> com.google.common.collect.Lists;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> java.util.ArrayList;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> java.util.LinkedList;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> java.util.Queue;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> java.util.UUID;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> org.junit.Test;
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.assertEquals;
@@ -116,9 +116,9 @@
 <a class="jxr_linenumber" name="L108" href="#L108">108</a>     ru2.setTitle(<span class="jxr_string">"Puma concolor"</span>);
 <a class="jxr_linenumber" name="L109" href="#L109">109</a>     ru2.setSourceTaxonKey(111);
 <a class="jxr_linenumber" name="L110" href="#L110">110</a> 
-<a class="jxr_linenumber" name="L111" href="#L111">111</a>     List&lt;NameUsageMediaObject&gt; lru1 = Lists.newArrayList();
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>     List&lt;NameUsageMediaObject&gt; lru1 = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
 <a class="jxr_linenumber" name="L112" href="#L112">112</a>     lru1.add(ru1);
-<a class="jxr_linenumber" name="L113" href="#L113">113</a>     List&lt;NameUsageMediaObject&gt; lru2 = Lists.newArrayList();
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>     List&lt;NameUsageMediaObject&gt; lru2 = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
 <a class="jxr_linenumber" name="L114" href="#L114">114</a>     lru2.add(ru2);
 <a class="jxr_linenumber" name="L115" href="#L115">115</a> 
 <a class="jxr_linenumber" name="L116" href="#L116">116</a>     nu1.setMedia(lru1);
@@ -273,7 +273,7 @@
 <a class="jxr_linenumber" name="L265" href="#L265">265</a>     assertEquals(4, nu.getHigherClassificationMap().size());
 <a class="jxr_linenumber" name="L266" href="#L266">266</a>     assertTrue(nu.getHigherClassificationMap().containsKey(3));
 <a class="jxr_linenumber" name="L267" href="#L267">267</a> 
-<a class="jxr_linenumber" name="L268" href="#L268">268</a>     Queue&lt;Integer&gt; expectedKeyOrder = Lists.newLinkedList();
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>     Queue&lt;Integer&gt; expectedKeyOrder = <strong class="jxr_keyword">new</strong> LinkedList&lt;&gt;();
 <a class="jxr_linenumber" name="L269" href="#L269">269</a>     expectedKeyOrder.add(1);
 <a class="jxr_linenumber" name="L270" href="#L270">270</a>     expectedKeyOrder.add(5);
 <a class="jxr_linenumber" name="L271" href="#L271">271</a>     expectedKeyOrder.add(4);

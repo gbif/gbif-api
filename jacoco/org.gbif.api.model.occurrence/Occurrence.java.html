@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Occurrence.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence</a> &gt; <span class="el_source">Occurrence.java</span></div><h1>Occurrence.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,29 +38,27 @@ import org.gbif.dwc.terms.UnknownTerm;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.EnumSet;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonAnyGetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -65,18 +66,19 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 /**
  * Represents an Occurrence as interpreted by GBIF, adding typed properties on top of the verbatim ones.
  */
+@SuppressWarnings(&quot;unused&quot;)
 public class Occurrence extends VerbatimOccurrence implements LinneanClassification, LinneanClassificationKeys {
 
   public static final String GEO_DATUM = &quot;WGS84&quot;;
   // keep names of ALL properties of this class in a set for jackson serialization, see #properties()
-<span class="fc" id="L72">  private static final Set&lt;String&gt; PROPERTIES =  Collections.unmodifiableSet(</span>
-<span class="fc" id="L73">    Stream.concat(</span>
+<span class="fc" id="L74">  private static final Set&lt;String&gt; PROPERTIES =  Collections.unmodifiableSet(</span>
+<span class="fc" id="L75">    Stream.concat(</span>
       // we need to these json properties manually cause we have a fixed getter but no field for it
-<span class="fc" id="L75">      Stream.of(DwcTerm.geodeticDatum.simpleName(), &quot;class&quot;, &quot;countryCode&quot;),</span>
-<span class="fc" id="L76">      Stream.concat(Arrays.stream(Occurrence.class.getDeclaredFields()),</span>
-<span class="fc" id="L77">                    Arrays.stream(VerbatimOccurrence.class.getDeclaredFields()))</span>
-<span class="fc bfc" id="L78" title="All 2 branches covered.">                     .filter(field -&gt; !Modifier.isStatic(field.getModifiers()))</span>
-<span class="fc" id="L79">                     .map(Field::getName)).collect(Collectors.toSet()));</span>
+<span class="fc" id="L77">      Stream.of(DwcTerm.geodeticDatum.simpleName(), &quot;class&quot;, &quot;countryCode&quot;),</span>
+<span class="fc" id="L78">      Stream.concat(Arrays.stream(Occurrence.class.getDeclaredFields()),</span>
+<span class="fc" id="L79">                    Arrays.stream(VerbatimOccurrence.class.getDeclaredFields()))</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">                     .filter(field -&gt; !Modifier.isStatic(field.getModifiers()))</span>
+<span class="fc" id="L81">                     .map(Field::getName)).collect(Collectors.toSet()));</span>
   // occurrence fields
   private BasisOfRecord basisOfRecord;
   private Integer individualCount;
@@ -144,7 +146,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   // for example: &quot;Paratype of Taeniopteryx metequi Ricker &amp; Ross&quot; is status=Paratype, typifiedName=Taeniopteryx metequi
 // Ricker &amp; Ross
   private String typifiedName; // missing from DwC
-<span class="fc" id="L147">  private Set&lt;OccurrenceIssue&gt; issues = EnumSet.noneOf(OccurrenceIssue.class);</span>
+<span class="fc" id="L149">  private Set&lt;OccurrenceIssue&gt; issues = EnumSet.noneOf(OccurrenceIssue.class);</span>
   // record level
   private Date modified;  // interpreted dc:modified, i.e. date changed in source
   private Date lastInterpreted;
@@ -156,179 +158,181 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Double sampleSizeValue;
   private Double relativeOrganismQuantity;
   // interpreted extension data
-<span class="fc" id="L159">  private List&lt;Identifier&gt; identifiers = Lists.newArrayList();</span>
-<span class="fc" id="L160">  private List&lt;MediaObject&gt; media = Lists.newArrayList();</span>
-<span class="fc" id="L161">  private List&lt;FactOrMeasurment&gt; facts = Lists.newArrayList();</span>
-<span class="fc" id="L162">  private List&lt;OccurrenceRelation&gt; relations = Lists.newArrayList();</span>
+<span class="fc" id="L161">  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L162">  private List&lt;MediaObject&gt; media = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L163">  private List&lt;FactOrMeasurment&gt; facts = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L164">  private List&lt;OccurrenceRelation&gt; relations = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L165">  @JsonProperty(&quot;agentIDs&quot;)</span>
+  private List&lt;AgentIdentifier&gt; agentIds = new ArrayList&lt;&gt;();
 
-<span class="fc" id="L164">  public Occurrence() {</span>
+<span class="fc" id="L168">  public Occurrence() {</span>
 
-<span class="fc" id="L166">  }</span>
+<span class="fc" id="L170">  }</span>
 
   /**
    * Create occurrence instance from existing verbatim one, copying over all data.
    */
-<span class="fc" id="L171">  public Occurrence(@Nullable VerbatimOccurrence verbatim) {</span>
-<span class="fc bfc" id="L172" title="All 2 branches covered.">    if (verbatim != null) {</span>
-<span class="fc" id="L173">      setKey(verbatim.getKey());</span>
-<span class="fc" id="L174">      setDatasetKey(verbatim.getDatasetKey());</span>
-<span class="fc" id="L175">      setPublishingOrgKey(verbatim.getPublishingOrgKey());</span>
-<span class="fc" id="L176">      setPublishingCountry(verbatim.getPublishingCountry());</span>
-<span class="fc" id="L177">      setProtocol(verbatim.getProtocol());</span>
-<span class="fc" id="L178">      setCrawlId(verbatim.getCrawlId());</span>
-<span class="fc bfc" id="L179" title="All 2 branches covered.">      if (verbatim.getLastCrawled() != null) {</span>
-<span class="fc" id="L180">        setLastCrawled(new Date(verbatim.getLastCrawled().getTime()));</span>
+<span class="fc" id="L175">  public Occurrence(@Nullable VerbatimOccurrence verbatim) {</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">    if (verbatim != null) {</span>
+<span class="fc" id="L177">      setKey(verbatim.getKey());</span>
+<span class="fc" id="L178">      setDatasetKey(verbatim.getDatasetKey());</span>
+<span class="fc" id="L179">      setPublishingOrgKey(verbatim.getPublishingOrgKey());</span>
+<span class="fc" id="L180">      setPublishingCountry(verbatim.getPublishingCountry());</span>
+<span class="fc" id="L181">      setProtocol(verbatim.getProtocol());</span>
+<span class="fc" id="L182">      setCrawlId(verbatim.getCrawlId());</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">      if (verbatim.getLastCrawled() != null) {</span>
+<span class="fc" id="L184">        setLastCrawled(new Date(verbatim.getLastCrawled().getTime()));</span>
       }
-<span class="pc bpc" id="L182" title="1 of 2 branches missed.">      if (verbatim.getVerbatimFields() != null) {</span>
-<span class="fc" id="L183">        getVerbatimFields().putAll(verbatim.getVerbatimFields());</span>
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">      if (verbatim.getVerbatimFields() != null) {</span>
+<span class="fc" id="L187">        getVerbatimFields().putAll(verbatim.getVerbatimFields());</span>
       }
-<span class="pc bpc" id="L185" title="1 of 2 branches missed.">      if (verbatim.getLastParsed() != null) {</span>
-<span class="nc" id="L186">        setLastParsed(verbatim.getLastParsed());</span>
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">      if (verbatim.getLastParsed() != null) {</span>
+<span class="nc" id="L190">        setLastParsed(verbatim.getLastParsed());</span>
       }
-<span class="fc" id="L188">      setExtensions(verbatim.getExtensions());</span>
+<span class="fc" id="L192">      setExtensions(verbatim.getExtensions());</span>
     }
-<span class="fc" id="L190">  }</span>
+<span class="fc" id="L194">  }</span>
 
   @Nullable
   public BasisOfRecord getBasisOfRecord() {
-<span class="fc" id="L194">    return basisOfRecord;</span>
+<span class="fc" id="L198">    return basisOfRecord;</span>
   }
 
   public void setBasisOfRecord(BasisOfRecord basisOfRecord) {
-<span class="fc" id="L198">    this.basisOfRecord = basisOfRecord;</span>
-<span class="fc" id="L199">  }</span>
+<span class="fc" id="L202">    this.basisOfRecord = basisOfRecord;</span>
+<span class="fc" id="L203">  }</span>
 
   @Nullable
   public Integer getIndividualCount() {
-<span class="fc" id="L203">    return individualCount;</span>
+<span class="fc" id="L207">    return individualCount;</span>
   }
 
   public void setIndividualCount(Integer individualCount) {
-<span class="nc" id="L207">    this.individualCount = individualCount;</span>
-<span class="nc" id="L208">  }</span>
+<span class="nc" id="L211">    this.individualCount = individualCount;</span>
+<span class="nc" id="L212">  }</span>
 
   @Nullable
   public Sex getSex() {
-<span class="fc" id="L212">    return sex;</span>
+<span class="fc" id="L216">    return sex;</span>
   }
 
   public void setSex(Sex sex) {
-<span class="nc" id="L216">    this.sex = sex;</span>
-<span class="nc" id="L217">  }</span>
+<span class="nc" id="L220">    this.sex = sex;</span>
+<span class="nc" id="L221">  }</span>
 
   @Nullable
   public LifeStage getLifeStage() {
-<span class="fc" id="L221">    return lifeStage;</span>
+<span class="fc" id="L225">    return lifeStage;</span>
   }
 
   public void setLifeStage(LifeStage lifeStage) {
-<span class="nc" id="L225">    this.lifeStage = lifeStage;</span>
-<span class="nc" id="L226">  }</span>
+<span class="nc" id="L229">    this.lifeStage = lifeStage;</span>
+<span class="nc" id="L230">  }</span>
 
   @Nullable
   public EstablishmentMeans getEstablishmentMeans() {
-<span class="fc" id="L230">    return establishmentMeans;</span>
+<span class="fc" id="L234">    return establishmentMeans;</span>
   }
 
   public void setEstablishmentMeans(EstablishmentMeans establishmentMeans) {
-<span class="nc" id="L234">    this.establishmentMeans = establishmentMeans;</span>
-<span class="nc" id="L235">  }</span>
+<span class="nc" id="L238">    this.establishmentMeans = establishmentMeans;</span>
+<span class="nc" id="L239">  }</span>
 
-  @Nullable
   /**
    * The best matching, accepted GBIF backbone name usage representing this occurrence.
    * In case the verbatim scientific name and its classification can only be matched to a higher rank this will
    * represent the lowest matching rank. In the worst case this could just be for example Animalia.
    */
+  @Nullable
   public Integer getTaxonKey() {
-<span class="fc" id="L244">    return taxonKey;</span>
+<span class="fc" id="L248">    return taxonKey;</span>
   }
 
   public void setTaxonKey(Integer taxonKey) {
-<span class="fc" id="L248">    this.taxonKey = taxonKey;</span>
-<span class="fc" id="L249">  }</span>
+<span class="fc" id="L252">    this.taxonKey = taxonKey;</span>
+<span class="fc" id="L253">  }</span>
 
   @Nullable
   @Override
   public Integer getKingdomKey() {
-<span class="fc" id="L254">    return kingdomKey;</span>
+<span class="fc" id="L258">    return kingdomKey;</span>
   }
 
   @Override
   public void setKingdomKey(@Nullable Integer kingdomKey) {
-<span class="fc" id="L259">    this.kingdomKey = kingdomKey;</span>
-<span class="fc" id="L260">  }</span>
+<span class="fc" id="L263">    this.kingdomKey = kingdomKey;</span>
+<span class="fc" id="L264">  }</span>
 
   @Nullable
   @Override
   public Integer getPhylumKey() {
-<span class="fc" id="L265">    return phylumKey;</span>
+<span class="fc" id="L269">    return phylumKey;</span>
   }
 
   @Override
   public void setPhylumKey(@Nullable Integer phylumKey) {
-<span class="nc" id="L270">    this.phylumKey = phylumKey;</span>
-<span class="nc" id="L271">  }</span>
+<span class="nc" id="L274">    this.phylumKey = phylumKey;</span>
+<span class="nc" id="L275">  }</span>
 
   @Nullable
   @Override
   public Integer getClassKey() {
-<span class="fc" id="L276">    return classKey;</span>
+<span class="fc" id="L280">    return classKey;</span>
   }
 
   @Override
   public void setClassKey(@Nullable Integer classKey) {
-<span class="fc" id="L281">    this.classKey = classKey;</span>
-<span class="fc" id="L282">  }</span>
+<span class="fc" id="L285">    this.classKey = classKey;</span>
+<span class="fc" id="L286">  }</span>
 
   @Nullable
   @Override
   public Integer getOrderKey() {
-<span class="fc" id="L287">    return orderKey;</span>
+<span class="fc" id="L291">    return orderKey;</span>
   }
 
   @Override
   public void setOrderKey(@Nullable Integer orderKey) {
-<span class="nc" id="L292">    this.orderKey = orderKey;</span>
-<span class="nc" id="L293">  }</span>
+<span class="nc" id="L296">    this.orderKey = orderKey;</span>
+<span class="nc" id="L297">  }</span>
 
   @Nullable
   @Override
   public Integer getFamilyKey() {
-<span class="fc" id="L298">    return familyKey;</span>
+<span class="fc" id="L302">    return familyKey;</span>
   }
 
   @Override
   public void setFamilyKey(@Nullable Integer familyKey) {
-<span class="fc" id="L303">    this.familyKey = familyKey;</span>
-<span class="fc" id="L304">  }</span>
+<span class="fc" id="L307">    this.familyKey = familyKey;</span>
+<span class="fc" id="L308">  }</span>
 
   @Nullable
   @Override
   public Integer getGenusKey() {
-<span class="fc" id="L309">    return genusKey;</span>
+<span class="fc" id="L313">    return genusKey;</span>
   }
 
   @Override
   public void setGenusKey(@Nullable Integer genusKey) {
-<span class="nc" id="L314">    this.genusKey = genusKey;</span>
-<span class="nc" id="L315">  }</span>
+<span class="nc" id="L318">    this.genusKey = genusKey;</span>
+<span class="nc" id="L319">  }</span>
 
   @Nullable
   @Override
   public Integer getSubgenusKey() {
-<span class="fc" id="L320">    return subgenusKey;</span>
+<span class="fc" id="L324">    return subgenusKey;</span>
   }
 
   @Override
   public void setSubgenusKey(@Nullable Integer subgenusKey) {
-<span class="nc" id="L325">    this.subgenusKey = subgenusKey;</span>
-<span class="nc" id="L326">  }</span>
+<span class="nc" id="L329">    this.subgenusKey = subgenusKey;</span>
+<span class="nc" id="L330">  }</span>
 
   @Nullable
   @Override
   public Integer getHigherRankKey(Rank rank) {
-<span class="fc" id="L331">    return ClassificationUtils.getHigherRankKey(this, rank);</span>
+<span class="fc" id="L335">    return ClassificationUtils.getHigherRankKey(this, rank);</span>
   }
 
   /**
@@ -339,65 +343,66 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    */
   @NotNull
   @JsonIgnore
-  public LinkedHashMap&lt;Integer, String&gt; getHigherClassificationMap() {
-<span class="fc bfc" id="L343" title="All 2 branches covered.">    return taxonKey == null ? ClassificationUtils.getHigherClassificationMap(this)</span>
-<span class="fc" id="L344">      : ClassificationUtils.getHigherClassificationMap(this, taxonKey, null, null);</span>
+  public Map&lt;Integer, String&gt; getHigherClassificationMap() {
+<span class="fc bfc" id="L347" title="All 2 branches covered.">    return taxonKey == null ? ClassificationUtils.getHigherClassificationMap(this)</span>
+<span class="fc" id="L348">      : ClassificationUtils.getHigherClassificationMap(this, taxonKey, null, null);</span>
   }
 
-  @Nullable
-  @Override
+
   /**
    * The accepted species for this occurrence. In case the taxonKey is of a higher rank than species (e.g. genus)
    * speciesKey is null. In case taxonKey represents an infraspecific taxon the speciesKey points to the species
    * the infraspecies is classified as. In case of taxonKey being a species the speciesKey is the same.
    */
+  @Nullable
+  @Override
   public Integer getSpeciesKey() {
-<span class="fc" id="L355">    return speciesKey;</span>
+<span class="fc" id="L360">    return speciesKey;</span>
   }
 
   @Override
   public void setSpeciesKey(@Nullable Integer speciesKey) {
-<span class="nc" id="L360">    this.speciesKey = speciesKey;</span>
-<span class="nc" id="L361">  }</span>
+<span class="nc" id="L365">    this.speciesKey = speciesKey;</span>
+<span class="nc" id="L366">  }</span>
 
-  @Nullable
   /**
    * The accepted taxon key from the GBIF backbone.
    */
+  @Nullable
   public Integer getAcceptedTaxonKey() {
-<span class="fc" id="L368">    return acceptedTaxonKey;</span>
+<span class="fc" id="L373">    return acceptedTaxonKey;</span>
   }
 
   public void setAcceptedTaxonKey(Integer acceptedTaxonKey) {
-<span class="nc" id="L372">    this.acceptedTaxonKey = acceptedTaxonKey;</span>
-<span class="nc" id="L373">  }</span>
+<span class="nc" id="L377">    this.acceptedTaxonKey = acceptedTaxonKey;</span>
+<span class="nc" id="L378">  }</span>
 
   @Nullable
   public String getSpecificEpithet() {
-<span class="fc" id="L377">    return specificEpithet;</span>
+<span class="fc" id="L382">    return specificEpithet;</span>
   }
 
   public void setSpecificEpithet(String specificEpithet) {
-<span class="nc" id="L381">    this.specificEpithet = specificEpithet;</span>
-<span class="nc" id="L382">  }</span>
+<span class="nc" id="L386">    this.specificEpithet = specificEpithet;</span>
+<span class="nc" id="L387">  }</span>
 
   @Nullable
   public String getInfraspecificEpithet() {
-<span class="fc" id="L386">    return infraspecificEpithet;</span>
+<span class="fc" id="L391">    return infraspecificEpithet;</span>
   }
 
   public void setInfraspecificEpithet(String infraspecificEpithet) {
-<span class="nc" id="L390">    this.infraspecificEpithet = infraspecificEpithet;</span>
-<span class="nc" id="L391">  }</span>
+<span class="nc" id="L395">    this.infraspecificEpithet = infraspecificEpithet;</span>
+<span class="nc" id="L396">  }</span>
 
   @Nullable
   public Rank getTaxonRank() {
-<span class="fc" id="L395">    return taxonRank;</span>
+<span class="fc" id="L400">    return taxonRank;</span>
   }
 
   public void setTaxonRank(Rank taxonRank) {
-<span class="nc" id="L399">    this.taxonRank = taxonRank;</span>
-<span class="nc" id="L400">  }</span>
+<span class="nc" id="L404">    this.taxonRank = taxonRank;</span>
+<span class="nc" id="L405">  }</span>
 
   /**
    * The status of the use of the scientificName as a label for a taxon.
@@ -405,224 +410,223 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    */
   @Nullable
   public TaxonomicStatus getTaxonomicStatus() {
-<span class="fc" id="L408">    return taxonomicStatus;</span>
+<span class="fc" id="L413">    return taxonomicStatus;</span>
   }
 
   public void setTaxonomicStatus(TaxonomicStatus taxonomicStatus) {
-<span class="nc" id="L412">    this.taxonomicStatus = taxonomicStatus;</span>
-<span class="nc" id="L413">  }</span>
+<span class="nc" id="L417">    this.taxonomicStatus = taxonomicStatus;</span>
+<span class="nc" id="L418">  }</span>
 
-  @Nullable
   /**
    * The scientific name for taxonKey from the GBIF backbone.
    */
+  @Nullable
   public String getScientificName() {
-<span class="fc" id="L420">    return scientificName;</span>
+<span class="fc" id="L425">    return scientificName;</span>
   }
 
   public void setScientificName(@Nullable String scientificName) {
-<span class="fc" id="L424">    this.scientificName = scientificName;</span>
-<span class="fc" id="L425">  }</span>
+<span class="fc" id="L429">    this.scientificName = scientificName;</span>
+<span class="fc" id="L430">  }</span>
 
-
-  @Nullable
   /**
    * The verbatim scientific name as provided by the source.
    */
+  @Nullable
   @JsonProperty
   public String getVerbatimScientificName() {
-<span class="fc" id="L434">    return getVerbatimField(DwcTerm.scientificName);</span>
+<span class="fc" id="L438">    return getVerbatimField(DwcTerm.scientificName);</span>
   }
 
   @JsonIgnore
   public void setVerbatimScientificName(String scientificName) {
     //DO NOTHING
-<span class="nc" id="L440">  }</span>
+<span class="nc" id="L444">  }</span>
 
-  @Nullable
   /**
    * The accepted scientific name for the acceptedTaxonKey from the GBIF backbone.
    */
+  @Nullable
   public String getAcceptedScientificName() {
-<span class="fc" id="L447">    return acceptedScientificName;</span>
+<span class="fc" id="L451">    return acceptedScientificName;</span>
   }
 
   public void setAcceptedScientificName(String acceptedScientificName) {
-<span class="nc" id="L451">    this.acceptedScientificName = acceptedScientificName;</span>
-<span class="nc" id="L452">  }</span>
+<span class="nc" id="L455">    this.acceptedScientificName = acceptedScientificName;</span>
+<span class="nc" id="L456">  }</span>
 
   @Nullable
   @Override
   public String getKingdom() {
-<span class="fc" id="L457">    return kingdom;</span>
+<span class="fc" id="L461">    return kingdom;</span>
   }
 
   @Override
   public void setKingdom(@Nullable String kingdom) {
-<span class="fc" id="L462">    this.kingdom = kingdom;</span>
-<span class="fc" id="L463">  }</span>
+<span class="fc" id="L466">    this.kingdom = kingdom;</span>
+<span class="fc" id="L467">  }</span>
 
   @Nullable
   @Override
   public String getPhylum() {
-<span class="fc" id="L468">    return phylum;</span>
+<span class="fc" id="L472">    return phylum;</span>
   }
 
   @Override
   public void setPhylum(@Nullable String phylum) {
-<span class="nc" id="L473">    this.phylum = phylum;</span>
-<span class="nc" id="L474">  }</span>
+<span class="nc" id="L477">    this.phylum = phylum;</span>
+<span class="nc" id="L478">  }</span>
 
   @Nullable
   @Override
   public String getClazz() {
-<span class="fc" id="L479">    return clazz;</span>
+<span class="fc" id="L483">    return clazz;</span>
   }
 
   @Override
   public void setClazz(@Nullable String clazz) {
-<span class="fc" id="L484">    this.clazz = clazz;</span>
-<span class="fc" id="L485">  }</span>
+<span class="fc" id="L488">    this.clazz = clazz;</span>
+<span class="fc" id="L489">  }</span>
 
   @Nullable
   @Override
   public String getOrder() {
-<span class="fc" id="L490">    return order;</span>
+<span class="fc" id="L494">    return order;</span>
   }
 
   @Override
   public void setOrder(@Nullable String order) {
-<span class="nc" id="L495">    this.order = order;</span>
-<span class="nc" id="L496">  }</span>
+<span class="nc" id="L499">    this.order = order;</span>
+<span class="nc" id="L500">  }</span>
 
   @Nullable
   @Override
   public String getFamily() {
-<span class="fc" id="L501">    return family;</span>
+<span class="fc" id="L505">    return family;</span>
   }
 
   @Override
   public void setFamily(@Nullable String family) {
-<span class="fc" id="L506">    this.family = family;</span>
-<span class="fc" id="L507">  }</span>
+<span class="fc" id="L510">    this.family = family;</span>
+<span class="fc" id="L511">  }</span>
 
   @Nullable
   @Override
   public String getGenus() {
-<span class="fc" id="L512">    return genus;</span>
+<span class="fc" id="L516">    return genus;</span>
   }
 
   @Override
   public void setGenus(@Nullable String genus) {
-<span class="nc" id="L517">    this.genus = genus;</span>
-<span class="nc" id="L518">  }</span>
+<span class="nc" id="L521">    this.genus = genus;</span>
+<span class="nc" id="L522">  }</span>
 
   @Nullable
   public String getGenericName() {
-<span class="fc" id="L522">    return genericName;</span>
+<span class="fc" id="L526">    return genericName;</span>
   }
 
   public void setGenericName(String genericName) {
-<span class="nc" id="L526">    this.genericName = genericName;</span>
-<span class="nc" id="L527">  }</span>
+<span class="nc" id="L530">    this.genericName = genericName;</span>
+<span class="nc" id="L531">  }</span>
 
   @Nullable
   @Override
   public String getSubgenus() {
-<span class="fc" id="L532">    return subgenus;</span>
+<span class="fc" id="L536">    return subgenus;</span>
   }
 
   @Override
   public void setSubgenus(@Nullable String subgenus) {
-<span class="nc" id="L537">    this.subgenus = subgenus;</span>
-<span class="nc" id="L538">  }</span>
+<span class="nc" id="L541">    this.subgenus = subgenus;</span>
+<span class="nc" id="L542">  }</span>
 
   @Nullable
   @Override
   public String getHigherRank(Rank rank) {
-<span class="fc" id="L543">    return ClassificationUtils.getHigherRank(this, rank);</span>
+<span class="fc" id="L547">    return ClassificationUtils.getHigherRank(this, rank);</span>
   }
 
-  @Nullable
-  @Override
   /**
    * The corresponding scientific name of the speciesKey from the GBIF backbone.
    */
+  @Nullable
+  @Override
   public String getSpecies() {
-<span class="fc" id="L552">    return species;</span>
+<span class="fc" id="L556">    return species;</span>
   }
 
   @Override
   public void setSpecies(@Nullable String species) {
-<span class="nc" id="L557">    this.species = species;</span>
-<span class="nc" id="L558">  }</span>
+<span class="nc" id="L561">    this.species = species;</span>
+<span class="nc" id="L562">  }</span>
 
   @Nullable
   public Date getDateIdentified() {
-<span class="pc bpc" id="L562" title="1 of 2 branches missed.">    return dateIdentified == null ? null : new Date(dateIdentified.getTime());</span>
+<span class="pc bpc" id="L566" title="1 of 2 branches missed.">    return dateIdentified == null ? null : new Date(dateIdentified.getTime());</span>
   }
 
   public void setDateIdentified(@Nullable Date dateIdentified) {
-<span class="pc bpc" id="L566" title="1 of 2 branches missed.">    this.dateIdentified = dateIdentified == null ? null : new Date(dateIdentified.getTime());</span>
-<span class="fc" id="L567">  }</span>
+<span class="pc bpc" id="L570" title="1 of 2 branches missed.">    this.dateIdentified = dateIdentified == null ? null : new Date(dateIdentified.getTime());</span>
+<span class="fc" id="L571">  }</span>
 
-  @Nullable
   /**
    * The decimalLongitude in decimal degrees always for the WGS84 datum. If a different geodetic datum was given the verbatim
    * coordinates are transformed into WGS84 values.
    */
+  @Nullable
   public Double getDecimalLongitude() {
-<span class="fc" id="L575">    return decimalLongitude;</span>
+<span class="fc" id="L579">    return decimalLongitude;</span>
   }
 
   public void setDecimalLongitude(@Nullable Double decimalLongitude) {
-<span class="fc" id="L579">    this.decimalLongitude = decimalLongitude;</span>
-<span class="fc" id="L580">  }</span>
+<span class="fc" id="L583">    this.decimalLongitude = decimalLongitude;</span>
+<span class="fc" id="L584">  }</span>
 
   @Nullable
   public Double getDecimalLatitude() {
-<span class="fc" id="L584">    return decimalLatitude;</span>
+<span class="fc" id="L588">    return decimalLatitude;</span>
   }
 
   public void setDecimalLatitude(@Nullable Double decimalLatitude) {
-<span class="fc" id="L588">    this.decimalLatitude = decimalLatitude;</span>
-<span class="fc" id="L589">  }</span>
+<span class="fc" id="L592">    this.decimalLatitude = decimalLatitude;</span>
+<span class="fc" id="L593">  }</span>
 
   /**
    * The uncertainty radius for lat/lon in meters.
    */
   @Nullable
   public Double getCoordinateUncertaintyInMeters() {
-<span class="fc" id="L596">    return coordinateUncertaintyInMeters;</span>
+<span class="fc" id="L600">    return coordinateUncertaintyInMeters;</span>
   }
 
   public void setCoordinateUncertaintyInMeters(@Nullable Double coordinateUncertaintyInMeters) {
-<span class="fc" id="L600">    this.coordinateUncertaintyInMeters = coordinateUncertaintyInMeters;</span>
-<span class="fc" id="L601">  }</span>
+<span class="fc" id="L604">    this.coordinateUncertaintyInMeters = coordinateUncertaintyInMeters;</span>
+<span class="fc" id="L605">  }</span>
 
   @Nullable
   public Double getCoordinatePrecision() {
-<span class="fc" id="L605">    return coordinatePrecision;</span>
+<span class="fc" id="L609">    return coordinatePrecision;</span>
   }
 
   public void setCoordinatePrecision(Double coordinatePrecision) {
-<span class="nc" id="L609">    this.coordinatePrecision = coordinatePrecision;</span>
-<span class="nc" id="L610">  }</span>
+<span class="nc" id="L613">    this.coordinatePrecision = coordinatePrecision;</span>
+<span class="nc" id="L614">  }</span>
 
-  @Nullable
-  @Deprecated
   /**
    * @Deprecated to be removed in the public v2 of the API (see POR-3061)
    * The uncertainty for latitude in decimal degrees.
    * Note that the longitude degrees have a different accuracy in degrees which changes with latitude and is largest at the poles.
    */
+  @Nullable
+  @Deprecated
   public Double getCoordinateAccuracy() {
-<span class="fc" id="L620">    return coordinateAccuracy;</span>
+<span class="fc" id="L624">    return coordinateAccuracy;</span>
   }
 
   public void setCoordinateAccuracy(@Nullable Double coordinateAccuracy) {
-<span class="fc" id="L624">    this.coordinateAccuracy = coordinateAccuracy;</span>
-<span class="fc" id="L625">  }</span>
+<span class="fc" id="L628">    this.coordinateAccuracy = coordinateAccuracy;</span>
+<span class="fc" id="L629">  }</span>
 
   /**
    * The geodetic datum for the interpreted decimal coordinates.
@@ -630,10 +634,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    */
   @Nullable
   public String getGeodeticDatum() {
-<span class="fc bfc" id="L633" title="All 2 branches covered.">    if (decimalLatitude != null) {</span>
-<span class="fc" id="L634">      return GEO_DATUM;</span>
+<span class="fc bfc" id="L637" title="All 2 branches covered.">    if (decimalLatitude != null) {</span>
+<span class="fc" id="L638">      return GEO_DATUM;</span>
     }
-<span class="fc" id="L636">    return null;</span>
+<span class="fc" id="L640">    return null;</span>
   }
 
   /**
@@ -641,22 +645,21 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    */
   private void setGeodeticDatum(String datum) {
     // ignore, we have a static WGS84 value
-<span class="fc" id="L644">  }</span>
+<span class="fc" id="L648">  }</span>
 
-
-  @Nullable
   /**
    * Elevation in meters usually above sea level (altitude).
    * &lt;/br&gt;
    * The elevation is calculated using the equation: (minimumElevationInMeters + maximumElevationInMeters) / 2.
    */
+  @Nullable
   public Double getElevation() {
-<span class="fc" id="L654">    return elevation;</span>
+<span class="fc" id="L657">    return elevation;</span>
   }
 
   public void setElevation(@Nullable Double elevation) {
-<span class="nc" id="L658">    this.elevation = elevation;</span>
-<span class="nc" id="L659">  }</span>
+<span class="nc" id="L661">    this.elevation = elevation;</span>
+<span class="nc" id="L662">  }</span>
 
   /**
    * Elevation accuracy is the uncertainty for the elevation in meters.
@@ -665,27 +668,27 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    */
   @Nullable
   public Double getElevationAccuracy() {
-<span class="fc" id="L668">    return elevationAccuracy;</span>
+<span class="fc" id="L671">    return elevationAccuracy;</span>
   }
 
   public void setElevationAccuracy(@Nullable Double elevationAccuracy) {
-<span class="nc" id="L672">    this.elevationAccuracy = elevationAccuracy;</span>
-<span class="nc" id="L673">  }</span>
+<span class="nc" id="L675">    this.elevationAccuracy = elevationAccuracy;</span>
+<span class="nc" id="L676">  }</span>
 
-  @Nullable
   /**
    * Depth in meters below the surface. Complimentary to elevation, the depth can be 10 meters below the surface of a
    * lake in 1100m (=elevation).
    * &lt;/br&gt;
    * The depth is calculated using the equation: (minimumDepthInMeters + maximumDepthInMeters) / 2.
    */
+  @Nullable
   public Double getDepth() {
-<span class="fc" id="L683">    return depth;</span>
+<span class="fc" id="L686">    return depth;</span>
   }
 
   public void setDepth(@Nullable Double depth) {
-<span class="nc" id="L687">    this.depth = depth;</span>
-<span class="nc" id="L688">  }</span>
+<span class="nc" id="L690">    this.depth = depth;</span>
+<span class="nc" id="L691">  }</span>
 
   /**
    * Depth accuracy is the uncertainty for the depth in meters.
@@ -694,31 +697,31 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    */
   @Nullable
   public Double getDepthAccuracy() {
-<span class="fc" id="L697">    return depthAccuracy;</span>
+<span class="fc" id="L700">    return depthAccuracy;</span>
   }
 
   public void setDepthAccuracy(@Nullable Double depthAccuracy) {
-<span class="nc" id="L701">    this.depthAccuracy = depthAccuracy;</span>
-<span class="nc" id="L702">  }</span>
+<span class="nc" id="L704">    this.depthAccuracy = depthAccuracy;</span>
+<span class="nc" id="L705">  }</span>
 
   @Nullable
   public Continent getContinent() {
-<span class="fc" id="L706">    return continent;</span>
+<span class="fc" id="L709">    return continent;</span>
   }
 
   public void setContinent(@Nullable Continent continent) {
-<span class="fc" id="L710">    this.continent = continent;</span>
-<span class="fc" id="L711">  }</span>
+<span class="fc" id="L713">    this.continent = continent;</span>
+<span class="fc" id="L714">  }</span>
 
   @Nullable
   @JsonProperty(&quot;countryCode&quot;)
   public Country getCountry() {
-<span class="fc" id="L716">    return country;</span>
+<span class="fc" id="L719">    return country;</span>
   }
 
   public void setCountry(@Nullable Country country) {
-<span class="fc" id="L720">    this.country = country;</span>
-<span class="fc" id="L721">  }</span>
+<span class="fc" id="L723">    this.country = country;</span>
+<span class="fc" id="L724">  }</span>
 
   /**
    * Renders the country title as json property country in addition to the iso 2 letter countryCode being
@@ -728,30 +731,30 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @Nullable
   @JsonProperty(&quot;country&quot;)
   private String getCountryTitle() {
-<span class="fc bfc" id="L731" title="All 2 branches covered.">    return country == null ? null : country.getTitle();</span>
+<span class="fc bfc" id="L734" title="All 2 branches covered.">    return country == null ? null : country.getTitle();</span>
   }
 
   private void setCountryTitle(String country) {
     // ignore, setter only to avoid json being written into the fields map
-<span class="fc" id="L736">  }</span>
+<span class="fc" id="L739">  }</span>
 
   @Nullable
   public String getStateProvince() {
-<span class="fc" id="L740">    return stateProvince;</span>
+<span class="fc" id="L743">    return stateProvince;</span>
   }
 
   public void setStateProvince(@Nullable String stateProvince) {
-<span class="nc" id="L744">    this.stateProvince = stateProvince;</span>
-<span class="nc" id="L745">  }</span>
+<span class="nc" id="L747">    this.stateProvince = stateProvince;</span>
+<span class="nc" id="L748">  }</span>
 
   @Nullable
   public String getWaterBody() {
-<span class="fc" id="L749">    return waterBody;</span>
+<span class="fc" id="L752">    return waterBody;</span>
   }
 
   public void setWaterBody(@Nullable String waterBody) {
-<span class="nc" id="L753">    this.waterBody = waterBody;</span>
-<span class="nc" id="L754">  }</span>
+<span class="nc" id="L756">    this.waterBody = waterBody;</span>
+<span class="nc" id="L757">  }</span>
 
   /**
    * The full year of the event date.
@@ -762,12 +765,12 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @Max(2020)
   @Nullable
   public Integer getYear() {
-<span class="fc" id="L765">    return year;</span>
+<span class="fc" id="L768">    return year;</span>
   }
 
   public void setYear(@Nullable Integer year) {
-<span class="fc" id="L769">    this.year = year;</span>
-<span class="fc" id="L770">  }</span>
+<span class="fc" id="L772">    this.year = year;</span>
+<span class="fc" id="L773">  }</span>
 
   /**
    * The month of the year of the event date starting with zero for january following {@link Date}.
@@ -778,12 +781,12 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @Max(12)
   @Nullable
   public Integer getMonth() {
-<span class="fc" id="L781">    return month;</span>
+<span class="fc" id="L784">    return month;</span>
   }
 
   public void setMonth(@Nullable Integer month) {
-<span class="fc" id="L785">    this.month = month;</span>
-<span class="fc" id="L786">  }</span>
+<span class="fc" id="L788">    this.month = month;</span>
+<span class="fc" id="L789">  }</span>
 
   /**
    * The day of the month of the event date.
@@ -794,366 +797,396 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @Max(31)
   @Nullable
   public Integer getDay() {
-<span class="fc" id="L797">    return day;</span>
+<span class="fc" id="L800">    return day;</span>
   }
 
   public void setDay(@Nullable Integer day) {
-<span class="fc" id="L801">    this.day = day;</span>
-<span class="fc" id="L802">  }</span>
+<span class="fc" id="L804">    this.day = day;</span>
+<span class="fc" id="L805">  }</span>
 
-  @Nullable
   /**
    * The date the occurrence was recorded or collected.
    */
+  @Nullable
   public Date getEventDate() {
-<span class="pc bpc" id="L809" title="1 of 2 branches missed.">    return eventDate == null ? null : new Date(eventDate.getTime());</span>
+<span class="pc bpc" id="L812" title="1 of 2 branches missed.">    return eventDate == null ? null : new Date(eventDate.getTime());</span>
   }
 
   public void setEventDate(@Nullable Date eventDate) {
-<span class="pc bpc" id="L813" title="1 of 2 branches missed.">    this.eventDate = eventDate == null ? null : new Date(eventDate.getTime());</span>
-<span class="fc" id="L814">  }</span>
+<span class="pc bpc" id="L816" title="1 of 2 branches missed.">    this.eventDate = eventDate == null ? null : new Date(eventDate.getTime());</span>
+<span class="fc" id="L817">  }</span>
 
   @Nullable
   public TypeStatus getTypeStatus() {
-<span class="fc" id="L818">    return typeStatus;</span>
+<span class="fc" id="L821">    return typeStatus;</span>
   }
 
   public void setTypeStatus(@Nullable TypeStatus typeStatus) {
-<span class="nc" id="L822">    this.typeStatus = typeStatus;</span>
-<span class="nc" id="L823">  }</span>
+<span class="nc" id="L825">    this.typeStatus = typeStatus;</span>
+<span class="nc" id="L826">  }</span>
 
-  @Nullable
   /**
    * The scientific name the type status of this specimen applies to.
    */
+  @Nullable
   public String getTypifiedName() {
-<span class="fc" id="L830">    return typifiedName;</span>
+<span class="fc" id="L833">    return typifiedName;</span>
   }
 
   public void setTypifiedName(@Nullable String typifiedName) {
-<span class="nc" id="L834">    this.typifiedName = typifiedName;</span>
-<span class="nc" id="L835">  }</span>
+<span class="nc" id="L837">    this.typifiedName = typifiedName;</span>
+<span class="nc" id="L838">  }</span>
 
-  @NotNull
   /**
    * A set of issues found for this occurrence.
    */
+  @NotNull
   public Set&lt;OccurrenceIssue&gt; getIssues() {
-<span class="fc" id="L842">    return issues;</span>
+<span class="fc" id="L845">    return issues;</span>
   }
 
   public void setIssues(Set&lt;OccurrenceIssue&gt; issues) {
-<span class="fc" id="L846">    Preconditions.checkNotNull(&quot;Issues cannot be null&quot;, issues);</span>
-<span class="fc" id="L847">    this.issues = Sets.newEnumSet(issues, OccurrenceIssue.class);</span>
-<span class="fc" id="L848">  }</span>
-
-  public void addIssue(OccurrenceIssue issue) {
-<span class="fc" id="L851">    Preconditions.checkNotNull(&quot;Issue needs to be specified&quot;, issue);</span>
-<span class="fc" id="L852">    issues.add(issue);</span>
+<span class="fc" id="L849">    Objects.requireNonNull(issues, &quot;Issues cannot be null&quot;);</span>
+<span class="fc" id="L850">    EnumSet&lt;OccurrenceIssue&gt; set = EnumSet.noneOf(OccurrenceIssue.class);</span>
+<span class="fc" id="L851">    set.addAll(issues);</span>
+<span class="fc" id="L852">    this.issues = set;</span>
 <span class="fc" id="L853">  }</span>
 
-  @Nullable
+  public void addIssue(OccurrenceIssue issue) {
+<span class="fc" id="L856">    Objects.requireNonNull(issue, &quot;Issue needs to be specified&quot;);</span>
+<span class="fc" id="L857">    issues.add(issue);</span>
+<span class="fc" id="L858">  }</span>
+
   /**
    * The interpreted dc:modified from the verbatim source data.
    * Ideally indicating when a record was last modified in the source.
    */
+  @Nullable
   public Date getModified() {
-<span class="pc bpc" id="L861" title="1 of 2 branches missed.">    return modified == null ? null : new Date(modified.getTime());</span>
+<span class="pc bpc" id="L866" title="1 of 2 branches missed.">    return modified == null ? null : new Date(modified.getTime());</span>
   }
 
   public void setModified(@Nullable Date modified) {
-<span class="pc bpc" id="L865" title="1 of 2 branches missed.">    this.modified = modified == null ? null : new Date(modified.getTime());</span>
-<span class="fc" id="L866">  }</span>
+<span class="pc bpc" id="L870" title="1 of 2 branches missed.">    this.modified = modified == null ? null : new Date(modified.getTime());</span>
+<span class="fc" id="L871">  }</span>
 
-  @Nullable
   /**
    * The date this occurrence last went through the interpretation phase of the GBIF indexing.
    */
+  @Nullable
   public Date getLastInterpreted() {
-<span class="pc bpc" id="L873" title="1 of 2 branches missed.">    return lastInterpreted == null ? null : new Date(lastInterpreted.getTime());</span>
+<span class="pc bpc" id="L878" title="1 of 2 branches missed.">    return lastInterpreted == null ? null : new Date(lastInterpreted.getTime());</span>
   }
 
   public void setLastInterpreted(@Nullable Date lastInterpreted) {
-<span class="fc bfc" id="L877" title="All 2 branches covered.">    this.lastInterpreted = lastInterpreted == null ? null : new Date(lastInterpreted.getTime());</span>
-<span class="fc" id="L878">  }</span>
+<span class="fc bfc" id="L882" title="All 2 branches covered.">    this.lastInterpreted = lastInterpreted == null ? null : new Date(lastInterpreted.getTime());</span>
+<span class="fc" id="L883">  }</span>
 
-  @Nullable
   /**
    * An external link to more details, the records &quot;homepage&quot;.
    */
+  @Nullable
   public URI getReferences() {
-<span class="fc" id="L885">    return references;</span>
+<span class="fc" id="L890">    return references;</span>
   }
 
   public void setReferences(URI references) {
-<span class="nc" id="L889">    this.references = references;</span>
-<span class="nc" id="L890">  }</span>
+<span class="nc" id="L894">    this.references = references;</span>
+<span class="nc" id="L895">  }</span>
 
   /**
    * A number or enumeration value for the quantity of organisms.
    */
   @Nullable
   public Double getOrganismQuantity() {
-<span class="fc" id="L897">    return organismQuantity;</span>
+<span class="fc" id="L902">    return organismQuantity;</span>
   }
 
   public void setOrganismQuantity(@Nullable Double organismQuantity) {
-<span class="nc" id="L901">    this.organismQuantity = organismQuantity;</span>
-<span class="nc" id="L902">  }</span>
+<span class="nc" id="L906">    this.organismQuantity = organismQuantity;</span>
+<span class="nc" id="L907">  }</span>
 
   /**
    * The type of quantification system used for the quantity of organisms.
    */
   @Nullable
   public String getOrganismQuantityType() {
-<span class="fc" id="L909">    return organismQuantityType;</span>
+<span class="fc" id="L914">    return organismQuantityType;</span>
   }
 
   public void setOrganismQuantityType(@Nullable String organismQuantityType) {
-<span class="nc" id="L913">    this.organismQuantityType = organismQuantityType;</span>
-<span class="nc" id="L914">  }</span>
+<span class="nc" id="L918">    this.organismQuantityType = organismQuantityType;</span>
+<span class="nc" id="L919">  }</span>
 
   /**
    * The unit of measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.
    */
   @Nullable
   public String getSampleSizeUnit() {
-<span class="fc" id="L921">    return sampleSizeUnit;</span>
+<span class="fc" id="L926">    return sampleSizeUnit;</span>
   }
 
   public void setSampleSizeUnit(@Nullable String sampleSizeUnit) {
-<span class="nc" id="L925">    this.sampleSizeUnit = sampleSizeUnit;</span>
-<span class="nc" id="L926">  }</span>
+<span class="nc" id="L930">    this.sampleSizeUnit = sampleSizeUnit;</span>
+<span class="nc" id="L931">  }</span>
 
   /**
    * A numeric value for a measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.
    */
   @Nullable
   public Double getSampleSizeValue() {
-<span class="fc" id="L933">    return sampleSizeValue;</span>
+<span class="fc" id="L938">    return sampleSizeValue;</span>
   }
 
   public void setSampleSizeValue(@Nullable Double sampleSizeValue) {
-<span class="nc" id="L937">    this.sampleSizeValue = sampleSizeValue;</span>
-<span class="nc" id="L938">  }</span>
+<span class="nc" id="L942">    this.sampleSizeValue = sampleSizeValue;</span>
+<span class="nc" id="L943">  }</span>
 
   /**
    * Calculated filed organismQuantity / sampleSizeValue, if the type is identical
    */
   @Nullable
   public Double getRelativeOrganismQuantity() {
-<span class="fc" id="L945">    return relativeOrganismQuantity;</span>
+<span class="fc" id="L950">    return relativeOrganismQuantity;</span>
   }
 
   public void setRelativeOrganismQuantity(@Nullable Double relativeOrganismQuantity) {
-<span class="nc" id="L949">    this.relativeOrganismQuantity = relativeOrganismQuantity;</span>
-<span class="nc" id="L950">  }</span>
+<span class="nc" id="L954">    this.relativeOrganismQuantity = relativeOrganismQuantity;</span>
+<span class="nc" id="L955">  }</span>
 
   /**
    * Applied license to the occurrence record or dataset to which this record belongs to.
    */
   @NotNull
   public License getLicense() {
-<span class="fc" id="L957">    return license;</span>
+<span class="fc" id="L962">    return license;</span>
   }
 
   public void setLicense(License license) {
-<span class="nc" id="L961">    this.license = license;</span>
-<span class="nc" id="L962">  }</span>
+<span class="nc" id="L966">    this.license = license;</span>
+<span class="nc" id="L967">  }</span>
 
   @NotNull
   public List&lt;Identifier&gt; getIdentifiers() {
-<span class="fc" id="L966">    return identifiers;</span>
+<span class="fc" id="L971">    return identifiers;</span>
   }
 
   public void setIdentifiers(List&lt;Identifier&gt; identifiers) {
-<span class="fc" id="L970">    this.identifiers = identifiers;</span>
-<span class="fc" id="L971">  }</span>
+<span class="fc" id="L975">    this.identifiers = identifiers;</span>
+<span class="fc" id="L976">  }</span>
 
   @NotNull
   public List&lt;MediaObject&gt; getMedia() {
-<span class="fc" id="L975">    return media;</span>
+<span class="fc" id="L980">    return media;</span>
   }
 
   public void setMedia(List&lt;MediaObject&gt; media) {
-<span class="fc" id="L979">    this.media = media;</span>
-<span class="fc" id="L980">  }</span>
+<span class="fc" id="L984">    this.media = media;</span>
+<span class="fc" id="L985">  }</span>
 
   @NotNull
   public List&lt;FactOrMeasurment&gt; getFacts() {
-<span class="fc" id="L984">    return facts;</span>
+<span class="fc" id="L989">    return facts;</span>
   }
 
   public void setFacts(List&lt;FactOrMeasurment&gt; facts) {
-<span class="fc" id="L988">    this.facts = facts;</span>
-<span class="fc" id="L989">  }</span>
+<span class="fc" id="L993">    this.facts = facts;</span>
+<span class="fc" id="L994">  }</span>
 
   @NotNull
   public List&lt;OccurrenceRelation&gt; getRelations() {
-<span class="fc" id="L993">    return relations;</span>
+<span class="fc" id="L998">    return relations;</span>
   }
 
   public void setRelations(List&lt;OccurrenceRelation&gt; relations) {
-<span class="fc" id="L997">    this.relations = relations;</span>
-<span class="fc" id="L998">  }</span>
+<span class="fc" id="L1002">    this.relations = relations;</span>
+<span class="fc" id="L1003">  }</span>
 
+  @NotNull
+  public List&lt;AgentIdentifier&gt; getAgentIds() {
+<span class="fc" id="L1007">    return agentIds;</span>
+  }
 
-  @JsonIgnore
+  public void setAgentIds(List&lt;AgentIdentifier&gt; agentIds) {
+<span class="fc" id="L1011">    this.agentIds = agentIds;</span>
+<span class="fc" id="L1012">  }</span>
+
   /**
    * Convenience method checking if any spatial validation rule has not passed.
    * Primarily used to indicate that the record should not be displayed on a map.
    */
+  @JsonIgnore
   public boolean hasSpatialIssue() {
-<span class="fc bfc" id="L1007" title="All 2 branches covered.">    for (OccurrenceIssue rule : OccurrenceIssue.GEOSPATIAL_RULES) {</span>
-<span class="fc bfc" id="L1008" title="All 2 branches covered.">      if (issues.contains(rule)) {</span>
-<span class="fc" id="L1009">        return true;</span>
+<span class="fc bfc" id="L1020" title="All 2 branches covered.">    for (OccurrenceIssue rule : OccurrenceIssue.GEOSPATIAL_RULES) {</span>
+<span class="fc bfc" id="L1021" title="All 2 branches covered.">      if (issues.contains(rule)) {</span>
+<span class="fc" id="L1022">        return true;</span>
       }
-<span class="fc" id="L1011">    }</span>
-<span class="fc" id="L1012">    return false;</span>
+<span class="fc" id="L1024">    }</span>
+<span class="fc" id="L1025">    return false;</span>
+  }
+
+  @Override
+  public boolean equals(Object o) {
+<span class="fc bfc" id="L1030" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L1031">      return true;</span>
+    }
+<span class="pc bpc" id="L1033" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L1034">      return false;</span>
+    }
+<span class="pc bpc" id="L1036" title="1 of 2 branches missed.">    if (!super.equals(o)) {</span>
+<span class="nc" id="L1037">      return false;</span>
+    }
+<span class="fc" id="L1039">    Occurrence that = (Occurrence) o;</span>
+<span class="pc bpc" id="L1040" title="1 of 2 branches missed.">    return basisOfRecord == that.basisOfRecord &amp;&amp;</span>
+<span class="pc bpc" id="L1041" title="4 of 8 branches missed.">      Objects.equals(individualCount, that.individualCount) &amp;&amp;</span>
+      sex == that.sex &amp;&amp;
+      lifeStage == that.lifeStage &amp;&amp;
+      establishmentMeans == that.establishmentMeans &amp;&amp;
+<span class="pc bpc" id="L1045" title="1 of 2 branches missed.">      Objects.equals(taxonKey, that.taxonKey) &amp;&amp;</span>
+<span class="pc bpc" id="L1046" title="1 of 2 branches missed.">      Objects.equals(kingdomKey, that.kingdomKey) &amp;&amp;</span>
+<span class="pc bpc" id="L1047" title="1 of 2 branches missed.">      Objects.equals(phylumKey, that.phylumKey) &amp;&amp;</span>
+<span class="pc bpc" id="L1048" title="1 of 2 branches missed.">      Objects.equals(classKey, that.classKey) &amp;&amp;</span>
+<span class="pc bpc" id="L1049" title="1 of 2 branches missed.">      Objects.equals(orderKey, that.orderKey) &amp;&amp;</span>
+<span class="pc bpc" id="L1050" title="1 of 2 branches missed.">      Objects.equals(familyKey, that.familyKey) &amp;&amp;</span>
+<span class="pc bpc" id="L1051" title="1 of 2 branches missed.">      Objects.equals(genusKey, that.genusKey) &amp;&amp;</span>
+<span class="pc bpc" id="L1052" title="1 of 2 branches missed.">      Objects.equals(subgenusKey, that.subgenusKey) &amp;&amp;</span>
+<span class="pc bpc" id="L1053" title="1 of 2 branches missed.">      Objects.equals(speciesKey, that.speciesKey) &amp;&amp;</span>
+<span class="pc bpc" id="L1054" title="1 of 2 branches missed.">      Objects.equals(acceptedTaxonKey, that.acceptedTaxonKey) &amp;&amp;</span>
+<span class="pc bpc" id="L1055" title="1 of 2 branches missed.">      Objects.equals(scientificName, that.scientificName) &amp;&amp;</span>
+<span class="pc bpc" id="L1056" title="1 of 2 branches missed.">      Objects.equals(acceptedScientificName, that.acceptedScientificName) &amp;&amp;</span>
+<span class="pc bpc" id="L1057" title="1 of 2 branches missed.">      Objects.equals(kingdom, that.kingdom) &amp;&amp;</span>
+<span class="pc bpc" id="L1058" title="1 of 2 branches missed.">      Objects.equals(phylum, that.phylum) &amp;&amp;</span>
+<span class="pc bpc" id="L1059" title="1 of 2 branches missed.">      Objects.equals(clazz, that.clazz) &amp;&amp;</span>
+<span class="pc bpc" id="L1060" title="1 of 2 branches missed.">      Objects.equals(order, that.order) &amp;&amp;</span>
+<span class="pc bpc" id="L1061" title="1 of 2 branches missed.">      Objects.equals(family, that.family) &amp;&amp;</span>
+<span class="pc bpc" id="L1062" title="1 of 2 branches missed.">      Objects.equals(genus, that.genus) &amp;&amp;</span>
+<span class="pc bpc" id="L1063" title="1 of 2 branches missed.">      Objects.equals(subgenus, that.subgenus) &amp;&amp;</span>
+<span class="pc bpc" id="L1064" title="1 of 2 branches missed.">      Objects.equals(species, that.species) &amp;&amp;</span>
+<span class="pc bpc" id="L1065" title="1 of 2 branches missed.">      Objects.equals(genericName, that.genericName) &amp;&amp;</span>
+<span class="pc bpc" id="L1066" title="1 of 2 branches missed.">      Objects.equals(specificEpithet, that.specificEpithet) &amp;&amp;</span>
+<span class="pc bpc" id="L1067" title="3 of 6 branches missed.">      Objects.equals(infraspecificEpithet, that.infraspecificEpithet) &amp;&amp;</span>
+      taxonRank == that.taxonRank &amp;&amp;
+      taxonomicStatus == that.taxonomicStatus &amp;&amp;
+<span class="pc bpc" id="L1070" title="1 of 2 branches missed.">      Objects.equals(dateIdentified, that.dateIdentified) &amp;&amp;</span>
+<span class="pc bpc" id="L1071" title="1 of 2 branches missed.">      Objects.equals(decimalLongitude, that.decimalLongitude) &amp;&amp;</span>
+<span class="pc bpc" id="L1072" title="1 of 2 branches missed.">      Objects.equals(decimalLatitude, that.decimalLatitude) &amp;&amp;</span>
+<span class="pc bpc" id="L1073" title="1 of 2 branches missed.">      Objects.equals(coordinatePrecision, that.coordinatePrecision) &amp;&amp;</span>
+<span class="pc bpc" id="L1074" title="1 of 2 branches missed.">      Objects.equals(coordinateUncertaintyInMeters, that.coordinateUncertaintyInMeters) &amp;&amp;</span>
+<span class="pc bpc" id="L1075" title="1 of 2 branches missed.">      Objects.equals(elevation, that.elevation) &amp;&amp;</span>
+<span class="pc bpc" id="L1076" title="1 of 2 branches missed.">      Objects.equals(elevationAccuracy, that.elevationAccuracy) &amp;&amp;</span>
+<span class="pc bpc" id="L1077" title="1 of 2 branches missed.">      Objects.equals(depth, that.depth) &amp;&amp;</span>
+<span class="pc bpc" id="L1078" title="2 of 6 branches missed.">      Objects.equals(depthAccuracy, that.depthAccuracy) &amp;&amp;</span>
+      continent == that.continent &amp;&amp;
+      country == that.country &amp;&amp;
+<span class="pc bpc" id="L1081" title="1 of 2 branches missed.">      Objects.equals(stateProvince, that.stateProvince) &amp;&amp;</span>
+<span class="pc bpc" id="L1082" title="1 of 2 branches missed.">      Objects.equals(waterBody, that.waterBody) &amp;&amp;</span>
+<span class="pc bpc" id="L1083" title="1 of 2 branches missed.">      Objects.equals(year, that.year) &amp;&amp;</span>
+<span class="pc bpc" id="L1084" title="1 of 2 branches missed.">      Objects.equals(month, that.month) &amp;&amp;</span>
+<span class="pc bpc" id="L1085" title="1 of 2 branches missed.">      Objects.equals(day, that.day) &amp;&amp;</span>
+<span class="pc bpc" id="L1086" title="2 of 4 branches missed.">      Objects.equals(eventDate, that.eventDate) &amp;&amp;</span>
+      typeStatus == that.typeStatus &amp;&amp;
+<span class="pc bpc" id="L1088" title="1 of 2 branches missed.">      Objects.equals(typifiedName, that.typifiedName) &amp;&amp;</span>
+<span class="pc bpc" id="L1089" title="1 of 2 branches missed.">      Objects.equals(issues, that.issues) &amp;&amp;</span>
+<span class="pc bpc" id="L1090" title="1 of 2 branches missed.">      Objects.equals(modified, that.modified) &amp;&amp;</span>
+<span class="pc bpc" id="L1091" title="1 of 2 branches missed.">      Objects.equals(lastInterpreted, that.lastInterpreted) &amp;&amp;</span>
+<span class="pc bpc" id="L1092" title="2 of 4 branches missed.">      Objects.equals(references, that.references) &amp;&amp;</span>
+      license == that.license &amp;&amp;
+<span class="pc bpc" id="L1094" title="1 of 2 branches missed.">      Objects.equals(organismQuantity, that.organismQuantity) &amp;&amp;</span>
+<span class="pc bpc" id="L1095" title="1 of 2 branches missed.">      Objects.equals(organismQuantityType, that.organismQuantityType) &amp;&amp;</span>
+<span class="pc bpc" id="L1096" title="1 of 2 branches missed.">      Objects.equals(sampleSizeUnit, that.sampleSizeUnit) &amp;&amp;</span>
+<span class="pc bpc" id="L1097" title="1 of 2 branches missed.">      Objects.equals(sampleSizeValue, that.sampleSizeValue) &amp;&amp;</span>
+<span class="pc bpc" id="L1098" title="1 of 2 branches missed.">      Objects.equals(relativeOrganismQuantity, that.relativeOrganismQuantity) &amp;&amp;</span>
+<span class="pc bpc" id="L1099" title="1 of 2 branches missed.">      Objects.equals(identifiers, that.identifiers) &amp;&amp;</span>
+<span class="pc bpc" id="L1100" title="1 of 2 branches missed.">      Objects.equals(media, that.media) &amp;&amp;</span>
+<span class="pc bpc" id="L1101" title="1 of 2 branches missed.">      Objects.equals(facts, that.facts) &amp;&amp;</span>
+<span class="pc bpc" id="L1102" title="1 of 2 branches missed.">      Objects.equals(relations, that.relations) &amp;&amp;</span>
+<span class="pc bpc" id="L1103" title="1 of 2 branches missed.">      Objects.equals(agentIds, that.agentIds);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L1017">    return Objects</span>
-<span class="fc" id="L1018">      .hashCode(basisOfRecord, individualCount, sex, lifeStage, establishmentMeans, taxonKey, kingdomKey, phylumKey,</span>
-        classKey, orderKey, familyKey, genusKey, subgenusKey, speciesKey, scientificName, kingdom, phylum, clazz,
-        order, family, genus, subgenus, species, genericName, specificEpithet, infraspecificEpithet, taxonRank,
-        dateIdentified, year, month, day, eventDate, decimalLongitude, decimalLatitude, coordinatePrecision,
-        coordinateUncertaintyInMeters, elevation, elevationAccuracy, depth, depthAccuracy,
-        continent, country, stateProvince, waterBody, typeStatus, typifiedName, issues, modified,
-        lastInterpreted, references, identifiers, media, facts, relations, license);
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-<span class="fc bfc" id="L1029" title="All 2 branches covered.">    if (this == obj) {</span>
-<span class="fc" id="L1030">      return true;</span>
-    }
-<span class="pc bpc" id="L1032" title="1 of 2 branches missed.">    if (!(obj instanceof Occurrence)) {</span>
-<span class="nc" id="L1033">      return false;</span>
-    }
-<span class="pc bpc" id="L1035" title="1 of 2 branches missed.">    if (!super.equals(obj)) {</span>
-<span class="nc" id="L1036">      return false;</span>
-    }
-<span class="fc" id="L1038">    Occurrence that = (Occurrence) obj;</span>
-<span class="pc bpc" id="L1039" title="1 of 2 branches missed.">    return Objects.equal(this.basisOfRecord, that.basisOfRecord)</span>
-<span class="pc bpc" id="L1040" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.individualCount, that.individualCount)</span>
-<span class="pc bpc" id="L1041" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.sex, that.sex)</span>
-<span class="pc bpc" id="L1042" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.lifeStage, that.lifeStage)</span>
-<span class="pc bpc" id="L1043" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.establishmentMeans, that.establishmentMeans)</span>
-<span class="pc bpc" id="L1044" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.taxonKey, that.taxonKey)</span>
-<span class="pc bpc" id="L1045" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.kingdomKey, that.kingdomKey)</span>
-<span class="pc bpc" id="L1046" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.phylumKey, that.phylumKey)</span>
-<span class="pc bpc" id="L1047" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.classKey, that.classKey)</span>
-<span class="pc bpc" id="L1048" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.orderKey, that.orderKey)</span>
-<span class="pc bpc" id="L1049" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.familyKey, that.familyKey)</span>
-<span class="pc bpc" id="L1050" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.genusKey, that.genusKey)</span>
-<span class="pc bpc" id="L1051" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.subgenusKey, that.subgenusKey)</span>
-<span class="pc bpc" id="L1052" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.speciesKey, that.speciesKey)</span>
-<span class="pc bpc" id="L1053" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.acceptedTaxonKey, that.acceptedTaxonKey)</span>
-<span class="pc bpc" id="L1054" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.acceptedScientificName, that.acceptedScientificName)</span>
-<span class="pc bpc" id="L1055" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.scientificName, that.scientificName)</span>
-<span class="pc bpc" id="L1056" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.kingdom, that.kingdom)</span>
-<span class="pc bpc" id="L1057" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.phylum, that.phylum)</span>
-<span class="pc bpc" id="L1058" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.clazz, that.clazz)</span>
-<span class="pc bpc" id="L1059" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.order, that.order)</span>
-<span class="pc bpc" id="L1060" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.family, that.family)</span>
-<span class="pc bpc" id="L1061" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.genus, that.genus)</span>
-<span class="pc bpc" id="L1062" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.subgenus, that.subgenus)</span>
-<span class="pc bpc" id="L1063" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.species, that.species)</span>
-<span class="pc bpc" id="L1064" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.genericName, that.genericName)</span>
-<span class="pc bpc" id="L1065" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.specificEpithet, that.specificEpithet)</span>
-<span class="pc bpc" id="L1066" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.infraspecificEpithet, that.infraspecificEpithet)</span>
-<span class="pc bpc" id="L1067" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.taxonRank, that.taxonRank)</span>
-<span class="pc bpc" id="L1068" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.taxonomicStatus, that.taxonomicStatus)</span>
-<span class="pc bpc" id="L1069" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.dateIdentified, that.dateIdentified)</span>
-<span class="pc bpc" id="L1070" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.year, that.year)</span>
-<span class="pc bpc" id="L1071" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.month, that.month)</span>
-<span class="pc bpc" id="L1072" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.day, that.day)</span>
-<span class="pc bpc" id="L1073" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.eventDate, that.eventDate)</span>
-<span class="pc bpc" id="L1074" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.decimalLongitude, that.decimalLongitude)</span>
-<span class="pc bpc" id="L1075" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.decimalLatitude, that.decimalLatitude)</span>
-<span class="pc bpc" id="L1076" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.coordinatePrecision, that.coordinatePrecision)</span>
-<span class="pc bpc" id="L1077" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.coordinateUncertaintyInMeters, that.coordinateUncertaintyInMeters)</span>
-<span class="pc bpc" id="L1078" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.elevation, that.elevation)</span>
-<span class="pc bpc" id="L1079" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.elevationAccuracy, that.elevationAccuracy)</span>
-<span class="pc bpc" id="L1080" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.depth, that.depth)</span>
-<span class="pc bpc" id="L1081" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.depthAccuracy, that.depthAccuracy)</span>
-<span class="pc bpc" id="L1082" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.continent, that.continent)</span>
-<span class="fc bfc" id="L1083" title="All 2 branches covered.">      &amp;&amp; Objects.equal(this.country, that.country)</span>
-<span class="pc bpc" id="L1084" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.stateProvince, that.stateProvince)</span>
-<span class="pc bpc" id="L1085" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.waterBody, that.waterBody)</span>
-<span class="pc bpc" id="L1086" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.typeStatus, that.typeStatus)</span>
-<span class="pc bpc" id="L1087" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.typifiedName, that.typifiedName)</span>
-<span class="pc bpc" id="L1088" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.issues, that.issues)</span>
-<span class="pc bpc" id="L1089" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.modified, that.modified)</span>
-<span class="pc bpc" id="L1090" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.lastInterpreted, that.lastInterpreted)</span>
-<span class="pc bpc" id="L1091" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.references, that.references)</span>
-<span class="pc bpc" id="L1092" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.identifiers, that.identifiers)</span>
-<span class="pc bpc" id="L1093" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.media, that.media)</span>
-<span class="pc bpc" id="L1094" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.facts, that.facts)</span>
-<span class="pc bpc" id="L1095" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.relations, that.relations)</span>
-<span class="pc bpc" id="L1096" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.license, that.license);</span>
+<span class="fc" id="L1108">    return Objects</span>
+<span class="fc" id="L1109">      .hash(super.hashCode(), basisOfRecord, individualCount, sex, lifeStage, establishmentMeans,</span>
+        taxonKey, kingdomKey, phylumKey, classKey, orderKey, familyKey, genusKey, subgenusKey,
+        speciesKey, acceptedTaxonKey, scientificName, acceptedScientificName, kingdom, phylum,
+        clazz, order, family, genus, subgenus, species, genericName, specificEpithet,
+        infraspecificEpithet, taxonRank, taxonomicStatus, dateIdentified, decimalLongitude,
+        decimalLatitude, coordinatePrecision, coordinateUncertaintyInMeters, elevation,
+        elevationAccuracy, depth, depthAccuracy, continent, country, stateProvince, waterBody, year,
+        month, day, eventDate, typeStatus, typifiedName, issues, modified, lastInterpreted,
+        references, license, organismQuantity, organismQuantityType, sampleSizeUnit,
+        sampleSizeValue, relativeOrganismQuantity, identifiers, media, facts, relations, agentIds);
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L1101">    return super.toString() + Objects.toStringHelper(this)</span>
-<span class="nc" id="L1102">      .add(&quot;basisOfRecord&quot;, basisOfRecord)</span>
-<span class="nc" id="L1103">      .add(&quot;individualCount&quot;, individualCount)</span>
-<span class="nc" id="L1104">      .add(&quot;sex&quot;, sex)</span>
-<span class="nc" id="L1105">      .add(&quot;lifeStage&quot;, lifeStage)</span>
-<span class="nc" id="L1106">      .add(&quot;establishmentMeans&quot;, establishmentMeans)</span>
-<span class="nc" id="L1107">      .add(&quot;taxonKey&quot;, taxonKey)</span>
-<span class="nc" id="L1108">      .add(&quot;kingdomKey&quot;, kingdomKey)</span>
-<span class="nc" id="L1109">      .add(&quot;phylumKey&quot;, phylumKey)</span>
-<span class="nc" id="L1110">      .add(&quot;classKey&quot;, classKey)</span>
-<span class="nc" id="L1111">      .add(&quot;orderKey&quot;, orderKey)</span>
-<span class="nc" id="L1112">      .add(&quot;familyKey&quot;, familyKey)</span>
-<span class="nc" id="L1113">      .add(&quot;genusKey&quot;, genusKey)</span>
-<span class="nc" id="L1114">      .add(&quot;subgenusKey&quot;, subgenusKey)</span>
-<span class="nc" id="L1115">      .add(&quot;speciesKey&quot;, speciesKey)</span>
-<span class="nc" id="L1116">      .add(&quot;acceptedTaxonKey&quot;, acceptedTaxonKey)</span>
-<span class="nc" id="L1117">      .add(&quot;acceptedScientificName&quot;, acceptedScientificName)</span>
-<span class="nc" id="L1118">      .add(&quot;kingdom&quot;, kingdom)</span>
-<span class="nc" id="L1119">      .add(&quot;phylum&quot;, phylum)</span>
-<span class="nc" id="L1120">      .add(&quot;clazz&quot;, clazz)</span>
-<span class="nc" id="L1121">      .add(&quot;order&quot;, order)</span>
-<span class="nc" id="L1122">      .add(&quot;family&quot;, family)</span>
-<span class="nc" id="L1123">      .add(&quot;genus&quot;, genus)</span>
-<span class="nc" id="L1124">      .add(&quot;subgenus&quot;, subgenus)</span>
-<span class="nc" id="L1125">      .add(&quot;species&quot;, species)</span>
-<span class="nc" id="L1126">      .add(&quot;genericName&quot;, genericName)</span>
-<span class="nc" id="L1127">      .add(&quot;specificEpithet&quot;, specificEpithet)</span>
-<span class="nc" id="L1128">      .add(&quot;infraspecificEpithet&quot;, infraspecificEpithet)</span>
-<span class="nc" id="L1129">      .add(&quot;taxonRank&quot;, taxonRank)</span>
-<span class="nc" id="L1130">      .add(&quot;taxonomicStatus&quot;, taxonomicStatus)</span>
-<span class="nc" id="L1131">      .add(&quot;dateIdentified&quot;, dateIdentified)</span>
-<span class="nc" id="L1132">      .add(&quot;decimalLongitude&quot;, decimalLongitude)</span>
-<span class="nc" id="L1133">      .add(&quot;decimalLatitude&quot;, decimalLatitude)</span>
-<span class="nc" id="L1134">      .add(&quot;coordinatePrecision&quot;, coordinatePrecision)</span>
-<span class="nc" id="L1135">      .add(&quot;coordinateUncertaintyInMeters&quot;, coordinateUncertaintyInMeters)</span>
-<span class="nc" id="L1136">      .add(&quot;coordinateAccuracy&quot;, coordinateAccuracy)</span>
-<span class="nc" id="L1137">      .add(&quot;elevation&quot;, elevation)</span>
-<span class="nc" id="L1138">      .add(&quot;elevationAccuracy&quot;, elevationAccuracy)</span>
-<span class="nc" id="L1139">      .add(&quot;depth&quot;, depth)</span>
-<span class="nc" id="L1140">      .add(&quot;depthAccuracy&quot;, depthAccuracy)</span>
-<span class="nc" id="L1141">      .add(&quot;continent&quot;, continent)</span>
-<span class="nc" id="L1142">      .add(&quot;country&quot;, country)</span>
-<span class="nc" id="L1143">      .add(&quot;stateProvince&quot;, stateProvince)</span>
-<span class="nc" id="L1144">      .add(&quot;waterBody&quot;, waterBody)</span>
-<span class="nc" id="L1145">      .add(&quot;year&quot;, year)</span>
-<span class="nc" id="L1146">      .add(&quot;month&quot;, month)</span>
-<span class="nc" id="L1147">      .add(&quot;day&quot;, day)</span>
-<span class="nc" id="L1148">      .add(&quot;eventDate&quot;, eventDate)</span>
-<span class="nc" id="L1149">      .add(&quot;typeStatus&quot;, typeStatus)</span>
-<span class="nc" id="L1150">      .add(&quot;typifiedName&quot;, typifiedName)</span>
-<span class="nc" id="L1151">      .add(&quot;issues&quot;, issues)</span>
-<span class="nc" id="L1152">      .add(&quot;modified&quot;, modified)</span>
-<span class="nc" id="L1153">      .add(&quot;lastInterpreted&quot;, lastInterpreted)</span>
-<span class="nc" id="L1154">      .add(&quot;references&quot;, references)</span>
-<span class="nc" id="L1155">      .add(&quot;license&quot;, license)</span>
-<span class="nc" id="L1156">      .toString();</span>
+<span class="nc" id="L1123">    return new StringJoiner(&quot;, &quot;, Occurrence.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L1124">      .add(&quot;basisOfRecord=&quot; + basisOfRecord)</span>
+<span class="nc" id="L1125">      .add(&quot;individualCount=&quot; + individualCount)</span>
+<span class="nc" id="L1126">      .add(&quot;sex=&quot; + sex)</span>
+<span class="nc" id="L1127">      .add(&quot;lifeStage=&quot; + lifeStage)</span>
+<span class="nc" id="L1128">      .add(&quot;establishmentMeans=&quot; + establishmentMeans)</span>
+<span class="nc" id="L1129">      .add(&quot;taxonKey=&quot; + taxonKey)</span>
+<span class="nc" id="L1130">      .add(&quot;kingdomKey=&quot; + kingdomKey)</span>
+<span class="nc" id="L1131">      .add(&quot;phylumKey=&quot; + phylumKey)</span>
+<span class="nc" id="L1132">      .add(&quot;classKey=&quot; + classKey)</span>
+<span class="nc" id="L1133">      .add(&quot;orderKey=&quot; + orderKey)</span>
+<span class="nc" id="L1134">      .add(&quot;familyKey=&quot; + familyKey)</span>
+<span class="nc" id="L1135">      .add(&quot;genusKey=&quot; + genusKey)</span>
+<span class="nc" id="L1136">      .add(&quot;subgenusKey=&quot; + subgenusKey)</span>
+<span class="nc" id="L1137">      .add(&quot;speciesKey=&quot; + speciesKey)</span>
+<span class="nc" id="L1138">      .add(&quot;acceptedTaxonKey=&quot; + acceptedTaxonKey)</span>
+<span class="nc" id="L1139">      .add(&quot;scientificName='&quot; + scientificName + &quot;'&quot;)</span>
+<span class="nc" id="L1140">      .add(&quot;acceptedScientificName='&quot; + acceptedScientificName + &quot;'&quot;)</span>
+<span class="nc" id="L1141">      .add(&quot;kingdom='&quot; + kingdom + &quot;'&quot;)</span>
+<span class="nc" id="L1142">      .add(&quot;phylum='&quot; + phylum + &quot;'&quot;)</span>
+<span class="nc" id="L1143">      .add(&quot;clazz='&quot; + clazz + &quot;'&quot;)</span>
+<span class="nc" id="L1144">      .add(&quot;order='&quot; + order + &quot;'&quot;)</span>
+<span class="nc" id="L1145">      .add(&quot;family='&quot; + family + &quot;'&quot;)</span>
+<span class="nc" id="L1146">      .add(&quot;genus='&quot; + genus + &quot;'&quot;)</span>
+<span class="nc" id="L1147">      .add(&quot;subgenus='&quot; + subgenus + &quot;'&quot;)</span>
+<span class="nc" id="L1148">      .add(&quot;species='&quot; + species + &quot;'&quot;)</span>
+<span class="nc" id="L1149">      .add(&quot;genericName='&quot; + genericName + &quot;'&quot;)</span>
+<span class="nc" id="L1150">      .add(&quot;specificEpithet='&quot; + specificEpithet + &quot;'&quot;)</span>
+<span class="nc" id="L1151">      .add(&quot;infraspecificEpithet='&quot; + infraspecificEpithet + &quot;'&quot;)</span>
+<span class="nc" id="L1152">      .add(&quot;taxonRank=&quot; + taxonRank)</span>
+<span class="nc" id="L1153">      .add(&quot;taxonomicStatus=&quot; + taxonomicStatus)</span>
+<span class="nc" id="L1154">      .add(&quot;dateIdentified=&quot; + dateIdentified)</span>
+<span class="nc" id="L1155">      .add(&quot;decimalLongitude=&quot; + decimalLongitude)</span>
+<span class="nc" id="L1156">      .add(&quot;decimalLatitude=&quot; + decimalLatitude)</span>
+<span class="nc" id="L1157">      .add(&quot;coordinatePrecision=&quot; + coordinatePrecision)</span>
+<span class="nc" id="L1158">      .add(&quot;coordinateUncertaintyInMeters=&quot; + coordinateUncertaintyInMeters)</span>
+<span class="nc" id="L1159">      .add(&quot;coordinateAccuracy=&quot; + coordinateAccuracy)</span>
+<span class="nc" id="L1160">      .add(&quot;elevation=&quot; + elevation)</span>
+<span class="nc" id="L1161">      .add(&quot;elevationAccuracy=&quot; + elevationAccuracy)</span>
+<span class="nc" id="L1162">      .add(&quot;depth=&quot; + depth)</span>
+<span class="nc" id="L1163">      .add(&quot;depthAccuracy=&quot; + depthAccuracy)</span>
+<span class="nc" id="L1164">      .add(&quot;continent=&quot; + continent)</span>
+<span class="nc" id="L1165">      .add(&quot;country=&quot; + country)</span>
+<span class="nc" id="L1166">      .add(&quot;stateProvince='&quot; + stateProvince + &quot;'&quot;)</span>
+<span class="nc" id="L1167">      .add(&quot;waterBody='&quot; + waterBody + &quot;'&quot;)</span>
+<span class="nc" id="L1168">      .add(&quot;year=&quot; + year)</span>
+<span class="nc" id="L1169">      .add(&quot;month=&quot; + month)</span>
+<span class="nc" id="L1170">      .add(&quot;day=&quot; + day)</span>
+<span class="nc" id="L1171">      .add(&quot;eventDate=&quot; + eventDate)</span>
+<span class="nc" id="L1172">      .add(&quot;typeStatus=&quot; + typeStatus)</span>
+<span class="nc" id="L1173">      .add(&quot;typifiedName='&quot; + typifiedName + &quot;'&quot;)</span>
+<span class="nc" id="L1174">      .add(&quot;issues=&quot; + issues)</span>
+<span class="nc" id="L1175">      .add(&quot;modified=&quot; + modified)</span>
+<span class="nc" id="L1176">      .add(&quot;lastInterpreted=&quot; + lastInterpreted)</span>
+<span class="nc" id="L1177">      .add(&quot;references=&quot; + references)</span>
+<span class="nc" id="L1178">      .add(&quot;license=&quot; + license)</span>
+<span class="nc" id="L1179">      .add(&quot;organismQuantity=&quot; + organismQuantity)</span>
+<span class="nc" id="L1180">      .add(&quot;organismQuantityType='&quot; + organismQuantityType + &quot;'&quot;)</span>
+<span class="nc" id="L1181">      .add(&quot;sampleSizeUnit='&quot; + sampleSizeUnit + &quot;'&quot;)</span>
+<span class="nc" id="L1182">      .add(&quot;sampleSizeValue=&quot; + sampleSizeValue)</span>
+<span class="nc" id="L1183">      .add(&quot;relativeOrganismQuantity=&quot; + relativeOrganismQuantity)</span>
+<span class="nc" id="L1184">      .add(&quot;identifiers=&quot; + identifiers)</span>
+<span class="nc" id="L1185">      .add(&quot;media=&quot; + media)</span>
+<span class="nc" id="L1186">      .add(&quot;facts=&quot; + facts)</span>
+<span class="nc" id="L1187">      .add(&quot;relations=&quot; + relations)</span>
+<span class="nc" id="L1188">      .add(&quot;agentIds=&quot; + agentIds)</span>
+<span class="nc" id="L1189">      .toString();</span>
   }
 
   /**
@@ -1162,18 +1195,17 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    */
   @JsonAnyGetter
   private Map&lt;String, String&gt; jsonVerbatimFields() {
-<span class="fc" id="L1165">    Map&lt;String, String&gt; extendedProps = Maps.newHashMap();</span>
-<span class="fc bfc" id="L1166" title="All 2 branches covered.">    for (Map.Entry&lt;Term, String&gt; prop : getVerbatimFields().entrySet()) {</span>
-<span class="fc" id="L1167">      Term t = prop.getKey();</span>
-<span class="fc bfc" id="L1168" title="All 4 branches covered.">      if (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())) {</span>
-<span class="fc" id="L1169">        extendedProps.put(t.qualifiedName(), prop.getValue());</span>
+<span class="fc" id="L1198">    Map&lt;String, String&gt; extendedProps = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L1199" title="All 2 branches covered.">    for (Map.Entry&lt;Term, String&gt; prop : getVerbatimFields().entrySet()) {</span>
+<span class="fc" id="L1200">      Term t = prop.getKey();</span>
+<span class="fc bfc" id="L1201" title="All 4 branches covered.">      if (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())) {</span>
+<span class="fc" id="L1202">        extendedProps.put(t.qualifiedName(), prop.getValue());</span>
       } else {
         // render all terms in controlled enumerations as simple names only - unless we have a property of that name already!
-<span class="fc" id="L1172">        extendedProps.put(t.simpleName(), prop.getValue());</span>
+<span class="fc" id="L1205">        extendedProps.put(t.simpleName(), prop.getValue());</span>
       }
-<span class="fc" id="L1174">    }</span>
-<span class="fc" id="L1175">    return extendedProps;</span>
+<span class="fc" id="L1207">    }</span>
+<span class="fc" id="L1208">    return extendedProps;</span>
   }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

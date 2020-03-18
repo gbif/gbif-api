@@ -1,12 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OccurrenceRelation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence</a> &gt; <span class="el_source">OccurrenceRelation.java</span></div><h1>OccurrenceRelation.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.occurrence;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OccurrenceRelation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence</a> &gt; <span class="el_source">OccurrenceRelation.java</span></div><h1>OccurrenceRelation.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.occurrence;
 
-import com.google.common.base.Objects;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Occurrence relations based on the dwc:ResourceRelationship model.
  * See &lt;a href=&quot;http://darwincore.googlecode.com/svn/trunk/terms/index.htm#relindex&quot;&gt;Darwin Core&lt;/a&gt;.
  */
-<span class="nc" id="L9">public class OccurrenceRelation {</span>
+<span class="nc" id="L25">public class OccurrenceRelation {</span>
   private String id;  // resourceRelationshipID
   private long occurrenceId;  // &quot;from&quot; resourceID
   private long relatedOccurrenceId;  // &quot;to&quot; relatedResourceID
@@ -16,95 +32,96 @@ import com.google.common.base.Objects;
   private String remarks;  // relationshipRemarks
 
   public String getId() {
-<span class="nc" id="L19">    return id;</span>
+<span class="nc" id="L35">    return id;</span>
   }
 
   public void setId(String id) {
-<span class="nc" id="L23">    this.id = id;</span>
-<span class="nc" id="L24">  }</span>
+<span class="nc" id="L39">    this.id = id;</span>
+<span class="nc" id="L40">  }</span>
 
   public long getOccurrenceId() {
-<span class="nc" id="L27">    return occurrenceId;</span>
+<span class="nc" id="L43">    return occurrenceId;</span>
   }
 
   public void setOccurrenceId(long occurrenceId) {
-<span class="nc" id="L31">    this.occurrenceId = occurrenceId;</span>
-<span class="nc" id="L32">  }</span>
+<span class="nc" id="L47">    this.occurrenceId = occurrenceId;</span>
+<span class="nc" id="L48">  }</span>
 
   public long getRelatedOccurrenceId() {
-<span class="nc" id="L35">    return relatedOccurrenceId;</span>
+<span class="nc" id="L51">    return relatedOccurrenceId;</span>
   }
 
   public void setRelatedOccurrenceId(long relatedOccurrenceId) {
-<span class="nc" id="L39">    this.relatedOccurrenceId = relatedOccurrenceId;</span>
-<span class="nc" id="L40">  }</span>
+<span class="nc" id="L55">    this.relatedOccurrenceId = relatedOccurrenceId;</span>
+<span class="nc" id="L56">  }</span>
 
   public String getType() {
-<span class="nc" id="L43">    return type;</span>
+<span class="nc" id="L59">    return type;</span>
   }
 
   public void setType(String type) {
-<span class="nc" id="L47">    this.type = type;</span>
-<span class="nc" id="L48">  }</span>
+<span class="nc" id="L63">    this.type = type;</span>
+<span class="nc" id="L64">  }</span>
 
   public String getAccordingTo() {
-<span class="nc" id="L51">    return accordingTo;</span>
+<span class="nc" id="L67">    return accordingTo;</span>
   }
 
   public void setAccordingTo(String accordingTo) {
-<span class="nc" id="L55">    this.accordingTo = accordingTo;</span>
-<span class="nc" id="L56">  }</span>
+<span class="nc" id="L71">    this.accordingTo = accordingTo;</span>
+<span class="nc" id="L72">  }</span>
 
   public String getEstablishedDate() {
-<span class="nc" id="L59">    return establishedDate;</span>
+<span class="nc" id="L75">    return establishedDate;</span>
   }
 
   public void setEstablishedDate(String establishedDate) {
-<span class="nc" id="L63">    this.establishedDate = establishedDate;</span>
-<span class="nc" id="L64">  }</span>
+<span class="nc" id="L79">    this.establishedDate = establishedDate;</span>
+<span class="nc" id="L80">  }</span>
 
   public String getRemarks() {
-<span class="nc" id="L67">    return remarks;</span>
+<span class="nc" id="L83">    return remarks;</span>
   }
 
   public void setRemarks(String remarks) {
-<span class="nc" id="L71">    this.remarks = remarks;</span>
-<span class="nc" id="L72">  }</span>
+<span class="nc" id="L87">    this.remarks = remarks;</span>
+<span class="nc" id="L88">  }</span>
 
   @Override
-  public int hashCode() {
-<span class="nc" id="L76">    return Objects.hashCode(id, occurrenceId, relatedOccurrenceId, type, accordingTo, establishedDate, remarks);</span>
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L92" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L93">      return true;</span>
+    }
+<span class="nc bnc" id="L95" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L96">      return false;</span>
+    }
+<span class="nc" id="L98">    OccurrenceRelation that = (OccurrenceRelation) o;</span>
+<span class="nc bnc" id="L99" title="All 4 branches missed.">    return occurrenceId == that.occurrenceId &amp;&amp;</span>
+      relatedOccurrenceId == that.relatedOccurrenceId &amp;&amp;
+<span class="nc bnc" id="L101" title="All 2 branches missed.">      Objects.equals(id, that.id) &amp;&amp;</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">      Objects.equals(type, that.type) &amp;&amp;</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">      Objects.equals(accordingTo, that.accordingTo) &amp;&amp;</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">      Objects.equals(establishedDate, that.establishedDate) &amp;&amp;</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">      Objects.equals(remarks, that.remarks);</span>
   }
 
   @Override
-  public boolean equals(Object obj) {
-<span class="nc bnc" id="L81" title="All 2 branches missed.">    if (this == obj) {</span>
-<span class="nc" id="L82">      return true;</span>
-    }
-<span class="nc bnc" id="L84" title="All 2 branches missed.">    if (!(obj instanceof OccurrenceRelation)) {</span>
-<span class="nc" id="L85">      return false;</span>
-    }
-<span class="nc" id="L87">    OccurrenceRelation that = (OccurrenceRelation) obj;</span>
-<span class="nc bnc" id="L88" title="All 2 branches missed.">    return Objects.equal(this.id, that.id)</span>
-<span class="nc bnc" id="L89" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.occurrenceId, that.occurrenceId)</span>
-<span class="nc bnc" id="L90" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.relatedOccurrenceId, that.relatedOccurrenceId)</span>
-<span class="nc bnc" id="L91" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.type, that.type)</span>
-<span class="nc bnc" id="L92" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.accordingTo, that.accordingTo)</span>
-<span class="nc bnc" id="L93" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.establishedDate, that.establishedDate)</span>
-<span class="nc bnc" id="L94" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.remarks, that.remarks);</span>
+  public int hashCode() {
+<span class="nc" id="L110">    return Objects</span>
+<span class="nc" id="L111">      .hash(id, occurrenceId, relatedOccurrenceId, type, accordingTo, establishedDate, remarks);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L99">    return Objects.toStringHelper(this)</span>
-<span class="nc" id="L100">      .add(&quot;id&quot;, id)</span>
-<span class="nc" id="L101">      .add(&quot;occurrenceId&quot;, occurrenceId)</span>
-<span class="nc" id="L102">      .add(&quot;relatedOccurrenceId&quot;, relatedOccurrenceId)</span>
-<span class="nc" id="L103">      .add(&quot;type&quot;, type)</span>
-<span class="nc" id="L104">      .add(&quot;accordingTo&quot;, accordingTo)</span>
-<span class="nc" id="L105">      .add(&quot;establishedDate&quot;, establishedDate)</span>
-<span class="nc" id="L106">      .add(&quot;remarks&quot;, remarks)</span>
-<span class="nc" id="L107">      .toString();</span>
+<span class="nc" id="L116">    return new StringJoiner(&quot;, &quot;, OccurrenceRelation.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L117">      .add(&quot;id='&quot; + id + &quot;'&quot;)</span>
+<span class="nc" id="L118">      .add(&quot;occurrenceId=&quot; + occurrenceId)</span>
+<span class="nc" id="L119">      .add(&quot;relatedOccurrenceId=&quot; + relatedOccurrenceId)</span>
+<span class="nc" id="L120">      .add(&quot;type='&quot; + type + &quot;'&quot;)</span>
+<span class="nc" id="L121">      .add(&quot;accordingTo='&quot; + accordingTo + &quot;'&quot;)</span>
+<span class="nc" id="L122">      .add(&quot;establishedDate='&quot; + establishedDate + &quot;'&quot;)</span>
+<span class="nc" id="L123">      .add(&quot;remarks='&quot; + remarks + &quot;'&quot;)</span>
+<span class="nc" id="L124">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

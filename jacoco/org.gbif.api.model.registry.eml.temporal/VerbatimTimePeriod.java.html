@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VerbatimTimePeriod.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry.eml.temporal</a> &gt; <span class="el_source">VerbatimTimePeriod.java</span></div><h1>VerbatimTimePeriod.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,10 @@ import org.gbif.api.util.formatter.TemporalCoverageFormatterVisitor;
 
 import java.io.Serializable;
 import java.util.Collection;
-
-import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
-
+import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A verbatim (e.g. free text) period of time.
@@ -56,40 +56,38 @@ public class VerbatimTimePeriod extends TemporalCoverage implements Serializable
 
   @Override
   public Collection&lt;String&gt; toKeywords() {
-<span class="nc" id="L59">    return Lists.newArrayList(period);</span>
+<span class="nc" id="L59">    return Stream.of(period).collect(Collectors.toList());</span>
   }
 
   @Override
-  public boolean equals(Object obj) {
-<span class="nc bnc" id="L64" title="All 2 branches missed.">    if (this == obj) {</span>
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L64" title="All 2 branches missed.">    if (this == o) {</span>
 <span class="nc" id="L65">      return true;</span>
     }
-<span class="nc bnc" id="L67" title="All 2 branches missed.">    if (!(obj instanceof org.gbif.api.model.registry.eml.temporal.VerbatimTimePeriod)) {</span>
+<span class="nc bnc" id="L67" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
 <span class="nc" id="L68">      return false;</span>
     }
-
-    org.gbif.api.model.registry.eml.temporal.VerbatimTimePeriod
-<span class="nc" id="L72">      that = (org.gbif.api.model.registry.eml.temporal.VerbatimTimePeriod) obj;</span>
-<span class="nc bnc" id="L73" title="All 4 branches missed.">    return Objects.equal(this.period, that.period) &amp;&amp; Objects.equal(this.type, that.type);</span>
+<span class="nc" id="L70">    VerbatimTimePeriod that = (VerbatimTimePeriod) o;</span>
+<span class="nc bnc" id="L71" title="All 4 branches missed.">    return Objects.equals(period, that.period) &amp;&amp;</span>
+      type == that.type;
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L78">    return Objects.hashCode(super.hashCode(), period, type);</span>
+<span class="nc" id="L77">    return Objects.hash(period, type);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L83">    return Objects.toStringHelper(this)</span>
-<span class="nc" id="L84">      .add(&quot;super&quot;, super.toString())</span>
-<span class="nc" id="L85">      .add(&quot;period&quot;, period)</span>
-<span class="nc" id="L86">      .add(&quot;type&quot;, type)</span>
-<span class="nc" id="L87">      .toString();</span>
+<span class="nc" id="L82">    return new StringJoiner(&quot;, &quot;, VerbatimTimePeriod.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L83">      .add(&quot;period='&quot; + period + &quot;'&quot;)</span>
+<span class="nc" id="L84">      .add(&quot;type=&quot; + type)</span>
+<span class="nc" id="L85">      .toString();</span>
   }
 
   @Override
   public String acceptFormatter(TemporalCoverageFormatterVisitor formatter) {
-<span class="fc" id="L92">    return formatter.format(this);</span>
+<span class="fc" id="L90">    return formatter.format(this);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

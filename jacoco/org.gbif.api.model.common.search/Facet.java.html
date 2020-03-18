@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Facet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common.search</a> &gt; <span class="el_source">Facet.java</span></div><h1>Facet.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 package org.gbif.api.model.common.search;
 
 import java.util.List;
-
-import com.google.common.base.Objects;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Represents a clustering of search results into categories.
@@ -53,7 +53,7 @@ public class Facet&lt;T extends SearchParameter&gt; {
    * List of the different categories/count for this facet.
    */
   public List&lt;Count&gt; getCounts() {
-<span class="fc" id="L56">    return counts;</span>
+<span class="nc" id="L56">    return counts;</span>
   }
 
   /**
@@ -67,7 +67,7 @@ public class Facet&lt;T extends SearchParameter&gt; {
    * The facet field, it's used only for identify the facet in a possible list of facets.
    */
   public T getField() {
-<span class="fc" id="L70">    return field;</span>
+<span class="nc" id="L70">    return field;</span>
   }
 
   /**
@@ -78,26 +78,29 @@ public class Facet&lt;T extends SearchParameter&gt; {
 <span class="nc" id="L78">  }</span>
 
   @Override
-  public boolean equals(Object obj) {
-<span class="pc bpc" id="L82" title="1 of 2 branches missed.">    if (this == obj) {</span>
+  public boolean equals(Object o) {
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">    if (this == o) {</span>
 <span class="nc" id="L83">      return true;</span>
     }
-<span class="pc bpc" id="L85" title="1 of 2 branches missed.">    if (!(obj instanceof Facet)) {</span>
+<span class="pc bpc" id="L85" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
 <span class="nc" id="L86">      return false;</span>
     }
-
-<span class="fc" id="L89">    Facet that = (Facet) obj;</span>
-<span class="pc bpc" id="L90" title="2 of 4 branches missed.">    return Objects.equal(this.counts, that.getCounts()) &amp;&amp; Objects.equal(this.field, that.getField());</span>
+<span class="fc" id="L88">    Facet&lt;?&gt; facet = (Facet&lt;?&gt;) o;</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">    return Objects.equals(field, facet.field) &amp;&amp;</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">      Objects.equals(counts, facet.counts);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L95">    return Objects.hashCode(super.hashCode(), counts, field);</span>
+<span class="nc" id="L95">    return Objects.hash(field, counts);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L100">    return Objects.toStringHelper(this).add(&quot;field&quot;, field).add(&quot;counts&quot;, counts).toString();</span>
+<span class="nc" id="L100">    return new StringJoiner(&quot;, &quot;, Facet.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L101">      .add(&quot;field=&quot; + field)</span>
+<span class="nc" id="L102">      .add(&quot;counts=&quot; + counts)</span>
+<span class="nc" id="L103">      .toString();</span>
   }
 
   /**
@@ -111,8 +114,8 @@ public class Facet&lt;T extends SearchParameter&gt; {
     /**
      * Null/empty constructor.
      */
-<span class="nc" id="L114">    public Count() {</span>
-<span class="nc" id="L115">    }</span>
+<span class="nc" id="L117">    public Count() {</span>
+<span class="nc" id="L118">    }</span>
 
     /**
      * Full constructor.
@@ -120,24 +123,24 @@ public class Facet&lt;T extends SearchParameter&gt; {
      * @param name  or label of the category
      * @param count number of elements of this facet category
      */
-<span class="fc" id="L123">    public Count(String name, Long count) {</span>
-<span class="fc" id="L124">      this.name = name;</span>
-<span class="fc" id="L125">      this.count = count;</span>
-<span class="fc" id="L126">    }</span>
+<span class="fc" id="L126">    public Count(String name, Long count) {</span>
+<span class="fc" id="L127">      this.name = name;</span>
+<span class="fc" id="L128">      this.count = count;</span>
+<span class="fc" id="L129">    }</span>
 
     /**
      * Number of occurrences of the category(name).
      */
     public Long getCount() {
-<span class="fc" id="L132">      return count;</span>
+<span class="nc" id="L135">      return count;</span>
     }
 
     /**
      * Sets the count of occurrences for this category.
      */
     public void setCount(Long count) {
-<span class="nc" id="L139">      this.count = count;</span>
-<span class="nc" id="L140">    }</span>
+<span class="nc" id="L142">      this.count = count;</span>
+<span class="nc" id="L143">    }</span>
 
     /**
      * Name is the label/name/title used to distinguish this category in the list of counts.
@@ -146,40 +149,41 @@ public class Facet&lt;T extends SearchParameter&gt; {
      * @return the name or label of the category
      */
     public String getName() {
-<span class="fc" id="L149">      return name;</span>
+<span class="nc" id="L152">      return name;</span>
     }
 
     /**
      * Sets the name value of the category/count.
      */
     public void setName(String name) {
-<span class="nc" id="L156">      this.name = name;</span>
-<span class="nc" id="L157">    }</span>
+<span class="nc" id="L159">      this.name = name;</span>
+<span class="nc" id="L160">    }</span>
 
     @Override
-    public boolean equals(Object obj) {
-<span class="pc bpc" id="L161" title="1 of 2 branches missed.">      if (this == obj) {</span>
-<span class="nc" id="L162">        return true;</span>
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L164" title="1 of 2 branches missed.">      if (this == o) {</span>
+<span class="nc" id="L165">        return true;</span>
       }
-<span class="pc bpc" id="L164" title="1 of 2 branches missed.">      if (!(obj instanceof Count)) {</span>
-<span class="nc" id="L165">        return false;</span>
+<span class="pc bpc" id="L167" title="2 of 4 branches missed.">      if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L168">        return false;</span>
       }
-
-<span class="fc" id="L168">      Count that = (Count) obj;</span>
-<span class="pc bpc" id="L169" title="2 of 4 branches missed.">      return Objects.equal(this.count, that.getCount()) &amp;&amp; Objects.equal(this.name, that.getName());</span>
+<span class="fc" id="L170">      Count count1 = (Count) o;</span>
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">      return Objects.equals(name, count1.name) &amp;&amp;</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">        Objects.equals(count, count1.count);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="nc" id="L174">      return Objects.hashCode(super.hashCode(), count, name);</span>
+<span class="nc" id="L177">      return Objects.hash(name, count);</span>
     }
 
     @Override
     public String toString() {
-<span class="nc" id="L179">      return Objects.toStringHelper(this).add(&quot;name&quot;, name).add(&quot;count&quot;, count).toString();</span>
+<span class="nc" id="L182">      return new StringJoiner(&quot;, &quot;, Count.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L183">        .add(&quot;name='&quot; + name + &quot;'&quot;)</span>
+<span class="nc" id="L184">        .add(&quot;count=&quot; + count)</span>
+<span class="nc" id="L185">        .toString();</span>
     }
-
   }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

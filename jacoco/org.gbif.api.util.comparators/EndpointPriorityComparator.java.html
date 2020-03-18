@@ -1,21 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EndpointPriorityComparator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util.comparators</a> &gt; <span class="el_source">EndpointPriorityComparator.java</span></div><h1>EndpointPriorityComparator.java</h1><pre class="source lang-java linenums">package org.gbif.api.util.comparators;
-
-import java.io.Serializable;
-import java.util.Comparator;
-import java.util.List;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EndpointPriorityComparator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util.comparators</a> &gt; <span class="el_source">EndpointPriorityComparator.java</span></div><h1>EndpointPriorityComparator.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.util.comparators;
 
 import org.gbif.api.model.registry.Endpoint;
 import org.gbif.api.vocabulary.EndpointType;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Ordering;
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Compares two Endpoints.
  * &lt;p&gt;&lt;/p&gt;
- * It does so by using a priority list of Endpoint Types.
- * This Comparator will throw a {@link ClassCastException} exception if a non supported EndpointType is passed in. It
- * also does not support {@code null} values.
+ * It does so by using a priority list of Endpoint Types. This Comparator will throw a {@link
+ * ClassCastException} exception if a non supported EndpointType is passed in. It also does not
+ * support {@code null} values.
  * &lt;p&gt;&lt;/p&gt;
  * The priority list is as follows (most to least important):
  * &lt;ol&gt;
@@ -27,13 +41,14 @@ import com.google.common.collect.Ordering;
  * &lt;li&gt;EML&lt;/li&gt;
  * &lt;/ol&gt;
  */
-<span class="fc" id="L30">public class EndpointPriorityComparator implements Comparator&lt;Endpoint&gt;, Serializable {</span>
+<span class="fc" id="L44">public class EndpointPriorityComparator implements Comparator&lt;Endpoint&gt;, Serializable {</span>
 
   /* Note: Due to legacy reasons this is a Comparator itself instead of just using the PRIORITY_COMPARATOR.
    It should be easy to remove this class or change it into a factory */
 
   // Priorities from lowest to highest
-<span class="fc" id="L36">  public static final List&lt;EndpointType&gt; PRIORITIES = ImmutableList.of(</span>
+<span class="fc" id="L50">  public static final List&lt;EndpointType&gt; PRIORITIES = Collections.unmodifiableList(</span>
+<span class="fc" id="L51">    Arrays.asList(</span>
       EndpointType.EML,
       EndpointType.DIGIR_MANIS,
       EndpointType.DIGIR,
@@ -41,15 +56,22 @@ import com.google.common.collect.Ordering;
       EndpointType.TAPIR,
       EndpointType.BIOCASE_XML_ARCHIVE,
       EndpointType.DWC_ARCHIVE
-  );
+    ));
 
   private static final long serialVersionUID = 8085216142750609841L;
-<span class="fc" id="L47">  private static final Ordering&lt;EndpointType&gt; PRIORITY_COMPARATOR = Ordering.explicit(PRIORITIES);</span>
 
   @Override
   public int compare(Endpoint endpoint1, Endpoint endpoint2) {
-<span class="fc" id="L51">    return PRIORITY_COMPARATOR.compare(endpoint1.getType(), endpoint2.getType());</span>
-  }
+<span class="fc" id="L65">    int firstEndpointTypeIndex = PRIORITIES.indexOf(endpoint1.getType());</span>
+<span class="fc" id="L66">    int secondEndpointTypeIndex = PRIORITIES.indexOf(endpoint2.getType());</span>
 
+<span class="fc bfc" id="L68" title="All 2 branches covered.">    if (firstEndpointTypeIndex == -1) {</span>
+<span class="fc" id="L69">      throw new ClassCastException(&quot;Cannot compare value: &quot; + endpoint1.getType());</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">    } else if (secondEndpointTypeIndex == -1) {</span>
+<span class="fc" id="L71">      throw new ClassCastException(&quot;Cannot compare value: &quot; + endpoint2.getType());</span>
+    } else {
+<span class="fc" id="L73">      return Integer.compare(firstEndpointTypeIndex, secondEndpointTypeIndex);</span>
+    }
+  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

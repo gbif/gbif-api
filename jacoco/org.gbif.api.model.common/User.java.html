@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -18,16 +18,18 @@ package org.gbif.api.model.common;
 import org.gbif.api.vocabulary.UserRole;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
@@ -35,7 +37,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @Deprecated replaced by {@link GbifUser}
  */
 @Deprecated
-<span class="fc" id="L38">public class User {</span>
+<span class="fc" id="L40">public class User {</span>
 
   private static final String EMAIL_PATTERN =
  		&quot;^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@&quot;
@@ -47,39 +49,38 @@ import org.codehaus.jackson.annotate.JsonIgnore;
   private String lastName;
   private String email;
   private String passwordHash;
-<span class="fc" id="L50">  private Set&lt;UserRole&gt; roles = Sets.newHashSet();</span>
+<span class="fc" id="L52">  private Set&lt;UserRole&gt; roles = new HashSet&lt;&gt;();</span>
   private Date lastLogin;
   // Note: Settings was introduced in the system developed to replace Drupal
-<span class="fc" id="L53">  private Map&lt;String, String&gt; settings = Maps.newHashMap();</span>
+<span class="fc" id="L55">  private Map&lt;String, String&gt; settings = new HashMap&lt;&gt;();</span>
 
   @NotNull
   public Integer getKey() {
-<span class="fc" id="L57">    return key;</span>
+<span class="fc" id="L59">    return key;</span>
   }
 
   public void setKey(Integer key) {
-<span class="fc" id="L61">    this.key = key;</span>
-<span class="fc" id="L62">  }</span>
+<span class="fc" id="L63">    this.key = key;</span>
+<span class="fc" id="L64">  }</span>
 
   @NotNull
   @Pattern(regexp = EMAIL_PATTERN)
   public String getEmail() {
-<span class="fc" id="L67">    return email;</span>
+<span class="fc" id="L69">    return email;</span>
   }
 
   public void setEmail(String email) {
-<span class="fc" id="L71">    this.email = email;</span>
-<span class="fc" id="L72">  }</span>
+<span class="fc" id="L73">    this.email = email;</span>
+<span class="fc" id="L74">  }</span>
 
   @Nullable
   public Date getLastLogin() {
-<span class="fc" id="L76">    return lastLogin;</span>
+<span class="fc" id="L78">    return lastLogin;</span>
   }
 
   public void setLastLogin(Date lastLogin) {
-<span class="nc" id="L80">    this.lastLogin = lastLogin;</span>
-<span class="nc" id="L81">  }</span>
-
+<span class="nc" id="L82">    this.lastLogin = lastLogin;</span>
+<span class="nc" id="L83">  }</span>
 
   /**
    * The unique, immutable drupal user account name.
@@ -91,36 +92,36 @@ import org.codehaus.jackson.annotate.JsonIgnore;
   @Pattern(regexp = &quot;^[a-z0-9_.-]+$&quot;)
   @Size(min = 3, max = 64)
   public String getUserName() {
-<span class="fc" id="L94">    return userName;</span>
+<span class="fc" id="L95">    return userName;</span>
   }
 
   public void setUserName(String userName) {
-<span class="fc" id="L98">    this.userName = userName;</span>
-<span class="fc" id="L99">  }</span>
+<span class="fc" id="L99">    this.userName = userName;</span>
+<span class="fc" id="L100">  }</span>
 
   /**
    * @return the first name of a person
    */
   @NotNull
   public String getFirstName() {
-<span class="fc" id="L106">    return firstName;</span>
+<span class="fc" id="L107">    return firstName;</span>
   }
 
   public void setFirstName(String firstName) {
-<span class="fc" id="L110">    this.firstName = firstName;</span>
-<span class="fc" id="L111">  }</span>
+<span class="fc" id="L111">    this.firstName = firstName;</span>
+<span class="fc" id="L112">  }</span>
 
   /**
    * @return the last name of the user
    */
   @NotNull
   public String getLastName() {
-<span class="fc" id="L118">    return lastName;</span>
+<span class="fc" id="L119">    return lastName;</span>
   }
 
   public void setLastName(String lastName) {
-<span class="fc" id="L122">    this.lastName = lastName;</span>
-<span class="fc" id="L123">  }</span>
+<span class="fc" id="L123">    this.lastName = lastName;</span>
+<span class="fc" id="L124">  }</span>
 
   /**
    * @return the first and last name of the user concatenated with a space
@@ -128,32 +129,32 @@ import org.codehaus.jackson.annotate.JsonIgnore;
   @NotNull
   @JsonIgnore
   public String getName() {
-<span class="fc" id="L131">    return firstName + &quot; &quot; + lastName;</span>
+<span class="fc" id="L132">    return firstName + &quot; &quot; + lastName;</span>
   }
 
   /**
    * @return the drupal hashed version of the user password.
    */
   public String getPasswordHash() {
-<span class="fc" id="L138">    return passwordHash;</span>
+<span class="fc" id="L139">    return passwordHash;</span>
   }
 
   public void setPasswordHash(String passwordHash) {
-<span class="nc" id="L142">    this.passwordHash = passwordHash;</span>
-<span class="nc" id="L143">  }</span>
+<span class="nc" id="L143">    this.passwordHash = passwordHash;</span>
+<span class="nc" id="L144">  }</span>
 
   @NotNull
   public Set&lt;UserRole&gt; getRoles() {
-<span class="fc" id="L147">    return roles;</span>
+<span class="fc" id="L148">    return roles;</span>
   }
 
   public void setRoles(Set&lt;UserRole&gt; roles) {
-<span class="fc" id="L151">    this.roles = roles;</span>
-<span class="fc" id="L152">  }</span>
+<span class="fc" id="L152">    this.roles = roles;</span>
+<span class="fc" id="L153">  }</span>
 
   public void addRole(UserRole role) {
-<span class="fc" id="L155">    roles.add(role);</span>
-<span class="fc" id="L156">  }</span>
+<span class="fc" id="L156">    roles.add(role);</span>
+<span class="fc" id="L157">  }</span>
 
   /**
    * Checks if the user has the given user role.
@@ -162,16 +163,15 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    * @return true if the user has the requested role
    */
   public boolean hasRole(UserRole role) {
-<span class="fc bfc" id="L165" title="All 4 branches covered.">    if (role != null &amp;&amp; roles.contains(role)) {</span>
-<span class="fc" id="L166">      return true;</span>
+<span class="fc bfc" id="L166" title="All 4 branches covered.">    if (role != null &amp;&amp; roles.contains(role)) {</span>
+<span class="fc" id="L167">      return true;</span>
     }
-<span class="fc" id="L168">    return false;</span>
+<span class="fc" id="L169">    return false;</span>
   }
 
   public boolean isAdmin() {
-<span class="fc" id="L172">    return roles.contains(UserRole.ADMIN);</span>
+<span class="fc" id="L173">    return roles.contains(UserRole.ADMIN);</span>
   }
-
 
   /**
    * Gets the settings which may be empty but never null.
@@ -187,49 +187,47 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    */
   public void setSettings(Map&lt;String, String&gt; settings) {
     // safeguard against misuse to avoid NPE
-<span class="pc bpc" id="L190" title="1 of 2 branches missed.">    this.settings = settings == null ? Maps.&lt;String,String&gt;newHashMap() : settings;</span>
+<span class="pc bpc" id="L190" title="1 of 2 branches missed.">    this.settings = settings == null ? new HashMap&lt;&gt;() : settings;</span>
 <span class="fc" id="L191">  }</span>
 
   @Override
-  public boolean equals(Object obj) {
-<span class="pc bpc" id="L195" title="1 of 2 branches missed.">    if (this == obj) {</span>
+  public boolean equals(Object o) {
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">    if (this == o) {</span>
 <span class="nc" id="L196">      return true;</span>
     }
-<span class="pc bpc" id="L198" title="1 of 2 branches missed.">    if (!(obj instanceof User)) {</span>
+<span class="pc bpc" id="L198" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
 <span class="nc" id="L199">      return false;</span>
     }
-
-<span class="fc" id="L202">    User that = (User) obj;</span>
-<span class="pc bpc" id="L203" title="1 of 2 branches missed.">    return Objects.equal(this.key, that.key)</span>
-<span class="pc bpc" id="L204" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.userName, that.userName)</span>
-<span class="pc bpc" id="L205" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.firstName, that.firstName)</span>
-<span class="pc bpc" id="L206" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.lastName, that.lastName)</span>
-<span class="pc bpc" id="L207" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.email, that.email)</span>
-<span class="pc bpc" id="L208" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.roles, that.roles)</span>
-<span class="pc bpc" id="L209" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.lastLogin, that.lastLogin)</span>
-<span class="pc bpc" id="L210" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.passwordHash, that.passwordHash)</span>
-<span class="pc bpc" id="L211" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.settings, that.settings);</span>
+<span class="fc" id="L201">    User user = (User) o;</span>
+<span class="pc bpc" id="L202" title="1 of 2 branches missed.">    return Objects.equals(key, user.key) &amp;&amp;</span>
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">      Objects.equals(userName, user.userName) &amp;&amp;</span>
+<span class="pc bpc" id="L204" title="1 of 2 branches missed.">      Objects.equals(firstName, user.firstName) &amp;&amp;</span>
+<span class="pc bpc" id="L205" title="1 of 2 branches missed.">      Objects.equals(lastName, user.lastName) &amp;&amp;</span>
+<span class="pc bpc" id="L206" title="1 of 2 branches missed.">      Objects.equals(email, user.email) &amp;&amp;</span>
+<span class="pc bpc" id="L207" title="1 of 2 branches missed.">      Objects.equals(passwordHash, user.passwordHash) &amp;&amp;</span>
+<span class="pc bpc" id="L208" title="1 of 2 branches missed.">      Objects.equals(roles, user.roles) &amp;&amp;</span>
+<span class="pc bpc" id="L209" title="1 of 2 branches missed.">      Objects.equals(lastLogin, user.lastLogin) &amp;&amp;</span>
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">      Objects.equals(settings, user.settings);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L216">    return Objects.hashCode(key, userName, firstName, lastName, email, roles, lastLogin, passwordHash, settings);</span>
+<span class="fc" id="L215">    return Objects</span>
+<span class="fc" id="L216">      .hash(key, userName, firstName, lastName, email, passwordHash, roles, lastLogin, settings);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L221">    return Objects.toStringHelper(this)</span>
-<span class="nc" id="L222">      .add(&quot;key&quot;, key)</span>
-<span class="nc" id="L223">      .add(&quot;accountName&quot;, userName)</span>
-<span class="nc" id="L224">      .add(&quot;firstName&quot;, firstName)</span>
-<span class="nc" id="L225">      .add(&quot;lastName&quot;, lastName)</span>
-<span class="nc" id="L226">      .add(&quot;email&quot;, email)</span>
-<span class="nc" id="L227">      .add(&quot;roles&quot;, roles)</span>
-<span class="nc" id="L228">      .add(&quot;lastLogin&quot;, lastLogin)</span>
-<span class="nc" id="L229">      .add(&quot;passwordHash&quot;, passwordHash)</span>
-<span class="nc" id="L230">      .add(&quot;settings&quot;, settings)</span>
-<span class="nc" id="L231">      .toString();</span>
+<span class="nc" id="L221">    return new StringJoiner(&quot;, &quot;, User.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L222">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L223">      .add(&quot;userName='&quot; + userName + &quot;'&quot;)</span>
+<span class="nc" id="L224">      .add(&quot;firstName='&quot; + firstName + &quot;'&quot;)</span>
+<span class="nc" id="L225">      .add(&quot;lastName='&quot; + lastName + &quot;'&quot;)</span>
+<span class="nc" id="L226">      .add(&quot;email='&quot; + email + &quot;'&quot;)</span>
+<span class="nc" id="L227">      .add(&quot;roles=&quot; + roles)</span>
+<span class="nc" id="L228">      .add(&quot;lastLogin=&quot; + lastLogin)</span>
+<span class="nc" id="L229">      .add(&quot;settings=&quot; + settings)</span>
+<span class="nc" id="L230">      .toString();</span>
   }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

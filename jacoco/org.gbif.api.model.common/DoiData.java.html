@@ -1,12 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DoiData.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common</a> &gt; <span class="el_source">DoiData.java</span></div><h1>DoiData.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.common;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DoiData.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common</a> &gt; <span class="el_source">DoiData.java</span></div><h1>DoiData.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.common;
 
 import java.net.URI;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -18,55 +33,55 @@ public class DoiData {
   private final URI target;
 
   @JsonCreator
-<span class="fc" id="L21">  public DoiData(@JsonProperty(&quot;status&quot;) DoiStatus status, @JsonProperty(&quot;target&quot;) URI target) {</span>
-<span class="fc" id="L22">    this.status = Preconditions.checkNotNull(status, &quot;DOI status is required&quot;);</span>
-<span class="fc" id="L23">    this.target = target;</span>
-<span class="fc" id="L24">  }</span>
+<span class="fc" id="L36">  public DoiData(@JsonProperty(&quot;status&quot;) DoiStatus status, @JsonProperty(&quot;target&quot;) URI target) {</span>
+<span class="fc" id="L37">    this.status = Objects.requireNonNull(status, &quot;DOI status is required&quot;);</span>
+<span class="fc" id="L38">    this.target = target;</span>
+<span class="fc" id="L39">  }</span>
 
-<span class="nc" id="L26">  public DoiData(String ezidStatus, URI target) {</span>
-<span class="nc" id="L27">    this.status = Preconditions.checkNotNull(DoiStatus.fromString(ezidStatus));</span>
-<span class="nc" id="L28">    this.target = target;</span>
-<span class="nc" id="L29">  }</span>
+<span class="nc" id="L41">  public DoiData(String ezidStatus, URI target) {</span>
+<span class="nc" id="L42">    this.status = Objects.requireNonNull(DoiStatus.fromString(ezidStatus));</span>
+<span class="nc" id="L43">    this.target = target;</span>
+<span class="nc" id="L44">  }</span>
 
-<span class="nc" id="L31">  public DoiData(DoiStatus status) {</span>
-<span class="nc" id="L32">    this.status = Preconditions.checkNotNull(status, &quot;DOI status is required&quot;);</span>
-<span class="nc" id="L33">    this.target = null;</span>
-<span class="nc" id="L34">  }</span>
+<span class="nc" id="L46">  public DoiData(DoiStatus status) {</span>
+<span class="nc" id="L47">    this.status = Objects.requireNonNull(status, &quot;DOI status is required&quot;);</span>
+<span class="nc" id="L48">    this.target = null;</span>
+<span class="nc" id="L49">  }</span>
 
   @NotNull
   public DoiStatus getStatus() {
-<span class="fc" id="L38">    return status;</span>
+<span class="fc" id="L53">    return status;</span>
   }
 
   @Nullable
   public URI getTarget() {
-<span class="fc" id="L43">    return target;</span>
+<span class="fc" id="L58">    return target;</span>
+  }
+
+  @Override
+  public boolean equals(Object o) {
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L64">      return true;</span>
+    }
+<span class="pc bpc" id="L66" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L67">      return false;</span>
+    }
+<span class="fc" id="L69">    DoiData doiData = (DoiData) o;</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">    return status == doiData.status &amp;&amp;</span>
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">      Objects.equals(target, doiData.target);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L48">    return Objects.hashCode(status, target);</span>
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-<span class="pc bpc" id="L53" title="1 of 2 branches missed.">    if (this == obj) {</span>
-<span class="nc" id="L54">      return true;</span>
-    }
-<span class="pc bpc" id="L56" title="2 of 4 branches missed.">    if (obj == null || getClass() != obj.getClass()) {</span>
-<span class="nc" id="L57">      return false;</span>
-    }
-<span class="fc" id="L59">    final DoiData other = (DoiData) obj;</span>
-<span class="pc bpc" id="L60" title="2 of 4 branches missed.">    return Objects.equal(this.status, other.status) &amp;&amp; Objects.equal(this.target, other.target);</span>
+<span class="fc" id="L76">    return Objects.hash(status, target);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L65">    return Objects.toStringHelper(this)</span>
-<span class="nc" id="L66">      .add(&quot;status&quot;, status)</span>
-<span class="nc" id="L67">      .add(&quot;target&quot;, target)</span>
-<span class="nc" id="L68">      .toString();</span>
+<span class="nc" id="L81">    return new StringJoiner(&quot;, &quot;, DoiData.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L82">      .add(&quot;status=&quot; + status)</span>
+<span class="nc" id="L83">      .add(&quot;target=&quot; + target)</span>
+<span class="nc" id="L84">      .toString();</span>
   }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

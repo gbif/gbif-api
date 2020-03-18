@@ -7,7 +7,7 @@
 <body>
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2014 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
+<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
 <span class="sourceLineNo">003</span> *<a name="line.3"></a>
 <span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
 <span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
@@ -25,235 +25,239 @@
 <span class="sourceLineNo">017</span><a name="line.17"></a>
 <span class="sourceLineNo">018</span>import org.gbif.api.vocabulary.Language;<a name="line.18"></a>
 <span class="sourceLineNo">019</span><a name="line.19"></a>
-<span class="sourceLineNo">020</span>import javax.annotation.Nullable;<a name="line.20"></a>
-<span class="sourceLineNo">021</span><a name="line.21"></a>
-<span class="sourceLineNo">022</span>import com.google.common.base.Objects;<a name="line.22"></a>
-<span class="sourceLineNo">023</span><a name="line.23"></a>
+<span class="sourceLineNo">020</span>import java.util.Objects;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import java.util.StringJoiner;<a name="line.21"></a>
+<span class="sourceLineNo">022</span><a name="line.22"></a>
+<span class="sourceLineNo">023</span>import javax.annotation.Nullable;<a name="line.23"></a>
 <span class="sourceLineNo">024</span><a name="line.24"></a>
 <span class="sourceLineNo">025</span>/**<a name="line.25"></a>
 <span class="sourceLineNo">026</span> * Description Model Object represents a taxon description.<a name="line.26"></a>
 <span class="sourceLineNo">027</span> *<a name="line.27"></a>
 <span class="sourceLineNo">028</span> * @see &lt;a href="http://rs.gbif.org/extension/gbif/1.0/description.xml"&gt;Description Definition&lt;/a&gt;<a name="line.28"></a>
 <span class="sourceLineNo">029</span> */<a name="line.29"></a>
-<span class="sourceLineNo">030</span>public class Description implements NameUsageExtension {<a name="line.30"></a>
-<span class="sourceLineNo">031</span><a name="line.31"></a>
-<span class="sourceLineNo">032</span>  private Integer key;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>  private Integer taxonKey;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>  private String type;<a name="line.34"></a>
-<span class="sourceLineNo">035</span>  private Language language;<a name="line.35"></a>
-<span class="sourceLineNo">036</span>  private String description;<a name="line.36"></a>
-<span class="sourceLineNo">037</span>  private String source;<a name="line.37"></a>
-<span class="sourceLineNo">038</span>  private Integer sourceTaxonKey;<a name="line.38"></a>
-<span class="sourceLineNo">039</span>  private String creator;<a name="line.39"></a>
-<span class="sourceLineNo">040</span>  private String contributor;<a name="line.40"></a>
-<span class="sourceLineNo">041</span>  private String license;<a name="line.41"></a>
-<span class="sourceLineNo">042</span><a name="line.42"></a>
-<span class="sourceLineNo">043</span>  /**<a name="line.43"></a>
-<span class="sourceLineNo">044</span>   * A unique GBIF identifier for any description.<a name="line.44"></a>
-<span class="sourceLineNo">045</span>   * This key is used in the table of contents to retrieve the detailed description.<a name="line.45"></a>
-<span class="sourceLineNo">046</span>   */<a name="line.46"></a>
-<span class="sourceLineNo">047</span>  public Integer getKey() {<a name="line.47"></a>
-<span class="sourceLineNo">048</span>    return key;<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  }<a name="line.49"></a>
-<span class="sourceLineNo">050</span><a name="line.50"></a>
-<span class="sourceLineNo">051</span>  public void setKey(Integer key) {<a name="line.51"></a>
-<span class="sourceLineNo">052</span>    this.key = key;<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  }<a name="line.53"></a>
-<span class="sourceLineNo">054</span><a name="line.54"></a>
-<span class="sourceLineNo">055</span>  /**<a name="line.55"></a>
-<span class="sourceLineNo">056</span>   * The name usage "taxon" key this description belongs to.<a name="line.56"></a>
-<span class="sourceLineNo">057</span>   */<a name="line.57"></a>
-<span class="sourceLineNo">058</span>  @Override<a name="line.58"></a>
-<span class="sourceLineNo">059</span>  public Integer getTaxonKey() {<a name="line.59"></a>
-<span class="sourceLineNo">060</span>    return taxonKey;<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  }<a name="line.61"></a>
-<span class="sourceLineNo">062</span><a name="line.62"></a>
-<span class="sourceLineNo">063</span>  @Override<a name="line.63"></a>
-<span class="sourceLineNo">064</span>  public void setTaxonKey(Integer taxonKey) {<a name="line.64"></a>
-<span class="sourceLineNo">065</span>    this.taxonKey = taxonKey;<a name="line.65"></a>
-<span class="sourceLineNo">066</span>  }<a name="line.66"></a>
-<span class="sourceLineNo">067</span><a name="line.67"></a>
-<span class="sourceLineNo">068</span>  /**<a name="line.68"></a>
-<span class="sourceLineNo">069</span>   * An entity responsible for making contributions to the textual information provided for a description.<a name="line.69"></a>
-<span class="sourceLineNo">070</span>   *<a name="line.70"></a>
-<span class="sourceLineNo">071</span>   * @return the contributor<a name="line.71"></a>
-<span class="sourceLineNo">072</span>   */<a name="line.72"></a>
-<span class="sourceLineNo">073</span>  @Nullable<a name="line.73"></a>
-<span class="sourceLineNo">074</span>  public String getContributor() {<a name="line.74"></a>
-<span class="sourceLineNo">075</span>    return contributor;<a name="line.75"></a>
-<span class="sourceLineNo">076</span>  }<a name="line.76"></a>
-<span class="sourceLineNo">077</span><a name="line.77"></a>
-<span class="sourceLineNo">078</span>  /**<a name="line.78"></a>
-<span class="sourceLineNo">079</span>   * @param contributor the contributor to set<a name="line.79"></a>
-<span class="sourceLineNo">080</span>   */<a name="line.80"></a>
-<span class="sourceLineNo">081</span>  public void setContributor(String contributor) {<a name="line.81"></a>
-<span class="sourceLineNo">082</span>    this.contributor = contributor;<a name="line.82"></a>
-<span class="sourceLineNo">083</span>  }<a name="line.83"></a>
-<span class="sourceLineNo">084</span><a name="line.84"></a>
-<span class="sourceLineNo">085</span>  /**<a name="line.85"></a>
-<span class="sourceLineNo">086</span>   * The author(s) of the textual information provided for a description.<a name="line.86"></a>
-<span class="sourceLineNo">087</span>   *<a name="line.87"></a>
-<span class="sourceLineNo">088</span>   * @return the creator<a name="line.88"></a>
-<span class="sourceLineNo">089</span>   */<a name="line.89"></a>
-<span class="sourceLineNo">090</span>  @Nullable<a name="line.90"></a>
-<span class="sourceLineNo">091</span>  public String getCreator() {<a name="line.91"></a>
-<span class="sourceLineNo">092</span>    return creator;<a name="line.92"></a>
-<span class="sourceLineNo">093</span>  }<a name="line.93"></a>
-<span class="sourceLineNo">094</span><a name="line.94"></a>
-<span class="sourceLineNo">095</span>  /**<a name="line.95"></a>
-<span class="sourceLineNo">096</span>   * @param creator the creator to set.<a name="line.96"></a>
-<span class="sourceLineNo">097</span>   */<a name="line.97"></a>
-<span class="sourceLineNo">098</span>  public void setCreator(String creator) {<a name="line.98"></a>
-<span class="sourceLineNo">099</span>    this.creator = creator;<a name="line.99"></a>
-<span class="sourceLineNo">100</span>  }<a name="line.100"></a>
-<span class="sourceLineNo">101</span><a name="line.101"></a>
-<span class="sourceLineNo">102</span>  /**<a name="line.102"></a>
-<span class="sourceLineNo">103</span>   * Any descriptive free text matching the category given as dc:type. The text should be either plain text or<a name="line.103"></a>
-<span class="sourceLineNo">104</span>   * formatted with basic html tags, i.e. h1-4,p,i,b,a,img,ul and li. All other tags should be removed.<a name="line.104"></a>
-<span class="sourceLineNo">105</span>   *<a name="line.105"></a>
-<span class="sourceLineNo">106</span>   * @return the description<a name="line.106"></a>
-<span class="sourceLineNo">107</span>   */<a name="line.107"></a>
-<span class="sourceLineNo">108</span>  @Nullable<a name="line.108"></a>
-<span class="sourceLineNo">109</span>  public String getDescription() {<a name="line.109"></a>
-<span class="sourceLineNo">110</span>    return description;<a name="line.110"></a>
-<span class="sourceLineNo">111</span>  }<a name="line.111"></a>
-<span class="sourceLineNo">112</span><a name="line.112"></a>
-<span class="sourceLineNo">113</span>  /**<a name="line.113"></a>
-<span class="sourceLineNo">114</span>   * @param description the description to set<a name="line.114"></a>
-<span class="sourceLineNo">115</span>   */<a name="line.115"></a>
-<span class="sourceLineNo">116</span>  public void setDescription(String description) {<a name="line.116"></a>
-<span class="sourceLineNo">117</span>    this.description = description;<a name="line.117"></a>
-<span class="sourceLineNo">118</span>  }<a name="line.118"></a>
-<span class="sourceLineNo">119</span><a name="line.119"></a>
-<span class="sourceLineNo">120</span>  /**<a name="line.120"></a>
-<span class="sourceLineNo">121</span>   * ISO 639-1 language code used for the vernacular name value.<a name="line.121"></a>
-<span class="sourceLineNo">122</span>   *<a name="line.122"></a>
-<span class="sourceLineNo">123</span>   * @return the language<a name="line.123"></a>
-<span class="sourceLineNo">124</span>   */<a name="line.124"></a>
-<span class="sourceLineNo">125</span>  @Nullable<a name="line.125"></a>
-<span class="sourceLineNo">126</span>  public Language getLanguage() {<a name="line.126"></a>
-<span class="sourceLineNo">127</span>    return language;<a name="line.127"></a>
-<span class="sourceLineNo">128</span>  }<a name="line.128"></a>
-<span class="sourceLineNo">129</span><a name="line.129"></a>
-<span class="sourceLineNo">130</span>  /**<a name="line.130"></a>
-<span class="sourceLineNo">131</span>   * @param language the language to set<a name="line.131"></a>
-<span class="sourceLineNo">132</span>   */<a name="line.132"></a>
-<span class="sourceLineNo">133</span>  public void setLanguage(Language language) {<a name="line.133"></a>
-<span class="sourceLineNo">134</span>    this.language = language;<a name="line.134"></a>
-<span class="sourceLineNo">135</span>  }<a name="line.135"></a>
-<span class="sourceLineNo">136</span><a name="line.136"></a>
-<span class="sourceLineNo">137</span>  /**<a name="line.137"></a>
-<span class="sourceLineNo">138</span>   * Official permission to do something with the resource. Please use Creative Commons URIs if you can. &lt;br/&gt;<a name="line.138"></a>
-<span class="sourceLineNo">139</span>   * &lt;blockquote&gt;<a name="line.139"></a>
-<span class="sourceLineNo">140</span>   * &lt;p&gt;<a name="line.140"></a>
-<span class="sourceLineNo">141</span>   * &lt;i&gt;Example:&lt;/i&gt; CC-BY<a name="line.141"></a>
-<span class="sourceLineNo">142</span>   * &lt;/p&gt;<a name="line.142"></a>
-<span class="sourceLineNo">143</span>   * &lt;/blockquote&gt;<a name="line.143"></a>
-<span class="sourceLineNo">144</span>   *<a name="line.144"></a>
-<span class="sourceLineNo">145</span>   * @return the license.<a name="line.145"></a>
-<span class="sourceLineNo">146</span>   */<a name="line.146"></a>
-<span class="sourceLineNo">147</span>  @Nullable<a name="line.147"></a>
-<span class="sourceLineNo">148</span>  public String getLicense() {<a name="line.148"></a>
-<span class="sourceLineNo">149</span>    return license;<a name="line.149"></a>
-<span class="sourceLineNo">150</span>  }<a name="line.150"></a>
-<span class="sourceLineNo">151</span><a name="line.151"></a>
-<span class="sourceLineNo">152</span>  /**<a name="line.152"></a>
-<span class="sourceLineNo">153</span>   * @param license the license to set<a name="line.153"></a>
-<span class="sourceLineNo">154</span>   */<a name="line.154"></a>
-<span class="sourceLineNo">155</span>  public void setLicense(String license) {<a name="line.155"></a>
-<span class="sourceLineNo">156</span>    this.license = license;<a name="line.156"></a>
-<span class="sourceLineNo">157</span>  }<a name="line.157"></a>
-<span class="sourceLineNo">158</span><a name="line.158"></a>
-<span class="sourceLineNo">159</span>  /**<a name="line.159"></a>
-<span class="sourceLineNo">160</span>   * Source reference of this description, a URL or full publication citation.<a name="line.160"></a>
-<span class="sourceLineNo">161</span>   *<a name="line.161"></a>
-<span class="sourceLineNo">162</span>   * @return the source<a name="line.162"></a>
-<span class="sourceLineNo">163</span>   */<a name="line.163"></a>
-<span class="sourceLineNo">164</span>  @Nullable<a name="line.164"></a>
-<span class="sourceLineNo">165</span>  @Override<a name="line.165"></a>
-<span class="sourceLineNo">166</span>  public String getSource() {<a name="line.166"></a>
-<span class="sourceLineNo">167</span>    return source;<a name="line.167"></a>
-<span class="sourceLineNo">168</span>  }<a name="line.168"></a>
-<span class="sourceLineNo">169</span><a name="line.169"></a>
-<span class="sourceLineNo">170</span>  /**<a name="line.170"></a>
-<span class="sourceLineNo">171</span>   * @param source the source to set<a name="line.171"></a>
-<span class="sourceLineNo">172</span>   */<a name="line.172"></a>
-<span class="sourceLineNo">173</span>  @Override<a name="line.173"></a>
-<span class="sourceLineNo">174</span>  public void setSource(String source) {<a name="line.174"></a>
-<span class="sourceLineNo">175</span>    this.source = source;<a name="line.175"></a>
-<span class="sourceLineNo">176</span>  }<a name="line.176"></a>
-<span class="sourceLineNo">177</span><a name="line.177"></a>
-<span class="sourceLineNo">178</span>  @Nullable<a name="line.178"></a>
-<span class="sourceLineNo">179</span>  @Override<a name="line.179"></a>
-<span class="sourceLineNo">180</span>  public Integer getSourceTaxonKey() {<a name="line.180"></a>
-<span class="sourceLineNo">181</span>    return sourceTaxonKey;<a name="line.181"></a>
-<span class="sourceLineNo">182</span>  }<a name="line.182"></a>
-<span class="sourceLineNo">183</span><a name="line.183"></a>
-<span class="sourceLineNo">184</span>  @Override<a name="line.184"></a>
-<span class="sourceLineNo">185</span>  public void setSourceTaxonKey(Integer sourceTaxonKey) {<a name="line.185"></a>
-<span class="sourceLineNo">186</span>    this.sourceTaxonKey = sourceTaxonKey;<a name="line.186"></a>
-<span class="sourceLineNo">187</span>  }<a name="line.187"></a>
-<span class="sourceLineNo">188</span><a name="line.188"></a>
-<span class="sourceLineNo">189</span>  /**<a name="line.189"></a>
-<span class="sourceLineNo">190</span>   * Returns the type used to categorize paragraphs of a taxon description.<a name="line.190"></a>
-<span class="sourceLineNo">191</span>   * Given the list of types is so broad, an Enum is not used to maintain it. Rather it is kept as plain text.<a name="line.191"></a>
-<span class="sourceLineNo">192</span>   *<a name="line.192"></a>
-<span class="sourceLineNo">193</span>   * @return the type<a name="line.193"></a>
-<span class="sourceLineNo">194</span>   *<a name="line.194"></a>
-<span class="sourceLineNo">195</span>   * @see &lt;a href="http://rs.gbif.org/vocabulary/gbif/description_type.xml"&gt;Description type definition&lt;/a&gt;<a name="line.195"></a>
-<span class="sourceLineNo">196</span>   */<a name="line.196"></a>
-<span class="sourceLineNo">197</span>  @Nullable<a name="line.197"></a>
-<span class="sourceLineNo">198</span>  public String getType() {<a name="line.198"></a>
-<span class="sourceLineNo">199</span>    return type;<a name="line.199"></a>
-<span class="sourceLineNo">200</span>  }<a name="line.200"></a>
-<span class="sourceLineNo">201</span><a name="line.201"></a>
-<span class="sourceLineNo">202</span>  /**<a name="line.202"></a>
-<span class="sourceLineNo">203</span>   * @param type the type to set<a name="line.203"></a>
-<span class="sourceLineNo">204</span>   */<a name="line.204"></a>
-<span class="sourceLineNo">205</span>  public void setType(String type) {<a name="line.205"></a>
-<span class="sourceLineNo">206</span>    this.type = type;<a name="line.206"></a>
-<span class="sourceLineNo">207</span>  }<a name="line.207"></a>
-<span class="sourceLineNo">208</span><a name="line.208"></a>
-<span class="sourceLineNo">209</span>  @Override<a name="line.209"></a>
-<span class="sourceLineNo">210</span>  public boolean equals(Object object) {<a name="line.210"></a>
-<span class="sourceLineNo">211</span>    if (this == object) {<a name="line.211"></a>
-<span class="sourceLineNo">212</span>      return true;<a name="line.212"></a>
-<span class="sourceLineNo">213</span>    }<a name="line.213"></a>
-<span class="sourceLineNo">214</span>    if (!(object instanceof Description)) {<a name="line.214"></a>
-<span class="sourceLineNo">215</span>      return false;<a name="line.215"></a>
-<span class="sourceLineNo">216</span>    }<a name="line.216"></a>
-<span class="sourceLineNo">217</span><a name="line.217"></a>
-<span class="sourceLineNo">218</span>    Description that = (Description) object;<a name="line.218"></a>
-<span class="sourceLineNo">219</span>    return Objects.equal(this.type, that.type)<a name="line.219"></a>
-<span class="sourceLineNo">220</span>           &amp;&amp; Objects.equal(this.language, that.language)<a name="line.220"></a>
-<span class="sourceLineNo">221</span>           &amp;&amp; Objects.equal(this.description, that.description)<a name="line.221"></a>
-<span class="sourceLineNo">222</span>           &amp;&amp; Objects.equal(this.source, that.source)<a name="line.222"></a>
-<span class="sourceLineNo">223</span>           &amp;&amp; Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey)<a name="line.223"></a>
-<span class="sourceLineNo">224</span>           &amp;&amp; Objects.equal(this.creator, that.creator)<a name="line.224"></a>
-<span class="sourceLineNo">225</span>           &amp;&amp; Objects.equal(this.contributor, that.contributor)<a name="line.225"></a>
-<span class="sourceLineNo">226</span>           &amp;&amp; Objects.equal(this.license, that.license);<a name="line.226"></a>
-<span class="sourceLineNo">227</span>  }<a name="line.227"></a>
-<span class="sourceLineNo">228</span><a name="line.228"></a>
-<span class="sourceLineNo">229</span>  @Override<a name="line.229"></a>
-<span class="sourceLineNo">230</span>  public int hashCode() {<a name="line.230"></a>
-<span class="sourceLineNo">231</span>    return Objects.hashCode(type, language, description, source, creator, contributor, license);<a name="line.231"></a>
-<span class="sourceLineNo">232</span>  }<a name="line.232"></a>
-<span class="sourceLineNo">233</span><a name="line.233"></a>
-<span class="sourceLineNo">234</span>  @Override<a name="line.234"></a>
-<span class="sourceLineNo">235</span>  public String toString() {<a name="line.235"></a>
-<span class="sourceLineNo">236</span>    return Objects.toStringHelper(this)<a name="line.236"></a>
-<span class="sourceLineNo">237</span>      .add("type", type)<a name="line.237"></a>
-<span class="sourceLineNo">238</span>      .add("language", language)<a name="line.238"></a>
-<span class="sourceLineNo">239</span>      .add("description", description)<a name="line.239"></a>
-<span class="sourceLineNo">240</span>      .add("source", source)<a name="line.240"></a>
-<span class="sourceLineNo">241</span>      .add("sourceTaxonKey", sourceTaxonKey)<a name="line.241"></a>
-<span class="sourceLineNo">242</span>      .add("creator", creator)<a name="line.242"></a>
-<span class="sourceLineNo">243</span>      .add("contributor", contributor)<a name="line.243"></a>
-<span class="sourceLineNo">244</span>      .add("license", license)<a name="line.244"></a>
-<span class="sourceLineNo">245</span>      .toString();<a name="line.245"></a>
-<span class="sourceLineNo">246</span>  }<a name="line.246"></a>
-<span class="sourceLineNo">247</span><a name="line.247"></a>
-<span class="sourceLineNo">248</span>}<a name="line.248"></a>
+<span class="sourceLineNo">030</span>@SuppressWarnings("unused")<a name="line.30"></a>
+<span class="sourceLineNo">031</span>public class Description implements NameUsageExtension {<a name="line.31"></a>
+<span class="sourceLineNo">032</span><a name="line.32"></a>
+<span class="sourceLineNo">033</span>  private Integer key;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>  private Integer taxonKey;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>  private String type;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>  private Language language;<a name="line.36"></a>
+<span class="sourceLineNo">037</span>  private String description;<a name="line.37"></a>
+<span class="sourceLineNo">038</span>  private String source;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>  private Integer sourceTaxonKey;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>  private String creator;<a name="line.40"></a>
+<span class="sourceLineNo">041</span>  private String contributor;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>  private String license;<a name="line.42"></a>
+<span class="sourceLineNo">043</span><a name="line.43"></a>
+<span class="sourceLineNo">044</span>  /**<a name="line.44"></a>
+<span class="sourceLineNo">045</span>   * A unique GBIF identifier for any description.<a name="line.45"></a>
+<span class="sourceLineNo">046</span>   * This key is used in the table of contents to retrieve the detailed description.<a name="line.46"></a>
+<span class="sourceLineNo">047</span>   */<a name="line.47"></a>
+<span class="sourceLineNo">048</span>  public Integer getKey() {<a name="line.48"></a>
+<span class="sourceLineNo">049</span>    return key;<a name="line.49"></a>
+<span class="sourceLineNo">050</span>  }<a name="line.50"></a>
+<span class="sourceLineNo">051</span><a name="line.51"></a>
+<span class="sourceLineNo">052</span>  public void setKey(Integer key) {<a name="line.52"></a>
+<span class="sourceLineNo">053</span>    this.key = key;<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  }<a name="line.54"></a>
+<span class="sourceLineNo">055</span><a name="line.55"></a>
+<span class="sourceLineNo">056</span>  /**<a name="line.56"></a>
+<span class="sourceLineNo">057</span>   * The name usage "taxon" key this description belongs to.<a name="line.57"></a>
+<span class="sourceLineNo">058</span>   */<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  @Override<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  public Integer getTaxonKey() {<a name="line.60"></a>
+<span class="sourceLineNo">061</span>    return taxonKey;<a name="line.61"></a>
+<span class="sourceLineNo">062</span>  }<a name="line.62"></a>
+<span class="sourceLineNo">063</span><a name="line.63"></a>
+<span class="sourceLineNo">064</span>  @Override<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  public void setTaxonKey(Integer taxonKey) {<a name="line.65"></a>
+<span class="sourceLineNo">066</span>    this.taxonKey = taxonKey;<a name="line.66"></a>
+<span class="sourceLineNo">067</span>  }<a name="line.67"></a>
+<span class="sourceLineNo">068</span><a name="line.68"></a>
+<span class="sourceLineNo">069</span>  /**<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * An entity responsible for making contributions to the textual information provided for a description.<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   *<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   * @return the contributor<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   */<a name="line.73"></a>
+<span class="sourceLineNo">074</span>  @Nullable<a name="line.74"></a>
+<span class="sourceLineNo">075</span>  public String getContributor() {<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    return contributor;<a name="line.76"></a>
+<span class="sourceLineNo">077</span>  }<a name="line.77"></a>
+<span class="sourceLineNo">078</span><a name="line.78"></a>
+<span class="sourceLineNo">079</span>  /**<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   * @param contributor the contributor to set<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   */<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  public void setContributor(String contributor) {<a name="line.82"></a>
+<span class="sourceLineNo">083</span>    this.contributor = contributor;<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  }<a name="line.84"></a>
+<span class="sourceLineNo">085</span><a name="line.85"></a>
+<span class="sourceLineNo">086</span>  /**<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * The author(s) of the textual information provided for a description.<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   *<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * @return the creator<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   */<a name="line.90"></a>
+<span class="sourceLineNo">091</span>  @Nullable<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  public String getCreator() {<a name="line.92"></a>
+<span class="sourceLineNo">093</span>    return creator;<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  }<a name="line.94"></a>
+<span class="sourceLineNo">095</span><a name="line.95"></a>
+<span class="sourceLineNo">096</span>  /**<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * @param creator the creator to set.<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   */<a name="line.98"></a>
+<span class="sourceLineNo">099</span>  public void setCreator(String creator) {<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    this.creator = creator;<a name="line.100"></a>
+<span class="sourceLineNo">101</span>  }<a name="line.101"></a>
+<span class="sourceLineNo">102</span><a name="line.102"></a>
+<span class="sourceLineNo">103</span>  /**<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   * Any descriptive free text matching the category given as dc:type. The text should be either plain text or<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   * formatted with basic html tags, i.e. h1-4,p,i,b,a,img,ul and li. All other tags should be removed.<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   *<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   * @return the description<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   */<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  @Nullable<a name="line.109"></a>
+<span class="sourceLineNo">110</span>  public String getDescription() {<a name="line.110"></a>
+<span class="sourceLineNo">111</span>    return description;<a name="line.111"></a>
+<span class="sourceLineNo">112</span>  }<a name="line.112"></a>
+<span class="sourceLineNo">113</span><a name="line.113"></a>
+<span class="sourceLineNo">114</span>  /**<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   * @param description the description to set<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   */<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  public void setDescription(String description) {<a name="line.117"></a>
+<span class="sourceLineNo">118</span>    this.description = description;<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  }<a name="line.119"></a>
+<span class="sourceLineNo">120</span><a name="line.120"></a>
+<span class="sourceLineNo">121</span>  /**<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   * ISO 639-1 language code used for the vernacular name value.<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   *<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * @return the language<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   */<a name="line.125"></a>
+<span class="sourceLineNo">126</span>  @Nullable<a name="line.126"></a>
+<span class="sourceLineNo">127</span>  public Language getLanguage() {<a name="line.127"></a>
+<span class="sourceLineNo">128</span>    return language;<a name="line.128"></a>
+<span class="sourceLineNo">129</span>  }<a name="line.129"></a>
+<span class="sourceLineNo">130</span><a name="line.130"></a>
+<span class="sourceLineNo">131</span>  /**<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   * @param language the language to set<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   */<a name="line.133"></a>
+<span class="sourceLineNo">134</span>  public void setLanguage(Language language) {<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    this.language = language;<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  }<a name="line.136"></a>
+<span class="sourceLineNo">137</span><a name="line.137"></a>
+<span class="sourceLineNo">138</span>  /**<a name="line.138"></a>
+<span class="sourceLineNo">139</span>   * Official permission to do something with the resource. Please use Creative Commons URIs if you can. &lt;br/&gt;<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   * &lt;blockquote&gt;<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   * &lt;p&gt;<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   * &lt;i&gt;Example:&lt;/i&gt; CC-BY<a name="line.142"></a>
+<span class="sourceLineNo">143</span>   * &lt;/p&gt;<a name="line.143"></a>
+<span class="sourceLineNo">144</span>   * &lt;/blockquote&gt;<a name="line.144"></a>
+<span class="sourceLineNo">145</span>   *<a name="line.145"></a>
+<span class="sourceLineNo">146</span>   * @return the license.<a name="line.146"></a>
+<span class="sourceLineNo">147</span>   */<a name="line.147"></a>
+<span class="sourceLineNo">148</span>  @Nullable<a name="line.148"></a>
+<span class="sourceLineNo">149</span>  public String getLicense() {<a name="line.149"></a>
+<span class="sourceLineNo">150</span>    return license;<a name="line.150"></a>
+<span class="sourceLineNo">151</span>  }<a name="line.151"></a>
+<span class="sourceLineNo">152</span><a name="line.152"></a>
+<span class="sourceLineNo">153</span>  /**<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   * @param license the license to set<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   */<a name="line.155"></a>
+<span class="sourceLineNo">156</span>  public void setLicense(String license) {<a name="line.156"></a>
+<span class="sourceLineNo">157</span>    this.license = license;<a name="line.157"></a>
+<span class="sourceLineNo">158</span>  }<a name="line.158"></a>
+<span class="sourceLineNo">159</span><a name="line.159"></a>
+<span class="sourceLineNo">160</span>  /**<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   * Source reference of this description, a URL or full publication citation.<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   *<a name="line.162"></a>
+<span class="sourceLineNo">163</span>   * @return the source<a name="line.163"></a>
+<span class="sourceLineNo">164</span>   */<a name="line.164"></a>
+<span class="sourceLineNo">165</span>  @Nullable<a name="line.165"></a>
+<span class="sourceLineNo">166</span>  @Override<a name="line.166"></a>
+<span class="sourceLineNo">167</span>  public String getSource() {<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    return source;<a name="line.168"></a>
+<span class="sourceLineNo">169</span>  }<a name="line.169"></a>
+<span class="sourceLineNo">170</span><a name="line.170"></a>
+<span class="sourceLineNo">171</span>  /**<a name="line.171"></a>
+<span class="sourceLineNo">172</span>   * @param source the source to set<a name="line.172"></a>
+<span class="sourceLineNo">173</span>   */<a name="line.173"></a>
+<span class="sourceLineNo">174</span>  @Override<a name="line.174"></a>
+<span class="sourceLineNo">175</span>  public void setSource(String source) {<a name="line.175"></a>
+<span class="sourceLineNo">176</span>    this.source = source;<a name="line.176"></a>
+<span class="sourceLineNo">177</span>  }<a name="line.177"></a>
+<span class="sourceLineNo">178</span><a name="line.178"></a>
+<span class="sourceLineNo">179</span>  @Nullable<a name="line.179"></a>
+<span class="sourceLineNo">180</span>  @Override<a name="line.180"></a>
+<span class="sourceLineNo">181</span>  public Integer getSourceTaxonKey() {<a name="line.181"></a>
+<span class="sourceLineNo">182</span>    return sourceTaxonKey;<a name="line.182"></a>
+<span class="sourceLineNo">183</span>  }<a name="line.183"></a>
+<span class="sourceLineNo">184</span><a name="line.184"></a>
+<span class="sourceLineNo">185</span>  @Override<a name="line.185"></a>
+<span class="sourceLineNo">186</span>  public void setSourceTaxonKey(Integer sourceTaxonKey) {<a name="line.186"></a>
+<span class="sourceLineNo">187</span>    this.sourceTaxonKey = sourceTaxonKey;<a name="line.187"></a>
+<span class="sourceLineNo">188</span>  }<a name="line.188"></a>
+<span class="sourceLineNo">189</span><a name="line.189"></a>
+<span class="sourceLineNo">190</span>  /**<a name="line.190"></a>
+<span class="sourceLineNo">191</span>   * Returns the type used to categorize paragraphs of a taxon description.<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   * Given the list of types is so broad, an Enum is not used to maintain it. Rather it is kept as plain text.<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   *<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   * @return the type<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   *<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   * @see &lt;a href="http://rs.gbif.org/vocabulary/gbif/description_type.xml"&gt;Description type definition&lt;/a&gt;<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   */<a name="line.197"></a>
+<span class="sourceLineNo">198</span>  @Nullable<a name="line.198"></a>
+<span class="sourceLineNo">199</span>  public String getType() {<a name="line.199"></a>
+<span class="sourceLineNo">200</span>    return type;<a name="line.200"></a>
+<span class="sourceLineNo">201</span>  }<a name="line.201"></a>
+<span class="sourceLineNo">202</span><a name="line.202"></a>
+<span class="sourceLineNo">203</span>  /**<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   * @param type the type to set<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   */<a name="line.205"></a>
+<span class="sourceLineNo">206</span>  public void setType(String type) {<a name="line.206"></a>
+<span class="sourceLineNo">207</span>    this.type = type;<a name="line.207"></a>
+<span class="sourceLineNo">208</span>  }<a name="line.208"></a>
+<span class="sourceLineNo">209</span><a name="line.209"></a>
+<span class="sourceLineNo">210</span>  @Override<a name="line.210"></a>
+<span class="sourceLineNo">211</span>  public boolean equals(Object o) {<a name="line.211"></a>
+<span class="sourceLineNo">212</span>    if (this == o) {<a name="line.212"></a>
+<span class="sourceLineNo">213</span>      return true;<a name="line.213"></a>
+<span class="sourceLineNo">214</span>    }<a name="line.214"></a>
+<span class="sourceLineNo">215</span>    if (o == null || getClass() != o.getClass()) {<a name="line.215"></a>
+<span class="sourceLineNo">216</span>      return false;<a name="line.216"></a>
+<span class="sourceLineNo">217</span>    }<a name="line.217"></a>
+<span class="sourceLineNo">218</span>    Description that = (Description) o;<a name="line.218"></a>
+<span class="sourceLineNo">219</span>    return Objects.equals(key, that.key) &amp;&amp;<a name="line.219"></a>
+<span class="sourceLineNo">220</span>      Objects.equals(taxonKey, that.taxonKey) &amp;&amp;<a name="line.220"></a>
+<span class="sourceLineNo">221</span>      Objects.equals(type, that.type) &amp;&amp;<a name="line.221"></a>
+<span class="sourceLineNo">222</span>      language == that.language &amp;&amp;<a name="line.222"></a>
+<span class="sourceLineNo">223</span>      Objects.equals(description, that.description) &amp;&amp;<a name="line.223"></a>
+<span class="sourceLineNo">224</span>      Objects.equals(source, that.source) &amp;&amp;<a name="line.224"></a>
+<span class="sourceLineNo">225</span>      Objects.equals(sourceTaxonKey, that.sourceTaxonKey) &amp;&amp;<a name="line.225"></a>
+<span class="sourceLineNo">226</span>      Objects.equals(creator, that.creator) &amp;&amp;<a name="line.226"></a>
+<span class="sourceLineNo">227</span>      Objects.equals(contributor, that.contributor) &amp;&amp;<a name="line.227"></a>
+<span class="sourceLineNo">228</span>      Objects.equals(license, that.license);<a name="line.228"></a>
+<span class="sourceLineNo">229</span>  }<a name="line.229"></a>
+<span class="sourceLineNo">230</span><a name="line.230"></a>
+<span class="sourceLineNo">231</span>  @Override<a name="line.231"></a>
+<span class="sourceLineNo">232</span>  public int hashCode() {<a name="line.232"></a>
+<span class="sourceLineNo">233</span>    return Objects.hash(key, taxonKey, type, language, description, source, sourceTaxonKey, creator,<a name="line.233"></a>
+<span class="sourceLineNo">234</span>      contributor, license);<a name="line.234"></a>
+<span class="sourceLineNo">235</span>  }<a name="line.235"></a>
+<span class="sourceLineNo">236</span><a name="line.236"></a>
+<span class="sourceLineNo">237</span>  @Override<a name="line.237"></a>
+<span class="sourceLineNo">238</span>  public String toString() {<a name="line.238"></a>
+<span class="sourceLineNo">239</span>    return new StringJoiner(", ", Description.class.getSimpleName() + "[", "]")<a name="line.239"></a>
+<span class="sourceLineNo">240</span>      .add("key=" + key)<a name="line.240"></a>
+<span class="sourceLineNo">241</span>      .add("taxonKey=" + taxonKey)<a name="line.241"></a>
+<span class="sourceLineNo">242</span>      .add("type='" + type + "'")<a name="line.242"></a>
+<span class="sourceLineNo">243</span>      .add("language=" + language)<a name="line.243"></a>
+<span class="sourceLineNo">244</span>      .add("description='" + description + "'")<a name="line.244"></a>
+<span class="sourceLineNo">245</span>      .add("source='" + source + "'")<a name="line.245"></a>
+<span class="sourceLineNo">246</span>      .add("sourceTaxonKey=" + sourceTaxonKey)<a name="line.246"></a>
+<span class="sourceLineNo">247</span>      .add("creator='" + creator + "'")<a name="line.247"></a>
+<span class="sourceLineNo">248</span>      .add("contributor='" + contributor + "'")<a name="line.248"></a>
+<span class="sourceLineNo">249</span>      .add("license='" + license + "'")<a name="line.249"></a>
+<span class="sourceLineNo">250</span>      .toString();<a name="line.250"></a>
+<span class="sourceLineNo">251</span>  }<a name="line.251"></a>
+<span class="sourceLineNo">252</span>}<a name="line.252"></a>
 
 
 

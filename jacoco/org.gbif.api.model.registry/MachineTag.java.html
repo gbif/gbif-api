@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MachineTag.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry</a> &gt; <span class="el_source">MachineTag.java</span></div><h1>MachineTag.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,14 +15,16 @@
  */
 package org.gbif.api.model.registry;
 
+import org.gbif.api.vocabulary.TagName;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
-
-import com.google.common.base.Objects;
-import org.gbif.api.vocabulary.TagName;
 
 /**
  * A tag that has a namespace, name and a value. {@code created} and {@code createdBy} are automatically set upon
@@ -38,121 +43,124 @@ public class MachineTag implements LenientEquals&lt;MachineTag&gt;, Serializable
   private Date created;
 
   public static MachineTag newInstance(String namespace, String name, String value) {
-<span class="nc" id="L41">    return new MachineTag(namespace, name, value);</span>
+<span class="nc" id="L46">    return new MachineTag(namespace, name, value);</span>
   }
 
   public static MachineTag newInstance(TagName tagName, String value) {
-<span class="nc" id="L45">    return new MachineTag(tagName, value);</span>
+<span class="nc" id="L50">    return new MachineTag(tagName, value);</span>
   }
 
-<span class="nc" id="L48">  public MachineTag() {</span>
+<span class="nc" id="L53">  public MachineTag() {</span>
     // Needed
-<span class="nc" id="L50">  }</span>
+<span class="nc" id="L55">  }</span>
 
   /**
    * This is the default constructor to create new Machine Tags which takes all user settable properties.
    */
-<span class="nc" id="L55">  public MachineTag(String namespace, String name, String value) {</span>
-<span class="nc" id="L56">    this.namespace = namespace;</span>
-<span class="nc" id="L57">    this.name = name;</span>
-<span class="nc" id="L58">    this.value = value;</span>
-<span class="nc" id="L59">  }</span>
+<span class="nc" id="L60">  public MachineTag(String namespace, String name, String value) {</span>
+<span class="nc" id="L61">    this.namespace = namespace;</span>
+<span class="nc" id="L62">    this.name = name;</span>
+<span class="nc" id="L63">    this.value = value;</span>
+<span class="nc" id="L64">  }</span>
 
   /**
    * This is the other constructor to create new Machine Tags which takes all user settable properties.
    */
   public MachineTag(TagName tagName, String value) {
-<span class="nc" id="L65">    this(tagName.getNamespace().getNamespace(), tagName.getName(), value);</span>
-<span class="nc" id="L66">  }</span>
+<span class="nc" id="L70">    this(tagName.getNamespace().getNamespace(), tagName.getName(), value);</span>
+<span class="nc" id="L71">  }</span>
 
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   public Integer getKey() {
-<span class="nc" id="L71">    return key;</span>
+<span class="nc" id="L76">    return key;</span>
   }
 
   public void setKey(Integer key) {
-<span class="nc" id="L75">    this.key = key;</span>
-<span class="nc" id="L76">  }</span>
+<span class="nc" id="L80">    this.key = key;</span>
+<span class="nc" id="L81">  }</span>
 
   @NotNull
   @Size(min = 1, max = 255)
   public String getNamespace() {
-<span class="nc" id="L81">    return namespace;</span>
+<span class="nc" id="L86">    return namespace;</span>
   }
 
   public void setNamespace(String namespace) {
-<span class="nc" id="L85">    this.namespace = namespace;</span>
-<span class="nc" id="L86">  }</span>
+<span class="nc" id="L90">    this.namespace = namespace;</span>
+<span class="nc" id="L91">  }</span>
 
   @NotNull
   @Size(min = 1, max = 255)
   public String getName() {
-<span class="nc" id="L91">    return name;</span>
+<span class="nc" id="L96">    return name;</span>
   }
 
   public void setName(String name) {
-<span class="nc" id="L95">    this.name = name;</span>
-<span class="nc" id="L96">  }</span>
+<span class="nc" id="L100">    this.name = name;</span>
+<span class="nc" id="L101">  }</span>
 
   @NotNull
   @Size(min = 1, max = 255)
   public String getValue() {
-<span class="nc" id="L101">    return value;</span>
+<span class="nc" id="L106">    return value;</span>
   }
 
   public void setValue(String value) {
-<span class="nc" id="L105">    this.value = value;</span>
-<span class="nc" id="L106">  }</span>
+<span class="nc" id="L110">    this.value = value;</span>
+<span class="nc" id="L111">  }</span>
 
   @Size(min = 3)
   public String getCreatedBy() {
-<span class="nc" id="L110">    return createdBy;</span>
+<span class="nc" id="L115">    return createdBy;</span>
   }
 
   public void setCreatedBy(String createdBy) {
-<span class="nc" id="L114">    this.createdBy = createdBy;</span>
-<span class="nc" id="L115">  }</span>
+<span class="nc" id="L119">    this.createdBy = createdBy;</span>
+<span class="nc" id="L120">  }</span>
 
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   public Date getCreated() {
-<span class="nc" id="L120">    return created;</span>
+<span class="nc" id="L125">    return created;</span>
   }
 
   public void setCreated(Date created) {
-<span class="nc" id="L124">    this.created = created;</span>
-<span class="nc" id="L125">  }</span>
+<span class="nc" id="L129">    this.created = created;</span>
+<span class="nc" id="L130">  }</span>
 
   @Override
-  public int hashCode() {
-<span class="nc" id="L129">    return Objects.hashCode(key, namespace, name, value, createdBy, created);</span>
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L134" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L135">      return true;</span>
+    }
+<span class="nc bnc" id="L137" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L138">      return false;</span>
+    }
+<span class="nc" id="L140">    MachineTag that = (MachineTag) o;</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">    return Objects.equals(key, that.key) &amp;&amp;</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">      Objects.equals(namespace, that.namespace) &amp;&amp;</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">      Objects.equals(name, that.name) &amp;&amp;</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">      Objects.equals(value, that.value) &amp;&amp;</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">      Objects.equals(createdBy, that.createdBy) &amp;&amp;</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">      Objects.equals(created, that.created);</span>
   }
 
   @Override
-  public boolean equals(Object object) {
-<span class="nc bnc" id="L134" title="All 2 branches missed.">    if (object instanceof MachineTag) {</span>
-<span class="nc" id="L135">      MachineTag that = (MachineTag) object;</span>
-<span class="nc bnc" id="L136" title="All 2 branches missed.">      return Objects.equal(this.key, that.key)</span>
-<span class="nc bnc" id="L137" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.namespace, that.namespace)</span>
-<span class="nc bnc" id="L138" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.name, that.name)</span>
-<span class="nc bnc" id="L139" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.value, that.value)</span>
-<span class="nc bnc" id="L140" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.createdBy, that.createdBy)</span>
-<span class="nc bnc" id="L141" title="All 2 branches missed.">        &amp;&amp; Objects.equal(this.created, that.created);</span>
-    }
-<span class="nc" id="L143">    return false;</span>
+  public int hashCode() {
+<span class="nc" id="L151">    return Objects.hash(key, namespace, name, value, createdBy, created);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L148">    return Objects.toStringHelper(this)</span>
-<span class="nc" id="L149">      .add(&quot;key&quot;, key)</span>
-<span class="nc" id="L150">      .add(&quot;namespace&quot;, namespace)</span>
-<span class="nc" id="L151">      .add(&quot;name&quot;, name)</span>
-<span class="nc" id="L152">      .add(&quot;value&quot;, value)</span>
-<span class="nc" id="L153">      .add(&quot;createdBy&quot;, createdBy)</span>
-<span class="nc" id="L154">      .add(&quot;created&quot;, created)</span>
-<span class="nc" id="L155">      .toString();</span>
+<span class="nc" id="L156">    return new StringJoiner(&quot;, &quot;, MachineTag.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L157">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L158">      .add(&quot;namespace='&quot; + namespace + &quot;'&quot;)</span>
+<span class="nc" id="L159">      .add(&quot;name='&quot; + name + &quot;'&quot;)</span>
+<span class="nc" id="L160">      .add(&quot;value='&quot; + value + &quot;'&quot;)</span>
+<span class="nc" id="L161">      .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L162">      .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L163">      .toString();</span>
   }
 
   /**
@@ -161,13 +169,13 @@ public class MachineTag implements LenientEquals&lt;MachineTag&gt;, Serializable
    */
   @Override
   public boolean lenientEquals(MachineTag other) {
-<span class="nc bnc" id="L164" title="All 2 branches missed.">    if (this == other) {</span>
-<span class="nc" id="L165">      return true;</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L173">      return true;</span>
     }
 
-<span class="nc bnc" id="L168" title="All 2 branches missed.">    return Objects.equal(this.namespace, other.namespace)</span>
-<span class="nc bnc" id="L169" title="All 2 branches missed.">      &amp;&amp; Objects.equal(this.name, other.name)</span>
-<span class="nc bnc" id="L170" title="All 2 branches missed.">      &amp;&amp; Objects.equal(this.value, other.value);</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">    return Objects.equals(this.namespace, other.namespace)</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.name, other.name)</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.value, other.value);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

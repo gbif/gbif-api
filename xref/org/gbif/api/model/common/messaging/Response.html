@@ -7,7 +7,7 @@
 <body>
 <div id="overview"><a href="../../../../../../../apidocs/org/gbif/api/model/common/messaging/Response.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/*</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright 2014 Global Biodiversity Information Facility (GBIF)</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright 2020 Global Biodiversity Information Facility (GBIF)</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> *</em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
@@ -23,7 +23,7 @@
 <a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">package</strong> org.gbif.api.model.common.messaging;
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> com.google.common.base.Objects;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> java.util.StringJoiner;
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>  
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> Response&lt;T&gt; {
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>  
@@ -164,13 +164,13 @@
 <a class="jxr_linenumber" name="L156" href="#L156">156</a> 
 <a class="jxr_linenumber" name="L157" href="#L157">157</a>   @Override
 <a class="jxr_linenumber" name="L158" href="#L158">158</a>   <strong class="jxr_keyword">public</strong> String toString() {
-<a class="jxr_linenumber" name="L159" href="#L159">159</a>     <strong class="jxr_keyword">return</strong> Objects.toStringHelper(<strong class="jxr_keyword">this</strong>)
-<a class="jxr_linenumber" name="L160" href="#L160">160</a>       .add(<span class="jxr_string">"messageKey"</span>, messageKey)
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>       .add(<span class="jxr_string">"message"</span>, message)
-<a class="jxr_linenumber" name="L162" href="#L162">162</a>       .add(<span class="jxr_string">"status"</span>, status)
-<a class="jxr_linenumber" name="L163" href="#L163">163</a>       .add(<span class="jxr_string">"statusCode"</span>, statusCode)
-<a class="jxr_linenumber" name="L164" href="#L164">164</a>       .add(<span class="jxr_string">"content"</span>, content)
-<a class="jxr_linenumber" name="L165" href="#L165">165</a>       .add(<span class="jxr_string">"rootException"</span>, rootException)
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> StringJoiner(<span class="jxr_string">", "</span>, Response.<strong class="jxr_keyword">class</strong>.getSimpleName() + <span class="jxr_string">"["</span>, <span class="jxr_string">"]"</span>)
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>       .add(<span class="jxr_string">"messageKey='"</span> + messageKey + <span class="jxr_string">"'"</span>)
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>       .add(<span class="jxr_string">"message='"</span> + message + <span class="jxr_string">"'"</span>)
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>       .add(<span class="jxr_string">"status="</span> + status)
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>       .add(<span class="jxr_string">"statusCode="</span> + statusCode)
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>       .add(<span class="jxr_string">"content="</span> + content)
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>       .add(<span class="jxr_string">"rootException="</span> + rootException)
 <a class="jxr_linenumber" name="L166" href="#L166">166</a>       .toString();
 <a class="jxr_linenumber" name="L167" href="#L167">167</a>   }
 <a class="jxr_linenumber" name="L168" href="#L168">168</a> 
@@ -332,10 +332,8 @@
 <a class="jxr_linenumber" name="L324" href="#L324">324</a>       <strong class="jxr_keyword">this</strong>.statusCode = statusCode;
 <a class="jxr_linenumber" name="L325" href="#L325">325</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
 <a class="jxr_linenumber" name="L326" href="#L326">326</a>     }
-<a class="jxr_linenumber" name="L327" href="#L327">327</a> 
-<a class="jxr_linenumber" name="L328" href="#L328">328</a>   }
-<a class="jxr_linenumber" name="L329" href="#L329">329</a> 
-<a class="jxr_linenumber" name="L330" href="#L330">330</a> }
+<a class="jxr_linenumber" name="L327" href="#L327">327</a>   }
+<a class="jxr_linenumber" name="L328" href="#L328">328</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2020 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>

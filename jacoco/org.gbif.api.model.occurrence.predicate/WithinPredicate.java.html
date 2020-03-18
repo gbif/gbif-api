@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WithinPredicate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence.predicate</a> &gt; <span class="el_source">WithinPredicate.java</span></div><h1>WithinPredicate.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,10 +18,11 @@ package org.gbif.api.model.occurrence.predicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.validation.constraints.NotNull;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.slf4j.Logger;
@@ -28,7 +32,7 @@ import org.slf4j.LoggerFactory;
  * This predicate checks if an occurrence location falls within the given WKT geometry {@code value}.
  */
 public class WithinPredicate implements Predicate {
-<span class="fc" id="L31">  private static final Logger LOG = LoggerFactory.getLogger(WithinPredicate.class);</span>
+<span class="fc" id="L35">  private static final Logger LOG = LoggerFactory.getLogger(WithinPredicate.class);</span>
 
   @NotNull
   private final String geometry;
@@ -52,46 +56,45 @@ public class WithinPredicate implements Predicate {
    * @param geometry
    */
   @JsonCreator
-<span class="fc" id="L55">  public WithinPredicate(@JsonProperty(&quot;geometry&quot;) String geometry) {</span>
-<span class="fc" id="L56">    Preconditions.checkNotNull(geometry, &quot;&lt;geometry&gt; may not be null&quot;);</span>
+<span class="fc" id="L59">  public WithinPredicate(@JsonProperty(&quot;geometry&quot;) String geometry) {</span>
+<span class="fc" id="L60">    Objects.requireNonNull(geometry, &quot;&lt;geometry&gt; may not be null&quot;);</span>
     try {
       // test if it is a valid WKT
-<span class="fc" id="L59">      SearchTypeValidator.validate(OccurrenceSearchParameter.GEOMETRY, geometry);</span>
-<span class="fc" id="L60">    } catch (IllegalArgumentException e) {</span>
+<span class="fc" id="L63">      SearchTypeValidator.validate(OccurrenceSearchParameter.GEOMETRY, geometry);</span>
+<span class="fc" id="L64">    } catch (IllegalArgumentException e) {</span>
       // Log invalid strings, but continue - the geometry parser has changed over time, and some once-valid strings
       // are no longer considered valid.  See https://github.com/gbif/gbif-api/issues/48.
-<span class="fc" id="L63">      LOG.warn(&quot;Invalid geometry string {}: {}&quot;, geometry, e.getMessage());</span>
-<span class="fc" id="L64">    }</span>
-<span class="fc" id="L65">    this.geometry = geometry;</span>
-<span class="fc" id="L66">  }</span>
+<span class="fc" id="L67">      LOG.warn(&quot;Invalid geometry string {}: {}&quot;, geometry, e.getMessage());</span>
+<span class="fc" id="L68">    }</span>
+<span class="fc" id="L69">    this.geometry = geometry;</span>
+<span class="fc" id="L70">  }</span>
 
   public String getGeometry() {
-<span class="nc" id="L69">    return geometry;</span>
+<span class="nc" id="L73">    return geometry;</span>
   }
 
   @Override
-  public boolean equals(Object obj) {
-<span class="nc bnc" id="L74" title="All 2 branches missed.">    if (this == obj) {</span>
-<span class="nc" id="L75">      return true;</span>
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L78" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L79">      return true;</span>
     }
-
-<span class="nc bnc" id="L78" title="All 2 branches missed.">    if (!(obj instanceof WithinPredicate)) {</span>
-<span class="nc" id="L79">      return false;</span>
+<span class="nc bnc" id="L81" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L82">      return false;</span>
     }
-
-<span class="nc" id="L82">    WithinPredicate that = (WithinPredicate) obj;</span>
-<span class="nc" id="L83">    return Objects.equal(this.geometry, that.geometry);</span>
+<span class="nc" id="L84">    WithinPredicate that = (WithinPredicate) o;</span>
+<span class="nc" id="L85">    return Objects.equals(geometry, that.geometry);</span>
   }
 
   @Override
-   public int hashCode() {
-<span class="nc" id="L88">     return Objects.hashCode(geometry);</span>
-   }
+  public int hashCode() {
+<span class="nc" id="L90">    return Objects.hash(geometry);</span>
+  }
 
-   @Override
-   public String toString() {
-<span class="nc" id="L93">     return Objects.toStringHelper(this).add(&quot;geometry&quot;, geometry).toString();</span>
-   }
-
+  @Override
+  public String toString() {
+<span class="nc" id="L95">    return new StringJoiner(&quot;, &quot;, WithinPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L96">      .add(&quot;geometry='&quot; + geometry + &quot;'&quot;)</span>
+<span class="nc" id="L97">      .toString();</span>
+  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

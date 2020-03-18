@@ -1,9 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GenericValidationReport.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.crawler</a> &gt; <span class="el_source">GenericValidationReport.java</span></div><h1>GenericValidationReport.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.crawler;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GenericValidationReport.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.crawler</a> &gt; <span class="el_source">GenericValidationReport.java</span></div><h1>GenericValidationReport.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.crawler;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -41,83 +56,83 @@ public class GenericValidationReport {
     @JsonProperty(&quot;allRecordsChecked&quot;) boolean allRecordsChecked,
     @JsonProperty(&quot;duplicateIds&quot;) List&lt;String&gt; duplicateIds,
     @JsonProperty(&quot;rowNumbersMissingId&quot;) List&lt;Integer&gt; rowNumbersMissingId
-<span class="fc" id="L44">  ) {</span>
-<span class="fc" id="L45">    this.checkedRecords = checkedRecords;</span>
-<span class="fc" id="L46">    this.allRecordsChecked = allRecordsChecked;</span>
-<span class="fc" id="L47">    this.duplicateIds = Preconditions.checkNotNull(duplicateIds, &quot;duplicateIds cannot be null&quot;);</span>
-<span class="fc" id="L48">    this.rowNumbersMissingId = Preconditions.checkNotNull(rowNumbersMissingId, &quot;rowNumbersMissingId cannot be null&quot;);</span>
-<span class="fc" id="L49">    this.valid = validate();</span>
-<span class="fc" id="L50">  }</span>
+<span class="fc" id="L59">  ) {</span>
+<span class="fc" id="L60">    this.checkedRecords = checkedRecords;</span>
+<span class="fc" id="L61">    this.allRecordsChecked = allRecordsChecked;</span>
+<span class="fc" id="L62">    this.duplicateIds = Objects.requireNonNull(duplicateIds, &quot;duplicateIds cannot be null&quot;);</span>
+<span class="fc" id="L63">    this.rowNumbersMissingId = Objects.requireNonNull(rowNumbersMissingId, &quot;rowNumbersMissingId cannot be null&quot;);</span>
+<span class="fc" id="L64">    this.valid = validate();</span>
+<span class="fc" id="L65">  }</span>
 
   private boolean validate() {
-<span class="fc bfc" id="L53" title="All 2 branches covered.">    if (!duplicateIds.isEmpty()) {</span>
-<span class="fc" id="L54">      invalidationReason = &quot;Non unique core ids&quot;;</span>
-<span class="fc" id="L55">      return false;</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">    if (!duplicateIds.isEmpty()) {</span>
+<span class="fc" id="L69">      invalidationReason = &quot;Non unique core ids&quot;;</span>
+<span class="fc" id="L70">      return false;</span>
     }
-<span class="fc bfc" id="L57" title="All 2 branches covered.">    if (!rowNumbersMissingId.isEmpty()) {</span>
-<span class="fc" id="L58">      invalidationReason = &quot;Missing core ids&quot;;</span>
-<span class="fc" id="L59">      return false;</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">    if (!rowNumbersMissingId.isEmpty()) {</span>
+<span class="fc" id="L73">      invalidationReason = &quot;Missing core ids&quot;;</span>
+<span class="fc" id="L74">      return false;</span>
     }
-<span class="fc" id="L61">    return true;</span>
+<span class="fc" id="L76">    return true;</span>
   }
 
   public int getCheckedRecords() {
-<span class="nc" id="L65">    return checkedRecords;</span>
+<span class="nc" id="L80">    return checkedRecords;</span>
   }
 
   public boolean isAllRecordsChecked() {
-<span class="nc" id="L69">    return allRecordsChecked;</span>
+<span class="nc" id="L84">    return allRecordsChecked;</span>
   }
 
   public List&lt;String&gt; getDuplicateIds() {
-<span class="nc" id="L73">    return duplicateIds;</span>
+<span class="nc" id="L88">    return duplicateIds;</span>
   }
 
   public List&lt;Integer&gt; getRowNumbersMissingId() {
-<span class="nc" id="L77">    return rowNumbersMissingId;</span>
+<span class="nc" id="L92">    return rowNumbersMissingId;</span>
   }
 
   public String getInvalidationReason() {
-<span class="nc" id="L81">    return invalidationReason;</span>
+<span class="nc" id="L96">    return invalidationReason;</span>
   }
 
   public boolean isValid() {
-<span class="fc" id="L85">    return valid;</span>
+<span class="fc" id="L100">    return valid;</span>
+  }
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L105" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L106">      return true;</span>
+    }
+<span class="nc bnc" id="L108" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L109">      return false;</span>
+    }
+<span class="nc" id="L111">    GenericValidationReport that = (GenericValidationReport) o;</span>
+<span class="nc bnc" id="L112" title="All 6 branches missed.">    return checkedRecords == that.checkedRecords &amp;&amp;</span>
+      allRecordsChecked == that.allRecordsChecked &amp;&amp;
+      valid == that.valid &amp;&amp;
+<span class="nc bnc" id="L115" title="All 2 branches missed.">      Objects.equals(duplicateIds, that.duplicateIds) &amp;&amp;</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">      Objects.equals(rowNumbersMissingId, that.rowNumbersMissingId) &amp;&amp;</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">      Objects.equals(invalidationReason, that.invalidationReason);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L90">    return Objects.hashCode(checkedRecords, allRecordsChecked, duplicateIds,</span>
-<span class="nc" id="L91">                            rowNumbersMissingId, invalidationReason,valid);</span>
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-<span class="nc bnc" id="L96" title="All 2 branches missed.">    if (this == obj) {</span>
-<span class="nc" id="L97">      return true;</span>
-    }
-<span class="nc bnc" id="L99" title="All 4 branches missed.">    if (obj == null || getClass() != obj.getClass()) {</span>
-<span class="nc" id="L100">      return false;</span>
-    }
-<span class="nc" id="L102">    final GenericValidationReport other = (GenericValidationReport) obj;</span>
-<span class="nc bnc" id="L103" title="All 2 branches missed.">    return Objects.equal(this.checkedRecords, other.checkedRecords)</span>
-<span class="nc bnc" id="L104" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.allRecordsChecked, other.allRecordsChecked)</span>
-<span class="nc bnc" id="L105" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.duplicateIds, other.duplicateIds)</span>
-<span class="nc bnc" id="L106" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.rowNumbersMissingId, other.rowNumbersMissingId)</span>
-<span class="nc bnc" id="L107" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.invalidationReason, other.invalidationReason)</span>
-<span class="nc bnc" id="L108" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.valid, other.valid);</span>
+<span class="nc" id="L122">    return Objects.hash(checkedRecords, allRecordsChecked, duplicateIds, rowNumbersMissingId,</span>
+<span class="nc" id="L123">      invalidationReason, valid);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L113">    return Objects.toStringHelper(this)</span>
-<span class="nc" id="L114">      .add(&quot;checkedRecords&quot;, checkedRecords)</span>
-<span class="nc" id="L115">      .add(&quot;duplicateIds&quot;, duplicateIds)</span>
-<span class="nc" id="L116">      .add(&quot;rowNumbersMissingId&quot;, rowNumbersMissingId)</span>
-<span class="nc" id="L117">      .add(&quot;allRecordsChecked&quot;, allRecordsChecked)</span>
-<span class="nc" id="L118">      .add(&quot;invalidationReason&quot;, invalidationReason)</span>
-<span class="nc" id="L119">      .add(&quot;valid&quot;, valid)</span>
-<span class="nc" id="L120">      .toString();</span>
+<span class="nc" id="L128">    return new StringJoiner(&quot;, &quot;, GenericValidationReport.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L129">      .add(&quot;checkedRecords=&quot; + checkedRecords)</span>
+<span class="nc" id="L130">      .add(&quot;allRecordsChecked=&quot; + allRecordsChecked)</span>
+<span class="nc" id="L131">      .add(&quot;duplicateIds=&quot; + duplicateIds)</span>
+<span class="nc" id="L132">      .add(&quot;rowNumbersMissingId=&quot; + rowNumbersMissingId)</span>
+<span class="nc" id="L133">      .add(&quot;invalidationReason='&quot; + invalidationReason + &quot;'&quot;)</span>
+<span class="nc" id="L134">      .add(&quot;valid=&quot; + valid)</span>
+<span class="nc" id="L135">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -7,7 +7,7 @@
 <body>
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2014 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
+<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
 <span class="sourceLineNo">003</span> *<a name="line.3"></a>
 <span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
 <span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
@@ -31,12 +31,12 @@
 <span class="sourceLineNo">023</span>import org.gbif.api.vocabulary.ThreatStatus;<a name="line.23"></a>
 <span class="sourceLineNo">024</span><a name="line.24"></a>
 <span class="sourceLineNo">025</span>import java.net.URI;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import java.util.LinkedList;<a name="line.26"></a>
-<span class="sourceLineNo">027</span>import java.util.List;<a name="line.27"></a>
-<span class="sourceLineNo">028</span>import java.util.Queue;<a name="line.28"></a>
-<span class="sourceLineNo">029</span>import java.util.UUID;<a name="line.29"></a>
-<span class="sourceLineNo">030</span><a name="line.30"></a>
-<span class="sourceLineNo">031</span>import com.google.common.collect.Lists;<a name="line.31"></a>
+<span class="sourceLineNo">026</span>import java.util.ArrayList;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import java.util.LinkedList;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import java.util.List;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import java.util.Queue;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import java.util.UUID;<a name="line.30"></a>
+<span class="sourceLineNo">031</span><a name="line.31"></a>
 <span class="sourceLineNo">032</span>import org.junit.Test;<a name="line.32"></a>
 <span class="sourceLineNo">033</span><a name="line.33"></a>
 <span class="sourceLineNo">034</span>import static org.junit.Assert.assertEquals;<a name="line.34"></a>
@@ -116,9 +116,9 @@
 <span class="sourceLineNo">108</span>    ru2.setTitle("Puma concolor");<a name="line.108"></a>
 <span class="sourceLineNo">109</span>    ru2.setSourceTaxonKey(111);<a name="line.109"></a>
 <span class="sourceLineNo">110</span><a name="line.110"></a>
-<span class="sourceLineNo">111</span>    List&lt;NameUsageMediaObject&gt; lru1 = Lists.newArrayList();<a name="line.111"></a>
+<span class="sourceLineNo">111</span>    List&lt;NameUsageMediaObject&gt; lru1 = new ArrayList&lt;&gt;();<a name="line.111"></a>
 <span class="sourceLineNo">112</span>    lru1.add(ru1);<a name="line.112"></a>
-<span class="sourceLineNo">113</span>    List&lt;NameUsageMediaObject&gt; lru2 = Lists.newArrayList();<a name="line.113"></a>
+<span class="sourceLineNo">113</span>    List&lt;NameUsageMediaObject&gt; lru2 = new ArrayList&lt;&gt;();<a name="line.113"></a>
 <span class="sourceLineNo">114</span>    lru2.add(ru2);<a name="line.114"></a>
 <span class="sourceLineNo">115</span><a name="line.115"></a>
 <span class="sourceLineNo">116</span>    nu1.setMedia(lru1);<a name="line.116"></a>
@@ -273,7 +273,7 @@
 <span class="sourceLineNo">265</span>    assertEquals(4, nu.getHigherClassificationMap().size());<a name="line.265"></a>
 <span class="sourceLineNo">266</span>    assertTrue(nu.getHigherClassificationMap().containsKey(3));<a name="line.266"></a>
 <span class="sourceLineNo">267</span><a name="line.267"></a>
-<span class="sourceLineNo">268</span>    Queue&lt;Integer&gt; expectedKeyOrder = Lists.newLinkedList();<a name="line.268"></a>
+<span class="sourceLineNo">268</span>    Queue&lt;Integer&gt; expectedKeyOrder = new LinkedList&lt;&gt;();<a name="line.268"></a>
 <span class="sourceLineNo">269</span>    expectedKeyOrder.add(1);<a name="line.269"></a>
 <span class="sourceLineNo">270</span>    expectedKeyOrder.add(5);<a name="line.270"></a>
 <span class="sourceLineNo">271</span>    expectedKeyOrder.add(4);<a name="line.271"></a>

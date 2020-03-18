@@ -7,7 +7,7 @@
 <body>
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2014 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
+<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
 <span class="sourceLineNo">003</span> *<a name="line.3"></a>
 <span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
 <span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
@@ -24,12 +24,12 @@
 <span class="sourceLineNo">016</span>package org.gbif.api.vocabulary;<a name="line.16"></a>
 <span class="sourceLineNo">017</span><a name="line.17"></a>
 <span class="sourceLineNo">018</span>import java.io.IOException;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import java.util.List;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import java.util.Locale;<a name="line.20"></a>
-<span class="sourceLineNo">021</span><a name="line.21"></a>
-<span class="sourceLineNo">022</span>import com.google.common.annotations.VisibleForTesting;<a name="line.22"></a>
-<span class="sourceLineNo">023</span>import com.google.common.base.Strings;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import com.google.common.collect.ImmutableList;<a name="line.24"></a>
+<span class="sourceLineNo">019</span>import java.util.Arrays;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import java.util.Collections;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import java.util.List;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.util.Locale;<a name="line.22"></a>
+<span class="sourceLineNo">023</span><a name="line.23"></a>
+<span class="sourceLineNo">024</span>import org.apache.commons.lang3.StringUtils;<a name="line.24"></a>
 <span class="sourceLineNo">025</span>import org.codehaus.jackson.JsonGenerationException;<a name="line.25"></a>
 <span class="sourceLineNo">026</span>import org.codehaus.jackson.JsonGenerator;<a name="line.26"></a>
 <span class="sourceLineNo">027</span>import org.codehaus.jackson.JsonParser;<a name="line.27"></a>
@@ -986,7 +986,7 @@
 <span class="sourceLineNo">978</span>  private final String code;<a name="line.978"></a>
 <span class="sourceLineNo">979</span><a name="line.979"></a>
 <span class="sourceLineNo">980</span>  static {<a name="line.980"></a>
-<span class="sourceLineNo">981</span>    LANGUAGES = ImmutableList.copyOf(Language.values());<a name="line.981"></a>
+<span class="sourceLineNo">981</span>    LANGUAGES = Collections.unmodifiableList(Arrays.asList(Language.values()));<a name="line.981"></a>
 <span class="sourceLineNo">982</span>  }<a name="line.982"></a>
 <span class="sourceLineNo">983</span><a name="line.983"></a>
 <span class="sourceLineNo">984</span>  /**<a name="line.984"></a>
@@ -995,7 +995,7 @@
 <span class="sourceLineNo">987</span>   * @return the matching language or UNKNOWN<a name="line.987"></a>
 <span class="sourceLineNo">988</span>   */<a name="line.988"></a>
 <span class="sourceLineNo">989</span>  public static Language fromIsoCode(String code) {<a name="line.989"></a>
-<span class="sourceLineNo">990</span>    if (!Strings.isNullOrEmpty(code)) {<a name="line.990"></a>
+<span class="sourceLineNo">990</span>    if (StringUtils.isNotEmpty(code)) {<a name="line.990"></a>
 <span class="sourceLineNo">991</span>      String codeLower = code.toLowerCase().trim();<a name="line.991"></a>
 <span class="sourceLineNo">992</span>      if (codeLower.length() == 2){<a name="line.992"></a>
 <span class="sourceLineNo">993</span>        for (Language language : Language.values()) {<a name="line.993"></a>
@@ -1088,21 +1088,20 @@
 <span class="sourceLineNo">1080</span>      }<a name="line.1080"></a>
 <span class="sourceLineNo">1081</span>    }<a name="line.1081"></a>
 <span class="sourceLineNo">1082</span><a name="line.1082"></a>
-<span class="sourceLineNo">1083</span>    @VisibleForTesting<a name="line.1083"></a>
-<span class="sourceLineNo">1084</span>    static Language lenientParse(String value) {<a name="line.1084"></a>
-<span class="sourceLineNo">1085</span>      Language l = Language.fromIsoCode(value);<a name="line.1085"></a>
-<span class="sourceLineNo">1086</span>      // backwards compatible<a name="line.1086"></a>
-<span class="sourceLineNo">1087</span>      if (UNKNOWN == l) {<a name="line.1087"></a>
-<span class="sourceLineNo">1088</span>        try {<a name="line.1088"></a>
-<span class="sourceLineNo">1089</span>          l = valueOf(value);<a name="line.1089"></a>
-<span class="sourceLineNo">1090</span>        } catch( IllegalArgumentException e) {<a name="line.1090"></a>
-<span class="sourceLineNo">1091</span>          l = UNKNOWN;<a name="line.1091"></a>
-<span class="sourceLineNo">1092</span>        }<a name="line.1092"></a>
-<span class="sourceLineNo">1093</span>      }<a name="line.1093"></a>
-<span class="sourceLineNo">1094</span>      return l;<a name="line.1094"></a>
-<span class="sourceLineNo">1095</span>    }<a name="line.1095"></a>
-<span class="sourceLineNo">1096</span>  }<a name="line.1096"></a>
-<span class="sourceLineNo">1097</span>}<a name="line.1097"></a>
+<span class="sourceLineNo">1083</span>    static Language lenientParse(String value) {<a name="line.1083"></a>
+<span class="sourceLineNo">1084</span>      Language l = Language.fromIsoCode(value);<a name="line.1084"></a>
+<span class="sourceLineNo">1085</span>      // backwards compatible<a name="line.1085"></a>
+<span class="sourceLineNo">1086</span>      if (UNKNOWN == l) {<a name="line.1086"></a>
+<span class="sourceLineNo">1087</span>        try {<a name="line.1087"></a>
+<span class="sourceLineNo">1088</span>          l = valueOf(value);<a name="line.1088"></a>
+<span class="sourceLineNo">1089</span>        } catch( IllegalArgumentException e) {<a name="line.1089"></a>
+<span class="sourceLineNo">1090</span>          l = UNKNOWN;<a name="line.1090"></a>
+<span class="sourceLineNo">1091</span>        }<a name="line.1091"></a>
+<span class="sourceLineNo">1092</span>      }<a name="line.1092"></a>
+<span class="sourceLineNo">1093</span>      return l;<a name="line.1093"></a>
+<span class="sourceLineNo">1094</span>    }<a name="line.1094"></a>
+<span class="sourceLineNo">1095</span>  }<a name="line.1095"></a>
+<span class="sourceLineNo">1096</span>}<a name="line.1096"></a>
 
 
 

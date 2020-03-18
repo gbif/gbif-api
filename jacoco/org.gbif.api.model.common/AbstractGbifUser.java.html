@@ -1,19 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractGbifUser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common</a> &gt; <span class="el_source">AbstractGbifUser.java</span></div><h1>AbstractGbifUser.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.common;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractGbifUser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common</a> &gt; <span class="el_source">AbstractGbifUser.java</span></div><h1>AbstractGbifUser.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.common;
 
-import com.google.common.base.Joiner;
 import org.gbif.api.vocabulary.UserRole;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
@@ -22,37 +39,35 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * By doing so, it is possible to have classes working for user information without having to carry those
  * information around.
  */
-<span class="fc" id="L25">public abstract class AbstractGbifUser {</span>
+<span class="fc" id="L42">public abstract class AbstractGbifUser {</span>
   protected static final String EMAIL_PATTERN =
           &quot;^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$&quot;;
-
-<span class="fc" id="L29">  private static final Joiner JOINER = Joiner.on(&quot; &quot;).skipNulls();</span>
 
   protected String userName;
   protected String firstName;
   protected String lastName;
   protected String email;
-<span class="fc" id="L35">  protected Set&lt;UserRole&gt; roles = Sets.newHashSet();</span>
+<span class="fc" id="L50">  protected Set&lt;UserRole&gt; roles = new HashSet&lt;&gt;();</span>
 
 //  //country of the user (user for stats)
 //  protected Country country;
 
-<span class="fc" id="L40">  protected Map&lt;String, String&gt; settings = Maps.newHashMap();</span>
+<span class="fc" id="L55">  protected Map&lt;String, String&gt; settings = new HashMap&lt;&gt;();</span>
 
   //settings that the user will not set directly
-<span class="fc" id="L43">  protected Map&lt;String, String&gt; systemSettings = Maps.newHashMap();</span>
+<span class="fc" id="L58">  protected Map&lt;String, String&gt; systemSettings = new HashMap&lt;&gt;();</span>
 
   protected Date deleted;
 
   @NotNull
   @Pattern(regexp = EMAIL_PATTERN)
   public String getEmail() {
-<span class="fc" id="L50">    return email;</span>
+<span class="fc" id="L65">    return email;</span>
   }
 
   public void setEmail(String email) {
-<span class="fc" id="L54">    this.email = email;</span>
-<span class="fc" id="L55">  }</span>
+<span class="fc" id="L69">    this.email = email;</span>
+<span class="fc" id="L70">  }</span>
 
   /**
    * The unique, immutable drupal user account name.
@@ -64,55 +79,57 @@ import org.codehaus.jackson.annotate.JsonIgnore;
   @Pattern(regexp = &quot;^[a-z0-9_.-]+$&quot;)
   @Size(min = 3, max = 64)
   public String getUserName() {
-<span class="fc" id="L67">    return userName;</span>
+<span class="fc" id="L82">    return userName;</span>
   }
 
   public void setUserName(String userName) {
-<span class="fc" id="L71">    this.userName = userName;</span>
-<span class="fc" id="L72">  }</span>
+<span class="fc" id="L86">    this.userName = userName;</span>
+<span class="fc" id="L87">  }</span>
 
   /**
    * @return the first name of a person
    */
   public String getFirstName() {
-<span class="fc" id="L78">    return firstName;</span>
+<span class="fc" id="L93">    return firstName;</span>
   }
 
   public void setFirstName(String firstName) {
-<span class="fc" id="L82">    this.firstName = firstName;</span>
-<span class="fc" id="L83">  }</span>
+<span class="fc" id="L97">    this.firstName = firstName;</span>
+<span class="fc" id="L98">  }</span>
 
   /**
    * @return the last name of the user
    */
   public String getLastName() {
-<span class="fc" id="L89">    return lastName;</span>
+<span class="fc" id="L104">    return lastName;</span>
   }
 
   public void setLastName(String lastName) {
-<span class="fc" id="L93">    this.lastName = lastName;</span>
-<span class="fc" id="L94">  }</span>
+<span class="fc" id="L108">    this.lastName = lastName;</span>
+<span class="fc" id="L109">  }</span>
 
   /**
    * @return the first and last name of the user concatenated with a space
    */
   @JsonIgnore
   public String getName() {
-<span class="fc" id="L101">    return JOINER.join(firstName, lastName);</span>
+<span class="fc" id="L116">    return Stream.of(firstName, lastName)</span>
+<span class="fc" id="L117">      .filter(Objects::nonNull)</span>
+<span class="fc" id="L118">      .collect(Collectors.joining(&quot; &quot;));</span>
   }
 
   @NotNull
   public Set&lt;UserRole&gt; getRoles() {
-<span class="fc" id="L106">    return roles;</span>
+<span class="fc" id="L123">    return roles;</span>
   }
 
   public void setRoles(Set&lt;UserRole&gt; roles) {
-<span class="fc" id="L110">    this.roles = roles;</span>
-<span class="fc" id="L111">  }</span>
+<span class="fc" id="L127">    this.roles = roles;</span>
+<span class="fc" id="L128">  }</span>
 
   public void addRole(UserRole role) {
-<span class="fc" id="L114">    roles.add(role);</span>
-<span class="fc" id="L115">  }</span>
+<span class="fc" id="L131">    roles.add(role);</span>
+<span class="fc" id="L132">  }</span>
 
   /**
    * Checks if the user has the given user role.
@@ -121,7 +138,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    * @return true if the user has the requested role
    */
   public boolean hasRole(UserRole role) {
-<span class="fc bfc" id="L124" title="All 4 branches covered.">    return role != null &amp;&amp; roles.contains(role);</span>
+<span class="fc bfc" id="L141" title="All 4 branches covered.">    return role != null &amp;&amp; roles.contains(role);</span>
   }
 
   /**
@@ -129,8 +146,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    */
   public void setSettings(Map&lt;String, String&gt; settings) {
     // safeguard against misuse to avoid NPE
-<span class="pc bpc" id="L132" title="1 of 2 branches missed.">    this.settings = settings == null ? Maps.newHashMap() : settings;</span>
-<span class="fc" id="L133">  }</span>
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">    this.settings = settings == null ? new HashMap&lt;&gt;() : settings;</span>
+<span class="fc" id="L150">  }</span>
 
   /**
    * Gets the settings which may be empty but never null.
@@ -138,7 +155,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    */
   @NotNull
   public Map&lt;String, String&gt; getSettings() {
-<span class="fc" id="L141">    return settings;</span>
+<span class="fc" id="L158">    return settings;</span>
   }
 
   /**
@@ -146,64 +163,62 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    */
   public void setSystemSettings(Map&lt;String, String&gt; systemSettings) {
     // safeguard against misuse to avoid NPE
-<span class="pc bpc" id="L149" title="1 of 2 branches missed.">    this.systemSettings = systemSettings == null ? Maps.newHashMap() : systemSettings;</span>
-<span class="fc" id="L150">  }</span>
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">    this.systemSettings = systemSettings == null ? new HashMap&lt;&gt;() : systemSettings;</span>
+<span class="fc" id="L167">  }</span>
   /**
    * Gets the settings which may be empty but never null.
    * @return
    */
   @NotNull
   public Map&lt;String, String&gt; getSystemSettings() {
-<span class="fc" id="L157">    return systemSettings;</span>
+<span class="fc" id="L174">    return systemSettings;</span>
   }
 
   public Date getDeleted() {
-<span class="fc" id="L161">    return deleted;</span>
+<span class="fc" id="L178">    return deleted;</span>
   }
 
   public void setDeleted(Date deleted) {
-<span class="nc" id="L165">    this.deleted = deleted;</span>
-<span class="nc" id="L166">  }</span>
+<span class="nc" id="L182">    this.deleted = deleted;</span>
+<span class="nc" id="L183">  }</span>
 
   @Override
-  public boolean equals(Object obj) {
-<span class="nc bnc" id="L170" title="All 2 branches missed.">    if (this == obj) {</span>
-<span class="nc" id="L171">      return true;</span>
+  public boolean equals(Object o) {
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L188">      return true;</span>
     }
-<span class="nc bnc" id="L173" title="All 2 branches missed.">    if (!(obj instanceof AbstractGbifUser)) {</span>
-<span class="nc" id="L174">      return false;</span>
+<span class="pc bpc" id="L190" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L191">      return false;</span>
     }
-
-<span class="nc" id="L177">    AbstractGbifUser that = (AbstractGbifUser) obj;</span>
-<span class="nc bnc" id="L178" title="All 2 branches missed.">    return Objects.equal(this.userName, that.userName)</span>
-<span class="nc bnc" id="L179" title="All 2 branches missed.">            &amp;&amp; Objects.equal(this.firstName, that.firstName)</span>
-<span class="nc bnc" id="L180" title="All 2 branches missed.">            &amp;&amp; Objects.equal(this.lastName, that.lastName)</span>
-<span class="nc bnc" id="L181" title="All 2 branches missed.">            &amp;&amp; Objects.equal(this.email, that.email)</span>
-<span class="nc bnc" id="L182" title="All 2 branches missed.">            &amp;&amp; Objects.equal(this.roles, that.roles)</span>
-<span class="nc bnc" id="L183" title="All 2 branches missed.">            &amp;&amp; Objects.equal(this.settings, that.settings)</span>
-<span class="nc bnc" id="L184" title="All 2 branches missed.">            &amp;&amp; Objects.equal(this.systemSettings, that.systemSettings)</span>
-<span class="nc bnc" id="L185" title="All 2 branches missed.">            &amp;&amp; Objects.equal(this.deleted, that.deleted);</span>
+<span class="fc" id="L193">    AbstractGbifUser that = (AbstractGbifUser) o;</span>
+<span class="pc bpc" id="L194" title="1 of 2 branches missed.">    return Objects.equals(userName, that.userName) &amp;&amp;</span>
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">      Objects.equals(firstName, that.firstName) &amp;&amp;</span>
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">      Objects.equals(lastName, that.lastName) &amp;&amp;</span>
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">      Objects.equals(email, that.email) &amp;&amp;</span>
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">      Objects.equals(roles, that.roles) &amp;&amp;</span>
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">      Objects.equals(settings, that.settings) &amp;&amp;</span>
+<span class="pc bpc" id="L200" title="1 of 2 branches missed.">      Objects.equals(systemSettings, that.systemSettings) &amp;&amp;</span>
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">      Objects.equals(deleted, that.deleted);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L190">    return Objects.hashCode(userName, firstName, lastName, email, roles, settings,</span>
-            systemSettings, deleted);
+<span class="fc" id="L206">    return Objects</span>
+<span class="fc" id="L207">      .hash(userName, firstName, lastName, email, roles, settings, systemSettings, deleted);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L196">    return Objects.toStringHelper(this)</span>
-<span class="nc" id="L197">            .add(&quot;userName&quot;, userName)</span>
-<span class="nc" id="L198">            .add(&quot;firstName&quot;, firstName)</span>
-<span class="nc" id="L199">            .add(&quot;lastName&quot;, lastName)</span>
-<span class="nc" id="L200">            .add(&quot;email&quot;, email)</span>
-<span class="nc" id="L201">            .add(&quot;roles&quot;, roles)</span>
-<span class="nc" id="L202">            .add(&quot;settings&quot;, settings)</span>
-<span class="nc" id="L203">            .add(&quot;systemSettings&quot;, systemSettings)</span>
-<span class="nc" id="L204">            .add(&quot;deleted&quot;, deleted)</span>
-<span class="nc" id="L205">            .toString();</span>
+<span class="nc" id="L212">    return new StringJoiner(&quot;, &quot;, AbstractGbifUser.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L213">      .add(&quot;userName='&quot; + userName + &quot;'&quot;)</span>
+<span class="nc" id="L214">      .add(&quot;firstName='&quot; + firstName + &quot;'&quot;)</span>
+<span class="nc" id="L215">      .add(&quot;lastName='&quot; + lastName + &quot;'&quot;)</span>
+<span class="nc" id="L216">      .add(&quot;email='&quot; + email + &quot;'&quot;)</span>
+<span class="nc" id="L217">      .add(&quot;roles=&quot; + roles)</span>
+<span class="nc" id="L218">      .add(&quot;settings=&quot; + settings)</span>
+<span class="nc" id="L219">      .add(&quot;systemSettings=&quot; + systemSettings)</span>
+<span class="nc" id="L220">      .add(&quot;deleted=&quot; + deleted)</span>
+<span class="nc" id="L221">      .toString();</span>
   }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,14 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Mixins.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.ws.mixin</a> &gt; <span class="el_source">Mixins.java</span></div><h1>Mixins.java</h1><pre class="source lang-java linenums">package org.gbif.api.ws.mixin;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Mixins.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.ws.mixin</a> &gt; <span class="el_source">Mixins.java</span></div><h1>Mixins.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.ws.mixin;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import org.gbif.api.model.occurrence.Download;
 import org.gbif.api.model.occurrence.Occurrence;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.search.DatasetSearchResult;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Mixins are typically used to leave serialization-oriented annotations outside the models to avoid
@@ -16,19 +32,21 @@ import java.util.Map;
  * &lt;p&gt;
  * This class provides access to predefined mixins used in the GBIF web service application (client and server).
  */
+@SuppressWarnings(&quot;unused&quot;)
 public class Mixins {
 
   // utility class
   private Mixins() {
   }
 
-<span class="nc" id="L25">  private static final ImmutableMap&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; PREDEFINED_MIXINS =</span>
-<span class="nc" id="L26">    ImmutableMap.of(</span>
-      Dataset.class, DatasetMixin.class,
-      DatasetSearchResult.class, DatasetMixin.class,
-      Download.class, LicenseMixin.class,
-      Occurrence.class, OccurrenceMixin.class
-    );
+<span class="nc" id="L42">  private static final Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; PREDEFINED_MIXINS = new HashMap&lt;&gt;();</span>
+
+  static {
+<span class="nc" id="L45">    PREDEFINED_MIXINS.put(Dataset.class, DatasetMixin.class);</span>
+<span class="nc" id="L46">    PREDEFINED_MIXINS.put(DatasetSearchResult.class, DatasetMixin.class);</span>
+<span class="nc" id="L47">    PREDEFINED_MIXINS.put(Download.class, LicenseMixin.class);</span>
+<span class="nc" id="L48">    PREDEFINED_MIXINS.put(Occurrence.class, OccurrenceMixin.class);</span>
+<span class="nc" id="L49">  }</span>
 
   /**
    * Return an immutable map of the predefined Jackson Mixins used by the web services.
@@ -36,7 +54,7 @@ public class Mixins {
    * @return immutable map of the predefined Jackson Mixins
    */
   public static Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; getPredefinedMixins() {
-<span class="nc" id="L39">    return PREDEFINED_MIXINS;</span>
+<span class="nc" id="L57">    return PREDEFINED_MIXINS;</span>
   }
 
   /**
@@ -46,7 +64,10 @@ public class Mixins {
    * @return immutable map of the predefined Jackson Mixins after applying the predicate
    */
   public static Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; getPredefinedMixins(Predicate&lt;Class&lt;?&gt;&gt; keyFilter) {
-<span class="nc" id="L49">    return ImmutableMap.copyOf(Maps.filterKeys(PREDEFINED_MIXINS, keyFilter));</span>
+<span class="nc" id="L67">    return PREDEFINED_MIXINS.entrySet()</span>
+<span class="nc" id="L68">      .stream()</span>
+<span class="nc" id="L69">      .filter(entry -&gt; keyFilter.test(entry.getKey()))</span>
+<span class="nc" id="L70">      .collect(Collectors.toMap(Entry::getKey, Entry::getValue));</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

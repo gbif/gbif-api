@@ -1,4 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IsoDateParsingUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util</a> &gt; <span class="el_source">IsoDateParsingUtils.java</span></div><h1>IsoDateParsingUtils.java</h1><pre class="source lang-java linenums">package org.gbif.api.util;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IsoDateParsingUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util</a> &gt; <span class="el_source">IsoDateParsingUtils.java</span></div><h1>IsoDateParsingUtils.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.util;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -8,43 +23,45 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Range;
+import org.apache.commons.lang3.StringUtils;
 
 import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
-import static org.gbif.api.util.SearchTypeValidator.buildRange;
 
 /**
  * Utility class that parses date values, the allowed date formats are: &quot;yyyy-MM-dd&quot;, &quot;yyyy-MM&quot; or &quot;yyyy&quot;.
  */
 public class IsoDateParsingUtils {
-<span class="fc" id="L21">  private static Pattern SIMPLE_ISO_PATTERN = Pattern.compile(&quot;\\d{4}(?:-\\d{2}(?:-\\d{2})?)?&quot;);</span>
+
+  public static final String SIMPLE_ISO_DATE_STR_PATTERN = &quot;\\d{4}(?:-\\d{2}(?:-\\d{2})?)?&quot;;
+
+  // match formats 'yyyy', 'yyyy-MM' and 'yyyy-MM-dd'
+<span class="fc" id="L38">  public static final Pattern SIMPLE_ISO_PATTERN = Pattern.compile(SIMPLE_ISO_DATE_STR_PATTERN);</span>
+
   /**
    * Enumerations with the allowed date formats by the occurrence search service.
    */
-<span class="fc" id="L25">  public enum IsoDateFormat {</span>
-<span class="fc" id="L26">    FULL(&quot;yyyy-MM-dd&quot;),</span>
-<span class="fc" id="L27">    YEAR_MONTH(&quot;yyyy-MM&quot;),</span>
-<span class="fc" id="L28">    YEAR(&quot;yyyy&quot;);</span>
+<span class="fc" id="L43">  public enum IsoDateFormat {</span>
+<span class="fc" id="L44">    FULL(&quot;yyyy-MM-dd&quot;),</span>
+<span class="fc" id="L45">    YEAR_MONTH(&quot;yyyy-MM&quot;),</span>
+<span class="fc" id="L46">    YEAR(&quot;yyyy&quot;);</span>
 
     private final String datePattern;
-
 
     /**
      * Private constructors.
      * Receives a pattern and creates DateFormat instance with the pattern parameter.
      */
-<span class="fc" id="L37">    private IsoDateFormat(String datePattern) {</span>
-<span class="fc" id="L38">      this.datePattern = datePattern;</span>
-<span class="fc" id="L39">    }</span>
+<span class="fc" id="L54">    IsoDateFormat(String datePattern) {</span>
+<span class="fc" id="L55">      this.datePattern = datePattern;</span>
+<span class="fc" id="L56">    }</span>
 
     /**
      * @return the dateFormat that parses and formats date values.
      */
     public DateFormat getDateFormat() {
-<span class="fc" id="L45">      DateFormat dateFormat = new SimpleDateFormat(datePattern);</span>
-<span class="fc" id="L46">      dateFormat.setLenient(false);</span>
-<span class="fc" id="L47">      return dateFormat;</span>
+<span class="fc" id="L62">      DateFormat dateFormat = new SimpleDateFormat(datePattern);</span>
+<span class="fc" id="L63">      dateFormat.setLenient(false);</span>
+<span class="fc" id="L64">      return dateFormat;</span>
     }
 
     /**
@@ -52,9 +69,9 @@ public class IsoDateParsingUtils {
      */
     public boolean isValidDate(String value) {
       try {
-<span class="pc bpc" id="L55" title="1 of 2 branches missed.">        return (parseDate(value) != null);</span>
-<span class="fc" id="L56">      } catch (ParseException e) {</span>
-<span class="fc" id="L57">        return false;</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        return (parseDate(value) != null);</span>
+<span class="fc" id="L73">      } catch (ParseException e) {</span>
+<span class="fc" id="L74">        return false;</span>
       }
     }
 
@@ -62,12 +79,12 @@ public class IsoDateParsingUtils {
      * Try to parse a string with the current date format.
      */
     public Date parseDate(String value) throws ParseException {
-<span class="fc" id="L65">      ParsePosition position = new ParsePosition(0);</span>
-<span class="fc" id="L66">      Date date = getDateFormat().parse(value, position);</span>
-<span class="fc bfc" id="L67" title="All 2 branches covered.">      if (position.getIndex() != value.length()) {</span>
-<span class="fc" id="L68">        throw new ParseException(value + &quot; is not a valid date&quot;, position.getIndex());</span>
+<span class="fc" id="L82">      ParsePosition position = new ParsePosition(0);</span>
+<span class="fc" id="L83">      Date date = getDateFormat().parse(value, position);</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">      if (position.getIndex() != value.length()) {</span>
+<span class="fc" id="L85">        throw new ParseException(value + &quot; is not a valid date&quot;, position.getIndex());</span>
       }
-<span class="fc" id="L70">      return date;</span>
+<span class="fc" id="L87">      return date;</span>
     }
   }
 
@@ -78,21 +95,20 @@ public class IsoDateParsingUtils {
     // empty block
   }
 
-
   /**
    * Iterates over all the OccurrenceDateFormat's and returns the first one that parses successfully the value.
    * @throws IllegalArgumentException in case of unparsable dates
    */
   public static IsoDateFormat getFirstDateFormatMatch(String value) throws IllegalArgumentException {
     // at least 4 digits for a year must exist
-<span class="fc bfc" id="L88" title="All 2 branches covered.">    if (SIMPLE_ISO_PATTERN.matcher(value).find()) {</span>
-<span class="fc bfc" id="L89" title="All 2 branches covered.">      for (IsoDateFormat dateFormat : IsoDateFormat.values()) {</span>
-<span class="fc bfc" id="L90" title="All 2 branches covered.">        if (dateFormat.isValidDate(value)) {</span>
-<span class="fc" id="L91">          return dateFormat;</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">    if (SIMPLE_ISO_PATTERN.matcher(value).find()) {</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">      for (IsoDateFormat dateFormat : IsoDateFormat.values()) {</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        if (dateFormat.isValidDate(value)) {</span>
+<span class="fc" id="L107">          return dateFormat;</span>
         }
       }
     }
-<span class="fc" id="L95">    throw new IllegalArgumentException(value + &quot; is not a valid date&quot;);</span>
+<span class="fc" id="L111">    throw new IllegalArgumentException(value + &quot; is not a valid date&quot;);</span>
   }
 
   /**
@@ -102,21 +118,19 @@ public class IsoDateParsingUtils {
    * @throws IllegalArgumentException in case of unparsable dates
    */
   public static Date parseDate(String value) {
-<span class="pc bpc" id="L105" title="1 of 2 branches missed.">    if (Strings.isNullOrEmpty(value)) {</span>
-<span class="nc" id="L106">      throw new IllegalArgumentException(&quot;Date parameter can't be null or empty&quot;);</span>
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">    if (StringUtils.isEmpty(value)) {</span>
+<span class="nc" id="L122">      throw new IllegalArgumentException(&quot;Date parameter can't be null or empty&quot;);</span>
     }
+
+    // could be a wildcard
+<span class="fc bfc" id="L126" title="All 2 branches covered.">    if (QUERY_WILDCARD.equals(value)) {</span>
+<span class="fc" id="L127">      return null;</span>
+    }
+
     try {
-<span class="fc" id="L109">      return getFirstDateFormatMatch(value).parseDate(value);</span>
-
-<span class="nc" id="L111">    } catch (ParseException e) {</span>
-<span class="nc" id="L112">      throw new IllegalArgumentException(String.format(&quot;{} is not a valid date parameter&quot;, value));</span>
-
-<span class="fc" id="L114">    } catch (IllegalArgumentException e) {</span>
-      // could be a wildcard
-<span class="fc bfc" id="L116" title="All 2 branches covered.">      if (QUERY_WILDCARD.equals(value)) {</span>
-<span class="fc" id="L117">        return null;</span>
-      }
-<span class="fc" id="L119">      throw e;</span>
+<span class="fc" id="L131">      return getFirstDateFormatMatch(value).parseDate(value);</span>
+<span class="nc" id="L132">    } catch (ParseException e) {</span>
+<span class="nc" id="L133">      throw new IllegalArgumentException(String.format(&quot;%s is not a valid date parameter&quot;, value));</span>
     }
   }
 
@@ -125,66 +139,65 @@ public class IsoDateParsingUtils {
    * limit.
    */
   public static Range&lt;Date&gt; parseDateRange(String value) {
-<span class="pc bpc" id="L128" title="1 of 2 branches missed.">    if (Strings.isNullOrEmpty(value)) {</span>
-<span class="nc" id="L129">      throw new IllegalArgumentException(&quot;Date parameter can't be null or empty&quot;);</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">    if (StringUtils.isEmpty(value)) {</span>
+<span class="nc" id="L143">      throw new IllegalArgumentException(&quot;Date parameter can't be null or empty&quot;);</span>
     }
-<span class="fc" id="L131">    final String[] dateValues = value.split(&quot;,&quot;);</span>
-<span class="fc bfc" id="L132" title="All 2 branches covered.">    if (dateValues.length != 2) {</span>
-<span class="fc" id="L133">      throw new IllegalArgumentException(&quot;Date value must be a single value or a range&quot;);</span>
+<span class="fc" id="L145">    final String[] dateValues = value.split(&quot;,&quot;);</span>
+<span class="pc bpc" id="L146" title="1 of 2 branches missed.">    if (dateValues.length != 2) {</span>
+<span class="nc" id="L147">      throw new IllegalArgumentException(&quot;Date value must be a single value or a range&quot;);</span>
     }
 
-<span class="fc" id="L136">    final Date lowerDate = parseDate(dateValues[0]);</span>
+<span class="fc" id="L150">    final Date lowerDate = parseDate(dateValues[0]);</span>
 
-<span class="fc" id="L138">    Date upperDate = parseDate(dateValues[1]);</span>
+<span class="fc" id="L152">    Date upperDate = parseDate(dateValues[1]);</span>
     // in case we have a real upper date check its precision and use the highest possible date, not lowest
-<span class="fc bfc" id="L140" title="All 2 branches covered.">    if (upperDate != null) {</span>
-<span class="fc" id="L141">      final IsoDateFormat upperDateFormat = getFirstDateFormatMatch(dateValues[1]);</span>
-<span class="fc bfc" id="L142" title="All 2 branches covered.">      if (upperDateFormat == IsoDateFormat.YEAR_MONTH) {</span>
-<span class="fc" id="L143">        upperDate = toLastDayOfMonth(upperDate);</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">    if (upperDate != null) {</span>
+<span class="fc" id="L155">      final IsoDateFormat upperDateFormat = getFirstDateFormatMatch(dateValues[1]);</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">      if (upperDateFormat == IsoDateFormat.YEAR_MONTH) {</span>
+<span class="fc" id="L157">        upperDate = toLastDayOfMonth(upperDate);</span>
 
-<span class="pc bpc" id="L145" title="1 of 2 branches missed.">      } else if (upperDateFormat == IsoDateFormat.YEAR) {</span>
-<span class="fc" id="L146">        upperDate = toLastDayOfYear(upperDate);</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">      } else if (upperDateFormat == IsoDateFormat.YEAR) {</span>
+<span class="fc" id="L160">        upperDate = toLastDayOfYear(upperDate);</span>
       }
     }
 
-<span class="fc" id="L150">    return buildRange(lowerDate, upperDate);</span>
+<span class="fc" id="L164">    return Range.closed(lowerDate, upperDate);</span>
   }
 
   /**
    * Calculates the last day of the month for the date parameter and return it a new date instance.
    */
   public static Date toLastDayOfMonth(Date value) {
-<span class="fc" id="L157">    return toLastDayOf(value, Calendar.DAY_OF_MONTH);</span>
+<span class="fc" id="L171">    return toLastDayOf(value, Calendar.DAY_OF_MONTH);</span>
   }
 
   /**
    * Calculates the last day of the year for the date parameter and return it a new date instance.
    */
   public static Date toLastDayOfYear(Date value) {
-<span class="fc" id="L164">    return toLastDayOf(value, Calendar.DAY_OF_YEAR);</span>
+<span class="fc" id="L178">    return toLastDayOf(value, Calendar.DAY_OF_YEAR);</span>
   }
 
   /**
    * Calculates the last day of a year or month for the date parameter and return it a new date instance.
    */
   public static Date toLastDayOf(Date value, IsoDateFormat isoDateFormat) {
-<span class="nc bnc" id="L171" title="All 2 branches missed.">    if (IsoDateFormat.YEAR_MONTH == isoDateFormat) {</span>
-<span class="nc" id="L172">      return toLastDayOf(value, Calendar.DAY_OF_MONTH);</span>
-<span class="nc bnc" id="L173" title="All 2 branches missed.">    } else if(IsoDateFormat.YEAR == isoDateFormat){</span>
-<span class="nc" id="L174">      return toLastDayOf(value, Calendar.DAY_OF_YEAR);</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">    if (IsoDateFormat.YEAR_MONTH == isoDateFormat) {</span>
+<span class="nc" id="L186">      return toLastDayOf(value, Calendar.DAY_OF_MONTH);</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">    } else if(IsoDateFormat.YEAR == isoDateFormat){</span>
+<span class="nc" id="L188">      return toLastDayOf(value, Calendar.DAY_OF_YEAR);</span>
     }
-<span class="nc" id="L176">    return value;</span>
+<span class="nc" id="L190">    return value;</span>
   }
 
   /**
    * Gets the actual maximum value for a field of a date value.
    */
   private static Date toLastDayOf(Date value, int field) {
-<span class="fc" id="L183">    Calendar calendar = Calendar.getInstance();</span>
-<span class="fc" id="L184">    calendar.setTime(value);</span>
-<span class="fc" id="L185">    calendar.set(field, calendar.getActualMaximum(field));</span>
-<span class="fc" id="L186">    return calendar.getTime();</span>
+<span class="fc" id="L197">    Calendar calendar = Calendar.getInstance();</span>
+<span class="fc" id="L198">    calendar.setTime(value);</span>
+<span class="fc" id="L199">    calendar.set(field, calendar.getActualMaximum(field));</span>
+<span class="fc" id="L200">    return calendar.getTime();</span>
   }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

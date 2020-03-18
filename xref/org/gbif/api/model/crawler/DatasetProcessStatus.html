@@ -7,7 +7,7 @@
 <body>
 <div id="overview"><a href="../../../../../../apidocs/org/gbif/api/model/crawler/DatasetProcessStatus.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/*</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright 2014 Global Biodiversity Information Facility (GBIF)</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright 2020 Global Biodiversity Information Facility (GBIF)</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> *</em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
@@ -24,20 +24,20 @@
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">package</strong> org.gbif.api.model.crawler;
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> java.util.Date;
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> java.util.UUID;
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> javax.annotation.Nullable;
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> javax.validation.constraints.Min;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> java.util.Objects;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> java.util.StringJoiner;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> java.util.UUID;
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>  
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> com.google.common.base.Objects;
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> com.google.common.base.Preconditions.checkArgument;
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> com.google.common.base.Preconditions.checkNotNull;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> javax.annotation.Nullable;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> javax.validation.constraints.Min;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.gbif.api.util.PreconditionUtils.checkArgument;
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>  
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment"> * Information about a dataset that is currently being processed. That usually means that we are crawling it at the</em>
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_javadoccomment"> * moment or are in the process of persisting and interpreting its occurrences.</em>
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment"> * Information about a dataset that is currently being processed. That usually means that we are crawling it at the</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment"> * moment or are in the process of persisting and interpreting its occurrences.</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  @SuppressWarnings(<span class="jxr_string">"unused"</span>)
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">DatasetProcessStatus</a> {
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>  
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>    <strong class="jxr_keyword">private</strong> UUID datasetKey;
@@ -87,10 +87,10 @@
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>  <em class="jxr_javadoccomment">   * We only validate very little (all counts have to be greater than or equal to zero, a few null checks etc.) but not</em>
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>  <em class="jxr_javadoccomment">   */</em>
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">DatasetProcessStatus</a>(<a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> builder) {
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>      checkNotNull(builder, <span class="jxr_string">"builder can't be null"</span>);
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>      Objects.requireNonNull(builder, <span class="jxr_string">"builder can't be null"</span>);
 <a class="jxr_linenumber" name="L83" href="#L83">83</a>  
-<a class="jxr_linenumber" name="L84" href="#L84">84</a>      datasetKey = checkNotNull(builder.datasetKey, <span class="jxr_string">"datasetKey can't be null"</span>);
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>      crawlJob = checkNotNull(builder.crawlJob, <span class="jxr_string">"crawlJob can't be null"</span>);
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>      datasetKey = Objects.requireNonNull(builder.datasetKey, <span class="jxr_string">"datasetKey can't be null"</span>);
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>      crawlJob = Objects.requireNonNull(builder.crawlJob, <span class="jxr_string">"crawlJob can't be null"</span>);
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>      startedCrawling = builder.startedCrawling;
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>      finishedCrawling = builder.finishedCrawling;
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>      finishReason = builder.finishReason;
@@ -426,251 +426,234 @@
 <a class="jxr_linenumber" name="L418" href="#L418">418</a>   }
 <a class="jxr_linenumber" name="L419" href="#L419">419</a> 
 <a class="jxr_linenumber" name="L420" href="#L420">420</a>   @Override
-<a class="jxr_linenumber" name="L421" href="#L421">421</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> equals(Object obj) {
-<a class="jxr_linenumber" name="L422" href="#L422">422</a>     <strong class="jxr_keyword">if</strong> (obj == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L423" href="#L423">423</a>       <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="L421" href="#L421">421</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> equals(Object o) {
+<a class="jxr_linenumber" name="L422" href="#L422">422</a>     <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong> == o) {
+<a class="jxr_linenumber" name="L423" href="#L423">423</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
 <a class="jxr_linenumber" name="L424" href="#L424">424</a>     }
-<a class="jxr_linenumber" name="L425" href="#L425">425</a>     <strong class="jxr_keyword">if</strong> (getClass() != obj.getClass()) {
+<a class="jxr_linenumber" name="L425" href="#L425">425</a>     <strong class="jxr_keyword">if</strong> (o == <strong class="jxr_keyword">null</strong> || getClass() != o.getClass()) {
 <a class="jxr_linenumber" name="L426" href="#L426">426</a>       <strong class="jxr_keyword">return</strong> false;
 <a class="jxr_linenumber" name="L427" href="#L427">427</a>     }
-<a class="jxr_linenumber" name="L428" href="#L428">428</a>     <strong class="jxr_keyword">final</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">DatasetProcessStatus</a> other = (DatasetProcessStatus) obj;
-<a class="jxr_linenumber" name="L429" href="#L429">429</a>     <strong class="jxr_keyword">return</strong> Objects.equal(<strong class="jxr_keyword">this</strong>.datasetKey, other.datasetKey)
-<a class="jxr_linenumber" name="L430" href="#L430">430</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.crawlJob, other.crawlJob)
-<a class="jxr_linenumber" name="L431" href="#L431">431</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.startedCrawling, other.startedCrawling)
-<a class="jxr_linenumber" name="L432" href="#L432">432</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.finishedCrawling, other.finishedCrawling)
-<a class="jxr_linenumber" name="L433" href="#L433">433</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.finishReason, other.finishReason)
-<a class="jxr_linenumber" name="L434" href="#L434">434</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.processStateOccurrence, other.processStateOccurrence)
-<a class="jxr_linenumber" name="L435" href="#L435">435</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.processStateChecklist, other.processStateChecklist)
-<a class="jxr_linenumber" name="L436" href="#L436">436</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.processStateSample, other.processStateSample)
-<a class="jxr_linenumber" name="L437" href="#L437">437</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.crawlContext, other.crawlContext)
-<a class="jxr_linenumber" name="L438" href="#L438">438</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.declaredCount, other.declaredCount)
-<a class="jxr_linenumber" name="L439" href="#L439">439</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.pagesCrawled, other.pagesCrawled)
-<a class="jxr_linenumber" name="L440" href="#L440">440</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.pagesFragmentedSuccessful, other.pagesFragmentedSuccessful)
-<a class="jxr_linenumber" name="L441" href="#L441">441</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.pagesFragmentedError, other.pagesFragmentedError)
-<a class="jxr_linenumber" name="L442" href="#L442">442</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.fragmentsEmitted, other.fragmentsEmitted)
-<a class="jxr_linenumber" name="L443" href="#L443">443</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.fragmentsReceived, other.fragmentsReceived)
-<a class="jxr_linenumber" name="L444" href="#L444">444</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.rawOccurrencesPersistedNew, other.rawOccurrencesPersistedNew)
-<a class="jxr_linenumber" name="L445" href="#L445">445</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.rawOccurrencesPersistedUpdated, other.rawOccurrencesPersistedUpdated)
-<a class="jxr_linenumber" name="L446" href="#L446">446</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.rawOccurrencesPersistedUnchanged, other.rawOccurrencesPersistedUnchanged)
-<a class="jxr_linenumber" name="L447" href="#L447">447</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.rawOccurrencesPersistedError, other.rawOccurrencesPersistedError)
-<a class="jxr_linenumber" name="L448" href="#L448">448</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.fragmentsProcessed, other.fragmentsProcessed)
-<a class="jxr_linenumber" name="L449" href="#L449">449</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.verbatimOccurrencesPersistedSuccessful, other.verbatimOccurrencesPersistedSuccessful)
-<a class="jxr_linenumber" name="L450" href="#L450">450</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.verbatimOccurrencesPersistedError, other.verbatimOccurrencesPersistedError)
-<a class="jxr_linenumber" name="L451" href="#L451">451</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.interpretedOccurrencesPersistedSuccessful,
-<a class="jxr_linenumber" name="L452" href="#L452">452</a>                             other.interpretedOccurrencesPersistedSuccessful)
-<a class="jxr_linenumber" name="L453" href="#L453">453</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.interpretedOccurrencesPersistedError, other.interpretedOccurrencesPersistedError);
-<a class="jxr_linenumber" name="L454" href="#L454">454</a>   }
-<a class="jxr_linenumber" name="L455" href="#L455">455</a> 
-<a class="jxr_linenumber" name="L456" href="#L456">456</a>   @Override
-<a class="jxr_linenumber" name="L457" href="#L457">457</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> hashCode() {
-<a class="jxr_linenumber" name="L458" href="#L458">458</a>     <strong class="jxr_keyword">return</strong> Objects.hashCode(datasetKey,
-<a class="jxr_linenumber" name="L459" href="#L459">459</a>                             crawlJob,
-<a class="jxr_linenumber" name="L460" href="#L460">460</a>                             startedCrawling,
-<a class="jxr_linenumber" name="L461" href="#L461">461</a>                             finishedCrawling,
-<a class="jxr_linenumber" name="L462" href="#L462">462</a>                             finishReason,
-<a class="jxr_linenumber" name="L463" href="#L463">463</a>                             processStateOccurrence,
-<a class="jxr_linenumber" name="L464" href="#L464">464</a>                             processStateChecklist,
-<a class="jxr_linenumber" name="L465" href="#L465">465</a>                             processStateSample,
-<a class="jxr_linenumber" name="L466" href="#L466">466</a>                             crawlContext,
-<a class="jxr_linenumber" name="L467" href="#L467">467</a>                             declaredCount,
-<a class="jxr_linenumber" name="L468" href="#L468">468</a>                             pagesCrawled,
-<a class="jxr_linenumber" name="L469" href="#L469">469</a>                             pagesFragmentedSuccessful,
-<a class="jxr_linenumber" name="L470" href="#L470">470</a>                             pagesFragmentedError,
-<a class="jxr_linenumber" name="L471" href="#L471">471</a>                             fragmentsEmitted,
-<a class="jxr_linenumber" name="L472" href="#L472">472</a>                             fragmentsReceived,
-<a class="jxr_linenumber" name="L473" href="#L473">473</a>                             rawOccurrencesPersistedNew,
-<a class="jxr_linenumber" name="L474" href="#L474">474</a>                             rawOccurrencesPersistedUpdated,
-<a class="jxr_linenumber" name="L475" href="#L475">475</a>                             rawOccurrencesPersistedUnchanged,
-<a class="jxr_linenumber" name="L476" href="#L476">476</a>                             rawOccurrencesPersistedError,
-<a class="jxr_linenumber" name="L477" href="#L477">477</a>                             fragmentsProcessed,
-<a class="jxr_linenumber" name="L478" href="#L478">478</a>                             verbatimOccurrencesPersistedSuccessful,
-<a class="jxr_linenumber" name="L479" href="#L479">479</a>                             verbatimOccurrencesPersistedError,
-<a class="jxr_linenumber" name="L480" href="#L480">480</a>                             interpretedOccurrencesPersistedSuccessful,
-<a class="jxr_linenumber" name="L481" href="#L481">481</a>                             interpretedOccurrencesPersistedError);
-<a class="jxr_linenumber" name="L482" href="#L482">482</a>   }
-<a class="jxr_linenumber" name="L483" href="#L483">483</a> 
-<a class="jxr_linenumber" name="L484" href="#L484">484</a>   @Override
-<a class="jxr_linenumber" name="L485" href="#L485">485</a>   <strong class="jxr_keyword">public</strong> String toString() {
-<a class="jxr_linenumber" name="L486" href="#L486">486</a>     <strong class="jxr_keyword">return</strong> Objects.toStringHelper(<strong class="jxr_keyword">this</strong>)
-<a class="jxr_linenumber" name="L487" href="#L487">487</a>       .add(<span class="jxr_string">"datasetKey"</span>, datasetKey)
-<a class="jxr_linenumber" name="L488" href="#L488">488</a>       .add(<span class="jxr_string">"crawlJob"</span>, crawlJob)
-<a class="jxr_linenumber" name="L489" href="#L489">489</a>       .add(<span class="jxr_string">"startedCrawling"</span>, startedCrawling)
-<a class="jxr_linenumber" name="L490" href="#L490">490</a>       .add(<span class="jxr_string">"finishedCrawling"</span>, finishedCrawling)
-<a class="jxr_linenumber" name="L491" href="#L491">491</a>       .add(<span class="jxr_string">"finisReason"</span>, finishReason)
-<a class="jxr_linenumber" name="L492" href="#L492">492</a>       .add(<span class="jxr_string">"processStateOccurrence"</span>, processStateOccurrence)
-<a class="jxr_linenumber" name="L493" href="#L493">493</a>       .add(<span class="jxr_string">"processStateChecklist"</span>, processStateChecklist)
-<a class="jxr_linenumber" name="L494" href="#L494">494</a>       .add(<span class="jxr_string">"processStateSample"</span>, processStateSample)
-<a class="jxr_linenumber" name="L495" href="#L495">495</a>       .add(<span class="jxr_string">"crawlContext"</span>, crawlContext)
-<a class="jxr_linenumber" name="L496" href="#L496">496</a>       .add(<span class="jxr_string">"declaredCount"</span>, declaredCount)
-<a class="jxr_linenumber" name="L497" href="#L497">497</a>       .add(<span class="jxr_string">"pagesCrawled"</span>, pagesCrawled)
-<a class="jxr_linenumber" name="L498" href="#L498">498</a>       .add(<span class="jxr_string">"pagesFragmentedSuccessful"</span>, pagesFragmentedSuccessful)
-<a class="jxr_linenumber" name="L499" href="#L499">499</a>       .add(<span class="jxr_string">"pagesFragmentedError"</span>, pagesFragmentedError)
-<a class="jxr_linenumber" name="L500" href="#L500">500</a>       .add(<span class="jxr_string">"fragmentsEmitted"</span>, fragmentsEmitted)
-<a class="jxr_linenumber" name="L501" href="#L501">501</a>       .add(<span class="jxr_string">"fragmentsReceived"</span>, fragmentsReceived)
-<a class="jxr_linenumber" name="L502" href="#L502">502</a>       .add(<span class="jxr_string">"rawOccurrencesPersistedNew"</span>, rawOccurrencesPersistedNew)
-<a class="jxr_linenumber" name="L503" href="#L503">503</a>       .add(<span class="jxr_string">"rawOccurrencesPersistedUpdated"</span>, rawOccurrencesPersistedUpdated)
-<a class="jxr_linenumber" name="L504" href="#L504">504</a>       .add(<span class="jxr_string">"rawOccurrencesPersistedUnchanged"</span>, rawOccurrencesPersistedUnchanged)
-<a class="jxr_linenumber" name="L505" href="#L505">505</a>       .add(<span class="jxr_string">"rawOccurrencesPersistedError"</span>, rawOccurrencesPersistedError)
-<a class="jxr_linenumber" name="L506" href="#L506">506</a>       .add(<span class="jxr_string">"fragmentsProcessed"</span>, fragmentsProcessed)
-<a class="jxr_linenumber" name="L507" href="#L507">507</a>       .add(<span class="jxr_string">"verbatimOccurrencesPersistedSuccessful"</span>, verbatimOccurrencesPersistedSuccessful)
-<a class="jxr_linenumber" name="L508" href="#L508">508</a>       .add(<span class="jxr_string">"verbatimOccurrencesPersistedError"</span>, verbatimOccurrencesPersistedError)
-<a class="jxr_linenumber" name="L509" href="#L509">509</a>       .add(<span class="jxr_string">"interpretedOccurrencesPersistedSuccessful"</span>, interpretedOccurrencesPersistedSuccessful)
-<a class="jxr_linenumber" name="L510" href="#L510">510</a>       .add(<span class="jxr_string">"interpretedOccurrencesPersistedError"</span>, interpretedOccurrencesPersistedError)
-<a class="jxr_linenumber" name="L511" href="#L511">511</a>       .toString();
-<a class="jxr_linenumber" name="L512" href="#L512">512</a>   }
-<a class="jxr_linenumber" name="L513" href="#L513">513</a> 
-<a class="jxr_linenumber" name="L514" href="#L514">514</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> {
-<a class="jxr_linenumber" name="L515" href="#L515">515</a> 
-<a class="jxr_linenumber" name="L516" href="#L516">516</a>     <strong class="jxr_keyword">private</strong> UUID datasetKey;
-<a class="jxr_linenumber" name="L517" href="#L517">517</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../../org/gbif/api/model/crawler/CrawlJob.html">CrawlJob</a> crawlJob;
-<a class="jxr_linenumber" name="L518" href="#L518">518</a>     <strong class="jxr_keyword">private</strong> Date startedCrawling;
-<a class="jxr_linenumber" name="L519" href="#L519">519</a>     <strong class="jxr_keyword">private</strong> Date finishedCrawling;
-<a class="jxr_linenumber" name="L520" href="#L520">520</a>     <strong class="jxr_keyword">private</strong> String crawlContext;
-<a class="jxr_linenumber" name="L521" href="#L521">521</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../../org/gbif/api/model/crawler/FinishReason.html">FinishReason</a> finishReason;
-<a class="jxr_linenumber" name="L522" href="#L522">522</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../../org/gbif/api/model/crawler/ProcessState.html">ProcessState</a> processStateOccurrence;
-<a class="jxr_linenumber" name="L523" href="#L523">523</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../../org/gbif/api/model/crawler/ProcessState.html">ProcessState</a> processStateChecklist;
-<a class="jxr_linenumber" name="L524" href="#L524">524</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../../org/gbif/api/model/crawler/ProcessState.html">ProcessState</a> processStateSample;
-<a class="jxr_linenumber" name="L525" href="#L525">525</a>     <strong class="jxr_keyword">private</strong> Long declaredCount;
-<a class="jxr_linenumber" name="L526" href="#L526">526</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> pagesCrawled;
-<a class="jxr_linenumber" name="L527" href="#L527">527</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> pagesFragmentedSuccessful;
-<a class="jxr_linenumber" name="L528" href="#L528">528</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> pagesFragmentedError;
-<a class="jxr_linenumber" name="L529" href="#L529">529</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> fragmentsEmitted;
-<a class="jxr_linenumber" name="L530" href="#L530">530</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> fragmentsReceived;
-<a class="jxr_linenumber" name="L531" href="#L531">531</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> rawOccurrencesPersistedNew;
-<a class="jxr_linenumber" name="L532" href="#L532">532</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> rawOccurrencesPersistedUpdated;
-<a class="jxr_linenumber" name="L533" href="#L533">533</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> rawOccurrencesPersistedUnchanged;
-<a class="jxr_linenumber" name="L534" href="#L534">534</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> rawOccurrencesPersistedError;
-<a class="jxr_linenumber" name="L535" href="#L535">535</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> fragmentsProcessed;
-<a class="jxr_linenumber" name="L536" href="#L536">536</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> verbatimOccurrencesPersistedSuccessful;
-<a class="jxr_linenumber" name="L537" href="#L537">537</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> verbatimOccurrencesPersistedError;
-<a class="jxr_linenumber" name="L538" href="#L538">538</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> interpretedOccurrencesPersistedSuccessful;
-<a class="jxr_linenumber" name="L539" href="#L539">539</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> interpretedOccurrencesPersistedError;
-<a class="jxr_linenumber" name="L540" href="#L540">540</a> 
-<a class="jxr_linenumber" name="L541" href="#L541">541</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">DatasetProcessStatus</a> build() {
-<a class="jxr_linenumber" name="L542" href="#L542">542</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">DatasetProcessStatus</a>(<strong class="jxr_keyword">this</strong>);
-<a class="jxr_linenumber" name="L543" href="#L543">543</a>     }
-<a class="jxr_linenumber" name="L544" href="#L544">544</a> 
-<a class="jxr_linenumber" name="L545" href="#L545">545</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> crawlContext(String crawlContext) {
-<a class="jxr_linenumber" name="L546" href="#L546">546</a>       <strong class="jxr_keyword">this</strong>.crawlContext = crawlContext;
-<a class="jxr_linenumber" name="L547" href="#L547">547</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L548" href="#L548">548</a>     }
-<a class="jxr_linenumber" name="L549" href="#L549">549</a> 
-<a class="jxr_linenumber" name="L550" href="#L550">550</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> crawlJob(<a href="../../../../../org/gbif/api/model/crawler/CrawlJob.html">CrawlJob</a> crawlJob) {
-<a class="jxr_linenumber" name="L551" href="#L551">551</a>       <strong class="jxr_keyword">this</strong>.crawlJob = crawlJob;
-<a class="jxr_linenumber" name="L552" href="#L552">552</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L553" href="#L553">553</a>     }
-<a class="jxr_linenumber" name="L554" href="#L554">554</a> 
-<a class="jxr_linenumber" name="L555" href="#L555">555</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> datasetKey(UUID datasetKey) {
-<a class="jxr_linenumber" name="L556" href="#L556">556</a>       <strong class="jxr_keyword">this</strong>.datasetKey = datasetKey;
-<a class="jxr_linenumber" name="L557" href="#L557">557</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L558" href="#L558">558</a>     }
-<a class="jxr_linenumber" name="L559" href="#L559">559</a> 
-<a class="jxr_linenumber" name="L560" href="#L560">560</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> declaredCount(Long declaredCount) {
-<a class="jxr_linenumber" name="L561" href="#L561">561</a>       <strong class="jxr_keyword">this</strong>.declaredCount = declaredCount;
-<a class="jxr_linenumber" name="L562" href="#L562">562</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L563" href="#L563">563</a>     }
-<a class="jxr_linenumber" name="L564" href="#L564">564</a> 
-<a class="jxr_linenumber" name="L565" href="#L565">565</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> finishedCrawling(Date finishedCrawling) {
-<a class="jxr_linenumber" name="L566" href="#L566">566</a>       <strong class="jxr_keyword">this</strong>.finishedCrawling = finishedCrawling;
-<a class="jxr_linenumber" name="L567" href="#L567">567</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L568" href="#L568">568</a>     }
-<a class="jxr_linenumber" name="L569" href="#L569">569</a> 
-<a class="jxr_linenumber" name="L570" href="#L570">570</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> finishReason(<a href="../../../../../org/gbif/api/model/crawler/FinishReason.html">FinishReason</a> finishReason) {
-<a class="jxr_linenumber" name="L571" href="#L571">571</a>       <strong class="jxr_keyword">this</strong>.finishReason = finishReason;
-<a class="jxr_linenumber" name="L572" href="#L572">572</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L573" href="#L573">573</a>     }
-<a class="jxr_linenumber" name="L574" href="#L574">574</a> 
-<a class="jxr_linenumber" name="L575" href="#L575">575</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> processStateOccurrence(<a href="../../../../../org/gbif/api/model/crawler/ProcessState.html">ProcessState</a> processStateOccurrence) {
-<a class="jxr_linenumber" name="L576" href="#L576">576</a>       <strong class="jxr_keyword">this</strong>.processStateOccurrence = processStateOccurrence;
-<a class="jxr_linenumber" name="L577" href="#L577">577</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L578" href="#L578">578</a>     }
-<a class="jxr_linenumber" name="L579" href="#L579">579</a> 
-<a class="jxr_linenumber" name="L580" href="#L580">580</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> processStateChecklist(<a href="../../../../../org/gbif/api/model/crawler/ProcessState.html">ProcessState</a> processStateChecklist) {
-<a class="jxr_linenumber" name="L581" href="#L581">581</a>       <strong class="jxr_keyword">this</strong>.processStateChecklist = processStateChecklist;
-<a class="jxr_linenumber" name="L582" href="#L582">582</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L583" href="#L583">583</a>     }
-<a class="jxr_linenumber" name="L584" href="#L584">584</a> 
-<a class="jxr_linenumber" name="L585" href="#L585">585</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> processStateSample(<a href="../../../../../org/gbif/api/model/crawler/ProcessState.html">ProcessState</a> processStateSample) {
-<a class="jxr_linenumber" name="L586" href="#L586">586</a>       <strong class="jxr_keyword">this</strong>.processStateSample = processStateSample;
-<a class="jxr_linenumber" name="L587" href="#L587">587</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L588" href="#L588">588</a>     }
-<a class="jxr_linenumber" name="L589" href="#L589">589</a> 
-<a class="jxr_linenumber" name="L590" href="#L590">590</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> fragmentsEmitted(<strong class="jxr_keyword">long</strong> fragmentsEmitted) {
-<a class="jxr_linenumber" name="L591" href="#L591">591</a>       <strong class="jxr_keyword">this</strong>.fragmentsEmitted = fragmentsEmitted;
-<a class="jxr_linenumber" name="L592" href="#L592">592</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L593" href="#L593">593</a>     }
-<a class="jxr_linenumber" name="L594" href="#L594">594</a> 
-<a class="jxr_linenumber" name="L595" href="#L595">595</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> fragmentsProcessed(<strong class="jxr_keyword">long</strong> fragmentsProcessed) {
-<a class="jxr_linenumber" name="L596" href="#L596">596</a>       <strong class="jxr_keyword">this</strong>.fragmentsProcessed = fragmentsProcessed;
-<a class="jxr_linenumber" name="L597" href="#L597">597</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L598" href="#L598">598</a>     }
-<a class="jxr_linenumber" name="L599" href="#L599">599</a> 
-<a class="jxr_linenumber" name="L600" href="#L600">600</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> fragmentsReceived(<strong class="jxr_keyword">long</strong> fragmentsReceived) {
-<a class="jxr_linenumber" name="L601" href="#L601">601</a>       <strong class="jxr_keyword">this</strong>.fragmentsReceived = fragmentsReceived;
-<a class="jxr_linenumber" name="L602" href="#L602">602</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L603" href="#L603">603</a>     }
-<a class="jxr_linenumber" name="L604" href="#L604">604</a> 
-<a class="jxr_linenumber" name="L605" href="#L605">605</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> interpretedOccurrencesPersistedError(<strong class="jxr_keyword">long</strong> interpretedOccurrencesPersistedError) {
-<a class="jxr_linenumber" name="L606" href="#L606">606</a>       <strong class="jxr_keyword">this</strong>.interpretedOccurrencesPersistedError = interpretedOccurrencesPersistedError;
-<a class="jxr_linenumber" name="L607" href="#L607">607</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L608" href="#L608">608</a>     }
-<a class="jxr_linenumber" name="L609" href="#L609">609</a> 
-<a class="jxr_linenumber" name="L610" href="#L610">610</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> interpretedOccurrencesPersistedSuccessful(<strong class="jxr_keyword">long</strong> interpretedOccurrencesPersistedSuccessful) {
-<a class="jxr_linenumber" name="L611" href="#L611">611</a>       <strong class="jxr_keyword">this</strong>.interpretedOccurrencesPersistedSuccessful = interpretedOccurrencesPersistedSuccessful;
-<a class="jxr_linenumber" name="L612" href="#L612">612</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L613" href="#L613">613</a>     }
-<a class="jxr_linenumber" name="L614" href="#L614">614</a> 
-<a class="jxr_linenumber" name="L615" href="#L615">615</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> pagesCrawled(<strong class="jxr_keyword">long</strong> pagesCrawled) {
-<a class="jxr_linenumber" name="L616" href="#L616">616</a>       <strong class="jxr_keyword">this</strong>.pagesCrawled = pagesCrawled;
-<a class="jxr_linenumber" name="L617" href="#L617">617</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L618" href="#L618">618</a>     }
-<a class="jxr_linenumber" name="L619" href="#L619">619</a> 
-<a class="jxr_linenumber" name="L620" href="#L620">620</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> pagesFragmentedError(<strong class="jxr_keyword">long</strong> pagesFragmentedError) {
-<a class="jxr_linenumber" name="L621" href="#L621">621</a>       <strong class="jxr_keyword">this</strong>.pagesFragmentedError = pagesFragmentedError;
-<a class="jxr_linenumber" name="L622" href="#L622">622</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L623" href="#L623">623</a>     }
-<a class="jxr_linenumber" name="L624" href="#L624">624</a> 
-<a class="jxr_linenumber" name="L625" href="#L625">625</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> pagesFragmentedSuccessful(<strong class="jxr_keyword">long</strong> pagesFragmentedSuccessful) {
-<a class="jxr_linenumber" name="L626" href="#L626">626</a>       <strong class="jxr_keyword">this</strong>.pagesFragmentedSuccessful = pagesFragmentedSuccessful;
-<a class="jxr_linenumber" name="L627" href="#L627">627</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L628" href="#L628">628</a>     }
-<a class="jxr_linenumber" name="L629" href="#L629">629</a> 
-<a class="jxr_linenumber" name="L630" href="#L630">630</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> rawOccurrencesPersistedError(<strong class="jxr_keyword">long</strong> rawOccurrencesPersistedError) {
-<a class="jxr_linenumber" name="L631" href="#L631">631</a>       <strong class="jxr_keyword">this</strong>.rawOccurrencesPersistedError = rawOccurrencesPersistedError;
-<a class="jxr_linenumber" name="L632" href="#L632">632</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L633" href="#L633">633</a>     }
-<a class="jxr_linenumber" name="L634" href="#L634">634</a> 
-<a class="jxr_linenumber" name="L635" href="#L635">635</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> rawOccurrencesPersistedNew(<strong class="jxr_keyword">long</strong> rawOccurrencesPersistedNew) {
-<a class="jxr_linenumber" name="L636" href="#L636">636</a>       <strong class="jxr_keyword">this</strong>.rawOccurrencesPersistedNew = rawOccurrencesPersistedNew;
-<a class="jxr_linenumber" name="L637" href="#L637">637</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L638" href="#L638">638</a>     }
-<a class="jxr_linenumber" name="L639" href="#L639">639</a> 
-<a class="jxr_linenumber" name="L640" href="#L640">640</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> rawOccurrencesPersistedUnchanged(<strong class="jxr_keyword">long</strong> rawOccurrencesPersistedUnchanged) {
-<a class="jxr_linenumber" name="L641" href="#L641">641</a>       <strong class="jxr_keyword">this</strong>.rawOccurrencesPersistedUnchanged = rawOccurrencesPersistedUnchanged;
-<a class="jxr_linenumber" name="L642" href="#L642">642</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L643" href="#L643">643</a>     }
-<a class="jxr_linenumber" name="L644" href="#L644">644</a> 
-<a class="jxr_linenumber" name="L645" href="#L645">645</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> rawOccurrencesPersistedUpdated(<strong class="jxr_keyword">long</strong> rawOccurrencesPersistedUpdated) {
-<a class="jxr_linenumber" name="L646" href="#L646">646</a>       <strong class="jxr_keyword">this</strong>.rawOccurrencesPersistedUpdated = rawOccurrencesPersistedUpdated;
-<a class="jxr_linenumber" name="L647" href="#L647">647</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L648" href="#L648">648</a>     }
-<a class="jxr_linenumber" name="L649" href="#L649">649</a> 
-<a class="jxr_linenumber" name="L650" href="#L650">650</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> startedCrawling(Date startedCrawling) {
-<a class="jxr_linenumber" name="L651" href="#L651">651</a>       <strong class="jxr_keyword">this</strong>.startedCrawling = startedCrawling;
-<a class="jxr_linenumber" name="L652" href="#L652">652</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L653" href="#L653">653</a>     }
-<a class="jxr_linenumber" name="L654" href="#L654">654</a> 
-<a class="jxr_linenumber" name="L655" href="#L655">655</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> verbatimOccurrencesPersistedError(<strong class="jxr_keyword">long</strong> verbatimOccurrencesPersistedError) {
-<a class="jxr_linenumber" name="L656" href="#L656">656</a>       <strong class="jxr_keyword">this</strong>.verbatimOccurrencesPersistedError = verbatimOccurrencesPersistedError;
-<a class="jxr_linenumber" name="L657" href="#L657">657</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L658" href="#L658">658</a>     }
-<a class="jxr_linenumber" name="L659" href="#L659">659</a> 
-<a class="jxr_linenumber" name="L660" href="#L660">660</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> verbatimOccurrencesPersistedSuccessful(<strong class="jxr_keyword">long</strong> verbatimOccurrencesPersistedSuccessful) {
-<a class="jxr_linenumber" name="L661" href="#L661">661</a>       <strong class="jxr_keyword">this</strong>.verbatimOccurrencesPersistedSuccessful = verbatimOccurrencesPersistedSuccessful;
-<a class="jxr_linenumber" name="L662" href="#L662">662</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
-<a class="jxr_linenumber" name="L663" href="#L663">663</a>     }
-<a class="jxr_linenumber" name="L664" href="#L664">664</a>   }
-<a class="jxr_linenumber" name="L665" href="#L665">665</a> }
+<a class="jxr_linenumber" name="L428" href="#L428">428</a>     <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">DatasetProcessStatus</a> that = (DatasetProcessStatus) o;
+<a class="jxr_linenumber" name="L429" href="#L429">429</a>     <strong class="jxr_keyword">return</strong> pagesCrawled == that.pagesCrawled &amp;&amp;
+<a class="jxr_linenumber" name="L430" href="#L430">430</a>       pagesFragmentedSuccessful == that.pagesFragmentedSuccessful &amp;&amp;
+<a class="jxr_linenumber" name="L431" href="#L431">431</a>       pagesFragmentedError == that.pagesFragmentedError &amp;&amp;
+<a class="jxr_linenumber" name="L432" href="#L432">432</a>       fragmentsEmitted == that.fragmentsEmitted &amp;&amp;
+<a class="jxr_linenumber" name="L433" href="#L433">433</a>       fragmentsReceived == that.fragmentsReceived &amp;&amp;
+<a class="jxr_linenumber" name="L434" href="#L434">434</a>       rawOccurrencesPersistedNew == that.rawOccurrencesPersistedNew &amp;&amp;
+<a class="jxr_linenumber" name="L435" href="#L435">435</a>       rawOccurrencesPersistedUpdated == that.rawOccurrencesPersistedUpdated &amp;&amp;
+<a class="jxr_linenumber" name="L436" href="#L436">436</a>       rawOccurrencesPersistedUnchanged == that.rawOccurrencesPersistedUnchanged &amp;&amp;
+<a class="jxr_linenumber" name="L437" href="#L437">437</a>       rawOccurrencesPersistedError == that.rawOccurrencesPersistedError &amp;&amp;
+<a class="jxr_linenumber" name="L438" href="#L438">438</a>       fragmentsProcessed == that.fragmentsProcessed &amp;&amp;
+<a class="jxr_linenumber" name="L439" href="#L439">439</a>       verbatimOccurrencesPersistedSuccessful == that.verbatimOccurrencesPersistedSuccessful &amp;&amp;
+<a class="jxr_linenumber" name="L440" href="#L440">440</a>       verbatimOccurrencesPersistedError == that.verbatimOccurrencesPersistedError &amp;&amp;
+<a class="jxr_linenumber" name="L441" href="#L441">441</a>       interpretedOccurrencesPersistedSuccessful == that.interpretedOccurrencesPersistedSuccessful &amp;&amp;
+<a class="jxr_linenumber" name="L442" href="#L442">442</a>       interpretedOccurrencesPersistedError == that.interpretedOccurrencesPersistedError &amp;&amp;
+<a class="jxr_linenumber" name="L443" href="#L443">443</a>       Objects.equals(datasetKey, that.datasetKey) &amp;&amp;
+<a class="jxr_linenumber" name="L444" href="#L444">444</a>       Objects.equals(crawlJob, that.crawlJob) &amp;&amp;
+<a class="jxr_linenumber" name="L445" href="#L445">445</a>       Objects.equals(startedCrawling, that.startedCrawling) &amp;&amp;
+<a class="jxr_linenumber" name="L446" href="#L446">446</a>       Objects.equals(finishedCrawling, that.finishedCrawling) &amp;&amp;
+<a class="jxr_linenumber" name="L447" href="#L447">447</a>       Objects.equals(crawlContext, that.crawlContext) &amp;&amp;
+<a class="jxr_linenumber" name="L448" href="#L448">448</a>       finishReason == that.finishReason &amp;&amp;
+<a class="jxr_linenumber" name="L449" href="#L449">449</a>       processStateOccurrence == that.processStateOccurrence &amp;&amp;
+<a class="jxr_linenumber" name="L450" href="#L450">450</a>       processStateChecklist == that.processStateChecklist &amp;&amp;
+<a class="jxr_linenumber" name="L451" href="#L451">451</a>       processStateSample == that.processStateSample &amp;&amp;
+<a class="jxr_linenumber" name="L452" href="#L452">452</a>       Objects.equals(declaredCount, that.declaredCount);
+<a class="jxr_linenumber" name="L453" href="#L453">453</a>   }
+<a class="jxr_linenumber" name="L454" href="#L454">454</a> 
+<a class="jxr_linenumber" name="L455" href="#L455">455</a>   @Override
+<a class="jxr_linenumber" name="L456" href="#L456">456</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> hashCode() {
+<a class="jxr_linenumber" name="L457" href="#L457">457</a>     <strong class="jxr_keyword">return</strong> Objects
+<a class="jxr_linenumber" name="L458" href="#L458">458</a>       .hash(datasetKey, crawlJob, startedCrawling, finishedCrawling, crawlContext, finishReason,
+<a class="jxr_linenumber" name="L459" href="#L459">459</a>         processStateOccurrence, processStateChecklist, processStateSample, declaredCount,
+<a class="jxr_linenumber" name="L460" href="#L460">460</a>         pagesCrawled, pagesFragmentedSuccessful, pagesFragmentedError, fragmentsEmitted,
+<a class="jxr_linenumber" name="L461" href="#L461">461</a>         fragmentsReceived, rawOccurrencesPersistedNew, rawOccurrencesPersistedUpdated,
+<a class="jxr_linenumber" name="L462" href="#L462">462</a>         rawOccurrencesPersistedUnchanged, rawOccurrencesPersistedError, fragmentsProcessed,
+<a class="jxr_linenumber" name="L463" href="#L463">463</a>         verbatimOccurrencesPersistedSuccessful, verbatimOccurrencesPersistedError,
+<a class="jxr_linenumber" name="L464" href="#L464">464</a>         interpretedOccurrencesPersistedSuccessful, interpretedOccurrencesPersistedError);
+<a class="jxr_linenumber" name="L465" href="#L465">465</a>   }
+<a class="jxr_linenumber" name="L466" href="#L466">466</a> 
+<a class="jxr_linenumber" name="L467" href="#L467">467</a>   @Override
+<a class="jxr_linenumber" name="L468" href="#L468">468</a>   <strong class="jxr_keyword">public</strong> String toString() {
+<a class="jxr_linenumber" name="L469" href="#L469">469</a>     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> StringJoiner(<span class="jxr_string">", "</span>, DatasetProcessStatus.<strong class="jxr_keyword">class</strong>.getSimpleName() + <span class="jxr_string">"["</span>, <span class="jxr_string">"]"</span>)
+<a class="jxr_linenumber" name="L470" href="#L470">470</a>       .add(<span class="jxr_string">"datasetKey="</span> + datasetKey)
+<a class="jxr_linenumber" name="L471" href="#L471">471</a>       .add(<span class="jxr_string">"crawlJob="</span> + crawlJob)
+<a class="jxr_linenumber" name="L472" href="#L472">472</a>       .add(<span class="jxr_string">"startedCrawling="</span> + startedCrawling)
+<a class="jxr_linenumber" name="L473" href="#L473">473</a>       .add(<span class="jxr_string">"finishedCrawling="</span> + finishedCrawling)
+<a class="jxr_linenumber" name="L474" href="#L474">474</a>       .add(<span class="jxr_string">"crawlContext='"</span> + crawlContext + <span class="jxr_string">"'"</span>)
+<a class="jxr_linenumber" name="L475" href="#L475">475</a>       .add(<span class="jxr_string">"finishReason="</span> + finishReason)
+<a class="jxr_linenumber" name="L476" href="#L476">476</a>       .add(<span class="jxr_string">"processStateOccurrence="</span> + processStateOccurrence)
+<a class="jxr_linenumber" name="L477" href="#L477">477</a>       .add(<span class="jxr_string">"processStateChecklist="</span> + processStateChecklist)
+<a class="jxr_linenumber" name="L478" href="#L478">478</a>       .add(<span class="jxr_string">"processStateSample="</span> + processStateSample)
+<a class="jxr_linenumber" name="L479" href="#L479">479</a>       .add(<span class="jxr_string">"declaredCount="</span> + declaredCount)
+<a class="jxr_linenumber" name="L480" href="#L480">480</a>       .add(<span class="jxr_string">"pagesCrawled="</span> + pagesCrawled)
+<a class="jxr_linenumber" name="L481" href="#L481">481</a>       .add(<span class="jxr_string">"pagesFragmentedSuccessful="</span> + pagesFragmentedSuccessful)
+<a class="jxr_linenumber" name="L482" href="#L482">482</a>       .add(<span class="jxr_string">"pagesFragmentedError="</span> + pagesFragmentedError)
+<a class="jxr_linenumber" name="L483" href="#L483">483</a>       .add(<span class="jxr_string">"fragmentsEmitted="</span> + fragmentsEmitted)
+<a class="jxr_linenumber" name="L484" href="#L484">484</a>       .add(<span class="jxr_string">"fragmentsReceived="</span> + fragmentsReceived)
+<a class="jxr_linenumber" name="L485" href="#L485">485</a>       .add(<span class="jxr_string">"rawOccurrencesPersistedNew="</span> + rawOccurrencesPersistedNew)
+<a class="jxr_linenumber" name="L486" href="#L486">486</a>       .add(<span class="jxr_string">"rawOccurrencesPersistedUpdated="</span> + rawOccurrencesPersistedUpdated)
+<a class="jxr_linenumber" name="L487" href="#L487">487</a>       .add(<span class="jxr_string">"rawOccurrencesPersistedUnchanged="</span> + rawOccurrencesPersistedUnchanged)
+<a class="jxr_linenumber" name="L488" href="#L488">488</a>       .add(<span class="jxr_string">"rawOccurrencesPersistedError="</span> + rawOccurrencesPersistedError)
+<a class="jxr_linenumber" name="L489" href="#L489">489</a>       .add(<span class="jxr_string">"fragmentsProcessed="</span> + fragmentsProcessed)
+<a class="jxr_linenumber" name="L490" href="#L490">490</a>       .add(<span class="jxr_string">"verbatimOccurrencesPersistedSuccessful="</span> + verbatimOccurrencesPersistedSuccessful)
+<a class="jxr_linenumber" name="L491" href="#L491">491</a>       .add(<span class="jxr_string">"verbatimOccurrencesPersistedError="</span> + verbatimOccurrencesPersistedError)
+<a class="jxr_linenumber" name="L492" href="#L492">492</a>       .add(<span class="jxr_string">"interpretedOccurrencesPersistedSuccessful="</span> + interpretedOccurrencesPersistedSuccessful)
+<a class="jxr_linenumber" name="L493" href="#L493">493</a>       .add(<span class="jxr_string">"interpretedOccurrencesPersistedError="</span> + interpretedOccurrencesPersistedError)
+<a class="jxr_linenumber" name="L494" href="#L494">494</a>       .toString();
+<a class="jxr_linenumber" name="L495" href="#L495">495</a>   }
+<a class="jxr_linenumber" name="L496" href="#L496">496</a> 
+<a class="jxr_linenumber" name="L497" href="#L497">497</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> {
+<a class="jxr_linenumber" name="L498" href="#L498">498</a> 
+<a class="jxr_linenumber" name="L499" href="#L499">499</a>     <strong class="jxr_keyword">private</strong> UUID datasetKey;
+<a class="jxr_linenumber" name="L500" href="#L500">500</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../../org/gbif/api/model/crawler/CrawlJob.html">CrawlJob</a> crawlJob;
+<a class="jxr_linenumber" name="L501" href="#L501">501</a>     <strong class="jxr_keyword">private</strong> Date startedCrawling;
+<a class="jxr_linenumber" name="L502" href="#L502">502</a>     <strong class="jxr_keyword">private</strong> Date finishedCrawling;
+<a class="jxr_linenumber" name="L503" href="#L503">503</a>     <strong class="jxr_keyword">private</strong> String crawlContext;
+<a class="jxr_linenumber" name="L504" href="#L504">504</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../../org/gbif/api/model/crawler/FinishReason.html">FinishReason</a> finishReason;
+<a class="jxr_linenumber" name="L505" href="#L505">505</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../../org/gbif/api/model/crawler/ProcessState.html">ProcessState</a> processStateOccurrence;
+<a class="jxr_linenumber" name="L506" href="#L506">506</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../../org/gbif/api/model/crawler/ProcessState.html">ProcessState</a> processStateChecklist;
+<a class="jxr_linenumber" name="L507" href="#L507">507</a>     <strong class="jxr_keyword">private</strong> <a href="../../../../../org/gbif/api/model/crawler/ProcessState.html">ProcessState</a> processStateSample;
+<a class="jxr_linenumber" name="L508" href="#L508">508</a>     <strong class="jxr_keyword">private</strong> Long declaredCount;
+<a class="jxr_linenumber" name="L509" href="#L509">509</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> pagesCrawled;
+<a class="jxr_linenumber" name="L510" href="#L510">510</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> pagesFragmentedSuccessful;
+<a class="jxr_linenumber" name="L511" href="#L511">511</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> pagesFragmentedError;
+<a class="jxr_linenumber" name="L512" href="#L512">512</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> fragmentsEmitted;
+<a class="jxr_linenumber" name="L513" href="#L513">513</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> fragmentsReceived;
+<a class="jxr_linenumber" name="L514" href="#L514">514</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> rawOccurrencesPersistedNew;
+<a class="jxr_linenumber" name="L515" href="#L515">515</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> rawOccurrencesPersistedUpdated;
+<a class="jxr_linenumber" name="L516" href="#L516">516</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> rawOccurrencesPersistedUnchanged;
+<a class="jxr_linenumber" name="L517" href="#L517">517</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> rawOccurrencesPersistedError;
+<a class="jxr_linenumber" name="L518" href="#L518">518</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> fragmentsProcessed;
+<a class="jxr_linenumber" name="L519" href="#L519">519</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> verbatimOccurrencesPersistedSuccessful;
+<a class="jxr_linenumber" name="L520" href="#L520">520</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> verbatimOccurrencesPersistedError;
+<a class="jxr_linenumber" name="L521" href="#L521">521</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> interpretedOccurrencesPersistedSuccessful;
+<a class="jxr_linenumber" name="L522" href="#L522">522</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">long</strong> interpretedOccurrencesPersistedError;
+<a class="jxr_linenumber" name="L523" href="#L523">523</a> 
+<a class="jxr_linenumber" name="L524" href="#L524">524</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">DatasetProcessStatus</a> build() {
+<a class="jxr_linenumber" name="L525" href="#L525">525</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">DatasetProcessStatus</a>(<strong class="jxr_keyword">this</strong>);
+<a class="jxr_linenumber" name="L526" href="#L526">526</a>     }
+<a class="jxr_linenumber" name="L527" href="#L527">527</a> 
+<a class="jxr_linenumber" name="L528" href="#L528">528</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> crawlContext(String crawlContext) {
+<a class="jxr_linenumber" name="L529" href="#L529">529</a>       <strong class="jxr_keyword">this</strong>.crawlContext = crawlContext;
+<a class="jxr_linenumber" name="L530" href="#L530">530</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L531" href="#L531">531</a>     }
+<a class="jxr_linenumber" name="L532" href="#L532">532</a> 
+<a class="jxr_linenumber" name="L533" href="#L533">533</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> crawlJob(<a href="../../../../../org/gbif/api/model/crawler/CrawlJob.html">CrawlJob</a> crawlJob) {
+<a class="jxr_linenumber" name="L534" href="#L534">534</a>       <strong class="jxr_keyword">this</strong>.crawlJob = crawlJob;
+<a class="jxr_linenumber" name="L535" href="#L535">535</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L536" href="#L536">536</a>     }
+<a class="jxr_linenumber" name="L537" href="#L537">537</a> 
+<a class="jxr_linenumber" name="L538" href="#L538">538</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> datasetKey(UUID datasetKey) {
+<a class="jxr_linenumber" name="L539" href="#L539">539</a>       <strong class="jxr_keyword">this</strong>.datasetKey = datasetKey;
+<a class="jxr_linenumber" name="L540" href="#L540">540</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L541" href="#L541">541</a>     }
+<a class="jxr_linenumber" name="L542" href="#L542">542</a> 
+<a class="jxr_linenumber" name="L543" href="#L543">543</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> declaredCount(Long declaredCount) {
+<a class="jxr_linenumber" name="L544" href="#L544">544</a>       <strong class="jxr_keyword">this</strong>.declaredCount = declaredCount;
+<a class="jxr_linenumber" name="L545" href="#L545">545</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L546" href="#L546">546</a>     }
+<a class="jxr_linenumber" name="L547" href="#L547">547</a> 
+<a class="jxr_linenumber" name="L548" href="#L548">548</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> finishedCrawling(Date finishedCrawling) {
+<a class="jxr_linenumber" name="L549" href="#L549">549</a>       <strong class="jxr_keyword">this</strong>.finishedCrawling = finishedCrawling;
+<a class="jxr_linenumber" name="L550" href="#L550">550</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L551" href="#L551">551</a>     }
+<a class="jxr_linenumber" name="L552" href="#L552">552</a> 
+<a class="jxr_linenumber" name="L553" href="#L553">553</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> finishReason(<a href="../../../../../org/gbif/api/model/crawler/FinishReason.html">FinishReason</a> finishReason) {
+<a class="jxr_linenumber" name="L554" href="#L554">554</a>       <strong class="jxr_keyword">this</strong>.finishReason = finishReason;
+<a class="jxr_linenumber" name="L555" href="#L555">555</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L556" href="#L556">556</a>     }
+<a class="jxr_linenumber" name="L557" href="#L557">557</a> 
+<a class="jxr_linenumber" name="L558" href="#L558">558</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> processStateOccurrence(<a href="../../../../../org/gbif/api/model/crawler/ProcessState.html">ProcessState</a> processStateOccurrence) {
+<a class="jxr_linenumber" name="L559" href="#L559">559</a>       <strong class="jxr_keyword">this</strong>.processStateOccurrence = processStateOccurrence;
+<a class="jxr_linenumber" name="L560" href="#L560">560</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L561" href="#L561">561</a>     }
+<a class="jxr_linenumber" name="L562" href="#L562">562</a> 
+<a class="jxr_linenumber" name="L563" href="#L563">563</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> processStateChecklist(<a href="../../../../../org/gbif/api/model/crawler/ProcessState.html">ProcessState</a> processStateChecklist) {
+<a class="jxr_linenumber" name="L564" href="#L564">564</a>       <strong class="jxr_keyword">this</strong>.processStateChecklist = processStateChecklist;
+<a class="jxr_linenumber" name="L565" href="#L565">565</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L566" href="#L566">566</a>     }
+<a class="jxr_linenumber" name="L567" href="#L567">567</a> 
+<a class="jxr_linenumber" name="L568" href="#L568">568</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> processStateSample(<a href="../../../../../org/gbif/api/model/crawler/ProcessState.html">ProcessState</a> processStateSample) {
+<a class="jxr_linenumber" name="L569" href="#L569">569</a>       <strong class="jxr_keyword">this</strong>.processStateSample = processStateSample;
+<a class="jxr_linenumber" name="L570" href="#L570">570</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L571" href="#L571">571</a>     }
+<a class="jxr_linenumber" name="L572" href="#L572">572</a> 
+<a class="jxr_linenumber" name="L573" href="#L573">573</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> fragmentsEmitted(<strong class="jxr_keyword">long</strong> fragmentsEmitted) {
+<a class="jxr_linenumber" name="L574" href="#L574">574</a>       <strong class="jxr_keyword">this</strong>.fragmentsEmitted = fragmentsEmitted;
+<a class="jxr_linenumber" name="L575" href="#L575">575</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L576" href="#L576">576</a>     }
+<a class="jxr_linenumber" name="L577" href="#L577">577</a> 
+<a class="jxr_linenumber" name="L578" href="#L578">578</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> fragmentsProcessed(<strong class="jxr_keyword">long</strong> fragmentsProcessed) {
+<a class="jxr_linenumber" name="L579" href="#L579">579</a>       <strong class="jxr_keyword">this</strong>.fragmentsProcessed = fragmentsProcessed;
+<a class="jxr_linenumber" name="L580" href="#L580">580</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L581" href="#L581">581</a>     }
+<a class="jxr_linenumber" name="L582" href="#L582">582</a> 
+<a class="jxr_linenumber" name="L583" href="#L583">583</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> fragmentsReceived(<strong class="jxr_keyword">long</strong> fragmentsReceived) {
+<a class="jxr_linenumber" name="L584" href="#L584">584</a>       <strong class="jxr_keyword">this</strong>.fragmentsReceived = fragmentsReceived;
+<a class="jxr_linenumber" name="L585" href="#L585">585</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L586" href="#L586">586</a>     }
+<a class="jxr_linenumber" name="L587" href="#L587">587</a> 
+<a class="jxr_linenumber" name="L588" href="#L588">588</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> interpretedOccurrencesPersistedError(<strong class="jxr_keyword">long</strong> interpretedOccurrencesPersistedError) {
+<a class="jxr_linenumber" name="L589" href="#L589">589</a>       <strong class="jxr_keyword">this</strong>.interpretedOccurrencesPersistedError = interpretedOccurrencesPersistedError;
+<a class="jxr_linenumber" name="L590" href="#L590">590</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L591" href="#L591">591</a>     }
+<a class="jxr_linenumber" name="L592" href="#L592">592</a> 
+<a class="jxr_linenumber" name="L593" href="#L593">593</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> interpretedOccurrencesPersistedSuccessful(<strong class="jxr_keyword">long</strong> interpretedOccurrencesPersistedSuccessful) {
+<a class="jxr_linenumber" name="L594" href="#L594">594</a>       <strong class="jxr_keyword">this</strong>.interpretedOccurrencesPersistedSuccessful = interpretedOccurrencesPersistedSuccessful;
+<a class="jxr_linenumber" name="L595" href="#L595">595</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L596" href="#L596">596</a>     }
+<a class="jxr_linenumber" name="L597" href="#L597">597</a> 
+<a class="jxr_linenumber" name="L598" href="#L598">598</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> pagesCrawled(<strong class="jxr_keyword">long</strong> pagesCrawled) {
+<a class="jxr_linenumber" name="L599" href="#L599">599</a>       <strong class="jxr_keyword">this</strong>.pagesCrawled = pagesCrawled;
+<a class="jxr_linenumber" name="L600" href="#L600">600</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L601" href="#L601">601</a>     }
+<a class="jxr_linenumber" name="L602" href="#L602">602</a> 
+<a class="jxr_linenumber" name="L603" href="#L603">603</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> pagesFragmentedError(<strong class="jxr_keyword">long</strong> pagesFragmentedError) {
+<a class="jxr_linenumber" name="L604" href="#L604">604</a>       <strong class="jxr_keyword">this</strong>.pagesFragmentedError = pagesFragmentedError;
+<a class="jxr_linenumber" name="L605" href="#L605">605</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L606" href="#L606">606</a>     }
+<a class="jxr_linenumber" name="L607" href="#L607">607</a> 
+<a class="jxr_linenumber" name="L608" href="#L608">608</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> pagesFragmentedSuccessful(<strong class="jxr_keyword">long</strong> pagesFragmentedSuccessful) {
+<a class="jxr_linenumber" name="L609" href="#L609">609</a>       <strong class="jxr_keyword">this</strong>.pagesFragmentedSuccessful = pagesFragmentedSuccessful;
+<a class="jxr_linenumber" name="L610" href="#L610">610</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L611" href="#L611">611</a>     }
+<a class="jxr_linenumber" name="L612" href="#L612">612</a> 
+<a class="jxr_linenumber" name="L613" href="#L613">613</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> rawOccurrencesPersistedError(<strong class="jxr_keyword">long</strong> rawOccurrencesPersistedError) {
+<a class="jxr_linenumber" name="L614" href="#L614">614</a>       <strong class="jxr_keyword">this</strong>.rawOccurrencesPersistedError = rawOccurrencesPersistedError;
+<a class="jxr_linenumber" name="L615" href="#L615">615</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L616" href="#L616">616</a>     }
+<a class="jxr_linenumber" name="L617" href="#L617">617</a> 
+<a class="jxr_linenumber" name="L618" href="#L618">618</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> rawOccurrencesPersistedNew(<strong class="jxr_keyword">long</strong> rawOccurrencesPersistedNew) {
+<a class="jxr_linenumber" name="L619" href="#L619">619</a>       <strong class="jxr_keyword">this</strong>.rawOccurrencesPersistedNew = rawOccurrencesPersistedNew;
+<a class="jxr_linenumber" name="L620" href="#L620">620</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L621" href="#L621">621</a>     }
+<a class="jxr_linenumber" name="L622" href="#L622">622</a> 
+<a class="jxr_linenumber" name="L623" href="#L623">623</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> rawOccurrencesPersistedUnchanged(<strong class="jxr_keyword">long</strong> rawOccurrencesPersistedUnchanged) {
+<a class="jxr_linenumber" name="L624" href="#L624">624</a>       <strong class="jxr_keyword">this</strong>.rawOccurrencesPersistedUnchanged = rawOccurrencesPersistedUnchanged;
+<a class="jxr_linenumber" name="L625" href="#L625">625</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L626" href="#L626">626</a>     }
+<a class="jxr_linenumber" name="L627" href="#L627">627</a> 
+<a class="jxr_linenumber" name="L628" href="#L628">628</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> rawOccurrencesPersistedUpdated(<strong class="jxr_keyword">long</strong> rawOccurrencesPersistedUpdated) {
+<a class="jxr_linenumber" name="L629" href="#L629">629</a>       <strong class="jxr_keyword">this</strong>.rawOccurrencesPersistedUpdated = rawOccurrencesPersistedUpdated;
+<a class="jxr_linenumber" name="L630" href="#L630">630</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L631" href="#L631">631</a>     }
+<a class="jxr_linenumber" name="L632" href="#L632">632</a> 
+<a class="jxr_linenumber" name="L633" href="#L633">633</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> startedCrawling(Date startedCrawling) {
+<a class="jxr_linenumber" name="L634" href="#L634">634</a>       <strong class="jxr_keyword">this</strong>.startedCrawling = startedCrawling;
+<a class="jxr_linenumber" name="L635" href="#L635">635</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L636" href="#L636">636</a>     }
+<a class="jxr_linenumber" name="L637" href="#L637">637</a> 
+<a class="jxr_linenumber" name="L638" href="#L638">638</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> verbatimOccurrencesPersistedError(<strong class="jxr_keyword">long</strong> verbatimOccurrencesPersistedError) {
+<a class="jxr_linenumber" name="L639" href="#L639">639</a>       <strong class="jxr_keyword">this</strong>.verbatimOccurrencesPersistedError = verbatimOccurrencesPersistedError;
+<a class="jxr_linenumber" name="L640" href="#L640">640</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L641" href="#L641">641</a>     }
+<a class="jxr_linenumber" name="L642" href="#L642">642</a> 
+<a class="jxr_linenumber" name="L643" href="#L643">643</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/model/crawler/DatasetProcessStatus.html">Builder</a> verbatimOccurrencesPersistedSuccessful(<strong class="jxr_keyword">long</strong> verbatimOccurrencesPersistedSuccessful) {
+<a class="jxr_linenumber" name="L644" href="#L644">644</a>       <strong class="jxr_keyword">this</strong>.verbatimOccurrencesPersistedSuccessful = verbatimOccurrencesPersistedSuccessful;
+<a class="jxr_linenumber" name="L645" href="#L645">645</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L646" href="#L646">646</a>     }
+<a class="jxr_linenumber" name="L647" href="#L647">647</a>   }
+<a class="jxr_linenumber" name="L648" href="#L648">648</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2020 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>

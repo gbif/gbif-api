@@ -7,183 +7,189 @@
 <body>
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2014 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
-<span class="sourceLineNo">003</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.3"></a>
-<span class="sourceLineNo">004</span> * you may not use this file except in compliance with the License.<a name="line.4"></a>
-<span class="sourceLineNo">005</span> * You may obtain a copy of the License at<a name="line.5"></a>
-<span class="sourceLineNo">006</span> * http://www.apache.org/licenses/LICENSE-2.0<a name="line.6"></a>
-<span class="sourceLineNo">007</span> * Unless required by applicable law or agreed to in writing, software<a name="line.7"></a>
-<span class="sourceLineNo">008</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.8"></a>
-<span class="sourceLineNo">009</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.9"></a>
-<span class="sourceLineNo">010</span> * See the License for the specific language governing permissions and<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * limitations under the License.<a name="line.11"></a>
-<span class="sourceLineNo">012</span> */<a name="line.12"></a>
-<span class="sourceLineNo">013</span>package org.gbif.api.model.occurrence;<a name="line.13"></a>
-<span class="sourceLineNo">014</span><a name="line.14"></a>
-<span class="sourceLineNo">015</span>import static org.hamcrest.CoreMatchers.both;<a name="line.15"></a>
-<span class="sourceLineNo">016</span>import static org.hamcrest.CoreMatchers.equalTo;<a name="line.16"></a>
-<span class="sourceLineNo">017</span>import static org.hamcrest.CoreMatchers.not;<a name="line.17"></a>
-<span class="sourceLineNo">018</span>import static org.junit.Assert.assertEquals;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import static org.junit.Assert.assertFalse;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import static org.junit.Assert.assertNull;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import static org.junit.Assert.assertThat;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import static org.junit.Assert.assertTrue;<a name="line.22"></a>
-<span class="sourceLineNo">023</span>import static org.junit.Assert.fail;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import static org.mockito.Mockito.mock;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>import java.io.ByteArrayOutputStream;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import java.io.IOException;<a name="line.26"></a>
-<span class="sourceLineNo">027</span>import org.codehaus.jackson.map.ObjectMapper;<a name="line.27"></a>
-<span class="sourceLineNo">028</span>import org.gbif.api.model.occurrence.predicate.EqualsPredicate;<a name="line.28"></a>
-<span class="sourceLineNo">029</span>import org.gbif.api.model.occurrence.predicate.Predicate;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;<a name="line.30"></a>
-<span class="sourceLineNo">031</span>import org.hamcrest.core.IsCollectionContaining;<a name="line.31"></a>
-<span class="sourceLineNo">032</span>import org.junit.Test;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>import com.google.common.collect.Lists;<a name="line.33"></a>
-<span class="sourceLineNo">034</span><a name="line.34"></a>
-<span class="sourceLineNo">035</span>/**<a name="line.35"></a>
-<span class="sourceLineNo">036</span> * Test cases for DownloadRequest serialization and building.<a name="line.36"></a>
-<span class="sourceLineNo">037</span> */<a name="line.37"></a>
-<span class="sourceLineNo">038</span>public class DownloadRequestTest {<a name="line.38"></a>
-<span class="sourceLineNo">039</span><a name="line.39"></a>
-<span class="sourceLineNo">040</span>  private static final String TEST_USER = "user@gbif.org";<a name="line.40"></a>
-<span class="sourceLineNo">041</span>  private static final String TEST_EMAIL = "test@gbif.org";<a name="line.41"></a>
-<span class="sourceLineNo">042</span><a name="line.42"></a>
-<span class="sourceLineNo">043</span>  // Note these include each combination of underscores or camel case for notificationAddresses and sendNotification.<a name="line.43"></a>
-<span class="sourceLineNo">044</span><a name="line.44"></a>
-<span class="sourceLineNo">045</span>  private static final String SIMPLE_CSV = "{"<a name="line.45"></a>
-<span class="sourceLineNo">046</span>      + " \"creator\":\"" + TEST_USER + "\", "<a name="line.46"></a>
-<span class="sourceLineNo">047</span>      + " \"notification_addresses\": [\"" + TEST_EMAIL +"\"],"<a name="line.47"></a>
-<span class="sourceLineNo">048</span>      + " \"send_notification\":\"true\","<a name="line.48"></a>
-<span class="sourceLineNo">049</span>      + " \"format\": \"SIMPLE_CSV\","<a name="line.49"></a>
-<span class="sourceLineNo">050</span>      + " \"predicate\":{\"type\":\"equals\",\"key\":\"TAXON_KEY\",\"value\":\"3\"}"<a name="line.50"></a>
-<span class="sourceLineNo">051</span>      + "}";<a name="line.51"></a>
-<span class="sourceLineNo">052</span><a name="line.52"></a>
-<span class="sourceLineNo">053</span>  private static final String SIMPLE_CSV_NULL_PREDICATE = "{"<a name="line.53"></a>
-<span class="sourceLineNo">054</span>      + " \"creator\":\"" + TEST_USER + "\", "<a name="line.54"></a>
-<span class="sourceLineNo">055</span>      + " \"notificationAddress\": [\"" + TEST_EMAIL +"\"],"<a name="line.55"></a>
-<span class="sourceLineNo">056</span>      + " \"sendNotification\":\"true\","<a name="line.56"></a>
-<span class="sourceLineNo">057</span>      + " \"format\": \"SIMPLE_CSV\""<a name="line.57"></a>
-<span class="sourceLineNo">058</span>      + "}";<a name="line.58"></a>
-<span class="sourceLineNo">059</span><a name="line.59"></a>
-<span class="sourceLineNo">060</span>  private static final String SIMPLE_CSV_NULL_PREDICATE_AVAIL = "{"<a name="line.60"></a>
-<span class="sourceLineNo">061</span>      + " \"creator\":\"" + TEST_USER + "\", "<a name="line.61"></a>
-<span class="sourceLineNo">062</span>      + " \"notification_address\": [\"" + TEST_EMAIL +"\"],"<a name="line.62"></a>
-<span class="sourceLineNo">063</span>      + " \"send_notification\":\"true\","<a name="line.63"></a>
-<span class="sourceLineNo">064</span>      + " \"format\": \"SIMPLE_CSV\","<a name="line.64"></a>
-<span class="sourceLineNo">065</span>      + " \"predicate\": null"<a name="line.65"></a>
-<span class="sourceLineNo">066</span>      + "}";<a name="line.66"></a>
-<span class="sourceLineNo">067</span><a name="line.67"></a>
-<span class="sourceLineNo">068</span>  private static final ObjectMapper MAPPER = new ObjectMapper();<a name="line.68"></a>
-<span class="sourceLineNo">069</span><a name="line.69"></a>
-<span class="sourceLineNo">070</span>  private static PredicateDownloadRequest newDownload(Predicate p) {<a name="line.70"></a>
-<span class="sourceLineNo">071</span>    return newDownload(p, TEST_USER);<a name="line.71"></a>
-<span class="sourceLineNo">072</span>  }<a name="line.72"></a>
+<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span>package org.gbif.api.model.occurrence;<a name="line.16"></a>
+<span class="sourceLineNo">017</span><a name="line.17"></a>
+<span class="sourceLineNo">018</span>import org.gbif.api.model.occurrence.predicate.EqualsPredicate;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import org.gbif.api.model.occurrence.predicate.Predicate;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;<a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.io.ByteArrayOutputStream;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import java.io.IOException;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.util.Collections;<a name="line.24"></a>
+<span class="sourceLineNo">025</span><a name="line.25"></a>
+<span class="sourceLineNo">026</span>import org.codehaus.jackson.map.ObjectMapper;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import org.hamcrest.core.IsCollectionContaining;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import org.junit.Test;<a name="line.28"></a>
+<span class="sourceLineNo">029</span><a name="line.29"></a>
+<span class="sourceLineNo">030</span>import static org.hamcrest.CoreMatchers.both;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import static org.hamcrest.CoreMatchers.equalTo;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import static org.hamcrest.CoreMatchers.not;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import static org.junit.Assert.assertEquals;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>import static org.junit.Assert.assertFalse;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>import static org.junit.Assert.assertNull;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>import static org.junit.Assert.assertThat;<a name="line.36"></a>
+<span class="sourceLineNo">037</span>import static org.junit.Assert.assertTrue;<a name="line.37"></a>
+<span class="sourceLineNo">038</span>import static org.junit.Assert.fail;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>import static org.mockito.Mockito.mock;<a name="line.39"></a>
+<span class="sourceLineNo">040</span><a name="line.40"></a>
+<span class="sourceLineNo">041</span>/**<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * Test cases for DownloadRequest serialization and building.<a name="line.42"></a>
+<span class="sourceLineNo">043</span> */<a name="line.43"></a>
+<span class="sourceLineNo">044</span>public class DownloadRequestTest {<a name="line.44"></a>
+<span class="sourceLineNo">045</span><a name="line.45"></a>
+<span class="sourceLineNo">046</span>  private static final String TEST_USER = "user@gbif.org";<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  private static final String TEST_EMAIL = "test@gbif.org";<a name="line.47"></a>
+<span class="sourceLineNo">048</span><a name="line.48"></a>
+<span class="sourceLineNo">049</span>  // Note these include each combination of underscores or camel case for notificationAddresses and sendNotification.<a name="line.49"></a>
+<span class="sourceLineNo">050</span><a name="line.50"></a>
+<span class="sourceLineNo">051</span>  private static final String SIMPLE_CSV = "{"<a name="line.51"></a>
+<span class="sourceLineNo">052</span>      + " \"creator\":\"" + TEST_USER + "\", "<a name="line.52"></a>
+<span class="sourceLineNo">053</span>      + " \"notification_addresses\": [\"" + TEST_EMAIL +"\"],"<a name="line.53"></a>
+<span class="sourceLineNo">054</span>      + " \"send_notification\":\"true\","<a name="line.54"></a>
+<span class="sourceLineNo">055</span>      + " \"format\": \"SIMPLE_CSV\","<a name="line.55"></a>
+<span class="sourceLineNo">056</span>      + " \"predicate\":{\"type\":\"equals\",\"key\":\"TAXON_KEY\",\"value\":\"3\"}"<a name="line.56"></a>
+<span class="sourceLineNo">057</span>      + "}";<a name="line.57"></a>
+<span class="sourceLineNo">058</span><a name="line.58"></a>
+<span class="sourceLineNo">059</span>  private static final String SIMPLE_CSV_NULL_PREDICATE = "{"<a name="line.59"></a>
+<span class="sourceLineNo">060</span>      + " \"creator\":\"" + TEST_USER + "\", "<a name="line.60"></a>
+<span class="sourceLineNo">061</span>      + " \"notificationAddress\": [\"" + TEST_EMAIL +"\"],"<a name="line.61"></a>
+<span class="sourceLineNo">062</span>      + " \"sendNotification\":\"true\","<a name="line.62"></a>
+<span class="sourceLineNo">063</span>      + " \"format\": \"SIMPLE_CSV\""<a name="line.63"></a>
+<span class="sourceLineNo">064</span>      + "}";<a name="line.64"></a>
+<span class="sourceLineNo">065</span><a name="line.65"></a>
+<span class="sourceLineNo">066</span>  private static final String SIMPLE_CSV_NULL_PREDICATE_AVAIL = "{"<a name="line.66"></a>
+<span class="sourceLineNo">067</span>      + " \"creator\":\"" + TEST_USER + "\", "<a name="line.67"></a>
+<span class="sourceLineNo">068</span>      + " \"notification_address\": [\"" + TEST_EMAIL +"\"],"<a name="line.68"></a>
+<span class="sourceLineNo">069</span>      + " \"send_notification\":\"true\","<a name="line.69"></a>
+<span class="sourceLineNo">070</span>      + " \"format\": \"SIMPLE_CSV\","<a name="line.70"></a>
+<span class="sourceLineNo">071</span>      + " \"predicate\": null"<a name="line.71"></a>
+<span class="sourceLineNo">072</span>      + "}";<a name="line.72"></a>
 <span class="sourceLineNo">073</span><a name="line.73"></a>
-<span class="sourceLineNo">074</span>  private static PredicateDownloadRequest newDownload(Predicate p, String user) {<a name="line.74"></a>
-<span class="sourceLineNo">075</span>    return new PredicateDownloadRequest(p, user, Lists.newArrayList(TEST_EMAIL), false, DownloadFormat.DWCA);<a name="line.75"></a>
-<span class="sourceLineNo">076</span>  }<a name="line.76"></a>
-<span class="sourceLineNo">077</span><a name="line.77"></a>
-<span class="sourceLineNo">078</span>  @Test<a name="line.78"></a>
-<span class="sourceLineNo">079</span>  public void testAvailable() {<a name="line.79"></a>
-<span class="sourceLineNo">080</span>    //When a Download is created it has RUNNING as its status<a name="line.80"></a>
-<span class="sourceLineNo">081</span>    Download download = new Download();<a name="line.81"></a>
-<span class="sourceLineNo">082</span>    download.setStatus(Download.Status.RUNNING);<a name="line.82"></a>
-<span class="sourceLineNo">083</span>    assertFalse(download.isAvailable());<a name="line.83"></a>
-<span class="sourceLineNo">084</span><a name="line.84"></a>
-<span class="sourceLineNo">085</span>    //Status changed<a name="line.85"></a>
-<span class="sourceLineNo">086</span>    download.setStatus(Download.Status.SUCCEEDED);<a name="line.86"></a>
-<span class="sourceLineNo">087</span>    assertTrue(download.isAvailable());<a name="line.87"></a>
-<span class="sourceLineNo">088</span>  }<a name="line.88"></a>
-<span class="sourceLineNo">089</span><a name="line.89"></a>
-<span class="sourceLineNo">090</span>  @Test<a name="line.90"></a>
-<span class="sourceLineNo">091</span>  public void testBasic() {<a name="line.91"></a>
-<span class="sourceLineNo">092</span>    Predicate p = mock(Predicate.class);<a name="line.92"></a>
-<span class="sourceLineNo">093</span>    PredicateDownloadRequest dl = newDownload(p);<a name="line.93"></a>
-<span class="sourceLineNo">094</span><a name="line.94"></a>
-<span class="sourceLineNo">095</span>    assertThat(dl.getNotificationAddresses(), IsCollectionContaining.hasItem(TEST_EMAIL));<a name="line.95"></a>
-<span class="sourceLineNo">096</span>    assertThat(dl.getPredicate(), equalTo(p));<a name="line.96"></a>
-<span class="sourceLineNo">097</span>  }<a name="line.97"></a>
-<span class="sourceLineNo">098</span><a name="line.98"></a>
-<span class="sourceLineNo">099</span>  @Test<a name="line.99"></a>
-<span class="sourceLineNo">100</span>  public void testEquals() {<a name="line.100"></a>
-<span class="sourceLineNo">101</span>    Predicate p = mock(Predicate.class);<a name="line.101"></a>
-<span class="sourceLineNo">102</span><a name="line.102"></a>
-<span class="sourceLineNo">103</span>    DownloadRequest dl1 = newDownload(p);<a name="line.103"></a>
-<span class="sourceLineNo">104</span>    DownloadRequest dl2 = newDownload(p);<a name="line.104"></a>
-<span class="sourceLineNo">105</span><a name="line.105"></a>
-<span class="sourceLineNo">106</span>    assertThat(dl1, both(equalTo(dl1)).and(equalTo(dl2)));<a name="line.106"></a>
-<span class="sourceLineNo">107</span>  }<a name="line.107"></a>
+<span class="sourceLineNo">074</span>  private static final ObjectMapper MAPPER = new ObjectMapper();<a name="line.74"></a>
+<span class="sourceLineNo">075</span><a name="line.75"></a>
+<span class="sourceLineNo">076</span>  private static PredicateDownloadRequest newDownload(Predicate p) {<a name="line.76"></a>
+<span class="sourceLineNo">077</span>    return newDownload(p, TEST_USER);<a name="line.77"></a>
+<span class="sourceLineNo">078</span>  }<a name="line.78"></a>
+<span class="sourceLineNo">079</span><a name="line.79"></a>
+<span class="sourceLineNo">080</span>  private static PredicateDownloadRequest newDownload(Predicate p, String user) {<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    return new PredicateDownloadRequest(p, user, Collections.singleton(TEST_EMAIL), false, DownloadFormat.DWCA);<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  }<a name="line.82"></a>
+<span class="sourceLineNo">083</span><a name="line.83"></a>
+<span class="sourceLineNo">084</span>  @Test<a name="line.84"></a>
+<span class="sourceLineNo">085</span>  public void testAvailable() {<a name="line.85"></a>
+<span class="sourceLineNo">086</span>    //When a Download is created it has RUNNING as its status<a name="line.86"></a>
+<span class="sourceLineNo">087</span>    Download download = new Download();<a name="line.87"></a>
+<span class="sourceLineNo">088</span>    download.setStatus(Download.Status.RUNNING);<a name="line.88"></a>
+<span class="sourceLineNo">089</span>    assertFalse(download.isAvailable());<a name="line.89"></a>
+<span class="sourceLineNo">090</span><a name="line.90"></a>
+<span class="sourceLineNo">091</span>    //Status changed<a name="line.91"></a>
+<span class="sourceLineNo">092</span>    download.setStatus(Download.Status.SUCCEEDED);<a name="line.92"></a>
+<span class="sourceLineNo">093</span>    assertTrue(download.isAvailable());<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  }<a name="line.94"></a>
+<span class="sourceLineNo">095</span><a name="line.95"></a>
+<span class="sourceLineNo">096</span>  @Test<a name="line.96"></a>
+<span class="sourceLineNo">097</span>  public void testBasic() {<a name="line.97"></a>
+<span class="sourceLineNo">098</span>    Predicate p = mock(Predicate.class);<a name="line.98"></a>
+<span class="sourceLineNo">099</span>    PredicateDownloadRequest dl = newDownload(p);<a name="line.99"></a>
+<span class="sourceLineNo">100</span><a name="line.100"></a>
+<span class="sourceLineNo">101</span>    assertThat(dl.getNotificationAddresses(), IsCollectionContaining.hasItem(TEST_EMAIL));<a name="line.101"></a>
+<span class="sourceLineNo">102</span>    assertThat(dl.getPredicate(), equalTo(p));<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  }<a name="line.103"></a>
+<span class="sourceLineNo">104</span><a name="line.104"></a>
+<span class="sourceLineNo">105</span>  @Test<a name="line.105"></a>
+<span class="sourceLineNo">106</span>  public void testEquals() {<a name="line.106"></a>
+<span class="sourceLineNo">107</span>    Predicate p = mock(Predicate.class);<a name="line.107"></a>
 <span class="sourceLineNo">108</span><a name="line.108"></a>
-<span class="sourceLineNo">109</span>  @Test<a name="line.109"></a>
-<span class="sourceLineNo">110</span>  public void testHashcode() {<a name="line.110"></a>
-<span class="sourceLineNo">111</span>    Predicate p = mock(Predicate.class);<a name="line.111"></a>
-<span class="sourceLineNo">112</span><a name="line.112"></a>
-<span class="sourceLineNo">113</span>    PredicateDownloadRequest dl1 = newDownload(p);<a name="line.113"></a>
-<span class="sourceLineNo">114</span>    PredicateDownloadRequest dl2 = newDownload(p);<a name="line.114"></a>
-<span class="sourceLineNo">115</span><a name="line.115"></a>
-<span class="sourceLineNo">116</span>    assertThat(dl1.hashCode(), both(equalTo(dl1.hashCode())).and(equalTo(dl2.hashCode())));<a name="line.116"></a>
-<span class="sourceLineNo">117</span><a name="line.117"></a>
-<span class="sourceLineNo">118</span>    dl2 = newDownload(p, TEST_EMAIL);<a name="line.118"></a>
-<span class="sourceLineNo">119</span>    assertThat(dl1.hashCode(), not(equalTo(dl2.hashCode())));<a name="line.119"></a>
-<span class="sourceLineNo">120</span>  }<a name="line.120"></a>
+<span class="sourceLineNo">109</span>    DownloadRequest dl1 = newDownload(p);<a name="line.109"></a>
+<span class="sourceLineNo">110</span>    DownloadRequest dl2 = newDownload(p);<a name="line.110"></a>
+<span class="sourceLineNo">111</span><a name="line.111"></a>
+<span class="sourceLineNo">112</span>    assertThat(dl1, both(equalTo(dl1)).and(equalTo(dl2)));<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  }<a name="line.113"></a>
+<span class="sourceLineNo">114</span><a name="line.114"></a>
+<span class="sourceLineNo">115</span>  @Test<a name="line.115"></a>
+<span class="sourceLineNo">116</span>  public void testHashcode() {<a name="line.116"></a>
+<span class="sourceLineNo">117</span>    Predicate p = mock(Predicate.class);<a name="line.117"></a>
+<span class="sourceLineNo">118</span><a name="line.118"></a>
+<span class="sourceLineNo">119</span>    PredicateDownloadRequest dl1 = newDownload(p);<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    PredicateDownloadRequest dl2 = newDownload(p);<a name="line.120"></a>
 <span class="sourceLineNo">121</span><a name="line.121"></a>
-<span class="sourceLineNo">122</span>  @Test<a name="line.122"></a>
-<span class="sourceLineNo">123</span>  public void testSerde() throws IOException {<a name="line.123"></a>
-<span class="sourceLineNo">124</span>    PredicateDownloadRequest d = newDownload(new EqualsPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, "b"));<a name="line.124"></a>
-<span class="sourceLineNo">125</span>    try(ByteArrayOutputStream baos = new ByteArrayOutputStream()){<a name="line.125"></a>
-<span class="sourceLineNo">126</span>      MAPPER.writeValue(baos, d);<a name="line.126"></a>
-<span class="sourceLineNo">127</span>      PredicateDownloadRequest d2 = MAPPER.readValue(baos.toByteArray(), PredicateDownloadRequest.class);<a name="line.127"></a>
-<span class="sourceLineNo">128</span>      assertEquals(d, d2);<a name="line.128"></a>
-<span class="sourceLineNo">129</span>    } catch (Throwable e) { // closer must catch Throwable<a name="line.129"></a>
-<span class="sourceLineNo">130</span>      fail(e.getMessage());<a name="line.130"></a>
-<span class="sourceLineNo">131</span>      throw e;<a name="line.131"></a>
-<span class="sourceLineNo">132</span>    }<a name="line.132"></a>
-<span class="sourceLineNo">133</span>  }<a name="line.133"></a>
-<span class="sourceLineNo">134</span><a name="line.134"></a>
-<span class="sourceLineNo">135</span>  @Test<a name="line.135"></a>
-<span class="sourceLineNo">136</span>  public void testPredicateDownloadSerde() throws IOException {<a name="line.136"></a>
-<span class="sourceLineNo">137</span>    DownloadRequest request = MAPPER.readValue(SIMPLE_CSV, PredicateDownloadRequest.class);<a name="line.137"></a>
-<span class="sourceLineNo">138</span>    assertEquals(TEST_USER, request.getCreator());<a name="line.138"></a>
-<span class="sourceLineNo">139</span>    assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());<a name="line.139"></a>
-<span class="sourceLineNo">140</span>    assertTrue(request.getSendNotification());<a name="line.140"></a>
-<span class="sourceLineNo">141</span>    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());<a name="line.141"></a>
-<span class="sourceLineNo">142</span>  }<a name="line.142"></a>
-<span class="sourceLineNo">143</span><a name="line.143"></a>
-<span class="sourceLineNo">144</span>  @Test<a name="line.144"></a>
-<span class="sourceLineNo">145</span>  public void testDownloadRequestSerde() throws IOException {<a name="line.145"></a>
-<span class="sourceLineNo">146</span>    DownloadRequest request = MAPPER.readValue(SIMPLE_CSV, DownloadRequest.class);<a name="line.146"></a>
-<span class="sourceLineNo">147</span>    assertEquals(TEST_USER, request.getCreator());<a name="line.147"></a>
-<span class="sourceLineNo">148</span>    assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());<a name="line.148"></a>
-<span class="sourceLineNo">149</span>    assertTrue(request.getSendNotification());<a name="line.149"></a>
-<span class="sourceLineNo">150</span>    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());<a name="line.150"></a>
-<span class="sourceLineNo">151</span>  }<a name="line.151"></a>
-<span class="sourceLineNo">152</span><a name="line.152"></a>
-<span class="sourceLineNo">153</span>  @Test<a name="line.153"></a>
-<span class="sourceLineNo">154</span>  public void testDownloadRequestSerde1() throws IOException {<a name="line.154"></a>
-<span class="sourceLineNo">155</span>    DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE, DownloadRequest.class);<a name="line.155"></a>
-<span class="sourceLineNo">156</span>    assertNull(((PredicateDownloadRequest)request).getPredicate());<a name="line.156"></a>
-<span class="sourceLineNo">157</span>    assertTrue(request.getSendNotification());<a name="line.157"></a>
-<span class="sourceLineNo">158</span>    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());<a name="line.158"></a>
-<span class="sourceLineNo">159</span>  }<a name="line.159"></a>
-<span class="sourceLineNo">160</span><a name="line.160"></a>
-<span class="sourceLineNo">161</span>  @Test<a name="line.161"></a>
-<span class="sourceLineNo">162</span>  public void testDownloadRequestSerde2() throws IOException {<a name="line.162"></a>
-<span class="sourceLineNo">163</span>    DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE_AVAIL, DownloadRequest.class);<a name="line.163"></a>
-<span class="sourceLineNo">164</span>    assertNull(((PredicateDownloadRequest)request).getPredicate());<a name="line.164"></a>
-<span class="sourceLineNo">165</span>    assertTrue(request.getSendNotification());<a name="line.165"></a>
-<span class="sourceLineNo">166</span>    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());<a name="line.166"></a>
-<span class="sourceLineNo">167</span>  }<a name="line.167"></a>
-<span class="sourceLineNo">168</span><a name="line.168"></a>
-<span class="sourceLineNo">169</span>  /**<a name="line.169"></a>
-<span class="sourceLineNo">170</span>   * Tests that an empty JSON {} is translated into null.<a name="line.170"></a>
-<span class="sourceLineNo">171</span>   */<a name="line.171"></a>
-<span class="sourceLineNo">172</span>  @Test<a name="line.172"></a>
-<span class="sourceLineNo">173</span>  public void testDownloadRequestSerdeNull() throws IOException {<a name="line.173"></a>
-<span class="sourceLineNo">174</span>    String json = "{}";<a name="line.174"></a>
-<span class="sourceLineNo">175</span>    DownloadRequest request = MAPPER.readValue(json, DownloadRequest.class);<a name="line.175"></a>
-<span class="sourceLineNo">176</span>    assertNull(request);<a name="line.176"></a>
-<span class="sourceLineNo">177</span>  }<a name="line.177"></a>
-<span class="sourceLineNo">178</span>}<a name="line.178"></a>
+<span class="sourceLineNo">122</span>    assertThat(dl1.hashCode(), both(equalTo(dl1.hashCode())).and(equalTo(dl2.hashCode())));<a name="line.122"></a>
+<span class="sourceLineNo">123</span><a name="line.123"></a>
+<span class="sourceLineNo">124</span>    dl2 = newDownload(p, TEST_EMAIL);<a name="line.124"></a>
+<span class="sourceLineNo">125</span>    assertThat(dl1.hashCode(), not(equalTo(dl2.hashCode())));<a name="line.125"></a>
+<span class="sourceLineNo">126</span>  }<a name="line.126"></a>
+<span class="sourceLineNo">127</span><a name="line.127"></a>
+<span class="sourceLineNo">128</span>  @Test<a name="line.128"></a>
+<span class="sourceLineNo">129</span>  public void testSerde() throws IOException {<a name="line.129"></a>
+<span class="sourceLineNo">130</span>    PredicateDownloadRequest d = newDownload(new EqualsPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, "b"));<a name="line.130"></a>
+<span class="sourceLineNo">131</span>    try(ByteArrayOutputStream baos = new ByteArrayOutputStream()){<a name="line.131"></a>
+<span class="sourceLineNo">132</span>      MAPPER.writeValue(baos, d);<a name="line.132"></a>
+<span class="sourceLineNo">133</span>      PredicateDownloadRequest d2 = MAPPER.readValue(baos.toByteArray(), PredicateDownloadRequest.class);<a name="line.133"></a>
+<span class="sourceLineNo">134</span>      assertEquals(d, d2);<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    } catch (Throwable e) { // closer must catch Throwable<a name="line.135"></a>
+<span class="sourceLineNo">136</span>      fail(e.getMessage());<a name="line.136"></a>
+<span class="sourceLineNo">137</span>      throw e;<a name="line.137"></a>
+<span class="sourceLineNo">138</span>    }<a name="line.138"></a>
+<span class="sourceLineNo">139</span>  }<a name="line.139"></a>
+<span class="sourceLineNo">140</span><a name="line.140"></a>
+<span class="sourceLineNo">141</span>  @Test<a name="line.141"></a>
+<span class="sourceLineNo">142</span>  public void testPredicateDownloadSerde() throws IOException {<a name="line.142"></a>
+<span class="sourceLineNo">143</span>    DownloadRequest request = MAPPER.readValue(SIMPLE_CSV, PredicateDownloadRequest.class);<a name="line.143"></a>
+<span class="sourceLineNo">144</span>    assertEquals(TEST_USER, request.getCreator());<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());<a name="line.145"></a>
+<span class="sourceLineNo">146</span>    assertTrue(request.getSendNotification());<a name="line.146"></a>
+<span class="sourceLineNo">147</span>    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());<a name="line.147"></a>
+<span class="sourceLineNo">148</span>  }<a name="line.148"></a>
+<span class="sourceLineNo">149</span><a name="line.149"></a>
+<span class="sourceLineNo">150</span>  @Test<a name="line.150"></a>
+<span class="sourceLineNo">151</span>  public void testDownloadRequestSerde() throws IOException {<a name="line.151"></a>
+<span class="sourceLineNo">152</span>    DownloadRequest request = MAPPER.readValue(SIMPLE_CSV, DownloadRequest.class);<a name="line.152"></a>
+<span class="sourceLineNo">153</span>    assertEquals(TEST_USER, request.getCreator());<a name="line.153"></a>
+<span class="sourceLineNo">154</span>    assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());<a name="line.154"></a>
+<span class="sourceLineNo">155</span>    assertTrue(request.getSendNotification());<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());<a name="line.156"></a>
+<span class="sourceLineNo">157</span>  }<a name="line.157"></a>
+<span class="sourceLineNo">158</span><a name="line.158"></a>
+<span class="sourceLineNo">159</span>  @Test<a name="line.159"></a>
+<span class="sourceLineNo">160</span>  public void testDownloadRequestSerde1() throws IOException {<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE, DownloadRequest.class);<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    assertNull(((PredicateDownloadRequest)request).getPredicate());<a name="line.162"></a>
+<span class="sourceLineNo">163</span>    assertTrue(request.getSendNotification());<a name="line.163"></a>
+<span class="sourceLineNo">164</span>    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());<a name="line.164"></a>
+<span class="sourceLineNo">165</span>  }<a name="line.165"></a>
+<span class="sourceLineNo">166</span><a name="line.166"></a>
+<span class="sourceLineNo">167</span>  @Test<a name="line.167"></a>
+<span class="sourceLineNo">168</span>  public void testDownloadRequestSerde2() throws IOException {<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE_AVAIL, DownloadRequest.class);<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    assertNull(((PredicateDownloadRequest)request).getPredicate());<a name="line.170"></a>
+<span class="sourceLineNo">171</span>    assertTrue(request.getSendNotification());<a name="line.171"></a>
+<span class="sourceLineNo">172</span>    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());<a name="line.172"></a>
+<span class="sourceLineNo">173</span>  }<a name="line.173"></a>
+<span class="sourceLineNo">174</span><a name="line.174"></a>
+<span class="sourceLineNo">175</span>  /**<a name="line.175"></a>
+<span class="sourceLineNo">176</span>   * Tests that an empty JSON {} is translated into null.<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   */<a name="line.177"></a>
+<span class="sourceLineNo">178</span>  @Test<a name="line.178"></a>
+<span class="sourceLineNo">179</span>  public void testDownloadRequestSerdeNull() throws IOException {<a name="line.179"></a>
+<span class="sourceLineNo">180</span>    String json = "{}";<a name="line.180"></a>
+<span class="sourceLineNo">181</span>    DownloadRequest request = MAPPER.readValue(json, DownloadRequest.class);<a name="line.181"></a>
+<span class="sourceLineNo">182</span>    assertNull(request);<a name="line.182"></a>
+<span class="sourceLineNo">183</span>  }<a name="line.183"></a>
+<span class="sourceLineNo">184</span>}<a name="line.184"></a>
 
 
 

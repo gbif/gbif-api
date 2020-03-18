@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VernacularName.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">VernacularName.java</span></div><h1>VernacularName.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -20,18 +20,20 @@ import org.gbif.api.vocabulary.Language;
 import org.gbif.api.vocabulary.LifeStage;
 import org.gbif.api.vocabulary.Sex;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
-
-import com.google.common.base.Objects;
-
 
 /**
  * VernacularName Model Object represents a vernacular name for a scientific taxon.
  *
- * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/vernacularname.xml&quot;&gt;Vernacular Name Definition&lt;/a&gt;
+ * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/vernacularname.xml&quot;&gt;Vernacular Name
+ * Definition&lt;/a&gt;
  */
-<span class="fc" id="L34">public class VernacularName implements NameUsageExtension {</span>
+@SuppressWarnings(&quot;unused&quot;)
+<span class="fc" id="L36">public class VernacularName implements NameUsageExtension {</span>
 
   private Integer taxonKey;
   private String vernacularName;
@@ -50,13 +52,13 @@ import com.google.common.base.Objects;
    */
   @Override
   public Integer getTaxonKey() {
-<span class="nc" id="L53">    return taxonKey;</span>
+<span class="nc" id="L55">    return taxonKey;</span>
   }
 
   @Override
   public void setTaxonKey(Integer taxonKey) {
-<span class="nc" id="L58">    this.taxonKey = taxonKey;</span>
-<span class="nc" id="L59">  }</span>
+<span class="nc" id="L60">    this.taxonKey = taxonKey;</span>
+<span class="nc" id="L61">  }</span>
 
   /**
    * The area for the vernacular name.
@@ -65,23 +67,25 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public String getArea() {
-<span class="nc" id="L68">    return area;</span>
+<span class="nc" id="L70">    return area;</span>
   }
 
   /**
    * @param area the area to set
    */
   public void setArea(String area) {
-<span class="nc" id="L75">    this.area = area;</span>
-<span class="nc" id="L76">  }</span>
+<span class="nc" id="L77">    this.area = area;</span>
+<span class="nc" id="L78">  }</span>
 
   /**
-   * The standard code for the country in which the vernacular name is used. Recommended best practice is to use the
-   * ISO 3166-1-alpha-2 country codes available as a vocabulary at http://rs.gbif.org/vocabulary/iso/3166-1_alpha2.xml.
-   * For multiple countries separate values with a comma &quot;,&quot;.
+   * The standard code for the country in which the vernacular name is used. Recommended best
+   * practice is to use the ISO 3166-1-alpha-2 country codes available as a vocabulary at
+   * http://rs.gbif.org/vocabulary/iso/3166-1_alpha2.xml. For multiple countries separate values
+   * with a comma &quot;,&quot;.
    * &lt;blockquote&gt;
    * &lt;p&gt;
-   * &lt;i&gt;Example:&lt;/i&gt; &quot;AR&quot; for Argentina, &quot;SV&quot; for El Salvador. &quot;AR,CR,SV&quot; for Argentina, Costa Rica, and El Salvador
+   * &lt;i&gt;Example:&lt;/i&gt; &quot;AR&quot; for Argentina, &quot;SV&quot; for El Salvador. &quot;AR,CR,SV&quot; for Argentina, Costa Rica,
+   * and El Salvador
    * combined.
    * &lt;/p&gt;
    * &lt;/blockquote&gt;
@@ -90,15 +94,15 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public Country getCountry() {
-<span class="nc" id="L93">    return country;</span>
+<span class="nc" id="L97">    return country;</span>
   }
 
   /**
    * @param country the country to set
    */
   public void setCountry(Country country) {
-<span class="fc" id="L100">    this.country = country;</span>
-<span class="fc" id="L101">  }</span>
+<span class="fc" id="L104">    this.country = country;</span>
+<span class="fc" id="L105">  }</span>
 
   /**
    * ISO 639-1 language code used for the vernacular name value.
@@ -112,46 +116,46 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public Language getLanguage() {
-<span class="nc" id="L115">    return language;</span>
+<span class="nc" id="L119">    return language;</span>
   }
 
   /**
    * @param language the language to set
    */
   public void setLanguage(Language language) {
-<span class="nc" id="L122">    this.language = language;</span>
-<span class="nc" id="L123">  }</span>
+<span class="nc" id="L126">    this.language = language;</span>
+<span class="nc" id="L127">  }</span>
 
   /**
-   * The age class or life stage of the species for which the vernacular name applies. Best practice is to utilise a
-   * controlled list of terms for this value.
+   * The age class or life stage of the species for which the vernacular name applies. Best practice
+   * is to utilise a controlled list of terms for this value.
    * &lt;blockquote&gt;
    * &lt;p&gt;
-   * &lt;i&gt;Example:&lt;/i&gt; juvenile&quot; is the life stage of the fish Pomatomus saltatrix for which the name &quot;snapper blue&quot;
+   * &lt;i&gt;Example:&lt;/i&gt; juvenile&quot; is the life stage of the fish Pomatomus saltatrix for which the name
+   * &quot;snapper blue&quot;
    * refers.
    * &lt;/p&gt;
    * &lt;/blockquote&gt;
    *
    * @return the lifeStage
-   *
    * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/gbif/life_stage.xml&quot;&gt;Life Stage GBIF Vocabulary&lt;/a&gt;
    */
   @Nullable
   public LifeStage getLifeStage() {
-<span class="nc" id="L141">    return lifeStage;</span>
+<span class="nc" id="L145">    return lifeStage;</span>
   }
 
   /**
    * @param lifeStage the lifeStage to set
    */
   public void setLifeStage(LifeStage lifeStage) {
-<span class="nc" id="L148">    this.lifeStage = lifeStage;</span>
-<span class="nc" id="L149">  }</span>
+<span class="nc" id="L152">    this.lifeStage = lifeStage;</span>
+<span class="nc" id="L153">  }</span>
 
   /**
-   * The sex (gender) of the taxon for which the vernacular name applies when the vernacular name is limited to a
-   * specific gender of a species. If not limited sex should be empty. For example the vernacular name &quot;Buck&quot; applies
-   * to the &quot;Male&quot; gender of the species, Odocoileus virginianus.
+   * The sex (gender) of the taxon for which the vernacular name applies when the vernacular name is
+   * limited to a specific gender of a species. If not limited sex should be empty. For example the
+   * vernacular name &quot;Buck&quot; applies to the &quot;Male&quot; gender of the species, Odocoileus virginianus.
    * &lt;blockquote&gt;
    * &lt;p&gt;
    * &lt;i&gt;Example:&lt;/i&gt; male.
@@ -159,23 +163,23 @@ import com.google.common.base.Objects;
    * &lt;/blockquote&gt;
    *
    * @return the sex
-   *
    * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/gbif/sex.xml&quot;&gt;Sex GBIF Vocabulary&lt;/a&gt;
    */
   @Nullable
   public Sex getSex() {
-<span class="nc" id="L167">    return sex;</span>
+<span class="nc" id="L170">    return sex;</span>
   }
 
   /**
    * @param sex the sex to set
    */
   public void setSex(Sex sex) {
-<span class="nc" id="L174">    this.sex = sex;</span>
-<span class="nc" id="L175">  }</span>
+<span class="nc" id="L177">    this.sex = sex;</span>
+<span class="nc" id="L178">  }</span>
 
   /**
-   * Bibliographic citation referencing a source where the vernacular name refers to the cited species.
+   * Bibliographic citation referencing a source where the vernacular name refers to the cited
+   * species.
    * &lt;blockquote&gt;
    * &lt;p&gt;
    * &lt;i&gt;Example:&lt;/i&gt; Peterson Field Guide to the Eastern Seashore, Houghton Mifflin Co, 1961, p131.
@@ -186,24 +190,24 @@ import com.google.common.base.Objects;
    */
   @Nullable
   public String getSource() {
-<span class="nc" id="L189">    return source;</span>
+<span class="nc" id="L193">    return source;</span>
   }
 
   /**
    * @param source the source to set
    */
   public void setSource(String source) {
-<span class="nc" id="L196">    this.source = source;</span>
-<span class="nc" id="L197">  }</span>
+<span class="nc" id="L200">    this.source = source;</span>
+<span class="nc" id="L201">  }</span>
 
   @Nullable
   public Integer getSourceTaxonKey() {
-<span class="nc" id="L201">    return sourceTaxonKey;</span>
+<span class="nc" id="L205">    return sourceTaxonKey;</span>
   }
 
   public void setSourceTaxonKey(Integer sourceTaxonKey) {
-<span class="fc" id="L205">    this.sourceTaxonKey = sourceTaxonKey;</span>
-<span class="fc" id="L206">  }</span>
+<span class="fc" id="L209">    this.sourceTaxonKey = sourceTaxonKey;</span>
+<span class="fc" id="L210">  }</span>
 
   /**
    * A common or vernacular name.
@@ -217,120 +221,111 @@ import com.google.common.base.Objects;
    */
   @NotNull
   public String getVernacularName() {
-<span class="nc" id="L220">    return vernacularName;</span>
+<span class="nc" id="L224">    return vernacularName;</span>
   }
 
   /**
    * @param vernacularName the vernacularName to set
    */
   public void setVernacularName(String vernacularName) {
-<span class="nc" id="L227">    this.vernacularName = vernacularName;</span>
-<span class="nc" id="L228">  }</span>
+<span class="nc" id="L231">    this.vernacularName = vernacularName;</span>
+<span class="nc" id="L232">  }</span>
 
   /**
    * This value is true if the vernacular name it qualifies refers to a plural form of the name.
    * &lt;blockquote&gt;
    * &lt;p&gt;
-   * &lt;i&gt;Example:&lt;/i&gt; The term &quot;Schoolies&quot; is the plural form of a name used along the coastal Northeastern U.S. for
+   * &lt;i&gt;Example:&lt;/i&gt; The term &quot;Schoolies&quot; is the plural form of a name used along the coastal
+   * Northeastern U.S. for
    * groups of juvenile fish of the species, Morone saxatilis.
    * &lt;/p&gt;
    * &lt;/blockquote&gt;
    *
    * @return the plural
-   *
    * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/basic/boolean.xml&quot;&gt;Boolean Vocabulary&lt;/a&gt;
    */
   @Nullable
   public Boolean isPlural() {
-<span class="nc" id="L245">    return plural;</span>
+<span class="nc" id="L249">    return plural;</span>
   }
 
   /**
    * @param plural the plural to set
    */
   public void setPlural(Boolean plural) {
-<span class="nc" id="L252">    this.plural = plural;</span>
-<span class="nc" id="L253">  }</span>
+<span class="nc" id="L256">    this.plural = plural;</span>
+<span class="nc" id="L257">  }</span>
 
   /**
-   * This term is true if the source citing the use of this vernacular name indicates the usage has some preference or
-   * specific standing over other possible vernacular names used for the species.
+   * This term is true if the source citing the use of this vernacular name indicates the usage has
+   * some preference or specific standing over other possible vernacular names used for the
+   * species.
    * &lt;blockquote&gt;
    * &lt;p&gt;
-   * &lt;i&gt;Example:&lt;/i&gt; Some organisations have attempted to assign specific and unique vernacular names for particular
-   * taxon groups in a systematic attempt to bring order and consistency to the use of these names. For example, the
-   * American Ornithological Union assigns the name &quot;Pearl Kite&quot; for the taxon, Gampsonyx swainsonii. The value of
-   * isPreferredName for this record would be true.
+   * &lt;i&gt;Example:&lt;/i&gt; Some organisations have attempted to assign specific and unique vernacular
+   * names for particular
+   * taxon groups in a systematic attempt to bring order and consistency to the use of these names.
+   * For example, the American Ornithological Union assigns the name &quot;Pearl Kite&quot; for the taxon,
+   * Gampsonyx swainsonii. The value of isPreferredName for this record would be true.
    * &lt;/p&gt;
    * &lt;/blockquote&gt;
    *
    * @return the preferred
-   *
    * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/basic/boolean.xml&quot;&gt;Boolean Vocabulary&lt;/a&gt;
    */
   @Nullable
   public Boolean isPreferred() {
-<span class="nc" id="L273">    return preferred;</span>
+<span class="nc" id="L278">    return preferred;</span>
   }
 
   /**
    * @param preferred the preferred to set
    */
   public void setPreferred(Boolean preferred) {
-<span class="fc" id="L280">    this.preferred = preferred;</span>
-<span class="fc" id="L281">  }</span>
+<span class="fc" id="L285">    this.preferred = preferred;</span>
+<span class="fc" id="L286">  }</span>
 
   @Override
-  public boolean equals(Object object) {
-<span class="pc bpc" id="L285" title="1 of 2 branches missed.">    if (this == object) {</span>
-<span class="nc" id="L286">      return true;</span>
+  public boolean equals(Object o) {
+<span class="pc bpc" id="L290" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L291">      return true;</span>
     }
-<span class="pc bpc" id="L288" title="1 of 2 branches missed.">    if (!(object instanceof VernacularName)) {</span>
-<span class="nc" id="L289">      return false;</span>
+<span class="pc bpc" id="L293" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L294">      return false;</span>
     }
-
-<span class="fc" id="L292">    VernacularName that = (VernacularName) object;</span>
-<span class="pc bpc" id="L293" title="1 of 2 branches missed.">    return Objects.equal(this.vernacularName, that.vernacularName)</span>
-<span class="pc bpc" id="L294" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.language, that.language)</span>
-<span class="pc bpc" id="L295" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.lifeStage, that.lifeStage)</span>
-<span class="pc bpc" id="L296" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.sex, that.sex)</span>
-<span class="pc bpc" id="L297" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.country, that.country)</span>
-<span class="pc bpc" id="L298" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.area, that.area)</span>
-<span class="pc bpc" id="L299" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.source, that.source)</span>
-<span class="pc bpc" id="L300" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.sourceTaxonKey, that.sourceTaxonKey)</span>
-<span class="pc bpc" id="L301" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.preferred, that.preferred)</span>
-<span class="pc bpc" id="L302" title="1 of 2 branches missed.">           &amp;&amp; Objects.equal(this.plural, that.plural);</span>
+<span class="fc" id="L296">    VernacularName that = (VernacularName) o;</span>
+<span class="pc bpc" id="L297" title="5 of 10 branches missed.">    return Objects.equals(vernacularName, that.vernacularName) &amp;&amp;</span>
+      language == that.language &amp;&amp;
+      lifeStage == that.lifeStage &amp;&amp;
+      sex == that.sex &amp;&amp;
+      country == that.country &amp;&amp;
+<span class="pc bpc" id="L302" title="1 of 2 branches missed.">      Objects.equals(area, that.area) &amp;&amp;</span>
+<span class="pc bpc" id="L303" title="1 of 2 branches missed.">      Objects.equals(source, that.source) &amp;&amp;</span>
+<span class="pc bpc" id="L304" title="1 of 2 branches missed.">      Objects.equals(sourceTaxonKey, that.sourceTaxonKey) &amp;&amp;</span>
+<span class="pc bpc" id="L305" title="1 of 2 branches missed.">      Objects.equals(preferred, that.preferred) &amp;&amp;</span>
+<span class="pc bpc" id="L306" title="1 of 2 branches missed.">      Objects.equals(plural, that.plural);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L307">    return Objects.hashCode(vernacularName,</span>
-                            language,
-                            lifeStage,
-                            sex,
-                            country,
-                            area,
-                            source,
-                            sourceTaxonKey,
-                            preferred,
-                            plural);
+<span class="nc" id="L311">    return Objects.hash(vernacularName, language, lifeStage, sex, country, area, source,</span>
+      sourceTaxonKey, preferred, plural);
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L321">    return Objects.toStringHelper(this)</span>
-<span class="nc" id="L322">      .add(&quot;vernacularName&quot;, vernacularName)</span>
-<span class="nc" id="L323">      .add(&quot;language&quot;, language)</span>
-<span class="nc" id="L324">      .add(&quot;lifeStage&quot;, lifeStage)</span>
-<span class="nc" id="L325">      .add(&quot;sex&quot;, sex)</span>
-<span class="nc" id="L326">      .add(&quot;country&quot;, country)</span>
-<span class="nc" id="L327">      .add(&quot;area&quot;, area)</span>
-<span class="nc" id="L328">      .add(&quot;source&quot;, source)</span>
-<span class="nc" id="L329">      .add(&quot;sourceTaxonKey&quot;, sourceTaxonKey)</span>
-<span class="nc" id="L330">      .add(&quot;preferred&quot;, preferred)</span>
-<span class="nc" id="L331">      .add(&quot;plural&quot;, plural)</span>
-<span class="nc" id="L332">      .toString();</span>
+<span class="nc" id="L317">    return new StringJoiner(&quot;, &quot;, VernacularName.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L318">      .add(&quot;vernacularName='&quot; + vernacularName + &quot;'&quot;)</span>
+<span class="nc" id="L319">      .add(&quot;language=&quot; + language)</span>
+<span class="nc" id="L320">      .add(&quot;lifeStage=&quot; + lifeStage)</span>
+<span class="nc" id="L321">      .add(&quot;sex=&quot; + sex)</span>
+<span class="nc" id="L322">      .add(&quot;country=&quot; + country)</span>
+<span class="nc" id="L323">      .add(&quot;area='&quot; + area + &quot;'&quot;)</span>
+<span class="nc" id="L324">      .add(&quot;source='&quot; + source + &quot;'&quot;)</span>
+<span class="nc" id="L325">      .add(&quot;sourceTaxonKey=&quot; + sourceTaxonKey)</span>
+<span class="nc" id="L326">      .add(&quot;preferred=&quot; + preferred)</span>
+<span class="nc" id="L327">      .add(&quot;plural=&quot; + plural)</span>
+<span class="nc" id="L328">      .toString();</span>
   }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

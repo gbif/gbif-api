@@ -1,79 +1,98 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DownloadRequestSerde.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.jackson</a> &gt; <span class="el_source">DownloadRequestSerde.java</span></div><h1>DownloadRequestSerde.java</h1><pre class="source lang-java linenums">package org.gbif.api.jackson;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DownloadRequestSerde.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.jackson</a> &gt; <span class="el_source">DownloadRequestSerde.java</span></div><h1>DownloadRequestSerde.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.jackson;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import com.google.common.collect.ImmutableList;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.gbif.api.model.occurrence.DownloadFormat;
 import org.gbif.api.model.occurrence.DownloadRequest;
 import org.gbif.api.model.occurrence.PredicateDownloadRequest;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.util.VocabularyUtils;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.map.DeserializationContext;
+import org.codehaus.jackson.map.JsonDeserializer;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.common.base.Throwables;
 
 /**
  * Download request deserializer.
- *
- * For most of the time, the serialization has been to &quot;notificationAddresses&quot; and &quot;sendNotification&quot;.  For a few months
- * in 2018-2019, it was &quot;notification_address&quot; and &quot;send_notification&quot;.
- *
+ * &lt;p&gt;
+ * For most of the time, the serialization has been to &quot;notificationAddresses&quot; and
+ * &quot;sendNotification&quot;.  For a few months in 2018-2019, it was &quot;notification_address&quot; and
+ * &quot;send_notification&quot;.
+ * &lt;p&gt;
  * The API documentation has previously specified &quot;notification_address&quot; and &quot;sendNotification&quot;.
- *
+ * &lt;p&gt;
  * We therefore accept all combinations.
- *
+ * &lt;p&gt;
  * https://github.com/gbif/portal-feedback/issues/2046
  */
-<span class="fc" id="L36">public class DownloadRequestSerde extends JsonDeserializer&lt;DownloadRequest&gt; {</span>
+<span class="fc" id="L52">public class DownloadRequestSerde extends JsonDeserializer&lt;DownloadRequest&gt; {</span>
 
   private static final String PREDICATE = &quot;predicate&quot;;
-<span class="fc" id="L39">  private static final List&lt;String&gt; SEND_NOTIFICATION = ImmutableList.of(&quot;sendNotification&quot;, &quot;send_notification&quot;);</span>
-<span class="fc" id="L40">  private static final List&lt;String&gt; NOTIFICATION_ADDRESSES =</span>
-<span class="fc" id="L41">    ImmutableList.of(&quot;notificationAddresses&quot;, &quot;notificationAddress&quot;, &quot;notification_addresses&quot;, &quot;notification_address&quot;);</span>
+<span class="fc" id="L55">  private static final List&lt;String&gt; SEND_NOTIFICATION = Collections</span>
+<span class="fc" id="L56">    .unmodifiableList(Arrays.asList(&quot;sendNotification&quot;, &quot;send_notification&quot;));</span>
+<span class="fc" id="L57">  private static final List&lt;String&gt; NOTIFICATION_ADDRESSES =</span>
+<span class="fc" id="L58">    Collections.unmodifiableList(</span>
+<span class="fc" id="L59">      Arrays.asList(&quot;notificationAddresses&quot;, &quot;notificationAddress&quot;, &quot;notification_addresses&quot;,</span>
+        &quot;notification_address&quot;));
   private static final String CREATOR = &quot;creator&quot;;
   private static final String FORMAT = &quot;format&quot;;
-<span class="fc" id="L44">  private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);</span>
-<span class="fc" id="L45">  private static final ObjectMapper MAPPER = new ObjectMapper();</span>
+<span class="fc" id="L63">  private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);</span>
+<span class="fc" id="L64">  private static final ObjectMapper MAPPER = new ObjectMapper();</span>
 
   @Override
   public DownloadRequest deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-<span class="fc" id="L49">    JsonNode node = jp.getCodec().readTree(jp);</span>
-<span class="fc" id="L50">    LOG.debug(&quot;DownloadRequest for deserialization: {}&quot;, node);</span>
+<span class="fc" id="L68">    JsonNode node = jp.getCodec().readTree(jp);</span>
+<span class="fc" id="L69">    LOG.debug(&quot;DownloadRequest for deserialization: {}&quot;, node);</span>
     //at least one element must be defined
-<span class="fc bfc" id="L52" title="All 2 branches covered.">    if (node.size() == 0) {</span>
-<span class="fc" id="L53">      return null;</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">    if (node.size() == 0) {</span>
+<span class="fc" id="L72">      return null;</span>
     }
-<span class="fc" id="L55">    DownloadFormat format = Optional.ofNullable(node.get(FORMAT))</span>
-<span class="fc" id="L56">      .map(n -&gt; VocabularyUtils.lookupEnum(n.asText(), DownloadFormat.class)).orElse(DownloadFormat.DWCA);</span>
-<span class="fc" id="L57">    String creator = Optional.ofNullable(node.get(CREATOR)).map(JsonNode::asText).orElse(null);</span>
+<span class="fc" id="L74">    DownloadFormat format = Optional.ofNullable(node.get(FORMAT))</span>
+<span class="fc" id="L75">      .map(n -&gt; VocabularyUtils.lookupEnum(n.asText(), DownloadFormat.class)).orElse(DownloadFormat.DWCA);</span>
+<span class="fc" id="L76">    String creator = Optional.ofNullable(node.get(CREATOR)).map(JsonNode::asText).orElse(null);</span>
 
-<span class="fc" id="L59">    List&lt;String&gt; notificationAddresses = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L60" title="All 2 branches covered.">    for (final String jsonKey : NOTIFICATION_ADDRESSES) {</span>
-<span class="fc" id="L61">      notificationAddresses.addAll(Optional.ofNullable(node.get(jsonKey)).map(jsonNode -&gt; {</span>
+<span class="fc" id="L78">    List&lt;String&gt; notificationAddresses = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">    for (final String jsonKey : NOTIFICATION_ADDRESSES) {</span>
+<span class="fc" id="L80">      notificationAddresses.addAll(Optional.ofNullable(node.get(jsonKey)).map(jsonNode -&gt; {</span>
         try {
-<span class="fc" id="L63">          return Arrays.asList(MAPPER.readValue(jsonNode, String[].class));</span>
-<span class="nc" id="L64">        } catch (Exception e) {</span>
-<span class="nc" id="L65">          throw Throwables.propagate(e);</span>
+<span class="fc" id="L82">          return Arrays.asList(MAPPER.readValue(jsonNode, String[].class));</span>
+<span class="nc" id="L83">        } catch (Exception e) {</span>
+<span class="nc" id="L84">          throw new RuntimeException(e);</span>
         }
-<span class="fc" id="L67">      }).orElse(new ArrayList&lt;&gt;()));</span>
-<span class="fc" id="L68">    }</span>
+<span class="fc" id="L86">      }).orElse(new ArrayList&lt;&gt;()));</span>
+<span class="fc" id="L87">    }</span>
 
-<span class="fc" id="L70">    boolean sendNotification = false;</span>
-<span class="fc bfc" id="L71" title="All 2 branches covered.">    for (final String jsonKey : SEND_NOTIFICATION) {</span>
-<span class="fc" id="L72">      sendNotification |= Optional.ofNullable(node.get(jsonKey)).map(JsonNode::asBoolean).orElse(Boolean.FALSE);</span>
-<span class="fc" id="L73">    }</span>
-<span class="fc" id="L74">    JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);</span>
-<span class="fc bfc" id="L75" title="All 2 branches covered.">    Predicate predicateObj = predicate == null ? null : MAPPER.readValue(predicate, Predicate.class);</span>
-<span class="fc" id="L76">    return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format);</span>
+<span class="fc" id="L89">    boolean sendNotification = false;</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">    for (final String jsonKey : SEND_NOTIFICATION) {</span>
+<span class="fc" id="L91">      sendNotification |= Optional.ofNullable(node.get(jsonKey)).map(JsonNode::asBoolean).orElse(Boolean.FALSE);</span>
+<span class="fc" id="L92">    }</span>
+<span class="fc" id="L93">    JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">    Predicate predicateObj = predicate == null ? null : MAPPER.readValue(predicate, Predicate.class);</span>
+<span class="fc" id="L95">    return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

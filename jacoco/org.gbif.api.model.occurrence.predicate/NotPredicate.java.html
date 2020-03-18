@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NotPredicate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence.predicate</a> &gt; <span class="el_source">NotPredicate.java</span></div><h1>NotPredicate.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,11 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 import javax.validation.constraints.NotNull;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -32,38 +33,38 @@ public class NotPredicate implements Predicate {
   private final Predicate predicate;
 
   @JsonCreator
-<span class="fc" id="L35">  public NotPredicate(@JsonProperty(&quot;predicate&quot;) Predicate predicate) {</span>
-<span class="fc" id="L36">    Preconditions.checkNotNull(predicate);</span>
+<span class="fc" id="L36">  public NotPredicate(@JsonProperty(&quot;predicate&quot;) Predicate predicate) {</span>
+<span class="fc" id="L37">    Objects.requireNonNull(predicate);</span>
 
-<span class="fc" id="L38">    this.predicate = predicate;</span>
-<span class="fc" id="L39">  }</span>
+<span class="fc" id="L39">    this.predicate = predicate;</span>
+<span class="fc" id="L40">  }</span>
 
   public Predicate getPredicate() {
-<span class="fc" id="L42">    return predicate;</span>
+<span class="fc" id="L43">    return predicate;</span>
   }
 
   @Override
-  public boolean equals(Object obj) {
-<span class="fc bfc" id="L47" title="All 2 branches covered.">    if (this == obj) {</span>
-<span class="fc" id="L48">      return true;</span>
+  public boolean equals(Object o) {
+<span class="fc bfc" id="L48" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L49">      return true;</span>
     }
-
-<span class="pc bpc" id="L51" title="1 of 2 branches missed.">    if (!(obj instanceof NotPredicate)) {</span>
+<span class="pc bpc" id="L51" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
 <span class="nc" id="L52">      return false;</span>
     }
-
-<span class="fc" id="L55">    NotPredicate that = (NotPredicate) obj;</span>
-<span class="fc" id="L56">    return Objects.equal(this.predicate, that.predicate);</span>
+<span class="fc" id="L54">    NotPredicate that = (NotPredicate) o;</span>
+<span class="fc" id="L55">    return Objects.equals(predicate, that.predicate);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L61">    return Objects.hashCode(predicate);</span>
+<span class="fc" id="L60">    return Objects.hash(predicate);</span>
   }
 
   @Override
   public String toString() {
-<span class="fc" id="L66">    return Objects.toStringHelper(this).add(&quot;predicate&quot;, predicate).toString();</span>
+<span class="fc" id="L65">    return new StringJoiner(&quot;, &quot;, NotPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="fc" id="L66">      .add(&quot;predicate=&quot; + predicate)</span>
+<span class="fc" id="L67">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

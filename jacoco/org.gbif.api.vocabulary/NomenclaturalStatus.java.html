@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NomenclaturalStatus.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">NomenclaturalStatus.java</span></div><h1>NomenclaturalStatus.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,17 @@
  */
 package org.gbif.api.vocabulary;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
-
-import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Vocabulary for the nomenclatural status of a name.
@@ -36,12 +38,9 @@ import java.util.regex.Pattern;
  * @see &lt;a href=&quot;http://darwin.eeb.uconn.edu/systsem/table.html&quot;&gt;Nomenclatural equivalences&lt;/a&gt;
  *
  */
-<span class="fc" id="L39">public enum NomenclaturalStatus {</span>
+<span class="fc" id="L41">public enum NomenclaturalStatus {</span>
 
-  /**
-   *
-   */
-<span class="fc" id="L44"> LEGITIMATE(null, null,    &quot;acceptable&quot;, &quot;potentially valid&quot;),</span>
+<span class="fc" id="L43"> LEGITIMATE(null, null,    &quot;acceptable&quot;, &quot;potentially valid&quot;),</span>
 
   /**
  * A name that is correctly proposed according to the a Code of Nomenclature.
@@ -56,7 +55,7 @@ import java.util.regex.Pattern;
  * @See &lt;a href=&quot;http://en.wikipedia.org/wiki/Validly_published_name_(botany)&quot;&gt;wikipedia&lt;/a&gt;
  * @See &lt;a href=&quot;http://en.wikipedia.org/wiki/Available_name&quot;&gt;wikipedia&lt;/a&gt;
  */
-<span class="fc" id="L59"> VALIDLY_PUBLISHED(null, null, &quot;available&quot;,&quot;valid&quot;, &quot;established&quot;),</span>
+<span class="fc" id="L58"> VALIDLY_PUBLISHED(null, null, &quot;available&quot;,&quot;valid&quot;, &quot;established&quot;),</span>
 
   /**
    * The name is a new combination, i.e. a name change involving the epithet of the basionym.
@@ -67,7 +66,7 @@ import java.util.regex.Pattern;
    * For exxample when Calymmatobacterium granulomatis was renamed Klebsiella granulomatis,
    * it was referred to as Klebsiella granulomatis comb. nov. to denote it is a new combination.
    */
-<span class="fc" id="L70"> NEW_COMBINATION(&quot;combinatio nova&quot;, &quot;comb. nov.&quot;),</span>
+<span class="fc" id="L69"> NEW_COMBINATION(&quot;combinatio nova&quot;, &quot;comb. nov.&quot;),</span>
 
   /**
    * A scientific name that is created specifically to replace a name which is a junior synonym or homonym.
@@ -79,7 +78,7 @@ import java.util.regex.Pattern;
    * Commonly applied to names proposed to replace junior homonyms. A name proposed as a substitute for a previously
    * published name (ICBN Art. 7.3 and 33.4).
    */
-<span class="fc" id="L82"> REPLACEMENT(&quot;nomen novum&quot;, &quot;nom. nov.&quot;,      &quot;replacement name&quot;, &quot;substitute name&quot;),</span>
+<span class="fc" id="L81"> REPLACEMENT(&quot;nomen novum&quot;, &quot;nom. nov.&quot;,      &quot;replacement name&quot;, &quot;substitute name&quot;),</span>
 
   /**
    * A scientific name that enjoys special nomenclatural protection, i.e. a name conserved in respective code.
@@ -87,13 +86,13 @@ import java.util.regex.Pattern;
    * Includes rulings to conserve junior/later synonyms in place of rejected forgotten names (nomen oblitum).
    * Such names are entered on the Official Lists.
    */
-<span class="fc" id="L90"> CONSERVED(&quot;nomen conservandum&quot;, &quot;nom. cons.&quot;,     &quot;orth. cons.&quot;),</span>
+<span class="fc" id="L89"> CONSERVED(&quot;nomen conservandum&quot;, &quot;nom. cons.&quot;,     &quot;orth. cons.&quot;),</span>
 
   /**
    * Protected names are conserved names applied to a name which has been given precedence over it unused senior synonym
    * or senior homonym relegated to the status of nomen oblitum (see Article 23.9.2).
    */
-<span class="fc" id="L96"> PROTECTED(&quot;nomen protectum&quot;, &quot;nom. prot.&quot;),</span>
+<span class="fc" id="L95"> PROTECTED(&quot;nomen protectum&quot;, &quot;nom. prot.&quot;),</span>
 
   /**
    * Corrected names or 'improved' names, available names which are mandatory and allowable emendations
@@ -101,29 +100,29 @@ import java.util.regex.Pattern;
    * (which are not subject to name form and ending regulations).
    * Do not depend on transfer in taxon rank or assignment. (= an emended name).
    */
-<span class="fc" id="L104"> CORRECTED(&quot;nomen correctum&quot;, &quot;nom. corr.&quot;,    &quot;improved&quot;),</span>
+<span class="fc" id="L103"> CORRECTED(&quot;nomen correctum&quot;, &quot;nom. corr.&quot;,    &quot;improved&quot;),</span>
 
   /**
    * The original combination of a newly described any name regardless of the rank.
    */
-<span class="fc" id="L109"> ORIGINAL_COMBINATION(null, null),</span>
+<span class="fc" id="L108"> ORIGINAL_COMBINATION(null, null),</span>
 
   /**
    * The original combination of a newly described species.
    * Specific type of ORIGINAL_COMBINATION.
    */
-<span class="fc" id="L115"> NEW_SPECIES(&quot;species novum&quot;, &quot;sp. nov.&quot;),</span>
+<span class="fc" id="L114"> NEW_SPECIES(&quot;species novum&quot;, &quot;sp. nov.&quot;),</span>
 
   /**
    * The original combination of a newly described genus.
    * Specific type of ORIGINAL_COMBINATION.
    */
-<span class="fc" id="L121"> NEW_GENUS(&quot;genus novum&quot;, &quot;gen. nov.&quot;),</span>
+<span class="fc" id="L120"> NEW_GENUS(&quot;genus novum&quot;, &quot;gen. nov.&quot;),</span>
 
   /**
    * An alternative name given in the original publication before 1953 based on the same type.
    */
-<span class="fc" id="L126"> ALTERNATIVE(&quot;nomen alternativum&quot;, &quot;nom. altern.&quot;),</span>
+<span class="fc" id="L125"> ALTERNATIVE(&quot;nomen alternativum&quot;, &quot;nom. altern.&quot;),</span>
 
   /**
    * A name, which was published in an obscure publication, was never widely used.
@@ -131,19 +130,18 @@ import java.util.regex.Pattern;
    * This has no influence on the formal evaluation of valid publication under ICBN.
    * It may be valuable information nevertheless.
    */
-<span class="fc" id="L134"> OBSCURE(&quot;nomen obscurum&quot;, &quot;nom. obsc.&quot;),</span>
+<span class="fc" id="L133"> OBSCURE(&quot;nomen obscurum&quot;, &quot;nom. obsc.&quot;),</span>
 
   /**
    * A proposed conserved name. See CONSERVED.
    */
-<span class="fc" id="L139"> CONSERVED_PROPOSED(&quot;nomen conservandum propositum&quot;, &quot;orth. cons. prop.&quot;),</span>
+<span class="fc" id="L138"> CONSERVED_PROPOSED(&quot;nomen conservandum propositum&quot;, &quot;orth. cons. prop.&quot;),</span>
 
   /**
    * Provisional name, a name proposed in anticipation of the future acceptance of the taxon concerned,
    * or of a particular circumscription, position, or rank of the taxon (ICBN Art. 34.1).
    */
-<span class="fc" id="L145"> PROVISIONAL(&quot;nomen provisorium&quot;, &quot;nom. prov.&quot;),</span>
-
+<span class="fc" id="L144"> PROVISIONAL(&quot;nomen provisorium&quot;, &quot;nom. prov.&quot;),</span>
 
   /**
    * Formerly, a new taxon with a scant diagnosis/description
@@ -157,17 +155,17 @@ import java.util.regex.Pattern;
    * or are reasons given for &quot;nom. rej.&quot;/&quot;nom. utique rej.&quot;.
    * The are not actual status codes, rather highlight potential problems.
    */
-<span class="fc" id="L160"> SUBNUDUM(&quot;nomen subnudum&quot;, &quot;nom. subnud.&quot;),</span>
+<span class="fc" id="L158"> SUBNUDUM(&quot;nomen subnudum&quot;, &quot;nom. subnud.&quot;),</span>
 
   /**
    * proposed rejected name. Temporary status until the next botanical congress decides about the proposal.
    */
-<span class="fc" id="L165"> REJECTED_PROPOSED(&quot;nomen rejiciendum propositum&quot;, &quot;nom. rej. prop.&quot;),</span>
+<span class="fc" id="L163"> REJECTED_PROPOSED(&quot;nomen rejiciendum propositum&quot;, &quot;nom. rej. prop.&quot;),</span>
 
   /**
    * proposed rejected name on the basis of appendix V of ICBN
   */
-<span class="fc" id="L170"> REJECTED_OUTRIGHT_PROPOSED(&quot;nomen utique rejiciendum propositum&quot;, &quot;nom. utique rej. prop.&quot;),</span>
+<span class="fc" id="L168"> REJECTED_OUTRIGHT_PROPOSED(&quot;nomen utique rejiciendum propositum&quot;, &quot;nom. utique rej. prop.&quot;),</span>
 
   /**
    * A name of uncertain sense, of doubtful validity.
@@ -184,7 +182,7 @@ import java.util.regex.Pattern;
    * The application of the name Platanus hispanica is uncertain, so the name has been rejected
    * in favour of Platanus ×acerifolia (Aiton) Willd., pro. sp.
    */
-<span class="fc" id="L187"> DOUBTFUL(&quot;nomen dubium&quot;, &quot;nom. dub.&quot;,     &quot;dubious&quot;),</span>
+<span class="fc" id="L185"> DOUBTFUL(&quot;nomen dubium&quot;, &quot;nom. dub.&quot;,     &quot;dubious&quot;),</span>
 
   /**
    * Ambiguous name, one which has been used so long by different authors in different senses that it has become
@@ -194,25 +192,25 @@ import java.util.regex.Pattern;
    * The name Trifolium agrarium was misapplied to three taxa, so the name has been rejected in favour of the names
    * Trifolium aureum Pollich, T. dubium Sibth., and T. campestre Schreb., each referring to different taxa.
    */
-<span class="fc" id="L197"> AMBIGUOUS(&quot;nomen ambigua&quot;, &quot;nom. ambig.&quot;),</span>
+<span class="fc" id="L195"> AMBIGUOUS(&quot;nomen ambigua&quot;, &quot;nom. ambig.&quot;),</span>
 
   /**
    * A rejected name that is based on a type consisting of two or more entirely discordant elements,
    * so that it is difficult to select a satisfactory lectotype.
    */
-<span class="fc" id="L203"> CONFUSED(&quot;nomen confusum&quot;, &quot;nom. confus.&quot;),</span>
+<span class="fc" id="L201"> CONFUSED(&quot;nomen confusum&quot;, &quot;nom. confus.&quot;),</span>
 
   /**
    * a name that has not been used in the scientific community for more than fifty years after its original proposal.
    * forgotten names, senior synonyms which have remained unused in the literature for many years.
    * Have been treated differently by different editions of the Code, and remain unavailable names.
    */
-<span class="fc" id="L210"> FORGOTTEN(&quot;nomen oblitum&quot;, &quot;nom. obl.&quot;),</span>
+<span class="fc" id="L208"> FORGOTTEN(&quot;nomen oblitum&quot;, &quot;nom. obl.&quot;),</span>
 
   /**
    * A name which violated the Code in operation at that time.
    */
-<span class="fc" id="L215"> ABORTED(&quot;nomen abortivum&quot;, &quot;nom. abort.&quot;),</span>
+<span class="fc" id="L213"> ABORTED(&quot;nomen abortivum&quot;, &quot;nom. abort.&quot;),</span>
 
   /**
    * In botanical nomenclature, an orthographical variant (abbreviated orth. var.) is a variant spelling
@@ -231,7 +229,7 @@ import java.util.regex.Pattern;
    * Inadvertent misspellings are treated in Art. 32-33 of the ICZN.
    */
 
-<span class="fc" id="L234"> ORTHOGRAPHIC_VARIANT(&quot;nomen orthographia&quot;, &quot;orth. var.&quot;,     &quot;spelling variant&quot;),</span>
+<span class="fc" id="L232"> ORTHOGRAPHIC_VARIANT(&quot;nomen orthographia&quot;, &quot;orth. var.&quot;,     &quot;spelling variant&quot;),</span>
 
   /**
    * A name superfluous when published, an unnecessary substitute name.
@@ -243,7 +241,7 @@ import java.util.regex.Pattern;
    * The correct basionym is Phaca astragalina DC., not Astragalus astragalinus (DC.) Hook.
    * This taxon is a synonym of Astragalus alpinus L.
    */
-<span class="fc" id="L246"> SUPERFLUOUS(&quot;nomen superfluum&quot;, &quot;nom. superfl.&quot;),</span>
+<span class="fc" id="L244"> SUPERFLUOUS(&quot;nomen superfluum&quot;, &quot;nom. superfl.&quot;),</span>
 
   /**
    * A nomen nudum (plural nomina nuda) is used for a name which is unavailable because it does not have a description,
@@ -254,19 +252,19 @@ import java.util.regex.Pattern;
    * that meets the criteria of availability;
    * however, they are attributed to the author who first made them available, not the person who first used them.
    */
-<span class="fc" id="L257"> NUDUM(&quot;nomen nudum&quot;, &quot;nom. nud.&quot;,   &quot;nomen solum&quot;,&quot;nom. sol.&quot;),</span>
+<span class="fc" id="L255"> NUDUM(&quot;nomen nudum&quot;, &quot;nom. nud.&quot;,   &quot;nomen solum&quot;,&quot;nom. sol.&quot;),</span>
 
   /**
    * Null names, unavailable names which as defined by the Code are non demonstrably intentional changes of
    * an original spelling i.e. a form of incorrect subsequent spelling.
    */
-<span class="fc" id="L263"> NULL_NAME(&quot;nomen nullum&quot;, &quot;nom. null.&quot;),</span>
+<span class="fc" id="L261"> NULL_NAME(&quot;nomen nullum&quot;, &quot;nom. null.&quot;),</span>
 
   /**
    * Names in specified ranks included in publications listed as suppressed works (opera utique oppressa; App. VI)
    * are not validly published.
    */
-<span class="fc" id="L269"> SUPPRESSED(&quot;nomen oppressa&quot;, &quot;nom. opp.&quot;),</span>
+<span class="fc" id="L267"> SUPPRESSED(&quot;nomen oppressa&quot;, &quot;nom. opp.&quot;),</span>
 
   /**
    * Name rejected outright, i. e. without proposing another name to be conserved in favor of this name
@@ -277,12 +275,12 @@ import java.util.regex.Pattern;
    * Example: Cerastium vulgatum L. 1755, non 1762, nom. utique rej.
    * For a discussion on why this name was rejected, see Brummitt 2000. Taxon 49 (2): 262.
    */
-<span class="fc" id="L280"> REJECTED_OUTRIGHT(&quot;nomen utique rejiciendum&quot;, &quot;nom. utique rej.&quot;),</span>
+<span class="fc" id="L278"> REJECTED_OUTRIGHT(&quot;nomen utique rejiciendum&quot;, &quot;nom. utique rej.&quot;),</span>
 
   /**
    * Rejected / surpressed name. Inverse of conserved against
    */
-<span class="fc" id="L285"> REJECTED(&quot;nomen rejiciendum&quot;, &quot;nom. rej.&quot;),</span>
+<span class="fc" id="L283"> REJECTED(&quot;nomen rejiciendum&quot;, &quot;nom. rej.&quot;),</span>
 
   /**
    * A nomen illegitimum is a validly published name, but one that contravenes some of the articles laid down by
@@ -293,7 +291,7 @@ import java.util.regex.Pattern;
    * &lt;/ul&gt;
    * For the procedure of rejecting otherwise legitimate names, see conserved name.
    */
-<span class="fc" id="L296"> ILLEGITIMATE(&quot;nomen illegitimum&quot;, &quot;nom. illeg.&quot;),</span>
+<span class="fc" id="L294"> ILLEGITIMATE(&quot;nomen illegitimum&quot;, &quot;nom. illeg.&quot;),</span>
 
   /**
    * A name that was not validly published according to the rules of the code,
@@ -303,47 +301,51 @@ import java.util.regex.Pattern;
    * Example: Linaria vulgaris Hill, nom. inval.
    * Many names published by John Hill between 1753 and 1757 were not accepted as validly published.
    */
-<span class="fc" id="L306"> INVALID(&quot;nomen invalidum&quot;, &quot;nom. inval.&quot;,    &quot;unavailable&quot;),</span>
+<span class="fc" id="L304"> INVALID(&quot;nomen invalidum&quot;, &quot;nom. inval.&quot;,    &quot;unavailable&quot;),</span>
 
   /**
    * denied names, unavailable names which are incorrect original spellings as defined by the Code.
    * Subset of nom.inval. based only on spellings
    */
-<span class="fc" id="L312"> DENIED(&quot;nomen negatum&quot;, &quot;nom. neg.&quot;);</span>
+<span class="fc" id="L310"> DENIED(&quot;nomen negatum&quot;, &quot;nom. neg.&quot;);</span>
 
+<span class="fc" id="L312">  private static final Set&lt;NomenclaturalStatus&gt; VALID_VALUES =</span>
+<span class="fc" id="L313">    Collections.unmodifiableSet(</span>
+      new HashSet&lt;&gt;(
+<span class="fc" id="L315">        Arrays.asList(VALIDLY_PUBLISHED, LEGITIMATE, NEW_COMBINATION, REPLACEMENT, NEW_COMBINATION,</span>
+          NEW_GENUS, NEW_SPECIES, SUBNUDUM, CONSERVED, PROTECTED, CORRECTED, ALTERNATIVE,
+          CONSERVED_PROPOSED, PROVISIONAL)));
 
+<span class="fc" id="L319">  private static final Set&lt;NomenclaturalStatus&gt; DOUBTFUL_VALUES =</span>
+<span class="fc" id="L320">    Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(DOUBTFUL, OBSCURE)));</span>
 
-<span class="fc" id="L316">  private static final Set VALID_VALUES = ImmutableSet.of(VALIDLY_PUBLISHED, LEGITIMATE, NEW_COMBINATION, REPLACEMENT,</span>
-    NEW_COMBINATION, NEW_GENUS, NEW_SPECIES,SUBNUDUM,CONSERVED, PROTECTED, CORRECTED,ALTERNATIVE, CONSERVED_PROPOSED,
-    PROVISIONAL);
-<span class="fc" id="L319">  private static final Set DOUBTFUL_VALUES = ImmutableSet.of(DOUBTFUL, OBSCURE);</span>
+<span class="fc" id="L322">  private static final Pattern NORMALIZE_TERM = Pattern.compile(&quot;[._ -]+&quot;);</span>
 
-<span class="fc" id="L321">  private static final Pattern NORMALIZE_TERM = Pattern.compile(&quot;[._ -]+&quot;);</span>
   private static String normalize(String x) {
-<span class="fc" id="L323">    return NORMALIZE_TERM.matcher(x.toUpperCase()).replaceAll(&quot;&quot;);</span>
+<span class="fc" id="L325">    return NORMALIZE_TERM.matcher(x.toUpperCase()).replaceAll(&quot;&quot;);</span>
   }
 
   private static final Map&lt;String, NomenclaturalStatus&gt; LOOKUP;
+
   static {
-<span class="fc" id="L328">    Map&lt;String, NomenclaturalStatus&gt; lookup = Maps.newHashMap();</span>
-<span class="fc bfc" id="L329" title="All 2 branches covered.">    for (NomenclaturalStatus n : values()) {</span>
-<span class="fc" id="L330">      lookup.put(normalize(n.name()), n);</span>
-<span class="fc bfc" id="L331" title="All 2 branches covered.">      if (n.getLatinLabel() != null) {</span>
-<span class="fc" id="L332">        lookup.put(normalize(n.getLatinLabel()), n);</span>
-<span class="fc" id="L333">        lookup.put(normalize(n.getLatinLabel().replace(&quot;nomen &quot;, &quot;&quot;)), n);</span>
+<span class="fc" id="L331">    Map&lt;String, NomenclaturalStatus&gt; lookup = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L332" title="All 2 branches covered.">    for (NomenclaturalStatus n : values()) {</span>
+<span class="fc" id="L333">      lookup.put(normalize(n.name()), n);</span>
+<span class="fc bfc" id="L334" title="All 2 branches covered.">      if (n.getLatinLabel() != null) {</span>
+<span class="fc" id="L335">        lookup.put(normalize(n.getLatinLabel()), n);</span>
+<span class="fc" id="L336">        lookup.put(normalize(n.getLatinLabel().replace(&quot;nomen &quot;, &quot;&quot;)), n);</span>
       }
-<span class="fc bfc" id="L335" title="All 2 branches covered.">      if (n.getAbbreviatedLabel() != null) {</span>
-<span class="fc" id="L336">        lookup.put(normalize(n.getAbbreviatedLabel()), n);</span>
+<span class="fc bfc" id="L338" title="All 2 branches covered.">      if (n.getAbbreviatedLabel() != null) {</span>
+<span class="fc" id="L339">        lookup.put(normalize(n.getAbbreviatedLabel()), n);</span>
       }
-<span class="pc bpc" id="L338" title="1 of 2 branches missed.">      if (n.alternatives != null) {</span>
-<span class="fc bfc" id="L339" title="All 2 branches covered.">        for (String alt : n.alternatives) {</span>
-<span class="fc" id="L340">          lookup.put(normalize(alt), n);</span>
+<span class="pc bpc" id="L341" title="1 of 2 branches missed.">      if (n.alternatives != null) {</span>
+<span class="fc bfc" id="L342" title="All 2 branches covered.">        for (String alt : n.alternatives) {</span>
+<span class="fc" id="L343">          lookup.put(normalize(alt), n);</span>
         }
       }
     }
-<span class="fc" id="L344">    LOOKUP = ImmutableMap.copyOf(lookup);</span>
-<span class="fc" id="L345">  }</span>
-
+<span class="fc" id="L347">    LOOKUP = Collections.unmodifiableMap(lookup);</span>
+<span class="fc" id="L348">  }</span>
 
   /**
    * Tries to case insenitively interpret a nomenclatural status given as a string appliying the enums name,
@@ -356,13 +358,11 @@ import java.util.regex.Pattern;
    */
   @Deprecated
   public static NomenclaturalStatus fromString(String nomStatus) {
-<span class="fc bfc" id="L359" title="All 2 branches covered.">    if (Strings.isNullOrEmpty(nomStatus)) {</span>
-<span class="fc" id="L360">      return null;</span>
+<span class="fc bfc" id="L361" title="All 2 branches covered.">    if (StringUtils.isEmpty(nomStatus)) {</span>
+<span class="fc" id="L362">      return null;</span>
     }
-<span class="fc" id="L362">    return LOOKUP.get(normalize(nomStatus));</span>
+<span class="fc" id="L364">    return LOOKUP.get(normalize(nomStatus));</span>
   }
-
-
 
   private final String latin;
   private final String abbreviated;

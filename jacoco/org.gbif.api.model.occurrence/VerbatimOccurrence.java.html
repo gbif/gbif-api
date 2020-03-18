@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VerbatimOccurrence.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence</a> &gt; <span class="el_source">VerbatimOccurrence.java</span></div><h1>VerbatimOccurrence.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,28 +26,29 @@ import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.TermFactory;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonAnyGetter;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * An extended map holding all core terms of an occurrence record.
  * Major extensions that we index are also supported, i.e. media, identifiers and measurements or facts.
  */
-<span class="fc" id="L47">public class VerbatimOccurrence {</span>
+@SuppressWarnings(&quot;unused&quot;)
+<span class="fc" id="L51">public class VerbatimOccurrence {</span>
 
   private Long key;
   private UUID datasetKey;
@@ -61,25 +65,25 @@ import static com.google.common.base.Preconditions.checkNotNull;
   private String programmeAcronym;
 
   // the verbatim fields for the occurrence
-<span class="fc" id="L64">  private Map&lt;Term, String&gt; verbatimFields = Maps.newHashMap();</span>
+<span class="fc" id="L68">  private Map&lt;Term, String&gt; verbatimFields = new HashMap&lt;&gt;();</span>
   // verbatim extension data
-<span class="fc" id="L66">  private Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions = Maps.newHashMap();</span>
+<span class="fc" id="L70">  private Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions = new HashMap&lt;&gt;();</span>
 
   /**
    * Get the value of a specific field (Term).
    */
   @Nullable
   public String getVerbatimField(Term term) {
-<span class="fc" id="L73">    checkNotNull(term, &quot;term can't be null&quot;);</span>
-<span class="fc" id="L74">    return verbatimFields.get(term);</span>
+<span class="fc" id="L77">    Objects.requireNonNull(term, &quot;term can't be null&quot;);</span>
+<span class="fc" id="L78">    return verbatimFields.get(term);</span>
   }
 
   /**
    * @return true if a verbatim field exists and is not null or an empty string
    */
   public boolean hasVerbatimField(Term term) {
-<span class="fc" id="L81">    checkNotNull(term, &quot;term can't be null&quot;);</span>
-<span class="fc bfc" id="L82" title="All 2 branches covered.">    return !Strings.isNullOrEmpty(verbatimFields.get(term));</span>
+<span class="fc" id="L85">    Objects.requireNonNull(term, &quot;term can't be null&quot;);</span>
+<span class="fc" id="L86">    return StringUtils.isNotEmpty(verbatimFields.get(term));</span>
   }
 
   /**
@@ -89,9 +93,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
    * @param fieldValue the field's value
    */
   public void setVerbatimField(Term term, @Nullable String fieldValue) {
-<span class="fc" id="L92">    checkNotNull(term, &quot;term can't be null&quot;);</span>
-<span class="fc" id="L93">    verbatimFields.put(term, fieldValue);</span>
-<span class="fc" id="L94">  }</span>
+<span class="fc" id="L96">    Objects.requireNonNull(term, &quot;term can't be null&quot;);</span>
+<span class="fc" id="L97">    verbatimFields.put(term, fieldValue);</span>
+<span class="fc" id="L98">  }</span>
 
   /**
    * The GBIF assigned, persistent key to the occurrence record.
@@ -99,135 +103,135 @@ import static com.google.common.base.Preconditions.checkNotNull;
    */
   @NotNull
   public Long getKey() {
-<span class="fc" id="L102">    return key;</span>
+<span class="fc" id="L106">    return key;</span>
   }
 
   public void setKey(Long key) {
-<span class="fc" id="L106">    this.key = key;</span>
-<span class="fc" id="L107">  }</span>
+<span class="fc" id="L110">    this.key = key;</span>
+<span class="fc" id="L111">  }</span>
 
   @NotNull
   public UUID getDatasetKey() {
-<span class="fc" id="L111">    return datasetKey;</span>
+<span class="fc" id="L115">    return datasetKey;</span>
   }
 
   public void setDatasetKey(UUID datasetKey) {
-<span class="fc" id="L115">    this.datasetKey = datasetKey;</span>
-<span class="fc" id="L116">  }</span>
+<span class="fc" id="L119">    this.datasetKey = datasetKey;</span>
+<span class="fc" id="L120">  }</span>
 
   @NotNull
   public UUID getPublishingOrgKey() {
-<span class="fc" id="L120">    return publishingOrgKey;</span>
+<span class="fc" id="L124">    return publishingOrgKey;</span>
   }
 
   public void setPublishingOrgKey(UUID publishingOrgKey) {
-<span class="fc" id="L124">    this.publishingOrgKey = publishingOrgKey;</span>
-<span class="fc" id="L125">  }</span>
+<span class="fc" id="L128">    this.publishingOrgKey = publishingOrgKey;</span>
+<span class="fc" id="L129">  }</span>
 
   /**
    * The GBIF Network associated to the publishing dataset.
    */
   @Nullable
   public List&lt;UUID&gt; getNetworkKeys() {
-<span class="fc" id="L132">    return networkKeys;</span>
+<span class="fc" id="L136">    return networkKeys;</span>
   }
 
   public void setNetworkKeys(List&lt;UUID&gt; networkKeys) {
-<span class="fc" id="L136">    this.networkKeys = networkKeys;</span>
-<span class="fc" id="L137">  }</span>
+<span class="fc" id="L140">    this.networkKeys = networkKeys;</span>
+<span class="fc" id="L141">  }</span>
 
   /**
    * Technical installation that publishes this occurrence record.
    */
   @Nullable
   public UUID getInstallationKey() {
-<span class="fc" id="L144">    return installationKey;</span>
+<span class="fc" id="L148">    return installationKey;</span>
   }
 
   public void setInstallationKey(UUID installationKey) {
-<span class="fc" id="L148">    this.installationKey = installationKey;</span>
-<span class="fc" id="L149">  }</span>
+<span class="fc" id="L152">    this.installationKey = installationKey;</span>
+<span class="fc" id="L153">  }</span>
 
   /**
    * The country of the organization that publishes the dataset to which the occurrence belongs.
    */
   @Nullable
   public Country getPublishingCountry() {
-<span class="fc" id="L156">    return publishingCountry;</span>
+<span class="fc" id="L160">    return publishingCountry;</span>
   }
 
   public void setPublishingCountry(Country publishingCountry) {
-<span class="fc" id="L160">    this.publishingCountry = publishingCountry;</span>
-<span class="fc" id="L161">  }</span>
+<span class="fc" id="L164">    this.publishingCountry = publishingCountry;</span>
+<span class="fc" id="L165">  }</span>
 
   @NotNull
   public EndpointType getProtocol() {
-<span class="fc" id="L165">    return protocol;</span>
+<span class="fc" id="L169">    return protocol;</span>
   }
 
   public void setProtocol(EndpointType protocol) {
-<span class="fc" id="L169">    this.protocol = protocol;</span>
-<span class="fc" id="L170">  }</span>
+<span class="fc" id="L173">    this.protocol = protocol;</span>
+<span class="fc" id="L174">  }</span>
 
-  @Nullable
   /**
    * The date this record was last crawled/harvested from the endpoint.
    */
+  @Nullable
   public Date getLastCrawled() {
-<span class="fc bfc" id="L177" title="All 2 branches covered.">    return lastCrawled == null ? null : new Date(lastCrawled.getTime());</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">    return lastCrawled == null ? null : new Date(lastCrawled.getTime());</span>
   }
 
   public void setLastCrawled(@Nullable Date lastCrawled) {
-<span class="fc bfc" id="L181" title="All 2 branches covered.">    this.lastCrawled = lastCrawled == null ? null : new Date(lastCrawled.getTime());</span>
-<span class="fc" id="L182">  }</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">    this.lastCrawled = lastCrawled == null ? null : new Date(lastCrawled.getTime());</span>
+<span class="fc" id="L186">  }</span>
 
   /**
    * The date this record was last parsed from raw xml/json into verbatim verbatimFields.
    */
   @Nullable
   public Date getLastParsed() {
-<span class="fc" id="L189">    return lastParsed;</span>
+<span class="fc" id="L193">    return lastParsed;</span>
   }
 
   public void setLastParsed(@Nullable Date lastParsed) {
-<span class="fc bfc" id="L193" title="All 2 branches covered.">    this.lastParsed = lastParsed == null ? null : new Date(lastParsed.getTime());</span>
-<span class="fc" id="L194">  }</span>
+<span class="fc bfc" id="L197" title="All 2 branches covered.">    this.lastParsed = lastParsed == null ? null : new Date(lastParsed.getTime());</span>
+<span class="fc" id="L198">  }</span>
 
   /**
    * Crawling attempt id.
    */
   @Nullable
   public Integer getCrawlId() {
-<span class="fc" id="L201">    return crawlId;</span>
+<span class="fc" id="L205">    return crawlId;</span>
   }
 
   public void setCrawlId(Integer crawlId) {
-<span class="fc" id="L205">    this.crawlId = crawlId;</span>
-<span class="fc" id="L206">  }</span>
+<span class="fc" id="L209">    this.crawlId = crawlId;</span>
+<span class="fc" id="L210">  }</span>
 
   /**
    * GBIF project identifier.
    */
   @Nullable
   public String getProjectId() {
-<span class="fc" id="L213">    return projectId;</span>
+<span class="fc" id="L217">    return projectId;</span>
   }
 
   public void setProjectId(String projectId) {
-<span class="fc" id="L217">    this.projectId = projectId;</span>
-<span class="fc" id="L218">  }</span>
+<span class="fc" id="L221">    this.projectId = projectId;</span>
+<span class="fc" id="L222">  }</span>
 
   /**
    * GBIF programme acronym/identifier.
    */
   @Nullable
   public String getProgrammeAcronym() {
-<span class="fc" id="L225">    return programmeAcronym;</span>
+<span class="fc" id="L229">    return programmeAcronym;</span>
   }
 
   public void setProgrammeAcronym(String programmeAcronym) {
-<span class="fc" id="L229">    this.programmeAcronym = programmeAcronym;</span>
-<span class="fc" id="L230">  }</span>
+<span class="fc" id="L233">    this.programmeAcronym = programmeAcronym;</span>
+<span class="fc" id="L234">  }</span>
 
   /**
    * A map holding all verbatim core terms.
@@ -235,12 +239,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
   @NotNull
   @JsonIgnore
   public Map&lt;Term, String&gt; getVerbatimFields() {
-<span class="fc" id="L238">    return verbatimFields;</span>
+<span class="fc" id="L242">    return verbatimFields;</span>
   }
 
   public void setVerbatimFields(Map&lt;Term, String&gt; verbatimFields) {
-<span class="nc" id="L242">    this.verbatimFields = verbatimFields;</span>
-<span class="nc" id="L243">  }</span>
+<span class="nc" id="L246">    this.verbatimFields = verbatimFields;</span>
+<span class="nc" id="L247">  }</span>
 
   /**
    * A map holding all verbatim extension terms.
@@ -249,62 +253,63 @@ import static com.google.common.base.Preconditions.checkNotNull;
   @JsonSerialize(keyUsing = ExtensionSerializer.class, contentUsing = TermMapListSerializer.class)
   @JsonDeserialize(keyUsing = ExtensionKeyDeserializer.class, contentUsing = TermMapListDeserializer.class)
   public Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; getExtensions() {
-<span class="fc" id="L252">    return extensions;</span>
+<span class="fc" id="L256">    return extensions;</span>
   }
 
   public void setExtensions(Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions) {
-<span class="fc" id="L256">    this.extensions = extensions;</span>
-<span class="fc" id="L257">  }</span>
+<span class="fc" id="L260">    this.extensions = extensions;</span>
+<span class="fc" id="L261">  }</span>
 
   @Override
-  public String toString() {
-<span class="nc" id="L261">    return Objects.toStringHelper(this)</span>
-<span class="nc" id="L262">      .add(&quot;key&quot;, key)</span>
-<span class="nc" id="L263">      .add(&quot;lastParsed&quot;, lastParsed)</span>
-<span class="nc" id="L264">      .add(&quot;datasetKey&quot;, datasetKey)</span>
-<span class="nc" id="L265">      .add(&quot;publishingOrgKey&quot;, publishingOrgKey)</span>
-<span class="nc" id="L266">      .add(&quot;publishingCountry&quot;, publishingCountry)</span>
-<span class="nc" id="L267">      .add(&quot;installationKey&quot;, installationKey)</span>
-<span class="nc" id="L268">      .add(&quot;networkKeys&quot;, networkKeys)</span>
-<span class="nc" id="L269">      .add(&quot;protocol&quot;, protocol)</span>
-<span class="nc" id="L270">      .add(&quot;crawlId&quot;,crawlId)</span>
-<span class="nc" id="L271">      .add(&quot;lastCrawled&quot;, lastCrawled)</span>
-<span class="nc" id="L272">      .add(&quot;projectId&quot;, projectId)</span>
-<span class="nc" id="L273">      .add(&quot;programmeAcronym&quot;, programmeAcronym)</span>
-<span class="nc" id="L274">      .add(&quot;extensions&quot;, extensions)</span>
-<span class="nc" id="L275">      .toString();</span>
+  public boolean equals(Object o) {
+<span class="pc bpc" id="L265" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L266">      return true;</span>
+    }
+<span class="pc bpc" id="L268" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L269">      return false;</span>
+    }
+<span class="fc" id="L271">    VerbatimOccurrence that = (VerbatimOccurrence) o;</span>
+<span class="pc bpc" id="L272" title="1 of 2 branches missed.">    return Objects.equals(key, that.key) &amp;&amp;</span>
+<span class="pc bpc" id="L273" title="1 of 2 branches missed.">      Objects.equals(datasetKey, that.datasetKey) &amp;&amp;</span>
+<span class="pc bpc" id="L274" title="1 of 2 branches missed.">      Objects.equals(publishingOrgKey, that.publishingOrgKey) &amp;&amp;</span>
+<span class="pc bpc" id="L275" title="1 of 2 branches missed.">      Objects.equals(networkKeys, that.networkKeys) &amp;&amp;</span>
+<span class="pc bpc" id="L276" title="3 of 6 branches missed.">      Objects.equals(installationKey, that.installationKey) &amp;&amp;</span>
+      publishingCountry == that.publishingCountry &amp;&amp;
+      protocol == that.protocol &amp;&amp;
+<span class="pc bpc" id="L279" title="1 of 2 branches missed.">      Objects.equals(lastCrawled, that.lastCrawled) &amp;&amp;</span>
+<span class="pc bpc" id="L280" title="1 of 2 branches missed.">      Objects.equals(lastParsed, that.lastParsed) &amp;&amp;</span>
+<span class="pc bpc" id="L281" title="1 of 2 branches missed.">      Objects.equals(crawlId, that.crawlId) &amp;&amp;</span>
+<span class="pc bpc" id="L282" title="1 of 2 branches missed.">      Objects.equals(projectId, that.projectId) &amp;&amp;</span>
+<span class="pc bpc" id="L283" title="1 of 2 branches missed.">      Objects.equals(programmeAcronym, that.programmeAcronym) &amp;&amp;</span>
+<span class="pc bpc" id="L284" title="1 of 2 branches missed.">      Objects.equals(verbatimFields, that.verbatimFields) &amp;&amp;</span>
+<span class="pc bpc" id="L285" title="1 of 2 branches missed.">      Objects.equals(extensions, that.extensions);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L280">    return Objects</span>
-<span class="nc" id="L281">      .hashCode(key, datasetKey, publishingOrgKey, publishingCountry, protocol, lastCrawled, lastParsed, crawlId,</span>
-                projectId, programmeAcronym, verbatimFields, extensions);
+<span class="fc" id="L290">    return Objects</span>
+<span class="fc" id="L291">      .hash(key, datasetKey, publishingOrgKey, networkKeys, installationKey, publishingCountry,</span>
+        protocol, lastCrawled, lastParsed, crawlId, projectId, programmeAcronym, verbatimFields,
+        extensions);
   }
 
   @Override
-  public boolean equals(Object obj) {
-<span class="pc bpc" id="L287" title="1 of 2 branches missed.">    if (this == obj) {</span>
-<span class="nc" id="L288">      return true;</span>
-    }
-<span class="pc bpc" id="L290" title="2 of 4 branches missed.">    if (obj == null || getClass() != obj.getClass()) {</span>
-<span class="nc" id="L291">      return false;</span>
-    }
-<span class="fc" id="L293">    final VerbatimOccurrence other = (VerbatimOccurrence) obj;</span>
-<span class="pc bpc" id="L294" title="1 of 2 branches missed.">    return Objects.equal(this.key, other.key)</span>
-<span class="pc bpc" id="L295" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.datasetKey, other.datasetKey)</span>
-<span class="pc bpc" id="L296" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.publishingOrgKey, other.publishingOrgKey)</span>
-<span class="pc bpc" id="L297" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.publishingCountry, other.publishingCountry)</span>
-<span class="pc bpc" id="L298" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.installationKey, other.installationKey)</span>
-<span class="pc bpc" id="L299" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.networkKeys, other.networkKeys)</span>
-<span class="pc bpc" id="L300" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.protocol, other.protocol)</span>
-<span class="pc bpc" id="L301" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.lastCrawled, other.lastCrawled)</span>
-<span class="pc bpc" id="L302" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.lastParsed, other.lastParsed)</span>
-<span class="pc bpc" id="L303" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.verbatimFields, other.verbatimFields)</span>
-<span class="pc bpc" id="L304" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.extensions, other.extensions)</span>
-<span class="pc bpc" id="L305" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.crawlId, other.crawlId)</span>
-<span class="pc bpc" id="L306" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.projectId, other.projectId)</span>
-<span class="pc bpc" id="L307" title="1 of 2 branches missed.">      &amp;&amp; Objects.equal(this.programmeAcronym, other.programmeAcronym);</span>
+  public String toString() {
+<span class="nc" id="L298">    return new StringJoiner(&quot;, &quot;, VerbatimOccurrence.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L299">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L300">      .add(&quot;datasetKey=&quot; + datasetKey)</span>
+<span class="nc" id="L301">      .add(&quot;publishingOrgKey=&quot; + publishingOrgKey)</span>
+<span class="nc" id="L302">      .add(&quot;networkKeys=&quot; + networkKeys)</span>
+<span class="nc" id="L303">      .add(&quot;installationKey=&quot; + installationKey)</span>
+<span class="nc" id="L304">      .add(&quot;publishingCountry=&quot; + publishingCountry)</span>
+<span class="nc" id="L305">      .add(&quot;protocol=&quot; + protocol)</span>
+<span class="nc" id="L306">      .add(&quot;lastCrawled=&quot; + lastCrawled)</span>
+<span class="nc" id="L307">      .add(&quot;lastParsed=&quot; + lastParsed)</span>
+<span class="nc" id="L308">      .add(&quot;crawlId=&quot; + crawlId)</span>
+<span class="nc" id="L309">      .add(&quot;projectId='&quot; + projectId + &quot;'&quot;)</span>
+<span class="nc" id="L310">      .add(&quot;programmeAcronym='&quot; + programmeAcronym + &quot;'&quot;)</span>
+<span class="nc" id="L311">      .add(&quot;extensions=&quot; + extensions)</span>
+<span class="nc" id="L312">      .toString();</span>
   }
 
   /**
@@ -312,11 +317,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
    */
   @JsonAnySetter
   private void addJsonVerbatimField(String key, String value) {
-<span class="pc bpc" id="L315" title="1 of 2 branches missed.">    if(!Strings.isNullOrEmpty(value)) {</span>
-<span class="fc" id="L316">      Term t = TermFactory.instance().findTerm(key);</span>
-<span class="fc" id="L317">      verbatimFields.put(t, value);</span>
+<span class="pc bpc" id="L320" title="1 of 2 branches missed.">    if(StringUtils.isNotEmpty(value)) {</span>
+<span class="fc" id="L321">      Term t = TermFactory.instance().findTerm(key);</span>
+<span class="fc" id="L322">      verbatimFields.put(t, value);</span>
     }
-<span class="fc" id="L319">  }</span>
+<span class="fc" id="L324">  }</span>
 
   /**
    * This private method is only for serialization via jackson and not exposed anywhere else!
@@ -324,11 +329,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
    */
   @JsonAnyGetter
   private Map&lt;String, String&gt; jsonVerbatimFields() { // note: for 1.6.0 MUST use non-getter name; otherwise doesn't matter
-<span class="fc" id="L327">    Map&lt;String, String&gt; extendedProps = Maps.newHashMap();</span>
-<span class="fc bfc" id="L328" title="All 2 branches covered.">    for (Map.Entry&lt;Term, String&gt; prop : verbatimFields.entrySet()) {</span>
-<span class="fc" id="L329">      extendedProps.put(prop.getKey().qualifiedName(), prop.getValue());</span>
-<span class="fc" id="L330">    }</span>
-<span class="fc" id="L331">    return extendedProps;</span>
+<span class="fc" id="L332">    Map&lt;String, String&gt; extendedProps = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L333" title="All 2 branches covered.">    for (Map.Entry&lt;Term, String&gt; prop : verbatimFields.entrySet()) {</span>
+<span class="fc" id="L334">      extendedProps.put(prop.getKey().qualifiedName(), prop.getValue());</span>
+<span class="fc" id="L335">    }</span>
+<span class="fc" id="L336">    return extendedProps;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

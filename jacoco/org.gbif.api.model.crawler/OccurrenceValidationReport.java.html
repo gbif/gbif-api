@@ -1,10 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OccurrenceValidationReport.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.crawler</a> &gt; <span class="el_source">OccurrenceValidationReport.java</span></div><h1>OccurrenceValidationReport.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.crawler;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OccurrenceValidationReport.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.crawler</a> &gt; <span class="el_source">OccurrenceValidationReport.java</span></div><h1>OccurrenceValidationReport.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.crawler;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -49,15 +64,15 @@ public class OccurrenceValidationReport {
     @JsonProperty(&quot;invalidTriplets&quot;) int recordsWithInvalidTriplets,
     @JsonProperty(&quot;uniqueOccIds&quot;) int uniqueOccurrenceIds,
     @JsonProperty(&quot;missingOccIds&quot;) int recordsMissingOccurrenceId,
-<span class="fc" id="L52">    @JsonProperty(&quot;allRecordsChecked&quot;) boolean allRecordsChecked) {</span>
-<span class="fc" id="L53">    this.checkedRecords = checkedRecords;</span>
-<span class="fc" id="L54">    this.uniqueTriplets = uniqueTriplets;</span>
-<span class="fc" id="L55">    this.recordsWithInvalidTriplets = recordsWithInvalidTriplets;</span>
-<span class="fc" id="L56">    this.uniqueOccurrenceIds = uniqueOccurrenceIds;</span>
-<span class="fc" id="L57">    this.recordsMissingOccurrenceId = recordsMissingOccurrenceId;</span>
-<span class="fc" id="L58">    this.allRecordsChecked = allRecordsChecked;</span>
-<span class="fc" id="L59">    this.valid = validate();</span>
-<span class="fc" id="L60">  }</span>
+<span class="fc" id="L67">    @JsonProperty(&quot;allRecordsChecked&quot;) boolean allRecordsChecked) {</span>
+<span class="fc" id="L68">    this.checkedRecords = checkedRecords;</span>
+<span class="fc" id="L69">    this.uniqueTriplets = uniqueTriplets;</span>
+<span class="fc" id="L70">    this.recordsWithInvalidTriplets = recordsWithInvalidTriplets;</span>
+<span class="fc" id="L71">    this.uniqueOccurrenceIds = uniqueOccurrenceIds;</span>
+<span class="fc" id="L72">    this.recordsMissingOccurrenceId = recordsMissingOccurrenceId;</span>
+<span class="fc" id="L73">    this.allRecordsChecked = allRecordsChecked;</span>
+<span class="fc" id="L74">    this.valid = validate();</span>
+<span class="fc" id="L75">  }</span>
 
   /**
    * At the moment the only truly fatal conditions are:
@@ -66,102 +81,110 @@ public class OccurrenceValidationReport {
    * - any duplicate triplets &amp;&amp; occIds are invalid
    */
   private boolean validate() {
-<span class="fc bfc" id="L69" title="All 2 branches covered.">    boolean hasRecords = checkedRecords &gt; 0;</span>
-<span class="fc bfc" id="L70" title="All 2 branches covered.">    double invalidRatio = hasRecords ? (double) recordsWithInvalidTriplets / checkedRecords : 0;</span>
-<span class="fc bfc" id="L71" title="All 2 branches covered.">    boolean invalidTripletsBelowLimit = invalidRatio &lt;= INVALID_TRIPLET_THRESHOLD;</span>
-<span class="fc bfc" id="L72" title="All 2 branches covered.">    boolean hasUniqueTriplets = uniqueTriplets == checkedRecords - recordsWithInvalidTriplets;</span>
-<span class="fc bfc" id="L73" title="All 2 branches covered.">    boolean hasUniqueOccIds = uniqueOccurrenceIds == checkedRecords - recordsMissingOccurrenceId;</span>
-<span class="fc bfc" id="L74" title="All 2 branches covered.">    boolean hasGoodOccIds = uniqueOccurrenceIds == checkedRecords;</span>
-<span class="fc bfc" id="L75" title="All 6 branches covered.">    boolean looksValid = invalidTripletsBelowLimit &amp;&amp; hasUniqueTriplets || hasGoodOccIds;</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">    boolean hasRecords = checkedRecords &gt; 0;</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">    double invalidRatio = hasRecords ? (double) recordsWithInvalidTriplets / checkedRecords : 0;</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">    boolean invalidTripletsBelowLimit = invalidRatio &lt;= INVALID_TRIPLET_THRESHOLD;</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">    boolean hasUniqueTriplets = uniqueTriplets == checkedRecords - recordsWithInvalidTriplets;</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">    boolean hasUniqueOccIds = uniqueOccurrenceIds == checkedRecords - recordsMissingOccurrenceId;</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">    boolean hasGoodOccIds = uniqueOccurrenceIds == checkedRecords;</span>
+<span class="fc bfc" id="L90" title="All 6 branches covered.">    boolean looksValid = invalidTripletsBelowLimit &amp;&amp; hasUniqueTriplets || hasGoodOccIds;</span>
 
-<span class="fc bfc" id="L77" title="All 2 branches covered.">    if (!looksValid) {</span>
-<span class="fc" id="L78">      List&lt;String&gt; reasons = Lists.newArrayList();</span>
-<span class="fc bfc" id="L79" title="All 2 branches covered.">      if (!invalidTripletsBelowLimit) {</span>
-<span class="fc" id="L80">        reasons.add(Math.round(100 * invalidRatio) + &quot;% invalid triplets is &gt; than threshold of &quot; + Math</span>
-<span class="fc" id="L81">          .round(100 * INVALID_TRIPLET_THRESHOLD) + '%');</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">    if (!looksValid) {</span>
+<span class="fc" id="L93">      List&lt;String&gt; reasons = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">      if (!invalidTripletsBelowLimit) {</span>
+<span class="fc" id="L95">        reasons.add(Math.round(100 * invalidRatio) + &quot;% invalid triplets is &gt; than threshold of &quot; + Math</span>
+<span class="fc" id="L96">          .round(100 * INVALID_TRIPLET_THRESHOLD) + '%');</span>
       }
-<span class="fc bfc" id="L83" title="All 2 branches covered.">      if (!hasUniqueTriplets) {</span>
-<span class="fc" id="L84">        reasons.add((checkedRecords - recordsWithInvalidTriplets - uniqueTriplets) + &quot; duplicate triplets detected&quot;);</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">      if (!hasUniqueTriplets) {</span>
+<span class="fc" id="L99">        reasons.add((checkedRecords - recordsWithInvalidTriplets - uniqueTriplets) + &quot; duplicate triplets detected&quot;);</span>
       }
-<span class="pc bpc" id="L86" title="1 of 2 branches missed.">      if (!hasGoodOccIds) {</span>
-<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (recordsMissingOccurrenceId != 0) {</span>
-<span class="fc" id="L88">          reasons.add(recordsMissingOccurrenceId + &quot; records without an occurrence id (should be 0)&quot;);</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">      if (!hasGoodOccIds) {</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        if (recordsMissingOccurrenceId != 0) {</span>
+<span class="fc" id="L103">          reasons.add(recordsMissingOccurrenceId + &quot; records without an occurrence id (should be 0)&quot;);</span>
         }
-<span class="fc bfc" id="L90" title="All 2 branches covered.">        if (!hasUniqueOccIds) {</span>
-<span class="fc" id="L91">          reasons.add(</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        if (!hasUniqueOccIds) {</span>
+<span class="fc" id="L106">          reasons.add(</span>
             (checkedRecords - recordsMissingOccurrenceId - uniqueOccurrenceIds) + &quot; duplicate occurrence ids detected&quot;);
         }
       }
-<span class="fc" id="L95">      String reason = Joiner.on(&quot;; &quot;).join(reasons);</span>
-<span class="fc" id="L96">      invalidationReason = &quot;Archive invalid because [&quot; + reason + ']';</span>
+
+<span class="fc" id="L111">      String reason = String.join(&quot;; &quot;, reasons);</span>
+<span class="fc" id="L112">      invalidationReason = &quot;Archive invalid because [&quot; + reason + ']';</span>
     }
 
-<span class="fc" id="L99">    return looksValid;</span>
+<span class="fc" id="L115">    return looksValid;</span>
   }
 
   public int getCheckedRecords() {
-<span class="nc" id="L103">    return checkedRecords;</span>
+<span class="nc" id="L119">    return checkedRecords;</span>
   }
 
   public int getUniqueTriplets() {
-<span class="nc" id="L107">    return uniqueTriplets;</span>
+<span class="nc" id="L123">    return uniqueTriplets;</span>
   }
 
   public int getRecordsWithInvalidTriplets() {
-<span class="nc" id="L111">    return recordsWithInvalidTriplets;</span>
+<span class="nc" id="L127">    return recordsWithInvalidTriplets;</span>
   }
 
   public int getUniqueOccurrenceIds() {
-<span class="nc" id="L115">    return uniqueOccurrenceIds;</span>
+<span class="nc" id="L131">    return uniqueOccurrenceIds;</span>
   }
 
   public int getRecordsMissingOccurrenceId() {
-<span class="nc" id="L119">    return recordsMissingOccurrenceId;</span>
+<span class="nc" id="L135">    return recordsMissingOccurrenceId;</span>
   }
 
   public boolean isAllRecordsChecked() {
-<span class="nc" id="L123">    return allRecordsChecked;</span>
+<span class="nc" id="L139">    return allRecordsChecked;</span>
   }
 
   public String getInvalidationReason() {
-<span class="fc" id="L127">    return invalidationReason;</span>
+<span class="fc" id="L143">    return invalidationReason;</span>
   }
 
   public boolean isValid() {
-<span class="fc" id="L131">    return valid;</span>
+<span class="fc" id="L147">    return valid;</span>
+  }
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L152" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L153">      return true;</span>
+    }
+<span class="nc bnc" id="L155" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L156">      return false;</span>
+    }
+<span class="nc" id="L158">    OccurrenceValidationReport that = (OccurrenceValidationReport) o;</span>
+<span class="nc bnc" id="L159" title="All 14 branches missed.">    return checkedRecords == that.checkedRecords &amp;&amp;</span>
+      uniqueTriplets == that.uniqueTriplets &amp;&amp;
+      recordsWithInvalidTriplets == that.recordsWithInvalidTriplets &amp;&amp;
+      uniqueOccurrenceIds == that.uniqueOccurrenceIds &amp;&amp;
+      recordsMissingOccurrenceId == that.recordsMissingOccurrenceId &amp;&amp;
+      allRecordsChecked == that.allRecordsChecked &amp;&amp;
+      valid == that.valid;
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L136">    return Objects.hashCode(checkedRecords, uniqueTriplets, recordsWithInvalidTriplets, uniqueOccurrenceIds,</span>
-<span class="nc" id="L137">      recordsMissingOccurrenceId, allRecordsChecked, valid);</span>
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-<span class="nc bnc" id="L142" title="All 2 branches missed.">    if (this == obj) {</span>
-<span class="nc" id="L143">      return true;</span>
-    }
-<span class="nc bnc" id="L145" title="All 4 branches missed.">    if (obj == null || getClass() != obj.getClass()) {</span>
-<span class="nc" id="L146">      return false;</span>
-    }
-<span class="nc" id="L148">    final OccurrenceValidationReport other = (OccurrenceValidationReport) obj;</span>
-<span class="nc bnc" id="L149" title="All 2 branches missed.">    return Objects.equal(this.checkedRecords, other.checkedRecords)</span>
-<span class="nc bnc" id="L150" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.uniqueTriplets, other.uniqueTriplets)</span>
-<span class="nc bnc" id="L151" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.recordsWithInvalidTriplets, other.recordsWithInvalidTriplets)</span>
-<span class="nc bnc" id="L152" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.uniqueOccurrenceIds, other.uniqueOccurrenceIds)</span>
-<span class="nc bnc" id="L153" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.recordsMissingOccurrenceId, other.recordsMissingOccurrenceId)</span>
-<span class="nc bnc" id="L154" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.allRecordsChecked, other.allRecordsChecked)</span>
-<span class="nc bnc" id="L155" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.valid, other.valid);</span>
+<span class="nc" id="L170">    return Objects</span>
+<span class="nc" id="L171">      .hash(checkedRecords, uniqueTriplets, recordsWithInvalidTriplets, uniqueOccurrenceIds,</span>
+<span class="nc" id="L172">        recordsMissingOccurrenceId, allRecordsChecked, valid);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L160">    return Objects.toStringHelper(this).add(&quot;checkedRecords&quot;, checkedRecords)</span>
-<span class="nc" id="L161">      .add(&quot;uniqueTriplets&quot;, uniqueTriplets).add(&quot;recordsWithInvalidTriplets&quot;, recordsWithInvalidTriplets)</span>
-<span class="nc" id="L162">      .add(&quot;uniqueOccurrenceIds&quot;, uniqueOccurrenceIds).add(&quot;recordsMissingOccurrenceId&quot;, recordsMissingOccurrenceId)</span>
-<span class="nc" id="L163">      .add(&quot;allRecordsChecked&quot;, allRecordsChecked).add(&quot;invalidationReason&quot;, invalidationReason).add(&quot;valid&quot;, valid)</span>
-<span class="nc" id="L164">      .toString();</span>
+<span class="nc" id="L177">    return new StringJoiner(&quot;, &quot;, OccurrenceValidationReport.class.getSimpleName() + &quot;[&quot;,</span>
+      &quot;]&quot;)
+<span class="nc" id="L179">      .add(&quot;checkedRecords=&quot; + checkedRecords)</span>
+<span class="nc" id="L180">      .add(&quot;uniqueTriplets=&quot; + uniqueTriplets)</span>
+<span class="nc" id="L181">      .add(&quot;recordsWithInvalidTriplets=&quot; + recordsWithInvalidTriplets)</span>
+<span class="nc" id="L182">      .add(&quot;uniqueOccurrenceIds=&quot; + uniqueOccurrenceIds)</span>
+<span class="nc" id="L183">      .add(&quot;recordsMissingOccurrenceId=&quot; + recordsMissingOccurrenceId)</span>
+<span class="nc" id="L184">      .add(&quot;allRecordsChecked=&quot; + allRecordsChecked)</span>
+<span class="nc" id="L185">      .add(&quot;invalidationReason='&quot; + invalidationReason + &quot;'&quot;)</span>
+<span class="nc" id="L186">      .add(&quot;valid=&quot; + valid)</span>
+<span class="nc" id="L187">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

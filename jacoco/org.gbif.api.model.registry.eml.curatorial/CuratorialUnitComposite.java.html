@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CuratorialUnitComposite.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry.eml.curatorial</a> &gt; <span class="el_source">CuratorialUnitComposite.java</span></div><h1>CuratorialUnitComposite.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,8 @@
  */
 package org.gbif.api.model.registry.eml.curatorial;
 
-import com.google.common.base.Objects;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Composite class, combining fields from CuratorialUnitCount and CuratorialUnitRange for simpler parsing of
@@ -32,91 +33,88 @@ public class CuratorialUnitComposite extends CuratorialUnit {
   private int lower;
   private int upper;
 
-<span class="nc" id="L35">  public CuratorialUnitComposite() {</span>
-<span class="nc" id="L36">  }</span>
+<span class="nc" id="L36">  public CuratorialUnitComposite() {</span>
+<span class="nc" id="L37">  }</span>
 
   public CuratorialUnitComposite(int count, int deviation, int lower, int upper, String typeVerbatim) {
-<span class="nc" id="L39">    super(null, typeVerbatim);</span>
-<span class="nc" id="L40">    this.count = count;</span>
-<span class="nc" id="L41">    this.deviation = deviation;</span>
-<span class="nc" id="L42">    this.lower = lower;</span>
-<span class="nc" id="L43">    this.upper = upper;</span>
-<span class="nc" id="L44">  }</span>
+<span class="nc" id="L40">    super(null, typeVerbatim);</span>
+<span class="nc" id="L41">    this.count = count;</span>
+<span class="nc" id="L42">    this.deviation = deviation;</span>
+<span class="nc" id="L43">    this.lower = lower;</span>
+<span class="nc" id="L44">    this.upper = upper;</span>
+<span class="nc" id="L45">  }</span>
 
   public int getCount() {
-<span class="nc" id="L47">    return count;</span>
+<span class="nc" id="L48">    return count;</span>
   }
 
   public void setCount(int count) {
-<span class="nc" id="L51">    this.count = count;</span>
-<span class="nc" id="L52">  }</span>
+<span class="nc" id="L52">    this.count = count;</span>
+<span class="nc" id="L53">  }</span>
 
   public int getDeviation() {
-<span class="nc" id="L55">    return deviation;</span>
+<span class="nc" id="L56">    return deviation;</span>
   }
 
   public void setDeviation(int deviation) {
-<span class="nc" id="L59">    this.deviation = deviation;</span>
-<span class="nc" id="L60">  }</span>
+<span class="nc" id="L60">    this.deviation = deviation;</span>
+<span class="nc" id="L61">  }</span>
 
   public int getLower() {
-<span class="nc" id="L63">    return lower;</span>
+<span class="nc" id="L64">    return lower;</span>
   }
 
   public void setLower(int lower) {
-<span class="nc" id="L67">    this.lower = lower;</span>
-<span class="nc" id="L68">  }</span>
+<span class="nc" id="L68">    this.lower = lower;</span>
+<span class="nc" id="L69">  }</span>
 
   public int getUpper() {
-<span class="nc" id="L71">    return upper;</span>
+<span class="nc" id="L72">    return upper;</span>
   }
 
   public void setUpper(int upper) {
-<span class="nc" id="L75">    this.upper = upper;</span>
-<span class="nc" id="L76">  }</span>
+<span class="nc" id="L76">    this.upper = upper;</span>
+<span class="nc" id="L77">  }</span>
 
   public void addDeviation(String deviation) {
     try {
-<span class="nc" id="L80">      this.deviation = Integer.valueOf(deviation);</span>
-<span class="nc" id="L81">    } catch (NumberFormatException ignored) {</span>
+<span class="nc" id="L81">      this.deviation = Integer.valueOf(deviation);</span>
+<span class="nc" id="L82">    } catch (NumberFormatException ignored) {</span>
       // nonesense provided
-<span class="nc" id="L83">    }</span>
-<span class="nc" id="L84">  }</span>
+<span class="nc" id="L84">    }</span>
+<span class="nc" id="L85">  }</span>
 
   @Override
-  public boolean equals(Object object) {
-<span class="nc bnc" id="L88" title="All 2 branches missed.">    if (this == object) {</span>
-<span class="nc" id="L89">      return true;</span>
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L89" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L90">      return true;</span>
     }
-<span class="nc bnc" id="L91" title="All 2 branches missed.">    if (!(object instanceof CuratorialUnitComposite)) {</span>
-<span class="nc" id="L92">      return false;</span>
+<span class="nc bnc" id="L92" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L93">      return false;</span>
     }
-<span class="nc bnc" id="L94" title="All 2 branches missed.">    if (!super.equals(object)) {</span>
-<span class="nc" id="L95">      return false;</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">    if (!super.equals(o)) {</span>
+<span class="nc" id="L96">      return false;</span>
     }
-
-    CuratorialUnitComposite
-<span class="nc" id="L99">      that = (CuratorialUnitComposite) object;</span>
-<span class="nc bnc" id="L100" title="All 2 branches missed.">    return Objects.equal(count, that.count)</span>
-<span class="nc bnc" id="L101" title="All 2 branches missed.">           &amp;&amp; Objects.equal(deviation, that.deviation)</span>
-<span class="nc bnc" id="L102" title="All 2 branches missed.">           &amp;&amp; Objects.equal(lower, that.lower)</span>
-<span class="nc bnc" id="L103" title="All 2 branches missed.">           &amp;&amp; Objects.equal(upper, that.upper);</span>
+<span class="nc" id="L98">    CuratorialUnitComposite that = (CuratorialUnitComposite) o;</span>
+<span class="nc bnc" id="L99" title="All 8 branches missed.">    return count == that.count &amp;&amp;</span>
+      deviation == that.deviation &amp;&amp;
+      lower == that.lower &amp;&amp;
+      upper == that.upper;
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L108">    return Objects.hashCode(super.hashCode(), count, deviation, lower, upper);</span>
+<span class="nc" id="L107">    return Objects.hash(super.hashCode(), count, deviation, lower, upper);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L113">    return Objects.toStringHelper(this)</span>
-<span class="nc" id="L114">      .add(&quot;count&quot;, count)</span>
-<span class="nc" id="L115">      .add(&quot;deviation&quot;, deviation)</span>
-<span class="nc" id="L116">      .add(&quot;lower&quot;, lower)</span>
-<span class="nc" id="L117">      .add(&quot;upper&quot;, upper)</span>
-<span class="nc" id="L118">      .toString();</span>
+<span class="nc" id="L112">    return new StringJoiner(&quot;, &quot;, CuratorialUnitComposite.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L113">      .add(&quot;count=&quot; + count)</span>
+<span class="nc" id="L114">      .add(&quot;deviation=&quot; + deviation)</span>
+<span class="nc" id="L115">      .add(&quot;lower=&quot; + lower)</span>
+<span class="nc" id="L116">      .add(&quot;upper=&quot; + upper)</span>
+<span class="nc" id="L117">      .toString();</span>
   }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Collection.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry.eml</a> &gt; <span class="el_source">Collection.java</span></div><h1>Collection.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2014 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,8 @@ import org.gbif.api.vocabulary.PreservationMethodType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Collection data for the Dataset.
@@ -36,10 +35,10 @@ public class Collection implements Serializable {
   private String identifier;
   private String parentIdentifier;
   private PreservationMethodType specimenPreservationMethod;
-<span class="nc" id="L39">  private List&lt;CuratorialUnitComposite&gt; curatorialUnits = Lists.newArrayList();</span>
+<span class="nc" id="L38">  private List&lt;CuratorialUnitComposite&gt; curatorialUnits = new ArrayList&lt;&gt;();</span>
 
-<span class="nc" id="L41">  public Collection() {</span>
-<span class="nc" id="L42">  }</span>
+<span class="nc" id="L40">  public Collection() {</span>
+<span class="nc" id="L41">  }</span>
 
   public Collection(
     String name,
@@ -47,13 +46,13 @@ public class Collection implements Serializable {
     String identifier,
     PreservationMethodType specimenPreservationMethod,
     List&lt;CuratorialUnitComposite&gt; curatorialUnits
-<span class="nc" id="L50">  ) {</span>
-<span class="nc" id="L51">    this.name = name;</span>
-<span class="nc" id="L52">    this.parentIdentifier = parentIdentifier;</span>
-<span class="nc" id="L53">    this.identifier = identifier;</span>
-<span class="nc" id="L54">    this.specimenPreservationMethod = specimenPreservationMethod;</span>
-<span class="nc" id="L55">    this.curatorialUnits = curatorialUnits;</span>
-<span class="nc" id="L56">  }</span>
+<span class="nc" id="L49">  ) {</span>
+<span class="nc" id="L50">    this.name = name;</span>
+<span class="nc" id="L51">    this.parentIdentifier = parentIdentifier;</span>
+<span class="nc" id="L52">    this.identifier = identifier;</span>
+<span class="nc" id="L53">    this.specimenPreservationMethod = specimenPreservationMethod;</span>
+<span class="nc" id="L54">    this.curatorialUnits = curatorialUnits;</span>
+<span class="nc" id="L55">  }</span>
 
   /**
    * The URI (LSID or URL) of the collection. In RDF, used as URI of the collection resource.
@@ -61,12 +60,12 @@ public class Collection implements Serializable {
    * @return the collection identifier
    */
   public String getIdentifier() {
-<span class="nc" id="L64">    return identifier;</span>
+<span class="nc" id="L63">    return identifier;</span>
   }
 
   public void setIdentifier(String identifier) {
-<span class="nc" id="L68">    this.identifier = identifier;</span>
-<span class="nc" id="L69">  }</span>
+<span class="nc" id="L67">    this.identifier = identifier;</span>
+<span class="nc" id="L68">  }</span>
 
   /**
    * The official name of the Collection in the local language.
@@ -74,12 +73,12 @@ public class Collection implements Serializable {
    * @return the collection name.
    */
   public String getName() {
-<span class="nc" id="L77">    return name;</span>
+<span class="nc" id="L76">    return name;</span>
   }
 
   public void setName(String name) {
-<span class="nc" id="L81">    this.name = name;</span>
-<span class="nc" id="L82">  }</span>
+<span class="nc" id="L80">    this.name = name;</span>
+<span class="nc" id="L81">  }</span>
 
   /**
    * The quantitative descriptor (number of specimens, samples or batches). The actual quantification could be covered
@@ -93,12 +92,12 @@ public class Collection implements Serializable {
    * @return the list of curatorial units
    */
   public List&lt;CuratorialUnitComposite&gt; getCuratorialUnits() {
-<span class="nc" id="L96">    return curatorialUnits;</span>
+<span class="nc" id="L95">    return curatorialUnits;</span>
   }
 
   public void setCuratorialUnits(List&lt;CuratorialUnitComposite&gt; curatorialUnits) {
-<span class="nc" id="L100">    this.curatorialUnits = curatorialUnits;</span>
-<span class="nc" id="L101">  }</span>
+<span class="nc" id="L99">    this.curatorialUnits = curatorialUnits;</span>
+<span class="nc" id="L100">  }</span>
 
   /**
    * The identifier for the parent collection for this sub-collection. Enables a hierarchy of collections and sub
@@ -107,12 +106,12 @@ public class Collection implements Serializable {
    * @return the parent collection identifier
    */
   public String getParentIdentifier() {
-<span class="nc" id="L110">    return parentIdentifier;</span>
+<span class="nc" id="L109">    return parentIdentifier;</span>
   }
 
   public void setParentIdentifier(String parentIdentifier) {
-<span class="nc" id="L114">    this.parentIdentifier = parentIdentifier;</span>
-<span class="nc" id="L115">  }</span>
+<span class="nc" id="L113">    this.parentIdentifier = parentIdentifier;</span>
+<span class="nc" id="L114">  }</span>
 
   /**
    * Picklist keyword indicating the process or technique used to prevent physical deterioration of non-living
@@ -121,12 +120,12 @@ public class Collection implements Serializable {
    * @return the preservation method type
    */
   public PreservationMethodType getSpecimenPreservationMethod() {
-<span class="nc" id="L124">    return specimenPreservationMethod;</span>
+<span class="nc" id="L123">    return specimenPreservationMethod;</span>
   }
 
   public void setSpecimenPreservationMethod(PreservationMethodType specimenPreservationMethod) {
-<span class="nc" id="L128">    this.specimenPreservationMethod = specimenPreservationMethod;</span>
-<span class="nc" id="L129">  }</span>
+<span class="nc" id="L127">    this.specimenPreservationMethod = specimenPreservationMethod;</span>
+<span class="nc" id="L128">  }</span>
 
   /**
    * Adds a CuratorialUnitComposite to the Collection's list of CuratorialUnitComposit.
@@ -134,48 +133,45 @@ public class Collection implements Serializable {
    * @param curatorialUnitComposite curatorial unit
    */
   public void addCuratorialUnitComposite(CuratorialUnitComposite curatorialUnitComposite) {
-<span class="nc bnc" id="L137" title="All 2 branches missed.">    if (curatorialUnits == null) {</span>
-<span class="nc" id="L138">      List&lt;CuratorialUnitComposite&gt; list = new ArrayList&lt;CuratorialUnitComposite&gt;();</span>
-<span class="nc" id="L139">      list.add(curatorialUnitComposite);</span>
-<span class="nc" id="L140">      curatorialUnits = list;</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">    if (curatorialUnits == null) {</span>
+<span class="nc" id="L137">      List&lt;CuratorialUnitComposite&gt; list = new ArrayList&lt;CuratorialUnitComposite&gt;();</span>
+<span class="nc" id="L138">      list.add(curatorialUnitComposite);</span>
+<span class="nc" id="L139">      curatorialUnits = list;</span>
     }
-<span class="nc" id="L142">    curatorialUnits.add(curatorialUnitComposite);</span>
-<span class="nc" id="L143">  }</span>
+<span class="nc" id="L141">    curatorialUnits.add(curatorialUnitComposite);</span>
+<span class="nc" id="L142">  }</span>
 
   @Override
-  public boolean equals(Object obj) {
-<span class="nc bnc" id="L147" title="All 2 branches missed.">    if (this == obj) {</span>
-<span class="nc" id="L148">      return true;</span>
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L146" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L147">      return true;</span>
     }
-<span class="nc bnc" id="L150" title="All 2 branches missed.">    if (!(obj instanceof Collection)) {</span>
-<span class="nc" id="L151">      return false;</span>
+<span class="nc bnc" id="L149" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L150">      return false;</span>
     }
-
-<span class="nc" id="L154">    final Collection other = (Collection) obj;</span>
-<span class="nc bnc" id="L155" title="All 2 branches missed.">    return Objects.equal(this.name, other.name)</span>
-<span class="nc bnc" id="L156" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.identifier, other.identifier)</span>
-<span class="nc bnc" id="L157" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.parentIdentifier, other.parentIdentifier)</span>
-<span class="nc bnc" id="L158" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.specimenPreservationMethod, other.specimenPreservationMethod)</span>
-<span class="nc bnc" id="L159" title="All 2 branches missed.">           &amp;&amp; Objects.equal(this.curatorialUnits, other.curatorialUnits);</span>
+<span class="nc" id="L152">    Collection that = (Collection) o;</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">    return Objects.equals(name, that.name) &amp;&amp;</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">      Objects.equals(identifier, that.identifier) &amp;&amp;</span>
+<span class="nc bnc" id="L155" title="All 4 branches missed.">      Objects.equals(parentIdentifier, that.parentIdentifier) &amp;&amp;</span>
+      specimenPreservationMethod == that.specimenPreservationMethod &amp;&amp;
+<span class="nc bnc" id="L157" title="All 2 branches missed.">      Objects.equals(curatorialUnits, that.curatorialUnits);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L164">    return Objects</span>
-<span class="nc" id="L165">      .hashCode(name, identifier, parentIdentifier, specimenPreservationMethod,</span>
-        curatorialUnits);
+<span class="nc" id="L162">    return Objects</span>
+<span class="nc" id="L163">      .hash(name, identifier, parentIdentifier, specimenPreservationMethod, curatorialUnits);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L171">    return &quot;Collection{&quot; +</span>
-           &quot;name='&quot; + name + '\'' +
-           &quot;, identifier='&quot; + identifier + '\'' +
-           &quot;, parentIdentifier='&quot; + parentIdentifier + '\'' +
-           &quot;, specimenPreservationMethod=&quot; + specimenPreservationMethod +
-           &quot;, curatorialUnits=&quot; + curatorialUnits +
-           '}';
+<span class="nc" id="L168">    return new StringJoiner(&quot;, &quot;, Collection.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L169">      .add(&quot;name='&quot; + name + &quot;'&quot;)</span>
+<span class="nc" id="L170">      .add(&quot;identifier='&quot; + identifier + &quot;'&quot;)</span>
+<span class="nc" id="L171">      .add(&quot;parentIdentifier='&quot; + parentIdentifier + &quot;'&quot;)</span>
+<span class="nc" id="L172">      .add(&quot;specimenPreservationMethod=&quot; + specimenPreservationMethod)</span>
+<span class="nc" id="L173">      .add(&quot;curatorialUnits=&quot; + curatorialUnits)</span>
+<span class="nc" id="L174">      .toString();</span>
   }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

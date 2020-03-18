@@ -7,102 +7,115 @@
 <body>
 <div id="overview"><a href="../../../../../../../apidocs/org/gbif/api/model/metrics/cube/OccurrenceCube.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/*</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright 2014 Global Biodiversity Information Facility (GBIF)</em>
-<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
-<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * You may obtain a copy of the License at</em>
-<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> * <a href="http://www.apache.org/licenses/LICENSE-2." target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.</a>0</em>
-<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
-<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
-<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
-<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_comment"> * See the License for the specific language governing permissions and</em>
-<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_comment"> * limitations under the License.</em>
-<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_comment"> */</em>
-<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">package</strong> org.gbif.api.model.metrics.cube;
-<a class="jxr_linenumber" name="L14" href="#L14">14</a>  
-<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.BasisOfRecord;
-<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.Country;
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.EndpointType;
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.OccurrenceIssue;
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.TypeStatus;
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> java.util.List;
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> java.util.UUID;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright 2020 Global Biodiversity Information Facility (GBIF)</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> * You may obtain a copy of the License at</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> *     <a href="http://www.apache.org/licenses/LICENSE-2." target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.</a>0</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_comment"> * See the License for the specific language governing permissions and</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_comment"> * limitations under the License.</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_comment"> */</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">package</strong> org.gbif.api.model.metrics.cube;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.BasisOfRecord;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.Country;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.EndpointType;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.OccurrenceIssue;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.TypeStatus;
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>  
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> com.google.common.collect.ImmutableList;
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment"> * The occurrence cube dimension definitions and the way in which they are rolled up into counts.</em>
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/OccurrenceCube.html">OccurrenceCube</a> {
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;UUID&gt; DATASET_KEY = <strong class="jxr_keyword">new</strong> Dimension&lt;UUID&gt;(<span class="jxr_string">"datasetKey"</span>, UUID.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;Integer&gt; TAXON_KEY = <strong class="jxr_keyword">new</strong> Dimension&lt;Integer&gt;(<span class="jxr_string">"taxonKey"</span>, Integer.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;BasisOfRecord&gt; BASIS_OF_RECORD = <strong class="jxr_keyword">new</strong> Dimension&lt;BasisOfRecord&gt;(<span class="jxr_string">"basisOfRecord"</span>, BasisOfRecord.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>    <em class="jxr_comment">// georeferenced is different from hasCoordinate and includes a no geospatial issue check!</em>
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;Boolean&gt; IS_GEOREFERENCED = <strong class="jxr_keyword">new</strong> Dimension&lt;Boolean&gt;(<span class="jxr_string">"isGeoreferenced"</span>, Boolean.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;Country&gt; COUNTRY = <strong class="jxr_keyword">new</strong> Dimension&lt;Country&gt;(<span class="jxr_string">"country"</span>, Country.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;Country&gt; PUBLISHING_COUNTRY = <strong class="jxr_keyword">new</strong> Dimension&lt;Country&gt;(<span class="jxr_string">"publishingCountry"</span>, Country.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;Integer&gt; YEAR = <strong class="jxr_keyword">new</strong> Dimension&lt;Integer&gt;(<span class="jxr_string">"year"</span>, Integer.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;EndpointType&gt; PROTOCOL = <strong class="jxr_keyword">new</strong> Dimension&lt;EndpointType&gt;(<span class="jxr_string">"protocol"</span>, EndpointType.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;TypeStatus&gt; TYPE_STATUS = <strong class="jxr_keyword">new</strong> Dimension&lt;TypeStatus&gt;(<span class="jxr_string">"typeStatus"</span>, TypeStatus.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;OccurrenceIssue&gt; ISSUE = <strong class="jxr_keyword">new</strong> Dimension&lt;OccurrenceIssue&gt;(<span class="jxr_string">"issue"</span>, OccurrenceIssue.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> List&lt;Dimension&lt;?&gt;&gt; DIMENSIONS = ImmutableList.&lt;Dimension&lt;?&gt;&gt;of(COUNTRY, IS_GEOREFERENCED,
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>           BASIS_OF_RECORD, PUBLISHING_COUNTRY, DATASET_KEY, TAXON_KEY, PROTOCOL, YEAR, TYPE_STATUS, ISSUE
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>    );
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>  
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>    <em class="jxr_comment">// PLEASE KEEP THIS LIST MAINTAINED ALPHABETICALLY so we can spot duplicates and groupings</em>
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>    <em class="jxr_comment">// sort rows as well as dimensions within each row</em>
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> List&lt;Rollup&gt; ROLLUPS = ImmutableList.of(
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD),
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, COUNTRY),
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, COUNTRY, IS_GEOREFERENCED),
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, COUNTRY, IS_GEOREFERENCED, TAXON_KEY),
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, COUNTRY, TAXON_KEY),
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, DATASET_KEY),
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, DATASET_KEY, IS_GEOREFERENCED),
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, DATASET_KEY, IS_GEOREFERENCED, TAXON_KEY),
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, DATASET_KEY, TAXON_KEY),
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, IS_GEOREFERENCED, TAXON_KEY),
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, IS_GEOREFERENCED, PUBLISHING_COUNTRY),
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, IS_GEOREFERENCED, PUBLISHING_COUNTRY, TAXON_KEY),
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, PUBLISHING_COUNTRY),
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, PUBLISHING_COUNTRY, TAXON_KEY),
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, TAXON_KEY),
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(COUNTRY),
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(COUNTRY, DATASET_KEY, IS_GEOREFERENCED),
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(COUNTRY, IS_GEOREFERENCED),
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(COUNTRY, IS_GEOREFERENCED, PUBLISHING_COUNTRY),
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(COUNTRY, IS_GEOREFERENCED, TAXON_KEY),
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(COUNTRY, PUBLISHING_COUNTRY),
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(COUNTRY, TAXON_KEY),
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(COUNTRY, TYPE_STATUS),
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(DATASET_KEY),
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(DATASET_KEY, IS_GEOREFERENCED),
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(DATASET_KEY, IS_GEOREFERENCED, TAXON_KEY),
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(DATASET_KEY, ISSUE),
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(DATASET_KEY, TAXON_KEY),
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(DATASET_KEY, TYPE_STATUS),
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(IS_GEOREFERENCED),
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(IS_GEOREFERENCED, PUBLISHING_COUNTRY),
-<a class="jxr_linenumber" name="L81" href="#L81">81</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(IS_GEOREFERENCED, PUBLISHING_COUNTRY, TAXON_KEY),
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(IS_GEOREFERENCED, TAXON_KEY),
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(ISSUE),
-<a class="jxr_linenumber" name="L84" href="#L84">84</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(PUBLISHING_COUNTRY),
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(PUBLISHING_COUNTRY, TAXON_KEY),
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(PUBLISHING_COUNTRY, TYPE_STATUS),
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(TAXON_KEY),
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(TAXON_KEY, TYPE_STATUS),
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(TYPE_STATUS),
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(PROTOCOL),
-<a class="jxr_linenumber" name="L91" href="#L91">91</a>      <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(YEAR)
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>      );
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>  
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>    <em class="jxr_comment">// Not intended for instantiation</em>
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>    <strong class="jxr_keyword">private</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/OccurrenceCube.html">OccurrenceCube</a>() {
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>    }
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>  }
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> java.util.Arrays;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> java.util.Collections;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> java.util.UUID;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment"> * The occurrence cube dimension definitions and the way in which they are rolled up into counts.</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  @SuppressWarnings(<span class="jxr_string">"unused"</span>)
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/OccurrenceCube.html">OccurrenceCube</a> {
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;UUID&gt; DATASET_KEY = <strong class="jxr_keyword">new</strong> Dimension&lt;&gt;(<span class="jxr_string">"datasetKey"</span>, UUID.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;Integer&gt; TAXON_KEY = <strong class="jxr_keyword">new</strong> Dimension&lt;&gt;(<span class="jxr_string">"taxonKey"</span>, Integer.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;BasisOfRecord&gt; BASIS_OF_RECORD = <strong class="jxr_keyword">new</strong> Dimension&lt;&gt;(<span class="jxr_string">"basisOfRecord"</span>,
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>      BasisOfRecord.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>    <em class="jxr_comment">// georeferenced is different from hasCoordinate and includes a no geospatial issue check!</em>
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;Boolean&gt; IS_GEOREFERENCED = <strong class="jxr_keyword">new</strong> Dimension&lt;&gt;(<span class="jxr_string">"isGeoreferenced"</span>,
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>      Boolean.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;Country&gt; COUNTRY = <strong class="jxr_keyword">new</strong> Dimension&lt;&gt;(<span class="jxr_string">"country"</span>, Country.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;Country&gt; PUBLISHING_COUNTRY = <strong class="jxr_keyword">new</strong> Dimension&lt;&gt;(<span class="jxr_string">"publishingCountry"</span>,
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>      Country.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;Integer&gt; YEAR = <strong class="jxr_keyword">new</strong> Dimension&lt;&gt;(<span class="jxr_string">"year"</span>, Integer.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;EndpointType&gt; PROTOCOL = <strong class="jxr_keyword">new</strong> Dimension&lt;&gt;(<span class="jxr_string">"protocol"</span>,
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>      EndpointType.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;TypeStatus&gt; TYPE_STATUS = <strong class="jxr_keyword">new</strong> Dimension&lt;&gt;(<span class="jxr_string">"typeStatus"</span>,
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>      TypeStatus.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Dimension&lt;OccurrenceIssue&gt; ISSUE = <strong class="jxr_keyword">new</strong> Dimension&lt;&gt;(<span class="jxr_string">"issue"</span>,
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>      OccurrenceIssue.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> List&lt;Dimension&lt;?&gt;&gt; DIMENSIONS = Collections.unmodifiableList(
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>      Arrays.asList(
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>        COUNTRY, IS_GEOREFERENCED, BASIS_OF_RECORD, PUBLISHING_COUNTRY, DATASET_KEY, TAXON_KEY,
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>        PROTOCOL, YEAR, TYPE_STATUS, ISSUE
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>      ));
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>    <em class="jxr_comment">// PLEASE KEEP THIS LIST MAINTAINED ALPHABETICALLY so we can spot duplicates and groupings</em>
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>    <em class="jxr_comment">// sort rows as well as dimensions within each row</em>
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> List&lt;Rollup&gt; ROLLUPS = Collections.unmodifiableList(
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>      Arrays.asList(
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD),
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, COUNTRY),
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, COUNTRY, IS_GEOREFERENCED),
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, COUNTRY, IS_GEOREFERENCED, TAXON_KEY),
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, COUNTRY, TAXON_KEY),
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, DATASET_KEY),
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, DATASET_KEY, IS_GEOREFERENCED),
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, DATASET_KEY, IS_GEOREFERENCED, TAXON_KEY),
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, DATASET_KEY, TAXON_KEY),
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, IS_GEOREFERENCED, TAXON_KEY),
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, IS_GEOREFERENCED, PUBLISHING_COUNTRY),
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, IS_GEOREFERENCED, PUBLISHING_COUNTRY, TAXON_KEY),
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, PUBLISHING_COUNTRY),
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, PUBLISHING_COUNTRY, TAXON_KEY),
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(BASIS_OF_RECORD, TAXON_KEY),
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(COUNTRY),
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(COUNTRY, DATASET_KEY, IS_GEOREFERENCED),
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(COUNTRY, IS_GEOREFERENCED),
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(COUNTRY, IS_GEOREFERENCED, PUBLISHING_COUNTRY),
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(COUNTRY, IS_GEOREFERENCED, TAXON_KEY),
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(COUNTRY, PUBLISHING_COUNTRY),
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(COUNTRY, TAXON_KEY),
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(COUNTRY, TYPE_STATUS),
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(DATASET_KEY),
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(DATASET_KEY, IS_GEOREFERENCED),
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(DATASET_KEY, IS_GEOREFERENCED, TAXON_KEY),
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(DATASET_KEY, ISSUE),
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(DATASET_KEY, TAXON_KEY),
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(DATASET_KEY, TYPE_STATUS),
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(IS_GEOREFERENCED),
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(IS_GEOREFERENCED, PUBLISHING_COUNTRY),
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(IS_GEOREFERENCED, PUBLISHING_COUNTRY, TAXON_KEY),
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(IS_GEOREFERENCED, TAXON_KEY),
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(ISSUE),
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(PUBLISHING_COUNTRY),
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(PUBLISHING_COUNTRY, TAXON_KEY),
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>        <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(PUBLISHING_COUNTRY, TYPE_STATUS),
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>       <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(TAXON_KEY),
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>       <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(TAXON_KEY, TYPE_STATUS),
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>       <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(TYPE_STATUS),
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>       <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(PROTOCOL),
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>       <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/Rollup.html">Rollup</a>(YEAR)
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>     ));
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> 
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>   <em class="jxr_comment">// Not intended for instantiation</em>
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>   <strong class="jxr_keyword">private</strong> <a href="../../../../../../org/gbif/api/model/metrics/cube/OccurrenceCube.html">OccurrenceCube</a>() {
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>   }
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2020 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>

@@ -1,45 +1,64 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TableOfContents.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">TableOfContents.java</span></div><h1>TableOfContents.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.checklistbank;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TableOfContents.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">TableOfContents.java</span></div><h1>TableOfContents.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.checklistbank;
 
 import org.gbif.api.vocabulary.Language;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.TreeMap;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
- * A simple class to represent a table of contents for multiple languages.
- * It is used by species pages to generate a table of contents menu with asynchronous loading of full descriptions.
+ * A simple class to represent a table of contents for multiple languages. It is used by species
+ * pages to generate a table of contents menu with asynchronous loading of full descriptions.
  */
-<span class="nc" id="L18">public class TableOfContents {</span>
+@SuppressWarnings(&quot;unused&quot;)
+<span class="nc" id="L36">public class TableOfContents {</span>
+
   private static final String DEFAULT_TOPIC = &quot;general&quot;;
 
-<span class="nc" id="L21">  private final Map&lt;Language, Map&lt;String, List&lt;Integer&gt;&gt;&gt; toc = Maps.newTreeMap();</span>
+<span class="nc" id="L40">  private final Map&lt;Language, Map&lt;String, List&lt;Integer&gt;&gt;&gt; toc = new TreeMap&lt;&gt;();</span>
 
   public void addDescription(int key, Language lang, String topic) {
-<span class="nc bnc" id="L24" title="All 2 branches missed.">    topic = Strings.isNullOrEmpty(topic) ? DEFAULT_TOPIC : topic.toLowerCase().trim();</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">    topic = StringUtils.isEmpty(topic) ? DEFAULT_TOPIC : topic.toLowerCase().trim();</span>
 
-<span class="nc bnc" id="L26" title="All 2 branches missed.">    if (lang == null) {</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">    if (lang == null) {</span>
       // default to english
-<span class="nc" id="L28">      lang = Language.ENGLISH;</span>
+<span class="nc" id="L47">      lang = Language.ENGLISH;</span>
     }
 
-<span class="nc bnc" id="L31" title="All 2 branches missed.">    if (!toc.containsKey(lang)) {</span>
-<span class="nc" id="L32">      toc.put(lang, Maps.&lt;String, List&lt;Integer&gt;&gt;newTreeMap());</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">    if (!toc.containsKey(lang)) {</span>
+<span class="nc" id="L51">      toc.put(lang, new TreeMap&lt;&gt;());</span>
     }
-<span class="nc bnc" id="L34" title="All 2 branches missed.">    if (!toc.get(lang).containsKey(topic)) {</span>
-<span class="nc" id="L35">      toc.get(lang).put(topic, Lists.&lt;Integer&gt;newArrayList());</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">    if (!toc.get(lang).containsKey(topic)) {</span>
+<span class="nc" id="L54">      toc.get(lang).put(topic, new ArrayList&lt;&gt;());</span>
     }
-<span class="nc" id="L37">    toc.get(lang).get(topic).add(key);</span>
-<span class="nc" id="L38">  }</span>
+<span class="nc" id="L56">    toc.get(lang).get(topic).add(key);</span>
+<span class="nc" id="L57">  }</span>
 
   @JsonIgnore
   public boolean isEmpty() {
-<span class="nc" id="L42">    return toc.isEmpty();</span>
+<span class="nc" id="L61">    return toc.isEmpty();</span>
   }
 
   /**
@@ -47,7 +66,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    */
   @JsonIgnore
   public List&lt;Language&gt; listLanguages() {
-<span class="nc" id="L50">    return Lists.newArrayList(toc.keySet());</span>
+<span class="nc" id="L69">    return new ArrayList&lt;&gt;(toc.keySet());</span>
   }
 
   /**
@@ -55,39 +74,38 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    */
   @JsonIgnore
   public Map&lt;String, List&lt;Integer&gt;&gt; listTopicEntries(Language lang) {
-<span class="nc bnc" id="L58" title="All 2 branches missed.">    if (toc.containsKey(lang)) {</span>
-<span class="nc" id="L59">      return toc.get(lang);</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">    if (toc.containsKey(lang)) {</span>
+<span class="nc" id="L78">      return toc.get(lang);</span>
     }
-<span class="nc" id="L61">    return Maps.newHashMap();</span>
+<span class="nc" id="L80">    return new HashMap&lt;&gt;();</span>
   }
 
   public Map&lt;Language, Map&lt;String, List&lt;Integer&gt;&gt;&gt; getToc() {
-<span class="nc" id="L65">    return toc;</span>
+<span class="nc" id="L84">    return toc;</span>
   }
 
   @Override
-  public boolean equals(Object object) {
-<span class="nc bnc" id="L70" title="All 2 branches missed.">    if (this == object) {</span>
-<span class="nc" id="L71">      return true;</span>
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L89" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L90">      return true;</span>
     }
-<span class="nc bnc" id="L73" title="All 2 branches missed.">    if (!(object instanceof TableOfContents)) {</span>
-<span class="nc" id="L74">      return false;</span>
+<span class="nc bnc" id="L92" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L93">      return false;</span>
     }
-
-<span class="nc" id="L77">    TableOfContents that = (TableOfContents) object;</span>
-<span class="nc" id="L78">    return Objects.equal(this.toc, that.toc);</span>
+<span class="nc" id="L95">    TableOfContents that = (TableOfContents) o;</span>
+<span class="nc" id="L96">    return Objects.equals(toc, that.toc);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L83">    return Objects.hashCode(toc);</span>
+<span class="nc" id="L101">    return Objects.hash(toc);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L88">    return Objects.toStringHelper(this)</span>
-<span class="nc" id="L89">      .add(&quot;toc&quot;, toc)</span>
-<span class="nc" id="L90">      .toString();</span>
+<span class="nc" id="L106">    return new StringJoiner(&quot;, &quot;, TableOfContents.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L107">      .add(&quot;toc=&quot; + toc)</span>
+<span class="nc" id="L108">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

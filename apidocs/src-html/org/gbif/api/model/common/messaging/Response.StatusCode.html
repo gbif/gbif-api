@@ -7,7 +7,7 @@
 <body>
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2014 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
+<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
 <span class="sourceLineNo">003</span> *<a name="line.3"></a>
 <span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
 <span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
@@ -23,7 +23,7 @@
 <span class="sourceLineNo">015</span> */<a name="line.15"></a>
 <span class="sourceLineNo">016</span>package org.gbif.api.model.common.messaging;<a name="line.16"></a>
 <span class="sourceLineNo">017</span><a name="line.17"></a>
-<span class="sourceLineNo">018</span>import com.google.common.base.Objects;<a name="line.18"></a>
+<span class="sourceLineNo">018</span>import java.util.StringJoiner;<a name="line.18"></a>
 <span class="sourceLineNo">019</span><a name="line.19"></a>
 <span class="sourceLineNo">020</span>public class Response&lt;T&gt; {<a name="line.20"></a>
 <span class="sourceLineNo">021</span><a name="line.21"></a>
@@ -164,13 +164,13 @@
 <span class="sourceLineNo">156</span><a name="line.156"></a>
 <span class="sourceLineNo">157</span>  @Override<a name="line.157"></a>
 <span class="sourceLineNo">158</span>  public String toString() {<a name="line.158"></a>
-<span class="sourceLineNo">159</span>    return Objects.toStringHelper(this)<a name="line.159"></a>
-<span class="sourceLineNo">160</span>      .add("messageKey", messageKey)<a name="line.160"></a>
-<span class="sourceLineNo">161</span>      .add("message", message)<a name="line.161"></a>
-<span class="sourceLineNo">162</span>      .add("status", status)<a name="line.162"></a>
-<span class="sourceLineNo">163</span>      .add("statusCode", statusCode)<a name="line.163"></a>
-<span class="sourceLineNo">164</span>      .add("content", content)<a name="line.164"></a>
-<span class="sourceLineNo">165</span>      .add("rootException", rootException)<a name="line.165"></a>
+<span class="sourceLineNo">159</span>    return new StringJoiner(", ", Response.class.getSimpleName() + "[", "]")<a name="line.159"></a>
+<span class="sourceLineNo">160</span>      .add("messageKey='" + messageKey + "'")<a name="line.160"></a>
+<span class="sourceLineNo">161</span>      .add("message='" + message + "'")<a name="line.161"></a>
+<span class="sourceLineNo">162</span>      .add("status=" + status)<a name="line.162"></a>
+<span class="sourceLineNo">163</span>      .add("statusCode=" + statusCode)<a name="line.163"></a>
+<span class="sourceLineNo">164</span>      .add("content=" + content)<a name="line.164"></a>
+<span class="sourceLineNo">165</span>      .add("rootException=" + rootException)<a name="line.165"></a>
 <span class="sourceLineNo">166</span>      .toString();<a name="line.166"></a>
 <span class="sourceLineNo">167</span>  }<a name="line.167"></a>
 <span class="sourceLineNo">168</span><a name="line.168"></a>
@@ -332,10 +332,8 @@
 <span class="sourceLineNo">324</span>      this.statusCode = statusCode;<a name="line.324"></a>
 <span class="sourceLineNo">325</span>      return this;<a name="line.325"></a>
 <span class="sourceLineNo">326</span>    }<a name="line.326"></a>
-<span class="sourceLineNo">327</span><a name="line.327"></a>
-<span class="sourceLineNo">328</span>  }<a name="line.328"></a>
-<span class="sourceLineNo">329</span><a name="line.329"></a>
-<span class="sourceLineNo">330</span>}<a name="line.330"></a>
+<span class="sourceLineNo">327</span>  }<a name="line.327"></a>
+<span class="sourceLineNo">328</span>}<a name="line.328"></a>
 
 
 

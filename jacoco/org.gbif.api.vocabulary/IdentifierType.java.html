@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IdentifierType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">IdentifierType.java</span></div><h1>IdentifierType.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2013 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -15,75 +15,75 @@
  */
 package org.gbif.api.vocabulary;
 
+import org.gbif.api.util.ApiStringUtils;
 import org.gbif.api.util.VocabularyUtils;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import javax.annotation.Nullable;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
+import javax.annotation.Nullable;
 
 /**
  * Enumeration for all possible identifier types.
  */
-<span class="fc" id="L29">public enum IdentifierType {</span>
+<span class="fc" id="L30">public enum IdentifierType {</span>
 
-<span class="fc" id="L31">  URL,</span>
+<span class="fc" id="L32">  URL,</span>
   /**
    * Reference controlled by a separate system, used for example by DOI.
    * {http://en.wikipedia.org/wiki/Handle_(computing)}
    */
-<span class="fc" id="L36">  LSID,</span>
-<span class="fc" id="L37">  HANDLER,</span>
-<span class="fc" id="L38">  DOI,</span>
-<span class="fc" id="L39">  UUID,</span>
-<span class="fc" id="L40">  FTP,</span>
-<span class="fc" id="L41">  URI,</span>
-<span class="fc" id="L42">  UNKNOWN,</span>
+<span class="fc" id="L37">  LSID,</span>
+<span class="fc" id="L38">  HANDLER,</span>
+<span class="fc" id="L39">  DOI,</span>
+<span class="fc" id="L40">  UUID,</span>
+<span class="fc" id="L41">  FTP,</span>
+<span class="fc" id="L42">  URI,</span>
+<span class="fc" id="L43">  UNKNOWN,</span>
   /**
    * Indicates the identifier originated from an auto_increment column in the portal.data_provider or
    * portal.data_resource table respectively.
    */
-<span class="fc" id="L47">  GBIF_PORTAL,</span>
+<span class="fc" id="L48">  GBIF_PORTAL,</span>
   /**
    * Identifies the node (e.g: 'DK' for Denmark, 'sp2000' for Species 2000).
    */
-<span class="fc" id="L51">  GBIF_NODE,</span>
+<span class="fc" id="L52">  GBIF_NODE,</span>
 
   /**
    * Participant identifier from the GBIF Directory.
    */
-<span class="fc" id="L56">  GBIF_PARTICIPANT,</span>
+<span class="fc" id="L57">  GBIF_PARTICIPANT,</span>
 
   /**
    * ID migrated from GrSciColl.
    */
-<span class="fc" id="L61">  GRSCICOLL_ID,</span>
+<span class="fc" id="L62">  GRSCICOLL_ID,</span>
 
   /**
    * Cool URI migrated from GrSciColl.
    */
-<span class="fc" id="L66">  GRSCICOLL_URI,</span>
+<span class="fc" id="L67">  GRSCICOLL_URI,</span>
 
   /**
    * IRN of an IH record.
    */
-<span class="fc" id="L71">  IH_IRN;</span>
+<span class="fc" id="L72">  IH_IRN;</span>
 
   // TODO: Check if this is used, it didn't exist in the new Registry2 API, but I preserved it from the old vocabulary
   public static final List&lt;IdentifierType&gt; TYPES;
 
   static {
-<span class="fc" id="L77">    TYPES = ImmutableList.copyOf(IdentifierType.values());</span>
-<span class="fc" id="L78">  }</span>
+<span class="fc" id="L78">    TYPES = Collections.unmodifiableList(Arrays.asList(IdentifierType.values()));</span>
+<span class="fc" id="L79">  }</span>
 
   /**
    * @return the matching IdentifierType or null
    */
   public static IdentifierType fromString(String identifierType) {
-<span class="nc" id="L84">    return (IdentifierType) VocabularyUtils.lookupEnum(identifierType, IdentifierType.class);</span>
+<span class="nc" id="L85">    return (IdentifierType) VocabularyUtils.lookupEnum(identifierType, IdentifierType.class);</span>
   }
-
 
   /**
    * Tries to infer the identifier type from a given identifier.
@@ -93,7 +93,7 @@ import com.google.common.collect.ImmutableList;
    * @return the inferred identifier type or Unknown if identifier is null or cant be inferred.
    */
   public static IdentifierType inferFrom(@Nullable String identifier) {
-<span class="fc" id="L96">    String lcIdentifier = Strings.nullToEmpty(identifier).trim().toLowerCase();</span>
+<span class="fc" id="L96">    String lcIdentifier = ApiStringUtils.nullToEmpty(identifier).trim().toLowerCase();</span>
 
 <span class="fc bfc" id="L98" title="All 2 branches covered.">    if (lcIdentifier.isEmpty()) {</span>
 <span class="fc" id="L99">      return UNKNOWN;</span>

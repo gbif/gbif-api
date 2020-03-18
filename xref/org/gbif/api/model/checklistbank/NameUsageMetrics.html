@@ -7,7 +7,7 @@
 <body>
 <div id="overview"><a href="../../../../../../apidocs/org/gbif/api/model/checklistbank/NameUsageMetrics.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/*</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright 2014 Global Biodiversity Information Facility (GBIF)</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright 2020 Global Biodiversity Information Facility (GBIF)</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> *</em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
@@ -25,48 +25,48 @@
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.Rank;
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>  
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> javax.annotation.Nullable;
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> javax.validation.constraints.Min;
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> javax.validation.constraints.NotNull;
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> com.google.common.base.Objects;
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment"> * Basic metrics for a single name usage. These metrics have been embedded in the NameUsage class before</em>
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment"> * but are rarely being used. They are therefore split out into a separate class to be retrieved only when needed.</em>
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../org/gbif/api/model/checklistbank/NameUsageMetrics.html">NameUsageMetrics</a> {
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>  
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>    <strong class="jxr_keyword">private</strong> Integer key;
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numPhylum;
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numClass;
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numOrder;
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numFamily;
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numGenus;
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numSubgenus;
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numSpecies;
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numChildren;
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numDescendants;
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numSynonyms;
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>  
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>  
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>    <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment">   * Return the key that uniquely identifies this name usage.</em>
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment">   *</em>
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment">   * @return the key</em>
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>    @NotNull
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>    <strong class="jxr_keyword">public</strong> Integer getKey() {
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>      <strong class="jxr_keyword">return</strong> key;
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>    }
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>  
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>    <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment">   * @param key the key to set</em>
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setKey(Integer key) {
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>      <strong class="jxr_keyword">this</strong>.key = key;
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>    }
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>  
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> java.util.Objects;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> java.util.StringJoiner;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> javax.annotation.Nullable;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> javax.validation.constraints.Min;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> javax.validation.constraints.NotNull;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment"> * Basic metrics for a single name usage. These metrics have been embedded in the NameUsage class before</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment"> * but are rarely being used. They are therefore split out into a separate class to be retrieved only when needed.</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  @SuppressWarnings(<span class="jxr_string">"unused"</span>)
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../org/gbif/api/model/checklistbank/NameUsageMetrics.html">NameUsageMetrics</a> {
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>    <strong class="jxr_keyword">private</strong> Integer key;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numPhylum;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numClass;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numOrder;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numFamily;
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numGenus;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numSubgenus;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numSpecies;
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numChildren;
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numDescendants;
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> numSynonyms;
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>    <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment">   * Return the key that uniquely identifies this name usage.</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment">   * @return the key</em>
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>    @NotNull
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>    <strong class="jxr_keyword">public</strong> Integer getKey() {
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>      <strong class="jxr_keyword">return</strong> key;
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>    }
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>    <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment">   * @param key the key to set</em>
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setKey(Integer key) {
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>      <strong class="jxr_keyword">this</strong>.key = key;
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>    }
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>  
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>    <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment">   * Returns the number of direct taxonomic elements under this usage. "Direct" means that children should have</em>
@@ -281,64 +281,51 @@
 <a class="jxr_linenumber" name="L273" href="#L273">273</a> 
 <a class="jxr_linenumber" name="L274" href="#L274">274</a> 
 <a class="jxr_linenumber" name="L275" href="#L275">275</a>   @Override
-<a class="jxr_linenumber" name="L276" href="#L276">276</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> hashCode() {
-<a class="jxr_linenumber" name="L277" href="#L277">277</a>     <strong class="jxr_keyword">return</strong> Objects
-<a class="jxr_linenumber" name="L278" href="#L278">278</a>       .hashCode(
-<a class="jxr_linenumber" name="L279" href="#L279">279</a>         key,
-<a class="jxr_linenumber" name="L280" href="#L280">280</a>         numPhylum,
-<a class="jxr_linenumber" name="L281" href="#L281">281</a>         numClass,
-<a class="jxr_linenumber" name="L282" href="#L282">282</a>         numOrder,
-<a class="jxr_linenumber" name="L283" href="#L283">283</a>         numFamily,
-<a class="jxr_linenumber" name="L284" href="#L284">284</a>         numGenus,
-<a class="jxr_linenumber" name="L285" href="#L285">285</a>         numSubgenus,
-<a class="jxr_linenumber" name="L286" href="#L286">286</a>         numSpecies,
-<a class="jxr_linenumber" name="L287" href="#L287">287</a>         numChildren,
-<a class="jxr_linenumber" name="L288" href="#L288">288</a>         numDescendants,
-<a class="jxr_linenumber" name="L289" href="#L289">289</a>         numSynonyms);
-<a class="jxr_linenumber" name="L290" href="#L290">290</a>   }
-<a class="jxr_linenumber" name="L291" href="#L291">291</a> 
-<a class="jxr_linenumber" name="L292" href="#L292">292</a>   @Override
-<a class="jxr_linenumber" name="L293" href="#L293">293</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> equals(Object obj) {
-<a class="jxr_linenumber" name="L294" href="#L294">294</a>     <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong> == obj) {
-<a class="jxr_linenumber" name="L295" href="#L295">295</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="L296" href="#L296">296</a>     }
-<a class="jxr_linenumber" name="L297" href="#L297">297</a>     <strong class="jxr_keyword">if</strong> (obj == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L298" href="#L298">298</a>       <strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="L299" href="#L299">299</a>     }
-<a class="jxr_linenumber" name="L300" href="#L300">300</a>     <strong class="jxr_keyword">if</strong> (getClass() != obj.getClass()) {
-<a class="jxr_linenumber" name="L301" href="#L301">301</a>       <strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="L302" href="#L302">302</a>     }
-<a class="jxr_linenumber" name="L303" href="#L303">303</a>     <strong class="jxr_keyword">final</strong> <a href="../../../../../org/gbif/api/model/checklistbank/NameUsageMetrics.html">NameUsageMetrics</a> other = (NameUsageMetrics) obj;
-<a class="jxr_linenumber" name="L304" href="#L304">304</a>     <strong class="jxr_keyword">return</strong> Objects.equal(<strong class="jxr_keyword">this</strong>.key, other.key)
-<a class="jxr_linenumber" name="L305" href="#L305">305</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.numPhylum, other.numPhylum)
-<a class="jxr_linenumber" name="L306" href="#L306">306</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.numClass, other.numClass)
-<a class="jxr_linenumber" name="L307" href="#L307">307</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.numOrder, other.numOrder)
-<a class="jxr_linenumber" name="L308" href="#L308">308</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.numFamily, other.numFamily)
-<a class="jxr_linenumber" name="L309" href="#L309">309</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.numGenus, other.numGenus)
-<a class="jxr_linenumber" name="L310" href="#L310">310</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.numSubgenus, other.numSubgenus)
-<a class="jxr_linenumber" name="L311" href="#L311">311</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.numSpecies, other.numSpecies)
-<a class="jxr_linenumber" name="L312" href="#L312">312</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.numChildren, other.numChildren)
-<a class="jxr_linenumber" name="L313" href="#L313">313</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.numDescendants, other.numDescendants)
-<a class="jxr_linenumber" name="L314" href="#L314">314</a>            &amp;&amp; Objects.equal(<strong class="jxr_keyword">this</strong>.numSynonyms, other.numSynonyms);
-<a class="jxr_linenumber" name="L315" href="#L315">315</a>   }
-<a class="jxr_linenumber" name="L316" href="#L316">316</a> 
-<a class="jxr_linenumber" name="L317" href="#L317">317</a>   @Override
-<a class="jxr_linenumber" name="L318" href="#L318">318</a>   <strong class="jxr_keyword">public</strong> String toString() {
-<a class="jxr_linenumber" name="L319" href="#L319">319</a>     <strong class="jxr_keyword">return</strong> Objects.toStringHelper(<strong class="jxr_keyword">this</strong>)
-<a class="jxr_linenumber" name="L320" href="#L320">320</a>       .add(<span class="jxr_string">"key"</span>, key)
-<a class="jxr_linenumber" name="L321" href="#L321">321</a>       .add(<span class="jxr_string">"numPhylum"</span>, numPhylum)
-<a class="jxr_linenumber" name="L322" href="#L322">322</a>       .add(<span class="jxr_string">"numClass"</span>, numClass)
-<a class="jxr_linenumber" name="L323" href="#L323">323</a>       .add(<span class="jxr_string">"numOrder"</span>, numOrder)
-<a class="jxr_linenumber" name="L324" href="#L324">324</a>       .add(<span class="jxr_string">"numFamily"</span>, numFamily)
-<a class="jxr_linenumber" name="L325" href="#L325">325</a>       .add(<span class="jxr_string">"numGenus"</span>, numGenus)
-<a class="jxr_linenumber" name="L326" href="#L326">326</a>       .add(<span class="jxr_string">"numSubgenus"</span>, numSubgenus)
-<a class="jxr_linenumber" name="L327" href="#L327">327</a>       .add(<span class="jxr_string">"numSpecies"</span>, numSpecies)
-<a class="jxr_linenumber" name="L328" href="#L328">328</a>       .add(<span class="jxr_string">"numChildren"</span>, numChildren)
-<a class="jxr_linenumber" name="L329" href="#L329">329</a>       .add(<span class="jxr_string">"numDescendants"</span>, numDescendants)
-<a class="jxr_linenumber" name="L330" href="#L330">330</a>       .add(<span class="jxr_string">"numSynonyms"</span>, numSynonyms)
-<a class="jxr_linenumber" name="L331" href="#L331">331</a>       .toString();
-<a class="jxr_linenumber" name="L332" href="#L332">332</a>   }
-<a class="jxr_linenumber" name="L333" href="#L333">333</a> }
+<a class="jxr_linenumber" name="L276" href="#L276">276</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> equals(Object o) {
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>     <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong> == o) {
+<a class="jxr_linenumber" name="L278" href="#L278">278</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>     }
+<a class="jxr_linenumber" name="L280" href="#L280">280</a>     <strong class="jxr_keyword">if</strong> (o == <strong class="jxr_keyword">null</strong> || getClass() != o.getClass()) {
+<a class="jxr_linenumber" name="L281" href="#L281">281</a>       <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>     }
+<a class="jxr_linenumber" name="L283" href="#L283">283</a>     <a href="../../../../../org/gbif/api/model/checklistbank/NameUsageMetrics.html">NameUsageMetrics</a> that = (NameUsageMetrics) o;
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>     <strong class="jxr_keyword">return</strong> numPhylum == that.numPhylum &amp;&amp;
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>       numClass == that.numClass &amp;&amp;
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>       numOrder == that.numOrder &amp;&amp;
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>       numFamily == that.numFamily &amp;&amp;
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>       numGenus == that.numGenus &amp;&amp;
+<a class="jxr_linenumber" name="L289" href="#L289">289</a>       numSubgenus == that.numSubgenus &amp;&amp;
+<a class="jxr_linenumber" name="L290" href="#L290">290</a>       numSpecies == that.numSpecies &amp;&amp;
+<a class="jxr_linenumber" name="L291" href="#L291">291</a>       numChildren == that.numChildren &amp;&amp;
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>       numDescendants == that.numDescendants &amp;&amp;
+<a class="jxr_linenumber" name="L293" href="#L293">293</a>       numSynonyms == that.numSynonyms &amp;&amp;
+<a class="jxr_linenumber" name="L294" href="#L294">294</a>       Objects.equals(key, that.key);
+<a class="jxr_linenumber" name="L295" href="#L295">295</a>   }
+<a class="jxr_linenumber" name="L296" href="#L296">296</a> 
+<a class="jxr_linenumber" name="L297" href="#L297">297</a>   @Override
+<a class="jxr_linenumber" name="L298" href="#L298">298</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> hashCode() {
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>     <strong class="jxr_keyword">return</strong> Objects
+<a class="jxr_linenumber" name="L300" href="#L300">300</a>       .hash(key, numPhylum, numClass, numOrder, numFamily, numGenus, numSubgenus, numSpecies,
+<a class="jxr_linenumber" name="L301" href="#L301">301</a>         numChildren, numDescendants, numSynonyms);
+<a class="jxr_linenumber" name="L302" href="#L302">302</a>   }
+<a class="jxr_linenumber" name="L303" href="#L303">303</a> 
+<a class="jxr_linenumber" name="L304" href="#L304">304</a>   @Override
+<a class="jxr_linenumber" name="L305" href="#L305">305</a>   <strong class="jxr_keyword">public</strong> String toString() {
+<a class="jxr_linenumber" name="L306" href="#L306">306</a>     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> StringJoiner(<span class="jxr_string">", "</span>, NameUsageMetrics.<strong class="jxr_keyword">class</strong>.getSimpleName() + <span class="jxr_string">"["</span>, <span class="jxr_string">"]"</span>)
+<a class="jxr_linenumber" name="L307" href="#L307">307</a>       .add(<span class="jxr_string">"key="</span> + key)
+<a class="jxr_linenumber" name="L308" href="#L308">308</a>       .add(<span class="jxr_string">"numPhylum="</span> + numPhylum)
+<a class="jxr_linenumber" name="L309" href="#L309">309</a>       .add(<span class="jxr_string">"numClass="</span> + numClass)
+<a class="jxr_linenumber" name="L310" href="#L310">310</a>       .add(<span class="jxr_string">"numOrder="</span> + numOrder)
+<a class="jxr_linenumber" name="L311" href="#L311">311</a>       .add(<span class="jxr_string">"numFamily="</span> + numFamily)
+<a class="jxr_linenumber" name="L312" href="#L312">312</a>       .add(<span class="jxr_string">"numGenus="</span> + numGenus)
+<a class="jxr_linenumber" name="L313" href="#L313">313</a>       .add(<span class="jxr_string">"numSubgenus="</span> + numSubgenus)
+<a class="jxr_linenumber" name="L314" href="#L314">314</a>       .add(<span class="jxr_string">"numSpecies="</span> + numSpecies)
+<a class="jxr_linenumber" name="L315" href="#L315">315</a>       .add(<span class="jxr_string">"numChildren="</span> + numChildren)
+<a class="jxr_linenumber" name="L316" href="#L316">316</a>       .add(<span class="jxr_string">"numDescendants="</span> + numDescendants)
+<a class="jxr_linenumber" name="L317" href="#L317">317</a>       .add(<span class="jxr_string">"numSynonyms="</span> + numSynonyms)
+<a class="jxr_linenumber" name="L318" href="#L318">318</a>       .toString();
+<a class="jxr_linenumber" name="L319" href="#L319">319</a>   }
+<a class="jxr_linenumber" name="L320" href="#L320">320</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2020 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>
