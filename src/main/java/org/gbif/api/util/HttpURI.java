@@ -35,7 +35,10 @@ import javax.validation.Payload;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Constraint(validatedBy = URIValidator.class)
 public @interface HttpURI {
-  public abstract Class<?>[] groups() default {};
-  public abstract Class<? extends Payload>[] payload() default { };
-  public abstract String message() default "";
+
+  Class<?>[] groups() default {};
+
+  Class<? extends Payload>[] payload() default {};
+
+  String message() default "Invalid URI";
 }
