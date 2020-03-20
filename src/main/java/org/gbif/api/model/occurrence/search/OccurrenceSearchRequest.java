@@ -178,8 +178,12 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     addParameter(OccurrenceSearchParameter.MEDIA_TYPE, mediaType);
   }
 
-  public void addAgengIdsFilter(String agengIds) {
-    addParameter(OccurrenceSearchParameter.AGENT_ID, agengIds);
+  public void addRecordedByIdsFilter(String recordedByIds) {
+    addParameter(OccurrenceSearchParameter.IDENTIFIED_BY_ID, recordedByIds);
+  }
+
+  public void addIdentifiedByIdsFilter(String identifiedByIds) {
+    addParameter(OccurrenceSearchParameter.RECORDED_BY_ID, identifiedByIds);
   }
 
 }
