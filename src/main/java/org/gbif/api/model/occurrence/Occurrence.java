@@ -162,8 +162,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private List<MediaObject> media = new ArrayList<>();
   private List<FactOrMeasurment> facts = new ArrayList<>();
   private List<OccurrenceRelation> relations = new ArrayList<>();
-  @JsonProperty("agentIDs")
-  private List<AgentIdentifier> agentIds = new ArrayList<>();
+  @JsonProperty("recordedByIDs")
+  private List<AgentIdentifier> recordedByIds = new ArrayList<>();
+  @JsonProperty("identifiedByIDs")
+  private List<AgentIdentifier> identifiedByIds = new ArrayList<>();
 
   public Occurrence() {
 
@@ -1001,12 +1003,21 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @NotNull
-  public List<AgentIdentifier> getAgentIds() {
-    return agentIds;
+  public List<AgentIdentifier> getRecordedByIds() {
+    return recordedByIds;
   }
 
-  public void setAgentIds(List<AgentIdentifier> agentIds) {
-    this.agentIds = agentIds;
+  public void setRecordedByIds(List<AgentIdentifier> recordedByIds) {
+    this.recordedByIds = recordedByIds;
+  }
+
+  @NotNull
+  public List<AgentIdentifier> getIdentifiedByIds() {
+    return identifiedByIds;
+  }
+
+  public void setIdentifiedByIds(List<AgentIdentifier> identifiedByIds) {
+    this.identifiedByIds = identifiedByIds;
   }
 
   /**
@@ -1098,7 +1109,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       Objects.equals(media, that.media) &&
       Objects.equals(facts, that.facts) &&
       Objects.equals(relations, that.relations) &&
-      Objects.equals(agentIds, that.agentIds);
+      Objects.equals(identifiedByIds, that.identifiedByIds) &&
+      Objects.equals(recordedByIds, that.recordedByIds);
   }
 
   @Override
@@ -1113,7 +1125,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         elevationAccuracy, depth, depthAccuracy, continent, country, stateProvince, waterBody, year,
         month, day, eventDate, typeStatus, typifiedName, issues, modified, lastInterpreted,
         references, license, organismQuantity, organismQuantityType, sampleSizeUnit,
-        sampleSizeValue, relativeOrganismQuantity, identifiers, media, facts, relations, agentIds);
+        sampleSizeValue, relativeOrganismQuantity, identifiers, media, facts, relations, recordedByIds,
+        identifiedByIds);
   }
 
   @Override
@@ -1183,7 +1196,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("media=" + media)
       .add("facts=" + facts)
       .add("relations=" + relations)
-      .add("agentIds=" + agentIds)
+      .add("recordedByIds=" + recordedByIds)
+      .add("identifiedByIds=" + identifiedByIds)
       .toString();
   }
 

@@ -447,9 +447,14 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   INSTITUTION_KEY(UUID.class),
 
   /**
-   * Agent identifiers from GbifTerm.recordedByID and GbifTerm.identifiedByID
+   * Agent identifiers from GbifTerm.recordedByID
    */
-  AGENT_ID(String.class);
+  RECORDED_BY_ID(String.class),
+
+  /**
+   * Agent identifiers from GbifTerm.identifiedByID
+   */
+  IDENTIFIED_BY_ID(String.class);
 
   private final Class<?> type;
 
