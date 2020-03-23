@@ -1,12 +1,29 @@
+/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.gbif.api.vocabulary;
 
 import java.io.IOException;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.KeyDeserializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -19,8 +36,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  *
  * @see <a href="https://support.crowdin.com/api/language-codes/">Crowdin languages</a>
  */
-@JsonSerialize(using = TranslationLanguage.LocaleSerializer.class)
-@JsonDeserialize(using = TranslationLanguage.LocaleDeserializer.class)
+@JsonSerialize(
+    using = TranslationLanguage.LocaleSerializer.class,
+    keyUsing = TranslationLanguage.LocaleSerializer.class)
+@JsonDeserialize(
+    using = TranslationLanguage.LocaleDeserializer.class,
+    keyUsing = TranslationLanguage.LocaleKeyDeserializer.class)
 public enum TranslationLanguage {
   ACHOLI("ach-UG", "ach", "ach", "Acholi"),
   AFAR("aa-ER", "aa", "aar", "Afar"),
@@ -352,6 +373,7 @@ public enum TranslationLanguage {
     this.name = name;
   }
 
+  @JsonValue
   public String getLocale() {
     return locale;
   }
@@ -413,6 +435,25 @@ public enum TranslationLanguage {
         throw new IOException(
             "Unable to deserialize language from provided value (hint: are you using the locale?): "
                 + jp.getText());
+      }
+    }
+  }
+
+  /** Deserializes the value from the locale. */
+  public static class LocaleKeyDeserializer extends KeyDeserializer {
+
+    @Override
+    public Object deserializeKey(String key, DeserializationContext ctxt) throws IOException {
+      try {
+        if (key != null && !key.isEmpty()) {
+          return TranslationLanguage.fromLocale(key);
+        } else {
+          return Language.UNKNOWN; // none provided
+        }
+      } catch (Exception e) {
+        throw new IOException(
+            "Unable to deserialize language from provided value (hint: are you using the locale?): "
+                + key);
       }
     }
   }
