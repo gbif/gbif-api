@@ -1,5 +1,9 @@
 package org.gbif.api.vocabulary;
 
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
+
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,11 +15,11 @@ import static org.junit.Assert.fail;
 public class TranslationLanguageTest {
 
   @Test
-  public void testFromIsoCode() throws Exception {
-    assertEquals(TranslationLanguage.ENGLISH, TranslationLanguage.fromLocale("en-US"));
+  public void testFromIsoCode() {
+    assertEquals(TranslationLanguage.ENGLISH, TranslationLanguage.fromLocale("en"));
     assertEquals(TranslationLanguage.SPANISH, TranslationLanguage.fromLocale("es-ES"));
     assertEquals(TranslationLanguage.SPANISH, TranslationLanguage.fromLocale("es-es"));
-    assertEquals(TranslationLanguage.ARABIC, TranslationLanguage.fromLocale("ar-SA"));
+    assertEquals(TranslationLanguage.ARABIC, TranslationLanguage.fromLocale("ar"));
     assertEquals(TranslationLanguage.ARPITAN, TranslationLanguage.fromLocale("frp-IT"));
   }
 
