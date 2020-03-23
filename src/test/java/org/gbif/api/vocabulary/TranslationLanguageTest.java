@@ -26,10 +26,10 @@ public class TranslationLanguageTest {
 
   @Test
   public void testFromIsoCode() throws Exception {
-    assertEquals(TranslationLanguage.ENGLISH, TranslationLanguage.fromLocale("en-US"));
+    assertEquals(TranslationLanguage.ENGLISH, TranslationLanguage.fromLocale("en"));
     assertEquals(TranslationLanguage.SPANISH, TranslationLanguage.fromLocale("es-ES"));
     assertEquals(TranslationLanguage.SPANISH, TranslationLanguage.fromLocale("es-es"));
-    assertEquals(TranslationLanguage.ARABIC, TranslationLanguage.fromLocale("ar-SA"));
+    assertEquals(TranslationLanguage.ARABIC, TranslationLanguage.fromLocale("ar"));
     assertEquals(TranslationLanguage.ARPITAN, TranslationLanguage.fromLocale("frp-IT"));
   }
 
