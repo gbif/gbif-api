@@ -19,16 +19,39 @@ package org.gbif.api.model.occurrence;
  * Download output requested format.
  */
 <span class="fc" id="L21">public enum DownloadFormat {</span>
-  // Darwin Core Archive file that is a zip of all indexed fields in both verbatim and interpreted, plus multimedia and metadata files.
-<span class="fc" id="L23">  DWCA,</span>
+  /**
+   * Darwin Core Archive file that is a zip of all indexed fields in both verbatim and interpreted, plus multimedia and metadata files.
+   */
+<span class="fc" id="L25">  DWCA(&quot;.zip&quot;),</span>
 
-  // Zipped text file of the most common indexed terms, but note that it is delimited by tabs, not commas.
-<span class="fc" id="L26">  SIMPLE_CSV,</span>
+  /**
+   * Zipped text file of the most common indexed terms, but note that it is delimited by tabs, not commas.
+   */
+<span class="fc" id="L30">  SIMPLE_CSV(&quot;.zip&quot;),</span>
 
-  // AVRO (with Deflate compression codec) format export of the most common indexed terms.
-<span class="fc" id="L29">  SIMPLE_AVRO,</span>
+  /**
+   * AVRO (with Deflate compression codec) format export of the most common indexed terms.
+   */
+<span class="fc" id="L35">  SIMPLE_AVRO(&quot;.avro&quot;),</span>
 
-  //CSV format export of the distinct species and taxonomic field associated to it.
-<span class="fc" id="L32">  SPECIES_LIST</span>
+  /**
+   * TSV format export of the distinct species and taxonomic field associated to each.
+   */
+<span class="fc" id="L40">  SPECIES_LIST(&quot;.zip&quot;),</span>
+
+  /**
+   * Special AVRO format for the Map of Life project.
+   */
+<span class="fc" id="L45">  MAP_OF_LIFE(&quot;.avro&quot;);</span>
+
+  private final String extension;
+
+<span class="fc" id="L49">  DownloadFormat(String extension) {</span>
+<span class="fc" id="L50">    this.extension = extension;</span>
+<span class="fc" id="L51">  }</span>
+
+  public String getExtension() {
+<span class="nc" id="L54">    return extension;</span>
+  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

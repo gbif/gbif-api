@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TranslationLanguage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">TranslationLanguage.java</span></div><h1>TranslationLanguage.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.vocabulary;
+
+import java.io.IOException;
+
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.map.DeserializationContext;
+import org.codehaus.jackson.map.JsonDeserializer;
+import org.codehaus.jackson.map.SerializerProvider;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.ser.std.SerializerBase;
+
+/**
+ * Enumeration for all the translation languages that we use in Crowdin.
+ *
+ * &lt;p&gt;It stores the locale, the ISO_639_1 and ISO_639_3 codes, and the name of the language in
+ * English.
+ *
+ * @see &lt;a href=&quot;https://support.crowdin.com/api/language-codes/&quot;&gt;Crowdin languages&lt;/a&gt;
+ */
+<span class="fc" id="L37">@JsonSerialize(using = TranslationLanguage.LocaleSerializer.class)</span>
+@JsonDeserialize(using = TranslationLanguage.LocaleDeserializer.class)
+public enum TranslationLanguage {
+<span class="fc" id="L40">  ACHOLI(&quot;ach-UG&quot;, &quot;ach&quot;, &quot;ach&quot;, &quot;Acholi&quot;),</span>
+<span class="fc" id="L41">  AFAR(&quot;aa-ER&quot;, &quot;aa&quot;, &quot;aar&quot;, &quot;Afar&quot;),</span>
+<span class="fc" id="L42">  AFRIKAANS(&quot;af-ZA&quot;, &quot;af&quot;, &quot;afr&quot;, &quot;Afrikaans&quot;),</span>
+<span class="fc" id="L43">  AKAN(&quot;ak-GH&quot;, &quot;ak&quot;, &quot;aka&quot;, &quot;Akan&quot;),</span>
+<span class="fc" id="L44">  AKAN_TWI(&quot;tw-TW&quot;, &quot;tw&quot;, &quot;twi&quot;, &quot;Akan, Twi&quot;),</span>
+<span class="fc" id="L45">  ALBANIAN(&quot;sq-AL&quot;, &quot;sq&quot;, &quot;sqi&quot;, &quot;Albanian&quot;),</span>
+<span class="fc" id="L46">  AMHARIC(&quot;am-ET&quot;, &quot;am&quot;, &quot;amh&quot;, &quot;Amharic&quot;),</span>
+<span class="fc" id="L47">  ARABIC(&quot;ar&quot;, &quot;ar&quot;, &quot;ara&quot;, &quot;Arabic&quot;),</span>
+<span class="fc" id="L48">  ARABIC_BAHRAIN(&quot;ar-BH&quot;, &quot;ar&quot;, &quot;ara&quot;, &quot;Arabic, Bahrain&quot;),</span>
+<span class="fc" id="L49">  ARABIC_EGYPT(&quot;ar-EG&quot;, &quot;ar&quot;, &quot;ara&quot;, &quot;Arabic, Egypt&quot;),</span>
+<span class="fc" id="L50">  ARABIC_SAUDI_ARABIA(&quot;ar-SA&quot;, &quot;ar&quot;, &quot;ara&quot;, &quot;Arabic, Saudi Arabia&quot;),</span>
+<span class="fc" id="L51">  ARABIC_YEMEN(&quot;ar-YE&quot;, &quot;ar&quot;, &quot;ara&quot;, &quot;Arabic, Yemen&quot;),</span>
+<span class="fc" id="L52">  ARAGONESE(&quot;an-ES&quot;, &quot;an&quot;, &quot;arg&quot;, &quot;Aragonese&quot;),</span>
+<span class="fc" id="L53">  ARMENIAN(&quot;hy-AM&quot;, &quot;hy&quot;, &quot;hye&quot;, &quot;Armenian&quot;),</span>
+<span class="fc" id="L54">  ARPITAN(&quot;frp-IT&quot;, &quot;frp&quot;, &quot;frp&quot;, &quot;Arpitan&quot;),</span>
+<span class="fc" id="L55">  ASSAMESE(&quot;as-IN&quot;, &quot;as&quot;, &quot;asm&quot;, &quot;Assamese&quot;),</span>
+<span class="fc" id="L56">  ASTURIAN(&quot;ast-ES&quot;, &quot;ast&quot;, &quot;ast&quot;, &quot;Asturian&quot;),</span>
+<span class="fc" id="L57">  ATAYAL(&quot;tay-TW&quot;, &quot;tay&quot;, &quot;tay&quot;, &quot;Atayal&quot;),</span>
+<span class="fc" id="L58">  AVARIC(&quot;av-DA&quot;, &quot;av&quot;, &quot;ava&quot;, &quot;Avaric&quot;),</span>
+<span class="fc" id="L59">  AVESTAN(&quot;ae-IR&quot;, &quot;ae&quot;, &quot;ave&quot;, &quot;Avestan&quot;),</span>
+<span class="fc" id="L60">  AYMARA(&quot;ay-BO&quot;, &quot;ay&quot;, &quot;aym&quot;, &quot;Aymara&quot;),</span>
+<span class="fc" id="L61">  AZERBAIJANI(&quot;az-AZ&quot;, &quot;az&quot;, &quot;aze&quot;, &quot;Azerbaijani&quot;),</span>
+<span class="fc" id="L62">  BALINESE(&quot;ban-ID&quot;, &quot;ban&quot;, &quot;ban&quot;, &quot;Balinese&quot;),</span>
+<span class="fc" id="L63">  BALOCHI(&quot;bal-BA&quot;, &quot;bal&quot;, &quot;bal&quot;, &quot;Balochi&quot;),</span>
+<span class="fc" id="L64">  BAMBARA(&quot;bm-ML&quot;, &quot;bm&quot;, &quot;bam&quot;, &quot;Bambara&quot;),</span>
+<span class="fc" id="L65">  BASHKIR(&quot;ba-RU&quot;, &quot;ba&quot;, &quot;bak&quot;, &quot;Bashkir&quot;),</span>
+<span class="fc" id="L66">  BASQUE(&quot;eu-ES&quot;, &quot;eu&quot;, &quot;eus&quot;, &quot;Basque&quot;),</span>
+<span class="fc" id="L67">  BELARUSIAN(&quot;be-BY&quot;, &quot;be&quot;, &quot;bel&quot;, &quot;Belarusian&quot;),</span>
+<span class="fc" id="L68">  BENGALI(&quot;bn-BD&quot;, &quot;bn&quot;, &quot;ben&quot;, &quot;Bengali&quot;),</span>
+<span class="fc" id="L69">  BENGALI_INDIA(&quot;bn-IN&quot;, &quot;bn&quot;, &quot;ben&quot;, &quot;Bengali, India&quot;),</span>
+<span class="fc" id="L70">  BERBER(&quot;ber-DZ&quot;, &quot;ber&quot;, &quot;ber&quot;, &quot;Berber&quot;),</span>
+<span class="fc" id="L71">  BIHARI(&quot;bh-IN&quot;, &quot;bh&quot;, &quot;bih&quot;, &quot;Bihari&quot;),</span>
+<span class="fc" id="L72">  BIRIFOR(&quot;bfo-BF&quot;, &quot;bfo&quot;, &quot;bfo&quot;, &quot;Birifor&quot;),</span>
+<span class="fc" id="L73">  BISLAMA(&quot;bi-VU&quot;, &quot;bi&quot;, &quot;bis&quot;, &quot;Bislama&quot;),</span>
+<span class="fc" id="L74">  BOSNIAN(&quot;bs-BA&quot;, &quot;bs&quot;, &quot;bos&quot;, &quot;Bosnian&quot;),</span>
+<span class="fc" id="L75">  BRETON(&quot;br-FR&quot;, &quot;br&quot;, &quot;bre&quot;, &quot;Breton&quot;),</span>
+<span class="fc" id="L76">  BULGARIAN(&quot;bg-BG&quot;, &quot;bg&quot;, &quot;bul&quot;, &quot;Bulgarian&quot;),</span>
+<span class="fc" id="L77">  BURMESE(&quot;my-MM&quot;, &quot;my&quot;, &quot;mya&quot;, &quot;Burmese&quot;),</span>
+<span class="fc" id="L78">  CATALAN(&quot;ca-ES&quot;, &quot;ca&quot;, &quot;cat&quot;, &quot;Catalan&quot;),</span>
+<span class="fc" id="L79">  CEBUANO(&quot;ceb-PH&quot;, &quot;ceb&quot;, &quot;ceb&quot;, &quot;Cebuano&quot;),</span>
+<span class="fc" id="L80">  CHAMORRO(&quot;ch-GU&quot;, &quot;ch&quot;, &quot;cha&quot;, &quot;Chamorro&quot;),</span>
+<span class="fc" id="L81">  CHECHEN(&quot;ce-CE&quot;, &quot;ce&quot;, &quot;che&quot;, &quot;Chechen&quot;),</span>
+<span class="fc" id="L82">  CHEROKEE(&quot;chr-US&quot;, &quot;chr&quot;, &quot;chr&quot;, &quot;Cherokee&quot;),</span>
+<span class="fc" id="L83">  CHEWA(&quot;ny-MW&quot;, &quot;ny&quot;, &quot;nya&quot;, &quot;Chewa&quot;),</span>
+<span class="fc" id="L84">  CHINESE_SIMPLIFIED(&quot;zh-CN&quot;, &quot;zh&quot;, &quot;zho&quot;, &quot;Chinese Simplified&quot;),</span>
+<span class="fc" id="L85">  CHINESE_TRADITIONAL(&quot;zh-TW&quot;, &quot;zh&quot;, &quot;zho&quot;, &quot;Chinese Traditional&quot;),</span>
+<span class="fc" id="L86">  CHINESE_TRADITIONAL_HONG_KONG(&quot;zh-HK&quot;, &quot;zh&quot;, &quot;zho&quot;, &quot;Chinese Traditional, Hong Kong&quot;),</span>
+<span class="fc" id="L87">  CHINESE_TRADITIONAL_MACAU(&quot;zh-MO&quot;, &quot;zh&quot;, &quot;zho&quot;, &quot;Chinese Traditional, Macau&quot;),</span>
+<span class="fc" id="L88">  CHINESE_TRADITIONAL_SINGAPORE(&quot;zh-SG&quot;, &quot;zh&quot;, &quot;zho&quot;, &quot;Chinese Traditional, Singapore&quot;),</span>
+<span class="fc" id="L89">  CHUVASH(&quot;cv-CU&quot;, &quot;cv&quot;, &quot;chv&quot;, &quot;Chuvash&quot;),</span>
+<span class="fc" id="L90">  CORNISH(&quot;kw-GB&quot;, &quot;kw&quot;, &quot;cor&quot;, &quot;Cornish&quot;),</span>
+<span class="fc" id="L91">  CORSICAN(&quot;co-FR&quot;, &quot;co&quot;, &quot;cos&quot;, &quot;Corsican&quot;),</span>
+<span class="fc" id="L92">  CREE(&quot;cr-NT&quot;, &quot;cr&quot;, &quot;cre&quot;, &quot;Cree&quot;),</span>
+<span class="fc" id="L93">  CROATIAN(&quot;hr-HR&quot;, &quot;hr&quot;, &quot;hrv&quot;, &quot;Croatian&quot;),</span>
+<span class="fc" id="L94">  CZECH(&quot;cs-CZ&quot;, &quot;cs&quot;, &quot;ces&quot;, &quot;Czech&quot;),</span>
+<span class="fc" id="L95">  DANISH(&quot;da-DK&quot;, &quot;da&quot;, &quot;dan&quot;, &quot;Danish&quot;),</span>
+<span class="fc" id="L96">  DARI(&quot;fa-AF&quot;, &quot;fa&quot;, &quot;prs&quot;, &quot;Dari&quot;),</span>
+<span class="fc" id="L97">  DHIVEHI(&quot;dv-MV&quot;, &quot;dv&quot;, &quot;div&quot;, &quot;Dhivehi&quot;),</span>
+<span class="fc" id="L98">  DUTCH(&quot;nl-NL&quot;, &quot;nl&quot;, &quot;nld&quot;, &quot;Dutch&quot;),</span>
+<span class="fc" id="L99">  DUTCH_BELGIUM(&quot;nl-BE&quot;, &quot;nl&quot;, &quot;nld&quot;, &quot;Dutch, Belgium&quot;),</span>
+<span class="fc" id="L100">  DUTCH_SURINAME(&quot;nl-SR&quot;, &quot;nl&quot;, &quot;nld&quot;, &quot;Dutch, Suriname&quot;),</span>
+<span class="fc" id="L101">  DZONGKHA(&quot;dz-BT&quot;, &quot;dz&quot;, &quot;dzo&quot;, &quot;Dzongkha&quot;),</span>
+<span class="fc" id="L102">  ENGLISH(&quot;en&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English&quot;),</span>
+<span class="fc" id="L103">  ENGLISH_UPSIDE_DOWN(&quot;en-UD&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English (upside down)&quot;),</span>
+<span class="fc" id="L104">  ENGLISH_ARABIA(&quot;en-AR&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Arabia&quot;),</span>
+<span class="fc" id="L105">  ENGLISH_AUSTRALIA(&quot;en-AU&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Australia&quot;),</span>
+<span class="fc" id="L106">  ENGLISH_BELIZE(&quot;en-BZ&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Belize&quot;),</span>
+<span class="fc" id="L107">  ENGLISH_CANADA(&quot;en-CA&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Canada&quot;),</span>
+<span class="fc" id="L108">  ENGLISH_CARIBBEAN(&quot;en-CB&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Caribbean&quot;),</span>
+<span class="fc" id="L109">  ENGLISH_CHINA(&quot;en-CN&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, China&quot;),</span>
+<span class="fc" id="L110">  ENGLISH_DENMARK(&quot;en-DK&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Denmark&quot;),</span>
+<span class="fc" id="L111">  ENGLISH_HONG_KONG(&quot;en-HK&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Hong Kong&quot;),</span>
+<span class="fc" id="L112">  ENGLISH_INDIA(&quot;en-IN&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, India&quot;),</span>
+<span class="fc" id="L113">  ENGLISH_INDONESIA(&quot;en-ID&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Indonesia&quot;),</span>
+<span class="fc" id="L114">  ENGLISH_IRELAND(&quot;en-IE&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Ireland&quot;),</span>
+<span class="fc" id="L115">  ENGLISH_JAMAICA(&quot;en-JM&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Jamaica&quot;),</span>
+<span class="fc" id="L116">  ENGLISH_JAPAN(&quot;en-JA&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Japan&quot;),</span>
+<span class="fc" id="L117">  ENGLISH_MALAYSIA(&quot;en-MY&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Malaysia&quot;),</span>
+<span class="fc" id="L118">  ENGLISH_NEW_ZEALAND(&quot;en-NZ&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, New Zealand&quot;),</span>
+<span class="fc" id="L119">  ENGLISH_NORWAY(&quot;en-NO&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Norway&quot;),</span>
+<span class="fc" id="L120">  ENGLISH_PHILIPPINES(&quot;en-PH&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Philippines&quot;),</span>
+<span class="fc" id="L121">  ENGLISH_PUERTO_RICO(&quot;en-PR&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Puerto Rico&quot;),</span>
+<span class="fc" id="L122">  ENGLISH_SINGAPORE(&quot;en-SG&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Singapore&quot;),</span>
+<span class="fc" id="L123">  ENGLISH_SOUTH_AFRICA(&quot;en-ZA&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, South Africa&quot;),</span>
+<span class="fc" id="L124">  ENGLISH_SWEDEN(&quot;en-SE&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Sweden&quot;),</span>
+<span class="fc" id="L125">  ENGLISH_UNITED_KINGDOM(&quot;en-GB&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, United Kingdom&quot;),</span>
+<span class="fc" id="L126">  ENGLISH_UNITED_STATES(&quot;en-US&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, United States&quot;),</span>
+<span class="fc" id="L127">  ENGLISH_ZIMBABWE(&quot;en-ZW&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;English, Zimbabwe&quot;),</span>
+<span class="fc" id="L128">  ESPERANTO(&quot;eo-UY&quot;, &quot;eo&quot;, &quot;epo&quot;, &quot;Esperanto&quot;),</span>
+<span class="fc" id="L129">  ESTONIAN(&quot;et-EE&quot;, &quot;et&quot;, &quot;est&quot;, &quot;Estonian&quot;),</span>
+<span class="fc" id="L130">  EWE(&quot;ee-GH&quot;, &quot;ee&quot;, &quot;ewe&quot;, &quot;Ewe&quot;),</span>
+<span class="fc" id="L131">  FAROESE(&quot;fo-FO&quot;, &quot;fo&quot;, &quot;fao&quot;, &quot;Faroese&quot;),</span>
+<span class="fc" id="L132">  FIJIAN(&quot;fj-FJ&quot;, &quot;fj&quot;, &quot;fij&quot;, &quot;Fijian&quot;),</span>
+<span class="fc" id="L133">  FILIPINO(&quot;fil-PH&quot;, &quot;fil&quot;, &quot;fil&quot;, &quot;Filipino&quot;),</span>
+<span class="fc" id="L134">  FINNISH(&quot;fi-FI&quot;, &quot;fi&quot;, &quot;fin&quot;, &quot;Finnish&quot;),</span>
+<span class="fc" id="L135">  FLEMISH(&quot;vls-BE&quot;, &quot;vls&quot;, &quot;vls&quot;, &quot;Flemish&quot;),</span>
+<span class="fc" id="L136">  FRANCONIAN(&quot;fra-DE&quot;, &quot;fra&quot;, &quot;gem&quot;, &quot;Franconian&quot;),</span>
+<span class="fc" id="L137">  FRENCH(&quot;fr-FR&quot;, &quot;fr&quot;, &quot;fra&quot;, &quot;French&quot;),</span>
+<span class="fc" id="L138">  FRENCH_BELGIUM(&quot;fr-BE&quot;, &quot;fr&quot;, &quot;fra&quot;, &quot;French, Belgium&quot;),</span>
+<span class="fc" id="L139">  FRENCH_CANADA(&quot;fr-CA&quot;, &quot;fr&quot;, &quot;fra&quot;, &quot;French, Canada&quot;),</span>
+<span class="fc" id="L140">  FRENCH_LUXEMBOURG(&quot;fr-LU&quot;, &quot;fr&quot;, &quot;fra&quot;, &quot;French, Luxembourg&quot;),</span>
+<span class="fc" id="L141">  FRENCH_QUEBEC(&quot;fr-QC&quot;, &quot;fr&quot;, &quot;fra&quot;, &quot;French, Quebec&quot;),</span>
+<span class="fc" id="L142">  FRENCH_SWITZERLAND(&quot;fr-CH&quot;, &quot;fr&quot;, &quot;fra&quot;, &quot;French, Switzerland&quot;),</span>
+<span class="fc" id="L143">  FRISIAN(&quot;fy-NL&quot;, &quot;fy&quot;, &quot;fry&quot;, &quot;Frisian&quot;),</span>
+<span class="fc" id="L144">  FRIULIAN(&quot;fur-IT&quot;, &quot;fur&quot;, &quot;fur&quot;, &quot;Friulian&quot;),</span>
+<span class="fc" id="L145">  FULA(&quot;ff-ZA&quot;, &quot;ff&quot;, &quot;ful&quot;, &quot;Fula&quot;),</span>
+<span class="fc" id="L146">  GA(&quot;gaa-GH&quot;, &quot;gaa&quot;, &quot;gaa&quot;, &quot;Ga&quot;),</span>
+<span class="fc" id="L147">  GALICIAN(&quot;gl-ES&quot;, &quot;gl&quot;, &quot;glg&quot;, &quot;Galician&quot;),</span>
+<span class="fc" id="L148">  GEORGIAN(&quot;ka-GE&quot;, &quot;ka&quot;, &quot;kat&quot;, &quot;Georgian&quot;),</span>
+<span class="fc" id="L149">  GERMAN(&quot;de-DE&quot;, &quot;de&quot;, &quot;deu&quot;, &quot;German&quot;),</span>
+<span class="fc" id="L150">  GERMAN_AUSTRIA(&quot;de-AT&quot;, &quot;de&quot;, &quot;deu&quot;, &quot;German, Austria&quot;),</span>
+<span class="fc" id="L151">  GERMAN_BELGIUM(&quot;de-BE&quot;, &quot;de&quot;, &quot;deu&quot;, &quot;German, Belgium&quot;),</span>
+<span class="fc" id="L152">  GERMAN_LIECHTENSTEIN(&quot;de-LI&quot;, &quot;de&quot;, &quot;deu&quot;, &quot;German, Liechtenstein&quot;),</span>
+<span class="fc" id="L153">  GERMAN_LUXEMBOURG(&quot;de-LU&quot;, &quot;de&quot;, &quot;deu&quot;, &quot;German, Luxembourg&quot;),</span>
+<span class="fc" id="L154">  GERMAN_SWITZERLAND(&quot;de-CH&quot;, &quot;de&quot;, &quot;deu&quot;, &quot;German, Switzerland&quot;),</span>
+<span class="fc" id="L155">  GOTHIC(&quot;got-DE&quot;, &quot;got&quot;, &quot;got&quot;, &quot;Gothic&quot;),</span>
+<span class="fc" id="L156">  GREEK(&quot;el-GR&quot;, &quot;el&quot;, &quot;ell&quot;, &quot;Greek&quot;),</span>
+<span class="fc" id="L157">  GREEK_CYPRUS(&quot;el-CY&quot;, &quot;el&quot;, &quot;ell&quot;, &quot;Greek, Cyprus&quot;),</span>
+<span class="fc" id="L158">  GREENLANDIC(&quot;kl-GL&quot;, &quot;kl&quot;, &quot;kal&quot;, &quot;Greenlandic&quot;),</span>
+<span class="fc" id="L159">  GUARANI(&quot;gn-PY&quot;, &quot;gn&quot;, &quot;grn&quot;, &quot;Guarani&quot;),</span>
+<span class="fc" id="L160">  GUJARATI(&quot;gu-IN&quot;, &quot;gu&quot;, &quot;guj&quot;, &quot;Gujarati&quot;),</span>
+<span class="fc" id="L161">  HAITIAN_CREOLE(&quot;ht-HT&quot;, &quot;ht&quot;, &quot;hat&quot;, &quot;Haitian Creole&quot;),</span>
+<span class="fc" id="L162">  HAUSA(&quot;ha-HG&quot;, &quot;ha&quot;, &quot;hau&quot;, &quot;Hausa&quot;),</span>
+<span class="fc" id="L163">  HAWAIIAN(&quot;haw-US&quot;, &quot;haw&quot;, &quot;haw&quot;, &quot;Hawaiian&quot;),</span>
+<span class="fc" id="L164">  HEBREW(&quot;he-IL&quot;, &quot;he&quot;, &quot;heb&quot;, &quot;Hebrew&quot;),</span>
+<span class="fc" id="L165">  HERERO(&quot;hz-NA&quot;, &quot;hz&quot;, &quot;her&quot;, &quot;Herero&quot;),</span>
+<span class="fc" id="L166">  HILIGAYNON(&quot;hil-PH&quot;, &quot;hil&quot;, &quot;hil&quot;, &quot;Hiligaynon&quot;),</span>
+<span class="fc" id="L167">  HINDI(&quot;hi-IN&quot;, &quot;hi&quot;, &quot;hin&quot;, &quot;Hindi&quot;),</span>
+<span class="fc" id="L168">  HIRI_MOTU(&quot;ho-PG&quot;, &quot;ho&quot;, &quot;hmo&quot;, &quot;Hiri Motu&quot;),</span>
+<span class="fc" id="L169">  HMONG(&quot;hmn-CN&quot;, &quot;hmn&quot;, &quot;hmn&quot;, &quot;Hmong&quot;),</span>
+<span class="fc" id="L170">  HUNGARIAN(&quot;hu-HU&quot;, &quot;hu&quot;, &quot;hun&quot;, &quot;Hungarian&quot;),</span>
+<span class="fc" id="L171">  ICELANDIC(&quot;is-IS&quot;, &quot;is&quot;, &quot;isl&quot;, &quot;Icelandic&quot;),</span>
+<span class="fc" id="L172">  IDO(&quot;io-EN&quot;, &quot;io&quot;, &quot;ido&quot;, &quot;Ido&quot;),</span>
+<span class="fc" id="L173">  IGBO(&quot;ig-NG&quot;, &quot;ig&quot;, &quot;ibo&quot;, &quot;Igbo&quot;),</span>
+<span class="fc" id="L174">  ILOKANO(&quot;ilo-PH&quot;, &quot;ilo&quot;, &quot;ilo&quot;, &quot;Ilokano&quot;),</span>
+<span class="fc" id="L175">  INDONESIAN(&quot;id-ID&quot;, &quot;id&quot;, &quot;ind&quot;, &quot;Indonesian&quot;),</span>
+<span class="fc" id="L176">  INUKTITUT(&quot;iu-NU&quot;, &quot;iu&quot;, &quot;iku&quot;, &quot;Inuktitut&quot;),</span>
+<span class="fc" id="L177">  IRISH(&quot;ga-IE&quot;, &quot;ga&quot;, &quot;gle&quot;, &quot;Irish&quot;),</span>
+<span class="fc" id="L178">  ITALIAN(&quot;it-IT&quot;, &quot;it&quot;, &quot;ita&quot;, &quot;Italian&quot;),</span>
+<span class="fc" id="L179">  ITALIAN_SWITZERLAND(&quot;it-CH&quot;, &quot;it&quot;, &quot;ita&quot;, &quot;Italian, Switzerland&quot;),</span>
+<span class="fc" id="L180">  JAPANESE(&quot;ja-JP&quot;, &quot;ja&quot;, &quot;jpn&quot;, &quot;Japanese&quot;),</span>
+<span class="fc" id="L181">  JAVANESE(&quot;jv-ID&quot;, &quot;jv&quot;, &quot;jav&quot;, &quot;Javanese&quot;),</span>
+<span class="fc" id="L182">  QUICHE(&quot;quc-GT&quot;, &quot;quc&quot;, &quot;quc&quot;, &quot;K'iche'&quot;),</span>
+<span class="fc" id="L183">  KABYLE(&quot;kab-KAB&quot;, &quot;kab&quot;, &quot;kab&quot;, &quot;Kabyle&quot;),</span>
+<span class="fc" id="L184">  KANNADA(&quot;kn-IN&quot;, &quot;kn&quot;, &quot;kan&quot;, &quot;Kannada&quot;),</span>
+<span class="fc" id="L185">  KAPAMPANGAN(&quot;pam-PH&quot;, &quot;pam&quot;, &quot;pam&quot;, &quot;Kapampangan&quot;),</span>
+<span class="fc" id="L186">  KASHMIRI(&quot;ks-IN&quot;, &quot;ks&quot;, &quot;kas&quot;, &quot;Kashmiri&quot;),</span>
+<span class="fc" id="L187">  KASHMIRI_PAKISTAN(&quot;ks-PK&quot;, &quot;ks&quot;, &quot;kas&quot;, &quot;Kashmiri, Pakistan&quot;),</span>
+<span class="fc" id="L188">  KASHUBIAN(&quot;csb-PL&quot;, &quot;csb&quot;, &quot;csb&quot;, &quot;Kashubian&quot;),</span>
+<span class="fc" id="L189">  KAZAKH(&quot;kk-KZ&quot;, &quot;kk&quot;, &quot;kaz&quot;, &quot;Kazakh&quot;),</span>
+<span class="fc" id="L190">  KHMER(&quot;km-KH&quot;, &quot;km&quot;, &quot;khm&quot;, &quot;Khmer&quot;),</span>
+<span class="fc" id="L191">  KINYARWANDA(&quot;rw-RW&quot;, &quot;rw&quot;, &quot;kin&quot;, &quot;Kinyarwanda&quot;),</span>
+<span class="fc" id="L192">  KLINGON(&quot;tlh-AA&quot;, &quot;tlh&quot;, &quot;tlh&quot;, &quot;Klingon&quot;),</span>
+<span class="fc" id="L193">  KOMI(&quot;kv-KO&quot;, &quot;kv&quot;, &quot;kom&quot;, &quot;Komi&quot;),</span>
+<span class="fc" id="L194">  KONGO(&quot;kg-CG&quot;, &quot;kg&quot;, &quot;kon&quot;, &quot;Kongo&quot;),</span>
+<span class="fc" id="L195">  KONKANI(&quot;kok-IN&quot;, &quot;kok&quot;, &quot;kok&quot;, &quot;Konkani&quot;),</span>
+<span class="fc" id="L196">  KOREAN(&quot;ko-KR&quot;, &quot;ko&quot;, &quot;kor&quot;, &quot;Korean&quot;),</span>
+<span class="fc" id="L197">  KURDISH(&quot;ku-TR&quot;, &quot;ku&quot;, &quot;kur&quot;, &quot;Kurdish&quot;),</span>
+<span class="fc" id="L198">  KURMANJI_KURDISH(&quot;kmr-TR&quot;, &quot;ku&quot;, &quot;kmr&quot;, &quot;Kurmanji (Kurdish)&quot;),</span>
+<span class="fc" id="L199">  KWANYAMA(&quot;kj-AO&quot;, &quot;kj&quot;, &quot;kua&quot;, &quot;Kwanyama&quot;),</span>
+<span class="fc" id="L200">  KYRGYZ(&quot;ky-KG&quot;, &quot;ky&quot;, &quot;kir&quot;, &quot;Kyrgyz&quot;),</span>
+<span class="fc" id="L201">  LAO(&quot;lo-LA&quot;, &quot;lo&quot;, &quot;lao&quot;, &quot;Lao&quot;),</span>
+<span class="fc" id="L202">  LATIN(&quot;la-LA&quot;, &quot;la&quot;, &quot;lat&quot;, &quot;Latin&quot;),</span>
+<span class="fc" id="L203">  LATVIAN(&quot;lv-LV&quot;, &quot;lv&quot;, &quot;lav&quot;, &quot;Latvian&quot;),</span>
+<span class="fc" id="L204">  LIGURIAN(&quot;lij-IT&quot;, &quot;lij&quot;, &quot;lij&quot;, &quot;Ligurian&quot;),</span>
+<span class="fc" id="L205">  LIMBURGISH(&quot;li-LI&quot;, &quot;li&quot;, &quot;lim&quot;, &quot;Limburgish&quot;),</span>
+<span class="fc" id="L206">  LINGALA(&quot;ln-CD&quot;, &quot;ln&quot;, &quot;lin&quot;, &quot;Lingala&quot;),</span>
+<span class="fc" id="L207">  LITHUANIAN(&quot;lt-LT&quot;, &quot;lt&quot;, &quot;lit&quot;, &quot;Lithuanian&quot;),</span>
+<span class="fc" id="L208">  LOJBAN(&quot;jbo-EN&quot;, &quot;jbo&quot;, &quot;jbo&quot;, &quot;Lojban&quot;),</span>
+<span class="fc" id="L209">  LOLCAT(&quot;lol-US&quot;, &quot;lol&quot;, &quot;lol&quot;, &quot;LOLCAT&quot;),</span>
+<span class="fc" id="L210">  LOW_GERMAN(&quot;nds-DE&quot;, &quot;nds&quot;, &quot;nds&quot;, &quot;Low German&quot;),</span>
+<span class="fc" id="L211">  LOWER_SORBIAN(&quot;dsb-DE&quot;, &quot;dsb&quot;, &quot;dsb&quot;, &quot;Lower Sorbian&quot;),</span>
+<span class="fc" id="L212">  LUGANDA(&quot;lg-UG&quot;, &quot;lg&quot;, &quot;lug&quot;, &quot;Luganda&quot;),</span>
+<span class="fc" id="L213">  LUHYA(&quot;luy-KE&quot;, &quot;luy&quot;, &quot;luy&quot;, &quot;Luhya&quot;),</span>
+<span class="fc" id="L214">  LUXEMBOURGISH(&quot;lb-LU&quot;, &quot;lb&quot;, &quot;ltz&quot;, &quot;Luxembourgish&quot;),</span>
+<span class="fc" id="L215">  MACEDONIAN(&quot;mk-MK&quot;, &quot;mk&quot;, &quot;mkd&quot;, &quot;Macedonian&quot;),</span>
+<span class="fc" id="L216">  MAITHILI(&quot;mai-IN&quot;, &quot;mai&quot;, &quot;mai&quot;, &quot;Maithili&quot;),</span>
+<span class="fc" id="L217">  MALAGASY(&quot;mg-MG&quot;, &quot;mg&quot;, &quot;mlg&quot;, &quot;Malagasy&quot;),</span>
+<span class="fc" id="L218">  MALAY(&quot;ms-MY&quot;, &quot;ms&quot;, &quot;msa&quot;, &quot;Malay&quot;),</span>
+<span class="fc" id="L219">  MALAY_BRUNEI(&quot;ms-BN&quot;, &quot;ms&quot;, &quot;msa&quot;, &quot;Malay, Brunei&quot;),</span>
+<span class="fc" id="L220">  MALAYALAM(&quot;ml-IN&quot;, &quot;ml&quot;, &quot;mal&quot;, &quot;Malayalam&quot;),</span>
+<span class="fc" id="L221">  MALTESE(&quot;mt-MT&quot;, &quot;mt&quot;, &quot;mlt&quot;, &quot;Maltese&quot;),</span>
+<span class="fc" id="L222">  MANX(&quot;gv-IM&quot;, &quot;gv&quot;, &quot;glv&quot;, &quot;Manx&quot;),</span>
+<span class="fc" id="L223">  MAORI(&quot;mi-NZ&quot;, &quot;mi&quot;, &quot;mri&quot;, &quot;Maori&quot;),</span>
+<span class="fc" id="L224">  MAPUDUNGUN(&quot;arn-CL&quot;, &quot;arn&quot;, &quot;arn&quot;, &quot;Mapudungun&quot;),</span>
+<span class="fc" id="L225">  MARATHI(&quot;mr-IN&quot;, &quot;mr&quot;, &quot;mar&quot;, &quot;Marathi&quot;),</span>
+<span class="fc" id="L226">  MARSHALLESE(&quot;mh-MH&quot;, &quot;mh&quot;, &quot;mah&quot;, &quot;Marshallese&quot;),</span>
+<span class="fc" id="L227">  MOHAWK(&quot;moh-CA&quot;, &quot;moh&quot;, &quot;moh&quot;, &quot;Mohawk&quot;),</span>
+<span class="fc" id="L228">  MONGOLIAN(&quot;mn-MN&quot;, &quot;mn&quot;, &quot;mon&quot;, &quot;Mongolian&quot;),</span>
+<span class="fc" id="L229">  MONTENEGRIN_CYRILLIC(&quot;sr-Cyrl-ME&quot;, &quot;sr&quot;, &quot;srp&quot;, &quot;Montenegrin (Cyrillic)&quot;),</span>
+<span class="fc" id="L230">  MONTENEGRIN_LATIN(&quot;me-ME&quot;, &quot;me&quot;, &quot;srp&quot;, &quot;Montenegrin (Latin)&quot;),</span>
+<span class="fc" id="L231">  MOSSI(&quot;mos-MOS&quot;, &quot;mos&quot;, &quot;mos&quot;, &quot;Mossi&quot;),</span>
+<span class="fc" id="L232">  NAURU(&quot;na-NR&quot;, &quot;na&quot;, &quot;nau&quot;, &quot;Nauru&quot;),</span>
+<span class="fc" id="L233">  NDONGA(&quot;ng-NA&quot;, &quot;ng&quot;, &quot;ndo&quot;, &quot;Ndonga&quot;),</span>
+<span class="fc" id="L234">  NEPALI(&quot;ne-NP&quot;, &quot;ne&quot;, &quot;nep&quot;, &quot;Nepali&quot;),</span>
+<span class="fc" id="L235">  NEPALI_INDIA(&quot;ne-IN&quot;, &quot;ne&quot;, &quot;nep&quot;, &quot;Nepali, India&quot;),</span>
+<span class="fc" id="L236">  NIGERIAN_PIDGIN(&quot;pcm-NG&quot;, &quot;pcm&quot;, &quot;pcm&quot;, &quot;Nigerian Pidgin&quot;),</span>
+<span class="fc" id="L237">  NORTHERN_SAMI(&quot;se-NO&quot;, &quot;se&quot;, &quot;sme&quot;, &quot;Northern Sami&quot;),</span>
+<span class="fc" id="L238">  NORTHERN_SOTHO(&quot;ns-ZA&quot;, &quot;nso&quot;, &quot;nso&quot;, &quot;Northern Sotho&quot;),</span>
+<span class="fc" id="L239">  NORWEGIAN(&quot;no-NO&quot;, &quot;no&quot;, &quot;nor&quot;, &quot;Norwegian&quot;),</span>
+<span class="fc" id="L240">  NORWEGIAN_BOKMAL(&quot;nb-NO&quot;, &quot;nb&quot;, &quot;nob&quot;, &quot;Norwegian Bokmal&quot;),</span>
+<span class="fc" id="L241">  NORWEGIAN_NYNORSK(&quot;nn-NO&quot;, &quot;nn&quot;, &quot;nno&quot;, &quot;Norwegian Nynorsk&quot;),</span>
+<span class="fc" id="L242">  OCCITAN(&quot;oc-FR&quot;, &quot;oc&quot;, &quot;oci&quot;, &quot;Occitan&quot;),</span>
+<span class="fc" id="L243">  ODIA(&quot;or-IN&quot;, &quot;or&quot;, &quot;ori&quot;, &quot;Odia&quot;),</span>
+<span class="fc" id="L244">  OJIBWE(&quot;oj-CA&quot;, &quot;oj&quot;, &quot;oji&quot;, &quot;Ojibwe&quot;),</span>
+<span class="fc" id="L245">  OROMO(&quot;om-ET&quot;, &quot;om&quot;, &quot;orm&quot;, &quot;Oromo&quot;),</span>
+<span class="fc" id="L246">  OSSETIAN(&quot;os-SE&quot;, &quot;os&quot;, &quot;oss&quot;, &quot;Ossetian&quot;),</span>
+<span class="fc" id="L247">  PALI(&quot;pi-IN&quot;, &quot;pi&quot;, &quot;pli&quot;, &quot;Pali&quot;),</span>
+<span class="fc" id="L248">  PAPIAMENTO(&quot;pap-PAP&quot;, &quot;pap&quot;, &quot;pap&quot;, &quot;Papiamento&quot;),</span>
+<span class="fc" id="L249">  PASHTO(&quot;ps-AF&quot;, &quot;ps&quot;, &quot;pus&quot;, &quot;Pashto&quot;),</span>
+<span class="fc" id="L250">  PERSIAN(&quot;fa-IR&quot;, &quot;fa&quot;, &quot;fas&quot;, &quot;Persian&quot;),</span>
+<span class="fc" id="L251">  PIRATE_ENGLISH(&quot;en-PT&quot;, &quot;en&quot;, &quot;eng&quot;, &quot;Pirate English&quot;),</span>
+<span class="fc" id="L252">  POLISH(&quot;pl-PL&quot;, &quot;pl&quot;, &quot;pol&quot;, &quot;Polish&quot;),</span>
+<span class="fc" id="L253">  PORTUGUESE(&quot;pt-PT&quot;, &quot;pt&quot;, &quot;por&quot;, &quot;Portuguese&quot;),</span>
+<span class="fc" id="L254">  PORTUGUESE_BRAZILIAN(&quot;pt-BR&quot;, &quot;pt&quot;, &quot;por&quot;, &quot;Portuguese, Brazilian&quot;),</span>
+<span class="fc" id="L255">  PUNJABI(&quot;pa-IN&quot;, &quot;pa&quot;, &quot;pan&quot;, &quot;Punjabi&quot;),</span>
+<span class="fc" id="L256">  PUNJABI_PAKISTAN(&quot;pa-PK&quot;, &quot;pa&quot;, &quot;pan&quot;, &quot;Punjabi, Pakistan&quot;),</span>
+<span class="fc" id="L257">  QUECHUA(&quot;qu-PE&quot;, &quot;qu&quot;, &quot;que&quot;, &quot;Quechua&quot;),</span>
+<span class="fc" id="L258">  QUENYA(&quot;qya-AA&quot;, &quot;qya&quot;, &quot;qya&quot;, &quot;Quenya&quot;),</span>
+<span class="fc" id="L259">  ROMANIAN(&quot;ro-RO&quot;, &quot;ro&quot;, &quot;ron&quot;, &quot;Romanian&quot;),</span>
+<span class="fc" id="L260">  ROMANSH(&quot;rm-CH&quot;, &quot;rm&quot;, &quot;roh&quot;, &quot;Romansh&quot;),</span>
+<span class="fc" id="L261">  RUNDI(&quot;rn-BI&quot;, &quot;rn&quot;, &quot;run&quot;, &quot;Rundi&quot;),</span>
+<span class="fc" id="L262">  RUSSIAN(&quot;ru-RU&quot;, &quot;ru&quot;, &quot;rus&quot;, &quot;Russian&quot;),</span>
+<span class="fc" id="L263">  RUSSIAN_BELARUS(&quot;ru-BY&quot;, &quot;ru&quot;, &quot;rus&quot;, &quot;Russian, Belarus&quot;),</span>
+<span class="fc" id="L264">  RUSSIAN_MOLDOVA(&quot;ru-MD&quot;, &quot;ru&quot;, &quot;rus&quot;, &quot;Russian, Moldova&quot;),</span>
+<span class="fc" id="L265">  RUSSIAN_UKRAINE(&quot;ru-UA&quot;, &quot;ru&quot;, &quot;rus&quot;, &quot;Russian, Ukraine&quot;),</span>
+<span class="fc" id="L266">  RUSYN(&quot;ry-UA&quot;, &quot;ry&quot;, &quot;sla&quot;, &quot;Rusyn&quot;),</span>
+<span class="fc" id="L267">  SAKHA(&quot;sah-SAH&quot;, &quot;sah&quot;, &quot;sah&quot;, &quot;Sakha&quot;),</span>
+<span class="fc" id="L268">  SANGO(&quot;sg-CF&quot;, &quot;sg&quot;, &quot;sag&quot;, &quot;Sango&quot;),</span>
+<span class="fc" id="L269">  SANSKRIT(&quot;sa-IN&quot;, &quot;sa&quot;, &quot;san&quot;, &quot;Sanskrit&quot;),</span>
+<span class="fc" id="L270">  SANTALI(&quot;sat-IN&quot;, &quot;sat&quot;, &quot;sat&quot;, &quot;Santali&quot;),</span>
+<span class="fc" id="L271">  SARDINIAN(&quot;sc-IT&quot;, &quot;sc&quot;, &quot;srd&quot;, &quot;Sardinian&quot;),</span>
+<span class="fc" id="L272">  SCOTS(&quot;sco-GB&quot;, &quot;sco&quot;, &quot;sco&quot;, &quot;Scots&quot;),</span>
+<span class="fc" id="L273">  SCOTTISH_GAELIC(&quot;gd-GB&quot;, &quot;gd&quot;, &quot;gla&quot;, &quot;Scottish Gaelic&quot;),</span>
+<span class="fc" id="L274">  SERBIAN_CYRILLIC(&quot;sr-SP&quot;, &quot;sr&quot;, &quot;srp&quot;, &quot;Serbian (Cyrillic)&quot;),</span>
+<span class="fc" id="L275">  SERBIAN_LATIN(&quot;sr-CS&quot;, &quot;sr&quot;, &quot;srp&quot;, &quot;Serbian (Latin)&quot;),</span>
+<span class="fc" id="L276">  SERBO_CROATIAN(&quot;sh-HR&quot;, &quot;sh&quot;, &quot;hbs&quot;, &quot;Serbo-Croatian&quot;),</span>
+<span class="fc" id="L277">  SEYCHELLOIS_CREOLE(&quot;crs-SC&quot;, &quot;crs&quot;, &quot;crs&quot;, &quot;Seychellois Creole&quot;),</span>
+<span class="fc" id="L278">  SHONA(&quot;sn-ZW&quot;, &quot;sn&quot;, &quot;sna&quot;, &quot;Shona&quot;),</span>
+<span class="fc" id="L279">  SICHUAN_YI(&quot;ii-CN&quot;, &quot;ii&quot;, &quot;iii&quot;, &quot;Sichuan Yi&quot;),</span>
+<span class="fc" id="L280">  SINDHI(&quot;sd-PK&quot;, &quot;sd&quot;, &quot;snd&quot;, &quot;Sindhi&quot;),</span>
+<span class="fc" id="L281">  SINHALA(&quot;si-LK&quot;, &quot;si&quot;, &quot;sin&quot;, &quot;Sinhala&quot;),</span>
+<span class="fc" id="L282">  SLOVAK(&quot;sk-SK&quot;, &quot;sk&quot;, &quot;slk&quot;, &quot;Slovak&quot;),</span>
+<span class="fc" id="L283">  SLOVENIAN(&quot;sl-SI&quot;, &quot;sl&quot;, &quot;slv&quot;, &quot;Slovenian&quot;),</span>
+<span class="fc" id="L284">  SOMALI(&quot;so-SO&quot;, &quot;so&quot;, &quot;som&quot;, &quot;Somali&quot;),</span>
+<span class="fc" id="L285">  SONGHAY(&quot;son-ZA&quot;, &quot;son&quot;, &quot;son&quot;, &quot;Songhay&quot;),</span>
+<span class="fc" id="L286">  SORANI_KURDISH(&quot;ckb-IR&quot;, &quot;ku&quot;, &quot;ckb&quot;, &quot;Sorani (Kurdish)&quot;),</span>
+<span class="fc" id="L287">  SOUTHERN_NDEBELE(&quot;nr-ZA&quot;, &quot;nr&quot;, &quot;nbl&quot;, &quot;Southern Ndebele&quot;),</span>
+<span class="fc" id="L288">  SOUTHERN_SAMI(&quot;sma-NO&quot;, &quot;sma&quot;, &quot;sma&quot;, &quot;Southern Sami&quot;),</span>
+<span class="fc" id="L289">  SOUTHERN_SOTHO(&quot;st-ZA&quot;, &quot;st&quot;, &quot;sot&quot;, &quot;Southern Sotho&quot;),</span>
+<span class="fc" id="L290">  SPANISH(&quot;es-ES&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish&quot;),</span>
+<span class="fc" id="L291">  SPANISH_MODERN(&quot;es-EM&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish (Modern)&quot;),</span>
+<span class="fc" id="L292">  SPANISH_ARGENTINA(&quot;es-AR&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, Argentina&quot;),</span>
+<span class="fc" id="L293">  SPANISH_BOLIVIA(&quot;es-BO&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, Bolivia&quot;),</span>
+<span class="fc" id="L294">  SPANISH_CHILE(&quot;es-CL&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, Chile&quot;),</span>
+<span class="fc" id="L295">  SPANISH_COLOMBIA(&quot;es-CO&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, Colombia&quot;),</span>
+<span class="fc" id="L296">  SPANISH_COSTA_RICA(&quot;es-CR&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, Costa Rica&quot;),</span>
+<span class="fc" id="L297">  SPANISH_DOMINICAN_REPUBLIC(&quot;es-DO&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, Dominican Republic&quot;),</span>
+<span class="fc" id="L298">  SPANISH_ECUADOR(&quot;es-EC&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, Ecuador&quot;),</span>
+<span class="fc" id="L299">  SPANISH_EL_SALVADOR(&quot;es-SV&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, El Salvador&quot;),</span>
+<span class="fc" id="L300">  SPANISH_GUATEMALA(&quot;es-GT&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, Guatemala&quot;),</span>
+<span class="fc" id="L301">  SPANISH_HONDURAS(&quot;es-HN&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, Honduras&quot;),</span>
+<span class="fc" id="L302">  SPANISH_MEXICO(&quot;es-MX&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, Mexico&quot;),</span>
+<span class="fc" id="L303">  SPANISH_NICARAGUA(&quot;es-NI&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, Nicaragua&quot;),</span>
+<span class="fc" id="L304">  SPANISH_PANAMA(&quot;es-PA&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, Panama&quot;),</span>
+<span class="fc" id="L305">  SPANISH_PARAGUAY(&quot;es-PY&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, Paraguay&quot;),</span>
+<span class="fc" id="L306">  SPANISH_PERU(&quot;es-PE&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, Peru&quot;),</span>
+<span class="fc" id="L307">  SPANISH_PUERTO_RICO(&quot;es-PR&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, Puerto Rico&quot;),</span>
+<span class="fc" id="L308">  SPANISH_UNITED_STATES(&quot;es-US&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, United States&quot;),</span>
+<span class="fc" id="L309">  SPANISH_URUGUAY(&quot;es-UY&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, Uruguay&quot;),</span>
+<span class="fc" id="L310">  SPANISH_VENEZUELA(&quot;es-VE&quot;, &quot;es&quot;, &quot;spa&quot;, &quot;Spanish, Venezuela&quot;),</span>
+<span class="fc" id="L311">  SUNDANESE(&quot;su-ID&quot;, &quot;su&quot;, &quot;sun&quot;, &quot;Sundanese&quot;),</span>
+<span class="fc" id="L312">  SWAHILI(&quot;sw&quot;, &quot;sw&quot;, &quot;swa&quot;, &quot;Swahili&quot;),</span>
+<span class="fc" id="L313">  SWAHILI_KENYA(&quot;sw-KE&quot;, &quot;sw&quot;, &quot;swa&quot;, &quot;Swahili, Kenya&quot;),</span>
+<span class="fc" id="L314">  SWAHILI_TANZANIA(&quot;sw-TZ&quot;, &quot;sw&quot;, &quot;swa&quot;, &quot;Swahili, Tanzania&quot;),</span>
+<span class="fc" id="L315">  SWATI(&quot;ss-ZA&quot;, &quot;ss&quot;, &quot;ssw&quot;, &quot;Swati&quot;),</span>
+<span class="fc" id="L316">  SWEDISH(&quot;sv-SE&quot;, &quot;sv&quot;, &quot;swe&quot;, &quot;Swedish&quot;),</span>
+<span class="fc" id="L317">  SWEDISH_FINLAND(&quot;sv-FI&quot;, &quot;sv&quot;, &quot;swe&quot;, &quot;Swedish, Finland&quot;),</span>
+<span class="fc" id="L318">  SYRIAC(&quot;syc-SY&quot;, &quot;syc&quot;, &quot;syc&quot;, &quot;Syriac&quot;),</span>
+<span class="fc" id="L319">  TAGALOG(&quot;tl-PH&quot;, &quot;tl&quot;, &quot;tgl&quot;, &quot;Tagalog&quot;),</span>
+<span class="fc" id="L320">  TAHITIAN(&quot;ty-PF&quot;, &quot;ty&quot;, &quot;tah&quot;, &quot;Tahitian&quot;),</span>
+<span class="fc" id="L321">  TAJIK(&quot;tg-TJ&quot;, &quot;tg&quot;, &quot;tgk&quot;, &quot;Tajik&quot;),</span>
+<span class="fc" id="L322">  TALOSSAN(&quot;tzl-TZL&quot;, &quot;tzl&quot;, &quot;tzl&quot;, &quot;Talossan&quot;),</span>
+<span class="fc" id="L323">  TAMIL(&quot;ta-IN&quot;, &quot;ta&quot;, &quot;tam&quot;, &quot;Tamil&quot;),</span>
+<span class="fc" id="L324">  TATAR(&quot;tt-RU&quot;, &quot;tt&quot;, &quot;tat&quot;, &quot;Tatar&quot;),</span>
+<span class="fc" id="L325">  TELUGU(&quot;te-IN&quot;, &quot;te&quot;, &quot;tel&quot;, &quot;Telugu&quot;),</span>
+<span class="fc" id="L326">  TEM_KOTOKOLI(&quot;kdh-KDH&quot;, &quot;kdh&quot;, &quot;kdh&quot;, &quot;Tem (Kotokoli)&quot;),</span>
+<span class="fc" id="L327">  THAI(&quot;th-TH&quot;, &quot;th&quot;, &quot;tha&quot;, &quot;Thai&quot;),</span>
+<span class="fc" id="L328">  TIBETAN(&quot;bo-BT&quot;, &quot;bo&quot;, &quot;tib&quot;, &quot;Tibetan&quot;),</span>
+<span class="fc" id="L329">  TIGRINYA(&quot;ti-ER&quot;, &quot;ti&quot;, &quot;tir&quot;, &quot;Tigrinya&quot;),</span>
+<span class="fc" id="L330">  TSONGA(&quot;ts-ZA&quot;, &quot;ts&quot;, &quot;tso&quot;, &quot;Tsonga&quot;),</span>
+<span class="fc" id="L331">  TSWANA(&quot;tn-ZA&quot;, &quot;tn&quot;, &quot;tsn&quot;, &quot;Tswana&quot;),</span>
+<span class="fc" id="L332">  TURKISH(&quot;tr-TR&quot;, &quot;tr&quot;, &quot;tur&quot;, &quot;Turkish&quot;),</span>
+<span class="fc" id="L333">  TURKISH_CYPRUS(&quot;tr-CY&quot;, &quot;tr&quot;, &quot;tur&quot;, &quot;Turkish, Cyprus&quot;),</span>
+<span class="fc" id="L334">  TURKMEN(&quot;tk-TM&quot;, &quot;tk&quot;, &quot;tuk&quot;, &quot;Turkmen&quot;),</span>
+<span class="fc" id="L335">  UKRAINIAN(&quot;uk-UA&quot;, &quot;uk&quot;, &quot;ukr&quot;, &quot;Ukrainian&quot;),</span>
+<span class="fc" id="L336">  UPPER_SORBIAN(&quot;hsb-DE&quot;, &quot;hsb&quot;, &quot;hsb&quot;, &quot;Upper Sorbian&quot;),</span>
+<span class="fc" id="L337">  URDU_INDIA(&quot;ur-IN&quot;, &quot;ur&quot;, &quot;urd&quot;, &quot;Urdu (India)&quot;),</span>
+<span class="fc" id="L338">  URDU_PAKISTAN(&quot;ur-PK&quot;, &quot;ur&quot;, &quot;urd&quot;, &quot;Urdu (Pakistan)&quot;),</span>
+<span class="fc" id="L339">  UYGHUR(&quot;ug-CN&quot;, &quot;ug&quot;, &quot;uig&quot;, &quot;Uyghur&quot;),</span>
+<span class="fc" id="L340">  UZBEK(&quot;uz-UZ&quot;, &quot;uz&quot;, &quot;uzb&quot;, &quot;Uzbek&quot;),</span>
+<span class="fc" id="L341">  VALENCIAN(&quot;val-ES&quot;, &quot;val&quot;, &quot;val&quot;, &quot;Valencian&quot;),</span>
+<span class="fc" id="L342">  VENDA(&quot;ve-ZA&quot;, &quot;ve&quot;, &quot;ven&quot;, &quot;Venda&quot;),</span>
+<span class="fc" id="L343">  VENETIAN(&quot;vec-IT&quot;, &quot;vec&quot;, &quot;vec&quot;, &quot;Venetian&quot;),</span>
+<span class="fc" id="L344">  VIETNAMESE(&quot;vi-VN&quot;, &quot;vi&quot;, &quot;vie&quot;, &quot;Vietnamese&quot;),</span>
+<span class="fc" id="L345">  WALLOON(&quot;wa-BE&quot;, &quot;wa&quot;, &quot;wln&quot;, &quot;Walloon&quot;),</span>
+<span class="fc" id="L346">  WELSH(&quot;cy-GB&quot;, &quot;cy&quot;, &quot;cym&quot;, &quot;Welsh&quot;),</span>
+<span class="fc" id="L347">  WOLOF(&quot;wo-SN&quot;, &quot;wo&quot;, &quot;wol&quot;, &quot;Wolof&quot;),</span>
+<span class="fc" id="L348">  XHOSA(&quot;xh-ZA&quot;, &quot;xh&quot;, &quot;xho&quot;, &quot;Xhosa&quot;),</span>
+<span class="fc" id="L349">  YIDDISH(&quot;yi-DE&quot;, &quot;yi&quot;, &quot;yid&quot;, &quot;Yiddish&quot;),</span>
+<span class="fc" id="L350">  YORUBA(&quot;yo-NG&quot;, &quot;yo&quot;, &quot;yor&quot;, &quot;Yoruba&quot;),</span>
+<span class="fc" id="L351">  ZEELANDIC(&quot;zea-ZEA&quot;, &quot;zea&quot;, &quot;zea&quot;, &quot;Zeelandic&quot;),</span>
+<span class="fc" id="L352">  ZULU(&quot;zu-ZA&quot;, &quot;zu&quot;, &quot;zul&quot;, &quot;Zulu&quot;),</span>
+  /** Unknown or Invalid language. */
+<span class="fc" id="L354">  UNKNOWN(&quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;Unknown&quot;);</span>
+
+  private final String locale;
+  // ISO 639-1 code
+  private final String iso2LetterCode;
+  // ISO 639-3 code
+  private final String iso3LetterCode;
+  private final String name;
+
+<span class="fc" id="L363">  TranslationLanguage(String locale, String iso2LetterCode, String iso3LetterCode, String name) {</span>
+<span class="fc" id="L364">    this.locale = locale;</span>
+<span class="fc" id="L365">    this.iso2LetterCode = iso2LetterCode;</span>
+<span class="fc" id="L366">    this.iso3LetterCode = iso3LetterCode;</span>
+<span class="fc" id="L367">    this.name = name;</span>
+<span class="fc" id="L368">  }</span>
+
+  public String getLocale() {
+<span class="fc" id="L371">    return locale;</span>
+  }
+
+  public String getIso2LetterCode() {
+<span class="nc" id="L375">    return iso2LetterCode;</span>
+  }
+
+  public String getIso3LetterCode() {
+<span class="nc" id="L379">    return iso3LetterCode;</span>
+  }
+
+  public String getName() {
+<span class="nc" id="L383">    return name;</span>
+  }
+
+  /**
+   * Returns the corresponding {@link TranslationLanguage} for the locale specified.
+   *
+   * @param locale language locLW
+   * @return the matching TranslationLanguage or UNKNOWN
+   */
+  public static TranslationLanguage fromLocale(String locale) {
+<span class="pc bpc" id="L393" title="2 of 4 branches missed.">    if (locale != null &amp;&amp; !locale.isEmpty()) {</span>
+<span class="fc" id="L394">      String localeCode = locale.trim();</span>
+<span class="pc bpc" id="L395" title="1 of 2 branches missed.">      for (TranslationLanguage language : TranslationLanguage.values()) {</span>
+<span class="fc bfc" id="L396" title="All 2 branches covered.">        if (localeCode.equalsIgnoreCase(language.getLocale())) {</span>
+<span class="fc" id="L397">          return language;</span>
+        }
+      }
+    }
+<span class="nc" id="L401">    return UNKNOWN;</span>
+  }
+
+  /** Serializes the value using the locale. */
+  public static class LocaleSerializer extends SerializerBase&lt;TranslationLanguage&gt; {
+
+    public LocaleSerializer() {
+<span class="fc" id="L408">      super(TranslationLanguage.class);</span>
+<span class="fc" id="L409">    }</span>
+
+    @Override
+    public void serialize(
+        TranslationLanguage value, JsonGenerator jgen, SerializerProvider provider)
+        throws IOException {
+<span class="fc" id="L415">      jgen.writeString(value.getLocale());</span>
+<span class="fc" id="L416">    }</span>
+  }
+
+  /** Deserializes the value from the locale. */
+<span class="fc" id="L420">  public static class LocaleDeserializer extends JsonDeserializer&lt;TranslationLanguage&gt; {</span>
+
+    @Override
+    public TranslationLanguage deserialize(JsonParser jp, DeserializationContext ctxt)
+        throws IOException {
+      try {
+<span class="pc bpc" id="L426" title="2 of 4 branches missed.">        if (jp != null &amp;&amp; jp.getTextLength() &gt; 0) {</span>
+<span class="fc" id="L427">          return TranslationLanguage.fromLocale(jp.getText());</span>
+        } else {
+<span class="nc" id="L429">          return TranslationLanguage.UNKNOWN; // none provided</span>
+        }
+<span class="nc" id="L431">      } catch (Exception e) {</span>
+<span class="nc" id="L432">        throw new IOException(</span>
+            &quot;Unable to deserialize language from provided value (hint: are you using the locale?): &quot;
+<span class="nc" id="L434">                + jp.getText());</span>
+      }
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
