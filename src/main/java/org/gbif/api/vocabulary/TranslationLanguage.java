@@ -1,7 +1,5 @@
 package org.gbif.api.vocabulary;
 
-import org.gbif.common.shaded.com.google.common.base.Strings;
-
 import java.io.IOException;
 
 import org.codehaus.jackson.JsonGenerator;
@@ -377,7 +375,7 @@ public enum TranslationLanguage {
    * @return the matching TranslationLanguage or UNKNOWN
    */
   public static TranslationLanguage fromLocale(String locale) {
-    if (!Strings.isNullOrEmpty(locale)) {
+    if (locale != null && !locale.isEmpty()) {
       String localeCode = locale.trim();
       for (TranslationLanguage language : TranslationLanguage.values()) {
         if (localeCode.equalsIgnoreCase(language.getLocale())) {
