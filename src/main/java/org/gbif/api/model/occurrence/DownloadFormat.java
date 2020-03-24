@@ -19,15 +19,38 @@ package org.gbif.api.model.occurrence;
  * Download output requested format.
  */
 public enum DownloadFormat {
-  // Darwin Core Archive file that is a zip of all indexed fields in both verbatim and interpreted, plus multimedia and metadata files.
-  DWCA,
+  /**
+   * Darwin Core Archive file that is a zip of all indexed fields in both verbatim and interpreted, plus multimedia and metadata files.
+   */
+  DWCA(".zip"),
 
-  // Zipped text file of the most common indexed terms, but note that it is delimited by tabs, not commas.
-  SIMPLE_CSV,
+  /**
+   * Zipped text file of the most common indexed terms, but note that it is delimited by tabs, not commas.
+   */
+  SIMPLE_CSV(".zip"),
 
-  // AVRO (with Deflate compression codec) format export of the most common indexed terms.
-  SIMPLE_AVRO,
+  /**
+   * AVRO (with Deflate compression codec) format export of the most common indexed terms.
+   */
+  SIMPLE_AVRO(".avro"),
 
-  //CSV format export of the distinct species and taxonomic field associated to it.
-  SPECIES_LIST
+  /**
+   * TSV format export of the distinct species and taxonomic field associated to each.
+   */
+  SPECIES_LIST(".zip"),
+
+  /**
+   * Special AVRO format for the Map of Life project.
+   */
+  MAP_OF_LIFE(".avro");
+
+  private final String extension;
+
+  DownloadFormat(String extension) {
+    this.extension = extension;
+  }
+
+  public String getExtension() {
+    return extension;
+  }
 }
