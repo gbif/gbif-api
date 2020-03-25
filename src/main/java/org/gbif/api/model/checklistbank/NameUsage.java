@@ -113,6 +113,60 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   private Date lastInterpreted;
   private Set<NameUsageIssue> issues = EnumSet.noneOf(NameUsageIssue.class);
 
+  public NameUsage() {}
+
+  public NameUsage(NameUsage other) {
+    this.key = other.key;
+    this.nubKey = other.nubKey;
+    this.nameKey = other.nameKey;
+    this.taxonID = other.taxonID;
+    this.sourceTaxonKey = other.sourceTaxonKey;
+    this.kingdom = other.kingdom;
+    this.phylum = other.phylum;
+    this.clazz = other.clazz;
+    this.order = other.order;
+    this.family = other.family;
+    this.genus = other.genus;
+    this.subgenus = other.subgenus;
+    this.species = other.species;
+    this.kingdomKey = other.kingdomKey;
+    this.phylumKey = other.phylumKey;
+    this.classKey = other.classKey;
+    this.orderKey = other.orderKey;
+    this.familyKey = other.familyKey;
+    this.genusKey = other.genusKey;
+    this.subgenusKey = other.subgenusKey;
+    this.speciesKey = other.speciesKey;
+    this.datasetKey = other.datasetKey;
+    this.constituentKey = other.constituentKey;
+    this.parentKey = other.parentKey;
+    this.parent = other.parent;
+    this.proParteKey = other.proParteKey;
+    this.acceptedKey = other.acceptedKey;
+    this.accepted = other.accepted;
+    this.basionymKey = other.basionymKey;
+    this.basionym = other.basionym;
+    this.scientificName = other.scientificName;
+    this.canonicalName = other.canonicalName;
+    this.vernacularName = other.vernacularName;
+    this.authorship = other.authorship;
+    this.nameType = other.nameType;
+    this.rank = other.rank;
+    this.origin = other.origin;
+    this.taxonomicStatus = other.taxonomicStatus;
+    this.nomenclaturalStatus = other.nomenclaturalStatus;
+    this.remarks = other.remarks;
+    this.publishedIn = other.publishedIn;
+    this.accordingTo = other.accordingTo;
+    this.numDescendants = other.numDescendants;
+    this.references = other.references;
+    this.modified = other.modified;
+    this.deleted = other.deleted;
+    this.lastCrawled = other.lastCrawled;
+    this.lastInterpreted = other.lastInterpreted;
+    this.issues = other.issues;
+  }
+
   /**
    * @return the name key for retrieving a parsed name object
    */

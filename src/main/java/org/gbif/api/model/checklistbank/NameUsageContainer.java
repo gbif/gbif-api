@@ -19,21 +19,16 @@ import org.gbif.api.model.common.Identifier;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.ThreatStatus;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.StringJoiner;
 
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * An extension to a NameUsage adding all further properties that are not eagerly loaded.
@@ -44,11 +39,6 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 @SuppressWarnings("unused")
 public class NameUsageContainer extends NameUsage {
-
-  private static final ObjectMapper MAPPER = new ObjectMapper();
-  static {
-    MAPPER.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-  }
 
   private List<Description> descriptions = new ArrayList<>();
   private List<Distribution> distributions = new ArrayList<>();
@@ -72,12 +62,7 @@ public class NameUsageContainer extends NameUsage {
    * Constructs a NameUsageContainer from an existing NameUsage instance.
    */
   public NameUsageContainer(NameUsage usage) {
-    try {
-      JsonNode propTree = MAPPER.convertValue(usage, JsonNode.class);
-      MAPPER.readerForUpdating(this).readValue(propTree);
-    } catch (IOException e) {
-      throw new IllegalStateException("Failed to copy NameUsage properties to NameUsageContainer", e);
-    }
+    super(usage);
   }
 
   /**
@@ -401,19 +386,21 @@ public class NameUsageContainer extends NameUsage {
         synonyms, typeSpecimens, vernacularNames);
   }
 
+
+
   @Override
   public String toString() {
-    return new StringJoiner(", ", NameUsageContainer.class.getSimpleName() + "[", "]")
-      .add("descriptions=" + descriptions)
-      .add("distributions=" + distributions)
-      .add("identifiers=" + identifiers)
-      .add("media=" + media)
-      .add("referenceList=" + referenceList)
-      .add("speciesProfiles=" + speciesProfiles)
-      .add("synonyms=" + synonyms)
-      .add("combinations=" + combinations)
-      .add("typeSpecimens=" + typeSpecimens)
-      .add("vernacularNames=" + vernacularNames)
-      .toString();
+    return "NameUsageContainer{" +
+      "descriptions=" + descriptions +
+      ", distributions=" + distributions +
+      ", identifiers=" + identifiers +
+      ", media=" + media +
+      ", referenceList=" + referenceList +
+      ", speciesProfiles=" + speciesProfiles +
+      ", synonyms=" + synonyms +
+      ", combinations=" + combinations +
+      ", typeSpecimens=" + typeSpecimens +
+      ", vernacularNames=" + vernacularNames +
+      "} " + super.toString();
   }
 }
