@@ -35,14 +35,32 @@ public enum DownloadFormat {
   SIMPLE_AVRO(".avro"),
 
   /**
+   * AVRO (with Deflate compression codec) format export of the most common indexed terms, plus many verbatim terms.
+   *
+   * More verbatim terms may be added upon request.
+   */
+  SIMPLE_WITH_VERBATIM_AVRO(".avro"),
+
+  /**
    * TSV format export of the distinct species and taxonomic field associated to each.
    */
   SPECIES_LIST(".zip"),
 
   /**
-   * Special AVRO format for the Map of Life project.
+   * Special AVRO format for the <a href="https://mol.org/">Map of Life</a> project.
    */
-  MAP_OF_LIFE(".avro");
+  MAP_OF_LIFE(".avro"),
+
+  /**
+   * Special AVRO format for the <a href="https://bloodhound-tracker.net/">Bloodhound</a> project.
+   */
+  BLOODHOUND(".avro"),
+
+  /**
+   * Special CSV format for the <a href="https://www.iucn.org/">International Union for Conservation of Nature</a>
+   * <a href="https://www.iucnredlist.org/">Red List</a> project.
+   */
+  IUCN(".csv");
 
   private final String extension;
 
