@@ -54,7 +54,13 @@ public enum DownloadFormat {
   /**
    * Special AVRO format for the <a href="https://bloodhound-tracker.net/">Bloodhound</a> project.
    */
-  BLOODHOUND(".avro");
+  BLOODHOUND(".avro"),
+
+  /**
+   * Special CSV format for the <a href="https://www.iucn.org/">International Union for Conservation of Nature</a>
+   * <a href="https://www.iucnredlist.org/">Red List</a> project.
+   */
+  IUCN(".csv");
 
   private final String extension;
 
