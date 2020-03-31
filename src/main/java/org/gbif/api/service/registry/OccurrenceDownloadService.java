@@ -38,9 +38,9 @@ public interface OccurrenceDownloadService {
   void create(@NotNull Download download);
 
   /**
-   * Retrieves a occurrence download by its unique key.
+   * Retrieves a occurrence download by its unique key or DOI.
    */
-  Download get(@NotNull String key);
+  Download get(@NotNull String keyOrDoi);
 
   /**
    * Retrieves a pageable result of all the downloads, optionally the downloads can be filtered by status.
@@ -63,8 +63,13 @@ public interface OccurrenceDownloadService {
    * The Downloads in the DatasetOccurrenceDownloadUsages are null, to avoid redundant repetition of potentially large
    * objects.
    */
-  PagingResponse<DatasetOccurrenceDownloadUsage> listDatasetUsages(@NotNull String downloadKey,
+  PagingResponse<DatasetOccurrenceDownloadUsage> listDatasetUsages(@NotNull String keyOrDoi,
                                                                    @Nullable Pageable page);
+
+  /**
+   * Retrieve citation details of a download by its unique key or DOI.
+   */
+  String getCitation(@NotNull String keyOrDoi);
 
   /**
    * Retrieves downloads monthly stats by country (user and publishing country) and dataset.
@@ -80,7 +85,7 @@ public interface OccurrenceDownloadService {
                                                                @Nullable UUID datasetKey);
   /**
    * Persists usages of datasets in an occurrence download.
-   * @param downloadKey downloadkey of the datasets usage information.
+   * @param downloadKey downloadkey of the datasets' usage information.
    * @param datasetCitations map of datasetkey as key and number of records as value.
    */
   void createUsages(@NotNull String downloadKey, @NotNull Map<UUID, Long> datasetCitations);
