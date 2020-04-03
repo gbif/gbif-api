@@ -31,7 +31,9 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
@@ -88,7 +90,7 @@ public class Institution
   private List<Identifier> identifiers = new ArrayList<>();
   private List<Person> contacts = new ArrayList<>();
   private List<MachineTag> machineTags = new ArrayList<>();
-  private List<AlternativeCode> alternativeCodes = new ArrayList<>();
+  private Map<String, String> alternativeCodes = new HashMap<>();
 
   /** GBIF unique identifier. */
   @Override
@@ -432,11 +434,11 @@ public class Institution
   }
 
   /** Alternative codes for an institution. */
-  public List<AlternativeCode> getAlternativeCodes() {
+  public Map<String, String> getAlternativeCodes() {
     return alternativeCodes;
   }
 
-  public void setAlternativeCodes(List<AlternativeCode> alternativeCodes) {
+  public void setAlternativeCodes(Map<String, String> alternativeCodes) {
     this.alternativeCodes = alternativeCodes;
   }
 
