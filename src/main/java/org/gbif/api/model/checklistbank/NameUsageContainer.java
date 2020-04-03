@@ -19,21 +19,17 @@ import org.gbif.api.model.common.Identifier;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.ThreatStatus;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.StringJoiner;
 
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * An extension to a NameUsage adding all further properties that are not eagerly loaded.
@@ -44,12 +40,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 @SuppressWarnings("unused")
 public class NameUsageContainer extends NameUsage {
-
-  private static final ObjectMapper JACKSON2_MAPPER = new ObjectMapper();
-
-  static {
-    JACKSON2_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-  }
 
   private List<Description> descriptions = new ArrayList<>();
   private List<Distribution> distributions = new ArrayList<>();
@@ -73,12 +63,7 @@ public class NameUsageContainer extends NameUsage {
    * Constructs a NameUsageContainer from an existing NameUsage instance.
    */
   public NameUsageContainer(NameUsage usage) {
-    try {
-      final JsonNode propTreeJackson2 = JACKSON2_MAPPER.convertValue(usage, JsonNode.class);
-      JACKSON2_MAPPER.readerForUpdating(this).readValue(propTreeJackson2);
-    } catch (IOException e) {
-      throw new IllegalStateException("Failed to copy NameUsage properties to NameUsageContainer", e);
-    }
+    super(usage);
   }
 
   /**
@@ -154,7 +139,7 @@ public class NameUsageContainer extends NameUsage {
    * @return the list of all URL Identifier
    */
   @NotNull
-  @com.fasterxml.jackson.annotation.JsonIgnore
+  @JsonIgnore
   public List<Identifier> getIdentifierByType(final IdentifierType type) {
     List<Identifier> ids = new ArrayList<>();
     for (Identifier i : identifiers) {
@@ -404,17 +389,17 @@ public class NameUsageContainer extends NameUsage {
 
   @Override
   public String toString() {
-    return new StringJoiner(", ", NameUsageContainer.class.getSimpleName() + "[", "]")
-      .add("descriptions=" + descriptions)
-      .add("distributions=" + distributions)
-      .add("identifiers=" + identifiers)
-      .add("media=" + media)
-      .add("referenceList=" + referenceList)
-      .add("speciesProfiles=" + speciesProfiles)
-      .add("synonyms=" + synonyms)
-      .add("combinations=" + combinations)
-      .add("typeSpecimens=" + typeSpecimens)
-      .add("vernacularNames=" + vernacularNames)
-      .toString();
+    return "NameUsageContainer{" +
+      "descriptions=" + descriptions +
+      ", distributions=" + distributions +
+      ", identifiers=" + identifiers +
+      ", media=" + media +
+      ", referenceList=" + referenceList +
+      ", speciesProfiles=" + speciesProfiles +
+      ", synonyms=" + synonyms +
+      ", combinations=" + combinations +
+      ", typeSpecimens=" + typeSpecimens +
+      ", vernacularNames=" + vernacularNames +
+      "} " + super.toString();
   }
 }
