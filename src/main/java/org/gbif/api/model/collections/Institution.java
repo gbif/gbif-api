@@ -42,11 +42,17 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * The owner or location of collection.
- * Usually an established organization or foundation, especially one dedicated to education, public service, or culture.
+ * The owner or location of collection. Usually an established organization or foundation,
+ * especially one dedicated to education, public service, or culture.
  */
 @SuppressWarnings("unused")
-public class Institution implements CollectionEntity, Contactable, Taggable, MachineTaggable, Identifiable, LenientEquals<Institution> {
+public class Institution
+    implements CollectionEntity,
+        Contactable,
+        Taggable,
+        MachineTaggable,
+        Identifiable,
+        LenientEquals<Institution> {
 
   private UUID key;
   private String code;
@@ -82,10 +88,9 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
   private List<Identifier> identifiers = new ArrayList<>();
   private List<Person> contacts = new ArrayList<>();
   private List<MachineTag> machineTags = new ArrayList<>();
+  private List<AlternativeCode> alternativeCodes = new ArrayList<>();
 
-  /**
-   * GBIF unique identifier.
-   */
+  /** GBIF unique identifier. */
   @Override
   public UUID getKey() {
     return key;
@@ -96,9 +101,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.key = key;
   }
 
-  /**
-   * Code used to identified the collection.
-   */
+  /** Code used to identified the collection. */
   @NotNull
   public String getCode() {
     return code;
@@ -108,9 +111,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.code = code;
   }
 
-  /**
-   * Name or title of a institution.
-   */
+  /** Name or title of a institution. */
   @NotNull
   public String getName() {
     return name;
@@ -120,9 +121,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.name = name;
   }
 
-  /**
-   * Textual description of institution.
-   */
+  /** Textual description of institution. */
   @Nullable
   @Size(min = 10)
   public String getDescription() {
@@ -133,9 +132,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.description = description;
   }
 
-  /**
-   * Describes the main activity of a institution.
-   */
+  /** Describes the main activity of a institution. */
   public InstitutionType getType() {
     return type;
   }
@@ -144,9 +141,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.type = type;
   }
 
-  /**
-   * Is the institution active/operational?.
-   */
+  /** Is the institution active/operational?. */
   public boolean isActive() {
     return active;
   }
@@ -171,9 +166,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.phone = phone;
   }
 
-  /**
-   * URL to the home page of a institution.
-   */
+  /** URL to the home page of a institution. */
   @HttpURI
   @Nullable
   public URI getHomepage() {
@@ -184,9 +177,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.homepage = homepage;
   }
 
-  /**
-   * URL to the main catalog of a institution.
-   */
+  /** URL to the main catalog of a institution. */
   @HttpURI
   @Nullable
   public URI getCatalogUrl() {
@@ -197,9 +188,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.catalogUrl = catalogUrl;
   }
 
-  /**
-   * Machine consumable endpoint of a institution and probably its collections.
-   */
+  /** Machine consumable endpoint of a institution and probably its collections. */
   @HttpURI
   @Nullable
   public URI getApiUrl() {
@@ -210,9 +199,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.apiUrl = apiUrl;
   }
 
-  /**
-   * Governance nature of a institution.
-   */
+  /** Governance nature of a institution. */
   public InstitutionGovernance getInstitutionalGovernance() {
     return institutionalGovernance;
   }
@@ -221,9 +208,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.institutionalGovernance = institutionalGovernance;
   }
 
-  /**
-   * Activities to which an institution is dedicated.
-   */
+  /** Activities to which an institution is dedicated. */
   public List<Discipline> getDisciplines() {
     return disciplines;
   }
@@ -232,9 +217,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.disciplines = disciplines;
   }
 
-  /**
-   * Decimal latitude of where this institution is located.
-   */
+  /** Decimal latitude of where this institution is located. */
   public BigDecimal getLatitude() {
     return latitude;
   }
@@ -243,9 +226,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.latitude = latitude;
   }
 
-  /**
-   * Decimal longitude of where this institution is located.
-   */
+  /** Decimal longitude of where this institution is located. */
   public BigDecimal getLongitude() {
     return longitude;
   }
@@ -278,9 +259,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.address = address;
   }
 
-  /**
-   * Alternative names of institution.
-   */
+  /** Alternative names of institution. */
   public List<String> getAdditionalNames() {
     return additionalNames;
   }
@@ -289,9 +268,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.additionalNames = additionalNames;
   }
 
-  /**
-   * Date when the institution was founded or established.
-   */
+  /** Date when the institution was founded or established. */
   public Date getFoundingDate() {
     return foundingDate;
   }
@@ -300,9 +277,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.foundingDate = foundingDate;
   }
 
-  /**
-   * Geographical coverage of the activities performed by an institution.
-   */
+  /** Geographical coverage of the activities performed by an institution. */
   public String getGeographicDescription() {
     return geographicDescription;
   }
@@ -311,9 +286,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.geographicDescription = geographicDescription;
   }
 
-  /**
-   * Taxonomic description of the collections maintained by a institution.
-   */
+  /** Taxonomic description of the collections maintained by a institution. */
   public String getTaxonomicDescription() {
     return taxonomicDescription;
   }
@@ -322,9 +295,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.taxonomicDescription = taxonomicDescription;
   }
 
-  /**
-   * Estimated number of specimens hosted by an institution.
-   */
+  /** Estimated number of specimens hosted by an institution. */
   public int getNumberSpecimens() {
     return numberSpecimens;
   }
@@ -333,9 +304,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.numberSpecimens = numberSpecimens;
   }
 
-  /**
-   * Was the institution record imported form IndexHerbariorum.
-   */
+  /** Was the institution record imported form IndexHerbariorum. */
   public boolean isIndexHerbariorumRecord() {
     return indexHerbariorumRecord;
   }
@@ -344,9 +313,7 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.indexHerbariorumRecord = indexHerbariorumRecord;
   }
 
-  /**
-   * Logo/Image that identifies the institution.
-   */
+  /** Logo/Image that identifies the institution. */
   @HttpURI
   @Nullable
   public URI getLogoUrl() {
@@ -358,7 +325,8 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
   }
 
   /**
-   * Cites (see http://ec.europa.eu/environment/cites/info_permits_en.htm) license given for this collection.
+   * Cites (see http://ec.europa.eu/environment/cites/info_permits_en.htm) license given for this
+   * collection.
    */
   public String getCitesPermitNumber() {
     return citesPermitNumber;
@@ -463,122 +431,136 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
     this.machineTags.add(machineTag);
   }
 
+  /** Alternative codes for an institution. */
+  public List<AlternativeCode> getAlternativeCodes() {
+    return alternativeCodes;
+  }
+
+  public void setAlternativeCodes(List<AlternativeCode> alternativeCodes) {
+    this.alternativeCodes = alternativeCodes;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Institution that = (Institution) o;
     return active == that.active
-           && numberSpecimens == that.numberSpecimens
-           && indexHerbariorumRecord == that.indexHerbariorumRecord
-           && Objects.equals(key, that.key)
-           && Objects.equals(code, that.code)
-           && Objects.equals(name, that.name)
-           && Objects.equals(description, that.description)
-           && type == that.type
-           && Objects.equals(email, that.email)
-           && Objects.equals(phone, that.phone)
-           && Objects.equals(homepage, that.homepage)
-           && Objects.equals(catalogUrl, that.catalogUrl)
-           && Objects.equals(apiUrl, that.apiUrl)
-           && institutionalGovernance == that.institutionalGovernance
-           && Objects.equals(disciplines, that.disciplines)
-           && Objects.equals(latitude, that.latitude)
-           && Objects.equals(longitude, that.longitude)
-           && Objects.equals(mailingAddress, that.mailingAddress)
-           && Objects.equals(address, that.address)
-           && Objects.equals(additionalNames, that.additionalNames)
-           && Objects.equals(foundingDate, that.foundingDate)
-           && Objects.equals(geographicDescription, that.geographicDescription)
-           && Objects.equals(taxonomicDescription, that.taxonomicDescription)
-           && Objects.equals(logoUrl, that.logoUrl)
-           && Objects.equals(citesPermitNumber, that.citesPermitNumber)
-           && Objects.equals(createdBy, that.createdBy)
-           && Objects.equals(modifiedBy, that.modifiedBy)
-           && Objects.equals(created, that.created)
-           && Objects.equals(modified, that.modified)
-           && Objects.equals(deleted, that.deleted)
-           && Objects.equals(tags, that.tags)
-           && Objects.equals(identifiers, that.identifiers)
-           && Objects.equals(contacts, that.contacts)
-           && Objects.equals(machineTags, that.machineTags);
+        && numberSpecimens == that.numberSpecimens
+        && indexHerbariorumRecord == that.indexHerbariorumRecord
+        && Objects.equals(key, that.key)
+        && Objects.equals(code, that.code)
+        && Objects.equals(name, that.name)
+        && Objects.equals(description, that.description)
+        && type == that.type
+        && Objects.equals(email, that.email)
+        && Objects.equals(phone, that.phone)
+        && Objects.equals(homepage, that.homepage)
+        && Objects.equals(catalogUrl, that.catalogUrl)
+        && Objects.equals(apiUrl, that.apiUrl)
+        && institutionalGovernance == that.institutionalGovernance
+        && Objects.equals(disciplines, that.disciplines)
+        && Objects.equals(latitude, that.latitude)
+        && Objects.equals(longitude, that.longitude)
+        && Objects.equals(mailingAddress, that.mailingAddress)
+        && Objects.equals(address, that.address)
+        && Objects.equals(additionalNames, that.additionalNames)
+        && Objects.equals(foundingDate, that.foundingDate)
+        && Objects.equals(geographicDescription, that.geographicDescription)
+        && Objects.equals(taxonomicDescription, that.taxonomicDescription)
+        && Objects.equals(logoUrl, that.logoUrl)
+        && Objects.equals(citesPermitNumber, that.citesPermitNumber)
+        && Objects.equals(createdBy, that.createdBy)
+        && Objects.equals(modifiedBy, that.modifiedBy)
+        && Objects.equals(created, that.created)
+        && Objects.equals(modified, that.modified)
+        && Objects.equals(deleted, that.deleted)
+        && Objects.equals(tags, that.tags)
+        && Objects.equals(identifiers, that.identifiers)
+        && Objects.equals(contacts, that.contacts)
+        && Objects.equals(machineTags, that.machineTags)
+        && Objects.equals(alternativeCodes, that.alternativeCodes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key,
-                        code,
-                        name,
-                        description,
-                        type,
-                        active,
-                        email,
-                        phone,
-                        homepage,
-                        catalogUrl,
-                        apiUrl,
-                        institutionalGovernance,
-                        disciplines,
-                        latitude,
-                        longitude,
-                        mailingAddress,
-                        address,
-                        additionalNames,
-                        foundingDate,
-                        geographicDescription,
-                        taxonomicDescription,
-                        numberSpecimens,
-                        indexHerbariorumRecord,
-                        logoUrl,
-                        citesPermitNumber,
-                        createdBy,
-                        modifiedBy,
-                        created,
-                        modified,
-                        deleted,
-                        tags,
-                        identifiers,
-                        contacts,
-                        machineTags);
+    return Objects.hash(
+        key,
+        code,
+        name,
+        description,
+        type,
+        active,
+        email,
+        phone,
+        homepage,
+        catalogUrl,
+        apiUrl,
+        institutionalGovernance,
+        disciplines,
+        latitude,
+        longitude,
+        mailingAddress,
+        address,
+        additionalNames,
+        foundingDate,
+        geographicDescription,
+        taxonomicDescription,
+        numberSpecimens,
+        indexHerbariorumRecord,
+        logoUrl,
+        citesPermitNumber,
+        createdBy,
+        modifiedBy,
+        created,
+        modified,
+        deleted,
+        tags,
+        identifiers,
+        contacts,
+        machineTags,
+        alternativeCodes);
   }
 
   @Override
   public String toString() {
-    return new StringJoiner(", ", Institution.class.getSimpleName() + "[", "]").add("key=" + key)
-      .add("code='" + code + "'")
-      .add("name='" + name + "'")
-      .add("description='" + description + "'")
-      .add("type=" + type)
-      .add("active=" + active)
-      .add("email=" + email)
-      .add("phone=" + phone)
-      .add("homepage=" + homepage)
-      .add("catalogUrl=" + catalogUrl)
-      .add("apiUrl=" + apiUrl)
-      .add("institutionalGovernance=" + institutionalGovernance)
-      .add("disciplines=" + disciplines)
-      .add("latitude=" + latitude)
-      .add("longitude=" + longitude)
-      .add("mailingAddress=" + mailingAddress)
-      .add("address=" + address)
-      .add("additionalNames=" + additionalNames)
-      .add("foundingDate=" + foundingDate)
-      .add("geographicDescription='" + geographicDescription + "'")
-      .add("taxonomicDescription='" + taxonomicDescription + "'")
-      .add("numberSpecimens=" + numberSpecimens)
-      .add("indexHerbariorumRecord=" + indexHerbariorumRecord)
-      .add("logoUrl=" + logoUrl)
-      .add("citesPermitNumber='" + citesPermitNumber + "'")
-      .add("createdBy='" + createdBy + "'")
-      .add("modifiedBy='" + modifiedBy + "'")
-      .add("created=" + created)
-      .add("modified=" + modified)
-      .add("deleted=" + deleted)
-      .add("tags=" + tags)
-      .add("identifiers=" + identifiers)
-      .add("contacts=" + contacts)
-      .add("machineTags=" + machineTags)
-      .toString();
+    return new StringJoiner(", ", Institution.class.getSimpleName() + "[", "]")
+        .add("key=" + key)
+        .add("code='" + code + "'")
+        .add("name='" + name + "'")
+        .add("description='" + description + "'")
+        .add("type=" + type)
+        .add("active=" + active)
+        .add("email=" + email)
+        .add("phone=" + phone)
+        .add("homepage=" + homepage)
+        .add("catalogUrl=" + catalogUrl)
+        .add("apiUrl=" + apiUrl)
+        .add("institutionalGovernance=" + institutionalGovernance)
+        .add("disciplines=" + disciplines)
+        .add("latitude=" + latitude)
+        .add("longitude=" + longitude)
+        .add("mailingAddress=" + mailingAddress)
+        .add("address=" + address)
+        .add("additionalNames=" + additionalNames)
+        .add("foundingDate=" + foundingDate)
+        .add("geographicDescription='" + geographicDescription + "'")
+        .add("taxonomicDescription='" + taxonomicDescription + "'")
+        .add("numberSpecimens=" + numberSpecimens)
+        .add("indexHerbariorumRecord=" + indexHerbariorumRecord)
+        .add("logoUrl=" + logoUrl)
+        .add("citesPermitNumber='" + citesPermitNumber + "'")
+        .add("createdBy='" + createdBy + "'")
+        .add("modifiedBy='" + modifiedBy + "'")
+        .add("created=" + created)
+        .add("modified=" + modified)
+        .add("deleted=" + deleted)
+        .add("tags=" + tags)
+        .add("identifiers=" + identifiers)
+        .add("contacts=" + contacts)
+        .add("machineTags=" + machineTags)
+        .add("alternativeCodes=" + alternativeCodes)
+        .toString();
   }
 
   @Override
@@ -587,30 +569,31 @@ public class Institution implements CollectionEntity, Contactable, Taggable, Mac
       return true;
     }
     return active == other.active
-           && numberSpecimens == other.numberSpecimens
-           && indexHerbariorumRecord == other.indexHerbariorumRecord
-           && Objects.equals(key, other.key)
-           && Objects.equals(code, other.code)
-           && Objects.equals(name, other.name)
-           && Objects.equals(description, other.description)
-           && type == other.type
-           && Objects.equals(email, other.email)
-           && Objects.equals(phone, other.phone)
-           && Objects.equals(homepage, other.homepage)
-           && Objects.equals(catalogUrl, other.catalogUrl)
-           && Objects.equals(apiUrl, other.apiUrl)
-           && institutionalGovernance == other.institutionalGovernance
-           && Objects.equals(disciplines, other.disciplines)
-           && Objects.equals(latitude, other.latitude)
-           && Objects.equals(longitude, other.longitude)
-           && Objects.equals(mailingAddress, other.mailingAddress)
-           && Objects.equals(address, other.address)
-           && Objects.equals(additionalNames, other.additionalNames)
-           && Objects.equals(foundingDate, other.foundingDate)
-           && Objects.equals(geographicDescription, other.geographicDescription)
-           && Objects.equals(taxonomicDescription, other.taxonomicDescription)
-           && Objects.equals(logoUrl, other.logoUrl)
-           && Objects.equals(citesPermitNumber, other.citesPermitNumber)
-           && Objects.equals(deleted, other.deleted);
+        && numberSpecimens == other.numberSpecimens
+        && indexHerbariorumRecord == other.indexHerbariorumRecord
+        && Objects.equals(key, other.key)
+        && Objects.equals(code, other.code)
+        && Objects.equals(name, other.name)
+        && Objects.equals(description, other.description)
+        && type == other.type
+        && Objects.equals(email, other.email)
+        && Objects.equals(phone, other.phone)
+        && Objects.equals(homepage, other.homepage)
+        && Objects.equals(catalogUrl, other.catalogUrl)
+        && Objects.equals(apiUrl, other.apiUrl)
+        && institutionalGovernance == other.institutionalGovernance
+        && Objects.equals(disciplines, other.disciplines)
+        && Objects.equals(latitude, other.latitude)
+        && Objects.equals(longitude, other.longitude)
+        && Objects.equals(mailingAddress, other.mailingAddress)
+        && Objects.equals(address, other.address)
+        && Objects.equals(additionalNames, other.additionalNames)
+        && Objects.equals(foundingDate, other.foundingDate)
+        && Objects.equals(geographicDescription, other.geographicDescription)
+        && Objects.equals(taxonomicDescription, other.taxonomicDescription)
+        && Objects.equals(logoUrl, other.logoUrl)
+        && Objects.equals(citesPermitNumber, other.citesPermitNumber)
+        && Objects.equals(deleted, other.deleted)
+        && Objects.equals(alternativeCodes, other.alternativeCodes);
   }
 }
