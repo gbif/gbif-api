@@ -25,7 +25,8 @@ public enum StepType {
   ABCD_TO_VERBATIM("abcdToVerbatim", 1),
   VERBATIM_TO_INTERPRETED("verbatimToInterpreted", 2),
   INTERPRETED_TO_INDEX("interpretedToIndex", 3),
-  HDFS_VIEW("hdfsView", 3);
+  HDFS_VIEW("hdfsView", 3),
+  FRAGMENTER("fragmenter", 3);
 
   private String label;
   private int executionOrder;
