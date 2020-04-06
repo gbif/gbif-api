@@ -45,6 +45,7 @@ public interface InstitutionService
    * @param contactKey to filter by a contact
    * @param code code of the institution
    * @param name name of the institution
+   * @param alternativeCode alternative code of the institution
    * @param page paging parameters
    * @return a list of entities ordered by their creation date, newest coming first
    */
@@ -53,6 +54,7 @@ public interface InstitutionService
       @Nullable UUID contactKey,
       @Nullable String code,
       @Nullable String name,
+      @Nullable String alternativeCode,
       @Nullable Pageable page);
 
   /**
