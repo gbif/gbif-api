@@ -28,9 +28,14 @@ import org.gbif.api.model.pipelines.ws.RunAllParams;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+@SuppressWarnings("unused")
 public interface PipelinesHistoryService {
+
+  String STEPS_REQUIRED_MESSAGE = "Steps parameter is required";
+  String REASON_REQUIRED_MESSAGE = "Reason parameter is required";
 
   /**
    * Lists the history of all {@link PipelineProcess}, sorted descending from the most recent one.
@@ -118,8 +123,8 @@ public interface PipelinesHistoryService {
    * @return {@link RunPipelineResponse}.
    */
   RunPipelineResponse runAll(
-    @NotNull String steps,
-    @NotNull String reason,
+    @NotBlank(message = STEPS_REQUIRED_MESSAGE) String steps,
+    @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
     @Nullable RunAllParams runAllParams);
 
   /**
@@ -132,8 +137,8 @@ public interface PipelinesHistoryService {
    */
   RunPipelineResponse runPipelineAttempt(
     @NotNull UUID datasetKey,
-    @NotNull String steps,
-    @NotNull String reason);
+    @NotBlank(message = STEPS_REQUIRED_MESSAGE) String steps,
+    @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason);
 
   /**
    * Re-run a pipeline step.
@@ -147,6 +152,6 @@ public interface PipelinesHistoryService {
   RunPipelineResponse runPipelineAttempt(
     @NotNull UUID datasetKey,
     int attempt,
-    @NotNull String steps,
-    @NotNull String reason);
+    @NotBlank(message = STEPS_REQUIRED_MESSAGE) String steps,
+    @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason);
 }
