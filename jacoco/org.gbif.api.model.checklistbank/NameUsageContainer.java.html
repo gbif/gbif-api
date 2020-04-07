@@ -19,21 +19,16 @@ import org.gbif.api.model.common.Identifier;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.ThreatStatus;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.StringJoiner;
 
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * An extension to a NameUsage adding all further properties that are not eagerly loaded.
@@ -45,70 +40,60 @@ import org.codehaus.jackson.map.ObjectMapper;
 @SuppressWarnings(&quot;unused&quot;)
 public class NameUsageContainer extends NameUsage {
 
-<span class="fc" id="L48">  private static final ObjectMapper MAPPER = new ObjectMapper();</span>
-  static {
-<span class="fc" id="L50">    MAPPER.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);</span>
-<span class="fc" id="L51">  }</span>
-
-<span class="fc" id="L53">  private List&lt;Description&gt; descriptions = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L54">  private List&lt;Distribution&gt; distributions = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L55">  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L56">  private List&lt;NameUsageMediaObject&gt; media = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L57">  private List&lt;Reference&gt; referenceList = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L58">  private List&lt;SpeciesProfile&gt; speciesProfiles = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L59">  private List&lt;NameUsage&gt; synonyms = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L60">  private List&lt;NameUsage&gt; combinations = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L61">  private List&lt;TypeSpecimen&gt; typeSpecimens = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L62">  private List&lt;VernacularName&gt; vernacularNames = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L43">  private List&lt;Description&gt; descriptions = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L44">  private List&lt;Distribution&gt; distributions = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L45">  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L46">  private List&lt;NameUsageMediaObject&gt; media = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L47">  private List&lt;Reference&gt; referenceList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L48">  private List&lt;SpeciesProfile&gt; speciesProfiles = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L49">  private List&lt;NameUsage&gt; synonyms = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L50">  private List&lt;NameUsage&gt; combinations = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L51">  private List&lt;TypeSpecimen&gt; typeSpecimens = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L52">  private List&lt;VernacularName&gt; vernacularNames = new ArrayList&lt;&gt;();</span>
 
   /**
    * Default constructor.
    */
-<span class="fc" id="L67">  public NameUsageContainer() {</span>
+<span class="fc" id="L57">  public NameUsageContainer() {</span>
     //empty constructor
-<span class="fc" id="L69">  }</span>
+<span class="fc" id="L59">  }</span>
 
   /**
    * Constructs a NameUsageContainer from an existing NameUsage instance.
    */
-<span class="fc" id="L74">  public NameUsageContainer(NameUsage usage) {</span>
-    try {
-<span class="fc" id="L76">      JsonNode propTree = MAPPER.convertValue(usage, JsonNode.class);</span>
-<span class="fc" id="L77">      MAPPER.readerForUpdating(this).readValue(propTree);</span>
-<span class="nc" id="L78">    } catch (IOException e) {</span>
-<span class="nc" id="L79">      throw new IllegalStateException(&quot;Failed to copy NameUsage properties to NameUsageContainer&quot;, e);</span>
-<span class="fc" id="L80">    }</span>
-<span class="fc" id="L81">  }</span>
+  public NameUsageContainer(NameUsage usage) {
+<span class="fc" id="L65">    super(usage);</span>
+<span class="fc" id="L66">  }</span>
 
   /**
    * @return the list of Description
    */
   @NotNull
   public List&lt;Description&gt; getDescriptions() {
-<span class="fc" id="L88">    return descriptions;</span>
+<span class="fc" id="L73">    return descriptions;</span>
   }
 
   /**
    * @param descriptions the list of Description
    */
   public void setDescriptions(List&lt;Description&gt; descriptions) {
-<span class="nc" id="L95">    this.descriptions = descriptions;</span>
-<span class="nc" id="L96">  }</span>
+<span class="nc" id="L80">    this.descriptions = descriptions;</span>
+<span class="nc" id="L81">  }</span>
 
   /**
    * @return the list of Distribution
    */
   @NotNull
   public List&lt;Distribution&gt; getDistributions() {
-<span class="fc" id="L103">    return distributions;</span>
+<span class="fc" id="L88">    return distributions;</span>
   }
 
   /**
    * @param distributions the Distribution list to set
    */
   public void setDistributions(List&lt;Distribution&gt; distributions) {
-<span class="nc" id="L110">    this.distributions = distributions;</span>
-<span class="nc" id="L111">  }</span>
+<span class="nc" id="L95">    this.distributions = distributions;</span>
+<span class="nc" id="L96">  }</span>
 
   /**
    * Convenience method that analyzes all species profile records and returns the distinct list of known habitats.
@@ -117,37 +102,37 @@ public class NameUsageContainer extends NameUsage {
    */
   @NotNull
   public Set&lt;String&gt; getHabitats() {
-<span class="fc" id="L120">    Set&lt;String&gt; habitats = new LinkedHashSet&lt;&gt;();</span>
-<span class="fc bfc" id="L121" title="All 2 branches covered.">    for (SpeciesProfile sp : speciesProfiles) {</span>
-<span class="pc bpc" id="L122" title="1 of 2 branches missed.">      if (StringUtils.isNotEmpty(sp.getHabitat())) {</span>
-<span class="fc" id="L123">        habitats.add(sp.getHabitat());</span>
+<span class="fc" id="L105">    Set&lt;String&gt; habitats = new LinkedHashSet&lt;&gt;();</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">    for (SpeciesProfile sp : speciesProfiles) {</span>
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">      if (StringUtils.isNotEmpty(sp.getHabitat())) {</span>
+<span class="fc" id="L108">        habitats.add(sp.getHabitat());</span>
       }
-<span class="fc" id="L125">    }</span>
-<span class="fc" id="L126">    return habitats;</span>
+<span class="fc" id="L110">    }</span>
+<span class="fc" id="L111">    return habitats;</span>
   }
 
   public List&lt;NameUsageMediaObject&gt; getMedia() {
-<span class="fc" id="L130">    return media;</span>
+<span class="fc" id="L115">    return media;</span>
   }
 
   public void setMedia(List&lt;NameUsageMediaObject&gt; media) {
-<span class="fc" id="L134">    this.media = media;</span>
-<span class="fc" id="L135">  }</span>
+<span class="fc" id="L119">    this.media = media;</span>
+<span class="fc" id="L120">  }</span>
 
   /**
    * @return the list of all Identifier
    */
   @NotNull
   public List&lt;Identifier&gt; getIdentifiers() {
-<span class="fc" id="L142">    return identifiers;</span>
+<span class="fc" id="L127">    return identifiers;</span>
   }
 
   /**
    * @param identifiers the Identifier list to set
    */
   public void setIdentifiers(List&lt;Identifier&gt; identifiers) {
-<span class="nc" id="L149">    this.identifiers = identifiers;</span>
-<span class="nc" id="L150">  }</span>
+<span class="nc" id="L134">    this.identifiers = identifiers;</span>
+<span class="nc" id="L135">  }</span>
 
   /**
    * @return the list of all URL Identifier
@@ -155,13 +140,13 @@ public class NameUsageContainer extends NameUsage {
   @NotNull
   @JsonIgnore
   public List&lt;Identifier&gt; getIdentifierByType(final IdentifierType type) {
-<span class="nc" id="L158">    List&lt;Identifier&gt; ids = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L159" title="All 2 branches missed.">    for (Identifier i : identifiers) {</span>
-<span class="nc bnc" id="L160" title="All 2 branches missed.">      if (type == i.getType()) {</span>
-<span class="nc" id="L161">        ids.add(i);</span>
+<span class="nc" id="L143">    List&lt;Identifier&gt; ids = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">    for (Identifier i : identifiers) {</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">      if (type == i.getType()) {</span>
+<span class="nc" id="L146">        ids.add(i);</span>
       }
-<span class="nc" id="L163">    }</span>
-<span class="nc" id="L164">    return ids;</span>
+<span class="nc" id="L148">    }</span>
+<span class="nc" id="L149">    return ids;</span>
   }
 
   /**
@@ -169,86 +154,86 @@ public class NameUsageContainer extends NameUsage {
    */
   @NotNull
   public List&lt;Reference&gt; getReferenceList() {
-<span class="fc" id="L172">    return referenceList;</span>
+<span class="fc" id="L157">    return referenceList;</span>
   }
 
   /**
    * @param referenceList the Reference list to set
    */
   public void setReferenceList(List&lt;Reference&gt; referenceList) {
-<span class="nc" id="L179">    this.referenceList = referenceList;</span>
-<span class="nc" id="L180">  }</span>
+<span class="nc" id="L164">    this.referenceList = referenceList;</span>
+<span class="nc" id="L165">  }</span>
 
   /**
    * @return the list of SpeciesProfile
    */
   @NotNull
   public List&lt;SpeciesProfile&gt; getSpeciesProfiles() {
-<span class="fc" id="L187">    return speciesProfiles;</span>
+<span class="fc" id="L172">    return speciesProfiles;</span>
   }
 
   /**
    * @param speciesProfiles the SpeciesProfile list to set
    */
   public void setSpeciesProfiles(List&lt;SpeciesProfile&gt; speciesProfiles) {
-<span class="nc" id="L194">    this.speciesProfiles = speciesProfiles;</span>
-<span class="nc" id="L195">  }</span>
+<span class="nc" id="L179">    this.speciesProfiles = speciesProfiles;</span>
+<span class="nc" id="L180">  }</span>
 
   /**
    * @return the list of synonyms
    */
   public List&lt;NameUsage&gt; getSynonyms() {
-<span class="nc" id="L201">    return synonyms;</span>
+<span class="nc" id="L186">    return synonyms;</span>
   }
 
   /**
    * @param synonyms list of synonyms
    */
   public void setSynonyms(List&lt;NameUsage&gt; synonyms) {
-<span class="nc" id="L208">    this.synonyms = synonyms;</span>
-<span class="nc" id="L209">  }</span>
+<span class="nc" id="L193">    this.synonyms = synonyms;</span>
+<span class="nc" id="L194">  }</span>
 
   /**
    * @return the list of combinations known for the basionym
    */
   @NotNull
   public List&lt;NameUsage&gt; getCombinations() {
-<span class="nc" id="L216">    return combinations;</span>
+<span class="nc" id="L201">    return combinations;</span>
   }
 
   public void setCombinations(List&lt;NameUsage&gt; combinations) {
-<span class="nc" id="L220">    this.combinations = combinations;</span>
-<span class="nc" id="L221">  }</span>
+<span class="nc" id="L205">    this.combinations = combinations;</span>
+<span class="nc" id="L206">  }</span>
 
     /**
    * @return the list of TypeSpecimen
    */
   @NotNull
   public List&lt;TypeSpecimen&gt; getTypeSpecimens() {
-<span class="nc" id="L228">    return typeSpecimens;</span>
+<span class="nc" id="L213">    return typeSpecimens;</span>
   }
 
   /**
    * @param typeSpecimens the TypeSpecimen list to set
    */
   public void setTypeSpecimens(List&lt;TypeSpecimen&gt; typeSpecimens) {
-<span class="nc" id="L235">    this.typeSpecimens = typeSpecimens;</span>
-<span class="nc" id="L236">  }</span>
+<span class="nc" id="L220">    this.typeSpecimens = typeSpecimens;</span>
+<span class="nc" id="L221">  }</span>
 
   /**
    * @return the list of VernacularName
    */
   @NotNull
   public List&lt;VernacularName&gt; getVernacularNames() {
-<span class="nc" id="L243">    return vernacularNames;</span>
+<span class="nc" id="L228">    return vernacularNames;</span>
   }
 
   /**
    * @param vernacularNames the VernacularName list to set
    */
   public void setVernacularNames(List&lt;VernacularName&gt; vernacularNames) {
-<span class="nc" id="L250">    this.vernacularNames = vernacularNames;</span>
-<span class="nc" id="L251">  }</span>
+<span class="nc" id="L235">    this.vernacularNames = vernacularNames;</span>
+<span class="nc" id="L236">  }</span>
 
   /**
    * Convenience method that analyzes all species profile records and returns the distinct list of known living
@@ -258,13 +243,13 @@ public class NameUsageContainer extends NameUsage {
    */
   @NotNull
   public Set&lt;String&gt; getLivingPeriods() {
-<span class="nc" id="L261">    Set&lt;String&gt; periods = new LinkedHashSet&lt;&gt;();</span>
-<span class="nc bnc" id="L262" title="All 2 branches missed.">    for (SpeciesProfile sp : speciesProfiles) {</span>
-<span class="nc bnc" id="L263" title="All 2 branches missed.">      if (StringUtils.isNotEmpty(sp.getLivingPeriod())) {</span>
-<span class="nc" id="L264">        periods.add(sp.getLivingPeriod());</span>
+<span class="nc" id="L246">    Set&lt;String&gt; periods = new LinkedHashSet&lt;&gt;();</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">    for (SpeciesProfile sp : speciesProfiles) {</span>
+<span class="nc bnc" id="L248" title="All 2 branches missed.">      if (StringUtils.isNotEmpty(sp.getLivingPeriod())) {</span>
+<span class="nc" id="L249">        periods.add(sp.getLivingPeriod());</span>
       }
-<span class="nc" id="L266">    }</span>
-<span class="nc" id="L267">    return periods;</span>
+<span class="nc" id="L251">    }</span>
+<span class="nc" id="L252">    return periods;</span>
   }
 
   /**
@@ -274,13 +259,13 @@ public class NameUsageContainer extends NameUsage {
    */
   @NotNull
   public Set&lt;ThreatStatus&gt; getThreatStatus() {
-<span class="fc" id="L277">    Set&lt;ThreatStatus&gt; threats = new LinkedHashSet&lt;&gt;();</span>
-<span class="fc bfc" id="L278" title="All 2 branches covered.">    for (Distribution d : distributions) {</span>
-<span class="pc bpc" id="L279" title="1 of 2 branches missed.">      if (d.getThreatStatus() != null) {</span>
-<span class="fc" id="L280">        threats.add(d.getThreatStatus());</span>
+<span class="fc" id="L262">    Set&lt;ThreatStatus&gt; threats = new LinkedHashSet&lt;&gt;();</span>
+<span class="fc bfc" id="L263" title="All 2 branches covered.">    for (Distribution d : distributions) {</span>
+<span class="pc bpc" id="L264" title="1 of 2 branches missed.">      if (d.getThreatStatus() != null) {</span>
+<span class="fc" id="L265">        threats.add(d.getThreatStatus());</span>
       }
-<span class="fc" id="L282">    }</span>
-<span class="fc" id="L283">    return threats;</span>
+<span class="fc" id="L267">    }</span>
+<span class="fc" id="L268">    return threats;</span>
   }
 
   /**
@@ -290,20 +275,20 @@ public class NameUsageContainer extends NameUsage {
    * @return true if extinct
    */
   public Boolean isExtinct() {
-<span class="fc" id="L293">    int ctrue = 0;</span>
-<span class="fc" id="L294">    int cfalse = 0;</span>
-<span class="fc bfc" id="L295" title="All 2 branches covered.">    for (SpeciesProfile sp : speciesProfiles) {</span>
-<span class="fc bfc" id="L296" title="All 2 branches covered.">      if (sp.isExtinct() == null) {</span>
-<span class="fc" id="L297">        continue;</span>
+<span class="fc" id="L278">    int ctrue = 0;</span>
+<span class="fc" id="L279">    int cfalse = 0;</span>
+<span class="fc bfc" id="L280" title="All 2 branches covered.">    for (SpeciesProfile sp : speciesProfiles) {</span>
+<span class="fc bfc" id="L281" title="All 2 branches covered.">      if (sp.isExtinct() == null) {</span>
+<span class="fc" id="L282">        continue;</span>
       }
 
-<span class="fc bfc" id="L300" title="All 2 branches covered.">      if (sp.isExtinct()) {</span>
-<span class="fc" id="L301">        ctrue++;</span>
-<span class="pc bpc" id="L302" title="1 of 2 branches missed.">      } else if (!sp.isExtinct()) {</span>
-<span class="fc" id="L303">        cfalse++;</span>
+<span class="fc bfc" id="L285" title="All 2 branches covered.">      if (sp.isExtinct()) {</span>
+<span class="fc" id="L286">        ctrue++;</span>
+<span class="pc bpc" id="L287" title="1 of 2 branches missed.">      } else if (!sp.isExtinct()) {</span>
+<span class="fc" id="L288">        cfalse++;</span>
       }
-<span class="fc" id="L305">    }</span>
-<span class="fc bfc" id="L306" title="All 4 branches covered.">    return ctrue + cfalse == 0 ? null : ctrue &gt;= cfalse;</span>
+<span class="fc" id="L290">    }</span>
+<span class="fc bfc" id="L291" title="All 4 branches covered.">    return ctrue + cfalse == 0 ? null : ctrue &gt;= cfalse;</span>
   }
 
   /**
@@ -312,20 +297,20 @@ public class NameUsageContainer extends NameUsage {
    * @return true if freshwater
    */
   public Boolean isFreshwater() {
-<span class="fc" id="L315">    int ctrue = 0;</span>
-<span class="fc" id="L316">    int cfalse = 0;</span>
-<span class="fc bfc" id="L317" title="All 2 branches covered.">    for (SpeciesProfile sp : speciesProfiles) {</span>
-<span class="fc bfc" id="L318" title="All 2 branches covered.">      if (sp.isFreshwater() == null) {</span>
-<span class="fc" id="L319">        continue;</span>
+<span class="fc" id="L300">    int ctrue = 0;</span>
+<span class="fc" id="L301">    int cfalse = 0;</span>
+<span class="fc bfc" id="L302" title="All 2 branches covered.">    for (SpeciesProfile sp : speciesProfiles) {</span>
+<span class="fc bfc" id="L303" title="All 2 branches covered.">      if (sp.isFreshwater() == null) {</span>
+<span class="fc" id="L304">        continue;</span>
       }
 
-<span class="fc bfc" id="L322" title="All 2 branches covered.">      if (sp.isFreshwater()) {</span>
-<span class="fc" id="L323">        ctrue++;</span>
-<span class="pc bpc" id="L324" title="1 of 2 branches missed.">      } else if (!sp.isFreshwater()) {</span>
-<span class="fc" id="L325">        cfalse++;</span>
+<span class="fc bfc" id="L307" title="All 2 branches covered.">      if (sp.isFreshwater()) {</span>
+<span class="fc" id="L308">        ctrue++;</span>
+<span class="pc bpc" id="L309" title="1 of 2 branches missed.">      } else if (!sp.isFreshwater()) {</span>
+<span class="fc" id="L310">        cfalse++;</span>
       }
-<span class="fc" id="L327">    }</span>
-<span class="fc bfc" id="L328" title="All 4 branches covered.">    return ctrue + cfalse == 0 ? null : ctrue &gt;= cfalse;</span>
+<span class="fc" id="L312">    }</span>
+<span class="fc bfc" id="L313" title="All 4 branches covered.">    return ctrue + cfalse == 0 ? null : ctrue &gt;= cfalse;</span>
   }
 
   /**
@@ -334,20 +319,20 @@ public class NameUsageContainer extends NameUsage {
    * @return true if marine
    */
   public Boolean isMarine() {
-<span class="fc" id="L337">    int ctrue = 0;</span>
-<span class="fc" id="L338">    int cfalse = 0;</span>
-<span class="fc bfc" id="L339" title="All 2 branches covered.">    for (SpeciesProfile sp : speciesProfiles) {</span>
-<span class="fc bfc" id="L340" title="All 2 branches covered.">      if (sp.isMarine() == null) {</span>
-<span class="fc" id="L341">        continue;</span>
+<span class="fc" id="L322">    int ctrue = 0;</span>
+<span class="fc" id="L323">    int cfalse = 0;</span>
+<span class="fc bfc" id="L324" title="All 2 branches covered.">    for (SpeciesProfile sp : speciesProfiles) {</span>
+<span class="fc bfc" id="L325" title="All 2 branches covered.">      if (sp.isMarine() == null) {</span>
+<span class="fc" id="L326">        continue;</span>
       }
 
-<span class="fc bfc" id="L344" title="All 2 branches covered.">      if (sp.isMarine()) {</span>
-<span class="fc" id="L345">        ctrue++;</span>
-<span class="pc bpc" id="L346" title="1 of 2 branches missed.">      } else if (!sp.isMarine()) {</span>
-<span class="fc" id="L347">        cfalse++;</span>
+<span class="fc bfc" id="L329" title="All 2 branches covered.">      if (sp.isMarine()) {</span>
+<span class="fc" id="L330">        ctrue++;</span>
+<span class="pc bpc" id="L331" title="1 of 2 branches missed.">      } else if (!sp.isMarine()) {</span>
+<span class="fc" id="L332">        cfalse++;</span>
       }
-<span class="fc" id="L349">    }</span>
-<span class="fc bfc" id="L350" title="All 4 branches covered.">    return ctrue + cfalse == 0 ? null : ctrue &gt;= cfalse;</span>
+<span class="fc" id="L334">    }</span>
+<span class="fc bfc" id="L335" title="All 4 branches covered.">    return ctrue + cfalse == 0 ? null : ctrue &gt;= cfalse;</span>
   }
 
   /**
@@ -356,65 +341,67 @@ public class NameUsageContainer extends NameUsage {
    * @return true if terrestrial
    */
   public Boolean isTerrestrial() {
-<span class="fc" id="L359">    int ctrue = 0;</span>
-<span class="fc" id="L360">    int cfalse = 0;</span>
-<span class="fc bfc" id="L361" title="All 2 branches covered.">    for (SpeciesProfile sp : speciesProfiles) {</span>
-<span class="fc bfc" id="L362" title="All 2 branches covered.">      if (sp.isTerrestrial() == null) {</span>
-<span class="fc" id="L363">        continue;</span>
+<span class="fc" id="L344">    int ctrue = 0;</span>
+<span class="fc" id="L345">    int cfalse = 0;</span>
+<span class="fc bfc" id="L346" title="All 2 branches covered.">    for (SpeciesProfile sp : speciesProfiles) {</span>
+<span class="fc bfc" id="L347" title="All 2 branches covered.">      if (sp.isTerrestrial() == null) {</span>
+<span class="fc" id="L348">        continue;</span>
       }
 
-<span class="fc bfc" id="L366" title="All 2 branches covered.">      if (sp.isTerrestrial()) {</span>
-<span class="fc" id="L367">        ctrue++;</span>
-<span class="pc bpc" id="L368" title="1 of 2 branches missed.">      } else if (!sp.isTerrestrial()) {</span>
-<span class="fc" id="L369">        cfalse++;</span>
+<span class="fc bfc" id="L351" title="All 2 branches covered.">      if (sp.isTerrestrial()) {</span>
+<span class="fc" id="L352">        ctrue++;</span>
+<span class="pc bpc" id="L353" title="1 of 2 branches missed.">      } else if (!sp.isTerrestrial()) {</span>
+<span class="fc" id="L354">        cfalse++;</span>
       }
-<span class="fc" id="L371">    }</span>
-<span class="fc bfc" id="L372" title="All 4 branches covered.">    return ctrue + cfalse == 0 ? null : ctrue &gt;= cfalse;</span>
+<span class="fc" id="L356">    }</span>
+<span class="fc bfc" id="L357" title="All 4 branches covered.">    return ctrue + cfalse == 0 ? null : ctrue &gt;= cfalse;</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="fc bfc" id="L377" title="All 2 branches covered.">    if (this == o) {</span>
-<span class="fc" id="L378">      return true;</span>
+<span class="fc bfc" id="L362" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L363">      return true;</span>
     }
-<span class="pc bpc" id="L380" title="1 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="fc" id="L381">      return false;</span>
+<span class="pc bpc" id="L365" title="1 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="fc" id="L366">      return false;</span>
     }
-<span class="fc bfc" id="L383" title="All 2 branches covered.">    if (!super.equals(o)) {</span>
-<span class="fc" id="L384">      return false;</span>
+<span class="fc bfc" id="L368" title="All 2 branches covered.">    if (!super.equals(o)) {</span>
+<span class="fc" id="L369">      return false;</span>
     }
-<span class="fc" id="L386">    NameUsageContainer that = (NameUsageContainer) o;</span>
-<span class="pc bpc" id="L387" title="1 of 2 branches missed.">    return Objects.equals(descriptions, that.descriptions) &amp;&amp;</span>
-<span class="pc bpc" id="L388" title="1 of 2 branches missed.">      Objects.equals(distributions, that.distributions) &amp;&amp;</span>
-<span class="pc bpc" id="L389" title="1 of 2 branches missed.">      Objects.equals(media, that.media) &amp;&amp;</span>
-<span class="pc bpc" id="L390" title="1 of 2 branches missed.">      Objects.equals(referenceList, that.referenceList) &amp;&amp;</span>
-<span class="pc bpc" id="L391" title="1 of 2 branches missed.">      Objects.equals(speciesProfiles, that.speciesProfiles) &amp;&amp;</span>
-<span class="pc bpc" id="L392" title="1 of 2 branches missed.">      Objects.equals(synonyms, that.synonyms) &amp;&amp;</span>
-<span class="pc bpc" id="L393" title="1 of 2 branches missed.">      Objects.equals(typeSpecimens, that.typeSpecimens) &amp;&amp;</span>
-<span class="pc bpc" id="L394" title="1 of 2 branches missed.">      Objects.equals(vernacularNames, that.vernacularNames);</span>
+<span class="fc" id="L371">    NameUsageContainer that = (NameUsageContainer) o;</span>
+<span class="pc bpc" id="L372" title="1 of 2 branches missed.">    return Objects.equals(descriptions, that.descriptions) &amp;&amp;</span>
+<span class="pc bpc" id="L373" title="1 of 2 branches missed.">      Objects.equals(distributions, that.distributions) &amp;&amp;</span>
+<span class="pc bpc" id="L374" title="1 of 2 branches missed.">      Objects.equals(media, that.media) &amp;&amp;</span>
+<span class="pc bpc" id="L375" title="1 of 2 branches missed.">      Objects.equals(referenceList, that.referenceList) &amp;&amp;</span>
+<span class="pc bpc" id="L376" title="1 of 2 branches missed.">      Objects.equals(speciesProfiles, that.speciesProfiles) &amp;&amp;</span>
+<span class="pc bpc" id="L377" title="1 of 2 branches missed.">      Objects.equals(synonyms, that.synonyms) &amp;&amp;</span>
+<span class="pc bpc" id="L378" title="1 of 2 branches missed.">      Objects.equals(typeSpecimens, that.typeSpecimens) &amp;&amp;</span>
+<span class="pc bpc" id="L379" title="1 of 2 branches missed.">      Objects.equals(vernacularNames, that.vernacularNames);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L399">    return Objects</span>
-<span class="nc" id="L400">      .hash(super.hashCode(), descriptions, distributions, media, referenceList, speciesProfiles,</span>
+<span class="nc" id="L384">    return Objects</span>
+<span class="nc" id="L385">      .hash(super.hashCode(), descriptions, distributions, media, referenceList, speciesProfiles,</span>
         synonyms, typeSpecimens, vernacularNames);
   }
 
+
+
   @Override
   public String toString() {
-<span class="nc" id="L406">    return new StringJoiner(&quot;, &quot;, NameUsageContainer.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L407">      .add(&quot;descriptions=&quot; + descriptions)</span>
-<span class="nc" id="L408">      .add(&quot;distributions=&quot; + distributions)</span>
-<span class="nc" id="L409">      .add(&quot;identifiers=&quot; + identifiers)</span>
-<span class="nc" id="L410">      .add(&quot;media=&quot; + media)</span>
-<span class="nc" id="L411">      .add(&quot;referenceList=&quot; + referenceList)</span>
-<span class="nc" id="L412">      .add(&quot;speciesProfiles=&quot; + speciesProfiles)</span>
-<span class="nc" id="L413">      .add(&quot;synonyms=&quot; + synonyms)</span>
-<span class="nc" id="L414">      .add(&quot;combinations=&quot; + combinations)</span>
-<span class="nc" id="L415">      .add(&quot;typeSpecimens=&quot; + typeSpecimens)</span>
-<span class="nc" id="L416">      .add(&quot;vernacularNames=&quot; + vernacularNames)</span>
-<span class="nc" id="L417">      .toString();</span>
+<span class="nc" id="L393">    return &quot;NameUsageContainer{&quot; +</span>
+      &quot;descriptions=&quot; + descriptions +
+      &quot;, distributions=&quot; + distributions +
+      &quot;, identifiers=&quot; + identifiers +
+      &quot;, media=&quot; + media +
+      &quot;, referenceList=&quot; + referenceList +
+      &quot;, speciesProfiles=&quot; + speciesProfiles +
+      &quot;, synonyms=&quot; + synonyms +
+      &quot;, combinations=&quot; + combinations +
+      &quot;, typeSpecimens=&quot; + typeSpecimens +
+      &quot;, vernacularNames=&quot; + vernacularNames +
+<span class="nc" id="L404">      &quot;} &quot; + super.toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
