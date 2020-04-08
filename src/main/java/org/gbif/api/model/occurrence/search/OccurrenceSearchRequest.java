@@ -98,6 +98,10 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     addParameter(OccurrenceSearchParameter.DECIMAL_LONGITUDE, longitude);
   }
 
+  public void addCoordinateUncertaintyInMetersFilter(double uncertainty) {
+    addParameter(OccurrenceSearchParameter.COORDINATE_UNCERTAINTY_IN_METERS, uncertainty);
+  }
+
   public void addMonthFilter(int month) {
     addParameter(OccurrenceSearchParameter.MONTH, month);
   }
@@ -170,7 +174,7 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     addParameter(OccurrenceSearchParameter.ISSUE, issue);
   }
 
-  public void addElevationFilter(int elevation) {
+  public void addElevationFilter(double elevation) {
     addParameter(OccurrenceSearchParameter.ELEVATION, elevation);
   }
 
