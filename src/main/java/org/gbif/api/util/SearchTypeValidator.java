@@ -201,13 +201,14 @@ public class SearchTypeValidator {
           }
 
         } else if (Country.class.isAssignableFrom(pType)) {
-          // iso codes expected
-          Objects.requireNonNull(Country.fromIsoCode(value));
-
+          // iso codes or enum name expected
+          if (Country.fromIsoCode(value) == null
+            && VocabularyUtils.lookupEnum(value, Country.class) == null) {
+            throw new NullPointerException();
+          }
         } else if (Language.class.isAssignableFrom(pType)) {
           // iso codes expected
           Objects.requireNonNull(Language.fromIsoCode(value));
-
         } else if (Enum.class.isAssignableFrom(pType)) {
           // enum value expected, cast to enum
           @SuppressWarnings("unchecked")
