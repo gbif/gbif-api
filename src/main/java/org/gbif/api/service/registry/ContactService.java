@@ -20,11 +20,13 @@ import org.gbif.api.model.registry.Contact;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+@SuppressWarnings("unused")
 public interface ContactService {
 
-  int addContact(@NotNull UUID targetEntityKey, @NotNull Contact contact);
+  int addContact(@NotNull UUID targetEntityKey, @NotNull @Valid Contact contact);
 
   void deleteContact(@NotNull UUID targetEntityKey, int contactKey);
 
@@ -32,10 +34,10 @@ public interface ContactService {
 
   /**
    * Updates the given contact for the target entity.
-   * 
+   *
    * @param targetEntityKey Which must be the the owner of the contact or else an exception will be thrown.
    * @param contact To update
    */
-  void updateContact(@NotNull UUID targetEntityKey, @NotNull Contact contact);
+  void updateContact(@NotNull UUID targetEntityKey, @NotNull @Valid Contact contact);
 
 }

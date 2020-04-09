@@ -28,6 +28,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import static org.gbif.api.model.checklistbank.search.NameUsageSearchParameter.IS_EXTINCT;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COORDINATE_UNCERTAINTY_IN_METERS;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COUNTRY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DATASET_KEY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LATITUDE;
@@ -71,13 +72,15 @@ public class SearchTypeValidatorTest {
       {ELEVATION, "1080m", false, false},
       {ELEVATION, "*, 900", true, true},
       {ELEVATION, "100 , *", true, true},
-      {ELEVATION, "100,200", true, true},
+      {ELEVATION, "-10.5,200.5", true, true},
       {ELEVATION, " , 200", false, false},
       {ELEVATION, "*1,200", false, false},
       {ELEVATION, "*.1,200", false, false},
       {ELEVATION, " , ", false, false},
       {ELEVATION, "[1 TO 2]", false, false},
       {ELEVATION, "{1,2}", false, false},
+      {COORDINATE_UNCERTAINTY_IN_METERS, "0", true, false},
+      {COORDINATE_UNCERTAINTY_IN_METERS, "100 , *", true, true},
       {DATASET_KEY, UUID.randomUUID().toString(), true, false},
       {DATASET_KEY, "f81d4fae-7dec-11d0-a765-00a0c91e6bf6", true, false},
       {DATASET_KEY, "F81D4FAE-7DEC-11D0-A765-00A0C91E6BF6", true, false},

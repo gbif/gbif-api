@@ -22,11 +22,13 @@ import org.gbif.api.vocabulary.TagNamespace;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+@SuppressWarnings("unused")
 public interface MachineTagService {
 
-  int addMachineTag(@NotNull UUID targetEntityKey, @NotNull MachineTag machineTag);
+  int addMachineTag(@NotNull UUID targetEntityKey, @NotNull @Valid MachineTag machineTag);
 
   int addMachineTag(@NotNull UUID targetEntityKey, @NotNull TagName tagName, @NotNull String value);
 

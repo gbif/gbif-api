@@ -26,6 +26,7 @@ import org.gbif.api.service.common.SuggestService;
 /**
  * Interface that provides search and suggest operations over Datasets.
  */
+@SuppressWarnings("unused")
 public interface DatasetSearchService
   extends SearchService<DatasetSearchResult, DatasetSearchParameter, DatasetSearchRequest>,
   SuggestService<DatasetSuggestResult, DatasetSearchParameter, DatasetSuggestRequest> {

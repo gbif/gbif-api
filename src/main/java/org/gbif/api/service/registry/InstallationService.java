@@ -28,6 +28,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
+@SuppressWarnings("unused")
 public interface InstallationService
   extends NetworkEntityService<Installation> {
 

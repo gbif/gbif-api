@@ -22,22 +22,24 @@ import org.gbif.api.model.crawler.DatasetProcessStatus;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
  * Interface to access and persist information about dataset processing statuses.
  */
+@SuppressWarnings("unused")
 public interface DatasetProcessStatusService {
 
   /**
    * Persists the {@link DatasetProcessStatus} object.
    */
-  void createDatasetProcessStatus(@NotNull DatasetProcessStatus datasetProcessStatus);
+  void createDatasetProcessStatus(@NotNull @Valid DatasetProcessStatus datasetProcessStatus);
 
   /**
    * Persists the {@link DatasetProcessStatus} object which must exist.
    */
-  void updateDatasetProcessStatus(@NotNull DatasetProcessStatus datasetProcessStatus);
+  void updateDatasetProcessStatus(@NotNull @Valid DatasetProcessStatus datasetProcessStatus);
 
   /**
    * Retrieves a {@link DatasetProcessStatus} by its datasetKey and attempt.

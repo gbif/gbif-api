@@ -139,6 +139,21 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   DECIMAL_LONGITUDE(Double.class),
 
   /**
+   * The uncertainty of the coordinate in meters.
+   * This parameter accepts comma separated range values, e.g.:
+   * <dl>
+   * <dt>*,100</dt>
+   * <dd>Uncertainty below or equals 100m</dd>
+   * <dt>10000,*</dt>
+   * <dd>Uncertainty above or equals 10,000m</dd>
+   * <dt>1000,5000</dt>
+   * <dd>Uncertainty between or equals 1000m and 5000m
+   * </dd>
+   * </dl>
+   */
+  COORDINATE_UNCERTAINTY_IN_METERS(Double.class),
+
+  /**
    * Country the occurrence was recorded in.
    */
   COUNTRY(Country.class),

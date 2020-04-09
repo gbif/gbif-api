@@ -24,12 +24,14 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-public interface NetworkEntityService<T> extends MachineTagService, TagService, CommentService, IdentifierService,
-  EndpointService, ContactService {
+@SuppressWarnings("unused")
+public interface NetworkEntityService<T> extends MachineTagService, TagService, CommentService,
+  IdentifierService, EndpointService, ContactService {
 
-  UUID create(@NotNull T entity);
+  UUID create(@NotNull @Valid T entity);
 
   // TODO: Define behavior when it is already deleted or does not exist
   void delete(@NotNull UUID key);
@@ -41,24 +43,16 @@ public interface NetworkEntityService<T> extends MachineTagService, TagService, 
    */
   Map<UUID, String> getTitles(Collection<UUID> keys);
 
-    /**
-     * Used to retrieve a list of network entities.
-     *
-     * To iterate over <em>all</em> entities you can use code like this:
-     * {@code
-     * PagingRequest req = new PagingRequest();
-     * PagingResponse<T> response;
-     * do {
-     *   response = service.list(req);
-     *   for (T obj : response.getResults()) {
-     *     doStuff();
-     *   }
-     *   req.nextPage();
-     * } while (!response.isEndOfRecords());
-     * }
-     *
-     * @return a list of network entities ordered by their creation date, newest coming first
-     */
+  /**
+   * Used to retrieve a list of network entities.
+   * <p>
+   * To iterate over <em>all</em> entities you can use code like this: {@code PagingRequest req =
+   * new PagingRequest(); PagingResponse<T> response; do { response = service.list(req); for (T obj
+   * : response.getResults()) { doStuff(); } req.nextPage(); } while (!response.isEndOfRecords());
+   * }
+   *
+   * @return a list of network entities ordered by their creation date, newest coming first
+   */
   PagingResponse<T> list(@Nullable Pageable page);
 
   /**
@@ -71,24 +65,30 @@ public interface NetworkEntityService<T> extends MachineTagService, TagService, 
   /**
    * Lists the entities by the provided identifier, scoped by type.
    *
-   * @return a pageable response of network entities, with accurate counts for the identifier provided
+   * @return a pageable response of network entities, with accurate counts for the identifier
+   * provided
    */
-  PagingResponse<T> listByIdentifier(IdentifierType type, String identifier, @Nullable Pageable page);
+  PagingResponse<T> listByIdentifier(IdentifierType type, String identifier,
+    @Nullable Pageable page);
 
   /**
    * Lists the entities by the provided identifier, which may be of any type.
    *
-   * @return a pageable response of network entities, with accurate counts for the identifier provided
+   * @return a pageable response of network entities, with accurate counts for the identifier
+   * provided
    */
   PagingResponse<T> listByIdentifier(String identifier, @Nullable Pageable page);
 
   /**
-   * Lists the entities having a machine tag in the provided namespace, with the provided name and value.
+   * Lists the entities having a machine tag in the provided namespace, with the provided name and
+   * value.
    *
-   * @return a pageable response of network entities, with accurate counts for the machine tag provided
+   * @return a pageable response of network entities, with accurate counts for the machine tag
+   * provided
    */
-  PagingResponse<T> listByMachineTag(String namespace, @Nullable String name, @Nullable String value, @Nullable Pageable page);
+  PagingResponse<T> listByMachineTag(String namespace, @Nullable String name,
+    @Nullable String value, @Nullable Pageable page);
 
-  void update(@NotNull T entity);
+  void update(@NotNull @Valid T entity);
 
 }

@@ -29,6 +29,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
+@SuppressWarnings("unused")
 public interface OrganizationService
   extends NetworkEntityService<Organization> {
 
@@ -45,7 +46,8 @@ public interface OrganizationService
   /**
    * Provides paging service to list installations for the organization.
    */
-  PagingResponse<Installation> installations(@NotNull UUID organizationKey, @Nullable Pageable page);
+  PagingResponse<Installation> installations(@NotNull UUID organizationKey,
+    @Nullable Pageable page);
 
   /**
    * Provides access to all organizations from a country.
@@ -74,8 +76,8 @@ public interface OrganizationService
 
   /**
    * Confirm the endorsement of a new {@link Organization} by providing a confirmationKey.
-   * Confirming the endorsement of an {@link Organization} may not be required or possible depending how the
-   * {@link Organization} was created.
+   * Confirming the endorsement of an {@link Organization} may not be required or possible depending
+   * how the {@link Organization} was created.
    *
    * @param organizationKey
    * @param confirmationKey (aka challenge code)
