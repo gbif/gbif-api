@@ -41,7 +41,7 @@ public interface NetworkEntityService<T> extends MachineTagService, TagService, 
   /**
    * Retrieves all titles for the requested entity keys in one go
    */
-  Map<UUID, String> getTitles(Collection<UUID> keys);
+  Map<UUID, String> getTitles(@NotNull Collection<UUID> keys);
 
   /**
    * Used to retrieve a list of network entities.
