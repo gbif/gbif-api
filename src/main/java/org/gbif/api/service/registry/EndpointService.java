@@ -20,11 +20,13 @@ import org.gbif.api.model.registry.Endpoint;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+@SuppressWarnings("unused")
 public interface EndpointService {
 
-  int addEndpoint(@NotNull UUID targetEntityKey, @NotNull Endpoint endpoint);
+  int addEndpoint(@NotNull UUID targetEntityKey, @NotNull @Valid Endpoint endpoint);
 
   void deleteEndpoint(@NotNull UUID targetEntityKey, int endpointKey);
 

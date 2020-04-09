@@ -31,15 +31,17 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 /**
- * Actions on a GBIF node.
- * Be aware that of 2013 Nodes DO NOT support the ContactInterface although advertised in this interface!!!
+ * Actions on a GBIF node. Be aware that of 2013 Nodes DO NOT support the ContactInterface although
+ * advertised in this interface!!!
  */
+@SuppressWarnings("unused")
 public interface NodeService extends NetworkEntityService<Node> {
 
   /**
    * Provides access to the organizations endorsed by a single node.
    */
-  PagingResponse<Organization> endorsedOrganizations(@NotNull UUID nodeKey, @Nullable Pageable page);
+  PagingResponse<Organization> endorsedOrganizations(@NotNull UUID nodeKey,
+    @Nullable Pageable page);
 
   /**
    * Provides access to the organizations that are awaiting an endorsement approval.
@@ -47,39 +49,43 @@ public interface NodeService extends NetworkEntityService<Node> {
   PagingResponse<Organization> pendingEndorsements(@Nullable Pageable page);
 
   /**
-   * Provides access to the organizations that are awaiting an endorsement approval for the given node.
+   * Provides access to the organizations that are awaiting an endorsement approval for the given
+   * node.
    */
   PagingResponse<Organization> pendingEndorsements(@NotNull UUID nodeKey, @Nullable Pageable page);
 
   /**
-   * Provides the installations that are registered to organizations with an approved endorsement from the node.
+   * Provides the installations that are registered to organizations with an approved endorsement
+   * from the node.
    */
   PagingResponse<Installation> installations(@NotNull UUID nodeKey, @Nullable Pageable page);
 
   /**
    * Returns a node for a given country.
-   * 
+   *
    * @return the countries node or null if none exists
    */
   Node getByCountry(Country country);
 
   /**
    * Returns a list of all countries which do have a GBIF node.
-   * 
+   *
    * @return list of distinct countries having a GBIF node
    */
   List<Country> listNodeCountries();
 
   /**
-   * Returns those countries considered active in GBIF.
-   * To be active a country must have a Node of type country present, that is either of voting or associate status.
-   *  @return A list of countries ordered by iso code
-    */
-   List<Country> listActiveCountries();
+   * Returns those countries considered active in GBIF. To be active a country must have a Node of
+   * type country present, that is either of voting or associate status.
+   *
+   * @return A list of countries ordered by iso code
+   */
+  List<Country> listActiveCountries();
 
   /**
-   * Provides paging service to list datasets published, i.e. owned by organizations endorsed by the given node.
-   * 
+   * Provides paging service to list datasets published, i.e. owned by organizations endorsed by the
+   * given node.
+   *
    * @return list of datasets ordered by creation date with latest coming first
    */
   PagingResponse<Dataset> endorsedDatasets(@NotNull UUID nodeKey, @Nullable Pageable page);

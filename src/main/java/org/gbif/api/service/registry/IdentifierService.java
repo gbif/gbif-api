@@ -20,11 +20,13 @@ import org.gbif.api.model.registry.Identifier;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+@SuppressWarnings("unused")
 public interface IdentifierService {
 
-  int addIdentifier(@NotNull UUID targetEntityKey, @NotNull Identifier identifier);
+  int addIdentifier(@NotNull UUID targetEntityKey, @NotNull @Valid Identifier identifier);
 
   void deleteIdentifier(@NotNull UUID targetEntityKey, int identifierKey);
 

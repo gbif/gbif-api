@@ -23,29 +23,32 @@ import org.gbif.api.model.registry.Network;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
-public interface NetworkService
-  extends NetworkEntityService<Network> {
+@SuppressWarnings("unused")
+public interface NetworkService extends NetworkEntityService<Network> {
 
   /**
-   * Pages through dataset constituents of a network, i.e. returns datasets which have an entry in the dataset_network
-   * table.
+   * Pages through dataset constituents of a network, i.e. returns datasets which have an entry in
+   * the dataset_network table.
    *
    * @param networkKey the network identifier
    */
-  PagingResponse<Dataset> listConstituents(UUID networkKey, @Nullable Pageable page);
+  PagingResponse<Dataset> listConstituents(@NotNull UUID networkKey, @Nullable Pageable page);
 
   /**
    * Adds an existing dataset to the list of constituents of a network.
+   *
    * @param networkKey the network to add the dataset to
    * @param datasetKey the dataset to be added
    */
-  void addConstituent(UUID networkKey, UUID datasetKey);
+  void addConstituent(@NotNull UUID networkKey, @NotNull UUID datasetKey);
 
   /**
    * Removes an existing constituent dataset from a network.
+   *
    * @param networkKey the network to remove the dataset from
    * @param datasetKey the dataset to be removed
    */
-  void removeConstituent(UUID networkKey, UUID datasetKey);
+  void removeConstituent(@NotNull UUID networkKey, @NotNull UUID datasetKey);
 }

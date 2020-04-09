@@ -22,17 +22,19 @@ import org.gbif.api.model.registry.metasync.MetasyncHistory;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
  * Interface to access and persists historical metadata synchronization results.
  */
+@SuppressWarnings("unused")
 public interface MetasyncHistoryService {
 
   /**
    * Persists the {@link MetasyncHistory} object.
    */
-  void createMetasync(@NotNull MetasyncHistory metasyncHistory);
+  void createMetasync(@NotNull @Valid MetasyncHistory metasyncHistory);
 
   /**
    * Retrieves a pageable result of all the metasync history records.

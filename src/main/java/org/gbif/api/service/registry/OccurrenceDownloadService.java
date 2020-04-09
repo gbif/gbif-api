@@ -21,21 +21,26 @@ import org.gbif.api.model.occurrence.Download;
 import org.gbif.api.model.registry.DatasetOccurrenceDownloadUsage;
 import org.gbif.api.vocabulary.Country;
 
-import java.util.*;
+import java.util.Date;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
  * Interface to access and persist information about occurrence download events.
  */
+@SuppressWarnings("unused")
 public interface OccurrenceDownloadService {
 
   /**
-   * Persists the occurrence download object. The object must contain a unique key, the persistence storage doesn't
-   * generate one for it.
+   * Persists the occurrence download object. The object must contain a unique key, the persistence
+   * storage doesn't generate one for it.
    */
-  void create(@NotNull Download download);
+  void create(@NotNull @Valid Download download);
 
   /**
    * Retrieves a occurrence download by its unique key or DOI.
@@ -43,28 +48,30 @@ public interface OccurrenceDownloadService {
   Download get(@NotNull String keyOrDoi);
 
   /**
-   * Retrieves a pageable result of all the downloads, optionally the downloads can be filtered by status.
+   * Retrieves a pageable result of all the downloads, optionally the downloads can be filtered by
+   * status.
    */
   PagingResponse<Download> list(@Nullable Pageable page, @Nullable Set<Download.Status> status);
 
   /**
    * Retrieves a pageable result of the downloads created by a user in a given status.
    */
-  PagingResponse<Download> listByUser(@NotNull String user, @Nullable Pageable page, @Nullable Set<Download.Status> status);
+  PagingResponse<Download> listByUser(@NotNull String user, @Nullable Pageable page,
+    @Nullable Set<Download.Status> status);
 
   /**
    * Update an existing occurrence download.
    */
-  void update(@NotNull Download download);
+  void update(@NotNull @Valid Download download);
 
   /**
    * Retrieves a pageable result of the dataset usages in a occurrence download.
-   *
-   * The Downloads in the DatasetOccurrenceDownloadUsages are null, to avoid redundant repetition of potentially large
-   * objects.
+   * <p>
+   * The Downloads in the DatasetOccurrenceDownloadUsages are null, to avoid redundant repetition of
+   * potentially large objects.
    */
   PagingResponse<DatasetOccurrenceDownloadUsage> listDatasetUsages(@NotNull String keyOrDoi,
-                                                                   @Nullable Pageable page);
+    @Nullable Pageable page);
 
   /**
    * Retrieve citation details of a download by its unique key or DOI.
@@ -74,18 +81,23 @@ public interface OccurrenceDownloadService {
   /**
    * Retrieves downloads monthly stats by country (user and publishing country) and dataset.
    */
-  Map<Integer,Map<Integer,Long>> getDownloadsByUserCountry(@Nullable Date fromDate, @Nullable  Date toDate,
-                                                           @Nullable Country userCountry);
+  Map<Integer, Map<Integer, Long>> getDownloadsByUserCountry(@Nullable Date fromDate,
+    @Nullable Date toDate,
+    @Nullable Country userCountry);
 
   /**
-   * Retrieves downloaded records monthly stats by country (user and publishing country) and dataset.
+   * Retrieves downloaded records monthly stats by country (user and publishing country) and
+   * dataset.
    */
-  Map<Integer,Map<Integer,Long>> getDownloadedRecordsByDataset(@Nullable Date fromDate, @Nullable  Date toDate,
-                                                               @Nullable Country publishingCountry,
-                                                               @Nullable UUID datasetKey);
+  Map<Integer, Map<Integer, Long>> getDownloadedRecordsByDataset(@Nullable Date fromDate,
+    @Nullable Date toDate,
+    @Nullable Country publishingCountry,
+    @Nullable UUID datasetKey);
+
   /**
    * Persists usages of datasets in an occurrence download.
-   * @param downloadKey downloadkey of the datasets' usage information.
+   *
+   * @param downloadKey      downloadkey of the datasets' usage information.
    * @param datasetCitations map of datasetkey as key and number of records as value.
    */
   void createUsages(@NotNull String downloadKey, @NotNull Map<UUID, Long> datasetCitations);

@@ -21,8 +21,10 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+@SuppressWarnings("unused")
 public interface TagService {
 
   int addTag(@NotNull UUID targetEntityKey, @NotNull String value);
@@ -35,7 +37,7 @@ public interface TagService {
    *
    * @return key of Tag added
    */
-  int addTag(@NotNull UUID targetEntityKey, @NotNull Tag tag);
+  int addTag(@NotNull UUID targetEntityKey, @NotNull @Valid Tag tag);
 
   void deleteTag(@NotNull UUID taggedEntityKey, int tagKey);
 

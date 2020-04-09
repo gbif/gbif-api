@@ -20,11 +20,13 @@ import org.gbif.api.model.registry.Comment;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+@SuppressWarnings("unused")
 public interface CommentService {
 
-  int addComment(@NotNull UUID targetEntityKey, @NotNull Comment comment);
+  int addComment(@NotNull UUID targetEntityKey, @NotNull @Valid Comment comment);
 
   void deleteComment(@NotNull UUID targetEntityKey, int commentKey);
 
