@@ -20,8 +20,14 @@ package org.gbif.api.vocabulary;
  * Roles here shall not be defined in {@link UserRole} (validated by unit test).
  */
 public enum AppRole {
+
   /**
    * A regular, registered application.
    */
-  APP
+  APP,
+
+  /**
+   * IPT role.
+   */
+  IPT
 }
