@@ -19,6 +19,7 @@ import org.gbif.api.model.collections.CollectionEntity;
 
 import java.util.UUID;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /** Base CRUD service for {@link CollectionEntity} entities. */
@@ -30,7 +31,7 @@ public interface CrudService<T extends CollectionEntity> {
    * @param entity to create
    * @return UUID of the created entity.
    */
-  UUID create(@NotNull T entity);
+  UUID create(@NotNull @Valid T entity);
 
   /**
    * Deletes an entity by key.
@@ -52,5 +53,5 @@ public interface CrudService<T extends CollectionEntity> {
    *
    * @param entity that will replace the existing entity.
    */
-  void update(@NotNull T entity);
+  void update(@NotNull @Valid T entity);
 }

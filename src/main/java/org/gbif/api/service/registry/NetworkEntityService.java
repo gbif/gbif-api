@@ -31,17 +31,45 @@ import javax.validation.constraints.NotNull;
 public interface NetworkEntityService<T> extends MachineTagService, TagService, CommentService,
   IdentifierService, EndpointService, ContactService {
 
+  /**
+   * Creates a new entity. Data should be valid.
+   *
+   * @param entity to create
+   * @return a key of the newly created entity.
+   */
   UUID create(@NotNull @Valid T entity);
 
+  /**
+   * Updates an existing entity. Data should be valid.
+   *
+   * @param entity to update.
+   */
+  void update(@NotNull @Valid T entity);
+
   // TODO: Define behavior when it is already deleted or does not exist
+
+  /**
+   * Deletes an entity by the provided key.
+   *
+   * @param key of the entity to delete.
+   */
   void delete(@NotNull UUID key);
 
+  /**
+   * Gets an entity by the provided key.
+   *
+   * @param key of the entity to get
+   * @return an entity.
+   */
   T get(@NotNull UUID key);
 
   /**
    * Retrieves all titles for the requested entity keys in one go
+   *
+   * @param keys entity keys to get titles
+   * @return pairs of entity key - entity title.
    */
-  Map<UUID, String> getTitles(Collection<UUID> keys);
+  Map<UUID, String> getTitles(@NotNull Collection<UUID> keys);
 
   /**
    * Used to retrieve a list of network entities.
@@ -88,7 +116,4 @@ public interface NetworkEntityService<T> extends MachineTagService, TagService, 
    */
   PagingResponse<T> listByMachineTag(String namespace, @Nullable String name,
     @Nullable String value, @Nullable Pageable page);
-
-  void update(@NotNull @Valid T entity);
-
 }
