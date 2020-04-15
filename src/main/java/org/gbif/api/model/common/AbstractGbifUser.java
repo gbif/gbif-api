@@ -151,7 +151,6 @@ public abstract class AbstractGbifUser {
 
   /**
    * Gets the settings which may be empty but never null.
-   * @return
    */
   @NotNull
   public Map<String, String> getSettings() {
@@ -167,7 +166,6 @@ public abstract class AbstractGbifUser {
   }
   /**
    * Gets the settings which may be empty but never null.
-   * @return
    */
   @NotNull
   public Map<String, String> getSystemSettings() {

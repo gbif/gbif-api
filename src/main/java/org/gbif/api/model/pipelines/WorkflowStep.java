@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * Models a step in a {@link PipelineWorkflow}.
+ * Models a step in a Pipeline workflow.
  *
  * <p>These steps are identified by the {@link StepType} and are linked to their next steps in the
  * workflow.

@@ -616,7 +616,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   /**
-   * @Deprecated to be removed in the public v2 of the API (see POR-3061)
+   * @deprecated to be removed in the public v2 of the API (see POR-3061)
    * The uncertainty for latitude in decimal degrees.
    * Note that the longitude degrees have a different accuracy in degrees which changes with latitude and is largest at the poles.
    */

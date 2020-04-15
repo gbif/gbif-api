@@ -52,8 +52,8 @@ public enum NomenclaturalStatus {
  *   <li>Bacteria: validly published name</li>
  * </ul>
  * An available name is not necessarily the correct name.
- * @See <a href="http://en.wikipedia.org/wiki/Validly_published_name_(botany)">wikipedia</a>
- * @See <a href="http://en.wikipedia.org/wiki/Available_name">wikipedia</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Validly_published_name_(botany)">wikipedia</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Available_name">wikipedia</a>
  */
  VALIDLY_PUBLISHED(null, null, "available","valid", "established"),
 
@@ -352,8 +352,6 @@ public enum NomenclaturalStatus {
    * the latin and abbreviated name of a term.
    *
    * @param nomStatus
-   * @return
-   *
    * @deprecated use NomStatusParser instead
    */
   @Deprecated
@@ -381,7 +379,6 @@ public enum NomenclaturalStatus {
   /**
    * The abbreviated status name, often used in botany.
    * For example nom. inval.
-   * @return
    */
   @Nullable
   public String getAbbreviatedLabel() {

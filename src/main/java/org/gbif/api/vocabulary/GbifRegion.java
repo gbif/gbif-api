@@ -18,18 +18,48 @@ package org.gbif.api.vocabulary;
 import org.gbif.api.util.VocabularyUtils;
 
 /**
- * Enumeration for all GBIF's regions.
+ * <p>An enumeration for all GBIF Regions.  These are based on
+ * <a href="https://www.nature.com/articles/sdata20167/figures/1">IPBES regions</a>.
+ *
+ * <p><em>This is a political division,</em> part of GBIF's governance structure.
+ * For a geographical division, see {@link Continent}.
+ *
+ * @see <a href="https://www.gbif.org/the-gbif-network">The GBIF Network</a>
  */
 public enum GbifRegion {
 
-  AFRICA,
-  ASIA,
-  EUROPE,
-  NORTH_AMERICA,
-  OCEANIA,
-  LATIN_AMERICA,
   /**
-   * Antarctica and adjacent islands.
+   * Africa: IPBES regions North Africa, West Africa, Central Africa, East Africa and adjacent islands, Southern Africa.
+   */
+  AFRICA,
+
+  /**
+   * Asia: IPBES regions Western Asia, South Asia, North-East Asia, South-East Asia.
+   */
+  ASIA,
+
+  /**
+   * Europe and Central Asia: IPBES regions Central and Western Europe, Eastern Europe, Central Asia.
+   */
+  EUROPE,
+
+  /**
+   * North America: IPBES region North America.
+   */
+  NORTH_AMERICA,
+
+  /**
+   * Oceania: IPBES region Oceania.
+   */
+  OCEANIA,
+
+  /**
+   * Latin America and the Caribbean: IPBES regions Mesoamerica, Caribbean, South America.
+   */
+  LATIN_AMERICA,
+
+  /**
+   * Antarctica: "Excluded" IPBES regions, or GEO regions except Greenland.  Includes some islands in the Southern Ocean.
    */
   ANTARCTICA;
 

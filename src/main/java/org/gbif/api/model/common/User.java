@@ -33,8 +33,8 @@ import javax.validation.constraints.Size;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
- * A GBIF user account registered in the drupal user database.
- * @Deprecated replaced by {@link GbifUser}
+ * A GBIF user account registered in the Drupal user database.
+ * @deprecated replaced by {@link GbifUser}
  */
 @Deprecated
 public class User {
@@ -175,7 +175,6 @@ public class User {
 
   /**
    * Gets the settings which may be empty but never null.
-   * @return
    */
   @NotNull
   public Map<String, String> getSettings() {
