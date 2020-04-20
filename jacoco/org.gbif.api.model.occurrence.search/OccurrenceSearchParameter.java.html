@@ -139,19 +139,34 @@ import java.util.UUID;
 <span class="fc" id="L139">  DECIMAL_LONGITUDE(Double.class),</span>
 
   /**
+   * The uncertainty of the coordinate in meters.
+   * This parameter accepts comma separated range values, e.g.:
+   * &lt;dl&gt;
+   * &lt;dt&gt;*,100&lt;/dt&gt;
+   * &lt;dd&gt;Uncertainty below or equals 100m&lt;/dd&gt;
+   * &lt;dt&gt;10000,*&lt;/dt&gt;
+   * &lt;dd&gt;Uncertainty above or equals 10,000m&lt;/dd&gt;
+   * &lt;dt&gt;1000,5000&lt;/dt&gt;
+   * &lt;dd&gt;Uncertainty between or equals 1000m and 5000m
+   * &lt;/dd&gt;
+   * &lt;/dl&gt;
+   */
+<span class="fc" id="L154">  COORDINATE_UNCERTAINTY_IN_METERS(Double.class),</span>
+
+  /**
    * Country the occurrence was recorded in.
    */
-<span class="fc" id="L144">  COUNTRY(Country.class),</span>
+<span class="fc" id="L159">  COUNTRY(Country.class),</span>
 
   /**
    * Continent the occurrence was recorded in.
    */
-<span class="fc" id="L149">  CONTINENT(Continent.class),</span>
+<span class="fc" id="L164">  CONTINENT(Continent.class),</span>
 
   /**
    * The country of the organization that publishes the dataset the occurrence belongs to.
    */
-<span class="fc" id="L154">  PUBLISHING_COUNTRY(Country.class),</span>
+<span class="fc" id="L169">  PUBLISHING_COUNTRY(Country.class),</span>
 
   /**
    * Altitude/elevation in meters above sea level.
@@ -165,7 +180,7 @@ import java.util.UUID;
    * &lt;dd&gt;Altitude between or equals -2m and 8.8m&lt;/dd&gt;
    * &lt;/dl&gt;
    */
-<span class="fc" id="L168">  ELEVATION(Double.class),</span>
+<span class="fc" id="L183">  ELEVATION(Double.class),</span>
 
   /**
    * Depth in meters relative to altitude. For example 10 meters below a lake surface with given altitude.
@@ -179,118 +194,118 @@ import java.util.UUID;
    * &lt;dd&gt;Depth between or equals 12.1m and 28.8m&lt;/dd&gt;
    * &lt;/dl&gt;
    */
-<span class="fc" id="L182">  DEPTH(Double.class),</span>
+<span class="fc" id="L197">  DEPTH(Double.class),</span>
 
   /**
    * An identifier of any form assigned by the source to identify the institution
    * the record belongs to. Not guaranteed to be unique.
    */
-<span class="fc" id="L188">  INSTITUTION_CODE(String.class),</span>
+<span class="fc" id="L203">  INSTITUTION_CODE(String.class),</span>
 
   /**
    * An identifier of any form assigned by the source to identify the physical collection or digital dataset
    * uniquely within the context of an institution.
    */
-<span class="fc" id="L194">  COLLECTION_CODE(String.class),</span>
+<span class="fc" id="L209">  COLLECTION_CODE(String.class),</span>
 
   /**
    * An identifier of any form assigned by the source within a physical collection or digital dataset for the record
    * which may not be unique, but should be fairly unique in combination with the institution and collection code.
    */
-<span class="fc" id="L200">  CATALOG_NUMBER(String.class),</span>
+<span class="fc" id="L215">  CATALOG_NUMBER(String.class),</span>
 
   /**
    * The person who recorded the occurrence.
    */
-<span class="fc" id="L205">  RECORDED_BY(String.class),</span>
+<span class="fc" id="L220">  RECORDED_BY(String.class),</span>
 
   /**
    * An identifier given to the Occurrence at the time it was recorded.
    */
-<span class="fc" id="L210">  RECORD_NUMBER(String.class),</span>
+<span class="fc" id="L225">  RECORD_NUMBER(String.class),</span>
 
   /**
    * A basis of record enumeration value.
    */
-<span class="fc" id="L215">  BASIS_OF_RECORD(BasisOfRecord.class),</span>
+<span class="fc" id="L230">  BASIS_OF_RECORD(BasisOfRecord.class),</span>
 
   /**
    * A taxon key from the GBIF backbone. All included and synonym taxa are included in the search, so a search for
    * aves with taxonKey=212 will match all birds, no matter which species.
    */
-<span class="fc" id="L221">  TAXON_KEY(Integer.class),</span>
+<span class="fc" id="L236">  TAXON_KEY(Integer.class),</span>
 
   /**
    * A taxon key from the GBIF backbone for the name usage of the currently valid or accepted taxon.
    */
-<span class="fc" id="L226">  ACCEPTED_TAXON_KEY(Integer.class),</span>
+<span class="fc" id="L241">  ACCEPTED_TAXON_KEY(Integer.class),</span>
 
   /**
    * A kingdom key from the GBIF backbone.
    */
-<span class="fc" id="L231">  KINGDOM_KEY(Integer.class),</span>
+<span class="fc" id="L246">  KINGDOM_KEY(Integer.class),</span>
 
   /**
    * A phylum key from the GBIF backbone.
    */
-<span class="fc" id="L236">  PHYLUM_KEY(Integer.class),</span>
+<span class="fc" id="L251">  PHYLUM_KEY(Integer.class),</span>
 
   /**
    * A class key from the GBIF backbone.
    */
-<span class="fc" id="L241">  CLASS_KEY(Integer.class),</span>
+<span class="fc" id="L256">  CLASS_KEY(Integer.class),</span>
 
   /**
    * A order key from the GBIF backbone.
    */
-<span class="fc" id="L246">  ORDER_KEY(Integer.class),</span>
+<span class="fc" id="L261">  ORDER_KEY(Integer.class),</span>
 
   /**
    * A family key from the GBIF backbone.
    */
-<span class="fc" id="L251">  FAMILY_KEY(Integer.class),</span>
+<span class="fc" id="L266">  FAMILY_KEY(Integer.class),</span>
 
   /**
    * A genus key from the GBIF backbone.
    */
-<span class="fc" id="L256">  GENUS_KEY(Integer.class),</span>
+<span class="fc" id="L271">  GENUS_KEY(Integer.class),</span>
 
   /**
    * A subgenus key from the GBIF backbone.
    */
-<span class="fc" id="L261">  SUBGENUS_KEY(Integer.class),</span>
+<span class="fc" id="L276">  SUBGENUS_KEY(Integer.class),</span>
 
   /**
    * A species key from the GBIF backbone.
    */
-<span class="fc" id="L266">  SPECIES_KEY(Integer.class),</span>
+<span class="fc" id="L281">  SPECIES_KEY(Integer.class),</span>
 
   /**
    * Searches the interpreted, full scientific name of the occurrence.
    */
-<span class="fc" id="L271">  SCIENTIFIC_NAME(String.class),</span>
+<span class="fc" id="L286">  SCIENTIFIC_NAME(String.class),</span>
 
   /**
    * Scientific name as provided byt the source.
    */
-<span class="fc" id="L276">  VERBATIM_SCIENTIFIC_NAME(String.class),</span>
+<span class="fc" id="L291">  VERBATIM_SCIENTIFIC_NAME(String.class),</span>
 
   /**
    * Verbatim identifier for the set of taxon information. May be a global unique identifier or an identifier specific to the data set.
    */
-<span class="fc" id="L281">  TAXON_ID(String.class),</span>
+<span class="fc" id="L296">  TAXON_ID(String.class),</span>
 
   /**
    * The status of the use of the  GBIF Backbone taxonKey.
    */
-<span class="fc" id="L286">  TAXONOMIC_STATUS(TaxonomicStatus.class),</span>
+<span class="fc" id="L301">  TAXONOMIC_STATUS(TaxonomicStatus.class),</span>
 
   /**
    * Searches for occurrence records which contain a value on its coordinate fields (latitude and longitude).
    * HAS_COORDINATE=true searches for occurrence records with a coordinate value.
    * HAS_COORDINATE=false searches for occurrence records without a coordinate value.
    */
-<span class="fc" id="L293">  HAS_COORDINATE(Boolean.class),</span>
+<span class="fc" id="L308">  HAS_COORDINATE(Boolean.class),</span>
 
   /**
    * Geometry in &lt;a href=&quot;https://en.wikipedia.org/wiki/Well-known_text&quot;&gt;Well Known Text&lt;/a&gt; (WKT) format.
@@ -304,7 +319,7 @@ import java.util.UUID;
    * &lt;li&gt;LINEARRING&lt;/li&gt;
    * &lt;/ul&gt;
    */
-<span class="fc" id="L307">  GEOMETRY(String.class),</span>
+<span class="fc" id="L322">  GEOMETRY(String.class),</span>
 
   /**
    * Includes/excludes occurrence records which contain geospatial issues for their coordinate.
@@ -313,160 +328,160 @@ import java.util.UUID;
    * HAS_GEOSPATIAL_ISSUE=false exclude records with spatial issues.
    * The absence of this parameter returns any record with or without spatial issues.
    */
-<span class="fc" id="L316">  HAS_GEOSPATIAL_ISSUE(Boolean.class),</span>
+<span class="fc" id="L331">  HAS_GEOSPATIAL_ISSUE(Boolean.class),</span>
 
   /**
    * Searches occurrence for those that have a specific issue.
    */
-<span class="fc" id="L321">  ISSUE(OccurrenceIssue.class),</span>
+<span class="fc" id="L336">  ISSUE(OccurrenceIssue.class),</span>
 
   /**
    * Nomenclatural type (type status, typified scientific name, publication) applied to the subject.
    */
-<span class="fc" id="L326">  TYPE_STATUS(TypeStatus.class),</span>
+<span class="fc" id="L341">  TYPE_STATUS(TypeStatus.class),</span>
 
   /**
    * The kind of media object.
    * Recommended terms from the DCMI Type Vocabulary are StillImage, Sound or MovingImage for GBIF to index and show the
    * media files.
    */
-<span class="fc" id="L333">  MEDIA_TYPE(MediaType.class),</span>
+<span class="fc" id="L348">  MEDIA_TYPE(MediaType.class),</span>
 
   /**
    *  An identifier for the Occurrence (as opposed to a particular digital record of the occurrence).
    *  In the absence of a persistent global unique identifier, construct one from a combination of identifiers in the
    *  record that will most closely make the occurrenceID globally unique.
    */
-<span class="fc" id="L340">  OCCURRENCE_ID(String.class),</span>
+<span class="fc" id="L355">  OCCURRENCE_ID(String.class),</span>
 
   /**
    * The process by which the biological individual(s) represented in the Occurrence became established at the location.
    */
-<span class="fc" id="L345">  ESTABLISHMENT_MEANS(EstablishmentMeans.class),</span>
+<span class="fc" id="L360">  ESTABLISHMENT_MEANS(EstablishmentMeans.class),</span>
 
   /**
    * Searches for records whose publishing country is different to the country where the record was recorded in.
    */
-<span class="fc" id="L350">  REPATRIATED(Boolean.class),</span>
+<span class="fc" id="L365">  REPATRIATED(Boolean.class),</span>
 
   /**
    * An identifier for the Organism instance (as opposed to a particular digital record of the Organism).
    * May be a globally unique identifier or an identifier specific to the data set.
    */
-<span class="fc" id="L356">  ORGANISM_ID(String.class),</span>
+<span class="fc" id="L371">  ORGANISM_ID(String.class),</span>
 
   /**
    * The name of the next smaller administrative region than country in which the Location occurs.
    */
-<span class="fc" id="L361">  STATE_PROVINCE(String.class),</span>
+<span class="fc" id="L376">  STATE_PROVINCE(String.class),</span>
 
   /**
    * The name of the water body in which the Location occurs.
    */
-<span class="fc" id="L366">  WATER_BODY(String.class),</span>
+<span class="fc" id="L381">  WATER_BODY(String.class),</span>
 
   /**
    * The specific description of the place.
    * It may contain information modified from the original to correct perceived errors or standardize the description.
    */
-<span class="fc" id="L372">  LOCALITY(String.class),</span>
+<span class="fc" id="L387">  LOCALITY(String.class),</span>
 
   /**
    * Protocol used to provide the occurrence record.
    */
-<span class="fc" id="L377">  PROTOCOL(EndpointType.class),</span>
+<span class="fc" id="L392">  PROTOCOL(EndpointType.class),</span>
 
   /**
    * The license applied to the dataset.
    */
-<span class="fc" id="L382">  LICENSE(License.class),</span>
+<span class="fc" id="L397">  LICENSE(License.class),</span>
 
   /**
    * The owning organizations uuid key.
    */
-<span class="fc" id="L387">  PUBLISHING_ORG(UUID.class),</span>
+<span class="fc" id="L402">  PUBLISHING_ORG(UUID.class),</span>
 
   /**
    * The GBIF network that the publishing organisation belongs to.
    */
-<span class="fc" id="L392">  NETWORK_KEY(UUID.class),</span>
+<span class="fc" id="L407">  NETWORK_KEY(UUID.class),</span>
 
   /**
    * The technical installation key that hosts/publishes this record.
    */
-<span class="fc" id="L397">  INSTALLATION_KEY(UUID.class),</span>
+<span class="fc" id="L412">  INSTALLATION_KEY(UUID.class),</span>
 
   /**
    * Crawl attempt that harvested this record.
    */
-<span class="fc" id="L402">  CRAWL_ID(Integer.class),</span>
+<span class="fc" id="L417">  CRAWL_ID(Integer.class),</span>
 
   /**
    * GBIF ProjectId.
    */
-<span class="fc" id="L407">  PROJECT_ID(String.class),</span>
+<span class="fc" id="L422">  PROJECT_ID(String.class),</span>
 
   /**
    * GBIF Programme Acronym.
    */
-<span class="fc" id="L412">  PROGRAMME(String.class),</span>
+<span class="fc" id="L427">  PROGRAMME(String.class),</span>
 
   /**
    * A number or enumeration value for the quantity of organisms.
    */
-<span class="fc" id="L417">  ORGANISM_QUANTITY(Double.class),</span>
+<span class="fc" id="L432">  ORGANISM_QUANTITY(Double.class),</span>
 
   /**
    * The type of quantification system used for the quantity of organisms.
    */
-<span class="fc" id="L422">  ORGANISM_QUANTITY_TYPE(String.class),</span>
+<span class="fc" id="L437">  ORGANISM_QUANTITY_TYPE(String.class),</span>
 
   /**
    * The unit of measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.
    */
-<span class="fc" id="L427">  SAMPLE_SIZE_UNIT(String.class),</span>
+<span class="fc" id="L442">  SAMPLE_SIZE_UNIT(String.class),</span>
 
   /**
    * A numeric value for a measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.
    */
-<span class="fc" id="L432">  SAMPLE_SIZE_VALUE(Double.class),</span>
+<span class="fc" id="L447">  SAMPLE_SIZE_VALUE(Double.class),</span>
 
   /**
    * Calculated organismQuantity relative to the sampleSizeValue i.e. -&gt; organismQuantity / sampleSizeValue.
    */
-<span class="fc" id="L437">  RELATIVE_ORGANISM_QUANTITY(Double.class),</span>
+<span class="fc" id="L452">  RELATIVE_ORGANISM_QUANTITY(Double.class),</span>
 
   /**
    * Collection key as UUID. It links to the collection to which this record belongs.
    */
-<span class="fc" id="L442">  COLLECTION_KEY(UUID.class),</span>
+<span class="fc" id="L457">  COLLECTION_KEY(UUID.class),</span>
 
   /**
    * Institution key as UUID. It links to the institution that maintains, recorded or digitized  this record.
    */
-<span class="fc" id="L447">  INSTITUTION_KEY(UUID.class),</span>
+<span class="fc" id="L462">  INSTITUTION_KEY(UUID.class),</span>
 
   /**
    * Agent identifiers from GbifTerm.recordedByID
    */
-<span class="fc" id="L452">  RECORDED_BY_ID(String.class),</span>
+<span class="fc" id="L467">  RECORDED_BY_ID(String.class),</span>
 
   /**
    * Agent identifiers from GbifTerm.identifiedByID
    */
-<span class="fc" id="L457">  IDENTIFIED_BY_ID(String.class);</span>
+<span class="fc" id="L472">  IDENTIFIED_BY_ID(String.class);</span>
 
   private final Class&lt;?&gt; type;
 
-<span class="fc" id="L461">  OccurrenceSearchParameter(Class&lt;?&gt; type) {</span>
-<span class="fc" id="L462">    this.type = type;</span>
-<span class="fc" id="L463">  }</span>
+<span class="fc" id="L476">  OccurrenceSearchParameter(Class&lt;?&gt; type) {</span>
+<span class="fc" id="L477">    this.type = type;</span>
+<span class="fc" id="L478">  }</span>
 
   /**
    * @return the data type expected for the value of the respective search parameter
    */
   public Class&lt;?&gt; type() {
-<span class="fc" id="L469">    return type;</span>
+<span class="fc" id="L484">    return type;</span>
   }
 
 }
