@@ -63,6 +63,8 @@ public interface TagService {
    *
    * @param taggedEntityKey key of tagged entity
    * @param owner           owner
+   *
+   * @return list of tags that belong to the entity and owner
    */
   List<Tag> listTags(@NotNull UUID taggedEntityKey, @Nullable String owner);
 }

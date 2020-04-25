@@ -23,13 +23,36 @@ import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Service provides a set of operations on {@link Comment}.
+ */
 @SuppressWarnings("unused")
 public interface CommentService {
 
+  /**
+   * Add a new Comment to a target entity.
+   *
+   * @param targetEntityKey key of target entity
+   * @param comment         Comment to add
+   *
+   * @return key of Comment added
+   */
   int addComment(@NotNull UUID targetEntityKey, @NotNull @Valid Comment comment);
 
+  /**
+   * Delete an existing Comment from a target entity by comment key.
+   *
+   * @param targetEntityKey key of target entity
+   * @param commentKey      Comment key to delete
+   */
   void deleteComment(@NotNull UUID targetEntityKey, int commentKey);
 
+  /**
+   * List all comments of a target entity.
+   *
+   * @param targetEntityKey key of target entity
+   *
+   * @return list of comments that belong to the entity
+   */
   List<Comment> listComments(@NotNull UUID targetEntityKey);
-
 }
