@@ -23,13 +23,36 @@ import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Service provides a set of operations on {@link Endpoint}.
+ */
 @SuppressWarnings("unused")
 public interface EndpointService {
 
+  /**
+   * Add a new Endpoint to a target entity.
+   *
+   * @param targetEntityKey key of target entity
+   * @param endpoint        Endpoint to add
+   *
+   * @return key of Endpoint added
+   */
   int addEndpoint(@NotNull UUID targetEntityKey, @NotNull @Valid Endpoint endpoint);
 
+  /**
+   * Delete an existing Endpoint from a target entity by endpoint key.
+   *
+   * @param targetEntityKey key of target entity
+   * @param endpointKey     Endpoint key to delete
+   */
   void deleteEndpoint(@NotNull UUID targetEntityKey, int endpointKey);
 
+  /**
+   * List all endpoints of a target entity.
+   *
+   * @param targetEntityKey key of target entity
+   *
+   * @return list of endpoints that belong to the entity
+   */
   List<Endpoint> listEndpoints(@NotNull UUID targetEntityKey);
-
 }

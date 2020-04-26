@@ -23,13 +23,36 @@ import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Service provides a set of operations on {@link Identifier}.
+ */
 @SuppressWarnings("unused")
 public interface IdentifierService {
 
+  /**
+   * Add a new Identifier to a target entity.
+   *
+   * @param targetEntityKey key of target entity
+   * @param identifier      Identifier to add
+   *
+   * @return key of Identifier added
+   */
   int addIdentifier(@NotNull UUID targetEntityKey, @NotNull @Valid Identifier identifier);
 
+  /**
+   * Delete an existing Identifier from a target entity by identifier key.
+   *
+   * @param targetEntityKey key of target entity
+   * @param identifierKey   Identifier key to delete
+   */
   void deleteIdentifier(@NotNull UUID targetEntityKey, int identifierKey);
 
+  /**
+   * List all identifiers of a target entity.
+   *
+   * @param targetEntityKey key of target entity
+   *
+   * @return list of identifiers that belong to the entity
+   */
   List<Identifier> listIdentifiers(@NotNull UUID targetEntityKey);
-
 }
