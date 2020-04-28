@@ -52,9 +52,9 @@ public enum DownloadFormat {
   MAP_OF_LIFE(".avro"),
 
   /**
-   * Special AVRO format for the <a href="https://bloodhound-tracker.net/">Bloodhound</a> project.
+   * Special export format for the <a href="https://bloodhound-tracker.net/">Bloodhound</a> project.
    */
-  BLOODHOUND(".avro"),
+  BLOODHOUND(".zip"),
 
   /**
    * Special CSV format for the <a href="https://www.iucn.org/">International Union for Conservation of Nature</a>
