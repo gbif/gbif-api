@@ -46,6 +46,7 @@ public interface CollectionService
    * @param contactKey to filter by a contact
    * @param code code of the collection
    * @param name name of the collection
+   * @param alternativeCode alternative code of the collection
    * @param page paging parameters
    * @return a list of entities ordered by their creation date, newest coming first
    */
@@ -55,6 +56,7 @@ public interface CollectionService
       @Nullable UUID contactKey,
       @Nullable String code,
       @Nullable String name,
+      @Nullable String alternativeCode,
       @Nullable Pageable page);
 
   /**

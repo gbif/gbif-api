@@ -86,6 +86,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
   private List<String> incorporatedCollections = new ArrayList<>();
   private List<String> importantCollectors = new ArrayList<>();
   private Map<String, Integer> collectionSummary = new HashMap<>();
+  private Map<String, String> alternativeCodes = new HashMap<>();
 
   /**
    * List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc..
@@ -463,6 +464,14 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
     this.collectionSummary = collectionSummary;
   }
 
+  public Map<String, String> getAlternativeCodes() {
+    return alternativeCodes;
+  }
+
+  public void setAlternativeCodes(Map<String, String> alternativeCodes) {
+    this.alternativeCodes = alternativeCodes;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -502,7 +511,8 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
            && Objects.equals(notes, that.notes)
            && Objects.equals(incorporatedCollections, that.incorporatedCollections)
            && Objects.equals(importantCollectors, that.importantCollectors)
-           && Objects.equals(collectionSummary, that.collectionSummary);
+           && Objects.equals(collectionSummary, that.collectionSummary)
+           && Objects.equals(alternativeCodes, that.alternativeCodes);
   }
 
   @Override
@@ -541,7 +551,8 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
                         notes,
                         incorporatedCollections,
                         importantCollectors,
-                        collectionSummary);
+                        collectionSummary,
+                        alternativeCodes);
   }
 
   @Override
@@ -581,6 +592,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
       .add("incorporatedCollections=" + incorporatedCollections)
       .add("importantCollectors=" + importantCollectors)
       .add("collectionSummary=" + collectionSummary)
+      .add("alternativeCodes=" + alternativeCodes)
       .toString();
   }
 
@@ -615,6 +627,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
            && Objects.equals(notes, other.notes)
            && Objects.equals(incorporatedCollections, other.incorporatedCollections)
            && Objects.equals(importantCollectors, other.importantCollectors)
-           && Objects.equals(collectionSummary, other.collectionSummary);
+           && Objects.equals(collectionSummary, other.collectionSummary)
+           && Objects.equals(alternativeCodes, other.alternativeCodes);
   }
 }
