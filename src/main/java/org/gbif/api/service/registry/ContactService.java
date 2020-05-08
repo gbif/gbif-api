@@ -23,13 +23,37 @@ import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Service provides a set of operations on {@link Contact}.
+ */
 @SuppressWarnings("unused")
 public interface ContactService {
 
+  /**
+   * Add a new Contact to a target entity.
+   *
+   * @param targetEntityKey key of target entity
+   * @param contact         Contact to add
+   *
+   * @return key of Contact added
+   */
   int addContact(@NotNull UUID targetEntityKey, @NotNull @Valid Contact contact);
 
+  /**
+   * Delete an existing Contact from a target entity by contact key.
+   *
+   * @param targetEntityKey key of target entity
+   * @param contactKey      Contact key to delete
+   */
   void deleteContact(@NotNull UUID targetEntityKey, int contactKey);
 
+  /**
+   * List all contacts of a target entity.
+   *
+   * @param targetEntityKey key of target entity
+   *
+   * @return list of contacts that belong to the entity
+   */
   List<Contact> listContacts(@NotNull UUID targetEntityKey);
 
   /**
@@ -39,5 +63,4 @@ public interface ContactService {
    * @param contact To update
    */
   void updateContact(@NotNull UUID targetEntityKey, @NotNull @Valid Contact contact);
-
 }

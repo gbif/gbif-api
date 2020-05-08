@@ -18,24 +18,54 @@ package org.gbif.api.vocabulary;
 import org.gbif.api.util.VocabularyUtils;
 
 /**
- * Enumeration for all continents based on the 7 number model found on
- * <a href="http://en.wikipedia.org/wiki/Continent#Number_of_continents">Wikipedia</a>.
+ * <p>Enumeration for all continents based on the 7 number model found on
+ * <a href="https://en.wikipedia.org/wiki/Continent#Number_of_continents">Wikipedia</a>.
  *
- * In particular this splits the Americas into North and South America with North America including the Caribbean and
- * reaching down and including Panama. See the <a href="http://upload.wikimedia.org/wikipedia/commons/1/19/Continents_vide_couleurs.png">Wikipedia continent map</a> for the exact divisions.
+ * <p>In particular this splits the Americas into North and South America with North America including the Caribbean and
+ * reaching down and including Panama. See the <a href="https://commons.wikimedia.org/wiki/File:Continents_vide_couleurs.png">Wikipedia continent map</a> for the exact divisions.
+ *
+ * <p>This is a geographical division.  For GBIF's political divisions, see {@link GbifRegion}.
+ *
+ * <p>There is currently no validation of continents for GBIF occurrences, so there is no explicit definition of what
+ * country is in each continent.
  */
 public enum Continent {
 
-  AFRICA("Africa"),
-  ANTARCTICA("Antarctica"),
-  ASIA("Asia"),
-  OCEANIA("Oceania"),
-  EUROPE("Europe"),
   /**
-   * North America includes the Caribbean and
-   * reachies down and includes Panama.
+   * Africa.
+   */
+  AFRICA("Africa"),
+
+  /**
+   * Antarctica.
+   */
+  ANTARCTICA("Antarctica"),
+
+  /**
+   * Asia.
+   */
+  ASIA("Asia"),
+
+  /**
+   * Oceania.
+   */
+  OCEANIA("Oceania"),
+
+  /**
+   * Europe.
+   */
+  EUROPE("Europe"),
+
+  /**
+   * North America
+   *
+   * <p>This includes the Caribbean and Central America.
    */
   NORTH_AMERICA("North America"),
+
+  /**
+   * South America.
+   */
   SOUTH_AMERICA("South America");
 
   private final String title;

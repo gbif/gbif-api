@@ -27,23 +27,20 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 /**
- * Jackson Serializer and Deserializer for {@link java.util.Map.Entry}.
- * This is mostly for pre 2.7 version of Jackson see
- * https://github.com/fasterxml/jackson-databind/issues/565
- * <p>
- * The goal is to omit the key/value field name since they are implicit
+ * <p>Jackson Serializer and Deserializer for {@link java.util.Map.Entry}.
+ * <p>This is mostly for pre 2.7 version of Jackson, see <a href="https://github.com/fasterxml/jackson-databind/issues/565">Jackson Databind issue 565</a>.
+ *
+ * <p>The goal is to omit the key/value field name since they are implicit
  * for a Map.Entry.
- * <p>
- * {"key":"mykey","value":18} becomes {"mykey":18}
- * <p>
- * The key will use toString() and the value can only be a String or a Number (int or float) for now.
+ *
+ * <code>{"key":"mykey","value":18}</code> becomes <code>{"mykey":18}</code>
+ *
+ * <p>The key will use <code>toString()</code> and the value can only be a String or a Number (int or float) for now.
  *
  * <pre>
- * {@code
  * // Usage for lists:
- * @JsonSerialize(contentUsing = MapEntrySerde.MapEntryJsonSerializer.class)
- * public List<Map.Entry<String, Object>> getKeyValueList() { ... }
- * }
+ * &#64;JsonSerialize(contentUsing = MapEntrySerde.MapEntryJsonSerializer.class)
+ * public List<Map.Entry<String, Object>> getKeyValueList() { ... };
  * </pre>
  */
 public class MapEntrySerde {

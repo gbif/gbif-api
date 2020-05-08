@@ -25,24 +25,92 @@ import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Service provides a set of operations on {@link MachineTag}.
+ */
 @SuppressWarnings("unused")
 public interface MachineTagService {
 
+  /**
+   * Add a new {@link MachineTag} to a target entity.
+   *
+   * @param targetEntityKey key of target entity
+   * @param machineTag      tag to add
+   *
+   * @return key of tag added
+   */
   int addMachineTag(@NotNull UUID targetEntityKey, @NotNull @Valid MachineTag machineTag);
 
+  /**
+   * Add a new {@link MachineTag} to a target entity.
+   *
+   * @param targetEntityKey key of target entity
+   * @param tagName         {@link TagName}
+   * @param value           tag value to add
+   *
+   * @return key of tag added
+   */
   int addMachineTag(@NotNull UUID targetEntityKey, @NotNull TagName tagName, @NotNull String value);
 
+  /**
+   * Add a new {@link MachineTag} to a target entity.
+   *
+   * @param targetEntityKey key of target entity
+   * @param namespace       tag namespace
+   * @param name            name of the tag to add
+   * @param value           value of the tag to add
+   *
+   * @return key of tag added
+   */
   int addMachineTag(@NotNull UUID targetEntityKey, @NotNull String namespace, @NotNull String name, @NotNull String value);
 
+  /**
+   * Delete an existing {@link MachineTag} from a tagged entity by tag key.
+   *
+   * @param targetEntityKey key of tagged entity
+   * @param machineTagKey   key of the tag to delete
+   */
   void deleteMachineTag(@NotNull UUID targetEntityKey, int machineTagKey);
 
+  /**
+   * Delete machine tags from a tagged entity by tag namespace.
+   *
+   * @param targetEntityKey key of tagged entity
+   * @param tagNamespace    {@link TagNamespace}
+   */
   void deleteMachineTags(@NotNull UUID targetEntityKey, @NotNull TagNamespace tagNamespace);
 
+  /**
+   * Delete machine tags from a tagged entity by tag namespace.
+   *
+   * @param targetEntityKey key of tagged entity
+   * @param namespace       tag namespace
+   */
   void deleteMachineTags(@NotNull UUID targetEntityKey, @NotNull String namespace);
 
+  /**
+   * Delete machine tags from a tagged entity by tag name.
+   *
+   * @param targetEntityKey key of tagged entity
+   * @param tagName         {@link TagName}
+   */
   void deleteMachineTags(@NotNull UUID targetEntityKey, @NotNull TagName tagName);
 
+  /**
+   * Delete machine tags from a tagged entity by namespace and tag name.
+   *
+   * @param targetEntityKey key of tagged entity
+   * @param namespace       tag namespace
+   * @param name            {@link TagName}
+   */
   void deleteMachineTags(@NotNull UUID targetEntityKey, @NotNull String namespace, @NotNull String name);
 
+  /**
+   * List all machine tags of the entity.
+   *
+   * @param targetEntityKey key of the entity
+   *
+   * @return list of tags that belong to the entity
+   */
   List<MachineTag> listMachineTags(@NotNull UUID targetEntityKey);
 }

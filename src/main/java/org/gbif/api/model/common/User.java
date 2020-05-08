@@ -33,9 +33,8 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A GBIF user account registered in the drupal user database.
- *
- * @Deprecated replaced by {@link GbifUser}
+ * A GBIF user account registered in the Drupal user database.
+ * @deprecated replaced by {@link GbifUser}
  */
 @Deprecated
 public class User {

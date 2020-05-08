@@ -24,9 +24,20 @@ import javax.annotation.Nullable;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Service provides a set of operations on {@link Tag}.
+ */
 @SuppressWarnings("unused")
 public interface TagService {
 
+  /**
+   * Add a new Tag to a target entity.
+   *
+   * @param targetEntityKey key of target entity
+   * @param value           Tag to add
+   *
+   * @return key of Tag added
+   */
   int addTag(@NotNull UUID targetEntityKey, @NotNull String value);
 
   /**
@@ -39,8 +50,21 @@ public interface TagService {
    */
   int addTag(@NotNull UUID targetEntityKey, @NotNull @Valid Tag tag);
 
+  /**
+   * Delete an existing Tag from a tagged entity by tag key.
+   *
+   * @param taggedEntityKey key of tagged entity
+   * @param tagKey          Tag key to delete
+   */
   void deleteTag(@NotNull UUID taggedEntityKey, int tagKey);
 
+  /**
+   * List all tags of a tagged entity.
+   *
+   * @param taggedEntityKey key of tagged entity
+   * @param owner           owner
+   *
+   * @return list of tags that belong to the entity and owner
+   */
   List<Tag> listTags(@NotNull UUID taggedEntityKey, @Nullable String owner);
-
 }

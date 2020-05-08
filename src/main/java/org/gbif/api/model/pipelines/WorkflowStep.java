@@ -24,7 +24,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Models a step in a {@link PipelineWorkflow}.
+ * Models a step in a Pipeline workflow.
  *
  * <p>These steps are identified by the {@link StepType} and are linked to their next steps in the
  * workflow.

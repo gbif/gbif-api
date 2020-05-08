@@ -39,22 +39,29 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 /**
- * Enumeration for all current ISO 3166-1 ALPHA2 country codes using 2 letters, with the exception of TW which
- * is overridden by GBIF.
- * Older country codes will be supported soon, @see #isDeprecated().
- * All user assigned codes (e.g. XX and QS) are mapped to the single enum USER_DEFINED.
- * The enumeration maps to ALPHA3 3-letter codes.
+ * <p>An enumeration for all current ISO 3166-1 Alpha-2 and Alpha-3 country codes.
  *
- * @see <a href="https://www.iso.org/obp/ui/#home">ISO Online Browsing Platform</a>
- * @see <a href="http://data.okfn.org/data/core/country-codes">ISO 3166 in the Open Knowledge International database</a>
- * @see <a href="http://en.wikipedia.org/wiki/ISO_3166">ISO 3166 on Wikipedia</a>
- * @see <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha2 on Wikipedia</a>
- * @see <a href="http://en.wikipedia.org/wiki/ISO_3166-3">ISO_3166-3 on Wikipedia</a>
- * <p>
- * TODO: deal with outdated codes from ISO_3166-3
+ * <p>Formerly used codes are not included.
+ *
+ * <p>All user assigned codes (e.g. XX and QS) are mapped to the single enum USER_DEFINED.
+ *
+ * <p>Titles are taken from the ISO standard short name, with punctuation adjusted.
+ *
+ * <p>GBIF Regions are based on <a href="https://www.nature.com/articles/sdata20167/figures/1">IPBES regions</a>.
+ * The source for GBIF Regions is the participant entities in the GBIF Directory, which are synchronized with
+ * {@link org.gbif.api.model.registry.Node}s in the Registry.  They are <strong>also</strong> recorded here,
+ * to provide regions for countries that are not GBIF members.
+ *
+ * @see <a href="https://www.iso.org/obp/ui/#search">ISO Online Browsing Platform</a>
+ * @see <a href="https://datahub.io/core/country-codes">ISO 3166 in the Open Knowledge International database</a>
+ * @see <a href="https://en.wikipedia.org/wiki/ISO_3166">ISO 3166 on Wikipedia</a>
+ * @see <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha2 on Wikipedia</a>
+ * @see <a href="https://en.wikipedia.org/wiki/ISO_3166-3">ISO_3166-3 on Wikipedia</a>
  */
 /*
  * When updating this file, remember also to update http://rs.gbif.org/vocabulary/iso/3166-1_alpha2.xml
+ * Also ensure the GbifRegions match the participant table in the Directory.
+ * TODO: deal with outdated codes from ISO_3166-3
  */
 @JsonSerialize(using = Country.IsoSerializer.class)
 @JsonDeserialize(using = Country.IsoDeserializer.class)
@@ -316,7 +323,7 @@ public enum Country {
   CONGO_DEMOCRATIC_REPUBLIC("CD", "COD", 180, "Congo, Democratic Republic of the", GbifRegion.AFRICA),
 
   /**
-   * Congo.
+   * Congo, Republic of the.
    */
   CONGO("CG", "COG", 178, "Congo, Republic of the", GbifRegion.AFRICA),
 
@@ -546,7 +553,7 @@ public enum Country {
   HEARD_MCDONALD_ISLANDS("HM", "HMD", 334, "Heard Island and McDonald Islands", GbifRegion.ANTARCTICA),
 
   /**
-   * Holy See (Vatican City State).
+   * Holy See.
    */
   VATICAN("VA", "VAT", 336, "Holy See", GbifRegion.EUROPE),
 
@@ -1001,7 +1008,7 @@ public enum Country {
   SAINT_LUCIA("LC", "LCA", 662, "Saint Lucia", GbifRegion.LATIN_AMERICA),
 
   /**
-   * SAINT MARTIN (French part).
+   * Saint Martin (French part).
    */
   SAINT_MARTIN_FRENCH("MF", "MAF", 663, "Saint Martin (French part)", GbifRegion.LATIN_AMERICA),
 
@@ -1061,7 +1068,7 @@ public enum Country {
   SINGAPORE("SG", "SGP", 702, "Singapore", GbifRegion.ASIA),
 
   /**
-   * SINT MAARTEN (Dutch part).
+   * Sint Maarten (Dutch part).
    */
   SINT_MAARTEN("SX", "SXM", 534, "Sint Maarten (Dutch part)", GbifRegion.LATIN_AMERICA),
 
@@ -1237,10 +1244,15 @@ public enum Country {
   /**
    * United Kingdom.
    */
+  /*
+   * This is the only case where the ISO short name,
+   * "United Kingdom of Great Britain and Northern Ireland" is further
+   * shortened by GBIF.
+   */
   UNITED_KINGDOM("GB", "GBR", 826, "United Kingdom", GbifRegion.EUROPE),
 
   /**
-   * United States.
+   * United States of America.
    */
   UNITED_STATES("US", "USA", 840, "United States of America", GbifRegion.NORTH_AMERICA),
 
@@ -1329,14 +1341,14 @@ public enum Country {
   KOSOVO("XK", "XKX", 902, "Kosovo", GbifRegion.EUROPE),
 
   /**
-   * @see <a href="http://en.wikipedia.org/wiki/UN/LOCODE">UN/LOCODE</a>
+   * Taken from {@link <a href="http://en.wikipedia.org/wiki/UN/LOCODE">UN/LOCODE</a>}
    */
   INTERNATIONAL_WATERS("XZ", "XZZ", 901, "international waters"),
 
   /**
    * Unknown or Invalid territory.
    *
-   * @see <a href="http://en.wikipedia.org/wiki/Common_Locale_Data_Repository">Unicode Common Locale Data Repository</a>
+   * <p>See {@link <a href="http://en.wikipedia.org/wiki/Common_Locale_Data_Repository">Unicode Common Locale Data Repository</a>}
    */
   UNKNOWN("ZZ", "ZZZ", 999, "unknown or invalid");
 
@@ -1472,9 +1484,7 @@ public enum Country {
   }
 
   /**
-   * Get the {@link GbifRegion} associated with this {@link Country}.
-   *
-   * @return
+   * @return the {@link GbifRegion} associated with this {@link Country}.
    */
   public GbifRegion getGbifRegion() {
     return gbifRegion;

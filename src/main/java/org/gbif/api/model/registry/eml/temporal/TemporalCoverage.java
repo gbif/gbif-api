@@ -40,7 +40,6 @@ public abstract class TemporalCoverage implements Keywords {
    * The concrete class should simply returns formatter.format(this);
    *
    * @param formatter
-   * @return
    */
   public abstract String acceptFormatter(TemporalCoverageFormatterVisitor formatter);
 
