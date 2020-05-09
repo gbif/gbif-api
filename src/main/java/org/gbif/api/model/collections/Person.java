@@ -249,6 +249,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
   /**
    * List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc..
    */
+  @Valid
   @Override
   public List<Identifier> getIdentifiers() {
     return identifiers;
@@ -259,6 +260,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
     this.identifiers = identifiers;
   }
 
+  @Valid
   @Override
   public @NotNull List<MachineTag> getMachineTags() {
     return machineTags;
@@ -274,6 +276,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
    machineTags.add(machineTag);
   }
 
+  @Valid
   @Override
   public @NotNull List<Tag> getTags() {
     return tags;
