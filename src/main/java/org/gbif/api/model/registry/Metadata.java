@@ -17,6 +17,7 @@ package org.gbif.api.model.registry;
 
 import org.gbif.api.vocabulary.MetadataType;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -26,7 +27,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class Metadata implements LenientEquals<Metadata> {
+public class Metadata implements Serializable, LenientEquals<Metadata> {
 
   private Integer key;
   private UUID datasetKey;

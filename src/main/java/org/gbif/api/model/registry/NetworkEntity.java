@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.registry;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -28,7 +29,7 @@ import javax.validation.constraints.Size;
  * used <em>only</em> to simplify consistent testing of operations on network entities, hence the restriction to package
  * visibility only.
  */
-public interface NetworkEntity {
+public interface NetworkEntity extends Serializable {
 
   @Nullable
   @Null(groups = {PrePersist.class})

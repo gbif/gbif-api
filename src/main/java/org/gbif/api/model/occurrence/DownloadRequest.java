@@ -17,6 +17,7 @@ package org.gbif.api.model.occurrence;
 
 import org.gbif.api.jackson.DownloadRequestSerde;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -39,7 +40,7 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
  */
 @SuppressWarnings("unused")
 @JsonDeserialize(using = DownloadRequestSerde.class)
-public abstract class DownloadRequest {
+public abstract class DownloadRequest implements Serializable {
 
   private static final String DELIMITER = ",";
 

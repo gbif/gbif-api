@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import java.io.Serializable;
+
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
@@ -36,6 +38,6 @@ import static org.codehaus.jackson.annotate.JsonSubTypes.Type;
                @Type(value = WithinPredicate.class, name = "within"),
                @Type(value = NotPredicate.class, name = "not"),
                @Type(value = IsNotNullPredicate.class, name = "isNotNull")})
-public interface Predicate {
+public interface Predicate extends Serializable {
 
 }

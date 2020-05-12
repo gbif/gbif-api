@@ -20,6 +20,7 @@ import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.vocabulary.License;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.Objects;
@@ -31,7 +32,7 @@ import javax.validation.constraints.Null;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-public class Download {
+public class Download implements Serializable {
 
   /**
    * Reflects the possibles statuses of a download during its execution.

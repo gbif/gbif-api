@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.collections;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ import javax.annotation.Nullable;
 /**
  * Entity .
  */
-public interface CollectionEntity {
+public interface CollectionEntity extends Serializable {
 
   /**
    * Unique identifier.

@@ -17,6 +17,7 @@ package org.gbif.api.model.registry;
 
 import org.gbif.api.vocabulary.EndpointType;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,7 +31,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
-public class Endpoint implements MachineTaggable, LenientEquals<Endpoint> {
+public class Endpoint implements MachineTaggable, Serializable, LenientEquals<Endpoint> {
 
   private Integer key;
   private EndpointType type;
