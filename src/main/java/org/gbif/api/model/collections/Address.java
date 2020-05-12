@@ -19,6 +19,7 @@ import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.vocabulary.Country;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -30,7 +31,7 @@ import javax.validation.constraints.Null;
  * The particulars of the place where a institution of collection is situated.
  */
 @SuppressWarnings("unused")
-public class Address {
+public class Address implements Serializable {
 
   private Integer key;
   private String address;
