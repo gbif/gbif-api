@@ -16,6 +16,7 @@
 package org.gbif.api.model.common;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -47,7 +48,7 @@ import static org.gbif.api.util.PreconditionUtils.checkArgument;
  */
 @JsonSerialize(using = DOI.DoiSerializer.class)
 @JsonDeserialize(using = DOI.DoiDeserializer.class)
-public class DOI {
+public class DOI implements Serializable {
 
   private static final Logger LOG = LoggerFactory.getLogger(DOI.class);
 
