@@ -17,6 +17,7 @@ package org.gbif.api.model.registry;
 
 import org.gbif.api.vocabulary.Country;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
 
@@ -26,7 +27,7 @@ import javax.validation.constraints.Size;
 /**
  * A package visible providing the commonality for addresses, including the constraint validations.
  */
-public interface Address {
+public interface Address extends Serializable {
 
   /**
    * electronicMailAddress in EML

@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -36,5 +38,5 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
   @JsonSubTypes.Type(value = NotPredicate.class, name = "not"),
   @JsonSubTypes.Type(value = IsNotNullPredicate.class, name = "isNotNull")
 })
-public interface Predicate {
+public interface Predicate extends Serializable {
 }

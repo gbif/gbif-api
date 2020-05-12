@@ -91,6 +91,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
   /**
    * List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc..
    */
+  @Valid
   @Override
   public List<Identifier> getIdentifiers() {
     return identifiers;
@@ -104,6 +105,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
   /**
    * (Meta)Tags or labels.
    */
+  @Valid
   @Override
   public List<Tag> getTags() {
     return tags;
@@ -375,6 +377,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
     this.deleted = deleted;
   }
 
+  @Valid
   @Override
   public List<Person> getContacts() {
     return contacts;
@@ -401,6 +404,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
     this.numberSpecimens = numberSpecimens;
   }
 
+  @Valid
   @Override
   public @NotNull List<MachineTag> getMachineTags() {
     return machineTags;

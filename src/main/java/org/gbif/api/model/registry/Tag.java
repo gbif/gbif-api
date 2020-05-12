@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.registry;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -24,7 +25,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
-public class Tag implements LenientEquals<Tag> {
+public class Tag implements Serializable, LenientEquals<Tag> {
 
   private Integer key;
   private String value;

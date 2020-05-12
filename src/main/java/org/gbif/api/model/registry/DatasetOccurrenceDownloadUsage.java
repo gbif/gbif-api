@@ -18,6 +18,7 @@ package org.gbif.api.model.registry;
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.occurrence.Download;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
@@ -29,7 +30,7 @@ import javax.validation.constraints.NotNull;
  * Provides information about the number of records that the dataset provided to the download; additionally, provide the
  * references to the download and dataset entities.
  */
-public class DatasetOccurrenceDownloadUsage {
+public class DatasetOccurrenceDownloadUsage implements Serializable {
 
   private String downloadKey;
   private UUID datasetKey;

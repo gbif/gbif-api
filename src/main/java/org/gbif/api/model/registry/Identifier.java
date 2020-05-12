@@ -18,6 +18,7 @@ package org.gbif.api.model.registry;
 import org.gbif.api.util.IdentifierUtils;
 import org.gbif.api.vocabulary.IdentifierType;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -30,7 +31,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class Identifier implements LenientEquals<Identifier> {
+public class Identifier implements Serializable, LenientEquals<Identifier> {
 
   private Integer key;
   private IdentifierType type;

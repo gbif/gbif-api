@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.registry;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -23,7 +24,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
-public class Comment implements LenientEquals<Comment> {
+public class Comment implements Serializable, LenientEquals<Comment> {
 
   private Integer key;
   private String content;
