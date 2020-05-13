@@ -23,6 +23,7 @@ import java.util.Set;
  * Encapsulates the possible response of the request of re-execute a pipeline of dataset and
  * attempt.
  */
+@SuppressWarnings("unused")
 public class RunPipelineResponse {
 
   /** Possible response statuses. */
@@ -33,19 +34,22 @@ public class RunPipelineResponse {
     ERROR
   }
 
-  private final ResponseStatus responseStatus;
+  private ResponseStatus responseStatus;
 
-  private final Set<StepType> steps;
+  private Set<StepType> steps;
 
-  private final Set<StepType> stepsFailed;
+  private Set<StepType> stepsFailed;
 
-  private final String message;
+  private String message;
+
+  public RunPipelineResponse() {
+  }
 
   public RunPipelineResponse(
-    ResponseStatus responseStatus,
-    Set<StepType> steps,
-    Set<StepType> stepsFailed,
-    String message) {
+      ResponseStatus responseStatus,
+      Set<StepType> steps,
+      Set<StepType> stepsFailed,
+      String message) {
     this.responseStatus = responseStatus;
     this.steps = steps;
     this.message = message;
@@ -76,9 +80,9 @@ public class RunPipelineResponse {
     if (o == null || getClass() != o.getClass()) return false;
     RunPipelineResponse that = (RunPipelineResponse) o;
     return responseStatus == that.responseStatus
-      && steps.equals(that.steps)
-      && stepsFailed.equals(that.stepsFailed)
-      && message.equals(that.message);
+        && steps.equals(that.steps)
+        && stepsFailed.equals(that.stepsFailed)
+        && message.equals(that.message);
   }
 
   @Override
@@ -95,8 +99,8 @@ public class RunPipelineResponse {
   public static Builder builder(RunPipelineResponse runPipelineResponse) {
     Builder builder = new Builder();
     return builder
-      .setSteps(runPipelineResponse.steps)
-      .setResponseStatus(runPipelineResponse.responseStatus);
+        .setSteps(runPipelineResponse.steps)
+        .setResponseStatus(runPipelineResponse.responseStatus);
   }
 
   /** Builder for {@link RunPipelineResponse}. */
