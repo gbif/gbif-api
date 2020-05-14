@@ -17,9 +17,9 @@ package org.gbif.api.model.checklistbank;
 
 import org.gbif.api.vocabulary.CitesAppendix;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.DistributionStatus;
 import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.LifeStage;
-import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
 
 import java.util.Objects;
@@ -41,7 +41,7 @@ public class Distribution implements NameUsageExtension {
   private String locationId;
   private String locality;
   private Country country;
-  private OccurrenceStatus status;
+  private DistributionStatus status;
   private LifeStage lifeStage;
   private String temporal;
   private ThreatStatus threatStatus;
@@ -304,19 +304,17 @@ public class Distribution implements NameUsageExtension {
    *
    * @return the status.
    *
-   * @see <a href="http://rs.gbif.org/vocabulary/gbif/occurrence_status.xml">occurrence status vocabulary for
-   *      recommended
-   *      values</a>
+   * @see <a href="http://rs.gbif.org/vocabulary/gbif/distribution_status_2020-05-14.xml">occurrence status vocabulary</a> for recommended values
    */
   @Nullable
-  public OccurrenceStatus getStatus() {
+  public DistributionStatus getStatus() {
     return status;
   }
 
   /**
    * @param status the status to set
    */
-  public void setStatus(OccurrenceStatus status) {
+  public void setStatus(DistributionStatus status) {
     this.status = status;
   }
 
