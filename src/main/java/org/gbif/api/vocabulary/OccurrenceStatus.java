@@ -16,18 +16,11 @@
 package org.gbif.api.vocabulary;
 
 /**
- * A statement about the presence or absence of a Taxon at a Location.
+ * A statement about the presence or absence of an occurrence at a location at a time.
  *
- * @see <a href="http://rs.gbif.org/vocabulary/gbif/occurrence_status.xml">rs.gbif.org vocabulary</a>
+ * @see <a href="http://rs.gbif.org/vocabulary/gbif/occurrence_status_2020-05-14.xml">rs.gbif.org vocabulary</a>
  */
 public enum OccurrenceStatus {
-
   PRESENT,
-  COMMON,
-  RARE,
-  IRREGULAR,
-  DOUBTFUL,
-  EXCLUDED,
   ABSENT
-
 }
