@@ -31,7 +31,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * An abstract GBIF user account.
@@ -41,7 +41,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  */
 <span class="fc" id="L42">public abstract class AbstractGbifUser {</span>
   protected static final String EMAIL_PATTERN =
-          &quot;^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$&quot;;
+    &quot;^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$&quot;;
 
   protected String userName;
   protected String firstName;
@@ -133,8 +133,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
   /**
    * Checks if the user has the given user role.
-   * @param role
    *
+   * @param role
    * @return true if the user has the requested role
    */
   public boolean hasRole(UserRole role) {
@@ -151,11 +151,12 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
   /**
    * Gets the settings which may be empty but never null.
+   *
    * @return
    */
   @NotNull
   public Map&lt;String, String&gt; getSettings() {
-<span class="fc" id="L158">    return settings;</span>
+<span class="fc" id="L159">    return settings;</span>
   }
 
   /**
@@ -163,62 +164,64 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    */
   public void setSystemSettings(Map&lt;String, String&gt; systemSettings) {
     // safeguard against misuse to avoid NPE
-<span class="pc bpc" id="L166" title="1 of 2 branches missed.">    this.systemSettings = systemSettings == null ? new HashMap&lt;&gt;() : systemSettings;</span>
-<span class="fc" id="L167">  }</span>
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">    this.systemSettings = systemSettings == null ? new HashMap&lt;&gt;() : systemSettings;</span>
+<span class="fc" id="L168">  }</span>
+
   /**
    * Gets the settings which may be empty but never null.
+   *
    * @return
    */
   @NotNull
   public Map&lt;String, String&gt; getSystemSettings() {
-<span class="fc" id="L174">    return systemSettings;</span>
+<span class="fc" id="L177">    return systemSettings;</span>
   }
 
   public Date getDeleted() {
-<span class="fc" id="L178">    return deleted;</span>
+<span class="fc" id="L181">    return deleted;</span>
   }
 
   public void setDeleted(Date deleted) {
-<span class="nc" id="L182">    this.deleted = deleted;</span>
-<span class="nc" id="L183">  }</span>
+<span class="nc" id="L185">    this.deleted = deleted;</span>
+<span class="nc" id="L186">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L187" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L188">      return true;</span>
+<span class="pc bpc" id="L190" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L191">      return true;</span>
     }
-<span class="pc bpc" id="L190" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L191">      return false;</span>
+<span class="pc bpc" id="L193" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L194">      return false;</span>
     }
-<span class="fc" id="L193">    AbstractGbifUser that = (AbstractGbifUser) o;</span>
-<span class="pc bpc" id="L194" title="1 of 2 branches missed.">    return Objects.equals(userName, that.userName) &amp;&amp;</span>
-<span class="pc bpc" id="L195" title="1 of 2 branches missed.">      Objects.equals(firstName, that.firstName) &amp;&amp;</span>
-<span class="pc bpc" id="L196" title="1 of 2 branches missed.">      Objects.equals(lastName, that.lastName) &amp;&amp;</span>
-<span class="pc bpc" id="L197" title="1 of 2 branches missed.">      Objects.equals(email, that.email) &amp;&amp;</span>
-<span class="pc bpc" id="L198" title="1 of 2 branches missed.">      Objects.equals(roles, that.roles) &amp;&amp;</span>
-<span class="pc bpc" id="L199" title="1 of 2 branches missed.">      Objects.equals(settings, that.settings) &amp;&amp;</span>
-<span class="pc bpc" id="L200" title="1 of 2 branches missed.">      Objects.equals(systemSettings, that.systemSettings) &amp;&amp;</span>
-<span class="pc bpc" id="L201" title="1 of 2 branches missed.">      Objects.equals(deleted, that.deleted);</span>
+<span class="fc" id="L196">    AbstractGbifUser that = (AbstractGbifUser) o;</span>
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">    return Objects.equals(userName, that.userName) &amp;&amp;</span>
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">      Objects.equals(firstName, that.firstName) &amp;&amp;</span>
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">      Objects.equals(lastName, that.lastName) &amp;&amp;</span>
+<span class="pc bpc" id="L200" title="1 of 2 branches missed.">      Objects.equals(email, that.email) &amp;&amp;</span>
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">      Objects.equals(roles, that.roles) &amp;&amp;</span>
+<span class="pc bpc" id="L202" title="1 of 2 branches missed.">      Objects.equals(settings, that.settings) &amp;&amp;</span>
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">      Objects.equals(systemSettings, that.systemSettings) &amp;&amp;</span>
+<span class="pc bpc" id="L204" title="1 of 2 branches missed.">      Objects.equals(deleted, that.deleted);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L206">    return Objects</span>
-<span class="fc" id="L207">      .hash(userName, firstName, lastName, email, roles, settings, systemSettings, deleted);</span>
+<span class="fc" id="L209">    return Objects</span>
+<span class="fc" id="L210">      .hash(userName, firstName, lastName, email, roles, settings, systemSettings, deleted);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L212">    return new StringJoiner(&quot;, &quot;, AbstractGbifUser.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L213">      .add(&quot;userName='&quot; + userName + &quot;'&quot;)</span>
-<span class="nc" id="L214">      .add(&quot;firstName='&quot; + firstName + &quot;'&quot;)</span>
-<span class="nc" id="L215">      .add(&quot;lastName='&quot; + lastName + &quot;'&quot;)</span>
-<span class="nc" id="L216">      .add(&quot;email='&quot; + email + &quot;'&quot;)</span>
-<span class="nc" id="L217">      .add(&quot;roles=&quot; + roles)</span>
-<span class="nc" id="L218">      .add(&quot;settings=&quot; + settings)</span>
-<span class="nc" id="L219">      .add(&quot;systemSettings=&quot; + systemSettings)</span>
-<span class="nc" id="L220">      .add(&quot;deleted=&quot; + deleted)</span>
-<span class="nc" id="L221">      .toString();</span>
+<span class="nc" id="L215">    return new StringJoiner(&quot;, &quot;, AbstractGbifUser.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L216">      .add(&quot;userName='&quot; + userName + &quot;'&quot;)</span>
+<span class="nc" id="L217">      .add(&quot;firstName='&quot; + firstName + &quot;'&quot;)</span>
+<span class="nc" id="L218">      .add(&quot;lastName='&quot; + lastName + &quot;'&quot;)</span>
+<span class="nc" id="L219">      .add(&quot;email='&quot; + email + &quot;'&quot;)</span>
+<span class="nc" id="L220">      .add(&quot;roles=&quot; + roles)</span>
+<span class="nc" id="L221">      .add(&quot;settings=&quot; + settings)</span>
+<span class="nc" id="L222">      .add(&quot;systemSettings=&quot; + systemSettings)</span>
+<span class="nc" id="L223">      .add(&quot;deleted=&quot; + deleted)</span>
+<span class="nc" id="L224">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

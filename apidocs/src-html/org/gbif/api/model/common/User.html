@@ -38,18 +38,18 @@
 <span class="sourceLineNo">030</span>import javax.validation.constraints.Pattern;<a name="line.30"></a>
 <span class="sourceLineNo">031</span>import javax.validation.constraints.Size;<a name="line.31"></a>
 <span class="sourceLineNo">032</span><a name="line.32"></a>
-<span class="sourceLineNo">033</span>import org.codehaus.jackson.annotate.JsonIgnore;<a name="line.33"></a>
+<span class="sourceLineNo">033</span>import com.fasterxml.jackson.annotation.JsonIgnore;<a name="line.33"></a>
 <span class="sourceLineNo">034</span><a name="line.34"></a>
 <span class="sourceLineNo">035</span>/**<a name="line.35"></a>
-<span class="sourceLineNo">036</span> * A GBIF user account registered in the drupal user database.<a name="line.36"></a>
-<span class="sourceLineNo">037</span> * @Deprecated replaced by {@link GbifUser}<a name="line.37"></a>
+<span class="sourceLineNo">036</span> * A GBIF user account registered in the Drupal user database.<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * @deprecated replaced by {@link GbifUser}<a name="line.37"></a>
 <span class="sourceLineNo">038</span> */<a name="line.38"></a>
 <span class="sourceLineNo">039</span>@Deprecated<a name="line.39"></a>
 <span class="sourceLineNo">040</span>public class User {<a name="line.40"></a>
 <span class="sourceLineNo">041</span><a name="line.41"></a>
 <span class="sourceLineNo">042</span>  private static final String EMAIL_PATTERN =<a name="line.42"></a>
-<span class="sourceLineNo">043</span>                "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"<a name="line.43"></a>
-<span class="sourceLineNo">044</span>                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";<a name="line.44"></a>
+<span class="sourceLineNo">043</span>    "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"<a name="line.43"></a>
+<span class="sourceLineNo">044</span>      + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";<a name="line.44"></a>
 <span class="sourceLineNo">045</span><a name="line.45"></a>
 <span class="sourceLineNo">046</span>  private Integer key;<a name="line.46"></a>
 <span class="sourceLineNo">047</span>  private String userName;<a name="line.47"></a>
@@ -166,8 +166,8 @@
 <span class="sourceLineNo">158</span><a name="line.158"></a>
 <span class="sourceLineNo">159</span>  /**<a name="line.159"></a>
 <span class="sourceLineNo">160</span>   * Checks if the user has the given user role.<a name="line.160"></a>
-<span class="sourceLineNo">161</span>   * @param role<a name="line.161"></a>
-<span class="sourceLineNo">162</span>   *<a name="line.162"></a>
+<span class="sourceLineNo">161</span>   *<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   * @param role<a name="line.162"></a>
 <span class="sourceLineNo">163</span>   * @return true if the user has the requested role<a name="line.163"></a>
 <span class="sourceLineNo">164</span>   */<a name="line.164"></a>
 <span class="sourceLineNo">165</span>  public boolean hasRole(UserRole role) {<a name="line.165"></a>
@@ -183,61 +183,62 @@
 <span class="sourceLineNo">175</span><a name="line.175"></a>
 <span class="sourceLineNo">176</span>  /**<a name="line.176"></a>
 <span class="sourceLineNo">177</span>   * Gets the settings which may be empty but never null.<a name="line.177"></a>
-<span class="sourceLineNo">178</span>   * @return<a name="line.178"></a>
-<span class="sourceLineNo">179</span>   */<a name="line.179"></a>
-<span class="sourceLineNo">180</span>  @NotNull<a name="line.180"></a>
-<span class="sourceLineNo">181</span>  public Map&lt;String, String&gt; getSettings() {<a name="line.181"></a>
-<span class="sourceLineNo">182</span>    return settings;<a name="line.182"></a>
-<span class="sourceLineNo">183</span>  }<a name="line.183"></a>
-<span class="sourceLineNo">184</span><a name="line.184"></a>
-<span class="sourceLineNo">185</span>  /**<a name="line.185"></a>
-<span class="sourceLineNo">186</span>   * Sets the settings object, setting an empty map if null is provided.<a name="line.186"></a>
-<span class="sourceLineNo">187</span>   */<a name="line.187"></a>
-<span class="sourceLineNo">188</span>  public void setSettings(Map&lt;String, String&gt; settings) {<a name="line.188"></a>
-<span class="sourceLineNo">189</span>    // safeguard against misuse to avoid NPE<a name="line.189"></a>
-<span class="sourceLineNo">190</span>    this.settings = settings == null ? new HashMap&lt;&gt;() : settings;<a name="line.190"></a>
-<span class="sourceLineNo">191</span>  }<a name="line.191"></a>
-<span class="sourceLineNo">192</span><a name="line.192"></a>
-<span class="sourceLineNo">193</span>  @Override<a name="line.193"></a>
-<span class="sourceLineNo">194</span>  public boolean equals(Object o) {<a name="line.194"></a>
-<span class="sourceLineNo">195</span>    if (this == o) {<a name="line.195"></a>
-<span class="sourceLineNo">196</span>      return true;<a name="line.196"></a>
-<span class="sourceLineNo">197</span>    }<a name="line.197"></a>
-<span class="sourceLineNo">198</span>    if (o == null || getClass() != o.getClass()) {<a name="line.198"></a>
-<span class="sourceLineNo">199</span>      return false;<a name="line.199"></a>
-<span class="sourceLineNo">200</span>    }<a name="line.200"></a>
-<span class="sourceLineNo">201</span>    User user = (User) o;<a name="line.201"></a>
-<span class="sourceLineNo">202</span>    return Objects.equals(key, user.key) &amp;&amp;<a name="line.202"></a>
-<span class="sourceLineNo">203</span>      Objects.equals(userName, user.userName) &amp;&amp;<a name="line.203"></a>
-<span class="sourceLineNo">204</span>      Objects.equals(firstName, user.firstName) &amp;&amp;<a name="line.204"></a>
-<span class="sourceLineNo">205</span>      Objects.equals(lastName, user.lastName) &amp;&amp;<a name="line.205"></a>
-<span class="sourceLineNo">206</span>      Objects.equals(email, user.email) &amp;&amp;<a name="line.206"></a>
-<span class="sourceLineNo">207</span>      Objects.equals(passwordHash, user.passwordHash) &amp;&amp;<a name="line.207"></a>
-<span class="sourceLineNo">208</span>      Objects.equals(roles, user.roles) &amp;&amp;<a name="line.208"></a>
-<span class="sourceLineNo">209</span>      Objects.equals(lastLogin, user.lastLogin) &amp;&amp;<a name="line.209"></a>
-<span class="sourceLineNo">210</span>      Objects.equals(settings, user.settings);<a name="line.210"></a>
-<span class="sourceLineNo">211</span>  }<a name="line.211"></a>
-<span class="sourceLineNo">212</span><a name="line.212"></a>
-<span class="sourceLineNo">213</span>  @Override<a name="line.213"></a>
-<span class="sourceLineNo">214</span>  public int hashCode() {<a name="line.214"></a>
-<span class="sourceLineNo">215</span>    return Objects<a name="line.215"></a>
-<span class="sourceLineNo">216</span>      .hash(key, userName, firstName, lastName, email, passwordHash, roles, lastLogin, settings);<a name="line.216"></a>
-<span class="sourceLineNo">217</span>  }<a name="line.217"></a>
-<span class="sourceLineNo">218</span><a name="line.218"></a>
-<span class="sourceLineNo">219</span>  @Override<a name="line.219"></a>
-<span class="sourceLineNo">220</span>  public String toString() {<a name="line.220"></a>
-<span class="sourceLineNo">221</span>    return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")<a name="line.221"></a>
-<span class="sourceLineNo">222</span>      .add("key=" + key)<a name="line.222"></a>
-<span class="sourceLineNo">223</span>      .add("userName='" + userName + "'")<a name="line.223"></a>
-<span class="sourceLineNo">224</span>      .add("firstName='" + firstName + "'")<a name="line.224"></a>
-<span class="sourceLineNo">225</span>      .add("lastName='" + lastName + "'")<a name="line.225"></a>
-<span class="sourceLineNo">226</span>      .add("email='" + email + "'")<a name="line.226"></a>
-<span class="sourceLineNo">227</span>      .add("roles=" + roles)<a name="line.227"></a>
-<span class="sourceLineNo">228</span>      .add("lastLogin=" + lastLogin)<a name="line.228"></a>
-<span class="sourceLineNo">229</span>      .add("settings=" + settings)<a name="line.229"></a>
-<span class="sourceLineNo">230</span>      .toString();<a name="line.230"></a>
-<span class="sourceLineNo">231</span>  }<a name="line.231"></a>
-<span class="sourceLineNo">232</span>}<a name="line.232"></a>
+<span class="sourceLineNo">178</span>   *<a name="line.178"></a>
+<span class="sourceLineNo">179</span>   * @return<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   */<a name="line.180"></a>
+<span class="sourceLineNo">181</span>  @NotNull<a name="line.181"></a>
+<span class="sourceLineNo">182</span>  public Map&lt;String, String&gt; getSettings() {<a name="line.182"></a>
+<span class="sourceLineNo">183</span>    return settings;<a name="line.183"></a>
+<span class="sourceLineNo">184</span>  }<a name="line.184"></a>
+<span class="sourceLineNo">185</span><a name="line.185"></a>
+<span class="sourceLineNo">186</span>  /**<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   * Sets the settings object, setting an empty map if null is provided.<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   */<a name="line.188"></a>
+<span class="sourceLineNo">189</span>  public void setSettings(Map&lt;String, String&gt; settings) {<a name="line.189"></a>
+<span class="sourceLineNo">190</span>    // safeguard against misuse to avoid NPE<a name="line.190"></a>
+<span class="sourceLineNo">191</span>    this.settings = settings == null ? new HashMap&lt;&gt;() : settings;<a name="line.191"></a>
+<span class="sourceLineNo">192</span>  }<a name="line.192"></a>
+<span class="sourceLineNo">193</span><a name="line.193"></a>
+<span class="sourceLineNo">194</span>  @Override<a name="line.194"></a>
+<span class="sourceLineNo">195</span>  public boolean equals(Object o) {<a name="line.195"></a>
+<span class="sourceLineNo">196</span>    if (this == o) {<a name="line.196"></a>
+<span class="sourceLineNo">197</span>      return true;<a name="line.197"></a>
+<span class="sourceLineNo">198</span>    }<a name="line.198"></a>
+<span class="sourceLineNo">199</span>    if (o == null || getClass() != o.getClass()) {<a name="line.199"></a>
+<span class="sourceLineNo">200</span>      return false;<a name="line.200"></a>
+<span class="sourceLineNo">201</span>    }<a name="line.201"></a>
+<span class="sourceLineNo">202</span>    User user = (User) o;<a name="line.202"></a>
+<span class="sourceLineNo">203</span>    return Objects.equals(key, user.key) &amp;&amp;<a name="line.203"></a>
+<span class="sourceLineNo">204</span>      Objects.equals(userName, user.userName) &amp;&amp;<a name="line.204"></a>
+<span class="sourceLineNo">205</span>      Objects.equals(firstName, user.firstName) &amp;&amp;<a name="line.205"></a>
+<span class="sourceLineNo">206</span>      Objects.equals(lastName, user.lastName) &amp;&amp;<a name="line.206"></a>
+<span class="sourceLineNo">207</span>      Objects.equals(email, user.email) &amp;&amp;<a name="line.207"></a>
+<span class="sourceLineNo">208</span>      Objects.equals(passwordHash, user.passwordHash) &amp;&amp;<a name="line.208"></a>
+<span class="sourceLineNo">209</span>      Objects.equals(roles, user.roles) &amp;&amp;<a name="line.209"></a>
+<span class="sourceLineNo">210</span>      Objects.equals(lastLogin, user.lastLogin) &amp;&amp;<a name="line.210"></a>
+<span class="sourceLineNo">211</span>      Objects.equals(settings, user.settings);<a name="line.211"></a>
+<span class="sourceLineNo">212</span>  }<a name="line.212"></a>
+<span class="sourceLineNo">213</span><a name="line.213"></a>
+<span class="sourceLineNo">214</span>  @Override<a name="line.214"></a>
+<span class="sourceLineNo">215</span>  public int hashCode() {<a name="line.215"></a>
+<span class="sourceLineNo">216</span>    return Objects<a name="line.216"></a>
+<span class="sourceLineNo">217</span>      .hash(key, userName, firstName, lastName, email, passwordHash, roles, lastLogin, settings);<a name="line.217"></a>
+<span class="sourceLineNo">218</span>  }<a name="line.218"></a>
+<span class="sourceLineNo">219</span><a name="line.219"></a>
+<span class="sourceLineNo">220</span>  @Override<a name="line.220"></a>
+<span class="sourceLineNo">221</span>  public String toString() {<a name="line.221"></a>
+<span class="sourceLineNo">222</span>    return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")<a name="line.222"></a>
+<span class="sourceLineNo">223</span>      .add("key=" + key)<a name="line.223"></a>
+<span class="sourceLineNo">224</span>      .add("userName='" + userName + "'")<a name="line.224"></a>
+<span class="sourceLineNo">225</span>      .add("firstName='" + firstName + "'")<a name="line.225"></a>
+<span class="sourceLineNo">226</span>      .add("lastName='" + lastName + "'")<a name="line.226"></a>
+<span class="sourceLineNo">227</span>      .add("email='" + email + "'")<a name="line.227"></a>
+<span class="sourceLineNo">228</span>      .add("roles=" + roles)<a name="line.228"></a>
+<span class="sourceLineNo">229</span>      .add("lastLogin=" + lastLogin)<a name="line.229"></a>
+<span class="sourceLineNo">230</span>      .add("settings=" + settings)<a name="line.230"></a>
+<span class="sourceLineNo">231</span>      .toString();<a name="line.231"></a>
+<span class="sourceLineNo">232</span>  }<a name="line.232"></a>
+<span class="sourceLineNo">233</span>}<a name="line.233"></a>
 
 
 

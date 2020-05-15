@@ -28,13 +28,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Download request deserializer.
@@ -49,50 +50,51 @@ import org.slf4j.LoggerFactory;
  * &lt;p&gt;
  * https://github.com/gbif/portal-feedback/issues/2046
  */
-<span class="fc" id="L52">public class DownloadRequestSerde extends JsonDeserializer&lt;DownloadRequest&gt; {</span>
+<span class="fc" id="L53">public class DownloadRequestSerde extends JsonDeserializer&lt;DownloadRequest&gt; {</span>
 
   private static final String PREDICATE = &quot;predicate&quot;;
-<span class="fc" id="L55">  private static final List&lt;String&gt; SEND_NOTIFICATION = Collections</span>
-<span class="fc" id="L56">    .unmodifiableList(Arrays.asList(&quot;sendNotification&quot;, &quot;send_notification&quot;));</span>
-<span class="fc" id="L57">  private static final List&lt;String&gt; NOTIFICATION_ADDRESSES =</span>
-<span class="fc" id="L58">    Collections.unmodifiableList(</span>
-<span class="fc" id="L59">      Arrays.asList(&quot;notificationAddresses&quot;, &quot;notificationAddress&quot;, &quot;notification_addresses&quot;,</span>
+<span class="fc" id="L56">  private static final List&lt;String&gt; SEND_NOTIFICATION = Collections</span>
+<span class="fc" id="L57">    .unmodifiableList(Arrays.asList(&quot;sendNotification&quot;, &quot;send_notification&quot;));</span>
+<span class="fc" id="L58">  private static final List&lt;String&gt; NOTIFICATION_ADDRESSES =</span>
+<span class="fc" id="L59">    Collections.unmodifiableList(</span>
+<span class="fc" id="L60">      Arrays.asList(&quot;notificationAddresses&quot;, &quot;notificationAddress&quot;, &quot;notification_addresses&quot;,</span>
         &quot;notification_address&quot;));
   private static final String CREATOR = &quot;creator&quot;;
   private static final String FORMAT = &quot;format&quot;;
-<span class="fc" id="L63">  private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);</span>
-<span class="fc" id="L64">  private static final ObjectMapper MAPPER = new ObjectMapper();</span>
+<span class="fc" id="L64">  private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);</span>
+<span class="fc" id="L65">  private static final ObjectMapper MAPPER = new ObjectMapper();</span>
 
   @Override
   public DownloadRequest deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-<span class="fc" id="L68">    JsonNode node = jp.getCodec().readTree(jp);</span>
-<span class="fc" id="L69">    LOG.debug(&quot;DownloadRequest for deserialization: {}&quot;, node);</span>
+<span class="fc" id="L69">    JsonNode node = jp.getCodec().readTree(jp);</span>
+<span class="fc" id="L70">    LOG.debug(&quot;DownloadRequest for deserialization: {}&quot;, node);</span>
     //at least one element must be defined
-<span class="fc bfc" id="L71" title="All 2 branches covered.">    if (node.size() == 0) {</span>
-<span class="fc" id="L72">      return null;</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">    if (node.size() == 0) {</span>
+<span class="fc" id="L73">      return null;</span>
     }
-<span class="fc" id="L74">    DownloadFormat format = Optional.ofNullable(node.get(FORMAT))</span>
-<span class="fc" id="L75">      .map(n -&gt; VocabularyUtils.lookupEnum(n.asText(), DownloadFormat.class)).orElse(DownloadFormat.DWCA);</span>
-<span class="fc" id="L76">    String creator = Optional.ofNullable(node.get(CREATOR)).map(JsonNode::asText).orElse(null);</span>
+<span class="fc" id="L75">    DownloadFormat format = Optional.ofNullable(node.get(FORMAT))</span>
+<span class="fc" id="L76">      .map(n -&gt; VocabularyUtils.lookupEnum(n.asText(), DownloadFormat.class)).orElse(DownloadFormat.DWCA);</span>
+<span class="fc" id="L77">    String creator = Optional.ofNullable(node.get(CREATOR)).map(JsonNode::asText).orElse(null);</span>
 
-<span class="fc" id="L78">    List&lt;String&gt; notificationAddresses = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L79" title="All 2 branches covered.">    for (final String jsonKey : NOTIFICATION_ADDRESSES) {</span>
-<span class="fc" id="L80">      notificationAddresses.addAll(Optional.ofNullable(node.get(jsonKey)).map(jsonNode -&gt; {</span>
+<span class="fc" id="L79">    List&lt;String&gt; notificationAddresses = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">    for (final String jsonKey : NOTIFICATION_ADDRESSES) {</span>
+<span class="fc" id="L81">      notificationAddresses.addAll(Optional.ofNullable(node.get(jsonKey)).map(jsonNode -&gt; {</span>
         try {
-<span class="fc" id="L82">          return Arrays.asList(MAPPER.readValue(jsonNode, String[].class));</span>
-<span class="nc" id="L83">        } catch (Exception e) {</span>
-<span class="nc" id="L84">          throw new RuntimeException(e);</span>
+<span class="fc" id="L83">          return Arrays.asList(MAPPER.treeToValue(jsonNode, String[].class));</span>
+<span class="nc" id="L84">        } catch (Exception e) {</span>
+<span class="nc" id="L85">          throw new RuntimeException(e);</span>
         }
-<span class="fc" id="L86">      }).orElse(new ArrayList&lt;&gt;()));</span>
-<span class="fc" id="L87">    }</span>
+<span class="fc" id="L87">      }).orElse(new ArrayList&lt;&gt;()));</span>
+<span class="fc" id="L88">    }</span>
 
-<span class="fc" id="L89">    boolean sendNotification = false;</span>
-<span class="fc bfc" id="L90" title="All 2 branches covered.">    for (final String jsonKey : SEND_NOTIFICATION) {</span>
-<span class="fc" id="L91">      sendNotification |= Optional.ofNullable(node.get(jsonKey)).map(JsonNode::asBoolean).orElse(Boolean.FALSE);</span>
-<span class="fc" id="L92">    }</span>
-<span class="fc" id="L93">    JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);</span>
-<span class="fc bfc" id="L94" title="All 2 branches covered.">    Predicate predicateObj = predicate == null ? null : MAPPER.readValue(predicate, Predicate.class);</span>
-<span class="fc" id="L95">    return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format);</span>
+<span class="fc" id="L90">    boolean sendNotification = false;</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">    for (final String jsonKey : SEND_NOTIFICATION) {</span>
+<span class="fc" id="L92">      sendNotification |= Optional.ofNullable(node.get(jsonKey)).map(JsonNode::asBoolean).orElse(Boolean.FALSE);</span>
+<span class="fc" id="L93">    }</span>
+
+<span class="fc" id="L95">    JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">    Predicate predicateObj = predicate == null ? null : MAPPER.treeToValue(predicate, Predicate.class);</span>
+<span class="fc" id="L97">    return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -106,11 +106,26 @@ import java.util.UUID;
   /**
    * Date when the dataset was last updated
    */
-<span class="nc" id="L109">  MODIFIED_DATE(LocalDateTime.class);</span>
+<span class="nc" id="L109">  MODIFIED_DATE(LocalDateTime.class),</span>
 
-<span class="nc" id="L111">  private DatasetSearchParameter(Class&lt;?&gt; type) {</span>
-<span class="nc" id="L112">    this.type = type;</span>
-<span class="nc" id="L113">  }</span>
+  /**
+   * Dataset title/name.
+   */
+<span class="nc" id="L114">  DATASET_TITLE(String.class),</span>
+
+  /**
+   * Collection key associate to this dataset.
+   */
+<span class="nc" id="L119">  COLLECTION_KEY(UUID.class),</span>
+
+  /**
+   * Institution key associated to the dataset and/or to the collection.
+   */
+<span class="nc" id="L124">  INSTITUTION_KEY(UUID.class);</span>
+
+<span class="nc" id="L126">  DatasetSearchParameter(Class&lt;?&gt; type) {</span>
+<span class="nc" id="L127">    this.type = type;</span>
+<span class="nc" id="L128">  }</span>
 
   private final Class&lt;?&gt; type;
 
@@ -118,7 +133,7 @@ import java.util.UUID;
    * @return the data type expected for the value of the respective search parameter
    */
   public Class&lt;?&gt; type() {
-<span class="nc" id="L121">    return type;</span>
+<span class="nc" id="L136">    return type;</span>
   }
 
 }

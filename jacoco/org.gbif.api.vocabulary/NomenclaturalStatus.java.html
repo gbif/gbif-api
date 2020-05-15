@@ -52,8 +52,8 @@ import org.apache.commons.lang3.StringUtils;
  *   &lt;li&gt;Bacteria: validly published name&lt;/li&gt;
  * &lt;/ul&gt;
  * An available name is not necessarily the correct name.
- * @See &lt;a href=&quot;http://en.wikipedia.org/wiki/Validly_published_name_(botany)&quot;&gt;wikipedia&lt;/a&gt;
- * @See &lt;a href=&quot;http://en.wikipedia.org/wiki/Available_name&quot;&gt;wikipedia&lt;/a&gt;
+ * @see &lt;a href=&quot;https://en.wikipedia.org/wiki/Validly_published_name_(botany)&quot;&gt;wikipedia&lt;/a&gt;
+ * @see &lt;a href=&quot;https://en.wikipedia.org/wiki/Available_name&quot;&gt;wikipedia&lt;/a&gt;
  */
 <span class="fc" id="L58"> VALIDLY_PUBLISHED(null, null, &quot;available&quot;,&quot;valid&quot;, &quot;established&quot;),</span>
 
@@ -352,40 +352,37 @@ import org.apache.commons.lang3.StringUtils;
    * the latin and abbreviated name of a term.
    *
    * @param nomStatus
-   * @return
-   *
    * @deprecated use NomStatusParser instead
    */
   @Deprecated
   public static NomenclaturalStatus fromString(String nomStatus) {
-<span class="fc bfc" id="L361" title="All 2 branches covered.">    if (StringUtils.isEmpty(nomStatus)) {</span>
-<span class="fc" id="L362">      return null;</span>
+<span class="fc bfc" id="L359" title="All 2 branches covered.">    if (StringUtils.isEmpty(nomStatus)) {</span>
+<span class="fc" id="L360">      return null;</span>
     }
-<span class="fc" id="L364">    return LOOKUP.get(normalize(nomStatus));</span>
+<span class="fc" id="L362">    return LOOKUP.get(normalize(nomStatus));</span>
   }
 
   private final String latin;
   private final String abbreviated;
   private final String[] alternatives;
 
-<span class="fc" id="L371">  private NomenclaturalStatus(String latin, String abbreviated, String ... alternatives) {</span>
-<span class="fc" id="L372">    this.latin = latin;</span>
-<span class="fc" id="L373">    this.abbreviated = abbreviated;</span>
-<span class="fc" id="L374">    this.alternatives = alternatives;</span>
-<span class="fc" id="L375">  }</span>
+<span class="fc" id="L369">  private NomenclaturalStatus(String latin, String abbreviated, String ... alternatives) {</span>
+<span class="fc" id="L370">    this.latin = latin;</span>
+<span class="fc" id="L371">    this.abbreviated = abbreviated;</span>
+<span class="fc" id="L372">    this.alternatives = alternatives;</span>
+<span class="fc" id="L373">  }</span>
 
   public String getLatinLabel() {
-<span class="fc" id="L378">    return latin;</span>
+<span class="fc" id="L376">    return latin;</span>
   }
 
   /**
    * The abbreviated status name, often used in botany.
    * For example nom. inval.
-   * @return
    */
   @Nullable
   public String getAbbreviatedLabel() {
-<span class="fc" id="L388">    return abbreviated;</span>
+<span class="fc" id="L385">    return abbreviated;</span>
   }
 
   /**
@@ -394,18 +391,18 @@ import org.apache.commons.lang3.StringUtils;
    * different codes.
    */
   public boolean isGood() {
-<span class="nc" id="L397">    return VALID_VALUES.contains(this);</span>
+<span class="nc" id="L394">    return VALID_VALUES.contains(this);</span>
   }
 
   public boolean isDoubtful() {
-<span class="nc" id="L401">    return DOUBTFUL_VALUES.contains(this);</span>
+<span class="nc" id="L398">    return DOUBTFUL_VALUES.contains(this);</span>
   }
 
   /**
    * Opposite of good and not doubtful.
    */
   public boolean isBad() {
-<span class="nc bnc" id="L408" title="All 4 branches missed.">    return !(isGood() || isDoubtful());</span>
+<span class="nc bnc" id="L405" title="All 4 branches missed.">    return !(isGood() || isDoubtful());</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

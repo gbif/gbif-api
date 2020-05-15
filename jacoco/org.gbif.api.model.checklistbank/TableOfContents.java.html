@@ -26,39 +26,40 @@ import java.util.StringJoiner;
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.annotate.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A simple class to represent a table of contents for multiple languages. It is used by species
  * pages to generate a table of contents menu with asynchronous loading of full descriptions.
  */
 @SuppressWarnings(&quot;unused&quot;)
-<span class="nc" id="L36">public class TableOfContents {</span>
+<span class="nc" id="L37">public class TableOfContents {</span>
 
   private static final String DEFAULT_TOPIC = &quot;general&quot;;
 
-<span class="nc" id="L40">  private final Map&lt;Language, Map&lt;String, List&lt;Integer&gt;&gt;&gt; toc = new TreeMap&lt;&gt;();</span>
+<span class="nc" id="L41">  private final Map&lt;Language, Map&lt;String, List&lt;Integer&gt;&gt;&gt; toc = new TreeMap&lt;&gt;();</span>
 
   public void addDescription(int key, Language lang, String topic) {
-<span class="nc bnc" id="L43" title="All 2 branches missed.">    topic = StringUtils.isEmpty(topic) ? DEFAULT_TOPIC : topic.toLowerCase().trim();</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">    topic = StringUtils.isEmpty(topic) ? DEFAULT_TOPIC : topic.toLowerCase().trim();</span>
 
-<span class="nc bnc" id="L45" title="All 2 branches missed.">    if (lang == null) {</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">    if (lang == null) {</span>
       // default to english
-<span class="nc" id="L47">      lang = Language.ENGLISH;</span>
+<span class="nc" id="L48">      lang = Language.ENGLISH;</span>
     }
 
-<span class="nc bnc" id="L50" title="All 2 branches missed.">    if (!toc.containsKey(lang)) {</span>
-<span class="nc" id="L51">      toc.put(lang, new TreeMap&lt;&gt;());</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">    if (!toc.containsKey(lang)) {</span>
+<span class="nc" id="L52">      toc.put(lang, new TreeMap&lt;&gt;());</span>
     }
-<span class="nc bnc" id="L53" title="All 2 branches missed.">    if (!toc.get(lang).containsKey(topic)) {</span>
-<span class="nc" id="L54">      toc.get(lang).put(topic, new ArrayList&lt;&gt;());</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">    if (!toc.get(lang).containsKey(topic)) {</span>
+<span class="nc" id="L55">      toc.get(lang).put(topic, new ArrayList&lt;&gt;());</span>
     }
-<span class="nc" id="L56">    toc.get(lang).get(topic).add(key);</span>
-<span class="nc" id="L57">  }</span>
+<span class="nc" id="L57">    toc.get(lang).get(topic).add(key);</span>
+<span class="nc" id="L58">  }</span>
 
   @JsonIgnore
   public boolean isEmpty() {
-<span class="nc" id="L61">    return toc.isEmpty();</span>
+<span class="nc" id="L62">    return toc.isEmpty();</span>
   }
 
   /**
@@ -66,7 +67,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    */
   @JsonIgnore
   public List&lt;Language&gt; listLanguages() {
-<span class="nc" id="L69">    return new ArrayList&lt;&gt;(toc.keySet());</span>
+<span class="nc" id="L70">    return new ArrayList&lt;&gt;(toc.keySet());</span>
   }
 
   /**
@@ -74,38 +75,38 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    */
   @JsonIgnore
   public Map&lt;String, List&lt;Integer&gt;&gt; listTopicEntries(Language lang) {
-<span class="nc bnc" id="L77" title="All 2 branches missed.">    if (toc.containsKey(lang)) {</span>
-<span class="nc" id="L78">      return toc.get(lang);</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">    if (toc.containsKey(lang)) {</span>
+<span class="nc" id="L79">      return toc.get(lang);</span>
     }
-<span class="nc" id="L80">    return new HashMap&lt;&gt;();</span>
+<span class="nc" id="L81">    return new HashMap&lt;&gt;();</span>
   }
 
   public Map&lt;Language, Map&lt;String, List&lt;Integer&gt;&gt;&gt; getToc() {
-<span class="nc" id="L84">    return toc;</span>
+<span class="nc" id="L85">    return toc;</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L89" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L90">      return true;</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L91">      return true;</span>
     }
-<span class="nc bnc" id="L92" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L93">      return false;</span>
+<span class="nc bnc" id="L93" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L94">      return false;</span>
     }
-<span class="nc" id="L95">    TableOfContents that = (TableOfContents) o;</span>
-<span class="nc" id="L96">    return Objects.equals(toc, that.toc);</span>
+<span class="nc" id="L96">    TableOfContents that = (TableOfContents) o;</span>
+<span class="nc" id="L97">    return Objects.equals(toc, that.toc);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L101">    return Objects.hash(toc);</span>
+<span class="nc" id="L102">    return Objects.hash(toc);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L106">    return new StringJoiner(&quot;, &quot;, TableOfContents.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L107">      .add(&quot;toc=&quot; + toc)</span>
-<span class="nc" id="L108">      .toString();</span>
+<span class="nc" id="L107">    return new StringJoiner(&quot;, &quot;, TableOfContents.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L108">      .add(&quot;toc=&quot; + toc)</span>
+<span class="nc" id="L109">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

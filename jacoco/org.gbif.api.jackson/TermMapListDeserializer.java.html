@@ -25,41 +25,42 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
-import org.codehaus.jackson.map.DeserializationConfig.Feature;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Deserializes list of maps of terms values.
  */
-<span class="fc" id="L37">public class TermMapListDeserializer extends JsonDeserializer&lt;List&lt;Map&lt;Term, String&gt;&gt;&gt; {</span>
+<span class="fc" id="L39">public class TermMapListDeserializer extends JsonDeserializer&lt;List&lt;Map&lt;Term, String&gt;&gt;&gt; {</span>
 
-<span class="fc" id="L39">  private final TermFactory termFactory = TermFactory.instance();</span>
+<span class="fc" id="L41">  private final TermFactory termFactory = TermFactory.instance();</span>
 
   @Override
   public List&lt;Map&lt;Term, String&gt;&gt; deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-<span class="pc bpc" id="L43" title="1 of 2 branches missed.">    if (jp.getCurrentToken() == JsonToken.START_ARRAY) {</span>
-<span class="fc" id="L44">      JsonDeserializer&lt;Object&gt; deserializer =</span>
-<span class="fc" id="L45">        ctxt.getDeserializerProvider().findTypedValueDeserializer(ctxt.getConfig(),</span>
-<span class="fc" id="L46">                                                                  ctxt.constructType(List.class),null);</span>
-<span class="fc" id="L47">      List&lt;Map&lt;String, String&gt;&gt; verbatimTerms = (List&lt;Map&lt;String, String&gt;&gt;) deserializer.deserialize(jp, ctxt);</span>
-<span class="fc" id="L48">      List&lt;Map&lt;Term, String&gt;&gt; interpretedTerms = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L49" title="All 2 branches covered.">      for (Map&lt;String, String&gt; verbExtension : verbatimTerms) {</span>
-<span class="fc" id="L50">        Map&lt;Term, String&gt; extension = new HashMap&lt;Term, String&gt;();</span>
-<span class="fc bfc" id="L51" title="All 2 branches covered.">        for (Entry&lt;String, String&gt; entry : verbExtension.entrySet()) {</span>
-<span class="fc" id="L52">          Term term = termFactory.findTerm(entry.getKey());</span>
-<span class="pc bpc" id="L53" title="3 of 4 branches missed.">          if (term == null &amp;&amp; ctxt.getConfig().isEnabled(Feature.FAIL_ON_UNKNOWN_PROPERTIES)) {</span>
-<span class="nc" id="L54">            throw ctxt.mappingException(&quot;Term not found &quot; + entry.getKey());</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">    if (jp.getCurrentToken() == JsonToken.START_ARRAY) {</span>
+<span class="fc" id="L46">      ObjectMapper objectMapper = new ObjectMapper();</span>
+<span class="fc" id="L47">      List&lt;Map&lt;String, String&gt;&gt; verbatimTerms = objectMapper.readValue(jp, new TypeReference&lt;List&lt;Map&lt;String, String&gt;&gt;&gt;() {</span>
+      });
+<span class="fc" id="L49">      List&lt;Map&lt;Term, String&gt;&gt; interpretedTerms = new ArrayList();</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">      for (Map&lt;String, String&gt; verbExtension : verbatimTerms) {</span>
+<span class="fc" id="L51">        Map&lt;Term, String&gt; extension = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        for (Entry&lt;String, String&gt; entry : verbExtension.entrySet()) {</span>
+<span class="fc" id="L53">          Term term = termFactory.findTerm(entry.getKey());</span>
+<span class="pc bpc" id="L54" title="3 of 4 branches missed.">          if (term == null &amp;&amp; ctxt.getConfig().isEnabled(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)) {</span>
+<span class="nc" id="L55">            throw ctxt.mappingException(&quot;Term not found &quot; + entry.getKey());</span>
           }
-<span class="fc" id="L56">          extension.put(term, entry.getValue());</span>
-<span class="fc" id="L57">        }</span>
-<span class="fc" id="L58">        interpretedTerms.add(extension);</span>
-<span class="fc" id="L59">      }</span>
-<span class="fc" id="L60">      return interpretedTerms;</span>
+<span class="fc" id="L57">          extension.put(term, entry.getValue());</span>
+<span class="fc" id="L58">        }</span>
+<span class="fc" id="L59">        interpretedTerms.add(extension);</span>
+<span class="fc" id="L60">      }</span>
+<span class="fc" id="L61">      return interpretedTerms;</span>
     }
-<span class="nc" id="L62">    throw ctxt.mappingException(&quot;Expected JSON String&quot;);</span>
+<span class="nc" id="L63">    throw ctxt.mappingException(&quot;Expected JSON String&quot;);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

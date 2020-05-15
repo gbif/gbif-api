@@ -17,17 +17,23 @@ package org.gbif.api.model.pipelines;
 
 import org.gbif.api.jackson.LocalDateTimeSerDe;
 import org.gbif.api.model.registry.LenientEquals;
-import org.gbif.common.shaded.com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.StringJoiner;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-/** Models a step in pipelines. */
-<span class="fc" id="L30">public class PipelineStep implements LenientEquals&lt;PipelineStep&gt;, Serializable {</span>
+/**
+ * Models a step in pipelines.
+ */
+<span class="fc" id="L36">public class PipelineStep implements LenientEquals&lt;PipelineStep&gt;, Serializable {</span>
 
   private static final long serialVersionUID = 460047082156621661L;
 
@@ -56,167 +62,171 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
   private LocalDateTime modified;
 
   private String modifiedBy;
-<span class="fc" id="L59">  private Set&lt;MetricInfo&gt; metrics = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L65">  private Set&lt;MetricInfo&gt; metrics = new HashSet&lt;&gt;();</span>
 
   /**
    * Comparator that sorts pipeline steps by start date and then by finished date in an ascending
    * order.
    */
-<span class="fc" id="L65">  public static final Comparator&lt;PipelineStep&gt; STEPS_BY_START_AND_FINISH_ASC =</span>
-      (s1, s2) -&gt; {
-<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        LocalDateTime started1 = s1 != null ? s1.getStarted() : null;</span>
-<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        LocalDateTime started2 = s2 != null ? s2.getStarted() : null;</span>
+<span class="fc" id="L71">  public static final Comparator&lt;PipelineStep&gt; STEPS_BY_START_AND_FINISH_ASC =</span>
+    (s1, s2) -&gt; {
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">      LocalDateTime started1 = s1 != null ? s1.getStarted() : null;</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">      LocalDateTime started2 = s2 != null ? s2.getStarted() : null;</span>
 
-<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (started1 == null) {</span>
-<span class="pc bpc" id="L71" title="1 of 2 branches missed.">          return (started2 == null) ? 0 : 1;</span>
-<span class="fc bfc" id="L72" title="All 2 branches covered.">        } else if (started2 == null) {</span>
-<span class="fc" id="L73">          return -1;</span>
-        }
+<span class="fc bfc" id="L76" title="All 2 branches covered.">      if (started1 == null) {</span>
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        return (started2 == null) ? 0 : 1;</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">      } else if (started2 == null) {</span>
+<span class="fc" id="L79">        return -1;</span>
+      }
 
-<span class="fc" id="L76">        int comparison = started1.compareTo(started2);</span>
-<span class="fc bfc" id="L77" title="All 2 branches covered.">        if (comparison != 0) {</span>
-<span class="fc" id="L78">          return comparison;</span>
-        }
+<span class="fc" id="L82">      int comparison = started1.compareTo(started2);</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">      if (comparison != 0) {</span>
+<span class="fc" id="L84">        return comparison;</span>
+      }
 
-<span class="fc" id="L81">        LocalDateTime finished1 = s1.getFinished();</span>
-<span class="fc" id="L82">        LocalDateTime finished2 = s2.getFinished();</span>
-<span class="pc bpc" id="L83" title="1 of 2 branches missed.">        if (finished1 == null) {</span>
-<span class="pc bpc" id="L84" title="1 of 2 branches missed.">          return (finished2 == null) ? 0 : 1;</span>
-<span class="nc bnc" id="L85" title="All 2 branches missed.">        } else if (finished2 == null) {</span>
-<span class="nc" id="L86">          return -1;</span>
-        }
-<span class="nc" id="L88">        return finished1.compareTo(finished2);</span>
-      };
+<span class="fc" id="L87">      LocalDateTime finished1 = s1.getFinished();</span>
+<span class="fc" id="L88">      LocalDateTime finished2 = s2.getFinished();</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">      if (finished1 == null) {</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">        return (finished2 == null) ? 0 : 1;</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">      } else if (finished2 == null) {</span>
+<span class="nc" id="L92">        return -1;</span>
+      }
+<span class="nc" id="L94">      return finished1.compareTo(finished2);</span>
+    };
 
   public long getKey() {
-<span class="nc" id="L92">    return key;</span>
+<span class="nc" id="L98">    return key;</span>
   }
 
   public StepType getType() {
-<span class="nc" id="L96">    return type;</span>
+<span class="nc" id="L102">    return type;</span>
   }
 
   public PipelineStep setType(StepType type) {
-<span class="nc" id="L100">    this.type = type;</span>
-<span class="nc" id="L101">    return this;</span>
+<span class="nc" id="L106">    this.type = type;</span>
+<span class="nc" id="L107">    return this;</span>
   }
 
   public StepRunner getRunner() {
-<span class="nc" id="L105">    return runner;</span>
+<span class="nc" id="L111">    return runner;</span>
   }
 
   public PipelineStep setRunner(StepRunner runner) {
-<span class="nc" id="L109">    this.runner = runner;</span>
-<span class="nc" id="L110">    return this;</span>
+<span class="nc" id="L115">    this.runner = runner;</span>
+<span class="nc" id="L116">    return this;</span>
   }
 
   public LocalDateTime getStarted() {
-<span class="fc" id="L114">    return started;</span>
+<span class="fc" id="L120">    return started;</span>
   }
 
   public PipelineStep setStarted(LocalDateTime started) {
-<span class="fc" id="L118">    this.started = started;</span>
-<span class="fc" id="L119">    return this;</span>
+<span class="fc" id="L124">    this.started = started;</span>
+<span class="fc" id="L125">    return this;</span>
   }
 
   public LocalDateTime getFinished() {
-<span class="fc" id="L123">    return finished;</span>
+<span class="fc" id="L129">    return finished;</span>
   }
 
   public PipelineStep setFinished(LocalDateTime finished) {
-<span class="nc" id="L127">    this.finished = finished;</span>
-<span class="nc" id="L128">    return this;</span>
+<span class="nc" id="L133">    this.finished = finished;</span>
+<span class="nc" id="L134">    return this;</span>
   }
 
   public Status getState() {
-<span class="fc" id="L132">    return state;</span>
+<span class="fc" id="L138">    return state;</span>
   }
 
   public PipelineStep setState(Status state) {
-<span class="fc" id="L136">    this.state = state;</span>
-<span class="fc" id="L137">    return this;</span>
+<span class="fc" id="L142">    this.state = state;</span>
+<span class="fc" id="L143">    return this;</span>
   }
 
   public String getMessage() {
-<span class="nc" id="L141">    return message;</span>
+<span class="nc" id="L147">    return message;</span>
   }
 
   public PipelineStep setMessage(String message) {
-<span class="nc" id="L145">    this.message = message;</span>
-<span class="nc" id="L146">    return this;</span>
+<span class="nc" id="L151">    this.message = message;</span>
+<span class="nc" id="L152">    return this;</span>
   }
 
   public void setKey(long key) {
-<span class="nc" id="L150">    this.key = key;</span>
-<span class="nc" id="L151">  }</span>
+<span class="nc" id="L156">    this.key = key;</span>
+<span class="nc" id="L157">  }</span>
 
   public Long getNumberRecords() {
-<span class="nc" id="L154">    return numberRecords;</span>
+<span class="nc" id="L160">    return numberRecords;</span>
   }
 
   public PipelineStep setNumberRecords(Long numberRecords) {
-<span class="nc" id="L158">    this.numberRecords = numberRecords;</span>
-<span class="nc" id="L159">    return this;</span>
+<span class="nc" id="L164">    this.numberRecords = numberRecords;</span>
+<span class="nc" id="L165">    return this;</span>
   }
 
   public String getPipelinesVersion() {
-<span class="nc" id="L163">    return pipelinesVersion;</span>
+<span class="nc" id="L169">    return pipelinesVersion;</span>
   }
 
   public PipelineStep setPipelinesVersion(String pipelinesVersion) {
-<span class="nc" id="L167">    this.pipelinesVersion = pipelinesVersion;</span>
-<span class="nc" id="L168">    return this;</span>
+<span class="nc" id="L173">    this.pipelinesVersion = pipelinesVersion;</span>
+<span class="nc" id="L174">    return this;</span>
   }
 
   public String getCreatedBy() {
-<span class="nc" id="L172">    return createdBy;</span>
+<span class="nc" id="L178">    return createdBy;</span>
   }
 
   public PipelineStep setCreatedBy(String createdBy) {
-<span class="nc" id="L176">    this.createdBy = createdBy;</span>
-<span class="nc" id="L177">    return this;</span>
+<span class="nc" id="L182">    this.createdBy = createdBy;</span>
+<span class="nc" id="L183">    return this;</span>
   }
 
   public LocalDateTime getModified() {
-<span class="nc" id="L181">    return modified;</span>
+<span class="nc" id="L187">    return modified;</span>
   }
 
   public PipelineStep setModified(LocalDateTime modified) {
-<span class="nc" id="L185">    this.modified = modified;</span>
-<span class="nc" id="L186">    return this;</span>
+<span class="nc" id="L191">    this.modified = modified;</span>
+<span class="nc" id="L192">    return this;</span>
   }
 
   public String getModifiedBy() {
-<span class="nc" id="L190">    return modifiedBy;</span>
+<span class="nc" id="L196">    return modifiedBy;</span>
   }
 
   public PipelineStep setModifiedBy(String modifiedBy) {
-<span class="nc" id="L194">    this.modifiedBy = modifiedBy;</span>
-<span class="nc" id="L195">    return this;</span>
+<span class="nc" id="L200">    this.modifiedBy = modifiedBy;</span>
+<span class="nc" id="L201">    return this;</span>
   }
 
   public Set&lt;MetricInfo&gt; getMetrics() {
-<span class="nc" id="L199">    return metrics;</span>
+<span class="nc" id="L205">    return metrics;</span>
   }
 
   public PipelineStep setMetrics(Set&lt;MetricInfo&gt; metrics) {
-<span class="nc" id="L203">    this.metrics = metrics;</span>
-<span class="nc" id="L204">    return this;</span>
+<span class="nc" id="L209">    this.metrics = metrics;</span>
+<span class="nc" id="L210">    return this;</span>
   }
 
   public PipelineStep addMetricInfo(MetricInfo metricInfo) {
-<span class="nc" id="L208">    metrics.add(metricInfo);</span>
-<span class="nc" id="L209">    return this;</span>
+<span class="nc" id="L214">    metrics.add(metricInfo);</span>
+<span class="nc" id="L215">    return this;</span>
   }
 
-  /** Enum to represent the status of a step. */
-<span class="fc" id="L213">  public enum Status {</span>
-<span class="fc" id="L214">    RUNNING,</span>
-<span class="fc" id="L215">    FAILED,</span>
-<span class="fc" id="L216">    COMPLETED</span>
+  /**
+   * Enum to represent the status of a step.
+   */
+<span class="fc" id="L221">  public enum Status {</span>
+<span class="fc" id="L222">    RUNNING,</span>
+<span class="fc" id="L223">    FAILED,</span>
+<span class="fc" id="L224">    COMPLETED</span>
   }
 
-  /** Inner class to store metrics. */
+  /**
+   * Inner class to store metrics.
+   */
   public static class MetricInfo implements Serializable {
 
     private static final long serialVersionUID = 1872427841009786709L;
@@ -224,125 +234,125 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
     private String name;
     private String value;
 
-<span class="nc" id="L227">    public MetricInfo() {</span>
+<span class="nc" id="L237">    public MetricInfo() {</span>
       // needed for jackson
-<span class="nc" id="L229">    }</span>
+<span class="nc" id="L239">    }</span>
 
-<span class="nc" id="L231">    public MetricInfo(String name, String value) {</span>
-<span class="nc" id="L232">      this.name = name;</span>
-<span class="nc" id="L233">      this.value = value;</span>
-<span class="nc" id="L234">    }</span>
+<span class="nc" id="L241">    public MetricInfo(String name, String value) {</span>
+<span class="nc" id="L242">      this.name = name;</span>
+<span class="nc" id="L243">      this.value = value;</span>
+<span class="nc" id="L244">    }</span>
 
     public String getName() {
-<span class="nc" id="L237">      return name;</span>
+<span class="nc" id="L247">      return name;</span>
     }
 
     public String getValue() {
-<span class="nc" id="L241">      return value;</span>
+<span class="nc" id="L251">      return value;</span>
     }
 
     public void setName(String name) {
-<span class="nc" id="L245">      this.name = name;</span>
-<span class="nc" id="L246">    }</span>
+<span class="nc" id="L255">      this.name = name;</span>
+<span class="nc" id="L256">    }</span>
 
     public void setValue(String value) {
-<span class="nc" id="L249">      this.value = value;</span>
-<span class="nc" id="L250">    }</span>
+<span class="nc" id="L259">      this.value = value;</span>
+<span class="nc" id="L260">    }</span>
 
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L254" title="All 2 branches missed.">      if (this == o) {</span>
-<span class="nc" id="L255">        return true;</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">      if (this == o) {</span>
+<span class="nc" id="L265">        return true;</span>
       }
-<span class="nc bnc" id="L257" title="All 4 branches missed.">      if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L258">        return false;</span>
+<span class="nc bnc" id="L267" title="All 4 branches missed.">      if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L268">        return false;</span>
       }
-<span class="nc" id="L260">      MetricInfo that = (MetricInfo) o;</span>
-<span class="nc bnc" id="L261" title="All 4 branches missed.">      return Objects.equals(name, that.name) &amp;&amp; Objects.equals(value, that.value);</span>
+<span class="nc" id="L270">      MetricInfo that = (MetricInfo) o;</span>
+<span class="nc bnc" id="L271" title="All 4 branches missed.">      return Objects.equals(name, that.name) &amp;&amp; Objects.equals(value, that.value);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="nc" id="L266">      return Objects.hash(name, value);</span>
+<span class="nc" id="L276">      return Objects.hash(name, value);</span>
     }
 
     @Override
     public String toString() {
-<span class="nc" id="L271">      return new StringJoiner(&quot;, &quot;, MetricInfo.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L272">          .add(&quot;name='&quot; + name + &quot;'&quot;)</span>
-<span class="nc" id="L273">          .add(&quot;value='&quot; + value + &quot;'&quot;)</span>
-<span class="nc" id="L274">          .toString();</span>
+<span class="nc" id="L281">      return new StringJoiner(&quot;, &quot;, MetricInfo.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L282">        .add(&quot;name='&quot; + name + &quot;'&quot;)</span>
+<span class="nc" id="L283">        .add(&quot;value='&quot; + value + &quot;'&quot;)</span>
+<span class="nc" id="L284">        .toString();</span>
     }
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L280" title="All 2 branches missed.">    if (this == o) return true;</span>
-<span class="nc bnc" id="L281" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L282">    PipelineStep that = (PipelineStep) o;</span>
-<span class="nc bnc" id="L283" title="All 2 branches missed.">    return key == that.key</span>
-<span class="nc bnc" id="L284" title="All 2 branches missed.">        &amp;&amp; Objects.equals(type, that.type)</span>
-<span class="nc bnc" id="L285" title="All 2 branches missed.">        &amp;&amp; Objects.equals(runner, that.runner)</span>
-<span class="nc bnc" id="L286" title="All 2 branches missed.">        &amp;&amp; Objects.equals(started, that.started)</span>
-<span class="nc bnc" id="L287" title="All 4 branches missed.">        &amp;&amp; Objects.equals(finished, that.finished)</span>
-        &amp;&amp; state == that.state
-<span class="nc bnc" id="L289" title="All 2 branches missed.">        &amp;&amp; Objects.equals(message, that.message)</span>
-<span class="nc bnc" id="L290" title="All 2 branches missed.">        &amp;&amp; Objects.equals(metrics, that.metrics)</span>
-<span class="nc bnc" id="L291" title="All 2 branches missed.">        &amp;&amp; Objects.equals(numberRecords, that.numberRecords)</span>
-<span class="nc bnc" id="L292" title="All 2 branches missed.">        &amp;&amp; Objects.equals(pipelinesVersion, that.pipelinesVersion)</span>
-<span class="nc bnc" id="L293" title="All 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, that.createdBy)</span>
-<span class="nc bnc" id="L294" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modified, that.modified)</span>
-<span class="nc bnc" id="L295" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modifiedBy, that.modifiedBy);</span>
+<span class="nc bnc" id="L290" title="All 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L291" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L292">    PipelineStep that = (PipelineStep) o;</span>
+<span class="nc bnc" id="L293" title="All 2 branches missed.">    return key == that.key</span>
+<span class="nc bnc" id="L294" title="All 2 branches missed.">      &amp;&amp; Objects.equals(type, that.type)</span>
+<span class="nc bnc" id="L295" title="All 2 branches missed.">      &amp;&amp; Objects.equals(runner, that.runner)</span>
+<span class="nc bnc" id="L296" title="All 2 branches missed.">      &amp;&amp; Objects.equals(started, that.started)</span>
+<span class="nc bnc" id="L297" title="All 4 branches missed.">      &amp;&amp; Objects.equals(finished, that.finished)</span>
+      &amp;&amp; state == that.state
+<span class="nc bnc" id="L299" title="All 2 branches missed.">      &amp;&amp; Objects.equals(message, that.message)</span>
+<span class="nc bnc" id="L300" title="All 2 branches missed.">      &amp;&amp; Objects.equals(metrics, that.metrics)</span>
+<span class="nc bnc" id="L301" title="All 2 branches missed.">      &amp;&amp; Objects.equals(numberRecords, that.numberRecords)</span>
+<span class="nc bnc" id="L302" title="All 2 branches missed.">      &amp;&amp; Objects.equals(pipelinesVersion, that.pipelinesVersion)</span>
+<span class="nc bnc" id="L303" title="All 2 branches missed.">      &amp;&amp; Objects.equals(createdBy, that.createdBy)</span>
+<span class="nc bnc" id="L304" title="All 2 branches missed.">      &amp;&amp; Objects.equals(modified, that.modified)</span>
+<span class="nc bnc" id="L305" title="All 2 branches missed.">      &amp;&amp; Objects.equals(modifiedBy, that.modifiedBy);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L300">    return Objects.hash(</span>
-<span class="nc" id="L301">        key,</span>
-        type,
-        runner,
-        started,
-        finished,
-        state,
-        message,
-        metrics,
-        numberRecords,
-        pipelinesVersion,
-        createdBy,
-        modified,
-        modifiedBy);
+<span class="nc" id="L310">    return Objects.hash(</span>
+<span class="nc" id="L311">      key,</span>
+      type,
+      runner,
+      started,
+      finished,
+      state,
+      message,
+      metrics,
+      numberRecords,
+      pipelinesVersion,
+      createdBy,
+      modified,
+      modifiedBy);
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L318">    return new StringJoiner(&quot;, &quot;, PipelineStep.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L319">        .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L320">        .add(&quot;type=&quot; + type)</span>
-<span class="nc" id="L321">        .add(&quot;runner=&quot; + runner)</span>
-<span class="nc" id="L322">        .add(&quot;started=&quot; + started)</span>
-<span class="nc" id="L323">        .add(&quot;finished=&quot; + finished)</span>
-<span class="nc" id="L324">        .add(&quot;state=&quot; + state)</span>
-<span class="nc" id="L325">        .add(&quot;message='&quot; + message + &quot;'&quot;)</span>
-<span class="nc" id="L326">        .add(&quot;numberRecords='&quot; + numberRecords + &quot;'&quot;)</span>
-<span class="nc" id="L327">        .add(&quot;pipelinesVersion='&quot; + pipelinesVersion + &quot;'&quot;)</span>
-<span class="nc" id="L328">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
-<span class="nc" id="L329">        .add(&quot;modified=&quot; + modified)</span>
-<span class="nc" id="L330">        .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
-<span class="nc" id="L331">        .add(&quot;metrics=&quot; + metrics)</span>
-<span class="nc" id="L332">        .toString();</span>
+<span class="nc" id="L328">    return new StringJoiner(&quot;, &quot;, PipelineStep.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L329">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L330">      .add(&quot;type=&quot; + type)</span>
+<span class="nc" id="L331">      .add(&quot;runner=&quot; + runner)</span>
+<span class="nc" id="L332">      .add(&quot;started=&quot; + started)</span>
+<span class="nc" id="L333">      .add(&quot;finished=&quot; + finished)</span>
+<span class="nc" id="L334">      .add(&quot;state=&quot; + state)</span>
+<span class="nc" id="L335">      .add(&quot;message='&quot; + message + &quot;'&quot;)</span>
+<span class="nc" id="L336">      .add(&quot;numberRecords='&quot; + numberRecords + &quot;'&quot;)</span>
+<span class="nc" id="L337">      .add(&quot;pipelinesVersion='&quot; + pipelinesVersion + &quot;'&quot;)</span>
+<span class="nc" id="L338">      .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L339">      .add(&quot;modified=&quot; + modified)</span>
+<span class="nc" id="L340">      .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
+<span class="nc" id="L341">      .add(&quot;metrics=&quot; + metrics)</span>
+<span class="nc" id="L342">      .toString();</span>
   }
 
   @Override
   public boolean lenientEquals(PipelineStep other) {
-<span class="nc bnc" id="L337" title="All 2 branches missed.">    if (this == other) return true;</span>
-<span class="nc bnc" id="L338" title="All 2 branches missed.">    return Objects.equals(type, other.type)</span>
-<span class="nc bnc" id="L339" title="All 2 branches missed.">        &amp;&amp; Objects.equals(runner, other.runner)</span>
-<span class="nc bnc" id="L340" title="All 4 branches missed.">        &amp;&amp; Objects.equals(finished, other.finished)</span>
-        &amp;&amp; state == other.state
-<span class="nc bnc" id="L342" title="All 2 branches missed.">        &amp;&amp; Objects.equals(message, other.message)</span>
-<span class="nc bnc" id="L343" title="All 2 branches missed.">        &amp;&amp; Objects.equals(metrics, other.metrics)</span>
-<span class="nc bnc" id="L344" title="All 2 branches missed.">        &amp;&amp; Objects.equals(numberRecords, other.numberRecords)</span>
-<span class="nc bnc" id="L345" title="All 2 branches missed.">        &amp;&amp; Objects.equals(pipelinesVersion, other.pipelinesVersion);</span>
+<span class="nc bnc" id="L347" title="All 2 branches missed.">    if (this == other) return true;</span>
+<span class="nc bnc" id="L348" title="All 2 branches missed.">    return Objects.equals(type, other.type)</span>
+<span class="nc bnc" id="L349" title="All 2 branches missed.">      &amp;&amp; Objects.equals(runner, other.runner)</span>
+<span class="nc bnc" id="L350" title="All 4 branches missed.">      &amp;&amp; Objects.equals(finished, other.finished)</span>
+      &amp;&amp; state == other.state
+<span class="nc bnc" id="L352" title="All 2 branches missed.">      &amp;&amp; Objects.equals(message, other.message)</span>
+<span class="nc bnc" id="L353" title="All 2 branches missed.">      &amp;&amp; Objects.equals(metrics, other.metrics)</span>
+<span class="nc bnc" id="L354" title="All 2 branches missed.">      &amp;&amp; Objects.equals(numberRecords, other.numberRecords)</span>
+<span class="nc bnc" id="L355" title="All 2 branches missed.">      &amp;&amp; Objects.equals(pipelinesVersion, other.pipelinesVersion);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

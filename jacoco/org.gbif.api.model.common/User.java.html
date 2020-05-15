@@ -30,18 +30,18 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * A GBIF user account registered in the drupal user database.
- * @Deprecated replaced by {@link GbifUser}
+ * A GBIF user account registered in the Drupal user database.
+ * @deprecated replaced by {@link GbifUser}
  */
 @Deprecated
 <span class="fc" id="L40">public class User {</span>
 
   private static final String EMAIL_PATTERN =
- 		&quot;^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@&quot;
- 		+ &quot;[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$&quot;;
+    &quot;^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@&quot;
+      + &quot;[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$&quot;;
 
   private Integer key;
   private String userName;
@@ -158,8 +158,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
   /**
    * Checks if the user has the given user role.
-   * @param role
    *
+   * @param role
    * @return true if the user has the requested role
    */
   public boolean hasRole(UserRole role) {
@@ -175,11 +175,12 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
   /**
    * Gets the settings which may be empty but never null.
+   *
    * @return
    */
   @NotNull
   public Map&lt;String, String&gt; getSettings() {
-<span class="fc" id="L182">    return settings;</span>
+<span class="fc" id="L183">    return settings;</span>
   }
 
   /**
@@ -187,47 +188,47 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    */
   public void setSettings(Map&lt;String, String&gt; settings) {
     // safeguard against misuse to avoid NPE
-<span class="pc bpc" id="L190" title="1 of 2 branches missed.">    this.settings = settings == null ? new HashMap&lt;&gt;() : settings;</span>
-<span class="fc" id="L191">  }</span>
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">    this.settings = settings == null ? new HashMap&lt;&gt;() : settings;</span>
+<span class="fc" id="L192">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L195" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L196">      return true;</span>
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L197">      return true;</span>
     }
-<span class="pc bpc" id="L198" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L199">      return false;</span>
+<span class="pc bpc" id="L199" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L200">      return false;</span>
     }
-<span class="fc" id="L201">    User user = (User) o;</span>
-<span class="pc bpc" id="L202" title="1 of 2 branches missed.">    return Objects.equals(key, user.key) &amp;&amp;</span>
-<span class="pc bpc" id="L203" title="1 of 2 branches missed.">      Objects.equals(userName, user.userName) &amp;&amp;</span>
-<span class="pc bpc" id="L204" title="1 of 2 branches missed.">      Objects.equals(firstName, user.firstName) &amp;&amp;</span>
-<span class="pc bpc" id="L205" title="1 of 2 branches missed.">      Objects.equals(lastName, user.lastName) &amp;&amp;</span>
-<span class="pc bpc" id="L206" title="1 of 2 branches missed.">      Objects.equals(email, user.email) &amp;&amp;</span>
-<span class="pc bpc" id="L207" title="1 of 2 branches missed.">      Objects.equals(passwordHash, user.passwordHash) &amp;&amp;</span>
-<span class="pc bpc" id="L208" title="1 of 2 branches missed.">      Objects.equals(roles, user.roles) &amp;&amp;</span>
-<span class="pc bpc" id="L209" title="1 of 2 branches missed.">      Objects.equals(lastLogin, user.lastLogin) &amp;&amp;</span>
-<span class="pc bpc" id="L210" title="1 of 2 branches missed.">      Objects.equals(settings, user.settings);</span>
+<span class="fc" id="L202">    User user = (User) o;</span>
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">    return Objects.equals(key, user.key) &amp;&amp;</span>
+<span class="pc bpc" id="L204" title="1 of 2 branches missed.">      Objects.equals(userName, user.userName) &amp;&amp;</span>
+<span class="pc bpc" id="L205" title="1 of 2 branches missed.">      Objects.equals(firstName, user.firstName) &amp;&amp;</span>
+<span class="pc bpc" id="L206" title="1 of 2 branches missed.">      Objects.equals(lastName, user.lastName) &amp;&amp;</span>
+<span class="pc bpc" id="L207" title="1 of 2 branches missed.">      Objects.equals(email, user.email) &amp;&amp;</span>
+<span class="pc bpc" id="L208" title="1 of 2 branches missed.">      Objects.equals(passwordHash, user.passwordHash) &amp;&amp;</span>
+<span class="pc bpc" id="L209" title="1 of 2 branches missed.">      Objects.equals(roles, user.roles) &amp;&amp;</span>
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">      Objects.equals(lastLogin, user.lastLogin) &amp;&amp;</span>
+<span class="pc bpc" id="L211" title="1 of 2 branches missed.">      Objects.equals(settings, user.settings);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L215">    return Objects</span>
-<span class="fc" id="L216">      .hash(key, userName, firstName, lastName, email, passwordHash, roles, lastLogin, settings);</span>
+<span class="fc" id="L216">    return Objects</span>
+<span class="fc" id="L217">      .hash(key, userName, firstName, lastName, email, passwordHash, roles, lastLogin, settings);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L221">    return new StringJoiner(&quot;, &quot;, User.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L222">      .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L223">      .add(&quot;userName='&quot; + userName + &quot;'&quot;)</span>
-<span class="nc" id="L224">      .add(&quot;firstName='&quot; + firstName + &quot;'&quot;)</span>
-<span class="nc" id="L225">      .add(&quot;lastName='&quot; + lastName + &quot;'&quot;)</span>
-<span class="nc" id="L226">      .add(&quot;email='&quot; + email + &quot;'&quot;)</span>
-<span class="nc" id="L227">      .add(&quot;roles=&quot; + roles)</span>
-<span class="nc" id="L228">      .add(&quot;lastLogin=&quot; + lastLogin)</span>
-<span class="nc" id="L229">      .add(&quot;settings=&quot; + settings)</span>
-<span class="nc" id="L230">      .toString();</span>
+<span class="nc" id="L222">    return new StringJoiner(&quot;, &quot;, User.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L223">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L224">      .add(&quot;userName='&quot; + userName + &quot;'&quot;)</span>
+<span class="nc" id="L225">      .add(&quot;firstName='&quot; + firstName + &quot;'&quot;)</span>
+<span class="nc" id="L226">      .add(&quot;lastName='&quot; + lastName + &quot;'&quot;)</span>
+<span class="nc" id="L227">      .add(&quot;email='&quot; + email + &quot;'&quot;)</span>
+<span class="nc" id="L228">      .add(&quot;roles=&quot; + roles)</span>
+<span class="nc" id="L229">      .add(&quot;lastLogin=&quot; + lastLogin)</span>
+<span class="nc" id="L230">      .add(&quot;settings=&quot; + settings)</span>
+<span class="nc" id="L231">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

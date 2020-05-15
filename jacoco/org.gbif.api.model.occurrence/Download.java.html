@@ -20,6 +20,7 @@ import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.vocabulary.License;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.Objects;
@@ -29,9 +30,9 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-<span class="fc" id="L34">public class Download {</span>
+<span class="fc" id="L35">public class Download implements Serializable {</span>
 
   /**
    * Reflects the possibles statuses of a download during its execution.
@@ -45,25 +46,25 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    * - SUSPENDED: the download was paused and its execution will be resumed later
    * - FILE_DELETED: the download was successful, but the download file has been deleted
    */
-<span class="fc" id="L48">  public enum Status {</span>
-<span class="fc" id="L49">    PREPARING,</span>
-<span class="fc" id="L50">    RUNNING,</span>
-<span class="fc" id="L51">    SUCCEEDED,</span>
-<span class="fc" id="L52">    CANCELLED,</span>
-<span class="fc" id="L53">    KILLED,</span>
-<span class="fc" id="L54">    FAILED,</span>
-<span class="fc" id="L55">    SUSPENDED,</span>
-<span class="fc" id="L56">    FILE_ERASED;</span>
+<span class="fc" id="L49">  public enum Status {</span>
+<span class="fc" id="L50">    PREPARING,</span>
+<span class="fc" id="L51">    RUNNING,</span>
+<span class="fc" id="L52">    SUCCEEDED,</span>
+<span class="fc" id="L53">    CANCELLED,</span>
+<span class="fc" id="L54">    KILLED,</span>
+<span class="fc" id="L55">    FAILED,</span>
+<span class="fc" id="L56">    SUSPENDED,</span>
+<span class="fc" id="L57">    FILE_ERASED;</span>
 
     /**
      * Statuses that represent a download that that hasn't finished.
      */
-<span class="fc" id="L61">    public static final EnumSet&lt;Status&gt; EXECUTING_STATUSES = EnumSet.of(PREPARING, RUNNING, SUSPENDED);</span>
+<span class="fc" id="L62">    public static final EnumSet&lt;Status&gt; EXECUTING_STATUSES = EnumSet.of(PREPARING, RUNNING, SUSPENDED);</span>
 
     /**
      * Statuses that represent a download that that has finished.
      */
-<span class="fc" id="L66">    public static final EnumSet&lt;Status&gt; FINISH_STATUSES = EnumSet.of(SUCCEEDED, CANCELLED, KILLED, FAILED, FILE_ERASED);</span>
+<span class="fc" id="L67">    public static final EnumSet&lt;Status&gt; FINISH_STATUSES = EnumSet.of(SUCCEEDED, CANCELLED, KILLED, FAILED, FILE_ERASED);</span>
   }
 
   private String key;
@@ -97,7 +98,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
   @NotNull(groups = {PostPersist.class})
   @Nullable
   public Date getCreated() {
-<span class="nc" id="L100">    return created;</span>
+<span class="nc" id="L101">    return created;</span>
   }
 
   /**
@@ -105,7 +106,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    */
   @Nullable
   public String getDownloadLink() {
-<span class="nc" id="L108">    return downloadLink;</span>
+<span class="nc" id="L109">    return downloadLink;</span>
   }
 
   /**
@@ -113,7 +114,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    */
   @NotNull
   public String getKey() {
-<span class="nc" id="L116">    return key;</span>
+<span class="nc" id="L117">    return key;</span>
   }
 
   /**
@@ -123,7 +124,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
   @NotNull(groups = {PostPersist.class})
   @Nullable
   public Date getModified() {
-<span class="nc" id="L126">    return modified;</span>
+<span class="nc" id="L127">    return modified;</span>
   }
 
   /**
@@ -131,7 +132,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    */
   @Nullable
   public Date getEraseAfter() {
-<span class="nc" id="L134">    return eraseAfter;</span>
+<span class="nc" id="L135">    return eraseAfter;</span>
   }
 
   /**
@@ -139,7 +140,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    */
   @NotNull
   public DownloadRequest getRequest() {
-<span class="nc" id="L142">    return request;</span>
+<span class="nc" id="L143">    return request;</span>
   }
 
   /**
@@ -147,7 +148,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    */
   @NotNull
   public Status getStatus() {
-<span class="nc" id="L150">    return status;</span>
+<span class="nc" id="L151">    return status;</span>
   }
 
   /**
@@ -155,28 +156,28 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    */
   @JsonIgnore
   public boolean isAvailable() {
-<span class="fc bfc" id="L158" title="All 2 branches covered.">    return status == Status.SUCCEEDED;</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">    return status == Status.SUCCEEDED;</span>
   }
 
   /**
    * Size in bytes of the produced file.
    */
   public long getSize() {
-<span class="nc" id="L165">    return size;</span>
+<span class="nc" id="L166">    return size;</span>
   }
 
   /**
    * Number of occurrence records in the download file.
    */
   public long getTotalRecords() {
-<span class="nc" id="L172">    return totalRecords;</span>
+<span class="nc" id="L173">    return totalRecords;</span>
   }
 
   /**
    * Number of datasets in the download file.
    */
   public long getNumberDatasets() {
-<span class="nc" id="L179">    return numberDatasets;</span>
+<span class="nc" id="L180">    return numberDatasets;</span>
   }
 
   /**
@@ -184,12 +185,11 @@ import org.codehaus.jackson.annotate.JsonIgnore;
    */
   @Nullable
   public DOI getDoi() {
-<span class="nc" id="L187">    return doi;</span>
+<span class="nc" id="L188">    return doi;</span>
   }
 
   /**
    * Get the license assigned to this occurrence download.
-   * @return
    */
   public License getLicense() {
 <span class="nc" id="L195">    return license;</span>

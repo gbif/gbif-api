@@ -20,35 +20,30 @@ import org.gbif.dwc.terms.Term;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.SerializationConfig.Feature;
-import org.codehaus.jackson.map.SerializerProvider;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.SerializerProvider;
 
-/**
- * Serializes list of maps of terms values.
- */
-<span class="fc" id="L33">public class TermMapListSerializer extends JsonSerializer&lt;List&lt;Map&lt;Term, String&gt;&gt;&gt; {</span>
-
+<span class="fc" id="L29">public class TermMapListSerializer extends JsonSerializer&lt;List&lt;Map&lt;Term, String&gt;&gt;&gt; {</span>
   @Override
-  public void serialize(List&lt;Map&lt;Term, String&gt;&gt; value, JsonGenerator jgen, SerializerProvider provider)
-    throws IOException {
-<span class="pc bpc" id="L38" title="4 of 6 branches missed.">    if ((value == null || value.isEmpty()) &amp;&amp; provider.getConfig().isEnabled(Feature.WRITE_EMPTY_JSON_ARRAYS)) {</span>
-<span class="nc" id="L39">      jgen.writeStartArray();</span>
-<span class="nc" id="L40">      jgen.writeEndArray();</span>
+  public void serialize(List&lt;Map&lt;Term, String&gt;&gt; value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+
+<span class="pc bpc" id="L33" title="4 of 6 branches missed.">    if ((value == null || value.isEmpty()) &amp;&amp; provider.getConfig().isEnabled(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS)) {</span>
+<span class="nc" id="L34">      jgen.writeStartArray();</span>
+<span class="nc" id="L35">      jgen.writeEndArray();</span>
     } else {
-<span class="fc" id="L42">      jgen.writeStartArray();</span>
-<span class="fc bfc" id="L43" title="All 2 branches covered.">      for (Map&lt;Term, String&gt; extension : value) {</span>
-<span class="fc" id="L44">        jgen.writeStartObject();</span>
-<span class="fc bfc" id="L45" title="All 2 branches covered.">        for (Entry&lt;Term, String&gt; entry : extension.entrySet()) {</span>
-<span class="fc" id="L46">          jgen.writeStringField(entry.getKey().qualifiedName(), entry.getValue());</span>
-<span class="fc" id="L47">        }</span>
-<span class="fc" id="L48">        jgen.writeEndObject();</span>
-<span class="fc" id="L49">      }</span>
-<span class="fc" id="L50">      jgen.writeEndArray();</span>
+<span class="fc" id="L37">      jgen.writeStartArray();</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">      for (Map&lt;Term, String&gt; extension : value) {</span>
+<span class="fc" id="L39">        jgen.writeStartObject();</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        for (Map.Entry&lt;Term, String&gt; entry : extension.entrySet()) {</span>
+<span class="fc" id="L41">          jgen.writeStringField(entry.getKey().qualifiedName(), entry.getValue());</span>
+<span class="fc" id="L42">        }</span>
+<span class="fc" id="L43">        jgen.writeEndObject();</span>
+<span class="fc" id="L44">      }</span>
+<span class="fc" id="L45">      jgen.writeEndArray();</span>
     }
-<span class="fc" id="L52">  }</span>
+<span class="fc" id="L47">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

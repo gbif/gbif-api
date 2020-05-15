@@ -18,37 +18,40 @@ package org.gbif.api.jackson;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.SerializerProvider;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 
 /**
  * Jackson {@link JsonSerializer} and Jackson {@link JsonDeserializer} classes for {@link
  * LocalDateTime}.
  */
-<span class="nc" id="L33">public class LocalDateTimeSerDe {</span>
+<span class="nc" id="L32">public class LocalDateTimeSerDe {</span>
 
-  /** Jackson {@link JsonSerializer} for {@link LocalDateTime}. */
-<span class="nc" id="L36">  public static class LocalDateTimeSerializer extends JsonSerializer&lt;LocalDateTime&gt; {</span>
+  /**
+   * Jackson {@link JsonSerializer} for {@link LocalDateTime}.
+   */
+<span class="nc" id="L37">  public static class LocalDateTimeSerializer extends JsonSerializer&lt;LocalDateTime&gt; {</span>
 
     @Override
     public void serialize(LocalDateTime value, JsonGenerator jgen, SerializerProvider provider)
-      throws IOException, JsonProcessingException {
-<span class="nc" id="L41">      jgen.writeString((value.toString()));</span>
-<span class="nc" id="L42">    }</span>
+      throws IOException {
+<span class="nc" id="L42">      jgen.writeString((value.toString()));</span>
+<span class="nc" id="L43">    }</span>
   }
 
-  /** Jackson {@link JsonDeserializer} for {@link LocalDateTime}. */
-<span class="nc" id="L46">  public static class LocalDateTimeDeserializer extends JsonDeserializer&lt;LocalDateTime&gt; {</span>
+  /**
+   * Jackson {@link JsonDeserializer} for {@link LocalDateTime}.
+   */
+<span class="nc" id="L49">  public static class LocalDateTimeDeserializer extends JsonDeserializer&lt;LocalDateTime&gt; {</span>
 
     @Override
     public LocalDateTime deserialize(JsonParser jp, DeserializationContext ctxt)
-      throws IOException, JsonProcessingException {
-<span class="nc" id="L51">      return LocalDateTime.parse(jp.getText());</span>
+      throws IOException {
+<span class="nc" id="L54">      return LocalDateTime.parse(jp.getText());</span>
     }
   }
 }

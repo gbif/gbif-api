@@ -23,84 +23,88 @@ import java.util.Set;
  * Encapsulates the possible response of the request of re-execute a pipeline of dataset and
  * attempt.
  */
+@SuppressWarnings(&quot;unused&quot;)
 public class RunPipelineResponse {
 
   /** Possible response statuses. */
-<span class="nc" id="L29">  public enum ResponseStatus {</span>
-<span class="nc" id="L30">    OK,</span>
-<span class="nc" id="L31">    PIPELINE_IN_SUBMITTED,</span>
-<span class="nc" id="L32">    UNSUPPORTED_STEP,</span>
-<span class="nc" id="L33">    ERROR</span>
+<span class="nc" id="L30">  public enum ResponseStatus {</span>
+<span class="nc" id="L31">    OK,</span>
+<span class="nc" id="L32">    PIPELINE_IN_SUBMITTED,</span>
+<span class="nc" id="L33">    UNSUPPORTED_STEP,</span>
+<span class="nc" id="L34">    ERROR</span>
   }
 
-  private final ResponseStatus responseStatus;
+  private ResponseStatus responseStatus;
 
-  private final Set&lt;StepType&gt; steps;
+  private Set&lt;StepType&gt; steps;
 
-  private final Set&lt;StepType&gt; stepsFailed;
+  private Set&lt;StepType&gt; stepsFailed;
 
-  private final String message;
+  private String message;
+
+<span class="nc" id="L45">  public RunPipelineResponse() {</span>
+<span class="nc" id="L46">  }</span>
 
   public RunPipelineResponse(
-    ResponseStatus responseStatus,
-    Set&lt;StepType&gt; steps,
-    Set&lt;StepType&gt; stepsFailed,
-<span class="nc" id="L48">    String message) {</span>
-<span class="nc" id="L49">    this.responseStatus = responseStatus;</span>
-<span class="nc" id="L50">    this.steps = steps;</span>
-<span class="nc" id="L51">    this.message = message;</span>
-<span class="nc" id="L52">    this.stepsFailed = stepsFailed;</span>
-<span class="nc" id="L53">  }</span>
+      ResponseStatus responseStatus,
+      Set&lt;StepType&gt; steps,
+      Set&lt;StepType&gt; stepsFailed,
+<span class="nc" id="L52">      String message) {</span>
+<span class="nc" id="L53">    this.responseStatus = responseStatus;</span>
+<span class="nc" id="L54">    this.steps = steps;</span>
+<span class="nc" id="L55">    this.message = message;</span>
+<span class="nc" id="L56">    this.stepsFailed = stepsFailed;</span>
+<span class="nc" id="L57">  }</span>
 
   /** @return the response status of execution request */
   public ResponseStatus getResponseStatus() {
-<span class="nc" id="L57">    return responseStatus;</span>
+<span class="nc" id="L61">    return responseStatus;</span>
   }
 
   /** @return steps requested to be executed */
   public Set&lt;StepType&gt; getSteps() {
-<span class="nc" id="L62">    return steps;</span>
+<span class="nc" id="L66">    return steps;</span>
   }
 
   public String getMessage() {
-<span class="nc" id="L66">    return message;</span>
+<span class="nc" id="L70">    return message;</span>
   }
 
   public Set&lt;StepType&gt; getStepsFailed() {
-<span class="nc" id="L70">    return stepsFailed;</span>
+<span class="nc" id="L74">    return stepsFailed;</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L75" title="All 2 branches missed.">    if (this == o) return true;</span>
-<span class="nc bnc" id="L76" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L77">    RunPipelineResponse that = (RunPipelineResponse) o;</span>
-<span class="nc bnc" id="L78" title="All 2 branches missed.">    return responseStatus == that.responseStatus</span>
-<span class="nc bnc" id="L79" title="All 2 branches missed.">      &amp;&amp; steps.equals(that.steps)</span>
-<span class="nc bnc" id="L80" title="All 2 branches missed.">      &amp;&amp; stepsFailed.equals(that.stepsFailed)</span>
-<span class="nc bnc" id="L81" title="All 2 branches missed.">      &amp;&amp; message.equals(that.message);</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L80" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L81">    RunPipelineResponse that = (RunPipelineResponse) o;</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">    return responseStatus == that.responseStatus</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        &amp;&amp; steps.equals(that.steps)</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        &amp;&amp; stepsFailed.equals(that.stepsFailed)</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        &amp;&amp; message.equals(that.message);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L86">    return Objects.hash(responseStatus, steps, stepsFailed, message);</span>
+<span class="nc" id="L90">    return Objects.hash(responseStatus, steps, stepsFailed, message);</span>
   }
 
   /** @return a new Builder instance. */
   public static Builder builder() {
-<span class="nc" id="L91">    return new Builder();</span>
+<span class="nc" id="L95">    return new Builder();</span>
   }
 
   /** @return a new Builder instance. */
   public static Builder builder(RunPipelineResponse runPipelineResponse) {
-<span class="nc" id="L96">    Builder builder = new Builder();</span>
-<span class="nc" id="L97">    return builder</span>
-<span class="nc" id="L98">      .setSteps(runPipelineResponse.steps)</span>
-<span class="nc" id="L99">      .setResponseStatus(runPipelineResponse.responseStatus);</span>
+<span class="nc" id="L100">    Builder builder = new Builder();</span>
+<span class="nc" id="L101">    return builder</span>
+<span class="nc" id="L102">        .setSteps(runPipelineResponse.steps)</span>
+<span class="nc" id="L103">        .setResponseStatus(runPipelineResponse.responseStatus);</span>
   }
 
   /** Builder for {@link RunPipelineResponse}. */
-<span class="nc" id="L103">  public static class Builder {</span>
+<span class="nc" id="L107">  public static class Builder {</span>
 
     private ResponseStatus responseStatus;
     private Set&lt;StepType&gt; steps;
@@ -108,43 +112,43 @@ public class RunPipelineResponse {
     private String message;
 
     public Builder setResponseStatus(ResponseStatus responseStatus) {
-<span class="nc" id="L111">      this.responseStatus = responseStatus;</span>
-<span class="nc" id="L112">      return this;</span>
+<span class="nc" id="L115">      this.responseStatus = responseStatus;</span>
+<span class="nc" id="L116">      return this;</span>
     }
 
     public Builder setSteps(Set&lt;StepType&gt; steps) {
-<span class="nc" id="L116">      this.steps = steps;</span>
-<span class="nc" id="L117">      return this;</span>
+<span class="nc" id="L120">      this.steps = steps;</span>
+<span class="nc" id="L121">      return this;</span>
     }
 
     public Builder addStep(StepType step) {
-<span class="nc bnc" id="L121" title="All 2 branches missed.">      if (this.steps == null) {</span>
-<span class="nc" id="L122">        this.steps = new HashSet&lt;&gt;();</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">      if (this.steps == null) {</span>
+<span class="nc" id="L126">        this.steps = new HashSet&lt;&gt;();</span>
       }
-<span class="nc" id="L124">      this.steps.add(step);</span>
-<span class="nc" id="L125">      return this;</span>
+<span class="nc" id="L128">      this.steps.add(step);</span>
+<span class="nc" id="L129">      return this;</span>
     }
 
     public Builder setStepsFailed(Set&lt;StepType&gt; stepsFailed) {
-<span class="nc" id="L129">      this.stepsFailed = stepsFailed;</span>
-<span class="nc" id="L130">      return this;</span>
+<span class="nc" id="L133">      this.stepsFailed = stepsFailed;</span>
+<span class="nc" id="L134">      return this;</span>
     }
 
     public Builder addStepFailed(StepType stepFailed) {
-<span class="nc bnc" id="L134" title="All 2 branches missed.">      if (this.stepsFailed == null) {</span>
-<span class="nc" id="L135">        this.stepsFailed = new HashSet&lt;&gt;();</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">      if (this.stepsFailed == null) {</span>
+<span class="nc" id="L139">        this.stepsFailed = new HashSet&lt;&gt;();</span>
       }
-<span class="nc" id="L137">      this.stepsFailed.add(stepFailed);</span>
-<span class="nc" id="L138">      return this;</span>
+<span class="nc" id="L141">      this.stepsFailed.add(stepFailed);</span>
+<span class="nc" id="L142">      return this;</span>
     }
 
     public Builder setMessage(String message) {
-<span class="nc" id="L142">      this.message = message;</span>
-<span class="nc" id="L143">      return this;</span>
+<span class="nc" id="L146">      this.message = message;</span>
+<span class="nc" id="L147">      return this;</span>
     }
 
     public RunPipelineResponse build() {
-<span class="nc" id="L147">      return new RunPipelineResponse(responseStatus, steps, stepsFailed, message);</span>
+<span class="nc" id="L151">      return new RunPipelineResponse(responseStatus, steps, stepsFailed, message);</span>
     }
   }
 }

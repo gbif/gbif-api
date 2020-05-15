@@ -21,14 +21,14 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.SerializerProvider;
-import org.codehaus.jackson.map.deser.std.DateDeserializer;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
 
 /**
  * Jackson {@link JsonSerializer} classes for {@link Date}s with specified formats.
@@ -36,42 +36,43 @@ import org.codehaus.jackson.map.deser.std.DateDeserializer;
 <span class="nc" id="L36">public class DateSerde {</span>
 
 <span class="fc" id="L38">  private static SimpleDateFormat noTimezoneFormat = new SimpleDateFormat(&quot;yyyy-MM-dd'T'HH:mm:ss&quot;);</span>
+
   static {
-<span class="fc" id="L40">    noTimezoneFormat.setTimeZone(TimeZone.getTimeZone(&quot;UTC&quot;));</span>
-<span class="fc" id="L41">  }</span>
+<span class="fc" id="L41">    noTimezoneFormat.setTimeZone(TimeZone.getTimeZone(&quot;UTC&quot;));</span>
+<span class="fc" id="L42">  }</span>
 
   /**
    * Jackson {@link JsonSerializer} for {@link Date}.
    */
-<span class="fc" id="L46">  public static class NoTimezoneDateJsonSerializer extends JsonSerializer&lt;Date&gt; {</span>
+<span class="fc" id="L47">  public static class NoTimezoneDateJsonSerializer extends JsonSerializer&lt;Date&gt; {</span>
 
     @Override
     public void serialize(Date value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-<span class="pc bpc" id="L50" title="1 of 2 branches missed.">      if (value == null) {</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">      if (value == null) {</span>
         // Empty fields aren't included in the JSON.
-<span class="nc" id="L52">        return;</span>
+<span class="nc" id="L53">        return;</span>
       } else {
-<span class="fc" id="L54">        jgen.writeString(noTimezoneFormat.format(value));</span>
+<span class="fc" id="L55">        jgen.writeString(noTimezoneFormat.format(value));</span>
       }
-<span class="fc" id="L56">    }</span>
+<span class="fc" id="L57">    }</span>
   }
 
   /**
    * Jackson {@link JsonDeserializer} for {@link Date}s formatted above, falling back to the Jackson way.
    */
-<span class="fc" id="L62">  public static class FlexibleDateJsonDeserializer extends DateDeserializer {</span>
+<span class="fc" id="L63">  public static class FlexibleDateJsonDeserializer extends DateDeserializers.DateDeserializer {</span>
 
     @Override
     public Date deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-<span class="pc bpc" id="L66" title="1 of 2 branches missed.">      if (jp.getCurrentToken() == JsonToken.VALUE_STRING) {</span>
-<span class="fc" id="L67">        String text = jp.getText();</span>
-<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (text.length() == 19) {</span>
-<span class="fc" id="L69">          return Date.from(Instant.parse(text+&quot;Z&quot;));</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">      if (jp.getCurrentToken() == JsonToken.VALUE_STRING) {</span>
+<span class="fc" id="L68">        String text = jp.getText();</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        if (text.length() == 19) {</span>
+<span class="fc" id="L70">          return Date.from(Instant.parse(text + &quot;Z&quot;));</span>
         } else {
-<span class="fc" id="L71">          return super.deserialize(jp, ctxt);</span>
+<span class="fc" id="L72">          return super.deserialize(jp, ctxt);</span>
         }
       }
-<span class="nc" id="L74">      throw ctxt.mappingException(&quot;Expected String&quot;);</span>
+<span class="nc" id="L75">      throw ctxt.mappingException(&quot;Expected String&quot;);</span>
     }
   }
 }

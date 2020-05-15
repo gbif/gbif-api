@@ -34,20 +34,21 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.annotate.JsonAnyGetter;
-import org.codehaus.jackson.annotate.JsonAnySetter;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @SuppressWarnings(&quot;unused&quot;)
-<span class="fc" id="L44">public class VerbatimNameUsage {</span>
+<span class="fc" id="L45">public class VerbatimNameUsage {</span>
 
   private Integer key;
   // the verbatim taxon fields for the usage
-<span class="fc" id="L48">  private Map&lt;Term, String&gt; fields = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L49">  private Map&lt;Term, String&gt; fields = new HashMap&lt;&gt;();</span>
   // the verbatim extension records as read by a dwc star record, keyed on the extension
-<span class="fc" id="L50">  private Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L51">  private Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions = new HashMap&lt;&gt;();</span>
 
   private Date lastCrawled;
 
@@ -56,26 +57,30 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
    */
   @NotNull
   public Integer getKey() {
-<span class="fc" id="L59">    return key;</span>
+<span class="fc" id="L60">    return key;</span>
   }
 
   public void setKey(Integer key) {
-<span class="fc" id="L63">    this.key = key;</span>
-<span class="fc" id="L64">  }</span>
+<span class="fc" id="L64">    this.key = key;</span>
+<span class="fc" id="L65">  }</span>
 
   /**
    * A map of extension records, holding all verbatim extension terms.
    */
   @NotNull
-  @JsonSerialize(keyUsing = ExtensionSerializer.class, contentUsing = TermMapListSerializer.class)
-  @JsonDeserialize(keyUsing = ExtensionKeyDeserializer.class, contentUsing = TermMapListDeserializer.class)
+  @JsonSerialize(
+    keyUsing = ExtensionSerializer.class,
+    contentUsing = TermMapListSerializer.class)
+  @JsonDeserialize(
+    keyUsing = ExtensionKeyDeserializer.class,
+    contentUsing = TermMapListDeserializer.class)
   public Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; getExtensions() {
-<span class="fc" id="L73">    return extensions;</span>
+<span class="fc" id="L78">    return extensions;</span>
   }
 
   public void setExtensions(Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions) {
-<span class="fc" id="L77">    this.extensions = extensions;</span>
-<span class="fc" id="L78">  }</span>
+<span class="fc" id="L82">    this.extensions = extensions;</span>
+<span class="fc" id="L83">  }</span>
 
   /**
    * A map holding all verbatim core terms.
@@ -83,75 +88,75 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
   @NotNull
   @JsonIgnore
   public Map&lt;Term, String&gt; getFields() {
-<span class="fc" id="L86">    return fields;</span>
+<span class="fc" id="L91">    return fields;</span>
   }
 
   public void setFields(Map&lt;Term, String&gt; fields) {
-<span class="nc" id="L90">    this.fields = fields;</span>
-<span class="nc" id="L91">  }</span>
+<span class="nc" id="L95">    this.fields = fields;</span>
+<span class="nc" id="L96">  }</span>
 
   /**
    * The date this record was last crawled during clb indexing.
    */
   @Nullable
   public Date getLastCrawled() {
-<span class="fc bfc" id="L98" title="All 2 branches covered.">    return lastCrawled == null ? null : new Date(lastCrawled.getTime());</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">    return lastCrawled == null ? null : new Date(lastCrawled.getTime());</span>
   }
 
   public void setLastCrawled(@Nullable Date lastCrawled) {
-<span class="fc bfc" id="L102" title="All 2 branches covered.">    this.lastCrawled = lastCrawled == null ? null : new Date(lastCrawled.getTime());</span>
-<span class="fc" id="L103">  }</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">    this.lastCrawled = lastCrawled == null ? null : new Date(lastCrawled.getTime());</span>
+<span class="fc" id="L108">  }</span>
 
   /**
    * Get the value of a specific field (Term).
    */
   @Nullable
   public String getCoreField(Term term) {
-<span class="fc" id="L110">    Objects.requireNonNull(term, &quot;term can't be null&quot;);</span>
-<span class="fc" id="L111">    return fields.get(term);</span>
+<span class="fc" id="L115">    Objects.requireNonNull(term, &quot;term can't be null&quot;);</span>
+<span class="fc" id="L116">    return fields.get(term);</span>
   }
 
   /**
    * @return true if a verbatim field exists and is not null or an empty string
    */
   public boolean hasCoreField(Term term) {
-<span class="fc" id="L118">    Objects.requireNonNull(term, &quot;term can't be null&quot;);</span>
-<span class="fc" id="L119">    return StringUtils.isNotEmpty(fields.get(term));</span>
+<span class="fc" id="L123">    Objects.requireNonNull(term, &quot;term can't be null&quot;);</span>
+<span class="fc" id="L124">    return StringUtils.isNotEmpty(fields.get(term));</span>
   }
 
   /**
    * @return true if at least one extension record exists
    */
   public boolean hasExtension(Extension extension) {
-<span class="fc bfc" id="L126" title="All 4 branches covered.">    return extensions.containsKey(extension) &amp;&amp; !extensions.get(extension).isEmpty();</span>
+<span class="fc bfc" id="L131" title="All 4 branches covered.">    return extensions.containsKey(extension) &amp;&amp; !extensions.get(extension).isEmpty();</span>
   }
 
   public boolean hasExtension(Term term) {
-<span class="fc" id="L130">    Objects.requireNonNull(term, &quot;term can't be null&quot;);</span>
-<span class="fc" id="L131">    Extension ext = Extension.fromRowType(term.qualifiedName());</span>
+<span class="fc" id="L135">    Objects.requireNonNull(term, &quot;term can't be null&quot;);</span>
+<span class="fc" id="L136">    Extension ext = Extension.fromRowType(term.qualifiedName());</span>
 
-<span class="pc bpc" id="L133" title="1 of 4 branches missed.">    return ext != null &amp;&amp; hasExtension(ext);</span>
+<span class="pc bpc" id="L138" title="1 of 4 branches missed.">    return ext != null &amp;&amp; hasExtension(ext);</span>
   }
 
   /**
    * For setting a specific field without having to replace the entire fields Map.
    *
-   * @param term the field to set
+   * @param term       the field to set
    * @param fieldValue the field's value
    */
   public void setCoreField(Term term, @Nullable String fieldValue) {
-<span class="fc" id="L143">    Objects.requireNonNull(term, &quot;term can't be null&quot;);</span>
-<span class="fc" id="L144">    fields.put(term, fieldValue);</span>
-<span class="fc" id="L145">  }</span>
+<span class="fc" id="L148">    Objects.requireNonNull(term, &quot;term can't be null&quot;);</span>
+<span class="fc" id="L149">    fields.put(term, fieldValue);</span>
+<span class="fc" id="L150">  }</span>
 
   /**
    * This private method is only for deserialization via jackson and not exposed anywhere else!
    */
   @JsonAnySetter
   private void addJsonVerbatimField(String key, String value) {
-<span class="fc" id="L152">    Term t = TermFactory.instance().findTerm(key);</span>
-<span class="fc" id="L153">    fields.put(t, value);</span>
-<span class="fc" id="L154">  }</span>
+<span class="fc" id="L157">    Term t = TermFactory.instance().findTerm(key);</span>
+<span class="fc" id="L158">    fields.put(t, value);</span>
+<span class="fc" id="L159">  }</span>
 
   /**
    * This private method is only for serialization via jackson and not exposed anywhere else!
@@ -159,41 +164,41 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
    */
   @JsonAnyGetter
   private Map&lt;String, String&gt; jsonVerbatimFields() {
-<span class="fc" id="L162">    Map&lt;String, String&gt; extendedProps = new HashMap&lt;&gt;();</span>
-<span class="fc bfc" id="L163" title="All 2 branches covered.">    for (Map.Entry&lt;Term, String&gt; prop : fields.entrySet()) {</span>
-<span class="fc" id="L164">      extendedProps.put(prop.getKey().qualifiedName(), prop.getValue());</span>
-<span class="fc" id="L165">    }</span>
-<span class="fc" id="L166">    return extendedProps;</span>
+<span class="fc" id="L167">    Map&lt;String, String&gt; extendedProps = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L168" title="All 2 branches covered.">    for (Map.Entry&lt;Term, String&gt; prop : fields.entrySet()) {</span>
+<span class="fc" id="L169">      extendedProps.put(prop.getKey().qualifiedName(), prop.getValue());</span>
+<span class="fc" id="L170">    }</span>
+<span class="fc" id="L171">    return extendedProps;</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L171" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L172">      return true;</span>
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L177">      return true;</span>
     }
-<span class="pc bpc" id="L174" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L175">      return false;</span>
+<span class="pc bpc" id="L179" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L180">      return false;</span>
     }
-<span class="fc" id="L177">    VerbatimNameUsage that = (VerbatimNameUsage) o;</span>
-<span class="pc bpc" id="L178" title="1 of 2 branches missed.">    return Objects.equals(key, that.key) &amp;&amp;</span>
-<span class="pc bpc" id="L179" title="1 of 2 branches missed.">      Objects.equals(fields, that.fields) &amp;&amp;</span>
-<span class="pc bpc" id="L180" title="1 of 2 branches missed.">      Objects.equals(extensions, that.extensions) &amp;&amp;</span>
-<span class="fc bfc" id="L181" title="All 2 branches covered.">      Objects.equals(lastCrawled, that.lastCrawled);</span>
+<span class="fc" id="L182">    VerbatimNameUsage that = (VerbatimNameUsage) o;</span>
+<span class="pc bpc" id="L183" title="1 of 2 branches missed.">    return Objects.equals(key, that.key) &amp;&amp;</span>
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">      Objects.equals(fields, that.fields) &amp;&amp;</span>
+<span class="pc bpc" id="L185" title="1 of 2 branches missed.">      Objects.equals(extensions, that.extensions) &amp;&amp;</span>
+<span class="fc bfc" id="L186" title="All 2 branches covered.">      Objects.equals(lastCrawled, that.lastCrawled);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L186">    return Objects.hash(key, fields, extensions, lastCrawled);</span>
+<span class="nc" id="L191">    return Objects.hash(key, fields, extensions, lastCrawled);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L191">    return new StringJoiner(&quot;, &quot;, VerbatimNameUsage.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L192">      .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L193">      .add(&quot;fields=&quot; + fields)</span>
-<span class="nc" id="L194">      .add(&quot;extensions=&quot; + extensions)</span>
-<span class="nc" id="L195">      .add(&quot;lastCrawled=&quot; + lastCrawled)</span>
-<span class="nc" id="L196">      .toString();</span>
+<span class="nc" id="L196">    return new StringJoiner(&quot;, &quot;, VerbatimNameUsage.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L197">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L198">      .add(&quot;fields=&quot; + fields)</span>
+<span class="nc" id="L199">      .add(&quot;extensions=&quot; + extensions)</span>
+<span class="nc" id="L200">      .add(&quot;lastCrawled=&quot; + lastCrawled)</span>
+<span class="nc" id="L201">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

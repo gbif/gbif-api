@@ -18,37 +18,67 @@ package org.gbif.api.vocabulary;
 import org.gbif.api.util.VocabularyUtils;
 
 /**
- * Enumeration for all continents based on the 7 number model found on
- * &lt;a href=&quot;http://en.wikipedia.org/wiki/Continent#Number_of_continents&quot;&gt;Wikipedia&lt;/a&gt;.
+ * &lt;p&gt;Enumeration for all continents based on the 7 number model found on
+ * &lt;a href=&quot;https://en.wikipedia.org/wiki/Continent#Number_of_continents&quot;&gt;Wikipedia&lt;/a&gt;.
  *
- * In particular this splits the Americas into North and South America with North America including the Caribbean and
- * reaching down and including Panama. See the &lt;a href=&quot;http://upload.wikimedia.org/wikipedia/commons/1/19/Continents_vide_couleurs.png&quot;&gt;Wikipedia continent map&lt;/a&gt; for the exact divisions.
+ * &lt;p&gt;In particular this splits the Americas into North and South America with North America including the Caribbean and
+ * reaching down and including Panama. See the &lt;a href=&quot;https://commons.wikimedia.org/wiki/File:Continents_vide_couleurs.png&quot;&gt;Wikipedia continent map&lt;/a&gt; for the exact divisions.
+ *
+ * &lt;p&gt;This is a geographical division.  For GBIF's political divisions, see {@link GbifRegion}.
+ *
+ * &lt;p&gt;There is currently no validation of continents for GBIF occurrences, so there is no explicit definition of what
+ * country is in each continent.
  */
-<span class="fc" id="L27">public enum Continent {</span>
+<span class="fc" id="L32">public enum Continent {</span>
 
-<span class="fc" id="L29">  AFRICA(&quot;Africa&quot;),</span>
-<span class="fc" id="L30">  ANTARCTICA(&quot;Antarctica&quot;),</span>
-<span class="fc" id="L31">  ASIA(&quot;Asia&quot;),</span>
-<span class="fc" id="L32">  OCEANIA(&quot;Oceania&quot;),</span>
-<span class="fc" id="L33">  EUROPE(&quot;Europe&quot;),</span>
   /**
-   * North America includes the Caribbean and
-   * reachies down and includes Panama.
+   * Africa.
    */
-<span class="fc" id="L38">  NORTH_AMERICA(&quot;North America&quot;),</span>
-<span class="fc" id="L39">  SOUTH_AMERICA(&quot;South America&quot;);</span>
+<span class="fc" id="L37">  AFRICA(&quot;Africa&quot;),</span>
+
+  /**
+   * Antarctica.
+   */
+<span class="fc" id="L42">  ANTARCTICA(&quot;Antarctica&quot;),</span>
+
+  /**
+   * Asia.
+   */
+<span class="fc" id="L47">  ASIA(&quot;Asia&quot;),</span>
+
+  /**
+   * Oceania.
+   */
+<span class="fc" id="L52">  OCEANIA(&quot;Oceania&quot;),</span>
+
+  /**
+   * Europe.
+   */
+<span class="fc" id="L57">  EUROPE(&quot;Europe&quot;),</span>
+
+  /**
+   * North America
+   *
+   * &lt;p&gt;This includes the Caribbean and Central America.
+   */
+<span class="fc" id="L64">  NORTH_AMERICA(&quot;North America&quot;),</span>
+
+  /**
+   * South America.
+   */
+<span class="fc" id="L69">  SOUTH_AMERICA(&quot;South America&quot;);</span>
 
   private final String title;
 
-<span class="fc" id="L43">  Continent(String title) {</span>
-<span class="fc" id="L44">    this.title = title;</span>
-<span class="fc" id="L45">  }</span>
+<span class="fc" id="L73">  Continent(String title) {</span>
+<span class="fc" id="L74">    this.title = title;</span>
+<span class="fc" id="L75">  }</span>
 
   /**
    * @return the continent name in the English language.
    */
   public String getTitle() {
-<span class="fc" id="L51">    return title;</span>
+<span class="fc" id="L81">    return title;</span>
   }
 
   /**
@@ -58,9 +88,9 @@ import org.gbif.api.util.VocabularyUtils;
    */
   public static Continent fromString(String continent) {
     try {
-<span class="fc" id="L61">      return (Continent) VocabularyUtils.lookupEnum(continent, Continent.class);</span>
-<span class="nc" id="L62">    } catch (IllegalArgumentException e) {</span>
-<span class="nc" id="L63">      return null;</span>
+<span class="fc" id="L91">      return (Continent) VocabularyUtils.lookupEnum(continent, Continent.class);</span>
+<span class="nc" id="L92">    } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L93">      return null;</span>
     }
   }
 }

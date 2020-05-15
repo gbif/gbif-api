@@ -17,9 +17,9 @@ package org.gbif.api.model.checklistbank;
 
 import org.gbif.api.vocabulary.CitesAppendix;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.DistributionStatus;
 import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.LifeStage;
-import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
 
 import java.util.Objects;
@@ -41,7 +41,7 @@ import javax.validation.constraints.Min;
   private String locationId;
   private String locality;
   private Country country;
-  private OccurrenceStatus status;
+  private DistributionStatus status;
   private LifeStage lifeStage;
   private String temporal;
   private ThreatStatus threatStatus;
@@ -304,36 +304,34 @@ import javax.validation.constraints.Min;
    *
    * @return the status.
    *
-   * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/gbif/occurrence_status.xml&quot;&gt;occurrence status vocabulary for
-   *      recommended
-   *      values&lt;/a&gt;
+   * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/gbif/distribution_status_2020-05-14.xml&quot;&gt;occurrence status vocabulary&lt;/a&gt; for recommended values
    */
   @Nullable
-  public OccurrenceStatus getStatus() {
-<span class="nc" id="L313">    return status;</span>
+  public DistributionStatus getStatus() {
+<span class="nc" id="L311">    return status;</span>
   }
 
   /**
    * @param status the status to set
    */
-  public void setStatus(OccurrenceStatus status) {
-<span class="nc" id="L320">    this.status = status;</span>
-<span class="nc" id="L321">  }</span>
+  public void setStatus(DistributionStatus status) {
+<span class="nc" id="L318">    this.status = status;</span>
+<span class="nc" id="L319">  }</span>
 
   /**
    * @return the temporal
    */
   @Nullable
   public String getTemporal() {
-<span class="nc" id="L328">    return temporal;</span>
+<span class="nc" id="L326">    return temporal;</span>
   }
 
   /**
    * @param temporal the temporal to set
    */
   public void setTemporal(String temporal) {
-<span class="nc" id="L335">    this.temporal = temporal;</span>
-<span class="nc" id="L336">  }</span>
+<span class="nc" id="L333">    this.temporal = temporal;</span>
+<span class="nc" id="L334">  }</span>
 
   /**
    * Threat status of a species as defined by IUCN
@@ -351,67 +349,67 @@ import javax.validation.constraints.Min;
    */
   @Nullable
   public ThreatStatus getThreatStatus() {
-<span class="fc" id="L354">    return threatStatus;</span>
+<span class="fc" id="L352">    return threatStatus;</span>
   }
 
   /**
    * @param threatStatus the threatStatus to set
    */
   public void setThreatStatus(ThreatStatus threatStatus) {
-<span class="fc" id="L361">    this.threatStatus = threatStatus;</span>
-<span class="fc" id="L362">  }</span>
+<span class="fc" id="L359">    this.threatStatus = threatStatus;</span>
+<span class="fc" id="L360">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L366" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L367">      return true;</span>
+<span class="pc bpc" id="L364" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L365">      return true;</span>
     }
-<span class="pc bpc" id="L369" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L370">      return false;</span>
+<span class="pc bpc" id="L367" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L368">      return false;</span>
     }
-<span class="fc" id="L372">    Distribution that = (Distribution) o;</span>
-<span class="pc bpc" id="L373" title="1 of 2 branches missed.">    return Objects.equals(taxonKey, that.taxonKey) &amp;&amp;</span>
-<span class="pc bpc" id="L374" title="1 of 2 branches missed.">      Objects.equals(locationId, that.locationId) &amp;&amp;</span>
-<span class="pc bpc" id="L375" title="4 of 8 branches missed.">      Objects.equals(locality, that.locality) &amp;&amp;</span>
+<span class="fc" id="L370">    Distribution that = (Distribution) o;</span>
+<span class="pc bpc" id="L371" title="1 of 2 branches missed.">    return Objects.equals(taxonKey, that.taxonKey) &amp;&amp;</span>
+<span class="pc bpc" id="L372" title="1 of 2 branches missed.">      Objects.equals(locationId, that.locationId) &amp;&amp;</span>
+<span class="pc bpc" id="L373" title="4 of 8 branches missed.">      Objects.equals(locality, that.locality) &amp;&amp;</span>
       country == that.country &amp;&amp;
       status == that.status &amp;&amp;
       lifeStage == that.lifeStage &amp;&amp;
-<span class="pc bpc" id="L379" title="4 of 8 branches missed.">      Objects.equals(temporal, that.temporal) &amp;&amp;</span>
+<span class="pc bpc" id="L377" title="4 of 8 branches missed.">      Objects.equals(temporal, that.temporal) &amp;&amp;</span>
       threatStatus == that.threatStatus &amp;&amp;
       establishmentMeans == that.establishmentMeans &amp;&amp;
       appendixCites == that.appendixCites &amp;&amp;
-<span class="pc bpc" id="L383" title="1 of 2 branches missed.">      Objects.equals(source, that.source) &amp;&amp;</span>
-<span class="pc bpc" id="L384" title="1 of 2 branches missed.">      Objects.equals(sourceTaxonKey, that.sourceTaxonKey) &amp;&amp;</span>
-<span class="pc bpc" id="L385" title="1 of 2 branches missed.">      Objects.equals(startDayOfYear, that.startDayOfYear) &amp;&amp;</span>
-<span class="pc bpc" id="L386" title="1 of 2 branches missed.">      Objects.equals(endDayOfYear, that.endDayOfYear);</span>
+<span class="pc bpc" id="L381" title="1 of 2 branches missed.">      Objects.equals(source, that.source) &amp;&amp;</span>
+<span class="pc bpc" id="L382" title="1 of 2 branches missed.">      Objects.equals(sourceTaxonKey, that.sourceTaxonKey) &amp;&amp;</span>
+<span class="pc bpc" id="L383" title="1 of 2 branches missed.">      Objects.equals(startDayOfYear, that.startDayOfYear) &amp;&amp;</span>
+<span class="pc bpc" id="L384" title="1 of 2 branches missed.">      Objects.equals(endDayOfYear, that.endDayOfYear);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L391">    return Objects</span>
-<span class="nc" id="L392">      .hash(taxonKey, locationId, locality, country, status, lifeStage, temporal, threatStatus,</span>
+<span class="nc" id="L389">    return Objects</span>
+<span class="nc" id="L390">      .hash(taxonKey, locationId, locality, country, status, lifeStage, temporal, threatStatus,</span>
         establishmentMeans, appendixCites, source, sourceTaxonKey, startDayOfYear, endDayOfYear);
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L398">    return new StringJoiner(&quot;, &quot;, Distribution.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L399">      .add(&quot;taxonKey=&quot; + taxonKey)</span>
-<span class="nc" id="L400">      .add(&quot;locationId='&quot; + locationId + &quot;'&quot;)</span>
-<span class="nc" id="L401">      .add(&quot;locality='&quot; + locality + &quot;'&quot;)</span>
-<span class="nc" id="L402">      .add(&quot;country=&quot; + country)</span>
-<span class="nc" id="L403">      .add(&quot;status=&quot; + status)</span>
-<span class="nc" id="L404">      .add(&quot;lifeStage=&quot; + lifeStage)</span>
-<span class="nc" id="L405">      .add(&quot;temporal='&quot; + temporal + &quot;'&quot;)</span>
-<span class="nc" id="L406">      .add(&quot;threatStatus=&quot; + threatStatus)</span>
-<span class="nc" id="L407">      .add(&quot;establishmentMeans=&quot; + establishmentMeans)</span>
-<span class="nc" id="L408">      .add(&quot;appendixCites=&quot; + appendixCites)</span>
-<span class="nc" id="L409">      .add(&quot;source='&quot; + source + &quot;'&quot;)</span>
-<span class="nc" id="L410">      .add(&quot;sourceTaxonKey=&quot; + sourceTaxonKey)</span>
-<span class="nc" id="L411">      .add(&quot;startDayOfYear=&quot; + startDayOfYear)</span>
-<span class="nc" id="L412">      .add(&quot;endDayOfYear=&quot; + endDayOfYear)</span>
-<span class="nc" id="L413">      .add(&quot;remarks='&quot; + remarks + &quot;'&quot;)</span>
-<span class="nc" id="L414">      .toString();</span>
+<span class="nc" id="L396">    return new StringJoiner(&quot;, &quot;, Distribution.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L397">      .add(&quot;taxonKey=&quot; + taxonKey)</span>
+<span class="nc" id="L398">      .add(&quot;locationId='&quot; + locationId + &quot;'&quot;)</span>
+<span class="nc" id="L399">      .add(&quot;locality='&quot; + locality + &quot;'&quot;)</span>
+<span class="nc" id="L400">      .add(&quot;country=&quot; + country)</span>
+<span class="nc" id="L401">      .add(&quot;status=&quot; + status)</span>
+<span class="nc" id="L402">      .add(&quot;lifeStage=&quot; + lifeStage)</span>
+<span class="nc" id="L403">      .add(&quot;temporal='&quot; + temporal + &quot;'&quot;)</span>
+<span class="nc" id="L404">      .add(&quot;threatStatus=&quot; + threatStatus)</span>
+<span class="nc" id="L405">      .add(&quot;establishmentMeans=&quot; + establishmentMeans)</span>
+<span class="nc" id="L406">      .add(&quot;appendixCites=&quot; + appendixCites)</span>
+<span class="nc" id="L407">      .add(&quot;source='&quot; + source + &quot;'&quot;)</span>
+<span class="nc" id="L408">      .add(&quot;sourceTaxonKey=&quot; + sourceTaxonKey)</span>
+<span class="nc" id="L409">      .add(&quot;startDayOfYear=&quot; + startDayOfYear)</span>
+<span class="nc" id="L410">      .add(&quot;endDayOfYear=&quot; + endDayOfYear)</span>
+<span class="nc" id="L411">      .add(&quot;remarks='&quot; + remarks + &quot;'&quot;)</span>
+<span class="nc" id="L412">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

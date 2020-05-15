@@ -18,9 +18,8 @@ package org.gbif.api.model.occurrence.predicate;
 import java.util.Collection;
 import java.util.Objects;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * This predicate is &quot;OR&quot;-ing its subpredicates together.
@@ -29,21 +28,21 @@ public class DisjunctionPredicate extends CompoundPredicate {
 
   @JsonCreator
   public DisjunctionPredicate(@JsonProperty(&quot;predicates&quot;) Collection&lt;Predicate&gt; predicates) {
-<span class="fc" id="L32">    super(predicates);</span>
-<span class="fc" id="L33">  }</span>
+<span class="fc" id="L31">    super(predicates);</span>
+<span class="fc" id="L32">  }</span>
 
   @Override
   public boolean equals(Object obj) {
-<span class="fc bfc" id="L37" title="All 2 branches covered.">    if (this == obj) {</span>
-<span class="fc" id="L38">      return true;</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">    if (this == obj) {</span>
+<span class="fc" id="L37">      return true;</span>
     }
 
-<span class="fc bfc" id="L41" title="All 2 branches covered.">    if (!(obj instanceof DisjunctionPredicate)) {</span>
-<span class="fc" id="L42">      return false;</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">    if (!(obj instanceof DisjunctionPredicate)) {</span>
+<span class="fc" id="L41">      return false;</span>
     }
 
-<span class="fc" id="L45">    CompoundPredicate that = (CompoundPredicate) obj;</span>
-<span class="fc" id="L46">    return Objects.equals(this.getPredicates(), that.getPredicates());</span>
+<span class="fc" id="L44">    CompoundPredicate that = (CompoundPredicate) obj;</span>
+<span class="fc" id="L45">    return Objects.equals(this.getPredicates(), that.getPredicates());</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

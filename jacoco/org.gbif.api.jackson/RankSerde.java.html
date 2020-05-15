@@ -21,13 +21,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.SerializerProvider;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 
 /**
  * Jackson {@link JsonSerializer} and Jackson {@link JsonDeserializer} classes for {@link Rank} that uses the common rank markers instead of enum names.
@@ -75,7 +75,7 @@ import org.codehaus.jackson.map.SerializerProvider;
         } else {
           // try enum name as last resort
           try {
-<span class="fc" id="L78">            return Rank.valueOf(jp.getText().toUpperCase().replaceAll(&quot; &quot;, &quot;_&quot;));</span>
+<span class="fc" id="L78">            return Rank.valueOf(jp.getText().toUpperCase().replace(&quot; &quot;, &quot;_&quot;));</span>
 <span class="nc" id="L79">          } catch (IllegalArgumentException e) {</span>
             // swallow
           }

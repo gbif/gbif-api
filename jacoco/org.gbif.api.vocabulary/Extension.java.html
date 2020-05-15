@@ -16,142 +16,143 @@
 package org.gbif.api.vocabulary;
 
 import org.gbif.api.jackson.ExtensionDeserializer;
+import org.gbif.api.jackson.ExtensionKeyDeserializer;
 import org.gbif.api.jackson.ExtensionSerializer;
 
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Enumeration of dwc extensions for both Occurrence and Taxon that are indexed by GBIF.
  *
  * @see &lt;a href=&quot;http://rs.gbif.org/extension&quot;&gt;GBIF Resources&lt;/a&gt;
  */
-<span class="fc" id="L30">@JsonSerialize(using= ExtensionSerializer.class)</span>
-@JsonDeserialize(using= ExtensionDeserializer.class)
+<span class="fc" id="L32">@JsonSerialize(using = ExtensionSerializer.class, keyUsing = ExtensionSerializer.class)</span>
+@JsonDeserialize(using = ExtensionDeserializer.class, keyUsing = ExtensionKeyDeserializer.class)
 public enum Extension {
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/audubon/audubon.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L37">  AUDUBON(&quot;http://rs.tdwg.org/ac/terms/Multimedia&quot;),</span>
+<span class="fc" id="L39">  AUDUBON(&quot;http://rs.tdwg.org/ac/terms/Multimedia&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/description.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L42">  DESCRIPTION(&quot;http://rs.gbif.org/terms/1.0/Description&quot;),</span>
+<span class="fc" id="L44">  DESCRIPTION(&quot;http://rs.gbif.org/terms/1.0/Description&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/distribution.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L47">  DISTRIBUTION(&quot;http://rs.gbif.org/terms/1.0/Distribution&quot;),</span>
+<span class="fc" id="L49">  DISTRIBUTION(&quot;http://rs.gbif.org/terms/1.0/Distribution&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://eol.org/schema/media_extension.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L52">  EOL_MEDIA(&quot;http://eol.org/schema/media/Document&quot;),</span>
+<span class="fc" id="L54">  EOL_MEDIA(&quot;http://eol.org/schema/media/Document&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://eol.org/schema/reference_extension.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L57">  EOL_REFERENCE(&quot;http://eol.org/schema/reference/Reference&quot;),</span>
+<span class="fc" id="L59">  EOL_REFERENCE(&quot;http://eol.org/schema/reference/Reference&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/germplasm/GermplasmAccession.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L62">  GERMPLASM_ACCESSION(&quot;http://purl.org/germplasm/germplasmTerm#GermplasmAccession&quot;),</span>
+<span class="fc" id="L64">  GERMPLASM_ACCESSION(&quot;http://purl.org/germplasm/germplasmTerm#GermplasmAccession&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/germplasm/MeasurementScore.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L67">  GERMPLASM_MEASUREMENT_SCORE(&quot;http://purl.org/germplasm/germplasmTerm#MeasurementScore&quot;),</span>
+<span class="fc" id="L69">  GERMPLASM_MEASUREMENT_SCORE(&quot;http://purl.org/germplasm/germplasmTerm#MeasurementScore&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/germplasm/MeasurementTrait.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L72">  GERMPLASM_MEASUREMENT_TRAIT(&quot;http://purl.org/germplasm/germplasmTerm#MeasurementTrait&quot;),</span>
+<span class="fc" id="L74">  GERMPLASM_MEASUREMENT_TRAIT(&quot;http://purl.org/germplasm/germplasmTerm#MeasurementTrait&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/germplasm/MeasurementTrial.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L77">  GERMPLASM_MEASUREMENT_TRIAL(&quot;http://purl.org/germplasm/germplasmTerm#MeasurementTrial&quot;),</span>
+<span class="fc" id="L79">  GERMPLASM_MEASUREMENT_TRIAL(&quot;http://purl.org/germplasm/germplasmTerm#MeasurementTrial&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/dwc/identification.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L82">  IDENTIFICATION(&quot;http://rs.tdwg.org/dwc/terms/Identification&quot;),</span>
+<span class="fc" id="L84">  IDENTIFICATION(&quot;http://rs.tdwg.org/dwc/terms/Identification&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/identifier.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L87">  IDENTIFIER(&quot;http://rs.gbif.org/terms/1.0/Identifier&quot;),</span>
+<span class="fc" id="L89">  IDENTIFIER(&quot;http://rs.gbif.org/terms/1.0/Identifier&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/images.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L92">  IMAGE(&quot;http://rs.gbif.org/terms/1.0/Image&quot;),</span>
+<span class="fc" id="L94">  IMAGE(&quot;http://rs.gbif.org/terms/1.0/Image&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/images.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L97">  MEASUREMENT_OR_FACT(&quot;http://rs.tdwg.org/dwc/terms/MeasurementOrFact&quot;),</span>
+<span class="fc" id="L99">  MEASUREMENT_OR_FACT(&quot;http://rs.tdwg.org/dwc/terms/MeasurementOrFact&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/multimedia.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L102">  MULTIMEDIA(&quot;http://rs.gbif.org/terms/1.0/Multimedia&quot;),</span>
+<span class="fc" id="L104">  MULTIMEDIA(&quot;http://rs.gbif.org/terms/1.0/Multimedia&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/dwc/measurements_or_facts.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L107">  REFERENCE(&quot;http://rs.gbif.org/terms/1.0/Reference&quot;),</span>
+<span class="fc" id="L109">  REFERENCE(&quot;http://rs.gbif.org/terms/1.0/Reference&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/dwc/resource_relation.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L112">  RESOURCE_RELATIONSHIP(&quot;http://rs.tdwg.org/dwc/terms/ResourceRelationship&quot;),</span>
+<span class="fc" id="L114">  RESOURCE_RELATIONSHIP(&quot;http://rs.tdwg.org/dwc/terms/ResourceRelationship&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/speciesprofile.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L117">  SPECIES_PROFILE(&quot;http://rs.gbif.org/terms/1.0/SpeciesProfile&quot;),</span>
+<span class="fc" id="L119">  SPECIES_PROFILE(&quot;http://rs.gbif.org/terms/1.0/SpeciesProfile&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/typesandspecimen.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L122">  TYPES_AND_SPECIMEN(&quot;http://rs.gbif.org/terms/1.0/TypesAndSpecimen&quot;),</span>
+<span class="fc" id="L124">  TYPES_AND_SPECIMEN(&quot;http://rs.gbif.org/terms/1.0/TypesAndSpecimen&quot;),</span>
 
   /**
    * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/vernacularname.xml&quot;&gt;extension definition&lt;/a&gt;
    */
-<span class="fc" id="L127">  VERNACULAR_NAME(&quot;http://rs.gbif.org/terms/1.0/VernacularName&quot;);</span>
+<span class="fc" id="L129">  VERNACULAR_NAME(&quot;http://rs.gbif.org/terms/1.0/VernacularName&quot;);</span>
 
 
   private final String rowType;
 
   /**
    * @param rowType the case insensitive row type uri for the extension
-   *
    * @return the matching extension or null
    */
   public static Extension fromRowType(String rowType) {
-<span class="fc bfc" id="L138" title="All 2 branches covered.">    if (StringUtils.isNotEmpty(rowType)) {</span>
-<span class="fc bfc" id="L139" title="All 2 branches covered.">      for (Extension extension : Extension.values()) {</span>
-<span class="fc bfc" id="L140" title="All 2 branches covered.">        if (rowType.equalsIgnoreCase(extension.getRowType())</span>
-<span class="fc bfc" id="L141" title="All 2 branches covered.">            || rowType.equalsIgnoreCase(extension.name().replaceAll(&quot;_&quot;, &quot;&quot;))) {</span>
-<span class="fc" id="L142">          return extension;</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">    if (StringUtils.isNotEmpty(rowType)) {</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">      for (Extension extension : Extension.values()) {</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        if (rowType.equalsIgnoreCase(extension.getRowType())</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">          || rowType.equalsIgnoreCase(extension.name().replaceAll(&quot;_&quot;, &quot;&quot;))) {</span>
+<span class="fc" id="L143">          return extension;</span>
         }
       }
     }
-<span class="fc" id="L146">    return null;</span>
+<span class="fc" id="L147">    return null;</span>
   }
 
-<span class="fc" id="L149">  Extension(String rowType) {</span>
-<span class="fc" id="L150">    this.rowType = rowType;</span>
-<span class="fc" id="L151">  }</span>
+<span class="fc" id="L150">  Extension(String rowType) {</span>
+<span class="fc" id="L151">    this.rowType = rowType;</span>
+<span class="fc" id="L152">  }</span>
 
   public String getRowType() {
-<span class="fc" id="L154">    return rowType;</span>
+<span class="fc" id="L155">    return rowType;</span>
   }
 
 }

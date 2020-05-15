@@ -24,8 +24,8 @@ import java.util.StringJoiner;
 import javax.annotation.Nullable;
 import javax.validation.Valid;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * An occurrence download request whose filters are based on predicates ( see {@link Predicate}).
@@ -45,14 +45,15 @@ public class PredicateDownloadRequest extends DownloadRequest {
    * Full constructor. Used to create instances using JSON serialization.
    */
   @JsonCreator
-  public PredicateDownloadRequest(@JsonProperty(&quot;predicate&quot;) Predicate predicate,
-                                  @JsonProperty(&quot;creator&quot;) @Nullable String creator,
-                                  @JsonProperty(&quot;notificationAddresses&quot;) @Nullable Collection&lt;String&gt; notificationAddresses,
-                                  @JsonProperty(&quot;sendNotification&quot;) boolean sendNotification,
-                                  @JsonProperty(&quot;format&quot;) DownloadFormat format) {
-<span class="pc bpc" id="L53" title="1 of 2 branches missed.">    super(creator, notificationAddresses, sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format);</span>
-<span class="fc" id="L54">    this.predicate = predicate;</span>
-<span class="fc" id="L55">  }</span>
+  public PredicateDownloadRequest(
+    @JsonProperty(&quot;predicate&quot;) Predicate predicate,
+    @JsonProperty(&quot;creator&quot;) @Nullable String creator,
+    @JsonProperty(&quot;notificationAddresses&quot;) @Nullable Collection&lt;String&gt; notificationAddresses,
+    @JsonProperty(&quot;sendNotification&quot;) boolean sendNotification,
+    @JsonProperty(&quot;format&quot;) DownloadFormat format) {
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">    super(creator, notificationAddresses, sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format);</span>
+<span class="fc" id="L55">    this.predicate = predicate;</span>
+<span class="fc" id="L56">  }</span>
 
   /**
    * @return the download filter
@@ -60,38 +61,38 @@ public class PredicateDownloadRequest extends DownloadRequest {
   @Nullable
   @Valid
   public Predicate getPredicate() {
-<span class="fc" id="L63">    return predicate;</span>
+<span class="fc" id="L64">    return predicate;</span>
   }
 
   public void setPredicate(Predicate predicate) {
-<span class="nc" id="L67">    this.predicate = predicate;</span>
-<span class="nc" id="L68">  }</span>
+<span class="nc" id="L68">    this.predicate = predicate;</span>
+<span class="nc" id="L69">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="fc bfc" id="L72" title="All 2 branches covered.">    if (this == o) {</span>
-<span class="fc" id="L73">      return true;</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L74">      return true;</span>
     }
-<span class="pc bpc" id="L75" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L76">      return false;</span>
+<span class="pc bpc" id="L76" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L77">      return false;</span>
     }
-<span class="pc bpc" id="L78" title="1 of 2 branches missed.">    if (!super.equals(o)) {</span>
-<span class="nc" id="L79">      return false;</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">    if (!super.equals(o)) {</span>
+<span class="nc" id="L80">      return false;</span>
     }
-<span class="fc" id="L81">    PredicateDownloadRequest that = (PredicateDownloadRequest) o;</span>
-<span class="fc" id="L82">    return Objects.equals(predicate, that.predicate);</span>
+<span class="fc" id="L82">    PredicateDownloadRequest that = (PredicateDownloadRequest) o;</span>
+<span class="fc" id="L83">    return Objects.equals(predicate, that.predicate);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L87">    return Objects.hash(super.hashCode(), predicate);</span>
+<span class="fc" id="L88">    return Objects.hash(super.hashCode(), predicate);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L92">    return new StringJoiner(&quot;, &quot;, PredicateDownloadRequest.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L93">      .add(&quot;predicate=&quot; + predicate)</span>
-<span class="nc" id="L94">      .toString();</span>
+<span class="nc" id="L93">    return new StringJoiner(&quot;, &quot;, PredicateDownloadRequest.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L94">      .add(&quot;predicate=&quot; + predicate)</span>
+<span class="nc" id="L95">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
