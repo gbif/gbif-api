@@ -101,7 +101,7 @@ public class MachineTag implements LenientEquals<MachineTag>, Serializable {
   }
 
   @NotNull
-  @Size(min = 1, max = 750)
+  @Size(min = 1, max = 700)
   public String getValue() {
     return value;
   }
