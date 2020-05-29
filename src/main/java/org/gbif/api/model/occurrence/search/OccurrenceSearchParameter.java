@@ -220,6 +220,11 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   RECORDED_BY(String.class),
 
   /**
+   * The person who identified the occurrence.
+   */
+  IDENTIFIED_BY(String.class),
+
+  /**
    * An identifier given to the Occurrence at the time it was recorded.
    */
   RECORD_NUMBER(String.class),

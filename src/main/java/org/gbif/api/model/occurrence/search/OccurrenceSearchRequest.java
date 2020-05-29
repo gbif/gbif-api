@@ -70,6 +70,10 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     addParameter(OccurrenceSearchParameter.RECORDED_BY, collectorName);
   }
 
+  public void addIdentifiedByFilter(String collectorName) {
+    addParameter(OccurrenceSearchParameter.IDENTIFIED_BY, collectorName);
+  }
+
   public void addRecordNumberFilter(String recordNumber) {
     addParameter(OccurrenceSearchParameter.RECORD_NUMBER, recordNumber);
   }
