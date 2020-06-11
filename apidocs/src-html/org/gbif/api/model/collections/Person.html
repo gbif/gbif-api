@@ -23,375 +23,392 @@
 <span class="sourceLineNo">015</span> */<a name="line.15"></a>
 <span class="sourceLineNo">016</span>package org.gbif.api.model.collections;<a name="line.16"></a>
 <span class="sourceLineNo">017</span><a name="line.17"></a>
-<span class="sourceLineNo">018</span>import org.gbif.api.model.registry.Identifiable;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import org.gbif.api.model.registry.Identifier;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import org.gbif.api.model.registry.LenientEquals;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import org.gbif.api.model.registry.MachineTag;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import org.gbif.api.model.registry.MachineTaggable;<a name="line.22"></a>
-<span class="sourceLineNo">023</span>import org.gbif.api.model.registry.Tag;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import org.gbif.api.model.registry.Taggable;<a name="line.24"></a>
-<span class="sourceLineNo">025</span><a name="line.25"></a>
-<span class="sourceLineNo">026</span>import java.util.ArrayList;<a name="line.26"></a>
-<span class="sourceLineNo">027</span>import java.util.Date;<a name="line.27"></a>
-<span class="sourceLineNo">028</span>import java.util.List;<a name="line.28"></a>
-<span class="sourceLineNo">029</span>import java.util.Objects;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>import java.util.StringJoiner;<a name="line.30"></a>
-<span class="sourceLineNo">031</span>import java.util.UUID;<a name="line.31"></a>
-<span class="sourceLineNo">032</span><a name="line.32"></a>
-<span class="sourceLineNo">033</span>import javax.validation.Valid;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>import javax.validation.constraints.NotNull;<a name="line.34"></a>
-<span class="sourceLineNo">035</span><a name="line.35"></a>
-<span class="sourceLineNo">036</span>/**<a name="line.36"></a>
-<span class="sourceLineNo">037</span> * Person associated to a collection or institution.<a name="line.37"></a>
-<span class="sourceLineNo">038</span> */<a name="line.38"></a>
-<span class="sourceLineNo">039</span>@SuppressWarnings("unused")<a name="line.39"></a>
-<span class="sourceLineNo">040</span>public class Person implements CollectionEntity, Identifiable, Taggable, MachineTaggable, LenientEquals&lt;Person&gt; {<a name="line.40"></a>
-<span class="sourceLineNo">041</span><a name="line.41"></a>
-<span class="sourceLineNo">042</span>  private UUID key;<a name="line.42"></a>
-<span class="sourceLineNo">043</span>  private String firstName;<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  private String lastName;<a name="line.44"></a>
-<span class="sourceLineNo">045</span>  private String position;<a name="line.45"></a>
-<span class="sourceLineNo">046</span>  private String areaResponsibility;<a name="line.46"></a>
-<span class="sourceLineNo">047</span>  private String researchPursuits;<a name="line.47"></a>
-<span class="sourceLineNo">048</span>  private String phone;<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  private String fax;<a name="line.49"></a>
-<span class="sourceLineNo">050</span>  private String email;<a name="line.50"></a>
-<span class="sourceLineNo">051</span>  private Address mailingAddress;<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  private UUID primaryInstitutionKey;<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  private UUID primaryCollectionKey;<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  private String createdBy;<a name="line.54"></a>
-<span class="sourceLineNo">055</span>  private String modifiedBy;<a name="line.55"></a>
-<span class="sourceLineNo">056</span>  private Date created;<a name="line.56"></a>
-<span class="sourceLineNo">057</span>  private Date modified;<a name="line.57"></a>
-<span class="sourceLineNo">058</span>  private Date deleted;<a name="line.58"></a>
-<span class="sourceLineNo">059</span>  private List&lt;Tag&gt; tags = new ArrayList&lt;&gt;();<a name="line.59"></a>
-<span class="sourceLineNo">060</span>  private List&lt;MachineTag&gt; machineTags = new ArrayList&lt;&gt;();<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();<a name="line.61"></a>
-<span class="sourceLineNo">062</span><a name="line.62"></a>
-<span class="sourceLineNo">063</span>  /**<a name="line.63"></a>
-<span class="sourceLineNo">064</span>   * GBIF Unique identifier.<a name="line.64"></a>
-<span class="sourceLineNo">065</span>   */<a name="line.65"></a>
-<span class="sourceLineNo">066</span>  @Override<a name="line.66"></a>
-<span class="sourceLineNo">067</span>  public UUID getKey() {<a name="line.67"></a>
-<span class="sourceLineNo">068</span>    return key;<a name="line.68"></a>
-<span class="sourceLineNo">069</span>  }<a name="line.69"></a>
-<span class="sourceLineNo">070</span><a name="line.70"></a>
-<span class="sourceLineNo">071</span>  @Override<a name="line.71"></a>
-<span class="sourceLineNo">072</span>  public void setKey(UUID key) {<a name="line.72"></a>
-<span class="sourceLineNo">073</span>    this.key = key;<a name="line.73"></a>
-<span class="sourceLineNo">074</span>  }<a name="line.74"></a>
-<span class="sourceLineNo">075</span><a name="line.75"></a>
-<span class="sourceLineNo">076</span>  /**<a name="line.76"></a>
-<span class="sourceLineNo">077</span>   * Firs name, it can also include the first and last name in some cases.<a name="line.77"></a>
-<span class="sourceLineNo">078</span>   */<a name="line.78"></a>
-<span class="sourceLineNo">079</span>  @NotNull<a name="line.79"></a>
-<span class="sourceLineNo">080</span>  public String getFirstName() {<a name="line.80"></a>
-<span class="sourceLineNo">081</span>    return firstName;<a name="line.81"></a>
-<span class="sourceLineNo">082</span>  }<a name="line.82"></a>
-<span class="sourceLineNo">083</span><a name="line.83"></a>
-<span class="sourceLineNo">084</span>  public void setFirstName(String firstName) {<a name="line.84"></a>
-<span class="sourceLineNo">085</span>    this.firstName = firstName;<a name="line.85"></a>
-<span class="sourceLineNo">086</span>  }<a name="line.86"></a>
-<span class="sourceLineNo">087</span><a name="line.87"></a>
-<span class="sourceLineNo">088</span>  /**<a name="line.88"></a>
-<span class="sourceLineNo">089</span>   * Last and secondary names.<a name="line.89"></a>
-<span class="sourceLineNo">090</span>   */<a name="line.90"></a>
-<span class="sourceLineNo">091</span>  public String getLastName() {<a name="line.91"></a>
-<span class="sourceLineNo">092</span>    return lastName;<a name="line.92"></a>
-<span class="sourceLineNo">093</span>  }<a name="line.93"></a>
-<span class="sourceLineNo">094</span><a name="line.94"></a>
-<span class="sourceLineNo">095</span>  public void setLastName(String lastName) {<a name="line.95"></a>
-<span class="sourceLineNo">096</span>    this.lastName = lastName;<a name="line.96"></a>
-<span class="sourceLineNo">097</span>  }<a name="line.97"></a>
-<span class="sourceLineNo">098</span><a name="line.98"></a>
-<span class="sourceLineNo">099</span>  /**<a name="line.99"></a>
-<span class="sourceLineNo">100</span>   * Textual description  of the role performed.<a name="line.100"></a>
-<span class="sourceLineNo">101</span>   */<a name="line.101"></a>
-<span class="sourceLineNo">102</span>  public String getPosition() {<a name="line.102"></a>
-<span class="sourceLineNo">103</span>    return position;<a name="line.103"></a>
-<span class="sourceLineNo">104</span>  }<a name="line.104"></a>
-<span class="sourceLineNo">105</span><a name="line.105"></a>
-<span class="sourceLineNo">106</span>  public void setPosition(String position) {<a name="line.106"></a>
-<span class="sourceLineNo">107</span>    this.position = position;<a name="line.107"></a>
-<span class="sourceLineNo">108</span>  }<a name="line.108"></a>
-<span class="sourceLineNo">109</span><a name="line.109"></a>
-<span class="sourceLineNo">110</span>  /**<a name="line.110"></a>
-<span class="sourceLineNo">111</span>   * Description of the main responsibility assigned to a person.<a name="line.111"></a>
-<span class="sourceLineNo">112</span>   */<a name="line.112"></a>
-<span class="sourceLineNo">113</span>  public String getAreaResponsibility() {<a name="line.113"></a>
-<span class="sourceLineNo">114</span>    return areaResponsibility;<a name="line.114"></a>
-<span class="sourceLineNo">115</span>  }<a name="line.115"></a>
-<span class="sourceLineNo">116</span><a name="line.116"></a>
-<span class="sourceLineNo">117</span>  public void setAreaResponsibility(String areaResponsibility) {<a name="line.117"></a>
-<span class="sourceLineNo">118</span>    this.areaResponsibility = areaResponsibility;<a name="line.118"></a>
-<span class="sourceLineNo">119</span>  }<a name="line.119"></a>
-<span class="sourceLineNo">120</span><a name="line.120"></a>
-<span class="sourceLineNo">121</span>  /**<a name="line.121"></a>
-<span class="sourceLineNo">122</span>   * Description of main research activities.<a name="line.122"></a>
-<span class="sourceLineNo">123</span>   */<a name="line.123"></a>
-<span class="sourceLineNo">124</span>  public String getResearchPursuits() {<a name="line.124"></a>
-<span class="sourceLineNo">125</span>    return researchPursuits;<a name="line.125"></a>
-<span class="sourceLineNo">126</span>  }<a name="line.126"></a>
-<span class="sourceLineNo">127</span><a name="line.127"></a>
-<span class="sourceLineNo">128</span>  public void setResearchPursuits(String researchPursuits) {<a name="line.128"></a>
-<span class="sourceLineNo">129</span>    this.researchPursuits = researchPursuits;<a name="line.129"></a>
-<span class="sourceLineNo">130</span>  }<a name="line.130"></a>
-<span class="sourceLineNo">131</span><a name="line.131"></a>
-<span class="sourceLineNo">132</span>  /**<a name="line.132"></a>
-<span class="sourceLineNo">133</span>   * Primary telephone number.<a name="line.133"></a>
-<span class="sourceLineNo">134</span>   */<a name="line.134"></a>
-<span class="sourceLineNo">135</span>  public String getPhone() {<a name="line.135"></a>
-<span class="sourceLineNo">136</span>    return phone;<a name="line.136"></a>
-<span class="sourceLineNo">137</span>  }<a name="line.137"></a>
-<span class="sourceLineNo">138</span><a name="line.138"></a>
-<span class="sourceLineNo">139</span>  public void setPhone(String phone) {<a name="line.139"></a>
-<span class="sourceLineNo">140</span>    this.phone = phone;<a name="line.140"></a>
-<span class="sourceLineNo">141</span>  }<a name="line.141"></a>
-<span class="sourceLineNo">142</span><a name="line.142"></a>
-<span class="sourceLineNo">143</span>  /**<a name="line.143"></a>
-<span class="sourceLineNo">144</span>   * Fax number.<a name="line.144"></a>
-<span class="sourceLineNo">145</span>   */<a name="line.145"></a>
-<span class="sourceLineNo">146</span>  public String getFax() {<a name="line.146"></a>
-<span class="sourceLineNo">147</span>    return fax;<a name="line.147"></a>
-<span class="sourceLineNo">148</span>  }<a name="line.148"></a>
-<span class="sourceLineNo">149</span><a name="line.149"></a>
-<span class="sourceLineNo">150</span>  public void setFax(String fax) {<a name="line.150"></a>
-<span class="sourceLineNo">151</span>    this.fax = fax;<a name="line.151"></a>
-<span class="sourceLineNo">152</span>  }<a name="line.152"></a>
-<span class="sourceLineNo">153</span><a name="line.153"></a>
-<span class="sourceLineNo">154</span>  /**<a name="line.154"></a>
-<span class="sourceLineNo">155</span>   * Person email.<a name="line.155"></a>
-<span class="sourceLineNo">156</span>   */<a name="line.156"></a>
-<span class="sourceLineNo">157</span>  public String getEmail() {<a name="line.157"></a>
-<span class="sourceLineNo">158</span>    return email;<a name="line.158"></a>
-<span class="sourceLineNo">159</span>  }<a name="line.159"></a>
-<span class="sourceLineNo">160</span><a name="line.160"></a>
-<span class="sourceLineNo">161</span>  public void setEmail(String email) {<a name="line.161"></a>
-<span class="sourceLineNo">162</span>    this.email = email;<a name="line.162"></a>
-<span class="sourceLineNo">163</span>  }<a name="line.163"></a>
-<span class="sourceLineNo">164</span><a name="line.164"></a>
-<span class="sourceLineNo">165</span>  /**<a name="line.165"></a>
-<span class="sourceLineNo">166</span>   * Address used to send physical mail.<a name="line.166"></a>
-<span class="sourceLineNo">167</span>   */<a name="line.167"></a>
-<span class="sourceLineNo">168</span>  @Valid<a name="line.168"></a>
-<span class="sourceLineNo">169</span>  public Address getMailingAddress() {<a name="line.169"></a>
-<span class="sourceLineNo">170</span>    return mailingAddress;<a name="line.170"></a>
-<span class="sourceLineNo">171</span>  }<a name="line.171"></a>
-<span class="sourceLineNo">172</span><a name="line.172"></a>
-<span class="sourceLineNo">173</span>  public void setMailingAddress(Address mailingAddress) {<a name="line.173"></a>
-<span class="sourceLineNo">174</span>    this.mailingAddress = mailingAddress;<a name="line.174"></a>
-<span class="sourceLineNo">175</span>  }<a name="line.175"></a>
-<span class="sourceLineNo">176</span><a name="line.176"></a>
-<span class="sourceLineNo">177</span>  /**<a name="line.177"></a>
-<span class="sourceLineNo">178</span>   * Primary institution where the person works.<a name="line.178"></a>
-<span class="sourceLineNo">179</span>   */<a name="line.179"></a>
-<span class="sourceLineNo">180</span>  public UUID getPrimaryInstitutionKey() {<a name="line.180"></a>
-<span class="sourceLineNo">181</span>    return primaryInstitutionKey;<a name="line.181"></a>
-<span class="sourceLineNo">182</span>  }<a name="line.182"></a>
-<span class="sourceLineNo">183</span><a name="line.183"></a>
-<span class="sourceLineNo">184</span>  public void setPrimaryInstitutionKey(UUID primaryInstitutionKey) {<a name="line.184"></a>
-<span class="sourceLineNo">185</span>    this.primaryInstitutionKey = primaryInstitutionKey;<a name="line.185"></a>
-<span class="sourceLineNo">186</span>  }<a name="line.186"></a>
-<span class="sourceLineNo">187</span><a name="line.187"></a>
-<span class="sourceLineNo">188</span>  /**<a name="line.188"></a>
-<span class="sourceLineNo">189</span>   * Primary collection linked of the person.<a name="line.189"></a>
-<span class="sourceLineNo">190</span>   */<a name="line.190"></a>
-<span class="sourceLineNo">191</span>  public UUID getPrimaryCollectionKey() {<a name="line.191"></a>
-<span class="sourceLineNo">192</span>    return primaryCollectionKey;<a name="line.192"></a>
-<span class="sourceLineNo">193</span>  }<a name="line.193"></a>
-<span class="sourceLineNo">194</span><a name="line.194"></a>
-<span class="sourceLineNo">195</span>  public void setPrimaryCollectionKey(UUID primaryCollectionKey) {<a name="line.195"></a>
-<span class="sourceLineNo">196</span>    this.primaryCollectionKey = primaryCollectionKey;<a name="line.196"></a>
-<span class="sourceLineNo">197</span>  }<a name="line.197"></a>
-<span class="sourceLineNo">198</span><a name="line.198"></a>
-<span class="sourceLineNo">199</span>  @Override<a name="line.199"></a>
-<span class="sourceLineNo">200</span>  public String getCreatedBy() {<a name="line.200"></a>
-<span class="sourceLineNo">201</span>    return createdBy;<a name="line.201"></a>
-<span class="sourceLineNo">202</span>  }<a name="line.202"></a>
-<span class="sourceLineNo">203</span><a name="line.203"></a>
-<span class="sourceLineNo">204</span>  @Override<a name="line.204"></a>
-<span class="sourceLineNo">205</span>  public void setCreatedBy(String createdBy) {<a name="line.205"></a>
-<span class="sourceLineNo">206</span>    this.createdBy = createdBy;<a name="line.206"></a>
-<span class="sourceLineNo">207</span>  }<a name="line.207"></a>
-<span class="sourceLineNo">208</span><a name="line.208"></a>
-<span class="sourceLineNo">209</span>  @Override<a name="line.209"></a>
-<span class="sourceLineNo">210</span>  public String getModifiedBy() {<a name="line.210"></a>
-<span class="sourceLineNo">211</span>    return modifiedBy;<a name="line.211"></a>
-<span class="sourceLineNo">212</span>  }<a name="line.212"></a>
-<span class="sourceLineNo">213</span><a name="line.213"></a>
-<span class="sourceLineNo">214</span>  @Override<a name="line.214"></a>
-<span class="sourceLineNo">215</span>  public void setModifiedBy(String modifiedBy) {<a name="line.215"></a>
-<span class="sourceLineNo">216</span>    this.modifiedBy = modifiedBy;<a name="line.216"></a>
-<span class="sourceLineNo">217</span>  }<a name="line.217"></a>
-<span class="sourceLineNo">218</span><a name="line.218"></a>
-<span class="sourceLineNo">219</span>  @Override<a name="line.219"></a>
-<span class="sourceLineNo">220</span>  public Date getCreated() {<a name="line.220"></a>
-<span class="sourceLineNo">221</span>    return created;<a name="line.221"></a>
-<span class="sourceLineNo">222</span>  }<a name="line.222"></a>
-<span class="sourceLineNo">223</span><a name="line.223"></a>
-<span class="sourceLineNo">224</span>  @Override<a name="line.224"></a>
-<span class="sourceLineNo">225</span>  public void setCreated(Date created) {<a name="line.225"></a>
-<span class="sourceLineNo">226</span>    this.created = created;<a name="line.226"></a>
-<span class="sourceLineNo">227</span>  }<a name="line.227"></a>
-<span class="sourceLineNo">228</span><a name="line.228"></a>
-<span class="sourceLineNo">229</span>  @Override<a name="line.229"></a>
-<span class="sourceLineNo">230</span>  public Date getModified() {<a name="line.230"></a>
-<span class="sourceLineNo">231</span>    return modified;<a name="line.231"></a>
-<span class="sourceLineNo">232</span>  }<a name="line.232"></a>
-<span class="sourceLineNo">233</span><a name="line.233"></a>
-<span class="sourceLineNo">234</span>  @Override<a name="line.234"></a>
-<span class="sourceLineNo">235</span>  public void setModified(Date modified) {<a name="line.235"></a>
-<span class="sourceLineNo">236</span>    this.modified = modified;<a name="line.236"></a>
-<span class="sourceLineNo">237</span>  }<a name="line.237"></a>
-<span class="sourceLineNo">238</span><a name="line.238"></a>
-<span class="sourceLineNo">239</span>  @Override<a name="line.239"></a>
-<span class="sourceLineNo">240</span>  public Date getDeleted() {<a name="line.240"></a>
-<span class="sourceLineNo">241</span>    return deleted;<a name="line.241"></a>
-<span class="sourceLineNo">242</span>  }<a name="line.242"></a>
-<span class="sourceLineNo">243</span><a name="line.243"></a>
-<span class="sourceLineNo">244</span>  @Override<a name="line.244"></a>
-<span class="sourceLineNo">245</span>  public void setDeleted(Date deleted) {<a name="line.245"></a>
-<span class="sourceLineNo">246</span>    this.deleted = deleted;<a name="line.246"></a>
-<span class="sourceLineNo">247</span>  }<a name="line.247"></a>
-<span class="sourceLineNo">248</span><a name="line.248"></a>
-<span class="sourceLineNo">249</span>  /**<a name="line.249"></a>
-<span class="sourceLineNo">250</span>   * List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc..<a name="line.250"></a>
-<span class="sourceLineNo">251</span>   */<a name="line.251"></a>
-<span class="sourceLineNo">252</span>  @Valid<a name="line.252"></a>
-<span class="sourceLineNo">253</span>  @Override<a name="line.253"></a>
-<span class="sourceLineNo">254</span>  public List&lt;Identifier&gt; getIdentifiers() {<a name="line.254"></a>
-<span class="sourceLineNo">255</span>    return identifiers;<a name="line.255"></a>
-<span class="sourceLineNo">256</span>  }<a name="line.256"></a>
-<span class="sourceLineNo">257</span><a name="line.257"></a>
-<span class="sourceLineNo">258</span>  @Override<a name="line.258"></a>
-<span class="sourceLineNo">259</span>  public void setIdentifiers(List&lt;Identifier&gt; identifiers) {<a name="line.259"></a>
-<span class="sourceLineNo">260</span>    this.identifiers = identifiers;<a name="line.260"></a>
-<span class="sourceLineNo">261</span>  }<a name="line.261"></a>
-<span class="sourceLineNo">262</span><a name="line.262"></a>
-<span class="sourceLineNo">263</span>  @Valid<a name="line.263"></a>
-<span class="sourceLineNo">264</span>  @Override<a name="line.264"></a>
-<span class="sourceLineNo">265</span>  public @NotNull List&lt;MachineTag&gt; getMachineTags() {<a name="line.265"></a>
-<span class="sourceLineNo">266</span>    return machineTags;<a name="line.266"></a>
-<span class="sourceLineNo">267</span>  }<a name="line.267"></a>
-<span class="sourceLineNo">268</span><a name="line.268"></a>
-<span class="sourceLineNo">269</span>  @Override<a name="line.269"></a>
-<span class="sourceLineNo">270</span>  public void setMachineTags(List&lt;MachineTag&gt; machineTags) {<a name="line.270"></a>
-<span class="sourceLineNo">271</span>    this.machineTags = machineTags;<a name="line.271"></a>
-<span class="sourceLineNo">272</span>  }<a name="line.272"></a>
-<span class="sourceLineNo">273</span><a name="line.273"></a>
-<span class="sourceLineNo">274</span>  @Override<a name="line.274"></a>
-<span class="sourceLineNo">275</span>  public void addMachineTag(MachineTag machineTag) {<a name="line.275"></a>
-<span class="sourceLineNo">276</span>   machineTags.add(machineTag);<a name="line.276"></a>
-<span class="sourceLineNo">277</span>  }<a name="line.277"></a>
-<span class="sourceLineNo">278</span><a name="line.278"></a>
-<span class="sourceLineNo">279</span>  @Valid<a name="line.279"></a>
-<span class="sourceLineNo">280</span>  @Override<a name="line.280"></a>
-<span class="sourceLineNo">281</span>  public @NotNull List&lt;Tag&gt; getTags() {<a name="line.281"></a>
-<span class="sourceLineNo">282</span>    return tags;<a name="line.282"></a>
-<span class="sourceLineNo">283</span>  }<a name="line.283"></a>
-<span class="sourceLineNo">284</span><a name="line.284"></a>
-<span class="sourceLineNo">285</span>  @Override<a name="line.285"></a>
-<span class="sourceLineNo">286</span>  public void setTags(List&lt;Tag&gt; tags) {<a name="line.286"></a>
-<span class="sourceLineNo">287</span>    this.tags = tags;<a name="line.287"></a>
-<span class="sourceLineNo">288</span>  }<a name="line.288"></a>
-<span class="sourceLineNo">289</span><a name="line.289"></a>
-<span class="sourceLineNo">290</span>  @Override<a name="line.290"></a>
-<span class="sourceLineNo">291</span>  public boolean equals(Object o) {<a name="line.291"></a>
-<span class="sourceLineNo">292</span>    if (this == o) return true;<a name="line.292"></a>
-<span class="sourceLineNo">293</span>    if (o == null || getClass() != o.getClass()) return false;<a name="line.293"></a>
-<span class="sourceLineNo">294</span>    Person person = (Person) o;<a name="line.294"></a>
-<span class="sourceLineNo">295</span>    return Objects.equals(key, person.key)<a name="line.295"></a>
-<span class="sourceLineNo">296</span>           &amp;&amp; Objects.equals(firstName, person.firstName)<a name="line.296"></a>
-<span class="sourceLineNo">297</span>           &amp;&amp; Objects.equals(lastName,<a name="line.297"></a>
-<span class="sourceLineNo">298</span>                             person.lastName)<a name="line.298"></a>
-<span class="sourceLineNo">299</span>           &amp;&amp; Objects.equals(position, person.position)<a name="line.299"></a>
-<span class="sourceLineNo">300</span>           &amp;&amp; Objects.equals(areaResponsibility, person.areaResponsibility)<a name="line.300"></a>
-<span class="sourceLineNo">301</span>           &amp;&amp; Objects.equals(researchPursuits, person.researchPursuits)<a name="line.301"></a>
-<span class="sourceLineNo">302</span>           &amp;&amp; Objects.equals(phone, person.phone)<a name="line.302"></a>
-<span class="sourceLineNo">303</span>           &amp;&amp; Objects.equals(fax, person.fax)<a name="line.303"></a>
-<span class="sourceLineNo">304</span>           &amp;&amp; Objects.equals(email, person.email)<a name="line.304"></a>
-<span class="sourceLineNo">305</span>           &amp;&amp; Objects.equals(mailingAddress, person.mailingAddress)<a name="line.305"></a>
-<span class="sourceLineNo">306</span>           &amp;&amp; Objects.equals(primaryInstitutionKey, person.primaryInstitutionKey)<a name="line.306"></a>
-<span class="sourceLineNo">307</span>           &amp;&amp; Objects.equals(primaryCollectionKey, person.primaryCollectionKey)<a name="line.307"></a>
-<span class="sourceLineNo">308</span>           &amp;&amp; Objects.equals(createdBy, person.createdBy)<a name="line.308"></a>
-<span class="sourceLineNo">309</span>           &amp;&amp; Objects.equals(modifiedBy, person.modifiedBy)<a name="line.309"></a>
-<span class="sourceLineNo">310</span>           &amp;&amp; Objects.equals(created, person.created)<a name="line.310"></a>
-<span class="sourceLineNo">311</span>           &amp;&amp; Objects.equals(modified, person.modified)<a name="line.311"></a>
-<span class="sourceLineNo">312</span>           &amp;&amp; Objects.equals(deleted, person.deleted)<a name="line.312"></a>
-<span class="sourceLineNo">313</span>           &amp;&amp; Objects.equals(identifiers, person.identifiers)<a name="line.313"></a>
-<span class="sourceLineNo">314</span>           &amp;&amp; Objects.equals(tags, person.tags)<a name="line.314"></a>
-<span class="sourceLineNo">315</span>           &amp;&amp; Objects.equals(machineTags, person.machineTags);<a name="line.315"></a>
-<span class="sourceLineNo">316</span>  }<a name="line.316"></a>
-<span class="sourceLineNo">317</span><a name="line.317"></a>
-<span class="sourceLineNo">318</span>  @Override<a name="line.318"></a>
-<span class="sourceLineNo">319</span>  public int hashCode() {<a name="line.319"></a>
-<span class="sourceLineNo">320</span>    return Objects.hash(key,<a name="line.320"></a>
-<span class="sourceLineNo">321</span>                        firstName,<a name="line.321"></a>
-<span class="sourceLineNo">322</span>                        lastName,<a name="line.322"></a>
-<span class="sourceLineNo">323</span>                        position,<a name="line.323"></a>
-<span class="sourceLineNo">324</span>                        areaResponsibility,<a name="line.324"></a>
-<span class="sourceLineNo">325</span>                        researchPursuits,<a name="line.325"></a>
-<span class="sourceLineNo">326</span>                        phone,<a name="line.326"></a>
-<span class="sourceLineNo">327</span>                        fax,<a name="line.327"></a>
-<span class="sourceLineNo">328</span>                        email,<a name="line.328"></a>
-<span class="sourceLineNo">329</span>                        mailingAddress,<a name="line.329"></a>
-<span class="sourceLineNo">330</span>                        primaryInstitutionKey,<a name="line.330"></a>
-<span class="sourceLineNo">331</span>                        primaryCollectionKey,<a name="line.331"></a>
-<span class="sourceLineNo">332</span>                        createdBy,<a name="line.332"></a>
-<span class="sourceLineNo">333</span>                        modifiedBy,<a name="line.333"></a>
-<span class="sourceLineNo">334</span>                        created,<a name="line.334"></a>
-<span class="sourceLineNo">335</span>                        modified,<a name="line.335"></a>
-<span class="sourceLineNo">336</span>                        deleted,<a name="line.336"></a>
-<span class="sourceLineNo">337</span>                        identifiers,<a name="line.337"></a>
-<span class="sourceLineNo">338</span>                        tags,<a name="line.338"></a>
-<span class="sourceLineNo">339</span>                        machineTags);<a name="line.339"></a>
-<span class="sourceLineNo">340</span>  }<a name="line.340"></a>
-<span class="sourceLineNo">341</span><a name="line.341"></a>
-<span class="sourceLineNo">342</span>  @Override<a name="line.342"></a>
-<span class="sourceLineNo">343</span>  public String toString() {<a name="line.343"></a>
-<span class="sourceLineNo">344</span>    return new StringJoiner(", ", Person.class.getSimpleName() + "[", "]").add("key=" + key)<a name="line.344"></a>
-<span class="sourceLineNo">345</span>      .add("firstName='" + firstName + "'")<a name="line.345"></a>
-<span class="sourceLineNo">346</span>      .add("lastName='" + lastName + "'")<a name="line.346"></a>
-<span class="sourceLineNo">347</span>      .add("position='" + position + "'")<a name="line.347"></a>
-<span class="sourceLineNo">348</span>      .add("areaResponsibility='" + areaResponsibility + "'")<a name="line.348"></a>
-<span class="sourceLineNo">349</span>      .add("researchPursuits='" + researchPursuits + "'")<a name="line.349"></a>
-<span class="sourceLineNo">350</span>      .add("phone='" + phone + "'")<a name="line.350"></a>
-<span class="sourceLineNo">351</span>      .add("fax='" + fax + "'")<a name="line.351"></a>
-<span class="sourceLineNo">352</span>      .add("email='" + email + "'")<a name="line.352"></a>
-<span class="sourceLineNo">353</span>      .add("mailingAddress=" + mailingAddress)<a name="line.353"></a>
-<span class="sourceLineNo">354</span>      .add("institutionKey=" + primaryInstitutionKey)<a name="line.354"></a>
-<span class="sourceLineNo">355</span>      .add("collectionKey=" + primaryCollectionKey)<a name="line.355"></a>
-<span class="sourceLineNo">356</span>      .add("createdBy='" + createdBy + "'")<a name="line.356"></a>
-<span class="sourceLineNo">357</span>      .add("modifiedBy='" + modifiedBy + "'")<a name="line.357"></a>
-<span class="sourceLineNo">358</span>      .add("created=" + created)<a name="line.358"></a>
-<span class="sourceLineNo">359</span>      .add("modified=" + modified)<a name="line.359"></a>
-<span class="sourceLineNo">360</span>      .add("deleted=" + deleted)<a name="line.360"></a>
-<span class="sourceLineNo">361</span>      .add("identifiers=" + identifiers)<a name="line.361"></a>
-<span class="sourceLineNo">362</span>      .add("tags=" + tags)<a name="line.362"></a>
-<span class="sourceLineNo">363</span>      .add("machineTags=" + machineTags)<a name="line.363"></a>
-<span class="sourceLineNo">364</span>      .toString();<a name="line.364"></a>
-<span class="sourceLineNo">365</span>  }<a name="line.365"></a>
-<span class="sourceLineNo">366</span><a name="line.366"></a>
-<span class="sourceLineNo">367</span>  @Override<a name="line.367"></a>
-<span class="sourceLineNo">368</span>  public boolean lenientEquals(Person other) {<a name="line.368"></a>
-<span class="sourceLineNo">369</span>    if (this == other) {<a name="line.369"></a>
-<span class="sourceLineNo">370</span>      return true;<a name="line.370"></a>
-<span class="sourceLineNo">371</span>    }<a name="line.371"></a>
-<span class="sourceLineNo">372</span>    return Objects.equals(key, other.key)<a name="line.372"></a>
-<span class="sourceLineNo">373</span>           &amp;&amp; Objects.equals(firstName, other.firstName)<a name="line.373"></a>
-<span class="sourceLineNo">374</span>           &amp;&amp; Objects.equals(lastName, other.lastName)<a name="line.374"></a>
-<span class="sourceLineNo">375</span>           &amp;&amp; Objects.equals(position, other.position)<a name="line.375"></a>
-<span class="sourceLineNo">376</span>           &amp;&amp; Objects.equals(areaResponsibility, other.areaResponsibility)<a name="line.376"></a>
-<span class="sourceLineNo">377</span>           &amp;&amp; Objects.equals(researchPursuits, other.researchPursuits)<a name="line.377"></a>
-<span class="sourceLineNo">378</span>           &amp;&amp; Objects.equals(phone, other.phone)<a name="line.378"></a>
-<span class="sourceLineNo">379</span>           &amp;&amp; Objects.equals(fax, other.fax)<a name="line.379"></a>
-<span class="sourceLineNo">380</span>           &amp;&amp; Objects.equals(email, other.email)<a name="line.380"></a>
-<span class="sourceLineNo">381</span>           &amp;&amp; Objects.equals(mailingAddress, other.mailingAddress)<a name="line.381"></a>
-<span class="sourceLineNo">382</span>           &amp;&amp; Objects.equals(primaryInstitutionKey, other.primaryInstitutionKey)<a name="line.382"></a>
-<span class="sourceLineNo">383</span>           &amp;&amp; Objects.equals(primaryCollectionKey, other.primaryCollectionKey)<a name="line.383"></a>
-<span class="sourceLineNo">384</span>           &amp;&amp; Objects.equals(deleted, other.deleted);<a name="line.384"></a>
-<span class="sourceLineNo">385</span>  }<a name="line.385"></a>
-<span class="sourceLineNo">386</span>}<a name="line.386"></a>
+<span class="sourceLineNo">018</span>import org.gbif.api.model.registry.Comment;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import org.gbif.api.model.registry.Commentable;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import org.gbif.api.model.registry.Identifiable;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import org.gbif.api.model.registry.Identifier;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import org.gbif.api.model.registry.LenientEquals;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import org.gbif.api.model.registry.MachineTag;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import org.gbif.api.model.registry.MachineTaggable;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import org.gbif.api.model.registry.Tag;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import org.gbif.api.model.registry.Taggable;<a name="line.26"></a>
+<span class="sourceLineNo">027</span><a name="line.27"></a>
+<span class="sourceLineNo">028</span>import java.util.ArrayList;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import java.util.Date;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import java.util.List;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import java.util.Objects;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import java.util.StringJoiner;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import java.util.UUID;<a name="line.33"></a>
+<span class="sourceLineNo">034</span><a name="line.34"></a>
+<span class="sourceLineNo">035</span>import javax.validation.Valid;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>import javax.validation.constraints.NotNull;<a name="line.36"></a>
+<span class="sourceLineNo">037</span><a name="line.37"></a>
+<span class="sourceLineNo">038</span>/**<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * Person associated to a collection or institution.<a name="line.39"></a>
+<span class="sourceLineNo">040</span> */<a name="line.40"></a>
+<span class="sourceLineNo">041</span>@SuppressWarnings("unused")<a name="line.41"></a>
+<span class="sourceLineNo">042</span>public class Person implements CollectionEntity, Identifiable, Taggable, MachineTaggable, Commentable, LenientEquals&lt;Person&gt; {<a name="line.42"></a>
+<span class="sourceLineNo">043</span><a name="line.43"></a>
+<span class="sourceLineNo">044</span>  private UUID key;<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  private String firstName;<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  private String lastName;<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  private String position;<a name="line.47"></a>
+<span class="sourceLineNo">048</span>  private String areaResponsibility;<a name="line.48"></a>
+<span class="sourceLineNo">049</span>  private String researchPursuits;<a name="line.49"></a>
+<span class="sourceLineNo">050</span>  private String phone;<a name="line.50"></a>
+<span class="sourceLineNo">051</span>  private String fax;<a name="line.51"></a>
+<span class="sourceLineNo">052</span>  private String email;<a name="line.52"></a>
+<span class="sourceLineNo">053</span>  private Address mailingAddress;<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  private UUID primaryInstitutionKey;<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  private UUID primaryCollectionKey;<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  private String createdBy;<a name="line.56"></a>
+<span class="sourceLineNo">057</span>  private String modifiedBy;<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  private Date created;<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  private Date modified;<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  private Date deleted;<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  private List&lt;Tag&gt; tags = new ArrayList&lt;&gt;();<a name="line.61"></a>
+<span class="sourceLineNo">062</span>  private List&lt;MachineTag&gt; machineTags = new ArrayList&lt;&gt;();<a name="line.62"></a>
+<span class="sourceLineNo">063</span>  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();<a name="line.63"></a>
+<span class="sourceLineNo">064</span>  private List&lt;Comment&gt; comments = new ArrayList&lt;&gt;();<a name="line.64"></a>
+<span class="sourceLineNo">065</span><a name="line.65"></a>
+<span class="sourceLineNo">066</span>  /**<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   * GBIF Unique identifier.<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   */<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  @Override<a name="line.69"></a>
+<span class="sourceLineNo">070</span>  public UUID getKey() {<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    return key;<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  }<a name="line.72"></a>
+<span class="sourceLineNo">073</span><a name="line.73"></a>
+<span class="sourceLineNo">074</span>  @Override<a name="line.74"></a>
+<span class="sourceLineNo">075</span>  public void setKey(UUID key) {<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    this.key = key;<a name="line.76"></a>
+<span class="sourceLineNo">077</span>  }<a name="line.77"></a>
+<span class="sourceLineNo">078</span><a name="line.78"></a>
+<span class="sourceLineNo">079</span>  /**<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   * Firs name, it can also include the first and last name in some cases.<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   */<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  @NotNull<a name="line.82"></a>
+<span class="sourceLineNo">083</span>  public String getFirstName() {<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    return firstName;<a name="line.84"></a>
+<span class="sourceLineNo">085</span>  }<a name="line.85"></a>
+<span class="sourceLineNo">086</span><a name="line.86"></a>
+<span class="sourceLineNo">087</span>  public void setFirstName(String firstName) {<a name="line.87"></a>
+<span class="sourceLineNo">088</span>    this.firstName = firstName;<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  }<a name="line.89"></a>
+<span class="sourceLineNo">090</span><a name="line.90"></a>
+<span class="sourceLineNo">091</span>  /**<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   * Last and secondary names.<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   */<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  public String getLastName() {<a name="line.94"></a>
+<span class="sourceLineNo">095</span>    return lastName;<a name="line.95"></a>
+<span class="sourceLineNo">096</span>  }<a name="line.96"></a>
+<span class="sourceLineNo">097</span><a name="line.97"></a>
+<span class="sourceLineNo">098</span>  public void setLastName(String lastName) {<a name="line.98"></a>
+<span class="sourceLineNo">099</span>    this.lastName = lastName;<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  }<a name="line.100"></a>
+<span class="sourceLineNo">101</span><a name="line.101"></a>
+<span class="sourceLineNo">102</span>  /**<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   * Textual description  of the role performed.<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   */<a name="line.104"></a>
+<span class="sourceLineNo">105</span>  public String getPosition() {<a name="line.105"></a>
+<span class="sourceLineNo">106</span>    return position;<a name="line.106"></a>
+<span class="sourceLineNo">107</span>  }<a name="line.107"></a>
+<span class="sourceLineNo">108</span><a name="line.108"></a>
+<span class="sourceLineNo">109</span>  public void setPosition(String position) {<a name="line.109"></a>
+<span class="sourceLineNo">110</span>    this.position = position;<a name="line.110"></a>
+<span class="sourceLineNo">111</span>  }<a name="line.111"></a>
+<span class="sourceLineNo">112</span><a name="line.112"></a>
+<span class="sourceLineNo">113</span>  /**<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   * Description of the main responsibility assigned to a person.<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   */<a name="line.115"></a>
+<span class="sourceLineNo">116</span>  public String getAreaResponsibility() {<a name="line.116"></a>
+<span class="sourceLineNo">117</span>    return areaResponsibility;<a name="line.117"></a>
+<span class="sourceLineNo">118</span>  }<a name="line.118"></a>
+<span class="sourceLineNo">119</span><a name="line.119"></a>
+<span class="sourceLineNo">120</span>  public void setAreaResponsibility(String areaResponsibility) {<a name="line.120"></a>
+<span class="sourceLineNo">121</span>    this.areaResponsibility = areaResponsibility;<a name="line.121"></a>
+<span class="sourceLineNo">122</span>  }<a name="line.122"></a>
+<span class="sourceLineNo">123</span><a name="line.123"></a>
+<span class="sourceLineNo">124</span>  /**<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   * Description of main research activities.<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   */<a name="line.126"></a>
+<span class="sourceLineNo">127</span>  public String getResearchPursuits() {<a name="line.127"></a>
+<span class="sourceLineNo">128</span>    return researchPursuits;<a name="line.128"></a>
+<span class="sourceLineNo">129</span>  }<a name="line.129"></a>
+<span class="sourceLineNo">130</span><a name="line.130"></a>
+<span class="sourceLineNo">131</span>  public void setResearchPursuits(String researchPursuits) {<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    this.researchPursuits = researchPursuits;<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  }<a name="line.133"></a>
+<span class="sourceLineNo">134</span><a name="line.134"></a>
+<span class="sourceLineNo">135</span>  /**<a name="line.135"></a>
+<span class="sourceLineNo">136</span>   * Primary telephone number.<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   */<a name="line.137"></a>
+<span class="sourceLineNo">138</span>  public String getPhone() {<a name="line.138"></a>
+<span class="sourceLineNo">139</span>    return phone;<a name="line.139"></a>
+<span class="sourceLineNo">140</span>  }<a name="line.140"></a>
+<span class="sourceLineNo">141</span><a name="line.141"></a>
+<span class="sourceLineNo">142</span>  public void setPhone(String phone) {<a name="line.142"></a>
+<span class="sourceLineNo">143</span>    this.phone = phone;<a name="line.143"></a>
+<span class="sourceLineNo">144</span>  }<a name="line.144"></a>
+<span class="sourceLineNo">145</span><a name="line.145"></a>
+<span class="sourceLineNo">146</span>  /**<a name="line.146"></a>
+<span class="sourceLineNo">147</span>   * Fax number.<a name="line.147"></a>
+<span class="sourceLineNo">148</span>   */<a name="line.148"></a>
+<span class="sourceLineNo">149</span>  public String getFax() {<a name="line.149"></a>
+<span class="sourceLineNo">150</span>    return fax;<a name="line.150"></a>
+<span class="sourceLineNo">151</span>  }<a name="line.151"></a>
+<span class="sourceLineNo">152</span><a name="line.152"></a>
+<span class="sourceLineNo">153</span>  public void setFax(String fax) {<a name="line.153"></a>
+<span class="sourceLineNo">154</span>    this.fax = fax;<a name="line.154"></a>
+<span class="sourceLineNo">155</span>  }<a name="line.155"></a>
+<span class="sourceLineNo">156</span><a name="line.156"></a>
+<span class="sourceLineNo">157</span>  /**<a name="line.157"></a>
+<span class="sourceLineNo">158</span>   * Person email.<a name="line.158"></a>
+<span class="sourceLineNo">159</span>   */<a name="line.159"></a>
+<span class="sourceLineNo">160</span>  public String getEmail() {<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    return email;<a name="line.161"></a>
+<span class="sourceLineNo">162</span>  }<a name="line.162"></a>
+<span class="sourceLineNo">163</span><a name="line.163"></a>
+<span class="sourceLineNo">164</span>  public void setEmail(String email) {<a name="line.164"></a>
+<span class="sourceLineNo">165</span>    this.email = email;<a name="line.165"></a>
+<span class="sourceLineNo">166</span>  }<a name="line.166"></a>
+<span class="sourceLineNo">167</span><a name="line.167"></a>
+<span class="sourceLineNo">168</span>  /**<a name="line.168"></a>
+<span class="sourceLineNo">169</span>   * Address used to send physical mail.<a name="line.169"></a>
+<span class="sourceLineNo">170</span>   */<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  @Valid<a name="line.171"></a>
+<span class="sourceLineNo">172</span>  public Address getMailingAddress() {<a name="line.172"></a>
+<span class="sourceLineNo">173</span>    return mailingAddress;<a name="line.173"></a>
+<span class="sourceLineNo">174</span>  }<a name="line.174"></a>
+<span class="sourceLineNo">175</span><a name="line.175"></a>
+<span class="sourceLineNo">176</span>  public void setMailingAddress(Address mailingAddress) {<a name="line.176"></a>
+<span class="sourceLineNo">177</span>    this.mailingAddress = mailingAddress;<a name="line.177"></a>
+<span class="sourceLineNo">178</span>  }<a name="line.178"></a>
+<span class="sourceLineNo">179</span><a name="line.179"></a>
+<span class="sourceLineNo">180</span>  /**<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   * Primary institution where the person works.<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   */<a name="line.182"></a>
+<span class="sourceLineNo">183</span>  public UUID getPrimaryInstitutionKey() {<a name="line.183"></a>
+<span class="sourceLineNo">184</span>    return primaryInstitutionKey;<a name="line.184"></a>
+<span class="sourceLineNo">185</span>  }<a name="line.185"></a>
+<span class="sourceLineNo">186</span><a name="line.186"></a>
+<span class="sourceLineNo">187</span>  public void setPrimaryInstitutionKey(UUID primaryInstitutionKey) {<a name="line.187"></a>
+<span class="sourceLineNo">188</span>    this.primaryInstitutionKey = primaryInstitutionKey;<a name="line.188"></a>
+<span class="sourceLineNo">189</span>  }<a name="line.189"></a>
+<span class="sourceLineNo">190</span><a name="line.190"></a>
+<span class="sourceLineNo">191</span>  /**<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   * Primary collection linked of the person.<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   */<a name="line.193"></a>
+<span class="sourceLineNo">194</span>  public UUID getPrimaryCollectionKey() {<a name="line.194"></a>
+<span class="sourceLineNo">195</span>    return primaryCollectionKey;<a name="line.195"></a>
+<span class="sourceLineNo">196</span>  }<a name="line.196"></a>
+<span class="sourceLineNo">197</span><a name="line.197"></a>
+<span class="sourceLineNo">198</span>  public void setPrimaryCollectionKey(UUID primaryCollectionKey) {<a name="line.198"></a>
+<span class="sourceLineNo">199</span>    this.primaryCollectionKey = primaryCollectionKey;<a name="line.199"></a>
+<span class="sourceLineNo">200</span>  }<a name="line.200"></a>
+<span class="sourceLineNo">201</span><a name="line.201"></a>
+<span class="sourceLineNo">202</span>  @Override<a name="line.202"></a>
+<span class="sourceLineNo">203</span>  public String getCreatedBy() {<a name="line.203"></a>
+<span class="sourceLineNo">204</span>    return createdBy;<a name="line.204"></a>
+<span class="sourceLineNo">205</span>  }<a name="line.205"></a>
+<span class="sourceLineNo">206</span><a name="line.206"></a>
+<span class="sourceLineNo">207</span>  @Override<a name="line.207"></a>
+<span class="sourceLineNo">208</span>  public void setCreatedBy(String createdBy) {<a name="line.208"></a>
+<span class="sourceLineNo">209</span>    this.createdBy = createdBy;<a name="line.209"></a>
+<span class="sourceLineNo">210</span>  }<a name="line.210"></a>
+<span class="sourceLineNo">211</span><a name="line.211"></a>
+<span class="sourceLineNo">212</span>  @Override<a name="line.212"></a>
+<span class="sourceLineNo">213</span>  public String getModifiedBy() {<a name="line.213"></a>
+<span class="sourceLineNo">214</span>    return modifiedBy;<a name="line.214"></a>
+<span class="sourceLineNo">215</span>  }<a name="line.215"></a>
+<span class="sourceLineNo">216</span><a name="line.216"></a>
+<span class="sourceLineNo">217</span>  @Override<a name="line.217"></a>
+<span class="sourceLineNo">218</span>  public void setModifiedBy(String modifiedBy) {<a name="line.218"></a>
+<span class="sourceLineNo">219</span>    this.modifiedBy = modifiedBy;<a name="line.219"></a>
+<span class="sourceLineNo">220</span>  }<a name="line.220"></a>
+<span class="sourceLineNo">221</span><a name="line.221"></a>
+<span class="sourceLineNo">222</span>  @Override<a name="line.222"></a>
+<span class="sourceLineNo">223</span>  public Date getCreated() {<a name="line.223"></a>
+<span class="sourceLineNo">224</span>    return created;<a name="line.224"></a>
+<span class="sourceLineNo">225</span>  }<a name="line.225"></a>
+<span class="sourceLineNo">226</span><a name="line.226"></a>
+<span class="sourceLineNo">227</span>  @Override<a name="line.227"></a>
+<span class="sourceLineNo">228</span>  public void setCreated(Date created) {<a name="line.228"></a>
+<span class="sourceLineNo">229</span>    this.created = created;<a name="line.229"></a>
+<span class="sourceLineNo">230</span>  }<a name="line.230"></a>
+<span class="sourceLineNo">231</span><a name="line.231"></a>
+<span class="sourceLineNo">232</span>  @Override<a name="line.232"></a>
+<span class="sourceLineNo">233</span>  public Date getModified() {<a name="line.233"></a>
+<span class="sourceLineNo">234</span>    return modified;<a name="line.234"></a>
+<span class="sourceLineNo">235</span>  }<a name="line.235"></a>
+<span class="sourceLineNo">236</span><a name="line.236"></a>
+<span class="sourceLineNo">237</span>  @Override<a name="line.237"></a>
+<span class="sourceLineNo">238</span>  public void setModified(Date modified) {<a name="line.238"></a>
+<span class="sourceLineNo">239</span>    this.modified = modified;<a name="line.239"></a>
+<span class="sourceLineNo">240</span>  }<a name="line.240"></a>
+<span class="sourceLineNo">241</span><a name="line.241"></a>
+<span class="sourceLineNo">242</span>  @Override<a name="line.242"></a>
+<span class="sourceLineNo">243</span>  public Date getDeleted() {<a name="line.243"></a>
+<span class="sourceLineNo">244</span>    return deleted;<a name="line.244"></a>
+<span class="sourceLineNo">245</span>  }<a name="line.245"></a>
+<span class="sourceLineNo">246</span><a name="line.246"></a>
+<span class="sourceLineNo">247</span>  @Override<a name="line.247"></a>
+<span class="sourceLineNo">248</span>  public void setDeleted(Date deleted) {<a name="line.248"></a>
+<span class="sourceLineNo">249</span>    this.deleted = deleted;<a name="line.249"></a>
+<span class="sourceLineNo">250</span>  }<a name="line.250"></a>
+<span class="sourceLineNo">251</span><a name="line.251"></a>
+<span class="sourceLineNo">252</span>  /**<a name="line.252"></a>
+<span class="sourceLineNo">253</span>   * List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc..<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   */<a name="line.254"></a>
+<span class="sourceLineNo">255</span>  @Valid<a name="line.255"></a>
+<span class="sourceLineNo">256</span>  @Override<a name="line.256"></a>
+<span class="sourceLineNo">257</span>  public List&lt;Identifier&gt; getIdentifiers() {<a name="line.257"></a>
+<span class="sourceLineNo">258</span>    return identifiers;<a name="line.258"></a>
+<span class="sourceLineNo">259</span>  }<a name="line.259"></a>
+<span class="sourceLineNo">260</span><a name="line.260"></a>
+<span class="sourceLineNo">261</span>  @Override<a name="line.261"></a>
+<span class="sourceLineNo">262</span>  public void setIdentifiers(List&lt;Identifier&gt; identifiers) {<a name="line.262"></a>
+<span class="sourceLineNo">263</span>    this.identifiers = identifiers;<a name="line.263"></a>
+<span class="sourceLineNo">264</span>  }<a name="line.264"></a>
+<span class="sourceLineNo">265</span><a name="line.265"></a>
+<span class="sourceLineNo">266</span>  @Valid<a name="line.266"></a>
+<span class="sourceLineNo">267</span>  @Override<a name="line.267"></a>
+<span class="sourceLineNo">268</span>  public @NotNull List&lt;MachineTag&gt; getMachineTags() {<a name="line.268"></a>
+<span class="sourceLineNo">269</span>    return machineTags;<a name="line.269"></a>
+<span class="sourceLineNo">270</span>  }<a name="line.270"></a>
+<span class="sourceLineNo">271</span><a name="line.271"></a>
+<span class="sourceLineNo">272</span>  @Override<a name="line.272"></a>
+<span class="sourceLineNo">273</span>  public void setMachineTags(List&lt;MachineTag&gt; machineTags) {<a name="line.273"></a>
+<span class="sourceLineNo">274</span>    this.machineTags = machineTags;<a name="line.274"></a>
+<span class="sourceLineNo">275</span>  }<a name="line.275"></a>
+<span class="sourceLineNo">276</span><a name="line.276"></a>
+<span class="sourceLineNo">277</span>  @Override<a name="line.277"></a>
+<span class="sourceLineNo">278</span>  public void addMachineTag(MachineTag machineTag) {<a name="line.278"></a>
+<span class="sourceLineNo">279</span>   machineTags.add(machineTag);<a name="line.279"></a>
+<span class="sourceLineNo">280</span>  }<a name="line.280"></a>
+<span class="sourceLineNo">281</span><a name="line.281"></a>
+<span class="sourceLineNo">282</span>  @Valid<a name="line.282"></a>
+<span class="sourceLineNo">283</span>  @Override<a name="line.283"></a>
+<span class="sourceLineNo">284</span>  public @NotNull List&lt;Tag&gt; getTags() {<a name="line.284"></a>
+<span class="sourceLineNo">285</span>    return tags;<a name="line.285"></a>
+<span class="sourceLineNo">286</span>  }<a name="line.286"></a>
+<span class="sourceLineNo">287</span><a name="line.287"></a>
+<span class="sourceLineNo">288</span>  @Override<a name="line.288"></a>
+<span class="sourceLineNo">289</span>  public void setTags(List&lt;Tag&gt; tags) {<a name="line.289"></a>
+<span class="sourceLineNo">290</span>    this.tags = tags;<a name="line.290"></a>
+<span class="sourceLineNo">291</span>  }<a name="line.291"></a>
+<span class="sourceLineNo">292</span><a name="line.292"></a>
+<span class="sourceLineNo">293</span>  @Override<a name="line.293"></a>
+<span class="sourceLineNo">294</span>  public List&lt;Comment&gt; getComments() {<a name="line.294"></a>
+<span class="sourceLineNo">295</span>    return comments;<a name="line.295"></a>
+<span class="sourceLineNo">296</span>  }<a name="line.296"></a>
+<span class="sourceLineNo">297</span><a name="line.297"></a>
+<span class="sourceLineNo">298</span>  @Override<a name="line.298"></a>
+<span class="sourceLineNo">299</span>  public void setComments(List&lt;Comment&gt; comments) {<a name="line.299"></a>
+<span class="sourceLineNo">300</span>    this.comments = comments;<a name="line.300"></a>
+<span class="sourceLineNo">301</span>  }<a name="line.301"></a>
+<span class="sourceLineNo">302</span><a name="line.302"></a>
+<span class="sourceLineNo">303</span>  @Override<a name="line.303"></a>
+<span class="sourceLineNo">304</span>  public boolean equals(Object o) {<a name="line.304"></a>
+<span class="sourceLineNo">305</span>    if (this == o) return true;<a name="line.305"></a>
+<span class="sourceLineNo">306</span>    if (o == null || getClass() != o.getClass()) return false;<a name="line.306"></a>
+<span class="sourceLineNo">307</span>    Person person = (Person) o;<a name="line.307"></a>
+<span class="sourceLineNo">308</span>    return Objects.equals(key, person.key)<a name="line.308"></a>
+<span class="sourceLineNo">309</span>           &amp;&amp; Objects.equals(firstName, person.firstName)<a name="line.309"></a>
+<span class="sourceLineNo">310</span>           &amp;&amp; Objects.equals(lastName,<a name="line.310"></a>
+<span class="sourceLineNo">311</span>                             person.lastName)<a name="line.311"></a>
+<span class="sourceLineNo">312</span>           &amp;&amp; Objects.equals(position, person.position)<a name="line.312"></a>
+<span class="sourceLineNo">313</span>           &amp;&amp; Objects.equals(areaResponsibility, person.areaResponsibility)<a name="line.313"></a>
+<span class="sourceLineNo">314</span>           &amp;&amp; Objects.equals(researchPursuits, person.researchPursuits)<a name="line.314"></a>
+<span class="sourceLineNo">315</span>           &amp;&amp; Objects.equals(phone, person.phone)<a name="line.315"></a>
+<span class="sourceLineNo">316</span>           &amp;&amp; Objects.equals(fax, person.fax)<a name="line.316"></a>
+<span class="sourceLineNo">317</span>           &amp;&amp; Objects.equals(email, person.email)<a name="line.317"></a>
+<span class="sourceLineNo">318</span>           &amp;&amp; Objects.equals(mailingAddress, person.mailingAddress)<a name="line.318"></a>
+<span class="sourceLineNo">319</span>           &amp;&amp; Objects.equals(primaryInstitutionKey, person.primaryInstitutionKey)<a name="line.319"></a>
+<span class="sourceLineNo">320</span>           &amp;&amp; Objects.equals(primaryCollectionKey, person.primaryCollectionKey)<a name="line.320"></a>
+<span class="sourceLineNo">321</span>           &amp;&amp; Objects.equals(createdBy, person.createdBy)<a name="line.321"></a>
+<span class="sourceLineNo">322</span>           &amp;&amp; Objects.equals(modifiedBy, person.modifiedBy)<a name="line.322"></a>
+<span class="sourceLineNo">323</span>           &amp;&amp; Objects.equals(created, person.created)<a name="line.323"></a>
+<span class="sourceLineNo">324</span>           &amp;&amp; Objects.equals(modified, person.modified)<a name="line.324"></a>
+<span class="sourceLineNo">325</span>           &amp;&amp; Objects.equals(deleted, person.deleted)<a name="line.325"></a>
+<span class="sourceLineNo">326</span>           &amp;&amp; Objects.equals(identifiers, person.identifiers)<a name="line.326"></a>
+<span class="sourceLineNo">327</span>           &amp;&amp; Objects.equals(tags, person.tags)<a name="line.327"></a>
+<span class="sourceLineNo">328</span>           &amp;&amp; Objects.equals(machineTags, person.machineTags)<a name="line.328"></a>
+<span class="sourceLineNo">329</span>           &amp;&amp; Objects.equals(comments, person.comments);<a name="line.329"></a>
+<span class="sourceLineNo">330</span>  }<a name="line.330"></a>
+<span class="sourceLineNo">331</span><a name="line.331"></a>
+<span class="sourceLineNo">332</span>  @Override<a name="line.332"></a>
+<span class="sourceLineNo">333</span>  public int hashCode() {<a name="line.333"></a>
+<span class="sourceLineNo">334</span>    return Objects.hash(key,<a name="line.334"></a>
+<span class="sourceLineNo">335</span>                        firstName,<a name="line.335"></a>
+<span class="sourceLineNo">336</span>                        lastName,<a name="line.336"></a>
+<span class="sourceLineNo">337</span>                        position,<a name="line.337"></a>
+<span class="sourceLineNo">338</span>                        areaResponsibility,<a name="line.338"></a>
+<span class="sourceLineNo">339</span>                        researchPursuits,<a name="line.339"></a>
+<span class="sourceLineNo">340</span>                        phone,<a name="line.340"></a>
+<span class="sourceLineNo">341</span>                        fax,<a name="line.341"></a>
+<span class="sourceLineNo">342</span>                        email,<a name="line.342"></a>
+<span class="sourceLineNo">343</span>                        mailingAddress,<a name="line.343"></a>
+<span class="sourceLineNo">344</span>                        primaryInstitutionKey,<a name="line.344"></a>
+<span class="sourceLineNo">345</span>                        primaryCollectionKey,<a name="line.345"></a>
+<span class="sourceLineNo">346</span>                        createdBy,<a name="line.346"></a>
+<span class="sourceLineNo">347</span>                        modifiedBy,<a name="line.347"></a>
+<span class="sourceLineNo">348</span>                        created,<a name="line.348"></a>
+<span class="sourceLineNo">349</span>                        modified,<a name="line.349"></a>
+<span class="sourceLineNo">350</span>                        deleted,<a name="line.350"></a>
+<span class="sourceLineNo">351</span>                        identifiers,<a name="line.351"></a>
+<span class="sourceLineNo">352</span>                        tags,<a name="line.352"></a>
+<span class="sourceLineNo">353</span>                        machineTags,<a name="line.353"></a>
+<span class="sourceLineNo">354</span>                        comments);<a name="line.354"></a>
+<span class="sourceLineNo">355</span>  }<a name="line.355"></a>
+<span class="sourceLineNo">356</span><a name="line.356"></a>
+<span class="sourceLineNo">357</span>  @Override<a name="line.357"></a>
+<span class="sourceLineNo">358</span>  public String toString() {<a name="line.358"></a>
+<span class="sourceLineNo">359</span>    return new StringJoiner(", ", Person.class.getSimpleName() + "[", "]").add("key=" + key)<a name="line.359"></a>
+<span class="sourceLineNo">360</span>      .add("firstName='" + firstName + "'")<a name="line.360"></a>
+<span class="sourceLineNo">361</span>      .add("lastName='" + lastName + "'")<a name="line.361"></a>
+<span class="sourceLineNo">362</span>      .add("position='" + position + "'")<a name="line.362"></a>
+<span class="sourceLineNo">363</span>      .add("areaResponsibility='" + areaResponsibility + "'")<a name="line.363"></a>
+<span class="sourceLineNo">364</span>      .add("researchPursuits='" + researchPursuits + "'")<a name="line.364"></a>
+<span class="sourceLineNo">365</span>      .add("phone='" + phone + "'")<a name="line.365"></a>
+<span class="sourceLineNo">366</span>      .add("fax='" + fax + "'")<a name="line.366"></a>
+<span class="sourceLineNo">367</span>      .add("email='" + email + "'")<a name="line.367"></a>
+<span class="sourceLineNo">368</span>      .add("mailingAddress=" + mailingAddress)<a name="line.368"></a>
+<span class="sourceLineNo">369</span>      .add("institutionKey=" + primaryInstitutionKey)<a name="line.369"></a>
+<span class="sourceLineNo">370</span>      .add("collectionKey=" + primaryCollectionKey)<a name="line.370"></a>
+<span class="sourceLineNo">371</span>      .add("createdBy='" + createdBy + "'")<a name="line.371"></a>
+<span class="sourceLineNo">372</span>      .add("modifiedBy='" + modifiedBy + "'")<a name="line.372"></a>
+<span class="sourceLineNo">373</span>      .add("created=" + created)<a name="line.373"></a>
+<span class="sourceLineNo">374</span>      .add("modified=" + modified)<a name="line.374"></a>
+<span class="sourceLineNo">375</span>      .add("deleted=" + deleted)<a name="line.375"></a>
+<span class="sourceLineNo">376</span>      .add("identifiers=" + identifiers)<a name="line.376"></a>
+<span class="sourceLineNo">377</span>      .add("tags=" + tags)<a name="line.377"></a>
+<span class="sourceLineNo">378</span>      .add("machineTags=" + machineTags)<a name="line.378"></a>
+<span class="sourceLineNo">379</span>      .add("comments=" + comments)<a name="line.379"></a>
+<span class="sourceLineNo">380</span>      .toString();<a name="line.380"></a>
+<span class="sourceLineNo">381</span>  }<a name="line.381"></a>
+<span class="sourceLineNo">382</span><a name="line.382"></a>
+<span class="sourceLineNo">383</span>  @Override<a name="line.383"></a>
+<span class="sourceLineNo">384</span>  public boolean lenientEquals(Person other) {<a name="line.384"></a>
+<span class="sourceLineNo">385</span>    if (this == other) {<a name="line.385"></a>
+<span class="sourceLineNo">386</span>      return true;<a name="line.386"></a>
+<span class="sourceLineNo">387</span>    }<a name="line.387"></a>
+<span class="sourceLineNo">388</span>    return Objects.equals(key, other.key)<a name="line.388"></a>
+<span class="sourceLineNo">389</span>           &amp;&amp; Objects.equals(firstName, other.firstName)<a name="line.389"></a>
+<span class="sourceLineNo">390</span>           &amp;&amp; Objects.equals(lastName, other.lastName)<a name="line.390"></a>
+<span class="sourceLineNo">391</span>           &amp;&amp; Objects.equals(position, other.position)<a name="line.391"></a>
+<span class="sourceLineNo">392</span>           &amp;&amp; Objects.equals(areaResponsibility, other.areaResponsibility)<a name="line.392"></a>
+<span class="sourceLineNo">393</span>           &amp;&amp; Objects.equals(researchPursuits, other.researchPursuits)<a name="line.393"></a>
+<span class="sourceLineNo">394</span>           &amp;&amp; Objects.equals(phone, other.phone)<a name="line.394"></a>
+<span class="sourceLineNo">395</span>           &amp;&amp; Objects.equals(fax, other.fax)<a name="line.395"></a>
+<span class="sourceLineNo">396</span>           &amp;&amp; Objects.equals(email, other.email)<a name="line.396"></a>
+<span class="sourceLineNo">397</span>           &amp;&amp; Objects.equals(mailingAddress, other.mailingAddress)<a name="line.397"></a>
+<span class="sourceLineNo">398</span>           &amp;&amp; Objects.equals(primaryInstitutionKey, other.primaryInstitutionKey)<a name="line.398"></a>
+<span class="sourceLineNo">399</span>           &amp;&amp; Objects.equals(primaryCollectionKey, other.primaryCollectionKey)<a name="line.399"></a>
+<span class="sourceLineNo">400</span>           &amp;&amp; Objects.equals(deleted, other.deleted)<a name="line.400"></a>
+<span class="sourceLineNo">401</span>           &amp;&amp; Objects.equals(comments, other.comments);<a name="line.401"></a>
+<span class="sourceLineNo">402</span>  }<a name="line.402"></a>
+<span class="sourceLineNo">403</span>}<a name="line.403"></a>
 
 
 
