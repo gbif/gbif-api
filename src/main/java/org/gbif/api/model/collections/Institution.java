@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.collections;
 
+import org.gbif.api.model.registry.Comment;
+import org.gbif.api.model.registry.Commentable;
 import org.gbif.api.model.registry.Identifiable;
 import org.gbif.api.model.registry.Identifier;
 import org.gbif.api.model.registry.LenientEquals;
@@ -54,6 +56,7 @@ public class Institution
         Taggable,
         MachineTaggable,
         Identifiable,
+        Commentable,
         LenientEquals<Institution> {
 
   private UUID key;
@@ -91,6 +94,7 @@ public class Institution
   private List<Person> contacts = new ArrayList<>();
   private List<MachineTag> machineTags = new ArrayList<>();
   private Map<String, String> alternativeCodes = new HashMap<>();
+  private List<Comment> comments = new ArrayList<>();
 
   /** GBIF unique identifier. */
   @Override
@@ -443,6 +447,16 @@ public class Institution
   }
 
   @Override
+  public List<Comment> getComments() {
+    return comments;
+  }
+
+  @Override
+  public void setComments(List<Comment> comments) {
+    this.comments = comments;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
@@ -481,7 +495,8 @@ public class Institution
         && Objects.equals(identifiers, that.identifiers)
         && Objects.equals(contacts, that.contacts)
         && Objects.equals(machineTags, that.machineTags)
-        && Objects.equals(alternativeCodes, that.alternativeCodes);
+        && Objects.equals(alternativeCodes, that.alternativeCodes)
+        && Objects.equals(comments, that.comments);
   }
 
   @Override
@@ -521,7 +536,8 @@ public class Institution
         identifiers,
         contacts,
         machineTags,
-        alternativeCodes);
+        alternativeCodes,
+        comments);
   }
 
   @Override
@@ -562,6 +578,7 @@ public class Institution
         .add("contacts=" + contacts)
         .add("machineTags=" + machineTags)
         .add("alternativeCodes=" + alternativeCodes)
+        .add("comments=" + comments)
         .toString();
   }
 
@@ -596,6 +613,7 @@ public class Institution
         && Objects.equals(logoUrl, other.logoUrl)
         && Objects.equals(citesPermitNumber, other.citesPermitNumber)
         && Objects.equals(deleted, other.deleted)
-        && Objects.equals(alternativeCodes, other.alternativeCodes);
+        && Objects.equals(alternativeCodes, other.alternativeCodes)
+        && Objects.equals(comments, other.comments);
   }
 }

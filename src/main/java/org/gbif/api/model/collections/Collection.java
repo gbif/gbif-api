@@ -16,6 +16,8 @@
 package org.gbif.api.model.collections;
 
 import org.gbif.api.model.common.DOI;
+import org.gbif.api.model.registry.Comment;
+import org.gbif.api.model.registry.Commentable;
 import org.gbif.api.model.registry.Identifiable;
 import org.gbif.api.model.registry.Identifier;
 import org.gbif.api.model.registry.LenientEquals;
@@ -44,12 +46,19 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * A group of specimens or other natural history objects.
- * Types of collections can be: specimens, original artwork, archives, observations, library materials,
- * datasets, photographs or mixed collections such as those that result from expeditions and voyages of discovery.
+ * A group of specimens or other natural history objects. Types of collections can be: specimens,
+ * original artwork, archives, observations, library materials, datasets, photographs or mixed
+ * collections such as those that result from expeditions and voyages of discovery.
  */
 @SuppressWarnings("unused")
-public class Collection implements CollectionEntity, Contactable, Taggable, MachineTaggable, Identifiable, LenientEquals<Collection> {
+public class Collection
+    implements CollectionEntity,
+        Contactable,
+        Taggable,
+        MachineTaggable,
+        Identifiable,
+        Commentable,
+        LenientEquals<Collection> {
 
   private UUID key;
   private String code;
@@ -87,6 +96,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
   private List<String> importantCollectors = new ArrayList<>();
   private Map<String, Integer> collectionSummary = new HashMap<>();
   private Map<String, String> alternativeCodes = new HashMap<>();
+  private List<Comment> comments = new ArrayList<>();
 
   /**
    * List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc..
@@ -477,6 +487,16 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
   }
 
   @Override
+  public @NotNull List<Comment> getComments() {
+    return comments;
+  }
+
+  @Override
+  public void setComments(List<Comment> comments) {
+    this.comments = comments;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
@@ -516,7 +536,8 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
            && Objects.equals(incorporatedCollections, that.incorporatedCollections)
            && Objects.equals(importantCollectors, that.importantCollectors)
            && Objects.equals(collectionSummary, that.collectionSummary)
-           && Objects.equals(alternativeCodes, that.alternativeCodes);
+           && Objects.equals(alternativeCodes, that.alternativeCodes)
+           && Objects.equals(comments, that.comments);
   }
 
   @Override
@@ -556,7 +577,8 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
                         incorporatedCollections,
                         importantCollectors,
                         collectionSummary,
-                        alternativeCodes);
+                        alternativeCodes,
+                        comments);
   }
 
   @Override
@@ -597,6 +619,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
       .add("importantCollectors=" + importantCollectors)
       .add("collectionSummary=" + collectionSummary)
       .add("alternativeCodes=" + alternativeCodes)
+      .add("comments=" + comments)
       .toString();
   }
 
@@ -632,6 +655,7 @@ public class Collection implements CollectionEntity, Contactable, Taggable, Mach
            && Objects.equals(incorporatedCollections, other.incorporatedCollections)
            && Objects.equals(importantCollectors, other.importantCollectors)
            && Objects.equals(collectionSummary, other.collectionSummary)
-           && Objects.equals(alternativeCodes, other.alternativeCodes);
+           && Objects.equals(alternativeCodes, other.alternativeCodes)
+           && Objects.equals(comments, other.comments);
   }
 }

@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.collections;
 
+import org.gbif.api.model.registry.Comment;
+import org.gbif.api.model.registry.Commentable;
 import org.gbif.api.model.registry.Identifiable;
 import org.gbif.api.model.registry.Identifier;
 import org.gbif.api.model.registry.LenientEquals;
@@ -37,7 +39,7 @@ import javax.validation.constraints.NotNull;
  * Person associated to a collection or institution.
  */
 @SuppressWarnings("unused")
-public class Person implements CollectionEntity, Identifiable, Taggable, MachineTaggable, LenientEquals<Person> {
+public class Person implements CollectionEntity, Identifiable, Taggable, MachineTaggable, Commentable, LenientEquals<Person> {
 
   private UUID key;
   private String firstName;
@@ -59,6 +61,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
   private List<Tag> tags = new ArrayList<>();
   private List<MachineTag> machineTags = new ArrayList<>();
   private List<Identifier> identifiers = new ArrayList<>();
+  private List<Comment> comments = new ArrayList<>();
 
   /**
    * GBIF Unique identifier.
@@ -288,6 +291,16 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
   }
 
   @Override
+  public List<Comment> getComments() {
+    return comments;
+  }
+
+  @Override
+  public void setComments(List<Comment> comments) {
+    this.comments = comments;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
@@ -312,7 +325,8 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
            && Objects.equals(deleted, person.deleted)
            && Objects.equals(identifiers, person.identifiers)
            && Objects.equals(tags, person.tags)
-           && Objects.equals(machineTags, person.machineTags);
+           && Objects.equals(machineTags, person.machineTags)
+           && Objects.equals(comments, person.comments);
   }
 
   @Override
@@ -336,7 +350,8 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
                         deleted,
                         identifiers,
                         tags,
-                        machineTags);
+                        machineTags,
+                        comments);
   }
 
   @Override
@@ -361,6 +376,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
       .add("identifiers=" + identifiers)
       .add("tags=" + tags)
       .add("machineTags=" + machineTags)
+      .add("comments=" + comments)
       .toString();
   }
 
@@ -381,6 +397,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
            && Objects.equals(mailingAddress, other.mailingAddress)
            && Objects.equals(primaryInstitutionKey, other.primaryInstitutionKey)
            && Objects.equals(primaryCollectionKey, other.primaryCollectionKey)
-           && Objects.equals(deleted, other.deleted);
+           && Objects.equals(deleted, other.deleted)
+           && Objects.equals(comments, other.comments);
   }
 }

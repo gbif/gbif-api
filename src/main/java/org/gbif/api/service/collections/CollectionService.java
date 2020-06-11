@@ -19,6 +19,7 @@ import org.gbif.api.model.collections.Collection;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;
+import org.gbif.api.service.registry.CommentService;
 import org.gbif.api.service.registry.IdentifierService;
 import org.gbif.api.service.registry.MachineTagService;
 import org.gbif.api.service.registry.TagService;
@@ -32,7 +33,7 @@ import javax.annotation.Nullable;
  * API Service to work with collections.
  */
 public interface CollectionService
-    extends CrudService<Collection>, ContactService, TagService, IdentifierService, MachineTagService {
+    extends CrudService<Collection>, ContactService, TagService, IdentifierService, MachineTagService, CommentService {
 
   /**
    * Pages {@link Collection} entities based on the parameters received.

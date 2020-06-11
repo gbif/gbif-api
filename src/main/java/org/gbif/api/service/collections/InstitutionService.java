@@ -19,6 +19,7 @@ import org.gbif.api.model.collections.Institution;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;
+import org.gbif.api.service.registry.CommentService;
 import org.gbif.api.service.registry.IdentifierService;
 import org.gbif.api.service.registry.MachineTagService;
 import org.gbif.api.service.registry.TagService;
@@ -32,7 +33,7 @@ import javax.annotation.Nullable;
  * Service for institutions in the collections context.
  */
 public interface InstitutionService
-  extends CrudService<Institution>, ContactService, TagService, IdentifierService, MachineTagService {
+  extends CrudService<Institution>, ContactService, TagService, IdentifierService, MachineTagService, CommentService {
 
   /**
    * Pages {@link Institution} entities based on the parameters received.

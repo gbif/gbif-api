@@ -19,6 +19,7 @@ import org.gbif.api.model.collections.Person;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.search.collections.PersonSuggestResult;
+import org.gbif.api.service.registry.CommentService;
 import org.gbif.api.service.registry.IdentifierService;
 import org.gbif.api.service.registry.MachineTagService;
 import org.gbif.api.service.registry.TagService;
@@ -31,7 +32,8 @@ import javax.annotation.Nullable;
 /**
  * API Service for the collections-related staff.
  */
-public interface PersonService extends CrudService<Person>, IdentifierService, TagService, MachineTagService {
+public interface PersonService extends CrudService<Person>, IdentifierService, TagService, MachineTagService,
+  CommentService {
 
   /**
    * Pages {@link Person} entities based on the parameters received.
