@@ -33,27 +33,103 @@
 <span class="sourceLineNo">025</span> */<a name="line.25"></a>
 <span class="sourceLineNo">026</span>public enum ThreatStatus {<a name="line.26"></a>
 <span class="sourceLineNo">027</span><a name="line.27"></a>
-<span class="sourceLineNo">028</span>  LEAST_CONCERN("LC"),<a name="line.28"></a>
-<span class="sourceLineNo">029</span>  NEAR_THREATENED("NT"),<a name="line.29"></a>
-<span class="sourceLineNo">030</span>  VULNERABLE("VU"),<a name="line.30"></a>
-<span class="sourceLineNo">031</span>  ENDANGERED("EN"),<a name="line.31"></a>
-<span class="sourceLineNo">032</span>  CRITICALLY_ENDANGERED("CR"),<a name="line.32"></a>
-<span class="sourceLineNo">033</span>  EXTINCT_IN_THE_WILD("EW"),<a name="line.33"></a>
+<span class="sourceLineNo">028</span>  /**<a name="line.28"></a>
+<span class="sourceLineNo">029</span>   * A taxon is Extinct when there is no reasonable doubt that the last individual has died. A taxon is presumed Extinct<a name="line.29"></a>
+<span class="sourceLineNo">030</span>   * when exhaustive surveys in known and/or expected habitat, at appropriate times (diurnal, seasonal, annual),<a name="line.30"></a>
+<span class="sourceLineNo">031</span>   * throughout its historic range have failed to record an individual. Surveys should be over a time frame appropriate<a name="line.31"></a>
+<span class="sourceLineNo">032</span>   * to the taxon's life cycle and life form.<a name="line.32"></a>
+<span class="sourceLineNo">033</span>   */<a name="line.33"></a>
 <span class="sourceLineNo">034</span>  EXTINCT("EX"),<a name="line.34"></a>
-<span class="sourceLineNo">035</span>  DATA_DEFICIENT("DD"),<a name="line.35"></a>
-<span class="sourceLineNo">036</span>  NOT_EVALUATED("NE");<a name="line.36"></a>
-<span class="sourceLineNo">037</span><a name="line.37"></a>
-<span class="sourceLineNo">038</span>  private final String code;<a name="line.38"></a>
-<span class="sourceLineNo">039</span><a name="line.39"></a>
-<span class="sourceLineNo">040</span>  ThreatStatus(String code) {<a name="line.40"></a>
-<span class="sourceLineNo">041</span>    this.code = code;<a name="line.41"></a>
-<span class="sourceLineNo">042</span>  }<a name="line.42"></a>
-<span class="sourceLineNo">043</span><a name="line.43"></a>
-<span class="sourceLineNo">044</span>  public String getCode() {<a name="line.44"></a>
-<span class="sourceLineNo">045</span>    return code;<a name="line.45"></a>
-<span class="sourceLineNo">046</span>  }<a name="line.46"></a>
-<span class="sourceLineNo">047</span><a name="line.47"></a>
-<span class="sourceLineNo">048</span>}<a name="line.48"></a>
+<span class="sourceLineNo">035</span><a name="line.35"></a>
+<span class="sourceLineNo">036</span>  /**<a name="line.36"></a>
+<span class="sourceLineNo">037</span>   * A taxon is Extinct in the Wild when it is known only to survive in cultivation, in captivity or as a naturalized<a name="line.37"></a>
+<span class="sourceLineNo">038</span>   * population (or populations) well outside the past range. A taxon is presumed Extinct in the Wild when exhaustive<a name="line.38"></a>
+<span class="sourceLineNo">039</span>   * surveys in known and/or expected habitat, at appropriate times (diurnal, seasonal, annual), throughout its historic<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   * range have failed to record an individual. Surveys should be over a time frame appropriate to the taxon's life<a name="line.40"></a>
+<span class="sourceLineNo">041</span>   * cycle and life form.<a name="line.41"></a>
+<span class="sourceLineNo">042</span>   */<a name="line.42"></a>
+<span class="sourceLineNo">043</span>  EXTINCT_IN_THE_WILD("EW"),<a name="line.43"></a>
+<span class="sourceLineNo">044</span><a name="line.44"></a>
+<span class="sourceLineNo">045</span>  /**<a name="line.45"></a>
+<span class="sourceLineNo">046</span>   * Category for a taxon when there is no reasonable doubt that the last individual potentially capable of reproduction<a name="line.46"></a>
+<span class="sourceLineNo">047</span>   * within the region has died or has disappeared from the wild in the region, or when, if it is a former visiting<a name="line.47"></a>
+<span class="sourceLineNo">048</span>   * taxon, the last individual has died or disappeared in the wild from the region. The setting of any time limit for<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   * listing under RE is left to the discretion of the regional Red List authority, but should not normally pre-date<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   * 1500 AD.<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   */<a name="line.51"></a>
+<span class="sourceLineNo">052</span>  REGIONALLY_EXTINCT("RE"),<a name="line.52"></a>
+<span class="sourceLineNo">053</span><a name="line.53"></a>
+<span class="sourceLineNo">054</span>  /**<a name="line.54"></a>
+<span class="sourceLineNo">055</span>   * A taxon is Critically Endangered when the best available evidence indicates that it meets any of the criteria A to<a name="line.55"></a>
+<span class="sourceLineNo">056</span>   * E for Critically Endangered (see Section V), and it is therefore considered to be facing an extremely high risk of<a name="line.56"></a>
+<span class="sourceLineNo">057</span>   * extinction in the wild.<a name="line.57"></a>
+<span class="sourceLineNo">058</span>   */<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  CRITICALLY_ENDANGERED("CR"),<a name="line.59"></a>
+<span class="sourceLineNo">060</span><a name="line.60"></a>
+<span class="sourceLineNo">061</span>  /**<a name="line.61"></a>
+<span class="sourceLineNo">062</span>   * A taxon is Endangered when the best available evidence indicates that it meets any of the criteria A to E for<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   * Endangered (see Section V), and it is therefore considered to be facing a very high risk of extinction in the wild.<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   */<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  ENDANGERED("EN"),<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>  /**<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   * A taxon is Vulnerable when the best available evidence indicates that it meets any of the criteria A to E for<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   * Vulnerable (see Section V), and it is therefore considered to be facing a high risk of extinction in the wild.<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   */<a name="line.70"></a>
+<span class="sourceLineNo">071</span>  VULNERABLE("VU"),<a name="line.71"></a>
+<span class="sourceLineNo">072</span><a name="line.72"></a>
+<span class="sourceLineNo">073</span>  /**<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   * A taxon is Near Threatened when it has been evaluated against the criteria but does not qualify for Critically<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   * Endangered, Endangered or Vulnerable now, but is close to qualifying for or is likely to qualify for a threatened<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   * category in the near future.<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   */<a name="line.77"></a>
+<span class="sourceLineNo">078</span>  NEAR_THREATENED("NT"),<a name="line.78"></a>
+<span class="sourceLineNo">079</span><a name="line.79"></a>
+<span class="sourceLineNo">080</span>  /**<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   * A taxon is Least Concern when it has been evaluated against the criteria and does not qualify for Critically<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   * Endangered, Endangered, Vulnerable or Near Threatened. Widespread and abundant taxa are included in this category.<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   */<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  LEAST_CONCERN("LC"),<a name="line.84"></a>
+<span class="sourceLineNo">085</span><a name="line.85"></a>
+<span class="sourceLineNo">086</span>  /**<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * A taxon is Data Deficient when there is inadequate information to make a direct, or indirect, assessment of its<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   * risk of extinction based on its distribution and/or population status. A taxon in this category may be well<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * studied, and its biology well known, but appropriate data on abundance and/or distribution are lacking. Data<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   * Deficient is therefore not a category of threat. Listing of taxa in this category indicates that more information<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   * is required and acknowledges the possibility that future research will show that threatened classification is<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   * appropriate. It is important to make positive use of whatever data are available. In many cases great care should<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * be exercised in choosing between DD and a threatened status. If the range of a taxon is suspected to be relatively<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   * circumscribed, and a considerable period of time has elapsed since the last record of the taxon, threatened status<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * may well be justified.<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   */<a name="line.96"></a>
+<span class="sourceLineNo">097</span>  DATA_DEFICIENT("DD"),<a name="line.97"></a>
+<span class="sourceLineNo">098</span><a name="line.98"></a>
+<span class="sourceLineNo">099</span>  /**<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   * Category for a taxon deemed to be ineligible for assessment at a regional level. A taxon may be NA because it is<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   * not a wild population or not within its natural range in the region, or because it is a vagrant to the region. It<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   * may also be NA because it occurs at very low numbers in the region (i.e. when the regional Red List authority has<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   * decided to use a filter to exclude taxa before the assessment procedure) or the taxon may be classified at a lower<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   * taxonomic level (e.g. below the level of species or subspecies) than considered eligible by the regional Red List<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   * authority. In contrast to other Red List Categories, it is not mandatory to use NA for all taxa to which it<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   * applies; but is recommended for taxa where its use is informative.<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   */<a name="line.107"></a>
+<span class="sourceLineNo">108</span>  NOT_APPLICABLE("NA"),<a name="line.108"></a>
+<span class="sourceLineNo">109</span><a name="line.109"></a>
+<span class="sourceLineNo">110</span>  /**<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   * A taxon is Not Evaluated when it is has not yet been evaluated against the criteria.<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   */<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  NOT_EVALUATED("NE");<a name="line.113"></a>
+<span class="sourceLineNo">114</span><a name="line.114"></a>
+<span class="sourceLineNo">115</span>  private final String code;<a name="line.115"></a>
+<span class="sourceLineNo">116</span><a name="line.116"></a>
+<span class="sourceLineNo">117</span>  ThreatStatus(String code) {<a name="line.117"></a>
+<span class="sourceLineNo">118</span>    this.code = code;<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  }<a name="line.119"></a>
+<span class="sourceLineNo">120</span><a name="line.120"></a>
+<span class="sourceLineNo">121</span>  public String getCode() {<a name="line.121"></a>
+<span class="sourceLineNo">122</span>    return code;<a name="line.122"></a>
+<span class="sourceLineNo">123</span>  }<a name="line.123"></a>
+<span class="sourceLineNo">124</span>}<a name="line.124"></a>
 
 
 
