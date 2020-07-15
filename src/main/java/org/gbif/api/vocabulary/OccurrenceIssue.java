@@ -289,9 +289,24 @@ public enum OccurrenceIssue implements InterpretationRemark {
   INTERPRETATION_ERROR(ERROR),
 
   /**
-   * Individual count value not parsable into an integer.
+   * The individual count value is not a positive integer
    */
-  INDIVIDUAL_COUNT_INVALID(WARNING, DwcTerm.individualCount);
+  INDIVIDUAL_COUNT_INVALID(WARNING, DwcTerm.individualCount),
+
+  /**
+   * Example: individual count value > 0, but occurrence status is absent and etc.
+   */
+  INDIVIDUAL_COUNT_CONFLICTS_WITH_OCCURRENCE_STATUS(WARNING, DwcTerm.individualCount),
+
+  /**
+   * Occurrence status value can't be assigned to {@link OccurrenceStatus}
+   */
+  OCCURRENCE_STATUS_UNPARSABLE(WARNING, DwcTerm.occurrenceStatus),
+
+  /**
+   * Occurrence status was inferred from the individual count value
+   */
+  OCCURRENCE_STATUS_INFERRED_FROM_INDIVIDUAL_COUNT(WARNING, DwcTerm.occurrenceStatus);
 
   /**
    * Simple helper nested class to allow grouping of Term mostly to increase readability of this
