@@ -762,7 +762,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * @return the year of the event date
    */
   @Min(1500)
-  @Max(2020)
+  @Max(2030)
   @Nullable
   public Integer getYear() {
     return year;
