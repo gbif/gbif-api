@@ -160,7 +160,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   // interpreted extension data
   private List<Identifier> identifiers = new ArrayList<>();
   private List<MediaObject> media = new ArrayList<>();
-  private List<FactOrMeasurment> facts = new ArrayList<>();
+  private List<MeasurementOrFact> facts = new ArrayList<>();
   private List<OccurrenceRelation> relations = new ArrayList<>();
   @JsonProperty("recordedByIDs")
   private List<AgentIdentifier> recordedByIds = new ArrayList<>();
@@ -985,11 +985,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @NotNull
-  public List<FactOrMeasurment> getFacts() {
+  public List<MeasurementOrFact> getFacts() {
     return facts;
   }
 
-  public void setFacts(List<FactOrMeasurment> facts) {
+  public void setFacts(List<MeasurementOrFact> facts) {
     this.facts = facts;
   }
 
