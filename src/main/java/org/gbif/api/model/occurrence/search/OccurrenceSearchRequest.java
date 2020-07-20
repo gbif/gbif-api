@@ -23,6 +23,7 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
+import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.TypeStatus;
 
 import java.util.Date;
@@ -192,6 +193,10 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
 
   public void addIdentifiedByIdsFilter(String identifiedByIds) {
     addParameter(OccurrenceSearchParameter.IDENTIFIED_BY_ID, identifiedByIds);
+  }
+
+  public void addOccurrenceStatusFilter(OccurrenceStatus occurrenceStatus) {
+    addParameter(OccurrenceSearchParameter.OCCURRENCE_STATUS, occurrenceStatus);
   }
 
 }

@@ -27,6 +27,7 @@ import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.LifeStage;
 import org.gbif.api.vocabulary.OccurrenceIssue;
+import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.Sex;
 import org.gbif.api.vocabulary.TaxonomicStatus;
@@ -82,6 +83,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   // occurrence fields
   private BasisOfRecord basisOfRecord;
   private Integer individualCount;
+  private OccurrenceStatus occurrenceStatus;
   private Sex sex;
   private LifeStage lifeStage;
   private EstablishmentMeans establishmentMeans;
@@ -211,6 +213,15 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setIndividualCount(Integer individualCount) {
     this.individualCount = individualCount;
+  }
+
+  @Nullable
+  public OccurrenceStatus getOccurrenceStatus() {
+    return occurrenceStatus;
+  }
+
+  public void setOccurrenceStatus(OccurrenceStatus occurrenceStatus) {
+    this.occurrenceStatus = occurrenceStatus;
   }
 
   @Nullable
@@ -1110,7 +1121,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       Objects.equals(facts, that.facts) &&
       Objects.equals(relations, that.relations) &&
       Objects.equals(identifiedByIds, that.identifiedByIds) &&
-      Objects.equals(recordedByIds, that.recordedByIds);
+      Objects.equals(recordedByIds, that.recordedByIds) &&
+      Objects.equals(occurrenceStatus, that.occurrenceStatus);
   }
 
   @Override
@@ -1126,7 +1138,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         month, day, eventDate, typeStatus, typifiedName, issues, modified, lastInterpreted,
         references, license, organismQuantity, organismQuantityType, sampleSizeUnit,
         sampleSizeValue, relativeOrganismQuantity, identifiers, media, facts, relations, recordedByIds,
-        identifiedByIds);
+        identifiedByIds, occurrenceStatus);
   }
 
   @Override
@@ -1198,6 +1210,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("relations=" + relations)
       .add("recordedByIds=" + recordedByIds)
       .add("identifiedByIds=" + identifiedByIds)
+      .add("occurrenceStatus=" + occurrenceStatus)
       .toString();
   }
 
