@@ -480,7 +480,47 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * An occurrence status enumeration value.
    */
-  OCCURRENCE_STATUS(OccurrenceStatus.class);
+  OCCURRENCE_STATUS(OccurrenceStatus.class),
+
+  /**
+   * A <a href="https://gadm.org">GADM</a> country, island or territory (level zero)identifier.
+   */
+  GADM_LEVEL_0_GID(String.class),
+
+  /**
+   * A <a href="https://gadm.org">GADM</a> country, island or territory (level zero) name.
+   */
+  GADM_LEVEL_0_NAME(String.class),
+
+  /**
+   * A <a href="https://gadm.org">GADM</a> first-level identifier.
+   */
+  GADM_LEVEL_1_GID(String.class),
+
+  /**
+   * A <a href="https://gadm.org">GADM</a> first-level name.
+   */
+  GADM_LEVEL_1_NAME(String.class),
+
+  /**
+   * A <a href="https://gadm.org">GADM</a> second-level identifier.
+   */
+  GADM_LEVEL_2_GID(String.class),
+
+  /**
+   * A <a href="https://gadm.org">GADM</a> second-level name.
+   */
+  GADM_LEVEL_2_NAME(String.class),
+
+  /**
+   * A <a href="https://gadm.org">GADM</a> third-level identifier.
+   */
+  GADM_LEVEL_3_GID(String.class),
+
+  /**
+   * A <a href="https://gadm.org">GADM</a> third-level name.
+   */
+  GADM_LEVEL_3_NAME(String.class);
 
   private final Class<?> type;
 
@@ -494,5 +534,4 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   public Class<?> type() {
     return type;
   }
-
 }
