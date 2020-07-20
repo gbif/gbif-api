@@ -24,6 +24,7 @@ import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
+import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.TypeStatus;
 
@@ -474,7 +475,12 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Agent identifiers from GbifTerm.identifiedByID
    */
-  IDENTIFIED_BY_ID(String.class);
+  IDENTIFIED_BY_ID(String.class),
+
+  /**
+   * An occurrence status enumeration value.
+   */
+  OCCURRENCE_STATUS(OccurrenceStatus.class);
 
   private final Class<?> type;
 
