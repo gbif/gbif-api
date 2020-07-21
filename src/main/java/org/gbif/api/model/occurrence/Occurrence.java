@@ -74,7 +74,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   // keep names of ALL properties of this class in a set for jackson serialization, see #properties()
   private static final Set<String> PROPERTIES = Collections.unmodifiableSet(
     Stream.concat(
-      // we need to these json properties manually cause we have a fixed getter but no field for it
+      // we need to these json properties manually because we have a fixed getter but no field for it
       Stream.of(DwcTerm.geodeticDatum.simpleName(), "class", "countryCode"),
       Stream.concat(Arrays.stream(Occurrence.class.getDeclaredFields()),
         Arrays.stream(VerbatimOccurrence.class.getDeclaredFields()))
@@ -138,6 +138,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Country country;
   private String stateProvince;
   private String waterBody;
+
   // recording event
   private Integer year;
   private Integer month;
@@ -168,6 +169,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private List<AgentIdentifier> recordedByIds = new ArrayList<>();
   @JsonProperty("identifiedByIDs")
   private List<AgentIdentifier> identifiedByIds = new ArrayList<>();
+  private Gadm gadm = new Gadm();
 
   public Occurrence() {
 
@@ -1031,6 +1033,15 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.identifiedByIds = identifiedByIds;
   }
 
+  @NotNull
+  public Gadm getGadm() {
+    return gadm;
+  }
+
+  public void setGadm(Gadm gadm) {
+    this.gadm = gadm;
+  }
+
   /**
    * Convenience method checking if any spatial validation rule has not passed.
    * Primarily used to indicate that the record should not be displayed on a map.
@@ -1122,7 +1133,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       Objects.equals(relations, that.relations) &&
       Objects.equals(identifiedByIds, that.identifiedByIds) &&
       Objects.equals(recordedByIds, that.recordedByIds) &&
-      Objects.equals(occurrenceStatus, that.occurrenceStatus);
+      Objects.equals(occurrenceStatus, that.occurrenceStatus) &&
+      Objects.equals(gadm, that.gadm);
   }
 
   @Override
@@ -1138,7 +1150,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         month, day, eventDate, typeStatus, typifiedName, issues, modified, lastInterpreted,
         references, license, organismQuantity, organismQuantityType, sampleSizeUnit,
         sampleSizeValue, relativeOrganismQuantity, identifiers, media, facts, relations, recordedByIds,
-        identifiedByIds, occurrenceStatus);
+        identifiedByIds, occurrenceStatus, gadm);
   }
 
   @Override
@@ -1211,6 +1223,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("recordedByIds=" + recordedByIds)
       .add("identifiedByIds=" + identifiedByIds)
       .add("occurrenceStatus=" + occurrenceStatus)
+      .add("gadm=" + gadm)
       .toString();
   }
 
