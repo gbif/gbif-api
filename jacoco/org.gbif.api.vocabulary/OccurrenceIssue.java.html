@@ -289,9 +289,24 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
 <span class="fc" id="L289">  INTERPRETATION_ERROR(ERROR),</span>
 
   /**
-   * Individual count value not parsable into an integer.
+   * The individual count value is not a positive integer
    */
-<span class="fc" id="L294">  INDIVIDUAL_COUNT_INVALID(WARNING, DwcTerm.individualCount);</span>
+<span class="fc" id="L294">  INDIVIDUAL_COUNT_INVALID(WARNING, DwcTerm.individualCount),</span>
+
+  /**
+   * Example: individual count value &gt; 0, but occurrence status is absent and etc.
+   */
+<span class="fc" id="L299">  INDIVIDUAL_COUNT_CONFLICTS_WITH_OCCURRENCE_STATUS(WARNING, DwcTerm.individualCount),</span>
+
+  /**
+   * Occurrence status value can't be assigned to {@link OccurrenceStatus}
+   */
+<span class="fc" id="L304">  OCCURRENCE_STATUS_UNPARSABLE(WARNING, DwcTerm.occurrenceStatus),</span>
+
+  /**
+   * Occurrence status was inferred from the individual count value
+   */
+<span class="fc" id="L309">  OCCURRENCE_STATUS_INFERRED_FROM_INDIVIDUAL_COUNT(WARNING, DwcTerm.occurrenceStatus);</span>
 
   /**
    * Simple helper nested class to allow grouping of Term mostly to increase readability of this
@@ -299,7 +314,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
    */
   private static class TermsGroup {
 
-<span class="fc" id="L302">    static final Term[] COORDINATES_TERMS_NO_DATUM = {</span>
+<span class="fc" id="L317">    static final Term[] COORDINATES_TERMS_NO_DATUM = {</span>
       DwcTerm.decimalLatitude,
       DwcTerm.decimalLongitude,
       DwcTerm.verbatimLatitude,
@@ -307,7 +322,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.verbatimCoordinates
     };
 
-<span class="fc" id="L310">    static final Term[] COORDINATES_TERMS = {</span>
+<span class="fc" id="L325">    static final Term[] COORDINATES_TERMS = {</span>
       DwcTerm.decimalLatitude,
       DwcTerm.decimalLongitude,
       DwcTerm.verbatimLatitude,
@@ -316,12 +331,12 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.geodeticDatum
     };
 
-<span class="fc" id="L319">    static final Term[] COUNTRY_TERMS = {</span>
+<span class="fc" id="L334">    static final Term[] COUNTRY_TERMS = {</span>
       DwcTerm.country,
       DwcTerm.countryCode
     };
 
-<span class="fc" id="L324">    static final Term[] COORDINATES_COUNTRY_TERMS = {</span>
+<span class="fc" id="L339">    static final Term[] COORDINATES_COUNTRY_TERMS = {</span>
       DwcTerm.decimalLatitude,
       DwcTerm.decimalLongitude,
       DwcTerm.verbatimLatitude,
@@ -332,12 +347,12 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.countryCode
     };
 
-<span class="fc" id="L335">    static final Term[] RECORDED_DATE_TERMS = {</span>
+<span class="fc" id="L350">    static final Term[] RECORDED_DATE_TERMS = {</span>
       DwcTerm.eventDate,
       DwcTerm.year, DwcTerm.month, DwcTerm.day
     };
 
-<span class="fc" id="L340">    static final Term[] TAXONOMY_TERMS = {</span>
+<span class="fc" id="L355">    static final Term[] TAXONOMY_TERMS = {</span>
       DwcTerm.kingdom,
       DwcTerm.phylum,
       DwcTerm.class_,
@@ -359,56 +374,56 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
   /**
    * {@link OccurrenceIssue} not linked to any specific {@link Term}.
    */
-<span class="fc" id="L362">  OccurrenceIssue(InterpretationRemarkSeverity severity) {</span>
-<span class="fc" id="L363">    this.severity = severity;</span>
-<span class="fc" id="L364">    this.relatedTerms = Collections.emptySet();</span>
-<span class="fc" id="L365">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
-<span class="fc" id="L366">  }</span>
+<span class="fc" id="L377">  OccurrenceIssue(InterpretationRemarkSeverity severity) {</span>
+<span class="fc" id="L378">    this.severity = severity;</span>
+<span class="fc" id="L379">    this.relatedTerms = Collections.emptySet();</span>
+<span class="fc" id="L380">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
+<span class="fc" id="L381">  }</span>
 
   /**
    * {@link OccurrenceIssue} linked to the provided {@link Term}.
    *
    * @param relatedTerms
    */
-<span class="fc" id="L373">  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {</span>
-<span class="fc" id="L374">    this.severity = severity;</span>
-<span class="fc" id="L375">    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));</span>
-<span class="fc" id="L376">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
-<span class="fc" id="L377">  }</span>
+<span class="fc" id="L388">  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {</span>
+<span class="fc" id="L389">    this.severity = severity;</span>
+<span class="fc" id="L390">    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));</span>
+<span class="fc" id="L391">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
+<span class="fc" id="L392">  }</span>
 
   @Override
   public String getId() {
-<span class="fc" id="L381">    return name();</span>
+<span class="fc" id="L396">    return name();</span>
   }
 
   @Override
   public Set&lt;Term&gt; getRelatedTerms() {
-<span class="nc" id="L386">    return relatedTerms;</span>
+<span class="nc" id="L401">    return relatedTerms;</span>
   }
 
   @Override
   public InterpretationRemarkSeverity getSeverity() {
-<span class="fc" id="L391">    return severity;</span>
+<span class="fc" id="L406">    return severity;</span>
   }
 
   @Override
   public boolean isDeprecated() {
-<span class="fc" id="L396">    return isDeprecated;</span>
+<span class="fc" id="L411">    return isDeprecated;</span>
   }
 
   /**
    * All issues that indicate problems with the coordinates and thus should not be shown on maps.
    */
-<span class="fc" id="L402">  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =</span>
-<span class="fc" id="L403">    Collections.unmodifiableList(</span>
-<span class="fc" id="L404">      Arrays.asList(</span>
+<span class="fc" id="L417">  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =</span>
+<span class="fc" id="L418">    Collections.unmodifiableList(</span>
+<span class="fc" id="L419">      Arrays.asList(</span>
         ZERO_COORDINATE,
         COORDINATE_INVALID,
         COORDINATE_OUT_OF_RANGE,
         COUNTRY_COORDINATE_MISMATCH));
-<span class="fc" id="L409">  public static final List&lt;OccurrenceIssue&gt; TAXONOMIC_RULES =</span>
-<span class="fc" id="L410">    Collections.unmodifiableList(</span>
-<span class="fc" id="L411">      Arrays.asList(</span>
+<span class="fc" id="L424">  public static final List&lt;OccurrenceIssue&gt; TAXONOMIC_RULES =</span>
+<span class="fc" id="L425">    Collections.unmodifiableList(</span>
+<span class="fc" id="L426">      Arrays.asList(</span>
         TAXON_MATCH_FUZZY,
         TAXON_MATCH_HIGHERRANK,
         TAXON_MATCH_NONE));
