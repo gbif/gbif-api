@@ -18,6 +18,7 @@ package org.gbif.api.model.collections.lookup;
 import org.gbif.api.model.collections.CollectionEntity;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -32,6 +33,26 @@ import java.util.StringJoiner;
  *     org.gbif.api.model.collections.Institution}
  */
 public class Match<T extends CollectionEntity> {
+
+  public static final Comparator<MatchType> MATCH_TYPE_COMPARATOR =
+      (t1, t2) -> {
+        if (t1 == null) {
+          return t2 == null ? 0 : 1;
+        } else if (t2 == null) {
+          return -1;
+        }
+
+        if (t1 == t2) {
+          return 0;
+        }
+        if (t1 == Match.MatchType.EXACT) {
+          return -1;
+        }
+        if (t2 == Match.MatchType.EXACT) {
+          return 1;
+        }
+        return t1.compareTo(t2);
+      };
 
   private MatchType type;
   private Set<MatchRemark> remarks = new HashSet<>();
@@ -51,6 +72,16 @@ public class Match<T extends CollectionEntity> {
     Match<T> match = new Match<>();
     match.setEntityMatched(entity);
     match.setType(MatchType.FUZZY);
+    if (remarks != null) {
+      match.setRemarks(new HashSet<>(Arrays.asList(remarks)));
+    }
+    return match;
+  }
+
+  public static <T extends CollectionEntity> Match<T> machineTag(T entity, MatchRemark... remarks) {
+    Match<T> match = new Match<>();
+    match.setEntityMatched(entity);
+    match.setType(MatchType.MACHINE_TAG);
     if (remarks != null) {
       match.setRemarks(new HashSet<>(Arrays.asList(remarks)));
     }
@@ -87,7 +118,8 @@ public class Match<T extends CollectionEntity> {
 
   public enum MatchType {
     EXACT,
-    FUZZY;
+    FUZZY,
+    MACHINE_TAG;
   }
 
   public enum MatchRemark {
@@ -96,7 +128,11 @@ public class Match<T extends CollectionEntity> {
     ALTERNATIVE_CODE_MATCH,
     NAME_MATCH,
     PROBABLY_ON_LOAN,
-    INST_COLL_MISMATCH;
+    INST_COLL_MISMATCH,
+    INSTITUTION_TAG,
+    COLLECTION_TAG,
+    COLLECTION_TO_INSTITUTION_TAG,
+    INSTITUTION_TO_COLLECTION_TAG;
   }
 
   @Override
