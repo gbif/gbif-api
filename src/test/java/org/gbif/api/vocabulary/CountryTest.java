@@ -111,7 +111,7 @@ public class CountryTest {
       assertNotNull(l.getTitle());
       assertTrue(l.getTitle().length() > 2);
     }
-    assertEquals("United Kingdom", Country.UNITED_KINGDOM.getTitle());
+    assertEquals("United Kingdom of Great Britain and Northern Ireland", Country.UNITED_KINGDOM.getTitle());
     assertEquals("Germany", Country.GERMANY.getTitle());
   }
 
