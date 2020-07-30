@@ -44,10 +44,13 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
 
   /**
    * This flag enables the use of verbatim (case sensitive) matches and aggregations on certain search parameters.
+   * <p>
    * Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol, catalogNumber, collectionCode,
-   * institutionCode, eventId, parentEventId, waterBody, stateProvince,recordNumber, identifiedBy, organismId and locality.
-   * This is an experimental feature and its implementation can change or even being removed at ny moment.
-   * Be aware that this is not a per-field flag, all possible fields will match against its verbatim value.
+   * institutionCode, eventId, parentEventId, waterBody, stateProvince, recordNumber, identifiedBy, organismId and locality.
+   * <p>
+   * This is an experimental feature and its implementation map change or be removed at any time.
+   * <p>
+   * Be aware that this is not a per-field flag, all possible fields will match against their verbatim values.
    */
   @Experimental
   public boolean isVerbatimMatch() {

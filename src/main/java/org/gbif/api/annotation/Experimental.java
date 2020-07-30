@@ -22,13 +22,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *
  * Experimental features are available but are not as robustly supported as other features.
+ * <p>
  * In particular, experimental features:
- * - Are not tested as well as stable features.
- * - Do not get bugs fixed as quickly as established features.
- * - The APIs could drastically change if we find a different, better way to solve the same problem.
- * - May disappear entirely if the feature is too difficult to support.
+ * <ul>
+ * <li> Are not tested as well as stable features.
+ * <li> Do not get bugs fixed as quickly as established features.
+ * <li> The APIs could drastically change if we find a different, better way to solve the same problem.
+ * <li> May disappear entirely if the feature is too difficult to support.
+ * </ul>
  */
 
 @Documented
