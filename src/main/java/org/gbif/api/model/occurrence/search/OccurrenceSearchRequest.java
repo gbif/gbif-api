@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.occurrence.search;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.FacetedSearchRequest;
 import org.gbif.api.vocabulary.BasisOfRecord;
@@ -34,9 +35,31 @@ import java.util.UUID;
  */
 public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSearchParameter> {
 
+  private boolean verbatimMatch;
+
   public OccurrenceSearchRequest() {
     // empty block
     super();
+  }
+
+  /**
+   * This flag enables the use of verbatim (case sensitive) matches and aggregations on certain search parameters.
+   * <p>
+   * Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol, catalogNumber, collectionCode,
+   * institutionCode, eventId, parentEventId, waterBody, stateProvince, recordNumber, identifiedBy, organismId and locality.
+   * <p>
+   * This is an experimental feature and its implementation map change or be removed at any time.
+   * <p>
+   * Be aware that this is not a per-field flag, all possible fields will match against their verbatim values.
+   */
+  @Experimental
+  public boolean isVerbatimMatch() {
+    return verbatimMatch;
+  }
+
+  @Experimental
+  public void setVerbatimMatch(boolean verbatimMatch) {
+    this.verbatimMatch = verbatimMatch;
   }
 
   public OccurrenceSearchRequest(long offset, int limit) {
