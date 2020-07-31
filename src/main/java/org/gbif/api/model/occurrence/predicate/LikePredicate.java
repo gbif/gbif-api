@@ -32,8 +32,8 @@ public class LikePredicate extends SimplePredicate {
   public LikePredicate(
     @JsonProperty("key") OccurrenceSearchParameter key,
     @JsonProperty("value") String value,
-    @JsonProperty(value = "matchVerbatim", defaultValue = "false") boolean matchVerbatim) {
-    super(false, key, value, matchVerbatim);
+    @JsonProperty(value = "matchCase", defaultValue = "false") boolean matchCase) {
+    super(false, key, value, matchCase);
     // make sure we deal with a String type
     if (!String.class.equals(key.type())) {
       throw new IllegalArgumentException("Like comparisons are only allowed for strings but not parameter " + key);

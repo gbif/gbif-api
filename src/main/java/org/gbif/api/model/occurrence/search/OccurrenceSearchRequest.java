@@ -35,7 +35,7 @@ import java.util.UUID;
  */
 public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSearchParameter> {
 
-  private boolean verbatimMatch;
+  private boolean matchCase;
 
   public OccurrenceSearchRequest() {
     // empty block
@@ -53,13 +53,13 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
    * Be aware that this is not a per-field flag, all possible fields will match against their verbatim values.
    */
   @Experimental
-  public boolean isVerbatimMatch() {
-    return verbatimMatch;
+  public boolean isMatchCase() {
+    return matchCase;
   }
 
   @Experimental
-  public void setVerbatimMatch(boolean verbatimMatch) {
-    this.verbatimMatch = verbatimMatch;
+  public void setMatchCase(boolean matchCase) {
+    this.matchCase = matchCase;
   }
 
   public OccurrenceSearchRequest(long offset, int limit) {

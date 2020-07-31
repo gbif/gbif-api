@@ -31,8 +31,8 @@ public class EqualsPredicate extends SimplePredicate {
   public EqualsPredicate(
     @JsonProperty("key") OccurrenceSearchParameter key,
     @JsonProperty("value") String value,
-    @JsonProperty(value = "matchVerbatim", defaultValue = "false") boolean matchVerbatim) {
-    super(false, key, value, matchVerbatim);
+    @JsonProperty(value = "matchCase", defaultValue = "false") boolean matchCase) {
+    super(false, key, value, matchCase);
   }
 
   @Override

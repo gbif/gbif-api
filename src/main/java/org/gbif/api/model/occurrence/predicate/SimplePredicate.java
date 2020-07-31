@@ -38,13 +38,14 @@ public class SimplePredicate implements Predicate {
 
   @Experimental
   @Nullable
-  private final boolean matchVerbatim;
+  private final boolean matchCase;
 
   protected SimplePredicate(boolean checkForNonEquals,
                             OccurrenceSearchParameter key,
                             String value,
-                            boolean matchVerbatim) {
-    this.matchVerbatim = matchVerbatim;
+                            boolean matchCase
+  ) {
+    this.matchCase = matchCase;
     Objects.requireNonNull(key, "<key> may not be null");
     Objects.requireNonNull(value, "<value> may not be null");
     checkArgument(!value.isEmpty(), "<value> may not be empty");
@@ -68,8 +69,19 @@ public class SimplePredicate implements Predicate {
     return value;
   }
 
-  public boolean isMatchVerbatim() {
-    return matchVerbatim;
+  /**
+   * This flag enables the use of verbatim (case sensitive) matches and aggregations on certain search parameters.
+   * <p>
+   * Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol, catalogNumber, collectionCode,
+   * institutionCode, eventId, parentEventId, waterBody, stateProvince, recordNumber, identifiedBy, organismId and locality.
+   * <p>
+   * This is an experimental feature and its implementation map change or be removed at any time.
+   * <p>
+   * Be aware that this is not a per-field flag, all possible fields will match against their verbatim values.
+   */
+  @Experimental
+  public boolean isMatchCase() {
+    return matchCase;
   }
 
   /**
@@ -103,7 +115,7 @@ public class SimplePredicate implements Predicate {
     SimplePredicate that = (SimplePredicate) o;
     return key == that.key &&
            Objects.equals(value, that.value) &&
-           matchVerbatim == that.matchVerbatim;
+           matchCase == that.matchCase;
   }
 
   @Override
@@ -116,7 +128,7 @@ public class SimplePredicate implements Predicate {
     return new StringJoiner(", ", SimplePredicate.class.getSimpleName() + "[", "]")
       .add("key=" + key)
       .add("value='" + value + "'")
-      .add("matchVerbatim='" + matchVerbatim + "'")
+      .add("matchCase='" + matchCase + "'")
       .toString();
   }
 }

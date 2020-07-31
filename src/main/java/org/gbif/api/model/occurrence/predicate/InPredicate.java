@@ -48,13 +48,13 @@ public class InPredicate implements Predicate {
 
   @Experimental
   @Nullable
-  private final boolean matchVerbatim;
+  private final boolean matchCase;
 
   @JsonCreator
   public InPredicate(@JsonProperty("key") OccurrenceSearchParameter key,
                      @JsonProperty("values") Collection<String> values,
-                     @JsonProperty(value = "matchVerbatim", defaultValue = "false") boolean matchVerbatim) {
-    this.matchVerbatim = matchVerbatim;
+                     @JsonProperty(value = "matchCase", defaultValue = "false") boolean matchCase) {
+    this.matchCase = matchCase;
     Objects.requireNonNull(key, "<key> may not be null");
     Objects.requireNonNull(values, "<values> may not be null");
     checkArgument(!values.isEmpty(), "<values> may not be empty");
@@ -75,8 +75,19 @@ public class InPredicate implements Predicate {
     return values;
   }
 
-  public boolean isMatchVerbatim() {
-    return matchVerbatim;
+  /**
+   * This flag enables the use of verbatim (case sensitive) matches and aggregations on certain search parameters.
+   * <p>
+   * Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol, catalogNumber, collectionCode,
+   * institutionCode, eventId, parentEventId, waterBody, stateProvince, recordNumber, identifiedBy, organismId and locality.
+   * <p>
+   * This is an experimental feature and its implementation map change or be removed at any time.
+   * <p>
+   * Be aware that this is not a per-field flag, all possible fields will match against their verbatim values.
+   */
+  @Experimental
+  public boolean isMatchCase() {
+    return matchCase;
   }
 
   @Override
@@ -90,7 +101,7 @@ public class InPredicate implements Predicate {
     InPredicate that = (InPredicate) o;
     return key == that.key &&
            Objects.equals(values, that.values) &&
-           matchVerbatim == that.matchVerbatim;
+           matchCase == that.matchCase;
   }
 
   @Override
@@ -103,7 +114,7 @@ public class InPredicate implements Predicate {
     return new StringJoiner(", ", InPredicate.class.getSimpleName() + "[", "]")
       .add("key=" + key)
       .add("values=" + values)
-      .add("matchVerbatim=" + matchVerbatim)
+      .add("matchCase=" + matchCase)
       .toString();
   }
 }
