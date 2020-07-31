@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.collections.lookup;
 
+import org.gbif.api.vocabulary.Country;
 import org.gbif.common.shaded.com.google.common.base.Strings;
 
 import java.util.Objects;
@@ -30,6 +31,8 @@ public class LookupParams {
   private String collectionCode;
   private String collectionId;
   private UUID datasetKey;
+  private Country country;
+  private boolean verbose;
 
   public String getInstitutionCode() {
     return institutionCode;
@@ -79,6 +82,22 @@ public class LookupParams {
     this.datasetKey = datasetKey;
   }
 
+  public Country getCountry() {
+    return country;
+  }
+
+  public void setCountry(Country country) {
+    this.country = country;
+  }
+
+  public boolean isVerbose() {
+    return verbose;
+  }
+
+  public void setVerbose(boolean verbose) {
+    this.verbose = verbose;
+  }
+
   public boolean containsInstitutionParams() {
     return !Strings.isNullOrEmpty(institutionCode)
         || !Strings.isNullOrEmpty(institutionId)
@@ -98,12 +117,14 @@ public class LookupParams {
       return false;
     }
     LookupParams that = (LookupParams) o;
-    return Objects.equals(institutionCode, that.institutionCode)
+    return verbose == that.verbose
+        && Objects.equals(institutionCode, that.institutionCode)
         && Objects.equals(ownerInstitutionCode, that.ownerInstitutionCode)
         && Objects.equals(institutionId, that.institutionId)
         && Objects.equals(collectionCode, that.collectionCode)
         && Objects.equals(collectionId, that.collectionId)
-        && Objects.equals(datasetKey, that.datasetKey);
+        && Objects.equals(datasetKey, that.datasetKey)
+        && country == that.country;
   }
 
   @Override
@@ -114,7 +135,9 @@ public class LookupParams {
         institutionId,
         collectionCode,
         collectionId,
-        datasetKey);
+        datasetKey,
+        country,
+        verbose);
   }
 
   @Override
@@ -126,6 +149,8 @@ public class LookupParams {
         .add("collectionCode='" + collectionCode + "'")
         .add("collectionId='" + collectionId + "'")
         .add("datasetKey=" + datasetKey)
+        .add("country=" + country)
+        .add("verbose=" + verbose)
         .toString();
   }
 }

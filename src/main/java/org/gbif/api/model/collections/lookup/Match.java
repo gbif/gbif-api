@@ -54,58 +54,81 @@ public class Match<T extends CollectionEntity> {
         return t1.compareTo(t2);
       };
 
-  private MatchType type;
-  private Set<MatchRemark> remarks = new HashSet<>();
+  private MatchType matchType;
+  private Status status;
+  private Set<Reason> reasons = new HashSet<>();
   private T entityMatched;
 
-  public static <T extends CollectionEntity> Match<T> exact(T entity, MatchRemark... remarks) {
+  public static <T extends CollectionEntity> Match<T> exact(T entity, Reason... reasons) {
     Match<T> match = new Match<>();
     match.setEntityMatched(entity);
-    match.setType(MatchType.EXACT);
-    if (remarks != null) {
-      match.setRemarks(new HashSet<>(Arrays.asList(remarks)));
+    match.setMatchType(MatchType.EXACT);
+    if (reasons != null) {
+      match.setReasons(new HashSet<>(Arrays.asList(reasons)));
     }
     return match;
   }
 
-  public static <T extends CollectionEntity> Match<T> fuzzy(T entity, MatchRemark... remarks) {
+  public static <T extends CollectionEntity> Match<T> fuzzy(T entity, Reason... reasons) {
     Match<T> match = new Match<>();
     match.setEntityMatched(entity);
-    match.setType(MatchType.FUZZY);
-    if (remarks != null) {
-      match.setRemarks(new HashSet<>(Arrays.asList(remarks)));
+    match.setMatchType(MatchType.FUZZY);
+    if (reasons != null) {
+      match.setReasons(new HashSet<>(Arrays.asList(reasons)));
     }
     return match;
   }
 
-  public static <T extends CollectionEntity> Match<T> machineTag(T entity, MatchRemark... remarks) {
+  public static <T extends CollectionEntity> Match<T> none() {
+    Match<T> match = new Match<>();
+    match.setMatchType(MatchType.NONE);
+    return match;
+  }
+
+  public static <T extends CollectionEntity> Match<T> none(Status status) {
+    Match<T> match = new Match<>();
+    match.setMatchType(MatchType.NONE);
+    match.setStatus(status);
+    return match;
+  }
+
+  public static <T extends CollectionEntity> Match<T> machineTag(T entity, Reason... reasons) {
     Match<T> match = new Match<>();
     match.setEntityMatched(entity);
-    match.setType(MatchType.MACHINE_TAG);
-    if (remarks != null) {
-      match.setRemarks(new HashSet<>(Arrays.asList(remarks)));
+    match.setMatchType(MatchType.MACHINE_TAG);
+    if (reasons != null) {
+      match.setReasons(new HashSet<>(Arrays.asList(reasons)));
     }
     return match;
   }
 
-  public MatchType getType() {
-    return type;
+  public MatchType getMatchType() {
+    return matchType;
   }
 
-  public void setType(MatchType type) {
-    this.type = type;
+  public void setMatchType(MatchType matchType) {
+    this.matchType = matchType;
   }
 
-  public Set<MatchRemark> getRemarks() {
-    return remarks;
+  public Status getStatus() {
+    return status;
   }
 
-  public void setRemarks(Set<MatchRemark> remarks) {
-    this.remarks = remarks;
+  public void setStatus(Status status) {
+    this.status = status;
   }
 
-  public void addRemark(MatchRemark remark) {
-    remarks.add(remark);
+  public Set<Reason> getReasons() {
+    return reasons;
+  }
+
+  public void setReasons(Set<Reason> reasons) {
+    this.reasons = reasons;
+  }
+
+  public Match<T> addReason(Reason reason) {
+    reasons.add(reason);
+    return this;
   }
 
   public T getEntityMatched() {
@@ -119,42 +142,53 @@ public class Match<T extends CollectionEntity> {
   public enum MatchType {
     EXACT,
     FUZZY,
-    MACHINE_TAG;
+    MACHINE_TAG,
+    NONE;
   }
 
-  public enum MatchRemark {
+  public enum Reason {
     CODE_MATCH,
     IDENTIFIER_MATCH,
     ALTERNATIVE_CODE_MATCH,
     NAME_MATCH,
     PROBABLY_ON_LOAN,
     INST_COLL_MISMATCH,
+    COUNTRY_MATCH,
     INSTITUTION_TAG,
     COLLECTION_TAG,
     COLLECTION_TO_INSTITUTION_TAG,
     INSTITUTION_TO_COLLECTION_TAG;
   }
 
+  public enum Status {
+    ACCEPTED,
+    AMBIGUOUS,
+    AMBIGUOUS_MACHINE_TAGS,
+    DOUBTFUL;
+  }
+
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     Match<?> match = (Match<?>) o;
-    return type == match.type
-        && Objects.equals(remarks, match.remarks)
-        && Objects.equals(entityMatched, match.entityMatched);
+    return Objects.equals(entityMatched, match.entityMatched);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, remarks, entityMatched);
+    return Objects.hash(entityMatched);
   }
 
   @Override
   public String toString() {
     return new StringJoiner(", ", Match.class.getSimpleName() + "[", "]")
-        .add("type=" + type)
-        .add("remarks=" + remarks)
+        .add("matchType=" + matchType)
+        .add("reasons=" + reasons)
         .add("entityMatched=" + entityMatched)
         .toString();
   }

@@ -18,28 +18,34 @@ package org.gbif.api.model.collections.lookup;
 import org.gbif.api.model.collections.Collection;
 import org.gbif.api.model.collections.Institution;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /** Result of a collections lookup that contains the institution and collections matches found. */
 public class LookupResult {
 
-  private List<Match<Institution>> institutionMatches = new ArrayList<>();
-  private List<Match<Collection>> collectionMatches = new ArrayList<>();
+  private Match<Institution> institutionMatch;
+  private Match<Collection> collectionMatch;
+  private AlternativeMatches alternativeMatches = new AlternativeMatches();
 
-  public List<Match<Institution>> getInstitutionMatches() {
-    return institutionMatches;
+  public Match<Institution> getInstitutionMatch() {
+    return institutionMatch;
   }
 
-  public void setInstitutionMatches(List<Match<Institution>> institutionMatches) {
-    this.institutionMatches = institutionMatches;
+  public void setInstitutionMatch(Match<Institution> institutionMatch) {
+    this.institutionMatch = institutionMatch;
   }
 
-  public List<Match<Collection>> getCollectionMatches() {
-    return collectionMatches;
+  public Match<Collection> getCollectionMatch() {
+    return collectionMatch;
   }
 
-  public void setCollectionMatches(List<Match<Collection>> collectionMatches) {
-    this.collectionMatches = collectionMatches;
+  public void setCollectionMatch(Match<Collection> collectionMatch) {
+    this.collectionMatch = collectionMatch;
+  }
+
+  public AlternativeMatches getAlternativeMatches() {
+    return alternativeMatches;
+  }
+
+  public void setAlternativeMatches(AlternativeMatches alternativeMatches) {
+    this.alternativeMatches = alternativeMatches;
   }
 }
