@@ -1,8 +1,8 @@
-# gbif-api
+# GBIF API
 
 The GBIF API library provides:
  * The model objects used by the GBIF service interfaces and the internal messaging systems
- * Enumerations representing standardised vocabularies (country codes, databased enumerations etc)
+ * Enumerations representing standardized vocabularies (country codes, databased enumerations etc)
  * The Java interface definitions for the public GBIF API (note: each implementation is responsible for mapping to the RESTful URL)
  * Utilities to simplify common operations when working with model objects (JSON serialization, filtered iterators etc)
 
@@ -19,4 +19,6 @@ mvn clean install
 [Change Log](CHANGELOG.md)
 
 ## Documentation
-[JavaDocs](http://gbif.github.io/gbif-api/apidocs/)
+
+* [JavaDocs](https://gbif.github.io/gbif-api/apidocs/)
+* [GBIF.org](https://www.gbif.org/developer/summary)
