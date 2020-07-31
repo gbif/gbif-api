@@ -36,13 +36,13 @@ public class SimplePredicateTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testEmptyConstructor() {
-    new EqualsPredicate(TEST_KEY, "");
+    new EqualsPredicate(TEST_KEY, "", false);
   }
 
   @Test
   public void testEquals() {
-    SimplePredicate ep1 = new EqualsPredicate(TEST_KEY, TEST_VALUE);
-    SimplePredicate ep2 = new EqualsPredicate(TEST_KEY, TEST_VALUE);
+    SimplePredicate ep1 = new EqualsPredicate(TEST_KEY, TEST_VALUE, false);
+    SimplePredicate ep2 = new EqualsPredicate(TEST_KEY, TEST_VALUE, false);
     SimplePredicate gt1 = new GreaterThanPredicate(COMP_PARAM, COMP_VALUE);
     SimplePredicate gt2 = new GreaterThanPredicate(COMP_PARAM, COMP_VALUE);
     SimplePredicate lt1 = new LessThanPredicate(COMP_PARAM, COMP_VALUE);
@@ -65,25 +65,25 @@ public class SimplePredicateTest {
     assertThat(gt1, equalTo(gt2));
     assertThat(lt1, equalTo(lt2));
 
-    ep2 = new EqualsPredicate(TEST_KEY, "FOOBAR");
+    ep2 = new EqualsPredicate(TEST_KEY, "FOOBAR", false);
     assertThat(ep1, not(equalTo(ep2)));
   }
 
   @Test
   public void testGoodDoubleValue() {
-    new EqualsPredicate(OccurrenceSearchParameter.DECIMAL_LATITUDE, "32");
-    new EqualsPredicate(OccurrenceSearchParameter.DECIMAL_LATITUDE, "32.032");
+    new EqualsPredicate(OccurrenceSearchParameter.DECIMAL_LATITUDE, "32", false);
+    new EqualsPredicate(OccurrenceSearchParameter.DECIMAL_LATITUDE, "32.032", false);
   }
 
   @Test
   public void testGoodEnumValue() {
-    new EqualsPredicate(OccurrenceSearchParameter.BASIS_OF_RECORD, "PRESERVED_SPECIMEN");
+    new EqualsPredicate(OccurrenceSearchParameter.BASIS_OF_RECORD, "PRESERVED_SPECIMEN", false);
   }
 
   @Test
   public void testHashcode() {
-    SimplePredicate sp1 = new EqualsPredicate(TEST_KEY, TEST_VALUE);
-    SimplePredicate sp2 = new EqualsPredicate(TEST_KEY, TEST_VALUE);
+    SimplePredicate sp1 = new EqualsPredicate(TEST_KEY, TEST_VALUE, false);
+    SimplePredicate sp2 = new EqualsPredicate(TEST_KEY, TEST_VALUE, false);
     SimplePredicate sp3 = new LessThanPredicate(COMP_PARAM, COMP_VALUE);
     SimplePredicate sp4 = new GreaterThanPredicate(COMP_PARAM, COMP_VALUE);
 
@@ -94,7 +94,7 @@ public class SimplePredicateTest {
 
   @Test(expected = NullPointerException.class)
   public void testNullConstructor() {
-    new EqualsPredicate(null, null);
+    new EqualsPredicate(null, null, false);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -104,33 +104,33 @@ public class SimplePredicateTest {
 
   @Test
   public void testSimplePredicateConstruction() {
-    SimplePredicate p = new EqualsPredicate(TEST_KEY, TEST_VALUE);
+    SimplePredicate p = new EqualsPredicate(TEST_KEY, TEST_VALUE, false);
     assertThat(p.getKey(), equalTo(TEST_KEY));
     assertThat(p.getValue(), equalTo(TEST_VALUE));
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testWrongDoubleValue() {
-    new EqualsPredicate(OccurrenceSearchParameter.DECIMAL_LATITUDE, "32..312");
+    new EqualsPredicate(OccurrenceSearchParameter.DECIMAL_LATITUDE, "32..312", false);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testWrongEnumValue() {
-    new EqualsPredicate(OccurrenceSearchParameter.BASIS_OF_RECORD, "Specimen");
+    new EqualsPredicate(OccurrenceSearchParameter.BASIS_OF_RECORD, "Specimen", false);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testWrongDoubleValue2() {
-    new EqualsPredicate(OccurrenceSearchParameter.ELEVATION, "0.6s");
+    new EqualsPredicate(OccurrenceSearchParameter.ELEVATION, "0.6s", false);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testWrongUuidValue() {
-    new EqualsPredicate(OccurrenceSearchParameter.DATASET_KEY, "133-4312-443-2-43-32432423-");
+    new EqualsPredicate(OccurrenceSearchParameter.DATASET_KEY, "133-4312-443-2-43-32432423-", false);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testGeometryEquals() {
-    new EqualsPredicate(OccurrenceSearchParameter.GEOMETRY, "POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))");
+    new EqualsPredicate(OccurrenceSearchParameter.GEOMETRY, "POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))", false);
   }
 }

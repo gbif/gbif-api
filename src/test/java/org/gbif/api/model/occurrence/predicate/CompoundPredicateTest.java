@@ -66,15 +66,15 @@ public class CompoundPredicateTest {
   @Test
   public void testToString() {
     Predicate p = new ConjunctionPredicate(Arrays.asList(
-      new EqualsPredicate(OccurrenceSearchParameter.BASIS_OF_RECORD, "FOSSIL_SPECIMEN"),
+      new EqualsPredicate(OccurrenceSearchParameter.BASIS_OF_RECORD, "FOSSIL_SPECIMEN", false),
       new NotPredicate(
         new DisjunctionPredicate(Arrays.asList(
-          new EqualsPredicate(OccurrenceSearchParameter.YEAR, "2001"),
-          new EqualsPredicate(OccurrenceSearchParameter.YEAR, "2000"),
-          new EqualsPredicate(OccurrenceSearchParameter.YEAR, "1999")
+          new EqualsPredicate(OccurrenceSearchParameter.YEAR, "2001", false),
+          new EqualsPredicate(OccurrenceSearchParameter.YEAR, "2000", false),
+          new EqualsPredicate(OccurrenceSearchParameter.YEAR, "1999", false)
         ))
       ),
-      new EqualsPredicate(OccurrenceSearchParameter.TAXON_KEY, "212")
+      new EqualsPredicate(OccurrenceSearchParameter.TAXON_KEY, "212", false)
       )
     );
 

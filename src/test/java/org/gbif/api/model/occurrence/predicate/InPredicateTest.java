@@ -38,23 +38,23 @@ public class InPredicateTest {
     list.add("foo");
     list.add("bar");
 
-    InPredicate p = new InPredicate(TEST_KEY, list);
+    InPredicate p = new InPredicate(TEST_KEY, list, false);
 
     assertThat(p.getKey(), equalTo(TEST_KEY));
-    assertThat((List<String>) p.getValues(), equalTo(list));
+    assertThat(p.getValues(), equalTo(list));
 
     list.add("oink");
-    assertThat((List<String>) p.getValues(), not(equalTo(list)));
+    assertThat(p.getValues(), not(equalTo(list)));
   }
 
   @Test(expected = NullPointerException.class)
   public void testEmptyConstructor() {
-    new InPredicate(null, new ArrayList<String>());
+    new InPredicate(null, new ArrayList<>(), false);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testEmptyConstructor2() {
-    new InPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, new ArrayList<String>());
+    new InPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, new ArrayList<>(), false);
   }
 
   @Test
@@ -62,8 +62,8 @@ public class InPredicateTest {
     List<String> list = new ArrayList<>();
     list.add("foo");
     list.add("bar");
-    Predicate ip1 = new InPredicate(TEST_KEY, list);
-    Predicate ip2 = new InPredicate(TEST_KEY, list);
+    Predicate ip1 = new InPredicate(TEST_KEY, list, false);
+    Predicate ip2 = new InPredicate(TEST_KEY, list, false);
 
     assertThat(ip1, both(equalTo(ip1)).and(equalTo(ip2)));
 
@@ -71,7 +71,7 @@ public class InPredicateTest {
     assertThat(p, not(equalTo(ip1)));
 
     list.add("oink");
-    ip2 = new InPredicate(TEST_KEY, list);
+    ip2 = new InPredicate(TEST_KEY, list, false);
     assertThat(ip2, not(equalTo(ip1)));
   }
 
@@ -80,8 +80,8 @@ public class InPredicateTest {
     List<String> list = new ArrayList<>();
     list.add("foo");
     list.add("bar");
-    Predicate ip1 = new InPredicate(TEST_KEY, list);
-    Predicate ip2 = new InPredicate(TEST_KEY, list);
+    Predicate ip1 = new InPredicate(TEST_KEY, list, false);
+    Predicate ip2 = new InPredicate(TEST_KEY, list, false);
 
     assertThat(ip1.hashCode(), both(equalTo(ip1.hashCode())).and(equalTo(ip2.hashCode())));
 
@@ -89,18 +89,18 @@ public class InPredicateTest {
     assertThat(p.hashCode(), not(equalTo(ip1.hashCode())));
 
     list.add("oink");
-    ip2 = new InPredicate(TEST_KEY, list);
+    ip2 = new InPredicate(TEST_KEY, list, false);
     assertThat(ip2.hashCode(), not(equalTo(ip1.hashCode())));
   }
 
   @Test(expected = NullPointerException.class)
   public void testNullConstructor() {
-    new InPredicate(null, null);
+    new InPredicate(null, null, false);
   }
 
   @Test(expected = NullPointerException.class)
   public void testNullConstructor2() {
-    new InPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, null);
+    new InPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, null, false);
   }
 
 }

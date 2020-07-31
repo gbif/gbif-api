@@ -128,7 +128,7 @@ public class DownloadRequestTest {
 
   @Test
   public void testSerde() throws IOException {
-    PredicateDownloadRequest d = newDownload(new EqualsPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, "b"));
+    PredicateDownloadRequest d = newDownload(new EqualsPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, "b", false));
     try(ByteArrayOutputStream baos = new ByteArrayOutputStream()){
       MAPPER.writeValue(baos, d);
       PredicateDownloadRequest d2 = MAPPER.readValue(baos.toByteArray(), PredicateDownloadRequest.class);

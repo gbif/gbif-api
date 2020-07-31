@@ -35,7 +35,7 @@ import java.util.UUID;
  */
 public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSearchParameter> {
 
-  private boolean verbatimMatch;
+  private boolean matchCase;
 
   public OccurrenceSearchRequest() {
     // empty block
@@ -43,23 +43,23 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
   }
 
   /**
-   * This flag enables the use of verbatim (case sensitive) matches and aggregations on certain search parameters.
+   * This flag enables the use of case-sensitive matches and aggregations on certain search parameters.
    * <p>
    * Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol, catalogNumber, collectionCode,
    * institutionCode, eventId, parentEventId, waterBody, stateProvince, recordNumber, identifiedBy, organismId and locality.
    * <p>
    * This is an experimental feature and its implementation map change or be removed at any time.
    * <p>
-   * Be aware that this is not a per-field flag, all possible fields will match against their verbatim values.
+   * Be aware that this is not a per-field flag, all possible fields will match case sensitively.
    */
   @Experimental
-  public boolean isVerbatimMatch() {
-    return verbatimMatch;
+  public boolean isMatchCase() {
+    return matchCase;
   }
 
   @Experimental
-  public void setVerbatimMatch(boolean verbatimMatch) {
-    this.verbatimMatch = verbatimMatch;
+  public void setMatchCase(boolean matchCase) {
+    this.matchCase = matchCase;
   }
 
   public OccurrenceSearchRequest(long offset, int limit) {
