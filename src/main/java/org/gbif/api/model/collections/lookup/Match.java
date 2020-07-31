@@ -56,7 +56,7 @@ public class Match<T extends CollectionEntity> {
 
   private MatchType matchType;
   private Status status;
-  private Set<Reason> reasons = new HashSet<>();
+  private Set<Reason> reasons;
   private T entityMatched;
 
   public static <T extends CollectionEntity> Match<T> exact(T entity, Reason... reasons) {
@@ -127,6 +127,9 @@ public class Match<T extends CollectionEntity> {
   }
 
   public Match<T> addReason(Reason reason) {
+    if (reasons == null) {
+      reasons = new HashSet<>();
+    }
     reasons.add(reason);
     return this;
   }

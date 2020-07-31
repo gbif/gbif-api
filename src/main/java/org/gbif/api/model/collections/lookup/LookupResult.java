@@ -23,7 +23,7 @@ public class LookupResult {
 
   private Match<Institution> institutionMatch;
   private Match<Collection> collectionMatch;
-  private AlternativeMatches alternativeMatches = new AlternativeMatches();
+  private AlternativeMatches alternativeMatches;
 
   public Match<Institution> getInstitutionMatch() {
     return institutionMatch;
