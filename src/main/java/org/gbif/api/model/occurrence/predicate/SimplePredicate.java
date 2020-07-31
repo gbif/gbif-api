@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
 
@@ -22,6 +23,7 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import static org.gbif.api.util.PreconditionUtils.checkArgument;
@@ -34,8 +36,15 @@ public class SimplePredicate implements Predicate {
   @NotNull
   private final String value;
 
-  protected SimplePredicate(boolean checkForNonEquals, OccurrenceSearchParameter key,
-    String value) {
+  @Experimental
+  @Nullable
+  private final boolean matchVerbatim;
+
+  protected SimplePredicate(boolean checkForNonEquals,
+                            OccurrenceSearchParameter key,
+                            String value,
+                            boolean matchVerbatim) {
+    this.matchVerbatim = matchVerbatim;
     Objects.requireNonNull(key, "<key> may not be null");
     Objects.requireNonNull(value, "<value> may not be null");
     checkArgument(!value.isEmpty(), "<value> may not be empty");
@@ -57,6 +66,10 @@ public class SimplePredicate implements Predicate {
 
   public String getValue() {
     return value;
+  }
+
+  public boolean isMatchVerbatim() {
+    return matchVerbatim;
   }
 
   /**
@@ -89,7 +102,8 @@ public class SimplePredicate implements Predicate {
     }
     SimplePredicate that = (SimplePredicate) o;
     return key == that.key &&
-      Objects.equals(value, that.value);
+           Objects.equals(value, that.value) &&
+           matchVerbatim == that.matchVerbatim;
   }
 
   @Override
@@ -102,6 +116,7 @@ public class SimplePredicate implements Predicate {
     return new StringJoiner(", ", SimplePredicate.class.getSimpleName() + "[", "]")
       .add("key=" + key)
       .add("value='" + value + "'")
+      .add("matchVerbatim='" + matchVerbatim + "'")
       .toString();
   }
 }

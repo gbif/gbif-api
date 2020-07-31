@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
 
@@ -24,6 +25,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -44,8 +46,15 @@ public class InPredicate implements Predicate {
   @Size(min = 1)
   private final Collection<String> values;
 
+  @Experimental
+  @Nullable
+  private final boolean matchVerbatim;
+
   @JsonCreator
-  public InPredicate(@JsonProperty("key") OccurrenceSearchParameter key, @JsonProperty("values") Collection<String> values) {
+  public InPredicate(@JsonProperty("key") OccurrenceSearchParameter key,
+                     @JsonProperty("values") Collection<String> values,
+                     @JsonProperty(value = "matchVerbatim", defaultValue = "false") boolean matchVerbatim) {
+    this.matchVerbatim = matchVerbatim;
     Objects.requireNonNull(key, "<key> may not be null");
     Objects.requireNonNull(values, "<values> may not be null");
     checkArgument(!values.isEmpty(), "<values> may not be empty");
@@ -66,6 +75,10 @@ public class InPredicate implements Predicate {
     return values;
   }
 
+  public boolean isMatchVerbatim() {
+    return matchVerbatim;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -76,7 +89,8 @@ public class InPredicate implements Predicate {
     }
     InPredicate that = (InPredicate) o;
     return key == that.key &&
-      Objects.equals(values, that.values);
+           Objects.equals(values, that.values) &&
+           matchVerbatim == that.matchVerbatim;
   }
 
   @Override
@@ -89,6 +103,7 @@ public class InPredicate implements Predicate {
     return new StringJoiner(", ", InPredicate.class.getSimpleName() + "[", "]")
       .add("key=" + key)
       .add("values=" + values)
+      .add("matchVerbatim=" + matchVerbatim)
       .toString();
   }
 }
