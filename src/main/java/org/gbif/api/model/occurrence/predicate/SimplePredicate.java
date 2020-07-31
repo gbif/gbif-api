@@ -70,14 +70,12 @@ public class SimplePredicate implements Predicate {
   }
 
   /**
-   * This flag enables the use of verbatim (case sensitive) matches and aggregations on certain search parameters.
+   * This flag enables the use of case-sensitive matches and aggregations on certain search parameters.
    * <p>
    * Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol, catalogNumber, collectionCode,
    * institutionCode, eventId, parentEventId, waterBody, stateProvince, recordNumber, identifiedBy, organismId and locality.
    * <p>
    * This is an experimental feature and its implementation map change or be removed at any time.
-   * <p>
-   * Be aware that this is not a per-field flag, all possible fields will match against their verbatim values.
    */
   @Experimental
   public boolean isMatchCase() {
