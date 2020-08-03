@@ -179,18 +179,22 @@ public class Match<T extends CollectionEntity> {
       return false;
     }
     Match<?> match = (Match<?>) o;
-    return Objects.equals(entityMatched, match.entityMatched);
+    return matchType == match.matchType
+        && status == match.status
+        && Objects.equals(reasons, match.reasons)
+        && Objects.equals(entityMatched, match.entityMatched);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(entityMatched);
+    return Objects.hash(matchType, status, reasons, entityMatched);
   }
 
   @Override
   public String toString() {
     return new StringJoiner(", ", Match.class.getSimpleName() + "[", "]")
         .add("matchType=" + matchType)
+        .add("status=" + status)
         .add("reasons=" + reasons)
         .add("entityMatched=" + entityMatched)
         .toString();
