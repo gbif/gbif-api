@@ -22,7 +22,7 @@ import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
 
-/** Holds the parameters that a collections lookup accepts. */
+/** Holds the parameters that the collections lookup accepts. */
 public class LookupParams {
 
   private String institutionCode;

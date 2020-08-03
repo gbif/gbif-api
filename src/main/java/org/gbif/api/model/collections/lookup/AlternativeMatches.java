@@ -21,6 +21,7 @@ import org.gbif.api.model.collections.Institution;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Holds the alternative results of the collections lookup.*/
 public class AlternativeMatches {
 
   private List<Match<Institution>> institutionMatches = new ArrayList<>();
