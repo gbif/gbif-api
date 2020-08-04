@@ -167,6 +167,8 @@ public class Match<T extends CollectionEntity> {
     ACCEPTED,
     AMBIGUOUS,
     AMBIGUOUS_MACHINE_TAGS,
+    AMBIGUOUS_OWNER,
+    AMBIGUOUS_INSTITUTION_MISMATCH,
     DOUBTFUL;
   }
 
