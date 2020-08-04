@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Match.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections.lookup</a> &gt; <span class="el_source">Match.java</span></div><h1>Match.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.collections.lookup;
+
+import org.gbif.api.model.collections.CollectionEntity;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.StringJoiner;
+
+/**
+ * Used in the {@link LookupResult} to express how good an entity matches. It also adds some remarks
+ * to help understand how the match was done.
+ *
+ * @param &lt;T&gt; it can be parameterized. To be used mainly with {@link
+ *     org.gbif.api.model.collections.Collection} or {@link
+ *     org.gbif.api.model.collections.Institution}
+ */
+<span class="nc" id="L35">public class Match&lt;T extends CollectionEntity&gt; {</span>
+
+<span class="nc" id="L37">  public static final Comparator&lt;MatchType&gt; MATCH_TYPE_COMPARATOR =</span>
+      (t1, t2) -&gt; {
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        if (t1 == null) {</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">          return t2 == null ? 0 : 1;</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        } else if (t2 == null) {</span>
+<span class="nc" id="L42">          return -1;</span>
+        }
+
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        if (t1 == t2) {</span>
+<span class="nc" id="L46">          return 0;</span>
+        }
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        if (t1 == Match.MatchType.EXACT) {</span>
+<span class="nc" id="L49">          return -1;</span>
+        }
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if (t2 == Match.MatchType.EXACT) {</span>
+<span class="nc" id="L52">          return 1;</span>
+        }
+<span class="nc" id="L54">        return t1.compareTo(t2);</span>
+      };
+
+  private MatchType matchType;
+  private Status status;
+  private Set&lt;Reason&gt; reasons;
+  private T entityMatched;
+
+  public static &lt;T extends CollectionEntity&gt; Match&lt;T&gt; exact(T entity, Reason... reasons) {
+<span class="nc" id="L63">    Match&lt;T&gt; match = new Match&lt;&gt;();</span>
+<span class="nc" id="L64">    match.setEntityMatched(entity);</span>
+<span class="nc" id="L65">    match.setMatchType(MatchType.EXACT);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">    if (reasons != null) {</span>
+<span class="nc" id="L67">      match.setReasons(new HashSet&lt;&gt;(Arrays.asList(reasons)));</span>
+    }
+<span class="nc" id="L69">    return match;</span>
+  }
+
+  public static &lt;T extends CollectionEntity&gt; Match&lt;T&gt; fuzzy(T entity, Reason... reasons) {
+<span class="nc" id="L73">    Match&lt;T&gt; match = new Match&lt;&gt;();</span>
+<span class="nc" id="L74">    match.setEntityMatched(entity);</span>
+<span class="nc" id="L75">    match.setMatchType(MatchType.FUZZY);</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">    if (reasons != null) {</span>
+<span class="nc" id="L77">      match.setReasons(new HashSet&lt;&gt;(Arrays.asList(reasons)));</span>
+    }
+<span class="nc" id="L79">    return match;</span>
+  }
+
+  public static &lt;T extends CollectionEntity&gt; Match&lt;T&gt; none() {
+<span class="nc" id="L83">    Match&lt;T&gt; match = new Match&lt;&gt;();</span>
+<span class="nc" id="L84">    match.setMatchType(MatchType.NONE);</span>
+<span class="nc" id="L85">    return match;</span>
+  }
+
+  public static &lt;T extends CollectionEntity&gt; Match&lt;T&gt; none(Status status) {
+<span class="nc" id="L89">    Match&lt;T&gt; match = new Match&lt;&gt;();</span>
+<span class="nc" id="L90">    match.setMatchType(MatchType.NONE);</span>
+<span class="nc" id="L91">    match.setStatus(status);</span>
+<span class="nc" id="L92">    return match;</span>
+  }
+
+  public static &lt;T extends CollectionEntity&gt; Match&lt;T&gt; machineTag(T entity, Reason... reasons) {
+<span class="nc" id="L96">    Match&lt;T&gt; match = new Match&lt;&gt;();</span>
+<span class="nc" id="L97">    match.setEntityMatched(entity);</span>
+<span class="nc" id="L98">    match.setMatchType(MatchType.MACHINE_TAG);</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">    if (reasons != null) {</span>
+<span class="nc" id="L100">      match.setReasons(new HashSet&lt;&gt;(Arrays.asList(reasons)));</span>
+    }
+<span class="nc" id="L102">    return match;</span>
+  }
+
+  public MatchType getMatchType() {
+<span class="nc" id="L106">    return matchType;</span>
+  }
+
+  public void setMatchType(MatchType matchType) {
+<span class="nc" id="L110">    this.matchType = matchType;</span>
+<span class="nc" id="L111">  }</span>
+
+  public Status getStatus() {
+<span class="nc" id="L114">    return status;</span>
+  }
+
+  public void setStatus(Status status) {
+<span class="nc" id="L118">    this.status = status;</span>
+<span class="nc" id="L119">  }</span>
+
+  public Set&lt;Reason&gt; getReasons() {
+<span class="nc" id="L122">    return reasons;</span>
+  }
+
+  public void setReasons(Set&lt;Reason&gt; reasons) {
+<span class="nc" id="L126">    this.reasons = reasons;</span>
+<span class="nc" id="L127">  }</span>
+
+  public Match&lt;T&gt; addReason(Reason reason) {
+<span class="nc bnc" id="L130" title="All 2 branches missed.">    if (reasons == null) {</span>
+<span class="nc" id="L131">      reasons = new HashSet&lt;&gt;();</span>
+    }
+<span class="nc" id="L133">    reasons.add(reason);</span>
+<span class="nc" id="L134">    return this;</span>
+  }
+
+  public T getEntityMatched() {
+<span class="nc" id="L138">    return entityMatched;</span>
+  }
+
+  public void setEntityMatched(T entityMatched) {
+<span class="nc" id="L142">    this.entityMatched = entityMatched;</span>
+<span class="nc" id="L143">  }</span>
+
+<span class="nc" id="L145">  public enum MatchType {</span>
+<span class="nc" id="L146">    EXACT,</span>
+<span class="nc" id="L147">    FUZZY,</span>
+<span class="nc" id="L148">    MACHINE_TAG,</span>
+<span class="nc" id="L149">    NONE;</span>
+  }
+
+<span class="nc" id="L152">  public enum Reason {</span>
+<span class="nc" id="L153">    CODE_MATCH,</span>
+<span class="nc" id="L154">    IDENTIFIER_MATCH,</span>
+<span class="nc" id="L155">    ALTERNATIVE_CODE_MATCH,</span>
+<span class="nc" id="L156">    NAME_MATCH,</span>
+<span class="nc" id="L157">    PROBABLY_ON_LOAN,</span>
+<span class="nc" id="L158">    INST_COLL_MISMATCH,</span>
+<span class="nc" id="L159">    COUNTRY_MATCH,</span>
+<span class="nc" id="L160">    INSTITUTION_TAG,</span>
+<span class="nc" id="L161">    COLLECTION_TAG,</span>
+<span class="nc" id="L162">    COLLECTION_TO_INSTITUTION_TAG,</span>
+<span class="nc" id="L163">    INSTITUTION_TO_COLLECTION_TAG;</span>
+  }
+
+<span class="nc" id="L166">  public enum Status {</span>
+<span class="nc" id="L167">    ACCEPTED,</span>
+<span class="nc" id="L168">    AMBIGUOUS,</span>
+<span class="nc" id="L169">    AMBIGUOUS_MACHINE_TAGS,</span>
+<span class="nc" id="L170">    AMBIGUOUS_OWNER,</span>
+<span class="nc" id="L171">    AMBIGUOUS_INSTITUTION_MISMATCH,</span>
+<span class="nc" id="L172">    DOUBTFUL;</span>
+  }
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L177" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L178">      return true;</span>
+    }
+<span class="nc bnc" id="L180" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L181">      return false;</span>
+    }
+<span class="nc" id="L183">    Match&lt;?&gt; match = (Match&lt;?&gt;) o;</span>
+<span class="nc bnc" id="L184" title="All 4 branches missed.">    return matchType == match.matchType</span>
+        &amp;&amp; status == match.status
+<span class="nc bnc" id="L186" title="All 2 branches missed.">        &amp;&amp; Objects.equals(reasons, match.reasons)</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">        &amp;&amp; Objects.equals(entityMatched, match.entityMatched);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L192">    return Objects.hash(matchType, status, reasons, entityMatched);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L197">    return new StringJoiner(&quot;, &quot;, Match.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L198">        .add(&quot;matchType=&quot; + matchType)</span>
+<span class="nc" id="L199">        .add(&quot;status=&quot; + status)</span>
+<span class="nc" id="L200">        .add(&quot;reasons=&quot; + reasons)</span>
+<span class="nc" id="L201">        .add(&quot;entityMatched=&quot; + entityMatched)</span>
+<span class="nc" id="L202">        .toString();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
