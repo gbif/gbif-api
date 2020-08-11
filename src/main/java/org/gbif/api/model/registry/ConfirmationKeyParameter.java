@@ -22,11 +22,12 @@ import javax.validation.constraints.NotNull;
 /**
  * Confirmation key is a UUID used to confirm an entity.
  */
+@SuppressWarnings("unused")
 public class ConfirmationKeyParameter {
 
   private UUID confirmationKey;
 
-  public ConfirmationKeyParameter(){}
+  public ConfirmationKeyParameter() {}
 
   public ConfirmationKeyParameter(UUID confirmationKey) {
     this.confirmationKey = confirmationKey;

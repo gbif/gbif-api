@@ -37,8 +37,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * A GBIF network.
  */
-public class Network implements NetworkEntity, Contactable, Endpointable, MachineTaggable, Taggable, Commentable,
-  Identifiable, LenientEquals<Network>, Address {
+@SuppressWarnings("unused")
+public class Network
+    implements NetworkEntity,
+    Contactable,
+    Endpointable,
+    MachineTaggable,
+    Taggable,
+    Commentable,
+    Identifiable,
+    LenientEquals<Network>,
+    Address {
 
   private UUID key;
   private String title;
@@ -346,70 +355,92 @@ public class Network implements NetworkEntity, Contactable, Endpointable, Machin
       return false;
     }
     Network network = (Network) o;
-    return numConstituents == network.numConstituents &&
-      Objects.equals(key, network.key) &&
-      Objects.equals(title, network.title) &&
-      Objects.equals(description, network.description) &&
-      language == network.language &&
-      Objects.equals(email, network.email) &&
-      Objects.equals(phone, network.phone) &&
-      Objects.equals(homepage, network.homepage) &&
-      Objects.equals(logoUrl, network.logoUrl) &&
-      Objects.equals(address, network.address) &&
-      Objects.equals(city, network.city) &&
-      Objects.equals(province, network.province) &&
-      country == network.country &&
-      Objects.equals(postalCode, network.postalCode) &&
-      Objects.equals(createdBy, network.createdBy) &&
-      Objects.equals(modifiedBy, network.modifiedBy) &&
-      Objects.equals(created, network.created) &&
-      Objects.equals(modified, network.modified) &&
-      Objects.equals(deleted, network.deleted) &&
-      Objects.equals(contacts, network.contacts) &&
-      Objects.equals(endpoints, network.endpoints) &&
-      Objects.equals(machineTags, network.machineTags) &&
-      Objects.equals(tags, network.tags) &&
-      Objects.equals(identifiers, network.identifiers) &&
-      Objects.equals(comments, network.comments);
+    return numConstituents == network.numConstituents
+        && Objects.equals(key, network.key)
+        && Objects.equals(title, network.title)
+        && Objects.equals(description, network.description)
+        && language == network.language
+        && Objects.equals(email, network.email)
+        && Objects.equals(phone, network.phone)
+        && Objects.equals(homepage, network.homepage)
+        && Objects.equals(logoUrl, network.logoUrl)
+        && Objects.equals(address, network.address)
+        && Objects.equals(city, network.city)
+        && Objects.equals(province, network.province)
+        && country == network.country
+        && Objects.equals(postalCode, network.postalCode)
+        && Objects.equals(createdBy, network.createdBy)
+        && Objects.equals(modifiedBy, network.modifiedBy)
+        && Objects.equals(created, network.created)
+        && Objects.equals(modified, network.modified)
+        && Objects.equals(deleted, network.deleted)
+        && Objects.equals(contacts, network.contacts)
+        && Objects.equals(endpoints, network.endpoints)
+        && Objects.equals(machineTags, network.machineTags)
+        && Objects.equals(tags, network.tags)
+        && Objects.equals(identifiers, network.identifiers)
+        && Objects.equals(comments, network.comments);
   }
 
   @Override
   public int hashCode() {
-    return Objects
-      .hash(key, title, description, language, numConstituents, email, phone, homepage, logoUrl,
-        address, city, province, country, postalCode, createdBy, modifiedBy, created, modified,
-        deleted, contacts, endpoints, machineTags, tags, identifiers, comments);
+    return Objects.hash(
+        key,
+        title,
+        description,
+        language,
+        numConstituents,
+        email,
+        phone,
+        homepage,
+        logoUrl,
+        address,
+        city,
+        province,
+        country,
+        postalCode,
+        createdBy,
+        modifiedBy,
+        created,
+        modified,
+        deleted,
+        contacts,
+        endpoints,
+        machineTags,
+        tags,
+        identifiers,
+        comments);
   }
 
   @Override
   public String toString() {
     return new StringJoiner(", ", Network.class.getSimpleName() + "[", "]")
-      .add("key=" + key)
-      .add("title='" + title + "'")
-      .add("description='" + description + "'")
-      .add("language=" + language)
-      .add("numConstituents=" + numConstituents)
-      .add("email=" + email)
-      .add("phone=" + phone)
-      .add("homepage=" + homepage)
-      .add("logoUrl=" + logoUrl)
-      .add("address=" + address)
-      .add("city='" + city + "'")
-      .add("province='" + province + "'")
-      .add("country=" + country)
-      .add("postalCode='" + postalCode + "'")
-      .add("createdBy='" + createdBy + "'")
-      .add("modifiedBy='" + modifiedBy + "'")
-      .add("created=" + created)
-      .add("modified=" + modified)
-      .add("deleted=" + deleted)
-      .add("contacts=" + contacts)
-      .add("endpoints=" + endpoints)
-      .add("machineTags=" + machineTags)
-      .add("tags=" + tags)
-      .add("identifiers=" + identifiers)
-      .add("comments=" + comments)
-      .toString();
+        .add("key=" + key)
+        .add("title='" + title + "'")
+        .add("description='" + description + "'")
+        .add("language=" + language)
+        .add("numConstituents=" + numConstituents)
+        .add("email=" + email)
+        .add("phone=" + phone)
+        .add("homepage=" + homepage)
+        .add("logoUrl=" + logoUrl)
+        .add("address=" + address)
+        .add("city='" + city + "'")
+        .add("province='" + province + "'")
+        .add("country=" + country)
+        .add("postalCode='" + postalCode + "'")
+        .add("createdBy='" + createdBy + "'")
+        .add("modifiedBy='" + modifiedBy + "'")
+        .add("created=" + created)
+        .add("modified=" + modified)
+        .add("deleted=" + deleted)
+        .add("contacts=" + contacts)
+        .add("endpoints=" + endpoints)
+        .add("machineTags=" + machineTags)
+        .add("tags=" + tags)
+        .add("identifiers=" + identifiers)
+        .add("comments=" + comments)
+        .toString();
   }
 
   /**
@@ -422,17 +453,16 @@ public class Network implements NetworkEntity, Contactable, Endpointable, Machin
       return true;
     }
     return Objects.equals(this.title, other.title)
-      && Objects.equals(this.description, other.description)
-      && Objects.equals(this.language, other.language)
-      && Objects.equals(this.email, other.email)
-      && Objects.equals(this.phone, other.phone)
-      && Objects.equals(this.homepage, other.homepage)
-      && Objects.equals(this.logoUrl, other.logoUrl)
-      && Objects.equals(this.address, other.address)
-      && Objects.equals(this.city, other.city)
-      && Objects.equals(this.province, other.province)
-      && Objects.equals(this.country, other.country)
-      && Objects.equals(this.postalCode, other.postalCode);
+        && Objects.equals(this.description, other.description)
+        && Objects.equals(this.language, other.language)
+        && Objects.equals(this.email, other.email)
+        && Objects.equals(this.phone, other.phone)
+        && Objects.equals(this.homepage, other.homepage)
+        && Objects.equals(this.logoUrl, other.logoUrl)
+        && Objects.equals(this.address, other.address)
+        && Objects.equals(this.city, other.city)
+        && Objects.equals(this.province, other.province)
+        && Objects.equals(this.country, other.country)
+        && Objects.equals(this.postalCode, other.postalCode);
   }
-
 }

@@ -123,14 +123,14 @@ public class Metadata implements Serializable, LenientEquals<Metadata> {
       return false;
     }
     Metadata metadata = (Metadata) o;
-    return Objects.equals(key, metadata.key) &&
-      Objects.equals(datasetKey, metadata.datasetKey) &&
-      type == metadata.type &&
-      Objects.equals(content, metadata.content) &&
-      Objects.equals(createdBy, metadata.createdBy) &&
-      Objects.equals(modifiedBy, metadata.modifiedBy) &&
-      Objects.equals(created, metadata.created) &&
-      Objects.equals(modified, metadata.modified);
+    return Objects.equals(key, metadata.key)
+        && Objects.equals(datasetKey, metadata.datasetKey)
+        && type == metadata.type
+        && Objects.equals(content, metadata.content)
+        && Objects.equals(createdBy, metadata.createdBy)
+        && Objects.equals(modifiedBy, metadata.modifiedBy)
+        && Objects.equals(created, metadata.created)
+        && Objects.equals(modified, metadata.modified);
   }
 
   @Override
@@ -141,15 +141,15 @@ public class Metadata implements Serializable, LenientEquals<Metadata> {
   @Override
   public String toString() {
     return new StringJoiner(", ", Metadata.class.getSimpleName() + "[", "]")
-      .add("key=" + key)
-      .add("datasetKey=" + datasetKey)
-      .add("type=" + type)
-      .add("content='" + content + "'")
-      .add("createdBy='" + createdBy + "'")
-      .add("modifiedBy='" + modifiedBy + "'")
-      .add("created=" + created)
-      .add("modified=" + modified)
-      .toString();
+        .add("key=" + key)
+        .add("datasetKey=" + datasetKey)
+        .add("type=" + type)
+        .add("content='" + content + "'")
+        .add("createdBy='" + createdBy + "'")
+        .add("modifiedBy='" + modifiedBy + "'")
+        .add("created=" + created)
+        .add("modified=" + modified)
+        .toString();
   }
 
   /**
@@ -161,7 +161,7 @@ public class Metadata implements Serializable, LenientEquals<Metadata> {
       return true;
     }
     return Objects.equals(this.datasetKey, other.datasetKey)
-      && Objects.equals(this.type, other.type)
-      && Objects.equals(this.content, other.content);
+        && Objects.equals(this.type, other.type)
+        && Objects.equals(this.content, other.content);
   }
 }

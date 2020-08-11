@@ -33,6 +33,7 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang3.StringUtils;
 
 // TODO: Should have a cross-field validation for key & created
+@SuppressWarnings("unused")
 public class Contact implements Address, LenientEquals<Contact> {
 
   private Integer key;
@@ -120,10 +121,10 @@ public class Contact implements Address, LenientEquals<Contact> {
 
             // Check if the id is already prefixed with the directory URI, either HTTP or HTTPS.
             if (id.startsWith(dir2)
-              || id.startsWith(dir2.replace("http://", "https://"))
-              || id.startsWith(dir2.replace("https://", "http://"))) {
+                || id.startsWith(dir2.replace("http://", "https://"))
+                || id.startsWith(dir2.replace("https://", "http://"))) {
               userId.add(id);
-            // Check if the id is prefixed with the hostname.
+              // Check if the id is prefixed with the hostname.
             } else if (id.startsWith(dir.getHost())) {
               userId.add(dir.getScheme() + "://" + id);
             } else {
@@ -136,8 +137,7 @@ public class Contact implements Address, LenientEquals<Contact> {
               userId.add(dir + ":" + id);
             }
           }
-        }
-        catch (IllegalArgumentException iaEx) {
+        } catch (IllegalArgumentException iaEx) {
           // in case the directory is not a valid URL keep only the user id
           userId.add(id);
         }
@@ -353,62 +353,80 @@ public class Contact implements Address, LenientEquals<Contact> {
       return false;
     }
     Contact contact = (Contact) o;
-    return primary == contact.primary &&
-      Objects.equals(key, contact.key) &&
-      type == contact.type &&
-      Objects.equals(userId, contact.userId) &&
-      Objects.equals(firstName, contact.firstName) &&
-      Objects.equals(lastName, contact.lastName) &&
-      Objects.equals(position, contact.position) &&
-      Objects.equals(description, contact.description) &&
-      Objects.equals(email, contact.email) &&
-      Objects.equals(phone, contact.phone) &&
-      Objects.equals(homepage, contact.homepage) &&
-      Objects.equals(organization, contact.organization) &&
-      Objects.equals(address, contact.address) &&
-      Objects.equals(city, contact.city) &&
-      Objects.equals(province, contact.province) &&
-      country == contact.country &&
-      Objects.equals(postalCode, contact.postalCode) &&
-      Objects.equals(createdBy, contact.createdBy) &&
-      Objects.equals(modifiedBy, contact.modifiedBy) &&
-      Objects.equals(created, contact.created) &&
-      Objects.equals(modified, contact.modified);
+    return primary == contact.primary
+        && Objects.equals(key, contact.key)
+        && type == contact.type
+        && Objects.equals(userId, contact.userId)
+        && Objects.equals(firstName, contact.firstName)
+        && Objects.equals(lastName, contact.lastName)
+        && Objects.equals(position, contact.position)
+        && Objects.equals(description, contact.description)
+        && Objects.equals(email, contact.email)
+        && Objects.equals(phone, contact.phone)
+        && Objects.equals(homepage, contact.homepage)
+        && Objects.equals(organization, contact.organization)
+        && Objects.equals(address, contact.address)
+        && Objects.equals(city, contact.city)
+        && Objects.equals(province, contact.province)
+        && country == contact.country
+        && Objects.equals(postalCode, contact.postalCode)
+        && Objects.equals(createdBy, contact.createdBy)
+        && Objects.equals(modifiedBy, contact.modifiedBy)
+        && Objects.equals(created, contact.created)
+        && Objects.equals(modified, contact.modified);
   }
 
   @Override
   public int hashCode() {
-    return Objects
-      .hash(key, type, primary, userId, firstName, lastName, position, description, email, phone,
-        homepage, organization, address, city, province, country, postalCode, createdBy,
-        modifiedBy, created, modified);
+    return Objects.hash(
+        key,
+        type,
+        primary,
+        userId,
+        firstName,
+        lastName,
+        position,
+        description,
+        email,
+        phone,
+        homepage,
+        organization,
+        address,
+        city,
+        province,
+        country,
+        postalCode,
+        createdBy,
+        modifiedBy,
+        created,
+        modified);
   }
 
   @Override
   public String toString() {
     return new StringJoiner(", ", Contact.class.getSimpleName() + "[", "]")
-      .add("key=" + key)
-      .add("type=" + type)
-      .add("primary=" + primary)
-      .add("userId=" + userId)
-      .add("firstName='" + firstName + "'")
-      .add("lastName='" + lastName + "'")
-      .add("position=" + position)
-      .add("description='" + description + "'")
-      .add("email=" + email)
-      .add("phone=" + phone)
-      .add("homepage=" + homepage)
-      .add("organization='" + organization + "'")
-      .add("address=" + address)
-      .add("city='" + city + "'")
-      .add("province='" + province + "'")
-      .add("country=" + country)
-      .add("postalCode='" + postalCode + "'")
-      .add("createdBy='" + createdBy + "'")
-      .add("modifiedBy='" + modifiedBy + "'")
-      .add("created=" + created)
-      .add("modified=" + modified)
-      .toString();
+        .add("key=" + key)
+        .add("type=" + type)
+        .add("primary=" + primary)
+        .add("userId=" + userId)
+        .add("firstName='" + firstName + "'")
+        .add("lastName='" + lastName + "'")
+        .add("position=" + position)
+        .add("description='" + description + "'")
+        .add("email=" + email)
+        .add("phone=" + phone)
+        .add("homepage=" + homepage)
+        .add("organization='" + organization + "'")
+        .add("address=" + address)
+        .add("city='" + city + "'")
+        .add("province='" + province + "'")
+        .add("country=" + country)
+        .add("postalCode='" + postalCode + "'")
+        .add("createdBy='" + createdBy + "'")
+        .add("modifiedBy='" + modifiedBy + "'")
+        .add("created=" + created)
+        .add("modified=" + modified)
+        .toString();
   }
 
   /**
@@ -422,20 +440,20 @@ public class Contact implements Address, LenientEquals<Contact> {
     }
 
     return Objects.equals(type, contact.type)
-      && Objects.equals(primary, contact.primary)
-      && Objects.equals(userId, contact.userId)
-      && Objects.equals(firstName, contact.firstName)
-      && Objects.equals(lastName, contact.lastName)
-      && Objects.equals(position, contact.position)
-      && Objects.equals(description, contact.description)
-      && Objects.equals(email, contact.email)
-      && Objects.equals(phone, contact.phone)
-      && Objects.equals(homepage, contact.homepage)
-      && Objects.equals(organization, contact.organization)
-      && Objects.equals(address, contact.address)
-      && Objects.equals(city, contact.city)
-      && Objects.equals(province, contact.province)
-      && Objects.equals(country, contact.country)
-      && Objects.equals(postalCode, contact.postalCode);
+        && Objects.equals(primary, contact.primary)
+        && Objects.equals(userId, contact.userId)
+        && Objects.equals(firstName, contact.firstName)
+        && Objects.equals(lastName, contact.lastName)
+        && Objects.equals(position, contact.position)
+        && Objects.equals(description, contact.description)
+        && Objects.equals(email, contact.email)
+        && Objects.equals(phone, contact.phone)
+        && Objects.equals(homepage, contact.homepage)
+        && Objects.equals(organization, contact.organization)
+        && Objects.equals(address, contact.address)
+        && Objects.equals(city, contact.city)
+        && Objects.equals(province, contact.province)
+        && Objects.equals(country, contact.country)
+        && Objects.equals(postalCode, contact.postalCode);
   }
 }

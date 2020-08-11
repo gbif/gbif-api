@@ -27,6 +27,7 @@ import javax.validation.constraints.Size;
 /**
  * A package visible providing the commonality for addresses, including the constraint validations.
  */
+@SuppressWarnings("unused")
 public interface Address extends Serializable {
 
   /**

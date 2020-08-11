@@ -28,5 +28,4 @@ public interface Contactable {
   List<Contact> getContacts();
 
   void setContacts(List<Contact> contacts);
-
 }

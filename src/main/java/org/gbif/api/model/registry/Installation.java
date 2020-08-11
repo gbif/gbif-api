@@ -36,9 +36,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * For the GBIF crawling infrastructure, this means it will not be "metasynced" nor will any dataset associated be
  * eligble for crawling.
  */
-// TODO: Only allow adding of Endpoints of the correct type, I would argue for removing all the set(List) methods
-public class Installation implements NetworkEntity, Contactable, Endpointable, MachineTaggable, Taggable, Commentable,
-  Identifiable, LenientEquals<Installation> {
+// TODO: Only allow adding of Endpoints of the correct type, I would argue for removing all the
+// set(List) methods
+@SuppressWarnings("unused")
+public class Installation
+    implements NetworkEntity,
+    Contactable,
+    Endpointable,
+    MachineTaggable,
+    Taggable,
+    Commentable,
+    Identifiable,
+    LenientEquals<Installation> {
 
   private UUID key;
   private UUID organizationKey;
@@ -266,56 +275,71 @@ public class Installation implements NetworkEntity, Contactable, Endpointable, M
       return false;
     }
     Installation that = (Installation) o;
-    return disabled == that.disabled &&
-      Objects.equals(key, that.key) &&
-      Objects.equals(organizationKey, that.organizationKey) &&
-      Objects.equals(password, that.password) &&
-      type == that.type &&
-      Objects.equals(title, that.title) &&
-      Objects.equals(description, that.description) &&
-      Objects.equals(createdBy, that.createdBy) &&
-      Objects.equals(modifiedBy, that.modifiedBy) &&
-      Objects.equals(created, that.created) &&
-      Objects.equals(modified, that.modified) &&
-      Objects.equals(deleted, that.deleted) &&
-      Objects.equals(contacts, that.contacts) &&
-      Objects.equals(endpoints, that.endpoints) &&
-      Objects.equals(machineTags, that.machineTags) &&
-      Objects.equals(tags, that.tags) &&
-      Objects.equals(identifiers, that.identifiers) &&
-      Objects.equals(comments, that.comments);
+    return disabled == that.disabled
+        && Objects.equals(key, that.key)
+        && Objects.equals(organizationKey, that.organizationKey)
+        && Objects.equals(password, that.password)
+        && type == that.type
+        && Objects.equals(title, that.title)
+        && Objects.equals(description, that.description)
+        && Objects.equals(createdBy, that.createdBy)
+        && Objects.equals(modifiedBy, that.modifiedBy)
+        && Objects.equals(created, that.created)
+        && Objects.equals(modified, that.modified)
+        && Objects.equals(deleted, that.deleted)
+        && Objects.equals(contacts, that.contacts)
+        && Objects.equals(endpoints, that.endpoints)
+        && Objects.equals(machineTags, that.machineTags)
+        && Objects.equals(tags, that.tags)
+        && Objects.equals(identifiers, that.identifiers)
+        && Objects.equals(comments, that.comments);
   }
 
   @Override
   public int hashCode() {
-    return Objects
-      .hash(key, organizationKey, password, type, title, description, createdBy, modifiedBy,
-        created, modified, deleted, disabled, contacts, endpoints, machineTags, tags, identifiers,
+    return Objects.hash(
+        key,
+        organizationKey,
+        password,
+        type,
+        title,
+        description,
+        createdBy,
+        modifiedBy,
+        created,
+        modified,
+        deleted,
+        disabled,
+        contacts,
+        endpoints,
+        machineTags,
+        tags,
+        identifiers,
         comments);
   }
 
   @Override
   public String toString() {
     return new StringJoiner(", ", Installation.class.getSimpleName() + "[", "]")
-      .add("key=" + key)
-      .add("organizationKey=" + organizationKey)
-      .add("password='" + password + "'")
-      .add("type=" + type)
-      .add("title='" + title + "'")
-      .add("description='" + description + "'")
-      .add("createdBy='" + createdBy + "'")
-      .add("modifiedBy='" + modifiedBy + "'")
-      .add("created=" + created)
-      .add("modified=" + modified)
-      .add("deleted=" + deleted)
-      .add("disabled=" + disabled)
-      .add("contacts=" + contacts)
-      .add("endpoints=" + endpoints)
-      .add("machineTags=" + machineTags)
-      .add("tags=" + tags)
-      .add("identifiers=" + identifiers)
-      .add("comments=" + comments)
-      .toString();
+        .add("key=" + key)
+        .add("organizationKey=" + organizationKey)
+        .add("password='" + password + "'")
+        .add("type=" + type)
+        .add("title='" + title + "'")
+        .add("description='" + description + "'")
+        .add("createdBy='" + createdBy + "'")
+        .add("modifiedBy='" + modifiedBy + "'")
+        .add("created=" + created)
+        .add("modified=" + modified)
+        .add("deleted=" + deleted)
+        .add("disabled=" + disabled)
+        .add("contacts=" + contacts)
+        .add("endpoints=" + endpoints)
+        .add("machineTags=" + machineTags)
+        .add("tags=" + tags)
+        .add("identifiers=" + identifiers)
+        .add("comments=" + comments)
+        .toString();
   }
 
   /**
@@ -328,8 +352,8 @@ public class Installation implements NetworkEntity, Contactable, Endpointable, M
       return true;
     }
     return Objects.equals(this.organizationKey, other.organizationKey)
-      && Objects.equals(this.type, other.type)
-      && Objects.equals(this.title, other.title)
-      && Objects.equals(this.description, other.description);
+        && Objects.equals(this.type, other.type)
+        && Objects.equals(this.title, other.title)
+        && Objects.equals(this.description, other.description);
   }
 }

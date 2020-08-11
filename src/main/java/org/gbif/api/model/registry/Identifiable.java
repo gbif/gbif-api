@@ -28,5 +28,4 @@ public interface Identifiable {
   List<Identifier> getIdentifiers();
 
   void setIdentifiers(List<Identifier> identifiers);
-
 }

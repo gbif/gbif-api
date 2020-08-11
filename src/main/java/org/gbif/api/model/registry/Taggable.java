@@ -28,5 +28,4 @@ public interface Taggable {
   List<Tag> getTags();
 
   void setTags(List<Tag> tags);
-
 }

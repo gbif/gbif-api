@@ -32,8 +32,7 @@ public class Tag implements Serializable, LenientEquals<Tag> {
   private String createdBy;
   private Date created;
 
-  public Tag() {
-  }
+  public Tag() {}
 
   public Tag(String value) {
     this.value = value;
@@ -93,10 +92,10 @@ public class Tag implements Serializable, LenientEquals<Tag> {
       return false;
     }
     Tag tag = (Tag) o;
-    return Objects.equals(key, tag.key) &&
-      Objects.equals(value, tag.value) &&
-      Objects.equals(createdBy, tag.createdBy) &&
-      Objects.equals(created, tag.created);
+    return Objects.equals(key, tag.key)
+        && Objects.equals(value, tag.value)
+        && Objects.equals(createdBy, tag.createdBy)
+        && Objects.equals(created, tag.created);
   }
 
   @Override
@@ -107,11 +106,11 @@ public class Tag implements Serializable, LenientEquals<Tag> {
   @Override
   public String toString() {
     return new StringJoiner(", ", Tag.class.getSimpleName() + "[", "]")
-      .add("key=" + key)
-      .add("value='" + value + "'")
-      .add("createdBy='" + createdBy + "'")
-      .add("created=" + created)
-      .toString();
+        .add("key=" + key)
+        .add("value='" + value + "'")
+        .add("createdBy='" + createdBy + "'")
+        .add("created=" + created)
+        .toString();
   }
 
   /**
@@ -124,5 +123,4 @@ public class Tag implements Serializable, LenientEquals<Tag> {
     }
     return Objects.equals(this.value, other.value);
   }
-
 }

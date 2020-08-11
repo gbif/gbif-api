@@ -39,9 +39,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * A GBIF data publisher.
  */
+@SuppressWarnings("unused")
 public class Organization
-  implements NetworkEntity, Contactable, Endpointable, MachineTaggable, Taggable, Identifiable, Commentable,
-  LenientEquals<Organization>, Address {
+    implements NetworkEntity,
+    Contactable,
+    Endpointable,
+    MachineTaggable,
+    Taggable,
+    Identifiable,
+    Commentable,
+    LenientEquals<Organization>,
+    Address {
 
   private UUID key;
   private UUID endorsingNodeKey;
@@ -411,83 +419,110 @@ public class Organization
       return false;
     }
     Organization that = (Organization) o;
-    return endorsementApproved == that.endorsementApproved &&
-      numPublishedDatasets == that.numPublishedDatasets &&
-      Objects.equals(key, that.key) &&
-      Objects.equals(endorsingNodeKey, that.endorsingNodeKey) &&
-      Objects.equals(password, that.password) &&
-      Objects.equals(title, that.title) &&
-      Objects.equals(abbreviation, that.abbreviation) &&
-      Objects.equals(description, that.description) &&
-      language == that.language &&
-      Objects.equals(email, that.email) &&
-      Objects.equals(phone, that.phone) &&
-      Objects.equals(homepage, that.homepage) &&
-      Objects.equals(logoUrl, that.logoUrl) &&
-      Objects.equals(address, that.address) &&
-      Objects.equals(city, that.city) &&
-      Objects.equals(province, that.province) &&
-      country == that.country &&
-      Objects.equals(postalCode, that.postalCode) &&
-      Objects.equals(latitude, that.latitude) &&
-      Objects.equals(longitude, that.longitude) &&
-      Objects.equals(createdBy, that.createdBy) &&
-      Objects.equals(modifiedBy, that.modifiedBy) &&
-      Objects.equals(created, that.created) &&
-      Objects.equals(modified, that.modified) &&
-      Objects.equals(deleted, that.deleted) &&
-      Objects.equals(contacts, that.contacts) &&
-      Objects.equals(endpoints, that.endpoints) &&
-      Objects.equals(machineTags, that.machineTags) &&
-      Objects.equals(tags, that.tags) &&
-      Objects.equals(identifiers, that.identifiers) &&
-      Objects.equals(comments, that.comments);
+    return endorsementApproved == that.endorsementApproved
+        && numPublishedDatasets == that.numPublishedDatasets
+        && Objects.equals(key, that.key)
+        && Objects.equals(endorsingNodeKey, that.endorsingNodeKey)
+        && Objects.equals(password, that.password)
+        && Objects.equals(title, that.title)
+        && Objects.equals(abbreviation, that.abbreviation)
+        && Objects.equals(description, that.description)
+        && language == that.language
+        && Objects.equals(email, that.email)
+        && Objects.equals(phone, that.phone)
+        && Objects.equals(homepage, that.homepage)
+        && Objects.equals(logoUrl, that.logoUrl)
+        && Objects.equals(address, that.address)
+        && Objects.equals(city, that.city)
+        && Objects.equals(province, that.province)
+        && country == that.country
+        && Objects.equals(postalCode, that.postalCode)
+        && Objects.equals(latitude, that.latitude)
+        && Objects.equals(longitude, that.longitude)
+        && Objects.equals(createdBy, that.createdBy)
+        && Objects.equals(modifiedBy, that.modifiedBy)
+        && Objects.equals(created, that.created)
+        && Objects.equals(modified, that.modified)
+        && Objects.equals(deleted, that.deleted)
+        && Objects.equals(contacts, that.contacts)
+        && Objects.equals(endpoints, that.endpoints)
+        && Objects.equals(machineTags, that.machineTags)
+        && Objects.equals(tags, that.tags)
+        && Objects.equals(identifiers, that.identifiers)
+        && Objects.equals(comments, that.comments);
   }
 
   @Override
   public int hashCode() {
-    return Objects
-      .hash(key, endorsingNodeKey, endorsementApproved, password, title, abbreviation, description,
-        language, email, phone, homepage, logoUrl, address, city, province, country, postalCode,
-        latitude, longitude, numPublishedDatasets, createdBy, modifiedBy, created, modified,
-        deleted, contacts, endpoints, machineTags, tags, identifiers, comments);
+    return Objects.hash(
+        key,
+        endorsingNodeKey,
+        endorsementApproved,
+        password,
+        title,
+        abbreviation,
+        description,
+        language,
+        email,
+        phone,
+        homepage,
+        logoUrl,
+        address,
+        city,
+        province,
+        country,
+        postalCode,
+        latitude,
+        longitude,
+        numPublishedDatasets,
+        createdBy,
+        modifiedBy,
+        created,
+        modified,
+        deleted,
+        contacts,
+        endpoints,
+        machineTags,
+        tags,
+        identifiers,
+        comments);
   }
 
   @Override
   public String toString() {
     return new StringJoiner(", ", Organization.class.getSimpleName() + "[", "]")
-      .add("key=" + key)
-      .add("endorsingNodeKey=" + endorsingNodeKey)
-      .add("endorsementApproved=" + endorsementApproved)
-      .add("password='" + password + "'")
-      .add("title='" + title + "'")
-      .add("abbreviation='" + abbreviation + "'")
-      .add("description='" + description + "'")
-      .add("language=" + language)
-      .add("email=" + email)
-      .add("phone=" + phone)
-      .add("homepage=" + homepage)
-      .add("logoUrl=" + logoUrl)
-      .add("address=" + address)
-      .add("city='" + city + "'")
-      .add("province='" + province + "'")
-      .add("country=" + country)
-      .add("postalCode='" + postalCode + "'")
-      .add("latitude=" + latitude)
-      .add("longitude=" + longitude)
-      .add("numPublishedDatasets=" + numPublishedDatasets)
-      .add("createdBy='" + createdBy + "'")
-      .add("modifiedBy='" + modifiedBy + "'")
-      .add("created=" + created)
-      .add("modified=" + modified)
-      .add("deleted=" + deleted)
-      .add("contacts=" + contacts)
-      .add("endpoints=" + endpoints)
-      .add("machineTags=" + machineTags)
-      .add("tags=" + tags)
-      .add("identifiers=" + identifiers)
-      .add("comments=" + comments)
-      .toString();
+        .add("key=" + key)
+        .add("endorsingNodeKey=" + endorsingNodeKey)
+        .add("endorsementApproved=" + endorsementApproved)
+        .add("password='" + password + "'")
+        .add("title='" + title + "'")
+        .add("abbreviation='" + abbreviation + "'")
+        .add("description='" + description + "'")
+        .add("language=" + language)
+        .add("email=" + email)
+        .add("phone=" + phone)
+        .add("homepage=" + homepage)
+        .add("logoUrl=" + logoUrl)
+        .add("address=" + address)
+        .add("city='" + city + "'")
+        .add("province='" + province + "'")
+        .add("country=" + country)
+        .add("postalCode='" + postalCode + "'")
+        .add("latitude=" + latitude)
+        .add("longitude=" + longitude)
+        .add("numPublishedDatasets=" + numPublishedDatasets)
+        .add("createdBy='" + createdBy + "'")
+        .add("modifiedBy='" + modifiedBy + "'")
+        .add("created=" + created)
+        .add("modified=" + modified)
+        .add("deleted=" + deleted)
+        .add("contacts=" + contacts)
+        .add("endpoints=" + endpoints)
+        .add("machineTags=" + machineTags)
+        .add("tags=" + tags)
+        .add("identifiers=" + identifiers)
+        .add("comments=" + comments)
+        .toString();
   }
 
   /**
@@ -500,22 +535,22 @@ public class Organization
       return true;
     }
     return Objects.equals(this.endorsingNodeKey, other.endorsingNodeKey)
-      && Objects.equals(this.endorsementApproved, other.endorsementApproved)
-      && Objects.equals(this.title, other.title)
-      && Objects.equals(this.abbreviation, other.abbreviation)
-      && Objects.equals(this.description, other.description)
-      && Objects.equals(this.language, other.language)
-      && Objects.equals(this.email, other.email)
-      && Objects.equals(this.phone, other.phone)
-      && Objects.equals(this.homepage, other.homepage)
-      && Objects.equals(this.logoUrl, other.logoUrl)
-      && Objects.equals(this.address, other.address)
-      && Objects.equals(this.city, other.city)
-      && Objects.equals(this.province, other.province)
-      && Objects.equals(this.country, other.country)
-      && Objects.equals(this.postalCode, other.postalCode)
-      && Objects.equals(this.latitude, other.latitude)
-      && Objects.equals(this.longitude, other.longitude)
-      && Objects.equals(this.deleted, other.deleted);
+        && Objects.equals(this.endorsementApproved, other.endorsementApproved)
+        && Objects.equals(this.title, other.title)
+        && Objects.equals(this.abbreviation, other.abbreviation)
+        && Objects.equals(this.description, other.description)
+        && Objects.equals(this.language, other.language)
+        && Objects.equals(this.email, other.email)
+        && Objects.equals(this.phone, other.phone)
+        && Objects.equals(this.homepage, other.homepage)
+        && Objects.equals(this.logoUrl, other.logoUrl)
+        && Objects.equals(this.address, other.address)
+        && Objects.equals(this.city, other.city)
+        && Objects.equals(this.province, other.province)
+        && Objects.equals(this.country, other.country)
+        && Objects.equals(this.postalCode, other.postalCode)
+        && Objects.equals(this.latitude, other.latitude)
+        && Objects.equals(this.longitude, other.longitude)
+        && Objects.equals(this.deleted, other.deleted);
   }
 }
