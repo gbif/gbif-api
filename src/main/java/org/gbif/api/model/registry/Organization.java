@@ -76,6 +76,7 @@ public class Organization
   private Date created;
   private Date modified;
   private Date deleted;
+  private Date endorsed;
   private List<Contact> contacts = new ArrayList<>();
   private List<Endpoint> endpoints = new ArrayList<>();
   private List<MachineTag> machineTags = new ArrayList<>();
@@ -141,6 +142,14 @@ public class Organization
   @Override
   public void setDeleted(Date deleted) {
     this.deleted = deleted;
+  }
+
+  public Date getEndorsed() {
+    return endorsed;
+  }
+
+  public void setEndorsed(Date endorsed) {
+    this.endorsed = endorsed;
   }
 
   @NotNull
@@ -444,6 +453,7 @@ public class Organization
         && Objects.equals(created, that.created)
         && Objects.equals(modified, that.modified)
         && Objects.equals(deleted, that.deleted)
+        && Objects.equals(endorsed, that.endorsed)
         && Objects.equals(contacts, that.contacts)
         && Objects.equals(endpoints, that.endpoints)
         && Objects.equals(machineTags, that.machineTags)
@@ -480,6 +490,7 @@ public class Organization
         created,
         modified,
         deleted,
+        endorsed,
         contacts,
         endpoints,
         machineTags,
@@ -516,6 +527,7 @@ public class Organization
         .add("created=" + created)
         .add("modified=" + modified)
         .add("deleted=" + deleted)
+        .add("endorsed=" + endorsed)
         .add("contacts=" + contacts)
         .add("endpoints=" + endpoints)
         .add("machineTags=" + machineTags)
@@ -551,6 +563,7 @@ public class Organization
         && Objects.equals(this.postalCode, other.postalCode)
         && Objects.equals(this.latitude, other.latitude)
         && Objects.equals(this.longitude, other.longitude)
-        && Objects.equals(this.deleted, other.deleted);
+        && Objects.equals(this.deleted, other.deleted)
+        && Objects.equals(this.endorsed, other.endorsed);
   }
 }
