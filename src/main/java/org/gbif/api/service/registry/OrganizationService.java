@@ -79,10 +79,27 @@ public interface OrganizationService
    * Confirming the endorsement of an {@link Organization} may not be required or possible depending
    * how the {@link Organization} was created.
    *
-   * @param organizationKey
+   * @param organizationKey key of the organization
    * @param confirmationKey (aka challenge code)
    * @return endorsement was confirmed using the provided keys
    */
   boolean confirmEndorsement(@NotNull UUID organizationKey, @NotNull UUID confirmationKey);
 
+  /**
+   * Confirm the endorsement of a new {@link Organization} without a confirmationKey.
+   * Confirming the endorsement of an {@link Organization} may not be required or possible depending
+   * how the {@link Organization} was created.
+   *
+   * @param organizationKey key of the organization
+   * @return endorsement was confirmed using the provided keys
+   */
+  boolean confirmEndorsement(@NotNull UUID organizationKey);
+
+  /**
+   * Revoke the endorsement of the {@link Organization}.
+   *
+   * @param organizationKey key of the organization
+   * @return endorsement was confirmed using the provided keys
+   */
+  boolean revokeEndorsement(@NotNull UUID organizationKey);
 }
