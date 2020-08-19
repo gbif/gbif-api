@@ -54,6 +54,7 @@ public class Organization
   private UUID key;
   private UUID endorsingNodeKey;
   private boolean endorsementApproved;
+  private EndorsementStatus endorsementStatus;
   private String password;
   private String title;
   private String abbreviation;
@@ -167,6 +168,14 @@ public class Organization
 
   public void setEndorsementApproved(boolean endorsementApproved) {
     this.endorsementApproved = endorsementApproved;
+  }
+
+  public EndorsementStatus getEndorsementStatus() {
+    return endorsementStatus;
+  }
+
+  public void setEndorsementStatus(EndorsementStatus endorsementStatus) {
+    this.endorsementStatus = endorsementStatus;
   }
 
   /**
@@ -429,6 +438,7 @@ public class Organization
     }
     Organization that = (Organization) o;
     return endorsementApproved == that.endorsementApproved
+        && endorsementStatus == that.endorsementStatus
         && numPublishedDatasets == that.numPublishedDatasets
         && Objects.equals(key, that.key)
         && Objects.equals(endorsingNodeKey, that.endorsingNodeKey)
@@ -468,6 +478,7 @@ public class Organization
         key,
         endorsingNodeKey,
         endorsementApproved,
+        endorsementStatus,
         password,
         title,
         abbreviation,
@@ -505,6 +516,7 @@ public class Organization
         .add("key=" + key)
         .add("endorsingNodeKey=" + endorsingNodeKey)
         .add("endorsementApproved=" + endorsementApproved)
+        .add("endorsementStatus=" + endorsementStatus)
         .add("password='" + password + "'")
         .add("title='" + title + "'")
         .add("abbreviation='" + abbreviation + "'")
@@ -548,6 +560,7 @@ public class Organization
     }
     return Objects.equals(this.endorsingNodeKey, other.endorsingNodeKey)
         && Objects.equals(this.endorsementApproved, other.endorsementApproved)
+        && Objects.equals(this.endorsementStatus, other.endorsementStatus)
         && Objects.equals(this.title, other.title)
         && Objects.equals(this.abbreviation, other.abbreviation)
         && Objects.equals(this.description, other.description)
