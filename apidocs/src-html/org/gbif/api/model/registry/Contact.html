@@ -41,111 +41,111 @@
 <span class="sourceLineNo">033</span>import org.apache.commons.lang3.StringUtils;<a name="line.33"></a>
 <span class="sourceLineNo">034</span><a name="line.34"></a>
 <span class="sourceLineNo">035</span>// TODO: Should have a cross-field validation for key &amp; created<a name="line.35"></a>
-<span class="sourceLineNo">036</span>public class Contact implements Address, LenientEquals&lt;Contact&gt; {<a name="line.36"></a>
-<span class="sourceLineNo">037</span><a name="line.37"></a>
-<span class="sourceLineNo">038</span>  private Integer key;<a name="line.38"></a>
-<span class="sourceLineNo">039</span>  private ContactType type;<a name="line.39"></a>
-<span class="sourceLineNo">040</span>  private boolean primary;<a name="line.40"></a>
-<span class="sourceLineNo">041</span>  private List&lt;String&gt; userId = new ArrayList&lt;&gt;();<a name="line.41"></a>
-<span class="sourceLineNo">042</span>  private String firstName;<a name="line.42"></a>
-<span class="sourceLineNo">043</span>  private String lastName;<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  private List&lt;String&gt; position = new ArrayList&lt;&gt;();<a name="line.44"></a>
-<span class="sourceLineNo">045</span>  private String description;<a name="line.45"></a>
-<span class="sourceLineNo">046</span>  private List&lt;String&gt; email = new ArrayList&lt;&gt;();<a name="line.46"></a>
-<span class="sourceLineNo">047</span>  private List&lt;String&gt; phone = new ArrayList&lt;&gt;();<a name="line.47"></a>
-<span class="sourceLineNo">048</span>  private List&lt;URI&gt; homepage = new ArrayList&lt;&gt;();<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  private String organization;<a name="line.49"></a>
-<span class="sourceLineNo">050</span>  private List&lt;String&gt; address = new ArrayList&lt;&gt;();<a name="line.50"></a>
-<span class="sourceLineNo">051</span>  private String city;<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  private String province;<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  private Country country;<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  private String postalCode;<a name="line.54"></a>
-<span class="sourceLineNo">055</span>  private String createdBy;<a name="line.55"></a>
-<span class="sourceLineNo">056</span>  private String modifiedBy;<a name="line.56"></a>
-<span class="sourceLineNo">057</span>  private Date created;<a name="line.57"></a>
-<span class="sourceLineNo">058</span>  private Date modified;<a name="line.58"></a>
-<span class="sourceLineNo">059</span><a name="line.59"></a>
-<span class="sourceLineNo">060</span>  @Null(groups = {PrePersist.class})<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  @NotNull(groups = {PostPersist.class})<a name="line.61"></a>
-<span class="sourceLineNo">062</span>  public Integer getKey() {<a name="line.62"></a>
-<span class="sourceLineNo">063</span>    return key;<a name="line.63"></a>
-<span class="sourceLineNo">064</span>  }<a name="line.64"></a>
-<span class="sourceLineNo">065</span><a name="line.65"></a>
-<span class="sourceLineNo">066</span>  public void setKey(Integer key) {<a name="line.66"></a>
-<span class="sourceLineNo">067</span>    this.key = key;<a name="line.67"></a>
-<span class="sourceLineNo">068</span>  }<a name="line.68"></a>
-<span class="sourceLineNo">069</span><a name="line.69"></a>
-<span class="sourceLineNo">070</span>  @Nullable<a name="line.70"></a>
-<span class="sourceLineNo">071</span>  public ContactType getType() {<a name="line.71"></a>
-<span class="sourceLineNo">072</span>    return type;<a name="line.72"></a>
-<span class="sourceLineNo">073</span>  }<a name="line.73"></a>
-<span class="sourceLineNo">074</span><a name="line.74"></a>
-<span class="sourceLineNo">075</span>  public void setType(ContactType type) {<a name="line.75"></a>
-<span class="sourceLineNo">076</span>    this.type = type;<a name="line.76"></a>
-<span class="sourceLineNo">077</span>  }<a name="line.77"></a>
-<span class="sourceLineNo">078</span><a name="line.78"></a>
-<span class="sourceLineNo">079</span>  public boolean isPrimary() {<a name="line.79"></a>
-<span class="sourceLineNo">080</span>    return primary;<a name="line.80"></a>
-<span class="sourceLineNo">081</span>  }<a name="line.81"></a>
-<span class="sourceLineNo">082</span><a name="line.82"></a>
-<span class="sourceLineNo">083</span>  public void setPrimary(boolean primary) {<a name="line.83"></a>
-<span class="sourceLineNo">084</span>    this.primary = primary;<a name="line.84"></a>
-<span class="sourceLineNo">085</span>  }<a name="line.85"></a>
-<span class="sourceLineNo">086</span><a name="line.86"></a>
-<span class="sourceLineNo">087</span>  @Nullable<a name="line.87"></a>
-<span class="sourceLineNo">088</span>  public List&lt;String&gt; getUserId() {<a name="line.88"></a>
-<span class="sourceLineNo">089</span>    return userId;<a name="line.89"></a>
-<span class="sourceLineNo">090</span>  }<a name="line.90"></a>
-<span class="sourceLineNo">091</span><a name="line.91"></a>
-<span class="sourceLineNo">092</span>  public void setUserId(List&lt;String&gt; userId) {<a name="line.92"></a>
-<span class="sourceLineNo">093</span>    this.userId = userId;<a name="line.93"></a>
-<span class="sourceLineNo">094</span>  }<a name="line.94"></a>
-<span class="sourceLineNo">095</span><a name="line.95"></a>
-<span class="sourceLineNo">096</span>  public void addUserId(String userId) {<a name="line.96"></a>
-<span class="sourceLineNo">097</span>    this.userId.add(userId);<a name="line.97"></a>
-<span class="sourceLineNo">098</span>  }<a name="line.98"></a>
-<span class="sourceLineNo">099</span><a name="line.99"></a>
-<span class="sourceLineNo">100</span>  /**<a name="line.100"></a>
-<span class="sourceLineNo">101</span>   * Adds a new user id that is assembled from a directory name and a local id within it.<a name="line.101"></a>
-<span class="sourceLineNo">102</span>   * Format used by EML, though see https://github.com/gbif/gbif-api/issues/30.<a name="line.102"></a>
-<span class="sourceLineNo">103</span>   * The directory should be a valid URI, if it's not, it will be ignored by this method.<a name="line.103"></a>
-<span class="sourceLineNo">104</span>   *<a name="line.104"></a>
-<span class="sourceLineNo">105</span>   * @param directory identifier for the directory, preferably a URL domain like http://orcid.org<a name="line.105"></a>
-<span class="sourceLineNo">106</span>   * @param id the identifier in that directory<a name="line.106"></a>
-<span class="sourceLineNo">107</span>   */<a name="line.107"></a>
-<span class="sourceLineNo">108</span>  public void addUserId(String directory, String id) {<a name="line.108"></a>
-<span class="sourceLineNo">109</span>    if (StringUtils.isNotEmpty(id)) {<a name="line.109"></a>
-<span class="sourceLineNo">110</span>      if (StringUtils.isEmpty(directory)) {<a name="line.110"></a>
-<span class="sourceLineNo">111</span>        userId.add(id);<a name="line.111"></a>
-<span class="sourceLineNo">112</span>      } else {<a name="line.112"></a>
-<span class="sourceLineNo">113</span>        try {<a name="line.113"></a>
-<span class="sourceLineNo">114</span>          URI dir = URI.create(directory);<a name="line.114"></a>
-<span class="sourceLineNo">115</span>          if (dir.isAbsolute()) {<a name="line.115"></a>
-<span class="sourceLineNo">116</span>            String dir2 = dir.toString();<a name="line.116"></a>
-<span class="sourceLineNo">117</span>            if (!dir2.endsWith("/") &amp;&amp; !dir2.endsWith("=")) {<a name="line.117"></a>
-<span class="sourceLineNo">118</span>              dir2 = dir2 + "/";<a name="line.118"></a>
-<span class="sourceLineNo">119</span>            }<a name="line.119"></a>
-<span class="sourceLineNo">120</span><a name="line.120"></a>
-<span class="sourceLineNo">121</span>            // Check if the id is already prefixed with the directory URI, either HTTP or HTTPS.<a name="line.121"></a>
-<span class="sourceLineNo">122</span>            if (id.startsWith(dir2)<a name="line.122"></a>
-<span class="sourceLineNo">123</span>              || id.startsWith(dir2.replace("http://", "https://"))<a name="line.123"></a>
-<span class="sourceLineNo">124</span>              || id.startsWith(dir2.replace("https://", "http://"))) {<a name="line.124"></a>
-<span class="sourceLineNo">125</span>              userId.add(id);<a name="line.125"></a>
-<span class="sourceLineNo">126</span>            // Check if the id is prefixed with the hostname.<a name="line.126"></a>
-<span class="sourceLineNo">127</span>            } else if (id.startsWith(dir.getHost())) {<a name="line.127"></a>
-<span class="sourceLineNo">128</span>              userId.add(dir.getScheme() + "://" + id);<a name="line.128"></a>
-<span class="sourceLineNo">129</span>            } else {<a name="line.129"></a>
-<span class="sourceLineNo">130</span>              userId.add(dir2 + id);<a name="line.130"></a>
-<span class="sourceLineNo">131</span>            }<a name="line.131"></a>
-<span class="sourceLineNo">132</span>          } else {<a name="line.132"></a>
-<span class="sourceLineNo">133</span>            if (id.startsWith(dir.toString())) {<a name="line.133"></a>
-<span class="sourceLineNo">134</span>              userId.add(id);<a name="line.134"></a>
-<span class="sourceLineNo">135</span>            } else {<a name="line.135"></a>
-<span class="sourceLineNo">136</span>              userId.add(dir + ":" + id);<a name="line.136"></a>
-<span class="sourceLineNo">137</span>            }<a name="line.137"></a>
-<span class="sourceLineNo">138</span>          }<a name="line.138"></a>
-<span class="sourceLineNo">139</span>        }<a name="line.139"></a>
-<span class="sourceLineNo">140</span>        catch (IllegalArgumentException iaEx) {<a name="line.140"></a>
+<span class="sourceLineNo">036</span>@SuppressWarnings("unused")<a name="line.36"></a>
+<span class="sourceLineNo">037</span>public class Contact implements Address, LenientEquals&lt;Contact&gt; {<a name="line.37"></a>
+<span class="sourceLineNo">038</span><a name="line.38"></a>
+<span class="sourceLineNo">039</span>  private Integer key;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>  private ContactType type;<a name="line.40"></a>
+<span class="sourceLineNo">041</span>  private boolean primary;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>  private List&lt;String&gt; userId = new ArrayList&lt;&gt;();<a name="line.42"></a>
+<span class="sourceLineNo">043</span>  private String firstName;<a name="line.43"></a>
+<span class="sourceLineNo">044</span>  private String lastName;<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  private List&lt;String&gt; position = new ArrayList&lt;&gt;();<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  private String description;<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  private List&lt;String&gt; email = new ArrayList&lt;&gt;();<a name="line.47"></a>
+<span class="sourceLineNo">048</span>  private List&lt;String&gt; phone = new ArrayList&lt;&gt;();<a name="line.48"></a>
+<span class="sourceLineNo">049</span>  private List&lt;URI&gt; homepage = new ArrayList&lt;&gt;();<a name="line.49"></a>
+<span class="sourceLineNo">050</span>  private String organization;<a name="line.50"></a>
+<span class="sourceLineNo">051</span>  private List&lt;String&gt; address = new ArrayList&lt;&gt;();<a name="line.51"></a>
+<span class="sourceLineNo">052</span>  private String city;<a name="line.52"></a>
+<span class="sourceLineNo">053</span>  private String province;<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  private Country country;<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  private String postalCode;<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  private String createdBy;<a name="line.56"></a>
+<span class="sourceLineNo">057</span>  private String modifiedBy;<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  private Date created;<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  private Date modified;<a name="line.59"></a>
+<span class="sourceLineNo">060</span><a name="line.60"></a>
+<span class="sourceLineNo">061</span>  @Null(groups = {PrePersist.class})<a name="line.61"></a>
+<span class="sourceLineNo">062</span>  @NotNull(groups = {PostPersist.class})<a name="line.62"></a>
+<span class="sourceLineNo">063</span>  public Integer getKey() {<a name="line.63"></a>
+<span class="sourceLineNo">064</span>    return key;<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  }<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>  public void setKey(Integer key) {<a name="line.67"></a>
+<span class="sourceLineNo">068</span>    this.key = key;<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  }<a name="line.69"></a>
+<span class="sourceLineNo">070</span><a name="line.70"></a>
+<span class="sourceLineNo">071</span>  @Nullable<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  public ContactType getType() {<a name="line.72"></a>
+<span class="sourceLineNo">073</span>    return type;<a name="line.73"></a>
+<span class="sourceLineNo">074</span>  }<a name="line.74"></a>
+<span class="sourceLineNo">075</span><a name="line.75"></a>
+<span class="sourceLineNo">076</span>  public void setType(ContactType type) {<a name="line.76"></a>
+<span class="sourceLineNo">077</span>    this.type = type;<a name="line.77"></a>
+<span class="sourceLineNo">078</span>  }<a name="line.78"></a>
+<span class="sourceLineNo">079</span><a name="line.79"></a>
+<span class="sourceLineNo">080</span>  public boolean isPrimary() {<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    return primary;<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  }<a name="line.82"></a>
+<span class="sourceLineNo">083</span><a name="line.83"></a>
+<span class="sourceLineNo">084</span>  public void setPrimary(boolean primary) {<a name="line.84"></a>
+<span class="sourceLineNo">085</span>    this.primary = primary;<a name="line.85"></a>
+<span class="sourceLineNo">086</span>  }<a name="line.86"></a>
+<span class="sourceLineNo">087</span><a name="line.87"></a>
+<span class="sourceLineNo">088</span>  @Nullable<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  public List&lt;String&gt; getUserId() {<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    return userId;<a name="line.90"></a>
+<span class="sourceLineNo">091</span>  }<a name="line.91"></a>
+<span class="sourceLineNo">092</span><a name="line.92"></a>
+<span class="sourceLineNo">093</span>  public void setUserId(List&lt;String&gt; userId) {<a name="line.93"></a>
+<span class="sourceLineNo">094</span>    this.userId = userId;<a name="line.94"></a>
+<span class="sourceLineNo">095</span>  }<a name="line.95"></a>
+<span class="sourceLineNo">096</span><a name="line.96"></a>
+<span class="sourceLineNo">097</span>  public void addUserId(String userId) {<a name="line.97"></a>
+<span class="sourceLineNo">098</span>    this.userId.add(userId);<a name="line.98"></a>
+<span class="sourceLineNo">099</span>  }<a name="line.99"></a>
+<span class="sourceLineNo">100</span><a name="line.100"></a>
+<span class="sourceLineNo">101</span>  /**<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   * Adds a new user id that is assembled from a directory name and a local id within it.<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   * Format used by EML, though see https://github.com/gbif/gbif-api/issues/30.<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   * The directory should be a valid URI, if it's not, it will be ignored by this method.<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   *<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   * @param directory identifier for the directory, preferably a URL domain like http://orcid.org<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   * @param id the identifier in that directory<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   */<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  public void addUserId(String directory, String id) {<a name="line.109"></a>
+<span class="sourceLineNo">110</span>    if (StringUtils.isNotEmpty(id)) {<a name="line.110"></a>
+<span class="sourceLineNo">111</span>      if (StringUtils.isEmpty(directory)) {<a name="line.111"></a>
+<span class="sourceLineNo">112</span>        userId.add(id);<a name="line.112"></a>
+<span class="sourceLineNo">113</span>      } else {<a name="line.113"></a>
+<span class="sourceLineNo">114</span>        try {<a name="line.114"></a>
+<span class="sourceLineNo">115</span>          URI dir = URI.create(directory);<a name="line.115"></a>
+<span class="sourceLineNo">116</span>          if (dir.isAbsolute()) {<a name="line.116"></a>
+<span class="sourceLineNo">117</span>            String dir2 = dir.toString();<a name="line.117"></a>
+<span class="sourceLineNo">118</span>            if (!dir2.endsWith("/") &amp;&amp; !dir2.endsWith("=")) {<a name="line.118"></a>
+<span class="sourceLineNo">119</span>              dir2 = dir2 + "/";<a name="line.119"></a>
+<span class="sourceLineNo">120</span>            }<a name="line.120"></a>
+<span class="sourceLineNo">121</span><a name="line.121"></a>
+<span class="sourceLineNo">122</span>            // Check if the id is already prefixed with the directory URI, either HTTP or HTTPS.<a name="line.122"></a>
+<span class="sourceLineNo">123</span>            if (id.startsWith(dir2)<a name="line.123"></a>
+<span class="sourceLineNo">124</span>                || id.startsWith(dir2.replace("http://", "https://"))<a name="line.124"></a>
+<span class="sourceLineNo">125</span>                || id.startsWith(dir2.replace("https://", "http://"))) {<a name="line.125"></a>
+<span class="sourceLineNo">126</span>              userId.add(id);<a name="line.126"></a>
+<span class="sourceLineNo">127</span>              // Check if the id is prefixed with the hostname.<a name="line.127"></a>
+<span class="sourceLineNo">128</span>            } else if (id.startsWith(dir.getHost())) {<a name="line.128"></a>
+<span class="sourceLineNo">129</span>              userId.add(dir.getScheme() + "://" + id);<a name="line.129"></a>
+<span class="sourceLineNo">130</span>            } else {<a name="line.130"></a>
+<span class="sourceLineNo">131</span>              userId.add(dir2 + id);<a name="line.131"></a>
+<span class="sourceLineNo">132</span>            }<a name="line.132"></a>
+<span class="sourceLineNo">133</span>          } else {<a name="line.133"></a>
+<span class="sourceLineNo">134</span>            if (id.startsWith(dir.toString())) {<a name="line.134"></a>
+<span class="sourceLineNo">135</span>              userId.add(id);<a name="line.135"></a>
+<span class="sourceLineNo">136</span>            } else {<a name="line.136"></a>
+<span class="sourceLineNo">137</span>              userId.add(dir + ":" + id);<a name="line.137"></a>
+<span class="sourceLineNo">138</span>            }<a name="line.138"></a>
+<span class="sourceLineNo">139</span>          }<a name="line.139"></a>
+<span class="sourceLineNo">140</span>        } catch (IllegalArgumentException iaEx) {<a name="line.140"></a>
 <span class="sourceLineNo">141</span>          // in case the directory is not a valid URL keep only the user id<a name="line.141"></a>
 <span class="sourceLineNo">142</span>          userId.add(id);<a name="line.142"></a>
 <span class="sourceLineNo">143</span>        }<a name="line.143"></a>
@@ -361,92 +361,110 @@
 <span class="sourceLineNo">353</span>      return false;<a name="line.353"></a>
 <span class="sourceLineNo">354</span>    }<a name="line.354"></a>
 <span class="sourceLineNo">355</span>    Contact contact = (Contact) o;<a name="line.355"></a>
-<span class="sourceLineNo">356</span>    return primary == contact.primary &amp;&amp;<a name="line.356"></a>
-<span class="sourceLineNo">357</span>      Objects.equals(key, contact.key) &amp;&amp;<a name="line.357"></a>
-<span class="sourceLineNo">358</span>      type == contact.type &amp;&amp;<a name="line.358"></a>
-<span class="sourceLineNo">359</span>      Objects.equals(userId, contact.userId) &amp;&amp;<a name="line.359"></a>
-<span class="sourceLineNo">360</span>      Objects.equals(firstName, contact.firstName) &amp;&amp;<a name="line.360"></a>
-<span class="sourceLineNo">361</span>      Objects.equals(lastName, contact.lastName) &amp;&amp;<a name="line.361"></a>
-<span class="sourceLineNo">362</span>      Objects.equals(position, contact.position) &amp;&amp;<a name="line.362"></a>
-<span class="sourceLineNo">363</span>      Objects.equals(description, contact.description) &amp;&amp;<a name="line.363"></a>
-<span class="sourceLineNo">364</span>      Objects.equals(email, contact.email) &amp;&amp;<a name="line.364"></a>
-<span class="sourceLineNo">365</span>      Objects.equals(phone, contact.phone) &amp;&amp;<a name="line.365"></a>
-<span class="sourceLineNo">366</span>      Objects.equals(homepage, contact.homepage) &amp;&amp;<a name="line.366"></a>
-<span class="sourceLineNo">367</span>      Objects.equals(organization, contact.organization) &amp;&amp;<a name="line.367"></a>
-<span class="sourceLineNo">368</span>      Objects.equals(address, contact.address) &amp;&amp;<a name="line.368"></a>
-<span class="sourceLineNo">369</span>      Objects.equals(city, contact.city) &amp;&amp;<a name="line.369"></a>
-<span class="sourceLineNo">370</span>      Objects.equals(province, contact.province) &amp;&amp;<a name="line.370"></a>
-<span class="sourceLineNo">371</span>      country == contact.country &amp;&amp;<a name="line.371"></a>
-<span class="sourceLineNo">372</span>      Objects.equals(postalCode, contact.postalCode) &amp;&amp;<a name="line.372"></a>
-<span class="sourceLineNo">373</span>      Objects.equals(createdBy, contact.createdBy) &amp;&amp;<a name="line.373"></a>
-<span class="sourceLineNo">374</span>      Objects.equals(modifiedBy, contact.modifiedBy) &amp;&amp;<a name="line.374"></a>
-<span class="sourceLineNo">375</span>      Objects.equals(created, contact.created) &amp;&amp;<a name="line.375"></a>
-<span class="sourceLineNo">376</span>      Objects.equals(modified, contact.modified);<a name="line.376"></a>
+<span class="sourceLineNo">356</span>    return primary == contact.primary<a name="line.356"></a>
+<span class="sourceLineNo">357</span>        &amp;&amp; Objects.equals(key, contact.key)<a name="line.357"></a>
+<span class="sourceLineNo">358</span>        &amp;&amp; type == contact.type<a name="line.358"></a>
+<span class="sourceLineNo">359</span>        &amp;&amp; Objects.equals(userId, contact.userId)<a name="line.359"></a>
+<span class="sourceLineNo">360</span>        &amp;&amp; Objects.equals(firstName, contact.firstName)<a name="line.360"></a>
+<span class="sourceLineNo">361</span>        &amp;&amp; Objects.equals(lastName, contact.lastName)<a name="line.361"></a>
+<span class="sourceLineNo">362</span>        &amp;&amp; Objects.equals(position, contact.position)<a name="line.362"></a>
+<span class="sourceLineNo">363</span>        &amp;&amp; Objects.equals(description, contact.description)<a name="line.363"></a>
+<span class="sourceLineNo">364</span>        &amp;&amp; Objects.equals(email, contact.email)<a name="line.364"></a>
+<span class="sourceLineNo">365</span>        &amp;&amp; Objects.equals(phone, contact.phone)<a name="line.365"></a>
+<span class="sourceLineNo">366</span>        &amp;&amp; Objects.equals(homepage, contact.homepage)<a name="line.366"></a>
+<span class="sourceLineNo">367</span>        &amp;&amp; Objects.equals(organization, contact.organization)<a name="line.367"></a>
+<span class="sourceLineNo">368</span>        &amp;&amp; Objects.equals(address, contact.address)<a name="line.368"></a>
+<span class="sourceLineNo">369</span>        &amp;&amp; Objects.equals(city, contact.city)<a name="line.369"></a>
+<span class="sourceLineNo">370</span>        &amp;&amp; Objects.equals(province, contact.province)<a name="line.370"></a>
+<span class="sourceLineNo">371</span>        &amp;&amp; country == contact.country<a name="line.371"></a>
+<span class="sourceLineNo">372</span>        &amp;&amp; Objects.equals(postalCode, contact.postalCode)<a name="line.372"></a>
+<span class="sourceLineNo">373</span>        &amp;&amp; Objects.equals(createdBy, contact.createdBy)<a name="line.373"></a>
+<span class="sourceLineNo">374</span>        &amp;&amp; Objects.equals(modifiedBy, contact.modifiedBy)<a name="line.374"></a>
+<span class="sourceLineNo">375</span>        &amp;&amp; Objects.equals(created, contact.created)<a name="line.375"></a>
+<span class="sourceLineNo">376</span>        &amp;&amp; Objects.equals(modified, contact.modified);<a name="line.376"></a>
 <span class="sourceLineNo">377</span>  }<a name="line.377"></a>
 <span class="sourceLineNo">378</span><a name="line.378"></a>
 <span class="sourceLineNo">379</span>  @Override<a name="line.379"></a>
 <span class="sourceLineNo">380</span>  public int hashCode() {<a name="line.380"></a>
-<span class="sourceLineNo">381</span>    return Objects<a name="line.381"></a>
-<span class="sourceLineNo">382</span>      .hash(key, type, primary, userId, firstName, lastName, position, description, email, phone,<a name="line.382"></a>
-<span class="sourceLineNo">383</span>        homepage, organization, address, city, province, country, postalCode, createdBy,<a name="line.383"></a>
-<span class="sourceLineNo">384</span>        modifiedBy, created, modified);<a name="line.384"></a>
-<span class="sourceLineNo">385</span>  }<a name="line.385"></a>
-<span class="sourceLineNo">386</span><a name="line.386"></a>
-<span class="sourceLineNo">387</span>  @Override<a name="line.387"></a>
-<span class="sourceLineNo">388</span>  public String toString() {<a name="line.388"></a>
-<span class="sourceLineNo">389</span>    return new StringJoiner(", ", Contact.class.getSimpleName() + "[", "]")<a name="line.389"></a>
-<span class="sourceLineNo">390</span>      .add("key=" + key)<a name="line.390"></a>
-<span class="sourceLineNo">391</span>      .add("type=" + type)<a name="line.391"></a>
-<span class="sourceLineNo">392</span>      .add("primary=" + primary)<a name="line.392"></a>
-<span class="sourceLineNo">393</span>      .add("userId=" + userId)<a name="line.393"></a>
-<span class="sourceLineNo">394</span>      .add("firstName='" + firstName + "'")<a name="line.394"></a>
-<span class="sourceLineNo">395</span>      .add("lastName='" + lastName + "'")<a name="line.395"></a>
-<span class="sourceLineNo">396</span>      .add("position=" + position)<a name="line.396"></a>
-<span class="sourceLineNo">397</span>      .add("description='" + description + "'")<a name="line.397"></a>
-<span class="sourceLineNo">398</span>      .add("email=" + email)<a name="line.398"></a>
-<span class="sourceLineNo">399</span>      .add("phone=" + phone)<a name="line.399"></a>
-<span class="sourceLineNo">400</span>      .add("homepage=" + homepage)<a name="line.400"></a>
-<span class="sourceLineNo">401</span>      .add("organization='" + organization + "'")<a name="line.401"></a>
-<span class="sourceLineNo">402</span>      .add("address=" + address)<a name="line.402"></a>
-<span class="sourceLineNo">403</span>      .add("city='" + city + "'")<a name="line.403"></a>
-<span class="sourceLineNo">404</span>      .add("province='" + province + "'")<a name="line.404"></a>
-<span class="sourceLineNo">405</span>      .add("country=" + country)<a name="line.405"></a>
-<span class="sourceLineNo">406</span>      .add("postalCode='" + postalCode + "'")<a name="line.406"></a>
-<span class="sourceLineNo">407</span>      .add("createdBy='" + createdBy + "'")<a name="line.407"></a>
-<span class="sourceLineNo">408</span>      .add("modifiedBy='" + modifiedBy + "'")<a name="line.408"></a>
-<span class="sourceLineNo">409</span>      .add("created=" + created)<a name="line.409"></a>
-<span class="sourceLineNo">410</span>      .add("modified=" + modified)<a name="line.410"></a>
-<span class="sourceLineNo">411</span>      .toString();<a name="line.411"></a>
-<span class="sourceLineNo">412</span>  }<a name="line.412"></a>
-<span class="sourceLineNo">413</span><a name="line.413"></a>
-<span class="sourceLineNo">414</span>  /**<a name="line.414"></a>
-<span class="sourceLineNo">415</span>   * This implementation of the {@link #equals(Object)} method does only check &lt;em&gt;business equality&lt;/em&gt; and disregards<a name="line.415"></a>
-<span class="sourceLineNo">416</span>   * automatically set and maintained fields like {@code createdBy, key} and others.<a name="line.416"></a>
-<span class="sourceLineNo">417</span>   */<a name="line.417"></a>
-<span class="sourceLineNo">418</span>  @Override<a name="line.418"></a>
-<span class="sourceLineNo">419</span>  public boolean lenientEquals(Contact contact) {<a name="line.419"></a>
-<span class="sourceLineNo">420</span>    if (this == contact) {<a name="line.420"></a>
-<span class="sourceLineNo">421</span>      return true;<a name="line.421"></a>
-<span class="sourceLineNo">422</span>    }<a name="line.422"></a>
-<span class="sourceLineNo">423</span><a name="line.423"></a>
-<span class="sourceLineNo">424</span>    return Objects.equals(type, contact.type)<a name="line.424"></a>
-<span class="sourceLineNo">425</span>      &amp;&amp; Objects.equals(primary, contact.primary)<a name="line.425"></a>
-<span class="sourceLineNo">426</span>      &amp;&amp; Objects.equals(userId, contact.userId)<a name="line.426"></a>
-<span class="sourceLineNo">427</span>      &amp;&amp; Objects.equals(firstName, contact.firstName)<a name="line.427"></a>
-<span class="sourceLineNo">428</span>      &amp;&amp; Objects.equals(lastName, contact.lastName)<a name="line.428"></a>
-<span class="sourceLineNo">429</span>      &amp;&amp; Objects.equals(position, contact.position)<a name="line.429"></a>
-<span class="sourceLineNo">430</span>      &amp;&amp; Objects.equals(description, contact.description)<a name="line.430"></a>
-<span class="sourceLineNo">431</span>      &amp;&amp; Objects.equals(email, contact.email)<a name="line.431"></a>
-<span class="sourceLineNo">432</span>      &amp;&amp; Objects.equals(phone, contact.phone)<a name="line.432"></a>
-<span class="sourceLineNo">433</span>      &amp;&amp; Objects.equals(homepage, contact.homepage)<a name="line.433"></a>
-<span class="sourceLineNo">434</span>      &amp;&amp; Objects.equals(organization, contact.organization)<a name="line.434"></a>
-<span class="sourceLineNo">435</span>      &amp;&amp; Objects.equals(address, contact.address)<a name="line.435"></a>
-<span class="sourceLineNo">436</span>      &amp;&amp; Objects.equals(city, contact.city)<a name="line.436"></a>
-<span class="sourceLineNo">437</span>      &amp;&amp; Objects.equals(province, contact.province)<a name="line.437"></a>
-<span class="sourceLineNo">438</span>      &amp;&amp; Objects.equals(country, contact.country)<a name="line.438"></a>
-<span class="sourceLineNo">439</span>      &amp;&amp; Objects.equals(postalCode, contact.postalCode);<a name="line.439"></a>
-<span class="sourceLineNo">440</span>  }<a name="line.440"></a>
-<span class="sourceLineNo">441</span>}<a name="line.441"></a>
+<span class="sourceLineNo">381</span>    return Objects.hash(<a name="line.381"></a>
+<span class="sourceLineNo">382</span>        key,<a name="line.382"></a>
+<span class="sourceLineNo">383</span>        type,<a name="line.383"></a>
+<span class="sourceLineNo">384</span>        primary,<a name="line.384"></a>
+<span class="sourceLineNo">385</span>        userId,<a name="line.385"></a>
+<span class="sourceLineNo">386</span>        firstName,<a name="line.386"></a>
+<span class="sourceLineNo">387</span>        lastName,<a name="line.387"></a>
+<span class="sourceLineNo">388</span>        position,<a name="line.388"></a>
+<span class="sourceLineNo">389</span>        description,<a name="line.389"></a>
+<span class="sourceLineNo">390</span>        email,<a name="line.390"></a>
+<span class="sourceLineNo">391</span>        phone,<a name="line.391"></a>
+<span class="sourceLineNo">392</span>        homepage,<a name="line.392"></a>
+<span class="sourceLineNo">393</span>        organization,<a name="line.393"></a>
+<span class="sourceLineNo">394</span>        address,<a name="line.394"></a>
+<span class="sourceLineNo">395</span>        city,<a name="line.395"></a>
+<span class="sourceLineNo">396</span>        province,<a name="line.396"></a>
+<span class="sourceLineNo">397</span>        country,<a name="line.397"></a>
+<span class="sourceLineNo">398</span>        postalCode,<a name="line.398"></a>
+<span class="sourceLineNo">399</span>        createdBy,<a name="line.399"></a>
+<span class="sourceLineNo">400</span>        modifiedBy,<a name="line.400"></a>
+<span class="sourceLineNo">401</span>        created,<a name="line.401"></a>
+<span class="sourceLineNo">402</span>        modified);<a name="line.402"></a>
+<span class="sourceLineNo">403</span>  }<a name="line.403"></a>
+<span class="sourceLineNo">404</span><a name="line.404"></a>
+<span class="sourceLineNo">405</span>  @Override<a name="line.405"></a>
+<span class="sourceLineNo">406</span>  public String toString() {<a name="line.406"></a>
+<span class="sourceLineNo">407</span>    return new StringJoiner(", ", Contact.class.getSimpleName() + "[", "]")<a name="line.407"></a>
+<span class="sourceLineNo">408</span>        .add("key=" + key)<a name="line.408"></a>
+<span class="sourceLineNo">409</span>        .add("type=" + type)<a name="line.409"></a>
+<span class="sourceLineNo">410</span>        .add("primary=" + primary)<a name="line.410"></a>
+<span class="sourceLineNo">411</span>        .add("userId=" + userId)<a name="line.411"></a>
+<span class="sourceLineNo">412</span>        .add("firstName='" + firstName + "'")<a name="line.412"></a>
+<span class="sourceLineNo">413</span>        .add("lastName='" + lastName + "'")<a name="line.413"></a>
+<span class="sourceLineNo">414</span>        .add("position=" + position)<a name="line.414"></a>
+<span class="sourceLineNo">415</span>        .add("description='" + description + "'")<a name="line.415"></a>
+<span class="sourceLineNo">416</span>        .add("email=" + email)<a name="line.416"></a>
+<span class="sourceLineNo">417</span>        .add("phone=" + phone)<a name="line.417"></a>
+<span class="sourceLineNo">418</span>        .add("homepage=" + homepage)<a name="line.418"></a>
+<span class="sourceLineNo">419</span>        .add("organization='" + organization + "'")<a name="line.419"></a>
+<span class="sourceLineNo">420</span>        .add("address=" + address)<a name="line.420"></a>
+<span class="sourceLineNo">421</span>        .add("city='" + city + "'")<a name="line.421"></a>
+<span class="sourceLineNo">422</span>        .add("province='" + province + "'")<a name="line.422"></a>
+<span class="sourceLineNo">423</span>        .add("country=" + country)<a name="line.423"></a>
+<span class="sourceLineNo">424</span>        .add("postalCode='" + postalCode + "'")<a name="line.424"></a>
+<span class="sourceLineNo">425</span>        .add("createdBy='" + createdBy + "'")<a name="line.425"></a>
+<span class="sourceLineNo">426</span>        .add("modifiedBy='" + modifiedBy + "'")<a name="line.426"></a>
+<span class="sourceLineNo">427</span>        .add("created=" + created)<a name="line.427"></a>
+<span class="sourceLineNo">428</span>        .add("modified=" + modified)<a name="line.428"></a>
+<span class="sourceLineNo">429</span>        .toString();<a name="line.429"></a>
+<span class="sourceLineNo">430</span>  }<a name="line.430"></a>
+<span class="sourceLineNo">431</span><a name="line.431"></a>
+<span class="sourceLineNo">432</span>  /**<a name="line.432"></a>
+<span class="sourceLineNo">433</span>   * This implementation of the {@link #equals(Object)} method does only check &lt;em&gt;business equality&lt;/em&gt; and disregards<a name="line.433"></a>
+<span class="sourceLineNo">434</span>   * automatically set and maintained fields like {@code createdBy, key} and others.<a name="line.434"></a>
+<span class="sourceLineNo">435</span>   */<a name="line.435"></a>
+<span class="sourceLineNo">436</span>  @Override<a name="line.436"></a>
+<span class="sourceLineNo">437</span>  public boolean lenientEquals(Contact contact) {<a name="line.437"></a>
+<span class="sourceLineNo">438</span>    if (this == contact) {<a name="line.438"></a>
+<span class="sourceLineNo">439</span>      return true;<a name="line.439"></a>
+<span class="sourceLineNo">440</span>    }<a name="line.440"></a>
+<span class="sourceLineNo">441</span><a name="line.441"></a>
+<span class="sourceLineNo">442</span>    return Objects.equals(type, contact.type)<a name="line.442"></a>
+<span class="sourceLineNo">443</span>        &amp;&amp; Objects.equals(primary, contact.primary)<a name="line.443"></a>
+<span class="sourceLineNo">444</span>        &amp;&amp; Objects.equals(userId, contact.userId)<a name="line.444"></a>
+<span class="sourceLineNo">445</span>        &amp;&amp; Objects.equals(firstName, contact.firstName)<a name="line.445"></a>
+<span class="sourceLineNo">446</span>        &amp;&amp; Objects.equals(lastName, contact.lastName)<a name="line.446"></a>
+<span class="sourceLineNo">447</span>        &amp;&amp; Objects.equals(position, contact.position)<a name="line.447"></a>
+<span class="sourceLineNo">448</span>        &amp;&amp; Objects.equals(description, contact.description)<a name="line.448"></a>
+<span class="sourceLineNo">449</span>        &amp;&amp; Objects.equals(email, contact.email)<a name="line.449"></a>
+<span class="sourceLineNo">450</span>        &amp;&amp; Objects.equals(phone, contact.phone)<a name="line.450"></a>
+<span class="sourceLineNo">451</span>        &amp;&amp; Objects.equals(homepage, contact.homepage)<a name="line.451"></a>
+<span class="sourceLineNo">452</span>        &amp;&amp; Objects.equals(organization, contact.organization)<a name="line.452"></a>
+<span class="sourceLineNo">453</span>        &amp;&amp; Objects.equals(address, contact.address)<a name="line.453"></a>
+<span class="sourceLineNo">454</span>        &amp;&amp; Objects.equals(city, contact.city)<a name="line.454"></a>
+<span class="sourceLineNo">455</span>        &amp;&amp; Objects.equals(province, contact.province)<a name="line.455"></a>
+<span class="sourceLineNo">456</span>        &amp;&amp; Objects.equals(country, contact.country)<a name="line.456"></a>
+<span class="sourceLineNo">457</span>        &amp;&amp; Objects.equals(postalCode, contact.postalCode);<a name="line.457"></a>
+<span class="sourceLineNo">458</span>  }<a name="line.458"></a>
+<span class="sourceLineNo">459</span>}<a name="line.459"></a>
 
 
 

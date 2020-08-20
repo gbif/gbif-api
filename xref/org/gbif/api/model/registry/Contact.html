@@ -41,111 +41,111 @@
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.lang3.StringUtils;
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>  
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>  <em class="jxr_comment">// TODO: Should have a cross-field validation for key &amp; created</em>
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../org/gbif/api/model/registry/Contact.html">Contact</a> <strong class="jxr_keyword">implements</strong> Address, LenientEquals&lt;Contact&gt; {
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>  
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>    <strong class="jxr_keyword">private</strong> Integer key;
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>    <strong class="jxr_keyword">private</strong> <a href="../../../../../org/gbif/api/vocabulary/ContactType.html">ContactType</a> type;
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> primary;
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>    <strong class="jxr_keyword">private</strong> List&lt;String&gt; userId = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>    <strong class="jxr_keyword">private</strong> String firstName;
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>    <strong class="jxr_keyword">private</strong> String lastName;
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>    <strong class="jxr_keyword">private</strong> List&lt;String&gt; position = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>    <strong class="jxr_keyword">private</strong> String description;
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>    <strong class="jxr_keyword">private</strong> List&lt;String&gt; email = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>    <strong class="jxr_keyword">private</strong> List&lt;String&gt; phone = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>    <strong class="jxr_keyword">private</strong> List&lt;URI&gt; homepage = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>    <strong class="jxr_keyword">private</strong> String organization;
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>    <strong class="jxr_keyword">private</strong> List&lt;String&gt; address = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>    <strong class="jxr_keyword">private</strong> String city;
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>    <strong class="jxr_keyword">private</strong> String province;
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>    <strong class="jxr_keyword">private</strong> <a href="../../../../../org/gbif/api/vocabulary/Country.html">Country</a> country;
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>    <strong class="jxr_keyword">private</strong> String postalCode;
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>    <strong class="jxr_keyword">private</strong> String createdBy;
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>    <strong class="jxr_keyword">private</strong> String modifiedBy;
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>    <strong class="jxr_keyword">private</strong> Date created;
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>    <strong class="jxr_keyword">private</strong> Date modified;
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>  
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>    @Null(groups = {PrePersist.<strong class="jxr_keyword">class</strong>})
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>    @NotNull(groups = {PostPersist.<strong class="jxr_keyword">class</strong>})
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>    <strong class="jxr_keyword">public</strong> Integer getKey() {
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>      <strong class="jxr_keyword">return</strong> key;
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>    }
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>  
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setKey(Integer key) {
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>      <strong class="jxr_keyword">this</strong>.key = key;
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>    }
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>  
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>    @Nullable
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/vocabulary/ContactType.html">ContactType</a> getType() {
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>      <strong class="jxr_keyword">return</strong> type;
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>    }
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>  
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setType(<a href="../../../../../org/gbif/api/vocabulary/ContactType.html">ContactType</a> type) {
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>      <strong class="jxr_keyword">this</strong>.type = type;
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>    }
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>  
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isPrimary() {
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>      <strong class="jxr_keyword">return</strong> primary;
-<a class="jxr_linenumber" name="L81" href="#L81">81</a>    }
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>  
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setPrimary(<strong class="jxr_keyword">boolean</strong> primary) {
-<a class="jxr_linenumber" name="L84" href="#L84">84</a>      <strong class="jxr_keyword">this</strong>.primary = primary;
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>    }
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>  
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>    @Nullable
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>    <strong class="jxr_keyword">public</strong> List&lt;String&gt; getUserId() {
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>      <strong class="jxr_keyword">return</strong> userId;
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>    }
-<a class="jxr_linenumber" name="L91" href="#L91">91</a>  
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setUserId(List&lt;String&gt; userId) {
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>      <strong class="jxr_keyword">this</strong>.userId = userId;
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>    }
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>  
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addUserId(String userId) {
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>      <strong class="jxr_keyword">this</strong>.userId.add(userId);
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>    }
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>  
-<a class="jxr_linenumber" name="L100" href="#L100">100</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L101" href="#L101">101</a> <em class="jxr_javadoccomment">   * Adds a new user id that is assembled from a directory name and a local id within it.</em>
-<a class="jxr_linenumber" name="L102" href="#L102">102</a> <em class="jxr_javadoccomment">   * Format used by EML, though see https://github.com/gbif/gbif-api/issues/30.</em>
-<a class="jxr_linenumber" name="L103" href="#L103">103</a> <em class="jxr_javadoccomment">   * The directory should be a valid URI, if it's not, it will be ignored by this method.</em>
-<a class="jxr_linenumber" name="L104" href="#L104">104</a> <em class="jxr_javadoccomment">   *</em>
-<a class="jxr_linenumber" name="L105" href="#L105">105</a> <em class="jxr_javadoccomment">   * @param directory identifier for the directory, preferably a URL domain like <a href="http://orcid.or" target="alexandria_uri">http://orcid.or</a>g</em>
-<a class="jxr_linenumber" name="L106" href="#L106">106</a> <em class="jxr_javadoccomment">   * @param id the identifier in that directory</em>
-<a class="jxr_linenumber" name="L107" href="#L107">107</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L108" href="#L108">108</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addUserId(String directory, String id) {
-<a class="jxr_linenumber" name="L109" href="#L109">109</a>     <strong class="jxr_keyword">if</strong> (StringUtils.isNotEmpty(id)) {
-<a class="jxr_linenumber" name="L110" href="#L110">110</a>       <strong class="jxr_keyword">if</strong> (StringUtils.isEmpty(directory)) {
-<a class="jxr_linenumber" name="L111" href="#L111">111</a>         userId.add(id);
-<a class="jxr_linenumber" name="L112" href="#L112">112</a>       } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L113" href="#L113">113</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L114" href="#L114">114</a>           URI dir = URI.create(directory);
-<a class="jxr_linenumber" name="L115" href="#L115">115</a>           <strong class="jxr_keyword">if</strong> (dir.isAbsolute()) {
-<a class="jxr_linenumber" name="L116" href="#L116">116</a>             String dir2 = dir.toString();
-<a class="jxr_linenumber" name="L117" href="#L117">117</a>             <strong class="jxr_keyword">if</strong> (!dir2.endsWith(<span class="jxr_string">"/"</span>) &amp;&amp; !dir2.endsWith(<span class="jxr_string">"="</span>)) {
-<a class="jxr_linenumber" name="L118" href="#L118">118</a>               dir2 = dir2 + <span class="jxr_string">"/"</span>;
-<a class="jxr_linenumber" name="L119" href="#L119">119</a>             }
-<a class="jxr_linenumber" name="L120" href="#L120">120</a> 
-<a class="jxr_linenumber" name="L121" href="#L121">121</a>             <em class="jxr_comment">// Check if the id is already prefixed with the directory URI, either HTTP or HTTPS.</em>
-<a class="jxr_linenumber" name="L122" href="#L122">122</a>             <strong class="jxr_keyword">if</strong> (id.startsWith(dir2)
-<a class="jxr_linenumber" name="L123" href="#L123">123</a>               || id.startsWith(dir2.replace(<span class="jxr_string">"http://"</span>, <span class="jxr_string">"https://"</span>))
-<a class="jxr_linenumber" name="L124" href="#L124">124</a>               || id.startsWith(dir2.replace(<span class="jxr_string">"https://"</span>, <span class="jxr_string">"http://"</span>))) {
-<a class="jxr_linenumber" name="L125" href="#L125">125</a>               userId.add(id);
-<a class="jxr_linenumber" name="L126" href="#L126">126</a>             <em class="jxr_comment">// Check if the id is prefixed with the hostname.</em>
-<a class="jxr_linenumber" name="L127" href="#L127">127</a>             } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (id.startsWith(dir.getHost())) {
-<a class="jxr_linenumber" name="L128" href="#L128">128</a>               userId.add(dir.getScheme() + <span class="jxr_string">"://"</span> + id);
-<a class="jxr_linenumber" name="L129" href="#L129">129</a>             } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L130" href="#L130">130</a>               userId.add(dir2 + id);
-<a class="jxr_linenumber" name="L131" href="#L131">131</a>             }
-<a class="jxr_linenumber" name="L132" href="#L132">132</a>           } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L133" href="#L133">133</a>             <strong class="jxr_keyword">if</strong> (id.startsWith(dir.toString())) {
-<a class="jxr_linenumber" name="L134" href="#L134">134</a>               userId.add(id);
-<a class="jxr_linenumber" name="L135" href="#L135">135</a>             } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L136" href="#L136">136</a>               userId.add(dir + <span class="jxr_string">":"</span> + id);
-<a class="jxr_linenumber" name="L137" href="#L137">137</a>             }
-<a class="jxr_linenumber" name="L138" href="#L138">138</a>           }
-<a class="jxr_linenumber" name="L139" href="#L139">139</a>         }
-<a class="jxr_linenumber" name="L140" href="#L140">140</a>         <strong class="jxr_keyword">catch</strong> (IllegalArgumentException iaEx) {
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  @SuppressWarnings(<span class="jxr_string">"unused"</span>)
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../org/gbif/api/model/registry/Contact.html">Contact</a> <strong class="jxr_keyword">implements</strong> Address, LenientEquals&lt;Contact&gt; {
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>    <strong class="jxr_keyword">private</strong> Integer key;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>    <strong class="jxr_keyword">private</strong> <a href="../../../../../org/gbif/api/vocabulary/ContactType.html">ContactType</a> type;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> primary;
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>    <strong class="jxr_keyword">private</strong> List&lt;String&gt; userId = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>    <strong class="jxr_keyword">private</strong> String firstName;
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>    <strong class="jxr_keyword">private</strong> String lastName;
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>    <strong class="jxr_keyword">private</strong> List&lt;String&gt; position = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>    <strong class="jxr_keyword">private</strong> String description;
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>    <strong class="jxr_keyword">private</strong> List&lt;String&gt; email = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>    <strong class="jxr_keyword">private</strong> List&lt;String&gt; phone = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>    <strong class="jxr_keyword">private</strong> List&lt;URI&gt; homepage = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>    <strong class="jxr_keyword">private</strong> String organization;
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>    <strong class="jxr_keyword">private</strong> List&lt;String&gt; address = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>    <strong class="jxr_keyword">private</strong> String city;
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>    <strong class="jxr_keyword">private</strong> String province;
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>    <strong class="jxr_keyword">private</strong> <a href="../../../../../org/gbif/api/vocabulary/Country.html">Country</a> country;
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>    <strong class="jxr_keyword">private</strong> String postalCode;
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>    <strong class="jxr_keyword">private</strong> String createdBy;
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>    <strong class="jxr_keyword">private</strong> String modifiedBy;
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>    <strong class="jxr_keyword">private</strong> Date created;
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>    <strong class="jxr_keyword">private</strong> Date modified;
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>    @Null(groups = {PrePersist.<strong class="jxr_keyword">class</strong>})
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>    @NotNull(groups = {PostPersist.<strong class="jxr_keyword">class</strong>})
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>    <strong class="jxr_keyword">public</strong> Integer getKey() {
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>      <strong class="jxr_keyword">return</strong> key;
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>    }
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setKey(Integer key) {
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>      <strong class="jxr_keyword">this</strong>.key = key;
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>    }
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>    @Nullable
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../../org/gbif/api/vocabulary/ContactType.html">ContactType</a> getType() {
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>      <strong class="jxr_keyword">return</strong> type;
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>    }
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setType(<a href="../../../../../org/gbif/api/vocabulary/ContactType.html">ContactType</a> type) {
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>      <strong class="jxr_keyword">this</strong>.type = type;
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>    }
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isPrimary() {
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>      <strong class="jxr_keyword">return</strong> primary;
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>    }
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setPrimary(<strong class="jxr_keyword">boolean</strong> primary) {
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>      <strong class="jxr_keyword">this</strong>.primary = primary;
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>    }
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>  
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>    @Nullable
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>    <strong class="jxr_keyword">public</strong> List&lt;String&gt; getUserId() {
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>      <strong class="jxr_keyword">return</strong> userId;
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>    }
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setUserId(List&lt;String&gt; userId) {
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>      <strong class="jxr_keyword">this</strong>.userId = userId;
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>    }
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>  
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addUserId(String userId) {
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>      <strong class="jxr_keyword">this</strong>.userId.add(userId);
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>    }
+<a class="jxr_linenumber" name="L100" href="#L100">100</a> 
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> <em class="jxr_javadoccomment">   * Adds a new user id that is assembled from a directory name and a local id within it.</em>
+<a class="jxr_linenumber" name="L103" href="#L103">103</a> <em class="jxr_javadoccomment">   * Format used by EML, though see https://github.com/gbif/gbif-api/issues/30.</em>
+<a class="jxr_linenumber" name="L104" href="#L104">104</a> <em class="jxr_javadoccomment">   * The directory should be a valid URI, if it's not, it will be ignored by this method.</em>
+<a class="jxr_linenumber" name="L105" href="#L105">105</a> <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> <em class="jxr_javadoccomment">   * @param directory identifier for the directory, preferably a URL domain like <a href="http://orcid.or" target="alexandria_uri">http://orcid.or</a>g</em>
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> <em class="jxr_javadoccomment">   * @param id the identifier in that directory</em>
+<a class="jxr_linenumber" name="L108" href="#L108">108</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addUserId(String directory, String id) {
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>     <strong class="jxr_keyword">if</strong> (StringUtils.isNotEmpty(id)) {
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>       <strong class="jxr_keyword">if</strong> (StringUtils.isEmpty(directory)) {
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>         userId.add(id);
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>       } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>           URI dir = URI.create(directory);
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>           <strong class="jxr_keyword">if</strong> (dir.isAbsolute()) {
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>             String dir2 = dir.toString();
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>             <strong class="jxr_keyword">if</strong> (!dir2.endsWith(<span class="jxr_string">"/"</span>) &amp;&amp; !dir2.endsWith(<span class="jxr_string">"="</span>)) {
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>               dir2 = dir2 + <span class="jxr_string">"/"</span>;
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>             }
+<a class="jxr_linenumber" name="L121" href="#L121">121</a> 
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>             <em class="jxr_comment">// Check if the id is already prefixed with the directory URI, either HTTP or HTTPS.</em>
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>             <strong class="jxr_keyword">if</strong> (id.startsWith(dir2)
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>                 || id.startsWith(dir2.replace(<span class="jxr_string">"http://"</span>, <span class="jxr_string">"https://"</span>))
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>                 || id.startsWith(dir2.replace(<span class="jxr_string">"https://"</span>, <span class="jxr_string">"http://"</span>))) {
+<a class="jxr_linenumber" name="L126" href="#L126">126</a>               userId.add(id);
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>               <em class="jxr_comment">// Check if the id is prefixed with the hostname.</em>
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>             } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (id.startsWith(dir.getHost())) {
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>               userId.add(dir.getScheme() + <span class="jxr_string">"://"</span> + id);
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>             } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>               userId.add(dir2 + id);
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>             }
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>           } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>             <strong class="jxr_keyword">if</strong> (id.startsWith(dir.toString())) {
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>               userId.add(id);
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>             } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L137" href="#L137">137</a>               userId.add(dir + <span class="jxr_string">":"</span> + id);
+<a class="jxr_linenumber" name="L138" href="#L138">138</a>             }
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>           }
+<a class="jxr_linenumber" name="L140" href="#L140">140</a>         } <strong class="jxr_keyword">catch</strong> (IllegalArgumentException iaEx) {
 <a class="jxr_linenumber" name="L141" href="#L141">141</a>           <em class="jxr_comment">// in case the directory is not a valid URL keep only the user id</em>
 <a class="jxr_linenumber" name="L142" href="#L142">142</a>           userId.add(id);
 <a class="jxr_linenumber" name="L143" href="#L143">143</a>         }
@@ -361,92 +361,110 @@
 <a class="jxr_linenumber" name="L353" href="#L353">353</a>       <strong class="jxr_keyword">return</strong> false;
 <a class="jxr_linenumber" name="L354" href="#L354">354</a>     }
 <a class="jxr_linenumber" name="L355" href="#L355">355</a>     <a href="../../../../../org/gbif/api/model/registry/Contact.html">Contact</a> contact = (Contact) o;
-<a class="jxr_linenumber" name="L356" href="#L356">356</a>     <strong class="jxr_keyword">return</strong> primary == contact.primary &amp;&amp;
-<a class="jxr_linenumber" name="L357" href="#L357">357</a>       Objects.equals(key, contact.key) &amp;&amp;
-<a class="jxr_linenumber" name="L358" href="#L358">358</a>       type == contact.type &amp;&amp;
-<a class="jxr_linenumber" name="L359" href="#L359">359</a>       Objects.equals(userId, contact.userId) &amp;&amp;
-<a class="jxr_linenumber" name="L360" href="#L360">360</a>       Objects.equals(firstName, contact.firstName) &amp;&amp;
-<a class="jxr_linenumber" name="L361" href="#L361">361</a>       Objects.equals(lastName, contact.lastName) &amp;&amp;
-<a class="jxr_linenumber" name="L362" href="#L362">362</a>       Objects.equals(position, contact.position) &amp;&amp;
-<a class="jxr_linenumber" name="L363" href="#L363">363</a>       Objects.equals(description, contact.description) &amp;&amp;
-<a class="jxr_linenumber" name="L364" href="#L364">364</a>       Objects.equals(email, contact.email) &amp;&amp;
-<a class="jxr_linenumber" name="L365" href="#L365">365</a>       Objects.equals(phone, contact.phone) &amp;&amp;
-<a class="jxr_linenumber" name="L366" href="#L366">366</a>       Objects.equals(homepage, contact.homepage) &amp;&amp;
-<a class="jxr_linenumber" name="L367" href="#L367">367</a>       Objects.equals(organization, contact.organization) &amp;&amp;
-<a class="jxr_linenumber" name="L368" href="#L368">368</a>       Objects.equals(address, contact.address) &amp;&amp;
-<a class="jxr_linenumber" name="L369" href="#L369">369</a>       Objects.equals(city, contact.city) &amp;&amp;
-<a class="jxr_linenumber" name="L370" href="#L370">370</a>       Objects.equals(province, contact.province) &amp;&amp;
-<a class="jxr_linenumber" name="L371" href="#L371">371</a>       country == contact.country &amp;&amp;
-<a class="jxr_linenumber" name="L372" href="#L372">372</a>       Objects.equals(postalCode, contact.postalCode) &amp;&amp;
-<a class="jxr_linenumber" name="L373" href="#L373">373</a>       Objects.equals(createdBy, contact.createdBy) &amp;&amp;
-<a class="jxr_linenumber" name="L374" href="#L374">374</a>       Objects.equals(modifiedBy, contact.modifiedBy) &amp;&amp;
-<a class="jxr_linenumber" name="L375" href="#L375">375</a>       Objects.equals(created, contact.created) &amp;&amp;
-<a class="jxr_linenumber" name="L376" href="#L376">376</a>       Objects.equals(modified, contact.modified);
+<a class="jxr_linenumber" name="L356" href="#L356">356</a>     <strong class="jxr_keyword">return</strong> primary == contact.primary
+<a class="jxr_linenumber" name="L357" href="#L357">357</a>         &amp;&amp; Objects.equals(key, contact.key)
+<a class="jxr_linenumber" name="L358" href="#L358">358</a>         &amp;&amp; type == contact.type
+<a class="jxr_linenumber" name="L359" href="#L359">359</a>         &amp;&amp; Objects.equals(userId, contact.userId)
+<a class="jxr_linenumber" name="L360" href="#L360">360</a>         &amp;&amp; Objects.equals(firstName, contact.firstName)
+<a class="jxr_linenumber" name="L361" href="#L361">361</a>         &amp;&amp; Objects.equals(lastName, contact.lastName)
+<a class="jxr_linenumber" name="L362" href="#L362">362</a>         &amp;&amp; Objects.equals(position, contact.position)
+<a class="jxr_linenumber" name="L363" href="#L363">363</a>         &amp;&amp; Objects.equals(description, contact.description)
+<a class="jxr_linenumber" name="L364" href="#L364">364</a>         &amp;&amp; Objects.equals(email, contact.email)
+<a class="jxr_linenumber" name="L365" href="#L365">365</a>         &amp;&amp; Objects.equals(phone, contact.phone)
+<a class="jxr_linenumber" name="L366" href="#L366">366</a>         &amp;&amp; Objects.equals(homepage, contact.homepage)
+<a class="jxr_linenumber" name="L367" href="#L367">367</a>         &amp;&amp; Objects.equals(organization, contact.organization)
+<a class="jxr_linenumber" name="L368" href="#L368">368</a>         &amp;&amp; Objects.equals(address, contact.address)
+<a class="jxr_linenumber" name="L369" href="#L369">369</a>         &amp;&amp; Objects.equals(city, contact.city)
+<a class="jxr_linenumber" name="L370" href="#L370">370</a>         &amp;&amp; Objects.equals(province, contact.province)
+<a class="jxr_linenumber" name="L371" href="#L371">371</a>         &amp;&amp; country == contact.country
+<a class="jxr_linenumber" name="L372" href="#L372">372</a>         &amp;&amp; Objects.equals(postalCode, contact.postalCode)
+<a class="jxr_linenumber" name="L373" href="#L373">373</a>         &amp;&amp; Objects.equals(createdBy, contact.createdBy)
+<a class="jxr_linenumber" name="L374" href="#L374">374</a>         &amp;&amp; Objects.equals(modifiedBy, contact.modifiedBy)
+<a class="jxr_linenumber" name="L375" href="#L375">375</a>         &amp;&amp; Objects.equals(created, contact.created)
+<a class="jxr_linenumber" name="L376" href="#L376">376</a>         &amp;&amp; Objects.equals(modified, contact.modified);
 <a class="jxr_linenumber" name="L377" href="#L377">377</a>   }
 <a class="jxr_linenumber" name="L378" href="#L378">378</a> 
 <a class="jxr_linenumber" name="L379" href="#L379">379</a>   @Override
 <a class="jxr_linenumber" name="L380" href="#L380">380</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">int</strong> hashCode() {
-<a class="jxr_linenumber" name="L381" href="#L381">381</a>     <strong class="jxr_keyword">return</strong> Objects
-<a class="jxr_linenumber" name="L382" href="#L382">382</a>       .hash(key, type, primary, userId, firstName, lastName, position, description, email, phone,
-<a class="jxr_linenumber" name="L383" href="#L383">383</a>         homepage, organization, address, city, province, country, postalCode, createdBy,
-<a class="jxr_linenumber" name="L384" href="#L384">384</a>         modifiedBy, created, modified);
-<a class="jxr_linenumber" name="L385" href="#L385">385</a>   }
-<a class="jxr_linenumber" name="L386" href="#L386">386</a> 
-<a class="jxr_linenumber" name="L387" href="#L387">387</a>   @Override
-<a class="jxr_linenumber" name="L388" href="#L388">388</a>   <strong class="jxr_keyword">public</strong> String toString() {
-<a class="jxr_linenumber" name="L389" href="#L389">389</a>     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> StringJoiner(<span class="jxr_string">", "</span>, Contact.<strong class="jxr_keyword">class</strong>.getSimpleName() + <span class="jxr_string">"["</span>, <span class="jxr_string">"]"</span>)
-<a class="jxr_linenumber" name="L390" href="#L390">390</a>       .add(<span class="jxr_string">"key="</span> + key)
-<a class="jxr_linenumber" name="L391" href="#L391">391</a>       .add(<span class="jxr_string">"type="</span> + type)
-<a class="jxr_linenumber" name="L392" href="#L392">392</a>       .add(<span class="jxr_string">"primary="</span> + primary)
-<a class="jxr_linenumber" name="L393" href="#L393">393</a>       .add(<span class="jxr_string">"userId="</span> + userId)
-<a class="jxr_linenumber" name="L394" href="#L394">394</a>       .add(<span class="jxr_string">"firstName='"</span> + firstName + <span class="jxr_string">"'"</span>)
-<a class="jxr_linenumber" name="L395" href="#L395">395</a>       .add(<span class="jxr_string">"lastName='"</span> + lastName + <span class="jxr_string">"'"</span>)
-<a class="jxr_linenumber" name="L396" href="#L396">396</a>       .add(<span class="jxr_string">"position="</span> + position)
-<a class="jxr_linenumber" name="L397" href="#L397">397</a>       .add(<span class="jxr_string">"description='"</span> + description + <span class="jxr_string">"'"</span>)
-<a class="jxr_linenumber" name="L398" href="#L398">398</a>       .add(<span class="jxr_string">"email="</span> + email)
-<a class="jxr_linenumber" name="L399" href="#L399">399</a>       .add(<span class="jxr_string">"phone="</span> + phone)
-<a class="jxr_linenumber" name="L400" href="#L400">400</a>       .add(<span class="jxr_string">"homepage="</span> + homepage)
-<a class="jxr_linenumber" name="L401" href="#L401">401</a>       .add(<span class="jxr_string">"organization='"</span> + organization + <span class="jxr_string">"'"</span>)
-<a class="jxr_linenumber" name="L402" href="#L402">402</a>       .add(<span class="jxr_string">"address="</span> + address)
-<a class="jxr_linenumber" name="L403" href="#L403">403</a>       .add(<span class="jxr_string">"city='"</span> + city + <span class="jxr_string">"'"</span>)
-<a class="jxr_linenumber" name="L404" href="#L404">404</a>       .add(<span class="jxr_string">"province='"</span> + province + <span class="jxr_string">"'"</span>)
-<a class="jxr_linenumber" name="L405" href="#L405">405</a>       .add(<span class="jxr_string">"country="</span> + country)
-<a class="jxr_linenumber" name="L406" href="#L406">406</a>       .add(<span class="jxr_string">"postalCode='"</span> + postalCode + <span class="jxr_string">"'"</span>)
-<a class="jxr_linenumber" name="L407" href="#L407">407</a>       .add(<span class="jxr_string">"createdBy='"</span> + createdBy + <span class="jxr_string">"'"</span>)
-<a class="jxr_linenumber" name="L408" href="#L408">408</a>       .add(<span class="jxr_string">"modifiedBy='"</span> + modifiedBy + <span class="jxr_string">"'"</span>)
-<a class="jxr_linenumber" name="L409" href="#L409">409</a>       .add(<span class="jxr_string">"created="</span> + created)
-<a class="jxr_linenumber" name="L410" href="#L410">410</a>       .add(<span class="jxr_string">"modified="</span> + modified)
-<a class="jxr_linenumber" name="L411" href="#L411">411</a>       .toString();
-<a class="jxr_linenumber" name="L412" href="#L412">412</a>   }
-<a class="jxr_linenumber" name="L413" href="#L413">413</a> 
-<a class="jxr_linenumber" name="L414" href="#L414">414</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L415" href="#L415">415</a> <em class="jxr_javadoccomment">   * This implementation of the {@link #equals(Object)} method does only check &lt;em&gt;business equality&lt;/em&gt; and disregards</em>
-<a class="jxr_linenumber" name="L416" href="#L416">416</a> <em class="jxr_javadoccomment">   * automatically set and maintained fields like {@code createdBy, key} and others.</em>
-<a class="jxr_linenumber" name="L417" href="#L417">417</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L418" href="#L418">418</a>   @Override
-<a class="jxr_linenumber" name="L419" href="#L419">419</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> lenientEquals(<a href="../../../../../org/gbif/api/model/registry/Contact.html">Contact</a> contact) {
-<a class="jxr_linenumber" name="L420" href="#L420">420</a>     <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong> == contact) {
-<a class="jxr_linenumber" name="L421" href="#L421">421</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="L422" href="#L422">422</a>     }
-<a class="jxr_linenumber" name="L423" href="#L423">423</a> 
-<a class="jxr_linenumber" name="L424" href="#L424">424</a>     <strong class="jxr_keyword">return</strong> Objects.equals(type, contact.type)
-<a class="jxr_linenumber" name="L425" href="#L425">425</a>       &amp;&amp; Objects.equals(primary, contact.primary)
-<a class="jxr_linenumber" name="L426" href="#L426">426</a>       &amp;&amp; Objects.equals(userId, contact.userId)
-<a class="jxr_linenumber" name="L427" href="#L427">427</a>       &amp;&amp; Objects.equals(firstName, contact.firstName)
-<a class="jxr_linenumber" name="L428" href="#L428">428</a>       &amp;&amp; Objects.equals(lastName, contact.lastName)
-<a class="jxr_linenumber" name="L429" href="#L429">429</a>       &amp;&amp; Objects.equals(position, contact.position)
-<a class="jxr_linenumber" name="L430" href="#L430">430</a>       &amp;&amp; Objects.equals(description, contact.description)
-<a class="jxr_linenumber" name="L431" href="#L431">431</a>       &amp;&amp; Objects.equals(email, contact.email)
-<a class="jxr_linenumber" name="L432" href="#L432">432</a>       &amp;&amp; Objects.equals(phone, contact.phone)
-<a class="jxr_linenumber" name="L433" href="#L433">433</a>       &amp;&amp; Objects.equals(homepage, contact.homepage)
-<a class="jxr_linenumber" name="L434" href="#L434">434</a>       &amp;&amp; Objects.equals(organization, contact.organization)
-<a class="jxr_linenumber" name="L435" href="#L435">435</a>       &amp;&amp; Objects.equals(address, contact.address)
-<a class="jxr_linenumber" name="L436" href="#L436">436</a>       &amp;&amp; Objects.equals(city, contact.city)
-<a class="jxr_linenumber" name="L437" href="#L437">437</a>       &amp;&amp; Objects.equals(province, contact.province)
-<a class="jxr_linenumber" name="L438" href="#L438">438</a>       &amp;&amp; Objects.equals(country, contact.country)
-<a class="jxr_linenumber" name="L439" href="#L439">439</a>       &amp;&amp; Objects.equals(postalCode, contact.postalCode);
-<a class="jxr_linenumber" name="L440" href="#L440">440</a>   }
-<a class="jxr_linenumber" name="L441" href="#L441">441</a> }
+<a class="jxr_linenumber" name="L381" href="#L381">381</a>     <strong class="jxr_keyword">return</strong> Objects.hash(
+<a class="jxr_linenumber" name="L382" href="#L382">382</a>         key,
+<a class="jxr_linenumber" name="L383" href="#L383">383</a>         type,
+<a class="jxr_linenumber" name="L384" href="#L384">384</a>         primary,
+<a class="jxr_linenumber" name="L385" href="#L385">385</a>         userId,
+<a class="jxr_linenumber" name="L386" href="#L386">386</a>         firstName,
+<a class="jxr_linenumber" name="L387" href="#L387">387</a>         lastName,
+<a class="jxr_linenumber" name="L388" href="#L388">388</a>         position,
+<a class="jxr_linenumber" name="L389" href="#L389">389</a>         description,
+<a class="jxr_linenumber" name="L390" href="#L390">390</a>         email,
+<a class="jxr_linenumber" name="L391" href="#L391">391</a>         phone,
+<a class="jxr_linenumber" name="L392" href="#L392">392</a>         homepage,
+<a class="jxr_linenumber" name="L393" href="#L393">393</a>         organization,
+<a class="jxr_linenumber" name="L394" href="#L394">394</a>         address,
+<a class="jxr_linenumber" name="L395" href="#L395">395</a>         city,
+<a class="jxr_linenumber" name="L396" href="#L396">396</a>         province,
+<a class="jxr_linenumber" name="L397" href="#L397">397</a>         country,
+<a class="jxr_linenumber" name="L398" href="#L398">398</a>         postalCode,
+<a class="jxr_linenumber" name="L399" href="#L399">399</a>         createdBy,
+<a class="jxr_linenumber" name="L400" href="#L400">400</a>         modifiedBy,
+<a class="jxr_linenumber" name="L401" href="#L401">401</a>         created,
+<a class="jxr_linenumber" name="L402" href="#L402">402</a>         modified);
+<a class="jxr_linenumber" name="L403" href="#L403">403</a>   }
+<a class="jxr_linenumber" name="L404" href="#L404">404</a> 
+<a class="jxr_linenumber" name="L405" href="#L405">405</a>   @Override
+<a class="jxr_linenumber" name="L406" href="#L406">406</a>   <strong class="jxr_keyword">public</strong> String toString() {
+<a class="jxr_linenumber" name="L407" href="#L407">407</a>     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> StringJoiner(<span class="jxr_string">", "</span>, Contact.<strong class="jxr_keyword">class</strong>.getSimpleName() + <span class="jxr_string">"["</span>, <span class="jxr_string">"]"</span>)
+<a class="jxr_linenumber" name="L408" href="#L408">408</a>         .add(<span class="jxr_string">"key="</span> + key)
+<a class="jxr_linenumber" name="L409" href="#L409">409</a>         .add(<span class="jxr_string">"type="</span> + type)
+<a class="jxr_linenumber" name="L410" href="#L410">410</a>         .add(<span class="jxr_string">"primary="</span> + primary)
+<a class="jxr_linenumber" name="L411" href="#L411">411</a>         .add(<span class="jxr_string">"userId="</span> + userId)
+<a class="jxr_linenumber" name="L412" href="#L412">412</a>         .add(<span class="jxr_string">"firstName='"</span> + firstName + <span class="jxr_string">"'"</span>)
+<a class="jxr_linenumber" name="L413" href="#L413">413</a>         .add(<span class="jxr_string">"lastName='"</span> + lastName + <span class="jxr_string">"'"</span>)
+<a class="jxr_linenumber" name="L414" href="#L414">414</a>         .add(<span class="jxr_string">"position="</span> + position)
+<a class="jxr_linenumber" name="L415" href="#L415">415</a>         .add(<span class="jxr_string">"description='"</span> + description + <span class="jxr_string">"'"</span>)
+<a class="jxr_linenumber" name="L416" href="#L416">416</a>         .add(<span class="jxr_string">"email="</span> + email)
+<a class="jxr_linenumber" name="L417" href="#L417">417</a>         .add(<span class="jxr_string">"phone="</span> + phone)
+<a class="jxr_linenumber" name="L418" href="#L418">418</a>         .add(<span class="jxr_string">"homepage="</span> + homepage)
+<a class="jxr_linenumber" name="L419" href="#L419">419</a>         .add(<span class="jxr_string">"organization='"</span> + organization + <span class="jxr_string">"'"</span>)
+<a class="jxr_linenumber" name="L420" href="#L420">420</a>         .add(<span class="jxr_string">"address="</span> + address)
+<a class="jxr_linenumber" name="L421" href="#L421">421</a>         .add(<span class="jxr_string">"city='"</span> + city + <span class="jxr_string">"'"</span>)
+<a class="jxr_linenumber" name="L422" href="#L422">422</a>         .add(<span class="jxr_string">"province='"</span> + province + <span class="jxr_string">"'"</span>)
+<a class="jxr_linenumber" name="L423" href="#L423">423</a>         .add(<span class="jxr_string">"country="</span> + country)
+<a class="jxr_linenumber" name="L424" href="#L424">424</a>         .add(<span class="jxr_string">"postalCode='"</span> + postalCode + <span class="jxr_string">"'"</span>)
+<a class="jxr_linenumber" name="L425" href="#L425">425</a>         .add(<span class="jxr_string">"createdBy='"</span> + createdBy + <span class="jxr_string">"'"</span>)
+<a class="jxr_linenumber" name="L426" href="#L426">426</a>         .add(<span class="jxr_string">"modifiedBy='"</span> + modifiedBy + <span class="jxr_string">"'"</span>)
+<a class="jxr_linenumber" name="L427" href="#L427">427</a>         .add(<span class="jxr_string">"created="</span> + created)
+<a class="jxr_linenumber" name="L428" href="#L428">428</a>         .add(<span class="jxr_string">"modified="</span> + modified)
+<a class="jxr_linenumber" name="L429" href="#L429">429</a>         .toString();
+<a class="jxr_linenumber" name="L430" href="#L430">430</a>   }
+<a class="jxr_linenumber" name="L431" href="#L431">431</a> 
+<a class="jxr_linenumber" name="L432" href="#L432">432</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L433" href="#L433">433</a> <em class="jxr_javadoccomment">   * This implementation of the {@link #equals(Object)} method does only check &lt;em&gt;business equality&lt;/em&gt; and disregards</em>
+<a class="jxr_linenumber" name="L434" href="#L434">434</a> <em class="jxr_javadoccomment">   * automatically set and maintained fields like {@code createdBy, key} and others.</em>
+<a class="jxr_linenumber" name="L435" href="#L435">435</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L436" href="#L436">436</a>   @Override
+<a class="jxr_linenumber" name="L437" href="#L437">437</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> lenientEquals(<a href="../../../../../org/gbif/api/model/registry/Contact.html">Contact</a> contact) {
+<a class="jxr_linenumber" name="L438" href="#L438">438</a>     <strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">this</strong> == contact) {
+<a class="jxr_linenumber" name="L439" href="#L439">439</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L440" href="#L440">440</a>     }
+<a class="jxr_linenumber" name="L441" href="#L441">441</a> 
+<a class="jxr_linenumber" name="L442" href="#L442">442</a>     <strong class="jxr_keyword">return</strong> Objects.equals(type, contact.type)
+<a class="jxr_linenumber" name="L443" href="#L443">443</a>         &amp;&amp; Objects.equals(primary, contact.primary)
+<a class="jxr_linenumber" name="L444" href="#L444">444</a>         &amp;&amp; Objects.equals(userId, contact.userId)
+<a class="jxr_linenumber" name="L445" href="#L445">445</a>         &amp;&amp; Objects.equals(firstName, contact.firstName)
+<a class="jxr_linenumber" name="L446" href="#L446">446</a>         &amp;&amp; Objects.equals(lastName, contact.lastName)
+<a class="jxr_linenumber" name="L447" href="#L447">447</a>         &amp;&amp; Objects.equals(position, contact.position)
+<a class="jxr_linenumber" name="L448" href="#L448">448</a>         &amp;&amp; Objects.equals(description, contact.description)
+<a class="jxr_linenumber" name="L449" href="#L449">449</a>         &amp;&amp; Objects.equals(email, contact.email)
+<a class="jxr_linenumber" name="L450" href="#L450">450</a>         &amp;&amp; Objects.equals(phone, contact.phone)
+<a class="jxr_linenumber" name="L451" href="#L451">451</a>         &amp;&amp; Objects.equals(homepage, contact.homepage)
+<a class="jxr_linenumber" name="L452" href="#L452">452</a>         &amp;&amp; Objects.equals(organization, contact.organization)
+<a class="jxr_linenumber" name="L453" href="#L453">453</a>         &amp;&amp; Objects.equals(address, contact.address)
+<a class="jxr_linenumber" name="L454" href="#L454">454</a>         &amp;&amp; Objects.equals(city, contact.city)
+<a class="jxr_linenumber" name="L455" href="#L455">455</a>         &amp;&amp; Objects.equals(province, contact.province)
+<a class="jxr_linenumber" name="L456" href="#L456">456</a>         &amp;&amp; Objects.equals(country, contact.country)
+<a class="jxr_linenumber" name="L457" href="#L457">457</a>         &amp;&amp; Objects.equals(postalCode, contact.postalCode);
+<a class="jxr_linenumber" name="L458" href="#L458">458</a>   }
+<a class="jxr_linenumber" name="L459" href="#L459">459</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2020 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>

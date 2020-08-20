@@ -39,13 +39,22 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * A GBIF data publisher.
  */
-<span class="fc" id="L42">public class Organization</span>
-  implements NetworkEntity, Contactable, Endpointable, MachineTaggable, Taggable, Identifiable, Commentable,
-  LenientEquals&lt;Organization&gt;, Address {
+@SuppressWarnings(&quot;unused&quot;)
+<span class="fc" id="L43">public class Organization</span>
+    implements NetworkEntity,
+    Contactable,
+    Endpointable,
+    MachineTaggable,
+    Taggable,
+    Identifiable,
+    Commentable,
+    LenientEquals&lt;Organization&gt;,
+    Address {
 
   private UUID key;
   private UUID endorsingNodeKey;
   private boolean endorsementApproved;
+  private EndorsementStatus endorsementStatus;
   private String password;
   private String title;
   private String abbreviation;
@@ -68,89 +77,106 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   private Date created;
   private Date modified;
   private Date deleted;
-<span class="fc" id="L71">  private List&lt;Contact&gt; contacts = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L72">  private List&lt;Endpoint&gt; endpoints = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L73">  private List&lt;MachineTag&gt; machineTags = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L74">  private List&lt;Tag&gt; tags = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L75">  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L76">  private List&lt;Comment&gt; comments = new ArrayList&lt;&gt;();</span>
+  private Date endorsed;
+<span class="fc" id="L81">  private List&lt;Contact&gt; contacts = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L82">  private List&lt;Endpoint&gt; endpoints = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L83">  private List&lt;MachineTag&gt; machineTags = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L84">  private List&lt;Tag&gt; tags = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L85">  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L86">  private List&lt;Comment&gt; comments = new ArrayList&lt;&gt;();</span>
 
   @Override
   public UUID getKey() {
-<span class="nc" id="L80">    return key;</span>
+<span class="nc" id="L90">    return key;</span>
   }
 
   @Override
   public void setKey(UUID key) {
-<span class="nc" id="L85">    this.key = key;</span>
-<span class="nc" id="L86">  }</span>
+<span class="nc" id="L95">    this.key = key;</span>
+<span class="nc" id="L96">  }</span>
 
   @Override
   public String getTitle() {
-<span class="fc" id="L90">    return title;</span>
+<span class="fc" id="L100">    return title;</span>
   }
 
   @Override
   public void setTitle(String title) {
-<span class="fc" id="L95">    this.title = title;</span>
-<span class="fc" id="L96">  }</span>
+<span class="fc" id="L105">    this.title = title;</span>
+<span class="fc" id="L106">  }</span>
 
   @Override
   public String getDescription() {
-<span class="nc" id="L100">    return description;</span>
+<span class="nc" id="L110">    return description;</span>
   }
 
   @Override
   public void setDescription(String description) {
-<span class="nc" id="L105">    this.description = description;</span>
-<span class="nc" id="L106">  }</span>
+<span class="nc" id="L115">    this.description = description;</span>
+<span class="nc" id="L116">  }</span>
 
   @Override
   public Date getCreated() {
-<span class="nc" id="L110">    return created;</span>
+<span class="nc" id="L120">    return created;</span>
   }
 
   @Override
   public void setCreated(Date created) {
-<span class="nc" id="L115">    this.created = created;</span>
-<span class="nc" id="L116">  }</span>
+<span class="nc" id="L125">    this.created = created;</span>
+<span class="nc" id="L126">  }</span>
 
   @Override
   public Date getModified() {
-<span class="nc" id="L120">    return modified;</span>
+<span class="nc" id="L130">    return modified;</span>
   }
 
   @Override
   public void setModified(Date modified) {
-<span class="nc" id="L125">    this.modified = modified;</span>
-<span class="nc" id="L126">  }</span>
+<span class="nc" id="L135">    this.modified = modified;</span>
+<span class="nc" id="L136">  }</span>
 
   @Override
   public Date getDeleted() {
-<span class="nc" id="L130">    return deleted;</span>
+<span class="nc" id="L140">    return deleted;</span>
   }
 
   @Override
   public void setDeleted(Date deleted) {
-<span class="nc" id="L135">    this.deleted = deleted;</span>
-<span class="nc" id="L136">  }</span>
+<span class="nc" id="L145">    this.deleted = deleted;</span>
+<span class="nc" id="L146">  }</span>
+
+  public Date getEndorsed() {
+<span class="nc" id="L149">    return endorsed;</span>
+  }
+
+  public void setEndorsed(Date endorsed) {
+<span class="nc" id="L153">    this.endorsed = endorsed;</span>
+<span class="nc" id="L154">  }</span>
 
   @NotNull
   public UUID getEndorsingNodeKey() {
-<span class="fc" id="L140">    return endorsingNodeKey;</span>
+<span class="fc" id="L158">    return endorsingNodeKey;</span>
   }
 
   public void setEndorsingNodeKey(UUID endorsingNodeKey) {
-<span class="fc" id="L144">    this.endorsingNodeKey = endorsingNodeKey;</span>
-<span class="fc" id="L145">  }</span>
+<span class="fc" id="L162">    this.endorsingNodeKey = endorsingNodeKey;</span>
+<span class="fc" id="L163">  }</span>
 
   public boolean isEndorsementApproved() {
-<span class="nc" id="L148">    return endorsementApproved;</span>
+<span class="nc" id="L166">    return endorsementApproved;</span>
   }
 
   public void setEndorsementApproved(boolean endorsementApproved) {
-<span class="nc" id="L152">    this.endorsementApproved = endorsementApproved;</span>
-<span class="nc" id="L153">  }</span>
+<span class="nc" id="L170">    this.endorsementApproved = endorsementApproved;</span>
+<span class="nc" id="L171">  }</span>
+
+  public EndorsementStatus getEndorsementStatus() {
+<span class="nc" id="L174">    return endorsementStatus;</span>
+  }
+
+  public void setEndorsementStatus(EndorsementStatus endorsementStatus) {
+<span class="nc" id="L178">    this.endorsementStatus = endorsementStatus;</span>
+<span class="nc" id="L179">  }</span>
 
   /**
    * Get the organization password. This method is to be ignored on serialization, so that the password is not
@@ -161,333 +187,366 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   @JsonIgnore
   @Nullable
   public String getPassword() {
-<span class="nc" id="L164">    return password;</span>
+<span class="nc" id="L190">    return password;</span>
   }
 
   public void setPassword(String password) {
-<span class="nc" id="L168">    this.password = password;</span>
-<span class="nc" id="L169">  }</span>
+<span class="nc" id="L194">    this.password = password;</span>
+<span class="nc" id="L195">  }</span>
 
   @Nullable
   @Size(min = 1, max = 10)
   public String getAbbreviation() {
-<span class="fc" id="L174">    return abbreviation;</span>
+<span class="fc" id="L200">    return abbreviation;</span>
   }
 
   public void setAbbreviation(String abbreviation) {
-<span class="nc" id="L178">    this.abbreviation = abbreviation;</span>
-<span class="nc" id="L179">  }</span>
+<span class="nc" id="L204">    this.abbreviation = abbreviation;</span>
+<span class="nc" id="L205">  }</span>
 
   @NotNull
   public Language getLanguage() {
-<span class="fc" id="L183">    return language;</span>
+<span class="fc" id="L209">    return language;</span>
   }
 
   public void setLanguage(Language language) {
-<span class="fc" id="L187">    this.language = language;</span>
-<span class="fc" id="L188">  }</span>
+<span class="fc" id="L213">    this.language = language;</span>
+<span class="fc" id="L214">  }</span>
 
   @Nullable
   public List&lt;String&gt; getEmail() {
-<span class="nc" id="L192">    return email;</span>
+<span class="nc" id="L218">    return email;</span>
   }
 
   public void setEmail(List&lt;String&gt; email) {
-<span class="nc" id="L196">    this.email = email;</span>
-<span class="nc" id="L197">  }</span>
+<span class="nc" id="L222">    this.email = email;</span>
+<span class="nc" id="L223">  }</span>
 
   @Nullable
   public List&lt;String&gt; getPhone() {
-<span class="nc" id="L201">    return phone;</span>
+<span class="nc" id="L227">    return phone;</span>
   }
 
   public void setPhone(List&lt;String&gt; phone) {
-<span class="nc" id="L205">    this.phone = phone;</span>
-<span class="nc" id="L206">  }</span>
+<span class="nc" id="L231">    this.phone = phone;</span>
+<span class="nc" id="L232">  }</span>
 
   @Nullable
   public List&lt;URI&gt; getHomepage() {
-<span class="nc" id="L210">    return homepage;</span>
+<span class="nc" id="L236">    return homepage;</span>
   }
 
   public void setHomepage(List&lt;URI&gt; homepage) {
-<span class="fc" id="L214">    this.homepage = homepage;</span>
-<span class="fc" id="L215">  }</span>
+<span class="fc" id="L240">    this.homepage = homepage;</span>
+<span class="fc" id="L241">  }</span>
 
   @HttpURI
   @Nullable
   public URI getLogoUrl() {
-<span class="fc" id="L220">    return logoUrl;</span>
+<span class="fc" id="L246">    return logoUrl;</span>
   }
 
   public void setLogoUrl(URI logoUrl) {
-<span class="fc" id="L224">    this.logoUrl = logoUrl;</span>
-<span class="fc" id="L225">  }</span>
+<span class="fc" id="L250">    this.logoUrl = logoUrl;</span>
+<span class="fc" id="L251">  }</span>
 
   @Nullable
   public List&lt;String&gt; getAddress() {
-<span class="nc" id="L229">    return address;</span>
+<span class="nc" id="L255">    return address;</span>
   }
 
   public void setAddress(List&lt;String&gt; address) {
-<span class="nc" id="L233">    this.address = address;</span>
-<span class="nc" id="L234">  }</span>
+<span class="nc" id="L259">    this.address = address;</span>
+<span class="nc" id="L260">  }</span>
 
   @Nullable
   public String getCity() {
-<span class="fc" id="L238">    return city;</span>
+<span class="fc" id="L264">    return city;</span>
   }
 
   public void setCity(String city) {
-<span class="nc" id="L242">    this.city = city;</span>
-<span class="nc" id="L243">  }</span>
+<span class="nc" id="L268">    this.city = city;</span>
+<span class="nc" id="L269">  }</span>
 
   @Nullable
   public String getProvince() {
-<span class="fc" id="L247">    return province;</span>
+<span class="fc" id="L273">    return province;</span>
   }
 
   public void setProvince(String province) {
-<span class="nc" id="L251">    this.province = province;</span>
-<span class="nc" id="L252">  }</span>
+<span class="nc" id="L277">    this.province = province;</span>
+<span class="nc" id="L278">  }</span>
 
   @Nullable
   public Country getCountry() {
-<span class="nc" id="L256">    return country;</span>
+<span class="nc" id="L282">    return country;</span>
   }
 
   public void setCountry(Country country) {
-<span class="nc" id="L260">    this.country = country;</span>
-<span class="nc" id="L261">  }</span>
+<span class="nc" id="L286">    this.country = country;</span>
+<span class="nc" id="L287">  }</span>
 
   @Nullable
   public String getPostalCode() {
-<span class="fc" id="L265">    return postalCode;</span>
+<span class="fc" id="L291">    return postalCode;</span>
   }
 
   public void setPostalCode(String postalCode) {
-<span class="nc" id="L269">    this.postalCode = postalCode;</span>
-<span class="nc" id="L270">  }</span>
+<span class="nc" id="L295">    this.postalCode = postalCode;</span>
+<span class="nc" id="L296">  }</span>
 
   @Nullable
   @Override
   @JsonIgnore
   public String getOrganization() {
-<span class="fc" id="L276">    return getTitle();</span>
+<span class="fc" id="L302">    return getTitle();</span>
   }
 
   @Override
   public void setOrganization(String organization) {
-<span class="nc" id="L281">    setTitle(organization);</span>
-<span class="nc" id="L282">  }</span>
+<span class="nc" id="L307">    setTitle(organization);</span>
+<span class="nc" id="L308">  }</span>
 
   @Nullable
   @Min(-90)
   @Max(90)
   public BigDecimal getLatitude() {
-<span class="fc" id="L288">    return latitude;</span>
+<span class="fc" id="L314">    return latitude;</span>
   }
 
   public void setLatitude(BigDecimal latitude) {
-<span class="nc" id="L292">    this.latitude = latitude;</span>
-<span class="nc" id="L293">  }</span>
+<span class="nc" id="L318">    this.latitude = latitude;</span>
+<span class="nc" id="L319">  }</span>
 
   @Nullable
   @Min(-180)
   @Max(180)
   public BigDecimal getLongitude() {
-<span class="fc" id="L299">    return longitude;</span>
+<span class="fc" id="L325">    return longitude;</span>
   }
 
   public void setLongitude(BigDecimal longitude) {
-<span class="nc" id="L303">    this.longitude = longitude;</span>
-<span class="nc" id="L304">  }</span>
+<span class="nc" id="L329">    this.longitude = longitude;</span>
+<span class="nc" id="L330">  }</span>
 
   @Min(0)
   public int getNumPublishedDatasets() {
-<span class="fc" id="L308">    return numPublishedDatasets;</span>
+<span class="fc" id="L334">    return numPublishedDatasets;</span>
   }
 
   public void setNumPublishedDatasets(int numPublishedDatasets) {
-<span class="nc" id="L312">    this.numPublishedDatasets = numPublishedDatasets;</span>
-<span class="nc" id="L313">  }</span>
+<span class="nc" id="L338">    this.numPublishedDatasets = numPublishedDatasets;</span>
+<span class="nc" id="L339">  }</span>
 
   @Override
   public String getCreatedBy() {
-<span class="fc" id="L317">    return createdBy;</span>
+<span class="fc" id="L343">    return createdBy;</span>
   }
 
   @Override
   public void setCreatedBy(String createdBy) {
-<span class="nc" id="L322">    this.createdBy = createdBy;</span>
-<span class="nc" id="L323">  }</span>
+<span class="nc" id="L348">    this.createdBy = createdBy;</span>
+<span class="nc" id="L349">  }</span>
 
   @Override
   public String getModifiedBy() {
-<span class="fc" id="L327">    return modifiedBy;</span>
+<span class="fc" id="L353">    return modifiedBy;</span>
   }
 
   @Override
   public void setModifiedBy(String modifiedBy) {
-<span class="nc" id="L332">    this.modifiedBy = modifiedBy;</span>
-<span class="nc" id="L333">  }</span>
+<span class="nc" id="L358">    this.modifiedBy = modifiedBy;</span>
+<span class="nc" id="L359">  }</span>
 
   @Override
   public List&lt;Contact&gt; getContacts() {
-<span class="fc" id="L337">    return contacts;</span>
+<span class="fc" id="L363">    return contacts;</span>
   }
 
   @Override
   public void setContacts(List&lt;Contact&gt; contacts) {
-<span class="nc" id="L342">    this.contacts = contacts;</span>
-<span class="nc" id="L343">  }</span>
+<span class="nc" id="L368">    this.contacts = contacts;</span>
+<span class="nc" id="L369">  }</span>
 
   @Override
   public List&lt;Endpoint&gt; getEndpoints() {
-<span class="fc" id="L347">    return endpoints;</span>
+<span class="fc" id="L373">    return endpoints;</span>
   }
 
   @Override
   public void setEndpoints(List&lt;Endpoint&gt; endpoints) {
-<span class="nc" id="L352">    this.endpoints = endpoints;</span>
-<span class="nc" id="L353">  }</span>
+<span class="nc" id="L378">    this.endpoints = endpoints;</span>
+<span class="nc" id="L379">  }</span>
 
   @Override
   public void addEndpoint(Endpoint endpoint) {
-<span class="nc" id="L357">    endpoints.add(endpoint);</span>
-<span class="nc" id="L358">  }</span>
+<span class="nc" id="L383">    endpoints.add(endpoint);</span>
+<span class="nc" id="L384">  }</span>
 
   @Override
   public List&lt;MachineTag&gt; getMachineTags() {
-<span class="fc" id="L362">    return machineTags;</span>
+<span class="fc" id="L388">    return machineTags;</span>
   }
 
   @Override
   public void setMachineTags(List&lt;MachineTag&gt; machineTags) {
-<span class="nc" id="L367">    this.machineTags = machineTags;</span>
-<span class="nc" id="L368">  }</span>
+<span class="nc" id="L393">    this.machineTags = machineTags;</span>
+<span class="nc" id="L394">  }</span>
 
   @Override
   public void addMachineTag(MachineTag machineTag) {
-<span class="nc" id="L372">    machineTags.add(machineTag);</span>
-<span class="nc" id="L373">  }</span>
+<span class="nc" id="L398">    machineTags.add(machineTag);</span>
+<span class="nc" id="L399">  }</span>
 
   @Override
   public List&lt;Tag&gt; getTags() {
-<span class="fc" id="L377">    return tags;</span>
+<span class="fc" id="L403">    return tags;</span>
   }
 
   @Override
   public void setTags(List&lt;Tag&gt; tags) {
-<span class="nc" id="L382">    this.tags = tags;</span>
-<span class="nc" id="L383">  }</span>
+<span class="nc" id="L408">    this.tags = tags;</span>
+<span class="nc" id="L409">  }</span>
 
   @Override
   public List&lt;Identifier&gt; getIdentifiers() {
-<span class="fc" id="L387">    return identifiers;</span>
+<span class="fc" id="L413">    return identifiers;</span>
   }
 
   @Override
   public void setIdentifiers(List&lt;Identifier&gt; identifiers) {
-<span class="nc" id="L392">    this.identifiers = identifiers;</span>
-<span class="nc" id="L393">  }</span>
+<span class="nc" id="L418">    this.identifiers = identifiers;</span>
+<span class="nc" id="L419">  }</span>
 
   @Override
   public List&lt;Comment&gt; getComments() {
-<span class="fc" id="L397">    return comments;</span>
+<span class="fc" id="L423">    return comments;</span>
   }
 
   @Override
   public void setComments(List&lt;Comment&gt; comments) {
-<span class="nc" id="L402">    this.comments = comments;</span>
-<span class="nc" id="L403">  }</span>
+<span class="nc" id="L428">    this.comments = comments;</span>
+<span class="nc" id="L429">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L407" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L408">      return true;</span>
+<span class="nc bnc" id="L433" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L434">      return true;</span>
     }
-<span class="nc bnc" id="L410" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L411">      return false;</span>
+<span class="nc bnc" id="L436" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L437">      return false;</span>
     }
-<span class="nc" id="L413">    Organization that = (Organization) o;</span>
-<span class="nc bnc" id="L414" title="All 4 branches missed.">    return endorsementApproved == that.endorsementApproved &amp;&amp;</span>
-      numPublishedDatasets == that.numPublishedDatasets &amp;&amp;
-<span class="nc bnc" id="L416" title="All 2 branches missed.">      Objects.equals(key, that.key) &amp;&amp;</span>
-<span class="nc bnc" id="L417" title="All 2 branches missed.">      Objects.equals(endorsingNodeKey, that.endorsingNodeKey) &amp;&amp;</span>
-<span class="nc bnc" id="L418" title="All 2 branches missed.">      Objects.equals(password, that.password) &amp;&amp;</span>
-<span class="nc bnc" id="L419" title="All 2 branches missed.">      Objects.equals(title, that.title) &amp;&amp;</span>
-<span class="nc bnc" id="L420" title="All 2 branches missed.">      Objects.equals(abbreviation, that.abbreviation) &amp;&amp;</span>
-<span class="nc bnc" id="L421" title="All 4 branches missed.">      Objects.equals(description, that.description) &amp;&amp;</span>
-      language == that.language &amp;&amp;
-<span class="nc bnc" id="L423" title="All 2 branches missed.">      Objects.equals(email, that.email) &amp;&amp;</span>
-<span class="nc bnc" id="L424" title="All 2 branches missed.">      Objects.equals(phone, that.phone) &amp;&amp;</span>
-<span class="nc bnc" id="L425" title="All 2 branches missed.">      Objects.equals(homepage, that.homepage) &amp;&amp;</span>
-<span class="nc bnc" id="L426" title="All 2 branches missed.">      Objects.equals(logoUrl, that.logoUrl) &amp;&amp;</span>
-<span class="nc bnc" id="L427" title="All 2 branches missed.">      Objects.equals(address, that.address) &amp;&amp;</span>
-<span class="nc bnc" id="L428" title="All 2 branches missed.">      Objects.equals(city, that.city) &amp;&amp;</span>
-<span class="nc bnc" id="L429" title="All 4 branches missed.">      Objects.equals(province, that.province) &amp;&amp;</span>
-      country == that.country &amp;&amp;
-<span class="nc bnc" id="L431" title="All 2 branches missed.">      Objects.equals(postalCode, that.postalCode) &amp;&amp;</span>
-<span class="nc bnc" id="L432" title="All 2 branches missed.">      Objects.equals(latitude, that.latitude) &amp;&amp;</span>
-<span class="nc bnc" id="L433" title="All 2 branches missed.">      Objects.equals(longitude, that.longitude) &amp;&amp;</span>
-<span class="nc bnc" id="L434" title="All 2 branches missed.">      Objects.equals(createdBy, that.createdBy) &amp;&amp;</span>
-<span class="nc bnc" id="L435" title="All 2 branches missed.">      Objects.equals(modifiedBy, that.modifiedBy) &amp;&amp;</span>
-<span class="nc bnc" id="L436" title="All 2 branches missed.">      Objects.equals(created, that.created) &amp;&amp;</span>
-<span class="nc bnc" id="L437" title="All 2 branches missed.">      Objects.equals(modified, that.modified) &amp;&amp;</span>
-<span class="nc bnc" id="L438" title="All 2 branches missed.">      Objects.equals(deleted, that.deleted) &amp;&amp;</span>
-<span class="nc bnc" id="L439" title="All 2 branches missed.">      Objects.equals(contacts, that.contacts) &amp;&amp;</span>
-<span class="nc bnc" id="L440" title="All 2 branches missed.">      Objects.equals(endpoints, that.endpoints) &amp;&amp;</span>
-<span class="nc bnc" id="L441" title="All 2 branches missed.">      Objects.equals(machineTags, that.machineTags) &amp;&amp;</span>
-<span class="nc bnc" id="L442" title="All 2 branches missed.">      Objects.equals(tags, that.tags) &amp;&amp;</span>
-<span class="nc bnc" id="L443" title="All 2 branches missed.">      Objects.equals(identifiers, that.identifiers) &amp;&amp;</span>
-<span class="nc bnc" id="L444" title="All 2 branches missed.">      Objects.equals(comments, that.comments);</span>
+<span class="nc" id="L439">    Organization that = (Organization) o;</span>
+<span class="nc bnc" id="L440" title="All 6 branches missed.">    return endorsementApproved == that.endorsementApproved</span>
+        &amp;&amp; endorsementStatus == that.endorsementStatus
+        &amp;&amp; numPublishedDatasets == that.numPublishedDatasets
+<span class="nc bnc" id="L443" title="All 2 branches missed.">        &amp;&amp; Objects.equals(key, that.key)</span>
+<span class="nc bnc" id="L444" title="All 2 branches missed.">        &amp;&amp; Objects.equals(endorsingNodeKey, that.endorsingNodeKey)</span>
+<span class="nc bnc" id="L445" title="All 2 branches missed.">        &amp;&amp; Objects.equals(password, that.password)</span>
+<span class="nc bnc" id="L446" title="All 2 branches missed.">        &amp;&amp; Objects.equals(title, that.title)</span>
+<span class="nc bnc" id="L447" title="All 2 branches missed.">        &amp;&amp; Objects.equals(abbreviation, that.abbreviation)</span>
+<span class="nc bnc" id="L448" title="All 4 branches missed.">        &amp;&amp; Objects.equals(description, that.description)</span>
+        &amp;&amp; language == that.language
+<span class="nc bnc" id="L450" title="All 2 branches missed.">        &amp;&amp; Objects.equals(email, that.email)</span>
+<span class="nc bnc" id="L451" title="All 2 branches missed.">        &amp;&amp; Objects.equals(phone, that.phone)</span>
+<span class="nc bnc" id="L452" title="All 2 branches missed.">        &amp;&amp; Objects.equals(homepage, that.homepage)</span>
+<span class="nc bnc" id="L453" title="All 2 branches missed.">        &amp;&amp; Objects.equals(logoUrl, that.logoUrl)</span>
+<span class="nc bnc" id="L454" title="All 2 branches missed.">        &amp;&amp; Objects.equals(address, that.address)</span>
+<span class="nc bnc" id="L455" title="All 2 branches missed.">        &amp;&amp; Objects.equals(city, that.city)</span>
+<span class="nc bnc" id="L456" title="All 4 branches missed.">        &amp;&amp; Objects.equals(province, that.province)</span>
+        &amp;&amp; country == that.country
+<span class="nc bnc" id="L458" title="All 2 branches missed.">        &amp;&amp; Objects.equals(postalCode, that.postalCode)</span>
+<span class="nc bnc" id="L459" title="All 2 branches missed.">        &amp;&amp; Objects.equals(latitude, that.latitude)</span>
+<span class="nc bnc" id="L460" title="All 2 branches missed.">        &amp;&amp; Objects.equals(longitude, that.longitude)</span>
+<span class="nc bnc" id="L461" title="All 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, that.createdBy)</span>
+<span class="nc bnc" id="L462" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modifiedBy, that.modifiedBy)</span>
+<span class="nc bnc" id="L463" title="All 2 branches missed.">        &amp;&amp; Objects.equals(created, that.created)</span>
+<span class="nc bnc" id="L464" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modified, that.modified)</span>
+<span class="nc bnc" id="L465" title="All 2 branches missed.">        &amp;&amp; Objects.equals(deleted, that.deleted)</span>
+<span class="nc bnc" id="L466" title="All 2 branches missed.">        &amp;&amp; Objects.equals(endorsed, that.endorsed)</span>
+<span class="nc bnc" id="L467" title="All 2 branches missed.">        &amp;&amp; Objects.equals(contacts, that.contacts)</span>
+<span class="nc bnc" id="L468" title="All 2 branches missed.">        &amp;&amp; Objects.equals(endpoints, that.endpoints)</span>
+<span class="nc bnc" id="L469" title="All 2 branches missed.">        &amp;&amp; Objects.equals(machineTags, that.machineTags)</span>
+<span class="nc bnc" id="L470" title="All 2 branches missed.">        &amp;&amp; Objects.equals(tags, that.tags)</span>
+<span class="nc bnc" id="L471" title="All 2 branches missed.">        &amp;&amp; Objects.equals(identifiers, that.identifiers)</span>
+<span class="nc bnc" id="L472" title="All 2 branches missed.">        &amp;&amp; Objects.equals(comments, that.comments);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L449">    return Objects</span>
-<span class="nc" id="L450">      .hash(key, endorsingNodeKey, endorsementApproved, password, title, abbreviation, description,</span>
-        language, email, phone, homepage, logoUrl, address, city, province, country, postalCode,
-<span class="nc" id="L452">        latitude, longitude, numPublishedDatasets, createdBy, modifiedBy, created, modified,</span>
-        deleted, contacts, endpoints, machineTags, tags, identifiers, comments);
+<span class="nc" id="L477">    return Objects.hash(</span>
+        key,
+        endorsingNodeKey,
+<span class="nc" id="L480">        endorsementApproved,</span>
+        endorsementStatus,
+        password,
+        title,
+        abbreviation,
+        description,
+        language,
+        email,
+        phone,
+        homepage,
+        logoUrl,
+        address,
+        city,
+        province,
+        country,
+        postalCode,
+        latitude,
+        longitude,
+<span class="nc" id="L498">        numPublishedDatasets,</span>
+        createdBy,
+        modifiedBy,
+        created,
+        modified,
+        deleted,
+        endorsed,
+        contacts,
+        endpoints,
+        machineTags,
+        tags,
+        identifiers,
+        comments);
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L458">    return new StringJoiner(&quot;, &quot;, Organization.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L459">      .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L460">      .add(&quot;endorsingNodeKey=&quot; + endorsingNodeKey)</span>
-<span class="nc" id="L461">      .add(&quot;endorsementApproved=&quot; + endorsementApproved)</span>
-<span class="nc" id="L462">      .add(&quot;password='&quot; + password + &quot;'&quot;)</span>
-<span class="nc" id="L463">      .add(&quot;title='&quot; + title + &quot;'&quot;)</span>
-<span class="nc" id="L464">      .add(&quot;abbreviation='&quot; + abbreviation + &quot;'&quot;)</span>
-<span class="nc" id="L465">      .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
-<span class="nc" id="L466">      .add(&quot;language=&quot; + language)</span>
-<span class="nc" id="L467">      .add(&quot;email=&quot; + email)</span>
-<span class="nc" id="L468">      .add(&quot;phone=&quot; + phone)</span>
-<span class="nc" id="L469">      .add(&quot;homepage=&quot; + homepage)</span>
-<span class="nc" id="L470">      .add(&quot;logoUrl=&quot; + logoUrl)</span>
-<span class="nc" id="L471">      .add(&quot;address=&quot; + address)</span>
-<span class="nc" id="L472">      .add(&quot;city='&quot; + city + &quot;'&quot;)</span>
-<span class="nc" id="L473">      .add(&quot;province='&quot; + province + &quot;'&quot;)</span>
-<span class="nc" id="L474">      .add(&quot;country=&quot; + country)</span>
-<span class="nc" id="L475">      .add(&quot;postalCode='&quot; + postalCode + &quot;'&quot;)</span>
-<span class="nc" id="L476">      .add(&quot;latitude=&quot; + latitude)</span>
-<span class="nc" id="L477">      .add(&quot;longitude=&quot; + longitude)</span>
-<span class="nc" id="L478">      .add(&quot;numPublishedDatasets=&quot; + numPublishedDatasets)</span>
-<span class="nc" id="L479">      .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
-<span class="nc" id="L480">      .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
-<span class="nc" id="L481">      .add(&quot;created=&quot; + created)</span>
-<span class="nc" id="L482">      .add(&quot;modified=&quot; + modified)</span>
-<span class="nc" id="L483">      .add(&quot;deleted=&quot; + deleted)</span>
-<span class="nc" id="L484">      .add(&quot;contacts=&quot; + contacts)</span>
-<span class="nc" id="L485">      .add(&quot;endpoints=&quot; + endpoints)</span>
-<span class="nc" id="L486">      .add(&quot;machineTags=&quot; + machineTags)</span>
-<span class="nc" id="L487">      .add(&quot;tags=&quot; + tags)</span>
-<span class="nc" id="L488">      .add(&quot;identifiers=&quot; + identifiers)</span>
-<span class="nc" id="L489">      .add(&quot;comments=&quot; + comments)</span>
-<span class="nc" id="L490">      .toString();</span>
+<span class="nc" id="L515">    return new StringJoiner(&quot;, &quot;, Organization.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L516">        .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L517">        .add(&quot;endorsingNodeKey=&quot; + endorsingNodeKey)</span>
+<span class="nc" id="L518">        .add(&quot;endorsementApproved=&quot; + endorsementApproved)</span>
+<span class="nc" id="L519">        .add(&quot;endorsementStatus=&quot; + endorsementStatus)</span>
+<span class="nc" id="L520">        .add(&quot;password='&quot; + password + &quot;'&quot;)</span>
+<span class="nc" id="L521">        .add(&quot;title='&quot; + title + &quot;'&quot;)</span>
+<span class="nc" id="L522">        .add(&quot;abbreviation='&quot; + abbreviation + &quot;'&quot;)</span>
+<span class="nc" id="L523">        .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
+<span class="nc" id="L524">        .add(&quot;language=&quot; + language)</span>
+<span class="nc" id="L525">        .add(&quot;email=&quot; + email)</span>
+<span class="nc" id="L526">        .add(&quot;phone=&quot; + phone)</span>
+<span class="nc" id="L527">        .add(&quot;homepage=&quot; + homepage)</span>
+<span class="nc" id="L528">        .add(&quot;logoUrl=&quot; + logoUrl)</span>
+<span class="nc" id="L529">        .add(&quot;address=&quot; + address)</span>
+<span class="nc" id="L530">        .add(&quot;city='&quot; + city + &quot;'&quot;)</span>
+<span class="nc" id="L531">        .add(&quot;province='&quot; + province + &quot;'&quot;)</span>
+<span class="nc" id="L532">        .add(&quot;country=&quot; + country)</span>
+<span class="nc" id="L533">        .add(&quot;postalCode='&quot; + postalCode + &quot;'&quot;)</span>
+<span class="nc" id="L534">        .add(&quot;latitude=&quot; + latitude)</span>
+<span class="nc" id="L535">        .add(&quot;longitude=&quot; + longitude)</span>
+<span class="nc" id="L536">        .add(&quot;numPublishedDatasets=&quot; + numPublishedDatasets)</span>
+<span class="nc" id="L537">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L538">        .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
+<span class="nc" id="L539">        .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L540">        .add(&quot;modified=&quot; + modified)</span>
+<span class="nc" id="L541">        .add(&quot;deleted=&quot; + deleted)</span>
+<span class="nc" id="L542">        .add(&quot;endorsed=&quot; + endorsed)</span>
+<span class="nc" id="L543">        .add(&quot;contacts=&quot; + contacts)</span>
+<span class="nc" id="L544">        .add(&quot;endpoints=&quot; + endpoints)</span>
+<span class="nc" id="L545">        .add(&quot;machineTags=&quot; + machineTags)</span>
+<span class="nc" id="L546">        .add(&quot;tags=&quot; + tags)</span>
+<span class="nc" id="L547">        .add(&quot;identifiers=&quot; + identifiers)</span>
+<span class="nc" id="L548">        .add(&quot;comments=&quot; + comments)</span>
+<span class="nc" id="L549">        .toString();</span>
   }
 
   /**
@@ -496,27 +555,29 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
    */
   @Override
   public boolean lenientEquals(Organization other) {
-<span class="nc bnc" id="L499" title="All 2 branches missed.">    if (this == other) {</span>
-<span class="nc" id="L500">      return true;</span>
+<span class="nc bnc" id="L558" title="All 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L559">      return true;</span>
     }
-<span class="nc bnc" id="L502" title="All 2 branches missed.">    return Objects.equals(this.endorsingNodeKey, other.endorsingNodeKey)</span>
-<span class="nc bnc" id="L503" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.endorsementApproved, other.endorsementApproved)</span>
-<span class="nc bnc" id="L504" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.title, other.title)</span>
-<span class="nc bnc" id="L505" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.abbreviation, other.abbreviation)</span>
-<span class="nc bnc" id="L506" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.description, other.description)</span>
-<span class="nc bnc" id="L507" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.language, other.language)</span>
-<span class="nc bnc" id="L508" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.email, other.email)</span>
-<span class="nc bnc" id="L509" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.phone, other.phone)</span>
-<span class="nc bnc" id="L510" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.homepage, other.homepage)</span>
-<span class="nc bnc" id="L511" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.logoUrl, other.logoUrl)</span>
-<span class="nc bnc" id="L512" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.address, other.address)</span>
-<span class="nc bnc" id="L513" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.city, other.city)</span>
-<span class="nc bnc" id="L514" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.province, other.province)</span>
-<span class="nc bnc" id="L515" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.country, other.country)</span>
-<span class="nc bnc" id="L516" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.postalCode, other.postalCode)</span>
-<span class="nc bnc" id="L517" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.latitude, other.latitude)</span>
-<span class="nc bnc" id="L518" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.longitude, other.longitude)</span>
-<span class="nc bnc" id="L519" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.deleted, other.deleted);</span>
+<span class="nc bnc" id="L561" title="All 2 branches missed.">    return Objects.equals(this.endorsingNodeKey, other.endorsingNodeKey)</span>
+<span class="nc bnc" id="L562" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.endorsementApproved, other.endorsementApproved)</span>
+<span class="nc bnc" id="L563" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.endorsementStatus, other.endorsementStatus)</span>
+<span class="nc bnc" id="L564" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.title, other.title)</span>
+<span class="nc bnc" id="L565" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.abbreviation, other.abbreviation)</span>
+<span class="nc bnc" id="L566" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.description, other.description)</span>
+<span class="nc bnc" id="L567" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.language, other.language)</span>
+<span class="nc bnc" id="L568" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.email, other.email)</span>
+<span class="nc bnc" id="L569" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.phone, other.phone)</span>
+<span class="nc bnc" id="L570" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.homepage, other.homepage)</span>
+<span class="nc bnc" id="L571" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.logoUrl, other.logoUrl)</span>
+<span class="nc bnc" id="L572" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.address, other.address)</span>
+<span class="nc bnc" id="L573" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.city, other.city)</span>
+<span class="nc bnc" id="L574" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.province, other.province)</span>
+<span class="nc bnc" id="L575" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.country, other.country)</span>
+<span class="nc bnc" id="L576" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.postalCode, other.postalCode)</span>
+<span class="nc bnc" id="L577" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.latitude, other.latitude)</span>
+<span class="nc bnc" id="L578" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.longitude, other.longitude)</span>
+<span class="nc bnc" id="L579" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.deleted, other.deleted)</span>
+<span class="nc bnc" id="L580" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.endorsed, other.endorsed);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

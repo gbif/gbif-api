@@ -32,86 +32,85 @@ public class Tag implements Serializable, LenientEquals&lt;Tag&gt; {
   private String createdBy;
   private Date created;
 
-<span class="nc" id="L35">  public Tag() {</span>
-<span class="nc" id="L36">  }</span>
+<span class="nc" id="L35">  public Tag() {}</span>
 
-<span class="nc" id="L38">  public Tag(String value) {</span>
-<span class="nc" id="L39">    this.value = value;</span>
-<span class="nc" id="L40">  }</span>
+<span class="nc" id="L37">  public Tag(String value) {</span>
+<span class="nc" id="L38">    this.value = value;</span>
+<span class="nc" id="L39">  }</span>
 
-<span class="fc" id="L42">  public Tag(String value, String createdBy) {</span>
-<span class="fc" id="L43">    this.value = value;</span>
-<span class="fc" id="L44">    this.createdBy = createdBy;</span>
-<span class="fc" id="L45">  }</span>
+<span class="fc" id="L41">  public Tag(String value, String createdBy) {</span>
+<span class="fc" id="L42">    this.value = value;</span>
+<span class="fc" id="L43">    this.createdBy = createdBy;</span>
+<span class="fc" id="L44">  }</span>
 
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   @Min(1)
   public Integer getKey() {
-<span class="fc" id="L51">    return key;</span>
+<span class="fc" id="L50">    return key;</span>
   }
 
   public void setKey(Integer key) {
-<span class="fc" id="L55">    this.key = key;</span>
-<span class="fc" id="L56">  }</span>
+<span class="fc" id="L54">    this.key = key;</span>
+<span class="fc" id="L55">  }</span>
 
   @NotNull
   @Size(min = 1)
   public String getValue() {
-<span class="fc" id="L61">    return value;</span>
+<span class="fc" id="L60">    return value;</span>
   }
 
   public void setValue(String value) {
-<span class="nc" id="L65">    this.value = value;</span>
-<span class="nc" id="L66">  }</span>
+<span class="nc" id="L64">    this.value = value;</span>
+<span class="nc" id="L65">  }</span>
 
   @Size(min = 3)
   public String getCreatedBy() {
-<span class="fc" id="L70">    return createdBy;</span>
+<span class="fc" id="L69">    return createdBy;</span>
   }
 
   public void setCreatedBy(String createdBy) {
-<span class="nc" id="L74">    this.createdBy = createdBy;</span>
-<span class="nc" id="L75">  }</span>
+<span class="nc" id="L73">    this.createdBy = createdBy;</span>
+<span class="nc" id="L74">  }</span>
 
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   public Date getCreated() {
-<span class="nc" id="L80">    return created;</span>
+<span class="nc" id="L79">    return created;</span>
   }
 
   public void setCreated(Date created) {
-<span class="nc" id="L84">    this.created = created;</span>
-<span class="nc" id="L85">  }</span>
+<span class="nc" id="L83">    this.created = created;</span>
+<span class="nc" id="L84">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L89" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L90">      return true;</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L89">      return true;</span>
     }
-<span class="pc bpc" id="L92" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L93">      return false;</span>
+<span class="pc bpc" id="L91" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L92">      return false;</span>
     }
-<span class="fc" id="L95">    Tag tag = (Tag) o;</span>
-<span class="fc bfc" id="L96" title="All 2 branches covered.">    return Objects.equals(key, tag.key) &amp;&amp;</span>
-<span class="pc bpc" id="L97" title="1 of 2 branches missed.">      Objects.equals(value, tag.value) &amp;&amp;</span>
-<span class="pc bpc" id="L98" title="1 of 2 branches missed.">      Objects.equals(createdBy, tag.createdBy) &amp;&amp;</span>
-<span class="pc bpc" id="L99" title="1 of 2 branches missed.">      Objects.equals(created, tag.created);</span>
+<span class="fc" id="L94">    Tag tag = (Tag) o;</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">    return Objects.equals(key, tag.key)</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(value, tag.value)</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, tag.createdBy)</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(created, tag.created);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L104">    return Objects.hash(key, value, createdBy, created);</span>
+<span class="nc" id="L103">    return Objects.hash(key, value, createdBy, created);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L109">    return new StringJoiner(&quot;, &quot;, Tag.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L110">      .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L111">      .add(&quot;value='&quot; + value + &quot;'&quot;)</span>
-<span class="nc" id="L112">      .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
-<span class="nc" id="L113">      .add(&quot;created=&quot; + created)</span>
-<span class="nc" id="L114">      .toString();</span>
+<span class="nc" id="L108">    return new StringJoiner(&quot;, &quot;, Tag.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L109">        .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L110">        .add(&quot;value='&quot; + value + &quot;'&quot;)</span>
+<span class="nc" id="L111">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L112">        .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L113">        .toString();</span>
   }
 
   /**
@@ -119,11 +118,10 @@ public class Tag implements Serializable, LenientEquals&lt;Tag&gt; {
    */
   @Override
   public boolean lenientEquals(Tag other) {
-<span class="nc bnc" id="L122" title="All 2 branches missed.">    if (this == other) {</span>
-<span class="nc" id="L123">      return true;</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L122">      return true;</span>
     }
-<span class="nc" id="L125">    return Objects.equals(this.value, other.value);</span>
+<span class="nc" id="L124">    return Objects.equals(this.value, other.value);</span>
   }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

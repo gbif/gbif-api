@@ -36,9 +36,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * For the GBIF crawling infrastructure, this means it will not be &quot;metasynced&quot; nor will any dataset associated be
  * eligble for crawling.
  */
-// TODO: Only allow adding of Endpoints of the correct type, I would argue for removing all the set(List) methods
-<span class="nc" id="L40">public class Installation implements NetworkEntity, Contactable, Endpointable, MachineTaggable, Taggable, Commentable,</span>
-  Identifiable, LenientEquals&lt;Installation&gt; {
+// TODO: Only allow adding of Endpoints of the correct type, I would argue for removing all the
+// set(List) methods
+@SuppressWarnings(&quot;unused&quot;)
+<span class="nc" id="L42">public class Installation</span>
+    implements NetworkEntity,
+    Contactable,
+    Endpointable,
+    MachineTaggable,
+    Taggable,
+    Commentable,
+    Identifiable,
+    LenientEquals&lt;Installation&gt; {
 
   private UUID key;
   private UUID organizationKey;
@@ -52,95 +61,95 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   private Date modified;
   private Date deleted;
   private boolean disabled;
-<span class="nc" id="L55">  private List&lt;Contact&gt; contacts = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L56">  private List&lt;Endpoint&gt; endpoints = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L57">  private List&lt;MachineTag&gt; machineTags = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L58">  private List&lt;Tag&gt; tags = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L59">  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L60">  private List&lt;Comment&gt; comments = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L64">  private List&lt;Contact&gt; contacts = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L65">  private List&lt;Endpoint&gt; endpoints = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L66">  private List&lt;MachineTag&gt; machineTags = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L67">  private List&lt;Tag&gt; tags = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L68">  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L69">  private List&lt;Comment&gt; comments = new ArrayList&lt;&gt;();</span>
 
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   @Override
   public UUID getKey() {
-<span class="nc" id="L66">    return key;</span>
+<span class="nc" id="L75">    return key;</span>
   }
 
   @Override
   public void setKey(UUID key) {
-<span class="nc" id="L71">    this.key = key;</span>
-<span class="nc" id="L72">  }</span>
+<span class="nc" id="L80">    this.key = key;</span>
+<span class="nc" id="L81">  }</span>
 
   @Override
   public String getTitle() {
-<span class="nc" id="L76">    return title;</span>
+<span class="nc" id="L85">    return title;</span>
   }
 
   public boolean isDisabled() {
-<span class="nc" id="L80">    return disabled;</span>
+<span class="nc" id="L89">    return disabled;</span>
   }
 
   public void setDisabled(boolean disabled) {
-<span class="nc" id="L84">    this.disabled = disabled;</span>
-<span class="nc" id="L85">  }</span>
+<span class="nc" id="L93">    this.disabled = disabled;</span>
+<span class="nc" id="L94">  }</span>
 
   @Override
   public void setTitle(String title) {
-<span class="nc" id="L89">    this.title = title;</span>
-<span class="nc" id="L90">  }</span>
+<span class="nc" id="L98">    this.title = title;</span>
+<span class="nc" id="L99">  }</span>
 
   @Override
   public String getDescription() {
-<span class="nc" id="L94">    return description;</span>
+<span class="nc" id="L103">    return description;</span>
   }
 
   @Override
   public void setDescription(String description) {
-<span class="nc" id="L99">    this.description = description;</span>
-<span class="nc" id="L100">  }</span>
+<span class="nc" id="L108">    this.description = description;</span>
+<span class="nc" id="L109">  }</span>
 
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   @Override
   public Date getCreated() {
-<span class="nc" id="L106">    return created;</span>
+<span class="nc" id="L115">    return created;</span>
   }
 
   @Override
   public void setCreated(Date created) {
-<span class="nc" id="L111">    this.created = created;</span>
-<span class="nc" id="L112">  }</span>
+<span class="nc" id="L120">    this.created = created;</span>
+<span class="nc" id="L121">  }</span>
 
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   @Override
   public Date getModified() {
-<span class="nc" id="L118">    return modified;</span>
+<span class="nc" id="L127">    return modified;</span>
   }
 
   @Override
   public void setModified(Date modified) {
-<span class="nc" id="L123">    this.modified = modified;</span>
-<span class="nc" id="L124">  }</span>
+<span class="nc" id="L132">    this.modified = modified;</span>
+<span class="nc" id="L133">  }</span>
 
   @Override
   public Date getDeleted() {
-<span class="nc" id="L128">    return deleted;</span>
+<span class="nc" id="L137">    return deleted;</span>
   }
 
   @Override
   public void setDeleted(Date deleted) {
-<span class="nc" id="L133">    this.deleted = deleted;</span>
-<span class="nc" id="L134">  }</span>
+<span class="nc" id="L142">    this.deleted = deleted;</span>
+<span class="nc" id="L143">  }</span>
 
   @NotNull
   public UUID getOrganizationKey() {
-<span class="nc" id="L138">    return organizationKey;</span>
+<span class="nc" id="L147">    return organizationKey;</span>
   }
 
   public void setOrganizationKey(UUID organizationKey) {
-<span class="nc" id="L142">    this.organizationKey = organizationKey;</span>
-<span class="nc" id="L143">  }</span>
+<span class="nc" id="L151">    this.organizationKey = organizationKey;</span>
+<span class="nc" id="L152">  }</span>
 
   /**
    * Get the installation password. This method is to be ignored on serialization, so that the password is not
@@ -151,171 +160,186 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   @JsonIgnore
   @Nullable
   public String getPassword() {
-<span class="nc" id="L154">    return password;</span>
+<span class="nc" id="L163">    return password;</span>
   }
 
   public void setPassword(String password) {
-<span class="nc" id="L158">    this.password = password;</span>
-<span class="nc" id="L159">  }</span>
+<span class="nc" id="L167">    this.password = password;</span>
+<span class="nc" id="L168">  }</span>
 
   @NotNull
   public InstallationType getType() {
-<span class="nc" id="L163">    return type;</span>
+<span class="nc" id="L172">    return type;</span>
   }
 
   public void setType(InstallationType type) {
-<span class="nc" id="L167">    this.type = type;</span>
-<span class="nc" id="L168">  }</span>
+<span class="nc" id="L176">    this.type = type;</span>
+<span class="nc" id="L177">  }</span>
 
   @Override
   public String getCreatedBy() {
-<span class="nc" id="L172">    return createdBy;</span>
+<span class="nc" id="L181">    return createdBy;</span>
   }
 
   @Override
   public void setCreatedBy(String createdBy) {
-<span class="nc" id="L177">    this.createdBy = createdBy;</span>
-<span class="nc" id="L178">  }</span>
+<span class="nc" id="L186">    this.createdBy = createdBy;</span>
+<span class="nc" id="L187">  }</span>
 
   @Override
   public String getModifiedBy() {
-<span class="nc" id="L182">    return modifiedBy;</span>
+<span class="nc" id="L191">    return modifiedBy;</span>
   }
 
   @Override
   public void setModifiedBy(String modifiedBy) {
-<span class="nc" id="L187">    this.modifiedBy = modifiedBy;</span>
-<span class="nc" id="L188">  }</span>
+<span class="nc" id="L196">    this.modifiedBy = modifiedBy;</span>
+<span class="nc" id="L197">  }</span>
 
   @Override
   public List&lt;Contact&gt; getContacts() {
-<span class="nc" id="L192">    return contacts;</span>
+<span class="nc" id="L201">    return contacts;</span>
   }
 
   @Override
   public void setContacts(List&lt;Contact&gt; contacts) {
-<span class="nc" id="L197">    this.contacts = contacts;</span>
-<span class="nc" id="L198">  }</span>
+<span class="nc" id="L206">    this.contacts = contacts;</span>
+<span class="nc" id="L207">  }</span>
 
   @Override
   public List&lt;Endpoint&gt; getEndpoints() {
-<span class="nc" id="L202">    return endpoints;</span>
+<span class="nc" id="L211">    return endpoints;</span>
   }
 
   @Override
   public void setEndpoints(List&lt;Endpoint&gt; endpoints) {
-<span class="nc" id="L207">    this.endpoints = endpoints;</span>
-<span class="nc" id="L208">  }</span>
+<span class="nc" id="L216">    this.endpoints = endpoints;</span>
+<span class="nc" id="L217">  }</span>
 
   @Override
   public void addEndpoint(Endpoint endpoint) {
-<span class="nc" id="L212">    endpoints.add(endpoint);</span>
-<span class="nc" id="L213">  }</span>
+<span class="nc" id="L221">    endpoints.add(endpoint);</span>
+<span class="nc" id="L222">  }</span>
 
   @Override
   public List&lt;MachineTag&gt; getMachineTags() {
-<span class="nc" id="L217">    return machineTags;</span>
+<span class="nc" id="L226">    return machineTags;</span>
   }
 
   @Override
   public void setMachineTags(List&lt;MachineTag&gt; machineTags) {
-<span class="nc" id="L222">    this.machineTags = machineTags;</span>
-<span class="nc" id="L223">  }</span>
+<span class="nc" id="L231">    this.machineTags = machineTags;</span>
+<span class="nc" id="L232">  }</span>
 
   @Override
   public void addMachineTag(MachineTag machineTag) {
-<span class="nc" id="L227">    machineTags.add(machineTag);</span>
-<span class="nc" id="L228">  }</span>
+<span class="nc" id="L236">    machineTags.add(machineTag);</span>
+<span class="nc" id="L237">  }</span>
 
   @Override
   public List&lt;Tag&gt; getTags() {
-<span class="nc" id="L232">    return tags;</span>
+<span class="nc" id="L241">    return tags;</span>
   }
 
   @Override
   public void setTags(List&lt;Tag&gt; tags) {
-<span class="nc" id="L237">    this.tags = tags;</span>
-<span class="nc" id="L238">  }</span>
+<span class="nc" id="L246">    this.tags = tags;</span>
+<span class="nc" id="L247">  }</span>
 
   @Override
   public List&lt;Identifier&gt; getIdentifiers() {
-<span class="nc" id="L242">    return identifiers;</span>
+<span class="nc" id="L251">    return identifiers;</span>
   }
 
   @Override
   public void setIdentifiers(List&lt;Identifier&gt; identifiers) {
-<span class="nc" id="L247">    this.identifiers = identifiers;</span>
-<span class="nc" id="L248">  }</span>
+<span class="nc" id="L256">    this.identifiers = identifiers;</span>
+<span class="nc" id="L257">  }</span>
 
   @Override
   public List&lt;Comment&gt; getComments() {
-<span class="nc" id="L252">    return comments;</span>
+<span class="nc" id="L261">    return comments;</span>
   }
 
   @Override
   public void setComments(List&lt;Comment&gt; comments) {
-<span class="nc" id="L257">    this.comments = comments;</span>
-<span class="nc" id="L258">  }</span>
+<span class="nc" id="L266">    this.comments = comments;</span>
+<span class="nc" id="L267">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L262" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L263">      return true;</span>
+<span class="nc bnc" id="L271" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L272">      return true;</span>
     }
-<span class="nc bnc" id="L265" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L266">      return false;</span>
+<span class="nc bnc" id="L274" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L275">      return false;</span>
     }
-<span class="nc" id="L268">    Installation that = (Installation) o;</span>
-<span class="nc bnc" id="L269" title="All 2 branches missed.">    return disabled == that.disabled &amp;&amp;</span>
-<span class="nc bnc" id="L270" title="All 2 branches missed.">      Objects.equals(key, that.key) &amp;&amp;</span>
-<span class="nc bnc" id="L271" title="All 2 branches missed.">      Objects.equals(organizationKey, that.organizationKey) &amp;&amp;</span>
-<span class="nc bnc" id="L272" title="All 4 branches missed.">      Objects.equals(password, that.password) &amp;&amp;</span>
-      type == that.type &amp;&amp;
-<span class="nc bnc" id="L274" title="All 2 branches missed.">      Objects.equals(title, that.title) &amp;&amp;</span>
-<span class="nc bnc" id="L275" title="All 2 branches missed.">      Objects.equals(description, that.description) &amp;&amp;</span>
-<span class="nc bnc" id="L276" title="All 2 branches missed.">      Objects.equals(createdBy, that.createdBy) &amp;&amp;</span>
-<span class="nc bnc" id="L277" title="All 2 branches missed.">      Objects.equals(modifiedBy, that.modifiedBy) &amp;&amp;</span>
-<span class="nc bnc" id="L278" title="All 2 branches missed.">      Objects.equals(created, that.created) &amp;&amp;</span>
-<span class="nc bnc" id="L279" title="All 2 branches missed.">      Objects.equals(modified, that.modified) &amp;&amp;</span>
-<span class="nc bnc" id="L280" title="All 2 branches missed.">      Objects.equals(deleted, that.deleted) &amp;&amp;</span>
-<span class="nc bnc" id="L281" title="All 2 branches missed.">      Objects.equals(contacts, that.contacts) &amp;&amp;</span>
-<span class="nc bnc" id="L282" title="All 2 branches missed.">      Objects.equals(endpoints, that.endpoints) &amp;&amp;</span>
-<span class="nc bnc" id="L283" title="All 2 branches missed.">      Objects.equals(machineTags, that.machineTags) &amp;&amp;</span>
-<span class="nc bnc" id="L284" title="All 2 branches missed.">      Objects.equals(tags, that.tags) &amp;&amp;</span>
-<span class="nc bnc" id="L285" title="All 2 branches missed.">      Objects.equals(identifiers, that.identifiers) &amp;&amp;</span>
-<span class="nc bnc" id="L286" title="All 2 branches missed.">      Objects.equals(comments, that.comments);</span>
+<span class="nc" id="L277">    Installation that = (Installation) o;</span>
+<span class="nc bnc" id="L278" title="All 2 branches missed.">    return disabled == that.disabled</span>
+<span class="nc bnc" id="L279" title="All 2 branches missed.">        &amp;&amp; Objects.equals(key, that.key)</span>
+<span class="nc bnc" id="L280" title="All 2 branches missed.">        &amp;&amp; Objects.equals(organizationKey, that.organizationKey)</span>
+<span class="nc bnc" id="L281" title="All 4 branches missed.">        &amp;&amp; Objects.equals(password, that.password)</span>
+        &amp;&amp; type == that.type
+<span class="nc bnc" id="L283" title="All 2 branches missed.">        &amp;&amp; Objects.equals(title, that.title)</span>
+<span class="nc bnc" id="L284" title="All 2 branches missed.">        &amp;&amp; Objects.equals(description, that.description)</span>
+<span class="nc bnc" id="L285" title="All 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, that.createdBy)</span>
+<span class="nc bnc" id="L286" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modifiedBy, that.modifiedBy)</span>
+<span class="nc bnc" id="L287" title="All 2 branches missed.">        &amp;&amp; Objects.equals(created, that.created)</span>
+<span class="nc bnc" id="L288" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modified, that.modified)</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">        &amp;&amp; Objects.equals(deleted, that.deleted)</span>
+<span class="nc bnc" id="L290" title="All 2 branches missed.">        &amp;&amp; Objects.equals(contacts, that.contacts)</span>
+<span class="nc bnc" id="L291" title="All 2 branches missed.">        &amp;&amp; Objects.equals(endpoints, that.endpoints)</span>
+<span class="nc bnc" id="L292" title="All 2 branches missed.">        &amp;&amp; Objects.equals(machineTags, that.machineTags)</span>
+<span class="nc bnc" id="L293" title="All 2 branches missed.">        &amp;&amp; Objects.equals(tags, that.tags)</span>
+<span class="nc bnc" id="L294" title="All 2 branches missed.">        &amp;&amp; Objects.equals(identifiers, that.identifiers)</span>
+<span class="nc bnc" id="L295" title="All 2 branches missed.">        &amp;&amp; Objects.equals(comments, that.comments);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L291">    return Objects</span>
-<span class="nc" id="L292">      .hash(key, organizationKey, password, type, title, description, createdBy, modifiedBy,</span>
-<span class="nc" id="L293">        created, modified, deleted, disabled, contacts, endpoints, machineTags, tags, identifiers,</span>
+<span class="nc" id="L300">    return Objects.hash(</span>
+        key,
+        organizationKey,
+        password,
+        type,
+        title,
+        description,
+        createdBy,
+        modifiedBy,
+        created,
+        modified,
+        deleted,
+<span class="nc" id="L312">        disabled,</span>
+        contacts,
+        endpoints,
+        machineTags,
+        tags,
+        identifiers,
         comments);
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L299">    return new StringJoiner(&quot;, &quot;, Installation.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L300">      .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L301">      .add(&quot;organizationKey=&quot; + organizationKey)</span>
-<span class="nc" id="L302">      .add(&quot;password='&quot; + password + &quot;'&quot;)</span>
-<span class="nc" id="L303">      .add(&quot;type=&quot; + type)</span>
-<span class="nc" id="L304">      .add(&quot;title='&quot; + title + &quot;'&quot;)</span>
-<span class="nc" id="L305">      .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
-<span class="nc" id="L306">      .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
-<span class="nc" id="L307">      .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
-<span class="nc" id="L308">      .add(&quot;created=&quot; + created)</span>
-<span class="nc" id="L309">      .add(&quot;modified=&quot; + modified)</span>
-<span class="nc" id="L310">      .add(&quot;deleted=&quot; + deleted)</span>
-<span class="nc" id="L311">      .add(&quot;disabled=&quot; + disabled)</span>
-<span class="nc" id="L312">      .add(&quot;contacts=&quot; + contacts)</span>
-<span class="nc" id="L313">      .add(&quot;endpoints=&quot; + endpoints)</span>
-<span class="nc" id="L314">      .add(&quot;machineTags=&quot; + machineTags)</span>
-<span class="nc" id="L315">      .add(&quot;tags=&quot; + tags)</span>
-<span class="nc" id="L316">      .add(&quot;identifiers=&quot; + identifiers)</span>
-<span class="nc" id="L317">      .add(&quot;comments=&quot; + comments)</span>
-<span class="nc" id="L318">      .toString();</span>
+<span class="nc" id="L323">    return new StringJoiner(&quot;, &quot;, Installation.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L324">        .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L325">        .add(&quot;organizationKey=&quot; + organizationKey)</span>
+<span class="nc" id="L326">        .add(&quot;password='&quot; + password + &quot;'&quot;)</span>
+<span class="nc" id="L327">        .add(&quot;type=&quot; + type)</span>
+<span class="nc" id="L328">        .add(&quot;title='&quot; + title + &quot;'&quot;)</span>
+<span class="nc" id="L329">        .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
+<span class="nc" id="L330">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L331">        .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
+<span class="nc" id="L332">        .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L333">        .add(&quot;modified=&quot; + modified)</span>
+<span class="nc" id="L334">        .add(&quot;deleted=&quot; + deleted)</span>
+<span class="nc" id="L335">        .add(&quot;disabled=&quot; + disabled)</span>
+<span class="nc" id="L336">        .add(&quot;contacts=&quot; + contacts)</span>
+<span class="nc" id="L337">        .add(&quot;endpoints=&quot; + endpoints)</span>
+<span class="nc" id="L338">        .add(&quot;machineTags=&quot; + machineTags)</span>
+<span class="nc" id="L339">        .add(&quot;tags=&quot; + tags)</span>
+<span class="nc" id="L340">        .add(&quot;identifiers=&quot; + identifiers)</span>
+<span class="nc" id="L341">        .add(&quot;comments=&quot; + comments)</span>
+<span class="nc" id="L342">        .toString();</span>
   }
 
   /**
@@ -324,13 +348,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
    */
   @Override
   public boolean lenientEquals(Installation other) {
-<span class="nc bnc" id="L327" title="All 2 branches missed.">    if (this == other) {</span>
-<span class="nc" id="L328">      return true;</span>
+<span class="nc bnc" id="L351" title="All 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L352">      return true;</span>
     }
-<span class="nc bnc" id="L330" title="All 2 branches missed.">    return Objects.equals(this.organizationKey, other.organizationKey)</span>
-<span class="nc bnc" id="L331" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.type, other.type)</span>
-<span class="nc bnc" id="L332" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.title, other.title)</span>
-<span class="nc bnc" id="L333" title="All 2 branches missed.">      &amp;&amp; Objects.equals(this.description, other.description);</span>
+<span class="nc bnc" id="L354" title="All 2 branches missed.">    return Objects.equals(this.organizationKey, other.organizationKey)</span>
+<span class="nc bnc" id="L355" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.type, other.type)</span>
+<span class="nc bnc" id="L356" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.title, other.title)</span>
+<span class="nc bnc" id="L357" title="All 2 branches missed.">        &amp;&amp; Objects.equals(this.description, other.description);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
