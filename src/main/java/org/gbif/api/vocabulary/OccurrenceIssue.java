@@ -37,17 +37,17 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
 public enum OccurrenceIssue implements InterpretationRemark {
 
   /**
-   * Coordinate is the exact 0/0 coordinate, often indicating a bad null coordinate.
+   * Coordinate is the exact 0°, 0° coordinate, often indicating a bad null coordinate.
    */
   ZERO_COORDINATE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),
 
   /**
-   * Coordinate has invalid lat/lon values out of their decimal max range.
+   * Coordinate has a latitude and/or longitude value beyond the maximum (or minimum) decimal value.
    */
   COORDINATE_OUT_OF_RANGE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),
 
   /**
-   * Coordinate value given in some form but GBIF is unable to interpret it.
+   * Coordinate value is given in some form but GBIF is unable to interpret it.
    */
   COORDINATE_INVALID(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),
 
@@ -128,7 +128,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
   COUNTRY_DERIVED_FROM_COORDINATES(WARNING, TermsGroup.COORDINATES_COUNTRY_TERMS),
 
   /**
-   * The interpreted continent and country do not match up.
+   * The interpreted continent and country do not match.
    */
   CONTINENT_COUNTRY_MISMATCH(WARNING),
 
@@ -158,19 +158,19 @@ public enum OccurrenceIssue implements InterpretationRemark {
   PRESUMED_NEGATED_LATITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),
 
   /**
-   * The recording date specified as the eventDate string and the individual year, month, day are
-   * contradicting.
+   * The recorded date specified as the eventDate string and the individual year, month, day are
+   * contradictory.
    */
   RECORDED_DATE_MISMATCH(WARNING, TermsGroup.RECORDED_DATE_TERMS),
 
   /**
-   * A (partial) invalid date is given, such as a non existing date, invalid zero month, etc.
+   * A (partial) invalid date is given, such as a non existing date, zero month, etc.
    */
   RECORDED_DATE_INVALID(WARNING, TermsGroup.RECORDED_DATE_TERMS),
 
   /**
-   * The recording date is highly unlikely, falling either into the future or represents a very old
-   * date before 1600 that predates modern taxonomy.
+   * The recorded date is highly unlikely, falling either into the future or representing a very old
+   * date before 1600 thus predating modern taxonomy.
    */
   RECORDED_DATE_UNLIKELY(WARNING, TermsGroup.RECORDED_DATE_TERMS),
 
@@ -186,8 +186,8 @@ public enum OccurrenceIssue implements InterpretationRemark {
   TAXON_MATCH_HIGHERRANK(WARNING, TermsGroup.TAXONOMY_TERMS),
 
   /**
-   * Matching to the taxonomic backbone cannot be done cause there was no match at all or several
-   * matches with too little information to keep them apart (homonyms).
+   * Matching to the taxonomic backbone cannot be done because there was no match at all, or several
+   * matches with too little information to keep them apart (potentially homonyms).
    */
   TAXON_MATCH_NONE(WARNING, TermsGroup.TAXONOMY_TERMS),
 
@@ -198,17 +198,17 @@ public enum OccurrenceIssue implements InterpretationRemark {
   DEPTH_NOT_METRIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),
 
   /**
-   * Set if depth is larger than 11.000m or negative.
+   * Set if depth is larger than 11,000m or negative.
    */
   DEPTH_UNLIKELY(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),
 
   /**
-   * Set if supplied min>max
+   * Set if supplied minimum depth > maximum depth
    */
   DEPTH_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),
 
   /**
-   * Set if depth is a non numeric value
+   * Set if depth is a non-numeric value
    */
   DEPTH_NON_NUMERIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),
 
@@ -218,7 +218,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
   ELEVATION_UNLIKELY(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),
 
   /**
-   * Set if supplied min > max elevation
+   * Set if supplied minimum elevation > maximum elevation
    */
   ELEVATION_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumElevationInMeters,
     DwcTerm.maximumElevationInMeters),
@@ -230,19 +230,18 @@ public enum OccurrenceIssue implements InterpretationRemark {
   ELEVATION_NOT_METRIC(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),
 
   /**
-   * Set if elevation is a non numeric value
+   * Set if elevation is a non-numeric value
    */
   ELEVATION_NON_NUMERIC(WARNING, DwcTerm.minimumElevationInMeters,
     DwcTerm.maximumElevationInMeters),
 
   /**
-   * A (partial) invalid date is given for dc:modified, such as a non existing date, invalid zero
-   * month, etc.
+   * A (partial) invalid date is given for dc:modified, such as a nonexistent date, zero month, etc.
    */
   MODIFIED_DATE_INVALID(WARNING, DcTerm.modified),
 
   /**
-   * The date given for dc:modified is in the future or predates unix time (1970).
+   * The date given for dc:modified is in the future or predates Unix time (1970).
    */
   MODIFIED_DATE_UNLIKELY(WARNING, DcTerm.modified),
 
@@ -252,19 +251,19 @@ public enum OccurrenceIssue implements InterpretationRemark {
   IDENTIFIED_DATE_UNLIKELY(WARNING, DwcTerm.dateIdentified),
 
   /**
-   * The date given for dwc:dateIdentified is invalid and cant be interpreted at all.
+   * The date given for dwc:dateIdentified is invalid and can't be interpreted at all.
    */
   IDENTIFIED_DATE_INVALID(WARNING, DwcTerm.dateIdentified),
 
   /**
-   * The given basis of record is impossible to interpret or seriously different from the
+   * The given basis of record is impossible to interpret or significantly different from the
    * recommended vocabulary.
    */
   BASIS_OF_RECORD_INVALID(WARNING, DwcTerm.basisOfRecord),
 
   /**
-   * The given type status is impossible to interpret or seriously different from the recommended
-   * vocabulary.
+   * The given type status is impossible to interpret or significantly different from the
+   * recommended vocabulary.
    */
   TYPE_STATUS_INVALID(WARNING, DwcTerm.typeStatus),
 
@@ -274,12 +273,12 @@ public enum OccurrenceIssue implements InterpretationRemark {
   MULTIMEDIA_DATE_INVALID(WARNING),
 
   /**
-   * An invalid uri is given for a multimedia object.
+   * An invalid URI is given for a multimedia object.
    */
   MULTIMEDIA_URI_INVALID(WARNING),
 
   /**
-   * An invalid uri is given for dc:references.
+   * An invalid URI is given for dc:references.
    */
   REFERENCES_URI_INVALID(WARNING, DcTerm.references),
 
@@ -294,7 +293,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
   INDIVIDUAL_COUNT_INVALID(WARNING, DwcTerm.individualCount),
 
   /**
-   * Example: individual count value > 0, but occurrence status is absent and etc.
+   * Example: individual count value > 0, but occurrence status is absent.
    */
   INDIVIDUAL_COUNT_CONFLICTS_WITH_OCCURRENCE_STATUS(WARNING, DwcTerm.individualCount),
 
@@ -382,8 +381,6 @@ public enum OccurrenceIssue implements InterpretationRemark {
 
   /**
    * {@link OccurrenceIssue} linked to the provided {@link Term}.
-   *
-   * @param relatedTerms
    */
   OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {
     this.severity = severity;
@@ -421,6 +418,10 @@ public enum OccurrenceIssue implements InterpretationRemark {
         COORDINATE_INVALID,
         COORDINATE_OUT_OF_RANGE,
         COUNTRY_COORDINATE_MISMATCH));
+
+  /**
+   * All issues that indicate problems with the taxonomy or taxonomic matching.
+   */
   public static final List<OccurrenceIssue> TAXONOMIC_RULES =
     Collections.unmodifiableList(
       Arrays.asList(
