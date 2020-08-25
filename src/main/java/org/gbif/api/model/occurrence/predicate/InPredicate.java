@@ -48,12 +48,12 @@ public class InPredicate implements Predicate {
 
   @Experimental
   @Nullable
-  private final boolean matchCase;
+  private final Boolean matchCase;
 
   @JsonCreator
   public InPredicate(@JsonProperty("key") OccurrenceSearchParameter key,
                      @JsonProperty("values") Collection<String> values,
-                     @JsonProperty(value = "matchCase", defaultValue = "false") boolean matchCase) {
+                     @JsonProperty(value = "matchCase", defaultValue = "false") Boolean matchCase) {
     this.matchCase = matchCase;
     Objects.requireNonNull(key, "<key> may not be null");
     Objects.requireNonNull(values, "<values> may not be null");
@@ -84,7 +84,7 @@ public class InPredicate implements Predicate {
    * This is an experimental feature and its implementation map change or be removed at any time.
    */
   @Experimental
-  public boolean isMatchCase() {
+  public Boolean isMatchCase() {
     return matchCase;
   }
 

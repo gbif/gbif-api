@@ -23,22 +23,22 @@ public class LikePredicateTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidConstructor() {
-    new LikePredicate(OccurrenceSearchParameter.ELEVATION, "123.2%", false);
+    new LikePredicate(OccurrenceSearchParameter.ELEVATION, "123.2%", null);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidConstructor2() {
-    new LikePredicate(OccurrenceSearchParameter.BASIS_OF_RECORD, "%FOSSIL%", false);
+    new LikePredicate(OccurrenceSearchParameter.BASIS_OF_RECORD, "%FOSSIL%", null);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidConstructor4() {
-    new LikePredicate(OccurrenceSearchParameter.COUNTRY, "D%", false);
+    new LikePredicate(OccurrenceSearchParameter.COUNTRY, "D%", null);
   }
 
   @Test
   public void testValidConstructor() {
-    new LikePredicate(OccurrenceSearchParameter.SCIENTIFIC_NAME, "Abies%", false);
-    new LikePredicate(OccurrenceSearchParameter.CATALOG_NUMBER, "kew-%", false);
+    new LikePredicate(OccurrenceSearchParameter.SCIENTIFIC_NAME, "Abies%", null);
+    new LikePredicate(OccurrenceSearchParameter.CATALOG_NUMBER, "kew-%", null);
   }
 }
