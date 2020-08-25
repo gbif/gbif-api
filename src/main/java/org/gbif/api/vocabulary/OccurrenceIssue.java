@@ -305,7 +305,17 @@ public enum OccurrenceIssue implements InterpretationRemark {
   /**
    * Occurrence status was inferred from the individual count value
    */
-  OCCURRENCE_STATUS_INFERRED_FROM_INDIVIDUAL_COUNT(WARNING, DwcTerm.occurrenceStatus);
+  OCCURRENCE_STATUS_INFERRED_FROM_INDIVIDUAL_COUNT(WARNING, DwcTerm.occurrenceStatus),
+
+  /**
+   * The date given for dwc:georeferencedDate is in the future or before Linnean times (1700).
+   */
+  GEOREFERENCED_DATE_UNLIKELY(WARNING, DwcTerm.georeferencedDate),
+
+  /**
+   * The date given for dwc:georeferencedDate is invalid and can't be interpreted at all.
+   */
+  GEOREFERENCED_DATE_INVALID(WARNING, DwcTerm.georeferencedDate);
 
   /**
    * Simple helper nested class to allow grouping of Term mostly to increase readability of this
