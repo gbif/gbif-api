@@ -21,6 +21,7 @@ import org.gbif.api.vocabulary.UserRole;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -140,5 +141,60 @@ public class GbifUserTest {
     u.setFirstName("Betty");
     u.setLastName("Ford");
     assertEquals("Betty Ford", u.getName());
+  }
+
+  @Test
+  public void testCopyConstructor() {
+    GbifUser u = new GbifUser();
+    u.setKey(100);
+    u.setUserName("be");
+    u.setEmail("betty@gbif.org");
+    u.setFirstName("Betty");
+    u.setLastName("Ford");
+    u.setLanguage(Language.ENGLISH);
+
+    Map<String, String> settings = new HashMap<>();
+    settings.put("name", "tim");
+    u.setSettings(settings);
+
+    Map<String, String> systemSettings = new HashMap<>();
+    systemSettings.put("hello", "world");
+    u.setSystemSettings(systemSettings);
+
+    Set<UserRole> roles = new HashSet<>();
+    roles.add(UserRole.USER);
+    u.setRoles(roles);
+
+    GbifUser copy = new GbifUser(u);
+
+    // change original
+    u.setKey(101);
+    u.setUserName("new");
+    u.setEmail("new@gbif.org");
+    u.setFirstName("John");
+    u.setLastName("Smith");
+    u.setLanguage(Language.HEBREW);
+
+    settings.put("another", "one");
+    u.setSettings(settings);
+
+    systemSettings.put("another", "two");
+    u.setSystemSettings(systemSettings);
+
+    roles.add(UserRole.REGISTRY_ADMIN);
+    u.setRoles(roles);
+
+    // assert copy not changed
+    assertEquals(Integer.valueOf(100), copy.getKey());
+    assertEquals("be", copy.getUserName());
+    assertEquals("betty@gbif.org", copy.getEmail());
+    assertEquals("Betty", copy.getFirstName());
+    assertEquals("Ford", copy.getLastName());
+    assertEquals(Language.ENGLISH, copy.getLanguage());
+    assertEquals(1, copy.getSettings().size());
+    assertEquals("tim", copy.getSettings().get("name"));
+    assertEquals(1, copy.getSystemSettings().size());
+    assertEquals("world", copy.getSystemSettings().get("hello"));
+    assertEquals(1, copy.getRoles().size());
   }
 }

@@ -19,6 +19,8 @@ import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -39,6 +41,24 @@ public class GbifUser extends AbstractGbifUser {
 
   private String passwordHash;
   private Date lastLogin;
+
+  public GbifUser() {
+  }
+
+  public GbifUser(GbifUser another) {
+    this.key = another.key;
+    this.passwordHash = another.passwordHash;
+    this.lastLogin = another.lastLogin;
+    this.userName = another.userName;
+    this.firstName = another.firstName;
+    this.lastName = another.lastName;
+    this.email = another.email;
+    this.roles = new HashSet<>(another.roles);
+    this.settings = new HashMap<>(another.settings);
+    this.systemSettings = new HashMap<>(another.systemSettings);
+    this.deleted = another.deleted;
+    this.language = another.language;
+  }
 
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
