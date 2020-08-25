@@ -32,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * A GBIF user account registered in the user Identity database (previously Drupal).
  * This class is the replacement of {@link User}.
  */
+@SuppressWarnings("unused")
 public class GbifUser extends AbstractGbifUser {
 
   protected Integer key;
@@ -105,6 +106,7 @@ public class GbifUser extends AbstractGbifUser {
       .add("settings=" + settings)
       .add("systemSettings=" + systemSettings)
       .add("deleted=" + deleted)
+      .add("language=" + language)
       .toString();
   }
 }

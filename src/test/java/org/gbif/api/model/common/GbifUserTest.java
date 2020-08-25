@@ -16,6 +16,7 @@
 package org.gbif.api.model.common;
 
 import org.gbif.api.SerdeTestUtils;
+import org.gbif.api.vocabulary.Language;
 import org.gbif.api.vocabulary.UserRole;
 
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class GbifUserTest {
   private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
   @Test
-  public void testHasRole() throws Exception {
+  public void testHasRole() {
     GbifUser u = new GbifUser();
     u.setUserName("betty");
     u.setEmail("betty@gbif.org");
@@ -66,7 +67,7 @@ public class GbifUserTest {
   }
 
   @Test
-  public void testValidation() throws Exception {
+  public void testValidation() {
     GbifUser u = new GbifUser();
     u.setKey(100);
     u.setUserName("be");
@@ -82,7 +83,7 @@ public class GbifUserTest {
   }
 
   @Test
-  public void testEmailValidation() throws Exception {
+  public void testEmailValidation() {
     GbifUser u = new GbifUser();
     u.setKey(100);
     u.setUserName("betty");
@@ -112,6 +113,7 @@ public class GbifUserTest {
     u.setEmail("betty@gbif.org");
     u.setFirstName("Betty");
     u.setLastName("Ford");
+    u.setLanguage(Language.DANISH);
     SerdeTestUtils.testSerDe(u, GbifUser.class);
   }
 
@@ -130,7 +132,7 @@ public class GbifUserTest {
   }
 
   @Test
-  public void testName() throws IOException {
+  public void testName() {
     GbifUser u = new GbifUser();
     u.setKey(100);
     u.setUserName("be");

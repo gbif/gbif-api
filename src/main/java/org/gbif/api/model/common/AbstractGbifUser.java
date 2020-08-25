@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.common;
 
+import org.gbif.api.vocabulary.Language;
 import org.gbif.api.vocabulary.UserRole;
 
 import java.util.Date;
@@ -39,25 +40,21 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * By doing so, it is possible to have classes working for user information without having to carry those
  * information around.
  */
+@SuppressWarnings("unused")
 public abstract class AbstractGbifUser {
   protected static final String EMAIL_PATTERN =
-    "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+    "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
   protected String userName;
   protected String firstName;
   protected String lastName;
   protected String email;
   protected Set<UserRole> roles = new HashSet<>();
-
-//  //country of the user (user for stats)
-//  protected Country country;
-
   protected Map<String, String> settings = new HashMap<>();
-
   //settings that the user will not set directly
   protected Map<String, String> systemSettings = new HashMap<>();
-
   protected Date deleted;
+  protected Language language;
 
   @NotNull
   @Pattern(regexp = EMAIL_PATTERN)
@@ -134,7 +131,7 @@ public abstract class AbstractGbifUser {
   /**
    * Checks if the user has the given user role.
    *
-   * @param role
+   * @param role user role
    * @return true if the user has the requested role
    */
   public boolean hasRole(UserRole role) {
@@ -151,8 +148,6 @@ public abstract class AbstractGbifUser {
 
   /**
    * Gets the settings which may be empty but never null.
-   *
-   * @return
    */
   @NotNull
   public Map<String, String> getSettings() {
@@ -169,8 +164,6 @@ public abstract class AbstractGbifUser {
 
   /**
    * Gets the settings which may be empty but never null.
-   *
-   * @return
    */
   @NotNull
   public Map<String, String> getSystemSettings() {
@@ -183,6 +176,14 @@ public abstract class AbstractGbifUser {
 
   public void setDeleted(Date deleted) {
     this.deleted = deleted;
+  }
+
+  public Language getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(Language language) {
+    this.language = language;
   }
 
   @Override
@@ -201,13 +202,14 @@ public abstract class AbstractGbifUser {
       Objects.equals(roles, that.roles) &&
       Objects.equals(settings, that.settings) &&
       Objects.equals(systemSettings, that.systemSettings) &&
-      Objects.equals(deleted, that.deleted);
+      Objects.equals(deleted, that.deleted) &&
+      Objects.equals(language, that.language);
   }
 
   @Override
   public int hashCode() {
     return Objects
-      .hash(userName, firstName, lastName, email, roles, settings, systemSettings, deleted);
+      .hash(userName, firstName, lastName, email, roles, settings, systemSettings, deleted, language);
   }
 
   @Override
@@ -221,6 +223,7 @@ public abstract class AbstractGbifUser {
       .add("settings=" + settings)
       .add("systemSettings=" + systemSettings)
       .add("deleted=" + deleted)
+      .add("language=" + language)
       .toString();
   }
 }
