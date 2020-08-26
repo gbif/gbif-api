@@ -15,12 +15,12 @@
  */
 package org.gbif.api.model.common;
 
-import org.gbif.api.vocabulary.Language;
 import org.gbif.api.vocabulary.UserRole;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -54,7 +54,7 @@ public abstract class AbstractGbifUser {
   //settings that the user will not set directly
   protected Map<String, String> systemSettings = new HashMap<>();
   protected Date deleted;
-  protected Language language;
+  protected Locale locale;
 
   @NotNull
   @Pattern(regexp = EMAIL_PATTERN)
@@ -178,12 +178,12 @@ public abstract class AbstractGbifUser {
     this.deleted = deleted;
   }
 
-  public Language getLanguage() {
-    return language;
+  public Locale getLocale() {
+    return locale;
   }
 
-  public void setLanguage(Language language) {
-    this.language = language;
+  public void setLocale(Locale locale) {
+    this.locale = locale;
   }
 
   @Override
@@ -203,13 +203,13 @@ public abstract class AbstractGbifUser {
       Objects.equals(settings, that.settings) &&
       Objects.equals(systemSettings, that.systemSettings) &&
       Objects.equals(deleted, that.deleted) &&
-      Objects.equals(language, that.language);
+      Objects.equals(locale, that.locale);
   }
 
   @Override
   public int hashCode() {
     return Objects
-      .hash(userName, firstName, lastName, email, roles, settings, systemSettings, deleted, language);
+      .hash(userName, firstName, lastName, email, roles, settings, systemSettings, deleted, locale);
   }
 
   @Override
@@ -223,7 +223,7 @@ public abstract class AbstractGbifUser {
       .add("settings=" + settings)
       .add("systemSettings=" + systemSettings)
       .add("deleted=" + deleted)
-      .add("language=" + language)
+      .add("language=" + locale)
       .toString();
   }
 }
