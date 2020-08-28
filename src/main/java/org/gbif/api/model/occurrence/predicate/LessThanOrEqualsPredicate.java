@@ -29,6 +29,6 @@ public class LessThanOrEqualsPredicate extends SimplePredicate {
   public LessThanOrEqualsPredicate(
     @JsonProperty("key") OccurrenceSearchParameter key,
     @JsonProperty("value") String value) {
-    super(true, key, value, false);
+    super(true, key, value, null);
   }
 }
