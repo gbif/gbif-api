@@ -38,12 +38,12 @@ public class SimplePredicate implements Predicate {
 
   @Experimental
   @Nullable
-  private final boolean matchCase;
+  private final Boolean matchCase;
 
   protected SimplePredicate(boolean checkForNonEquals,
                             OccurrenceSearchParameter key,
                             String value,
-                            boolean matchCase
+                            Boolean matchCase
   ) {
     this.matchCase = matchCase;
     Objects.requireNonNull(key, "<key> may not be null");
@@ -78,7 +78,7 @@ public class SimplePredicate implements Predicate {
    * This is an experimental feature and its implementation map change or be removed at any time.
    */
   @Experimental
-  public boolean isMatchCase() {
+  public Boolean isMatchCase() {
     return matchCase;
   }
 

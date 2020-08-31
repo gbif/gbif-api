@@ -35,7 +35,7 @@ import java.util.UUID;
  */
 public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSearchParameter> {
 
-  private boolean matchCase;
+  private Boolean matchCase;
 
   public OccurrenceSearchRequest() {
     // empty block
@@ -53,12 +53,12 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
    * Be aware that this is not a per-field flag, all possible fields will match case sensitively.
    */
   @Experimental
-  public boolean isMatchCase() {
+  public Boolean isMatchCase() {
     return matchCase;
   }
 
   @Experimental
-  public void setMatchCase(boolean matchCase) {
+  public void setMatchCase(Boolean matchCase) {
     this.matchCase = matchCase;
   }
 
