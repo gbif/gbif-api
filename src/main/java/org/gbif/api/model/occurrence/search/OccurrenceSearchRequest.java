@@ -28,6 +28,7 @@ import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.TypeStatus;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -54,7 +55,7 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
    */
   @Experimental
   public Boolean isMatchCase() {
-    return matchCase;
+    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);
   }
 
   @Experimental

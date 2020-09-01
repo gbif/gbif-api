@@ -21,6 +21,7 @@ import org.gbif.api.util.SearchTypeValidator;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
@@ -79,7 +80,7 @@ public class SimplePredicate implements Predicate {
    */
   @Experimental
   public Boolean isMatchCase() {
-    return matchCase;
+    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);
   }
 
   /**
