@@ -111,8 +111,8 @@ public interface PipelinesHistoryService {
    * @param stepKey sequential identifier of a pipeline process step
    * @param stepParams pipeline step parameters.
    */
-  void updatePipelineStepStatusAndMetrics(long processKey, long executionKey, long stepKey,
-    @NotNull PipelineStepParameters stepParams);
+  void updatePipelineStepStatusAndMetrics(
+      long processKey, long executionKey, long stepKey, @NotNull PipelineStepParameters stepParams);
 
   /**
    * Runs the last attempt for all datasets.
@@ -124,10 +124,10 @@ public interface PipelinesHistoryService {
    * @return {@link RunPipelineResponse}.
    */
   RunPipelineResponse runAll(
-    @NotBlank(message = STEPS_REQUIRED_MESSAGE) String steps,
-    @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
-    boolean useLastSuccessful,
-    @Nullable RunAllParams runAllParams);
+      @NotBlank(message = STEPS_REQUIRED_MESSAGE) String steps,
+      @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
+      boolean useLastSuccessful,
+      @Nullable RunAllParams runAllParams);
 
   /**
    * Restart last failed pipelines step for a dataset.
@@ -139,10 +139,10 @@ public interface PipelinesHistoryService {
    * @return {@link RunPipelineResponse}.
    */
   RunPipelineResponse runPipelineAttempt(
-    @NotNull UUID datasetKey,
-    @NotBlank(message = STEPS_REQUIRED_MESSAGE) String steps,
-    @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
-    boolean useLastSuccessful);
+      @NotNull UUID datasetKey,
+      @NotBlank(message = STEPS_REQUIRED_MESSAGE) String steps,
+      @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
+      boolean useLastSuccessful);
 
   /**
    * Re-run a pipeline step.
@@ -154,8 +154,8 @@ public interface PipelinesHistoryService {
    * @return {@link RunPipelineResponse}.
    */
   RunPipelineResponse runPipelineAttempt(
-    @NotNull UUID datasetKey,
-    int attempt,
-    @NotBlank(message = STEPS_REQUIRED_MESSAGE) String steps,
-    @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason);
+      @NotNull UUID datasetKey,
+      int attempt,
+      @NotBlank(message = STEPS_REQUIRED_MESSAGE) String steps,
+      @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason);
 }

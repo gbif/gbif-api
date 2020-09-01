@@ -15,14 +15,17 @@
  */
 package org.gbif.api.model.pipelines.ws;
 
+import org.gbif.api.jackson.LocalDateTimeSerDe;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-/**
- * Models a flat response of a pipeline process search.
- */
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+/** Models a flat response of a pipeline process search. */
 public class SearchResult implements Serializable {
 
   private UUID datasetKey;
@@ -31,7 +34,13 @@ public class SearchResult implements Serializable {
   private String rerunReason;
   private String stepType;
   private String stepState;
+
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
   private LocalDateTime stepStarted;
+
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
   private LocalDateTime stepFinished;
 
   public UUID getDatasetKey() {
@@ -107,18 +116,26 @@ public class SearchResult implements Serializable {
       return false;
     }
     SearchResult that = (SearchResult) o;
-    return attempt == that.attempt &&
-      executionKey == that.executionKey &&
-      Objects.equals(datasetKey, that.datasetKey) &&
-      Objects.equals(rerunReason, that.rerunReason) &&
-      Objects.equals(stepType, that.stepType) &&
-      Objects.equals(stepState, that.stepState) &&
-      Objects.equals(stepStarted, that.stepStarted) &&
-      Objects.equals(stepFinished, that.stepFinished);
+    return attempt == that.attempt
+        && executionKey == that.executionKey
+        && Objects.equals(datasetKey, that.datasetKey)
+        && Objects.equals(rerunReason, that.rerunReason)
+        && Objects.equals(stepType, that.stepType)
+        && Objects.equals(stepState, that.stepState)
+        && Objects.equals(stepStarted, that.stepStarted)
+        && Objects.equals(stepFinished, that.stepFinished);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(datasetKey, attempt, executionKey, rerunReason, stepType, stepState, stepStarted, stepFinished);
+    return Objects.hash(
+        datasetKey,
+        attempt,
+        executionKey,
+        rerunReason,
+        stepType,
+        stepState,
+        stepStarted,
+        stepFinished);
   }
 }
