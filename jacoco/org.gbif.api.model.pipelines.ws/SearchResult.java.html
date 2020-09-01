@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SearchResult.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.pipelines.ws</a> &gt; <span class="el_source">SearchResult.java</span></div><h1>SearchResult.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.pipelines.ws;
+
+import org.gbif.api.jackson.LocalDateTimeSerDe;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.UUID;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+/** Models a flat response of a pipeline process search. */
+<span class="nc" id="L29">public class SearchResult implements Serializable {</span>
+
+  private UUID datasetKey;
+  private int attempt;
+  private int executionKey;
+  private String rerunReason;
+  private String stepType;
+  private String stepState;
+  private String pipelinesVersion;
+
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
+  private LocalDateTime stepStarted;
+
+  @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
+  private LocalDateTime stepFinished;
+
+  public UUID getDatasetKey() {
+<span class="nc" id="L48">    return datasetKey;</span>
+  }
+
+  public void setDatasetKey(UUID datasetKey) {
+<span class="nc" id="L52">    this.datasetKey = datasetKey;</span>
+<span class="nc" id="L53">  }</span>
+
+  public int getAttempt() {
+<span class="nc" id="L56">    return attempt;</span>
+  }
+
+  public void setAttempt(int attempt) {
+<span class="nc" id="L60">    this.attempt = attempt;</span>
+<span class="nc" id="L61">  }</span>
+
+  public int getExecutionKey() {
+<span class="nc" id="L64">    return executionKey;</span>
+  }
+
+  public void setExecutionKey(int executionKey) {
+<span class="nc" id="L68">    this.executionKey = executionKey;</span>
+<span class="nc" id="L69">  }</span>
+
+  public String getRerunReason() {
+<span class="nc" id="L72">    return rerunReason;</span>
+  }
+
+  public void setRerunReason(String rerunReason) {
+<span class="nc" id="L76">    this.rerunReason = rerunReason;</span>
+<span class="nc" id="L77">  }</span>
+
+  public String getStepType() {
+<span class="nc" id="L80">    return stepType;</span>
+  }
+
+  public void setStepType(String stepType) {
+<span class="nc" id="L84">    this.stepType = stepType;</span>
+<span class="nc" id="L85">  }</span>
+
+  public String getStepState() {
+<span class="nc" id="L88">    return stepState;</span>
+  }
+
+  public void setStepState(String stepState) {
+<span class="nc" id="L92">    this.stepState = stepState;</span>
+<span class="nc" id="L93">  }</span>
+
+  public String getPipelinesVersion() {
+<span class="nc" id="L96">    return pipelinesVersion;</span>
+  }
+
+  public void setPipelinesVersion(String pipelinesVersion) {
+<span class="nc" id="L100">    this.pipelinesVersion = pipelinesVersion;</span>
+<span class="nc" id="L101">  }</span>
+
+  public LocalDateTime getStepStarted() {
+<span class="nc" id="L104">    return stepStarted;</span>
+  }
+
+  public void setStepStarted(LocalDateTime stepStarted) {
+<span class="nc" id="L108">    this.stepStarted = stepStarted;</span>
+<span class="nc" id="L109">  }</span>
+
+  public LocalDateTime getStepFinished() {
+<span class="nc" id="L112">    return stepFinished;</span>
+  }
+
+  public void setStepFinished(LocalDateTime stepFinished) {
+<span class="nc" id="L116">    this.stepFinished = stepFinished;</span>
+<span class="nc" id="L117">  }</span>
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L121" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L122">      return true;</span>
+    }
+<span class="nc bnc" id="L124" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L125">      return false;</span>
+    }
+<span class="nc" id="L127">    SearchResult that = (SearchResult) o;</span>
+<span class="nc bnc" id="L128" title="All 4 branches missed.">    return attempt == that.attempt</span>
+        &amp;&amp; executionKey == that.executionKey
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        &amp;&amp; Objects.equals(datasetKey, that.datasetKey)</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        &amp;&amp; Objects.equals(rerunReason, that.rerunReason)</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        &amp;&amp; Objects.equals(stepType, that.stepType)</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        &amp;&amp; Objects.equals(stepState, that.stepState)</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        &amp;&amp; Objects.equals(pipelinesVersion, that.pipelinesVersion)</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        &amp;&amp; Objects.equals(stepStarted, that.stepStarted)</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        &amp;&amp; Objects.equals(stepFinished, that.stepFinished);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L141">    return Objects.hash(</span>
+        datasetKey,
+<span class="nc" id="L143">        attempt,</span>
+<span class="nc" id="L144">        executionKey,</span>
+        rerunReason,
+        stepType,
+        stepState,
+        pipelinesVersion,
+        stepStarted,
+        stepFinished);
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

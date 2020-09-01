@@ -25,29 +25,31 @@
 <span class="sourceLineNo">017</span><a name="line.17"></a>
 <span class="sourceLineNo">018</span>import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;<a name="line.18"></a>
 <span class="sourceLineNo">019</span><a name="line.19"></a>
-<span class="sourceLineNo">020</span>import com.fasterxml.jackson.annotation.JsonCreator;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import com.fasterxml.jackson.annotation.JsonProperty;<a name="line.21"></a>
-<span class="sourceLineNo">022</span><a name="line.22"></a>
-<span class="sourceLineNo">023</span>/**<a name="line.23"></a>
-<span class="sourceLineNo">024</span> * This predicate checks if its {@code key} is LIKE its {@code value}.<a name="line.24"></a>
-<span class="sourceLineNo">025</span> * The syntax for one (_) or any (%) arbitrary matching characters is the one used by Hive.<a name="line.25"></a>
-<span class="sourceLineNo">026</span> * See the &lt;a href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual+UDF#Relational_Operators"&gt;<a name="line.26"></a>
-<span class="sourceLineNo">027</span> * Hive Language Reference for LIKE&lt;/a&gt;.<a name="line.27"></a>
-<span class="sourceLineNo">028</span> */<a name="line.28"></a>
-<span class="sourceLineNo">029</span>public class LikePredicate extends SimplePredicate {<a name="line.29"></a>
-<span class="sourceLineNo">030</span><a name="line.30"></a>
-<span class="sourceLineNo">031</span>  @JsonCreator<a name="line.31"></a>
-<span class="sourceLineNo">032</span>  public LikePredicate(<a name="line.32"></a>
-<span class="sourceLineNo">033</span>    @JsonProperty("key") OccurrenceSearchParameter key,<a name="line.33"></a>
-<span class="sourceLineNo">034</span>    @JsonProperty("value") String value,<a name="line.34"></a>
-<span class="sourceLineNo">035</span>    @JsonProperty(value = "matchCase", defaultValue = "false") boolean matchCase) {<a name="line.35"></a>
-<span class="sourceLineNo">036</span>    super(false, key, value, matchCase);<a name="line.36"></a>
-<span class="sourceLineNo">037</span>    // make sure we deal with a String type<a name="line.37"></a>
-<span class="sourceLineNo">038</span>    if (!String.class.equals(key.type())) {<a name="line.38"></a>
-<span class="sourceLineNo">039</span>      throw new IllegalArgumentException("Like comparisons are only allowed for strings but not parameter " + key);<a name="line.39"></a>
-<span class="sourceLineNo">040</span>    }<a name="line.40"></a>
-<span class="sourceLineNo">041</span>  }<a name="line.41"></a>
-<span class="sourceLineNo">042</span>}<a name="line.42"></a>
+<span class="sourceLineNo">020</span>import javax.annotation.Nullable;<a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
+<span class="sourceLineNo">022</span>import com.fasterxml.jackson.annotation.JsonCreator;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import com.fasterxml.jackson.annotation.JsonProperty;<a name="line.23"></a>
+<span class="sourceLineNo">024</span><a name="line.24"></a>
+<span class="sourceLineNo">025</span>/**<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * This predicate checks if its {@code key} is LIKE its {@code value}.<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * The syntax for one (_) or any (%) arbitrary matching characters is the one used by Hive.<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * See the &lt;a href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual+UDF#Relational_Operators"&gt;<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * Hive Language Reference for LIKE&lt;/a&gt;.<a name="line.29"></a>
+<span class="sourceLineNo">030</span> */<a name="line.30"></a>
+<span class="sourceLineNo">031</span>public class LikePredicate extends SimplePredicate {<a name="line.31"></a>
+<span class="sourceLineNo">032</span><a name="line.32"></a>
+<span class="sourceLineNo">033</span>  @JsonCreator<a name="line.33"></a>
+<span class="sourceLineNo">034</span>  public LikePredicate(<a name="line.34"></a>
+<span class="sourceLineNo">035</span>    @JsonProperty("key") OccurrenceSearchParameter key,<a name="line.35"></a>
+<span class="sourceLineNo">036</span>    @JsonProperty("value") String value,<a name="line.36"></a>
+<span class="sourceLineNo">037</span>    @Nullable @JsonProperty(value = "matchCase") Boolean matchCase) {<a name="line.37"></a>
+<span class="sourceLineNo">038</span>    super(false, key, value, matchCase);<a name="line.38"></a>
+<span class="sourceLineNo">039</span>    // make sure we deal with a String type<a name="line.39"></a>
+<span class="sourceLineNo">040</span>    if (!String.class.equals(key.type())) {<a name="line.40"></a>
+<span class="sourceLineNo">041</span>      throw new IllegalArgumentException("Like comparisons are only allowed for strings but not parameter " + key);<a name="line.41"></a>
+<span class="sourceLineNo">042</span>    }<a name="line.42"></a>
+<span class="sourceLineNo">043</span>  }<a name="line.43"></a>
+<span class="sourceLineNo">044</span>}<a name="line.44"></a>
 
 
 

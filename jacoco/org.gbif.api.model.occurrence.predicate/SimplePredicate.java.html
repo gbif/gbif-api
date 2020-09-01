@@ -21,6 +21,7 @@ import org.gbif.api.util.SearchTypeValidator;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
@@ -38,35 +39,35 @@ public class SimplePredicate implements Predicate {
 
   @Experimental
   @Nullable
-  private final boolean matchCase;
+  private final Boolean matchCase;
 
   protected SimplePredicate(boolean checkForNonEquals,
                             OccurrenceSearchParameter key,
                             String value,
-                            boolean matchCase
-<span class="fc" id="L47">  ) {</span>
-<span class="fc" id="L48">    this.matchCase = matchCase;</span>
-<span class="fc" id="L49">    Objects.requireNonNull(key, &quot;&lt;key&gt; may not be null&quot;);</span>
-<span class="fc" id="L50">    Objects.requireNonNull(value, &quot;&lt;value&gt; may not be null&quot;);</span>
-<span class="fc bfc" id="L51" title="All 2 branches covered.">    checkArgument(!value.isEmpty(), &quot;&lt;value&gt; may not be empty&quot;);</span>
+                            Boolean matchCase
+<span class="fc" id="L48">  ) {</span>
+<span class="fc" id="L49">    this.matchCase = matchCase;</span>
+<span class="fc" id="L50">    Objects.requireNonNull(key, &quot;&lt;key&gt; may not be null&quot;);</span>
+<span class="fc" id="L51">    Objects.requireNonNull(value, &quot;&lt;value&gt; may not be null&quot;);</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">    checkArgument(!value.isEmpty(), &quot;&lt;value&gt; may not be empty&quot;);</span>
     // make sure the value is of the right type according to the key given
-<span class="fc" id="L53">    SearchTypeValidator.validate(key, value);</span>
+<span class="fc" id="L54">    SearchTypeValidator.validate(key, value);</span>
 
-<span class="fc" id="L55">    this.key = key;</span>
-<span class="fc" id="L56">    this.value = value;</span>
+<span class="fc" id="L56">    this.key = key;</span>
+<span class="fc" id="L57">    this.value = value;</span>
 
-<span class="fc" id="L58">    checkPredicateAllowed();</span>
-<span class="fc bfc" id="L59" title="All 2 branches covered.">    if (checkForNonEquals) {</span>
-<span class="fc" id="L60">      checkNonEqualsComparatorAllowed();</span>
+<span class="fc" id="L59">    checkPredicateAllowed();</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">    if (checkForNonEquals) {</span>
+<span class="fc" id="L61">      checkNonEqualsComparatorAllowed();</span>
     }
-<span class="fc" id="L62">  }</span>
+<span class="fc" id="L63">  }</span>
 
   public OccurrenceSearchParameter getKey() {
-<span class="fc" id="L65">    return key;</span>
+<span class="fc" id="L66">    return key;</span>
   }
 
   public String getValue() {
-<span class="fc" id="L69">    return value;</span>
+<span class="fc" id="L70">    return value;</span>
   }
 
   /**
@@ -78,56 +79,56 @@ public class SimplePredicate implements Predicate {
    * This is an experimental feature and its implementation map change or be removed at any time.
    */
   @Experimental
-  public boolean isMatchCase() {
-<span class="fc" id="L82">    return matchCase;</span>
+  public Boolean isMatchCase() {
+<span class="fc" id="L83">    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);</span>
   }
 
   /**
    * @throws IllegalArgumentException if the key SearchParameter is Geometry
    */
   private void checkPredicateAllowed() {
-<span class="fc bfc" id="L89" title="All 2 branches covered.">    if (OccurrenceSearchParameter.GEOMETRY == key) {</span>
-<span class="fc" id="L90">      throw new IllegalArgumentException(&quot;Geometry parameter must use a Within predicate&quot;);</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">    if (OccurrenceSearchParameter.GEOMETRY == key) {</span>
+<span class="fc" id="L91">      throw new IllegalArgumentException(&quot;Geometry parameter must use a Within predicate&quot;);</span>
     }
-<span class="fc" id="L92">  }</span>
+<span class="fc" id="L93">  }</span>
 
   /**
    * @throws IllegalArgumentException if the key SearchParameter allows other comparators than
    *                                  equals
    */
   private void checkNonEqualsComparatorAllowed() {
-<span class="pc bpc" id="L99" title="1 of 4 branches missed.">    if (!(Number.class.isAssignableFrom(key.type()) || Date.class.isAssignableFrom(key.type()))) {</span>
-<span class="fc" id="L100">      throw new IllegalArgumentException(</span>
+<span class="pc bpc" id="L100" title="1 of 4 branches missed.">    if (!(Number.class.isAssignableFrom(key.type()) || Date.class.isAssignableFrom(key.type()))) {</span>
+<span class="fc" id="L101">      throw new IllegalArgumentException(</span>
         &quot;Only equals comparisons are allowed for search parameter &quot; + key);
     }
-<span class="fc" id="L103">  }</span>
+<span class="fc" id="L104">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="fc bfc" id="L107" title="All 2 branches covered.">    if (this == o) {</span>
-<span class="fc" id="L108">      return true;</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L109">      return true;</span>
     }
-<span class="pc bpc" id="L110" title="1 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="fc" id="L111">      return false;</span>
+<span class="pc bpc" id="L111" title="1 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="fc" id="L112">      return false;</span>
     }
-<span class="fc" id="L113">    SimplePredicate that = (SimplePredicate) o;</span>
-<span class="pc bpc" id="L114" title="1 of 2 branches missed.">    return key == that.key &amp;&amp;</span>
-<span class="pc bpc" id="L115" title="2 of 4 branches missed.">           Objects.equals(value, that.value) &amp;&amp;</span>
+<span class="fc" id="L114">    SimplePredicate that = (SimplePredicate) o;</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">    return key == that.key &amp;&amp;</span>
+<span class="pc bpc" id="L116" title="2 of 4 branches missed.">           Objects.equals(value, that.value) &amp;&amp;</span>
            matchCase == that.matchCase;
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L121">    return Objects.hash(key, value);</span>
+<span class="fc" id="L122">    return Objects.hash(key, value);</span>
   }
 
   @Override
   public String toString() {
-<span class="fc" id="L126">    return new StringJoiner(&quot;, &quot;, SimplePredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="fc" id="L127">      .add(&quot;key=&quot; + key)</span>
-<span class="fc" id="L128">      .add(&quot;value='&quot; + value + &quot;'&quot;)</span>
-<span class="fc" id="L129">      .add(&quot;matchCase='&quot; + matchCase + &quot;'&quot;)</span>
-<span class="fc" id="L130">      .toString();</span>
+<span class="fc" id="L127">    return new StringJoiner(&quot;, &quot;, SimplePredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="fc" id="L128">      .add(&quot;key=&quot; + key)</span>
+<span class="fc" id="L129">      .add(&quot;value='&quot; + value + &quot;'&quot;)</span>
+<span class="fc" id="L130">      .add(&quot;matchCase='&quot; + matchCase + &quot;'&quot;)</span>
+<span class="fc" id="L131">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

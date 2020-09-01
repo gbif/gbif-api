@@ -17,6 +17,8 @@ package org.gbif.api.model.occurrence.predicate;
 
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -32,12 +34,12 @@ public class LikePredicate extends SimplePredicate {
   public LikePredicate(
     @JsonProperty(&quot;key&quot;) OccurrenceSearchParameter key,
     @JsonProperty(&quot;value&quot;) String value,
-    @JsonProperty(value = &quot;matchCase&quot;, defaultValue = &quot;false&quot;) boolean matchCase) {
-<span class="fc" id="L36">    super(false, key, value, matchCase);</span>
+    @Nullable @JsonProperty(value = &quot;matchCase&quot;) Boolean matchCase) {
+<span class="fc" id="L38">    super(false, key, value, matchCase);</span>
     // make sure we deal with a String type
-<span class="pc bpc" id="L38" title="1 of 2 branches missed.">    if (!String.class.equals(key.type())) {</span>
-<span class="nc" id="L39">      throw new IllegalArgumentException(&quot;Like comparisons are only allowed for strings but not parameter &quot; + key);</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">    if (!String.class.equals(key.type())) {</span>
+<span class="nc" id="L41">      throw new IllegalArgumentException(&quot;Like comparisons are only allowed for strings but not parameter &quot; + key);</span>
     }
-<span class="fc" id="L41">  }</span>
+<span class="fc" id="L43">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
