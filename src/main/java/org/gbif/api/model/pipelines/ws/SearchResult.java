@@ -34,6 +34,7 @@ public class SearchResult implements Serializable {
   private String rerunReason;
   private String stepType;
   private String stepState;
+  private String pipelinesVersion;
 
   @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
   @JsonDeserialize(using = LocalDateTimeSerDe.LocalDateTimeDeserializer.class)
@@ -91,6 +92,14 @@ public class SearchResult implements Serializable {
     this.stepState = stepState;
   }
 
+  public String getPipelinesVersion() {
+    return pipelinesVersion;
+  }
+
+  public void setPipelinesVersion(String pipelinesVersion) {
+    this.pipelinesVersion = pipelinesVersion;
+  }
+
   public LocalDateTime getStepStarted() {
     return stepStarted;
   }
@@ -122,6 +131,7 @@ public class SearchResult implements Serializable {
         && Objects.equals(rerunReason, that.rerunReason)
         && Objects.equals(stepType, that.stepType)
         && Objects.equals(stepState, that.stepState)
+        && Objects.equals(pipelinesVersion, that.pipelinesVersion)
         && Objects.equals(stepStarted, that.stepStarted)
         && Objects.equals(stepFinished, that.stepFinished);
   }
@@ -135,6 +145,7 @@ public class SearchResult implements Serializable {
         rerunReason,
         stepType,
         stepState,
+        pipelinesVersion,
         stepStarted,
         stepFinished);
   }
