@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
@@ -85,7 +86,7 @@ public class InPredicate implements Predicate {
    */
   @Experimental
   public Boolean isMatchCase() {
-    return matchCase;
+    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);
   }
 
   @Override
