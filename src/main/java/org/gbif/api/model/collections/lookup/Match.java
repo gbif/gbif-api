@@ -154,6 +154,7 @@ public class Match<T extends CollectionEntity> {
     IDENTIFIER_MATCH,
     ALTERNATIVE_CODE_MATCH,
     NAME_MATCH,
+    KEY_MATCH,
     PROBABLY_ON_LOAN,
     INST_COLL_MISMATCH,
     COUNTRY_MATCH,
