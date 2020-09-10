@@ -33,10 +33,14 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.ERROR;
 import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.INFO;
 import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
 
-/** An enumeration of validation rules for single occurrence records. */
+/**
+ * An enumeration of validation rules for single occurrence records.
+ */
 public enum OccurrenceIssue implements InterpretationRemark {
 
-  /** Coordinate is the exact 0°, 0° coordinate, often indicating a bad null coordinate. */
+  /**
+   * Coordinate is the exact 0°, 0° coordinate, often indicating a bad null coordinate.
+   */
   ZERO_COORDINATE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),
 
   /**
@@ -44,13 +48,19 @@ public enum OccurrenceIssue implements InterpretationRemark {
    */
   COORDINATE_OUT_OF_RANGE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),
 
-  /** Coordinate value is given in some form but GBIF is unable to interpret it. */
+  /**
+   * Coordinate value is given in some form but GBIF is unable to interpret it.
+   */
   COORDINATE_INVALID(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),
 
-  /** Original coordinate modified by rounding to 5 decimals. */
+  /**
+   * Original coordinate modified by rounding to 5 decimals.
+   */
   COORDINATE_ROUNDED(INFO, TermsGroup.COORDINATES_TERMS_NO_DATUM),
 
-  /** The geodetic datum given could not be interpreted. */
+  /**
+   * The geodetic datum given could not be interpreted.
+   */
   GEODETIC_DATUM_INVALID(WARNING, DwcTerm.geodeticDatum),
 
   /**
@@ -80,47 +90,73 @@ public enum OccurrenceIssue implements InterpretationRemark {
    * Indicates an invalid or very unlikely coordinate accuracy derived from precision or uncertainty
    * in meters.
    */
-  @Deprecated // see POR-3061
+  @Deprecated //see POR-3061
   COORDINATE_ACCURACY_INVALID(WARNING),
 
-  /** Indicates an invalid or very unlikely coordinatePrecision */
+  /**
+   * Indicates an invalid or very unlikely coordinatePrecision
+   */
   COORDINATE_PRECISION_INVALID(WARNING, DwcTerm.coordinatePrecision),
 
-  /** Indicates an invalid or very unlikely dwc:uncertaintyInMeters. */
+  /**
+   * Indicates an invalid or very unlikely dwc:uncertaintyInMeters.
+   */
   COORDINATE_UNCERTAINTY_METERS_INVALID(WARNING, DwcTerm.coordinateUncertaintyInMeters),
 
-  /** There is a mismatch between coordinate uncertainty in meters and coordinate precision. */
-  @Deprecated // see POR-1804
+  /**
+   * There is a mismatch between coordinate uncertainty in meters and coordinate precision.
+   */
+  @Deprecated //see POR-1804
   COORDINATE_PRECISION_UNCERTAINTY_MISMATCH(WARNING),
 
-  /** The interpreted occurrence coordinates fall outside of the indicated country. */
+  /**
+   * The interpreted occurrence coordinates fall outside of the indicated country.
+   */
   COUNTRY_COORDINATE_MISMATCH(WARNING, TermsGroup.COORDINATES_COUNTRY_TERMS),
 
-  /** Interpreted country for dwc:country and dwc:countryCode contradict each other. */
+  /**
+   * Interpreted country for dwc:country and dwc:countryCode contradict each other.
+   */
   COUNTRY_MISMATCH(WARNING, TermsGroup.COUNTRY_TERMS),
 
-  /** Uninterpretable country values found. */
+  /**
+   * Uninterpretable country values found.
+   */
   COUNTRY_INVALID(WARNING, TermsGroup.COUNTRY_TERMS),
 
-  /** The interpreted country is based on the coordinates, not the verbatim string information. */
+  /**
+   * The interpreted country is based on the coordinates, not the verbatim string information.
+   */
   COUNTRY_DERIVED_FROM_COORDINATES(WARNING, TermsGroup.COORDINATES_COUNTRY_TERMS),
 
-  /** The interpreted continent and country do not match. */
+  /**
+   * The interpreted continent and country do not match.
+   */
   CONTINENT_COUNTRY_MISMATCH(WARNING),
 
-  /** Uninterpretable continent values found. */
+  /**
+   * Uninterpretable continent values found.
+   */
   CONTINENT_INVALID(WARNING),
 
-  /** The interpreted continent is based on the coordinates, not the verbatim string information. */
+  /**
+   * The interpreted continent is based on the coordinates, not the verbatim string information.
+   */
   CONTINENT_DERIVED_FROM_COORDINATES(WARNING),
 
-  /** Latitude and longitude appear to be swapped. */
+  /**
+   * Latitude and longitude appear to be swapped.
+   */
   PRESUMED_SWAPPED_COORDINATE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),
 
-  /** Longitude appears to be negated, e.g. 32.3 instead of -32.3 */
+  /**
+   * Longitude appears to be negated, e.g. 32.3 instead of -32.3
+   */
   PRESUMED_NEGATED_LONGITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),
 
-  /** Latitude appears to be negated, e.g. 32.3 instead of -32.3 */
+  /**
+   * Latitude appears to be negated, e.g. 32.3 instead of -32.3
+   */
   PRESUMED_NEGATED_LATITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),
 
   /**
@@ -129,7 +165,9 @@ public enum OccurrenceIssue implements InterpretationRemark {
    */
   RECORDED_DATE_MISMATCH(WARNING, TermsGroup.RECORDED_DATE_TERMS),
 
-  /** A (partial) invalid date is given, such as a non existing date, zero month, etc. */
+  /**
+   * A (partial) invalid date is given, such as a non existing date, zero month, etc.
+   */
   RECORDED_DATE_INVALID(WARNING, TermsGroup.RECORDED_DATE_TERMS),
 
   /**
@@ -138,7 +176,9 @@ public enum OccurrenceIssue implements InterpretationRemark {
    */
   RECORDED_DATE_UNLIKELY(WARNING, TermsGroup.RECORDED_DATE_TERMS),
 
-  /** Matching to the taxonomic backbone can only be done using a fuzzy, non exact match. */
+  /**
+   * Matching to the taxonomic backbone can only be done using a fuzzy, non exact match.
+   */
   TAXON_MATCH_FUZZY(WARNING, TermsGroup.TAXONOMY_TERMS),
 
   /**
@@ -159,21 +199,31 @@ public enum OccurrenceIssue implements InterpretationRemark {
    */
   DEPTH_NOT_METRIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),
 
-  /** Set if depth is larger than 11,000m or negative. */
+  /**
+   * Set if depth is larger than 11,000m or negative.
+   */
   DEPTH_UNLIKELY(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),
 
-  /** Set if supplied minimum depth > maximum depth */
+  /**
+   * Set if supplied minimum depth > maximum depth
+   */
   DEPTH_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),
 
-  /** Set if depth is a non-numeric value */
+  /**
+   * Set if depth is a non-numeric value
+   */
   DEPTH_NON_NUMERIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),
 
-  /** Set if elevation is above the troposphere (17km) or below 11km (Mariana Trench). */
+  /**
+   * Set if elevation is above the troposphere (17km) or below 11km (Mariana Trench).
+   */
   ELEVATION_UNLIKELY(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),
 
-  /** Set if supplied minimum elevation > maximum elevation */
-  ELEVATION_MIN_MAX_SWAPPED(
-      WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),
+  /**
+   * Set if supplied minimum elevation > maximum elevation
+   */
+  ELEVATION_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumElevationInMeters,
+    DwcTerm.maximumElevationInMeters),
 
   /**
    * Set if supplied elevation is not given in the metric system, for example using feet instead of
@@ -181,22 +231,30 @@ public enum OccurrenceIssue implements InterpretationRemark {
    */
   ELEVATION_NOT_METRIC(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),
 
-  /** Set if elevation is a non-numeric value */
-  ELEVATION_NON_NUMERIC(
-      WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),
+  /**
+   * Set if elevation is a non-numeric value
+   */
+  ELEVATION_NON_NUMERIC(WARNING, DwcTerm.minimumElevationInMeters,
+    DwcTerm.maximumElevationInMeters),
 
   /**
    * A (partial) invalid date is given for dc:modified, such as a nonexistent date, zero month, etc.
    */
   MODIFIED_DATE_INVALID(WARNING, DcTerm.modified),
 
-  /** The date given for dc:modified is in the future or predates Unix time (1970). */
+  /**
+   * The date given for dc:modified is in the future or predates Unix time (1970).
+   */
   MODIFIED_DATE_UNLIKELY(WARNING, DcTerm.modified),
 
-  /** The date given for dwc:dateIdentified is in the future or before Linnean times (1700). */
+  /**
+   * The date given for dwc:dateIdentified is in the future or before Linnean times (1700).
+   */
   IDENTIFIED_DATE_UNLIKELY(WARNING, DwcTerm.dateIdentified),
 
-  /** The date given for dwc:dateIdentified is invalid and can't be interpreted at all. */
+  /**
+   * The date given for dwc:dateIdentified is invalid and can't be interpreted at all.
+   */
   IDENTIFIED_DATE_INVALID(WARNING, DwcTerm.dateIdentified),
 
   /**
@@ -211,46 +269,74 @@ public enum OccurrenceIssue implements InterpretationRemark {
    */
   TYPE_STATUS_INVALID(WARNING, DwcTerm.typeStatus),
 
-  /** An invalid date is given for dc:created of a multimedia object. */
+  /**
+   * An invalid date is given for dc:created of a multimedia object.
+   */
   MULTIMEDIA_DATE_INVALID(WARNING),
 
-  /** An invalid URI is given for a multimedia object. */
+  /**
+   * An invalid URI is given for a multimedia object.
+   */
   MULTIMEDIA_URI_INVALID(WARNING),
 
-  /** An invalid URI is given for dc:references. */
+  /**
+   * An invalid URI is given for dc:references.
+   */
   REFERENCES_URI_INVALID(WARNING, DcTerm.references),
 
-  /** An error occurred during interpretation, leaving the record interpretation incomplete. */
+  /**
+   * An error occurred during interpretation, leaving the record interpretation incomplete.
+   */
   INTERPRETATION_ERROR(ERROR),
 
-  /** The individual count value is not a positive integer */
+  /**
+   * The individual count value is not a positive integer
+   */
   INDIVIDUAL_COUNT_INVALID(WARNING, DwcTerm.individualCount),
 
-  /** Example: individual count value > 0, but occurrence status is absent. */
+  /**
+   * Example: individual count value > 0, but occurrence status is absent.
+   */
   INDIVIDUAL_COUNT_CONFLICTS_WITH_OCCURRENCE_STATUS(WARNING, DwcTerm.individualCount),
 
-  /** Occurrence status value can't be assigned to {@link OccurrenceStatus} */
+  /**
+   * Occurrence status value can't be assigned to {@link OccurrenceStatus}
+   */
   OCCURRENCE_STATUS_UNPARSABLE(WARNING, DwcTerm.occurrenceStatus),
 
-  /** Occurrence status was inferred from the individual count value */
+  /**
+   * Occurrence status was inferred from the individual count value
+   */
   OCCURRENCE_STATUS_INFERRED_FROM_INDIVIDUAL_COUNT(WARNING, DwcTerm.occurrenceStatus),
 
-  /** The date given for dwc:georeferencedDate is in the future or before Linnean times (1700). */
+  /**
+   * The date given for dwc:georeferencedDate is in the future or before Linnean times (1700).
+   */
   GEOREFERENCED_DATE_UNLIKELY(WARNING, DwcTerm.georeferencedDate),
 
-  /** The date given for dwc:georeferencedDate is invalid and can't be interpreted at all. */
+  /**
+   * The date given for dwc:georeferencedDate is invalid and can't be interpreted at all.
+   */
   GEOREFERENCED_DATE_INVALID(WARNING, DwcTerm.georeferencedDate),
 
-  /** The given institution matches with more than 1 GrSciColl institution. */
+  /**
+   * The given institution matches with more than 1 GrSciColl institution.
+   */
   AMBIGUOUS_INSTITUTION(WARNING, TermsGroup.INSTITUTION_TERMS),
 
-  /** The given collection matches with more than 1 GrSciColl collection. */
+  /**
+   * The given collection matches with more than 1 GrSciColl collection.
+   */
   AMBIGUOUS_COLLECTION(WARNING, TermsGroup.COLLECTION_TERMS),
 
-  /** The given institution couldn't be matched with any GrSciColl institution. */
+  /**
+   * The given institution couldn't be matched with any GrSciColl institution.
+   */
   INSTITUTION_MATCH_NONE(WARNING, TermsGroup.INSTITUTION_TERMS),
 
-  /** The given collection couldn't be matched with any GrSciColl collection. */
+  /**
+   * The given collection couldn't be matched with any GrSciColl collection.
+   */
   COLLECTION_MATCH_NONE(WARNING, TermsGroup.COLLECTION_TERMS),
 
   /**
@@ -298,7 +384,10 @@ public enum OccurrenceIssue implements InterpretationRemark {
       DwcTerm.geodeticDatum
     };
 
-    static final Term[] COUNTRY_TERMS = {DwcTerm.country, DwcTerm.countryCode};
+    static final Term[] COUNTRY_TERMS = {
+      DwcTerm.country,
+      DwcTerm.countryCode
+    };
 
     static final Term[] COORDINATES_COUNTRY_TERMS = {
       DwcTerm.decimalLatitude,
@@ -312,7 +401,8 @@ public enum OccurrenceIssue implements InterpretationRemark {
     };
 
     static final Term[] RECORDED_DATE_TERMS = {
-      DwcTerm.eventDate, DwcTerm.year, DwcTerm.month, DwcTerm.day
+      DwcTerm.eventDate,
+      DwcTerm.year, DwcTerm.month, DwcTerm.day
     };
 
     static final Term[] TAXONOMY_TERMS = {
@@ -340,14 +430,18 @@ public enum OccurrenceIssue implements InterpretationRemark {
   private final InterpretationRemarkSeverity severity;
   private final boolean isDeprecated;
 
-  /** {@link OccurrenceIssue} not linked to any specific {@link Term}. */
+  /**
+   * {@link OccurrenceIssue} not linked to any specific {@link Term}.
+   */
   OccurrenceIssue(InterpretationRemarkSeverity severity) {
     this.severity = severity;
     this.relatedTerms = Collections.emptySet();
     this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());
   }
 
-  /** {@link OccurrenceIssue} linked to the provided {@link Term}. */
+  /**
+   * {@link OccurrenceIssue} linked to the provided {@link Term}.
+   */
   OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {
     this.severity = severity;
     this.relatedTerms = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(relatedTerms)));
@@ -378,15 +472,20 @@ public enum OccurrenceIssue implements InterpretationRemark {
    * All issues that indicate problems with the coordinates and thus should not be shown on maps.
    */
   public static final List<OccurrenceIssue> GEOSPATIAL_RULES =
-      Collections.unmodifiableList(
-          Arrays.asList(
-              ZERO_COORDINATE,
-              COORDINATE_INVALID,
-              COORDINATE_OUT_OF_RANGE,
-              COUNTRY_COORDINATE_MISMATCH));
+    Collections.unmodifiableList(
+      Arrays.asList(
+        ZERO_COORDINATE,
+        COORDINATE_INVALID,
+        COORDINATE_OUT_OF_RANGE,
+        COUNTRY_COORDINATE_MISMATCH));
 
-  /** All issues that indicate problems with the taxonomy or taxonomic matching. */
+  /**
+   * All issues that indicate problems with the taxonomy or taxonomic matching.
+   */
   public static final List<OccurrenceIssue> TAXONOMIC_RULES =
-      Collections.unmodifiableList(
-          Arrays.asList(TAXON_MATCH_FUZZY, TAXON_MATCH_HIGHERRANK, TAXON_MATCH_NONE));
+    Collections.unmodifiableList(
+      Arrays.asList(
+        TAXON_MATCH_FUZZY,
+        TAXON_MATCH_HIGHERRANK,
+        TAXON_MATCH_NONE));
 }
