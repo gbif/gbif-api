@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.registry.search;
 
+import org.gbif.api.model.common.DOI;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetSubtype;
@@ -34,6 +35,7 @@ public class DatasetSearchResult {
 
   private UUID key;
   private String title;
+  private DOI doi;
   private String description;
   private DatasetType type;
   private DatasetSubtype subtype;
@@ -66,6 +68,14 @@ public class DatasetSearchResult {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  public DOI getDoi() {
+    return doi;
+  }
+
+  public void setDoi(DOI doi) {
+    this.doi = doi;
   }
 
   public String getDescription() {
@@ -223,6 +233,7 @@ public class DatasetSearchResult {
     DatasetSearchResult that = (DatasetSearchResult) o;
     return Objects.equals(key, that.key) &&
       Objects.equals(title, that.title) &&
+      Objects.equals(doi, that.doi) &&
       Objects.equals(description, that.description) &&
       type == that.type &&
       subtype == that.subtype &&
@@ -244,7 +255,7 @@ public class DatasetSearchResult {
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, title, description, type, subtype, fullText, hostingOrganizationKey,
+    return Objects.hash(key, title, doi, description, type, subtype, fullText, hostingOrganizationKey,
       hostingOrganizationTitle, publisherTitle, countryCoverage, continent, publishingCountry,
       publishingOrganizationKey, publishingOrganizationTitle, license, decades, keywords,
       projectIdentifier, recordCount);
@@ -255,6 +266,7 @@ public class DatasetSearchResult {
     return new StringJoiner(", ", DatasetSearchResult.class.getSimpleName() + "[", "]")
       .add("key=" + key)
       .add("title='" + title + "'")
+      .add("doi='" + doi + "'")
       .add("description='" + description + "'")
       .add("type=" + type)
       .add("subtype=" + subtype)
