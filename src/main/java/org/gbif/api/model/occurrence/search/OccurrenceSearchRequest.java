@@ -223,6 +223,10 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     addParameter(OccurrenceSearchParameter.OCCURRENCE_STATUS, occurrenceStatus);
   }
 
+  public void addGadmGidFilter(String gadmGid) {
+    addParameter(OccurrenceSearchParameter.GADM_GID, gadmGid);
+  }
+
   public void addGadmLevel0GidFilter(String gadm0) {
     addParameter(OccurrenceSearchParameter.GADM_LEVEL_0_GID, gadm0);
   }
@@ -237,22 +241,6 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
 
   public void addGadmLevel3GidFilter(String gadm3) {
     addParameter(OccurrenceSearchParameter.GADM_LEVEL_3_GID, gadm3);
-  }
-
-  public void addGadmLevel0NameFilter(String gadm0) {
-    addParameter(OccurrenceSearchParameter.GADM_LEVEL_0_NAME, gadm0);
-  }
-
-  public void addGadmLevel1NameFilter(String gadm1) {
-    addParameter(OccurrenceSearchParameter.GADM_LEVEL_1_NAME, gadm1);
-  }
-
-  public void addGadmLevel2NameFilter(String gadm2) {
-    addParameter(OccurrenceSearchParameter.GADM_LEVEL_2_NAME, gadm2);
-  }
-
-  public void addGadmLevel3NameFilter(String gadm3) {
-    addParameter(OccurrenceSearchParameter.GADM_LEVEL_3_NAME, gadm3);
   }
 
   @Experimental

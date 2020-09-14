@@ -483,14 +483,14 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   OCCURRENCE_STATUS(OccurrenceStatus.class),
 
   /**
-   * A <a href="https://gadm.org">GADM</a> country, island or territory (level zero)identifier.
+   * A <a href="https://gadm.org">GADM</a> identifier at any level.
    */
-  GADM_LEVEL_0_GID(String.class),
+  GADM_GID(String.class),
 
   /**
-   * A <a href="https://gadm.org">GADM</a> country, island or territory (level zero) name.
+   * A <a href="https://gadm.org">GADM</a> country, island or territory (level zero) identifier.
    */
-  GADM_LEVEL_0_NAME(String.class),
+  GADM_LEVEL_0_GID(String.class),
 
   /**
    * A <a href="https://gadm.org">GADM</a> first-level identifier.
@@ -498,29 +498,14 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   GADM_LEVEL_1_GID(String.class),
 
   /**
-   * A <a href="https://gadm.org">GADM</a> first-level name.
-   */
-  GADM_LEVEL_1_NAME(String.class),
-
-  /**
    * A <a href="https://gadm.org">GADM</a> second-level identifier.
    */
   GADM_LEVEL_2_GID(String.class),
 
   /**
-   * A <a href="https://gadm.org">GADM</a> second-level name.
-   */
-  GADM_LEVEL_2_NAME(String.class),
-
-  /**
    * A <a href="https://gadm.org">GADM</a> third-level identifier.
    */
-  GADM_LEVEL_3_GID(String.class),
-
-  /**
-   * A <a href="https://gadm.org">GADM</a> third-level name.
-   */
-  GADM_LEVEL_3_NAME(String.class);
+  GADM_LEVEL_3_GID(String.class);
 
   private final Class<?> type;
 
