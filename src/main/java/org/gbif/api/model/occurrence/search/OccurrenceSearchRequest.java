@@ -254,4 +254,14 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
   public void addGadmLevel3NameFilter(String gadm3) {
     addParameter(OccurrenceSearchParameter.GADM_LEVEL_3_NAME, gadm3);
   }
+
+  @Experimental
+  public void addInstitutionKeyFilter(String institutionKey) {
+    addParameter(OccurrenceSearchParameter.INSTITUTION_KEY, institutionKey);
+  }
+
+  @Experimental
+  public void addCollectionKeyFilter(String collectionKey) {
+    addParameter(OccurrenceSearchParameter.COLLECTION_KEY, collectionKey);
+  }
 }

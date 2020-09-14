@@ -458,14 +458,14 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   RELATIVE_ORGANISM_QUANTITY(Double.class),
 
   /**
-   * Collection key as UUID. It links to the collection to which this record belongs.
+   * Collection key. It links to the collection to which this record belongs.
    */
-  COLLECTION_KEY(UUID.class),
+  COLLECTION_KEY(String.class),
 
   /**
-   * Institution key as UUID. It links to the institution that maintains, recorded or digitized  this record.
+   * Institution key. It links to the institution that maintains, recorded or digitized  this record.
    */
-  INSTITUTION_KEY(UUID.class),
+  INSTITUTION_KEY(String.class),
 
   /**
    * Agent identifiers from GbifTerm.recordedByID

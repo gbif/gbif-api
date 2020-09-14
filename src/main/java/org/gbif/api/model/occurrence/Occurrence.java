@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.occurrence;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.Identifier;
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
@@ -170,6 +171,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @JsonProperty("identifiedByIDs")
   private List<AgentIdentifier> identifiedByIds = new ArrayList<>();
   private Gadm gadm = new Gadm();
+  @Experimental
+  private String institutionKey;
+  @Experimental
+  private String collectionKey;
+
 
   public Occurrence() {
 
@@ -1042,6 +1048,26 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.gadm = gadm;
   }
 
+  @Nullable
+  @Experimental
+  public String getInstitutionKey() {
+    return institutionKey;
+  }
+
+  public void setInstitutionKey(String institutionKey) {
+    this.institutionKey = institutionKey;
+  }
+
+  @Nullable
+  @Experimental
+  public String getCollectionKey() {
+    return collectionKey;
+  }
+
+  public void setCollectionKey(String collectionKey) {
+    this.collectionKey = collectionKey;
+  }
+
   /**
    * Convenience method checking if any spatial validation rule has not passed.
    * Primarily used to indicate that the record should not be displayed on a map.
@@ -1134,7 +1160,9 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       Objects.equals(identifiedByIds, that.identifiedByIds) &&
       Objects.equals(recordedByIds, that.recordedByIds) &&
       Objects.equals(occurrenceStatus, that.occurrenceStatus) &&
-      Objects.equals(gadm, that.gadm);
+      Objects.equals(gadm, that.gadm) &&
+      Objects.equals(institutionKey, that.institutionKey) &&
+      Objects.equals(collectionKey, that.collectionKey);
   }
 
   @Override
@@ -1150,7 +1178,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         month, day, eventDate, typeStatus, typifiedName, issues, modified, lastInterpreted,
         references, license, organismQuantity, organismQuantityType, sampleSizeUnit,
         sampleSizeValue, relativeOrganismQuantity, identifiers, media, facts, relations, recordedByIds,
-        identifiedByIds, occurrenceStatus, gadm);
+        identifiedByIds, occurrenceStatus, gadm, institutionKey, collectionKey);
   }
 
   @Override
@@ -1224,6 +1252,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("identifiedByIds=" + identifiedByIds)
       .add("occurrenceStatus=" + occurrenceStatus)
       .add("gadm=" + gadm)
+      .add("institutionKey=" + institutionKey)
+      .add("collectionKey=" + collectionKey)
       .toString();
   }
 

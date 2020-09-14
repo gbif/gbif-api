@@ -27,6 +27,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.ERROR;
 import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.INFO;
 import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
@@ -89,7 +91,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
    * in meters.
    */
   @Deprecated //see POR-3061
-    COORDINATE_ACCURACY_INVALID(WARNING),
+  COORDINATE_ACCURACY_INVALID(WARNING),
 
   /**
    * Indicates an invalid or very unlikely coordinatePrecision
@@ -105,7 +107,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
    * There is a mismatch between coordinate uncertainty in meters and coordinate precision.
    */
   @Deprecated //see POR-1804
-    COORDINATE_PRECISION_UNCERTAINTY_MISMATCH(WARNING),
+  COORDINATE_PRECISION_UNCERTAINTY_MISMATCH(WARNING),
 
   /**
    * The interpreted occurrence coordinates fall outside of the indicated country.
@@ -315,7 +317,49 @@ public enum OccurrenceIssue implements InterpretationRemark {
   /**
    * The date given for dwc:georeferencedDate is invalid and can't be interpreted at all.
    */
-  GEOREFERENCED_DATE_INVALID(WARNING, DwcTerm.georeferencedDate);
+  GEOREFERENCED_DATE_INVALID(WARNING, DwcTerm.georeferencedDate),
+
+  /**
+   * The given institution matches with more than 1 GrSciColl institution.
+   */
+  AMBIGUOUS_INSTITUTION(WARNING, TermsGroup.INSTITUTION_TERMS),
+
+  /**
+   * The given collection matches with more than 1 GrSciColl collection.
+   */
+  AMBIGUOUS_COLLECTION(WARNING, TermsGroup.COLLECTION_TERMS),
+
+  /**
+   * The given institution couldn't be matched with any GrSciColl institution.
+   */
+  INSTITUTION_MATCH_NONE(WARNING, TermsGroup.INSTITUTION_TERMS),
+
+  /**
+   * The given collection couldn't be matched with any GrSciColl collection.
+   */
+  COLLECTION_MATCH_NONE(WARNING, TermsGroup.COLLECTION_TERMS),
+
+  /**
+   * The given institution was fuzzily matched to a GrSciColl institution. This can happen when
+   * either the code or the ID don't match or when the institution name is used instead of the code.
+   */
+  INSTITUTION_MATCH_FUZZY(WARNING, TermsGroup.INSTITUTION_TERMS),
+
+  /**
+   * The given collection was fuzzily matched to a GrSciColl collection. This can happen when either
+   * the code or the ID don't match or when the collection name is used instead of the code.
+   */
+  COLLECTION_MATCH_FUZZY(WARNING, TermsGroup.COLLECTION_TERMS),
+
+  /** The collection matched doesn't belong to the institution matched. */
+  INSTITUTION_COLLECTION_MISMATCH(
+      WARNING, ArrayUtils.addAll(TermsGroup.INSTITUTION_TERMS, TermsGroup.INSTITUTION_TERMS)),
+
+  /**
+   * The given owner institution is different than the given institution. Therefore we assume it
+   * could be on loan and we don't link it to the occurrence.
+   */
+  POSSIBLY_ON_LOAN(INFO, TermsGroup.INSTITUTION_TERMS);
 
   /**
    * Simple helper nested class to allow grouping of Term mostly to increase readability of this
@@ -374,6 +418,12 @@ public enum OccurrenceIssue implements InterpretationRemark {
       DwcTerm.specificEpithet,
       DwcTerm.infraspecificEpithet
     };
+
+    static final Term[] INSTITUTION_TERMS = {
+      DwcTerm.institutionCode, DwcTerm.institutionID, DwcTerm.ownerInstitutionCode
+    };
+
+    static final Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};
   }
 
   private final Set<Term> relatedTerms;
