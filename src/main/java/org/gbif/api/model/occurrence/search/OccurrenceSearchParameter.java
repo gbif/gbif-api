@@ -418,6 +418,11 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   INSTALLATION_KEY(UUID.class),
 
   /**
+   * The organization key of the installation that hosts this record.
+   */
+  HOSTING_ORGANIZATION_KEY(UUID.class),
+
+  /**
    * Crawl attempt that harvested this record.
    */
   CRAWL_ID(Integer.class),
