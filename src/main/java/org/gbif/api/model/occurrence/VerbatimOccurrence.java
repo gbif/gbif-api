@@ -64,6 +64,7 @@ public class VerbatimOccurrence {
   //GBIF Participation: Programme and Project
   private String projectId;
   private String programmeAcronym;
+  private UUID hostingOrganizationKey;
 
   // the verbatim fields for the occurrence
   private Map<Term, String> verbatimFields = new HashMap<>();
@@ -232,6 +233,18 @@ public class VerbatimOccurrence {
 
   public void setProgrammeAcronym(String programmeAcronym) {
     this.programmeAcronym = programmeAcronym;
+  }
+
+  /**
+   * Organization key of the installation that hosts the occurrence record.
+   */
+  @Nullable
+  public UUID getHostingOrganizationKey() {
+    return hostingOrganizationKey;
+  }
+
+  public void setHostingOrganizationKey(UUID hostingOrganizationKey) {
+    this.hostingOrganizationKey = hostingOrganizationKey;
   }
 
   /**
