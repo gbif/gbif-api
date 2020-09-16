@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
@@ -53,26 +54,26 @@ public class InPredicate implements Predicate {
   @JsonCreator
   public InPredicate(@JsonProperty(&quot;key&quot;) OccurrenceSearchParameter key,
                      @JsonProperty(&quot;values&quot;) Collection&lt;String&gt; values,
-<span class="fc" id="L56">                     @JsonProperty(value = &quot;matchCase&quot;, defaultValue = &quot;false&quot;) Boolean matchCase) {</span>
-<span class="fc" id="L57">    this.matchCase = matchCase;</span>
-<span class="fc" id="L58">    Objects.requireNonNull(key, &quot;&lt;key&gt; may not be null&quot;);</span>
-<span class="fc" id="L59">    Objects.requireNonNull(values, &quot;&lt;values&gt; may not be null&quot;);</span>
-<span class="fc bfc" id="L60" title="All 2 branches covered.">    checkArgument(!values.isEmpty(), &quot;&lt;values&gt; may not be empty&quot;);</span>
+<span class="fc" id="L57">                     @JsonProperty(value = &quot;matchCase&quot;, defaultValue = &quot;false&quot;) Boolean matchCase) {</span>
+<span class="fc" id="L58">    this.matchCase = matchCase;</span>
+<span class="fc" id="L59">    Objects.requireNonNull(key, &quot;&lt;key&gt; may not be null&quot;);</span>
+<span class="fc" id="L60">    Objects.requireNonNull(values, &quot;&lt;values&gt; may not be null&quot;);</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">    checkArgument(!values.isEmpty(), &quot;&lt;values&gt; may not be empty&quot;);</span>
     // make sure the value is of the right type according to the key given
-<span class="fc bfc" id="L62" title="All 2 branches covered.">    for (String value : values) {</span>
-<span class="fc" id="L63">      SearchTypeValidator.validate(key, value);</span>
-<span class="fc" id="L64">    }</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">    for (String value : values) {</span>
+<span class="fc" id="L64">      SearchTypeValidator.validate(key, value);</span>
+<span class="fc" id="L65">    }</span>
 
-<span class="fc" id="L66">    this.key = key;</span>
-<span class="fc" id="L67">    this.values = Collections.unmodifiableList(new ArrayList&lt;&gt;(values));</span>
-<span class="fc" id="L68">  }</span>
+<span class="fc" id="L67">    this.key = key;</span>
+<span class="fc" id="L68">    this.values = Collections.unmodifiableList(new ArrayList&lt;&gt;(values));</span>
+<span class="fc" id="L69">  }</span>
 
   public OccurrenceSearchParameter getKey() {
-<span class="fc" id="L71">    return key;</span>
+<span class="fc" id="L72">    return key;</span>
   }
 
   public Collection&lt;String&gt; getValues() {
-<span class="fc" id="L75">    return values;</span>
+<span class="fc" id="L76">    return values;</span>
   }
 
   /**
@@ -85,35 +86,35 @@ public class InPredicate implements Predicate {
    */
   @Experimental
   public Boolean isMatchCase() {
-<span class="nc" id="L88">    return matchCase;</span>
+<span class="nc" id="L89">    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="fc bfc" id="L93" title="All 2 branches covered.">    if (this == o) {</span>
-<span class="fc" id="L94">      return true;</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L95">      return true;</span>
     }
-<span class="pc bpc" id="L96" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L97">      return false;</span>
+<span class="pc bpc" id="L97" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L98">      return false;</span>
     }
-<span class="fc" id="L99">    InPredicate that = (InPredicate) o;</span>
-<span class="pc bpc" id="L100" title="1 of 2 branches missed.">    return key == that.key &amp;&amp;</span>
-<span class="pc bpc" id="L101" title="1 of 4 branches missed.">           Objects.equals(values, that.values) &amp;&amp;</span>
+<span class="fc" id="L100">    InPredicate that = (InPredicate) o;</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">    return key == that.key &amp;&amp;</span>
+<span class="pc bpc" id="L102" title="1 of 4 branches missed.">           Objects.equals(values, that.values) &amp;&amp;</span>
            matchCase == that.matchCase;
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L107">    return Objects.hash(key, values);</span>
+<span class="fc" id="L108">    return Objects.hash(key, values);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L112">    return new StringJoiner(&quot;, &quot;, InPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L113">      .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L114">      .add(&quot;values=&quot; + values)</span>
-<span class="nc" id="L115">      .add(&quot;matchCase=&quot; + matchCase)</span>
-<span class="nc" id="L116">      .toString();</span>
+<span class="nc" id="L113">    return new StringJoiner(&quot;, &quot;, InPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L114">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L115">      .add(&quot;values=&quot; + values)</span>
+<span class="nc" id="L116">      .add(&quot;matchCase=&quot; + matchCase)</span>
+<span class="nc" id="L117">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

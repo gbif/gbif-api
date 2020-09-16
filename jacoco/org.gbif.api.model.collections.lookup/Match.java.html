@@ -154,52 +154,53 @@ import java.util.StringJoiner;
 <span class="nc" id="L154">    IDENTIFIER_MATCH,</span>
 <span class="nc" id="L155">    ALTERNATIVE_CODE_MATCH,</span>
 <span class="nc" id="L156">    NAME_MATCH,</span>
-<span class="nc" id="L157">    PROBABLY_ON_LOAN,</span>
-<span class="nc" id="L158">    INST_COLL_MISMATCH,</span>
-<span class="nc" id="L159">    COUNTRY_MATCH,</span>
-<span class="nc" id="L160">    INSTITUTION_TAG,</span>
-<span class="nc" id="L161">    COLLECTION_TAG,</span>
-<span class="nc" id="L162">    COLLECTION_TO_INSTITUTION_TAG,</span>
-<span class="nc" id="L163">    INSTITUTION_TO_COLLECTION_TAG;</span>
+<span class="nc" id="L157">    KEY_MATCH,</span>
+<span class="nc" id="L158">    PROBABLY_ON_LOAN,</span>
+<span class="nc" id="L159">    INST_COLL_MISMATCH,</span>
+<span class="nc" id="L160">    COUNTRY_MATCH,</span>
+<span class="nc" id="L161">    INSTITUTION_TAG,</span>
+<span class="nc" id="L162">    COLLECTION_TAG,</span>
+<span class="nc" id="L163">    COLLECTION_TO_INSTITUTION_TAG,</span>
+<span class="nc" id="L164">    INSTITUTION_TO_COLLECTION_TAG;</span>
   }
 
-<span class="nc" id="L166">  public enum Status {</span>
-<span class="nc" id="L167">    ACCEPTED,</span>
-<span class="nc" id="L168">    AMBIGUOUS,</span>
-<span class="nc" id="L169">    AMBIGUOUS_MACHINE_TAGS,</span>
-<span class="nc" id="L170">    AMBIGUOUS_OWNER,</span>
-<span class="nc" id="L171">    AMBIGUOUS_INSTITUTION_MISMATCH,</span>
-<span class="nc" id="L172">    DOUBTFUL;</span>
+<span class="nc" id="L167">  public enum Status {</span>
+<span class="nc" id="L168">    ACCEPTED,</span>
+<span class="nc" id="L169">    AMBIGUOUS,</span>
+<span class="nc" id="L170">    AMBIGUOUS_MACHINE_TAGS,</span>
+<span class="nc" id="L171">    AMBIGUOUS_OWNER,</span>
+<span class="nc" id="L172">    AMBIGUOUS_INSTITUTION_MISMATCH,</span>
+<span class="nc" id="L173">    DOUBTFUL;</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L177" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L178">      return true;</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L179">      return true;</span>
     }
-<span class="nc bnc" id="L180" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L181">      return false;</span>
+<span class="nc bnc" id="L181" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L182">      return false;</span>
     }
-<span class="nc" id="L183">    Match&lt;?&gt; match = (Match&lt;?&gt;) o;</span>
-<span class="nc bnc" id="L184" title="All 4 branches missed.">    return matchType == match.matchType</span>
+<span class="nc" id="L184">    Match&lt;?&gt; match = (Match&lt;?&gt;) o;</span>
+<span class="nc bnc" id="L185" title="All 4 branches missed.">    return matchType == match.matchType</span>
         &amp;&amp; status == match.status
-<span class="nc bnc" id="L186" title="All 2 branches missed.">        &amp;&amp; Objects.equals(reasons, match.reasons)</span>
-<span class="nc bnc" id="L187" title="All 2 branches missed.">        &amp;&amp; Objects.equals(entityMatched, match.entityMatched);</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">        &amp;&amp; Objects.equals(reasons, match.reasons)</span>
+<span class="nc bnc" id="L188" title="All 2 branches missed.">        &amp;&amp; Objects.equals(entityMatched, match.entityMatched);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L192">    return Objects.hash(matchType, status, reasons, entityMatched);</span>
+<span class="nc" id="L193">    return Objects.hash(matchType, status, reasons, entityMatched);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L197">    return new StringJoiner(&quot;, &quot;, Match.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L198">        .add(&quot;matchType=&quot; + matchType)</span>
-<span class="nc" id="L199">        .add(&quot;status=&quot; + status)</span>
-<span class="nc" id="L200">        .add(&quot;reasons=&quot; + reasons)</span>
-<span class="nc" id="L201">        .add(&quot;entityMatched=&quot; + entityMatched)</span>
-<span class="nc" id="L202">        .toString();</span>
+<span class="nc" id="L198">    return new StringJoiner(&quot;, &quot;, Match.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L199">        .add(&quot;matchType=&quot; + matchType)</span>
+<span class="nc" id="L200">        .add(&quot;status=&quot; + status)</span>
+<span class="nc" id="L201">        .add(&quot;reasons=&quot; + reasons)</span>
+<span class="nc" id="L202">        .add(&quot;entityMatched=&quot; + entityMatched)</span>
+<span class="nc" id="L203">        .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
