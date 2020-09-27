@@ -15,35 +15,62 @@
  */
 package org.gbif.api.model;
 
+import java.util.StringJoiner;
 import java.util.UUID;
 
 /**
  * Encapsulate a challenge code.
  */
-<span class="nc" id="L23">public class ChallengeCode {</span>
+<span class="nc" id="L24">public class ChallengeCode {</span>
+
   private Integer key;
   private UUID code;
+  // additional data (may be an email address or something)
+  private String data;
 
   public static ChallengeCode newRandom() {
-<span class="nc" id="L28">    ChallengeCode challengeCode = new ChallengeCode();</span>
-<span class="nc" id="L29">    challengeCode.setCode(UUID.randomUUID());</span>
-<span class="nc" id="L30">    return challengeCode;</span>
+<span class="nc" id="L32">    ChallengeCode challengeCode = new ChallengeCode();</span>
+<span class="nc" id="L33">    challengeCode.setCode(UUID.randomUUID());</span>
+<span class="nc" id="L34">    return challengeCode;</span>
+  }
+
+  public static ChallengeCode newRandom(String data) {
+<span class="nc" id="L38">    ChallengeCode challengeCode = newRandom();</span>
+<span class="nc" id="L39">    challengeCode.setData(data);</span>
+<span class="nc" id="L40">    return challengeCode;</span>
   }
 
   public Integer getKey() {
-<span class="nc" id="L34">    return key;</span>
+<span class="nc" id="L44">    return key;</span>
   }
 
   public void setKey(Integer key) {
-<span class="nc" id="L38">    this.key = key;</span>
-<span class="nc" id="L39">  }</span>
+<span class="nc" id="L48">    this.key = key;</span>
+<span class="nc" id="L49">  }</span>
 
   public UUID getCode() {
-<span class="nc" id="L42">    return code;</span>
+<span class="nc" id="L52">    return code;</span>
   }
 
   public void setCode(UUID code) {
-<span class="nc" id="L46">    this.code = code;</span>
-<span class="nc" id="L47">  }</span>
+<span class="nc" id="L56">    this.code = code;</span>
+<span class="nc" id="L57">  }</span>
+
+  public String getData() {
+<span class="nc" id="L60">    return data;</span>
+  }
+
+  public void setData(String data) {
+<span class="nc" id="L64">    this.data = data;</span>
+<span class="nc" id="L65">  }</span>
+
+  @Override
+  public String toString() {
+<span class="nc" id="L69">    return new StringJoiner(&quot;, &quot;, ChallengeCode.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L70">        .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L71">        .add(&quot;code=&quot; + code)</span>
+<span class="nc" id="L72">        .add(&quot;data='&quot; + data + &quot;'&quot;)</span>
+<span class="nc" id="L73">        .toString();</span>
+  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
