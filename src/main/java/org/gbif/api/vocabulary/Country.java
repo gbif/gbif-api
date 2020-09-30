@@ -1164,10 +1164,9 @@ public enum Country {
    * Taiwan, Province of China.
    */
   /*
-   * The GBIF participant is called Chinese Taipei, but the location is still Taiwan.
-   * https://github.com/gbif/portal-feedback/issues/686
+   * Decision by EC, September 2020: The name is to be "Chinese Taipei".
    */
-  TAIWAN("TW", "TWN", 158, "Taiwan, Province of China", GbifRegion.ASIA),
+  TAIWAN("TW", "TWN", 158, "Chinese Taipei", GbifRegion.ASIA),
 
   /**
    * Tajikistan.
