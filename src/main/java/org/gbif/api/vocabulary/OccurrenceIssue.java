@@ -310,6 +310,11 @@ public enum OccurrenceIssue implements InterpretationRemark {
   OCCURRENCE_STATUS_INFERRED_FROM_INDIVIDUAL_COUNT(WARNING, DwcTerm.occurrenceStatus),
 
   /**
+   * Occurrence status was inferred from basis of records
+   */
+  OCCURRENCE_STATUS_INFERRED_FROM_BASIS_OF_RECORD(WARNING, DwcTerm.occurrenceStatus),
+
+  /**
    * The date given for dwc:georeferencedDate is in the future or before Linnean times (1700).
    */
   GEOREFERENCED_DATE_UNLIKELY(WARNING, DwcTerm.georeferencedDate),
