@@ -54,7 +54,6 @@ public abstract class AbstractGbifUser {
   //settings that the user will not set directly
   protected Map<String, String> systemSettings = new HashMap<>();
   protected Date deleted;
-  protected Locale locale;
 
   @NotNull
   @Pattern(regexp = EMAIL_PATTERN)
@@ -178,12 +177,10 @@ public abstract class AbstractGbifUser {
     this.deleted = deleted;
   }
 
+  @JsonIgnore
   public Locale getLocale() {
-    return locale;
-  }
-
-  public void setLocale(Locale locale) {
-    this.locale = locale;
+    String languageTag = settings.get("locale");
+    return languageTag != null ? Locale.forLanguageTag(languageTag) : null;
   }
 
   @Override
@@ -202,14 +199,13 @@ public abstract class AbstractGbifUser {
       Objects.equals(roles, that.roles) &&
       Objects.equals(settings, that.settings) &&
       Objects.equals(systemSettings, that.systemSettings) &&
-      Objects.equals(deleted, that.deleted) &&
-      Objects.equals(locale, that.locale);
+      Objects.equals(deleted, that.deleted);
   }
 
   @Override
   public int hashCode() {
     return Objects
-      .hash(userName, firstName, lastName, email, roles, settings, systemSettings, deleted, locale);
+      .hash(userName, firstName, lastName, email, roles, settings, systemSettings, deleted);
   }
 
   @Override
@@ -223,7 +219,6 @@ public abstract class AbstractGbifUser {
       .add("settings=" + settings)
       .add("systemSettings=" + systemSettings)
       .add("deleted=" + deleted)
-      .add("language=" + locale)
       .toString();
   }
 }

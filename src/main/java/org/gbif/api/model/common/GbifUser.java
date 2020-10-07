@@ -57,7 +57,6 @@ public class GbifUser extends AbstractGbifUser {
     this.settings = new HashMap<>(another.settings);
     this.systemSettings = new HashMap<>(another.systemSettings);
     this.deleted = another.deleted;
-    this.locale = another.locale;
   }
 
   @Null(groups = {PrePersist.class})
@@ -126,7 +125,6 @@ public class GbifUser extends AbstractGbifUser {
       .add("settings=" + settings)
       .add("systemSettings=" + systemSettings)
       .add("deleted=" + deleted)
-      .add("language=" + locale)
       .toString();
   }
 }

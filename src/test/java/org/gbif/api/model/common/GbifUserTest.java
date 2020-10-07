@@ -114,7 +114,6 @@ public class GbifUserTest {
     u.setEmail("betty@gbif.org");
     u.setFirstName("Betty");
     u.setLastName("Ford");
-    u.setLocale(Locale.CANADA);
     SerdeTestUtils.testSerDe(u, GbifUser.class);
   }
 
@@ -151,10 +150,10 @@ public class GbifUserTest {
     u.setEmail("betty@gbif.org");
     u.setFirstName("Betty");
     u.setLastName("Ford");
-    u.setLocale(Locale.SIMPLIFIED_CHINESE);
 
     Map<String, String> settings = new HashMap<>();
     settings.put("name", "tim");
+    settings.put("locale", Locale.SIMPLIFIED_CHINESE.toLanguageTag());
     u.setSettings(settings);
 
     Map<String, String> systemSettings = new HashMap<>();
@@ -173,9 +172,9 @@ public class GbifUserTest {
     u.setEmail("new@gbif.org");
     u.setFirstName("John");
     u.setLastName("Smith");
-    u.setLocale(Locale.TRADITIONAL_CHINESE);
 
     settings.put("another", "one");
+    settings.put("locale", Locale.TRADITIONAL_CHINESE.toLanguageTag());
     u.setSettings(settings);
 
     systemSettings.put("another", "two");
@@ -191,8 +190,9 @@ public class GbifUserTest {
     assertEquals("Betty", copy.getFirstName());
     assertEquals("Ford", copy.getLastName());
     assertEquals(Locale.SIMPLIFIED_CHINESE, copy.getLocale());
-    assertEquals(1, copy.getSettings().size());
+    assertEquals(2, copy.getSettings().size());
     assertEquals("tim", copy.getSettings().get("name"));
+    assertEquals(Locale.SIMPLIFIED_CHINESE.toLanguageTag(), copy.getSettings().get("locale"));
     assertEquals(1, copy.getSystemSettings().size());
     assertEquals("world", copy.getSystemSettings().get("hello"));
     assertEquals(1, copy.getRoles().size());
