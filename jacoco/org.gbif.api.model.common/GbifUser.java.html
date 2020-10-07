@@ -57,27 +57,26 @@ public class GbifUser extends AbstractGbifUser {
 <span class="fc" id="L57">    this.settings = new HashMap&lt;&gt;(another.settings);</span>
 <span class="fc" id="L58">    this.systemSettings = new HashMap&lt;&gt;(another.systemSettings);</span>
 <span class="fc" id="L59">    this.deleted = another.deleted;</span>
-<span class="fc" id="L60">    this.locale = another.locale;</span>
-<span class="fc" id="L61">  }</span>
+<span class="fc" id="L60">  }</span>
 
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   public Integer getKey() {
-<span class="fc" id="L66">    return key;</span>
+<span class="fc" id="L65">    return key;</span>
   }
 
   public void setKey(Integer key) {
-<span class="fc" id="L70">    this.key = key;</span>
-<span class="fc" id="L71">  }</span>
+<span class="fc" id="L69">    this.key = key;</span>
+<span class="fc" id="L70">  }</span>
 
   @Nullable
   public Date getLastLogin() {
-<span class="fc" id="L75">    return lastLogin;</span>
+<span class="fc" id="L74">    return lastLogin;</span>
   }
 
   public void setLastLogin(Date lastLogin) {
-<span class="nc" id="L79">    this.lastLogin = lastLogin;</span>
-<span class="nc" id="L80">  }</span>
+<span class="nc" id="L78">    this.lastLogin = lastLogin;</span>
+<span class="nc" id="L79">  }</span>
 
   /**
    * @return the hashed version of the user password.
@@ -85,49 +84,48 @@ public class GbifUser extends AbstractGbifUser {
   @NotNull
   @JsonIgnore
   public String getPasswordHash() {
-<span class="fc" id="L88">    return passwordHash;</span>
+<span class="fc" id="L87">    return passwordHash;</span>
   }
 
   public void setPasswordHash(String passwordHash) {
-<span class="fc" id="L92">    this.passwordHash = passwordHash;</span>
-<span class="fc" id="L93">  }</span>
+<span class="fc" id="L91">    this.passwordHash = passwordHash;</span>
+<span class="fc" id="L92">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L97" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L98">      return true;</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L97">      return true;</span>
     }
-<span class="pc bpc" id="L100" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L101">      return false;</span>
+<span class="pc bpc" id="L99" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L100">      return false;</span>
     }
-<span class="pc bpc" id="L103" title="1 of 2 branches missed.">    if (!super.equals(o)) {</span>
-<span class="nc" id="L104">      return false;</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">    if (!super.equals(o)) {</span>
+<span class="nc" id="L103">      return false;</span>
     }
-<span class="fc" id="L106">    GbifUser gbifUser = (GbifUser) o;</span>
-<span class="pc bpc" id="L107" title="1 of 2 branches missed.">    return Objects.equals(key, gbifUser.key) &amp;&amp;</span>
-<span class="pc bpc" id="L108" title="1 of 2 branches missed.">      Objects.equals(lastLogin, gbifUser.lastLogin);</span>
+<span class="fc" id="L105">    GbifUser gbifUser = (GbifUser) o;</span>
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">    return Objects.equals(key, gbifUser.key) &amp;&amp;</span>
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">      Objects.equals(lastLogin, gbifUser.lastLogin);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L113">    return Objects.hash(super.hashCode(), key, lastLogin);</span>
+<span class="fc" id="L112">    return Objects.hash(super.hashCode(), key, lastLogin);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L118">    return new StringJoiner(&quot;, &quot;, GbifUser.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L119">      .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L120">      .add(&quot;lastLogin=&quot; + lastLogin)</span>
-<span class="nc" id="L121">      .add(&quot;userName='&quot; + userName + &quot;'&quot;)</span>
-<span class="nc" id="L122">      .add(&quot;firstName='&quot; + firstName + &quot;'&quot;)</span>
-<span class="nc" id="L123">      .add(&quot;lastName='&quot; + lastName + &quot;'&quot;)</span>
-<span class="nc" id="L124">      .add(&quot;email='&quot; + email + &quot;'&quot;)</span>
-<span class="nc" id="L125">      .add(&quot;roles=&quot; + roles)</span>
-<span class="nc" id="L126">      .add(&quot;settings=&quot; + settings)</span>
-<span class="nc" id="L127">      .add(&quot;systemSettings=&quot; + systemSettings)</span>
-<span class="nc" id="L128">      .add(&quot;deleted=&quot; + deleted)</span>
-<span class="nc" id="L129">      .add(&quot;language=&quot; + locale)</span>
-<span class="nc" id="L130">      .toString();</span>
+<span class="nc" id="L117">    return new StringJoiner(&quot;, &quot;, GbifUser.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L118">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L119">      .add(&quot;lastLogin=&quot; + lastLogin)</span>
+<span class="nc" id="L120">      .add(&quot;userName='&quot; + userName + &quot;'&quot;)</span>
+<span class="nc" id="L121">      .add(&quot;firstName='&quot; + firstName + &quot;'&quot;)</span>
+<span class="nc" id="L122">      .add(&quot;lastName='&quot; + lastName + &quot;'&quot;)</span>
+<span class="nc" id="L123">      .add(&quot;email='&quot; + email + &quot;'&quot;)</span>
+<span class="nc" id="L124">      .add(&quot;roles=&quot; + roles)</span>
+<span class="nc" id="L125">      .add(&quot;settings=&quot; + settings)</span>
+<span class="nc" id="L126">      .add(&quot;systemSettings=&quot; + systemSettings)</span>
+<span class="nc" id="L127">      .add(&quot;deleted=&quot; + deleted)</span>
+<span class="nc" id="L128">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

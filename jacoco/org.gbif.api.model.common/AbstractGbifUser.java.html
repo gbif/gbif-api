@@ -54,17 +54,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   //settings that the user will not set directly
 <span class="fc" id="L55">  protected Map&lt;String, String&gt; systemSettings = new HashMap&lt;&gt;();</span>
   protected Date deleted;
-  protected Locale locale;
 
   @NotNull
   @Pattern(regexp = EMAIL_PATTERN)
   public String getEmail() {
-<span class="fc" id="L62">    return email;</span>
+<span class="fc" id="L61">    return email;</span>
   }
 
   public void setEmail(String email) {
-<span class="fc" id="L66">    this.email = email;</span>
-<span class="fc" id="L67">  }</span>
+<span class="fc" id="L65">    this.email = email;</span>
+<span class="fc" id="L66">  }</span>
 
   /**
    * The unique, immutable drupal user account name.
@@ -76,57 +75,57 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   @Pattern(regexp = &quot;^[a-z0-9_.-]+$&quot;)
   @Size(min = 3, max = 64)
   public String getUserName() {
-<span class="fc" id="L79">    return userName;</span>
+<span class="fc" id="L78">    return userName;</span>
   }
 
   public void setUserName(String userName) {
-<span class="fc" id="L83">    this.userName = userName;</span>
-<span class="fc" id="L84">  }</span>
+<span class="fc" id="L82">    this.userName = userName;</span>
+<span class="fc" id="L83">  }</span>
 
   /**
    * @return the first name of a person
    */
   public String getFirstName() {
-<span class="fc" id="L90">    return firstName;</span>
+<span class="fc" id="L89">    return firstName;</span>
   }
 
   public void setFirstName(String firstName) {
-<span class="fc" id="L94">    this.firstName = firstName;</span>
-<span class="fc" id="L95">  }</span>
+<span class="fc" id="L93">    this.firstName = firstName;</span>
+<span class="fc" id="L94">  }</span>
 
   /**
    * @return the last name of the user
    */
   public String getLastName() {
-<span class="fc" id="L101">    return lastName;</span>
+<span class="fc" id="L100">    return lastName;</span>
   }
 
   public void setLastName(String lastName) {
-<span class="fc" id="L105">    this.lastName = lastName;</span>
-<span class="fc" id="L106">  }</span>
+<span class="fc" id="L104">    this.lastName = lastName;</span>
+<span class="fc" id="L105">  }</span>
 
   /**
    * @return the first and last name of the user concatenated with a space
    */
   @JsonIgnore
   public String getName() {
-<span class="fc" id="L113">    return Stream.of(firstName, lastName)</span>
-<span class="fc" id="L114">      .filter(Objects::nonNull)</span>
-<span class="fc" id="L115">      .collect(Collectors.joining(&quot; &quot;));</span>
+<span class="fc" id="L112">    return Stream.of(firstName, lastName)</span>
+<span class="fc" id="L113">      .filter(Objects::nonNull)</span>
+<span class="fc" id="L114">      .collect(Collectors.joining(&quot; &quot;));</span>
   }
 
   @NotNull
   public Set&lt;UserRole&gt; getRoles() {
-<span class="fc" id="L120">    return roles;</span>
+<span class="fc" id="L119">    return roles;</span>
   }
 
   public void setRoles(Set&lt;UserRole&gt; roles) {
-<span class="fc" id="L124">    this.roles = roles;</span>
-<span class="fc" id="L125">  }</span>
+<span class="fc" id="L123">    this.roles = roles;</span>
+<span class="fc" id="L124">  }</span>
 
   public void addRole(UserRole role) {
-<span class="fc" id="L128">    roles.add(role);</span>
-<span class="fc" id="L129">  }</span>
+<span class="fc" id="L127">    roles.add(role);</span>
+<span class="fc" id="L128">  }</span>
 
   /**
    * Checks if the user has the given user role.
@@ -135,7 +134,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
    * @return true if the user has the requested role
    */
   public boolean hasRole(UserRole role) {
-<span class="fc bfc" id="L138" title="All 4 branches covered.">    return role != null &amp;&amp; roles.contains(role);</span>
+<span class="fc bfc" id="L137" title="All 4 branches covered.">    return role != null &amp;&amp; roles.contains(role);</span>
   }
 
   /**
@@ -143,15 +142,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
    */
   public void setSettings(Map&lt;String, String&gt; settings) {
     // safeguard against misuse to avoid NPE
-<span class="pc bpc" id="L146" title="1 of 2 branches missed.">    this.settings = settings == null ? new HashMap&lt;&gt;() : settings;</span>
-<span class="fc" id="L147">  }</span>
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">    this.settings = settings == null ? new HashMap&lt;&gt;() : settings;</span>
+<span class="fc" id="L146">  }</span>
 
   /**
    * Gets the settings which may be empty but never null.
    */
   @NotNull
   public Map&lt;String, String&gt; getSettings() {
-<span class="fc" id="L154">    return settings;</span>
+<span class="fc" id="L153">    return settings;</span>
   }
 
   /**
@@ -159,72 +158,68 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
    */
   public void setSystemSettings(Map&lt;String, String&gt; systemSettings) {
     // safeguard against misuse to avoid NPE
-<span class="pc bpc" id="L162" title="1 of 2 branches missed.">    this.systemSettings = systemSettings == null ? new HashMap&lt;&gt;() : systemSettings;</span>
-<span class="fc" id="L163">  }</span>
+<span class="pc bpc" id="L161" title="1 of 2 branches missed.">    this.systemSettings = systemSettings == null ? new HashMap&lt;&gt;() : systemSettings;</span>
+<span class="fc" id="L162">  }</span>
 
   /**
    * Gets the settings which may be empty but never null.
    */
   @NotNull
   public Map&lt;String, String&gt; getSystemSettings() {
-<span class="fc" id="L170">    return systemSettings;</span>
+<span class="fc" id="L169">    return systemSettings;</span>
   }
 
   public Date getDeleted() {
-<span class="fc" id="L174">    return deleted;</span>
+<span class="fc" id="L173">    return deleted;</span>
   }
 
   public void setDeleted(Date deleted) {
-<span class="nc" id="L178">    this.deleted = deleted;</span>
-<span class="nc" id="L179">  }</span>
+<span class="nc" id="L177">    this.deleted = deleted;</span>
+<span class="nc" id="L178">  }</span>
 
+  @JsonIgnore
   public Locale getLocale() {
-<span class="fc" id="L182">    return locale;</span>
+<span class="fc" id="L182">    String languageTag = settings.get(&quot;locale&quot;);</span>
+<span class="pc bpc" id="L183" title="1 of 2 branches missed.">    return languageTag != null ? Locale.forLanguageTag(languageTag) : null;</span>
   }
-
-  public void setLocale(Locale locale) {
-<span class="fc" id="L186">    this.locale = locale;</span>
-<span class="fc" id="L187">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L191" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L192">      return true;</span>
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L189">      return true;</span>
     }
-<span class="pc bpc" id="L194" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L195">      return false;</span>
+<span class="pc bpc" id="L191" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L192">      return false;</span>
     }
-<span class="fc" id="L197">    AbstractGbifUser that = (AbstractGbifUser) o;</span>
-<span class="pc bpc" id="L198" title="1 of 2 branches missed.">    return Objects.equals(userName, that.userName) &amp;&amp;</span>
-<span class="pc bpc" id="L199" title="1 of 2 branches missed.">      Objects.equals(firstName, that.firstName) &amp;&amp;</span>
-<span class="pc bpc" id="L200" title="1 of 2 branches missed.">      Objects.equals(lastName, that.lastName) &amp;&amp;</span>
-<span class="pc bpc" id="L201" title="1 of 2 branches missed.">      Objects.equals(email, that.email) &amp;&amp;</span>
-<span class="pc bpc" id="L202" title="1 of 2 branches missed.">      Objects.equals(roles, that.roles) &amp;&amp;</span>
-<span class="pc bpc" id="L203" title="1 of 2 branches missed.">      Objects.equals(settings, that.settings) &amp;&amp;</span>
-<span class="pc bpc" id="L204" title="1 of 2 branches missed.">      Objects.equals(systemSettings, that.systemSettings) &amp;&amp;</span>
-<span class="pc bpc" id="L205" title="1 of 2 branches missed.">      Objects.equals(deleted, that.deleted) &amp;&amp;</span>
-<span class="pc bpc" id="L206" title="1 of 2 branches missed.">      Objects.equals(locale, that.locale);</span>
+<span class="fc" id="L194">    AbstractGbifUser that = (AbstractGbifUser) o;</span>
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">    return Objects.equals(userName, that.userName) &amp;&amp;</span>
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">      Objects.equals(firstName, that.firstName) &amp;&amp;</span>
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">      Objects.equals(lastName, that.lastName) &amp;&amp;</span>
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">      Objects.equals(email, that.email) &amp;&amp;</span>
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">      Objects.equals(roles, that.roles) &amp;&amp;</span>
+<span class="pc bpc" id="L200" title="1 of 2 branches missed.">      Objects.equals(settings, that.settings) &amp;&amp;</span>
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">      Objects.equals(systemSettings, that.systemSettings) &amp;&amp;</span>
+<span class="pc bpc" id="L202" title="1 of 2 branches missed.">      Objects.equals(deleted, that.deleted);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L211">    return Objects</span>
-<span class="fc" id="L212">      .hash(userName, firstName, lastName, email, roles, settings, systemSettings, deleted, locale);</span>
+<span class="fc" id="L207">    return Objects</span>
+<span class="fc" id="L208">      .hash(userName, firstName, lastName, email, roles, settings, systemSettings, deleted);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L217">    return new StringJoiner(&quot;, &quot;, AbstractGbifUser.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L218">      .add(&quot;userName='&quot; + userName + &quot;'&quot;)</span>
-<span class="nc" id="L219">      .add(&quot;firstName='&quot; + firstName + &quot;'&quot;)</span>
-<span class="nc" id="L220">      .add(&quot;lastName='&quot; + lastName + &quot;'&quot;)</span>
-<span class="nc" id="L221">      .add(&quot;email='&quot; + email + &quot;'&quot;)</span>
-<span class="nc" id="L222">      .add(&quot;roles=&quot; + roles)</span>
-<span class="nc" id="L223">      .add(&quot;settings=&quot; + settings)</span>
-<span class="nc" id="L224">      .add(&quot;systemSettings=&quot; + systemSettings)</span>
-<span class="nc" id="L225">      .add(&quot;deleted=&quot; + deleted)</span>
-<span class="nc" id="L226">      .add(&quot;language=&quot; + locale)</span>
-<span class="nc" id="L227">      .toString();</span>
+<span class="nc" id="L213">    return new StringJoiner(&quot;, &quot;, AbstractGbifUser.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L214">      .add(&quot;userName='&quot; + userName + &quot;'&quot;)</span>
+<span class="nc" id="L215">      .add(&quot;firstName='&quot; + firstName + &quot;'&quot;)</span>
+<span class="nc" id="L216">      .add(&quot;lastName='&quot; + lastName + &quot;'&quot;)</span>
+<span class="nc" id="L217">      .add(&quot;email='&quot; + email + &quot;'&quot;)</span>
+<span class="nc" id="L218">      .add(&quot;roles=&quot; + roles)</span>
+<span class="nc" id="L219">      .add(&quot;settings=&quot; + settings)</span>
+<span class="nc" id="L220">      .add(&quot;systemSettings=&quot; + systemSettings)</span>
+<span class="nc" id="L221">      .add(&quot;deleted=&quot; + deleted)</span>
+<span class="nc" id="L222">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
