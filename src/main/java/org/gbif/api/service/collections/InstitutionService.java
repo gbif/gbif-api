@@ -23,6 +23,7 @@ import org.gbif.api.service.registry.CommentService;
 import org.gbif.api.service.registry.IdentifierService;
 import org.gbif.api.service.registry.MachineTagService;
 import org.gbif.api.service.registry.TagService;
+import org.gbif.api.vocabulary.IdentifierType;
 
 import java.util.List;
 import java.util.UUID;
@@ -47,6 +48,11 @@ public interface InstitutionService
    * @param code code of the institution
    * @param name name of the institution
    * @param alternativeCode alternative code of the institution
+   * @param machineTagNamespace namespace of the machine tag
+   * @param machineTagName name of the machine tag
+   * @param machineTagValue value of the machine tag
+   * @param identifierType identifier type
+   * @param identifier value of the identifier
    * @param page paging parameters
    * @return a list of entities ordered by their creation date, newest coming first
    */
@@ -56,6 +62,11 @@ public interface InstitutionService
       @Nullable String code,
       @Nullable String name,
       @Nullable String alternativeCode,
+      @Nullable String machineTagNamespace,
+      @Nullable String machineTagName,
+      @Nullable String machineTagValue,
+      @Nullable IdentifierType identifierType,
+      @Nullable String identifier,
       @Nullable Pageable page);
 
   /**
