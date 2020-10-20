@@ -16,6 +16,7 @@
 package org.gbif.api.service.collections;
 
 import org.gbif.api.model.collections.Institution;
+import org.gbif.api.model.collections.request.InstitutionSearchRequest;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;
@@ -23,18 +24,19 @@ import org.gbif.api.service.registry.CommentService;
 import org.gbif.api.service.registry.IdentifierService;
 import org.gbif.api.service.registry.MachineTagService;
 import org.gbif.api.service.registry.TagService;
-import org.gbif.api.vocabulary.IdentifierType;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-/**
- * Service for institutions in the collections context.
- */
+/** Service for institutions in the collections context. */
 public interface InstitutionService
-  extends CrudService<Institution>, ContactService, TagService, IdentifierService, MachineTagService, CommentService {
+    extends CrudService<Institution>,
+        ContactService,
+        TagService,
+        IdentifierService,
+        MachineTagService,
+        CommentService {
 
   /**
    * Pages {@link Institution} entities based on the parameters received.
@@ -43,39 +45,14 @@ public interface InstitutionService
    * new PagingRequest(); PagingResponse<T> response; do { response = service.list(req); for (T obj
    * : response.getResults()) { doStuff(); } req.nextPage(); } while (!response.isEndOfRecords()); }
    *
-   * @param query to make a full text search
-   * @param contactKey to filter by a contact
-   * @param code code of the institution
-   * @param name name of the institution
-   * @param alternativeCode alternative code of the institution
-   * @param machineTagNamespace namespace of the machine tag
-   * @param machineTagName name of the machine tag
-   * @param machineTagValue value of the machine tag
-   * @param identifierType identifier type
-   * @param identifier value of the identifier
-   * @param page paging parameters
+   * @param searchRequest {@link InstitutionSearchRequest} with all the parameters
    * @return a list of entities ordered by their creation date, newest coming first
    */
-  PagingResponse<Institution> list(
-      @Nullable String query,
-      @Nullable UUID contactKey,
-      @Nullable String code,
-      @Nullable String name,
-      @Nullable String alternativeCode,
-      @Nullable String machineTagNamespace,
-      @Nullable String machineTagName,
-      @Nullable String machineTagValue,
-      @Nullable IdentifierType identifierType,
-      @Nullable String identifier,
-      @Nullable Pageable page);
+  PagingResponse<Institution> list(InstitutionSearchRequest searchRequest);
 
-  /**
-   * Provides access to deleted institutions.
-   */
+  /** Provides access to deleted institutions. */
   PagingResponse<Institution> listDeleted(@Nullable Pageable page);
 
-  /**
-   * Provides a simple suggest service.
-   */
+  /** Provides a simple suggest service. */
   List<KeyCodeNameResult> suggest(@Nullable String q);
 }
