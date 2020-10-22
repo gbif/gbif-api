@@ -20,8 +20,9 @@ package org.gbif.api.vocabulary;
  *
  * @see <a href="http://rs.gbif.org/vocabulary/gbif/life_stage.xml">rs.gbif.org vocabulary</a>
  */
+@Deprecated
 public enum LifeStage {
-  
+
   /**
    * A zygote (or zygocyte) describes the first stage of a new unique organism when it consists of just a single cell.
    * The term is also used more loosely to refer to the group of cells formed by the first few cell divisions,
@@ -33,13 +34,13 @@ public enum LifeStage {
    * and this provides all the genetic information necessary to form a new individual.
    */
   ZYGOTE,
-  
+
   /**
    * An embryo is a multicellular diploid eukaryote in its earliest stage of development,
    * from the time of first cell division until birth, hatching, or germination.
    */
   EMRYO,
-  
+
   /**
    * A larva is a young (juvenile) form of animal with indirect development,
    * going through or undergoing metamorphosis (for example, insects, amphibians, or cnidarians).
@@ -52,19 +53,19 @@ public enum LifeStage {
    * The early life stages of most fish species are considerably different from juveniles and adults of their species and are called larvae.
    */
   LARVA,
-  
+
   /**
    * A juvenile is an individual organism that has not yet reached its adult form, sexual maturity or size.
    * Juveniles sometimes look very different from the adult form, particularly in terms of their colour.
    * In many organisms the juvenile has a different name from the adult.
    */
   JUVENILE,
-  
+
   /**
    * An adult is a plant, animal, or person who has reached full growth or alternatively is capable of reproduction.
    */
   ADULT,
-  
+
   /**
    * All land plants, and some algae, have life cycles in which a haploid gametophyte generation alternates with a diploid sporophyte,
    * the generation of a plant or alga that has a double set of chromosomes.
@@ -73,7 +74,7 @@ public enum LifeStage {
    * (i.e. whole green plant, roots etc), except phases of small reproductive structures (pollen and ovule).
    */
   SPOROPHYTE,
-  
+
   /**
    * A spore is a reproductive structure that is adapted for dispersal and surviving for extended periods of time in unfavorable conditions.
    * Spores form part of the life cycles of many bacteria, plants, algae, fungi and some protozoans.
@@ -86,7 +87,7 @@ public enum LifeStage {
    * By contrast, gametes are the units of sexual reproduction, as two gametes need to fuse to create a new organism.
    */
   SPORE,
-  
+
   /**
    * In plants and algae that undergo alternation of generations, a gametophyte is the multicellular structure, or phase, that is haploid,
    * containing a single set of chromosomes.
@@ -98,7 +99,7 @@ public enum LifeStage {
    * and the male gametophyte (pollen) is called a microgametophyte.
    */
   GAMETOPHYTE,
-  
+
   /**
    * A gamete is a cell that fuses with another gamete during fertilization in organisms that reproduce sexually.
    * In species that produce two morphologically distinct types of gametes, and in which each individual produces only one type,
@@ -109,7 +110,7 @@ public enum LifeStage {
    * for mating type. Gametes carry half the genetic information of an individual, one chromosome of each type.
    */
   GAMETE,
-  
+
   /**
    * A pupa is the life stage of some insects undergoing transformation between immature and mature stages.
    * The pupal stage is found only in holometabolous insects, those that undergo a complete metamorphosis, with four life stages:
