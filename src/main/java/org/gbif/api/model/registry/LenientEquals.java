@@ -27,7 +27,7 @@ public interface LenientEquals<T> {
   /**
    * Leniently tests if the objects are the same.
    * Implementors should declare what this means in practice.
-   * 
+   *
    * @param other To compare against
    * @return true if... <insert implementation definition>
    */

@@ -31,6 +31,7 @@ import javax.validation.constraints.Size;
  * persisting.
  */
 // TODO: Document the rules regarding duplicate names and values
+@SuppressWarnings("unused")
 public class MachineTag implements LenientEquals<MachineTag>, Serializable {
 
   private static final long serialVersionUID = 3475968899219274852L;
@@ -138,12 +139,12 @@ public class MachineTag implements LenientEquals<MachineTag>, Serializable {
       return false;
     }
     MachineTag that = (MachineTag) o;
-    return Objects.equals(key, that.key) &&
-      Objects.equals(namespace, that.namespace) &&
-      Objects.equals(name, that.name) &&
-      Objects.equals(value, that.value) &&
-      Objects.equals(createdBy, that.createdBy) &&
-      Objects.equals(created, that.created);
+    return Objects.equals(key, that.key)
+        && Objects.equals(namespace, that.namespace)
+        && Objects.equals(name, that.name)
+        && Objects.equals(value, that.value)
+        && Objects.equals(createdBy, that.createdBy)
+        && Objects.equals(created, that.created);
   }
 
   @Override
@@ -154,13 +155,13 @@ public class MachineTag implements LenientEquals<MachineTag>, Serializable {
   @Override
   public String toString() {
     return new StringJoiner(", ", MachineTag.class.getSimpleName() + "[", "]")
-      .add("key=" + key)
-      .add("namespace='" + namespace + "'")
-      .add("name='" + name + "'")
-      .add("value='" + value + "'")
-      .add("createdBy='" + createdBy + "'")
-      .add("created=" + created)
-      .toString();
+        .add("key=" + key)
+        .add("namespace='" + namespace + "'")
+        .add("name='" + name + "'")
+        .add("value='" + value + "'")
+        .add("createdBy='" + createdBy + "'")
+        .add("created=" + created)
+        .toString();
   }
 
   /**
@@ -174,7 +175,7 @@ public class MachineTag implements LenientEquals<MachineTag>, Serializable {
     }
 
     return Objects.equals(this.namespace, other.namespace)
-      && Objects.equals(this.name, other.name)
-      && Objects.equals(this.value, other.value);
+        && Objects.equals(this.name, other.name)
+        && Objects.equals(this.value, other.value);
   }
 }

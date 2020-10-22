@@ -22,10 +22,10 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 /**
- * A fact or measurement about an occurrence.
- * @see <a href="http://rs.gbif.org/extension/dwc/measurements_or_facts.xml">Fact extension</a>
+ * A measurement or fact about an occurrence.
+ * @see <a href="http://rs.gbif.org/extension/dwc/measurements_or_facts.xml">measurement or fact extension</a>
  */
-public class FactOrMeasurment {
+public class MeasurementOrFact {
   private String id;
   private String type;
   private String value;
@@ -125,7 +125,7 @@ public class FactOrMeasurment {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    FactOrMeasurment that = (FactOrMeasurment) o;
+    MeasurementOrFact that = (MeasurementOrFact) o;
     return Objects.equals(id, that.id) &&
       Objects.equals(type, that.type) &&
       Objects.equals(value, that.value) &&
@@ -145,7 +145,7 @@ public class FactOrMeasurment {
 
   @Override
   public String toString() {
-    return new StringJoiner(", ", FactOrMeasurment.class.getSimpleName() + "[", "]")
+    return new StringJoiner(", ", MeasurementOrFact.class.getSimpleName() + "[", "]")
       .add("id='" + id + "'")
       .add("type='" + type + "'")
       .add("value='" + value + "'")

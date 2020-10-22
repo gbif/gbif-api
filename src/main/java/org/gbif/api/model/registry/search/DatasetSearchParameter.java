@@ -121,7 +121,12 @@ public enum DatasetSearchParameter implements SearchParameter {
   /**
    * Institution key associated to the dataset and/or to the collection.
    */
-  INSTITUTION_KEY(UUID.class);
+  INSTITUTION_KEY(UUID.class),
+
+  /**
+   * DOI associated to one more dataset.
+   */
+  DOI(String.class);
 
   DatasetSearchParameter(Class<?> type) {
     this.type = type;

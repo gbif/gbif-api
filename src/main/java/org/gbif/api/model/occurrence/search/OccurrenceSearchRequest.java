@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.occurrence.search;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.FacetedSearchRequest;
 import org.gbif.api.vocabulary.BasisOfRecord;
@@ -23,9 +24,11 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
+import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.TypeStatus;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -33,9 +36,31 @@ import java.util.UUID;
  */
 public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSearchParameter> {
 
+  private Boolean matchCase;
+
   public OccurrenceSearchRequest() {
     // empty block
     super();
+  }
+
+  /**
+   * This flag enables the use of case-sensitive matches and aggregations on certain search parameters.
+   * <p>
+   * Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol, catalogNumber, collectionCode,
+   * institutionCode, eventId, parentEventId, waterBody, stateProvince, recordNumber, identifiedBy, organismId and locality.
+   * <p>
+   * This is an experimental feature and its implementation map change or be removed at any time.
+   * <p>
+   * Be aware that this is not a per-field flag, all possible fields will match case sensitively.
+   */
+  @Experimental
+  public Boolean isMatchCase() {
+    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);
+  }
+
+  @Experimental
+  public void setMatchCase(Boolean matchCase) {
+    this.matchCase = matchCase;
   }
 
   public OccurrenceSearchRequest(long offset, int limit) {
@@ -194,4 +219,37 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     addParameter(OccurrenceSearchParameter.IDENTIFIED_BY_ID, identifiedByIds);
   }
 
+  public void addOccurrenceStatusFilter(OccurrenceStatus occurrenceStatus) {
+    addParameter(OccurrenceSearchParameter.OCCURRENCE_STATUS, occurrenceStatus);
+  }
+
+  public void addGadmGidFilter(String gadmGid) {
+    addParameter(OccurrenceSearchParameter.GADM_GID, gadmGid);
+  }
+
+  public void addGadmLevel0GidFilter(String gadm0) {
+    addParameter(OccurrenceSearchParameter.GADM_LEVEL_0_GID, gadm0);
+  }
+
+  public void addGadmLevel1GidFilter(String gadm1) {
+    addParameter(OccurrenceSearchParameter.GADM_LEVEL_1_GID, gadm1);
+  }
+
+  public void addGadmLevel2GidFilter(String gadm2) {
+    addParameter(OccurrenceSearchParameter.GADM_LEVEL_2_GID, gadm2);
+  }
+
+  public void addGadmLevel3GidFilter(String gadm3) {
+    addParameter(OccurrenceSearchParameter.GADM_LEVEL_3_GID, gadm3);
+  }
+
+  @Experimental
+  public void addInstitutionKeyFilter(String institutionKey) {
+    addParameter(OccurrenceSearchParameter.INSTITUTION_KEY, institutionKey);
+  }
+
+  @Experimental
+  public void addCollectionKeyFilter(String collectionKey) {
+    addParameter(OccurrenceSearchParameter.COLLECTION_KEY, collectionKey);
+  }
 }

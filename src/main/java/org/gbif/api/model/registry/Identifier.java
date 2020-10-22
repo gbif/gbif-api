@@ -39,8 +39,7 @@ public class Identifier implements Serializable, LenientEquals<Identifier> {
   private String createdBy;
   private Date created;
 
-  public Identifier() {
-  }
+  public Identifier() {}
 
   public Identifier(IdentifierType type, String identifier) {
     this.type = type;
@@ -119,11 +118,11 @@ public class Identifier implements Serializable, LenientEquals<Identifier> {
       return false;
     }
     Identifier that = (Identifier) o;
-    return Objects.equals(key, that.key) &&
-      type == that.type &&
-      Objects.equals(identifier, that.identifier) &&
-      Objects.equals(createdBy, that.createdBy) &&
-      Objects.equals(created, that.created);
+    return Objects.equals(key, that.key)
+        && type == that.type
+        && Objects.equals(identifier, that.identifier)
+        && Objects.equals(createdBy, that.createdBy)
+        && Objects.equals(created, that.created);
   }
 
   @Override
@@ -134,12 +133,12 @@ public class Identifier implements Serializable, LenientEquals<Identifier> {
   @Override
   public String toString() {
     return new StringJoiner(", ", Identifier.class.getSimpleName() + "[", "]")
-      .add("key=" + key)
-      .add("type=" + type)
-      .add("identifier='" + identifier + "'")
-      .add("createdBy='" + createdBy + "'")
-      .add("created=" + created)
-      .toString();
+        .add("key=" + key)
+        .add("type=" + type)
+        .add("identifier='" + identifier + "'")
+        .add("createdBy='" + createdBy + "'")
+        .add("created=" + created)
+        .toString();
   }
 
   /**
@@ -151,6 +150,6 @@ public class Identifier implements Serializable, LenientEquals<Identifier> {
       return true;
     }
     return Objects.equals(this.type, other.type)
-      && Objects.equals(this.identifier, other.identifier);
+        && Objects.equals(this.identifier, other.identifier);
   }
 }

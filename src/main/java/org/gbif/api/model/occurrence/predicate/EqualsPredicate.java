@@ -19,6 +19,8 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -30,8 +32,9 @@ public class EqualsPredicate extends SimplePredicate {
   @JsonCreator
   public EqualsPredicate(
     @JsonProperty("key") OccurrenceSearchParameter key,
-    @JsonProperty("value") String value) {
-    super(false, key, value);
+    @JsonProperty("value") String value,
+    @Nullable @JsonProperty(value = "matchCase") Boolean matchCase) {
+    super(false, key, value, matchCase);
   }
 
   @Override

@@ -95,7 +95,7 @@ public class Collection
   private List<String> incorporatedCollections = new ArrayList<>();
   private List<String> importantCollectors = new ArrayList<>();
   private Map<String, Integer> collectionSummary = new HashMap<>();
-  private Map<String, String> alternativeCodes = new HashMap<>();
+  private List<AlternativeCode> alternativeCodes = new ArrayList<>();
   private List<Comment> comments = new ArrayList<>();
 
   /**
@@ -478,11 +478,12 @@ public class Collection
     this.collectionSummary = collectionSummary;
   }
 
-  public Map<String, String> getAlternativeCodes() {
+  /** Alternative codes for a collection. */
+  public List<AlternativeCode> getAlternativeCodes() {
     return alternativeCodes;
   }
 
-  public void setAlternativeCodes(Map<String, String> alternativeCodes) {
+  public void setAlternativeCodes(List<AlternativeCode> alternativeCodes) {
     this.alternativeCodes = alternativeCodes;
   }
 

@@ -20,6 +20,7 @@ import org.gbif.api.vocabulary.UserRole;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -39,24 +40,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * By doing so, it is possible to have classes working for user information without having to carry those
  * information around.
  */
+@SuppressWarnings("unused")
 public abstract class AbstractGbifUser {
   protected static final String EMAIL_PATTERN =
-    "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+    "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
   protected String userName;
   protected String firstName;
   protected String lastName;
   protected String email;
   protected Set<UserRole> roles = new HashSet<>();
-
-//  //country of the user (user for stats)
-//  protected Country country;
-
   protected Map<String, String> settings = new HashMap<>();
-
   //settings that the user will not set directly
   protected Map<String, String> systemSettings = new HashMap<>();
-
   protected Date deleted;
 
   @NotNull
@@ -134,7 +130,7 @@ public abstract class AbstractGbifUser {
   /**
    * Checks if the user has the given user role.
    *
-   * @param role
+   * @param role user role
    * @return true if the user has the requested role
    */
   public boolean hasRole(UserRole role) {
@@ -151,8 +147,6 @@ public abstract class AbstractGbifUser {
 
   /**
    * Gets the settings which may be empty but never null.
-   *
-   * @return
    */
   @NotNull
   public Map<String, String> getSettings() {
@@ -169,8 +163,6 @@ public abstract class AbstractGbifUser {
 
   /**
    * Gets the settings which may be empty but never null.
-   *
-   * @return
    */
   @NotNull
   public Map<String, String> getSystemSettings() {
@@ -183,6 +175,12 @@ public abstract class AbstractGbifUser {
 
   public void setDeleted(Date deleted) {
     this.deleted = deleted;
+  }
+
+  @JsonIgnore
+  public Locale getLocale() {
+    String languageTag = settings.get("locale");
+    return languageTag != null ? Locale.forLanguageTag(languageTag) : null;
   }
 
   @Override

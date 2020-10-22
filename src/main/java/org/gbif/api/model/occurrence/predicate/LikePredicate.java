@@ -17,6 +17,8 @@ package org.gbif.api.model.occurrence.predicate;
 
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -31,8 +33,9 @@ public class LikePredicate extends SimplePredicate {
   @JsonCreator
   public LikePredicate(
     @JsonProperty("key") OccurrenceSearchParameter key,
-    @JsonProperty("value") String value) {
-    super(false, key, value);
+    @JsonProperty("value") String value,
+    @Nullable @JsonProperty(value = "matchCase") Boolean matchCase) {
+    super(false, key, value, matchCase);
     // make sure we deal with a String type
     if (!String.class.equals(key.type())) {
       throw new IllegalArgumentException("Like comparisons are only allowed for strings but not parameter " + key);

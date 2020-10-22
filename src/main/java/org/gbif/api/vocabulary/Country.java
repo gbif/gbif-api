@@ -43,9 +43,9 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
  *
  * <p>Formerly used codes are not included.
  *
- * <p>All user assigned codes (e.g. XX and QS) are mapped to the single enum USER_DEFINED.
+ * <p>All unused user assigned codes (e.g. XX and QS) are mapped to the single enum USER_DEFINED.
  *
- * <p>Titles are taken from the ISO standard short name, with punctuation adjusted.
+ * <p>Titles are taken from the ISO standard short name in all cases.
  *
  * <p>GBIF Regions are based on <a href="https://www.nature.com/articles/sdata20167/figures/1">IPBES regions</a>.
  * The source for GBIF Regions is the participant entities in the GBIF Directory, which are synchronized with
@@ -60,7 +60,15 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
  */
 /*
  * When updating this file, remember also to update http://rs.gbif.org/vocabulary/iso/3166-1_alpha2.xml
+ * diff -i <(grep title ../rs.gbif.org/vocabulary/iso/3166-1_alpha2.xml | grep '"en"' | grep -v -e '"[A-Z][A-Z]"' -e '"[A-Z][A-Z][A-Z]"' | cut -d'"' -f 2 | sort) \
+ *         <(grep '".."' ./src/main/java/org/gbif/api/vocabulary/Country.java | cut -d'"' -f 6 | grep . | sort)
+ *
+ * And ensure the Portal's enum has the same information.  Compare with
+ * diff <(grep '".."' ./src/main/java/org/gbif/api/vocabulary/Country.java | cut -d'"' -f 2,6 | grep '"') \
+ *      <(grep '".."' ../portal16/locales/source/en-DK/enums/country.json | cut -d'"' -f 2,4)
+ *
  * Also ensure the GbifRegions match the participant table in the Directory.
+ *
  * TODO: deal with outdated codes from ISO_3166-3
  */
 @JsonSerialize(using = Country.IsoSerializer.class)
@@ -198,9 +206,9 @@ public enum Country {
   BHUTAN("BT", "BTN", 64, "Bhutan", GbifRegion.ASIA),
 
   /**
-   * Bolivia, Plurinational State of.
+   * Bolivia (Plurinational State of).
    */
-  BOLIVIA("BO", "BOL", 68, "Bolivia, Plurinational State of", GbifRegion.LATIN_AMERICA),
+  BOLIVIA("BO", "BOL", 68, "Bolivia (Plurinational State of)", GbifRegion.LATIN_AMERICA),
 
   /**
    * Bonaire, Sint Eustatius and Saba.
@@ -303,7 +311,7 @@ public enum Country {
   CHRISTMAS_ISLAND("CX", "CXR", 162, "Christmas Island", GbifRegion.ASIA),
 
   /**
-   * COCOS (Keeling) Islands.
+   * Cocos (Keeling) Islands.
    */
   COCOS_ISLANDS("CC", "CCK", 166, "Cocos (Keeling) Islands", GbifRegion.AFRICA),
 
@@ -318,14 +326,14 @@ public enum Country {
   COMOROS("KM", "COM", 174, "Comoros", GbifRegion.AFRICA),
 
   /**
-   * Congo, the Democratic Republic of the.
+   * Congo, Democratic Republic of the.
    */
   CONGO_DEMOCRATIC_REPUBLIC("CD", "COD", 180, "Congo, Democratic Republic of the", GbifRegion.AFRICA),
 
   /**
    * Congo, Republic of the.
    */
-  CONGO("CG", "COG", 178, "Congo, Republic of the", GbifRegion.AFRICA),
+  CONGO("CG", "COG", 178, "Congo", GbifRegion.AFRICA),
 
   /**
    * Cook Islands.
@@ -338,9 +346,9 @@ public enum Country {
   COSTA_RICA("CR", "CRI", 188, "Costa Rica", GbifRegion.LATIN_AMERICA),
 
   /**
-   * Côte d'Ivoire.
+   * Côte d’Ivoire.
    */
-  CÔTE_DIVOIRE("CI", "CIV", 384, "Côte d'Ivoire", GbifRegion.AFRICA),
+  CÔTE_DIVOIRE("CI", "CIV", 384, "Côte d’Ivoire", GbifRegion.AFRICA),
 
   /**
    * Croatia.
@@ -588,9 +596,9 @@ public enum Country {
   INDONESIA("ID", "IDN", 360, "Indonesia", GbifRegion.ASIA),
 
   /**
-   * Iran, Islamic Republic of.
+   * Iran (Islamic Republic of).
    */
-  IRAN("IR", "IRN", 364, "Iran, Islamic Republic of", GbifRegion.ASIA),
+  IRAN("IR", "IRN", 364, "Iran (Islamic Republic of)", GbifRegion.ASIA),
 
   /**
    * Iraq.
@@ -653,9 +661,9 @@ public enum Country {
   KIRIBATI("KI", "KIR", 296, "Kiribati", GbifRegion.OCEANIA),
 
   /**
-   * Korea, Democratic People's Republic of.
+   * Korea (Democratic People’s Republic of).
    */
-  KOREA_NORTH("KP", "PRK", 408, "Korea, Democratic People's Republic of", GbifRegion.ASIA),
+  KOREA_NORTH("KP", "PRK", 408, "Korea (Democratic People’s Republic of)", GbifRegion.ASIA),
 
   /**
    * Korea, Republic of.
@@ -673,9 +681,9 @@ public enum Country {
   KYRGYZSTAN("KG", "KGZ", 417, "Kyrgyzstan", GbifRegion.EUROPE),
 
   /**
-   * Lao People's Democratic Republic.
+   * Lao People’s Democratic Republic.
    */
-  LAO("LA", "LAO", 418, "Lao People's Democratic Republic", GbifRegion.ASIA),
+  LAO("LA", "LAO", 418, "Lao People’s Democratic Republic", GbifRegion.ASIA),
 
   /**
    * Latvia.
@@ -788,9 +796,9 @@ public enum Country {
   MEXICO("MX", "MEX", 484, "Mexico", GbifRegion.LATIN_AMERICA),
 
   /**
-   * Micronesia, Federated States of.
+   * Micronesia (Federated States of).
    */
-  MICRONESIA("FM", "FSM", 583, "Micronesia, Federated States of", GbifRegion.OCEANIA),
+  MICRONESIA("FM", "FSM", 583, "Micronesia (Federated States of)", GbifRegion.OCEANIA),
 
   /**
    * Moldova, Republic of.
@@ -913,9 +921,9 @@ public enum Country {
   PALAU("PW", "PLW", 585, "Palau", GbifRegion.OCEANIA),
 
   /**
-   * Palestine, State Of.
+   * Palestine, State of.
    */
-  PALESTINIAN_TERRITORY("PS", "PSE", 275, "Palestine, State Of", GbifRegion.ASIA),
+  PALESTINIAN_TERRITORY("PS", "PSE", 275, "Palestine, State of", GbifRegion.ASIA),
 
   /**
    * Panama.
@@ -1153,13 +1161,12 @@ public enum Country {
   SYRIA("SY", "SYR", 760, "Syrian Arab Republic", GbifRegion.ASIA),
 
   /**
-   * Taiwan.
+   * Taiwan, Province of China.
    */
   /*
-   * The GBIF participant is called Chinese Taipei, but the location is still Taiwan.
-   * https://github.com/gbif/portal-feedback/issues/686
+   * Decision by EC, September 2020: The name is to be "Chinese Taipei".
    */
-  TAIWAN("TW", "TWN", 158, "Taiwan", GbifRegion.ASIA),
+  TAIWAN("TW", "TWN", 158, "Chinese Taipei", GbifRegion.ASIA),
 
   /**
    * Tajikistan.
@@ -1242,14 +1249,9 @@ public enum Country {
   UNITED_ARAB_EMIRATES("AE", "ARE", 784, "United Arab Emirates", GbifRegion.ASIA),
 
   /**
-   * United Kingdom.
+   * United Kingdom of Great Britain and Northern Ireland.
    */
-  /*
-   * This is the only case where the ISO short name,
-   * "United Kingdom of Great Britain and Northern Ireland" is further
-   * shortened by GBIF.
-   */
-  UNITED_KINGDOM("GB", "GBR", 826, "United Kingdom", GbifRegion.EUROPE),
+  UNITED_KINGDOM("GB", "GBR", 826, "United Kingdom of Great Britain and Northern Ireland", GbifRegion.EUROPE),
 
   /**
    * United States of America.
@@ -1277,9 +1279,9 @@ public enum Country {
   VANUATU("VU", "VUT", 548, "Vanuatu", GbifRegion.OCEANIA),
 
   /**
-   * Venezuela, Bolivarian Republic of.
+   * Venezuela (Bolivarian Republic of).
    */
-  VENEZUELA("VE", "VEN", 862, "Venezuela, Bolivarian Republic of", GbifRegion.LATIN_AMERICA),
+  VENEZUELA("VE", "VEN", 862, "Venezuela (Bolivarian Republic of)", GbifRegion.LATIN_AMERICA),
 
   /**
    * Viet Nam.
@@ -1287,14 +1289,14 @@ public enum Country {
   VIETNAM("VN", "VNM", 704, "Viet Nam", GbifRegion.ASIA),
 
   /**
-   * Virgin Islands, British.
+   * Virgin Islands (British).
    */
-  VIRGIN_ISLANDS_BRITISH("VG", "VGB", 92, "Virgin Islands, British", GbifRegion.LATIN_AMERICA),
+  VIRGIN_ISLANDS_BRITISH("VG", "VGB", 92, "Virgin Islands (British)", GbifRegion.LATIN_AMERICA),
 
   /**
-   * Virgin Islands, U.S..
+   * Virgin Islands, (U.S.).
    */
-  VIRGIN_ISLANDS("VI", "VIR", 850, "Virgin Islands, U.S.", GbifRegion.LATIN_AMERICA),
+  VIRGIN_ISLANDS("VI", "VIR", 850, "Virgin Islands (U.S.)", GbifRegion.LATIN_AMERICA),
 
   /**
    * Wallis and Futuna.
@@ -1323,9 +1325,11 @@ public enum Country {
 
   /**
    * Bucket for all user defined codes not managed by GBIF.
+   *
    * User-assigned code elements are codes at the disposal of users who need to add further names
    * of countries, territories, or other geographical entities to their in-house application of ISO 3166-1,
    * and the ISO 3166/MA will never use these codes in the updating process of the standard.
+   *
    * The following codes can be user-assigned:
    * Alpha-2: AA, QM to QZ, XA to XZ, and ZZ
    * Alpha-3: AAA to AAZ, QMA to QZZ, XAA to XZZ, and ZZA to ZZZ
@@ -1341,14 +1345,14 @@ public enum Country {
   KOSOVO("XK", "XKX", 902, "Kosovo", GbifRegion.EUROPE),
 
   /**
-   * Taken from {@link <a href="http://en.wikipedia.org/wiki/UN/LOCODE">UN/LOCODE</a>}
+   * Taken from {@link <a href="https://en.wikipedia.org/wiki/UN/LOCODE">UN/LOCODE</a>}
    */
   INTERNATIONAL_WATERS("XZ", "XZZ", 901, "international waters"),
 
   /**
    * Unknown or Invalid territory.
    *
-   * <p>See {@link <a href="http://en.wikipedia.org/wiki/Common_Locale_Data_Repository">Unicode Common Locale Data Repository</a>}
+   * <p>See {@link <a href="https://en.wikipedia.org/wiki/Common_Locale_Data_Repository">Unicode Common Locale Data Repository</a>}
    */
   UNKNOWN("ZZ", "ZZZ", 999, "unknown or invalid");
 
@@ -1427,8 +1431,7 @@ public enum Country {
   }
 
   /**
-   * Temporary constructor to keep the code stable until https://github.com/gbif/gbif-api/issues/6 is fully
-   * implemented.
+   * Constructor for custom codes without a GBIF Region.
    *
    * @param alpha2
    * @param alpha3
@@ -1498,7 +1501,7 @@ public enum Country {
   }
 
   /**
-   * Serializes the value as the english country title.
+   * Serializes the value as the English country title.
    */
   public static class TitleSerializer extends JsonSerializer<Country> {
     @Override
@@ -1508,7 +1511,7 @@ public enum Country {
   }
 
   /**
-   * Deserializes the value from an english country title exactly as given by the enumeration.
+   * Deserializes the value from an English country title exactly as given by the enumeration.
    */
   public static class TitleDeserializer extends JsonDeserializer<Country> {
 

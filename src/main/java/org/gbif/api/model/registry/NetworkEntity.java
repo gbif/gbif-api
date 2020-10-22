@@ -72,11 +72,11 @@ public interface NetworkEntity extends Serializable {
   @Size(min = 3)
   String getCreatedBy();
 
-  public void setCreatedBy(String createdBy);
+  void setCreatedBy(String createdBy);
 
   @Nullable
   @Size(min = 3)
-  public String getModifiedBy();
+  String getModifiedBy();
 
-  public void setModifiedBy(String createdBy);
+  void setModifiedBy(String createdBy);
 }

@@ -30,6 +30,7 @@ import javax.validation.constraints.NotNull;
  * Provides information about the number of records that the dataset provided to the download; additionally, provide the
  * references to the download and dataset entities.
  */
+@SuppressWarnings("unused")
 public class DatasetOccurrenceDownloadUsage implements Serializable {
 
   private String downloadKey;
@@ -129,33 +130,37 @@ public class DatasetOccurrenceDownloadUsage implements Serializable {
       return false;
     }
     DatasetOccurrenceDownloadUsage that = (DatasetOccurrenceDownloadUsage) o;
-    return numberRecords == that.numberRecords &&
-      Objects.equals(downloadKey, that.downloadKey) &&
-      Objects.equals(datasetKey, that.datasetKey) &&
-      Objects.equals(datasetTitle, that.datasetTitle) &&
-      Objects.equals(datasetDOI, that.datasetDOI) &&
-      Objects.equals(datasetCitation, that.datasetCitation) &&
-      Objects.equals(download, that.download);
+    return numberRecords == that.numberRecords
+        && Objects.equals(downloadKey, that.downloadKey)
+        && Objects.equals(datasetKey, that.datasetKey)
+        && Objects.equals(datasetTitle, that.datasetTitle)
+        && Objects.equals(datasetDOI, that.datasetDOI)
+        && Objects.equals(datasetCitation, that.datasetCitation)
+        && Objects.equals(download, that.download);
   }
 
   @Override
   public int hashCode() {
-    return Objects
-      .hash(downloadKey, datasetKey, datasetTitle, datasetDOI, datasetCitation, numberRecords,
+    return Objects.hash(
+        downloadKey,
+        datasetKey,
+        datasetTitle,
+        datasetDOI,
+        datasetCitation,
+        numberRecords,
         download);
   }
 
   @Override
   public String toString() {
-    return new StringJoiner(", ",
-      DatasetOccurrenceDownloadUsage.class.getSimpleName() + "[", "]")
-      .add("downloadKey='" + downloadKey + "'")
-      .add("datasetKey=" + datasetKey)
-      .add("datasetTitle='" + datasetTitle + "'")
-      .add("datasetDOI=" + datasetDOI)
-      .add("datasetCitation='" + datasetCitation + "'")
-      .add("numberRecords=" + numberRecords)
-      .add("download=" + download)
-      .toString();
+    return new StringJoiner(", ", DatasetOccurrenceDownloadUsage.class.getSimpleName() + "[", "]")
+        .add("downloadKey='" + downloadKey + "'")
+        .add("datasetKey=" + datasetKey)
+        .add("datasetTitle='" + datasetTitle + "'")
+        .add("datasetDOI=" + datasetDOI)
+        .add("datasetCitation='" + datasetCitation + "'")
+        .add("numberRecords=" + numberRecords)
+        .add("download=" + download)
+        .toString();
   }
 }

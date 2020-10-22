@@ -22,6 +22,7 @@ import java.util.UUID;
 /** Encapsulates the params to pass in the body for the runAll method. */
 public class RunAllParams {
   List<UUID> datasetsToExclude = new ArrayList<>();
+  List<UUID> datasetsToInclude = new ArrayList<>();
 
   // getters and setters needed for jackson
 
@@ -31,5 +32,13 @@ public class RunAllParams {
 
   public void setDatasetsToExclude(List<UUID> datasetsToExclude) {
     this.datasetsToExclude = datasetsToExclude;
+  }
+
+  public List<UUID> getDatasetsToInclude() {
+    return datasetsToInclude;
+  }
+
+  public void setDatasetsToInclude(List<UUID> datasetsToInclude) {
+    this.datasetsToInclude = datasetsToInclude;
   }
 }

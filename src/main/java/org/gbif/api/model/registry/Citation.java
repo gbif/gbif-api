@@ -30,15 +30,13 @@ public class Citation implements Serializable {
 
   private static final long serialVersionUID = 5587531070690709593L;
 
-  @Nullable
-  private String text;
+  @Nullable private String text;
 
   @Nullable
   @Size(min = 1, max = 100)
   private String identifier;
 
-  public Citation() {
-  }
+  public Citation() {}
 
   public Citation(String text, String identifier) {
     this.text = text;
@@ -70,8 +68,7 @@ public class Citation implements Serializable {
       return false;
     }
     Citation citation = (Citation) o;
-    return Objects.equals(text, citation.text) &&
-      Objects.equals(identifier, citation.identifier);
+    return Objects.equals(text, citation.text) && Objects.equals(identifier, citation.identifier);
   }
 
   @Override
@@ -82,8 +79,8 @@ public class Citation implements Serializable {
   @Override
   public String toString() {
     return new StringJoiner(", ", Citation.class.getSimpleName() + "[", "]")
-      .add("text='" + text + "'")
-      .add("identifier='" + identifier + "'")
-      .toString();
+        .add("text='" + text + "'")
+        .add("identifier='" + identifier + "'")
+        .toString();
   }
 }

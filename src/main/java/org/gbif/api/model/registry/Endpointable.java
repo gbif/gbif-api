@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Generic endpoint interface for entities.
  */
+@SuppressWarnings("unused")
 public interface Endpointable {
 
   @NotNull
@@ -30,5 +31,4 @@ public interface Endpointable {
   void setEndpoints(List<Endpoint> endpoints);
 
   void addEndpoint(Endpoint endpoint);
-
 }

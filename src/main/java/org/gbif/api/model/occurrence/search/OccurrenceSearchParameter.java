@@ -24,6 +24,7 @@ import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
+import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.TypeStatus;
 
@@ -417,6 +418,11 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   INSTALLATION_KEY(UUID.class),
 
   /**
+   * The organization key of the installation that hosts this record.
+   */
+  HOSTING_ORGANIZATION_KEY(UUID.class),
+
+  /**
    * Crawl attempt that harvested this record.
    */
   CRAWL_ID(Integer.class),
@@ -457,14 +463,14 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   RELATIVE_ORGANISM_QUANTITY(Double.class),
 
   /**
-   * Collection key as UUID. It links to the collection to which this record belongs.
+   * Collection key. It links to the collection to which this record belongs.
    */
-  COLLECTION_KEY(UUID.class),
+  COLLECTION_KEY(String.class),
 
   /**
-   * Institution key as UUID. It links to the institution that maintains, recorded or digitized  this record.
+   * Institution key. It links to the institution that maintains, recorded or digitized  this record.
    */
-  INSTITUTION_KEY(UUID.class),
+  INSTITUTION_KEY(String.class),
 
   /**
    * Agent identifiers from GbifTerm.recordedByID
@@ -474,7 +480,37 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Agent identifiers from GbifTerm.identifiedByID
    */
-  IDENTIFIED_BY_ID(String.class);
+  IDENTIFIED_BY_ID(String.class),
+
+  /**
+   * An occurrence status enumeration value.
+   */
+  OCCURRENCE_STATUS(OccurrenceStatus.class),
+
+  /**
+   * A <a href="https://gadm.org">GADM</a> identifier at any level.
+   */
+  GADM_GID(String.class),
+
+  /**
+   * A <a href="https://gadm.org">GADM</a> country, island or territory (level zero) identifier.
+   */
+  GADM_LEVEL_0_GID(String.class),
+
+  /**
+   * A <a href="https://gadm.org">GADM</a> first-level identifier.
+   */
+  GADM_LEVEL_1_GID(String.class),
+
+  /**
+   * A <a href="https://gadm.org">GADM</a> second-level identifier.
+   */
+  GADM_LEVEL_2_GID(String.class),
+
+  /**
+   * A <a href="https://gadm.org">GADM</a> third-level identifier.
+   */
+  GADM_LEVEL_3_GID(String.class);
 
   private final Class<?> type;
 
@@ -488,5 +524,4 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   public Class<?> type() {
     return type;
   }
-
 }

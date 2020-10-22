@@ -15,13 +15,16 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.StringJoiner;
 
+import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import static org.gbif.api.util.PreconditionUtils.checkArgument;
@@ -34,8 +37,16 @@ public class SimplePredicate implements Predicate {
   @NotNull
   private final String value;
 
-  protected SimplePredicate(boolean checkForNonEquals, OccurrenceSearchParameter key,
-    String value) {
+  @Experimental
+  @Nullable
+  private final Boolean matchCase;
+
+  protected SimplePredicate(boolean checkForNonEquals,
+                            OccurrenceSearchParameter key,
+                            String value,
+                            Boolean matchCase
+  ) {
+    this.matchCase = matchCase;
     Objects.requireNonNull(key, "<key> may not be null");
     Objects.requireNonNull(value, "<value> may not be null");
     checkArgument(!value.isEmpty(), "<value> may not be empty");
@@ -57,6 +68,19 @@ public class SimplePredicate implements Predicate {
 
   public String getValue() {
     return value;
+  }
+
+  /**
+   * This flag enables the use of case-sensitive matches and aggregations on certain search parameters.
+   * <p>
+   * Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol, catalogNumber, collectionCode,
+   * institutionCode, eventId, parentEventId, waterBody, stateProvince, recordNumber, identifiedBy, organismId and locality.
+   * <p>
+   * This is an experimental feature and its implementation map change or be removed at any time.
+   */
+  @Experimental
+  public Boolean isMatchCase() {
+    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);
   }
 
   /**
@@ -89,7 +113,8 @@ public class SimplePredicate implements Predicate {
     }
     SimplePredicate that = (SimplePredicate) o;
     return key == that.key &&
-      Objects.equals(value, that.value);
+           Objects.equals(value, that.value) &&
+           matchCase == that.matchCase;
   }
 
   @Override
@@ -102,6 +127,7 @@ public class SimplePredicate implements Predicate {
     return new StringJoiner(", ", SimplePredicate.class.getSimpleName() + "[", "]")
       .add("key=" + key)
       .add("value='" + value + "'")
+      .add("matchCase='" + matchCase + "'")
       .toString();
   }
 }

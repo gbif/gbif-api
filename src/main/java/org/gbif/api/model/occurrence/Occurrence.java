@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.occurrence;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.Identifier;
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
@@ -26,6 +27,7 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.OccurrenceIssue;
+import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.Sex;
 import org.gbif.api.vocabulary.TaxonomicStatus;
@@ -72,7 +74,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   // keep names of ALL properties of this class in a set for jackson serialization, see #properties()
   private static final Set<String> PROPERTIES = Collections.unmodifiableSet(
     Stream.concat(
-      // we need to these json properties manually cause we have a fixed getter but no field for it
+      // we need to these json properties manually because we have a fixed getter but no field for it
       Stream.of(DwcTerm.geodeticDatum.simpleName(), "class", "countryCode"),
       Stream.concat(Arrays.stream(Occurrence.class.getDeclaredFields()),
         Arrays.stream(VerbatimOccurrence.class.getDeclaredFields()))
@@ -81,6 +83,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   // occurrence fields
   private BasisOfRecord basisOfRecord;
   private Integer individualCount;
+  private OccurrenceStatus occurrenceStatus;
   private Sex sex;
   private String lifeStage;
   private EstablishmentMeans establishmentMeans;
@@ -135,6 +138,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Country country;
   private String stateProvince;
   private String waterBody;
+
   // recording event
   private Integer year;
   private Integer month;
@@ -159,12 +163,18 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   // interpreted extension data
   private List<Identifier> identifiers = new ArrayList<>();
   private List<MediaObject> media = new ArrayList<>();
-  private List<FactOrMeasurment> facts = new ArrayList<>();
+  private List<MeasurementOrFact> facts = new ArrayList<>();
   private List<OccurrenceRelation> relations = new ArrayList<>();
   @JsonProperty("recordedByIDs")
   private List<AgentIdentifier> recordedByIds = new ArrayList<>();
   @JsonProperty("identifiedByIDs")
   private List<AgentIdentifier> identifiedByIds = new ArrayList<>();
+  private Gadm gadm = new Gadm();
+  @Experimental
+  private String institutionKey;
+  @Experimental
+  private String collectionKey;
+
 
   public Occurrence() {
 
@@ -210,6 +220,15 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setIndividualCount(Integer individualCount) {
     this.individualCount = individualCount;
+  }
+
+  @Nullable
+  public OccurrenceStatus getOccurrenceStatus() {
+    return occurrenceStatus;
+  }
+
+  public void setOccurrenceStatus(OccurrenceStatus occurrenceStatus) {
+    this.occurrenceStatus = occurrenceStatus;
   }
 
   @Nullable
@@ -761,7 +780,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * @return the year of the event date
    */
   @Min(1500)
-  @Max(2020)
+  @Max(2030)
   @Nullable
   public Integer getYear() {
     return year;
@@ -984,11 +1003,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @NotNull
-  public List<FactOrMeasurment> getFacts() {
+  public List<MeasurementOrFact> getFacts() {
     return facts;
   }
 
-  public void setFacts(List<FactOrMeasurment> facts) {
+  public void setFacts(List<MeasurementOrFact> facts) {
     this.facts = facts;
   }
 
@@ -1017,6 +1036,35 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setIdentifiedByIds(List<AgentIdentifier> identifiedByIds) {
     this.identifiedByIds = identifiedByIds;
+  }
+
+  @NotNull
+  public Gadm getGadm() {
+    return gadm;
+  }
+
+  public void setGadm(Gadm gadm) {
+    this.gadm = gadm;
+  }
+
+  @Nullable
+  @Experimental
+  public String getInstitutionKey() {
+    return institutionKey;
+  }
+
+  public void setInstitutionKey(String institutionKey) {
+    this.institutionKey = institutionKey;
+  }
+
+  @Nullable
+  @Experimental
+  public String getCollectionKey() {
+    return collectionKey;
+  }
+
+  public void setCollectionKey(String collectionKey) {
+    this.collectionKey = collectionKey;
   }
 
   /**
@@ -1109,7 +1157,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       Objects.equals(facts, that.facts) &&
       Objects.equals(relations, that.relations) &&
       Objects.equals(identifiedByIds, that.identifiedByIds) &&
-      Objects.equals(recordedByIds, that.recordedByIds);
+      Objects.equals(recordedByIds, that.recordedByIds) &&
+      Objects.equals(occurrenceStatus, that.occurrenceStatus) &&
+      Objects.equals(gadm, that.gadm) &&
+      Objects.equals(institutionKey, that.institutionKey) &&
+      Objects.equals(collectionKey, that.collectionKey);
   }
 
   @Override
@@ -1125,7 +1177,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         month, day, eventDate, typeStatus, typifiedName, issues, modified, lastInterpreted,
         references, license, organismQuantity, organismQuantityType, sampleSizeUnit,
         sampleSizeValue, relativeOrganismQuantity, identifiers, media, facts, relations, recordedByIds,
-        identifiedByIds);
+        identifiedByIds, occurrenceStatus, gadm, institutionKey, collectionKey);
   }
 
   @Override
@@ -1197,6 +1249,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("relations=" + relations)
       .add("recordedByIds=" + recordedByIds)
       .add("identifiedByIds=" + identifiedByIds)
+      .add("occurrenceStatus=" + occurrenceStatus)
+      .add("gadm=" + gadm)
+      .add("institutionKey=" + institutionKey)
+      .add("collectionKey=" + collectionKey)
       .toString();
   }
 

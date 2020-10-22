@@ -20,6 +20,8 @@ import org.gbif.api.vocabulary.UserRole;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,7 +43,7 @@ public class GbifUserTest {
   private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
   @Test
-  public void testHasRole() throws Exception {
+  public void testHasRole() {
     GbifUser u = new GbifUser();
     u.setUserName("betty");
     u.setEmail("betty@gbif.org");
@@ -66,7 +68,7 @@ public class GbifUserTest {
   }
 
   @Test
-  public void testValidation() throws Exception {
+  public void testValidation() {
     GbifUser u = new GbifUser();
     u.setKey(100);
     u.setUserName("be");
@@ -82,7 +84,7 @@ public class GbifUserTest {
   }
 
   @Test
-  public void testEmailValidation() throws Exception {
+  public void testEmailValidation() {
     GbifUser u = new GbifUser();
     u.setKey(100);
     u.setUserName("betty");
@@ -130,7 +132,7 @@ public class GbifUserTest {
   }
 
   @Test
-  public void testName() throws IOException {
+  public void testName() {
     GbifUser u = new GbifUser();
     u.setKey(100);
     u.setUserName("be");
@@ -138,5 +140,61 @@ public class GbifUserTest {
     u.setFirstName("Betty");
     u.setLastName("Ford");
     assertEquals("Betty Ford", u.getName());
+  }
+
+  @Test
+  public void testCopyConstructor() {
+    GbifUser u = new GbifUser();
+    u.setKey(100);
+    u.setUserName("be");
+    u.setEmail("betty@gbif.org");
+    u.setFirstName("Betty");
+    u.setLastName("Ford");
+
+    Map<String, String> settings = new HashMap<>();
+    settings.put("name", "tim");
+    settings.put("locale", Locale.SIMPLIFIED_CHINESE.toLanguageTag());
+    u.setSettings(settings);
+
+    Map<String, String> systemSettings = new HashMap<>();
+    systemSettings.put("hello", "world");
+    u.setSystemSettings(systemSettings);
+
+    Set<UserRole> roles = new HashSet<>();
+    roles.add(UserRole.USER);
+    u.setRoles(roles);
+
+    GbifUser copy = new GbifUser(u);
+
+    // change original
+    u.setKey(101);
+    u.setUserName("new");
+    u.setEmail("new@gbif.org");
+    u.setFirstName("John");
+    u.setLastName("Smith");
+
+    settings.put("another", "one");
+    settings.put("locale", Locale.TRADITIONAL_CHINESE.toLanguageTag());
+    u.setSettings(settings);
+
+    systemSettings.put("another", "two");
+    u.setSystemSettings(systemSettings);
+
+    roles.add(UserRole.REGISTRY_ADMIN);
+    u.setRoles(roles);
+
+    // assert copy not changed
+    assertEquals(Integer.valueOf(100), copy.getKey());
+    assertEquals("be", copy.getUserName());
+    assertEquals("betty@gbif.org", copy.getEmail());
+    assertEquals("Betty", copy.getFirstName());
+    assertEquals("Ford", copy.getLastName());
+    assertEquals(Locale.SIMPLIFIED_CHINESE, copy.getLocale());
+    assertEquals(2, copy.getSettings().size());
+    assertEquals("tim", copy.getSettings().get("name"));
+    assertEquals(Locale.SIMPLIFIED_CHINESE.toLanguageTag(), copy.getSettings().get("locale"));
+    assertEquals(1, copy.getSystemSettings().size());
+    assertEquals("world", copy.getSystemSettings().get("hello"));
+    assertEquals(1, copy.getRoles().size());
   }
 }

@@ -22,11 +22,11 @@ import javax.validation.constraints.NotNull;
 /**
  * Generic comment interface for entities.
  */
+@SuppressWarnings("unused")
 public interface Commentable {
 
   @NotNull
   List<Comment> getComments();
 
   void setComments(List<Comment> comments);
-
 }

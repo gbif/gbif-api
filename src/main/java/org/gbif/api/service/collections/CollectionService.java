@@ -16,6 +16,8 @@
 package org.gbif.api.service.collections;
 
 import org.gbif.api.model.collections.Collection;
+import org.gbif.api.model.collections.request.CollectionSearchRequest;
+import org.gbif.api.model.collections.view.CollectionView;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;
@@ -28,12 +30,16 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
-/**
- * API Service to work with collections.
- */
+/** API Service to work with collections. */
 public interface CollectionService
-    extends CrudService<Collection>, ContactService, TagService, IdentifierService, MachineTagService, CommentService {
+    extends CrudService<Collection>,
+        ContactService,
+        TagService,
+        IdentifierService,
+        MachineTagService,
+        CommentService {
 
   /**
    * Pages {@link Collection} entities based on the parameters received.
@@ -42,31 +48,17 @@ public interface CollectionService
    * new PagingRequest(); PagingResponse<T> response; do { response = service.list(req); for (T obj
    * : response.getResults()) { doStuff(); } req.nextPage(); } while (!response.isEndOfRecords()); }
    *
-   * @param query to make a full text search
-   * @param institutionKey key of an collection to filter by
-   * @param contactKey to filter by a contact
-   * @param code code of the collection
-   * @param name name of the collection
-   * @param alternativeCode alternative code of the collection
-   * @param page paging parameters
+   * @param searchRequest {@link CollectionSearchRequest} with all the parameters
    * @return a list of entities ordered by their creation date, newest coming first
    */
-  PagingResponse<Collection> list(
-      @Nullable String query,
-      @Nullable UUID institutionKey,
-      @Nullable UUID contactKey,
-      @Nullable String code,
-      @Nullable String name,
-      @Nullable String alternativeCode,
-      @Nullable Pageable page);
+  PagingResponse<CollectionView> list(CollectionSearchRequest searchRequest);
 
-  /**
-   * Provides access to deleted collections.
-   */
-  PagingResponse<Collection> listDeleted(@Nullable Pageable page);
+  /** Provides access to deleted collections. */
+  PagingResponse<CollectionView> listDeleted(@Nullable Pageable page);
 
-  /**
-   * Provides a simple suggest service.
-   */
+  /** Retrieves a {@link CollectionView} by the collection key. */
+  CollectionView getCollectionView(@NotNull UUID key);
+
+  /** Provides a simple suggest service. */
   List<KeyCodeNameResult> suggest(@Nullable String q);
 }

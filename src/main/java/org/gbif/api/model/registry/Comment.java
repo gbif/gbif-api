@@ -100,12 +100,12 @@ public class Comment implements Serializable, LenientEquals<Comment> {
       return false;
     }
     Comment comment = (Comment) o;
-    return Objects.equals(key, comment.key) &&
-      Objects.equals(content, comment.content) &&
-      Objects.equals(createdBy, comment.createdBy) &&
-      Objects.equals(modifiedBy, comment.modifiedBy) &&
-      Objects.equals(created, comment.created) &&
-      Objects.equals(modified, comment.modified);
+    return Objects.equals(key, comment.key)
+        && Objects.equals(content, comment.content)
+        && Objects.equals(createdBy, comment.createdBy)
+        && Objects.equals(modifiedBy, comment.modifiedBy)
+        && Objects.equals(created, comment.created)
+        && Objects.equals(modified, comment.modified);
   }
 
   @Override
@@ -116,13 +116,13 @@ public class Comment implements Serializable, LenientEquals<Comment> {
   @Override
   public String toString() {
     return new StringJoiner(", ", Comment.class.getSimpleName() + "[", "]")
-      .add("key=" + key)
-      .add("content='" + content + "'")
-      .add("createdBy='" + createdBy + "'")
-      .add("modifiedBy='" + modifiedBy + "'")
-      .add("created=" + created)
-      .add("modified=" + modified)
-      .toString();
+        .add("key=" + key)
+        .add("content='" + content + "'")
+        .add("createdBy='" + createdBy + "'")
+        .add("modifiedBy='" + modifiedBy + "'")
+        .add("created=" + created)
+        .add("modified=" + modified)
+        .toString();
   }
 
   /**

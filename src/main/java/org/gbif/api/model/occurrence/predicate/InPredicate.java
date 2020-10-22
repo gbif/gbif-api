@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
 
@@ -22,8 +23,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.StringJoiner;
 
+import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -44,8 +47,15 @@ public class InPredicate implements Predicate {
   @Size(min = 1)
   private final Collection<String> values;
 
+  @Experimental
+  @Nullable
+  private final Boolean matchCase;
+
   @JsonCreator
-  public InPredicate(@JsonProperty("key") OccurrenceSearchParameter key, @JsonProperty("values") Collection<String> values) {
+  public InPredicate(@JsonProperty("key") OccurrenceSearchParameter key,
+                     @JsonProperty("values") Collection<String> values,
+                     @JsonProperty(value = "matchCase", defaultValue = "false") Boolean matchCase) {
+    this.matchCase = matchCase;
     Objects.requireNonNull(key, "<key> may not be null");
     Objects.requireNonNull(values, "<values> may not be null");
     checkArgument(!values.isEmpty(), "<values> may not be empty");
@@ -66,6 +76,19 @@ public class InPredicate implements Predicate {
     return values;
   }
 
+  /**
+   * This flag enables the use of case-sensitive matches and aggregations on certain search parameters.
+   * <p>
+   * Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol, catalogNumber, collectionCode,
+   * institutionCode, eventId, parentEventId, waterBody, stateProvince, recordNumber, identifiedBy, organismId and locality.
+   * <p>
+   * This is an experimental feature and its implementation map change or be removed at any time.
+   */
+  @Experimental
+  public Boolean isMatchCase() {
+    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -76,7 +99,8 @@ public class InPredicate implements Predicate {
     }
     InPredicate that = (InPredicate) o;
     return key == that.key &&
-      Objects.equals(values, that.values);
+           Objects.equals(values, that.values) &&
+           matchCase == that.matchCase;
   }
 
   @Override
@@ -89,6 +113,7 @@ public class InPredicate implements Predicate {
     return new StringJoiner(", ", InPredicate.class.getSimpleName() + "[", "]")
       .add("key=" + key)
       .add("values=" + values)
+      .add("matchCase=" + matchCase)
       .toString();
   }
 }

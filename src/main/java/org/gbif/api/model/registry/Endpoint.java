@@ -143,36 +143,36 @@ public class Endpoint implements MachineTaggable, Serializable, LenientEquals<En
       return false;
     }
     Endpoint endpoint = (Endpoint) o;
-    return Objects.equals(key, endpoint.key) &&
-      type == endpoint.type &&
-      Objects.equals(url, endpoint.url) &&
-      Objects.equals(description, endpoint.description) &&
-      Objects.equals(createdBy, endpoint.createdBy) &&
-      Objects.equals(modifiedBy, endpoint.modifiedBy) &&
-      Objects.equals(created, endpoint.created) &&
-      Objects.equals(modified, endpoint.modified) &&
-      Objects.equals(machineTags, endpoint.machineTags);
+    return Objects.equals(key, endpoint.key)
+        && type == endpoint.type
+        && Objects.equals(url, endpoint.url)
+        && Objects.equals(description, endpoint.description)
+        && Objects.equals(createdBy, endpoint.createdBy)
+        && Objects.equals(modifiedBy, endpoint.modifiedBy)
+        && Objects.equals(created, endpoint.created)
+        && Objects.equals(modified, endpoint.modified)
+        && Objects.equals(machineTags, endpoint.machineTags);
   }
 
   @Override
   public int hashCode() {
-    return Objects
-      .hash(key, type, url, description, createdBy, modifiedBy, created, modified, machineTags);
+    return Objects.hash(
+        key, type, url, description, createdBy, modifiedBy, created, modified, machineTags);
   }
 
   @Override
   public String toString() {
     return new StringJoiner(", ", Endpoint.class.getSimpleName() + "[", "]")
-      .add("key=" + key)
-      .add("type=" + type)
-      .add("url=" + url)
-      .add("description='" + description + "'")
-      .add("createdBy='" + createdBy + "'")
-      .add("modifiedBy='" + modifiedBy + "'")
-      .add("created=" + created)
-      .add("modified=" + modified)
-      .add("machineTags=" + machineTags)
-      .toString();
+        .add("key=" + key)
+        .add("type=" + type)
+        .add("url=" + url)
+        .add("description='" + description + "'")
+        .add("createdBy='" + createdBy + "'")
+        .add("modifiedBy='" + modifiedBy + "'")
+        .add("created=" + created)
+        .add("modified=" + modified)
+        .add("machineTags=" + machineTags)
+        .toString();
   }
 
   /**
@@ -184,8 +184,8 @@ public class Endpoint implements MachineTaggable, Serializable, LenientEquals<En
       return true;
     } else {
       return Objects.equals(this.type, other.type)
-        && Objects.equals(this.url, other.url)
-        && Objects.equals(this.description, other.description);
+          && Objects.equals(this.url, other.url)
+          && Objects.equals(this.description, other.description);
     }
   }
 }

@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Generic machine tag interface for entities.
  */
+@SuppressWarnings("unused")
 public interface MachineTaggable {
 
   @NotNull
@@ -30,5 +31,4 @@ public interface MachineTaggable {
   void setMachineTags(List<MachineTag> machineTags);
 
   void addMachineTag(MachineTag machineTag);
-
 }
