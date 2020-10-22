@@ -510,7 +510,12 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * A <a href="https://gadm.org">GADM</a> third-level identifier.
    */
-  GADM_LEVEL_3_GID(String.class);
+  GADM_LEVEL_3_GID(String.class),
+
+  /**
+   * The life stage of an occurrence.
+   */
+  LIFE_STAGE(String.class);
 
   private final Class<?> type;
 

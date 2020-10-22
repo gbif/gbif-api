@@ -26,7 +26,6 @@ import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.License;
-import org.gbif.api.vocabulary.LifeStage;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.Rank;
@@ -86,7 +85,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Integer individualCount;
   private OccurrenceStatus occurrenceStatus;
   private Sex sex;
-  private LifeStage lifeStage;
+  private String lifeStage;
   private EstablishmentMeans establishmentMeans;
   // taxonomy as nub keys -> LinneanClassificationKeys
   private Integer taxonKey;
@@ -242,11 +241,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
-  public LifeStage getLifeStage() {
+  public String getLifeStage() {
     return lifeStage;
   }
 
-  public void setLifeStage(LifeStage lifeStage) {
+  public void setLifeStage(String lifeStage) {
     this.lifeStage = lifeStage;
   }
 
