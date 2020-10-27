@@ -39,7 +39,7 @@ public enum Extension {
   AUDUBON("http://rs.tdwg.org/ac/terms/Multimedia"),
 
   /**
-   * @see <a href="https://terms.tdwg.org/wiki/GGBN_Data_Standard#Amplification_Vocabulary">extension definition</a>
+   * @see <a href="http://data.ggbn.org/schemas/ggbn/terms/Amplification">extension definition</a>
    */
   AMPLIFICATION("http://data.ggbn.org/schemas/ggbn/terms/Amplification"),
 
