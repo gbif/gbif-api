@@ -33,17 +33,17 @@ public final class Constants {
   public static final UUID NUB_NETWORK_KEY = UUID.fromString("029f9226-0d8a-4f28-97fe-13180e9eb0e5");
 
   /**
-   * The dataset key for the Catalog of Life.
+   * The dataset key for the Catalogue of Life.
    */
   public static final UUID COL_DATASET_KEY = UUID.fromString("7ddf754f-d193-4cc9-b351-99906754a03b");
 
   /**
-   * The publisher/organisation key for Plazi.
+   * The publishing organization key for Plazi.
    */
   public static final UUID PLAZI_ORG_KEY = UUID.fromString("7ce8aef0-9e92-11dc-8738-b8a03c50a862");
 
   /**
-   * The network key for the Ocean Biogeographic Information System (OBIS).
+   * The network key for the Ocean Biodiversity Information System (OBIS).
    */
   public static final UUID OBIS_NETWORK_KEY = UUID.fromString("2b7c7b4f-4d4f-40d3-94de-c28b6fa054a6");
 
@@ -53,8 +53,13 @@ public final class Constants {
   public static final UUID EBIRD_DATASET_KEY = UUID.fromString("4fa7b334-ce0d-4e88-aaae-2e0c138d049e");
 
   /**
-   * The maximum key for a nub usage. All non nub usages have a key above this limit, so it can be used as a simple way
-   * to distinguish between nub and checklist usages.
+   * The dataset key for the IUCN Red List of Threatened Species
+   */
+  public static final UUID IUCN_DATASET_KEY = UUID.fromString("19491596-35ae-4a91-9a98-85cf505f1bd3");
+
+  /**
+   * The maximum key for a NUB usage. All non-NUB usages have a key above this limit, so it can be used as a simple way
+   * to distinguish between NUB and checklist usages.
    */
   public static final int NUB_MAXIMUM_KEY = 99999999;
 
