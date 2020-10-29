@@ -15,8 +15,6 @@
  */
 package org.gbif.api.model.collections.lookup;
 
-import org.gbif.api.model.collections.CollectionEntity;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -32,7 +30,7 @@ import java.util.StringJoiner;
  *     org.gbif.api.model.collections.Collection} or {@link
  *     org.gbif.api.model.collections.Institution}
  */
-public class Match<T extends CollectionEntity> {
+public class Match<T extends EntityMatched> {
 
   public static final Comparator<MatchType> MATCH_TYPE_COMPARATOR =
       (t1, t2) -> {
@@ -59,7 +57,7 @@ public class Match<T extends CollectionEntity> {
   private Set<Reason> reasons;
   private T entityMatched;
 
-  public static <T extends CollectionEntity> Match<T> exact(T entity, Reason... reasons) {
+  public static <T extends EntityMatched> Match<T> exact(T entity, Reason... reasons) {
     Match<T> match = new Match<>();
     match.setEntityMatched(entity);
     match.setMatchType(MatchType.EXACT);
@@ -69,7 +67,7 @@ public class Match<T extends CollectionEntity> {
     return match;
   }
 
-  public static <T extends CollectionEntity> Match<T> fuzzy(T entity, Reason... reasons) {
+  public static <T extends EntityMatched> Match<T> fuzzy(T entity, Reason... reasons) {
     Match<T> match = new Match<>();
     match.setEntityMatched(entity);
     match.setMatchType(MatchType.FUZZY);
@@ -79,20 +77,20 @@ public class Match<T extends CollectionEntity> {
     return match;
   }
 
-  public static <T extends CollectionEntity> Match<T> none() {
+  public static <T extends EntityMatched> Match<T> none() {
     Match<T> match = new Match<>();
     match.setMatchType(MatchType.NONE);
     return match;
   }
 
-  public static <T extends CollectionEntity> Match<T> none(Status status) {
+  public static <T extends EntityMatched> Match<T> none(Status status) {
     Match<T> match = new Match<>();
     match.setMatchType(MatchType.NONE);
     match.setStatus(status);
     return match;
   }
 
-  public static <T extends CollectionEntity> Match<T> machineTag(T entity, Reason... reasons) {
+  public static <T extends EntityMatched> Match<T> machineTag(T entity, Reason... reasons) {
     Match<T> match = new Match<>();
     match.setEntityMatched(entity);
     match.setMatchType(MatchType.MACHINE_TAG);
