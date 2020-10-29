@@ -15,31 +15,28 @@
  */
 package org.gbif.api.model.collections.lookup;
 
-import org.gbif.api.model.collections.Collection;
-import org.gbif.api.model.collections.Institution;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /** Holds the alternative results of the collections lookup.*/
 public class AlternativeMatches {
 
-  private List<Match<Institution>> institutionMatches = new ArrayList<>();
-  private List<Match<Collection>> collectionMatches = new ArrayList<>();
+  private List<Match<InstitutionMatched>> institutionMatches = new ArrayList<>();
+  private List<Match<CollectionMatched>> collectionMatches = new ArrayList<>();
 
-  public List<Match<Institution>> getInstitutionMatches() {
+  public List<Match<InstitutionMatched>> getInstitutionMatches() {
     return institutionMatches;
   }
 
-  public void setInstitutionMatches(List<Match<Institution>> institutionMatches) {
+  public void setInstitutionMatches(List<Match<InstitutionMatched>> institutionMatches) {
     this.institutionMatches = institutionMatches;
   }
 
-  public List<Match<Collection>> getCollectionMatches() {
+  public List<Match<CollectionMatched>> getCollectionMatches() {
     return collectionMatches;
   }
 
-  public void setCollectionMatches(List<Match<Collection>> collectionMatches) {
+  public void setCollectionMatches(List<Match<CollectionMatched>> collectionMatches) {
     this.collectionMatches = collectionMatches;
   }
 }

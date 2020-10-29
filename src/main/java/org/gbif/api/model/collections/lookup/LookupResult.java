@@ -15,29 +15,26 @@
  */
 package org.gbif.api.model.collections.lookup;
 
-import org.gbif.api.model.collections.Collection;
-import org.gbif.api.model.collections.Institution;
-
 /** Result of a collections lookup that contains the institution and collections matches found. */
 public class LookupResult {
 
-  private Match<Institution> institutionMatch;
-  private Match<Collection> collectionMatch;
+  private Match<InstitutionMatched> institutionMatch;
+  private Match<CollectionMatched> collectionMatch;
   private AlternativeMatches alternativeMatches;
 
-  public Match<Institution> getInstitutionMatch() {
+  public Match<InstitutionMatched> getInstitutionMatch() {
     return institutionMatch;
   }
 
-  public void setInstitutionMatch(Match<Institution> institutionMatch) {
+  public void setInstitutionMatch(Match<InstitutionMatched> institutionMatch) {
     this.institutionMatch = institutionMatch;
   }
 
-  public Match<Collection> getCollectionMatch() {
+  public Match<CollectionMatched> getCollectionMatch() {
     return collectionMatch;
   }
 
-  public void setCollectionMatch(Match<Collection> collectionMatch) {
+  public void setCollectionMatch(Match<CollectionMatched> collectionMatch) {
     this.collectionMatch = collectionMatch;
   }
 
