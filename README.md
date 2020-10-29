@@ -12,8 +12,10 @@ mvn clean install
 ```
 
 ## Policies
- * A pre-commit peer review on all commits, ideally referencing the review in the commit message
+ * All changes must go to the *dev* branch for testing before merging to master.
+ * A pre-commit peer review on all commits, ideally referencing the review in the commit message. Simple changes can be committed without review.
  * All commits must reference a GitHub issue to which they relate
+ * PR are preferred for complex functionality. *Please target the dev branch*.
 
 ## Change Log
 [Change Log](CHANGELOG.md)
