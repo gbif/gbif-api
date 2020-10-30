@@ -23,7 +23,7 @@ public interface EntityMatched extends Serializable {
 
   UUID getKey();
 
-  URI getSelf();
+  URI getSelfLink();
 
   String getName();
 
