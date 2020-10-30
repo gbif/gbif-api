@@ -23,7 +23,7 @@ import java.util.UUID;
 public abstract class BaseEntityMatched implements EntityMatched {
 
   private UUID key;
-  private URI self;
+  private URI selfLink;
   private String name;
   private String code;
 
@@ -35,12 +35,13 @@ public abstract class BaseEntityMatched implements EntityMatched {
     this.key = key;
   }
 
-  public URI getSelf() {
-    return self;
+  @Override
+  public URI getSelfLink() {
+    return selfLink;
   }
 
-  public void setSelf(URI self) {
-    this.self = self;
+  public void setSelfLink(URI selfLink) {
+    this.selfLink = selfLink;
   }
 
   public String getName() {
@@ -69,21 +70,21 @@ public abstract class BaseEntityMatched implements EntityMatched {
     }
     BaseEntityMatched that = (BaseEntityMatched) o;
     return Objects.equals(key, that.key)
-        && Objects.equals(self, that.self)
+        && Objects.equals(selfLink, that.selfLink)
         && Objects.equals(name, that.name)
         && Objects.equals(code, that.code);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, self, name, code);
+    return Objects.hash(key, selfLink, name, code);
   }
 
   @Override
   public String toString() {
     return new StringJoiner(", ", BaseEntityMatched.class.getSimpleName() + "[", "]")
         .add("key=" + key)
-        .add("self=" + self)
+        .add("self=" + selfLink)
         .add("name='" + name + "'")
         .add("code='" + code + "'")
         .toString();
