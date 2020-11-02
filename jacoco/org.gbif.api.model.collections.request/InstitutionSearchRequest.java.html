@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InstitutionSearchRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections.request</a> &gt; <span class="el_source">InstitutionSearchRequest.java</span></div><h1>InstitutionSearchRequest.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.collections.request;
+
+import org.gbif.api.model.common.paging.Pageable;
+import org.gbif.api.vocabulary.IdentifierType;
+
+import java.util.UUID;
+
+<span class="nc" id="L23">public class InstitutionSearchRequest extends SearchRequest {</span>
+
+  public static Builder builder() {
+<span class="nc" id="L26">    return new Builder();</span>
+  }
+
+<span class="nc" id="L29">  public static class Builder {</span>
+
+    UUID contactKey;
+    String query;
+    String code;
+    String name;
+    String alternativeCode;
+    String machineTagNamespace;
+    String machineTagName;
+    String machineTagValue;
+    IdentifierType identifierType;
+    String identifier;
+    Pageable page;
+
+    public Builder contactKey(UUID contactKey) {
+<span class="nc" id="L44">      this.contactKey = contactKey;</span>
+<span class="nc" id="L45">      return this;</span>
+    }
+
+    public Builder query(String query) {
+<span class="nc" id="L49">      this.query = query;</span>
+<span class="nc" id="L50">      return this;</span>
+    }
+
+    public Builder code(String code) {
+<span class="nc" id="L54">      this.code = code;</span>
+<span class="nc" id="L55">      return this;</span>
+    }
+
+    public Builder name(String name) {
+<span class="nc" id="L59">      this.name = name;</span>
+<span class="nc" id="L60">      return this;</span>
+    }
+
+    public Builder alternativeCode(String alternativeCode) {
+<span class="nc" id="L64">      this.alternativeCode = alternativeCode;</span>
+<span class="nc" id="L65">      return this;</span>
+    }
+
+    public Builder machineTagNamespace(String machineTagNamespace) {
+<span class="nc" id="L69">      this.machineTagNamespace = machineTagNamespace;</span>
+<span class="nc" id="L70">      return this;</span>
+    }
+
+    public Builder machineTagName(String machineTagName) {
+<span class="nc" id="L74">      this.machineTagName = machineTagName;</span>
+<span class="nc" id="L75">      return this;</span>
+    }
+
+    public Builder machineTagValue(String machineTagValue) {
+<span class="nc" id="L79">      this.machineTagValue = machineTagValue;</span>
+<span class="nc" id="L80">      return this;</span>
+    }
+
+    public Builder identifierType(IdentifierType identifierType) {
+<span class="nc" id="L84">      this.identifierType = identifierType;</span>
+<span class="nc" id="L85">      return this;</span>
+    }
+
+    public Builder identifier(String identifier) {
+<span class="nc" id="L89">      this.identifier = identifier;</span>
+<span class="nc" id="L90">      return this;</span>
+    }
+
+    public Builder page(Pageable page) {
+<span class="nc" id="L94">      this.page = page;</span>
+<span class="nc" id="L95">      return this;</span>
+    }
+
+    public InstitutionSearchRequest build() {
+<span class="nc" id="L99">      InstitutionSearchRequest req = new InstitutionSearchRequest();</span>
+<span class="nc" id="L100">      req.setContactKey(contactKey);</span>
+<span class="nc" id="L101">      req.setQuery(query);</span>
+<span class="nc" id="L102">      req.setCode(code);</span>
+<span class="nc" id="L103">      req.setName(name);</span>
+<span class="nc" id="L104">      req.setAlternativeCode(alternativeCode);</span>
+<span class="nc" id="L105">      req.setMachineTagNamespace(machineTagNamespace);</span>
+<span class="nc" id="L106">      req.setMachineTagName(machineTagName);</span>
+<span class="nc" id="L107">      req.setMachineTagValue(machineTagValue);</span>
+<span class="nc" id="L108">      req.setIdentifierType(identifierType);</span>
+<span class="nc" id="L109">      req.setIdentifier(identifier);</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">      if (page != null) {</span>
+<span class="nc" id="L111">        req.setLimit(page.getLimit());</span>
+<span class="nc" id="L112">        req.setOffset(page.getOffset());</span>
+      }
+<span class="nc" id="L114">      return req;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

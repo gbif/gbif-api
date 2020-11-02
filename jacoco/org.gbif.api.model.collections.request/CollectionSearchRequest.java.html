@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CollectionSearchRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections.request</a> &gt; <span class="el_source">CollectionSearchRequest.java</span></div><h1>CollectionSearchRequest.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.collections.request;
+
+import org.gbif.api.model.common.paging.Pageable;
+import org.gbif.api.vocabulary.IdentifierType;
+
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
+<span class="nc" id="L25">public class CollectionSearchRequest extends SearchRequest {</span>
+
+  @Nullable private UUID institutionKey;
+
+  @Nullable
+  public UUID getInstitutionKey() {
+<span class="nc" id="L31">    return institutionKey;</span>
+  }
+
+  public void setInstitutionKey(@Nullable UUID institutionKey) {
+<span class="nc" id="L35">    this.institutionKey = institutionKey;</span>
+<span class="nc" id="L36">  }</span>
+
+  public static Builder builder() {
+<span class="nc" id="L39">    return new Builder();</span>
+  }
+
+<span class="nc" id="L42">  public static class Builder {</span>
+
+    UUID institutionKey;
+    UUID contactKey;
+    String query;
+    String code;
+    String name;
+    String alternativeCode;
+    String machineTagNamespace;
+    String machineTagName;
+    String machineTagValue;
+    IdentifierType identifierType;
+    String identifier;
+    Pageable page;
+
+    public Builder institutionKey(UUID institutionKey) {
+<span class="nc" id="L58">      this.institutionKey = institutionKey;</span>
+<span class="nc" id="L59">      return this;</span>
+    }
+
+    public Builder contactKey(UUID contactKey) {
+<span class="nc" id="L63">      this.contactKey = contactKey;</span>
+<span class="nc" id="L64">      return this;</span>
+    }
+
+    public Builder query(String query) {
+<span class="nc" id="L68">      this.query = query;</span>
+<span class="nc" id="L69">      return this;</span>
+    }
+
+    public Builder code(String code) {
+<span class="nc" id="L73">      this.code = code;</span>
+<span class="nc" id="L74">      return this;</span>
+    }
+
+    public Builder name(String name) {
+<span class="nc" id="L78">      this.name = name;</span>
+<span class="nc" id="L79">      return this;</span>
+    }
+
+    public Builder alternativeCode(String alternativeCode) {
+<span class="nc" id="L83">      this.alternativeCode = alternativeCode;</span>
+<span class="nc" id="L84">      return this;</span>
+    }
+
+    public Builder machineTagNamespace(String machineTagNamespace) {
+<span class="nc" id="L88">      this.machineTagNamespace = machineTagNamespace;</span>
+<span class="nc" id="L89">      return this;</span>
+    }
+
+    public Builder machineTagName(String machineTagName) {
+<span class="nc" id="L93">      this.machineTagName = machineTagName;</span>
+<span class="nc" id="L94">      return this;</span>
+    }
+
+    public Builder machineTagValue(String machineTagValue) {
+<span class="nc" id="L98">      this.machineTagValue = machineTagValue;</span>
+<span class="nc" id="L99">      return this;</span>
+    }
+
+    public Builder identifierType(IdentifierType identifierType) {
+<span class="nc" id="L103">      this.identifierType = identifierType;</span>
+<span class="nc" id="L104">      return this;</span>
+    }
+
+    public Builder identifier(String identifier) {
+<span class="nc" id="L108">      this.identifier = identifier;</span>
+<span class="nc" id="L109">      return this;</span>
+    }
+
+    public Builder page(Pageable page) {
+<span class="nc" id="L113">      this.page = page;</span>
+<span class="nc" id="L114">      return this;</span>
+    }
+
+    public CollectionSearchRequest build() {
+<span class="nc" id="L118">      CollectionSearchRequest req = new CollectionSearchRequest();</span>
+<span class="nc" id="L119">      req.setInstitutionKey(institutionKey);</span>
+<span class="nc" id="L120">      req.setContactKey(contactKey);</span>
+<span class="nc" id="L121">      req.setQuery(query);</span>
+<span class="nc" id="L122">      req.setCode(code);</span>
+<span class="nc" id="L123">      req.setName(name);</span>
+<span class="nc" id="L124">      req.setAlternativeCode(alternativeCode);</span>
+<span class="nc" id="L125">      req.setMachineTagNamespace(machineTagNamespace);</span>
+<span class="nc" id="L126">      req.setMachineTagName(machineTagName);</span>
+<span class="nc" id="L127">      req.setMachineTagValue(machineTagValue);</span>
+<span class="nc" id="L128">      req.setIdentifierType(identifierType);</span>
+<span class="nc" id="L129">      req.setIdentifier(identifier);</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">      if (page != null) {</span>
+<span class="nc" id="L131">        req.setLimit(page.getLimit());</span>
+<span class="nc" id="L132">        req.setOffset(page.getOffset());</span>
+      }
+<span class="nc" id="L134">      return req;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
