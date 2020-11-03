@@ -23,6 +23,7 @@ import org.gbif.api.model.registry.Identifier;
 import org.gbif.api.model.registry.LenientEquals;
 import org.gbif.api.model.registry.MachineTag;
 import org.gbif.api.model.registry.MachineTaggable;
+import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.model.registry.Tag;
 import org.gbif.api.model.registry.Taggable;
 import org.gbif.api.util.HttpURI;
@@ -142,7 +143,7 @@ public class Collection
   /**
    * Collection code: identifies a collection at the owner's location.
    */
-  @NotNull
+  @NotNull(groups = PrePersist.class)
   public String getCode() {
     return code;
   }
@@ -166,7 +167,7 @@ public class Collection
   /**
    * Textual description/summary of the contents of a collection.
    */
-  @Size(min = 5)
+  @Size(min = 1)
   public String getDescription() {
     return description;
   }

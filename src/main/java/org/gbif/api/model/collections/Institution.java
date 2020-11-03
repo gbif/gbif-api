@@ -22,6 +22,7 @@ import org.gbif.api.model.registry.Identifier;
 import org.gbif.api.model.registry.LenientEquals;
 import org.gbif.api.model.registry.MachineTag;
 import org.gbif.api.model.registry.MachineTaggable;
+import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.model.registry.Tag;
 import org.gbif.api.model.registry.Taggable;
 import org.gbif.api.util.HttpURI;
@@ -106,7 +107,7 @@ public class Institution
   }
 
   /** Code used to identified the collection. */
-  @NotNull
+  @NotNull(groups = PrePersist.class)
   public String getCode() {
     return code;
   }
@@ -127,7 +128,7 @@ public class Institution
 
   /** Textual description of institution. */
   @Nullable
-  @Size(min = 10)
+  @Size(min = 1)
   public String getDescription() {
     return description;
   }
