@@ -24,15 +24,15 @@ import javax.annotation.Nullable;
 
 public class CollectionSearchRequest extends SearchRequest {
 
-  @Nullable private UUID institutionKey;
+  @Nullable private UUID institution;
 
   @Nullable
-  public UUID getInstitutionKey() {
-    return institutionKey;
+  public UUID getInstitution() {
+    return institution;
   }
 
-  public void setInstitutionKey(@Nullable UUID institutionKey) {
-    this.institutionKey = institutionKey;
+  public void setInstitution(@Nullable UUID institution) {
+    this.institution = institution;
   }
 
   public static Builder builder() {
@@ -41,8 +41,8 @@ public class CollectionSearchRequest extends SearchRequest {
 
   public static class Builder {
 
-    UUID institutionKey;
-    UUID contactKey;
+    UUID institution;
+    UUID contact;
     String query;
     String code;
     String name;
@@ -54,13 +54,13 @@ public class CollectionSearchRequest extends SearchRequest {
     String identifier;
     Pageable page;
 
-    public Builder institutionKey(UUID institutionKey) {
-      this.institutionKey = institutionKey;
+    public Builder institution(UUID institution) {
+      this.institution = institution;
       return this;
     }
 
-    public Builder contactKey(UUID contactKey) {
-      this.contactKey = contactKey;
+    public Builder contact(UUID contact) {
+      this.contact = contact;
       return this;
     }
 
@@ -116,8 +116,8 @@ public class CollectionSearchRequest extends SearchRequest {
 
     public CollectionSearchRequest build() {
       CollectionSearchRequest req = new CollectionSearchRequest();
-      req.setInstitutionKey(institutionKey);
-      req.setContactKey(contactKey);
+      req.setInstitution(institution);
+      req.setContact(contact);
       req.setQuery(query);
       req.setCode(code);
       req.setName(name);

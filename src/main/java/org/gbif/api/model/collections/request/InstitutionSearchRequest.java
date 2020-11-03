@@ -28,7 +28,7 @@ public class InstitutionSearchRequest extends SearchRequest {
 
   public static class Builder {
 
-    UUID contactKey;
+    UUID contact;
     String query;
     String code;
     String name;
@@ -40,8 +40,8 @@ public class InstitutionSearchRequest extends SearchRequest {
     String identifier;
     Pageable page;
 
-    public Builder contactKey(UUID contactKey) {
-      this.contactKey = contactKey;
+    public Builder contact(UUID contact) {
+      this.contact = contact;
       return this;
     }
 
@@ -97,7 +97,7 @@ public class InstitutionSearchRequest extends SearchRequest {
 
     public InstitutionSearchRequest build() {
       InstitutionSearchRequest req = new InstitutionSearchRequest();
-      req.setContactKey(contactKey);
+      req.setContact(contact);
       req.setQuery(query);
       req.setCode(code);
       req.setName(name);

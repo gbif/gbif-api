@@ -31,7 +31,7 @@ public abstract class SearchRequest extends PageableBase implements Serializable
   @Nullable private String code;
   @Nullable private String name;
   @Nullable private String alternativeCode;
-  @Nullable private UUID contactKey;
+  @Nullable private UUID contact;
   @Nullable private String machineTagNamespace;
   @Nullable private String machineTagName;
   @Nullable private String machineTagValue;
@@ -75,12 +75,12 @@ public abstract class SearchRequest extends PageableBase implements Serializable
   }
 
   @Nullable
-  public UUID getContactKey() {
-    return contactKey;
+  public UUID getContact() {
+    return contact;
   }
 
-  public void setContactKey(@Nullable UUID contactKey) {
-    this.contactKey = contactKey;
+  public void setContact(@Nullable UUID contact) {
+    this.contact = contact;
   }
 
   @Nullable
