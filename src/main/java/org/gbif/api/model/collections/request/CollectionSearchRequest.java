@@ -43,7 +43,7 @@ public class CollectionSearchRequest extends SearchRequest {
 
     UUID institution;
     UUID contact;
-    String query;
+    String q;
     String code;
     String name;
     String alternativeCode;
@@ -64,8 +64,8 @@ public class CollectionSearchRequest extends SearchRequest {
       return this;
     }
 
-    public Builder query(String query) {
-      this.query = query;
+    public Builder query(String q) {
+      this.q = q;
       return this;
     }
 
@@ -118,7 +118,7 @@ public class CollectionSearchRequest extends SearchRequest {
       CollectionSearchRequest req = new CollectionSearchRequest();
       req.setInstitution(institution);
       req.setContact(contact);
-      req.setQuery(query);
+      req.setQ(q);
       req.setCode(code);
       req.setName(name);
       req.setAlternativeCode(alternativeCode);

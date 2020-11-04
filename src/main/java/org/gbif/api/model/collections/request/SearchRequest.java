@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
 
 public abstract class SearchRequest extends PageableBase implements Serializable {
 
-  @Nullable private String query;
+  @Nullable private String q;
   @Nullable private String code;
   @Nullable private String name;
   @Nullable private String alternativeCode;
@@ -39,12 +39,12 @@ public abstract class SearchRequest extends PageableBase implements Serializable
   @Nullable private String identifier;
 
   @Nullable
-  public String getQuery() {
-    return query;
+  public String getQ() {
+    return q;
   }
 
-  public void setQuery(@Nullable String query) {
-    this.query = query;
+  public void setQ(@Nullable String q) {
+    this.q = q;
   }
 
   @Nullable

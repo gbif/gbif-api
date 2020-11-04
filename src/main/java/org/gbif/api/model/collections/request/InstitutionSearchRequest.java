@@ -29,7 +29,7 @@ public class InstitutionSearchRequest extends SearchRequest {
   public static class Builder {
 
     UUID contact;
-    String query;
+    String q;
     String code;
     String name;
     String alternativeCode;
@@ -45,8 +45,8 @@ public class InstitutionSearchRequest extends SearchRequest {
       return this;
     }
 
-    public Builder query(String query) {
-      this.query = query;
+    public Builder query(String q) {
+      this.q = q;
       return this;
     }
 
@@ -98,7 +98,7 @@ public class InstitutionSearchRequest extends SearchRequest {
     public InstitutionSearchRequest build() {
       InstitutionSearchRequest req = new InstitutionSearchRequest();
       req.setContact(contact);
-      req.setQuery(query);
+      req.setQ(q);
       req.setCode(code);
       req.setName(name);
       req.setAlternativeCode(alternativeCode);
