@@ -39,7 +39,7 @@ public enum DownloadFormat {
    *
    * More verbatim terms may be added upon request.
    */
-  SIMPLE_WITH_VERBATIM_AVRO(".zip"),
+  SIMPLE_WITH_VERBATIM_AVRO(".avro"),
 
   /**
    * TSV format export of the distinct species and taxonomic field associated to each.
