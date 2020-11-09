@@ -120,6 +120,7 @@ public interface PipelinesHistoryService {
    * @param steps steps to run
    * @param reason reason to run
    * @param useLastSuccessful true if we want to run the latest successful attempt
+   * @param markPreviousAttemptAsFailed previous status can't be wrong, when CLI restarted during processing a dataset
    * @param runAllParams parameters, contain datasets to exclude
    * @return {@link RunPipelineResponse}.
    */
@@ -127,6 +128,7 @@ public interface PipelinesHistoryService {
       @NotBlank(message = STEPS_REQUIRED_MESSAGE) String steps,
       @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
       boolean useLastSuccessful,
+      boolean markPreviousAttemptAsFailed,
       @Nullable RunAllParams runAllParams);
 
   /**
@@ -136,13 +138,15 @@ public interface PipelinesHistoryService {
    * @param steps steps to run
    * @param reason reason to run
    * @param useLastSuccessful true if we want to run the latest successful attempt
+   * @param markPreviousAttemptAsFailed previous status can't be wrong, when CLI restarted during processing a dataset
    * @return {@link RunPipelineResponse}.
    */
   RunPipelineResponse runPipelineAttempt(
       @NotNull UUID datasetKey,
       @NotBlank(message = STEPS_REQUIRED_MESSAGE) String steps,
       @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
-      boolean useLastSuccessful);
+      boolean useLastSuccessful,
+      boolean markPreviousAttemptAsFailed);
 
   /**
    * Re-run a pipeline step.
@@ -151,11 +155,13 @@ public interface PipelinesHistoryService {
    * @param attempt attempt to run
    * @param steps steps to run
    * @param reason reason to run
+   * @param markPreviousAttemptAsFailed previous status can't be wrong, when CLI restarted during processing a dataset
    * @return {@link RunPipelineResponse}.
    */
   RunPipelineResponse runPipelineAttempt(
       @NotNull UUID datasetKey,
       int attempt,
       @NotBlank(message = STEPS_REQUIRED_MESSAGE) String steps,
-      @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason);
+      @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
+      boolean markPreviousAttemptAsFailed);
 }
