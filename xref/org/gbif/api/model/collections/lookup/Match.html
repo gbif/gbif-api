@@ -98,10 +98,10 @@
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>      <strong class="jxr_keyword">return</strong> match;
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>    }
 <a class="jxr_linenumber" name="L92" href="#L92">92</a>  
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> &lt;T <strong class="jxr_keyword">extends</strong> EntityMatched&gt; Match&lt;T&gt; machineTag(T entity, Reason... reasons) {
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> &lt;T <strong class="jxr_keyword">extends</strong> EntityMatched&gt; Match&lt;T&gt; explicitMapping(T entity, Reason... reasons) {
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>      Match&lt;T&gt; match = <strong class="jxr_keyword">new</strong> Match&lt;&gt;();
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>      match.setEntityMatched(entity);
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>      match.setMatchType(MatchType.MACHINE_TAG);
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>      match.setMatchType(MatchType.EXPLICIT_MAPPING);
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>      <strong class="jxr_keyword">if</strong> (reasons != <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>        match.setReasons(<strong class="jxr_keyword">new</strong> HashSet&lt;&gt;(Arrays.asList(reasons)));
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>      }
@@ -151,7 +151,7 @@
 <a class="jxr_linenumber" name="L143" href="#L143">143</a>   <strong class="jxr_keyword">public</strong> enum <a href="../../../../../../org/gbif/api/model/collections/lookup/Match.html">MatchType</a> {
 <a class="jxr_linenumber" name="L144" href="#L144">144</a>     EXACT,
 <a class="jxr_linenumber" name="L145" href="#L145">145</a>     FUZZY,
-<a class="jxr_linenumber" name="L146" href="#L146">146</a>     MACHINE_TAG,
+<a class="jxr_linenumber" name="L146" href="#L146">146</a>     EXPLICIT_MAPPING,
 <a class="jxr_linenumber" name="L147" href="#L147">147</a>     NONE;
 <a class="jxr_linenumber" name="L148" href="#L148">148</a>   }
 <a class="jxr_linenumber" name="L149" href="#L149">149</a> 
@@ -173,7 +173,7 @@
 <a class="jxr_linenumber" name="L165" href="#L165">165</a>   <strong class="jxr_keyword">public</strong> enum <a href="../../../../../../org/gbif/api/model/collections/lookup/Match.html">Status</a> {
 <a class="jxr_linenumber" name="L166" href="#L166">166</a>     ACCEPTED,
 <a class="jxr_linenumber" name="L167" href="#L167">167</a>     AMBIGUOUS,
-<a class="jxr_linenumber" name="L168" href="#L168">168</a>     AMBIGUOUS_MACHINE_TAGS,
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>     AMBIGUOUS_EXPLICIT_MAPPINGS,
 <a class="jxr_linenumber" name="L169" href="#L169">169</a>     AMBIGUOUS_OWNER,
 <a class="jxr_linenumber" name="L170" href="#L170">170</a>     AMBIGUOUS_INSTITUTION_MISMATCH,
 <a class="jxr_linenumber" name="L171" href="#L171">171</a>     DOUBTFUL;

@@ -90,10 +90,10 @@ import java.util.StringJoiner;
 <span class="nc" id="L90">    return match;</span>
   }
 
-  public static &lt;T extends EntityMatched&gt; Match&lt;T&gt; machineTag(T entity, Reason... reasons) {
+  public static &lt;T extends EntityMatched&gt; Match&lt;T&gt; explicitMapping(T entity, Reason... reasons) {
 <span class="nc" id="L94">    Match&lt;T&gt; match = new Match&lt;&gt;();</span>
 <span class="nc" id="L95">    match.setEntityMatched(entity);</span>
-<span class="nc" id="L96">    match.setMatchType(MatchType.MACHINE_TAG);</span>
+<span class="nc" id="L96">    match.setMatchType(MatchType.EXPLICIT_MAPPING);</span>
 <span class="nc bnc" id="L97" title="All 2 branches missed.">    if (reasons != null) {</span>
 <span class="nc" id="L98">      match.setReasons(new HashSet&lt;&gt;(Arrays.asList(reasons)));</span>
     }
@@ -143,7 +143,7 @@ import java.util.StringJoiner;
 <span class="nc" id="L143">  public enum MatchType {</span>
 <span class="nc" id="L144">    EXACT,</span>
 <span class="nc" id="L145">    FUZZY,</span>
-<span class="nc" id="L146">    MACHINE_TAG,</span>
+<span class="nc" id="L146">    EXPLICIT_MAPPING,</span>
 <span class="nc" id="L147">    NONE;</span>
   }
 
@@ -165,7 +165,7 @@ import java.util.StringJoiner;
 <span class="nc" id="L165">  public enum Status {</span>
 <span class="nc" id="L166">    ACCEPTED,</span>
 <span class="nc" id="L167">    AMBIGUOUS,</span>
-<span class="nc" id="L168">    AMBIGUOUS_MACHINE_TAGS,</span>
+<span class="nc" id="L168">    AMBIGUOUS_EXPLICIT_MAPPINGS,</span>
 <span class="nc" id="L169">    AMBIGUOUS_OWNER,</span>
 <span class="nc" id="L170">    AMBIGUOUS_INSTITUTION_MISMATCH,</span>
 <span class="nc" id="L171">    DOUBTFUL;</span>
