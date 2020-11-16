@@ -90,10 +90,10 @@ public class Match<T extends EntityMatched> {
     return match;
   }
 
-  public static <T extends EntityMatched> Match<T> machineTag(T entity, Reason... reasons) {
+  public static <T extends EntityMatched> Match<T> explicitMapping(T entity, Reason... reasons) {
     Match<T> match = new Match<>();
     match.setEntityMatched(entity);
-    match.setMatchType(MatchType.MACHINE_TAG);
+    match.setMatchType(MatchType.EXPLICIT_MAPPING);
     if (reasons != null) {
       match.setReasons(new HashSet<>(Arrays.asList(reasons)));
     }
@@ -143,7 +143,7 @@ public class Match<T extends EntityMatched> {
   public enum MatchType {
     EXACT,
     FUZZY,
-    MACHINE_TAG,
+    EXPLICIT_MAPPING,
     NONE;
   }
 
@@ -165,7 +165,7 @@ public class Match<T extends EntityMatched> {
   public enum Status {
     ACCEPTED,
     AMBIGUOUS,
-    AMBIGUOUS_MACHINE_TAGS,
+    AMBIGUOUS_EXPLICIT_MAPPINGS,
     AMBIGUOUS_OWNER,
     AMBIGUOUS_INSTITUTION_MISMATCH,
     DOUBTFUL;
