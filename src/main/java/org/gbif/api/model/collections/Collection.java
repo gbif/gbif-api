@@ -59,6 +59,7 @@ public class Collection
         MachineTaggable,
         Identifiable,
         Commentable,
+  OccurrenceMappeable,
         LenientEquals<Collection> {
 
   private UUID key;
@@ -98,6 +99,7 @@ public class Collection
   private Map<String, Integer> collectionSummary = new HashMap<>();
   private List<AlternativeCode> alternativeCodes = new ArrayList<>();
   private List<Comment> comments = new ArrayList<>();
+  private List<OccurrenceMapping> occurrenceMappings = new ArrayList<>();
 
   /**
    * List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc..
@@ -499,6 +501,16 @@ public class Collection
   }
 
   @Override
+  public @NotNull List<OccurrenceMapping> getOccurrenceMappings() {
+    return occurrenceMappings;
+  }
+
+  @Override
+  public void setOccurrenceMappings(List<OccurrenceMapping> occurrenceMappings) {
+    this.occurrenceMappings = occurrenceMappings;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
@@ -539,7 +551,8 @@ public class Collection
            && Objects.equals(importantCollectors, that.importantCollectors)
            && Objects.equals(collectionSummary, that.collectionSummary)
            && Objects.equals(alternativeCodes, that.alternativeCodes)
-           && Objects.equals(comments, that.comments);
+           && Objects.equals(comments, that.comments)
+           && Objects.equals(occurrenceMappings, that.occurrenceMappings);
   }
 
   @Override
@@ -580,7 +593,8 @@ public class Collection
                         importantCollectors,
                         collectionSummary,
                         alternativeCodes,
-                        comments);
+                        comments,
+                        occurrenceMappings);
   }
 
   @Override
@@ -622,6 +636,7 @@ public class Collection
       .add("collectionSummary=" + collectionSummary)
       .add("alternativeCodes=" + alternativeCodes)
       .add("comments=" + comments)
+      .add("occurrenceMappings=" + occurrenceMappings)
       .toString();
   }
 
@@ -658,6 +673,7 @@ public class Collection
            && Objects.equals(importantCollectors, other.importantCollectors)
            && Objects.equals(collectionSummary, other.collectionSummary)
            && Objects.equals(alternativeCodes, other.alternativeCodes)
-           && Objects.equals(comments, other.comments);
+           && Objects.equals(comments, other.comments)
+           && Objects.equals(occurrenceMappings, other.occurrenceMappings);
   }
 }

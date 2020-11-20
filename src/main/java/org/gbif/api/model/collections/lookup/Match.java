@@ -155,11 +155,7 @@ public class Match<T extends EntityMatched> {
     KEY_MATCH,
     POSSIBLY_ON_LOAN,
     INST_COLL_MISMATCH,
-    COUNTRY_MATCH,
-    INSTITUTION_TAG,
-    COLLECTION_TAG,
-    COLLECTION_TO_INSTITUTION_TAG,
-    INSTITUTION_TO_COLLECTION_TAG;
+    COUNTRY_MATCH
   }
 
   public enum Status {

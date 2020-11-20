@@ -36,7 +36,8 @@ public interface InstitutionService
         TagService,
         IdentifierService,
         MachineTagService,
-        CommentService {
+        CommentService,
+        OccurrenceMappingService {
 
   /**
    * Pages {@link Institution} entities based on the parameters received.

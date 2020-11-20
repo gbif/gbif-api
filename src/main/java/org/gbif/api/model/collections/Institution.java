@@ -56,6 +56,7 @@ public class Institution
         MachineTaggable,
         Identifiable,
         Commentable,
+  OccurrenceMappeable,
         LenientEquals<Institution> {
 
   private UUID key;
@@ -94,6 +95,7 @@ public class Institution
   private List<MachineTag> machineTags = new ArrayList<>();
   private List<AlternativeCode> alternativeCodes = new ArrayList<>();
   private List<Comment> comments = new ArrayList<>();
+  private List<OccurrenceMapping> occurrenceMappings = new ArrayList<>();
 
   /** GBIF unique identifier. */
   @Override
@@ -456,6 +458,16 @@ public class Institution
   }
 
   @Override
+  public List<OccurrenceMapping> getOccurrenceMappings() {
+    return occurrenceMappings;
+  }
+
+  @Override
+  public void setOccurrenceMappings(List<OccurrenceMapping> occurrenceMappings) {
+    this.occurrenceMappings = occurrenceMappings;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
@@ -495,7 +507,8 @@ public class Institution
         && Objects.equals(contacts, that.contacts)
         && Objects.equals(machineTags, that.machineTags)
         && Objects.equals(alternativeCodes, that.alternativeCodes)
-        && Objects.equals(comments, that.comments);
+        && Objects.equals(comments, that.comments)
+        && Objects.equals(occurrenceMappings, that.occurrenceMappings);
   }
 
   @Override
@@ -536,7 +549,8 @@ public class Institution
         contacts,
         machineTags,
         alternativeCodes,
-        comments);
+        comments,
+        occurrenceMappings);
   }
 
   @Override
@@ -578,6 +592,7 @@ public class Institution
         .add("machineTags=" + machineTags)
         .add("alternativeCodes=" + alternativeCodes)
         .add("comments=" + comments)
+        .add("occurrenceMappings=" + occurrenceMappings)
         .toString();
   }
 
@@ -613,6 +628,7 @@ public class Institution
         && Objects.equals(citesPermitNumber, other.citesPermitNumber)
         && Objects.equals(deleted, other.deleted)
         && Objects.equals(alternativeCodes, other.alternativeCodes)
-        && Objects.equals(comments, other.comments);
+        && Objects.equals(comments, other.comments)
+        && Objects.equals(occurrenceMappings, other.occurrenceMappings);
   }
 }
