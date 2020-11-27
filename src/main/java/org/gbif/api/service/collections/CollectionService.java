@@ -40,7 +40,7 @@ public interface CollectionService
         IdentifierService,
         MachineTagService,
         CommentService,
-        OccurrenceMappingService{
+        OccurrenceMappingService {
 
   /**
    * Pages {@link Collection} entities based on the parameters received.
