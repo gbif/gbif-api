@@ -23,7 +23,7 @@ import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-/** Service provides a set of operations on {@link OccurrenceMapping}. */
+/** Service that provides a set of operations on {@link OccurrenceMapping}. */
 public interface OccurrenceMappingService {
 
   /**
