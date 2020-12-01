@@ -56,7 +56,7 @@ public class Institution
         MachineTaggable,
         Identifiable,
         Commentable,
-  OccurrenceMappeable,
+        OccurrenceMappeable,
         LenientEquals<Institution> {
 
   private UUID key;
@@ -96,6 +96,8 @@ public class Institution
   private List<AlternativeCode> alternativeCodes = new ArrayList<>();
   private List<Comment> comments = new ArrayList<>();
   private List<OccurrenceMapping> occurrenceMappings = new ArrayList<>();
+  private UUID replacedBy;
+  private UUID convertedToCollection;
 
   /** GBIF unique identifier. */
   @Override
@@ -467,6 +469,22 @@ public class Institution
     this.occurrenceMappings = occurrenceMappings;
   }
 
+  public UUID getReplacedBy() {
+    return replacedBy;
+  }
+
+  public void setReplacedBy(UUID replacedBy) {
+    this.replacedBy = replacedBy;
+  }
+
+  public UUID getConvertedToCollection() {
+    return convertedToCollection;
+  }
+
+  public void setConvertedToCollection(UUID convertedToCollection) {
+    this.convertedToCollection = convertedToCollection;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -508,7 +526,9 @@ public class Institution
         && Objects.equals(machineTags, that.machineTags)
         && Objects.equals(alternativeCodes, that.alternativeCodes)
         && Objects.equals(comments, that.comments)
-        && Objects.equals(occurrenceMappings, that.occurrenceMappings);
+        && Objects.equals(occurrenceMappings, that.occurrenceMappings)
+        && Objects.equals(replacedBy, that.replacedBy)
+        && Objects.equals(convertedToCollection, that.convertedToCollection);
   }
 
   @Override
@@ -550,7 +570,9 @@ public class Institution
         machineTags,
         alternativeCodes,
         comments,
-        occurrenceMappings);
+        occurrenceMappings,
+        replacedBy,
+        convertedToCollection);
   }
 
   @Override
@@ -593,6 +615,8 @@ public class Institution
         .add("alternativeCodes=" + alternativeCodes)
         .add("comments=" + comments)
         .add("occurrenceMappings=" + occurrenceMappings)
+        .add("replacedBy=" + replacedBy)
+        .add("convertedToCollection=" + convertedToCollection)
         .toString();
   }
 
@@ -629,6 +653,8 @@ public class Institution
         && Objects.equals(deleted, other.deleted)
         && Objects.equals(alternativeCodes, other.alternativeCodes)
         && Objects.equals(comments, other.comments)
-        && Objects.equals(occurrenceMappings, other.occurrenceMappings);
+        && Objects.equals(occurrenceMappings, other.occurrenceMappings)
+        && Objects.equals(replacedBy, other.replacedBy)
+        && Objects.equals(convertedToCollection, other.convertedToCollection);
   }
 }

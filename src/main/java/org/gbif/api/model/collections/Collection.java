@@ -59,7 +59,7 @@ public class Collection
         MachineTaggable,
         Identifiable,
         Commentable,
-  OccurrenceMappeable,
+        OccurrenceMappeable,
         LenientEquals<Collection> {
 
   private UUID key;
@@ -100,6 +100,7 @@ public class Collection
   private List<AlternativeCode> alternativeCodes = new ArrayList<>();
   private List<Comment> comments = new ArrayList<>();
   private List<OccurrenceMapping> occurrenceMappings = new ArrayList<>();
+  private UUID replacedBy;
 
   /**
    * List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc..
@@ -510,6 +511,14 @@ public class Collection
     this.occurrenceMappings = occurrenceMappings;
   }
 
+  public UUID getReplacedBy() {
+    return replacedBy;
+  }
+
+  public void setReplacedBy(UUID replacedBy) {
+    this.replacedBy = replacedBy;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -552,7 +561,8 @@ public class Collection
            && Objects.equals(collectionSummary, that.collectionSummary)
            && Objects.equals(alternativeCodes, that.alternativeCodes)
            && Objects.equals(comments, that.comments)
-           && Objects.equals(occurrenceMappings, that.occurrenceMappings);
+           && Objects.equals(occurrenceMappings, that.occurrenceMappings)
+           && Objects.equals(replacedBy, that.replacedBy);
   }
 
   @Override
@@ -594,7 +604,8 @@ public class Collection
                         collectionSummary,
                         alternativeCodes,
                         comments,
-                        occurrenceMappings);
+                        occurrenceMappings,
+                        replacedBy);
   }
 
   @Override
@@ -637,6 +648,7 @@ public class Collection
       .add("alternativeCodes=" + alternativeCodes)
       .add("comments=" + comments)
       .add("occurrenceMappings=" + occurrenceMappings)
+      .add("replacedBy=" + replacedBy)
       .toString();
   }
 
@@ -674,6 +686,7 @@ public class Collection
            && Objects.equals(collectionSummary, other.collectionSummary)
            && Objects.equals(alternativeCodes, other.alternativeCodes)
            && Objects.equals(comments, other.comments)
-           && Objects.equals(occurrenceMappings, other.occurrenceMappings);
+           && Objects.equals(occurrenceMappings, other.occurrenceMappings)
+           && Objects.equals(replacedBy, other.replacedBy);
   }
 }
