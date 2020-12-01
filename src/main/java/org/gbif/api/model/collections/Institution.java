@@ -97,6 +97,7 @@ public class Institution
   private List<Comment> comments = new ArrayList<>();
   private List<OccurrenceMapping> occurrenceMappings = new ArrayList<>();
   private UUID replacedBy;
+  private UUID convertedToCollection;
 
   /** GBIF unique identifier. */
   @Override
@@ -476,6 +477,14 @@ public class Institution
     this.replacedBy = replacedBy;
   }
 
+  public UUID getConvertedToCollection() {
+    return convertedToCollection;
+  }
+
+  public void setConvertedToCollection(UUID convertedToCollection) {
+    this.convertedToCollection = convertedToCollection;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -518,7 +527,8 @@ public class Institution
         && Objects.equals(alternativeCodes, that.alternativeCodes)
         && Objects.equals(comments, that.comments)
         && Objects.equals(occurrenceMappings, that.occurrenceMappings)
-        && Objects.equals(replacedBy, that.replacedBy);
+        && Objects.equals(replacedBy, that.replacedBy)
+        && Objects.equals(convertedToCollection, that.convertedToCollection);
   }
 
   @Override
@@ -561,7 +571,8 @@ public class Institution
         alternativeCodes,
         comments,
         occurrenceMappings,
-        replacedBy);
+        replacedBy,
+        convertedToCollection);
   }
 
   @Override
@@ -605,6 +616,7 @@ public class Institution
         .add("comments=" + comments)
         .add("occurrenceMappings=" + occurrenceMappings)
         .add("replacedBy=" + replacedBy)
+        .add("convertedToCollection=" + convertedToCollection)
         .toString();
   }
 
@@ -642,6 +654,7 @@ public class Institution
         && Objects.equals(alternativeCodes, other.alternativeCodes)
         && Objects.equals(comments, other.comments)
         && Objects.equals(occurrenceMappings, other.occurrenceMappings)
-        && Objects.equals(replacedBy, other.replacedBy);
+        && Objects.equals(replacedBy, other.replacedBy)
+        && Objects.equals(convertedToCollection, other.convertedToCollection);
   }
 }
