@@ -325,33 +325,33 @@ public enum OccurrenceIssue implements InterpretationRemark {
   GEOREFERENCED_DATE_INVALID(WARNING, DwcTerm.georeferencedDate),
 
   /**
-   * The given institution matches with more than 1 GrSciColl institution.
+   * The given institution matches with more than 1 GRSciColl institution.
    */
   AMBIGUOUS_INSTITUTION(WARNING, TermsGroup.INSTITUTION_TERMS),
 
   /**
-   * The given collection matches with more than 1 GrSciColl collection.
+   * The given collection matches with more than 1 GRSciColl collection.
    */
   AMBIGUOUS_COLLECTION(WARNING, TermsGroup.COLLECTION_TERMS),
 
   /**
-   * The given institution couldn't be matched with any GrSciColl institution.
+   * The given institution couldn't be matched with any GRSciColl institution.
    */
   INSTITUTION_MATCH_NONE(WARNING, TermsGroup.INSTITUTION_TERMS),
 
   /**
-   * The given collection couldn't be matched with any GrSciColl collection.
+   * The given collection couldn't be matched with any GRSciColl collection.
    */
   COLLECTION_MATCH_NONE(WARNING, TermsGroup.COLLECTION_TERMS),
 
   /**
-   * The given institution was fuzzily matched to a GrSciColl institution. This can happen when
+   * The given institution was fuzzily matched to a GRSciColl institution. This can happen when
    * either the code or the ID don't match or when the institution name is used instead of the code.
    */
   INSTITUTION_MATCH_FUZZY(WARNING, TermsGroup.INSTITUTION_TERMS),
 
   /**
-   * The given collection was fuzzily matched to a GrSciColl collection. This can happen when either
+   * The given collection was fuzzily matched to a GRSciColl collection. This can happen when either
    * the code or the ID don't match or when the collection name is used instead of the code.
    */
   COLLECTION_MATCH_FUZZY(WARNING, TermsGroup.COLLECTION_TERMS),
