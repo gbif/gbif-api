@@ -174,6 +174,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private String institutionKey;
   @Experimental
   private String collectionKey;
+  private boolean isClustered;
 
 
   public Occurrence() {
@@ -1067,6 +1068,14 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.collectionKey = collectionKey;
   }
 
+  public boolean getIsClustered() {
+    return isClustered;
+  }
+
+  public void setIsClustered(boolean isClustered) {
+    this.isClustered = isClustered;
+  }
+
   /**
    * Convenience method checking if any spatial validation rule has not passed.
    * Primarily used to indicate that the record should not be displayed on a map.
@@ -1161,7 +1170,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       Objects.equals(occurrenceStatus, that.occurrenceStatus) &&
       Objects.equals(gadm, that.gadm) &&
       Objects.equals(institutionKey, that.institutionKey) &&
-      Objects.equals(collectionKey, that.collectionKey);
+      Objects.equals(collectionKey, that.collectionKey) &&
+      Objects.equals(isClustered, that.isClustered);
   }
 
   @Override
@@ -1177,7 +1187,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         month, day, eventDate, typeStatus, typifiedName, issues, modified, lastInterpreted,
         references, license, organismQuantity, organismQuantityType, sampleSizeUnit,
         sampleSizeValue, relativeOrganismQuantity, identifiers, media, facts, relations, recordedByIds,
-        identifiedByIds, occurrenceStatus, gadm, institutionKey, collectionKey);
+        identifiedByIds, occurrenceStatus, gadm, institutionKey, collectionKey, isClustered);
   }
 
   @Override
@@ -1253,6 +1263,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("gadm=" + gadm)
       .add("institutionKey=" + institutionKey)
       .add("collectionKey=" + collectionKey)
+      .add("isClustered=" + isClustered)
       .toString();
   }
 
