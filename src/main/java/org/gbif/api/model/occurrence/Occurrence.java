@@ -174,7 +174,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private String institutionKey;
   @Experimental
   private String collectionKey;
-  private boolean isClustered;
+  private boolean isInCluster;
 
 
   public Occurrence() {
@@ -1068,12 +1068,12 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.collectionKey = collectionKey;
   }
 
-  public boolean getIsClustered() {
-    return isClustered;
+  public boolean getIsInCluster() {
+    return isInCluster;
   }
 
-  public void setIsClustered(boolean isClustered) {
-    this.isClustered = isClustered;
+  public void setIsInCluster(boolean isInCluster) {
+    this.isInCluster = isInCluster;
   }
 
   /**
@@ -1171,7 +1171,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       Objects.equals(gadm, that.gadm) &&
       Objects.equals(institutionKey, that.institutionKey) &&
       Objects.equals(collectionKey, that.collectionKey) &&
-      Objects.equals(isClustered, that.isClustered);
+      Objects.equals(isInCluster, that.isInCluster);
   }
 
   @Override
@@ -1187,7 +1187,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         month, day, eventDate, typeStatus, typifiedName, issues, modified, lastInterpreted,
         references, license, organismQuantity, organismQuantityType, sampleSizeUnit,
         sampleSizeValue, relativeOrganismQuantity, identifiers, media, facts, relations, recordedByIds,
-        identifiedByIds, occurrenceStatus, gadm, institutionKey, collectionKey, isClustered);
+        identifiedByIds, occurrenceStatus, gadm, institutionKey, collectionKey, isInCluster);
   }
 
   @Override
@@ -1263,7 +1263,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("gadm=" + gadm)
       .add("institutionKey=" + institutionKey)
       .add("collectionKey=" + collectionKey)
-      .add("isClustered=" + isClustered)
+      .add("isInCluster=" + isInCluster)
       .toString();
   }
 

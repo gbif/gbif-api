@@ -520,7 +520,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Searches for occurrences that are clustered.
    */
-  IS_CLUSTERED(Boolean.class),
+  IS_IN_CLUSTER(Boolean.class),
 
   /**
    * Searches for occurrences that have a particular extension.
