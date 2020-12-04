@@ -515,7 +515,17 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * The life stage of an occurrence.
    */
-  LIFE_STAGE(String.class);
+  LIFE_STAGE(String.class),
+
+  /**
+   * Searches for occurrences that are clustered.
+   */
+  IS_IN_CLUSTER(Boolean.class),
+
+  /**
+   * Searches for occurrences that have a particular extension.
+   */
+  HAS_EXTENSION(String.class);
 
   private final Class<?> type;
 
