@@ -523,9 +523,9 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   IS_IN_CLUSTER(Boolean.class),
 
   /**
-   * Searches for occurrences that have a particular extension.
+   * Searches for occurrences that have a particular DwC extension.
    */
-  HAS_EXTENSION(String.class);
+  DWC_EXTENSION(String.class);
 
   private final Class<?> type;
 
