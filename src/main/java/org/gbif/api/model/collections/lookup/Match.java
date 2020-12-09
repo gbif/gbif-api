@@ -153,7 +153,9 @@ public class Match<T extends EntityMatched> {
     ALTERNATIVE_CODE_MATCH,
     NAME_MATCH,
     KEY_MATCH,
+    @Deprecated
     POSSIBLY_ON_LOAN,
+    DIFFERENT_OWNER,
     INST_COLL_MISMATCH,
     COUNTRY_MATCH
   }

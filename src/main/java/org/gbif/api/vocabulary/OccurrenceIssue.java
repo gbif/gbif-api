@@ -363,8 +363,17 @@ public enum OccurrenceIssue implements InterpretationRemark {
   /**
    * The given owner institution is different than the given institution. Therefore we assume it
    * could be on loan and we don't link it to the occurrence.
+   *
+   * Deprecated by {@link #DIFFERENT_OWNER_INSTITUTION}.
    */
-  POSSIBLY_ON_LOAN(INFO, TermsGroup.INSTITUTION_TERMS);
+  @Deprecated
+  POSSIBLY_ON_LOAN(INFO, TermsGroup.INSTITUTION_TERMS),
+
+  /**
+   * The given owner institution is different than the given institution. Therefore we assume it
+   * doesn't belong to the institution and we don't link it to the occurrence.
+   */
+  DIFFERENT_OWNER_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS);
 
   /**
    * Simple helper nested class to allow grouping of Term mostly to increase readability of this
