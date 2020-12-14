@@ -325,33 +325,33 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
 <span class="fc" id="L325">  GEOREFERENCED_DATE_INVALID(WARNING, DwcTerm.georeferencedDate),</span>
 
   /**
-   * The given institution matches with more than 1 GrSciColl institution.
+   * The given institution matches with more than 1 GRSciColl institution.
    */
 <span class="fc" id="L330">  AMBIGUOUS_INSTITUTION(WARNING, TermsGroup.INSTITUTION_TERMS),</span>
 
   /**
-   * The given collection matches with more than 1 GrSciColl collection.
+   * The given collection matches with more than 1 GRSciColl collection.
    */
 <span class="fc" id="L335">  AMBIGUOUS_COLLECTION(WARNING, TermsGroup.COLLECTION_TERMS),</span>
 
   /**
-   * The given institution couldn't be matched with any GrSciColl institution.
+   * The given institution couldn't be matched with any GRSciColl institution.
    */
 <span class="fc" id="L340">  INSTITUTION_MATCH_NONE(WARNING, TermsGroup.INSTITUTION_TERMS),</span>
 
   /**
-   * The given collection couldn't be matched with any GrSciColl collection.
+   * The given collection couldn't be matched with any GRSciColl collection.
    */
 <span class="fc" id="L345">  COLLECTION_MATCH_NONE(WARNING, TermsGroup.COLLECTION_TERMS),</span>
 
   /**
-   * The given institution was fuzzily matched to a GrSciColl institution. This can happen when
+   * The given institution was fuzzily matched to a GRSciColl institution. This can happen when
    * either the code or the ID don't match or when the institution name is used instead of the code.
    */
 <span class="fc" id="L351">  INSTITUTION_MATCH_FUZZY(WARNING, TermsGroup.INSTITUTION_TERMS),</span>
 
   /**
-   * The given collection was fuzzily matched to a GrSciColl collection. This can happen when either
+   * The given collection was fuzzily matched to a GRSciColl collection. This can happen when either
    * the code or the ID don't match or when the collection name is used instead of the code.
    */
 <span class="fc" id="L357">  COLLECTION_MATCH_FUZZY(WARNING, TermsGroup.COLLECTION_TERMS),</span>
@@ -363,8 +363,17 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
   /**
    * The given owner institution is different than the given institution. Therefore we assume it
    * could be on loan and we don't link it to the occurrence.
+   *
+   * Deprecated by {@link #DIFFERENT_OWNER_INSTITUTION}.
    */
-<span class="fc" id="L367">  POSSIBLY_ON_LOAN(INFO, TermsGroup.INSTITUTION_TERMS);</span>
+<span class="fc" id="L369">  @Deprecated</span>
+  POSSIBLY_ON_LOAN(INFO, TermsGroup.INSTITUTION_TERMS),
+
+  /**
+   * The given owner institution is different than the given institution. Therefore we assume it
+   * doesn't belong to the institution and we don't link it to the occurrence.
+   */
+<span class="fc" id="L376">  DIFFERENT_OWNER_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS);</span>
 
   /**
    * Simple helper nested class to allow grouping of Term mostly to increase readability of this
@@ -372,7 +381,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
    */
   private static class TermsGroup {
 
-<span class="fc" id="L375">    static final Term[] COORDINATES_TERMS_NO_DATUM = {</span>
+<span class="fc" id="L384">    static final Term[] COORDINATES_TERMS_NO_DATUM = {</span>
       DwcTerm.decimalLatitude,
       DwcTerm.decimalLongitude,
       DwcTerm.verbatimLatitude,
@@ -380,7 +389,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.verbatimCoordinates
     };
 
-<span class="fc" id="L383">    static final Term[] COORDINATES_TERMS = {</span>
+<span class="fc" id="L392">    static final Term[] COORDINATES_TERMS = {</span>
       DwcTerm.decimalLatitude,
       DwcTerm.decimalLongitude,
       DwcTerm.verbatimLatitude,
@@ -389,12 +398,12 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.geodeticDatum
     };
 
-<span class="fc" id="L392">    static final Term[] COUNTRY_TERMS = {</span>
+<span class="fc" id="L401">    static final Term[] COUNTRY_TERMS = {</span>
       DwcTerm.country,
       DwcTerm.countryCode
     };
 
-<span class="fc" id="L397">    static final Term[] COORDINATES_COUNTRY_TERMS = {</span>
+<span class="fc" id="L406">    static final Term[] COORDINATES_COUNTRY_TERMS = {</span>
       DwcTerm.decimalLatitude,
       DwcTerm.decimalLongitude,
       DwcTerm.verbatimLatitude,
@@ -405,12 +414,12 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.countryCode
     };
 
-<span class="fc" id="L408">    static final Term[] RECORDED_DATE_TERMS = {</span>
+<span class="fc" id="L417">    static final Term[] RECORDED_DATE_TERMS = {</span>
       DwcTerm.eventDate,
       DwcTerm.year, DwcTerm.month, DwcTerm.day
     };
 
-<span class="fc" id="L413">    static final Term[] TAXONOMY_TERMS = {</span>
+<span class="fc" id="L422">    static final Term[] TAXONOMY_TERMS = {</span>
       DwcTerm.kingdom,
       DwcTerm.phylum,
       DwcTerm.class_,
@@ -424,11 +433,11 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.infraspecificEpithet
     };
 
-<span class="fc" id="L427">    static final Term[] INSTITUTION_TERMS = {</span>
+<span class="fc" id="L436">    static final Term[] INSTITUTION_TERMS = {</span>
       DwcTerm.institutionCode, DwcTerm.institutionID, DwcTerm.ownerInstitutionCode
     };
 
-<span class="fc" id="L431">    static final Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};</span>
+<span class="fc" id="L440">    static final Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};</span>
   }
 
   private final Set&lt;Term&gt; relatedTerms;
@@ -438,47 +447,47 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
   /**
    * {@link OccurrenceIssue} not linked to any specific {@link Term}.
    */
-<span class="fc" id="L441">  OccurrenceIssue(InterpretationRemarkSeverity severity) {</span>
-<span class="fc" id="L442">    this.severity = severity;</span>
-<span class="fc" id="L443">    this.relatedTerms = Collections.emptySet();</span>
-<span class="fc" id="L444">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
-<span class="fc" id="L445">  }</span>
+<span class="fc" id="L450">  OccurrenceIssue(InterpretationRemarkSeverity severity) {</span>
+<span class="fc" id="L451">    this.severity = severity;</span>
+<span class="fc" id="L452">    this.relatedTerms = Collections.emptySet();</span>
+<span class="fc" id="L453">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
+<span class="fc" id="L454">  }</span>
 
   /**
    * {@link OccurrenceIssue} linked to the provided {@link Term}.
    */
-<span class="fc" id="L450">  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {</span>
-<span class="fc" id="L451">    this.severity = severity;</span>
-<span class="fc" id="L452">    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));</span>
-<span class="fc" id="L453">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
-<span class="fc" id="L454">  }</span>
+<span class="fc" id="L459">  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {</span>
+<span class="fc" id="L460">    this.severity = severity;</span>
+<span class="fc" id="L461">    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));</span>
+<span class="fc" id="L462">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
+<span class="fc" id="L463">  }</span>
 
   @Override
   public String getId() {
-<span class="fc" id="L458">    return name();</span>
+<span class="fc" id="L467">    return name();</span>
   }
 
   @Override
   public Set&lt;Term&gt; getRelatedTerms() {
-<span class="nc" id="L463">    return relatedTerms;</span>
+<span class="nc" id="L472">    return relatedTerms;</span>
   }
 
   @Override
   public InterpretationRemarkSeverity getSeverity() {
-<span class="fc" id="L468">    return severity;</span>
+<span class="fc" id="L477">    return severity;</span>
   }
 
   @Override
   public boolean isDeprecated() {
-<span class="fc" id="L473">    return isDeprecated;</span>
+<span class="fc" id="L482">    return isDeprecated;</span>
   }
 
   /**
    * All issues that indicate problems with the coordinates and thus should not be shown on maps.
    */
-<span class="fc" id="L479">  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =</span>
-<span class="fc" id="L480">    Collections.unmodifiableList(</span>
-<span class="fc" id="L481">      Arrays.asList(</span>
+<span class="fc" id="L488">  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =</span>
+<span class="fc" id="L489">    Collections.unmodifiableList(</span>
+<span class="fc" id="L490">      Arrays.asList(</span>
         ZERO_COORDINATE,
         COORDINATE_INVALID,
         COORDINATE_OUT_OF_RANGE,
@@ -487,9 +496,9 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
   /**
    * All issues that indicate problems with the taxonomy or taxonomic matching.
    */
-<span class="fc" id="L490">  public static final List&lt;OccurrenceIssue&gt; TAXONOMIC_RULES =</span>
-<span class="fc" id="L491">    Collections.unmodifiableList(</span>
-<span class="fc" id="L492">      Arrays.asList(</span>
+<span class="fc" id="L499">  public static final List&lt;OccurrenceIssue&gt; TAXONOMIC_RULES =</span>
+<span class="fc" id="L500">    Collections.unmodifiableList(</span>
+<span class="fc" id="L501">      Arrays.asList(</span>
         TAXON_MATCH_FUZZY,
         TAXON_MATCH_HIGHERRANK,
         TAXON_MATCH_NONE));
