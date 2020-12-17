@@ -234,10 +234,10 @@
 <span class="sourceLineNo">226</span>    v.setKey(7l);<a name="line.226"></a>
 <span class="sourceLineNo">227</span>    v.setLastParsed(new Date());<a name="line.227"></a>
 <span class="sourceLineNo">228</span>    v.setDatasetKey(UUID.randomUUID());<a name="line.228"></a>
-<span class="sourceLineNo">229</span>    Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions = new HashMap&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt;();<a name="line.229"></a>
+<span class="sourceLineNo">229</span>    Map&lt;String, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions = new HashMap&lt;&gt;();<a name="line.229"></a>
 <span class="sourceLineNo">230</span>    List&lt;Map&lt;Term, String&gt;&gt; verbatimRecords = new ArrayList&lt;&gt;();<a name="line.230"></a>
 <span class="sourceLineNo">231</span>    verbatimRecords.add(verbatimRecord);<a name="line.231"></a>
-<span class="sourceLineNo">232</span>    extensions.put(Extension.MULTIMEDIA, verbatimRecords);<a name="line.232"></a>
+<span class="sourceLineNo">232</span>    extensions.put(Extension.MULTIMEDIA.getRowType(), verbatimRecords);<a name="line.232"></a>
 <span class="sourceLineNo">233</span>    v.setExtensions(extensions);<a name="line.233"></a>
 <span class="sourceLineNo">234</span><a name="line.234"></a>
 <span class="sourceLineNo">235</span>    String json = mapper.writeValueAsString(v);<a name="line.235"></a>
@@ -245,8 +245,8 @@
 <span class="sourceLineNo">237</span><a name="line.237"></a>
 <span class="sourceLineNo">238</span>    VerbatimOccurrence v2 = mapper.readValue(json, VerbatimOccurrence.class);<a name="line.238"></a>
 <span class="sourceLineNo">239</span>    assertNotNull(v2.getExtensions());<a name="line.239"></a>
-<span class="sourceLineNo">240</span>    assertTrue(!v2.getExtensions().get(Extension.MULTIMEDIA).isEmpty());<a name="line.240"></a>
-<span class="sourceLineNo">241</span>    assertEquals(v2.getExtensions().get(Extension.MULTIMEDIA).get(0), verbatimRecord);<a name="line.241"></a>
+<span class="sourceLineNo">240</span>    assertTrue(!v2.getExtensions().get(Extension.MULTIMEDIA.getRowType()).isEmpty());<a name="line.240"></a>
+<span class="sourceLineNo">241</span>    assertEquals(v2.getExtensions().get(Extension.MULTIMEDIA.getRowType()).get(0), verbatimRecord);<a name="line.241"></a>
 <span class="sourceLineNo">242</span>  }<a name="line.242"></a>
 <span class="sourceLineNo">243</span>}<a name="line.243"></a>
 
