@@ -226,10 +226,10 @@ public class VerbatimOccurrenceTest {
     v.setKey(7l);
     v.setLastParsed(new Date());
     v.setDatasetKey(UUID.randomUUID());
-    Map<Extension, List<Map<Term, String>>> extensions = new HashMap<Extension, List<Map<Term, String>>>();
+    Map<String, List<Map<Term, String>>> extensions = new HashMap<>();
     List<Map<Term, String>> verbatimRecords = new ArrayList<>();
     verbatimRecords.add(verbatimRecord);
-    extensions.put(Extension.MULTIMEDIA, verbatimRecords);
+    extensions.put(Extension.MULTIMEDIA.getRowType(), verbatimRecords);
     v.setExtensions(extensions);
 
     String json = mapper.writeValueAsString(v);
@@ -237,7 +237,7 @@ public class VerbatimOccurrenceTest {
 
     VerbatimOccurrence v2 = mapper.readValue(json, VerbatimOccurrence.class);
     assertNotNull(v2.getExtensions());
-    assertTrue(!v2.getExtensions().get(Extension.MULTIMEDIA).isEmpty());
-    assertEquals(v2.getExtensions().get(Extension.MULTIMEDIA).get(0), verbatimRecord);
+    assertTrue(!v2.getExtensions().get(Extension.MULTIMEDIA.getRowType()).isEmpty());
+    assertEquals(v2.getExtensions().get(Extension.MULTIMEDIA.getRowType()).get(0), verbatimRecord);
   }
 }

@@ -15,13 +15,10 @@
  */
 package org.gbif.api.model.occurrence;
 
-import org.gbif.api.jackson.ExtensionKeyDeserializer;
-import org.gbif.api.jackson.ExtensionSerializer;
 import org.gbif.api.jackson.TermMapListDeserializer;
 import org.gbif.api.jackson.TermMapListSerializer;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
-import org.gbif.api.vocabulary.Extension;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.TermFactory;
 
@@ -69,7 +66,7 @@ public class VerbatimOccurrence {
   // the verbatim fields for the occurrence
   private Map<Term, String> verbatimFields = new HashMap<>();
   // verbatim extension data
-  private Map<Extension, List<Map<Term, String>>> extensions = new HashMap<>();
+  private Map<String, List<Map<Term, String>>> extensions = new HashMap<>();
 
   /**
    * Get the value of a specific field (Term).
@@ -264,13 +261,13 @@ public class VerbatimOccurrence {
    * A map holding all verbatim extension terms.
    */
   @NotNull
-  @JsonSerialize(keyUsing = ExtensionSerializer.class, contentUsing = TermMapListSerializer.class)
-  @JsonDeserialize(keyUsing = ExtensionKeyDeserializer.class, contentUsing = TermMapListDeserializer.class)
-  public Map<Extension, List<Map<Term, String>>> getExtensions() {
+  @JsonSerialize(contentUsing = TermMapListSerializer.class)
+  @JsonDeserialize(contentUsing = TermMapListDeserializer.class)
+  public Map<String, List<Map<Term, String>>> getExtensions() {
     return extensions;
   }
 
-  public void setExtensions(Map<Extension, List<Map<Term, String>>> extensions) {
+  public void setExtensions(Map<String, List<Map<Term, String>>> extensions) {
     this.extensions = extensions;
   }
 
