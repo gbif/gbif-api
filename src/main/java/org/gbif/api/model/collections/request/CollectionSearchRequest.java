@@ -16,6 +16,7 @@
 package org.gbif.api.model.collections.request;
 
 import org.gbif.api.model.common.paging.Pageable;
+import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
 
 import java.util.UUID;
@@ -52,6 +53,7 @@ public class CollectionSearchRequest extends SearchRequest {
     String machineTagValue;
     IdentifierType identifierType;
     String identifier;
+    Country country;
     Pageable page;
 
     public Builder institution(UUID institution) {
@@ -109,6 +111,11 @@ public class CollectionSearchRequest extends SearchRequest {
       return this;
     }
 
+    public Builder country(Country country) {
+      this.country = country;
+      return this;
+    }
+
     public Builder page(Pageable page) {
       this.page = page;
       return this;
@@ -127,6 +134,7 @@ public class CollectionSearchRequest extends SearchRequest {
       req.setMachineTagValue(machineTagValue);
       req.setIdentifierType(identifierType);
       req.setIdentifier(identifier);
+      req.setCountry(country);
       if (page != null) {
         req.setLimit(page.getLimit());
         req.setOffset(page.getOffset());
