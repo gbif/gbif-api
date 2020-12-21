@@ -16,30 +16,31 @@
 package org.gbif.api.model.collections.request;
 
 import org.gbif.api.model.common.paging.Pageable;
+import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
 
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-<span class="nc" id="L25">public class CollectionSearchRequest extends SearchRequest {</span>
+<span class="nc" id="L26">public class CollectionSearchRequest extends SearchRequest {</span>
 
   @Nullable private UUID institution;
 
   @Nullable
   public UUID getInstitution() {
-<span class="nc" id="L31">    return institution;</span>
+<span class="nc" id="L32">    return institution;</span>
   }
 
   public void setInstitution(@Nullable UUID institution) {
-<span class="nc" id="L35">    this.institution = institution;</span>
-<span class="nc" id="L36">  }</span>
+<span class="nc" id="L36">    this.institution = institution;</span>
+<span class="nc" id="L37">  }</span>
 
   public static Builder builder() {
-<span class="nc" id="L39">    return new Builder();</span>
+<span class="nc" id="L40">    return new Builder();</span>
   }
 
-<span class="nc" id="L42">  public static class Builder {</span>
+<span class="nc" id="L43">  public static class Builder {</span>
 
     UUID institution;
     UUID contact;
@@ -52,86 +53,93 @@ import javax.annotation.Nullable;
     String machineTagValue;
     IdentifierType identifierType;
     String identifier;
+    Country country;
     Pageable page;
 
     public Builder institution(UUID institution) {
-<span class="nc" id="L58">      this.institution = institution;</span>
-<span class="nc" id="L59">      return this;</span>
+<span class="nc" id="L60">      this.institution = institution;</span>
+<span class="nc" id="L61">      return this;</span>
     }
 
     public Builder contact(UUID contact) {
-<span class="nc" id="L63">      this.contact = contact;</span>
-<span class="nc" id="L64">      return this;</span>
+<span class="nc" id="L65">      this.contact = contact;</span>
+<span class="nc" id="L66">      return this;</span>
     }
 
     public Builder query(String q) {
-<span class="nc" id="L68">      this.q = q;</span>
-<span class="nc" id="L69">      return this;</span>
+<span class="nc" id="L70">      this.q = q;</span>
+<span class="nc" id="L71">      return this;</span>
     }
 
     public Builder code(String code) {
-<span class="nc" id="L73">      this.code = code;</span>
-<span class="nc" id="L74">      return this;</span>
+<span class="nc" id="L75">      this.code = code;</span>
+<span class="nc" id="L76">      return this;</span>
     }
 
     public Builder name(String name) {
-<span class="nc" id="L78">      this.name = name;</span>
-<span class="nc" id="L79">      return this;</span>
+<span class="nc" id="L80">      this.name = name;</span>
+<span class="nc" id="L81">      return this;</span>
     }
 
     public Builder alternativeCode(String alternativeCode) {
-<span class="nc" id="L83">      this.alternativeCode = alternativeCode;</span>
-<span class="nc" id="L84">      return this;</span>
+<span class="nc" id="L85">      this.alternativeCode = alternativeCode;</span>
+<span class="nc" id="L86">      return this;</span>
     }
 
     public Builder machineTagNamespace(String machineTagNamespace) {
-<span class="nc" id="L88">      this.machineTagNamespace = machineTagNamespace;</span>
-<span class="nc" id="L89">      return this;</span>
+<span class="nc" id="L90">      this.machineTagNamespace = machineTagNamespace;</span>
+<span class="nc" id="L91">      return this;</span>
     }
 
     public Builder machineTagName(String machineTagName) {
-<span class="nc" id="L93">      this.machineTagName = machineTagName;</span>
-<span class="nc" id="L94">      return this;</span>
+<span class="nc" id="L95">      this.machineTagName = machineTagName;</span>
+<span class="nc" id="L96">      return this;</span>
     }
 
     public Builder machineTagValue(String machineTagValue) {
-<span class="nc" id="L98">      this.machineTagValue = machineTagValue;</span>
-<span class="nc" id="L99">      return this;</span>
+<span class="nc" id="L100">      this.machineTagValue = machineTagValue;</span>
+<span class="nc" id="L101">      return this;</span>
     }
 
     public Builder identifierType(IdentifierType identifierType) {
-<span class="nc" id="L103">      this.identifierType = identifierType;</span>
-<span class="nc" id="L104">      return this;</span>
+<span class="nc" id="L105">      this.identifierType = identifierType;</span>
+<span class="nc" id="L106">      return this;</span>
     }
 
     public Builder identifier(String identifier) {
-<span class="nc" id="L108">      this.identifier = identifier;</span>
-<span class="nc" id="L109">      return this;</span>
+<span class="nc" id="L110">      this.identifier = identifier;</span>
+<span class="nc" id="L111">      return this;</span>
+    }
+
+    public Builder country(Country country) {
+<span class="nc" id="L115">      this.country = country;</span>
+<span class="nc" id="L116">      return this;</span>
     }
 
     public Builder page(Pageable page) {
-<span class="nc" id="L113">      this.page = page;</span>
-<span class="nc" id="L114">      return this;</span>
+<span class="nc" id="L120">      this.page = page;</span>
+<span class="nc" id="L121">      return this;</span>
     }
 
     public CollectionSearchRequest build() {
-<span class="nc" id="L118">      CollectionSearchRequest req = new CollectionSearchRequest();</span>
-<span class="nc" id="L119">      req.setInstitution(institution);</span>
-<span class="nc" id="L120">      req.setContact(contact);</span>
-<span class="nc" id="L121">      req.setQ(q);</span>
-<span class="nc" id="L122">      req.setCode(code);</span>
-<span class="nc" id="L123">      req.setName(name);</span>
-<span class="nc" id="L124">      req.setAlternativeCode(alternativeCode);</span>
-<span class="nc" id="L125">      req.setMachineTagNamespace(machineTagNamespace);</span>
-<span class="nc" id="L126">      req.setMachineTagName(machineTagName);</span>
-<span class="nc" id="L127">      req.setMachineTagValue(machineTagValue);</span>
-<span class="nc" id="L128">      req.setIdentifierType(identifierType);</span>
-<span class="nc" id="L129">      req.setIdentifier(identifier);</span>
-<span class="nc bnc" id="L130" title="All 2 branches missed.">      if (page != null) {</span>
-<span class="nc" id="L131">        req.setLimit(page.getLimit());</span>
-<span class="nc" id="L132">        req.setOffset(page.getOffset());</span>
+<span class="nc" id="L125">      CollectionSearchRequest req = new CollectionSearchRequest();</span>
+<span class="nc" id="L126">      req.setInstitution(institution);</span>
+<span class="nc" id="L127">      req.setContact(contact);</span>
+<span class="nc" id="L128">      req.setQ(q);</span>
+<span class="nc" id="L129">      req.setCode(code);</span>
+<span class="nc" id="L130">      req.setName(name);</span>
+<span class="nc" id="L131">      req.setAlternativeCode(alternativeCode);</span>
+<span class="nc" id="L132">      req.setMachineTagNamespace(machineTagNamespace);</span>
+<span class="nc" id="L133">      req.setMachineTagName(machineTagName);</span>
+<span class="nc" id="L134">      req.setMachineTagValue(machineTagValue);</span>
+<span class="nc" id="L135">      req.setIdentifierType(identifierType);</span>
+<span class="nc" id="L136">      req.setIdentifier(identifier);</span>
+<span class="nc" id="L137">      req.setCountry(country);</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">      if (page != null) {</span>
+<span class="nc" id="L139">        req.setLimit(page.getLimit());</span>
+<span class="nc" id="L140">        req.setOffset(page.getOffset());</span>
       }
-<span class="nc" id="L134">      return req;</span>
+<span class="nc" id="L142">      return req;</span>
     }
   }
 }
