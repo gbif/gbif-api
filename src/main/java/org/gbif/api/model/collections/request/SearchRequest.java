@@ -18,6 +18,7 @@ package org.gbif.api.model.collections.request;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PageableBase;
 import org.gbif.api.model.common.paging.PagingRequest;
+import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
 
 import java.io.Serializable;
@@ -37,6 +38,7 @@ public abstract class SearchRequest extends PageableBase implements Serializable
   @Nullable private String machineTagValue;
   @Nullable private IdentifierType identifierType;
   @Nullable private String identifier;
+  @Nullable private Country country;
 
   @Nullable
   public String getQ() {
@@ -126,6 +128,15 @@ public abstract class SearchRequest extends PageableBase implements Serializable
 
   public void setIdentifier(@Nullable String identifier) {
     this.identifier = identifier;
+  }
+
+  @Nullable
+  public Country getCountry() {
+    return country;
+  }
+
+  public void setCountry(@Nullable Country country) {
+    this.country = country;
   }
 
   public Pageable getPage() {

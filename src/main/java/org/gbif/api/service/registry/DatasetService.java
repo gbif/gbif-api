@@ -18,6 +18,7 @@ package org.gbif.api.service.registry;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.Grid;
 import org.gbif.api.model.registry.Metadata;
 import org.gbif.api.model.registry.Network;
 import org.gbif.api.vocabulary.Country;
@@ -136,4 +137,11 @@ public interface DatasetService
    * Multiple dataset could share the same DOI since this is not enforced.
    */
   PagingResponse<Dataset> listByDOI(String doi, @Nullable Pageable page);
+
+  /**
+   * Get gridded datasets processing info
+   * @param datasetKey the dataset in question
+   * @return List of grids
+   */
+  List<Grid> listGrids(UUID datasetKey);
 }
