@@ -19,7 +19,9 @@ import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Network;
+import org.gbif.api.model.registry.search.KeyTitleResult;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -51,4 +53,9 @@ public interface NetworkService extends NetworkEntityService<Network> {
    * @param datasetKey the dataset to be removed
    */
   void removeConstituent(@NotNull UUID networkKey, @NotNull UUID datasetKey);
+
+  /**
+   * Provides a simple suggest service.
+   */
+  List<KeyTitleResult> suggest(@Nullable String q);
 }
