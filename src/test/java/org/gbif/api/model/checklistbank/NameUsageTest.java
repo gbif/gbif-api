@@ -26,12 +26,14 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.UUID;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This tests the {@link NameUsage}.
@@ -58,13 +60,13 @@ public class NameUsageTest {
 
     nu2.setKey(124);
 
-    assertFalse(nu1.equals(nu2));
+    assertNotEquals(nu2, nu1);
   }
 
   @Test
   public void testEqualsNonNullity() {
     NameUsage nu1 = new NameUsage();
-    assertFalse(nu1.equals(null));
+    assertNotEquals(nu1, null);
   }
 
   @Test
@@ -88,8 +90,8 @@ public class NameUsageTest {
     assertEquals(nu2, nu1);
 
     nu1.setKey(1234);
-    assertFalse(nu1.equals(nu2));
-    assertFalse(nu2.equals(nu1));
+    assertNotEquals(nu2, nu1);
+    assertNotEquals(nu1, nu2);
   }
 
   @Test
@@ -115,7 +117,7 @@ public class NameUsageTest {
     assertTrue(nu.getHigherClassificationMap().containsKey(10));
     assertFalse(nu.getHigherClassificationMap().containsKey(6));
 
-    Queue<Integer> expectedKeyOrder = new LinkedList<Integer>();
+    Queue<Integer> expectedKeyOrder = new LinkedList<>();
     expectedKeyOrder.add(1);
     expectedKeyOrder.add(5);
     expectedKeyOrder.add(4);
@@ -150,7 +152,7 @@ public class NameUsageTest {
     assertEquals(4, nu.getHigherClassificationMap().size());
     assertTrue(nu.getHigherClassificationMap().containsKey(3));
 
-    Queue<Integer> expectedKeyOrder = new LinkedList<Integer>();
+    Queue<Integer> expectedKeyOrder = new LinkedList<>();
     expectedKeyOrder.add(1);
     expectedKeyOrder.add(5);
     expectedKeyOrder.add(4);
@@ -168,6 +170,7 @@ public class NameUsageTest {
     nu.setReferences(URI.create("http://www.example.org"));
     nu.setTaxonID("12345");
     assertEquals("12345", nu.getTaxonID());
+    assertNotNull(nu.getReferences());
     assertEquals("http://www.example.org", nu.getReferences().toString());
   }
 

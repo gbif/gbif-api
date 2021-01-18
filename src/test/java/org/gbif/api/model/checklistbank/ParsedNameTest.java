@@ -22,14 +22,17 @@ import org.gbif.api.vocabulary.Rank;
 
 import java.io.IOException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ParsedNameTest {
 
   @Test
-  public void testCanonicalName() throws Exception {
+  public void testCanonicalName() {
     ParsedName pn = new ParsedName();
     pn.setGenusOrAbove("Abies");
     assertEquals("Abies", pn.canonicalName());
@@ -66,7 +69,7 @@ public class ParsedNameTest {
   }
 
   @Test
-  public void testTerminalEpithet() throws Exception {
+  public void testTerminalEpithet() {
     ParsedName pn = new ParsedName();
     pn.setGenusOrAbove("Abies");
     assertNull(pn.getTerminalEpithet());
@@ -85,7 +88,7 @@ public class ParsedNameTest {
   }
 
   @Test
-  public void testIndet() throws Exception {
+  public void testIndet() {
     ParsedName pn = new ParsedName();
     pn.setType(NameType.SCIENTIFIC);
     pn.setGenusOrAbove("Abies");
@@ -115,14 +118,14 @@ public class ParsedNameTest {
 
     for (Rank r : Rank.values()) {
       if (r.isInfraspecific()) {
-        assertFalse(r.toString(), pn.isIndetermined());
+        assertFalse(pn.isIndetermined(), r.toString());
       }
     }
 
     pn.setInfraSpecificEpithet(null);
     for (Rank r : Rank.values()) {
       if (r.isInfraspecific()) {
-        assertTrue(r.toString(), pn.isIndetermined());
+        assertTrue(pn.isIndetermined(), r.toString());
       }
     }
 
@@ -143,7 +146,7 @@ public class ParsedNameTest {
   }
 
   @Test
-  public void testCanonicalAscii() throws Exception {
+  public void testCanonicalAscii() {
     ParsedName pn = new ParsedName();
     pn.setGenusOrAbove("Abies");
     pn.setSpecificEpithet("vülgårîs");
@@ -152,7 +155,7 @@ public class ParsedNameTest {
   }
 
   @Test
-  public void testUnparsableCanonical() throws Exception {
+  public void testUnparsableCanonical() {
     ParsedName pn = new ParsedName();
     pn.setScientificName("? hostilis Gravenhorst, 1829");
     pn.setType(NameType.PLACEHOLDER);
@@ -163,7 +166,7 @@ public class ParsedNameTest {
    * http://dev.gbif.org/issues/browse/POR-2624
    */
   @Test
-  public void testSubgenus() throws Exception {
+  public void testSubgenus() {
     // Brachyhypopomus (Odontohypopomus) Sullivan, Zuanon & Cox Fernandes, 2013
     ParsedName pn = new ParsedName();
     pn.setGenusOrAbove("Brachyhypopomus");
@@ -193,7 +196,7 @@ public class ParsedNameTest {
   }
 
   @Test
-  public void testBuildName() throws Exception {
+  public void testBuildName() {
     ParsedName pn = new ParsedName();
     pn.setGenusOrAbove("Pseudomonas");
     assertBuildName(pn, "Pseudomonas");
@@ -321,7 +324,6 @@ public class ParsedNameTest {
 
   /**
    * assert all build name methods return the same string
-   * @param pn
    * @param name expected string
    */
   private void assertBuildName(ParsedName pn, String name) {
@@ -332,9 +334,9 @@ public class ParsedNameTest {
   }
 
   private void assertBuildName(ParsedName pn, String full, String canonical, String canonicalComplete, String canonicalMarker) {
-    assertEquals("wrong canonicalName", canonical, pn.canonicalName());
-    assertEquals("wrong canonicalNameWithMarker", canonicalMarker, pn.canonicalNameWithMarker());
-    assertEquals("wrong canonicalNameComplete", canonicalComplete, pn.canonicalNameComplete());
-    assertEquals("wrong fullName", full, pn.fullName());
+    assertEquals(canonical, pn.canonicalName(), "wrong canonicalName");
+    assertEquals(canonicalMarker, pn.canonicalNameWithMarker(), "wrong canonicalNameWithMarker");
+    assertEquals(canonicalComplete, pn.canonicalNameComplete(), "wrong canonicalNameComplete");
+    assertEquals(full, pn.fullName(), "wrong fullName");
   }
 }

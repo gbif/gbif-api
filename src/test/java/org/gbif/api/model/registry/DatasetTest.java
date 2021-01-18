@@ -30,11 +30,11 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DatasetTest {
 
@@ -57,7 +57,7 @@ public class DatasetTest {
 
     // perform validation
     Set<ConstraintViolation<Dataset>> violations = validator.validate(ds);
-    assertFalse("Violations were expected", violations.isEmpty());
+    assertFalse(violations.isEmpty(), "Violations were expected");
 
     // ensure all 6 expected violations are caught
     Set<String> propertiesInViolation = new HashSet<>();
@@ -85,7 +85,7 @@ public class DatasetTest {
 
     // perform validation again
     violations = validator.validate(ds);
-    assertTrue("No violations were expected", violations.isEmpty());
+    assertTrue(violations.isEmpty(), "No violations were expected");
   }
 
   @Test

@@ -20,11 +20,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Checks InterpretationRemark implementations.
@@ -50,12 +50,11 @@ public class InterpretationRemarkTest {
     IMPLEMENTING_CLASSES
       .forEach(cl -> Arrays.asList((InterpretationRemark[]) cl.getEnumConstants()).forEach(
         ir -> {
-          assertTrue("Enumeration value " + ir
-              + " is unique within all InterpretationRemark implementations.",
-            interpretationRemarks.add(ir.toString()));
-          assertTrue("Enumeration value " + ir + " with getID " + ir.getId()
-              + " is unique within all InterpretationRemark implementations.",
-            interpretationRemarksId.add(ir.getId()));
+          assertTrue(interpretationRemarks.add(ir.toString()),
+              "Enumeration value " + ir + " is unique within all InterpretationRemark implementations.");
+          assertTrue(interpretationRemarksId.add(ir.getId()),
+              "Enumeration value " + ir + " with getID "
+                  + ir.getId() + " is unique within all InterpretationRemark implementations.");
         }
         )
       );
@@ -66,8 +65,8 @@ public class InterpretationRemarkTest {
     IMPLEMENTING_CLASSES
       .forEach(cl -> Arrays.asList((InterpretationRemark[]) cl.getEnumConstants()).forEach(
         ir -> assertNotNull(
-          "InterpretationRemark implementations return a not null value for getSeverity()",
-          ir.getSeverity())
+            ir.getSeverity(),
+          "InterpretationRemark implementations return a not null value for getSeverity()")
         )
       );
   }

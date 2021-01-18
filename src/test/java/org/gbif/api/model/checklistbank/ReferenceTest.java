@@ -15,9 +15,9 @@
  */
 package org.gbif.api.model.checklistbank;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ReferenceTest {
 
@@ -32,7 +32,5 @@ public class ReferenceTest {
     r2.setCitation("Please cite www.example.org");
 
     assertEquals(r1, r2);
-
   }
-
 }

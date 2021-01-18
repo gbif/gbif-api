@@ -17,10 +17,10 @@ package org.gbif.api.model.common;
 
 import java.net.URI;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class MediaObjectTest {
 
@@ -38,7 +38,6 @@ public class MediaObjectTest {
 
     i2.setCreator("Petra");
 
-    assertFalse(i1.equals(i2));
+    assertNotEquals(i2, i1);
   }
-
 }

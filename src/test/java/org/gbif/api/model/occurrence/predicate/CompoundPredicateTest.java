@@ -21,18 +21,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 public class CompoundPredicateTest {
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testEmptyPredicates() {
-    new ConjunctionPredicate(new ArrayList<>());
+    assertThrows(IllegalArgumentException.class, () -> new ConjunctionPredicate(new ArrayList<>()));
   }
 
   @Test
@@ -79,7 +81,7 @@ public class CompoundPredicateTest {
     );
 
     // make this doesnt throw an exception
-    p.toString();
+    assertNotNull(p.toString());
   }
 
   @Test
@@ -107,9 +109,8 @@ public class CompoundPredicateTest {
     assertThat(p1.hashCode(), not(equalTo(p2.hashCode())));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void testNullPredicate() {
-    new ConjunctionPredicate(null);
+    assertThrows(NullPointerException.class, () -> new ConjunctionPredicate(null));
   }
-
 }

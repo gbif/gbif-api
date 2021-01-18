@@ -22,23 +22,23 @@ import java.net.URI;
 import java.net.URLEncoder;
 import java.util.Objects;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class DOITest {
 
   @Test
-  public void testPrefixConstructor() throws Exception {
+  public void testPrefixConstructor() {
     DOI d = new DOI("10.1234", "1ASCDU");
     assertEquals(d, new DOI("doi:10.1234/1ASCDU"));
   }
 
   @Test
-  public void testIsParsable() throws Exception {
+  public void testIsParsable() {
     assertFalse(DOI.isParsable(null));
     assertFalse(DOI.isParsable(""));
     assertFalse(DOI.isParsable("10.1234.1ASCDU"));
@@ -77,7 +77,7 @@ public class DOITest {
   }
 
   @Test
-  public void testCreate() throws Exception {
+  public void testCreate() {
     DOI d = new DOI("http://dx.doi.org/10.1234/1ASCDU");
 
     assertSame(d, "http://dx.doi.org/urn:doi:10.1234/1ASCDU");
@@ -188,9 +188,9 @@ public class DOITest {
     Container source = new Container(new DOI("doi:10.1038/nature.2014.16460"), new DOI("http://dx.doi.org/10.1034/gbif.2014.xscdf2"));
     try {
       String json = SerdeTestUtils.testSerDe(source, Container.class);
-      assertFalse("DOIs should be shown without a scheme", json.contains("doi:10."));
-      assertFalse("DOIs should not use http resolvers", json.contains("http"));
-      assertFalse("DOIs should not use http resolvers", json.contains("doi.org"));
+      assertFalse(json.contains("doi:10."), "DOIs should be shown without a scheme");
+      assertFalse(json.contains("http"), "DOIs should not use http resolvers");
+      assertFalse(json.contains("doi.org"), "DOIs should not use http resolvers");
       System.out.println(json);
     } catch (Exception e) {
       fail(e.getMessage());

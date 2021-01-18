@@ -18,30 +18,31 @@ package org.gbif.api.model.crawler;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GenericValidationReportTest {
 
-  @Test(expected = NullPointerException.class)
-  public void testConstructor() throws Exception {
-    GenericValidationReport report = new GenericValidationReport(10, true, null, null);
-  }
-
-  @Test(expected = NullPointerException.class)
-  public void testConstructor2() throws Exception {
-    GenericValidationReport report = new GenericValidationReport(10, true, Collections.emptyList(), null);
-  }
-
-  @Test(expected = NullPointerException.class)
-  public void testConstructor3() throws Exception {
-    GenericValidationReport report = new GenericValidationReport(10, true, null, Collections.emptyList());
+  @Test
+  public void testConstructor() {
+    assertThrows(NullPointerException.class, () -> new GenericValidationReport(10, true, null, null));
   }
 
   @Test
-  public void testIsValid() throws Exception {
+  public void testConstructor2() {
+    assertThrows(NullPointerException.class, () -> new GenericValidationReport(10, true, Collections.emptyList(), null));
+  }
+
+  @Test
+  public void testConstructor3() {
+    assertThrows(NullPointerException.class, () -> new GenericValidationReport(10, true, null, Collections.emptyList()));
+  }
+
+  @Test
+  public void testIsValid() {
     assertTrue(new GenericValidationReport(10, true, Collections.emptyList(), Collections.emptyList()).isValid());
     assertTrue(new GenericValidationReport(0, true, Collections.emptyList(), Collections.emptyList()).isValid());
     assertFalse(new GenericValidationReport(10, true, Collections.emptyList(), Collections.singletonList(1)).isValid());
@@ -50,5 +51,4 @@ public class GenericValidationReportTest {
       Arrays.asList(1, 2)).isValid());
     assertFalse(new GenericValidationReport(10, true, Collections.singletonList("r32"), Collections.emptyList()).isValid());
   }
-
 }

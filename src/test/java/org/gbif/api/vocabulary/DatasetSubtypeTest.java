@@ -15,16 +15,16 @@
  */
 package org.gbif.api.vocabulary;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class DatasetSubtypeTest {
 
   @Test
-  public void testFromString() throws Exception {
+  public void testFromString() {
     assertEquals(DatasetSubtype.INVENTORY_THEMATIC, DatasetSubtype.fromString("inventory_thematic"));
     assertEquals(DatasetSubtype.INVENTORY_THEMATIC, DatasetSubtype.fromString("inventory thematic"));
     assertEquals(DatasetSubtype.INVENTORY_THEMATIC, DatasetSubtype.fromString("inventory-thematic"));

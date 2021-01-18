@@ -23,11 +23,12 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TagTest {
 
@@ -35,10 +36,10 @@ public class TagTest {
   public void testEquals() {
     Tag t1 = new Tag("aa", "aa");
     Tag t2 = new Tag("aa", "aa");
-    assertEquals("Tags are equal", t1, t2);
-    assertEquals("Tags are equal", t2, t1);
+    assertEquals(t1, t2, "Tags are equal");
+    assertEquals(t2, t1, "Tags are equal");
     t2.setKey(1);
-    assertFalse("Tags are equal", t2.equals(t1));
+    assertNotEquals(t1, t2, "Tags are equal");
   }
 
   @Test
@@ -48,7 +49,7 @@ public class TagTest {
 
     Tag tag = new Tag("", null);
     Set<ConstraintViolation<Tag>> violations = validator.validate(tag);
-    assertFalse("Violations were expected", violations.isEmpty());
+    assertFalse(violations.isEmpty(), "Violations were expected");
 
     // ensure all expected properties are caught
     Set<String> propertiesInViolation = new HashSet<>();
@@ -56,7 +57,6 @@ public class TagTest {
     for (ConstraintViolation<?> cv : violations) {
       propertiesInViolation.remove(cv.getPropertyPath().toString());
     }
-    assertTrue("Properties incorrectly passed validation " + propertiesInViolation, propertiesInViolation.isEmpty());
+    assertTrue(propertiesInViolation.isEmpty(), "Properties incorrectly passed validation " + propertiesInViolation);
   }
-
 }

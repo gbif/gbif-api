@@ -20,12 +20,13 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
-import static org.junit.matchers.JUnitMatchers.both;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 public class InPredicateTest {
@@ -47,14 +48,14 @@ public class InPredicateTest {
     assertThat(p.getValues(), not(equalTo(list)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void testEmptyConstructor() {
-    new InPredicate(null, new ArrayList<>(), false);
+    assertThrows(NullPointerException.class, () -> new InPredicate(null, new ArrayList<>(), false));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testEmptyConstructor2() {
-    new InPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, new ArrayList<>(), false);
+    assertThrows(IllegalArgumentException.class, () -> new InPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, new ArrayList<>(), false));
   }
 
   @Test
@@ -93,14 +94,14 @@ public class InPredicateTest {
     assertThat(ip2.hashCode(), not(equalTo(ip1.hashCode())));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void testNullConstructor() {
-    new InPredicate(null, null, false);
+    assertThrows(NullPointerException.class, () -> new InPredicate(null, null, false));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void testNullConstructor2() {
-    new InPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, null, false);
+    assertThrows(NullPointerException.class, () -> new InPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, null, false));
   }
 
 }

@@ -17,9 +17,9 @@ package org.gbif.api.model.checklistbank;
 
 import java.net.URI;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NameUsageMediaObjectTest {
 
@@ -34,7 +34,5 @@ public class NameUsageMediaObjectTest {
     i2.setTitle("Puma concolor");
 
     assertEquals(i1, i2);
-
   }
-
 }

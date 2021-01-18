@@ -28,9 +28,10 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class OrganizationTest {
 
@@ -46,7 +47,7 @@ public class OrganizationTest {
 
     // perform validation
     Set<ConstraintViolation<Organization>> violations = validator.validate(org);
-    assertTrue("Violations were expected", !violations.isEmpty());
+    assertFalse(violations.isEmpty(), "Violations were expected");
 
     // ensure all expected properties are caught
     Set<String> propertiesInViolation = new HashSet<>();
@@ -56,7 +57,7 @@ public class OrganizationTest {
     for (ConstraintViolation<?> cv : violations) {
       propertiesInViolation.remove(cv.getPropertyPath().toString());
     }
-    assertTrue("Properties incorrectly passed validation " + propertiesInViolation, propertiesInViolation.isEmpty());
+    assertTrue(propertiesInViolation.isEmpty(), "Properties incorrectly passed validation " + propertiesInViolation);
 
     // fix validation problems
     org.setTitle("Academy of Natural Sciences");
@@ -67,6 +68,6 @@ public class OrganizationTest {
 
     // perform validation again
     violations = validator.validate(org);
-    assertTrue("No violations were expected", violations.isEmpty());
+    assertTrue(violations.isEmpty(), "No violations were expected");
   }
 }

@@ -32,23 +32,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
+import org.apache.commons.text.RandomStringGenerator;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class VerbatimNameUsageTest {
 
   @Test
-  public void testHasExtension() throws IOException {
+  public void testHasExtension() {
     VerbatimNameUsage v1 = new VerbatimNameUsage();
     v1.setCoreField(DwcTerm.taxonID, "IPNI342");
     v1.setCoreField(DwcTerm.scientificName, "Abies alba");
@@ -68,7 +69,7 @@ public class VerbatimNameUsageTest {
   }
 
   @Test
-  public void testEquality() throws IOException {
+  public void testEquality() {
     VerbatimNameUsage v1 = new VerbatimNameUsage();
     v1.setCoreField(DwcTerm.taxonID, "IPNI342");
     v1.setCoreField(DwcTerm.scientificName, "Abies alba");
@@ -84,7 +85,7 @@ public class VerbatimNameUsageTest {
     assertEquals(v1, v2);
 
     v1.setLastCrawled(new Date());
-    assertFalse(v1.equals(v2));
+    assertNotEquals(v2, v1);
   }
 
   @Test
@@ -198,33 +199,42 @@ public class VerbatimNameUsageTest {
     v.setKey(7);
     v.setLastCrawled(new Date());
 
+    char [][] alphabeticPairs = {{'a','z'},{'A','Z'}};
+    char [][] alphanumericPairs = {{'a','z'},{'A','Z'},{'0','9'}};
+    RandomStringGenerator generatorAlphabetic = new RandomStringGenerator.Builder()
+        .withinRange(alphabeticPairs)
+        .build();
+    RandomStringGenerator generatorAlphanumeric = new RandomStringGenerator.Builder()
+        .withinRange(alphanumericPairs)
+        .build();
+
     for (Term term : DwcTerm.values()) {
-      v.setCoreField(term, RandomStringUtils.randomAlphabetic(20));
+      v.setCoreField(term, generatorAlphabetic.generate(20));
     }
     final int numDwcTerms = v.getFields().size();
 
     for (Term term : DcTerm.values()) {
-      v.setCoreField(term, RandomStringUtils.randomAlphabetic(20));
+      v.setCoreField(term, generatorAlphabetic.generate(20));
     }
     final int numDcTerms = v.getFields().size() - numDwcTerms;
 
     for (Term term : GbifTerm.values()) {
-      v.setCoreField(term, RandomStringUtils.randomAlphabetic(20));
+      v.setCoreField(term, generatorAlphabetic.generate(20));
     }
     final int numGbifTerms = v.getFields().size() - numDwcTerms - numDcTerms;
 
     for (Term term : IucnTerm.values()) {
-      v.setCoreField(term, RandomStringUtils.randomAlphanumeric(20));
+      v.setCoreField(term, generatorAlphanumeric.generate(20));
     }
     final int numIucnTerms = v.getFields().size() - numDwcTerms - numDcTerms - numGbifTerms;
 
     v.setCoreField(DwcTerm.scientificName, "Abies alba");
     v.setCoreField(DwcTerm.collectionCode, "BUGS");
     v.setCoreField(DwcTerm.catalogNumber, "MD10782");
-    v.setCoreField(UnknownTerm.build("http://rs.un.org/terms/temperatur"), RandomStringUtils.randomAlphabetic(30));
-    v.setCoreField(UnknownTerm.build("http://rs.un.org/terms/co2"), RandomStringUtils.randomAlphabetic(30));
+    v.setCoreField(UnknownTerm.build("http://rs.un.org/terms/temperatur"), generatorAlphabetic.generate(30));
+    v.setCoreField(UnknownTerm.build("http://rs.un.org/terms/co2"), generatorAlphabetic.generate(30));
     v.setCoreField(UnknownTerm.build("http://rs.un.org/terms/modified"), new Date().toString());
-    v.setCoreField(UnknownTerm.build("http://rs.un.org/terms/scientificName"), RandomStringUtils.randomAlphabetic(30));
+    v.setCoreField(UnknownTerm.build("http://rs.un.org/terms/scientificName"), generatorAlphabetic.generate(30));
     final int numOtherTerms = v.getFields().size() - numDwcTerms - numDcTerms - numGbifTerms - numIucnTerms;
 
     final int numTerms = v.getFields().size();
@@ -237,7 +247,6 @@ public class VerbatimNameUsageTest {
     VerbatimNameUsage v2 = mapper.readValue(json, VerbatimNameUsage.class);
     // 5 terms
     assertEquals(numTerms, v2.getFields().size());
-
   }
 
   @Test
@@ -262,7 +271,7 @@ public class VerbatimNameUsageTest {
     VerbatimNameUsage v = new VerbatimNameUsage();
     v.setKey(7);
     v.setLastCrawled(new Date());
-    Map<Extension, List<Map<Term, String>>> extensions = new HashMap<Extension, List<Map<Term, String>>>();
+    Map<Extension, List<Map<Term, String>>> extensions = new HashMap<>();
     List<Map<Term, String>> verbatimRecords = new ArrayList<>();
     verbatimRecords.add(verbatimRecord);
     extensions.put(Extension.MULTIMEDIA, verbatimRecords);

@@ -20,8 +20,9 @@ import org.gbif.api.model.checklistbank.search.NameUsageSearchParameter;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests for class SearchResponse
@@ -41,7 +42,7 @@ public class SearchResponseTest {
     SearchResponse<String, ?> searchResponse2 =
       new SearchResponse<String, NameUsageSearchParameter>(offset, limit, count, results, null);
 
-    Assert.assertEquals(searchResponse1, searchResponse2);
+    assertEquals(searchResponse1, searchResponse2);
   }
 
 }

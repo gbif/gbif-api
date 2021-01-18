@@ -19,9 +19,9 @@ import org.gbif.api.model.registry.Contact;
 
 import java.util.Collections;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class ProjectTest {
 

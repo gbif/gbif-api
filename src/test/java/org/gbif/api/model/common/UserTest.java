@@ -27,17 +27,19 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Deprecated
 public class UserTest {
-  private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
+  private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
   @Test
-  public void testHasRole() throws Exception {
+  public void testHasRole() {
     User u = new User();
     u.setUserName("betty");
     u.setEmail("betty@gbif.org");
@@ -45,24 +47,24 @@ public class UserTest {
 
     assertFalse(u.hasRole(UserRole.USER));
     assertFalse(u.hasRole(UserRole.REGISTRY_EDITOR));
-    assertFalse(u.hasRole(UserRole.ADMIN));
+    assertFalse(u.hasRole(UserRole.REGISTRY_ADMIN));
     assertFalse(u.hasRole(null));
 
     u.addRole(UserRole.USER);
     assertTrue(u.hasRole(UserRole.USER));
     assertFalse(u.hasRole(UserRole.REGISTRY_EDITOR));
-    assertFalse(u.hasRole(UserRole.ADMIN));
+    assertFalse(u.hasRole(UserRole.REGISTRY_ADMIN));
     assertFalse(u.hasRole(null));
 
-    u.addRole(UserRole.ADMIN);
+    u.addRole(UserRole.REGISTRY_ADMIN);
     assertTrue(u.hasRole(UserRole.USER));
     assertFalse(u.hasRole(UserRole.REGISTRY_EDITOR));
-    assertTrue(u.hasRole(UserRole.ADMIN));
+    assertTrue(u.hasRole(UserRole.REGISTRY_ADMIN));
     assertFalse(u.hasRole(null));
   }
 
   @Test
-  public void testIsAdmin() throws Exception {
+  public void testIsAdmin() {
     User u = new User();
     u.setUserName("betty");
     u.setEmail("betty@gbif.org");
@@ -75,7 +77,7 @@ public class UserTest {
   }
 
   @Test
-  public void testValidation() throws Exception {
+  public void testValidation() {
     User u = new User();
     u.setKey(100);
     u.setUserName("be");
@@ -132,7 +134,7 @@ public class UserTest {
   }
 
   @Test
-  public void testName() throws IOException {
+  public void testName() {
     User u = new User();
     u.setKey(100);
     u.setUserName("be");
@@ -141,5 +143,4 @@ public class UserTest {
     u.setLastName("Ford");
     assertEquals("Betty Ford", u.getName());
   }
-
 }

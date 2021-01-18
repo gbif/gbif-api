@@ -20,7 +20,9 @@ import org.gbif.api.SerdeTestUtils;
 import java.io.IOException;
 import java.net.URI;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DoiDataTest {
 
@@ -30,9 +32,8 @@ public class DoiDataTest {
     SerdeTestUtils.testSerDe(status, DoiData.class);
   }
 
-  @Test(expected = NullPointerException.class)
-  public void testStatusNull() throws IOException {
-    new DoiData((DoiStatus) null, URI.create("http://www.google.de"));
+  @Test
+  public void testStatusNull() {
+    assertThrows(NullPointerException.class, () -> new DoiData((DoiStatus) null, URI.create("http://www.google.de")));
   }
-
 }

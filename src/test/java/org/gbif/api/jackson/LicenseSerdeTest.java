@@ -19,18 +19,17 @@ import org.gbif.api.vocabulary.License;
 
 import java.io.IOException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test {@link License} serde using LicenseJsonSerializer and LicenseJsonDeserializer.
- *
  */
 public class LicenseSerdeTest {
 
@@ -38,7 +37,6 @@ public class LicenseSerdeTest {
 
   @Test
   public void testLicenseSerde() throws IOException {
-
     LicenseWrapper license = new LicenseWrapper(License.CC0_1_0, "cc0");
     String json = MAPPER.writeValueAsString(license);
 
@@ -48,7 +46,6 @@ public class LicenseSerdeTest {
 
   /**
    * Check the 3 cases where we can not serialize a URL for the license UNSPECIFIED, UNSUPPORTED and null.
-   * @throws IOException
    */
   @Test
   public void testLicenseSerdeNoUrl() throws IOException {
@@ -106,6 +103,5 @@ public class LicenseSerdeTest {
     public void setText(String text) {
       this.text = text;
     }
-
   }
 }

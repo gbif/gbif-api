@@ -15,14 +15,14 @@
  */
 package org.gbif.api.vocabulary;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ContactTypeTest {
 
   @Test
-  public void testFromString() throws Exception {
+  public void testFromString() {
     assertEquals(ContactType.POINT_OF_CONTACT, ContactType.fromString("POINT_OF_CONTACT"));
     assertEquals(ContactType.POINT_OF_CONTACT, ContactType.fromString("POINTOFCONTACT"));
     assertEquals(ContactType.POINT_OF_CONTACT, ContactType.fromString("point_of_contact"));
@@ -30,5 +30,4 @@ public class ContactTypeTest {
     assertEquals(ContactType.POINT_OF_CONTACT, ContactType.fromString("pointofcontact"));
     assertEquals(ContactType.CURATOR, ContactType.fromString("curator"));
   }
-
 }

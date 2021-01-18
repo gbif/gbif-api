@@ -17,9 +17,9 @@ package org.gbif.api.model.checklistbank;
 
 import org.gbif.api.vocabulary.Country;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DistributionTest {
 
@@ -34,7 +34,5 @@ public class DistributionTest {
     d2.setStartDayOfYear(1);
 
     assertEquals(d1, d2);
-
   }
-
 }

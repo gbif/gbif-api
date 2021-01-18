@@ -15,8 +15,9 @@
  */
 package org.gbif.api.model.common.search;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Facet.Count test cases
@@ -28,7 +29,6 @@ public class FacetCountTest {
     Facet.Count count1 = new Facet.Count("c1", 1L);
     Facet.Count count2 = new Facet.Count("c1", 1L);
 
-    Assert.assertEquals(count1, count2);
+    assertEquals(count1, count2);
   }
-
 }

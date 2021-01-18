@@ -24,10 +24,10 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class NetworkTest {
 
@@ -40,7 +40,7 @@ public class NetworkTest {
     net.setTitle("a"); // too short
     net.setLogoUrl(URI.create("file:///tmp/aha")); // bad http URI
     Set<ConstraintViolation<Network>> violations = validator.validate(net);
-    assertFalse("Violations were expected", violations.isEmpty());
+    assertFalse(violations.isEmpty(), "Violations were expected");
 
     // ensure all expected properties are caught
     Set<String> propertiesInViolation = new HashSet<>();
@@ -49,7 +49,6 @@ public class NetworkTest {
     for (ConstraintViolation<?> cv : violations) {
       propertiesInViolation.remove(cv.getPropertyPath().toString());
     }
-    assertTrue("Properties incorrectly passed validation " + propertiesInViolation, propertiesInViolation.isEmpty());
+    assertTrue(propertiesInViolation.isEmpty(), "Properties incorrectly passed validation " + propertiesInViolation);
   }
-
 }

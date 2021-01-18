@@ -23,40 +23,41 @@ import org.gbif.api.vocabulary.TechnicalInstallationType;
 
 import java.util.Optional;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class VocabularyUtilsTest {
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testParseContactType() throws Exception {
+  @Test
+  public void testParseContactType() {
     assertEquals(ContactType.AUTHOR, VocabularyUtils.parseContactType("author"));
     assertEquals(ContactType.ADMINISTRATIVE_POINT_OF_CONTACT,
       VocabularyUtils.parseContactType("ADMINISTRATIVE POINT_of_CONTACT"));
-    VocabularyUtils.parseContactType("bad");
+    assertThrows(IllegalArgumentException.class, () -> VocabularyUtils.parseContactType("bad"));
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testParseEndpointType() throws Exception {
+  @Test
+  public void testParseEndpointType() {
     assertEquals(EndpointType.TAPIR, VocabularyUtils.parseEndpointType("Tapir"));
     assertEquals(EndpointType.DWC_ARCHIVE, VocabularyUtils.parseEndpointType("DWC_ARCHIVE"));
-    VocabularyUtils.parseEndpointType("bad");
+    assertThrows(IllegalArgumentException.class, () -> VocabularyUtils.parseEndpointType("bad"));
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testParseIdentifierType() throws Exception {
+  @Test
+  public void testParseIdentifierType() {
     assertEquals(IdentifierType.LSID, VocabularyUtils.parseIdentifierType("lsid"));
     assertEquals(IdentifierType.DOI, VocabularyUtils.parseIdentifierType("d.o.i."));
-    VocabularyUtils.parseIdentifierType("bad");
+    assertThrows(IllegalArgumentException.class, () -> VocabularyUtils.parseIdentifierType("bad"));
   }
 
   @Deprecated
-  @Test(expected = IllegalArgumentException.class)
-  public void testParseTechnicalInstallationType() throws Exception {
+  @Test
+  public void testParseTechnicalInstallationType() {
     assertEquals(TechnicalInstallationType.IPT_INSTALLATION,
       VocabularyUtils.parseTechnicalInstallationType("ipt installation"));
-    VocabularyUtils.parseTechnicalInstallationType("bad");
+    assertThrows(IllegalArgumentException.class, () -> VocabularyUtils.parseTechnicalInstallationType("bad"));
   }
 
   @Test
@@ -64,9 +65,9 @@ public class VocabularyUtilsTest {
     assertEquals(Country.class, VocabularyUtils.lookupVocabulary(Country.class.getName()));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testReflectionLookupError() {
-    VocabularyUtils.lookupVocabulary("WTFMate");
+    assertThrows(IllegalArgumentException.class, () -> VocabularyUtils.lookupVocabulary("WTFMate"));
   }
 
   @Test

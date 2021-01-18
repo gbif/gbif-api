@@ -15,10 +15,10 @@
  */
 package org.gbif.api.vocabulary;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  *
@@ -26,14 +26,14 @@ import static org.junit.Assert.assertTrue;
 public class TypeStatusTest {
 
   @Test
-  public void testSpecimenTypeStatusList() throws Exception {
+  public void testSpecimenTypeStatusList() {
     for (TypeStatus ts : TypeStatus.specimenTypeStatusList()) {
       assertTrue(ts.isTypeSpecimen());
     }
   }
 
   @Test
-  public void testNameTypeStatusList() throws Exception {
+  public void testNameTypeStatusList() {
     for (TypeStatus ts : TypeStatus.nameTypeStatusList()) {
       if (ts != TypeStatus.TYPE) {
         assertFalse(ts.isTypeSpecimen());
@@ -42,7 +42,7 @@ public class TypeStatusTest {
   }
 
   @Test
-  public void testIsTypeSpecimen() throws Exception {
+  public void testIsTypeSpecimen() {
     assertFalse(TypeStatus.TYPE_SPECIES.isTypeSpecimen());
     assertTrue(TypeStatus.HOLOTYPE.isTypeSpecimen());
     assertTrue(TypeStatus.TYPE.isTypeSpecimen());

@@ -17,10 +17,13 @@ package org.gbif.api.model.occurrence.predicate;
 
 import org.gbif.utils.file.FileUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class WithinPredicateTest {
 
@@ -29,9 +32,9 @@ public class WithinPredicateTest {
     new WithinPredicate("");
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void testNullConstructor() {
-    new WithinPredicate(null);
+    assertThrows(NullPointerException.class, () -> new WithinPredicate(null));
   }
 
   // API no longer throws an exeception here.
@@ -52,7 +55,7 @@ public class WithinPredicateTest {
   @Test
   public void testGoodComplexConstructor() throws Exception {
     byte[] enc = Files.readAllBytes(FileUtils.getClasspathFile("predicate/large-polygon.wkt").toPath());
-    new WithinPredicate(new String(enc, "UTF-8"));
+    new WithinPredicate(new String(enc, StandardCharsets.UTF_8));
   }
 
   @Test
@@ -92,8 +95,8 @@ public class WithinPredicateTest {
    *
    * https://github.com/locationtech/spatial4j/issues/5
    */
+  @Disabled
   @Test
-  @Ignore
   public void testGoodPolygonOverPole() {
     // A big polygon over the Arctic
     new WithinPredicate("POLYGON((-40 65,80 75,160 65, 220 75,280 55,-40 65))");

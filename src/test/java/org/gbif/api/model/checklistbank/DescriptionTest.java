@@ -17,9 +17,9 @@ package org.gbif.api.model.checklistbank;
 
 import org.gbif.api.vocabulary.Language;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DescriptionTest {
 
@@ -34,7 +34,5 @@ public class DescriptionTest {
     d2.setType("morphology");
 
     assertEquals(d1, d2);
-
   }
-
 }

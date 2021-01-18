@@ -17,12 +17,13 @@ package org.gbif.api.util;
 
 import java.util.UUID;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DatasetKeyTest {
 
@@ -34,54 +35,54 @@ public class DatasetKeyTest {
   private static final String VALID_UUID = "127da08e-5326-41ef-abbd-a27f65f3670d";
   private static final String VALID_UUID_MIXED_CASE = "127DA08E-5326-41ef-abbd-a27f65f3670d";
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testParseInvalid() {
-    DatasetKey.fromString("7879e569-4a13-4643-b833-d1a564675bzz");
+    assertThrows(IllegalArgumentException.class, () -> DatasetKey.fromString("7879e569-4a13-4643-b833-d1a564675bzz"));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testParseInvalid2() {
-    DatasetKey.fromString("7879e569-4a13-4643-b833-d1a564675b861");
+    assertThrows(IllegalArgumentException.class, () -> DatasetKey.fromString("7879e569-4a13-4643-b833-d1a564675b861"));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testParseInvalid3() {
-    DatasetKey.fromString(VALID_UUID + ":");
+    assertThrows(IllegalArgumentException.class, () -> DatasetKey.fromString(VALID_UUID + ":"));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testParseInvalid4() {
-    DatasetKey.fromString("7879e569-4a13-4643-b833_d1a564675b85:aha");
+    assertThrows(IllegalArgumentException.class, () -> DatasetKey.fromString("7879e569-4a13-4643-b833_d1a564675b85:aha"));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testParseInvalid5() {
-    DatasetKey.fromString("");
+    assertThrows(IllegalArgumentException.class, () -> DatasetKey.fromString(""));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void testParseInvalid6() {
-    DatasetKey.fromString(null);
+    assertThrows(NullPointerException.class, () -> DatasetKey.fromString(null));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testParseInvalidWhitespaceOnly() {
-    DatasetKey.fromString("7879e569-4a13-4643-b833_d1a564675b85:   ");
+    assertThrows(IllegalArgumentException.class, () -> DatasetKey.fromString("7879e569-4a13-4643-b833_d1a564675b85:   "));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void testInvalidConstructor() {
-    DatasetKey key = new DatasetKey(UUID.randomUUID(), null);
+    assertThrows(NullPointerException.class, () -> new DatasetKey(UUID.randomUUID(), null));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testInvalidConstructor2() {
-    DatasetKey key = new DatasetKey(UUID.randomUUID(), "");
+    assertThrows(IllegalArgumentException.class, () -> new DatasetKey(UUID.randomUUID(), ""));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testInvalidConstructor3() {
-    DatasetKey key = new DatasetKey(UUID.randomUUID(), "    ");
+    assertThrows(IllegalArgumentException.class, () -> new DatasetKey(UUID.randomUUID(), "    "));
   }
 
   @Test
@@ -115,14 +116,14 @@ public class DatasetKeyTest {
     assertEquals("-", key.getDatasetId());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testParseNetworkKeyInvalid() {
-    DatasetKey.fromString(INVALID_EXTERNAL_DATASET_KEY);
+    assertThrows(IllegalArgumentException.class, () -> DatasetKey.fromString(INVALID_EXTERNAL_DATASET_KEY));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testParseNetworkKeyShort() {
-    DatasetKey.fromString(SHORT_EXTERNAL_DATASET_KEY);
+    assertThrows(IllegalArgumentException.class, () -> DatasetKey.fromString(SHORT_EXTERNAL_DATASET_KEY));
   }
 
   @Test

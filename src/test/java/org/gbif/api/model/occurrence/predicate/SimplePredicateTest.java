@@ -19,12 +19,13 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import java.util.UUID;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
-import static org.junit.matchers.JUnitMatchers.both;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 public class SimplePredicateTest {
@@ -34,9 +35,9 @@ public class SimplePredicateTest {
   private static final OccurrenceSearchParameter COMP_PARAM = OccurrenceSearchParameter.ELEVATION;
   private static final String COMP_VALUE = "100";
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testEmptyConstructor() {
-    new EqualsPredicate(TEST_KEY, "", false);
+    assertThrows(IllegalArgumentException.class, () -> new EqualsPredicate(TEST_KEY, "", false));
   }
 
   @Test
@@ -92,14 +93,14 @@ public class SimplePredicateTest {
     assertThat(sp3.hashCode(), equalTo(sp4.hashCode()));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void testNullConstructor() {
-    new EqualsPredicate(null, null, false);
+    assertThrows(NullPointerException.class, () -> new EqualsPredicate(null, null, false));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testOnlyEqualsAllowed() {
-    new LessThanPredicate(OccurrenceSearchParameter.DATASET_KEY, UUID.randomUUID().toString());
+    assertThrows(IllegalArgumentException.class, () -> new LessThanPredicate(OccurrenceSearchParameter.DATASET_KEY, UUID.randomUUID().toString()));
   }
 
   @Test
@@ -109,28 +110,28 @@ public class SimplePredicateTest {
     assertThat(p.getValue(), equalTo(TEST_VALUE));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testWrongDoubleValue() {
-    new EqualsPredicate(OccurrenceSearchParameter.DECIMAL_LATITUDE, "32..312", false);
+    assertThrows(IllegalArgumentException.class, () -> new EqualsPredicate(OccurrenceSearchParameter.DECIMAL_LATITUDE, "32..312", false));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testWrongEnumValue() {
-    new EqualsPredicate(OccurrenceSearchParameter.BASIS_OF_RECORD, "Specimen", false);
+    assertThrows(IllegalArgumentException.class, () -> new EqualsPredicate(OccurrenceSearchParameter.BASIS_OF_RECORD, "Specimen", false));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testWrongDoubleValue2() {
-    new EqualsPredicate(OccurrenceSearchParameter.ELEVATION, "0.6s", false);
+    assertThrows(IllegalArgumentException.class, () -> new EqualsPredicate(OccurrenceSearchParameter.ELEVATION, "0.6s", false));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testWrongUuidValue() {
-    new EqualsPredicate(OccurrenceSearchParameter.DATASET_KEY, "133-4312-443-2-43-32432423-", false);
+    assertThrows(IllegalArgumentException.class, () -> new EqualsPredicate(OccurrenceSearchParameter.DATASET_KEY, "133-4312-443-2-43-32432423-", false));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testGeometryEquals() {
-    new EqualsPredicate(OccurrenceSearchParameter.GEOMETRY, "POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))", false);
+    assertThrows(IllegalArgumentException.class, () -> new EqualsPredicate(OccurrenceSearchParameter.GEOMETRY, "POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))", false));
   }
 }

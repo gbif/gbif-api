@@ -17,10 +17,10 @@ package org.gbif.api.model.common;
 
 import org.gbif.api.vocabulary.IdentifierType;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class IdentifierTest {
 
@@ -46,6 +46,6 @@ public class IdentifierTest {
     assertEquals(i1, i2);
 
     i2.setTitle("me not");
-    assertFalse(i1.equals(i2));
+    assertNotEquals(i2, i1);
   }
 }

@@ -18,28 +18,28 @@ package org.gbif.api.vocabulary;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class CountryTest {
 
   @Test
-  public void testFromIsoCode() throws Exception {
+  public void testFromIsoCode() {
     assertEquals(Country.ARGENTINA, Country.fromIsoCode("ar"));
     assertEquals(Country.ARGENTINA, Country.fromIsoCode("AR"));
   }
 
   @Test
-  public void testGetIso2LetterCode() throws Exception {
+  public void testGetIso2LetterCode() {
     Set<String> codes = new HashSet<>();
     for (Country l : Country.values()) {
       assertNotNull(l.getIso2LetterCode());
@@ -54,7 +54,7 @@ public class CountryTest {
   }
 
   @Test
-  public void testGetIso3LetterCode() throws Exception {
+  public void testGetIso3LetterCode() {
     Set<String> codes = new HashSet<>();
     for (Country l : Country.values()) {
       assertNotNull(l.getIso3LetterCode());
@@ -69,7 +69,7 @@ public class CountryTest {
   }
 
   @Test
-  public void testGetIsoNumericalCode() throws Exception {
+  public void testGetIsoNumericalCode() {
     Set<Integer> codes = new HashSet<>();
     for (Country l : Country.values()) {
       assertNotNull(l.getIsoNumericalCode());
@@ -82,7 +82,7 @@ public class CountryTest {
   }
 
   @Test
-  public void testIsCustomCode() throws Exception {
+  public void testIsCustomCode() {
     for (Country l : Country.values()) {
       if (l.isOfficial()) {
         assertFalse(Country.isCustomCode(l.getIso2LetterCode()));
@@ -95,7 +95,7 @@ public class CountryTest {
   }
 
   @Test
-  public void testIsOfficial() throws Exception {
+  public void testIsOfficial() {
     for (Country l : Country.OFFICIAL_COUNTRIES) {
       assertTrue(l.isOfficial());
     }
@@ -106,7 +106,7 @@ public class CountryTest {
   }
 
   @Test
-  public void testgetTitle() throws Exception {
+  public void testgetTitle() {
     for (Country l : Country.values()) {
       assertNotNull(l.getTitle());
       assertTrue(l.getTitle().length() > 2);
@@ -184,8 +184,8 @@ public class CountryTest {
       String json = mapper.writeValueAsString(source);
       System.out.println(json);
       Container target = mapper.readValue(json, Container.class);
-      assertEquals("country differs", source.country, target.country);
-      assertEquals("island differs", source.island, target.island);
+      assertEquals(source.country, target.country, "country differs");
+      assertEquals(source.island, target.island, "island differs");
     } catch (Exception e) {
       fail(e.getMessage());
     }
@@ -199,7 +199,7 @@ public class CountryTest {
       String json = mapper.writeValueAsString(source);
       System.out.println(json);
       CountryNameBean target = mapper.readValue(json, CountryNameBean.class);
-      assertEquals("island differs", source.island, target.island);
+      assertEquals(source.island, target.island, "island differs");
     } catch (Exception e) {
       fail(e.getMessage());
     }
