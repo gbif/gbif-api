@@ -30,23 +30,23 @@
 <span class="sourceLineNo">022</span>import java.net.URLEncoder;<a name="line.22"></a>
 <span class="sourceLineNo">023</span>import java.util.Objects;<a name="line.23"></a>
 <span class="sourceLineNo">024</span><a name="line.24"></a>
-<span class="sourceLineNo">025</span>import org.junit.Test;<a name="line.25"></a>
+<span class="sourceLineNo">025</span>import org.junit.jupiter.api.Test;<a name="line.25"></a>
 <span class="sourceLineNo">026</span><a name="line.26"></a>
-<span class="sourceLineNo">027</span>import static org.junit.Assert.assertEquals;<a name="line.27"></a>
-<span class="sourceLineNo">028</span>import static org.junit.Assert.assertFalse;<a name="line.28"></a>
-<span class="sourceLineNo">029</span>import static org.junit.Assert.assertTrue;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>import static org.junit.Assert.fail;<a name="line.30"></a>
+<span class="sourceLineNo">027</span>import static org.junit.jupiter.api.Assertions.assertEquals;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import static org.junit.jupiter.api.Assertions.assertFalse;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import static org.junit.jupiter.api.Assertions.assertTrue;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import static org.junit.jupiter.api.Assertions.fail;<a name="line.30"></a>
 <span class="sourceLineNo">031</span><a name="line.31"></a>
 <span class="sourceLineNo">032</span>public class DOITest {<a name="line.32"></a>
 <span class="sourceLineNo">033</span><a name="line.33"></a>
 <span class="sourceLineNo">034</span>  @Test<a name="line.34"></a>
-<span class="sourceLineNo">035</span>  public void testPrefixConstructor() throws Exception {<a name="line.35"></a>
+<span class="sourceLineNo">035</span>  public void testPrefixConstructor() {<a name="line.35"></a>
 <span class="sourceLineNo">036</span>    DOI d = new DOI("10.1234", "1ASCDU");<a name="line.36"></a>
 <span class="sourceLineNo">037</span>    assertEquals(d, new DOI("doi:10.1234/1ASCDU"));<a name="line.37"></a>
 <span class="sourceLineNo">038</span>  }<a name="line.38"></a>
 <span class="sourceLineNo">039</span><a name="line.39"></a>
 <span class="sourceLineNo">040</span>  @Test<a name="line.40"></a>
-<span class="sourceLineNo">041</span>  public void testIsParsable() throws Exception {<a name="line.41"></a>
+<span class="sourceLineNo">041</span>  public void testIsParsable() {<a name="line.41"></a>
 <span class="sourceLineNo">042</span>    assertFalse(DOI.isParsable(null));<a name="line.42"></a>
 <span class="sourceLineNo">043</span>    assertFalse(DOI.isParsable(""));<a name="line.43"></a>
 <span class="sourceLineNo">044</span>    assertFalse(DOI.isParsable("10.1234.1ASCDU"));<a name="line.44"></a>
@@ -85,7 +85,7 @@
 <span class="sourceLineNo">077</span>  }<a name="line.77"></a>
 <span class="sourceLineNo">078</span><a name="line.78"></a>
 <span class="sourceLineNo">079</span>  @Test<a name="line.79"></a>
-<span class="sourceLineNo">080</span>  public void testCreate() throws Exception {<a name="line.80"></a>
+<span class="sourceLineNo">080</span>  public void testCreate() {<a name="line.80"></a>
 <span class="sourceLineNo">081</span>    DOI d = new DOI("http://dx.doi.org/10.1234/1ASCDU");<a name="line.81"></a>
 <span class="sourceLineNo">082</span><a name="line.82"></a>
 <span class="sourceLineNo">083</span>    assertSame(d, "http://dx.doi.org/urn:doi:10.1234/1ASCDU");<a name="line.83"></a>
@@ -196,9 +196,9 @@
 <span class="sourceLineNo">188</span>    Container source = new Container(new DOI("doi:10.1038/nature.2014.16460"), new DOI("http://dx.doi.org/10.1034/gbif.2014.xscdf2"));<a name="line.188"></a>
 <span class="sourceLineNo">189</span>    try {<a name="line.189"></a>
 <span class="sourceLineNo">190</span>      String json = SerdeTestUtils.testSerDe(source, Container.class);<a name="line.190"></a>
-<span class="sourceLineNo">191</span>      assertFalse("DOIs should be shown without a scheme", json.contains("doi:10."));<a name="line.191"></a>
-<span class="sourceLineNo">192</span>      assertFalse("DOIs should not use http resolvers", json.contains("http"));<a name="line.192"></a>
-<span class="sourceLineNo">193</span>      assertFalse("DOIs should not use http resolvers", json.contains("doi.org"));<a name="line.193"></a>
+<span class="sourceLineNo">191</span>      assertFalse(json.contains("doi:10."), "DOIs should be shown without a scheme");<a name="line.191"></a>
+<span class="sourceLineNo">192</span>      assertFalse(json.contains("http"), "DOIs should not use http resolvers");<a name="line.192"></a>
+<span class="sourceLineNo">193</span>      assertFalse(json.contains("doi.org"), "DOIs should not use http resolvers");<a name="line.193"></a>
 <span class="sourceLineNo">194</span>      System.out.println(json);<a name="line.194"></a>
 <span class="sourceLineNo">195</span>    } catch (Exception e) {<a name="line.195"></a>
 <span class="sourceLineNo">196</span>      fail(e.getMessage());<a name="line.196"></a>

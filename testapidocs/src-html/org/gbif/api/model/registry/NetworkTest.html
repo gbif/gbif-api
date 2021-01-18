@@ -32,10 +32,10 @@
 <span class="sourceLineNo">024</span>import javax.validation.Validator;<a name="line.24"></a>
 <span class="sourceLineNo">025</span>import javax.validation.ValidatorFactory;<a name="line.25"></a>
 <span class="sourceLineNo">026</span><a name="line.26"></a>
-<span class="sourceLineNo">027</span>import org.junit.Test;<a name="line.27"></a>
+<span class="sourceLineNo">027</span>import org.junit.jupiter.api.Test;<a name="line.27"></a>
 <span class="sourceLineNo">028</span><a name="line.28"></a>
-<span class="sourceLineNo">029</span>import static org.junit.Assert.assertFalse;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>import static org.junit.Assert.assertTrue;<a name="line.30"></a>
+<span class="sourceLineNo">029</span>import static org.junit.jupiter.api.Assertions.assertFalse;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import static org.junit.jupiter.api.Assertions.assertTrue;<a name="line.30"></a>
 <span class="sourceLineNo">031</span><a name="line.31"></a>
 <span class="sourceLineNo">032</span>public class NetworkTest {<a name="line.32"></a>
 <span class="sourceLineNo">033</span><a name="line.33"></a>
@@ -48,7 +48,7 @@
 <span class="sourceLineNo">040</span>    net.setTitle("a"); // too short<a name="line.40"></a>
 <span class="sourceLineNo">041</span>    net.setLogoUrl(URI.create("file:///tmp/aha")); // bad http URI<a name="line.41"></a>
 <span class="sourceLineNo">042</span>    Set&lt;ConstraintViolation&lt;Network&gt;&gt; violations = validator.validate(net);<a name="line.42"></a>
-<span class="sourceLineNo">043</span>    assertFalse("Violations were expected", violations.isEmpty());<a name="line.43"></a>
+<span class="sourceLineNo">043</span>    assertFalse(violations.isEmpty(), "Violations were expected");<a name="line.43"></a>
 <span class="sourceLineNo">044</span><a name="line.44"></a>
 <span class="sourceLineNo">045</span>    // ensure all expected properties are caught<a name="line.45"></a>
 <span class="sourceLineNo">046</span>    Set&lt;String&gt; propertiesInViolation = new HashSet&lt;&gt;();<a name="line.46"></a>
@@ -57,10 +57,9 @@
 <span class="sourceLineNo">049</span>    for (ConstraintViolation&lt;?&gt; cv : violations) {<a name="line.49"></a>
 <span class="sourceLineNo">050</span>      propertiesInViolation.remove(cv.getPropertyPath().toString());<a name="line.50"></a>
 <span class="sourceLineNo">051</span>    }<a name="line.51"></a>
-<span class="sourceLineNo">052</span>    assertTrue("Properties incorrectly passed validation " + propertiesInViolation, propertiesInViolation.isEmpty());<a name="line.52"></a>
+<span class="sourceLineNo">052</span>    assertTrue(propertiesInViolation.isEmpty(), "Properties incorrectly passed validation " + propertiesInViolation);<a name="line.52"></a>
 <span class="sourceLineNo">053</span>  }<a name="line.53"></a>
-<span class="sourceLineNo">054</span><a name="line.54"></a>
-<span class="sourceLineNo">055</span>}<a name="line.55"></a>
+<span class="sourceLineNo">054</span>}<a name="line.54"></a>
 
 
 

@@ -28,11 +28,11 @@
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> java.util.List;
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> java.util.Set;
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>  
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.junit.Test;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.junit.jupiter.api.Test;
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>  
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.assertFalse;
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.assertNotNull;
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.assertTrue;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.jupiter.api.Assertions.assertFalse;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.jupiter.api.Assertions.assertNotNull;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.jupiter.api.Assertions.assertTrue;
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>  
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment"> * Checks InterpretationRemark implementations.</em>
@@ -58,34 +58,33 @@
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>      IMPLEMENTING_CLASSES
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>        .forEach(cl -&gt; Arrays.asList((InterpretationRemark[]) cl.getEnumConstants()).forEach(
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>          ir -&gt; {
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>            assertTrue(<span class="jxr_string">"Enumeration value "</span> + ir
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>                + <span class="jxr_string">" is unique within all InterpretationRemark implementations."</span>,
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>              interpretationRemarks.add(ir.toString()));
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>            assertTrue(<span class="jxr_string">"Enumeration value "</span> + ir + <span class="jxr_string">" with getID "</span> + ir.getId()
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>                + <span class="jxr_string">" is unique within all InterpretationRemark implementations."</span>,
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>              interpretationRemarksId.add(ir.getId()));
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>          }
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>          )
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>        );
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>    }
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>  
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>    @Test
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testInterpretationRemarkNotNulls() {
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>      IMPLEMENTING_CLASSES
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>        .forEach(cl -&gt; Arrays.asList((InterpretationRemark[]) cl.getEnumConstants()).forEach(
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>          ir -&gt; assertNotNull(
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>            <span class="jxr_string">"InterpretationRemark implementations return a not null value for getSeverity()"</span>,
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>            ir.getSeverity())
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>          )
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>        );
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>    }
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>  
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>    @Test
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testInterpretationRemarkDeprecated() {
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>      assertTrue(OccurrenceIssue.COORDINATE_PRECISION_UNCERTAINTY_MISMATCH.isDeprecated());
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>      assertFalse(OccurrenceIssue.BASIS_OF_RECORD_INVALID.isDeprecated());
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>    }
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>  }
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>            assertTrue(interpretationRemarks.add(ir.toString()),
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>                <span class="jxr_string">"Enumeration value "</span> + ir + <span class="jxr_string">" is unique within all InterpretationRemark implementations."</span>);
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>            assertTrue(interpretationRemarksId.add(ir.getId()),
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>                <span class="jxr_string">"Enumeration value "</span> + ir + <span class="jxr_string">" with getID "</span>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>                    + ir.getId() + <span class="jxr_string">" is unique within all InterpretationRemark implementations."</span>);
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>          }
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>          )
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>        );
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>    }
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>    @Test
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testInterpretationRemarkNotNulls() {
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>      IMPLEMENTING_CLASSES
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>        .forEach(cl -&gt; Arrays.asList((InterpretationRemark[]) cl.getEnumConstants()).forEach(
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>          ir -&gt; assertNotNull(
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>              ir.getSeverity(),
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>            <span class="jxr_string">"InterpretationRemark implementations return a not null value for getSeverity()"</span>)
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>          )
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>        );
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>    }
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>    @Test
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testInterpretationRemarkDeprecated() {
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>      assertTrue(OccurrenceIssue.COORDINATE_PRECISION_UNCERTAINTY_MISMATCH.isDeprecated());
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>      assertFalse(OccurrenceIssue.BASIS_OF_RECORD_INVALID.isDeprecated());
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>    }
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2021 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>

@@ -26,39 +26,39 @@
 <span class="sourceLineNo">018</span>import java.util.Arrays;<a name="line.18"></a>
 <span class="sourceLineNo">019</span>import java.util.Collections;<a name="line.19"></a>
 <span class="sourceLineNo">020</span><a name="line.20"></a>
-<span class="sourceLineNo">021</span>import org.junit.Test;<a name="line.21"></a>
+<span class="sourceLineNo">021</span>import org.junit.jupiter.api.Test;<a name="line.21"></a>
 <span class="sourceLineNo">022</span><a name="line.22"></a>
-<span class="sourceLineNo">023</span>import static org.junit.Assert.assertFalse;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import static org.junit.Assert.assertTrue;<a name="line.24"></a>
-<span class="sourceLineNo">025</span><a name="line.25"></a>
-<span class="sourceLineNo">026</span>public class GenericValidationReportTest {<a name="line.26"></a>
-<span class="sourceLineNo">027</span><a name="line.27"></a>
-<span class="sourceLineNo">028</span>  @Test(expected = NullPointerException.class)<a name="line.28"></a>
-<span class="sourceLineNo">029</span>  public void testConstructor() throws Exception {<a name="line.29"></a>
-<span class="sourceLineNo">030</span>    GenericValidationReport report = new GenericValidationReport(10, true, null, null);<a name="line.30"></a>
-<span class="sourceLineNo">031</span>  }<a name="line.31"></a>
-<span class="sourceLineNo">032</span><a name="line.32"></a>
-<span class="sourceLineNo">033</span>  @Test(expected = NullPointerException.class)<a name="line.33"></a>
-<span class="sourceLineNo">034</span>  public void testConstructor2() throws Exception {<a name="line.34"></a>
-<span class="sourceLineNo">035</span>    GenericValidationReport report = new GenericValidationReport(10, true, Collections.emptyList(), null);<a name="line.35"></a>
-<span class="sourceLineNo">036</span>  }<a name="line.36"></a>
-<span class="sourceLineNo">037</span><a name="line.37"></a>
-<span class="sourceLineNo">038</span>  @Test(expected = NullPointerException.class)<a name="line.38"></a>
-<span class="sourceLineNo">039</span>  public void testConstructor3() throws Exception {<a name="line.39"></a>
-<span class="sourceLineNo">040</span>    GenericValidationReport report = new GenericValidationReport(10, true, null, Collections.emptyList());<a name="line.40"></a>
-<span class="sourceLineNo">041</span>  }<a name="line.41"></a>
-<span class="sourceLineNo">042</span><a name="line.42"></a>
-<span class="sourceLineNo">043</span>  @Test<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  public void testIsValid() throws Exception {<a name="line.44"></a>
-<span class="sourceLineNo">045</span>    assertTrue(new GenericValidationReport(10, true, Collections.emptyList(), Collections.emptyList()).isValid());<a name="line.45"></a>
-<span class="sourceLineNo">046</span>    assertTrue(new GenericValidationReport(0, true, Collections.emptyList(), Collections.emptyList()).isValid());<a name="line.46"></a>
-<span class="sourceLineNo">047</span>    assertFalse(new GenericValidationReport(10, true, Collections.emptyList(), Collections.singletonList(1)).isValid());<a name="line.47"></a>
-<span class="sourceLineNo">048</span>    assertFalse(new GenericValidationReport(10, true, Collections.emptyList(), Arrays.asList(1,2,3,4)).isValid());<a name="line.48"></a>
-<span class="sourceLineNo">049</span>    assertFalse(new GenericValidationReport(10, true, Collections.singletonList("r32"),<a name="line.49"></a>
-<span class="sourceLineNo">050</span>      Arrays.asList(1, 2)).isValid());<a name="line.50"></a>
-<span class="sourceLineNo">051</span>    assertFalse(new GenericValidationReport(10, true, Collections.singletonList("r32"), Collections.emptyList()).isValid());<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  }<a name="line.52"></a>
-<span class="sourceLineNo">053</span><a name="line.53"></a>
+<span class="sourceLineNo">023</span>import static org.junit.jupiter.api.Assertions.assertFalse;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import static org.junit.jupiter.api.Assertions.assertThrows;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import static org.junit.jupiter.api.Assertions.assertTrue;<a name="line.25"></a>
+<span class="sourceLineNo">026</span><a name="line.26"></a>
+<span class="sourceLineNo">027</span>public class GenericValidationReportTest {<a name="line.27"></a>
+<span class="sourceLineNo">028</span><a name="line.28"></a>
+<span class="sourceLineNo">029</span>  @Test<a name="line.29"></a>
+<span class="sourceLineNo">030</span>  public void testConstructor() {<a name="line.30"></a>
+<span class="sourceLineNo">031</span>    assertThrows(NullPointerException.class, () -&gt; new GenericValidationReport(10, true, null, null));<a name="line.31"></a>
+<span class="sourceLineNo">032</span>  }<a name="line.32"></a>
+<span class="sourceLineNo">033</span><a name="line.33"></a>
+<span class="sourceLineNo">034</span>  @Test<a name="line.34"></a>
+<span class="sourceLineNo">035</span>  public void testConstructor2() {<a name="line.35"></a>
+<span class="sourceLineNo">036</span>    assertThrows(NullPointerException.class, () -&gt; new GenericValidationReport(10, true, Collections.emptyList(), null));<a name="line.36"></a>
+<span class="sourceLineNo">037</span>  }<a name="line.37"></a>
+<span class="sourceLineNo">038</span><a name="line.38"></a>
+<span class="sourceLineNo">039</span>  @Test<a name="line.39"></a>
+<span class="sourceLineNo">040</span>  public void testConstructor3() {<a name="line.40"></a>
+<span class="sourceLineNo">041</span>    assertThrows(NullPointerException.class, () -&gt; new GenericValidationReport(10, true, null, Collections.emptyList()));<a name="line.41"></a>
+<span class="sourceLineNo">042</span>  }<a name="line.42"></a>
+<span class="sourceLineNo">043</span><a name="line.43"></a>
+<span class="sourceLineNo">044</span>  @Test<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  public void testIsValid() {<a name="line.45"></a>
+<span class="sourceLineNo">046</span>    assertTrue(new GenericValidationReport(10, true, Collections.emptyList(), Collections.emptyList()).isValid());<a name="line.46"></a>
+<span class="sourceLineNo">047</span>    assertTrue(new GenericValidationReport(0, true, Collections.emptyList(), Collections.emptyList()).isValid());<a name="line.47"></a>
+<span class="sourceLineNo">048</span>    assertFalse(new GenericValidationReport(10, true, Collections.emptyList(), Collections.singletonList(1)).isValid());<a name="line.48"></a>
+<span class="sourceLineNo">049</span>    assertFalse(new GenericValidationReport(10, true, Collections.emptyList(), Arrays.asList(1,2,3,4)).isValid());<a name="line.49"></a>
+<span class="sourceLineNo">050</span>    assertFalse(new GenericValidationReport(10, true, Collections.singletonList("r32"),<a name="line.50"></a>
+<span class="sourceLineNo">051</span>      Arrays.asList(1, 2)).isValid());<a name="line.51"></a>
+<span class="sourceLineNo">052</span>    assertFalse(new GenericValidationReport(10, true, Collections.singletonList("r32"), Collections.emptyList()).isValid());<a name="line.52"></a>
+<span class="sourceLineNo">053</span>  }<a name="line.53"></a>
 <span class="sourceLineNo">054</span>}<a name="line.54"></a>
 
 

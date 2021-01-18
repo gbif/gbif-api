@@ -31,62 +31,63 @@
 <span class="sourceLineNo">023</span><a name="line.23"></a>
 <span class="sourceLineNo">024</span>import java.util.Optional;<a name="line.24"></a>
 <span class="sourceLineNo">025</span><a name="line.25"></a>
-<span class="sourceLineNo">026</span>import org.junit.Test;<a name="line.26"></a>
+<span class="sourceLineNo">026</span>import org.junit.jupiter.api.Test;<a name="line.26"></a>
 <span class="sourceLineNo">027</span><a name="line.27"></a>
-<span class="sourceLineNo">028</span>import static org.junit.Assert.assertEquals;<a name="line.28"></a>
-<span class="sourceLineNo">029</span><a name="line.29"></a>
-<span class="sourceLineNo">030</span>public class VocabularyUtilsTest {<a name="line.30"></a>
-<span class="sourceLineNo">031</span><a name="line.31"></a>
-<span class="sourceLineNo">032</span>  @Test(expected = IllegalArgumentException.class)<a name="line.32"></a>
-<span class="sourceLineNo">033</span>  public void testParseContactType() throws Exception {<a name="line.33"></a>
-<span class="sourceLineNo">034</span>    assertEquals(ContactType.AUTHOR, VocabularyUtils.parseContactType("author"));<a name="line.34"></a>
-<span class="sourceLineNo">035</span>    assertEquals(ContactType.ADMINISTRATIVE_POINT_OF_CONTACT,<a name="line.35"></a>
-<span class="sourceLineNo">036</span>      VocabularyUtils.parseContactType("ADMINISTRATIVE POINT_of_CONTACT"));<a name="line.36"></a>
-<span class="sourceLineNo">037</span>    VocabularyUtils.parseContactType("bad");<a name="line.37"></a>
-<span class="sourceLineNo">038</span>  }<a name="line.38"></a>
-<span class="sourceLineNo">039</span><a name="line.39"></a>
-<span class="sourceLineNo">040</span>  @Test(expected = IllegalArgumentException.class)<a name="line.40"></a>
-<span class="sourceLineNo">041</span>  public void testParseEndpointType() throws Exception {<a name="line.41"></a>
-<span class="sourceLineNo">042</span>    assertEquals(EndpointType.TAPIR, VocabularyUtils.parseEndpointType("Tapir"));<a name="line.42"></a>
-<span class="sourceLineNo">043</span>    assertEquals(EndpointType.DWC_ARCHIVE, VocabularyUtils.parseEndpointType("DWC_ARCHIVE"));<a name="line.43"></a>
-<span class="sourceLineNo">044</span>    VocabularyUtils.parseEndpointType("bad");<a name="line.44"></a>
-<span class="sourceLineNo">045</span>  }<a name="line.45"></a>
-<span class="sourceLineNo">046</span><a name="line.46"></a>
-<span class="sourceLineNo">047</span>  @Test(expected = IllegalArgumentException.class)<a name="line.47"></a>
-<span class="sourceLineNo">048</span>  public void testParseIdentifierType() throws Exception {<a name="line.48"></a>
-<span class="sourceLineNo">049</span>    assertEquals(IdentifierType.LSID, VocabularyUtils.parseIdentifierType("lsid"));<a name="line.49"></a>
-<span class="sourceLineNo">050</span>    assertEquals(IdentifierType.DOI, VocabularyUtils.parseIdentifierType("d.o.i."));<a name="line.50"></a>
-<span class="sourceLineNo">051</span>    VocabularyUtils.parseIdentifierType("bad");<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  }<a name="line.52"></a>
-<span class="sourceLineNo">053</span><a name="line.53"></a>
-<span class="sourceLineNo">054</span>  @Deprecated<a name="line.54"></a>
-<span class="sourceLineNo">055</span>  @Test(expected = IllegalArgumentException.class)<a name="line.55"></a>
-<span class="sourceLineNo">056</span>  public void testParseTechnicalInstallationType() throws Exception {<a name="line.56"></a>
-<span class="sourceLineNo">057</span>    assertEquals(TechnicalInstallationType.IPT_INSTALLATION,<a name="line.57"></a>
-<span class="sourceLineNo">058</span>      VocabularyUtils.parseTechnicalInstallationType("ipt installation"));<a name="line.58"></a>
-<span class="sourceLineNo">059</span>    VocabularyUtils.parseTechnicalInstallationType("bad");<a name="line.59"></a>
-<span class="sourceLineNo">060</span>  }<a name="line.60"></a>
-<span class="sourceLineNo">061</span><a name="line.61"></a>
-<span class="sourceLineNo">062</span>  @Test<a name="line.62"></a>
-<span class="sourceLineNo">063</span>  public void testReflectionLookup() {<a name="line.63"></a>
-<span class="sourceLineNo">064</span>    assertEquals(Country.class, VocabularyUtils.lookupVocabulary(Country.class.getName()));<a name="line.64"></a>
-<span class="sourceLineNo">065</span>  }<a name="line.65"></a>
-<span class="sourceLineNo">066</span><a name="line.66"></a>
-<span class="sourceLineNo">067</span>  @Test(expected = IllegalArgumentException.class)<a name="line.67"></a>
-<span class="sourceLineNo">068</span>  public void testReflectionLookupError() {<a name="line.68"></a>
-<span class="sourceLineNo">069</span>    VocabularyUtils.lookupVocabulary("WTFMate");<a name="line.69"></a>
-<span class="sourceLineNo">070</span>  }<a name="line.70"></a>
-<span class="sourceLineNo">071</span><a name="line.71"></a>
-<span class="sourceLineNo">072</span>  @Test<a name="line.72"></a>
-<span class="sourceLineNo">073</span>  public void testLookupUsingOptional() {<a name="line.73"></a>
-<span class="sourceLineNo">074</span>    assertEquals(ContactType.AUTHOR, VocabularyUtils.lookup("author", ContactType.class).get());<a name="line.74"></a>
-<span class="sourceLineNo">075</span><a name="line.75"></a>
-<span class="sourceLineNo">076</span>    //Optional.absent() should be returned for all the following values<a name="line.76"></a>
-<span class="sourceLineNo">077</span>    assertEquals(Optional.empty(), VocabularyUtils.lookup("thor", ContactType.class));<a name="line.77"></a>
-<span class="sourceLineNo">078</span>    assertEquals(Optional.empty(), VocabularyUtils.lookup("", ContactType.class));<a name="line.78"></a>
-<span class="sourceLineNo">079</span>    assertEquals(Optional.empty(), VocabularyUtils.lookup(null, ContactType.class));<a name="line.79"></a>
-<span class="sourceLineNo">080</span>  }<a name="line.80"></a>
-<span class="sourceLineNo">081</span>}<a name="line.81"></a>
+<span class="sourceLineNo">028</span>import static org.junit.jupiter.api.Assertions.assertEquals;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import static org.junit.jupiter.api.Assertions.assertThrows;<a name="line.29"></a>
+<span class="sourceLineNo">030</span><a name="line.30"></a>
+<span class="sourceLineNo">031</span>public class VocabularyUtilsTest {<a name="line.31"></a>
+<span class="sourceLineNo">032</span><a name="line.32"></a>
+<span class="sourceLineNo">033</span>  @Test<a name="line.33"></a>
+<span class="sourceLineNo">034</span>  public void testParseContactType() {<a name="line.34"></a>
+<span class="sourceLineNo">035</span>    assertEquals(ContactType.AUTHOR, VocabularyUtils.parseContactType("author"));<a name="line.35"></a>
+<span class="sourceLineNo">036</span>    assertEquals(ContactType.ADMINISTRATIVE_POINT_OF_CONTACT,<a name="line.36"></a>
+<span class="sourceLineNo">037</span>      VocabularyUtils.parseContactType("ADMINISTRATIVE POINT_of_CONTACT"));<a name="line.37"></a>
+<span class="sourceLineNo">038</span>    assertThrows(IllegalArgumentException.class, () -&gt; VocabularyUtils.parseContactType("bad"));<a name="line.38"></a>
+<span class="sourceLineNo">039</span>  }<a name="line.39"></a>
+<span class="sourceLineNo">040</span><a name="line.40"></a>
+<span class="sourceLineNo">041</span>  @Test<a name="line.41"></a>
+<span class="sourceLineNo">042</span>  public void testParseEndpointType() {<a name="line.42"></a>
+<span class="sourceLineNo">043</span>    assertEquals(EndpointType.TAPIR, VocabularyUtils.parseEndpointType("Tapir"));<a name="line.43"></a>
+<span class="sourceLineNo">044</span>    assertEquals(EndpointType.DWC_ARCHIVE, VocabularyUtils.parseEndpointType("DWC_ARCHIVE"));<a name="line.44"></a>
+<span class="sourceLineNo">045</span>    assertThrows(IllegalArgumentException.class, () -&gt; VocabularyUtils.parseEndpointType("bad"));<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  }<a name="line.46"></a>
+<span class="sourceLineNo">047</span><a name="line.47"></a>
+<span class="sourceLineNo">048</span>  @Test<a name="line.48"></a>
+<span class="sourceLineNo">049</span>  public void testParseIdentifierType() {<a name="line.49"></a>
+<span class="sourceLineNo">050</span>    assertEquals(IdentifierType.LSID, VocabularyUtils.parseIdentifierType("lsid"));<a name="line.50"></a>
+<span class="sourceLineNo">051</span>    assertEquals(IdentifierType.DOI, VocabularyUtils.parseIdentifierType("d.o.i."));<a name="line.51"></a>
+<span class="sourceLineNo">052</span>    assertThrows(IllegalArgumentException.class, () -&gt; VocabularyUtils.parseIdentifierType("bad"));<a name="line.52"></a>
+<span class="sourceLineNo">053</span>  }<a name="line.53"></a>
+<span class="sourceLineNo">054</span><a name="line.54"></a>
+<span class="sourceLineNo">055</span>  @Deprecated<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  @Test<a name="line.56"></a>
+<span class="sourceLineNo">057</span>  public void testParseTechnicalInstallationType() {<a name="line.57"></a>
+<span class="sourceLineNo">058</span>    assertEquals(TechnicalInstallationType.IPT_INSTALLATION,<a name="line.58"></a>
+<span class="sourceLineNo">059</span>      VocabularyUtils.parseTechnicalInstallationType("ipt installation"));<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    assertThrows(IllegalArgumentException.class, () -&gt; VocabularyUtils.parseTechnicalInstallationType("bad"));<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  }<a name="line.61"></a>
+<span class="sourceLineNo">062</span><a name="line.62"></a>
+<span class="sourceLineNo">063</span>  @Test<a name="line.63"></a>
+<span class="sourceLineNo">064</span>  public void testReflectionLookup() {<a name="line.64"></a>
+<span class="sourceLineNo">065</span>    assertEquals(Country.class, VocabularyUtils.lookupVocabulary(Country.class.getName()));<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  }<a name="line.66"></a>
+<span class="sourceLineNo">067</span><a name="line.67"></a>
+<span class="sourceLineNo">068</span>  @Test<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  public void testReflectionLookupError() {<a name="line.69"></a>
+<span class="sourceLineNo">070</span>    assertThrows(IllegalArgumentException.class, () -&gt; VocabularyUtils.lookupVocabulary("WTFMate"));<a name="line.70"></a>
+<span class="sourceLineNo">071</span>  }<a name="line.71"></a>
+<span class="sourceLineNo">072</span><a name="line.72"></a>
+<span class="sourceLineNo">073</span>  @Test<a name="line.73"></a>
+<span class="sourceLineNo">074</span>  public void testLookupUsingOptional() {<a name="line.74"></a>
+<span class="sourceLineNo">075</span>    assertEquals(ContactType.AUTHOR, VocabularyUtils.lookup("author", ContactType.class).get());<a name="line.75"></a>
+<span class="sourceLineNo">076</span><a name="line.76"></a>
+<span class="sourceLineNo">077</span>    //Optional.absent() should be returned for all the following values<a name="line.77"></a>
+<span class="sourceLineNo">078</span>    assertEquals(Optional.empty(), VocabularyUtils.lookup("thor", ContactType.class));<a name="line.78"></a>
+<span class="sourceLineNo">079</span>    assertEquals(Optional.empty(), VocabularyUtils.lookup("", ContactType.class));<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    assertEquals(Optional.empty(), VocabularyUtils.lookup(null, ContactType.class));<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  }<a name="line.81"></a>
+<span class="sourceLineNo">082</span>}<a name="line.82"></a>
 
 
 

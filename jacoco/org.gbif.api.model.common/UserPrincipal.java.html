@@ -30,10 +30,10 @@ import org.apache.commons.lang3.StringUtils;
 public class UserPrincipal implements Principal {
   private final User user;
 
-<span class="fc" id="L33">  public UserPrincipal(User user) {</span>
-<span class="fc" id="L34">    Objects.requireNonNull(user);</span>
-<span class="fc" id="L35">    this.user = user;</span>
-<span class="fc" id="L36">  }</span>
+<span class="nc" id="L33">  public UserPrincipal(User user) {</span>
+<span class="nc" id="L34">    Objects.requireNonNull(user);</span>
+<span class="nc" id="L35">    this.user = user;</span>
+<span class="nc" id="L36">  }</span>
 
   @Override
   public String getName() {
@@ -54,10 +54,10 @@ public class UserPrincipal implements Principal {
    * @return true if the user has the requested role
    */
   public boolean hasRole(String role) {
-<span class="pc bpc" id="L57" title="1 of 2 branches missed.">    if (StringUtils.isNotEmpty(role)) {</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">    if (StringUtils.isNotEmpty(role)) {</span>
       try {
-<span class="fc" id="L59">        UserRole r = UserRole.valueOf(role.toUpperCase());</span>
-<span class="fc" id="L60">        return user.hasRole(r);</span>
+<span class="nc" id="L59">        UserRole r = UserRole.valueOf(role.toUpperCase());</span>
+<span class="nc" id="L60">        return user.hasRole(r);</span>
 <span class="nc" id="L61">      } catch (IllegalArgumentException e) {</span>
         // ignore
       }
