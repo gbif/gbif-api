@@ -15,12 +15,13 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
-import static org.junit.matchers.JUnitMatchers.both;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 public class NotPredicateTest {
@@ -63,9 +64,9 @@ public class NotPredicateTest {
     assertThat(p.hashCode(), not(equalTo(np1.hashCode())));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void testNullConstructor() {
-    new NotPredicate(null);
+    assertThrows(NullPointerException.class, () -> new NotPredicate(null));
   }
 
 }

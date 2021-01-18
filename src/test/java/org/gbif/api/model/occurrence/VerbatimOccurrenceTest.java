@@ -33,18 +33,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
+import org.apache.commons.text.RandomStringGenerator;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class VerbatimOccurrenceTest {
 
@@ -112,7 +112,7 @@ public class VerbatimOccurrenceTest {
     ObjectMapper mapper = new ObjectMapper();
 
     VerbatimOccurrence verb = new VerbatimOccurrence();
-    verb.setKey(123l);
+    verb.setKey(123L);
     String termPrefix = "I am Jack's ";
     for (Term term : DwcTerm.values()) {
       verb.setVerbatimField(term, termPrefix + term);
@@ -156,38 +156,48 @@ public class VerbatimOccurrenceTest {
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
     VerbatimOccurrence v = new VerbatimOccurrence();
-    v.setKey(7l);
+    v.setKey(7L);
     v.setLastParsed(new Date());
     v.setDatasetKey(UUID.randomUUID());
 
+    char [][] alphabeticPairs = {{'a','z'},{'A','Z'}};
+    char [][] alphanumericPairs = {{'a','z'},{'A','Z'},{'0','9'}};
+    RandomStringGenerator generatorAlphabetic = new RandomStringGenerator.Builder()
+        .withinRange(alphabeticPairs)
+        .build();
+    RandomStringGenerator generatorAlphanumeric = new RandomStringGenerator.Builder()
+        .withinRange(alphanumericPairs)
+        .build();
+
     for (Term term : DwcTerm.values()) {
-      v.setVerbatimField(term, RandomStringUtils.randomAlphabetic(20));
+
+      v.setVerbatimField(term, generatorAlphabetic.generate(20));
     }
     final int numDwcTerms = v.getVerbatimFields().size();
 
     for (Term term : DcTerm.values()) {
-      v.setVerbatimField(term, RandomStringUtils.randomAlphabetic(20));
+      v.setVerbatimField(term, generatorAlphabetic.generate(20));
     }
     final int numDcTerms = v.getVerbatimFields().size() - numDwcTerms;
 
     for (Term term : GbifTerm.values()) {
-      v.setVerbatimField(term, RandomStringUtils.randomAlphabetic(20));
+      v.setVerbatimField(term, generatorAlphabetic.generate(20));
     }
     final int numGbifTerms = v.getVerbatimFields().size() - numDwcTerms - numDcTerms;
 
     for (Term term : IucnTerm.values()) {
-      v.setVerbatimField(term, RandomStringUtils.randomAlphanumeric(20));
+      v.setVerbatimField(term, generatorAlphanumeric.generate(20));
     }
     final int numIucnTerms = v.getVerbatimFields().size() - numDwcTerms - numDcTerms - numGbifTerms;
 
     v.setVerbatimField(DwcTerm.scientificName, "Abies alba");
     v.setVerbatimField(DwcTerm.collectionCode, "BUGS");
     v.setVerbatimField(DwcTerm.catalogNumber, "MD10782");
-    v.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/temperatur"), RandomStringUtils.randomAlphabetic(30));
-    v.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/co2"), RandomStringUtils.randomAlphabetic(30));
+    v.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/temperatur"), generatorAlphabetic.generate(30));
+    v.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/co2"), generatorAlphabetic.generate(30));
     v.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/modified"), new Date().toString());
     v.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/scientificName"),
-      RandomStringUtils.randomAlphabetic(30));
+      generatorAlphabetic.generate(30));
     final int numOtherTerms = v.getVerbatimFields().size() - numDwcTerms - numDcTerms - numGbifTerms - numIucnTerms;
 
     final int numTerms = v.getVerbatimFields().size();
@@ -223,7 +233,7 @@ public class VerbatimOccurrenceTest {
     verbatimRecord.put(DcTerm.identifier, "http://www.gbif.org/");
 
     VerbatimOccurrence v = new VerbatimOccurrence();
-    v.setKey(7l);
+    v.setKey(7L);
     v.setLastParsed(new Date());
     v.setDatasetKey(UUID.randomUUID());
     Map<String, List<Map<Term, String>>> extensions = new HashMap<>();
@@ -237,7 +247,7 @@ public class VerbatimOccurrenceTest {
 
     VerbatimOccurrence v2 = mapper.readValue(json, VerbatimOccurrence.class);
     assertNotNull(v2.getExtensions());
-    assertTrue(!v2.getExtensions().get(Extension.MULTIMEDIA.getRowType()).isEmpty());
+    assertFalse(v2.getExtensions().get(Extension.MULTIMEDIA.getRowType()).isEmpty());
     assertEquals(v2.getExtensions().get(Extension.MULTIMEDIA.getRowType()).get(0), verbatimRecord);
   }
 }

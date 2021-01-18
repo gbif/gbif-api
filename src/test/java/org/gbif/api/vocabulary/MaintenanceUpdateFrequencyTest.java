@@ -15,14 +15,14 @@
  */
 package org.gbif.api.vocabulary;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MaintenanceUpdateFrequencyTest {
 
   @Test
-  public void testFromString() throws Exception {
+  public void testFromString() {
     // with spaces
     assertEquals(MaintenanceUpdateFrequency.AS_NEEDED, MaintenanceUpdateFrequency.fromString("asNeeded"));
     assertEquals(MaintenanceUpdateFrequency.AS_NEEDED, MaintenanceUpdateFrequency.fromString("as needed"));

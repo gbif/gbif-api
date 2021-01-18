@@ -15,9 +15,10 @@
  */
 package org.gbif.api.model.common.paging;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PagingRequestTest {
 
@@ -32,19 +33,18 @@ public class PagingRequestTest {
     assertEquals(2, pr.getLimit());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testInvalidParams() {
-    PagingRequest pr = new PagingRequest(-1, 0);
+    assertThrows(IllegalArgumentException.class, () -> new PagingRequest(-1, 0));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testInvalidParams2() {
-    PagingRequest pr = new PagingRequest(0, -100);
+    assertThrows(IllegalArgumentException.class, () -> new PagingRequest(0, -100));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testInvalidParams3() {
-    PagingRequest pr = new PagingRequest(-2, -100);
+    assertThrows(IllegalArgumentException.class, () -> new PagingRequest(-2, -100));
   }
-
 }

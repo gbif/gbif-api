@@ -15,14 +15,14 @@
  */
 package org.gbif.api.vocabulary;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DatasetTypeTest {
 
   @Test
-  public void testFromString() throws Exception {
+  public void testFromString() {
     assertEquals(DatasetType.SAMPLING_EVENT, DatasetType.fromString("samplingEvent"));
     assertEquals(DatasetType.SAMPLING_EVENT, DatasetType.fromString("sampling-event"));
     assertEquals(DatasetType.SAMPLING_EVENT, DatasetType.fromString("sampling_event"));

@@ -18,11 +18,13 @@ package org.gbif.api.util.comparators;
 import org.gbif.api.model.registry.Endpoint;
 import org.gbif.api.vocabulary.EndpointType;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class EndpointPriorityComparatorTest {
 
   private static final EndpointPriorityComparator COMP = new EndpointPriorityComparator();
@@ -75,25 +77,23 @@ public class EndpointPriorityComparatorTest {
     assertEquals(0, COMP.compare(e1, e2));
   }
 
-  @Test(expected = ClassCastException.class)
+  @Test
   public void testInvalidComparison1() {
     Endpoint e1 = new Endpoint();
     Endpoint e2 = new Endpoint();
 
     e1.setType(EndpointType.TAPIR);
     e2.setType(EndpointType.WMS);
-    COMP.compare(e1, e2);
+    assertThrows(ClassCastException.class, () -> COMP.compare(e1, e2));
   }
 
-  @Test(expected = ClassCastException.class)
+  @Test
   public void testInvalidComparison2() {
     Endpoint e1 = new Endpoint();
     Endpoint e2 = new Endpoint();
 
     e1.setType(EndpointType.WMS);
     e2.setType(EndpointType.TAPIR);
-    COMP.compare(e1, e2);
+    assertThrows(ClassCastException.class, () -> COMP.compare(e1, e2));
   }
-
-
 }

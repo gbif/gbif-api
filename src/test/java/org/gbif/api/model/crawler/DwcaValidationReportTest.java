@@ -18,15 +18,15 @@ package org.gbif.api.model.crawler;
 import java.util.Collections;
 import java.util.UUID;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DwcaValidationReportTest {
 
   @Test
-  public void testIsValid() throws Exception {
+  public void testIsValid() {
     assertTrue(new DwcaValidationReport(UUID.randomUUID(),
       new OccurrenceValidationReport(10, 10, 0, 10, 0, true),
       new GenericValidationReport(10, true, Collections.emptyList(), Collections.emptyList()), null

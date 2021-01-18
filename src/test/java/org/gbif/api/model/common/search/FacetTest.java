@@ -20,8 +20,9 @@ import org.gbif.api.model.checklistbank.search.NameUsageSearchParameter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests for model class Facet
@@ -39,7 +40,6 @@ public class FacetTest {
     Facet<NameUsageSearchParameter> facet1 = new Facet<NameUsageSearchParameter>(field, counts);
     Facet<NameUsageSearchParameter> facet2 = new Facet<NameUsageSearchParameter>(field, counts);
 
-    Assert.assertEquals(facet1, facet2);
+    assertEquals(facet1, facet2);
   }
-
 }

@@ -20,9 +20,9 @@ import org.gbif.api.model.registry.eml.temporal.SingleDate;
 import org.gbif.api.model.registry.eml.temporal.TemporalCoverage;
 import org.gbif.api.model.registry.eml.temporal.VerbatimTimePeriod;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TemporalCoverageFormatterVisitorTest {
 
@@ -58,5 +58,4 @@ public class TemporalCoverageFormatterVisitorTest {
       return "verbatimTimePeriod";
     }
   }
-
 }

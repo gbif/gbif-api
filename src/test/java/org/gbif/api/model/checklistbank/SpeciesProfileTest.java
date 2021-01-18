@@ -15,9 +15,9 @@
  */
 package org.gbif.api.model.checklistbank;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SpeciesProfileTest {
 
@@ -34,7 +34,5 @@ public class SpeciesProfileTest {
     sp2.setHabitat("Tropical forest");
 
     assertEquals(sp1, sp2);
-
   }
-
 }

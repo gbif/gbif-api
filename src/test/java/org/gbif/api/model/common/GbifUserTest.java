@@ -29,18 +29,18 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests related to {@link GbifUser}.
  */
 public class GbifUserTest {
 
-  private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+  private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
   @Test
   public void testHasRole() {
@@ -51,19 +51,19 @@ public class GbifUserTest {
 
     assertFalse(u.hasRole(UserRole.USER));
     assertFalse(u.hasRole(UserRole.REGISTRY_EDITOR));
-    assertFalse(u.hasRole(UserRole.ADMIN));
+    assertFalse(u.hasRole(UserRole.REGISTRY_ADMIN));
     assertFalse(u.hasRole(null));
 
     u.addRole(UserRole.USER);
     assertTrue(u.hasRole(UserRole.USER));
     assertFalse(u.hasRole(UserRole.REGISTRY_EDITOR));
-    assertFalse(u.hasRole(UserRole.ADMIN));
+    assertFalse(u.hasRole(UserRole.REGISTRY_ADMIN));
     assertFalse(u.hasRole(null));
 
-    u.addRole(UserRole.ADMIN);
+    u.addRole(UserRole.REGISTRY_ADMIN);
     assertTrue(u.hasRole(UserRole.USER));
     assertFalse(u.hasRole(UserRole.REGISTRY_EDITOR));
-    assertTrue(u.hasRole(UserRole.ADMIN));
+    assertTrue(u.hasRole(UserRole.REGISTRY_ADMIN));
     assertFalse(u.hasRole(null));
   }
 

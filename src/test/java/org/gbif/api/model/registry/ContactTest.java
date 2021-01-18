@@ -15,18 +15,20 @@
  */
 package org.gbif.api.model.registry;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ContactTest {
 
   @Test
-  public void testUserId() throws Exception {
+  public void testUserId() {
     Contact c = new Contact();
 
     c.addUserId(null, null);
+    assertNotNull(c.getUserId());
     assertTrue(c.getUserId().isEmpty());
 
     c.addUserId(null, "3421423");
@@ -92,16 +94,15 @@ public class ContactTest {
   @Test
   public void testGetCompleteName() {
     Contact c = new Contact();
-    assertTrue(c.computeCompleteName().equals(""));
+    assertEquals("", c.computeCompleteName());
 
     c.setFirstName("FirstName ");
-    assertTrue(c.computeCompleteName().equals("FirstName"));
+    assertEquals("FirstName", c.computeCompleteName());
 
     c.setLastName("LastName");
-    assertTrue(c.computeCompleteName().equals("FirstName LastName"));
+    assertEquals("FirstName LastName", c.computeCompleteName());
 
     c.setFirstName(" ");
-    assertTrue(c.computeCompleteName().equals("LastName"));
+    assertEquals("LastName", c.computeCompleteName());
   }
-
 }

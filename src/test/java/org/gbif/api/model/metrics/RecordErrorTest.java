@@ -17,9 +17,9 @@ package org.gbif.api.model.metrics;
 
 import org.gbif.api.vocabulary.ProcessingErrorType;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Deprecated
 public class RecordErrorTest {
@@ -46,5 +46,4 @@ public class RecordErrorTest {
 
     assertEquals(recordError, controlRE);
   }
-
 }

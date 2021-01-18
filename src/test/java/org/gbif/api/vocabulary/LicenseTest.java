@@ -15,17 +15,17 @@
  */
 package org.gbif.api.vocabulary;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LicenseTest {
 
   @Test
-  public void testFromString() throws Exception {
+  public void testFromString() {
     // positive matches
     assertEquals(License.CC0_1_0, License.fromLicenseUrl("http://creativecommons.org/publicdomain/zero/1.0/legalcode").get());
     assertEquals(License.CC0_1_0, License.fromLicenseUrl("HTTP://creativecommons.org/publicdomain/zero/1.0/legalcode").get());
@@ -74,7 +74,7 @@ public class LicenseTest {
     }
 
     //The ordinal number in the Enum implicitly defines the level of restriction.
-    assertEquals("The License value ordinal test covers all values of the Concrete License", 3, numberOfConcreteLicense);
+    assertEquals(3, numberOfConcreteLicense, "The License value ordinal test covers all values of the Concrete License");
     assertTrue(License.CC0_1_0.ordinal() < License.CC_BY_4_0.ordinal());
     assertTrue(License.CC_BY_4_0.ordinal() < License.CC_BY_NC_4_0.ordinal());
   }

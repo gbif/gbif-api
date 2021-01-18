@@ -15,17 +15,14 @@
  */
 package org.gbif.api.util;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- *
- */
 public class LengthUtilsTest {
 
   @Test
-  public void testMetersToLatDegree() throws Exception {
+  public void testMetersToLatDegree() {
     assertEquals(0.009043, LengthUtils.metersToLatDegree(1000), 0.0000001);
     assertEquals(0.000904,  LengthUtils.metersToLatDegree(100), 0.0000001);
     assertEquals(0.00009, LengthUtils.metersToLatDegree(10), 0.0000001);
@@ -37,7 +34,7 @@ public class LengthUtilsTest {
   }
 
   @Test
-  public void testLatDegreeToMeters() throws Exception {
+  public void testLatDegreeToMeters() {
     assertEquals(1000, LengthUtils.latDegreeToMeters(0.009044), 0.1);
     assertEquals(100,  LengthUtils.latDegreeToMeters(0.000904),  0.1);
     assertEquals(10,   LengthUtils.latDegreeToMeters(0.00009), 0.1);

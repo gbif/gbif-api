@@ -17,11 +17,12 @@ package org.gbif.api.model.registry;
 
 import org.gbif.api.vocabulary.IdentifierType;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class IdentifierTest {
+
   @Test
   public void testGetIdentifierLink() {
     Identifier i1 = new Identifier();

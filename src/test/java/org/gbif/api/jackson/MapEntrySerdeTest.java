@@ -25,13 +25,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit tests for {@link MapEntrySerde}.
@@ -54,7 +54,6 @@ public class MapEntrySerdeTest {
 
     MapEntryListTermWrapper rebuiltKeyValueList = MAPPER.readValue(json, MapEntryListTermWrapper.class);
     assertEquals(2, rebuiltKeyValueList.getListTerm().size());
-
   }
 
   /**
@@ -96,5 +95,4 @@ public class MapEntrySerdeTest {
       return listTerm;
     }
   }
-
 }

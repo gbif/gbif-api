@@ -15,48 +15,34 @@
  */
 package org.gbif.api.util;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.stream.Stream;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
-@RunWith(Parameterized.class)
 public class SearchTypeValidatorDoubleRangeTest {
 
-  private final String arg;
-  private final Double start;
-  private final Double end;
-
-  public SearchTypeValidatorDoubleRangeTest(String arg, Double start, Double end) {
-    this.arg = arg;
-    this.start = start;
-    this.end = end;
+  public static Stream<Arguments> data() {
+    return Stream.of(
+        Arguments.of("10.3", null, null),
+        Arguments.of("10,20", 10d, 20d),
+        Arguments.of("*,20", null, 20d),
+        Arguments.of("10, *", 10d, null),
+        Arguments.of("10.1,20.2", 10.1d, 20.2d),
+        Arguments.of("-1,2.0432", -1d, 2.0432d),
+        Arguments.of("peter", null, null)
+    );
   }
 
-  @Parameterized.Parameters
-  public static Collection<Object[]> data() {
-    Object[][] data = {
-      {"10.3", null, null},
-      {"10,20", 10d, 20d},
-      {"*,20", null, 20d},
-      {"10, *", 10d, null},
-      {"10.1,20.2", 10.1d, 20.2d},
-      {"-1,2.0432", -1d, 2.0432d},
-      {"peter", null, null},
-    };
-    return Arrays.asList(data);
-  };
-
-
-  @Test
-  public void testRange() throws Exception {
+  @ParameterizedTest
+  @MethodSource("data")
+  public void testRange(String arg, Double start, Double end) {
     try {
       Range<Double> range = SearchTypeValidator.parseDecimalRange(arg);
       if (start == null && end == null) {
@@ -85,5 +71,4 @@ public class SearchTypeValidatorDoubleRangeTest {
       }
     }
   }
-
 }

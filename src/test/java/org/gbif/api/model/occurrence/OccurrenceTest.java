@@ -36,39 +36,36 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.apache.commons.text.RandomStringGenerator;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class OccurrenceTest {
 
   private ObjectMapper mapper;
 
-  private final Long key = 321l;
   private final UUID datasetKey = UUID.randomUUID();
-  private final String sciName = "Abies alba";
   private final Country country = Country.ALGERIA;
   private final Date interpreted = new Date();
   private final Date crawled = new Date(interpreted.getTime() - 99999);
 
-  @Before
+  @BeforeEach
   public void init() {
     mapper = new ObjectMapper();
     mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
@@ -78,8 +75,10 @@ public class OccurrenceTest {
 
   private Occurrence buildTestOccurrence() {
     Occurrence o = new Occurrence();
+    Long key = 321L;
     o.setKey(key);
     o.setDatasetKey(datasetKey);
+    String sciName = "Abies alba";
     o.setScientificName(sciName);
     o.setCountry(country);
     o.setLastInterpreted(interpreted);
@@ -124,7 +123,7 @@ public class OccurrenceTest {
   }
 
   @Test
-  public void testGetHigherClassificationMap() throws Exception {
+  public void testGetHigherClassificationMap() {
     Occurrence occ = new Occurrence();
     occ.setFamily("Plants family");
     occ.setFamilyKey(16);
@@ -156,7 +155,7 @@ public class OccurrenceTest {
     occ.setKingdom("Plants");
     occ.setKingdomKey(6);
 
-    assertEquals(6, (int) occ.getHigherRankKey(Rank.KINGDOM));
+    assertEquals(6, occ.getHigherRankKey(Rank.KINGDOM));
     assertEquals("Plants", occ.getHigherRank(Rank.KINGDOM));
   }
 
@@ -176,7 +175,7 @@ public class OccurrenceTest {
   @Test
   public void testProtocolAndPublishingCountry() {
     Occurrence occ = new Occurrence();
-    occ.setKey(1l);
+    occ.setKey(1L);
     occ.setDatasetKey(UUID.randomUUID());
     occ.setProtocol(EndpointType.BIOCASE);
     occ.setPublishingCountry(Country.AFGHANISTAN);
@@ -186,7 +185,7 @@ public class OccurrenceTest {
   }
 
   @Test
-  public void addIssues() throws IOException {
+  public void addIssues() {
     Occurrence occ = new Occurrence();
     assertTrue(occ.getIssues().isEmpty());
     assertFalse(occ.hasSpatialIssue());
@@ -216,13 +215,12 @@ public class OccurrenceTest {
     System.out.println(json);
     Occurrence occ2 = mapper.readValue(json, Occurrence.class);
     assertEquals(occ, occ2);
-
   }
 
   @Test
   public void testVerbatimConstructor() {
     VerbatimOccurrence verb = new VerbatimOccurrence();
-    verb.setKey(123l);
+    verb.setKey(123L);
     verb.setDatasetKey(UUID.randomUUID());
     verb.setPublishingOrgKey(UUID.randomUUID());
     verb.setPublishingCountry(Country.AFGHANISTAN);
@@ -268,38 +266,43 @@ public class OccurrenceTest {
     o.setYear(1973);
     o.setCoordinateAccuracy(0.002);
 
+    char [][] alphabeticPairs = {{'a','z'},{'A','Z'}};
+    RandomStringGenerator generatorAlphabetic = new RandomStringGenerator.Builder()
+        .withinRange(alphabeticPairs)
+        .build();
+
     for (DwcTerm term : DwcTerm.values()) {
       if (!term.isClass()) {
-        o.setVerbatimField(term, RandomStringUtils.randomAlphabetic(20));
+        o.setVerbatimField(term, generatorAlphabetic.generate(20));
       }
     }
 
     for (DcTerm term : DcTerm.values()) {
       if (!term.isClass()) {
-        o.setVerbatimField(term, RandomStringUtils.randomAlphabetic(20));
+        o.setVerbatimField(term, generatorAlphabetic.generate(20));
       }
     }
 
     for (GbifTerm term : GbifTerm.values()) {
       if (!term.isClass()) {
-        o.setVerbatimField(term, RandomStringUtils.randomAlphabetic(20));
+        o.setVerbatimField(term, generatorAlphabetic.generate(20));
       }
     }
 
     for (IucnTerm term : IucnTerm.values()) {
       if (!term.isClass()) {
-        o.setVerbatimField(term, RandomStringUtils.randomAlphabetic(20));
+        o.setVerbatimField(term, generatorAlphabetic.generate(20));
       }
     }
 
     o.setVerbatimField(DwcTerm.scientificName, "Abies alba");
     o.setVerbatimField(DwcTerm.collectionCode, "BUGS");
     o.setVerbatimField(DwcTerm.catalogNumber, "MD10782");
-    o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/temperatur"), RandomStringUtils.randomAlphabetic(30));
-    o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/co2"), RandomStringUtils.randomAlphabetic(30));
+    o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/temperatur"), generatorAlphabetic.generate(30));
+    o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/co2"), generatorAlphabetic.generate(30));
     o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/modified"), new Date().toString());
     o.setVerbatimField(UnknownTerm.build("http://rs.un.org/terms/scientificName"),
-        RandomStringUtils.randomAlphabetic(30));
+        generatorAlphabetic.generate(30));
 
     String json = mapper.writeValueAsString(o);
     System.out.println(json);
@@ -309,9 +312,7 @@ public class OccurrenceTest {
     Set<Term> diff = new HashSet<>(o.getVerbatimFields().keySet());
     diff.removeAll(o2.getVerbatimFields().keySet());
 
-    Iterator<Term> iter = diff.iterator();
-    while (iter.hasNext()) {
-      Term t = iter.next();
+    for (Term t : diff) {
       System.out.println("TERM DIFF: " + t.qualifiedName());
     }
 
@@ -358,9 +359,7 @@ public class OccurrenceTest {
     Set<Term> diff = new HashSet<>(o.getVerbatimFields().keySet());
     diff.removeAll(o2.getVerbatimFields().keySet());
 
-    Iterator<Term> iter = diff.iterator();
-    while (iter.hasNext()) {
-      Term t = iter.next();
+    for (Term t : diff) {
       System.out.println(t.qualifiedName());
     }
 
@@ -372,9 +371,9 @@ public class OccurrenceTest {
    * checks that countryCode, geodeticDatum and class are nicely exposed in json
    */
   @Test
-  public void testExtensionsSerlializations() throws Exception {
+  public void testExtensionsSerializations() throws Exception {
     Occurrence o = new Occurrence();
-    o.setKey(7l);
+    o.setKey(7L);
     o.setCountry(Country.ALGERIA);
     o.setClassKey(999);
     o.setClazz("Insecta");
@@ -400,5 +399,4 @@ public class OccurrenceTest {
 
     assertEquals(o2.getMedia().get(0), mediaObject);
   }
-
 }

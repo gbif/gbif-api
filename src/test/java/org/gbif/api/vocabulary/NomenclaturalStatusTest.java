@@ -18,16 +18,16 @@ package org.gbif.api.vocabulary;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class NomenclaturalStatusTest {
 
     @Test
-    public void testFromString() throws Exception {
+    public void testFromString() {
         assertEquals(NomenclaturalStatus.CONSERVED, NomenclaturalStatus.fromString("conserved"));
         assertEquals(NomenclaturalStatus.CONSERVED, NomenclaturalStatus.fromString("conserved "));
         assertEquals(NomenclaturalStatus.CONSERVED, NomenclaturalStatus.fromString("nom.cons."));
@@ -42,16 +42,16 @@ public class NomenclaturalStatusTest {
     }
 
     @Test
-    public void testUniqueness() throws Exception {
+    public void testUniqueness() {
         Set<String> keys = new HashSet<>();
         for (NomenclaturalStatus ns : NomenclaturalStatus.values()) {
             if (ns.getAbbreviatedLabel() != null) {
-                assertFalse(ns.name(), keys.contains(ns.getAbbreviatedLabel()));
+                assertFalse(keys.contains(ns.getAbbreviatedLabel()), ns.name());
                 keys.add(ns.getAbbreviatedLabel());
             }
 
             if (ns.getLatinLabel() != null) {
-                assertFalse(ns.name(), keys.contains(ns.getLatinLabel()));
+                assertFalse(keys.contains(ns.getLatinLabel()), ns.name());
                 keys.add(ns.getLatinLabel());
             }
         }

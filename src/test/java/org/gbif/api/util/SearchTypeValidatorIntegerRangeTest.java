@@ -15,49 +15,35 @@
  */
 package org.gbif.api.util;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.stream.Stream;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
-@RunWith(Parameterized.class)
 public class SearchTypeValidatorIntegerRangeTest {
 
-  private final String arg;
-  private final Integer start;
-  private final Integer end;
-
-  public SearchTypeValidatorIntegerRangeTest(String arg, Integer start, Integer end) {
-    this.arg = arg;
-    this.start = start;
-    this.end = end;
+  public static Stream<Arguments> data() {
+    return Stream.of(
+        Arguments.of("10", null, null),
+        Arguments.of("10,20", 10, 20),
+        Arguments.of("10.1,20.0", null, null),
+        Arguments.of("-1 , 0", -1, 0),
+        Arguments.of("*,20", null, 20),
+        Arguments.of("10, *", 10, null),
+        Arguments.of("peter", null, null),
+        Arguments.of("Puma concolor, 1882", null, null)
+    );
   }
 
-  @Parameterized.Parameters
-  public static Collection<Object[]> data() {
-    Object[][] data = {
-      {"10", null, null},
-      {"10,20", 10, 20},
-      {"10.1,20.0", null, null},
-      {"-1 , 0", -1, 0},
-      {"*,20", null, 20},
-      {"10, *", 10, null},
-      {"peter", null, null},
-      {"Puma concolor, 1882", null, null},
-    };
-    return Arrays.asList(data);
-  };
-
-
-  @Test
-  public void testRange() throws Exception {
+  @ParameterizedTest
+  @MethodSource("data")
+  public void testRange(String arg, Integer start, Integer end) {
     try {
       Range<Integer> range = SearchTypeValidator.parseIntegerRange(arg);
       if (start == null && end == null) {
@@ -86,5 +72,4 @@ public class SearchTypeValidatorIntegerRangeTest {
       }
     }
   }
-
 }

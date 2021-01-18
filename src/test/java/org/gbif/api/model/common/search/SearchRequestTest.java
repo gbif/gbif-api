@@ -20,8 +20,9 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Rank;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test class for SearchRequest model class
@@ -32,11 +33,11 @@ public class SearchRequestTest {
   public void testEnumFacet() {
     SearchRequest<NameUsageSearchParameter> req = new SearchRequest<>();
     req.addParameter(NameUsageSearchParameter.RANK, Rank.SPECIES);
-    Assert.assertEquals("SPECIES", req.getParameters().get(NameUsageSearchParameter.RANK).iterator().next());
+    assertEquals("SPECIES", req.getParameters().get(NameUsageSearchParameter.RANK).iterator().next());
 
     SearchRequest<OccurrenceSearchParameter> reqO = new SearchRequest<>();
     reqO.addParameter(OccurrenceSearchParameter.BASIS_OF_RECORD, BasisOfRecord.LITERATURE);
-    Assert.assertEquals("LITERATURE",
+    assertEquals("LITERATURE",
       reqO.getParameters().get(OccurrenceSearchParameter.BASIS_OF_RECORD).iterator().next());
   }
 

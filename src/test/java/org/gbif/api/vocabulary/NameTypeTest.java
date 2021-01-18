@@ -15,15 +15,15 @@
  */
 package org.gbif.api.vocabulary;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class NameTypeTest {
 
   @Test
-  public void testIsBackbone() throws Exception {
+  public void testIsBackbone() {
     assertTrue(NameType.SCIENTIFIC.isBackboneType());
     assertTrue(NameType.VIRUS.isBackboneType());
     assertTrue(NameType.DOUBTFUL.isBackboneType());
@@ -38,7 +38,7 @@ public class NameTypeTest {
   }
 
   @Test
-  public void testIsParsable() throws Exception {
+  public void testIsParsable() {
     assertTrue(NameType.SCIENTIFIC.isParsable());
     assertTrue(NameType.INFORMAL.isParsable());
     assertTrue(NameType.DOUBTFUL.isParsable());
@@ -49,5 +49,4 @@ public class NameTypeTest {
     assertFalse(NameType.HYBRID.isParsable());
     assertFalse(NameType.OTU.isParsable());
   }
-
 }

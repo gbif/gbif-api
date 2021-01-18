@@ -18,10 +18,11 @@ package org.gbif.api.util;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Test case for class OccurrenceDateParsingUtils.
@@ -32,60 +33,59 @@ public class IsoDateParsingUtilsTest {
    * Test case for method {@link IsoDateParsingUtils#parseDateRange(String)}.
    * Upper limit has an invalid date format.
    */
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void isParseWrongDateRangeFormatTest() {
-    IsoDateParsingUtils.parseDateRange("2010-01,2000-10-33 00:00:00");
+    assertThrows(IllegalArgumentException.class, () -> IsoDateParsingUtils.parseDateRange("2010-01,2000-10-33 00:00:00"));
   }
 
   /**
    * Test case for method {@link IsoDateParsingUtils#parseDateRange(String)}.
    * Lower limit > upper limit.
    */
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void isParseWrongDateRangeTest() {
-    IsoDateParsingUtils.parseDateRange("2010-01,2000-10");
+    assertThrows(IllegalArgumentException.class, () -> IsoDateParsingUtils.parseDateRange("2010-01,2000-10"));
   }
 
   /**
    * Test case for method {@link IsoDateParsingUtils#parseDate(String)}.
    */
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void isParseWrongDateTest() {
-    Date d = IsoDateParsingUtils.parseDate("2010-01-01-10");
-    IsoDateParsingUtils.parseDate("2010-01-01-10");
+    assertThrows(IllegalArgumentException.class, () -> IsoDateParsingUtils.parseDate("2010-01-01-10"));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void isParseNonExistingDateTest() {
-    IsoDateParsingUtils.parseDate("2010-21-01");
+    assertThrows(IllegalArgumentException.class, () -> IsoDateParsingUtils.parseDate("2010-21-01"));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void isParseNonExistingDateTest2() {
-    IsoDateParsingUtils.parseDate("2010-02-29");
+    assertThrows(IllegalArgumentException.class, () -> IsoDateParsingUtils.parseDate("2010-02-29"));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void isParseWrongDateWithTrailingStringTest() {
-    IsoDateParsingUtils.parseDate("2010 year");
+    assertThrows(IllegalArgumentException.class, () -> IsoDateParsingUtils.parseDate("2010 year"));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void isParseWrongYearTest() {
-    IsoDateParsingUtils.parseDate("10");
+    assertThrows(IllegalArgumentException.class, () -> IsoDateParsingUtils.parseDate("10"));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void isParseWrongYearTest2() {
-    IsoDateParsingUtils.parseDate("10-10");
+    assertThrows(IllegalArgumentException.class, () -> IsoDateParsingUtils.parseDate("10-10"));
   }
 
   /**
    * Test case for method {@link IsoDateParsingUtils#parseDate(String)}.
    */
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void isParseWrongDateTimTest() {
-    IsoDateParsingUtils.parseDate("2010-01-01 22:00:00");
+    assertThrows(IllegalArgumentException.class, () -> IsoDateParsingUtils.parseDate("2010-01-01 22:00:00"));
   }
 
   /**
@@ -93,12 +93,12 @@ public class IsoDateParsingUtilsTest {
    */
   @Test
   public void parseDateRangeTest() {
-    Assert.assertNotNull(IsoDateParsingUtils.parseDateRange("2000-01,2010"));
-    Assert.assertNotNull(IsoDateParsingUtils.parseDateRange("1900-09-23,2000"));
-    Assert.assertNotNull(IsoDateParsingUtils.parseDateRange("1999-10,1999-12"));
-    Assert.assertNotNull(IsoDateParsingUtils.parseDateRange("1999-10,*"));
-    Assert.assertNotNull(IsoDateParsingUtils.parseDateRange("*,1999-12"));
-    Assert.assertNotNull(IsoDateParsingUtils.parseDateRange("2000-10,*"));
+    assertNotNull(IsoDateParsingUtils.parseDateRange("2000-01,2010"));
+    assertNotNull(IsoDateParsingUtils.parseDateRange("1900-09-23,2000"));
+    assertNotNull(IsoDateParsingUtils.parseDateRange("1999-10,1999-12"));
+    assertNotNull(IsoDateParsingUtils.parseDateRange("1999-10,*"));
+    assertNotNull(IsoDateParsingUtils.parseDateRange("*,1999-12"));
+    assertNotNull(IsoDateParsingUtils.parseDateRange("2000-10,*"));
   }
 
   /**
@@ -106,9 +106,9 @@ public class IsoDateParsingUtilsTest {
    */
   @Test
   public void parseDateTest() {
-    Assert.assertNotNull(IsoDateParsingUtils.parseDate("2000-01"));
-    Assert.assertNotNull(IsoDateParsingUtils.parseDate("2000"));
-    Assert.assertNotNull(IsoDateParsingUtils.parseDate("2000-01-01"));
+    assertNotNull(IsoDateParsingUtils.parseDate("2000-01"));
+    assertNotNull(IsoDateParsingUtils.parseDate("2000"));
+    assertNotNull(IsoDateParsingUtils.parseDate("2000-01-01"));
   }
 
   /**

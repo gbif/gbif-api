@@ -17,60 +17,51 @@ package org.gbif.api.util;
 
 import org.gbif.api.vocabulary.IdentifierType;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.stream.Stream;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-@RunWith(value = Parameterized.class)
 public class IdentifierUtilsTest {
-
-  private String expected;
-  private String identifier;
-  private IdentifierType type;
 
   /**
    * A test is run for each set of parameters. To add a new test, just add a new set of parameters.
    */
-  @Parameterized.Parameters
-  public static Collection<Object[]> getTestParameters() {
-    return Arrays.asList(new Object[][] {
-      {null, "49c5b4ac-e3bf-401b-94b1-c94a2ad5c8d6", IdentifierType.UUID},
-      {"https://www.gbif.org/dataset/ds1", "ds1", IdentifierType.GBIF_PORTAL},
-      {null, "local_1:dx:4", IdentifierType.UNKNOWN},
-      {"http://en.wikipedia.org/wiki/Handle_1", "http://en.wikipedia.org/wiki/Handle_1", IdentifierType.HANDLER},
-      {"urn:ds:acns:1", "urn:ds:acns:1", IdentifierType.URI},
-      {"http://ipt.gbif.org/resource.do?r=ds1", "http://ipt.gbif.org/resource.do?r=ds1", IdentifierType.URL},
-      {"ftp://ftp.gbif.org", "ftp://ftp.gbif.org", IdentifierType.FTP},
-      {"https://doi.org/10.1016/S1097-2765(03)00225-9", "10.1016/S1097-2765(03)00225-9", IdentifierType.DOI},
-      {"http://www.lsid.info/132187", "132187", IdentifierType.LSID},
-    });
+  public static Stream<Arguments> getTestParameters() {
+    return Stream.of(
+      Arguments.of(null, "49c5b4ac-e3bf-401b-94b1-c94a2ad5c8d6", IdentifierType.UUID),
+      Arguments.of("https://www.gbif.org/dataset/ds1", "ds1", IdentifierType.GBIF_PORTAL),
+      Arguments.of(null, "local_1:dx:4", IdentifierType.UNKNOWN),
+      Arguments.of("http://en.wikipedia.org/wiki/Handle_1", "http://en.wikipedia.org/wiki/Handle_1", IdentifierType.HANDLER),
+      Arguments.of("urn:ds:acns:1", "urn:ds:acns:1", IdentifierType.URI),
+      Arguments.of("http://ipt.gbif.org/resource.do?r=ds1", "http://ipt.gbif.org/resource.do?r=ds1", IdentifierType.URL),
+      Arguments.of("ftp://ftp.gbif.org", "ftp://ftp.gbif.org", IdentifierType.FTP),
+      Arguments.of("https://doi.org/10.1016/S1097-2765(03)00225-9", "10.1016/S1097-2765(03)00225-9", IdentifierType.DOI),
+      Arguments.of("http://www.lsid.info/132187", "132187", IdentifierType.LSID)
+    );
   }
 
-  public IdentifierUtilsTest(String expected, String identifier, IdentifierType type) {
-    this.expected = expected;
-    this.identifier = identifier;
-    this.type = type;
-  }
-
-  @Test
-  public void testGetIdentifierLink() {
+  @ParameterizedTest
+  @MethodSource("getTestParameters")
+  public void testGetIdentifierLink(String expected, String identifier, IdentifierType type) {
     assertEquals(expected, IdentifierUtils.getIdentifierLink(identifier, type));
   }
 
-  @Test
-  public void testGetIdentifierLinkWithoutIdentifer() {
+  @SuppressWarnings({"ConstantConditions", "unused"})
+  @ParameterizedTest
+  @MethodSource("getTestParameters")
+  public void testGetIdentifierLinkWithoutIdentifer(String expected, String identifier, IdentifierType type) {
     assertNull(IdentifierUtils.getIdentifierLink(null, type));
   }
 
-  @Test
-  public void testGetIdentifierLinkWithoutType() {
+  @SuppressWarnings({"ConstantConditions", "unused"})
+  @ParameterizedTest
+  @MethodSource("getTestParameters")
+  public void testGetIdentifierLinkWithoutType(String expected, String identifier, IdentifierType type) {
     assertNull(IdentifierUtils.getIdentifierLink(identifier, null));
   }
-
 }

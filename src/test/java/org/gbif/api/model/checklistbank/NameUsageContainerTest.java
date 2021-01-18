@@ -29,12 +29,14 @@ import java.util.List;
 import java.util.Queue;
 import java.util.UUID;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This tests the {@link org.gbif.api.model.checklistbank.NameUsageContainer}.
@@ -64,6 +66,7 @@ public class NameUsageContainerTest {
     assertEquals(checklistKey, nu.getDatasetKey());
     assertEquals((Integer) 1234, nu.getKey());
     assertEquals((Integer) 12345, nu.getSourceTaxonKey());
+    assertNotNull(nu.getReferences());
     assertEquals("http://wisdom.org/1234", nu.getReferences().toString());
     assertEquals("Animalia", nu.getKingdom());
     assertEquals("Puma concolor Linné", nu.getScientificName());
@@ -120,13 +123,13 @@ public class NameUsageContainerTest {
 
     nu2.setKey(124);
 
-    assertFalse(nu1.equals(nu2));
+    assertNotEquals(nu2, nu1);
   }
 
   @Test
   public void testEqualsNonNullity() {
     NameUsageContainer nu1 = new NameUsageContainer();
-    assertFalse(nu1.equals(null));
+    assertNotEquals(nu1, null);
   }
 
   @Test
@@ -150,8 +153,8 @@ public class NameUsageContainerTest {
     assertEquals(nu2, nu1);
 
     nu1.setKey(1234);
-    assertFalse(nu1.equals(nu2));
-    assertFalse(nu2.equals(nu1));
+    assertNotEquals(nu2, nu1);
+    assertNotEquals(nu1, nu2);
   }
 
   @Test
@@ -230,7 +233,7 @@ public class NameUsageContainerTest {
     assertTrue(nu.getHigherClassificationMap().containsKey(10));
     assertFalse(nu.getHigherClassificationMap().containsKey(6));
 
-    Queue<Integer> expectedKeyOrder = new LinkedList<Integer>();
+    Queue<Integer> expectedKeyOrder = new LinkedList<>();
     expectedKeyOrder.add(1);
     expectedKeyOrder.add(5);
     expectedKeyOrder.add(4);

@@ -17,26 +17,22 @@ package org.gbif.api.model.common;
 
 import org.gbif.api.vocabulary.UserRole;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-public class UserPrincipalTest {
-  private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+public class GbifUserPrincipalTest {
 
   @Test
-  public void testHasRole() throws Exception {
-    User user = new User();
+  public void testHasRole() {
+    GbifUser user = new GbifUser();
     user.setKey(100);
     user.setUserName("betty");
     user.setEmail("betty@gbif.org");
     user.setFirstName("Betty");
     user.setLastName("Ford");
-    UserPrincipal u = new UserPrincipal(user);
+    GbifUserPrincipal u = new GbifUserPrincipal(user);
 
     assertFalse(u.hasRole("USER"));
     assertFalse(u.hasRole("User"));
@@ -48,10 +44,9 @@ public class UserPrincipalTest {
     assertTrue(u.hasRole("User"));
     assertFalse(u.hasRole("admin"));
 
-    user.addRole(UserRole.ADMIN);
+    user.addRole(UserRole.REGISTRY_ADMIN);
     assertTrue(u.hasRole("User"));
-    assertTrue(u.hasRole("admin"));
-    assertTrue(u.hasRole("Admin"));
+    assertTrue(u.hasRole("registry_admin"));
+    assertTrue(u.hasRole("Registry_admin"));
   }
-
 }

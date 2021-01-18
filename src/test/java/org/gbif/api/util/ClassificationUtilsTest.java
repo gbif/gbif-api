@@ -18,15 +18,15 @@ package org.gbif.api.util;
 import org.gbif.api.model.checklistbank.NameUsage;
 import org.gbif.api.vocabulary.Rank;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class ClassificationUtilsTest {
 
   @Test
-  public void testSetHigherRank() throws Exception {
+  public void testSetHigherRank() {
     NameUsage lck = new NameUsage();
 
     ClassificationUtils.setHigherRank(lck, Rank.GENUS, "harry");
@@ -41,5 +41,4 @@ public class ClassificationUtilsTest {
     assertEquals("harrys", lck.getGenus());
     assertEquals((Integer) 432, lck.getGenusKey());
   }
-
 }

@@ -17,23 +17,25 @@ package org.gbif.api.model.occurrence.predicate;
 
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class LikePredicateTest {
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testInvalidConstructor() {
-    new LikePredicate(OccurrenceSearchParameter.ELEVATION, "123.2%", null);
+    assertThrows(IllegalArgumentException.class, () -> new LikePredicate(OccurrenceSearchParameter.ELEVATION, "123.2%", null));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testInvalidConstructor2() {
-    new LikePredicate(OccurrenceSearchParameter.BASIS_OF_RECORD, "%FOSSIL%", null);
+    assertThrows(IllegalArgumentException.class, () -> new LikePredicate(OccurrenceSearchParameter.BASIS_OF_RECORD, "%FOSSIL%", null));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testInvalidConstructor4() {
-    new LikePredicate(OccurrenceSearchParameter.COUNTRY, "D%", null);
+    assertThrows(IllegalArgumentException.class, () -> new LikePredicate(OccurrenceSearchParameter.COUNTRY, "D%", null));
   }
 
   @Test

@@ -15,15 +15,15 @@
  */
 package org.gbif.api.vocabulary;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class ExtensionTest {
 
   @Test
-  public void testFromRowType() throws Exception {
+  public void testFromRowType() {
     assertNull(Extension.fromRowType(null));
     assertNull(Extension.fromRowType(""));
     assertNull(Extension.fromRowType(" "));
@@ -40,5 +40,4 @@ public class ExtensionTest {
 
     assertEquals(Extension.GERMPLASM_MEASUREMENT_TRAIT, Extension.fromRowType("http://purl.org/germplasm/germplasmTerm#MeasurementTrait"));
   }
-
 }

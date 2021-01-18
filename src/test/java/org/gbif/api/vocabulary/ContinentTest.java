@@ -15,16 +15,16 @@
  */
 package org.gbif.api.vocabulary;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ContinentTest {
 
   @Test
-  public void testGetTitle() throws Exception {
+  public void testGetTitle() {
     for (Continent c : Continent.values()) {
       assertNotNull(c.getTitle());
       assertTrue(c.getTitle().length() > 2);
@@ -34,7 +34,7 @@ public class ContinentTest {
   }
 
   @Test
-  public void testFromEnum() throws Exception {
+  public void testFromEnum() {
     assertEquals(Continent.ANTARCTICA, Continent.fromString("ANTARCTICA"));
     assertEquals(Continent.ANTARCTICA, Continent.fromString(Continent.ANTARCTICA.getTitle()));
     assertEquals(Continent.SOUTH_AMERICA, Continent.fromString("SOUTH_AMERICA"));
