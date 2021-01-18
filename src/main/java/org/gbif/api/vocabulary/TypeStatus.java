@@ -23,8 +23,8 @@ import java.util.stream.Stream;
 /**
  * A vocabulary to be used for a nomenclatural type status of a specimen or name.
  * See also the related TypeDesignationType enumeration.
- * @see <a href="http://rs.gbif.org/vocabulary/gbif/type_status.xml">rs.gbif.org vocabulary</a>
- * @see <a href="http://www.bgbm.org/TDWG/CODATA/Schema/ABCD_2.06/HTML/ABCD_2.06.html#element_NomenclaturalTypeDesignations_Link>Types in ABCD</a>
+ * @see <a href="http://rs.gbif.org/vocabulary/gbif/type_status_2021-01-18.xml">rs.gbif.org vocabulary</a>
+ * @see <a href="http://www.bgbm.org/TDWG/CODATA/Schema/ABCD_2.06/HTML/ABCD_2.06.html#element_NomenclaturalTypeDesignations_Link">Types in ABCD</a>
  */
 public enum TypeStatus {
 
@@ -141,6 +141,11 @@ public enum TypeStatus {
    * A duplicate of a neotype, compare neotype. [Bot.]
    */
   ISONEOTYPE,
+
+  /**
+   *  A duplicate of a paratype, compare paratype. [Bot.]
+   */
+  ISOPARATYPE,
 
   /**
    * A duplicate of a syntype, compare isotype = duplicate of holotype. [Bot.]
