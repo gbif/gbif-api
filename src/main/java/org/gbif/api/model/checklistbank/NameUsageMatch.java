@@ -483,14 +483,24 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
      * An exact, straight match.
      */
     EXACT,
+
     /**
      * A fuzzy, non exact match.
      */
     FUZZY,
+
     /**
      * Matching on a higher rank than the lowest name given.
      */
     HIGHERRANK,
+
+    /**
+     * Matching on species/infraspecies level
+     * when the verbatim data in fact referred to a broader species aggregate/complex.
+     * @see <a href="https://github.com/gbif/portal-feedback/issues/2935">gbif/portal-feedback#2935</a>
+     */
+    AGGREGATE,
+
     /**
      * No match or matching several names with too little information to keep apart.
      */
