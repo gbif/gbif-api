@@ -151,6 +151,12 @@ public enum NameUsageIssue implements InterpretationRemark {
   BACKBONE_MATCH_FUZZY(DwcTerm.scientificName, DwcTerm.scientificNameAuthorship, DwcTerm.kingdom, DwcTerm.taxonRank),
 
   /**
+   * Name usage could only be matched to a GBIF backbone species, but was in fact a broader species aggregate/complex.
+   * @see <a href="https://github.com/gbif/portal-feedback/issues/2935">gbif/portal-feedback#2935</a>
+   */
+  BACKBONE_MATCH_AGGREGATE(DwcTerm.scientificName, DwcTerm.scientificNameAuthorship, DwcTerm.kingdom, DwcTerm.taxonRank),
+
+  /**
    * Synonym has a verbatim accepted name which is not unique and refers to several records.
    */
   ACCEPTED_NAME_NOT_UNIQUE(DwcTerm.acceptedNameUsage),

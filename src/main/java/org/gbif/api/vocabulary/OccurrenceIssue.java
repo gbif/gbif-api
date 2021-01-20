@@ -188,6 +188,13 @@ public enum OccurrenceIssue implements InterpretationRemark {
   TAXON_MATCH_HIGHERRANK(WARNING, TermsGroup.TAXONOMY_TERMS),
 
   /**
+   * Matching to the taxonomic backbone can only be done on a species level,
+   * but the occurrence was in fact considered a broader species aggregate/complex.
+   * @see <a href="https://github.com/gbif/portal-feedback/issues/2935">gbif/portal-feedback#2935</a>
+   */
+  TAXON_MATCH_AGGREGATE(WARNING, TermsGroup.TAXONOMY_TERMS),
+
+  /**
    * Matching to the taxonomic backbone cannot be done because there was no match at all, or several
    * matches with too little information to keep them apart (potentially homonyms).
    */
