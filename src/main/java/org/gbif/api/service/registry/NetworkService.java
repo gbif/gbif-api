@@ -19,6 +19,7 @@ import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Network;
+import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.search.KeyTitleResult;
 
 import java.util.List;
@@ -37,6 +38,13 @@ public interface NetworkService extends NetworkEntityService<Network> {
    * @param networkKey the network identifier
    */
   PagingResponse<Dataset> listConstituents(@NotNull UUID networkKey, @Nullable Pageable page);
+
+  /**
+   * Pages through publishing organizations of a network.
+   *
+   * @param networkKey the network identifier
+   */
+  PagingResponse<Organization> publishingOrganizations(@NotNull UUID networkKey, @Nullable Pageable page);
 
   /**
    * Adds an existing dataset to the list of constituents of a network.
