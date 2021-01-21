@@ -15,7 +15,8 @@
  */
 package org.gbif.api.model.literature;
 
-public enum Relevance {
+public enum LiteratureRelevance {
+
   GBIF_USED,
   GBIF_CITED,
   GBIF_DISCUSSED,

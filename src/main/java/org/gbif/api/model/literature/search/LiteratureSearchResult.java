@@ -15,9 +15,9 @@
  */
 package org.gbif.api.model.literature.search;
 
+import org.gbif.api.model.literature.LiteratureRelevance;
+import org.gbif.api.model.literature.LiteratureTopic;
 import org.gbif.api.model.literature.LiteratureType;
-import org.gbif.api.model.literature.Relevance;
-import org.gbif.api.model.literature.Topic;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.Language;
@@ -56,11 +56,11 @@ public class LiteratureSearchResult {
   private boolean openAccess;
   private boolean peerReview;
   private String publisher;
-  private Set<Relevance> relevance = new HashSet<>();
+  private Set<LiteratureRelevance> relevance = new HashSet<>();
   private String source;
   private List<String> tags = new ArrayList<>();
   private String title;
-  private Set<Topic> topics = new HashSet<>();
+  private Set<LiteratureTopic> topics = new HashSet<>();
   private Date modified;
   private List<String> websites = new ArrayList<>();
   private Integer year;
@@ -226,11 +226,11 @@ public class LiteratureSearchResult {
     this.publisher = publisher;
   }
 
-  public Set<Relevance> getRelevance() {
+  public Set<LiteratureRelevance> getRelevance() {
     return relevance;
   }
 
-  public void setRelevance(Set<Relevance> relevance) {
+  public void setRelevance(Set<LiteratureRelevance> relevance) {
     this.relevance = relevance;
   }
 
@@ -258,11 +258,11 @@ public class LiteratureSearchResult {
     this.title = title;
   }
 
-  public Set<Topic> getTopics() {
+  public Set<LiteratureTopic> getTopics() {
     return topics;
   }
 
-  public void setTopics(Set<Topic> topics) {
+  public void setTopics(Set<LiteratureTopic> topics) {
     this.topics = topics;
   }
 

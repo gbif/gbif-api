@@ -16,6 +16,7 @@
 package org.gbif.api.model.literature;
 
 public enum LiteratureType {
+
   JOURNAL,
   BOOK,
   GENERIC,

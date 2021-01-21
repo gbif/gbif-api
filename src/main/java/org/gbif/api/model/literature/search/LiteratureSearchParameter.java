@@ -16,9 +16,9 @@
 package org.gbif.api.model.literature.search;
 
 import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.literature.LiteratureRelevance;
+import org.gbif.api.model.literature.LiteratureTopic;
 import org.gbif.api.model.literature.LiteratureType;
-import org.gbif.api.model.literature.Relevance;
-import org.gbif.api.model.literature.Topic;
 import org.gbif.api.vocabulary.Country;
 
 import java.util.UUID;
@@ -27,9 +27,9 @@ public enum LiteratureSearchParameter implements SearchParameter {
   COUNTRIES_OF_RESEARCHER(Country.class),
   COUNTRIES_OF_COVERAGE(Country.class),
   LITERATURE_TYPE(LiteratureType.class),
-  RELEVANCE(Relevance.class),
+  RELEVANCE(LiteratureRelevance.class),
   YEAR(Integer.class),
-  TOPICS(Topic.class),
+  TOPICS(LiteratureTopic.class),
   GBIF_DATASET_KEY(UUID.class), // dataset
   PUBLISHING_ORGANIZATION_KEY(UUID.class), // publisher
   PEER_REVIEW(Boolean.class),

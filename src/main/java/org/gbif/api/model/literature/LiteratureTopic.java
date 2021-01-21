@@ -15,7 +15,8 @@
  */
 package org.gbif.api.model.literature;
 
-public enum Topic {
+public enum LiteratureTopic {
+
   AGRICULTURE,
   BIODIVERSITY_SCIENCE,
   BIOGEOGRAPHY,
