@@ -15,6 +15,9 @@
  */
 package org.gbif.api.model.registry.metasync;
 
+import org.gbif.api.model.registry.PostPersist;
+import org.gbif.api.model.registry.PrePersist;
+
 import java.util.Date;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -22,6 +25,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 /**
  * Metadata synchronization historical information.
@@ -52,7 +56,9 @@ public class MetasyncHistory {
    *
    * @return timestamp when the synchronization was executed
    */
-  @NotNull
+  @Nullable
+  @Null(groups = {PrePersist.class})
+  @NotNull(groups = {PostPersist.class})
   public Date getSyncDate() {
     return syncDate;
   }
