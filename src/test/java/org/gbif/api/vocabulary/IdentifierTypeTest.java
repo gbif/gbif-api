@@ -45,12 +45,14 @@ public class IdentifierTypeTest {
     assertEquals(IdentifierType.UUID, IdentifierType.inferFrom("uuid:2b5d679e-60a7-102d-be47-00304854f810"));
 
     assertEquals(IdentifierType.IH_IRN, IdentifierType.inferFrom("gbif:ih:irn:125812"));
+    assertEquals(IdentifierType.ROR, IdentifierType.inferFrom("https://ror.org/03yrm5c26"));
+    assertEquals(IdentifierType.GRID, IdentifierType.inferFrom("grid.419696.5"));
   }
 
   @Test
   public void testTypes() {
     List<IdentifierType> identifierTypes = IdentifierType.TYPES;
-    assertEquals(14, identifierTypes.size());
+    assertEquals(16, identifierTypes.size());
   }
 
 }

@@ -30,22 +30,31 @@ import javax.annotation.Nullable;
 public enum IdentifierType {
 
   URL,
+
   /**
    * Reference controlled by a separate system, used for example by DOI.
    * {http://en.wikipedia.org/wiki/Handle_(computing)}
    */
   LSID,
+
   HANDLER,
+
   DOI,
+
   UUID,
+
   FTP,
+
   URI,
+
   UNKNOWN,
+
   /**
    * Indicates the identifier originated from an auto_increment column in the portal.data_provider or
    * portal.data_resource table respectively.
    */
   GBIF_PORTAL,
+
   /**
    * Identifies the node (e.g: 'DK' for Denmark, 'sp2000' for Species 2000).
    */
@@ -69,7 +78,18 @@ public enum IdentifierType {
   /**
    * IRN of an IH record.
    */
-  IH_IRN;
+  IH_IRN,
+
+  /**
+   * Research Organization Registry.
+   * https://ror.org
+   */
+  ROR,
+
+  /**
+   * https://www.grid.ac/institutes/
+   */
+  GRID;
 
   // TODO: Check if this is used, it didn't exist in the new Registry2 API, but I preserved it from the old vocabulary
   public static final List<IdentifierType> TYPES;
@@ -112,6 +132,11 @@ public enum IdentifierType {
         || lcIdentifier.startsWith("https://doi.org/10.")) {
       return DOI;
     }
+
+    if (lcIdentifier.startsWith("https://ror.org")) {
+      return ROR;
+    }
+
     if (lcIdentifier.startsWith("http:")
         || lcIdentifier.startsWith("https:")
         || lcIdentifier.startsWith("www.")) {
@@ -130,6 +155,10 @@ public enum IdentifierType {
 
     if (lcIdentifier.startsWith("gbif:ih:irn:")) {
       return IH_IRN;
+    }
+
+    if (lcIdentifier.startsWith("grid")) {
+      return GRID;
     }
 
     try {
