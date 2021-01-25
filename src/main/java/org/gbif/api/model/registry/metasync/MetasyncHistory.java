@@ -53,6 +53,8 @@ public class MetasyncHistory {
 
   /**
    * Date when the metasync operation was executed.
+   * <br>
+   * NB: null before the record is persisted, not-null afterwards.
    *
    * @return timestamp when the synchronization was executed
    */
