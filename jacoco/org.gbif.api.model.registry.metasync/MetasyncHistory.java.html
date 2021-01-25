@@ -15,6 +15,9 @@
  */
 package org.gbif.api.model.registry.metasync;
 
+import org.gbif.api.model.registry.PostPersist;
+import org.gbif.api.model.registry.PrePersist;
+
 import java.util.Date;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -22,11 +25,12 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 /**
  * Metadata synchronization historical information.
  */
-<span class="nc" id="L29">public class MetasyncHistory {</span>
+<span class="nc" id="L33">public class MetasyncHistory {</span>
 
   private UUID installationKey;
   private Date syncDate;
@@ -40,26 +44,30 @@ import javax.validation.constraints.NotNull;
    */
   @NotNull
   public UUID getInstallationKey() {
-<span class="nc" id="L43">    return installationKey;</span>
+<span class="nc" id="L47">    return installationKey;</span>
   }
 
   public void setInstallationKey(UUID installationKey) {
-<span class="nc" id="L47">    this.installationKey = installationKey;</span>
-<span class="nc" id="L48">  }</span>
+<span class="nc" id="L51">    this.installationKey = installationKey;</span>
+<span class="nc" id="L52">  }</span>
 
   /**
    * Date when the metasync operation was executed.
+   * &lt;br&gt;
+   * NB: null before the record is persisted, not-null afterwards.
    *
    * @return timestamp when the synchronization was executed
    */
-  @NotNull
+  @Nullable
+  @Null(groups = {PrePersist.class})
+  @NotNull(groups = {PostPersist.class})
   public Date getSyncDate() {
-<span class="nc" id="L57">    return syncDate;</span>
+<span class="nc" id="L65">    return syncDate;</span>
   }
 
   public void setSyncDate(Date syncDate) {
-<span class="nc" id="L61">    this.syncDate = syncDate;</span>
-<span class="nc" id="L62">  }</span>
+<span class="nc" id="L69">    this.syncDate = syncDate;</span>
+<span class="nc" id="L70">  }</span>
 
   /**
    * Result of the metasync operation.
@@ -68,12 +76,12 @@ import javax.validation.constraints.NotNull;
    */
   @Nullable
   public MetasyncResult getResult() {
-<span class="nc" id="L71">    return result;</span>
+<span class="nc" id="L79">    return result;</span>
   }
 
   public void setResult(MetasyncResult result) {
-<span class="nc" id="L75">    this.result = result;</span>
-<span class="nc" id="L76">  }</span>
+<span class="nc" id="L83">    this.result = result;</span>
+<span class="nc" id="L84">  }</span>
 
   /**
    * Details about the metasync operation.
@@ -82,41 +90,41 @@ import javax.validation.constraints.NotNull;
    */
   @Nullable
   public String getDetails() {
-<span class="nc" id="L85">    return details;</span>
+<span class="nc" id="L93">    return details;</span>
   }
 
   public void setDetails(String details) {
-<span class="nc" id="L89">    this.details = details;</span>
-<span class="nc" id="L90">  }</span>
+<span class="nc" id="L97">    this.details = details;</span>
+<span class="nc" id="L98">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L94" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L95">      return true;</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L103">      return true;</span>
     }
-<span class="nc bnc" id="L97" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L98">      return false;</span>
+<span class="nc bnc" id="L105" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L106">      return false;</span>
     }
-<span class="nc" id="L100">    MetasyncHistory that = (MetasyncHistory) o;</span>
-<span class="nc bnc" id="L101" title="All 2 branches missed.">    return Objects.equals(installationKey, that.installationKey) &amp;&amp;</span>
-<span class="nc bnc" id="L102" title="All 4 branches missed.">      Objects.equals(syncDate, that.syncDate) &amp;&amp;</span>
+<span class="nc" id="L108">    MetasyncHistory that = (MetasyncHistory) o;</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">    return Objects.equals(installationKey, that.installationKey) &amp;&amp;</span>
+<span class="nc bnc" id="L110" title="All 4 branches missed.">      Objects.equals(syncDate, that.syncDate) &amp;&amp;</span>
       result == that.result &amp;&amp;
-<span class="nc bnc" id="L104" title="All 2 branches missed.">      Objects.equals(details, that.details);</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">      Objects.equals(details, that.details);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L109">    return Objects.hash(installationKey, syncDate, result, details);</span>
+<span class="nc" id="L117">    return Objects.hash(installationKey, syncDate, result, details);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L114">    return new StringJoiner(&quot;, &quot;, MetasyncHistory.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L115">      .add(&quot;installationKey=&quot; + installationKey)</span>
-<span class="nc" id="L116">      .add(&quot;syncDate=&quot; + syncDate)</span>
-<span class="nc" id="L117">      .add(&quot;result=&quot; + result)</span>
-<span class="nc" id="L118">      .add(&quot;details='&quot; + details + &quot;'&quot;)</span>
-<span class="nc" id="L119">      .toString();</span>
+<span class="nc" id="L122">    return new StringJoiner(&quot;, &quot;, MetasyncHistory.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L123">      .add(&quot;installationKey=&quot; + installationKey)</span>
+<span class="nc" id="L124">      .add(&quot;syncDate=&quot; + syncDate)</span>
+<span class="nc" id="L125">      .add(&quot;result=&quot; + result)</span>
+<span class="nc" id="L126">      .add(&quot;details='&quot; + details + &quot;'&quot;)</span>
+<span class="nc" id="L127">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

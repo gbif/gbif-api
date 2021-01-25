@@ -151,81 +151,87 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
   BACKBONE_MATCH_FUZZY(DwcTerm.scientificName, DwcTerm.scientificNameAuthorship, DwcTerm.kingdom, DwcTerm.taxonRank),
 
   /**
+   * Name usage could only be matched to a GBIF backbone species, but was in fact a broader species aggregate/complex.
+   * @see &lt;a href=&quot;https://github.com/gbif/portal-feedback/issues/2935&quot;&gt;gbif/portal-feedback#2935&lt;/a&gt;
+   */
+<span class="fc" id="L157">  BACKBONE_MATCH_AGGREGATE(DwcTerm.scientificName, DwcTerm.scientificNameAuthorship, DwcTerm.kingdom, DwcTerm.taxonRank),</span>
+
+  /**
    * Synonym has a verbatim accepted name which is not unique and refers to several records.
    */
-<span class="fc" id="L156">  ACCEPTED_NAME_NOT_UNIQUE(DwcTerm.acceptedNameUsage),</span>
+<span class="fc" id="L162">  ACCEPTED_NAME_NOT_UNIQUE(DwcTerm.acceptedNameUsage),</span>
 
   /**
    * Record has a verbatim parent name which is not unique and refers to several records.
    */
-<span class="fc" id="L161">  PARENT_NAME_NOT_UNIQUE(DwcTerm.parentNameUsage),</span>
+<span class="fc" id="L167">  PARENT_NAME_NOT_UNIQUE(DwcTerm.parentNameUsage),</span>
 
   /**
    * Record has a verbatim original name (basionym) which is not unique and refers to several records.
    */
-<span class="fc" id="L166">  ORIGINAL_NAME_NOT_UNIQUE(DwcTerm.originalNameUsage),</span>
+<span class="fc" id="L172">  ORIGINAL_NAME_NOT_UNIQUE(DwcTerm.originalNameUsage),</span>
 
   /**
    * There were problems representing all name usage relationships,
    * i.e. the link to the parent, accepted and/or original name.
    * The interpreted record in ChecklistBank is lacking some of the original source relation.
    */
-<span class="fc" id="L173">  RELATIONSHIP_MISSING(DwcTerm.parentNameUsageID, DwcTerm.acceptedNameUsageID, DwcTerm.originalNameUsageID, DwcTerm.parentNameUsage, DwcTerm.acceptedNameUsage, DwcTerm.originalNameUsage),</span>
+<span class="fc" id="L179">  RELATIONSHIP_MISSING(DwcTerm.parentNameUsageID, DwcTerm.acceptedNameUsageID, DwcTerm.originalNameUsageID, DwcTerm.parentNameUsage, DwcTerm.acceptedNameUsage, DwcTerm.originalNameUsage),</span>
 
   /**
    * Record has a original name (basionym) relationship which was derived from name &amp; authorship comparison, but did not exist explicitly in the data.
    * This should only be flagged in programmatically generated GBIF backbone usages.
    * GBIF backbone specific issue.
    */
-<span class="fc" id="L180">  ORIGINAL_NAME_DERIVED(INFO),</span>
+<span class="fc" id="L186">  ORIGINAL_NAME_DERIVED(INFO),</span>
 
   /**
    * There have been more than one accepted name in a homotypical basionym group of names.
    * GBIF backbone specific issue.
    */
-<span class="fc" id="L186">  CONFLICTING_BASIONYM_COMBINATION(),</span>
+<span class="fc" id="L192">  CONFLICTING_BASIONYM_COMBINATION(),</span>
 
   /**
    * The group (currently only genera are tested) are lacking any accepted species
    * GBIF backbone specific issue.
    */
-<span class="fc" id="L192">  NO_SPECIES(INFO),</span>
+<span class="fc" id="L198">  NO_SPECIES(INFO),</span>
 
   /**
    * The (accepted) bi/trinomial name does not match the parent name and should be recombined into the parent genus/species.
    * For example the species Picea alba with a parent genus Abies is a mismatch and should be replaced by Abies alba.
    * GBIF backbone specific issue.
    */
-<span class="fc" id="L199">  NAME_PARENT_MISMATCH(),</span>
+<span class="fc" id="L205">  NAME_PARENT_MISMATCH(),</span>
 
   /**
    * A potential orthographic variant exists in the backbone.
    * GBIF backbone specific issue.
    */
-<span class="fc" id="L205">  ORTHOGRAPHIC_VARIANT(INFO),</span>
+<span class="fc" id="L211">  ORTHOGRAPHIC_VARIANT(INFO),</span>
 
   /**
    * A not synonymized homonym exists for this name in some other backbone source which have been ignored at build time.
    */
-<span class="fc" id="L210">  HOMONYM(INFO, DwcTerm.scientificName),</span>
+<span class="fc" id="L216">  HOMONYM(INFO, DwcTerm.scientificName),</span>
 
   /**
    * A bi/trinomial name published earlier than the parent genus was published.
    * This might indicate that the name should rather be a recombination.
    */
-<span class="fc" id="L216">  PUBLISHED_BEFORE_GENUS(DwcTerm.scientificName, DwcTerm.scientificNameAuthorship, DwcTerm.namePublishedInYear, DwcTerm.genus, DwcTerm.parentNameUsageID, DwcTerm.parentNameUsage),</span>
+<span class="fc" id="L222">  PUBLISHED_BEFORE_GENUS(DwcTerm.scientificName, DwcTerm.scientificNameAuthorship, DwcTerm.namePublishedInYear, DwcTerm.genus, DwcTerm.parentNameUsageID, DwcTerm.parentNameUsage),</span>
 
   /**
    * The scientific name string could not be parsed at all, but appears to be a parsable name type,
    * i.e. it is not classified as a virus or hybrid formula.
    */
-<span class="fc" id="L222">  UNPARSABLE(DwcTerm.scientificName),</span>
+<span class="fc" id="L228">  UNPARSABLE(DwcTerm.scientificName),</span>
 
   /**
    * The beginning of the scientific name string was parsed,
    * but there is additional information in the string that was not understood.
    */
-<span class="fc" id="L228">  PARTIALLY_PARSABLE(DwcTerm.scientificName);</span>
+<span class="fc" id="L234">  PARTIALLY_PARSABLE(DwcTerm.scientificName);</span>
 
 
   private final Set&lt;Term&gt; related;
@@ -233,37 +239,37 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
   private final boolean isDeprecated;
 
   NameUsageIssue(Term ... related) {
-<span class="fc" id="L236">    this(WARNING, related);</span>
-<span class="fc" id="L237">  }</span>
+<span class="fc" id="L242">    this(WARNING, related);</span>
+<span class="fc" id="L243">  }</span>
 
-<span class="fc" id="L239">  NameUsageIssue(InterpretationRemarkSeverity severity, Term... related) {</span>
-<span class="pc bpc" id="L240" title="1 of 2 branches missed.">    if (related == null) {</span>
-<span class="nc" id="L241">      this.related = Collections.emptySet();</span>
+<span class="fc" id="L245">  NameUsageIssue(InterpretationRemarkSeverity severity, Term... related) {</span>
+<span class="pc bpc" id="L246" title="1 of 2 branches missed.">    if (related == null) {</span>
+<span class="nc" id="L247">      this.related = Collections.emptySet();</span>
     } else {
-<span class="fc" id="L243">      this.related = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(related)));</span>
+<span class="fc" id="L249">      this.related = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(related)));</span>
     }
-<span class="fc" id="L245">    this.severity = severity;</span>
-<span class="fc" id="L246">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(NameUsageIssue.class, this.name());</span>
-<span class="fc" id="L247">  }</span>
+<span class="fc" id="L251">    this.severity = severity;</span>
+<span class="fc" id="L252">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(NameUsageIssue.class, this.name());</span>
+<span class="fc" id="L253">  }</span>
 
   @Override
   public String getId() {
-<span class="fc" id="L251">    return name();</span>
+<span class="fc" id="L257">    return name();</span>
   }
 
   @Override
   public Set&lt;Term&gt; getRelatedTerms() {
-<span class="nc" id="L256">    return related;</span>
+<span class="nc" id="L262">    return related;</span>
   }
 
   @Override
   public InterpretationRemarkSeverity getSeverity(){
-<span class="fc" id="L261">    return severity;</span>
+<span class="fc" id="L267">    return severity;</span>
   }
 
   @Override
   public boolean isDeprecated(){
-<span class="nc" id="L266">    return isDeprecated;</span>
+<span class="nc" id="L272">    return isDeprecated;</span>
   }
 
 }
