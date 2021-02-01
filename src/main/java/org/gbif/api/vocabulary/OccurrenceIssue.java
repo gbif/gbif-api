@@ -110,6 +110,16 @@ public enum OccurrenceIssue implements InterpretationRemark {
   COORDINATE_PRECISION_UNCERTAINTY_MISMATCH(WARNING),
 
   /**
+   * The Footprint Spatial Reference System given could not be interpreted.
+   */
+  FOOTPRINT_SRS_INVALID(WARNING, DwcTerm.footprintSRS),
+
+  /**
+   * The Footprint Well-Known-Text given could not be interpreted.
+   */
+  FOOTPRINT_WKT_INVALID(WARNING, DwcTerm.footprintWKT),
+
+  /**
    * The interpreted occurrence coordinates fall outside of the indicated country.
    */
   COUNTRY_COORDINATE_MISMATCH(WARNING, TermsGroup.COORDINATES_COUNTRY_TERMS),
