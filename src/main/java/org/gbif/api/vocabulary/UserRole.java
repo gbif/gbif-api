@@ -84,5 +84,10 @@ public enum UserRole {
   /**
    * A grscicoll editor with limited permissions.
    */
-  GRSCICOLL_EDITOR
+  GRSCICOLL_EDITOR,
+
+  /**
+   * A grscicoll editor with permissions for some iDigBio-only operations.
+   */
+  IDIGBIO_GRSCICOLL_EDITOR
 }
