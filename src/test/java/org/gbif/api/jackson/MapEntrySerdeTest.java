@@ -63,16 +63,20 @@ public class MapEntrySerdeTest {
 
     private Map.Entry<Object, Object> singleElement;
 
-    MapEntryWrapper() {}
+    public MapEntryWrapper() {}
 
-    MapEntryWrapper(Object key, Object value){
+    public MapEntryWrapper(Object key, Object value){
       singleElement = new AbstractMap.SimpleImmutableEntry<>(key, value);
     }
 
     @JsonSerialize(using = MapEntrySerde.MapEntryJsonSerializer.class)
     @JsonDeserialize(using = MapEntrySerde.MapEntryJsonDeserializer.class)
-    Map.Entry<Object, Object> getSingleElement() {
+    public Map.Entry<Object, Object> getSingleElement() {
       return singleElement;
+    }
+
+    public void setSingleElement(Map.Entry<Object, Object> singleElement) {
+      this.singleElement = singleElement;
     }
   }
 
@@ -80,9 +84,9 @@ public class MapEntrySerdeTest {
 
     private List<Map.Entry<Term, Object>> listTerm;
 
-    MapEntryListTermWrapper() {}
+    public MapEntryListTermWrapper() {}
 
-    MapEntryListTermWrapper(Term key, Object value){
+    public MapEntryListTermWrapper(Term key, Object value){
       listTerm = Collections.unmodifiableList(
         Arrays.asList(
           new AbstractMap.SimpleImmutableEntry<>(key, value),
@@ -91,8 +95,12 @@ public class MapEntrySerdeTest {
 
     @JsonSerialize(contentUsing = MapEntrySerde.MapEntryJsonSerializer.class)
     @JsonDeserialize(contentUsing = MapEntrySerde.MapEntryJsonDeserializer.class)
-    List<Map.Entry<Term, Object>> getListTerm() {
+    public List<Map.Entry<Term, Object>> getListTerm() {
       return listTerm;
+    }
+
+    public void setListTerm(List<Map.Entry<Term, Object>> listTerm) {
+      this.listTerm = listTerm;
     }
   }
 }

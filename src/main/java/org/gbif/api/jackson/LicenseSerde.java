@@ -27,6 +27,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
@@ -54,7 +55,6 @@ public class LicenseSerde {
 
       //in last resort (UNSPECIFIED,UNSUPPORTED), we use the enum name
       jgen.writeString(value.name().toLowerCase());
-
     }
   }
 
@@ -80,8 +80,7 @@ public class LicenseSerde {
         // then, try by name
         return License.fromString(jp.getText()).orElse(License.UNSUPPORTED);
       }
-      throw ctxt.mappingException("Expected String");
+      throw JsonMappingException.from(jp, "Expected String");
     }
   }
-
 }

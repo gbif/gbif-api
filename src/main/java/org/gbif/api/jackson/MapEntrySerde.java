@@ -23,6 +23,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
@@ -81,7 +82,7 @@ public class MapEntrySerde {
           value = jp.getFloatValue();
           break;
         default:
-          throw ctxt.mappingException("Expected String or Number");
+          throw JsonMappingException.from(jp, "Expected String or Number");
       }
       jp.nextToken();
       tmp = jp.getText(); // }

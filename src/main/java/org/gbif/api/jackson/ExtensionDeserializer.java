@@ -23,6 +23,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 public class ExtensionDeserializer extends JsonDeserializer<Extension> {
 
@@ -31,6 +32,6 @@ public class ExtensionDeserializer extends JsonDeserializer<Extension> {
     if (jp.getCurrentToken() == JsonToken.VALUE_STRING) {
       return Extension.fromRowType(jp.getText());
     }
-    throw ctxt.mappingException("Expected JSON String");
+    throw JsonMappingException.from(jp, "Expected JSON String");
   }
 }

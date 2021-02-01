@@ -26,6 +26,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
@@ -35,10 +36,10 @@ import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
  */
 public class DateSerde {
 
-  private static SimpleDateFormat noTimezoneFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+  private static final SimpleDateFormat NO_TIMEZONE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
   static {
-    noTimezoneFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    NO_TIMEZONE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
   }
 
   /**
@@ -48,11 +49,9 @@ public class DateSerde {
 
     @Override
     public void serialize(Date value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-      if (value == null) {
-        // Empty fields aren't included in the JSON.
-        return;
-      } else {
-        jgen.writeString(noTimezoneFormat.format(value));
+      // Empty fields aren't included in the JSON.
+      if (value != null) {
+        jgen.writeString(NO_TIMEZONE_FORMAT.format(value));
       }
     }
   }
@@ -72,7 +71,7 @@ public class DateSerde {
           return super.deserialize(jp, ctxt);
         }
       }
-      throw ctxt.mappingException("Expected String");
+      throw JsonMappingException.from(jp, "Expected String");
     }
   }
 }
