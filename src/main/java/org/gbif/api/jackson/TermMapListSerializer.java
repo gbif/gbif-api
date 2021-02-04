@@ -26,6 +26,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
+@Deprecated
 public class TermMapListSerializer extends JsonSerializer<List<Map<Term, String>>> {
   @Override
   public void serialize(List<Map<Term, String>> value, JsonGenerator jgen, SerializerProvider provider) throws IOException {

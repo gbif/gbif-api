@@ -44,8 +44,10 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  * public List<Map.Entry<String, Object>> getKeyValueList() { ... };
  * </pre>
  */
+@Deprecated
 public class MapEntrySerde {
 
+  @Deprecated
   public static class MapEntryJsonSerializer extends JsonSerializer<Map.Entry<Object, Object>> {
 
     @Override
@@ -62,6 +64,7 @@ public class MapEntrySerde {
     }
   }
 
+  @Deprecated
   public static class MapEntryJsonDeserializer extends JsonDeserializer<Map.Entry<Object, Object>> {
     @Override
     public Map.Entry<Object, Object> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {

@@ -28,8 +28,6 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -69,8 +67,6 @@ public class MapEntrySerdeTest {
       singleElement = new AbstractMap.SimpleImmutableEntry<>(key, value);
     }
 
-    @JsonSerialize(using = MapEntrySerde.MapEntryJsonSerializer.class)
-    @JsonDeserialize(using = MapEntrySerde.MapEntryJsonDeserializer.class)
     public Map.Entry<Object, Object> getSingleElement() {
       return singleElement;
     }
@@ -93,8 +89,6 @@ public class MapEntrySerdeTest {
           new AbstractMap.SimpleImmutableEntry<>(key, value)));
     }
 
-    @JsonSerialize(contentUsing = MapEntrySerde.MapEntryJsonSerializer.class)
-    @JsonDeserialize(contentUsing = MapEntrySerde.MapEntryJsonDeserializer.class)
     public List<Map.Entry<Term, Object>> getListTerm() {
       return listTerm;
     }

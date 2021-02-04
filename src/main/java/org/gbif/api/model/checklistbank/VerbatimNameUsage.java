@@ -15,10 +15,6 @@
  */
 package org.gbif.api.model.checklistbank;
 
-import org.gbif.api.jackson.ExtensionKeyDeserializer;
-import org.gbif.api.jackson.ExtensionSerializer;
-import org.gbif.api.jackson.TermMapListDeserializer;
-import org.gbif.api.jackson.TermMapListSerializer;
 import org.gbif.api.vocabulary.Extension;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.TermFactory;
@@ -38,8 +34,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @SuppressWarnings("unused")
 public class VerbatimNameUsage {
@@ -68,12 +62,6 @@ public class VerbatimNameUsage {
    * A map of extension records, holding all verbatim extension terms.
    */
   @NotNull
-  @JsonSerialize(
-    keyUsing = ExtensionSerializer.class,
-    contentUsing = TermMapListSerializer.class)
-  @JsonDeserialize(
-    keyUsing = ExtensionKeyDeserializer.class,
-    contentUsing = TermMapListDeserializer.class)
   public Map<Extension, List<Map<Term, String>>> getExtensions() {
     return extensions;
   }

@@ -37,6 +37,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 /**
  * Deserializes list of maps of terms values.
  */
+@Deprecated
 public class TermMapListDeserializer extends JsonDeserializer<List<Map<Term, String>>> {
 
   private final TermFactory termFactory = TermFactory.instance();

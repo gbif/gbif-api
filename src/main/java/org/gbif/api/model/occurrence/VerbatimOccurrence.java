@@ -15,8 +15,6 @@
  */
 package org.gbif.api.model.occurrence;
 
-import org.gbif.api.jackson.TermMapListDeserializer;
-import org.gbif.api.jackson.TermMapListSerializer;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.dwc.terms.Term;
@@ -38,8 +36,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * An extended map holding all core terms of an occurrence record.
@@ -261,8 +257,6 @@ public class VerbatimOccurrence {
    * A map holding all verbatim extension terms.
    */
   @NotNull
-  @JsonSerialize(contentUsing = TermMapListSerializer.class)
-  @JsonDeserialize(contentUsing = TermMapListDeserializer.class)
   public Map<String, List<Map<Term, String>>> getExtensions() {
     return extensions;
   }
