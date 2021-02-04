@@ -137,6 +137,7 @@ public enum DatasetSearchParameter implements SearchParameter {
   /**
    * @return the data type expected for the value of the respective search parameter
    */
+  @Override
   public Class<?> type() {
     return type;
   }

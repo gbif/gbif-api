@@ -51,6 +51,7 @@ public class GbifUserPrincipal implements ExtendedPrincipal {
    *
    * @return true if the user has the requested role
    */
+  @Override
   public boolean hasRole(String role) {
     if (StringUtils.isNotEmpty(role)) {
       try {

@@ -31,12 +31,11 @@ public class SearchResponseTest {
 
   @Test
   public void testEquals() {
-    Arrays.asList("f1", "f2", "f3");
     List<String> results = Arrays.asList("r1", "r2", "r3");
 
-    Long offset = 10L;
+    long offset = 10L;
     Long count = 100L;
-    Integer limit = 40;
+    int limit = 40;
     SearchResponse<String, ?> searchResponse1 =
       new SearchResponse<String, NameUsageSearchParameter>(offset, limit, count, results, null);
     SearchResponse<String, ?> searchResponse2 =

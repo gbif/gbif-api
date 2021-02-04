@@ -27,6 +27,7 @@ public abstract class BaseEntityMatched implements EntityMatched {
   private String name;
   private String code;
 
+  @Override
   public UUID getKey() {
     return key;
   }
@@ -44,6 +45,7 @@ public abstract class BaseEntityMatched implements EntityMatched {
     this.selfLink = selfLink;
   }
 
+  @Override
   public String getName() {
     return name;
   }
@@ -52,6 +54,7 @@ public abstract class BaseEntityMatched implements EntityMatched {
     this.name = name;
   }
 
+  @Override
   public String getCode() {
     return code;
   }

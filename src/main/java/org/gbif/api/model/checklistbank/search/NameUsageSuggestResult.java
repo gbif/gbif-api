@@ -116,66 +116,82 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
     return key;
   }
 
+  @Override
   public String getKingdom() {
     return kingdom;
   }
 
+  @Override
   public String getPhylum() {
     return phylum;
   }
 
+  @Override
   public String getClazz() {
     return clazz;
   }
 
+  @Override
   public String getOrder() {
     return order;
   }
 
+  @Override
   public String getFamily() {
     return family;
   }
 
+  @Override
   public String getGenus() {
     return genus;
   }
 
+  @Override
   public String getSubgenus() {
     return subgenus;
   }
 
+  @Override
   public String getSpecies() {
     return species;
   }
 
+  @Override
   public Integer getKingdomKey() {
     return kingdomKey;
   }
 
+  @Override
   public Integer getPhylumKey() {
     return phylumKey;
   }
 
+  @Override
   public Integer getClassKey() {
     return classKey;
   }
 
+  @Override
   public Integer getOrderKey() {
     return orderKey;
   }
 
+  @Override
   public Integer getFamilyKey() {
     return familyKey;
   }
 
+  @Override
   public Integer getGenusKey() {
     return genusKey;
   }
 
+  @Override
   public Integer getSubgenusKey() {
     return subgenusKey;
   }
 
+  @Override
   public Integer getSpeciesKey() {
     return speciesKey;
   }

@@ -248,6 +248,7 @@ public class Distribution implements NameUsageExtension {
    * @return the source
    */
   @Nullable
+  @Override
   public String getSource() {
     return source;
   }
@@ -255,15 +256,18 @@ public class Distribution implements NameUsageExtension {
   /**
    * @param source the source to set
    */
+  @Override
   public void setSource(String source) {
     this.source = source;
   }
 
   @Nullable
+  @Override
   public Integer getSourceTaxonKey() {
     return sourceTaxonKey;
   }
 
+  @Override
   public void setSourceTaxonKey(Integer sourceTaxonKey) {
     this.sourceTaxonKey = sourceTaxonKey;
   }

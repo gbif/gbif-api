@@ -145,28 +145,34 @@ public class Network
   }
 
   @Nullable
+  @Override
   public List<String> getEmail() {
     return email;
   }
 
+  @Override
   public void setEmail(List<String> email) {
     this.email = email;
   }
 
   @Nullable
+  @Override
   public List<String> getPhone() {
     return phone;
   }
 
+  @Override
   public void setPhone(List<String> phone) {
     this.phone = phone;
   }
 
   @Nullable
+  @Override
   public List<URI> getHomepage() {
     return homepage;
   }
 
+  @Override
   public void setHomepage(List<URI> homepage) {
     this.homepage = homepage;
   }
@@ -182,49 +188,59 @@ public class Network
   }
 
   @Nullable
+  @Override
   public List<String> getAddress() {
     return address;
   }
 
+  @Override
   public void setAddress(List<String> address) {
     this.address = address;
   }
 
   @Nullable
   @Size(min = 1)
+  @Override
   public String getCity() {
     return city;
   }
 
+  @Override
   public void setCity(String city) {
     this.city = city;
   }
 
   @Nullable
   @Size(min = 1)
+  @Override
   public String getProvince() {
     return province;
   }
 
+  @Override
   public void setProvince(String province) {
     this.province = province;
   }
 
   @Nullable
+  @Override
   public Country getCountry() {
     return country;
   }
 
+  @Override
   public void setCountry(Country country) {
     this.country = country;
   }
 
   @Nullable
   @Size(min = 1)
+  @Override
   public String getPostalCode() {
     return postalCode;
   }
 
+  @Override
   public void setPostalCode(String postalCode) {
     this.postalCode = postalCode;
   }
