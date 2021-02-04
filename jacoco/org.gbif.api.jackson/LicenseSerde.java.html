@@ -27,34 +27,34 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 /**
  * Jackson {@link JsonSerializer} and Jackson {@link JsonDeserializer} classes for {@link License}.
  */
-<span class="nc" id="L36">public class LicenseSerde {</span>
+<span class="nc" id="L37">public class LicenseSerde {</span>
 
   /**
    * Jackson {@link JsonSerializer} for {@link License}.
    */
-<span class="fc" id="L41">  public static class LicenseJsonSerializer extends JsonSerializer&lt;License&gt; {</span>
+<span class="fc" id="L42">  public static class LicenseJsonSerializer extends JsonSerializer&lt;License&gt; {</span>
 
     @Override
     public void serialize(License value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-<span class="pc bpc" id="L45" title="1 of 2 branches missed.">      if (value == null) {</span>
-<span class="nc" id="L46">        jgen.writeNull();</span>
-<span class="nc" id="L47">        return;</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">      if (value == null) {</span>
+<span class="nc" id="L47">        jgen.writeNull();</span>
+<span class="nc" id="L48">        return;</span>
       }
 
-<span class="fc bfc" id="L50" title="All 2 branches covered.">      if (value.getLicenseUrl() != null) {</span>
-<span class="fc" id="L51">        jgen.writeString(value.getLicenseUrl());</span>
-<span class="fc" id="L52">        return;</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">      if (value.getLicenseUrl() != null) {</span>
+<span class="fc" id="L52">        jgen.writeString(value.getLicenseUrl());</span>
+<span class="fc" id="L53">        return;</span>
       }
 
       //in last resort (UNSPECIFIED,UNSUPPORTED), we use the enum name
-<span class="fc" id="L56">      jgen.writeString(value.name().toLowerCase());</span>
-
+<span class="fc" id="L57">      jgen.writeString(value.name().toLowerCase());</span>
 <span class="fc" id="L58">    }</span>
   }
 
@@ -80,9 +80,8 @@ import com.fasterxml.jackson.databind.SerializerProvider;
         // then, try by name
 <span class="fc" id="L81">        return License.fromString(jp.getText()).orElse(License.UNSUPPORTED);</span>
       }
-<span class="nc" id="L83">      throw ctxt.mappingException(&quot;Expected String&quot;);</span>
+<span class="nc" id="L83">      throw JsonMappingException.from(jp, &quot;Expected String&quot;);</span>
     }
   }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -23,15 +23,16 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
-<span class="nc" id="L27">public class ExtensionDeserializer extends JsonDeserializer&lt;Extension&gt; {</span>
+<span class="nc" id="L28">public class ExtensionDeserializer extends JsonDeserializer&lt;Extension&gt; {</span>
 
   @Override
   public Extension deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-<span class="nc bnc" id="L31" title="All 2 branches missed.">    if (jp.getCurrentToken() == JsonToken.VALUE_STRING) {</span>
-<span class="nc" id="L32">      return Extension.fromRowType(jp.getText());</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">    if (jp.getCurrentToken() == JsonToken.VALUE_STRING) {</span>
+<span class="nc" id="L33">      return Extension.fromRowType(jp.getText());</span>
     }
-<span class="nc" id="L34">    throw ctxt.mappingException(&quot;Expected JSON String&quot;);</span>
+<span class="nc" id="L35">    throw JsonMappingException.from(jp, &quot;Expected JSON String&quot;);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

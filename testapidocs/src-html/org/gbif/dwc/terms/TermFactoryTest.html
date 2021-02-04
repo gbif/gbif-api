@@ -6,172 +6,190 @@
 </head>
 <body>
 <div class="sourceContainer">
-<pre><span class="sourceLineNo">001</span>package org.gbif.dwc.terms;<a name="line.1"></a>
-<span class="sourceLineNo">002</span><a name="line.2"></a>
-<span class="sourceLineNo">003</span>import org.junit.Test;<a name="line.3"></a>
-<span class="sourceLineNo">004</span><a name="line.4"></a>
-<span class="sourceLineNo">005</span>import java.util.HashSet;<a name="line.5"></a>
-<span class="sourceLineNo">006</span>import java.util.Set;<a name="line.6"></a>
-<span class="sourceLineNo">007</span>import java.util.concurrent.ExecutorService;<a name="line.7"></a>
-<span class="sourceLineNo">008</span>import java.util.concurrent.Executors;<a name="line.8"></a>
-<span class="sourceLineNo">009</span>import java.util.concurrent.TimeUnit;<a name="line.9"></a>
-<span class="sourceLineNo">010</span><a name="line.10"></a>
-<span class="sourceLineNo">011</span>import static org.junit.Assert.*;<a name="line.11"></a>
-<span class="sourceLineNo">012</span><a name="line.12"></a>
-<span class="sourceLineNo">013</span>public class TermFactoryTest {<a name="line.13"></a>
-<span class="sourceLineNo">014</span>  final TermFactory TF = TermFactory.instance();<a name="line.14"></a>
-<span class="sourceLineNo">015</span><a name="line.15"></a>
-<span class="sourceLineNo">016</span>  /**<a name="line.16"></a>
-<span class="sourceLineNo">017</span>   * GBIF code assumes a term coming from any of the Term enumerations mostly have unique simple names.<a name="line.17"></a>
-<span class="sourceLineNo">018</span>   * This tests verifies that!<a name="line.18"></a>
-<span class="sourceLineNo">019</span>   *<a name="line.19"></a>
-<span class="sourceLineNo">020</span>   * AcefTerm is known to overlap, so its excluded, see skipSimple in AcefTermTest.<a name="line.20"></a>
-<span class="sourceLineNo">021</span>   */<a name="line.21"></a>
-<span class="sourceLineNo">022</span>  @Test<a name="line.22"></a>
-<span class="sourceLineNo">023</span>  public void testKnownTermUniqueness() {<a name="line.23"></a>
-<span class="sourceLineNo">024</span>    Set&lt;String&gt; names = new HashSet&lt;String&gt;();<a name="line.24"></a>
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright 2021 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span>package org.gbif.dwc.terms;<a name="line.16"></a>
+<span class="sourceLineNo">017</span><a name="line.17"></a>
+<span class="sourceLineNo">018</span>import java.util.HashSet;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import java.util.Set;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import java.util.concurrent.ExecutorService;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import java.util.concurrent.Executors;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.util.concurrent.TimeUnit;<a name="line.22"></a>
+<span class="sourceLineNo">023</span><a name="line.23"></a>
+<span class="sourceLineNo">024</span>import org.junit.jupiter.api.Test;<a name="line.24"></a>
 <span class="sourceLineNo">025</span><a name="line.25"></a>
-<span class="sourceLineNo">026</span>    addTerms(names, DwcTerm.values());<a name="line.26"></a>
-<span class="sourceLineNo">027</span>    addTerms(names, DcTerm.values());<a name="line.27"></a>
-<span class="sourceLineNo">028</span>    addTerms(names, GbifTerm.values());<a name="line.28"></a>
-<span class="sourceLineNo">029</span>    addTerms(names, GbifInternalTerm.values());<a name="line.29"></a>
-<span class="sourceLineNo">030</span>    addTerms(names, IucnTerm.values());<a name="line.30"></a>
-<span class="sourceLineNo">031</span><a name="line.31"></a>
-<span class="sourceLineNo">032</span>    addTerms(names, AcTerm.values());<a name="line.32"></a>
-<span class="sourceLineNo">033</span>    addTerms(names, XmpTerm.values());<a name="line.33"></a>
-<span class="sourceLineNo">034</span>    addTerms(names, XmpRightsTerm.values());<a name="line.34"></a>
-<span class="sourceLineNo">035</span>  }<a name="line.35"></a>
-<span class="sourceLineNo">036</span><a name="line.36"></a>
-<span class="sourceLineNo">037</span>  private void addTerms(Set&lt;String&gt; names, Term[] terms) {<a name="line.37"></a>
-<span class="sourceLineNo">038</span>    for (Term t : terms) {<a name="line.38"></a>
-<span class="sourceLineNo">039</span>      assertFalse("Duplicate simple name "+t.simpleName(), names.contains(t.simpleName()));<a name="line.39"></a>
-<span class="sourceLineNo">040</span>      names.add(t.simpleName());<a name="line.40"></a>
-<span class="sourceLineNo">041</span>    }<a name="line.41"></a>
-<span class="sourceLineNo">042</span>  }<a name="line.42"></a>
-<span class="sourceLineNo">043</span><a name="line.43"></a>
-<span class="sourceLineNo">044</span>  @Test<a name="line.44"></a>
-<span class="sourceLineNo">045</span>  public void testFindTerm() {<a name="line.45"></a>
-<span class="sourceLineNo">046</span>    assertEquals(DwcTerm.scientificName, TF.findTerm("ScientificName"));<a name="line.46"></a>
-<span class="sourceLineNo">047</span>    assertEquals(DwcTerm.scientificName, TF.findTerm("dwc:scientificName"));<a name="line.47"></a>
-<span class="sourceLineNo">048</span>    assertEquals(DwcTerm.scientificName, TF.findTerm("http://rs.tdwg.org/dwc/terms/scientificName"));<a name="line.48"></a>
-<span class="sourceLineNo">049</span>    assertEquals(DcElement.identifier, TF.findTerm("dc:identifier"));<a name="line.49"></a>
-<span class="sourceLineNo">050</span>    assertEquals(GbifTerm.Identifier, TF.findTerm("Identifier"));<a name="line.50"></a>
-<span class="sourceLineNo">051</span>    assertEquals(GbifTerm.Identifier, TF.findClassTerm("identifier"));<a name="line.51"></a>
-<span class="sourceLineNo">052</span>    assertEquals(DcTerm.identifier, TF.findTerm("identifier"));<a name="line.52"></a>
-<span class="sourceLineNo">053</span>    assertEquals(DcTerm.identifier, TF.findPropertyTerm("identifier"));<a name="line.53"></a>
-<span class="sourceLineNo">054</span>    assertEquals(DcTerm.identifier, TF.findTerm("id"));<a name="line.54"></a>
-<span class="sourceLineNo">055</span>    assertEquals(DwcTerm.parentNameUsageID, TF.findTerm("dwc:higherNameUsageID"));<a name="line.55"></a>
-<span class="sourceLineNo">056</span>    assertEquals(DwcTerm.acceptedNameUsageID, TF.findTerm("dwc:acceptedTaxonId"));<a name="line.56"></a>
-<span class="sourceLineNo">057</span>    assertEquals(DwcTerm.acceptedNameUsageID, TF.findTerm("dwc:acceptedTaxonID"));<a name="line.57"></a>
-<span class="sourceLineNo">058</span>    assertEquals(DwcTerm.acceptedNameUsageID, TF.findTerm("acceptedTaxonID"));<a name="line.58"></a>
-<span class="sourceLineNo">059</span>    assertEquals(DwcTerm.acceptedNameUsageID, TF.findTerm("http://rs.tdwg.org/dwc/terms/acceptedTaxonId"));<a name="line.59"></a>
-<span class="sourceLineNo">060</span>    assertEquals(DwcTerm.acceptedNameUsageID, TF.findPropertyTerm("dwc:acceptedTaxonId"));<a name="line.60"></a>
-<span class="sourceLineNo">061</span>    assertEquals(DwcTerm.acceptedNameUsageID, TF.findPropertyTerm("dwc:acceptedTaxonID"));<a name="line.61"></a>
-<span class="sourceLineNo">062</span>    assertEquals(DwcTerm.acceptedNameUsageID, TF.findPropertyTerm("acceptedTaxonID"));<a name="line.62"></a>
-<span class="sourceLineNo">063</span>    assertEquals(DwcTerm.acceptedNameUsageID, TF.findPropertyTerm("http://rs.tdwg.org/dwc/terms/acceptedTaxonId"));<a name="line.63"></a>
-<span class="sourceLineNo">064</span>    assertEquals(AcefTerm.AcceptedTaxonID, TF.findPropertyTerm("AcceptedTaxonID"));<a name="line.64"></a>
-<span class="sourceLineNo">065</span>    assertEquals(AcefTerm.AcceptedTaxonID, TF.findTerm("acef:AcceptedTaxonID"));<a name="line.65"></a>
-<span class="sourceLineNo">066</span>    assertEquals(AcefTerm.AcceptedTaxonID, TF.findPropertyTerm("acef:AcceptedTaxonID"));<a name="line.66"></a>
-<span class="sourceLineNo">067</span><a name="line.67"></a>
-<span class="sourceLineNo">068</span>    assertEquals(DwcTerm.vernacularName, TF.findTerm("dwc:vernacularName"));<a name="line.68"></a>
-<span class="sourceLineNo">069</span>    assertEquals(DwcTerm.vernacularName, TF.findTerm("vernacularName"));<a name="line.69"></a>
-<span class="sourceLineNo">070</span>    assertEquals(GbifTerm.VernacularName, TF.findTerm("VernacularName"));<a name="line.70"></a>
-<span class="sourceLineNo">071</span>    assertEquals(GbifTerm.VernacularName, TF.findTerm("gbif:VernacularName"));<a name="line.71"></a>
-<span class="sourceLineNo">072</span><a name="line.72"></a>
-<span class="sourceLineNo">073</span>    assertEquals(GbifInternalTerm.unitQualifier, TF.findTerm("UNIT_QUALIFIER"));<a name="line.73"></a>
-<span class="sourceLineNo">074</span><a name="line.74"></a>
-<span class="sourceLineNo">075</span>    assertEquals("threatStatus", TF.findTerm("http://rs.gbif.org/terms/1.0/threatStatus").simpleName());<a name="line.75"></a>
-<span class="sourceLineNo">076</span>    assertEquals("threatStatus", TF.findTerm("http://rs.gbif.org/terms/1321.43/threatStatus").simpleName());<a name="line.76"></a>
-<span class="sourceLineNo">077</span><a name="line.77"></a>
-<span class="sourceLineNo">078</span>    assertEquals(DwcTerm.catalogNumber, TF.findTerm("\"catalogNumber\""));<a name="line.78"></a>
-<span class="sourceLineNo">079</span>    assertEquals(AcefTerm.Details, TF.findTerm("acef:source"));<a name="line.79"></a>
-<span class="sourceLineNo">080</span>    assertEquals(DwcTerm.family, TF.findTerm("dwc:family"));<a name="line.80"></a>
-<span class="sourceLineNo">081</span>    assertEquals(DwcTerm.family, TF.findTerm("family"));<a name="line.81"></a>
-<span class="sourceLineNo">082</span>    assertEquals(AcefTerm.Family, TF.findTerm("acef:family"));<a name="line.82"></a>
-<span class="sourceLineNo">083</span>  <a name="line.83"></a>
-<span class="sourceLineNo">084</span>    assertEquals(DwcaTerm.ID, TF.findTerm("dwca:ID"));<a name="line.84"></a>
-<span class="sourceLineNo">085</span>  }<a name="line.85"></a>
+<span class="sourceLineNo">026</span>import static org.junit.jupiter.api.Assertions.assertEquals;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import static org.junit.jupiter.api.Assertions.assertFalse;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import static org.junit.jupiter.api.Assertions.assertNotEquals;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import static org.junit.jupiter.api.Assertions.assertThrows;<a name="line.29"></a>
+<span class="sourceLineNo">030</span><a name="line.30"></a>
+<span class="sourceLineNo">031</span>public class TermFactoryTest {<a name="line.31"></a>
+<span class="sourceLineNo">032</span><a name="line.32"></a>
+<span class="sourceLineNo">033</span>  final TermFactory TF = TermFactory.instance();<a name="line.33"></a>
+<span class="sourceLineNo">034</span><a name="line.34"></a>
+<span class="sourceLineNo">035</span>  /**<a name="line.35"></a>
+<span class="sourceLineNo">036</span>   * GBIF code assumes a term coming from any of the Term enumerations mostly have unique simple names.<a name="line.36"></a>
+<span class="sourceLineNo">037</span>   * This tests verifies that!<a name="line.37"></a>
+<span class="sourceLineNo">038</span>   *<a name="line.38"></a>
+<span class="sourceLineNo">039</span>   * AcefTerm is known to overlap, so its excluded, see skipSimple in AcefTermTest.<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   */<a name="line.40"></a>
+<span class="sourceLineNo">041</span>  @Test<a name="line.41"></a>
+<span class="sourceLineNo">042</span>  public void testKnownTermUniqueness() {<a name="line.42"></a>
+<span class="sourceLineNo">043</span>    Set&lt;String&gt; names = new HashSet&lt;&gt;();<a name="line.43"></a>
+<span class="sourceLineNo">044</span><a name="line.44"></a>
+<span class="sourceLineNo">045</span>    addTerms(names, DwcTerm.values());<a name="line.45"></a>
+<span class="sourceLineNo">046</span>    addTerms(names, DcTerm.values());<a name="line.46"></a>
+<span class="sourceLineNo">047</span>    addTerms(names, GbifTerm.values());<a name="line.47"></a>
+<span class="sourceLineNo">048</span>    addTerms(names, GbifInternalTerm.values());<a name="line.48"></a>
+<span class="sourceLineNo">049</span>    addTerms(names, IucnTerm.values());<a name="line.49"></a>
+<span class="sourceLineNo">050</span><a name="line.50"></a>
+<span class="sourceLineNo">051</span>    addTerms(names, AcTerm.values());<a name="line.51"></a>
+<span class="sourceLineNo">052</span>    addTerms(names, XmpTerm.values());<a name="line.52"></a>
+<span class="sourceLineNo">053</span>    addTerms(names, XmpRightsTerm.values());<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  }<a name="line.54"></a>
+<span class="sourceLineNo">055</span><a name="line.55"></a>
+<span class="sourceLineNo">056</span>  private void addTerms(Set&lt;String&gt; names, Term[] terms) {<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    for (Term t : terms) {<a name="line.57"></a>
+<span class="sourceLineNo">058</span>      assertFalse(names.contains(t.simpleName()), "Duplicate simple name " + t.simpleName());<a name="line.58"></a>
+<span class="sourceLineNo">059</span>      names.add(t.simpleName());<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    }<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  }<a name="line.61"></a>
+<span class="sourceLineNo">062</span><a name="line.62"></a>
+<span class="sourceLineNo">063</span>  @Test<a name="line.63"></a>
+<span class="sourceLineNo">064</span>  public void testFindTerm() {<a name="line.64"></a>
+<span class="sourceLineNo">065</span>    assertEquals(DwcTerm.scientificName, TF.findTerm("ScientificName"));<a name="line.65"></a>
+<span class="sourceLineNo">066</span>    assertEquals(DwcTerm.scientificName, TF.findTerm("dwc:scientificName"));<a name="line.66"></a>
+<span class="sourceLineNo">067</span>    assertEquals(DwcTerm.scientificName, TF.findTerm("http://rs.tdwg.org/dwc/terms/scientificName"));<a name="line.67"></a>
+<span class="sourceLineNo">068</span>    assertEquals(DcElement.identifier, TF.findTerm("dc:identifier"));<a name="line.68"></a>
+<span class="sourceLineNo">069</span>    assertEquals(GbifTerm.Identifier, TF.findTerm("Identifier"));<a name="line.69"></a>
+<span class="sourceLineNo">070</span>    assertEquals(GbifTerm.Identifier, TF.findClassTerm("identifier"));<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    assertEquals(DcTerm.identifier, TF.findTerm("identifier"));<a name="line.71"></a>
+<span class="sourceLineNo">072</span>    assertEquals(DcTerm.identifier, TF.findPropertyTerm("identifier"));<a name="line.72"></a>
+<span class="sourceLineNo">073</span>    assertEquals(DcTerm.identifier, TF.findTerm("id"));<a name="line.73"></a>
+<span class="sourceLineNo">074</span>    assertEquals(DwcTerm.parentNameUsageID, TF.findTerm("dwc:higherNameUsageID"));<a name="line.74"></a>
+<span class="sourceLineNo">075</span>    assertEquals(DwcTerm.acceptedNameUsageID, TF.findTerm("dwc:acceptedTaxonId"));<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    assertEquals(DwcTerm.acceptedNameUsageID, TF.findTerm("dwc:acceptedTaxonID"));<a name="line.76"></a>
+<span class="sourceLineNo">077</span>    assertEquals(DwcTerm.acceptedNameUsageID, TF.findTerm("acceptedTaxonID"));<a name="line.77"></a>
+<span class="sourceLineNo">078</span>    assertEquals(DwcTerm.acceptedNameUsageID, TF.findTerm("http://rs.tdwg.org/dwc/terms/acceptedTaxonId"));<a name="line.78"></a>
+<span class="sourceLineNo">079</span>    assertEquals(DwcTerm.acceptedNameUsageID, TF.findPropertyTerm("dwc:acceptedTaxonId"));<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    assertEquals(DwcTerm.acceptedNameUsageID, TF.findPropertyTerm("dwc:acceptedTaxonID"));<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    assertEquals(DwcTerm.acceptedNameUsageID, TF.findPropertyTerm("acceptedTaxonID"));<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    assertEquals(DwcTerm.acceptedNameUsageID, TF.findPropertyTerm("http://rs.tdwg.org/dwc/terms/acceptedTaxonId"));<a name="line.82"></a>
+<span class="sourceLineNo">083</span>    assertEquals(AcefTerm.AcceptedTaxonID, TF.findPropertyTerm("AcceptedTaxonID"));<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    assertEquals(AcefTerm.AcceptedTaxonID, TF.findTerm("acef:AcceptedTaxonID"));<a name="line.84"></a>
+<span class="sourceLineNo">085</span>    assertEquals(AcefTerm.AcceptedTaxonID, TF.findPropertyTerm("acef:AcceptedTaxonID"));<a name="line.85"></a>
 <span class="sourceLineNo">086</span><a name="line.86"></a>
-<span class="sourceLineNo">087</span>  @Test<a name="line.87"></a>
-<span class="sourceLineNo">088</span>  public void addUnknownTerm() {<a name="line.88"></a>
-<span class="sourceLineNo">089</span>    TermFactory factory = TermFactory.instance();<a name="line.89"></a>
-<span class="sourceLineNo">090</span><a name="line.90"></a>
-<span class="sourceLineNo">091</span>    Term me1 = factory.findTerm("http://me.com/#me");<a name="line.91"></a>
-<span class="sourceLineNo">092</span>    Term me2 = factory.findTerm("http://me.com/me");<a name="line.92"></a>
-<span class="sourceLineNo">093</span>    Term me3 = factory.findTerm("http://me.org/me");<a name="line.93"></a>
-<span class="sourceLineNo">094</span><a name="line.94"></a>
-<span class="sourceLineNo">095</span>    assertNotEquals(me1, me2);<a name="line.95"></a>
-<span class="sourceLineNo">096</span>    assertNotEquals(me1, me3);<a name="line.96"></a>
-<span class="sourceLineNo">097</span>    assertNotEquals(me2, me3);<a name="line.97"></a>
-<span class="sourceLineNo">098</span>  }<a name="line.98"></a>
-<span class="sourceLineNo">099</span><a name="line.99"></a>
-<span class="sourceLineNo">100</span>  @Test(expected = IllegalArgumentException.class)<a name="line.100"></a>
-<span class="sourceLineNo">101</span>  public void badTerm() {<a name="line.101"></a>
-<span class="sourceLineNo">102</span>    TermFactory factory = TermFactory.instance();<a name="line.102"></a>
-<span class="sourceLineNo">103</span>    factory.findTerm("Hallo Tim");<a name="line.103"></a>
+<span class="sourceLineNo">087</span>    assertEquals(DwcTerm.vernacularName, TF.findTerm("dwc:vernacularName"));<a name="line.87"></a>
+<span class="sourceLineNo">088</span>    assertEquals(DwcTerm.vernacularName, TF.findTerm("vernacularName"));<a name="line.88"></a>
+<span class="sourceLineNo">089</span>    assertEquals(GbifTerm.VernacularName, TF.findTerm("VernacularName"));<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    assertEquals(GbifTerm.VernacularName, TF.findTerm("gbif:VernacularName"));<a name="line.90"></a>
+<span class="sourceLineNo">091</span><a name="line.91"></a>
+<span class="sourceLineNo">092</span>    assertEquals(GbifInternalTerm.unitQualifier, TF.findTerm("UNIT_QUALIFIER"));<a name="line.92"></a>
+<span class="sourceLineNo">093</span><a name="line.93"></a>
+<span class="sourceLineNo">094</span>    assertEquals("threatStatus", TF.findTerm("http://rs.gbif.org/terms/1.0/threatStatus").simpleName());<a name="line.94"></a>
+<span class="sourceLineNo">095</span>    assertEquals("threatStatus", TF.findTerm("http://rs.gbif.org/terms/1321.43/threatStatus").simpleName());<a name="line.95"></a>
+<span class="sourceLineNo">096</span><a name="line.96"></a>
+<span class="sourceLineNo">097</span>    assertEquals(DwcTerm.catalogNumber, TF.findTerm("\"catalogNumber\""));<a name="line.97"></a>
+<span class="sourceLineNo">098</span>    assertEquals(AcefTerm.Details, TF.findTerm("acef:source"));<a name="line.98"></a>
+<span class="sourceLineNo">099</span>    assertEquals(DwcTerm.family, TF.findTerm("dwc:family"));<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    assertEquals(DwcTerm.family, TF.findTerm("family"));<a name="line.100"></a>
+<span class="sourceLineNo">101</span>    assertEquals(AcefTerm.Family, TF.findTerm("acef:family"));<a name="line.101"></a>
+<span class="sourceLineNo">102</span>  <a name="line.102"></a>
+<span class="sourceLineNo">103</span>    assertEquals(DwcaTerm.ID, TF.findTerm("dwca:ID"));<a name="line.103"></a>
 <span class="sourceLineNo">104</span>  }<a name="line.104"></a>
 <span class="sourceLineNo">105</span><a name="line.105"></a>
 <span class="sourceLineNo">106</span>  @Test<a name="line.106"></a>
-<span class="sourceLineNo">107</span>  public void addSimpleTerm() {<a name="line.107"></a>
+<span class="sourceLineNo">107</span>  public void addUnknownTerm() {<a name="line.107"></a>
 <span class="sourceLineNo">108</span>    TermFactory factory = TermFactory.instance();<a name="line.108"></a>
 <span class="sourceLineNo">109</span><a name="line.109"></a>
-<span class="sourceLineNo">110</span>    Term hallo = factory.findTerm("hallo");<a name="line.110"></a>
-<span class="sourceLineNo">111</span>    assertEquals(UnknownTerm.class, hallo.getClass());<a name="line.111"></a>
-<span class="sourceLineNo">112</span>    assertEquals("http://unknown.org/hallo", hallo.qualifiedName());<a name="line.112"></a>
-<span class="sourceLineNo">113</span>    assertEquals("hallo", hallo.simpleName());<a name="line.113"></a>
-<span class="sourceLineNo">114</span><a name="line.114"></a>
-<span class="sourceLineNo">115</span><a name="line.115"></a>
-<span class="sourceLineNo">116</span>    Term tim = factory.findTerm("Tim");<a name="line.116"></a>
-<span class="sourceLineNo">117</span>    assertEquals(UnknownTerm.class, tim.getClass());<a name="line.117"></a>
-<span class="sourceLineNo">118</span>    assertEquals("http://unknown.org/Tim", tim.qualifiedName());<a name="line.118"></a>
-<span class="sourceLineNo">119</span>    assertEquals("http://unknown.org", tim.namespace().toString());<a name="line.119"></a>
-<span class="sourceLineNo">120</span>    assertEquals("Tim", tim.simpleName());<a name="line.120"></a>
-<span class="sourceLineNo">121</span><a name="line.121"></a>
-<span class="sourceLineNo">122</span>    Term eva = factory.findTerm("tim:Eva");<a name="line.122"></a>
-<span class="sourceLineNo">123</span>    assertEquals(UnknownTerm.class, eva.getClass());<a name="line.123"></a>
-<span class="sourceLineNo">124</span>    assertEquals("http://unknown.org/tim/Eva", eva.qualifiedName());<a name="line.124"></a>
-<span class="sourceLineNo">125</span>    assertEquals("http://unknown.org", tim.namespace().toString());<a name="line.125"></a>
-<span class="sourceLineNo">126</span>    assertEquals("http://unknown.org/tim/Eva", eva.prefixedName());<a name="line.126"></a>
-<span class="sourceLineNo">127</span>    assertEquals("Eva", eva.simpleName());<a name="line.127"></a>
+<span class="sourceLineNo">110</span>    Term me1 = factory.findTerm("http://me.com/#me");<a name="line.110"></a>
+<span class="sourceLineNo">111</span>    Term me2 = factory.findTerm("http://me.com/me");<a name="line.111"></a>
+<span class="sourceLineNo">112</span>    Term me3 = factory.findTerm("http://me.org/me");<a name="line.112"></a>
+<span class="sourceLineNo">113</span><a name="line.113"></a>
+<span class="sourceLineNo">114</span>    assertNotEquals(me1, me2);<a name="line.114"></a>
+<span class="sourceLineNo">115</span>    assertNotEquals(me1, me3);<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    assertNotEquals(me2, me3);<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  }<a name="line.117"></a>
+<span class="sourceLineNo">118</span><a name="line.118"></a>
+<span class="sourceLineNo">119</span>  @Test<a name="line.119"></a>
+<span class="sourceLineNo">120</span>  public void badTerm() {<a name="line.120"></a>
+<span class="sourceLineNo">121</span>    TermFactory factory = TermFactory.instance();<a name="line.121"></a>
+<span class="sourceLineNo">122</span>    assertThrows(IllegalArgumentException.class, () -&gt; factory.findTerm("Hallo Tim"));<a name="line.122"></a>
+<span class="sourceLineNo">123</span>  }<a name="line.123"></a>
+<span class="sourceLineNo">124</span><a name="line.124"></a>
+<span class="sourceLineNo">125</span>  @Test<a name="line.125"></a>
+<span class="sourceLineNo">126</span>  public void addSimpleTerm() {<a name="line.126"></a>
+<span class="sourceLineNo">127</span>    TermFactory factory = TermFactory.instance();<a name="line.127"></a>
 <span class="sourceLineNo">128</span><a name="line.128"></a>
-<span class="sourceLineNo">129</span>    assertNotEquals(hallo, tim);<a name="line.129"></a>
-<span class="sourceLineNo">130</span>  }<a name="line.130"></a>
-<span class="sourceLineNo">131</span><a name="line.131"></a>
-<span class="sourceLineNo">132</span>  @Test<a name="line.132"></a>
-<span class="sourceLineNo">133</span>  public void addUnknownSimpleTerm() {<a name="line.133"></a>
-<span class="sourceLineNo">134</span>    TermFactory factory = TermFactory.instance();<a name="line.134"></a>
-<span class="sourceLineNo">135</span><a name="line.135"></a>
-<span class="sourceLineNo">136</span>    Term t1 = factory.findTerm("me");<a name="line.136"></a>
-<span class="sourceLineNo">137</span>    Term t2 = factory.findTerm("me");<a name="line.137"></a>
-<span class="sourceLineNo">138</span>    Term t3 = factory.findTerm("Ne");<a name="line.138"></a>
-<span class="sourceLineNo">139</span><a name="line.139"></a>
-<span class="sourceLineNo">140</span>    assertEquals(t1, t2);<a name="line.140"></a>
-<span class="sourceLineNo">141</span>    assertNotEquals(t1, t3);<a name="line.141"></a>
-<span class="sourceLineNo">142</span>    assertNotEquals(t2, t3);<a name="line.142"></a>
-<span class="sourceLineNo">143</span>  }<a name="line.143"></a>
-<span class="sourceLineNo">144</span><a name="line.144"></a>
-<span class="sourceLineNo">145</span><a name="line.145"></a>
-<span class="sourceLineNo">146</span>  /**<a name="line.146"></a>
-<span class="sourceLineNo">147</span>     * Not a real test, just a way of running many concurrent TermFactory.instance() calls to verify thread safety.<a name="line.147"></a>
-<span class="sourceLineNo">148</span>     */<a name="line.148"></a>
-<span class="sourceLineNo">149</span>  @Test<a name="line.149"></a>
-<span class="sourceLineNo">150</span>  public void testMultithreadStart() throws InterruptedException {<a name="line.150"></a>
-<span class="sourceLineNo">151</span>    int threadCount = 100;<a name="line.151"></a>
-<span class="sourceLineNo">152</span>    ExecutorService tp = Executors.newFixedThreadPool(threadCount);<a name="line.152"></a>
-<span class="sourceLineNo">153</span>    for (int i = 0; i &lt; threadCount; i++) {<a name="line.153"></a>
-<span class="sourceLineNo">154</span>      tp.submit(new TermFactoryLoader());<a name="line.154"></a>
-<span class="sourceLineNo">155</span>    }<a name="line.155"></a>
-<span class="sourceLineNo">156</span>    tp.shutdown();<a name="line.156"></a>
-<span class="sourceLineNo">157</span>    tp.awaitTermination(30, TimeUnit.SECONDS);<a name="line.157"></a>
-<span class="sourceLineNo">158</span>  }<a name="line.158"></a>
-<span class="sourceLineNo">159</span><a name="line.159"></a>
-<span class="sourceLineNo">160</span>  private static class TermFactoryLoader implements Runnable {<a name="line.160"></a>
-<span class="sourceLineNo">161</span>    @Override<a name="line.161"></a>
-<span class="sourceLineNo">162</span>    public void run() {<a name="line.162"></a>
-<span class="sourceLineNo">163</span>      TermFactory.instance();<a name="line.163"></a>
-<span class="sourceLineNo">164</span>    }<a name="line.164"></a>
-<span class="sourceLineNo">165</span>  }<a name="line.165"></a>
-<span class="sourceLineNo">166</span>}<a name="line.166"></a>
+<span class="sourceLineNo">129</span>    Term hallo = factory.findTerm("hallo");<a name="line.129"></a>
+<span class="sourceLineNo">130</span>    assertEquals(UnknownTerm.class, hallo.getClass());<a name="line.130"></a>
+<span class="sourceLineNo">131</span>    assertEquals("http://unknown.org/hallo", hallo.qualifiedName());<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    assertEquals("hallo", hallo.simpleName());<a name="line.132"></a>
+<span class="sourceLineNo">133</span><a name="line.133"></a>
+<span class="sourceLineNo">134</span><a name="line.134"></a>
+<span class="sourceLineNo">135</span>    Term tim = factory.findTerm("Tim");<a name="line.135"></a>
+<span class="sourceLineNo">136</span>    assertEquals(UnknownTerm.class, tim.getClass());<a name="line.136"></a>
+<span class="sourceLineNo">137</span>    assertEquals("http://unknown.org/Tim", tim.qualifiedName());<a name="line.137"></a>
+<span class="sourceLineNo">138</span>    assertEquals("http://unknown.org", tim.namespace().toString());<a name="line.138"></a>
+<span class="sourceLineNo">139</span>    assertEquals("Tim", tim.simpleName());<a name="line.139"></a>
+<span class="sourceLineNo">140</span><a name="line.140"></a>
+<span class="sourceLineNo">141</span>    Term eva = factory.findTerm("tim:Eva");<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    assertEquals(UnknownTerm.class, eva.getClass());<a name="line.142"></a>
+<span class="sourceLineNo">143</span>    assertEquals("http://unknown.org/tim/Eva", eva.qualifiedName());<a name="line.143"></a>
+<span class="sourceLineNo">144</span>    assertEquals("http://unknown.org", tim.namespace().toString());<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    assertEquals("http://unknown.org/tim/Eva", eva.prefixedName());<a name="line.145"></a>
+<span class="sourceLineNo">146</span>    assertEquals("Eva", eva.simpleName());<a name="line.146"></a>
+<span class="sourceLineNo">147</span><a name="line.147"></a>
+<span class="sourceLineNo">148</span>    assertNotEquals(hallo, tim);<a name="line.148"></a>
+<span class="sourceLineNo">149</span>  }<a name="line.149"></a>
+<span class="sourceLineNo">150</span><a name="line.150"></a>
+<span class="sourceLineNo">151</span>  @Test<a name="line.151"></a>
+<span class="sourceLineNo">152</span>  public void addUnknownSimpleTerm() {<a name="line.152"></a>
+<span class="sourceLineNo">153</span>    TermFactory factory = TermFactory.instance();<a name="line.153"></a>
+<span class="sourceLineNo">154</span><a name="line.154"></a>
+<span class="sourceLineNo">155</span>    Term t1 = factory.findTerm("me");<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    Term t2 = factory.findTerm("me");<a name="line.156"></a>
+<span class="sourceLineNo">157</span>    Term t3 = factory.findTerm("Ne");<a name="line.157"></a>
+<span class="sourceLineNo">158</span><a name="line.158"></a>
+<span class="sourceLineNo">159</span>    assertEquals(t1, t2);<a name="line.159"></a>
+<span class="sourceLineNo">160</span>    assertNotEquals(t1, t3);<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    assertNotEquals(t2, t3);<a name="line.161"></a>
+<span class="sourceLineNo">162</span>  }<a name="line.162"></a>
+<span class="sourceLineNo">163</span><a name="line.163"></a>
+<span class="sourceLineNo">164</span>  /**<a name="line.164"></a>
+<span class="sourceLineNo">165</span>     * Not a real test, just a way of running many concurrent TermFactory.instance() calls to verify thread safety.<a name="line.165"></a>
+<span class="sourceLineNo">166</span>     */<a name="line.166"></a>
+<span class="sourceLineNo">167</span>  @Test<a name="line.167"></a>
+<span class="sourceLineNo">168</span>  public void testMultithreadStart() throws InterruptedException {<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    int threadCount = 100;<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    ExecutorService tp = Executors.newFixedThreadPool(threadCount);<a name="line.170"></a>
+<span class="sourceLineNo">171</span>    for (int i = 0; i &lt; threadCount; i++) {<a name="line.171"></a>
+<span class="sourceLineNo">172</span>      tp.submit(new TermFactoryLoader());<a name="line.172"></a>
+<span class="sourceLineNo">173</span>    }<a name="line.173"></a>
+<span class="sourceLineNo">174</span>    tp.shutdown();<a name="line.174"></a>
+<span class="sourceLineNo">175</span>    tp.awaitTermination(30, TimeUnit.SECONDS);<a name="line.175"></a>
+<span class="sourceLineNo">176</span>  }<a name="line.176"></a>
+<span class="sourceLineNo">177</span><a name="line.177"></a>
+<span class="sourceLineNo">178</span>  private static class TermFactoryLoader implements Runnable {<a name="line.178"></a>
+<span class="sourceLineNo">179</span>    @Override<a name="line.179"></a>
+<span class="sourceLineNo">180</span>    public void run() {<a name="line.180"></a>
+<span class="sourceLineNo">181</span>      TermFactory.instance();<a name="line.181"></a>
+<span class="sourceLineNo">182</span>    }<a name="line.182"></a>
+<span class="sourceLineNo">183</span>  }<a name="line.183"></a>
+<span class="sourceLineNo">184</span>}<a name="line.184"></a>
 
 
 

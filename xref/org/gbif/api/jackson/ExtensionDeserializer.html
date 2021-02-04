@@ -31,19 +31,20 @@
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> com.fasterxml.jackson.core.JsonToken;
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> com.fasterxml.jackson.databind.DeserializationContext;
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> com.fasterxml.jackson.databind.JsonDeserializer;
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/gbif/api/jackson/ExtensionDeserializer.html">ExtensionDeserializer</a> <strong class="jxr_keyword">extends</strong> JsonDeserializer&lt;Extension&gt; {
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>    @Override
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../org/gbif/api/vocabulary/Extension.html">Extension</a> deserialize(JsonParser jp, DeserializationContext ctxt) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>      <strong class="jxr_keyword">if</strong> (jp.getCurrentToken() == JsonToken.VALUE_STRING) {
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>        <strong class="jxr_keyword">return</strong> Extension.fromRowType(jp.getText());
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>      }
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>      <strong class="jxr_keyword">throw</strong> ctxt.mappingException(<span class="jxr_string">"Expected JSON String"</span>);
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>    }
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  }
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> com.fasterxml.jackson.databind.JsonMappingException;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/gbif/api/jackson/ExtensionDeserializer.html">ExtensionDeserializer</a> <strong class="jxr_keyword">extends</strong> JsonDeserializer&lt;Extension&gt; {
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>    @Override
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../org/gbif/api/vocabulary/Extension.html">Extension</a> deserialize(JsonParser jp, DeserializationContext ctxt) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>      <strong class="jxr_keyword">if</strong> (jp.getCurrentToken() == JsonToken.VALUE_STRING) {
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>        <strong class="jxr_keyword">return</strong> Extension.fromRowType(jp.getText());
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>      }
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>      <strong class="jxr_keyword">throw</strong> JsonMappingException.from(jp, <span class="jxr_string">"Expected JSON String"</span>);
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>    }
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2021 <a href="http://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2021 <a href="https://www.gbif.org">Global Biodiversity Information Facility</a>. All rights reserved.</div>
 </body>
 </html>

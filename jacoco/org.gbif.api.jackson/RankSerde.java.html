@@ -26,63 +26,64 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 /**
  * Jackson {@link JsonSerializer} and Jackson {@link JsonDeserializer} classes for {@link Rank} that uses the common rank markers instead of enum names.
  */
-<span class="nc" id="L35">public class RankSerde {</span>
+<span class="nc" id="L36">public class RankSerde {</span>
 
   /**
    * Jackson {@link JsonSerializer} for {@link Rank}.
    */
-<span class="fc" id="L40">  public static class RankJsonSerializer extends JsonSerializer&lt;Rank&gt; {</span>
+<span class="fc" id="L41">  public static class RankJsonSerializer extends JsonSerializer&lt;Rank&gt; {</span>
 
     @Override
     public void serialize(Rank value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-<span class="pc bpc" id="L44" title="1 of 2 branches missed.">      if (value == null) {</span>
-<span class="nc" id="L45">        jgen.writeNull();</span>
-<span class="nc" id="L46">        return;</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">      if (value == null) {</span>
+<span class="nc" id="L46">        jgen.writeNull();</span>
+<span class="nc" id="L47">        return;</span>
       }
-<span class="fc bfc" id="L48" title="All 2 branches covered.">      if (value.getMarker() == null) {</span>
-<span class="fc" id="L49">        jgen.writeString(value.name().toLowerCase().replaceAll(&quot;_&quot;, &quot; &quot;));</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">      if (value.getMarker() == null) {</span>
+<span class="fc" id="L50">        jgen.writeString(value.name().toLowerCase().replaceAll(&quot;_&quot;, &quot; &quot;));</span>
       } else {
-<span class="fc" id="L51">        jgen.writeString(value.getMarker());</span>
+<span class="fc" id="L52">        jgen.writeString(value.getMarker());</span>
       }
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L54">    }</span>
   }
 
   /**
    * Jackson {@link JsonDeserializer} for {@link Rank}.
    */
-<span class="fc" id="L59">  public static class RankJsonDeserializer extends JsonDeserializer&lt;Rank&gt; {</span>
-<span class="fc" id="L60">    private static final Map&lt;String, Rank&gt; RANKS = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L60">  public static class RankJsonDeserializer extends JsonDeserializer&lt;Rank&gt; {</span>
+<span class="fc" id="L61">    private static final Map&lt;String, Rank&gt; RANKS = new HashMap&lt;&gt;();</span>
     static {
-<span class="fc bfc" id="L62" title="All 2 branches covered.">      for (Rank r : Rank.values()) {</span>
-<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (r.getMarker() != null) {</span>
-<span class="fc" id="L64">          RANKS.put(r.getMarker(), r);</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">      for (Rank r : Rank.values()) {</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (r.getMarker() != null) {</span>
+<span class="fc" id="L65">          RANKS.put(r.getMarker(), r);</span>
         }
       }
-<span class="fc" id="L67">    }</span>
+<span class="fc" id="L68">    }</span>
 
     @Override
     public Rank deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-<span class="pc bpc" id="L71" title="1 of 2 branches missed.">      if (jp.getCurrentToken() == JsonToken.VALUE_STRING) {</span>
-<span class="fc bfc" id="L72" title="All 2 branches covered.">        if (RANKS.containsKey(jp.getText())) {</span>
-<span class="fc" id="L73">          return RANKS.get(jp.getText());</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">      if (jp.getCurrentToken() == JsonToken.VALUE_STRING) {</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        if (RANKS.containsKey(jp.getText())) {</span>
+<span class="fc" id="L74">          return RANKS.get(jp.getText());</span>
 
         } else {
           // try enum name as last resort
           try {
-<span class="fc" id="L78">            return Rank.valueOf(jp.getText().toUpperCase().replace(&quot; &quot;, &quot;_&quot;));</span>
-<span class="nc" id="L79">          } catch (IllegalArgumentException e) {</span>
+<span class="fc" id="L79">            return Rank.valueOf(jp.getText().toUpperCase().replace(&quot; &quot;, &quot;_&quot;));</span>
+<span class="nc" id="L80">          } catch (IllegalArgumentException e) {</span>
             // swallow
           }
         }
-<span class="nc" id="L83">        return null;</span>
+<span class="nc" id="L84">        return null;</span>
       }
-<span class="nc" id="L85">      throw ctxt.mappingException(&quot;Expected String&quot;);</span>
+<span class="nc" id="L86">      throw JsonMappingException.from(jp, &quot;Expected String&quot;);</span>
     }
   }
 }

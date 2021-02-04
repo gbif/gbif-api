@@ -6,396 +6,411 @@
 </head>
 <body>
 <div class="sourceContainer">
-<pre><span class="sourceLineNo">001</span>package org.gbif.dwc.terms;<a name="line.1"></a>
-<span class="sourceLineNo">002</span><a name="line.2"></a>
-<span class="sourceLineNo">003</span>import java.io.Serializable;<a name="line.3"></a>
-<span class="sourceLineNo">004</span>import java.net.URI;<a name="line.4"></a>
-<span class="sourceLineNo">005</span>import java.util.ArrayList;<a name="line.5"></a>
-<span class="sourceLineNo">006</span>import java.util.List;<a name="line.6"></a>
-<span class="sourceLineNo">007</span><a name="line.7"></a>
-<span class="sourceLineNo">008</span>public enum GbifTerm implements Term, AlternativeNames, Serializable {<a name="line.8"></a>
-<span class="sourceLineNo">009</span>  // row types<a name="line.9"></a>
-<span class="sourceLineNo">010</span>  Description(GbifTerm.GROUP_ROW_TYPE),<a name="line.10"></a>
-<span class="sourceLineNo">011</span>  Distribution(GbifTerm.GROUP_ROW_TYPE),<a name="line.11"></a>
-<span class="sourceLineNo">012</span>  Identifier(GbifTerm.GROUP_ROW_TYPE),<a name="line.12"></a>
-<span class="sourceLineNo">013</span>  Image(GbifTerm.GROUP_ROW_TYPE, "Images"),<a name="line.13"></a>
-<span class="sourceLineNo">014</span>  Reference(GbifTerm.GROUP_ROW_TYPE, "References"),<a name="line.14"></a>
-<span class="sourceLineNo">015</span>  SpeciesProfile(GbifTerm.GROUP_ROW_TYPE, "SpeciesMiniProfile", "SpeciesInfo", "SpeciesData", "SpeciesFactsheet"),<a name="line.15"></a>
-<span class="sourceLineNo">016</span>  TypesAndSpecimen(GbifTerm.GROUP_ROW_TYPE, "Specimen", "Types", "TypeDesignation"),<a name="line.16"></a>
-<span class="sourceLineNo">017</span>  VernacularName(GbifTerm.GROUP_ROW_TYPE, "VernacularNames", "Vernacular", "Vernaculars"),<a name="line.17"></a>
-<span class="sourceLineNo">018</span>  Multimedia(GbifTerm.GROUP_ROW_TYPE),<a name="line.18"></a>
-<span class="sourceLineNo">019</span><a name="line.19"></a>
-<span class="sourceLineNo">020</span>  /**<a name="line.20"></a>
-<span class="sourceLineNo">021</span>   * The UUID key for the dataset registered in GBIF.<a name="line.21"></a>
-<span class="sourceLineNo">022</span>   */<a name="line.22"></a>
-<span class="sourceLineNo">023</span>  datasetKey(GbifTerm.GROUP_DATASET),<a name="line.23"></a>
-<span class="sourceLineNo">024</span><a name="line.24"></a>
-<span class="sourceLineNo">025</span>  /**<a name="line.25"></a>
-<span class="sourceLineNo">026</span>   * The ISO code of the country of the organization that publishes the dataset to which the occurrence belongs.<a name="line.26"></a>
-<span class="sourceLineNo">027</span>   */<a name="line.27"></a>
-<span class="sourceLineNo">028</span>  publishingCountry(GbifTerm.GROUP_DATASET),<a name="line.28"></a>
-<span class="sourceLineNo">029</span><a name="line.29"></a>
-<span class="sourceLineNo">030</span>  /**<a name="line.30"></a>
-<span class="sourceLineNo">031</span>   * Numerical, stable identifier assigned by GBIF to an Occurrence record.<a name="line.31"></a>
-<span class="sourceLineNo">032</span>   */<a name="line.32"></a>
-<span class="sourceLineNo">033</span>  gbifID(DwcTerm.GROUP_OCCURRENCE),<a name="line.33"></a>
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright 2021 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> */<a name="line.15"></a>
+<span class="sourceLineNo">016</span>package org.gbif.dwc.terms;<a name="line.16"></a>
+<span class="sourceLineNo">017</span><a name="line.17"></a>
+<span class="sourceLineNo">018</span>import java.io.Serializable;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import java.net.URI;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import java.util.ArrayList;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import java.util.List;<a name="line.21"></a>
+<span class="sourceLineNo">022</span><a name="line.22"></a>
+<span class="sourceLineNo">023</span>public enum GbifTerm implements Term, AlternativeNames, Serializable {<a name="line.23"></a>
+<span class="sourceLineNo">024</span>  // row types<a name="line.24"></a>
+<span class="sourceLineNo">025</span>  Description(GbifTerm.GROUP_ROW_TYPE),<a name="line.25"></a>
+<span class="sourceLineNo">026</span>  Distribution(GbifTerm.GROUP_ROW_TYPE),<a name="line.26"></a>
+<span class="sourceLineNo">027</span>  Identifier(GbifTerm.GROUP_ROW_TYPE),<a name="line.27"></a>
+<span class="sourceLineNo">028</span>  Image(GbifTerm.GROUP_ROW_TYPE, "Images"),<a name="line.28"></a>
+<span class="sourceLineNo">029</span>  Reference(GbifTerm.GROUP_ROW_TYPE, "References"),<a name="line.29"></a>
+<span class="sourceLineNo">030</span>  SpeciesProfile(GbifTerm.GROUP_ROW_TYPE, "SpeciesMiniProfile", "SpeciesInfo", "SpeciesData", "SpeciesFactsheet"),<a name="line.30"></a>
+<span class="sourceLineNo">031</span>  TypesAndSpecimen(GbifTerm.GROUP_ROW_TYPE, "Specimen", "Types", "TypeDesignation"),<a name="line.31"></a>
+<span class="sourceLineNo">032</span>  VernacularName(GbifTerm.GROUP_ROW_TYPE, "VernacularNames", "Vernacular", "Vernaculars"),<a name="line.32"></a>
+<span class="sourceLineNo">033</span>  Multimedia(GbifTerm.GROUP_ROW_TYPE),<a name="line.33"></a>
 <span class="sourceLineNo">034</span><a name="line.34"></a>
 <span class="sourceLineNo">035</span>  /**<a name="line.35"></a>
-<span class="sourceLineNo">036</span>   * Timestamp of the last time the record has been (re)interpreted by GBIF.<a name="line.36"></a>
+<span class="sourceLineNo">036</span>   * The UUID key for the dataset registered in GBIF.<a name="line.36"></a>
 <span class="sourceLineNo">037</span>   */<a name="line.37"></a>
-<span class="sourceLineNo">038</span>  lastInterpreted(DwcTerm.GROUP_OCCURRENCE),<a name="line.38"></a>
+<span class="sourceLineNo">038</span>  datasetKey(GbifTerm.GROUP_DATASET),<a name="line.38"></a>
 <span class="sourceLineNo">039</span><a name="line.39"></a>
 <span class="sourceLineNo">040</span>  /**<a name="line.40"></a>
-<span class="sourceLineNo">041</span>   * The uncertainty radius for lat/lon in decimal degrees.<a name="line.41"></a>
+<span class="sourceLineNo">041</span>   * The ISO code of the country of the organization that publishes the dataset to which the occurrence belongs.<a name="line.41"></a>
 <span class="sourceLineNo">042</span>   */<a name="line.42"></a>
-<span class="sourceLineNo">043</span>  @Deprecated<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  coordinateAccuracy(DwcTerm.GROUP_OCCURRENCE),<a name="line.44"></a>
-<span class="sourceLineNo">045</span><a name="line.45"></a>
-<span class="sourceLineNo">046</span>  /**<a name="line.46"></a>
-<span class="sourceLineNo">047</span>   * Elevation in meters above sea level (altitude).<a name="line.47"></a>
-<span class="sourceLineNo">048</span>   * &lt;p&gt;<a name="line.48"></a>
-<span class="sourceLineNo">049</span>   * The elevation is the absolute vertical position of the observed location (z-coordinate).<a name="line.49"></a>
-<span class="sourceLineNo">050</span>   * If depth is given or not will not impact the 3-dimensional position.<a name="line.50"></a>
-<span class="sourceLineNo">051</span>   * For example a location 100m below the surface of a lake in 2000m altitude has a depth of 100 and<a name="line.51"></a>
-<span class="sourceLineNo">052</span>   * an elevation of 1900.<a name="line.52"></a>
-<span class="sourceLineNo">053</span>   * &lt;/p&gt;<a name="line.53"></a>
-<span class="sourceLineNo">054</span>   * &lt;p&gt;<a name="line.54"></a>
-<span class="sourceLineNo">055</span>   * If minimum and maximum values are given the elevation is calculated using the equation:<a name="line.55"></a>
-<span class="sourceLineNo">056</span>   * (minimumElevationInMeters + maximumElevationInMeters) / 2.<a name="line.56"></a>
-<span class="sourceLineNo">057</span>   * For consistency and ease of use GBIF decided to always use a value in meters plus it's accurracy instead of<a name="line.57"></a>
-<span class="sourceLineNo">058</span>   * min/max values which are sometimes used in Darwin Core. See also depth &amp; distanceAboveSurface.<a name="line.58"></a>
-<span class="sourceLineNo">059</span>   * &lt;/p&gt;<a name="line.59"></a>
-<span class="sourceLineNo">060</span>   */<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  elevation(DwcTerm.GROUP_LOCATION),<a name="line.61"></a>
-<span class="sourceLineNo">062</span><a name="line.62"></a>
-<span class="sourceLineNo">063</span>  /**<a name="line.63"></a>
-<span class="sourceLineNo">064</span>   * Elevation accuracy is the uncertainty for the elevation in meters.<a name="line.64"></a>
-<span class="sourceLineNo">065</span>   * &lt;p&gt;<a name="line.65"></a>
-<span class="sourceLineNo">066</span>   * The elevation accuracy is calculated using the equation: (maximumElevationInMeters - minimumElevationInMeters) / 2<a name="line.66"></a>
-<span class="sourceLineNo">067</span>   * in case a minimum and maximum verbatim value is given.<a name="line.67"></a>
+<span class="sourceLineNo">043</span>  publishingCountry(GbifTerm.GROUP_DATASET),<a name="line.43"></a>
+<span class="sourceLineNo">044</span><a name="line.44"></a>
+<span class="sourceLineNo">045</span>  /**<a name="line.45"></a>
+<span class="sourceLineNo">046</span>   * Numerical, stable identifier assigned by GBIF to an Occurrence record.<a name="line.46"></a>
+<span class="sourceLineNo">047</span>   */<a name="line.47"></a>
+<span class="sourceLineNo">048</span>  gbifID(DwcTerm.GROUP_OCCURRENCE),<a name="line.48"></a>
+<span class="sourceLineNo">049</span><a name="line.49"></a>
+<span class="sourceLineNo">050</span>  /**<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   * Timestamp of the last time the record has been (re)interpreted by GBIF.<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   */<a name="line.52"></a>
+<span class="sourceLineNo">053</span>  lastInterpreted(DwcTerm.GROUP_OCCURRENCE),<a name="line.53"></a>
+<span class="sourceLineNo">054</span><a name="line.54"></a>
+<span class="sourceLineNo">055</span>  /**<a name="line.55"></a>
+<span class="sourceLineNo">056</span>   * The uncertainty radius for lat/lon in decimal degrees.<a name="line.56"></a>
+<span class="sourceLineNo">057</span>   */<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  @Deprecated<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  coordinateAccuracy(DwcTerm.GROUP_OCCURRENCE),<a name="line.59"></a>
+<span class="sourceLineNo">060</span><a name="line.60"></a>
+<span class="sourceLineNo">061</span>  /**<a name="line.61"></a>
+<span class="sourceLineNo">062</span>   * Elevation in meters above sea level (altitude).<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   * &lt;p&gt;<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   * The elevation is the absolute vertical position of the observed location (z-coordinate).<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   * If depth is given or not will not impact the 3-dimensional position.<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   * For example a location 100m below the surface of a lake in 2000m altitude has a depth of 100 and<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   * an elevation of 1900.<a name="line.67"></a>
 <span class="sourceLineNo">068</span>   * &lt;/p&gt;<a name="line.68"></a>
-<span class="sourceLineNo">069</span>   */<a name="line.69"></a>
-<span class="sourceLineNo">070</span>  elevationAccuracy(DwcTerm.GROUP_LOCATION),<a name="line.70"></a>
-<span class="sourceLineNo">071</span><a name="line.71"></a>
-<span class="sourceLineNo">072</span>  /**<a name="line.72"></a>
-<span class="sourceLineNo">073</span>   * Depth in meters below the surface.<a name="line.73"></a>
-<span class="sourceLineNo">074</span>   * &lt;p&gt;<a name="line.74"></a>
-<span class="sourceLineNo">075</span>   * Complimentary and relative to elevation, depth indicates the distance to the earth surface, whether that is water<a name="line.75"></a>
-<span class="sourceLineNo">076</span>   * or ground.<a name="line.76"></a>
-<span class="sourceLineNo">077</span>   * For example a location 100m below the surface of a lake in 2000m altitude has a depth of 100 and<a name="line.77"></a>
-<span class="sourceLineNo">078</span>   * an elevation of 1900.<a name="line.78"></a>
-<span class="sourceLineNo">079</span>   * &lt;/p&gt;<a name="line.79"></a>
+<span class="sourceLineNo">069</span>   * &lt;p&gt;<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * If minimum and maximum values are given the elevation is calculated using the equation:<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   * (minimumElevationInMeters + maximumElevationInMeters) / 2.<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   * For consistency and ease of use GBIF decided to always use a value in meters plus it's accurracy instead of<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   * min/max values which are sometimes used in Darwin Core. See also depth &amp; distanceAboveSurface.<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   * &lt;/p&gt;<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   */<a name="line.75"></a>
+<span class="sourceLineNo">076</span>  elevation(DwcTerm.GROUP_LOCATION),<a name="line.76"></a>
+<span class="sourceLineNo">077</span><a name="line.77"></a>
+<span class="sourceLineNo">078</span>  /**<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   * Elevation accuracy is the uncertainty for the elevation in meters.<a name="line.79"></a>
 <span class="sourceLineNo">080</span>   * &lt;p&gt;<a name="line.80"></a>
-<span class="sourceLineNo">081</span>   * The depth is calculated using the equation: (minimumDepthInMeters + maximumDepthInMeters) / 2.<a name="line.81"></a>
-<span class="sourceLineNo">082</span>   * For consistency and ease of use GBIF decided to always use a value in meters plus it's accurracy instead of<a name="line.82"></a>
-<span class="sourceLineNo">083</span>   * min/max values which are sometimes used in Darwin Core. See also elevation &amp; distanceAboveSurface.<a name="line.83"></a>
-<span class="sourceLineNo">084</span>   * &lt;/p&gt;<a name="line.84"></a>
-<span class="sourceLineNo">085</span>   */<a name="line.85"></a>
-<span class="sourceLineNo">086</span>  depth(DwcTerm.GROUP_LOCATION),<a name="line.86"></a>
-<span class="sourceLineNo">087</span><a name="line.87"></a>
-<span class="sourceLineNo">088</span>  /**<a name="line.88"></a>
-<span class="sourceLineNo">089</span>   * Depth accuracy is the uncertainty for the depth in meters.<a name="line.89"></a>
-<span class="sourceLineNo">090</span>   * &lt;p&gt;<a name="line.90"></a>
-<span class="sourceLineNo">091</span>   * The depth accuracy is calculated using the equation: (maximumDepthInMeters - minimumDepthInMeters) / 2<a name="line.91"></a>
-<span class="sourceLineNo">092</span>   * in case a minimum and maximum verbatim value is given.<a name="line.92"></a>
-<span class="sourceLineNo">093</span>   * &lt;/p&gt;<a name="line.93"></a>
-<span class="sourceLineNo">094</span>   */<a name="line.94"></a>
-<span class="sourceLineNo">095</span>  depthAccuracy(DwcTerm.GROUP_LOCATION),<a name="line.95"></a>
-<span class="sourceLineNo">096</span><a name="line.96"></a>
-<span class="sourceLineNo">097</span>  distanceAboveSurface(DwcTerm.GROUP_LOCATION),<a name="line.97"></a>
-<span class="sourceLineNo">098</span>  distanceAboveSurfaceAccuracy(DwcTerm.GROUP_LOCATION),<a name="line.98"></a>
-<span class="sourceLineNo">099</span><a name="line.99"></a>
-<span class="sourceLineNo">100</span>  /**<a name="line.100"></a>
-<span class="sourceLineNo">101</span>   * Any issue found during processing and interpretation or the record.<a name="line.101"></a>
-<span class="sourceLineNo">102</span>   * See &lt;a href="http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/OccurrenceIssue.html"&gt;OccurrenceIssue enumeration&lt;/a&gt; for possible values.<a name="line.102"></a>
-<span class="sourceLineNo">103</span>   */<a name="line.103"></a>
-<span class="sourceLineNo">104</span>  issue(DwcTerm.GROUP_OCCURRENCE),<a name="line.104"></a>
-<span class="sourceLineNo">105</span><a name="line.105"></a>
-<span class="sourceLineNo">106</span>  /**<a name="line.106"></a>
-<span class="sourceLineNo">107</span>   * The media type given as Dublin Core type values, in particular StillImage, MovingImage or Sound.<a name="line.107"></a>
-<span class="sourceLineNo">108</span>   */<a name="line.108"></a>
-<span class="sourceLineNo">109</span>  mediaType(DwcTerm.GROUP_OCCURRENCE),<a name="line.109"></a>
-<span class="sourceLineNo">110</span>  // experimental Occurrence properties<a name="line.110"></a>
-<span class="sourceLineNo">111</span>  verbatimLabel(DwcTerm.GROUP_OCCURRENCE),<a name="line.111"></a>
-<span class="sourceLineNo">112</span>  infraspecificMarker(DwcTerm.GROUP_OCCURRENCE),<a name="line.112"></a>
-<span class="sourceLineNo">113</span>  // Types and Specimen checklist extension<a name="line.113"></a>
-<span class="sourceLineNo">114</span>  typeDesignatedBy(DwcTerm.GROUP_OCCURRENCE),<a name="line.114"></a>
-<span class="sourceLineNo">115</span>  typeDesignationType(DwcTerm.GROUP_OCCURRENCE),<a name="line.115"></a>
-<span class="sourceLineNo">116</span><a name="line.116"></a>
-<span class="sourceLineNo">117</span>  /**<a name="line.117"></a>
-<span class="sourceLineNo">118</span>   * Boolean indicating that a valid latitude and longitude exists.<a name="line.118"></a>
-<span class="sourceLineNo">119</span>   * Even if existing it might still have issues, see hasGeospatialIssues and issue.<a name="line.119"></a>
-<span class="sourceLineNo">120</span>   */<a name="line.120"></a>
-<span class="sourceLineNo">121</span>  hasCoordinate(DwcTerm.GROUP_OCCURRENCE),<a name="line.121"></a>
-<span class="sourceLineNo">122</span><a name="line.122"></a>
-<span class="sourceLineNo">123</span>  /**<a name="line.123"></a>
-<span class="sourceLineNo">124</span>   * Boolean indicating that some spatial validation rule has not passed.<a name="line.124"></a>
-<span class="sourceLineNo">125</span>   * Primarily used to indicate that the record should not be displayed on a map.<a name="line.125"></a>
-<span class="sourceLineNo">126</span>   */<a name="line.126"></a>
-<span class="sourceLineNo">127</span>  hasGeospatialIssues(DwcTerm.GROUP_OCCURRENCE),<a name="line.127"></a>
-<span class="sourceLineNo">128</span><a name="line.128"></a>
-<span class="sourceLineNo">129</span>  /**<a name="line.129"></a>
-<span class="sourceLineNo">130</span>   * The GBIF backbone key.<a name="line.130"></a>
-<span class="sourceLineNo">131</span>   * &lt;p&gt;<a name="line.131"></a>
-<span class="sourceLineNo">132</span>   * The best matching, accepted GBIF backbone name usage representing this occurrence.<a name="line.132"></a>
-<span class="sourceLineNo">133</span>   * In case the verbatim scientific name and its classification can only be matched to a higher rank this will<a name="line.133"></a>
-<span class="sourceLineNo">134</span>   * represent the lowest matching rank. In the worst case this could just be for example Animalia.<a name="line.134"></a>
-<span class="sourceLineNo">135</span>   * &lt;/p&gt;<a name="line.135"></a>
-<span class="sourceLineNo">136</span>   * &lt;p&gt;<a name="line.136"></a>
-<span class="sourceLineNo">137</span>   * In contrast dwc:taxonID is only used for the source ids similar to occurrenceID<a name="line.137"></a>
-<span class="sourceLineNo">138</span>   * &lt;/p&gt;<a name="line.138"></a>
-<span class="sourceLineNo">139</span>   */<a name="line.139"></a>
-<span class="sourceLineNo">140</span>  taxonKey(DwcTerm.GROUP_TAXON),<a name="line.140"></a>
-<span class="sourceLineNo">141</span><a name="line.141"></a>
-<span class="sourceLineNo">142</span><a name="line.142"></a>
-<span class="sourceLineNo">143</span>  /**<a name="line.143"></a>
-<span class="sourceLineNo">144</span>   * The GBIF backbone key of the accepted taxon key.<a name="line.144"></a>
-<span class="sourceLineNo">145</span>   */<a name="line.145"></a>
-<span class="sourceLineNo">146</span>  acceptedTaxonKey(DwcTerm.GROUP_TAXON),<a name="line.146"></a>
-<span class="sourceLineNo">147</span><a name="line.147"></a>
-<span class="sourceLineNo">148</span>  /**<a name="line.148"></a>
-<span class="sourceLineNo">149</span>   * The key to the accepted kingdom in the GBIF backbone.<a name="line.149"></a>
-<span class="sourceLineNo">150</span>   */<a name="line.150"></a>
-<span class="sourceLineNo">151</span>  kingdomKey(DwcTerm.GROUP_TAXON),<a name="line.151"></a>
-<span class="sourceLineNo">152</span><a name="line.152"></a>
-<span class="sourceLineNo">153</span>  /**<a name="line.153"></a>
-<span class="sourceLineNo">154</span>   * The key to the accepted phylum in the GBIF backbone.<a name="line.154"></a>
-<span class="sourceLineNo">155</span>   */<a name="line.155"></a>
-<span class="sourceLineNo">156</span>  phylumKey(DwcTerm.GROUP_TAXON),<a name="line.156"></a>
+<span class="sourceLineNo">081</span>   * The elevation accuracy is calculated using the equation: (maximumElevationInMeters - minimumElevationInMeters) / 2<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   * in case a minimum and maximum verbatim value is given.<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   * &lt;/p&gt;<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   */<a name="line.84"></a>
+<span class="sourceLineNo">085</span>  elevationAccuracy(DwcTerm.GROUP_LOCATION),<a name="line.85"></a>
+<span class="sourceLineNo">086</span><a name="line.86"></a>
+<span class="sourceLineNo">087</span>  /**<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   * Depth in meters below the surface.<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * &lt;p&gt;<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   * Complimentary and relative to elevation, depth indicates the distance to the earth surface, whether that is water<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   * or ground.<a name="line.91"></a>
+<span class="sourceLineNo">092</span>   * For example a location 100m below the surface of a lake in 2000m altitude has a depth of 100 and<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * an elevation of 1900.<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   * &lt;/p&gt;<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * &lt;p&gt;<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   * The depth is calculated using the equation: (minimumDepthInMeters + maximumDepthInMeters) / 2.<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * For consistency and ease of use GBIF decided to always use a value in meters plus it's accurracy instead of<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   * min/max values which are sometimes used in Darwin Core. See also elevation &amp; distanceAboveSurface.<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * &lt;/p&gt;<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   */<a name="line.100"></a>
+<span class="sourceLineNo">101</span>  depth(DwcTerm.GROUP_LOCATION),<a name="line.101"></a>
+<span class="sourceLineNo">102</span><a name="line.102"></a>
+<span class="sourceLineNo">103</span>  /**<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   * Depth accuracy is the uncertainty for the depth in meters.<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   * &lt;p&gt;<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   * The depth accuracy is calculated using the equation: (maximumDepthInMeters - minimumDepthInMeters) / 2<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   * in case a minimum and maximum verbatim value is given.<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   * &lt;/p&gt;<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   */<a name="line.109"></a>
+<span class="sourceLineNo">110</span>  depthAccuracy(DwcTerm.GROUP_LOCATION),<a name="line.110"></a>
+<span class="sourceLineNo">111</span><a name="line.111"></a>
+<span class="sourceLineNo">112</span>  distanceAboveSurface(DwcTerm.GROUP_LOCATION),<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  distanceAboveSurfaceAccuracy(DwcTerm.GROUP_LOCATION),<a name="line.113"></a>
+<span class="sourceLineNo">114</span><a name="line.114"></a>
+<span class="sourceLineNo">115</span>  /**<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   * Any issue found during processing and interpretation or the record.<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   * See &lt;a href="http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/OccurrenceIssue.html"&gt;OccurrenceIssue enumeration&lt;/a&gt; for possible values.<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   */<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  issue(DwcTerm.GROUP_OCCURRENCE),<a name="line.119"></a>
+<span class="sourceLineNo">120</span><a name="line.120"></a>
+<span class="sourceLineNo">121</span>  /**<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   * The media type given as Dublin Core type values, in particular StillImage, MovingImage or Sound.<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   */<a name="line.123"></a>
+<span class="sourceLineNo">124</span>  mediaType(DwcTerm.GROUP_OCCURRENCE),<a name="line.124"></a>
+<span class="sourceLineNo">125</span>  // experimental Occurrence properties<a name="line.125"></a>
+<span class="sourceLineNo">126</span>  verbatimLabel(DwcTerm.GROUP_OCCURRENCE),<a name="line.126"></a>
+<span class="sourceLineNo">127</span>  infraspecificMarker(DwcTerm.GROUP_OCCURRENCE),<a name="line.127"></a>
+<span class="sourceLineNo">128</span>  // Types and Specimen checklist extension<a name="line.128"></a>
+<span class="sourceLineNo">129</span>  typeDesignatedBy(DwcTerm.GROUP_OCCURRENCE),<a name="line.129"></a>
+<span class="sourceLineNo">130</span>  typeDesignationType(DwcTerm.GROUP_OCCURRENCE),<a name="line.130"></a>
+<span class="sourceLineNo">131</span><a name="line.131"></a>
+<span class="sourceLineNo">132</span>  /**<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   * Boolean indicating that a valid latitude and longitude exists.<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   * Even if existing it might still have issues, see hasGeospatialIssues and issue.<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   */<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  hasCoordinate(DwcTerm.GROUP_OCCURRENCE),<a name="line.136"></a>
+<span class="sourceLineNo">137</span><a name="line.137"></a>
+<span class="sourceLineNo">138</span>  /**<a name="line.138"></a>
+<span class="sourceLineNo">139</span>   * Boolean indicating that some spatial validation rule has not passed.<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   * Primarily used to indicate that the record should not be displayed on a map.<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   */<a name="line.141"></a>
+<span class="sourceLineNo">142</span>  hasGeospatialIssues(DwcTerm.GROUP_OCCURRENCE),<a name="line.142"></a>
+<span class="sourceLineNo">143</span><a name="line.143"></a>
+<span class="sourceLineNo">144</span>  /**<a name="line.144"></a>
+<span class="sourceLineNo">145</span>   * The GBIF backbone key.<a name="line.145"></a>
+<span class="sourceLineNo">146</span>   * &lt;p&gt;<a name="line.146"></a>
+<span class="sourceLineNo">147</span>   * The best matching, accepted GBIF backbone name usage representing this occurrence.<a name="line.147"></a>
+<span class="sourceLineNo">148</span>   * In case the verbatim scientific name and its classification can only be matched to a higher rank this will<a name="line.148"></a>
+<span class="sourceLineNo">149</span>   * represent the lowest matching rank. In the worst case this could just be for example Animalia.<a name="line.149"></a>
+<span class="sourceLineNo">150</span>   * &lt;/p&gt;<a name="line.150"></a>
+<span class="sourceLineNo">151</span>   * &lt;p&gt;<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   * In contrast dwc:taxonID is only used for the source ids similar to occurrenceID<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * &lt;/p&gt;<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   */<a name="line.154"></a>
+<span class="sourceLineNo">155</span>  taxonKey(DwcTerm.GROUP_TAXON),<a name="line.155"></a>
+<span class="sourceLineNo">156</span><a name="line.156"></a>
 <span class="sourceLineNo">157</span><a name="line.157"></a>
 <span class="sourceLineNo">158</span>  /**<a name="line.158"></a>
-<span class="sourceLineNo">159</span>   * The key to the accepted class in the GBIF backbone.<a name="line.159"></a>
+<span class="sourceLineNo">159</span>   * The GBIF backbone key of the accepted taxon key.<a name="line.159"></a>
 <span class="sourceLineNo">160</span>   */<a name="line.160"></a>
-<span class="sourceLineNo">161</span>  classKey(DwcTerm.GROUP_TAXON),<a name="line.161"></a>
+<span class="sourceLineNo">161</span>  acceptedTaxonKey(DwcTerm.GROUP_TAXON),<a name="line.161"></a>
 <span class="sourceLineNo">162</span><a name="line.162"></a>
 <span class="sourceLineNo">163</span>  /**<a name="line.163"></a>
-<span class="sourceLineNo">164</span>   * The key to the accepted order in the GBIF backbone.<a name="line.164"></a>
+<span class="sourceLineNo">164</span>   * The key to the accepted kingdom in the GBIF backbone.<a name="line.164"></a>
 <span class="sourceLineNo">165</span>   */<a name="line.165"></a>
-<span class="sourceLineNo">166</span>  orderKey(DwcTerm.GROUP_TAXON),<a name="line.166"></a>
+<span class="sourceLineNo">166</span>  kingdomKey(DwcTerm.GROUP_TAXON),<a name="line.166"></a>
 <span class="sourceLineNo">167</span><a name="line.167"></a>
 <span class="sourceLineNo">168</span>  /**<a name="line.168"></a>
-<span class="sourceLineNo">169</span>   * The key to the accepted family in the GBIF backbone.<a name="line.169"></a>
+<span class="sourceLineNo">169</span>   * The key to the accepted phylum in the GBIF backbone.<a name="line.169"></a>
 <span class="sourceLineNo">170</span>   */<a name="line.170"></a>
-<span class="sourceLineNo">171</span>  familyKey(DwcTerm.GROUP_TAXON),<a name="line.171"></a>
+<span class="sourceLineNo">171</span>  phylumKey(DwcTerm.GROUP_TAXON),<a name="line.171"></a>
 <span class="sourceLineNo">172</span><a name="line.172"></a>
 <span class="sourceLineNo">173</span>  /**<a name="line.173"></a>
-<span class="sourceLineNo">174</span>   * The key to the accepted genus in the GBIF backbone.<a name="line.174"></a>
+<span class="sourceLineNo">174</span>   * The key to the accepted class in the GBIF backbone.<a name="line.174"></a>
 <span class="sourceLineNo">175</span>   */<a name="line.175"></a>
-<span class="sourceLineNo">176</span>  genusKey(DwcTerm.GROUP_TAXON),<a name="line.176"></a>
+<span class="sourceLineNo">176</span>  classKey(DwcTerm.GROUP_TAXON),<a name="line.176"></a>
 <span class="sourceLineNo">177</span><a name="line.177"></a>
 <span class="sourceLineNo">178</span>  /**<a name="line.178"></a>
-<span class="sourceLineNo">179</span>   * The key to the accepted subgenus in the GBIF backbone.<a name="line.179"></a>
+<span class="sourceLineNo">179</span>   * The key to the accepted order in the GBIF backbone.<a name="line.179"></a>
 <span class="sourceLineNo">180</span>   */<a name="line.180"></a>
-<span class="sourceLineNo">181</span>  subgenusKey(DwcTerm.GROUP_TAXON),<a name="line.181"></a>
+<span class="sourceLineNo">181</span>  orderKey(DwcTerm.GROUP_TAXON),<a name="line.181"></a>
 <span class="sourceLineNo">182</span><a name="line.182"></a>
 <span class="sourceLineNo">183</span>  /**<a name="line.183"></a>
-<span class="sourceLineNo">184</span>   * The backbone key to the accepted species.<a name="line.184"></a>
-<span class="sourceLineNo">185</span>   * In case the taxonKey is of a higher rank than species (e.g. genus) speciesKey is null.<a name="line.185"></a>
-<span class="sourceLineNo">186</span>   * In case taxonKey represents an infraspecific taxon the speciesKey points to the species<a name="line.186"></a>
-<span class="sourceLineNo">187</span>   * the infraspecies is classified as. In case of taxonKey being a species the speciesKey is the same.<a name="line.187"></a>
-<span class="sourceLineNo">188</span>   */<a name="line.188"></a>
-<span class="sourceLineNo">189</span>  speciesKey(DwcTerm.GROUP_TAXON),<a name="line.189"></a>
-<span class="sourceLineNo">190</span><a name="line.190"></a>
-<span class="sourceLineNo">191</span>  /**<a name="line.191"></a>
-<span class="sourceLineNo">192</span>   * The canonical name without authorship of the accepted species.<a name="line.192"></a>
-<span class="sourceLineNo">193</span>   */<a name="line.193"></a>
-<span class="sourceLineNo">194</span>  species(DwcTerm.GROUP_TAXON),<a name="line.194"></a>
-<span class="sourceLineNo">195</span>  // experimental Taxon properties<a name="line.195"></a>
-<span class="sourceLineNo">196</span>  canonicalName(DwcTerm.GROUP_TAXON),<a name="line.196"></a>
-<span class="sourceLineNo">197</span>  nameType(DwcTerm.GROUP_TAXON),<a name="line.197"></a>
-<span class="sourceLineNo">198</span><a name="line.198"></a>
-<span class="sourceLineNo">199</span>  /**<a name="line.199"></a>
-<span class="sourceLineNo">200</span>   * The genus part of the scientific name.<a name="line.200"></a>
-<span class="sourceLineNo">201</span>   * &lt;p&gt;<a name="line.201"></a>
-<span class="sourceLineNo">202</span>   * If the scientific name is considered to be a synonym dwc:genus refers to the accepted genus, not to the<a name="line.202"></a>
-<span class="sourceLineNo">203</span>   * genus part of the synonym. This genericName always holds the genus part of the name no matter its classification<a name="line.203"></a>
-<span class="sourceLineNo">204</span>   * or taxonomic status.<a name="line.204"></a>
-<span class="sourceLineNo">205</span>   * Term proposed in Darwin Core, but not yet ratified.<a name="line.205"></a>
-<span class="sourceLineNo">206</span>   * &lt;/p&gt;<a name="line.206"></a>
-<span class="sourceLineNo">207</span>   */<a name="line.207"></a>
-<span class="sourceLineNo">208</span>  genericName(DwcTerm.GROUP_TAXON),<a name="line.208"></a>
-<span class="sourceLineNo">209</span><a name="line.209"></a>
-<span class="sourceLineNo">210</span>  /**<a name="line.210"></a>
-<span class="sourceLineNo">211</span>   * The scientific name the type associated acceptedNubKey.<a name="line.211"></a>
-<span class="sourceLineNo">212</span>   */<a name="line.212"></a>
-<span class="sourceLineNo">213</span>  acceptedScientificName(DwcTerm.GROUP_TAXON),<a name="line.213"></a>
-<span class="sourceLineNo">214</span><a name="line.214"></a>
-<span class="sourceLineNo">215</span>  /**<a name="line.215"></a>
-<span class="sourceLineNo">216</span>   * Scientific name as provided by the source.<a name="line.216"></a>
-<span class="sourceLineNo">217</span>   */<a name="line.217"></a>
-<span class="sourceLineNo">218</span>  verbatimScientificName(DwcTerm.GROUP_TAXON),<a name="line.218"></a>
-<span class="sourceLineNo">219</span><a name="line.219"></a>
-<span class="sourceLineNo">220</span>  /**<a name="line.220"></a>
-<span class="sourceLineNo">221</span>   * The scientific name the type status of this specimen applies to.<a name="line.221"></a>
-<span class="sourceLineNo">222</span>   * Term proposed in Darwin Core, but not yet ratified.<a name="line.222"></a>
-<span class="sourceLineNo">223</span>   */<a name="line.223"></a>
-<span class="sourceLineNo">224</span>  typifiedName(DwcTerm.GROUP_IDENTIFICATION),<a name="line.224"></a>
-<span class="sourceLineNo">225</span><a name="line.225"></a>
-<span class="sourceLineNo">226</span>  /**<a name="line.226"></a>
-<span class="sourceLineNo">227</span>   * The kind of protocol used when the record was last crawled by GBIF.<a name="line.227"></a>
-<span class="sourceLineNo">228</span>   * See &lt;a href="http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/EndpointType.html"&gt;EndpointType enumeration&lt;/a&gt; for possible values.<a name="line.228"></a>
-<span class="sourceLineNo">229</span>   */<a name="line.229"></a>
-<span class="sourceLineNo">230</span>  protocol(GbifTerm.GROUP_CRAWLING),<a name="line.230"></a>
-<span class="sourceLineNo">231</span><a name="line.231"></a>
-<span class="sourceLineNo">232</span>  /**<a name="line.232"></a>
-<span class="sourceLineNo">233</span>   * The date this record was last parsed from raw xml/json into a verbatim GBIF record.<a name="line.233"></a>
-<span class="sourceLineNo">234</span>   */<a name="line.234"></a>
-<span class="sourceLineNo">235</span>  lastParsed(GbifTerm.GROUP_CRAWLING),<a name="line.235"></a>
-<span class="sourceLineNo">236</span><a name="line.236"></a>
-<span class="sourceLineNo">237</span>  /**<a name="line.237"></a>
-<span class="sourceLineNo">238</span>   * The date this record was last crawled/harvested by GBIF from the endpoint.<a name="line.238"></a>
-<span class="sourceLineNo">239</span>   */<a name="line.239"></a>
-<span class="sourceLineNo">240</span>  lastCrawled(GbifTerm.GROUP_CRAWLING),<a name="line.240"></a>
-<span class="sourceLineNo">241</span><a name="line.241"></a>
-<span class="sourceLineNo">242</span>  // Species Profile checklist extension<a name="line.242"></a>
-<span class="sourceLineNo">243</span>  isMarine(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION),<a name="line.243"></a>
-<span class="sourceLineNo">244</span>  isTerrestrial(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION),<a name="line.244"></a>
-<span class="sourceLineNo">245</span>  isFreshwater(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION),<a name="line.245"></a>
-<span class="sourceLineNo">246</span>  isHybrid(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION),<a name="line.246"></a>
-<span class="sourceLineNo">247</span>  isExtinct(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION),<a name="line.247"></a>
-<span class="sourceLineNo">248</span>  livingPeriod(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION, "timePeriod"),<a name="line.248"></a>
-<span class="sourceLineNo">249</span>  lifeForm(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION),<a name="line.249"></a>
-<span class="sourceLineNo">250</span>  ageInDays(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION),<a name="line.250"></a>
-<span class="sourceLineNo">251</span>  sizeInMillimeter(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION),<a name="line.251"></a>
-<span class="sourceLineNo">252</span>  massInGram(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION, "weightInGram"),<a name="line.252"></a>
-<span class="sourceLineNo">253</span><a name="line.253"></a>
-<span class="sourceLineNo">254</span>  // Vernacular Name checklist extension<a name="line.254"></a>
-<span class="sourceLineNo">255</span>  organismPart(GbifTerm.GROUP_VERNACULAR_NAME_EXTENSION),<a name="line.255"></a>
-<span class="sourceLineNo">256</span>  isPlural(GbifTerm.GROUP_VERNACULAR_NAME_EXTENSION),<a name="line.256"></a>
-<span class="sourceLineNo">257</span>  isPreferredName(GbifTerm.GROUP_VERNACULAR_NAME_EXTENSION),<a name="line.257"></a>
-<span class="sourceLineNo">258</span><a name="line.258"></a>
-<span class="sourceLineNo">259</span>  // Distribution checklist extension<a name="line.259"></a>
-<span class="sourceLineNo">260</span>  appendixCITES(GbifTerm.GROUP_SPECIES_DISTRIBUTION_EXTENSION),<a name="line.260"></a>
-<span class="sourceLineNo">261</span>  numberOfOccurrences(GbifTerm.GROUP_SPECIES_DISTRIBUTION_EXTENSION),<a name="line.261"></a>
-<span class="sourceLineNo">262</span><a name="line.262"></a>
-<span class="sourceLineNo">263</span>  /**<a name="line.263"></a>
-<span class="sourceLineNo">264</span>   * Boolean indicating if the publishing country is different<a name="line.264"></a>
-<span class="sourceLineNo">265</span>   */<a name="line.265"></a>
-<span class="sourceLineNo">266</span>  repatriated(DwcTerm.GROUP_OCCURRENCE),<a name="line.266"></a>
-<span class="sourceLineNo">267</span><a name="line.267"></a>
-<span class="sourceLineNo">268</span>  // Calculated relative organism quantity, based on organism and sample measure types<a name="line.268"></a>
-<span class="sourceLineNo">269</span>  relativeOrganismQuantity(DwcTerm.GROUP_MATERIAL_SAMPLE),<a name="line.269"></a>
-<span class="sourceLineNo">270</span><a name="line.270"></a>
-<span class="sourceLineNo">271</span>  // To support user identifiers, like ORCID and WIKIDATA and etc.<a name="line.271"></a>
-<span class="sourceLineNo">272</span>  recordedByID(DwcTerm.GROUP_OCCURRENCE),<a name="line.272"></a>
-<span class="sourceLineNo">273</span>  identifiedByID(DwcTerm.GROUP_IDENTIFICATION);<a name="line.273"></a>
-<span class="sourceLineNo">274</span><a name="line.274"></a>
-<span class="sourceLineNo">275</span>  private static final String PREFIX = "gbif";<a name="line.275"></a>
-<span class="sourceLineNo">276</span>  private static final String NS = "http://rs.gbif.org/terms/1.0/";<a name="line.276"></a>
-<span class="sourceLineNo">277</span>  private static final URI NS_URI = URI.create(NS);<a name="line.277"></a>
-<span class="sourceLineNo">278</span><a name="line.278"></a>
-<span class="sourceLineNo">279</span>  public static final String GROUP_CRAWLING = "Crawling";<a name="line.279"></a>
-<span class="sourceLineNo">280</span>  public static final String GROUP_DATASET = "Dataset";<a name="line.280"></a>
-<span class="sourceLineNo">281</span>  public static final String GROUP_ROW_TYPE = "RowType";<a name="line.281"></a>
-<span class="sourceLineNo">282</span>  public static final String GROUP_SPECIES_DISTRIBUTION_EXTENSION = "SpeciesDistribution";<a name="line.282"></a>
-<span class="sourceLineNo">283</span>  public static final String GROUP_SPECIES_PROFILE_EXTENSION = "SpeciesProfile";<a name="line.283"></a>
-<span class="sourceLineNo">284</span>  public static final String GROUP_VERNACULAR_NAME_EXTENSION = "VernacularName";<a name="line.284"></a>
+<span class="sourceLineNo">184</span>   * The key to the accepted family in the GBIF backbone.<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   */<a name="line.185"></a>
+<span class="sourceLineNo">186</span>  familyKey(DwcTerm.GROUP_TAXON),<a name="line.186"></a>
+<span class="sourceLineNo">187</span><a name="line.187"></a>
+<span class="sourceLineNo">188</span>  /**<a name="line.188"></a>
+<span class="sourceLineNo">189</span>   * The key to the accepted genus in the GBIF backbone.<a name="line.189"></a>
+<span class="sourceLineNo">190</span>   */<a name="line.190"></a>
+<span class="sourceLineNo">191</span>  genusKey(DwcTerm.GROUP_TAXON),<a name="line.191"></a>
+<span class="sourceLineNo">192</span><a name="line.192"></a>
+<span class="sourceLineNo">193</span>  /**<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   * The key to the accepted subgenus in the GBIF backbone.<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   */<a name="line.195"></a>
+<span class="sourceLineNo">196</span>  subgenusKey(DwcTerm.GROUP_TAXON),<a name="line.196"></a>
+<span class="sourceLineNo">197</span><a name="line.197"></a>
+<span class="sourceLineNo">198</span>  /**<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   * The backbone key to the accepted species.<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   * In case the taxonKey is of a higher rank than species (e.g. genus) speciesKey is null.<a name="line.200"></a>
+<span class="sourceLineNo">201</span>   * In case taxonKey represents an infraspecific taxon the speciesKey points to the species<a name="line.201"></a>
+<span class="sourceLineNo">202</span>   * the infraspecies is classified as. In case of taxonKey being a species the speciesKey is the same.<a name="line.202"></a>
+<span class="sourceLineNo">203</span>   */<a name="line.203"></a>
+<span class="sourceLineNo">204</span>  speciesKey(DwcTerm.GROUP_TAXON),<a name="line.204"></a>
+<span class="sourceLineNo">205</span><a name="line.205"></a>
+<span class="sourceLineNo">206</span>  /**<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   * The canonical name without authorship of the accepted species.<a name="line.207"></a>
+<span class="sourceLineNo">208</span>   */<a name="line.208"></a>
+<span class="sourceLineNo">209</span>  species(DwcTerm.GROUP_TAXON),<a name="line.209"></a>
+<span class="sourceLineNo">210</span>  // experimental Taxon properties<a name="line.210"></a>
+<span class="sourceLineNo">211</span>  canonicalName(DwcTerm.GROUP_TAXON),<a name="line.211"></a>
+<span class="sourceLineNo">212</span>  nameType(DwcTerm.GROUP_TAXON),<a name="line.212"></a>
+<span class="sourceLineNo">213</span><a name="line.213"></a>
+<span class="sourceLineNo">214</span>  /**<a name="line.214"></a>
+<span class="sourceLineNo">215</span>   * The genus part of the scientific name.<a name="line.215"></a>
+<span class="sourceLineNo">216</span>   * &lt;p&gt;<a name="line.216"></a>
+<span class="sourceLineNo">217</span>   * If the scientific name is considered to be a synonym dwc:genus refers to the accepted genus, not to the<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   * genus part of the synonym. This genericName always holds the genus part of the name no matter its classification<a name="line.218"></a>
+<span class="sourceLineNo">219</span>   * or taxonomic status.<a name="line.219"></a>
+<span class="sourceLineNo">220</span>   * Term proposed in Darwin Core, but not yet ratified.<a name="line.220"></a>
+<span class="sourceLineNo">221</span>   * &lt;/p&gt;<a name="line.221"></a>
+<span class="sourceLineNo">222</span>   */<a name="line.222"></a>
+<span class="sourceLineNo">223</span>  genericName(DwcTerm.GROUP_TAXON),<a name="line.223"></a>
+<span class="sourceLineNo">224</span><a name="line.224"></a>
+<span class="sourceLineNo">225</span>  /**<a name="line.225"></a>
+<span class="sourceLineNo">226</span>   * The scientific name the type associated acceptedNubKey.<a name="line.226"></a>
+<span class="sourceLineNo">227</span>   */<a name="line.227"></a>
+<span class="sourceLineNo">228</span>  acceptedScientificName(DwcTerm.GROUP_TAXON),<a name="line.228"></a>
+<span class="sourceLineNo">229</span><a name="line.229"></a>
+<span class="sourceLineNo">230</span>  /**<a name="line.230"></a>
+<span class="sourceLineNo">231</span>   * Scientific name as provided by the source.<a name="line.231"></a>
+<span class="sourceLineNo">232</span>   */<a name="line.232"></a>
+<span class="sourceLineNo">233</span>  verbatimScientificName(DwcTerm.GROUP_TAXON),<a name="line.233"></a>
+<span class="sourceLineNo">234</span><a name="line.234"></a>
+<span class="sourceLineNo">235</span>  /**<a name="line.235"></a>
+<span class="sourceLineNo">236</span>   * The scientific name the type status of this specimen applies to.<a name="line.236"></a>
+<span class="sourceLineNo">237</span>   * Term proposed in Darwin Core, but not yet ratified.<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   */<a name="line.238"></a>
+<span class="sourceLineNo">239</span>  typifiedName(DwcTerm.GROUP_IDENTIFICATION),<a name="line.239"></a>
+<span class="sourceLineNo">240</span><a name="line.240"></a>
+<span class="sourceLineNo">241</span>  /**<a name="line.241"></a>
+<span class="sourceLineNo">242</span>   * The kind of protocol used when the record was last crawled by GBIF.<a name="line.242"></a>
+<span class="sourceLineNo">243</span>   * See &lt;a href="http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/EndpointType.html"&gt;EndpointType enumeration&lt;/a&gt; for possible values.<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   */<a name="line.244"></a>
+<span class="sourceLineNo">245</span>  protocol(GbifTerm.GROUP_CRAWLING),<a name="line.245"></a>
+<span class="sourceLineNo">246</span><a name="line.246"></a>
+<span class="sourceLineNo">247</span>  /**<a name="line.247"></a>
+<span class="sourceLineNo">248</span>   * The date this record was last parsed from raw xml/json into a verbatim GBIF record.<a name="line.248"></a>
+<span class="sourceLineNo">249</span>   */<a name="line.249"></a>
+<span class="sourceLineNo">250</span>  lastParsed(GbifTerm.GROUP_CRAWLING),<a name="line.250"></a>
+<span class="sourceLineNo">251</span><a name="line.251"></a>
+<span class="sourceLineNo">252</span>  /**<a name="line.252"></a>
+<span class="sourceLineNo">253</span>   * The date this record was last crawled/harvested by GBIF from the endpoint.<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   */<a name="line.254"></a>
+<span class="sourceLineNo">255</span>  lastCrawled(GbifTerm.GROUP_CRAWLING),<a name="line.255"></a>
+<span class="sourceLineNo">256</span><a name="line.256"></a>
+<span class="sourceLineNo">257</span>  // Species Profile checklist extension<a name="line.257"></a>
+<span class="sourceLineNo">258</span>  isMarine(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION),<a name="line.258"></a>
+<span class="sourceLineNo">259</span>  isTerrestrial(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION),<a name="line.259"></a>
+<span class="sourceLineNo">260</span>  isFreshwater(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION),<a name="line.260"></a>
+<span class="sourceLineNo">261</span>  isHybrid(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION),<a name="line.261"></a>
+<span class="sourceLineNo">262</span>  isExtinct(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION),<a name="line.262"></a>
+<span class="sourceLineNo">263</span>  livingPeriod(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION, "timePeriod"),<a name="line.263"></a>
+<span class="sourceLineNo">264</span>  lifeForm(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION),<a name="line.264"></a>
+<span class="sourceLineNo">265</span>  ageInDays(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION),<a name="line.265"></a>
+<span class="sourceLineNo">266</span>  sizeInMillimeter(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION),<a name="line.266"></a>
+<span class="sourceLineNo">267</span>  massInGram(GbifTerm.GROUP_SPECIES_PROFILE_EXTENSION, "weightInGram"),<a name="line.267"></a>
+<span class="sourceLineNo">268</span><a name="line.268"></a>
+<span class="sourceLineNo">269</span>  // Vernacular Name checklist extension<a name="line.269"></a>
+<span class="sourceLineNo">270</span>  organismPart(GbifTerm.GROUP_VERNACULAR_NAME_EXTENSION),<a name="line.270"></a>
+<span class="sourceLineNo">271</span>  isPlural(GbifTerm.GROUP_VERNACULAR_NAME_EXTENSION),<a name="line.271"></a>
+<span class="sourceLineNo">272</span>  isPreferredName(GbifTerm.GROUP_VERNACULAR_NAME_EXTENSION),<a name="line.272"></a>
+<span class="sourceLineNo">273</span><a name="line.273"></a>
+<span class="sourceLineNo">274</span>  // Distribution checklist extension<a name="line.274"></a>
+<span class="sourceLineNo">275</span>  appendixCITES(GbifTerm.GROUP_SPECIES_DISTRIBUTION_EXTENSION),<a name="line.275"></a>
+<span class="sourceLineNo">276</span>  numberOfOccurrences(GbifTerm.GROUP_SPECIES_DISTRIBUTION_EXTENSION),<a name="line.276"></a>
+<span class="sourceLineNo">277</span><a name="line.277"></a>
+<span class="sourceLineNo">278</span>  /**<a name="line.278"></a>
+<span class="sourceLineNo">279</span>   * Boolean indicating if the publishing country is different<a name="line.279"></a>
+<span class="sourceLineNo">280</span>   */<a name="line.280"></a>
+<span class="sourceLineNo">281</span>  repatriated(DwcTerm.GROUP_OCCURRENCE),<a name="line.281"></a>
+<span class="sourceLineNo">282</span><a name="line.282"></a>
+<span class="sourceLineNo">283</span>  // Calculated relative organism quantity, based on organism and sample measure types<a name="line.283"></a>
+<span class="sourceLineNo">284</span>  relativeOrganismQuantity(DwcTerm.GROUP_MATERIAL_SAMPLE),<a name="line.284"></a>
 <span class="sourceLineNo">285</span><a name="line.285"></a>
-<span class="sourceLineNo">286</span>  /**<a name="line.286"></a>
-<span class="sourceLineNo">287</span>   * Lists all GBIF term groups.<a name="line.287"></a>
-<span class="sourceLineNo">288</span>   */<a name="line.288"></a>
-<span class="sourceLineNo">289</span>  public static final String[] GROUPS = {GROUP_CRAWLING, GROUP_DATASET, DwcTerm.GROUP_OCCURRENCE, GROUP_ROW_TYPE,<a name="line.289"></a>
-<span class="sourceLineNo">290</span>    GROUP_SPECIES_DISTRIBUTION_EXTENSION, GROUP_SPECIES_PROFILE_EXTENSION, DwcTerm.GROUP_TAXON,<a name="line.290"></a>
-<span class="sourceLineNo">291</span>    GROUP_VERNACULAR_NAME_EXTENSION, DwcTerm.GROUP_LOCATION};<a name="line.291"></a>
-<span class="sourceLineNo">292</span><a name="line.292"></a>
-<span class="sourceLineNo">293</span>  /**<a name="line.293"></a>
-<span class="sourceLineNo">294</span>   * Lists all GBIF terms in taxon group.<a name="line.294"></a>
-<span class="sourceLineNo">295</span>   */<a name="line.295"></a>
-<span class="sourceLineNo">296</span>  public static final GbifTerm[] TAXONOMIC_TERMS =<a name="line.296"></a>
-<span class="sourceLineNo">297</span>  {GbifTerm.taxonKey, GbifTerm.acceptedTaxonKey, GbifTerm.kingdomKey, GbifTerm.phylumKey, GbifTerm.classKey,<a name="line.297"></a>
-<span class="sourceLineNo">298</span>   GbifTerm.orderKey, GbifTerm.familyKey, GbifTerm.genusKey, GbifTerm.subgenusKey, GbifTerm.speciesKey,<a name="line.298"></a>
-<span class="sourceLineNo">299</span>   GbifTerm.species, GbifTerm.canonicalName, GbifTerm.nameType, GbifTerm.genericName, GbifTerm.acceptedScientificName,<a name="line.299"></a>
-<span class="sourceLineNo">300</span>   GbifTerm.verbatimScientificName};<a name="line.300"></a>
-<span class="sourceLineNo">301</span><a name="line.301"></a>
-<span class="sourceLineNo">302</span>  private final String groupName;<a name="line.302"></a>
-<span class="sourceLineNo">303</span>  private final boolean isDeprecated;<a name="line.303"></a>
-<span class="sourceLineNo">304</span>  public final String[] normAlts;<a name="line.304"></a>
-<span class="sourceLineNo">305</span><a name="line.305"></a>
-<span class="sourceLineNo">306</span>  GbifTerm(String groupName, String... alternatives) {<a name="line.306"></a>
-<span class="sourceLineNo">307</span>    this.groupName = groupName;<a name="line.307"></a>
-<span class="sourceLineNo">308</span>    this.normAlts = alternatives;<a name="line.308"></a>
-<span class="sourceLineNo">309</span>    boolean deprecatedAnnotationPresent = false;<a name="line.309"></a>
-<span class="sourceLineNo">310</span>    try {<a name="line.310"></a>
-<span class="sourceLineNo">311</span>      deprecatedAnnotationPresent = GbifTerm.class.getField(this.name()).isAnnotationPresent(Deprecated.class);<a name="line.311"></a>
-<span class="sourceLineNo">312</span>    } catch (NoSuchFieldException ignore) { }<a name="line.312"></a>
-<span class="sourceLineNo">313</span>    this.isDeprecated = deprecatedAnnotationPresent;<a name="line.313"></a>
-<span class="sourceLineNo">314</span>  }<a name="line.314"></a>
-<span class="sourceLineNo">315</span><a name="line.315"></a>
-<span class="sourceLineNo">316</span>  /**<a name="line.316"></a>
-<span class="sourceLineNo">317</span>   * The simple term name without a namespace.<a name="line.317"></a>
-<span class="sourceLineNo">318</span>   * For example taxonKey.<a name="line.318"></a>
-<span class="sourceLineNo">319</span>   *<a name="line.319"></a>
-<span class="sourceLineNo">320</span>   * @return simple term name<a name="line.320"></a>
-<span class="sourceLineNo">321</span>   */<a name="line.321"></a>
-<span class="sourceLineNo">322</span>  @Override<a name="line.322"></a>
-<span class="sourceLineNo">323</span>  public String simpleName() {<a name="line.323"></a>
-<span class="sourceLineNo">324</span>    return name();<a name="line.324"></a>
-<span class="sourceLineNo">325</span>  }<a name="line.325"></a>
-<span class="sourceLineNo">326</span><a name="line.326"></a>
-<span class="sourceLineNo">327</span>  /**<a name="line.327"></a>
-<span class="sourceLineNo">328</span>   * Array of alternative simple names in use for the term.<a name="line.328"></a>
-<span class="sourceLineNo">329</span>   *<a name="line.329"></a>
-<span class="sourceLineNo">330</span>   * @return simple term name<a name="line.330"></a>
-<span class="sourceLineNo">331</span>   */<a name="line.331"></a>
-<span class="sourceLineNo">332</span>  @Override<a name="line.332"></a>
-<span class="sourceLineNo">333</span>  public String[] alternativeNames() {<a name="line.333"></a>
-<span class="sourceLineNo">334</span>    return normAlts;<a name="line.334"></a>
-<span class="sourceLineNo">335</span>  }<a name="line.335"></a>
-<span class="sourceLineNo">336</span><a name="line.336"></a>
-<span class="sourceLineNo">337</span>  /**<a name="line.337"></a>
-<span class="sourceLineNo">338</span>   * The optional group the term is grouped in.<a name="line.338"></a>
-<span class="sourceLineNo">339</span>   * For example Occurrence, Taxon, etc.<a name="line.339"></a>
-<span class="sourceLineNo">340</span>   */<a name="line.340"></a>
-<span class="sourceLineNo">341</span>  public String getGroup() {<a name="line.341"></a>
-<span class="sourceLineNo">342</span>    return groupName;<a name="line.342"></a>
-<span class="sourceLineNo">343</span>  }<a name="line.343"></a>
-<span class="sourceLineNo">344</span><a name="line.344"></a>
-<span class="sourceLineNo">345</span><a name="line.345"></a>
-<span class="sourceLineNo">346</span>  /**<a name="line.346"></a>
-<span class="sourceLineNo">347</span>   * List all terms that belong to a given group.<a name="line.347"></a>
-<span class="sourceLineNo">348</span>   *<a name="line.348"></a>
-<span class="sourceLineNo">349</span>   * @param group the group to list terms for<a name="line.349"></a>
-<span class="sourceLineNo">350</span>   * @return the list of GBIF terms in the given group<a name="line.350"></a>
-<span class="sourceLineNo">351</span>   */<a name="line.351"></a>
-<span class="sourceLineNo">352</span>  public static List&lt;GbifTerm&gt; listByGroup(String group) {<a name="line.352"></a>
-<span class="sourceLineNo">353</span>    List&lt;GbifTerm&gt; terms = new ArrayList&lt;GbifTerm&gt;();<a name="line.353"></a>
-<span class="sourceLineNo">354</span>    for (GbifTerm t : GbifTerm.values()) {<a name="line.354"></a>
-<span class="sourceLineNo">355</span>      if (t.getGroup().equalsIgnoreCase(group)) {<a name="line.355"></a>
-<span class="sourceLineNo">356</span>        terms.add(t);<a name="line.356"></a>
-<span class="sourceLineNo">357</span>      }<a name="line.357"></a>
-<span class="sourceLineNo">358</span>    }<a name="line.358"></a>
-<span class="sourceLineNo">359</span>    return terms;<a name="line.359"></a>
-<span class="sourceLineNo">360</span>  }<a name="line.360"></a>
-<span class="sourceLineNo">361</span><a name="line.361"></a>
-<span class="sourceLineNo">362</span>  @Override<a name="line.362"></a>
-<span class="sourceLineNo">363</span>  public String toString() {<a name="line.363"></a>
-<span class="sourceLineNo">364</span>    return prefixedName();<a name="line.364"></a>
-<span class="sourceLineNo">365</span>  }<a name="line.365"></a>
-<span class="sourceLineNo">366</span><a name="line.366"></a>
-<span class="sourceLineNo">367</span>  @Override<a name="line.367"></a>
-<span class="sourceLineNo">368</span>  public boolean isClass() {<a name="line.368"></a>
-<span class="sourceLineNo">369</span>    return Character.isUpperCase(simpleName().charAt(0));<a name="line.369"></a>
-<span class="sourceLineNo">370</span>  }<a name="line.370"></a>
-<span class="sourceLineNo">371</span><a name="line.371"></a>
-<span class="sourceLineNo">372</span>  @Override<a name="line.372"></a>
-<span class="sourceLineNo">373</span>  public String prefix() {<a name="line.373"></a>
-<span class="sourceLineNo">374</span>    return PREFIX;<a name="line.374"></a>
+<span class="sourceLineNo">286</span>  // To support user identifiers, like ORCID and WIKIDATA and etc.<a name="line.286"></a>
+<span class="sourceLineNo">287</span>  recordedByID(DwcTerm.GROUP_OCCURRENCE),<a name="line.287"></a>
+<span class="sourceLineNo">288</span>  identifiedByID(DwcTerm.GROUP_IDENTIFICATION);<a name="line.288"></a>
+<span class="sourceLineNo">289</span><a name="line.289"></a>
+<span class="sourceLineNo">290</span>  private static final String PREFIX = "gbif";<a name="line.290"></a>
+<span class="sourceLineNo">291</span>  private static final String NS = "http://rs.gbif.org/terms/1.0/";<a name="line.291"></a>
+<span class="sourceLineNo">292</span>  private static final URI NS_URI = URI.create(NS);<a name="line.292"></a>
+<span class="sourceLineNo">293</span><a name="line.293"></a>
+<span class="sourceLineNo">294</span>  public static final String GROUP_CRAWLING = "Crawling";<a name="line.294"></a>
+<span class="sourceLineNo">295</span>  public static final String GROUP_DATASET = "Dataset";<a name="line.295"></a>
+<span class="sourceLineNo">296</span>  public static final String GROUP_ROW_TYPE = "RowType";<a name="line.296"></a>
+<span class="sourceLineNo">297</span>  public static final String GROUP_SPECIES_DISTRIBUTION_EXTENSION = "SpeciesDistribution";<a name="line.297"></a>
+<span class="sourceLineNo">298</span>  public static final String GROUP_SPECIES_PROFILE_EXTENSION = "SpeciesProfile";<a name="line.298"></a>
+<span class="sourceLineNo">299</span>  public static final String GROUP_VERNACULAR_NAME_EXTENSION = "VernacularName";<a name="line.299"></a>
+<span class="sourceLineNo">300</span><a name="line.300"></a>
+<span class="sourceLineNo">301</span>  /**<a name="line.301"></a>
+<span class="sourceLineNo">302</span>   * Lists all GBIF term groups.<a name="line.302"></a>
+<span class="sourceLineNo">303</span>   */<a name="line.303"></a>
+<span class="sourceLineNo">304</span>  public static final String[] GROUPS = {GROUP_CRAWLING, GROUP_DATASET, DwcTerm.GROUP_OCCURRENCE, GROUP_ROW_TYPE,<a name="line.304"></a>
+<span class="sourceLineNo">305</span>    GROUP_SPECIES_DISTRIBUTION_EXTENSION, GROUP_SPECIES_PROFILE_EXTENSION, DwcTerm.GROUP_TAXON,<a name="line.305"></a>
+<span class="sourceLineNo">306</span>    GROUP_VERNACULAR_NAME_EXTENSION, DwcTerm.GROUP_LOCATION};<a name="line.306"></a>
+<span class="sourceLineNo">307</span><a name="line.307"></a>
+<span class="sourceLineNo">308</span>  /**<a name="line.308"></a>
+<span class="sourceLineNo">309</span>   * Lists all GBIF terms in taxon group.<a name="line.309"></a>
+<span class="sourceLineNo">310</span>   */<a name="line.310"></a>
+<span class="sourceLineNo">311</span>  public static final GbifTerm[] TAXONOMIC_TERMS =<a name="line.311"></a>
+<span class="sourceLineNo">312</span>  {GbifTerm.taxonKey, GbifTerm.acceptedTaxonKey, GbifTerm.kingdomKey, GbifTerm.phylumKey, GbifTerm.classKey,<a name="line.312"></a>
+<span class="sourceLineNo">313</span>   GbifTerm.orderKey, GbifTerm.familyKey, GbifTerm.genusKey, GbifTerm.subgenusKey, GbifTerm.speciesKey,<a name="line.313"></a>
+<span class="sourceLineNo">314</span>   GbifTerm.species, GbifTerm.canonicalName, GbifTerm.nameType, GbifTerm.genericName, GbifTerm.acceptedScientificName,<a name="line.314"></a>
+<span class="sourceLineNo">315</span>   GbifTerm.verbatimScientificName};<a name="line.315"></a>
+<span class="sourceLineNo">316</span><a name="line.316"></a>
+<span class="sourceLineNo">317</span>  private final String groupName;<a name="line.317"></a>
+<span class="sourceLineNo">318</span>  private final boolean isDeprecated;<a name="line.318"></a>
+<span class="sourceLineNo">319</span>  public final String[] normAlts;<a name="line.319"></a>
+<span class="sourceLineNo">320</span><a name="line.320"></a>
+<span class="sourceLineNo">321</span>  GbifTerm(String groupName, String... alternatives) {<a name="line.321"></a>
+<span class="sourceLineNo">322</span>    this.groupName = groupName;<a name="line.322"></a>
+<span class="sourceLineNo">323</span>    this.normAlts = alternatives;<a name="line.323"></a>
+<span class="sourceLineNo">324</span>    boolean deprecatedAnnotationPresent = false;<a name="line.324"></a>
+<span class="sourceLineNo">325</span>    try {<a name="line.325"></a>
+<span class="sourceLineNo">326</span>      deprecatedAnnotationPresent = GbifTerm.class.getField(this.name()).isAnnotationPresent(Deprecated.class);<a name="line.326"></a>
+<span class="sourceLineNo">327</span>    } catch (NoSuchFieldException ignore) { }<a name="line.327"></a>
+<span class="sourceLineNo">328</span>    this.isDeprecated = deprecatedAnnotationPresent;<a name="line.328"></a>
+<span class="sourceLineNo">329</span>  }<a name="line.329"></a>
+<span class="sourceLineNo">330</span><a name="line.330"></a>
+<span class="sourceLineNo">331</span>  /**<a name="line.331"></a>
+<span class="sourceLineNo">332</span>   * The simple term name without a namespace.<a name="line.332"></a>
+<span class="sourceLineNo">333</span>   * For example taxonKey.<a name="line.333"></a>
+<span class="sourceLineNo">334</span>   *<a name="line.334"></a>
+<span class="sourceLineNo">335</span>   * @return simple term name<a name="line.335"></a>
+<span class="sourceLineNo">336</span>   */<a name="line.336"></a>
+<span class="sourceLineNo">337</span>  @Override<a name="line.337"></a>
+<span class="sourceLineNo">338</span>  public String simpleName() {<a name="line.338"></a>
+<span class="sourceLineNo">339</span>    return name();<a name="line.339"></a>
+<span class="sourceLineNo">340</span>  }<a name="line.340"></a>
+<span class="sourceLineNo">341</span><a name="line.341"></a>
+<span class="sourceLineNo">342</span>  /**<a name="line.342"></a>
+<span class="sourceLineNo">343</span>   * Array of alternative simple names in use for the term.<a name="line.343"></a>
+<span class="sourceLineNo">344</span>   *<a name="line.344"></a>
+<span class="sourceLineNo">345</span>   * @return simple term name<a name="line.345"></a>
+<span class="sourceLineNo">346</span>   */<a name="line.346"></a>
+<span class="sourceLineNo">347</span>  @Override<a name="line.347"></a>
+<span class="sourceLineNo">348</span>  public String[] alternativeNames() {<a name="line.348"></a>
+<span class="sourceLineNo">349</span>    return normAlts;<a name="line.349"></a>
+<span class="sourceLineNo">350</span>  }<a name="line.350"></a>
+<span class="sourceLineNo">351</span><a name="line.351"></a>
+<span class="sourceLineNo">352</span>  /**<a name="line.352"></a>
+<span class="sourceLineNo">353</span>   * The optional group the term is grouped in.<a name="line.353"></a>
+<span class="sourceLineNo">354</span>   * For example Occurrence, Taxon, etc.<a name="line.354"></a>
+<span class="sourceLineNo">355</span>   */<a name="line.355"></a>
+<span class="sourceLineNo">356</span>  public String getGroup() {<a name="line.356"></a>
+<span class="sourceLineNo">357</span>    return groupName;<a name="line.357"></a>
+<span class="sourceLineNo">358</span>  }<a name="line.358"></a>
+<span class="sourceLineNo">359</span><a name="line.359"></a>
+<span class="sourceLineNo">360</span><a name="line.360"></a>
+<span class="sourceLineNo">361</span>  /**<a name="line.361"></a>
+<span class="sourceLineNo">362</span>   * List all terms that belong to a given group.<a name="line.362"></a>
+<span class="sourceLineNo">363</span>   *<a name="line.363"></a>
+<span class="sourceLineNo">364</span>   * @param group the group to list terms for<a name="line.364"></a>
+<span class="sourceLineNo">365</span>   * @return the list of GBIF terms in the given group<a name="line.365"></a>
+<span class="sourceLineNo">366</span>   */<a name="line.366"></a>
+<span class="sourceLineNo">367</span>  public static List&lt;GbifTerm&gt; listByGroup(String group) {<a name="line.367"></a>
+<span class="sourceLineNo">368</span>    List&lt;GbifTerm&gt; terms = new ArrayList&lt;GbifTerm&gt;();<a name="line.368"></a>
+<span class="sourceLineNo">369</span>    for (GbifTerm t : GbifTerm.values()) {<a name="line.369"></a>
+<span class="sourceLineNo">370</span>      if (t.getGroup().equalsIgnoreCase(group)) {<a name="line.370"></a>
+<span class="sourceLineNo">371</span>        terms.add(t);<a name="line.371"></a>
+<span class="sourceLineNo">372</span>      }<a name="line.372"></a>
+<span class="sourceLineNo">373</span>    }<a name="line.373"></a>
+<span class="sourceLineNo">374</span>    return terms;<a name="line.374"></a>
 <span class="sourceLineNo">375</span>  }<a name="line.375"></a>
 <span class="sourceLineNo">376</span><a name="line.376"></a>
 <span class="sourceLineNo">377</span>  @Override<a name="line.377"></a>
-<span class="sourceLineNo">378</span>  public URI namespace() {<a name="line.378"></a>
-<span class="sourceLineNo">379</span>    return NS_URI;<a name="line.379"></a>
+<span class="sourceLineNo">378</span>  public String toString() {<a name="line.378"></a>
+<span class="sourceLineNo">379</span>    return prefixedName();<a name="line.379"></a>
 <span class="sourceLineNo">380</span>  }<a name="line.380"></a>
 <span class="sourceLineNo">381</span><a name="line.381"></a>
-<span class="sourceLineNo">382</span>  /**<a name="line.382"></a>
-<span class="sourceLineNo">383</span>   *<a name="line.383"></a>
-<span class="sourceLineNo">384</span>   * @return true if the Term is annotated with @Deprecated.<a name="line.384"></a>
-<span class="sourceLineNo">385</span>   */<a name="line.385"></a>
-<span class="sourceLineNo">386</span>  public boolean isDeprecated(){<a name="line.386"></a>
-<span class="sourceLineNo">387</span>    return isDeprecated;<a name="line.387"></a>
-<span class="sourceLineNo">388</span>  }<a name="line.388"></a>
-<span class="sourceLineNo">389</span><a name="line.389"></a>
-<span class="sourceLineNo">390</span>}<a name="line.390"></a>
+<span class="sourceLineNo">382</span>  @Override<a name="line.382"></a>
+<span class="sourceLineNo">383</span>  public boolean isClass() {<a name="line.383"></a>
+<span class="sourceLineNo">384</span>    return Character.isUpperCase(simpleName().charAt(0));<a name="line.384"></a>
+<span class="sourceLineNo">385</span>  }<a name="line.385"></a>
+<span class="sourceLineNo">386</span><a name="line.386"></a>
+<span class="sourceLineNo">387</span>  @Override<a name="line.387"></a>
+<span class="sourceLineNo">388</span>  public String prefix() {<a name="line.388"></a>
+<span class="sourceLineNo">389</span>    return PREFIX;<a name="line.389"></a>
+<span class="sourceLineNo">390</span>  }<a name="line.390"></a>
+<span class="sourceLineNo">391</span><a name="line.391"></a>
+<span class="sourceLineNo">392</span>  @Override<a name="line.392"></a>
+<span class="sourceLineNo">393</span>  public URI namespace() {<a name="line.393"></a>
+<span class="sourceLineNo">394</span>    return NS_URI;<a name="line.394"></a>
+<span class="sourceLineNo">395</span>  }<a name="line.395"></a>
+<span class="sourceLineNo">396</span><a name="line.396"></a>
+<span class="sourceLineNo">397</span>  /**<a name="line.397"></a>
+<span class="sourceLineNo">398</span>   *<a name="line.398"></a>
+<span class="sourceLineNo">399</span>   * @return true if the Term is annotated with @Deprecated.<a name="line.399"></a>
+<span class="sourceLineNo">400</span>   */<a name="line.400"></a>
+<span class="sourceLineNo">401</span>  public boolean isDeprecated(){<a name="line.401"></a>
+<span class="sourceLineNo">402</span>    return isDeprecated;<a name="line.402"></a>
+<span class="sourceLineNo">403</span>  }<a name="line.403"></a>
+<span class="sourceLineNo">404</span><a name="line.404"></a>
+<span class="sourceLineNo">405</span>}<a name="line.405"></a>
 
 
 

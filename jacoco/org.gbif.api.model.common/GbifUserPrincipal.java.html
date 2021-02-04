@@ -51,16 +51,17 @@ public class GbifUserPrincipal implements ExtendedPrincipal {
    *
    * @return true if the user has the requested role
    */
+  @Override
   public boolean hasRole(String role) {
-<span class="pc bpc" id="L55" title="1 of 2 branches missed.">    if (StringUtils.isNotEmpty(role)) {</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">    if (StringUtils.isNotEmpty(role)) {</span>
       try {
-<span class="fc" id="L57">        UserRole r = UserRole.valueOf(role.toUpperCase());</span>
-<span class="fc" id="L58">        return user.hasRole(r);</span>
-<span class="nc" id="L59">      } catch (IllegalArgumentException e) {</span>
+<span class="fc" id="L58">        UserRole r = UserRole.valueOf(role.toUpperCase());</span>
+<span class="fc" id="L59">        return user.hasRole(r);</span>
+<span class="nc" id="L60">      } catch (IllegalArgumentException e) {</span>
         // ignore
       }
     }
-<span class="nc" id="L63">    return false;</span>
+<span class="nc" id="L64">    return false;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

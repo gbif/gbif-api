@@ -23,6 +23,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
@@ -43,50 +44,53 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  * public List&lt;Map.Entry&lt;String, Object&gt;&gt; getKeyValueList() { ... };
  * &lt;/pre&gt;
  */
-<span class="nc" id="L46">public class MapEntrySerde {</span>
+@Deprecated
+<span class="nc" id="L48">public class MapEntrySerde {</span>
 
-<span class="fc" id="L48">  public static class MapEntryJsonSerializer extends JsonSerializer&lt;Map.Entry&lt;Object, Object&gt;&gt; {</span>
+  @Deprecated
+<span class="nc" id="L51">  public static class MapEntryJsonSerializer extends JsonSerializer&lt;Map.Entry&lt;Object, Object&gt;&gt; {</span>
 
     @Override
     public void serialize(Map.Entry&lt;Object, Object&gt; value, JsonGenerator jgen,
                           SerializerProvider serializerProvider) throws IOException {
-<span class="pc bpc" id="L53" title="1 of 2 branches missed.">      if (value == null) {</span>
-<span class="nc" id="L54">        jgen.writeNull();</span>
-<span class="nc" id="L55">        return;</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">      if (value == null) {</span>
+<span class="nc" id="L57">        jgen.writeNull();</span>
+<span class="nc" id="L58">        return;</span>
       }
-<span class="fc" id="L57">      jgen.writeStartObject();</span>
-<span class="fc" id="L58">      jgen.writeFieldName(value.getKey().toString());</span>
-<span class="fc" id="L59">      jgen.writeObject(value.getValue());</span>
-<span class="fc" id="L60">      jgen.writeEndObject();</span>
-<span class="fc" id="L61">    }</span>
+<span class="nc" id="L60">      jgen.writeStartObject();</span>
+<span class="nc" id="L61">      jgen.writeFieldName(value.getKey().toString());</span>
+<span class="nc" id="L62">      jgen.writeObject(value.getValue());</span>
+<span class="nc" id="L63">      jgen.writeEndObject();</span>
+<span class="nc" id="L64">    }</span>
   }
 
-<span class="fc" id="L64">  public static class MapEntryJsonDeserializer extends JsonDeserializer&lt;Map.Entry&lt;Object, Object&gt;&gt; {</span>
+  @Deprecated
+<span class="nc" id="L68">  public static class MapEntryJsonDeserializer extends JsonDeserializer&lt;Map.Entry&lt;Object, Object&gt;&gt; {</span>
     @Override
     public Map.Entry&lt;Object, Object&gt; deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-<span class="fc" id="L67">      String tmp = jp.getText(); // {</span>
-<span class="fc" id="L68">      jp.nextToken();</span>
-<span class="fc" id="L69">      String key = jp.getText();</span>
-<span class="fc" id="L70">      jp.nextToken();</span>
+<span class="nc" id="L71">      String tmp = jp.getText(); // {</span>
+<span class="nc" id="L72">      jp.nextToken();</span>
+<span class="nc" id="L73">      String key = jp.getText();</span>
+<span class="nc" id="L74">      jp.nextToken();</span>
       Object value;
 
-<span class="pc bpc" id="L73" title="3 of 4 branches missed.">      switch (jp.getCurrentToken()) {</span>
+<span class="nc bnc" id="L77" title="All 4 branches missed.">      switch (jp.getCurrentToken()) {</span>
         case VALUE_STRING:
-<span class="nc" id="L75">          value = jp.getText();</span>
-<span class="nc" id="L76">          break;</span>
+<span class="nc" id="L79">          value = jp.getText();</span>
+<span class="nc" id="L80">          break;</span>
         case VALUE_NUMBER_INT:
-<span class="fc" id="L78">          value = jp.getIntValue();</span>
-<span class="fc" id="L79">          break;</span>
+<span class="nc" id="L82">          value = jp.getIntValue();</span>
+<span class="nc" id="L83">          break;</span>
         case VALUE_NUMBER_FLOAT:
-<span class="nc" id="L81">          value = jp.getFloatValue();</span>
-<span class="nc" id="L82">          break;</span>
+<span class="nc" id="L85">          value = jp.getFloatValue();</span>
+<span class="nc" id="L86">          break;</span>
         default:
-<span class="nc" id="L84">          throw ctxt.mappingException(&quot;Expected String or Number&quot;);</span>
+<span class="nc" id="L88">          throw JsonMappingException.from(jp, &quot;Expected String or Number&quot;);</span>
       }
-<span class="fc" id="L86">      jp.nextToken();</span>
-<span class="fc" id="L87">      tmp = jp.getText(); // }</span>
+<span class="nc" id="L90">      jp.nextToken();</span>
+<span class="nc" id="L91">      tmp = jp.getText(); // }</span>
 
-<span class="fc" id="L89">      return new AbstractMap.SimpleImmutableEntry&lt;&gt;(key, value);</span>
+<span class="nc" id="L93">      return new AbstractMap.SimpleImmutableEntry&lt;&gt;(key, value);</span>
     }
   }
 }
