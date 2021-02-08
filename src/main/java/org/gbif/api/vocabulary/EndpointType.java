@@ -79,6 +79,10 @@ public enum EndpointType {
    */
   OAI_PMH,
   /**
+   * <a href="https://github.com/CatalogueOfLife/coldp">Catalogue of Life Data Packages</a>.
+   */
+  COLDP,
+  /**
    * Any other service not covered by this enum so far.
    */
   OTHER;
