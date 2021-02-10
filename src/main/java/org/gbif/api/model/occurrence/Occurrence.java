@@ -31,6 +31,7 @@ import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.Sex;
 import org.gbif.api.vocabulary.TaxonomicStatus;
+import org.gbif.api.vocabulary.ThreatStatus;
 import org.gbif.api.vocabulary.TypeStatus;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.Term;
@@ -116,6 +117,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private String infraspecificEpithet;
   private Rank taxonRank;
   private TaxonomicStatus taxonomicStatus;
+  private ThreatStatus iucnRedListCategory;
+
   // identification
   private Date dateIdentified;
   // location
@@ -175,7 +178,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @Experimental
   private String collectionKey;
   private boolean isInCluster;
-
 
   public Occurrence() {
 
@@ -426,7 +428,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   /**
    * The status of the use of the scientificName as a label for a taxon.
-   * The GBIF recommended controlled value vocabulary can be found at <a href="http://rs.gbif.org/vocabulary/gbif/taxonomic_status.xm">http://rs.gbif.org/vocabulary/gbif/taxonomic_status.xm</a>.
+   * The GBIF recommended controlled value vocabulary can be found at <a href="http://rs.gbif.org/vocabulary/gbif/taxonomic_status.xml">http://rs.gbif.org/vocabulary/gbif/taxonomic_status.xm</a>.
    */
   @Nullable
   public TaxonomicStatus getTaxonomicStatus() {
@@ -435,6 +437,18 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setTaxonomicStatus(TaxonomicStatus taxonomicStatus) {
     this.taxonomicStatus = taxonomicStatus;
+  }
+
+  /**
+   * The IUCN Red List Category.
+   */
+  @Nullable
+  public ThreatStatus getIucnRedListCategory() {
+    return iucnRedListCategory;
+  }
+
+  public void setIucnRedListCategory(ThreatStatus iucnRedListCategory) {
+    this.iucnRedListCategory = iucnRedListCategory;
   }
 
   /**
