@@ -525,7 +525,12 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Searches for occurrences that have a particular DwC-A extension.
    */
-  DWCA_EXTENSION(String.class);
+  DWCA_EXTENSION(String.class),
+
+  /**
+   * Searches for occurrences that have a IUCN Red List Category.
+   */
+  IUCN_RED_LIST_CATEGORY(String.class);
 
   private final Class<?> type;
 
