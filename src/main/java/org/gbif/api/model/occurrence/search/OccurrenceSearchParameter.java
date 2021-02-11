@@ -525,7 +525,17 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Searches for occurrences that have a particular DwC-A extension.
    */
-  DWCA_EXTENSION(String.class);
+  DWCA_EXTENSION(String.class),
+
+  /**
+   * Includes/excludes occurrence records which contain a length measurement.
+   */
+  HAS_LENGTH(Boolean.class),
+
+  /**
+   * Includes/excludes occurrence records which contain a weight/mass measurement.
+   */
+  HAS_WEIGHT(Boolean.class);
 
   private final Class<?> type;
 
