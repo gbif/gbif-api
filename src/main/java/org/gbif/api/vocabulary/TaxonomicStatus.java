@@ -53,19 +53,7 @@ public enum TaxonomicStatus {
   /**
    * More specific subclass of SYNONYM.
    */
-  MISAPPLIED,
-
-  /**
-   * Used in nub only.
-   */
-  @Deprecated
-  INTERMEDIATE_RANK_SYNONYM,
-
-  /**
-   * Used for unknown child taxa referred to via spec, ssp, ...
-   */
-  @Deprecated
-  DETERMINATION_SYNONYM;
+  MISAPPLIED;
 
   public boolean isSynonym() {
     return !isAccepted();
