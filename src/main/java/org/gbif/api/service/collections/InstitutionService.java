@@ -56,4 +56,12 @@ public interface InstitutionService
 
   /** Provides a simple suggest service. */
   List<KeyCodeNameResult> suggest(@Nullable String q);
+
+  /**
+   * Finds possible duplicates of the {@link Institution} received.
+   *
+   * @param institution entity whose duplicates we're looking for
+   * @return a {@link List} with the duplicates found
+   */
+  List<Institution> listPossibleDuplicates(Institution institution);
 }
