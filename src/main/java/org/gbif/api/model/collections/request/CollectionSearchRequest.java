@@ -54,6 +54,8 @@ public class CollectionSearchRequest extends SearchRequest {
     IdentifierType identifierType;
     String identifier;
     Country country;
+    String city;
+    String fuzzyName;
     Pageable page;
 
     public Builder institution(UUID institution) {
@@ -116,6 +118,16 @@ public class CollectionSearchRequest extends SearchRequest {
       return this;
     }
 
+    public Builder city(String city) {
+      this.city = city;
+      return this;
+    }
+
+    public Builder fuzzyName(String fuzzyName) {
+      this.fuzzyName = fuzzyName;
+      return this;
+    }
+
     public Builder page(Pageable page) {
       this.page = page;
       return this;
@@ -135,6 +147,8 @@ public class CollectionSearchRequest extends SearchRequest {
       req.setIdentifierType(identifierType);
       req.setIdentifier(identifier);
       req.setCountry(country);
+      req.setCity(city);
+      req.setFuzzyName(fuzzyName);
       if (page != null) {
         req.setLimit(page.getLimit());
         req.setOffset(page.getOffset());

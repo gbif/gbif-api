@@ -25,7 +25,7 @@ public class TaxonomicStatusTest {
   @Test
   public void testIsSynonym() {
     assertFalse(TaxonomicStatus.ACCEPTED.isSynonym());
-    assertTrue(TaxonomicStatus.DETERMINATION_SYNONYM.isSynonym());
+    assertTrue(TaxonomicStatus.HOMOTYPIC_SYNONYM.isSynonym());
   }
 
 }
