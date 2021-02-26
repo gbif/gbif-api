@@ -31,9 +31,12 @@ public class DuplicatesRequest implements Serializable {
   private Boolean sameCode;
   private Boolean sameCountry;
   private Boolean sameCity;
+  private Boolean sameInstitution;
   private List<String> inCountries;
   private List<String> notInCountries;
   private List<UUID> excludeKeys;
+  private List<UUID> inInstitutions;
+  private List<UUID> notInInstitutions;
 
   public Boolean getSameName() {
     return sameName;
@@ -103,6 +106,30 @@ public class DuplicatesRequest implements Serializable {
 
   public void setExcludeKeys(List<UUID> excludeKeys) {
     this.excludeKeys = excludeKeys;
+  }
+
+  public Boolean getSameInstitution() {
+    return sameInstitution;
+  }
+
+  public void setSameInstitution(Boolean sameInstitution) {
+    this.sameInstitution = sameInstitution;
+  }
+
+  public List<UUID> getInInstitutions() {
+    return inInstitutions;
+  }
+
+  public void setInInstitutions(List<UUID> inInstitutions) {
+    this.inInstitutions = inInstitutions;
+  }
+
+  public List<UUID> getNotInInstitutions() {
+    return notInInstitutions;
+  }
+
+  public void setNotInInstitutions(List<UUID> notInInstitutions) {
+    this.notInInstitutions = notInInstitutions;
   }
 
   public boolean isEmpty() {

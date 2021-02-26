@@ -30,6 +30,8 @@ public class Duplicate implements Serializable {
   private String physicalCity;
   private Country mailingCountry;
   private String mailingCity;
+  // only for collections
+  private UUID institutionKey;
 
   public UUID getKey() {
     return key;
@@ -87,6 +89,14 @@ public class Duplicate implements Serializable {
     this.mailingCity = mailingCity;
   }
 
+  public UUID getInstitutionKey() {
+    return institutionKey;
+  }
+
+  public void setInstitutionKey(UUID institutionKey) {
+    this.institutionKey = institutionKey;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -98,12 +108,20 @@ public class Duplicate implements Serializable {
         && physicalCountry == duplicate.physicalCountry
         && Objects.equals(physicalCity, duplicate.physicalCity)
         && mailingCountry == duplicate.mailingCountry
-        && Objects.equals(mailingCity, duplicate.mailingCity);
+        && Objects.equals(mailingCity, duplicate.mailingCity)
+        && Objects.equals(institutionKey, duplicate.institutionKey);
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
-        key, code, name, physicalCountry, physicalCity, mailingCountry, mailingCity);
+        key,
+        code,
+        name,
+        physicalCountry,
+        physicalCity,
+        mailingCountry,
+        mailingCity,
+        institutionKey);
   }
 }
