@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+/** Request to be used for the GRSciColl API duplicates services. */
 public class DuplicatesRequest implements Serializable {
 
   private Boolean sameName;

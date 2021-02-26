@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+/** Models a duplicate in GRSciColl. It's used for institutions and collections. */
 public class Duplicate implements Serializable {
 
   private UUID key;

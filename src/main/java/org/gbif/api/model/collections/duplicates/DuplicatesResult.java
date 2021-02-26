@@ -26,6 +26,7 @@ import java.util.Set;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+/** Result to be used for the GRSciColl API duplicates services. */
 public class DuplicatesResult implements Serializable {
 
   @JsonSerialize(using = LocalDateTimeSerDe.LocalDateTimeSerializer.class)
