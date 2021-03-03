@@ -31,6 +31,10 @@ public class Duplicate implements Serializable {
   private String physicalCity;
   private Country mailingCountry;
   private String mailingCity;
+  private boolean active;
+  private boolean isIh;
+  private boolean isIdigbio;
+
   // only for collections
   private UUID institutionKey;
 
@@ -90,6 +94,30 @@ public class Duplicate implements Serializable {
     this.mailingCity = mailingCity;
   }
 
+  public boolean isActive() {
+    return active;
+  }
+
+  public void setActive(boolean active) {
+    this.active = active;
+  }
+
+  public boolean isIh() {
+    return isIh;
+  }
+
+  public void setIh(boolean ih) {
+    isIh = ih;
+  }
+
+  public boolean isIdigbio() {
+    return isIdigbio;
+  }
+
+  public void setIdigbio(boolean idigbio) {
+    isIdigbio = idigbio;
+  }
+
   public UUID getInstitutionKey() {
     return institutionKey;
   }
@@ -100,10 +128,17 @@ public class Duplicate implements Serializable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     Duplicate duplicate = (Duplicate) o;
-    return Objects.equals(key, duplicate.key)
+    return active == duplicate.active
+        && isIh == duplicate.isIh
+        && isIdigbio == duplicate.isIdigbio
+        && Objects.equals(key, duplicate.key)
         && Objects.equals(code, duplicate.code)
         && Objects.equals(name, duplicate.name)
         && physicalCountry == duplicate.physicalCountry
@@ -123,6 +158,9 @@ public class Duplicate implements Serializable {
         physicalCity,
         mailingCountry,
         mailingCity,
+        active,
+        isIh,
+        isIdigbio,
         institutionKey);
   }
 }
