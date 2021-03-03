@@ -19,6 +19,10 @@ import org.gbif.api.jackson.ExtensionDeserializer;
 import org.gbif.api.jackson.ExtensionKeyDeserializer;
 import org.gbif.api.jackson.ExtensionSerializer;
 
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -208,6 +212,42 @@ public enum Extension {
 
   public String getRowType() {
     return rowType;
+  }
+
+  private static final Map<Extension, String> AVAILABLE_EXTENSION_MAP = new EnumMap<>(Extension.class);
+
+  static {
+    AVAILABLE_EXTENSION_MAP.put(AUDUBON, "https://rs.gbif.org/extension/ac/audubon_2020_10_06.xml");
+    AVAILABLE_EXTENSION_MAP.put(IMAGE, "https://rs.gbif.org/extension/gbif/1.0/images.xml");
+    AVAILABLE_EXTENSION_MAP.put(MULTIMEDIA, "http://rs.gbif.org/extension/gbif/1.0/multimedia.xml");
+    AVAILABLE_EXTENSION_MAP.put(MEASUREMENT_OR_FACT, "http://rs.gbif.org/extension/dwc/measurements_or_facts.xml");
+    AVAILABLE_EXTENSION_MAP.put(IDENTIFICATION, "http://rs.gbif.org/extension/dwc/identification.xml");
+    AVAILABLE_EXTENSION_MAP.put(RESOURCE_RELATIONSHIP, "http://rs.gbif.org/extension/dwc/resource_relation.xml");
+    AVAILABLE_EXTENSION_MAP.put(AMPLIFICATION, "http://rs.gbif.org/extension/ggbn/amplification.xml");
+    AVAILABLE_EXTENSION_MAP.put(CLONING, "http://rs.gbif.org/extension/ggbn/cloning.xml");
+    AVAILABLE_EXTENSION_MAP.put(GEL_IMAGE, "http://rs.gbif.org/extension/ggbn/gelimage.xml");
+    AVAILABLE_EXTENSION_MAP.put(LOAN, "http://rs.gbif.org/extension/ggbn/loan.xml");
+    AVAILABLE_EXTENSION_MAP.put(MATERIAL_SAMPLE, "http://rs.gbif.org/extension/ggbn/materialsample.xml");
+    AVAILABLE_EXTENSION_MAP.put(PERMIT, "http://rs.gbif.org/extension/ggbn/permit.xml");
+    AVAILABLE_EXTENSION_MAP.put(PREPARATION, "http://rs.gbif.org/extension/ggbn/preparation.xml");
+    AVAILABLE_EXTENSION_MAP.put(PRESERVATION, "http://rs.gbif.org/extension/ggbn/preservation.xml");
+    AVAILABLE_EXTENSION_MAP.put(GERMPLASM_MEASUREMENT_SCORE, "http://rs.gbif.org/extension/germplasm/MeasurementScore.xml");
+    AVAILABLE_EXTENSION_MAP.put(GERMPLASM_MEASUREMENT_TRAIT, "http://rs.gbif.org/extension/germplasm/MeasurementTrait.xml");
+    AVAILABLE_EXTENSION_MAP.put(GERMPLASM_MEASUREMENT_TRIAL, "http://rs.gbif.org/extension/germplasm/MeasurementTrial.xml");
+    AVAILABLE_EXTENSION_MAP.put(GERMPLASM_ACCESSION, "http://rs.gbif.org/extension/germplasm/GermplasmAccession.xml");
+    AVAILABLE_EXTENSION_MAP.put(EXTENDED_MEASUREMENT_OR_FACT, "http://rs.gbif.org/extension/obis/extended_measurement_or_fact.xml");
+    AVAILABLE_EXTENSION_MAP.put(CHRONOMETRIC_AGE, "http://rs.gbif.org/extension/zooarchnet/ChronometricAge_2020-10-06.xml");
+    AVAILABLE_EXTENSION_MAP.put(CHRONOMETRIC_DATE, "http://rs.gbif.org/extension/zooarchnet/chronometricDate.xml");
+    AVAILABLE_EXTENSION_MAP.put(REFERENCE, "http://rs.gbif.org/extension/gbif/1.0/references.xml");
+    AVAILABLE_EXTENSION_MAP.put(IDENTIFIER, "http://rs.gbif.org/extension/gbif/1.0/identifier.xml");
+  }
+
+  public static Map<Extension, String> availableExtensionResources() {
+    return AVAILABLE_EXTENSION_MAP;
+  }
+
+  public static Set<Extension> availableExtensions() {
+    return AVAILABLE_EXTENSION_MAP.keySet();
   }
 
 }
