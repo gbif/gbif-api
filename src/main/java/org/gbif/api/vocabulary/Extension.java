@@ -109,7 +109,7 @@ public enum Extension {
   MULTIMEDIA("http://rs.gbif.org/terms/1.0/Multimedia"),
 
   /**
-   * @see <a href="http://rs.gbif.org/extension/dwc/measurements_or_facts.xml">extension definition</a>
+   * @see <a href="http://rs.gbif.org/extension/gbif/1.0/references.xml">extension definition</a>
    */
   REFERENCE("http://rs.gbif.org/terms/1.0/Reference"),
 
@@ -131,7 +131,57 @@ public enum Extension {
   /**
    * @see <a href="http://rs.gbif.org/extension/gbif/1.0/vernacularname.xml">extension definition</a>
    */
-  VERNACULAR_NAME("http://rs.gbif.org/terms/1.0/VernacularName");
+  VERNACULAR_NAME("http://rs.gbif.org/terms/1.0/VernacularName"),
+
+  /**
+   * @see <a href="http://rs.gbif.org/extension/ggbn/cloning.xml">extension definition</a>
+   */
+  CLONING("http://data.ggbn.org/schemas/ggbn/terms/Cloning"),
+
+  /**
+   * @see <a href="http://rs.gbif.org/extension/ggbn/gelimage.xml">extension definition</a>
+   */
+  GEL_IMAGE("http://data.ggbn.org/schemas/ggbn/terms/GelImage"),
+
+  /**
+   * @see <a href="http://rs.gbif.org/extension/ggbn/loan.xml">extension definition</a>
+   */
+  LOAN("http://data.ggbn.org/schemas/ggbn/terms/Loan"),
+
+  /**
+   * @see <a href="http://rs.gbif.org/extension/ggbn/materialsample.xml">extension definition</a>
+   */
+  MATERIAL_SAMPLE("http://data.ggbn.org/schemas/ggbn/terms/MaterialSample"),
+
+  /**
+   * @see <a href="http://rs.gbif.org/extension/ggbn/permit.xml">extension definition</a>
+   */
+  PERMIT("http://data.ggbn.org/schemas/ggbn/terms/Permit"),
+
+  /**
+   * @see <a href="http://rs.gbif.org/extension/ggbn/preparation.xml">extension definition</a>
+   */
+  PREPARATION("http://data.ggbn.org/schemas/ggbn/terms/Preparation"),
+
+  /**
+   * @see <a href="http://rs.gbif.org/extension/ggbn/preservation.xml">extension definition</a>
+   */
+  PRESERVATION("http://data.ggbn.org/schemas/ggbn/terms/Preservation"),
+
+  /**
+   * @see <a href="http://rs.gbif.org/extension/obis/extended_measurement_or_fact.xml">extension definition</a>
+   */
+  EXTENDED_MEASUREMENT_OR_FACT("http://rs.iobis.org/obis/terms/ExtendedMeasurementOrFact"),
+
+  /**
+   * @see <a href="http://rs.gbif.org/extension/zooarchnet/ChronometricAge_2020-10-06.xml">extension definition</a>
+   */
+  CHRONOMETRIC_AGE("http://rs.tdwg.org/chrono/terms/ChronometricAge"),
+
+  /**
+   * @see <a href="http://rs.gbif.org/extension/zooarchnet/chronometricDate.xml">extension definition</a>
+   */
+  CHRONOMETRIC_DATE("http://zooarchnet.org/dwc/terms/ChronometricDate");
 
 
   private final String rowType;
