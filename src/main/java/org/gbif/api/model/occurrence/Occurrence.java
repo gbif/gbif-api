@@ -31,7 +31,6 @@ import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.Sex;
 import org.gbif.api.vocabulary.TaxonomicStatus;
-import org.gbif.api.vocabulary.ThreatStatus;
 import org.gbif.api.vocabulary.TypeStatus;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.Term;
@@ -117,7 +116,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private String infraspecificEpithet;
   private Rank taxonRank;
   private TaxonomicStatus taxonomicStatus;
-  private ThreatStatus iucnRedListCategory;
+  private String iucnRedListCategory;
 
   // identification
   private Date dateIdentified;
@@ -443,11 +442,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * The IUCN Red List Category.
    */
   @Nullable
-  public ThreatStatus getIucnRedListCategory() {
+  public String getIucnRedListCategory() {
     return iucnRedListCategory;
   }
 
-  public void setIucnRedListCategory(ThreatStatus iucnRedListCategory) {
+  public void setIucnRedListCategory(String iucnRedListCategory) {
     this.iucnRedListCategory = iucnRedListCategory;
   }
 
