@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Duplicate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections.duplicates</a> &gt; <span class="el_source">Duplicate.java</span></div><h1>Duplicate.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.collections.duplicates;
+
+import org.gbif.api.vocabulary.Country;
+
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.UUID;
+
+/** Models a duplicate in GRSciColl. It's used for institutions and collections. */
+<span class="nc" id="L25">public class Duplicate implements Serializable {</span>
+
+  private UUID key;
+  private String code;
+  private String name;
+  private Country physicalCountry;
+  private String physicalCity;
+  private Country mailingCountry;
+  private String mailingCity;
+  private boolean active;
+  private boolean isIh;
+  private boolean isIdigbio;
+
+  // only for collections
+  private UUID institutionKey;
+
+  public UUID getKey() {
+<span class="nc" id="L42">    return key;</span>
+  }
+
+  public void setKey(UUID key) {
+<span class="nc" id="L46">    this.key = key;</span>
+<span class="nc" id="L47">  }</span>
+
+  public String getCode() {
+<span class="nc" id="L50">    return code;</span>
+  }
+
+  public void setCode(String code) {
+<span class="nc" id="L54">    this.code = code;</span>
+<span class="nc" id="L55">  }</span>
+
+  public String getName() {
+<span class="nc" id="L58">    return name;</span>
+  }
+
+  public void setName(String name) {
+<span class="nc" id="L62">    this.name = name;</span>
+<span class="nc" id="L63">  }</span>
+
+  public Country getPhysicalCountry() {
+<span class="nc" id="L66">    return physicalCountry;</span>
+  }
+
+  public void setPhysicalCountry(Country physicalCountry) {
+<span class="nc" id="L70">    this.physicalCountry = physicalCountry;</span>
+<span class="nc" id="L71">  }</span>
+
+  public String getPhysicalCity() {
+<span class="nc" id="L74">    return physicalCity;</span>
+  }
+
+  public void setPhysicalCity(String physicalCity) {
+<span class="nc" id="L78">    this.physicalCity = physicalCity;</span>
+<span class="nc" id="L79">  }</span>
+
+  public Country getMailingCountry() {
+<span class="nc" id="L82">    return mailingCountry;</span>
+  }
+
+  public void setMailingCountry(Country mailingCountry) {
+<span class="nc" id="L86">    this.mailingCountry = mailingCountry;</span>
+<span class="nc" id="L87">  }</span>
+
+  public String getMailingCity() {
+<span class="nc" id="L90">    return mailingCity;</span>
+  }
+
+  public void setMailingCity(String mailingCity) {
+<span class="nc" id="L94">    this.mailingCity = mailingCity;</span>
+<span class="nc" id="L95">  }</span>
+
+  public boolean isActive() {
+<span class="nc" id="L98">    return active;</span>
+  }
+
+  public void setActive(boolean active) {
+<span class="nc" id="L102">    this.active = active;</span>
+<span class="nc" id="L103">  }</span>
+
+  public boolean isIh() {
+<span class="nc" id="L106">    return isIh;</span>
+  }
+
+  public void setIh(boolean ih) {
+<span class="nc" id="L110">    isIh = ih;</span>
+<span class="nc" id="L111">  }</span>
+
+  public boolean isIdigbio() {
+<span class="nc" id="L114">    return isIdigbio;</span>
+  }
+
+  public void setIdigbio(boolean idigbio) {
+<span class="nc" id="L118">    isIdigbio = idigbio;</span>
+<span class="nc" id="L119">  }</span>
+
+  public UUID getInstitutionKey() {
+<span class="nc" id="L122">    return institutionKey;</span>
+  }
+
+  public void setInstitutionKey(UUID institutionKey) {
+<span class="nc" id="L126">    this.institutionKey = institutionKey;</span>
+<span class="nc" id="L127">  }</span>
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L131" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L132">      return true;</span>
+    }
+<span class="nc bnc" id="L134" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L135">      return false;</span>
+    }
+<span class="nc" id="L137">    Duplicate duplicate = (Duplicate) o;</span>
+<span class="nc bnc" id="L138" title="All 6 branches missed.">    return active == duplicate.active</span>
+        &amp;&amp; isIh == duplicate.isIh
+        &amp;&amp; isIdigbio == duplicate.isIdigbio
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        &amp;&amp; Objects.equals(key, duplicate.key)</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        &amp;&amp; Objects.equals(code, duplicate.code)</span>
+<span class="nc bnc" id="L143" title="All 4 branches missed.">        &amp;&amp; Objects.equals(name, duplicate.name)</span>
+        &amp;&amp; physicalCountry == duplicate.physicalCountry
+<span class="nc bnc" id="L145" title="All 4 branches missed.">        &amp;&amp; Objects.equals(physicalCity, duplicate.physicalCity)</span>
+        &amp;&amp; mailingCountry == duplicate.mailingCountry
+<span class="nc bnc" id="L147" title="All 2 branches missed.">        &amp;&amp; Objects.equals(mailingCity, duplicate.mailingCity)</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        &amp;&amp; Objects.equals(institutionKey, duplicate.institutionKey);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L153">    return Objects.hash(</span>
+        key,
+        code,
+        name,
+        physicalCountry,
+        physicalCity,
+        mailingCountry,
+        mailingCity,
+<span class="nc" id="L161">        active,</span>
+<span class="nc" id="L162">        isIh,</span>
+<span class="nc" id="L163">        isIdigbio,</span>
+        institutionKey);
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

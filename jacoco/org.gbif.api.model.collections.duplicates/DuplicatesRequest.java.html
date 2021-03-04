@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DuplicatesRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections.duplicates</a> &gt; <span class="el_source">DuplicatesRequest.java</span></div><h1>DuplicatesRequest.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.collections.duplicates;
+
+import org.gbif.api.util.VocabularyUtils;
+import org.gbif.api.vocabulary.Country;
+
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+/** Request to be used for the GRSciColl API duplicates services. */
+<span class="nc" id="L28">public class DuplicatesRequest implements Serializable {</span>
+
+  private Boolean sameName;
+  private Boolean sameFuzzyName;
+  private Boolean sameCode;
+  private Boolean sameCountry;
+  private Boolean sameCity;
+  private Boolean sameInstitution;
+  private List&lt;String&gt; inCountries;
+  private List&lt;String&gt; notInCountries;
+  private List&lt;UUID&gt; excludeKeys;
+  private List&lt;UUID&gt; inInstitutions;
+  private List&lt;UUID&gt; notInInstitutions;
+
+  public Boolean getSameName() {
+<span class="nc" id="L43">    return sameName;</span>
+  }
+
+  public void setSameName(Boolean sameName) {
+<span class="nc" id="L47">    this.sameName = sameName;</span>
+<span class="nc" id="L48">  }</span>
+
+  public Boolean getSameFuzzyName() {
+<span class="nc" id="L51">    return sameFuzzyName;</span>
+  }
+
+  public void setSameFuzzyName(Boolean sameFuzzyName) {
+<span class="nc" id="L55">    this.sameFuzzyName = sameFuzzyName;</span>
+<span class="nc" id="L56">  }</span>
+
+  public Boolean getSameCode() {
+<span class="nc" id="L59">    return sameCode;</span>
+  }
+
+  public void setSameCode(Boolean sameCode) {
+<span class="nc" id="L63">    this.sameCode = sameCode;</span>
+<span class="nc" id="L64">  }</span>
+
+  public Boolean getSameCountry() {
+<span class="nc" id="L67">    return sameCountry;</span>
+  }
+
+  public void setSameCountry(Boolean sameCountry) {
+<span class="nc" id="L71">    this.sameCountry = sameCountry;</span>
+<span class="nc" id="L72">  }</span>
+
+  public Boolean getSameCity() {
+<span class="nc" id="L75">    return sameCity;</span>
+  }
+
+  public void setSameCity(Boolean sameCity) {
+<span class="nc" id="L79">    this.sameCity = sameCity;</span>
+<span class="nc" id="L80">  }</span>
+
+  public List&lt;Country&gt; getInCountries() {
+<span class="nc bnc" id="L83" title="All 2 branches missed.">    if (inCountries == null) {</span>
+<span class="nc" id="L84">      return Collections.emptyList();</span>
+    }
+<span class="nc" id="L86">    return inCountries.stream().map(this::toCountry).collect(Collectors.toList());</span>
+  }
+
+  public void setInCountries(List&lt;String&gt; inCountries) {
+<span class="nc" id="L90">    this.inCountries = inCountries;</span>
+<span class="nc" id="L91">  }</span>
+
+  public List&lt;Country&gt; getNotInCountries() {
+<span class="nc bnc" id="L94" title="All 2 branches missed.">    if (notInCountries == null) {</span>
+<span class="nc" id="L95">      return Collections.emptyList();</span>
+    }
+<span class="nc" id="L97">    return notInCountries.stream().map(this::toCountry).collect(Collectors.toList());</span>
+  }
+
+  public void setNotInCountries(List&lt;String&gt; notInCountries) {
+<span class="nc" id="L101">    this.notInCountries = notInCountries;</span>
+<span class="nc" id="L102">  }</span>
+
+  public List&lt;UUID&gt; getExcludeKeys() {
+<span class="nc" id="L105">    return excludeKeys;</span>
+  }
+
+  public void setExcludeKeys(List&lt;UUID&gt; excludeKeys) {
+<span class="nc" id="L109">    this.excludeKeys = excludeKeys;</span>
+<span class="nc" id="L110">  }</span>
+
+  public Boolean getSameInstitution() {
+<span class="nc" id="L113">    return sameInstitution;</span>
+  }
+
+  public void setSameInstitution(Boolean sameInstitution) {
+<span class="nc" id="L117">    this.sameInstitution = sameInstitution;</span>
+<span class="nc" id="L118">  }</span>
+
+  public List&lt;UUID&gt; getInInstitutions() {
+<span class="nc" id="L121">    return inInstitutions;</span>
+  }
+
+  public void setInInstitutions(List&lt;UUID&gt; inInstitutions) {
+<span class="nc" id="L125">    this.inInstitutions = inInstitutions;</span>
+<span class="nc" id="L126">  }</span>
+
+  public List&lt;UUID&gt; getNotInInstitutions() {
+<span class="nc" id="L129">    return notInInstitutions;</span>
+  }
+
+  public void setNotInInstitutions(List&lt;UUID&gt; notInInstitutions) {
+<span class="nc" id="L133">    this.notInInstitutions = notInInstitutions;</span>
+<span class="nc" id="L134">  }</span>
+
+  public boolean isEmpty() {
+<span class="nc bnc" id="L137" title="All 10 branches missed.">    return sameName == null</span>
+        &amp;&amp; sameFuzzyName == null
+        &amp;&amp; sameCode == null
+        &amp;&amp; sameCity == null
+        &amp;&amp; sameCountry == null;
+  }
+
+  private Country toCountry(String countryParam) {
+<span class="nc" id="L145">    Country country = null;</span>
+<span class="nc bnc" id="L146" title="All 4 branches missed.">    if (countryParam != null &amp;&amp; !countryParam.isEmpty()) {</span>
+<span class="nc" id="L147">      country = Country.fromIsoCode(countryParam);</span>
+
+<span class="nc bnc" id="L149" title="All 2 branches missed.">      if (country == null) {</span>
+        // if nothing found also try by enum name
+<span class="nc" id="L151">        country = VocabularyUtils.lookupEnum(countryParam, Country.class);</span>
+      }
+    }
+<span class="nc" id="L154">    return country;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
