@@ -21,6 +21,7 @@ import org.gbif.api.vocabulary.Country;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -152,5 +153,22 @@ public class DuplicatesRequest implements Serializable {
       }
     }
     return country;
+  }
+
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", DuplicatesRequest.class.getSimpleName() + "[", "]")
+        .add("sameName=" + sameName)
+        .add("sameFuzzyName=" + sameFuzzyName)
+        .add("sameCode=" + sameCode)
+        .add("sameCountry=" + sameCountry)
+        .add("sameCity=" + sameCity)
+        .add("sameInstitution=" + sameInstitution)
+        .add("inCountries=" + inCountries)
+        .add("notInCountries=" + notInCountries)
+        .add("excludeKeys=" + excludeKeys)
+        .add("inInstitutions=" + inInstitutions)
+        .add("notInInstitutions=" + notInInstitutions)
+        .toString();
   }
 }
