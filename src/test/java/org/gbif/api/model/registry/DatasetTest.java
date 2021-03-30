@@ -69,9 +69,6 @@ public class DatasetTest {
     propertiesInViolation.add("publishingOrganisationKey");
 
     assertEquals(6, violations.size());
-    for (ConstraintViolation<?> cv : violations) {
-      propertiesInViolation.contains(cv.getPropertyPath().toString());
-    }
 
     // fix non-mandatory fields that don't validate
     ds.setTitle("Rooftop bugs");
