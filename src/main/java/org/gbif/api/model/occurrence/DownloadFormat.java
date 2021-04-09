@@ -30,12 +30,12 @@ public enum DownloadFormat {
   SIMPLE_CSV(".zip"),
 
   /**
-   * AVRO (with Deflate compression codec) format export of the most common indexed terms.
+   * Avro (with Deflate compression codec) format export of the most common indexed terms.
    */
   SIMPLE_AVRO(".avro"),
 
   /**
-   * AVRO (with Deflate compression codec) format export of the most common indexed terms, plus many verbatim terms.
+   * Avro (with Deflate compression codec) format export of the most common indexed terms, plus many verbatim terms.
    *
    * More verbatim terms may be added upon request.
    */
@@ -47,7 +47,7 @@ public enum DownloadFormat {
   SPECIES_LIST(".zip"),
 
   /**
-   * Special AVRO format for the <a href="https://mol.org/">Map of Life</a> project.
+   * Special Avro format for the <a href="https://mol.org/">Map of Life</a> project.
    */
   MAP_OF_LIFE(".avro"),
 
@@ -60,7 +60,12 @@ public enum DownloadFormat {
    * Special CSV format for the <a href="https://www.iucn.org/">International Union for Conservation of Nature</a>
    * <a href="https://www.iucnredlist.org/">Red List</a> project.
    */
-  IUCN(".csv");
+  IUCN(".csv"),
+
+  /**
+   * Parquet (with Snappy compression codec) format export of the most common indexed terms.
+   */
+  SIMPLE_PARQUET(".zip");
 
   private final String extension;
 
