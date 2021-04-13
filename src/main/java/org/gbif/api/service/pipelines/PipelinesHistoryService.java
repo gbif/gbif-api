@@ -25,6 +25,7 @@ import org.gbif.api.model.pipelines.ws.PipelineProcessParameters;
 import org.gbif.api.model.pipelines.ws.PipelineStepParameters;
 import org.gbif.api.model.pipelines.ws.RunAllParams;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -129,7 +130,8 @@ public interface PipelinesHistoryService {
       @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
       boolean useLastSuccessful,
       boolean markPreviousAttemptAsFailed,
-      @Nullable RunAllParams runAllParams);
+      @Nullable RunAllParams runAllParams,
+      @Nullable List<String> recordTypes);
 
   /**
    * Restart last failed pipelines step for a dataset.
@@ -146,7 +148,8 @@ public interface PipelinesHistoryService {
       @NotBlank(message = STEPS_REQUIRED_MESSAGE) String steps,
       @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
       boolean useLastSuccessful,
-      boolean markPreviousAttemptAsFailed);
+      boolean markPreviousAttemptAsFailed,
+      @Nullable List<String> recordTypes);
 
   /**
    * Re-run a pipeline step.
@@ -163,5 +166,6 @@ public interface PipelinesHistoryService {
       int attempt,
       @NotBlank(message = STEPS_REQUIRED_MESSAGE) String steps,
       @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
-      boolean markPreviousAttemptAsFailed);
+      boolean markPreviousAttemptAsFailed,
+      @Nullable List<String> recordTypes);
 }
