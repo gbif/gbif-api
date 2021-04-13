@@ -26,6 +26,7 @@ public abstract class BaseEntityMatched implements EntityMatched {
   private URI selfLink;
   private String name;
   private String code;
+  private boolean active;
 
   @Override
   public UUID getKey() {
@@ -64,6 +65,15 @@ public abstract class BaseEntityMatched implements EntityMatched {
   }
 
   @Override
+  public boolean isActive() {
+    return active;
+  }
+
+  public void setActive(boolean active) {
+    this.active = active;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
@@ -75,21 +85,23 @@ public abstract class BaseEntityMatched implements EntityMatched {
     return Objects.equals(key, that.key)
         && Objects.equals(selfLink, that.selfLink)
         && Objects.equals(name, that.name)
-        && Objects.equals(code, that.code);
+        && Objects.equals(code, that.code)
+        && Objects.equals(active, that.active);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, selfLink, name, code);
+    return Objects.hash(key, selfLink, name, code, active);
   }
 
   @Override
   public String toString() {
     return new StringJoiner(", ", BaseEntityMatched.class.getSimpleName() + "[", "]")
         .add("key=" + key)
-        .add("self=" + selfLink)
+        .add("selfLink=" + selfLink)
         .add("name='" + name + "'")
         .add("code='" + code + "'")
+        .add("active='" + active + "'")
         .toString();
   }
 }

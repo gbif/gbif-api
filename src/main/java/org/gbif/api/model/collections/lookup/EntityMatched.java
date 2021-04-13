@@ -28,4 +28,6 @@ public interface EntityMatched extends Serializable {
   String getName();
 
   String getCode();
+
+  boolean isActive();
 }
