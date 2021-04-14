@@ -25,6 +25,7 @@ import org.gbif.api.model.pipelines.ws.PipelineProcessParameters;
 import org.gbif.api.model.pipelines.ws.PipelineStepParameters;
 import org.gbif.api.model.pipelines.ws.RunAllParams;
 
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -122,6 +123,7 @@ public interface PipelinesHistoryService {
    * @param useLastSuccessful true if we want to run the latest successful attempt
    * @param markPreviousAttemptAsFailed previous status can't be wrong, when CLI restarted during processing a dataset
    * @param runAllParams parameters, contain datasets to exclude
+   * @param interpretTypes is used for partial interpretation such as only TAXONOMY, METADATA and etc
    * @return {@link RunPipelineResponse}.
    */
   RunPipelineResponse runAll(
@@ -129,7 +131,8 @@ public interface PipelinesHistoryService {
       @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
       boolean useLastSuccessful,
       boolean markPreviousAttemptAsFailed,
-      @Nullable RunAllParams runAllParams);
+      @Nullable RunAllParams runAllParams,
+      @Nullable Set<String> interpretTypes);
 
   /**
    * Restart last failed pipelines step for a dataset.
@@ -139,6 +142,7 @@ public interface PipelinesHistoryService {
    * @param reason reason to run
    * @param useLastSuccessful true if we want to run the latest successful attempt
    * @param markPreviousAttemptAsFailed previous status can't be wrong, when CLI restarted during processing a dataset
+   * @param interpretTypes is used for partial interpretation such as only TAXONOMY, METADATA and etc
    * @return {@link RunPipelineResponse}.
    */
   RunPipelineResponse runPipelineAttempt(
@@ -146,7 +150,8 @@ public interface PipelinesHistoryService {
       @NotBlank(message = STEPS_REQUIRED_MESSAGE) String steps,
       @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
       boolean useLastSuccessful,
-      boolean markPreviousAttemptAsFailed);
+      boolean markPreviousAttemptAsFailed,
+      @Nullable Set<String> interpretTypes);
 
   /**
    * Re-run a pipeline step.
@@ -156,6 +161,7 @@ public interface PipelinesHistoryService {
    * @param steps steps to run
    * @param reason reason to run
    * @param markPreviousAttemptAsFailed previous status can't be wrong, when CLI restarted during processing a dataset
+   * @param interpretTypes is used for partial interpretation such as only TAXONOMY, METADATA and etc
    * @return {@link RunPipelineResponse}.
    */
   RunPipelineResponse runPipelineAttempt(
@@ -163,5 +169,6 @@ public interface PipelinesHistoryService {
       int attempt,
       @NotBlank(message = STEPS_REQUIRED_MESSAGE) String steps,
       @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
-      boolean markPreviousAttemptAsFailed);
+      boolean markPreviousAttemptAsFailed,
+      @Nullable Set<String> interpretTypes);
 }
