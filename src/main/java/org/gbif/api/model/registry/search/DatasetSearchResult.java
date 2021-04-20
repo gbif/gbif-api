@@ -48,6 +48,8 @@ public class DatasetSearchResult {
   private Country publishingCountry;
   private UUID publishingOrganizationKey;
   private String publishingOrganizationTitle;
+  private UUID networkKey;
+  private String networkTitle;
   private License license;
   private List<Integer> decades;
   private List<String> keywords;
@@ -180,6 +182,22 @@ public class DatasetSearchResult {
 
   public void setPublishingOrganizationTitle(String publishingOrganizationTitle) {
     this.publishingOrganizationTitle = publishingOrganizationTitle;
+  }
+
+  public UUID getNetworkKey() {
+    return networkKey;
+  }
+
+  public void setNetworkKey(UUID networkKey) {
+    this.networkKey = networkKey;
+  }
+
+  public String getNetworkTitle() {
+    return networkTitle;
+  }
+
+  public void setNetworkTitle(String networkTitle) {
+    this.networkTitle = networkTitle;
   }
 
   public License getLicense() {
