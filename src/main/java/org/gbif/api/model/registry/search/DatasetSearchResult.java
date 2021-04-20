@@ -48,8 +48,7 @@ public class DatasetSearchResult {
   private Country publishingCountry;
   private UUID publishingOrganizationKey;
   private String publishingOrganizationTitle;
-  private UUID networkKey;
-  private String networkTitle;
+  private List<UUID> networkKeys;
   private License license;
   private List<Integer> decades;
   private List<String> keywords;
@@ -184,20 +183,12 @@ public class DatasetSearchResult {
     this.publishingOrganizationTitle = publishingOrganizationTitle;
   }
 
-  public UUID getNetworkKey() {
-    return networkKey;
+  public List<UUID> getNetworkKeys() {
+    return networkKeys;
   }
 
-  public void setNetworkKey(UUID networkKey) {
-    this.networkKey = networkKey;
-  }
-
-  public String getNetworkTitle() {
-    return networkTitle;
-  }
-
-  public void setNetworkTitle(String networkTitle) {
-    this.networkTitle = networkTitle;
+  public void setNetworkKeys(List<UUID> networkKeys) {
+    this.networkKeys = networkKeys;
   }
 
   public License getLicense() {
@@ -268,7 +259,8 @@ public class DatasetSearchResult {
       Objects.equals(decades, that.decades) &&
       Objects.equals(keywords, that.keywords) &&
       Objects.equals(projectIdentifier, that.projectIdentifier) &&
-      Objects.equals(recordCount, that.recordCount);
+      Objects.equals(recordCount, that.recordCount) &&
+      Objects.equals(networkKeys, that.networkKeys);
   }
 
   @Override
@@ -276,7 +268,7 @@ public class DatasetSearchResult {
     return Objects.hash(key, title, doi, description, type, subtype, fullText, hostingOrganizationKey,
       hostingOrganizationTitle, publisherTitle, countryCoverage, continent, publishingCountry,
       publishingOrganizationKey, publishingOrganizationTitle, license, decades, keywords,
-      projectIdentifier, recordCount);
+      projectIdentifier, recordCount, networkKeys);
   }
 
   @Override
@@ -302,6 +294,7 @@ public class DatasetSearchResult {
       .add("keywords=" + keywords)
       .add("projectIdentifier='" + projectIdentifier + "'")
       .add("recordCount=" + recordCount)
+      .add("networkKeys=" + networkKeys)
       .toString();
   }
 }
