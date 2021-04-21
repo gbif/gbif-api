@@ -60,6 +60,7 @@ import javax.validation.constraints.Size;
  * <li>version</li>
  * <li>installationKey</li>
  * <li>publishingOrganizationKey</li>
+ * <li>networkKeys</li>
  * <li>license</li>
  * <li>maintenanceUpdateFrequency</li>
  * <li>external</li>
@@ -101,6 +102,7 @@ public class Dataset
   private UUID duplicateOfDatasetKey;
   private UUID installationKey;
   private UUID publishingOrganizationKey;
+  private List<UUID> networkKeys;
   private DOI doi;
   private String version;
   private boolean external;
@@ -290,6 +292,17 @@ public class Dataset
    */
   public void setPublishingOrganizationKey(UUID publishingOrganizationKey) {
     this.publishingOrganizationKey = publishingOrganizationKey;
+  }
+
+  /**
+   * Networks in which this dataset is a constituent.
+   */
+  public List<UUID> getNetworkKeys() {
+    return networkKeys;
+  }
+
+  public void setNetworkKeys(List<UUID> networkKeys) {
+    this.networkKeys = networkKeys;
   }
 
   /**
@@ -765,6 +778,7 @@ public class Dataset
         && Objects.equals(duplicateOfDatasetKey, dataset.duplicateOfDatasetKey)
         && Objects.equals(installationKey, dataset.installationKey)
         && Objects.equals(publishingOrganizationKey, dataset.publishingOrganizationKey)
+        && Objects.equals(networkKeys, dataset.networkKeys)
         && Objects.equals(doi, dataset.doi)
         && Objects.equals(version, dataset.version)
         && type == dataset.type
@@ -818,6 +832,7 @@ public class Dataset
         duplicateOfDatasetKey,
         installationKey,
         publishingOrganizationKey,
+        networkKeys,
         doi,
         version,
         external,
@@ -874,6 +889,7 @@ public class Dataset
         .add("duplicateOfDatasetKey=" + duplicateOfDatasetKey)
         .add("installationKey=" + installationKey)
         .add("publishingOrganizationKey=" + publishingOrganizationKey)
+        .add("networkKeys=" + networkKeys)
         .add("doi=" + doi)
         .add("version='" + version + "'")
         .add("external=" + external)
@@ -936,6 +952,7 @@ public class Dataset
         && Objects.equals(this.duplicateOfDatasetKey, other.duplicateOfDatasetKey)
         && Objects.equals(this.installationKey, other.installationKey)
         && Objects.equals(this.publishingOrganizationKey, other.publishingOrganizationKey)
+        && Objects.equals(this.networkKeys, other.networkKeys)
         && Objects.equals(this.doi, other.doi)
         && Objects.equals(this.external, other.external)
         && Objects.equals(this.type, other.type)
