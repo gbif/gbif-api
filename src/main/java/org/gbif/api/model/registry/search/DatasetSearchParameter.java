@@ -126,7 +126,13 @@ public enum DatasetSearchParameter implements SearchParameter {
   /**
    * DOI associated to one more dataset.
    */
-  DOI(String.class);
+  DOI(String.class),
+
+
+  /**
+   * Network key associated to the dataset.
+   */
+  NETWORK_KEY(UUID.class);
 
   DatasetSearchParameter(Class<?> type) {
     this.type = type;
