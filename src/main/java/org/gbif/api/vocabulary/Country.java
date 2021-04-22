@@ -47,10 +47,14 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
  *
  * <p>Titles are taken from the ISO standard short name in all cases.
  *
- * <p>GBIF Regions are based on <a href="https://www.nature.com/articles/sdata20167/figures/1">IPBES regions</a>.
- * The source for GBIF Regions is the participant entities in the GBIF Directory, which are synchronized with
+ * <p>GBIF Regions are based on <a href="https://www.nature.com/articles/sdata20167/figures/1">IPBES regions</a>,
+ * also <a href="https://doi.org/10.5281/zenodo.3928281">available as a CSV list</a>.
+ *
+ * <p>The source for GBIF Regions is the participant entities in the GBIF Directory, which are synchronized with
  * {@link org.gbif.api.model.registry.Node}s in the Registry.  They are <strong>also</strong> recorded here,
- * to provide regions for countries that are not GBIF members.
+ * to provide regions for countries/territories that are not GBIF members.
+ *
+ * <p>The regions follow IPBES regions, except for Antarctic territories, as there was no IPBES report for these.
  *
  * @see <a href="https://www.iso.org/obp/ui/#search">ISO Online Browsing Platform</a>
  * @see <a href="https://datahub.io/core/country-codes">ISO 3166 in the Open Knowledge International database</a>
@@ -313,7 +317,7 @@ public enum Country {
   /**
    * Cocos (Keeling) Islands.
    */
-  COCOS_ISLANDS("CC", "CCK", 166, "Cocos (Keeling) Islands", GbifRegion.AFRICA),
+  COCOS_ISLANDS("CC", "CCK", 166, "Cocos (Keeling) Islands", GbifRegion.ASIA),
 
   /**
    * Colombia.
@@ -508,7 +512,7 @@ public enum Country {
   /**
    * Greenland.
    */
-  GREENLAND("GL", "GRL", 304, "Greenland", GbifRegion.EUROPE),
+  GREENLAND("GL", "GRL", 304, "Greenland", GbifRegion.NORTH_AMERICA),
 
   /**
    * Grenada.
