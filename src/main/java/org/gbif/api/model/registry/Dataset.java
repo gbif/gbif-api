@@ -952,7 +952,6 @@ public class Dataset
         && Objects.equals(this.duplicateOfDatasetKey, other.duplicateOfDatasetKey)
         && Objects.equals(this.installationKey, other.installationKey)
         && Objects.equals(this.publishingOrganizationKey, other.publishingOrganizationKey)
-        && Objects.equals(this.networkKeys, other.networkKeys)
         && Objects.equals(this.doi, other.doi)
         && Objects.equals(this.external, other.external)
         && Objects.equals(this.type, other.type)
