@@ -15,7 +15,6 @@
  */
 package org.gbif.api.model.collections;
 
-import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.vocabulary.Country;
 
@@ -24,7 +23,6 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 /**
@@ -44,7 +42,6 @@ public class Address implements Serializable {
    * Unique identifier, assigned by the persistence store.
    */
   @Null(groups = {PrePersist.class})
-  @NotNull(groups = {PostPersist.class})
   public Integer getKey() {
     return key;
   }
