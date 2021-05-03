@@ -48,6 +48,7 @@ import java.util.UUID;
   private Country publishingCountry;
   private UUID publishingOrganizationKey;
   private String publishingOrganizationTitle;
+  private List&lt;UUID&gt; networkKeys;
   private License license;
   private List&lt;Integer&gt; decades;
   private List&lt;String&gt; keywords;
@@ -55,236 +56,246 @@ import java.util.UUID;
   private Integer recordCount;
 
   public UUID getKey() {
-<span class="nc" id="L58">    return key;</span>
+<span class="nc" id="L59">    return key;</span>
   }
 
   public void setKey(UUID key) {
-<span class="nc" id="L62">    this.key = key;</span>
-<span class="nc" id="L63">  }</span>
+<span class="nc" id="L63">    this.key = key;</span>
+<span class="nc" id="L64">  }</span>
 
   public String getTitle() {
-<span class="nc" id="L66">    return title;</span>
+<span class="nc" id="L67">    return title;</span>
   }
 
   public void setTitle(String title) {
-<span class="nc" id="L70">    this.title = title;</span>
-<span class="nc" id="L71">  }</span>
+<span class="nc" id="L71">    this.title = title;</span>
+<span class="nc" id="L72">  }</span>
 
   public DOI getDoi() {
-<span class="nc" id="L74">    return doi;</span>
+<span class="nc" id="L75">    return doi;</span>
   }
 
   public void setDoi(DOI doi) {
-<span class="nc" id="L78">    this.doi = doi;</span>
-<span class="nc" id="L79">  }</span>
+<span class="nc" id="L79">    this.doi = doi;</span>
+<span class="nc" id="L80">  }</span>
 
   public String getDescription() {
-<span class="nc" id="L82">    return description;</span>
+<span class="nc" id="L83">    return description;</span>
   }
 
   public void setDescription(String description) {
-<span class="nc" id="L86">    this.description = description;</span>
-<span class="nc" id="L87">  }</span>
+<span class="nc" id="L87">    this.description = description;</span>
+<span class="nc" id="L88">  }</span>
 
   public DatasetType getType() {
-<span class="nc" id="L90">    return type;</span>
+<span class="nc" id="L91">    return type;</span>
   }
 
   public void setType(DatasetType type) {
-<span class="nc" id="L94">    this.type = type;</span>
-<span class="nc" id="L95">  }</span>
+<span class="nc" id="L95">    this.type = type;</span>
+<span class="nc" id="L96">  }</span>
 
   public DatasetSubtype getSubtype() {
-<span class="nc" id="L98">    return subtype;</span>
+<span class="nc" id="L99">    return subtype;</span>
   }
 
   public void setSubtype(DatasetSubtype subtype) {
-<span class="nc" id="L102">    this.subtype = subtype;</span>
-<span class="nc" id="L103">  }</span>
+<span class="nc" id="L103">    this.subtype = subtype;</span>
+<span class="nc" id="L104">  }</span>
 
   public String getFullText() {
-<span class="nc" id="L106">    return fullText;</span>
+<span class="nc" id="L107">    return fullText;</span>
   }
 
   public void setFullText(String fullText) {
-<span class="nc" id="L110">    this.fullText = fullText;</span>
-<span class="nc" id="L111">  }</span>
+<span class="nc" id="L111">    this.fullText = fullText;</span>
+<span class="nc" id="L112">  }</span>
 
   public UUID getHostingOrganizationKey() {
-<span class="nc" id="L114">    return hostingOrganizationKey;</span>
+<span class="nc" id="L115">    return hostingOrganizationKey;</span>
   }
 
   public void setHostingOrganizationKey(UUID hostingOrganizationKey) {
-<span class="nc" id="L118">    this.hostingOrganizationKey = hostingOrganizationKey;</span>
-<span class="nc" id="L119">  }</span>
+<span class="nc" id="L119">    this.hostingOrganizationKey = hostingOrganizationKey;</span>
+<span class="nc" id="L120">  }</span>
 
   public String getHostingOrganizationTitle() {
-<span class="nc" id="L122">    return hostingOrganizationTitle;</span>
+<span class="nc" id="L123">    return hostingOrganizationTitle;</span>
   }
 
   public void setHostingOrganizationTitle(String hostingOrganizationTitle) {
-<span class="nc" id="L126">    this.hostingOrganizationTitle = hostingOrganizationTitle;</span>
-<span class="nc" id="L127">  }</span>
+<span class="nc" id="L127">    this.hostingOrganizationTitle = hostingOrganizationTitle;</span>
+<span class="nc" id="L128">  }</span>
 
   public String getPublisherTitle() {
-<span class="nc" id="L130">    return publisherTitle;</span>
+<span class="nc" id="L131">    return publisherTitle;</span>
   }
 
   public void setPublisherTitle(String publisherTitle) {
-<span class="nc" id="L134">    this.publisherTitle = publisherTitle;</span>
-<span class="nc" id="L135">  }</span>
+<span class="nc" id="L135">    this.publisherTitle = publisherTitle;</span>
+<span class="nc" id="L136">  }</span>
 
   /**
    * Currently not populated.
    * TODO: http://dev.gbif.org/issues/browse/REG-393
    */
   public Set&lt;Country&gt; getCountryCoverage() {
-<span class="nc" id="L142">    return countryCoverage;</span>
+<span class="nc" id="L143">    return countryCoverage;</span>
   }
 
   public void setCountryCoverage(Set&lt;Country&gt; countryCoverage) {
-<span class="nc" id="L146">    this.countryCoverage = countryCoverage;</span>
-<span class="nc" id="L147">  }</span>
+<span class="nc" id="L147">    this.countryCoverage = countryCoverage;</span>
+<span class="nc" id="L148">  }</span>
 
   /**
    * Currently not populated.
    * TODO: http://dev.gbif.org/issues/browse/REG-393
    */
   public Set&lt;Continent&gt; getContinent() {
-<span class="nc" id="L154">    return continent;</span>
+<span class="nc" id="L155">    return continent;</span>
   }
 
   public void setContinent(Set&lt;Continent&gt; continent) {
-<span class="nc" id="L158">    this.continent = continent;</span>
-<span class="nc" id="L159">  }</span>
+<span class="nc" id="L159">    this.continent = continent;</span>
+<span class="nc" id="L160">  }</span>
 
   public Country getPublishingCountry() {
-<span class="nc" id="L162">    return publishingCountry;</span>
+<span class="nc" id="L163">    return publishingCountry;</span>
   }
 
   public void setPublishingCountry(Country publishingCountry) {
-<span class="nc" id="L166">    this.publishingCountry = publishingCountry;</span>
-<span class="nc" id="L167">  }</span>
+<span class="nc" id="L167">    this.publishingCountry = publishingCountry;</span>
+<span class="nc" id="L168">  }</span>
 
   public UUID getPublishingOrganizationKey() {
-<span class="nc" id="L170">    return publishingOrganizationKey;</span>
+<span class="nc" id="L171">    return publishingOrganizationKey;</span>
   }
 
   public void setPublishingOrganizationKey(UUID publishingOrganizationKey) {
-<span class="nc" id="L174">    this.publishingOrganizationKey = publishingOrganizationKey;</span>
-<span class="nc" id="L175">  }</span>
+<span class="nc" id="L175">    this.publishingOrganizationKey = publishingOrganizationKey;</span>
+<span class="nc" id="L176">  }</span>
 
   public String getPublishingOrganizationTitle() {
-<span class="nc" id="L178">    return publishingOrganizationTitle;</span>
+<span class="nc" id="L179">    return publishingOrganizationTitle;</span>
   }
 
   public void setPublishingOrganizationTitle(String publishingOrganizationTitle) {
-<span class="nc" id="L182">    this.publishingOrganizationTitle = publishingOrganizationTitle;</span>
-<span class="nc" id="L183">  }</span>
+<span class="nc" id="L183">    this.publishingOrganizationTitle = publishingOrganizationTitle;</span>
+<span class="nc" id="L184">  }</span>
+
+  public List&lt;UUID&gt; getNetworkKeys() {
+<span class="nc" id="L187">    return networkKeys;</span>
+  }
+
+  public void setNetworkKeys(List&lt;UUID&gt; networkKeys) {
+<span class="nc" id="L191">    this.networkKeys = networkKeys;</span>
+<span class="nc" id="L192">  }</span>
 
   public License getLicense() {
-<span class="nc" id="L186">    return license;</span>
+<span class="nc" id="L195">    return license;</span>
   }
 
   public void setLicense(License license) {
-<span class="nc" id="L190">    this.license = license;</span>
-<span class="nc" id="L191">  }</span>
+<span class="nc" id="L199">    this.license = license;</span>
+<span class="nc" id="L200">  }</span>
 
   public List&lt;Integer&gt; getDecades() {
-<span class="nc" id="L194">    return decades;</span>
+<span class="nc" id="L203">    return decades;</span>
   }
 
   public void setDecades(List&lt;Integer&gt; decades) {
-<span class="nc" id="L198">    this.decades = decades;</span>
-<span class="nc" id="L199">  }</span>
+<span class="nc" id="L207">    this.decades = decades;</span>
+<span class="nc" id="L208">  }</span>
 
   public List&lt;String&gt; getKeywords() {
-<span class="nc" id="L202">    return keywords;</span>
+<span class="nc" id="L211">    return keywords;</span>
   }
 
   public void setKeywords(List&lt;String&gt; keywords) {
-<span class="nc" id="L206">    this.keywords = keywords;</span>
-<span class="nc" id="L207">  }</span>
+<span class="nc" id="L215">    this.keywords = keywords;</span>
+<span class="nc" id="L216">  }</span>
 
   public String getProjectIdentifier() {
-<span class="nc" id="L210">    return projectIdentifier;</span>
+<span class="nc" id="L219">    return projectIdentifier;</span>
   }
 
   public void setProjectIdentifier(String projectIdentifier) {
-<span class="nc" id="L214">    this.projectIdentifier = projectIdentifier;</span>
-<span class="nc" id="L215">  }</span>
+<span class="nc" id="L223">    this.projectIdentifier = projectIdentifier;</span>
+<span class="nc" id="L224">  }</span>
 
   public Integer getRecordCount() {
-<span class="nc" id="L218">    return recordCount;</span>
+<span class="nc" id="L227">    return recordCount;</span>
   }
 
   public void setRecordCount(Integer recordCount) {
-<span class="nc" id="L222">    this.recordCount = recordCount;</span>
-<span class="nc" id="L223">  }</span>
+<span class="nc" id="L231">    this.recordCount = recordCount;</span>
+<span class="nc" id="L232">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L227" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L228">      return true;</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L237">      return true;</span>
     }
-<span class="nc bnc" id="L230" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L231">      return false;</span>
+<span class="nc bnc" id="L239" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L240">      return false;</span>
     }
-<span class="nc" id="L233">    DatasetSearchResult that = (DatasetSearchResult) o;</span>
-<span class="nc bnc" id="L234" title="All 2 branches missed.">    return Objects.equals(key, that.key) &amp;&amp;</span>
-<span class="nc bnc" id="L235" title="All 2 branches missed.">      Objects.equals(title, that.title) &amp;&amp;</span>
-<span class="nc bnc" id="L236" title="All 2 branches missed.">      Objects.equals(doi, that.doi) &amp;&amp;</span>
-<span class="nc bnc" id="L237" title="All 6 branches missed.">      Objects.equals(description, that.description) &amp;&amp;</span>
+<span class="nc" id="L242">    DatasetSearchResult that = (DatasetSearchResult) o;</span>
+<span class="nc bnc" id="L243" title="All 2 branches missed.">    return Objects.equals(key, that.key) &amp;&amp;</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">      Objects.equals(title, that.title) &amp;&amp;</span>
+<span class="nc bnc" id="L245" title="All 2 branches missed.">      Objects.equals(doi, that.doi) &amp;&amp;</span>
+<span class="nc bnc" id="L246" title="All 6 branches missed.">      Objects.equals(description, that.description) &amp;&amp;</span>
       type == that.type &amp;&amp;
       subtype == that.subtype &amp;&amp;
-<span class="nc bnc" id="L240" title="All 2 branches missed.">      Objects.equals(fullText, that.fullText) &amp;&amp;</span>
-<span class="nc bnc" id="L241" title="All 2 branches missed.">      Objects.equals(hostingOrganizationKey, that.hostingOrganizationKey) &amp;&amp;</span>
-<span class="nc bnc" id="L242" title="All 2 branches missed.">      Objects.equals(hostingOrganizationTitle, that.hostingOrganizationTitle) &amp;&amp;</span>
-<span class="nc bnc" id="L243" title="All 2 branches missed.">      Objects.equals(publisherTitle, that.publisherTitle) &amp;&amp;</span>
-<span class="nc bnc" id="L244" title="All 2 branches missed.">      Objects.equals(countryCoverage, that.countryCoverage) &amp;&amp;</span>
-<span class="nc bnc" id="L245" title="All 4 branches missed.">      Objects.equals(continent, that.continent) &amp;&amp;</span>
+<span class="nc bnc" id="L249" title="All 2 branches missed.">      Objects.equals(fullText, that.fullText) &amp;&amp;</span>
+<span class="nc bnc" id="L250" title="All 2 branches missed.">      Objects.equals(hostingOrganizationKey, that.hostingOrganizationKey) &amp;&amp;</span>
+<span class="nc bnc" id="L251" title="All 2 branches missed.">      Objects.equals(hostingOrganizationTitle, that.hostingOrganizationTitle) &amp;&amp;</span>
+<span class="nc bnc" id="L252" title="All 2 branches missed.">      Objects.equals(publisherTitle, that.publisherTitle) &amp;&amp;</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">      Objects.equals(countryCoverage, that.countryCoverage) &amp;&amp;</span>
+<span class="nc bnc" id="L254" title="All 4 branches missed.">      Objects.equals(continent, that.continent) &amp;&amp;</span>
       publishingCountry == that.publishingCountry &amp;&amp;
-<span class="nc bnc" id="L247" title="All 2 branches missed.">      Objects.equals(publishingOrganizationKey, that.publishingOrganizationKey) &amp;&amp;</span>
-<span class="nc bnc" id="L248" title="All 4 branches missed.">      Objects.equals(publishingOrganizationTitle, that.publishingOrganizationTitle) &amp;&amp;</span>
+<span class="nc bnc" id="L256" title="All 2 branches missed.">      Objects.equals(publishingOrganizationKey, that.publishingOrganizationKey) &amp;&amp;</span>
+<span class="nc bnc" id="L257" title="All 4 branches missed.">      Objects.equals(publishingOrganizationTitle, that.publishingOrganizationTitle) &amp;&amp;</span>
       license == that.license &amp;&amp;
-<span class="nc bnc" id="L250" title="All 2 branches missed.">      Objects.equals(decades, that.decades) &amp;&amp;</span>
-<span class="nc bnc" id="L251" title="All 2 branches missed.">      Objects.equals(keywords, that.keywords) &amp;&amp;</span>
-<span class="nc bnc" id="L252" title="All 2 branches missed.">      Objects.equals(projectIdentifier, that.projectIdentifier) &amp;&amp;</span>
-<span class="nc bnc" id="L253" title="All 2 branches missed.">      Objects.equals(recordCount, that.recordCount);</span>
+<span class="nc bnc" id="L259" title="All 2 branches missed.">      Objects.equals(decades, that.decades) &amp;&amp;</span>
+<span class="nc bnc" id="L260" title="All 2 branches missed.">      Objects.equals(keywords, that.keywords) &amp;&amp;</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">      Objects.equals(projectIdentifier, that.projectIdentifier) &amp;&amp;</span>
+<span class="nc bnc" id="L262" title="All 2 branches missed.">      Objects.equals(recordCount, that.recordCount) &amp;&amp;</span>
+<span class="nc bnc" id="L263" title="All 2 branches missed.">      Objects.equals(networkKeys, that.networkKeys);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L258">    return Objects.hash(key, title, doi, description, type, subtype, fullText, hostingOrganizationKey,</span>
+<span class="nc" id="L268">    return Objects.hash(key, title, doi, description, type, subtype, fullText, hostingOrganizationKey,</span>
       hostingOrganizationTitle, publisherTitle, countryCoverage, continent, publishingCountry,
       publishingOrganizationKey, publishingOrganizationTitle, license, decades, keywords,
-      projectIdentifier, recordCount);
+      projectIdentifier, recordCount, networkKeys);
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L266">    return new StringJoiner(&quot;, &quot;, DatasetSearchResult.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L267">      .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L268">      .add(&quot;title='&quot; + title + &quot;'&quot;)</span>
-<span class="nc" id="L269">      .add(&quot;doi='&quot; + doi + &quot;'&quot;)</span>
-<span class="nc" id="L270">      .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
-<span class="nc" id="L271">      .add(&quot;type=&quot; + type)</span>
-<span class="nc" id="L272">      .add(&quot;subtype=&quot; + subtype)</span>
-<span class="nc" id="L273">      .add(&quot;fullText='&quot; + fullText + &quot;'&quot;)</span>
-<span class="nc" id="L274">      .add(&quot;hostingOrganizationKey=&quot; + hostingOrganizationKey)</span>
-<span class="nc" id="L275">      .add(&quot;hostingOrganizationTitle='&quot; + hostingOrganizationTitle + &quot;'&quot;)</span>
-<span class="nc" id="L276">      .add(&quot;publisherTitle='&quot; + publisherTitle + &quot;'&quot;)</span>
-<span class="nc" id="L277">      .add(&quot;countryCoverage=&quot; + countryCoverage)</span>
-<span class="nc" id="L278">      .add(&quot;continent=&quot; + continent)</span>
-<span class="nc" id="L279">      .add(&quot;publishingCountry=&quot; + publishingCountry)</span>
-<span class="nc" id="L280">      .add(&quot;publishingOrganizationKey=&quot; + publishingOrganizationKey)</span>
-<span class="nc" id="L281">      .add(&quot;publishingOrganizationTitle='&quot; + publishingOrganizationTitle + &quot;'&quot;)</span>
-<span class="nc" id="L282">      .add(&quot;license=&quot; + license)</span>
-<span class="nc" id="L283">      .add(&quot;decades=&quot; + decades)</span>
-<span class="nc" id="L284">      .add(&quot;keywords=&quot; + keywords)</span>
-<span class="nc" id="L285">      .add(&quot;projectIdentifier='&quot; + projectIdentifier + &quot;'&quot;)</span>
-<span class="nc" id="L286">      .add(&quot;recordCount=&quot; + recordCount)</span>
-<span class="nc" id="L287">      .toString();</span>
+<span class="nc" id="L276">    return new StringJoiner(&quot;, &quot;, DatasetSearchResult.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L277">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L278">      .add(&quot;title='&quot; + title + &quot;'&quot;)</span>
+<span class="nc" id="L279">      .add(&quot;doi='&quot; + doi + &quot;'&quot;)</span>
+<span class="nc" id="L280">      .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
+<span class="nc" id="L281">      .add(&quot;type=&quot; + type)</span>
+<span class="nc" id="L282">      .add(&quot;subtype=&quot; + subtype)</span>
+<span class="nc" id="L283">      .add(&quot;fullText='&quot; + fullText + &quot;'&quot;)</span>
+<span class="nc" id="L284">      .add(&quot;hostingOrganizationKey=&quot; + hostingOrganizationKey)</span>
+<span class="nc" id="L285">      .add(&quot;hostingOrganizationTitle='&quot; + hostingOrganizationTitle + &quot;'&quot;)</span>
+<span class="nc" id="L286">      .add(&quot;publisherTitle='&quot; + publisherTitle + &quot;'&quot;)</span>
+<span class="nc" id="L287">      .add(&quot;countryCoverage=&quot; + countryCoverage)</span>
+<span class="nc" id="L288">      .add(&quot;continent=&quot; + continent)</span>
+<span class="nc" id="L289">      .add(&quot;publishingCountry=&quot; + publishingCountry)</span>
+<span class="nc" id="L290">      .add(&quot;publishingOrganizationKey=&quot; + publishingOrganizationKey)</span>
+<span class="nc" id="L291">      .add(&quot;publishingOrganizationTitle='&quot; + publishingOrganizationTitle + &quot;'&quot;)</span>
+<span class="nc" id="L292">      .add(&quot;license=&quot; + license)</span>
+<span class="nc" id="L293">      .add(&quot;decades=&quot; + decades)</span>
+<span class="nc" id="L294">      .add(&quot;keywords=&quot; + keywords)</span>
+<span class="nc" id="L295">      .add(&quot;projectIdentifier='&quot; + projectIdentifier + &quot;'&quot;)</span>
+<span class="nc" id="L296">      .add(&quot;recordCount=&quot; + recordCount)</span>
+<span class="nc" id="L297">      .add(&quot;networkKeys=&quot; + networkKeys)</span>
+<span class="nc" id="L298">      .toString();</span>
   }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

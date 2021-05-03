@@ -13,7 +13,7 @@
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> * You may obtain a copy of the License at</em>
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> *</em>
-<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> *     <a href="http://www.apache.org/licenses/LICENSE-2." target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.</a>0</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> *     <a href="http://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.0</a></em>
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_comment"> *</em>
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
 <a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
@@ -56,9 +56,9 @@
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> * &lt;p&gt;</em>
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> * We therefore accept all combinations.</em>
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_javadoccomment"> * &lt;p&gt;</em>
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment"> * https://github.com/gbif/portal-feedback/issues/2046</em>
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment"> * <a href="https://github.com/gbif/portal-feedback/issues/2046" target="alexandria_uri">https://github.com/gbif/portal-feedback/issues/2046</a></em>
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/gbif/api/jackson/DownloadRequestSerde.html">DownloadRequestSerde</a> <strong class="jxr_keyword">extends</strong> JsonDeserializer&lt;DownloadRequest&gt; {
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="DownloadRequestSerde" href="../../../../org/gbif/api/jackson/DownloadRequestSerde.html#DownloadRequestSerde">DownloadRequestSerde</a> <strong class="jxr_keyword">extends</strong> JsonDeserializer&lt;DownloadRequest&gt; {
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String PREDICATE = <span class="jxr_string">"predicate"</span>;
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> List&lt;String&gt; SEND_NOTIFICATION = Collections
@@ -73,14 +73,14 @@
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> ObjectMapper MAPPER = <strong class="jxr_keyword">new</strong> ObjectMapper();
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>  
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>    @Override
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../org/gbif/api/model/occurrence/DownloadRequest.html">DownloadRequest</a> deserialize(JsonParser jp, DeserializationContext ctxt) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>    <strong class="jxr_keyword">public</strong> <a name="DownloadRequest" href="../../../../org/gbif/api/model/occurrence/DownloadRequest.html#DownloadRequest">DownloadRequest</a> deserialize(JsonParser jp, DeserializationContext ctxt) <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>      JsonNode node = jp.getCodec().readTree(jp);
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>      LOG.debug(<span class="jxr_string">"DownloadRequest for deserialization: {}"</span>, node);
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>      <em class="jxr_comment">//at least one element must be defined</em>
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>      <strong class="jxr_keyword">if</strong> (node.size() == 0) {
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>        <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>      }
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>      <a href="../../../../org/gbif/api/model/occurrence/DownloadFormat.html">DownloadFormat</a> format = Optional.ofNullable(node.get(FORMAT))
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>      <a name="DownloadFormat" href="../../../../org/gbif/api/model/occurrence/DownloadFormat.html#DownloadFormat">DownloadFormat</a> format = Optional.ofNullable(node.get(FORMAT))
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>        .map(n -&gt; VocabularyUtils.lookupEnum(n.asText(), DownloadFormat.<strong class="jxr_keyword">class</strong>)).orElse(DownloadFormat.DWCA);
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>      String creator = Optional.ofNullable(node.get(CREATOR)).map(JsonNode::asText).orElse(<strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>  
@@ -101,8 +101,8 @@
 <a class="jxr_linenumber" name="L93" href="#L93">93</a>      }
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>  
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>      JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(<strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>      <a href="../../../../org/gbif/api/model/occurrence/predicate/Predicate.html">Predicate</a> predicateObj = predicate == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : MAPPER.treeToValue(predicate, Predicate.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>      <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/gbif/api/model/occurrence/PredicateDownloadRequest.html">PredicateDownloadRequest</a>(predicateObj, creator, notificationAddresses, sendNotification, format);
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>      Predicate predicateObj = predicate == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : MAPPER.treeToValue(predicate, Predicate.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>      <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a name="PredicateDownloadRequest" href="../../../../org/gbif/api/model/occurrence/PredicateDownloadRequest.html#PredicateDownloadRequest">PredicateDownloadRequest</a>(predicateObj, creator, notificationAddresses, sendNotification, format);
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>    }
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>  }
 </pre>

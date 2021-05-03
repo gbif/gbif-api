@@ -60,6 +60,7 @@ import javax.validation.constraints.Size;
  * &lt;li&gt;version&lt;/li&gt;
  * &lt;li&gt;installationKey&lt;/li&gt;
  * &lt;li&gt;publishingOrganizationKey&lt;/li&gt;
+ * &lt;li&gt;networkKeys&lt;/li&gt;
  * &lt;li&gt;license&lt;/li&gt;
  * &lt;li&gt;maintenanceUpdateFrequency&lt;/li&gt;
  * &lt;li&gt;external&lt;/li&gt;
@@ -86,7 +87,7 @@ import javax.validation.constraints.Size;
  * @see &lt;a href=&quot;http://rs.gbif.org/schema/eml-gbif-profile/dev/eml.xsd&quot;&gt;GBIF EML Profile XML Schema&lt;/a&gt;
  */
 @SuppressWarnings(&quot;unused&quot;)
-<span class="fc" id="L89">public class Dataset</span>
+<span class="fc" id="L90">public class Dataset</span>
     implements NetworkEntity,
     Contactable,
     Endpointable,
@@ -101,6 +102,7 @@ import javax.validation.constraints.Size;
   private UUID duplicateOfDatasetKey;
   private UUID installationKey;
   private UUID publishingOrganizationKey;
+  private List&lt;UUID&gt; networkKeys;
   private DOI doi;
   private String version;
   private boolean external;
@@ -111,11 +113,11 @@ import javax.validation.constraints.Size;
   private String alias;
   private String abbreviation;
   private String description;
-<span class="fc" id="L114">  private Language language = Language.ENGLISH; // sensible default as it is not null</span>
+<span class="fc" id="L116">  private Language language = Language.ENGLISH; // sensible default as it is not null</span>
   private URI homepage;
   private URI logoUrl;
 
-<span class="fc" id="L118">  private Citation citation = new Citation();</span>
+<span class="fc" id="L120">  private Citation citation = new Citation();</span>
   private String rights;
   private boolean lockedForAutoUpdate;
   private String createdBy;
@@ -123,25 +125,25 @@ import javax.validation.constraints.Size;
   private Date created;
   private Date modified;
   private Date deleted;
-<span class="fc" id="L126">  private List&lt;Contact&gt; contacts = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L127">  private List&lt;Endpoint&gt; endpoints = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L128">  private List&lt;MachineTag&gt; machineTags = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L129">  private List&lt;Tag&gt; tags = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L130">  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L131">  private List&lt;Comment&gt; comments = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L128">  private List&lt;Contact&gt; contacts = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L129">  private List&lt;Endpoint&gt; endpoints = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L130">  private List&lt;MachineTag&gt; machineTags = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L131">  private List&lt;Tag&gt; tags = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L132">  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L133">  private List&lt;Comment&gt; comments = new ArrayList&lt;&gt;();</span>
   // EML specific properties which are not persisted on the dataset table!
-<span class="fc" id="L133">  private List&lt;Citation&gt; bibliographicCitations = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L134">  private List&lt;CuratorialUnitComposite&gt; curatorialUnits = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L135">  private List&lt;TaxonomicCoverages&gt; taxonomicCoverages = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L135">  private List&lt;Citation&gt; bibliographicCitations = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L136">  private List&lt;CuratorialUnitComposite&gt; curatorialUnits = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L137">  private List&lt;TaxonomicCoverages&gt; taxonomicCoverages = new ArrayList&lt;&gt;();</span>
   private String geographicCoverageDescription;
-<span class="fc" id="L137">  private List&lt;GeospatialCoverage&gt; geographicCoverages = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L138">  private List&lt;TemporalCoverage&gt; temporalCoverages = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L139">  private List&lt;KeywordCollection&gt; keywordCollections = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L139">  private List&lt;GeospatialCoverage&gt; geographicCoverages = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L140">  private List&lt;TemporalCoverage&gt; temporalCoverages = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L141">  private List&lt;KeywordCollection&gt; keywordCollections = new ArrayList&lt;&gt;();</span>
   private Project project;
   private SamplingDescription samplingDescription;
-<span class="fc" id="L142">  private Set&lt;Country&gt; countryCoverage = new HashSet&lt;&gt;();</span>
-<span class="fc" id="L143">  private List&lt;Collection&gt; collections = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L144">  private List&lt;DataDescription&gt; dataDescriptions = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L144">  private Set&lt;Country&gt; countryCoverage = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L145">  private List&lt;Collection&gt; collections = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L146">  private List&lt;DataDescription&gt; dataDescriptions = new ArrayList&lt;&gt;();</span>
   private Language dataLanguage;
   private String purpose;
   private String additionalInfo;
@@ -152,7 +154,7 @@ import javax.validation.constraints.Size;
 
   @Override
   public UUID getKey() {
-<span class="nc" id="L155">    return key;</span>
+<span class="nc" id="L157">    return key;</span>
   }
 
   /**
@@ -160,21 +162,21 @@ import javax.validation.constraints.Size;
    */
   @Override
   public void setKey(UUID key) {
-<span class="nc" id="L163">    this.key = key;</span>
-<span class="nc" id="L164">  }</span>
+<span class="nc" id="L165">    this.key = key;</span>
+<span class="nc" id="L166">  }</span>
 
   @Nullable
   public String getVersion() {
-<span class="nc" id="L168">    return version;</span>
+<span class="nc" id="L170">    return version;</span>
   }
 
   public void setVersion(String version) {
-<span class="nc" id="L172">    this.version = version;</span>
-<span class="nc" id="L173">  }</span>
+<span class="nc" id="L174">    this.version = version;</span>
+<span class="nc" id="L175">  }</span>
 
   @Override
   public String getTitle() {
-<span class="fc" id="L177">    return title;</span>
+<span class="fc" id="L179">    return title;</span>
   }
 
   /**
@@ -182,13 +184,13 @@ import javax.validation.constraints.Size;
    */
   @Override
   public void setTitle(String title) {
-<span class="fc" id="L185">    this.title = title;</span>
-<span class="fc" id="L186">  }</span>
+<span class="fc" id="L187">    this.title = title;</span>
+<span class="fc" id="L188">  }</span>
 
   @Override
   @Nullable
   public String getDescription() {
-<span class="nc" id="L191">    return description;</span>
+<span class="nc" id="L193">    return description;</span>
   }
 
   /**
@@ -196,12 +198,12 @@ import javax.validation.constraints.Size;
    */
   @Override
   public void setDescription(String description) {
-<span class="nc" id="L199">    this.description = description;</span>
-<span class="nc" id="L200">  }</span>
+<span class="nc" id="L201">    this.description = description;</span>
+<span class="nc" id="L202">  }</span>
 
   @Override
   public Date getCreated() {
-<span class="nc" id="L204">    return created;</span>
+<span class="nc" id="L206">    return created;</span>
   }
 
   /**
@@ -209,12 +211,12 @@ import javax.validation.constraints.Size;
    */
   @Override
   public void setCreated(Date created) {
-<span class="fc" id="L212">    this.created = created;</span>
-<span class="fc" id="L213">  }</span>
+<span class="fc" id="L214">    this.created = created;</span>
+<span class="fc" id="L215">  }</span>
 
   @Override
   public Date getModified() {
-<span class="nc" id="L217">    return modified;</span>
+<span class="nc" id="L219">    return modified;</span>
   }
 
   /**
@@ -222,13 +224,13 @@ import javax.validation.constraints.Size;
    */
   @Override
   public void setModified(Date modified) {
-<span class="nc" id="L225">    this.modified = modified;</span>
-<span class="nc" id="L226">  }</span>
+<span class="nc" id="L227">    this.modified = modified;</span>
+<span class="nc" id="L228">  }</span>
 
   @Override
   @Nullable
   public Date getDeleted() {
-<span class="nc" id="L231">    return deleted;</span>
+<span class="nc" id="L233">    return deleted;</span>
   }
 
   /**
@@ -236,20 +238,20 @@ import javax.validation.constraints.Size;
    */
   @Override
   public void setDeleted(Date deleted) {
-<span class="nc" id="L239">    this.deleted = deleted;</span>
-<span class="nc" id="L240">  }</span>
+<span class="nc" id="L241">    this.deleted = deleted;</span>
+<span class="nc" id="L242">  }</span>
 
   @Nullable
   public UUID getParentDatasetKey() {
-<span class="nc" id="L244">    return parentDatasetKey;</span>
+<span class="nc" id="L246">    return parentDatasetKey;</span>
   }
 
   /**
    * Persisted in the database table.
    */
   public void setParentDatasetKey(UUID parentDatasetKey) {
-<span class="nc" id="L251">    this.parentDatasetKey = parentDatasetKey;</span>
-<span class="nc" id="L252">  }</span>
+<span class="nc" id="L253">    this.parentDatasetKey = parentDatasetKey;</span>
+<span class="nc" id="L254">  }</span>
 
   /**
    * If a dataset is registered with GBIF through more than one place we'll mark all but one as a duplicate by pointing
@@ -258,39 +260,50 @@ import javax.validation.constraints.Size;
    */
   @Nullable
   public UUID getDuplicateOfDatasetKey() {
-<span class="nc" id="L261">    return duplicateOfDatasetKey;</span>
+<span class="nc" id="L263">    return duplicateOfDatasetKey;</span>
   }
 
   /**
    * Persisted in the database table.
    */
   public void setDuplicateOfDatasetKey(UUID duplicateOfDatasetKey) {
-<span class="nc" id="L268">    this.duplicateOfDatasetKey = duplicateOfDatasetKey;</span>
-<span class="nc" id="L269">  }</span>
+<span class="nc" id="L270">    this.duplicateOfDatasetKey = duplicateOfDatasetKey;</span>
+<span class="nc" id="L271">  }</span>
 
   @NotNull
   public UUID getInstallationKey() {
-<span class="fc" id="L273">    return installationKey;</span>
+<span class="fc" id="L275">    return installationKey;</span>
   }
 
   /**
    * Persisted in the database table.
    */
   public void setInstallationKey(UUID installationKey) {
-<span class="fc" id="L280">    this.installationKey = installationKey;</span>
-<span class="fc" id="L281">  }</span>
+<span class="fc" id="L282">    this.installationKey = installationKey;</span>
+<span class="fc" id="L283">  }</span>
 
   @NotNull
   public UUID getPublishingOrganizationKey() {
-<span class="fc" id="L285">    return publishingOrganizationKey;</span>
+<span class="fc" id="L287">    return publishingOrganizationKey;</span>
   }
 
   /**
    * Persisted in the database table.
    */
   public void setPublishingOrganizationKey(UUID publishingOrganizationKey) {
-<span class="fc" id="L292">    this.publishingOrganizationKey = publishingOrganizationKey;</span>
-<span class="fc" id="L293">  }</span>
+<span class="fc" id="L294">    this.publishingOrganizationKey = publishingOrganizationKey;</span>
+<span class="fc" id="L295">  }</span>
+
+  /**
+   * Networks in which this dataset is a constituent.
+   */
+  public List&lt;UUID&gt; getNetworkKeys() {
+<span class="nc" id="L301">    return networkKeys;</span>
+  }
+
+  public void setNetworkKeys(List&lt;UUID&gt; networkKeys) {
+<span class="nc" id="L305">    this.networkKeys = networkKeys;</span>
+<span class="nc" id="L306">  }</span>
 
   /**
    * Persisted in the database table.
@@ -299,14 +312,14 @@ import javax.validation.constraints.Size;
    */
   @Nullable
   public MaintenanceUpdateFrequency getMaintenanceUpdateFrequency() {
-<span class="nc" id="L302">    return maintenanceUpdateFrequency;</span>
+<span class="nc" id="L315">    return maintenanceUpdateFrequency;</span>
   }
   /**
    * Persisted in the database table.
    */
   public void setMaintenanceUpdateFrequency(MaintenanceUpdateFrequency maintenanceUpdateFrequency) {
-<span class="fc" id="L308">    this.maintenanceUpdateFrequency = maintenanceUpdateFrequency;</span>
-<span class="fc" id="L309">  }</span>
+<span class="fc" id="L321">    this.maintenanceUpdateFrequency = maintenanceUpdateFrequency;</span>
+<span class="fc" id="L322">  }</span>
 
   /**
    * A description of the maintenance frequency of this resource.
@@ -314,12 +327,12 @@ import javax.validation.constraints.Size;
    * @return the description of the maintenance frequency of this resource
    */
   public String getMaintenanceDescription() {
-<span class="nc" id="L317">    return maintenanceDescription;</span>
+<span class="nc" id="L330">    return maintenanceDescription;</span>
   }
 
   public void setMaintenanceDescription(String maintenanceDescription) {
-<span class="fc" id="L321">    this.maintenanceDescription = maintenanceDescription;</span>
-<span class="fc" id="L322">  }</span>
+<span class="fc" id="L334">    this.maintenanceDescription = maintenanceDescription;</span>
+<span class="fc" id="L335">  }</span>
 
   /**
    * Persisted in the database table.
@@ -335,7 +348,7 @@ import javax.validation.constraints.Size;
    * @see &lt;a href=&quot;http://dev.gbif.org/issues/browse/POR-3133&quot;&gt;POR-3133&lt;/a&gt;
    */
   public License getLicense() {
-<span class="nc" id="L338">    return license;</span>
+<span class="nc" id="L351">    return license;</span>
   }
 
   /**
@@ -349,66 +362,66 @@ import javax.validation.constraints.Size;
    * &lt;/pre&gt;
    */
   public void setLicense(License license) {
-<span class="fc" id="L352">    this.license = license;</span>
-<span class="fc" id="L353">  }</span>
+<span class="fc" id="L365">    this.license = license;</span>
+<span class="fc" id="L366">  }</span>
 
   /**
    * @return the primary DOI for this dataset regardless if issued by GBIF or publisher
    */
   public DOI getDoi() {
-<span class="nc" id="L359">    return doi;</span>
+<span class="nc" id="L372">    return doi;</span>
   }
 
   public void setDoi(DOI doi) {
-<span class="nc" id="L363">    this.doi = doi;</span>
-<span class="nc" id="L364">  }</span>
+<span class="nc" id="L376">    this.doi = doi;</span>
+<span class="nc" id="L377">  }</span>
 
   public boolean isExternal() {
-<span class="nc" id="L367">    return external;</span>
+<span class="nc" id="L380">    return external;</span>
   }
 
   /**
    * Persisted in the database table.
    */
   public void setExternal(boolean external) {
-<span class="nc" id="L374">    this.external = external;</span>
-<span class="nc" id="L375">  }</span>
+<span class="nc" id="L387">    this.external = external;</span>
+<span class="nc" id="L388">  }</span>
 
   @Min(0)
   public int getNumConstituents() {
-<span class="fc" id="L379">    return numConstituents;</span>
+<span class="fc" id="L392">    return numConstituents;</span>
   }
 
   /**
    * Not persisted in the database table, but calculated on the fly.
    */
   public void setNumConstituents(int numConstituents) {
-<span class="nc" id="L386">    this.numConstituents = numConstituents;</span>
-<span class="nc" id="L387">  }</span>
+<span class="nc" id="L399">    this.numConstituents = numConstituents;</span>
+<span class="nc" id="L400">  }</span>
 
   @NotNull
   public DatasetType getType() {
-<span class="fc" id="L391">    return type;</span>
+<span class="fc" id="L404">    return type;</span>
   }
 
   /**
    * Persisted in the database table.
    */
   public void setType(DatasetType type) {
-<span class="fc" id="L398">    this.type = type;</span>
-<span class="fc" id="L399">  }</span>
+<span class="fc" id="L411">    this.type = type;</span>
+<span class="fc" id="L412">  }</span>
 
   @Nullable
   public DatasetSubtype getSubtype() {
-<span class="nc" id="L403">    return subtype;</span>
+<span class="nc" id="L416">    return subtype;</span>
   }
 
   /**
    * Persisted in the database table.
    */
   public void setSubtype(DatasetSubtype subtype) {
-<span class="nc" id="L410">    this.subtype = subtype;</span>
-<span class="nc" id="L411">  }</span>
+<span class="nc" id="L423">    this.subtype = subtype;</span>
+<span class="nc" id="L424">  }</span>
 
   /**
    * TODO: Document what this is
@@ -416,15 +429,15 @@ import javax.validation.constraints.Size;
   @Nullable
   @Size(min = 2, max = 50)
   public String getAlias() {
-<span class="fc" id="L419">    return alias;</span>
+<span class="fc" id="L432">    return alias;</span>
   }
 
   /**
    * Persisted in the database table.
    */
   public void setAlias(String alias) {
-<span class="nc" id="L426">    this.alias = alias;</span>
-<span class="nc" id="L427">  }</span>
+<span class="nc" id="L439">    this.alias = alias;</span>
+<span class="nc" id="L440">  }</span>
 
   /**
    * TODO: Document what this is
@@ -433,53 +446,53 @@ import javax.validation.constraints.Size;
   @Nullable
   @Size(min = 1, max = 50)
   public String getAbbreviation() {
-<span class="fc" id="L436">    return abbreviation;</span>
+<span class="fc" id="L449">    return abbreviation;</span>
   }
 
   /**
    * Persisted in the database table.
    */
   public void setAbbreviation(String abbreviation) {
-<span class="nc" id="L443">    this.abbreviation = abbreviation;</span>
-<span class="nc" id="L444">  }</span>
+<span class="nc" id="L456">    this.abbreviation = abbreviation;</span>
+<span class="nc" id="L457">  }</span>
 
   @NotNull
   public Language getLanguage() {
-<span class="fc" id="L448">    return language;</span>
+<span class="fc" id="L461">    return language;</span>
   }
 
   /**
    * Persisted in the database table.
    */
   public void setLanguage(Language language) {
-<span class="nc" id="L455">    this.language = language;</span>
-<span class="nc" id="L456">  }</span>
+<span class="nc" id="L468">    this.language = language;</span>
+<span class="nc" id="L469">  }</span>
 
   @HttpURI
   @Nullable
   public URI getHomepage() {
-<span class="fc" id="L461">    return homepage;</span>
+<span class="fc" id="L474">    return homepage;</span>
   }
 
   /**
    * Persisted in the database table.
    */
   public void setHomepage(URI homepage) {
-<span class="fc" id="L468">    this.homepage = homepage;</span>
-<span class="fc" id="L469">  }</span>
+<span class="fc" id="L481">    this.homepage = homepage;</span>
+<span class="fc" id="L482">  }</span>
 
   @HttpURI
   @Nullable
   public URI getLogoUrl() {
-<span class="fc" id="L474">    return logoUrl;</span>
+<span class="fc" id="L487">    return logoUrl;</span>
   }
 
   /**
    * Persisted in the database table.
    */
   public void setLogoUrl(URI logoUrl) {
-<span class="fc" id="L481">    this.logoUrl = logoUrl;</span>
-<span class="fc" id="L482">  }</span>
+<span class="fc" id="L494">    this.logoUrl = logoUrl;</span>
+<span class="fc" id="L495">  }</span>
 
   /**
    * The exact form of how to cite this dataset.
@@ -487,15 +500,15 @@ import javax.validation.constraints.Size;
   @Nullable
   @Valid
   public Citation getCitation() {
-<span class="fc" id="L490">    return citation;</span>
+<span class="fc" id="L503">    return citation;</span>
   }
 
   /**
    * Persisted in the database table.
    */
   public void setCitation(Citation citation) {
-<span class="nc" id="L497">    this.citation = citation;</span>
-<span class="nc" id="L498">  }</span>
+<span class="nc" id="L510">    this.citation = citation;</span>
+<span class="nc" id="L511">  }</span>
 
   /**
    * Any kind of (copy)rights/IPR statements that apply to the datasets data.
@@ -503,30 +516,30 @@ import javax.validation.constraints.Size;
   @Nullable
   @Size(min = 1)
   public String getRights() {
-<span class="fc" id="L506">    return rights;</span>
+<span class="fc" id="L519">    return rights;</span>
   }
 
   /**
    * Persisted in the database table.
    */
   public void setRights(String rights) {
-<span class="nc" id="L513">    this.rights = rights;</span>
-<span class="nc" id="L514">  }</span>
+<span class="nc" id="L526">    this.rights = rights;</span>
+<span class="nc" id="L527">  }</span>
 
   public boolean isLockedForAutoUpdate() {
-<span class="nc" id="L517">    return lockedForAutoUpdate;</span>
+<span class="nc" id="L530">    return lockedForAutoUpdate;</span>
   }
 
   /**
    * Persisted in the database table.
    */
   public void setLockedForAutoUpdate(boolean lockedForAutoUpdate) {
-<span class="nc" id="L524">    this.lockedForAutoUpdate = lockedForAutoUpdate;</span>
-<span class="nc" id="L525">  }</span>
+<span class="nc" id="L537">    this.lockedForAutoUpdate = lockedForAutoUpdate;</span>
+<span class="nc" id="L538">  }</span>
 
   @Override
   public String getCreatedBy() {
-<span class="fc" id="L529">    return createdBy;</span>
+<span class="fc" id="L542">    return createdBy;</span>
   }
 
   /**
@@ -534,12 +547,12 @@ import javax.validation.constraints.Size;
    */
   @Override
   public void setCreatedBy(String createdBy) {
-<span class="nc" id="L537">    this.createdBy = createdBy;</span>
-<span class="nc" id="L538">  }</span>
+<span class="nc" id="L550">    this.createdBy = createdBy;</span>
+<span class="nc" id="L551">  }</span>
 
   @Override
   public String getModifiedBy() {
-<span class="fc" id="L542">    return modifiedBy;</span>
+<span class="fc" id="L555">    return modifiedBy;</span>
   }
 
   /**
@@ -547,281 +560,283 @@ import javax.validation.constraints.Size;
    */
   @Override
   public void setModifiedBy(String modifiedBy) {
-<span class="nc" id="L550">    this.modifiedBy = modifiedBy;</span>
-<span class="nc" id="L551">  }</span>
+<span class="nc" id="L563">    this.modifiedBy = modifiedBy;</span>
+<span class="nc" id="L564">  }</span>
 
   @Override
   public List&lt;Contact&gt; getContacts() {
-<span class="fc" id="L555">    return contacts;</span>
+<span class="fc" id="L568">    return contacts;</span>
   }
 
   @Override
   public void setContacts(List&lt;Contact&gt; contacts) {
-<span class="nc" id="L560">    this.contacts = contacts;</span>
-<span class="nc" id="L561">  }</span>
+<span class="nc" id="L573">    this.contacts = contacts;</span>
+<span class="nc" id="L574">  }</span>
 
   @Override
   public List&lt;Endpoint&gt; getEndpoints() {
-<span class="fc" id="L565">    return endpoints;</span>
+<span class="fc" id="L578">    return endpoints;</span>
   }
 
   @Override
   public void setEndpoints(List&lt;Endpoint&gt; endpoints) {
-<span class="nc" id="L570">    this.endpoints = endpoints;</span>
-<span class="nc" id="L571">  }</span>
+<span class="nc" id="L583">    this.endpoints = endpoints;</span>
+<span class="nc" id="L584">  }</span>
 
   @Override
   public void addEndpoint(Endpoint endpoint) {
-<span class="nc" id="L575">    endpoints.add(endpoint);</span>
-<span class="nc" id="L576">  }</span>
+<span class="nc" id="L588">    endpoints.add(endpoint);</span>
+<span class="nc" id="L589">  }</span>
 
   @Override
   public List&lt;MachineTag&gt; getMachineTags() {
-<span class="fc" id="L580">    return machineTags;</span>
+<span class="fc" id="L593">    return machineTags;</span>
   }
 
   @Override
   public void setMachineTags(List&lt;MachineTag&gt; machineTags) {
-<span class="nc" id="L585">    this.machineTags = machineTags;</span>
-<span class="nc" id="L586">  }</span>
+<span class="nc" id="L598">    this.machineTags = machineTags;</span>
+<span class="nc" id="L599">  }</span>
 
   @Override
   public void addMachineTag(MachineTag machineTag) {
-<span class="nc" id="L590">    machineTags.add(machineTag);</span>
-<span class="nc" id="L591">  }</span>
+<span class="nc" id="L603">    machineTags.add(machineTag);</span>
+<span class="nc" id="L604">  }</span>
 
   @Override
   public List&lt;Tag&gt; getTags() {
-<span class="fc" id="L595">    return tags;</span>
+<span class="fc" id="L608">    return tags;</span>
   }
 
   @Override
   public void setTags(List&lt;Tag&gt; tags) {
-<span class="nc" id="L600">    this.tags = tags;</span>
-<span class="nc" id="L601">  }</span>
+<span class="nc" id="L613">    this.tags = tags;</span>
+<span class="nc" id="L614">  }</span>
 
   @Override
   public List&lt;Identifier&gt; getIdentifiers() {
-<span class="fc" id="L605">    return identifiers;</span>
+<span class="fc" id="L618">    return identifiers;</span>
   }
 
   @Override
   public void setIdentifiers(List&lt;Identifier&gt; identifiers) {
-<span class="nc" id="L610">    this.identifiers = identifiers;</span>
-<span class="nc" id="L611">  }</span>
+<span class="nc" id="L623">    this.identifiers = identifiers;</span>
+<span class="nc" id="L624">  }</span>
 
   @Override
   public List&lt;Comment&gt; getComments() {
-<span class="fc" id="L615">    return comments;</span>
+<span class="fc" id="L628">    return comments;</span>
   }
 
   @Override
   public void setComments(List&lt;Comment&gt; comments) {
-<span class="nc" id="L620">    this.comments = comments;</span>
-<span class="nc" id="L621">  }</span>
+<span class="nc" id="L633">    this.comments = comments;</span>
+<span class="nc" id="L634">  }</span>
 
   public List&lt;Citation&gt; getBibliographicCitations() {
-<span class="nc" id="L624">    return bibliographicCitations;</span>
+<span class="nc" id="L637">    return bibliographicCitations;</span>
   }
 
   public void setBibliographicCitations(List&lt;Citation&gt; bibliographicCitations) {
-<span class="nc" id="L628">    this.bibliographicCitations = bibliographicCitations;</span>
-<span class="nc" id="L629">  }</span>
+<span class="nc" id="L641">    this.bibliographicCitations = bibliographicCitations;</span>
+<span class="nc" id="L642">  }</span>
 
   public List&lt;CuratorialUnitComposite&gt; getCuratorialUnits() {
-<span class="nc" id="L632">    return curatorialUnits;</span>
+<span class="nc" id="L645">    return curatorialUnits;</span>
   }
 
   public void setCuratorialUnits(List&lt;CuratorialUnitComposite&gt; curatorialUnits) {
-<span class="nc" id="L636">    this.curatorialUnits = curatorialUnits;</span>
-<span class="nc" id="L637">  }</span>
+<span class="nc" id="L649">    this.curatorialUnits = curatorialUnits;</span>
+<span class="nc" id="L650">  }</span>
 
   public List&lt;TaxonomicCoverages&gt; getTaxonomicCoverages() {
-<span class="nc" id="L640">    return taxonomicCoverages;</span>
+<span class="nc" id="L653">    return taxonomicCoverages;</span>
   }
 
   public void setTaxonomicCoverages(List&lt;TaxonomicCoverages&gt; taxonomicCoverages) {
-<span class="nc" id="L644">    this.taxonomicCoverages = taxonomicCoverages;</span>
-<span class="nc" id="L645">  }</span>
+<span class="nc" id="L657">    this.taxonomicCoverages = taxonomicCoverages;</span>
+<span class="nc" id="L658">  }</span>
 
   public String getGeographicCoverageDescription() {
-<span class="nc" id="L648">    return geographicCoverageDescription;</span>
+<span class="nc" id="L661">    return geographicCoverageDescription;</span>
   }
 
   public void setGeographicCoverageDescription(String geographicCoverageDescription) {
-<span class="nc" id="L652">    this.geographicCoverageDescription = geographicCoverageDescription;</span>
-<span class="nc" id="L653">  }</span>
+<span class="nc" id="L665">    this.geographicCoverageDescription = geographicCoverageDescription;</span>
+<span class="nc" id="L666">  }</span>
 
   public List&lt;GeospatialCoverage&gt; getGeographicCoverages() {
-<span class="nc" id="L656">    return geographicCoverages;</span>
+<span class="nc" id="L669">    return geographicCoverages;</span>
   }
 
   public void setGeographicCoverages(List&lt;GeospatialCoverage&gt; geographicCoverages) {
-<span class="nc" id="L660">    this.geographicCoverages = geographicCoverages;</span>
-<span class="nc" id="L661">  }</span>
+<span class="nc" id="L673">    this.geographicCoverages = geographicCoverages;</span>
+<span class="nc" id="L674">  }</span>
 
   public List&lt;TemporalCoverage&gt; getTemporalCoverages() {
-<span class="nc" id="L664">    return temporalCoverages;</span>
+<span class="nc" id="L677">    return temporalCoverages;</span>
   }
 
   public void setTemporalCoverages(List&lt;TemporalCoverage&gt; temporalCoverages) {
-<span class="nc" id="L668">    this.temporalCoverages = temporalCoverages;</span>
-<span class="nc" id="L669">  }</span>
+<span class="nc" id="L681">    this.temporalCoverages = temporalCoverages;</span>
+<span class="nc" id="L682">  }</span>
 
   public List&lt;KeywordCollection&gt; getKeywordCollections() {
-<span class="nc" id="L672">    return keywordCollections;</span>
+<span class="nc" id="L685">    return keywordCollections;</span>
   }
 
   public void setKeywordCollections(List&lt;KeywordCollection&gt; keywordCollections) {
-<span class="nc" id="L676">    this.keywordCollections = keywordCollections;</span>
-<span class="nc" id="L677">  }</span>
+<span class="nc" id="L689">    this.keywordCollections = keywordCollections;</span>
+<span class="nc" id="L690">  }</span>
 
   public Project getProject() {
-<span class="nc" id="L680">    return project;</span>
+<span class="nc" id="L693">    return project;</span>
   }
 
   public void setProject(Project project) {
-<span class="nc" id="L684">    this.project = project;</span>
-<span class="nc" id="L685">  }</span>
+<span class="nc" id="L697">    this.project = project;</span>
+<span class="nc" id="L698">  }</span>
 
   public SamplingDescription getSamplingDescription() {
-<span class="nc" id="L688">    return samplingDescription;</span>
+<span class="nc" id="L701">    return samplingDescription;</span>
   }
 
   public void setSamplingDescription(SamplingDescription samplingDescription) {
-<span class="nc" id="L692">    this.samplingDescription = samplingDescription;</span>
-<span class="nc" id="L693">  }</span>
+<span class="nc" id="L705">    this.samplingDescription = samplingDescription;</span>
+<span class="nc" id="L706">  }</span>
 
   public Set&lt;Country&gt; getCountryCoverage() {
-<span class="nc" id="L696">    return countryCoverage;</span>
+<span class="nc" id="L709">    return countryCoverage;</span>
   }
 
   public void setCountryCoverage(Set&lt;Country&gt; countryCoverage) {
-<span class="nc" id="L700">    this.countryCoverage = countryCoverage;</span>
-<span class="nc" id="L701">  }</span>
+<span class="nc" id="L713">    this.countryCoverage = countryCoverage;</span>
+<span class="nc" id="L714">  }</span>
 
   public List&lt;Collection&gt; getCollections() {
-<span class="nc" id="L704">    return collections;</span>
+<span class="nc" id="L717">    return collections;</span>
   }
 
   public void setCollections(List&lt;Collection&gt; collections) {
-<span class="nc" id="L708">    this.collections = collections;</span>
-<span class="nc" id="L709">  }</span>
+<span class="nc" id="L721">    this.collections = collections;</span>
+<span class="nc" id="L722">  }</span>
 
   public List&lt;DataDescription&gt; getDataDescriptions() {
-<span class="nc" id="L712">    return dataDescriptions;</span>
+<span class="nc" id="L725">    return dataDescriptions;</span>
   }
 
   public void setDataDescriptions(List&lt;DataDescription&gt; dataDescriptions) {
-<span class="nc" id="L716">    this.dataDescriptions = dataDescriptions;</span>
-<span class="nc" id="L717">  }</span>
+<span class="nc" id="L729">    this.dataDescriptions = dataDescriptions;</span>
+<span class="nc" id="L730">  }</span>
 
   public Language getDataLanguage() {
-<span class="nc" id="L720">    return dataLanguage;</span>
+<span class="nc" id="L733">    return dataLanguage;</span>
   }
 
   public void setDataLanguage(Language dataLanguage) {
-<span class="nc" id="L724">    this.dataLanguage = dataLanguage;</span>
-<span class="nc" id="L725">  }</span>
+<span class="nc" id="L737">    this.dataLanguage = dataLanguage;</span>
+<span class="nc" id="L738">  }</span>
 
   public String getPurpose() {
-<span class="nc" id="L728">    return purpose;</span>
+<span class="nc" id="L741">    return purpose;</span>
   }
 
   public void setPurpose(String purpose) {
-<span class="nc" id="L732">    this.purpose = purpose;</span>
-<span class="nc" id="L733">  }</span>
+<span class="nc" id="L745">    this.purpose = purpose;</span>
+<span class="nc" id="L746">  }</span>
 
   public String getAdditionalInfo() {
-<span class="nc" id="L736">    return additionalInfo;</span>
+<span class="nc" id="L749">    return additionalInfo;</span>
   }
 
   public void setAdditionalInfo(String additionalInfo) {
-<span class="nc" id="L740">    this.additionalInfo = additionalInfo;</span>
-<span class="nc" id="L741">  }</span>
+<span class="nc" id="L753">    this.additionalInfo = additionalInfo;</span>
+<span class="nc" id="L754">  }</span>
 
   public Date getPubDate() {
-<span class="nc" id="L744">    return pubDate;</span>
+<span class="nc" id="L757">    return pubDate;</span>
   }
 
   public void setPubDate(Date pubDate) {
-<span class="nc" id="L748">    this.pubDate = pubDate;</span>
-<span class="nc" id="L749">  }</span>
+<span class="nc" id="L761">    this.pubDate = pubDate;</span>
+<span class="nc" id="L762">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L753" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L754">      return true;</span>
+<span class="nc bnc" id="L766" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L767">      return true;</span>
     }
-<span class="nc bnc" id="L756" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L757">      return false;</span>
+<span class="nc bnc" id="L769" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L770">      return false;</span>
     }
-<span class="nc" id="L759">    Dataset dataset = (Dataset) o;</span>
-<span class="nc bnc" id="L760" title="All 6 branches missed.">    return external == dataset.external</span>
+<span class="nc" id="L772">    Dataset dataset = (Dataset) o;</span>
+<span class="nc bnc" id="L773" title="All 6 branches missed.">    return external == dataset.external</span>
         &amp;&amp; numConstituents == dataset.numConstituents
         &amp;&amp; lockedForAutoUpdate == dataset.lockedForAutoUpdate
-<span class="nc bnc" id="L763" title="All 2 branches missed.">        &amp;&amp; Objects.equals(key, dataset.key)</span>
-<span class="nc bnc" id="L764" title="All 2 branches missed.">        &amp;&amp; Objects.equals(parentDatasetKey, dataset.parentDatasetKey)</span>
-<span class="nc bnc" id="L765" title="All 2 branches missed.">        &amp;&amp; Objects.equals(duplicateOfDatasetKey, dataset.duplicateOfDatasetKey)</span>
-<span class="nc bnc" id="L766" title="All 2 branches missed.">        &amp;&amp; Objects.equals(installationKey, dataset.installationKey)</span>
-<span class="nc bnc" id="L767" title="All 2 branches missed.">        &amp;&amp; Objects.equals(publishingOrganizationKey, dataset.publishingOrganizationKey)</span>
-<span class="nc bnc" id="L768" title="All 2 branches missed.">        &amp;&amp; Objects.equals(doi, dataset.doi)</span>
-<span class="nc bnc" id="L769" title="All 6 branches missed.">        &amp;&amp; Objects.equals(version, dataset.version)</span>
+<span class="nc bnc" id="L776" title="All 2 branches missed.">        &amp;&amp; Objects.equals(key, dataset.key)</span>
+<span class="nc bnc" id="L777" title="All 2 branches missed.">        &amp;&amp; Objects.equals(parentDatasetKey, dataset.parentDatasetKey)</span>
+<span class="nc bnc" id="L778" title="All 2 branches missed.">        &amp;&amp; Objects.equals(duplicateOfDatasetKey, dataset.duplicateOfDatasetKey)</span>
+<span class="nc bnc" id="L779" title="All 2 branches missed.">        &amp;&amp; Objects.equals(installationKey, dataset.installationKey)</span>
+<span class="nc bnc" id="L780" title="All 2 branches missed.">        &amp;&amp; Objects.equals(publishingOrganizationKey, dataset.publishingOrganizationKey)</span>
+<span class="nc bnc" id="L781" title="All 2 branches missed.">        &amp;&amp; Objects.equals(networkKeys, dataset.networkKeys)</span>
+<span class="nc bnc" id="L782" title="All 2 branches missed.">        &amp;&amp; Objects.equals(doi, dataset.doi)</span>
+<span class="nc bnc" id="L783" title="All 6 branches missed.">        &amp;&amp; Objects.equals(version, dataset.version)</span>
         &amp;&amp; type == dataset.type
         &amp;&amp; subtype == dataset.subtype
-<span class="nc bnc" id="L772" title="All 2 branches missed.">        &amp;&amp; Objects.equals(title, dataset.title)</span>
-<span class="nc bnc" id="L773" title="All 2 branches missed.">        &amp;&amp; Objects.equals(alias, dataset.alias)</span>
-<span class="nc bnc" id="L774" title="All 2 branches missed.">        &amp;&amp; Objects.equals(abbreviation, dataset.abbreviation)</span>
-<span class="nc bnc" id="L775" title="All 4 branches missed.">        &amp;&amp; Objects.equals(description, dataset.description)</span>
+<span class="nc bnc" id="L786" title="All 2 branches missed.">        &amp;&amp; Objects.equals(title, dataset.title)</span>
+<span class="nc bnc" id="L787" title="All 2 branches missed.">        &amp;&amp; Objects.equals(alias, dataset.alias)</span>
+<span class="nc bnc" id="L788" title="All 2 branches missed.">        &amp;&amp; Objects.equals(abbreviation, dataset.abbreviation)</span>
+<span class="nc bnc" id="L789" title="All 4 branches missed.">        &amp;&amp; Objects.equals(description, dataset.description)</span>
         &amp;&amp; language == dataset.language
-<span class="nc bnc" id="L777" title="All 2 branches missed.">        &amp;&amp; Objects.equals(homepage, dataset.homepage)</span>
-<span class="nc bnc" id="L778" title="All 2 branches missed.">        &amp;&amp; Objects.equals(logoUrl, dataset.logoUrl)</span>
-<span class="nc bnc" id="L779" title="All 2 branches missed.">        &amp;&amp; Objects.equals(citation, dataset.citation)</span>
-<span class="nc bnc" id="L780" title="All 2 branches missed.">        &amp;&amp; Objects.equals(rights, dataset.rights)</span>
-<span class="nc bnc" id="L781" title="All 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, dataset.createdBy)</span>
-<span class="nc bnc" id="L782" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modifiedBy, dataset.modifiedBy)</span>
-<span class="nc bnc" id="L783" title="All 2 branches missed.">        &amp;&amp; Objects.equals(created, dataset.created)</span>
-<span class="nc bnc" id="L784" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modified, dataset.modified)</span>
-<span class="nc bnc" id="L785" title="All 2 branches missed.">        &amp;&amp; Objects.equals(deleted, dataset.deleted)</span>
-<span class="nc bnc" id="L786" title="All 2 branches missed.">        &amp;&amp; Objects.equals(contacts, dataset.contacts)</span>
-<span class="nc bnc" id="L787" title="All 2 branches missed.">        &amp;&amp; Objects.equals(endpoints, dataset.endpoints)</span>
-<span class="nc bnc" id="L788" title="All 2 branches missed.">        &amp;&amp; Objects.equals(machineTags, dataset.machineTags)</span>
-<span class="nc bnc" id="L789" title="All 2 branches missed.">        &amp;&amp; Objects.equals(tags, dataset.tags)</span>
-<span class="nc bnc" id="L790" title="All 2 branches missed.">        &amp;&amp; Objects.equals(identifiers, dataset.identifiers)</span>
-<span class="nc bnc" id="L791" title="All 2 branches missed.">        &amp;&amp; Objects.equals(comments, dataset.comments)</span>
-<span class="nc bnc" id="L792" title="All 2 branches missed.">        &amp;&amp; Objects.equals(bibliographicCitations, dataset.bibliographicCitations)</span>
-<span class="nc bnc" id="L793" title="All 2 branches missed.">        &amp;&amp; Objects.equals(curatorialUnits, dataset.curatorialUnits)</span>
-<span class="nc bnc" id="L794" title="All 2 branches missed.">        &amp;&amp; Objects.equals(taxonomicCoverages, dataset.taxonomicCoverages)</span>
-<span class="nc bnc" id="L795" title="All 2 branches missed.">        &amp;&amp; Objects.equals(geographicCoverageDescription, dataset.geographicCoverageDescription)</span>
-<span class="nc bnc" id="L796" title="All 2 branches missed.">        &amp;&amp; Objects.equals(geographicCoverages, dataset.geographicCoverages)</span>
-<span class="nc bnc" id="L797" title="All 2 branches missed.">        &amp;&amp; Objects.equals(temporalCoverages, dataset.temporalCoverages)</span>
-<span class="nc bnc" id="L798" title="All 2 branches missed.">        &amp;&amp; Objects.equals(keywordCollections, dataset.keywordCollections)</span>
-<span class="nc bnc" id="L799" title="All 2 branches missed.">        &amp;&amp; Objects.equals(project, dataset.project)</span>
-<span class="nc bnc" id="L800" title="All 2 branches missed.">        &amp;&amp; Objects.equals(samplingDescription, dataset.samplingDescription)</span>
-<span class="nc bnc" id="L801" title="All 2 branches missed.">        &amp;&amp; Objects.equals(countryCoverage, dataset.countryCoverage)</span>
-<span class="nc bnc" id="L802" title="All 2 branches missed.">        &amp;&amp; Objects.equals(collections, dataset.collections)</span>
-<span class="nc bnc" id="L803" title="All 4 branches missed.">        &amp;&amp; Objects.equals(dataDescriptions, dataset.dataDescriptions)</span>
+<span class="nc bnc" id="L791" title="All 2 branches missed.">        &amp;&amp; Objects.equals(homepage, dataset.homepage)</span>
+<span class="nc bnc" id="L792" title="All 2 branches missed.">        &amp;&amp; Objects.equals(logoUrl, dataset.logoUrl)</span>
+<span class="nc bnc" id="L793" title="All 2 branches missed.">        &amp;&amp; Objects.equals(citation, dataset.citation)</span>
+<span class="nc bnc" id="L794" title="All 2 branches missed.">        &amp;&amp; Objects.equals(rights, dataset.rights)</span>
+<span class="nc bnc" id="L795" title="All 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, dataset.createdBy)</span>
+<span class="nc bnc" id="L796" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modifiedBy, dataset.modifiedBy)</span>
+<span class="nc bnc" id="L797" title="All 2 branches missed.">        &amp;&amp; Objects.equals(created, dataset.created)</span>
+<span class="nc bnc" id="L798" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modified, dataset.modified)</span>
+<span class="nc bnc" id="L799" title="All 2 branches missed.">        &amp;&amp; Objects.equals(deleted, dataset.deleted)</span>
+<span class="nc bnc" id="L800" title="All 2 branches missed.">        &amp;&amp; Objects.equals(contacts, dataset.contacts)</span>
+<span class="nc bnc" id="L801" title="All 2 branches missed.">        &amp;&amp; Objects.equals(endpoints, dataset.endpoints)</span>
+<span class="nc bnc" id="L802" title="All 2 branches missed.">        &amp;&amp; Objects.equals(machineTags, dataset.machineTags)</span>
+<span class="nc bnc" id="L803" title="All 2 branches missed.">        &amp;&amp; Objects.equals(tags, dataset.tags)</span>
+<span class="nc bnc" id="L804" title="All 2 branches missed.">        &amp;&amp; Objects.equals(identifiers, dataset.identifiers)</span>
+<span class="nc bnc" id="L805" title="All 2 branches missed.">        &amp;&amp; Objects.equals(comments, dataset.comments)</span>
+<span class="nc bnc" id="L806" title="All 2 branches missed.">        &amp;&amp; Objects.equals(bibliographicCitations, dataset.bibliographicCitations)</span>
+<span class="nc bnc" id="L807" title="All 2 branches missed.">        &amp;&amp; Objects.equals(curatorialUnits, dataset.curatorialUnits)</span>
+<span class="nc bnc" id="L808" title="All 2 branches missed.">        &amp;&amp; Objects.equals(taxonomicCoverages, dataset.taxonomicCoverages)</span>
+<span class="nc bnc" id="L809" title="All 2 branches missed.">        &amp;&amp; Objects.equals(geographicCoverageDescription, dataset.geographicCoverageDescription)</span>
+<span class="nc bnc" id="L810" title="All 2 branches missed.">        &amp;&amp; Objects.equals(geographicCoverages, dataset.geographicCoverages)</span>
+<span class="nc bnc" id="L811" title="All 2 branches missed.">        &amp;&amp; Objects.equals(temporalCoverages, dataset.temporalCoverages)</span>
+<span class="nc bnc" id="L812" title="All 2 branches missed.">        &amp;&amp; Objects.equals(keywordCollections, dataset.keywordCollections)</span>
+<span class="nc bnc" id="L813" title="All 2 branches missed.">        &amp;&amp; Objects.equals(project, dataset.project)</span>
+<span class="nc bnc" id="L814" title="All 2 branches missed.">        &amp;&amp; Objects.equals(samplingDescription, dataset.samplingDescription)</span>
+<span class="nc bnc" id="L815" title="All 2 branches missed.">        &amp;&amp; Objects.equals(countryCoverage, dataset.countryCoverage)</span>
+<span class="nc bnc" id="L816" title="All 2 branches missed.">        &amp;&amp; Objects.equals(collections, dataset.collections)</span>
+<span class="nc bnc" id="L817" title="All 4 branches missed.">        &amp;&amp; Objects.equals(dataDescriptions, dataset.dataDescriptions)</span>
         &amp;&amp; dataLanguage == dataset.dataLanguage
-<span class="nc bnc" id="L805" title="All 2 branches missed.">        &amp;&amp; Objects.equals(purpose, dataset.purpose)</span>
-<span class="nc bnc" id="L806" title="All 2 branches missed.">        &amp;&amp; Objects.equals(additionalInfo, dataset.additionalInfo)</span>
-<span class="nc bnc" id="L807" title="All 4 branches missed.">        &amp;&amp; Objects.equals(pubDate, dataset.pubDate)</span>
+<span class="nc bnc" id="L819" title="All 2 branches missed.">        &amp;&amp; Objects.equals(purpose, dataset.purpose)</span>
+<span class="nc bnc" id="L820" title="All 2 branches missed.">        &amp;&amp; Objects.equals(additionalInfo, dataset.additionalInfo)</span>
+<span class="nc bnc" id="L821" title="All 4 branches missed.">        &amp;&amp; Objects.equals(pubDate, dataset.pubDate)</span>
         &amp;&amp; maintenanceUpdateFrequency == dataset.maintenanceUpdateFrequency
-<span class="nc bnc" id="L809" title="All 4 branches missed.">        &amp;&amp; Objects.equals(maintenanceDescription, dataset.maintenanceDescription)</span>
+<span class="nc bnc" id="L823" title="All 4 branches missed.">        &amp;&amp; Objects.equals(maintenanceDescription, dataset.maintenanceDescription)</span>
         &amp;&amp; license == dataset.license;
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L815">    return Objects.hash(</span>
+<span class="nc" id="L829">    return Objects.hash(</span>
         key,
         parentDatasetKey,
         duplicateOfDatasetKey,
         installationKey,
         publishingOrganizationKey,
+        networkKeys,
         doi,
         version,
-<span class="nc" id="L823">        external,</span>
-<span class="nc" id="L824">        numConstituents,</span>
+<span class="nc" id="L838">        external,</span>
+<span class="nc" id="L839">        numConstituents,</span>
         type,
         subtype,
         title,
@@ -833,7 +848,7 @@ import javax.validation.constraints.Size;
         logoUrl,
         citation,
         rights,
-<span class="nc" id="L836">        lockedForAutoUpdate,</span>
+<span class="nc" id="L851">        lockedForAutoUpdate,</span>
         createdBy,
         modifiedBy,
         created,
@@ -868,59 +883,60 @@ import javax.validation.constraints.Size;
 
   @Override
   public String toString() {
-<span class="nc" id="L871">    return new StringJoiner(&quot;, &quot;, Dataset.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L872">        .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L873">        .add(&quot;parentDatasetKey=&quot; + parentDatasetKey)</span>
-<span class="nc" id="L874">        .add(&quot;duplicateOfDatasetKey=&quot; + duplicateOfDatasetKey)</span>
-<span class="nc" id="L875">        .add(&quot;installationKey=&quot; + installationKey)</span>
-<span class="nc" id="L876">        .add(&quot;publishingOrganizationKey=&quot; + publishingOrganizationKey)</span>
-<span class="nc" id="L877">        .add(&quot;doi=&quot; + doi)</span>
-<span class="nc" id="L878">        .add(&quot;version='&quot; + version + &quot;'&quot;)</span>
-<span class="nc" id="L879">        .add(&quot;external=&quot; + external)</span>
-<span class="nc" id="L880">        .add(&quot;numConstituents=&quot; + numConstituents)</span>
-<span class="nc" id="L881">        .add(&quot;type=&quot; + type)</span>
-<span class="nc" id="L882">        .add(&quot;subtype=&quot; + subtype)</span>
-<span class="nc" id="L883">        .add(&quot;title='&quot; + title + &quot;'&quot;)</span>
-<span class="nc" id="L884">        .add(&quot;alias='&quot; + alias + &quot;'&quot;)</span>
-<span class="nc" id="L885">        .add(&quot;abbreviation='&quot; + abbreviation + &quot;'&quot;)</span>
-<span class="nc" id="L886">        .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
-<span class="nc" id="L887">        .add(&quot;language=&quot; + language)</span>
-<span class="nc" id="L888">        .add(&quot;homepage=&quot; + homepage)</span>
-<span class="nc" id="L889">        .add(&quot;logoUrl=&quot; + logoUrl)</span>
-<span class="nc" id="L890">        .add(&quot;citation=&quot; + citation)</span>
-<span class="nc" id="L891">        .add(&quot;rights='&quot; + rights + &quot;'&quot;)</span>
-<span class="nc" id="L892">        .add(&quot;lockedForAutoUpdate=&quot; + lockedForAutoUpdate)</span>
-<span class="nc" id="L893">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
-<span class="nc" id="L894">        .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
-<span class="nc" id="L895">        .add(&quot;created=&quot; + created)</span>
-<span class="nc" id="L896">        .add(&quot;modified=&quot; + modified)</span>
-<span class="nc" id="L897">        .add(&quot;deleted=&quot; + deleted)</span>
-<span class="nc" id="L898">        .add(&quot;contacts=&quot; + contacts)</span>
-<span class="nc" id="L899">        .add(&quot;endpoints=&quot; + endpoints)</span>
-<span class="nc" id="L900">        .add(&quot;machineTags=&quot; + machineTags)</span>
-<span class="nc" id="L901">        .add(&quot;tags=&quot; + tags)</span>
-<span class="nc" id="L902">        .add(&quot;identifiers=&quot; + identifiers)</span>
-<span class="nc" id="L903">        .add(&quot;comments=&quot; + comments)</span>
-<span class="nc" id="L904">        .add(&quot;bibliographicCitations=&quot; + bibliographicCitations)</span>
-<span class="nc" id="L905">        .add(&quot;curatorialUnits=&quot; + curatorialUnits)</span>
-<span class="nc" id="L906">        .add(&quot;taxonomicCoverages=&quot; + taxonomicCoverages)</span>
-<span class="nc" id="L907">        .add(&quot;geographicCoverageDescription='&quot; + geographicCoverageDescription + &quot;'&quot;)</span>
-<span class="nc" id="L908">        .add(&quot;geographicCoverages=&quot; + geographicCoverages)</span>
-<span class="nc" id="L909">        .add(&quot;temporalCoverages=&quot; + temporalCoverages)</span>
-<span class="nc" id="L910">        .add(&quot;keywordCollections=&quot; + keywordCollections)</span>
-<span class="nc" id="L911">        .add(&quot;project=&quot; + project)</span>
-<span class="nc" id="L912">        .add(&quot;samplingDescription=&quot; + samplingDescription)</span>
-<span class="nc" id="L913">        .add(&quot;countryCoverage=&quot; + countryCoverage)</span>
-<span class="nc" id="L914">        .add(&quot;collections=&quot; + collections)</span>
-<span class="nc" id="L915">        .add(&quot;dataDescriptions=&quot; + dataDescriptions)</span>
-<span class="nc" id="L916">        .add(&quot;dataLanguage=&quot; + dataLanguage)</span>
-<span class="nc" id="L917">        .add(&quot;purpose='&quot; + purpose + &quot;'&quot;)</span>
-<span class="nc" id="L918">        .add(&quot;additionalInfo='&quot; + additionalInfo + &quot;'&quot;)</span>
-<span class="nc" id="L919">        .add(&quot;pubDate=&quot; + pubDate)</span>
-<span class="nc" id="L920">        .add(&quot;maintenanceUpdateFrequency=&quot; + maintenanceUpdateFrequency)</span>
-<span class="nc" id="L921">        .add(&quot;maintenanceDescription='&quot; + maintenanceDescription + &quot;'&quot;)</span>
-<span class="nc" id="L922">        .add(&quot;license=&quot; + license)</span>
-<span class="nc" id="L923">        .toString();</span>
+<span class="nc" id="L886">    return new StringJoiner(&quot;, &quot;, Dataset.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L887">        .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L888">        .add(&quot;parentDatasetKey=&quot; + parentDatasetKey)</span>
+<span class="nc" id="L889">        .add(&quot;duplicateOfDatasetKey=&quot; + duplicateOfDatasetKey)</span>
+<span class="nc" id="L890">        .add(&quot;installationKey=&quot; + installationKey)</span>
+<span class="nc" id="L891">        .add(&quot;publishingOrganizationKey=&quot; + publishingOrganizationKey)</span>
+<span class="nc" id="L892">        .add(&quot;networkKeys=&quot; + networkKeys)</span>
+<span class="nc" id="L893">        .add(&quot;doi=&quot; + doi)</span>
+<span class="nc" id="L894">        .add(&quot;version='&quot; + version + &quot;'&quot;)</span>
+<span class="nc" id="L895">        .add(&quot;external=&quot; + external)</span>
+<span class="nc" id="L896">        .add(&quot;numConstituents=&quot; + numConstituents)</span>
+<span class="nc" id="L897">        .add(&quot;type=&quot; + type)</span>
+<span class="nc" id="L898">        .add(&quot;subtype=&quot; + subtype)</span>
+<span class="nc" id="L899">        .add(&quot;title='&quot; + title + &quot;'&quot;)</span>
+<span class="nc" id="L900">        .add(&quot;alias='&quot; + alias + &quot;'&quot;)</span>
+<span class="nc" id="L901">        .add(&quot;abbreviation='&quot; + abbreviation + &quot;'&quot;)</span>
+<span class="nc" id="L902">        .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
+<span class="nc" id="L903">        .add(&quot;language=&quot; + language)</span>
+<span class="nc" id="L904">        .add(&quot;homepage=&quot; + homepage)</span>
+<span class="nc" id="L905">        .add(&quot;logoUrl=&quot; + logoUrl)</span>
+<span class="nc" id="L906">        .add(&quot;citation=&quot; + citation)</span>
+<span class="nc" id="L907">        .add(&quot;rights='&quot; + rights + &quot;'&quot;)</span>
+<span class="nc" id="L908">        .add(&quot;lockedForAutoUpdate=&quot; + lockedForAutoUpdate)</span>
+<span class="nc" id="L909">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L910">        .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
+<span class="nc" id="L911">        .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L912">        .add(&quot;modified=&quot; + modified)</span>
+<span class="nc" id="L913">        .add(&quot;deleted=&quot; + deleted)</span>
+<span class="nc" id="L914">        .add(&quot;contacts=&quot; + contacts)</span>
+<span class="nc" id="L915">        .add(&quot;endpoints=&quot; + endpoints)</span>
+<span class="nc" id="L916">        .add(&quot;machineTags=&quot; + machineTags)</span>
+<span class="nc" id="L917">        .add(&quot;tags=&quot; + tags)</span>
+<span class="nc" id="L918">        .add(&quot;identifiers=&quot; + identifiers)</span>
+<span class="nc" id="L919">        .add(&quot;comments=&quot; + comments)</span>
+<span class="nc" id="L920">        .add(&quot;bibliographicCitations=&quot; + bibliographicCitations)</span>
+<span class="nc" id="L921">        .add(&quot;curatorialUnits=&quot; + curatorialUnits)</span>
+<span class="nc" id="L922">        .add(&quot;taxonomicCoverages=&quot; + taxonomicCoverages)</span>
+<span class="nc" id="L923">        .add(&quot;geographicCoverageDescription='&quot; + geographicCoverageDescription + &quot;'&quot;)</span>
+<span class="nc" id="L924">        .add(&quot;geographicCoverages=&quot; + geographicCoverages)</span>
+<span class="nc" id="L925">        .add(&quot;temporalCoverages=&quot; + temporalCoverages)</span>
+<span class="nc" id="L926">        .add(&quot;keywordCollections=&quot; + keywordCollections)</span>
+<span class="nc" id="L927">        .add(&quot;project=&quot; + project)</span>
+<span class="nc" id="L928">        .add(&quot;samplingDescription=&quot; + samplingDescription)</span>
+<span class="nc" id="L929">        .add(&quot;countryCoverage=&quot; + countryCoverage)</span>
+<span class="nc" id="L930">        .add(&quot;collections=&quot; + collections)</span>
+<span class="nc" id="L931">        .add(&quot;dataDescriptions=&quot; + dataDescriptions)</span>
+<span class="nc" id="L932">        .add(&quot;dataLanguage=&quot; + dataLanguage)</span>
+<span class="nc" id="L933">        .add(&quot;purpose='&quot; + purpose + &quot;'&quot;)</span>
+<span class="nc" id="L934">        .add(&quot;additionalInfo='&quot; + additionalInfo + &quot;'&quot;)</span>
+<span class="nc" id="L935">        .add(&quot;pubDate=&quot; + pubDate)</span>
+<span class="nc" id="L936">        .add(&quot;maintenanceUpdateFrequency=&quot; + maintenanceUpdateFrequency)</span>
+<span class="nc" id="L937">        .add(&quot;maintenanceDescription='&quot; + maintenanceDescription + &quot;'&quot;)</span>
+<span class="nc" id="L938">        .add(&quot;license=&quot; + license)</span>
+<span class="nc" id="L939">        .toString();</span>
   }
 
   /**
@@ -929,30 +945,30 @@ import javax.validation.constraints.Size;
    */
   @Override
   public boolean lenientEquals(Dataset other) {
-<span class="pc bpc" id="L932" title="1 of 2 branches missed.">    if (this == other) {</span>
-<span class="nc" id="L933">      return true;</span>
+<span class="pc bpc" id="L948" title="1 of 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L949">      return true;</span>
     }
-<span class="pc bpc" id="L935" title="1 of 2 branches missed.">    return Objects.equals(this.parentDatasetKey, other.parentDatasetKey)</span>
-<span class="pc bpc" id="L936" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.duplicateOfDatasetKey, other.duplicateOfDatasetKey)</span>
-<span class="pc bpc" id="L937" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.installationKey, other.installationKey)</span>
-<span class="pc bpc" id="L938" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.publishingOrganizationKey, other.publishingOrganizationKey)</span>
-<span class="pc bpc" id="L939" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.doi, other.doi)</span>
-<span class="pc bpc" id="L940" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.external, other.external)</span>
-<span class="pc bpc" id="L941" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.type, other.type)</span>
-<span class="pc bpc" id="L942" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.subtype, other.subtype)</span>
-<span class="pc bpc" id="L943" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.title, other.title)</span>
-<span class="pc bpc" id="L944" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.alias, other.alias)</span>
-<span class="pc bpc" id="L945" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.abbreviation, other.abbreviation)</span>
-<span class="pc bpc" id="L946" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.description, other.description)</span>
-<span class="pc bpc" id="L947" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.language, other.language)</span>
-<span class="pc bpc" id="L948" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.homepage, other.homepage)</span>
-<span class="pc bpc" id="L949" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.logoUrl, other.logoUrl)</span>
-<span class="pc bpc" id="L950" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.citation, other.citation)</span>
-<span class="pc bpc" id="L951" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.rights, other.rights)</span>
-<span class="pc bpc" id="L952" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.lockedForAutoUpdate, other.lockedForAutoUpdate)</span>
-<span class="pc bpc" id="L953" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.deleted, other.deleted)</span>
-<span class="pc bpc" id="L954" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.maintenanceUpdateFrequency, other.maintenanceUpdateFrequency)</span>
-<span class="pc bpc" id="L955" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.maintenanceDescription, other.maintenanceDescription);</span>
+<span class="pc bpc" id="L951" title="1 of 2 branches missed.">    return Objects.equals(this.parentDatasetKey, other.parentDatasetKey)</span>
+<span class="pc bpc" id="L952" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.duplicateOfDatasetKey, other.duplicateOfDatasetKey)</span>
+<span class="pc bpc" id="L953" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.installationKey, other.installationKey)</span>
+<span class="pc bpc" id="L954" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.publishingOrganizationKey, other.publishingOrganizationKey)</span>
+<span class="pc bpc" id="L955" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.doi, other.doi)</span>
+<span class="pc bpc" id="L956" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.external, other.external)</span>
+<span class="pc bpc" id="L957" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.type, other.type)</span>
+<span class="pc bpc" id="L958" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.subtype, other.subtype)</span>
+<span class="pc bpc" id="L959" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.title, other.title)</span>
+<span class="pc bpc" id="L960" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.alias, other.alias)</span>
+<span class="pc bpc" id="L961" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.abbreviation, other.abbreviation)</span>
+<span class="pc bpc" id="L962" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.description, other.description)</span>
+<span class="pc bpc" id="L963" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.language, other.language)</span>
+<span class="pc bpc" id="L964" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.homepage, other.homepage)</span>
+<span class="pc bpc" id="L965" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.logoUrl, other.logoUrl)</span>
+<span class="pc bpc" id="L966" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.citation, other.citation)</span>
+<span class="pc bpc" id="L967" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.rights, other.rights)</span>
+<span class="pc bpc" id="L968" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.lockedForAutoUpdate, other.lockedForAutoUpdate)</span>
+<span class="pc bpc" id="L969" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.deleted, other.deleted)</span>
+<span class="pc bpc" id="L970" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.maintenanceUpdateFrequency, other.maintenanceUpdateFrequency)</span>
+<span class="pc bpc" id="L971" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(this.maintenanceDescription, other.maintenanceDescription);</span>
   }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

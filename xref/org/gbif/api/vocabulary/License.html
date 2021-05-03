@@ -13,7 +13,7 @@
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> * You may obtain a copy of the License at</em>
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> *</em>
-<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> *     <a href="http://www.apache.org/licenses/LICENSE-2." target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.</a>0</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> *     <a href="http://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.0</a></em>
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_comment"> *</em>
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
 <a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
@@ -39,11 +39,11 @@
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_javadoccomment"> * This is in line with the recommendation from Creative Commons.</em>
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>  <em class="jxr_javadoccomment"> * The ordinal number in the Enum implicitly defines the level of restriction, see LicenseTest.</em>
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="https://creativecommons.org/faq/#why-should-i-use-the-latest-version-of-the-creative-commons-licenses"&gt;Creative</em>
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="<a href="https://creativecommons.org/faq/" target="alexandria_uri">https://creativecommons.org/faq/</a>#why-should-i-use-the-latest-version-of-the-creative-commons-licenses"&gt;Creative</em>
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>  <em class="jxr_javadoccomment"> * Commons recommendation&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L36" href="#L36">36</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="<a href="http://www.gbif.org/terms/licences" target="alexandria_uri">http://www.gbif.org/terms/licences</a>"&gt;GBIF Licensing&lt;/a&gt;</em>
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">public</strong> enum <a href="../../../../org/gbif/api/vocabulary/License.html">License</a> {
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">public</strong> enum <a name="License" href="../../../../org/gbif/api/vocabulary/License.html#License">License</a> {
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>    <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment">   * Creative Commons Zero / Public Domain version 1.0. Technically a waiver, not a license.</em>
@@ -99,7 +99,7 @@
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>        licenseUrl = licenseUrl.replace(<span class="jxr_string">"https://"</span>, <span class="jxr_string">"http://"</span>);
 <a class="jxr_linenumber" name="L92" href="#L92">92</a>  
 <a class="jxr_linenumber" name="L93" href="#L93">93</a>        <em class="jxr_comment">// do lookup by legal code URL or human readable summary URL (excluding "/legalcode")</em>
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>        <strong class="jxr_keyword">for</strong> (License license : License.values()) {
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>        <strong class="jxr_keyword">for</strong> (<a name="License" href="../../../../org/gbif/api/vocabulary/License.html#License">License</a> license : License.values()) {
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>          <strong class="jxr_keyword">if</strong> (license.getLicenseUrl() != <strong class="jxr_keyword">null</strong> &amp;&amp; (licenseUrl.equals(license.getLicenseUrl())
 <a class="jxr_linenumber" name="L96" href="#L96">96</a>                  || license.getLicenseUrl().startsWith(licenseUrl))) {
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>            <strong class="jxr_keyword">return</strong> Optional.of(license);
@@ -117,14 +117,14 @@
 <a class="jxr_linenumber" name="L109" href="#L109">109</a> <em class="jxr_javadoccomment">   *</em>
 <a class="jxr_linenumber" name="L110" href="#L110">110</a> <em class="jxr_javadoccomment">   * @return the most restrictive License or the fallback License</em>
 <a class="jxr_linenumber" name="L111" href="#L111">111</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L112" href="#L112">112</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../org/gbif/api/vocabulary/License.html">License</a> getMostRestrictive(<a href="../../../../org/gbif/api/vocabulary/License.html">License</a> license1, <a href="../../../../org/gbif/api/vocabulary/License.html">License</a> license2, <a href="../../../../org/gbif/api/vocabulary/License.html">License</a> fallback) {
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a name="License" href="../<a name="License" <a name="License" <a name="License" href="../../../../org/gbif/api/vocabulary/License.html#License">License</a>./../../../org/gbif/api/vocabulary/License.html#License">License</a>./../../../org/gbif/api/vocabulary/License.html#License">License</a>./org/gbif/api/vocabulary/License.html#License">License</a> getMostRestrictive(<a name="License" <a name="License" <a name="License" href="../../../../org/gbif/api/vocabulary/License.html#License">License</a>./../../../org/gbif/api/vocabulary/License.html#License">License</a>./../../../org/gbif/api/vocabulary/License.html#License">License</a> license1, <a name="License" <a name="License" href="../../../../org/gbif/api/vocabulary/License.html#License">License</a>./../../../org/gbif/api/vocabulary/License.html#License">License</a> license2, <a name="License" href="../../../../org/gbif/api/vocabulary/License.html#License">License</a> fallback) {
 <a class="jxr_linenumber" name="L113" href="#L113">113</a>     <strong class="jxr_keyword">if</strong> (license1 == <strong class="jxr_keyword">null</strong> || license2 == <strong class="jxr_keyword">null</strong> || !license1.isConcrete() || !license2.isConcrete()) {
 <a class="jxr_linenumber" name="L114" href="#L114">114</a>       <strong class="jxr_keyword">return</strong> fallback;
 <a class="jxr_linenumber" name="L115" href="#L115">115</a>     }
 <a class="jxr_linenumber" name="L116" href="#L116">116</a>     <strong class="jxr_keyword">return</strong> (license1.compareTo(license2) &gt; 0) ? license1 : license2;
 <a class="jxr_linenumber" name="L117" href="#L117">117</a>   }
 <a class="jxr_linenumber" name="L118" href="#L118">118</a> 
-<a class="jxr_linenumber" name="L119" href="#L119">119</a>   <a href="../../../../org/gbif/api/vocabulary/License.html">License</a>(@Nullable String licenseTitle, @Nullable String licenseUrl) {
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>   <a name="License" href="../../../../org/gbif/api/vocabulary/License.html#License">License</a>(@Nullable String licenseTitle, @Nullable String licenseUrl) {
 <a class="jxr_linenumber" name="L120" href="#L120">120</a>     <strong class="jxr_keyword">this</strong>.licenseTitle = licenseTitle;
 <a class="jxr_linenumber" name="L121" href="#L121">121</a>     <em class="jxr_comment">// ensure license information is kept in lowercase internally</em>
 <a class="jxr_linenumber" name="L122" href="#L122">122</a>     <strong class="jxr_keyword">if</strong> (licenseUrl != <strong class="jxr_keyword">null</strong>) {

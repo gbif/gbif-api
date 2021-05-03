@@ -26,71 +26,83 @@ import java.util.UUID;
   private URI selfLink;
   private String name;
   private String code;
+  private boolean active;
 
   @Override
   public UUID getKey() {
-<span class="nc" id="L32">    return key;</span>
+<span class="nc" id="L33">    return key;</span>
   }
 
   public void setKey(UUID key) {
-<span class="nc" id="L36">    this.key = key;</span>
-<span class="nc" id="L37">  }</span>
+<span class="nc" id="L37">    this.key = key;</span>
+<span class="nc" id="L38">  }</span>
 
   @Override
   public URI getSelfLink() {
-<span class="nc" id="L41">    return selfLink;</span>
+<span class="nc" id="L42">    return selfLink;</span>
   }
 
   public void setSelfLink(URI selfLink) {
-<span class="nc" id="L45">    this.selfLink = selfLink;</span>
-<span class="nc" id="L46">  }</span>
+<span class="nc" id="L46">    this.selfLink = selfLink;</span>
+<span class="nc" id="L47">  }</span>
 
   @Override
   public String getName() {
-<span class="nc" id="L50">    return name;</span>
+<span class="nc" id="L51">    return name;</span>
   }
 
   public void setName(String name) {
-<span class="nc" id="L54">    this.name = name;</span>
-<span class="nc" id="L55">  }</span>
+<span class="nc" id="L55">    this.name = name;</span>
+<span class="nc" id="L56">  }</span>
 
   @Override
   public String getCode() {
-<span class="nc" id="L59">    return code;</span>
+<span class="nc" id="L60">    return code;</span>
   }
 
   public void setCode(String code) {
-<span class="nc" id="L63">    this.code = code;</span>
-<span class="nc" id="L64">  }</span>
+<span class="nc" id="L64">    this.code = code;</span>
+<span class="nc" id="L65">  }</span>
+
+  @Override
+  public boolean isActive() {
+<span class="nc" id="L69">    return active;</span>
+  }
+
+  public void setActive(boolean active) {
+<span class="nc" id="L73">    this.active = active;</span>
+<span class="nc" id="L74">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L68" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L69">      return true;</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L79">      return true;</span>
     }
-<span class="nc bnc" id="L71" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L72">      return false;</span>
+<span class="nc bnc" id="L81" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L82">      return false;</span>
     }
-<span class="nc" id="L74">    BaseEntityMatched that = (BaseEntityMatched) o;</span>
-<span class="nc bnc" id="L75" title="All 2 branches missed.">    return Objects.equals(key, that.key)</span>
-<span class="nc bnc" id="L76" title="All 2 branches missed.">        &amp;&amp; Objects.equals(selfLink, that.selfLink)</span>
-<span class="nc bnc" id="L77" title="All 2 branches missed.">        &amp;&amp; Objects.equals(name, that.name)</span>
-<span class="nc bnc" id="L78" title="All 2 branches missed.">        &amp;&amp; Objects.equals(code, that.code);</span>
+<span class="nc" id="L84">    BaseEntityMatched that = (BaseEntityMatched) o;</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">    return Objects.equals(key, that.key)</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        &amp;&amp; Objects.equals(selfLink, that.selfLink)</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        &amp;&amp; Objects.equals(name, that.name)</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        &amp;&amp; Objects.equals(code, that.code)</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        &amp;&amp; Objects.equals(active, that.active);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L83">    return Objects.hash(key, selfLink, name, code);</span>
+<span class="nc" id="L94">    return Objects.hash(key, selfLink, name, code, active);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L88">    return new StringJoiner(&quot;, &quot;, BaseEntityMatched.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L89">        .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L90">        .add(&quot;self=&quot; + selfLink)</span>
-<span class="nc" id="L91">        .add(&quot;name='&quot; + name + &quot;'&quot;)</span>
-<span class="nc" id="L92">        .add(&quot;code='&quot; + code + &quot;'&quot;)</span>
-<span class="nc" id="L93">        .toString();</span>
+<span class="nc" id="L99">    return new StringJoiner(&quot;, &quot;, BaseEntityMatched.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L100">        .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L101">        .add(&quot;selfLink=&quot; + selfLink)</span>
+<span class="nc" id="L102">        .add(&quot;name='&quot; + name + &quot;'&quot;)</span>
+<span class="nc" id="L103">        .add(&quot;code='&quot; + code + &quot;'&quot;)</span>
+<span class="nc" id="L104">        .add(&quot;active='&quot; + active + &quot;'&quot;)</span>
+<span class="nc" id="L105">        .toString();</span>
   }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
