@@ -32,7 +32,7 @@ import javax.validation.constraints.Size;
  */
 public class Citation implements Serializable {
 
-  public static class Person implements Serializable {
+  public static class Author implements Serializable {
 
     private Integer contactKey;
 
@@ -49,9 +49,9 @@ public class Citation implements Serializable {
     @Nullable
     private Set<String> userId;
 
-    public Person(){}
+    public Author(){}
 
-    public Person(
+    public Author(
       Integer contactKey,
       String abbreviatedName,
       @Nullable String firstName,
@@ -68,7 +68,7 @@ public class Citation implements Serializable {
     }
 
     /**
-     * Contact key associated to this person.
+     * Contact key associated to this author.
      */
     public Integer getContactKey() {
       return contactKey;
@@ -90,7 +90,7 @@ public class Citation implements Serializable {
     }
 
     /**
-     * Person's first name.
+     * Author's first name.
      */
     public String getFirstName() {
       return firstName;
@@ -101,7 +101,7 @@ public class Citation implements Serializable {
     }
 
     /**
-     * Person's last name.
+     * Author's last name.
      */
     public String getLastName() {
       return lastName;
@@ -112,7 +112,7 @@ public class Citation implements Serializable {
     }
 
     /**
-     * Roles or contact type of this person.
+     * Roles or contact type of this author.
      */
     public Set<ContactType> getRoles() {
       return roles;
@@ -123,7 +123,7 @@ public class Citation implements Serializable {
     }
 
     /**
-     * GBIF Portal users associated to this person.
+     * GBIF Portal users associated to this author.
      */
     public Set<String> getUserId() {
       return userId;
@@ -141,10 +141,10 @@ public class Citation implements Serializable {
       if (o == null || getClass() != o.getClass()) {
         return false;
       }
-      Person person = (Person) o;
-      return Objects.equals(contactKey, person.contactKey) && Objects.equals(abbreviatedName, person.abbreviatedName) &&
-             Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) &&
-             Objects.equals(roles, person.roles) && Objects.equals(userId, person.userId);
+      Author author = (Author) o;
+      return Objects.equals(contactKey, author.contactKey) && Objects.equals(abbreviatedName, author.abbreviatedName) &&
+             Objects.equals(firstName, author.firstName) && Objects.equals(lastName, author.lastName) &&
+             Objects.equals(roles, author.roles) && Objects.equals(userId, author.userId);
     }
 
     @Override
@@ -154,7 +154,7 @@ public class Citation implements Serializable {
 
     @Override
     public String toString() {
-      return new StringJoiner(", ", Person.class.getSimpleName() + "[", "]")
+      return new StringJoiner(", ", Author.class.getSimpleName() + "[", "]")
         .add("contactKey=" + contactKey)
         .add("abbreviatedName='" + abbreviatedName + "'")
         .add("firstName='" + firstName + "'")
@@ -173,14 +173,14 @@ public class Citation implements Serializable {
   @Size(min = 1, max = 100)
   private String identifier;
 
-  private List<Person> people;
+  private List<Author> authors;
 
   public Citation() {}
 
-  public Citation(String text, String identifier, List<Person> people) {
+  public Citation(String text, String identifier, List<Author> authors) {
     this.text = text;
     this.identifier = identifier;
-    this.people = people;
+    this.authors = authors;
   }
 
   public String getIdentifier() {
@@ -199,12 +199,12 @@ public class Citation implements Serializable {
     this.text = text;
   }
 
-  public List<Person> getPeople() {
-    return people;
+  public List<Author> getAuthors() {
+    return authors;
   }
 
-  public void setPeople(List<Person> people) {
-    this.people = people;
+  public void setAuthors(List<Author> authors) {
+    this.authors = authors;
   }
 
   @Override
@@ -217,12 +217,12 @@ public class Citation implements Serializable {
     }
     Citation citation = (Citation) o;
     return Objects.equals(text, citation.text) && Objects.equals(identifier, citation.identifier) &&
-           Objects.equals(people, citation.people);
+           Objects.equals(authors, citation.authors);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(text, identifier, people);
+    return Objects.hash(text, identifier, authors);
   }
 
   @Override
@@ -230,7 +230,7 @@ public class Citation implements Serializable {
     return new StringJoiner(", ", Citation.class.getSimpleName() + "[", "]")
         .add("text='" + text + "'")
         .add("identifier='" + identifier + "'")
-        .add("people='" + people + "'")
+        .add("authors='" + authors + "'")
         .toString();
   }
 }
