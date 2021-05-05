@@ -32,9 +32,9 @@ import javax.validation.constraints.Size;
  */
 public class Citation implements Serializable {
 
-  public static class Author implements Serializable {
+  public static class Contact implements Serializable {
 
-    private Integer contactKey;
+    private Integer key;
 
     private String abbreviatedName;
 
@@ -49,17 +49,17 @@ public class Citation implements Serializable {
     @Nullable
     private Set<String> userId;
 
-    public Author(){}
+    public Contact(){}
 
-    public Author(
-      Integer contactKey,
+    public Contact(
+      Integer key,
       String abbreviatedName,
       @Nullable String firstName,
       @Nullable String lastName,
       Set<ContactType> roles,
       @Nullable Set<String> userId
     ) {
-      this.contactKey = contactKey;
+      this.key = key;
       this.abbreviatedName = abbreviatedName;
       this.firstName = firstName;
       this.lastName = lastName;
@@ -68,14 +68,14 @@ public class Citation implements Serializable {
     }
 
     /**
-     * Contact key associated to this author.
+     * Key associated to this contact.
      */
-    public Integer getContactKey() {
-      return contactKey;
+    public Integer getKey() {
+      return key;
     }
 
-    public void setContactKey(Integer contactKey) {
-      this.contactKey = contactKey;
+    public void setKey(Integer key) {
+      this.key = key;
     }
 
     /**
@@ -90,7 +90,7 @@ public class Citation implements Serializable {
     }
 
     /**
-     * Author's first name.
+     * Contact's first name.
      */
     public String getFirstName() {
       return firstName;
@@ -101,7 +101,7 @@ public class Citation implements Serializable {
     }
 
     /**
-     * Author's last name.
+     * Contact's last name.
      */
     public String getLastName() {
       return lastName;
@@ -112,7 +112,7 @@ public class Citation implements Serializable {
     }
 
     /**
-     * Roles or contact type of this author.
+     * Roles or contact type of this contact.
      */
     public Set<ContactType> getRoles() {
       return roles;
@@ -123,7 +123,7 @@ public class Citation implements Serializable {
     }
 
     /**
-     * GBIF Portal users associated to this author.
+     * GBIF Portal users associated to this contact.
      */
     public Set<String> getUserId() {
       return userId;
@@ -141,21 +141,21 @@ public class Citation implements Serializable {
       if (o == null || getClass() != o.getClass()) {
         return false;
       }
-      Author author = (Author) o;
-      return Objects.equals(contactKey, author.contactKey) && Objects.equals(abbreviatedName, author.abbreviatedName) &&
-             Objects.equals(firstName, author.firstName) && Objects.equals(lastName, author.lastName) &&
-             Objects.equals(roles, author.roles) && Objects.equals(userId, author.userId);
+      Contact contact = (Contact) o;
+      return Objects.equals(key, contact.key) && Objects.equals(abbreviatedName, contact.abbreviatedName) &&
+             Objects.equals(firstName, contact.firstName) && Objects.equals(lastName, contact.lastName) &&
+             Objects.equals(roles, contact.roles) && Objects.equals(userId, contact.userId);
     }
 
     @Override
     public int hashCode() {
-      return Objects.hash(contactKey, abbreviatedName, firstName, lastName, roles, userId);
+      return Objects.hash(key, abbreviatedName, firstName, lastName, roles, userId);
     }
 
     @Override
     public String toString() {
-      return new StringJoiner(", ", Author.class.getSimpleName() + "[", "]")
-        .add("contactKey=" + contactKey)
+      return new StringJoiner(", ", Contact.class.getSimpleName() + "[", "]")
+        .add("key=" + key)
         .add("abbreviatedName='" + abbreviatedName + "'")
         .add("firstName='" + firstName + "'")
         .add("lastName='" + lastName + "'")
@@ -173,14 +173,14 @@ public class Citation implements Serializable {
   @Size(min = 1, max = 100)
   private String identifier;
 
-  private List<Author> authors;
+  private List<Contact> contacts;
 
   public Citation() {}
 
-  public Citation(String text, String identifier, List<Author> authors) {
+  public Citation(String text, String identifier, List<Contact> contacts) {
     this.text = text;
     this.identifier = identifier;
-    this.authors = authors;
+    this.contacts = contacts;
   }
 
   public String getIdentifier() {
@@ -199,12 +199,12 @@ public class Citation implements Serializable {
     this.text = text;
   }
 
-  public List<Author> getAuthors() {
-    return authors;
+  public List<Contact> getContacts() {
+    return contacts;
   }
 
-  public void setAuthors(List<Author> authors) {
-    this.authors = authors;
+  public void setContacts(List<Contact> contacts) {
+    this.contacts = contacts;
   }
 
   @Override
@@ -217,12 +217,12 @@ public class Citation implements Serializable {
     }
     Citation citation = (Citation) o;
     return Objects.equals(text, citation.text) && Objects.equals(identifier, citation.identifier) &&
-           Objects.equals(authors, citation.authors);
+           Objects.equals(contacts, citation.contacts);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(text, identifier, authors);
+    return Objects.hash(text, identifier, contacts);
   }
 
   @Override
@@ -230,7 +230,7 @@ public class Citation implements Serializable {
     return new StringJoiner(", ", Citation.class.getSimpleName() + "[", "]")
         .add("text='" + text + "'")
         .add("identifier='" + identifier + "'")
-        .add("authors='" + authors + "'")
+        .add("contacts='" + contacts + "'")
         .toString();
   }
 }
