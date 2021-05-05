@@ -32,7 +32,7 @@ import javax.validation.constraints.Size;
  */
 public class Citation implements Serializable {
 
-  public static class Contact implements Serializable {
+  public static class CitationContact implements Serializable {
 
     private Integer key;
 
@@ -49,9 +49,9 @@ public class Citation implements Serializable {
     @Nullable
     private Set<String> userId;
 
-    public Contact(){}
+    public CitationContact(){}
 
-    public Contact(
+    public CitationContact(
       Integer key,
       String abbreviatedName,
       @Nullable String firstName,
@@ -141,7 +141,7 @@ public class Citation implements Serializable {
       if (o == null || getClass() != o.getClass()) {
         return false;
       }
-      Contact contact = (Contact) o;
+      CitationContact contact = (CitationContact) o;
       return Objects.equals(key, contact.key) && Objects.equals(abbreviatedName, contact.abbreviatedName) &&
              Objects.equals(firstName, contact.firstName) && Objects.equals(lastName, contact.lastName) &&
              Objects.equals(roles, contact.roles) && Objects.equals(userId, contact.userId);
@@ -154,7 +154,7 @@ public class Citation implements Serializable {
 
     @Override
     public String toString() {
-      return new StringJoiner(", ", Contact.class.getSimpleName() + "[", "]")
+      return new StringJoiner(", ", CitationContact.class.getSimpleName() + "[", "]")
         .add("key=" + key)
         .add("abbreviatedName='" + abbreviatedName + "'")
         .add("firstName='" + firstName + "'")
@@ -173,11 +173,11 @@ public class Citation implements Serializable {
   @Size(min = 1, max = 100)
   private String identifier;
 
-  private List<Contact> contacts;
+  private List<CitationContact> contacts;
 
   public Citation() {}
 
-  public Citation(String text, String identifier, List<Contact> contacts) {
+  public Citation(String text, String identifier, List<CitationContact> contacts) {
     this.text = text;
     this.identifier = identifier;
     this.contacts = contacts;
@@ -199,11 +199,11 @@ public class Citation implements Serializable {
     this.text = text;
   }
 
-  public List<Contact> getContacts() {
+  public List<CitationContact> getContacts() {
     return contacts;
   }
 
-  public void setContacts(List<Contact> contacts) {
+  public void setContacts(List<CitationContact> contacts) {
     this.contacts = contacts;
   }
 
