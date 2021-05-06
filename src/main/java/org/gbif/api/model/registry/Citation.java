@@ -15,12 +15,8 @@
  */
 package org.gbif.api.model.registry;
 
-import org.gbif.api.vocabulary.ContactType;
-
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
@@ -32,139 +28,6 @@ import javax.validation.constraints.Size;
  */
 public class Citation implements Serializable {
 
-  public static class CitationContact implements Serializable {
-
-    private Integer key;
-
-    private String abbreviatedName;
-
-    @Nullable
-    private String firstName;
-
-    @Nullable
-    private String lastName;
-
-    private Set<ContactType> roles;
-
-    @Nullable
-    private Set<String> userId;
-
-    public CitationContact(){}
-
-    public CitationContact(
-      Integer key,
-      String abbreviatedName,
-      @Nullable String firstName,
-      @Nullable String lastName,
-      Set<ContactType> roles,
-      @Nullable Set<String> userId
-    ) {
-      this.key = key;
-      this.abbreviatedName = abbreviatedName;
-      this.firstName = firstName;
-      this.lastName = lastName;
-      this.roles = roles;
-      this.userId = userId;
-    }
-
-    /**
-     * Key associated to this contact.
-     */
-    public Integer getKey() {
-      return key;
-    }
-
-    public void setKey(Integer key) {
-      this.key = key;
-    }
-
-    /**
-     * Abbreviated name used for the citation.
-     */
-    public String getAbbreviatedName() {
-      return abbreviatedName;
-    }
-
-    public void setAbbreviatedName(String abbreviatedName) {
-      this.abbreviatedName = abbreviatedName;
-    }
-
-    /**
-     * Contact's first name.
-     */
-    public String getFirstName() {
-      return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-      this.firstName = firstName;
-    }
-
-    /**
-     * Contact's last name.
-     */
-    public String getLastName() {
-      return lastName;
-    }
-
-    public void setLastName(String lastName) {
-      this.lastName = lastName;
-    }
-
-    /**
-     * Roles or contact type of this contact.
-     */
-    public Set<ContactType> getRoles() {
-      return roles;
-    }
-
-    public void setRoles(Set<ContactType> roles) {
-      this.roles = roles;
-    }
-
-    /**
-     * GBIF Portal users associated to this contact.
-     */
-    public Set<String> getUserId() {
-      return userId;
-    }
-
-    public void setUserId(Set<String> userId) {
-      this.userId = userId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      CitationContact contact = (CitationContact) o;
-      return Objects.equals(key, contact.key) && Objects.equals(abbreviatedName, contact.abbreviatedName) &&
-             Objects.equals(firstName, contact.firstName) && Objects.equals(lastName, contact.lastName) &&
-             Objects.equals(roles, contact.roles) && Objects.equals(userId, contact.userId);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(key, abbreviatedName, firstName, lastName, roles, userId);
-    }
-
-    @Override
-    public String toString() {
-      return new StringJoiner(", ", CitationContact.class.getSimpleName() + "[", "]")
-        .add("key=" + key)
-        .add("abbreviatedName='" + abbreviatedName + "'")
-        .add("firstName='" + firstName + "'")
-        .add("lastName='" + lastName + "'")
-        .add("roles=" + roles)
-        .add("userId=" + userId)
-        .toString();
-    }
-  }
-
   private static final long serialVersionUID = 5587531070690709593L;
 
   @Nullable private String text;
@@ -173,14 +36,14 @@ public class Citation implements Serializable {
   @Size(min = 1, max = 100)
   private String identifier;
 
-  private List<CitationContact> contacts;
+  private boolean citationProvidedBySource;
 
   public Citation() {}
 
-  public Citation(String text, String identifier, List<CitationContact> contacts) {
+  public Citation(String text, String identifier, boolean citationProvidedBySource) {
     this.text = text;
     this.identifier = identifier;
-    this.contacts = contacts;
+    this.citationProvidedBySource = citationProvidedBySource;
   }
 
   public String getIdentifier() {
@@ -199,12 +62,12 @@ public class Citation implements Serializable {
     this.text = text;
   }
 
-  public List<CitationContact> getContacts() {
-    return contacts;
+  public boolean isCitationProvidedBySource() {
+    return citationProvidedBySource;
   }
 
-  public void setContacts(List<CitationContact> contacts) {
-    this.contacts = contacts;
+  public void setCitationProvidedBySource(boolean citationProvidedBySource) {
+    this.citationProvidedBySource = citationProvidedBySource;
   }
 
   @Override
@@ -217,12 +80,12 @@ public class Citation implements Serializable {
     }
     Citation citation = (Citation) o;
     return Objects.equals(text, citation.text) && Objects.equals(identifier, citation.identifier) &&
-           Objects.equals(contacts, citation.contacts);
+           Objects.equals(citationProvidedBySource, citation.citationProvidedBySource);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(text, identifier, contacts);
+    return Objects.hash(text, identifier, citationProvidedBySource);
   }
 
   @Override
@@ -230,7 +93,7 @@ public class Citation implements Serializable {
     return new StringJoiner(", ", Citation.class.getSimpleName() + "[", "]")
         .add("text='" + text + "'")
         .add("identifier='" + identifier + "'")
-        .add("contacts='" + contacts + "'")
+        .add("citationProvidedBySource='" + citationProvidedBySource + "'")
         .toString();
   }
 }
