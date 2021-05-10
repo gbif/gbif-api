@@ -20,6 +20,7 @@ import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetSubtype;
 import org.gbif.api.vocabulary.DatasetType;
+import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.License;
 
 import java.time.LocalDateTime;
@@ -130,9 +131,19 @@ public enum DatasetSearchParameter implements SearchParameter {
 
 
   /**
-   * Network key associated to the dataset.
+   * Network key associated to a dataset.
    */
-  NETWORK_KEY(UUID.class);
+  NETWORK_KEY(UUID.class),
+
+  /**
+   * Hosting installation key.
+   */
+  INSTALLATION_KEY(UUID.class),
+
+  /**
+   * EndpointType associated to a dataset.
+   */
+  ENDPOINT_TYPE(EndpointType.class);
 
   DatasetSearchParameter(Class<?> type) {
     this.type = type;
