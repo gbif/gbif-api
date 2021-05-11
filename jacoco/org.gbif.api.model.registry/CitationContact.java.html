@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CitationContact.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry</a> &gt; <span class="el_source">CitationContact.java</span></div><h1>CitationContact.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.registry;
+
+import org.gbif.api.vocabulary.ContactType;
+
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.Set;
+import java.util.StringJoiner;
+
+import javax.annotation.Nullable;
+
+/**
+ * A contact used to generate a dataset citation.
+ */
+public class CitationContact implements Serializable {
+
+  private Integer key;
+
+  private String abbreviatedName;
+
+  @Nullable
+  private String firstName;
+
+  @Nullable
+  private String lastName;
+
+  private Set&lt;ContactType&gt; roles;
+
+  @Nullable
+  private Set&lt;String&gt; userId;
+
+<span class="nc" id="L47">  public CitationContact(){}</span>
+
+  public CitationContact(
+    Integer key,
+    String abbreviatedName,
+    @Nullable String firstName,
+    @Nullable String lastName,
+    Set&lt;ContactType&gt; roles,
+    @Nullable Set&lt;String&gt; userId
+<span class="nc" id="L56">  ) {</span>
+<span class="nc" id="L57">    this.key = key;</span>
+<span class="nc" id="L58">    this.abbreviatedName = abbreviatedName;</span>
+<span class="nc" id="L59">    this.firstName = firstName;</span>
+<span class="nc" id="L60">    this.lastName = lastName;</span>
+<span class="nc" id="L61">    this.roles = roles;</span>
+<span class="nc" id="L62">    this.userId = userId;</span>
+<span class="nc" id="L63">  }</span>
+
+  /**
+   * Key associated to this contact.
+   */
+  public Integer getKey() {
+<span class="nc" id="L69">    return key;</span>
+  }
+
+  public void setKey(Integer key) {
+<span class="nc" id="L73">    this.key = key;</span>
+<span class="nc" id="L74">  }</span>
+
+  /**
+   * Abbreviated name used for the citation.
+   */
+  public String getAbbreviatedName() {
+<span class="nc" id="L80">    return abbreviatedName;</span>
+  }
+
+  public void setAbbreviatedName(String abbreviatedName) {
+<span class="nc" id="L84">    this.abbreviatedName = abbreviatedName;</span>
+<span class="nc" id="L85">  }</span>
+
+  /**
+   * Contact's first name.
+   */
+  public String getFirstName() {
+<span class="nc" id="L91">    return firstName;</span>
+  }
+
+  public void setFirstName(String firstName) {
+<span class="nc" id="L95">    this.firstName = firstName;</span>
+<span class="nc" id="L96">  }</span>
+
+  /**
+   * Contact's last name.
+   */
+  public String getLastName() {
+<span class="nc" id="L102">    return lastName;</span>
+  }
+
+  public void setLastName(String lastName) {
+<span class="nc" id="L106">    this.lastName = lastName;</span>
+<span class="nc" id="L107">  }</span>
+
+  /**
+   * Roles or contact type of this contact.
+   */
+  public Set&lt;ContactType&gt; getRoles() {
+<span class="nc" id="L113">    return roles;</span>
+  }
+
+  public void setRoles(Set&lt;ContactType&gt; roles) {
+<span class="nc" id="L117">    this.roles = roles;</span>
+<span class="nc" id="L118">  }</span>
+
+  /**
+   * GBIF Portal users associated to this contact.
+   */
+  public Set&lt;String&gt; getUserId() {
+<span class="nc" id="L124">    return userId;</span>
+  }
+
+  public void setUserId(Set&lt;String&gt; userId) {
+<span class="nc" id="L128">    this.userId = userId;</span>
+<span class="nc" id="L129">  }</span>
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L133" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L134">      return true;</span>
+    }
+<span class="nc bnc" id="L136" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L137">      return false;</span>
+    }
+<span class="nc" id="L139">    CitationContact contact = (CitationContact) o;</span>
+<span class="nc bnc" id="L140" title="All 4 branches missed.">    return Objects.equals(key, contact.key) &amp;&amp; Objects.equals(abbreviatedName, contact.abbreviatedName) &amp;&amp;</span>
+<span class="nc bnc" id="L141" title="All 4 branches missed.">           Objects.equals(firstName, contact.firstName) &amp;&amp; Objects.equals(lastName, contact.lastName) &amp;&amp;</span>
+<span class="nc bnc" id="L142" title="All 4 branches missed.">           Objects.equals(roles, contact.roles) &amp;&amp; Objects.equals(userId, contact.userId);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L147">    return Objects.hash(key, abbreviatedName, firstName, lastName, roles, userId);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L152">    return new StringJoiner(&quot;, &quot;, CitationContact.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L153">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L154">      .add(&quot;abbreviatedName='&quot; + abbreviatedName + &quot;'&quot;)</span>
+<span class="nc" id="L155">      .add(&quot;firstName='&quot; + firstName + &quot;'&quot;)</span>
+<span class="nc" id="L156">      .add(&quot;lastName='&quot; + lastName + &quot;'&quot;)</span>
+<span class="nc" id="L157">      .add(&quot;roles=&quot; + roles)</span>
+<span class="nc" id="L158">      .add(&quot;userId=&quot; + userId)</span>
+<span class="nc" id="L159">      .toString();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

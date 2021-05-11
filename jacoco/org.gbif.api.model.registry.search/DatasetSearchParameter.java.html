@@ -20,6 +20,7 @@ import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetSubtype;
 import org.gbif.api.vocabulary.DatasetType;
+import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.License;
 
 import java.time.LocalDateTime;
@@ -28,115 +29,125 @@ import java.util.UUID;
 /**
  * Each value in the enum represents a possible facet for the Dataset search.
  */
-<span class="nc" id="L31">public enum DatasetSearchParameter implements SearchParameter {</span>
+<span class="nc" id="L32">public enum DatasetSearchParameter implements SearchParameter {</span>
 
   /**
    * {@link org.gbif.api.vocabulary.DatasetType} enumeration value.
    */
-<span class="nc" id="L36">  TYPE(DatasetType.class),</span>
+<span class="nc" id="L37">  TYPE(DatasetType.class),</span>
 
   /**
    * {@link org.gbif.api.vocabulary.DatasetSubtype} enumeration value.
    */
-<span class="nc" id="L41">  SUBTYPE(DatasetSubtype.class),</span>
+<span class="nc" id="L42">  SUBTYPE(DatasetSubtype.class),</span>
 
   /**
    * The owning organizations uuid key.
    */
-<span class="nc" id="L46">  PUBLISHING_ORG(UUID.class),</span>
+<span class="nc" id="L47">  PUBLISHING_ORG(UUID.class),</span>
 
   /**
    * The hosting organizations uuid key.
    */
-<span class="nc" id="L51">  HOSTING_ORG(UUID.class),</span>
+<span class="nc" id="L52">  HOSTING_ORG(UUID.class),</span>
 
   /**
    * A case insensitive plain text keyword from coverages or serialized tag as created by Tag.toString().
    */
-<span class="nc" id="L56">  KEYWORD(String.class),</span>
+<span class="nc" id="L57">  KEYWORD(String.class),</span>
 
   /**
    * Filters datasets by their temporal coverage broken down to decades.
    * Decade given as a full year, e.g. 1950, 1960 or 1980.
    */
-<span class="nc" id="L62">  DECADE(Integer.class),</span>
+<span class="nc" id="L63">  DECADE(Integer.class),</span>
 
   /**
    * The owning organizations country.
    */
-<span class="nc" id="L67">  PUBLISHING_COUNTRY(Country.class),</span>
+<span class="nc" id="L68">  PUBLISHING_COUNTRY(Country.class),</span>
 
   /**
    * Country of the geospatial coverage of a dataset.
    */
-<span class="nc" id="L72">  COUNTRY(Country.class),</span>
+<span class="nc" id="L73">  COUNTRY(Country.class),</span>
 
   /**
    * {@link org.gbif.api.vocabulary.Continent} of the geospatial coverage of a dataset.
    */
-<span class="nc" id="L77">  CONTINENT(Continent.class),</span>
+<span class="nc" id="L78">  CONTINENT(Continent.class),</span>
 
   /**
    * {@link org.gbif.api.vocabulary.License} of a dataset.
    */
-<span class="nc" id="L82">  LICENSE(License.class),</span>
+<span class="nc" id="L83">  LICENSE(License.class),</span>
 
   /**
    * Identifier of the associated project.
    */
-<span class="nc" id="L87">  PROJECT_ID(String.class),</span>
+<span class="nc" id="L88">  PROJECT_ID(String.class),</span>
 
   /**
    * Backbone name usage key that this dataset covers.
    */
-<span class="nc" id="L92">  TAXON_KEY(Integer.class),</span>
+<span class="nc" id="L93">  TAXON_KEY(Integer.class),</span>
 
   /**
    * Number of indexed records.
    * Depending on type of dataset these are occurrences or name usages.
    */
-<span class="nc" id="L98">  RECORD_COUNT(Integer.class),</span>
+<span class="nc" id="L99">  RECORD_COUNT(Integer.class),</span>
 
   /**
    * Filters datasets by their temporal coverage broken down to years
    * as extracted from the occurrence data.
    */
-<span class="nc" id="L104">  YEAR(Integer.class),</span>
+<span class="nc" id="L105">  YEAR(Integer.class),</span>
 
   /**
    * Date when the dataset was last updated
    */
-<span class="nc" id="L109">  MODIFIED_DATE(LocalDateTime.class),</span>
+<span class="nc" id="L110">  MODIFIED_DATE(LocalDateTime.class),</span>
 
   /**
    * Dataset title/name.
    */
-<span class="nc" id="L114">  DATASET_TITLE(String.class),</span>
+<span class="nc" id="L115">  DATASET_TITLE(String.class),</span>
 
   /**
    * Collection key associate to this dataset.
    */
-<span class="nc" id="L119">  COLLECTION_KEY(UUID.class),</span>
+<span class="nc" id="L120">  COLLECTION_KEY(UUID.class),</span>
 
   /**
    * Institution key associated to the dataset and/or to the collection.
    */
-<span class="nc" id="L124">  INSTITUTION_KEY(UUID.class),</span>
+<span class="nc" id="L125">  INSTITUTION_KEY(UUID.class),</span>
 
   /**
    * DOI associated to one more dataset.
    */
-<span class="nc" id="L129">  DOI(String.class),</span>
+<span class="nc" id="L130">  DOI(String.class),</span>
 
 
   /**
-   * Network key associated to the dataset.
+   * Network key associated to a dataset.
    */
-<span class="nc" id="L135">  NETWORK_KEY(UUID.class);</span>
+<span class="nc" id="L136">  NETWORK_KEY(UUID.class),</span>
 
-<span class="nc" id="L137">  DatasetSearchParameter(Class&lt;?&gt; type) {</span>
-<span class="nc" id="L138">    this.type = type;</span>
-<span class="nc" id="L139">  }</span>
+  /**
+   * Hosting installation key.
+   */
+<span class="nc" id="L141">  INSTALLATION_KEY(UUID.class),</span>
+
+  /**
+   * EndpointType associated to a dataset.
+   */
+<span class="nc" id="L146">  ENDPOINT_TYPE(EndpointType.class);</span>
+
+<span class="nc" id="L148">  DatasetSearchParameter(Class&lt;?&gt; type) {</span>
+<span class="nc" id="L149">    this.type = type;</span>
+<span class="nc" id="L150">  }</span>
 
   private final Class&lt;?&gt; type;
 
@@ -145,7 +156,7 @@ import java.util.UUID;
    */
   @Override
   public Class&lt;?&gt; type() {
-<span class="nc" id="L148">    return type;</span>
+<span class="nc" id="L159">    return type;</span>
   }
 
 }

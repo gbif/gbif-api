@@ -36,52 +36,65 @@ public class Citation implements Serializable {
   @Size(min = 1, max = 100)
   private String identifier;
 
-<span class="fc" id="L39">  public Citation() {}</span>
+  private boolean citationProvidedBySource;
 
-<span class="nc" id="L41">  public Citation(String text, String identifier) {</span>
-<span class="nc" id="L42">    this.text = text;</span>
-<span class="nc" id="L43">    this.identifier = identifier;</span>
-<span class="nc" id="L44">  }</span>
+<span class="fc" id="L41">  public Citation() {}</span>
+
+<span class="nc" id="L43">  public Citation(String text, String identifier, boolean citationProvidedBySource) {</span>
+<span class="nc" id="L44">    this.text = text;</span>
+<span class="nc" id="L45">    this.identifier = identifier;</span>
+<span class="nc" id="L46">    this.citationProvidedBySource = citationProvidedBySource;</span>
+<span class="nc" id="L47">  }</span>
 
   public String getIdentifier() {
-<span class="nc" id="L47">    return identifier;</span>
+<span class="nc" id="L50">    return identifier;</span>
   }
 
   public void setIdentifier(String identifier) {
-<span class="nc" id="L51">    this.identifier = identifier;</span>
-<span class="nc" id="L52">  }</span>
+<span class="nc" id="L54">    this.identifier = identifier;</span>
+<span class="nc" id="L55">  }</span>
 
   public String getText() {
-<span class="nc" id="L55">    return text;</span>
+<span class="nc" id="L58">    return text;</span>
   }
 
   public void setText(String text) {
-<span class="nc" id="L59">    this.text = text;</span>
-<span class="nc" id="L60">  }</span>
+<span class="nc" id="L62">    this.text = text;</span>
+<span class="nc" id="L63">  }</span>
+
+  public boolean isCitationProvidedBySource() {
+<span class="nc" id="L66">    return citationProvidedBySource;</span>
+  }
+
+  public void setCitationProvidedBySource(boolean citationProvidedBySource) {
+<span class="nc" id="L70">    this.citationProvidedBySource = citationProvidedBySource;</span>
+<span class="nc" id="L71">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L64" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L65">      return true;</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L76">      return true;</span>
     }
-<span class="pc bpc" id="L67" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L68">      return false;</span>
+<span class="pc bpc" id="L78" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L79">      return false;</span>
     }
-<span class="fc" id="L70">    Citation citation = (Citation) o;</span>
-<span class="pc bpc" id="L71" title="2 of 4 branches missed.">    return Objects.equals(text, citation.text) &amp;&amp; Objects.equals(identifier, citation.identifier);</span>
+<span class="fc" id="L81">    Citation citation = (Citation) o;</span>
+<span class="pc bpc" id="L82" title="2 of 4 branches missed.">    return Objects.equals(text, citation.text) &amp;&amp; Objects.equals(identifier, citation.identifier) &amp;&amp;</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">           Objects.equals(citationProvidedBySource, citation.citationProvidedBySource);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L76">    return Objects.hash(text, identifier);</span>
+<span class="nc" id="L88">    return Objects.hash(text, identifier, citationProvidedBySource);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L81">    return new StringJoiner(&quot;, &quot;, Citation.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L82">        .add(&quot;text='&quot; + text + &quot;'&quot;)</span>
-<span class="nc" id="L83">        .add(&quot;identifier='&quot; + identifier + &quot;'&quot;)</span>
-<span class="nc" id="L84">        .toString();</span>
+<span class="nc" id="L93">    return new StringJoiner(&quot;, &quot;, Citation.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L94">        .add(&quot;text='&quot; + text + &quot;'&quot;)</span>
+<span class="nc" id="L95">        .add(&quot;identifier='&quot; + identifier + &quot;'&quot;)</span>
+<span class="nc" id="L96">        .add(&quot;citationProvidedBySource='&quot; + citationProvidedBySource + &quot;'&quot;)</span>
+<span class="nc" id="L97">        .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
