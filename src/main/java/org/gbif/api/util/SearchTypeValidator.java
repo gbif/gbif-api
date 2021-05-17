@@ -16,6 +16,7 @@
 package org.gbif.api.util;
 
 import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.occurrence.geo.DistanceUnit;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Language;
@@ -172,8 +173,12 @@ public class SearchTypeValidator {
     try {
       if (OccurrenceSearchParameter.GEOMETRY == param) {
         validateGeometry(value);
-
       }
+
+      if (OccurrenceSearchParameter.DISTANCE == param) {
+        validateDistance(value);
+      }
+
       // All the parameters except by GEOMETRY accept the wild card value
       if (!WILD_CARD.equalsIgnoreCase(ApiStringUtils.nullToEmpty(value).trim())) {
         if (OccurrenceSearchParameter.DECIMAL_LATITUDE == param) {
@@ -385,6 +390,20 @@ public class SearchTypeValidator {
         ints.add(range.upperEndpoint());
       }
       return ints;
+    }
+  }
+
+  private static void validateDistance(String distance) {
+    if (StringUtils.isEmpty(distance)) {
+      throw new IllegalArgumentException("Distance cannot be null or empty");
+    }
+    try {
+      DistanceUnit.Distance parsedDistance = DistanceUnit.parseDistance(distance);
+      if (parsedDistance.getValue() <= 0d) {
+        throw new IllegalArgumentException("Distance cannot be less than zero");
+      }
+    } catch (Exception ex) {
+      throw new IllegalArgumentException(ex);
     }
   }
 
