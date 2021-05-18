@@ -92,7 +92,18 @@ public interface OccurrenceDownloadService {
   Map<Integer, Map<Integer, Long>> getDownloadedRecordsByDataset(@Nullable Date fromDate,
     @Nullable Date toDate,
     @Nullable Country publishingCountry,
-    @Nullable UUID datasetKey);
+    @Nullable UUID datasetKey,
+    @Nullable UUID publishingOrgKey);
+
+  /**
+   * Retrieves downloads monthly stats by country (user and publishing country) and
+   * dataset.
+   */
+  Map<Integer, Map<Integer, Long>> getDownloadsByDataset(@Nullable Date fromDate,
+                                                         @Nullable Date toDate,
+                                                         @Nullable Country publishingCountry,
+                                                         @Nullable UUID datasetKey,
+                                                         @Nullable UUID publishingOrgKey);
 
   /**
    * Persists usages of datasets in an occurrence download.
