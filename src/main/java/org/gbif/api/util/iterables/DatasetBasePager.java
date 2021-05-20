@@ -47,6 +47,6 @@ abstract class DatasetBasePager extends EntityPager<Dataset> {
         } else if (type != null && d.getType() != type) {
             LOG.debug("Ignore {} dataset {}: {}", d.getType(), d.getKey(), d.getTitle().replaceAll("\n", " "));
         }
-        return false;
+        return super.exclude(d);
     }
 }
