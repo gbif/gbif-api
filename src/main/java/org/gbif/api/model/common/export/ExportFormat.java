@@ -19,6 +19,16 @@ package org.gbif.api.model.common.export;
  * Supported export formats.
  */
 public enum ExportFormat {
-  CSV, //Comma separated
-  TSV //Tab separated
+  CSV(','),  //Comma separated
+  TSV('\t'); //Tab separated
+
+  private final Character delimiter;
+
+  public Character getDelimiter() {
+    return delimiter;
+  }
+
+  ExportFormat(Character delimiter) {
+    this.delimiter = delimiter;
+  }
 }

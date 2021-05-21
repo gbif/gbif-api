@@ -23,6 +23,9 @@ import org.gbif.api.model.occurrence.DownloadStatistics;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
+import org.gbif.api.model.registry.search.DatasetSearchRequest;
+import org.gbif.api.model.registry.search.DatasetSearchResult;
+import org.gbif.api.service.registry.DatasetSearchService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.InstallationService;
 import org.gbif.api.service.registry.NetworkService;
@@ -111,6 +114,13 @@ public class Iterables {
         LOG.info("Iterate over all {} datasets", type == null ? "" : type);
         return new DatasetPager(service, type, PagingConstants.DEFAULT_PARAM_LIMIT);
     }
+
+  /**
+   * Iterates over dataset search results.
+   */
+  public static Iterable<DatasetSearchResult> datasetSearchResults(@Nullable DatasetSearchRequest datasetSearchRequest, DatasetSearchService datasetSearchService) {
+    return new  DatasetSearchResultsPager(datasetSearchService, datasetSearchRequest,PagingConstants.DEFAULT_PARAM_LIMIT);
+  }
 
     /**
      * @param key a valid organization key
