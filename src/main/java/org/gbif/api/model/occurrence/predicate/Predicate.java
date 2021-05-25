@@ -36,7 +36,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
   @JsonSubTypes.Type(value = InPredicate.class, name = "in"),
   @JsonSubTypes.Type(value = WithinPredicate.class, name = "within"),
   @JsonSubTypes.Type(value = NotPredicate.class, name = "not"),
-  @JsonSubTypes.Type(value = IsNotNullPredicate.class, name = "isNotNull")
+  @JsonSubTypes.Type(value = IsNotNullPredicate.class, name = "isNotNull"),
+  @JsonSubTypes.Type(value = IsNullPredicate.class, name = "isNull")
 })
 public interface Predicate extends Serializable {
 }

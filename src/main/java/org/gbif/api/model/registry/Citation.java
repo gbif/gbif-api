@@ -36,11 +36,14 @@ public class Citation implements Serializable {
   @Size(min = 1, max = 100)
   private String identifier;
 
+  private boolean citationProvidedBySource;
+
   public Citation() {}
 
-  public Citation(String text, String identifier) {
+  public Citation(String text, String identifier, boolean citationProvidedBySource) {
     this.text = text;
     this.identifier = identifier;
+    this.citationProvidedBySource = citationProvidedBySource;
   }
 
   public String getIdentifier() {
@@ -59,6 +62,14 @@ public class Citation implements Serializable {
     this.text = text;
   }
 
+  public boolean isCitationProvidedBySource() {
+    return citationProvidedBySource;
+  }
+
+  public void setCitationProvidedBySource(boolean citationProvidedBySource) {
+    this.citationProvidedBySource = citationProvidedBySource;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -68,12 +79,13 @@ public class Citation implements Serializable {
       return false;
     }
     Citation citation = (Citation) o;
-    return Objects.equals(text, citation.text) && Objects.equals(identifier, citation.identifier);
+    return Objects.equals(text, citation.text) && Objects.equals(identifier, citation.identifier) &&
+           Objects.equals(citationProvidedBySource, citation.citationProvidedBySource);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(text, identifier);
+    return Objects.hash(text, identifier, citationProvidedBySource);
   }
 
   @Override
@@ -81,6 +93,7 @@ public class Citation implements Serializable {
     return new StringJoiner(", ", Citation.class.getSimpleName() + "[", "]")
         .add("text='" + text + "'")
         .add("identifier='" + identifier + "'")
+        .add("citationProvidedBySource='" + citationProvidedBySource + "'")
         .toString();
   }
 }

@@ -15,21 +15,28 @@
  */
 package org.gbif.api.util.iterables;
 
+import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingConstants;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
+import org.gbif.api.model.occurrence.DownloadStatistics;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
+import org.gbif.api.model.registry.search.DatasetSearchRequest;
+import org.gbif.api.model.registry.search.DatasetSearchResult;
+import org.gbif.api.service.registry.DatasetSearchService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.InstallationService;
 import org.gbif.api.service.registry.NetworkService;
 import org.gbif.api.service.registry.NodeService;
+import org.gbif.api.service.registry.OccurrenceDownloadService;
 import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetType;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -107,6 +114,13 @@ public class Iterables {
         LOG.info("Iterate over all {} datasets", type == null ? "" : type);
         return new DatasetPager(service, type, PagingConstants.DEFAULT_PARAM_LIMIT);
     }
+
+  /**
+   * Iterates over dataset search results.
+   */
+  public static Iterable<DatasetSearchResult> datasetSearchResults(@Nullable DatasetSearchRequest datasetSearchRequest, DatasetSearchService datasetSearchService) {
+    return new  DatasetSearchResultsPager(datasetSearchService, datasetSearchRequest,PagingConstants.DEFAULT_PARAM_LIMIT);
+  }
 
     /**
      * @param key a valid organization key
@@ -198,6 +212,21 @@ public class Iterables {
     public static Iterable<Node> nodes(NodeService service) {
         LOG.info("Iterate over all nodes");
         return new NodePager(service, PagingConstants.DEFAULT_PARAM_LIMIT);
+    }
+
+  /**
+   * Iterable for {@link OccurrenceDownloadService#getDownloadStatistics(Date, Date, Country, UUID, UUID, Pageable)}.
+   */
+    public static Iterable<DownloadStatistics> downloadStatistics(OccurrenceDownloadService service,
+                                                                  @Nullable Date fromDate,
+                                                                  @Nullable Date toDate,
+                                                                  @Nullable Country publishingCountry,
+                                                                  @Nullable UUID datasetKey,
+                                                                  @Nullable UUID publishingOrgKey) {
+      LOG.info("Iterate over download statistics");
+      return new DownloadStatisticPager(service, fromDate, toDate,
+                                        publishingCountry, datasetKey, publishingOrgKey,
+                                        PagingConstants.DEFAULT_PARAM_LIMIT);
     }
 
     private static boolean isDataset(UUID key, DatasetService ds) {

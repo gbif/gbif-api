@@ -129,6 +129,31 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    */
   LAST_INTERPRETED(Date.class),
 
+
+  /**
+   * Modified date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
+   * This parameter accepts comma separated range values, examples of valid ranges are:
+   * <dl>
+   * <dt>2001-02-11,2010-01-10</dt>
+   * <dd>Dates between 2001-02-11 and 2010-01-10</dd>
+   * <dt>2001-02,2010-01</dt>
+   * <dd>Dates between first day of 2001-02 and last day of 2010-01</dd>
+   * <dt>2001,2010</dt>
+   * <dd>Dates between first day of 2001 and last day of 2010</dd>
+   * <dt>2001,2010-01</dt>
+   * <dd>Dates between first day of 2001 and last day of 2010-01</dd>
+   * <dt>2001-01-10,2010</dt>
+   * <dd>Dates between 2001-01-10 and last day of 2010</dd>
+   * <dt>2001-01-10,*</dt>
+   * <dd>Dates after 2001-01-10</dd>
+   * <dt>*,2001-01-10</dt>
+   * <dd>Dates before 2001-01-10</dd>
+   * <dt>*</dt>
+   * <dd>all dates</dd>
+   * </dl>
+   */
+  MODIFIED(Date.class),
+
   /**
    * Latitude in decimals between -90 and 90 based on WGS 84.
    */
