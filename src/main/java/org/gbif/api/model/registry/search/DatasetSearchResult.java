@@ -42,12 +42,14 @@ public class DatasetSearchResult {
   private String fullText;
   private UUID hostingOrganizationKey;
   private String hostingOrganizationTitle;
+  private Country hostingCountry;
   private String publisherTitle;
   private Set<Country> countryCoverage;
   private Set<Continent> continent;
   private Country publishingCountry;
   private UUID publishingOrganizationKey;
   private String publishingOrganizationTitle;
+  private UUID endorsingNodeKey;
   private List<UUID> networkKeys;
   private License license;
   private List<Integer> decades;
@@ -128,12 +130,28 @@ public class DatasetSearchResult {
     this.hostingOrganizationTitle = hostingOrganizationTitle;
   }
 
+  public Country getHostingCountry() {
+    return hostingCountry;
+  }
+
+  public void setHostingCountry(Country hostingCountry) {
+    this.hostingCountry = hostingCountry;
+  }
+
   public String getPublisherTitle() {
     return publisherTitle;
   }
 
   public void setPublisherTitle(String publisherTitle) {
     this.publisherTitle = publisherTitle;
+  }
+
+  public UUID getEndorsingNodeKey() {
+    return endorsingNodeKey;
+  }
+
+  public void setEndorsingNodeKey(UUID endorsingNodeKey) {
+    this.endorsingNodeKey = endorsingNodeKey;
   }
 
   /**

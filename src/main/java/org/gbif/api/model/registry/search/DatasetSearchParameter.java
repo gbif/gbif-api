@@ -47,7 +47,7 @@ public enum DatasetSearchParameter implements SearchParameter {
   PUBLISHING_ORG(UUID.class),
 
   /**
-   * The hosting organizations uuid key.
+   * The hosting organization's uuid key.
    */
   HOSTING_ORG(UUID.class),
 
@@ -63,9 +63,14 @@ public enum DatasetSearchParameter implements SearchParameter {
   DECADE(Integer.class),
 
   /**
-   * The owning organizations country.
+   * The hosting organization's country.
    */
   PUBLISHING_COUNTRY(Country.class),
+
+  /**
+   * The owning organization's country.
+   */
+  HOSTING_COUNTRY(Country.class),
 
   /**
    * Country of the geospatial coverage of a dataset.
@@ -129,11 +134,15 @@ public enum DatasetSearchParameter implements SearchParameter {
    */
   DOI(String.class),
 
-
   /**
    * Network key associated to a dataset.
    */
   NETWORK_KEY(UUID.class),
+
+  /**
+   * Node key that endorsed this dataset's publisher.
+   */
+  ENDORSING_NODE_KEY(UUID.class),
 
   /**
    * Hosting installation key.
