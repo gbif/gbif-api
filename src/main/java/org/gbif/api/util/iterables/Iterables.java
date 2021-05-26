@@ -37,6 +37,7 @@ import org.gbif.api.vocabulary.DatasetType;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -118,8 +119,11 @@ public class Iterables {
   /**
    * Iterates over dataset search results.
    */
-  public static Iterable<DatasetSearchResult> datasetSearchResults(@Nullable DatasetSearchRequest datasetSearchRequest, DatasetSearchService datasetSearchService) {
-    return new  DatasetSearchResultsPager(datasetSearchService, datasetSearchRequest,PagingConstants.DEFAULT_PARAM_LIMIT);
+  public static Iterable<DatasetSearchResult> datasetSearchResults(@Nullable DatasetSearchRequest datasetSearchRequest,
+                                                                   DatasetSearchService datasetSearchService,
+                                                                   @Nullable Integer limit) {
+    return new  DatasetSearchResultsPager(datasetSearchService, datasetSearchRequest,
+                                          Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
   }
 
     /**
@@ -222,11 +226,12 @@ public class Iterables {
                                                                   @Nullable Date toDate,
                                                                   @Nullable Country publishingCountry,
                                                                   @Nullable UUID datasetKey,
-                                                                  @Nullable UUID publishingOrgKey) {
+                                                                  @Nullable UUID publishingOrgKey,
+                                                                  @Nullable Integer limit) {
       LOG.info("Iterate over download statistics");
       return new DownloadStatisticPager(service, fromDate, toDate,
                                         publishingCountry, datasetKey, publishingOrgKey,
-                                        PagingConstants.DEFAULT_PARAM_LIMIT);
+                                        Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
     }
 
     private static boolean isDataset(UUID key, DatasetService ds) {

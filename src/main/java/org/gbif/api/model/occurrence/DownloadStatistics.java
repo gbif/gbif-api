@@ -28,15 +28,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class DownloadStatistics {
 
   private UUID datasetKey;
-  private Integer totalRecords;
-  private Integer numberDownloads;
+  private Long totalRecords;
+  private Long numberDownloads;
   private LocalDate yearMonth;
 
   public DownloadStatistics(){
 
   }
 
-  public DownloadStatistics(UUID datasetKey, Integer totalRecords, Integer numberDownloads, LocalDate yearMonth) {
+  public DownloadStatistics(UUID datasetKey, Long totalRecords, Long numberDownloads, LocalDate yearMonth) {
     this.datasetKey = datasetKey;
     this.totalRecords = totalRecords;
     this.numberDownloads = numberDownloads;
@@ -51,19 +51,19 @@ public class DownloadStatistics {
     this.datasetKey = datasetKey;
   }
 
-  public Integer getTotalRecords() {
+  public Long getTotalRecords() {
     return totalRecords;
   }
 
-  public void setTotalRecords(Integer totalRecords) {
+  public void setTotalRecords(Long totalRecords) {
     this.totalRecords = totalRecords;
   }
 
-  public Integer getNumberDownloads() {
+  public Long getNumberDownloads() {
     return numberDownloads;
   }
 
-  public void setNumberDownloads(Integer numberDownloads) {
+  public void setNumberDownloads(Long numberDownloads) {
     this.numberDownloads = numberDownloads;
   }
 
