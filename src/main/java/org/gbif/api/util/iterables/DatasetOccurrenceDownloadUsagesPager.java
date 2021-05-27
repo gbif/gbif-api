@@ -19,29 +19,27 @@ import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.DatasetOccurrenceDownloadUsage;
-import org.gbif.api.service.registry.DatasetOccurrenceDownloadUsageService;
-
-import java.util.UUID;
+import org.gbif.api.service.registry.OccurrenceDownloadService;
 
 /**
- * Iterates over results of {@link DatasetOccurrenceDownloadUsageService#listByDataset(UUID, Pageable)}.
+ * Iterates over results of {@link OccurrenceDownloadService#listDatasetUsages(String, Pageable)}.
  */
 public class DatasetOccurrenceDownloadUsagesPager extends BasePager<DatasetOccurrenceDownloadUsage> {
 
-    private final DatasetOccurrenceDownloadUsageService service;
-    private final UUID datasetKey;
+  private final OccurrenceDownloadService service;
+  private final String downloadKey;
 
-    public DatasetOccurrenceDownloadUsagesPager(DatasetOccurrenceDownloadUsageService service,
-                                                UUID datasetKey,
-                                                int pageSize) {
-      super(pageSize);
-      this.datasetKey = datasetKey;
-      this.service = service;
-    }
+  public DatasetOccurrenceDownloadUsagesPager(OccurrenceDownloadService service,
+                                              String downloadKey,
+                                              int pageSize) {
+    super(pageSize);
+    this.downloadKey = downloadKey;
+    this.service = service;
+  }
 
-    @Override
-    PagingResponse<DatasetOccurrenceDownloadUsage> nextPage(PagingRequest page) {
-        return service.listByDataset(datasetKey, page);
-    }
+  @Override
+  PagingResponse<DatasetOccurrenceDownloadUsage> nextPage(PagingRequest page) {
+    return service.listDatasetUsages(downloadKey, page);
+  }
 
 }
