@@ -21,10 +21,12 @@ import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.occurrence.DownloadStatistics;
 import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.DatasetOccurrenceDownloadUsage;
 import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.search.DatasetSearchRequest;
 import org.gbif.api.model.registry.search.DatasetSearchResult;
+import org.gbif.api.service.registry.DatasetOccurrenceDownloadUsageService;
 import org.gbif.api.service.registry.DatasetSearchService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.InstallationService;
@@ -233,6 +235,18 @@ public class Iterables {
                                         publishingCountry, datasetKey, publishingOrgKey,
                                         Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
     }
+
+  /**
+   * Iterable for {@link DatasetOccurrenceDownloadUsageService#listByDataset(UUID, Pageable)}.
+   */
+  public static Iterable<DatasetOccurrenceDownloadUsage> datasetOccurrenceDownloadUsages(DatasetOccurrenceDownloadUsageService service,
+                                                                                         UUID datasetKey,
+                                                                                         @Nullable Integer limit) {
+    LOG.info("Iterate over download dataset usages");
+    return new DatasetOccurrenceDownloadUsagesPager(service,
+                                                    datasetKey,
+                                                    Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
+  }
 
     private static boolean isDataset(UUID key, DatasetService ds) {
         return ds.get(key) != null;
