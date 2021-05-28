@@ -67,6 +67,35 @@ public enum BasisOfRecord {
   /**
    * Unknown basis for the record.
    */
-  UNKNOWN
+  UNKNOWN,
 
+  /**
+   * An occurrence record based on an expert opinion.
+   */
+  NOMENCLATURAL_CHECKLIST,
+
+  /**
+   * An occurrence record based on an image file.
+   */
+  IMAGE,
+
+  /**
+   * An occurrence record based on a sound file.
+   */
+  SOUND,
+
+  /**
+   * An occurrence record based on a video file.
+   */
+  VIDEO,
+
+  /**
+   * An occurrence record based on a DNA sequence.
+   */
+  GENOMIC_DNA,
+
+  /**
+   * An occurrence record based on a DNA sequence at a site.
+   */
+  ENVIRONMENTAL_DNA,
 }
