@@ -18,6 +18,7 @@ package org.gbif.api.service.registry;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.occurrence.Download;
+import org.gbif.api.model.occurrence.DownloadStatistics;
 import org.gbif.api.model.registry.DatasetOccurrenceDownloadUsage;
 import org.gbif.api.vocabulary.Country;
 
@@ -86,13 +87,32 @@ public interface OccurrenceDownloadService {
     @Nullable Country userCountry);
 
   /**
-   * Retrieves downloaded records monthly stats by country (user and publishing country) and
-   * dataset.
+   * Retrieves downloaded records monthly stats by country (user and publishing country) and dataset.
    */
   Map<Integer, Map<Integer, Long>> getDownloadedRecordsByDataset(@Nullable Date fromDate,
     @Nullable Date toDate,
     @Nullable Country publishingCountry,
-    @Nullable UUID datasetKey);
+    @Nullable UUID datasetKey,
+    @Nullable UUID publishingOrgKey);
+
+  /**
+   * Retrieves downloads monthly stats by country (user and publishing country) and dataset.
+   */
+  Map<Integer, Map<Integer, Long>> getDownloadsByDataset(@Nullable Date fromDate,
+                                                         @Nullable Date toDate,
+                                                         @Nullable Country publishingCountry,
+                                                         @Nullable UUID datasetKey,
+                                                         @Nullable UUID publishingOrgKey);
+
+  /**
+   * Retrieves downloads monthly stats by country (user and publishing country) and dataset.
+   */
+  PagingResponse<DownloadStatistics> getDownloadStatistics(@Nullable Date fromDate,
+                                                           @Nullable Date toDate,
+                                                           @Nullable Country publishingCountry,
+                                                           @Nullable UUID datasetKey,
+                                                           @Nullable UUID publishingOrgKey,
+                                                           @Nullable Pageable page);
 
   /**
    * Persists usages of datasets in an occurrence download.

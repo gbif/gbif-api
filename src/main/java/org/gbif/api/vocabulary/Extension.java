@@ -236,8 +236,7 @@ public enum Extension {
     AVAILABLE_EXTENSION_MAP.put(GERMPLASM_MEASUREMENT_TRIAL, "http://rs.gbif.org/extension/germplasm/MeasurementTrial.xml");
     AVAILABLE_EXTENSION_MAP.put(GERMPLASM_ACCESSION, "http://rs.gbif.org/extension/germplasm/GermplasmAccession.xml");
     AVAILABLE_EXTENSION_MAP.put(EXTENDED_MEASUREMENT_OR_FACT, "http://rs.gbif.org/extension/obis/extended_measurement_or_fact.xml");
-    AVAILABLE_EXTENSION_MAP.put(CHRONOMETRIC_AGE, "http://rs.gbif.org/extension/zooarchnet/ChronometricAge_2020-10-06.xml");
-    AVAILABLE_EXTENSION_MAP.put(CHRONOMETRIC_DATE, "http://rs.gbif.org/extension/zooarchnet/chronometricDate.xml");
+    AVAILABLE_EXTENSION_MAP.put(CHRONOMETRIC_AGE, "http://rs.gbif.org/extension/dwc/ChronometricAge_2021-03-27.xml");
     AVAILABLE_EXTENSION_MAP.put(REFERENCE, "http://rs.gbif.org/extension/gbif/1.0/references.xml");
     AVAILABLE_EXTENSION_MAP.put(IDENTIFIER, "http://rs.gbif.org/extension/gbif/1.0/identifier.xml");
   }
