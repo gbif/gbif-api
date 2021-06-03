@@ -175,8 +175,8 @@ public class SearchTypeValidator {
         validateGeometry(value);
       }
 
-      if (OccurrenceSearchParameter.DISTANCE == param) {
-        validateDistance(value);
+      if (OccurrenceSearchParameter.GEO_DISTANCE == param) {
+        validateGeoDistance(value);
       }
 
       // All the parameters except by GEOMETRY accept the wild card value
@@ -393,17 +393,24 @@ public class SearchTypeValidator {
     }
   }
 
-  private static void validateDistance(String distance) {
-    if (StringUtils.isEmpty(distance)) {
-      throw new IllegalArgumentException("Distance cannot be null or empty");
+  private static void validateGeoDistance(String geoDistance) {
+    if (StringUtils.isEmpty(geoDistance)) {
+      throw new IllegalArgumentException("GeoDistance cannot be null or empty");
     }
-    try {
-      DistanceUnit.Distance parsedDistance = DistanceUnit.parseDistance(distance);
-      if (parsedDistance.getValue() <= 0d) {
-        throw new IllegalArgumentException("Distance cannot be less than zero");
-      }
-    } catch (Exception ex) {
-      throw new IllegalArgumentException(ex);
+    String[] geoDistanceTokens = geoDistance.split(",");
+    if (geoDistanceTokens.length != 3) {
+      throw new IllegalArgumentException("GeoDistance must follow the format lat,lng,distance");
+    }
+    validateGeoDistance(geoDistanceTokens[0], geoDistanceTokens[1], geoDistanceTokens[2]);
+  }
+
+
+  public static void validateGeoDistance(String latitude, String longitude, String distance) {
+    validateLatitude(latitude);
+    validateLongitude(longitude);
+    DistanceUnit.Distance parsedDistance = DistanceUnit.parseDistance(distance);
+    if (parsedDistance.getValue() <= 0d) {
+      throw new IllegalArgumentException("GeoDistance cannot be less than zero");
     }
   }
 

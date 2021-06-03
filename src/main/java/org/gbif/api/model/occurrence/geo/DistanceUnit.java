@@ -1,4 +1,24 @@
+/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.gbif.api.model.occurrence.geo;
+
+import java.util.Objects;
+import java.util.StringJoiner;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * The DistanceUnit enumerates several units for measuring distances. These units
@@ -132,6 +152,82 @@ public enum DistanceUnit {
     @Override
     public String toString() {
       return unit.toString(value);
+    }
+  }
+
+  public static class GeoDistance {
+
+    private final double latitude;
+
+    private final double longitude;
+
+    private final Distance distance;
+
+    public GeoDistance(double latitude, double longitude, Distance distance) {
+      this.latitude = latitude;
+      this.longitude = longitude;
+      this.distance = distance;
+    }
+
+    public double getLatitude() {
+      return latitude;
+    }
+
+    public double getLongitude() {
+      return longitude;
+    }
+
+    public Distance getDistance() {
+      return distance;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      GeoDistance that = (GeoDistance) o;
+      return Double.compare(that.latitude, latitude) == 0
+             && Double.compare(that.longitude, longitude) == 0
+             && Objects.equals(distance, that.distance);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(latitude, longitude, distance);
+    }
+
+    @Override
+    public String toString() {
+      return new StringJoiner(", ", GeoDistance.class.getSimpleName() + "[", "]")
+        .add("latitude=" + latitude)
+        .add("longitude=" + longitude)
+        .add("distance=" + distance)
+        .toString();
+    }
+
+    public static GeoDistance parseGeoDistance(String geoDistance) {
+      if (StringUtils.isEmpty(geoDistance)) {
+        throw new IllegalArgumentException("GeoDistance cannot be null or empty");
+      }
+      String[] geoDistanceTokens = geoDistance.split(",");
+      if (geoDistanceTokens.length != 3) {
+        throw new IllegalArgumentException("GeoDistance must follow the format lat,lng,distance");
+      }
+      return parseGeoDistance(geoDistanceTokens[0].trim(), geoDistanceTokens[1].trim(), geoDistanceTokens[2].trim());
+    }
+
+    public String toGeoDistanceString() {
+      return new StringJoiner(", ")
+        .add(Double.toString(latitude))
+        .add(Double.toString(longitude))
+        .add(distance.toString())
+        .toString();
+    }
+
+    public static GeoDistance parseGeoDistance(String latitude, String longitude, String distance) {
+      return new GeoDistance(Double.parseDouble(latitude),
+                             Double.parseDouble(longitude),
+                             DistanceUnit.parseDistance(distance));
     }
   }
 }
