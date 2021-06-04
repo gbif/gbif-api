@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.collections;
 
+import org.gbif.api.model.registry.LenientEquals;
 import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
 
@@ -30,7 +31,7 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 /** Models the mapping of a GRSciColl institution or collection to an occurrence record. */
-public class OccurrenceMapping implements Serializable {
+public class OccurrenceMapping implements Serializable, LenientEquals<OccurrenceMapping> {
 
   private Integer key;
   private String code;
@@ -38,6 +39,14 @@ public class OccurrenceMapping implements Serializable {
   private UUID datasetKey;
   private String createdBy;
   private Date created;
+
+  public OccurrenceMapping() {}
+
+  public OccurrenceMapping(String code, String identifier, UUID datasetKey) {
+    this.code = code;
+    this.identifier = identifier;
+    this.datasetKey = datasetKey;
+  }
 
   /** Unique identifier, assigned by the persistence store. */
   @Null(groups = {PrePersist.class})
@@ -127,5 +136,15 @@ public class OccurrenceMapping implements Serializable {
         .add("createdBy='" + createdBy + "'")
         .add("created=" + created)
         .toString();
+  }
+
+  @Override
+  public boolean lenientEquals(OccurrenceMapping other) {
+    if (this == other) {
+      return true;
+    }
+    return Objects.equals(code, other.code)
+        && Objects.equals(identifier, other.identifier)
+        && Objects.equals(datasetKey, other.datasetKey);
   }
 }

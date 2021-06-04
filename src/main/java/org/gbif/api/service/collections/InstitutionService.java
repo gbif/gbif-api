@@ -20,24 +20,14 @@ import org.gbif.api.model.collections.request.InstitutionSearchRequest;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;
-import org.gbif.api.service.registry.CommentService;
-import org.gbif.api.service.registry.IdentifierService;
-import org.gbif.api.service.registry.MachineTagService;
-import org.gbif.api.service.registry.TagService;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
 /** Service for institutions in the collections context. */
-public interface InstitutionService
-    extends CrudService<Institution>,
-        ContactService,
-        TagService,
-        IdentifierService,
-        MachineTagService,
-        CommentService,
-        OccurrenceMappingService {
+public interface InstitutionService extends PrimaryCollectionEntityService<Institution> {
 
   /**
    * Pages {@link Institution} entities based on the parameters received.
@@ -56,4 +46,7 @@ public interface InstitutionService
 
   /** Provides a simple suggest service. */
   List<KeyCodeNameResult> suggest(@Nullable String q);
+
+  /** Converts an institution into a collection. The institution converted is deleted. */
+  void convertToCollection(UUID targetEntityKey, UUID collectionKey);
 }

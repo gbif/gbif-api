@@ -50,7 +50,7 @@ import javax.validation.constraints.Size;
  */
 @SuppressWarnings("unused")
 public class Institution
-    implements CollectionEntity,
+    implements PrimaryCollectionEntity,
         Contactable,
         Taggable,
         MachineTaggable,
@@ -112,20 +112,24 @@ public class Institution
 
   /** Code used to identified the collection. */
   @NotNull(groups = PrePersist.class)
+  @Override
   public String getCode() {
     return code;
   }
 
+  @Override
   public void setCode(String code) {
     this.code = code;
   }
 
   /** Name or title of a institution. */
   @NotNull
+  @Override
   public String getName() {
     return name;
   }
 
+  @Override
   public void setName(String name) {
     this.name = name;
   }
@@ -133,10 +137,12 @@ public class Institution
   /** Textual description of institution. */
   @Nullable
   @Size(min = 1)
+  @Override
   public String getDescription() {
     return description;
   }
 
+  @Override
   public void setDescription(String description) {
     this.description = description;
   }
@@ -151,10 +157,12 @@ public class Institution
   }
 
   /** Is the institution active/operational?. */
+  @Override
   public boolean isActive() {
     return active;
   }
 
+  @Override
   public void setActive(boolean active) {
     this.active = active;
   }
@@ -469,10 +477,12 @@ public class Institution
     this.occurrenceMappings = occurrenceMappings;
   }
 
+  @Override
   public UUID getReplacedBy() {
     return replacedBy;
   }
 
+  @Override
   public void setReplacedBy(UUID replacedBy) {
     this.replacedBy = replacedBy;
   }
