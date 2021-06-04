@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.collections;
 
+import org.gbif.api.model.registry.LenientEquals;
 import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
 
@@ -30,7 +31,7 @@ import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 /** Models the mapping of a GRSciColl institution or collection to an occurrence record. */
-<span class="nc" id="L33">public class OccurrenceMapping implements Serializable {</span>
+public class OccurrenceMapping implements Serializable, LenientEquals&lt;OccurrenceMapping&gt; {
 
   private Integer key;
   private String code;
@@ -39,94 +40,112 @@ import javax.validation.constraints.Size;
   private String createdBy;
   private Date created;
 
+<span class="nc" id="L43">  public OccurrenceMapping() {}</span>
+
+<span class="nc" id="L45">  public OccurrenceMapping(String code, String identifier, UUID datasetKey) {</span>
+<span class="nc" id="L46">    this.code = code;</span>
+<span class="nc" id="L47">    this.identifier = identifier;</span>
+<span class="nc" id="L48">    this.datasetKey = datasetKey;</span>
+<span class="nc" id="L49">  }</span>
+
   /** Unique identifier, assigned by the persistence store. */
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   public Integer getKey() {
-<span class="nc" id="L46">    return key;</span>
+<span class="nc" id="L55">    return key;</span>
   }
 
   public void setKey(Integer key) {
-<span class="nc" id="L50">    this.key = key;</span>
-<span class="nc" id="L51">  }</span>
+<span class="nc" id="L59">    this.key = key;</span>
+<span class="nc" id="L60">  }</span>
 
   @Nullable
   @Size(min = 1)
   public String getCode() {
-<span class="nc" id="L56">    return code;</span>
+<span class="nc" id="L65">    return code;</span>
   }
 
   public void setCode(String code) {
-<span class="nc" id="L60">    this.code = code;</span>
-<span class="nc" id="L61">  }</span>
+<span class="nc" id="L69">    this.code = code;</span>
+<span class="nc" id="L70">  }</span>
 
   @Nullable
   @Size(min = 1)
   public String getIdentifier() {
-<span class="nc" id="L66">    return identifier;</span>
+<span class="nc" id="L75">    return identifier;</span>
   }
 
   public void setIdentifier(String identifier) {
-<span class="nc" id="L70">    this.identifier = identifier;</span>
-<span class="nc" id="L71">  }</span>
+<span class="nc" id="L79">    this.identifier = identifier;</span>
+<span class="nc" id="L80">  }</span>
 
   @NotNull
   public UUID getDatasetKey() {
-<span class="nc" id="L75">    return datasetKey;</span>
+<span class="nc" id="L84">    return datasetKey;</span>
   }
 
   public void setDatasetKey(UUID datasetKey) {
-<span class="nc" id="L79">    this.datasetKey = datasetKey;</span>
-<span class="nc" id="L80">  }</span>
+<span class="nc" id="L88">    this.datasetKey = datasetKey;</span>
+<span class="nc" id="L89">  }</span>
 
   public String getCreatedBy() {
-<span class="nc" id="L83">    return createdBy;</span>
+<span class="nc" id="L92">    return createdBy;</span>
   }
 
   public void setCreatedBy(String createdBy) {
-<span class="nc" id="L87">    this.createdBy = createdBy;</span>
-<span class="nc" id="L88">  }</span>
+<span class="nc" id="L96">    this.createdBy = createdBy;</span>
+<span class="nc" id="L97">  }</span>
 
   public Date getCreated() {
-<span class="nc" id="L91">    return created;</span>
+<span class="nc" id="L100">    return created;</span>
   }
 
   public void setCreated(Date created) {
-<span class="nc" id="L95">    this.created = created;</span>
-<span class="nc" id="L96">  }</span>
+<span class="nc" id="L104">    this.created = created;</span>
+<span class="nc" id="L105">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L100" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L101">      return true;</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L110">      return true;</span>
     }
-<span class="nc bnc" id="L103" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L104">      return false;</span>
+<span class="nc bnc" id="L112" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L113">      return false;</span>
     }
-<span class="nc" id="L106">    OccurrenceMapping that = (OccurrenceMapping) o;</span>
-<span class="nc bnc" id="L107" title="All 2 branches missed.">    return Objects.equals(key, that.key)</span>
-<span class="nc bnc" id="L108" title="All 2 branches missed.">        &amp;&amp; Objects.equals(code, that.code)</span>
-<span class="nc bnc" id="L109" title="All 2 branches missed.">        &amp;&amp; Objects.equals(identifier, that.identifier)</span>
-<span class="nc bnc" id="L110" title="All 2 branches missed.">        &amp;&amp; Objects.equals(datasetKey, that.datasetKey)</span>
-<span class="nc bnc" id="L111" title="All 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, that.createdBy)</span>
-<span class="nc bnc" id="L112" title="All 2 branches missed.">        &amp;&amp; Objects.equals(created, that.created);</span>
+<span class="nc" id="L115">    OccurrenceMapping that = (OccurrenceMapping) o;</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">    return Objects.equals(key, that.key)</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        &amp;&amp; Objects.equals(code, that.code)</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        &amp;&amp; Objects.equals(identifier, that.identifier)</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        &amp;&amp; Objects.equals(datasetKey, that.datasetKey)</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, that.createdBy)</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        &amp;&amp; Objects.equals(created, that.created);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L117">    return Objects.hash(key, code, identifier, datasetKey, createdBy, created);</span>
+<span class="nc" id="L126">    return Objects.hash(key, code, identifier, datasetKey, createdBy, created);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L122">    return new StringJoiner(&quot;, &quot;, OccurrenceMapping.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L123">        .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L124">        .add(&quot;code='&quot; + code + &quot;'&quot;)</span>
-<span class="nc" id="L125">        .add(&quot;identifier='&quot; + identifier + &quot;'&quot;)</span>
-<span class="nc" id="L126">        .add(&quot;datasetKey=&quot; + datasetKey)</span>
-<span class="nc" id="L127">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
-<span class="nc" id="L128">        .add(&quot;created=&quot; + created)</span>
-<span class="nc" id="L129">        .toString();</span>
+<span class="nc" id="L131">    return new StringJoiner(&quot;, &quot;, OccurrenceMapping.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L132">        .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L133">        .add(&quot;code='&quot; + code + &quot;'&quot;)</span>
+<span class="nc" id="L134">        .add(&quot;identifier='&quot; + identifier + &quot;'&quot;)</span>
+<span class="nc" id="L135">        .add(&quot;datasetKey=&quot; + datasetKey)</span>
+<span class="nc" id="L136">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L137">        .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L138">        .toString();</span>
+  }
+
+  @Override
+  public boolean lenientEquals(OccurrenceMapping other) {
+<span class="nc bnc" id="L143" title="All 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L144">      return true;</span>
+    }
+<span class="nc bnc" id="L146" title="All 2 branches missed.">    return Objects.equals(code, other.code)</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">        &amp;&amp; Objects.equals(identifier, other.identifier)</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        &amp;&amp; Objects.equals(datasetKey, other.datasetKey);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

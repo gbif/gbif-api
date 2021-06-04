@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CollectionsSearchResponse.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections.search</a> &gt; <span class="el_source">CollectionsSearchResponse.java</span></div><h1>CollectionsSearchResponse.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.collections.search;
+
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
+
+/** Models the response for the Collections search. */
+<span class="nc" id="L23">public class CollectionsSearchResponse {</span>
+
+  private String type;
+  private UUID key;
+  private String code;
+  private String name;
+  private UUID institutionKey;
+  private String institutionCode;
+  private String institutionName;
+  private Set&lt;Match&gt; matches;
+
+  public String getType() {
+<span class="nc" id="L35">    return type;</span>
+  }
+
+  public void setType(String type) {
+<span class="nc" id="L39">    this.type = type;</span>
+<span class="nc" id="L40">  }</span>
+
+  public UUID getKey() {
+<span class="nc" id="L43">    return key;</span>
+  }
+
+  public void setKey(UUID key) {
+<span class="nc" id="L47">    this.key = key;</span>
+<span class="nc" id="L48">  }</span>
+
+  public String getCode() {
+<span class="nc" id="L51">    return code;</span>
+  }
+
+  public void setCode(String code) {
+<span class="nc" id="L55">    this.code = code;</span>
+<span class="nc" id="L56">  }</span>
+
+  public String getName() {
+<span class="nc" id="L59">    return name;</span>
+  }
+
+  public void setName(String name) {
+<span class="nc" id="L63">    this.name = name;</span>
+<span class="nc" id="L64">  }</span>
+
+  public UUID getInstitutionKey() {
+<span class="nc" id="L67">    return institutionKey;</span>
+  }
+
+  public void setInstitutionKey(UUID institutionKey) {
+<span class="nc" id="L71">    this.institutionKey = institutionKey;</span>
+<span class="nc" id="L72">  }</span>
+
+  public String getInstitutionCode() {
+<span class="nc" id="L75">    return institutionCode;</span>
+  }
+
+  public void setInstitutionCode(String institutionCode) {
+<span class="nc" id="L79">    this.institutionCode = institutionCode;</span>
+<span class="nc" id="L80">  }</span>
+
+  public String getInstitutionName() {
+<span class="nc" id="L83">    return institutionName;</span>
+  }
+
+  public void setInstitutionName(String institutionName) {
+<span class="nc" id="L87">    this.institutionName = institutionName;</span>
+<span class="nc" id="L88">  }</span>
+
+  public Set&lt;Match&gt; getMatches() {
+<span class="nc" id="L91">    return matches;</span>
+  }
+
+  public void setMatches(Set&lt;Match&gt; matches) {
+<span class="nc" id="L95">    this.matches = matches;</span>
+<span class="nc" id="L96">  }</span>
+
+<span class="nc" id="L98">  public static class Match {</span>
+    private String field;
+    private String snippet;
+
+    public String getField() {
+<span class="nc" id="L103">      return field;</span>
+    }
+
+    public void setField(String field) {
+<span class="nc" id="L107">      this.field = field;</span>
+<span class="nc" id="L108">    }</span>
+
+    public String getSnippet() {
+<span class="nc" id="L111">      return snippet;</span>
+    }
+
+    public void setSnippet(String snippet) {
+<span class="nc" id="L115">      this.snippet = snippet;</span>
+<span class="nc" id="L116">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L120" title="All 2 branches missed.">      if (this == o) return true;</span>
+<span class="nc bnc" id="L121" title="All 4 branches missed.">      if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L122">      Match match = (Match) o;</span>
+<span class="nc" id="L123">      return Objects.equals(field, match.field);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L128">      return Objects.hash(field);</span>
+    }
+  }
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L134" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L135">      return true;</span>
+    }
+<span class="nc bnc" id="L137" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L138">      return false;</span>
+    }
+<span class="nc" id="L140">    CollectionsSearchResponse response = (CollectionsSearchResponse) o;</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">    return Objects.equals(type, response.type)</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        &amp;&amp; Objects.equals(key, response.key)</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">        &amp;&amp; Objects.equals(code, response.code)</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        &amp;&amp; Objects.equals(name, response.name)</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        &amp;&amp; Objects.equals(institutionKey, response.institutionKey)</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">        &amp;&amp; Objects.equals(institutionCode, response.institutionCode)</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">        &amp;&amp; Objects.equals(institutionName, response.institutionName)</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        &amp;&amp; Objects.equals(matches, response.matches);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L153">    return Objects.hash(</span>
+        type, key, code, name, institutionKey, institutionCode, institutionName, matches);
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

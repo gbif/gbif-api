@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.collections;
 
+import org.gbif.api.model.registry.LenientEquals;
 import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.vocabulary.Country;
 
@@ -25,11 +26,9 @@ import java.util.StringJoiner;
 import javax.annotation.Nullable;
 import javax.validation.constraints.Null;
 
-/**
- * The particulars of the place where a institution of collection is situated.
- */
+/** The particulars of the place where a institution of collection is situated. */
 @SuppressWarnings(&quot;unused&quot;)
-<span class="nc" id="L32">public class Address implements Serializable {</span>
+<span class="nc" id="L31">public class Address implements Serializable, LenientEquals&lt;Address&gt; {</span>
 
   private Integer key;
   private String address;
@@ -38,101 +37,102 @@ import javax.validation.constraints.Null;
   private String postalCode;
   private Country country;
 
-  /**
-   * Unique identifier, assigned by the persistence store.
-   */
+  /** Unique identifier, assigned by the persistence store. */
   @Null(groups = {PrePersist.class})
   public Integer getKey() {
-<span class="nc" id="L46">    return key;</span>
+<span class="nc" id="L43">    return key;</span>
   }
 
   public void setKey(Integer key) {
-<span class="nc" id="L50">    this.key = key;</span>
-<span class="nc" id="L51">  }</span>
+<span class="nc" id="L47">    this.key = key;</span>
+<span class="nc" id="L48">  }</span>
 
-  /**
-   * Textual direction of this address.
-   */
+  /** Textual direction of this address. */
   public String getAddress() {
-<span class="nc" id="L57">    return address;</span>
+<span class="nc" id="L52">    return address;</span>
   }
 
   public void setAddress(String address) {
-<span class="nc" id="L61">    this.address = address;</span>
-<span class="nc" id="L62">  }</span>
+<span class="nc" id="L56">    this.address = address;</span>
+<span class="nc" id="L57">  }</span>
 
-  /**
-   * City where this address is located.
-   */
+  /** City where this address is located. */
   public String getCity() {
-<span class="nc" id="L68">    return city;</span>
+<span class="nc" id="L61">    return city;</span>
   }
 
   public void setCity(String city) {
-<span class="nc" id="L72">    this.city = city;</span>
-<span class="nc" id="L73">  }</span>
+<span class="nc" id="L65">    this.city = city;</span>
+<span class="nc" id="L66">  }</span>
 
-  /**
-   * Province, region or area where this address is located.
-   */
+  /** Province, region or area where this address is located. */
   public String getProvince() {
-<span class="nc" id="L79">    return province;</span>
+<span class="nc" id="L70">    return province;</span>
   }
 
   public void setProvince(String province) {
-<span class="nc" id="L83">    this.province = province;</span>
-<span class="nc" id="L84">  }</span>
+<span class="nc" id="L74">    this.province = province;</span>
+<span class="nc" id="L75">  }</span>
 
-  /**
-   * International postal code of this address.
-   */
+  /** International postal code of this address. */
   public String getPostalCode() {
-<span class="nc" id="L90">    return postalCode;</span>
+<span class="nc" id="L79">    return postalCode;</span>
   }
 
   public void setPostalCode(String postalCode) {
-<span class="nc" id="L94">    this.postalCode = postalCode;</span>
-<span class="nc" id="L95">  }</span>
+<span class="nc" id="L83">    this.postalCode = postalCode;</span>
+<span class="nc" id="L84">  }</span>
 
-  /**
-   * Country where this address is located.
-   */
+  /** Country where this address is located. */
   @Nullable
   public Country getCountry() {
-<span class="nc" id="L102">    return country;</span>
+<span class="nc" id="L89">    return country;</span>
   }
 
   public void setCountry(Country country) {
-<span class="nc" id="L106">    this.country = country;</span>
-<span class="nc" id="L107">  }</span>
+<span class="nc" id="L93">    this.country = country;</span>
+<span class="nc" id="L94">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L111" title="All 2 branches missed.">    if (this == o) return true;</span>
-<span class="nc bnc" id="L112" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L113">    Address address1 = (Address) o;</span>
-<span class="nc bnc" id="L114" title="All 2 branches missed.">    return Objects.equals(key, address1.key)</span>
-<span class="nc bnc" id="L115" title="All 2 branches missed.">           &amp;&amp; Objects.equals(address, address1.address)</span>
-<span class="nc bnc" id="L116" title="All 2 branches missed.">           &amp;&amp; Objects.equals(city, address1.city)</span>
-<span class="nc bnc" id="L117" title="All 2 branches missed.">           &amp;&amp; Objects.equals(province, address1.province)</span>
-<span class="nc bnc" id="L118" title="All 4 branches missed.">           &amp;&amp; Objects.equals(postalCode, address1.postalCode)</span>
-           &amp;&amp; country == address1.country;
+<span class="nc bnc" id="L98" title="All 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L99" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L100">    Address address1 = (Address) o;</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">    return Objects.equals(key, address1.key)</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        &amp;&amp; Objects.equals(address, address1.address)</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        &amp;&amp; Objects.equals(city, address1.city)</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        &amp;&amp; Objects.equals(province, address1.province)</span>
+<span class="nc bnc" id="L105" title="All 4 branches missed.">        &amp;&amp; Objects.equals(postalCode, address1.postalCode)</span>
+        &amp;&amp; country == address1.country;
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L124">    return Objects.hash(key, address, city, province, postalCode, country);</span>
+<span class="nc" id="L111">    return Objects.hash(key, address, city, province, postalCode, country);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L129">    return new StringJoiner(&quot;, &quot;, Address.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;).add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L130">      .add(&quot;address='&quot; + address + &quot;'&quot;)</span>
-<span class="nc" id="L131">      .add(&quot;city='&quot; + city + &quot;'&quot;)</span>
-<span class="nc" id="L132">      .add(&quot;province='&quot; + province + &quot;'&quot;)</span>
-<span class="nc" id="L133">      .add(&quot;postalCode='&quot; + postalCode + &quot;'&quot;)</span>
-<span class="nc" id="L134">      .add(&quot;country=&quot; + country)</span>
-<span class="nc" id="L135">      .toString();</span>
+<span class="nc" id="L116">    return new StringJoiner(&quot;, &quot;, Address.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L117">        .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L118">        .add(&quot;address='&quot; + address + &quot;'&quot;)</span>
+<span class="nc" id="L119">        .add(&quot;city='&quot; + city + &quot;'&quot;)</span>
+<span class="nc" id="L120">        .add(&quot;province='&quot; + province + &quot;'&quot;)</span>
+<span class="nc" id="L121">        .add(&quot;postalCode='&quot; + postalCode + &quot;'&quot;)</span>
+<span class="nc" id="L122">        .add(&quot;country=&quot; + country)</span>
+<span class="nc" id="L123">        .toString();</span>
+  }
+
+  @Override
+  public boolean lenientEquals(Address other) {
+<span class="nc bnc" id="L128" title="All 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L129">      return true;</span>
+    }
+<span class="nc bnc" id="L131" title="All 2 branches missed.">    return Objects.equals(address, other.address)</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        &amp;&amp; Objects.equals(city, other.city)</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        &amp;&amp; Objects.equals(province, other.province)</span>
+<span class="nc bnc" id="L134" title="All 4 branches missed.">        &amp;&amp; Objects.equals(postalCode, other.postalCode)</span>
+        &amp;&amp; country == other.country;
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

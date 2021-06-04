@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BaseChangeSuggestion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections.suggestions</a> &gt; <span class="el_source">BaseChangeSuggestion.java</span></div><h1>BaseChangeSuggestion.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.collections.suggestions;
+
+import org.gbif.api.model.collections.CollectionEntity;
+import org.gbif.api.model.registry.PrePersist;
+import org.gbif.api.vocabulary.Country;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
+
+<span class="nc" id="L34">public abstract class BaseChangeSuggestion&lt;T extends CollectionEntity&gt;</span>
+    implements ChangeSuggestion&lt;T&gt; {
+
+  private Integer key;
+  @NotNull private Type type;
+  private Status status;
+  private UUID entityKey;
+  private String entityName;
+  private Country entityCountry;
+  @Valid private T suggestedEntity;
+  private Date proposed;
+  private String proposedBy;
+
+  @NotNull(groups = PrePersist.class)
+  @Pattern(regexp = EMAIL_PATTERN)
+  private String proposerEmail;
+
+  private Date applied;
+  private String appliedBy;
+  private Date discarded;
+  private String discardedBy;
+<span class="nc" id="L55">  private List&lt;String&gt; comments = new ArrayList&lt;&gt;();</span>
+  private UUID mergeTargetKey;
+<span class="nc" id="L57">  private List&lt;Change&gt; changes = new ArrayList&lt;&gt;();</span>
+  private Date modified;
+  private String modifiedBy;
+
+  @Override
+  public Integer getKey() {
+<span class="nc" id="L63">    return key;</span>
+  }
+
+  @Override
+  public void setKey(Integer key) {
+<span class="nc" id="L68">    this.key = key;</span>
+<span class="nc" id="L69">  }</span>
+
+  @Override
+  public Type getType() {
+<span class="nc" id="L73">    return type;</span>
+  }
+
+  @Override
+  public void setType(Type type) {
+<span class="nc" id="L78">    this.type = type;</span>
+<span class="nc" id="L79">  }</span>
+
+  @Override
+  public Status getStatus() {
+<span class="nc" id="L83">    return status;</span>
+  }
+
+  @Override
+  public void setStatus(Status status) {
+<span class="nc" id="L88">    this.status = status;</span>
+<span class="nc" id="L89">  }</span>
+
+  @Override
+  public UUID getEntityKey() {
+<span class="nc" id="L93">    return entityKey;</span>
+  }
+
+  @Override
+  public void setEntityKey(UUID entityKey) {
+<span class="nc" id="L98">    this.entityKey = entityKey;</span>
+<span class="nc" id="L99">  }</span>
+
+  @Override
+  public String getEntityName() {
+<span class="nc" id="L103">    return entityName;</span>
+  }
+
+  @Override
+  public void setEntityName(String entityName) {
+<span class="nc" id="L108">    this.entityName = entityName;</span>
+<span class="nc" id="L109">  }</span>
+
+  @Override
+  public Country getEntityCountry() {
+<span class="nc" id="L113">    return entityCountry;</span>
+  }
+
+  @Override
+  public void setEntityCountry(Country entityCountry) {
+<span class="nc" id="L118">    this.entityCountry = entityCountry;</span>
+<span class="nc" id="L119">  }</span>
+
+  @Override
+  public T getSuggestedEntity() {
+<span class="nc" id="L123">    return suggestedEntity;</span>
+  }
+
+  @Override
+  public void setSuggestedEntity(T suggestedEntity) {
+<span class="nc" id="L128">    this.suggestedEntity = suggestedEntity;</span>
+<span class="nc" id="L129">  }</span>
+
+  @Override
+  public Date getProposed() {
+<span class="nc" id="L133">    return proposed;</span>
+  }
+
+  @Override
+  public void setProposed(Date proposed) {
+<span class="nc" id="L138">    this.proposed = proposed;</span>
+<span class="nc" id="L139">  }</span>
+
+  @Override
+  public String getProposedBy() {
+<span class="nc" id="L143">    return proposedBy;</span>
+  }
+
+  @Override
+  public void setProposedBy(String proposedBy) {
+<span class="nc" id="L148">    this.proposedBy = proposedBy;</span>
+<span class="nc" id="L149">  }</span>
+
+  @Override
+  public String getProposerEmail() {
+<span class="nc" id="L153">    return proposerEmail;</span>
+  }
+
+  @Override
+  public void setProposerEmail(String proposerEmail) {
+<span class="nc" id="L158">    this.proposerEmail = proposerEmail;</span>
+<span class="nc" id="L159">  }</span>
+
+  @Override
+  public Date getApplied() {
+<span class="nc" id="L163">    return applied;</span>
+  }
+
+  @Override
+  public void setApplied(Date applied) {
+<span class="nc" id="L168">    this.applied = applied;</span>
+<span class="nc" id="L169">  }</span>
+
+  @Override
+  public String getAppliedBy() {
+<span class="nc" id="L173">    return appliedBy;</span>
+  }
+
+  @Override
+  public void setAppliedBy(String appliedBy) {
+<span class="nc" id="L178">    this.appliedBy = appliedBy;</span>
+<span class="nc" id="L179">  }</span>
+
+  @Override
+  public Date getDiscarded() {
+<span class="nc" id="L183">    return discarded;</span>
+  }
+
+  @Override
+  public void setDiscarded(Date discarded) {
+<span class="nc" id="L188">    this.discarded = discarded;</span>
+<span class="nc" id="L189">  }</span>
+
+  @Override
+  public String getDiscardedBy() {
+<span class="nc" id="L193">    return discardedBy;</span>
+  }
+
+  @Override
+  public void setDiscardedBy(String discardedBy) {
+<span class="nc" id="L198">    this.discardedBy = discardedBy;</span>
+<span class="nc" id="L199">  }</span>
+
+  @Override
+  public List&lt;String&gt; getComments() {
+<span class="nc" id="L203">    return comments;</span>
+  }
+
+  @Override
+  public void setComments(List&lt;String&gt; comments) {
+<span class="nc" id="L208">    this.comments = comments;</span>
+<span class="nc" id="L209">  }</span>
+
+  @Override
+  public UUID getMergeTargetKey() {
+<span class="nc" id="L213">    return mergeTargetKey;</span>
+  }
+
+  @Override
+  public void setMergeTargetKey(UUID mergeTargetKey) {
+<span class="nc" id="L218">    this.mergeTargetKey = mergeTargetKey;</span>
+<span class="nc" id="L219">  }</span>
+
+  @Override
+  public List&lt;Change&gt; getChanges() {
+<span class="nc" id="L223">    return changes;</span>
+  }
+
+  @Override
+  public void setChanges(List&lt;Change&gt; changes) {
+<span class="nc" id="L228">    this.changes = changes;</span>
+<span class="nc" id="L229">  }</span>
+
+  @Override
+  public Date getModified() {
+<span class="nc" id="L233">    return modified;</span>
+  }
+
+  @Override
+  public void setModified(Date modified) {
+<span class="nc" id="L238">    this.modified = modified;</span>
+<span class="nc" id="L239">  }</span>
+
+  @Override
+  public String getModifiedBy() {
+<span class="nc" id="L243">    return modifiedBy;</span>
+  }
+
+  @Override
+  public void setModifiedBy(String modifiedBy) {
+<span class="nc" id="L248">    this.modifiedBy = modifiedBy;</span>
+<span class="nc" id="L249">  }</span>
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L253" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L254">      return true;</span>
+    }
+<span class="nc bnc" id="L256" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L257">      return false;</span>
+    }
+<span class="nc" id="L259">    BaseChangeSuggestion&lt;?&gt; that = (BaseChangeSuggestion&lt;?&gt;) o;</span>
+<span class="nc bnc" id="L260" title="All 6 branches missed.">    return Objects.equals(key, that.key)</span>
+        &amp;&amp; type == that.type
+        &amp;&amp; status == that.status
+<span class="nc bnc" id="L263" title="All 2 branches missed.">        &amp;&amp; Objects.equals(entityKey, that.entityKey)</span>
+<span class="nc bnc" id="L264" title="All 4 branches missed.">        &amp;&amp; Objects.equals(entityName, that.entityName)</span>
+        &amp;&amp; entityCountry == that.entityCountry
+<span class="nc bnc" id="L266" title="All 2 branches missed.">        &amp;&amp; Objects.equals(suggestedEntity, that.suggestedEntity)</span>
+<span class="nc bnc" id="L267" title="All 2 branches missed.">        &amp;&amp; Objects.equals(proposed, that.proposed)</span>
+<span class="nc bnc" id="L268" title="All 2 branches missed.">        &amp;&amp; Objects.equals(proposedBy, that.proposedBy)</span>
+<span class="nc bnc" id="L269" title="All 2 branches missed.">        &amp;&amp; Objects.equals(proposerEmail, that.proposerEmail)</span>
+<span class="nc bnc" id="L270" title="All 2 branches missed.">        &amp;&amp; Objects.equals(applied, that.applied)</span>
+<span class="nc bnc" id="L271" title="All 2 branches missed.">        &amp;&amp; Objects.equals(appliedBy, that.appliedBy)</span>
+<span class="nc bnc" id="L272" title="All 2 branches missed.">        &amp;&amp; Objects.equals(discarded, that.discarded)</span>
+<span class="nc bnc" id="L273" title="All 2 branches missed.">        &amp;&amp; Objects.equals(discardedBy, that.discardedBy)</span>
+<span class="nc bnc" id="L274" title="All 2 branches missed.">        &amp;&amp; Objects.equals(comments, that.comments)</span>
+<span class="nc bnc" id="L275" title="All 2 branches missed.">        &amp;&amp; Objects.equals(mergeTargetKey, that.mergeTargetKey)</span>
+<span class="nc bnc" id="L276" title="All 2 branches missed.">        &amp;&amp; Objects.equals(changes, that.changes)</span>
+<span class="nc bnc" id="L277" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modified, that.modified)</span>
+<span class="nc bnc" id="L278" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modifiedBy, that.modifiedBy);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L283">    return Objects.hash(</span>
+        key,
+        type,
+        status,
+        entityKey,
+        entityName,
+        entityCountry,
+        suggestedEntity,
+        proposed,
+        proposedBy,
+        proposerEmail,
+        applied,
+        appliedBy,
+        discarded,
+        discardedBy,
+        comments,
+        mergeTargetKey,
+        changes,
+        modified,
+        modifiedBy);
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
