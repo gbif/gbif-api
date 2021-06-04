@@ -15,6 +15,10 @@
  */
 package org.gbif.api.util.iterables;
 
+import org.gbif.api.model.collections.Institution;
+import org.gbif.api.model.collections.request.CollectionSearchRequest;
+import org.gbif.api.model.collections.request.InstitutionSearchRequest;
+import org.gbif.api.model.collections.view.CollectionView;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingConstants;
 import org.gbif.api.model.common.paging.PagingRequest;
@@ -26,6 +30,8 @@ import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.search.DatasetSearchRequest;
 import org.gbif.api.model.registry.search.DatasetSearchResult;
+import org.gbif.api.service.collections.CollectionService;
+import org.gbif.api.service.collections.InstitutionService;
 import org.gbif.api.service.registry.DatasetSearchService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.InstallationService;
@@ -245,6 +251,26 @@ public class Iterables {
     return new DatasetOccurrenceDownloadUsagesPager(service,
                                                     downloadKey,
                                                     Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
+  }
+
+  /**
+   * Iterable for {@link CollectionService#list(CollectionSearchRequest)}.
+   */
+  public static Iterable<CollectionView> collections(CollectionSearchRequest searchRequest,
+                                                     CollectionService service,
+                                                     @Nullable Integer limit) {
+    LOG.info("Iterating over a collection's search results");
+    return new CollectionsPager(service, searchRequest, Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
+  }
+
+  /**
+   * Iterable for {@link InstitutionService#list(InstitutionSearchRequest)}.
+   */
+  public static Iterable<Institution> institutions(InstitutionSearchRequest searchRequest,
+                                                   InstitutionService service,
+                                                   @Nullable Integer limit) {
+    LOG.info("Iterating over a institution's search results");
+    return new InstitutionsPager(service, searchRequest, Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
   }
 
   private static boolean isDataset(UUID key, DatasetService ds) {
