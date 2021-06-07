@@ -39,6 +39,8 @@ public class InstitutionsPager extends BasePager<Institution> {
 
   @Override
   PagingResponse<Institution> nextPage(PagingRequest page) {
+    searchRequest.setOffset(page.getOffset());
+    searchRequest.setLimit(page.getLimit());
     return service.list(searchRequest);
   }
 
