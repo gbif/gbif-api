@@ -44,7 +44,10 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
 
 /**
  * A group of specimens or other natural history objects. Types of collections can be: specimens,
@@ -70,7 +73,7 @@ public class Collection
   private boolean active;
   private boolean personalCollection;
   private DOI doi;
-  private List<String> email = new ArrayList<>();
+  private List<@Pattern(regexp = EMAIL_PATTERN) String> email = new ArrayList<>();
   private List<String> phone = new ArrayList<>();
   private URI homepage;
   private URI catalogUrl;
