@@ -44,7 +44,7 @@ public interface CollectionService extends PrimaryCollectionEntityService<Collec
   PagingResponse<CollectionView> list(CollectionSearchRequest searchRequest);
 
   /** Provides access to deleted collections. */
-  PagingResponse<CollectionView> listDeleted(@Nullable Pageable page);
+  PagingResponse<CollectionView> listDeleted(@Nullable UUID replacedBy, @Nullable Pageable page);
 
   /** Retrieves a {@link CollectionView} by the collection key. */
   CollectionView getCollectionView(@NotNull UUID key);
