@@ -18,10 +18,49 @@ package org.gbif.api.model.collections.request;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
+import org.gbif.api.vocabulary.collections.Discipline;
+import org.gbif.api.vocabulary.collections.InstitutionGovernance;
+import org.gbif.api.vocabulary.collections.InstitutionType;
 
+import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
 public class InstitutionSearchRequest extends SearchRequest {
+
+  @Nullable private InstitutionType type;
+
+  @Nullable private InstitutionGovernance institutionalGovernance;
+
+  @Nullable private List<Discipline> disciplines;
+
+  @Nullable
+  public InstitutionType getType() {
+    return type;
+  }
+
+  public void setType(@Nullable InstitutionType type) {
+    this.type = type;
+  }
+
+  @Nullable
+  public InstitutionGovernance getInstitutionalGovernance() {
+    return institutionalGovernance;
+  }
+
+  public void setInstitutionalGovernance(@Nullable InstitutionGovernance institutionalGovernance) {
+    this.institutionalGovernance = institutionalGovernance;
+  }
+
+  @Nullable
+  public List<Discipline> getDisciplines() {
+    return disciplines;
+  }
+
+  public void setDisciplines(@Nullable List<Discipline> disciplines) {
+    this.disciplines = disciplines;
+  }
 
   public static Builder builder() {
     return new Builder();
@@ -42,6 +81,10 @@ public class InstitutionSearchRequest extends SearchRequest {
     Country country;
     String city;
     String fuzzyName;
+    Boolean active;
+    InstitutionType type;
+    InstitutionGovernance institutionalGovernance;
+    List<Discipline> disciplines;
     Pageable page;
 
     public Builder contact(UUID contact) {
@@ -109,6 +152,26 @@ public class InstitutionSearchRequest extends SearchRequest {
       return this;
     }
 
+    public Builder active(boolean active) {
+      this.active = active;
+      return this;
+    }
+
+    public Builder type(InstitutionType type) {
+      this.type = type;
+      return this;
+    }
+
+    public Builder institutionalGovernance(InstitutionGovernance institutionalGovernance) {
+      this.institutionalGovernance = institutionalGovernance;
+      return this;
+    }
+
+    public Builder disciplines(List<Discipline> disciplines) {
+      this.disciplines = disciplines;
+      return this;
+    }
+
     public Builder page(Pageable page) {
       this.page = page;
       return this;
@@ -129,6 +192,10 @@ public class InstitutionSearchRequest extends SearchRequest {
       req.setCountry(country);
       req.setCity(city);
       req.setFuzzyName(fuzzyName);
+      req.setActive(active);
+      req.setType(type);
+      req.setInstitutionalGovernance(institutionalGovernance);
+      req.setDisciplines(disciplines);
       if (page != null) {
         req.setLimit(page.getLimit());
         req.setOffset(page.getOffset());
