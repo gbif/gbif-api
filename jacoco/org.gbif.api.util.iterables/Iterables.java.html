@@ -15,6 +15,10 @@
  */
 package org.gbif.api.util.iterables;
 
+import org.gbif.api.model.collections.Institution;
+import org.gbif.api.model.collections.request.CollectionSearchRequest;
+import org.gbif.api.model.collections.request.InstitutionSearchRequest;
+import org.gbif.api.model.collections.view.CollectionView;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingConstants;
 import org.gbif.api.model.common.paging.PagingRequest;
@@ -26,6 +30,8 @@ import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.search.DatasetSearchRequest;
 import org.gbif.api.model.registry.search.DatasetSearchResult;
+import org.gbif.api.service.collections.CollectionService;
+import org.gbif.api.service.collections.InstitutionService;
 import org.gbif.api.service.registry.DatasetSearchService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.InstallationService;
@@ -52,7 +58,7 @@ import org.slf4j.LoggerFactory;
  */
 @SuppressWarnings(&quot;unused&quot;)
 public class Iterables {
-<span class="nc" id="L55">  private static final Logger LOG = LoggerFactory.getLogger(Iterables.class);</span>
+<span class="nc" id="L61">  private static final Logger LOG = LoggerFactory.getLogger(Iterables.class);</span>
 
   /**
    * Private default constructor.
@@ -68,7 +74,7 @@ public class Iterables {
   public static Iterable&lt;Dataset&gt; datasets(@Nullable UUID key, @Nullable DatasetType type,
                                            DatasetService ds, OrganizationService os, InstallationService is,
                                            NetworkService ns, NodeService nos) {
-<span class="nc" id="L71">    return datasets(key, type, ds, os, is, ns, nos, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
+<span class="nc" id="L77">    return datasets(key, type, ds, os, is, ns, nos, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
   }
 
   /**
@@ -82,39 +88,39 @@ public class Iterables {
   public static Iterable&lt;Dataset&gt; datasets(@Nullable UUID key, @Nullable DatasetType type,
                                            DatasetService ds, OrganizationService os, InstallationService is,
                                            NetworkService ns, NodeService nos, int pageSize) {
-<span class="nc bnc" id="L85" title="All 2 branches missed.">    if (key == null) {</span>
-<span class="nc bnc" id="L86" title="All 2 branches missed.">      LOG.info(&quot;Iterate over all {} datasets&quot;, type == null ? &quot;&quot; : type);</span>
-<span class="nc" id="L87">      return new DatasetPager(ds, type, pageSize);</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">    if (key == null) {</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">      LOG.info(&quot;Iterate over all {} datasets&quot;, type == null ? &quot;&quot; : type);</span>
+<span class="nc" id="L93">      return new DatasetPager(ds, type, pageSize);</span>
 
-<span class="nc bnc" id="L89" title="All 2 branches missed.">    } else if (isDataset(key, ds)) {</span>
-<span class="nc" id="L90">      LOG.info(&quot;Iterate over dataset {}&quot;, key);</span>
-<span class="nc" id="L91">      return Collections.unmodifiableList(Collections.singletonList(ds.get(key)));</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">    } else if (isDataset(key, ds)) {</span>
+<span class="nc" id="L96">      LOG.info(&quot;Iterate over dataset {}&quot;, key);</span>
+<span class="nc" id="L97">      return Collections.unmodifiableList(Collections.singletonList(ds.get(key)));</span>
 
-<span class="nc bnc" id="L93" title="All 2 branches missed.">    } else if (isOrganization(key, os)) {</span>
-<span class="nc bnc" id="L94" title="All 2 branches missed.">      LOG.info(&quot;Iterate over all {} datasets published by {}&quot;, type == null ? &quot;&quot; : type, key);</span>
-<span class="nc" id="L95">      return new OrgPublishingPager(os, key, type, pageSize);</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">    } else if (isOrganization(key, os)) {</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">      LOG.info(&quot;Iterate over all {} datasets published by {}&quot;, type == null ? &quot;&quot; : type, key);</span>
+<span class="nc" id="L101">      return new OrgPublishingPager(os, key, type, pageSize);</span>
 
-<span class="nc bnc" id="L97" title="All 2 branches missed.">    } else if (isInstallation(key, is)) {</span>
-<span class="nc bnc" id="L98" title="All 2 branches missed.">      LOG.info(&quot;Iterate over all {} datasets hosted by installation {}&quot;, type == null ? &quot;&quot; : type, key);</span>
-<span class="nc" id="L99">      return new InstallationPager(is, key, type, pageSize);</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">    } else if (isInstallation(key, is)) {</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">      LOG.info(&quot;Iterate over all {} datasets hosted by installation {}&quot;, type == null ? &quot;&quot; : type, key);</span>
+<span class="nc" id="L105">      return new InstallationPager(is, key, type, pageSize);</span>
 
-<span class="nc bnc" id="L101" title="All 2 branches missed.">    } else if (isNode(key, nos)) {</span>
-<span class="nc bnc" id="L102" title="All 2 branches missed.">      LOG.info(&quot;Iterate over all {} datasets endorsed by node {}&quot;, type == null ? &quot;&quot; : type, key);</span>
-<span class="nc" id="L103">      return new NetworkPager(ns, key, type, pageSize);</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">    } else if (isNode(key, nos)) {</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">      LOG.info(&quot;Iterate over all {} datasets endorsed by node {}&quot;, type == null ? &quot;&quot; : type, key);</span>
+<span class="nc" id="L109">      return new NetworkPager(ns, key, type, pageSize);</span>
 
-<span class="nc bnc" id="L105" title="All 2 branches missed.">    } else if (isNetwork(key, ns)) {</span>
-<span class="nc bnc" id="L106" title="All 2 branches missed.">      LOG.info(&quot;Iterate over all {} datasets belonging to network {}&quot;, type == null ? &quot;&quot; : type, key);</span>
-<span class="nc" id="L107">      return new NodeDatasetPager(nos, key, type, pageSize);</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">    } else if (isNetwork(key, ns)) {</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">      LOG.info(&quot;Iterate over all {} datasets belonging to network {}&quot;, type == null ? &quot;&quot; : type, key);</span>
+<span class="nc" id="L113">      return new NodeDatasetPager(nos, key, type, pageSize);</span>
     }
-<span class="nc" id="L109">    throw new IllegalArgumentException(&quot;Given key is no valid GBIF registry key: &quot; + key);</span>
+<span class="nc" id="L115">    throw new IllegalArgumentException(&quot;Given key is no valid GBIF registry key: &quot; + key);</span>
   }
 
   /**
    * @param type an optional filter to just include the given dataset type
    */
   public static Iterable&lt;Dataset&gt; datasets(@Nullable DatasetType type, DatasetService service) {
-<span class="nc bnc" id="L116" title="All 2 branches missed.">    LOG.info(&quot;Iterate over all {} datasets&quot;, type == null ? &quot;&quot; : type);</span>
-<span class="nc" id="L117">    return new DatasetPager(service, type, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">    LOG.info(&quot;Iterate over all {} datasets&quot;, type == null ? &quot;&quot; : type);</span>
+<span class="nc" id="L123">    return new DatasetPager(service, type, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
   }
 
   /**
@@ -123,8 +129,8 @@ public class Iterables {
   public static Iterable&lt;DatasetSearchResult&gt; datasetSearchResults(@Nullable DatasetSearchRequest datasetSearchRequest,
                                                                    DatasetSearchService datasetSearchService,
                                                                    @Nullable Integer limit) {
-<span class="nc" id="L126">    return new  DatasetSearchResultsPager(datasetSearchService, datasetSearchRequest,</span>
-<span class="nc" id="L127">                                          Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));</span>
+<span class="nc" id="L132">    return new  DatasetSearchResultsPager(datasetSearchService, datasetSearchRequest,</span>
+<span class="nc" id="L133">                                          Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));</span>
   }
 
   /**
@@ -132,8 +138,8 @@ public class Iterables {
    * @param type an optional filter to just include the given dataset type
    */
   public static Iterable&lt;Dataset&gt; publishedDatasets(UUID key, @Nullable DatasetType type, OrganizationService service) {
-<span class="nc bnc" id="L135" title="All 2 branches missed.">    LOG.info(&quot;Iterate over all {} datasets published by {}&quot;, type == null ? &quot;&quot; : type, key);</span>
-<span class="nc" id="L136">    return new OrgPublishingPager(service, key, type, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">    LOG.info(&quot;Iterate over all {} datasets published by {}&quot;, type == null ? &quot;&quot; : type, key);</span>
+<span class="nc" id="L142">    return new OrgPublishingPager(service, key, type, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
   }
 
   /**
@@ -141,8 +147,8 @@ public class Iterables {
    * @param type an optional filter to just include the given dataset type
    */
   public static Iterable&lt;Dataset&gt; hostedDatasets(UUID key, @Nullable DatasetType type, OrganizationService service) {
-<span class="nc bnc" id="L144" title="All 2 branches missed.">    LOG.info(&quot;Iterate over all {} datasets hosted by organization {}&quot;, type == null ? &quot;&quot; : type, key);</span>
-<span class="nc" id="L145">    return new OrgHostingPager(service, key, type, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">    LOG.info(&quot;Iterate over all {} datasets hosted by organization {}&quot;, type == null ? &quot;&quot; : type, key);</span>
+<span class="nc" id="L151">    return new OrgHostingPager(service, key, type, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
   }
 
   /**
@@ -150,16 +156,16 @@ public class Iterables {
    * @param type an optional filter to just include the given dataset type
    */
   public static Iterable&lt;Dataset&gt; hostedDatasets(UUID key, @Nullable DatasetType type, InstallationService service) {
-<span class="nc bnc" id="L153" title="All 2 branches missed.">    LOG.info(&quot;Iterate over all {} datasets hosted by installation {}&quot;, type == null ? &quot;&quot; : type, key);</span>
-<span class="nc" id="L154">    return new InstallationPager(service, key, type, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">    LOG.info(&quot;Iterate over all {} datasets hosted by installation {}&quot;, type == null ? &quot;&quot; : type, key);</span>
+<span class="nc" id="L160">    return new InstallationPager(service, key, type, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
   }
 
   /**
    * @param key a valid dataset key
    */
   public static Iterable&lt;Dataset&gt; constituentDatasets(UUID key, DatasetService service) {
-<span class="nc" id="L161">    LOG.info(&quot;Iterate over all constituent datasets of {}&quot;, key);</span>
-<span class="nc" id="L162">    return new DatasetConstituentPager(service, key, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
+<span class="nc" id="L167">    LOG.info(&quot;Iterate over all constituent datasets of {}&quot;, key);</span>
+<span class="nc" id="L168">    return new DatasetConstituentPager(service, key, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
   }
 
   /**
@@ -168,8 +174,8 @@ public class Iterables {
    * @param type an optional filter to just include the given dataset type
    */
   public static Iterable&lt;Dataset&gt; networkDatasets(UUID key, @Nullable DatasetType type, NetworkService service) {
-<span class="nc bnc" id="L171" title="All 2 branches missed.">    LOG.info(&quot;Iterate over all {} datasets belonging to network {}&quot;, type == null ? &quot;&quot; : type, key);</span>
-<span class="nc" id="L172">    return new NetworkPager(service, key, type, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">    LOG.info(&quot;Iterate over all {} datasets belonging to network {}&quot;, type == null ? &quot;&quot; : type, key);</span>
+<span class="nc" id="L178">    return new NetworkPager(service, key, type, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
   }
 
   /**
@@ -177,8 +183,8 @@ public class Iterables {
    * @param type an optional filter to just include the given dataset type
    */
   public static Iterable&lt;Dataset&gt; endorsedDatasets(UUID nodeKey, @Nullable DatasetType type, NodeService service) {
-<span class="nc bnc" id="L180" title="All 2 branches missed.">    LOG.info(&quot;Iterate over all {} datasets endorsed by node {}&quot;, type == null ? &quot;&quot; : type, nodeKey);</span>
-<span class="nc" id="L181">    return new NodeDatasetPager(service, nodeKey, type, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">    LOG.info(&quot;Iterate over all {} datasets endorsed by node {}&quot;, type == null ? &quot;&quot; : type, nodeKey);</span>
+<span class="nc" id="L187">    return new NodeDatasetPager(service, nodeKey, type, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
   }
 
   /**
@@ -187,10 +193,10 @@ public class Iterables {
    * @return a  dataset iterable based on producer function
    */
   public static Iterable&lt;Dataset&gt; datasetsIterable(Function&lt;PagingRequest, PagingResponse&lt;Dataset&gt;&gt; pager) {
-<span class="nc" id="L190">    return new DatasetBasePager(null, PagingConstants.DEFAULT_PARAM_LIMIT) {</span>
+<span class="nc" id="L196">    return new DatasetBasePager(null, PagingConstants.DEFAULT_PARAM_LIMIT) {</span>
       @Override
       PagingResponse&lt;Dataset&gt; nextPage(PagingRequest page) {
-<span class="nc" id="L193">        return pager.apply(page);</span>
+<span class="nc" id="L199">        return pager.apply(page);</span>
       }
     };
   }
@@ -199,24 +205,24 @@ public class Iterables {
    * @param country an optional country filter
    */
   public static Iterable&lt;Organization&gt; organizations(@Nullable Country country, OrganizationService service) {
-<span class="nc bnc" id="L202" title="All 2 branches missed.">    LOG.info(&quot;Iterate over all organizations {}&quot;, country == null ? &quot;&quot; : &quot;from country &quot;+country);</span>
-<span class="nc" id="L203">    return new OrganizationPager(service, country, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
+<span class="nc bnc" id="L208" title="All 2 branches missed.">    LOG.info(&quot;Iterate over all organizations {}&quot;, country == null ? &quot;&quot; : &quot;from country &quot;+country);</span>
+<span class="nc" id="L209">    return new OrganizationPager(service, country, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
   }
 
   /**
    * @param nodeKey a valid endorsing node key
    */
   public static Iterable&lt;Organization&gt; endorsedOrganizations(UUID nodeKey, NodeService service) {
-<span class="nc" id="L210">    LOG.info(&quot;Iterate over all organizations endorsed by node {}&quot;, nodeKey);</span>
-<span class="nc" id="L211">    return new NodeOrganizationPager(service, nodeKey, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
+<span class="nc" id="L216">    LOG.info(&quot;Iterate over all organizations endorsed by node {}&quot;, nodeKey);</span>
+<span class="nc" id="L217">    return new NodeOrganizationPager(service, nodeKey, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
   }
 
   /**
    * Iterate over all endorsing nodes
    */
   public static Iterable&lt;Node&gt; nodes(NodeService service) {
-<span class="nc" id="L218">    LOG.info(&quot;Iterate over all nodes&quot;);</span>
-<span class="nc" id="L219">    return new NodePager(service, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
+<span class="nc" id="L224">    LOG.info(&quot;Iterate over all nodes&quot;);</span>
+<span class="nc" id="L225">    return new NodePager(service, PagingConstants.DEFAULT_PARAM_LIMIT);</span>
   }
 
   /**
@@ -229,10 +235,10 @@ public class Iterables {
                                                                 @Nullable UUID datasetKey,
                                                                 @Nullable UUID publishingOrgKey,
                                                                 @Nullable Integer limit) {
-<span class="nc" id="L232">    LOG.info(&quot;Iterate over download statistics&quot;);</span>
-<span class="nc" id="L233">    return new DownloadStatisticPager(service, fromDate, toDate,</span>
+<span class="nc" id="L238">    LOG.info(&quot;Iterate over download statistics&quot;);</span>
+<span class="nc" id="L239">    return new DownloadStatisticPager(service, fromDate, toDate,</span>
                                       publishingCountry, datasetKey, publishingOrgKey,
-<span class="nc" id="L235">                                      Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));</span>
+<span class="nc" id="L241">                                      Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));</span>
   }
 
   /**
@@ -241,30 +247,50 @@ public class Iterables {
   public static Iterable&lt;DatasetOccurrenceDownloadUsage&gt; datasetOccurrenceDownloadUsages(OccurrenceDownloadService service,
                                                                                          String downloadKey,
                                                                                          @Nullable Integer limit) {
-<span class="nc" id="L244">    LOG.info(&quot;Iterate over download dataset usages of download {}&quot;, downloadKey);</span>
-<span class="nc" id="L245">    return new DatasetOccurrenceDownloadUsagesPager(service,</span>
+<span class="nc" id="L250">    LOG.info(&quot;Iterate over download dataset usages of download {}&quot;, downloadKey);</span>
+<span class="nc" id="L251">    return new DatasetOccurrenceDownloadUsagesPager(service,</span>
                                                     downloadKey,
-<span class="nc" id="L247">                                                    Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));</span>
+<span class="nc" id="L253">                                                    Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));</span>
+  }
+
+  /**
+   * Iterable for {@link CollectionService#list(CollectionSearchRequest)}.
+   */
+  public static Iterable&lt;CollectionView&gt; collections(CollectionSearchRequest searchRequest,
+                                                     CollectionService service,
+                                                     @Nullable Integer limit) {
+<span class="nc" id="L262">    LOG.info(&quot;Iterating over a collection's search results&quot;);</span>
+<span class="nc" id="L263">    return new CollectionsPager(service, searchRequest, Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));</span>
+  }
+
+  /**
+   * Iterable for {@link InstitutionService#list(InstitutionSearchRequest)}.
+   */
+  public static Iterable&lt;Institution&gt; institutions(InstitutionSearchRequest searchRequest,
+                                                   InstitutionService service,
+                                                   @Nullable Integer limit) {
+<span class="nc" id="L272">    LOG.info(&quot;Iterating over a institution's search results&quot;);</span>
+<span class="nc" id="L273">    return new InstitutionsPager(service, searchRequest, Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));</span>
   }
 
   private static boolean isDataset(UUID key, DatasetService ds) {
-<span class="nc bnc" id="L251" title="All 2 branches missed.">    return ds.get(key) != null;</span>
+<span class="nc bnc" id="L277" title="All 2 branches missed.">    return ds.get(key) != null;</span>
   }
 
   private static boolean isOrganization(UUID key, OrganizationService os) {
-<span class="nc bnc" id="L255" title="All 2 branches missed.">    return os.get(key) != null;</span>
+<span class="nc bnc" id="L281" title="All 2 branches missed.">    return os.get(key) != null;</span>
   }
 
   private static boolean isInstallation(UUID key, InstallationService is) {
-<span class="nc bnc" id="L259" title="All 2 branches missed.">    return is.get(key) != null;</span>
+<span class="nc bnc" id="L285" title="All 2 branches missed.">    return is.get(key) != null;</span>
   }
 
   private static boolean isNetwork(UUID key, NetworkService ns) {
-<span class="nc bnc" id="L263" title="All 2 branches missed.">    return ns.get(key) != null;</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">    return ns.get(key) != null;</span>
   }
 
   private static boolean isNode(UUID key, NodeService ns) {
-<span class="nc bnc" id="L267" title="All 2 branches missed.">    return ns.get(key) != null;</span>
+<span class="nc bnc" id="L293" title="All 2 branches missed.">    return ns.get(key) != null;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
