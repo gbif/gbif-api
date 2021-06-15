@@ -115,6 +115,12 @@ public enum OccurrenceIssue implements InterpretationRemark {
   FOOTPRINT_SRS_INVALID(WARNING, DwcTerm.footprintSRS),
 
   /**
+   * The Footprint Well-Known-Text conflicts with the interpreted coordinates
+   * (Decimal Latitude, Decimal Longitude etc).
+   */
+  FOOTPRINT_WKT_MISMATCH(WARNING, DwcTerm.footprintWKT),
+
+  /**
    * The Footprint Well-Known-Text given could not be interpreted.
    */
   FOOTPRINT_WKT_INVALID(WARNING, DwcTerm.footprintWKT),
