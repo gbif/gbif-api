@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,11 +29,13 @@ public enum StepType {
   HDFS_VIEW("hdfsView", 3),
   FRAGMENTER("fragmenter", 3),
   // Validator
-  VALIDATOR_DWCA_TO_VERBATIM("validatorDwcaToVerbatim", 1),
-  VALIDATOR_XML_TO_VERBATIM("validatorXmlToVerbatim", 1),
-  VALIDATOR_ABCD_TO_VERBATIM("validatorAbcdToVerbatim", 1),
-  VALIDATOR_VERBATIM_TO_INTERPRETED("validatorVerbatimToInterpreted", 2),
-  VALIDATOR_INTERPRETED_TO_INDEX("validatorInterpretedToIndex", 3);
+  VALIDATOR_VALIDATE_ARCHIVE("validatorValidateArchive", 1),
+  VALIDATOR_DWCA_TO_VERBATIM("validatorDwcaToVerbatim", 2),
+  VALIDATOR_XML_TO_VERBATIM("validatorXmlToVerbatim", 2),
+  VALIDATOR_ABCD_TO_VERBATIM("validatorAbcdToVerbatim", 2),
+  VALIDATOR_VERBATIM_TO_INTERPRETED("validatorVerbatimToInterpreted", 3),
+  VALIDATOR_INTERPRETED_TO_INDEX("validatorInterpretedToIndex", 4),
+  VALIDATOR_COLLECT_METRICS("validatorCollectMetrics", 5);
 
   private String label;
   private int executionOrder;
