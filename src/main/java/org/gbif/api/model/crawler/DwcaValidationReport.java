@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import static org.gbif.api.util.PreconditionUtils.checkArgument;
@@ -62,6 +63,7 @@ public class DwcaValidationReport {
       && (genericReport == null || genericReport.isValid());
   }
 
+  @JsonIgnoreProperties(ignoreUnknown = true)
   @JsonCreator
   public DwcaValidationReport(@JsonProperty("datasetKey") UUID datasetKey,
     @JsonProperty("occurrenceReport") OccurrenceValidationReport occurrenceReport,

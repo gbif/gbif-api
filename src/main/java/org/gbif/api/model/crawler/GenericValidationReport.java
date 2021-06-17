@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -50,6 +51,7 @@ public class GenericValidationReport {
   // is this archive valid
   private final boolean valid;
 
+  @JsonIgnoreProperties(ignoreUnknown = true)
   @JsonCreator
   public GenericValidationReport(
     @JsonProperty("checkedRecords") int checkedRecords,
