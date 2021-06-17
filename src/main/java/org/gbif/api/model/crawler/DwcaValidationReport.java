@@ -26,7 +26,7 @@ import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import static org.gbif.api.util.PreconditionUtils.checkArgument;
@@ -43,7 +43,6 @@ import static org.gbif.api.util.PreconditionUtils.checkArgument;
 @Immutable
 @ThreadSafe
 @SuppressWarnings("unused")
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class DwcaValidationReport {
   private final UUID datasetKey;
 
@@ -58,6 +57,7 @@ public class DwcaValidationReport {
 
   private final String invalidationReason;
 
+  @JsonIgnore
   public boolean isValid() {
     return invalidationReason == null
       && (occurrenceReport == null || occurrenceReport.isValid())

@@ -20,7 +20,6 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -32,7 +31,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Generic validation includes information about the number of records checked, whether all records where checked
  * (implementations often cannot check everything) and information about the validity of primary keys.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class GenericValidationReport {
   // the number of records checked in the validation
   private final int checkedRecords;
