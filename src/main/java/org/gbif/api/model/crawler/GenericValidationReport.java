@@ -32,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Generic validation includes information about the number of records checked, whether all records where checked
  * (implementations often cannot check everything) and information about the validity of primary keys.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GenericValidationReport {
   // the number of records checked in the validation
   private final int checkedRecords;
@@ -51,7 +52,6 @@ public class GenericValidationReport {
   // is this archive valid
   private final boolean valid;
 
-  @JsonIgnoreProperties(ignoreUnknown = true)
   @JsonCreator
   public GenericValidationReport(
     @JsonProperty("checkedRecords") int checkedRecords,

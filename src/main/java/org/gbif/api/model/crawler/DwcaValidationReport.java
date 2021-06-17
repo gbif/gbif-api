@@ -43,6 +43,7 @@ import static org.gbif.api.util.PreconditionUtils.checkArgument;
 @Immutable
 @ThreadSafe
 @SuppressWarnings("unused")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DwcaValidationReport {
   private final UUID datasetKey;
 
@@ -63,7 +64,6 @@ public class DwcaValidationReport {
       && (genericReport == null || genericReport.isValid());
   }
 
-  @JsonIgnoreProperties(ignoreUnknown = true)
   @JsonCreator
   public DwcaValidationReport(@JsonProperty("datasetKey") UUID datasetKey,
     @JsonProperty("occurrenceReport") OccurrenceValidationReport occurrenceReport,

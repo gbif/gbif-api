@@ -28,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * The rules followed here should match the document at:
  * http://dev.gbif.org/wiki/display/INT/Identifier+problems+and+how+to+solve+them.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OccurrenceValidationReport {
   // if the percentage of invalid triplets (eg missing catalog number) is greater than this, the archive is invalid
   private static final double INVALID_TRIPLET_THRESHOLD = 0.25;
@@ -59,7 +60,6 @@ public class OccurrenceValidationReport {
   // is this archive valid
   private final boolean valid;
 
-  @JsonIgnoreProperties(ignoreUnknown = true)
   @JsonCreator
   public OccurrenceValidationReport(@JsonProperty("checkedRecords") int checkedRecords,
                                     @JsonProperty("uniqueTriplets") int uniqueTriplets,
