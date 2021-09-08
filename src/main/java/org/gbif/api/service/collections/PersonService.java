@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 /** API Service for the collections-related staff. */
+@Deprecated
 public interface PersonService extends CollectionEntityService<Person> {
 
   /**

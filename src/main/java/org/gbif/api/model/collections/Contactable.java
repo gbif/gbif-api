@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,33 +19,35 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-/**
- * Entity that can have a list of contacts and addresses.
- */
+/** Entity that can have a list of contacts and addresses. */
 public interface Contactable {
 
-  /**
-   * List if associated contacts.
-   */
+  /** @deprecated replaced by {@link #getContactPersons()} */
+  @Deprecated
   @Nullable
   List<Person> getContacts();
 
+  /**
+   * @deprecated replaced by {@link #setContactPersons(List)}
+   */
+  @Deprecated
   void setContacts(List<Person> contacts);
 
-  /**
-   * Address used to send and receive mail.
-   */
+  /** List of associated contacts. */
+  @Nullable
+  List<Contact> getContactPersons();
+
+  void setContactPersons(List<Contact> contacts);
+
+  /** Address used to send and receive mail. */
   @Nullable
   Address getMailingAddress();
 
   void setMailingAddress(Address mailingAddress);
 
-  /**
-   * Physical or associated address.
-   */
+  /** Physical or associated address. */
   @Nullable
   Address getAddress();
 
   void setAddress(Address address);
-
 }

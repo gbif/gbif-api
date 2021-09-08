@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,8 +40,11 @@ import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
 
 /**
  * Person associated to a collection or institution.
+ *
+ * DEPRECATED: replaced by {@link Contact}.
  */
 @SuppressWarnings("unused")
+@Deprecated
 public class Person implements CollectionEntity, Identifiable, Taggable, MachineTaggable, Commentable, LenientEquals<Person> {
 
   private UUID key;

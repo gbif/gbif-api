@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -91,6 +91,7 @@ public class Collection
   private List<Tag> tags = new ArrayList<>();
   private List<Identifier> identifiers = new ArrayList<>();
   private List<Person> contacts = new ArrayList<>();
+  private List<Contact> contactPersons = new ArrayList<>();
   private boolean indexHerbariorumRecord;
   private int numberSpecimens;
   private List<MachineTag> machineTags = new ArrayList<>();
@@ -373,6 +374,16 @@ public class Collection
   }
 
   @Override
+  public List<Contact> getContactPersons() {
+    return contactPersons;
+  }
+
+  @Override
+  public void setContactPersons(List<Contact> contactPersons) {
+    this.contactPersons = contactPersons;
+  }
+
+  @Override
   public void setContacts(List<Person> contacts) {
     this.contacts = contacts;
   }
@@ -527,6 +538,7 @@ public class Collection
         && Objects.equals(tags, that.tags)
         && Objects.equals(identifiers, that.identifiers)
         && Objects.equals(contacts, that.contacts)
+        && Objects.equals(contactPersons, that.contactPersons)
         && indexHerbariorumRecord == that.indexHerbariorumRecord
         && Objects.equals(numberSpecimens, that.numberSpecimens)
         && Objects.equals(machineTags, that.machineTags)
@@ -571,6 +583,7 @@ public class Collection
         tags,
         identifiers,
         contacts,
+        contactPersons,
         indexHerbariorumRecord,
         numberSpecimens,
         machineTags,
@@ -615,6 +628,7 @@ public class Collection
         .add("tags=" + tags)
         .add("identifiers=" + identifiers)
         .add("contacts=" + contacts)
+        .add("contactPersons=" + contactPersons)
         .add("indexHerbariorumRecord=" + indexHerbariorumRecord)
         .add("numberSpecimens=" + numberSpecimens)
         .add("machineTags=" + machineTags)

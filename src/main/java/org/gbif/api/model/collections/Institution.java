@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -95,6 +95,7 @@ public class Institution
   private List<Tag> tags = new ArrayList<>();
   private List<Identifier> identifiers = new ArrayList<>();
   private List<Person> contacts = new ArrayList<>();
+  private List<Contact> contactPersons = new ArrayList<>();
   private List<MachineTag> machineTags = new ArrayList<>();
   private List<AlternativeCode> alternativeCodes = new ArrayList<>();
   private List<Comment> comments = new ArrayList<>();
@@ -437,6 +438,16 @@ public class Institution
   }
 
   @Override
+  public List<Contact> getContactPersons() {
+    return contactPersons;
+  }
+
+  @Override
+  public void setContactPersons(List<Contact> contactPersons) {
+    this.contactPersons = contactPersons;
+  }
+
+  @Override
   public @NotNull List<MachineTag> getMachineTags() {
     return machineTags;
   }
@@ -536,6 +547,7 @@ public class Institution
         && Objects.equals(tags, that.tags)
         && Objects.equals(identifiers, that.identifiers)
         && Objects.equals(contacts, that.contacts)
+        && Objects.equals(contactPersons, that.contactPersons)
         && Objects.equals(machineTags, that.machineTags)
         && Objects.equals(alternativeCodes, that.alternativeCodes)
         && Objects.equals(comments, that.comments)
@@ -580,6 +592,7 @@ public class Institution
         tags,
         identifiers,
         contacts,
+        contactPersons,
         machineTags,
         alternativeCodes,
         comments,
@@ -624,6 +637,7 @@ public class Institution
         .add("tags=" + tags)
         .add("identifiers=" + identifiers)
         .add("contacts=" + contacts)
+        .add("contactPersons=" + contactPersons)
         .add("machineTags=" + machineTags)
         .add("alternativeCodes=" + alternativeCodes)
         .add("comments=" + comments)
