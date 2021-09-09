@@ -22,6 +22,7 @@ public enum IdType {
   RESEARCHER_ID,
   HUH,
   ISNI,
+  VIAF,
   IH_IRN,
   OTHER;
 }
