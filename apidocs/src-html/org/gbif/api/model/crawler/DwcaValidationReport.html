@@ -7,7 +7,7 @@
 <body>
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
+<span class="sourceLineNo">002</span> * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
 <span class="sourceLineNo">003</span> *<a name="line.3"></a>
 <span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
 <span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
@@ -23,153 +23,155 @@
 <span class="sourceLineNo">015</span> */<a name="line.15"></a>
 <span class="sourceLineNo">016</span>package org.gbif.api.model.crawler;<a name="line.16"></a>
 <span class="sourceLineNo">017</span><a name="line.17"></a>
-<span class="sourceLineNo">018</span>import org.gbif.api.util.ApiStringUtils;<a name="line.18"></a>
-<span class="sourceLineNo">019</span><a name="line.19"></a>
-<span class="sourceLineNo">020</span>import java.util.Objects;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import java.util.StringJoiner;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import java.util.UUID;<a name="line.22"></a>
-<span class="sourceLineNo">023</span><a name="line.23"></a>
-<span class="sourceLineNo">024</span>import javax.annotation.Nullable;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>import javax.annotation.concurrent.Immutable;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import javax.annotation.concurrent.ThreadSafe;<a name="line.26"></a>
+<span class="sourceLineNo">018</span>import java.util.Objects;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import java.util.StringJoiner;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import java.util.UUID;<a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
+<span class="sourceLineNo">022</span>import javax.annotation.Nullable;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import javax.annotation.concurrent.Immutable;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import javax.annotation.concurrent.ThreadSafe;<a name="line.24"></a>
+<span class="sourceLineNo">025</span><a name="line.25"></a>
+<span class="sourceLineNo">026</span>import org.apache.commons.lang3.StringUtils;<a name="line.26"></a>
 <span class="sourceLineNo">027</span><a name="line.27"></a>
 <span class="sourceLineNo">028</span>import com.fasterxml.jackson.annotation.JsonCreator;<a name="line.28"></a>
-<span class="sourceLineNo">029</span>import com.fasterxml.jackson.annotation.JsonProperty;<a name="line.29"></a>
-<span class="sourceLineNo">030</span><a name="line.30"></a>
-<span class="sourceLineNo">031</span>import static org.gbif.api.util.PreconditionUtils.checkArgument;<a name="line.31"></a>
-<span class="sourceLineNo">032</span>/**<a name="line.32"></a>
-<span class="sourceLineNo">033</span> * A report of the validity of a DwC-A.<a name="line.33"></a>
-<span class="sourceLineNo">034</span> * &lt;p/&gt;<a name="line.34"></a>
-<span class="sourceLineNo">035</span> * A DwC-A can comprise of a core and extensions.  This implementation is intended to be used as follows:<a name="line.35"></a>
-<span class="sourceLineNo">036</span> * &lt;ol&gt;<a name="line.36"></a>
-<span class="sourceLineNo">037</span> *   &lt;li&gt;Constructed with an OccurrenceValidationReport when the core of the DwC-A is an Occurrence&lt;/li&gt;<a name="line.37"></a>
-<span class="sourceLineNo">038</span> *   &lt;li&gt;Constructed with a GenericValidationReport when the core of the DwC-A is Taxon or Sample - optionally an<a name="line.38"></a>
-<span class="sourceLineNo">039</span> *   occurrence report may be given in addition to represent the occurrence extension validity&lt;/li&gt;<a name="line.39"></a>
-<span class="sourceLineNo">040</span> * &lt;/ol&gt;<a name="line.40"></a>
-<span class="sourceLineNo">041</span> */<a name="line.41"></a>
-<span class="sourceLineNo">042</span>@Immutable<a name="line.42"></a>
-<span class="sourceLineNo">043</span>@ThreadSafe<a name="line.43"></a>
-<span class="sourceLineNo">044</span>@SuppressWarnings("unused")<a name="line.44"></a>
-<span class="sourceLineNo">045</span>public class DwcaValidationReport {<a name="line.45"></a>
-<span class="sourceLineNo">046</span>  private final UUID datasetKey;<a name="line.46"></a>
-<span class="sourceLineNo">047</span><a name="line.47"></a>
-<span class="sourceLineNo">048</span>  // the occurrence report may represent occurrences observed from the core or from extensions.<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  @Nullable<a name="line.49"></a>
-<span class="sourceLineNo">050</span>  private final OccurrenceValidationReport occurrenceReport;<a name="line.50"></a>
-<span class="sourceLineNo">051</span><a name="line.51"></a>
-<span class="sourceLineNo">052</span>  // the generic report of the core which will always be present unless the core is of type occurrence, where it may be<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  // null<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  @Nullable<a name="line.54"></a>
-<span class="sourceLineNo">055</span>  private final GenericValidationReport genericReport;<a name="line.55"></a>
-<span class="sourceLineNo">056</span><a name="line.56"></a>
-<span class="sourceLineNo">057</span>  private final String invalidationReason;<a name="line.57"></a>
-<span class="sourceLineNo">058</span><a name="line.58"></a>
-<span class="sourceLineNo">059</span>  public boolean isValid() {<a name="line.59"></a>
-<span class="sourceLineNo">060</span>    return invalidationReason == null<a name="line.60"></a>
-<span class="sourceLineNo">061</span>      &amp;&amp; (occurrenceReport == null || occurrenceReport.isValid())<a name="line.61"></a>
-<span class="sourceLineNo">062</span>      &amp;&amp; (genericReport == null || genericReport.isValid());<a name="line.62"></a>
-<span class="sourceLineNo">063</span>  }<a name="line.63"></a>
-<span class="sourceLineNo">064</span><a name="line.64"></a>
-<span class="sourceLineNo">065</span>  @JsonCreator<a name="line.65"></a>
-<span class="sourceLineNo">066</span>  public DwcaValidationReport(@JsonProperty("datasetKey") UUID datasetKey,<a name="line.66"></a>
-<span class="sourceLineNo">067</span>    @JsonProperty("occurrenceReport") OccurrenceValidationReport occurrenceReport,<a name="line.67"></a>
-<span class="sourceLineNo">068</span>    @JsonProperty("genericReport") GenericValidationReport genericReport,<a name="line.68"></a>
-<span class="sourceLineNo">069</span>    @JsonProperty("invalidationReason") String invalidationReason) {<a name="line.69"></a>
-<span class="sourceLineNo">070</span>    this.datasetKey = Objects.requireNonNull(datasetKey, "datasetKey can't be null");<a name="line.70"></a>
-<span class="sourceLineNo">071</span>    // verify one of the 3 is not null<a name="line.71"></a>
-<span class="sourceLineNo">072</span>    checkArgument(invalidationReason != null || occurrenceReport != null || genericReport != null,<a name="line.72"></a>
-<span class="sourceLineNo">073</span>      "Either a report or invalidationReason cannot be null");<a name="line.73"></a>
-<span class="sourceLineNo">074</span>    this.occurrenceReport = occurrenceReport;<a name="line.74"></a>
-<span class="sourceLineNo">075</span>    this.genericReport = genericReport;<a name="line.75"></a>
-<span class="sourceLineNo">076</span>    this.invalidationReason = invalidationReason;<a name="line.76"></a>
-<span class="sourceLineNo">077</span>  }<a name="line.77"></a>
-<span class="sourceLineNo">078</span><a name="line.78"></a>
-<span class="sourceLineNo">079</span>  public DwcaValidationReport(UUID datasetKey, OccurrenceValidationReport occurrenceReport) {<a name="line.79"></a>
-<span class="sourceLineNo">080</span>    this.datasetKey = Objects.requireNonNull(datasetKey, "datasetKey can't be null");<a name="line.80"></a>
-<span class="sourceLineNo">081</span>    this.occurrenceReport = Objects.requireNonNull(occurrenceReport, "occurrenceReport can't be null");<a name="line.81"></a>
-<span class="sourceLineNo">082</span>    this.genericReport = null;<a name="line.82"></a>
-<span class="sourceLineNo">083</span>    this.invalidationReason = null;<a name="line.83"></a>
-<span class="sourceLineNo">084</span>  }<a name="line.84"></a>
-<span class="sourceLineNo">085</span><a name="line.85"></a>
-<span class="sourceLineNo">086</span>  public DwcaValidationReport(UUID datasetKey, GenericValidationReport genericReport) {<a name="line.86"></a>
-<span class="sourceLineNo">087</span>    this.datasetKey = Objects.requireNonNull(datasetKey, "datasetKey can't be null");<a name="line.87"></a>
-<span class="sourceLineNo">088</span>    this.occurrenceReport = null;<a name="line.88"></a>
-<span class="sourceLineNo">089</span>    this.genericReport = Objects.requireNonNull(genericReport, "genericReport can't be null");<a name="line.89"></a>
-<span class="sourceLineNo">090</span>    this.invalidationReason = null;<a name="line.90"></a>
-<span class="sourceLineNo">091</span>  }<a name="line.91"></a>
-<span class="sourceLineNo">092</span><a name="line.92"></a>
-<span class="sourceLineNo">093</span>  public DwcaValidationReport(UUID datasetKey, String invalidationReason) {<a name="line.93"></a>
-<span class="sourceLineNo">094</span>    this.datasetKey = Objects.requireNonNull(datasetKey, "datasetKey can't be null");<a name="line.94"></a>
-<span class="sourceLineNo">095</span>    this.occurrenceReport = null;<a name="line.95"></a>
-<span class="sourceLineNo">096</span>    this.genericReport = null;<a name="line.96"></a>
-<span class="sourceLineNo">097</span>    this.invalidationReason = Objects.requireNonNull(invalidationReason, "invalidationReason can't be null");<a name="line.97"></a>
-<span class="sourceLineNo">098</span>  }<a name="line.98"></a>
-<span class="sourceLineNo">099</span><a name="line.99"></a>
-<span class="sourceLineNo">100</span>  public UUID getDatasetKey() {<a name="line.100"></a>
-<span class="sourceLineNo">101</span>    return datasetKey;<a name="line.101"></a>
-<span class="sourceLineNo">102</span>  }<a name="line.102"></a>
-<span class="sourceLineNo">103</span><a name="line.103"></a>
-<span class="sourceLineNo">104</span>  public String getInvalidationReason() {<a name="line.104"></a>
-<span class="sourceLineNo">105</span>    StringBuilder sb = new StringBuilder();<a name="line.105"></a>
-<span class="sourceLineNo">106</span>    if (invalidationReason != null) {<a name="line.106"></a>
-<span class="sourceLineNo">107</span>      sb.append(invalidationReason);<a name="line.107"></a>
-<span class="sourceLineNo">108</span>    }<a name="line.108"></a>
-<span class="sourceLineNo">109</span>    if (occurrenceReport != null &amp;&amp; !occurrenceReport.isValid()) {<a name="line.109"></a>
-<span class="sourceLineNo">110</span>      if (sb.length() &gt; 1) {<a name="line.110"></a>
-<span class="sourceLineNo">111</span>        sb.append("\n");<a name="line.111"></a>
-<span class="sourceLineNo">112</span>      }<a name="line.112"></a>
-<span class="sourceLineNo">113</span>      sb.append("Invalid Occurrences: ");<a name="line.113"></a>
-<span class="sourceLineNo">114</span>      sb.append(occurrenceReport.getInvalidationReason());<a name="line.114"></a>
-<span class="sourceLineNo">115</span>    }<a name="line.115"></a>
-<span class="sourceLineNo">116</span>    if (genericReport != null &amp;&amp; !genericReport.isValid()) {<a name="line.116"></a>
-<span class="sourceLineNo">117</span>      if (sb.length() &gt; 1) {<a name="line.117"></a>
-<span class="sourceLineNo">118</span>        sb.append("\n");<a name="line.118"></a>
-<span class="sourceLineNo">119</span>      }<a name="line.119"></a>
-<span class="sourceLineNo">120</span>      sb.append("Invalid Checklist: ");<a name="line.120"></a>
-<span class="sourceLineNo">121</span>      sb.append(genericReport.getInvalidationReason());<a name="line.121"></a>
-<span class="sourceLineNo">122</span>    }<a name="line.122"></a>
-<span class="sourceLineNo">123</span><a name="line.123"></a>
-<span class="sourceLineNo">124</span>    return ApiStringUtils.emptyToNull(sb.toString());<a name="line.124"></a>
-<span class="sourceLineNo">125</span>  }<a name="line.125"></a>
-<span class="sourceLineNo">126</span><a name="line.126"></a>
-<span class="sourceLineNo">127</span>  public OccurrenceValidationReport getOccurrenceReport() {<a name="line.127"></a>
-<span class="sourceLineNo">128</span>    return occurrenceReport;<a name="line.128"></a>
-<span class="sourceLineNo">129</span>  }<a name="line.129"></a>
-<span class="sourceLineNo">130</span><a name="line.130"></a>
-<span class="sourceLineNo">131</span>  public GenericValidationReport getGenericReport() {<a name="line.131"></a>
-<span class="sourceLineNo">132</span>    return genericReport;<a name="line.132"></a>
-<span class="sourceLineNo">133</span>  }<a name="line.133"></a>
-<span class="sourceLineNo">134</span><a name="line.134"></a>
-<span class="sourceLineNo">135</span>  @Override<a name="line.135"></a>
-<span class="sourceLineNo">136</span>  public boolean equals(Object o) {<a name="line.136"></a>
-<span class="sourceLineNo">137</span>    if (this == o) {<a name="line.137"></a>
-<span class="sourceLineNo">138</span>      return true;<a name="line.138"></a>
-<span class="sourceLineNo">139</span>    }<a name="line.139"></a>
-<span class="sourceLineNo">140</span>    if (o == null || getClass() != o.getClass()) {<a name="line.140"></a>
-<span class="sourceLineNo">141</span>      return false;<a name="line.141"></a>
-<span class="sourceLineNo">142</span>    }<a name="line.142"></a>
-<span class="sourceLineNo">143</span>    DwcaValidationReport that = (DwcaValidationReport) o;<a name="line.143"></a>
-<span class="sourceLineNo">144</span>    return Objects.equals(datasetKey, that.datasetKey) &amp;&amp;<a name="line.144"></a>
-<span class="sourceLineNo">145</span>      Objects.equals(occurrenceReport, that.occurrenceReport) &amp;&amp;<a name="line.145"></a>
-<span class="sourceLineNo">146</span>      Objects.equals(genericReport, that.genericReport) &amp;&amp;<a name="line.146"></a>
-<span class="sourceLineNo">147</span>      Objects.equals(invalidationReason, that.invalidationReason);<a name="line.147"></a>
-<span class="sourceLineNo">148</span>  }<a name="line.148"></a>
-<span class="sourceLineNo">149</span><a name="line.149"></a>
-<span class="sourceLineNo">150</span>  @Override<a name="line.150"></a>
-<span class="sourceLineNo">151</span>  public int hashCode() {<a name="line.151"></a>
-<span class="sourceLineNo">152</span>    return Objects.hash(datasetKey, occurrenceReport, genericReport, invalidationReason);<a name="line.152"></a>
-<span class="sourceLineNo">153</span>  }<a name="line.153"></a>
-<span class="sourceLineNo">154</span><a name="line.154"></a>
-<span class="sourceLineNo">155</span>  @Override<a name="line.155"></a>
-<span class="sourceLineNo">156</span>  public String toString() {<a name="line.156"></a>
-<span class="sourceLineNo">157</span>    return new StringJoiner(", ", DwcaValidationReport.class.getSimpleName() + "[", "]")<a name="line.157"></a>
-<span class="sourceLineNo">158</span>      .add("datasetKey=" + datasetKey)<a name="line.158"></a>
-<span class="sourceLineNo">159</span>      .add("occurrenceReport=" + occurrenceReport)<a name="line.159"></a>
-<span class="sourceLineNo">160</span>      .add("genericReport=" + genericReport)<a name="line.160"></a>
-<span class="sourceLineNo">161</span>      .add("invalidationReason='" + invalidationReason + "'")<a name="line.161"></a>
-<span class="sourceLineNo">162</span>      .toString();<a name="line.162"></a>
-<span class="sourceLineNo">163</span>  }<a name="line.163"></a>
-<span class="sourceLineNo">164</span>}<a name="line.164"></a>
+<span class="sourceLineNo">029</span>import com.fasterxml.jackson.annotation.JsonIgnore;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import com.fasterxml.jackson.annotation.JsonProperty;<a name="line.30"></a>
+<span class="sourceLineNo">031</span><a name="line.31"></a>
+<span class="sourceLineNo">032</span>import static org.gbif.api.util.PreconditionUtils.checkArgument;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>/**<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * A report of the validity of a DwC-A.<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * &lt;p/&gt;<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * A DwC-A can comprise of a core and extensions.  This implementation is intended to be used as follows:<a name="line.36"></a>
+<span class="sourceLineNo">037</span> * &lt;ol&gt;<a name="line.37"></a>
+<span class="sourceLineNo">038</span> *   &lt;li&gt;Constructed with an OccurrenceValidationReport when the core of the DwC-A is an Occurrence&lt;/li&gt;<a name="line.38"></a>
+<span class="sourceLineNo">039</span> *   &lt;li&gt;Constructed with a GenericValidationReport when the core of the DwC-A is Taxon or Sample - optionally an<a name="line.39"></a>
+<span class="sourceLineNo">040</span> *   occurrence report may be given in addition to represent the occurrence extension validity&lt;/li&gt;<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * &lt;/ol&gt;<a name="line.41"></a>
+<span class="sourceLineNo">042</span> */<a name="line.42"></a>
+<span class="sourceLineNo">043</span>@Immutable<a name="line.43"></a>
+<span class="sourceLineNo">044</span>@ThreadSafe<a name="line.44"></a>
+<span class="sourceLineNo">045</span>@SuppressWarnings("unused")<a name="line.45"></a>
+<span class="sourceLineNo">046</span>public class DwcaValidationReport {<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  private final UUID datasetKey;<a name="line.47"></a>
+<span class="sourceLineNo">048</span><a name="line.48"></a>
+<span class="sourceLineNo">049</span>  // the occurrence report may represent occurrences observed from the core or from extensions.<a name="line.49"></a>
+<span class="sourceLineNo">050</span>  @Nullable<a name="line.50"></a>
+<span class="sourceLineNo">051</span>  private final OccurrenceValidationReport occurrenceReport;<a name="line.51"></a>
+<span class="sourceLineNo">052</span><a name="line.52"></a>
+<span class="sourceLineNo">053</span>  // the generic report of the core which will always be present unless the core is of type occurrence, where it may be<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  // null<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  @Nullable<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  private final GenericValidationReport genericReport;<a name="line.56"></a>
+<span class="sourceLineNo">057</span><a name="line.57"></a>
+<span class="sourceLineNo">058</span>  private final String invalidationReason;<a name="line.58"></a>
+<span class="sourceLineNo">059</span><a name="line.59"></a>
+<span class="sourceLineNo">060</span>  @JsonIgnore<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  public boolean isValid() {<a name="line.61"></a>
+<span class="sourceLineNo">062</span>    return invalidationReason == null<a name="line.62"></a>
+<span class="sourceLineNo">063</span>      &amp;&amp; (occurrenceReport == null || occurrenceReport.isValid())<a name="line.63"></a>
+<span class="sourceLineNo">064</span>      &amp;&amp; (genericReport == null || genericReport.isValid());<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  }<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>  @JsonCreator<a name="line.67"></a>
+<span class="sourceLineNo">068</span>  public DwcaValidationReport(@JsonProperty("datasetKey") UUID datasetKey,<a name="line.68"></a>
+<span class="sourceLineNo">069</span>    @JsonProperty("occurrenceReport") OccurrenceValidationReport occurrenceReport,<a name="line.69"></a>
+<span class="sourceLineNo">070</span>    @JsonProperty("genericReport") GenericValidationReport genericReport,<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    @JsonProperty("invalidationReason") String invalidationReason) {<a name="line.71"></a>
+<span class="sourceLineNo">072</span>    this.datasetKey = Objects.requireNonNull(datasetKey, "datasetKey can't be null");<a name="line.72"></a>
+<span class="sourceLineNo">073</span>    // verify one of the 3 is not null<a name="line.73"></a>
+<span class="sourceLineNo">074</span>    checkArgument(invalidationReason != null || occurrenceReport != null || genericReport != null,<a name="line.74"></a>
+<span class="sourceLineNo">075</span>      "Either a report or invalidationReason cannot be null");<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    this.occurrenceReport = occurrenceReport;<a name="line.76"></a>
+<span class="sourceLineNo">077</span>    this.genericReport = genericReport;<a name="line.77"></a>
+<span class="sourceLineNo">078</span>    this.invalidationReason = invalidationReason;<a name="line.78"></a>
+<span class="sourceLineNo">079</span>  }<a name="line.79"></a>
+<span class="sourceLineNo">080</span><a name="line.80"></a>
+<span class="sourceLineNo">081</span>  public DwcaValidationReport(UUID datasetKey, OccurrenceValidationReport occurrenceReport) {<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    this.datasetKey = Objects.requireNonNull(datasetKey, "datasetKey can't be null");<a name="line.82"></a>
+<span class="sourceLineNo">083</span>    this.occurrenceReport = Objects.requireNonNull(occurrenceReport, "occurrenceReport can't be null");<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    this.genericReport = null;<a name="line.84"></a>
+<span class="sourceLineNo">085</span>    this.invalidationReason = null;<a name="line.85"></a>
+<span class="sourceLineNo">086</span>  }<a name="line.86"></a>
+<span class="sourceLineNo">087</span><a name="line.87"></a>
+<span class="sourceLineNo">088</span>  public DwcaValidationReport(UUID datasetKey, GenericValidationReport genericReport) {<a name="line.88"></a>
+<span class="sourceLineNo">089</span>    this.datasetKey = Objects.requireNonNull(datasetKey, "datasetKey can't be null");<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    this.occurrenceReport = null;<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    this.genericReport = Objects.requireNonNull(genericReport, "genericReport can't be null");<a name="line.91"></a>
+<span class="sourceLineNo">092</span>    this.invalidationReason = null;<a name="line.92"></a>
+<span class="sourceLineNo">093</span>  }<a name="line.93"></a>
+<span class="sourceLineNo">094</span><a name="line.94"></a>
+<span class="sourceLineNo">095</span>  public DwcaValidationReport(UUID datasetKey, String invalidationReason) {<a name="line.95"></a>
+<span class="sourceLineNo">096</span>    this.datasetKey = Objects.requireNonNull(datasetKey, "datasetKey can't be null");<a name="line.96"></a>
+<span class="sourceLineNo">097</span>    this.occurrenceReport = null;<a name="line.97"></a>
+<span class="sourceLineNo">098</span>    this.genericReport = null;<a name="line.98"></a>
+<span class="sourceLineNo">099</span>    this.invalidationReason = Objects.requireNonNull(invalidationReason, "invalidationReason can't be null");<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  }<a name="line.100"></a>
+<span class="sourceLineNo">101</span><a name="line.101"></a>
+<span class="sourceLineNo">102</span>  public UUID getDatasetKey() {<a name="line.102"></a>
+<span class="sourceLineNo">103</span>    return datasetKey;<a name="line.103"></a>
+<span class="sourceLineNo">104</span>  }<a name="line.104"></a>
+<span class="sourceLineNo">105</span><a name="line.105"></a>
+<span class="sourceLineNo">106</span>  public String getInvalidationReason() {<a name="line.106"></a>
+<span class="sourceLineNo">107</span>    StringBuilder sb = new StringBuilder();<a name="line.107"></a>
+<span class="sourceLineNo">108</span>    if (invalidationReason != null) {<a name="line.108"></a>
+<span class="sourceLineNo">109</span>      sb.append(invalidationReason);<a name="line.109"></a>
+<span class="sourceLineNo">110</span>    }<a name="line.110"></a>
+<span class="sourceLineNo">111</span>    if (occurrenceReport != null &amp;&amp; !occurrenceReport.isValid()) {<a name="line.111"></a>
+<span class="sourceLineNo">112</span>      if (sb.length() &gt; 1) {<a name="line.112"></a>
+<span class="sourceLineNo">113</span>        sb.append("\n");<a name="line.113"></a>
+<span class="sourceLineNo">114</span>      }<a name="line.114"></a>
+<span class="sourceLineNo">115</span>      sb.append("Invalid Occurrences: ");<a name="line.115"></a>
+<span class="sourceLineNo">116</span>      sb.append(occurrenceReport.getInvalidationReason());<a name="line.116"></a>
+<span class="sourceLineNo">117</span>    }<a name="line.117"></a>
+<span class="sourceLineNo">118</span>    if (genericReport != null &amp;&amp; !genericReport.isValid()) {<a name="line.118"></a>
+<span class="sourceLineNo">119</span>      if (sb.length() &gt; 1) {<a name="line.119"></a>
+<span class="sourceLineNo">120</span>        sb.append("\n");<a name="line.120"></a>
+<span class="sourceLineNo">121</span>      }<a name="line.121"></a>
+<span class="sourceLineNo">122</span>      sb.append("Invalid Checklist: ");<a name="line.122"></a>
+<span class="sourceLineNo">123</span>      sb.append(genericReport.getInvalidationReason());<a name="line.123"></a>
+<span class="sourceLineNo">124</span>    }<a name="line.124"></a>
+<span class="sourceLineNo">125</span><a name="line.125"></a>
+<span class="sourceLineNo">126</span>    return StringUtils.trimToNull(sb.toString());<a name="line.126"></a>
+<span class="sourceLineNo">127</span>  }<a name="line.127"></a>
+<span class="sourceLineNo">128</span><a name="line.128"></a>
+<span class="sourceLineNo">129</span>  public OccurrenceValidationReport getOccurrenceReport() {<a name="line.129"></a>
+<span class="sourceLineNo">130</span>    return occurrenceReport;<a name="line.130"></a>
+<span class="sourceLineNo">131</span>  }<a name="line.131"></a>
+<span class="sourceLineNo">132</span><a name="line.132"></a>
+<span class="sourceLineNo">133</span>  public GenericValidationReport getGenericReport() {<a name="line.133"></a>
+<span class="sourceLineNo">134</span>    return genericReport;<a name="line.134"></a>
+<span class="sourceLineNo">135</span>  }<a name="line.135"></a>
+<span class="sourceLineNo">136</span><a name="line.136"></a>
+<span class="sourceLineNo">137</span>  @Override<a name="line.137"></a>
+<span class="sourceLineNo">138</span>  public boolean equals(Object o) {<a name="line.138"></a>
+<span class="sourceLineNo">139</span>    if (this == o) {<a name="line.139"></a>
+<span class="sourceLineNo">140</span>      return true;<a name="line.140"></a>
+<span class="sourceLineNo">141</span>    }<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    if (o == null || getClass() != o.getClass()) {<a name="line.142"></a>
+<span class="sourceLineNo">143</span>      return false;<a name="line.143"></a>
+<span class="sourceLineNo">144</span>    }<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    DwcaValidationReport that = (DwcaValidationReport) o;<a name="line.145"></a>
+<span class="sourceLineNo">146</span>    return Objects.equals(datasetKey, that.datasetKey) &amp;&amp;<a name="line.146"></a>
+<span class="sourceLineNo">147</span>      Objects.equals(occurrenceReport, that.occurrenceReport) &amp;&amp;<a name="line.147"></a>
+<span class="sourceLineNo">148</span>      Objects.equals(genericReport, that.genericReport) &amp;&amp;<a name="line.148"></a>
+<span class="sourceLineNo">149</span>      Objects.equals(invalidationReason, that.invalidationReason);<a name="line.149"></a>
+<span class="sourceLineNo">150</span>  }<a name="line.150"></a>
+<span class="sourceLineNo">151</span><a name="line.151"></a>
+<span class="sourceLineNo">152</span>  @Override<a name="line.152"></a>
+<span class="sourceLineNo">153</span>  public int hashCode() {<a name="line.153"></a>
+<span class="sourceLineNo">154</span>    return Objects.hash(datasetKey, occurrenceReport, genericReport, invalidationReason);<a name="line.154"></a>
+<span class="sourceLineNo">155</span>  }<a name="line.155"></a>
+<span class="sourceLineNo">156</span><a name="line.156"></a>
+<span class="sourceLineNo">157</span>  @Override<a name="line.157"></a>
+<span class="sourceLineNo">158</span>  public String toString() {<a name="line.158"></a>
+<span class="sourceLineNo">159</span>    return new StringJoiner(", ", DwcaValidationReport.class.getSimpleName() + "[", "]")<a name="line.159"></a>
+<span class="sourceLineNo">160</span>      .add("datasetKey=" + datasetKey)<a name="line.160"></a>
+<span class="sourceLineNo">161</span>      .add("occurrenceReport=" + occurrenceReport)<a name="line.161"></a>
+<span class="sourceLineNo">162</span>      .add("genericReport=" + genericReport)<a name="line.162"></a>
+<span class="sourceLineNo">163</span>      .add("invalidationReason='" + invalidationReason + "'")<a name="line.163"></a>
+<span class="sourceLineNo">164</span>      .toString();<a name="line.164"></a>
+<span class="sourceLineNo">165</span>  }<a name="line.165"></a>
+<span class="sourceLineNo">166</span>}<a name="line.166"></a>
 
 
 

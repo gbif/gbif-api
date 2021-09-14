@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IdentifierType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">IdentifierType.java</span></div><h1>IdentifierType.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  */
 package org.gbif.api.vocabulary;
 
-import org.gbif.api.util.ApiStringUtils;
 import org.gbif.api.util.VocabularyUtils;
 
 import java.util.Arrays;
@@ -24,85 +23,87 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Enumeration for all possible identifier types.
  */
-<span class="fc" id="L30">public enum IdentifierType {</span>
+<span class="fc" id="L31">public enum IdentifierType {</span>
 
-<span class="fc" id="L32">  URL,</span>
+<span class="fc" id="L33">  URL,</span>
 
   /**
    * Reference controlled by a separate system, used for example by DOI.
    * {http://en.wikipedia.org/wiki/Handle_(computing)}
    */
-<span class="fc" id="L38">  LSID,</span>
+<span class="fc" id="L39">  LSID,</span>
 
-<span class="fc" id="L40">  HANDLER,</span>
+<span class="fc" id="L41">  HANDLER,</span>
 
-<span class="fc" id="L42">  DOI,</span>
+<span class="fc" id="L43">  DOI,</span>
 
-<span class="fc" id="L44">  UUID,</span>
+<span class="fc" id="L45">  UUID,</span>
 
-<span class="fc" id="L46">  FTP,</span>
+<span class="fc" id="L47">  FTP,</span>
 
-<span class="fc" id="L48">  URI,</span>
+<span class="fc" id="L49">  URI,</span>
 
-<span class="fc" id="L50">  UNKNOWN,</span>
+<span class="fc" id="L51">  UNKNOWN,</span>
 
   /**
    * Indicates the identifier originated from an auto_increment column in the portal.data_provider or
    * portal.data_resource table respectively.
    */
-<span class="fc" id="L56">  GBIF_PORTAL,</span>
+<span class="fc" id="L57">  GBIF_PORTAL,</span>
 
   /**
    * Identifies the node (e.g: 'DK' for Denmark, 'sp2000' for Species 2000).
    */
-<span class="fc" id="L61">  GBIF_NODE,</span>
+<span class="fc" id="L62">  GBIF_NODE,</span>
 
   /**
    * Participant identifier from the GBIF Directory.
    */
-<span class="fc" id="L66">  GBIF_PARTICIPANT,</span>
+<span class="fc" id="L67">  GBIF_PARTICIPANT,</span>
 
   /**
    * ID migrated from GrSciColl.
    */
-<span class="fc" id="L71">  GRSCICOLL_ID,</span>
+<span class="fc" id="L72">  GRSCICOLL_ID,</span>
 
   /**
    * Cool URI migrated from GrSciColl.
    */
-<span class="fc" id="L76">  GRSCICOLL_URI,</span>
+<span class="fc" id="L77">  GRSCICOLL_URI,</span>
 
   /**
    * IRN of an IH record.
    */
-<span class="fc" id="L81">  IH_IRN,</span>
+<span class="fc" id="L82">  IH_IRN,</span>
 
   /**
    * Research Organization Registry.
    * https://ror.org
    */
-<span class="fc" id="L87">  ROR,</span>
+<span class="fc" id="L88">  ROR,</span>
 
   /**
    * https://www.grid.ac/institutes/
    */
-<span class="fc" id="L92">  GRID;</span>
+<span class="fc" id="L93">  GRID;</span>
 
   // TODO: Check if this is used, it didn't exist in the new Registry2 API, but I preserved it from the old vocabulary
   public static final List&lt;IdentifierType&gt; TYPES;
 
   static {
-<span class="fc" id="L98">    TYPES = Collections.unmodifiableList(Arrays.asList(IdentifierType.values()));</span>
-<span class="fc" id="L99">  }</span>
+<span class="fc" id="L99">    TYPES = Collections.unmodifiableList(Arrays.asList(IdentifierType.values()));</span>
+<span class="fc" id="L100">  }</span>
 
   /**
    * @return the matching IdentifierType or null
    */
   public static IdentifierType fromString(String identifierType) {
-<span class="nc" id="L105">    return (IdentifierType) VocabularyUtils.lookupEnum(identifierType, IdentifierType.class);</span>
+<span class="nc" id="L106">    return VocabularyUtils.lookupEnum(identifierType, IdentifierType.class);</span>
   }
 
   /**
@@ -113,62 +114,63 @@ import javax.annotation.Nullable;
    * @return the inferred identifier type or Unknown if identifier is null or cant be inferred.
    */
   public static IdentifierType inferFrom(@Nullable String identifier) {
-<span class="fc" id="L116">    String lcIdentifier = ApiStringUtils.nullToEmpty(identifier).trim().toLowerCase();</span>
+<span class="fc" id="L117">    String lcIdentifier = StringUtils.trimToEmpty(identifier).toLowerCase();</span>
 
-<span class="fc bfc" id="L118" title="All 2 branches covered.">    if (lcIdentifier.isEmpty()) {</span>
-<span class="fc" id="L119">      return UNKNOWN;</span>
-    }
-
-<span class="pc bpc" id="L122" title="1 of 2 branches missed.">    if (lcIdentifier.startsWith(org.gbif.api.model.common.DOI.GBIF_PREFIX)</span>
-<span class="pc bpc" id="L123" title="1 of 2 branches missed.">        || lcIdentifier.startsWith(org.gbif.api.model.common.DOI.TEST_PREFIX)) {</span>
-<span class="nc" id="L124">      return DOI;</span>
-    }
-<span class="pc bpc" id="L126" title="1 of 2 branches missed.">    if (lcIdentifier.startsWith(&quot;10.&quot;)</span>
-<span class="fc bfc" id="L127" title="All 2 branches covered.">        || lcIdentifier.startsWith(&quot;doi:10.&quot;)</span>
-<span class="pc bpc" id="L128" title="1 of 2 branches missed.">        || lcIdentifier.startsWith(&quot;urn:doi:10.&quot;)</span>
-<span class="fc bfc" id="L129" title="All 2 branches covered.">        || lcIdentifier.startsWith(&quot;http://dx.doi.org/10.&quot;)</span>
-<span class="pc bpc" id="L130" title="1 of 2 branches missed.">        || lcIdentifier.startsWith(&quot;https://dx.doi.org/10.&quot;)</span>
-<span class="pc bpc" id="L131" title="1 of 2 branches missed.">        || lcIdentifier.startsWith(&quot;http://doi.org/10.&quot;)</span>
-<span class="pc bpc" id="L132" title="1 of 2 branches missed.">        || lcIdentifier.startsWith(&quot;https://doi.org/10.&quot;)) {</span>
-<span class="fc" id="L133">      return DOI;</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">    if (lcIdentifier.isEmpty()) {</span>
+<span class="fc" id="L120">      return UNKNOWN;</span>
     }
 
-<span class="fc bfc" id="L136" title="All 2 branches covered.">    if (lcIdentifier.startsWith(&quot;https://ror.org&quot;)) {</span>
-<span class="fc" id="L137">      return ROR;</span>
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">    if (lcIdentifier.startsWith(org.gbif.api.model.common.DOI.GBIF_PREFIX)</span>
+<span class="pc bpc" id="L124" title="1 of 2 branches missed.">        || lcIdentifier.startsWith(org.gbif.api.model.common.DOI.TEST_PREFIX)) {</span>
+<span class="nc" id="L125">      return DOI;</span>
+    }
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">    if (lcIdentifier.startsWith(&quot;10.&quot;)</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        || lcIdentifier.startsWith(&quot;doi:10.&quot;)</span>
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">        || lcIdentifier.startsWith(&quot;urn:doi:10.&quot;)</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">        || lcIdentifier.startsWith(&quot;http://dx.doi.org/10.&quot;)</span>
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">        || lcIdentifier.startsWith(&quot;https://dx.doi.org/10.&quot;)</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">        || lcIdentifier.startsWith(&quot;http://doi.org/10.&quot;)</span>
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">        || lcIdentifier.startsWith(&quot;https://doi.org/10.&quot;)) {</span>
+<span class="fc" id="L134">      return DOI;</span>
     }
 
-<span class="fc bfc" id="L140" title="All 2 branches covered.">    if (lcIdentifier.startsWith(&quot;http:&quot;)</span>
-<span class="pc bpc" id="L141" title="1 of 2 branches missed.">        || lcIdentifier.startsWith(&quot;https:&quot;)</span>
-<span class="pc bpc" id="L142" title="1 of 2 branches missed.">        || lcIdentifier.startsWith(&quot;www.&quot;)) {</span>
-<span class="fc" id="L143">      return URL;</span>
-    }
-<span class="fc bfc" id="L145" title="All 2 branches covered.">    if (lcIdentifier.startsWith(&quot;ftp:&quot;)) {</span>
-<span class="fc" id="L146">      return FTP;</span>
-    }
-<span class="pc bpc" id="L148" title="1 of 4 branches missed.">    if (lcIdentifier.startsWith(&quot;urn:lsid:&quot;) || lcIdentifier.startsWith(&quot;lsid:&quot;)) {</span>
-<span class="fc" id="L149">      return LSID;</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">    if (lcIdentifier.startsWith(&quot;https://ror.org&quot;)) {</span>
+<span class="fc" id="L138">      return ROR;</span>
     }
 
-<span class="fc bfc" id="L152" title="All 4 branches covered.">    if (lcIdentifier.startsWith(&quot;urn:uuid:&quot;) || lcIdentifier.startsWith(&quot;uuid:&quot;)) {</span>
-<span class="fc" id="L153">      return UUID;</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">    if (lcIdentifier.startsWith(&quot;http:&quot;)</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">        || lcIdentifier.startsWith(&quot;https:&quot;)</span>
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">        || lcIdentifier.startsWith(&quot;www.&quot;)) {</span>
+<span class="fc" id="L144">      return URL;</span>
+    }
+<span class="fc bfc" id="L146" title="All 2 branches covered.">    if (lcIdentifier.startsWith(&quot;ftp:&quot;)) {</span>
+<span class="fc" id="L147">      return FTP;</span>
+    }
+<span class="pc bpc" id="L149" title="1 of 4 branches missed.">    if (lcIdentifier.startsWith(&quot;urn:lsid:&quot;) || lcIdentifier.startsWith(&quot;lsid:&quot;)) {</span>
+<span class="fc" id="L150">      return LSID;</span>
     }
 
-<span class="fc bfc" id="L156" title="All 2 branches covered.">    if (lcIdentifier.startsWith(&quot;gbif:ih:irn:&quot;)) {</span>
-<span class="fc" id="L157">      return IH_IRN;</span>
+<span class="fc bfc" id="L153" title="All 4 branches covered.">    if (lcIdentifier.startsWith(&quot;urn:uuid:&quot;) || lcIdentifier.startsWith(&quot;uuid:&quot;)) {</span>
+<span class="fc" id="L154">      return UUID;</span>
     }
 
-<span class="fc bfc" id="L160" title="All 2 branches covered.">    if (lcIdentifier.startsWith(&quot;grid&quot;)) {</span>
-<span class="fc" id="L161">      return GRID;</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">    if (lcIdentifier.startsWith(&quot;gbif:ih:irn:&quot;)) {</span>
+<span class="fc" id="L158">      return IH_IRN;</span>
+    }
+
+<span class="fc bfc" id="L161" title="All 2 branches covered.">    if (lcIdentifier.startsWith(&quot;grid&quot;)) {</span>
+<span class="fc" id="L162">      return GRID;</span>
     }
 
     try {
-<span class="fc" id="L165">      java.util.UUID.fromString(lcIdentifier);</span>
-<span class="fc" id="L166">      return UUID;</span>
-<span class="nc" id="L167">    } catch (IllegalArgumentException ignored) {</span>
+      //noinspection ResultOfMethodCallIgnored
+<span class="fc" id="L167">      java.util.UUID.fromString(lcIdentifier);</span>
+<span class="fc" id="L168">      return UUID;</span>
+<span class="nc" id="L169">    } catch (IllegalArgumentException ignored) {</span>
       // We're just trying to convert a String to anything readable. Apparently the UUID approach failed.
     }
 
-<span class="nc" id="L171">    return UNKNOWN;</span>
+<span class="nc" id="L173">    return UNKNOWN;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

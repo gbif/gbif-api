@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DwcaValidationReport.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.crawler</a> &gt; <span class="el_source">DwcaValidationReport.java</span></div><h1>DwcaValidationReport.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,6 @@
  */
 package org.gbif.api.model.crawler;
 
-import org.gbif.api.util.ApiStringUtils;
-
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
@@ -25,7 +23,10 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import static org.gbif.api.util.PreconditionUtils.checkArgument;
@@ -56,110 +57,111 @@ public class DwcaValidationReport {
 
   private final String invalidationReason;
 
+  @JsonIgnore
   public boolean isValid() {
-<span class="fc bfc" id="L60" title="All 4 branches covered.">    return invalidationReason == null</span>
-<span class="fc bfc" id="L61" title="All 4 branches covered.">      &amp;&amp; (occurrenceReport == null || occurrenceReport.isValid())</span>
-<span class="fc bfc" id="L62" title="All 2 branches covered.">      &amp;&amp; (genericReport == null || genericReport.isValid());</span>
+<span class="fc bfc" id="L62" title="All 4 branches covered.">    return invalidationReason == null</span>
+<span class="fc bfc" id="L63" title="All 4 branches covered.">      &amp;&amp; (occurrenceReport == null || occurrenceReport.isValid())</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">      &amp;&amp; (genericReport == null || genericReport.isValid());</span>
   }
 
   @JsonCreator
   public DwcaValidationReport(@JsonProperty(&quot;datasetKey&quot;) UUID datasetKey,
     @JsonProperty(&quot;occurrenceReport&quot;) OccurrenceValidationReport occurrenceReport,
     @JsonProperty(&quot;genericReport&quot;) GenericValidationReport genericReport,
-<span class="fc" id="L69">    @JsonProperty(&quot;invalidationReason&quot;) String invalidationReason) {</span>
-<span class="fc" id="L70">    this.datasetKey = Objects.requireNonNull(datasetKey, &quot;datasetKey can't be null&quot;);</span>
+<span class="fc" id="L71">    @JsonProperty(&quot;invalidationReason&quot;) String invalidationReason) {</span>
+<span class="fc" id="L72">    this.datasetKey = Objects.requireNonNull(datasetKey, &quot;datasetKey can't be null&quot;);</span>
     // verify one of the 3 is not null
-<span class="pc bpc" id="L72" title="4 of 6 branches missed.">    checkArgument(invalidationReason != null || occurrenceReport != null || genericReport != null,</span>
+<span class="pc bpc" id="L74" title="4 of 6 branches missed.">    checkArgument(invalidationReason != null || occurrenceReport != null || genericReport != null,</span>
       &quot;Either a report or invalidationReason cannot be null&quot;);
-<span class="fc" id="L74">    this.occurrenceReport = occurrenceReport;</span>
-<span class="fc" id="L75">    this.genericReport = genericReport;</span>
-<span class="fc" id="L76">    this.invalidationReason = invalidationReason;</span>
-<span class="fc" id="L77">  }</span>
+<span class="fc" id="L76">    this.occurrenceReport = occurrenceReport;</span>
+<span class="fc" id="L77">    this.genericReport = genericReport;</span>
+<span class="fc" id="L78">    this.invalidationReason = invalidationReason;</span>
+<span class="fc" id="L79">  }</span>
 
-<span class="fc" id="L79">  public DwcaValidationReport(UUID datasetKey, OccurrenceValidationReport occurrenceReport) {</span>
-<span class="fc" id="L80">    this.datasetKey = Objects.requireNonNull(datasetKey, &quot;datasetKey can't be null&quot;);</span>
-<span class="fc" id="L81">    this.occurrenceReport = Objects.requireNonNull(occurrenceReport, &quot;occurrenceReport can't be null&quot;);</span>
-<span class="fc" id="L82">    this.genericReport = null;</span>
-<span class="fc" id="L83">    this.invalidationReason = null;</span>
-<span class="fc" id="L84">  }</span>
+<span class="fc" id="L81">  public DwcaValidationReport(UUID datasetKey, OccurrenceValidationReport occurrenceReport) {</span>
+<span class="fc" id="L82">    this.datasetKey = Objects.requireNonNull(datasetKey, &quot;datasetKey can't be null&quot;);</span>
+<span class="fc" id="L83">    this.occurrenceReport = Objects.requireNonNull(occurrenceReport, &quot;occurrenceReport can't be null&quot;);</span>
+<span class="fc" id="L84">    this.genericReport = null;</span>
+<span class="fc" id="L85">    this.invalidationReason = null;</span>
+<span class="fc" id="L86">  }</span>
 
-<span class="fc" id="L86">  public DwcaValidationReport(UUID datasetKey, GenericValidationReport genericReport) {</span>
-<span class="fc" id="L87">    this.datasetKey = Objects.requireNonNull(datasetKey, &quot;datasetKey can't be null&quot;);</span>
-<span class="fc" id="L88">    this.occurrenceReport = null;</span>
-<span class="fc" id="L89">    this.genericReport = Objects.requireNonNull(genericReport, &quot;genericReport can't be null&quot;);</span>
-<span class="fc" id="L90">    this.invalidationReason = null;</span>
-<span class="fc" id="L91">  }</span>
+<span class="fc" id="L88">  public DwcaValidationReport(UUID datasetKey, GenericValidationReport genericReport) {</span>
+<span class="fc" id="L89">    this.datasetKey = Objects.requireNonNull(datasetKey, &quot;datasetKey can't be null&quot;);</span>
+<span class="fc" id="L90">    this.occurrenceReport = null;</span>
+<span class="fc" id="L91">    this.genericReport = Objects.requireNonNull(genericReport, &quot;genericReport can't be null&quot;);</span>
+<span class="fc" id="L92">    this.invalidationReason = null;</span>
+<span class="fc" id="L93">  }</span>
 
-<span class="fc" id="L93">  public DwcaValidationReport(UUID datasetKey, String invalidationReason) {</span>
-<span class="fc" id="L94">    this.datasetKey = Objects.requireNonNull(datasetKey, &quot;datasetKey can't be null&quot;);</span>
-<span class="fc" id="L95">    this.occurrenceReport = null;</span>
-<span class="fc" id="L96">    this.genericReport = null;</span>
-<span class="fc" id="L97">    this.invalidationReason = Objects.requireNonNull(invalidationReason, &quot;invalidationReason can't be null&quot;);</span>
-<span class="fc" id="L98">  }</span>
+<span class="fc" id="L95">  public DwcaValidationReport(UUID datasetKey, String invalidationReason) {</span>
+<span class="fc" id="L96">    this.datasetKey = Objects.requireNonNull(datasetKey, &quot;datasetKey can't be null&quot;);</span>
+<span class="fc" id="L97">    this.occurrenceReport = null;</span>
+<span class="fc" id="L98">    this.genericReport = null;</span>
+<span class="fc" id="L99">    this.invalidationReason = Objects.requireNonNull(invalidationReason, &quot;invalidationReason can't be null&quot;);</span>
+<span class="fc" id="L100">  }</span>
 
   public UUID getDatasetKey() {
-<span class="nc" id="L101">    return datasetKey;</span>
+<span class="nc" id="L103">    return datasetKey;</span>
   }
 
   public String getInvalidationReason() {
-<span class="nc" id="L105">    StringBuilder sb = new StringBuilder();</span>
-<span class="nc bnc" id="L106" title="All 2 branches missed.">    if (invalidationReason != null) {</span>
-<span class="nc" id="L107">      sb.append(invalidationReason);</span>
+<span class="nc" id="L107">    StringBuilder sb = new StringBuilder();</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">    if (invalidationReason != null) {</span>
+<span class="nc" id="L109">      sb.append(invalidationReason);</span>
     }
-<span class="nc bnc" id="L109" title="All 4 branches missed.">    if (occurrenceReport != null &amp;&amp; !occurrenceReport.isValid()) {</span>
-<span class="nc bnc" id="L110" title="All 2 branches missed.">      if (sb.length() &gt; 1) {</span>
-<span class="nc" id="L111">        sb.append(&quot;\n&quot;);</span>
+<span class="nc bnc" id="L111" title="All 4 branches missed.">    if (occurrenceReport != null &amp;&amp; !occurrenceReport.isValid()) {</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">      if (sb.length() &gt; 1) {</span>
+<span class="nc" id="L113">        sb.append(&quot;\n&quot;);</span>
       }
-<span class="nc" id="L113">      sb.append(&quot;Invalid Occurrences: &quot;);</span>
-<span class="nc" id="L114">      sb.append(occurrenceReport.getInvalidationReason());</span>
+<span class="nc" id="L115">      sb.append(&quot;Invalid Occurrences: &quot;);</span>
+<span class="nc" id="L116">      sb.append(occurrenceReport.getInvalidationReason());</span>
     }
-<span class="nc bnc" id="L116" title="All 4 branches missed.">    if (genericReport != null &amp;&amp; !genericReport.isValid()) {</span>
-<span class="nc bnc" id="L117" title="All 2 branches missed.">      if (sb.length() &gt; 1) {</span>
-<span class="nc" id="L118">        sb.append(&quot;\n&quot;);</span>
+<span class="nc bnc" id="L118" title="All 4 branches missed.">    if (genericReport != null &amp;&amp; !genericReport.isValid()) {</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">      if (sb.length() &gt; 1) {</span>
+<span class="nc" id="L120">        sb.append(&quot;\n&quot;);</span>
       }
-<span class="nc" id="L120">      sb.append(&quot;Invalid Checklist: &quot;);</span>
-<span class="nc" id="L121">      sb.append(genericReport.getInvalidationReason());</span>
+<span class="nc" id="L122">      sb.append(&quot;Invalid Checklist: &quot;);</span>
+<span class="nc" id="L123">      sb.append(genericReport.getInvalidationReason());</span>
     }
 
-<span class="nc" id="L124">    return ApiStringUtils.emptyToNull(sb.toString());</span>
+<span class="nc" id="L126">    return StringUtils.trimToNull(sb.toString());</span>
   }
 
   public OccurrenceValidationReport getOccurrenceReport() {
-<span class="nc" id="L128">    return occurrenceReport;</span>
+<span class="nc" id="L130">    return occurrenceReport;</span>
   }
 
   public GenericValidationReport getGenericReport() {
-<span class="nc" id="L132">    return genericReport;</span>
+<span class="nc" id="L134">    return genericReport;</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L137" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L138">      return true;</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L140">      return true;</span>
     }
-<span class="nc bnc" id="L140" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L141">      return false;</span>
+<span class="nc bnc" id="L142" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L143">      return false;</span>
     }
-<span class="nc" id="L143">    DwcaValidationReport that = (DwcaValidationReport) o;</span>
-<span class="nc bnc" id="L144" title="All 2 branches missed.">    return Objects.equals(datasetKey, that.datasetKey) &amp;&amp;</span>
-<span class="nc bnc" id="L145" title="All 2 branches missed.">      Objects.equals(occurrenceReport, that.occurrenceReport) &amp;&amp;</span>
-<span class="nc bnc" id="L146" title="All 2 branches missed.">      Objects.equals(genericReport, that.genericReport) &amp;&amp;</span>
-<span class="nc bnc" id="L147" title="All 2 branches missed.">      Objects.equals(invalidationReason, that.invalidationReason);</span>
+<span class="nc" id="L145">    DwcaValidationReport that = (DwcaValidationReport) o;</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">    return Objects.equals(datasetKey, that.datasetKey) &amp;&amp;</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">      Objects.equals(occurrenceReport, that.occurrenceReport) &amp;&amp;</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">      Objects.equals(genericReport, that.genericReport) &amp;&amp;</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">      Objects.equals(invalidationReason, that.invalidationReason);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L152">    return Objects.hash(datasetKey, occurrenceReport, genericReport, invalidationReason);</span>
+<span class="nc" id="L154">    return Objects.hash(datasetKey, occurrenceReport, genericReport, invalidationReason);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L157">    return new StringJoiner(&quot;, &quot;, DwcaValidationReport.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L158">      .add(&quot;datasetKey=&quot; + datasetKey)</span>
-<span class="nc" id="L159">      .add(&quot;occurrenceReport=&quot; + occurrenceReport)</span>
-<span class="nc" id="L160">      .add(&quot;genericReport=&quot; + genericReport)</span>
-<span class="nc" id="L161">      .add(&quot;invalidationReason='&quot; + invalidationReason + &quot;'&quot;)</span>
-<span class="nc" id="L162">      .toString();</span>
+<span class="nc" id="L159">    return new StringJoiner(&quot;, &quot;, DwcaValidationReport.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L160">      .add(&quot;datasetKey=&quot; + datasetKey)</span>
+<span class="nc" id="L161">      .add(&quot;occurrenceReport=&quot; + occurrenceReport)</span>
+<span class="nc" id="L162">      .add(&quot;genericReport=&quot; + genericReport)</span>
+<span class="nc" id="L163">      .add(&quot;invalidationReason='&quot; + invalidationReason + &quot;'&quot;)</span>
+<span class="nc" id="L164">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
