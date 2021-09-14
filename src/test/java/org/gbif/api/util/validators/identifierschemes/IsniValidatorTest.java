@@ -15,18 +15,23 @@
  */
 package org.gbif.api.util.validators.identifierschemes;
 
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
- * Validation and normalization interface for identifier schemes.
+ * Tests the {@link IsniValidator}.
  */
-public interface IdentifierSchemeValidator {
+public class IsniValidatorTest {
 
-  /**
-   * Is the identifier value valid?.
-   */
-  boolean isValid(String value);
+  private static final IsniValidator VALIDATOR = new IsniValidator();
 
-  /**
-   * Transforms the value parameter into a recommended value according to a IdentifierScheme.
-   */
-  String normalize(String value);
+  @Test
+  public void isValidTest() {
+    assertTrue(VALIDATOR.isValid("000000012146438X"));
+    assertTrue(VALIDATOR.isValid("http://isni.org/isni/000000012146438X"));
+
+    assertFalse(VALIDATOR.isValid("000000012146438X234as2343243223"));
+  }
+
 }

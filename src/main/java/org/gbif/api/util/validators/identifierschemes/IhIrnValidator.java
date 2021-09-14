@@ -16,17 +16,31 @@
 package org.gbif.api.util.validators.identifierschemes;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class OtherValidator implements IdentifierSchemeValidator {
+public class IhIrnValidator implements IdentifierSchemeValidator {
+
+  private static final Pattern IH_IRN_PATTERN =
+      Pattern.compile("^(?<prefix>http:\\/\\/sweetgum.nybg.org\\/science\\/ih\\/person-details(\\/)?\\?irn=)?([0-9]+)$");
 
   @Override
   public boolean isValid(String value) {
-    return value != null && !value.isEmpty();
+    if (value == null || value.isEmpty()) {
+      return false;
+    }
+    Matcher matcher = IH_IRN_PATTERN.matcher(value);
+    return matcher.matches();
   }
 
   @Override
   public String normalize(String value) {
     Objects.requireNonNull(value, "Identifier value can't be null");
-    return value.trim();
+    String trimmedValue = value.trim();
+    Matcher matcher = IH_IRN_PATTERN.matcher(trimmedValue);
+    if (matcher.matches()) {
+      return trimmedValue;
+    }
+    throw new IllegalArgumentException(value + " it not a valid IH IRN");
   }
 }

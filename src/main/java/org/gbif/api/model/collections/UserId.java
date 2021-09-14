@@ -18,6 +18,8 @@ package org.gbif.api.model.collections;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * User ID for GRSciColl contacts.
  */
@@ -26,6 +28,7 @@ public class UserId {
   private IdType type;
   private String id;
 
+  @NotNull
   public IdType getType() {
     return type;
   }
@@ -34,6 +37,7 @@ public class UserId {
     this.type = type;
   }
 
+  @NotNull
   public String getId() {
     return id;
   }

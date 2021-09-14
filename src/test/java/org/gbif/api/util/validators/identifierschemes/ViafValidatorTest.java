@@ -15,18 +15,23 @@
  */
 package org.gbif.api.util.validators.identifierschemes;
 
-import java.util.Objects;
+import org.junit.jupiter.api.Test;
 
-public class OtherValidator implements IdentifierSchemeValidator {
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-  @Override
-  public boolean isValid(String value) {
-    return value != null && !value.isEmpty();
-  }
+/** Tests the {@link ViafValidator}. */
+public class ViafValidatorTest {
 
-  @Override
-  public String normalize(String value) {
-    Objects.requireNonNull(value, "Identifier value can't be null");
-    return value.trim();
+  private static final ViafValidator VALIDATOR = new ViafValidator();
+
+  @Test
+  public void isValidTest() {
+    assertTrue(VALIDATOR.isValid("http://viaf.org/viaf/95138782"));
+    assertTrue(VALIDATOR.isValid("https://viaf.org/viaf/95138782"));
+    assertTrue(VALIDATOR.isValid("95138782"));
+    assertTrue(VALIDATOR.isValid("http://viaf.org/viaf/1281586699957272025921"));
+
+    assertFalse(VALIDATOR.isValid("http://viaf.org/viaf/12815866999572720259211"));
   }
 }
