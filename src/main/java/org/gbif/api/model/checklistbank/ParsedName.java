@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 package org.gbif.api.model.checklistbank;
 
 import org.gbif.api.jackson.RankSerde;
-import org.gbif.api.util.ApiStringUtils;
 import org.gbif.api.util.UnicodeUtils;
 import org.gbif.api.vocabulary.NamePart;
 import org.gbif.api.vocabulary.NameType;
@@ -385,7 +384,7 @@ public class ParsedName {
         sb.append(HYBRID_MARKER);
       }
       if (abbreviateGenus) {
-        sb.append(genusOrAbove.substring(0, 1)).append('.');
+        sb.append(genusOrAbove.charAt(0)).append('.');
       } else {
         sb.append(genusOrAbove);
       }
@@ -517,7 +516,7 @@ public class ParsedName {
       name = UnicodeUtils.ascii(name);
     }
 
-    return ApiStringUtils.emptyToNull(name);
+    return StringUtils.trimToNull(name);
   }
 
   private boolean showIndet(boolean showIndet) {
@@ -649,7 +648,7 @@ public class ParsedName {
 
   @JsonIgnore
   public boolean isAutonym() {
-    return specificEpithet != null && infraSpecificEpithet != null && specificEpithet.equals(infraSpecificEpithet);
+    return specificEpithet != null && specificEpithet.equals(infraSpecificEpithet);
   }
 
   @JsonIgnore

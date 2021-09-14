@@ -15,11 +15,11 @@
  */
 package org.gbif.api.vocabulary;
 
+import org.gbif.api.util.AnnotationUtils;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.terms.Term;
-import org.gbif.utils.AnnotationUtils;
 
 import java.util.Arrays;
 import java.util.Collections;

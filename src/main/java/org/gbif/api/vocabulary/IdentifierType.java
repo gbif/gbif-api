@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  */
 package org.gbif.api.vocabulary;
 
-import org.gbif.api.util.ApiStringUtils;
 import org.gbif.api.util.VocabularyUtils;
 
 import java.util.Arrays;
@@ -23,6 +22,8 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nullable;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Enumeration for all possible identifier types.
@@ -102,7 +103,7 @@ public enum IdentifierType {
    * @return the matching IdentifierType or null
    */
   public static IdentifierType fromString(String identifierType) {
-    return (IdentifierType) VocabularyUtils.lookupEnum(identifierType, IdentifierType.class);
+    return VocabularyUtils.lookupEnum(identifierType, IdentifierType.class);
   }
 
   /**
@@ -113,7 +114,7 @@ public enum IdentifierType {
    * @return the inferred identifier type or Unknown if identifier is null or cant be inferred.
    */
   public static IdentifierType inferFrom(@Nullable String identifier) {
-    String lcIdentifier = ApiStringUtils.nullToEmpty(identifier).trim().toLowerCase();
+    String lcIdentifier = StringUtils.trimToEmpty(identifier).toLowerCase();
 
     if (lcIdentifier.isEmpty()) {
       return UNKNOWN;
@@ -162,6 +163,7 @@ public enum IdentifierType {
     }
 
     try {
+      //noinspection ResultOfMethodCallIgnored
       java.util.UUID.fromString(lcIdentifier);
       return UUID;
     } catch (IllegalArgumentException ignored) {
