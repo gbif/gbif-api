@@ -87,7 +87,13 @@ public enum UserRole {
   GRSCICOLL_EDITOR,
 
   /**
+   * A grscicoll mediator with more permissions than an editor but less than an admin.
+   */
+  GRSCICOLL_MEDIATOR,
+
+  /**
    * A grscicoll editor with permissions for some iDigBio-only operations.
    */
+  @Deprecated
   IDIGBIO_GRSCICOLL_EDITOR
 }

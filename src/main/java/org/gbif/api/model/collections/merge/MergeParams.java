@@ -1,5 +1,5 @@
 /*
- * Copyright $YEAR Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,3 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.gbif.api.model.collections.merge;
+
+import java.io.Serializable;
+import java.util.UUID;
+
+public class MergeParams implements Serializable {
+
+  private UUID replacementEntityKey;
+
+  public UUID getReplacementEntityKey() {
+    return replacementEntityKey;
+  }
+
+  public void setReplacementEntityKey(UUID replacementEntityKey) {
+    this.replacementEntityKey = replacementEntityKey;
+  }
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Language;
 
+import java.text.ParseException;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -180,7 +181,7 @@ public class SearchTypeValidator {
       }
 
       // All the parameters except by GEOMETRY accept the wild card value
-      if (!WILD_CARD.equalsIgnoreCase(ApiStringUtils.nullToEmpty(value).trim())) {
+      if (!WILD_CARD.equalsIgnoreCase(StringUtils.trimToEmpty(value))) {
         if (OccurrenceSearchParameter.DECIMAL_LATITUDE == param) {
           validateLatitude(value);
 
@@ -188,6 +189,7 @@ public class SearchTypeValidator {
           validateLongitude(value);
 
         } else if (UUID.class.isAssignableFrom(pType)) {
+          //noinspection ResultOfMethodCallIgnored
           UUID.fromString(value);
 
         } else if (Double.class.isAssignableFrom(pType)) {
@@ -357,9 +359,7 @@ public class SearchTypeValidator {
             throw new IllegalArgumentException("Unsupported simple WKT (unsupported type " + geometry.getGeometryType() + "): " + wellKnownText);
         }
       }
-    } catch (AssertionError e) {
-      throw new IllegalArgumentException("Cannot parse simple WKT: " + wellKnownText + " " + e.getMessage());
-    } catch (java.text.ParseException e) {
+    } catch (AssertionError | ParseException e) {
       throw new IllegalArgumentException("Cannot parse simple WKT: " + wellKnownText + " " + e.getMessage());
     } catch (InvalidShapeException e) {
       throw new IllegalArgumentException("Invalid shape in WKT: " + wellKnownText + " " + e.getMessage());

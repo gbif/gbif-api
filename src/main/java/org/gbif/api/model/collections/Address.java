@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.collections;
 
+import org.gbif.api.model.registry.LenientEquals;
 import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.vocabulary.Country;
 
@@ -25,11 +26,9 @@ import java.util.StringJoiner;
 import javax.annotation.Nullable;
 import javax.validation.constraints.Null;
 
-/**
- * The particulars of the place where a institution of collection is situated.
- */
+/** The particulars of the place where a institution of collection is situated. */
 @SuppressWarnings("unused")
-public class Address implements Serializable {
+public class Address implements Serializable, LenientEquals<Address> {
 
   private Integer key;
   private String address;
@@ -38,9 +37,7 @@ public class Address implements Serializable {
   private String postalCode;
   private Country country;
 
-  /**
-   * Unique identifier, assigned by the persistence store.
-   */
+  /** Unique identifier, assigned by the persistence store. */
   @Null(groups = {PrePersist.class})
   public Integer getKey() {
     return key;
@@ -50,9 +47,7 @@ public class Address implements Serializable {
     this.key = key;
   }
 
-  /**
-   * Textual direction of this address.
-   */
+  /** Textual direction of this address. */
   public String getAddress() {
     return address;
   }
@@ -61,9 +56,7 @@ public class Address implements Serializable {
     this.address = address;
   }
 
-  /**
-   * City where this address is located.
-   */
+  /** City where this address is located. */
   public String getCity() {
     return city;
   }
@@ -72,9 +65,7 @@ public class Address implements Serializable {
     this.city = city;
   }
 
-  /**
-   * Province, region or area where this address is located.
-   */
+  /** Province, region or area where this address is located. */
   public String getProvince() {
     return province;
   }
@@ -83,9 +74,7 @@ public class Address implements Serializable {
     this.province = province;
   }
 
-  /**
-   * International postal code of this address.
-   */
+  /** International postal code of this address. */
   public String getPostalCode() {
     return postalCode;
   }
@@ -94,9 +83,7 @@ public class Address implements Serializable {
     this.postalCode = postalCode;
   }
 
-  /**
-   * Country where this address is located.
-   */
+  /** Country where this address is located. */
   @Nullable
   public Country getCountry() {
     return country;
@@ -112,11 +99,11 @@ public class Address implements Serializable {
     if (o == null || getClass() != o.getClass()) return false;
     Address address1 = (Address) o;
     return Objects.equals(key, address1.key)
-           && Objects.equals(address, address1.address)
-           && Objects.equals(city, address1.city)
-           && Objects.equals(province, address1.province)
-           && Objects.equals(postalCode, address1.postalCode)
-           && country == address1.country;
+        && Objects.equals(address, address1.address)
+        && Objects.equals(city, address1.city)
+        && Objects.equals(province, address1.province)
+        && Objects.equals(postalCode, address1.postalCode)
+        && country == address1.country;
   }
 
   @Override
@@ -126,12 +113,25 @@ public class Address implements Serializable {
 
   @Override
   public String toString() {
-    return new StringJoiner(", ", Address.class.getSimpleName() + "[", "]").add("key=" + key)
-      .add("address='" + address + "'")
-      .add("city='" + city + "'")
-      .add("province='" + province + "'")
-      .add("postalCode='" + postalCode + "'")
-      .add("country=" + country)
-      .toString();
+    return new StringJoiner(", ", Address.class.getSimpleName() + "[", "]")
+        .add("key=" + key)
+        .add("address='" + address + "'")
+        .add("city='" + city + "'")
+        .add("province='" + province + "'")
+        .add("postalCode='" + postalCode + "'")
+        .add("country=" + country)
+        .toString();
+  }
+
+  @Override
+  public boolean lenientEquals(Address other) {
+    if (this == other) {
+      return true;
+    }
+    return Objects.equals(address, other.address)
+        && Objects.equals(city, other.city)
+        && Objects.equals(province, other.province)
+        && Objects.equals(postalCode, other.postalCode)
+        && country == other.country;
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,10 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
-import org.gbif.utils.file.FileUtils;
-
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -54,7 +54,8 @@ public class WithinPredicateTest {
 
   @Test
   public void testGoodComplexConstructor() throws Exception {
-    byte[] enc = Files.readAllBytes(FileUtils.getClasspathFile("predicate/large-polygon.wkt").toPath());
+    Path path = new File(ClassLoader.getSystemResource("predicate/large-polygon.wkt").getFile()).toPath();
+    byte[] enc = Files.readAllBytes(path);
     new WithinPredicate(new String(enc, StandardCharsets.UTF_8));
   }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,11 @@
  */
 package org.gbif.api.vocabulary;
 
+import org.gbif.api.util.AnnotationUtils;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.terms.Term;
-import org.gbif.utils.AnnotationUtils;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -113,6 +113,12 @@ public enum OccurrenceIssue implements InterpretationRemark {
    * The Footprint Spatial Reference System given could not be interpreted.
    */
   FOOTPRINT_SRS_INVALID(WARNING, DwcTerm.footprintSRS),
+
+  /**
+   * The Footprint Well-Known-Text conflicts with the interpreted coordinates
+   * (Decimal Latitude, Decimal Longitude etc).
+   */
+  FOOTPRINT_WKT_MISMATCH(WARNING, DwcTerm.footprintWKT),
 
   /**
    * The Footprint Well-Known-Text given could not be interpreted.

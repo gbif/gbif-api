@@ -34,16 +34,15 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
+
 /**
- * An abstract GBIF user account.
- * The main purpose of this abstraction is to let subclasses handle key and password information only if required.
- * By doing so, it is possible to have classes working for user information without having to carry those
- * information around.
+ * An abstract GBIF user account. The main purpose of this abstraction is to let subclasses handle
+ * key and password information only if required. By doing so, it is possible to have classes
+ * working for user information without having to carry those information around.
  */
 @SuppressWarnings("unused")
 public abstract class AbstractGbifUser {
-  protected static final String EMAIL_PATTERN =
-    "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
   protected String userName;
   protected String firstName;
@@ -51,7 +50,7 @@ public abstract class AbstractGbifUser {
   protected String email;
   protected Set<UserRole> roles = new HashSet<>();
   protected Map<String, String> settings = new HashMap<>();
-  //settings that the user will not set directly
+  // settings that the user will not set directly
   protected Map<String, String> systemSettings = new HashMap<>();
   protected Date deleted;
 
@@ -66,10 +65,9 @@ public abstract class AbstractGbifUser {
   }
 
   /**
-   * The unique, immutable drupal user account name.
-   * This name should be used for referring to a user.
-   * The account name is made of ASCII lower case alphanumerics, underscore, dash or dots and is in particular void
-   * of whitespace.
+   * The unique, immutable drupal user account name. This name should be used for referring to a
+   * user. The account name is made of ASCII lower case alphanumerics, underscore, dash or dots and
+   * is in particular void of whitespace.
    */
   @NotNull
   @Pattern(regexp = "^[a-z0-9_.-]+$")
@@ -82,9 +80,7 @@ public abstract class AbstractGbifUser {
     this.userName = userName;
   }
 
-  /**
-   * @return the first name of a person
-   */
+  /** @return the first name of a person */
   public String getFirstName() {
     return firstName;
   }
@@ -93,9 +89,7 @@ public abstract class AbstractGbifUser {
     this.firstName = firstName;
   }
 
-  /**
-   * @return the last name of the user
-   */
+  /** @return the last name of the user */
   public String getLastName() {
     return lastName;
   }
@@ -104,14 +98,10 @@ public abstract class AbstractGbifUser {
     this.lastName = lastName;
   }
 
-  /**
-   * @return the first and last name of the user concatenated with a space
-   */
+  /** @return the first and last name of the user concatenated with a space */
   @JsonIgnore
   public String getName() {
-    return Stream.of(firstName, lastName)
-      .filter(Objects::nonNull)
-      .collect(Collectors.joining(" "));
+    return Stream.of(firstName, lastName).filter(Objects::nonNull).collect(Collectors.joining(" "));
   }
 
   @NotNull
@@ -137,33 +127,25 @@ public abstract class AbstractGbifUser {
     return role != null && roles.contains(role);
   }
 
-  /**
-   * Sets the settings object, setting an empty map if null is provided.
-   */
+  /** Sets the settings object, setting an empty map if null is provided. */
   public void setSettings(Map<String, String> settings) {
     // safeguard against misuse to avoid NPE
     this.settings = settings == null ? new HashMap<>() : settings;
   }
 
-  /**
-   * Gets the settings which may be empty but never null.
-   */
+  /** Gets the settings which may be empty but never null. */
   @NotNull
   public Map<String, String> getSettings() {
     return settings;
   }
 
-  /**
-   * Sets the settings object, setting an empty map if null is provided.
-   */
+  /** Sets the settings object, setting an empty map if null is provided. */
   public void setSystemSettings(Map<String, String> systemSettings) {
     // safeguard against misuse to avoid NPE
     this.systemSettings = systemSettings == null ? new HashMap<>() : systemSettings;
   }
 
-  /**
-   * Gets the settings which may be empty but never null.
-   */
+  /** Gets the settings which may be empty but never null. */
   @NotNull
   public Map<String, String> getSystemSettings() {
     return systemSettings;
@@ -192,33 +174,33 @@ public abstract class AbstractGbifUser {
       return false;
     }
     AbstractGbifUser that = (AbstractGbifUser) o;
-    return Objects.equals(userName, that.userName) &&
-      Objects.equals(firstName, that.firstName) &&
-      Objects.equals(lastName, that.lastName) &&
-      Objects.equals(email, that.email) &&
-      Objects.equals(roles, that.roles) &&
-      Objects.equals(settings, that.settings) &&
-      Objects.equals(systemSettings, that.systemSettings) &&
-      Objects.equals(deleted, that.deleted);
+    return Objects.equals(userName, that.userName)
+        && Objects.equals(firstName, that.firstName)
+        && Objects.equals(lastName, that.lastName)
+        && Objects.equals(email, that.email)
+        && Objects.equals(roles, that.roles)
+        && Objects.equals(settings, that.settings)
+        && Objects.equals(systemSettings, that.systemSettings)
+        && Objects.equals(deleted, that.deleted);
   }
 
   @Override
   public int hashCode() {
-    return Objects
-      .hash(userName, firstName, lastName, email, roles, settings, systemSettings, deleted);
+    return Objects.hash(
+        userName, firstName, lastName, email, roles, settings, systemSettings, deleted);
   }
 
   @Override
   public String toString() {
     return new StringJoiner(", ", AbstractGbifUser.class.getSimpleName() + "[", "]")
-      .add("userName='" + userName + "'")
-      .add("firstName='" + firstName + "'")
-      .add("lastName='" + lastName + "'")
-      .add("email='" + email + "'")
-      .add("roles=" + roles)
-      .add("settings=" + settings)
-      .add("systemSettings=" + systemSettings)
-      .add("deleted=" + deleted)
-      .toString();
+        .add("userName='" + userName + "'")
+        .add("firstName='" + firstName + "'")
+        .add("lastName='" + lastName + "'")
+        .add("email='" + email + "'")
+        .add("roles=" + roles)
+        .add("settings=" + settings)
+        .add("systemSettings=" + systemSettings)
+        .add("deleted=" + deleted)
+        .toString();
   }
 }

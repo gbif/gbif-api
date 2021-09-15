@@ -1,5 +1,5 @@
 /*
- * Copyright $YEAR Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,3 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.gbif.api.model.collections.suggestions;
+
+import java.util.UUID;
+
+/** Result returned by the API when a {@link ChangeSuggestion} is applied. */
+public class ApplySuggestionResult {
+  private UUID entityCreatedKey;
+
+  public UUID getEntityCreatedKey() {
+    return entityCreatedKey;
+  }
+
+  public void setEntityCreatedKey(UUID entityCreatedKey) {
+    this.entityCreatedKey = entityCreatedKey;
+  }
+}

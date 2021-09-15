@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,6 @@
  */
 package org.gbif.api.model.crawler;
 
-import org.gbif.api.util.ApiStringUtils;
-
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
@@ -25,7 +23,10 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import static org.gbif.api.util.PreconditionUtils.checkArgument;
@@ -56,6 +57,7 @@ public class DwcaValidationReport {
 
   private final String invalidationReason;
 
+  @JsonIgnore
   public boolean isValid() {
     return invalidationReason == null
       && (occurrenceReport == null || occurrenceReport.isValid())
@@ -121,7 +123,7 @@ public class DwcaValidationReport {
       sb.append(genericReport.getInvalidationReason());
     }
 
-    return ApiStringUtils.emptyToNull(sb.toString());
+    return StringUtils.trimToNull(sb.toString());
   }
 
   public OccurrenceValidationReport getOccurrenceReport() {

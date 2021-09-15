@@ -24,9 +24,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * This predicate checks if its {@code key} is LIKE its {@code value}.
- * The syntax for one (_) or any (%) arbitrary matching characters is the one used by Hive.
- * See the <a href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual+UDF#Relational_Operators">
- * Hive Language Reference for LIKE</a>.
+ * The syntax for one <code>?</code> or any <code>*</code> arbitrary matching characters
+ * is the one used by ElasticSearch, Unix/DOS shells, etc.
  */
 public class LikePredicate extends SimplePredicate {
 

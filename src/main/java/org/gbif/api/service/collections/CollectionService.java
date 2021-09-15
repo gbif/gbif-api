@@ -21,10 +21,6 @@ import org.gbif.api.model.collections.view.CollectionView;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;
-import org.gbif.api.service.registry.CommentService;
-import org.gbif.api.service.registry.IdentifierService;
-import org.gbif.api.service.registry.MachineTagService;
-import org.gbif.api.service.registry.TagService;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,14 +29,7 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 /** API Service to work with collections. */
-public interface CollectionService
-    extends CrudService<Collection>,
-        ContactService,
-        TagService,
-        IdentifierService,
-        MachineTagService,
-        CommentService,
-        OccurrenceMappingService {
+public interface CollectionService extends PrimaryCollectionEntityService<Collection> {
 
   /**
    * Pages {@link Collection} entities based on the parameters received.
@@ -55,7 +44,7 @@ public interface CollectionService
   PagingResponse<CollectionView> list(CollectionSearchRequest searchRequest);
 
   /** Provides access to deleted collections. */
-  PagingResponse<CollectionView> listDeleted(@Nullable Pageable page);
+  PagingResponse<CollectionView> listDeleted(@Nullable UUID replacedBy, @Nullable Pageable page);
 
   /** Retrieves a {@link CollectionView} by the collection key. */
   CollectionView getCollectionView(@NotNull UUID key);

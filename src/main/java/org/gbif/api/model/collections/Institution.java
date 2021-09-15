@@ -42,7 +42,10 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
 
 /**
  * The owner or location of collection. Usually an established organization or foundation,
@@ -50,7 +53,7 @@ import javax.validation.constraints.Size;
  */
 @SuppressWarnings("unused")
 public class Institution
-    implements CollectionEntity,
+    implements PrimaryCollectionEntity,
         Contactable,
         Taggable,
         MachineTaggable,
@@ -65,7 +68,7 @@ public class Institution
   private String description;
   private InstitutionType type;
   private boolean active;
-  private List<String> email = new ArrayList<>();
+  private List<@Pattern(regexp = EMAIL_PATTERN) String> email = new ArrayList<>();
   private List<String> phone = new ArrayList<>();
   private URI homepage;
   private URI catalogUrl;
@@ -112,20 +115,24 @@ public class Institution
 
   /** Code used to identified the collection. */
   @NotNull(groups = PrePersist.class)
+  @Override
   public String getCode() {
     return code;
   }
 
+  @Override
   public void setCode(String code) {
     this.code = code;
   }
 
   /** Name or title of a institution. */
   @NotNull
+  @Override
   public String getName() {
     return name;
   }
 
+  @Override
   public void setName(String name) {
     this.name = name;
   }
@@ -133,10 +140,12 @@ public class Institution
   /** Textual description of institution. */
   @Nullable
   @Size(min = 1)
+  @Override
   public String getDescription() {
     return description;
   }
 
+  @Override
   public void setDescription(String description) {
     this.description = description;
   }
@@ -151,10 +160,12 @@ public class Institution
   }
 
   /** Is the institution active/operational?. */
+  @Override
   public boolean isActive() {
     return active;
   }
 
+  @Override
   public void setActive(boolean active) {
     this.active = active;
   }
@@ -469,10 +480,12 @@ public class Institution
     this.occurrenceMappings = occurrenceMappings;
   }
 
+  @Override
   public UUID getReplacedBy() {
     return replacedBy;
   }
 
+  @Override
   public void setReplacedBy(UUID replacedBy) {
     this.replacedBy = replacedBy;
   }

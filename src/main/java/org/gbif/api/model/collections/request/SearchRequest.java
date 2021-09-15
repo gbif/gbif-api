@@ -41,6 +41,7 @@ public abstract class SearchRequest extends PageableBase implements Serializable
   @Nullable private Country country;
   @Nullable private String city;
   @Nullable private String fuzzyName;
+  @Nullable private Boolean active;
 
   @Nullable
   public String getQ() {
@@ -157,6 +158,15 @@ public abstract class SearchRequest extends PageableBase implements Serializable
 
   public void setFuzzyName(@Nullable String fuzzyName) {
     this.fuzzyName = fuzzyName;
+  }
+
+  @Nullable
+  public Boolean getActive() {
+    return active;
+  }
+
+  public void setActive(@Nullable Boolean active) {
+    this.active = active;
   }
 
   public Pageable getPage() {
