@@ -46,9 +46,10 @@ public class Contact implements LenientEquals<Contact> {
   private String province;
   private Country country;
   private String postalCode;
-  private List<String> taxonomicExpertise = new ArrayList<>();;
+  private boolean primary;
+  private List<String> taxonomicExpertise = new ArrayList<>();
   private String notes;
-  private List<UserId> userIds = new ArrayList<>();;
+  private List<UserId> userIds = new ArrayList<>();
   private String createdBy;
   private String modifiedBy;
   private Date created;
@@ -152,6 +153,14 @@ public class Contact implements LenientEquals<Contact> {
     this.postalCode = postalCode;
   }
 
+  public boolean isPrimary() {
+    return primary;
+  }
+
+  public void setPrimary(boolean primary) {
+    this.primary = primary;
+  }
+
   public List<String> getTaxonomicExpertise() {
     return taxonomicExpertise;
   }
@@ -229,6 +238,7 @@ public class Contact implements LenientEquals<Contact> {
         && Objects.equals(province, contact.province)
         && country == contact.country
         && Objects.equals(postalCode, contact.postalCode)
+        && primary == contact.primary
         && Objects.equals(taxonomicExpertise, contact.taxonomicExpertise)
         && Objects.equals(notes, contact.notes)
         && Objects.equals(userIds, contact.userIds)
@@ -255,6 +265,7 @@ public class Contact implements LenientEquals<Contact> {
         && Objects.equals(province, contact.province)
         && country == contact.country
         && Objects.equals(postalCode, contact.postalCode)
+        && primary == contact.primary
         && Objects.equals(taxonomicExpertise, contact.taxonomicExpertise)
         && Objects.equals(notes, contact.notes)
         && Objects.equals(userIds, contact.userIds);
@@ -275,6 +286,7 @@ public class Contact implements LenientEquals<Contact> {
         province,
         country,
         postalCode,
+        primary,
         taxonomicExpertise,
         notes,
         userIds,
@@ -299,6 +311,7 @@ public class Contact implements LenientEquals<Contact> {
         .add("province='" + province + "'")
         .add("country=" + country)
         .add("postalCode='" + postalCode + "'")
+        .add("primary='" + primary + "'")
         .add("taxonomicExpertise='" + taxonomicExpertise + "'")
         .add("notes='" + notes + "'")
         .add("userIds=" + userIds)

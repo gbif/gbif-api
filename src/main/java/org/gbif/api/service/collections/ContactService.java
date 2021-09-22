@@ -70,7 +70,7 @@ public interface ContactService {
    * @param entityKey key of the entity where the contact will be added to.
    * @param contact key of the contact to add.
    */
-  void addContactPerson(@NotNull UUID entityKey, @NotNull Contact contact);
+  int addContactPerson(@NotNull UUID entityKey, @NotNull Contact contact);
 
   /**
    * Updates a {@link Contact} contact in an entity.

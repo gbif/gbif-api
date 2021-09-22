@@ -20,13 +20,18 @@ import java.util.StringJoiner;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * User ID for GRSciColl contacts.
- */
+/** User ID for GRSciColl contacts. */
 public class UserId {
 
   private IdType type;
   private String id;
+
+  public UserId() {}
+
+  public UserId(IdType type, String id) {
+    this.type = type;
+    this.id = id;
+  }
 
   @NotNull
   public IdType getType() {
@@ -55,8 +60,7 @@ public class UserId {
       return false;
     }
     UserId userID = (UserId) o;
-    return type == userID.type &&
-      Objects.equals(id, userID.id);
+    return type == userID.type && Objects.equals(id, userID.id);
   }
 
   @Override
@@ -67,8 +71,8 @@ public class UserId {
   @Override
   public String toString() {
     return new StringJoiner(", ", UserId.class.getSimpleName() + "[", "]")
-      .add("type=" + type)
-      .add("id='" + id + "'")
-      .toString();
+        .add("type=" + type)
+        .add("id='" + id + "'")
+        .toString();
   }
 }
