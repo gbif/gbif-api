@@ -83,7 +83,7 @@ public class Institution
   private Date foundingDate;
   private String geographicDescription;
   private String taxonomicDescription;
-  private int numberSpecimens;
+  private Integer numberSpecimens;
   private boolean indexHerbariorumRecord;
   private URI logoUrl;
   private String citesPermitNumber;
@@ -317,11 +317,11 @@ public class Institution
   }
 
   /** Estimated number of specimens hosted by an institution. */
-  public int getNumberSpecimens() {
+  public Integer getNumberSpecimens() {
     return numberSpecimens;
   }
 
-  public void setNumberSpecimens(int numberSpecimens) {
+  public void setNumberSpecimens(Integer numberSpecimens) {
     this.numberSpecimens = numberSpecimens;
   }
 
@@ -515,7 +515,6 @@ public class Institution
     if (o == null || getClass() != o.getClass()) return false;
     Institution that = (Institution) o;
     return active == that.active
-        && numberSpecimens == that.numberSpecimens
         && indexHerbariorumRecord == that.indexHerbariorumRecord
         && Objects.equals(key, that.key)
         && Objects.equals(code, that.code)
@@ -537,6 +536,7 @@ public class Institution
         && Objects.equals(foundingDate, that.foundingDate)
         && Objects.equals(geographicDescription, that.geographicDescription)
         && Objects.equals(taxonomicDescription, that.taxonomicDescription)
+        && Objects.equals(numberSpecimens, that.numberSpecimens)
         && Objects.equals(logoUrl, that.logoUrl)
         && Objects.equals(citesPermitNumber, that.citesPermitNumber)
         && Objects.equals(createdBy, that.createdBy)
@@ -653,7 +653,6 @@ public class Institution
       return true;
     }
     return active == other.active
-        && numberSpecimens == other.numberSpecimens
         && indexHerbariorumRecord == other.indexHerbariorumRecord
         && Objects.equals(key, other.key)
         && Objects.equals(code, other.code)
@@ -674,6 +673,7 @@ public class Institution
         && Objects.equals(additionalNames, other.additionalNames)
         && Objects.equals(foundingDate, other.foundingDate)
         && Objects.equals(geographicDescription, other.geographicDescription)
+        && Objects.equals(numberSpecimens, other.numberSpecimens)
         && Objects.equals(taxonomicDescription, other.taxonomicDescription)
         && Objects.equals(logoUrl, other.logoUrl)
         && Objects.equals(citesPermitNumber, other.citesPermitNumber)

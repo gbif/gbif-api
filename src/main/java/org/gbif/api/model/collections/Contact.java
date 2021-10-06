@@ -20,6 +20,7 @@ import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.vocabulary.Country;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +34,7 @@ import javax.validation.constraints.Pattern;
 import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
 
 /** Contact associated to a GRSciColl {@link Collection} or {@link Institution}. */
-public class Contact implements LenientEquals<Contact> {
+public class Contact implements LenientEquals<Contact>, Serializable {
 
   private Integer key;
   private String firstName;

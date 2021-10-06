@@ -15,13 +15,14 @@
  */
 package org.gbif.api.model.collections;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.StringJoiner;
 
 import javax.validation.constraints.NotNull;
 
 /** User ID for GRSciColl contacts. */
-public class UserId {
+public class UserId implements Serializable {
 
   private IdType type;
   private String id;

@@ -93,7 +93,7 @@ public class Collection
   private List<Person> contacts = new ArrayList<>();
   private List<Contact> contactPersons = new ArrayList<>();
   private boolean indexHerbariorumRecord;
-  private int numberSpecimens;
+  private Integer numberSpecimens;
   private List<MachineTag> machineTags = new ArrayList<>();
   private String taxonomicCoverage;
   private String geography;
@@ -396,11 +396,11 @@ public class Collection
     this.indexHerbariorumRecord = indexHerbariorumRecord;
   }
 
-  public int getNumberSpecimens() {
+  public Integer getNumberSpecimens() {
     return numberSpecimens;
   }
 
-  public void setNumberSpecimens(int numberSpecimens) {
+  public void setNumberSpecimens(Integer numberSpecimens) {
     this.numberSpecimens = numberSpecimens;
   }
 
