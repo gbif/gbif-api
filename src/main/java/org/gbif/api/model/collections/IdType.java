@@ -15,7 +15,7 @@
  */
 package org.gbif.api.model.collections;
 
-/** ID type for GRSciColl contacts. */
+/** ID type for user IDs in GRSciColl contacts. */
 public enum IdType {
   ORCID,
   WIKIDATA,

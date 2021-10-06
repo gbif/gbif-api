@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
  */
 public class OrcidValidator implements IdentifierSchemeValidator {
 
-  private static final int ORCID_NORM_GROUPS = 5;
   private static final Pattern ORCID_PATTERN = Pattern.compile("^(?<scheme>http(?:s)?:\\/\\/orcid.org\\/)?(([0-9]{4}-){3}([0-9]{3}[0-9X]{1}))$");
 
   @Override

@@ -32,6 +32,7 @@ import javax.validation.constraints.Pattern;
 
 import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
 
+/** Contact associated to a GRSciColl {@link Collection} or {@link Institution}. */
 public class Contact implements LenientEquals<Contact> {
 
   private Integer key;
