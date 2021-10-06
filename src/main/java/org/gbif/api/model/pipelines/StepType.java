@@ -29,13 +29,14 @@ public enum StepType {
   HDFS_VIEW("hdfsView", 3),
   FRAGMENTER("fragmenter", 3),
   // Validator
-  VALIDATOR_VALIDATE_ARCHIVE("validatorValidateArchive", 1),
-  VALIDATOR_DWCA_TO_VERBATIM("validatorDwcaToVerbatim", 2),
-  VALIDATOR_XML_TO_VERBATIM("validatorXmlToVerbatim", 2),
-  VALIDATOR_ABCD_TO_VERBATIM("validatorAbcdToVerbatim", 2),
-  VALIDATOR_VERBATIM_TO_INTERPRETED("validatorVerbatimToInterpreted", 3),
-  VALIDATOR_INTERPRETED_TO_INDEX("validatorInterpretedToIndex", 4),
-  VALIDATOR_COLLECT_METRICS("validatorCollectMetrics", 5);
+  VALIDATOR_UPLOAD_ARCHIVE("validatorUploadArchive", 1),
+  VALIDATOR_VALIDATE_ARCHIVE("validatorValidateArchive", 2),
+  VALIDATOR_DWCA_TO_VERBATIM("validatorDwcaToVerbatim", 3),
+  VALIDATOR_XML_TO_VERBATIM("validatorXmlToVerbatim", 3),
+  VALIDATOR_ABCD_TO_VERBATIM("validatorAbcdToVerbatim", 4),
+  VALIDATOR_VERBATIM_TO_INTERPRETED("validatorVerbatimToInterpreted", 4),
+  VALIDATOR_INTERPRETED_TO_INDEX("validatorInterpretedToIndex", 5),
+  VALIDATOR_COLLECT_METRICS("validatorCollectMetrics", 6);
 
   private String label;
   private int executionOrder;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,12 @@
 package org.gbif.api.model.collections.lookup;
 
 import org.gbif.api.vocabulary.Country;
-import org.gbif.common.shaded.com.google.common.base.Strings;
 
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
+
+import org.apache.commons.lang3.StringUtils;
 
 /** Holds the parameters that the collections lookup accepts. */
 public class LookupParams {
@@ -99,13 +100,13 @@ public class LookupParams {
   }
 
   public boolean containsInstitutionParams() {
-    return !Strings.isNullOrEmpty(institutionCode)
-        || !Strings.isNullOrEmpty(institutionId)
-        || !Strings.isNullOrEmpty(ownerInstitutionCode);
+    return StringUtils.isNotBlank(institutionCode)
+        || StringUtils.isNotBlank(institutionId)
+        || StringUtils.isNotBlank(ownerInstitutionCode);
   }
 
   public boolean containsCollectionParams() {
-    return !Strings.isNullOrEmpty(collectionCode) || !Strings.isNullOrEmpty(collectionId);
+    return StringUtils.isNotBlank(collectionCode) || StringUtils.isNotBlank(collectionId);
   }
 
   @Override

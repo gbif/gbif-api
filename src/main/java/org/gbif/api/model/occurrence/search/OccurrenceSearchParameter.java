@@ -353,6 +353,13 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   GEOMETRY(String.class),
 
   /**
+   * Use in combination of LATITUDE and LONGITUDE parameters matches within a given distance.
+   * E.g.: geo_distance=100m,40,90 geo_distance=100km,40,90 geo_distance=100mi,40,90.
+   * See supported units in {@link org.gbif.api.model.occurrence.geo.DistanceUnit}.
+   */
+  GEO_DISTANCE(String.class),
+
+  /**
    * Includes/excludes occurrence records which contain geospatial issues for their coordinate.
    * See {@link org.gbif.api.vocabulary.OccurrenceIssue#GEOSPATIAL_RULES}
    * HAS_GEOSPATIAL_ISSUE=true include records with spatial issues.

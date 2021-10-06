@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ public class URIValidator implements ConstraintValidator<HttpURI, URI> {
 
   /**
    * Initializes the validator in preparation for
-   * {@link #isValid(Object, javax.validation.ConstraintValidatorContext)} calls.
+   * {@link #isValid(URI, javax.validation.ConstraintValidatorContext)} calls.
    * The constraint annotation for a given constraint declaration
    * is passed.
    * This method is guaranteed to be called before any use of this instance for
@@ -66,11 +66,7 @@ public class URIValidator implements ConstraintValidator<HttpURI, URI> {
     }
 
     // URI must begin with either: http or https
-    if (uri.getScheme().equalsIgnoreCase(HTTP_PROTOCOL) || uri.getScheme().equalsIgnoreCase(HTTPS_PROTOCOL)) {
-      return true;
-    }
-
     // otherwise, the URI is invalid
-    return false;
+    return uri.getScheme().equalsIgnoreCase(HTTP_PROTOCOL) || uri.getScheme().equalsIgnoreCase(HTTPS_PROTOCOL);
   }
 }

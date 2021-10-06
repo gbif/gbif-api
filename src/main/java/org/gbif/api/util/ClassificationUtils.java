@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ public class ClassificationUtils {
    */
   @Nullable
   public static String getHigherClassification(LinneanClassification lc) {
-    return ApiStringUtils.emptyToNull(
+    return StringUtils.trimToNull(
       Stream.of(lc.getKingdom(), lc.getPhylum(), lc.getClazz(),
         lc.getOrder(), lc.getFamily(), lc.getGenus())
         .filter(Objects::nonNull)

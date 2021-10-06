@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -120,6 +122,7 @@ public class Contact implements Address, LenientEquals<Contact> {
             }
 
             // Check if the id is already prefixed with the directory URI, either HTTP or HTTPS.
+            //noinspection HttpUrlsUsage
             if (id.startsWith(dir2)
                 || id.startsWith(dir2.replace("http://", "https://"))
                 || id.startsWith(dir2.replace("https://", "http://"))) {
@@ -172,7 +175,10 @@ public class Contact implements Address, LenientEquals<Contact> {
    * @return the non-empty parts of FirstName LastName or empty string if none
    */
   public String computeCompleteName() {
-    return org.gbif.utils.text.StringUtils.thenJoin(StringUtils::trimToNull, firstName, lastName);
+    return Stream.of(firstName, lastName)
+        .map(StringUtils::trimToNull)
+        .filter(Objects::nonNull)
+        .collect(Collectors.joining(" "));
   }
 
   public List<String> getPosition() {

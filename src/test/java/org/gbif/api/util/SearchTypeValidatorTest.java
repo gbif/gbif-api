@@ -35,6 +35,7 @@ import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DEC
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ELEVATION;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.EVENT_DATE;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GEOMETRY;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GEO_DISTANCE;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.LAST_INTERPRETED;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MEDIA_TYPE;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MONTH;
@@ -150,7 +151,11 @@ public class SearchTypeValidatorTest {
       Arguments.of(TYPE_STATUS, "TYPE", true, false),
       Arguments.of(TYPE_STATUS, "*", true, false),
       Arguments.of(MEDIA_TYPE, "StillImage", true, false),
-      Arguments.of(MEDIA_TYPE, "*", true, false)
+      Arguments.of(MEDIA_TYPE, "*", true, false),
+      Arguments.of(GEO_DISTANCE, "40,90,100m", true, false),
+      Arguments.of(GEO_DISTANCE, "200,90,100m", false, false),
+      Arguments.of(GEO_DISTANCE, "200", false, false),
+      Arguments.of(GEO_DISTANCE, "30,90,277", true, false)
     );
   }
 
