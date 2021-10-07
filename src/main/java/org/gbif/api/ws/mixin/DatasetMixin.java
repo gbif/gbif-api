@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,5 +15,17 @@
  */
 package org.gbif.api.ws.mixin;
 
+import org.gbif.api.jackson.EmptyToNullUriDeserializer;
+
+import java.net.URI;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 public interface DatasetMixin extends LicenseMixin {
+
+  @JsonDeserialize(using = EmptyToNullUriDeserializer.class)
+  URI getHomepage();
+
+  @JsonDeserialize(using = EmptyToNullUriDeserializer.class)
+  URI getLogoUrl();
 }
