@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,9 +60,9 @@ public class LicenseSerde {
 
   /**
    * Jackson {@link JsonDeserializer} for {@link License}.
-   * If the value is empty, License.UNSPECIFIED will be returned.
-   * If the value can not be transformed into a License, License.UNSUPPORTED will be returned.
-   * This deserializer a little bit lenient, names of licenses (in the License enum) also understood.
+   * If the value is empty, {@link License#UNSPECIFIED} will be returned.
+   * If the value can not be transformed into a License, {@link License#UNSUPPORTED} will be returned.
+   * This deserializer is a little lenient, names of licenses (in the License enum) also understood.
    */
   public static class LicenseJsonDeserializer extends JsonDeserializer<License> {
     @Override
