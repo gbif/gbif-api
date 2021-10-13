@@ -35,6 +35,10 @@ public enum LiteratureSearchParameter implements SearchParameter {
   PEER_REVIEW(Boolean.class),
   OPEN_ACCESS(Boolean.class),
   GBIF_DOWNLOAD_KEY(String.class), // download key
+  GBIF_OCCURRENCE_KEY(Long.class), // occurrence key
+  GBIF_TAXON_KEY(Integer.class), // taxon key
+  GBIF_HIGHERTAXON_KEY(Integer.class), //higher taxon key
+  CITATION_TYPE(String.class), // citation type
   DOI(String.class),
   SOURCE(String.class), // journal
   PUBLISHER(String.class); // journal publisher
