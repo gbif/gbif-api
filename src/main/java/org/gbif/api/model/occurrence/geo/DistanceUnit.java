@@ -16,11 +16,10 @@ package org.gbif.api.model.occurrence.geo;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.apache.commons.lang3.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The DistanceUnit enumerates several units for measuring distances. These units

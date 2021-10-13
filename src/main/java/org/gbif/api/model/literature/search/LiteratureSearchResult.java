@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -45,6 +43,10 @@ public class LiteratureSearchResult {
   private Date published;
   private Integer day;
   private List<String> gbifDownloadKey = new ArrayList<>();
+  private List<Long> gbifOccurrenceKey = new ArrayList<>();
+  private List<Integer> gbifTaxonKey = new ArrayList<>();
+  private List<Integer> gbifHigherTaxonKey = new ArrayList<>();
+  private String citationType;
   private Set<GbifRegion> gbifRegion = new HashSet<>();
   private UUID id;
   private Map<String, Object> identifiers = new HashMap<>();
@@ -136,6 +138,38 @@ public class LiteratureSearchResult {
 
   public void setGbifDownloadKey(List<String> gbifDownloadKey) {
     this.gbifDownloadKey = gbifDownloadKey;
+  }
+
+  public List<Long> getGbifOccurrenceKey() {
+    return gbifOccurrenceKey;
+  }
+
+  public void setGbifOccurrenceKey(List<Long> gbifOccurrenceKey) {
+    this.gbifOccurrenceKey = gbifOccurrenceKey;
+  }
+
+  public List<Integer> getGbifTaxonKey() {
+    return gbifTaxonKey;
+  }
+
+  public void setGbifTaxonKey(List<Integer> gbifTaxonKey) {
+    this.gbifTaxonKey = gbifTaxonKey;
+  }
+
+  public List<Integer> getGbifHigherTaxonKey() {
+    return gbifHigherTaxonKey;
+  }
+
+  public void setGbifHigherTaxonKey(List<Integer> gbifHigherTaxonKey) {
+    this.gbifHigherTaxonKey = gbifHigherTaxonKey;
+  }
+
+  public String getCitationType() {
+    return citationType;
+  }
+
+  public void setCitationType(String citationType) {
+    this.citationType = citationType;
   }
 
   public Set<GbifRegion> getGbifRegion() {
