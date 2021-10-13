@@ -16,6 +16,10 @@ package org.gbif.api.model.occurrence.geo;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -112,7 +116,9 @@ public enum DistanceUnit {
     public final double value;
     public final DistanceUnit unit;
 
-    public Distance(double value, DistanceUnit unit) {
+    @JsonCreator
+    public Distance(@JsonProperty("value") double value,
+                    @JsonProperty("unit") DistanceUnit unit) {
       this.value = value;
       this.unit = unit;
     }
@@ -161,7 +167,10 @@ public enum DistanceUnit {
 
     private final Distance distance;
 
-    public GeoDistance(double latitude, double longitude, Distance distance) {
+    @JsonCreator
+    public GeoDistance(@JsonProperty("latitude") double latitude,
+                       @JsonProperty("longitude") double longitude,
+                       @JsonProperty("distance") Distance distance) {
       this.latitude = latitude;
       this.longitude = longitude;
       this.distance = distance;
