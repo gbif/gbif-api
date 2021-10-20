@@ -15,6 +15,7 @@ package org.gbif.api.util.validators.identifierschemes;
 
 public enum IdentifierScheme {
   ORCID("https://orcid.org"),
+  WIKIDATA("https://www.wikidata.org"),
   ISNI("http://www.isni.org"),
   VIAF("https://viaf.org"),
   HUH("https://kiki.huh.harvard.edu"),

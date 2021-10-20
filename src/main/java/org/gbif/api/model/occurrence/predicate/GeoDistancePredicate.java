@@ -32,6 +32,15 @@ public class GeoDistancePredicate implements Predicate {
   @NotNull
   private final DistanceUnit.GeoDistance geoDistance;
 
+  @NotNull
+  private final String latitude;
+
+  @NotNull
+  private final String longitude;
+
+  @NotNull
+  private final String distance;
+
   /**
    * Builds a new geodistance predicate that matches records within a given distance of a geopoint..
    *
@@ -46,7 +55,9 @@ public class GeoDistancePredicate implements Predicate {
     Objects.requireNonNull(latitude, "<latitude> may not be null");
     Objects.requireNonNull(longitude, "<longitude> may not be null");
     Objects.requireNonNull(distance, "<distance> may not be null");
-
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.distance = distance;
     // test if it is a valid GeoDistance
     SearchTypeValidator.validateGeoDistance(latitude, longitude, distance);
 
@@ -55,6 +66,22 @@ public class GeoDistancePredicate implements Predicate {
 
   public GeoDistancePredicate(@NotNull DistanceUnit.GeoDistance geoDistance) {
     this.geoDistance = geoDistance;
+
+    this.latitude = Double.toString(geoDistance.getLatitude());
+    this.longitude = Double.toString(geoDistance.getLongitude());
+    this.distance = geoDistance.getDistance().toString();
+  }
+
+  public String getLatitude() {
+    return latitude;
+  }
+
+  public String getLongitude() {
+    return longitude;
+  }
+
+  public String getDistance() {
+    return distance;
   }
 
   public DistanceUnit.GeoDistance getGeoDistance() {
