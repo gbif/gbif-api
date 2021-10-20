@@ -15,14 +15,14 @@
  */
 package org.gbif.api.service.collections;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.gbif.api.model.collections.Institution;
 import org.gbif.api.model.collections.request.InstitutionSearchRequest;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;
-
-import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -49,4 +49,14 @@ public interface InstitutionService extends PrimaryCollectionEntityService<Insti
 
   /** Converts an institution into a collection. The institution converted is deleted. */
   void convertToCollection(UUID targetEntityKey, UUID collectionKey);
+
+  /**
+   * Creates a {@link Institution} from a {@link org.gbif.api.model.registry.Organization}.
+   *
+   * @param organizationKey key of the dataset to create the institution from
+   * @param institutionCode the code to assign to the institution since it can't be inferred from
+   *     the organization
+   * @return UUID of the created institution
+   */
+  UUID createFromOrganization(UUID organizationKey, String institutionCode);
 }

@@ -15,15 +15,15 @@
  */
 package org.gbif.api.service.collections;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.gbif.api.model.collections.Collection;
 import org.gbif.api.model.collections.request.CollectionSearchRequest;
 import org.gbif.api.model.collections.view.CollectionView;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;
-
-import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -51,4 +51,14 @@ public interface CollectionService extends PrimaryCollectionEntityService<Collec
 
   /** Provides a simple suggest service. */
   List<KeyCodeNameResult> suggest(@Nullable String q);
+
+  /**
+   * Creates a {@link Collection} from a {@link org.gbif.api.model.registry.Dataset}.
+   *
+   * @param datasetKey key of the dataset to create the collection from
+   * @param collectionCode the code to assign to the collection since it can't be inferred from the
+   *     dataset
+   * @return UUID of the created collection
+   */
+  UUID createFromDataset(UUID datasetKey, String collectionCode);
 }
