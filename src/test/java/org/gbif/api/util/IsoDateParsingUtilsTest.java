@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2013-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,8 @@
  */
 package org.gbif.api.util;
 
-import java.util.Calendar;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.junit.jupiter.api.Test;
@@ -99,6 +100,9 @@ public class IsoDateParsingUtilsTest {
     assertNotNull(IsoDateParsingUtils.parseDateRange("1999-10,*"));
     assertNotNull(IsoDateParsingUtils.parseDateRange("*,1999-12"));
     assertNotNull(IsoDateParsingUtils.parseDateRange("2000-10,*"));
+    assertNotNull(IsoDateParsingUtils.parseDateRange("2021"));
+    assertNotNull(IsoDateParsingUtils.parseDateRange("2021-10"));
+    assertNotNull(IsoDateParsingUtils.parseDateRange("2021-10-25"));
   }
 
   /**
@@ -109,31 +113,19 @@ public class IsoDateParsingUtilsTest {
     assertNotNull(IsoDateParsingUtils.parseDate("2000-01"));
     assertNotNull(IsoDateParsingUtils.parseDate("2000"));
     assertNotNull(IsoDateParsingUtils.parseDate("2000-01-01"));
+    assertNotNull(IsoDateParsingUtils.parseDate("2000-01-1"));
+    assertNotNull(IsoDateParsingUtils.parseDate("2000-1-01"));
+    assertNotNull(IsoDateParsingUtils.parseDate("2000-1-1"));
   }
 
-  /**
-   * Test case for method {@link IsoDateParsingUtils#toLastDayOfMonth(Date)}.
-   */
   @Test
-  public void toLastDayOfMonthTest() {
-    Date lowerDate = IsoDateParsingUtils.parseDate("2000-01-01");
-    Calendar lastDayOfMonthCal = Calendar.getInstance();
-    lastDayOfMonthCal.setTime(IsoDateParsingUtils.toLastDayOfMonth(lowerDate));
-    assertEquals(2000, lastDayOfMonthCal.get(Calendar.YEAR));
-    assertEquals(0, lastDayOfMonthCal.get(Calendar.MONTH)); // January is 0, months start at index 0
-    assertEquals(31, lastDayOfMonthCal.get(Calendar.DAY_OF_MONTH));
-  }
+  public void checkResults() {
+    assertEquals(LocalDate.parse("2021-10-25"), IsoDateParsingUtils.parseDate("2021-10-25"));
 
-  /**
-   * Test case for method {@link IsoDateParsingUtils#toLastDayOfYear(Date)}.
-   */
-  @Test
-  public void toLastDayOfYearTest() {
-    Date lowerDate = IsoDateParsingUtils.parseDate("2000-01-01");
-    Calendar lastDayOfMonthCal = Calendar.getInstance();
-    lastDayOfMonthCal.setTime(IsoDateParsingUtils.toLastDayOfYear(lowerDate));
-    assertEquals(2000, lastDayOfMonthCal.get(Calendar.YEAR));
-    assertEquals(11, lastDayOfMonthCal.get(Calendar.MONTH)); // December is 11, months start at index 0
-    assertEquals(31, lastDayOfMonthCal.get(Calendar.DAY_OF_MONTH));
+    assertEquals(LocalDate.parse("2021-10-01"), IsoDateParsingUtils.parseDateRange("2021-10").lowerEndpoint());
+    assertEquals(LocalDate.parse("2021-11-01"), IsoDateParsingUtils.parseDateRange("2021-10").upperEndpoint());
+
+    assertEquals(LocalDate.parse("2000-05-01"), IsoDateParsingUtils.parseDateRange("2000-05,2010").lowerEndpoint());
+    assertEquals(LocalDate.parse("2011-01-01"), IsoDateParsingUtils.parseDateRange("2000-05,2010").upperEndpoint());
   }
 }
