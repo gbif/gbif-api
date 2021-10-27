@@ -265,35 +265,34 @@
 <span class="sourceLineNo">257</span>    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);<a name="line.257"></a>
 <span class="sourceLineNo">258</span><a name="line.258"></a>
 <span class="sourceLineNo">259</span>    Map&lt;Term, String&gt; verbatimRecord = new HashMap&lt;&gt;();<a name="line.259"></a>
-<span class="sourceLineNo">260</span>    Date today = new Date();<a name="line.260"></a>
-<span class="sourceLineNo">261</span>    verbatimRecord.put(DcTerm.created, IsoDateParsingUtils.IsoDateFormat.FULL.getDateFormat().format(today));<a name="line.261"></a>
-<span class="sourceLineNo">262</span>    verbatimRecord.put(DcTerm.creator, "fede");<a name="line.262"></a>
-<span class="sourceLineNo">263</span>    verbatimRecord.put(DcTerm.description, "testDescription");<a name="line.263"></a>
-<span class="sourceLineNo">264</span>    verbatimRecord.put(DcTerm.format, "jpg");<a name="line.264"></a>
-<span class="sourceLineNo">265</span>    verbatimRecord.put(DcTerm.license, "licenseTest");<a name="line.265"></a>
-<span class="sourceLineNo">266</span>    verbatimRecord.put(DcTerm.publisher, "publisherTest");<a name="line.266"></a>
-<span class="sourceLineNo">267</span>    verbatimRecord.put(DcTerm.title, "titleTest");<a name="line.267"></a>
-<span class="sourceLineNo">268</span>    verbatimRecord.put(DcTerm.references, "http://www.gbif.org/");<a name="line.268"></a>
-<span class="sourceLineNo">269</span>    verbatimRecord.put(DcTerm.identifier, "http://www.gbif.org/");<a name="line.269"></a>
-<span class="sourceLineNo">270</span><a name="line.270"></a>
-<span class="sourceLineNo">271</span>    VerbatimNameUsage v = new VerbatimNameUsage();<a name="line.271"></a>
-<span class="sourceLineNo">272</span>    v.setKey(7);<a name="line.272"></a>
-<span class="sourceLineNo">273</span>    v.setLastCrawled(new Date());<a name="line.273"></a>
-<span class="sourceLineNo">274</span>    Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions = new HashMap&lt;&gt;();<a name="line.274"></a>
-<span class="sourceLineNo">275</span>    List&lt;Map&lt;Term, String&gt;&gt; verbatimRecords = new ArrayList&lt;&gt;();<a name="line.275"></a>
-<span class="sourceLineNo">276</span>    verbatimRecords.add(verbatimRecord);<a name="line.276"></a>
-<span class="sourceLineNo">277</span>    extensions.put(Extension.MULTIMEDIA, verbatimRecords);<a name="line.277"></a>
-<span class="sourceLineNo">278</span>    v.setExtensions(extensions);<a name="line.278"></a>
-<span class="sourceLineNo">279</span><a name="line.279"></a>
-<span class="sourceLineNo">280</span>    String json = mapper.writeValueAsString(v);<a name="line.280"></a>
-<span class="sourceLineNo">281</span>    System.out.println(json);<a name="line.281"></a>
-<span class="sourceLineNo">282</span><a name="line.282"></a>
-<span class="sourceLineNo">283</span>    VerbatimNameUsage v2 = mapper.readValue(json, VerbatimNameUsage.class);<a name="line.283"></a>
-<span class="sourceLineNo">284</span>    assertNotNull(v2.getExtensions());<a name="line.284"></a>
-<span class="sourceLineNo">285</span>    assertFalse(v2.getExtensions().get(Extension.MULTIMEDIA).isEmpty());<a name="line.285"></a>
-<span class="sourceLineNo">286</span>    assertEquals(v2.getExtensions().get(Extension.MULTIMEDIA).get(0), verbatimRecord);<a name="line.286"></a>
-<span class="sourceLineNo">287</span>  }<a name="line.287"></a>
-<span class="sourceLineNo">288</span>}<a name="line.288"></a>
+<span class="sourceLineNo">260</span>    verbatimRecord.put(DcTerm.created, "2021-10-25");<a name="line.260"></a>
+<span class="sourceLineNo">261</span>    verbatimRecord.put(DcTerm.creator, "fede");<a name="line.261"></a>
+<span class="sourceLineNo">262</span>    verbatimRecord.put(DcTerm.description, "testDescription");<a name="line.262"></a>
+<span class="sourceLineNo">263</span>    verbatimRecord.put(DcTerm.format, "jpg");<a name="line.263"></a>
+<span class="sourceLineNo">264</span>    verbatimRecord.put(DcTerm.license, "licenseTest");<a name="line.264"></a>
+<span class="sourceLineNo">265</span>    verbatimRecord.put(DcTerm.publisher, "publisherTest");<a name="line.265"></a>
+<span class="sourceLineNo">266</span>    verbatimRecord.put(DcTerm.title, "titleTest");<a name="line.266"></a>
+<span class="sourceLineNo">267</span>    verbatimRecord.put(DcTerm.references, "http://www.gbif.org/");<a name="line.267"></a>
+<span class="sourceLineNo">268</span>    verbatimRecord.put(DcTerm.identifier, "http://www.gbif.org/");<a name="line.268"></a>
+<span class="sourceLineNo">269</span><a name="line.269"></a>
+<span class="sourceLineNo">270</span>    VerbatimNameUsage v = new VerbatimNameUsage();<a name="line.270"></a>
+<span class="sourceLineNo">271</span>    v.setKey(7);<a name="line.271"></a>
+<span class="sourceLineNo">272</span>    v.setLastCrawled(new Date());<a name="line.272"></a>
+<span class="sourceLineNo">273</span>    Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions = new HashMap&lt;&gt;();<a name="line.273"></a>
+<span class="sourceLineNo">274</span>    List&lt;Map&lt;Term, String&gt;&gt; verbatimRecords = new ArrayList&lt;&gt;();<a name="line.274"></a>
+<span class="sourceLineNo">275</span>    verbatimRecords.add(verbatimRecord);<a name="line.275"></a>
+<span class="sourceLineNo">276</span>    extensions.put(Extension.MULTIMEDIA, verbatimRecords);<a name="line.276"></a>
+<span class="sourceLineNo">277</span>    v.setExtensions(extensions);<a name="line.277"></a>
+<span class="sourceLineNo">278</span><a name="line.278"></a>
+<span class="sourceLineNo">279</span>    String json = mapper.writeValueAsString(v);<a name="line.279"></a>
+<span class="sourceLineNo">280</span>    System.out.println(json);<a name="line.280"></a>
+<span class="sourceLineNo">281</span><a name="line.281"></a>
+<span class="sourceLineNo">282</span>    VerbatimNameUsage v2 = mapper.readValue(json, VerbatimNameUsage.class);<a name="line.282"></a>
+<span class="sourceLineNo">283</span>    assertNotNull(v2.getExtensions());<a name="line.283"></a>
+<span class="sourceLineNo">284</span>    assertFalse(v2.getExtensions().get(Extension.MULTIMEDIA).isEmpty());<a name="line.284"></a>
+<span class="sourceLineNo">285</span>    assertEquals(v2.getExtensions().get(Extension.MULTIMEDIA).get(0), verbatimRecord);<a name="line.285"></a>
+<span class="sourceLineNo">286</span>  }<a name="line.286"></a>
+<span class="sourceLineNo">287</span>}<a name="line.287"></a>
 
 
 

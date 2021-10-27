@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StepType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.pipelines</a> &gt; <span class="el_source">StepType.java</span></div><h1>StepType.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,41 +14,42 @@
 package org.gbif.api.model.pipelines;
 
 /** Enum to represent the pipelines step names. */
-<span class="nc" id="L19">public enum StepType {</span>
+<span class="nc" id="L17">public enum StepType {</span>
 
   // Generic step name used to be a replace of the following three when client doesn't know the endpoint type of a dataset
   // Interpretaion
-<span class="nc" id="L23">  TO_VERBATIM(&quot;toVerbatim&quot;, 1),</span>
-<span class="nc" id="L24">  DWCA_TO_VERBATIM(&quot;dwcaToVerbatim&quot;, 1),</span>
-<span class="nc" id="L25">  XML_TO_VERBATIM(&quot;xmlToVerbatim&quot;, 1),</span>
-<span class="nc" id="L26">  ABCD_TO_VERBATIM(&quot;abcdToVerbatim&quot;, 1),</span>
-<span class="nc" id="L27">  VERBATIM_TO_INTERPRETED(&quot;verbatimToInterpreted&quot;, 2),</span>
-<span class="nc" id="L28">  INTERPRETED_TO_INDEX(&quot;interpretedToIndex&quot;, 3),</span>
-<span class="nc" id="L29">  HDFS_VIEW(&quot;hdfsView&quot;, 3),</span>
-<span class="nc" id="L30">  FRAGMENTER(&quot;fragmenter&quot;, 3),</span>
+<span class="nc" id="L21">  TO_VERBATIM(&quot;toVerbatim&quot;, 1),</span>
+<span class="nc" id="L22">  DWCA_TO_VERBATIM(&quot;dwcaToVerbatim&quot;, 1),</span>
+<span class="nc" id="L23">  XML_TO_VERBATIM(&quot;xmlToVerbatim&quot;, 1),</span>
+<span class="nc" id="L24">  ABCD_TO_VERBATIM(&quot;abcdToVerbatim&quot;, 1),</span>
+<span class="nc" id="L25">  VERBATIM_TO_INTERPRETED(&quot;verbatimToInterpreted&quot;, 2),</span>
+<span class="nc" id="L26">  INTERPRETED_TO_INDEX(&quot;interpretedToIndex&quot;, 3),</span>
+<span class="nc" id="L27">  HDFS_VIEW(&quot;hdfsView&quot;, 3),</span>
+<span class="nc" id="L28">  FRAGMENTER(&quot;fragmenter&quot;, 3),</span>
   // Validator
-<span class="nc" id="L32">  VALIDATOR_VALIDATE_ARCHIVE(&quot;validatorValidateArchive&quot;, 1),</span>
-<span class="nc" id="L33">  VALIDATOR_DWCA_TO_VERBATIM(&quot;validatorDwcaToVerbatim&quot;, 2),</span>
-<span class="nc" id="L34">  VALIDATOR_XML_TO_VERBATIM(&quot;validatorXmlToVerbatim&quot;, 2),</span>
-<span class="nc" id="L35">  VALIDATOR_ABCD_TO_VERBATIM(&quot;validatorAbcdToVerbatim&quot;, 2),</span>
-<span class="nc" id="L36">  VALIDATOR_VERBATIM_TO_INTERPRETED(&quot;validatorVerbatimToInterpreted&quot;, 3),</span>
-<span class="nc" id="L37">  VALIDATOR_INTERPRETED_TO_INDEX(&quot;validatorInterpretedToIndex&quot;, 4),</span>
-<span class="nc" id="L38">  VALIDATOR_COLLECT_METRICS(&quot;validatorCollectMetrics&quot;, 5);</span>
+<span class="nc" id="L30">  VALIDATOR_UPLOAD_ARCHIVE(&quot;validatorUploadArchive&quot;, 1),</span>
+<span class="nc" id="L31">  VALIDATOR_VALIDATE_ARCHIVE(&quot;validatorValidateArchive&quot;, 2),</span>
+<span class="nc" id="L32">  VALIDATOR_DWCA_TO_VERBATIM(&quot;validatorDwcaToVerbatim&quot;, 3),</span>
+<span class="nc" id="L33">  VALIDATOR_XML_TO_VERBATIM(&quot;validatorXmlToVerbatim&quot;, 3),</span>
+<span class="nc" id="L34">  VALIDATOR_ABCD_TO_VERBATIM(&quot;validatorAbcdToVerbatim&quot;, 4),</span>
+<span class="nc" id="L35">  VALIDATOR_VERBATIM_TO_INTERPRETED(&quot;validatorVerbatimToInterpreted&quot;, 4),</span>
+<span class="nc" id="L36">  VALIDATOR_INTERPRETED_TO_INDEX(&quot;validatorInterpretedToIndex&quot;, 5),</span>
+<span class="nc" id="L37">  VALIDATOR_COLLECT_METRICS(&quot;validatorCollectMetrics&quot;, 6);</span>
 
   private String label;
   private int executionOrder;
 
-<span class="nc" id="L43">  StepType(String label, int executionOrder) {</span>
-<span class="nc" id="L44">    this.label = label;</span>
-<span class="nc" id="L45">    this.executionOrder = executionOrder;</span>
-<span class="nc" id="L46">  }</span>
+<span class="nc" id="L42">  StepType(String label, int executionOrder) {</span>
+<span class="nc" id="L43">    this.label = label;</span>
+<span class="nc" id="L44">    this.executionOrder = executionOrder;</span>
+<span class="nc" id="L45">  }</span>
 
   public int getExecutionOrder() {
-<span class="nc" id="L49">    return executionOrder;</span>
+<span class="nc" id="L48">    return executionOrder;</span>
   }
 
   public String getLabel() {
-<span class="nc" id="L53">    return label;</span>
+<span class="nc" id="L52">    return label;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

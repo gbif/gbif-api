@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DistanceUnit.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence.geo</a> &gt; <span class="el_source">DistanceUnit.java</span></div><h1>DistanceUnit.java</h1><pre class="source lang-java linenums">/*
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.occurrence.geo;
+
+import java.util.Objects;
+import java.util.StringJoiner;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * The DistanceUnit enumerates several units for measuring distances. These units
+ * provide methods for converting strings and methods to convert units among each
+ * others.The default unit used within this project is &lt;code&gt;METERS&lt;/code&gt;
+ * which is defined by &lt;code&gt;DEFAULT&lt;/code&gt;
+ */
+<span class="fc" id="L30">public enum DistanceUnit {</span>
+<span class="fc" id="L31">  INCH(0.0254, &quot;in&quot;, &quot;inch&quot;),</span>
+<span class="fc" id="L32">  YARD(0.9144, &quot;yd&quot;, &quot;yards&quot;),</span>
+<span class="fc" id="L33">  FEET(0.3048, &quot;ft&quot;, &quot;feet&quot;),</span>
+<span class="fc" id="L34">  KILOMETERS(1000.0, &quot;km&quot;, &quot;kilometers&quot;),</span>
+<span class="fc" id="L35">  NAUTICALMILES(1852.0, &quot;NM&quot;, &quot;nmi&quot;, &quot;nauticalmiles&quot;),</span>
+<span class="fc" id="L36">  MILLIMETERS(0.001, &quot;mm&quot;, &quot;millimeters&quot;),</span>
+<span class="fc" id="L37">  CENTIMETERS(0.01, &quot;cm&quot;, &quot;centimeters&quot;),</span>
+
+  // 'm' is a suffix of 'nmi' so it must follow 'nmi'
+<span class="fc" id="L40">  MILES(1609.344, &quot;mi&quot;, &quot;miles&quot;),</span>
+
+  // since 'm' is suffix of other unit
+  // it must be the last entry of unit
+  // names ending with 'm'. otherwise
+  // parsing would fail
+<span class="fc" id="L46">  METERS(1, &quot;m&quot;, &quot;meters&quot;);</span>
+
+<span class="fc" id="L48">  public static final DistanceUnit DEFAULT = METERS;</span>
+
+  private double meters;
+  private final String[] names;
+
+<span class="fc" id="L53">  DistanceUnit(double meters, String...names) {</span>
+<span class="fc" id="L54">    this.meters = meters;</span>
+<span class="fc" id="L55">    this.names = names;</span>
+<span class="fc" id="L56">  }</span>
+
+  public double getMeters() {
+<span class="nc" id="L59">    return meters;</span>
+  }
+
+  public String[] getNames() {
+<span class="fc" id="L63">    return names;</span>
+  }
+
+  /**
+   * Convert a value to a distance string
+   *
+   * @param distance value to convert
+   * @return String representation of the distance
+   */
+  public String toString(double distance) {
+<span class="fc" id="L73">    return distance + toString();</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="fc" id="L78">    return names[0];</span>
+  }
+
+  /**
+   * Parse a {@link Distance} from a given String
+   *
+   * @param distance String defining a {@link Distance}
+   * @return parsed {@link Distance}
+   */
+  public static Distance parseDistance(String distance) {
+<span class="fc bfc" id="L88" title="All 2 branches covered.">    for (DistanceUnit unit: DistanceUnit.values()) {</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">      for (String name : unit.getNames()) {</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if(distance.endsWith(name)) {</span>
+<span class="fc" id="L91">          return new Distance(Double.parseDouble(distance.substring(0, distance.length() - name.length())), unit);</span>
+        }
+      }
+    }
+<span class="fc" id="L95">    return new Distance(Double.parseDouble(distance), DEFAULT);</span>
+  }
+
+  /**
+   * Converts the given distance from the given DistanceUnit, to the given DistanceUnit
+   *
+   * @param distance Distance to convert
+   * @param from     Unit to convert the distance from
+   * @param to       Unit of distance to convert to
+   * @return Given distance converted to the distance in the given unit
+   */
+  public static double convert(double distance, DistanceUnit from, DistanceUnit to) {
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">    if (from == to) {</span>
+<span class="nc" id="L108">      return distance;</span>
+    } else {
+<span class="fc" id="L110">      return distance * from.meters / to.meters;</span>
+    }
+  }
+
+  public static class Distance implements Comparable&lt;Distance&gt; {
+    public final double value;
+    public final DistanceUnit unit;
+
+    @JsonCreator
+    public Distance(@JsonProperty(&quot;value&quot;) double value,
+<span class="fc" id="L120">                    @JsonProperty(&quot;unit&quot;) DistanceUnit unit) {</span>
+<span class="fc" id="L121">      this.value = value;</span>
+<span class="fc" id="L122">      this.unit = unit;</span>
+<span class="fc" id="L123">    }</span>
+
+    public double getValue() {
+<span class="fc" id="L126">      return value;</span>
+    }
+
+    public DistanceUnit getUnit() {
+<span class="nc" id="L130">      return unit;</span>
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">      if(obj == null) {</span>
+<span class="nc" id="L136">        return false;</span>
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">      } else if (obj instanceof Distance) {</span>
+<span class="fc" id="L138">        Distance other = (Distance) obj;</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">        return DistanceUnit.convert(value, unit, other.unit) == other.value;</span>
+      } else {
+<span class="nc" id="L141">        return false;</span>
+      }
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L147">      return Double.valueOf(value * unit.meters).hashCode();</span>
+    }
+
+    @Override
+    public int compareTo(Distance o) {
+<span class="nc" id="L152">      return Double.compare(value, DistanceUnit.convert(o.value, o.unit, unit));</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L157">      return unit.toString(value);</span>
+    }
+  }
+
+  public static class GeoDistance {
+
+    private final double latitude;
+
+    private final double longitude;
+
+    private final Distance distance;
+
+    @JsonCreator
+    public GeoDistance(@JsonProperty(&quot;latitude&quot;) double latitude,
+                       @JsonProperty(&quot;longitude&quot;) double longitude,
+<span class="fc" id="L172">                       @JsonProperty(&quot;distance&quot;) Distance distance) {</span>
+<span class="fc" id="L173">      this.latitude = latitude;</span>
+<span class="fc" id="L174">      this.longitude = longitude;</span>
+<span class="fc" id="L175">      this.distance = distance;</span>
+<span class="fc" id="L176">    }</span>
+
+    public double getLatitude() {
+<span class="nc" id="L179">      return latitude;</span>
+    }
+
+    public double getLongitude() {
+<span class="nc" id="L183">      return longitude;</span>
+    }
+
+    public Distance getDistance() {
+<span class="nc" id="L187">      return distance;</span>
+    }
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L192" title="All 2 branches missed.">      if (this == o) return true;</span>
+<span class="nc bnc" id="L193" title="All 4 branches missed.">      if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L194">      GeoDistance that = (GeoDistance) o;</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">      return Double.compare(that.latitude, latitude) == 0</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">             &amp;&amp; Double.compare(that.longitude, longitude) == 0</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">             &amp;&amp; Objects.equals(distance, that.distance);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L202">      return Objects.hash(latitude, longitude, distance);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L207">      return new StringJoiner(&quot;, &quot;, GeoDistance.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L208">        .add(&quot;latitude=&quot; + latitude)</span>
+<span class="nc" id="L209">        .add(&quot;longitude=&quot; + longitude)</span>
+<span class="nc" id="L210">        .add(&quot;distance=&quot; + distance)</span>
+<span class="nc" id="L211">        .toString();</span>
+    }
+
+    public static GeoDistance parseGeoDistance(String geoDistance) {
+<span class="pc bpc" id="L215" title="1 of 2 branches missed.">      if (StringUtils.isEmpty(geoDistance)) {</span>
+<span class="nc" id="L216">        throw new IllegalArgumentException(&quot;GeoDistance cannot be null or empty&quot;);</span>
+      }
+<span class="fc" id="L218">      String[] geoDistanceTokens = geoDistance.split(&quot;,&quot;);</span>
+<span class="pc bpc" id="L219" title="1 of 2 branches missed.">      if (geoDistanceTokens.length != 3) {</span>
+<span class="nc" id="L220">        throw new IllegalArgumentException(&quot;GeoDistance must follow the format lat,lng,distance&quot;);</span>
+      }
+<span class="fc" id="L222">      return parseGeoDistance(geoDistanceTokens[0].trim(), geoDistanceTokens[1].trim(), geoDistanceTokens[2].trim());</span>
+    }
+
+    public String toGeoDistanceString() {
+<span class="fc" id="L226">      return new StringJoiner(&quot;, &quot;)</span>
+<span class="fc" id="L227">        .add(Double.toString(latitude))</span>
+<span class="fc" id="L228">        .add(Double.toString(longitude))</span>
+<span class="fc" id="L229">        .add(distance.toString())</span>
+<span class="fc" id="L230">        .toString();</span>
+    }
+
+    public static GeoDistance parseGeoDistance(String latitude, String longitude, String distance) {
+<span class="fc" id="L234">      return new GeoDistance(Double.parseDouble(latitude),</span>
+<span class="fc" id="L235">                             Double.parseDouble(longitude),</span>
+<span class="fc" id="L236">                             DistanceUnit.parseDistance(distance));</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

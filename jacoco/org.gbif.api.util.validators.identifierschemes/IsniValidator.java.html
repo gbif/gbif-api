@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IsniValidator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util.validators.identifierschemes</a> &gt; <span class="el_source">IsniValidator.java</span></div><h1>IsniValidator.java</h1><pre class="source lang-java linenums">/*
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.util.validators.identifierschemes;
+
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/** Validator for ISNI numbers. */
+<span class="fc" id="L21">public class IsniValidator implements IdentifierSchemeValidator {</span>
+
+<span class="fc" id="L23">  private static final Pattern ISNI_PATTERN =</span>
+<span class="fc" id="L24">      Pattern.compile(</span>
+          &quot;^(?&lt;prefix&gt;http(?:s)?:\\/\\/isni.org\\/isni\\/)?([\\p{Digit}xX\\p{Pd}\\s]{16,24})$&quot;);
+
+  @Override
+  public boolean isValid(String value) {
+<span class="pc bpc" id="L29" title="2 of 4 branches missed.">    if (value == null || value.isEmpty()) {</span>
+<span class="nc" id="L30">      return false;</span>
+    }
+
+<span class="fc" id="L33">    Matcher matcher = ISNI_PATTERN.matcher(value);</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">    if (!matcher.matches()) {</span>
+<span class="fc" id="L35">      return false;</span>
+    }
+
+<span class="fc" id="L38">    String prefixGroup = matcher.group(&quot;prefix&quot;);</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">    String isniNumber = prefixGroup == null ? value : value.substring(prefixGroup.length());</span>
+
+<span class="fc" id="L41">    return Mod112.hasValidChecksumDigit(isniNumber);</span>
+  }
+
+  @Override
+  public String normalize(String value) {
+<span class="nc" id="L46">    Objects.requireNonNull(value, &quot;Identifier value can't be null&quot;);</span>
+<span class="nc" id="L47">    return value.trim();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

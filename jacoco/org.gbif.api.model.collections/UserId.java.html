@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserId.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections</a> &gt; <span class="el_source">UserId.java</span></div><h1>UserId.java</h1><pre class="source lang-java linenums">/*
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.collections;
+
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.StringJoiner;
+
+import javax.validation.constraints.NotNull;
+
+/** User ID for GRSciColl contacts. */
+public class UserId implements Serializable {
+
+  private IdType type;
+  private String id;
+
+<span class="nc" id="L28">  public UserId() {}</span>
+
+<span class="nc" id="L30">  public UserId(IdType type, String id) {</span>
+<span class="nc" id="L31">    this.type = type;</span>
+<span class="nc" id="L32">    this.id = id;</span>
+<span class="nc" id="L33">  }</span>
+
+  @NotNull
+  public IdType getType() {
+<span class="nc" id="L37">    return type;</span>
+  }
+
+  public void setType(IdType type) {
+<span class="nc" id="L41">    this.type = type;</span>
+<span class="nc" id="L42">  }</span>
+
+  @NotNull
+  public String getId() {
+<span class="nc" id="L46">    return id;</span>
+  }
+
+  public void setId(String id) {
+<span class="nc" id="L50">    this.id = id;</span>
+<span class="nc" id="L51">  }</span>
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L55" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L56">      return true;</span>
+    }
+<span class="nc bnc" id="L58" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L59">      return false;</span>
+    }
+<span class="nc" id="L61">    UserId userID = (UserId) o;</span>
+<span class="nc bnc" id="L62" title="All 4 branches missed.">    return type == userID.type &amp;&amp; Objects.equals(id, userID.id);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L67">    return Objects.hash(type, id);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L72">    return new StringJoiner(&quot;, &quot;, UserId.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L73">        .add(&quot;type=&quot; + type)</span>
+<span class="nc" id="L74">        .add(&quot;id='&quot; + id + &quot;'&quot;)</span>
+<span class="nc" id="L75">        .toString();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

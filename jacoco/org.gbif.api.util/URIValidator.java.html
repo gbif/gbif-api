@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>URIValidator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util</a> &gt; <span class="el_source">URIValidator.java</span></div><h1>URIValidator.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,14 +21,14 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * Constrain validator that validates URI objects with a @HttpURI annotation.
  */
-<span class="fc" id="L26">public class URIValidator implements ConstraintValidator&lt;HttpURI, URI&gt; {</span>
+<span class="fc" id="L24">public class URIValidator implements ConstraintValidator&lt;HttpURI, URI&gt; {</span>
 
   private static final String HTTP_PROTOCOL = &quot;http&quot;;
   private static final String HTTPS_PROTOCOL = &quot;https&quot;;
 
   /**
    * Initializes the validator in preparation for
-   * {@link #isValid(Object, javax.validation.ConstraintValidatorContext)} calls.
+   * {@link #isValid(URI, javax.validation.ConstraintValidatorContext)} calls.
    * The constraint annotation for a given constraint declaration
    * is passed.
    * This method is guaranteed to be called before any use of this instance for
@@ -40,7 +38,7 @@ import javax.validation.ConstraintValidatorContext;
    */
   @Override
   public void initialize(HttpURI uri) {
-<span class="fc" id="L43">  }</span>
+<span class="fc" id="L41">  }</span>
 
   /**
    * Implements the validation logic, checking if a URI is valid or not.
@@ -56,22 +54,18 @@ import javax.validation.ConstraintValidatorContext;
   @Override
   public boolean isValid(URI uri, ConstraintValidatorContext context) {
     // only validate non-null URIs
-<span class="pc bpc" id="L59" title="1 of 2 branches missed.">    if (uri == null) {</span>
-<span class="nc" id="L60">      return true;</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">    if (uri == null) {</span>
+<span class="nc" id="L58">      return true;</span>
     }
 
     // URI scheme can not be null
-<span class="fc bfc" id="L64" title="All 2 branches covered.">    if (uri.getScheme() == null) {</span>
-<span class="fc" id="L65">      return false;</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">    if (uri.getScheme() == null) {</span>
+<span class="fc" id="L63">      return false;</span>
     }
 
     // URI must begin with either: http or https
-<span class="pc bpc" id="L69" title="1 of 4 branches missed.">    if (uri.getScheme().equalsIgnoreCase(HTTP_PROTOCOL) || uri.getScheme().equalsIgnoreCase(HTTPS_PROTOCOL)) {</span>
-<span class="fc" id="L70">      return true;</span>
-    }
-
     // otherwise, the URI is invalid
-<span class="fc" id="L74">    return false;</span>
+<span class="pc bpc" id="L68" title="1 of 4 branches missed.">    return uri.getScheme().equalsIgnoreCase(HTTP_PROTOCOL) || uri.getScheme().equalsIgnoreCase(HTTPS_PROTOCOL);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

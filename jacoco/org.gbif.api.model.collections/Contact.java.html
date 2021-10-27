@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Contact.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections</a> &gt; <span class="el_source">Contact.java</span></div><h1>Contact.java</h1><pre class="source lang-java linenums">/*
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.collections;
+
+import org.gbif.api.model.registry.LenientEquals;
+import org.gbif.api.model.registry.PostPersist;
+import org.gbif.api.model.registry.PrePersist;
+import org.gbif.api.vocabulary.Country;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Pattern;
+
+import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
+
+/** Contact associated to a GRSciColl {@link Collection} or {@link Institution}. */
+<span class="nc" id="L35">public class Contact implements LenientEquals&lt;Contact&gt;, Serializable {</span>
+
+  private Integer key;
+  private String firstName;
+  private String lastName;
+<span class="nc" id="L40">  private List&lt;String&gt; position = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L41">  private List&lt;String&gt; phone = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L42">  private List&lt;String&gt; fax = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L43">  private List&lt;@Pattern(regexp = EMAIL_PATTERN) String&gt; email = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L44">  private List&lt;String&gt; address = new ArrayList&lt;&gt;();</span>
+  private String city;
+  private String province;
+  private Country country;
+  private String postalCode;
+  private boolean primary;
+<span class="nc" id="L50">  private List&lt;String&gt; taxonomicExpertise = new ArrayList&lt;&gt;();</span>
+  private String notes;
+<span class="nc" id="L52">  private List&lt;UserId&gt; userIds = new ArrayList&lt;&gt;();</span>
+  private String createdBy;
+  private String modifiedBy;
+  private Date created;
+  private Date modified;
+
+  @Null(groups = {PrePersist.class})
+  @NotNull(groups = {PostPersist.class})
+  public Integer getKey() {
+<span class="nc" id="L61">    return key;</span>
+  }
+
+  public void setKey(Integer key) {
+<span class="nc" id="L65">    this.key = key;</span>
+<span class="nc" id="L66">  }</span>
+
+  public String getFirstName() {
+<span class="nc" id="L69">    return firstName;</span>
+  }
+
+  public void setFirstName(String firstName) {
+<span class="nc" id="L73">    this.firstName = firstName;</span>
+<span class="nc" id="L74">  }</span>
+
+  public String getLastName() {
+<span class="nc" id="L77">    return lastName;</span>
+  }
+
+  public void setLastName(String lastName) {
+<span class="nc" id="L81">    this.lastName = lastName;</span>
+<span class="nc" id="L82">  }</span>
+
+  public List&lt;String&gt; getPosition() {
+<span class="nc" id="L85">    return position;</span>
+  }
+
+  public void setPosition(List&lt;String&gt; position) {
+<span class="nc" id="L89">    this.position = position;</span>
+<span class="nc" id="L90">  }</span>
+
+  public List&lt;String&gt; getPhone() {
+<span class="nc" id="L93">    return phone;</span>
+  }
+
+  public void setPhone(List&lt;String&gt; phone) {
+<span class="nc" id="L97">    this.phone = phone;</span>
+<span class="nc" id="L98">  }</span>
+
+  public List&lt;String&gt; getFax() {
+<span class="nc" id="L101">    return fax;</span>
+  }
+
+  public void setFax(List&lt;String&gt; fax) {
+<span class="nc" id="L105">    this.fax = fax;</span>
+<span class="nc" id="L106">  }</span>
+
+  public List&lt;String&gt; getEmail() {
+<span class="nc" id="L109">    return email;</span>
+  }
+
+  public void setEmail(List&lt;String&gt; email) {
+<span class="nc" id="L113">    this.email = email;</span>
+<span class="nc" id="L114">  }</span>
+
+  public List&lt;String&gt; getAddress() {
+<span class="nc" id="L117">    return address;</span>
+  }
+
+  public void setAddress(List&lt;String&gt; address) {
+<span class="nc" id="L121">    this.address = address;</span>
+<span class="nc" id="L122">  }</span>
+
+  public String getCity() {
+<span class="nc" id="L125">    return city;</span>
+  }
+
+  public void setCity(String city) {
+<span class="nc" id="L129">    this.city = city;</span>
+<span class="nc" id="L130">  }</span>
+
+  public String getProvince() {
+<span class="nc" id="L133">    return province;</span>
+  }
+
+  public void setProvince(String province) {
+<span class="nc" id="L137">    this.province = province;</span>
+<span class="nc" id="L138">  }</span>
+
+  public Country getCountry() {
+<span class="nc" id="L141">    return country;</span>
+  }
+
+  public void setCountry(Country country) {
+<span class="nc" id="L145">    this.country = country;</span>
+<span class="nc" id="L146">  }</span>
+
+  public String getPostalCode() {
+<span class="nc" id="L149">    return postalCode;</span>
+  }
+
+  public void setPostalCode(String postalCode) {
+<span class="nc" id="L153">    this.postalCode = postalCode;</span>
+<span class="nc" id="L154">  }</span>
+
+  public boolean isPrimary() {
+<span class="nc" id="L157">    return primary;</span>
+  }
+
+  public void setPrimary(boolean primary) {
+<span class="nc" id="L161">    this.primary = primary;</span>
+<span class="nc" id="L162">  }</span>
+
+  public List&lt;String&gt; getTaxonomicExpertise() {
+<span class="nc" id="L165">    return taxonomicExpertise;</span>
+  }
+
+  public void setTaxonomicExpertise(List&lt;String&gt; taxonomicExpertise) {
+<span class="nc" id="L169">    this.taxonomicExpertise = taxonomicExpertise;</span>
+<span class="nc" id="L170">  }</span>
+
+  public String getNotes() {
+<span class="nc" id="L173">    return notes;</span>
+  }
+
+  public void setNotes(String notes) {
+<span class="nc" id="L177">    this.notes = notes;</span>
+<span class="nc" id="L178">  }</span>
+
+  public List&lt;UserId&gt; getUserIds() {
+<span class="nc" id="L181">    return userIds;</span>
+  }
+
+  public void setUserIds(List&lt;UserId&gt; userIds) {
+<span class="nc" id="L185">    this.userIds = userIds;</span>
+<span class="nc" id="L186">  }</span>
+
+  public String getCreatedBy() {
+<span class="nc" id="L189">    return createdBy;</span>
+  }
+
+  public void setCreatedBy(String createdBy) {
+<span class="nc" id="L193">    this.createdBy = createdBy;</span>
+<span class="nc" id="L194">  }</span>
+
+  public String getModifiedBy() {
+<span class="nc" id="L197">    return modifiedBy;</span>
+  }
+
+  public void setModifiedBy(String modifiedBy) {
+<span class="nc" id="L201">    this.modifiedBy = modifiedBy;</span>
+<span class="nc" id="L202">  }</span>
+
+  public Date getCreated() {
+<span class="nc" id="L205">    return created;</span>
+  }
+
+  public void setCreated(Date created) {
+<span class="nc" id="L209">    this.created = created;</span>
+<span class="nc" id="L210">  }</span>
+
+  public Date getModified() {
+<span class="nc" id="L213">    return modified;</span>
+  }
+
+  public void setModified(Date modified) {
+<span class="nc" id="L217">    this.modified = modified;</span>
+<span class="nc" id="L218">  }</span>
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L222" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L223">      return true;</span>
+    }
+<span class="nc bnc" id="L225" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L226">      return false;</span>
+    }
+<span class="nc" id="L228">    Contact contact = (Contact) o;</span>
+<span class="nc bnc" id="L229" title="All 2 branches missed.">    return Objects.equals(key, contact.key)</span>
+<span class="nc bnc" id="L230" title="All 2 branches missed.">        &amp;&amp; Objects.equals(firstName, contact.firstName)</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">        &amp;&amp; Objects.equals(lastName, contact.lastName)</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">        &amp;&amp; Objects.equals(position, contact.position)</span>
+<span class="nc bnc" id="L233" title="All 2 branches missed.">        &amp;&amp; Objects.equals(phone, contact.phone)</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">        &amp;&amp; Objects.equals(fax, contact.fax)</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">        &amp;&amp; Objects.equals(email, contact.email)</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">        &amp;&amp; Objects.equals(address, contact.address)</span>
+<span class="nc bnc" id="L237" title="All 2 branches missed.">        &amp;&amp; Objects.equals(city, contact.city)</span>
+<span class="nc bnc" id="L238" title="All 4 branches missed.">        &amp;&amp; Objects.equals(province, contact.province)</span>
+        &amp;&amp; country == contact.country
+<span class="nc bnc" id="L240" title="All 4 branches missed.">        &amp;&amp; Objects.equals(postalCode, contact.postalCode)</span>
+        &amp;&amp; primary == contact.primary
+<span class="nc bnc" id="L242" title="All 2 branches missed.">        &amp;&amp; Objects.equals(taxonomicExpertise, contact.taxonomicExpertise)</span>
+<span class="nc bnc" id="L243" title="All 2 branches missed.">        &amp;&amp; Objects.equals(notes, contact.notes)</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">        &amp;&amp; Objects.equals(userIds, contact.userIds)</span>
+<span class="nc bnc" id="L245" title="All 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, contact.createdBy)</span>
+<span class="nc bnc" id="L246" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modifiedBy, contact.modifiedBy)</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">        &amp;&amp; Objects.equals(created, contact.created)</span>
+<span class="nc bnc" id="L248" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modified, contact.modified);</span>
+  }
+
+  @Override
+  public boolean lenientEquals(Contact contact) {
+<span class="nc bnc" id="L253" title="All 2 branches missed.">    if (this == contact) {</span>
+<span class="nc" id="L254">      return true;</span>
+    }
+
+<span class="nc bnc" id="L257" title="All 2 branches missed.">    return Objects.equals(firstName, contact.firstName)</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">        &amp;&amp; Objects.equals(lastName, contact.lastName)</span>
+<span class="nc bnc" id="L259" title="All 2 branches missed.">        &amp;&amp; Objects.equals(position, contact.position)</span>
+<span class="nc bnc" id="L260" title="All 2 branches missed.">        &amp;&amp; Objects.equals(phone, contact.phone)</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">        &amp;&amp; Objects.equals(fax, contact.fax)</span>
+<span class="nc bnc" id="L262" title="All 2 branches missed.">        &amp;&amp; Objects.equals(email, contact.email)</span>
+<span class="nc bnc" id="L263" title="All 2 branches missed.">        &amp;&amp; Objects.equals(address, contact.address)</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">        &amp;&amp; Objects.equals(city, contact.city)</span>
+<span class="nc bnc" id="L265" title="All 4 branches missed.">        &amp;&amp; Objects.equals(province, contact.province)</span>
+        &amp;&amp; country == contact.country
+<span class="nc bnc" id="L267" title="All 4 branches missed.">        &amp;&amp; Objects.equals(postalCode, contact.postalCode)</span>
+        &amp;&amp; primary == contact.primary
+<span class="nc bnc" id="L269" title="All 2 branches missed.">        &amp;&amp; Objects.equals(taxonomicExpertise, contact.taxonomicExpertise)</span>
+<span class="nc bnc" id="L270" title="All 2 branches missed.">        &amp;&amp; Objects.equals(notes, contact.notes)</span>
+<span class="nc bnc" id="L271" title="All 2 branches missed.">        &amp;&amp; Objects.equals(userIds, contact.userIds);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L276">    return Objects.hash(</span>
+        key,
+        firstName,
+        lastName,
+        position,
+        phone,
+        fax,
+        email,
+        address,
+        city,
+        province,
+        country,
+        postalCode,
+<span class="nc" id="L289">        primary,</span>
+        taxonomicExpertise,
+        notes,
+        userIds,
+        createdBy,
+        modifiedBy,
+        created,
+        modified);
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L301">    return new StringJoiner(&quot;, &quot;, Contact.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L302">        .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L303">        .add(&quot;firstName='&quot; + firstName + &quot;'&quot;)</span>
+<span class="nc" id="L304">        .add(&quot;lastName='&quot; + lastName + &quot;'&quot;)</span>
+<span class="nc" id="L305">        .add(&quot;position='&quot; + position + &quot;'&quot;)</span>
+<span class="nc" id="L306">        .add(&quot;phone=&quot; + phone)</span>
+<span class="nc" id="L307">        .add(&quot;fax=&quot; + fax)</span>
+<span class="nc" id="L308">        .add(&quot;email=&quot; + email)</span>
+<span class="nc" id="L309">        .add(&quot;address=&quot; + address)</span>
+<span class="nc" id="L310">        .add(&quot;city='&quot; + city + &quot;'&quot;)</span>
+<span class="nc" id="L311">        .add(&quot;province='&quot; + province + &quot;'&quot;)</span>
+<span class="nc" id="L312">        .add(&quot;country=&quot; + country)</span>
+<span class="nc" id="L313">        .add(&quot;postalCode='&quot; + postalCode + &quot;'&quot;)</span>
+<span class="nc" id="L314">        .add(&quot;primary='&quot; + primary + &quot;'&quot;)</span>
+<span class="nc" id="L315">        .add(&quot;taxonomicExpertise='&quot; + taxonomicExpertise + &quot;'&quot;)</span>
+<span class="nc" id="L316">        .add(&quot;notes='&quot; + notes + &quot;'&quot;)</span>
+<span class="nc" id="L317">        .add(&quot;userIds=&quot; + userIds)</span>
+<span class="nc" id="L318">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L319">        .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
+<span class="nc" id="L320">        .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L321">        .add(&quot;modified=&quot; + modified)</span>
+<span class="nc" id="L322">        .toString();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -7,7 +7,7 @@
 <body>
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
+<span class="sourceLineNo">002</span> * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
 <span class="sourceLineNo">003</span> *<a name="line.3"></a>
 <span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
 <span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
@@ -23,191 +23,248 @@
 <span class="sourceLineNo">015</span> */<a name="line.15"></a>
 <span class="sourceLineNo">016</span>package org.gbif.api.util;<a name="line.16"></a>
 <span class="sourceLineNo">017</span><a name="line.17"></a>
-<span class="sourceLineNo">018</span>import java.text.DateFormat;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import java.text.ParseException;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import java.text.ParsePosition;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import java.text.SimpleDateFormat;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import java.util.Calendar;<a name="line.22"></a>
-<span class="sourceLineNo">023</span>import java.util.Date;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import java.util.regex.Pattern;<a name="line.24"></a>
-<span class="sourceLineNo">025</span><a name="line.25"></a>
-<span class="sourceLineNo">026</span>import org.apache.commons.lang3.StringUtils;<a name="line.26"></a>
-<span class="sourceLineNo">027</span><a name="line.27"></a>
-<span class="sourceLineNo">028</span>import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;<a name="line.28"></a>
-<span class="sourceLineNo">029</span><a name="line.29"></a>
-<span class="sourceLineNo">030</span>/**<a name="line.30"></a>
-<span class="sourceLineNo">031</span> * Utility class that parses date values, the allowed date formats are: "yyyy-MM-dd", "yyyy-MM" or "yyyy".<a name="line.31"></a>
-<span class="sourceLineNo">032</span> */<a name="line.32"></a>
-<span class="sourceLineNo">033</span>public class IsoDateParsingUtils {<a name="line.33"></a>
-<span class="sourceLineNo">034</span><a name="line.34"></a>
-<span class="sourceLineNo">035</span>  public static final String SIMPLE_ISO_DATE_STR_PATTERN = "\\d{4}(?:-\\d{2}(?:-\\d{2})?)?";<a name="line.35"></a>
-<span class="sourceLineNo">036</span><a name="line.36"></a>
-<span class="sourceLineNo">037</span>  // match formats 'yyyy', 'yyyy-MM' and 'yyyy-MM-dd'<a name="line.37"></a>
-<span class="sourceLineNo">038</span>  public static final Pattern SIMPLE_ISO_PATTERN = Pattern.compile(SIMPLE_ISO_DATE_STR_PATTERN);<a name="line.38"></a>
-<span class="sourceLineNo">039</span><a name="line.39"></a>
-<span class="sourceLineNo">040</span>  /**<a name="line.40"></a>
-<span class="sourceLineNo">041</span>   * Enumerations with the allowed date formats by the occurrence search service.<a name="line.41"></a>
-<span class="sourceLineNo">042</span>   */<a name="line.42"></a>
-<span class="sourceLineNo">043</span>  public enum IsoDateFormat {<a name="line.43"></a>
-<span class="sourceLineNo">044</span>    FULL("yyyy-MM-dd"),<a name="line.44"></a>
-<span class="sourceLineNo">045</span>    YEAR_MONTH("yyyy-MM"),<a name="line.45"></a>
-<span class="sourceLineNo">046</span>    YEAR("yyyy");<a name="line.46"></a>
-<span class="sourceLineNo">047</span><a name="line.47"></a>
-<span class="sourceLineNo">048</span>    private final String datePattern;<a name="line.48"></a>
-<span class="sourceLineNo">049</span><a name="line.49"></a>
-<span class="sourceLineNo">050</span>    /**<a name="line.50"></a>
-<span class="sourceLineNo">051</span>     * Private constructors.<a name="line.51"></a>
-<span class="sourceLineNo">052</span>     * Receives a pattern and creates DateFormat instance with the pattern parameter.<a name="line.52"></a>
-<span class="sourceLineNo">053</span>     */<a name="line.53"></a>
-<span class="sourceLineNo">054</span>    IsoDateFormat(String datePattern) {<a name="line.54"></a>
-<span class="sourceLineNo">055</span>      this.datePattern = datePattern;<a name="line.55"></a>
-<span class="sourceLineNo">056</span>    }<a name="line.56"></a>
-<span class="sourceLineNo">057</span><a name="line.57"></a>
-<span class="sourceLineNo">058</span>    /**<a name="line.58"></a>
-<span class="sourceLineNo">059</span>     * @return the dateFormat that parses and formats date values.<a name="line.59"></a>
-<span class="sourceLineNo">060</span>     */<a name="line.60"></a>
-<span class="sourceLineNo">061</span>    public DateFormat getDateFormat() {<a name="line.61"></a>
-<span class="sourceLineNo">062</span>      DateFormat dateFormat = new SimpleDateFormat(datePattern);<a name="line.62"></a>
-<span class="sourceLineNo">063</span>      dateFormat.setLenient(false);<a name="line.63"></a>
-<span class="sourceLineNo">064</span>      return dateFormat;<a name="line.64"></a>
-<span class="sourceLineNo">065</span>    }<a name="line.65"></a>
-<span class="sourceLineNo">066</span><a name="line.66"></a>
-<span class="sourceLineNo">067</span>    /**<a name="line.67"></a>
-<span class="sourceLineNo">068</span>     * Checks if the parameter "value" can be parsed using the date format.<a name="line.68"></a>
-<span class="sourceLineNo">069</span>     */<a name="line.69"></a>
-<span class="sourceLineNo">070</span>    public boolean isValidDate(String value) {<a name="line.70"></a>
-<span class="sourceLineNo">071</span>      try {<a name="line.71"></a>
-<span class="sourceLineNo">072</span>        return (parseDate(value) != null);<a name="line.72"></a>
-<span class="sourceLineNo">073</span>      } catch (ParseException e) {<a name="line.73"></a>
-<span class="sourceLineNo">074</span>        return false;<a name="line.74"></a>
-<span class="sourceLineNo">075</span>      }<a name="line.75"></a>
-<span class="sourceLineNo">076</span>    }<a name="line.76"></a>
-<span class="sourceLineNo">077</span><a name="line.77"></a>
-<span class="sourceLineNo">078</span>    /**<a name="line.78"></a>
-<span class="sourceLineNo">079</span>     * Try to parse a string with the current date format.<a name="line.79"></a>
+<span class="sourceLineNo">018</span>import java.text.ParseException;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import java.time.DateTimeException;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import java.time.LocalDate;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import java.time.Year;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.time.YearMonth;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import java.time.ZoneOffset;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.time.chrono.IsoChronology;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.time.format.DateTimeFormatter;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.time.format.DateTimeFormatterBuilder;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import java.time.format.DateTimeParseException;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import java.time.format.ResolverStyle;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import java.time.format.SignStyle;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import java.time.temporal.ChronoField;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import java.time.temporal.TemporalAccessor;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import java.util.regex.Pattern;<a name="line.32"></a>
+<span class="sourceLineNo">033</span><a name="line.33"></a>
+<span class="sourceLineNo">034</span>import org.apache.commons.lang3.StringUtils;<a name="line.34"></a>
+<span class="sourceLineNo">035</span><a name="line.35"></a>
+<span class="sourceLineNo">036</span>import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;<a name="line.36"></a>
+<span class="sourceLineNo">037</span><a name="line.37"></a>
+<span class="sourceLineNo">038</span>/**<a name="line.38"></a>
+<span class="sourceLineNo">039</span> * Utility class that parses date values, the allowed date formats are: "yyyy-MM-dd", "yyyy-MM" or "yyyy".<a name="line.39"></a>
+<span class="sourceLineNo">040</span> *<a name="line.40"></a>
+<span class="sourceLineNo">041</span> * Note: Does not handle times or time zones.  This is used for search queries/predicates with date ranges.<a name="line.41"></a>
+<span class="sourceLineNo">042</span> * Date ranges are closed at the lower bound, and open at the upper bound, to allow less-than predicates<a name="line.42"></a>
+<span class="sourceLineNo">043</span> * to match times on the upper bound date (i.e. after midnight).<a name="line.43"></a>
+<span class="sourceLineNo">044</span> */<a name="line.44"></a>
+<span class="sourceLineNo">045</span>public class IsoDateParsingUtils {<a name="line.45"></a>
+<span class="sourceLineNo">046</span><a name="line.46"></a>
+<span class="sourceLineNo">047</span>  public static final String SIMPLE_ISO_DATE_STR_PATTERN = "\\d{4}(?:-\\d{1,2}(?:-\\d{1,2})?)?";<a name="line.47"></a>
+<span class="sourceLineNo">048</span><a name="line.48"></a>
+<span class="sourceLineNo">049</span>  // match formats 'yyyy', 'yyyy-MM', 'yyyy-M', 'yyyy-MM-dd', 'yyyy-MM-d' and 'yyyy-M-d'.<a name="line.49"></a>
+<span class="sourceLineNo">050</span>  public static final Pattern SIMPLE_ISO_PATTERN = Pattern.compile(SIMPLE_ISO_DATE_STR_PATTERN);<a name="line.50"></a>
+<span class="sourceLineNo">051</span><a name="line.51"></a>
+<span class="sourceLineNo">052</span>  // Format as yyyy-MM-dd.<a name="line.52"></a>
+<span class="sourceLineNo">053</span>  public static final DateTimeFormatter ISO_DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneOffset.UTC);<a name="line.53"></a>
+<span class="sourceLineNo">054</span><a name="line.54"></a>
+<span class="sourceLineNo">055</span>  /**<a name="line.55"></a>
+<span class="sourceLineNo">056</span>   * Enumerations with the allowed date formats by the occurrence search service.<a name="line.56"></a>
+<span class="sourceLineNo">057</span>   */<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  public enum IsoDateFormat {<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    FULL(new DateTimeFormatterBuilder()<a name="line.59"></a>
+<span class="sourceLineNo">060</span>      .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)<a name="line.60"></a>
+<span class="sourceLineNo">061</span>      .appendLiteral('-')<a name="line.61"></a>
+<span class="sourceLineNo">062</span>      .appendValue(ChronoField.MONTH_OF_YEAR, 1, 2, SignStyle.NEVER)<a name="line.62"></a>
+<span class="sourceLineNo">063</span>      .appendLiteral('-')<a name="line.63"></a>
+<span class="sourceLineNo">064</span>      .appendValue(ChronoField.DAY_OF_MONTH, 1, 2, SignStyle.NEVER)<a name="line.64"></a>
+<span class="sourceLineNo">065</span>      .toFormatter()),<a name="line.65"></a>
+<span class="sourceLineNo">066</span>    YEAR_MONTH(new DateTimeFormatterBuilder()<a name="line.66"></a>
+<span class="sourceLineNo">067</span>      .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)<a name="line.67"></a>
+<span class="sourceLineNo">068</span>      .appendLiteral('-')<a name="line.68"></a>
+<span class="sourceLineNo">069</span>      .appendValue(ChronoField.MONTH_OF_YEAR, 1, 2, SignStyle.NEVER)<a name="line.69"></a>
+<span class="sourceLineNo">070</span>      .toFormatter()),<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    YEAR(new DateTimeFormatterBuilder()<a name="line.71"></a>
+<span class="sourceLineNo">072</span>      .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)<a name="line.72"></a>
+<span class="sourceLineNo">073</span>      .toFormatter());<a name="line.73"></a>
+<span class="sourceLineNo">074</span><a name="line.74"></a>
+<span class="sourceLineNo">075</span>    private final DateTimeFormatter dateFormatter;<a name="line.75"></a>
+<span class="sourceLineNo">076</span><a name="line.76"></a>
+<span class="sourceLineNo">077</span>    /**<a name="line.77"></a>
+<span class="sourceLineNo">078</span>     * Private constructors.<a name="line.78"></a>
+<span class="sourceLineNo">079</span>     * Receives a pattern and creates a strict DateTimeFormatter.<a name="line.79"></a>
 <span class="sourceLineNo">080</span>     */<a name="line.80"></a>
-<span class="sourceLineNo">081</span>    public Date parseDate(String value) throws ParseException {<a name="line.81"></a>
-<span class="sourceLineNo">082</span>      ParsePosition position = new ParsePosition(0);<a name="line.82"></a>
-<span class="sourceLineNo">083</span>      Date date = getDateFormat().parse(value, position);<a name="line.83"></a>
-<span class="sourceLineNo">084</span>      if (position.getIndex() != value.length()) {<a name="line.84"></a>
-<span class="sourceLineNo">085</span>        throw new ParseException(value + " is not a valid date", position.getIndex());<a name="line.85"></a>
-<span class="sourceLineNo">086</span>      }<a name="line.86"></a>
-<span class="sourceLineNo">087</span>      return date;<a name="line.87"></a>
-<span class="sourceLineNo">088</span>    }<a name="line.88"></a>
-<span class="sourceLineNo">089</span>  }<a name="line.89"></a>
-<span class="sourceLineNo">090</span><a name="line.90"></a>
-<span class="sourceLineNo">091</span>  /**<a name="line.91"></a>
-<span class="sourceLineNo">092</span>   * Default private constructor.<a name="line.92"></a>
-<span class="sourceLineNo">093</span>   */<a name="line.93"></a>
-<span class="sourceLineNo">094</span>  private IsoDateParsingUtils() {<a name="line.94"></a>
-<span class="sourceLineNo">095</span>    // empty block<a name="line.95"></a>
-<span class="sourceLineNo">096</span>  }<a name="line.96"></a>
-<span class="sourceLineNo">097</span><a name="line.97"></a>
-<span class="sourceLineNo">098</span>  /**<a name="line.98"></a>
-<span class="sourceLineNo">099</span>   * Iterates over all the OccurrenceDateFormat's and returns the first one that parses successfully the value.<a name="line.99"></a>
-<span class="sourceLineNo">100</span>   * @throws IllegalArgumentException in case of unparsable dates<a name="line.100"></a>
-<span class="sourceLineNo">101</span>   */<a name="line.101"></a>
-<span class="sourceLineNo">102</span>  public static IsoDateFormat getFirstDateFormatMatch(String value) throws IllegalArgumentException {<a name="line.102"></a>
-<span class="sourceLineNo">103</span>    // at least 4 digits for a year must exist<a name="line.103"></a>
-<span class="sourceLineNo">104</span>    if (SIMPLE_ISO_PATTERN.matcher(value).find()) {<a name="line.104"></a>
-<span class="sourceLineNo">105</span>      for (IsoDateFormat dateFormat : IsoDateFormat.values()) {<a name="line.105"></a>
-<span class="sourceLineNo">106</span>        if (dateFormat.isValidDate(value)) {<a name="line.106"></a>
-<span class="sourceLineNo">107</span>          return dateFormat;<a name="line.107"></a>
-<span class="sourceLineNo">108</span>        }<a name="line.108"></a>
-<span class="sourceLineNo">109</span>      }<a name="line.109"></a>
-<span class="sourceLineNo">110</span>    }<a name="line.110"></a>
-<span class="sourceLineNo">111</span>    throw new IllegalArgumentException(value + " is not a valid date");<a name="line.111"></a>
-<span class="sourceLineNo">112</span>  }<a name="line.112"></a>
-<span class="sourceLineNo">113</span><a name="line.113"></a>
-<span class="sourceLineNo">114</span>  /**<a name="line.114"></a>
-<span class="sourceLineNo">115</span>   * Parses a single date value. The date is interpreted using the first available date format that successfully parses<a name="line.115"></a>
-<span class="sourceLineNo">116</span>   * the value.<a name="line.116"></a>
-<span class="sourceLineNo">117</span>   * @return the lowest possible date according to the precision given or null in case of *<a name="line.117"></a>
-<span class="sourceLineNo">118</span>   * @throws IllegalArgumentException in case of unparsable dates<a name="line.118"></a>
-<span class="sourceLineNo">119</span>   */<a name="line.119"></a>
-<span class="sourceLineNo">120</span>  public static Date parseDate(String value) {<a name="line.120"></a>
-<span class="sourceLineNo">121</span>    if (StringUtils.isEmpty(value)) {<a name="line.121"></a>
-<span class="sourceLineNo">122</span>      throw new IllegalArgumentException("Date parameter can't be null or empty");<a name="line.122"></a>
-<span class="sourceLineNo">123</span>    }<a name="line.123"></a>
-<span class="sourceLineNo">124</span><a name="line.124"></a>
-<span class="sourceLineNo">125</span>    // could be a wildcard<a name="line.125"></a>
-<span class="sourceLineNo">126</span>    if (QUERY_WILDCARD.equals(value)) {<a name="line.126"></a>
-<span class="sourceLineNo">127</span>      return null;<a name="line.127"></a>
-<span class="sourceLineNo">128</span>    }<a name="line.128"></a>
-<span class="sourceLineNo">129</span><a name="line.129"></a>
-<span class="sourceLineNo">130</span>    try {<a name="line.130"></a>
-<span class="sourceLineNo">131</span>      return getFirstDateFormatMatch(value).parseDate(value);<a name="line.131"></a>
-<span class="sourceLineNo">132</span>    } catch (ParseException e) {<a name="line.132"></a>
-<span class="sourceLineNo">133</span>      throw new IllegalArgumentException(String.format("%s is not a valid date parameter", value));<a name="line.133"></a>
-<span class="sourceLineNo">134</span>    }<a name="line.134"></a>
-<span class="sourceLineNo">135</span>  }<a name="line.135"></a>
+<span class="sourceLineNo">081</span>    IsoDateFormat(DateTimeFormatter dateFormatter) {<a name="line.81"></a>
+<span class="sourceLineNo">082</span>      this.dateFormatter = dateFormatter<a name="line.82"></a>
+<span class="sourceLineNo">083</span>        .withZone(ZoneOffset.UTC)<a name="line.83"></a>
+<span class="sourceLineNo">084</span>        .withResolverStyle(ResolverStyle.STRICT)<a name="line.84"></a>
+<span class="sourceLineNo">085</span>        .withChronology(IsoChronology.INSTANCE);<a name="line.85"></a>
+<span class="sourceLineNo">086</span>    }<a name="line.86"></a>
+<span class="sourceLineNo">087</span><a name="line.87"></a>
+<span class="sourceLineNo">088</span>    /**<a name="line.88"></a>
+<span class="sourceLineNo">089</span>     * Checks if the parameter "value" can be parsed using the date format.<a name="line.89"></a>
+<span class="sourceLineNo">090</span>     */<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    public boolean isValidDate(String value) {<a name="line.91"></a>
+<span class="sourceLineNo">092</span>      try {<a name="line.92"></a>
+<span class="sourceLineNo">093</span>        return (parseDate(value) != null);<a name="line.93"></a>
+<span class="sourceLineNo">094</span>      } catch (ParseException e) {<a name="line.94"></a>
+<span class="sourceLineNo">095</span>        return false;<a name="line.95"></a>
+<span class="sourceLineNo">096</span>      }<a name="line.96"></a>
+<span class="sourceLineNo">097</span>    }<a name="line.97"></a>
+<span class="sourceLineNo">098</span><a name="line.98"></a>
+<span class="sourceLineNo">099</span>    /**<a name="line.99"></a>
+<span class="sourceLineNo">100</span>     * Try to parse a string with the current date format.<a name="line.100"></a>
+<span class="sourceLineNo">101</span>     */<a name="line.101"></a>
+<span class="sourceLineNo">102</span>    public TemporalAccessor parseDate(String value) throws ParseException {<a name="line.102"></a>
+<span class="sourceLineNo">103</span>      if (QUERY_WILDCARD.equals(value)) {<a name="line.103"></a>
+<span class="sourceLineNo">104</span>        return null;<a name="line.104"></a>
+<span class="sourceLineNo">105</span>      }<a name="line.105"></a>
+<span class="sourceLineNo">106</span><a name="line.106"></a>
+<span class="sourceLineNo">107</span>      try {<a name="line.107"></a>
+<span class="sourceLineNo">108</span>        switch (this) {<a name="line.108"></a>
+<span class="sourceLineNo">109</span>          case FULL:<a name="line.109"></a>
+<span class="sourceLineNo">110</span>            return dateFormatter.parse(value, LocalDate::from);<a name="line.110"></a>
+<span class="sourceLineNo">111</span><a name="line.111"></a>
+<span class="sourceLineNo">112</span>          case YEAR_MONTH:<a name="line.112"></a>
+<span class="sourceLineNo">113</span>            return dateFormatter.parse(value, YearMonth::from);<a name="line.113"></a>
+<span class="sourceLineNo">114</span><a name="line.114"></a>
+<span class="sourceLineNo">115</span>          case YEAR:<a name="line.115"></a>
+<span class="sourceLineNo">116</span>            return dateFormatter.parse(value, Year::from);<a name="line.116"></a>
+<span class="sourceLineNo">117</span>        }<a name="line.117"></a>
+<span class="sourceLineNo">118</span>      } catch (DateTimeException e) {<a name="line.118"></a>
+<span class="sourceLineNo">119</span>        throw new ParseException(value + " is not a valid date", 0);<a name="line.119"></a>
+<span class="sourceLineNo">120</span>      }<a name="line.120"></a>
+<span class="sourceLineNo">121</span>      throw new ParseException(value + " is not a valid date", 0);<a name="line.121"></a>
+<span class="sourceLineNo">122</span>    }<a name="line.122"></a>
+<span class="sourceLineNo">123</span><a name="line.123"></a>
+<span class="sourceLineNo">124</span>    /**<a name="line.124"></a>
+<span class="sourceLineNo">125</span>     * Returns the earliest date of a possible closed range, e.g. 2000-01-01 for 2000.<a name="line.125"></a>
+<span class="sourceLineNo">126</span>     */<a name="line.126"></a>
+<span class="sourceLineNo">127</span>    public LocalDate earliestDate(String value) throws ParseException {<a name="line.127"></a>
+<span class="sourceLineNo">128</span>      if (QUERY_WILDCARD.equals(value)) {<a name="line.128"></a>
+<span class="sourceLineNo">129</span>        return null;<a name="line.129"></a>
+<span class="sourceLineNo">130</span>      }<a name="line.130"></a>
+<span class="sourceLineNo">131</span><a name="line.131"></a>
+<span class="sourceLineNo">132</span>      TemporalAccessor ta = parseDate(value);<a name="line.132"></a>
+<span class="sourceLineNo">133</span>      switch (this) {<a name="line.133"></a>
+<span class="sourceLineNo">134</span>        case FULL:<a name="line.134"></a>
+<span class="sourceLineNo">135</span>          return LocalDate.from(ta);<a name="line.135"></a>
 <span class="sourceLineNo">136</span><a name="line.136"></a>
-<span class="sourceLineNo">137</span>  /**<a name="line.137"></a>
-<span class="sourceLineNo">138</span>   * Parses a range of dates. The date format used is the first date format that successfully parses the lower range<a name="line.138"></a>
-<span class="sourceLineNo">139</span>   * limit.<a name="line.139"></a>
-<span class="sourceLineNo">140</span>   */<a name="line.140"></a>
-<span class="sourceLineNo">141</span>  public static Range&lt;Date&gt; parseDateRange(String value) {<a name="line.141"></a>
-<span class="sourceLineNo">142</span>    if (StringUtils.isEmpty(value)) {<a name="line.142"></a>
-<span class="sourceLineNo">143</span>      throw new IllegalArgumentException("Date parameter can't be null or empty");<a name="line.143"></a>
-<span class="sourceLineNo">144</span>    }<a name="line.144"></a>
-<span class="sourceLineNo">145</span>    final String[] dateValues = value.split(",");<a name="line.145"></a>
-<span class="sourceLineNo">146</span>    if (dateValues.length != 2) {<a name="line.146"></a>
-<span class="sourceLineNo">147</span>      throw new IllegalArgumentException("Date value must be a single value or a range");<a name="line.147"></a>
-<span class="sourceLineNo">148</span>    }<a name="line.148"></a>
-<span class="sourceLineNo">149</span><a name="line.149"></a>
-<span class="sourceLineNo">150</span>    final Date lowerDate = parseDate(dateValues[0]);<a name="line.150"></a>
-<span class="sourceLineNo">151</span><a name="line.151"></a>
-<span class="sourceLineNo">152</span>    Date upperDate = parseDate(dateValues[1]);<a name="line.152"></a>
-<span class="sourceLineNo">153</span>    // in case we have a real upper date check its precision and use the highest possible date, not lowest<a name="line.153"></a>
-<span class="sourceLineNo">154</span>    if (upperDate != null) {<a name="line.154"></a>
-<span class="sourceLineNo">155</span>      final IsoDateFormat upperDateFormat = getFirstDateFormatMatch(dateValues[1]);<a name="line.155"></a>
-<span class="sourceLineNo">156</span>      if (upperDateFormat == IsoDateFormat.YEAR_MONTH) {<a name="line.156"></a>
-<span class="sourceLineNo">157</span>        upperDate = toLastDayOfMonth(upperDate);<a name="line.157"></a>
-<span class="sourceLineNo">158</span><a name="line.158"></a>
-<span class="sourceLineNo">159</span>      } else if (upperDateFormat == IsoDateFormat.YEAR) {<a name="line.159"></a>
-<span class="sourceLineNo">160</span>        upperDate = toLastDayOfYear(upperDate);<a name="line.160"></a>
-<span class="sourceLineNo">161</span>      }<a name="line.161"></a>
-<span class="sourceLineNo">162</span>    }<a name="line.162"></a>
-<span class="sourceLineNo">163</span><a name="line.163"></a>
-<span class="sourceLineNo">164</span>    return Range.closed(lowerDate, upperDate);<a name="line.164"></a>
-<span class="sourceLineNo">165</span>  }<a name="line.165"></a>
-<span class="sourceLineNo">166</span><a name="line.166"></a>
-<span class="sourceLineNo">167</span>  /**<a name="line.167"></a>
-<span class="sourceLineNo">168</span>   * Calculates the last day of the month for the date parameter and return it a new date instance.<a name="line.168"></a>
-<span class="sourceLineNo">169</span>   */<a name="line.169"></a>
-<span class="sourceLineNo">170</span>  public static Date toLastDayOfMonth(Date value) {<a name="line.170"></a>
-<span class="sourceLineNo">171</span>    return toLastDayOf(value, Calendar.DAY_OF_MONTH);<a name="line.171"></a>
-<span class="sourceLineNo">172</span>  }<a name="line.172"></a>
-<span class="sourceLineNo">173</span><a name="line.173"></a>
-<span class="sourceLineNo">174</span>  /**<a name="line.174"></a>
-<span class="sourceLineNo">175</span>   * Calculates the last day of the year for the date parameter and return it a new date instance.<a name="line.175"></a>
-<span class="sourceLineNo">176</span>   */<a name="line.176"></a>
-<span class="sourceLineNo">177</span>  public static Date toLastDayOfYear(Date value) {<a name="line.177"></a>
-<span class="sourceLineNo">178</span>    return toLastDayOf(value, Calendar.DAY_OF_YEAR);<a name="line.178"></a>
-<span class="sourceLineNo">179</span>  }<a name="line.179"></a>
-<span class="sourceLineNo">180</span><a name="line.180"></a>
-<span class="sourceLineNo">181</span>  /**<a name="line.181"></a>
-<span class="sourceLineNo">182</span>   * Calculates the last day of a year or month for the date parameter and return it a new date instance.<a name="line.182"></a>
-<span class="sourceLineNo">183</span>   */<a name="line.183"></a>
-<span class="sourceLineNo">184</span>  public static Date toLastDayOf(Date value, IsoDateFormat isoDateFormat) {<a name="line.184"></a>
-<span class="sourceLineNo">185</span>    if (IsoDateFormat.YEAR_MONTH == isoDateFormat) {<a name="line.185"></a>
-<span class="sourceLineNo">186</span>      return toLastDayOf(value, Calendar.DAY_OF_MONTH);<a name="line.186"></a>
-<span class="sourceLineNo">187</span>    } else if(IsoDateFormat.YEAR == isoDateFormat){<a name="line.187"></a>
-<span class="sourceLineNo">188</span>      return toLastDayOf(value, Calendar.DAY_OF_YEAR);<a name="line.188"></a>
-<span class="sourceLineNo">189</span>    }<a name="line.189"></a>
-<span class="sourceLineNo">190</span>    return value;<a name="line.190"></a>
-<span class="sourceLineNo">191</span>  }<a name="line.191"></a>
-<span class="sourceLineNo">192</span><a name="line.192"></a>
-<span class="sourceLineNo">193</span>  /**<a name="line.193"></a>
-<span class="sourceLineNo">194</span>   * Gets the actual maximum value for a field of a date value.<a name="line.194"></a>
-<span class="sourceLineNo">195</span>   */<a name="line.195"></a>
-<span class="sourceLineNo">196</span>  private static Date toLastDayOf(Date value, int field) {<a name="line.196"></a>
-<span class="sourceLineNo">197</span>    Calendar calendar = Calendar.getInstance();<a name="line.197"></a>
-<span class="sourceLineNo">198</span>    calendar.setTime(value);<a name="line.198"></a>
-<span class="sourceLineNo">199</span>    calendar.set(field, calendar.getActualMaximum(field));<a name="line.199"></a>
-<span class="sourceLineNo">200</span>    return calendar.getTime();<a name="line.200"></a>
-<span class="sourceLineNo">201</span>  }<a name="line.201"></a>
-<span class="sourceLineNo">202</span>}<a name="line.202"></a>
+<span class="sourceLineNo">137</span>        case YEAR_MONTH:<a name="line.137"></a>
+<span class="sourceLineNo">138</span>          YearMonth yearMonth = YearMonth.from(parseDate(value));<a name="line.138"></a>
+<span class="sourceLineNo">139</span>          return yearMonth.atDay(1);<a name="line.139"></a>
+<span class="sourceLineNo">140</span><a name="line.140"></a>
+<span class="sourceLineNo">141</span>        case YEAR:<a name="line.141"></a>
+<span class="sourceLineNo">142</span>          Year year = Year.from(parseDate(value));<a name="line.142"></a>
+<span class="sourceLineNo">143</span>          return year.atDay(1);<a name="line.143"></a>
+<span class="sourceLineNo">144</span>      }<a name="line.144"></a>
+<span class="sourceLineNo">145</span><a name="line.145"></a>
+<span class="sourceLineNo">146</span>      throw new ParseException(value + " is not a valid date", 0);<a name="line.146"></a>
+<span class="sourceLineNo">147</span>    }<a name="line.147"></a>
+<span class="sourceLineNo">148</span><a name="line.148"></a>
+<span class="sourceLineNo">149</span>    /**<a name="line.149"></a>
+<span class="sourceLineNo">150</span>     * Returns the latest date of a possible open range, e.g. 2001-01-01 for 2000.<a name="line.150"></a>
+<span class="sourceLineNo">151</span>     */<a name="line.151"></a>
+<span class="sourceLineNo">152</span>    public LocalDate latestDate(String value) throws ParseException {<a name="line.152"></a>
+<span class="sourceLineNo">153</span>      if (QUERY_WILDCARD.equals(value)) {<a name="line.153"></a>
+<span class="sourceLineNo">154</span>        return null;<a name="line.154"></a>
+<span class="sourceLineNo">155</span>      }<a name="line.155"></a>
+<span class="sourceLineNo">156</span><a name="line.156"></a>
+<span class="sourceLineNo">157</span>      TemporalAccessor ta = parseDate(value);<a name="line.157"></a>
+<span class="sourceLineNo">158</span>      switch (this) {<a name="line.158"></a>
+<span class="sourceLineNo">159</span>        case FULL:<a name="line.159"></a>
+<span class="sourceLineNo">160</span>          return LocalDate.from(ta).plusDays(1);<a name="line.160"></a>
+<span class="sourceLineNo">161</span><a name="line.161"></a>
+<span class="sourceLineNo">162</span>        case YEAR_MONTH:<a name="line.162"></a>
+<span class="sourceLineNo">163</span>          YearMonth yearMonth = YearMonth.from(parseDate(value));<a name="line.163"></a>
+<span class="sourceLineNo">164</span>          return yearMonth.atEndOfMonth().plusDays(1);<a name="line.164"></a>
+<span class="sourceLineNo">165</span><a name="line.165"></a>
+<span class="sourceLineNo">166</span>        case YEAR:<a name="line.166"></a>
+<span class="sourceLineNo">167</span>          Year year = Year.from(parseDate(value));<a name="line.167"></a>
+<span class="sourceLineNo">168</span>          return year.atDay(year.isLeap() ? 366 : 365).plusDays(1);<a name="line.168"></a>
+<span class="sourceLineNo">169</span>      }<a name="line.169"></a>
+<span class="sourceLineNo">170</span><a name="line.170"></a>
+<span class="sourceLineNo">171</span>      throw new ParseException(value + " is not a valid date", 0);<a name="line.171"></a>
+<span class="sourceLineNo">172</span>    }<a name="line.172"></a>
+<span class="sourceLineNo">173</span>  }<a name="line.173"></a>
+<span class="sourceLineNo">174</span><a name="line.174"></a>
+<span class="sourceLineNo">175</span>  /**<a name="line.175"></a>
+<span class="sourceLineNo">176</span>   * Default private constructor.<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   */<a name="line.177"></a>
+<span class="sourceLineNo">178</span>  private IsoDateParsingUtils() {<a name="line.178"></a>
+<span class="sourceLineNo">179</span>    // empty block<a name="line.179"></a>
+<span class="sourceLineNo">180</span>  }<a name="line.180"></a>
+<span class="sourceLineNo">181</span><a name="line.181"></a>
+<span class="sourceLineNo">182</span>  /**<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   * Iterates over all the OccurrenceDateFormat's and returns the first one that parses successfully the value.<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   * @throws IllegalArgumentException in case of unparsable dates<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   */<a name="line.185"></a>
+<span class="sourceLineNo">186</span>  public static IsoDateFormat getFirstDateFormatMatch(String value) throws IllegalArgumentException {<a name="line.186"></a>
+<span class="sourceLineNo">187</span>    // 4 digits for a year must exist<a name="line.187"></a>
+<span class="sourceLineNo">188</span>    if (SIMPLE_ISO_PATTERN.matcher(value).find()) {<a name="line.188"></a>
+<span class="sourceLineNo">189</span>      for (IsoDateFormat dateFormat : IsoDateFormat.values()) {<a name="line.189"></a>
+<span class="sourceLineNo">190</span>        if (dateFormat.isValidDate(value)) {<a name="line.190"></a>
+<span class="sourceLineNo">191</span>          return dateFormat;<a name="line.191"></a>
+<span class="sourceLineNo">192</span>        }<a name="line.192"></a>
+<span class="sourceLineNo">193</span>      }<a name="line.193"></a>
+<span class="sourceLineNo">194</span>    }<a name="line.194"></a>
+<span class="sourceLineNo">195</span>    throw new IllegalArgumentException(value + " is not a valid date");<a name="line.195"></a>
+<span class="sourceLineNo">196</span>  }<a name="line.196"></a>
+<span class="sourceLineNo">197</span><a name="line.197"></a>
+<span class="sourceLineNo">198</span>  /**<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   * Parses a single date value. The date is interpreted using the first available date format that successfully parses<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   * the value.<a name="line.200"></a>
+<span class="sourceLineNo">201</span>   * @return the lowest possible date according to the precision given or null in case of *<a name="line.201"></a>
+<span class="sourceLineNo">202</span>   * @throws IllegalArgumentException in case of unparsable dates<a name="line.202"></a>
+<span class="sourceLineNo">203</span>   */<a name="line.203"></a>
+<span class="sourceLineNo">204</span>  public static LocalDate parseDate(String value) {<a name="line.204"></a>
+<span class="sourceLineNo">205</span>    if (StringUtils.isEmpty(value)) {<a name="line.205"></a>
+<span class="sourceLineNo">206</span>      throw new IllegalArgumentException("Date parameter can't be null or empty");<a name="line.206"></a>
+<span class="sourceLineNo">207</span>    }<a name="line.207"></a>
+<span class="sourceLineNo">208</span><a name="line.208"></a>
+<span class="sourceLineNo">209</span>    // could be a wildcard<a name="line.209"></a>
+<span class="sourceLineNo">210</span>    if (QUERY_WILDCARD.equals(value)) {<a name="line.210"></a>
+<span class="sourceLineNo">211</span>      return null;<a name="line.211"></a>
+<span class="sourceLineNo">212</span>    }<a name="line.212"></a>
+<span class="sourceLineNo">213</span><a name="line.213"></a>
+<span class="sourceLineNo">214</span>    try {<a name="line.214"></a>
+<span class="sourceLineNo">215</span>      return getFirstDateFormatMatch(value).earliestDate(value);<a name="line.215"></a>
+<span class="sourceLineNo">216</span>    } catch (DateTimeParseException | ParseException e) {<a name="line.216"></a>
+<span class="sourceLineNo">217</span>      throw new IllegalArgumentException(String.format("%s is not a valid date parameter", value));<a name="line.217"></a>
+<span class="sourceLineNo">218</span>    }<a name="line.218"></a>
+<span class="sourceLineNo">219</span>  }<a name="line.219"></a>
+<span class="sourceLineNo">220</span><a name="line.220"></a>
+<span class="sourceLineNo">221</span>  /**<a name="line.221"></a>
+<span class="sourceLineNo">222</span>   * Parses a closed-open range of dates, using the most specific format for each side of the range.<a name="line.222"></a>
+<span class="sourceLineNo">223</span>   * Returns null for an unbounded side of the range (*).<a name="line.223"></a>
+<span class="sourceLineNo">224</span>   */<a name="line.224"></a>
+<span class="sourceLineNo">225</span>  public static Range&lt;LocalDate&gt; parseDateRange(String value) {<a name="line.225"></a>
+<span class="sourceLineNo">226</span>    if (StringUtils.isEmpty(value)) {<a name="line.226"></a>
+<span class="sourceLineNo">227</span>      throw new IllegalArgumentException("Date parameter can't be null or empty");<a name="line.227"></a>
+<span class="sourceLineNo">228</span>    }<a name="line.228"></a>
+<span class="sourceLineNo">229</span>    final String[] dateValues = value.split(",");<a name="line.229"></a>
+<span class="sourceLineNo">230</span><a name="line.230"></a>
+<span class="sourceLineNo">231</span>    if (dateValues.length == 1) {<a name="line.231"></a>
+<span class="sourceLineNo">232</span>      try {<a name="line.232"></a>
+<span class="sourceLineNo">233</span>        final LocalDate lowerDate = parseDate(dateValues[0]);<a name="line.233"></a>
+<span class="sourceLineNo">234</span>        final LocalDate upperDate = getFirstDateFormatMatch(dateValues[0]).latestDate(dateValues[0]);<a name="line.234"></a>
+<span class="sourceLineNo">235</span><a name="line.235"></a>
+<span class="sourceLineNo">236</span>        return Range.closed(lowerDate, upperDate);<a name="line.236"></a>
+<span class="sourceLineNo">237</span>      } catch (ParseException e) {<a name="line.237"></a>
+<span class="sourceLineNo">238</span>        throw new IllegalArgumentException(String.format("%s is not a valid date parameter", value));<a name="line.238"></a>
+<span class="sourceLineNo">239</span>      }<a name="line.239"></a>
+<span class="sourceLineNo">240</span>    }<a name="line.240"></a>
+<span class="sourceLineNo">241</span><a name="line.241"></a>
+<span class="sourceLineNo">242</span>    if (dateValues.length == 2) {<a name="line.242"></a>
+<span class="sourceLineNo">243</span>      try {<a name="line.243"></a>
+<span class="sourceLineNo">244</span>        final LocalDate lowerDate = parseDate(dateValues[0]);<a name="line.244"></a>
+<span class="sourceLineNo">245</span>        LocalDate upperDate = parseDate(dateValues[1]);<a name="line.245"></a>
+<span class="sourceLineNo">246</span><a name="line.246"></a>
+<span class="sourceLineNo">247</span>        if (upperDate != null) {<a name="line.247"></a>
+<span class="sourceLineNo">248</span>          upperDate = getFirstDateFormatMatch(dateValues[1]).latestDate(dateValues[1]);<a name="line.248"></a>
+<span class="sourceLineNo">249</span>        }<a name="line.249"></a>
+<span class="sourceLineNo">250</span><a name="line.250"></a>
+<span class="sourceLineNo">251</span>        return Range.closed(lowerDate, upperDate);<a name="line.251"></a>
+<span class="sourceLineNo">252</span>      } catch (ParseException e) {<a name="line.252"></a>
+<span class="sourceLineNo">253</span>        throw new IllegalArgumentException(String.format("%s is not a valid date parameter", value));<a name="line.253"></a>
+<span class="sourceLineNo">254</span>      }<a name="line.254"></a>
+<span class="sourceLineNo">255</span>    }<a name="line.255"></a>
+<span class="sourceLineNo">256</span><a name="line.256"></a>
+<span class="sourceLineNo">257</span>    throw new IllegalArgumentException("Date value must be a single value or a range");<a name="line.257"></a>
+<span class="sourceLineNo">258</span>  }<a name="line.258"></a>
+<span class="sourceLineNo">259</span>}<a name="line.259"></a>
 
 
 
