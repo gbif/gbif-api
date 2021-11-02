@@ -15,7 +15,10 @@
  */
 package org.gbif.api.service.occurrence;
 
+import org.gbif.api.model.common.search.FacetedSearchRequest;
+import org.gbif.api.model.common.search.SearchResponse;
 import org.gbif.api.model.occurrence.Occurrence;
+import org.gbif.api.model.occurrence.search.OccurrencePredicateSearchRequest;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchRequest;
 import org.gbif.api.service.common.SearchService;
@@ -32,6 +35,9 @@ import javax.validation.constraints.Min;
  */
 public interface OccurrenceSearchService
   extends SearchService<Occurrence, OccurrenceSearchParameter, OccurrenceSearchRequest> {
+
+  /** Occurrence search implementation that uses a predicate instead of request parameters.*/
+  SearchResponse<Occurrence, OccurrenceSearchParameter> search(OccurrencePredicateSearchRequest request);
 
   /**
    * Searches catalog numbers which start with the input prefix.
