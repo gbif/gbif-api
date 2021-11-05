@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,6 +16,9 @@ package org.gbif.api.ws.mixin;
 import org.gbif.api.model.occurrence.Download;
 import org.gbif.api.model.occurrence.Occurrence;
 import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.Network;
+import org.gbif.api.model.registry.Node;
+import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.search.DatasetSearchResult;
 
 import java.util.HashMap;
@@ -46,6 +47,9 @@ public class Mixins {
     PREDEFINED_MIXINS.put(DatasetSearchResult.class, DatasetMixin.class);
     PREDEFINED_MIXINS.put(Download.class, LicenseMixin.class);
     PREDEFINED_MIXINS.put(Occurrence.class, OccurrenceMixin.class);
+    PREDEFINED_MIXINS.put(Node.class, NodeMixin.class);
+    PREDEFINED_MIXINS.put(Network.class, NetworkMixin.class);
+    PREDEFINED_MIXINS.put(Organization.class, OrganizationMixin.class);
   }
 
   /**

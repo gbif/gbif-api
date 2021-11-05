@@ -13,14 +13,5 @@
  */
 package org.gbif.api.ws.mixin;
 
-import org.gbif.api.jackson.EmptyToNullUriDeserializer;
-
-import java.net.URI;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-public interface DatasetMixin extends LicenseMixin, EntityWithLogoMixin {
-
-  @JsonDeserialize(using = EmptyToNullUriDeserializer.class)
-  URI getHomepage();
+public interface NodeMixin extends EntityWithLogoMixin {
 }
