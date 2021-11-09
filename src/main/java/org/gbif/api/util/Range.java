@@ -21,7 +21,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Simplified version of guava's {@code Range}.
  */
-public class Range<T extends Comparable<T>> {
+public class Range<T extends Comparable<? super T>> {
 
   /**
    * Lower bound.
@@ -52,7 +52,7 @@ public class Range<T extends Comparable<T>> {
   /**
    * Factory method.
    */
-  public static <T extends Comparable<T>> Range<T> closed(T from, T to) {
+  public static <T extends Comparable<? super T>> Range<T> closed(T from, T to) {
     return new Range<>(from, to);
   }
 

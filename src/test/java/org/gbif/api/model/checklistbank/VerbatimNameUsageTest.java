@@ -257,8 +257,7 @@ public class VerbatimNameUsageTest {
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
     Map<Term, String> verbatimRecord = new HashMap<>();
-    Date today = new Date();
-    verbatimRecord.put(DcTerm.created, IsoDateParsingUtils.IsoDateFormat.FULL.getDateFormat().format(today));
+    verbatimRecord.put(DcTerm.created, "2021-10-25");
     verbatimRecord.put(DcTerm.creator, "fede");
     verbatimRecord.put(DcTerm.description, "testDescription");
     verbatimRecord.put(DcTerm.format, "jpg");

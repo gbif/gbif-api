@@ -19,8 +19,8 @@ import java.net.URI;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-public interface DatasetMixin extends LicenseMixin, EntityWithLogoMixin {
+public interface EntityWithLogoMixin {
 
   @JsonDeserialize(using = EmptyToNullUriDeserializer.class)
-  URI getHomepage();
+  URI getLogoUrl();
 }

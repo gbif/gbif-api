@@ -20,6 +20,7 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Language;
 
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -121,7 +122,7 @@ public class SearchTypeValidator {
    * @return the parsed range with wildcards represented as null values
    * @throws IllegalArgumentException if value is invalid or null
    */
-  public static Range<Date> parseDateRange(String value) {
+  public static Range<LocalDate> parseDateRange(String value) {
     return IsoDateParsingUtils.parseDateRange(value);
   }
 

@@ -74,6 +74,9 @@ public class SimplePredicateTest {
   public void testGoodDoubleValue() {
     new EqualsPredicate(OccurrenceSearchParameter.DECIMAL_LATITUDE, "32", false);
     new EqualsPredicate(OccurrenceSearchParameter.DECIMAL_LATITUDE, "32.032", false);
+    new EqualsPredicate(OccurrenceSearchParameter.ELEVATION, "-10,5.5", false);
+    new EqualsPredicate(OccurrenceSearchParameter.ELEVATION, "*,200", false);
+    new EqualsPredicate(OccurrenceSearchParameter.ELEVATION, "100,*", false);
   }
 
   @Test

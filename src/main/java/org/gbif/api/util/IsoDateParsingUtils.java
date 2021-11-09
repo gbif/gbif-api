@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
+ * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,20 @@
  */
 package org.gbif.api.util;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.time.chrono.IsoChronology;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
+import java.time.format.SignStyle;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalAccessor;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -29,39 +37,52 @@ import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
 
 /**
  * Utility class that parses date values, the allowed date formats are: "yyyy-MM-dd", "yyyy-MM" or "yyyy".
+ *
+ * Note: Does not handle times or time zones.  This is used for search queries/predicates with date ranges.
+ * Date ranges are closed at the lower bound, and open at the upper bound, to allow less-than predicates
+ * to match times on the upper bound date (i.e. after midnight).
  */
 public class IsoDateParsingUtils {
 
-  public static final String SIMPLE_ISO_DATE_STR_PATTERN = "\\d{4}(?:-\\d{2}(?:-\\d{2})?)?";
+  public static final String SIMPLE_ISO_DATE_STR_PATTERN = "\\d{4}(?:-\\d{1,2}(?:-\\d{1,2})?)?";
 
-  // match formats 'yyyy', 'yyyy-MM' and 'yyyy-MM-dd'
+  // match formats 'yyyy', 'yyyy-MM', 'yyyy-M', 'yyyy-MM-dd', 'yyyy-MM-d' and 'yyyy-M-d'.
   public static final Pattern SIMPLE_ISO_PATTERN = Pattern.compile(SIMPLE_ISO_DATE_STR_PATTERN);
+
+  // Format as yyyy-MM-dd.
+  public static final DateTimeFormatter ISO_DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneOffset.UTC);
 
   /**
    * Enumerations with the allowed date formats by the occurrence search service.
    */
   public enum IsoDateFormat {
-    FULL("yyyy-MM-dd"),
-    YEAR_MONTH("yyyy-MM"),
-    YEAR("yyyy");
+    FULL(new DateTimeFormatterBuilder()
+      .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
+      .appendLiteral('-')
+      .appendValue(ChronoField.MONTH_OF_YEAR, 1, 2, SignStyle.NEVER)
+      .appendLiteral('-')
+      .appendValue(ChronoField.DAY_OF_MONTH, 1, 2, SignStyle.NEVER)
+      .toFormatter()),
+    YEAR_MONTH(new DateTimeFormatterBuilder()
+      .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
+      .appendLiteral('-')
+      .appendValue(ChronoField.MONTH_OF_YEAR, 1, 2, SignStyle.NEVER)
+      .toFormatter()),
+    YEAR(new DateTimeFormatterBuilder()
+      .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
+      .toFormatter());
 
-    private final String datePattern;
+    private final DateTimeFormatter dateFormatter;
 
     /**
      * Private constructors.
-     * Receives a pattern and creates DateFormat instance with the pattern parameter.
+     * Receives a pattern and creates a strict DateTimeFormatter.
      */
-    IsoDateFormat(String datePattern) {
-      this.datePattern = datePattern;
-    }
-
-    /**
-     * @return the dateFormat that parses and formats date values.
-     */
-    public DateFormat getDateFormat() {
-      DateFormat dateFormat = new SimpleDateFormat(datePattern);
-      dateFormat.setLenient(false);
-      return dateFormat;
+    IsoDateFormat(DateTimeFormatter dateFormatter) {
+      this.dateFormatter = dateFormatter
+        .withZone(ZoneOffset.UTC)
+        .withResolverStyle(ResolverStyle.STRICT)
+        .withChronology(IsoChronology.INSTANCE);
     }
 
     /**
@@ -78,13 +99,76 @@ public class IsoDateParsingUtils {
     /**
      * Try to parse a string with the current date format.
      */
-    public Date parseDate(String value) throws ParseException {
-      ParsePosition position = new ParsePosition(0);
-      Date date = getDateFormat().parse(value, position);
-      if (position.getIndex() != value.length()) {
-        throw new ParseException(value + " is not a valid date", position.getIndex());
+    public TemporalAccessor parseDate(String value) throws ParseException {
+      if (QUERY_WILDCARD.equals(value)) {
+        return null;
       }
-      return date;
+
+      try {
+        switch (this) {
+          case FULL:
+            return dateFormatter.parse(value, LocalDate::from);
+
+          case YEAR_MONTH:
+            return dateFormatter.parse(value, YearMonth::from);
+
+          case YEAR:
+            return dateFormatter.parse(value, Year::from);
+        }
+      } catch (DateTimeException e) {
+        throw new ParseException(value + " is not a valid date", 0);
+      }
+      throw new ParseException(value + " is not a valid date", 0);
+    }
+
+    /**
+     * Returns the earliest date of a possible closed range, e.g. 2000-01-01 for 2000.
+     */
+    public LocalDate earliestDate(String value) throws ParseException {
+      if (QUERY_WILDCARD.equals(value)) {
+        return null;
+      }
+
+      TemporalAccessor ta = parseDate(value);
+      switch (this) {
+        case FULL:
+          return LocalDate.from(ta);
+
+        case YEAR_MONTH:
+          YearMonth yearMonth = YearMonth.from(parseDate(value));
+          return yearMonth.atDay(1);
+
+        case YEAR:
+          Year year = Year.from(parseDate(value));
+          return year.atDay(1);
+      }
+
+      throw new ParseException(value + " is not a valid date", 0);
+    }
+
+    /**
+     * Returns the latest date of a possible open range, e.g. 2001-01-01 for 2000.
+     */
+    public LocalDate latestDate(String value) throws ParseException {
+      if (QUERY_WILDCARD.equals(value)) {
+        return null;
+      }
+
+      TemporalAccessor ta = parseDate(value);
+      switch (this) {
+        case FULL:
+          return LocalDate.from(ta).plusDays(1);
+
+        case YEAR_MONTH:
+          YearMonth yearMonth = YearMonth.from(parseDate(value));
+          return yearMonth.atEndOfMonth().plusDays(1);
+
+        case YEAR:
+          Year year = Year.from(parseDate(value));
+          return year.atDay(year.isLeap() ? 366 : 365).plusDays(1);
+      }
+
+      throw new ParseException(value + " is not a valid date", 0);
     }
   }
 
@@ -100,7 +184,7 @@ public class IsoDateParsingUtils {
    * @throws IllegalArgumentException in case of unparsable dates
    */
   public static IsoDateFormat getFirstDateFormatMatch(String value) throws IllegalArgumentException {
-    // at least 4 digits for a year must exist
+    // 4 digits for a year must exist
     if (SIMPLE_ISO_PATTERN.matcher(value).find()) {
       for (IsoDateFormat dateFormat : IsoDateFormat.values()) {
         if (dateFormat.isValidDate(value)) {
@@ -117,7 +201,7 @@ public class IsoDateParsingUtils {
    * @return the lowest possible date according to the precision given or null in case of *
    * @throws IllegalArgumentException in case of unparsable dates
    */
-  public static Date parseDate(String value) {
+  public static LocalDate parseDate(String value) {
     if (StringUtils.isEmpty(value)) {
       throw new IllegalArgumentException("Date parameter can't be null or empty");
     }
@@ -128,75 +212,48 @@ public class IsoDateParsingUtils {
     }
 
     try {
-      return getFirstDateFormatMatch(value).parseDate(value);
-    } catch (ParseException e) {
+      return getFirstDateFormatMatch(value).earliestDate(value);
+    } catch (DateTimeParseException | ParseException e) {
       throw new IllegalArgumentException(String.format("%s is not a valid date parameter", value));
     }
   }
 
   /**
-   * Parses a range of dates. The date format used is the first date format that successfully parses the lower range
-   * limit.
+   * Parses a closed-open range of dates, using the most specific format for each side of the range.
+   * Returns null for an unbounded side of the range (*).
    */
-  public static Range<Date> parseDateRange(String value) {
+  public static Range<LocalDate> parseDateRange(String value) {
     if (StringUtils.isEmpty(value)) {
       throw new IllegalArgumentException("Date parameter can't be null or empty");
     }
     final String[] dateValues = value.split(",");
-    if (dateValues.length != 2) {
-      throw new IllegalArgumentException("Date value must be a single value or a range");
-    }
 
-    final Date lowerDate = parseDate(dateValues[0]);
+    if (dateValues.length == 1) {
+      try {
+        final LocalDate lowerDate = parseDate(dateValues[0]);
+        final LocalDate upperDate = getFirstDateFormatMatch(dateValues[0]).latestDate(dateValues[0]);
 
-    Date upperDate = parseDate(dateValues[1]);
-    // in case we have a real upper date check its precision and use the highest possible date, not lowest
-    if (upperDate != null) {
-      final IsoDateFormat upperDateFormat = getFirstDateFormatMatch(dateValues[1]);
-      if (upperDateFormat == IsoDateFormat.YEAR_MONTH) {
-        upperDate = toLastDayOfMonth(upperDate);
-
-      } else if (upperDateFormat == IsoDateFormat.YEAR) {
-        upperDate = toLastDayOfYear(upperDate);
+        return Range.closed(lowerDate, upperDate);
+      } catch (ParseException e) {
+        throw new IllegalArgumentException(String.format("%s is not a valid date parameter", value));
       }
     }
 
-    return Range.closed(lowerDate, upperDate);
-  }
+    if (dateValues.length == 2) {
+      try {
+        final LocalDate lowerDate = parseDate(dateValues[0]);
+        LocalDate upperDate = parseDate(dateValues[1]);
 
-  /**
-   * Calculates the last day of the month for the date parameter and return it a new date instance.
-   */
-  public static Date toLastDayOfMonth(Date value) {
-    return toLastDayOf(value, Calendar.DAY_OF_MONTH);
-  }
+        if (upperDate != null) {
+          upperDate = getFirstDateFormatMatch(dateValues[1]).latestDate(dateValues[1]);
+        }
 
-  /**
-   * Calculates the last day of the year for the date parameter and return it a new date instance.
-   */
-  public static Date toLastDayOfYear(Date value) {
-    return toLastDayOf(value, Calendar.DAY_OF_YEAR);
-  }
-
-  /**
-   * Calculates the last day of a year or month for the date parameter and return it a new date instance.
-   */
-  public static Date toLastDayOf(Date value, IsoDateFormat isoDateFormat) {
-    if (IsoDateFormat.YEAR_MONTH == isoDateFormat) {
-      return toLastDayOf(value, Calendar.DAY_OF_MONTH);
-    } else if(IsoDateFormat.YEAR == isoDateFormat){
-      return toLastDayOf(value, Calendar.DAY_OF_YEAR);
+        return Range.closed(lowerDate, upperDate);
+      } catch (ParseException e) {
+        throw new IllegalArgumentException(String.format("%s is not a valid date parameter", value));
+      }
     }
-    return value;
-  }
 
-  /**
-   * Gets the actual maximum value for a field of a date value.
-   */
-  private static Date toLastDayOf(Date value, int field) {
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(value);
-    calendar.set(field, calendar.getActualMaximum(field));
-    return calendar.getTime();
+    throw new IllegalArgumentException("Date value must be a single value or a range");
   }
 }
