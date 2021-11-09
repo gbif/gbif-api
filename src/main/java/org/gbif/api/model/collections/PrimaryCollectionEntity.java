@@ -15,9 +15,9 @@
  */
 package org.gbif.api.model.collections;
 
-import org.gbif.api.model.registry.PrePersist;
-
 import java.util.UUID;
+
+import org.gbif.api.model.registry.PrePersist;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -52,4 +52,9 @@ public interface PrimaryCollectionEntity extends CollectionEntity {
   UUID getReplacedBy();
 
   void setReplacedBy(UUID replacedBy);
+
+  /** Master source of the entity. */
+  MasterSourceType getMasterSource();
+
+  void setMasterSource(MasterSourceType masterSource);
 }

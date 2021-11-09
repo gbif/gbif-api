@@ -103,6 +103,7 @@ public class Collection
   private List<Comment> comments = new ArrayList<>();
   private List<OccurrenceMapping> occurrenceMappings = new ArrayList<>();
   private UUID replacedBy;
+  private MasterSourceType masterSource;
 
   /** List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc.. */
   @Valid
@@ -506,6 +507,16 @@ public class Collection
   }
 
   @Override
+  public MasterSourceType getMasterSource() {
+    return masterSource;
+  }
+
+  @Override
+  public void setMasterSource(MasterSourceType masterSource) {
+    this.masterSource = masterSource;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
@@ -549,7 +560,8 @@ public class Collection
         && Objects.equals(alternativeCodes, that.alternativeCodes)
         && Objects.equals(comments, that.comments)
         && Objects.equals(occurrenceMappings, that.occurrenceMappings)
-        && Objects.equals(replacedBy, that.replacedBy);
+        && Objects.equals(replacedBy, that.replacedBy)
+        && Objects.equals(masterSource, that.masterSource);
   }
 
   @Override
@@ -594,7 +606,8 @@ public class Collection
         alternativeCodes,
         comments,
         occurrenceMappings,
-        replacedBy);
+        replacedBy,
+        masterSource);
   }
 
   @Override
@@ -640,6 +653,7 @@ public class Collection
         .add("comments=" + comments)
         .add("occurrenceMappings=" + occurrenceMappings)
         .add("replacedBy=" + replacedBy)
+        .add("masterSource=" + masterSource)
         .toString();
   }
 
@@ -678,6 +692,7 @@ public class Collection
         && Objects.equals(alternativeCodes, other.alternativeCodes)
         && Objects.equals(comments, other.comments)
         && Objects.equals(occurrenceMappings, other.occurrenceMappings)
-        && Objects.equals(replacedBy, other.replacedBy);
+        && Objects.equals(replacedBy, other.replacedBy)
+        && Objects.equals(masterSource, other.masterSource);
   }
 }

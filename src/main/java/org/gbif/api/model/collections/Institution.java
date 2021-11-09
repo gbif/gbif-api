@@ -100,6 +100,7 @@ public class Institution
   private List<OccurrenceMapping> occurrenceMappings = new ArrayList<>();
   private UUID replacedBy;
   private UUID convertedToCollection;
+  private MasterSourceType masterSource;
 
   /** GBIF unique identifier. */
   @Override
@@ -508,6 +509,16 @@ public class Institution
   }
 
   @Override
+  public MasterSourceType getMasterSource() {
+    return masterSource;
+  }
+
+  @Override
+  public void setMasterSource(MasterSourceType masterSource) {
+    this.masterSource = masterSource;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
@@ -551,7 +562,8 @@ public class Institution
         && Objects.equals(comments, that.comments)
         && Objects.equals(occurrenceMappings, that.occurrenceMappings)
         && Objects.equals(replacedBy, that.replacedBy)
-        && Objects.equals(convertedToCollection, that.convertedToCollection);
+        && Objects.equals(convertedToCollection, that.convertedToCollection)
+        && Objects.equals(masterSource, that.masterSource);
   }
 
   @Override
@@ -596,7 +608,8 @@ public class Institution
         comments,
         occurrenceMappings,
         replacedBy,
-        convertedToCollection);
+        convertedToCollection,
+        masterSource);
   }
 
   @Override
@@ -642,6 +655,7 @@ public class Institution
         .add("occurrenceMappings=" + occurrenceMappings)
         .add("replacedBy=" + replacedBy)
         .add("convertedToCollection=" + convertedToCollection)
+        .add("masterSource=" + masterSource)
         .toString();
   }
 
@@ -680,6 +694,7 @@ public class Institution
         && Objects.equals(comments, other.comments)
         && Objects.equals(occurrenceMappings, other.occurrenceMappings)
         && Objects.equals(replacedBy, other.replacedBy)
-        && Objects.equals(convertedToCollection, other.convertedToCollection);
+        && Objects.equals(convertedToCollection, other.convertedToCollection)
+        && Objects.equals(masterSource, other.masterSource);
   }
 }
