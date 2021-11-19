@@ -61,29 +61,62 @@ public class Institution
         LenientEquals<Institution> {
 
   private UUID key;
+
+  @Sourceable(masterSources = MasterSourceType.IH)
   private String code;
+
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private String name;
+
+  @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private String description;
+
   private InstitutionType type;
+
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private boolean active;
+
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<@Pattern(regexp = EMAIL_PATTERN) String> email = new ArrayList<>();
+
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<String> phone = new ArrayList<>();
+
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private URI homepage;
+
   private URI catalogUrl;
   private URI apiUrl;
   private InstitutionGovernance institutionalGovernance;
   private List<Discipline> disciplines = new ArrayList<>();
+
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private BigDecimal latitude;
+
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private BigDecimal longitude;
+
+  @Sourceable(masterSources = MasterSourceType.IH)
   private Address mailingAddress;
+
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private Address address;
+
   private List<String> additionalNames = new ArrayList<>();
+
+  @Sourceable(masterSources = MasterSourceType.IH)
   private Date foundingDate;
+
   private String geographicDescription;
   private String taxonomicDescription;
   private Integer numberSpecimens;
+
+  @Sourceable(masterSources = MasterSourceType.IH)
   private boolean indexHerbariorumRecord;
+
+  @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private URI logoUrl;
+
   private String citesPermitNumber;
   private String createdBy;
   private String modifiedBy;
@@ -91,9 +124,15 @@ public class Institution
   private Date modified;
   private Date deleted;
   private List<Tag> tags = new ArrayList<>();
+
+  @Sourceable(masterSources = MasterSourceType.IH, sourceableParts = "IH_IRN")
   private List<Identifier> identifiers = new ArrayList<>();
+
   private List<Person> contacts = new ArrayList<>();
+
+  @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private List<Contact> contactPersons = new ArrayList<>();
+
   private List<MachineTag> machineTags = new ArrayList<>();
   private List<AlternativeCode> alternativeCodes = new ArrayList<>();
   private List<Comment> comments = new ArrayList<>();

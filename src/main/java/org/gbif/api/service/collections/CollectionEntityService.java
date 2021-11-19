@@ -16,10 +16,25 @@
 package org.gbif.api.service.collections;
 
 import org.gbif.api.model.collections.CollectionEntity;
+import org.gbif.api.model.common.paging.Pageable;
+import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.service.registry.CommentService;
 import org.gbif.api.service.registry.IdentifierService;
 import org.gbif.api.service.registry.MachineTagService;
 import org.gbif.api.service.registry.TagService;
 
+import javax.annotation.Nullable;
+
 public interface CollectionEntityService<T extends CollectionEntity>
-    extends CrudService<T>, IdentifierService, TagService, MachineTagService, CommentService {}
+    extends CrudService<T>, IdentifierService, TagService, MachineTagService, CommentService {
+
+  /**
+   * Lists the entities having a machine tag in the provided namespace, with the provided name and
+   * value.
+   *
+   * @return a pageable response of collection entities, with accurate counts for the machine tag
+   *     provided
+   */
+  PagingResponse<T> listByMachineTag(
+      String namespace, @Nullable String name, @Nullable String value, @Nullable Pageable page);
+}

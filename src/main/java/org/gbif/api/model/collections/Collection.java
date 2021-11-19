@@ -64,41 +64,91 @@ public class Collection
         LenientEquals<Collection> {
 
   private UUID key;
+
+  @Sourceable(masterSources = MasterSourceType.IH)
   private String code;
+
+  @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
+  @Sourceable(masterSources = MasterSourceType.IH, overridable = true)
   private String name;
+
+  @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private String description;
+
   private List<CollectionContentType> contentTypes = new ArrayList<>();
+
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private boolean active;
+
   private boolean personalCollection;
   private DOI doi;
+
+  @Sourceable(masterSources = MasterSourceType.IH)
   private List<@Pattern(regexp = EMAIL_PATTERN) String> email = new ArrayList<>();
+
+  @Sourceable(masterSources = MasterSourceType.IH)
   private List<String> phone = new ArrayList<>();
+
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private URI homepage;
+
   private URI catalogUrl;
   private URI apiUrl;
+
+  @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private List<PreservationType> preservationTypes = new ArrayList<>();
+
   private AccessionStatus accessionStatus;
   private UUID institutionKey;
+
+  @Sourceable(masterSources = MasterSourceType.IH)
   private Address mailingAddress;
+
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private Address address;
+
   private String createdBy;
   private String modifiedBy;
   private Date created;
   private Date modified;
   private Date deleted;
   private List<Tag> tags = new ArrayList<>();
+
+  @Sourceable(masterSources = MasterSourceType.IH, sourceableParts = "IH_IRN")
+  @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY, sourceableParts = "DOI")
   private List<Identifier> identifiers = new ArrayList<>();
+
   private List<Person> contacts = new ArrayList<>();
+
+  @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private List<Contact> contactPersons = new ArrayList<>();
+
+  @Sourceable(masterSources = MasterSourceType.IH)
   private boolean indexHerbariorumRecord;
+
+  @Sourceable(masterSources = MasterSourceType.IH)
   private Integer numberSpecimens;
+
   private List<MachineTag> machineTags = new ArrayList<>();
+
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private String taxonomicCoverage;
+
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private String geography;
+
+  @Sourceable(masterSources = MasterSourceType.IH)
   private String notes;
+
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<String> incorporatedCollections = new ArrayList<>();
+
+  @Sourceable(masterSources = MasterSourceType.IH)
   private List<String> importantCollectors = new ArrayList<>();
+
+  @Sourceable(masterSources = MasterSourceType.IH)
   private Map<String, Integer> collectionSummary = new HashMap<>();
+
   private List<AlternativeCode> alternativeCodes = new ArrayList<>();
   private List<Comment> comments = new ArrayList<>();
   private List<OccurrenceMapping> occurrenceMappings = new ArrayList<>();

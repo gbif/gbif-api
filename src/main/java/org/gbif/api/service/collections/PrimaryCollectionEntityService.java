@@ -15,6 +15,7 @@
  */
 package org.gbif.api.service.collections;
 
+import org.gbif.api.model.collections.MasterSourceType;
 import org.gbif.api.model.collections.PrimaryCollectionEntity;
 
 import java.util.UUID;
@@ -24,4 +25,11 @@ public interface PrimaryCollectionEntityService<T extends PrimaryCollectionEntit
 
   /** Replaces a entity with another. The entity replaced is also deleted. */
   void replace(UUID entityToReplaceKey, UUID replacementKey);
+
+  /**
+   * Updates the master source of an entity. It's done in a separate method to have control over
+   * these updates since they are required to be in sync with the creation or deletion of the
+   * corresponding machine tags.
+   */
+  void updateMasterSource(UUID entityKey, MasterSourceType masterSource);
 }
