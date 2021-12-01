@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,14 +13,14 @@
  */
 package org.gbif.api.service.collections;
 
-import java.util.List;
-import java.util.UUID;
-
 import org.gbif.api.model.collections.Institution;
 import org.gbif.api.model.collections.request.InstitutionSearchRequest;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;
+
+import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
