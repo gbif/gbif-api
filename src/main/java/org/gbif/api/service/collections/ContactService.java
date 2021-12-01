@@ -86,5 +86,11 @@ public interface ContactService {
    */
   void removeContactPerson(@NotNull UUID entityKey, @NotNull int contactKey);
 
-
+  /**
+   * Removes all the contacts from an entity.
+   *
+   * @param entityKey key of the entity where the contact will be removed from.
+   * @param newContactPersons contact persons that will replace the existing ones.
+   */
+  void replaceContactPersons(@NotNull UUID entityKey, List<Contact> newContactPersons);
 }

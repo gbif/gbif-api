@@ -120,7 +120,7 @@ public class Collection
 
   private List<Person> contacts = new ArrayList<>();
 
-  @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<Contact> contactPersons = new ArrayList<>();
 
   @Sourceable(masterSources = MasterSourceType.IH)
@@ -422,6 +422,7 @@ public class Collection
     return contacts;
   }
 
+  @Valid
   @Override
   public List<Contact> getContactPersons() {
     return contactPersons;

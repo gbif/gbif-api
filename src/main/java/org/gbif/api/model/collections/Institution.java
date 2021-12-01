@@ -130,7 +130,7 @@ public class Institution
 
   private List<Person> contacts = new ArrayList<>();
 
-  @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<Contact> contactPersons = new ArrayList<>();
 
   private List<MachineTag> machineTags = new ArrayList<>();
@@ -475,6 +475,7 @@ public class Institution
     this.contacts = contacts;
   }
 
+  @Valid
   @Override
   public List<Contact> getContactPersons() {
     return contactPersons;
