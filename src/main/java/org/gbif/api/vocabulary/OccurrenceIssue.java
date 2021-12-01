@@ -451,7 +451,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
       DwcTerm.genus,
       DwcTerm.scientificName,
       DwcTerm.scientificNameAuthorship,
-      GbifTerm.genericName,
+      DwcTerm.genericName,
       DwcTerm.specificEpithet,
       DwcTerm.infraspecificEpithet
     };
