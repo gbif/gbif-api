@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -19,9 +17,12 @@ package org.gbif.api.vocabulary;
  * Vocabulary for the establishment means of a species.
  * It is used mainly to characterize range distributions.
  *
+ * This enumeration is no longer used by the occurrence APIs, Checklistbank still relies on it.
+ *
  * @see org.gbif.api.model.checklistbank.Distribution
  * @see <a href="http://rs.gbif.org/vocabulary/gbif/establishment_means.xml">rs.gbif.org vocabulary</a>
  */
+@Deprecated
 public enum EstablishmentMeans {
 
   NATIVE,

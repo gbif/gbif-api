@@ -18,7 +18,6 @@ import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
-import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
@@ -393,7 +392,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * The process by which the biological individual(s) represented in the Occurrence became established at the location.
    */
-  ESTABLISHMENT_MEANS(EstablishmentMeans.class),
+  ESTABLISHMENT_MEANS(String.class),
 
   /**
    * Searches for records whose publishing country is different to the country where the record was recorded in.
