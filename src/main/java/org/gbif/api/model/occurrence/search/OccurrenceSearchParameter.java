@@ -395,6 +395,17 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   ESTABLISHMENT_MEANS(String.class),
 
   /**
+   * Provides the controlled vocabulary for information about degree to which an Organism survives, reproduces, and expands its range at the given place and time.
+   */
+  DEGREE_OF_ESTABLISHMENT(String.class),
+
+  /**
+   * Provides the controlled vocabulary for information about the process by which an Organism came to be in a given place at a given time.
+   * The pathway of an organism or organisms have been introduced to a given place and time.
+   */
+  PATHWAY(String.class),
+
+  /**
    * Searches for records whose publishing country is different to the country where the record was recorded in.
    */
   REPATRIATED(Boolean.class),
