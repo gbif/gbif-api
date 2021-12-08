@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,7 +22,6 @@ import org.gbif.api.util.ClassificationUtils;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
-import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.OccurrenceStatus;
@@ -86,7 +83,9 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private OccurrenceStatus occurrenceStatus;
   private Sex sex;
   private String lifeStage;
-  private EstablishmentMeans establishmentMeans;
+  private String establishmentMeans;
+  private String degreeOfEstablishment;
+  private String pathway;
   // taxonomy as nub keys -> LinneanClassificationKeys
   private Integer taxonKey;
   private Integer kingdomKey;
@@ -252,11 +251,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
-  public EstablishmentMeans getEstablishmentMeans() {
+  public String getEstablishmentMeans() {
     return establishmentMeans;
   }
 
-  public void setEstablishmentMeans(EstablishmentMeans establishmentMeans) {
+  public void setEstablishmentMeans(String establishmentMeans) {
     this.establishmentMeans = establishmentMeans;
   }
 
@@ -1089,6 +1088,33 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.isInCluster = isInCluster;
   }
 
+  public boolean isInCluster() {
+    return isInCluster;
+  }
+
+  public void setInCluster(boolean inCluster) {
+    isInCluster = inCluster;
+  }
+
+  @Nullable
+  public String getDegreeOfEstablishment() {
+    return degreeOfEstablishment;
+  }
+
+  public void setDegreeOfEstablishment(String degreeOfEstablishment) {
+    this.degreeOfEstablishment = degreeOfEstablishment;
+  }
+
+  @Nullable
+  public String getPathway() {
+    return pathway;
+  }
+
+  public void setPathway(String pathway) {
+    this.pathway = pathway;
+  }
+
+
   /**
    * Convenience method checking if any spatial validation rule has not passed.
    * Primarily used to indicate that the record should not be displayed on a map.
@@ -1118,8 +1144,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     return basisOfRecord == that.basisOfRecord &&
       Objects.equals(individualCount, that.individualCount) &&
       sex == that.sex &&
-      lifeStage == that.lifeStage &&
-      establishmentMeans == that.establishmentMeans &&
+      Objects.equals(lifeStage, that.lifeStage) &&
+      Objects.equals(establishmentMeans, that.establishmentMeans) &&
       Objects.equals(taxonKey, that.taxonKey) &&
       Objects.equals(kingdomKey, that.kingdomKey) &&
       Objects.equals(phylumKey, that.phylumKey) &&
@@ -1184,7 +1210,9 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       Objects.equals(gadm, that.gadm) &&
       Objects.equals(institutionKey, that.institutionKey) &&
       Objects.equals(collectionKey, that.collectionKey) &&
-      Objects.equals(isInCluster, that.isInCluster);
+      Objects.equals(isInCluster, that.isInCluster) &&
+      Objects.equals(pathway, that.pathway) &&
+      Objects.equals(degreeOfEstablishment, that.degreeOfEstablishment);
   }
 
   @Override
@@ -1200,7 +1228,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         month, day, eventDate, typeStatus, typifiedName, issues, modified, lastInterpreted,
         references, license, organismQuantity, organismQuantityType, sampleSizeUnit,
         sampleSizeValue, relativeOrganismQuantity, identifiers, media, facts, relations, recordedByIds,
-        identifiedByIds, occurrenceStatus, gadm, institutionKey, collectionKey, isInCluster);
+        identifiedByIds, occurrenceStatus, gadm, institutionKey, collectionKey, isInCluster,
+        pathway, degreeOfEstablishment);
   }
 
   @Override
@@ -1277,6 +1306,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("institutionKey=" + institutionKey)
       .add("collectionKey=" + collectionKey)
       .add("isInCluster=" + isInCluster)
+      .add("pathway=" + pathway)
+      .add("degreeOfEstablishment=" + degreeOfEstablishment)
       .toString();
   }
 
