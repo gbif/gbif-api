@@ -1,4 +1,4 @@
-package org.gbif.api.model.collections;
+package org.gbif.api.vocabulary.collections;
 
 public enum MasterSourceType {
   GRSCICOLL,

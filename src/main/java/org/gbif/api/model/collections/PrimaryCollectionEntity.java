@@ -18,6 +18,7 @@ package org.gbif.api.model.collections;
 import java.util.UUID;
 
 import org.gbif.api.model.registry.PrePersist;
+import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
