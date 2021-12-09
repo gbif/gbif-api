@@ -11,10 +11,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gbif.api.model.collections;
+package org.gbif.api.vocabulary.collections;
 
-public enum MasterSourceType {
-  GRSCICOLL,
-  GBIF_REGISTRY,
-  IH;
+/** ID type for user IDs in GRSciColl contacts. */
+public enum IdType {
+  ORCID,
+  WIKIDATA,
+  RESEARCHER_ID,
+  HUH,
+  ISNI,
+  VIAF,
+  IH_IRN,
+  OTHER;
 }

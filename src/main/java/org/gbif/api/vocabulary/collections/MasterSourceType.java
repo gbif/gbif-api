@@ -1,3 +1,4 @@
+package org.gbif.api.vocabulary.collections;
 /*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +14,8 @@
  */
 package org.gbif.api.model.collections;
 
-/** ID type for user IDs in GRSciColl contacts. */
-public enum IdType {
-  ORCID,
-  WIKIDATA,
-  RESEARCHER_ID,
-  HUH,
-  ISNI,
-  VIAF,
-  IH_IRN,
-  OTHER;
+public enum MasterSourceType {
+  GRSCICOLL,
+  GBIF_REGISTRY,
+  IH;
 }

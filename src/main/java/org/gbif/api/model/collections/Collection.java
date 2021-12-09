@@ -27,6 +27,7 @@ import org.gbif.api.model.registry.Taggable;
 import org.gbif.api.util.HttpURI;
 import org.gbif.api.vocabulary.collections.AccessionStatus;
 import org.gbif.api.vocabulary.collections.CollectionContentType;
+import org.gbif.api.vocabulary.collections.MasterSourceType;
 import org.gbif.api.vocabulary.collections.PreservationType;
 
 import java.net.URI;

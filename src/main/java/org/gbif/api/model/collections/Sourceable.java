@@ -20,6 +20,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.gbif.api.vocabulary.collections.MasterSourceType;
+
 /**
  * Annotation to indicate that a field can be populated from external sources.
  *

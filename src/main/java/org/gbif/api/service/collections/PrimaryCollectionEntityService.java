@@ -13,7 +13,7 @@
  */
 package org.gbif.api.service.collections;
 
-import org.gbif.api.model.collections.MasterSourceType;
+import org.gbif.api.vocabulary.collections.MasterSourceType;
 import org.gbif.api.model.collections.PrimaryCollectionEntity;
 
 import java.util.UUID;

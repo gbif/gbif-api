@@ -27,6 +27,7 @@ import org.gbif.api.util.HttpURI;
 import org.gbif.api.vocabulary.collections.Discipline;
 import org.gbif.api.vocabulary.collections.InstitutionGovernance;
 import org.gbif.api.vocabulary.collections.InstitutionType;
+import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 import java.math.BigDecimal;
 import java.net.URI;

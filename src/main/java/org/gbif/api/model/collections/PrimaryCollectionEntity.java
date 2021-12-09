@@ -14,6 +14,7 @@
 package org.gbif.api.model.collections;
 
 import org.gbif.api.model.registry.PrePersist;
+import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 import java.util.UUID;
 
