@@ -12,7 +12,6 @@ package org.gbif.api.vocabulary.collections;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gbif.api.model.collections;
 
 public enum MasterSourceType {
   GRSCICOLL,
