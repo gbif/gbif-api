@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
@@ -49,7 +50,7 @@ public class Contact implements LenientEquals<Contact>, Serializable {
   private boolean primary;
   private List<String> taxonomicExpertise = new ArrayList<>();
   private String notes;
-  private List<UserId> userIds = new ArrayList<>();
+  private List<@Valid UserId> userIds = new ArrayList<>();
   private String createdBy;
   private String modifiedBy;
   private Date created;
