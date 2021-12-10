@@ -19,6 +19,7 @@ import org.gbif.api.model.collections.Person;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /** API Service for the contacts in the collections service. */
@@ -68,7 +69,7 @@ public interface ContactService {
    * @param entityKey key of the entity where the contact will be added to.
    * @param contact key of the contact to add.
    */
-  int addContactPerson(@NotNull UUID entityKey, @NotNull Contact contact);
+  int addContactPerson(@NotNull UUID entityKey, @NotNull @Valid Contact contact);
 
   /**
    * Updates a {@link Contact} contact in an entity.
@@ -76,7 +77,7 @@ public interface ContactService {
    * @param entityKey key of the entity where the contact will be updated.
    * @param contact updated contact.
    */
-  void updateContactPerson(@NotNull UUID entityKey, @NotNull Contact contact);
+  void updateContactPerson(@NotNull UUID entityKey, @NotNull @Valid Contact contact);
 
   /**
    * Removes a {@link Contact} contact from an entity.
@@ -92,5 +93,5 @@ public interface ContactService {
    * @param entityKey key of the entity where the contact will be removed from.
    * @param newContactPersons contact persons that will replace the existing ones.
    */
-  void replaceContactPersons(@NotNull UUID entityKey, List<Contact> newContactPersons);
+  void replaceContactPersons(@NotNull UUID entityKey, List<@Valid Contact> newContactPersons);
 }
