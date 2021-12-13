@@ -61,6 +61,16 @@ public interface OccurrenceDownloadService {
     @Nullable Set<Download.Status> status);
 
   /**
+   * Retrieves a pageable result of the downloads created by a user in a given status.
+   *
+   * Internal use only; behaviour may change without notice.
+   */
+  PagingResponse<Download> listByEraseAfter(@Nullable Pageable page,
+                                            @Nullable String eraseAfter,
+                                            @Nullable Long size,
+                                            @Nullable String erasureNotification);
+
+  /**
    * Update an existing occurrence download.
    */
   void update(@NotNull @Valid Download download);
