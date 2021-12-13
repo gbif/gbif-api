@@ -44,7 +44,7 @@ public class Download implements Serializable {
    * - KILLED: the download was killed by the workflow engine
    * - FAILED: the download failed
    * - SUSPENDED: the download was paused and its execution will be resumed later
-   * - FILE_DELETED: the download was successful, but the download file has been deleted
+   * - FILE_ERASED: the download was successful, but the download file has been deleted
    */
   public enum Status {
     PREPARING,
@@ -80,6 +80,8 @@ public class Download implements Serializable {
   private Date modified;
 
   private Date eraseAfter;
+
+  private Date erasureNotification;
 
   private Status status;
 
@@ -133,6 +135,14 @@ public class Download implements Serializable {
   @Nullable
   public Date getEraseAfter() {
     return eraseAfter;
+  }
+
+  /**
+   * @return timestamp when a notification of an impending file erasure was sent
+   */
+  @Nullable
+  public Date getErasureNotification() {
+    return erasureNotification;
   }
 
   /**
@@ -223,6 +233,10 @@ public class Download implements Serializable {
     this.eraseAfter = eraseAfter;
   }
 
+  public void setErasureNotification(Date erasureNotification) {
+    this.erasureNotification = erasureNotification;
+  }
+
   public void setRequest(DownloadRequest request) {
     this.request = request;
   }
@@ -262,6 +276,7 @@ public class Download implements Serializable {
       Objects.equals(created, download.created) &&
       Objects.equals(modified, download.modified) &&
       Objects.equals(eraseAfter, download.eraseAfter) &&
+      Objects.equals(erasureNotification, download.erasureNotification) &&
       status == download.status &&
       Objects.equals(downloadLink, download.downloadLink);
   }
@@ -283,6 +298,7 @@ public class Download implements Serializable {
       .add("created=" + created)
       .add("modified=" + modified)
       .add("eraseAfter=" + eraseAfter)
+      .add("erasureNotification=" + erasureNotification)
       .add("status=" + status)
       .add("downloadLink='" + downloadLink + "'")
       .add("size=" + size)
