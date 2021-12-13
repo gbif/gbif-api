@@ -17,10 +17,10 @@ package org.gbif.api.vocabulary;
 
 /**
  * Vocabulary for the establishment means of a species.
- * It is used mainly to characterize range distributions.
  *
  * @see org.gbif.api.model.checklistbank.Distribution
  * @see <a href="http://rs.gbif.org/vocabulary/gbif/establishment_means.xml">rs.gbif.org vocabulary</a>
+ * @see <a href="https://dwc.tdwg.org/em/">Darwin Core vocabulary</a>
  */
 public enum EstablishmentMeans {
 
