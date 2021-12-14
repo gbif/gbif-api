@@ -66,6 +66,7 @@ public enum BasisOfRecord {
 
   /**
    * An occurrence record based on literature alone.
+   * @deprecated use BasisOfRecord.OCCURRENCE instead.
    */
   @Deprecated
   LITERATURE,
@@ -82,6 +83,7 @@ public enum BasisOfRecord {
 
   /**
    * Unknown basis for the record.
+   * @deprecated replaced by BasisOfRecord.OCCURRENCE.
    */
   @Deprecated
   UNKNOWN
