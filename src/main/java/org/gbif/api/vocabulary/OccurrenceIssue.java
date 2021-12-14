@@ -347,38 +347,38 @@ public enum OccurrenceIssue implements InterpretationRemark {
   /**
    * The given institution matches with more than 1 GRSciColl institution.
    */
-  AMBIGUOUS_INSTITUTION(WARNING, TermsGroup.INSTITUTION_TERMS),
+  AMBIGUOUS_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS),
 
   /**
    * The given collection matches with more than 1 GRSciColl collection.
    */
-  AMBIGUOUS_COLLECTION(WARNING, TermsGroup.COLLECTION_TERMS),
+  AMBIGUOUS_COLLECTION(INFO, TermsGroup.COLLECTION_TERMS),
 
   /**
    * The given institution couldn't be matched with any GRSciColl institution.
    */
-  INSTITUTION_MATCH_NONE(WARNING, TermsGroup.INSTITUTION_TERMS),
+  INSTITUTION_MATCH_NONE(INFO, TermsGroup.INSTITUTION_TERMS),
 
   /**
    * The given collection couldn't be matched with any GRSciColl collection.
    */
-  COLLECTION_MATCH_NONE(WARNING, TermsGroup.COLLECTION_TERMS),
+  COLLECTION_MATCH_NONE(INFO, TermsGroup.COLLECTION_TERMS),
 
   /**
    * The given institution was fuzzily matched to a GRSciColl institution. This can happen when
    * either the code or the ID don't match or when the institution name is used instead of the code.
    */
-  INSTITUTION_MATCH_FUZZY(WARNING, TermsGroup.INSTITUTION_TERMS),
+  INSTITUTION_MATCH_FUZZY(INFO, TermsGroup.INSTITUTION_TERMS),
 
   /**
    * The given collection was fuzzily matched to a GRSciColl collection. This can happen when either
    * the code or the ID don't match or when the collection name is used instead of the code.
    */
-  COLLECTION_MATCH_FUZZY(WARNING, TermsGroup.COLLECTION_TERMS),
+  COLLECTION_MATCH_FUZZY(INFO, TermsGroup.COLLECTION_TERMS),
 
   /** The collection matched doesn't belong to the institution matched. */
   INSTITUTION_COLLECTION_MISMATCH(
-      WARNING, ArrayUtils.addAll(TermsGroup.INSTITUTION_TERMS, TermsGroup.INSTITUTION_TERMS)),
+    INFO, ArrayUtils.addAll(TermsGroup.INSTITUTION_TERMS, TermsGroup.INSTITUTION_TERMS)),
 
   /**
    * The given owner institution is different than the given institution. Therefore we assume it
