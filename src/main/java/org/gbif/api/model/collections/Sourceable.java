@@ -13,14 +13,14 @@
  */
 package org.gbif.api.model.collections;
 
+import org.gbif.api.vocabulary.collections.MasterSourceType;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 /**
  * Annotation to indicate that a field can be populated from external sources.

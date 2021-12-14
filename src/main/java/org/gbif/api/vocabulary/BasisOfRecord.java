@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,12 +13,19 @@
  */
 package org.gbif.api.vocabulary;
 
+import org.gbif.api.jackson.BasisOfRecordSerde;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * A simple enumeration of all DarwinCore values of BasisOfRecord legal for occurrences.
  *
  * @see <a href="http://rs.tdwg.org/dwc/terms/type-vocabulary/index.htm">Darwin Core Type Vocabulary</a>
  * @see <a href="http://rs.gbif.org/vocabulary/dwc/basis_of_record.xml">GBIF Vocabulary</a>
  */
+@JsonSerialize(using = BasisOfRecordSerde.BasisOfRecordJsonSerializer.class)
+@JsonDeserialize(using = BasisOfRecordSerde.BasisOfRecordJsonDeserializer.class)
 public enum BasisOfRecord {
 
   /**
@@ -73,6 +78,12 @@ public enum BasisOfRecord {
   /**
    * An existence of an Organism (sensu http://rs.tdwg.org/dwc/terms/Organism) at a particular place at a particular time.
    */
-  OCCURRENCE
+  OCCURRENCE,
+
+  /**
+   * Unknown basis for the record.
+   */
+  @Deprecated
+  UNKNOWN
 
 }

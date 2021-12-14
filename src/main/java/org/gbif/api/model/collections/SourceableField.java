@@ -13,12 +13,12 @@
  */
 package org.gbif.api.model.collections;
 
+import org.gbif.api.vocabulary.collections.MasterSourceType;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 /** Holds the info about the GRSciColl fields whose master source is outside GRSciColl. */
 public class SourceableField implements Serializable {
