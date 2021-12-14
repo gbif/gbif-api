@@ -62,11 +62,17 @@ public enum BasisOfRecord {
   /**
    * An occurrence record based on literature alone.
    */
+  @Deprecated
   LITERATURE,
 
   /**
-   * Unknown basis for the record.
+   * A reference to or citation of one, a part of, or multiple specimens in scholarly publications.
    */
-  UNKNOWN
+  MATERIAL_CITATION,
+
+  /**
+   * An existence of an Organism (sensu http://rs.tdwg.org/dwc/terms/Organism) at a particular place at a particular time.
+   */
+  OCCURRENCE
 
 }
