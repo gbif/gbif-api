@@ -15,12 +15,14 @@
  */
 package org.gbif.api.model.collections.request;
 
+import org.gbif.api.model.collections.request.CollectionSearchRequest.Builder;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.collections.Discipline;
 import org.gbif.api.vocabulary.collections.InstitutionGovernance;
 import org.gbif.api.vocabulary.collections.InstitutionType;
+import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 import java.util.List;
 import java.util.UUID;
@@ -85,6 +87,7 @@ public class InstitutionSearchRequest extends SearchRequest {
     InstitutionType type;
     InstitutionGovernance institutionalGovernance;
     List<Discipline> disciplines;
+    MasterSourceType masterSourceType;
     Pageable page;
 
     public Builder contact(UUID contact) {
@@ -172,6 +175,11 @@ public class InstitutionSearchRequest extends SearchRequest {
       return this;
     }
 
+    public Builder masterSourceType(MasterSourceType masterSourceType) {
+      this.masterSourceType = masterSourceType;
+      return this;
+    }
+
     public Builder page(Pageable page) {
       this.page = page;
       return this;
@@ -196,6 +204,7 @@ public class InstitutionSearchRequest extends SearchRequest {
       req.setType(type);
       req.setInstitutionalGovernance(institutionalGovernance);
       req.setDisciplines(disciplines);
+      req.setMasterSourceType(masterSourceType);
       if (page != null) {
         req.setLimit(page.getLimit());
         req.setOffset(page.getOffset());
