@@ -20,6 +20,7 @@ import org.gbif.api.model.common.paging.PageableBase;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
+import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -42,6 +43,7 @@ public abstract class SearchRequest extends PageableBase implements Serializable
   @Nullable private String city;
   @Nullable private String fuzzyName;
   @Nullable private Boolean active;
+  @Nullable private MasterSourceType masterSourceType;
 
   @Nullable
   public String getQ() {
@@ -167,6 +169,15 @@ public abstract class SearchRequest extends PageableBase implements Serializable
 
   public void setActive(@Nullable Boolean active) {
     this.active = active;
+  }
+
+  @Nullable
+  public MasterSourceType getMasterSourceType() {
+    return masterSourceType;
+  }
+
+  public void setMasterSourceType(@Nullable MasterSourceType masterSourceType) {
+    this.masterSourceType = masterSourceType;
   }
 
   public Pageable getPage() {

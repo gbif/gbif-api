@@ -20,6 +20,7 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.collections.AccessionStatus;
 import org.gbif.api.vocabulary.collections.CollectionContentType;
+import org.gbif.api.vocabulary.collections.MasterSourceType;
 import org.gbif.api.vocabulary.collections.PreservationType;
 
 import java.util.List;
@@ -105,6 +106,7 @@ public class CollectionSearchRequest extends SearchRequest {
     List<PreservationType> preservationTypes;
     AccessionStatus accessionStatus;
     Boolean personalCollection;
+    MasterSourceType masterSourceType;
     Pageable page;
 
     public Builder institution(UUID institution) {
@@ -202,6 +204,11 @@ public class CollectionSearchRequest extends SearchRequest {
       return this;
     }
 
+    public Builder masterSourceType(MasterSourceType masterSourceType) {
+      this.masterSourceType = masterSourceType;
+      return this;
+    }
+
     public Builder page(Pageable page) {
       this.page = page;
       return this;
@@ -228,6 +235,7 @@ public class CollectionSearchRequest extends SearchRequest {
       req.setPreservationTypes(preservationTypes);
       req.setAccessionStatus(accessionStatus);
       req.setPersonalCollection(personalCollection);
+      req.setMasterSourceType(masterSourceType);
       if (page != null) {
         req.setLimit(page.getLimit());
         req.setOffset(page.getOffset());
