@@ -56,4 +56,9 @@ public interface PrimaryCollectionEntity extends CollectionEntity {
   MasterSourceType getMasterSource();
 
   void setMasterSource(MasterSourceType masterSource);
+
+  /** Master source metadata */
+  MasterSourceMetadata getMasterSourceMetadata();
+
+  void setMasterSourceMetadata(MasterSourceMetadata masterSourceMetadata);
 }

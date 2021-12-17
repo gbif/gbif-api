@@ -155,6 +155,7 @@ public class Collection
   private List<OccurrenceMapping> occurrenceMappings = new ArrayList<>();
   private UUID replacedBy;
   private MasterSourceType masterSource;
+  private MasterSourceMetadata masterSourceMetadata;
 
   /** List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc.. */
   @Valid
@@ -569,6 +570,16 @@ public class Collection
   }
 
   @Override
+  public MasterSourceMetadata getMasterSourceMetadata() {
+    return masterSourceMetadata;
+  }
+
+  @Override
+  public void setMasterSourceMetadata(MasterSourceMetadata masterSourceMetadata) {
+    this.masterSourceMetadata = masterSourceMetadata;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
@@ -613,7 +624,8 @@ public class Collection
         && Objects.equals(comments, that.comments)
         && Objects.equals(occurrenceMappings, that.occurrenceMappings)
         && Objects.equals(replacedBy, that.replacedBy)
-        && Objects.equals(masterSource, that.masterSource);
+        && Objects.equals(masterSource, that.masterSource)
+        && Objects.equals(masterSourceMetadata, that.masterSourceMetadata);
   }
 
   @Override
@@ -659,7 +671,8 @@ public class Collection
         comments,
         occurrenceMappings,
         replacedBy,
-        masterSource);
+        masterSource,
+        masterSourceMetadata);
   }
 
   @Override
@@ -706,6 +719,7 @@ public class Collection
         .add("occurrenceMappings=" + occurrenceMappings)
         .add("replacedBy=" + replacedBy)
         .add("masterSource=" + masterSource)
+        .add("masterSourceMetadata=" + masterSourceMetadata)
         .toString();
   }
 
@@ -745,6 +759,7 @@ public class Collection
         && Objects.equals(comments, other.comments)
         && Objects.equals(occurrenceMappings, other.occurrenceMappings)
         && Objects.equals(replacedBy, other.replacedBy)
-        && Objects.equals(masterSource, other.masterSource);
+        && Objects.equals(masterSource, other.masterSource)
+        && Objects.equals(masterSourceMetadata, other.masterSourceMetadata);
   }
 }
