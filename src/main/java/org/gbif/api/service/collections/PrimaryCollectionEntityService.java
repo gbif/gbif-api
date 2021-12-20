@@ -17,6 +17,7 @@ import org.gbif.api.model.collections.MasterSourceMetadata;
 import org.gbif.api.model.collections.PrimaryCollectionEntity;
 import org.gbif.api.vocabulary.collections.Source;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -59,5 +60,5 @@ public interface PrimaryCollectionEntityService<T extends PrimaryCollectionEntit
    * @param sourceId source Id of the metadata
    * @return {@link Optional} with the collection entity found
    */
-  Optional<T> findByMasterSource(Source source, String sourceId);
+  List<T> findByMasterSource(Source source, String sourceId);
 }
