@@ -44,7 +44,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
    * - KILLED: the download was killed by the workflow engine
    * - FAILED: the download failed
    * - SUSPENDED: the download was paused and its execution will be resumed later
-   * - FILE_DELETED: the download was successful, but the download file has been deleted
+   * - FILE_ERASED: the download was successful, but the download file has been deleted
    */
 <span class="fc" id="L49">  public enum Status {</span>
 <span class="fc" id="L50">    PREPARING,</span>
@@ -81,6 +81,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
   private Date eraseAfter;
 
+  private Date erasureNotification;
+
   private Status status;
 
   private String downloadLink;
@@ -98,7 +100,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   @NotNull(groups = {PostPersist.class})
   @Nullable
   public Date getCreated() {
-<span class="nc" id="L101">    return created;</span>
+<span class="nc" id="L103">    return created;</span>
   }
 
   /**
@@ -106,7 +108,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
    */
   @Nullable
   public String getDownloadLink() {
-<span class="nc" id="L109">    return downloadLink;</span>
+<span class="nc" id="L111">    return downloadLink;</span>
   }
 
   /**
@@ -114,7 +116,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
    */
   @NotNull
   public String getKey() {
-<span class="nc" id="L117">    return key;</span>
+<span class="nc" id="L119">    return key;</span>
   }
 
   /**
@@ -124,7 +126,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
   @NotNull(groups = {PostPersist.class})
   @Nullable
   public Date getModified() {
-<span class="nc" id="L127">    return modified;</span>
+<span class="nc" id="L129">    return modified;</span>
   }
 
   /**
@@ -132,7 +134,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
    */
   @Nullable
   public Date getEraseAfter() {
-<span class="nc" id="L135">    return eraseAfter;</span>
+<span class="nc" id="L137">    return eraseAfter;</span>
+  }
+
+  /**
+   * @return timestamp when a notification of an impending file erasure was sent
+   */
+  @Nullable
+  public Date getErasureNotification() {
+<span class="nc" id="L145">    return erasureNotification;</span>
   }
 
   /**
@@ -140,7 +150,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
    */
   @NotNull
   public DownloadRequest getRequest() {
-<span class="nc" id="L143">    return request;</span>
+<span class="nc" id="L153">    return request;</span>
   }
 
   /**
@@ -148,7 +158,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
    */
   @NotNull
   public Status getStatus() {
-<span class="nc" id="L151">    return status;</span>
+<span class="nc" id="L161">    return status;</span>
   }
 
   /**
@@ -156,28 +166,28 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
    */
   @JsonIgnore
   public boolean isAvailable() {
-<span class="fc bfc" id="L159" title="All 2 branches covered.">    return status == Status.SUCCEEDED;</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">    return status == Status.SUCCEEDED;</span>
   }
 
   /**
    * Size in bytes of the produced file.
    */
   public long getSize() {
-<span class="nc" id="L166">    return size;</span>
+<span class="nc" id="L176">    return size;</span>
   }
 
   /**
    * Number of occurrence records in the download file.
    */
   public long getTotalRecords() {
-<span class="nc" id="L173">    return totalRecords;</span>
+<span class="nc" id="L183">    return totalRecords;</span>
   }
 
   /**
    * Number of datasets in the download file.
    */
   public long getNumberDatasets() {
-<span class="nc" id="L180">    return numberDatasets;</span>
+<span class="nc" id="L190">    return numberDatasets;</span>
   }
 
   /**
@@ -185,110 +195,116 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
    */
   @Nullable
   public DOI getDoi() {
-<span class="nc" id="L188">    return doi;</span>
+<span class="nc" id="L198">    return doi;</span>
   }
 
   /**
    * Get the license assigned to this occurrence download.
    */
   public License getLicense() {
-<span class="nc" id="L195">    return license;</span>
+<span class="nc" id="L205">    return license;</span>
   }
 
   public void setCreated(Date created) {
-<span class="nc" id="L199">    this.created = created;</span>
-<span class="nc" id="L200">  }</span>
+<span class="nc" id="L209">    this.created = created;</span>
+<span class="nc" id="L210">  }</span>
 
   public void setDownloadLink(String downloadLink) {
-<span class="nc" id="L203">    this.downloadLink = downloadLink;</span>
-<span class="nc" id="L204">  }</span>
+<span class="nc" id="L213">    this.downloadLink = downloadLink;</span>
+<span class="nc" id="L214">  }</span>
 
   public void setKey(String key) {
-<span class="nc" id="L207">    this.key = key;</span>
-<span class="nc" id="L208">  }</span>
+<span class="nc" id="L217">    this.key = key;</span>
+<span class="nc" id="L218">  }</span>
 
   public void setDoi(DOI doi) {
-<span class="nc" id="L211">    this.doi = doi;</span>
-<span class="nc" id="L212">  }</span>
+<span class="nc" id="L221">    this.doi = doi;</span>
+<span class="nc" id="L222">  }</span>
 
   public void setLicense(License license) {
-<span class="nc" id="L215">    this.license = license;</span>
-<span class="nc" id="L216">  }</span>
+<span class="nc" id="L225">    this.license = license;</span>
+<span class="nc" id="L226">  }</span>
 
   public void setModified(Date modified) {
-<span class="nc" id="L219">    this.modified = modified;</span>
-<span class="nc" id="L220">  }</span>
+<span class="nc" id="L229">    this.modified = modified;</span>
+<span class="nc" id="L230">  }</span>
 
   public void setEraseAfter(Date eraseAfter) {
-<span class="nc" id="L223">    this.eraseAfter = eraseAfter;</span>
-<span class="nc" id="L224">  }</span>
+<span class="nc" id="L233">    this.eraseAfter = eraseAfter;</span>
+<span class="nc" id="L234">  }</span>
+
+  public void setErasureNotification(Date erasureNotification) {
+<span class="nc" id="L237">    this.erasureNotification = erasureNotification;</span>
+<span class="nc" id="L238">  }</span>
 
   public void setRequest(DownloadRequest request) {
-<span class="nc" id="L227">    this.request = request;</span>
-<span class="nc" id="L228">  }</span>
+<span class="nc" id="L241">    this.request = request;</span>
+<span class="nc" id="L242">  }</span>
 
   public void setStatus(Status status) {
-<span class="fc" id="L231">    this.status = status;</span>
-<span class="fc" id="L232">  }</span>
+<span class="fc" id="L245">    this.status = status;</span>
+<span class="fc" id="L246">  }</span>
 
   public void setSize(long size) {
-<span class="nc" id="L235">    this.size = size;</span>
-<span class="nc" id="L236">  }</span>
+<span class="nc" id="L249">    this.size = size;</span>
+<span class="nc" id="L250">  }</span>
 
   public void setTotalRecords(long totalRecords) {
-<span class="nc" id="L239">    this.totalRecords = totalRecords;</span>
-<span class="nc" id="L240">  }</span>
+<span class="nc" id="L253">    this.totalRecords = totalRecords;</span>
+<span class="nc" id="L254">  }</span>
 
   public void setNumberDatasets(long numberDatasets) {
-<span class="nc" id="L243">    this.numberDatasets = numberDatasets;</span>
-<span class="nc" id="L244">  }</span>
+<span class="nc" id="L257">    this.numberDatasets = numberDatasets;</span>
+<span class="nc" id="L258">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L248" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L249">      return true;</span>
+<span class="nc bnc" id="L262" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L263">      return true;</span>
     }
-<span class="nc bnc" id="L251" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L252">      return false;</span>
+<span class="nc bnc" id="L265" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L266">      return false;</span>
     }
-<span class="nc" id="L254">    Download download = (Download) o;</span>
-<span class="nc bnc" id="L255" title="All 6 branches missed.">    return size == download.size &amp;&amp;</span>
+<span class="nc" id="L268">    Download download = (Download) o;</span>
+<span class="nc bnc" id="L269" title="All 6 branches missed.">    return size == download.size &amp;&amp;</span>
       totalRecords == download.totalRecords &amp;&amp;
       numberDatasets == download.numberDatasets &amp;&amp;
-<span class="nc bnc" id="L258" title="All 2 branches missed.">      Objects.equals(key, download.key) &amp;&amp;</span>
-<span class="nc bnc" id="L259" title="All 4 branches missed.">      Objects.equals(doi, download.doi) &amp;&amp;</span>
+<span class="nc bnc" id="L272" title="All 2 branches missed.">      Objects.equals(key, download.key) &amp;&amp;</span>
+<span class="nc bnc" id="L273" title="All 4 branches missed.">      Objects.equals(doi, download.doi) &amp;&amp;</span>
       license == download.license &amp;&amp;
-<span class="nc bnc" id="L261" title="All 2 branches missed.">      Objects.equals(request, download.request) &amp;&amp;</span>
-<span class="nc bnc" id="L262" title="All 2 branches missed.">      Objects.equals(created, download.created) &amp;&amp;</span>
-<span class="nc bnc" id="L263" title="All 2 branches missed.">      Objects.equals(modified, download.modified) &amp;&amp;</span>
-<span class="nc bnc" id="L264" title="All 4 branches missed.">      Objects.equals(eraseAfter, download.eraseAfter) &amp;&amp;</span>
+<span class="nc bnc" id="L275" title="All 2 branches missed.">      Objects.equals(request, download.request) &amp;&amp;</span>
+<span class="nc bnc" id="L276" title="All 2 branches missed.">      Objects.equals(created, download.created) &amp;&amp;</span>
+<span class="nc bnc" id="L277" title="All 2 branches missed.">      Objects.equals(modified, download.modified) &amp;&amp;</span>
+<span class="nc bnc" id="L278" title="All 2 branches missed.">      Objects.equals(eraseAfter, download.eraseAfter) &amp;&amp;</span>
+<span class="nc bnc" id="L279" title="All 4 branches missed.">      Objects.equals(erasureNotification, download.erasureNotification) &amp;&amp;</span>
       status == download.status &amp;&amp;
-<span class="nc bnc" id="L266" title="All 2 branches missed.">      Objects.equals(downloadLink, download.downloadLink);</span>
+<span class="nc bnc" id="L281" title="All 2 branches missed.">      Objects.equals(downloadLink, download.downloadLink);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L271">    return Objects</span>
-<span class="nc" id="L272">      .hash(key, doi, license, request, created, modified, eraseAfter, status, downloadLink, size,</span>
-<span class="nc" id="L273">        totalRecords, numberDatasets);</span>
+<span class="nc" id="L286">    return Objects</span>
+<span class="nc" id="L287">      .hash(key, doi, license, request, created, modified, eraseAfter, status, downloadLink, size,</span>
+<span class="nc" id="L288">        totalRecords, numberDatasets);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L278">    return new StringJoiner(&quot;, &quot;, Download.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L279">      .add(&quot;key='&quot; + key + &quot;'&quot;)</span>
-<span class="nc" id="L280">      .add(&quot;doi=&quot; + doi)</span>
-<span class="nc" id="L281">      .add(&quot;license=&quot; + license)</span>
-<span class="nc" id="L282">      .add(&quot;request=&quot; + request)</span>
-<span class="nc" id="L283">      .add(&quot;created=&quot; + created)</span>
-<span class="nc" id="L284">      .add(&quot;modified=&quot; + modified)</span>
-<span class="nc" id="L285">      .add(&quot;eraseAfter=&quot; + eraseAfter)</span>
-<span class="nc" id="L286">      .add(&quot;status=&quot; + status)</span>
-<span class="nc" id="L287">      .add(&quot;downloadLink='&quot; + downloadLink + &quot;'&quot;)</span>
-<span class="nc" id="L288">      .add(&quot;size=&quot; + size)</span>
-<span class="nc" id="L289">      .add(&quot;totalRecords=&quot; + totalRecords)</span>
-<span class="nc" id="L290">      .add(&quot;numberDatasets=&quot; + numberDatasets)</span>
-<span class="nc" id="L291">      .toString();</span>
+<span class="nc" id="L293">    return new StringJoiner(&quot;, &quot;, Download.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L294">      .add(&quot;key='&quot; + key + &quot;'&quot;)</span>
+<span class="nc" id="L295">      .add(&quot;doi=&quot; + doi)</span>
+<span class="nc" id="L296">      .add(&quot;license=&quot; + license)</span>
+<span class="nc" id="L297">      .add(&quot;request=&quot; + request)</span>
+<span class="nc" id="L298">      .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L299">      .add(&quot;modified=&quot; + modified)</span>
+<span class="nc" id="L300">      .add(&quot;eraseAfter=&quot; + eraseAfter)</span>
+<span class="nc" id="L301">      .add(&quot;erasureNotification=&quot; + erasureNotification)</span>
+<span class="nc" id="L302">      .add(&quot;status=&quot; + status)</span>
+<span class="nc" id="L303">      .add(&quot;downloadLink='&quot; + downloadLink + &quot;'&quot;)</span>
+<span class="nc" id="L304">      .add(&quot;size=&quot; + size)</span>
+<span class="nc" id="L305">      .add(&quot;totalRecords=&quot; + totalRecords)</span>
+<span class="nc" id="L306">      .add(&quot;numberDatasets=&quot; + numberDatasets)</span>
+<span class="nc" id="L307">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
