@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,10 +13,16 @@
  */
 package org.gbif.api.service.collections;
 
-import org.gbif.api.vocabulary.collections.MasterSourceType;
+import org.gbif.api.model.collections.MasterSourceMetadata;
 import org.gbif.api.model.collections.PrimaryCollectionEntity;
+import org.gbif.api.vocabulary.collections.Source;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 public interface PrimaryCollectionEntityService<T extends PrimaryCollectionEntity>
     extends CollectionEntityService<T>, ContactService, OccurrenceMappingService {
@@ -27,9 +31,44 @@ public interface PrimaryCollectionEntityService<T extends PrimaryCollectionEntit
   void replace(UUID entityToReplaceKey, UUID replacementKey);
 
   /**
-   * Updates the master source of an entity. It's done in a separate method to have control over
-   * these updates since they are required to be in sync with the creation or deletion of the
-   * corresponding machine tags.
+   * Adds {@link MasterSourceMetadata} to an entity.
+   *
+   * @param targetEntityKey key of the entity to add the metadata to
+   * @param masterSourceMetadata metadata to add
+   * @return key of the created metadata
    */
-  void updateMasterSource(UUID entityKey, MasterSourceType masterSource);
+  int addMasterSourceMetadata(UUID targetEntityKey, MasterSourceMetadata masterSourceMetadata);
+
+  /**
+   * Removes the {@link MasterSourceMetadata} from an entity.
+   *
+   * @param targetEntityKey key of the entity whose metadata will be deleted
+   */
+  void deleteMasterSourceMetadata(UUID targetEntityKey);
+
+  /**
+   * Returns the {@link MasterSourceMetadata} of the entity.
+   *
+   * @param targetEntityKey key of the entity
+   * @return {@link MasterSourceMetadata}
+   */
+  MasterSourceMetadata getMasterSourceMetadata(@NotNull UUID targetEntityKey);
+
+  /**
+   * Finds the collection entity whose master data metadata matches with the parameters received.
+   *
+   * @param source source of the metadata
+   * @param sourceId source Id of the metadata
+   * @return {@link Optional} with the collection entity found
+   */
+  List<T> findByMasterSource(Source source, String sourceId);
+
+  /**
+   * Updates an existing entity.
+   *
+   * @param entity that will replace the existing entity.
+   * @param lockFields indicates if fields that come from an external master source has to be
+   *     locked.
+   */
+  void update(@NotNull @Valid T entity, boolean lockFields);
 }
