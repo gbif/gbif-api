@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 public interface PrimaryCollectionEntityService<T extends PrimaryCollectionEntity>
@@ -61,4 +62,13 @@ public interface PrimaryCollectionEntityService<T extends PrimaryCollectionEntit
    * @return {@link Optional} with the collection entity found
    */
   List<T> findByMasterSource(Source source, String sourceId);
+
+  /**
+   * Updates an existing entity.
+   *
+   * @param entity that will replace the existing entity.
+   * @param lockFields indicates if fields that come from an external master source has to be
+   *     locked.
+   */
+  void update(@NotNull @Valid T entity, boolean lockFields);
 }
