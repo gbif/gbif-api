@@ -25,6 +25,7 @@ import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.model.registry.Tag;
 import org.gbif.api.model.registry.Taggable;
 import org.gbif.api.util.HttpURI;
+import org.gbif.api.util.LenientEqualsUtils;
 import org.gbif.api.vocabulary.collections.AccessionStatus;
 import org.gbif.api.vocabulary.collections.CollectionContentType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
@@ -730,8 +731,8 @@ public class Collection
         && Objects.equals(preservationTypes, other.preservationTypes)
         && accessionStatus == other.accessionStatus
         && Objects.equals(institutionKey, other.institutionKey)
-        && Objects.equals(mailingAddress, other.mailingAddress)
-        && Objects.equals(address, other.address)
+        && LenientEqualsUtils.lenientEquals(mailingAddress, other.mailingAddress)
+        && LenientEqualsUtils.lenientEquals(address, other.address)
         && Objects.equals(deleted, other.deleted)
         && indexHerbariorumRecord == other.indexHerbariorumRecord
         && Objects.equals(numberSpecimens, other.numberSpecimens)

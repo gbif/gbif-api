@@ -24,6 +24,7 @@ import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.model.registry.Tag;
 import org.gbif.api.model.registry.Taggable;
 import org.gbif.api.util.HttpURI;
+import org.gbif.api.util.LenientEqualsUtils;
 import org.gbif.api.vocabulary.collections.Discipline;
 import org.gbif.api.vocabulary.collections.InstitutionGovernance;
 import org.gbif.api.vocabulary.collections.InstitutionType;
@@ -721,8 +722,8 @@ public class Institution
         && Objects.equals(disciplines, other.disciplines)
         && Objects.equals(latitude, other.latitude)
         && Objects.equals(longitude, other.longitude)
-        && Objects.equals(mailingAddress, other.mailingAddress)
-        && Objects.equals(address, other.address)
+        && LenientEqualsUtils.lenientEquals(mailingAddress, other.mailingAddress)
+        && LenientEqualsUtils.lenientEquals(address, other.address)
         && Objects.equals(additionalNames, other.additionalNames)
         && Objects.equals(foundingDate, other.foundingDate)
         && Objects.equals(geographicDescription, other.geographicDescription)
