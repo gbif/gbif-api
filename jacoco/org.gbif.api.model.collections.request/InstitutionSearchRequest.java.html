@@ -15,19 +15,21 @@
  */
 package org.gbif.api.model.collections.request;
 
+import org.gbif.api.model.collections.request.CollectionSearchRequest.Builder;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.collections.Discipline;
 import org.gbif.api.vocabulary.collections.InstitutionGovernance;
 import org.gbif.api.vocabulary.collections.InstitutionType;
+import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-<span class="nc" id="L30">public class InstitutionSearchRequest extends SearchRequest {</span>
+<span class="nc" id="L32">public class InstitutionSearchRequest extends SearchRequest {</span>
 
   @Nullable private InstitutionType type;
 
@@ -37,36 +39,36 @@ import javax.annotation.Nullable;
 
   @Nullable
   public InstitutionType getType() {
-<span class="nc" id="L40">    return type;</span>
+<span class="nc" id="L42">    return type;</span>
   }
 
   public void setType(@Nullable InstitutionType type) {
-<span class="nc" id="L44">    this.type = type;</span>
-<span class="nc" id="L45">  }</span>
+<span class="nc" id="L46">    this.type = type;</span>
+<span class="nc" id="L47">  }</span>
 
   @Nullable
   public InstitutionGovernance getInstitutionalGovernance() {
-<span class="nc" id="L49">    return institutionalGovernance;</span>
+<span class="nc" id="L51">    return institutionalGovernance;</span>
   }
 
   public void setInstitutionalGovernance(@Nullable InstitutionGovernance institutionalGovernance) {
-<span class="nc" id="L53">    this.institutionalGovernance = institutionalGovernance;</span>
-<span class="nc" id="L54">  }</span>
+<span class="nc" id="L55">    this.institutionalGovernance = institutionalGovernance;</span>
+<span class="nc" id="L56">  }</span>
 
   @Nullable
   public List&lt;Discipline&gt; getDisciplines() {
-<span class="nc" id="L58">    return disciplines;</span>
+<span class="nc" id="L60">    return disciplines;</span>
   }
 
   public void setDisciplines(@Nullable List&lt;Discipline&gt; disciplines) {
-<span class="nc" id="L62">    this.disciplines = disciplines;</span>
-<span class="nc" id="L63">  }</span>
+<span class="nc" id="L64">    this.disciplines = disciplines;</span>
+<span class="nc" id="L65">  }</span>
 
   public static Builder builder() {
-<span class="nc" id="L66">    return new Builder();</span>
+<span class="nc" id="L68">    return new Builder();</span>
   }
 
-<span class="nc" id="L69">  public static class Builder {</span>
+<span class="nc" id="L71">  public static class Builder {</span>
 
     UUID contact;
     String q;
@@ -85,122 +87,129 @@ import javax.annotation.Nullable;
     InstitutionType type;
     InstitutionGovernance institutionalGovernance;
     List&lt;Discipline&gt; disciplines;
+    MasterSourceType masterSourceType;
     Pageable page;
 
     public Builder contact(UUID contact) {
-<span class="nc" id="L91">      this.contact = contact;</span>
-<span class="nc" id="L92">      return this;</span>
+<span class="nc" id="L94">      this.contact = contact;</span>
+<span class="nc" id="L95">      return this;</span>
     }
 
     public Builder query(String q) {
-<span class="nc" id="L96">      this.q = q;</span>
-<span class="nc" id="L97">      return this;</span>
+<span class="nc" id="L99">      this.q = q;</span>
+<span class="nc" id="L100">      return this;</span>
     }
 
     public Builder code(String code) {
-<span class="nc" id="L101">      this.code = code;</span>
-<span class="nc" id="L102">      return this;</span>
+<span class="nc" id="L104">      this.code = code;</span>
+<span class="nc" id="L105">      return this;</span>
     }
 
     public Builder name(String name) {
-<span class="nc" id="L106">      this.name = name;</span>
-<span class="nc" id="L107">      return this;</span>
+<span class="nc" id="L109">      this.name = name;</span>
+<span class="nc" id="L110">      return this;</span>
     }
 
     public Builder alternativeCode(String alternativeCode) {
-<span class="nc" id="L111">      this.alternativeCode = alternativeCode;</span>
-<span class="nc" id="L112">      return this;</span>
+<span class="nc" id="L114">      this.alternativeCode = alternativeCode;</span>
+<span class="nc" id="L115">      return this;</span>
     }
 
     public Builder machineTagNamespace(String machineTagNamespace) {
-<span class="nc" id="L116">      this.machineTagNamespace = machineTagNamespace;</span>
-<span class="nc" id="L117">      return this;</span>
+<span class="nc" id="L119">      this.machineTagNamespace = machineTagNamespace;</span>
+<span class="nc" id="L120">      return this;</span>
     }
 
     public Builder machineTagName(String machineTagName) {
-<span class="nc" id="L121">      this.machineTagName = machineTagName;</span>
-<span class="nc" id="L122">      return this;</span>
+<span class="nc" id="L124">      this.machineTagName = machineTagName;</span>
+<span class="nc" id="L125">      return this;</span>
     }
 
     public Builder machineTagValue(String machineTagValue) {
-<span class="nc" id="L126">      this.machineTagValue = machineTagValue;</span>
-<span class="nc" id="L127">      return this;</span>
+<span class="nc" id="L129">      this.machineTagValue = machineTagValue;</span>
+<span class="nc" id="L130">      return this;</span>
     }
 
     public Builder identifierType(IdentifierType identifierType) {
-<span class="nc" id="L131">      this.identifierType = identifierType;</span>
-<span class="nc" id="L132">      return this;</span>
+<span class="nc" id="L134">      this.identifierType = identifierType;</span>
+<span class="nc" id="L135">      return this;</span>
     }
 
     public Builder identifier(String identifier) {
-<span class="nc" id="L136">      this.identifier = identifier;</span>
-<span class="nc" id="L137">      return this;</span>
+<span class="nc" id="L139">      this.identifier = identifier;</span>
+<span class="nc" id="L140">      return this;</span>
     }
 
     public Builder country(Country country) {
-<span class="nc" id="L141">      this.country = country;</span>
-<span class="nc" id="L142">      return this;</span>
+<span class="nc" id="L144">      this.country = country;</span>
+<span class="nc" id="L145">      return this;</span>
     }
 
     public Builder city(String city) {
-<span class="nc" id="L146">      this.city = city;</span>
-<span class="nc" id="L147">      return this;</span>
+<span class="nc" id="L149">      this.city = city;</span>
+<span class="nc" id="L150">      return this;</span>
     }
 
     public Builder fuzzyName(String fuzzyName) {
-<span class="nc" id="L151">      this.fuzzyName = fuzzyName;</span>
-<span class="nc" id="L152">      return this;</span>
+<span class="nc" id="L154">      this.fuzzyName = fuzzyName;</span>
+<span class="nc" id="L155">      return this;</span>
     }
 
     public Builder active(boolean active) {
-<span class="nc" id="L156">      this.active = active;</span>
-<span class="nc" id="L157">      return this;</span>
+<span class="nc" id="L159">      this.active = active;</span>
+<span class="nc" id="L160">      return this;</span>
     }
 
     public Builder type(InstitutionType type) {
-<span class="nc" id="L161">      this.type = type;</span>
-<span class="nc" id="L162">      return this;</span>
+<span class="nc" id="L164">      this.type = type;</span>
+<span class="nc" id="L165">      return this;</span>
     }
 
     public Builder institutionalGovernance(InstitutionGovernance institutionalGovernance) {
-<span class="nc" id="L166">      this.institutionalGovernance = institutionalGovernance;</span>
-<span class="nc" id="L167">      return this;</span>
+<span class="nc" id="L169">      this.institutionalGovernance = institutionalGovernance;</span>
+<span class="nc" id="L170">      return this;</span>
     }
 
     public Builder disciplines(List&lt;Discipline&gt; disciplines) {
-<span class="nc" id="L171">      this.disciplines = disciplines;</span>
-<span class="nc" id="L172">      return this;</span>
+<span class="nc" id="L174">      this.disciplines = disciplines;</span>
+<span class="nc" id="L175">      return this;</span>
+    }
+
+    public Builder masterSourceType(MasterSourceType masterSourceType) {
+<span class="nc" id="L179">      this.masterSourceType = masterSourceType;</span>
+<span class="nc" id="L180">      return this;</span>
     }
 
     public Builder page(Pageable page) {
-<span class="nc" id="L176">      this.page = page;</span>
-<span class="nc" id="L177">      return this;</span>
+<span class="nc" id="L184">      this.page = page;</span>
+<span class="nc" id="L185">      return this;</span>
     }
 
     public InstitutionSearchRequest build() {
-<span class="nc" id="L181">      InstitutionSearchRequest req = new InstitutionSearchRequest();</span>
-<span class="nc" id="L182">      req.setContact(contact);</span>
-<span class="nc" id="L183">      req.setQ(q);</span>
-<span class="nc" id="L184">      req.setCode(code);</span>
-<span class="nc" id="L185">      req.setName(name);</span>
-<span class="nc" id="L186">      req.setAlternativeCode(alternativeCode);</span>
-<span class="nc" id="L187">      req.setMachineTagNamespace(machineTagNamespace);</span>
-<span class="nc" id="L188">      req.setMachineTagName(machineTagName);</span>
-<span class="nc" id="L189">      req.setMachineTagValue(machineTagValue);</span>
-<span class="nc" id="L190">      req.setIdentifierType(identifierType);</span>
-<span class="nc" id="L191">      req.setIdentifier(identifier);</span>
-<span class="nc" id="L192">      req.setCountry(country);</span>
-<span class="nc" id="L193">      req.setCity(city);</span>
-<span class="nc" id="L194">      req.setFuzzyName(fuzzyName);</span>
-<span class="nc" id="L195">      req.setActive(active);</span>
-<span class="nc" id="L196">      req.setType(type);</span>
-<span class="nc" id="L197">      req.setInstitutionalGovernance(institutionalGovernance);</span>
-<span class="nc" id="L198">      req.setDisciplines(disciplines);</span>
-<span class="nc bnc" id="L199" title="All 2 branches missed.">      if (page != null) {</span>
-<span class="nc" id="L200">        req.setLimit(page.getLimit());</span>
-<span class="nc" id="L201">        req.setOffset(page.getOffset());</span>
+<span class="nc" id="L189">      InstitutionSearchRequest req = new InstitutionSearchRequest();</span>
+<span class="nc" id="L190">      req.setContact(contact);</span>
+<span class="nc" id="L191">      req.setQ(q);</span>
+<span class="nc" id="L192">      req.setCode(code);</span>
+<span class="nc" id="L193">      req.setName(name);</span>
+<span class="nc" id="L194">      req.setAlternativeCode(alternativeCode);</span>
+<span class="nc" id="L195">      req.setMachineTagNamespace(machineTagNamespace);</span>
+<span class="nc" id="L196">      req.setMachineTagName(machineTagName);</span>
+<span class="nc" id="L197">      req.setMachineTagValue(machineTagValue);</span>
+<span class="nc" id="L198">      req.setIdentifierType(identifierType);</span>
+<span class="nc" id="L199">      req.setIdentifier(identifier);</span>
+<span class="nc" id="L200">      req.setCountry(country);</span>
+<span class="nc" id="L201">      req.setCity(city);</span>
+<span class="nc" id="L202">      req.setFuzzyName(fuzzyName);</span>
+<span class="nc" id="L203">      req.setActive(active);</span>
+<span class="nc" id="L204">      req.setType(type);</span>
+<span class="nc" id="L205">      req.setInstitutionalGovernance(institutionalGovernance);</span>
+<span class="nc" id="L206">      req.setDisciplines(disciplines);</span>
+<span class="nc" id="L207">      req.setMasterSourceType(masterSourceType);</span>
+<span class="nc bnc" id="L208" title="All 2 branches missed.">      if (page != null) {</span>
+<span class="nc" id="L209">        req.setLimit(page.getLimit());</span>
+<span class="nc" id="L210">        req.setOffset(page.getOffset());</span>
       }
-<span class="nc" id="L203">      return req;</span>
+<span class="nc" id="L212">      return req;</span>
     }
   }
 }
