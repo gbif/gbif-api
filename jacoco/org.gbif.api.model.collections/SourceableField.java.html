@@ -1,98 +1,111 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SourceableField.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections</a> &gt; <span class="el_source">SourceableField.java</span></div><h1>SourceableField.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.collections;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SourceableField.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections</a> &gt; <span class="el_source">SourceableField.java</span></div><h1>SourceableField.java</h1><pre class="source lang-java linenums">/*
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.collections;
+
+import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.gbif.api.vocabulary.collections.MasterSourceType;
-
 /** Holds the info about the GRSciColl fields whose master source is outside GRSciColl. */
-<span class="nc" id="L11">public class SourceableField implements Serializable {</span>
+<span class="nc" id="L24">public class SourceableField implements Serializable {</span>
 
   private String fieldName;
-<span class="nc" id="L14">  private List&lt;Source&gt; sources = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L27">  private List&lt;Source&gt; sources = new ArrayList&lt;&gt;();</span>
 
   public String getFieldName() {
-<span class="nc" id="L17">    return fieldName;</span>
+<span class="nc" id="L30">    return fieldName;</span>
   }
 
   public void setFieldName(String fieldName) {
-<span class="nc" id="L21">    this.fieldName = fieldName;</span>
-<span class="nc" id="L22">  }</span>
+<span class="nc" id="L34">    this.fieldName = fieldName;</span>
+<span class="nc" id="L35">  }</span>
 
   public List&lt;Source&gt; getSources() {
-<span class="nc" id="L25">    return sources;</span>
+<span class="nc" id="L38">    return sources;</span>
   }
 
   public void setSources(List&lt;Source&gt; sources) {
-<span class="nc" id="L29">    this.sources = sources;</span>
-<span class="nc" id="L30">  }</span>
+<span class="nc" id="L42">    this.sources = sources;</span>
+<span class="nc" id="L43">  }</span>
 
-<span class="nc" id="L32">  public static class Source {</span>
+<span class="nc" id="L45">  public static class Source {</span>
     private MasterSourceType masterSource;
     private boolean overridable;
-<span class="nc" id="L35">    private List&lt;String&gt; sourceableParts = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L48">    private List&lt;String&gt; sourceableParts = new ArrayList&lt;&gt;();</span>
 
     public MasterSourceType getMasterSource() {
-<span class="nc" id="L38">      return masterSource;</span>
+<span class="nc" id="L51">      return masterSource;</span>
     }
 
     public void setMasterSource(MasterSourceType masterSource) {
-<span class="nc" id="L42">      this.masterSource = masterSource;</span>
-<span class="nc" id="L43">    }</span>
+<span class="nc" id="L55">      this.masterSource = masterSource;</span>
+<span class="nc" id="L56">    }</span>
 
     public boolean isOverridable() {
-<span class="nc" id="L46">      return overridable;</span>
+<span class="nc" id="L59">      return overridable;</span>
     }
 
     public void setOverridable(boolean overridable) {
-<span class="nc" id="L50">      this.overridable = overridable;</span>
-<span class="nc" id="L51">    }</span>
+<span class="nc" id="L63">      this.overridable = overridable;</span>
+<span class="nc" id="L64">    }</span>
 
     public List&lt;String&gt; getSourceableParts() {
-<span class="nc" id="L54">      return sourceableParts;</span>
+<span class="nc" id="L67">      return sourceableParts;</span>
     }
 
     public void setSourceableParts(List&lt;String&gt; sourceableParts) {
-<span class="nc" id="L58">      this.sourceableParts = sourceableParts;</span>
-<span class="nc" id="L59">    }</span>
+<span class="nc" id="L71">      this.sourceableParts = sourceableParts;</span>
+<span class="nc" id="L72">    }</span>
 
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L63" title="All 2 branches missed.">      if (this == o) {</span>
-<span class="nc" id="L64">        return true;</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">      if (this == o) {</span>
+<span class="nc" id="L77">        return true;</span>
       }
-<span class="nc bnc" id="L66" title="All 4 branches missed.">      if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L67">        return false;</span>
+<span class="nc bnc" id="L79" title="All 4 branches missed.">      if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L80">        return false;</span>
       }
-<span class="nc" id="L69">      Source source = (Source) o;</span>
-<span class="nc bnc" id="L70" title="All 4 branches missed.">      return overridable == source.overridable</span>
+<span class="nc" id="L82">      Source source = (Source) o;</span>
+<span class="nc bnc" id="L83" title="All 4 branches missed.">      return overridable == source.overridable</span>
           &amp;&amp; masterSource == source.masterSource
-<span class="nc bnc" id="L72" title="All 2 branches missed.">          &amp;&amp; Objects.equals(sourceableParts, source.sourceableParts);</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">          &amp;&amp; Objects.equals(sourceableParts, source.sourceableParts);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="nc" id="L77">      return Objects.hash(masterSource, overridable, sourceableParts);</span>
+<span class="nc" id="L90">      return Objects.hash(masterSource, overridable, sourceableParts);</span>
     }
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L83" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L84">      return true;</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L97">      return true;</span>
     }
-<span class="nc bnc" id="L86" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L87">      return false;</span>
+<span class="nc bnc" id="L99" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L100">      return false;</span>
     }
-<span class="nc" id="L89">    SourceableField that = (SourceableField) o;</span>
-<span class="nc bnc" id="L90" title="All 4 branches missed.">    return Objects.equals(fieldName, that.fieldName) &amp;&amp; Objects.equals(sources, that.sources);</span>
+<span class="nc" id="L102">    SourceableField that = (SourceableField) o;</span>
+<span class="nc bnc" id="L103" title="All 4 branches missed.">    return Objects.equals(fieldName, that.fieldName) &amp;&amp; Objects.equals(sources, that.sources);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L95">    return Objects.hash(fieldName, sources);</span>
+<span class="nc" id="L108">    return Objects.hash(fieldName, sources);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

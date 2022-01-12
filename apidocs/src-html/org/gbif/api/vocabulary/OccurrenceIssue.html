@@ -7,533 +7,530 @@
 <body>
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
-<span class="sourceLineNo">003</span> *<a name="line.3"></a>
-<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
-<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
-<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">002</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.2"></a>
+<span class="sourceLineNo">003</span> * you may not use this file except in compliance with the License.<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * You may obtain a copy of the License at<a name="line.4"></a>
+<span class="sourceLineNo">005</span> *<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.6"></a>
 <span class="sourceLineNo">007</span> *<a name="line.7"></a>
-<span class="sourceLineNo">008</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
-<span class="sourceLineNo">009</span> *<a name="line.9"></a>
-<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
-<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
-<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
-<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
-<span class="sourceLineNo">015</span> */<a name="line.15"></a>
-<span class="sourceLineNo">016</span>package org.gbif.api.vocabulary;<a name="line.16"></a>
-<span class="sourceLineNo">017</span><a name="line.17"></a>
-<span class="sourceLineNo">018</span>import org.gbif.api.util.AnnotationUtils;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import org.gbif.dwc.terms.DcTerm;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import org.gbif.dwc.terms.DwcTerm;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import org.gbif.dwc.terms.GbifTerm;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import org.gbif.dwc.terms.Term;<a name="line.22"></a>
-<span class="sourceLineNo">023</span><a name="line.23"></a>
-<span class="sourceLineNo">024</span>import java.util.Arrays;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>import java.util.Collections;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import java.util.HashSet;<a name="line.26"></a>
-<span class="sourceLineNo">027</span>import java.util.List;<a name="line.27"></a>
-<span class="sourceLineNo">028</span>import java.util.Set;<a name="line.28"></a>
-<span class="sourceLineNo">029</span><a name="line.29"></a>
-<span class="sourceLineNo">030</span>import org.apache.commons.lang3.ArrayUtils;<a name="line.30"></a>
-<span class="sourceLineNo">031</span><a name="line.31"></a>
-<span class="sourceLineNo">032</span>import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.ERROR;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.INFO;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;<a name="line.34"></a>
-<span class="sourceLineNo">035</span><a name="line.35"></a>
-<span class="sourceLineNo">036</span>/**<a name="line.36"></a>
-<span class="sourceLineNo">037</span> * An enumeration of validation rules for single occurrence records.<a name="line.37"></a>
-<span class="sourceLineNo">038</span> */<a name="line.38"></a>
-<span class="sourceLineNo">039</span>public enum OccurrenceIssue implements InterpretationRemark {<a name="line.39"></a>
-<span class="sourceLineNo">040</span><a name="line.40"></a>
-<span class="sourceLineNo">041</span>  /**<a name="line.41"></a>
-<span class="sourceLineNo">042</span>   * Coordinate is the exact 0°, 0° coordinate, often indicating a bad null coordinate.<a name="line.42"></a>
-<span class="sourceLineNo">043</span>   */<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  ZERO_COORDINATE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),<a name="line.44"></a>
-<span class="sourceLineNo">045</span><a name="line.45"></a>
-<span class="sourceLineNo">046</span>  /**<a name="line.46"></a>
-<span class="sourceLineNo">047</span>   * Coordinate has a latitude and/or longitude value beyond the maximum (or minimum) decimal value.<a name="line.47"></a>
-<span class="sourceLineNo">048</span>   */<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  COORDINATE_OUT_OF_RANGE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),<a name="line.49"></a>
-<span class="sourceLineNo">050</span><a name="line.50"></a>
-<span class="sourceLineNo">051</span>  /**<a name="line.51"></a>
-<span class="sourceLineNo">052</span>   * Coordinate value is given in some form but GBIF is unable to interpret it.<a name="line.52"></a>
-<span class="sourceLineNo">053</span>   */<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  COORDINATE_INVALID(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),<a name="line.54"></a>
-<span class="sourceLineNo">055</span><a name="line.55"></a>
-<span class="sourceLineNo">056</span>  /**<a name="line.56"></a>
-<span class="sourceLineNo">057</span>   * Original coordinate modified by rounding to 5 decimals.<a name="line.57"></a>
-<span class="sourceLineNo">058</span>   */<a name="line.58"></a>
-<span class="sourceLineNo">059</span>  COORDINATE_ROUNDED(INFO, TermsGroup.COORDINATES_TERMS_NO_DATUM),<a name="line.59"></a>
-<span class="sourceLineNo">060</span><a name="line.60"></a>
-<span class="sourceLineNo">061</span>  /**<a name="line.61"></a>
-<span class="sourceLineNo">062</span>   * The geodetic datum given could not be interpreted.<a name="line.62"></a>
-<span class="sourceLineNo">063</span>   */<a name="line.63"></a>
-<span class="sourceLineNo">064</span>  GEODETIC_DATUM_INVALID(WARNING, DwcTerm.geodeticDatum),<a name="line.64"></a>
-<span class="sourceLineNo">065</span><a name="line.65"></a>
-<span class="sourceLineNo">066</span>  /**<a name="line.66"></a>
-<span class="sourceLineNo">067</span>   * Indicating that the interpreted coordinates assume they are based on WGS84 datum as the datum<a name="line.67"></a>
-<span class="sourceLineNo">068</span>   * was either not indicated or interpretable. See GEODETIC_DATUM_INVALID.<a name="line.68"></a>
-<span class="sourceLineNo">069</span>   */<a name="line.69"></a>
-<span class="sourceLineNo">070</span>  GEODETIC_DATUM_ASSUMED_WGS84(INFO, DwcTerm.geodeticDatum),<a name="line.70"></a>
-<span class="sourceLineNo">071</span><a name="line.71"></a>
-<span class="sourceLineNo">072</span>  /**<a name="line.72"></a>
-<span class="sourceLineNo">073</span>   * The original coordinate was successfully reprojected from a different geodetic datum to WGS84.<a name="line.73"></a>
-<span class="sourceLineNo">074</span>   */<a name="line.74"></a>
-<span class="sourceLineNo">075</span>  COORDINATE_REPROJECTED(INFO, TermsGroup.COORDINATES_TERMS),<a name="line.75"></a>
-<span class="sourceLineNo">076</span><a name="line.76"></a>
-<span class="sourceLineNo">077</span>  /**<a name="line.77"></a>
-<span class="sourceLineNo">078</span>   * The given decimal latitude and longitude could not be reprojected to WGS84 based on the<a name="line.78"></a>
-<span class="sourceLineNo">079</span>   * provided datum.<a name="line.79"></a>
-<span class="sourceLineNo">080</span>   */<a name="line.80"></a>
-<span class="sourceLineNo">081</span>  COORDINATE_REPROJECTION_FAILED(WARNING, TermsGroup.COORDINATES_TERMS),<a name="line.81"></a>
-<span class="sourceLineNo">082</span><a name="line.82"></a>
-<span class="sourceLineNo">083</span>  /**<a name="line.83"></a>
-<span class="sourceLineNo">084</span>   * Indicates successful coordinate reprojection according to provided datum, but which results in<a name="line.84"></a>
-<span class="sourceLineNo">085</span>   * a datum shift larger than 0.1 decimal degrees.<a name="line.85"></a>
-<span class="sourceLineNo">086</span>   */<a name="line.86"></a>
-<span class="sourceLineNo">087</span>  COORDINATE_REPROJECTION_SUSPICIOUS(WARNING, TermsGroup.COORDINATES_TERMS),<a name="line.87"></a>
-<span class="sourceLineNo">088</span><a name="line.88"></a>
-<span class="sourceLineNo">089</span>  /**<a name="line.89"></a>
-<span class="sourceLineNo">090</span>   * Indicates an invalid or very unlikely coordinate accuracy derived from precision or uncertainty<a name="line.90"></a>
-<span class="sourceLineNo">091</span>   * in meters.<a name="line.91"></a>
-<span class="sourceLineNo">092</span>   */<a name="line.92"></a>
-<span class="sourceLineNo">093</span>  @Deprecated //see POR-3061<a name="line.93"></a>
-<span class="sourceLineNo">094</span>  COORDINATE_ACCURACY_INVALID(WARNING),<a name="line.94"></a>
-<span class="sourceLineNo">095</span><a name="line.95"></a>
-<span class="sourceLineNo">096</span>  /**<a name="line.96"></a>
-<span class="sourceLineNo">097</span>   * Indicates an invalid or very unlikely coordinatePrecision<a name="line.97"></a>
-<span class="sourceLineNo">098</span>   */<a name="line.98"></a>
-<span class="sourceLineNo">099</span>  COORDINATE_PRECISION_INVALID(WARNING, DwcTerm.coordinatePrecision),<a name="line.99"></a>
-<span class="sourceLineNo">100</span><a name="line.100"></a>
-<span class="sourceLineNo">101</span>  /**<a name="line.101"></a>
-<span class="sourceLineNo">102</span>   * Indicates an invalid or very unlikely dwc:uncertaintyInMeters.<a name="line.102"></a>
-<span class="sourceLineNo">103</span>   */<a name="line.103"></a>
-<span class="sourceLineNo">104</span>  COORDINATE_UNCERTAINTY_METERS_INVALID(WARNING, DwcTerm.coordinateUncertaintyInMeters),<a name="line.104"></a>
-<span class="sourceLineNo">105</span><a name="line.105"></a>
-<span class="sourceLineNo">106</span>  /**<a name="line.106"></a>
-<span class="sourceLineNo">107</span>   * There is a mismatch between coordinate uncertainty in meters and coordinate precision.<a name="line.107"></a>
-<span class="sourceLineNo">108</span>   */<a name="line.108"></a>
-<span class="sourceLineNo">109</span>  @Deprecated //see POR-1804<a name="line.109"></a>
-<span class="sourceLineNo">110</span>  COORDINATE_PRECISION_UNCERTAINTY_MISMATCH(WARNING),<a name="line.110"></a>
-<span class="sourceLineNo">111</span><a name="line.111"></a>
-<span class="sourceLineNo">112</span>  /**<a name="line.112"></a>
-<span class="sourceLineNo">113</span>   * The Footprint Spatial Reference System given could not be interpreted.<a name="line.113"></a>
-<span class="sourceLineNo">114</span>   */<a name="line.114"></a>
-<span class="sourceLineNo">115</span>  FOOTPRINT_SRS_INVALID(WARNING, DwcTerm.footprintSRS),<a name="line.115"></a>
-<span class="sourceLineNo">116</span><a name="line.116"></a>
-<span class="sourceLineNo">117</span>  /**<a name="line.117"></a>
-<span class="sourceLineNo">118</span>   * The Footprint Well-Known-Text conflicts with the interpreted coordinates<a name="line.118"></a>
-<span class="sourceLineNo">119</span>   * (Decimal Latitude, Decimal Longitude etc).<a name="line.119"></a>
-<span class="sourceLineNo">120</span>   */<a name="line.120"></a>
-<span class="sourceLineNo">121</span>  FOOTPRINT_WKT_MISMATCH(WARNING, DwcTerm.footprintWKT),<a name="line.121"></a>
-<span class="sourceLineNo">122</span><a name="line.122"></a>
-<span class="sourceLineNo">123</span>  /**<a name="line.123"></a>
-<span class="sourceLineNo">124</span>   * The Footprint Well-Known-Text given could not be interpreted.<a name="line.124"></a>
-<span class="sourceLineNo">125</span>   */<a name="line.125"></a>
-<span class="sourceLineNo">126</span>  FOOTPRINT_WKT_INVALID(WARNING, DwcTerm.footprintWKT),<a name="line.126"></a>
-<span class="sourceLineNo">127</span><a name="line.127"></a>
-<span class="sourceLineNo">128</span>  /**<a name="line.128"></a>
-<span class="sourceLineNo">129</span>   * The interpreted occurrence coordinates fall outside of the indicated country.<a name="line.129"></a>
-<span class="sourceLineNo">130</span>   */<a name="line.130"></a>
-<span class="sourceLineNo">131</span>  COUNTRY_COORDINATE_MISMATCH(WARNING, TermsGroup.COORDINATES_COUNTRY_TERMS),<a name="line.131"></a>
-<span class="sourceLineNo">132</span><a name="line.132"></a>
-<span class="sourceLineNo">133</span>  /**<a name="line.133"></a>
-<span class="sourceLineNo">134</span>   * Interpreted country for dwc:country and dwc:countryCode contradict each other.<a name="line.134"></a>
-<span class="sourceLineNo">135</span>   */<a name="line.135"></a>
-<span class="sourceLineNo">136</span>  COUNTRY_MISMATCH(WARNING, TermsGroup.COUNTRY_TERMS),<a name="line.136"></a>
-<span class="sourceLineNo">137</span><a name="line.137"></a>
-<span class="sourceLineNo">138</span>  /**<a name="line.138"></a>
-<span class="sourceLineNo">139</span>   * Uninterpretable country values found.<a name="line.139"></a>
-<span class="sourceLineNo">140</span>   */<a name="line.140"></a>
-<span class="sourceLineNo">141</span>  COUNTRY_INVALID(WARNING, TermsGroup.COUNTRY_TERMS),<a name="line.141"></a>
-<span class="sourceLineNo">142</span><a name="line.142"></a>
-<span class="sourceLineNo">143</span>  /**<a name="line.143"></a>
-<span class="sourceLineNo">144</span>   * The interpreted country is based on the coordinates, not the verbatim string information.<a name="line.144"></a>
-<span class="sourceLineNo">145</span>   */<a name="line.145"></a>
-<span class="sourceLineNo">146</span>  COUNTRY_DERIVED_FROM_COORDINATES(WARNING, TermsGroup.COORDINATES_COUNTRY_TERMS),<a name="line.146"></a>
-<span class="sourceLineNo">147</span><a name="line.147"></a>
-<span class="sourceLineNo">148</span>  /**<a name="line.148"></a>
-<span class="sourceLineNo">149</span>   * The interpreted continent and country do not match.<a name="line.149"></a>
-<span class="sourceLineNo">150</span>   */<a name="line.150"></a>
-<span class="sourceLineNo">151</span>  CONTINENT_COUNTRY_MISMATCH(WARNING),<a name="line.151"></a>
-<span class="sourceLineNo">152</span><a name="line.152"></a>
-<span class="sourceLineNo">153</span>  /**<a name="line.153"></a>
-<span class="sourceLineNo">154</span>   * Uninterpretable continent values found.<a name="line.154"></a>
-<span class="sourceLineNo">155</span>   */<a name="line.155"></a>
-<span class="sourceLineNo">156</span>  CONTINENT_INVALID(WARNING),<a name="line.156"></a>
-<span class="sourceLineNo">157</span><a name="line.157"></a>
-<span class="sourceLineNo">158</span>  /**<a name="line.158"></a>
-<span class="sourceLineNo">159</span>   * The interpreted continent is based on the coordinates, not the verbatim string information.<a name="line.159"></a>
-<span class="sourceLineNo">160</span>   */<a name="line.160"></a>
-<span class="sourceLineNo">161</span>  CONTINENT_DERIVED_FROM_COORDINATES(WARNING),<a name="line.161"></a>
-<span class="sourceLineNo">162</span><a name="line.162"></a>
-<span class="sourceLineNo">163</span>  /**<a name="line.163"></a>
-<span class="sourceLineNo">164</span>   * Latitude and longitude appear to be swapped.<a name="line.164"></a>
-<span class="sourceLineNo">165</span>   */<a name="line.165"></a>
-<span class="sourceLineNo">166</span>  PRESUMED_SWAPPED_COORDINATE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),<a name="line.166"></a>
-<span class="sourceLineNo">167</span><a name="line.167"></a>
-<span class="sourceLineNo">168</span>  /**<a name="line.168"></a>
-<span class="sourceLineNo">169</span>   * Longitude appears to be negated, e.g. 32.3 instead of -32.3<a name="line.169"></a>
-<span class="sourceLineNo">170</span>   */<a name="line.170"></a>
-<span class="sourceLineNo">171</span>  PRESUMED_NEGATED_LONGITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),<a name="line.171"></a>
-<span class="sourceLineNo">172</span><a name="line.172"></a>
-<span class="sourceLineNo">173</span>  /**<a name="line.173"></a>
-<span class="sourceLineNo">174</span>   * Latitude appears to be negated, e.g. 32.3 instead of -32.3<a name="line.174"></a>
-<span class="sourceLineNo">175</span>   */<a name="line.175"></a>
-<span class="sourceLineNo">176</span>  PRESUMED_NEGATED_LATITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),<a name="line.176"></a>
-<span class="sourceLineNo">177</span><a name="line.177"></a>
-<span class="sourceLineNo">178</span>  /**<a name="line.178"></a>
-<span class="sourceLineNo">179</span>   * The recorded date specified as the eventDate string and the individual year, month, day are<a name="line.179"></a>
-<span class="sourceLineNo">180</span>   * contradictory.<a name="line.180"></a>
-<span class="sourceLineNo">181</span>   */<a name="line.181"></a>
-<span class="sourceLineNo">182</span>  RECORDED_DATE_MISMATCH(WARNING, TermsGroup.RECORDED_DATE_TERMS),<a name="line.182"></a>
-<span class="sourceLineNo">183</span><a name="line.183"></a>
-<span class="sourceLineNo">184</span>  /**<a name="line.184"></a>
-<span class="sourceLineNo">185</span>   * A (partial) invalid date is given, such as a non existing date, zero month, etc.<a name="line.185"></a>
-<span class="sourceLineNo">186</span>   */<a name="line.186"></a>
-<span class="sourceLineNo">187</span>  RECORDED_DATE_INVALID(WARNING, TermsGroup.RECORDED_DATE_TERMS),<a name="line.187"></a>
-<span class="sourceLineNo">188</span><a name="line.188"></a>
-<span class="sourceLineNo">189</span>  /**<a name="line.189"></a>
-<span class="sourceLineNo">190</span>   * The recorded date is highly unlikely, falling either into the future or representing a very old<a name="line.190"></a>
-<span class="sourceLineNo">191</span>   * date before 1600 thus predating modern taxonomy.<a name="line.191"></a>
-<span class="sourceLineNo">192</span>   */<a name="line.192"></a>
-<span class="sourceLineNo">193</span>  RECORDED_DATE_UNLIKELY(WARNING, TermsGroup.RECORDED_DATE_TERMS),<a name="line.193"></a>
-<span class="sourceLineNo">194</span><a name="line.194"></a>
-<span class="sourceLineNo">195</span>  /**<a name="line.195"></a>
-<span class="sourceLineNo">196</span>   * Matching to the taxonomic backbone can only be done using a fuzzy, non exact match.<a name="line.196"></a>
-<span class="sourceLineNo">197</span>   */<a name="line.197"></a>
-<span class="sourceLineNo">198</span>  TAXON_MATCH_FUZZY(WARNING, TermsGroup.TAXONOMY_TERMS),<a name="line.198"></a>
-<span class="sourceLineNo">199</span><a name="line.199"></a>
-<span class="sourceLineNo">200</span>  /**<a name="line.200"></a>
-<span class="sourceLineNo">201</span>   * Matching to the taxonomic backbone can only be done on a higher rank and not the scientific<a name="line.201"></a>
-<span class="sourceLineNo">202</span>   * name.<a name="line.202"></a>
-<span class="sourceLineNo">203</span>   */<a name="line.203"></a>
-<span class="sourceLineNo">204</span>  TAXON_MATCH_HIGHERRANK(WARNING, TermsGroup.TAXONOMY_TERMS),<a name="line.204"></a>
-<span class="sourceLineNo">205</span><a name="line.205"></a>
-<span class="sourceLineNo">206</span>  /**<a name="line.206"></a>
-<span class="sourceLineNo">207</span>   * Matching to the taxonomic backbone can only be done on a species level,<a name="line.207"></a>
-<span class="sourceLineNo">208</span>   * but the occurrence was in fact considered a broader species aggregate/complex.<a name="line.208"></a>
-<span class="sourceLineNo">209</span>   * @see &lt;a href="https://github.com/gbif/portal-feedback/issues/2935"&gt;gbif/portal-feedback#2935&lt;/a&gt;<a name="line.209"></a>
-<span class="sourceLineNo">210</span>   */<a name="line.210"></a>
-<span class="sourceLineNo">211</span>  TAXON_MATCH_AGGREGATE(WARNING, TermsGroup.TAXONOMY_TERMS),<a name="line.211"></a>
-<span class="sourceLineNo">212</span><a name="line.212"></a>
-<span class="sourceLineNo">213</span>  /**<a name="line.213"></a>
-<span class="sourceLineNo">214</span>   * Matching to the taxonomic backbone cannot be done because there was no match at all, or several<a name="line.214"></a>
-<span class="sourceLineNo">215</span>   * matches with too little information to keep them apart (potentially homonyms).<a name="line.215"></a>
-<span class="sourceLineNo">216</span>   */<a name="line.216"></a>
-<span class="sourceLineNo">217</span>  TAXON_MATCH_NONE(WARNING, TermsGroup.TAXONOMY_TERMS),<a name="line.217"></a>
-<span class="sourceLineNo">218</span><a name="line.218"></a>
-<span class="sourceLineNo">219</span>  /**<a name="line.219"></a>
-<span class="sourceLineNo">220</span>   * Set if supplied depth is not given in the metric system, for example using feet instead of<a name="line.220"></a>
-<span class="sourceLineNo">221</span>   * meters<a name="line.221"></a>
-<span class="sourceLineNo">222</span>   */<a name="line.222"></a>
-<span class="sourceLineNo">223</span>  DEPTH_NOT_METRIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),<a name="line.223"></a>
-<span class="sourceLineNo">224</span><a name="line.224"></a>
-<span class="sourceLineNo">225</span>  /**<a name="line.225"></a>
-<span class="sourceLineNo">226</span>   * Set if depth is larger than 11,000m or negative.<a name="line.226"></a>
-<span class="sourceLineNo">227</span>   */<a name="line.227"></a>
-<span class="sourceLineNo">228</span>  DEPTH_UNLIKELY(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),<a name="line.228"></a>
-<span class="sourceLineNo">229</span><a name="line.229"></a>
-<span class="sourceLineNo">230</span>  /**<a name="line.230"></a>
-<span class="sourceLineNo">231</span>   * Set if supplied minimum depth &gt; maximum depth<a name="line.231"></a>
-<span class="sourceLineNo">232</span>   */<a name="line.232"></a>
-<span class="sourceLineNo">233</span>  DEPTH_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),<a name="line.233"></a>
-<span class="sourceLineNo">234</span><a name="line.234"></a>
-<span class="sourceLineNo">235</span>  /**<a name="line.235"></a>
-<span class="sourceLineNo">236</span>   * Set if depth is a non-numeric value<a name="line.236"></a>
-<span class="sourceLineNo">237</span>   */<a name="line.237"></a>
-<span class="sourceLineNo">238</span>  DEPTH_NON_NUMERIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),<a name="line.238"></a>
-<span class="sourceLineNo">239</span><a name="line.239"></a>
-<span class="sourceLineNo">240</span>  /**<a name="line.240"></a>
-<span class="sourceLineNo">241</span>   * Set if elevation is above the troposphere (17km) or below 11km (Mariana Trench).<a name="line.241"></a>
-<span class="sourceLineNo">242</span>   */<a name="line.242"></a>
-<span class="sourceLineNo">243</span>  ELEVATION_UNLIKELY(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),<a name="line.243"></a>
-<span class="sourceLineNo">244</span><a name="line.244"></a>
-<span class="sourceLineNo">245</span>  /**<a name="line.245"></a>
-<span class="sourceLineNo">246</span>   * Set if supplied minimum elevation &gt; maximum elevation<a name="line.246"></a>
-<span class="sourceLineNo">247</span>   */<a name="line.247"></a>
-<span class="sourceLineNo">248</span>  ELEVATION_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumElevationInMeters,<a name="line.248"></a>
-<span class="sourceLineNo">249</span>    DwcTerm.maximumElevationInMeters),<a name="line.249"></a>
-<span class="sourceLineNo">250</span><a name="line.250"></a>
-<span class="sourceLineNo">251</span>  /**<a name="line.251"></a>
-<span class="sourceLineNo">252</span>   * Set if supplied elevation is not given in the metric system, for example using feet instead of<a name="line.252"></a>
-<span class="sourceLineNo">253</span>   * meters<a name="line.253"></a>
-<span class="sourceLineNo">254</span>   */<a name="line.254"></a>
-<span class="sourceLineNo">255</span>  ELEVATION_NOT_METRIC(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),<a name="line.255"></a>
-<span class="sourceLineNo">256</span><a name="line.256"></a>
-<span class="sourceLineNo">257</span>  /**<a name="line.257"></a>
-<span class="sourceLineNo">258</span>   * Set if elevation is a non-numeric value<a name="line.258"></a>
-<span class="sourceLineNo">259</span>   */<a name="line.259"></a>
-<span class="sourceLineNo">260</span>  ELEVATION_NON_NUMERIC(WARNING, DwcTerm.minimumElevationInMeters,<a name="line.260"></a>
-<span class="sourceLineNo">261</span>    DwcTerm.maximumElevationInMeters),<a name="line.261"></a>
-<span class="sourceLineNo">262</span><a name="line.262"></a>
-<span class="sourceLineNo">263</span>  /**<a name="line.263"></a>
-<span class="sourceLineNo">264</span>   * A (partial) invalid date is given for dc:modified, such as a nonexistent date, zero month, etc.<a name="line.264"></a>
-<span class="sourceLineNo">265</span>   */<a name="line.265"></a>
-<span class="sourceLineNo">266</span>  MODIFIED_DATE_INVALID(WARNING, DcTerm.modified),<a name="line.266"></a>
-<span class="sourceLineNo">267</span><a name="line.267"></a>
-<span class="sourceLineNo">268</span>  /**<a name="line.268"></a>
-<span class="sourceLineNo">269</span>   * The date given for dc:modified is in the future or predates Unix time (1970).<a name="line.269"></a>
-<span class="sourceLineNo">270</span>   */<a name="line.270"></a>
-<span class="sourceLineNo">271</span>  MODIFIED_DATE_UNLIKELY(WARNING, DcTerm.modified),<a name="line.271"></a>
-<span class="sourceLineNo">272</span><a name="line.272"></a>
-<span class="sourceLineNo">273</span>  /**<a name="line.273"></a>
-<span class="sourceLineNo">274</span>   * The date given for dwc:dateIdentified is in the future or before Linnean times (1700).<a name="line.274"></a>
-<span class="sourceLineNo">275</span>   */<a name="line.275"></a>
-<span class="sourceLineNo">276</span>  IDENTIFIED_DATE_UNLIKELY(WARNING, DwcTerm.dateIdentified),<a name="line.276"></a>
-<span class="sourceLineNo">277</span><a name="line.277"></a>
-<span class="sourceLineNo">278</span>  /**<a name="line.278"></a>
-<span class="sourceLineNo">279</span>   * The date given for dwc:dateIdentified is invalid and can't be interpreted at all.<a name="line.279"></a>
-<span class="sourceLineNo">280</span>   */<a name="line.280"></a>
-<span class="sourceLineNo">281</span>  IDENTIFIED_DATE_INVALID(WARNING, DwcTerm.dateIdentified),<a name="line.281"></a>
-<span class="sourceLineNo">282</span><a name="line.282"></a>
-<span class="sourceLineNo">283</span>  /**<a name="line.283"></a>
-<span class="sourceLineNo">284</span>   * The given basis of record is impossible to interpret or significantly different from the<a name="line.284"></a>
-<span class="sourceLineNo">285</span>   * recommended vocabulary.<a name="line.285"></a>
-<span class="sourceLineNo">286</span>   */<a name="line.286"></a>
-<span class="sourceLineNo">287</span>  BASIS_OF_RECORD_INVALID(WARNING, DwcTerm.basisOfRecord),<a name="line.287"></a>
-<span class="sourceLineNo">288</span><a name="line.288"></a>
-<span class="sourceLineNo">289</span>  /**<a name="line.289"></a>
-<span class="sourceLineNo">290</span>   * The given type status is impossible to interpret or significantly different from the<a name="line.290"></a>
-<span class="sourceLineNo">291</span>   * recommended vocabulary.<a name="line.291"></a>
-<span class="sourceLineNo">292</span>   */<a name="line.292"></a>
-<span class="sourceLineNo">293</span>  TYPE_STATUS_INVALID(WARNING, DwcTerm.typeStatus),<a name="line.293"></a>
-<span class="sourceLineNo">294</span><a name="line.294"></a>
-<span class="sourceLineNo">295</span>  /**<a name="line.295"></a>
-<span class="sourceLineNo">296</span>   * An invalid date is given for dc:created of a multimedia object.<a name="line.296"></a>
-<span class="sourceLineNo">297</span>   */<a name="line.297"></a>
-<span class="sourceLineNo">298</span>  MULTIMEDIA_DATE_INVALID(WARNING),<a name="line.298"></a>
-<span class="sourceLineNo">299</span><a name="line.299"></a>
-<span class="sourceLineNo">300</span>  /**<a name="line.300"></a>
-<span class="sourceLineNo">301</span>   * An invalid URI is given for a multimedia object.<a name="line.301"></a>
-<span class="sourceLineNo">302</span>   */<a name="line.302"></a>
-<span class="sourceLineNo">303</span>  MULTIMEDIA_URI_INVALID(WARNING),<a name="line.303"></a>
-<span class="sourceLineNo">304</span><a name="line.304"></a>
-<span class="sourceLineNo">305</span>  /**<a name="line.305"></a>
-<span class="sourceLineNo">306</span>   * An invalid URI is given for dc:references.<a name="line.306"></a>
-<span class="sourceLineNo">307</span>   */<a name="line.307"></a>
-<span class="sourceLineNo">308</span>  REFERENCES_URI_INVALID(WARNING, DcTerm.references),<a name="line.308"></a>
-<span class="sourceLineNo">309</span><a name="line.309"></a>
-<span class="sourceLineNo">310</span>  /**<a name="line.310"></a>
-<span class="sourceLineNo">311</span>   * An error occurred during interpretation, leaving the record interpretation incomplete.<a name="line.311"></a>
-<span class="sourceLineNo">312</span>   */<a name="line.312"></a>
-<span class="sourceLineNo">313</span>  INTERPRETATION_ERROR(ERROR),<a name="line.313"></a>
-<span class="sourceLineNo">314</span><a name="line.314"></a>
-<span class="sourceLineNo">315</span>  /**<a name="line.315"></a>
-<span class="sourceLineNo">316</span>   * The individual count value is not a positive integer<a name="line.316"></a>
-<span class="sourceLineNo">317</span>   */<a name="line.317"></a>
-<span class="sourceLineNo">318</span>  INDIVIDUAL_COUNT_INVALID(WARNING, DwcTerm.individualCount),<a name="line.318"></a>
-<span class="sourceLineNo">319</span><a name="line.319"></a>
-<span class="sourceLineNo">320</span>  /**<a name="line.320"></a>
-<span class="sourceLineNo">321</span>   * Example: individual count value &gt; 0, but occurrence status is absent.<a name="line.321"></a>
-<span class="sourceLineNo">322</span>   */<a name="line.322"></a>
-<span class="sourceLineNo">323</span>  INDIVIDUAL_COUNT_CONFLICTS_WITH_OCCURRENCE_STATUS(WARNING, DwcTerm.individualCount),<a name="line.323"></a>
-<span class="sourceLineNo">324</span><a name="line.324"></a>
-<span class="sourceLineNo">325</span>  /**<a name="line.325"></a>
-<span class="sourceLineNo">326</span>   * Occurrence status value can't be assigned to {@link OccurrenceStatus}<a name="line.326"></a>
-<span class="sourceLineNo">327</span>   */<a name="line.327"></a>
-<span class="sourceLineNo">328</span>  OCCURRENCE_STATUS_UNPARSABLE(WARNING, DwcTerm.occurrenceStatus),<a name="line.328"></a>
-<span class="sourceLineNo">329</span><a name="line.329"></a>
-<span class="sourceLineNo">330</span>  /**<a name="line.330"></a>
-<span class="sourceLineNo">331</span>   * Occurrence status was inferred from the individual count value<a name="line.331"></a>
-<span class="sourceLineNo">332</span>   */<a name="line.332"></a>
-<span class="sourceLineNo">333</span>  OCCURRENCE_STATUS_INFERRED_FROM_INDIVIDUAL_COUNT(WARNING, DwcTerm.occurrenceStatus),<a name="line.333"></a>
-<span class="sourceLineNo">334</span><a name="line.334"></a>
-<span class="sourceLineNo">335</span>  /**<a name="line.335"></a>
-<span class="sourceLineNo">336</span>   * Occurrence status was inferred from basis of records<a name="line.336"></a>
-<span class="sourceLineNo">337</span>   */<a name="line.337"></a>
-<span class="sourceLineNo">338</span>  OCCURRENCE_STATUS_INFERRED_FROM_BASIS_OF_RECORD(WARNING, DwcTerm.occurrenceStatus),<a name="line.338"></a>
-<span class="sourceLineNo">339</span><a name="line.339"></a>
-<span class="sourceLineNo">340</span>  /**<a name="line.340"></a>
-<span class="sourceLineNo">341</span>   * The date given for dwc:georeferencedDate is in the future or before Linnean times (1700).<a name="line.341"></a>
-<span class="sourceLineNo">342</span>   */<a name="line.342"></a>
-<span class="sourceLineNo">343</span>  GEOREFERENCED_DATE_UNLIKELY(WARNING, DwcTerm.georeferencedDate),<a name="line.343"></a>
-<span class="sourceLineNo">344</span><a name="line.344"></a>
-<span class="sourceLineNo">345</span>  /**<a name="line.345"></a>
-<span class="sourceLineNo">346</span>   * The date given for dwc:georeferencedDate is invalid and can't be interpreted at all.<a name="line.346"></a>
-<span class="sourceLineNo">347</span>   */<a name="line.347"></a>
-<span class="sourceLineNo">348</span>  GEOREFERENCED_DATE_INVALID(WARNING, DwcTerm.georeferencedDate),<a name="line.348"></a>
-<span class="sourceLineNo">349</span><a name="line.349"></a>
-<span class="sourceLineNo">350</span>  /**<a name="line.350"></a>
-<span class="sourceLineNo">351</span>   * The given institution matches with more than 1 GRSciColl institution.<a name="line.351"></a>
-<span class="sourceLineNo">352</span>   */<a name="line.352"></a>
-<span class="sourceLineNo">353</span>  AMBIGUOUS_INSTITUTION(WARNING, TermsGroup.INSTITUTION_TERMS),<a name="line.353"></a>
-<span class="sourceLineNo">354</span><a name="line.354"></a>
-<span class="sourceLineNo">355</span>  /**<a name="line.355"></a>
-<span class="sourceLineNo">356</span>   * The given collection matches with more than 1 GRSciColl collection.<a name="line.356"></a>
-<span class="sourceLineNo">357</span>   */<a name="line.357"></a>
-<span class="sourceLineNo">358</span>  AMBIGUOUS_COLLECTION(WARNING, TermsGroup.COLLECTION_TERMS),<a name="line.358"></a>
-<span class="sourceLineNo">359</span><a name="line.359"></a>
-<span class="sourceLineNo">360</span>  /**<a name="line.360"></a>
-<span class="sourceLineNo">361</span>   * The given institution couldn't be matched with any GRSciColl institution.<a name="line.361"></a>
-<span class="sourceLineNo">362</span>   */<a name="line.362"></a>
-<span class="sourceLineNo">363</span>  INSTITUTION_MATCH_NONE(WARNING, TermsGroup.INSTITUTION_TERMS),<a name="line.363"></a>
-<span class="sourceLineNo">364</span><a name="line.364"></a>
-<span class="sourceLineNo">365</span>  /**<a name="line.365"></a>
-<span class="sourceLineNo">366</span>   * The given collection couldn't be matched with any GRSciColl collection.<a name="line.366"></a>
-<span class="sourceLineNo">367</span>   */<a name="line.367"></a>
-<span class="sourceLineNo">368</span>  COLLECTION_MATCH_NONE(WARNING, TermsGroup.COLLECTION_TERMS),<a name="line.368"></a>
-<span class="sourceLineNo">369</span><a name="line.369"></a>
-<span class="sourceLineNo">370</span>  /**<a name="line.370"></a>
-<span class="sourceLineNo">371</span>   * The given institution was fuzzily matched to a GRSciColl institution. This can happen when<a name="line.371"></a>
-<span class="sourceLineNo">372</span>   * either the code or the ID don't match or when the institution name is used instead of the code.<a name="line.372"></a>
-<span class="sourceLineNo">373</span>   */<a name="line.373"></a>
-<span class="sourceLineNo">374</span>  INSTITUTION_MATCH_FUZZY(WARNING, TermsGroup.INSTITUTION_TERMS),<a name="line.374"></a>
-<span class="sourceLineNo">375</span><a name="line.375"></a>
-<span class="sourceLineNo">376</span>  /**<a name="line.376"></a>
-<span class="sourceLineNo">377</span>   * The given collection was fuzzily matched to a GRSciColl collection. This can happen when either<a name="line.377"></a>
-<span class="sourceLineNo">378</span>   * the code or the ID don't match or when the collection name is used instead of the code.<a name="line.378"></a>
-<span class="sourceLineNo">379</span>   */<a name="line.379"></a>
-<span class="sourceLineNo">380</span>  COLLECTION_MATCH_FUZZY(WARNING, TermsGroup.COLLECTION_TERMS),<a name="line.380"></a>
-<span class="sourceLineNo">381</span><a name="line.381"></a>
-<span class="sourceLineNo">382</span>  /** The collection matched doesn't belong to the institution matched. */<a name="line.382"></a>
-<span class="sourceLineNo">383</span>  INSTITUTION_COLLECTION_MISMATCH(<a name="line.383"></a>
-<span class="sourceLineNo">384</span>      WARNING, ArrayUtils.addAll(TermsGroup.INSTITUTION_TERMS, TermsGroup.INSTITUTION_TERMS)),<a name="line.384"></a>
-<span class="sourceLineNo">385</span><a name="line.385"></a>
-<span class="sourceLineNo">386</span>  /**<a name="line.386"></a>
-<span class="sourceLineNo">387</span>   * The given owner institution is different than the given institution. Therefore we assume it<a name="line.387"></a>
-<span class="sourceLineNo">388</span>   * could be on loan and we don't link it to the occurrence.<a name="line.388"></a>
-<span class="sourceLineNo">389</span>   *<a name="line.389"></a>
-<span class="sourceLineNo">390</span>   * Deprecated by {@link #DIFFERENT_OWNER_INSTITUTION}.<a name="line.390"></a>
-<span class="sourceLineNo">391</span>   */<a name="line.391"></a>
-<span class="sourceLineNo">392</span>  @Deprecated<a name="line.392"></a>
-<span class="sourceLineNo">393</span>  POSSIBLY_ON_LOAN(INFO, TermsGroup.INSTITUTION_TERMS),<a name="line.393"></a>
-<span class="sourceLineNo">394</span><a name="line.394"></a>
-<span class="sourceLineNo">395</span>  /**<a name="line.395"></a>
-<span class="sourceLineNo">396</span>   * The given owner institution is different than the given institution. Therefore we assume it<a name="line.396"></a>
-<span class="sourceLineNo">397</span>   * doesn't belong to the institution and we don't link it to the occurrence.<a name="line.397"></a>
-<span class="sourceLineNo">398</span>   */<a name="line.398"></a>
-<span class="sourceLineNo">399</span>  DIFFERENT_OWNER_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS);<a name="line.399"></a>
-<span class="sourceLineNo">400</span><a name="line.400"></a>
-<span class="sourceLineNo">401</span>  /**<a name="line.401"></a>
-<span class="sourceLineNo">402</span>   * Simple helper nested class to allow grouping of Term mostly to increase readability of this<a name="line.402"></a>
-<span class="sourceLineNo">403</span>   * class.<a name="line.403"></a>
-<span class="sourceLineNo">404</span>   */<a name="line.404"></a>
-<span class="sourceLineNo">405</span>  private static class TermsGroup {<a name="line.405"></a>
-<span class="sourceLineNo">406</span><a name="line.406"></a>
-<span class="sourceLineNo">407</span>    static final Term[] COORDINATES_TERMS_NO_DATUM = {<a name="line.407"></a>
-<span class="sourceLineNo">408</span>      DwcTerm.decimalLatitude,<a name="line.408"></a>
-<span class="sourceLineNo">409</span>      DwcTerm.decimalLongitude,<a name="line.409"></a>
-<span class="sourceLineNo">410</span>      DwcTerm.verbatimLatitude,<a name="line.410"></a>
-<span class="sourceLineNo">411</span>      DwcTerm.verbatimLongitude,<a name="line.411"></a>
-<span class="sourceLineNo">412</span>      DwcTerm.verbatimCoordinates<a name="line.412"></a>
-<span class="sourceLineNo">413</span>    };<a name="line.413"></a>
-<span class="sourceLineNo">414</span><a name="line.414"></a>
-<span class="sourceLineNo">415</span>    static final Term[] COORDINATES_TERMS = {<a name="line.415"></a>
-<span class="sourceLineNo">416</span>      DwcTerm.decimalLatitude,<a name="line.416"></a>
-<span class="sourceLineNo">417</span>      DwcTerm.decimalLongitude,<a name="line.417"></a>
-<span class="sourceLineNo">418</span>      DwcTerm.verbatimLatitude,<a name="line.418"></a>
-<span class="sourceLineNo">419</span>      DwcTerm.verbatimLongitude,<a name="line.419"></a>
-<span class="sourceLineNo">420</span>      DwcTerm.verbatimCoordinates,<a name="line.420"></a>
-<span class="sourceLineNo">421</span>      DwcTerm.geodeticDatum<a name="line.421"></a>
-<span class="sourceLineNo">422</span>    };<a name="line.422"></a>
-<span class="sourceLineNo">423</span><a name="line.423"></a>
-<span class="sourceLineNo">424</span>    static final Term[] COUNTRY_TERMS = {<a name="line.424"></a>
-<span class="sourceLineNo">425</span>      DwcTerm.country,<a name="line.425"></a>
-<span class="sourceLineNo">426</span>      DwcTerm.countryCode<a name="line.426"></a>
-<span class="sourceLineNo">427</span>    };<a name="line.427"></a>
-<span class="sourceLineNo">428</span><a name="line.428"></a>
-<span class="sourceLineNo">429</span>    static final Term[] COORDINATES_COUNTRY_TERMS = {<a name="line.429"></a>
-<span class="sourceLineNo">430</span>      DwcTerm.decimalLatitude,<a name="line.430"></a>
-<span class="sourceLineNo">431</span>      DwcTerm.decimalLongitude,<a name="line.431"></a>
-<span class="sourceLineNo">432</span>      DwcTerm.verbatimLatitude,<a name="line.432"></a>
-<span class="sourceLineNo">433</span>      DwcTerm.verbatimLongitude,<a name="line.433"></a>
-<span class="sourceLineNo">434</span>      DwcTerm.verbatimCoordinates,<a name="line.434"></a>
-<span class="sourceLineNo">435</span>      DwcTerm.geodeticDatum,<a name="line.435"></a>
-<span class="sourceLineNo">436</span>      DwcTerm.country,<a name="line.436"></a>
-<span class="sourceLineNo">437</span>      DwcTerm.countryCode<a name="line.437"></a>
-<span class="sourceLineNo">438</span>    };<a name="line.438"></a>
-<span class="sourceLineNo">439</span><a name="line.439"></a>
-<span class="sourceLineNo">440</span>    static final Term[] RECORDED_DATE_TERMS = {<a name="line.440"></a>
-<span class="sourceLineNo">441</span>      DwcTerm.eventDate,<a name="line.441"></a>
-<span class="sourceLineNo">442</span>      DwcTerm.year, DwcTerm.month, DwcTerm.day<a name="line.442"></a>
-<span class="sourceLineNo">443</span>    };<a name="line.443"></a>
-<span class="sourceLineNo">444</span><a name="line.444"></a>
-<span class="sourceLineNo">445</span>    static final Term[] TAXONOMY_TERMS = {<a name="line.445"></a>
-<span class="sourceLineNo">446</span>      DwcTerm.kingdom,<a name="line.446"></a>
-<span class="sourceLineNo">447</span>      DwcTerm.phylum,<a name="line.447"></a>
-<span class="sourceLineNo">448</span>      DwcTerm.class_,<a name="line.448"></a>
-<span class="sourceLineNo">449</span>      DwcTerm.order,<a name="line.449"></a>
-<span class="sourceLineNo">450</span>      DwcTerm.family,<a name="line.450"></a>
-<span class="sourceLineNo">451</span>      DwcTerm.genus,<a name="line.451"></a>
-<span class="sourceLineNo">452</span>      DwcTerm.scientificName,<a name="line.452"></a>
-<span class="sourceLineNo">453</span>      DwcTerm.scientificNameAuthorship,<a name="line.453"></a>
-<span class="sourceLineNo">454</span>      GbifTerm.genericName,<a name="line.454"></a>
-<span class="sourceLineNo">455</span>      DwcTerm.specificEpithet,<a name="line.455"></a>
-<span class="sourceLineNo">456</span>      DwcTerm.infraspecificEpithet<a name="line.456"></a>
-<span class="sourceLineNo">457</span>    };<a name="line.457"></a>
-<span class="sourceLineNo">458</span><a name="line.458"></a>
-<span class="sourceLineNo">459</span>    static final Term[] INSTITUTION_TERMS = {<a name="line.459"></a>
-<span class="sourceLineNo">460</span>      DwcTerm.institutionCode, DwcTerm.institutionID, DwcTerm.ownerInstitutionCode<a name="line.460"></a>
-<span class="sourceLineNo">461</span>    };<a name="line.461"></a>
+<span class="sourceLineNo">008</span> * Unless required by applicable law or agreed to in writing, software<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * See the License for the specific language governing permissions and<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * limitations under the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span>package org.gbif.api.vocabulary;<a name="line.14"></a>
+<span class="sourceLineNo">015</span><a name="line.15"></a>
+<span class="sourceLineNo">016</span>import org.gbif.api.util.AnnotationUtils;<a name="line.16"></a>
+<span class="sourceLineNo">017</span>import org.gbif.dwc.terms.DcTerm;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import org.gbif.dwc.terms.DwcTerm;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import org.gbif.dwc.terms.Term;<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>import java.util.Arrays;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.util.Collections;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import java.util.HashSet;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.util.List;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.util.Set;<a name="line.25"></a>
+<span class="sourceLineNo">026</span><a name="line.26"></a>
+<span class="sourceLineNo">027</span>import org.apache.commons.lang3.ArrayUtils;<a name="line.27"></a>
+<span class="sourceLineNo">028</span><a name="line.28"></a>
+<span class="sourceLineNo">029</span>import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.ERROR;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.INFO;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;<a name="line.31"></a>
+<span class="sourceLineNo">032</span><a name="line.32"></a>
+<span class="sourceLineNo">033</span>/**<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * An enumeration of validation rules for single occurrence records.<a name="line.34"></a>
+<span class="sourceLineNo">035</span> */<a name="line.35"></a>
+<span class="sourceLineNo">036</span>public enum OccurrenceIssue implements InterpretationRemark {<a name="line.36"></a>
+<span class="sourceLineNo">037</span><a name="line.37"></a>
+<span class="sourceLineNo">038</span>  /**<a name="line.38"></a>
+<span class="sourceLineNo">039</span>   * Coordinate is the exact 0°, 0° coordinate, often indicating a bad null coordinate.<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   */<a name="line.40"></a>
+<span class="sourceLineNo">041</span>  ZERO_COORDINATE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),<a name="line.41"></a>
+<span class="sourceLineNo">042</span><a name="line.42"></a>
+<span class="sourceLineNo">043</span>  /**<a name="line.43"></a>
+<span class="sourceLineNo">044</span>   * Coordinate has a latitude and/or longitude value beyond the maximum (or minimum) decimal value.<a name="line.44"></a>
+<span class="sourceLineNo">045</span>   */<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  COORDINATE_OUT_OF_RANGE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),<a name="line.46"></a>
+<span class="sourceLineNo">047</span><a name="line.47"></a>
+<span class="sourceLineNo">048</span>  /**<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   * Coordinate value is given in some form but GBIF is unable to interpret it.<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   */<a name="line.50"></a>
+<span class="sourceLineNo">051</span>  COORDINATE_INVALID(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),<a name="line.51"></a>
+<span class="sourceLineNo">052</span><a name="line.52"></a>
+<span class="sourceLineNo">053</span>  /**<a name="line.53"></a>
+<span class="sourceLineNo">054</span>   * Original coordinate modified by rounding to 5 decimals.<a name="line.54"></a>
+<span class="sourceLineNo">055</span>   */<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  COORDINATE_ROUNDED(INFO, TermsGroup.COORDINATES_TERMS_NO_DATUM),<a name="line.56"></a>
+<span class="sourceLineNo">057</span><a name="line.57"></a>
+<span class="sourceLineNo">058</span>  /**<a name="line.58"></a>
+<span class="sourceLineNo">059</span>   * The geodetic datum given could not be interpreted.<a name="line.59"></a>
+<span class="sourceLineNo">060</span>   */<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  GEODETIC_DATUM_INVALID(WARNING, DwcTerm.geodeticDatum),<a name="line.61"></a>
+<span class="sourceLineNo">062</span><a name="line.62"></a>
+<span class="sourceLineNo">063</span>  /**<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   * Indicating that the interpreted coordinates assume they are based on WGS84 datum as the datum<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   * was either not indicated or interpretable. See GEODETIC_DATUM_INVALID.<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   */<a name="line.66"></a>
+<span class="sourceLineNo">067</span>  GEODETIC_DATUM_ASSUMED_WGS84(INFO, DwcTerm.geodeticDatum),<a name="line.67"></a>
+<span class="sourceLineNo">068</span><a name="line.68"></a>
+<span class="sourceLineNo">069</span>  /**<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * The original coordinate was successfully reprojected from a different geodetic datum to WGS84.<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   */<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  COORDINATE_REPROJECTED(INFO, TermsGroup.COORDINATES_TERMS),<a name="line.72"></a>
+<span class="sourceLineNo">073</span><a name="line.73"></a>
+<span class="sourceLineNo">074</span>  /**<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   * The given decimal latitude and longitude could not be reprojected to WGS84 based on the<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   * provided datum.<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   */<a name="line.77"></a>
+<span class="sourceLineNo">078</span>  COORDINATE_REPROJECTION_FAILED(WARNING, TermsGroup.COORDINATES_TERMS),<a name="line.78"></a>
+<span class="sourceLineNo">079</span><a name="line.79"></a>
+<span class="sourceLineNo">080</span>  /**<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   * Indicates successful coordinate reprojection according to provided datum, but which results in<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   * a datum shift larger than 0.1 decimal degrees.<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   */<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  COORDINATE_REPROJECTION_SUSPICIOUS(WARNING, TermsGroup.COORDINATES_TERMS),<a name="line.84"></a>
+<span class="sourceLineNo">085</span><a name="line.85"></a>
+<span class="sourceLineNo">086</span>  /**<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * Indicates an invalid or very unlikely coordinate accuracy derived from precision or uncertainty<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   * in meters.<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   */<a name="line.89"></a>
+<span class="sourceLineNo">090</span>  @Deprecated //see POR-3061<a name="line.90"></a>
+<span class="sourceLineNo">091</span>  COORDINATE_ACCURACY_INVALID(WARNING),<a name="line.91"></a>
+<span class="sourceLineNo">092</span><a name="line.92"></a>
+<span class="sourceLineNo">093</span>  /**<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   * Indicates an invalid or very unlikely coordinatePrecision<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   */<a name="line.95"></a>
+<span class="sourceLineNo">096</span>  COORDINATE_PRECISION_INVALID(WARNING, DwcTerm.coordinatePrecision),<a name="line.96"></a>
+<span class="sourceLineNo">097</span><a name="line.97"></a>
+<span class="sourceLineNo">098</span>  /**<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * Indicates an invalid or very unlikely dwc:uncertaintyInMeters.<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   */<a name="line.100"></a>
+<span class="sourceLineNo">101</span>  COORDINATE_UNCERTAINTY_METERS_INVALID(WARNING, DwcTerm.coordinateUncertaintyInMeters),<a name="line.101"></a>
+<span class="sourceLineNo">102</span><a name="line.102"></a>
+<span class="sourceLineNo">103</span>  /**<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   * There is a mismatch between coordinate uncertainty in meters and coordinate precision.<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   */<a name="line.105"></a>
+<span class="sourceLineNo">106</span>  @Deprecated //see POR-1804<a name="line.106"></a>
+<span class="sourceLineNo">107</span>  COORDINATE_PRECISION_UNCERTAINTY_MISMATCH(WARNING),<a name="line.107"></a>
+<span class="sourceLineNo">108</span><a name="line.108"></a>
+<span class="sourceLineNo">109</span>  /**<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   * The Footprint Spatial Reference System given could not be interpreted.<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   */<a name="line.111"></a>
+<span class="sourceLineNo">112</span>  FOOTPRINT_SRS_INVALID(WARNING, DwcTerm.footprintSRS),<a name="line.112"></a>
+<span class="sourceLineNo">113</span><a name="line.113"></a>
+<span class="sourceLineNo">114</span>  /**<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   * The Footprint Well-Known-Text conflicts with the interpreted coordinates<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   * (Decimal Latitude, Decimal Longitude etc).<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   */<a name="line.117"></a>
+<span class="sourceLineNo">118</span>  FOOTPRINT_WKT_MISMATCH(WARNING, DwcTerm.footprintWKT),<a name="line.118"></a>
+<span class="sourceLineNo">119</span><a name="line.119"></a>
+<span class="sourceLineNo">120</span>  /**<a name="line.120"></a>
+<span class="sourceLineNo">121</span>   * The Footprint Well-Known-Text given could not be interpreted.<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   */<a name="line.122"></a>
+<span class="sourceLineNo">123</span>  FOOTPRINT_WKT_INVALID(WARNING, DwcTerm.footprintWKT),<a name="line.123"></a>
+<span class="sourceLineNo">124</span><a name="line.124"></a>
+<span class="sourceLineNo">125</span>  /**<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * The interpreted occurrence coordinates fall outside of the indicated country.<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   */<a name="line.127"></a>
+<span class="sourceLineNo">128</span>  COUNTRY_COORDINATE_MISMATCH(WARNING, TermsGroup.COORDINATES_COUNTRY_TERMS),<a name="line.128"></a>
+<span class="sourceLineNo">129</span><a name="line.129"></a>
+<span class="sourceLineNo">130</span>  /**<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   * Interpreted country for dwc:country and dwc:countryCode contradict each other.<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   */<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  COUNTRY_MISMATCH(WARNING, TermsGroup.COUNTRY_TERMS),<a name="line.133"></a>
+<span class="sourceLineNo">134</span><a name="line.134"></a>
+<span class="sourceLineNo">135</span>  /**<a name="line.135"></a>
+<span class="sourceLineNo">136</span>   * Uninterpretable country values found.<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   */<a name="line.137"></a>
+<span class="sourceLineNo">138</span>  COUNTRY_INVALID(WARNING, TermsGroup.COUNTRY_TERMS),<a name="line.138"></a>
+<span class="sourceLineNo">139</span><a name="line.139"></a>
+<span class="sourceLineNo">140</span>  /**<a name="line.140"></a>
+<span class="sourceLineNo">141</span>   * The interpreted country is based on the coordinates, not the verbatim string information.<a name="line.141"></a>
+<span class="sourceLineNo">142</span>   */<a name="line.142"></a>
+<span class="sourceLineNo">143</span>  COUNTRY_DERIVED_FROM_COORDINATES(WARNING, TermsGroup.COORDINATES_COUNTRY_TERMS),<a name="line.143"></a>
+<span class="sourceLineNo">144</span><a name="line.144"></a>
+<span class="sourceLineNo">145</span>  /**<a name="line.145"></a>
+<span class="sourceLineNo">146</span>   * The interpreted continent and country do not match.<a name="line.146"></a>
+<span class="sourceLineNo">147</span>   */<a name="line.147"></a>
+<span class="sourceLineNo">148</span>  CONTINENT_COUNTRY_MISMATCH(WARNING),<a name="line.148"></a>
+<span class="sourceLineNo">149</span><a name="line.149"></a>
+<span class="sourceLineNo">150</span>  /**<a name="line.150"></a>
+<span class="sourceLineNo">151</span>   * Uninterpretable continent values found.<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   */<a name="line.152"></a>
+<span class="sourceLineNo">153</span>  CONTINENT_INVALID(WARNING),<a name="line.153"></a>
+<span class="sourceLineNo">154</span><a name="line.154"></a>
+<span class="sourceLineNo">155</span>  /**<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   * The interpreted continent is based on the coordinates, not the verbatim string information.<a name="line.156"></a>
+<span class="sourceLineNo">157</span>   */<a name="line.157"></a>
+<span class="sourceLineNo">158</span>  CONTINENT_DERIVED_FROM_COORDINATES(WARNING),<a name="line.158"></a>
+<span class="sourceLineNo">159</span><a name="line.159"></a>
+<span class="sourceLineNo">160</span>  /**<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   * Latitude and longitude appear to be swapped.<a name="line.161"></a>
+<span class="sourceLineNo">162</span>   */<a name="line.162"></a>
+<span class="sourceLineNo">163</span>  PRESUMED_SWAPPED_COORDINATE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),<a name="line.163"></a>
+<span class="sourceLineNo">164</span><a name="line.164"></a>
+<span class="sourceLineNo">165</span>  /**<a name="line.165"></a>
+<span class="sourceLineNo">166</span>   * Longitude appears to be negated, e.g. 32.3 instead of -32.3<a name="line.166"></a>
+<span class="sourceLineNo">167</span>   */<a name="line.167"></a>
+<span class="sourceLineNo">168</span>  PRESUMED_NEGATED_LONGITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),<a name="line.168"></a>
+<span class="sourceLineNo">169</span><a name="line.169"></a>
+<span class="sourceLineNo">170</span>  /**<a name="line.170"></a>
+<span class="sourceLineNo">171</span>   * Latitude appears to be negated, e.g. 32.3 instead of -32.3<a name="line.171"></a>
+<span class="sourceLineNo">172</span>   */<a name="line.172"></a>
+<span class="sourceLineNo">173</span>  PRESUMED_NEGATED_LATITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),<a name="line.173"></a>
+<span class="sourceLineNo">174</span><a name="line.174"></a>
+<span class="sourceLineNo">175</span>  /**<a name="line.175"></a>
+<span class="sourceLineNo">176</span>   * The recorded date specified as the eventDate string and the individual year, month, day are<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   * contradictory.<a name="line.177"></a>
+<span class="sourceLineNo">178</span>   */<a name="line.178"></a>
+<span class="sourceLineNo">179</span>  RECORDED_DATE_MISMATCH(WARNING, TermsGroup.RECORDED_DATE_TERMS),<a name="line.179"></a>
+<span class="sourceLineNo">180</span><a name="line.180"></a>
+<span class="sourceLineNo">181</span>  /**<a name="line.181"></a>
+<span class="sourceLineNo">182</span>   * A (partial) invalid date is given, such as a non existing date, zero month, etc.<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   */<a name="line.183"></a>
+<span class="sourceLineNo">184</span>  RECORDED_DATE_INVALID(WARNING, TermsGroup.RECORDED_DATE_TERMS),<a name="line.184"></a>
+<span class="sourceLineNo">185</span><a name="line.185"></a>
+<span class="sourceLineNo">186</span>  /**<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   * The recorded date is highly unlikely, falling either into the future or representing a very old<a name="line.187"></a>
+<span class="sourceLineNo">188</span>   * date before 1600 thus predating modern taxonomy.<a name="line.188"></a>
+<span class="sourceLineNo">189</span>   */<a name="line.189"></a>
+<span class="sourceLineNo">190</span>  RECORDED_DATE_UNLIKELY(WARNING, TermsGroup.RECORDED_DATE_TERMS),<a name="line.190"></a>
+<span class="sourceLineNo">191</span><a name="line.191"></a>
+<span class="sourceLineNo">192</span>  /**<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   * Matching to the taxonomic backbone can only be done using a fuzzy, non exact match.<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   */<a name="line.194"></a>
+<span class="sourceLineNo">195</span>  TAXON_MATCH_FUZZY(WARNING, TermsGroup.TAXONOMY_TERMS),<a name="line.195"></a>
+<span class="sourceLineNo">196</span><a name="line.196"></a>
+<span class="sourceLineNo">197</span>  /**<a name="line.197"></a>
+<span class="sourceLineNo">198</span>   * Matching to the taxonomic backbone can only be done on a higher rank and not the scientific<a name="line.198"></a>
+<span class="sourceLineNo">199</span>   * name.<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   */<a name="line.200"></a>
+<span class="sourceLineNo">201</span>  TAXON_MATCH_HIGHERRANK(WARNING, TermsGroup.TAXONOMY_TERMS),<a name="line.201"></a>
+<span class="sourceLineNo">202</span><a name="line.202"></a>
+<span class="sourceLineNo">203</span>  /**<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   * Matching to the taxonomic backbone can only be done on a species level,<a name="line.204"></a>
+<span class="sourceLineNo">205</span>   * but the occurrence was in fact considered a broader species aggregate/complex.<a name="line.205"></a>
+<span class="sourceLineNo">206</span>   * @see &lt;a href="https://github.com/gbif/portal-feedback/issues/2935"&gt;gbif/portal-feedback#2935&lt;/a&gt;<a name="line.206"></a>
+<span class="sourceLineNo">207</span>   */<a name="line.207"></a>
+<span class="sourceLineNo">208</span>  TAXON_MATCH_AGGREGATE(WARNING, TermsGroup.TAXONOMY_TERMS),<a name="line.208"></a>
+<span class="sourceLineNo">209</span><a name="line.209"></a>
+<span class="sourceLineNo">210</span>  /**<a name="line.210"></a>
+<span class="sourceLineNo">211</span>   * Matching to the taxonomic backbone cannot be done because there was no match at all, or several<a name="line.211"></a>
+<span class="sourceLineNo">212</span>   * matches with too little information to keep them apart (potentially homonyms).<a name="line.212"></a>
+<span class="sourceLineNo">213</span>   */<a name="line.213"></a>
+<span class="sourceLineNo">214</span>  TAXON_MATCH_NONE(WARNING, TermsGroup.TAXONOMY_TERMS),<a name="line.214"></a>
+<span class="sourceLineNo">215</span><a name="line.215"></a>
+<span class="sourceLineNo">216</span>  /**<a name="line.216"></a>
+<span class="sourceLineNo">217</span>   * Set if supplied depth is not given in the metric system, for example using feet instead of<a name="line.217"></a>
+<span class="sourceLineNo">218</span>   * meters<a name="line.218"></a>
+<span class="sourceLineNo">219</span>   */<a name="line.219"></a>
+<span class="sourceLineNo">220</span>  DEPTH_NOT_METRIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),<a name="line.220"></a>
+<span class="sourceLineNo">221</span><a name="line.221"></a>
+<span class="sourceLineNo">222</span>  /**<a name="line.222"></a>
+<span class="sourceLineNo">223</span>   * Set if depth is larger than 11,000m or negative.<a name="line.223"></a>
+<span class="sourceLineNo">224</span>   */<a name="line.224"></a>
+<span class="sourceLineNo">225</span>  DEPTH_UNLIKELY(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),<a name="line.225"></a>
+<span class="sourceLineNo">226</span><a name="line.226"></a>
+<span class="sourceLineNo">227</span>  /**<a name="line.227"></a>
+<span class="sourceLineNo">228</span>   * Set if supplied minimum depth &gt; maximum depth<a name="line.228"></a>
+<span class="sourceLineNo">229</span>   */<a name="line.229"></a>
+<span class="sourceLineNo">230</span>  DEPTH_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),<a name="line.230"></a>
+<span class="sourceLineNo">231</span><a name="line.231"></a>
+<span class="sourceLineNo">232</span>  /**<a name="line.232"></a>
+<span class="sourceLineNo">233</span>   * Set if depth is a non-numeric value<a name="line.233"></a>
+<span class="sourceLineNo">234</span>   */<a name="line.234"></a>
+<span class="sourceLineNo">235</span>  DEPTH_NON_NUMERIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),<a name="line.235"></a>
+<span class="sourceLineNo">236</span><a name="line.236"></a>
+<span class="sourceLineNo">237</span>  /**<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   * Set if elevation is above the troposphere (17km) or below 11km (Mariana Trench).<a name="line.238"></a>
+<span class="sourceLineNo">239</span>   */<a name="line.239"></a>
+<span class="sourceLineNo">240</span>  ELEVATION_UNLIKELY(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),<a name="line.240"></a>
+<span class="sourceLineNo">241</span><a name="line.241"></a>
+<span class="sourceLineNo">242</span>  /**<a name="line.242"></a>
+<span class="sourceLineNo">243</span>   * Set if supplied minimum elevation &gt; maximum elevation<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   */<a name="line.244"></a>
+<span class="sourceLineNo">245</span>  ELEVATION_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumElevationInMeters,<a name="line.245"></a>
+<span class="sourceLineNo">246</span>    DwcTerm.maximumElevationInMeters),<a name="line.246"></a>
+<span class="sourceLineNo">247</span><a name="line.247"></a>
+<span class="sourceLineNo">248</span>  /**<a name="line.248"></a>
+<span class="sourceLineNo">249</span>   * Set if supplied elevation is not given in the metric system, for example using feet instead of<a name="line.249"></a>
+<span class="sourceLineNo">250</span>   * meters<a name="line.250"></a>
+<span class="sourceLineNo">251</span>   */<a name="line.251"></a>
+<span class="sourceLineNo">252</span>  ELEVATION_NOT_METRIC(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),<a name="line.252"></a>
+<span class="sourceLineNo">253</span><a name="line.253"></a>
+<span class="sourceLineNo">254</span>  /**<a name="line.254"></a>
+<span class="sourceLineNo">255</span>   * Set if elevation is a non-numeric value<a name="line.255"></a>
+<span class="sourceLineNo">256</span>   */<a name="line.256"></a>
+<span class="sourceLineNo">257</span>  ELEVATION_NON_NUMERIC(WARNING, DwcTerm.minimumElevationInMeters,<a name="line.257"></a>
+<span class="sourceLineNo">258</span>    DwcTerm.maximumElevationInMeters),<a name="line.258"></a>
+<span class="sourceLineNo">259</span><a name="line.259"></a>
+<span class="sourceLineNo">260</span>  /**<a name="line.260"></a>
+<span class="sourceLineNo">261</span>   * A (partial) invalid date is given for dc:modified, such as a nonexistent date, zero month, etc.<a name="line.261"></a>
+<span class="sourceLineNo">262</span>   */<a name="line.262"></a>
+<span class="sourceLineNo">263</span>  MODIFIED_DATE_INVALID(WARNING, DcTerm.modified),<a name="line.263"></a>
+<span class="sourceLineNo">264</span><a name="line.264"></a>
+<span class="sourceLineNo">265</span>  /**<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   * The date given for dc:modified is in the future or predates Unix time (1970).<a name="line.266"></a>
+<span class="sourceLineNo">267</span>   */<a name="line.267"></a>
+<span class="sourceLineNo">268</span>  MODIFIED_DATE_UNLIKELY(WARNING, DcTerm.modified),<a name="line.268"></a>
+<span class="sourceLineNo">269</span><a name="line.269"></a>
+<span class="sourceLineNo">270</span>  /**<a name="line.270"></a>
+<span class="sourceLineNo">271</span>   * The date given for dwc:dateIdentified is in the future or before Linnean times (1700).<a name="line.271"></a>
+<span class="sourceLineNo">272</span>   */<a name="line.272"></a>
+<span class="sourceLineNo">273</span>  IDENTIFIED_DATE_UNLIKELY(WARNING, DwcTerm.dateIdentified),<a name="line.273"></a>
+<span class="sourceLineNo">274</span><a name="line.274"></a>
+<span class="sourceLineNo">275</span>  /**<a name="line.275"></a>
+<span class="sourceLineNo">276</span>   * The date given for dwc:dateIdentified is invalid and can't be interpreted at all.<a name="line.276"></a>
+<span class="sourceLineNo">277</span>   */<a name="line.277"></a>
+<span class="sourceLineNo">278</span>  IDENTIFIED_DATE_INVALID(WARNING, DwcTerm.dateIdentified),<a name="line.278"></a>
+<span class="sourceLineNo">279</span><a name="line.279"></a>
+<span class="sourceLineNo">280</span>  /**<a name="line.280"></a>
+<span class="sourceLineNo">281</span>   * The given basis of record is impossible to interpret or significantly different from the<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   * recommended vocabulary.<a name="line.282"></a>
+<span class="sourceLineNo">283</span>   */<a name="line.283"></a>
+<span class="sourceLineNo">284</span>  BASIS_OF_RECORD_INVALID(WARNING, DwcTerm.basisOfRecord),<a name="line.284"></a>
+<span class="sourceLineNo">285</span><a name="line.285"></a>
+<span class="sourceLineNo">286</span>  /**<a name="line.286"></a>
+<span class="sourceLineNo">287</span>   * The given type status is impossible to interpret or significantly different from the<a name="line.287"></a>
+<span class="sourceLineNo">288</span>   * recommended vocabulary.<a name="line.288"></a>
+<span class="sourceLineNo">289</span>   */<a name="line.289"></a>
+<span class="sourceLineNo">290</span>  TYPE_STATUS_INVALID(WARNING, DwcTerm.typeStatus),<a name="line.290"></a>
+<span class="sourceLineNo">291</span><a name="line.291"></a>
+<span class="sourceLineNo">292</span>  /**<a name="line.292"></a>
+<span class="sourceLineNo">293</span>   * An invalid date is given for dc:created of a multimedia object.<a name="line.293"></a>
+<span class="sourceLineNo">294</span>   */<a name="line.294"></a>
+<span class="sourceLineNo">295</span>  MULTIMEDIA_DATE_INVALID(WARNING),<a name="line.295"></a>
+<span class="sourceLineNo">296</span><a name="line.296"></a>
+<span class="sourceLineNo">297</span>  /**<a name="line.297"></a>
+<span class="sourceLineNo">298</span>   * An invalid URI is given for a multimedia object.<a name="line.298"></a>
+<span class="sourceLineNo">299</span>   */<a name="line.299"></a>
+<span class="sourceLineNo">300</span>  MULTIMEDIA_URI_INVALID(WARNING),<a name="line.300"></a>
+<span class="sourceLineNo">301</span><a name="line.301"></a>
+<span class="sourceLineNo">302</span>  /**<a name="line.302"></a>
+<span class="sourceLineNo">303</span>   * An invalid URI is given for dc:references.<a name="line.303"></a>
+<span class="sourceLineNo">304</span>   */<a name="line.304"></a>
+<span class="sourceLineNo">305</span>  REFERENCES_URI_INVALID(WARNING, DcTerm.references),<a name="line.305"></a>
+<span class="sourceLineNo">306</span><a name="line.306"></a>
+<span class="sourceLineNo">307</span>  /**<a name="line.307"></a>
+<span class="sourceLineNo">308</span>   * An error occurred during interpretation, leaving the record interpretation incomplete.<a name="line.308"></a>
+<span class="sourceLineNo">309</span>   */<a name="line.309"></a>
+<span class="sourceLineNo">310</span>  INTERPRETATION_ERROR(ERROR),<a name="line.310"></a>
+<span class="sourceLineNo">311</span><a name="line.311"></a>
+<span class="sourceLineNo">312</span>  /**<a name="line.312"></a>
+<span class="sourceLineNo">313</span>   * The individual count value is not a positive integer<a name="line.313"></a>
+<span class="sourceLineNo">314</span>   */<a name="line.314"></a>
+<span class="sourceLineNo">315</span>  INDIVIDUAL_COUNT_INVALID(WARNING, DwcTerm.individualCount),<a name="line.315"></a>
+<span class="sourceLineNo">316</span><a name="line.316"></a>
+<span class="sourceLineNo">317</span>  /**<a name="line.317"></a>
+<span class="sourceLineNo">318</span>   * Example: individual count value &gt; 0, but occurrence status is absent.<a name="line.318"></a>
+<span class="sourceLineNo">319</span>   */<a name="line.319"></a>
+<span class="sourceLineNo">320</span>  INDIVIDUAL_COUNT_CONFLICTS_WITH_OCCURRENCE_STATUS(WARNING, DwcTerm.individualCount),<a name="line.320"></a>
+<span class="sourceLineNo">321</span><a name="line.321"></a>
+<span class="sourceLineNo">322</span>  /**<a name="line.322"></a>
+<span class="sourceLineNo">323</span>   * Occurrence status value can't be assigned to {@link OccurrenceStatus}<a name="line.323"></a>
+<span class="sourceLineNo">324</span>   */<a name="line.324"></a>
+<span class="sourceLineNo">325</span>  OCCURRENCE_STATUS_UNPARSABLE(WARNING, DwcTerm.occurrenceStatus),<a name="line.325"></a>
+<span class="sourceLineNo">326</span><a name="line.326"></a>
+<span class="sourceLineNo">327</span>  /**<a name="line.327"></a>
+<span class="sourceLineNo">328</span>   * Occurrence status was inferred from the individual count value<a name="line.328"></a>
+<span class="sourceLineNo">329</span>   */<a name="line.329"></a>
+<span class="sourceLineNo">330</span>  OCCURRENCE_STATUS_INFERRED_FROM_INDIVIDUAL_COUNT(WARNING, DwcTerm.occurrenceStatus),<a name="line.330"></a>
+<span class="sourceLineNo">331</span><a name="line.331"></a>
+<span class="sourceLineNo">332</span>  /**<a name="line.332"></a>
+<span class="sourceLineNo">333</span>   * Occurrence status was inferred from basis of records<a name="line.333"></a>
+<span class="sourceLineNo">334</span>   */<a name="line.334"></a>
+<span class="sourceLineNo">335</span>  OCCURRENCE_STATUS_INFERRED_FROM_BASIS_OF_RECORD(WARNING, DwcTerm.occurrenceStatus),<a name="line.335"></a>
+<span class="sourceLineNo">336</span><a name="line.336"></a>
+<span class="sourceLineNo">337</span>  /**<a name="line.337"></a>
+<span class="sourceLineNo">338</span>   * The date given for dwc:georeferencedDate is in the future or before Linnean times (1700).<a name="line.338"></a>
+<span class="sourceLineNo">339</span>   */<a name="line.339"></a>
+<span class="sourceLineNo">340</span>  GEOREFERENCED_DATE_UNLIKELY(WARNING, DwcTerm.georeferencedDate),<a name="line.340"></a>
+<span class="sourceLineNo">341</span><a name="line.341"></a>
+<span class="sourceLineNo">342</span>  /**<a name="line.342"></a>
+<span class="sourceLineNo">343</span>   * The date given for dwc:georeferencedDate is invalid and can't be interpreted at all.<a name="line.343"></a>
+<span class="sourceLineNo">344</span>   */<a name="line.344"></a>
+<span class="sourceLineNo">345</span>  GEOREFERENCED_DATE_INVALID(WARNING, DwcTerm.georeferencedDate),<a name="line.345"></a>
+<span class="sourceLineNo">346</span><a name="line.346"></a>
+<span class="sourceLineNo">347</span>  /**<a name="line.347"></a>
+<span class="sourceLineNo">348</span>   * The given institution matches with more than 1 GRSciColl institution.<a name="line.348"></a>
+<span class="sourceLineNo">349</span>   */<a name="line.349"></a>
+<span class="sourceLineNo">350</span>  AMBIGUOUS_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS),<a name="line.350"></a>
+<span class="sourceLineNo">351</span><a name="line.351"></a>
+<span class="sourceLineNo">352</span>  /**<a name="line.352"></a>
+<span class="sourceLineNo">353</span>   * The given collection matches with more than 1 GRSciColl collection.<a name="line.353"></a>
+<span class="sourceLineNo">354</span>   */<a name="line.354"></a>
+<span class="sourceLineNo">355</span>  AMBIGUOUS_COLLECTION(INFO, TermsGroup.COLLECTION_TERMS),<a name="line.355"></a>
+<span class="sourceLineNo">356</span><a name="line.356"></a>
+<span class="sourceLineNo">357</span>  /**<a name="line.357"></a>
+<span class="sourceLineNo">358</span>   * The given institution couldn't be matched with any GRSciColl institution.<a name="line.358"></a>
+<span class="sourceLineNo">359</span>   */<a name="line.359"></a>
+<span class="sourceLineNo">360</span>  INSTITUTION_MATCH_NONE(INFO, TermsGroup.INSTITUTION_TERMS),<a name="line.360"></a>
+<span class="sourceLineNo">361</span><a name="line.361"></a>
+<span class="sourceLineNo">362</span>  /**<a name="line.362"></a>
+<span class="sourceLineNo">363</span>   * The given collection couldn't be matched with any GRSciColl collection.<a name="line.363"></a>
+<span class="sourceLineNo">364</span>   */<a name="line.364"></a>
+<span class="sourceLineNo">365</span>  COLLECTION_MATCH_NONE(INFO, TermsGroup.COLLECTION_TERMS),<a name="line.365"></a>
+<span class="sourceLineNo">366</span><a name="line.366"></a>
+<span class="sourceLineNo">367</span>  /**<a name="line.367"></a>
+<span class="sourceLineNo">368</span>   * The given institution was fuzzily matched to a GRSciColl institution. This can happen when<a name="line.368"></a>
+<span class="sourceLineNo">369</span>   * either the code or the ID don't match or when the institution name is used instead of the code.<a name="line.369"></a>
+<span class="sourceLineNo">370</span>   */<a name="line.370"></a>
+<span class="sourceLineNo">371</span>  INSTITUTION_MATCH_FUZZY(INFO, TermsGroup.INSTITUTION_TERMS),<a name="line.371"></a>
+<span class="sourceLineNo">372</span><a name="line.372"></a>
+<span class="sourceLineNo">373</span>  /**<a name="line.373"></a>
+<span class="sourceLineNo">374</span>   * The given collection was fuzzily matched to a GRSciColl collection. This can happen when either<a name="line.374"></a>
+<span class="sourceLineNo">375</span>   * the code or the ID don't match or when the collection name is used instead of the code.<a name="line.375"></a>
+<span class="sourceLineNo">376</span>   */<a name="line.376"></a>
+<span class="sourceLineNo">377</span>  COLLECTION_MATCH_FUZZY(INFO, TermsGroup.COLLECTION_TERMS),<a name="line.377"></a>
+<span class="sourceLineNo">378</span><a name="line.378"></a>
+<span class="sourceLineNo">379</span>  /** The collection matched doesn't belong to the institution matched. */<a name="line.379"></a>
+<span class="sourceLineNo">380</span>  INSTITUTION_COLLECTION_MISMATCH(<a name="line.380"></a>
+<span class="sourceLineNo">381</span>    INFO, ArrayUtils.addAll(TermsGroup.INSTITUTION_TERMS, TermsGroup.INSTITUTION_TERMS)),<a name="line.381"></a>
+<span class="sourceLineNo">382</span><a name="line.382"></a>
+<span class="sourceLineNo">383</span>  /**<a name="line.383"></a>
+<span class="sourceLineNo">384</span>   * The given owner institution is different than the given institution. Therefore we assume it<a name="line.384"></a>
+<span class="sourceLineNo">385</span>   * could be on loan and we don't link it to the occurrence.<a name="line.385"></a>
+<span class="sourceLineNo">386</span>   *<a name="line.386"></a>
+<span class="sourceLineNo">387</span>   * Deprecated by {@link #DIFFERENT_OWNER_INSTITUTION}.<a name="line.387"></a>
+<span class="sourceLineNo">388</span>   */<a name="line.388"></a>
+<span class="sourceLineNo">389</span>  @Deprecated<a name="line.389"></a>
+<span class="sourceLineNo">390</span>  POSSIBLY_ON_LOAN(INFO, TermsGroup.INSTITUTION_TERMS),<a name="line.390"></a>
+<span class="sourceLineNo">391</span><a name="line.391"></a>
+<span class="sourceLineNo">392</span>  /**<a name="line.392"></a>
+<span class="sourceLineNo">393</span>   * The given owner institution is different than the given institution. Therefore we assume it<a name="line.393"></a>
+<span class="sourceLineNo">394</span>   * doesn't belong to the institution and we don't link it to the occurrence.<a name="line.394"></a>
+<span class="sourceLineNo">395</span>   */<a name="line.395"></a>
+<span class="sourceLineNo">396</span>  DIFFERENT_OWNER_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS);<a name="line.396"></a>
+<span class="sourceLineNo">397</span><a name="line.397"></a>
+<span class="sourceLineNo">398</span>  /**<a name="line.398"></a>
+<span class="sourceLineNo">399</span>   * Simple helper nested class to allow grouping of Term mostly to increase readability of this<a name="line.399"></a>
+<span class="sourceLineNo">400</span>   * class.<a name="line.400"></a>
+<span class="sourceLineNo">401</span>   */<a name="line.401"></a>
+<span class="sourceLineNo">402</span>  private static class TermsGroup {<a name="line.402"></a>
+<span class="sourceLineNo">403</span><a name="line.403"></a>
+<span class="sourceLineNo">404</span>    static final Term[] COORDINATES_TERMS_NO_DATUM = {<a name="line.404"></a>
+<span class="sourceLineNo">405</span>      DwcTerm.decimalLatitude,<a name="line.405"></a>
+<span class="sourceLineNo">406</span>      DwcTerm.decimalLongitude,<a name="line.406"></a>
+<span class="sourceLineNo">407</span>      DwcTerm.verbatimLatitude,<a name="line.407"></a>
+<span class="sourceLineNo">408</span>      DwcTerm.verbatimLongitude,<a name="line.408"></a>
+<span class="sourceLineNo">409</span>      DwcTerm.verbatimCoordinates<a name="line.409"></a>
+<span class="sourceLineNo">410</span>    };<a name="line.410"></a>
+<span class="sourceLineNo">411</span><a name="line.411"></a>
+<span class="sourceLineNo">412</span>    static final Term[] COORDINATES_TERMS = {<a name="line.412"></a>
+<span class="sourceLineNo">413</span>      DwcTerm.decimalLatitude,<a name="line.413"></a>
+<span class="sourceLineNo">414</span>      DwcTerm.decimalLongitude,<a name="line.414"></a>
+<span class="sourceLineNo">415</span>      DwcTerm.verbatimLatitude,<a name="line.415"></a>
+<span class="sourceLineNo">416</span>      DwcTerm.verbatimLongitude,<a name="line.416"></a>
+<span class="sourceLineNo">417</span>      DwcTerm.verbatimCoordinates,<a name="line.417"></a>
+<span class="sourceLineNo">418</span>      DwcTerm.geodeticDatum<a name="line.418"></a>
+<span class="sourceLineNo">419</span>    };<a name="line.419"></a>
+<span class="sourceLineNo">420</span><a name="line.420"></a>
+<span class="sourceLineNo">421</span>    static final Term[] COUNTRY_TERMS = {<a name="line.421"></a>
+<span class="sourceLineNo">422</span>      DwcTerm.country,<a name="line.422"></a>
+<span class="sourceLineNo">423</span>      DwcTerm.countryCode<a name="line.423"></a>
+<span class="sourceLineNo">424</span>    };<a name="line.424"></a>
+<span class="sourceLineNo">425</span><a name="line.425"></a>
+<span class="sourceLineNo">426</span>    static final Term[] COORDINATES_COUNTRY_TERMS = {<a name="line.426"></a>
+<span class="sourceLineNo">427</span>      DwcTerm.decimalLatitude,<a name="line.427"></a>
+<span class="sourceLineNo">428</span>      DwcTerm.decimalLongitude,<a name="line.428"></a>
+<span class="sourceLineNo">429</span>      DwcTerm.verbatimLatitude,<a name="line.429"></a>
+<span class="sourceLineNo">430</span>      DwcTerm.verbatimLongitude,<a name="line.430"></a>
+<span class="sourceLineNo">431</span>      DwcTerm.verbatimCoordinates,<a name="line.431"></a>
+<span class="sourceLineNo">432</span>      DwcTerm.geodeticDatum,<a name="line.432"></a>
+<span class="sourceLineNo">433</span>      DwcTerm.country,<a name="line.433"></a>
+<span class="sourceLineNo">434</span>      DwcTerm.countryCode<a name="line.434"></a>
+<span class="sourceLineNo">435</span>    };<a name="line.435"></a>
+<span class="sourceLineNo">436</span><a name="line.436"></a>
+<span class="sourceLineNo">437</span>    static final Term[] RECORDED_DATE_TERMS = {<a name="line.437"></a>
+<span class="sourceLineNo">438</span>      DwcTerm.eventDate,<a name="line.438"></a>
+<span class="sourceLineNo">439</span>      DwcTerm.year, DwcTerm.month, DwcTerm.day<a name="line.439"></a>
+<span class="sourceLineNo">440</span>    };<a name="line.440"></a>
+<span class="sourceLineNo">441</span><a name="line.441"></a>
+<span class="sourceLineNo">442</span>    static final Term[] TAXONOMY_TERMS = {<a name="line.442"></a>
+<span class="sourceLineNo">443</span>      DwcTerm.kingdom,<a name="line.443"></a>
+<span class="sourceLineNo">444</span>      DwcTerm.phylum,<a name="line.444"></a>
+<span class="sourceLineNo">445</span>      DwcTerm.class_,<a name="line.445"></a>
+<span class="sourceLineNo">446</span>      DwcTerm.order,<a name="line.446"></a>
+<span class="sourceLineNo">447</span>      DwcTerm.family,<a name="line.447"></a>
+<span class="sourceLineNo">448</span>      DwcTerm.genus,<a name="line.448"></a>
+<span class="sourceLineNo">449</span>      DwcTerm.scientificName,<a name="line.449"></a>
+<span class="sourceLineNo">450</span>      DwcTerm.scientificNameAuthorship,<a name="line.450"></a>
+<span class="sourceLineNo">451</span>      DwcTerm.genericName,<a name="line.451"></a>
+<span class="sourceLineNo">452</span>      DwcTerm.specificEpithet,<a name="line.452"></a>
+<span class="sourceLineNo">453</span>      DwcTerm.infraspecificEpithet<a name="line.453"></a>
+<span class="sourceLineNo">454</span>    };<a name="line.454"></a>
+<span class="sourceLineNo">455</span><a name="line.455"></a>
+<span class="sourceLineNo">456</span>    static final Term[] INSTITUTION_TERMS = {<a name="line.456"></a>
+<span class="sourceLineNo">457</span>      DwcTerm.institutionCode, DwcTerm.institutionID, DwcTerm.ownerInstitutionCode<a name="line.457"></a>
+<span class="sourceLineNo">458</span>    };<a name="line.458"></a>
+<span class="sourceLineNo">459</span><a name="line.459"></a>
+<span class="sourceLineNo">460</span>    static final Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};<a name="line.460"></a>
+<span class="sourceLineNo">461</span>  }<a name="line.461"></a>
 <span class="sourceLineNo">462</span><a name="line.462"></a>
-<span class="sourceLineNo">463</span>    static final Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};<a name="line.463"></a>
-<span class="sourceLineNo">464</span>  }<a name="line.464"></a>
-<span class="sourceLineNo">465</span><a name="line.465"></a>
-<span class="sourceLineNo">466</span>  private final Set&lt;Term&gt; relatedTerms;<a name="line.466"></a>
-<span class="sourceLineNo">467</span>  private final InterpretationRemarkSeverity severity;<a name="line.467"></a>
-<span class="sourceLineNo">468</span>  private final boolean isDeprecated;<a name="line.468"></a>
-<span class="sourceLineNo">469</span><a name="line.469"></a>
-<span class="sourceLineNo">470</span>  /**<a name="line.470"></a>
-<span class="sourceLineNo">471</span>   * {@link OccurrenceIssue} not linked to any specific {@link Term}.<a name="line.471"></a>
-<span class="sourceLineNo">472</span>   */<a name="line.472"></a>
-<span class="sourceLineNo">473</span>  OccurrenceIssue(InterpretationRemarkSeverity severity) {<a name="line.473"></a>
-<span class="sourceLineNo">474</span>    this.severity = severity;<a name="line.474"></a>
-<span class="sourceLineNo">475</span>    this.relatedTerms = Collections.emptySet();<a name="line.475"></a>
-<span class="sourceLineNo">476</span>    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());<a name="line.476"></a>
-<span class="sourceLineNo">477</span>  }<a name="line.477"></a>
-<span class="sourceLineNo">478</span><a name="line.478"></a>
-<span class="sourceLineNo">479</span>  /**<a name="line.479"></a>
-<span class="sourceLineNo">480</span>   * {@link OccurrenceIssue} linked to the provided {@link Term}.<a name="line.480"></a>
-<span class="sourceLineNo">481</span>   */<a name="line.481"></a>
-<span class="sourceLineNo">482</span>  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {<a name="line.482"></a>
-<span class="sourceLineNo">483</span>    this.severity = severity;<a name="line.483"></a>
-<span class="sourceLineNo">484</span>    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));<a name="line.484"></a>
-<span class="sourceLineNo">485</span>    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());<a name="line.485"></a>
-<span class="sourceLineNo">486</span>  }<a name="line.486"></a>
-<span class="sourceLineNo">487</span><a name="line.487"></a>
-<span class="sourceLineNo">488</span>  @Override<a name="line.488"></a>
-<span class="sourceLineNo">489</span>  public String getId() {<a name="line.489"></a>
-<span class="sourceLineNo">490</span>    return name();<a name="line.490"></a>
-<span class="sourceLineNo">491</span>  }<a name="line.491"></a>
-<span class="sourceLineNo">492</span><a name="line.492"></a>
-<span class="sourceLineNo">493</span>  @Override<a name="line.493"></a>
-<span class="sourceLineNo">494</span>  public Set&lt;Term&gt; getRelatedTerms() {<a name="line.494"></a>
-<span class="sourceLineNo">495</span>    return relatedTerms;<a name="line.495"></a>
-<span class="sourceLineNo">496</span>  }<a name="line.496"></a>
-<span class="sourceLineNo">497</span><a name="line.497"></a>
-<span class="sourceLineNo">498</span>  @Override<a name="line.498"></a>
-<span class="sourceLineNo">499</span>  public InterpretationRemarkSeverity getSeverity() {<a name="line.499"></a>
-<span class="sourceLineNo">500</span>    return severity;<a name="line.500"></a>
-<span class="sourceLineNo">501</span>  }<a name="line.501"></a>
-<span class="sourceLineNo">502</span><a name="line.502"></a>
-<span class="sourceLineNo">503</span>  @Override<a name="line.503"></a>
-<span class="sourceLineNo">504</span>  public boolean isDeprecated() {<a name="line.504"></a>
-<span class="sourceLineNo">505</span>    return isDeprecated;<a name="line.505"></a>
-<span class="sourceLineNo">506</span>  }<a name="line.506"></a>
-<span class="sourceLineNo">507</span><a name="line.507"></a>
-<span class="sourceLineNo">508</span>  /**<a name="line.508"></a>
-<span class="sourceLineNo">509</span>   * All issues that indicate problems with the coordinates and thus should not be shown on maps.<a name="line.509"></a>
-<span class="sourceLineNo">510</span>   */<a name="line.510"></a>
-<span class="sourceLineNo">511</span>  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =<a name="line.511"></a>
-<span class="sourceLineNo">512</span>    Collections.unmodifiableList(<a name="line.512"></a>
-<span class="sourceLineNo">513</span>      Arrays.asList(<a name="line.513"></a>
-<span class="sourceLineNo">514</span>        ZERO_COORDINATE,<a name="line.514"></a>
-<span class="sourceLineNo">515</span>        COORDINATE_INVALID,<a name="line.515"></a>
-<span class="sourceLineNo">516</span>        COORDINATE_OUT_OF_RANGE,<a name="line.516"></a>
-<span class="sourceLineNo">517</span>        COUNTRY_COORDINATE_MISMATCH));<a name="line.517"></a>
-<span class="sourceLineNo">518</span><a name="line.518"></a>
-<span class="sourceLineNo">519</span>  /**<a name="line.519"></a>
-<span class="sourceLineNo">520</span>   * All issues that indicate problems with the taxonomy or taxonomic matching.<a name="line.520"></a>
-<span class="sourceLineNo">521</span>   */<a name="line.521"></a>
-<span class="sourceLineNo">522</span>  public static final List&lt;OccurrenceIssue&gt; TAXONOMIC_RULES =<a name="line.522"></a>
-<span class="sourceLineNo">523</span>    Collections.unmodifiableList(<a name="line.523"></a>
-<span class="sourceLineNo">524</span>      Arrays.asList(<a name="line.524"></a>
-<span class="sourceLineNo">525</span>        TAXON_MATCH_FUZZY,<a name="line.525"></a>
-<span class="sourceLineNo">526</span>        TAXON_MATCH_HIGHERRANK,<a name="line.526"></a>
-<span class="sourceLineNo">527</span>        TAXON_MATCH_NONE));<a name="line.527"></a>
-<span class="sourceLineNo">528</span>}<a name="line.528"></a>
+<span class="sourceLineNo">463</span>  private final Set&lt;Term&gt; relatedTerms;<a name="line.463"></a>
+<span class="sourceLineNo">464</span>  private final InterpretationRemarkSeverity severity;<a name="line.464"></a>
+<span class="sourceLineNo">465</span>  private final boolean isDeprecated;<a name="line.465"></a>
+<span class="sourceLineNo">466</span><a name="line.466"></a>
+<span class="sourceLineNo">467</span>  /**<a name="line.467"></a>
+<span class="sourceLineNo">468</span>   * {@link OccurrenceIssue} not linked to any specific {@link Term}.<a name="line.468"></a>
+<span class="sourceLineNo">469</span>   */<a name="line.469"></a>
+<span class="sourceLineNo">470</span>  OccurrenceIssue(InterpretationRemarkSeverity severity) {<a name="line.470"></a>
+<span class="sourceLineNo">471</span>    this.severity = severity;<a name="line.471"></a>
+<span class="sourceLineNo">472</span>    this.relatedTerms = Collections.emptySet();<a name="line.472"></a>
+<span class="sourceLineNo">473</span>    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());<a name="line.473"></a>
+<span class="sourceLineNo">474</span>  }<a name="line.474"></a>
+<span class="sourceLineNo">475</span><a name="line.475"></a>
+<span class="sourceLineNo">476</span>  /**<a name="line.476"></a>
+<span class="sourceLineNo">477</span>   * {@link OccurrenceIssue} linked to the provided {@link Term}.<a name="line.477"></a>
+<span class="sourceLineNo">478</span>   */<a name="line.478"></a>
+<span class="sourceLineNo">479</span>  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {<a name="line.479"></a>
+<span class="sourceLineNo">480</span>    this.severity = severity;<a name="line.480"></a>
+<span class="sourceLineNo">481</span>    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));<a name="line.481"></a>
+<span class="sourceLineNo">482</span>    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());<a name="line.482"></a>
+<span class="sourceLineNo">483</span>  }<a name="line.483"></a>
+<span class="sourceLineNo">484</span><a name="line.484"></a>
+<span class="sourceLineNo">485</span>  @Override<a name="line.485"></a>
+<span class="sourceLineNo">486</span>  public String getId() {<a name="line.486"></a>
+<span class="sourceLineNo">487</span>    return name();<a name="line.487"></a>
+<span class="sourceLineNo">488</span>  }<a name="line.488"></a>
+<span class="sourceLineNo">489</span><a name="line.489"></a>
+<span class="sourceLineNo">490</span>  @Override<a name="line.490"></a>
+<span class="sourceLineNo">491</span>  public Set&lt;Term&gt; getRelatedTerms() {<a name="line.491"></a>
+<span class="sourceLineNo">492</span>    return relatedTerms;<a name="line.492"></a>
+<span class="sourceLineNo">493</span>  }<a name="line.493"></a>
+<span class="sourceLineNo">494</span><a name="line.494"></a>
+<span class="sourceLineNo">495</span>  @Override<a name="line.495"></a>
+<span class="sourceLineNo">496</span>  public InterpretationRemarkSeverity getSeverity() {<a name="line.496"></a>
+<span class="sourceLineNo">497</span>    return severity;<a name="line.497"></a>
+<span class="sourceLineNo">498</span>  }<a name="line.498"></a>
+<span class="sourceLineNo">499</span><a name="line.499"></a>
+<span class="sourceLineNo">500</span>  @Override<a name="line.500"></a>
+<span class="sourceLineNo">501</span>  public boolean isDeprecated() {<a name="line.501"></a>
+<span class="sourceLineNo">502</span>    return isDeprecated;<a name="line.502"></a>
+<span class="sourceLineNo">503</span>  }<a name="line.503"></a>
+<span class="sourceLineNo">504</span><a name="line.504"></a>
+<span class="sourceLineNo">505</span>  /**<a name="line.505"></a>
+<span class="sourceLineNo">506</span>   * All issues that indicate problems with the coordinates and thus should not be shown on maps.<a name="line.506"></a>
+<span class="sourceLineNo">507</span>   */<a name="line.507"></a>
+<span class="sourceLineNo">508</span>  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =<a name="line.508"></a>
+<span class="sourceLineNo">509</span>    Collections.unmodifiableList(<a name="line.509"></a>
+<span class="sourceLineNo">510</span>      Arrays.asList(<a name="line.510"></a>
+<span class="sourceLineNo">511</span>        ZERO_COORDINATE,<a name="line.511"></a>
+<span class="sourceLineNo">512</span>        COORDINATE_INVALID,<a name="line.512"></a>
+<span class="sourceLineNo">513</span>        COORDINATE_OUT_OF_RANGE,<a name="line.513"></a>
+<span class="sourceLineNo">514</span>        COUNTRY_COORDINATE_MISMATCH));<a name="line.514"></a>
+<span class="sourceLineNo">515</span><a name="line.515"></a>
+<span class="sourceLineNo">516</span>  /**<a name="line.516"></a>
+<span class="sourceLineNo">517</span>   * All issues that indicate problems with the taxonomy or taxonomic matching.<a name="line.517"></a>
+<span class="sourceLineNo">518</span>   */<a name="line.518"></a>
+<span class="sourceLineNo">519</span>  public static final List&lt;OccurrenceIssue&gt; TAXONOMIC_RULES =<a name="line.519"></a>
+<span class="sourceLineNo">520</span>    Collections.unmodifiableList(<a name="line.520"></a>
+<span class="sourceLineNo">521</span>      Arrays.asList(<a name="line.521"></a>
+<span class="sourceLineNo">522</span>        TAXON_MATCH_FUZZY,<a name="line.522"></a>
+<span class="sourceLineNo">523</span>        TAXON_MATCH_HIGHERRANK,<a name="line.523"></a>
+<span class="sourceLineNo">524</span>        TAXON_MATCH_NONE));<a name="line.524"></a>
+<span class="sourceLineNo">525</span>}<a name="line.525"></a>
 
 
 

@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OccurrenceIssue.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">OccurrenceIssue.java</span></div><h1>OccurrenceIssue.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,7 +16,6 @@ package org.gbif.api.vocabulary;
 import org.gbif.api.util.AnnotationUtils;
 import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
-import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.terms.Term;
 
 import java.util.Arrays;
@@ -36,352 +33,352 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
 /**
  * An enumeration of validation rules for single occurrence records.
  */
-<span class="fc" id="L39">public enum OccurrenceIssue implements InterpretationRemark {</span>
+<span class="fc" id="L36">public enum OccurrenceIssue implements InterpretationRemark {</span>
 
   /**
    * Coordinate is the exact 0°, 0° coordinate, often indicating a bad null coordinate.
    */
-<span class="fc" id="L44">  ZERO_COORDINATE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
+<span class="fc" id="L41">  ZERO_COORDINATE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
 
   /**
    * Coordinate has a latitude and/or longitude value beyond the maximum (or minimum) decimal value.
    */
-<span class="fc" id="L49">  COORDINATE_OUT_OF_RANGE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
+<span class="fc" id="L46">  COORDINATE_OUT_OF_RANGE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
 
   /**
    * Coordinate value is given in some form but GBIF is unable to interpret it.
    */
-<span class="fc" id="L54">  COORDINATE_INVALID(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
+<span class="fc" id="L51">  COORDINATE_INVALID(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
 
   /**
    * Original coordinate modified by rounding to 5 decimals.
    */
-<span class="fc" id="L59">  COORDINATE_ROUNDED(INFO, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
+<span class="fc" id="L56">  COORDINATE_ROUNDED(INFO, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
 
   /**
    * The geodetic datum given could not be interpreted.
    */
-<span class="fc" id="L64">  GEODETIC_DATUM_INVALID(WARNING, DwcTerm.geodeticDatum),</span>
+<span class="fc" id="L61">  GEODETIC_DATUM_INVALID(WARNING, DwcTerm.geodeticDatum),</span>
 
   /**
    * Indicating that the interpreted coordinates assume they are based on WGS84 datum as the datum
    * was either not indicated or interpretable. See GEODETIC_DATUM_INVALID.
    */
-<span class="fc" id="L70">  GEODETIC_DATUM_ASSUMED_WGS84(INFO, DwcTerm.geodeticDatum),</span>
+<span class="fc" id="L67">  GEODETIC_DATUM_ASSUMED_WGS84(INFO, DwcTerm.geodeticDatum),</span>
 
   /**
    * The original coordinate was successfully reprojected from a different geodetic datum to WGS84.
    */
-<span class="fc" id="L75">  COORDINATE_REPROJECTED(INFO, TermsGroup.COORDINATES_TERMS),</span>
+<span class="fc" id="L72">  COORDINATE_REPROJECTED(INFO, TermsGroup.COORDINATES_TERMS),</span>
 
   /**
    * The given decimal latitude and longitude could not be reprojected to WGS84 based on the
    * provided datum.
    */
-<span class="fc" id="L81">  COORDINATE_REPROJECTION_FAILED(WARNING, TermsGroup.COORDINATES_TERMS),</span>
+<span class="fc" id="L78">  COORDINATE_REPROJECTION_FAILED(WARNING, TermsGroup.COORDINATES_TERMS),</span>
 
   /**
    * Indicates successful coordinate reprojection according to provided datum, but which results in
    * a datum shift larger than 0.1 decimal degrees.
    */
-<span class="fc" id="L87">  COORDINATE_REPROJECTION_SUSPICIOUS(WARNING, TermsGroup.COORDINATES_TERMS),</span>
+<span class="fc" id="L84">  COORDINATE_REPROJECTION_SUSPICIOUS(WARNING, TermsGroup.COORDINATES_TERMS),</span>
 
   /**
    * Indicates an invalid or very unlikely coordinate accuracy derived from precision or uncertainty
    * in meters.
    */
-<span class="fc" id="L93">  @Deprecated //see POR-3061</span>
+<span class="fc" id="L90">  @Deprecated //see POR-3061</span>
   COORDINATE_ACCURACY_INVALID(WARNING),
 
   /**
    * Indicates an invalid or very unlikely coordinatePrecision
    */
-<span class="fc" id="L99">  COORDINATE_PRECISION_INVALID(WARNING, DwcTerm.coordinatePrecision),</span>
+<span class="fc" id="L96">  COORDINATE_PRECISION_INVALID(WARNING, DwcTerm.coordinatePrecision),</span>
 
   /**
    * Indicates an invalid or very unlikely dwc:uncertaintyInMeters.
    */
-<span class="fc" id="L104">  COORDINATE_UNCERTAINTY_METERS_INVALID(WARNING, DwcTerm.coordinateUncertaintyInMeters),</span>
+<span class="fc" id="L101">  COORDINATE_UNCERTAINTY_METERS_INVALID(WARNING, DwcTerm.coordinateUncertaintyInMeters),</span>
 
   /**
    * There is a mismatch between coordinate uncertainty in meters and coordinate precision.
    */
-<span class="fc" id="L109">  @Deprecated //see POR-1804</span>
+<span class="fc" id="L106">  @Deprecated //see POR-1804</span>
   COORDINATE_PRECISION_UNCERTAINTY_MISMATCH(WARNING),
 
   /**
    * The Footprint Spatial Reference System given could not be interpreted.
    */
-<span class="fc" id="L115">  FOOTPRINT_SRS_INVALID(WARNING, DwcTerm.footprintSRS),</span>
+<span class="fc" id="L112">  FOOTPRINT_SRS_INVALID(WARNING, DwcTerm.footprintSRS),</span>
 
   /**
    * The Footprint Well-Known-Text conflicts with the interpreted coordinates
    * (Decimal Latitude, Decimal Longitude etc).
    */
-<span class="fc" id="L121">  FOOTPRINT_WKT_MISMATCH(WARNING, DwcTerm.footprintWKT),</span>
+<span class="fc" id="L118">  FOOTPRINT_WKT_MISMATCH(WARNING, DwcTerm.footprintWKT),</span>
 
   /**
    * The Footprint Well-Known-Text given could not be interpreted.
    */
-<span class="fc" id="L126">  FOOTPRINT_WKT_INVALID(WARNING, DwcTerm.footprintWKT),</span>
+<span class="fc" id="L123">  FOOTPRINT_WKT_INVALID(WARNING, DwcTerm.footprintWKT),</span>
 
   /**
    * The interpreted occurrence coordinates fall outside of the indicated country.
    */
-<span class="fc" id="L131">  COUNTRY_COORDINATE_MISMATCH(WARNING, TermsGroup.COORDINATES_COUNTRY_TERMS),</span>
+<span class="fc" id="L128">  COUNTRY_COORDINATE_MISMATCH(WARNING, TermsGroup.COORDINATES_COUNTRY_TERMS),</span>
 
   /**
    * Interpreted country for dwc:country and dwc:countryCode contradict each other.
    */
-<span class="fc" id="L136">  COUNTRY_MISMATCH(WARNING, TermsGroup.COUNTRY_TERMS),</span>
+<span class="fc" id="L133">  COUNTRY_MISMATCH(WARNING, TermsGroup.COUNTRY_TERMS),</span>
 
   /**
    * Uninterpretable country values found.
    */
-<span class="fc" id="L141">  COUNTRY_INVALID(WARNING, TermsGroup.COUNTRY_TERMS),</span>
+<span class="fc" id="L138">  COUNTRY_INVALID(WARNING, TermsGroup.COUNTRY_TERMS),</span>
 
   /**
    * The interpreted country is based on the coordinates, not the verbatim string information.
    */
-<span class="fc" id="L146">  COUNTRY_DERIVED_FROM_COORDINATES(WARNING, TermsGroup.COORDINATES_COUNTRY_TERMS),</span>
+<span class="fc" id="L143">  COUNTRY_DERIVED_FROM_COORDINATES(WARNING, TermsGroup.COORDINATES_COUNTRY_TERMS),</span>
 
   /**
    * The interpreted continent and country do not match.
    */
-<span class="fc" id="L151">  CONTINENT_COUNTRY_MISMATCH(WARNING),</span>
+<span class="fc" id="L148">  CONTINENT_COUNTRY_MISMATCH(WARNING),</span>
 
   /**
    * Uninterpretable continent values found.
    */
-<span class="fc" id="L156">  CONTINENT_INVALID(WARNING),</span>
+<span class="fc" id="L153">  CONTINENT_INVALID(WARNING),</span>
 
   /**
    * The interpreted continent is based on the coordinates, not the verbatim string information.
    */
-<span class="fc" id="L161">  CONTINENT_DERIVED_FROM_COORDINATES(WARNING),</span>
+<span class="fc" id="L158">  CONTINENT_DERIVED_FROM_COORDINATES(WARNING),</span>
 
   /**
    * Latitude and longitude appear to be swapped.
    */
-<span class="fc" id="L166">  PRESUMED_SWAPPED_COORDINATE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
+<span class="fc" id="L163">  PRESUMED_SWAPPED_COORDINATE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
 
   /**
    * Longitude appears to be negated, e.g. 32.3 instead of -32.3
    */
-<span class="fc" id="L171">  PRESUMED_NEGATED_LONGITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
+<span class="fc" id="L168">  PRESUMED_NEGATED_LONGITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
 
   /**
    * Latitude appears to be negated, e.g. 32.3 instead of -32.3
    */
-<span class="fc" id="L176">  PRESUMED_NEGATED_LATITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
+<span class="fc" id="L173">  PRESUMED_NEGATED_LATITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
 
   /**
    * The recorded date specified as the eventDate string and the individual year, month, day are
    * contradictory.
    */
-<span class="fc" id="L182">  RECORDED_DATE_MISMATCH(WARNING, TermsGroup.RECORDED_DATE_TERMS),</span>
+<span class="fc" id="L179">  RECORDED_DATE_MISMATCH(WARNING, TermsGroup.RECORDED_DATE_TERMS),</span>
 
   /**
    * A (partial) invalid date is given, such as a non existing date, zero month, etc.
    */
-<span class="fc" id="L187">  RECORDED_DATE_INVALID(WARNING, TermsGroup.RECORDED_DATE_TERMS),</span>
+<span class="fc" id="L184">  RECORDED_DATE_INVALID(WARNING, TermsGroup.RECORDED_DATE_TERMS),</span>
 
   /**
    * The recorded date is highly unlikely, falling either into the future or representing a very old
    * date before 1600 thus predating modern taxonomy.
    */
-<span class="fc" id="L193">  RECORDED_DATE_UNLIKELY(WARNING, TermsGroup.RECORDED_DATE_TERMS),</span>
+<span class="fc" id="L190">  RECORDED_DATE_UNLIKELY(WARNING, TermsGroup.RECORDED_DATE_TERMS),</span>
 
   /**
    * Matching to the taxonomic backbone can only be done using a fuzzy, non exact match.
    */
-<span class="fc" id="L198">  TAXON_MATCH_FUZZY(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+<span class="fc" id="L195">  TAXON_MATCH_FUZZY(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
 
   /**
    * Matching to the taxonomic backbone can only be done on a higher rank and not the scientific
    * name.
    */
-<span class="fc" id="L204">  TAXON_MATCH_HIGHERRANK(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+<span class="fc" id="L201">  TAXON_MATCH_HIGHERRANK(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
 
   /**
    * Matching to the taxonomic backbone can only be done on a species level,
    * but the occurrence was in fact considered a broader species aggregate/complex.
    * @see &lt;a href=&quot;https://github.com/gbif/portal-feedback/issues/2935&quot;&gt;gbif/portal-feedback#2935&lt;/a&gt;
    */
-<span class="fc" id="L211">  TAXON_MATCH_AGGREGATE(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+<span class="fc" id="L208">  TAXON_MATCH_AGGREGATE(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
 
   /**
    * Matching to the taxonomic backbone cannot be done because there was no match at all, or several
    * matches with too little information to keep them apart (potentially homonyms).
    */
-<span class="fc" id="L217">  TAXON_MATCH_NONE(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+<span class="fc" id="L214">  TAXON_MATCH_NONE(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
 
   /**
    * Set if supplied depth is not given in the metric system, for example using feet instead of
    * meters
    */
-<span class="fc" id="L223">  DEPTH_NOT_METRIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
+<span class="fc" id="L220">  DEPTH_NOT_METRIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
 
   /**
    * Set if depth is larger than 11,000m or negative.
    */
-<span class="fc" id="L228">  DEPTH_UNLIKELY(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
+<span class="fc" id="L225">  DEPTH_UNLIKELY(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
 
   /**
    * Set if supplied minimum depth &gt; maximum depth
    */
-<span class="fc" id="L233">  DEPTH_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
+<span class="fc" id="L230">  DEPTH_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
 
   /**
    * Set if depth is a non-numeric value
    */
-<span class="fc" id="L238">  DEPTH_NON_NUMERIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
+<span class="fc" id="L235">  DEPTH_NON_NUMERIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
 
   /**
    * Set if elevation is above the troposphere (17km) or below 11km (Mariana Trench).
    */
-<span class="fc" id="L243">  ELEVATION_UNLIKELY(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),</span>
+<span class="fc" id="L240">  ELEVATION_UNLIKELY(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),</span>
 
   /**
    * Set if supplied minimum elevation &gt; maximum elevation
    */
-<span class="fc" id="L248">  ELEVATION_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumElevationInMeters,</span>
+<span class="fc" id="L245">  ELEVATION_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumElevationInMeters,</span>
     DwcTerm.maximumElevationInMeters),
 
   /**
    * Set if supplied elevation is not given in the metric system, for example using feet instead of
    * meters
    */
-<span class="fc" id="L255">  ELEVATION_NOT_METRIC(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),</span>
+<span class="fc" id="L252">  ELEVATION_NOT_METRIC(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),</span>
 
   /**
    * Set if elevation is a non-numeric value
    */
-<span class="fc" id="L260">  ELEVATION_NON_NUMERIC(WARNING, DwcTerm.minimumElevationInMeters,</span>
+<span class="fc" id="L257">  ELEVATION_NON_NUMERIC(WARNING, DwcTerm.minimumElevationInMeters,</span>
     DwcTerm.maximumElevationInMeters),
 
   /**
    * A (partial) invalid date is given for dc:modified, such as a nonexistent date, zero month, etc.
    */
-<span class="fc" id="L266">  MODIFIED_DATE_INVALID(WARNING, DcTerm.modified),</span>
+<span class="fc" id="L263">  MODIFIED_DATE_INVALID(WARNING, DcTerm.modified),</span>
 
   /**
    * The date given for dc:modified is in the future or predates Unix time (1970).
    */
-<span class="fc" id="L271">  MODIFIED_DATE_UNLIKELY(WARNING, DcTerm.modified),</span>
+<span class="fc" id="L268">  MODIFIED_DATE_UNLIKELY(WARNING, DcTerm.modified),</span>
 
   /**
    * The date given for dwc:dateIdentified is in the future or before Linnean times (1700).
    */
-<span class="fc" id="L276">  IDENTIFIED_DATE_UNLIKELY(WARNING, DwcTerm.dateIdentified),</span>
+<span class="fc" id="L273">  IDENTIFIED_DATE_UNLIKELY(WARNING, DwcTerm.dateIdentified),</span>
 
   /**
    * The date given for dwc:dateIdentified is invalid and can't be interpreted at all.
    */
-<span class="fc" id="L281">  IDENTIFIED_DATE_INVALID(WARNING, DwcTerm.dateIdentified),</span>
+<span class="fc" id="L278">  IDENTIFIED_DATE_INVALID(WARNING, DwcTerm.dateIdentified),</span>
 
   /**
    * The given basis of record is impossible to interpret or significantly different from the
    * recommended vocabulary.
    */
-<span class="fc" id="L287">  BASIS_OF_RECORD_INVALID(WARNING, DwcTerm.basisOfRecord),</span>
+<span class="fc" id="L284">  BASIS_OF_RECORD_INVALID(WARNING, DwcTerm.basisOfRecord),</span>
 
   /**
    * The given type status is impossible to interpret or significantly different from the
    * recommended vocabulary.
    */
-<span class="fc" id="L293">  TYPE_STATUS_INVALID(WARNING, DwcTerm.typeStatus),</span>
+<span class="fc" id="L290">  TYPE_STATUS_INVALID(WARNING, DwcTerm.typeStatus),</span>
 
   /**
    * An invalid date is given for dc:created of a multimedia object.
    */
-<span class="fc" id="L298">  MULTIMEDIA_DATE_INVALID(WARNING),</span>
+<span class="fc" id="L295">  MULTIMEDIA_DATE_INVALID(WARNING),</span>
 
   /**
    * An invalid URI is given for a multimedia object.
    */
-<span class="fc" id="L303">  MULTIMEDIA_URI_INVALID(WARNING),</span>
+<span class="fc" id="L300">  MULTIMEDIA_URI_INVALID(WARNING),</span>
 
   /**
    * An invalid URI is given for dc:references.
    */
-<span class="fc" id="L308">  REFERENCES_URI_INVALID(WARNING, DcTerm.references),</span>
+<span class="fc" id="L305">  REFERENCES_URI_INVALID(WARNING, DcTerm.references),</span>
 
   /**
    * An error occurred during interpretation, leaving the record interpretation incomplete.
    */
-<span class="fc" id="L313">  INTERPRETATION_ERROR(ERROR),</span>
+<span class="fc" id="L310">  INTERPRETATION_ERROR(ERROR),</span>
 
   /**
    * The individual count value is not a positive integer
    */
-<span class="fc" id="L318">  INDIVIDUAL_COUNT_INVALID(WARNING, DwcTerm.individualCount),</span>
+<span class="fc" id="L315">  INDIVIDUAL_COUNT_INVALID(WARNING, DwcTerm.individualCount),</span>
 
   /**
    * Example: individual count value &gt; 0, but occurrence status is absent.
    */
-<span class="fc" id="L323">  INDIVIDUAL_COUNT_CONFLICTS_WITH_OCCURRENCE_STATUS(WARNING, DwcTerm.individualCount),</span>
+<span class="fc" id="L320">  INDIVIDUAL_COUNT_CONFLICTS_WITH_OCCURRENCE_STATUS(WARNING, DwcTerm.individualCount),</span>
 
   /**
    * Occurrence status value can't be assigned to {@link OccurrenceStatus}
    */
-<span class="fc" id="L328">  OCCURRENCE_STATUS_UNPARSABLE(WARNING, DwcTerm.occurrenceStatus),</span>
+<span class="fc" id="L325">  OCCURRENCE_STATUS_UNPARSABLE(WARNING, DwcTerm.occurrenceStatus),</span>
 
   /**
    * Occurrence status was inferred from the individual count value
    */
-<span class="fc" id="L333">  OCCURRENCE_STATUS_INFERRED_FROM_INDIVIDUAL_COUNT(WARNING, DwcTerm.occurrenceStatus),</span>
+<span class="fc" id="L330">  OCCURRENCE_STATUS_INFERRED_FROM_INDIVIDUAL_COUNT(WARNING, DwcTerm.occurrenceStatus),</span>
 
   /**
    * Occurrence status was inferred from basis of records
    */
-<span class="fc" id="L338">  OCCURRENCE_STATUS_INFERRED_FROM_BASIS_OF_RECORD(WARNING, DwcTerm.occurrenceStatus),</span>
+<span class="fc" id="L335">  OCCURRENCE_STATUS_INFERRED_FROM_BASIS_OF_RECORD(WARNING, DwcTerm.occurrenceStatus),</span>
 
   /**
    * The date given for dwc:georeferencedDate is in the future or before Linnean times (1700).
    */
-<span class="fc" id="L343">  GEOREFERENCED_DATE_UNLIKELY(WARNING, DwcTerm.georeferencedDate),</span>
+<span class="fc" id="L340">  GEOREFERENCED_DATE_UNLIKELY(WARNING, DwcTerm.georeferencedDate),</span>
 
   /**
    * The date given for dwc:georeferencedDate is invalid and can't be interpreted at all.
    */
-<span class="fc" id="L348">  GEOREFERENCED_DATE_INVALID(WARNING, DwcTerm.georeferencedDate),</span>
+<span class="fc" id="L345">  GEOREFERENCED_DATE_INVALID(WARNING, DwcTerm.georeferencedDate),</span>
 
   /**
    * The given institution matches with more than 1 GRSciColl institution.
    */
-<span class="fc" id="L353">  AMBIGUOUS_INSTITUTION(WARNING, TermsGroup.INSTITUTION_TERMS),</span>
+<span class="fc" id="L350">  AMBIGUOUS_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS),</span>
 
   /**
    * The given collection matches with more than 1 GRSciColl collection.
    */
-<span class="fc" id="L358">  AMBIGUOUS_COLLECTION(WARNING, TermsGroup.COLLECTION_TERMS),</span>
+<span class="fc" id="L355">  AMBIGUOUS_COLLECTION(INFO, TermsGroup.COLLECTION_TERMS),</span>
 
   /**
    * The given institution couldn't be matched with any GRSciColl institution.
    */
-<span class="fc" id="L363">  INSTITUTION_MATCH_NONE(WARNING, TermsGroup.INSTITUTION_TERMS),</span>
+<span class="fc" id="L360">  INSTITUTION_MATCH_NONE(INFO, TermsGroup.INSTITUTION_TERMS),</span>
 
   /**
    * The given collection couldn't be matched with any GRSciColl collection.
    */
-<span class="fc" id="L368">  COLLECTION_MATCH_NONE(WARNING, TermsGroup.COLLECTION_TERMS),</span>
+<span class="fc" id="L365">  COLLECTION_MATCH_NONE(INFO, TermsGroup.COLLECTION_TERMS),</span>
 
   /**
    * The given institution was fuzzily matched to a GRSciColl institution. This can happen when
    * either the code or the ID don't match or when the institution name is used instead of the code.
    */
-<span class="fc" id="L374">  INSTITUTION_MATCH_FUZZY(WARNING, TermsGroup.INSTITUTION_TERMS),</span>
+<span class="fc" id="L371">  INSTITUTION_MATCH_FUZZY(INFO, TermsGroup.INSTITUTION_TERMS),</span>
 
   /**
    * The given collection was fuzzily matched to a GRSciColl collection. This can happen when either
    * the code or the ID don't match or when the collection name is used instead of the code.
    */
-<span class="fc" id="L380">  COLLECTION_MATCH_FUZZY(WARNING, TermsGroup.COLLECTION_TERMS),</span>
+<span class="fc" id="L377">  COLLECTION_MATCH_FUZZY(INFO, TermsGroup.COLLECTION_TERMS),</span>
 
   /** The collection matched doesn't belong to the institution matched. */
-<span class="fc" id="L383">  INSTITUTION_COLLECTION_MISMATCH(</span>
-<span class="fc" id="L384">      WARNING, ArrayUtils.addAll(TermsGroup.INSTITUTION_TERMS, TermsGroup.INSTITUTION_TERMS)),</span>
+<span class="fc" id="L380">  INSTITUTION_COLLECTION_MISMATCH(</span>
+<span class="fc" id="L381">    INFO, ArrayUtils.addAll(TermsGroup.INSTITUTION_TERMS, TermsGroup.INSTITUTION_TERMS)),</span>
 
   /**
    * The given owner institution is different than the given institution. Therefore we assume it
@@ -389,14 +386,14 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
    *
    * Deprecated by {@link #DIFFERENT_OWNER_INSTITUTION}.
    */
-<span class="fc" id="L392">  @Deprecated</span>
+<span class="fc" id="L389">  @Deprecated</span>
   POSSIBLY_ON_LOAN(INFO, TermsGroup.INSTITUTION_TERMS),
 
   /**
    * The given owner institution is different than the given institution. Therefore we assume it
    * doesn't belong to the institution and we don't link it to the occurrence.
    */
-<span class="fc" id="L399">  DIFFERENT_OWNER_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS);</span>
+<span class="fc" id="L396">  DIFFERENT_OWNER_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS);</span>
 
   /**
    * Simple helper nested class to allow grouping of Term mostly to increase readability of this
@@ -404,7 +401,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
    */
   private static class TermsGroup {
 
-<span class="fc" id="L407">    static final Term[] COORDINATES_TERMS_NO_DATUM = {</span>
+<span class="fc" id="L404">    static final Term[] COORDINATES_TERMS_NO_DATUM = {</span>
       DwcTerm.decimalLatitude,
       DwcTerm.decimalLongitude,
       DwcTerm.verbatimLatitude,
@@ -412,7 +409,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.verbatimCoordinates
     };
 
-<span class="fc" id="L415">    static final Term[] COORDINATES_TERMS = {</span>
+<span class="fc" id="L412">    static final Term[] COORDINATES_TERMS = {</span>
       DwcTerm.decimalLatitude,
       DwcTerm.decimalLongitude,
       DwcTerm.verbatimLatitude,
@@ -421,12 +418,12 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.geodeticDatum
     };
 
-<span class="fc" id="L424">    static final Term[] COUNTRY_TERMS = {</span>
+<span class="fc" id="L421">    static final Term[] COUNTRY_TERMS = {</span>
       DwcTerm.country,
       DwcTerm.countryCode
     };
 
-<span class="fc" id="L429">    static final Term[] COORDINATES_COUNTRY_TERMS = {</span>
+<span class="fc" id="L426">    static final Term[] COORDINATES_COUNTRY_TERMS = {</span>
       DwcTerm.decimalLatitude,
       DwcTerm.decimalLongitude,
       DwcTerm.verbatimLatitude,
@@ -437,12 +434,12 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.countryCode
     };
 
-<span class="fc" id="L440">    static final Term[] RECORDED_DATE_TERMS = {</span>
+<span class="fc" id="L437">    static final Term[] RECORDED_DATE_TERMS = {</span>
       DwcTerm.eventDate,
       DwcTerm.year, DwcTerm.month, DwcTerm.day
     };
 
-<span class="fc" id="L445">    static final Term[] TAXONOMY_TERMS = {</span>
+<span class="fc" id="L442">    static final Term[] TAXONOMY_TERMS = {</span>
       DwcTerm.kingdom,
       DwcTerm.phylum,
       DwcTerm.class_,
@@ -451,16 +448,16 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.genus,
       DwcTerm.scientificName,
       DwcTerm.scientificNameAuthorship,
-      GbifTerm.genericName,
+      DwcTerm.genericName,
       DwcTerm.specificEpithet,
       DwcTerm.infraspecificEpithet
     };
 
-<span class="fc" id="L459">    static final Term[] INSTITUTION_TERMS = {</span>
+<span class="fc" id="L456">    static final Term[] INSTITUTION_TERMS = {</span>
       DwcTerm.institutionCode, DwcTerm.institutionID, DwcTerm.ownerInstitutionCode
     };
 
-<span class="fc" id="L463">    static final Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};</span>
+<span class="fc" id="L460">    static final Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};</span>
   }
 
   private final Set&lt;Term&gt; relatedTerms;
@@ -470,47 +467,47 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
   /**
    * {@link OccurrenceIssue} not linked to any specific {@link Term}.
    */
-<span class="fc" id="L473">  OccurrenceIssue(InterpretationRemarkSeverity severity) {</span>
-<span class="fc" id="L474">    this.severity = severity;</span>
-<span class="fc" id="L475">    this.relatedTerms = Collections.emptySet();</span>
-<span class="fc" id="L476">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
-<span class="fc" id="L477">  }</span>
+<span class="fc" id="L470">  OccurrenceIssue(InterpretationRemarkSeverity severity) {</span>
+<span class="fc" id="L471">    this.severity = severity;</span>
+<span class="fc" id="L472">    this.relatedTerms = Collections.emptySet();</span>
+<span class="fc" id="L473">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
+<span class="fc" id="L474">  }</span>
 
   /**
    * {@link OccurrenceIssue} linked to the provided {@link Term}.
    */
-<span class="fc" id="L482">  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {</span>
-<span class="fc" id="L483">    this.severity = severity;</span>
-<span class="fc" id="L484">    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));</span>
-<span class="fc" id="L485">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
-<span class="fc" id="L486">  }</span>
+<span class="fc" id="L479">  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {</span>
+<span class="fc" id="L480">    this.severity = severity;</span>
+<span class="fc" id="L481">    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));</span>
+<span class="fc" id="L482">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
+<span class="fc" id="L483">  }</span>
 
   @Override
   public String getId() {
-<span class="fc" id="L490">    return name();</span>
+<span class="fc" id="L487">    return name();</span>
   }
 
   @Override
   public Set&lt;Term&gt; getRelatedTerms() {
-<span class="nc" id="L495">    return relatedTerms;</span>
+<span class="nc" id="L492">    return relatedTerms;</span>
   }
 
   @Override
   public InterpretationRemarkSeverity getSeverity() {
-<span class="fc" id="L500">    return severity;</span>
+<span class="fc" id="L497">    return severity;</span>
   }
 
   @Override
   public boolean isDeprecated() {
-<span class="fc" id="L505">    return isDeprecated;</span>
+<span class="fc" id="L502">    return isDeprecated;</span>
   }
 
   /**
    * All issues that indicate problems with the coordinates and thus should not be shown on maps.
    */
-<span class="fc" id="L511">  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =</span>
-<span class="fc" id="L512">    Collections.unmodifiableList(</span>
-<span class="fc" id="L513">      Arrays.asList(</span>
+<span class="fc" id="L508">  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =</span>
+<span class="fc" id="L509">    Collections.unmodifiableList(</span>
+<span class="fc" id="L510">      Arrays.asList(</span>
         ZERO_COORDINATE,
         COORDINATE_INVALID,
         COORDINATE_OUT_OF_RANGE,
@@ -519,9 +516,9 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
   /**
    * All issues that indicate problems with the taxonomy or taxonomic matching.
    */
-<span class="fc" id="L522">  public static final List&lt;OccurrenceIssue&gt; TAXONOMIC_RULES =</span>
-<span class="fc" id="L523">    Collections.unmodifiableList(</span>
-<span class="fc" id="L524">      Arrays.asList(</span>
+<span class="fc" id="L519">  public static final List&lt;OccurrenceIssue&gt; TAXONOMIC_RULES =</span>
+<span class="fc" id="L520">    Collections.unmodifiableList(</span>
+<span class="fc" id="L521">      Arrays.asList(</span>
         TAXON_MATCH_FUZZY,
         TAXON_MATCH_HIGHERRANK,
         TAXON_MATCH_NONE));
