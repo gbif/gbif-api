@@ -40,7 +40,7 @@ public class NetworkPager extends DatasetBasePager {
     }
 
     @Override
-    PagingResponse<Dataset> nextPage(PagingRequest page) {
+    public PagingResponse<Dataset> nextPage(PagingRequest page) {
         return service.listConstituents(key, page);
     }
 

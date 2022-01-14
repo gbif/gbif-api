@@ -41,7 +41,7 @@ public class InstallationPager extends DatasetBasePager {
     }
 
     @Override
-    PagingResponse<Dataset> nextPage(PagingRequest page) {
+    public PagingResponse<Dataset> nextPage(PagingRequest page) {
         return service.getHostedDatasets(installationKey, page);
     }
 

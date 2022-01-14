@@ -37,7 +37,7 @@ public class NodeOrganizationPager extends EntityPager<Organization> {
     }
 
     @Override
-    PagingResponse<Organization> nextPage(PagingRequest page) {
+    public PagingResponse<Organization> nextPage(PagingRequest page) {
         return service.endorsedOrganizations(endorsingNodeKey, page);
     }
 

@@ -195,7 +195,7 @@ public class Iterables {
   public static Iterable<Dataset> datasetsIterable(Function<PagingRequest, PagingResponse<Dataset>> pager) {
     return new DatasetBasePager(null, PagingConstants.DEFAULT_PARAM_LIMIT) {
       @Override
-      PagingResponse<Dataset> nextPage(PagingRequest page) {
+      public PagingResponse<Dataset> nextPage(PagingRequest page) {
         return pager.apply(page);
       }
     };

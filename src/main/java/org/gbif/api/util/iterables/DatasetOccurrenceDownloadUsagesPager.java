@@ -38,7 +38,7 @@ public class DatasetOccurrenceDownloadUsagesPager extends BasePager<DatasetOccur
   }
 
   @Override
-  PagingResponse<DatasetOccurrenceDownloadUsage> nextPage(PagingRequest page) {
+  public PagingResponse<DatasetOccurrenceDownloadUsage> nextPage(PagingRequest page) {
     return service.listDatasetUsages(downloadKey, page);
   }
 

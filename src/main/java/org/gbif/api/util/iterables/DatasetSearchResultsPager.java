@@ -40,7 +40,7 @@ public class DatasetSearchResultsPager extends BasePager<DatasetSearchResult> {
     }
 
     @Override
-    PagingResponse<DatasetSearchResult> nextPage(PagingRequest page) {
+    public PagingResponse<DatasetSearchResult> nextPage(PagingRequest page) {
       datasetSearchRequest.copyPagingValues(page);
       return datasetSearchService.search(datasetSearchRequest);
     }

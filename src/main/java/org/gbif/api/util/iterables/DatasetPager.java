@@ -38,7 +38,7 @@ public class DatasetPager extends DatasetBasePager {
     }
 
     @Override
-    PagingResponse<Dataset> nextPage(PagingRequest page) {
+    public PagingResponse<Dataset> nextPage(PagingRequest page) {
         if (type == null) {
             return ds.list(page);
         } else {

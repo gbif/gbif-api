@@ -57,7 +57,7 @@ public class DownloadStatisticPager extends BasePager<DownloadStatistics> {
     }
 
     @Override
-    PagingResponse<DownloadStatistics> nextPage(PagingRequest page) {
+    public PagingResponse<DownloadStatistics> nextPage(PagingRequest page) {
         return service.getDownloadStatistics(fromDate, toDate, publishingCountry, datasetKey, publishingOrgKey, page);
     }
 

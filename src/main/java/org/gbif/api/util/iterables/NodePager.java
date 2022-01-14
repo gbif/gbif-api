@@ -33,7 +33,7 @@ public class NodePager extends EntityPager<Node> {
     }
 
     @Override
-    PagingResponse<Node> nextPage(PagingRequest page) {
+    public PagingResponse<Node> nextPage(PagingRequest page) {
         return service.list(page);
     }
 

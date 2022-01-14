@@ -28,7 +28,7 @@ import static org.gbif.api.util.PreconditionUtils.checkArgument;
 /**
  * Iterator over registry entities from paging responses that filters out deleted entities.
  */
-abstract class BasePager<T> implements Iterable<T> {
+public abstract class BasePager<T> implements Iterable<T> {
     private static final Logger LOG = LoggerFactory.getLogger(BasePager.class);
     private final int pageSize;
 
@@ -93,7 +93,7 @@ abstract class BasePager<T> implements Iterable<T> {
         }
     }
 
-    abstract PagingResponse<T> nextPage(PagingRequest page);
+    public abstract PagingResponse<T> nextPage(PagingRequest page);
 
     /**
      * Override this method to implement other exclusion filters.
