@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -135,7 +133,12 @@ public enum ContactType {
   /**
    * A contact who is a member of the Node's staff.
    */
-  NODE_STAFF;
+  NODE_STAFF,
+  /**
+   * A person assigned to review the dataset and verify its data and/or metadata quality.
+   * This role is analogous to the role played by peer reviewers in the scholarly publication process.
+   */
+  REVIEWER;
 
   /**
    * @return the matching ContactType or null
