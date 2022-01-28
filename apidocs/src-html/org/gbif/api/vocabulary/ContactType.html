@@ -7,194 +7,197 @@
 <body>
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
-<span class="sourceLineNo">003</span> *<a name="line.3"></a>
-<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
-<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
-<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">002</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.2"></a>
+<span class="sourceLineNo">003</span> * you may not use this file except in compliance with the License.<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * You may obtain a copy of the License at<a name="line.4"></a>
+<span class="sourceLineNo">005</span> *<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.6"></a>
 <span class="sourceLineNo">007</span> *<a name="line.7"></a>
-<span class="sourceLineNo">008</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
-<span class="sourceLineNo">009</span> *<a name="line.9"></a>
-<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
-<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
-<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
-<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
-<span class="sourceLineNo">015</span> */<a name="line.15"></a>
-<span class="sourceLineNo">016</span>package org.gbif.api.vocabulary;<a name="line.16"></a>
+<span class="sourceLineNo">008</span> * Unless required by applicable law or agreed to in writing, software<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * See the License for the specific language governing permissions and<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * limitations under the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span>package org.gbif.api.vocabulary;<a name="line.14"></a>
+<span class="sourceLineNo">015</span><a name="line.15"></a>
+<span class="sourceLineNo">016</span>import org.gbif.api.util.VocabularyUtils;<a name="line.16"></a>
 <span class="sourceLineNo">017</span><a name="line.17"></a>
-<span class="sourceLineNo">018</span>import org.gbif.api.util.VocabularyUtils;<a name="line.18"></a>
-<span class="sourceLineNo">019</span><a name="line.19"></a>
-<span class="sourceLineNo">020</span>import java.util.HashMap;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import java.util.Map;<a name="line.21"></a>
+<span class="sourceLineNo">018</span>import java.util.HashMap;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import java.util.Map;<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>import javax.annotation.Nullable;<a name="line.21"></a>
 <span class="sourceLineNo">022</span><a name="line.22"></a>
-<span class="sourceLineNo">023</span>import javax.annotation.Nullable;<a name="line.23"></a>
-<span class="sourceLineNo">024</span><a name="line.24"></a>
-<span class="sourceLineNo">025</span>/**<a name="line.25"></a>
-<span class="sourceLineNo">026</span> * Enumeration for all contact types.<a name="line.26"></a>
-<span class="sourceLineNo">027</span> * A utility to infer types is provided which has historically been used during data migration activities from legacy<a name="line.27"></a>
-<span class="sourceLineNo">028</span> * systems such as the previous "GBRDS" which was built on MySQL.<a name="line.28"></a>
-<span class="sourceLineNo">029</span> *<a name="line.29"></a>
-<span class="sourceLineNo">030</span> * @see &lt;a href="http://rs.gbif.org/vocabulary/gbif/agent_role.xml"&gt;rs.gbif.org vocabulary&lt;/a&gt;<a name="line.30"></a>
-<span class="sourceLineNo">031</span> */<a name="line.31"></a>
-<span class="sourceLineNo">032</span>public enum ContactType {<a name="line.32"></a>
-<span class="sourceLineNo">033</span>  /**<a name="line.33"></a>
-<span class="sourceLineNo">034</span>   * A contact to contact for further technical information related to the dataset.<a name="line.34"></a>
-<span class="sourceLineNo">035</span>   */<a name="line.35"></a>
-<span class="sourceLineNo">036</span>  TECHNICAL_POINT_OF_CONTACT,<a name="line.36"></a>
-<span class="sourceLineNo">037</span>  /**<a name="line.37"></a>
-<span class="sourceLineNo">038</span>   * A contact to contact for further non-technical information related to the dataset.<a name="line.38"></a>
-<span class="sourceLineNo">039</span>   */<a name="line.39"></a>
-<span class="sourceLineNo">040</span>  ADMINISTRATIVE_POINT_OF_CONTACT,<a name="line.40"></a>
-<span class="sourceLineNo">041</span>  /**<a name="line.41"></a>
-<span class="sourceLineNo">042</span>   * A contact to contact for further information about the dataset.<a name="line.42"></a>
-<span class="sourceLineNo">043</span>   */<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  POINT_OF_CONTACT,<a name="line.44"></a>
-<span class="sourceLineNo">045</span>  /**<a name="line.45"></a>
-<span class="sourceLineNo">046</span>   * A contact who originally gathered/prepared the dataset.<a name="line.46"></a>
-<span class="sourceLineNo">047</span>   */<a name="line.47"></a>
-<span class="sourceLineNo">048</span>  ORIGINATOR,<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  /**<a name="line.49"></a>
-<span class="sourceLineNo">050</span>   * A contact responsible for providing the metadata.<a name="line.50"></a>
-<span class="sourceLineNo">051</span>   */<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  METADATA_AUTHOR,<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  /**<a name="line.53"></a>
-<span class="sourceLineNo">054</span>   * A primary scientific contact associated with the dataset.<a name="line.54"></a>
-<span class="sourceLineNo">055</span>   */<a name="line.55"></a>
-<span class="sourceLineNo">056</span>  PRINCIPAL_INVESTIGATOR,<a name="line.56"></a>
-<span class="sourceLineNo">057</span>  /**<a name="line.57"></a>
-<span class="sourceLineNo">058</span>   * A contact who is an author of a publication that used the dataset, or author of a data paper.<a name="line.58"></a>
-<span class="sourceLineNo">059</span>   */<a name="line.59"></a>
-<span class="sourceLineNo">060</span>  AUTHOR,<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  /**<a name="line.61"></a>
-<span class="sourceLineNo">062</span>   * A contact who contributed content to a dataset (the dataset being described may be a composite).<a name="line.62"></a>
-<span class="sourceLineNo">063</span>   */<a name="line.63"></a>
-<span class="sourceLineNo">064</span>  CONTENT_PROVIDER,<a name="line.64"></a>
-<span class="sourceLineNo">065</span>  /**<a name="line.65"></a>
-<span class="sourceLineNo">066</span>   * A contact who is responsible for/takes care of the dataset.<a name="line.66"></a>
-<span class="sourceLineNo">067</span>   */<a name="line.67"></a>
-<span class="sourceLineNo">068</span>  CUSTODIAN_STEWARD,<a name="line.68"></a>
-<span class="sourceLineNo">069</span>  /**<a name="line.69"></a>
-<span class="sourceLineNo">070</span>   * A contact involved in the publishing/distribution chain of a dataset.<a name="line.70"></a>
-<span class="sourceLineNo">071</span>   */<a name="line.71"></a>
-<span class="sourceLineNo">072</span>  DISTRIBUTOR,<a name="line.72"></a>
-<span class="sourceLineNo">073</span>  /**<a name="line.73"></a>
-<span class="sourceLineNo">074</span>   * A contact associated with editing a publication that used the dataset, or a data paper.<a name="line.74"></a>
-<span class="sourceLineNo">075</span>   */<a name="line.75"></a>
-<span class="sourceLineNo">076</span>  EDITOR,<a name="line.76"></a>
-<span class="sourceLineNo">077</span>  /**<a name="line.77"></a>
-<span class="sourceLineNo">078</span>   * A contact who owns the dataset (may or may not be the custodian).<a name="line.78"></a>
-<span class="sourceLineNo">079</span>   */<a name="line.79"></a>
-<span class="sourceLineNo">080</span>  OWNER,<a name="line.80"></a>
-<span class="sourceLineNo">081</span>  /**<a name="line.81"></a>
-<span class="sourceLineNo">082</span>   * A contact responsible for any post-collection processing of the dataset.<a name="line.82"></a>
-<span class="sourceLineNo">083</span>   */<a name="line.83"></a>
-<span class="sourceLineNo">084</span>  PROCESSOR,<a name="line.84"></a>
-<span class="sourceLineNo">085</span>  /**<a name="line.85"></a>
-<span class="sourceLineNo">086</span>   * A contact associated with the publishing of some entity (paper, article, book, etc) based on the dataset, or of a<a name="line.86"></a>
-<span class="sourceLineNo">087</span>   * data paper.<a name="line.87"></a>
-<span class="sourceLineNo">088</span>   */<a name="line.88"></a>
-<span class="sourceLineNo">089</span>  PUBLISHER,<a name="line.89"></a>
-<span class="sourceLineNo">090</span>  /**<a name="line.90"></a>
-<span class="sourceLineNo">091</span>   * The contact that makes use of the dataset.<a name="line.91"></a>
-<span class="sourceLineNo">092</span>   */<a name="line.92"></a>
-<span class="sourceLineNo">093</span>  USER,<a name="line.93"></a>
-<span class="sourceLineNo">094</span>  /**<a name="line.94"></a>
-<span class="sourceLineNo">095</span>   * The contact providing informatics/programming support related to the dataset.<a name="line.95"></a>
-<span class="sourceLineNo">096</span>   */<a name="line.96"></a>
-<span class="sourceLineNo">097</span>  PROGRAMMER,<a name="line.97"></a>
-<span class="sourceLineNo">098</span>  /**<a name="line.98"></a>
-<span class="sourceLineNo">099</span>   * The contact that maintains and documents the specimens in a collection. Some of their duties include preparing and<a name="line.99"></a>
-<span class="sourceLineNo">100</span>   * labeling specimens so they are ready for identification, and protecting the specimens.<a name="line.100"></a>
-<span class="sourceLineNo">101</span>   */<a name="line.101"></a>
-<span class="sourceLineNo">102</span>  CURATOR,<a name="line.102"></a>
-<span class="sourceLineNo">103</span>  /**<a name="line.103"></a>
-<span class="sourceLineNo">104</span>   * A contact who manages the operation of a data system.<a name="line.104"></a>
-<span class="sourceLineNo">105</span>   */<a name="line.105"></a>
-<span class="sourceLineNo">106</span>  DATA_ADMINISTRATOR,<a name="line.106"></a>
-<span class="sourceLineNo">107</span>  /**<a name="line.107"></a>
-<span class="sourceLineNo">108</span>   * A contact who manages the operation of a computer system.<a name="line.108"></a>
-<span class="sourceLineNo">109</span>   */<a name="line.109"></a>
-<span class="sourceLineNo">110</span>  SYSTEM_ADMINISTRATOR,<a name="line.110"></a>
-<span class="sourceLineNo">111</span>  /**<a name="line.111"></a>
-<span class="sourceLineNo">112</span>   * A contact appointed to lead and represent a Participant's delegation at the GBIF Governing Board.<a name="line.112"></a>
-<span class="sourceLineNo">113</span>   */<a name="line.113"></a>
-<span class="sourceLineNo">114</span>  HEAD_OF_DELEGATION,<a name="line.114"></a>
-<span class="sourceLineNo">115</span>  /**<a name="line.115"></a>
-<span class="sourceLineNo">116</span>   * A contact temporarily appointed to lead and represent a Participant's delegation at the GBIF Governing Board.<a name="line.116"></a>
-<span class="sourceLineNo">117</span>   */<a name="line.117"></a>
-<span class="sourceLineNo">118</span>  TEMPORARY_HEAD_OF_DELEGATION,<a name="line.118"></a>
-<span class="sourceLineNo">119</span>  /**<a name="line.119"></a>
-<span class="sourceLineNo">120</span>   * A contact appointed to a Participant's delegation at the GBIF Governing Board.<a name="line.120"></a>
-<span class="sourceLineNo">121</span>   */<a name="line.121"></a>
-<span class="sourceLineNo">122</span>  ADDITIONAL_DELEGATE,<a name="line.122"></a>
-<span class="sourceLineNo">123</span>  /**<a name="line.123"></a>
-<span class="sourceLineNo">124</span>   * A contact temporarily appointed to a Participant's delegation at the GBIF Governing Board.<a name="line.124"></a>
-<span class="sourceLineNo">125</span>   */<a name="line.125"></a>
-<span class="sourceLineNo">126</span>  TEMPORARY_DELEGATE,<a name="line.126"></a>
-<span class="sourceLineNo">127</span>  /**<a name="line.127"></a>
-<span class="sourceLineNo">128</span>   * A contact representing a regional group of Nodes.<a name="line.128"></a>
-<span class="sourceLineNo">129</span>   */<a name="line.129"></a>
-<span class="sourceLineNo">130</span>  REGIONAL_NODE_REPRESENTATIVE,<a name="line.130"></a>
-<span class="sourceLineNo">131</span>  /**<a name="line.131"></a>
-<span class="sourceLineNo">132</span>   * A contact leading the work of the Node and representing the Node in the Nodes Committee.<a name="line.132"></a>
-<span class="sourceLineNo">133</span>   */<a name="line.133"></a>
-<span class="sourceLineNo">134</span>  NODE_MANAGER,<a name="line.134"></a>
-<span class="sourceLineNo">135</span>  /**<a name="line.135"></a>
-<span class="sourceLineNo">136</span>   * A contact who is a member of the Node's staff.<a name="line.136"></a>
-<span class="sourceLineNo">137</span>   */<a name="line.137"></a>
-<span class="sourceLineNo">138</span>  NODE_STAFF;<a name="line.138"></a>
-<span class="sourceLineNo">139</span><a name="line.139"></a>
-<span class="sourceLineNo">140</span>  /**<a name="line.140"></a>
-<span class="sourceLineNo">141</span>   * @return the matching ContactType or null<a name="line.141"></a>
-<span class="sourceLineNo">142</span>   */<a name="line.142"></a>
-<span class="sourceLineNo">143</span>  public static ContactType fromString(String contactType) {<a name="line.143"></a>
-<span class="sourceLineNo">144</span>    return (ContactType) VocabularyUtils.lookupEnum(contactType, ContactType.class);<a name="line.144"></a>
-<span class="sourceLineNo">145</span>  }<a name="line.145"></a>
-<span class="sourceLineNo">146</span><a name="line.146"></a>
-<span class="sourceLineNo">147</span>  // deliberate typos have existed and might be in genuine use<a name="line.147"></a>
-<span class="sourceLineNo">148</span>  private static final Map&lt;String, ContactType&gt; TYPE_LOOKUP = new HashMap&lt;&gt;();<a name="line.148"></a>
+<span class="sourceLineNo">023</span>/**<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * Enumeration for all contact types.<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * A utility to infer types is provided which has historically been used during data migration activities from legacy<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * systems such as the previous "GBRDS" which was built on MySQL.<a name="line.26"></a>
+<span class="sourceLineNo">027</span> *<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * @see &lt;a href="http://rs.gbif.org/vocabulary/gbif/agent_role.xml"&gt;rs.gbif.org vocabulary&lt;/a&gt;<a name="line.28"></a>
+<span class="sourceLineNo">029</span> */<a name="line.29"></a>
+<span class="sourceLineNo">030</span>public enum ContactType {<a name="line.30"></a>
+<span class="sourceLineNo">031</span>  /**<a name="line.31"></a>
+<span class="sourceLineNo">032</span>   * A contact to contact for further technical information related to the dataset.<a name="line.32"></a>
+<span class="sourceLineNo">033</span>   */<a name="line.33"></a>
+<span class="sourceLineNo">034</span>  TECHNICAL_POINT_OF_CONTACT,<a name="line.34"></a>
+<span class="sourceLineNo">035</span>  /**<a name="line.35"></a>
+<span class="sourceLineNo">036</span>   * A contact to contact for further non-technical information related to the dataset.<a name="line.36"></a>
+<span class="sourceLineNo">037</span>   */<a name="line.37"></a>
+<span class="sourceLineNo">038</span>  ADMINISTRATIVE_POINT_OF_CONTACT,<a name="line.38"></a>
+<span class="sourceLineNo">039</span>  /**<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   * A contact to contact for further information about the dataset.<a name="line.40"></a>
+<span class="sourceLineNo">041</span>   */<a name="line.41"></a>
+<span class="sourceLineNo">042</span>  POINT_OF_CONTACT,<a name="line.42"></a>
+<span class="sourceLineNo">043</span>  /**<a name="line.43"></a>
+<span class="sourceLineNo">044</span>   * A contact who originally gathered/prepared the dataset.<a name="line.44"></a>
+<span class="sourceLineNo">045</span>   */<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  ORIGINATOR,<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  /**<a name="line.47"></a>
+<span class="sourceLineNo">048</span>   * A contact responsible for providing the metadata.<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   */<a name="line.49"></a>
+<span class="sourceLineNo">050</span>  METADATA_AUTHOR,<a name="line.50"></a>
+<span class="sourceLineNo">051</span>  /**<a name="line.51"></a>
+<span class="sourceLineNo">052</span>   * A primary scientific contact associated with the dataset.<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   */<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  PRINCIPAL_INVESTIGATOR,<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  /**<a name="line.55"></a>
+<span class="sourceLineNo">056</span>   * A contact who is an author of a publication that used the dataset, or author of a data paper.<a name="line.56"></a>
+<span class="sourceLineNo">057</span>   */<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  AUTHOR,<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  /**<a name="line.59"></a>
+<span class="sourceLineNo">060</span>   * A contact who contributed content to a dataset (the dataset being described may be a composite).<a name="line.60"></a>
+<span class="sourceLineNo">061</span>   */<a name="line.61"></a>
+<span class="sourceLineNo">062</span>  CONTENT_PROVIDER,<a name="line.62"></a>
+<span class="sourceLineNo">063</span>  /**<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   * A contact who is responsible for/takes care of the dataset.<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   */<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  CUSTODIAN_STEWARD,<a name="line.66"></a>
+<span class="sourceLineNo">067</span>  /**<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   * A contact involved in the publishing/distribution chain of a dataset.<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   */<a name="line.69"></a>
+<span class="sourceLineNo">070</span>  DISTRIBUTOR,<a name="line.70"></a>
+<span class="sourceLineNo">071</span>  /**<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   * A contact associated with editing a publication that used the dataset, or a data paper.<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   */<a name="line.73"></a>
+<span class="sourceLineNo">074</span>  EDITOR,<a name="line.74"></a>
+<span class="sourceLineNo">075</span>  /**<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   * A contact who owns the dataset (may or may not be the custodian).<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   */<a name="line.77"></a>
+<span class="sourceLineNo">078</span>  OWNER,<a name="line.78"></a>
+<span class="sourceLineNo">079</span>  /**<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   * A contact responsible for any post-collection processing of the dataset.<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   */<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  PROCESSOR,<a name="line.82"></a>
+<span class="sourceLineNo">083</span>  /**<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   * A contact associated with the publishing of some entity (paper, article, book, etc) based on the dataset, or of a<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   * data paper.<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   */<a name="line.86"></a>
+<span class="sourceLineNo">087</span>  PUBLISHER,<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  /**<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * The contact that makes use of the dataset.<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   */<a name="line.90"></a>
+<span class="sourceLineNo">091</span>  USER,<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  /**<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * The contact providing informatics/programming support related to the dataset.<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   */<a name="line.94"></a>
+<span class="sourceLineNo">095</span>  PROGRAMMER,<a name="line.95"></a>
+<span class="sourceLineNo">096</span>  /**<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * The contact that maintains and documents the specimens in a collection. Some of their duties include preparing and<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   * labeling specimens so they are ready for identification, and protecting the specimens.<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   */<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  CURATOR,<a name="line.100"></a>
+<span class="sourceLineNo">101</span>  /**<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   * A contact who manages the operation of a data system.<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   */<a name="line.103"></a>
+<span class="sourceLineNo">104</span>  DATA_ADMINISTRATOR,<a name="line.104"></a>
+<span class="sourceLineNo">105</span>  /**<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   * A contact who manages the operation of a computer system.<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   */<a name="line.107"></a>
+<span class="sourceLineNo">108</span>  SYSTEM_ADMINISTRATOR,<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  /**<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   * A contact appointed to lead and represent a Participant's delegation at the GBIF Governing Board.<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   */<a name="line.111"></a>
+<span class="sourceLineNo">112</span>  HEAD_OF_DELEGATION,<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  /**<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   * A contact temporarily appointed to lead and represent a Participant's delegation at the GBIF Governing Board.<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   */<a name="line.115"></a>
+<span class="sourceLineNo">116</span>  TEMPORARY_HEAD_OF_DELEGATION,<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  /**<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   * A contact appointed to a Participant's delegation at the GBIF Governing Board.<a name="line.118"></a>
+<span class="sourceLineNo">119</span>   */<a name="line.119"></a>
+<span class="sourceLineNo">120</span>  ADDITIONAL_DELEGATE,<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  /**<a name="line.121"></a>
+<span class="sourceLineNo">122</span>   * A contact temporarily appointed to a Participant's delegation at the GBIF Governing Board.<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   */<a name="line.123"></a>
+<span class="sourceLineNo">124</span>  TEMPORARY_DELEGATE,<a name="line.124"></a>
+<span class="sourceLineNo">125</span>  /**<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * A contact representing a regional group of Nodes.<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   */<a name="line.127"></a>
+<span class="sourceLineNo">128</span>  REGIONAL_NODE_REPRESENTATIVE,<a name="line.128"></a>
+<span class="sourceLineNo">129</span>  /**<a name="line.129"></a>
+<span class="sourceLineNo">130</span>   * A contact leading the work of the Node and representing the Node in the Nodes Committee.<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   */<a name="line.131"></a>
+<span class="sourceLineNo">132</span>  NODE_MANAGER,<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  /**<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   * A contact who is a member of the Node's staff.<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   */<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  NODE_STAFF,<a name="line.136"></a>
+<span class="sourceLineNo">137</span>  /**<a name="line.137"></a>
+<span class="sourceLineNo">138</span>   * A person assigned to review the dataset and verify its data and/or metadata quality.<a name="line.138"></a>
+<span class="sourceLineNo">139</span>   * This role is analogous to the role played by peer reviewers in the scholarly publication process.<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   */<a name="line.140"></a>
+<span class="sourceLineNo">141</span>  REVIEWER;<a name="line.141"></a>
+<span class="sourceLineNo">142</span><a name="line.142"></a>
+<span class="sourceLineNo">143</span>  /**<a name="line.143"></a>
+<span class="sourceLineNo">144</span>   * @return the matching ContactType or null<a name="line.144"></a>
+<span class="sourceLineNo">145</span>   */<a name="line.145"></a>
+<span class="sourceLineNo">146</span>  public static ContactType fromString(String contactType) {<a name="line.146"></a>
+<span class="sourceLineNo">147</span>    return (ContactType) VocabularyUtils.lookupEnum(contactType, ContactType.class);<a name="line.147"></a>
+<span class="sourceLineNo">148</span>  }<a name="line.148"></a>
 <span class="sourceLineNo">149</span><a name="line.149"></a>
-<span class="sourceLineNo">150</span>  static {<a name="line.150"></a>
-<span class="sourceLineNo">151</span>    TYPE_LOOKUP.put("administrative", ADMINISTRATIVE_POINT_OF_CONTACT);<a name="line.151"></a>
-<span class="sourceLineNo">152</span>    TYPE_LOOKUP.put("technical", TECHNICAL_POINT_OF_CONTACT);<a name="line.152"></a>
-<span class="sourceLineNo">153</span>    TYPE_LOOKUP.put("pointofcontact", POINT_OF_CONTACT);<a name="line.153"></a>
-<span class="sourceLineNo">154</span>    TYPE_LOOKUP.put("originator", ORIGINATOR);<a name="line.154"></a>
-<span class="sourceLineNo">155</span>    TYPE_LOOKUP.put("metadataprovider", METADATA_AUTHOR);<a name="line.155"></a>
-<span class="sourceLineNo">156</span>    TYPE_LOOKUP.put("principleinvestigator", PRINCIPAL_INVESTIGATOR);<a name="line.156"></a>
-<span class="sourceLineNo">157</span>    TYPE_LOOKUP.put("author", AUTHOR);<a name="line.157"></a>
-<span class="sourceLineNo">158</span>    TYPE_LOOKUP.put("contentprovider", CONTENT_PROVIDER);<a name="line.158"></a>
-<span class="sourceLineNo">159</span>    TYPE_LOOKUP.put("custodiansteward", CUSTODIAN_STEWARD);<a name="line.159"></a>
-<span class="sourceLineNo">160</span>    TYPE_LOOKUP.put("distributor", DISTRIBUTOR);<a name="line.160"></a>
-<span class="sourceLineNo">161</span>    TYPE_LOOKUP.put("editor", EDITOR);<a name="line.161"></a>
-<span class="sourceLineNo">162</span>    TYPE_LOOKUP.put("owner", OWNER);<a name="line.162"></a>
-<span class="sourceLineNo">163</span>    TYPE_LOOKUP.put("processor", PROCESSOR);<a name="line.163"></a>
-<span class="sourceLineNo">164</span>    TYPE_LOOKUP.put("publisher", PUBLISHER);<a name="line.164"></a>
-<span class="sourceLineNo">165</span>    TYPE_LOOKUP.put("user", USER);<a name="line.165"></a>
-<span class="sourceLineNo">166</span>    TYPE_LOOKUP.put("programmer", PROGRAMMER);<a name="line.166"></a>
-<span class="sourceLineNo">167</span>    TYPE_LOOKUP.put("curator", CURATOR);<a name="line.167"></a>
-<span class="sourceLineNo">168</span>    TYPE_LOOKUP.put("data administrator", DATA_ADMINISTRATOR);<a name="line.168"></a>
-<span class="sourceLineNo">169</span>    TYPE_LOOKUP.put("system adminsitrator", SYSTEM_ADMINISTRATOR); // deliberate typo<a name="line.169"></a>
-<span class="sourceLineNo">170</span>    TYPE_LOOKUP.put("system administrator", SYSTEM_ADMINISTRATOR);<a name="line.170"></a>
-<span class="sourceLineNo">171</span>  }<a name="line.171"></a>
-<span class="sourceLineNo">172</span><a name="line.172"></a>
-<span class="sourceLineNo">173</span>  /**<a name="line.173"></a>
-<span class="sourceLineNo">174</span>   * Tries its best to infer a ContactType from a given string. This can for example be used for the various contact<a name="line.174"></a>
-<span class="sourceLineNo">175</span>   * types from DiGIR, TAPIR and BioCASe.<a name="line.175"></a>
-<span class="sourceLineNo">176</span>   *<a name="line.176"></a>
-<span class="sourceLineNo">177</span>   * @return the inferred ContactType<a name="line.177"></a>
-<span class="sourceLineNo">178</span>   */<a name="line.178"></a>
-<span class="sourceLineNo">179</span>  public static ContactType inferType(@Nullable String type) {<a name="line.179"></a>
-<span class="sourceLineNo">180</span>    if (type != null) {<a name="line.180"></a>
-<span class="sourceLineNo">181</span>      ContactType contactType = TYPE_LOOKUP.get(type.toLowerCase());<a name="line.181"></a>
-<span class="sourceLineNo">182</span>      if (contactType != null) {<a name="line.182"></a>
-<span class="sourceLineNo">183</span>        return contactType;<a name="line.183"></a>
-<span class="sourceLineNo">184</span>      }<a name="line.184"></a>
-<span class="sourceLineNo">185</span>      return fromString(type);<a name="line.185"></a>
-<span class="sourceLineNo">186</span>    }<a name="line.186"></a>
-<span class="sourceLineNo">187</span>    return null;<a name="line.187"></a>
-<span class="sourceLineNo">188</span>  }<a name="line.188"></a>
-<span class="sourceLineNo">189</span>}<a name="line.189"></a>
+<span class="sourceLineNo">150</span>  // deliberate typos have existed and might be in genuine use<a name="line.150"></a>
+<span class="sourceLineNo">151</span>  private static final Map&lt;String, ContactType&gt; TYPE_LOOKUP = new HashMap&lt;&gt;();<a name="line.151"></a>
+<span class="sourceLineNo">152</span><a name="line.152"></a>
+<span class="sourceLineNo">153</span>  static {<a name="line.153"></a>
+<span class="sourceLineNo">154</span>    TYPE_LOOKUP.put("administrative", ADMINISTRATIVE_POINT_OF_CONTACT);<a name="line.154"></a>
+<span class="sourceLineNo">155</span>    TYPE_LOOKUP.put("technical", TECHNICAL_POINT_OF_CONTACT);<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    TYPE_LOOKUP.put("pointofcontact", POINT_OF_CONTACT);<a name="line.156"></a>
+<span class="sourceLineNo">157</span>    TYPE_LOOKUP.put("originator", ORIGINATOR);<a name="line.157"></a>
+<span class="sourceLineNo">158</span>    TYPE_LOOKUP.put("metadataprovider", METADATA_AUTHOR);<a name="line.158"></a>
+<span class="sourceLineNo">159</span>    TYPE_LOOKUP.put("principleinvestigator", PRINCIPAL_INVESTIGATOR);<a name="line.159"></a>
+<span class="sourceLineNo">160</span>    TYPE_LOOKUP.put("author", AUTHOR);<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    TYPE_LOOKUP.put("contentprovider", CONTENT_PROVIDER);<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    TYPE_LOOKUP.put("custodiansteward", CUSTODIAN_STEWARD);<a name="line.162"></a>
+<span class="sourceLineNo">163</span>    TYPE_LOOKUP.put("distributor", DISTRIBUTOR);<a name="line.163"></a>
+<span class="sourceLineNo">164</span>    TYPE_LOOKUP.put("editor", EDITOR);<a name="line.164"></a>
+<span class="sourceLineNo">165</span>    TYPE_LOOKUP.put("owner", OWNER);<a name="line.165"></a>
+<span class="sourceLineNo">166</span>    TYPE_LOOKUP.put("processor", PROCESSOR);<a name="line.166"></a>
+<span class="sourceLineNo">167</span>    TYPE_LOOKUP.put("publisher", PUBLISHER);<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    TYPE_LOOKUP.put("user", USER);<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    TYPE_LOOKUP.put("programmer", PROGRAMMER);<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    TYPE_LOOKUP.put("curator", CURATOR);<a name="line.170"></a>
+<span class="sourceLineNo">171</span>    TYPE_LOOKUP.put("data administrator", DATA_ADMINISTRATOR);<a name="line.171"></a>
+<span class="sourceLineNo">172</span>    TYPE_LOOKUP.put("system adminsitrator", SYSTEM_ADMINISTRATOR); // deliberate typo<a name="line.172"></a>
+<span class="sourceLineNo">173</span>    TYPE_LOOKUP.put("system administrator", SYSTEM_ADMINISTRATOR);<a name="line.173"></a>
+<span class="sourceLineNo">174</span>  }<a name="line.174"></a>
+<span class="sourceLineNo">175</span><a name="line.175"></a>
+<span class="sourceLineNo">176</span>  /**<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   * Tries its best to infer a ContactType from a given string. This can for example be used for the various contact<a name="line.177"></a>
+<span class="sourceLineNo">178</span>   * types from DiGIR, TAPIR and BioCASe.<a name="line.178"></a>
+<span class="sourceLineNo">179</span>   *<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   * @return the inferred ContactType<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   */<a name="line.181"></a>
+<span class="sourceLineNo">182</span>  public static ContactType inferType(@Nullable String type) {<a name="line.182"></a>
+<span class="sourceLineNo">183</span>    if (type != null) {<a name="line.183"></a>
+<span class="sourceLineNo">184</span>      ContactType contactType = TYPE_LOOKUP.get(type.toLowerCase());<a name="line.184"></a>
+<span class="sourceLineNo">185</span>      if (contactType != null) {<a name="line.185"></a>
+<span class="sourceLineNo">186</span>        return contactType;<a name="line.186"></a>
+<span class="sourceLineNo">187</span>      }<a name="line.187"></a>
+<span class="sourceLineNo">188</span>      return fromString(type);<a name="line.188"></a>
+<span class="sourceLineNo">189</span>    }<a name="line.189"></a>
+<span class="sourceLineNo">190</span>    return null;<a name="line.190"></a>
+<span class="sourceLineNo">191</span>  }<a name="line.191"></a>
+<span class="sourceLineNo">192</span>}<a name="line.192"></a>
 
 
 
