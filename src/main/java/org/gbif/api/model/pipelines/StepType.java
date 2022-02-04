@@ -31,7 +31,8 @@ public enum StepType {
   VALIDATOR_VALIDATE_ARCHIVE("validatorValidateArchive", 2),
   VALIDATOR_DWCA_TO_VERBATIM("validatorDwcaToVerbatim", 3),
   VALIDATOR_XML_TO_VERBATIM("validatorXmlToVerbatim", 3),
-  VALIDATOR_ABCD_TO_VERBATIM("validatorAbcdToVerbatim", 4),
+  VALIDATOR_ABCD_TO_VERBATIM("validatorAbcdToVerbatim", 3),
+  VALIDATOR_TABULAR_TO_VERBATIM("validatorTabularToVerbatim", 3),
   VALIDATOR_VERBATIM_TO_INTERPRETED("validatorVerbatimToInterpreted", 4),
   VALIDATOR_INTERPRETED_TO_INDEX("validatorInterpretedToIndex", 5),
   VALIDATOR_COLLECT_METRICS("validatorCollectMetrics", 6);
