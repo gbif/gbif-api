@@ -194,4 +194,26 @@ public interface OccurrenceSearchService
    * @return of state provinces
    */
   List<String> suggestParentEventId(@Min(1) String prefix, @Nullable Integer limit);
+
+  /**
+   * Searches other catalog numbers which start with the input prefix.
+   * If the limit is set to a number less than 0, then no maximum limit is enforced.
+   * If limit contains a null value, a default value is set by the service implementation.
+   *
+   * @param prefix search pattern
+   * @param limit maximum number of results to return
+   * @return of other catalog numbers
+   */
+  List<String> suggestOtherCatalogNumbers(@Min(1) String prefix, @Nullable Integer limit);
+
+  /**
+   * Searches dataset names which start with the input prefix.
+   * If the limit is set to a number less than 0, then no maximum limit is enforced.
+   * If limit contains a null value, a default value is set by the service implementation.
+   *
+   * @param prefix search pattern
+   * @param limit maximum number of results to return
+   * @return of dataset names
+   */
+  List<String> suggestDatasetName(@Min(1) String prefix, @Nullable Integer limit);
 }
