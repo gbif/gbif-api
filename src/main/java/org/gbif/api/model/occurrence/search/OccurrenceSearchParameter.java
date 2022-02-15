@@ -570,7 +570,27 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Searches for occurrences that have a IUCN Red List Category.
    */
-  IUCN_RED_LIST_CATEGORY(String.class);
+  IUCN_RED_LIST_CATEGORY(String.class),
+
+  /**
+   * The dwc dataset id.
+   */
+  DATASET_ID(String.class),
+
+  /**
+   * The dwc dataset name.
+   */
+  DATASET_NAME(String.class),
+
+  /**
+   * Other catalog numbers associated to an occurrence.
+   */
+  OTHER_CATALOG_NUMBERS(String.class),
+
+  /**
+   * Preparations methods of an occurrence.
+   */
+  PREPARATIONS(String.class);
 
   private final Class<?> type;
 

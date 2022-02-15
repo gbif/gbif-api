@@ -28,7 +28,6 @@ import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.Sex;
 import org.gbif.api.vocabulary.TaxonomicStatus;
-import org.gbif.api.vocabulary.TypeStatus;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.UnknownTerm;
@@ -145,7 +144,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Integer month;
   private Integer day;
   private Date eventDate;
-  private TypeStatus typeStatus;
+  private String typeStatus;
   // extracted from type status, but we should propose a new dwc term for this!
   // for example: "Paratype of Taeniopteryx metequi Ricker & Ross" is status=Paratype, typifiedName=Taeniopteryx metequi
 // Ricker & Ross
@@ -176,6 +175,13 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @Experimental
   private String collectionKey;
   private boolean isInCluster;
+  private String datasetID;
+  private String datasetName;
+  private String otherCatalogNumbers;
+  private String recordedBy;
+  private String identifiedBy;
+  private String preparations;
+  private String samplingProtocol;
 
   public Occurrence() {
 
@@ -848,11 +854,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
-  public TypeStatus getTypeStatus() {
+  public String getTypeStatus() {
     return typeStatus;
   }
 
-  public void setTypeStatus(@Nullable TypeStatus typeStatus) {
+  public void setTypeStatus(@Nullable String typeStatus) {
     this.typeStatus = typeStatus;
   }
 
@@ -1114,6 +1120,61 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.pathway = pathway;
   }
 
+  public String getDatasetID() {
+    return datasetID;
+  }
+
+  public void setDatasetID(String datasetID) {
+    this.datasetID = datasetID;
+  }
+
+  public String getDatasetName() {
+    return datasetName;
+  }
+
+  public void setDatasetName(String datasetName) {
+    this.datasetName = datasetName;
+  }
+
+  public String getOtherCatalogNumbers() {
+    return otherCatalogNumbers;
+  }
+
+  public void setOtherCatalogNumbers(String otherCatalogNumbers) {
+    this.otherCatalogNumbers = otherCatalogNumbers;
+  }
+
+  public String getRecordedBy() {
+    return recordedBy;
+  }
+
+  public void setRecordedBy(String recordedBy) {
+    this.recordedBy = recordedBy;
+  }
+
+  public String getIdentifiedBy() {
+    return identifiedBy;
+  }
+
+  public void setIdentifiedBy(String identifiedBy) {
+    this.identifiedBy = identifiedBy;
+  }
+
+  public String getPreparations() {
+    return preparations;
+  }
+
+  public void setPreparations(String preparations) {
+    this.preparations = preparations;
+  }
+
+  public String getSamplingProtocol() {
+    return samplingProtocol;
+  }
+
+  public void setSamplingProtocol(String samplingProtocol) {
+    this.samplingProtocol = samplingProtocol;
+  }
 
   /**
    * Convenience method checking if any spatial validation rule has not passed.
@@ -1188,7 +1249,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       Objects.equals(month, that.month) &&
       Objects.equals(day, that.day) &&
       Objects.equals(eventDate, that.eventDate) &&
-      typeStatus == that.typeStatus &&
+      Objects.equals(typeStatus, that.typeStatus) &&
       Objects.equals(typifiedName, that.typifiedName) &&
       Objects.equals(issues, that.issues) &&
       Objects.equals(modified, that.modified) &&
@@ -1212,7 +1273,14 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       Objects.equals(collectionKey, that.collectionKey) &&
       Objects.equals(isInCluster, that.isInCluster) &&
       Objects.equals(pathway, that.pathway) &&
-      Objects.equals(degreeOfEstablishment, that.degreeOfEstablishment);
+      Objects.equals(degreeOfEstablishment, that.degreeOfEstablishment) &&
+      Objects.equals(datasetID, that.datasetID) &&
+      Objects.equals(datasetName, that.datasetName) &&
+      Objects.equals(otherCatalogNumbers, that.otherCatalogNumbers) &&
+      Objects.equals(recordedBy, that.recordedBy) &&
+      Objects.equals(identifiedBy, that.identifiedBy) &&
+      Objects.equals(preparations, that.preparations) &&
+      Objects.equals(samplingProtocol, that.samplingProtocol);
   }
 
   @Override
@@ -1229,7 +1297,8 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
         references, license, organismQuantity, organismQuantityType, sampleSizeUnit,
         sampleSizeValue, relativeOrganismQuantity, identifiers, media, facts, relations, recordedByIds,
         identifiedByIds, occurrenceStatus, gadm, institutionKey, collectionKey, isInCluster,
-        pathway, degreeOfEstablishment);
+        pathway, degreeOfEstablishment, datasetID, datasetName, otherCatalogNumbers, recordedBy, identifiedBy,
+        preparations, samplingProtocol);
   }
 
   @Override
@@ -1308,6 +1377,13 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       .add("isInCluster=" + isInCluster)
       .add("pathway=" + pathway)
       .add("degreeOfEstablishment=" + degreeOfEstablishment)
+      .add("datasetID=" + datasetID)
+      .add("datasetName=" + datasetName)
+      .add("otherCatalogNumbers=" + otherCatalogNumbers)
+      .add("recordedBy=" + recordedBy)
+      .add("identifiedBy=" + identifiedBy)
+      .add("preparations=" + preparations)
+      .add("samplingProtocol=" + samplingProtocol)
       .toString();
   }
 
