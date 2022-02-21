@@ -53,6 +53,11 @@ public final class Constants {
   public static final UUID EBIRD_DATASET_KEY = UUID.fromString("4fa7b334-ce0d-4e88-aaae-2e0c138d049e");
 
   /**
+   * The dataset key for the iNaturalist Research-grade Observations dataset.
+   */
+  public static final UUID INATURALIST_DATASET_KEY = UUID.fromString("50c9509d-22c7-4a22-a47d-8c48425ef4a7");
+
+  /**
    * The dataset key for the IUCN Red List of Threatened Species
    */
   public static final UUID IUCN_DATASET_KEY = UUID.fromString("19491596-35ae-4a91-9a98-85cf505f1bd3");
