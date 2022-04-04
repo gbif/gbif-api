@@ -91,7 +91,7 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
   private Origin origin;
 
   private int numDescendants;
-  private int numOccurrences;
+  private long numOccurrences;
 
   private String taxonID;
   private Boolean extinct;
@@ -231,11 +231,11 @@ public class NameUsageSearchResult implements LinneanClassification, LinneanClas
     this.numDescendants = numDescendants;
   }
 
-  public int getNumOccurrences() {
+  public long getNumOccurrences() {
     return numOccurrences;
   }
 
-  public void setNumOccurrences(int numOccurrences) {
+  public void setNumOccurrences(long numOccurrences) {
     this.numOccurrences = numOccurrences;
   }
 
