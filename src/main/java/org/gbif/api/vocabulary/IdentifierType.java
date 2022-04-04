@@ -90,7 +90,12 @@ public enum IdentifierType {
   /**
    * https://www.grid.ac/institutes/
    */
-  GRID;
+  GRID,
+
+  /**
+   * https://cites.org/
+   */
+  CITES;
 
   // TODO: Check if this is used, it didn't exist in the new Registry2 API, but I preserved it from the old vocabulary
   public static final List<IdentifierType> TYPES;

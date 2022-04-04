@@ -15,29 +15,25 @@
  */
 package org.gbif.api.util;
 
+import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
 
 import javax.annotation.Nullable;
 
 /**
  * This class contains utility methods for identifiers. Currently there are 3 separate Identifier
- * classes:
- * </br>
- * 1) org.gbif.api.model.checklistbank.Identifier
- * 2) org.gbif.api.model.common.Identifier
- * 3) org.gbif.api.model.registry.Identifier
- * </br>
- * Methods common to 2 or more classes should be listed here.
+ * classes: </br> 1) org.gbif.api.model.checklistbank.Identifier 2)
+ * org.gbif.api.model.common.Identifier 3) org.gbif.api.model.registry.Identifier </br> Methods
+ * common to 2 or more classes should be listed here.
  */
 public class IdentifierUtils {
 
   /**
-   * Creates a http link for an identifier if possible by passing it to some known resolvers for the specific id type.
-   * If no link can be constructed, null is returned.
+   * Creates a http link for an identifier if possible by passing it to some known resolvers for the
+   * specific id type. If no link can be constructed, null is returned.
    *
    * @param identifier Identifier's identifier
    * @param type Identifier's type
-   *
    * @return the url or null if it cannot be created
    */
   @Nullable
@@ -59,5 +55,24 @@ public class IdentifierUtils {
         return "https://www.gbif.org/dataset/" + identifier;
     }
     return null;
+  }
+
+  /** CITES identifier validation according to https://cites.org/eng/common/reg/e_si.html. */
+  public static boolean isValidCitesIdentifier(String identifier) {
+    if (identifier == null || identifier.isEmpty()) {
+      return false;
+    }
+
+    String[] parts = identifier.split("\\s+");
+    if (parts.length < 2) {
+      return false;
+    }
+
+    if (parts[0].length() != 2) {
+      return false;
+    }
+
+    Country country = Country.fromIsoCode(parts[0]);
+    return country != null;
   }
 }
