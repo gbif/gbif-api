@@ -15,50 +15,65 @@
  */
 package org.gbif.api.util;
 
+import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
 
 import javax.annotation.Nullable;
 
 /**
  * This class contains utility methods for identifiers. Currently there are 3 separate Identifier
- * classes:
- * &lt;/br&gt;
- * 1) org.gbif.api.model.checklistbank.Identifier
- * 2) org.gbif.api.model.common.Identifier
- * 3) org.gbif.api.model.registry.Identifier
- * &lt;/br&gt;
- * Methods common to 2 or more classes should be listed here.
+ * classes: &lt;/br&gt; 1) org.gbif.api.model.checklistbank.Identifier 2)
+ * org.gbif.api.model.common.Identifier 3) org.gbif.api.model.registry.Identifier &lt;/br&gt; Methods
+ * common to 2 or more classes should be listed here.
  */
-<span class="nc" id="L32">public class IdentifierUtils {</span>
+<span class="nc" id="L29">public class IdentifierUtils {</span>
 
   /**
-   * Creates a http link for an identifier if possible by passing it to some known resolvers for the specific id type.
-   * If no link can be constructed, null is returned.
+   * Creates a http link for an identifier if possible by passing it to some known resolvers for the
+   * specific id type. If no link can be constructed, null is returned.
    *
    * @param identifier Identifier's identifier
    * @param type Identifier's type
-   *
    * @return the url or null if it cannot be created
    */
   @Nullable
   public static String getIdentifierLink(String identifier, IdentifierType type) {
-<span class="fc bfc" id="L45" title="All 4 branches covered.">    if (identifier == null || type == null) {</span>
-<span class="fc" id="L46">      return null;</span>
+<span class="fc bfc" id="L41" title="All 4 branches covered.">    if (identifier == null || type == null) {</span>
+<span class="fc" id="L42">      return null;</span>
     }
-<span class="fc bfc" id="L48" title="All 5 branches covered.">    switch (type) {</span>
+<span class="fc bfc" id="L44" title="All 5 branches covered.">    switch (type) {</span>
       case HANDLER:
       case URI:
       case URL:
       case FTP:
-<span class="fc" id="L53">        return identifier;</span>
+<span class="fc" id="L49">        return identifier;</span>
       case DOI:
-<span class="fc" id="L55">        return &quot;https://doi.org/&quot; + identifier;</span>
+<span class="fc" id="L51">        return &quot;https://doi.org/&quot; + identifier;</span>
       case LSID:
-<span class="fc" id="L57">        return &quot;http://www.lsid.info/&quot; + identifier;</span>
+<span class="fc" id="L53">        return &quot;http://www.lsid.info/&quot; + identifier;</span>
       case GBIF_PORTAL:
-<span class="fc" id="L59">        return &quot;https://www.gbif.org/dataset/&quot; + identifier;</span>
+<span class="fc" id="L55">        return &quot;https://www.gbif.org/dataset/&quot; + identifier;</span>
     }
-<span class="fc" id="L61">    return null;</span>
+<span class="fc" id="L57">    return null;</span>
+  }
+
+  /** CITES identifier validation according to https://cites.org/eng/common/reg/e_si.html. */
+  public static boolean isValidCitesIdentifier(String identifier) {
+<span class="nc bnc" id="L62" title="All 4 branches missed.">    if (identifier == null || identifier.isEmpty()) {</span>
+<span class="nc" id="L63">      return false;</span>
+    }
+
+<span class="nc" id="L66">    String[] parts = identifier.split(&quot;\\s+&quot;);</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">    if (parts.length &lt; 2) {</span>
+<span class="nc" id="L68">      return false;</span>
+    }
+
+<span class="nc bnc" id="L71" title="All 2 branches missed.">    if (parts[0].length() != 2) {</span>
+<span class="nc" id="L72">      return false;</span>
+    }
+
+<span class="nc" id="L75">    Country country = Country.fromIsoCode(parts[0]);</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">    return country != null;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
