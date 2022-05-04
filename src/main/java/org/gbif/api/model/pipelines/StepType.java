@@ -36,7 +36,8 @@ public enum StepType {
   VALIDATOR_VERBATIM_TO_INTERPRETED("validatorVerbatimToInterpreted", 4),
   VALIDATOR_INTERPRETED_TO_INDEX("validatorInterpretedToIndex", 5),
   VALIDATOR_COLLECT_METRICS("validatorCollectMetrics", 6),
-  EVENTS("events", 3);
+  EVENTS_VERBATIM_TO_INTERPRETED("eventsVerbatimToInterpreted", 3),
+  EVENTS_INTERPRETED_TO_INDEX("eventsInterpretedToIndex", 4);
 
   private String label;
   private int executionOrder;
