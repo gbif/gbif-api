@@ -36,7 +36,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
   @JsonSubTypes.Type(value = GeoDistancePredicate.class, name = "geoDistance"),
   @JsonSubTypes.Type(value = NotPredicate.class, name = "not"),
   @JsonSubTypes.Type(value = IsNotNullPredicate.class, name = "isNotNull"),
-  @JsonSubTypes.Type(value = IsNullPredicate.class, name = "isNull")
+  @JsonSubTypes.Type(value = IsNullPredicate.class, name = "isNull"),
+  @JsonSubTypes.Type(value = FullTextSearchPredicate.class, name = "equalsFullTextSearch")
 })
 public interface Predicate extends Serializable {
 }
