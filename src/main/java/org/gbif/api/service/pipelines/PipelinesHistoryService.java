@@ -171,4 +171,23 @@ public interface PipelinesHistoryService {
       @NotBlank(message = REASON_REQUIRED_MESSAGE) String reason,
       boolean markPreviousAttemptAsFailed,
       @Nullable Set<String> interpretTypes);
+
+  /**
+   * Sends email to data administrator about absent identifiers issue with a dataset
+   *
+   * @param datasetKey dataset key
+   * @param attempt attempt to run
+   * @param emailText email text with failed metrics and etc
+   */
+  void sendAbsentIndentifiersEmail(@NotNull UUID datasetKey, int attempt, String emailText);
+
+  /**
+   * Mark failed identifier stage as finished and continue interpretation process for datasets were identifier stage
+   * failed because of a threshold limit
+   *
+   * @param datasetKey dataset key
+   * @param attempt attempt to run
+   */
+  void allowAbsentIndentifiers(@NotNull UUID datasetKey, int attempt);
+
 }
