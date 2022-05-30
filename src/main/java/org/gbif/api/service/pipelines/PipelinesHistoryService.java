@@ -177,9 +177,9 @@ public interface PipelinesHistoryService {
    *
    * @param datasetKey dataset key
    * @param attempt attempt to run
-   * @param emailText email text with failed metrics and etc
+   * @param message with failed metrics and etc info
    */
-  void sendAbsentIndentifiersEmail(@NotNull UUID datasetKey, int attempt, String emailText);
+  void sendAbsentIndentifiersEmail(@NotNull UUID datasetKey, int attempt, String message);
 
   /**
    * Mark failed identifier stage as finished and continue interpretation process for datasets were identifier stage
