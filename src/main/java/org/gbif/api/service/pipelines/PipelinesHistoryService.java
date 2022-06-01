@@ -121,9 +121,11 @@ public interface PipelinesHistoryService {
    * @param steps steps to run
    * @param reason reason to run
    * @param useLastSuccessful true if we want to run the latest successful attempt
-   * @param markPreviousAttemptAsFailed previous status can't be wrong, when CLI restarted during processing a dataset
+   * @param markPreviousAttemptAsFailed previous status can't be wrong, when CLI restarted during
+   *     processing a dataset
    * @param runAllParams parameters, contain datasets to exclude
-   * @param interpretTypes is used for partial interpretation such as only TAXONOMY, METADATA and etc
+   * @param interpretTypes is used for partial interpretation such as only TAXONOMY, METADATA and
+   *     etc
    * @return {@link RunPipelineResponse}.
    */
   RunPipelineResponse runAll(
@@ -141,8 +143,10 @@ public interface PipelinesHistoryService {
    * @param steps steps to run
    * @param reason reason to run
    * @param useLastSuccessful true if we want to run the latest successful attempt
-   * @param markPreviousAttemptAsFailed previous status can't be wrong, when CLI restarted during processing a dataset
-   * @param interpretTypes is used for partial interpretation such as only TAXONOMY, METADATA and etc
+   * @param markPreviousAttemptAsFailed previous status can't be wrong, when CLI restarted during
+   *     processing a dataset
+   * @param interpretTypes is used for partial interpretation such as only TAXONOMY, METADATA and
+   *     etc
    * @return {@link RunPipelineResponse}.
    */
   RunPipelineResponse runPipelineAttempt(
@@ -160,8 +164,10 @@ public interface PipelinesHistoryService {
    * @param attempt attempt to run
    * @param steps steps to run
    * @param reason reason to run
-   * @param markPreviousAttemptAsFailed previous status can't be wrong, when CLI restarted during processing a dataset
-   * @param interpretTypes is used for partial interpretation such as only TAXONOMY, METADATA and etc
+   * @param markPreviousAttemptAsFailed previous status can't be wrong, when CLI restarted during
+   *     processing a dataset
+   * @param interpretTypes is used for partial interpretation such as only TAXONOMY, METADATA and
+   *     etc
    * @return {@link RunPipelineResponse}.
    */
   RunPipelineResponse runPipelineAttempt(
@@ -182,12 +188,19 @@ public interface PipelinesHistoryService {
   void sendAbsentIndentifiersEmail(@NotNull UUID datasetKey, int attempt, @NotNull String message);
 
   /**
-   * Mark failed identifier stage as finished and continue interpretation process for datasets were identifier stage
-   * failed because of a threshold limit
+   * Mark failed identifier stage as finished and continue interpretation process for datasets were
+   * identifier stage failed because of a threshold limit
    *
    * @param datasetKey dataset key
    * @param attempt attempt to run
    */
   void allowAbsentIndentifiers(@NotNull UUID datasetKey, int attempt);
 
+  /**
+   * Mark latest failed identifier stage as finished and continue interpretation process for
+   * datasets were identifier stage failed because of a threshold limit
+   *
+   * @param datasetKey dataset key
+   */
+  void allowAbsentIndentifiers(@NotNull UUID datasetKey);
 }
