@@ -27,6 +27,8 @@ public enum StepType {
   INTERPRETED_TO_INDEX("interpretedToIndex", 4),
   HDFS_VIEW("hdfsView", 4),
   FRAGMENTER("fragmenter", 4),
+  EVENTS_VERBATIM_TO_INTERPRETED("eventsVerbatimToInterpreted", 4),
+  EVENTS_INTERPRETED_TO_INDEX("eventsInterpretedToIndex", 5),
   // Validator
   VALIDATOR_UPLOAD_ARCHIVE("validatorUploadArchive", 1),
   VALIDATOR_VALIDATE_ARCHIVE("validatorValidateArchive", 2),
@@ -36,9 +38,7 @@ public enum StepType {
   VALIDATOR_TABULAR_TO_VERBATIM("validatorTabularToVerbatim", 3),
   VALIDATOR_VERBATIM_TO_INTERPRETED("validatorVerbatimToInterpreted", 4),
   VALIDATOR_INTERPRETED_TO_INDEX("validatorInterpretedToIndex", 5),
-  VALIDATOR_COLLECT_METRICS("validatorCollectMetrics", 6),
-  EVENTS_VERBATIM_TO_INTERPRETED("eventsVerbatimToInterpreted", 3),
-  EVENTS_INTERPRETED_TO_INDEX("eventsInterpretedToIndex", 4);
+  VALIDATOR_COLLECT_METRICS("validatorCollectMetrics", 6);
 
   private String label;
   private int executionOrder;
