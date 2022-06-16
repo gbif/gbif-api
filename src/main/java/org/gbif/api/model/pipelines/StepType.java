@@ -29,6 +29,7 @@ public enum StepType {
   FRAGMENTER("fragmenter", 4),
   EVENTS_VERBATIM_TO_INTERPRETED("eventsVerbatimToInterpreted", 4),
   EVENTS_INTERPRETED_TO_INDEX("eventsInterpretedToIndex", 5),
+  EVENTS_HDFS_VIEW("eventsHdfsView", 5),
   // Validator
   VALIDATOR_UPLOAD_ARCHIVE("validatorUploadArchive", 1),
   VALIDATOR_VALIDATE_ARCHIVE("validatorValidateArchive", 2),
