@@ -158,6 +158,12 @@ public class Collection
   private MasterSourceType masterSource;
   private MasterSourceMetadata masterSourceMetadata;
 
+  @Sourceable(masterSources = MasterSourceType.IH)
+  private String department;
+
+  @Sourceable(masterSources = MasterSourceType.IH)
+  private String division;
+
   /** List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc.. */
   @Valid
   @Override
@@ -580,6 +586,22 @@ public class Collection
     this.masterSourceMetadata = masterSourceMetadata;
   }
 
+  public String getDepartment() {
+    return department;
+  }
+
+  public void setDepartment(String department) {
+    this.department = department;
+  }
+
+  public String getDivision() {
+    return division;
+  }
+
+  public void setDivision(String division) {
+    this.division = division;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -626,7 +648,9 @@ public class Collection
         && Objects.equals(occurrenceMappings, that.occurrenceMappings)
         && Objects.equals(replacedBy, that.replacedBy)
         && Objects.equals(masterSource, that.masterSource)
-        && Objects.equals(masterSourceMetadata, that.masterSourceMetadata);
+        && Objects.equals(masterSourceMetadata, that.masterSourceMetadata)
+        && Objects.equals(division, that.division)
+        && Objects.equals(department, that.department);
   }
 
   @Override
@@ -673,7 +697,9 @@ public class Collection
         occurrenceMappings,
         replacedBy,
         masterSource,
-        masterSourceMetadata);
+        masterSourceMetadata,
+        division,
+        department);
   }
 
   @Override
@@ -721,6 +747,8 @@ public class Collection
         .add("replacedBy=" + replacedBy)
         .add("masterSource=" + masterSource)
         .add("masterSourceMetadata=" + masterSourceMetadata)
+        .add("division=" + division)
+        .add("department=" + department)
         .toString();
   }
 
@@ -761,6 +789,8 @@ public class Collection
         && Objects.equals(occurrenceMappings, other.occurrenceMappings)
         && Objects.equals(replacedBy, other.replacedBy)
         && Objects.equals(masterSource, other.masterSource)
-        && Objects.equals(masterSourceMetadata, other.masterSourceMetadata);
+        && Objects.equals(masterSourceMetadata, other.masterSourceMetadata)
+        && Objects.equals(division, other.division)
+        && Objects.equals(department, other.department);
   }
 }
