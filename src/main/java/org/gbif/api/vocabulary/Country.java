@@ -1218,9 +1218,9 @@ public enum Country {
   TUNISIA("TN", "TUN", 788, "Tunisia", GbifRegion.AFRICA),
 
   /**
-   * Turkey.
+   * Türkiye.
    */
-  TURKEY("TR", "TUR", 792, "Turkey", GbifRegion.EUROPE),
+  TURKEY("TR", "TUR", 792, "Türkiye", GbifRegion.EUROPE),
 
   /**
    * Turkmenistan.
