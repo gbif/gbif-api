@@ -1094,14 +1094,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.isInCluster = isInCluster;
   }
 
-  public boolean isInCluster() {
-    return isInCluster;
-  }
-
-  public void setInCluster(boolean inCluster) {
-    isInCluster = inCluster;
-  }
-
   @Nullable
   public String getDegreeOfEstablishment() {
     return degreeOfEstablishment;
