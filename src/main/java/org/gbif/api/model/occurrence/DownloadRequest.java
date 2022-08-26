@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -43,6 +41,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(using = DownloadRequestSerde.class)
 public abstract class DownloadRequest implements Serializable {
 
+  public enum DownloadType {
+    OCCURRENCE,
+    EVENT;
+  }
+
   private static final String DELIMITER = ",";
 
   @JsonProperty("creator")
@@ -56,6 +59,9 @@ public abstract class DownloadRequest implements Serializable {
 
   @JsonProperty("format")
   private DownloadFormat format;
+
+  @JsonProperty("type")
+  private DownloadType type;
 
   /**
    * Default constructor.
@@ -71,6 +77,18 @@ public abstract class DownloadRequest implements Serializable {
       Collections.unmodifiableSet(new HashSet<>(notificationAddresses));
     this.sendNotification = sendNotification;
     this.format = format;
+    this.type = DownloadType.OCCURRENCE;
+  }
+
+  public DownloadRequest(String creator, Collection<String> notificationAddresses,
+                         boolean sendNotification, DownloadFormat format,
+                         DownloadType downloadType) {
+    this.creator = creator;
+    this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :
+      Collections.unmodifiableSet(new HashSet<>(notificationAddresses));
+    this.sendNotification = sendNotification;
+    this.format = format;
+    this.type = downloadType;
   }
 
   /**
@@ -146,6 +164,17 @@ public abstract class DownloadRequest implements Serializable {
     this.format = format;
   }
 
+  public DownloadType getType() {
+    return type;
+  }
+
+  /**
+   * Download type: Occurrence or Event.
+   */
+  public void setType(DownloadType type) {
+    this.type = type;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -158,12 +187,13 @@ public abstract class DownloadRequest implements Serializable {
     return sendNotification == that.sendNotification &&
       Objects.equals(creator, that.creator) &&
       Objects.equals(notificationAddresses, that.notificationAddresses) &&
-      format == that.format;
+      format == that.format &&
+      type == that.type;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(creator, notificationAddresses, sendNotification, format);
+    return Objects.hash(creator, notificationAddresses, sendNotification, format, type);
   }
 
   @Override
@@ -173,6 +203,7 @@ public abstract class DownloadRequest implements Serializable {
       .add("notificationAddresses=" + notificationAddresses)
       .add("sendNotification=" + sendNotification)
       .add("format=" + format)
+      .add("type=" + type)
       .toString();
   }
 }
