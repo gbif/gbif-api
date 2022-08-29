@@ -41,11 +41,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(using = DownloadRequestSerde.class)
 public abstract class DownloadRequest implements Serializable {
 
-  public enum DownloadType {
-    OCCURRENCE,
-    EVENT;
-  }
-
   private static final String DELIMITER = ",";
 
   @JsonProperty("creator")

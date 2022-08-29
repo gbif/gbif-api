@@ -94,7 +94,7 @@ public class Iterables {
 
     } else if (isDataset(key, ds)) {
       LOG.info("Iterate over dataset {}", key);
-      return Collections.unmodifiableList(Collections.singletonList(ds.get(key)));
+      return Collections.singletonList(ds.get(key));
 
     } else if (isOrganization(key, os)) {
       LOG.info("Iterate over all {} datasets published by {}", type == null ? "" : type, key);
