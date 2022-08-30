@@ -32,7 +32,7 @@ public @interface NullToNotFound {
   String value() default "/";
 
   /**
-   * Prepend the resource URL.
+   * Prepend the resource and method URL mapping to build the NotFound response.
    */
-  boolean prependResourceUrl() default false;
+  boolean useUrlMapping() default false;
 }
