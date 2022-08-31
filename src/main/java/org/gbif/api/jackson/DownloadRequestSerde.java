@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,6 +15,7 @@ package org.gbif.api.jackson;
 
 import org.gbif.api.model.occurrence.DownloadFormat;
 import org.gbif.api.model.occurrence.DownloadRequest;
+import org.gbif.api.model.occurrence.DownloadType;
 import org.gbif.api.model.occurrence.PredicateDownloadRequest;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.util.VocabularyUtils;
@@ -61,6 +60,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
         "notification_address"));
   private static final String CREATOR = "creator";
   private static final String FORMAT = "format";
+  private static final String TYPE = "type";
   private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -74,6 +74,10 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
     }
     DownloadFormat format = Optional.ofNullable(node.get(FORMAT))
       .map(n -> VocabularyUtils.lookupEnum(n.asText(), DownloadFormat.class)).orElse(DownloadFormat.DWCA);
+
+    DownloadType type = Optional.ofNullable(node.get(TYPE))
+      .map(n -> VocabularyUtils.lookupEnum(n.asText(), DownloadType.class)).orElse(DownloadType.OCCURRENCE);
+
     String creator = Optional.ofNullable(node.get(CREATOR)).map(JsonNode::asText).orElse(null);
 
     List<String> notificationAddresses = new ArrayList<>();
@@ -94,6 +98,6 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
 
     JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);
     Predicate predicateObj = predicate == null ? null : MAPPER.treeToValue(predicate, Predicate.class);
-    return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format);
+    return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format, type);
   }
 }

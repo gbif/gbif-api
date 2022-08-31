@@ -66,16 +66,6 @@ public abstract class DownloadRequest implements Serializable {
   }
 
   public DownloadRequest(String creator, Collection<String> notificationAddresses,
-    boolean sendNotification, DownloadFormat format) {
-    this.creator = creator;
-    this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :
-      Collections.unmodifiableSet(new HashSet<>(notificationAddresses));
-    this.sendNotification = sendNotification;
-    this.format = format;
-    this.type = DownloadType.OCCURRENCE;
-  }
-
-  public DownloadRequest(String creator, Collection<String> notificationAddresses,
                          boolean sendNotification, DownloadFormat format,
                          DownloadType downloadType) {
     this.creator = creator;

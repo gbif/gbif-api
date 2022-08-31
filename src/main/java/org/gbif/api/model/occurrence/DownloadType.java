@@ -30,4 +30,14 @@ public enum DownloadType {
   public DwcTerm getCoreTerm() {
     return coreTerm;
   }
+
+  public static DownloadType fromCoreTerm(DwcTerm coreTerm) {
+    if (DwcTerm.Event == coreTerm) {
+      return EVENT;
+    }
+    if (DwcTerm.Occurrence == coreTerm) {
+      return OCCURRENCE;
+    }
+    throw new IllegalArgumentException("Unsupported download type for term " + coreTerm);
+  }
 }

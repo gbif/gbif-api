@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -50,8 +48,9 @@ public class PredicateDownloadRequest extends DownloadRequest {
     @JsonProperty("creator") @Nullable String creator,
     @JsonProperty("notificationAddresses") @Nullable Collection<String> notificationAddresses,
     @JsonProperty("sendNotification") boolean sendNotification,
-    @JsonProperty("format") DownloadFormat format) {
-    super(creator, notificationAddresses, sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format);
+    @JsonProperty("format") DownloadFormat format,
+    @JsonProperty("type") DownloadType type) {
+    super(creator, notificationAddresses, sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type);
     this.predicate = predicate;
   }
 

@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -79,7 +77,7 @@ public class DownloadRequestTest {
   }
 
   private static PredicateDownloadRequest newDownload(Predicate p, String user) {
-    return new PredicateDownloadRequest(p, user, Collections.singleton(TEST_EMAIL), false, DownloadFormat.DWCA);
+    return new PredicateDownloadRequest(p, user, Collections.singleton(TEST_EMAIL), false, DownloadFormat.DWCA, DownloadType.OCCURRENCE);
   }
 
   @Test
