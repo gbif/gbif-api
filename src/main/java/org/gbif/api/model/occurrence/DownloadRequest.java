@@ -14,6 +14,7 @@
 package org.gbif.api.model.occurrence;
 
 import org.gbif.api.jackson.DownloadRequestSerde;
+import org.gbif.api.vocabulary.Extension;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -58,6 +59,9 @@ public abstract class DownloadRequest implements Serializable {
   @JsonProperty("type")
   private DownloadType type;
 
+  @JsonProperty("extensions")
+  private Set<Extension> extensions;
+
   /**
    * Default constructor.
    */
@@ -68,12 +72,20 @@ public abstract class DownloadRequest implements Serializable {
   public DownloadRequest(String creator, Collection<String> notificationAddresses,
                          boolean sendNotification, DownloadFormat format,
                          DownloadType downloadType) {
+    this(creator, notificationAddresses, sendNotification, format, downloadType, Collections.emptySet());
+  }
+
+  public DownloadRequest(String creator, Collection<String> notificationAddresses,
+                         boolean sendNotification, DownloadFormat format,
+                         DownloadType downloadType,
+                         Set<Extension> extensions) {
     this.creator = creator;
     this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :
       Collections.unmodifiableSet(new HashSet<>(notificationAddresses));
     this.sendNotification = sendNotification;
     this.format = format;
     this.type = downloadType;
+    this.extensions = extensions;
   }
 
   /**
@@ -154,6 +166,17 @@ public abstract class DownloadRequest implements Serializable {
   }
 
   /**
+   * Requested extensions for this download.
+   */
+  public Set<Extension> getExtensions() {
+    return extensions;
+  }
+
+  public void setExtensions(Set<Extension> extensions) {
+    this.extensions = extensions;
+  }
+
+  /**
    * Download type: Occurrence or Event.
    */
   public void setType(DownloadType type) {
@@ -173,12 +196,13 @@ public abstract class DownloadRequest implements Serializable {
       Objects.equals(creator, that.creator) &&
       Objects.equals(notificationAddresses, that.notificationAddresses) &&
       format == that.format &&
-      type == that.type;
+      type == that.type &&
+      Objects.equals(extensions, that.extensions);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(creator, notificationAddresses, sendNotification, format, type);
+    return Objects.hash(creator, notificationAddresses, sendNotification, format, type, extensions);
   }
 
   @Override
@@ -189,6 +213,7 @@ public abstract class DownloadRequest implements Serializable {
       .add("sendNotification=" + sendNotification)
       .add("format=" + format)
       .add("type=" + type)
+      .add("extensions=" + extensions)
       .toString();
   }
 }
