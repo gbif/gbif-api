@@ -14,9 +14,11 @@
 package org.gbif.api.model.occurrence;
 
 import org.gbif.api.model.occurrence.predicate.Predicate;
+import org.gbif.api.vocabulary.Extension;
 
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
 import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
@@ -49,8 +51,9 @@ public class PredicateDownloadRequest extends DownloadRequest {
     @JsonProperty("notificationAddresses") @Nullable Collection<String> notificationAddresses,
     @JsonProperty("sendNotification") boolean sendNotification,
     @JsonProperty("format") DownloadFormat format,
-    @JsonProperty("type") DownloadType type) {
-    super(creator, notificationAddresses, sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type);
+    @JsonProperty("type") DownloadType type,
+    @JsonProperty("extensions") Set<Extension> extensions) {
+    super(creator, notificationAddresses, sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type, extensions);
     this.predicate = predicate;
   }
 

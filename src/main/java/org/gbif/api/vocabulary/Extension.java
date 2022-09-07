@@ -17,6 +17,7 @@ package org.gbif.api.vocabulary;
 
 import org.gbif.api.jackson.ExtensionDeserializer;
 import org.gbif.api.jackson.ExtensionKeyDeserializer;
+import org.gbif.api.jackson.ExtensionKeySerializer;
 import org.gbif.api.jackson.ExtensionSerializer;
 
 import java.util.EnumMap;
@@ -33,7 +34,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  *
  * @see <a href="http://rs.gbif.org/extension">GBIF Resources</a>
  */
-@JsonSerialize(using = ExtensionSerializer.class, keyUsing = ExtensionSerializer.class)
+@JsonSerialize(using = ExtensionSerializer.class, keyUsing = ExtensionKeySerializer.class)
 @JsonDeserialize(using = ExtensionDeserializer.class, keyUsing = ExtensionKeyDeserializer.class)
 public enum Extension {
 

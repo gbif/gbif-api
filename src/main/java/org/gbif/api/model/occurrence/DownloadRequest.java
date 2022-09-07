@@ -71,12 +71,6 @@ public abstract class DownloadRequest implements Serializable {
 
   public DownloadRequest(String creator, Collection<String> notificationAddresses,
                          boolean sendNotification, DownloadFormat format,
-                         DownloadType downloadType) {
-    this(creator, notificationAddresses, sendNotification, format, downloadType, Collections.emptySet());
-  }
-
-  public DownloadRequest(String creator, Collection<String> notificationAddresses,
-                         boolean sendNotification, DownloadFormat format,
                          DownloadType downloadType,
                          Set<Extension> extensions) {
     this.creator = creator;
@@ -166,6 +160,13 @@ public abstract class DownloadRequest implements Serializable {
   }
 
   /**
+   * Download type: Occurrence or Event.
+   */
+  public void setType(DownloadType type) {
+    this.type = type;
+  }
+
+  /**
    * Requested extensions for this download.
    */
   public Set<Extension> getExtensions() {
@@ -174,13 +175,6 @@ public abstract class DownloadRequest implements Serializable {
 
   public void setExtensions(Set<Extension> extensions) {
     this.extensions = extensions;
-  }
-
-  /**
-   * Download type: Occurrence or Event.
-   */
-  public void setType(DownloadType type) {
-    this.type = type;
   }
 
   @Override

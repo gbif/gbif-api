@@ -16,6 +16,7 @@ package org.gbif.api.model.occurrence;
 import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+import org.gbif.api.vocabulary.Extension;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -77,7 +78,8 @@ public class DownloadRequestTest {
   }
 
   private static PredicateDownloadRequest newDownload(Predicate p, String user) {
-    return new PredicateDownloadRequest(p, user, Collections.singleton(TEST_EMAIL), false, DownloadFormat.DWCA, DownloadType.OCCURRENCE);
+    return new PredicateDownloadRequest(p, user, Collections.singleton(TEST_EMAIL), false, DownloadFormat.DWCA, DownloadType.OCCURRENCE,
+                                        Collections.singleton(Extension.AUDUBON));
   }
 
   @Test

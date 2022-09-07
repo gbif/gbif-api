@@ -19,6 +19,7 @@ import org.gbif.api.model.occurrence.DownloadType;
 import org.gbif.api.model.occurrence.PredicateDownloadRequest;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.util.VocabularyUtils;
+import org.gbif.api.vocabulary.Extension;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +64,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
   private static final String CREATOR = "creator";
   private static final String FORMAT = "format";
   private static final String TYPE = "type";
+  private static final String EXTENSIONS = "extensions";
   private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -98,6 +102,17 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
 
     JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);
     Predicate predicateObj = predicate == null ? null : MAPPER.treeToValue(predicate, Predicate.class);
-    return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format, type);
+
+    Set<Extension> extensions = Optional.ofNullable(node.get(EXTENSIONS)).map(jsonNode -> {
+      try {
+        return Arrays.stream(MAPPER.treeToValue(jsonNode, String[].class))
+                .map(Extension::fromRowType)
+                .collect(Collectors.toSet());
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
+    }).orElse(Collections.emptySet());
+
+    return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format, type, extensions);
   }
 }

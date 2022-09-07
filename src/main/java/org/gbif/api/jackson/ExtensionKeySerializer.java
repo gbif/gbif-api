@@ -23,10 +23,10 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
-public class ExtensionSerializer extends JsonSerializer<Extension> {
+public class ExtensionKeySerializer extends JsonSerializer<Extension> {
 
   @Override
   public void serialize(Extension value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-    jgen.writeString(value.getRowType());
+    jgen.writeFieldName(value.getRowType());
   }
 }
