@@ -25,14 +25,7 @@ import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
-
-import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.DESCRIPTION;
-import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.SCIENTIFIC;
-import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.VERNACULAR;
 
 /**
  * A name usage specific search request with convenience methods to add enum based search filters.
@@ -42,11 +35,9 @@ import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.Que
 @SuppressWarnings("unused")
 public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearchParameter> {
   private boolean extended = true;
-  private Set<QueryField> queryFields = new HashSet<>(Arrays.asList(SCIENTIFIC, DESCRIPTION, VERNACULAR));
-  private Set<QueryField> highlightFields = new HashSet<>(Arrays.asList(DESCRIPTION, VERNACULAR));
   private Integer highlightContext = 100;
 
-  public enum QueryField {
+  public enum NameUsageQueryField implements QueryField {
     SCIENTIFIC,
     VERNACULAR,
     DESCRIPTION
@@ -61,29 +52,6 @@ public class NameUsageSearchRequest extends FacetedSearchRequest<NameUsageSearch
 
   public NameUsageSearchRequest(long offset, int limit) {
     super(offset, limit);
-  }
-
-  /**
-   * Defines whether to match against fields with scientific or vernacular names or both.
-   */
-  public Set<QueryField> getQueryFields() {
-    return queryFields;
-  }
-
-  public void setQueryFields(Set<QueryField> queryFields) {
-    this.queryFields = queryFields;
-  }
-
-  /**
-
-   * Defines the fields to be highlighted if highlighting is activated.
-   */
-  public Set<QueryField> getHighlightFields() {
-    return highlightFields;
-  }
-
-  public void setHighlightFields(Set<QueryField> highlightFields) {
-    this.highlightFields = highlightFields;
   }
 
   /**

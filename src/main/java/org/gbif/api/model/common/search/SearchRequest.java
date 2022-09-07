@@ -42,6 +42,10 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
   private boolean highlight;
   private boolean spellCheck;
   private int spellCheckCount;
+  private Set<QueryField> qFields = new HashSet<>();
+  private Set<QueryField> highlightFields = new HashSet<>();
+
+  public interface QueryField {}
 
   /**
    * Constructor with default paging offset & limit.
@@ -118,6 +122,29 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
    */
   public void setSpellCheckCount(int spellCheckCount) {
     this.spellCheckCount = spellCheckCount;
+  }
+
+  /**
+   * Defines whether to match against fields with scientific or vernacular names or both.
+   */
+  public Set<QueryField> getQFields() {
+    return qFields;
+  }
+
+  public void setQFields(Set<QueryField> qFields) {
+    this.qFields = qFields;
+  }
+
+  /**
+
+   * Defines the fields to be highlighted if highlighting is activated.
+   */
+  public Set<QueryField> getHighlightFields() {
+    return highlightFields;
+  }
+
+  public void setHighlightFields(Set<QueryField> highlightFields) {
+    this.highlightFields = highlightFields;
   }
 
   /**
