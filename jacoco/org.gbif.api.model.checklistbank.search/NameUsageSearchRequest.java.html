@@ -25,14 +25,7 @@ import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
-
-import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.DESCRIPTION;
-import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.SCIENTIFIC;
-import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.QueryField.VERNACULAR;
 
 /**
  * A name usage specific search request with convenience methods to add enum based search filters.
@@ -41,61 +34,36 @@ import static org.gbif.api.model.checklistbank.search.NameUsageSearchRequest.Que
  */
 @SuppressWarnings(&quot;unused&quot;)
 public class NameUsageSearchRequest extends FacetedSearchRequest&lt;NameUsageSearchParameter&gt; {
-<span class="nc" id="L44">  private boolean extended = true;</span>
-<span class="nc" id="L45">  private Set&lt;QueryField&gt; queryFields = new HashSet&lt;&gt;(Arrays.asList(SCIENTIFIC, DESCRIPTION, VERNACULAR));</span>
-<span class="nc" id="L46">  private Set&lt;QueryField&gt; highlightFields = new HashSet&lt;&gt;(Arrays.asList(DESCRIPTION, VERNACULAR));</span>
-<span class="nc" id="L47">  private Integer highlightContext = 100;</span>
+<span class="nc" id="L37">  private boolean extended = true;</span>
+<span class="nc" id="L38">  private Integer highlightContext = 100;</span>
 
-<span class="nc" id="L49">  public enum QueryField {</span>
-<span class="nc" id="L50">    SCIENTIFIC,</span>
-<span class="nc" id="L51">    VERNACULAR,</span>
-<span class="nc" id="L52">    DESCRIPTION</span>
+<span class="nc" id="L40">  public enum NameUsageQueryField implements QueryField {</span>
+<span class="nc" id="L41">    SCIENTIFIC,</span>
+<span class="nc" id="L42">    VERNACULAR,</span>
+<span class="nc" id="L43">    DESCRIPTION</span>
   }
 
-<span class="nc" id="L55">  public NameUsageSearchRequest() {</span>
-<span class="nc" id="L56">  }</span>
+<span class="nc" id="L46">  public NameUsageSearchRequest() {</span>
+<span class="nc" id="L47">  }</span>
 
   public NameUsageSearchRequest(Pageable page) {
-<span class="nc" id="L59">    super(page);</span>
-<span class="nc" id="L60">  }</span>
+<span class="nc" id="L50">    super(page);</span>
+<span class="nc" id="L51">  }</span>
 
   public NameUsageSearchRequest(long offset, int limit) {
-<span class="nc" id="L63">    super(offset, limit);</span>
-<span class="nc" id="L64">  }</span>
-
-  /**
-   * Defines whether to match against fields with scientific or vernacular names or both.
-   */
-  public Set&lt;QueryField&gt; getQueryFields() {
-<span class="nc" id="L70">    return queryFields;</span>
-  }
-
-  public void setQueryFields(Set&lt;QueryField&gt; queryFields) {
-<span class="nc" id="L74">    this.queryFields = queryFields;</span>
-<span class="nc" id="L75">  }</span>
-
-  /**
-
-   * Defines the fields to be highlighted if highlighting is activated.
-   */
-  public Set&lt;QueryField&gt; getHighlightFields() {
-<span class="nc" id="L82">    return highlightFields;</span>
-  }
-
-  public void setHighlightFields(Set&lt;QueryField&gt; highlightFields) {
-<span class="nc" id="L86">    this.highlightFields = highlightFields;</span>
-<span class="nc" id="L87">  }</span>
+<span class="nc" id="L54">    super(offset, limit);</span>
+<span class="nc" id="L55">  }</span>
 
   /**
    * @return the number of characters of the context to show for the highlighted match, including the match itself.
    */
   public Integer getHighlightContext() {
-<span class="nc" id="L93">    return highlightContext;</span>
+<span class="nc" id="L61">    return highlightContext;</span>
   }
 
   public void setHighlightContext(Integer highlightContext) {
-<span class="nc" id="L97">    this.highlightContext = highlightContext;</span>
-<span class="nc" id="L98">  }</span>
+<span class="nc" id="L65">    this.highlightContext = highlightContext;</span>
+<span class="nc" id="L66">  }</span>
 
   /**
    * Allows to request an extended search object with the larger list properties:
@@ -113,52 +81,52 @@ public class NameUsageSearchRequest extends FacetedSearchRequest&lt;NameUsageSea
    * @return if true request the extended search model
    */
   public boolean isExtended() {
-<span class="nc" id="L116">    return extended;</span>
+<span class="nc" id="L84">    return extended;</span>
   }
 
   public void setExtended(boolean extended) {
-<span class="nc" id="L120">    this.extended = extended;</span>
-<span class="nc" id="L121">  }</span>
+<span class="nc" id="L88">    this.extended = extended;</span>
+<span class="nc" id="L89">  }</span>
 
   public void addChecklistFilter(UUID datasetKey) {
-<span class="nc" id="L124">    addParameter(NameUsageSearchParameter.DATASET_KEY, datasetKey.toString());</span>
-<span class="nc" id="L125">  }</span>
+<span class="nc" id="L92">    addParameter(NameUsageSearchParameter.DATASET_KEY, datasetKey.toString());</span>
+<span class="nc" id="L93">  }</span>
 
   public void addExtinctFilter(boolean isExtinct) {
-<span class="nc" id="L128">    addParameter(NameUsageSearchParameter.IS_EXTINCT, String.valueOf(isExtinct));</span>
-<span class="nc" id="L129">  }</span>
+<span class="nc" id="L96">    addParameter(NameUsageSearchParameter.IS_EXTINCT, String.valueOf(isExtinct));</span>
+<span class="nc" id="L97">  }</span>
 
   public void addHigherTaxonFilter(int taxonKey) {
-<span class="nc" id="L132">    addParameter(NameUsageSearchParameter.HIGHERTAXON_KEY, taxonKey);</span>
-<span class="nc" id="L133">  }</span>
+<span class="nc" id="L100">    addParameter(NameUsageSearchParameter.HIGHERTAXON_KEY, taxonKey);</span>
+<span class="nc" id="L101">  }</span>
 
   public void addHabitatFilter(Habitat habitat) {
-<span class="nc" id="L136">    addParameter(NameUsageSearchParameter.HABITAT, habitat);</span>
-<span class="nc" id="L137">  }</span>
+<span class="nc" id="L104">    addParameter(NameUsageSearchParameter.HABITAT, habitat);</span>
+<span class="nc" id="L105">  }</span>
 
   public void addRankFilter(Rank rank) {
-<span class="nc" id="L140">    addParameter(NameUsageSearchParameter.RANK, rank);</span>
-<span class="nc" id="L141">  }</span>
+<span class="nc" id="L108">    addParameter(NameUsageSearchParameter.RANK, rank);</span>
+<span class="nc" id="L109">  }</span>
 
   public void addTaxonomicStatusFilter(TaxonomicStatus status) {
-<span class="nc" id="L144">    addParameter(NameUsageSearchParameter.STATUS, status);</span>
-<span class="nc" id="L145">  }</span>
+<span class="nc" id="L112">    addParameter(NameUsageSearchParameter.STATUS, status);</span>
+<span class="nc" id="L113">  }</span>
 
   public void addTaxonomicStatusFilter(NomenclaturalStatus nomenclaturalStatus) {
-<span class="nc" id="L148">    addParameter(NameUsageSearchParameter.NOMENCLATURAL_STATUS, nomenclaturalStatus);</span>
-<span class="nc" id="L149">  }</span>
+<span class="nc" id="L116">    addParameter(NameUsageSearchParameter.NOMENCLATURAL_STATUS, nomenclaturalStatus);</span>
+<span class="nc" id="L117">  }</span>
 
   public void addThreatStatusFilter(ThreatStatus threat) {
-<span class="nc" id="L152">    addParameter(NameUsageSearchParameter.THREAT, threat);</span>
-<span class="nc" id="L153">  }</span>
+<span class="nc" id="L120">    addParameter(NameUsageSearchParameter.THREAT, threat);</span>
+<span class="nc" id="L121">  }</span>
 
   public void addIssueFilter(NameUsageIssue issue) {
-<span class="nc" id="L156">    addParameter(NameUsageSearchParameter.ISSUE, issue);</span>
-<span class="nc" id="L157">  }</span>
+<span class="nc" id="L124">    addParameter(NameUsageSearchParameter.ISSUE, issue);</span>
+<span class="nc" id="L125">  }</span>
 
   public void addOriginFilter(Origin origin) {
-<span class="nc" id="L160">    addParameter(NameUsageSearchParameter.ORIGIN, origin);</span>
-<span class="nc" id="L161">  }</span>
+<span class="nc" id="L128">    addParameter(NameUsageSearchParameter.ORIGIN, origin);</span>
+<span class="nc" id="L129">  }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

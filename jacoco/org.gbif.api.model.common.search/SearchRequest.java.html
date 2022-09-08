@@ -42,13 +42,17 @@ public class SearchRequest&lt;P extends SearchParameter&gt; extends PageableBase
   private boolean highlight;
   private boolean spellCheck;
   private int spellCheckCount;
+<span class="pc" id="L45">  private Set&lt;QueryField&gt; qFields = new HashSet&lt;&gt;();</span>
+<span class="pc" id="L46">  private Set&lt;QueryField&gt; highlightFields = new HashSet&lt;&gt;();</span>
+
+  public interface QueryField {}
 
   /**
    * Constructor with default paging offset &amp; limit.
    */
   public SearchRequest() {
-<span class="fc" id="L50">    super(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);</span>
-<span class="fc" id="L51">  }</span>
+<span class="fc" id="L54">    super(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);</span>
+<span class="fc" id="L55">  }</span>
 
   /**
    * Simple query constructor with default paging offset &amp; limit.
@@ -56,60 +60,60 @@ public class SearchRequest&lt;P extends SearchParameter&gt; extends PageableBase
    * @param query string for request
    */
   public SearchRequest(String query) {
-<span class="nc" id="L59">    super(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);</span>
-<span class="nc" id="L60">    q = query;</span>
-<span class="nc" id="L61">  }</span>
+<span class="nc" id="L63">    super(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);</span>
+<span class="nc" id="L64">    q = query;</span>
+<span class="nc" id="L65">  }</span>
 
   /**
    * Minimal paging constructor.
    */
   public SearchRequest(Pageable page) {
-<span class="nc" id="L67">    super(page.getOffset(), page.getLimit());</span>
-<span class="nc" id="L68">  }</span>
+<span class="nc" id="L71">    super(page.getOffset(), page.getLimit());</span>
+<span class="nc" id="L72">  }</span>
 
   /**
    * Minimal paging constructor.
    */
   public SearchRequest(long offset, int limit) {
-<span class="nc" id="L74">    super(offset, limit);</span>
-<span class="nc" id="L75">  }</span>
+<span class="nc" id="L78">    super(offset, limit);</span>
+<span class="nc" id="L79">  }</span>
 
 
   /**
    * @return true if highlighted search matches are requested
    */
   public boolean isHighlight() {
-<span class="nc" id="L82">    return highlight;</span>
+<span class="nc" id="L86">    return highlight;</span>
   }
 
   /**
    * @param highlight the highlight to set
    */
   public void setHighlight(boolean highlight) {
-<span class="nc" id="L89">    this.highlight = highlight;</span>
-<span class="nc" id="L90">  }</span>
+<span class="nc" id="L93">    this.highlight = highlight;</span>
+<span class="nc" id="L94">  }</span>
 
   /**
    *
    * @return true if spellCheck search is requested
    */
   public boolean isSpellCheck() {
-<span class="nc" id="L97">    return spellCheck;</span>
+<span class="nc" id="L101">    return spellCheck;</span>
   }
 
   /**
    * @param spellCheck the highlight to set
    */
   public void setSpellCheck(boolean spellCheck) {
-<span class="nc" id="L104">    this.spellCheck = spellCheck;</span>
-<span class="nc" id="L105">  }</span>
+<span class="nc" id="L108">    this.spellCheck = spellCheck;</span>
+<span class="nc" id="L109">  }</span>
 
   /**
    *
    * @return max number of spell check suggestions requested
    */
   public int getSpellCheckCount() {
-<span class="nc" id="L112">    return spellCheckCount;</span>
+<span class="nc" id="L116">    return spellCheckCount;</span>
   }
 
   /**
@@ -117,8 +121,31 @@ public class SearchRequest&lt;P extends SearchParameter&gt; extends PageableBase
    * @param spellCheckCount number of spell check suggestions
    */
   public void setSpellCheckCount(int spellCheckCount) {
-<span class="nc" id="L120">    this.spellCheckCount = spellCheckCount;</span>
-<span class="nc" id="L121">  }</span>
+<span class="nc" id="L124">    this.spellCheckCount = spellCheckCount;</span>
+<span class="nc" id="L125">  }</span>
+
+  /**
+   * Defines whether to match against fields with scientific or vernacular names or both.
+   */
+  public Set&lt;QueryField&gt; getQFields() {
+<span class="nc" id="L131">    return qFields;</span>
+  }
+
+  public void setQFields(Set&lt;QueryField&gt; qFields) {
+<span class="nc" id="L135">    this.qFields = qFields;</span>
+<span class="nc" id="L136">  }</span>
+
+  /**
+
+   * Defines the fields to be highlighted if highlighting is activated.
+   */
+  public Set&lt;QueryField&gt; getHighlightFields() {
+<span class="nc" id="L143">    return highlightFields;</span>
+  }
+
+  public void setHighlightFields(Set&lt;QueryField&gt; highlightFields) {
+<span class="nc" id="L147">    this.highlightFields = highlightFields;</span>
+<span class="nc" id="L148">  }</span>
 
   /**
    * List of input parameters of the search operation.
@@ -127,15 +154,15 @@ public class SearchRequest&lt;P extends SearchParameter&gt; extends PageableBase
    * @return the list of parameters
    */
   public Map&lt;P, Set&lt;String&gt;&gt; getParameters() {
-<span class="fc" id="L130">    return parameters;</span>
+<span class="fc" id="L157">    return parameters;</span>
   }
 
   /**
    * Sets the list of parameters.
    */
   public void setParameters(Map&lt;P, Set&lt;String&gt;&gt; parameters) {
-<span class="nc" id="L137">    this.parameters = parameters;</span>
-<span class="nc" id="L138">  }</span>
+<span class="nc" id="L164">    this.parameters = parameters;</span>
+<span class="nc" id="L165">  }</span>
 
   /**
    * Query parameter.
@@ -143,15 +170,15 @@ public class SearchRequest&lt;P extends SearchParameter&gt; extends PageableBase
    * @return the q
    */
   public String getQ() {
-<span class="nc" id="L146">    return q;</span>
+<span class="nc" id="L173">    return q;</span>
   }
 
   /**
    * @param q the q to set
    */
   public void setQ(String q) {
-<span class="nc" id="L153">    this.q = q;</span>
-<span class="nc" id="L154">  }</span>
+<span class="nc" id="L180">    this.q = q;</span>
+<span class="nc" id="L181">  }</span>
 
   /**
    * Adds the specified parameter.
@@ -160,15 +187,15 @@ public class SearchRequest&lt;P extends SearchParameter&gt; extends PageableBase
    * @param values    list of values of the parameter to add
    */
   public void addParameter(P parameter, Iterable&lt;String&gt; values) {
-<span class="nc bnc" id="L163" title="All 2 branches missed.">    if (parameters.containsKey(parameter)) {</span>
-<span class="nc" id="L164">      Set&lt;String&gt; paramValues = parameters.get(parameter);</span>
-<span class="nc" id="L165">      values.forEach(paramValues::add);</span>
-<span class="nc" id="L166">    } else {</span>
-<span class="nc" id="L167">      Set&lt;String&gt; paramValues = new HashSet&lt;&gt;();</span>
-<span class="nc" id="L168">      values.forEach(paramValues::add);</span>
-<span class="nc" id="L169">      parameters.put(parameter, paramValues);</span>
+<span class="nc bnc" id="L190" title="All 2 branches missed.">    if (parameters.containsKey(parameter)) {</span>
+<span class="nc" id="L191">      Set&lt;String&gt; paramValues = parameters.get(parameter);</span>
+<span class="nc" id="L192">      values.forEach(paramValues::add);</span>
+<span class="nc" id="L193">    } else {</span>
+<span class="nc" id="L194">      Set&lt;String&gt; paramValues = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L195">      values.forEach(paramValues::add);</span>
+<span class="nc" id="L196">      parameters.put(parameter, paramValues);</span>
     }
-<span class="nc" id="L171">  }</span>
+<span class="nc" id="L198">  }</span>
 
   /**
    * Adds the specified parameter.
@@ -177,10 +204,10 @@ public class SearchRequest&lt;P extends SearchParameter&gt; extends PageableBase
    * @param values    list of values of the parameter to add
    */
   public void addParameter(P parameter, String... values) {
-<span class="nc bnc" id="L180" title="All 2 branches missed.">    for (String value : values) {</span>
-<span class="nc" id="L181">      addParameter(parameter, value);</span>
+<span class="nc bnc" id="L207" title="All 2 branches missed.">    for (String value : values) {</span>
+<span class="nc" id="L208">      addParameter(parameter, value);</span>
     }
-<span class="nc" id="L183">  }</span>
+<span class="nc" id="L210">  }</span>
 
   /**
    * Adds the specified parameter.
@@ -189,17 +216,17 @@ public class SearchRequest&lt;P extends SearchParameter&gt; extends PageableBase
    * @param value     value of the parameter to add
    */
   public void addParameter(P parameter, String value) {
-<span class="pc bpc" id="L192" title="1 of 2 branches missed.">    if (value != null) {</span>
-<span class="pc bpc" id="L193" title="1 of 2 branches missed.">      if (parameters.containsKey(parameter)) {</span>
-<span class="nc" id="L194">        Set&lt;String&gt; paramValues = parameters.get(parameter);</span>
-<span class="nc" id="L195">        paramValues.add(value);</span>
-<span class="nc" id="L196">      } else {</span>
-<span class="fc" id="L197">        Set&lt;String&gt; paramValues = new HashSet&lt;&gt;();</span>
-<span class="fc" id="L198">        paramValues.add(value);</span>
-<span class="fc" id="L199">        parameters.put(parameter, paramValues);</span>
+<span class="pc bpc" id="L219" title="1 of 2 branches missed.">    if (value != null) {</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">      if (parameters.containsKey(parameter)) {</span>
+<span class="nc" id="L221">        Set&lt;String&gt; paramValues = parameters.get(parameter);</span>
+<span class="nc" id="L222">        paramValues.add(value);</span>
+<span class="nc" id="L223">      } else {</span>
+<span class="fc" id="L224">        Set&lt;String&gt; paramValues = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L225">        paramValues.add(value);</span>
+<span class="fc" id="L226">        parameters.put(parameter, paramValues);</span>
       }
     }
-<span class="fc" id="L202">  }</span>
+<span class="fc" id="L229">  }</span>
 
   /**
    * Adds the specified long parameter.
@@ -208,8 +235,8 @@ public class SearchRequest&lt;P extends SearchParameter&gt; extends PageableBase
    * @param value     value of the parameter to add
    */
   public void addParameter(P parameter, long value) {
-<span class="nc" id="L211">    addParameter(parameter, String.valueOf(value));</span>
-<span class="nc" id="L212">  }</span>
+<span class="nc" id="L238">    addParameter(parameter, String.valueOf(value));</span>
+<span class="nc" id="L239">  }</span>
 
   /**
    * Adds the specified int parameter.
@@ -218,8 +245,8 @@ public class SearchRequest&lt;P extends SearchParameter&gt; extends PageableBase
    * @param value     value of the parameter to add
    */
   public void addParameter(P parameter, int value) {
-<span class="nc" id="L221">    addParameter(parameter, String.valueOf(value));</span>
-<span class="nc" id="L222">  }</span>
+<span class="nc" id="L248">    addParameter(parameter, String.valueOf(value));</span>
+<span class="nc" id="L249">  }</span>
 
   /**
    * Adds the specified double parameter.
@@ -228,8 +255,8 @@ public class SearchRequest&lt;P extends SearchParameter&gt; extends PageableBase
    * @param value     value of the parameter to add
    */
   public void addParameter(P parameter, double value) {
-<span class="nc" id="L231">    addParameter(parameter, String.valueOf(value));</span>
-<span class="nc" id="L232">  }</span>
+<span class="nc" id="L258">    addParameter(parameter, String.valueOf(value));</span>
+<span class="nc" id="L259">  }</span>
 
   /**
    * Adds the specified boolean parameter.
@@ -238,8 +265,8 @@ public class SearchRequest&lt;P extends SearchParameter&gt; extends PageableBase
    * @param value     value of the parameter to add
    */
   public void addParameter(P parameter, boolean value) {
-<span class="nc" id="L241">    addParameter(parameter, String.valueOf(value));</span>
-<span class="nc" id="L242">  }</span>
+<span class="nc" id="L268">    addParameter(parameter, String.valueOf(value));</span>
+<span class="nc" id="L269">  }</span>
 
   /**
    * Adds the specified parameter.
@@ -248,10 +275,10 @@ public class SearchRequest&lt;P extends SearchParameter&gt; extends PageableBase
    * @param value     enum value of the parameter to add
    */
   public void addParameter(P parameter, Enum&lt;?&gt; value) {
-<span class="pc bpc" id="L251" title="1 of 2 branches missed.">    if (value != null) {</span>
-<span class="fc" id="L252">      addParameter(parameter, value.name());</span>
+<span class="pc bpc" id="L278" title="1 of 2 branches missed.">    if (value != null) {</span>
+<span class="fc" id="L279">      addParameter(parameter, value.name());</span>
     }
-<span class="fc" id="L254">  }</span>
+<span class="fc" id="L281">  }</span>
 
   /**
    * Adds the specified date parameter as an ISO date.
@@ -260,24 +287,24 @@ public class SearchRequest&lt;P extends SearchParameter&gt; extends PageableBase
    * @param value     date value of the parameter to add
    */
   public void addParameter(P parameter, Date value) {
-<span class="nc bnc" id="L263" title="All 2 branches missed.">    if (value != null) {</span>
+<span class="nc bnc" id="L290" title="All 2 branches missed.">    if (value != null) {</span>
       // not thread safe, new instance
-<span class="nc" id="L265">      DateFormat iso = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</span>
-<span class="nc" id="L266">      addParameter(parameter, iso.format(value));</span>
+<span class="nc" id="L292">      DateFormat iso = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</span>
+<span class="nc" id="L293">      addParameter(parameter, iso.format(value));</span>
     }
-<span class="nc" id="L268">  }</span>
+<span class="nc" id="L295">  }</span>
 
   @Override
   public String toString() {
-<span class="nc" id="L272">    return new StringJoiner(&quot;, &quot;, SearchRequest.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L273">      .add(&quot;parameters=&quot; + parameters)</span>
-<span class="nc" id="L274">      .add(&quot;q='&quot; + q + &quot;'&quot;)</span>
-<span class="nc" id="L275">      .add(&quot;highlight=&quot; + highlight)</span>
-<span class="nc" id="L276">      .add(&quot;spellCheck=&quot; + spellCheck)</span>
-<span class="nc" id="L277">      .add(&quot;spellCheckCount=&quot; + spellCheckCount)</span>
-<span class="nc" id="L278">      .add(&quot;offset=&quot; + offset)</span>
-<span class="nc" id="L279">      .add(&quot;limit=&quot; + limit)</span>
-<span class="nc" id="L280">      .toString();</span>
+<span class="nc" id="L299">    return new StringJoiner(&quot;, &quot;, SearchRequest.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L300">      .add(&quot;parameters=&quot; + parameters)</span>
+<span class="nc" id="L301">      .add(&quot;q='&quot; + q + &quot;'&quot;)</span>
+<span class="nc" id="L302">      .add(&quot;highlight=&quot; + highlight)</span>
+<span class="nc" id="L303">      .add(&quot;spellCheck=&quot; + spellCheck)</span>
+<span class="nc" id="L304">      .add(&quot;spellCheckCount=&quot; + spellCheckCount)</span>
+<span class="nc" id="L305">      .add(&quot;offset=&quot; + offset)</span>
+<span class="nc" id="L306">      .add(&quot;limit=&quot; + limit)</span>
+<span class="nc" id="L307">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
