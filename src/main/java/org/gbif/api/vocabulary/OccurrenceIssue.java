@@ -143,6 +143,11 @@ public enum OccurrenceIssue implements InterpretationRemark {
   COUNTRY_DERIVED_FROM_COORDINATES(WARNING, TermsGroup.COORDINATES_COUNTRY_TERMS),
 
   /**
+   * The interpreted occurrence coordinates fall outside of the indicated continent.
+   */
+  CONTINENT_COORDINATE_MISMATCH(WARNING),
+
+  /**
    * The interpreted continent and country do not match.
    */
   CONTINENT_COUNTRY_MISMATCH(WARNING),
@@ -151,6 +156,11 @@ public enum OccurrenceIssue implements InterpretationRemark {
    * Uninterpretable continent values found.
    */
   CONTINENT_INVALID(WARNING),
+
+  /**
+   * The interpreted continent is based on the country, not the verbatim string information.
+   */
+  CONTINENT_DERIVED_FROM_COUNTRY(WARNING),
 
   /**
    * The interpreted continent is based on the coordinates, not the verbatim string information.
