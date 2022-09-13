@@ -164,505 +164,518 @@ import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
   @Sourceable(masterSources = MasterSourceType.IH)
   private String division;
 
+  private Boolean displayOnNHCPortal;
+
   /** List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc.. */
   @Valid
   @Override
   public List&lt;Identifier&gt; getIdentifiers() {
-<span class="nc" id="L171">    return identifiers;</span>
+<span class="nc" id="L173">    return identifiers;</span>
   }
 
   @Override
   public void setIdentifiers(List&lt;Identifier&gt; identifiers) {
-<span class="nc" id="L176">    this.identifiers = identifiers;</span>
-<span class="nc" id="L177">  }</span>
+<span class="nc" id="L178">    this.identifiers = identifiers;</span>
+<span class="nc" id="L179">  }</span>
 
   /** (Meta)Tags or labels. */
   @Valid
   @Override
   public List&lt;Tag&gt; getTags() {
-<span class="nc" id="L183">    return tags;</span>
+<span class="nc" id="L185">    return tags;</span>
   }
 
   @Override
   public void setTags(List&lt;Tag&gt; tags) {
-<span class="nc" id="L188">    this.tags = tags;</span>
-<span class="nc" id="L189">  }</span>
+<span class="nc" id="L190">    this.tags = tags;</span>
+<span class="nc" id="L191">  }</span>
 
   /** GBIF Unique identifier of this collection. */
   @Override
   public UUID getKey() {
-<span class="nc" id="L194">    return key;</span>
+<span class="nc" id="L196">    return key;</span>
   }
 
   @Override
   public void setKey(UUID key) {
-<span class="nc" id="L199">    this.key = key;</span>
-<span class="nc" id="L200">  }</span>
+<span class="nc" id="L201">    this.key = key;</span>
+<span class="nc" id="L202">  }</span>
 
   /** Collection code: identifies a collection at the owner's location. */
   @NotNull(groups = PrePersist.class)
   @Override
   public String getCode() {
-<span class="nc" id="L206">    return code;</span>
+<span class="nc" id="L208">    return code;</span>
   }
 
   @Override
   public void setCode(String code) {
-<span class="nc" id="L211">    this.code = code;</span>
-<span class="nc" id="L212">  }</span>
+<span class="nc" id="L213">    this.code = code;</span>
+<span class="nc" id="L214">  }</span>
 
   /** Descriptive name of a collection. */
   @NotNull
   @Override
   public String getName() {
-<span class="nc" id="L218">    return name;</span>
+<span class="nc" id="L220">    return name;</span>
   }
 
   @Override
   public void setName(String name) {
-<span class="nc" id="L223">    this.name = name;</span>
-<span class="nc" id="L224">  }</span>
+<span class="nc" id="L225">    this.name = name;</span>
+<span class="nc" id="L226">  }</span>
 
   /** Textual description/summary of the contents of a collection. */
   @Size(min = 1)
   @Override
   public String getDescription() {
-<span class="nc" id="L230">    return description;</span>
+<span class="nc" id="L232">    return description;</span>
   }
 
   @Override
   public void setDescription(String description) {
-<span class="nc" id="L235">    this.description = description;</span>
-<span class="nc" id="L236">  }</span>
+<span class="nc" id="L237">    this.description = description;</span>
+<span class="nc" id="L238">  }</span>
 
   /** Content type of the elements found in a collection. */
   public List&lt;CollectionContentType&gt; getContentTypes() {
-<span class="nc" id="L240">    return contentTypes;</span>
+<span class="nc" id="L242">    return contentTypes;</span>
   }
 
   public void setContentTypes(List&lt;CollectionContentType&gt; contentTypes) {
-<span class="nc" id="L244">    this.contentTypes = contentTypes;</span>
-<span class="nc" id="L245">  }</span>
+<span class="nc" id="L246">    this.contentTypes = contentTypes;</span>
+<span class="nc" id="L247">  }</span>
 
   /** Is this collection currently active/maintained. */
   @Override
   public boolean isActive() {
-<span class="nc" id="L250">    return active;</span>
+<span class="nc" id="L252">    return active;</span>
   }
 
   @Override
   public void setActive(boolean active) {
-<span class="nc" id="L255">    this.active = active;</span>
-<span class="nc" id="L256">  }</span>
+<span class="nc" id="L257">    this.active = active;</span>
+<span class="nc" id="L258">  }</span>
 
   /** Does this collections belong to an individual?. */
   public boolean isPersonalCollection() {
-<span class="nc" id="L260">    return personalCollection;</span>
+<span class="nc" id="L262">    return personalCollection;</span>
   }
 
   public void setPersonalCollection(boolean personalCollection) {
-<span class="nc" id="L264">    this.personalCollection = personalCollection;</span>
-<span class="nc" id="L265">  }</span>
+<span class="nc" id="L266">    this.personalCollection = personalCollection;</span>
+<span class="nc" id="L267">  }</span>
 
   /** Digital Object Identifier assigned to this collection. */
   public DOI getDoi() {
-<span class="nc" id="L269">    return doi;</span>
+<span class="nc" id="L271">    return doi;</span>
   }
 
   public void setDoi(DOI doi) {
-<span class="nc" id="L273">    this.doi = doi;</span>
-<span class="nc" id="L274">  }</span>
+<span class="nc" id="L275">    this.doi = doi;</span>
+<span class="nc" id="L276">  }</span>
 
   public List&lt;String&gt; getEmail() {
-<span class="nc" id="L277">    return email;</span>
+<span class="nc" id="L279">    return email;</span>
   }
 
   public void setEmail(List&lt;String&gt; email) {
-<span class="nc" id="L281">    this.email = email;</span>
-<span class="nc" id="L282">  }</span>
+<span class="nc" id="L283">    this.email = email;</span>
+<span class="nc" id="L284">  }</span>
 
   public List&lt;String&gt; getPhone() {
-<span class="nc" id="L285">    return phone;</span>
+<span class="nc" id="L287">    return phone;</span>
   }
 
   public void setPhone(List&lt;String&gt; phone) {
-<span class="nc" id="L289">    this.phone = phone;</span>
-<span class="nc" id="L290">  }</span>
+<span class="nc" id="L291">    this.phone = phone;</span>
+<span class="nc" id="L292">  }</span>
 
   /** URL containing information about a collection. */
   @HttpURI
   @Nullable
   public URI getHomepage() {
-<span class="nc" id="L296">    return homepage;</span>
+<span class="nc" id="L298">    return homepage;</span>
   }
 
   public void setHomepage(URI homepage) {
-<span class="nc" id="L300">    this.homepage = homepage;</span>
-<span class="nc" id="L301">  }</span>
+<span class="nc" id="L302">    this.homepage = homepage;</span>
+<span class="nc" id="L303">  }</span>
 
   /** URI that exposes data about the catalog associated to a collection. */
   @HttpURI
   @Nullable
   public URI getCatalogUrl() {
-<span class="nc" id="L307">    return catalogUrl;</span>
+<span class="nc" id="L309">    return catalogUrl;</span>
   }
 
   public void setCatalogUrl(URI catalogUrl) {
-<span class="nc" id="L311">    this.catalogUrl = catalogUrl;</span>
-<span class="nc" id="L312">  }</span>
+<span class="nc" id="L313">    this.catalogUrl = catalogUrl;</span>
+<span class="nc" id="L314">  }</span>
 
   /** Machine consumable endpoint of information about a collection. */
   @HttpURI
   @Nullable
   public URI getApiUrl() {
-<span class="nc" id="L318">    return apiUrl;</span>
+<span class="nc" id="L320">    return apiUrl;</span>
   }
 
   public void setApiUrl(URI apiUrl) {
-<span class="nc" id="L322">    this.apiUrl = apiUrl;</span>
-<span class="nc" id="L323">  }</span>
+<span class="nc" id="L324">    this.apiUrl = apiUrl;</span>
+<span class="nc" id="L325">  }</span>
 
   /** Types of preservation mechanisms used for this collections. */
   public List&lt;PreservationType&gt; getPreservationTypes() {
-<span class="nc" id="L327">    return preservationTypes;</span>
+<span class="nc" id="L329">    return preservationTypes;</span>
   }
 
   public void setPreservationTypes(List&lt;PreservationType&gt; preservationTypes) {
-<span class="nc" id="L331">    this.preservationTypes = preservationTypes;</span>
-<span class="nc" id="L332">  }</span>
+<span class="nc" id="L333">    this.preservationTypes = preservationTypes;</span>
+<span class="nc" id="L334">  }</span>
 
   /** Defines how a collection as been added or joined. */
   public AccessionStatus getAccessionStatus() {
-<span class="nc" id="L336">    return accessionStatus;</span>
+<span class="nc" id="L338">    return accessionStatus;</span>
   }
 
   public void setAccessionStatus(AccessionStatus accessionStatus) {
-<span class="nc" id="L340">    this.accessionStatus = accessionStatus;</span>
-<span class="nc" id="L341">  }</span>
+<span class="nc" id="L342">    this.accessionStatus = accessionStatus;</span>
+<span class="nc" id="L343">  }</span>
 
   /** Institution that owns or hosts this collection. */
   public UUID getInstitutionKey() {
-<span class="nc" id="L345">    return institutionKey;</span>
+<span class="nc" id="L347">    return institutionKey;</span>
   }
 
   public void setInstitutionKey(UUID institutionKey) {
-<span class="nc" id="L349">    this.institutionKey = institutionKey;</span>
-<span class="nc" id="L350">  }</span>
+<span class="nc" id="L351">    this.institutionKey = institutionKey;</span>
+<span class="nc" id="L352">  }</span>
 
   /** Address used to send/receive physical mail. */
   @Nullable
   @Valid
   @Override
   public Address getMailingAddress() {
-<span class="nc" id="L357">    return mailingAddress;</span>
+<span class="nc" id="L359">    return mailingAddress;</span>
   }
 
   @Override
   public void setMailingAddress(Address mailingAddress) {
-<span class="nc" id="L362">    this.mailingAddress = mailingAddress;</span>
-<span class="nc" id="L363">  }</span>
+<span class="nc" id="L364">    this.mailingAddress = mailingAddress;</span>
+<span class="nc" id="L365">  }</span>
 
   /** Directions of where this collections is situated. */
   @Nullable
   @Valid
   @Override
   public Address getAddress() {
-<span class="nc" id="L370">    return address;</span>
+<span class="nc" id="L372">    return address;</span>
   }
 
   @Override
   public void setAddress(Address address) {
-<span class="nc" id="L375">    this.address = address;</span>
-<span class="nc" id="L376">  }</span>
+<span class="nc" id="L377">    this.address = address;</span>
+<span class="nc" id="L378">  }</span>
 
   @Override
   public String getCreatedBy() {
-<span class="nc" id="L380">    return createdBy;</span>
+<span class="nc" id="L382">    return createdBy;</span>
   }
 
   @Override
   public void setCreatedBy(String createdBy) {
-<span class="nc" id="L385">    this.createdBy = createdBy;</span>
-<span class="nc" id="L386">  }</span>
+<span class="nc" id="L387">    this.createdBy = createdBy;</span>
+<span class="nc" id="L388">  }</span>
 
   @Override
   public String getModifiedBy() {
-<span class="nc" id="L390">    return modifiedBy;</span>
+<span class="nc" id="L392">    return modifiedBy;</span>
   }
 
   @Override
   public void setModifiedBy(String modifiedBy) {
-<span class="nc" id="L395">    this.modifiedBy = modifiedBy;</span>
-<span class="nc" id="L396">  }</span>
+<span class="nc" id="L397">    this.modifiedBy = modifiedBy;</span>
+<span class="nc" id="L398">  }</span>
 
   @Override
   public Date getCreated() {
-<span class="nc" id="L400">    return created;</span>
+<span class="nc" id="L402">    return created;</span>
   }
 
   @Override
   public void setCreated(Date created) {
-<span class="nc" id="L405">    this.created = created;</span>
-<span class="nc" id="L406">  }</span>
+<span class="nc" id="L407">    this.created = created;</span>
+<span class="nc" id="L408">  }</span>
 
   @Override
   public Date getModified() {
-<span class="nc" id="L410">    return modified;</span>
+<span class="nc" id="L412">    return modified;</span>
   }
 
   @Override
   public void setModified(Date modified) {
-<span class="nc" id="L415">    this.modified = modified;</span>
-<span class="nc" id="L416">  }</span>
+<span class="nc" id="L417">    this.modified = modified;</span>
+<span class="nc" id="L418">  }</span>
 
   @Override
   public Date getDeleted() {
-<span class="nc" id="L420">    return deleted;</span>
+<span class="nc" id="L422">    return deleted;</span>
   }
 
   @Override
   public void setDeleted(Date deleted) {
-<span class="nc" id="L425">    this.deleted = deleted;</span>
-<span class="nc" id="L426">  }</span>
+<span class="nc" id="L427">    this.deleted = deleted;</span>
+<span class="nc" id="L428">  }</span>
 
   @Valid
   @Override
   public List&lt;Person&gt; getContacts() {
-<span class="nc" id="L431">    return contacts;</span>
+<span class="nc" id="L433">    return contacts;</span>
   }
 
   @Valid
   @Override
   public List&lt;Contact&gt; getContactPersons() {
-<span class="nc" id="L437">    return contactPersons;</span>
+<span class="nc" id="L439">    return contactPersons;</span>
   }
 
   @Override
   public void setContactPersons(List&lt;Contact&gt; contactPersons) {
-<span class="nc" id="L442">    this.contactPersons = contactPersons;</span>
-<span class="nc" id="L443">  }</span>
+<span class="nc" id="L444">    this.contactPersons = contactPersons;</span>
+<span class="nc" id="L445">  }</span>
 
   @Override
   public void setContacts(List&lt;Person&gt; contacts) {
-<span class="nc" id="L447">    this.contacts = contacts;</span>
-<span class="nc" id="L448">  }</span>
+<span class="nc" id="L449">    this.contacts = contacts;</span>
+<span class="nc" id="L450">  }</span>
 
   public boolean isIndexHerbariorumRecord() {
-<span class="nc" id="L451">    return indexHerbariorumRecord;</span>
+<span class="nc" id="L453">    return indexHerbariorumRecord;</span>
   }
 
   public void setIndexHerbariorumRecord(boolean indexHerbariorumRecord) {
-<span class="nc" id="L455">    this.indexHerbariorumRecord = indexHerbariorumRecord;</span>
-<span class="nc" id="L456">  }</span>
+<span class="nc" id="L457">    this.indexHerbariorumRecord = indexHerbariorumRecord;</span>
+<span class="nc" id="L458">  }</span>
 
   public Integer getNumberSpecimens() {
-<span class="nc" id="L459">    return numberSpecimens;</span>
+<span class="nc" id="L461">    return numberSpecimens;</span>
   }
 
   public void setNumberSpecimens(Integer numberSpecimens) {
-<span class="nc" id="L463">    this.numberSpecimens = numberSpecimens;</span>
-<span class="nc" id="L464">  }</span>
+<span class="nc" id="L465">    this.numberSpecimens = numberSpecimens;</span>
+<span class="nc" id="L466">  }</span>
 
   @Valid
   @Override
   public @NotNull List&lt;MachineTag&gt; getMachineTags() {
-<span class="nc" id="L469">    return machineTags;</span>
+<span class="nc" id="L471">    return machineTags;</span>
   }
 
   @Override
   public void setMachineTags(List&lt;MachineTag&gt; machineTags) {
-<span class="nc" id="L474">    this.machineTags = machineTags;</span>
-<span class="nc" id="L475">  }</span>
+<span class="nc" id="L476">    this.machineTags = machineTags;</span>
+<span class="nc" id="L477">  }</span>
 
   @Override
   public void addMachineTag(MachineTag machineTag) {
-<span class="nc" id="L479">    machineTags.add(machineTag);</span>
-<span class="nc" id="L480">  }</span>
+<span class="nc" id="L481">    machineTags.add(machineTag);</span>
+<span class="nc" id="L482">  }</span>
 
   public String getTaxonomicCoverage() {
-<span class="nc" id="L483">    return taxonomicCoverage;</span>
+<span class="nc" id="L485">    return taxonomicCoverage;</span>
   }
 
   public void setTaxonomicCoverage(String taxonomicCoverage) {
-<span class="nc" id="L487">    this.taxonomicCoverage = taxonomicCoverage;</span>
-<span class="nc" id="L488">  }</span>
+<span class="nc" id="L489">    this.taxonomicCoverage = taxonomicCoverage;</span>
+<span class="nc" id="L490">  }</span>
 
   public String getGeography() {
-<span class="nc" id="L491">    return geography;</span>
+<span class="nc" id="L493">    return geography;</span>
   }
 
   public void setGeography(String geography) {
-<span class="nc" id="L495">    this.geography = geography;</span>
-<span class="nc" id="L496">  }</span>
+<span class="nc" id="L497">    this.geography = geography;</span>
+<span class="nc" id="L498">  }</span>
 
   public String getNotes() {
-<span class="nc" id="L499">    return notes;</span>
+<span class="nc" id="L501">    return notes;</span>
   }
 
   public void setNotes(String notes) {
-<span class="nc" id="L503">    this.notes = notes;</span>
-<span class="nc" id="L504">  }</span>
+<span class="nc" id="L505">    this.notes = notes;</span>
+<span class="nc" id="L506">  }</span>
 
   public List&lt;String&gt; getIncorporatedCollections() {
-<span class="nc" id="L507">    return incorporatedCollections;</span>
+<span class="nc" id="L509">    return incorporatedCollections;</span>
   }
 
   public void setIncorporatedCollections(List&lt;String&gt; incorporatedCollections) {
-<span class="nc" id="L511">    this.incorporatedCollections = incorporatedCollections;</span>
-<span class="nc" id="L512">  }</span>
+<span class="nc" id="L513">    this.incorporatedCollections = incorporatedCollections;</span>
+<span class="nc" id="L514">  }</span>
 
   public List&lt;String&gt; getImportantCollectors() {
-<span class="nc" id="L515">    return importantCollectors;</span>
+<span class="nc" id="L517">    return importantCollectors;</span>
   }
 
   public void setImportantCollectors(List&lt;String&gt; importantCollectors) {
-<span class="nc" id="L519">    this.importantCollectors = importantCollectors;</span>
-<span class="nc" id="L520">  }</span>
+<span class="nc" id="L521">    this.importantCollectors = importantCollectors;</span>
+<span class="nc" id="L522">  }</span>
 
   public Map&lt;String, Integer&gt; getCollectionSummary() {
-<span class="nc" id="L523">    return collectionSummary;</span>
+<span class="nc" id="L525">    return collectionSummary;</span>
   }
 
   public void setCollectionSummary(Map&lt;String, Integer&gt; collectionSummary) {
-<span class="nc" id="L527">    this.collectionSummary = collectionSummary;</span>
-<span class="nc" id="L528">  }</span>
+<span class="nc" id="L529">    this.collectionSummary = collectionSummary;</span>
+<span class="nc" id="L530">  }</span>
 
   /** Alternative codes for a collection. */
   public List&lt;AlternativeCode&gt; getAlternativeCodes() {
-<span class="nc" id="L532">    return alternativeCodes;</span>
+<span class="nc" id="L534">    return alternativeCodes;</span>
   }
 
   public void setAlternativeCodes(List&lt;AlternativeCode&gt; alternativeCodes) {
-<span class="nc" id="L536">    this.alternativeCodes = alternativeCodes;</span>
-<span class="nc" id="L537">  }</span>
+<span class="nc" id="L538">    this.alternativeCodes = alternativeCodes;</span>
+<span class="nc" id="L539">  }</span>
 
   @Override
   public @NotNull List&lt;Comment&gt; getComments() {
-<span class="nc" id="L541">    return comments;</span>
+<span class="nc" id="L543">    return comments;</span>
   }
 
   @Override
   public void setComments(List&lt;Comment&gt; comments) {
-<span class="nc" id="L546">    this.comments = comments;</span>
-<span class="nc" id="L547">  }</span>
+<span class="nc" id="L548">    this.comments = comments;</span>
+<span class="nc" id="L549">  }</span>
 
   @Override
   public @NotNull List&lt;OccurrenceMapping&gt; getOccurrenceMappings() {
-<span class="nc" id="L551">    return occurrenceMappings;</span>
+<span class="nc" id="L553">    return occurrenceMappings;</span>
   }
 
   @Override
   public void setOccurrenceMappings(List&lt;OccurrenceMapping&gt; occurrenceMappings) {
-<span class="nc" id="L556">    this.occurrenceMappings = occurrenceMappings;</span>
-<span class="nc" id="L557">  }</span>
+<span class="nc" id="L558">    this.occurrenceMappings = occurrenceMappings;</span>
+<span class="nc" id="L559">  }</span>
 
   @Override
   public UUID getReplacedBy() {
-<span class="nc" id="L561">    return replacedBy;</span>
+<span class="nc" id="L563">    return replacedBy;</span>
   }
 
   @Override
   public void setReplacedBy(UUID replacedBy) {
-<span class="nc" id="L566">    this.replacedBy = replacedBy;</span>
-<span class="nc" id="L567">  }</span>
+<span class="nc" id="L568">    this.replacedBy = replacedBy;</span>
+<span class="nc" id="L569">  }</span>
 
   @Override
   public MasterSourceType getMasterSource() {
-<span class="nc" id="L571">    return masterSource;</span>
+<span class="nc" id="L573">    return masterSource;</span>
   }
 
   @Override
   public void setMasterSource(MasterSourceType masterSource) {
-<span class="nc" id="L576">    this.masterSource = masterSource;</span>
-<span class="nc" id="L577">  }</span>
+<span class="nc" id="L578">    this.masterSource = masterSource;</span>
+<span class="nc" id="L579">  }</span>
 
   @Override
   public MasterSourceMetadata getMasterSourceMetadata() {
-<span class="nc" id="L581">    return masterSourceMetadata;</span>
+<span class="nc" id="L583">    return masterSourceMetadata;</span>
   }
 
   @Override
   public void setMasterSourceMetadata(MasterSourceMetadata masterSourceMetadata) {
-<span class="nc" id="L586">    this.masterSourceMetadata = masterSourceMetadata;</span>
-<span class="nc" id="L587">  }</span>
+<span class="nc" id="L588">    this.masterSourceMetadata = masterSourceMetadata;</span>
+<span class="nc" id="L589">  }</span>
 
   public String getDepartment() {
-<span class="nc" id="L590">    return department;</span>
+<span class="nc" id="L592">    return department;</span>
   }
 
   public void setDepartment(String department) {
-<span class="nc" id="L594">    this.department = department;</span>
-<span class="nc" id="L595">  }</span>
+<span class="nc" id="L596">    this.department = department;</span>
+<span class="nc" id="L597">  }</span>
 
   public String getDivision() {
-<span class="nc" id="L598">    return division;</span>
+<span class="nc" id="L600">    return division;</span>
   }
 
   public void setDivision(String division) {
-<span class="nc" id="L602">    this.division = division;</span>
-<span class="nc" id="L603">  }</span>
+<span class="nc" id="L604">    this.division = division;</span>
+<span class="nc" id="L605">  }</span>
+
+  @Override
+  public Boolean getDisplayOnNHCPortal() {
+<span class="nc" id="L609">    return displayOnNHCPortal;</span>
+  }
+
+  @Override
+  public void setDisplayOnNHCPortal(Boolean displayOnNHCPortal) {
+<span class="nc" id="L614">    this.displayOnNHCPortal = displayOnNHCPortal;</span>
+<span class="nc" id="L615">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L607" title="All 2 branches missed.">    if (this == o) return true;</span>
-<span class="nc bnc" id="L608" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L609">    Collection that = (Collection) o;</span>
-<span class="nc bnc" id="L610" title="All 4 branches missed.">    return active == that.active</span>
+<span class="nc bnc" id="L619" title="All 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L620" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L621">    Collection that = (Collection) o;</span>
+<span class="nc bnc" id="L622" title="All 4 branches missed.">    return active == that.active</span>
         &amp;&amp; personalCollection == that.personalCollection
-<span class="nc bnc" id="L612" title="All 2 branches missed.">        &amp;&amp; Objects.equals(key, that.key)</span>
-<span class="nc bnc" id="L613" title="All 2 branches missed.">        &amp;&amp; Objects.equals(code, that.code)</span>
-<span class="nc bnc" id="L614" title="All 2 branches missed.">        &amp;&amp; Objects.equals(name, that.name)</span>
-<span class="nc bnc" id="L615" title="All 2 branches missed.">        &amp;&amp; Objects.equals(description, that.description)</span>
-<span class="nc bnc" id="L616" title="All 2 branches missed.">        &amp;&amp; Objects.equals(contentTypes, that.contentTypes)</span>
-<span class="nc bnc" id="L617" title="All 2 branches missed.">        &amp;&amp; Objects.equals(doi, that.doi)</span>
-<span class="nc bnc" id="L618" title="All 2 branches missed.">        &amp;&amp; Objects.equals(email, that.email)</span>
-<span class="nc bnc" id="L619" title="All 2 branches missed.">        &amp;&amp; Objects.equals(phone, that.phone)</span>
-<span class="nc bnc" id="L620" title="All 2 branches missed.">        &amp;&amp; Objects.equals(homepage, that.homepage)</span>
-<span class="nc bnc" id="L621" title="All 2 branches missed.">        &amp;&amp; Objects.equals(catalogUrl, that.catalogUrl)</span>
-<span class="nc bnc" id="L622" title="All 2 branches missed.">        &amp;&amp; Objects.equals(apiUrl, that.apiUrl)</span>
-<span class="nc bnc" id="L623" title="All 4 branches missed.">        &amp;&amp; Objects.equals(preservationTypes, that.preservationTypes)</span>
+<span class="nc bnc" id="L624" title="All 2 branches missed.">        &amp;&amp; Objects.equals(key, that.key)</span>
+<span class="nc bnc" id="L625" title="All 2 branches missed.">        &amp;&amp; Objects.equals(code, that.code)</span>
+<span class="nc bnc" id="L626" title="All 2 branches missed.">        &amp;&amp; Objects.equals(name, that.name)</span>
+<span class="nc bnc" id="L627" title="All 2 branches missed.">        &amp;&amp; Objects.equals(description, that.description)</span>
+<span class="nc bnc" id="L628" title="All 2 branches missed.">        &amp;&amp; Objects.equals(contentTypes, that.contentTypes)</span>
+<span class="nc bnc" id="L629" title="All 2 branches missed.">        &amp;&amp; Objects.equals(doi, that.doi)</span>
+<span class="nc bnc" id="L630" title="All 2 branches missed.">        &amp;&amp; Objects.equals(email, that.email)</span>
+<span class="nc bnc" id="L631" title="All 2 branches missed.">        &amp;&amp; Objects.equals(phone, that.phone)</span>
+<span class="nc bnc" id="L632" title="All 2 branches missed.">        &amp;&amp; Objects.equals(homepage, that.homepage)</span>
+<span class="nc bnc" id="L633" title="All 2 branches missed.">        &amp;&amp; Objects.equals(catalogUrl, that.catalogUrl)</span>
+<span class="nc bnc" id="L634" title="All 2 branches missed.">        &amp;&amp; Objects.equals(apiUrl, that.apiUrl)</span>
+<span class="nc bnc" id="L635" title="All 4 branches missed.">        &amp;&amp; Objects.equals(preservationTypes, that.preservationTypes)</span>
         &amp;&amp; accessionStatus == that.accessionStatus
-<span class="nc bnc" id="L625" title="All 2 branches missed.">        &amp;&amp; Objects.equals(institutionKey, that.institutionKey)</span>
-<span class="nc bnc" id="L626" title="All 2 branches missed.">        &amp;&amp; Objects.equals(mailingAddress, that.mailingAddress)</span>
-<span class="nc bnc" id="L627" title="All 2 branches missed.">        &amp;&amp; Objects.equals(address, that.address)</span>
-<span class="nc bnc" id="L628" title="All 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, that.createdBy)</span>
-<span class="nc bnc" id="L629" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modifiedBy, that.modifiedBy)</span>
-<span class="nc bnc" id="L630" title="All 2 branches missed.">        &amp;&amp; Objects.equals(created, that.created)</span>
-<span class="nc bnc" id="L631" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modified, that.modified)</span>
-<span class="nc bnc" id="L632" title="All 2 branches missed.">        &amp;&amp; Objects.equals(deleted, that.deleted)</span>
-<span class="nc bnc" id="L633" title="All 2 branches missed.">        &amp;&amp; Objects.equals(tags, that.tags)</span>
-<span class="nc bnc" id="L634" title="All 2 branches missed.">        &amp;&amp; Objects.equals(identifiers, that.identifiers)</span>
-<span class="nc bnc" id="L635" title="All 2 branches missed.">        &amp;&amp; Objects.equals(contacts, that.contacts)</span>
-<span class="nc bnc" id="L636" title="All 4 branches missed.">        &amp;&amp; Objects.equals(contactPersons, that.contactPersons)</span>
+<span class="nc bnc" id="L637" title="All 2 branches missed.">        &amp;&amp; Objects.equals(institutionKey, that.institutionKey)</span>
+<span class="nc bnc" id="L638" title="All 2 branches missed.">        &amp;&amp; Objects.equals(mailingAddress, that.mailingAddress)</span>
+<span class="nc bnc" id="L639" title="All 2 branches missed.">        &amp;&amp; Objects.equals(address, that.address)</span>
+<span class="nc bnc" id="L640" title="All 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, that.createdBy)</span>
+<span class="nc bnc" id="L641" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modifiedBy, that.modifiedBy)</span>
+<span class="nc bnc" id="L642" title="All 2 branches missed.">        &amp;&amp; Objects.equals(created, that.created)</span>
+<span class="nc bnc" id="L643" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modified, that.modified)</span>
+<span class="nc bnc" id="L644" title="All 2 branches missed.">        &amp;&amp; Objects.equals(deleted, that.deleted)</span>
+<span class="nc bnc" id="L645" title="All 2 branches missed.">        &amp;&amp; Objects.equals(tags, that.tags)</span>
+<span class="nc bnc" id="L646" title="All 2 branches missed.">        &amp;&amp; Objects.equals(identifiers, that.identifiers)</span>
+<span class="nc bnc" id="L647" title="All 2 branches missed.">        &amp;&amp; Objects.equals(contacts, that.contacts)</span>
+<span class="nc bnc" id="L648" title="All 4 branches missed.">        &amp;&amp; Objects.equals(contactPersons, that.contactPersons)</span>
         &amp;&amp; indexHerbariorumRecord == that.indexHerbariorumRecord
-<span class="nc bnc" id="L638" title="All 2 branches missed.">        &amp;&amp; Objects.equals(numberSpecimens, that.numberSpecimens)</span>
-<span class="nc bnc" id="L639" title="All 2 branches missed.">        &amp;&amp; Objects.equals(machineTags, that.machineTags)</span>
-<span class="nc bnc" id="L640" title="All 2 branches missed.">        &amp;&amp; Objects.equals(taxonomicCoverage, that.taxonomicCoverage)</span>
-<span class="nc bnc" id="L641" title="All 2 branches missed.">        &amp;&amp; Objects.equals(geography, that.geography)</span>
-<span class="nc bnc" id="L642" title="All 2 branches missed.">        &amp;&amp; Objects.equals(notes, that.notes)</span>
-<span class="nc bnc" id="L643" title="All 2 branches missed.">        &amp;&amp; Objects.equals(incorporatedCollections, that.incorporatedCollections)</span>
-<span class="nc bnc" id="L644" title="All 2 branches missed.">        &amp;&amp; Objects.equals(importantCollectors, that.importantCollectors)</span>
-<span class="nc bnc" id="L645" title="All 2 branches missed.">        &amp;&amp; Objects.equals(collectionSummary, that.collectionSummary)</span>
-<span class="nc bnc" id="L646" title="All 2 branches missed.">        &amp;&amp; Objects.equals(alternativeCodes, that.alternativeCodes)</span>
-<span class="nc bnc" id="L647" title="All 2 branches missed.">        &amp;&amp; Objects.equals(comments, that.comments)</span>
-<span class="nc bnc" id="L648" title="All 2 branches missed.">        &amp;&amp; Objects.equals(occurrenceMappings, that.occurrenceMappings)</span>
-<span class="nc bnc" id="L649" title="All 2 branches missed.">        &amp;&amp; Objects.equals(replacedBy, that.replacedBy)</span>
-<span class="nc bnc" id="L650" title="All 2 branches missed.">        &amp;&amp; Objects.equals(masterSource, that.masterSource)</span>
-<span class="nc bnc" id="L651" title="All 2 branches missed.">        &amp;&amp; Objects.equals(masterSourceMetadata, that.masterSourceMetadata)</span>
-<span class="nc bnc" id="L652" title="All 2 branches missed.">        &amp;&amp; Objects.equals(division, that.division)</span>
-<span class="nc bnc" id="L653" title="All 2 branches missed.">        &amp;&amp; Objects.equals(department, that.department);</span>
+<span class="nc bnc" id="L650" title="All 2 branches missed.">        &amp;&amp; Objects.equals(numberSpecimens, that.numberSpecimens)</span>
+<span class="nc bnc" id="L651" title="All 2 branches missed.">        &amp;&amp; Objects.equals(machineTags, that.machineTags)</span>
+<span class="nc bnc" id="L652" title="All 2 branches missed.">        &amp;&amp; Objects.equals(taxonomicCoverage, that.taxonomicCoverage)</span>
+<span class="nc bnc" id="L653" title="All 2 branches missed.">        &amp;&amp; Objects.equals(geography, that.geography)</span>
+<span class="nc bnc" id="L654" title="All 2 branches missed.">        &amp;&amp; Objects.equals(notes, that.notes)</span>
+<span class="nc bnc" id="L655" title="All 2 branches missed.">        &amp;&amp; Objects.equals(incorporatedCollections, that.incorporatedCollections)</span>
+<span class="nc bnc" id="L656" title="All 2 branches missed.">        &amp;&amp; Objects.equals(importantCollectors, that.importantCollectors)</span>
+<span class="nc bnc" id="L657" title="All 2 branches missed.">        &amp;&amp; Objects.equals(collectionSummary, that.collectionSummary)</span>
+<span class="nc bnc" id="L658" title="All 2 branches missed.">        &amp;&amp; Objects.equals(alternativeCodes, that.alternativeCodes)</span>
+<span class="nc bnc" id="L659" title="All 2 branches missed.">        &amp;&amp; Objects.equals(comments, that.comments)</span>
+<span class="nc bnc" id="L660" title="All 2 branches missed.">        &amp;&amp; Objects.equals(occurrenceMappings, that.occurrenceMappings)</span>
+<span class="nc bnc" id="L661" title="All 2 branches missed.">        &amp;&amp; Objects.equals(replacedBy, that.replacedBy)</span>
+<span class="nc bnc" id="L662" title="All 2 branches missed.">        &amp;&amp; Objects.equals(masterSource, that.masterSource)</span>
+<span class="nc bnc" id="L663" title="All 2 branches missed.">        &amp;&amp; Objects.equals(masterSourceMetadata, that.masterSourceMetadata)</span>
+<span class="nc bnc" id="L664" title="All 2 branches missed.">        &amp;&amp; Objects.equals(division, that.division)</span>
+<span class="nc bnc" id="L665" title="All 2 branches missed.">        &amp;&amp; Objects.equals(department, that.department)</span>
+<span class="nc bnc" id="L666" title="All 2 branches missed.">        &amp;&amp; Objects.equals(displayOnNHCPortal, that.displayOnNHCPortal);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L658">    return Objects.hash(</span>
+<span class="nc" id="L671">    return Objects.hash(</span>
         key,
         code,
         name,
         description,
         contentTypes,
-<span class="nc" id="L664">        active,</span>
-<span class="nc" id="L665">        personalCollection,</span>
+<span class="nc" id="L677">        active,</span>
+<span class="nc" id="L678">        personalCollection,</span>
         doi,
         email,
         phone,
@@ -683,7 +696,7 @@ import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
         identifiers,
         contacts,
         contactPersons,
-<span class="nc" id="L686">        indexHerbariorumRecord,</span>
+<span class="nc" id="L699">        indexHerbariorumRecord,</span>
         numberSpecimens,
         machineTags,
         taxonomicCoverage,
@@ -699,99 +712,102 @@ import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
         masterSource,
         masterSourceMetadata,
         division,
-        department);
+        department,
+        displayOnNHCPortal);
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L707">    return new StringJoiner(&quot;, &quot;, Collection.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L708">        .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L709">        .add(&quot;code='&quot; + code + &quot;'&quot;)</span>
-<span class="nc" id="L710">        .add(&quot;name='&quot; + name + &quot;'&quot;)</span>
-<span class="nc" id="L711">        .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
-<span class="nc" id="L712">        .add(&quot;contentTypes=&quot; + contentTypes)</span>
-<span class="nc" id="L713">        .add(&quot;active=&quot; + active)</span>
-<span class="nc" id="L714">        .add(&quot;personalCollection=&quot; + personalCollection)</span>
-<span class="nc" id="L715">        .add(&quot;doi=&quot; + doi)</span>
-<span class="nc" id="L716">        .add(&quot;email=&quot; + email)</span>
-<span class="nc" id="L717">        .add(&quot;phone=&quot; + phone)</span>
-<span class="nc" id="L718">        .add(&quot;homepage=&quot; + homepage)</span>
-<span class="nc" id="L719">        .add(&quot;catalogUrl=&quot; + catalogUrl)</span>
-<span class="nc" id="L720">        .add(&quot;apiUrl=&quot; + apiUrl)</span>
-<span class="nc" id="L721">        .add(&quot;preservationTypes=&quot; + preservationTypes)</span>
-<span class="nc" id="L722">        .add(&quot;accessionStatus=&quot; + accessionStatus)</span>
-<span class="nc" id="L723">        .add(&quot;institutionKey=&quot; + institutionKey)</span>
-<span class="nc" id="L724">        .add(&quot;mailingAddress=&quot; + mailingAddress)</span>
-<span class="nc" id="L725">        .add(&quot;address=&quot; + address)</span>
-<span class="nc" id="L726">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
-<span class="nc" id="L727">        .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
-<span class="nc" id="L728">        .add(&quot;created=&quot; + created)</span>
-<span class="nc" id="L729">        .add(&quot;modified=&quot; + modified)</span>
-<span class="nc" id="L730">        .add(&quot;deleted=&quot; + deleted)</span>
-<span class="nc" id="L731">        .add(&quot;tags=&quot; + tags)</span>
-<span class="nc" id="L732">        .add(&quot;identifiers=&quot; + identifiers)</span>
-<span class="nc" id="L733">        .add(&quot;contacts=&quot; + contacts)</span>
-<span class="nc" id="L734">        .add(&quot;contactPersons=&quot; + contactPersons)</span>
-<span class="nc" id="L735">        .add(&quot;indexHerbariorumRecord=&quot; + indexHerbariorumRecord)</span>
-<span class="nc" id="L736">        .add(&quot;numberSpecimens=&quot; + numberSpecimens)</span>
-<span class="nc" id="L737">        .add(&quot;machineTags=&quot; + machineTags)</span>
-<span class="nc" id="L738">        .add(&quot;taxonomicCoverage=&quot; + taxonomicCoverage)</span>
-<span class="nc" id="L739">        .add(&quot;geography=&quot; + geography)</span>
-<span class="nc" id="L740">        .add(&quot;notes=&quot; + notes)</span>
-<span class="nc" id="L741">        .add(&quot;incorporatedCollections=&quot; + incorporatedCollections)</span>
-<span class="nc" id="L742">        .add(&quot;importantCollectors=&quot; + importantCollectors)</span>
-<span class="nc" id="L743">        .add(&quot;collectionSummary=&quot; + collectionSummary)</span>
-<span class="nc" id="L744">        .add(&quot;alternativeCodes=&quot; + alternativeCodes)</span>
-<span class="nc" id="L745">        .add(&quot;comments=&quot; + comments)</span>
-<span class="nc" id="L746">        .add(&quot;occurrenceMappings=&quot; + occurrenceMappings)</span>
-<span class="nc" id="L747">        .add(&quot;replacedBy=&quot; + replacedBy)</span>
-<span class="nc" id="L748">        .add(&quot;masterSource=&quot; + masterSource)</span>
-<span class="nc" id="L749">        .add(&quot;masterSourceMetadata=&quot; + masterSourceMetadata)</span>
-<span class="nc" id="L750">        .add(&quot;division=&quot; + division)</span>
-<span class="nc" id="L751">        .add(&quot;department=&quot; + department)</span>
-<span class="nc" id="L752">        .toString();</span>
+<span class="nc" id="L721">    return new StringJoiner(&quot;, &quot;, Collection.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L722">        .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L723">        .add(&quot;code='&quot; + code + &quot;'&quot;)</span>
+<span class="nc" id="L724">        .add(&quot;name='&quot; + name + &quot;'&quot;)</span>
+<span class="nc" id="L725">        .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
+<span class="nc" id="L726">        .add(&quot;contentTypes=&quot; + contentTypes)</span>
+<span class="nc" id="L727">        .add(&quot;active=&quot; + active)</span>
+<span class="nc" id="L728">        .add(&quot;personalCollection=&quot; + personalCollection)</span>
+<span class="nc" id="L729">        .add(&quot;doi=&quot; + doi)</span>
+<span class="nc" id="L730">        .add(&quot;email=&quot; + email)</span>
+<span class="nc" id="L731">        .add(&quot;phone=&quot; + phone)</span>
+<span class="nc" id="L732">        .add(&quot;homepage=&quot; + homepage)</span>
+<span class="nc" id="L733">        .add(&quot;catalogUrl=&quot; + catalogUrl)</span>
+<span class="nc" id="L734">        .add(&quot;apiUrl=&quot; + apiUrl)</span>
+<span class="nc" id="L735">        .add(&quot;preservationTypes=&quot; + preservationTypes)</span>
+<span class="nc" id="L736">        .add(&quot;accessionStatus=&quot; + accessionStatus)</span>
+<span class="nc" id="L737">        .add(&quot;institutionKey=&quot; + institutionKey)</span>
+<span class="nc" id="L738">        .add(&quot;mailingAddress=&quot; + mailingAddress)</span>
+<span class="nc" id="L739">        .add(&quot;address=&quot; + address)</span>
+<span class="nc" id="L740">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L741">        .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
+<span class="nc" id="L742">        .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L743">        .add(&quot;modified=&quot; + modified)</span>
+<span class="nc" id="L744">        .add(&quot;deleted=&quot; + deleted)</span>
+<span class="nc" id="L745">        .add(&quot;tags=&quot; + tags)</span>
+<span class="nc" id="L746">        .add(&quot;identifiers=&quot; + identifiers)</span>
+<span class="nc" id="L747">        .add(&quot;contacts=&quot; + contacts)</span>
+<span class="nc" id="L748">        .add(&quot;contactPersons=&quot; + contactPersons)</span>
+<span class="nc" id="L749">        .add(&quot;indexHerbariorumRecord=&quot; + indexHerbariorumRecord)</span>
+<span class="nc" id="L750">        .add(&quot;numberSpecimens=&quot; + numberSpecimens)</span>
+<span class="nc" id="L751">        .add(&quot;machineTags=&quot; + machineTags)</span>
+<span class="nc" id="L752">        .add(&quot;taxonomicCoverage=&quot; + taxonomicCoverage)</span>
+<span class="nc" id="L753">        .add(&quot;geography=&quot; + geography)</span>
+<span class="nc" id="L754">        .add(&quot;notes=&quot; + notes)</span>
+<span class="nc" id="L755">        .add(&quot;incorporatedCollections=&quot; + incorporatedCollections)</span>
+<span class="nc" id="L756">        .add(&quot;importantCollectors=&quot; + importantCollectors)</span>
+<span class="nc" id="L757">        .add(&quot;collectionSummary=&quot; + collectionSummary)</span>
+<span class="nc" id="L758">        .add(&quot;alternativeCodes=&quot; + alternativeCodes)</span>
+<span class="nc" id="L759">        .add(&quot;comments=&quot; + comments)</span>
+<span class="nc" id="L760">        .add(&quot;occurrenceMappings=&quot; + occurrenceMappings)</span>
+<span class="nc" id="L761">        .add(&quot;replacedBy=&quot; + replacedBy)</span>
+<span class="nc" id="L762">        .add(&quot;masterSource=&quot; + masterSource)</span>
+<span class="nc" id="L763">        .add(&quot;masterSourceMetadata=&quot; + masterSourceMetadata)</span>
+<span class="nc" id="L764">        .add(&quot;division=&quot; + division)</span>
+<span class="nc" id="L765">        .add(&quot;department=&quot; + department)</span>
+<span class="nc" id="L766">        .add(&quot;displayOnNHCPortal=&quot; + displayOnNHCPortal)</span>
+<span class="nc" id="L767">        .toString();</span>
   }
 
   @Override
   public boolean lenientEquals(Collection other) {
-<span class="nc bnc" id="L757" title="All 2 branches missed.">    if (this == other) {</span>
-<span class="nc" id="L758">      return true;</span>
+<span class="nc bnc" id="L772" title="All 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L773">      return true;</span>
     }
-<span class="nc bnc" id="L760" title="All 4 branches missed.">    return active == other.active</span>
+<span class="nc bnc" id="L775" title="All 4 branches missed.">    return active == other.active</span>
         &amp;&amp; personalCollection == other.personalCollection
-<span class="nc bnc" id="L762" title="All 2 branches missed.">        &amp;&amp; Objects.equals(key, other.key)</span>
-<span class="nc bnc" id="L763" title="All 2 branches missed.">        &amp;&amp; Objects.equals(code, other.code)</span>
-<span class="nc bnc" id="L764" title="All 2 branches missed.">        &amp;&amp; Objects.equals(name, other.name)</span>
-<span class="nc bnc" id="L765" title="All 2 branches missed.">        &amp;&amp; Objects.equals(description, other.description)</span>
-<span class="nc bnc" id="L766" title="All 2 branches missed.">        &amp;&amp; Objects.equals(contentTypes, other.contentTypes)</span>
-<span class="nc bnc" id="L767" title="All 2 branches missed.">        &amp;&amp; Objects.equals(doi, other.doi)</span>
-<span class="nc bnc" id="L768" title="All 2 branches missed.">        &amp;&amp; Objects.equals(email, other.email)</span>
-<span class="nc bnc" id="L769" title="All 2 branches missed.">        &amp;&amp; Objects.equals(phone, other.phone)</span>
-<span class="nc bnc" id="L770" title="All 2 branches missed.">        &amp;&amp; Objects.equals(homepage, other.homepage)</span>
-<span class="nc bnc" id="L771" title="All 2 branches missed.">        &amp;&amp; Objects.equals(catalogUrl, other.catalogUrl)</span>
-<span class="nc bnc" id="L772" title="All 2 branches missed.">        &amp;&amp; Objects.equals(apiUrl, other.apiUrl)</span>
-<span class="nc bnc" id="L773" title="All 4 branches missed.">        &amp;&amp; Objects.equals(preservationTypes, other.preservationTypes)</span>
+<span class="nc bnc" id="L777" title="All 2 branches missed.">        &amp;&amp; Objects.equals(key, other.key)</span>
+<span class="nc bnc" id="L778" title="All 2 branches missed.">        &amp;&amp; Objects.equals(code, other.code)</span>
+<span class="nc bnc" id="L779" title="All 2 branches missed.">        &amp;&amp; Objects.equals(name, other.name)</span>
+<span class="nc bnc" id="L780" title="All 2 branches missed.">        &amp;&amp; Objects.equals(description, other.description)</span>
+<span class="nc bnc" id="L781" title="All 2 branches missed.">        &amp;&amp; Objects.equals(contentTypes, other.contentTypes)</span>
+<span class="nc bnc" id="L782" title="All 2 branches missed.">        &amp;&amp; Objects.equals(doi, other.doi)</span>
+<span class="nc bnc" id="L783" title="All 2 branches missed.">        &amp;&amp; Objects.equals(email, other.email)</span>
+<span class="nc bnc" id="L784" title="All 2 branches missed.">        &amp;&amp; Objects.equals(phone, other.phone)</span>
+<span class="nc bnc" id="L785" title="All 2 branches missed.">        &amp;&amp; Objects.equals(homepage, other.homepage)</span>
+<span class="nc bnc" id="L786" title="All 2 branches missed.">        &amp;&amp; Objects.equals(catalogUrl, other.catalogUrl)</span>
+<span class="nc bnc" id="L787" title="All 2 branches missed.">        &amp;&amp; Objects.equals(apiUrl, other.apiUrl)</span>
+<span class="nc bnc" id="L788" title="All 4 branches missed.">        &amp;&amp; Objects.equals(preservationTypes, other.preservationTypes)</span>
         &amp;&amp; accessionStatus == other.accessionStatus
-<span class="nc bnc" id="L775" title="All 2 branches missed.">        &amp;&amp; Objects.equals(institutionKey, other.institutionKey)</span>
-<span class="nc bnc" id="L776" title="All 2 branches missed.">        &amp;&amp; LenientEqualsUtils.lenientEquals(mailingAddress, other.mailingAddress)</span>
-<span class="nc bnc" id="L777" title="All 2 branches missed.">        &amp;&amp; LenientEqualsUtils.lenientEquals(address, other.address)</span>
-<span class="nc bnc" id="L778" title="All 4 branches missed.">        &amp;&amp; Objects.equals(deleted, other.deleted)</span>
+<span class="nc bnc" id="L790" title="All 2 branches missed.">        &amp;&amp; Objects.equals(institutionKey, other.institutionKey)</span>
+<span class="nc bnc" id="L791" title="All 2 branches missed.">        &amp;&amp; LenientEqualsUtils.lenientEquals(mailingAddress, other.mailingAddress)</span>
+<span class="nc bnc" id="L792" title="All 2 branches missed.">        &amp;&amp; LenientEqualsUtils.lenientEquals(address, other.address)</span>
+<span class="nc bnc" id="L793" title="All 4 branches missed.">        &amp;&amp; Objects.equals(deleted, other.deleted)</span>
         &amp;&amp; indexHerbariorumRecord == other.indexHerbariorumRecord
-<span class="nc bnc" id="L780" title="All 2 branches missed.">        &amp;&amp; Objects.equals(numberSpecimens, other.numberSpecimens)</span>
-<span class="nc bnc" id="L781" title="All 2 branches missed.">        &amp;&amp; Objects.equals(taxonomicCoverage, other.taxonomicCoverage)</span>
-<span class="nc bnc" id="L782" title="All 2 branches missed.">        &amp;&amp; Objects.equals(geography, other.geography)</span>
-<span class="nc bnc" id="L783" title="All 2 branches missed.">        &amp;&amp; Objects.equals(notes, other.notes)</span>
-<span class="nc bnc" id="L784" title="All 2 branches missed.">        &amp;&amp; Objects.equals(incorporatedCollections, other.incorporatedCollections)</span>
-<span class="nc bnc" id="L785" title="All 2 branches missed.">        &amp;&amp; Objects.equals(importantCollectors, other.importantCollectors)</span>
-<span class="nc bnc" id="L786" title="All 2 branches missed.">        &amp;&amp; Objects.equals(collectionSummary, other.collectionSummary)</span>
-<span class="nc bnc" id="L787" title="All 2 branches missed.">        &amp;&amp; Objects.equals(alternativeCodes, other.alternativeCodes)</span>
-<span class="nc bnc" id="L788" title="All 2 branches missed.">        &amp;&amp; Objects.equals(comments, other.comments)</span>
-<span class="nc bnc" id="L789" title="All 2 branches missed.">        &amp;&amp; Objects.equals(occurrenceMappings, other.occurrenceMappings)</span>
-<span class="nc bnc" id="L790" title="All 2 branches missed.">        &amp;&amp; Objects.equals(replacedBy, other.replacedBy)</span>
-<span class="nc bnc" id="L791" title="All 2 branches missed.">        &amp;&amp; Objects.equals(masterSource, other.masterSource)</span>
-<span class="nc bnc" id="L792" title="All 2 branches missed.">        &amp;&amp; Objects.equals(masterSourceMetadata, other.masterSourceMetadata)</span>
-<span class="nc bnc" id="L793" title="All 2 branches missed.">        &amp;&amp; Objects.equals(division, other.division)</span>
-<span class="nc bnc" id="L794" title="All 2 branches missed.">        &amp;&amp; Objects.equals(department, other.department);</span>
+<span class="nc bnc" id="L795" title="All 2 branches missed.">        &amp;&amp; Objects.equals(numberSpecimens, other.numberSpecimens)</span>
+<span class="nc bnc" id="L796" title="All 2 branches missed.">        &amp;&amp; Objects.equals(taxonomicCoverage, other.taxonomicCoverage)</span>
+<span class="nc bnc" id="L797" title="All 2 branches missed.">        &amp;&amp; Objects.equals(geography, other.geography)</span>
+<span class="nc bnc" id="L798" title="All 2 branches missed.">        &amp;&amp; Objects.equals(notes, other.notes)</span>
+<span class="nc bnc" id="L799" title="All 2 branches missed.">        &amp;&amp; Objects.equals(incorporatedCollections, other.incorporatedCollections)</span>
+<span class="nc bnc" id="L800" title="All 2 branches missed.">        &amp;&amp; Objects.equals(importantCollectors, other.importantCollectors)</span>
+<span class="nc bnc" id="L801" title="All 2 branches missed.">        &amp;&amp; Objects.equals(collectionSummary, other.collectionSummary)</span>
+<span class="nc bnc" id="L802" title="All 2 branches missed.">        &amp;&amp; Objects.equals(alternativeCodes, other.alternativeCodes)</span>
+<span class="nc bnc" id="L803" title="All 2 branches missed.">        &amp;&amp; Objects.equals(comments, other.comments)</span>
+<span class="nc bnc" id="L804" title="All 2 branches missed.">        &amp;&amp; Objects.equals(occurrenceMappings, other.occurrenceMappings)</span>
+<span class="nc bnc" id="L805" title="All 2 branches missed.">        &amp;&amp; Objects.equals(replacedBy, other.replacedBy)</span>
+<span class="nc bnc" id="L806" title="All 2 branches missed.">        &amp;&amp; Objects.equals(masterSource, other.masterSource)</span>
+<span class="nc bnc" id="L807" title="All 2 branches missed.">        &amp;&amp; Objects.equals(masterSourceMetadata, other.masterSourceMetadata)</span>
+<span class="nc bnc" id="L808" title="All 2 branches missed.">        &amp;&amp; Objects.equals(division, other.division)</span>
+<span class="nc bnc" id="L809" title="All 2 branches missed.">        &amp;&amp; Objects.equals(department, other.department)</span>
+<span class="nc bnc" id="L810" title="All 2 branches missed.">        &amp;&amp; Objects.equals(displayOnNHCPortal, other.displayOnNHCPortal);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

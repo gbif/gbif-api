@@ -144,177 +144,176 @@
 <span class="sourceLineNo">136</span>  }<a name="line.136"></a>
 <span class="sourceLineNo">137</span><a name="line.137"></a>
 <span class="sourceLineNo">138</span>  /**<a name="line.138"></a>
-<span class="sourceLineNo">139</span><a name="line.139"></a>
-<span class="sourceLineNo">140</span>   * Defines the fields to be highlighted if highlighting is activated.<a name="line.140"></a>
-<span class="sourceLineNo">141</span>   */<a name="line.141"></a>
-<span class="sourceLineNo">142</span>  public Set&lt;QueryField&gt; getHighlightFields() {<a name="line.142"></a>
-<span class="sourceLineNo">143</span>    return highlightFields;<a name="line.143"></a>
-<span class="sourceLineNo">144</span>  }<a name="line.144"></a>
-<span class="sourceLineNo">145</span><a name="line.145"></a>
-<span class="sourceLineNo">146</span>  public void setHighlightFields(Set&lt;QueryField&gt; highlightFields) {<a name="line.146"></a>
-<span class="sourceLineNo">147</span>    this.highlightFields = highlightFields;<a name="line.147"></a>
-<span class="sourceLineNo">148</span>  }<a name="line.148"></a>
-<span class="sourceLineNo">149</span><a name="line.149"></a>
-<span class="sourceLineNo">150</span>  /**<a name="line.150"></a>
-<span class="sourceLineNo">151</span>   * List of input parameters of the search operation.<a name="line.151"></a>
-<span class="sourceLineNo">152</span>   * The parameters are handled as the parameter name and the string representation of its value.<a name="line.152"></a>
-<span class="sourceLineNo">153</span>   *<a name="line.153"></a>
-<span class="sourceLineNo">154</span>   * @return the list of parameters<a name="line.154"></a>
-<span class="sourceLineNo">155</span>   */<a name="line.155"></a>
-<span class="sourceLineNo">156</span>  public Map&lt;P, Set&lt;String&gt;&gt; getParameters() {<a name="line.156"></a>
-<span class="sourceLineNo">157</span>    return parameters;<a name="line.157"></a>
-<span class="sourceLineNo">158</span>  }<a name="line.158"></a>
-<span class="sourceLineNo">159</span><a name="line.159"></a>
-<span class="sourceLineNo">160</span>  /**<a name="line.160"></a>
-<span class="sourceLineNo">161</span>   * Sets the list of parameters.<a name="line.161"></a>
-<span class="sourceLineNo">162</span>   */<a name="line.162"></a>
-<span class="sourceLineNo">163</span>  public void setParameters(Map&lt;P, Set&lt;String&gt;&gt; parameters) {<a name="line.163"></a>
-<span class="sourceLineNo">164</span>    this.parameters = parameters;<a name="line.164"></a>
-<span class="sourceLineNo">165</span>  }<a name="line.165"></a>
-<span class="sourceLineNo">166</span><a name="line.166"></a>
-<span class="sourceLineNo">167</span>  /**<a name="line.167"></a>
-<span class="sourceLineNo">168</span>   * Query parameter.<a name="line.168"></a>
-<span class="sourceLineNo">169</span>   *<a name="line.169"></a>
-<span class="sourceLineNo">170</span>   * @return the q<a name="line.170"></a>
-<span class="sourceLineNo">171</span>   */<a name="line.171"></a>
-<span class="sourceLineNo">172</span>  public String getQ() {<a name="line.172"></a>
-<span class="sourceLineNo">173</span>    return q;<a name="line.173"></a>
-<span class="sourceLineNo">174</span>  }<a name="line.174"></a>
-<span class="sourceLineNo">175</span><a name="line.175"></a>
-<span class="sourceLineNo">176</span>  /**<a name="line.176"></a>
-<span class="sourceLineNo">177</span>   * @param q the q to set<a name="line.177"></a>
-<span class="sourceLineNo">178</span>   */<a name="line.178"></a>
-<span class="sourceLineNo">179</span>  public void setQ(String q) {<a name="line.179"></a>
-<span class="sourceLineNo">180</span>    this.q = q;<a name="line.180"></a>
-<span class="sourceLineNo">181</span>  }<a name="line.181"></a>
-<span class="sourceLineNo">182</span><a name="line.182"></a>
-<span class="sourceLineNo">183</span>  /**<a name="line.183"></a>
-<span class="sourceLineNo">184</span>   * Adds the specified parameter.<a name="line.184"></a>
-<span class="sourceLineNo">185</span>   *<a name="line.185"></a>
-<span class="sourceLineNo">186</span>   * @param parameter parameter to add values for<a name="line.186"></a>
-<span class="sourceLineNo">187</span>   * @param values    list of values of the parameter to add<a name="line.187"></a>
-<span class="sourceLineNo">188</span>   */<a name="line.188"></a>
-<span class="sourceLineNo">189</span>  public void addParameter(P parameter, Iterable&lt;String&gt; values) {<a name="line.189"></a>
-<span class="sourceLineNo">190</span>    if (parameters.containsKey(parameter)) {<a name="line.190"></a>
-<span class="sourceLineNo">191</span>      Set&lt;String&gt; paramValues = parameters.get(parameter);<a name="line.191"></a>
-<span class="sourceLineNo">192</span>      values.forEach(paramValues::add);<a name="line.192"></a>
-<span class="sourceLineNo">193</span>    } else {<a name="line.193"></a>
-<span class="sourceLineNo">194</span>      Set&lt;String&gt; paramValues = new HashSet&lt;&gt;();<a name="line.194"></a>
-<span class="sourceLineNo">195</span>      values.forEach(paramValues::add);<a name="line.195"></a>
-<span class="sourceLineNo">196</span>      parameters.put(parameter, paramValues);<a name="line.196"></a>
-<span class="sourceLineNo">197</span>    }<a name="line.197"></a>
-<span class="sourceLineNo">198</span>  }<a name="line.198"></a>
-<span class="sourceLineNo">199</span><a name="line.199"></a>
-<span class="sourceLineNo">200</span>  /**<a name="line.200"></a>
-<span class="sourceLineNo">201</span>   * Adds the specified parameter.<a name="line.201"></a>
-<span class="sourceLineNo">202</span>   *<a name="line.202"></a>
-<span class="sourceLineNo">203</span>   * @param parameter parameter to add values for<a name="line.203"></a>
-<span class="sourceLineNo">204</span>   * @param values    list of values of the parameter to add<a name="line.204"></a>
-<span class="sourceLineNo">205</span>   */<a name="line.205"></a>
-<span class="sourceLineNo">206</span>  public void addParameter(P parameter, String... values) {<a name="line.206"></a>
-<span class="sourceLineNo">207</span>    for (String value : values) {<a name="line.207"></a>
-<span class="sourceLineNo">208</span>      addParameter(parameter, value);<a name="line.208"></a>
-<span class="sourceLineNo">209</span>    }<a name="line.209"></a>
-<span class="sourceLineNo">210</span>  }<a name="line.210"></a>
-<span class="sourceLineNo">211</span><a name="line.211"></a>
-<span class="sourceLineNo">212</span>  /**<a name="line.212"></a>
-<span class="sourceLineNo">213</span>   * Adds the specified parameter.<a name="line.213"></a>
-<span class="sourceLineNo">214</span>   *<a name="line.214"></a>
-<span class="sourceLineNo">215</span>   * @param parameter parameter to add values for<a name="line.215"></a>
-<span class="sourceLineNo">216</span>   * @param value     value of the parameter to add<a name="line.216"></a>
-<span class="sourceLineNo">217</span>   */<a name="line.217"></a>
-<span class="sourceLineNo">218</span>  public void addParameter(P parameter, String value) {<a name="line.218"></a>
-<span class="sourceLineNo">219</span>    if (value != null) {<a name="line.219"></a>
-<span class="sourceLineNo">220</span>      if (parameters.containsKey(parameter)) {<a name="line.220"></a>
-<span class="sourceLineNo">221</span>        Set&lt;String&gt; paramValues = parameters.get(parameter);<a name="line.221"></a>
-<span class="sourceLineNo">222</span>        paramValues.add(value);<a name="line.222"></a>
-<span class="sourceLineNo">223</span>      } else {<a name="line.223"></a>
-<span class="sourceLineNo">224</span>        Set&lt;String&gt; paramValues = new HashSet&lt;&gt;();<a name="line.224"></a>
-<span class="sourceLineNo">225</span>        paramValues.add(value);<a name="line.225"></a>
-<span class="sourceLineNo">226</span>        parameters.put(parameter, paramValues);<a name="line.226"></a>
-<span class="sourceLineNo">227</span>      }<a name="line.227"></a>
-<span class="sourceLineNo">228</span>    }<a name="line.228"></a>
-<span class="sourceLineNo">229</span>  }<a name="line.229"></a>
-<span class="sourceLineNo">230</span><a name="line.230"></a>
-<span class="sourceLineNo">231</span>  /**<a name="line.231"></a>
-<span class="sourceLineNo">232</span>   * Adds the specified long parameter.<a name="line.232"></a>
-<span class="sourceLineNo">233</span>   *<a name="line.233"></a>
-<span class="sourceLineNo">234</span>   * @param parameter parameter to add values for<a name="line.234"></a>
-<span class="sourceLineNo">235</span>   * @param value     value of the parameter to add<a name="line.235"></a>
-<span class="sourceLineNo">236</span>   */<a name="line.236"></a>
-<span class="sourceLineNo">237</span>  public void addParameter(P parameter, long value) {<a name="line.237"></a>
-<span class="sourceLineNo">238</span>    addParameter(parameter, String.valueOf(value));<a name="line.238"></a>
-<span class="sourceLineNo">239</span>  }<a name="line.239"></a>
-<span class="sourceLineNo">240</span><a name="line.240"></a>
-<span class="sourceLineNo">241</span>  /**<a name="line.241"></a>
-<span class="sourceLineNo">242</span>   * Adds the specified int parameter.<a name="line.242"></a>
-<span class="sourceLineNo">243</span>   *<a name="line.243"></a>
-<span class="sourceLineNo">244</span>   * @param parameter parameter to add values for<a name="line.244"></a>
-<span class="sourceLineNo">245</span>   * @param value     value of the parameter to add<a name="line.245"></a>
-<span class="sourceLineNo">246</span>   */<a name="line.246"></a>
-<span class="sourceLineNo">247</span>  public void addParameter(P parameter, int value) {<a name="line.247"></a>
-<span class="sourceLineNo">248</span>    addParameter(parameter, String.valueOf(value));<a name="line.248"></a>
-<span class="sourceLineNo">249</span>  }<a name="line.249"></a>
-<span class="sourceLineNo">250</span><a name="line.250"></a>
-<span class="sourceLineNo">251</span>  /**<a name="line.251"></a>
-<span class="sourceLineNo">252</span>   * Adds the specified double parameter.<a name="line.252"></a>
-<span class="sourceLineNo">253</span>   *<a name="line.253"></a>
-<span class="sourceLineNo">254</span>   * @param parameter parameter to add values for<a name="line.254"></a>
-<span class="sourceLineNo">255</span>   * @param value     value of the parameter to add<a name="line.255"></a>
-<span class="sourceLineNo">256</span>   */<a name="line.256"></a>
-<span class="sourceLineNo">257</span>  public void addParameter(P parameter, double value) {<a name="line.257"></a>
-<span class="sourceLineNo">258</span>    addParameter(parameter, String.valueOf(value));<a name="line.258"></a>
-<span class="sourceLineNo">259</span>  }<a name="line.259"></a>
-<span class="sourceLineNo">260</span><a name="line.260"></a>
-<span class="sourceLineNo">261</span>  /**<a name="line.261"></a>
-<span class="sourceLineNo">262</span>   * Adds the specified boolean parameter.<a name="line.262"></a>
-<span class="sourceLineNo">263</span>   *<a name="line.263"></a>
-<span class="sourceLineNo">264</span>   * @param parameter parameter to add values for<a name="line.264"></a>
-<span class="sourceLineNo">265</span>   * @param value     value of the parameter to add<a name="line.265"></a>
-<span class="sourceLineNo">266</span>   */<a name="line.266"></a>
-<span class="sourceLineNo">267</span>  public void addParameter(P parameter, boolean value) {<a name="line.267"></a>
-<span class="sourceLineNo">268</span>    addParameter(parameter, String.valueOf(value));<a name="line.268"></a>
-<span class="sourceLineNo">269</span>  }<a name="line.269"></a>
-<span class="sourceLineNo">270</span><a name="line.270"></a>
-<span class="sourceLineNo">271</span>  /**<a name="line.271"></a>
-<span class="sourceLineNo">272</span>   * Adds the specified parameter.<a name="line.272"></a>
-<span class="sourceLineNo">273</span>   *<a name="line.273"></a>
-<span class="sourceLineNo">274</span>   * @param parameter parameter to add values for<a name="line.274"></a>
-<span class="sourceLineNo">275</span>   * @param value     enum value of the parameter to add<a name="line.275"></a>
-<span class="sourceLineNo">276</span>   */<a name="line.276"></a>
-<span class="sourceLineNo">277</span>  public void addParameter(P parameter, Enum&lt;?&gt; value) {<a name="line.277"></a>
-<span class="sourceLineNo">278</span>    if (value != null) {<a name="line.278"></a>
-<span class="sourceLineNo">279</span>      addParameter(parameter, value.name());<a name="line.279"></a>
-<span class="sourceLineNo">280</span>    }<a name="line.280"></a>
-<span class="sourceLineNo">281</span>  }<a name="line.281"></a>
-<span class="sourceLineNo">282</span><a name="line.282"></a>
-<span class="sourceLineNo">283</span>  /**<a name="line.283"></a>
-<span class="sourceLineNo">284</span>   * Adds the specified date parameter as an ISO date.<a name="line.284"></a>
-<span class="sourceLineNo">285</span>   *<a name="line.285"></a>
-<span class="sourceLineNo">286</span>   * @param parameter parameter to add date for<a name="line.286"></a>
-<span class="sourceLineNo">287</span>   * @param value     date value of the parameter to add<a name="line.287"></a>
-<span class="sourceLineNo">288</span>   */<a name="line.288"></a>
-<span class="sourceLineNo">289</span>  public void addParameter(P parameter, Date value) {<a name="line.289"></a>
-<span class="sourceLineNo">290</span>    if (value != null) {<a name="line.290"></a>
-<span class="sourceLineNo">291</span>      // not thread safe, new instance<a name="line.291"></a>
-<span class="sourceLineNo">292</span>      DateFormat iso = new SimpleDateFormat("yyyy-MM-dd");<a name="line.292"></a>
-<span class="sourceLineNo">293</span>      addParameter(parameter, iso.format(value));<a name="line.293"></a>
-<span class="sourceLineNo">294</span>    }<a name="line.294"></a>
-<span class="sourceLineNo">295</span>  }<a name="line.295"></a>
-<span class="sourceLineNo">296</span><a name="line.296"></a>
-<span class="sourceLineNo">297</span>  @Override<a name="line.297"></a>
-<span class="sourceLineNo">298</span>  public String toString() {<a name="line.298"></a>
-<span class="sourceLineNo">299</span>    return new StringJoiner(", ", SearchRequest.class.getSimpleName() + "[", "]")<a name="line.299"></a>
-<span class="sourceLineNo">300</span>      .add("parameters=" + parameters)<a name="line.300"></a>
-<span class="sourceLineNo">301</span>      .add("q='" + q + "'")<a name="line.301"></a>
-<span class="sourceLineNo">302</span>      .add("highlight=" + highlight)<a name="line.302"></a>
-<span class="sourceLineNo">303</span>      .add("spellCheck=" + spellCheck)<a name="line.303"></a>
-<span class="sourceLineNo">304</span>      .add("spellCheckCount=" + spellCheckCount)<a name="line.304"></a>
-<span class="sourceLineNo">305</span>      .add("offset=" + offset)<a name="line.305"></a>
-<span class="sourceLineNo">306</span>      .add("limit=" + limit)<a name="line.306"></a>
-<span class="sourceLineNo">307</span>      .toString();<a name="line.307"></a>
-<span class="sourceLineNo">308</span>  }<a name="line.308"></a>
-<span class="sourceLineNo">309</span>}<a name="line.309"></a>
+<span class="sourceLineNo">139</span>   * Defines the fields to be highlighted if highlighting is activated.<a name="line.139"></a>
+<span class="sourceLineNo">140</span>   */<a name="line.140"></a>
+<span class="sourceLineNo">141</span>  public Set&lt;QueryField&gt; getHighlightFields() {<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    return highlightFields;<a name="line.142"></a>
+<span class="sourceLineNo">143</span>  }<a name="line.143"></a>
+<span class="sourceLineNo">144</span><a name="line.144"></a>
+<span class="sourceLineNo">145</span>  public void setHighlightFields(Set&lt;QueryField&gt; highlightFields) {<a name="line.145"></a>
+<span class="sourceLineNo">146</span>    this.highlightFields = highlightFields;<a name="line.146"></a>
+<span class="sourceLineNo">147</span>  }<a name="line.147"></a>
+<span class="sourceLineNo">148</span><a name="line.148"></a>
+<span class="sourceLineNo">149</span>  /**<a name="line.149"></a>
+<span class="sourceLineNo">150</span>   * List of input parameters of the search operation.<a name="line.150"></a>
+<span class="sourceLineNo">151</span>   * The parameters are handled as the parameter name and the string representation of its value.<a name="line.151"></a>
+<span class="sourceLineNo">152</span>   *<a name="line.152"></a>
+<span class="sourceLineNo">153</span>   * @return the list of parameters<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   */<a name="line.154"></a>
+<span class="sourceLineNo">155</span>  public Map&lt;P, Set&lt;String&gt;&gt; getParameters() {<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    return parameters;<a name="line.156"></a>
+<span class="sourceLineNo">157</span>  }<a name="line.157"></a>
+<span class="sourceLineNo">158</span><a name="line.158"></a>
+<span class="sourceLineNo">159</span>  /**<a name="line.159"></a>
+<span class="sourceLineNo">160</span>   * Sets the list of parameters.<a name="line.160"></a>
+<span class="sourceLineNo">161</span>   */<a name="line.161"></a>
+<span class="sourceLineNo">162</span>  public void setParameters(Map&lt;P, Set&lt;String&gt;&gt; parameters) {<a name="line.162"></a>
+<span class="sourceLineNo">163</span>    this.parameters = parameters;<a name="line.163"></a>
+<span class="sourceLineNo">164</span>  }<a name="line.164"></a>
+<span class="sourceLineNo">165</span><a name="line.165"></a>
+<span class="sourceLineNo">166</span>  /**<a name="line.166"></a>
+<span class="sourceLineNo">167</span>   * Query parameter.<a name="line.167"></a>
+<span class="sourceLineNo">168</span>   *<a name="line.168"></a>
+<span class="sourceLineNo">169</span>   * @return the q<a name="line.169"></a>
+<span class="sourceLineNo">170</span>   */<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  public String getQ() {<a name="line.171"></a>
+<span class="sourceLineNo">172</span>    return q;<a name="line.172"></a>
+<span class="sourceLineNo">173</span>  }<a name="line.173"></a>
+<span class="sourceLineNo">174</span><a name="line.174"></a>
+<span class="sourceLineNo">175</span>  /**<a name="line.175"></a>
+<span class="sourceLineNo">176</span>   * @param q the q to set<a name="line.176"></a>
+<span class="sourceLineNo">177</span>   */<a name="line.177"></a>
+<span class="sourceLineNo">178</span>  public void setQ(String q) {<a name="line.178"></a>
+<span class="sourceLineNo">179</span>    this.q = q;<a name="line.179"></a>
+<span class="sourceLineNo">180</span>  }<a name="line.180"></a>
+<span class="sourceLineNo">181</span><a name="line.181"></a>
+<span class="sourceLineNo">182</span>  /**<a name="line.182"></a>
+<span class="sourceLineNo">183</span>   * Adds the specified parameter.<a name="line.183"></a>
+<span class="sourceLineNo">184</span>   *<a name="line.184"></a>
+<span class="sourceLineNo">185</span>   * @param parameter parameter to add values for<a name="line.185"></a>
+<span class="sourceLineNo">186</span>   * @param values    list of values of the parameter to add<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   */<a name="line.187"></a>
+<span class="sourceLineNo">188</span>  public void addParameter(P parameter, Iterable&lt;String&gt; values) {<a name="line.188"></a>
+<span class="sourceLineNo">189</span>    if (parameters.containsKey(parameter)) {<a name="line.189"></a>
+<span class="sourceLineNo">190</span>      Set&lt;String&gt; paramValues = parameters.get(parameter);<a name="line.190"></a>
+<span class="sourceLineNo">191</span>      values.forEach(paramValues::add);<a name="line.191"></a>
+<span class="sourceLineNo">192</span>    } else {<a name="line.192"></a>
+<span class="sourceLineNo">193</span>      Set&lt;String&gt; paramValues = new HashSet&lt;&gt;();<a name="line.193"></a>
+<span class="sourceLineNo">194</span>      values.forEach(paramValues::add);<a name="line.194"></a>
+<span class="sourceLineNo">195</span>      parameters.put(parameter, paramValues);<a name="line.195"></a>
+<span class="sourceLineNo">196</span>    }<a name="line.196"></a>
+<span class="sourceLineNo">197</span>  }<a name="line.197"></a>
+<span class="sourceLineNo">198</span><a name="line.198"></a>
+<span class="sourceLineNo">199</span>  /**<a name="line.199"></a>
+<span class="sourceLineNo">200</span>   * Adds the specified parameter.<a name="line.200"></a>
+<span class="sourceLineNo">201</span>   *<a name="line.201"></a>
+<span class="sourceLineNo">202</span>   * @param parameter parameter to add values for<a name="line.202"></a>
+<span class="sourceLineNo">203</span>   * @param values    list of values of the parameter to add<a name="line.203"></a>
+<span class="sourceLineNo">204</span>   */<a name="line.204"></a>
+<span class="sourceLineNo">205</span>  public void addParameter(P parameter, String... values) {<a name="line.205"></a>
+<span class="sourceLineNo">206</span>    for (String value : values) {<a name="line.206"></a>
+<span class="sourceLineNo">207</span>      addParameter(parameter, value);<a name="line.207"></a>
+<span class="sourceLineNo">208</span>    }<a name="line.208"></a>
+<span class="sourceLineNo">209</span>  }<a name="line.209"></a>
+<span class="sourceLineNo">210</span><a name="line.210"></a>
+<span class="sourceLineNo">211</span>  /**<a name="line.211"></a>
+<span class="sourceLineNo">212</span>   * Adds the specified parameter.<a name="line.212"></a>
+<span class="sourceLineNo">213</span>   *<a name="line.213"></a>
+<span class="sourceLineNo">214</span>   * @param parameter parameter to add values for<a name="line.214"></a>
+<span class="sourceLineNo">215</span>   * @param value     value of the parameter to add<a name="line.215"></a>
+<span class="sourceLineNo">216</span>   */<a name="line.216"></a>
+<span class="sourceLineNo">217</span>  public void addParameter(P parameter, String value) {<a name="line.217"></a>
+<span class="sourceLineNo">218</span>    if (value != null) {<a name="line.218"></a>
+<span class="sourceLineNo">219</span>      if (parameters.containsKey(parameter)) {<a name="line.219"></a>
+<span class="sourceLineNo">220</span>        Set&lt;String&gt; paramValues = parameters.get(parameter);<a name="line.220"></a>
+<span class="sourceLineNo">221</span>        paramValues.add(value);<a name="line.221"></a>
+<span class="sourceLineNo">222</span>      } else {<a name="line.222"></a>
+<span class="sourceLineNo">223</span>        Set&lt;String&gt; paramValues = new HashSet&lt;&gt;();<a name="line.223"></a>
+<span class="sourceLineNo">224</span>        paramValues.add(value);<a name="line.224"></a>
+<span class="sourceLineNo">225</span>        parameters.put(parameter, paramValues);<a name="line.225"></a>
+<span class="sourceLineNo">226</span>      }<a name="line.226"></a>
+<span class="sourceLineNo">227</span>    }<a name="line.227"></a>
+<span class="sourceLineNo">228</span>  }<a name="line.228"></a>
+<span class="sourceLineNo">229</span><a name="line.229"></a>
+<span class="sourceLineNo">230</span>  /**<a name="line.230"></a>
+<span class="sourceLineNo">231</span>   * Adds the specified long parameter.<a name="line.231"></a>
+<span class="sourceLineNo">232</span>   *<a name="line.232"></a>
+<span class="sourceLineNo">233</span>   * @param parameter parameter to add values for<a name="line.233"></a>
+<span class="sourceLineNo">234</span>   * @param value     value of the parameter to add<a name="line.234"></a>
+<span class="sourceLineNo">235</span>   */<a name="line.235"></a>
+<span class="sourceLineNo">236</span>  public void addParameter(P parameter, long value) {<a name="line.236"></a>
+<span class="sourceLineNo">237</span>    addParameter(parameter, String.valueOf(value));<a name="line.237"></a>
+<span class="sourceLineNo">238</span>  }<a name="line.238"></a>
+<span class="sourceLineNo">239</span><a name="line.239"></a>
+<span class="sourceLineNo">240</span>  /**<a name="line.240"></a>
+<span class="sourceLineNo">241</span>   * Adds the specified int parameter.<a name="line.241"></a>
+<span class="sourceLineNo">242</span>   *<a name="line.242"></a>
+<span class="sourceLineNo">243</span>   * @param parameter parameter to add values for<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   * @param value     value of the parameter to add<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   */<a name="line.245"></a>
+<span class="sourceLineNo">246</span>  public void addParameter(P parameter, int value) {<a name="line.246"></a>
+<span class="sourceLineNo">247</span>    addParameter(parameter, String.valueOf(value));<a name="line.247"></a>
+<span class="sourceLineNo">248</span>  }<a name="line.248"></a>
+<span class="sourceLineNo">249</span><a name="line.249"></a>
+<span class="sourceLineNo">250</span>  /**<a name="line.250"></a>
+<span class="sourceLineNo">251</span>   * Adds the specified double parameter.<a name="line.251"></a>
+<span class="sourceLineNo">252</span>   *<a name="line.252"></a>
+<span class="sourceLineNo">253</span>   * @param parameter parameter to add values for<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   * @param value     value of the parameter to add<a name="line.254"></a>
+<span class="sourceLineNo">255</span>   */<a name="line.255"></a>
+<span class="sourceLineNo">256</span>  public void addParameter(P parameter, double value) {<a name="line.256"></a>
+<span class="sourceLineNo">257</span>    addParameter(parameter, String.valueOf(value));<a name="line.257"></a>
+<span class="sourceLineNo">258</span>  }<a name="line.258"></a>
+<span class="sourceLineNo">259</span><a name="line.259"></a>
+<span class="sourceLineNo">260</span>  /**<a name="line.260"></a>
+<span class="sourceLineNo">261</span>   * Adds the specified boolean parameter.<a name="line.261"></a>
+<span class="sourceLineNo">262</span>   *<a name="line.262"></a>
+<span class="sourceLineNo">263</span>   * @param parameter parameter to add values for<a name="line.263"></a>
+<span class="sourceLineNo">264</span>   * @param value     value of the parameter to add<a name="line.264"></a>
+<span class="sourceLineNo">265</span>   */<a name="line.265"></a>
+<span class="sourceLineNo">266</span>  public void addParameter(P parameter, boolean value) {<a name="line.266"></a>
+<span class="sourceLineNo">267</span>    addParameter(parameter, String.valueOf(value));<a name="line.267"></a>
+<span class="sourceLineNo">268</span>  }<a name="line.268"></a>
+<span class="sourceLineNo">269</span><a name="line.269"></a>
+<span class="sourceLineNo">270</span>  /**<a name="line.270"></a>
+<span class="sourceLineNo">271</span>   * Adds the specified parameter.<a name="line.271"></a>
+<span class="sourceLineNo">272</span>   *<a name="line.272"></a>
+<span class="sourceLineNo">273</span>   * @param parameter parameter to add values for<a name="line.273"></a>
+<span class="sourceLineNo">274</span>   * @param value     enum value of the parameter to add<a name="line.274"></a>
+<span class="sourceLineNo">275</span>   */<a name="line.275"></a>
+<span class="sourceLineNo">276</span>  public void addParameter(P parameter, Enum&lt;?&gt; value) {<a name="line.276"></a>
+<span class="sourceLineNo">277</span>    if (value != null) {<a name="line.277"></a>
+<span class="sourceLineNo">278</span>      addParameter(parameter, value.name());<a name="line.278"></a>
+<span class="sourceLineNo">279</span>    }<a name="line.279"></a>
+<span class="sourceLineNo">280</span>  }<a name="line.280"></a>
+<span class="sourceLineNo">281</span><a name="line.281"></a>
+<span class="sourceLineNo">282</span>  /**<a name="line.282"></a>
+<span class="sourceLineNo">283</span>   * Adds the specified date parameter as an ISO date.<a name="line.283"></a>
+<span class="sourceLineNo">284</span>   *<a name="line.284"></a>
+<span class="sourceLineNo">285</span>   * @param parameter parameter to add date for<a name="line.285"></a>
+<span class="sourceLineNo">286</span>   * @param value     date value of the parameter to add<a name="line.286"></a>
+<span class="sourceLineNo">287</span>   */<a name="line.287"></a>
+<span class="sourceLineNo">288</span>  public void addParameter(P parameter, Date value) {<a name="line.288"></a>
+<span class="sourceLineNo">289</span>    if (value != null) {<a name="line.289"></a>
+<span class="sourceLineNo">290</span>      // not thread safe, new instance<a name="line.290"></a>
+<span class="sourceLineNo">291</span>      DateFormat iso = new SimpleDateFormat("yyyy-MM-dd");<a name="line.291"></a>
+<span class="sourceLineNo">292</span>      addParameter(parameter, iso.format(value));<a name="line.292"></a>
+<span class="sourceLineNo">293</span>    }<a name="line.293"></a>
+<span class="sourceLineNo">294</span>  }<a name="line.294"></a>
+<span class="sourceLineNo">295</span><a name="line.295"></a>
+<span class="sourceLineNo">296</span>  @Override<a name="line.296"></a>
+<span class="sourceLineNo">297</span>  public String toString() {<a name="line.297"></a>
+<span class="sourceLineNo">298</span>    return new StringJoiner(", ", SearchRequest.class.getSimpleName() + "[", "]")<a name="line.298"></a>
+<span class="sourceLineNo">299</span>      .add("parameters=" + parameters)<a name="line.299"></a>
+<span class="sourceLineNo">300</span>      .add("q='" + q + "'")<a name="line.300"></a>
+<span class="sourceLineNo">301</span>      .add("highlight=" + highlight)<a name="line.301"></a>
+<span class="sourceLineNo">302</span>      .add("spellCheck=" + spellCheck)<a name="line.302"></a>
+<span class="sourceLineNo">303</span>      .add("spellCheckCount=" + spellCheckCount)<a name="line.303"></a>
+<span class="sourceLineNo">304</span>      .add("offset=" + offset)<a name="line.304"></a>
+<span class="sourceLineNo">305</span>      .add("limit=" + limit)<a name="line.305"></a>
+<span class="sourceLineNo">306</span>      .toString();<a name="line.306"></a>
+<span class="sourceLineNo">307</span>  }<a name="line.307"></a>
+<span class="sourceLineNo">308</span>}<a name="line.308"></a>
 
 
 
