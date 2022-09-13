@@ -15,15 +15,15 @@
  */
 package org.gbif.api.model.collections.request;
 
+import java.io.Serializable;
+import java.util.UUID;
+
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PageableBase;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
-
-import java.io.Serializable;
-import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -44,6 +44,8 @@ public abstract class SearchRequest extends PageableBase implements Serializable
   @Nullable private String fuzzyName;
   @Nullable private Boolean active;
   @Nullable private MasterSourceType masterSourceType;
+  @Nullable private String numberSpecimens;
+  @Nullable private Boolean displayOnNHCPortal;
 
   @Nullable
   public String getQ() {
@@ -178,6 +180,23 @@ public abstract class SearchRequest extends PageableBase implements Serializable
 
   public void setMasterSourceType(@Nullable MasterSourceType masterSourceType) {
     this.masterSourceType = masterSourceType;
+  }
+
+  @Nullable
+  public String getNumberSpecimens() {
+    return numberSpecimens;
+  }
+
+  public void setNumberSpecimens(@Nullable String numberSpecimens) {
+    this.numberSpecimens = numberSpecimens;
+  }
+
+  public Boolean getDisplayOnNHCPortal() {
+    return displayOnNHCPortal;
+  }
+
+  public void setDisplayOnNHCPortal(Boolean displayOnNHCPortal) {
+    this.displayOnNHCPortal = displayOnNHCPortal;
   }
 
   public Pageable getPage() {

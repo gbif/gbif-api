@@ -15,6 +15,9 @@
  */
 package org.gbif.api.model.collections.request;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
@@ -22,9 +25,6 @@ import org.gbif.api.vocabulary.collections.AccessionStatus;
 import org.gbif.api.vocabulary.collections.CollectionContentType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
 import org.gbif.api.vocabulary.collections.PreservationType;
-
-import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -107,6 +107,8 @@ public class CollectionSearchRequest extends SearchRequest {
     AccessionStatus accessionStatus;
     Boolean personalCollection;
     MasterSourceType masterSourceType;
+    String numberSpecimens;
+    Boolean displayOnNHCPortal;
     Pageable page;
 
     public Builder institution(UUID institution) {
@@ -209,6 +211,16 @@ public class CollectionSearchRequest extends SearchRequest {
       return this;
     }
 
+    public Builder numberSpecimens(String numberSpecimens) {
+      this.numberSpecimens = numberSpecimens;
+      return this;
+    }
+
+    public Builder displayOnNHCPortal(boolean displayOnNHCPortal) {
+      this.displayOnNHCPortal = displayOnNHCPortal;
+      return this;
+    }
+
     public Builder page(Pageable page) {
       this.page = page;
       return this;
@@ -236,6 +248,8 @@ public class CollectionSearchRequest extends SearchRequest {
       req.setAccessionStatus(accessionStatus);
       req.setPersonalCollection(personalCollection);
       req.setMasterSourceType(masterSourceType);
+      req.setNumberSpecimens(numberSpecimens);
+      req.setDisplayOnNHCPortal(displayOnNHCPortal);
       if (page != null) {
         req.setLimit(page.getLimit());
         req.setOffset(page.getOffset());
