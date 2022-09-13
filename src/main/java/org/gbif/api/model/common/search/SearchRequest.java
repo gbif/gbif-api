@@ -136,7 +136,6 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
   }
 
   /**
-
    * Defines the fields to be highlighted if highlighting is activated.
    */
   public Set<QueryField> getHighlightFields() {

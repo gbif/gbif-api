@@ -15,7 +15,9 @@
  */
 package org.gbif.api.model.collections.request;
 
-import org.gbif.api.model.collections.request.CollectionSearchRequest.Builder;
+import java.util.List;
+import java.util.UUID;
+
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
@@ -23,9 +25,6 @@ import org.gbif.api.vocabulary.collections.Discipline;
 import org.gbif.api.vocabulary.collections.InstitutionGovernance;
 import org.gbif.api.vocabulary.collections.InstitutionType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
-
-import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -88,6 +87,8 @@ public class InstitutionSearchRequest extends SearchRequest {
     InstitutionGovernance institutionalGovernance;
     List<Discipline> disciplines;
     MasterSourceType masterSourceType;
+    String numberSpecimens;
+    Boolean displayOnNHCPortal;
     Pageable page;
 
     public Builder contact(UUID contact) {
@@ -180,6 +181,16 @@ public class InstitutionSearchRequest extends SearchRequest {
       return this;
     }
 
+    public Builder numberSpecimens(String numberSpecimens) {
+      this.numberSpecimens = numberSpecimens;
+      return this;
+    }
+
+    public Builder displayOnNHCPortal(boolean displayOnNHCPortal) {
+      this.displayOnNHCPortal = displayOnNHCPortal;
+      return this;
+    }
+
     public Builder page(Pageable page) {
       this.page = page;
       return this;
@@ -205,6 +216,8 @@ public class InstitutionSearchRequest extends SearchRequest {
       req.setInstitutionalGovernance(institutionalGovernance);
       req.setDisciplines(disciplines);
       req.setMasterSourceType(masterSourceType);
+      req.setNumberSpecimens(numberSpecimens);
+      req.setDisplayOnNHCPortal(displayOnNHCPortal);
       if (page != null) {
         req.setLimit(page.getLimit());
         req.setOffset(page.getOffset());

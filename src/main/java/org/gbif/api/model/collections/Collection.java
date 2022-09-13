@@ -164,6 +164,8 @@ public class Collection
   @Sourceable(masterSources = MasterSourceType.IH)
   private String division;
 
+  private Boolean displayOnNHCPortal;
+
   /** List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc.. */
   @Valid
   @Override
@@ -603,6 +605,16 @@ public class Collection
   }
 
   @Override
+  public Boolean getDisplayOnNHCPortal() {
+    return displayOnNHCPortal;
+  }
+
+  @Override
+  public void setDisplayOnNHCPortal(Boolean displayOnNHCPortal) {
+    this.displayOnNHCPortal = displayOnNHCPortal;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
@@ -650,7 +662,8 @@ public class Collection
         && Objects.equals(masterSource, that.masterSource)
         && Objects.equals(masterSourceMetadata, that.masterSourceMetadata)
         && Objects.equals(division, that.division)
-        && Objects.equals(department, that.department);
+        && Objects.equals(department, that.department)
+        && Objects.equals(displayOnNHCPortal, that.displayOnNHCPortal);
   }
 
   @Override
@@ -699,7 +712,8 @@ public class Collection
         masterSource,
         masterSourceMetadata,
         division,
-        department);
+        department,
+        displayOnNHCPortal);
   }
 
   @Override
@@ -749,6 +763,7 @@ public class Collection
         .add("masterSourceMetadata=" + masterSourceMetadata)
         .add("division=" + division)
         .add("department=" + department)
+        .add("displayOnNHCPortal=" + displayOnNHCPortal)
         .toString();
   }
 
@@ -791,6 +806,7 @@ public class Collection
         && Objects.equals(masterSource, other.masterSource)
         && Objects.equals(masterSourceMetadata, other.masterSourceMetadata)
         && Objects.equals(division, other.division)
-        && Objects.equals(department, other.department);
+        && Objects.equals(department, other.department)
+        && Objects.equals(displayOnNHCPortal, other.displayOnNHCPortal);
   }
 }

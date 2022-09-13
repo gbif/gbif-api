@@ -144,6 +144,8 @@ public class Institution
   private MasterSourceType masterSource;
   private MasterSourceMetadata masterSourceMetadata;
 
+  private Boolean displayOnNHCPortal;
+
   /** GBIF unique identifier. */
   @Override
   public UUID getKey() {
@@ -572,6 +574,16 @@ public class Institution
   }
 
   @Override
+  public Boolean getDisplayOnNHCPortal() {
+    return displayOnNHCPortal;
+  }
+
+  @Override
+  public void setDisplayOnNHCPortal(Boolean displayOnNHCPortal) {
+    this.displayOnNHCPortal = displayOnNHCPortal;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
@@ -617,7 +629,8 @@ public class Institution
         && Objects.equals(replacedBy, that.replacedBy)
         && Objects.equals(convertedToCollection, that.convertedToCollection)
         && Objects.equals(masterSource, that.masterSource)
-        && Objects.equals(masterSourceMetadata, that.masterSourceMetadata);
+        && Objects.equals(masterSourceMetadata, that.masterSourceMetadata)
+        && Objects.equals(displayOnNHCPortal, that.displayOnNHCPortal);
   }
 
   @Override
@@ -664,7 +677,8 @@ public class Institution
         replacedBy,
         convertedToCollection,
         masterSource,
-        masterSourceMetadata);
+        masterSourceMetadata,
+        displayOnNHCPortal);
   }
 
   @Override
@@ -712,6 +726,7 @@ public class Institution
         .add("convertedToCollection=" + convertedToCollection)
         .add("masterSource=" + masterSource)
         .add("masterSourceMetadata=" + masterSourceMetadata)
+        .add("displayOnNHCPortal=" + displayOnNHCPortal)
         .toString();
   }
 
@@ -752,6 +767,7 @@ public class Institution
         && Objects.equals(replacedBy, other.replacedBy)
         && Objects.equals(convertedToCollection, other.convertedToCollection)
         && Objects.equals(masterSource, other.masterSource)
-        && Objects.equals(masterSourceMetadata, other.masterSourceMetadata);
+        && Objects.equals(masterSourceMetadata, other.masterSourceMetadata)
+        && Objects.equals(displayOnNHCPortal, other.displayOnNHCPortal);
   }
 }

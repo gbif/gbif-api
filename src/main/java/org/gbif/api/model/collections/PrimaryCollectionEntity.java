@@ -13,10 +13,10 @@
  */
 package org.gbif.api.model.collections;
 
+import java.util.UUID;
+
 import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
-
-import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -61,4 +61,9 @@ public interface PrimaryCollectionEntity extends CollectionEntity {
   MasterSourceMetadata getMasterSourceMetadata();
 
   void setMasterSourceMetadata(MasterSourceMetadata masterSourceMetadata);
+
+  /** Flag to display the entity in the NHC portal. */
+  Boolean getDisplayOnNHCPortal();
+
+  void setDisplayOnNHCPortal(Boolean displayOnNHCPortal);
 }
