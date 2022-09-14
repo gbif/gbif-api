@@ -11,20 +11,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gbif.api.jackson;
+package org.gbif.api.model.event;
 
-import org.gbif.api.vocabulary.Extension;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.io.IOException;
+/**
+ * Lineage class to represent relations between events.
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Lineage {
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
+  private String id;
+  private String eventID;
+  private String parentEventID;
 
-public class ExtensionSerializer extends JsonSerializer<Extension> {
-
-  @Override
-  public void serialize(Extension value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-    jgen.writeString(value.getRowType());
-  }
 }
