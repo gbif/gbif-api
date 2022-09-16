@@ -189,13 +189,13 @@ public enum Extension {
   /**
    * @see <a href="http://rs.gbif.org/extension/gbif/1.0/dna_derived_data_2022-02-23.xml">extension definition</a>
    */
-  DNA_DERIVED_DATA("    http://rs.gbif.org/terms/1.0/DNADerivedData");
+  DNA_DERIVED_DATA("http://rs.gbif.org/terms/1.0/DNADerivedData");
 
 
   private final String rowType;
 
   /**
-   * @param rowType the case insensitive row type uri for the extension
+   * @param rowType the case-insensitive row type uri for the extension
    * @return the matching extension or null
    */
   public static Extension fromRowType(String rowType) {
