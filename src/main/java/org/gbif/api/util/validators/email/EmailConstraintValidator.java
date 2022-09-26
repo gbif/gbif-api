@@ -10,13 +10,19 @@ public class EmailConstraintValidator implements ConstraintValidator<ValidEmail,
 
   private static final EmailValidator EMAIL_VALIDATOR = EmailValidator.getInstance();
 
+  private ValidEmail annotation;
+
   @Override
   public void initialize(ValidEmail constraintAnnotation) {
     ConstraintValidator.super.initialize(constraintAnnotation);
+    this.annotation = annotation;
   }
 
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
+    if (!annotation.required() && value == null) {
+      return true;
+    }
     return EMAIL_VALIDATOR.isValid(value);
   }
 }
