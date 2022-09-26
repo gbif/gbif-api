@@ -184,13 +184,18 @@ public enum Extension {
   /**
    * @see <a href="http://rs.gbif.org/extension/zooarchnet/chronometricDate.xml">extension definition</a>
    */
-  CHRONOMETRIC_DATE("http://zooarchnet.org/dwc/terms/ChronometricDate");
+  CHRONOMETRIC_DATE("http://zooarchnet.org/dwc/terms/ChronometricDate"),
+
+  /**
+   * @see <a href="http://rs.gbif.org/extension/gbif/1.0/dna_derived_data_2022-02-23.xml">extension definition</a>
+   */
+  DNA_DERIVED_DATA("http://rs.gbif.org/terms/1.0/DNADerivedData");
 
 
   private final String rowType;
 
   /**
-   * @param rowType the case insensitive row type uri for the extension
+   * @param rowType the case-insensitive row type uri for the extension
    * @return the matching extension or null
    */
   public static Extension fromRowType(String rowType) {
@@ -216,8 +221,8 @@ public enum Extension {
   private static final Map<Extension, String> AVAILABLE_EXTENSION_MAP = new EnumMap<>(Extension.class);
 
   static {
-    AVAILABLE_EXTENSION_MAP.put(AUDUBON, "https://rs.gbif.org/extension/ac/audubon_2020_10_06.xml");
-    AVAILABLE_EXTENSION_MAP.put(IMAGE, "https://rs.gbif.org/extension/gbif/1.0/images.xml");
+    AVAILABLE_EXTENSION_MAP.put(AUDUBON, "http://rs.gbif.org/extension/ac/audubon_2020_10_06.xml");
+    AVAILABLE_EXTENSION_MAP.put(IMAGE, "http://rs.gbif.org/extension/gbif/1.0/images.xml");
     AVAILABLE_EXTENSION_MAP.put(MULTIMEDIA, "http://rs.gbif.org/extension/gbif/1.0/multimedia.xml");
     AVAILABLE_EXTENSION_MAP.put(MEASUREMENT_OR_FACT, "http://rs.gbif.org/extension/dwc/measurements_or_facts.xml");
     AVAILABLE_EXTENSION_MAP.put(IDENTIFICATION, "http://rs.gbif.org/extension/dwc/identification.xml");
@@ -238,6 +243,7 @@ public enum Extension {
     AVAILABLE_EXTENSION_MAP.put(CHRONOMETRIC_AGE, "http://rs.gbif.org/extension/dwc/ChronometricAge_2021-03-27.xml");
     AVAILABLE_EXTENSION_MAP.put(REFERENCE, "http://rs.gbif.org/extension/gbif/1.0/references.xml");
     AVAILABLE_EXTENSION_MAP.put(IDENTIFIER, "http://rs.gbif.org/extension/gbif/1.0/identifier.xml");
+    AVAILABLE_EXTENSION_MAP.put(DNA_DERIVED_DATA, "http://rs.gbif.org/extension/gbif/1.0/dna_derived_data_2022-02-23.xml");
   }
 
   public static Map<Extension, String> availableExtensionResources() {
