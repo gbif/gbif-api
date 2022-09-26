@@ -15,8 +15,6 @@
  */
 package org.gbif.api.model.common;
 
-import org.gbif.api.vocabulary.UserRole;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,13 +26,14 @@ import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import org.gbif.api.util.validators.email.ValidEmail;
+import org.gbif.api.vocabulary.UserRole;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * An abstract GBIF user account. The main purpose of this abstraction is to let subclasses handle
@@ -55,7 +54,7 @@ public abstract class AbstractGbifUser {
   protected Date deleted;
 
   @NotNull
-  @Pattern(regexp = EMAIL_PATTERN)
+  @ValidEmail
   public String getEmail() {
     return email;
   }

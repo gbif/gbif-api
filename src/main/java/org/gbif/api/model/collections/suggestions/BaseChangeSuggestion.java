@@ -17,6 +17,7 @@ package org.gbif.api.model.collections.suggestions;
 
 import org.gbif.api.model.collections.CollectionEntity;
 import org.gbif.api.model.registry.PrePersist;
+import org.gbif.api.util.validators.email.ValidEmail;
 import org.gbif.api.vocabulary.Country;
 
 import java.util.ArrayList;
@@ -27,9 +28,6 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
-import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
 
 public abstract class BaseChangeSuggestion<T extends CollectionEntity>
     implements ChangeSuggestion<T> {
@@ -45,7 +43,7 @@ public abstract class BaseChangeSuggestion<T extends CollectionEntity>
   private String proposedBy;
 
   @NotNull(groups = PrePersist.class)
-  @Pattern(regexp = EMAIL_PATTERN)
+  @ValidEmail
   private String proposerEmail;
 
   private Date applied;
