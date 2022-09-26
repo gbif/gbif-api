@@ -14,9 +14,7 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.TYPE_USE;
 
-/**
- * Annotation to indicate that an email has to be valid.
- */
+/** Annotation to indicate that an email has to be valid. */
 @Target({METHOD, FIELD, CONSTRUCTOR, PARAMETER, TYPE_USE})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = EmailConstraintValidator.class)
@@ -28,4 +26,7 @@ public @interface ValidEmail {
   Class<?>[] groups() default {};
 
   Class<? extends Payload>[] payload() default {};
+
+  /** Indicates if null values are accepted. */
+  boolean required() default false;
 }
