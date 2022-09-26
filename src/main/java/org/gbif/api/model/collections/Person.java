@@ -22,6 +22,7 @@ import org.gbif.api.model.registry.MachineTag;
 import org.gbif.api.model.registry.MachineTaggable;
 import org.gbif.api.model.registry.Tag;
 import org.gbif.api.model.registry.Taggable;
+import org.gbif.api.util.validators.email.ValidEmail;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,18 +33,21 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
-import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
 
 /**
  * Person associated to a collection or institution.
  *
- * DEPRECATED: replaced by {@link Contact}.
+ * <p>DEPRECATED: replaced by {@link Contact}.
  */
 @SuppressWarnings("unused")
 @Deprecated
-public class Person implements CollectionEntity, Identifiable, Taggable, MachineTaggable, Commentable, LenientEquals<Person> {
+public class Person
+    implements CollectionEntity,
+        Identifiable,
+        Taggable,
+        MachineTaggable,
+        Commentable,
+        LenientEquals<Person> {
 
   private UUID key;
   private String firstName;
@@ -53,8 +57,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
   private String researchPursuits;
   private String phone;
   private String fax;
-  @Pattern(regexp = EMAIL_PATTERN)
-  private String email;
+  @ValidEmail private String email;
   private Address mailingAddress;
   private UUID primaryInstitutionKey;
   private UUID primaryCollectionKey;
@@ -68,9 +71,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
   private List<Identifier> identifiers = new ArrayList<>();
   private List<Comment> comments = new ArrayList<>();
 
-  /**
-   * GBIF Unique identifier.
-   */
+  /** GBIF Unique identifier. */
   @Override
   public UUID getKey() {
     return key;
@@ -81,9 +82,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
     this.key = key;
   }
 
-  /**
-   * Firs name, it can also include the first and last name in some cases.
-   */
+  /** Firs name, it can also include the first and last name in some cases. */
   @NotNull
   public String getFirstName() {
     return firstName;
@@ -93,9 +92,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
     this.firstName = firstName;
   }
 
-  /**
-   * Last and secondary names.
-   */
+  /** Last and secondary names. */
   public String getLastName() {
     return lastName;
   }
@@ -104,9 +101,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
     this.lastName = lastName;
   }
 
-  /**
-   * Textual description  of the role performed.
-   */
+  /** Textual description of the role performed. */
   public String getPosition() {
     return position;
   }
@@ -115,9 +110,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
     this.position = position;
   }
 
-  /**
-   * Description of the main responsibility assigned to a person.
-   */
+  /** Description of the main responsibility assigned to a person. */
   public String getAreaResponsibility() {
     return areaResponsibility;
   }
@@ -126,9 +119,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
     this.areaResponsibility = areaResponsibility;
   }
 
-  /**
-   * Description of main research activities.
-   */
+  /** Description of main research activities. */
   public String getResearchPursuits() {
     return researchPursuits;
   }
@@ -137,9 +128,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
     this.researchPursuits = researchPursuits;
   }
 
-  /**
-   * Primary telephone number.
-   */
+  /** Primary telephone number. */
   public String getPhone() {
     return phone;
   }
@@ -148,9 +137,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
     this.phone = phone;
   }
 
-  /**
-   * Fax number.
-   */
+  /** Fax number. */
   public String getFax() {
     return fax;
   }
@@ -159,9 +146,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
     this.fax = fax;
   }
 
-  /**
-   * Person email.
-   */
+  /** Person email. */
   public String getEmail() {
     return email;
   }
@@ -170,9 +155,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
     this.email = email;
   }
 
-  /**
-   * Address used to send physical mail.
-   */
+  /** Address used to send physical mail. */
   @Valid
   public Address getMailingAddress() {
     return mailingAddress;
@@ -182,9 +165,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
     this.mailingAddress = mailingAddress;
   }
 
-  /**
-   * Primary institution where the person works.
-   */
+  /** Primary institution where the person works. */
   public UUID getPrimaryInstitutionKey() {
     return primaryInstitutionKey;
   }
@@ -193,9 +174,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
     this.primaryInstitutionKey = primaryInstitutionKey;
   }
 
-  /**
-   * Primary collection linked of the person.
-   */
+  /** Primary collection linked of the person. */
   public UUID getPrimaryCollectionKey() {
     return primaryCollectionKey;
   }
@@ -254,9 +233,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
     this.deleted = deleted;
   }
 
-  /**
-   * List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc..
-   */
+  /** List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc.. */
   @Valid
   @Override
   public List<Identifier> getIdentifiers() {
@@ -281,7 +258,7 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
 
   @Override
   public void addMachineTag(MachineTag machineTag) {
-   machineTags.add(machineTag);
+    machineTags.add(machineTag);
   }
 
   @Valid
@@ -311,78 +288,79 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
     if (o == null || getClass() != o.getClass()) return false;
     Person person = (Person) o;
     return Objects.equals(key, person.key)
-           && Objects.equals(firstName, person.firstName)
-           && Objects.equals(lastName,
-                             person.lastName)
-           && Objects.equals(position, person.position)
-           && Objects.equals(areaResponsibility, person.areaResponsibility)
-           && Objects.equals(researchPursuits, person.researchPursuits)
-           && Objects.equals(phone, person.phone)
-           && Objects.equals(fax, person.fax)
-           && Objects.equals(email, person.email)
-           && Objects.equals(mailingAddress, person.mailingAddress)
-           && Objects.equals(primaryInstitutionKey, person.primaryInstitutionKey)
-           && Objects.equals(primaryCollectionKey, person.primaryCollectionKey)
-           && Objects.equals(createdBy, person.createdBy)
-           && Objects.equals(modifiedBy, person.modifiedBy)
-           && Objects.equals(created, person.created)
-           && Objects.equals(modified, person.modified)
-           && Objects.equals(deleted, person.deleted)
-           && Objects.equals(identifiers, person.identifiers)
-           && Objects.equals(tags, person.tags)
-           && Objects.equals(machineTags, person.machineTags)
-           && Objects.equals(comments, person.comments);
+        && Objects.equals(firstName, person.firstName)
+        && Objects.equals(lastName, person.lastName)
+        && Objects.equals(position, person.position)
+        && Objects.equals(areaResponsibility, person.areaResponsibility)
+        && Objects.equals(researchPursuits, person.researchPursuits)
+        && Objects.equals(phone, person.phone)
+        && Objects.equals(fax, person.fax)
+        && Objects.equals(email, person.email)
+        && Objects.equals(mailingAddress, person.mailingAddress)
+        && Objects.equals(primaryInstitutionKey, person.primaryInstitutionKey)
+        && Objects.equals(primaryCollectionKey, person.primaryCollectionKey)
+        && Objects.equals(createdBy, person.createdBy)
+        && Objects.equals(modifiedBy, person.modifiedBy)
+        && Objects.equals(created, person.created)
+        && Objects.equals(modified, person.modified)
+        && Objects.equals(deleted, person.deleted)
+        && Objects.equals(identifiers, person.identifiers)
+        && Objects.equals(tags, person.tags)
+        && Objects.equals(machineTags, person.machineTags)
+        && Objects.equals(comments, person.comments);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key,
-                        firstName,
-                        lastName,
-                        position,
-                        areaResponsibility,
-                        researchPursuits,
-                        phone,
-                        fax,
-                        email,
-                        mailingAddress,
-                        primaryInstitutionKey,
-                        primaryCollectionKey,
-                        createdBy,
-                        modifiedBy,
-                        created,
-                        modified,
-                        deleted,
-                        identifiers,
-                        tags,
-                        machineTags,
-                        comments);
+    return Objects.hash(
+        key,
+        firstName,
+        lastName,
+        position,
+        areaResponsibility,
+        researchPursuits,
+        phone,
+        fax,
+        email,
+        mailingAddress,
+        primaryInstitutionKey,
+        primaryCollectionKey,
+        createdBy,
+        modifiedBy,
+        created,
+        modified,
+        deleted,
+        identifiers,
+        tags,
+        machineTags,
+        comments);
   }
 
   @Override
   public String toString() {
-    return new StringJoiner(", ", Person.class.getSimpleName() + "[", "]").add("key=" + key)
-      .add("firstName='" + firstName + "'")
-      .add("lastName='" + lastName + "'")
-      .add("position='" + position + "'")
-      .add("areaResponsibility='" + areaResponsibility + "'")
-      .add("researchPursuits='" + researchPursuits + "'")
-      .add("phone='" + phone + "'")
-      .add("fax='" + fax + "'")
-      .add("email='" + email + "'")
-      .add("mailingAddress=" + mailingAddress)
-      .add("institutionKey=" + primaryInstitutionKey)
-      .add("collectionKey=" + primaryCollectionKey)
-      .add("createdBy='" + createdBy + "'")
-      .add("modifiedBy='" + modifiedBy + "'")
-      .add("created=" + created)
-      .add("modified=" + modified)
-      .add("deleted=" + deleted)
-      .add("identifiers=" + identifiers)
-      .add("tags=" + tags)
-      .add("machineTags=" + machineTags)
-      .add("comments=" + comments)
-      .toString();
+    return new StringJoiner(", ", Person.class.getSimpleName() + "[", "]")
+        .add("key=" + key)
+        .add("firstName='" + firstName + "'")
+        .add("lastName='" + lastName + "'")
+        .add("position='" + position + "'")
+        .add("areaResponsibility='" + areaResponsibility + "'")
+        .add("researchPursuits='" + researchPursuits + "'")
+        .add("phone='" + phone + "'")
+        .add("fax='" + fax + "'")
+        .add("email='" + email + "'")
+        .add("mailingAddress=" + mailingAddress)
+        .add("institutionKey=" + primaryInstitutionKey)
+        .add("collectionKey=" + primaryCollectionKey)
+        .add("createdBy='" + createdBy + "'")
+        .add("modifiedBy='" + modifiedBy + "'")
+        .add("created=" + created)
+        .add("modified=" + modified)
+        .add("deleted=" + deleted)
+        .add("identifiers=" + identifiers)
+        .add("tags=" + tags)
+        .add("machineTags=" + machineTags)
+        .add("comments=" + comments)
+        .toString();
   }
 
   @Override
@@ -391,18 +369,18 @@ public class Person implements CollectionEntity, Identifiable, Taggable, Machine
       return true;
     }
     return Objects.equals(key, other.key)
-           && Objects.equals(firstName, other.firstName)
-           && Objects.equals(lastName, other.lastName)
-           && Objects.equals(position, other.position)
-           && Objects.equals(areaResponsibility, other.areaResponsibility)
-           && Objects.equals(researchPursuits, other.researchPursuits)
-           && Objects.equals(phone, other.phone)
-           && Objects.equals(fax, other.fax)
-           && Objects.equals(email, other.email)
-           && Objects.equals(mailingAddress, other.mailingAddress)
-           && Objects.equals(primaryInstitutionKey, other.primaryInstitutionKey)
-           && Objects.equals(primaryCollectionKey, other.primaryCollectionKey)
-           && Objects.equals(deleted, other.deleted)
-           && Objects.equals(comments, other.comments);
+        && Objects.equals(firstName, other.firstName)
+        && Objects.equals(lastName, other.lastName)
+        && Objects.equals(position, other.position)
+        && Objects.equals(areaResponsibility, other.areaResponsibility)
+        && Objects.equals(researchPursuits, other.researchPursuits)
+        && Objects.equals(phone, other.phone)
+        && Objects.equals(fax, other.fax)
+        && Objects.equals(email, other.email)
+        && Objects.equals(mailingAddress, other.mailingAddress)
+        && Objects.equals(primaryInstitutionKey, other.primaryInstitutionKey)
+        && Objects.equals(primaryCollectionKey, other.primaryCollectionKey)
+        && Objects.equals(deleted, other.deleted)
+        && Objects.equals(comments, other.comments);
   }
 }
