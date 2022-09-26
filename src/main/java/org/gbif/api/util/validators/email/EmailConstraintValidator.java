@@ -15,7 +15,7 @@ public class EmailConstraintValidator implements ConstraintValidator<ValidEmail,
   @Override
   public void initialize(ValidEmail constraintAnnotation) {
     ConstraintValidator.super.initialize(constraintAnnotation);
-    this.annotation = annotation;
+    this.annotation = constraintAnnotation;
   }
 
   @Override
