@@ -105,7 +105,7 @@ public class Institution
   private List<String> additionalNames = new ArrayList<>();
 
   @Sourceable(masterSources = MasterSourceType.IH)
-  private Date foundingDate;
+  private Integer foundingDate;
 
   private String geographicDescription;
   private String taxonomicDescription;
@@ -331,11 +331,11 @@ public class Institution
   }
 
   /** Date when the institution was founded or established. */
-  public Date getFoundingDate() {
+  public Integer getFoundingDate() {
     return foundingDate;
   }
 
-  public void setFoundingDate(Date foundingDate) {
+  public void setFoundingDate(Integer foundingDate) {
     this.foundingDate = foundingDate;
   }
 
