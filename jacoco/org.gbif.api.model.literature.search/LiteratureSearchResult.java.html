@@ -46,11 +46,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 <span class="nc" id="L46">  private List&lt;Long&gt; gbifOccurrenceKey = new ArrayList&lt;&gt;();</span>
 <span class="nc" id="L47">  private List&lt;Integer&gt; gbifTaxonKey = new ArrayList&lt;&gt;();</span>
 <span class="nc" id="L48">  private List&lt;Integer&gt; gbifHigherTaxonKey = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L49">  private List&lt;UUID&gt; gbifNetworkKey = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L50">  private List&lt;String&gt; gbifProjectIdentifier = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L51">  private List&lt;String&gt; gbifProgramme = new ArrayList&lt;&gt;();</span>
   private String citationType;
-<span class="nc" id="L50">  private Set&lt;GbifRegion&gt; gbifRegion = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L53">  private Set&lt;GbifRegion&gt; gbifRegion = new HashSet&lt;&gt;();</span>
   private UUID id;
-<span class="nc" id="L52">  private Map&lt;String, Object&gt; identifiers = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L53">  private List&lt;String&gt; keywords = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L55">  private Map&lt;String, Object&gt; identifiers = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L56">  private List&lt;String&gt; keywords = new ArrayList&lt;&gt;();</span>
   private Language language;
   private LiteratureType literatureType;
   private Integer month;
@@ -58,270 +61,294 @@ import com.fasterxml.jackson.annotation.JsonProperty;
   private boolean openAccess;
   private boolean peerReview;
   private String publisher;
-<span class="nc" id="L61">  private Set&lt;LiteratureRelevance&gt; relevance = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L64">  private Set&lt;LiteratureRelevance&gt; relevance = new HashSet&lt;&gt;();</span>
   private String source;
-<span class="nc" id="L63">  private List&lt;String&gt; tags = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L66">  private List&lt;String&gt; tags = new ArrayList&lt;&gt;();</span>
   private String title;
-<span class="nc" id="L65">  private Set&lt;LiteratureTopic&gt; topics = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L68">  private Set&lt;LiteratureTopic&gt; topics = new HashSet&lt;&gt;();</span>
   private Date modified;
-<span class="nc" id="L67">  private List&lt;String&gt; websites = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L70">  private List&lt;String&gt; websites = new ArrayList&lt;&gt;();</span>
   private Integer year;
 
   @JsonProperty(&quot;abstract&quot;)
   public String getAbstr() {
-<span class="nc" id="L72">    return abstr;</span>
+<span class="nc" id="L75">    return abstr;</span>
   }
 
   public void setAbstr(String abstr) {
-<span class="nc" id="L76">    this.abstr = abstr;</span>
-<span class="nc" id="L77">  }</span>
+<span class="nc" id="L79">    this.abstr = abstr;</span>
+<span class="nc" id="L80">  }</span>
 
   public String getDiscovered() {
-<span class="nc" id="L80">    return discovered;</span>
+<span class="nc" id="L83">    return discovered;</span>
   }
 
   public void setDiscovered(String discovered) {
-<span class="nc" id="L84">    this.discovered = discovered;</span>
-<span class="nc" id="L85">  }</span>
+<span class="nc" id="L87">    this.discovered = discovered;</span>
+<span class="nc" id="L88">  }</span>
 
   public List&lt;Map&lt;String, Object&gt;&gt; getAuthors() {
-<span class="nc" id="L88">    return authors;</span>
+<span class="nc" id="L91">    return authors;</span>
   }
 
   public void setAuthors(List&lt;Map&lt;String, Object&gt;&gt; authors) {
-<span class="nc" id="L92">    this.authors = authors;</span>
-<span class="nc" id="L93">  }</span>
+<span class="nc" id="L95">    this.authors = authors;</span>
+<span class="nc" id="L96">  }</span>
 
   public Set&lt;Country&gt; getCountriesOfCoverage() {
-<span class="nc" id="L96">    return countriesOfCoverage;</span>
+<span class="nc" id="L99">    return countriesOfCoverage;</span>
   }
 
   public void setCountriesOfCoverage(Set&lt;Country&gt; countriesOfCoverage) {
-<span class="nc" id="L100">    this.countriesOfCoverage = countriesOfCoverage;</span>
-<span class="nc" id="L101">  }</span>
+<span class="nc" id="L103">    this.countriesOfCoverage = countriesOfCoverage;</span>
+<span class="nc" id="L104">  }</span>
 
   public Set&lt;Country&gt; getCountriesOfResearcher() {
-<span class="nc" id="L104">    return countriesOfResearcher;</span>
+<span class="nc" id="L107">    return countriesOfResearcher;</span>
   }
 
   public void setCountriesOfResearcher(Set&lt;Country&gt; countriesOfResearcher) {
-<span class="nc" id="L108">    this.countriesOfResearcher = countriesOfResearcher;</span>
-<span class="nc" id="L109">  }</span>
+<span class="nc" id="L111">    this.countriesOfResearcher = countriesOfResearcher;</span>
+<span class="nc" id="L112">  }</span>
 
   public Date getAdded() {
-<span class="nc" id="L112">    return added;</span>
+<span class="nc" id="L115">    return added;</span>
   }
 
   public void setAdded(Date added) {
-<span class="nc" id="L116">    this.added = added;</span>
-<span class="nc" id="L117">  }</span>
+<span class="nc" id="L119">    this.added = added;</span>
+<span class="nc" id="L120">  }</span>
 
   public Date getPublished() {
-<span class="nc" id="L120">    return published;</span>
+<span class="nc" id="L123">    return published;</span>
   }
 
   public void setPublished(Date published) {
-<span class="nc" id="L124">    this.published = published;</span>
-<span class="nc" id="L125">  }</span>
+<span class="nc" id="L127">    this.published = published;</span>
+<span class="nc" id="L128">  }</span>
 
   public Integer getDay() {
-<span class="nc" id="L128">    return day;</span>
+<span class="nc" id="L131">    return day;</span>
   }
 
   public void setDay(Integer day) {
-<span class="nc" id="L132">    this.day = day;</span>
-<span class="nc" id="L133">  }</span>
+<span class="nc" id="L135">    this.day = day;</span>
+<span class="nc" id="L136">  }</span>
 
   public List&lt;String&gt; getGbifDownloadKey() {
-<span class="nc" id="L136">    return gbifDownloadKey;</span>
+<span class="nc" id="L139">    return gbifDownloadKey;</span>
   }
 
   public void setGbifDownloadKey(List&lt;String&gt; gbifDownloadKey) {
-<span class="nc" id="L140">    this.gbifDownloadKey = gbifDownloadKey;</span>
-<span class="nc" id="L141">  }</span>
+<span class="nc" id="L143">    this.gbifDownloadKey = gbifDownloadKey;</span>
+<span class="nc" id="L144">  }</span>
 
   public List&lt;Long&gt; getGbifOccurrenceKey() {
-<span class="nc" id="L144">    return gbifOccurrenceKey;</span>
+<span class="nc" id="L147">    return gbifOccurrenceKey;</span>
   }
 
   public void setGbifOccurrenceKey(List&lt;Long&gt; gbifOccurrenceKey) {
-<span class="nc" id="L148">    this.gbifOccurrenceKey = gbifOccurrenceKey;</span>
-<span class="nc" id="L149">  }</span>
+<span class="nc" id="L151">    this.gbifOccurrenceKey = gbifOccurrenceKey;</span>
+<span class="nc" id="L152">  }</span>
 
   public List&lt;Integer&gt; getGbifTaxonKey() {
-<span class="nc" id="L152">    return gbifTaxonKey;</span>
+<span class="nc" id="L155">    return gbifTaxonKey;</span>
   }
 
   public void setGbifTaxonKey(List&lt;Integer&gt; gbifTaxonKey) {
-<span class="nc" id="L156">    this.gbifTaxonKey = gbifTaxonKey;</span>
-<span class="nc" id="L157">  }</span>
+<span class="nc" id="L159">    this.gbifTaxonKey = gbifTaxonKey;</span>
+<span class="nc" id="L160">  }</span>
 
   public List&lt;Integer&gt; getGbifHigherTaxonKey() {
-<span class="nc" id="L160">    return gbifHigherTaxonKey;</span>
+<span class="nc" id="L163">    return gbifHigherTaxonKey;</span>
   }
 
   public void setGbifHigherTaxonKey(List&lt;Integer&gt; gbifHigherTaxonKey) {
-<span class="nc" id="L164">    this.gbifHigherTaxonKey = gbifHigherTaxonKey;</span>
-<span class="nc" id="L165">  }</span>
+<span class="nc" id="L167">    this.gbifHigherTaxonKey = gbifHigherTaxonKey;</span>
+<span class="nc" id="L168">  }</span>
 
   public String getCitationType() {
-<span class="nc" id="L168">    return citationType;</span>
+<span class="nc" id="L171">    return citationType;</span>
   }
 
   public void setCitationType(String citationType) {
-<span class="nc" id="L172">    this.citationType = citationType;</span>
-<span class="nc" id="L173">  }</span>
+<span class="nc" id="L175">    this.citationType = citationType;</span>
+<span class="nc" id="L176">  }</span>
 
   public Set&lt;GbifRegion&gt; getGbifRegion() {
-<span class="nc" id="L176">    return gbifRegion;</span>
+<span class="nc" id="L179">    return gbifRegion;</span>
   }
 
   public void setGbifRegion(Set&lt;GbifRegion&gt; gbifRegion) {
-<span class="nc" id="L180">    this.gbifRegion = gbifRegion;</span>
-<span class="nc" id="L181">  }</span>
+<span class="nc" id="L183">    this.gbifRegion = gbifRegion;</span>
+<span class="nc" id="L184">  }</span>
 
   public UUID getId() {
-<span class="nc" id="L184">    return id;</span>
+<span class="nc" id="L187">    return id;</span>
   }
 
   public void setId(UUID id) {
-<span class="nc" id="L188">    this.id = id;</span>
-<span class="nc" id="L189">  }</span>
+<span class="nc" id="L191">    this.id = id;</span>
+<span class="nc" id="L192">  }</span>
 
   public Map&lt;String, Object&gt; getIdentifiers() {
-<span class="nc" id="L192">    return identifiers;</span>
+<span class="nc" id="L195">    return identifiers;</span>
   }
 
   public void setIdentifiers(Map&lt;String, Object&gt; identifiers) {
-<span class="nc" id="L196">    this.identifiers = identifiers;</span>
-<span class="nc" id="L197">  }</span>
+<span class="nc" id="L199">    this.identifiers = identifiers;</span>
+<span class="nc" id="L200">  }</span>
 
   public List&lt;String&gt; getKeywords() {
-<span class="nc" id="L200">    return keywords;</span>
+<span class="nc" id="L203">    return keywords;</span>
   }
 
   public void setKeywords(List&lt;String&gt; keywords) {
-<span class="nc" id="L204">    this.keywords = keywords;</span>
-<span class="nc" id="L205">  }</span>
+<span class="nc" id="L207">    this.keywords = keywords;</span>
+<span class="nc" id="L208">  }</span>
 
   public Language getLanguage() {
-<span class="nc" id="L208">    return language;</span>
+<span class="nc" id="L211">    return language;</span>
   }
 
   public void setLanguage(Language language) {
-<span class="nc" id="L212">    this.language = language;</span>
-<span class="nc" id="L213">  }</span>
+<span class="nc" id="L215">    this.language = language;</span>
+<span class="nc" id="L216">  }</span>
 
   public LiteratureType getLiteratureType() {
-<span class="nc" id="L216">    return literatureType;</span>
+<span class="nc" id="L219">    return literatureType;</span>
   }
 
   public void setLiteratureType(LiteratureType literatureType) {
-<span class="nc" id="L220">    this.literatureType = literatureType;</span>
-<span class="nc" id="L221">  }</span>
+<span class="nc" id="L223">    this.literatureType = literatureType;</span>
+<span class="nc" id="L224">  }</span>
 
   public Integer getMonth() {
-<span class="nc" id="L224">    return month;</span>
+<span class="nc" id="L227">    return month;</span>
   }
 
   public void setMonth(Integer month) {
-<span class="nc" id="L228">    this.month = month;</span>
-<span class="nc" id="L229">  }</span>
+<span class="nc" id="L231">    this.month = month;</span>
+<span class="nc" id="L232">  }</span>
 
   public String getNotes() {
-<span class="nc" id="L232">    return notes;</span>
+<span class="nc" id="L235">    return notes;</span>
   }
 
   public void setNotes(String notes) {
-<span class="nc" id="L236">    this.notes = notes;</span>
-<span class="nc" id="L237">  }</span>
+<span class="nc" id="L239">    this.notes = notes;</span>
+<span class="nc" id="L240">  }</span>
 
   public boolean isOpenAccess() {
-<span class="nc" id="L240">    return openAccess;</span>
+<span class="nc" id="L243">    return openAccess;</span>
   }
 
   public void setOpenAccess(boolean openAccess) {
-<span class="nc" id="L244">    this.openAccess = openAccess;</span>
-<span class="nc" id="L245">  }</span>
+<span class="nc" id="L247">    this.openAccess = openAccess;</span>
+<span class="nc" id="L248">  }</span>
 
   public boolean isPeerReview() {
-<span class="nc" id="L248">    return peerReview;</span>
+<span class="nc" id="L251">    return peerReview;</span>
   }
 
   public void setPeerReview(boolean peerReview) {
-<span class="nc" id="L252">    this.peerReview = peerReview;</span>
-<span class="nc" id="L253">  }</span>
+<span class="nc" id="L255">    this.peerReview = peerReview;</span>
+<span class="nc" id="L256">  }</span>
 
   public String getPublisher() {
-<span class="nc" id="L256">    return publisher;</span>
+<span class="nc" id="L259">    return publisher;</span>
   }
 
   public void setPublisher(String publisher) {
-<span class="nc" id="L260">    this.publisher = publisher;</span>
-<span class="nc" id="L261">  }</span>
+<span class="nc" id="L263">    this.publisher = publisher;</span>
+<span class="nc" id="L264">  }</span>
 
   public Set&lt;LiteratureRelevance&gt; getRelevance() {
-<span class="nc" id="L264">    return relevance;</span>
+<span class="nc" id="L267">    return relevance;</span>
   }
 
   public void setRelevance(Set&lt;LiteratureRelevance&gt; relevance) {
-<span class="nc" id="L268">    this.relevance = relevance;</span>
-<span class="nc" id="L269">  }</span>
+<span class="nc" id="L271">    this.relevance = relevance;</span>
+<span class="nc" id="L272">  }</span>
 
   public String getSource() {
-<span class="nc" id="L272">    return source;</span>
+<span class="nc" id="L275">    return source;</span>
   }
 
   public void setSource(String source) {
-<span class="nc" id="L276">    this.source = source;</span>
-<span class="nc" id="L277">  }</span>
+<span class="nc" id="L279">    this.source = source;</span>
+<span class="nc" id="L280">  }</span>
 
   public List&lt;String&gt; getTags() {
-<span class="nc" id="L280">    return tags;</span>
+<span class="nc" id="L283">    return tags;</span>
   }
 
   public void setTags(List&lt;String&gt; tags) {
-<span class="nc" id="L284">    this.tags = tags;</span>
-<span class="nc" id="L285">  }</span>
+<span class="nc" id="L287">    this.tags = tags;</span>
+<span class="nc" id="L288">  }</span>
 
   public String getTitle() {
-<span class="nc" id="L288">    return title;</span>
+<span class="nc" id="L291">    return title;</span>
   }
 
   public void setTitle(String title) {
-<span class="nc" id="L292">    this.title = title;</span>
-<span class="nc" id="L293">  }</span>
+<span class="nc" id="L295">    this.title = title;</span>
+<span class="nc" id="L296">  }</span>
 
   public Set&lt;LiteratureTopic&gt; getTopics() {
-<span class="nc" id="L296">    return topics;</span>
+<span class="nc" id="L299">    return topics;</span>
   }
 
   public void setTopics(Set&lt;LiteratureTopic&gt; topics) {
-<span class="nc" id="L300">    this.topics = topics;</span>
-<span class="nc" id="L301">  }</span>
+<span class="nc" id="L303">    this.topics = topics;</span>
+<span class="nc" id="L304">  }</span>
 
   public Date getModified() {
-<span class="nc" id="L304">    return modified;</span>
+<span class="nc" id="L307">    return modified;</span>
   }
 
   public void setModified(Date modified) {
-<span class="nc" id="L308">    this.modified = modified;</span>
-<span class="nc" id="L309">  }</span>
+<span class="nc" id="L311">    this.modified = modified;</span>
+<span class="nc" id="L312">  }</span>
 
   public List&lt;String&gt; getWebsites() {
-<span class="nc" id="L312">    return websites;</span>
+<span class="nc" id="L315">    return websites;</span>
   }
 
   public void setWebsites(List&lt;String&gt; websites) {
-<span class="nc" id="L316">    this.websites = websites;</span>
-<span class="nc" id="L317">  }</span>
+<span class="nc" id="L319">    this.websites = websites;</span>
+<span class="nc" id="L320">  }</span>
 
   public Integer getYear() {
-<span class="nc" id="L320">    return year;</span>
+<span class="nc" id="L323">    return year;</span>
   }
 
   public void setYear(Integer year) {
-<span class="nc" id="L324">    this.year = year;</span>
-<span class="nc" id="L325">  }</span>
+<span class="nc" id="L327">    this.year = year;</span>
+<span class="nc" id="L328">  }</span>
+
+  public List&lt;UUID&gt; getGbifNetworkKey() {
+<span class="nc" id="L331">    return gbifNetworkKey;</span>
+  }
+
+  public void setGbifNetworkKey(List&lt;UUID&gt; gbifNetworkKey) {
+<span class="nc" id="L335">    this.gbifNetworkKey = gbifNetworkKey;</span>
+<span class="nc" id="L336">  }</span>
+
+  public List&lt;String&gt; getGbifProjectIdentifier() {
+<span class="nc" id="L339">    return gbifProjectIdentifier;</span>
+  }
+
+  public void setGbifProjectIdentifier(List&lt;String&gt; gbifProjectIdentifier) {
+<span class="nc" id="L343">    this.gbifProjectIdentifier = gbifProjectIdentifier;</span>
+<span class="nc" id="L344">  }</span>
+
+  public List&lt;String&gt; getGbifProgramme() {
+<span class="nc" id="L347">    return gbifProgramme;</span>
+  }
+
+  public void setGbifProgramme(List&lt;String&gt; gbifProgramme) {
+<span class="nc" id="L351">    this.gbifProgramme = gbifProgramme;</span>
+<span class="nc" id="L352">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
