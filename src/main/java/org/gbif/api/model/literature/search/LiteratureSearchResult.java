@@ -48,7 +48,7 @@ public class LiteratureSearchResult {
   private List<Integer> gbifHigherTaxonKey = new ArrayList<>();
   private List<UUID> gbifNetworkKey = new ArrayList<>();
   private List<String> gbifProjectIdentifier = new ArrayList<>();
-  private List<String> gbifProgrammeAcronym = new ArrayList<>();
+  private List<String> gbifProgramme = new ArrayList<>();
   private String citationType;
   private Set<GbifRegion> gbifRegion = new HashSet<>();
   private UUID id;
@@ -343,11 +343,11 @@ public class LiteratureSearchResult {
     this.gbifProjectIdentifier = gbifProjectIdentifier;
   }
 
-  public List<String> getGbifProgrammeAcronym() {
-    return gbifProgrammeAcronym;
+  public List<String> getGbifProgramme() {
+    return gbifProgramme;
   }
 
-  public void setGbifProgrammeAcronym(List<String> gbifProgrammeAcronym) {
-    this.gbifProgrammeAcronym = gbifProgrammeAcronym;
+  public void setGbifProgramme(List<String> gbifProgramme) {
+    this.gbifProgramme = gbifProgramme;
   }
 }
