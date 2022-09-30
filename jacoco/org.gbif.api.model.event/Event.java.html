@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Event.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.event</a> &gt; <span class="el_source">Event.java</span></div><h1>Event.java</h1><pre class="source lang-java linenums">/*
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.event;
+
+import org.gbif.api.model.occurrence.Occurrence;
+
+import java.util.List;
+import java.util.Set;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+/**
+ * Event class based on https://dwc.tdwg.org/terms/#event.
+ */
+<span class="nc bnc" id="L27" title="All 78 branches missed.">@Data</span>
+public class Event extends Occurrence {
+
+  public static Event fromOccurrence(Occurrence occurrence) {
+<span class="nc" id="L31">    Event event =new Event();</span>
+<span class="nc" id="L32">    event.setKey(occurrence.getKey());</span>
+<span class="nc" id="L33">    event.setDatasetKey(occurrence.getDatasetKey());</span>
+<span class="nc" id="L34">    event.setPublishingOrgKey(occurrence.getPublishingOrgKey());</span>
+<span class="nc" id="L35">    event.setNetworkKeys(occurrence.getNetworkKeys());</span>
+<span class="nc" id="L36">    event.setInstallationKey(occurrence.getInstallationKey());</span>
+<span class="nc" id="L37">    event.setPublishingCountry(occurrence.getPublishingCountry());</span>
+<span class="nc" id="L38">    event.setProtocol(occurrence.getProtocol());</span>
+<span class="nc" id="L39">    event.setLastCrawled(occurrence.getLastCrawled());</span>
+<span class="nc" id="L40">    event.setLastParsed(occurrence.getLastParsed());</span>
+<span class="nc" id="L41">    event.setCrawlId(occurrence.getCrawlId());</span>
+<span class="nc" id="L42">    event.setProjectId(occurrence.getProjectId());</span>
+<span class="nc" id="L43">    event.setProgrammeAcronym(occurrence.getProgrammeAcronym());</span>
+<span class="nc" id="L44">    event.setHostingOrganizationKey(occurrence.getHostingOrganizationKey());</span>
+<span class="nc" id="L45">    event.setVerbatimFields(occurrence.getVerbatimFields());</span>
+<span class="nc" id="L46">    event.setExtensions(occurrence.getExtensions());</span>
+<span class="nc" id="L47">    event.setBasisOfRecord(occurrence.getBasisOfRecord());</span>
+<span class="nc" id="L48">    event.setIndividualCount(occurrence.getIndividualCount());</span>
+<span class="nc" id="L49">    event.setOccurrenceStatus(occurrence.getOccurrenceStatus());</span>
+<span class="nc" id="L50">    event.setSex(occurrence.getSex());</span>
+<span class="nc" id="L51">    event.setLifeStage(occurrence.getLifeStage());</span>
+<span class="nc" id="L52">    event.setEstablishmentMeans(occurrence.getEstablishmentMeans());</span>
+<span class="nc" id="L53">    event.setDegreeOfEstablishment(occurrence.getDegreeOfEstablishment());</span>
+<span class="nc" id="L54">    event.setPathway(occurrence.getPathway());</span>
+<span class="nc" id="L55">    event.setTaxonKey(occurrence.getTaxonKey());</span>
+<span class="nc" id="L56">    event.setKingdomKey(occurrence.getKingdomKey());</span>
+<span class="nc" id="L57">    event.setPhylumKey(occurrence.getPhylumKey());</span>
+<span class="nc" id="L58">    event.setClassKey(occurrence.getClassKey());</span>
+<span class="nc" id="L59">    event.setOrderKey(occurrence.getOrderKey());</span>
+<span class="nc" id="L60">    event.setFamilyKey(occurrence.getFamilyKey());</span>
+<span class="nc" id="L61">    event.setGenusKey(occurrence.getGenusKey());</span>
+<span class="nc" id="L62">    event.setSubgenusKey(occurrence.getSubgenusKey());</span>
+<span class="nc" id="L63">    event.setSpeciesKey(occurrence.getSpeciesKey());</span>
+<span class="nc" id="L64">    event.setAcceptedTaxonKey(occurrence.getAcceptedTaxonKey());</span>
+<span class="nc" id="L65">    event.setScientificName(occurrence.getScientificName());</span>
+<span class="nc" id="L66">    event.setAcceptedScientificName(occurrence.getAcceptedScientificName());</span>
+<span class="nc" id="L67">    event.setKingdom(occurrence.getKingdom());</span>
+<span class="nc" id="L68">    event.setPhylum(occurrence.getPhylum());</span>
+<span class="nc" id="L69">    event.setClazz(occurrence.getClazz());</span>
+<span class="nc" id="L70">    event.setOrder(occurrence.getOrder());</span>
+<span class="nc" id="L71">    event.setFamily(occurrence.getFamily());</span>
+<span class="nc" id="L72">    event.setGenus(occurrence.getGenus());</span>
+<span class="nc" id="L73">    event.setSubgenus(occurrence.getSubgenus());</span>
+<span class="nc" id="L74">    event.setSpecies(occurrence.getSpecies());</span>
+<span class="nc" id="L75">    event.setGenericName(occurrence.getGenericName());</span>
+<span class="nc" id="L76">    event.setSpecificEpithet(occurrence.getSpecificEpithet());</span>
+<span class="nc" id="L77">    event.setInfraspecificEpithet(occurrence.getInfraspecificEpithet());</span>
+<span class="nc" id="L78">    event.setTaxonRank(occurrence.getTaxonRank());</span>
+<span class="nc" id="L79">    event.setTaxonomicStatus(occurrence.getTaxonomicStatus());</span>
+<span class="nc" id="L80">    event.setIucnRedListCategory(occurrence.getIucnRedListCategory());</span>
+<span class="nc" id="L81">    event.setDateIdentified(occurrence.getDateIdentified());</span>
+<span class="nc" id="L82">    event.setDecimalLongitude(occurrence.getDecimalLongitude());</span>
+<span class="nc" id="L83">    event.setDecimalLatitude(occurrence.getDecimalLatitude());</span>
+<span class="nc" id="L84">    event.setCoordinatePrecision(occurrence.getCoordinatePrecision());</span>
+<span class="nc" id="L85">    event.setCoordinateUncertaintyInMeters(occurrence.getCoordinateUncertaintyInMeters());</span>
+<span class="nc" id="L86">    event.setCoordinateAccuracy(occurrence.getCoordinateAccuracy());</span>
+<span class="nc" id="L87">    event.setElevation(occurrence.getElevation());</span>
+<span class="nc" id="L88">    event.setElevationAccuracy(occurrence.getElevationAccuracy());</span>
+<span class="nc" id="L89">    event.setDepth(occurrence.getDepth());</span>
+<span class="nc" id="L90">    event.setDepthAccuracy(occurrence.getDepthAccuracy());</span>
+<span class="nc" id="L91">    event.setContinent(occurrence.getContinent());</span>
+<span class="nc" id="L92">    event.setCountry(occurrence.getCountry());</span>
+<span class="nc" id="L93">    event.setStateProvince(occurrence.getStateProvince());</span>
+<span class="nc" id="L94">    event.setWaterBody(occurrence.getWaterBody());</span>
+<span class="nc" id="L95">    event.setYear(occurrence.getYear());</span>
+<span class="nc" id="L96">    event.setMonth(occurrence.getMonth());</span>
+<span class="nc" id="L97">    event.setDay(occurrence.getDay());</span>
+<span class="nc" id="L98">    event.setEventDate(occurrence.getEventDate());</span>
+<span class="nc" id="L99">    event.setTypeStatus(occurrence.getTypeStatus());</span>
+<span class="nc" id="L100">    event.setTypifiedName(occurrence.getTypifiedName());</span>
+<span class="nc" id="L101">    event.setIssues(occurrence.getIssues());</span>
+<span class="nc" id="L102">    event.setModified(occurrence.getModified());</span>
+<span class="nc" id="L103">    event.setLastInterpreted(occurrence.getLastInterpreted());</span>
+<span class="nc" id="L104">    event.setReferences(occurrence.getReferences());</span>
+<span class="nc" id="L105">    event.setLicense(occurrence.getLicense());</span>
+<span class="nc" id="L106">    event.setOrganismQuantity(occurrence.getOrganismQuantity());</span>
+<span class="nc" id="L107">    event.setOrganismQuantityType(occurrence.getOrganismQuantityType());</span>
+<span class="nc" id="L108">    event.setSampleSizeUnit(occurrence.getSampleSizeUnit());</span>
+<span class="nc" id="L109">    event.setSampleSizeValue(occurrence.getSampleSizeValue());</span>
+<span class="nc" id="L110">    event.setRelativeOrganismQuantity(occurrence.getRelativeOrganismQuantity());</span>
+<span class="nc" id="L111">    event.setIdentifiers(occurrence.getIdentifiers());</span>
+<span class="nc" id="L112">    event.setMedia(occurrence.getMedia());</span>
+<span class="nc" id="L113">    event.setFacts(occurrence.getFacts());</span>
+<span class="nc" id="L114">    event.setRelations(occurrence.getRelations());</span>
+<span class="nc" id="L115">    event.setRecordedByIds(occurrence.getRecordedByIds());</span>
+<span class="nc" id="L116">    event.setIdentifiedByIds(occurrence.getIdentifiedByIds());</span>
+<span class="nc" id="L117">    event.setGadm(occurrence.getGadm());</span>
+<span class="nc" id="L118">    event.setInstitutionKey(occurrence.getInstitutionKey());</span>
+<span class="nc" id="L119">    event.setCollectionKey(occurrence.getCollectionKey());</span>
+<span class="nc" id="L120">    event.setIsInCluster(occurrence.getIsInCluster());</span>
+<span class="nc" id="L121">    event.setDatasetID(occurrence.getDatasetID());</span>
+<span class="nc" id="L122">    event.setDatasetName(occurrence.getDatasetName());</span>
+<span class="nc" id="L123">    event.setOtherCatalogNumbers(occurrence.getOtherCatalogNumbers());</span>
+<span class="nc" id="L124">    event.setRecordedBy(occurrence.getRecordedBy());</span>
+<span class="nc" id="L125">    event.setIdentifiedBy(occurrence.getIdentifiedBy());</span>
+<span class="nc" id="L126">    event.setPreparations(occurrence.getPreparations());</span>
+<span class="nc" id="L127">    event.setSamplingProtocol(occurrence.getSamplingProtocol());</span>
+<span class="nc" id="L128">    return event;</span>
+  }
+
+<span class="nc bnc" id="L131" title="All 22 branches missed.">  @Data</span>
+<span class="nc" id="L132">  @AllArgsConstructor</span>
+  public static class ParentLineage {
+<span class="nc" id="L134">    private String id;</span>
+<span class="nc" id="L135">    private String eventType;</span>
+  }
+
+<span class="nc bnc" id="L138" title="All 22 branches missed.">  @Data</span>
+<span class="nc" id="L139">  @AllArgsConstructor</span>
+  public static class VocabularyConcept {
+<span class="nc" id="L141">    private String concept;</span>
+<span class="nc" id="L142">    private Set&lt;String&gt; lineage;</span>
+  }
+
+<span class="nc" id="L145">  private String id;</span>
+<span class="nc" id="L146">  private Set&lt;String&gt; samplingProtocols;</span>
+<span class="nc" id="L147">  private String eventID;</span>
+<span class="nc" id="L148">  private String parentEventID;</span>
+<span class="nc" id="L149">  private Integer startDayOfYear;</span>
+<span class="nc" id="L150">  private Integer endDayOfYear;</span>
+<span class="nc" id="L151">  private String locationID;</span>
+<span class="nc" id="L152">  private VocabularyConcept eventType;</span>
+<span class="nc" id="L153">  private List&lt;ParentLineage&gt; parentsLineage;</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

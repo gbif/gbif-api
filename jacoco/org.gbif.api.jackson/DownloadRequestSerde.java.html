@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DownloadRequestSerde.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.jackson</a> &gt; <span class="el_source">DownloadRequestSerde.java</span></div><h1>DownloadRequestSerde.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,9 +15,11 @@ package org.gbif.api.jackson;
 
 import org.gbif.api.model.occurrence.DownloadFormat;
 import org.gbif.api.model.occurrence.DownloadRequest;
+import org.gbif.api.model.occurrence.DownloadType;
 import org.gbif.api.model.occurrence.PredicateDownloadRequest;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.util.VocabularyUtils;
+import org.gbif.api.vocabulary.Extension;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +27,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,51 +52,68 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * &lt;p&gt;
  * https://github.com/gbif/portal-feedback/issues/2046
  */
-<span class="fc" id="L53">public class DownloadRequestSerde extends JsonDeserializer&lt;DownloadRequest&gt; {</span>
+<span class="fc" id="L55">public class DownloadRequestSerde extends JsonDeserializer&lt;DownloadRequest&gt; {</span>
 
   private static final String PREDICATE = &quot;predicate&quot;;
-<span class="fc" id="L56">  private static final List&lt;String&gt; SEND_NOTIFICATION = Collections</span>
-<span class="fc" id="L57">    .unmodifiableList(Arrays.asList(&quot;sendNotification&quot;, &quot;send_notification&quot;));</span>
-<span class="fc" id="L58">  private static final List&lt;String&gt; NOTIFICATION_ADDRESSES =</span>
-<span class="fc" id="L59">    Collections.unmodifiableList(</span>
-<span class="fc" id="L60">      Arrays.asList(&quot;notificationAddresses&quot;, &quot;notificationAddress&quot;, &quot;notification_addresses&quot;,</span>
+<span class="fc" id="L58">  private static final List&lt;String&gt; SEND_NOTIFICATION = Collections</span>
+<span class="fc" id="L59">    .unmodifiableList(Arrays.asList(&quot;sendNotification&quot;, &quot;send_notification&quot;));</span>
+<span class="fc" id="L60">  private static final List&lt;String&gt; NOTIFICATION_ADDRESSES =</span>
+<span class="fc" id="L61">    Collections.unmodifiableList(</span>
+<span class="fc" id="L62">      Arrays.asList(&quot;notificationAddresses&quot;, &quot;notificationAddress&quot;, &quot;notification_addresses&quot;,</span>
         &quot;notification_address&quot;));
   private static final String CREATOR = &quot;creator&quot;;
   private static final String FORMAT = &quot;format&quot;;
-<span class="fc" id="L64">  private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);</span>
-<span class="fc" id="L65">  private static final ObjectMapper MAPPER = new ObjectMapper();</span>
+  private static final String TYPE = &quot;type&quot;;
+  private static final String EXTENSIONS = &quot;extensions&quot;;
+<span class="fc" id="L68">  private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);</span>
+<span class="fc" id="L69">  private static final ObjectMapper MAPPER = new ObjectMapper();</span>
 
   @Override
   public DownloadRequest deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-<span class="fc" id="L69">    JsonNode node = jp.getCodec().readTree(jp);</span>
-<span class="fc" id="L70">    LOG.debug(&quot;DownloadRequest for deserialization: {}&quot;, node);</span>
+<span class="fc" id="L73">    JsonNode node = jp.getCodec().readTree(jp);</span>
+<span class="fc" id="L74">    LOG.debug(&quot;DownloadRequest for deserialization: {}&quot;, node);</span>
     //at least one element must be defined
-<span class="fc bfc" id="L72" title="All 2 branches covered.">    if (node.size() == 0) {</span>
-<span class="fc" id="L73">      return null;</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">    if (node.size() == 0) {</span>
+<span class="fc" id="L77">      return null;</span>
     }
-<span class="fc" id="L75">    DownloadFormat format = Optional.ofNullable(node.get(FORMAT))</span>
-<span class="fc" id="L76">      .map(n -&gt; VocabularyUtils.lookupEnum(n.asText(), DownloadFormat.class)).orElse(DownloadFormat.DWCA);</span>
-<span class="fc" id="L77">    String creator = Optional.ofNullable(node.get(CREATOR)).map(JsonNode::asText).orElse(null);</span>
+<span class="fc" id="L79">    DownloadFormat format = Optional.ofNullable(node.get(FORMAT))</span>
+<span class="fc" id="L80">      .map(n -&gt; VocabularyUtils.lookupEnum(n.asText(), DownloadFormat.class)).orElse(DownloadFormat.DWCA);</span>
 
-<span class="fc" id="L79">    List&lt;String&gt; notificationAddresses = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L80" title="All 2 branches covered.">    for (final String jsonKey : NOTIFICATION_ADDRESSES) {</span>
-<span class="fc" id="L81">      notificationAddresses.addAll(Optional.ofNullable(node.get(jsonKey)).map(jsonNode -&gt; {</span>
+<span class="fc" id="L82">    DownloadType type = Optional.ofNullable(node.get(TYPE))</span>
+<span class="fc" id="L83">      .map(n -&gt; VocabularyUtils.lookupEnum(n.asText(), DownloadType.class)).orElse(DownloadType.OCCURRENCE);</span>
+
+<span class="fc" id="L85">    String creator = Optional.ofNullable(node.get(CREATOR)).map(JsonNode::asText).orElse(null);</span>
+
+<span class="fc" id="L87">    List&lt;String&gt; notificationAddresses = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">    for (final String jsonKey : NOTIFICATION_ADDRESSES) {</span>
+<span class="fc" id="L89">      notificationAddresses.addAll(Optional.ofNullable(node.get(jsonKey)).map(jsonNode -&gt; {</span>
         try {
-<span class="fc" id="L83">          return Arrays.asList(MAPPER.treeToValue(jsonNode, String[].class));</span>
-<span class="nc" id="L84">        } catch (Exception e) {</span>
-<span class="nc" id="L85">          throw new RuntimeException(e);</span>
+<span class="fc" id="L91">          return Arrays.asList(MAPPER.treeToValue(jsonNode, String[].class));</span>
+<span class="nc" id="L92">        } catch (Exception e) {</span>
+<span class="nc" id="L93">          throw new RuntimeException(e);</span>
         }
-<span class="fc" id="L87">      }).orElse(new ArrayList&lt;&gt;()));</span>
-<span class="fc" id="L88">    }</span>
+<span class="fc" id="L95">      }).orElse(new ArrayList&lt;&gt;()));</span>
+<span class="fc" id="L96">    }</span>
 
-<span class="fc" id="L90">    boolean sendNotification = false;</span>
-<span class="fc bfc" id="L91" title="All 2 branches covered.">    for (final String jsonKey : SEND_NOTIFICATION) {</span>
-<span class="fc" id="L92">      sendNotification |= Optional.ofNullable(node.get(jsonKey)).map(JsonNode::asBoolean).orElse(Boolean.FALSE);</span>
-<span class="fc" id="L93">    }</span>
+<span class="fc" id="L98">    boolean sendNotification = false;</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">    for (final String jsonKey : SEND_NOTIFICATION) {</span>
+<span class="fc" id="L100">      sendNotification |= Optional.ofNullable(node.get(jsonKey)).map(JsonNode::asBoolean).orElse(Boolean.FALSE);</span>
+<span class="fc" id="L101">    }</span>
 
-<span class="fc" id="L95">    JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);</span>
-<span class="fc bfc" id="L96" title="All 2 branches covered.">    Predicate predicateObj = predicate == null ? null : MAPPER.treeToValue(predicate, Predicate.class);</span>
-<span class="fc" id="L97">    return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format);</span>
+<span class="fc" id="L103">    JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">    Predicate predicateObj = predicate == null ? null : MAPPER.treeToValue(predicate, Predicate.class);</span>
+
+<span class="fc" id="L106">    Set&lt;Extension&gt; extensions = Optional.ofNullable(node.get(EXTENSIONS)).map(jsonNode -&gt; {</span>
+      try {
+<span class="fc" id="L108">        return Arrays.stream(MAPPER.treeToValue(jsonNode, String[].class))</span>
+<span class="fc" id="L109">                .map(Extension::fromRowType)</span>
+<span class="fc" id="L110">                .collect(Collectors.toSet());</span>
+<span class="nc" id="L111">      } catch (Exception e) {</span>
+<span class="nc" id="L112">        throw new RuntimeException(e);</span>
+      }
+<span class="fc" id="L114">    }).orElse(Collections.emptySet());</span>
+
+<span class="fc" id="L116">    return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format, type, extensions);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
