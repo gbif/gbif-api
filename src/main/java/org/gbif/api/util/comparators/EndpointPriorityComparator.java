@@ -33,6 +33,7 @@ import java.util.List;
  * <p></p>
  * The priority list is as follows (most to least important):
  * <ol>
+ * <li>CamtrapDP</li>
  * <li>DwC-A</li>
  * <li>TAPIR</li>
  * <li>BioCASe</li>
@@ -55,7 +56,8 @@ public class EndpointPriorityComparator implements Comparator<Endpoint>, Seriali
       EndpointType.BIOCASE,
       EndpointType.TAPIR,
       EndpointType.BIOCASE_XML_ARCHIVE,
-      EndpointType.DWC_ARCHIVE
+      EndpointType.DWC_ARCHIVE,
+      EndpointType.CAMTRAP_DP_v_0_4
     ));
 
   private static final long serialVersionUID = 8085216142750609841L;
