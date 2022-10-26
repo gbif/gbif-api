@@ -87,7 +87,7 @@ public enum EndpointType {
    * <a href="https://tdwg.github.io/camtrap-dp/">CamTrap DP</a>.
    */
   @Experimental
-  CAMTRAP_DP_v_beta_0_1,
+  CAMTRAP_DP_v_0_4,
   /**
    * Any other service not covered by this enum so far.
    */
