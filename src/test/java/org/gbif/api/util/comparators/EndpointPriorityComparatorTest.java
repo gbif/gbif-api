@@ -75,6 +75,10 @@ public class EndpointPriorityComparatorTest {
     e1.setType(EndpointType.DIGIR_MANIS);
     e2.setType(EndpointType.DIGIR_MANIS);
     assertEquals(0, COMP.compare(e1, e2));
+
+    e1.setType(EndpointType.CAMTRAP_DP_v_0_4);
+    e2.setType(EndpointType.DWC_ARCHIVE);
+    assertTrue(COMP.compare(e1, e2) > 0);
   }
 
   @Test
