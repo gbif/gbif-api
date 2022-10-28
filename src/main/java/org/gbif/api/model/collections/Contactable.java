@@ -20,17 +20,6 @@ import javax.annotation.Nullable;
 /** Entity that can have a list of contacts and addresses. */
 public interface Contactable {
 
-  /** @deprecated replaced by {@link #getContactPersons()} */
-  @Deprecated
-  @Nullable
-  List<Person> getContacts();
-
-  /**
-   * @deprecated replaced by {@link #setContactPersons(List)}
-   */
-  @Deprecated
-  void setContacts(List<Person> contacts);
-
   /** List of associated contacts. */
   @Nullable
   List<Contact> getContactPersons();

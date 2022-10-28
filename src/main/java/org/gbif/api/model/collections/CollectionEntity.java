@@ -19,54 +19,98 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
+import org.gbif.api.model.registry.Commentable;
+import org.gbif.api.model.registry.Identifiable;
+import org.gbif.api.model.registry.MachineTaggable;
+import org.gbif.api.model.registry.PrePersist;
+import org.gbif.api.model.registry.Taggable;
+import org.gbif.api.vocabulary.collections.MasterSourceType;
+
 import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-/**
- * Entity .
- */
-public interface CollectionEntity extends Serializable {
+/** Entity . */
+public interface CollectionEntity
+    extends Contactable,
+        Taggable,
+        MachineTaggable,
+        Identifiable,
+        Commentable,
+        OccurrenceMappeable,
+        Serializable {
 
-  /**
-   * Unique identifier.
-   */
+  /** Unique identifier. */
   UUID getKey();
 
   void setKey(UUID key);
 
-  /**
-   * Creator of the database record.
-   */
+  /** Creator of the database record. */
   String getCreatedBy();
 
   void setCreatedBy(String createdBy);
 
-  /**
-   * Person or agent that modified the database record.
-   */
+  /** Person or agent that modified the database record. */
   String getModifiedBy();
 
   void setModifiedBy(String modifiedBy);
 
-  /**
-   * Date when the records as created.
-   */
+  /** Date when the records as created. */
   Date getCreated();
 
   void setCreated(Date created);
 
-  /**
-   * Date when the records was last modified.
-   */
+  /** Date when the records was last modified. */
   Date getModified();
 
   void setModified(Date modified);
 
-  /**
-   * Date when the records was (logically) deleted.
-   */
+  /** Date when the records was (logically) deleted. */
   @Nullable
   Date getDeleted();
 
   void setDeleted(Date deleted);
 
+  /** Identifies an entity at the owner's location. */
+  @NotNull(groups = PrePersist.class)
+  String getCode();
+
+  void setCode(String code);
+
+  /** Descriptive name of an entity. */
+  @NotNull
+  String getName();
+
+  void setName(String name);
+
+  /** Textual description/summary of the contents of an entity. */
+  @Size(min = 1)
+  String getDescription();
+
+  void setDescription(String description);
+
+  /** Is this entity currently active/maintained. */
+  boolean isActive();
+
+  void setActive(boolean active);
+
+  /** Replacement of the entity (if applies). */
+  UUID getReplacedBy();
+
+  void setReplacedBy(UUID replacedBy);
+
+  /** Master source of the entity. */
+  MasterSourceType getMasterSource();
+
+  void setMasterSource(MasterSourceType masterSource);
+
+  /** Master source metadata */
+  MasterSourceMetadata getMasterSourceMetadata();
+
+  void setMasterSourceMetadata(MasterSourceMetadata masterSourceMetadata);
+
+  /** Flag to display the entity in the NHC portal. */
+  Boolean getDisplayOnNHCPortal();
+
+  void setDisplayOnNHCPortal(Boolean displayOnNHCPortal);
 }

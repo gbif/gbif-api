@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 /** API Service to work with collections. */
-public interface CollectionService extends PrimaryCollectionEntityService<Collection> {
+public interface CollectionService extends CollectionEntityService<Collection> {
 
   /**
    * Pages {@link Collection} entities based on the parameters received.

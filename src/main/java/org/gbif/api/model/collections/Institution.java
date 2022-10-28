@@ -13,6 +13,20 @@
  */
 package org.gbif.api.model.collections;
 
+import org.gbif.api.model.registry.Comment;
+import org.gbif.api.model.registry.Identifier;
+import org.gbif.api.model.registry.LenientEquals;
+import org.gbif.api.model.registry.MachineTag;
+import org.gbif.api.model.registry.PrePersist;
+import org.gbif.api.model.registry.Tag;
+import org.gbif.api.util.HttpURI;
+import org.gbif.api.util.LenientEqualsUtils;
+import org.gbif.api.util.validators.email.ValidEmail;
+import org.gbif.api.vocabulary.collections.Discipline;
+import org.gbif.api.vocabulary.collections.InstitutionGovernance;
+import org.gbif.api.vocabulary.collections.InstitutionType;
+import org.gbif.api.vocabulary.collections.MasterSourceType;
+
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.ArrayList;
@@ -21,24 +35,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
-
-import org.gbif.api.model.registry.Comment;
-import org.gbif.api.model.registry.Commentable;
-import org.gbif.api.model.registry.Identifiable;
-import org.gbif.api.model.registry.Identifier;
-import org.gbif.api.model.registry.LenientEquals;
-import org.gbif.api.model.registry.MachineTag;
-import org.gbif.api.model.registry.MachineTaggable;
-import org.gbif.api.model.registry.PrePersist;
-import org.gbif.api.model.registry.Tag;
-import org.gbif.api.model.registry.Taggable;
-import org.gbif.api.util.HttpURI;
-import org.gbif.api.util.LenientEqualsUtils;
-import org.gbif.api.util.validators.email.ValidEmail;
-import org.gbif.api.vocabulary.collections.Discipline;
-import org.gbif.api.vocabulary.collections.InstitutionGovernance;
-import org.gbif.api.vocabulary.collections.InstitutionType;
-import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 import javax.annotation.Nullable;
 import javax.validation.Valid;
@@ -50,15 +46,7 @@ import javax.validation.constraints.Size;
  * especially one dedicated to education, public service, or culture.
  */
 @SuppressWarnings("unused")
-public class Institution
-    implements PrimaryCollectionEntity,
-        Contactable,
-        Taggable,
-        MachineTaggable,
-        Identifiable,
-        Commentable,
-        OccurrenceMappeable,
-        LenientEquals<Institution> {
+public class Institution implements CollectionEntity, LenientEquals<Institution> {
 
   private UUID key;
 
@@ -127,8 +115,6 @@ public class Institution
 
   @Sourceable(masterSources = MasterSourceType.IH, sourceableParts = "IH_IRN")
   private List<Identifier> identifiers = new ArrayList<>();
-
-  private List<Person> contacts = new ArrayList<>();
 
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<Contact> contactPersons = new ArrayList<>();
@@ -468,16 +454,6 @@ public class Institution
     this.tags = tags;
   }
 
-  @Override
-  public List<Person> getContacts() {
-    return contacts;
-  }
-
-  @Override
-  public void setContacts(List<Person> contacts) {
-    this.contacts = contacts;
-  }
-
   @Valid
   @Override
   public List<Contact> getContactPersons() {
@@ -618,7 +594,6 @@ public class Institution
         && Objects.equals(deleted, that.deleted)
         && Objects.equals(tags, that.tags)
         && Objects.equals(identifiers, that.identifiers)
-        && Objects.equals(contacts, that.contacts)
         && Objects.equals(contactPersons, that.contactPersons)
         && Objects.equals(machineTags, that.machineTags)
         && Objects.equals(alternativeCodes, that.alternativeCodes)
@@ -666,7 +641,6 @@ public class Institution
         deleted,
         tags,
         identifiers,
-        contacts,
         contactPersons,
         machineTags,
         alternativeCodes,
@@ -714,7 +688,6 @@ public class Institution
         .add("deleted=" + deleted)
         .add("tags=" + tags)
         .add("identifiers=" + identifiers)
-        .add("contacts=" + contacts)
         .add("contactPersons=" + contactPersons)
         .add("machineTags=" + machineTags)
         .add("alternativeCodes=" + alternativeCodes)

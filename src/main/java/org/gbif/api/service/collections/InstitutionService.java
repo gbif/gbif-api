@@ -25,7 +25,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 /** Service for institutions in the collections context. */
-public interface InstitutionService extends PrimaryCollectionEntityService<Institution> {
+public interface InstitutionService extends CollectionEntityService<Institution> {
 
   /**
    * Pages {@link Institution} entities based on the parameters received.
