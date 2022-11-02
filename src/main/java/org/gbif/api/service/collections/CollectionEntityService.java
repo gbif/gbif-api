@@ -14,17 +14,31 @@
 package org.gbif.api.service.collections;
 
 import org.gbif.api.model.collections.CollectionEntity;
+import org.gbif.api.model.collections.MasterSourceMetadata;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.service.registry.CommentService;
 import org.gbif.api.service.registry.IdentifierService;
 import org.gbif.api.service.registry.MachineTagService;
 import org.gbif.api.service.registry.TagService;
+import org.gbif.api.vocabulary.collections.Source;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 public interface CollectionEntityService<T extends CollectionEntity>
-    extends CrudService<T>, IdentifierService, TagService, MachineTagService, CommentService {
+    extends CrudService<T>,
+        IdentifierService,
+        TagService,
+        MachineTagService,
+        CommentService,
+        ContactService,
+        OccurrenceMappingService {
 
   /**
    * Lists the entities having a machine tag in the provided namespace, with the provided name and
@@ -35,4 +49,49 @@ public interface CollectionEntityService<T extends CollectionEntity>
    */
   PagingResponse<T> listByMachineTag(
       String namespace, @Nullable String name, @Nullable String value, @Nullable Pageable page);
+
+  /** Replaces a entity with another. The entity replaced is also deleted. */
+  void replace(UUID entityToReplaceKey, UUID replacementKey);
+
+  /**
+   * Adds {@link MasterSourceMetadata} to an entity.
+   *
+   * @param targetEntityKey key of the entity to add the metadata to
+   * @param masterSourceMetadata metadata to add
+   * @return key of the created metadata
+   */
+  int addMasterSourceMetadata(UUID targetEntityKey, MasterSourceMetadata masterSourceMetadata);
+
+  /**
+   * Removes the {@link MasterSourceMetadata} from an entity.
+   *
+   * @param targetEntityKey key of the entity whose metadata will be deleted
+   */
+  void deleteMasterSourceMetadata(UUID targetEntityKey);
+
+  /**
+   * Returns the {@link MasterSourceMetadata} of the entity.
+   *
+   * @param targetEntityKey key of the entity
+   * @return {@link MasterSourceMetadata}
+   */
+  MasterSourceMetadata getMasterSourceMetadata(@NotNull UUID targetEntityKey);
+
+  /**
+   * Finds the collection entity whose master data metadata matches with the parameters received.
+   *
+   * @param source source of the metadata
+   * @param sourceId source Id of the metadata
+   * @return {@link Optional} with the collection entity found
+   */
+  List<T> findByMasterSource(Source source, String sourceId);
+
+  /**
+   * Updates an existing entity.
+   *
+   * @param entity that will replace the existing entity.
+   * @param lockFields indicates if fields that come from an external master source has to be
+   *     locked.
+   */
+  void update(@NotNull @Valid T entity, boolean lockFields);
 }

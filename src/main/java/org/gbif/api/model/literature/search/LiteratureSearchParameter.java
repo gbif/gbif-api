@@ -36,6 +36,9 @@ public enum LiteratureSearchParameter implements SearchParameter {
   GBIF_OCCURRENCE_KEY(Long.class), // occurrence key
   GBIF_TAXON_KEY(Integer.class), // taxon key
   GBIF_HIGHERTAXON_KEY(Integer.class), //higher taxon key
+  GBIF_NETWORK_KEY(UUID.class), // network keys
+  GBIF_PROJECT_IDENTIFIER(String.class), // project identifier
+  GBIF_PROGRAMME(String.class), // project identifier
   CITATION_TYPE(String.class), // citation type
   DOI(String.class),
   SOURCE(String.class), // journal

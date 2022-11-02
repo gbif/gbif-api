@@ -15,6 +15,7 @@
  */
 package org.gbif.api.vocabulary;
 
+import org.gbif.api.annotation.Experimental;
 import org.gbif.api.util.VocabularyUtils;
 
 /**
@@ -82,6 +83,11 @@ public enum EndpointType {
    * <a href="https://github.com/CatalogueOfLife/coldp">Catalogue of Life Data Packages</a>.
    */
   COLDP,
+  /**
+   * <a href="https://tdwg.github.io/camtrap-dp/">CamTrap DP</a>.
+   */
+  @Experimental
+  CAMTRAP_DP_v_0_4,
   /**
    * Any other service not covered by this enum so far.
    */

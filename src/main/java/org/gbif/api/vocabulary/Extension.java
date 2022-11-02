@@ -195,7 +195,7 @@ public enum Extension {
   private final String rowType;
 
   /**
-   * @param rowType the case insensitive row type uri for the extension
+   * @param rowType the case-insensitive row type uri for the extension
    * @return the matching extension or null
    */
   public static Extension fromRowType(String rowType) {
@@ -221,8 +221,8 @@ public enum Extension {
   private static final Map<Extension, String> AVAILABLE_EXTENSION_MAP = new EnumMap<>(Extension.class);
 
   static {
-    AVAILABLE_EXTENSION_MAP.put(AUDUBON, "https://rs.gbif.org/extension/ac/audubon_2020_10_06.xml");
-    AVAILABLE_EXTENSION_MAP.put(IMAGE, "https://rs.gbif.org/extension/gbif/1.0/images.xml");
+    AVAILABLE_EXTENSION_MAP.put(AUDUBON, "http://rs.gbif.org/extension/ac/audubon_2020_10_06.xml");
+    AVAILABLE_EXTENSION_MAP.put(IMAGE, "http://rs.gbif.org/extension/gbif/1.0/images.xml");
     AVAILABLE_EXTENSION_MAP.put(MULTIMEDIA, "http://rs.gbif.org/extension/gbif/1.0/multimedia.xml");
     AVAILABLE_EXTENSION_MAP.put(MEASUREMENT_OR_FACT, "http://rs.gbif.org/extension/dwc/measurements_or_facts.xml");
     AVAILABLE_EXTENSION_MAP.put(IDENTIFICATION, "http://rs.gbif.org/extension/dwc/identification.xml");

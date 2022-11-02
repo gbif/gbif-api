@@ -13,11 +13,6 @@
  */
 package org.gbif.api.model.collections;
 
-import org.gbif.api.model.registry.LenientEquals;
-import org.gbif.api.model.registry.PostPersist;
-import org.gbif.api.model.registry.PrePersist;
-import org.gbif.api.vocabulary.Country;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,12 +20,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import org.gbif.api.model.registry.LenientEquals;
+import org.gbif.api.model.registry.PostPersist;
+import org.gbif.api.model.registry.PrePersist;
+import org.gbif.api.util.validators.email.ValidEmail;
+import org.gbif.api.vocabulary.Country;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import javax.validation.constraints.Pattern;
-
-import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
 
 /** Contact associated to a GRSciColl {@link Collection} or {@link Institution}. */
 public class Contact implements LenientEquals<Contact>, Serializable {
@@ -41,7 +39,7 @@ public class Contact implements LenientEquals<Contact>, Serializable {
   private List<String> position = new ArrayList<>();
   private List<String> phone = new ArrayList<>();
   private List<String> fax = new ArrayList<>();
-  private List<@Pattern(regexp = EMAIL_PATTERN) String> email = new ArrayList<>();
+  private List<@ValidEmail String> email = new ArrayList<>();
   private List<String> address = new ArrayList<>();
   private String city;
   private String province;

@@ -15,17 +15,14 @@ package org.gbif.api.model.collections;
 
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.Comment;
-import org.gbif.api.model.registry.Commentable;
-import org.gbif.api.model.registry.Identifiable;
 import org.gbif.api.model.registry.Identifier;
 import org.gbif.api.model.registry.LenientEquals;
 import org.gbif.api.model.registry.MachineTag;
-import org.gbif.api.model.registry.MachineTaggable;
 import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.model.registry.Tag;
-import org.gbif.api.model.registry.Taggable;
 import org.gbif.api.util.HttpURI;
 import org.gbif.api.util.LenientEqualsUtils;
+import org.gbif.api.util.validators.email.ValidEmail;
 import org.gbif.api.vocabulary.collections.AccessionStatus;
 import org.gbif.api.vocabulary.collections.CollectionContentType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
@@ -44,10 +41,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
 
 /**
  * A group of specimens or other natural history objects. Types of collections can be: specimens,
@@ -55,15 +49,7 @@ import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
  * collections such as those that result from expeditions and voyages of discovery.
  */
 @SuppressWarnings("unused")
-public class Collection
-    implements PrimaryCollectionEntity,
-        Contactable,
-        Taggable,
-        MachineTaggable,
-        Identifiable,
-        Commentable,
-        OccurrenceMappeable,
-        LenientEquals<Collection> {
+public class Collection implements CollectionEntity, LenientEquals<Collection> {
 
   private UUID key;
 
@@ -86,7 +72,7 @@ public class Collection
   private DOI doi;
 
   @Sourceable(masterSources = MasterSourceType.IH)
-  private List<@Pattern(regexp = EMAIL_PATTERN) String> email = new ArrayList<>();
+  private List<@ValidEmail String> email = new ArrayList<>();
 
   @Sourceable(masterSources = MasterSourceType.IH)
   private List<String> phone = new ArrayList<>();
@@ -119,8 +105,6 @@ public class Collection
   @Sourceable(masterSources = MasterSourceType.IH, sourceableParts = "IH_IRN")
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY, sourceableParts = "DOI")
   private List<Identifier> identifiers = new ArrayList<>();
-
-  private List<Person> contacts = new ArrayList<>();
 
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<Contact> contactPersons = new ArrayList<>();
@@ -429,12 +413,6 @@ public class Collection
 
   @Valid
   @Override
-  public List<Person> getContacts() {
-    return contacts;
-  }
-
-  @Valid
-  @Override
   public List<Contact> getContactPersons() {
     return contactPersons;
   }
@@ -442,11 +420,6 @@ public class Collection
   @Override
   public void setContactPersons(List<Contact> contactPersons) {
     this.contactPersons = contactPersons;
-  }
-
-  @Override
-  public void setContacts(List<Person> contacts) {
-    this.contacts = contacts;
   }
 
   public boolean isIndexHerbariorumRecord() {
@@ -644,7 +617,6 @@ public class Collection
         && Objects.equals(deleted, that.deleted)
         && Objects.equals(tags, that.tags)
         && Objects.equals(identifiers, that.identifiers)
-        && Objects.equals(contacts, that.contacts)
         && Objects.equals(contactPersons, that.contactPersons)
         && indexHerbariorumRecord == that.indexHerbariorumRecord
         && Objects.equals(numberSpecimens, that.numberSpecimens)
@@ -694,7 +666,6 @@ public class Collection
         deleted,
         tags,
         identifiers,
-        contacts,
         contactPersons,
         indexHerbariorumRecord,
         numberSpecimens,
@@ -744,7 +715,6 @@ public class Collection
         .add("deleted=" + deleted)
         .add("tags=" + tags)
         .add("identifiers=" + identifiers)
-        .add("contacts=" + contacts)
         .add("contactPersons=" + contactPersons)
         .add("indexHerbariorumRecord=" + indexHerbariorumRecord)
         .add("numberSpecimens=" + numberSpecimens)

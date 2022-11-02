@@ -15,9 +15,6 @@
  */
 package org.gbif.api.model.collections.request;
 
-import java.util.List;
-import java.util.UUID;
-
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
@@ -25,6 +22,8 @@ import org.gbif.api.vocabulary.collections.Discipline;
 import org.gbif.api.vocabulary.collections.InstitutionGovernance;
 import org.gbif.api.vocabulary.collections.InstitutionType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
+
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -69,7 +68,6 @@ public class InstitutionSearchRequest extends SearchRequest {
 
   public static class Builder {
 
-    UUID contact;
     String q;
     String code;
     String name;
@@ -90,11 +88,6 @@ public class InstitutionSearchRequest extends SearchRequest {
     String numberSpecimens;
     Boolean displayOnNHCPortal;
     Pageable page;
-
-    public Builder contact(UUID contact) {
-      this.contact = contact;
-      return this;
-    }
 
     public Builder query(String q) {
       this.q = q;
@@ -198,7 +191,6 @@ public class InstitutionSearchRequest extends SearchRequest {
 
     public InstitutionSearchRequest build() {
       InstitutionSearchRequest req = new InstitutionSearchRequest();
-      req.setContact(contact);
       req.setQ(q);
       req.setCode(code);
       req.setName(name);

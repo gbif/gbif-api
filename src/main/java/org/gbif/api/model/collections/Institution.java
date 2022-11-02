@@ -14,17 +14,14 @@
 package org.gbif.api.model.collections;
 
 import org.gbif.api.model.registry.Comment;
-import org.gbif.api.model.registry.Commentable;
-import org.gbif.api.model.registry.Identifiable;
 import org.gbif.api.model.registry.Identifier;
 import org.gbif.api.model.registry.LenientEquals;
 import org.gbif.api.model.registry.MachineTag;
-import org.gbif.api.model.registry.MachineTaggable;
 import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.model.registry.Tag;
-import org.gbif.api.model.registry.Taggable;
 import org.gbif.api.util.HttpURI;
 import org.gbif.api.util.LenientEqualsUtils;
+import org.gbif.api.util.validators.email.ValidEmail;
 import org.gbif.api.vocabulary.collections.Discipline;
 import org.gbif.api.vocabulary.collections.InstitutionGovernance;
 import org.gbif.api.vocabulary.collections.InstitutionType;
@@ -42,25 +39,14 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import static org.gbif.api.util.ValidationUtils.EMAIL_PATTERN;
 
 /**
  * The owner or location of collection. Usually an established organization or foundation,
  * especially one dedicated to education, public service, or culture.
  */
 @SuppressWarnings("unused")
-public class Institution
-    implements PrimaryCollectionEntity,
-        Contactable,
-        Taggable,
-        MachineTaggable,
-        Identifiable,
-        Commentable,
-        OccurrenceMappeable,
-        LenientEquals<Institution> {
+public class Institution implements CollectionEntity, LenientEquals<Institution> {
 
   private UUID key;
 
@@ -79,7 +65,7 @@ public class Institution
   private boolean active;
 
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
-  private List<@Pattern(regexp = EMAIL_PATTERN) String> email = new ArrayList<>();
+  private List<@ValidEmail String> email = new ArrayList<>();
 
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<String> phone = new ArrayList<>();
@@ -107,7 +93,7 @@ public class Institution
   private List<String> additionalNames = new ArrayList<>();
 
   @Sourceable(masterSources = MasterSourceType.IH)
-  private Date foundingDate;
+  private Integer foundingDate;
 
   private String geographicDescription;
   private String taxonomicDescription;
@@ -129,8 +115,6 @@ public class Institution
 
   @Sourceable(masterSources = MasterSourceType.IH, sourceableParts = "IH_IRN")
   private List<Identifier> identifiers = new ArrayList<>();
-
-  private List<Person> contacts = new ArrayList<>();
 
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<Contact> contactPersons = new ArrayList<>();
@@ -333,11 +317,11 @@ public class Institution
   }
 
   /** Date when the institution was founded or established. */
-  public Date getFoundingDate() {
+  public Integer getFoundingDate() {
     return foundingDate;
   }
 
-  public void setFoundingDate(Date foundingDate) {
+  public void setFoundingDate(Integer foundingDate) {
     this.foundingDate = foundingDate;
   }
 
@@ -468,16 +452,6 @@ public class Institution
   @Override
   public void setTags(List<Tag> tags) {
     this.tags = tags;
-  }
-
-  @Override
-  public List<Person> getContacts() {
-    return contacts;
-  }
-
-  @Override
-  public void setContacts(List<Person> contacts) {
-    this.contacts = contacts;
   }
 
   @Valid
@@ -620,7 +594,6 @@ public class Institution
         && Objects.equals(deleted, that.deleted)
         && Objects.equals(tags, that.tags)
         && Objects.equals(identifiers, that.identifiers)
-        && Objects.equals(contacts, that.contacts)
         && Objects.equals(contactPersons, that.contactPersons)
         && Objects.equals(machineTags, that.machineTags)
         && Objects.equals(alternativeCodes, that.alternativeCodes)
@@ -668,7 +641,6 @@ public class Institution
         deleted,
         tags,
         identifiers,
-        contacts,
         contactPersons,
         machineTags,
         alternativeCodes,
@@ -716,7 +688,6 @@ public class Institution
         .add("deleted=" + deleted)
         .add("tags=" + tags)
         .add("identifiers=" + identifiers)
-        .add("contacts=" + contacts)
         .add("contactPersons=" + contactPersons)
         .add("machineTags=" + machineTags)
         .add("alternativeCodes=" + alternativeCodes)

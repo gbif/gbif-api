@@ -46,6 +46,9 @@ public class LiteratureSearchResult {
   private List<Long> gbifOccurrenceKey = new ArrayList<>();
   private List<Integer> gbifTaxonKey = new ArrayList<>();
   private List<Integer> gbifHigherTaxonKey = new ArrayList<>();
+  private List<UUID> gbifNetworkKey = new ArrayList<>();
+  private List<String> gbifProjectIdentifier = new ArrayList<>();
+  private List<String> gbifProgramme = new ArrayList<>();
   private String citationType;
   private Set<GbifRegion> gbifRegion = new HashSet<>();
   private UUID id;
@@ -322,5 +325,29 @@ public class LiteratureSearchResult {
 
   public void setYear(Integer year) {
     this.year = year;
+  }
+
+  public List<UUID> getGbifNetworkKey() {
+    return gbifNetworkKey;
+  }
+
+  public void setGbifNetworkKey(List<UUID> gbifNetworkKey) {
+    this.gbifNetworkKey = gbifNetworkKey;
+  }
+
+  public List<String> getGbifProjectIdentifier() {
+    return gbifProjectIdentifier;
+  }
+
+  public void setGbifProjectIdentifier(List<String> gbifProjectIdentifier) {
+    this.gbifProjectIdentifier = gbifProjectIdentifier;
+  }
+
+  public List<String> getGbifProgramme() {
+    return gbifProgramme;
+  }
+
+  public void setGbifProgramme(List<String> gbifProgramme) {
+    this.gbifProgramme = gbifProgramme;
   }
 }

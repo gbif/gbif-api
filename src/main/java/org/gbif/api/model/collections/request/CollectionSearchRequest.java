@@ -88,7 +88,6 @@ public class CollectionSearchRequest extends SearchRequest {
   public static class Builder {
 
     UUID institution;
-    UUID contact;
     String q;
     String code;
     String name;
@@ -113,11 +112,6 @@ public class CollectionSearchRequest extends SearchRequest {
 
     public Builder institution(UUID institution) {
       this.institution = institution;
-      return this;
-    }
-
-    public Builder contact(UUID contact) {
-      this.contact = contact;
       return this;
     }
 
@@ -229,7 +223,6 @@ public class CollectionSearchRequest extends SearchRequest {
     public CollectionSearchRequest build() {
       CollectionSearchRequest req = new CollectionSearchRequest();
       req.setInstitution(institution);
-      req.setContact(contact);
       req.setQ(q);
       req.setCode(code);
       req.setName(name);
