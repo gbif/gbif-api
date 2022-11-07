@@ -58,21 +58,29 @@ public class Match<T extends EntityMatched> {
   private T entityMatched;
 
   public static <T extends EntityMatched> Match<T> exact(T entity, Reason... reasons) {
+    return exact(entity, new HashSet<>(Arrays.asList(reasons)));
+  }
+
+  public static <T extends EntityMatched> Match<T> exact(T entity, Set<Reason> reasons) {
     Match<T> match = new Match<>();
     match.setEntityMatched(entity);
     match.setMatchType(MatchType.EXACT);
     if (reasons != null) {
-      match.setReasons(new HashSet<>(Arrays.asList(reasons)));
+      match.setReasons(reasons);
     }
     return match;
   }
 
   public static <T extends EntityMatched> Match<T> fuzzy(T entity, Reason... reasons) {
+    return fuzzy(entity, new HashSet<>(Arrays.asList(reasons)));
+  }
+
+  public static <T extends EntityMatched> Match<T> fuzzy(T entity, Set<Reason> reasons) {
     Match<T> match = new Match<>();
     match.setEntityMatched(entity);
     match.setMatchType(MatchType.FUZZY);
     if (reasons != null) {
-      match.setReasons(new HashSet<>(Arrays.asList(reasons)));
+      match.setReasons(reasons);
     }
     return match;
   }
@@ -91,11 +99,15 @@ public class Match<T extends EntityMatched> {
   }
 
   public static <T extends EntityMatched> Match<T> explicitMapping(T entity, Reason... reasons) {
+    return explicitMapping(entity, new HashSet<>(Arrays.asList(reasons)));
+  }
+
+  public static <T extends EntityMatched> Match<T> explicitMapping(T entity, Set<Reason> reasons) {
     Match<T> match = new Match<>();
     match.setEntityMatched(entity);
     match.setMatchType(MatchType.EXPLICIT_MAPPING);
     if (reasons != null) {
-      match.setReasons(new HashSet<>(Arrays.asList(reasons)));
+      match.setReasons(reasons);
     }
     return match;
   }
@@ -154,6 +166,7 @@ public class Match<T extends EntityMatched> {
     NAME_MATCH,
     KEY_MATCH,
     DIFFERENT_OWNER,
+    BELONGS_TO_INSTITUTION_MATCHED,
     INST_COLL_MISMATCH,
     COUNTRY_MATCH
   }
