@@ -79,7 +79,7 @@ public abstract class DownloadRequest implements Serializable {
     this.sendNotification = sendNotification;
     this.format = format;
     this.type = downloadType;
-    this.extensions = extensions;
+    this.extensions = extensions == null? Collections.emptySet(): extensions;
   }
 
   /**
@@ -169,6 +169,7 @@ public abstract class DownloadRequest implements Serializable {
   /**
    * Requested extensions for this download.
    */
+  @Nullable
   public Set<Extension> getExtensions() {
     return extensions;
   }

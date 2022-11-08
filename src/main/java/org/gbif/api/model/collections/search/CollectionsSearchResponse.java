@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.collections.search;
 
+import org.gbif.api.vocabulary.Country;
+
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -29,6 +31,13 @@ public class CollectionsSearchResponse {
   private UUID institutionKey;
   private String institutionCode;
   private String institutionName;
+
+  private boolean displayOnNHCPortal;
+
+  private Country country;
+
+  private Country mailingCountry;
+
   private Set<Match> matches;
 
   public String getType() {
@@ -85,6 +94,30 @@ public class CollectionsSearchResponse {
 
   public void setInstitutionName(String institutionName) {
     this.institutionName = institutionName;
+  }
+
+  public boolean isDisplayOnNHCPortal() {
+    return displayOnNHCPortal;
+  }
+
+  public void setDisplayOnNHCPortal(boolean displayOnNHCPortal) {
+    this.displayOnNHCPortal = displayOnNHCPortal;
+  }
+
+  public Country getCountry() {
+    return country;
+  }
+
+  public void setCountry(Country country) {
+    this.country = country;
+  }
+
+  public Country getMailingCountry() {
+    return mailingCountry;
+  }
+
+  public void setMailingCountry(Country mailingCountry) {
+    this.mailingCountry = mailingCountry;
   }
 
   public Set<Match> getMatches() {
@@ -145,12 +178,25 @@ public class CollectionsSearchResponse {
         && Objects.equals(institutionKey, response.institutionKey)
         && Objects.equals(institutionCode, response.institutionCode)
         && Objects.equals(institutionName, response.institutionName)
+        && Objects.equals(displayOnNHCPortal, response.displayOnNHCPortal)
+        && Objects.equals(country, response.country)
+        && Objects.equals(mailingCountry, response.mailingCountry)
         && Objects.equals(matches, response.matches);
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
-        type, key, code, name, institutionKey, institutionCode, institutionName, matches);
+        type,
+        key,
+        code,
+        name,
+        institutionKey,
+        institutionCode,
+        institutionName,
+        displayOnNHCPortal,
+        country,
+        mailingCountry,
+        matches);
   }
 }
