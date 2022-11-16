@@ -91,6 +91,8 @@ public class Download implements Serializable {
 
   private long numberDatasets;
 
+  private String source;
+
   /**
    * @return timestamp when the download was created
    */
@@ -189,6 +191,13 @@ public class Download implements Serializable {
   }
 
   /**
+   * Source of the download to determine how the download was originated.
+   */
+  public String getSource() {
+    return source;
+  }
+
+  /**
    * Occurrence download Digital Object Identifier.
    */
   @Nullable
@@ -255,6 +264,10 @@ public class Download implements Serializable {
     this.numberDatasets = numberDatasets;
   }
 
+  public void setSource(String source) {
+    this.source = source;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -276,14 +289,15 @@ public class Download implements Serializable {
       Objects.equals(eraseAfter, download.eraseAfter) &&
       Objects.equals(erasureNotification, download.erasureNotification) &&
       status == download.status &&
-      Objects.equals(downloadLink, download.downloadLink);
+      Objects.equals(downloadLink, download.downloadLink) &&
+      Objects.equals(source, download.source);
   }
 
   @Override
   public int hashCode() {
     return Objects
       .hash(key, doi, license, request, created, modified, eraseAfter, status, downloadLink, size,
-        totalRecords, numberDatasets);
+        totalRecords, numberDatasets, source);
   }
 
   @Override
@@ -302,6 +316,7 @@ public class Download implements Serializable {
       .add("size=" + size)
       .add("totalRecords=" + totalRecords)
       .add("numberDatasets=" + numberDatasets)
+      .add("source=" + source)
       .toString();
   }
 }

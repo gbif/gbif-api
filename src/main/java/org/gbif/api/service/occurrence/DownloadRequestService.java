@@ -42,7 +42,7 @@ public interface DownloadRequestService {
   /**
    * Creates a download request. If the request is successfully created its key is returned.
    */
-  String create(@NotNull DownloadRequest downloadRequest);
+  String create(@NotNull DownloadRequest downloadRequest, @Nullable String source);
 
   /**
    * @param downloadKey of the corresponding download request
