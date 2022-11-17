@@ -48,9 +48,10 @@ public interface OccurrenceDownloadService {
 
   /**
    * Retrieves a pageable result of all the downloads, optionally the downloads can be filtered by
-   * status.
+   * status and source.
    */
-  PagingResponse<Download> list(@Nullable Pageable page, @Nullable Set<Download.Status> status);
+  PagingResponse<Download> list(
+      @Nullable Pageable page, @Nullable Set<Download.Status> status, @Nullable String source);
 
   /**
    * Retrieves a pageable result of the downloads created by a user in a given status.
