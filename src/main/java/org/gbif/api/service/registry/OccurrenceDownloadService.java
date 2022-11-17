@@ -95,6 +95,10 @@ public interface OccurrenceDownloadService {
     @Nullable Date toDate,
     @Nullable Country userCountry);
 
+  /** Retrieves downloads monthly stats by source. */
+  Map<Integer, Map<Integer, Long>> getDownloadsBySource(
+      @Nullable Date fromDate, @Nullable Date toDate, @Nullable String source);
+
   /**
    * Retrieves downloaded records monthly stats by country (user and publishing country) and dataset.
    */
