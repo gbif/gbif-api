@@ -21,5 +21,6 @@ package org.gbif.api.vocabulary;
 public enum MediaType {
   StillImage,
   MovingImage,
-  Sound
+  Sound,
+  InteractiveResource
 }
