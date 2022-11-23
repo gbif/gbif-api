@@ -95,7 +95,12 @@ public enum IdentifierType {
   /**
    * https://cites.org/
    */
-  CITES;
+  CITES,
+
+  /**
+   * Symbiota IDs to help linking GrSciColl occurrences.
+   */
+  SYMBIOTA_UUID;
 
   // TODO: Check if this is used, it didn't exist in the new Registry2 API, but I preserved it from the old vocabulary
   public static final List<IdentifierType> TYPES;
