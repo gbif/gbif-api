@@ -45,8 +45,8 @@ mvn clean install
     1) dev version    - 1.8.0-SNAPSHOT
     2) master version - 1.7.1-SNAPSHOT
     ```
- **Example** of releasing a fix for **master** branch
-   * Current dev and master versions
+ **Example** of releasing a fix for **master** branch:
+  * Current dev and master versions
     ```
     1) dev version    - 1.8.0-SNAPSHOT
     2) master version - 1.7.1-SNAPSHOT
