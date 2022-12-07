@@ -59,8 +59,8 @@ public abstract class DownloadRequest implements Serializable {
   @JsonProperty("type")
   private DownloadType type;
 
-  @JsonProperty("extensions")
-  private Set<Extension> extensions;
+  @JsonProperty("verbatimExtensions")
+  private Set<Extension> verbatimExtensions;
 
   /**
    * Default constructor.
@@ -72,14 +72,15 @@ public abstract class DownloadRequest implements Serializable {
   public DownloadRequest(String creator, Collection<String> notificationAddresses,
                          boolean sendNotification, DownloadFormat format,
                          DownloadType downloadType,
-                         Set<Extension> extensions) {
+                         Set<Extension> verbatimExtensions
+  ) {
     this.creator = creator;
     this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :
       Collections.unmodifiableSet(new HashSet<>(notificationAddresses));
     this.sendNotification = sendNotification;
     this.format = format;
     this.type = downloadType;
-    this.extensions = extensions == null? Collections.emptySet(): extensions;
+    this.verbatimExtensions = verbatimExtensions == null? Collections.emptySet(): verbatimExtensions;
   }
 
   /**
@@ -167,15 +168,15 @@ public abstract class DownloadRequest implements Serializable {
   }
 
   /**
-   * Requested extensions for this download.
+   * Requested verbatimExtensions for this download.
    */
   @Nullable
-  public Set<Extension> getExtensions() {
-    return extensions;
+  public Set<Extension> getVerbatimExtensions() {
+    return verbatimExtensions;
   }
 
-  public void setExtensions(Set<Extension> extensions) {
-    this.extensions = extensions;
+  public void setVerbatimExtensions(Set<Extension> verbatimExtensions) {
+    this.verbatimExtensions = verbatimExtensions;
   }
 
   @Override
@@ -192,12 +193,12 @@ public abstract class DownloadRequest implements Serializable {
       Objects.equals(notificationAddresses, that.notificationAddresses) &&
       format == that.format &&
       type == that.type &&
-      Objects.equals(extensions, that.extensions);
+      Objects.equals(verbatimExtensions, that.verbatimExtensions);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(creator, notificationAddresses, sendNotification, format, type, extensions);
+    return Objects.hash(creator, notificationAddresses, sendNotification, format, type, verbatimExtensions);
   }
 
   @Override
@@ -208,7 +209,7 @@ public abstract class DownloadRequest implements Serializable {
       .add("sendNotification=" + sendNotification)
       .add("format=" + format)
       .add("type=" + type)
-      .add("extensions=" + extensions)
+      .add("verbatimExtensions=" + verbatimExtensions)
       .toString();
   }
 }

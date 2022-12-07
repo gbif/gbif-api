@@ -64,7 +64,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
   private static final String CREATOR = "creator";
   private static final String FORMAT = "format";
   private static final String TYPE = "type";
-  private static final String EXTENSIONS = "extensions";
+  private static final String VERBATIM_EXTENSIONS = "verbatimExtensions";
   private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -103,7 +103,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
     JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);
     Predicate predicateObj = predicate == null ? null : MAPPER.treeToValue(predicate, Predicate.class);
 
-    Set<Extension> extensions = Optional.ofNullable(node.get(EXTENSIONS)).map(jsonNode -> {
+    Set<Extension> extensions = Optional.ofNullable(node.get(VERBATIM_EXTENSIONS)).map(jsonNode -> {
       try {
         return Arrays.stream(MAPPER.treeToValue(jsonNode, String[].class))
                 .map(Extension::fromRowType)

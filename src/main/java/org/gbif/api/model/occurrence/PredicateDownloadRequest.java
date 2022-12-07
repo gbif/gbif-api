@@ -52,8 +52,8 @@ public class PredicateDownloadRequest extends DownloadRequest {
     @JsonProperty("sendNotification") boolean sendNotification,
     @JsonProperty("format") DownloadFormat format,
     @JsonProperty("type") DownloadType type,
-    @JsonProperty("extensions") @Nullable Set<Extension> extensions) {
-    super(creator, notificationAddresses, sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type, extensions);
+    @JsonProperty("verbatimExtensions") @Nullable Set<Extension> verbatimExtensions) {
+    super(creator, notificationAddresses, sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type, verbatimExtensions);
     this.predicate = predicate;
   }
 
