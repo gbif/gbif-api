@@ -116,6 +116,7 @@ public class Event extends VerbatimOccurrence {
     event.setCountry(occurrence.getCountry());
     event.setStateProvince(occurrence.getStateProvince());
     event.setWaterBody(occurrence.getWaterBody());
+    event.setDistanceFromCentroidInMeters(occurrence.getDistanceFromCentroidInMeters());
     event.setYear(occurrence.getYear());
     event.setMonth(occurrence.getMonth());
     event.setDay(occurrence.getDay());
@@ -206,6 +207,7 @@ public class Event extends VerbatimOccurrence {
   private Country country;
   private String stateProvince;
   private String waterBody;
+  private Double distanceFromCentroidInMeters;
 
   // recording event
   private Integer year;

@@ -138,6 +138,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private Country country;
   private String stateProvince;
   private String waterBody;
+  private Double distanceFromCentroidInMeters;
 
   // recording event
   private Integer year;
@@ -791,6 +792,17 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setWaterBody(@Nullable String waterBody) {
     this.waterBody = waterBody;
+  }
+
+  /**
+   * The distance in metres from a known centroid, e.g. a country centroid.
+   */
+  public Double getDistanceFromCentroidInMeters() {
+    return distanceFromCentroidInMeters;
+  }
+
+  public void setDistanceFromCentroidInMeters(Double distanceFromCentroidInMeters) {
+    this.distanceFromCentroidInMeters = distanceFromCentroidInMeters;
   }
 
   /**
