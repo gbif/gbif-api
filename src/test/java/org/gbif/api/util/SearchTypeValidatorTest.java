@@ -30,6 +30,7 @@ import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COU
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DATASET_KEY;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LATITUDE;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DECIMAL_LONGITUDE;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DISTANCE_FROM_CENTROID_IN_METERS;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.ELEVATION;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.EVENT_DATE;
 import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.GEOMETRY;
@@ -153,7 +154,10 @@ public class SearchTypeValidatorTest {
       Arguments.of(GEO_DISTANCE, "40,90,100m", true, false),
       Arguments.of(GEO_DISTANCE, "200,90,100m", false, false),
       Arguments.of(GEO_DISTANCE, "200", false, false),
-      Arguments.of(GEO_DISTANCE, "30,90,277", true, false)
+      Arguments.of(GEO_DISTANCE, "30,90,277", true, false),
+      Arguments.of(DISTANCE_FROM_CENTROID_IN_METERS, "100", true, false),
+      Arguments.of(DISTANCE_FROM_CENTROID_IN_METERS, "100,*", true, true),
+      Arguments.of(DISTANCE_FROM_CENTROID_IN_METERS, "*,277", true, true)
     );
   }
 

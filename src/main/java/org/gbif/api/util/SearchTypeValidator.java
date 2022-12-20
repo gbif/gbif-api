@@ -411,6 +411,30 @@ public class SearchTypeValidator {
     if (parsedDistance.getValue() <= 0d) {
       throw new IllegalArgumentException("GeoDistance cannot be less than zero");
     }
+ }
+
+  /**
+   * Parses a distance range in the format 123m,456km.
+   *
+   * @return the parsed range with wildcards represented as null values
+   * @throws IllegalArgumentException if value is invalid or null
+   */
+  public static Range<DistanceUnit.Distance> parseDistanceRange(String value) {
+    if (StringUtils.isNotEmpty(value)) {
+      Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);
+      if (m.find()) {
+        return Range.closed(parseDistance(m.group(1)), parseDistance(m.group(2)));
+      }
+    }
+    throw new IllegalArgumentException("Invalid distance range: " + value);
+  }
+
+  public static DistanceUnit.Distance parseDistance(String distance) {
+    DistanceUnit.Distance parsedDistance = DistanceUnit.parseDistance(distance);
+    if (parsedDistance.getValue() <= 0d) {
+      throw new IllegalArgumentException("Distance cannot be less than zero");
+    }
+    return parsedDistance;
   }
 
   /**

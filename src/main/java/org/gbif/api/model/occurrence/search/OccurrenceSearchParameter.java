@@ -357,6 +357,11 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   GEO_DISTANCE(String.class),
 
   /**
+   * The distance from a known centroid, e.g. a country centroid.
+   */
+  DISTANCE_FROM_CENTROID_IN_METERS(Double.class),
+
+  /**
    * Includes/excludes occurrence records which contain geospatial issues for their coordinate.
    * See {@link org.gbif.api.vocabulary.OccurrenceIssue#GEOSPATIAL_RULES}
    * HAS_GEOSPATIAL_ISSUE=true include records with spatial issues.
