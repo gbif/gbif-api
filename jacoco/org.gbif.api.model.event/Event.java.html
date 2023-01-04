@@ -13,10 +13,48 @@
  */
 package org.gbif.api.model.event;
 
+import org.gbif.api.annotation.Experimental;
+import org.gbif.api.model.common.Identifier;
+import org.gbif.api.model.common.MediaObject;
+import org.gbif.api.model.occurrence.AgentIdentifier;
+import org.gbif.api.model.occurrence.Gadm;
+import org.gbif.api.model.occurrence.MeasurementOrFact;
 import org.gbif.api.model.occurrence.Occurrence;
+import org.gbif.api.model.occurrence.OccurrenceRelation;
+import org.gbif.api.model.occurrence.VerbatimOccurrence;
+import org.gbif.api.vocabulary.BasisOfRecord;
+import org.gbif.api.vocabulary.Continent;
+import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.License;
+import org.gbif.api.vocabulary.OccurrenceIssue;
+import org.gbif.api.vocabulary.OccurrenceStatus;
+import org.gbif.api.vocabulary.Sex;
+import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.Term;
+import org.gbif.dwc.terms.UnknownTerm;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.annotation.Nullable;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,132 +62,238 @@ import lombok.Data;
 /**
  * Event class based on https://dwc.tdwg.org/terms/#event.
  */
-<span class="nc bnc" id="L27" title="All 78 branches missed.">@Data</span>
-public class Event extends Occurrence {
+<span class="nc bnc" id="L65" title="All 506 branches missed.">@Data</span>
+public class Event extends VerbatimOccurrence {
+
+  public static final String GEO_DATUM = &quot;WGS84&quot;;
+
+  // keep names of ALL properties of this class in a set for jackson serialization, see #properties()
+<span class="nc" id="L71">  private static final Set&lt;String&gt; PROPERTIES = Collections.unmodifiableSet(</span>
+<span class="nc" id="L72">    Stream.concat(</span>
+      // we need to these json properties manually because we have a fixed getter but no field for it
+<span class="nc" id="L74">      Stream.of(DwcTerm.geodeticDatum.simpleName(), &quot;class&quot;, &quot;countryCode&quot;),</span>
+<span class="nc" id="L75">      Stream.concat(Arrays.stream(Event.class.getDeclaredFields()),</span>
+<span class="nc" id="L76">                    Arrays.stream(VerbatimOccurrence.class.getDeclaredFields()))</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        .filter(field -&gt; !Modifier.isStatic(field.getModifiers()))</span>
+<span class="nc" id="L78">        .map(Field::getName)).collect(Collectors.toSet()));</span>
 
   public static Event fromOccurrence(Occurrence occurrence) {
-<span class="nc" id="L31">    Event event =new Event();</span>
-<span class="nc" id="L32">    event.setKey(occurrence.getKey());</span>
-<span class="nc" id="L33">    event.setDatasetKey(occurrence.getDatasetKey());</span>
-<span class="nc" id="L34">    event.setPublishingOrgKey(occurrence.getPublishingOrgKey());</span>
-<span class="nc" id="L35">    event.setNetworkKeys(occurrence.getNetworkKeys());</span>
-<span class="nc" id="L36">    event.setInstallationKey(occurrence.getInstallationKey());</span>
-<span class="nc" id="L37">    event.setPublishingCountry(occurrence.getPublishingCountry());</span>
-<span class="nc" id="L38">    event.setProtocol(occurrence.getProtocol());</span>
-<span class="nc" id="L39">    event.setLastCrawled(occurrence.getLastCrawled());</span>
-<span class="nc" id="L40">    event.setLastParsed(occurrence.getLastParsed());</span>
-<span class="nc" id="L41">    event.setCrawlId(occurrence.getCrawlId());</span>
-<span class="nc" id="L42">    event.setProjectId(occurrence.getProjectId());</span>
-<span class="nc" id="L43">    event.setProgrammeAcronym(occurrence.getProgrammeAcronym());</span>
-<span class="nc" id="L44">    event.setHostingOrganizationKey(occurrence.getHostingOrganizationKey());</span>
-<span class="nc" id="L45">    event.setVerbatimFields(occurrence.getVerbatimFields());</span>
-<span class="nc" id="L46">    event.setExtensions(occurrence.getExtensions());</span>
-<span class="nc" id="L47">    event.setBasisOfRecord(occurrence.getBasisOfRecord());</span>
-<span class="nc" id="L48">    event.setIndividualCount(occurrence.getIndividualCount());</span>
-<span class="nc" id="L49">    event.setOccurrenceStatus(occurrence.getOccurrenceStatus());</span>
-<span class="nc" id="L50">    event.setSex(occurrence.getSex());</span>
-<span class="nc" id="L51">    event.setLifeStage(occurrence.getLifeStage());</span>
-<span class="nc" id="L52">    event.setEstablishmentMeans(occurrence.getEstablishmentMeans());</span>
-<span class="nc" id="L53">    event.setDegreeOfEstablishment(occurrence.getDegreeOfEstablishment());</span>
-<span class="nc" id="L54">    event.setPathway(occurrence.getPathway());</span>
-<span class="nc" id="L55">    event.setTaxonKey(occurrence.getTaxonKey());</span>
-<span class="nc" id="L56">    event.setKingdomKey(occurrence.getKingdomKey());</span>
-<span class="nc" id="L57">    event.setPhylumKey(occurrence.getPhylumKey());</span>
-<span class="nc" id="L58">    event.setClassKey(occurrence.getClassKey());</span>
-<span class="nc" id="L59">    event.setOrderKey(occurrence.getOrderKey());</span>
-<span class="nc" id="L60">    event.setFamilyKey(occurrence.getFamilyKey());</span>
-<span class="nc" id="L61">    event.setGenusKey(occurrence.getGenusKey());</span>
-<span class="nc" id="L62">    event.setSubgenusKey(occurrence.getSubgenusKey());</span>
-<span class="nc" id="L63">    event.setSpeciesKey(occurrence.getSpeciesKey());</span>
-<span class="nc" id="L64">    event.setAcceptedTaxonKey(occurrence.getAcceptedTaxonKey());</span>
-<span class="nc" id="L65">    event.setScientificName(occurrence.getScientificName());</span>
-<span class="nc" id="L66">    event.setAcceptedScientificName(occurrence.getAcceptedScientificName());</span>
-<span class="nc" id="L67">    event.setKingdom(occurrence.getKingdom());</span>
-<span class="nc" id="L68">    event.setPhylum(occurrence.getPhylum());</span>
-<span class="nc" id="L69">    event.setClazz(occurrence.getClazz());</span>
-<span class="nc" id="L70">    event.setOrder(occurrence.getOrder());</span>
-<span class="nc" id="L71">    event.setFamily(occurrence.getFamily());</span>
-<span class="nc" id="L72">    event.setGenus(occurrence.getGenus());</span>
-<span class="nc" id="L73">    event.setSubgenus(occurrence.getSubgenus());</span>
-<span class="nc" id="L74">    event.setSpecies(occurrence.getSpecies());</span>
-<span class="nc" id="L75">    event.setGenericName(occurrence.getGenericName());</span>
-<span class="nc" id="L76">    event.setSpecificEpithet(occurrence.getSpecificEpithet());</span>
-<span class="nc" id="L77">    event.setInfraspecificEpithet(occurrence.getInfraspecificEpithet());</span>
-<span class="nc" id="L78">    event.setTaxonRank(occurrence.getTaxonRank());</span>
-<span class="nc" id="L79">    event.setTaxonomicStatus(occurrence.getTaxonomicStatus());</span>
-<span class="nc" id="L80">    event.setIucnRedListCategory(occurrence.getIucnRedListCategory());</span>
-<span class="nc" id="L81">    event.setDateIdentified(occurrence.getDateIdentified());</span>
-<span class="nc" id="L82">    event.setDecimalLongitude(occurrence.getDecimalLongitude());</span>
-<span class="nc" id="L83">    event.setDecimalLatitude(occurrence.getDecimalLatitude());</span>
-<span class="nc" id="L84">    event.setCoordinatePrecision(occurrence.getCoordinatePrecision());</span>
-<span class="nc" id="L85">    event.setCoordinateUncertaintyInMeters(occurrence.getCoordinateUncertaintyInMeters());</span>
-<span class="nc" id="L86">    event.setCoordinateAccuracy(occurrence.getCoordinateAccuracy());</span>
-<span class="nc" id="L87">    event.setElevation(occurrence.getElevation());</span>
-<span class="nc" id="L88">    event.setElevationAccuracy(occurrence.getElevationAccuracy());</span>
-<span class="nc" id="L89">    event.setDepth(occurrence.getDepth());</span>
-<span class="nc" id="L90">    event.setDepthAccuracy(occurrence.getDepthAccuracy());</span>
-<span class="nc" id="L91">    event.setContinent(occurrence.getContinent());</span>
-<span class="nc" id="L92">    event.setCountry(occurrence.getCountry());</span>
-<span class="nc" id="L93">    event.setStateProvince(occurrence.getStateProvince());</span>
-<span class="nc" id="L94">    event.setWaterBody(occurrence.getWaterBody());</span>
-<span class="nc" id="L95">    event.setYear(occurrence.getYear());</span>
-<span class="nc" id="L96">    event.setMonth(occurrence.getMonth());</span>
-<span class="nc" id="L97">    event.setDay(occurrence.getDay());</span>
-<span class="nc" id="L98">    event.setEventDate(occurrence.getEventDate());</span>
-<span class="nc" id="L99">    event.setTypeStatus(occurrence.getTypeStatus());</span>
-<span class="nc" id="L100">    event.setTypifiedName(occurrence.getTypifiedName());</span>
-<span class="nc" id="L101">    event.setIssues(occurrence.getIssues());</span>
-<span class="nc" id="L102">    event.setModified(occurrence.getModified());</span>
-<span class="nc" id="L103">    event.setLastInterpreted(occurrence.getLastInterpreted());</span>
-<span class="nc" id="L104">    event.setReferences(occurrence.getReferences());</span>
-<span class="nc" id="L105">    event.setLicense(occurrence.getLicense());</span>
-<span class="nc" id="L106">    event.setOrganismQuantity(occurrence.getOrganismQuantity());</span>
-<span class="nc" id="L107">    event.setOrganismQuantityType(occurrence.getOrganismQuantityType());</span>
-<span class="nc" id="L108">    event.setSampleSizeUnit(occurrence.getSampleSizeUnit());</span>
-<span class="nc" id="L109">    event.setSampleSizeValue(occurrence.getSampleSizeValue());</span>
-<span class="nc" id="L110">    event.setRelativeOrganismQuantity(occurrence.getRelativeOrganismQuantity());</span>
-<span class="nc" id="L111">    event.setIdentifiers(occurrence.getIdentifiers());</span>
-<span class="nc" id="L112">    event.setMedia(occurrence.getMedia());</span>
-<span class="nc" id="L113">    event.setFacts(occurrence.getFacts());</span>
-<span class="nc" id="L114">    event.setRelations(occurrence.getRelations());</span>
-<span class="nc" id="L115">    event.setRecordedByIds(occurrence.getRecordedByIds());</span>
-<span class="nc" id="L116">    event.setIdentifiedByIds(occurrence.getIdentifiedByIds());</span>
-<span class="nc" id="L117">    event.setGadm(occurrence.getGadm());</span>
-<span class="nc" id="L118">    event.setInstitutionKey(occurrence.getInstitutionKey());</span>
-<span class="nc" id="L119">    event.setCollectionKey(occurrence.getCollectionKey());</span>
-<span class="nc" id="L120">    event.setIsInCluster(occurrence.getIsInCluster());</span>
-<span class="nc" id="L121">    event.setDatasetID(occurrence.getDatasetID());</span>
-<span class="nc" id="L122">    event.setDatasetName(occurrence.getDatasetName());</span>
-<span class="nc" id="L123">    event.setOtherCatalogNumbers(occurrence.getOtherCatalogNumbers());</span>
-<span class="nc" id="L124">    event.setRecordedBy(occurrence.getRecordedBy());</span>
-<span class="nc" id="L125">    event.setIdentifiedBy(occurrence.getIdentifiedBy());</span>
-<span class="nc" id="L126">    event.setPreparations(occurrence.getPreparations());</span>
-<span class="nc" id="L127">    event.setSamplingProtocol(occurrence.getSamplingProtocol());</span>
-<span class="nc" id="L128">    return event;</span>
+<span class="nc" id="L81">    Event event =new Event();</span>
+<span class="nc" id="L82">    event.setKey(occurrence.getKey());</span>
+<span class="nc" id="L83">    event.setDatasetKey(occurrence.getDatasetKey());</span>
+<span class="nc" id="L84">    event.setPublishingOrgKey(occurrence.getPublishingOrgKey());</span>
+<span class="nc" id="L85">    event.setNetworkKeys(occurrence.getNetworkKeys());</span>
+<span class="nc" id="L86">    event.setInstallationKey(occurrence.getInstallationKey());</span>
+<span class="nc" id="L87">    event.setPublishingCountry(occurrence.getPublishingCountry());</span>
+<span class="nc" id="L88">    event.setProtocol(occurrence.getProtocol());</span>
+<span class="nc" id="L89">    event.setLastCrawled(occurrence.getLastCrawled());</span>
+<span class="nc" id="L90">    event.setLastParsed(occurrence.getLastParsed());</span>
+<span class="nc" id="L91">    event.setCrawlId(occurrence.getCrawlId());</span>
+<span class="nc" id="L92">    event.setProjectId(occurrence.getProjectId());</span>
+<span class="nc" id="L93">    event.setProgrammeAcronym(occurrence.getProgrammeAcronym());</span>
+<span class="nc" id="L94">    event.setHostingOrganizationKey(occurrence.getHostingOrganizationKey());</span>
+<span class="nc" id="L95">    event.setVerbatimFields(occurrence.getVerbatimFields());</span>
+<span class="nc" id="L96">    event.setExtensions(occurrence.getExtensions());</span>
+<span class="nc" id="L97">    event.setBasisOfRecord(occurrence.getBasisOfRecord());</span>
+<span class="nc" id="L98">    event.setIndividualCount(occurrence.getIndividualCount());</span>
+<span class="nc" id="L99">    event.setOccurrenceStatus(occurrence.getOccurrenceStatus());</span>
+<span class="nc" id="L100">    event.setSex(occurrence.getSex());</span>
+<span class="nc" id="L101">    event.setLifeStage(occurrence.getLifeStage());</span>
+<span class="nc" id="L102">    event.setEstablishmentMeans(occurrence.getEstablishmentMeans());</span>
+<span class="nc" id="L103">    event.setDegreeOfEstablishment(occurrence.getDegreeOfEstablishment());</span>
+<span class="nc" id="L104">    event.setPathway(occurrence.getPathway());</span>
+<span class="nc" id="L105">    event.setDateIdentified(occurrence.getDateIdentified());</span>
+<span class="nc" id="L106">    event.setDecimalLongitude(occurrence.getDecimalLongitude());</span>
+<span class="nc" id="L107">    event.setDecimalLatitude(occurrence.getDecimalLatitude());</span>
+<span class="nc" id="L108">    event.setCoordinatePrecision(occurrence.getCoordinatePrecision());</span>
+<span class="nc" id="L109">    event.setCoordinateUncertaintyInMeters(occurrence.getCoordinateUncertaintyInMeters());</span>
+<span class="nc" id="L110">    event.setCoordinateAccuracy(occurrence.getCoordinateAccuracy());</span>
+<span class="nc" id="L111">    event.setElevation(occurrence.getElevation());</span>
+<span class="nc" id="L112">    event.setElevationAccuracy(occurrence.getElevationAccuracy());</span>
+<span class="nc" id="L113">    event.setDepth(occurrence.getDepth());</span>
+<span class="nc" id="L114">    event.setDepthAccuracy(occurrence.getDepthAccuracy());</span>
+<span class="nc" id="L115">    event.setContinent(occurrence.getContinent());</span>
+<span class="nc" id="L116">    event.setCountry(occurrence.getCountry());</span>
+<span class="nc" id="L117">    event.setStateProvince(occurrence.getStateProvince());</span>
+<span class="nc" id="L118">    event.setWaterBody(occurrence.getWaterBody());</span>
+<span class="nc" id="L119">    event.setDistanceFromCentroidInMeters(occurrence.getDistanceFromCentroidInMeters());</span>
+<span class="nc" id="L120">    event.setYear(occurrence.getYear());</span>
+<span class="nc" id="L121">    event.setMonth(occurrence.getMonth());</span>
+<span class="nc" id="L122">    event.setDay(occurrence.getDay());</span>
+<span class="nc" id="L123">    event.setEventDate(occurrence.getEventDate());</span>
+<span class="nc" id="L124">    event.setIssues(occurrence.getIssues());</span>
+<span class="nc" id="L125">    event.setModified(occurrence.getModified());</span>
+<span class="nc" id="L126">    event.setLastInterpreted(occurrence.getLastInterpreted());</span>
+<span class="nc" id="L127">    event.setReferences(occurrence.getReferences());</span>
+<span class="nc" id="L128">    event.setLicense(occurrence.getLicense());</span>
+<span class="nc" id="L129">    event.setOrganismQuantity(occurrence.getOrganismQuantity());</span>
+<span class="nc" id="L130">    event.setOrganismQuantityType(occurrence.getOrganismQuantityType());</span>
+<span class="nc" id="L131">    event.setSampleSizeUnit(occurrence.getSampleSizeUnit());</span>
+<span class="nc" id="L132">    event.setSampleSizeValue(occurrence.getSampleSizeValue());</span>
+<span class="nc" id="L133">    event.setRelativeOrganismQuantity(occurrence.getRelativeOrganismQuantity());</span>
+<span class="nc" id="L134">    event.setIdentifiers(occurrence.getIdentifiers());</span>
+<span class="nc" id="L135">    event.setMedia(occurrence.getMedia());</span>
+<span class="nc" id="L136">    event.setFacts(occurrence.getFacts());</span>
+<span class="nc" id="L137">    event.setRelations(occurrence.getRelations());</span>
+<span class="nc" id="L138">    event.setRecordedByIds(occurrence.getRecordedByIds());</span>
+<span class="nc" id="L139">    event.setIdentifiedByIds(occurrence.getIdentifiedByIds());</span>
+<span class="nc" id="L140">    event.setGadm(occurrence.getGadm());</span>
+<span class="nc" id="L141">    event.setInstitutionKey(occurrence.getInstitutionKey());</span>
+<span class="nc" id="L142">    event.setCollectionKey(occurrence.getCollectionKey());</span>
+<span class="nc" id="L143">    event.setInCluster(occurrence.getIsInCluster());</span>
+<span class="nc" id="L144">    event.setDatasetID(occurrence.getDatasetID());</span>
+<span class="nc" id="L145">    event.setDatasetName(occurrence.getDatasetName());</span>
+<span class="nc" id="L146">    event.setOtherCatalogNumbers(occurrence.getOtherCatalogNumbers());</span>
+<span class="nc" id="L147">    event.setRecordedBy(occurrence.getRecordedBy());</span>
+<span class="nc" id="L148">    event.setIdentifiedBy(occurrence.getIdentifiedBy());</span>
+<span class="nc" id="L149">    event.setPreparations(occurrence.getPreparations());</span>
+<span class="nc" id="L150">    event.setSamplingProtocol(occurrence.getSamplingProtocol());</span>
+<span class="nc" id="L151">    return event;</span>
   }
 
-<span class="nc bnc" id="L131" title="All 22 branches missed.">  @Data</span>
-<span class="nc" id="L132">  @AllArgsConstructor</span>
+<span class="nc bnc" id="L154" title="All 22 branches missed.">  @Data</span>
+<span class="nc" id="L155">  @AllArgsConstructor</span>
   public static class ParentLineage {
-<span class="nc" id="L134">    private String id;</span>
-<span class="nc" id="L135">    private String eventType;</span>
+<span class="nc" id="L157">    private String id;</span>
+<span class="nc" id="L158">    private String eventType;</span>
   }
 
-<span class="nc bnc" id="L138" title="All 22 branches missed.">  @Data</span>
-<span class="nc" id="L139">  @AllArgsConstructor</span>
+<span class="nc bnc" id="L161" title="All 22 branches missed.">  @Data</span>
+<span class="nc" id="L162">  @AllArgsConstructor</span>
   public static class VocabularyConcept {
-<span class="nc" id="L141">    private String concept;</span>
-<span class="nc" id="L142">    private Set&lt;String&gt; lineage;</span>
+<span class="nc" id="L164">    private String concept;</span>
+<span class="nc" id="L165">    private Set&lt;String&gt; lineage;</span>
   }
 
-<span class="nc" id="L145">  private String id;</span>
-<span class="nc" id="L146">  private Set&lt;String&gt; samplingProtocols;</span>
-<span class="nc" id="L147">  private String eventID;</span>
-<span class="nc" id="L148">  private String parentEventID;</span>
-<span class="nc" id="L149">  private Integer startDayOfYear;</span>
-<span class="nc" id="L150">  private Integer endDayOfYear;</span>
-<span class="nc" id="L151">  private String locationID;</span>
-<span class="nc" id="L152">  private VocabularyConcept eventType;</span>
-<span class="nc" id="L153">  private List&lt;ParentLineage&gt; parentsLineage;</span>
+<span class="nc" id="L168">  private String id;</span>
+<span class="nc" id="L169">  private Set&lt;String&gt; samplingProtocols;</span>
+<span class="nc" id="L170">  private String eventID;</span>
+<span class="nc" id="L171">  private String parentEventID;</span>
+<span class="nc" id="L172">  private Integer startDayOfYear;</span>
+<span class="nc" id="L173">  private Integer endDayOfYear;</span>
+<span class="nc" id="L174">  private String locationID;</span>
+<span class="nc" id="L175">  private VocabularyConcept eventType;</span>
+<span class="nc" id="L176">  private List&lt;ParentLineage&gt; parentsLineage;</span>
+
+  // occurrence fields
+<span class="nc" id="L179">  private BasisOfRecord basisOfRecord;</span>
+<span class="nc" id="L180">  private Integer individualCount;</span>
+<span class="nc" id="L181">  private OccurrenceStatus occurrenceStatus;</span>
+<span class="nc" id="L182">  private Sex sex;</span>
+<span class="nc" id="L183">  private String lifeStage;</span>
+<span class="nc" id="L184">  private String establishmentMeans;</span>
+<span class="nc" id="L185">  private String degreeOfEstablishment;</span>
+<span class="nc" id="L186">  private String pathway;</span>
+
+  // identification
+<span class="nc" id="L189">  private Date dateIdentified;</span>
+  // location
+<span class="nc" id="L191">  private Double decimalLongitude;</span>
+<span class="nc" id="L192">  private Double decimalLatitude;</span>
+
+  //coordinatePrecision and coordinateUncertaintyInMeters should be BigDecimal see POR-2795
+<span class="nc" id="L195">  private Double coordinatePrecision;</span>
+<span class="nc" id="L196">  private Double coordinateUncertaintyInMeters;</span>
+  @Deprecated //see getter
+<span class="nc" id="L198">  private Double coordinateAccuracy;</span>
+
+<span class="nc" id="L200">  private Double elevation;</span>
+<span class="nc" id="L201">  private Double elevationAccuracy;</span>
+<span class="nc" id="L202">  private Double depth;</span>
+<span class="nc" id="L203">  private Double depthAccuracy;</span>
+<span class="nc" id="L204">  private Continent continent;</span>
+  @JsonSerialize(using = Country.IsoSerializer.class)
+  @JsonDeserialize(using = Country.IsoDeserializer.class)
+<span class="nc" id="L207">  private Country country;</span>
+<span class="nc" id="L208">  private String stateProvince;</span>
+<span class="nc" id="L209">  private String waterBody;</span>
+<span class="nc" id="L210">  private Double distanceFromCentroidInMeters;</span>
+
+  // recording event
+<span class="nc" id="L213">  private Integer year;</span>
+<span class="nc" id="L214">  private Integer month;</span>
+<span class="nc" id="L215">  private Integer day;</span>
+<span class="nc" id="L216">  private Date eventDate;</span>
+
+<span class="nc" id="L218">  private Set&lt;OccurrenceIssue&gt; issues = EnumSet.noneOf(OccurrenceIssue.class);</span>
+
+  // record level
+<span class="nc" id="L221">  private Date modified;  // interpreted dc:modified, i.e. date changed in source</span>
+<span class="nc" id="L222">  private Date lastInterpreted;</span>
+<span class="nc" id="L223">  private URI references;</span>
+<span class="nc" id="L224">  private License license;</span>
+<span class="nc" id="L225">  private Double organismQuantity;</span>
+<span class="nc" id="L226">  private String organismQuantityType;</span>
+<span class="nc" id="L227">  private String sampleSizeUnit;</span>
+<span class="nc" id="L228">  private Double sampleSizeValue;</span>
+<span class="nc" id="L229">  private Double relativeOrganismQuantity;</span>
+
+  // interpreted extension data
+<span class="nc" id="L232">  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L233">  private List&lt;MediaObject&gt; media = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L234">  private List&lt;MeasurementOrFact&gt; facts = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L235">  private List&lt;OccurrenceRelation&gt; relations = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L236">  @JsonProperty(&quot;recordedByIDs&quot;)</span>
+<span class="nc" id="L237">  private List&lt;AgentIdentifier&gt; recordedByIds = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L238">  @JsonProperty(&quot;identifiedByIDs&quot;)</span>
+<span class="nc" id="L239">  private List&lt;AgentIdentifier&gt; identifiedByIds = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L240">  private Gadm gadm = new Gadm();</span>
+  @Experimental
+<span class="nc" id="L242">  private String institutionKey;</span>
+  @Experimental
+<span class="nc" id="L244">  private String collectionKey;</span>
+<span class="nc" id="L245">  private boolean isInCluster;</span>
+<span class="nc" id="L246">  private String datasetID;</span>
+<span class="nc" id="L247">  private String datasetName;</span>
+<span class="nc" id="L248">  private String otherCatalogNumbers;</span>
+<span class="nc" id="L249">  private String recordedBy;</span>
+<span class="nc" id="L250">  private String identifiedBy;</span>
+<span class="nc" id="L251">  private String preparations;</span>
+<span class="nc" id="L252">  private String samplingProtocol;</span>
+
+  /**
+   * Convenience method checking if any spatial validation rule has not passed.
+   * Primarily used to indicate that the record should not be displayed on a map.
+   */
+  @JsonIgnore
+  public boolean hasSpatialIssue() {
+<span class="nc bnc" id="L260" title="All 2 branches missed.">    for (OccurrenceIssue rule : OccurrenceIssue.GEOSPATIAL_RULES) {</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">      if (issues.contains(rule)) {</span>
+<span class="nc" id="L262">        return true;</span>
+      }
+<span class="nc" id="L264">    }</span>
+<span class="nc" id="L265">    return false;</span>
+  }
+
+  /**
+   * The geodetic datum for the interpreted decimal coordinates.
+   * This is always WGS84 if there a coordinate exists as we reproject other datums into WGS84.
+   */
+  @Nullable
+  public String getGeodeticDatum() {
+<span class="nc bnc" id="L274" title="All 2 branches missed.">    if (decimalLatitude != null) {</span>
+<span class="nc" id="L275">      return GEO_DATUM;</span>
+    }
+<span class="nc" id="L277">    return null;</span>
+  }
+
+  /**
+   * This private method is only for serialization via jackson and not exposed anywhere else!
+   * It maps the verbatimField terms into properties with their simple name or qualified names for UnknownTerms.
+   */
+  @JsonAnyGetter
+  private Map&lt;String, String&gt; jsonVerbatimFields() {
+<span class="nc" id="L286">    Map&lt;String, String&gt; extendedProps = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L287" title="All 2 branches missed.">    for (Map.Entry&lt;Term, String&gt; prop : getVerbatimFields().entrySet()) {</span>
+<span class="nc" id="L288">      Term t = prop.getKey();</span>
+<span class="nc bnc" id="L289" title="All 4 branches missed.">      if (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())) {</span>
+<span class="nc" id="L290">        extendedProps.put(t.qualifiedName(), prop.getValue());</span>
+      } else {
+        // render all terms in controlled enumerations as simple names only - unless we have a property of that name already!
+<span class="nc" id="L293">        extendedProps.put(t.simpleName(), prop.getValue());</span>
+      }
+<span class="nc" id="L295">    }</span>
+<span class="nc" id="L296">    return extendedProps;</span>
+  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

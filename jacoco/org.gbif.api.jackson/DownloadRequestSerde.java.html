@@ -64,7 +64,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
   private static final String CREATOR = &quot;creator&quot;;
   private static final String FORMAT = &quot;format&quot;;
   private static final String TYPE = &quot;type&quot;;
-  private static final String EXTENSIONS = &quot;extensions&quot;;
+  private static final String VERBATIM_EXTENSIONS = &quot;verbatimExtensions&quot;;
 <span class="fc" id="L68">  private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);</span>
 <span class="fc" id="L69">  private static final ObjectMapper MAPPER = new ObjectMapper();</span>
 
@@ -103,7 +103,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 <span class="fc" id="L103">    JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);</span>
 <span class="fc bfc" id="L104" title="All 2 branches covered.">    Predicate predicateObj = predicate == null ? null : MAPPER.treeToValue(predicate, Predicate.class);</span>
 
-<span class="fc" id="L106">    Set&lt;Extension&gt; extensions = Optional.ofNullable(node.get(EXTENSIONS)).map(jsonNode -&gt; {</span>
+<span class="fc" id="L106">    Set&lt;Extension&gt; extensions = Optional.ofNullable(node.get(VERBATIM_EXTENSIONS)).map(jsonNode -&gt; {</span>
       try {
 <span class="fc" id="L108">        return Arrays.stream(MAPPER.treeToValue(jsonNode, String[].class))</span>
 <span class="fc" id="L109">                .map(Extension::fromRowType)</span>

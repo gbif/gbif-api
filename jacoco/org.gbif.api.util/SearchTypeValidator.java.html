@@ -411,29 +411,53 @@ public class SearchTypeValidator {
 <span class="pc bpc" id="L411" title="1 of 2 branches missed.">    if (parsedDistance.getValue() &lt;= 0d) {</span>
 <span class="nc" id="L412">      throw new IllegalArgumentException(&quot;GeoDistance cannot be less than zero&quot;);</span>
     }
-<span class="fc" id="L414">  }</span>
+<span class="fc" id="L414"> }</span>
+
+  /**
+   * Parses a distance range in the format 123m,456km.
+   *
+   * @return the parsed range with wildcards represented as null values
+   * @throws IllegalArgumentException if value is invalid or null
+   */
+  public static Range&lt;DistanceUnit.Distance&gt; parseDistanceRange(String value) {
+<span class="nc bnc" id="L423" title="All 2 branches missed.">    if (StringUtils.isNotEmpty(value)) {</span>
+<span class="nc" id="L424">      Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);</span>
+<span class="nc bnc" id="L425" title="All 2 branches missed.">      if (m.find()) {</span>
+<span class="nc" id="L426">        return Range.closed(parseDistance(m.group(1)), parseDistance(m.group(2)));</span>
+      }
+    }
+<span class="nc" id="L429">    throw new IllegalArgumentException(&quot;Invalid distance range: &quot; + value);</span>
+  }
+
+  public static DistanceUnit.Distance parseDistance(String distance) {
+<span class="nc" id="L433">    DistanceUnit.Distance parsedDistance = DistanceUnit.parseDistance(distance);</span>
+<span class="nc bnc" id="L434" title="All 2 branches missed.">    if (parsedDistance.getValue() &lt;= 0d) {</span>
+<span class="nc" id="L435">      throw new IllegalArgumentException(&quot;Distance cannot be less than zero&quot;);</span>
+    }
+<span class="nc" id="L437">    return parsedDistance;</span>
+  }
 
   /**
    * Validates if the parameter is a valid latitude value.
    */
   private static void validateLatitude(String value) {
-<span class="fc" id="L420">    validateDoubleInRange(value, LATITUDE_RNG, LATITUDE_ERROR_MSG);</span>
-<span class="fc" id="L421">  }</span>
+<span class="fc" id="L444">    validateDoubleInRange(value, LATITUDE_RNG, LATITUDE_ERROR_MSG);</span>
+<span class="fc" id="L445">  }</span>
 
   /**
    * Validates if the parameter is a valid longitude value.
    */
   private static void validateLongitude(String value) {
-<span class="fc" id="L427">    validateDoubleInRange(value, LONGITUDE_RNG, LONGITUDE_ERROR_MSG);</span>
-<span class="fc" id="L428">  }</span>
+<span class="fc" id="L451">    validateDoubleInRange(value, LONGITUDE_RNG, LONGITUDE_ERROR_MSG);</span>
+<span class="fc" id="L452">  }</span>
 
   private static void validateMonth(Collection&lt;Integer&gt; months) {
-<span class="fc bfc" id="L431" title="All 2 branches covered.">    for (Integer month : months) {</span>
-<span class="pc bpc" id="L432" title="1 of 6 branches missed.">      if (month != null &amp;&amp; (month &lt; 1 || month &gt; 12)) {</span>
-<span class="fc" id="L433">        throw new IllegalArgumentException(&quot;Month needs to be between 1 - 12&quot;);</span>
+<span class="fc bfc" id="L455" title="All 2 branches covered.">    for (Integer month : months) {</span>
+<span class="pc bpc" id="L456" title="1 of 6 branches missed.">      if (month != null &amp;&amp; (month &lt; 1 || month &gt; 12)) {</span>
+<span class="fc" id="L457">        throw new IllegalArgumentException(&quot;Month needs to be between 1 - 12&quot;);</span>
       }
-<span class="fc" id="L435">    }</span>
-<span class="fc" id="L436">  }</span>
+<span class="fc" id="L459">    }</span>
+<span class="fc" id="L460">  }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

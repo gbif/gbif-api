@@ -72,7 +72,7 @@
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CREATOR = <span class="jxr_string">"creator"</span>;
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String FORMAT = <span class="jxr_string">"format"</span>;
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String TYPE = <span class="jxr_string">"type"</span>;
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String EXTENSIONS = <span class="jxr_string">"extensions"</span>;
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String VERBATIM_EXTENSIONS = <span class="jxr_string">"verbatimExtensions"</span>;
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> ObjectMapper MAPPER = <strong class="jxr_keyword">new</strong> ObjectMapper();
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  
@@ -111,7 +111,7 @@
 <a class="jxr_linenumber" name="L103" href="#L103">103</a>     JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(<strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="L104" href="#L104">104</a>     Predicate predicateObj = predicate == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : MAPPER.treeToValue(predicate, Predicate.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="L105" href="#L105">105</a> 
-<a class="jxr_linenumber" name="L106" href="#L106">106</a>     Set&lt;Extension&gt; extensions = Optional.ofNullable(node.get(EXTENSIONS)).map(jsonNode -&gt; {
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>     Set&lt;Extension&gt; extensions = Optional.ofNullable(node.get(VERBATIM_EXTENSIONS)).map(jsonNode -&gt; {
 <a class="jxr_linenumber" name="L107" href="#L107">107</a>       <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L108" href="#L108">108</a>         <strong class="jxr_keyword">return</strong> Arrays.stream(MAPPER.treeToValue(jsonNode, String[].<strong class="jxr_keyword">class</strong>))
 <a class="jxr_linenumber" name="L109" href="#L109">109</a>                 .map(Extension::fromRowType)
@@ -126,6 +126,6 @@
 <a class="jxr_linenumber" name="L118" href="#L118">118</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2022 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2023 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>
 </body>
 </html>

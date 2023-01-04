@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EndpointPriorityComparator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util.comparators</a> &gt; <span class="el_source">EndpointPriorityComparator.java</span></div><h1>EndpointPriorityComparator.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -33,6 +31,7 @@ import java.util.List;
  * &lt;p&gt;&lt;/p&gt;
  * The priority list is as follows (most to least important):
  * &lt;ol&gt;
+ * &lt;li&gt;CamtrapDP&lt;/li&gt;
  * &lt;li&gt;DwC-A&lt;/li&gt;
  * &lt;li&gt;TAPIR&lt;/li&gt;
  * &lt;li&gt;BioCASe&lt;/li&gt;
@@ -41,21 +40,22 @@ import java.util.List;
  * &lt;li&gt;EML&lt;/li&gt;
  * &lt;/ol&gt;
  */
-<span class="fc" id="L44">public class EndpointPriorityComparator implements Comparator&lt;Endpoint&gt;, Serializable {</span>
+<span class="fc" id="L43">public class EndpointPriorityComparator implements Comparator&lt;Endpoint&gt;, Serializable {</span>
 
   /* Note: Due to legacy reasons this is a Comparator itself instead of just using the PRIORITY_COMPARATOR.
    It should be easy to remove this class or change it into a factory */
 
   // Priorities from lowest to highest
-<span class="fc" id="L50">  public static final List&lt;EndpointType&gt; PRIORITIES = Collections.unmodifiableList(</span>
-<span class="fc" id="L51">    Arrays.asList(</span>
+<span class="fc" id="L49">  public static final List&lt;EndpointType&gt; PRIORITIES = Collections.unmodifiableList(</span>
+<span class="fc" id="L50">    Arrays.asList(</span>
       EndpointType.EML,
       EndpointType.DIGIR_MANIS,
       EndpointType.DIGIR,
       EndpointType.BIOCASE,
       EndpointType.TAPIR,
       EndpointType.BIOCASE_XML_ARCHIVE,
-      EndpointType.DWC_ARCHIVE
+      EndpointType.DWC_ARCHIVE,
+      EndpointType.CAMTRAP_DP_v_0_4
     ));
 
   private static final long serialVersionUID = 8085216142750609841L;

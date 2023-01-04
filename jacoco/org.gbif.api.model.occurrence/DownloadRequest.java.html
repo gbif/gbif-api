@@ -59,8 +59,8 @@ public abstract class DownloadRequest implements Serializable {
   @JsonProperty(&quot;type&quot;)
   private DownloadType type;
 
-  @JsonProperty(&quot;extensions&quot;)
-  private Set&lt;Extension&gt; extensions;
+  @JsonProperty(&quot;verbatimExtensions&quot;)
+  private Set&lt;Extension&gt; verbatimExtensions;
 
   /**
    * Default constructor.
@@ -72,22 +72,23 @@ public abstract class DownloadRequest implements Serializable {
   public DownloadRequest(String creator, Collection&lt;String&gt; notificationAddresses,
                          boolean sendNotification, DownloadFormat format,
                          DownloadType downloadType,
-<span class="fc" id="L75">                         Set&lt;Extension&gt; extensions) {</span>
-<span class="fc" id="L76">    this.creator = creator;</span>
-<span class="pc bpc" id="L77" title="1 of 2 branches missed.">    this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :</span>
-<span class="fc" id="L78">      Collections.unmodifiableSet(new HashSet&lt;&gt;(notificationAddresses));</span>
-<span class="fc" id="L79">    this.sendNotification = sendNotification;</span>
-<span class="fc" id="L80">    this.format = format;</span>
-<span class="fc" id="L81">    this.type = downloadType;</span>
-<span class="fc" id="L82">    this.extensions = extensions;</span>
-<span class="fc" id="L83">  }</span>
+                         Set&lt;Extension&gt; verbatimExtensions
+<span class="fc" id="L76">  ) {</span>
+<span class="fc" id="L77">    this.creator = creator;</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">    this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :</span>
+<span class="fc" id="L79">      Collections.unmodifiableSet(new HashSet&lt;&gt;(notificationAddresses));</span>
+<span class="fc" id="L80">    this.sendNotification = sendNotification;</span>
+<span class="fc" id="L81">    this.format = format;</span>
+<span class="fc" id="L82">    this.type = downloadType;</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">    this.verbatimExtensions = verbatimExtensions == null? Collections.emptySet(): verbatimExtensions;</span>
+<span class="fc" id="L84">  }</span>
 
   /**
    * @return the user account that initiated the download
    */
   @Nullable
   public String getCreator() {
-<span class="fc" id="L90">    return creator;</span>
+<span class="fc" id="L91">    return creator;</span>
   }
 
   /**
@@ -95,7 +96,7 @@ public abstract class DownloadRequest implements Serializable {
    */
   @Nullable
   public Set&lt;String&gt; getNotificationAddresses() {
-<span class="fc" id="L98">    return notificationAddresses;</span>
+<span class="fc" id="L99">    return notificationAddresses;</span>
   }
 
   /**
@@ -104,111 +105,112 @@ public abstract class DownloadRequest implements Serializable {
   @Nullable
   @JsonIgnore
   public String getNotificationAddressesAsString() {
-<span class="pc bpc" id="L107" title="1 of 2 branches missed.">    if (notificationAddresses != null) {</span>
-<span class="fc" id="L108">      return notificationAddresses.stream()</span>
-<span class="fc" id="L109">        .filter(Objects::nonNull)</span>
-<span class="fc" id="L110">        .map(String::trim)</span>
-<span class="fc" id="L111">        .collect(Collectors.joining(DELIMITER));</span>
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">    if (notificationAddresses != null) {</span>
+<span class="fc" id="L109">      return notificationAddresses.stream()</span>
+<span class="fc" id="L110">        .filter(Objects::nonNull)</span>
+<span class="fc" id="L111">        .map(String::trim)</span>
+<span class="fc" id="L112">        .collect(Collectors.joining(DELIMITER));</span>
     }
-<span class="nc" id="L113">    return null;</span>
+<span class="nc" id="L114">    return null;</span>
   }
 
   public void setCreator(String creator) {
-<span class="nc" id="L117">    this.creator = creator;</span>
-<span class="nc" id="L118">  }</span>
+<span class="nc" id="L118">    this.creator = creator;</span>
+<span class="nc" id="L119">  }</span>
 
   public void setNotificationAddresses(Set&lt;String&gt; notificationAddresses) {
-<span class="nc" id="L121">    this.notificationAddresses = notificationAddresses;</span>
-<span class="nc" id="L122">  }</span>
+<span class="nc" id="L122">    this.notificationAddresses = notificationAddresses;</span>
+<span class="nc" id="L123">  }</span>
 
   /**
    * Sets the notificationAddresses using a single String value that is split by ','.
    */
   public void setNotificationAddressesAsString(String notificationAddressesAsString) {
-<span class="nc bnc" id="L128" title="All 2 branches missed.">    if (notificationAddressesAsString != null) {</span>
-<span class="nc" id="L129">      notificationAddresses = Stream.of(notificationAddressesAsString.split(DELIMITER))</span>
-<span class="nc" id="L130">        .filter(StringUtils::isNotEmpty)</span>
-<span class="nc" id="L131">        .map(String::trim)</span>
-<span class="nc" id="L132">        .collect(Collectors.toSet());</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">    if (notificationAddressesAsString != null) {</span>
+<span class="nc" id="L130">      notificationAddresses = Stream.of(notificationAddressesAsString.split(DELIMITER))</span>
+<span class="nc" id="L131">        .filter(StringUtils::isNotEmpty)</span>
+<span class="nc" id="L132">        .map(String::trim)</span>
+<span class="nc" id="L133">        .collect(Collectors.toSet());</span>
     }
-<span class="nc" id="L134">  }</span>
+<span class="nc" id="L135">  }</span>
 
   public boolean getSendNotification() {
-<span class="fc" id="L137">    return sendNotification;</span>
+<span class="fc" id="L138">    return sendNotification;</span>
   }
 
   /**
    * This parameter determines if the requested download must be notified to the created once it's ready.
    */
   public void setSendNotification(boolean sendNotification) {
-<span class="nc" id="L144">    this.sendNotification = sendNotification;</span>
-<span class="nc" id="L145">  }</span>
+<span class="nc" id="L145">    this.sendNotification = sendNotification;</span>
+<span class="nc" id="L146">  }</span>
 
   public DownloadFormat getFormat() {
-<span class="fc" id="L148">    return format;</span>
+<span class="fc" id="L149">    return format;</span>
   }
 
   /**
    * This parameter determines the output format of the requested download.
    */
   public void setFormat(DownloadFormat format) {
-<span class="nc" id="L155">    this.format = format;</span>
-<span class="nc" id="L156">  }</span>
+<span class="nc" id="L156">    this.format = format;</span>
+<span class="nc" id="L157">  }</span>
 
   public DownloadType getType() {
-<span class="fc" id="L159">    return type;</span>
+<span class="fc" id="L160">    return type;</span>
   }
 
   /**
    * Download type: Occurrence or Event.
    */
   public void setType(DownloadType type) {
-<span class="nc" id="L166">    this.type = type;</span>
-<span class="nc" id="L167">  }</span>
+<span class="nc" id="L167">    this.type = type;</span>
+<span class="nc" id="L168">  }</span>
 
   /**
-   * Requested extensions for this download.
+   * Requested verbatimExtensions for this download.
    */
-  public Set&lt;Extension&gt; getExtensions() {
-<span class="fc" id="L173">    return extensions;</span>
+  @Nullable
+  public Set&lt;Extension&gt; getVerbatimExtensions() {
+<span class="fc" id="L175">    return verbatimExtensions;</span>
   }
 
-  public void setExtensions(Set&lt;Extension&gt; extensions) {
-<span class="nc" id="L177">    this.extensions = extensions;</span>
-<span class="nc" id="L178">  }</span>
+  public void setVerbatimExtensions(Set&lt;Extension&gt; verbatimExtensions) {
+<span class="nc" id="L179">    this.verbatimExtensions = verbatimExtensions;</span>
+<span class="nc" id="L180">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L182" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L183">      return true;</span>
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L185">      return true;</span>
     }
-<span class="pc bpc" id="L185" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L186">      return false;</span>
+<span class="pc bpc" id="L187" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L188">      return false;</span>
     }
-<span class="fc" id="L188">    DownloadRequest that = (DownloadRequest) o;</span>
-<span class="pc bpc" id="L189" title="1 of 2 branches missed.">    return sendNotification == that.sendNotification &amp;&amp;</span>
-<span class="pc bpc" id="L190" title="1 of 2 branches missed.">      Objects.equals(creator, that.creator) &amp;&amp;</span>
-<span class="pc bpc" id="L191" title="3 of 6 branches missed.">      Objects.equals(notificationAddresses, that.notificationAddresses) &amp;&amp;</span>
+<span class="fc" id="L190">    DownloadRequest that = (DownloadRequest) o;</span>
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">    return sendNotification == that.sendNotification &amp;&amp;</span>
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">      Objects.equals(creator, that.creator) &amp;&amp;</span>
+<span class="pc bpc" id="L193" title="3 of 6 branches missed.">      Objects.equals(notificationAddresses, that.notificationAddresses) &amp;&amp;</span>
       format == that.format &amp;&amp;
       type == that.type &amp;&amp;
-<span class="pc bpc" id="L194" title="1 of 2 branches missed.">      Objects.equals(extensions, that.extensions);</span>
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">      Objects.equals(verbatimExtensions, that.verbatimExtensions);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L199">    return Objects.hash(creator, notificationAddresses, sendNotification, format, type, extensions);</span>
+<span class="fc" id="L201">    return Objects.hash(creator, notificationAddresses, sendNotification, format, type, verbatimExtensions);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L204">    return new StringJoiner(&quot;, &quot;, DownloadRequest.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L205">      .add(&quot;creator='&quot; + creator + &quot;'&quot;)</span>
-<span class="nc" id="L206">      .add(&quot;notificationAddresses=&quot; + notificationAddresses)</span>
-<span class="nc" id="L207">      .add(&quot;sendNotification=&quot; + sendNotification)</span>
-<span class="nc" id="L208">      .add(&quot;format=&quot; + format)</span>
-<span class="nc" id="L209">      .add(&quot;type=&quot; + type)</span>
-<span class="nc" id="L210">      .add(&quot;extensions=&quot; + extensions)</span>
-<span class="nc" id="L211">      .toString();</span>
+<span class="nc" id="L206">    return new StringJoiner(&quot;, &quot;, DownloadRequest.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L207">      .add(&quot;creator='&quot; + creator + &quot;'&quot;)</span>
+<span class="nc" id="L208">      .add(&quot;notificationAddresses=&quot; + notificationAddresses)</span>
+<span class="nc" id="L209">      .add(&quot;sendNotification=&quot; + sendNotification)</span>
+<span class="nc" id="L210">      .add(&quot;format=&quot; + format)</span>
+<span class="nc" id="L211">      .add(&quot;type=&quot; + type)</span>
+<span class="nc" id="L212">      .add(&quot;verbatimExtensions=&quot; + verbatimExtensions)</span>
+<span class="nc" id="L213">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

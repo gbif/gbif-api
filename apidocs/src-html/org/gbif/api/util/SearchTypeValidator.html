@@ -419,31 +419,55 @@
 <span class="sourceLineNo">411</span>    if (parsedDistance.getValue() &lt;= 0d) {<a name="line.411"></a>
 <span class="sourceLineNo">412</span>      throw new IllegalArgumentException("GeoDistance cannot be less than zero");<a name="line.412"></a>
 <span class="sourceLineNo">413</span>    }<a name="line.413"></a>
-<span class="sourceLineNo">414</span>  }<a name="line.414"></a>
+<span class="sourceLineNo">414</span> }<a name="line.414"></a>
 <span class="sourceLineNo">415</span><a name="line.415"></a>
 <span class="sourceLineNo">416</span>  /**<a name="line.416"></a>
-<span class="sourceLineNo">417</span>   * Validates if the parameter is a valid latitude value.<a name="line.417"></a>
-<span class="sourceLineNo">418</span>   */<a name="line.418"></a>
-<span class="sourceLineNo">419</span>  private static void validateLatitude(String value) {<a name="line.419"></a>
-<span class="sourceLineNo">420</span>    validateDoubleInRange(value, LATITUDE_RNG, LATITUDE_ERROR_MSG);<a name="line.420"></a>
-<span class="sourceLineNo">421</span>  }<a name="line.421"></a>
-<span class="sourceLineNo">422</span><a name="line.422"></a>
-<span class="sourceLineNo">423</span>  /**<a name="line.423"></a>
-<span class="sourceLineNo">424</span>   * Validates if the parameter is a valid longitude value.<a name="line.424"></a>
-<span class="sourceLineNo">425</span>   */<a name="line.425"></a>
-<span class="sourceLineNo">426</span>  private static void validateLongitude(String value) {<a name="line.426"></a>
-<span class="sourceLineNo">427</span>    validateDoubleInRange(value, LONGITUDE_RNG, LONGITUDE_ERROR_MSG);<a name="line.427"></a>
-<span class="sourceLineNo">428</span>  }<a name="line.428"></a>
-<span class="sourceLineNo">429</span><a name="line.429"></a>
-<span class="sourceLineNo">430</span>  private static void validateMonth(Collection&lt;Integer&gt; months) {<a name="line.430"></a>
-<span class="sourceLineNo">431</span>    for (Integer month : months) {<a name="line.431"></a>
-<span class="sourceLineNo">432</span>      if (month != null &amp;&amp; (month &lt; 1 || month &gt; 12)) {<a name="line.432"></a>
-<span class="sourceLineNo">433</span>        throw new IllegalArgumentException("Month needs to be between 1 - 12");<a name="line.433"></a>
-<span class="sourceLineNo">434</span>      }<a name="line.434"></a>
-<span class="sourceLineNo">435</span>    }<a name="line.435"></a>
-<span class="sourceLineNo">436</span>  }<a name="line.436"></a>
-<span class="sourceLineNo">437</span><a name="line.437"></a>
-<span class="sourceLineNo">438</span>}<a name="line.438"></a>
+<span class="sourceLineNo">417</span>   * Parses a distance range in the format 123m,456km.<a name="line.417"></a>
+<span class="sourceLineNo">418</span>   *<a name="line.418"></a>
+<span class="sourceLineNo">419</span>   * @return the parsed range with wildcards represented as null values<a name="line.419"></a>
+<span class="sourceLineNo">420</span>   * @throws IllegalArgumentException if value is invalid or null<a name="line.420"></a>
+<span class="sourceLineNo">421</span>   */<a name="line.421"></a>
+<span class="sourceLineNo">422</span>  public static Range&lt;DistanceUnit.Distance&gt; parseDistanceRange(String value) {<a name="line.422"></a>
+<span class="sourceLineNo">423</span>    if (StringUtils.isNotEmpty(value)) {<a name="line.423"></a>
+<span class="sourceLineNo">424</span>      Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);<a name="line.424"></a>
+<span class="sourceLineNo">425</span>      if (m.find()) {<a name="line.425"></a>
+<span class="sourceLineNo">426</span>        return Range.closed(parseDistance(m.group(1)), parseDistance(m.group(2)));<a name="line.426"></a>
+<span class="sourceLineNo">427</span>      }<a name="line.427"></a>
+<span class="sourceLineNo">428</span>    }<a name="line.428"></a>
+<span class="sourceLineNo">429</span>    throw new IllegalArgumentException("Invalid distance range: " + value);<a name="line.429"></a>
+<span class="sourceLineNo">430</span>  }<a name="line.430"></a>
+<span class="sourceLineNo">431</span><a name="line.431"></a>
+<span class="sourceLineNo">432</span>  public static DistanceUnit.Distance parseDistance(String distance) {<a name="line.432"></a>
+<span class="sourceLineNo">433</span>    DistanceUnit.Distance parsedDistance = DistanceUnit.parseDistance(distance);<a name="line.433"></a>
+<span class="sourceLineNo">434</span>    if (parsedDistance.getValue() &lt;= 0d) {<a name="line.434"></a>
+<span class="sourceLineNo">435</span>      throw new IllegalArgumentException("Distance cannot be less than zero");<a name="line.435"></a>
+<span class="sourceLineNo">436</span>    }<a name="line.436"></a>
+<span class="sourceLineNo">437</span>    return parsedDistance;<a name="line.437"></a>
+<span class="sourceLineNo">438</span>  }<a name="line.438"></a>
+<span class="sourceLineNo">439</span><a name="line.439"></a>
+<span class="sourceLineNo">440</span>  /**<a name="line.440"></a>
+<span class="sourceLineNo">441</span>   * Validates if the parameter is a valid latitude value.<a name="line.441"></a>
+<span class="sourceLineNo">442</span>   */<a name="line.442"></a>
+<span class="sourceLineNo">443</span>  private static void validateLatitude(String value) {<a name="line.443"></a>
+<span class="sourceLineNo">444</span>    validateDoubleInRange(value, LATITUDE_RNG, LATITUDE_ERROR_MSG);<a name="line.444"></a>
+<span class="sourceLineNo">445</span>  }<a name="line.445"></a>
+<span class="sourceLineNo">446</span><a name="line.446"></a>
+<span class="sourceLineNo">447</span>  /**<a name="line.447"></a>
+<span class="sourceLineNo">448</span>   * Validates if the parameter is a valid longitude value.<a name="line.448"></a>
+<span class="sourceLineNo">449</span>   */<a name="line.449"></a>
+<span class="sourceLineNo">450</span>  private static void validateLongitude(String value) {<a name="line.450"></a>
+<span class="sourceLineNo">451</span>    validateDoubleInRange(value, LONGITUDE_RNG, LONGITUDE_ERROR_MSG);<a name="line.451"></a>
+<span class="sourceLineNo">452</span>  }<a name="line.452"></a>
+<span class="sourceLineNo">453</span><a name="line.453"></a>
+<span class="sourceLineNo">454</span>  private static void validateMonth(Collection&lt;Integer&gt; months) {<a name="line.454"></a>
+<span class="sourceLineNo">455</span>    for (Integer month : months) {<a name="line.455"></a>
+<span class="sourceLineNo">456</span>      if (month != null &amp;&amp; (month &lt; 1 || month &gt; 12)) {<a name="line.456"></a>
+<span class="sourceLineNo">457</span>        throw new IllegalArgumentException("Month needs to be between 1 - 12");<a name="line.457"></a>
+<span class="sourceLineNo">458</span>      }<a name="line.458"></a>
+<span class="sourceLineNo">459</span>    }<a name="line.459"></a>
+<span class="sourceLineNo">460</span>  }<a name="line.460"></a>
+<span class="sourceLineNo">461</span><a name="line.461"></a>
+<span class="sourceLineNo">462</span>}<a name="line.462"></a>
 
 
 

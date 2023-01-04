@@ -419,33 +419,57 @@
 <a class="jxr_linenumber" name="L411" href="#L411">411</a>     <strong class="jxr_keyword">if</strong> (parsedDistance.getValue() &lt;= 0d) {
 <a class="jxr_linenumber" name="L412" href="#L412">412</a>       <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"GeoDistance cannot be less than zero"</span>);
 <a class="jxr_linenumber" name="L413" href="#L413">413</a>     }
-<a class="jxr_linenumber" name="L414" href="#L414">414</a>   }
+<a class="jxr_linenumber" name="L414" href="#L414">414</a>  }
 <a class="jxr_linenumber" name="L415" href="#L415">415</a> 
 <a class="jxr_linenumber" name="L416" href="#L416">416</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L417" href="#L417">417</a> <em class="jxr_javadoccomment">   * Validates if the parameter is a valid latitude value.</em>
-<a class="jxr_linenumber" name="L418" href="#L418">418</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L419" href="#L419">419</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> validateLatitude(String value) {
-<a class="jxr_linenumber" name="L420" href="#L420">420</a>     validateDoubleInRange(value, LATITUDE_RNG, LATITUDE_ERROR_MSG);
-<a class="jxr_linenumber" name="L421" href="#L421">421</a>   }
-<a class="jxr_linenumber" name="L422" href="#L422">422</a> 
-<a class="jxr_linenumber" name="L423" href="#L423">423</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L424" href="#L424">424</a> <em class="jxr_javadoccomment">   * Validates if the parameter is a valid longitude value.</em>
-<a class="jxr_linenumber" name="L425" href="#L425">425</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L426" href="#L426">426</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> validateLongitude(String value) {
-<a class="jxr_linenumber" name="L427" href="#L427">427</a>     validateDoubleInRange(value, LONGITUDE_RNG, LONGITUDE_ERROR_MSG);
-<a class="jxr_linenumber" name="L428" href="#L428">428</a>   }
-<a class="jxr_linenumber" name="L429" href="#L429">429</a> 
-<a class="jxr_linenumber" name="L430" href="#L430">430</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> validateMonth(Collection&lt;Integer&gt; months) {
-<a class="jxr_linenumber" name="L431" href="#L431">431</a>     <strong class="jxr_keyword">for</strong> (Integer month : months) {
-<a class="jxr_linenumber" name="L432" href="#L432">432</a>       <strong class="jxr_keyword">if</strong> (month != <strong class="jxr_keyword">null</strong> &amp;&amp; (month &lt; 1 || month &gt; 12)) {
-<a class="jxr_linenumber" name="L433" href="#L433">433</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Month needs to be between 1 - 12"</span>);
-<a class="jxr_linenumber" name="L434" href="#L434">434</a>       }
-<a class="jxr_linenumber" name="L435" href="#L435">435</a>     }
-<a class="jxr_linenumber" name="L436" href="#L436">436</a>   }
-<a class="jxr_linenumber" name="L437" href="#L437">437</a> 
-<a class="jxr_linenumber" name="L438" href="#L438">438</a> }
+<a class="jxr_linenumber" name="L417" href="#L417">417</a> <em class="jxr_javadoccomment">   * Parses a distance range in the format 123m,456km.</em>
+<a class="jxr_linenumber" name="L418" href="#L418">418</a> <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="L419" href="#L419">419</a> <em class="jxr_javadoccomment">   * @return the parsed range with wildcards represented as null values</em>
+<a class="jxr_linenumber" name="L420" href="#L420">420</a> <em class="jxr_javadoccomment">   * @throws IllegalArgumentException if value is invalid or null</em>
+<a class="jxr_linenumber" name="L421" href="#L421">421</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L422" href="#L422">422</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> Range&lt;DistanceUnit.Distance&gt; parseDistanceRange(String value) {
+<a class="jxr_linenumber" name="L423" href="#L423">423</a>     <strong class="jxr_keyword">if</strong> (StringUtils.isNotEmpty(value)) {
+<a class="jxr_linenumber" name="L424" href="#L424">424</a>       Matcher m = DECIMAL_RANGE_PATTERN.matcher(value);
+<a class="jxr_linenumber" name="L425" href="#L425">425</a>       <strong class="jxr_keyword">if</strong> (m.find()) {
+<a class="jxr_linenumber" name="L426" href="#L426">426</a>         <strong class="jxr_keyword">return</strong> Range.closed(parseDistance(m.group(1)), parseDistance(m.group(2)));
+<a class="jxr_linenumber" name="L427" href="#L427">427</a>       }
+<a class="jxr_linenumber" name="L428" href="#L428">428</a>     }
+<a class="jxr_linenumber" name="L429" href="#L429">429</a>     <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Invalid distance range: "</span> + value);
+<a class="jxr_linenumber" name="L430" href="#L430">430</a>   }
+<a class="jxr_linenumber" name="L431" href="#L431">431</a> 
+<a class="jxr_linenumber" name="L432" href="#L432">432</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> DistanceUnit.Distance parseDistance(String distance) {
+<a class="jxr_linenumber" name="L433" href="#L433">433</a>     DistanceUnit.Distance parsedDistance = DistanceUnit.parseDistance(distance);
+<a class="jxr_linenumber" name="L434" href="#L434">434</a>     <strong class="jxr_keyword">if</strong> (parsedDistance.getValue() &lt;= 0d) {
+<a class="jxr_linenumber" name="L435" href="#L435">435</a>       <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Distance cannot be less than zero"</span>);
+<a class="jxr_linenumber" name="L436" href="#L436">436</a>     }
+<a class="jxr_linenumber" name="L437" href="#L437">437</a>     <strong class="jxr_keyword">return</strong> parsedDistance;
+<a class="jxr_linenumber" name="L438" href="#L438">438</a>   }
+<a class="jxr_linenumber" name="L439" href="#L439">439</a> 
+<a class="jxr_linenumber" name="L440" href="#L440">440</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L441" href="#L441">441</a> <em class="jxr_javadoccomment">   * Validates if the parameter is a valid latitude value.</em>
+<a class="jxr_linenumber" name="L442" href="#L442">442</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L443" href="#L443">443</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> validateLatitude(String value) {
+<a class="jxr_linenumber" name="L444" href="#L444">444</a>     validateDoubleInRange(value, LATITUDE_RNG, LATITUDE_ERROR_MSG);
+<a class="jxr_linenumber" name="L445" href="#L445">445</a>   }
+<a class="jxr_linenumber" name="L446" href="#L446">446</a> 
+<a class="jxr_linenumber" name="L447" href="#L447">447</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L448" href="#L448">448</a> <em class="jxr_javadoccomment">   * Validates if the parameter is a valid longitude value.</em>
+<a class="jxr_linenumber" name="L449" href="#L449">449</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L450" href="#L450">450</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> validateLongitude(String value) {
+<a class="jxr_linenumber" name="L451" href="#L451">451</a>     validateDoubleInRange(value, LONGITUDE_RNG, LONGITUDE_ERROR_MSG);
+<a class="jxr_linenumber" name="L452" href="#L452">452</a>   }
+<a class="jxr_linenumber" name="L453" href="#L453">453</a> 
+<a class="jxr_linenumber" name="L454" href="#L454">454</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> validateMonth(Collection&lt;Integer&gt; months) {
+<a class="jxr_linenumber" name="L455" href="#L455">455</a>     <strong class="jxr_keyword">for</strong> (Integer month : months) {
+<a class="jxr_linenumber" name="L456" href="#L456">456</a>       <strong class="jxr_keyword">if</strong> (month != <strong class="jxr_keyword">null</strong> &amp;&amp; (month &lt; 1 || month &gt; 12)) {
+<a class="jxr_linenumber" name="L457" href="#L457">457</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Month needs to be between 1 - 12"</span>);
+<a class="jxr_linenumber" name="L458" href="#L458">458</a>       }
+<a class="jxr_linenumber" name="L459" href="#L459">459</a>     }
+<a class="jxr_linenumber" name="L460" href="#L460">460</a>   }
+<a class="jxr_linenumber" name="L461" href="#L461">461</a> 
+<a class="jxr_linenumber" name="L462" href="#L462">462</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2022 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2023 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>
 </body>
 </html>

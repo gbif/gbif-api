@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InstitutionSearchRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections.request</a> &gt; <span class="el_source">InstitutionSearchRequest.java</span></div><h1>InstitutionSearchRequest.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,9 +13,6 @@
  */
 package org.gbif.api.model.collections.request;
 
-import java.util.List;
-import java.util.UUID;
-
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
@@ -26,9 +21,11 @@ import org.gbif.api.vocabulary.collections.InstitutionGovernance;
 import org.gbif.api.vocabulary.collections.InstitutionType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
-<span class="nc" id="L31">public class InstitutionSearchRequest extends SearchRequest {</span>
+<span class="nc" id="L28">public class InstitutionSearchRequest extends SearchRequest {</span>
 
   @Nullable private InstitutionType type;
 
@@ -38,38 +35,37 @@ import javax.annotation.Nullable;
 
   @Nullable
   public InstitutionType getType() {
-<span class="nc" id="L41">    return type;</span>
+<span class="nc" id="L38">    return type;</span>
   }
 
   public void setType(@Nullable InstitutionType type) {
-<span class="nc" id="L45">    this.type = type;</span>
-<span class="nc" id="L46">  }</span>
+<span class="nc" id="L42">    this.type = type;</span>
+<span class="nc" id="L43">  }</span>
 
   @Nullable
   public InstitutionGovernance getInstitutionalGovernance() {
-<span class="nc" id="L50">    return institutionalGovernance;</span>
+<span class="nc" id="L47">    return institutionalGovernance;</span>
   }
 
   public void setInstitutionalGovernance(@Nullable InstitutionGovernance institutionalGovernance) {
-<span class="nc" id="L54">    this.institutionalGovernance = institutionalGovernance;</span>
-<span class="nc" id="L55">  }</span>
+<span class="nc" id="L51">    this.institutionalGovernance = institutionalGovernance;</span>
+<span class="nc" id="L52">  }</span>
 
   @Nullable
   public List&lt;Discipline&gt; getDisciplines() {
-<span class="nc" id="L59">    return disciplines;</span>
+<span class="nc" id="L56">    return disciplines;</span>
   }
 
   public void setDisciplines(@Nullable List&lt;Discipline&gt; disciplines) {
-<span class="nc" id="L63">    this.disciplines = disciplines;</span>
-<span class="nc" id="L64">  }</span>
+<span class="nc" id="L60">    this.disciplines = disciplines;</span>
+<span class="nc" id="L61">  }</span>
 
   public static Builder builder() {
-<span class="nc" id="L67">    return new Builder();</span>
+<span class="nc" id="L64">    return new Builder();</span>
   }
 
-<span class="nc" id="L70">  public static class Builder {</span>
+<span class="nc" id="L67">  public static class Builder {</span>
 
-    UUID contact;
     String q;
     String code;
     String name;
@@ -91,138 +87,132 @@ import javax.annotation.Nullable;
     Boolean displayOnNHCPortal;
     Pageable page;
 
-    public Builder contact(UUID contact) {
-<span class="nc" id="L95">      this.contact = contact;</span>
-<span class="nc" id="L96">      return this;</span>
-    }
-
     public Builder query(String q) {
-<span class="nc" id="L100">      this.q = q;</span>
-<span class="nc" id="L101">      return this;</span>
+<span class="nc" id="L91">      this.q = q;</span>
+<span class="nc" id="L92">      return this;</span>
     }
 
     public Builder code(String code) {
-<span class="nc" id="L105">      this.code = code;</span>
-<span class="nc" id="L106">      return this;</span>
+<span class="nc" id="L96">      this.code = code;</span>
+<span class="nc" id="L97">      return this;</span>
     }
 
     public Builder name(String name) {
-<span class="nc" id="L110">      this.name = name;</span>
-<span class="nc" id="L111">      return this;</span>
+<span class="nc" id="L101">      this.name = name;</span>
+<span class="nc" id="L102">      return this;</span>
     }
 
     public Builder alternativeCode(String alternativeCode) {
-<span class="nc" id="L115">      this.alternativeCode = alternativeCode;</span>
-<span class="nc" id="L116">      return this;</span>
+<span class="nc" id="L106">      this.alternativeCode = alternativeCode;</span>
+<span class="nc" id="L107">      return this;</span>
     }
 
     public Builder machineTagNamespace(String machineTagNamespace) {
-<span class="nc" id="L120">      this.machineTagNamespace = machineTagNamespace;</span>
-<span class="nc" id="L121">      return this;</span>
+<span class="nc" id="L111">      this.machineTagNamespace = machineTagNamespace;</span>
+<span class="nc" id="L112">      return this;</span>
     }
 
     public Builder machineTagName(String machineTagName) {
-<span class="nc" id="L125">      this.machineTagName = machineTagName;</span>
-<span class="nc" id="L126">      return this;</span>
+<span class="nc" id="L116">      this.machineTagName = machineTagName;</span>
+<span class="nc" id="L117">      return this;</span>
     }
 
     public Builder machineTagValue(String machineTagValue) {
-<span class="nc" id="L130">      this.machineTagValue = machineTagValue;</span>
-<span class="nc" id="L131">      return this;</span>
+<span class="nc" id="L121">      this.machineTagValue = machineTagValue;</span>
+<span class="nc" id="L122">      return this;</span>
     }
 
     public Builder identifierType(IdentifierType identifierType) {
-<span class="nc" id="L135">      this.identifierType = identifierType;</span>
-<span class="nc" id="L136">      return this;</span>
+<span class="nc" id="L126">      this.identifierType = identifierType;</span>
+<span class="nc" id="L127">      return this;</span>
     }
 
     public Builder identifier(String identifier) {
-<span class="nc" id="L140">      this.identifier = identifier;</span>
-<span class="nc" id="L141">      return this;</span>
+<span class="nc" id="L131">      this.identifier = identifier;</span>
+<span class="nc" id="L132">      return this;</span>
     }
 
     public Builder country(Country country) {
-<span class="nc" id="L145">      this.country = country;</span>
-<span class="nc" id="L146">      return this;</span>
+<span class="nc" id="L136">      this.country = country;</span>
+<span class="nc" id="L137">      return this;</span>
     }
 
     public Builder city(String city) {
-<span class="nc" id="L150">      this.city = city;</span>
-<span class="nc" id="L151">      return this;</span>
+<span class="nc" id="L141">      this.city = city;</span>
+<span class="nc" id="L142">      return this;</span>
     }
 
     public Builder fuzzyName(String fuzzyName) {
-<span class="nc" id="L155">      this.fuzzyName = fuzzyName;</span>
-<span class="nc" id="L156">      return this;</span>
+<span class="nc" id="L146">      this.fuzzyName = fuzzyName;</span>
+<span class="nc" id="L147">      return this;</span>
     }
 
     public Builder active(boolean active) {
-<span class="nc" id="L160">      this.active = active;</span>
-<span class="nc" id="L161">      return this;</span>
+<span class="nc" id="L151">      this.active = active;</span>
+<span class="nc" id="L152">      return this;</span>
     }
 
     public Builder type(InstitutionType type) {
-<span class="nc" id="L165">      this.type = type;</span>
-<span class="nc" id="L166">      return this;</span>
+<span class="nc" id="L156">      this.type = type;</span>
+<span class="nc" id="L157">      return this;</span>
     }
 
     public Builder institutionalGovernance(InstitutionGovernance institutionalGovernance) {
-<span class="nc" id="L170">      this.institutionalGovernance = institutionalGovernance;</span>
-<span class="nc" id="L171">      return this;</span>
+<span class="nc" id="L161">      this.institutionalGovernance = institutionalGovernance;</span>
+<span class="nc" id="L162">      return this;</span>
     }
 
     public Builder disciplines(List&lt;Discipline&gt; disciplines) {
-<span class="nc" id="L175">      this.disciplines = disciplines;</span>
-<span class="nc" id="L176">      return this;</span>
+<span class="nc" id="L166">      this.disciplines = disciplines;</span>
+<span class="nc" id="L167">      return this;</span>
     }
 
     public Builder masterSourceType(MasterSourceType masterSourceType) {
-<span class="nc" id="L180">      this.masterSourceType = masterSourceType;</span>
-<span class="nc" id="L181">      return this;</span>
+<span class="nc" id="L171">      this.masterSourceType = masterSourceType;</span>
+<span class="nc" id="L172">      return this;</span>
     }
 
     public Builder numberSpecimens(String numberSpecimens) {
-<span class="nc" id="L185">      this.numberSpecimens = numberSpecimens;</span>
-<span class="nc" id="L186">      return this;</span>
+<span class="nc" id="L176">      this.numberSpecimens = numberSpecimens;</span>
+<span class="nc" id="L177">      return this;</span>
     }
 
     public Builder displayOnNHCPortal(boolean displayOnNHCPortal) {
-<span class="nc" id="L190">      this.displayOnNHCPortal = displayOnNHCPortal;</span>
-<span class="nc" id="L191">      return this;</span>
+<span class="nc" id="L181">      this.displayOnNHCPortal = displayOnNHCPortal;</span>
+<span class="nc" id="L182">      return this;</span>
     }
 
     public Builder page(Pageable page) {
-<span class="nc" id="L195">      this.page = page;</span>
-<span class="nc" id="L196">      return this;</span>
+<span class="nc" id="L186">      this.page = page;</span>
+<span class="nc" id="L187">      return this;</span>
     }
 
     public InstitutionSearchRequest build() {
-<span class="nc" id="L200">      InstitutionSearchRequest req = new InstitutionSearchRequest();</span>
-<span class="nc" id="L201">      req.setContact(contact);</span>
-<span class="nc" id="L202">      req.setQ(q);</span>
-<span class="nc" id="L203">      req.setCode(code);</span>
-<span class="nc" id="L204">      req.setName(name);</span>
-<span class="nc" id="L205">      req.setAlternativeCode(alternativeCode);</span>
-<span class="nc" id="L206">      req.setMachineTagNamespace(machineTagNamespace);</span>
-<span class="nc" id="L207">      req.setMachineTagName(machineTagName);</span>
-<span class="nc" id="L208">      req.setMachineTagValue(machineTagValue);</span>
-<span class="nc" id="L209">      req.setIdentifierType(identifierType);</span>
-<span class="nc" id="L210">      req.setIdentifier(identifier);</span>
-<span class="nc" id="L211">      req.setCountry(country);</span>
-<span class="nc" id="L212">      req.setCity(city);</span>
-<span class="nc" id="L213">      req.setFuzzyName(fuzzyName);</span>
-<span class="nc" id="L214">      req.setActive(active);</span>
-<span class="nc" id="L215">      req.setType(type);</span>
-<span class="nc" id="L216">      req.setInstitutionalGovernance(institutionalGovernance);</span>
-<span class="nc" id="L217">      req.setDisciplines(disciplines);</span>
-<span class="nc" id="L218">      req.setMasterSourceType(masterSourceType);</span>
-<span class="nc" id="L219">      req.setNumberSpecimens(numberSpecimens);</span>
-<span class="nc" id="L220">      req.setDisplayOnNHCPortal(displayOnNHCPortal);</span>
-<span class="nc bnc" id="L221" title="All 2 branches missed.">      if (page != null) {</span>
-<span class="nc" id="L222">        req.setLimit(page.getLimit());</span>
-<span class="nc" id="L223">        req.setOffset(page.getOffset());</span>
+<span class="nc" id="L191">      InstitutionSearchRequest req = new InstitutionSearchRequest();</span>
+<span class="nc" id="L192">      req.setQ(q);</span>
+<span class="nc" id="L193">      req.setCode(code);</span>
+<span class="nc" id="L194">      req.setName(name);</span>
+<span class="nc" id="L195">      req.setAlternativeCode(alternativeCode);</span>
+<span class="nc" id="L196">      req.setMachineTagNamespace(machineTagNamespace);</span>
+<span class="nc" id="L197">      req.setMachineTagName(machineTagName);</span>
+<span class="nc" id="L198">      req.setMachineTagValue(machineTagValue);</span>
+<span class="nc" id="L199">      req.setIdentifierType(identifierType);</span>
+<span class="nc" id="L200">      req.setIdentifier(identifier);</span>
+<span class="nc" id="L201">      req.setCountry(country);</span>
+<span class="nc" id="L202">      req.setCity(city);</span>
+<span class="nc" id="L203">      req.setFuzzyName(fuzzyName);</span>
+<span class="nc" id="L204">      req.setActive(active);</span>
+<span class="nc" id="L205">      req.setType(type);</span>
+<span class="nc" id="L206">      req.setInstitutionalGovernance(institutionalGovernance);</span>
+<span class="nc" id="L207">      req.setDisciplines(disciplines);</span>
+<span class="nc" id="L208">      req.setMasterSourceType(masterSourceType);</span>
+<span class="nc" id="L209">      req.setNumberSpecimens(numberSpecimens);</span>
+<span class="nc" id="L210">      req.setDisplayOnNHCPortal(displayOnNHCPortal);</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">      if (page != null) {</span>
+<span class="nc" id="L212">        req.setLimit(page.getLimit());</span>
+<span class="nc" id="L213">        req.setOffset(page.getOffset());</span>
       }
-<span class="nc" id="L225">      return req;</span>
+<span class="nc" id="L215">      return req;</span>
     }
   }
 }

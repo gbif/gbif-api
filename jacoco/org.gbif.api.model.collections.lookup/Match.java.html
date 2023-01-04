@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Match.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections.lookup</a> &gt; <span class="el_source">Match.java</span></div><h1>Match.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -30,26 +28,26 @@ import java.util.StringJoiner;
  *     org.gbif.api.model.collections.Collection} or {@link
  *     org.gbif.api.model.collections.Institution}
  */
-<span class="nc" id="L33">public class Match&lt;T extends EntityMatched&gt; {</span>
+<span class="nc" id="L31">public class Match&lt;T extends EntityMatched&gt; {</span>
 
-<span class="nc" id="L35">  public static final Comparator&lt;MatchType&gt; MATCH_TYPE_COMPARATOR =</span>
+<span class="nc" id="L33">  public static final Comparator&lt;MatchType&gt; MATCH_TYPE_COMPARATOR =</span>
       (t1, t2) -&gt; {
-<span class="nc bnc" id="L37" title="All 2 branches missed.">        if (t1 == null) {</span>
-<span class="nc bnc" id="L38" title="All 2 branches missed.">          return t2 == null ? 0 : 1;</span>
-<span class="nc bnc" id="L39" title="All 2 branches missed.">        } else if (t2 == null) {</span>
-<span class="nc" id="L40">          return -1;</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (t1 == null) {</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">          return t2 == null ? 0 : 1;</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        } else if (t2 == null) {</span>
+<span class="nc" id="L38">          return -1;</span>
         }
 
-<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (t1 == t2) {</span>
-<span class="nc" id="L44">          return 0;</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        if (t1 == t2) {</span>
+<span class="nc" id="L42">          return 0;</span>
         }
-<span class="nc bnc" id="L46" title="All 2 branches missed.">        if (t1 == Match.MatchType.EXACT) {</span>
-<span class="nc" id="L47">          return -1;</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (t1 == Match.MatchType.EXACT) {</span>
+<span class="nc" id="L45">          return -1;</span>
         }
-<span class="nc bnc" id="L49" title="All 2 branches missed.">        if (t2 == Match.MatchType.EXACT) {</span>
-<span class="nc" id="L50">          return 1;</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        if (t2 == Match.MatchType.EXACT) {</span>
+<span class="nc" id="L48">          return 1;</span>
         }
-<span class="nc" id="L52">        return t1.compareTo(t2);</span>
+<span class="nc" id="L50">        return t1.compareTo(t2);</span>
       };
 
   private MatchType matchType;
@@ -58,143 +56,156 @@ import java.util.StringJoiner;
   private T entityMatched;
 
   public static &lt;T extends EntityMatched&gt; Match&lt;T&gt; exact(T entity, Reason... reasons) {
-<span class="nc" id="L61">    Match&lt;T&gt; match = new Match&lt;&gt;();</span>
-<span class="nc" id="L62">    match.setEntityMatched(entity);</span>
-<span class="nc" id="L63">    match.setMatchType(MatchType.EXACT);</span>
-<span class="nc bnc" id="L64" title="All 2 branches missed.">    if (reasons != null) {</span>
-<span class="nc" id="L65">      match.setReasons(new HashSet&lt;&gt;(Arrays.asList(reasons)));</span>
+<span class="nc" id="L59">    return exact(entity, new HashSet&lt;&gt;(Arrays.asList(reasons)));</span>
+  }
+
+  public static &lt;T extends EntityMatched&gt; Match&lt;T&gt; exact(T entity, Set&lt;Reason&gt; reasons) {
+<span class="nc" id="L63">    Match&lt;T&gt; match = new Match&lt;&gt;();</span>
+<span class="nc" id="L64">    match.setEntityMatched(entity);</span>
+<span class="nc" id="L65">    match.setMatchType(MatchType.EXACT);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">    if (reasons != null) {</span>
+<span class="nc" id="L67">      match.setReasons(reasons);</span>
     }
-<span class="nc" id="L67">    return match;</span>
+<span class="nc" id="L69">    return match;</span>
   }
 
   public static &lt;T extends EntityMatched&gt; Match&lt;T&gt; fuzzy(T entity, Reason... reasons) {
-<span class="nc" id="L71">    Match&lt;T&gt; match = new Match&lt;&gt;();</span>
-<span class="nc" id="L72">    match.setEntityMatched(entity);</span>
-<span class="nc" id="L73">    match.setMatchType(MatchType.FUZZY);</span>
-<span class="nc bnc" id="L74" title="All 2 branches missed.">    if (reasons != null) {</span>
-<span class="nc" id="L75">      match.setReasons(new HashSet&lt;&gt;(Arrays.asList(reasons)));</span>
-    }
-<span class="nc" id="L77">    return match;</span>
+<span class="nc" id="L73">    return fuzzy(entity, new HashSet&lt;&gt;(Arrays.asList(reasons)));</span>
   }
 
-  public static &lt;T extends EntityMatched&gt; Match&lt;T&gt; none() {
-<span class="nc" id="L81">    Match&lt;T&gt; match = new Match&lt;&gt;();</span>
-<span class="nc" id="L82">    match.setMatchType(MatchType.NONE);</span>
+  public static &lt;T extends EntityMatched&gt; Match&lt;T&gt; fuzzy(T entity, Set&lt;Reason&gt; reasons) {
+<span class="nc" id="L77">    Match&lt;T&gt; match = new Match&lt;&gt;();</span>
+<span class="nc" id="L78">    match.setEntityMatched(entity);</span>
+<span class="nc" id="L79">    match.setMatchType(MatchType.FUZZY);</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">    if (reasons != null) {</span>
+<span class="nc" id="L81">      match.setReasons(reasons);</span>
+    }
 <span class="nc" id="L83">    return match;</span>
   }
 
-  public static &lt;T extends EntityMatched&gt; Match&lt;T&gt; none(Status status) {
+  public static &lt;T extends EntityMatched&gt; Match&lt;T&gt; none() {
 <span class="nc" id="L87">    Match&lt;T&gt; match = new Match&lt;&gt;();</span>
 <span class="nc" id="L88">    match.setMatchType(MatchType.NONE);</span>
-<span class="nc" id="L89">    match.setStatus(status);</span>
-<span class="nc" id="L90">    return match;</span>
+<span class="nc" id="L89">    return match;</span>
+  }
+
+  public static &lt;T extends EntityMatched&gt; Match&lt;T&gt; none(Status status) {
+<span class="nc" id="L93">    Match&lt;T&gt; match = new Match&lt;&gt;();</span>
+<span class="nc" id="L94">    match.setMatchType(MatchType.NONE);</span>
+<span class="nc" id="L95">    match.setStatus(status);</span>
+<span class="nc" id="L96">    return match;</span>
   }
 
   public static &lt;T extends EntityMatched&gt; Match&lt;T&gt; explicitMapping(T entity, Reason... reasons) {
-<span class="nc" id="L94">    Match&lt;T&gt; match = new Match&lt;&gt;();</span>
-<span class="nc" id="L95">    match.setEntityMatched(entity);</span>
-<span class="nc" id="L96">    match.setMatchType(MatchType.EXPLICIT_MAPPING);</span>
-<span class="nc bnc" id="L97" title="All 2 branches missed.">    if (reasons != null) {</span>
-<span class="nc" id="L98">      match.setReasons(new HashSet&lt;&gt;(Arrays.asList(reasons)));</span>
+<span class="nc" id="L100">    return explicitMapping(entity, new HashSet&lt;&gt;(Arrays.asList(reasons)));</span>
+  }
+
+  public static &lt;T extends EntityMatched&gt; Match&lt;T&gt; explicitMapping(T entity, Set&lt;Reason&gt; reasons) {
+<span class="nc" id="L104">    Match&lt;T&gt; match = new Match&lt;&gt;();</span>
+<span class="nc" id="L105">    match.setEntityMatched(entity);</span>
+<span class="nc" id="L106">    match.setMatchType(MatchType.EXPLICIT_MAPPING);</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">    if (reasons != null) {</span>
+<span class="nc" id="L108">      match.setReasons(reasons);</span>
     }
-<span class="nc" id="L100">    return match;</span>
+<span class="nc" id="L110">    return match;</span>
   }
 
   public MatchType getMatchType() {
-<span class="nc" id="L104">    return matchType;</span>
+<span class="nc" id="L114">    return matchType;</span>
   }
 
   public void setMatchType(MatchType matchType) {
-<span class="nc" id="L108">    this.matchType = matchType;</span>
-<span class="nc" id="L109">  }</span>
+<span class="nc" id="L118">    this.matchType = matchType;</span>
+<span class="nc" id="L119">  }</span>
 
   public Status getStatus() {
-<span class="nc" id="L112">    return status;</span>
+<span class="nc" id="L122">    return status;</span>
   }
 
   public void setStatus(Status status) {
-<span class="nc" id="L116">    this.status = status;</span>
-<span class="nc" id="L117">  }</span>
+<span class="nc" id="L126">    this.status = status;</span>
+<span class="nc" id="L127">  }</span>
 
   public Set&lt;Reason&gt; getReasons() {
-<span class="nc" id="L120">    return reasons;</span>
+<span class="nc" id="L130">    return reasons;</span>
   }
 
   public void setReasons(Set&lt;Reason&gt; reasons) {
-<span class="nc" id="L124">    this.reasons = reasons;</span>
-<span class="nc" id="L125">  }</span>
+<span class="nc" id="L134">    this.reasons = reasons;</span>
+<span class="nc" id="L135">  }</span>
 
   public Match&lt;T&gt; addReason(Reason reason) {
-<span class="nc bnc" id="L128" title="All 2 branches missed.">    if (reasons == null) {</span>
-<span class="nc" id="L129">      reasons = new HashSet&lt;&gt;();</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">    if (reasons == null) {</span>
+<span class="nc" id="L139">      reasons = new HashSet&lt;&gt;();</span>
     }
-<span class="nc" id="L131">    reasons.add(reason);</span>
-<span class="nc" id="L132">    return this;</span>
+<span class="nc" id="L141">    reasons.add(reason);</span>
+<span class="nc" id="L142">    return this;</span>
   }
 
   public T getEntityMatched() {
-<span class="nc" id="L136">    return entityMatched;</span>
+<span class="nc" id="L146">    return entityMatched;</span>
   }
 
   public void setEntityMatched(T entityMatched) {
-<span class="nc" id="L140">    this.entityMatched = entityMatched;</span>
-<span class="nc" id="L141">  }</span>
+<span class="nc" id="L150">    this.entityMatched = entityMatched;</span>
+<span class="nc" id="L151">  }</span>
 
-<span class="nc" id="L143">  public enum MatchType {</span>
-<span class="nc" id="L144">    EXACT,</span>
-<span class="nc" id="L145">    FUZZY,</span>
-<span class="nc" id="L146">    EXPLICIT_MAPPING,</span>
-<span class="nc" id="L147">    NONE;</span>
+<span class="nc" id="L153">  public enum MatchType {</span>
+<span class="nc" id="L154">    EXACT,</span>
+<span class="nc" id="L155">    FUZZY,</span>
+<span class="nc" id="L156">    EXPLICIT_MAPPING,</span>
+<span class="nc" id="L157">    NONE;</span>
   }
 
-<span class="nc" id="L150">  public enum Reason {</span>
-<span class="nc" id="L151">    CODE_MATCH,</span>
-<span class="nc" id="L152">    IDENTIFIER_MATCH,</span>
-<span class="nc" id="L153">    ALTERNATIVE_CODE_MATCH,</span>
-<span class="nc" id="L154">    NAME_MATCH,</span>
-<span class="nc" id="L155">    KEY_MATCH,</span>
-<span class="nc" id="L156">    DIFFERENT_OWNER,</span>
-<span class="nc" id="L157">    INST_COLL_MISMATCH,</span>
-<span class="nc" id="L158">    COUNTRY_MATCH</span>
+<span class="nc" id="L160">  public enum Reason {</span>
+<span class="nc" id="L161">    CODE_MATCH,</span>
+<span class="nc" id="L162">    IDENTIFIER_MATCH,</span>
+<span class="nc" id="L163">    ALTERNATIVE_CODE_MATCH,</span>
+<span class="nc" id="L164">    NAME_MATCH,</span>
+<span class="nc" id="L165">    KEY_MATCH,</span>
+<span class="nc" id="L166">    DIFFERENT_OWNER,</span>
+<span class="nc" id="L167">    BELONGS_TO_INSTITUTION_MATCHED,</span>
+<span class="nc" id="L168">    INST_COLL_MISMATCH,</span>
+<span class="nc" id="L169">    COUNTRY_MATCH</span>
   }
 
-<span class="nc" id="L161">  public enum Status {</span>
-<span class="nc" id="L162">    ACCEPTED,</span>
-<span class="nc" id="L163">    AMBIGUOUS,</span>
-<span class="nc" id="L164">    AMBIGUOUS_EXPLICIT_MAPPINGS,</span>
-<span class="nc" id="L165">    AMBIGUOUS_OWNER,</span>
-<span class="nc" id="L166">    AMBIGUOUS_INSTITUTION_MISMATCH,</span>
-<span class="nc" id="L167">    DOUBTFUL;</span>
+<span class="nc" id="L172">  public enum Status {</span>
+<span class="nc" id="L173">    ACCEPTED,</span>
+<span class="nc" id="L174">    AMBIGUOUS,</span>
+<span class="nc" id="L175">    AMBIGUOUS_EXPLICIT_MAPPINGS,</span>
+<span class="nc" id="L176">    AMBIGUOUS_OWNER,</span>
+<span class="nc" id="L177">    AMBIGUOUS_INSTITUTION_MISMATCH,</span>
+<span class="nc" id="L178">    DOUBTFUL;</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L172" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L173">      return true;</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L184">      return true;</span>
     }
-<span class="nc bnc" id="L175" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L176">      return false;</span>
+<span class="nc bnc" id="L186" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L187">      return false;</span>
     }
-<span class="nc" id="L178">    Match&lt;?&gt; match = (Match&lt;?&gt;) o;</span>
-<span class="nc bnc" id="L179" title="All 4 branches missed.">    return matchType == match.matchType</span>
+<span class="nc" id="L189">    Match&lt;?&gt; match = (Match&lt;?&gt;) o;</span>
+<span class="nc bnc" id="L190" title="All 4 branches missed.">    return matchType == match.matchType</span>
         &amp;&amp; status == match.status
-<span class="nc bnc" id="L181" title="All 2 branches missed.">        &amp;&amp; Objects.equals(reasons, match.reasons)</span>
-<span class="nc bnc" id="L182" title="All 2 branches missed.">        &amp;&amp; Objects.equals(entityMatched, match.entityMatched);</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">        &amp;&amp; Objects.equals(reasons, match.reasons)</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">        &amp;&amp; Objects.equals(entityMatched, match.entityMatched);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L187">    return Objects.hash(matchType, status, reasons, entityMatched);</span>
+<span class="nc" id="L198">    return Objects.hash(matchType, status, reasons, entityMatched);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L192">    return new StringJoiner(&quot;, &quot;, Match.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L193">        .add(&quot;matchType=&quot; + matchType)</span>
-<span class="nc" id="L194">        .add(&quot;status=&quot; + status)</span>
-<span class="nc" id="L195">        .add(&quot;reasons=&quot; + reasons)</span>
-<span class="nc" id="L196">        .add(&quot;entityMatched=&quot; + entityMatched)</span>
-<span class="nc" id="L197">        .toString();</span>
+<span class="nc" id="L203">    return new StringJoiner(&quot;, &quot;, Match.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L204">        .add(&quot;matchType=&quot; + matchType)</span>
+<span class="nc" id="L205">        .add(&quot;status=&quot; + status)</span>
+<span class="nc" id="L206">        .add(&quot;reasons=&quot; + reasons)</span>
+<span class="nc" id="L207">        .add(&quot;entityMatched=&quot; + entityMatched)</span>
+<span class="nc" id="L208">        .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
