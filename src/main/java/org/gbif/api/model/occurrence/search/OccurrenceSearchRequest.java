@@ -31,12 +31,12 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * Request class for issuing search request to the occurrence search service.
- */
+/** Request class for issuing search request to the occurrence search service. */
 public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSearchParameter> {
 
   private Boolean matchCase;
+  private Boolean shuffle;
+  private String shuffleSeed;
 
   public OccurrenceSearchRequest() {
     // empty block
@@ -44,14 +44,16 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
   }
 
   /**
-   * This flag enables the use of case-sensitive matches and aggregations on certain search parameters.
-   * <p>
-   * Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol, catalogNumber, collectionCode,
-   * institutionCode, eventId, parentEventId, waterBody, stateProvince, recordNumber, identifiedBy, organismId and locality.
-   * <p>
-   * This is an experimental feature and its implementation map change or be removed at any time.
-   * <p>
-   * Be aware that this is not a per-field flag, all possible fields will match case sensitively.
+   * This flag enables the use of case-sensitive matches and aggregations on certain search
+   * parameters.
+   *
+   * <p>Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol,
+   * catalogNumber, collectionCode, institutionCode, eventId, parentEventId, waterBody,
+   * stateProvince, recordNumber, identifiedBy, organismId and locality.
+   *
+   * <p>This is an experimental feature and its implementation map change or be removed at any time.
+   *
+   * <p>Be aware that this is not a per-field flag, all possible fields will match case sensitively.
    */
   @Experimental
   public Boolean isMatchCase() {
@@ -62,6 +64,37 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
   public void setMatchCase(Boolean matchCase) {
     this.matchCase = matchCase;
   }
+
+  /**
+   * This flag allows getting the search results in a random order. If you want to page the results
+   * you need to pass a {@link #shuffleSeed}.
+   *
+   * <p>This is an experimental feature and its implementation map change or be removed at any time.
+   */
+  @Experimental
+  public Boolean isShuffle() {
+    return Optional.ofNullable(shuffle).orElse(Boolean.FALSE);
+  }
+
+  @Experimental
+  public void setShuffle(Boolean shuffle) {
+    this.shuffle = shuffle;
+  }
+
+  /**
+   * When using {@link #shuffle} a seed can be specified so the random results are reproducible
+   * and this can be used for paging. The same seed has to be sent for each page.
+   */
+  @Experimental
+  public String getShuffleSeed() {
+    return shuffleSeed;
+  }
+
+  @Experimental
+  public void setShuffleSeed(String shuffleSeed) {
+    this.shuffleSeed = shuffleSeed;
+  }
+
 
   public OccurrenceSearchRequest(long offset, int limit) {
     super(offset, limit);
