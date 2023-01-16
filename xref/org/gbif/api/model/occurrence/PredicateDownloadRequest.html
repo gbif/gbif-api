@@ -57,11 +57,11 @@
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>      @JsonProperty(<span class="jxr_string">"predicate"</span>) Predicate predicate,
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>      @JsonProperty(<span class="jxr_string">"creator"</span>) @Nullable String creator,
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>      @JsonProperty(<span class="jxr_string">"notificationAddresses"</span>) @Nullable Collection&lt;String&gt; notificationAddresses,
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>      @JsonProperty(<span class="jxr_string">"sendNotification"</span>) <strong class="jxr_keyword">boolean</strong> sendNotification,
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>      @JsonProperty(<span class="jxr_string">"format"</span>) <a name="DownloadFormat" href="../../../../../org/gbif/api/model/occurrence/DownloadFormat.html#DownloadFormat">DownloadFormat</a> format,
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>      @JsonProperty(<span class="jxr_string">"type"</span>) <a name="DownloadType" href="../../../../../org/gbif/api/model/occurrence/DownloadType.html#DownloadType">DownloadType</a> type,
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>      @JsonProperty(<span class="jxr_string">"sendNotification"</span>) @Nullable Boolean sendNotification,
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>      @JsonProperty(<span class="jxr_string">"format"</span>) @Nullable <a name="DownloadFormat" href="../../../../../org/gbif/api/model/occurrence/DownloadFormat.html#DownloadFormat">DownloadFormat</a> format,
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>      @JsonProperty(<span class="jxr_string">"type"</span>) @Nullable <a name="DownloadType" href="../../../../../org/gbif/api/model/occurrence/DownloadType.html#DownloadType">DownloadType</a> type,
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>      @JsonProperty(<span class="jxr_string">"verbatimExtensions"</span>) @Nullable Set&lt;Extension&gt; verbatimExtensions) {
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>      <strong class="jxr_keyword">super</strong>(creator, notificationAddresses, sendNotification, format == <strong class="jxr_keyword">null</strong> ? DEFAULT_DOWNLOAD_FORMAT : format, type, verbatimExtensions);
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>      <strong class="jxr_keyword">super</strong>(creator, notificationAddresses, sendNotification == <strong class="jxr_keyword">null</strong>? Boolean.TRUE : sendNotification, format == <strong class="jxr_keyword">null</strong> ? DEFAULT_DOWNLOAD_FORMAT : format, type == <strong class="jxr_keyword">null</strong>? DownloadType.OCCURRENCE : type, verbatimExtensions);
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>      <strong class="jxr_keyword">this</strong>.predicate = predicate;
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>    }
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>  

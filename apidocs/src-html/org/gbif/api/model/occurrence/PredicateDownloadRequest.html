@@ -57,11 +57,11 @@
 <span class="sourceLineNo">049</span>    @JsonProperty("predicate") Predicate predicate,<a name="line.49"></a>
 <span class="sourceLineNo">050</span>    @JsonProperty("creator") @Nullable String creator,<a name="line.50"></a>
 <span class="sourceLineNo">051</span>    @JsonProperty("notificationAddresses") @Nullable Collection&lt;String&gt; notificationAddresses,<a name="line.51"></a>
-<span class="sourceLineNo">052</span>    @JsonProperty("sendNotification") boolean sendNotification,<a name="line.52"></a>
-<span class="sourceLineNo">053</span>    @JsonProperty("format") DownloadFormat format,<a name="line.53"></a>
-<span class="sourceLineNo">054</span>    @JsonProperty("type") DownloadType type,<a name="line.54"></a>
+<span class="sourceLineNo">052</span>    @JsonProperty("sendNotification") @Nullable Boolean sendNotification,<a name="line.52"></a>
+<span class="sourceLineNo">053</span>    @JsonProperty("format") @Nullable DownloadFormat format,<a name="line.53"></a>
+<span class="sourceLineNo">054</span>    @JsonProperty("type") @Nullable DownloadType type,<a name="line.54"></a>
 <span class="sourceLineNo">055</span>    @JsonProperty("verbatimExtensions") @Nullable Set&lt;Extension&gt; verbatimExtensions) {<a name="line.55"></a>
-<span class="sourceLineNo">056</span>    super(creator, notificationAddresses, sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type, verbatimExtensions);<a name="line.56"></a>
+<span class="sourceLineNo">056</span>    super(creator, notificationAddresses, sendNotification == null? Boolean.TRUE : sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type == null? DownloadType.OCCURRENCE : type, verbatimExtensions);<a name="line.56"></a>
 <span class="sourceLineNo">057</span>    this.predicate = predicate;<a name="line.57"></a>
 <span class="sourceLineNo">058</span>  }<a name="line.58"></a>
 <span class="sourceLineNo">059</span><a name="line.59"></a>

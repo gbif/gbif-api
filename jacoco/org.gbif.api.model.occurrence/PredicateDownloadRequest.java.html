@@ -49,11 +49,11 @@ public class PredicateDownloadRequest extends DownloadRequest {
     @JsonProperty(&quot;predicate&quot;) Predicate predicate,
     @JsonProperty(&quot;creator&quot;) @Nullable String creator,
     @JsonProperty(&quot;notificationAddresses&quot;) @Nullable Collection&lt;String&gt; notificationAddresses,
-    @JsonProperty(&quot;sendNotification&quot;) boolean sendNotification,
-    @JsonProperty(&quot;format&quot;) DownloadFormat format,
-    @JsonProperty(&quot;type&quot;) DownloadType type,
+    @JsonProperty(&quot;sendNotification&quot;) @Nullable Boolean sendNotification,
+    @JsonProperty(&quot;format&quot;) @Nullable DownloadFormat format,
+    @JsonProperty(&quot;type&quot;) @Nullable DownloadType type,
     @JsonProperty(&quot;verbatimExtensions&quot;) @Nullable Set&lt;Extension&gt; verbatimExtensions) {
-<span class="pc bpc" id="L56" title="1 of 2 branches missed.">    super(creator, notificationAddresses, sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type, verbatimExtensions);</span>
+<span class="pc bpc" id="L56" title="3 of 6 branches missed.">    super(creator, notificationAddresses, sendNotification == null? Boolean.TRUE : sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type == null? DownloadType.OCCURRENCE : type, verbatimExtensions);</span>
 <span class="fc" id="L57">    this.predicate = predicate;</span>
 <span class="fc" id="L58">  }</span>
 
