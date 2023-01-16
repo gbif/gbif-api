@@ -51,7 +51,7 @@ public abstract class DownloadRequest implements Serializable {
   private Set<String> notificationAddresses;
 
   @JsonProperty("sendNotification")
-  private boolean sendNotification;
+  private Boolean sendNotification;
 
   @JsonProperty("format")
   private DownloadFormat format;
@@ -70,7 +70,7 @@ public abstract class DownloadRequest implements Serializable {
   }
 
   public DownloadRequest(String creator, Collection<String> notificationAddresses,
-                         boolean sendNotification, DownloadFormat format,
+                         Boolean sendNotification, DownloadFormat format,
                          DownloadType downloadType,
                          Set<Extension> verbatimExtensions
   ) {
@@ -134,7 +134,8 @@ public abstract class DownloadRequest implements Serializable {
     }
   }
 
-  public boolean getSendNotification() {
+  @Nullable
+  public Boolean getSendNotification() {
     return sendNotification;
   }
 

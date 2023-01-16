@@ -49,11 +49,11 @@ public class PredicateDownloadRequest extends DownloadRequest {
     @JsonProperty("predicate") Predicate predicate,
     @JsonProperty("creator") @Nullable String creator,
     @JsonProperty("notificationAddresses") @Nullable Collection<String> notificationAddresses,
-    @JsonProperty("sendNotification") @Nullable boolean sendNotification,
+    @JsonProperty("sendNotification") @Nullable Boolean sendNotification,
     @JsonProperty("format") @Nullable DownloadFormat format,
     @JsonProperty("type") @Nullable DownloadType type,
     @JsonProperty("verbatimExtensions") @Nullable Set<Extension> verbatimExtensions) {
-    super(creator, notificationAddresses, sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type == null? DownloadType.OCCURRENCE : type, verbatimExtensions);
+    super(creator, notificationAddresses, sendNotification == null? Boolean.TRUE : sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type == null? DownloadType.OCCURRENCE : type, verbatimExtensions);
     this.predicate = predicate;
   }
 
