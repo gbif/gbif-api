@@ -18,16 +18,14 @@ package org.gbif.api.vocabulary;
 import org.gbif.api.util.VocabularyUtils;
 
 /**
- * <p>Enumeration for all continents based on the 7 number model found on
- * <a href="https://en.wikipedia.org/wiki/Continent#Number_of_continents">Wikipedia</a>.
+ * <p>Enumeration for all continents based on the 7 continent model found on
+ * <a href="https://en.wikipedia.org/wiki/Continent#Number_of_continents">Wikipedia</a> and the
+ * <a href="http://www.tdwg.org/standards/109">World Geographical Scheme for Recording Plant Distributions (WGSRPD)</a>.
  *
- * <p>In particular this splits the Americas into North and South America with North America including the Caribbean and
- * reaching down and including Panama. See the <a href="https://commons.wikimedia.org/wiki/File:Continents_vide_couleurs.png">Wikipedia continent map</a> for the exact divisions.
+ * <p>In particular this splits the Americas into North and South America with North America including the Caribbean (except Trinidad and Tobago) and
+ * reaching down and including Panama. See the <a href="https://github.com/gbif/continents/">GBIF Continents</a> for the exact divisions.
  *
  * <p>This is a geographical division.  For GBIF's political divisions, see {@link GbifRegion}.
- *
- * <p>There is currently no validation of continents for GBIF occurrences, so there is no explicit definition of what
- * country is in each continent.
  */
 public enum Continent {
 
