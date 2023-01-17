@@ -519,9 +519,12 @@ public enum OccurrenceIssue implements InterpretationRemark {
     Collections.unmodifiableList(
       Arrays.asList(
         ZERO_COORDINATE,
-        COORDINATE_INVALID,
         COORDINATE_OUT_OF_RANGE,
-        COUNTRY_COORDINATE_MISMATCH));
+        COORDINATE_INVALID,
+        COUNTRY_COORDINATE_MISMATCH,
+        PRESUMED_SWAPPED_COORDINATE,
+        PRESUMED_NEGATED_LONGITUDE,
+        PRESUMED_NEGATED_LATITUDE));
 
   /**
    * All issues that indicate problems with the taxonomy or taxonomic matching.
