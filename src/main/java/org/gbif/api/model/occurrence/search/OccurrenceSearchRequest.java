@@ -35,8 +35,7 @@ import java.util.UUID;
 public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSearchParameter> {
 
   private Boolean matchCase;
-  private Boolean shuffle;
-  private String shuffleSeed;
+  private String shuffle;
 
   public OccurrenceSearchRequest() {
     // empty block
@@ -66,33 +65,17 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
   }
 
   /**
-   * This flag allows getting the search results in a random order. If you want to page the results
-   * you need to pass a {@link #shuffleSeed}.
-   *
-   * <p>This is an experimental feature and its implementation map change or be removed at any time.
+   * This flag allows to sort the results in a random order by specifying a seed. The seed makes the
+   * random results reproducible so we can use paging. The same seed has to be sent for each page.
    */
   @Experimental
-  public Boolean isShuffle() {
-    return Optional.ofNullable(shuffle).orElse(Boolean.FALSE);
+  public String getShuffle() {
+    return shuffle;
   }
 
   @Experimental
-  public void setShuffle(Boolean shuffle) {
+  public void setShuffle(String shuffle) {
     this.shuffle = shuffle;
-  }
-
-  /**
-   * When using {@link #shuffle} a seed can be specified so the random results are reproducible
-   * and this can be used for paging. The same seed has to be sent for each page.
-   */
-  @Experimental
-  public String getShuffleSeed() {
-    return shuffleSeed;
-  }
-
-  @Experimental
-  public void setShuffleSeed(String shuffleSeed) {
-    this.shuffleSeed = shuffleSeed;
   }
 
 
