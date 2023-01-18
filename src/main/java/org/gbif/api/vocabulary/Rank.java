@@ -32,6 +32,8 @@ import java.util.Set;
 @SuppressWarnings("unused")
 public enum Rank {
 
+  SUPERDOMAIN("superdom."),  
+  
   DOMAIN("dom."),
 
   SUPERKINGDOM("superreg."),
