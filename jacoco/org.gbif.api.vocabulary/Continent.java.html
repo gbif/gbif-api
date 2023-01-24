@@ -18,67 +18,65 @@ package org.gbif.api.vocabulary;
 import org.gbif.api.util.VocabularyUtils;
 
 /**
- * &lt;p&gt;Enumeration for all continents based on the 7 number model found on
- * &lt;a href=&quot;https://en.wikipedia.org/wiki/Continent#Number_of_continents&quot;&gt;Wikipedia&lt;/a&gt;.
+ * &lt;p&gt;Enumeration for all continents based on the 7 continent model found on
+ * &lt;a href=&quot;https://en.wikipedia.org/wiki/Continent#Number_of_continents&quot;&gt;Wikipedia&lt;/a&gt; and the
+ * &lt;a href=&quot;http://www.tdwg.org/standards/109&quot;&gt;World Geographical Scheme for Recording Plant Distributions (WGSRPD)&lt;/a&gt;.
  *
- * &lt;p&gt;In particular this splits the Americas into North and South America with North America including the Caribbean and
- * reaching down and including Panama. See the &lt;a href=&quot;https://commons.wikimedia.org/wiki/File:Continents_vide_couleurs.png&quot;&gt;Wikipedia continent map&lt;/a&gt; for the exact divisions.
+ * &lt;p&gt;In particular this splits the Americas into North and South America with North America including the Caribbean (except Trinidad and Tobago) and
+ * reaching down and including Panama. See the &lt;a href=&quot;https://github.com/gbif/continents/&quot;&gt;GBIF Continents&lt;/a&gt; for the exact divisions.
  *
  * &lt;p&gt;This is a geographical division.  For GBIF's political divisions, see {@link GbifRegion}.
- *
- * &lt;p&gt;There is currently no validation of continents for GBIF occurrences, so there is no explicit definition of what
- * country is in each continent.
  */
-<span class="fc" id="L32">public enum Continent {</span>
+<span class="fc" id="L30">public enum Continent {</span>
 
   /**
    * Africa.
    */
-<span class="fc" id="L37">  AFRICA(&quot;Africa&quot;),</span>
+<span class="fc" id="L35">  AFRICA(&quot;Africa&quot;),</span>
 
   /**
    * Antarctica.
    */
-<span class="fc" id="L42">  ANTARCTICA(&quot;Antarctica&quot;),</span>
+<span class="fc" id="L40">  ANTARCTICA(&quot;Antarctica&quot;),</span>
 
   /**
    * Asia.
    */
-<span class="fc" id="L47">  ASIA(&quot;Asia&quot;),</span>
+<span class="fc" id="L45">  ASIA(&quot;Asia&quot;),</span>
 
   /**
    * Oceania.
    */
-<span class="fc" id="L52">  OCEANIA(&quot;Oceania&quot;),</span>
+<span class="fc" id="L50">  OCEANIA(&quot;Oceania&quot;),</span>
 
   /**
    * Europe.
    */
-<span class="fc" id="L57">  EUROPE(&quot;Europe&quot;),</span>
+<span class="fc" id="L55">  EUROPE(&quot;Europe&quot;),</span>
 
   /**
    * North America
    *
    * &lt;p&gt;This includes the Caribbean and Central America.
    */
-<span class="fc" id="L64">  NORTH_AMERICA(&quot;North America&quot;),</span>
+<span class="fc" id="L62">  NORTH_AMERICA(&quot;North America&quot;),</span>
 
   /**
    * South America.
    */
-<span class="fc" id="L69">  SOUTH_AMERICA(&quot;South America&quot;);</span>
+<span class="fc" id="L67">  SOUTH_AMERICA(&quot;South America&quot;);</span>
 
   private final String title;
 
-<span class="fc" id="L73">  Continent(String title) {</span>
-<span class="fc" id="L74">    this.title = title;</span>
-<span class="fc" id="L75">  }</span>
+<span class="fc" id="L71">  Continent(String title) {</span>
+<span class="fc" id="L72">    this.title = title;</span>
+<span class="fc" id="L73">  }</span>
 
   /**
    * @return the continent name in the English language.
    */
   public String getTitle() {
-<span class="fc" id="L81">    return title;</span>
+<span class="fc" id="L79">    return title;</span>
   }
 
   /**
@@ -88,9 +86,9 @@ import org.gbif.api.util.VocabularyUtils;
    */
   public static Continent fromString(String continent) {
     try {
-<span class="fc" id="L91">      return (Continent) VocabularyUtils.lookupEnum(continent, Continent.class);</span>
-<span class="nc" id="L92">    } catch (IllegalArgumentException e) {</span>
-<span class="nc" id="L93">      return null;</span>
+<span class="fc" id="L89">      return (Continent) VocabularyUtils.lookupEnum(continent, Continent.class);</span>
+<span class="nc" id="L90">    } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L91">      return null;</span>
     }
   }
 }
