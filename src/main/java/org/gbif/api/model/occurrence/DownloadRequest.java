@@ -13,6 +13,9 @@
  */
 package org.gbif.api.model.occurrence;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.jackson.DownloadRequestSerde;
 import org.gbif.api.vocabulary.Extension;
 
@@ -36,7 +39,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * Represents a request to download occurrence records.
- * This is the base class for specific type of downloads: predicate based downloads and SQL downloads..
+ * This is the base class for specific type of downloads: predicate based downloads and SQL downloads.
  */
 @SuppressWarnings("unused")
 @JsonDeserialize(using = DownloadRequestSerde.class)
@@ -44,21 +47,35 @@ public abstract class DownloadRequest implements Serializable {
 
   private static final String DELIMITER = ",";
 
+  @Schema(
+    description = "The GBIF username of the initiator of the download request."
+  )
   @JsonProperty("creator")
   private String creator;
 
+  @Schema(
+    description = "A list of email addresses to notify when the download finishes."
+  )
   @JsonProperty("notificationAddresses")
   private Set<String> notificationAddresses;
 
+  @Schema(
+    description = "Whether to send a notification email when the download finishes."
+  )
   @JsonProperty("sendNotification")
   private Boolean sendNotification;
 
+  @Schema(
+    description = "The data format of the download."
+  )
   @JsonProperty("format")
   private DownloadFormat format;
 
+  @Hidden
   @JsonProperty("type")
   private DownloadType type;
 
+  @Hidden
   @JsonProperty("verbatimExtensions")
   private Set<Extension> verbatimExtensions;
 

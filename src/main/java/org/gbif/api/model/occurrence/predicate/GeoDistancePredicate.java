@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.occurrence.geo.DistanceUnit;
 import org.gbif.api.util.SearchTypeValidator;
 
@@ -25,8 +27,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * This predicate checks if an occurrence location falls within the given WKT geometry {@code value}.
+ * This predicate checks if an occurrence location falls within a distance of a location.
  */
+@Schema(
+  description = "This predicate checks if an occurrence falls within a distance of a location."
+)
 public class GeoDistancePredicate implements Predicate {
 
   @NotNull

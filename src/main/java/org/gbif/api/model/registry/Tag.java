@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.registry;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -27,9 +29,27 @@ import javax.validation.constraints.Size;
 
 public class Tag implements Serializable, LenientEquals<Tag> {
 
+  @Schema(
+    description = "Identifier for the tag",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Integer key;
+
+  @Schema(
+    description = "Text value of the tag"
+  )
   private String value;
+
+  @Schema(
+    description = "The GBIF username of the creator of the tag",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String createdBy;
+
+  @Schema(
+    description = "Timestamp of when the tag was created",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date created;
 
   public Tag() {}

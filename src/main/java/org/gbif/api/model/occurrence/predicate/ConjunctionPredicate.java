@@ -21,9 +21,14 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * This predicate is "AND"-ing its subpredicates together.
  */
+@Schema(
+  description = "A logical conjunction (“AND”) of a list of sub-predicates"
+)
 public class ConjunctionPredicate extends CompoundPredicate {
 
   @JsonCreator

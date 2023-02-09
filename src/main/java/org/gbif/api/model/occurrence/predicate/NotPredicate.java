@@ -23,10 +23,15 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * This predicate negates its subpredicate.
  * Note: This may not work with all combinations of subpredicates.
  */
+@Schema(
+  description = "This predicate negates its subpredicate."
+)
 public class NotPredicate implements Predicate {
 
   @NotNull

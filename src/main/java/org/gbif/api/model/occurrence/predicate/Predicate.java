@@ -18,6 +18,8 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @JsonTypeInfo(
   use = JsonTypeInfo.Id.NAME,
   property = "type"
@@ -39,5 +41,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
   @JsonSubTypes.Type(value = IsNullPredicate.class, name = "isNull"),
   @JsonSubTypes.Type(value = FullTextSearchPredicate.class, name = "fullTextSearchPredicate")
 })
+@Schema(
+  description = "A predicate defining filters to apply for the download."
+)
 public interface Predicate extends Serializable {
 }

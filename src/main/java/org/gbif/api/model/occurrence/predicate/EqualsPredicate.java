@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import java.util.Objects;
@@ -27,6 +29,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * This predicate checks if its {@code key} is equal to its {@code value}.
  */
+@Schema(
+  description = "This predicate checks if its `key` is equal to its `value`."
+)
 public class EqualsPredicate extends SimplePredicate {
 
   @JsonCreator

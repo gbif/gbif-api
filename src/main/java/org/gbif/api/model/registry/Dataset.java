@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.registry;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.eml.Collection;
 import org.gbif.api.model.registry.eml.DataDescription;
@@ -95,60 +97,313 @@ public class Dataset
     Commentable,
     LenientEquals<Dataset> {
 
+  @Schema(
+    description = "Unique GBIF key for the dataset. This is used in the" +
+      "GBIF API, but outside GBIF it is best to refer to a dataset by its DOI.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private UUID key;
+
+  @Schema(
+    description = "If set, this dataset is a sub-dataset of the parent."
+  )
   private UUID parentDatasetKey;
+
+  @Schema(
+    description = "A dataset of which this dataset is a duplicate. Typically," +
+      "this means this dataset is a new version of the duplicated dataset."
+  )
   private UUID duplicateOfDatasetKey;
+
+  @Schema(
+    description = "The installation providing access to the source dataset. " +
+      "(NB Not required for updates.)"
+  )
   private UUID installationKey;
+
+  @Schema(
+    description = "The publishing organization publishing this dataset. " +
+      "(NB Not required for updates.)"
+  )
   private UUID publishingOrganizationKey;
+
+  @Schema(
+    description = "A list of GBIF Networks to which this dataset belongs."
+  )
   private List<UUID> networkKeys;
+
+  @Schema(
+    description = "The primary Digital Object Identifier (DOI) for this dataset."
+  )
   private DOI doi;
+
+  @Schema(
+    description = "The version of the published dataset."
+  )
   private String version;
+
+  @Schema(
+    description = "Not currently used."
+  )
   private boolean external;
+
+  @Schema(
+    description = "If set, the number of sub-datasets of this parent dataset."
+  )
   private int numConstituents;
+
+  @Schema(
+    description = "The primary type of the dataset. " +
+      "(NB Not required for updates.)"
+  )
   private DatasetType type;
+
+  @Schema(
+    description = "The sub-type of the dataset."
+  )
   private DatasetSubtype subtype;
+
+  @Schema(
+    description = "The title of the dataset. " +
+      "(NB Not required for updates.)"
+  )
   private String title;
+
+  @Schema(
+    description = "An alias for this dataset. Rarely used."
+  )
   private String alias;
+
+  @Schema(
+    description = "An abbreviation for this dataset. Rarely used."
+  )
   private String abbreviation;
+
+  @Schema(
+    description = "A description of the dataset."
+  )
   private String description;
+
+  @Schema(
+    description = "The language of the dataset metadata. " +
+      "(NB Not required for updates.)"
+  )
   private Language language = Language.ENGLISH; // sensible default as it is not null
+
+  @Schema(
+    description = "A homepage with further details on the dataset."
+  )
   private URI homepage;
+
+  @Schema(
+    description = "A logo for the dataset, accessible over HTTP."
+  )
   private URI logoUrl;
 
+  @Schema(
+    description = "The citation recommended by GBIF for use when citing this dataset."
+  )
   private Citation citation = new Citation();
+
+  @Schema(
+    description = "Contacts use to generate a citation."
+  )
   private List<CitationContact> contactsCitation = new ArrayList<>();
+
+  @Schema(
+    description = "Intellectual property rights applied to this dataset.\n" +
+      "Rarely used, see `license` instead."
+  )
   private String rights;
+
+  @Schema(
+    description = "If true, any new or updated metadata is ignored.\n" +
+      "This is generally used when the publisher has technical problems or " +
+      "limitations with their publication system.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private boolean lockedForAutoUpdate;
+
+  @Schema(
+    description = "The GBIF username of the creator of the dataset",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String createdBy;
+
+  @Schema(
+    description = "The GBIF username of the last user to modify the dataset.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String modifiedBy;
+
+  @Schema(
+    description = "Timestamp of when the dataset was created",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date created;
+
+  @Schema(
+    description = "Timestamp of when the dataset was modified",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date modified;
+
+  @Schema(
+    description = "If present, the dataset was deleted at this time. " +
+      "It is possible for it to be restored in the future.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date deleted;
+
+  @Schema(
+    description = "A list of contacts associated with this dataset.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Contact> contacts = new ArrayList<>();
+
+  @Schema(
+    description = "A list of endpoints associated with this dataset.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Endpoint> endpoints = new ArrayList<>();
+
+  @Schema(
+    description = "A list of machine tags associated with this dataset.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<MachineTag> machineTags = new ArrayList<>();
+
+  @Schema(
+    description = "A list of tags associated with this dataset.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Tag> tags = new ArrayList<>();
+
+  @Schema(
+    description = "A list of identifiers associated with this dataset.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Identifier> identifiers = new ArrayList<>();
+
+  @Schema(
+    description = "A list of comments associated with this dataset.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Comment> comments = new ArrayList<>();
+
   // EML specific properties which are not persisted on the dataset table!
+  @Schema(
+    description = "Citations retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Citation> bibliographicCitations = new ArrayList<>();
+
+  @Schema(
+    description = "Curatorial unit information retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<CuratorialUnitComposite> curatorialUnits = new ArrayList<>();
+
+  @Schema(
+    description = "Taxonomic coverage information retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<TaxonomicCoverages> taxonomicCoverages = new ArrayList<>();
+
+  @Schema(
+    description = "Geographic coverage description retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String geographicCoverageDescription;
+
+  @Schema(
+    description = "Geospatial coverage information retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<GeospatialCoverage> geographicCoverages = new ArrayList<>();
+
+  @Schema(
+    description = "Temporal coverage information retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<TemporalCoverage> temporalCoverages = new ArrayList<>();
+
+  @Schema(
+    description = "Keyword collections retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<KeywordCollection> keywordCollections = new ArrayList<>();
+
+  @Schema(
+    description = "Project information retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Project project;
+
+  @Schema(
+    description = "Sampling description retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private SamplingDescription samplingDescription;
+
+  @Schema(
+    description = "Country coverage information retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Set<Country> countryCoverage = new HashSet<>();
+
+  @Schema(
+    description = "Collection information retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Collection> collections = new ArrayList<>();
+
+  @Schema(
+    description = "Data description information retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<DataDescription> dataDescriptions = new ArrayList<>();
+
+  @Schema(
+    description = "Data language information retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Language dataLanguage;
+
+  @Schema(
+    description = "Purpose information retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String purpose;
+
+  @Schema(
+    description = "Additional information retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String additionalInfo;
+
+  @Schema(
+    description = "The publication date retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date pubDate;
+
+  @Schema(
+    description = "The maintenance update frequency retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private MaintenanceUpdateFrequency maintenanceUpdateFrequency;
+
+  @Schema(
+    description = "The maintenance description retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String maintenanceDescription;
+
+  @Schema(
+    description = "The data and metadata license retrieved from this dataset's metadata documents.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private License license;
 
   @Override

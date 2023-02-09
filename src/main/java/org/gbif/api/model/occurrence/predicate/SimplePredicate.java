@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
@@ -31,12 +33,21 @@ import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
 public class SimplePredicate implements Predicate {
 
+  @Schema(
+    description = "The search parameter to test."
+  )
   @NotNull
   private final OccurrenceSearchParameter key;
 
+  @Schema(
+    description = "The value to test for."
+  )
   @NotNull
   private final String value;
 
+  @Schema(
+    description = "Whether to match letter case (UPPER or lower case) on string value comparisons."
+  )
   @Experimental
   @Nullable
   private final Boolean matchCase;

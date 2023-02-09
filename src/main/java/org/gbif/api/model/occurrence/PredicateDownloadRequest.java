@@ -13,6 +13,10 @@
  */
 package org.gbif.api.model.occurrence;
 
+import io.swagger.v3.oas.annotations.Parameter;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.vocabulary.Extension;
 
@@ -30,11 +34,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * An occurrence download request whose filters are based on predicates ( see {@link Predicate}).
  */
+@Schema(
+  description = "An occurrence download request whose filters are based on predicates."
+)
 public class PredicateDownloadRequest extends DownloadRequest {
 
   //Default download format.
   private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.SIMPLE_CSV;
 
+  @Schema(
+    description = "A predicate defining the filters to apply to the download."
+  )
   private Predicate predicate;
 
   public PredicateDownloadRequest() {

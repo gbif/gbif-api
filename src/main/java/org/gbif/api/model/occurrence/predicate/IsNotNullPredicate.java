@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import java.util.Objects;
@@ -25,6 +27,9 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Schema(
+  description = "This predicate checks if the `parameter` is not null (empty)."
+)
 public class IsNotNullPredicate implements Predicate {
 
   @NotNull

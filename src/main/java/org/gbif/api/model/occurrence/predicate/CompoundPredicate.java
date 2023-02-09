@@ -26,6 +26,8 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
 /**
@@ -35,6 +37,9 @@ import static org.gbif.api.util.PreconditionUtils.checkArgument;
  */
 public class CompoundPredicate implements Predicate {
 
+  @Schema(
+    description = "The list of sub-predicates to combine"
+  )
   @NotNull
   private final Collection<Predicate> predicates;
 

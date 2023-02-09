@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.registry;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.vocabulary.ContactType;
 import org.gbif.api.vocabulary.Country;
 
@@ -38,6 +40,10 @@ import org.apache.commons.lang3.StringUtils;
 @SuppressWarnings("unused")
 public class Contact implements Address, LenientEquals<Contact> {
 
+  @Schema(
+    description = "Identifier for the contact",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Integer key;
   private ContactType type;
   private boolean primary;
@@ -55,9 +61,29 @@ public class Contact implements Address, LenientEquals<Contact> {
   private String province;
   private Country country;
   private String postalCode;
+
+  @Schema(
+    description = "The GBIF username of the creator of the contact",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String createdBy;
+
+  @Schema(
+    description = "The GBIF username of the last user to modify the contact",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String modifiedBy;
+
+  @Schema(
+    description = "Timestamp of when the contact was created",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date created;
+
+  @Schema(
+    description = "Timestamp of when the contact was last modified",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date modified;
 
   @Null(groups = {PrePersist.class})

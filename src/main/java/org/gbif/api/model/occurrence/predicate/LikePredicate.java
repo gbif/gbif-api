@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import javax.annotation.Nullable;
@@ -27,6 +29,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * The syntax for one <code>?</code> or any <code>*</code> arbitrary matching characters
  * is the one used by ElasticSearch, Unix/DOS shells, etc.
  */
+@Schema(
+  description = "This predicate checks if its `key` matches a simple pattern in the `value`.\n\n" +
+    "The character `?` matches a single character, and `*` matches zero or more characters.\n" +
+    "This is similar to the matching used by ElasticSearch, Unix/DOS shells, etc."
+)
 public class LikePredicate extends SimplePredicate {
 
   @JsonCreator

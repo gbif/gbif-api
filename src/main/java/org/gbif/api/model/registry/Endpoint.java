@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.registry;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.vocabulary.EndpointType;
 
 import java.io.Serializable;
@@ -33,14 +35,46 @@ import javax.validation.constraints.Size;
 
 public class Endpoint implements MachineTaggable, Serializable, LenientEquals<Endpoint> {
 
+  @Schema(
+    description = "Identifier for the endpoint",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Integer key;
+
   private EndpointType type;
+
   private URI url;
+
   private String description;
+
+  @Schema(
+    description = "The GBIF username of the creator of the endpoint",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String createdBy;
+
+  @Schema(
+    description = "The GBIF username of the last user to modify the endpoint",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String modifiedBy;
+
+  @Schema(
+    description = "Timestamp of when the endpoint was created",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date created;
+
+  @Schema(
+    description = "Timestamp of when the endpoint was last modified",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date modified;
+
+  @Schema(
+    description = "Machine tags applied to the endpoint",
+    required = false
+  )
   private List<MachineTag> machineTags = new ArrayList<>();
 
   @Null(groups = PrePersist.class)

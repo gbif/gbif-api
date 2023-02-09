@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.util.PreconditionUtils;
 
 import java.util.Objects;
@@ -27,6 +29,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This predicate checks performs a full text search based on a query parameter.
  * Not all predicate back-ends support this predicate.
  */
+@Schema(
+  description = "This predicate performs a full-text search based on a query parameter.\n\n" +
+    "This predicate type is not currently supported for occurrence downloads.",
+  hidden = true
+)
 public class FullTextSearchPredicate implements Predicate {
 
   @NotNull

@@ -21,9 +21,14 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * This predicate is "OR"-ing its subpredicates together.
  */
+@Schema(
+  description = "A logical disjunction (“OR”) of a list of sub-predicates"
+)
 public class DisjunctionPredicate extends CompoundPredicate {
 
   @JsonCreator

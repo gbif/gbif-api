@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.registry;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -26,11 +28,39 @@ import javax.validation.constraints.Size;
 
 public class Comment implements Serializable, LenientEquals<Comment> {
 
+  @Schema(
+    description = "Identifier for the comment",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Integer key;
+
+  @Schema(
+    description = "The text of the comment"
+  )
   private String content;
+
+  @Schema(
+    description = "The GBIF username of the creator of the comment",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String createdBy;
+
+  @Schema(
+    description = "The GBIF username of the last user to modify the comment",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String modifiedBy;
+
+  @Schema(
+    description = "Timestamp of when the comment was created",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date created;
+
+  @Schema(
+    description = "Timestamp of when the comment was last modified",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date modified;
 
   @Null(groups = {PrePersist.class})

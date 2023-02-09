@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
@@ -38,6 +40,9 @@ import static org.gbif.api.util.PreconditionUtils.checkArgument;
 /**
  * This predicate checks if its {@code key} contains any of its {@code values}.
  */
+@Schema(
+  description = "This predicate checks if its `key` is equal to any of its `values`."
+)
 public class InPredicate implements Predicate {
 
   @NotNull

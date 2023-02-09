@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
 
@@ -32,6 +34,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * This predicate checks if an occurrence location falls within the given WKT geometry {@code value}.
  */
+@Schema(
+  description = "This predicate checks if an occurrence falls within the given WKT geometry."
+)
 public class WithinPredicate implements Predicate {
 
   private static final Logger LOG = LoggerFactory.getLogger(WithinPredicate.class);

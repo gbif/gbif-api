@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.registry;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.vocabulary.TagName;
 
 import java.io.Serializable;
@@ -36,11 +38,37 @@ public class MachineTag implements LenientEquals<MachineTag>, Serializable {
 
   private static final long serialVersionUID = 3475968899219274852L;
 
+  @Schema(
+    description = "Identifier for the machine tag",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Integer key;
+
+  @Schema(
+    description = "The namespace for the machine tag"
+  )
   private String namespace;
+
+  @Schema(
+    description = "The name (within the namespace) of the machine tag"
+  )
   private String name;
+
+  @Schema(
+    description = "The value of the machine tag"
+  )
   private String value;
+
+  @Schema(
+    description = "The GBIF username of the creator of the machine tag",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String createdBy;
+
+  @Schema(
+    description = "Timestamp of when the machine tag was created",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date created;
 
   public static MachineTag newInstance(String namespace, String name, String value) {

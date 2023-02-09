@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.registry;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.util.IdentifierUtils;
 import org.gbif.api.vocabulary.IdentifierType;
 
@@ -33,10 +35,27 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Identifier implements Serializable, LenientEquals<Identifier> {
 
+  @Schema(
+    description = "Database identifier for the identifier",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Integer key;
+
   private IdentifierType type;
+
+  @Schema(description = "Value for the identifier")
   private String identifier;
+
+  @Schema(
+    description = "The GBIF username of the creator of the identifier",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String createdBy;
+
+  @Schema(
+    description = "Timestamp of when the identifier was created",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date created;
 
   public Identifier() {}

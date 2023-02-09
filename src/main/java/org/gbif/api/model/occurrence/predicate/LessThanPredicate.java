@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,6 +25,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * This predicate checks if its {@code key} is less than its {@code value}.
  */
+@Schema(
+  description = "This predicate checks if its `key` is less than to its `value`."
+)
 public class LessThanPredicate extends SimplePredicate {
 
   @JsonCreator
