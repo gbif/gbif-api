@@ -38,6 +38,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * <p>An enumeration for all current ISO 3166-1 Alpha-2 and Alpha-3 country codes.
  *
@@ -75,6 +78,13 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
  *
  * TODO: deal with outdated codes from ISO_3166-3
  */
+@Schema(
+  description = "An enumeration for all current ISO 3166-1 Alpha-2 and Alpha-3 country codes.",
+  externalDocs = @ExternalDocumentation(
+    description = "API call to retrieve all official values.",
+    url = "https://api.gbif.org/v1/enumeration/country"
+  )
+)
 @JsonSerialize(using = Country.IsoSerializer.class)
 @JsonDeserialize(using = Country.IsoDeserializer.class)
 public enum Country {
@@ -1361,7 +1371,7 @@ public enum Country {
   UNKNOWN("ZZ", "ZZZ", 999, "unknown or invalid");
 
   /**
-   * A set of all 2 and 3 letter codes that are reserved by ISO for custom application specific usages.
+   * A set of all 2- and 3-letter codes that are reserved by ISO for custom application specific usages.
    * The following codes can be user-assigned:
    * Alpha-2: AA, QM to QZ, XA to XZ, and ZZ
    * Alpha-3: AAA to AAZ, QMA to QZZ, XAA to XZZ, and ZZA to ZZZ
@@ -1419,7 +1429,7 @@ public enum Country {
   }
 
   /**
-   * @param code the case insensitive 2 or 3 letter codes
+   * @param code the case-insensitive 2- or 3-letter codes
    * @return the matching country or null
    */
   public static Country fromIsoCode(String code) {
@@ -1470,14 +1480,14 @@ public enum Country {
   }
 
   /**
-   * @return the 2 letter ISO 3166-1 ALPHA2 code in upper case.
+   * @return the 2-letter ISO 3166-1 ALPHA2 code in upper case.
    */
   public String getIso2LetterCode() {
     return alpha2;
   }
 
   /**
-   * @return the 3 letter ISO 3166-1 ALPHA3 code in upper case.
+   * @return the 3-letter ISO 3166-1 ALPHA3 code in upper case.
    */
   public String getIso3LetterCode() {
     return alpha3;
@@ -1498,7 +1508,7 @@ public enum Country {
   }
 
   /**
-   * @return true if its a non user defined, current ISO 3166-1 alpha2 code.
+   * @return true if it's a non-user-defined, current ISO 3166-1 alpha2 code.
    */
   public boolean isOfficial() {
     return !(this == UNKNOWN || this == USER_DEFINED || this == INTERNATIONAL_WATERS || this == KOSOVO);
@@ -1539,7 +1549,7 @@ public enum Country {
   }
 
   /**
-   * Serializes the value in a 2 letter ISO format.
+   * Serializes the value in a 2-letter ISO format.
    */
   public static class IsoSerializer extends JsonSerializer<Country> {
     @Override
@@ -1549,7 +1559,7 @@ public enum Country {
   }
 
   /**
-   * Deserializes the value from a 2 letter ISO format.
+   * Deserializes the value from a 2-letter ISO format.
    */
   public static class IsoDeserializer extends StdDeserializer<Country> {
 

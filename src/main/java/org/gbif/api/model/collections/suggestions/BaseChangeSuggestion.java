@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.collections.suggestions;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.collections.CollectionEntity;
 import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.util.validators.email.ValidEmail;
@@ -32,7 +34,12 @@ import javax.validation.constraints.NotNull;
 public abstract class BaseChangeSuggestion<T extends CollectionEntity>
     implements ChangeSuggestion<T> {
 
+  @Schema(
+    description = "Identifier for the change suggestion.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Integer key;
+
   @NotNull private Type type;
   private Status status;
   private UUID entityKey;

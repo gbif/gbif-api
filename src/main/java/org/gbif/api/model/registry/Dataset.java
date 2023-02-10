@@ -13,8 +13,6 @@
  */
 package org.gbif.api.model.registry;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.eml.Collection;
 import org.gbif.api.model.registry.eml.DataDescription;
@@ -48,6 +46,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * A GBIF dataset which provides occurrence data, checklist data, sampling event data or metadata.
@@ -116,14 +116,14 @@ public class Dataset
   private UUID duplicateOfDatasetKey;
 
   @Schema(
-    description = "The installation providing access to the source dataset. " +
-      "(NB Not required for updates.)"
+    description = "The installation providing access to the source dataset.\n\n" +
+      "*(NB Not required for updates.)*"
   )
   private UUID installationKey;
 
   @Schema(
-    description = "The publishing organization publishing this dataset. " +
-      "(NB Not required for updates.)"
+    description = "The publishing organization publishing this dataset.\n\n" +
+      "*(NB Not required for updates.)*"
   )
   private UUID publishingOrganizationKey;
 
@@ -133,7 +133,9 @@ public class Dataset
   private List<UUID> networkKeys;
 
   @Schema(
-    description = "The primary Digital Object Identifier (DOI) for this dataset."
+    description = "The primary Digital Object Identifier (DOI) for this dataset.",
+    implementation = String.class,
+    pattern = "(10(?:\\.[0-9]+)+)" + "/(.+)"
   )
   private DOI doi;
 
@@ -153,8 +155,8 @@ public class Dataset
   private int numConstituents;
 
   @Schema(
-    description = "The primary type of the dataset. " +
-      "(NB Not required for updates.)"
+    description = "The primary type of the dataset.\n\n" +
+      "*(NB Not required for updates.)*"
   )
   private DatasetType type;
 
@@ -164,8 +166,8 @@ public class Dataset
   private DatasetSubtype subtype;
 
   @Schema(
-    description = "The title of the dataset. " +
-      "(NB Not required for updates.)"
+    description = "The title of the dataset.\n\n" +
+      "*(NB Not required for updates.)*"
   )
   private String title;
 
@@ -185,8 +187,8 @@ public class Dataset
   private String description;
 
   @Schema(
-    description = "The language of the dataset metadata. " +
-      "(NB Not required for updates.)"
+    description = "The language of the dataset metadata.\n\n" +
+      "*(NB Not required for updates.)*"
   )
   private Language language = Language.ENGLISH; // sensible default as it is not null
 
@@ -211,13 +213,13 @@ public class Dataset
   private List<CitationContact> contactsCitation = new ArrayList<>();
 
   @Schema(
-    description = "Intellectual property rights applied to this dataset.\n" +
-      "Rarely used, see `license` instead."
+    description = "Intellectual property rights applied to this dataset.\n\n" +
+      "*Rarely used, see `license` instead.*"
   )
   private String rights;
 
   @Schema(
-    description = "If true, any new or updated metadata is ignored.\n" +
+    description = "If true, any new or updated metadata is ignored.\n\n" +
       "This is generally used when the publisher has technical problems or " +
       "limitations with their publication system.",
     accessMode = Schema.AccessMode.READ_ONLY
@@ -225,7 +227,7 @@ public class Dataset
   private boolean lockedForAutoUpdate;
 
   @Schema(
-    description = "The GBIF username of the creator of the dataset",
+    description = "The GBIF username of the creator of the dataset.",
     accessMode = Schema.AccessMode.READ_ONLY
   )
   private String createdBy;
@@ -237,13 +239,13 @@ public class Dataset
   private String modifiedBy;
 
   @Schema(
-    description = "Timestamp of when the dataset was created",
+    description = "Timestamp of when the dataset was created.",
     accessMode = Schema.AccessMode.READ_ONLY
   )
   private Date created;
 
   @Schema(
-    description = "Timestamp of when the dataset was modified",
+    description = "Timestamp of when the dataset was modified.",
     accessMode = Schema.AccessMode.READ_ONLY
   )
   private Date modified;

@@ -16,7 +16,7 @@
 package org.gbif.api.vocabulary.collections;
 
 /**
- *  Mechanisms, processes and relations by which a institution is controlled and directed.
+ *  Mechanisms, processes and relations by which an institution is controlled and directed.
  */
 public enum InstitutionGovernance {
   ACADEMIC_FEDERAL,

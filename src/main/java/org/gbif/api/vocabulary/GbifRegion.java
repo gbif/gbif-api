@@ -17,6 +17,8 @@ package org.gbif.api.vocabulary;
 
 import org.gbif.api.util.VocabularyUtils;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * <p>An enumeration for all GBIF Regions.  These are based on
  * <a href="https://www.nature.com/articles/sdata20167/figures/1">IPBES regions</a>.
@@ -26,6 +28,12 @@ import org.gbif.api.util.VocabularyUtils;
  *
  * @see <a href="https://www.gbif.org/the-gbif-network">The GBIF Network</a>
  */
+@Schema(
+  description = "An enumeration for all GBIF Regions. These are based on " +
+    "[IPBES regions](https://www.nature.com/articles/sdata20167/figures/1).\n" +
+    "\n" +
+    "*This is a political division,* part of GBIF's governance structure."
+)
 public enum GbifRegion {
 
   /**

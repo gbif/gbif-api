@@ -36,9 +36,15 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * A GBIF data publisher.
  */
+@Schema(
+  description = "A publishing organization is an institution endorsed by a " +
+    "GBIF Participant Node to publish datasets to GBIF."
+)
 @SuppressWarnings("unused")
 public class Organization
     implements NetworkEntity,
@@ -51,38 +57,194 @@ public class Organization
     LenientEquals<Organization>,
     Address {
 
+  @Schema(
+    description = "Unique GBIF key for the publishing organization.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private UUID key;
+
+  @Schema(
+    description = "The participant node which has endorsed or would endorse " +
+      "this publishing organization.\n\n" +
+      "*(NB Not required for updates.)*"
+  )
   private UUID endorsingNodeKey;
+
+  @Schema(
+    description = "Whether the participant node in `endorsingNodeKey` has " +
+      "endorsed this publishing organization — whether `endorsementStatus == " +
+      "ENDORSED`."
+  )
   private boolean endorsementApproved;
+
+  @Schema(
+    description = "The endorsement decision regarding this publishing " +
+      "organization made by the participant node in `endorsingNodeKey`."
+  )
   private EndorsementStatus endorsementStatus;
+
+  @Schema(
+    description = "A shared token for this publishing organization. " +
+      "The token is used to authorize publishing or modifying datasets."
+  )
   private String password;
+
+  @Schema(
+    description = "The title of the publishing organization.\n\n" +
+      "*(NB Not required for updates.)*"
+  )
   private String title;
+
+  @Schema(
+    description = "The abbreviation for the publishing organization."
+  )
   private String abbreviation;
+
+  @Schema(
+    description = "The description of the publishing organization."
+  )
   private String description;
+
+  @Schema(
+    description = "The primary language of the description of the publishing " +
+      "organization.\n\n" +
+      "*(NB Not required for updates.)*"
+  )
   private Language language;
+
+  @Schema(
+    description = "Email addresses associated with this publishing organization."
+  )
   private List<String> email;
+
+  @Schema(
+    description = "Telephone numbers associated with this publishing organization."
+  )
   private List<String> phone;
+
+  @Schema(
+    description = "Homepages with further details on the publishing organization."
+  )
   private List<URI> homepage;
+
+  @Schema(
+    description = "A logo for the publishing organization, accessible over HTTP."
+  )
   private URI logoUrl;
+
+  @Schema(
+    description = "Address lines other than the city, province, country and" +
+      "postal code, which have their own fields."
+  )
   private List<String> address;
+
+  @Schema(
+    description = "The city or similar line of the publishing organization's address."
+  )
   private String city;
+
+  @Schema(
+    description = "The province or similar line of the publishing organization's address."
+  )
   private String province;
+
+  @Schema(
+    description = "The country or other region of the publishing organization's address."
+  )
   private Country country;
+
+  @Schema(
+    description = "The postal code or similar line of the publishing organization's address."
+  )
   private String postalCode;
+
+  @Schema(
+    description = "The latitude of the publishing organization."
+  )
   private BigDecimal latitude;
+
+  @Schema(
+    description = "The longitude of the publishing organization."
+  )
   private BigDecimal longitude;
+
+  @Schema(
+    description = "The number of datasets publishing by this publishing organization.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private int numPublishedDatasets;
+
+  @Schema(
+    description = "The GBIF username of the creator of the publishing organization.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String createdBy;
+
+  @Schema(
+    description = "The GBIF username of the last user to modify the publishing organization.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String modifiedBy;
+
+  @Schema(
+    description = "Timestamp of when the publishing organization was created.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date created;
+
+  @Schema(
+    description = "Timestamp of when the publishing organization was modified.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date modified;
+
+  @Schema(
+    description = "If present, the publishing organization was deleted at this time. " +
+      "It is possible for it to be restored in the future.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date deleted;
+
+  @Schema(
+    description = "The time when this publishing organization was endorsed by " +
+      "the linked participant node."
+  )
   private Date endorsed;
+
+  @Schema(
+    description = "A list of contacts associated with this publishing organization.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Contact> contacts = new ArrayList<>();
+
+  @Schema(
+    description = "A list of endpoints associated with this publishing organization.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Endpoint> endpoints = new ArrayList<>();
+
+  @Schema(
+    description = "A list of machine tags associated with this publishing organization.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<MachineTag> machineTags = new ArrayList<>();
+
+  @Schema(
+    description = "A list of tags associated with this publishing organization.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Tag> tags = new ArrayList<>();
+
+  @Schema(
+    description = "A list of identifiers associated with this publishing organization.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Identifier> identifiers = new ArrayList<>();
+
+  @Schema(
+    description = "A list of comments associated with this publishing organization.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Comment> comments = new ArrayList<>();
 
   @Override

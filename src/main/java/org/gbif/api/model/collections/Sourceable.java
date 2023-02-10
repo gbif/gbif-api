@@ -46,7 +46,7 @@ public @interface Sourceable {
   String[] sourceableParts() default {};
 
   /**
-   * Indicates that a field is initially filled from an external source but it can be overwritten
+   * Indicates that a field is initially filled from an external source, but it can be overwritten
    * afterwards.
    *
    * <p>E.g.: the names of IH collections.

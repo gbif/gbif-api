@@ -45,21 +45,86 @@ public class Contact implements Address, LenientEquals<Contact> {
     accessMode = Schema.AccessMode.READ_ONLY
   )
   private Integer key;
+
+  @Schema(
+    description = "The type of contact."
+  )
   private ContactType type;
+
+  @Schema(
+    description = "Whether this is the primary contact for the associated entity."
+  )
   private boolean primary;
+
+  @Schema(
+    description = "A list of user identifiers for this contact."
+  )
   private List<String> userId = new ArrayList<>();
+
+  @Schema(
+    description = "The personal name of the contact."
+  )
   private String firstName;
+
+  @Schema(
+    description = "The family name of the contact."
+  )
   private String lastName;
+
+  @Schema(
+    description = "The contact's position, job title or similar within the `organization`."
+  )
   private List<String> position = new ArrayList<>();
+
+  @Schema(
+    description = "A description of this contact."
+  )
   private String description;
+
+  @Schema(
+    description = "Email addresses associated with this contact."
+  )
   private List<String> email = new ArrayList<>();
+
+  @Schema(
+    description = "Telephone numbers associated with this contact."
+  )
   private List<String> phone = new ArrayList<>();
+
+  @Schema(
+    description = "Homepages with further details on the contact."
+  )
   private List<URI> homepage = new ArrayList<>();
+
+  @Schema(
+    description = "The organization (e.g. employer) associated with this contact."
+  )
   private String organization;
+
+  @Schema(
+    description = "Address lines other than the city, province, country and" +
+      "postal code, which have their own fields."
+  )
   private List<String> address = new ArrayList<>();
+
+  @Schema(
+    description = "The city or similar line of the contact's address."
+  )
   private String city;
+
+  @Schema(
+    description = "The province or similar line of the contact's address."
+  )
   private String province;
+
+  @Schema(
+    description = "The country or other region of the contact's address."
+  )
   private Country country;
+
+  @Schema(
+    description = "The postal code or similar line of the contact's address."
+  )
   private String postalCode;
 
   @Schema(

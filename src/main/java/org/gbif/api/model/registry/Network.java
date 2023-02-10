@@ -34,9 +34,18 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * A GBIF network.
+ *
+ * Networks are collections of datasets, organized outside the Node-Organization
+ * model to serve some purpose.
  */
+@Schema(
+  description = "Networks are collections of datasets, organized outside " +
+    "the Node-Organization model to serve some purpose."
+)
 @SuppressWarnings("unused")
 public class Network
     implements NetworkEntity,
@@ -49,30 +58,145 @@ public class Network
     LenientEquals<Network>,
     Address {
 
+  @Schema(
+    description = "Unique GBIF key for the network.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private UUID key;
+
+  @Schema(
+    description = "A name for the network.\n\n" +
+      "*(NB Not required for updates.)*"
+  )
   private String title;
+
+  @Schema(
+    description = "A description for the network."
+  )
   private String description;
+
+  @Schema(
+    description = "The language of the network metadata.\n\n" +
+      "*(NB Not required for updates.)*"
+  )
   private Language language;
+
+  @Schema(
+    description = "The number of datasets collected in this network."
+  )
   private int numConstituents;
+
+  @Schema(
+    description = "Email addresses associated with this network."
+  )
   private List<String> email;
+
+  @Schema(
+    description = "Telephone numbers associated with this network."
+  )
   private List<String> phone;
+
+  @Schema(
+    description = "Homepages with further details on the network."
+  )
   private List<URI> homepage;
+
+  @Schema(
+    description = "A logo for the network, accessible over HTTP."
+  )
   private URI logoUrl;
+
+  @Schema(
+    description = "Address lines other than the city, province, country and" +
+      "postal code, which have their own fields."
+  )
   private List<String> address;
+
+  @Schema(
+    description = "The city or similar line of the network's address."
+  )
   private String city;
+
+  @Schema(
+    description = "The province or similar line of the network's address."
+  )
   private String province;
+
+  @Schema(
+    description = "The country or other region of the network's address."
+  )
   private Country country;
+
+  @Schema(
+    description = "The postal code or similar line of the network's address."
+  )
   private String postalCode;
+
+  @Schema(
+    description = "The GBIF username of the creator of the network.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String createdBy;
+
+  @Schema(
+    description = "The GBIF username of the last user to modify the network.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String modifiedBy;
+
+  @Schema(
+    description = "Timestamp of when the network was created.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date created;
+
+  @Schema(
+    description = "Timestamp of when the network was modified.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date modified;
+
+  @Schema(
+    description = "If present, the network was deleted at this time. " +
+      "It is possible for it to be restored in the future.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date deleted;
+
+  @Schema(
+    description = "A list of contacts associated with this network.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Contact> contacts = new ArrayList<>();
+
+  @Schema(
+    description = "A list of endpoints associated with this network.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Endpoint> endpoints = new ArrayList<>();
+
+  @Schema(
+    description = "A list of machine tags associated with this network.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<MachineTag> machineTags = new ArrayList<>();
+
+  @Schema(
+    description = "A list of tags associated with this network.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Tag> tags = new ArrayList<>();
+
+  @Schema(
+    description = "A list of identifiers associated with this network.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Identifier> identifiers = new ArrayList<>();
+
+  @Schema(
+    description = "A list of comments associated with this network.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Comment> comments = new ArrayList<>();
 
   @Override

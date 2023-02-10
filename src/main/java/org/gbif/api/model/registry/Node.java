@@ -34,9 +34,26 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * A GBIF participant node.
+ *
+ * Primarily managed in the GBIF Directory.
  */
+@Schema(
+  description = "A participant node, a country and its nominated organization " +
+    "or an international organization which is a member of GBIF.\n\n" +
+    "Note that participant nodes are managed in an internal GBIF system," +
+    "so methods to create, update and delete participant nodes are generally " +
+    "used only to synchronize the two systems.",
+  externalDocs = @ExternalDocumentation(
+    description = "Further information on GBIF's governance structure",
+    url = "https://www.gbif.org/what-is-gbif"
+  )
+)
 @SuppressWarnings("unused")
 public class Node
     implements NetworkEntity,
@@ -49,37 +66,202 @@ public class Node
     LenientEquals<Node>,
     Address {
 
+  @Schema(
+    description = "Unique GBIF key for the participant node.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private UUID key;
+
+  @Schema(
+    description = "The membership type of the participant node.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private NodeType type;
+
+  @Schema(
+    description = "The membership status of the participant node.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private ParticipationStatus participationStatus;
+
+  @Schema(
+    description = "The year the participant node first joined GBIF.",
+    minimum = "2001",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Integer participantSince;
+
+  @Schema(
+    description = "The date the participant node signed the GBIF Memorandum " +
+      "of Understanding.",
+    minimum = "2001-01-18",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date dateSignedMOU;
+
+  @Schema(
+    description = "The political region, based on " +
+      "[IPBES regions](https://www.nature.com/articles/sdata20167/figures/1), " +
+      "to which this participant node belongs.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private GbifRegion gbifRegion;
+
+  @Schema(
+    description = "Not used"
+  )
+  @Hidden
   private Continent continent;
+
+  @Schema(
+    description = "The name of the participant node.",
+    example = "U.S. Geological Survey",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String title;
+
+  @Schema(
+    description = "The name of the participant.",
+    example = "United States of America",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String participantTitle;
+
+  @Schema(
+    description = "The abbreviation for the participant node.",
+    example = "USGS",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String abbreviation;
+
+  @Schema(
+    description = "The description of the participant node.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String description;
+
+  @Schema(
+    description = "Email addresses associated with this participant node.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<String> email = new ArrayList<>();
+
+  @Schema(
+    description = "Telephone numbers associated with this participant node.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<String> phone = new ArrayList<>();
+
+  @Schema(
+    description = "Homepages with further details on the participant node.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<URI> homepage = new ArrayList<>();
+
+  @Schema(
+    description = "A logo for the participant node, accessible over HTTP.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private URI logoUrl;
+
+  @Schema(
+    description = "Not used"
+  )
+  @Hidden
   private String organization;
+
+  @Schema(
+    description = "Address lines other than the city, province, country and" +
+      "postal code, which have their own fields."
+  )
   private List<String> address = new ArrayList<>();
+
+  @Schema(
+    description = "The city or similar line of the participant node's address."
+  )
   private String city;
+
+  @Schema(
+    description = "The province or similar line of the participant node's address."
+  )
   private String province;
+
+  @Schema(
+    description = "The country or other region of the participant node's address."
+  )
   private Country country;
+
+  @Schema(
+    description = "The postal code or similar line of the participant node's address."
+  )
   private String postalCode;
+
+  @Schema(
+    description = "The GBIF username of the creator of the participant node.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String createdBy;
+
+  @Schema(
+    description = "The GBIF username of the last user to modify the participant node.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String modifiedBy;
+
+  @Schema(
+    description = "Timestamp of when the participant node was created *in " +
+      "the Registry*.  See also, `participantSince`.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date created;
+
+  @Schema(
+    description = "Timestamp of when the participant node was modified.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date modified;
+
+  @Schema(
+    description = "If present, the participant node was deleted at this time. " +
+      "It is possible for it to be restored in the future.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date deleted;
+
+  @Schema(
+    description = "A list of contacts associated with this participant node.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Contact> contacts = new ArrayList<>();
+
+  @Schema(
+    description = "A list of endpoints associated with this participant node.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Endpoint> endpoints = new ArrayList<>();
+
+  @Schema(
+    description = "A list of machine tags associated with this participant node.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<MachineTag> machineTags = new ArrayList<>();
+
+  @Schema(
+    description = "A list of tags associated with this participant node.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Tag> tags = new ArrayList<>();
+
+  @Schema(
+    description = "A list of identifiers associated with this participant node.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Identifier> identifiers = new ArrayList<>();
+
+  @Schema(
+    description = "A list of comments associated with this participant node.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Comment> comments = new ArrayList<>();
 
   @Override

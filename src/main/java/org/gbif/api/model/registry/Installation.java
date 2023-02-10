@@ -30,14 +30,18 @@ import javax.validation.constraints.Null;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
- * A technical installation which can serve dataset(s).
+ * A technical installation which can serve datasets.
  * Note: An Installation may be marked as disabled, meaning that some process has identified it is out of action.
  * For the GBIF crawling infrastructure, this means it will not be "metasynced" nor will any dataset associated be
- * eligble for crawling.
+ * eligible for crawling.
  */
-// TODO: Only allow adding of Endpoints of the correct type, I would argue for removing all the
-// set(List) methods
+// TODO: Only allow adding of Endpoints of the correct type.
+@Schema(
+  description = "A technical installation which can serve datasets."
+)
 @SuppressWarnings("unused")
 public class Installation
     implements NetworkEntity,
@@ -49,23 +53,115 @@ public class Installation
     Identifiable,
     LenientEquals<Installation> {
 
+  @Schema(
+    description = "Unique GBIF key for the installation.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private UUID key;
+
+  @Schema(
+    description = "The publishing organization managing this installation.\n\n" +
+      "*(NB Not required for updates.)*"
+  )
   private UUID organizationKey;
+
+  @Schema(
+    description = "A shared token used to authenticate as this installation.\n" +
+      "Referred to as a shared token in user interfaces, although the API uses" +
+      "“password”."
+  )
   private String password;
+
+  @Schema(
+    description = "The type of the installation. Defines what protocols are used" +
+      "for communication.\n\n" +
+      "*(NB Not required for updates.)*"
+  )
   private InstallationType type;
+
+  @Schema(
+    description = "A name for the installation.\n\n" +
+      "*(NB Not required for updates.)*"
+  )
   private String title;
+
+  @Schema(
+    description = "A description for the installation."
+  )
   private String description;
+
+  @Schema(
+    description = "The GBIF username of the creator of the installation.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String createdBy;
+
+  @Schema(
+    description = "The GBIF username of the last user to modify the installation.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String modifiedBy;
+
+  @Schema(
+    description = "Timestamp of when the installation was created.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date created;
+
+  @Schema(
+    description = "Timestamp of when the installation was modified.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date modified;
+
+  @Schema(
+    description = "If present, the installation was deleted at this time. " +
+      "It is possible for it to be restored in the future.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date deleted;
+
+  @Schema(
+    description = "Whether the installation is disabled. A disabled installation " +
+      "is not checked for new or deleted datasets, or metadata changes to existing" +
+      "datasets. However, data updates from existing datasets are not affected."
+  )
   private boolean disabled;
+
+  @Schema(
+    description = "A list of contacts associated with this installation.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Contact> contacts = new ArrayList<>();
+
+  @Schema(
+    description = "A list of endpoints associated with this installation.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Endpoint> endpoints = new ArrayList<>();
+
+  @Schema(
+    description = "A list of machine tags associated with this installation.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<MachineTag> machineTags = new ArrayList<>();
+
+  @Schema(
+    description = "A list of tags associated with this installation.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Tag> tags = new ArrayList<>();
+
+  @Schema(
+    description = "A list of identifiers associated with this installation.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Identifier> identifiers = new ArrayList<>();
+
+  @Schema(
+    description = "A list of comments associated with this installation.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Comment> comments = new ArrayList<>();
 
   @Null(groups = {PrePersist.class})

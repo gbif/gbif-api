@@ -44,7 +44,7 @@ import static org.gbif.api.util.PreconditionUtils.checkArgument;
 /**
  * Class representing a single Digital Object Identifier (DOI) breaking it down to a prefix and suffix.
  * For the syntax of DOI names see the <a href="http://www.doi.org/doi_handbook/2_Numbering.html#2.2">DOI Handbook</a>.
- * All parsing is case insensitive and resulting components will all be upper cased.
+ * All parsing is case-insensitive and resulting components will all be uppercased.
  */
 @JsonSerialize(using = DOI.DoiSerializer.class)
 @JsonDeserialize(using = DOI.DoiDeserializer.class)
@@ -58,7 +58,7 @@ public class DOI implements Serializable {
   private static final String CHAR_ENCODING = "UTF-8";
 
   /**
-   * The DOI prefix registered with DataCite to be used by GBIF issued production DOIs.
+   * The DOI prefix registered with DataCite to be used by GBIF-issued production DOIs.
    */
   public static final String GBIF_PREFIX = "10.15468";
 
@@ -216,7 +216,7 @@ public class DOI implements Serializable {
       return false;
     }
     final DOI other = (DOI) obj;
-    // prefix and suffix are always upper cased so we can do simple equals here
+    // prefix and suffix are always uppercased so we can do simple equals here
     return Objects.equals(this.prefix, other.prefix) && Objects.equals(this.suffix, other.suffix);
   }
 

@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.collections;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.registry.Comment;
 import org.gbif.api.model.registry.Identifier;
 import org.gbif.api.model.registry.LenientEquals;
@@ -48,86 +50,253 @@ import javax.validation.constraints.Size;
 @SuppressWarnings("unused")
 public class Institution implements CollectionEntity, LenientEquals<Institution> {
 
+  @Schema(
+    description = "Unique GBIF key for the institution.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private UUID key;
 
+  @Schema(
+    description = "Code used to identify the institution.\n\n" +
+      "*(NB Not required for updates.)*"
+  )
   @Sourceable(masterSources = MasterSourceType.IH)
   private String code;
 
+  @Schema(
+    description = "Name or title of the institution.\n\n" +
+      "*(NB Not required for updates.)*"
+  )
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private String name;
 
+  @Schema(
+    description = "Description of the institution."
+  )
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private String description;
 
+  @Schema(
+    description = "Type of the institution, describing its main activity."
+  )
   private InstitutionType type;
 
+  @Schema(
+    description = "Whether the institution is active or operational."
+  )
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private boolean active;
 
+  @Schema(
+    description = "Email addresses associated with the institution."
+  )
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<@ValidEmail String> email = new ArrayList<>();
 
+  @Schema(
+    description = "Telephone numbers associated with the instutiton."
+  )
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<String> phone = new ArrayList<>();
 
+  @Schema(
+    description = "The institution's WWW homepage."
+  )
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private URI homepage;
 
+  @Schema(
+    description = "A URL for the main interactive catalogue of the institution."
+  )
   private URI catalogUrl;
+
+  @Schema(
+    description = "A URL for a machine-readable API for the institution catalogue."
+  )
   private URI apiUrl;
+
+  @Schema(
+    description = "The mechanisms, processes and relations by which an " +
+      "institution is controlled and directed."
+  )
   private InstitutionGovernance institutionalGovernance;
+
+  @Schema(
+    description = "The academic or research disciplines to which an " +
+      "institution is dedicated."
+  )
   private List<Discipline> disciplines = new ArrayList<>();
 
+  @Schema(
+    description = "The latitude of the institution."
+  )
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private BigDecimal latitude;
 
+  @Schema(
+    description = "The longitude of the institution."
+  )
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private BigDecimal longitude;
 
+  @Schema(
+    description = "The postal address of the institution."
+  )
   @Sourceable(masterSources = MasterSourceType.IH)
   private Address mailingAddress;
 
+  @Schema(
+    description = "The address of the location of the institution."
+  )
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private Address address;
 
+  @Schema(
+    description = "Additional names by which the institution is known."
+  )
   private List<String> additionalNames = new ArrayList<>();
 
+  @Schema(
+    description = "The date the institution was founded or established."
+  )
   @Sourceable(masterSources = MasterSourceType.IH)
   private Integer foundingDate;
 
+  @Schema(
+    description = "A description of the geographic range of the activities " +
+      "performed by the institution."
+  )
   private String geographicDescription;
+
+  @Schema(
+    description = "A description of the taxonomic range of the activities " +
+      "performed by the institution."
+  )
   private String taxonomicDescription;
+
+  @Schema(
+    description = "An estimate of the number of specimens hosted by the institution."
+  )
   private Integer numberSpecimens;
 
+  @Schema(
+    description = "Whether this institution record was imported from *Index Herbariorum*."
+  )
   @Sourceable(masterSources = MasterSourceType.IH)
   private boolean indexHerbariorumRecord;
 
+  @Schema(
+    description = "A URL to a logo for the institution."
+  )
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private URI logoUrl;
 
+  @Schema(
+    description = "The CITES permit number for the institution."
+  )
   private String citesPermitNumber;
+
+  @Schema(
+    description = "The GBIF username of the creator of the institution entity in " +
+      "the GBIF registry.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String createdBy;
+
+  @Schema(
+    description = "The GBIF username of the last user to modify the institution " +
+      "entity in the GBIF registry.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String modifiedBy;
+
+  @Schema(
+    description = "Timestamp of when the institution entity was created in the GBIF " +
+      "registry.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date created;
+
+  @Schema(
+    description = "Timestamp of when the institution entity was modified in the GBIF " +
+      "registry.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date modified;
+
+  @Schema(
+    description = "If present, the institution was deleted at this time. " +
+      "It is possible for it to be restored in the future.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date deleted;
+
+  @Schema(
+    description = "A list of tags associated with this institution.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Tag> tags = new ArrayList<>();
 
+  @Schema(
+    description = "A list of identifiers associated with this institution.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   @Sourceable(masterSources = MasterSourceType.IH, sourceableParts = "IH_IRN")
   private List<Identifier> identifiers = new ArrayList<>();
 
+  @Schema(
+    description = "A list of contact people for this institution."
+  )
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<Contact> contactPersons = new ArrayList<>();
 
+  @Schema(
+    description = "A list of machine tags associated with this institution.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<MachineTag> machineTags = new ArrayList<>();
+
+  @Schema(
+    description = "Alternative codes for this institution."
+  )
   private List<AlternativeCode> alternativeCodes = new ArrayList<>();
+
+  @Schema(
+    description = "A list of comments associated with this institution.",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<Comment> comments = new ArrayList<>();
+
+  @Schema(
+    description = "Mapping of a GRSciColl institution to occurrence records",
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private List<OccurrenceMapping> occurrenceMappings = new ArrayList<>();
+
+  @Schema(
+    description = "A collection record that replaces this collection."
+  )
   private UUID replacedBy;
+
+  @Schema(
+    description = "" // TODO
+  )
   private UUID convertedToCollection;
+
+  @Schema(
+    description = "The primary source of this institution record."
+  )
   private MasterSourceType masterSource;
+
+  @Schema(
+    description = "Information to assist the synchronization of the master source " +
+      "record with the record in the GBIF registry."
+  )
   private MasterSourceMetadata masterSourceMetadata;
 
+  @Schema(
+    description = "Whether the institution is shown on the NHC portal."
+  )
   private Boolean displayOnNHCPortal;
 
   /** GBIF unique identifier. */
@@ -141,7 +310,7 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.key = key;
   }
 
-  /** Code used to identified the collection. */
+  /** Code used to identify the collection. */
   @NotNull(groups = PrePersist.class)
   @Override
   public String getCode() {
@@ -153,7 +322,7 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.code = code;
   }
 
-  /** Name or title of a institution. */
+  /** Name or title of an institution. */
   @NotNull
   @Override
   public String getName() {
@@ -178,7 +347,7 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.description = description;
   }
 
-  /** Describes the main activity of a institution. */
+  /** Describes the main activity of an institution. */
   public InstitutionType getType() {
     return type;
   }
@@ -214,7 +383,7 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.phone = phone;
   }
 
-  /** URL to the home page of a institution. */
+  /** URL to the home page of an institution. */
   @HttpURI
   @Nullable
   public URI getHomepage() {
@@ -225,7 +394,7 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.homepage = homepage;
   }
 
-  /** URL to the main catalog of a institution. */
+  /** URL to the main catalogue of an institution. */
   @HttpURI
   @Nullable
   public URI getCatalogUrl() {
@@ -236,7 +405,7 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.catalogUrl = catalogUrl;
   }
 
-  /** Machine consumable endpoint of a institution and probably its collections. */
+  /** Machine-consumable endpoint of an institution and probably its collections. */
   @HttpURI
   @Nullable
   public URI getApiUrl() {
@@ -247,7 +416,7 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.apiUrl = apiUrl;
   }
 
-  /** Governance nature of a institution. */
+  /** Governance nature of an institution. */
   public InstitutionGovernance getInstitutionalGovernance() {
     return institutionalGovernance;
   }
@@ -334,7 +503,7 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.geographicDescription = geographicDescription;
   }
 
-  /** Taxonomic description of the collections maintained by a institution. */
+  /** Taxonomic description of the collections maintained by an institution. */
   public String getTaxonomicDescription() {
     return taxonomicDescription;
   }
@@ -352,7 +521,7 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.numberSpecimens = numberSpecimens;
   }
 
-  /** Was the institution record imported form IndexHerbariorum. */
+  /** Was the institution record imported form Index Herbariorum. */
   public boolean isIndexHerbariorumRecord() {
     return indexHerbariorumRecord;
   }
@@ -373,7 +542,7 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   }
 
   /**
-   * Cites (see http://ec.europa.eu/environment/cites/info_permits_en.htm) license given for this
+   * CITES (see http://ec.europa.eu/environment/cites/info_permits_en.htm) licence given for this
    * collection.
    */
   public String getCitesPermitNumber() {
