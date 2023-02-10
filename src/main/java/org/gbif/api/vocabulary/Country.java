@@ -1508,10 +1508,12 @@ public enum Country {
   }
 
   /**
-   * @return true if it's a non-user-defined, current ISO 3166-1 alpha2 code.
+   * Note this includes Kosovo (XK).
+   * <br>
+   * @return true if it's an ISO 3166-1 alpha2 code officially used by GBIF.
    */
   public boolean isOfficial() {
-    return !(this == UNKNOWN || this == USER_DEFINED || this == INTERNATIONAL_WATERS || this == KOSOVO);
+    return !(this == UNKNOWN || this == USER_DEFINED || this == INTERNATIONAL_WATERS);
   }
 
   /**

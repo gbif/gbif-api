@@ -102,7 +102,7 @@ public class CountryTest {
     int officialCountries = Country.OFFICIAL_COUNTRIES.size();
     int allCountries = Country.values().length;
     assertTrue(allCountries > officialCountries);
-    assertEquals(249, officialCountries);
+    assertEquals(250, officialCountries);
   }
 
   @Test
