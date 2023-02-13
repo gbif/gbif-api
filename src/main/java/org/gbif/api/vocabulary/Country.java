@@ -26,6 +26,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -1479,6 +1480,7 @@ public enum Country {
   /**
    * @return the 2-letter ISO 3166-1 ALPHA2 code in upper case.
    */
+  @JsonValue
   public String getIso2LetterCode() {
     return alpha2;
   }
