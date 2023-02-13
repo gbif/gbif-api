@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import java.util.Objects;
@@ -25,53 +27,56 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Schema(
+  description = &quot;This predicate checks if its `parameter` is null (empty).&quot;
+)
 public class IsNullPredicate implements Predicate {
 
   @NotNull
   private final OccurrenceSearchParameter parameter;
 
   @JsonCreator
-<span class="nc" id="L34">  public IsNullPredicate(@JsonProperty(&quot;parameter&quot;) OccurrenceSearchParameter parameter) {</span>
-<span class="nc" id="L35">    Objects.requireNonNull(parameter, &quot;&lt;parameter&gt; may not be null&quot;);</span>
-<span class="nc" id="L36">    this.parameter = parameter;</span>
-<span class="nc" id="L37">    checkPredicateAllowed();</span>
-<span class="nc" id="L38">  }</span>
+<span class="nc" id="L39">  public IsNullPredicate(@JsonProperty(&quot;parameter&quot;) OccurrenceSearchParameter parameter) {</span>
+<span class="nc" id="L40">    Objects.requireNonNull(parameter, &quot;&lt;parameter&gt; may not be null&quot;);</span>
+<span class="nc" id="L41">    this.parameter = parameter;</span>
+<span class="nc" id="L42">    checkPredicateAllowed();</span>
+<span class="nc" id="L43">  }</span>
 
   public OccurrenceSearchParameter getParameter() {
-<span class="nc" id="L41">    return parameter;</span>
+<span class="nc" id="L46">    return parameter;</span>
   }
 
   /**
    * @throws IllegalArgumentException if the key SearchParameter is Geometry
    */
   private void checkPredicateAllowed() {
-<span class="nc bnc" id="L48" title="All 2 branches missed.">    if (OccurrenceSearchParameter.GEOMETRY == parameter) {</span>
-<span class="nc" id="L49">      throw new IllegalArgumentException(&quot;IsNull predicate is not supported for Geometry parameter&quot;);</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">    if (OccurrenceSearchParameter.GEOMETRY == parameter) {</span>
+<span class="nc" id="L54">      throw new IllegalArgumentException(&quot;IsNull predicate is not supported for Geometry parameter&quot;);</span>
     }
-<span class="nc" id="L51">  }</span>
+<span class="nc" id="L56">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L55" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L56">      return true;</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L61">      return true;</span>
     }
-<span class="nc bnc" id="L58" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L59">      return false;</span>
+<span class="nc bnc" id="L63" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L64">      return false;</span>
     }
-<span class="nc" id="L61">    IsNullPredicate that = (IsNullPredicate) o;</span>
-<span class="nc bnc" id="L62" title="All 2 branches missed.">    return parameter == that.parameter;</span>
+<span class="nc" id="L66">    IsNullPredicate that = (IsNullPredicate) o;</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">    return parameter == that.parameter;</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L67">    return Objects.hash(parameter);</span>
+<span class="nc" id="L72">    return Objects.hash(parameter);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L72">    return new StringJoiner(&quot;, &quot;, IsNullPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L73">      .add(&quot;parameter=&quot; + parameter)</span>
-<span class="nc" id="L74">      .toString();</span>
+<span class="nc" id="L77">    return new StringJoiner(&quot;, &quot;, IsNullPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L78">      .add(&quot;parameter=&quot; + parameter)</span>
+<span class="nc" id="L79">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

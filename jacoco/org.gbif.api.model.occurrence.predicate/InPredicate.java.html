@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
@@ -38,6 +40,9 @@ import static org.gbif.api.util.PreconditionUtils.checkArgument;
 /**
  * This predicate checks if its {@code key} contains any of its {@code values}.
  */
+@Schema(
+  description = &quot;This predicate checks if its `key` is equal to any of its `values`.&quot;
+)
 public class InPredicate implements Predicate {
 
   @NotNull
@@ -54,26 +59,26 @@ public class InPredicate implements Predicate {
   @JsonCreator
   public InPredicate(@JsonProperty(&quot;key&quot;) OccurrenceSearchParameter key,
                      @JsonProperty(&quot;values&quot;) Collection&lt;String&gt; values,
-<span class="fc" id="L57">                     @JsonProperty(value = &quot;matchCase&quot;, defaultValue = &quot;false&quot;) Boolean matchCase) {</span>
-<span class="fc" id="L58">    this.matchCase = matchCase;</span>
-<span class="fc" id="L59">    Objects.requireNonNull(key, &quot;&lt;key&gt; may not be null&quot;);</span>
-<span class="fc" id="L60">    Objects.requireNonNull(values, &quot;&lt;values&gt; may not be null&quot;);</span>
-<span class="fc bfc" id="L61" title="All 2 branches covered.">    checkArgument(!values.isEmpty(), &quot;&lt;values&gt; may not be empty&quot;);</span>
+<span class="fc" id="L62">                     @JsonProperty(value = &quot;matchCase&quot;, defaultValue = &quot;false&quot;) Boolean matchCase) {</span>
+<span class="fc" id="L63">    this.matchCase = matchCase;</span>
+<span class="fc" id="L64">    Objects.requireNonNull(key, &quot;&lt;key&gt; may not be null&quot;);</span>
+<span class="fc" id="L65">    Objects.requireNonNull(values, &quot;&lt;values&gt; may not be null&quot;);</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">    checkArgument(!values.isEmpty(), &quot;&lt;values&gt; may not be empty&quot;);</span>
     // make sure the value is of the right type according to the key given
-<span class="fc bfc" id="L63" title="All 2 branches covered.">    for (String value : values) {</span>
-<span class="fc" id="L64">      SearchTypeValidator.validate(key, value);</span>
-<span class="fc" id="L65">    }</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">    for (String value : values) {</span>
+<span class="fc" id="L69">      SearchTypeValidator.validate(key, value);</span>
+<span class="fc" id="L70">    }</span>
 
-<span class="fc" id="L67">    this.key = key;</span>
-<span class="fc" id="L68">    this.values = Collections.unmodifiableList(new ArrayList&lt;&gt;(values));</span>
-<span class="fc" id="L69">  }</span>
+<span class="fc" id="L72">    this.key = key;</span>
+<span class="fc" id="L73">    this.values = Collections.unmodifiableList(new ArrayList&lt;&gt;(values));</span>
+<span class="fc" id="L74">  }</span>
 
   public OccurrenceSearchParameter getKey() {
-<span class="fc" id="L72">    return key;</span>
+<span class="fc" id="L77">    return key;</span>
   }
 
   public Collection&lt;String&gt; getValues() {
-<span class="fc" id="L76">    return values;</span>
+<span class="fc" id="L81">    return values;</span>
   }
 
   /**
@@ -86,35 +91,35 @@ public class InPredicate implements Predicate {
    */
   @Experimental
   public Boolean isMatchCase() {
-<span class="nc" id="L89">    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);</span>
+<span class="nc" id="L94">    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="fc bfc" id="L94" title="All 2 branches covered.">    if (this == o) {</span>
-<span class="fc" id="L95">      return true;</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L100">      return true;</span>
     }
-<span class="pc bpc" id="L97" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L98">      return false;</span>
+<span class="pc bpc" id="L102" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L103">      return false;</span>
     }
-<span class="fc" id="L100">    InPredicate that = (InPredicate) o;</span>
-<span class="pc bpc" id="L101" title="1 of 2 branches missed.">    return key == that.key &amp;&amp;</span>
-<span class="pc bpc" id="L102" title="1 of 4 branches missed.">           Objects.equals(values, that.values) &amp;&amp;</span>
+<span class="fc" id="L105">    InPredicate that = (InPredicate) o;</span>
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">    return key == that.key &amp;&amp;</span>
+<span class="pc bpc" id="L107" title="1 of 4 branches missed.">           Objects.equals(values, that.values) &amp;&amp;</span>
            matchCase == that.matchCase;
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L108">    return Objects.hash(key, values);</span>
+<span class="fc" id="L113">    return Objects.hash(key, values);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L113">    return new StringJoiner(&quot;, &quot;, InPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L114">      .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L115">      .add(&quot;values=&quot; + values)</span>
-<span class="nc" id="L116">      .add(&quot;matchCase=&quot; + matchCase)</span>
-<span class="nc" id="L117">      .toString();</span>
+<span class="nc" id="L118">    return new StringJoiner(&quot;, &quot;, InPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L119">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L120">      .add(&quot;values=&quot; + values)</span>
+<span class="nc" id="L121">      .add(&quot;matchCase=&quot; + matchCase)</span>
+<span class="nc" id="L122">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

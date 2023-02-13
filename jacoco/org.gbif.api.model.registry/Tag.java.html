@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.registry;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -27,90 +29,108 @@ import javax.validation.constraints.Size;
 
 public class Tag implements Serializable, LenientEquals&lt;Tag&gt; {
 
+  @Schema(
+    description = &quot;Identifier for the tag&quot;,
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Integer key;
+
+  @Schema(
+    description = &quot;Text value of the tag&quot;
+  )
   private String value;
+
+  @Schema(
+    description = &quot;The GBIF username of the creator of the tag&quot;,
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String createdBy;
+
+  @Schema(
+    description = &quot;Timestamp of when the tag was created&quot;,
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date created;
 
-<span class="nc" id="L35">  public Tag() {}</span>
+<span class="nc" id="L55">  public Tag() {}</span>
 
-<span class="nc" id="L37">  public Tag(String value) {</span>
-<span class="nc" id="L38">    this.value = value;</span>
-<span class="nc" id="L39">  }</span>
+<span class="nc" id="L57">  public Tag(String value) {</span>
+<span class="nc" id="L58">    this.value = value;</span>
+<span class="nc" id="L59">  }</span>
 
-<span class="fc" id="L41">  public Tag(String value, String createdBy) {</span>
-<span class="fc" id="L42">    this.value = value;</span>
-<span class="fc" id="L43">    this.createdBy = createdBy;</span>
-<span class="fc" id="L44">  }</span>
+<span class="fc" id="L61">  public Tag(String value, String createdBy) {</span>
+<span class="fc" id="L62">    this.value = value;</span>
+<span class="fc" id="L63">    this.createdBy = createdBy;</span>
+<span class="fc" id="L64">  }</span>
 
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   @Min(1)
   public Integer getKey() {
-<span class="fc" id="L50">    return key;</span>
+<span class="fc" id="L70">    return key;</span>
   }
 
   public void setKey(Integer key) {
-<span class="fc" id="L54">    this.key = key;</span>
-<span class="fc" id="L55">  }</span>
+<span class="fc" id="L74">    this.key = key;</span>
+<span class="fc" id="L75">  }</span>
 
   @NotNull
   @Size(min = 1)
   public String getValue() {
-<span class="fc" id="L60">    return value;</span>
+<span class="fc" id="L80">    return value;</span>
   }
 
   public void setValue(String value) {
-<span class="nc" id="L64">    this.value = value;</span>
-<span class="nc" id="L65">  }</span>
+<span class="nc" id="L84">    this.value = value;</span>
+<span class="nc" id="L85">  }</span>
 
   @Size(min = 3)
   public String getCreatedBy() {
-<span class="fc" id="L69">    return createdBy;</span>
+<span class="fc" id="L89">    return createdBy;</span>
   }
 
   public void setCreatedBy(String createdBy) {
-<span class="nc" id="L73">    this.createdBy = createdBy;</span>
-<span class="nc" id="L74">  }</span>
+<span class="nc" id="L93">    this.createdBy = createdBy;</span>
+<span class="nc" id="L94">  }</span>
 
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   public Date getCreated() {
-<span class="nc" id="L79">    return created;</span>
+<span class="nc" id="L99">    return created;</span>
   }
 
   public void setCreated(Date created) {
-<span class="nc" id="L83">    this.created = created;</span>
-<span class="nc" id="L84">  }</span>
+<span class="nc" id="L103">    this.created = created;</span>
+<span class="nc" id="L104">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L88" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L89">      return true;</span>
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L109">      return true;</span>
     }
-<span class="pc bpc" id="L91" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L92">      return false;</span>
+<span class="pc bpc" id="L111" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L112">      return false;</span>
     }
-<span class="fc" id="L94">    Tag tag = (Tag) o;</span>
-<span class="fc bfc" id="L95" title="All 2 branches covered.">    return Objects.equals(key, tag.key)</span>
-<span class="pc bpc" id="L96" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(value, tag.value)</span>
-<span class="pc bpc" id="L97" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, tag.createdBy)</span>
-<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(created, tag.created);</span>
+<span class="fc" id="L114">    Tag tag = (Tag) o;</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">    return Objects.equals(key, tag.key)</span>
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(value, tag.value)</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, tag.createdBy)</span>
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(created, tag.created);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L103">    return Objects.hash(key, value, createdBy, created);</span>
+<span class="nc" id="L123">    return Objects.hash(key, value, createdBy, created);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L108">    return new StringJoiner(&quot;, &quot;, Tag.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L109">        .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L110">        .add(&quot;value='&quot; + value + &quot;'&quot;)</span>
-<span class="nc" id="L111">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
-<span class="nc" id="L112">        .add(&quot;created=&quot; + created)</span>
-<span class="nc" id="L113">        .toString();</span>
+<span class="nc" id="L128">    return new StringJoiner(&quot;, &quot;, Tag.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L129">        .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L130">        .add(&quot;value='&quot; + value + &quot;'&quot;)</span>
+<span class="nc" id="L131">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L132">        .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L133">        .toString();</span>
   }
 
   /**
@@ -118,10 +138,10 @@ public class Tag implements Serializable, LenientEquals&lt;Tag&gt; {
    */
   @Override
   public boolean lenientEquals(Tag other) {
-<span class="nc bnc" id="L121" title="All 2 branches missed.">    if (this == other) {</span>
-<span class="nc" id="L122">      return true;</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L142">      return true;</span>
     }
-<span class="nc" id="L124">    return Objects.equals(this.value, other.value);</span>
+<span class="nc" id="L144">    return Objects.equals(this.value, other.value);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.registry;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.vocabulary.EndpointType;
 
 import java.io.Serializable;
@@ -31,148 +33,180 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
-<span class="fc" id="L34">public class Endpoint implements MachineTaggable, Serializable, LenientEquals&lt;Endpoint&gt; {</span>
+<span class="fc" id="L36">public class Endpoint implements MachineTaggable, Serializable, LenientEquals&lt;Endpoint&gt; {</span>
 
+  @Schema(
+    description = &quot;Identifier for the endpoint&quot;,
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Integer key;
+
   private EndpointType type;
+
   private URI url;
+
   private String description;
+
+  @Schema(
+    description = &quot;The GBIF username of the creator of the endpoint&quot;,
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String createdBy;
+
+  @Schema(
+    description = &quot;The GBIF username of the last user to modify the endpoint&quot;,
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String modifiedBy;
+
+  @Schema(
+    description = &quot;Timestamp of when the endpoint was created&quot;,
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date created;
+
+  @Schema(
+    description = &quot;Timestamp of when the endpoint was last modified&quot;,
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date modified;
-<span class="fc" id="L44">  private List&lt;MachineTag&gt; machineTags = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L74">  @Schema(</span>
+    description = &quot;Machine tags applied to the endpoint&quot;,
+    required = false
+  )
+  private List&lt;MachineTag&gt; machineTags = new ArrayList&lt;&gt;();
 
   @Null(groups = PrePersist.class)
   @NotNull(groups = PostPersist.class)
   @Min(1)
   public Integer getKey() {
-<span class="nc" id="L50">    return key;</span>
+<span class="nc" id="L84">    return key;</span>
   }
 
   public void setKey(Integer key) {
-<span class="nc" id="L54">    this.key = key;</span>
-<span class="nc" id="L55">  }</span>
+<span class="nc" id="L88">    this.key = key;</span>
+<span class="nc" id="L89">  }</span>
 
   @NotNull
   public EndpointType getType() {
-<span class="fc" id="L59">    return type;</span>
+<span class="fc" id="L93">    return type;</span>
   }
 
   public void setType(EndpointType type) {
-<span class="fc" id="L63">    this.type = type;</span>
-<span class="fc" id="L64">  }</span>
+<span class="fc" id="L97">    this.type = type;</span>
+<span class="fc" id="L98">  }</span>
 
   @Nullable
   public URI getUrl() {
-<span class="nc" id="L68">    return url;</span>
+<span class="nc" id="L102">    return url;</span>
   }
 
   public void setUrl(URI url) {
-<span class="nc" id="L72">    this.url = url;</span>
-<span class="nc" id="L73">  }</span>
+<span class="nc" id="L106">    this.url = url;</span>
+<span class="nc" id="L107">  }</span>
 
   @Nullable
   public String getDescription() {
-<span class="nc" id="L77">    return description;</span>
+<span class="nc" id="L111">    return description;</span>
   }
 
   public void setDescription(String description) {
-<span class="nc" id="L81">    this.description = description;</span>
-<span class="nc" id="L82">  }</span>
+<span class="nc" id="L115">    this.description = description;</span>
+<span class="nc" id="L116">  }</span>
 
   @Size(min = 3)
   public String getCreatedBy() {
-<span class="nc" id="L86">    return createdBy;</span>
+<span class="nc" id="L120">    return createdBy;</span>
   }
 
   public void setCreatedBy(String createdBy) {
-<span class="nc" id="L90">    this.createdBy = createdBy;</span>
-<span class="nc" id="L91">  }</span>
+<span class="nc" id="L124">    this.createdBy = createdBy;</span>
+<span class="nc" id="L125">  }</span>
 
   @Size(min = 3)
   public String getModifiedBy() {
-<span class="nc" id="L95">    return modifiedBy;</span>
+<span class="nc" id="L129">    return modifiedBy;</span>
   }
 
   public void setModifiedBy(String modifiedBy) {
-<span class="nc" id="L99">    this.modifiedBy = modifiedBy;</span>
-<span class="nc" id="L100">  }</span>
+<span class="nc" id="L133">    this.modifiedBy = modifiedBy;</span>
+<span class="nc" id="L134">  }</span>
 
   @Null(groups = PrePersist.class)
   @NotNull(groups = PostPersist.class)
   public Date getCreated() {
-<span class="nc" id="L105">    return created;</span>
+<span class="nc" id="L139">    return created;</span>
   }
 
   public void setCreated(Date created) {
-<span class="fc" id="L109">    this.created = created;</span>
-<span class="fc" id="L110">  }</span>
+<span class="fc" id="L143">    this.created = created;</span>
+<span class="fc" id="L144">  }</span>
 
   @Null(groups = PrePersist.class)
   @NotNull(groups = PostPersist.class)
   public Date getModified() {
-<span class="nc" id="L115">    return modified;</span>
+<span class="nc" id="L149">    return modified;</span>
   }
 
   public void setModified(Date modified) {
-<span class="nc" id="L119">    this.modified = modified;</span>
-<span class="nc" id="L120">  }</span>
+<span class="nc" id="L153">    this.modified = modified;</span>
+<span class="nc" id="L154">  }</span>
 
   @Override
   public List&lt;MachineTag&gt; getMachineTags() {
-<span class="nc" id="L124">    return machineTags;</span>
+<span class="nc" id="L158">    return machineTags;</span>
   }
 
   @Override
   public void setMachineTags(List&lt;MachineTag&gt; machineTags) {
-<span class="nc" id="L129">    this.machineTags = machineTags;</span>
-<span class="nc" id="L130">  }</span>
+<span class="nc" id="L163">    this.machineTags = machineTags;</span>
+<span class="nc" id="L164">  }</span>
 
   @Override
   public void addMachineTag(MachineTag machineTag) {
-<span class="nc" id="L134">    machineTags.add(machineTag);</span>
-<span class="nc" id="L135">  }</span>
+<span class="nc" id="L168">    machineTags.add(machineTag);</span>
+<span class="nc" id="L169">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L139" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L140">      return true;</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L174">      return true;</span>
     }
-<span class="nc bnc" id="L142" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L143">      return false;</span>
+<span class="nc bnc" id="L176" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L177">      return false;</span>
     }
-<span class="nc" id="L145">    Endpoint endpoint = (Endpoint) o;</span>
-<span class="nc bnc" id="L146" title="All 4 branches missed.">    return Objects.equals(key, endpoint.key)</span>
+<span class="nc" id="L179">    Endpoint endpoint = (Endpoint) o;</span>
+<span class="nc bnc" id="L180" title="All 4 branches missed.">    return Objects.equals(key, endpoint.key)</span>
         &amp;&amp; type == endpoint.type
-<span class="nc bnc" id="L148" title="All 2 branches missed.">        &amp;&amp; Objects.equals(url, endpoint.url)</span>
-<span class="nc bnc" id="L149" title="All 2 branches missed.">        &amp;&amp; Objects.equals(description, endpoint.description)</span>
-<span class="nc bnc" id="L150" title="All 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, endpoint.createdBy)</span>
-<span class="nc bnc" id="L151" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modifiedBy, endpoint.modifiedBy)</span>
-<span class="nc bnc" id="L152" title="All 2 branches missed.">        &amp;&amp; Objects.equals(created, endpoint.created)</span>
-<span class="nc bnc" id="L153" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modified, endpoint.modified)</span>
-<span class="nc bnc" id="L154" title="All 2 branches missed.">        &amp;&amp; Objects.equals(machineTags, endpoint.machineTags);</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">        &amp;&amp; Objects.equals(url, endpoint.url)</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">        &amp;&amp; Objects.equals(description, endpoint.description)</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, endpoint.createdBy)</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modifiedBy, endpoint.modifiedBy)</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">        &amp;&amp; Objects.equals(created, endpoint.created)</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modified, endpoint.modified)</span>
+<span class="nc bnc" id="L188" title="All 2 branches missed.">        &amp;&amp; Objects.equals(machineTags, endpoint.machineTags);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L159">    return Objects.hash(</span>
+<span class="nc" id="L193">    return Objects.hash(</span>
         key, type, url, description, createdBy, modifiedBy, created, modified, machineTags);
   }
 
   @Override
   public String toString() {
-<span class="fc" id="L165">    return new StringJoiner(&quot;, &quot;, Endpoint.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="fc" id="L166">        .add(&quot;key=&quot; + key)</span>
-<span class="fc" id="L167">        .add(&quot;type=&quot; + type)</span>
-<span class="fc" id="L168">        .add(&quot;url=&quot; + url)</span>
-<span class="fc" id="L169">        .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
-<span class="fc" id="L170">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
-<span class="fc" id="L171">        .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
-<span class="fc" id="L172">        .add(&quot;created=&quot; + created)</span>
-<span class="fc" id="L173">        .add(&quot;modified=&quot; + modified)</span>
-<span class="fc" id="L174">        .add(&quot;machineTags=&quot; + machineTags)</span>
-<span class="fc" id="L175">        .toString();</span>
+<span class="fc" id="L199">    return new StringJoiner(&quot;, &quot;, Endpoint.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="fc" id="L200">        .add(&quot;key=&quot; + key)</span>
+<span class="fc" id="L201">        .add(&quot;type=&quot; + type)</span>
+<span class="fc" id="L202">        .add(&quot;url=&quot; + url)</span>
+<span class="fc" id="L203">        .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
+<span class="fc" id="L204">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="fc" id="L205">        .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
+<span class="fc" id="L206">        .add(&quot;created=&quot; + created)</span>
+<span class="fc" id="L207">        .add(&quot;modified=&quot; + modified)</span>
+<span class="fc" id="L208">        .add(&quot;machineTags=&quot; + machineTags)</span>
+<span class="fc" id="L209">        .toString();</span>
   }
 
   /**
@@ -180,12 +214,12 @@ import javax.validation.constraints.Size;
    */
   @Override
   public boolean lenientEquals(Endpoint other) {
-<span class="nc bnc" id="L183" title="All 2 branches missed.">    if (this == other) {</span>
-<span class="nc" id="L184">      return true;</span>
+<span class="nc bnc" id="L217" title="All 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L218">      return true;</span>
     } else {
-<span class="nc bnc" id="L186" title="All 2 branches missed.">      return Objects.equals(this.type, other.type)</span>
-<span class="nc bnc" id="L187" title="All 2 branches missed.">          &amp;&amp; Objects.equals(this.url, other.url)</span>
-<span class="nc bnc" id="L188" title="All 2 branches missed.">          &amp;&amp; Objects.equals(this.description, other.description);</span>
+<span class="nc bnc" id="L220" title="All 2 branches missed.">      return Objects.equals(this.type, other.type)</span>
+<span class="nc bnc" id="L221" title="All 2 branches missed.">          &amp;&amp; Objects.equals(this.url, other.url)</span>
+<span class="nc bnc" id="L222" title="All 2 branches missed.">          &amp;&amp; Objects.equals(this.description, other.description);</span>
     }
   }
 }

@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.occurrence.geo.DistanceUnit;
 import org.gbif.api.util.SearchTypeValidator;
 
@@ -25,8 +27,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * This predicate checks if an occurrence location falls within the given WKT geometry {@code value}.
+ * This predicate checks if an occurrence location falls within a distance of a location.
  */
+@Schema(
+  description = &quot;This predicate checks if an occurrence falls within a distance of a location.&quot;
+)
 public class GeoDistancePredicate implements Predicate {
 
   @NotNull
@@ -51,60 +56,60 @@ public class GeoDistancePredicate implements Predicate {
   @JsonCreator
   public GeoDistancePredicate(@JsonProperty(&quot;latitude&quot;) String latitude,
                               @JsonProperty(&quot;longitude&quot;) String longitude,
-<span class="fc" id="L54">                              @JsonProperty(&quot;distance&quot;) String distance) {</span>
-<span class="fc" id="L55">    Objects.requireNonNull(latitude, &quot;&lt;latitude&gt; may not be null&quot;);</span>
-<span class="fc" id="L56">    Objects.requireNonNull(longitude, &quot;&lt;longitude&gt; may not be null&quot;);</span>
-<span class="fc" id="L57">    Objects.requireNonNull(distance, &quot;&lt;distance&gt; may not be null&quot;);</span>
-<span class="fc" id="L58">    this.latitude = latitude;</span>
-<span class="fc" id="L59">    this.longitude = longitude;</span>
-<span class="fc" id="L60">    this.distance = distance;</span>
+<span class="fc" id="L59">                              @JsonProperty(&quot;distance&quot;) String distance) {</span>
+<span class="fc" id="L60">    Objects.requireNonNull(latitude, &quot;&lt;latitude&gt; may not be null&quot;);</span>
+<span class="fc" id="L61">    Objects.requireNonNull(longitude, &quot;&lt;longitude&gt; may not be null&quot;);</span>
+<span class="fc" id="L62">    Objects.requireNonNull(distance, &quot;&lt;distance&gt; may not be null&quot;);</span>
+<span class="fc" id="L63">    this.latitude = latitude;</span>
+<span class="fc" id="L64">    this.longitude = longitude;</span>
+<span class="fc" id="L65">    this.distance = distance;</span>
     // test if it is a valid GeoDistance
-<span class="fc" id="L62">    SearchTypeValidator.validateGeoDistance(latitude, longitude, distance);</span>
+<span class="fc" id="L67">    SearchTypeValidator.validateGeoDistance(latitude, longitude, distance);</span>
 
-<span class="fc" id="L64">    this.geoDistance = DistanceUnit.GeoDistance.parseGeoDistance(latitude, longitude, distance);</span>
-<span class="fc" id="L65">  }</span>
+<span class="fc" id="L69">    this.geoDistance = DistanceUnit.GeoDistance.parseGeoDistance(latitude, longitude, distance);</span>
+<span class="fc" id="L70">  }</span>
 
-<span class="nc" id="L67">  public GeoDistancePredicate(@NotNull DistanceUnit.GeoDistance geoDistance) {</span>
-<span class="nc" id="L68">    this.geoDistance = geoDistance;</span>
+<span class="nc" id="L72">  public GeoDistancePredicate(@NotNull DistanceUnit.GeoDistance geoDistance) {</span>
+<span class="nc" id="L73">    this.geoDistance = geoDistance;</span>
 
-<span class="nc" id="L70">    this.latitude = Double.toString(geoDistance.getLatitude());</span>
-<span class="nc" id="L71">    this.longitude = Double.toString(geoDistance.getLongitude());</span>
-<span class="nc" id="L72">    this.distance = geoDistance.getDistance().toString();</span>
-<span class="nc" id="L73">  }</span>
+<span class="nc" id="L75">    this.latitude = Double.toString(geoDistance.getLatitude());</span>
+<span class="nc" id="L76">    this.longitude = Double.toString(geoDistance.getLongitude());</span>
+<span class="nc" id="L77">    this.distance = geoDistance.getDistance().toString();</span>
+<span class="nc" id="L78">  }</span>
 
   public String getLatitude() {
-<span class="nc" id="L76">    return latitude;</span>
+<span class="nc" id="L81">    return latitude;</span>
   }
 
   public String getLongitude() {
-<span class="nc" id="L80">    return longitude;</span>
+<span class="nc" id="L85">    return longitude;</span>
   }
 
   public String getDistance() {
-<span class="nc" id="L84">    return distance;</span>
+<span class="nc" id="L89">    return distance;</span>
   }
 
   public DistanceUnit.GeoDistance getGeoDistance() {
-<span class="nc" id="L88">    return geoDistance;</span>
+<span class="nc" id="L93">    return geoDistance;</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L93" title="All 2 branches missed.">    if (this == o) return true;</span>
-<span class="nc bnc" id="L94" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L95">    GeoDistancePredicate that = (GeoDistancePredicate) o;</span>
-<span class="nc" id="L96">    return Objects.equals(geoDistance, that.geoDistance);</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L99" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L100">    GeoDistancePredicate that = (GeoDistancePredicate) o;</span>
+<span class="nc" id="L101">    return Objects.equals(geoDistance, that.geoDistance);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L101">    return Objects.hash(geoDistance);</span>
+<span class="nc" id="L106">    return Objects.hash(geoDistance);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L106">    return new StringJoiner(&quot;, &quot;, GeoDistancePredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L107">            .add(&quot;geoDistance=&quot; + geoDistance).toString();</span>
+<span class="nc" id="L111">    return new StringJoiner(&quot;, &quot;, GeoDistancePredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L112">            .add(&quot;geoDistance=&quot; + geoDistance).toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

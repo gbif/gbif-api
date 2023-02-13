@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.collections.suggestions;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.collections.CollectionEntity;
 import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.util.validators.email.ValidEmail;
@@ -29,10 +31,15 @@ import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-<span class="nc" id="L32">public abstract class BaseChangeSuggestion&lt;T extends CollectionEntity&gt;</span>
+<span class="nc" id="L34">public abstract class BaseChangeSuggestion&lt;T extends CollectionEntity&gt;</span>
     implements ChangeSuggestion&lt;T&gt; {
 
+  @Schema(
+    description = &quot;Identifier for the change suggestion.&quot;,
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Integer key;
+
   @NotNull private Type type;
   private Status status;
   private UUID entityKey;
@@ -50,235 +57,235 @@ import javax.validation.constraints.NotNull;
   private String appliedBy;
   private Date discarded;
   private String discardedBy;
-<span class="nc" id="L53">  private List&lt;String&gt; comments = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L60">  private List&lt;String&gt; comments = new ArrayList&lt;&gt;();</span>
   private UUID mergeTargetKey;
-<span class="nc" id="L55">  private List&lt;Change&gt; changes = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L62">  private List&lt;Change&gt; changes = new ArrayList&lt;&gt;();</span>
   private Date modified;
   private String modifiedBy;
 
   @Override
   public Integer getKey() {
-<span class="nc" id="L61">    return key;</span>
+<span class="nc" id="L68">    return key;</span>
   }
 
   @Override
   public void setKey(Integer key) {
-<span class="nc" id="L66">    this.key = key;</span>
-<span class="nc" id="L67">  }</span>
+<span class="nc" id="L73">    this.key = key;</span>
+<span class="nc" id="L74">  }</span>
 
   @Override
   public Type getType() {
-<span class="nc" id="L71">    return type;</span>
+<span class="nc" id="L78">    return type;</span>
   }
 
   @Override
   public void setType(Type type) {
-<span class="nc" id="L76">    this.type = type;</span>
-<span class="nc" id="L77">  }</span>
+<span class="nc" id="L83">    this.type = type;</span>
+<span class="nc" id="L84">  }</span>
 
   @Override
   public Status getStatus() {
-<span class="nc" id="L81">    return status;</span>
+<span class="nc" id="L88">    return status;</span>
   }
 
   @Override
   public void setStatus(Status status) {
-<span class="nc" id="L86">    this.status = status;</span>
-<span class="nc" id="L87">  }</span>
+<span class="nc" id="L93">    this.status = status;</span>
+<span class="nc" id="L94">  }</span>
 
   @Override
   public UUID getEntityKey() {
-<span class="nc" id="L91">    return entityKey;</span>
+<span class="nc" id="L98">    return entityKey;</span>
   }
 
   @Override
   public void setEntityKey(UUID entityKey) {
-<span class="nc" id="L96">    this.entityKey = entityKey;</span>
-<span class="nc" id="L97">  }</span>
+<span class="nc" id="L103">    this.entityKey = entityKey;</span>
+<span class="nc" id="L104">  }</span>
 
   @Override
   public String getEntityName() {
-<span class="nc" id="L101">    return entityName;</span>
+<span class="nc" id="L108">    return entityName;</span>
   }
 
   @Override
   public void setEntityName(String entityName) {
-<span class="nc" id="L106">    this.entityName = entityName;</span>
-<span class="nc" id="L107">  }</span>
+<span class="nc" id="L113">    this.entityName = entityName;</span>
+<span class="nc" id="L114">  }</span>
 
   @Override
   public Country getEntityCountry() {
-<span class="nc" id="L111">    return entityCountry;</span>
+<span class="nc" id="L118">    return entityCountry;</span>
   }
 
   @Override
   public void setEntityCountry(Country entityCountry) {
-<span class="nc" id="L116">    this.entityCountry = entityCountry;</span>
-<span class="nc" id="L117">  }</span>
+<span class="nc" id="L123">    this.entityCountry = entityCountry;</span>
+<span class="nc" id="L124">  }</span>
 
   @Override
   public T getSuggestedEntity() {
-<span class="nc" id="L121">    return suggestedEntity;</span>
+<span class="nc" id="L128">    return suggestedEntity;</span>
   }
 
   @Override
   public void setSuggestedEntity(T suggestedEntity) {
-<span class="nc" id="L126">    this.suggestedEntity = suggestedEntity;</span>
-<span class="nc" id="L127">  }</span>
+<span class="nc" id="L133">    this.suggestedEntity = suggestedEntity;</span>
+<span class="nc" id="L134">  }</span>
 
   @Override
   public Date getProposed() {
-<span class="nc" id="L131">    return proposed;</span>
+<span class="nc" id="L138">    return proposed;</span>
   }
 
   @Override
   public void setProposed(Date proposed) {
-<span class="nc" id="L136">    this.proposed = proposed;</span>
-<span class="nc" id="L137">  }</span>
+<span class="nc" id="L143">    this.proposed = proposed;</span>
+<span class="nc" id="L144">  }</span>
 
   @Override
   public String getProposedBy() {
-<span class="nc" id="L141">    return proposedBy;</span>
+<span class="nc" id="L148">    return proposedBy;</span>
   }
 
   @Override
   public void setProposedBy(String proposedBy) {
-<span class="nc" id="L146">    this.proposedBy = proposedBy;</span>
-<span class="nc" id="L147">  }</span>
+<span class="nc" id="L153">    this.proposedBy = proposedBy;</span>
+<span class="nc" id="L154">  }</span>
 
   @Override
   public String getProposerEmail() {
-<span class="nc" id="L151">    return proposerEmail;</span>
+<span class="nc" id="L158">    return proposerEmail;</span>
   }
 
   @Override
   public void setProposerEmail(String proposerEmail) {
-<span class="nc" id="L156">    this.proposerEmail = proposerEmail;</span>
-<span class="nc" id="L157">  }</span>
+<span class="nc" id="L163">    this.proposerEmail = proposerEmail;</span>
+<span class="nc" id="L164">  }</span>
 
   @Override
   public Date getApplied() {
-<span class="nc" id="L161">    return applied;</span>
+<span class="nc" id="L168">    return applied;</span>
   }
 
   @Override
   public void setApplied(Date applied) {
-<span class="nc" id="L166">    this.applied = applied;</span>
-<span class="nc" id="L167">  }</span>
+<span class="nc" id="L173">    this.applied = applied;</span>
+<span class="nc" id="L174">  }</span>
 
   @Override
   public String getAppliedBy() {
-<span class="nc" id="L171">    return appliedBy;</span>
+<span class="nc" id="L178">    return appliedBy;</span>
   }
 
   @Override
   public void setAppliedBy(String appliedBy) {
-<span class="nc" id="L176">    this.appliedBy = appliedBy;</span>
-<span class="nc" id="L177">  }</span>
+<span class="nc" id="L183">    this.appliedBy = appliedBy;</span>
+<span class="nc" id="L184">  }</span>
 
   @Override
   public Date getDiscarded() {
-<span class="nc" id="L181">    return discarded;</span>
+<span class="nc" id="L188">    return discarded;</span>
   }
 
   @Override
   public void setDiscarded(Date discarded) {
-<span class="nc" id="L186">    this.discarded = discarded;</span>
-<span class="nc" id="L187">  }</span>
+<span class="nc" id="L193">    this.discarded = discarded;</span>
+<span class="nc" id="L194">  }</span>
 
   @Override
   public String getDiscardedBy() {
-<span class="nc" id="L191">    return discardedBy;</span>
+<span class="nc" id="L198">    return discardedBy;</span>
   }
 
   @Override
   public void setDiscardedBy(String discardedBy) {
-<span class="nc" id="L196">    this.discardedBy = discardedBy;</span>
-<span class="nc" id="L197">  }</span>
+<span class="nc" id="L203">    this.discardedBy = discardedBy;</span>
+<span class="nc" id="L204">  }</span>
 
   @Override
   public List&lt;String&gt; getComments() {
-<span class="nc" id="L201">    return comments;</span>
+<span class="nc" id="L208">    return comments;</span>
   }
 
   @Override
   public void setComments(List&lt;String&gt; comments) {
-<span class="nc" id="L206">    this.comments = comments;</span>
-<span class="nc" id="L207">  }</span>
+<span class="nc" id="L213">    this.comments = comments;</span>
+<span class="nc" id="L214">  }</span>
 
   @Override
   public UUID getMergeTargetKey() {
-<span class="nc" id="L211">    return mergeTargetKey;</span>
+<span class="nc" id="L218">    return mergeTargetKey;</span>
   }
 
   @Override
   public void setMergeTargetKey(UUID mergeTargetKey) {
-<span class="nc" id="L216">    this.mergeTargetKey = mergeTargetKey;</span>
-<span class="nc" id="L217">  }</span>
+<span class="nc" id="L223">    this.mergeTargetKey = mergeTargetKey;</span>
+<span class="nc" id="L224">  }</span>
 
   @Override
   public List&lt;Change&gt; getChanges() {
-<span class="nc" id="L221">    return changes;</span>
+<span class="nc" id="L228">    return changes;</span>
   }
 
   @Override
   public void setChanges(List&lt;Change&gt; changes) {
-<span class="nc" id="L226">    this.changes = changes;</span>
-<span class="nc" id="L227">  }</span>
+<span class="nc" id="L233">    this.changes = changes;</span>
+<span class="nc" id="L234">  }</span>
 
   @Override
   public Date getModified() {
-<span class="nc" id="L231">    return modified;</span>
+<span class="nc" id="L238">    return modified;</span>
   }
 
   @Override
   public void setModified(Date modified) {
-<span class="nc" id="L236">    this.modified = modified;</span>
-<span class="nc" id="L237">  }</span>
+<span class="nc" id="L243">    this.modified = modified;</span>
+<span class="nc" id="L244">  }</span>
 
   @Override
   public String getModifiedBy() {
-<span class="nc" id="L241">    return modifiedBy;</span>
+<span class="nc" id="L248">    return modifiedBy;</span>
   }
 
   @Override
   public void setModifiedBy(String modifiedBy) {
-<span class="nc" id="L246">    this.modifiedBy = modifiedBy;</span>
-<span class="nc" id="L247">  }</span>
+<span class="nc" id="L253">    this.modifiedBy = modifiedBy;</span>
+<span class="nc" id="L254">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L251" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L252">      return true;</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L259">      return true;</span>
     }
-<span class="nc bnc" id="L254" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L255">      return false;</span>
+<span class="nc bnc" id="L261" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L262">      return false;</span>
     }
-<span class="nc" id="L257">    BaseChangeSuggestion&lt;?&gt; that = (BaseChangeSuggestion&lt;?&gt;) o;</span>
-<span class="nc bnc" id="L258" title="All 6 branches missed.">    return Objects.equals(key, that.key)</span>
+<span class="nc" id="L264">    BaseChangeSuggestion&lt;?&gt; that = (BaseChangeSuggestion&lt;?&gt;) o;</span>
+<span class="nc bnc" id="L265" title="All 6 branches missed.">    return Objects.equals(key, that.key)</span>
         &amp;&amp; type == that.type
         &amp;&amp; status == that.status
-<span class="nc bnc" id="L261" title="All 2 branches missed.">        &amp;&amp; Objects.equals(entityKey, that.entityKey)</span>
-<span class="nc bnc" id="L262" title="All 4 branches missed.">        &amp;&amp; Objects.equals(entityName, that.entityName)</span>
+<span class="nc bnc" id="L268" title="All 2 branches missed.">        &amp;&amp; Objects.equals(entityKey, that.entityKey)</span>
+<span class="nc bnc" id="L269" title="All 4 branches missed.">        &amp;&amp; Objects.equals(entityName, that.entityName)</span>
         &amp;&amp; entityCountry == that.entityCountry
-<span class="nc bnc" id="L264" title="All 2 branches missed.">        &amp;&amp; Objects.equals(suggestedEntity, that.suggestedEntity)</span>
-<span class="nc bnc" id="L265" title="All 2 branches missed.">        &amp;&amp; Objects.equals(proposed, that.proposed)</span>
-<span class="nc bnc" id="L266" title="All 2 branches missed.">        &amp;&amp; Objects.equals(proposedBy, that.proposedBy)</span>
-<span class="nc bnc" id="L267" title="All 2 branches missed.">        &amp;&amp; Objects.equals(proposerEmail, that.proposerEmail)</span>
-<span class="nc bnc" id="L268" title="All 2 branches missed.">        &amp;&amp; Objects.equals(applied, that.applied)</span>
-<span class="nc bnc" id="L269" title="All 2 branches missed.">        &amp;&amp; Objects.equals(appliedBy, that.appliedBy)</span>
-<span class="nc bnc" id="L270" title="All 2 branches missed.">        &amp;&amp; Objects.equals(discarded, that.discarded)</span>
-<span class="nc bnc" id="L271" title="All 2 branches missed.">        &amp;&amp; Objects.equals(discardedBy, that.discardedBy)</span>
-<span class="nc bnc" id="L272" title="All 2 branches missed.">        &amp;&amp; Objects.equals(comments, that.comments)</span>
-<span class="nc bnc" id="L273" title="All 2 branches missed.">        &amp;&amp; Objects.equals(mergeTargetKey, that.mergeTargetKey)</span>
-<span class="nc bnc" id="L274" title="All 2 branches missed.">        &amp;&amp; Objects.equals(changes, that.changes)</span>
-<span class="nc bnc" id="L275" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modified, that.modified)</span>
-<span class="nc bnc" id="L276" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modifiedBy, that.modifiedBy);</span>
+<span class="nc bnc" id="L271" title="All 2 branches missed.">        &amp;&amp; Objects.equals(suggestedEntity, that.suggestedEntity)</span>
+<span class="nc bnc" id="L272" title="All 2 branches missed.">        &amp;&amp; Objects.equals(proposed, that.proposed)</span>
+<span class="nc bnc" id="L273" title="All 2 branches missed.">        &amp;&amp; Objects.equals(proposedBy, that.proposedBy)</span>
+<span class="nc bnc" id="L274" title="All 2 branches missed.">        &amp;&amp; Objects.equals(proposerEmail, that.proposerEmail)</span>
+<span class="nc bnc" id="L275" title="All 2 branches missed.">        &amp;&amp; Objects.equals(applied, that.applied)</span>
+<span class="nc bnc" id="L276" title="All 2 branches missed.">        &amp;&amp; Objects.equals(appliedBy, that.appliedBy)</span>
+<span class="nc bnc" id="L277" title="All 2 branches missed.">        &amp;&amp; Objects.equals(discarded, that.discarded)</span>
+<span class="nc bnc" id="L278" title="All 2 branches missed.">        &amp;&amp; Objects.equals(discardedBy, that.discardedBy)</span>
+<span class="nc bnc" id="L279" title="All 2 branches missed.">        &amp;&amp; Objects.equals(comments, that.comments)</span>
+<span class="nc bnc" id="L280" title="All 2 branches missed.">        &amp;&amp; Objects.equals(mergeTargetKey, that.mergeTargetKey)</span>
+<span class="nc bnc" id="L281" title="All 2 branches missed.">        &amp;&amp; Objects.equals(changes, that.changes)</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modified, that.modified)</span>
+<span class="nc bnc" id="L283" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modifiedBy, that.modifiedBy);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L281">    return Objects.hash(</span>
+<span class="nc" id="L288">    return Objects.hash(</span>
         key,
         type,
         status,

@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.registry;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -24,105 +26,133 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
-<span class="nc" id="L27">public class Comment implements Serializable, LenientEquals&lt;Comment&gt; {</span>
+<span class="nc" id="L29">public class Comment implements Serializable, LenientEquals&lt;Comment&gt; {</span>
 
+  @Schema(
+    description = &quot;Identifier for the comment&quot;,
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Integer key;
+
+  @Schema(
+    description = &quot;The text of the comment&quot;
+  )
   private String content;
+
+  @Schema(
+    description = &quot;The GBIF username of the creator of the comment&quot;,
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String createdBy;
+
+  @Schema(
+    description = &quot;The GBIF username of the last user to modify the comment&quot;,
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private String modifiedBy;
+
+  @Schema(
+    description = &quot;Timestamp of when the comment was created&quot;,
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date created;
+
+  @Schema(
+    description = &quot;Timestamp of when the comment was last modified&quot;,
+    accessMode = Schema.AccessMode.READ_ONLY
+  )
   private Date modified;
 
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   public Integer getKey() {
-<span class="nc" id="L39">    return key;</span>
+<span class="nc" id="L69">    return key;</span>
   }
 
   public void setKey(Integer key) {
-<span class="nc" id="L43">    this.key = key;</span>
-<span class="nc" id="L44">  }</span>
+<span class="nc" id="L73">    this.key = key;</span>
+<span class="nc" id="L74">  }</span>
 
   @NotNull
   @Size(min = 1)
   public String getContent() {
-<span class="nc" id="L49">    return content;</span>
+<span class="nc" id="L79">    return content;</span>
   }
 
   public void setContent(String content) {
-<span class="nc" id="L53">    this.content = content;</span>
-<span class="nc" id="L54">  }</span>
+<span class="nc" id="L83">    this.content = content;</span>
+<span class="nc" id="L84">  }</span>
 
   @Size(min = 3)
   public String getCreatedBy() {
-<span class="nc" id="L58">    return createdBy;</span>
+<span class="nc" id="L88">    return createdBy;</span>
   }
 
   public void setCreatedBy(String createdBy) {
-<span class="nc" id="L62">    this.createdBy = createdBy;</span>
-<span class="nc" id="L63">  }</span>
+<span class="nc" id="L92">    this.createdBy = createdBy;</span>
+<span class="nc" id="L93">  }</span>
 
   @Size(min = 3)
   public String getModifiedBy() {
-<span class="nc" id="L67">    return modifiedBy;</span>
+<span class="nc" id="L97">    return modifiedBy;</span>
   }
 
   public void setModifiedBy(String modifiedBy) {
-<span class="nc" id="L71">    this.modifiedBy = modifiedBy;</span>
-<span class="nc" id="L72">  }</span>
+<span class="nc" id="L101">    this.modifiedBy = modifiedBy;</span>
+<span class="nc" id="L102">  }</span>
 
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   public Date getCreated() {
-<span class="nc" id="L77">    return created;</span>
+<span class="nc" id="L107">    return created;</span>
   }
 
   public void setCreated(Date created) {
-<span class="nc" id="L81">    this.created = created;</span>
-<span class="nc" id="L82">  }</span>
+<span class="nc" id="L111">    this.created = created;</span>
+<span class="nc" id="L112">  }</span>
 
   @Null(groups = {PrePersist.class})
   @NotNull(groups = {PostPersist.class})
   public Date getModified() {
-<span class="nc" id="L87">    return modified;</span>
+<span class="nc" id="L117">    return modified;</span>
   }
 
   public void setModified(Date modified) {
-<span class="nc" id="L91">    this.modified = modified;</span>
-<span class="nc" id="L92">  }</span>
+<span class="nc" id="L121">    this.modified = modified;</span>
+<span class="nc" id="L122">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L96" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L97">      return true;</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L127">      return true;</span>
     }
-<span class="nc bnc" id="L99" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L100">      return false;</span>
+<span class="nc bnc" id="L129" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L130">      return false;</span>
     }
-<span class="nc" id="L102">    Comment comment = (Comment) o;</span>
-<span class="nc bnc" id="L103" title="All 2 branches missed.">    return Objects.equals(key, comment.key)</span>
-<span class="nc bnc" id="L104" title="All 2 branches missed.">        &amp;&amp; Objects.equals(content, comment.content)</span>
-<span class="nc bnc" id="L105" title="All 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, comment.createdBy)</span>
-<span class="nc bnc" id="L106" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modifiedBy, comment.modifiedBy)</span>
-<span class="nc bnc" id="L107" title="All 2 branches missed.">        &amp;&amp; Objects.equals(created, comment.created)</span>
-<span class="nc bnc" id="L108" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modified, comment.modified);</span>
+<span class="nc" id="L132">    Comment comment = (Comment) o;</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">    return Objects.equals(key, comment.key)</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        &amp;&amp; Objects.equals(content, comment.content)</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        &amp;&amp; Objects.equals(createdBy, comment.createdBy)</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modifiedBy, comment.modifiedBy)</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        &amp;&amp; Objects.equals(created, comment.created)</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        &amp;&amp; Objects.equals(modified, comment.modified);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L113">    return Objects.hash(key, content, createdBy, modifiedBy, created, modified);</span>
+<span class="nc" id="L143">    return Objects.hash(key, content, createdBy, modifiedBy, created, modified);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L118">    return new StringJoiner(&quot;, &quot;, Comment.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L119">        .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L120">        .add(&quot;content='&quot; + content + &quot;'&quot;)</span>
-<span class="nc" id="L121">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
-<span class="nc" id="L122">        .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
-<span class="nc" id="L123">        .add(&quot;created=&quot; + created)</span>
-<span class="nc" id="L124">        .add(&quot;modified=&quot; + modified)</span>
-<span class="nc" id="L125">        .toString();</span>
+<span class="nc" id="L148">    return new StringJoiner(&quot;, &quot;, Comment.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L149">        .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L150">        .add(&quot;content='&quot; + content + &quot;'&quot;)</span>
+<span class="nc" id="L151">        .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L152">        .add(&quot;modifiedBy='&quot; + modifiedBy + &quot;'&quot;)</span>
+<span class="nc" id="L153">        .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L154">        .add(&quot;modified=&quot; + modified)</span>
+<span class="nc" id="L155">        .toString();</span>
   }
 
   /**
@@ -131,10 +161,10 @@ import javax.validation.constraints.Size;
    */
   @Override
   public boolean lenientEquals(Comment other) {
-<span class="nc bnc" id="L134" title="All 2 branches missed.">    if (this == other) {</span>
-<span class="nc" id="L135">      return true;</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L165">      return true;</span>
     }
-<span class="nc" id="L137">    return Objects.equals(this.content, other.content);</span>
+<span class="nc" id="L167">    return Objects.equals(this.content, other.content);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

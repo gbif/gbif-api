@@ -26,6 +26,8 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
 /**
@@ -35,15 +37,18 @@ import static org.gbif.api.util.PreconditionUtils.checkArgument;
  */
 public class CompoundPredicate implements Predicate {
 
+  @Schema(
+    description = &quot;The list of sub-predicates to combine&quot;
+  )
   @NotNull
   private final Collection&lt;Predicate&gt; predicates;
 
   @JsonCreator
-<span class="fc" id="L42">  protected CompoundPredicate(@JsonProperty(&quot;predicates&quot;) Collection&lt;Predicate&gt; predicates) {</span>
-<span class="fc" id="L43">    Objects.requireNonNull(predicates, &quot;Predicates may not be null&quot;);</span>
-<span class="fc bfc" id="L44" title="All 2 branches covered.">    checkArgument(!predicates.isEmpty(), &quot;Predicates may not be empty&quot;);</span>
-<span class="fc" id="L45">    this.predicates = Collections.unmodifiableList(new ArrayList&lt;&gt;(predicates));</span>
-<span class="fc" id="L46">  }</span>
+<span class="fc" id="L47">  protected CompoundPredicate(@JsonProperty(&quot;predicates&quot;) Collection&lt;Predicate&gt; predicates) {</span>
+<span class="fc" id="L48">    Objects.requireNonNull(predicates, &quot;Predicates may not be null&quot;);</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">    checkArgument(!predicates.isEmpty(), &quot;Predicates may not be empty&quot;);</span>
+<span class="fc" id="L50">    this.predicates = Collections.unmodifiableList(new ArrayList&lt;&gt;(predicates));</span>
+<span class="fc" id="L51">  }</span>
 
   /**
    * Returns all the predicates this compound predicate is made out of in an &lt;em&gt;immutable&lt;/em&gt; collection.
@@ -51,31 +56,31 @@ public class CompoundPredicate implements Predicate {
    * @return the immutable collection of child predicates.
    */
   public Collection&lt;Predicate&gt; getPredicates() {
-<span class="fc" id="L54">    return predicates;</span>
+<span class="fc" id="L59">    return predicates;</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L59" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L60">      return true;</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L65">      return true;</span>
     }
-<span class="nc bnc" id="L62" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L63">      return false;</span>
+<span class="nc bnc" id="L67" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L68">      return false;</span>
     }
-<span class="nc" id="L65">    CompoundPredicate that = (CompoundPredicate) o;</span>
-<span class="nc" id="L66">    return Objects.equals(predicates, that.predicates);</span>
+<span class="nc" id="L70">    CompoundPredicate that = (CompoundPredicate) o;</span>
+<span class="nc" id="L71">    return Objects.equals(predicates, that.predicates);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L71">    return Objects.hash(predicates);</span>
+<span class="fc" id="L76">    return Objects.hash(predicates);</span>
   }
 
   @Override
   public String toString() {
-<span class="fc" id="L76">    return new StringJoiner(&quot;, &quot;, CompoundPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="fc" id="L77">      .add(&quot;predicates=&quot; + predicates)</span>
-<span class="fc" id="L78">      .toString();</span>
+<span class="fc" id="L81">    return new StringJoiner(&quot;, &quot;, CompoundPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="fc" id="L82">      .add(&quot;predicates=&quot; + predicates)</span>
+<span class="fc" id="L83">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

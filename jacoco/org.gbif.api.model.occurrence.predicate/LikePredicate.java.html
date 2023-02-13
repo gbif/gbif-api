@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import javax.annotation.Nullable;
@@ -27,6 +29,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * The syntax for one &lt;code&gt;?&lt;/code&gt; or any &lt;code&gt;*&lt;/code&gt; arbitrary matching characters
  * is the one used by ElasticSearch, Unix/DOS shells, etc.
  */
+@Schema(
+  description = &quot;This predicate checks if its `key` matches a simple pattern in the `value`.\n\n&quot; +
+    &quot;The character `?` matches a single character, and `*` matches zero or more characters.\n&quot; +
+    &quot;This is similar to the matching used by ElasticSearch, Unix/DOS shells, etc.&quot;
+)
 public class LikePredicate extends SimplePredicate {
 
   @JsonCreator
@@ -34,11 +41,11 @@ public class LikePredicate extends SimplePredicate {
     @JsonProperty(&quot;key&quot;) OccurrenceSearchParameter key,
     @JsonProperty(&quot;value&quot;) String value,
     @Nullable @JsonProperty(value = &quot;matchCase&quot;) Boolean matchCase) {
-<span class="fc" id="L37">    super(false, key, value, matchCase);</span>
+<span class="fc" id="L44">    super(false, key, value, matchCase);</span>
     // make sure we deal with a String type
-<span class="pc bpc" id="L39" title="1 of 2 branches missed.">    if (!String.class.equals(key.type())) {</span>
-<span class="nc" id="L40">      throw new IllegalArgumentException(&quot;Like comparisons are only allowed for strings but not parameter &quot; + key);</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">    if (!String.class.equals(key.type())) {</span>
+<span class="nc" id="L47">      throw new IllegalArgumentException(&quot;Like comparisons are only allowed for strings but not parameter &quot; + key);</span>
     }
-<span class="fc" id="L42">  }</span>
+<span class="fc" id="L49">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -21,28 +21,33 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * This predicate is &quot;OR&quot;-ing its subpredicates together.
  */
+@Schema(
+  description = &quot;A logical disjunction (“OR”) of a list of sub-predicates&quot;
+)
 public class DisjunctionPredicate extends CompoundPredicate {
 
   @JsonCreator
   public DisjunctionPredicate(@JsonProperty(&quot;predicates&quot;) Collection&lt;Predicate&gt; predicates) {
-<span class="fc" id="L31">    super(predicates);</span>
-<span class="fc" id="L32">  }</span>
+<span class="fc" id="L36">    super(predicates);</span>
+<span class="fc" id="L37">  }</span>
 
   @Override
   public boolean equals(Object obj) {
-<span class="fc bfc" id="L36" title="All 2 branches covered.">    if (this == obj) {</span>
-<span class="fc" id="L37">      return true;</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">    if (this == obj) {</span>
+<span class="fc" id="L42">      return true;</span>
     }
 
-<span class="fc bfc" id="L40" title="All 2 branches covered.">    if (!(obj instanceof DisjunctionPredicate)) {</span>
-<span class="fc" id="L41">      return false;</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">    if (!(obj instanceof DisjunctionPredicate)) {</span>
+<span class="fc" id="L46">      return false;</span>
     }
 
-<span class="fc" id="L44">    CompoundPredicate that = (CompoundPredicate) obj;</span>
-<span class="fc" id="L45">    return Objects.equals(this.getPredicates(), that.getPredicates());</span>
+<span class="fc" id="L49">    CompoundPredicate that = (CompoundPredicate) obj;</span>
+<span class="fc" id="L50">    return Objects.equals(this.getPredicates(), that.getPredicates());</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -17,6 +17,8 @@ package org.gbif.api.vocabulary;
 
 import org.gbif.api.util.VocabularyUtils;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * &lt;p&gt;An enumeration for all GBIF Regions.  These are based on
  * &lt;a href=&quot;https://www.nature.com/articles/sdata20167/figures/1&quot;&gt;IPBES regions&lt;/a&gt;.
@@ -26,42 +28,48 @@ import org.gbif.api.util.VocabularyUtils;
  *
  * @see &lt;a href=&quot;https://www.gbif.org/the-gbif-network&quot;&gt;The GBIF Network&lt;/a&gt;
  */
-<span class="fc" id="L29">public enum GbifRegion {</span>
+<span class="fc" id="L31">@Schema(</span>
+  description = &quot;An enumeration for all GBIF Regions. These are based on &quot; +
+    &quot;[IPBES regions](https://www.nature.com/articles/sdata20167/figures/1).\n&quot; +
+    &quot;\n&quot; +
+    &quot;*This is a political division,* part of GBIF's governance structure.&quot;
+)
+public enum GbifRegion {
 
   /**
    * Africa: IPBES regions North Africa, West Africa, Central Africa, East Africa and adjacent islands, Southern Africa.
    */
-<span class="fc" id="L34">  AFRICA,</span>
+<span class="fc" id="L42">  AFRICA,</span>
 
   /**
    * Asia: IPBES regions Western Asia, South Asia, North-East Asia, South-East Asia.
    */
-<span class="fc" id="L39">  ASIA,</span>
+<span class="fc" id="L47">  ASIA,</span>
 
   /**
    * Europe and Central Asia: IPBES regions Central and Western Europe, Eastern Europe, Central Asia.
    */
-<span class="fc" id="L44">  EUROPE,</span>
+<span class="fc" id="L52">  EUROPE,</span>
 
   /**
    * North America: IPBES region North America.
    */
-<span class="fc" id="L49">  NORTH_AMERICA,</span>
+<span class="fc" id="L57">  NORTH_AMERICA,</span>
 
   /**
    * Oceania: IPBES region Oceania.
    */
-<span class="fc" id="L54">  OCEANIA,</span>
+<span class="fc" id="L62">  OCEANIA,</span>
 
   /**
    * Latin America and the Caribbean: IPBES regions Mesoamerica, Caribbean, South America.
    */
-<span class="fc" id="L59">  LATIN_AMERICA,</span>
+<span class="fc" id="L67">  LATIN_AMERICA,</span>
 
   /**
    * Antarctica: &quot;Excluded&quot; IPBES regions, or GEO regions except Greenland.  Includes some islands in the Southern Ocean.
    */
-<span class="fc" id="L64">  ANTARCTICA;</span>
+<span class="fc" id="L72">  ANTARCTICA;</span>
 
   /**
    * @param region GBIF's region name
@@ -69,7 +77,7 @@ import org.gbif.api.util.VocabularyUtils;
    * @return the matching GBIF region or null
    */
   public static GbifRegion fromString(String region) {
-<span class="nc" id="L72">    return VocabularyUtils.lookupEnum(region, GbifRegion.class);</span>
+<span class="nc" id="L80">    return VocabularyUtils.lookupEnum(region, GbifRegion.class);</span>
   }
 
 }

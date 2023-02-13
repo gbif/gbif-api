@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import java.util.Objects;
@@ -27,6 +29,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * This predicate checks if its {@code key} is equal to its {@code value}.
  */
+@Schema(
+  description = &quot;This predicate checks if its `key` is equal to its `value`.&quot;
+)
 public class EqualsPredicate extends SimplePredicate {
 
   @JsonCreator
@@ -34,21 +39,21 @@ public class EqualsPredicate extends SimplePredicate {
     @JsonProperty(&quot;key&quot;) OccurrenceSearchParameter key,
     @JsonProperty(&quot;value&quot;) String value,
     @Nullable @JsonProperty(value = &quot;matchCase&quot;) Boolean matchCase) {
-<span class="fc" id="L37">    super(false, key, value, matchCase);</span>
-<span class="fc" id="L38">  }</span>
+<span class="fc" id="L42">    super(false, key, value, matchCase);</span>
+<span class="fc" id="L43">  }</span>
 
   @Override
   public boolean equals(Object obj) {
-<span class="fc bfc" id="L42" title="All 2 branches covered.">    if (this == obj) {</span>
-<span class="fc" id="L43">      return true;</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">    if (this == obj) {</span>
+<span class="fc" id="L48">      return true;</span>
     }
 
-<span class="fc bfc" id="L46" title="All 2 branches covered.">    if (!(obj instanceof EqualsPredicate)) {</span>
-<span class="fc" id="L47">      return false;</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">    if (!(obj instanceof EqualsPredicate)) {</span>
+<span class="fc" id="L52">      return false;</span>
     }
 
-<span class="fc" id="L50">    SimplePredicate that = (SimplePredicate) obj;</span>
-<span class="pc bpc" id="L51" title="1 of 4 branches missed.">    return Objects.equals(this.getKey(), that.getKey()) &amp;&amp; Objects.equals(this.getValue(), that.getValue());</span>
+<span class="fc" id="L55">    SimplePredicate that = (SimplePredicate) obj;</span>
+<span class="pc bpc" id="L56" title="1 of 4 branches missed.">    return Objects.equals(this.getKey(), that.getKey()) &amp;&amp; Objects.equals(this.getValue(), that.getValue());</span>
   }
 
 }
