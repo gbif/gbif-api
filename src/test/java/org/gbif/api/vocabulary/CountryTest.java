@@ -84,7 +84,7 @@ public class CountryTest {
   @Test
   public void testIsCustomCode() {
     for (Country l : Country.values()) {
-      if (l.isOfficial()) {
+      if (l.isOfficial() && l != Country.KOSOVO) {
         assertFalse(Country.isCustomCode(l.getIso2LetterCode()));
         assertFalse(Country.isCustomCode(l.getIso3LetterCode()));
       } else {
