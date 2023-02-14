@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -37,6 +35,8 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * An extended map holding all core terms of an occurrence record.
  * Major extensions that we index are also supported, i.e. media, identifiers and measurements or facts.
@@ -44,24 +44,93 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @SuppressWarnings("unused")
 public class VerbatimOccurrence {
 
+  @Schema(
+    description = "Unique GBIF key for the occurrence.\n\n" +
+      "We aim to keep these keys stable, but this is not possible in every case."
+  )
   private Long key;
+
+  @Schema(
+    description = "The UUID of the GBIF dataset containing this occurrence."
+  )
   private UUID datasetKey;
+
+  @Schema(
+    description = "The UUID of the organization which publishes the dataset containing this occurrence."
+  )
   private UUID publishingOrgKey;
+
+  @Schema(
+    description = "Any networks to which the dataset containing this occurrence is registered."
+  )
   private List<UUID> networkKeys;
+
+  @Schema(
+    description = "The UUID of the technical installation hosted the dataset containing this occurrence."
+  )
   private UUID installationKey;
-  private Country publishingCountry;
-  private EndpointType protocol;
-  private Date lastCrawled;
-  private Date lastParsed;
-  private Integer crawlId;
-  //GBIF Participation: Programme and Project
-  private String projectId;
-  private String programmeAcronym;
+
+  @Schema(
+    description = "The UUID of the publishing organization which operates the technical installation hosting the " +
+      "dataset containing this occurrence."
+  )
   private UUID hostingOrganizationKey;
 
+  @Schema(
+    description = "The country, territory or island based on ISO-3166 of the organization publishing the dataset " +
+      "containing this occurrence."
+  )
+  private Country publishingCountry;
+
+  @Schema(
+    description = "The technical protocol by which this occurrence was retrieved from the publisher's systems."
+  )
+  private EndpointType protocol;
+
+  @Schema(
+    description = "The time this occurrence was last retrieved from the publisher's systems."
+  )
+  private Date lastCrawled;
+
+  @Schema(
+    description = "The time this occurrence was last processed by GBIF's interpretation system “Pipelines”.\n\n" +
+      "This is the time the record was last changed in GBIF, **not** the time the record was last changed by the " +
+      "publisher.  Data is also reprocessed when we changed the taxonomic backbone, geographic data sources or " +
+      "other interpretation procedures.\n\n" +
+      "An earlier interpretation system distinguished between “parsing” and “interpretation”, but in the current " +
+      "system there is only one process — the two dates will always be the same."
+  )
+  private Date lastParsed;
+
+  @Schema(
+    description = "The sequence number of the attempt by GBIF to download (”crawl”), interpret and index the dataset " +
+      "to which this occurrence belongs."
+  )
+  private Integer crawlId;
+
+  /** GBIF Participation: Programme and Project */
+  @Schema(
+    description = "The identifier for a project, often assigned by a funded programme."
+  )
+  private String projectId;
+
+  @Schema(
+    description = "The identifier for a programme which funded the digitization of this occurrence."
+  )
+  private String programmeAcronym;
+
   // the verbatim fields for the occurrence
+  @Schema(
+    description = "The verbatim fields for the occurrence, with Darwin Core terms as keys."
+  )
   private Map<Term, String> verbatimFields = new HashMap<>();
+
   // verbatim extension data
+  @Schema(
+    description = "The verbatim Darwin Core Archive extension fields for this occurrence.\n\n" +
+      "The main key is the record class term (the row type in Darwin Core Archive), within that are " +
+      " values with extension terms as keys."
+  )
   private Map<String, List<Map<Term, String>>> extensions = new HashMap<>();
 
   /**

@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,6 +21,9 @@ import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Enumeration of the set of licenses GBIF supports for applying to a dataset. The license provides a standardised way
  * to define appropriate uses of a dataset.
@@ -35,6 +36,12 @@ import org.apache.commons.lang3.StringUtils;
  * Commons recommendation</a>
  * @see <a href="http://www.gbif.org/terms/licences">GBIF Licensing</a>
  */
+@Schema(
+  externalDocs = @ExternalDocumentation(
+    description = "API call to retrieve all official values.",
+    url = "https://api.gbif.org/v1/enumeration/basic/License"
+  )
+)
 public enum License {
 
   /**

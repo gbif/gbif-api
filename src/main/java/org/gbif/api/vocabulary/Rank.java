@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,12 +21,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * An ordered taxonomic rank enumeration with the most frequently used values.
  * Several static methods, lists, sets and maps are provided to help with ordering and lookup from strings.
  *
  * @see <a href="http://rs.gbif.org/vocabulary/gbif/rank.xml">rs.gbif.org vocabulary</a>
  */
+@Schema(
+  externalDocs = @ExternalDocumentation(
+    description = "Darwin Core definition",
+    url = "https://rs.tdwg.org/dwc/terms/taxonRank"
+  )
+)
 @SuppressWarnings("unused")
 public enum Rank {
 

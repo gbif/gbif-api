@@ -60,6 +60,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Represents an Occurrence as interpreted by GBIF, adding typed properties on top of the verbatim ones.
  */
@@ -70,118 +73,760 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   // keep names of ALL properties of this class in a set for jackson serialization, see #properties()
   private static final Set<String> PROPERTIES = Collections.unmodifiableSet(
     Stream.concat(
-      // we need to these json properties manually because we have a fixed getter but no field for it
+      // we need to these JSON properties manually because we have a fixed getter but no field for it
       Stream.of(DwcTerm.geodeticDatum.simpleName(), "class", "countryCode"),
       Stream.concat(Arrays.stream(Occurrence.class.getDeclaredFields()),
         Arrays.stream(VerbatimOccurrence.class.getDeclaredFields()))
         .filter(field -> !Modifier.isStatic(field.getModifiers()))
         .map(Field::getName)).collect(Collectors.toSet()));
+
   // occurrence fields
+
+  // OpenAPI documentation comes from the enumeration.
   private BasisOfRecord basisOfRecord;
+
+  @Schema(
+    description = "The number of individuals present at the time of the Occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/individualCount"
+    )
+  )
   private Integer individualCount;
+
+  // OpenAPI documentation comes from the enumeration.
   private OccurrenceStatus occurrenceStatus;
+
+  // OpenAPI documentation comes from the enumeration.
   private Sex sex;
+
+  @Schema(
+    description = "The age class or life stage of the Organism(s) at the time the Occurrence was recorded.\n\n" +
+      "Values are aligned to the [GBIF LifeStage vocabulary](https://registry.gbif.org/vocabulary/LifeStage/concepts)",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/lifeStage"
+    )
+  )
   private String lifeStage;
+
+  @Schema(
+    description = "Statement about whether an organism or organisms have been introduced to a given place and time " +
+      "through the direct or indirect activity of modern humans.\n\n" +
+      "Values are aligned to the [GBIF EstablishmentMeans vocabulary](https://registry.gbif.org/vocabulary/EstablishmentMeans/concepts)," +
+      "which is derived from the [Darwin Core EstablishmentMeans vocabulary](https://dwc.tdwg.org/em/).",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/establishmentMeans"
+    )
+  )
   private String establishmentMeans;
+
+  @Schema(
+    description = "The degree to which an Organism survives, reproduces, and expands its range at the given " +
+      "place and time.\n\n" +
+      "Values are aligned to the [GBIF DegreeOfEstablishment vocabulary](https://registry.gbif.org/vocabulary/DegreeOfEstablishment/concepts)," +
+      "which is derived from the [Darwin Core DegreeOfEstablishment vocabulary](https://dwc.tdwg.org/doe/).",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/degreeOfEstablishment"
+    )
+  )
   private String degreeOfEstablishment;
+
+  @Schema(
+    description = "The process by which an Organism came to be in a given place at a given time.\n\n" +
+    "Values are aligned to the [GBIF Pathway vocabulary](https://registry.gbif.org/vocabulary/Pathway/concepts)," +
+    "which is derived from the [Darwin Core Pathway vocabulary](https://dwc.tdwg.org/pw/).",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/pathway"
+    )
+  )
   private String pathway;
-  // taxonomy as nub keys -> LinneanClassificationKeys
+
+  // taxonomy as NUB keys → LinneanClassificationKeys
+
+  @Schema(
+    description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the most specific " +
+      "(lowest rank) taxon for this occurrence.  This could be a synonym, see `acceptedTaxonKey`.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private Integer taxonKey;
+
+  @Schema(
+    description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the kingdom of this" +
+      "occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private Integer kingdomKey;
+
+  @Schema(
+    description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the phylum of this" +
+      "occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private Integer phylumKey;
+
+  @Schema(
+    description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the class of this" +
+      "occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private Integer classKey;
+
+  @Schema(
+    description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the order of this" +
+      "occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private Integer orderKey;
+
+  @Schema(
+    description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the family of this" +
+      "occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private Integer familyKey;
+
+  @Schema(
+    description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the genus of this" +
+      "occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private Integer genusKey;
+
+  @Schema(
+    description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the subgenus of this" +
+      "occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private Integer subgenusKey;
+
+  @Schema(
+    description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the species of this" +
+      "occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private Integer speciesKey;
+
+  @Schema(
+    description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the accepted taxon of " +
+      "this occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private Integer acceptedTaxonKey;
-  // taxonomy as name strings -> LinneanClassification
+
+  // taxonomy as name strings → LinneanClassification
+
+  @Schema(
+    description = "The scientific name (including authorship) for the taxon from the " +
+      "[GBIF backbone](https://doi.org/10.15468/39omei) matched to this occurrence.  This could be a synonym, see " +
+      "also `acceptedScientificName`.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private String scientificName;  // the interpreted name matching taxonKey
+
+  @Schema(
+    description = "The accepted scientific name (including authorship) for the taxon from the " +
+      "[GBIF backbone](https://doi.org/10.15468/39omei) matched to this occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private String acceptedScientificName;
+
+  @Schema(
+    description = "The kingdom name (excluding authorship) for the kingdom from the " +
+      "[GBIF backbone](https://doi.org/10.15468/39omei) matched to this occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private String kingdom;
+
+  @Schema(
+    description = "The phylum name (excluding authorship) for the phylum from the " +
+      "[GBIF backbone](https://doi.org/10.15468/39omei) matched to this occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private String phylum;
+
+  @Schema(
+    description = "The class name (excluding authorship) for the class from the " +
+      "[GBIF backbone](https://doi.org/10.15468/39omei) matched to this occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   @JsonProperty("class")
   private String clazz;
+
+  @Schema(
+    description = "The order name (excluding authorship) for the order from the " +
+      "[GBIF backbone](https://doi.org/10.15468/39omei) matched to this occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private String order;
+
+  @Schema(
+    description = "The family name (excluding authorship) for the family from the " +
+      "[GBIF backbone](https://doi.org/10.15468/39omei) matched to this occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private String family;
+
+  @Schema(
+    description = "The genus name (excluding authorship) for the genus from the " +
+      "[GBIF backbone](https://doi.org/10.15468/39omei) matched to this occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private String genus;
+
+  @Schema(
+    description = "The subgenus name (excluding authorship) for the subgenus from the " +
+      "[GBIF backbone](https://doi.org/10.15468/39omei) matched to this occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private String subgenus;
+
+  @Schema(
+    description = "The species name (excluding authorship) for the species from the " +
+      "[GBIF backbone](https://doi.org/10.15468/39omei) matched to this occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private String species;
+
   // atomised scientific name
-  private String genericName; // missing from DwC
+
+  @Schema(
+    description = "The genus name part of the species name from the " +
+      "[GBIF backbone](https://doi.org/10.15468/39omei) matched to this occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/genericName"
+    )
+  )
+  private String genericName;
+
+  @Schema(
+    description = "The specific name part of the species name from the " +
+      "[GBIF backbone](https://doi.org/10.15468/39omei) matched to this occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/specificEpithet"
+    )
+  )
   private String specificEpithet;
+
+  @Schema(
+    description = "The infraspecific name part of the species name from the " +
+      "[GBIF backbone](https://doi.org/10.15468/39omei) matched to this occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/infraspecificEpithet"
+    )
+  )
   private String infraspecificEpithet;
+
+  @Schema(
+    description = "The taxonomic rank of the most specific name in the scientificName.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/taxonRank"
+    )
+  )
   private Rank taxonRank;
+
+  @Schema(
+    description = "The status of the use of the scientificName as a label for a taxon.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/taxonomicStatus"
+    )
+  )
   private TaxonomicStatus taxonomicStatus;
+
+  @Schema(
+    description = "The IUCN Red List Category of the taxon of this occurrence.\n\n" +
+      "See the [GBIF vocabulary](https://rs.gbif.org/vocabulary/iucn/threat_status/) for the values and their " +
+      "definitions, and the [IUCN Red List of Threatened Species dataset in GBIF](https://doi.org/10.15468/0qnb58) " +
+      "for the version of the Red List GBIF's interpretation procedures are using.",
+    externalDocs = @ExternalDocumentation(
+      description = "GBIF vocabulary",
+      url = "https://rs.gbif.org/vocabulary/iucn/threat_status/"
+    )
+  )
   private String iucnRedListCategory;
 
   // identification
+
+  @Schema(
+    description = "The date on which the subject was determined as representing the Taxon.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/dateIdentified"
+    )
+  )
   private Date dateIdentified;
+
   // location
-  private Double decimalLongitude;
+
+  @Schema(
+    description = "The geographic latitude (in decimal degrees, using the WGS84 datum) of the geographic centre " +
+      "of the location of the occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/decimalLatitude"
+    )
+  )
   private Double decimalLatitude;
 
+  @Schema(
+    description = "The geographic longitude (in decimal degrees, using the WGS84 datum) of the geographic centre " +
+      "of the location of the occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/decimalLongitude"
+    )
+  )
+  private Double decimalLongitude;
+
   //coordinatePrecision and coordinateUncertaintyInMeters should be BigDecimal see POR-2795
+
+  @Schema(
+    description = "A decimal representation of the precision of the coordinates given in the decimalLatitude and decimalLongitude.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/coordinatePrecision"
+    )
+  )
   private Double coordinatePrecision;
+
+  @Schema(
+    description = "The horizontal distance (in metres) from the given decimalLatitude and decimalLongitude " +
+      "describing the smallest circle containing the whole of the Location.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters"
+    )
+  )
   private Double coordinateUncertaintyInMeters;
+
+  @Schema(
+    description = "**Deprecated.**  This value is always null.  It is an obsolete Darwin Core term.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   @Deprecated //see getter
   private Double coordinateAccuracy;
 
+  @Schema(
+    description = "Elevation (altitude) in metres above sea level.  This is not a current Darwin Core term."
+  )
   private Double elevation;
+
+  @Schema(
+    description = "The value of the potential error associated with the elevation.  This is not a current Darwin Core term."
+  )
   private Double elevationAccuracy;
+
+  @Schema(
+    description = "Depth in metres below sea level.  This is not a current Darwin Core term."
+  )
   private Double depth;
+
+  @Schema(
+    description = "The value of the potential error associated with the depth.  This is not a current Darwin Core term."
+  )
   private Double depthAccuracy;
+
+  // OpenAPI documentation from enumeration
   private Continent continent;
+
   @JsonSerialize(using = Country.IsoSerializer.class)
   @JsonDeserialize(using = Country.IsoDeserializer.class)
   private Country country;
+
+  @Schema(
+    description = "The name of the next-smaller administrative region than country (state, province, canton, " +
+      "department, region, etc.) in which the occurrence occurs.\n\n" +
+      "This value is unaltered by GBIF's processing; see also the GADM fields.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/stateProvince"
+    )
+  )
   private String stateProvince;
+
+  private Gadm gadm = new Gadm();
+
+  @Schema(
+    description = "The name of the water body in which the Location occurs.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/waterBody"
+    )
+  )
   private String waterBody;
+
+  @Schema(
+    description = "The distance in metres of the occurrence from a centroid known to be applied to occurrences " +
+      "during georeferencing.  This can potentially indicate low-precision georeferencing, check the values of " +
+      "`coordinateUncertaintyInMeters` and `georeferenceRemarks`."
+  )
   private Double distanceFromCentroidInMeters;
 
   // recording event
+
+  @Schema(
+    description = "The four-digit year in which the event occurred, according to the Common Era calendar.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/year"
+    )
+  )
   private Integer year;
+
+  @Schema(
+    description = "The integer month in which the Event occurred.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/month"
+    )
+  )
   private Integer month;
+
+  @Schema(
+    description = "The integer day of the month on which the Event occurred.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/day"
+    )
+  )
   private Integer day;
+
+  @Schema(
+    description = "The date-time during which an Event occurred. For occurrences, this is the date-time when the " +
+      "event was recorded. Not suitable for a time in a geological context.\n\n" +
+      "**Note: This field is planned to expand to allow date ranges. See [issue](https://github.com/gbif/gbif-api/issues/4#issuecomment-1385497157).**",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/eventDate"
+    )
+  )
   private Date eventDate;
+
+  @Schema(
+    description = "A list (concatenated and separated) of nomenclatural types (type status, typified scientific name, " +
+      "publication) applied to the occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/typeStatus"
+    )
+  )
   private String typeStatus;
+
   // extracted from type status, but we should propose a new dwc term for this!
-  // for example: "Paratype of Taeniopteryx metequi Ricker & Ross" is status=Paratype, typifiedName=Taeniopteryx metequi
-// Ricker & Ross
+  // for example: "Paratype of Taeniopteryx metequi Ricker & Ross" is status=Paratype, typifiedName=Taeniopteryx metequi Ricker & Ross
+  @Schema(
+    description = "The scientific name that is based on the type specimen.\n\n" +
+      "This is not yet a Darwin Core term, see the [proposal to add it](https://github.com/tdwg/dwc/issues/28)."
+  )
   private String typifiedName; // missing from DwC
+
+  @Schema(
+    description = "A specific interpretation issue.",
+    externalDocs = @ExternalDocumentation(
+      description = "List of occurrence issues",
+      url = "/en/guides/dev/issues_and_flags.html"
+    )
+  )
   private Set<OccurrenceIssue> issues = EnumSet.noneOf(OccurrenceIssue.class);
+
   // record level
+
+  @Schema(
+    description = "The most recent date-time on which the occurrence was changed, according to the publisher.",
+    externalDocs = @ExternalDocumentation(
+      description = "Dublin Core definition",
+      url = "https://purl.org/dc/terms/modified"
+    )
+  )
   private Date modified;  // interpreted dc:modified, i.e. date changed in source
+
+  @Schema(
+    description = "The time this occurrence was last processed by GBIF's interpretation system “Pipelines”.\n\n" +
+      "This is the time the record was last changed in GBIF, **not** the time the record was last changed by the " +
+      "publisher.  Data is also reprocessed when we changed the taxonomic backbone, geographic data sources or " +
+      "other interpretation procedures.\n\n" +
+      "An earlier interpretation system distinguished between “parsing” and “interpretation”, but in the current " +
+      "system there is only one process — the two dates will always be the same."
+  )
   private Date lastInterpreted;
+
+  @Schema(
+    description = "A related resource that is referenced, cited, or otherwise pointed to by the described resource.",
+    externalDocs = @ExternalDocumentation(
+      description = "Dublin Core definition",
+      url = "https://purl.org/dc/terms/references"
+    )
+  )
   private URI references;
+
+  @Schema(
+    description = "A legal document giving official permission to do something with the occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Dublin Core definition",
+      url = "https://purl.org/dc/terms/license"
+    )
+  )
   private License license;
+
+  @Schema(
+    description = "A number or enumeration value for the quantity of organisms.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/organismQuantity"
+    )
+  )
   private Double organismQuantity;
+
+  @Schema(
+    description = "The type of quantification system used for the quantity of organisms.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/organismQuantityType"
+    )
+  )
   private String organismQuantityType;
+
+  @Schema(
+    description = "The unit of measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/sampleSizeUnit"
+    )
+  )
   private String sampleSizeUnit;
+
+  @Schema(
+    description = "A numeric value for a measurement of the size (time duration, length, area, or volume) of a sample in a sampling event.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/sampleSizeValue"
+    )
+  )
   private Double sampleSizeValue;
+
+  @Schema(
+    description = "The relative measurement of the quantity of the organism (i.e. without absolute units)."
+  )
   private Double relativeOrganismQuantity;
+
   // interpreted extension data
+
+  @Schema(
+    description = "Alternative identifiers for the occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "GBIF Alternative Identifiers extension",
+      url = "https://rs.gbif.org/terms/1.0/Identifier"
+    )
+  )
   private List<Identifier> identifiers = new ArrayList<>();
+
+  @Schema(
+    description = "Multimedia related to te occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "GBIF Multemedia extension",
+      url = "https://rs.gbif.org/terms/1.0/Multimedia"
+    )
+  )
   private List<MediaObject> media = new ArrayList<>();
+
+  @Schema(
+    description = "Measurements or facts about the the occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/MeasurementOrFact"
+    )
+  )
   private List<MeasurementOrFact> facts = new ArrayList<>();
+
+  @Schema(
+    description = "Relationships between occurrences.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/ResourceRelationship"
+    )
+  )
   private List<OccurrenceRelation> relations = new ArrayList<>();
+
+  @Schema(
+    description = "A list of the globally unique identifiers for the person, people, groups, or organizations " +
+      "responsible for recording the original Occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/recordedByID"
+    )
+  )
   @JsonProperty("recordedByIDs")
   private List<AgentIdentifier> recordedByIds = new ArrayList<>();
+
+  @Schema(
+    description = "A list of the globally unique identifiers for the person, people, groups, or organizations " +
+      "responsible for assigning the Taxon to the occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/identifiedByID"
+    )
+  )
   @JsonProperty("identifiedByIDs")
   private List<AgentIdentifier> identifiedByIds = new ArrayList<>();
-  private Gadm gadm = new Gadm();
+
+  @Schema(
+    description = "**Experimental.**  The UUID of the institution holding the specimen occurrence, from GRSciColl."
+  )
   @Experimental
   private String institutionKey;
+
+  @Schema(
+    description = "**Experimental.**  The UUID of the collection containing the specimen occurrence, from GRSciColl."
+  )
   @Experimental
   private String collectionKey;
+
+  @Schema(
+    description = "**Experimental.**  Whether the occurrence belongs to a machine-calculated cluster of probable " +
+      "duplicate occurrences.",
+    externalDocs = @ExternalDocumentation(
+      description = "GBIF Data Blog",
+      url = "https://data-blog.gbif.org/post/clustering-occurrences/"
+    )
+  )
+  @Experimental
   private boolean isInCluster;
+
+  @Schema(
+    description = "An identifier for the set of data. May be a global unique identifier or an identifier specific to " +
+      "a collection or institution.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/datasetID"
+    )
+  )
   private String datasetID;
+
+  @Schema(
+    description = "The name identifying the data set from which the record was derived.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
   private String datasetName;
+
+  @Schema(
+    description = "A list (concatenated and separated) of previous or alternate fully qualified catalogue numbers " +
+      "or other human-used identifiers for the same occurrence, whether in the current or any other data set or collection.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/otherCatalogNumbers"
+    )
+  )
   private String otherCatalogNumbers;
+
+  @Schema(
+    description = "A person, group, or organization responsible for recording the original occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/recordedBy"
+    )
+  )
   private String recordedBy;
+
+  @Schema(
+    description = "A list (concatenated and separated) of names of people, groups, or organizations who assigned the " +
+      "Taxon to the occurrence.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/identifiedBy"
+    )
+  )
   private String identifiedBy;
+
+  @Schema(
+    description = "A preparation or preservation method for a specimen.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/preparations"
+    )
+  )
   private String preparations;
+
+  @Schema(
+    description = "The methods or protocols used during an Event, denoted by an IRI.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/samplingProtocol"
+    )
+  )
   private String samplingProtocol;
 
   public Occurrence() {
@@ -668,8 +1313,12 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   /**
    * The geodetic datum for the interpreted decimal coordinates.
-   * This is always WGS84 if there a coordinate exists as we reproject other datums into WGS84.
+   * This is always WGS84 if a coordinate exists as we reproject other datums into WGS84.
    */
+  @Schema(
+    description = "The geodetic datum for the interpreted decimal coordinates.\n\n" +
+      "Coordinates are reprojected to WGS84 if they exist, so this field is either null or `WGS84`."
+  )
   @Nullable
   public String getGeodeticDatum() {
     if (decimalLatitude != null) {
@@ -751,6 +1400,14 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.continent = continent;
   }
 
+  @Schema(
+    description = "The 2-letter country code (as per ISO-3166-1) of the country, territory or area in which the " +
+      "occurrence was recorded.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/countryCode"
+    )
+  )
   @Nullable
   @JsonProperty("countryCode")
   public Country getCountry() {
@@ -762,10 +1419,18 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   /**
-   * Renders the country title as json property country in addition to the iso 2 letter countryCode being
-   * serialized by the regular country java property.
-   * Made private to only use it for json serialization and not within java code.
+   * Renders the country title as a JSON property country in addition to the ISO 3166 2 letter countryCode being
+   * serialized by the regular country Java property.
+   * Made private to use it only for JSON serialization and not within Java code.
    */
+  @Schema(
+    description = "The title (as per ISO-3166-1) of the country, territory or area in which the " +
+      "occurrence was recorded.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/country"
+    )
+  )
   @Nullable
   @JsonProperty("country")
   private String getCountryTitle() {
@@ -773,7 +1438,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   private void setCountryTitle(String country) {
-    // ignore, setter only to avoid json being written into the fields map
+    // ignore, setter only to avoid JSON being written into the fields map
   }
 
   @Nullable
