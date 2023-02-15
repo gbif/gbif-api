@@ -39,7 +39,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   @JsonSubTypes.Type(value = NotPredicate.class, name = "not"),
   @JsonSubTypes.Type(value = IsNotNullPredicate.class, name = "isNotNull"),
   @JsonSubTypes.Type(value = IsNullPredicate.class, name = "isNull"),
-  @JsonSubTypes.Type(value = FullTextSearchPredicate.class, name = "fullTextSearchPredicate")
+  @JsonSubTypes.Type(value = FullTextSearchPredicate.class, name = "fullTextSearch")
 })
 @Schema(
   description = "A predicate defining filters to apply for the download."
