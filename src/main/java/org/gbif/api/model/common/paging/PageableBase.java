@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.common.paging;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -27,7 +29,16 @@ import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFF
  */
 public class PageableBase implements Pageable {
 
+  @Schema(
+    description = "The offset of the results within all the search results.\n\n" +
+      "Subsequent pages can be retrieved by using `offset + 1` as the new offset."
+  )
   protected long offset;
+
+  @Schema(
+    description = "The limit used.  Note the limit returned may be lower than the limit " +
+      "requested."
+  )
   protected int limit;
 
   /**

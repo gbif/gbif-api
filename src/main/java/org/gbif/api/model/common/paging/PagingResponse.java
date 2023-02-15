@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.common.paging;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,8 +29,19 @@ import javax.annotation.Nullable;
  */
 public class PagingResponse<T> extends PageableBase {
 
+  @Schema(
+    description = "True if this page of search results is the final page."
+  )
   private Boolean endOfRecords;
+
+  @Schema(
+    description = "The total number of records returned by the search."
+  )
   private Long count;
+
+  @Schema(
+    description = "Search results."
+  )
   private List<T> results = new ArrayList<>();
 
   /**

@@ -18,6 +18,7 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import io.swagger.v3.oas.annotations.media.DiscriminatorMapping;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @JsonTypeInfo(
@@ -42,7 +43,26 @@ import io.swagger.v3.oas.annotations.media.Schema;
   @JsonSubTypes.Type(value = FullTextSearchPredicate.class, name = "fullTextSearch")
 })
 @Schema(
-  description = "A predicate defining filters to apply for the download."
+  description = "A predicate defining filters to apply for the download.",
+  discriminatorProperty = "type",
+  discriminatorMapping = {
+    @DiscriminatorMapping(schema = ConjunctionPredicate.class, value = "and"),
+    @DiscriminatorMapping(schema = DisjunctionPredicate.class, value = "or"),
+    @DiscriminatorMapping(schema = EqualsPredicate.class, value = "equals"),
+    @DiscriminatorMapping(schema = LikePredicate.class, value = "like"),
+    @DiscriminatorMapping(schema = LessThanPredicate.class, value = "lessThan"),
+    @DiscriminatorMapping(schema = LessThanOrEqualsPredicate.class, value = "lessThanOrEquals"),
+    @DiscriminatorMapping(schema = GreaterThanPredicate.class, value = "greaterThan"),
+    @DiscriminatorMapping(schema = GreaterThanOrEqualsPredicate.class, value = "greaterThanOrEquals"),
+    @DiscriminatorMapping(schema = InPredicate.class, value = "in"),
+    @DiscriminatorMapping(schema = WithinPredicate.class, value = "within"),
+    @DiscriminatorMapping(schema = GeoDistancePredicate.class, value = "geoDistance"),
+    @DiscriminatorMapping(schema = NotPredicate.class, value = "not"),
+    @DiscriminatorMapping(schema = IsNotNullPredicate.class, value = "isNotNull"),
+    @DiscriminatorMapping(schema = IsNullPredicate.class, value = "isNull")
+    // Not yet ready for use.
+    // @DiscriminatorMapping(schema = FullTextSearchPredicate.class, value = "fullTextSearch")
+  }
 )
 public interface Predicate extends Serializable {
 }

@@ -22,14 +22,31 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Monthly dataset download statistics.
  */
 public class DownloadStatistics {
 
+  @Schema(
+    description = "The GBIF dataset key for the dataset."
+  )
   private UUID datasetKey;
+
+  @Schema(
+    description = "The total number of records."
+  )
   private Long totalRecords;
+
+  @Schema(
+    description = "The total number of downloads."
+  )
   private Long numberDownloads;
+
+  @Schema(
+    description = "The year and month."
+  )
   private LocalDate yearMonth;
 
   public DownloadStatistics(){

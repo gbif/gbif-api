@@ -15,6 +15,8 @@
  */
 package org.gbif.api.model.registry;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.occurrence.Download;
 
@@ -33,12 +35,42 @@ import javax.validation.constraints.NotNull;
 @SuppressWarnings("unused")
 public class DatasetOccurrenceDownloadUsage implements Serializable {
 
+  @Schema(
+    description = "The GBIF key assigned to the download.\n\n" +
+      "Note that citations should instead use the download DOI."
+  )
   private String downloadKey;
+
+  @Schema(
+    description = "The GBIF dataset key of the dataset."
+  )
   private UUID datasetKey;
+
+  @Schema(
+    description = "The title of the dataset, at the time the download was created."
+  )
   private String datasetTitle;
+
+  @Schema(
+    description = "The primary Digital Object Identifier (DOI) for the dataset.",
+    implementation = String.class,
+    pattern = "(10(?:\\.[0-9]+)+)" + "/(.+)"
+  )
   private DOI datasetDOI;
+
+  @Schema(
+    description = "The citation for the dataset, at the time the download was created."
+  )
   private String datasetCitation;
+
+  @Schema(
+    description = "The number of records from this dataset included in the download."
+  )
   private long numberRecords;
+
+  @Schema(
+    description = "Further information about the download."
+  )
   private Download download;
 
   /**

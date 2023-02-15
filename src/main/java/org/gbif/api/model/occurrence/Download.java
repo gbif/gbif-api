@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.occurrence;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
@@ -30,6 +32,8 @@ import javax.validation.constraints.Null;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class Download implements Serializable {
 
   /**
@@ -44,6 +48,18 @@ public class Download implements Serializable {
    * - SUSPENDED: the download was paused and its execution will be resumed later
    * - FILE_ERASED: the download was successful, but the download file has been deleted
    */
+  @Schema(
+    description = "The status of the download.\n\n" +
+      "* `PREPARING`: the download is initiating\n" +
+      "* `RUNNING`: the download is being processed\n" +
+      "* `SUCCEEDED`: the download has completed and the file is ready to be downloaded\n" +
+      "* `CANCELLED`: the download was cancelled by the user\n" +
+      "* `KILLED`: the download was killed by the download engine\n" +
+      "* `FAILED`: the download failed\n" +
+      "* `SUSPENDED`: the download was paused and its execution will be resumed later\n" +
+      "* `FILE_ERASED`: the download was successful, but the download file " +
+      "[has since been deleted](https://www.gbif.org/faq?question=for-how-long-will-does-gbif-store-downloads)."
+  )
   public enum Status {
     PREPARING,
     RUNNING,
@@ -65,32 +81,74 @@ public class Download implements Serializable {
     public static final EnumSet<Status> FINISH_STATUSES = EnumSet.of(SUCCEEDED, CANCELLED, KILLED, FAILED, FILE_ERASED);
   }
 
+  @Schema(
+    description = "The GBIF key assigned to the download.\n\n" +
+      "Note that citations should instead use the download DOI."
+  )
   private String key;
 
+  @Schema(
+    description = "The primary Digital Object Identifier (DOI) for this download.",
+    implementation = String.class,
+    pattern = "(10(?:\\.[0-9]+)+)" + "/(.+)"
+  )
   private DOI doi;
 
+  @Schema(
+    description = "The licence applied to the download.  This is calculated as the most restrictive licence of any " +
+      " of the data included in the download, other data may be less restrictive."
+  )
   private License license;
 
+  @Schema(
+    description = "The filter used to request this download."
+  )
   private DownloadRequest request;
 
+  @Schema(
+    description = "The time the download request was submitted."
+  )
   private Date created;
 
+  @Schema(
+    description = "The time the download was last modified."
+  )
   private Date modified;
 
+  @Schema(
+    description = "A time after which the download [may be deleted](https://www.gbif.org/faq?question=for-how-long-will-does-gbif-store-downloads)."
+  )
   private Date eraseAfter;
 
+  @Schema(
+    description = "The most recent time when the creator of the download was notified the download is due to be deleted."
+  )
   private Date erasureNotification;
 
+  // Documented in the enumeration above
   private Status status;
 
+  @Schema(
+    description = "A link to download the data, if the status is `SUCCEEDED`."
+  )
   private String downloadLink;
 
+  @Schema(
+    description = "The size, in bytes, of the download data."
+  )
   private long size;
 
+  @Schema(
+    description = "The total number of occurrence records included in the download."
+  )
   private long totalRecords;
 
+  @Schema(
+    description = "The total number of datasets from which occurrence records were drawn."
+  )
   private long numberDatasets;
 
+  @Hidden
   private String source;
 
   /**

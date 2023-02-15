@@ -34,6 +34,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 )
 public class NotPredicate implements Predicate {
 
+  @Schema(
+    description = "The sub-predicate to negate."
+  )
   @NotNull
   private final Predicate predicate;
 

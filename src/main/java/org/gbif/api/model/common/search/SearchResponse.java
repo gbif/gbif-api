@@ -23,9 +23,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Generic response of a search operation. The result is a {@link java.util.List} of elements.
- * The type of the elements is bounded by the type parameter T. The list of results can be a empty list.
+ * The type of the elements is bounded by the type parameter T. The list of results can be an empty list.
  * Optionally the response can contain: a count of the total returned elements, an offset, a pageSize and
  * the list of facets (if those were requested).
  *
@@ -33,8 +36,14 @@ import java.util.StringJoiner;
  */
 public class SearchResponse<T, P extends SearchParameter> extends PagingResponse<T> {
 
+  @Schema(
+    description = "The resulting facets of a search operation.  The list can be empty if no facets were requested.\n\n" +
+      "If there are no values for a facet, it will not be included in the list, i.e.: a facet should have " +
+      "at least 1 occurrence."
+  )
   private final List<Facet<P>> facets = new ArrayList<>();
 
+  @Hidden
   private SpellCheckResponse spellCheckResponse;
 
   /**

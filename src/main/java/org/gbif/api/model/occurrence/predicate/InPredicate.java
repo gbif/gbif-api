@@ -45,13 +45,22 @@ import static org.gbif.api.util.PreconditionUtils.checkArgument;
 )
 public class InPredicate implements Predicate {
 
+  @Schema(
+    description = "The search parameter to test."
+  )
   @NotNull
   private final OccurrenceSearchParameter key;
 
+  @Schema(
+    description = "The list of value to test for."
+  )
   @NotNull
   @Size(min = 1)
   private final Collection<String> values;
 
+  @Schema(
+    description = "Whether to match letter case (UPPER or lower case) on string value comparisons."
+  )
   @Experimental
   @Nullable
   private final Boolean matchCase;

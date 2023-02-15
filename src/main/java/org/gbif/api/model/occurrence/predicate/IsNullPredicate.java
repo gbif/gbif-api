@@ -32,6 +32,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 )
 public class IsNullPredicate implements Predicate {
 
+  @Schema(
+    description = "The search parameter to test."
+  )
   @NotNull
   private final OccurrenceSearchParameter parameter;
 

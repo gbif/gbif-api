@@ -41,6 +41,9 @@ public class WithinPredicate implements Predicate {
 
   private static final Logger LOG = LoggerFactory.getLogger(WithinPredicate.class);
 
+  @Schema(
+    description = "The WKT geometry to test for.  Occurrences whose location is within this geometry are returned."
+  )
   @NotNull
   private final String geometry;
 
