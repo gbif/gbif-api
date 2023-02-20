@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,6 +16,8 @@ package org.gbif.api.util;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Simplified version of guava's {@code Range}.
  */
@@ -27,12 +27,18 @@ public class Range<T extends Comparable<? super T>> {
    * Lower bound.
    * Unbound if it is {@code null}.
    */
+  @Schema(
+    description = "The lower bound.  Unbound if null/unspecified."
+  )
   private T from;
 
   /**
    * Upper bound.
    * Unbound if it is {@code null}.
    */
+  @Schema(
+    description = "The upper bound. Unbound if null/unspecified."
+  )
   private T to;
 
   /**

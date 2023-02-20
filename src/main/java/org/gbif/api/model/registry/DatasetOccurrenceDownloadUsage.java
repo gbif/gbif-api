@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,8 +13,6 @@
  */
 package org.gbif.api.model.registry;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.occurrence.Download;
 
@@ -26,6 +22,8 @@ import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Represents the information about the usage of one dataset in an occurrence download.

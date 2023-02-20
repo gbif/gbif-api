@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,8 +12,6 @@
  * limitations under the License.
  */
 package org.gbif.api.model.occurrence.predicate;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
@@ -34,6 +30,8 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import static org.gbif.api.util.PreconditionUtils.checkArgument;
 

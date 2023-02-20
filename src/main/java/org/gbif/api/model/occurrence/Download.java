@@ -13,8 +13,6 @@
  */
 package org.gbif.api.model.occurrence;
 
-import io.swagger.v3.oas.annotations.Hidden;
-
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
@@ -32,6 +30,7 @@ import javax.validation.constraints.Null;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class Download implements Serializable {

@@ -13,9 +13,6 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
-import io.swagger.v3.oas.annotations.Hidden;
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import org.gbif.api.model.occurrence.geo.DistanceUnit;
 import org.gbif.api.util.SearchTypeValidator;
 
@@ -26,6 +23,9 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This predicate checks if an occurrence location falls within a distance of a location.
