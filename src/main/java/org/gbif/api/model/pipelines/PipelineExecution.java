@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -19,9 +17,7 @@ import org.gbif.api.jackson.LocalDateTimeSerDe;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
@@ -30,15 +26,16 @@ import java.util.TreeSet;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import static org.gbif.api.model.pipelines.PipelineStep.STEPS_BY_START_AND_FINISH_ASC;
+import static org.gbif.api.model.pipelines.PipelineStep.STEPS_BY_FINISHED_ASC;
+
 
 /**
- * Models a execution of a pipeline that can include one or more steps.
+ * Models an execution of a pipeline that can include one or more steps.
  */
 public class PipelineExecution implements Serializable {
 
   private long key;
-  private List<StepType> stepsToRun = new ArrayList<>();
+  private Set<StepType> stepsToRun = new HashSet<>();
   private String rerunReason;
   private String remarks;
 
@@ -47,21 +44,7 @@ public class PipelineExecution implements Serializable {
   private LocalDateTime created;
 
   private String createdBy;
-  private Set<PipelineStep> steps = new TreeSet<>(STEPS_BY_START_AND_FINISH_ASC);
-
-  public static final Comparator<PipelineExecution> PIPELINE_EXECUTION_BY_CREATED_ASC =
-    (e1, e2) -> {
-      LocalDateTime created1 = e1 != null ? e1.getCreated() : null;
-      LocalDateTime created2 = e2 != null ? e2.getCreated() : null;
-
-      if (created1 == null) {
-        return created2 == null ? 0 : 1;
-      } else if (created2 == null) {
-        return -1;
-      }
-
-      return created1.compareTo(created2);
-    };
+  private Set<PipelineStep> steps = new TreeSet<>(STEPS_BY_FINISHED_ASC);
 
   public long getKey() {
     return key;
@@ -72,11 +55,11 @@ public class PipelineExecution implements Serializable {
     return this;
   }
 
-  public List<StepType> getStepsToRun() {
+  public Set<StepType> getStepsToRun() {
     return stepsToRun;
   }
 
-  public PipelineExecution setStepsToRun(List<StepType> stepsToRun) {
+  public PipelineExecution setStepsToRun(Set<StepType> stepsToRun) {
     this.stepsToRun = stepsToRun;
     return this;
   }
@@ -121,9 +104,10 @@ public class PipelineExecution implements Serializable {
     return steps;
   }
 
-  public void setSteps(Set<PipelineStep> steps) {
+  public PipelineExecution setSteps(Set<PipelineStep> steps) {
     this.steps.clear();
     this.steps.addAll(steps);
+    return this;
   }
 
   public PipelineExecution addStep(PipelineStep step) {

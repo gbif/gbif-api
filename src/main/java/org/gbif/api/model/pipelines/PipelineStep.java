@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -65,32 +63,31 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
   private Set<MetricInfo> metrics = new HashSet<>();
 
   /**
-   * Comparator that sorts pipeline steps by start date and then by finished date in an ascending
-   * order.
+   * Comparator that sorts pipeline steps by start date and then by finished date in ascending order.
    */
-  public static final Comparator<PipelineStep> STEPS_BY_START_AND_FINISH_ASC =
+  public static final Comparator<PipelineStep> STEPS_BY_FINISHED_ASC =
     (s1, s2) -> {
-      LocalDateTime started1 = s1 != null ? s1.getStarted() : null;
-      LocalDateTime started2 = s2 != null ? s2.getStarted() : null;
+      LocalDateTime finished1 = s1 != null ? s1.getFinished() : null;
+      LocalDateTime finished2 = s2 != null ? s2.getFinished() : null;
 
-      if (started1 == null) {
-        return (started2 == null) ? 0 : 1;
-      } else if (started2 == null) {
-        return -1;
+      if(finished1 == null && finished2 == null){
+        StepType st1 = s1 != null ? s1.getType() : null;
+        StepType st2 = s2 != null ? s2.getType() : null;
+
+        if (st1 == null) {
+          return (st2 == null) ? 0 : 1;
+        } else if (st2 == null) {
+          return -1;
+        }
+        return st1.compareTo(st2);
       }
 
-      int comparison = started1.compareTo(started2);
-      if (comparison != 0) {
-        return comparison;
-      }
-
-      LocalDateTime finished1 = s1.getFinished();
-      LocalDateTime finished2 = s2.getFinished();
       if (finished1 == null) {
-        return (finished2 == null) ? 0 : 1;
+        return 1;
       } else if (finished2 == null) {
         return -1;
       }
+
       return finished1.compareTo(finished2);
     };
 
@@ -221,7 +218,10 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
   public enum Status {
     RUNNING,
     FAILED,
-    COMPLETED
+    SUBMITTED,
+    COMPLETED,
+    ABORTED,
+    QUEUED
   }
 
   /**
