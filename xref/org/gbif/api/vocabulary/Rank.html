@@ -7,514 +7,521 @@
 <body>
 <div id="overview"><a href="../../../../../apidocs/org/gbif/api/vocabulary/Rank.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/*</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright 2020 Global Biodiversity Information Facility (GBIF)</em>
-<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> *</em>
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
-<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
-<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> * You may obtain a copy of the License at</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * You may obtain a copy of the License at</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> *     <a href="http://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.0</a></em>
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> *</em>
-<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> *     <a href="http://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.0</a></em>
-<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_comment"> *</em>
-<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
-<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
-<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
-<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_comment"> * See the License for the specific language governing permissions and</em>
-<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_comment"> * limitations under the License.</em>
-<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_comment"> */</em>
-<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">package</strong> org.gbif.api.vocabulary;
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>  
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> java.util.Arrays;
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> java.util.Collections;
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> java.util.HashMap;
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> java.util.HashSet;
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> java.util.List;
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> java.util.Map;
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> java.util.Set;
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment"> * An ordered taxonomic rank enumeration with the most frequently used values.</em>
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment"> * Several static methods, lists, sets and maps are provided to help with ordering and lookup from strings.</em>
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="<a href="http://rs.gbif.org/vocabulary/gbif/rank.xml" target="alexandria_uri">http://rs.gbif.org/vocabulary/gbif/rank.xml</a>"&gt;rs.gbif.org vocabulary&lt;/a&gt;</em>
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  @SuppressWarnings(<span class="jxr_string">"unused"</span>)
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">public</strong> enum <a name="Rank" href="../../../../org/gbif/api/vocabulary/Rank.html#Rank">Rank</a> {
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>    DOMAIN(<span class="jxr_string">"dom."</span>),
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>    SUPERKINGDOM(<span class="jxr_string">"superreg."</span>),
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>    KINGDOM(<span class="jxr_string">"reg."</span>),
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>  
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>    SUBKINGDOM(<span class="jxr_string">"subreg."</span>),
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>    INFRAKINGDOM(<span class="jxr_string">"infrareg."</span>),
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>  
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>    SUPERPHYLUM(<span class="jxr_string">"superphyl."</span>),
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>  
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>    PHYLUM(<span class="jxr_string">"phyl."</span>),
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>  
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>    SUBPHYLUM(<span class="jxr_string">"subphyl."</span>),
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>  
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>    INFRAPHYLUM(<span class="jxr_string">"infraphyl."</span>),
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>  
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>    SUPERCLASS(<span class="jxr_string">"supercl."</span>),
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>  
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>    CLASS(<span class="jxr_string">"cl."</span>),
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>  
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>    SUBCLASS(<span class="jxr_string">"subcl."</span>),
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>  
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>    INFRACLASS(<span class="jxr_string">"infracl."</span>),
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>  
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>    PARVCLASS(<span class="jxr_string">"parvcl."</span>),
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>  
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>    SUPERLEGION(<span class="jxr_string">"superleg."</span>),
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>  
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>    <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>  <em class="jxr_javadoccomment">   * Sometimes used in zoology, e.g. for birds and mammals</em>
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>    LEGION(<span class="jxr_string">"leg."</span>),
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_comment"> * See the License for the specific language governing permissions and</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_comment"> * limitations under the License.</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_comment"> */</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">package</strong> org.gbif.api.vocabulary;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> java.util.Arrays;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> java.util.Collections;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> java.util.HashMap;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> java.util.HashSet;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> java.util.Map;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> java.util.Set;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> io.swagger.v3.oas.annotations.ExternalDocumentation;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> io.swagger.v3.oas.annotations.media.Schema;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment"> * An ordered taxonomic rank enumeration with the most frequently used values.</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment"> * Several static methods, lists, sets and maps are provided to help with ordering and lookup from strings.</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_javadoccomment"> * @see &lt;a href="<a href="http://rs.gbif.org/vocabulary/gbif/rank.xml" target="alexandria_uri">http://rs.gbif.org/vocabulary/gbif/rank.xml</a>"&gt;rs.gbif.org vocabulary&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  @Schema(
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>    externalDocs = @ExternalDocumentation(
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>      description = <span class="jxr_string">"Darwin Core definition"</span>,
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>      url = <span class="jxr_string">"https://rs.tdwg.org/dwc/terms/taxonRank"</span>
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>    )
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  )
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  @SuppressWarnings(<span class="jxr_string">"unused"</span>)
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <strong class="jxr_keyword">public</strong> enum <a name="Rank" href="../../../../org/gbif/api/vocabulary/Rank.html#Rank">Rank</a> {
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>    DOMAIN(<span class="jxr_string">"dom."</span>),
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>    SUPERKINGDOM(<span class="jxr_string">"superreg."</span>),
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>    KINGDOM(<span class="jxr_string">"reg."</span>),
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>    SUBKINGDOM(<span class="jxr_string">"subreg."</span>),
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>    INFRAKINGDOM(<span class="jxr_string">"infrareg."</span>),
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>    SUPERPHYLUM(<span class="jxr_string">"superphyl."</span>),
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>    PHYLUM(<span class="jxr_string">"phyl."</span>),
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>    SUBPHYLUM(<span class="jxr_string">"subphyl."</span>),
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>    INFRAPHYLUM(<span class="jxr_string">"infraphyl."</span>),
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>    SUPERCLASS(<span class="jxr_string">"supercl."</span>),
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>    CLASS(<span class="jxr_string">"cl."</span>),
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>    SUBCLASS(<span class="jxr_string">"subcl."</span>),
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>    INFRACLASS(<span class="jxr_string">"infracl."</span>),
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>    PARVCLASS(<span class="jxr_string">"parvcl."</span>),
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>    SUBLEGION(<span class="jxr_string">"subleg."</span>),
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>    SUPERLEGION(<span class="jxr_string">"superleg."</span>),
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>  
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>    INFRALEGION(<span class="jxr_string">"infraleg."</span>),
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>  
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>    SUPERCOHORT(<span class="jxr_string">"supercohort"</span>),
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>  
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>    <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>  <em class="jxr_javadoccomment">   * Sometimes used in zoology, e.g. for birds and mammals</em>
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>  <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>    COHORT(<span class="jxr_string">"cohort"</span>),
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>    <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  <em class="jxr_javadoccomment">   * Sometimes used in zoology, e.g. for birds and mammals</em>
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>    LEGION(<span class="jxr_string">"leg."</span>),
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>    SUBLEGION(<span class="jxr_string">"subleg."</span>),
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>    INFRALEGION(<span class="jxr_string">"infraleg."</span>),
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>  
-<a class="jxr_linenumber" name="L81" href="#L81">81</a>    SUBCOHORT(<span class="jxr_string">"subcohort"</span>),
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>    SUPERCOHORT(<span class="jxr_string">"supercohort"</span>),
 <a class="jxr_linenumber" name="L82" href="#L82">82</a>  
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>    INFRACOHORT(<span class="jxr_string">"infracohort"</span>),
-<a class="jxr_linenumber" name="L84" href="#L84">84</a>  
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>    MAGNORDER(<span class="jxr_string">"magnord."</span>),
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>  
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>    SUPERORDER(<span class="jxr_string">"superord."</span>),
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>  
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>    GRANDORDER(<span class="jxr_string">"grandord."</span>),
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>  
-<a class="jxr_linenumber" name="L91" href="#L91">91</a>    ORDER(<span class="jxr_string">"ord."</span>),
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>  
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>    SUBORDER(<span class="jxr_string">"subord."</span>),
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>  
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>    INFRAORDER(<span class="jxr_string">"infraord."</span>),
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>  
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>    PARVORDER(<span class="jxr_string">"parvord."</span>),
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>  
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>    SUPERFAMILY(<span class="jxr_string">"superfam."</span>),
-<a class="jxr_linenumber" name="L100" href="#L100">100</a> 
-<a class="jxr_linenumber" name="L101" href="#L101">101</a>   FAMILY(<span class="jxr_string">"fam."</span>),
-<a class="jxr_linenumber" name="L102" href="#L102">102</a> 
-<a class="jxr_linenumber" name="L103" href="#L103">103</a>   SUBFAMILY(<span class="jxr_string">"subfam."</span>),
-<a class="jxr_linenumber" name="L104" href="#L104">104</a> 
-<a class="jxr_linenumber" name="L105" href="#L105">105</a>   INFRAFAMILY(<span class="jxr_string">"infrafam."</span>),
-<a class="jxr_linenumber" name="L106" href="#L106">106</a> 
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>   SUPERTRIBE(<span class="jxr_string">"supertrib."</span>),
-<a class="jxr_linenumber" name="L108" href="#L108">108</a> 
-<a class="jxr_linenumber" name="L109" href="#L109">109</a>   TRIBE(<span class="jxr_string">"trib."</span>),
-<a class="jxr_linenumber" name="L110" href="#L110">110</a> 
-<a class="jxr_linenumber" name="L111" href="#L111">111</a>   SUBTRIBE(<span class="jxr_string">"subtrib."</span>),
-<a class="jxr_linenumber" name="L112" href="#L112">112</a> 
-<a class="jxr_linenumber" name="L113" href="#L113">113</a>   INFRATRIBE(<span class="jxr_string">"infratrib."</span>),
-<a class="jxr_linenumber" name="L114" href="#L114">114</a> 
-<a class="jxr_linenumber" name="L115" href="#L115">115</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L116" href="#L116">116</a> <em class="jxr_javadoccomment">   * Used for any other unspecific rank above genera.</em>
-<a class="jxr_linenumber" name="L117" href="#L117">117</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L118" href="#L118">118</a>   SUPRAGENERIC_NAME(<span class="jxr_string">"supragen."</span>),
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>    <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>  <em class="jxr_javadoccomment">   * Sometimes used in zoology, e.g. for birds and mammals</em>
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>    COHORT(<span class="jxr_string">"cohort"</span>),
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>  
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>    SUBCOHORT(<span class="jxr_string">"subcohort"</span>),
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>  
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>    INFRACOHORT(<span class="jxr_string">"infracohort"</span>),
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>  
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>    MAGNORDER(<span class="jxr_string">"magnord."</span>),
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>  
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>    SUPERORDER(<span class="jxr_string">"superord."</span>),
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>  
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>    GRANDORDER(<span class="jxr_string">"grandord."</span>),
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>    ORDER(<span class="jxr_string">"ord."</span>),
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>   SUBORDER(<span class="jxr_string">"subord."</span>),
+<a class="jxr_linenumber" name="L101" href="#L101">101</a> 
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>   INFRAORDER(<span class="jxr_string">"infraord."</span>),
+<a class="jxr_linenumber" name="L103" href="#L103">103</a> 
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>   PARVORDER(<span class="jxr_string">"parvord."</span>),
+<a class="jxr_linenumber" name="L105" href="#L105">105</a> 
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>   SUPERFAMILY(<span class="jxr_string">"superfam."</span>),
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> 
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>   FAMILY(<span class="jxr_string">"fam."</span>),
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> 
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>   SUBFAMILY(<span class="jxr_string">"subfam."</span>),
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> 
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>   INFRAFAMILY(<span class="jxr_string">"infrafam."</span>),
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> 
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>   SUPERTRIBE(<span class="jxr_string">"supertrib."</span>),
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> 
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>   TRIBE(<span class="jxr_string">"trib."</span>),
+<a class="jxr_linenumber" name="L117" href="#L117">117</a> 
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>   SUBTRIBE(<span class="jxr_string">"subtrib."</span>),
 <a class="jxr_linenumber" name="L119" href="#L119">119</a> 
-<a class="jxr_linenumber" name="L120" href="#L120">120</a>   GENUS(<span class="jxr_string">"gen."</span>),
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>   INFRATRIBE(<span class="jxr_string">"infratrib."</span>),
 <a class="jxr_linenumber" name="L121" href="#L121">121</a> 
-<a class="jxr_linenumber" name="L122" href="#L122">122</a>   SUBGENUS(<span class="jxr_string">"subgen."</span>),
-<a class="jxr_linenumber" name="L123" href="#L123">123</a> 
-<a class="jxr_linenumber" name="L124" href="#L124">124</a>   INFRAGENUS(<span class="jxr_string">"infragen."</span>),
-<a class="jxr_linenumber" name="L125" href="#L125">125</a> 
-<a class="jxr_linenumber" name="L126" href="#L126">126</a>   SECTION(<span class="jxr_string">"sect."</span>),
-<a class="jxr_linenumber" name="L127" href="#L127">127</a> 
-<a class="jxr_linenumber" name="L128" href="#L128">128</a>   SUBSECTION(<span class="jxr_string">"subsect."</span>),
-<a class="jxr_linenumber" name="L129" href="#L129">129</a> 
-<a class="jxr_linenumber" name="L130" href="#L130">130</a>   SERIES(<span class="jxr_string">"ser."</span>),
-<a class="jxr_linenumber" name="L131" href="#L131">131</a> 
-<a class="jxr_linenumber" name="L132" href="#L132">132</a>   SUBSERIES(<span class="jxr_string">"subser."</span>),
-<a class="jxr_linenumber" name="L133" href="#L133">133</a> 
-<a class="jxr_linenumber" name="L134" href="#L134">134</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L135" href="#L135">135</a> <em class="jxr_javadoccomment">   * used for any other unspecific rank below genera and above species.</em>
-<a class="jxr_linenumber" name="L136" href="#L136">136</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L137" href="#L137">137</a>   INFRAGENERIC_NAME(<span class="jxr_string">"infrageneric"</span>),
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L123" href="#L123">123</a> <em class="jxr_javadoccomment">   * Used for any other unspecific rank above genera.</em>
+<a class="jxr_linenumber" name="L124" href="#L124">124</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>   SUPRAGENERIC_NAME(<span class="jxr_string">"supragen."</span>),
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> 
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>   GENUS(<span class="jxr_string">"gen."</span>),
+<a class="jxr_linenumber" name="L128" href="#L128">128</a> 
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>   SUBGENUS(<span class="jxr_string">"subgen."</span>),
+<a class="jxr_linenumber" name="L130" href="#L130">130</a> 
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>   INFRAGENUS(<span class="jxr_string">"infragen."</span>),
+<a class="jxr_linenumber" name="L132" href="#L132">132</a> 
+<a class="jxr_linenumber" name="L133" href="#L133">133</a>   SECTION(<span class="jxr_string">"sect."</span>),
+<a class="jxr_linenumber" name="L134" href="#L134">134</a> 
+<a class="jxr_linenumber" name="L135" href="#L135">135</a>   SUBSECTION(<span class="jxr_string">"subsect."</span>),
+<a class="jxr_linenumber" name="L136" href="#L136">136</a> 
+<a class="jxr_linenumber" name="L137" href="#L137">137</a>   SERIES(<span class="jxr_string">"ser."</span>),
 <a class="jxr_linenumber" name="L138" href="#L138">138</a> 
-<a class="jxr_linenumber" name="L139" href="#L139">139</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L140" href="#L140">140</a> <em class="jxr_javadoccomment">   * A loosely defined group of species.</em>
-<a class="jxr_linenumber" name="L141" href="#L141">141</a> <em class="jxr_javadoccomment">   * Zoology: Aggregate - a group of species, other than a subgenus, within a genus. An aggregate may be denoted by a group name interpolated in parentheses.</em>
-<a class="jxr_linenumber" name="L142" href="#L142">142</a> <em class="jxr_javadoccomment">   * The Berlin/MoreTax model notes: [these] aren't taxonomic ranks but cirumscriptions because on the one hand they are necessary for the concatenation</em>
-<a class="jxr_linenumber" name="L143" href="#L143">143</a> <em class="jxr_javadoccomment">   * of the fullname and on the other hand they are necessary for distinguishing the aggregate or species group from the microspecies.</em>
-<a class="jxr_linenumber" name="L144" href="#L144">144</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L145" href="#L145">145</a>   SPECIES_AGGREGATE(<span class="jxr_string">"agg."</span>),
-<a class="jxr_linenumber" name="L146" href="#L146">146</a> 
-<a class="jxr_linenumber" name="L147" href="#L147">147</a>   SPECIES(<span class="jxr_string">"sp."</span>),
-<a class="jxr_linenumber" name="L148" href="#L148">148</a> 
-<a class="jxr_linenumber" name="L149" href="#L149">149</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L150" href="#L150">150</a> <em class="jxr_javadoccomment">   * used for any other unspecific rank below species.</em>
+<a class="jxr_linenumber" name="L139" href="#L139">139</a>   SUBSERIES(<span class="jxr_string">"subser."</span>),
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> 
+<a class="jxr_linenumber" name="L141" href="#L141">141</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> <em class="jxr_javadoccomment">   * used for any other unspecific rank below genera and above species.</em>
+<a class="jxr_linenumber" name="L143" href="#L143">143</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>   INFRAGENERIC_NAME(<span class="jxr_string">"infrageneric"</span>),
+<a class="jxr_linenumber" name="L145" href="#L145">145</a> 
+<a class="jxr_linenumber" name="L146" href="#L146">146</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L147" href="#L147">147</a> <em class="jxr_javadoccomment">   * A loosely defined group of species.</em>
+<a class="jxr_linenumber" name="L148" href="#L148">148</a> <em class="jxr_javadoccomment">   * Zoology: Aggregate - a group of species, other than a subgenus, within a genus. An aggregate may be denoted by a group name interpolated in parentheses.</em>
+<a class="jxr_linenumber" name="L149" href="#L149">149</a> <em class="jxr_javadoccomment">   * The Berlin/MoreTax model notes: [these] aren't taxonomic ranks but cirumscriptions because on the one hand they are necessary for the concatenation</em>
+<a class="jxr_linenumber" name="L150" href="#L150">150</a> <em class="jxr_javadoccomment">   * of the fullname and on the other hand they are necessary for distinguishing the aggregate or species group from the microspecies.</em>
 <a class="jxr_linenumber" name="L151" href="#L151">151</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L152" href="#L152">152</a>   INFRASPECIFIC_NAME(<span class="jxr_string">"infrasp."</span>),
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>   SPECIES_AGGREGATE(<span class="jxr_string">"agg."</span>),
 <a class="jxr_linenumber" name="L153" href="#L153">153</a> 
-<a class="jxr_linenumber" name="L154" href="#L154">154</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L155" href="#L155">155</a> <em class="jxr_javadoccomment">   * The term grex has been coined to expand botanical nomenclature to describe hybrids of orchids.</em>
-<a class="jxr_linenumber" name="L156" href="#L156">156</a> <em class="jxr_javadoccomment">   * Grex names are one of the three categories of plant names governed by the International Code of Nomenclature for Cultivated Plants</em>
-<a class="jxr_linenumber" name="L157" href="#L157">157</a> <em class="jxr_javadoccomment">   * Within a grex the Groups category can be used to refer to plants by their shared characteristics (rather than by their parentage),</em>
-<a class="jxr_linenumber" name="L158" href="#L158">158</a> <em class="jxr_javadoccomment">   * and individual orchid plants can be selected (and propagated) and named as cultivars</em>
-<a class="jxr_linenumber" name="L159" href="#L159">159</a> <em class="jxr_javadoccomment">   * <a href="https://en.wikipedia.org/wiki/Grex_(horticulture)" target="alexandria_uri">https://en.wikipedia.org/wiki/Grex_(horticulture)</a></em>
-<a class="jxr_linenumber" name="L160" href="#L160">160</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>   GREX(<span class="jxr_string">"grex"</span>),
-<a class="jxr_linenumber" name="L162" href="#L162">162</a> 
-<a class="jxr_linenumber" name="L163" href="#L163">163</a>   SUBSPECIES(<span class="jxr_string">"subsp."</span>),
-<a class="jxr_linenumber" name="L164" href="#L164">164</a> 
-<a class="jxr_linenumber" name="L165" href="#L165">165</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L166" href="#L166">166</a> <em class="jxr_javadoccomment">   * Rank in use from the code for cultivated plants.</em>
-<a class="jxr_linenumber" name="L167" href="#L167">167</a> <em class="jxr_javadoccomment">   * It does not use a classic rank marker but indicated the Group rank after the actual groups name</em>
-<a class="jxr_linenumber" name="L168" href="#L168">168</a> <em class="jxr_javadoccomment">   * For example Rhododendron boothii Mishmiense Group</em>
-<a class="jxr_linenumber" name="L169" href="#L169">169</a> <em class="jxr_javadoccomment">   * or Primula Border Auricula Group</em>
-<a class="jxr_linenumber" name="L170" href="#L170">170</a> <em class="jxr_javadoccomment">   *</em>
-<a class="jxr_linenumber" name="L171" href="#L171">171</a> <em class="jxr_javadoccomment">   * Sometimes authors also used the words "sort", "type", "selections" or "hybrids" instead of Group which is not legal according to the code.</em>
-<a class="jxr_linenumber" name="L172" href="#L172">172</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L173" href="#L173">173</a>   CULTIVAR_GROUP,
-<a class="jxr_linenumber" name="L174" href="#L174">174</a> 
-<a class="jxr_linenumber" name="L175" href="#L175">175</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L176" href="#L176">176</a> <em class="jxr_javadoccomment">   * A group of cultivars. These can be roughly comparable to cultivar groups, but convarieties, unlike cultivar groups,</em>
-<a class="jxr_linenumber" name="L177" href="#L177">177</a> <em class="jxr_javadoccomment">   * do not necessarily contain named varieties, and convarieties are members of traditional "Linnaean" ranks.</em>
-<a class="jxr_linenumber" name="L178" href="#L178">178</a> <em class="jxr_javadoccomment">   * The ICNCP replaced this term with the term cultivar-group, and convarieties should not be used in modern cultivated plant taxonomy.</em>
-<a class="jxr_linenumber" name="L179" href="#L179">179</a> <em class="jxr_javadoccomment">   *</em>
-<a class="jxr_linenumber" name="L180" href="#L180">180</a> <em class="jxr_javadoccomment">   * From Spooner et al., Horticultural Reviews 28 (2003): 1-60</em>
-<a class="jxr_linenumber" name="L181" href="#L181">181</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L182" href="#L182">182</a>   CONVARIETY(<span class="jxr_string">"convar."</span>),
-<a class="jxr_linenumber" name="L183" href="#L183">183</a> 
-<a class="jxr_linenumber" name="L184" href="#L184">184</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L185" href="#L185">185</a> <em class="jxr_javadoccomment">   * used also for any other unspecific rank below subspecies.</em>
-<a class="jxr_linenumber" name="L186" href="#L186">186</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L187" href="#L187">187</a>   INFRASUBSPECIFIC_NAME(<span class="jxr_string">"infrasubsp."</span>),
-<a class="jxr_linenumber" name="L188" href="#L188">188</a> 
-<a class="jxr_linenumber" name="L189" href="#L189">189</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L190" href="#L190">190</a> <em class="jxr_javadoccomment">   * Botanical legacy rank</em>
-<a class="jxr_linenumber" name="L191" href="#L191">191</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L192" href="#L192">192</a> 
-<a class="jxr_linenumber" name="L193" href="#L193">193</a>   PROLES(<span class="jxr_string">"prol."</span>),
-<a class="jxr_linenumber" name="L194" href="#L194">194</a> 
-<a class="jxr_linenumber" name="L195" href="#L195">195</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L196" href="#L196">196</a> <em class="jxr_javadoccomment">   * Botanical legacy rank</em>
-<a class="jxr_linenumber" name="L197" href="#L197">197</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L198" href="#L198">198</a>   RACE(<span class="jxr_string">"race"</span>),
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>   SPECIES(<span class="jxr_string">"sp."</span>),
+<a class="jxr_linenumber" name="L155" href="#L155">155</a> 
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L157" href="#L157">157</a> <em class="jxr_javadoccomment">   * used for any other unspecific rank below species.</em>
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>   INFRASPECIFIC_NAME(<span class="jxr_string">"infrasp."</span>),
+<a class="jxr_linenumber" name="L160" href="#L160">160</a> 
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> <em class="jxr_javadoccomment">   * The term grex has been coined to expand botanical nomenclature to describe hybrids of orchids.</em>
+<a class="jxr_linenumber" name="L163" href="#L163">163</a> <em class="jxr_javadoccomment">   * Grex names are one of the three categories of plant names governed by the International Code of Nomenclature for Cultivated Plants</em>
+<a class="jxr_linenumber" name="L164" href="#L164">164</a> <em class="jxr_javadoccomment">   * Within a grex the Groups category can be used to refer to plants by their shared characteristics (rather than by their parentage),</em>
+<a class="jxr_linenumber" name="L165" href="#L165">165</a> <em class="jxr_javadoccomment">   * and individual orchid plants can be selected (and propagated) and named as cultivars</em>
+<a class="jxr_linenumber" name="L166" href="#L166">166</a> <em class="jxr_javadoccomment">   * <a href="https://en.wikipedia.org/wiki/Grex_(horticulture)" target="alexandria_uri">https://en.wikipedia.org/wiki/Grex_(horticulture)</a></em>
+<a class="jxr_linenumber" name="L167" href="#L167">167</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>   GREX(<span class="jxr_string">"grex"</span>),
+<a class="jxr_linenumber" name="L169" href="#L169">169</a> 
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>   SUBSPECIES(<span class="jxr_string">"subsp."</span>),
+<a class="jxr_linenumber" name="L171" href="#L171">171</a> 
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L173" href="#L173">173</a> <em class="jxr_javadoccomment">   * Rank in use from the code for cultivated plants.</em>
+<a class="jxr_linenumber" name="L174" href="#L174">174</a> <em class="jxr_javadoccomment">   * It does not use a classic rank marker but indicated the Group rank after the actual groups name</em>
+<a class="jxr_linenumber" name="L175" href="#L175">175</a> <em class="jxr_javadoccomment">   * For example Rhododendron boothii Mishmiense Group</em>
+<a class="jxr_linenumber" name="L176" href="#L176">176</a> <em class="jxr_javadoccomment">   * or Primula Border Auricula Group</em>
+<a class="jxr_linenumber" name="L177" href="#L177">177</a> <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="L178" href="#L178">178</a> <em class="jxr_javadoccomment">   * Sometimes authors also used the words "sort", "type", "selections" or "hybrids" instead of Group which is not legal according to the code.</em>
+<a class="jxr_linenumber" name="L179" href="#L179">179</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>   CULTIVAR_GROUP,
+<a class="jxr_linenumber" name="L181" href="#L181">181</a> 
+<a class="jxr_linenumber" name="L182" href="#L182">182</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L183" href="#L183">183</a> <em class="jxr_javadoccomment">   * A group of cultivars. These can be roughly comparable to cultivar groups, but convarieties, unlike cultivar groups,</em>
+<a class="jxr_linenumber" name="L184" href="#L184">184</a> <em class="jxr_javadoccomment">   * do not necessarily contain named varieties, and convarieties are members of traditional "Linnaean" ranks.</em>
+<a class="jxr_linenumber" name="L185" href="#L185">185</a> <em class="jxr_javadoccomment">   * The ICNCP replaced this term with the term cultivar-group, and convarieties should not be used in modern cultivated plant taxonomy.</em>
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="L187" href="#L187">187</a> <em class="jxr_javadoccomment">   * From Spooner et al., Horticultural Reviews 28 (2003): 1-60</em>
+<a class="jxr_linenumber" name="L188" href="#L188">188</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L189" href="#L189">189</a>   CONVARIETY(<span class="jxr_string">"convar."</span>),
+<a class="jxr_linenumber" name="L190" href="#L190">190</a> 
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L192" href="#L192">192</a> <em class="jxr_javadoccomment">   * used also for any other unspecific rank below subspecies.</em>
+<a class="jxr_linenumber" name="L193" href="#L193">193</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L194" href="#L194">194</a>   INFRASUBSPECIFIC_NAME(<span class="jxr_string">"infrasubsp."</span>),
+<a class="jxr_linenumber" name="L195" href="#L195">195</a> 
+<a class="jxr_linenumber" name="L196" href="#L196">196</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L197" href="#L197">197</a> <em class="jxr_javadoccomment">   * Botanical legacy rank</em>
+<a class="jxr_linenumber" name="L198" href="#L198">198</a> <em class="jxr_javadoccomment">   */</em>
 <a class="jxr_linenumber" name="L199" href="#L199">199</a> 
-<a class="jxr_linenumber" name="L200" href="#L200">200</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L201" href="#L201">201</a> <em class="jxr_javadoccomment">   * Zoological legacy rank</em>
-<a class="jxr_linenumber" name="L202" href="#L202">202</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L203" href="#L203">203</a>   NATIO(<span class="jxr_string">"natio"</span>),
-<a class="jxr_linenumber" name="L204" href="#L204">204</a> 
-<a class="jxr_linenumber" name="L205" href="#L205">205</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L206" href="#L206">206</a> <em class="jxr_javadoccomment">   * Zoological legacy rank</em>
-<a class="jxr_linenumber" name="L207" href="#L207">207</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L208" href="#L208">208</a>   ABERRATION(<span class="jxr_string">"ab."</span>),
-<a class="jxr_linenumber" name="L209" href="#L209">209</a> 
-<a class="jxr_linenumber" name="L210" href="#L210">210</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L211" href="#L211">211</a> <em class="jxr_javadoccomment">   * Zoological legacy rank</em>
-<a class="jxr_linenumber" name="L212" href="#L212">212</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L213" href="#L213">213</a>   MORPH(<span class="jxr_string">"morph"</span>),
-<a class="jxr_linenumber" name="L214" href="#L214">214</a> 
-<a class="jxr_linenumber" name="L215" href="#L215">215</a>   VARIETY(<span class="jxr_string">"var."</span>),
+<a class="jxr_linenumber" name="L200" href="#L200">200</a>   PROLES(<span class="jxr_string">"prol."</span>),
+<a class="jxr_linenumber" name="L201" href="#L201">201</a> 
+<a class="jxr_linenumber" name="L202" href="#L202">202</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L203" href="#L203">203</a> <em class="jxr_javadoccomment">   * Botanical legacy rank</em>
+<a class="jxr_linenumber" name="L204" href="#L204">204</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L205" href="#L205">205</a>   RACE(<span class="jxr_string">"race"</span>),
+<a class="jxr_linenumber" name="L206" href="#L206">206</a> 
+<a class="jxr_linenumber" name="L207" href="#L207">207</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L208" href="#L208">208</a> <em class="jxr_javadoccomment">   * Zoological legacy rank</em>
+<a class="jxr_linenumber" name="L209" href="#L209">209</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L210" href="#L210">210</a>   NATIO(<span class="jxr_string">"natio"</span>),
+<a class="jxr_linenumber" name="L211" href="#L211">211</a> 
+<a class="jxr_linenumber" name="L212" href="#L212">212</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L213" href="#L213">213</a> <em class="jxr_javadoccomment">   * Zoological legacy rank</em>
+<a class="jxr_linenumber" name="L214" href="#L214">214</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L215" href="#L215">215</a>   ABERRATION(<span class="jxr_string">"ab."</span>),
 <a class="jxr_linenumber" name="L216" href="#L216">216</a> 
-<a class="jxr_linenumber" name="L217" href="#L217">217</a>   SUBVARIETY(<span class="jxr_string">"subvar."</span>),
-<a class="jxr_linenumber" name="L218" href="#L218">218</a> 
-<a class="jxr_linenumber" name="L219" href="#L219">219</a>   FORM(<span class="jxr_string">"f."</span>),
-<a class="jxr_linenumber" name="L220" href="#L220">220</a> 
-<a class="jxr_linenumber" name="L221" href="#L221">221</a>   SUBFORM(<span class="jxr_string">"subf."</span>),
-<a class="jxr_linenumber" name="L222" href="#L222">222</a> 
-<a class="jxr_linenumber" name="L223" href="#L223">223</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L224" href="#L224">224</a> <em class="jxr_javadoccomment">   * Microbial rank based on pathogenic reactions in one or more hosts.</em>
-<a class="jxr_linenumber" name="L225" href="#L225">225</a> <em class="jxr_javadoccomment">   * For recommendations on designating pathovars and use of designations when reviving names see</em>
-<a class="jxr_linenumber" name="L226" href="#L226">226</a> <em class="jxr_javadoccomment">   * Dye et al. (1980) Standards for naming pathovars of phytopathogenic bacteria and a list of pathovar names and pathotype strains.</em>
-<a class="jxr_linenumber" name="L227" href="#L227">227</a> <em class="jxr_javadoccomment">   * Rev. Plant Pathol. 59:153–168.</em>
-<a class="jxr_linenumber" name="L228" href="#L228">228</a> <em class="jxr_javadoccomment">   * See &lt;a href="<a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly" target="alexandria_uri">http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly</a>"&gt;Bacteriological Code&lt;/a&gt;</em>
-<a class="jxr_linenumber" name="L229" href="#L229">229</a> <em class="jxr_javadoccomment">   * See &lt;a href="<a href="http://www.isppweb.org/about_tppb_naming.asp" target="alexandria_uri">http://www.isppweb.org/about_tppb_naming.asp</a>"&gt;International Standards for Naming Pathovars of Phytopathogenic Bacteria&lt;/a&gt;</em>
-<a class="jxr_linenumber" name="L230" href="#L230">230</a> <em class="jxr_javadoccomment">   * See &lt;a href="<a href="http://sipav.org/main/jpp/index.php/jpp/article/view/682" target="alexandria_uri">http://sipav.org/main/jpp/index.php/jpp/article/view/682</a>"&gt;Demystifying the nomenclature of bacterial plant pathogens&lt;/a&gt;</em>
-<a class="jxr_linenumber" name="L231" href="#L231">231</a> <em class="jxr_javadoccomment">   * See &lt;a href="<a href="http://link.springer.com/chapter/10.1007/978-94-009-3555-6_171" target="alexandria_uri">http://link.springer.com/chapter/10.1007/978-94-009-3555-6_171</a>"&gt;Problems with the Pathovar Concept&lt;/a&gt;</em>
-<a class="jxr_linenumber" name="L232" href="#L232">232</a> <em class="jxr_javadoccomment">   * For example Pseudomonas syringae pv. lachrymans</em>
-<a class="jxr_linenumber" name="L233" href="#L233">233</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L234" href="#L234">234</a>   PATHOVAR(<span class="jxr_string">"pv."</span>),
-<a class="jxr_linenumber" name="L235" href="#L235">235</a> 
-<a class="jxr_linenumber" name="L236" href="#L236">236</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L237" href="#L237">237</a> <em class="jxr_javadoccomment">   * Microbial rank based on biochemical or physiological properties.</em>
-<a class="jxr_linenumber" name="L238" href="#L238">238</a> <em class="jxr_javadoccomment">   * See &lt;a href="<a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly" target="alexandria_uri">http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly</a>"&gt;Bacteriological Code&lt;/a&gt;</em>
-<a class="jxr_linenumber" name="L239" href="#L239">239</a> <em class="jxr_javadoccomment">   * For example Francisella tularensis biovar tularensis</em>
+<a class="jxr_linenumber" name="L217" href="#L217">217</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L218" href="#L218">218</a> <em class="jxr_javadoccomment">   * Zoological legacy rank</em>
+<a class="jxr_linenumber" name="L219" href="#L219">219</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L220" href="#L220">220</a>   MORPH(<span class="jxr_string">"morph"</span>),
+<a class="jxr_linenumber" name="L221" href="#L221">221</a> 
+<a class="jxr_linenumber" name="L222" href="#L222">222</a>   VARIETY(<span class="jxr_string">"var."</span>),
+<a class="jxr_linenumber" name="L223" href="#L223">223</a> 
+<a class="jxr_linenumber" name="L224" href="#L224">224</a>   SUBVARIETY(<span class="jxr_string">"subvar."</span>),
+<a class="jxr_linenumber" name="L225" href="#L225">225</a> 
+<a class="jxr_linenumber" name="L226" href="#L226">226</a>   FORM(<span class="jxr_string">"f."</span>),
+<a class="jxr_linenumber" name="L227" href="#L227">227</a> 
+<a class="jxr_linenumber" name="L228" href="#L228">228</a>   SUBFORM(<span class="jxr_string">"subf."</span>),
+<a class="jxr_linenumber" name="L229" href="#L229">229</a> 
+<a class="jxr_linenumber" name="L230" href="#L230">230</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L231" href="#L231">231</a> <em class="jxr_javadoccomment">   * Microbial rank based on pathogenic reactions in one or more hosts.</em>
+<a class="jxr_linenumber" name="L232" href="#L232">232</a> <em class="jxr_javadoccomment">   * For recommendations on designating pathovars and use of designations when reviving names see</em>
+<a class="jxr_linenumber" name="L233" href="#L233">233</a> <em class="jxr_javadoccomment">   * Dye et al. (1980) Standards for naming pathovars of phytopathogenic bacteria and a list of pathovar names and pathotype strains.</em>
+<a class="jxr_linenumber" name="L234" href="#L234">234</a> <em class="jxr_javadoccomment">   * Rev. Plant Pathol. 59:153–168.</em>
+<a class="jxr_linenumber" name="L235" href="#L235">235</a> <em class="jxr_javadoccomment">   * See &lt;a href="<a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly" target="alexandria_uri">http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly</a>"&gt;Bacteriological Code&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L236" href="#L236">236</a> <em class="jxr_javadoccomment">   * See &lt;a href="<a href="http://www.isppweb.org/about_tppb_naming.asp" target="alexandria_uri">http://www.isppweb.org/about_tppb_naming.asp</a>"&gt;International Standards for Naming Pathovars of Phytopathogenic Bacteria&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L237" href="#L237">237</a> <em class="jxr_javadoccomment">   * See &lt;a href="<a href="http://sipav.org/main/jpp/index.php/jpp/article/view/682" target="alexandria_uri">http://sipav.org/main/jpp/index.php/jpp/article/view/682</a>"&gt;Demystifying the nomenclature of bacterial plant pathogens&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L238" href="#L238">238</a> <em class="jxr_javadoccomment">   * See &lt;a href="<a href="http://link.springer.com/chapter/10.1007/978-94-009-3555-6_171" target="alexandria_uri">http://link.springer.com/chapter/10.1007/978-94-009-3555-6_171</a>"&gt;Problems with the Pathovar Concept&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L239" href="#L239">239</a> <em class="jxr_javadoccomment">   * For example Pseudomonas syringae pv. lachrymans</em>
 <a class="jxr_linenumber" name="L240" href="#L240">240</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L241" href="#L241">241</a>   BIOVAR(<span class="jxr_string">"biovar"</span>),
+<a class="jxr_linenumber" name="L241" href="#L241">241</a>   PATHOVAR(<span class="jxr_string">"pv."</span>),
 <a class="jxr_linenumber" name="L242" href="#L242">242</a> 
 <a class="jxr_linenumber" name="L243" href="#L243">243</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L244" href="#L244">244</a> <em class="jxr_javadoccomment">   * Microbial rank based on production or amount of production of a particular chemical.</em>
+<a class="jxr_linenumber" name="L244" href="#L244">244</a> <em class="jxr_javadoccomment">   * Microbial rank based on biochemical or physiological properties.</em>
 <a class="jxr_linenumber" name="L245" href="#L245">245</a> <em class="jxr_javadoccomment">   * See &lt;a href="<a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly" target="alexandria_uri">http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly</a>"&gt;Bacteriological Code&lt;/a&gt;</em>
-<a class="jxr_linenumber" name="L246" href="#L246">246</a> <em class="jxr_javadoccomment">   * For example Vibrio alginolyticus chemovar iophagus</em>
+<a class="jxr_linenumber" name="L246" href="#L246">246</a> <em class="jxr_javadoccomment">   * For example Francisella tularensis biovar tularensis</em>
 <a class="jxr_linenumber" name="L247" href="#L247">247</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L248" href="#L248">248</a>   CHEMOVAR(<span class="jxr_string">"chemovar"</span>),
+<a class="jxr_linenumber" name="L248" href="#L248">248</a>   BIOVAR(<span class="jxr_string">"biovar"</span>),
 <a class="jxr_linenumber" name="L249" href="#L249">249</a> 
 <a class="jxr_linenumber" name="L250" href="#L250">250</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L251" href="#L251">251</a> <em class="jxr_javadoccomment">   * Microbial rank based on morphological characterislics.</em>
+<a class="jxr_linenumber" name="L251" href="#L251">251</a> <em class="jxr_javadoccomment">   * Microbial rank based on production or amount of production of a particular chemical.</em>
 <a class="jxr_linenumber" name="L252" href="#L252">252</a> <em class="jxr_javadoccomment">   * See &lt;a href="<a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly" target="alexandria_uri">http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly</a>"&gt;Bacteriological Code&lt;/a&gt;</em>
-<a class="jxr_linenumber" name="L253" href="#L253">253</a> <em class="jxr_javadoccomment">   * For example Acinetobacter junii morphovar I</em>
+<a class="jxr_linenumber" name="L253" href="#L253">253</a> <em class="jxr_javadoccomment">   * For example Vibrio alginolyticus chemovar iophagus</em>
 <a class="jxr_linenumber" name="L254" href="#L254">254</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L255" href="#L255">255</a>   MORPHOVAR(<span class="jxr_string">"morphovar"</span>),
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>   CHEMOVAR(<span class="jxr_string">"chemovar"</span>),
 <a class="jxr_linenumber" name="L256" href="#L256">256</a> 
 <a class="jxr_linenumber" name="L257" href="#L257">257</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L258" href="#L258">258</a> <em class="jxr_javadoccomment">   * Microbial infrasubspecific rank based on reactions to bacteriophage.</em>
+<a class="jxr_linenumber" name="L258" href="#L258">258</a> <em class="jxr_javadoccomment">   * Microbial rank based on morphological characterislics.</em>
 <a class="jxr_linenumber" name="L259" href="#L259">259</a> <em class="jxr_javadoccomment">   * See &lt;a href="<a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly" target="alexandria_uri">http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly</a>"&gt;Bacteriological Code&lt;/a&gt;</em>
-<a class="jxr_linenumber" name="L260" href="#L260">260</a> <em class="jxr_javadoccomment">   * For example Staphyloccocus aureus phagovar 42D</em>
+<a class="jxr_linenumber" name="L260" href="#L260">260</a> <em class="jxr_javadoccomment">   * For example Acinetobacter junii morphovar I</em>
 <a class="jxr_linenumber" name="L261" href="#L261">261</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L262" href="#L262">262</a>   PHAGOVAR(<span class="jxr_string">"phagovar"</span>),
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>   MORPHOVAR(<span class="jxr_string">"morphovar"</span>),
 <a class="jxr_linenumber" name="L263" href="#L263">263</a> 
 <a class="jxr_linenumber" name="L264" href="#L264">264</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L265" href="#L265">265</a> <em class="jxr_javadoccomment">   * Microbial infrasubspecific rank based on antigenic characteristics.</em>
+<a class="jxr_linenumber" name="L265" href="#L265">265</a> <em class="jxr_javadoccomment">   * Microbial infrasubspecific rank based on reactions to bacteriophage.</em>
 <a class="jxr_linenumber" name="L266" href="#L266">266</a> <em class="jxr_javadoccomment">   * See &lt;a href="<a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly" target="alexandria_uri">http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly</a>"&gt;Bacteriological Code&lt;/a&gt;</em>
-<a class="jxr_linenumber" name="L267" href="#L267">267</a> <em class="jxr_javadoccomment">   * For example Salmonella enterica serovar Dublin</em>
+<a class="jxr_linenumber" name="L267" href="#L267">267</a> <em class="jxr_javadoccomment">   * For example Staphyloccocus aureus phagovar 42D</em>
 <a class="jxr_linenumber" name="L268" href="#L268">268</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L269" href="#L269">269</a>   SEROVAR(<span class="jxr_string">"serovar"</span>),
+<a class="jxr_linenumber" name="L269" href="#L269">269</a>   PHAGOVAR(<span class="jxr_string">"phagovar"</span>),
 <a class="jxr_linenumber" name="L270" href="#L270">270</a> 
 <a class="jxr_linenumber" name="L271" href="#L271">271</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L272" href="#L272">272</a> <em class="jxr_javadoccomment">   * Microbial infrasubspecific rank based on chemical constitution.</em>
+<a class="jxr_linenumber" name="L272" href="#L272">272</a> <em class="jxr_javadoccomment">   * Microbial infrasubspecific rank based on antigenic characteristics.</em>
 <a class="jxr_linenumber" name="L273" href="#L273">273</a> <em class="jxr_javadoccomment">   * See &lt;a href="<a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly" target="alexandria_uri">http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly</a>"&gt;Bacteriological Code&lt;/a&gt;</em>
-<a class="jxr_linenumber" name="L274" href="#L274">274</a> <em class="jxr_javadoccomment">   * For example Thymus vulgaris ct. geraniol</em>
+<a class="jxr_linenumber" name="L274" href="#L274">274</a> <em class="jxr_javadoccomment">   * For example Salmonella enterica serovar Dublin</em>
 <a class="jxr_linenumber" name="L275" href="#L275">275</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L276" href="#L276">276</a>   CHEMOFORM(<span class="jxr_string">"chemoform"</span>),
+<a class="jxr_linenumber" name="L276" href="#L276">276</a>   SEROVAR(<span class="jxr_string">"serovar"</span>),
 <a class="jxr_linenumber" name="L277" href="#L277">277</a> 
 <a class="jxr_linenumber" name="L278" href="#L278">278</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L279" href="#L279">279</a> <em class="jxr_javadoccomment">   * Microbial infrasubspecific rank.</em>
-<a class="jxr_linenumber" name="L280" href="#L280">280</a> <em class="jxr_javadoccomment">   * A parasitic, symbiotic, or commensal microorganism distinguished primarily by adaptation to a particular host or habitat.</em>
-<a class="jxr_linenumber" name="L281" href="#L281">281</a> <em class="jxr_javadoccomment">   * Named preferably by the scientific name of the host in the genitive.</em>
-<a class="jxr_linenumber" name="L282" href="#L282">282</a> <em class="jxr_javadoccomment">   * See &lt;a href="<a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly" target="alexandria_uri">http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly</a>"&gt;Bacteriological Code&lt;/a&gt;</em>
-<a class="jxr_linenumber" name="L283" href="#L283">283</a> <em class="jxr_javadoccomment">   * For example Puccinia graminis f. sp. avenae</em>
-<a class="jxr_linenumber" name="L284" href="#L284">284</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L285" href="#L285">285</a>   FORMA_SPECIALIS(<span class="jxr_string">"f.sp."</span>),
-<a class="jxr_linenumber" name="L286" href="#L286">286</a> 
-<a class="jxr_linenumber" name="L287" href="#L287">287</a>   CULTIVAR(<span class="jxr_string">"cv."</span>),
-<a class="jxr_linenumber" name="L288" href="#L288">288</a> 
-<a class="jxr_linenumber" name="L289" href="#L289">289</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L290" href="#L290">290</a> <em class="jxr_javadoccomment">   * A microbial strain.</em>
+<a class="jxr_linenumber" name="L279" href="#L279">279</a> <em class="jxr_javadoccomment">   * Microbial infrasubspecific rank based on chemical constitution.</em>
+<a class="jxr_linenumber" name="L280" href="#L280">280</a> <em class="jxr_javadoccomment">   * See &lt;a href="<a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly" target="alexandria_uri">http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly</a>"&gt;Bacteriological Code&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L281" href="#L281">281</a> <em class="jxr_javadoccomment">   * For example Thymus vulgaris ct. geraniol</em>
+<a class="jxr_linenumber" name="L282" href="#L282">282</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L283" href="#L283">283</a>   CHEMOFORM(<span class="jxr_string">"chemoform"</span>),
+<a class="jxr_linenumber" name="L284" href="#L284">284</a> 
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L286" href="#L286">286</a> <em class="jxr_javadoccomment">   * Microbial infrasubspecific rank.</em>
+<a class="jxr_linenumber" name="L287" href="#L287">287</a> <em class="jxr_javadoccomment">   * A parasitic, symbiotic, or commensal microorganism distinguished primarily by adaptation to a particular host or habitat.</em>
+<a class="jxr_linenumber" name="L288" href="#L288">288</a> <em class="jxr_javadoccomment">   * Named preferably by the scientific name of the host in the genitive.</em>
+<a class="jxr_linenumber" name="L289" href="#L289">289</a> <em class="jxr_javadoccomment">   * See &lt;a href="<a href="http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly" target="alexandria_uri">http://www.ncbi.nlm.nih.gov/books/NBK8812/table/A844/?report=objectonly</a>"&gt;Bacteriological Code&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L290" href="#L290">290</a> <em class="jxr_javadoccomment">   * For example Puccinia graminis f. sp. avenae</em>
 <a class="jxr_linenumber" name="L291" href="#L291">291</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L292" href="#L292">292</a>   STRAIN(<span class="jxr_string">"strain"</span>),
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>   FORMA_SPECIALIS(<span class="jxr_string">"f.sp."</span>),
 <a class="jxr_linenumber" name="L293" href="#L293">293</a> 
-<a class="jxr_linenumber" name="L294" href="#L294">294</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L295" href="#L295">295</a> <em class="jxr_javadoccomment">   * Any other rank we cannot map to this enumeration</em>
-<a class="jxr_linenumber" name="L296" href="#L296">296</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L297" href="#L297">297</a>   OTHER,
-<a class="jxr_linenumber" name="L298" href="#L298">298</a> 
-<a class="jxr_linenumber" name="L299" href="#L299">299</a>   UNRANKED;
+<a class="jxr_linenumber" name="L294" href="#L294">294</a>   CULTIVAR(<span class="jxr_string">"cv."</span>),
+<a class="jxr_linenumber" name="L295" href="#L295">295</a> 
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L297" href="#L297">297</a> <em class="jxr_javadoccomment">   * A microbial strain.</em>
+<a class="jxr_linenumber" name="L298" href="#L298">298</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>   STRAIN(<span class="jxr_string">"strain"</span>),
 <a class="jxr_linenumber" name="L300" href="#L300">300</a> 
 <a class="jxr_linenumber" name="L301" href="#L301">301</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L302" href="#L302">302</a> <em class="jxr_javadoccomment">   * All main Linnean ranks ordered.</em>
+<a class="jxr_linenumber" name="L302" href="#L302">302</a> <em class="jxr_javadoccomment">   * Any other rank we cannot map to this enumeration</em>
 <a class="jxr_linenumber" name="L303" href="#L303">303</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L304" href="#L304">304</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> List&lt;Rank&gt; LINNEAN_RANKS = Collections.unmodifiableList(
-<a class="jxr_linenumber" name="L305" href="#L305">305</a>     Arrays.asList(
-<a class="jxr_linenumber" name="L306" href="#L306">306</a>       KINGDOM,
-<a class="jxr_linenumber" name="L307" href="#L307">307</a>       PHYLUM,
-<a class="jxr_linenumber" name="L308" href="#L308">308</a>       CLASS,
-<a class="jxr_linenumber" name="L309" href="#L309">309</a>       ORDER,
-<a class="jxr_linenumber" name="L310" href="#L310">310</a>       FAMILY,
-<a class="jxr_linenumber" name="L311" href="#L311">311</a>       GENUS,
-<a class="jxr_linenumber" name="L312" href="#L312">312</a>       SPECIES
-<a class="jxr_linenumber" name="L313" href="#L313">313</a>     ));
-<a class="jxr_linenumber" name="L314" href="#L314">314</a> 
-<a class="jxr_linenumber" name="L315" href="#L315">315</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L316" href="#L316">316</a> <em class="jxr_javadoccomment">   * An ordered list of all ranks that appear in Darwin Core with their own term.</em>
-<a class="jxr_linenumber" name="L317" href="#L317">317</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L318" href="#L318">318</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> List&lt;Rank&gt; DWC_RANKS = Collections.unmodifiableList(
-<a class="jxr_linenumber" name="L319" href="#L319">319</a>     Arrays.asList(
-<a class="jxr_linenumber" name="L320" href="#L320">320</a>       KINGDOM,
-<a class="jxr_linenumber" name="L321" href="#L321">321</a>       PHYLUM,
-<a class="jxr_linenumber" name="L322" href="#L322">322</a>       CLASS,
-<a class="jxr_linenumber" name="L323" href="#L323">323</a>       ORDER,
-<a class="jxr_linenumber" name="L324" href="#L324">324</a>       FAMILY,
-<a class="jxr_linenumber" name="L325" href="#L325">325</a>       GENUS,
-<a class="jxr_linenumber" name="L326" href="#L326">326</a>       SUBGENUS,
-<a class="jxr_linenumber" name="L327" href="#L327">327</a>       SPECIES
-<a class="jxr_linenumber" name="L328" href="#L328">328</a>     ));
-<a class="jxr_linenumber" name="L329" href="#L329">329</a> 
-<a class="jxr_linenumber" name="L330" href="#L330">330</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L331" href="#L331">331</a> <em class="jxr_javadoccomment">   * A set of ranks which cannot clearly be compared to any other rank as they represent rank "ranges".</em>
-<a class="jxr_linenumber" name="L332" href="#L332">332</a> <em class="jxr_javadoccomment">   * For example a subgeneric rank is anything below genus,</em>
-<a class="jxr_linenumber" name="L333" href="#L333">333</a> <em class="jxr_javadoccomment">   * so one cannot say if its higher or lower than a species for example.</em>
-<a class="jxr_linenumber" name="L334" href="#L334">334</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L335" href="#L335">335</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Set&lt;Rank&gt; UNCOMPARABLE_RANKS = Collections.unmodifiableSet(
-<a class="jxr_linenumber" name="L336" href="#L336">336</a>     <strong class="jxr_keyword">new</strong> HashSet&lt;&gt;(Arrays.asList(
-<a class="jxr_linenumber" name="L337" href="#L337">337</a>       INFRAGENERIC_NAME,
-<a class="jxr_linenumber" name="L338" href="#L338">338</a>       INFRASPECIFIC_NAME,
-<a class="jxr_linenumber" name="L339" href="#L339">339</a>       INFRASUBSPECIFIC_NAME,
-<a class="jxr_linenumber" name="L340" href="#L340">340</a>       OTHER,
-<a class="jxr_linenumber" name="L341" href="#L341">341</a>       UNRANKED
-<a class="jxr_linenumber" name="L342" href="#L342">342</a>     )));
-<a class="jxr_linenumber" name="L343" href="#L343">343</a> 
-<a class="jxr_linenumber" name="L344" href="#L344">344</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Set&lt;Rank&gt; LEGACY_RANKS = Collections.unmodifiableSet(
-<a class="jxr_linenumber" name="L345" href="#L345">345</a>     <strong class="jxr_keyword">new</strong> HashSet&lt;&gt;(Arrays.asList(
-<a class="jxr_linenumber" name="L346" href="#L346">346</a>       MORPH,
-<a class="jxr_linenumber" name="L347" href="#L347">347</a>       ABERRATION,
-<a class="jxr_linenumber" name="L348" href="#L348">348</a>       NATIO,
-<a class="jxr_linenumber" name="L349" href="#L349">349</a>       RACE,
-<a class="jxr_linenumber" name="L350" href="#L350">350</a>       PROLES,
-<a class="jxr_linenumber" name="L351" href="#L351">351</a>       CONVARIETY
-<a class="jxr_linenumber" name="L352" href="#L352">352</a>     )));
-<a class="jxr_linenumber" name="L353" href="#L353">353</a> 
-<a class="jxr_linenumber" name="L354" href="#L354">354</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Map&lt;Rank, NomenclaturalCode&gt; RANK2CODE;
-<a class="jxr_linenumber" name="L355" href="#L355">355</a> 
-<a class="jxr_linenumber" name="L356" href="#L356">356</a>   <strong class="jxr_keyword">static</strong> {
-<a class="jxr_linenumber" name="L357" href="#L357">357</a>     Map&lt;Rank, NomenclaturalCode&gt; rank2code = <strong class="jxr_keyword">new</strong> HashMap&lt;&gt;();
-<a class="jxr_linenumber" name="L358" href="#L358">358</a>     rank2code.put(PARVCLASS, NomenclaturalCode.ZOOLOGICAL);
-<a class="jxr_linenumber" name="L359" href="#L359">359</a>     rank2code.put(MAGNORDER, NomenclaturalCode.ZOOLOGICAL);
-<a class="jxr_linenumber" name="L360" href="#L360">360</a>     rank2code.put(GRANDORDER, NomenclaturalCode.ZOOLOGICAL);
-<a class="jxr_linenumber" name="L361" href="#L361">361</a>     rank2code.put(PARVORDER, NomenclaturalCode.ZOOLOGICAL);
-<a class="jxr_linenumber" name="L362" href="#L362">362</a>     rank2code.put(SUPERLEGION, NomenclaturalCode.ZOOLOGICAL);
-<a class="jxr_linenumber" name="L363" href="#L363">363</a>     rank2code.put(LEGION, NomenclaturalCode.ZOOLOGICAL);
-<a class="jxr_linenumber" name="L364" href="#L364">364</a>     rank2code.put(SUBLEGION, NomenclaturalCode.ZOOLOGICAL);
-<a class="jxr_linenumber" name="L365" href="#L365">365</a>     rank2code.put(INFRALEGION, NomenclaturalCode.ZOOLOGICAL);
-<a class="jxr_linenumber" name="L366" href="#L366">366</a>     rank2code.put(SUPERCOHORT, NomenclaturalCode.ZOOLOGICAL);
-<a class="jxr_linenumber" name="L367" href="#L367">367</a>     rank2code.put(COHORT, NomenclaturalCode.ZOOLOGICAL);
-<a class="jxr_linenumber" name="L368" href="#L368">368</a>     rank2code.put(SUBCOHORT, NomenclaturalCode.ZOOLOGICAL);
-<a class="jxr_linenumber" name="L369" href="#L369">369</a>     rank2code.put(INFRACOHORT, NomenclaturalCode.ZOOLOGICAL);
-<a class="jxr_linenumber" name="L370" href="#L370">370</a>     rank2code.put(MORPH, NomenclaturalCode.ZOOLOGICAL);
-<a class="jxr_linenumber" name="L371" href="#L371">371</a>     rank2code.put(ABERRATION, NomenclaturalCode.ZOOLOGICAL);
-<a class="jxr_linenumber" name="L372" href="#L372">372</a>     rank2code.put(NATIO, NomenclaturalCode.ZOOLOGICAL);
-<a class="jxr_linenumber" name="L373" href="#L373">373</a> 
-<a class="jxr_linenumber" name="L374" href="#L374">374</a>     rank2code.put(RACE, NomenclaturalCode.BOTANICAL);
-<a class="jxr_linenumber" name="L375" href="#L375">375</a>     rank2code.put(PROLES, NomenclaturalCode.BOTANICAL);
-<a class="jxr_linenumber" name="L376" href="#L376">376</a>     rank2code.put(SECTION, NomenclaturalCode.BOTANICAL);
-<a class="jxr_linenumber" name="L377" href="#L377">377</a>     rank2code.put(SUBSECTION, NomenclaturalCode.BOTANICAL);
-<a class="jxr_linenumber" name="L378" href="#L378">378</a>     rank2code.put(SERIES, NomenclaturalCode.BOTANICAL);
-<a class="jxr_linenumber" name="L379" href="#L379">379</a>     rank2code.put(SUBSERIES, NomenclaturalCode.BOTANICAL);
+<a class="jxr_linenumber" name="L304" href="#L304">304</a>   OTHER,
+<a class="jxr_linenumber" name="L305" href="#L305">305</a> 
+<a class="jxr_linenumber" name="L306" href="#L306">306</a>   UNRANKED;
+<a class="jxr_linenumber" name="L307" href="#L307">307</a> 
+<a class="jxr_linenumber" name="L308" href="#L308">308</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L309" href="#L309">309</a> <em class="jxr_javadoccomment">   * All main Linnean ranks ordered.</em>
+<a class="jxr_linenumber" name="L310" href="#L310">310</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L311" href="#L311">311</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> List&lt;Rank&gt; LINNEAN_RANKS = Collections.unmodifiableList(
+<a class="jxr_linenumber" name="L312" href="#L312">312</a>     Arrays.asList(
+<a class="jxr_linenumber" name="L313" href="#L313">313</a>       KINGDOM,
+<a class="jxr_linenumber" name="L314" href="#L314">314</a>       PHYLUM,
+<a class="jxr_linenumber" name="L315" href="#L315">315</a>       CLASS,
+<a class="jxr_linenumber" name="L316" href="#L316">316</a>       ORDER,
+<a class="jxr_linenumber" name="L317" href="#L317">317</a>       FAMILY,
+<a class="jxr_linenumber" name="L318" href="#L318">318</a>       GENUS,
+<a class="jxr_linenumber" name="L319" href="#L319">319</a>       SPECIES
+<a class="jxr_linenumber" name="L320" href="#L320">320</a>     ));
+<a class="jxr_linenumber" name="L321" href="#L321">321</a> 
+<a class="jxr_linenumber" name="L322" href="#L322">322</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L323" href="#L323">323</a> <em class="jxr_javadoccomment">   * An ordered list of all ranks that appear in Darwin Core with their own term.</em>
+<a class="jxr_linenumber" name="L324" href="#L324">324</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L325" href="#L325">325</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> List&lt;Rank&gt; DWC_RANKS = Collections.unmodifiableList(
+<a class="jxr_linenumber" name="L326" href="#L326">326</a>     Arrays.asList(
+<a class="jxr_linenumber" name="L327" href="#L327">327</a>       KINGDOM,
+<a class="jxr_linenumber" name="L328" href="#L328">328</a>       PHYLUM,
+<a class="jxr_linenumber" name="L329" href="#L329">329</a>       CLASS,
+<a class="jxr_linenumber" name="L330" href="#L330">330</a>       ORDER,
+<a class="jxr_linenumber" name="L331" href="#L331">331</a>       FAMILY,
+<a class="jxr_linenumber" name="L332" href="#L332">332</a>       GENUS,
+<a class="jxr_linenumber" name="L333" href="#L333">333</a>       SUBGENUS,
+<a class="jxr_linenumber" name="L334" href="#L334">334</a>       SPECIES
+<a class="jxr_linenumber" name="L335" href="#L335">335</a>     ));
+<a class="jxr_linenumber" name="L336" href="#L336">336</a> 
+<a class="jxr_linenumber" name="L337" href="#L337">337</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L338" href="#L338">338</a> <em class="jxr_javadoccomment">   * A set of ranks which cannot clearly be compared to any other rank as they represent rank "ranges".</em>
+<a class="jxr_linenumber" name="L339" href="#L339">339</a> <em class="jxr_javadoccomment">   * For example a subgeneric rank is anything below genus,</em>
+<a class="jxr_linenumber" name="L340" href="#L340">340</a> <em class="jxr_javadoccomment">   * so one cannot say if its higher or lower than a species for example.</em>
+<a class="jxr_linenumber" name="L341" href="#L341">341</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L342" href="#L342">342</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Set&lt;Rank&gt; UNCOMPARABLE_RANKS = Collections.unmodifiableSet(
+<a class="jxr_linenumber" name="L343" href="#L343">343</a>     <strong class="jxr_keyword">new</strong> HashSet&lt;&gt;(Arrays.asList(
+<a class="jxr_linenumber" name="L344" href="#L344">344</a>       INFRAGENERIC_NAME,
+<a class="jxr_linenumber" name="L345" href="#L345">345</a>       INFRASPECIFIC_NAME,
+<a class="jxr_linenumber" name="L346" href="#L346">346</a>       INFRASUBSPECIFIC_NAME,
+<a class="jxr_linenumber" name="L347" href="#L347">347</a>       OTHER,
+<a class="jxr_linenumber" name="L348" href="#L348">348</a>       UNRANKED
+<a class="jxr_linenumber" name="L349" href="#L349">349</a>     )));
+<a class="jxr_linenumber" name="L350" href="#L350">350</a> 
+<a class="jxr_linenumber" name="L351" href="#L351">351</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Set&lt;Rank&gt; LEGACY_RANKS = Collections.unmodifiableSet(
+<a class="jxr_linenumber" name="L352" href="#L352">352</a>     <strong class="jxr_keyword">new</strong> HashSet&lt;&gt;(Arrays.asList(
+<a class="jxr_linenumber" name="L353" href="#L353">353</a>       MORPH,
+<a class="jxr_linenumber" name="L354" href="#L354">354</a>       ABERRATION,
+<a class="jxr_linenumber" name="L355" href="#L355">355</a>       NATIO,
+<a class="jxr_linenumber" name="L356" href="#L356">356</a>       RACE,
+<a class="jxr_linenumber" name="L357" href="#L357">357</a>       PROLES,
+<a class="jxr_linenumber" name="L358" href="#L358">358</a>       CONVARIETY
+<a class="jxr_linenumber" name="L359" href="#L359">359</a>     )));
+<a class="jxr_linenumber" name="L360" href="#L360">360</a> 
+<a class="jxr_linenumber" name="L361" href="#L361">361</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Map&lt;Rank, NomenclaturalCode&gt; RANK2CODE;
+<a class="jxr_linenumber" name="L362" href="#L362">362</a> 
+<a class="jxr_linenumber" name="L363" href="#L363">363</a>   <strong class="jxr_keyword">static</strong> {
+<a class="jxr_linenumber" name="L364" href="#L364">364</a>     Map&lt;Rank, NomenclaturalCode&gt; rank2code = <strong class="jxr_keyword">new</strong> HashMap&lt;&gt;();
+<a class="jxr_linenumber" name="L365" href="#L365">365</a>     rank2code.put(PARVCLASS, NomenclaturalCode.ZOOLOGICAL);
+<a class="jxr_linenumber" name="L366" href="#L366">366</a>     rank2code.put(MAGNORDER, NomenclaturalCode.ZOOLOGICAL);
+<a class="jxr_linenumber" name="L367" href="#L367">367</a>     rank2code.put(GRANDORDER, NomenclaturalCode.ZOOLOGICAL);
+<a class="jxr_linenumber" name="L368" href="#L368">368</a>     rank2code.put(PARVORDER, NomenclaturalCode.ZOOLOGICAL);
+<a class="jxr_linenumber" name="L369" href="#L369">369</a>     rank2code.put(SUPERLEGION, NomenclaturalCode.ZOOLOGICAL);
+<a class="jxr_linenumber" name="L370" href="#L370">370</a>     rank2code.put(LEGION, NomenclaturalCode.ZOOLOGICAL);
+<a class="jxr_linenumber" name="L371" href="#L371">371</a>     rank2code.put(SUBLEGION, NomenclaturalCode.ZOOLOGICAL);
+<a class="jxr_linenumber" name="L372" href="#L372">372</a>     rank2code.put(INFRALEGION, NomenclaturalCode.ZOOLOGICAL);
+<a class="jxr_linenumber" name="L373" href="#L373">373</a>     rank2code.put(SUPERCOHORT, NomenclaturalCode.ZOOLOGICAL);
+<a class="jxr_linenumber" name="L374" href="#L374">374</a>     rank2code.put(COHORT, NomenclaturalCode.ZOOLOGICAL);
+<a class="jxr_linenumber" name="L375" href="#L375">375</a>     rank2code.put(SUBCOHORT, NomenclaturalCode.ZOOLOGICAL);
+<a class="jxr_linenumber" name="L376" href="#L376">376</a>     rank2code.put(INFRACOHORT, NomenclaturalCode.ZOOLOGICAL);
+<a class="jxr_linenumber" name="L377" href="#L377">377</a>     rank2code.put(MORPH, NomenclaturalCode.ZOOLOGICAL);
+<a class="jxr_linenumber" name="L378" href="#L378">378</a>     rank2code.put(ABERRATION, NomenclaturalCode.ZOOLOGICAL);
+<a class="jxr_linenumber" name="L379" href="#L379">379</a>     rank2code.put(NATIO, NomenclaturalCode.ZOOLOGICAL);
 <a class="jxr_linenumber" name="L380" href="#L380">380</a> 
-<a class="jxr_linenumber" name="L381" href="#L381">381</a>     rank2code.put(CULTIVAR, NomenclaturalCode.CULTIVARS);
-<a class="jxr_linenumber" name="L382" href="#L382">382</a>     rank2code.put(CULTIVAR_GROUP, NomenclaturalCode.CULTIVARS);
-<a class="jxr_linenumber" name="L383" href="#L383">383</a>     rank2code.put(CONVARIETY, NomenclaturalCode.CULTIVARS);
-<a class="jxr_linenumber" name="L384" href="#L384">384</a>     rank2code.put(GREX, NomenclaturalCode.CULTIVARS);
-<a class="jxr_linenumber" name="L385" href="#L385">385</a> 
-<a class="jxr_linenumber" name="L386" href="#L386">386</a>     rank2code.put(PATHOVAR, NomenclaturalCode.BACTERIAL);
-<a class="jxr_linenumber" name="L387" href="#L387">387</a>     rank2code.put(BIOVAR, NomenclaturalCode.BACTERIAL);
-<a class="jxr_linenumber" name="L388" href="#L388">388</a>     rank2code.put(CHEMOVAR, NomenclaturalCode.BACTERIAL);
-<a class="jxr_linenumber" name="L389" href="#L389">389</a>     rank2code.put(MORPHOVAR, NomenclaturalCode.BACTERIAL);
-<a class="jxr_linenumber" name="L390" href="#L390">390</a>     rank2code.put(PHAGOVAR, NomenclaturalCode.BACTERIAL);
-<a class="jxr_linenumber" name="L391" href="#L391">391</a>     rank2code.put(SEROVAR, NomenclaturalCode.BACTERIAL);
-<a class="jxr_linenumber" name="L392" href="#L392">392</a>     rank2code.put(CHEMOFORM, NomenclaturalCode.BACTERIAL);
-<a class="jxr_linenumber" name="L393" href="#L393">393</a>     rank2code.put(FORMA_SPECIALIS, NomenclaturalCode.BACTERIAL);
-<a class="jxr_linenumber" name="L394" href="#L394">394</a> 
-<a class="jxr_linenumber" name="L395" href="#L395">395</a>     RANK2CODE = Collections.unmodifiableMap(rank2code);
-<a class="jxr_linenumber" name="L396" href="#L396">396</a>   }
-<a class="jxr_linenumber" name="L397" href="#L397">397</a> 
-<a class="jxr_linenumber" name="L398" href="#L398">398</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> String marker;
-<a class="jxr_linenumber" name="L399" href="#L399">399</a> 
-<a class="jxr_linenumber" name="L400" href="#L400">400</a>   <a name="Rank" href="../../../../org/gbif/api/vocabulary/Rank.html#Rank">Rank</a>() {
-<a class="jxr_linenumber" name="L401" href="#L401">401</a>     <strong class="jxr_keyword">this</strong>(<strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L402" href="#L402">402</a>   }
-<a class="jxr_linenumber" name="L403" href="#L403">403</a> 
-<a class="jxr_linenumber" name="L404" href="#L404">404</a>   <a name="Rank" href="../../../../org/gbif/api/vocabulary/Rank.html#Rank">Rank</a>(String marker) {
-<a class="jxr_linenumber" name="L405" href="#L405">405</a>     <strong class="jxr_keyword">this</strong>.marker = marker;
-<a class="jxr_linenumber" name="L406" href="#L406">406</a>   }
-<a class="jxr_linenumber" name="L407" href="#L407">407</a> 
-<a class="jxr_linenumber" name="L408" href="#L408">408</a>   <strong class="jxr_keyword">public</strong> String getMarker() {
-<a class="jxr_linenumber" name="L409" href="#L409">409</a>     <strong class="jxr_keyword">return</strong> marker;
-<a class="jxr_linenumber" name="L410" href="#L410">410</a>   }
-<a class="jxr_linenumber" name="L411" href="#L411">411</a> 
-<a class="jxr_linenumber" name="L412" href="#L412">412</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L413" href="#L413">413</a> <em class="jxr_javadoccomment">   * @return true for infraspecific ranks.</em>
-<a class="jxr_linenumber" name="L414" href="#L414">414</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L415" href="#L415">415</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isInfraspecific() {
-<a class="jxr_linenumber" name="L416" href="#L416">416</a>     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong> != SPECIES &amp;&amp; isSpeciesOrBelow();
+<a class="jxr_linenumber" name="L381" href="#L381">381</a>     rank2code.put(RACE, NomenclaturalCode.BOTANICAL);
+<a class="jxr_linenumber" name="L382" href="#L382">382</a>     rank2code.put(PROLES, NomenclaturalCode.BOTANICAL);
+<a class="jxr_linenumber" name="L383" href="#L383">383</a>     rank2code.put(SECTION, NomenclaturalCode.BOTANICAL);
+<a class="jxr_linenumber" name="L384" href="#L384">384</a>     rank2code.put(SUBSECTION, NomenclaturalCode.BOTANICAL);
+<a class="jxr_linenumber" name="L385" href="#L385">385</a>     rank2code.put(SERIES, NomenclaturalCode.BOTANICAL);
+<a class="jxr_linenumber" name="L386" href="#L386">386</a>     rank2code.put(SUBSERIES, NomenclaturalCode.BOTANICAL);
+<a class="jxr_linenumber" name="L387" href="#L387">387</a> 
+<a class="jxr_linenumber" name="L388" href="#L388">388</a>     rank2code.put(CULTIVAR, NomenclaturalCode.CULTIVARS);
+<a class="jxr_linenumber" name="L389" href="#L389">389</a>     rank2code.put(CULTIVAR_GROUP, NomenclaturalCode.CULTIVARS);
+<a class="jxr_linenumber" name="L390" href="#L390">390</a>     rank2code.put(CONVARIETY, NomenclaturalCode.CULTIVARS);
+<a class="jxr_linenumber" name="L391" href="#L391">391</a>     rank2code.put(GREX, NomenclaturalCode.CULTIVARS);
+<a class="jxr_linenumber" name="L392" href="#L392">392</a> 
+<a class="jxr_linenumber" name="L393" href="#L393">393</a>     rank2code.put(PATHOVAR, NomenclaturalCode.BACTERIAL);
+<a class="jxr_linenumber" name="L394" href="#L394">394</a>     rank2code.put(BIOVAR, NomenclaturalCode.BACTERIAL);
+<a class="jxr_linenumber" name="L395" href="#L395">395</a>     rank2code.put(CHEMOVAR, NomenclaturalCode.BACTERIAL);
+<a class="jxr_linenumber" name="L396" href="#L396">396</a>     rank2code.put(MORPHOVAR, NomenclaturalCode.BACTERIAL);
+<a class="jxr_linenumber" name="L397" href="#L397">397</a>     rank2code.put(PHAGOVAR, NomenclaturalCode.BACTERIAL);
+<a class="jxr_linenumber" name="L398" href="#L398">398</a>     rank2code.put(SEROVAR, NomenclaturalCode.BACTERIAL);
+<a class="jxr_linenumber" name="L399" href="#L399">399</a>     rank2code.put(CHEMOFORM, NomenclaturalCode.BACTERIAL);
+<a class="jxr_linenumber" name="L400" href="#L400">400</a>     rank2code.put(FORMA_SPECIALIS, NomenclaturalCode.BACTERIAL);
+<a class="jxr_linenumber" name="L401" href="#L401">401</a> 
+<a class="jxr_linenumber" name="L402" href="#L402">402</a>     RANK2CODE = Collections.unmodifiableMap(rank2code);
+<a class="jxr_linenumber" name="L403" href="#L403">403</a>   }
+<a class="jxr_linenumber" name="L404" href="#L404">404</a> 
+<a class="jxr_linenumber" name="L405" href="#L405">405</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> String marker;
+<a class="jxr_linenumber" name="L406" href="#L406">406</a> 
+<a class="jxr_linenumber" name="L407" href="#L407">407</a>   <a name="Rank" href="../../../../org/gbif/api/vocabulary/Rank.html#Rank">Rank</a>() {
+<a class="jxr_linenumber" name="L408" href="#L408">408</a>     <strong class="jxr_keyword">this</strong>(<strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L409" href="#L409">409</a>   }
+<a class="jxr_linenumber" name="L410" href="#L410">410</a> 
+<a class="jxr_linenumber" name="L411" href="#L411">411</a>   <a name="Rank" href="../../../../org/gbif/api/vocabulary/Rank.html#Rank">Rank</a>(String marker) {
+<a class="jxr_linenumber" name="L412" href="#L412">412</a>     <strong class="jxr_keyword">this</strong>.marker = marker;
+<a class="jxr_linenumber" name="L413" href="#L413">413</a>   }
+<a class="jxr_linenumber" name="L414" href="#L414">414</a> 
+<a class="jxr_linenumber" name="L415" href="#L415">415</a>   <strong class="jxr_keyword">public</strong> String getMarker() {
+<a class="jxr_linenumber" name="L416" href="#L416">416</a>     <strong class="jxr_keyword">return</strong> marker;
 <a class="jxr_linenumber" name="L417" href="#L417">417</a>   }
 <a class="jxr_linenumber" name="L418" href="#L418">418</a> 
 <a class="jxr_linenumber" name="L419" href="#L419">419</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L420" href="#L420">420</a> <em class="jxr_javadoccomment">   * @return true for infra subspecific ranks.</em>
+<a class="jxr_linenumber" name="L420" href="#L420">420</a> <em class="jxr_javadoccomment">   * @return true for infraspecific ranks.</em>
 <a class="jxr_linenumber" name="L421" href="#L421">421</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L422" href="#L422">422</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isInfrasubspecific() {
-<a class="jxr_linenumber" name="L423" href="#L423">423</a>     <strong class="jxr_keyword">return</strong> ordinal() &gt; SUBSPECIES.ordinal() &amp;&amp; notOtherOrUnknown();
+<a class="jxr_linenumber" name="L422" href="#L422">422</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isInfraspecific() {
+<a class="jxr_linenumber" name="L423" href="#L423">423</a>     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong> != SPECIES &amp;&amp; isSpeciesOrBelow();
 <a class="jxr_linenumber" name="L424" href="#L424">424</a>   }
 <a class="jxr_linenumber" name="L425" href="#L425">425</a> 
 <a class="jxr_linenumber" name="L426" href="#L426">426</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L427" href="#L427">427</a> <em class="jxr_javadoccomment">   * @return true for rank is below genus. Also incluse species and infraspecific ranks</em>
+<a class="jxr_linenumber" name="L427" href="#L427">427</a> <em class="jxr_javadoccomment">   * @return true for infra subspecific ranks.</em>
 <a class="jxr_linenumber" name="L428" href="#L428">428</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L429" href="#L429">429</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isInfrageneric() {
-<a class="jxr_linenumber" name="L430" href="#L430">430</a>     <strong class="jxr_keyword">return</strong> ordinal() &gt; GENUS.ordinal() &amp;&amp; notOtherOrUnknown();
+<a class="jxr_linenumber" name="L429" href="#L429">429</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isInfrasubspecific() {
+<a class="jxr_linenumber" name="L430" href="#L430">430</a>     <strong class="jxr_keyword">return</strong> ordinal() &gt; SUBSPECIES.ordinal() &amp;&amp; notOtherOrUnknown();
 <a class="jxr_linenumber" name="L431" href="#L431">431</a>   }
 <a class="jxr_linenumber" name="L432" href="#L432">432</a> 
 <a class="jxr_linenumber" name="L433" href="#L433">433</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L434" href="#L434">434</a> <em class="jxr_javadoccomment">   * @return true for real infrageneric ranks with an infragenericEpithet below genus and above species aggregate.</em>
+<a class="jxr_linenumber" name="L434" href="#L434">434</a> <em class="jxr_javadoccomment">   * @return true for rank is below genus. Also incluse species and infraspecific ranks</em>
 <a class="jxr_linenumber" name="L435" href="#L435">435</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L436" href="#L436">436</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isInfragenericStrictly() {
-<a class="jxr_linenumber" name="L437" href="#L437">437</a>     <strong class="jxr_keyword">return</strong> isInfrageneric() &amp;&amp; ordinal() &lt; SPECIES_AGGREGATE.ordinal();
+<a class="jxr_linenumber" name="L436" href="#L436">436</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isInfrageneric() {
+<a class="jxr_linenumber" name="L437" href="#L437">437</a>     <strong class="jxr_keyword">return</strong> ordinal() &gt; GENUS.ordinal() &amp;&amp; notOtherOrUnknown();
 <a class="jxr_linenumber" name="L438" href="#L438">438</a>   }
 <a class="jxr_linenumber" name="L439" href="#L439">439</a> 
 <a class="jxr_linenumber" name="L440" href="#L440">440</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L441" href="#L441">441</a> <em class="jxr_javadoccomment">   * True for all mayor Linnéan ranks, ie kingdom,phylum,class,order,family,genus and species.</em>
+<a class="jxr_linenumber" name="L441" href="#L441">441</a> <em class="jxr_javadoccomment">   * @return true for real infrageneric ranks with an infragenericEpithet below genus and above species aggregate.</em>
 <a class="jxr_linenumber" name="L442" href="#L442">442</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L443" href="#L443">443</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isLinnean() {
-<a class="jxr_linenumber" name="L444" href="#L444">444</a>     <strong class="jxr_keyword">for</strong> (<a name="Rank" href="../../../../org/gbif/api/vocabulary/Rank.html#Rank">Rank</a> r : LINNEAN_RANKS) {
-<a class="jxr_linenumber" name="L445" href="#L445">445</a>       <strong class="jxr_keyword">if</strong> (r == <strong class="jxr_keyword">this</strong>) {
-<a class="jxr_linenumber" name="L446" href="#L446">446</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="L447" href="#L447">447</a>       }
-<a class="jxr_linenumber" name="L448" href="#L448">448</a>     }
-<a class="jxr_linenumber" name="L449" href="#L449">449</a>     <strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="L450" href="#L450">450</a>   }
-<a class="jxr_linenumber" name="L451" href="#L451">451</a> 
-<a class="jxr_linenumber" name="L452" href="#L452">452</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isSpeciesOrBelow() {
-<a class="jxr_linenumber" name="L453" href="#L453">453</a>     <strong class="jxr_keyword">return</strong> ordinal() &gt;= SPECIES.ordinal() &amp;&amp; notOtherOrUnknown();
-<a class="jxr_linenumber" name="L454" href="#L454">454</a>   }
-<a class="jxr_linenumber" name="L455" href="#L455">455</a> 
-<a class="jxr_linenumber" name="L456" href="#L456">456</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isSpeciesAggregateOrBelow() {
-<a class="jxr_linenumber" name="L457" href="#L457">457</a>     <strong class="jxr_keyword">return</strong> ordinal() &gt;= SPECIES_AGGREGATE.ordinal() &amp;&amp; notOtherOrUnknown();
-<a class="jxr_linenumber" name="L458" href="#L458">458</a>   }
-<a class="jxr_linenumber" name="L459" href="#L459">459</a> 
-<a class="jxr_linenumber" name="L460" href="#L460">460</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> notOtherOrUnknown() {
-<a class="jxr_linenumber" name="L461" href="#L461">461</a>     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong> != OTHER &amp;&amp; <strong class="jxr_keyword">this</strong> != UNRANKED;
-<a class="jxr_linenumber" name="L462" href="#L462">462</a>   }
-<a class="jxr_linenumber" name="L463" href="#L463">463</a> 
-<a class="jxr_linenumber" name="L464" href="#L464">464</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L465" href="#L465">465</a> <em class="jxr_javadoccomment">   * @return true if the rank is above genus.</em>
-<a class="jxr_linenumber" name="L466" href="#L466">466</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L467" href="#L467">467</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isSuprageneric() {
-<a class="jxr_linenumber" name="L468" href="#L468">468</a>     <strong class="jxr_keyword">return</strong> ordinal() &lt; GENUS.ordinal();
+<a class="jxr_linenumber" name="L443" href="#L443">443</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isInfragenericStrictly() {
+<a class="jxr_linenumber" name="L444" href="#L444">444</a>     <strong class="jxr_keyword">return</strong> isInfrageneric() &amp;&amp; ordinal() &lt; SPECIES_AGGREGATE.ordinal();
+<a class="jxr_linenumber" name="L445" href="#L445">445</a>   }
+<a class="jxr_linenumber" name="L446" href="#L446">446</a> 
+<a class="jxr_linenumber" name="L447" href="#L447">447</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L448" href="#L448">448</a> <em class="jxr_javadoccomment">   * True for all mayor Linnéan ranks, ie kingdom,phylum,class,order,family,genus and species.</em>
+<a class="jxr_linenumber" name="L449" href="#L449">449</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L450" href="#L450">450</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isLinnean() {
+<a class="jxr_linenumber" name="L451" href="#L451">451</a>     <strong class="jxr_keyword">for</strong> (<a name="Rank" href="../../../../org/gbif/api/vocabulary/Rank.html#Rank">Rank</a> r : LINNEAN_RANKS) {
+<a class="jxr_linenumber" name="L452" href="#L452">452</a>       <strong class="jxr_keyword">if</strong> (r == <strong class="jxr_keyword">this</strong>) {
+<a class="jxr_linenumber" name="L453" href="#L453">453</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L454" href="#L454">454</a>       }
+<a class="jxr_linenumber" name="L455" href="#L455">455</a>     }
+<a class="jxr_linenumber" name="L456" href="#L456">456</a>     <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="L457" href="#L457">457</a>   }
+<a class="jxr_linenumber" name="L458" href="#L458">458</a> 
+<a class="jxr_linenumber" name="L459" href="#L459">459</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isSpeciesOrBelow() {
+<a class="jxr_linenumber" name="L460" href="#L460">460</a>     <strong class="jxr_keyword">return</strong> ordinal() &gt;= SPECIES.ordinal() &amp;&amp; notOtherOrUnknown();
+<a class="jxr_linenumber" name="L461" href="#L461">461</a>   }
+<a class="jxr_linenumber" name="L462" href="#L462">462</a> 
+<a class="jxr_linenumber" name="L463" href="#L463">463</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isSpeciesAggregateOrBelow() {
+<a class="jxr_linenumber" name="L464" href="#L464">464</a>     <strong class="jxr_keyword">return</strong> ordinal() &gt;= SPECIES_AGGREGATE.ordinal() &amp;&amp; notOtherOrUnknown();
+<a class="jxr_linenumber" name="L465" href="#L465">465</a>   }
+<a class="jxr_linenumber" name="L466" href="#L466">466</a> 
+<a class="jxr_linenumber" name="L467" href="#L467">467</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> notOtherOrUnknown() {
+<a class="jxr_linenumber" name="L468" href="#L468">468</a>     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong> != OTHER &amp;&amp; <strong class="jxr_keyword">this</strong> != UNRANKED;
 <a class="jxr_linenumber" name="L469" href="#L469">469</a>   }
 <a class="jxr_linenumber" name="L470" href="#L470">470</a> 
 <a class="jxr_linenumber" name="L471" href="#L471">471</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L472" href="#L472">472</a> <em class="jxr_javadoccomment">   * @return true if the rank is above rank species.</em>
+<a class="jxr_linenumber" name="L472" href="#L472">472</a> <em class="jxr_javadoccomment">   * @return true if the rank is above genus.</em>
 <a class="jxr_linenumber" name="L473" href="#L473">473</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L474" href="#L474">474</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isSupraspecific() {
-<a class="jxr_linenumber" name="L475" href="#L475">475</a>     <strong class="jxr_keyword">return</strong> ordinal() &lt; SPECIES.ordinal();
+<a class="jxr_linenumber" name="L474" href="#L474">474</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isSuprageneric() {
+<a class="jxr_linenumber" name="L475" href="#L475">475</a>     <strong class="jxr_keyword">return</strong> ordinal() &lt; GENUS.ordinal();
 <a class="jxr_linenumber" name="L476" href="#L476">476</a>   }
 <a class="jxr_linenumber" name="L477" href="#L477">477</a> 
 <a class="jxr_linenumber" name="L478" href="#L478">478</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L479" href="#L479">479</a> <em class="jxr_javadoccomment">   * True for names of informal ranks that represent a range of ranks really and therefore cannot safely be compared to</em>
-<a class="jxr_linenumber" name="L480" href="#L480">480</a> <em class="jxr_javadoccomment">   * other ranks in all cases.</em>
-<a class="jxr_linenumber" name="L481" href="#L481">481</a> <em class="jxr_javadoccomment">   * Example ranks are INFRASPECIFIC_NAME or INFRAGENERIC_NAME</em>
-<a class="jxr_linenumber" name="L482" href="#L482">482</a> <em class="jxr_javadoccomment">   *</em>
-<a class="jxr_linenumber" name="L483" href="#L483">483</a> <em class="jxr_javadoccomment">   * @return true if uncomparable</em>
-<a class="jxr_linenumber" name="L484" href="#L484">484</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L485" href="#L485">485</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isUncomparable() {
-<a class="jxr_linenumber" name="L486" href="#L486">486</a>     <strong class="jxr_keyword">return</strong> UNCOMPARABLE_RANKS.contains(<strong class="jxr_keyword">this</strong>);
-<a class="jxr_linenumber" name="L487" href="#L487">487</a>   }
-<a class="jxr_linenumber" name="L488" href="#L488">488</a> 
-<a class="jxr_linenumber" name="L489" href="#L489">489</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L490" href="#L490">490</a> <em class="jxr_javadoccomment">   * @return true if the rank is considered a legacy rank not used anymore in current nomenclature.</em>
+<a class="jxr_linenumber" name="L479" href="#L479">479</a> <em class="jxr_javadoccomment">   * @return true if the rank is above rank species.</em>
+<a class="jxr_linenumber" name="L480" href="#L480">480</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L481" href="#L481">481</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isSupraspecific() {
+<a class="jxr_linenumber" name="L482" href="#L482">482</a>     <strong class="jxr_keyword">return</strong> ordinal() &lt; SPECIES.ordinal();
+<a class="jxr_linenumber" name="L483" href="#L483">483</a>   }
+<a class="jxr_linenumber" name="L484" href="#L484">484</a> 
+<a class="jxr_linenumber" name="L485" href="#L485">485</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L486" href="#L486">486</a> <em class="jxr_javadoccomment">   * True for names of informal ranks that represent a range of ranks really and therefore cannot safely be compared to</em>
+<a class="jxr_linenumber" name="L487" href="#L487">487</a> <em class="jxr_javadoccomment">   * other ranks in all cases.</em>
+<a class="jxr_linenumber" name="L488" href="#L488">488</a> <em class="jxr_javadoccomment">   * Example ranks are INFRASPECIFIC_NAME or INFRAGENERIC_NAME</em>
+<a class="jxr_linenumber" name="L489" href="#L489">489</a> <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="L490" href="#L490">490</a> <em class="jxr_javadoccomment">   * @return true if uncomparable</em>
 <a class="jxr_linenumber" name="L491" href="#L491">491</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L492" href="#L492">492</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isLegacy() {
-<a class="jxr_linenumber" name="L493" href="#L493">493</a>     <strong class="jxr_keyword">return</strong> LEGACY_RANKS.contains(<strong class="jxr_keyword">this</strong>);
+<a class="jxr_linenumber" name="L492" href="#L492">492</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isUncomparable() {
+<a class="jxr_linenumber" name="L493" href="#L493">493</a>     <strong class="jxr_keyword">return</strong> UNCOMPARABLE_RANKS.contains(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L494" href="#L494">494</a>   }
 <a class="jxr_linenumber" name="L495" href="#L495">495</a> 
 <a class="jxr_linenumber" name="L496" href="#L496">496</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L497" href="#L497">497</a> <em class="jxr_javadoccomment">   * @return the nomenclatural code if the rank is restricted to just one code or null otherwise</em>
+<a class="jxr_linenumber" name="L497" href="#L497">497</a> <em class="jxr_javadoccomment">   * @return true if the rank is considered a legacy rank not used anymore in current nomenclature.</em>
 <a class="jxr_linenumber" name="L498" href="#L498">498</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L499" href="#L499">499</a>   <strong class="jxr_keyword">public</strong> <a name="NomenclaturalCode" href="../../../../org/gbif/api/vocabulary/NomenclaturalCode.html#NomenclaturalCode">NomenclaturalCode</a> isRestrictedToCode() {
-<a class="jxr_linenumber" name="L500" href="#L500">500</a>     <strong class="jxr_keyword">return</strong> RANK2CODE.get(<strong class="jxr_keyword">this</strong>);
+<a class="jxr_linenumber" name="L499" href="#L499">499</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isLegacy() {
+<a class="jxr_linenumber" name="L500" href="#L500">500</a>     <strong class="jxr_keyword">return</strong> LEGACY_RANKS.contains(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L501" href="#L501">501</a>   }
 <a class="jxr_linenumber" name="L502" href="#L502">502</a> 
 <a class="jxr_linenumber" name="L503" href="#L503">503</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L504" href="#L504">504</a> <em class="jxr_javadoccomment">   * @return true if this rank is higher than the given other</em>
+<a class="jxr_linenumber" name="L504" href="#L504">504</a> <em class="jxr_javadoccomment">   * @return the nomenclatural code if the rank is restricted to just one code or null otherwise</em>
 <a class="jxr_linenumber" name="L505" href="#L505">505</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L506" href="#L506">506</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> higherThan(<a name="Rank" href="../../../../org/gbif/api/vocabulary/Rank.html#Rank">Rank</a> other) {
-<a class="jxr_linenumber" name="L507" href="#L507">507</a>     <strong class="jxr_keyword">return</strong> ordinal() &lt; other.ordinal();
+<a class="jxr_linenumber" name="L506" href="#L506">506</a>   <strong class="jxr_keyword">public</strong> <a name="NomenclaturalCode" href="../../../../org/gbif/api/vocabulary/NomenclaturalCode.html#NomenclaturalCode">NomenclaturalCode</a> isRestrictedToCode() {
+<a class="jxr_linenumber" name="L507" href="#L507">507</a>     <strong class="jxr_keyword">return</strong> RANK2CODE.get(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="L508" href="#L508">508</a>   }
-<a class="jxr_linenumber" name="L509" href="#L509">509</a> }
+<a class="jxr_linenumber" name="L509" href="#L509">509</a> 
+<a class="jxr_linenumber" name="L510" href="#L510">510</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L511" href="#L511">511</a> <em class="jxr_javadoccomment">   * @return true if this rank is higher than the given other</em>
+<a class="jxr_linenumber" name="L512" href="#L512">512</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L513" href="#L513">513</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> higherThan(<a name="Rank" href="../../../../org/gbif/api/vocabulary/Rank.html#Rank">Rank</a> other) {
+<a class="jxr_linenumber" name="L514" href="#L514">514</a>     <strong class="jxr_keyword">return</strong> ordinal() &lt; other.ordinal();
+<a class="jxr_linenumber" name="L515" href="#L515">515</a>   }
+<a class="jxr_linenumber" name="L516" href="#L516">516</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2023 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>

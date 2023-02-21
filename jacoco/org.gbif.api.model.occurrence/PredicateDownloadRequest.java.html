@@ -13,9 +13,6 @@
  */
 package org.gbif.api.model.occurrence;
 
-import io.swagger.v3.oas.annotations.Parameter;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.vocabulary.Extension;
@@ -31,6 +28,8 @@ import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * An occurrence download request whose filters are based on predicates ( see {@link Predicate}).
  */
@@ -40,16 +39,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class PredicateDownloadRequest extends DownloadRequest {
 
   //Default download format.
-<span class="fc" id="L43">  private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.SIMPLE_CSV;</span>
+<span class="fc" id="L42">  private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.SIMPLE_CSV;</span>
 
   @Schema(
     description = &quot;A predicate defining the filters to apply to the download.&quot;
   )
   private Predicate predicate;
 
-<span class="nc" id="L50">  public PredicateDownloadRequest() {</span>
+<span class="nc" id="L49">  public PredicateDownloadRequest() {</span>
 
-<span class="nc" id="L52">  }</span>
+<span class="nc" id="L51">  }</span>
 
   /**
    * Full constructor. Used to create instances using JSON serialization.
@@ -63,9 +62,9 @@ public class PredicateDownloadRequest extends DownloadRequest {
     @JsonProperty(&quot;format&quot;) @Nullable DownloadFormat format,
     @JsonProperty(&quot;type&quot;) @Nullable DownloadType type,
     @JsonProperty(&quot;verbatimExtensions&quot;) @Nullable Set&lt;Extension&gt; verbatimExtensions) {
-<span class="pc bpc" id="L66" title="3 of 6 branches missed.">    super(creator, notificationAddresses, sendNotification == null? Boolean.TRUE : sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type == null? DownloadType.OCCURRENCE : type, verbatimExtensions);</span>
-<span class="fc" id="L67">    this.predicate = predicate;</span>
-<span class="fc" id="L68">  }</span>
+<span class="pc bpc" id="L65" title="3 of 6 branches missed.">    super(creator, notificationAddresses, sendNotification == null? Boolean.TRUE : sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type == null? DownloadType.OCCURRENCE : type, verbatimExtensions);</span>
+<span class="fc" id="L66">    this.predicate = predicate;</span>
+<span class="fc" id="L67">  }</span>
 
   /**
    * @return the download filter
@@ -73,38 +72,38 @@ public class PredicateDownloadRequest extends DownloadRequest {
   @Nullable
   @Valid
   public Predicate getPredicate() {
-<span class="fc" id="L76">    return predicate;</span>
+<span class="fc" id="L75">    return predicate;</span>
   }
 
   public void setPredicate(Predicate predicate) {
-<span class="nc" id="L80">    this.predicate = predicate;</span>
-<span class="nc" id="L81">  }</span>
+<span class="nc" id="L79">    this.predicate = predicate;</span>
+<span class="nc" id="L80">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="fc bfc" id="L85" title="All 2 branches covered.">    if (this == o) {</span>
-<span class="fc" id="L86">      return true;</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L85">      return true;</span>
     }
-<span class="pc bpc" id="L88" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L89">      return false;</span>
+<span class="pc bpc" id="L87" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L88">      return false;</span>
     }
-<span class="pc bpc" id="L91" title="1 of 2 branches missed.">    if (!super.equals(o)) {</span>
-<span class="nc" id="L92">      return false;</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">    if (!super.equals(o)) {</span>
+<span class="nc" id="L91">      return false;</span>
     }
-<span class="fc" id="L94">    PredicateDownloadRequest that = (PredicateDownloadRequest) o;</span>
-<span class="fc" id="L95">    return Objects.equals(predicate, that.predicate);</span>
+<span class="fc" id="L93">    PredicateDownloadRequest that = (PredicateDownloadRequest) o;</span>
+<span class="fc" id="L94">    return Objects.equals(predicate, that.predicate);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L100">    return Objects.hash(super.hashCode(), predicate);</span>
+<span class="fc" id="L99">    return Objects.hash(super.hashCode(), predicate);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L105">    return new StringJoiner(&quot;, &quot;, PredicateDownloadRequest.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L106">      .add(&quot;predicate=&quot; + predicate)</span>
-<span class="nc" id="L107">      .toString();</span>
+<span class="nc" id="L104">    return new StringJoiner(&quot;, &quot;, PredicateDownloadRequest.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L105">      .add(&quot;predicate=&quot; + predicate)</span>
+<span class="nc" id="L106">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

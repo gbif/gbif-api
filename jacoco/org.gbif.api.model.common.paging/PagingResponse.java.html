@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PagingResponse.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common.paging</a> &gt; <span class="el_source">PagingResponse.java</span></div><h1>PagingResponse.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,57 +20,70 @@ import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Paging response bean.
  */
 public class PagingResponse&lt;T&gt; extends PageableBase {
 
+  @Schema(
+    description = &quot;True if this page of search results is the final page.&quot;
+  )
   private Boolean endOfRecords;
+
+  @Schema(
+    description = &quot;The total number of records returned by the search.&quot;
+  )
   private Long count;
-<span class="pc" id="L32">  private List&lt;T&gt; results = new ArrayList&lt;&gt;();</span>
+
+<span class="pc" id="L40">  @Schema(</span>
+    description = &quot;Search results.&quot;
+  )
+  private List&lt;T&gt; results = new ArrayList&lt;&gt;();
 
   /**
    * Default constructor with default paging values.
    */
-<span class="nc" id="L37">  public PagingResponse() {</span>
-<span class="nc" id="L38">  }</span>
+<span class="nc" id="L48">  public PagingResponse() {</span>
+<span class="nc" id="L49">  }</span>
 
   public PagingResponse(Pageable page) {
-<span class="nc" id="L41">    super(page);</span>
-<span class="nc" id="L42">  }</span>
+<span class="nc" id="L52">    super(page);</span>
+<span class="nc" id="L53">  }</span>
 
   public PagingResponse(Pageable page, Long count) {
-<span class="nc" id="L45">    super(page);</span>
-<span class="nc" id="L46">    this.count = count;</span>
-<span class="nc" id="L47">  }</span>
+<span class="nc" id="L56">    super(page);</span>
+<span class="nc" id="L57">    this.count = count;</span>
+<span class="nc" id="L58">  }</span>
 
   public PagingResponse(long offset, int limit) {
-<span class="fc" id="L50">    super(offset, limit);</span>
-<span class="fc" id="L51">  }</span>
+<span class="fc" id="L61">    super(offset, limit);</span>
+<span class="fc" id="L62">  }</span>
 
   public PagingResponse(Pageable page, Long count, List&lt;T&gt; results) {
-<span class="nc" id="L54">    super(page);</span>
-<span class="nc" id="L55">    this.results = results;</span>
-<span class="nc" id="L56">    this.count = count;</span>
-<span class="nc" id="L57">  }</span>
+<span class="nc" id="L65">    super(page);</span>
+<span class="nc" id="L66">    this.results = results;</span>
+<span class="nc" id="L67">    this.count = count;</span>
+<span class="nc" id="L68">  }</span>
 
   public PagingResponse(long offset, int limit, Long count) {
-<span class="nc" id="L60">    super(offset, limit);</span>
-<span class="nc" id="L61">    this.count = count;</span>
-<span class="nc" id="L62">  }</span>
+<span class="nc" id="L71">    super(offset, limit);</span>
+<span class="nc" id="L72">    this.count = count;</span>
+<span class="nc" id="L73">  }</span>
 
   public PagingResponse(long offset, int limit, Long count, List&lt;T&gt; results) {
-<span class="fc" id="L65">    super(offset, limit);</span>
-<span class="fc" id="L66">    this.results = results;</span>
-<span class="fc" id="L67">    this.count = count;</span>
-<span class="fc" id="L68">  }</span>
+<span class="fc" id="L76">    super(offset, limit);</span>
+<span class="fc" id="L77">    this.results = results;</span>
+<span class="fc" id="L78">    this.count = count;</span>
+<span class="fc" id="L79">  }</span>
 
   /**
    * Gets the count of total results of search operation.
    */
   @Nullable
   public Long getCount() {
-<span class="nc" id="L75">    return count;</span>
+<span class="nc" id="L86">    return count;</span>
   }
 
   /**
@@ -80,8 +91,8 @@ public class PagingResponse&lt;T&gt; extends PageableBase {
    * The method will not set endOfRecords automatically.
    */
   public void setCount(Long count) {
-<span class="fc" id="L83">    this.count = count;</span>
-<span class="fc" id="L84">  }</span>
+<span class="fc" id="L94">    this.count = count;</span>
+<span class="fc" id="L95">  }</span>
 
   /**
    * Gets the list of results.
@@ -90,7 +101,7 @@ public class PagingResponse&lt;T&gt; extends PageableBase {
    * @return the results list.
    */
   public List&lt;T&gt; getResults() {
-<span class="nc" id="L93">    return results;</span>
+<span class="nc" id="L104">    return results;</span>
   }
 
   /**
@@ -98,9 +109,9 @@ public class PagingResponse&lt;T&gt; extends PageableBase {
    * This method will not modify the endOfRecords flag.
    */
   public void setResults(List&lt;T&gt; results) {
-<span class="nc" id="L101">    Objects.requireNonNull(results, &quot;results can't be null&quot;);</span>
-<span class="nc" id="L102">    this.results = results;</span>
-<span class="nc" id="L103">  }</span>
+<span class="nc" id="L112">    Objects.requireNonNull(results, &quot;results can't be null&quot;);</span>
+<span class="nc" id="L113">    this.results = results;</span>
+<span class="nc" id="L114">  }</span>
 
   /**
    * Flag indicating whether more records do exist.
@@ -112,18 +123,18 @@ public class PagingResponse&lt;T&gt; extends PageableBase {
    * @return true if all records have been returned otherwise null.
    */
   public boolean isEndOfRecords() {
-<span class="pc bpc" id="L115" title="1 of 2 branches missed.">    if (endOfRecords == null) {</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">    if (endOfRecords == null) {</span>
       // automatically determine end
-<span class="pc bpc" id="L117" title="1 of 2 branches missed.">      if (count != null) {</span>
-<span class="fc bfc" id="L118" title="All 2 branches covered.">        return count &lt;= offset + limit;</span>
-<span class="nc bnc" id="L119" title="All 2 branches missed.">      } else if (results != null) {</span>
-<span class="nc bnc" id="L120" title="All 2 branches missed.">        return results.size() &lt; limit;</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">      if (count != null) {</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        return count &lt;= offset + limit;</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">      } else if (results != null) {</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        return results.size() &lt; limit;</span>
       } else {
         // what should this be if we dont have any content?
-<span class="nc" id="L123">        return false;</span>
+<span class="nc" id="L134">        return false;</span>
       }
     }
-<span class="nc" id="L126">    return endOfRecords;</span>
+<span class="nc" id="L137">    return endOfRecords;</span>
   }
 
   /**
@@ -131,39 +142,39 @@ public class PagingResponse&lt;T&gt; extends PageableBase {
    * Setting the flag to true or false deactivates the automatic calculation in #isEndOfRecords().
    */
   public void setEndOfRecords(boolean endOfRecords) {
-<span class="nc" id="L134">    this.endOfRecords = endOfRecords;</span>
-<span class="nc" id="L135">  }</span>
+<span class="nc" id="L145">    this.endOfRecords = endOfRecords;</span>
+<span class="nc" id="L146">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L139" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L140">      return true;</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L151">      return true;</span>
     }
-<span class="pc bpc" id="L142" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L143">      return false;</span>
+<span class="pc bpc" id="L153" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L154">      return false;</span>
     }
-<span class="pc bpc" id="L145" title="1 of 2 branches missed.">    if (!super.equals(o)) {</span>
-<span class="nc" id="L146">      return false;</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">    if (!super.equals(o)) {</span>
+<span class="nc" id="L157">      return false;</span>
     }
-<span class="fc" id="L148">    PagingResponse&lt;?&gt; that = (PagingResponse&lt;?&gt;) o;</span>
-<span class="pc bpc" id="L149" title="1 of 2 branches missed.">    return Objects.equals(endOfRecords, that.endOfRecords) &amp;&amp;</span>
-<span class="pc bpc" id="L150" title="1 of 2 branches missed.">      Objects.equals(count, that.count) &amp;&amp;</span>
-<span class="pc bpc" id="L151" title="1 of 2 branches missed.">      Objects.equals(results, that.results);</span>
+<span class="fc" id="L159">    PagingResponse&lt;?&gt; that = (PagingResponse&lt;?&gt;) o;</span>
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">    return Objects.equals(endOfRecords, that.endOfRecords) &amp;&amp;</span>
+<span class="pc bpc" id="L161" title="1 of 2 branches missed.">      Objects.equals(count, that.count) &amp;&amp;</span>
+<span class="pc bpc" id="L162" title="1 of 2 branches missed.">      Objects.equals(results, that.results);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L156">    return Objects.hash(super.hashCode(), endOfRecords, count, results);</span>
+<span class="nc" id="L167">    return Objects.hash(super.hashCode(), endOfRecords, count, results);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L161">    return new StringJoiner(&quot;, &quot;, PagingResponse.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L162">      .add(&quot;count=&quot; + count)</span>
-<span class="nc" id="L163">      .add(&quot;results=&quot; + results)</span>
-<span class="nc" id="L164">      .add(&quot;offset=&quot; + offset)</span>
-<span class="nc" id="L165">      .add(&quot;limit=&quot; + limit)</span>
-<span class="nc" id="L166">      .toString();</span>
+<span class="nc" id="L172">    return new StringJoiner(&quot;, &quot;, PagingResponse.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L173">      .add(&quot;count=&quot; + count)</span>
+<span class="nc" id="L174">      .add(&quot;results=&quot; + results)</span>
+<span class="nc" id="L175">      .add(&quot;offset=&quot; + offset)</span>
+<span class="nc" id="L176">      .add(&quot;limit=&quot; + limit)</span>
+<span class="nc" id="L177">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

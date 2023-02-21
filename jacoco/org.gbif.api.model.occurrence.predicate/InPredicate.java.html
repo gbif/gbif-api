@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InPredicate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence.predicate</a> &gt; <span class="el_source">InPredicate.java</span></div><h1>InPredicate.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,8 +12,6 @@
  * limitations under the License.
  */
 package org.gbif.api.model.occurrence.predicate;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
@@ -35,6 +31,8 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import static org.gbif.api.util.PreconditionUtils.checkArgument;
 
 /**
@@ -45,13 +43,22 @@ import static org.gbif.api.util.PreconditionUtils.checkArgument;
 )
 public class InPredicate implements Predicate {
 
+  @Schema(
+    description = &quot;The search parameter to test.&quot;
+  )
   @NotNull
   private final OccurrenceSearchParameter key;
 
+  @Schema(
+    description = &quot;The list of value to test for.&quot;
+  )
   @NotNull
   @Size(min = 1)
   private final Collection&lt;String&gt; values;
 
+  @Schema(
+    description = &quot;Whether to match letter case (UPPER or lower case) on string value comparisons.&quot;
+  )
   @Experimental
   @Nullable
   private final Boolean matchCase;
@@ -59,26 +66,26 @@ public class InPredicate implements Predicate {
   @JsonCreator
   public InPredicate(@JsonProperty(&quot;key&quot;) OccurrenceSearchParameter key,
                      @JsonProperty(&quot;values&quot;) Collection&lt;String&gt; values,
-<span class="fc" id="L62">                     @JsonProperty(value = &quot;matchCase&quot;, defaultValue = &quot;false&quot;) Boolean matchCase) {</span>
-<span class="fc" id="L63">    this.matchCase = matchCase;</span>
-<span class="fc" id="L64">    Objects.requireNonNull(key, &quot;&lt;key&gt; may not be null&quot;);</span>
-<span class="fc" id="L65">    Objects.requireNonNull(values, &quot;&lt;values&gt; may not be null&quot;);</span>
-<span class="fc bfc" id="L66" title="All 2 branches covered.">    checkArgument(!values.isEmpty(), &quot;&lt;values&gt; may not be empty&quot;);</span>
+<span class="fc" id="L69">                     @JsonProperty(value = &quot;matchCase&quot;, defaultValue = &quot;false&quot;) Boolean matchCase) {</span>
+<span class="fc" id="L70">    this.matchCase = matchCase;</span>
+<span class="fc" id="L71">    Objects.requireNonNull(key, &quot;&lt;key&gt; may not be null&quot;);</span>
+<span class="fc" id="L72">    Objects.requireNonNull(values, &quot;&lt;values&gt; may not be null&quot;);</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">    checkArgument(!values.isEmpty(), &quot;&lt;values&gt; may not be empty&quot;);</span>
     // make sure the value is of the right type according to the key given
-<span class="fc bfc" id="L68" title="All 2 branches covered.">    for (String value : values) {</span>
-<span class="fc" id="L69">      SearchTypeValidator.validate(key, value);</span>
-<span class="fc" id="L70">    }</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">    for (String value : values) {</span>
+<span class="fc" id="L76">      SearchTypeValidator.validate(key, value);</span>
+<span class="fc" id="L77">    }</span>
 
-<span class="fc" id="L72">    this.key = key;</span>
-<span class="fc" id="L73">    this.values = Collections.unmodifiableList(new ArrayList&lt;&gt;(values));</span>
-<span class="fc" id="L74">  }</span>
+<span class="fc" id="L79">    this.key = key;</span>
+<span class="fc" id="L80">    this.values = Collections.unmodifiableList(new ArrayList&lt;&gt;(values));</span>
+<span class="fc" id="L81">  }</span>
 
   public OccurrenceSearchParameter getKey() {
-<span class="fc" id="L77">    return key;</span>
+<span class="fc" id="L84">    return key;</span>
   }
 
   public Collection&lt;String&gt; getValues() {
-<span class="fc" id="L81">    return values;</span>
+<span class="fc" id="L88">    return values;</span>
   }
 
   /**
@@ -91,35 +98,35 @@ public class InPredicate implements Predicate {
    */
   @Experimental
   public Boolean isMatchCase() {
-<span class="nc" id="L94">    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);</span>
+<span class="nc" id="L101">    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="fc bfc" id="L99" title="All 2 branches covered.">    if (this == o) {</span>
-<span class="fc" id="L100">      return true;</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L107">      return true;</span>
     }
-<span class="pc bpc" id="L102" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L103">      return false;</span>
+<span class="pc bpc" id="L109" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L110">      return false;</span>
     }
-<span class="fc" id="L105">    InPredicate that = (InPredicate) o;</span>
-<span class="pc bpc" id="L106" title="1 of 2 branches missed.">    return key == that.key &amp;&amp;</span>
-<span class="pc bpc" id="L107" title="1 of 4 branches missed.">           Objects.equals(values, that.values) &amp;&amp;</span>
+<span class="fc" id="L112">    InPredicate that = (InPredicate) o;</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">    return key == that.key &amp;&amp;</span>
+<span class="pc bpc" id="L114" title="1 of 4 branches missed.">           Objects.equals(values, that.values) &amp;&amp;</span>
            matchCase == that.matchCase;
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L113">    return Objects.hash(key, values);</span>
+<span class="fc" id="L120">    return Objects.hash(key, values);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L118">    return new StringJoiner(&quot;, &quot;, InPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L119">      .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L120">      .add(&quot;values=&quot; + values)</span>
-<span class="nc" id="L121">      .add(&quot;matchCase=&quot; + matchCase)</span>
-<span class="nc" id="L122">      .toString();</span>
+<span class="nc" id="L125">    return new StringJoiner(&quot;, &quot;, InPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L126">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L127">      .add(&quot;values=&quot; + values)</span>
+<span class="nc" id="L128">      .add(&quot;matchCase=&quot; + matchCase)</span>
+<span class="nc" id="L129">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

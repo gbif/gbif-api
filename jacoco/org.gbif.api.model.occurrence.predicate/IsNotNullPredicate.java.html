@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IsNotNullPredicate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence.predicate</a> &gt; <span class="el_source">IsNotNullPredicate.java</span></div><h1>IsNotNullPredicate.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,8 +13,6 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import java.util.Objects;
@@ -27,56 +23,61 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @Schema(
   description = &quot;This predicate checks if the `parameter` is not null (empty).&quot;
 )
 public class IsNotNullPredicate implements Predicate {
 
+  @Schema(
+    description = &quot;The search parameter to test.&quot;
+  )
   @NotNull
   private final OccurrenceSearchParameter parameter;
 
   @JsonCreator
-<span class="nc" id="L39">  public IsNotNullPredicate(@JsonProperty(&quot;parameter&quot;) OccurrenceSearchParameter parameter) {</span>
-<span class="nc" id="L40">    Objects.requireNonNull(parameter, &quot;&lt;parameter&gt; may not be null&quot;);</span>
-<span class="nc" id="L41">    this.parameter = parameter;</span>
-<span class="nc" id="L42">    checkPredicateAllowed();</span>
-<span class="nc" id="L43">  }</span>
+<span class="nc" id="L40">  public IsNotNullPredicate(@JsonProperty(&quot;parameter&quot;) OccurrenceSearchParameter parameter) {</span>
+<span class="nc" id="L41">    Objects.requireNonNull(parameter, &quot;&lt;parameter&gt; may not be null&quot;);</span>
+<span class="nc" id="L42">    this.parameter = parameter;</span>
+<span class="nc" id="L43">    checkPredicateAllowed();</span>
+<span class="nc" id="L44">  }</span>
 
   public OccurrenceSearchParameter getParameter() {
-<span class="nc" id="L46">    return parameter;</span>
+<span class="nc" id="L47">    return parameter;</span>
   }
 
   /**
    * @throws IllegalArgumentException if the key SearchParameter is Geometry
    */
   private void checkPredicateAllowed() {
-<span class="nc bnc" id="L53" title="All 2 branches missed.">    if (OccurrenceSearchParameter.GEOMETRY == parameter) {</span>
-<span class="nc" id="L54">      throw new IllegalArgumentException(&quot;IsNotNull predicate is not supported for Geometry parameter&quot;);</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">    if (OccurrenceSearchParameter.GEOMETRY == parameter) {</span>
+<span class="nc" id="L55">      throw new IllegalArgumentException(&quot;IsNotNull predicate is not supported for Geometry parameter&quot;);</span>
     }
-<span class="nc" id="L56">  }</span>
+<span class="nc" id="L57">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L60" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L61">      return true;</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L62">      return true;</span>
     }
-<span class="nc bnc" id="L63" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L64">      return false;</span>
+<span class="nc bnc" id="L64" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L65">      return false;</span>
     }
-<span class="nc" id="L66">    IsNotNullPredicate that = (IsNotNullPredicate) o;</span>
-<span class="nc bnc" id="L67" title="All 2 branches missed.">    return parameter == that.parameter;</span>
+<span class="nc" id="L67">    IsNotNullPredicate that = (IsNotNullPredicate) o;</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">    return parameter == that.parameter;</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L72">    return Objects.hash(parameter);</span>
+<span class="nc" id="L73">    return Objects.hash(parameter);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L77">    return new StringJoiner(&quot;, &quot;, IsNotNullPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L78">      .add(&quot;parameter=&quot; + parameter)</span>
-<span class="nc" id="L79">      .toString();</span>
+<span class="nc" id="L78">    return new StringJoiner(&quot;, &quot;, IsNotNullPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L79">      .add(&quot;parameter=&quot; + parameter)</span>
+<span class="nc" id="L80">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Range.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util</a> &gt; <span class="el_source">Range.java</span></div><h1>Range.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,6 +16,8 @@ package org.gbif.api.util;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Simplified version of guava's {@code Range}.
  */
@@ -27,12 +27,18 @@ public class Range&lt;T extends Comparable&lt;? super T&gt;&gt; {
    * Lower bound.
    * Unbound if it is {@code null}.
    */
+  @Schema(
+    description = &quot;The lower bound.  Unbound if null/unspecified.&quot;
+  )
   private T from;
 
   /**
    * Upper bound.
    * Unbound if it is {@code null}.
    */
+  @Schema(
+    description = &quot;The upper bound. Unbound if null/unspecified.&quot;
+  )
   private T to;
 
   /**
@@ -41,40 +47,40 @@ public class Range&lt;T extends Comparable&lt;? super T&gt;&gt; {
    *
    * @throws IllegalArgumentException if {@code from} is greater than {@code to}
    */
-<span class="fc" id="L44">  private Range(T from, T to) {</span>
-<span class="fc bfc" id="L45" title="All 6 branches covered.">    if (from != null &amp;&amp; to != null &amp;&amp; from.compareTo(to) &gt; 0) {</span>
-<span class="fc" id="L46">      throw new IllegalArgumentException(String.format(&quot;Invalid range: (%s,%s)&quot;, from, to));</span>
+<span class="fc" id="L50">  private Range(T from, T to) {</span>
+<span class="fc bfc" id="L51" title="All 6 branches covered.">    if (from != null &amp;&amp; to != null &amp;&amp; from.compareTo(to) &gt; 0) {</span>
+<span class="fc" id="L52">      throw new IllegalArgumentException(String.format(&quot;Invalid range: (%s,%s)&quot;, from, to));</span>
     }
-<span class="fc" id="L48">    this.from = from;</span>
-<span class="fc" id="L49">    this.to = to;</span>
-<span class="fc" id="L50">  }</span>
+<span class="fc" id="L54">    this.from = from;</span>
+<span class="fc" id="L55">    this.to = to;</span>
+<span class="fc" id="L56">  }</span>
 
   /**
    * Factory method.
    */
   public static &lt;T extends Comparable&lt;? super T&gt;&gt; Range&lt;T&gt; closed(T from, T to) {
-<span class="fc" id="L56">    return new Range&lt;&gt;(from, to);</span>
+<span class="fc" id="L62">    return new Range&lt;&gt;(from, to);</span>
   }
 
   /**
    * Returns {@code true} if this range has a lower endpoint.
    */
   public boolean hasLowerBound() {
-<span class="fc bfc" id="L63" title="All 2 branches covered.">    return from != null;</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">    return from != null;</span>
   }
 
   /**
    * Returns {@code true} if this range has an upper endpoint.
    */
   public boolean hasUpperBound() {
-<span class="fc bfc" id="L70" title="All 2 branches covered.">    return to != null;</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">    return to != null;</span>
   }
 
   /**
    * Returns {@code true} if {@code value} is within the bounds of this range.
    */
   public boolean contains(@NotNull T value) {
-<span class="pc bpc" id="L77" title="1 of 4 branches missed.">    return from.compareTo(value) &lt;= 0 &amp;&amp; to.compareTo(value) &gt;= 0;</span>
+<span class="pc bpc" id="L83" title="1 of 4 branches missed.">    return from.compareTo(value) &lt;= 0 &amp;&amp; to.compareTo(value) &gt;= 0;</span>
   }
 
   /**
@@ -82,17 +88,17 @@ public class Range&lt;T extends Comparable&lt;? super T&gt;&gt; {
    * range.
    */
   public boolean encloses(@NotNull Range&lt;T&gt; other) {
-<span class="fc bfc" id="L85" title="All 4 branches covered.">    return from.compareTo(other.from) &lt;= 0 &amp;&amp; to.compareTo(other.to) &gt;= 0;</span>
+<span class="fc bfc" id="L91" title="All 4 branches covered.">    return from.compareTo(other.from) &lt;= 0 &amp;&amp; to.compareTo(other.to) &gt;= 0;</span>
   }
 
   @Nullable
   public T lowerEndpoint() {
-<span class="fc" id="L90">    return from;</span>
+<span class="fc" id="L96">    return from;</span>
   }
 
   @Nullable
   public T upperEndpoint() {
-<span class="fc" id="L95">    return to;</span>
+<span class="fc" id="L101">    return to;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -13,72 +13,82 @@
  */
 package org.gbif.api.vocabulary;
 
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * A simple enumeration of all DarwinCore values of BasisOfRecord legal for occurrences.
  *
- * @see &lt;a href=&quot;http://rs.tdwg.org/dwc/terms/type-vocabulary/index.htm&quot;&gt;Darwin Core Type Vocabulary&lt;/a&gt;
- * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/dwc/basis_of_record.xml&quot;&gt;GBIF Vocabulary&lt;/a&gt;
+ * @see &lt;a href=&quot;https://rs.gbif.org/vocabulary/dwc/basis_of_record.xml&quot;&gt;GBIF Vocabulary&lt;/a&gt;
  */
-<span class="fc" id="L22">public enum BasisOfRecord {</span>
+<span class="fc" id="L24">@Schema(</span>
+  description = &quot;The values of the Darwin Core term Basis of Record which can apply to occurrences.\n\n&quot; +
+    &quot;See GBIF's [Darwin Core Type Vocabulary](https://rs.gbif.org/vocabulary/dwc/basis_of_record.xml) for definitions.&quot;,
+  externalDocs = @ExternalDocumentation(
+    description = &quot;API call to retrieve all official values.&quot;,
+    url = &quot;https://api.gbif.org/v1/enumeration/basic/BasisOfRecord&quot;
+  )
+)
+public enum BasisOfRecord {
 
   /**
    * An occurrence record describing a preserved specimen.
    */
-<span class="fc" id="L27">  PRESERVED_SPECIMEN,</span>
+<span class="fc" id="L37">  PRESERVED_SPECIMEN,</span>
 
   /**
    * An occurrence record describing a fossilized specimen.
    */
-<span class="fc" id="L32">  FOSSIL_SPECIMEN,</span>
+<span class="fc" id="L42">  FOSSIL_SPECIMEN,</span>
 
   /**
    * An occurrence record describing a living specimen, e.g. managed animals in a zoo
    * or cultivated plants in a garden.
    */
-<span class="fc" id="L38">  LIVING_SPECIMEN,</span>
+<span class="fc" id="L48">  LIVING_SPECIMEN,</span>
 
   /**
    * An occurrence record describing an observation.
    */
-<span class="fc" id="L43">  OBSERVATION,</span>
+<span class="fc" id="L53">  OBSERVATION,</span>
 
   /**
    * An occurrence record describing an observation made by one or more people.
    */
-<span class="fc" id="L48">  HUMAN_OBSERVATION,</span>
+<span class="fc" id="L58">  HUMAN_OBSERVATION,</span>
 
   /**
    * An occurrence record describing an observation made by a machine.
    */
-<span class="fc" id="L53">  MACHINE_OBSERVATION,</span>
+<span class="fc" id="L63">  MACHINE_OBSERVATION,</span>
 
   /**
    * An occurrence record based on samples taken from other specimens or the environment.
    */
-<span class="fc" id="L58">  MATERIAL_SAMPLE,</span>
+<span class="fc" id="L68">  MATERIAL_SAMPLE,</span>
 
   /**
    * An occurrence record based on literature alone.
    * @deprecated use BasisOfRecord.OCCURRENCE instead.
    */
-<span class="fc" id="L64">  @Deprecated</span>
+<span class="fc" id="L74">  @Deprecated</span>
   LITERATURE,
 
   /**
    * A reference to or citation of one, a part of, or multiple specimens in scholarly publications.
    */
-<span class="fc" id="L70">  MATERIAL_CITATION,</span>
+<span class="fc" id="L80">  MATERIAL_CITATION,</span>
 
   /**
    * An existence of an Organism (sensu http://rs.tdwg.org/dwc/terms/Organism) at a particular place at a particular time.
    */
-<span class="fc" id="L75">  OCCURRENCE,</span>
+<span class="fc" id="L85">  OCCURRENCE,</span>
 
   /**
    * Unknown basis for the record.
    * @deprecated replaced by BasisOfRecord.OCCURRENCE.
    */
-<span class="fc" id="L81">  @Deprecated</span>
+<span class="fc" id="L91">  @Deprecated</span>
   UNKNOWN
 
 }

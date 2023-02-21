@@ -14,47 +14,41 @@
 package org.gbif.api.model.pipelines;
 
 /** Enum to represent the pipelines step names. */
-<span class="nc" id="L17">public enum StepType {</span>
+<span class="fc" id="L17">public enum StepType {</span>
 
-  // Generic step name used to be a replace of the following three when client doesn't know the endpoint type of a dataset
   // Interpretaion
-<span class="nc" id="L21">  TO_VERBATIM(&quot;toVerbatim&quot;, 1),</span>
-<span class="nc" id="L22">  DWCA_TO_VERBATIM(&quot;dwcaToVerbatim&quot;, 1),</span>
-<span class="nc" id="L23">  XML_TO_VERBATIM(&quot;xmlToVerbatim&quot;, 1),</span>
-<span class="nc" id="L24">  ABCD_TO_VERBATIM(&quot;abcdToVerbatim&quot;, 1),</span>
-<span class="nc" id="L25">  VERBATIM_TO_IDENTIFIER(&quot;verbatimToIdentifier&quot;, 2),</span>
-<span class="nc" id="L26">  VERBATIM_TO_INTERPRETED(&quot;verbatimToInterpreted&quot;, 3),</span>
-<span class="nc" id="L27">  INTERPRETED_TO_INDEX(&quot;interpretedToIndex&quot;, 4),</span>
-<span class="nc" id="L28">  HDFS_VIEW(&quot;hdfsView&quot;, 4),</span>
-<span class="nc" id="L29">  FRAGMENTER(&quot;fragmenter&quot;, 4),</span>
-<span class="nc" id="L30">  EVENTS_VERBATIM_TO_INTERPRETED(&quot;eventsVerbatimToInterpreted&quot;, 4),</span>
-<span class="nc" id="L31">  EVENTS_INTERPRETED_TO_INDEX(&quot;eventsInterpretedToIndex&quot;, 5),</span>
-<span class="nc" id="L32">  EVENTS_HDFS_VIEW(&quot;eventsHdfsView&quot;, 5),</span>
+<span class="fc" id="L20">  TO_VERBATIM(&quot;toVerbatim&quot;),</span>
+<span class="fc" id="L21">  DWCA_TO_VERBATIM(&quot;dwcaToVerbatim&quot;),</span>
+<span class="fc" id="L22">  XML_TO_VERBATIM(&quot;xmlToVerbatim&quot;),</span>
+<span class="fc" id="L23">  ABCD_TO_VERBATIM(&quot;abcdToVerbatim&quot;),</span>
+<span class="fc" id="L24">  VERBATIM_TO_IDENTIFIER(&quot;verbatimToIdentifier&quot;),</span>
+<span class="fc" id="L25">  VERBATIM_TO_INTERPRETED(&quot;verbatimToInterpreted&quot;),</span>
+<span class="fc" id="L26">  INTERPRETED_TO_INDEX(&quot;interpretedToIndex&quot;),</span>
+<span class="fc" id="L27">  HDFS_VIEW(&quot;hdfsView&quot;),</span>
+<span class="fc" id="L28">  FRAGMENTER(&quot;fragmenter&quot;),</span>
+<span class="fc" id="L29">  EVENTS_VERBATIM_TO_INTERPRETED(&quot;eventsVerbatimToInterpreted&quot;),</span>
+<span class="fc" id="L30">  EVENTS_INTERPRETED_TO_INDEX(&quot;eventsInterpretedToIndex&quot;),</span>
+<span class="fc" id="L31">  EVENTS_HDFS_VIEW(&quot;eventsHdfsView&quot;),</span>
+
   // Validator
-<span class="nc" id="L34">  VALIDATOR_UPLOAD_ARCHIVE(&quot;validatorUploadArchive&quot;, 1),</span>
-<span class="nc" id="L35">  VALIDATOR_VALIDATE_ARCHIVE(&quot;validatorValidateArchive&quot;, 2),</span>
-<span class="nc" id="L36">  VALIDATOR_DWCA_TO_VERBATIM(&quot;validatorDwcaToVerbatim&quot;, 3),</span>
-<span class="nc" id="L37">  VALIDATOR_XML_TO_VERBATIM(&quot;validatorXmlToVerbatim&quot;, 3),</span>
-<span class="nc" id="L38">  VALIDATOR_ABCD_TO_VERBATIM(&quot;validatorAbcdToVerbatim&quot;, 3),</span>
-<span class="nc" id="L39">  VALIDATOR_TABULAR_TO_VERBATIM(&quot;validatorTabularToVerbatim&quot;, 3),</span>
-<span class="nc" id="L40">  VALIDATOR_VERBATIM_TO_INTERPRETED(&quot;validatorVerbatimToInterpreted&quot;, 4),</span>
-<span class="nc" id="L41">  VALIDATOR_INTERPRETED_TO_INDEX(&quot;validatorInterpretedToIndex&quot;, 5),</span>
-<span class="nc" id="L42">  VALIDATOR_COLLECT_METRICS(&quot;validatorCollectMetrics&quot;, 6);</span>
+<span class="fc" id="L34">  VALIDATOR_UPLOAD_ARCHIVE(&quot;validatorUploadArchive&quot;),</span>
+<span class="fc" id="L35">  VALIDATOR_VALIDATE_ARCHIVE(&quot;validatorValidateArchive&quot;),</span>
+<span class="fc" id="L36">  VALIDATOR_DWCA_TO_VERBATIM(&quot;validatorDwcaToVerbatim&quot;),</span>
+<span class="fc" id="L37">  VALIDATOR_XML_TO_VERBATIM(&quot;validatorXmlToVerbatim&quot;),</span>
+<span class="fc" id="L38">  VALIDATOR_ABCD_TO_VERBATIM(&quot;validatorAbcdToVerbatim&quot;),</span>
+<span class="fc" id="L39">  VALIDATOR_TABULAR_TO_VERBATIM(&quot;validatorTabularToVerbatim&quot;),</span>
+<span class="fc" id="L40">  VALIDATOR_VERBATIM_TO_INTERPRETED(&quot;validatorVerbatimToInterpreted&quot;),</span>
+<span class="fc" id="L41">  VALIDATOR_INTERPRETED_TO_INDEX(&quot;validatorInterpretedToIndex&quot;),</span>
+<span class="fc" id="L42">  VALIDATOR_COLLECT_METRICS(&quot;validatorCollectMetrics&quot;);</span>
+
+<span class="fc" id="L44">  StepType(String label) {</span>
+<span class="fc" id="L45">    this.label = label;</span>
+<span class="fc" id="L46">  }</span>
 
   private String label;
-  private int executionOrder;
-
-<span class="nc" id="L47">  StepType(String label, int executionOrder) {</span>
-<span class="nc" id="L48">    this.label = label;</span>
-<span class="nc" id="L49">    this.executionOrder = executionOrder;</span>
-<span class="nc" id="L50">  }</span>
-
-  public int getExecutionOrder() {
-<span class="nc" id="L53">    return executionOrder;</span>
-  }
 
   public String getLabel() {
-<span class="nc" id="L57">    return label;</span>
+<span class="nc" id="L51">    return label;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

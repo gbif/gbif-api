@@ -7,43 +7,43 @@
 <body>
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
-<span class="sourceLineNo">003</span> *<a name="line.3"></a>
-<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
-<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
-<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">002</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.2"></a>
+<span class="sourceLineNo">003</span> * you may not use this file except in compliance with the License.<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * You may obtain a copy of the License at<a name="line.4"></a>
+<span class="sourceLineNo">005</span> *<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.6"></a>
 <span class="sourceLineNo">007</span> *<a name="line.7"></a>
-<span class="sourceLineNo">008</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
-<span class="sourceLineNo">009</span> *<a name="line.9"></a>
-<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
-<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
-<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
-<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
-<span class="sourceLineNo">015</span> */<a name="line.15"></a>
-<span class="sourceLineNo">016</span>package org.gbif.api.model.occurrence;<a name="line.16"></a>
-<span class="sourceLineNo">017</span><a name="line.17"></a>
-<span class="sourceLineNo">018</span>import org.gbif.api.vocabulary.Country;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import org.gbif.api.vocabulary.EndpointType;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import org.gbif.dwc.terms.Term;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import org.gbif.dwc.terms.TermFactory;<a name="line.21"></a>
-<span class="sourceLineNo">022</span><a name="line.22"></a>
-<span class="sourceLineNo">023</span>import java.util.Date;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import java.util.HashMap;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>import java.util.List;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import java.util.Map;<a name="line.26"></a>
-<span class="sourceLineNo">027</span>import java.util.Objects;<a name="line.27"></a>
-<span class="sourceLineNo">028</span>import java.util.StringJoiner;<a name="line.28"></a>
-<span class="sourceLineNo">029</span>import java.util.UUID;<a name="line.29"></a>
-<span class="sourceLineNo">030</span><a name="line.30"></a>
-<span class="sourceLineNo">031</span>import javax.annotation.Nullable;<a name="line.31"></a>
-<span class="sourceLineNo">032</span>import javax.validation.constraints.NotNull;<a name="line.32"></a>
+<span class="sourceLineNo">008</span> * Unless required by applicable law or agreed to in writing, software<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * See the License for the specific language governing permissions and<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * limitations under the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span>package org.gbif.api.model.occurrence;<a name="line.14"></a>
+<span class="sourceLineNo">015</span><a name="line.15"></a>
+<span class="sourceLineNo">016</span>import org.gbif.api.vocabulary.Country;<a name="line.16"></a>
+<span class="sourceLineNo">017</span>import org.gbif.api.vocabulary.EndpointType;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import org.gbif.dwc.terms.Term;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import org.gbif.dwc.terms.TermFactory;<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>import java.util.Date;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import java.util.HashMap;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import java.util.List;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.util.Map;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.util.Objects;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.util.StringJoiner;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import java.util.UUID;<a name="line.27"></a>
+<span class="sourceLineNo">028</span><a name="line.28"></a>
+<span class="sourceLineNo">029</span>import javax.annotation.Nullable;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import javax.validation.constraints.NotNull;<a name="line.30"></a>
+<span class="sourceLineNo">031</span><a name="line.31"></a>
+<span class="sourceLineNo">032</span>import org.apache.commons.lang3.StringUtils;<a name="line.32"></a>
 <span class="sourceLineNo">033</span><a name="line.33"></a>
-<span class="sourceLineNo">034</span>import org.apache.commons.lang3.StringUtils;<a name="line.34"></a>
-<span class="sourceLineNo">035</span><a name="line.35"></a>
-<span class="sourceLineNo">036</span>import com.fasterxml.jackson.annotation.JsonAnyGetter;<a name="line.36"></a>
-<span class="sourceLineNo">037</span>import com.fasterxml.jackson.annotation.JsonAnySetter;<a name="line.37"></a>
-<span class="sourceLineNo">038</span>import com.fasterxml.jackson.annotation.JsonIgnore;<a name="line.38"></a>
+<span class="sourceLineNo">034</span>import com.fasterxml.jackson.annotation.JsonAnyGetter;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>import com.fasterxml.jackson.annotation.JsonAnySetter;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>import com.fasterxml.jackson.annotation.JsonIgnore;<a name="line.36"></a>
+<span class="sourceLineNo">037</span><a name="line.37"></a>
+<span class="sourceLineNo">038</span>import io.swagger.v3.oas.annotations.media.Schema;<a name="line.38"></a>
 <span class="sourceLineNo">039</span><a name="line.39"></a>
 <span class="sourceLineNo">040</span>/**<a name="line.40"></a>
 <span class="sourceLineNo">041</span> * An extended map holding all core terms of an occurrence record.<a name="line.41"></a>
@@ -52,303 +52,372 @@
 <span class="sourceLineNo">044</span>@SuppressWarnings("unused")<a name="line.44"></a>
 <span class="sourceLineNo">045</span>public class VerbatimOccurrence {<a name="line.45"></a>
 <span class="sourceLineNo">046</span><a name="line.46"></a>
-<span class="sourceLineNo">047</span>  private Long key;<a name="line.47"></a>
-<span class="sourceLineNo">048</span>  private UUID datasetKey;<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  private UUID publishingOrgKey;<a name="line.49"></a>
-<span class="sourceLineNo">050</span>  private List&lt;UUID&gt; networkKeys;<a name="line.50"></a>
-<span class="sourceLineNo">051</span>  private UUID installationKey;<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  private Country publishingCountry;<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  private EndpointType protocol;<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  private Date lastCrawled;<a name="line.54"></a>
-<span class="sourceLineNo">055</span>  private Date lastParsed;<a name="line.55"></a>
-<span class="sourceLineNo">056</span>  private Integer crawlId;<a name="line.56"></a>
-<span class="sourceLineNo">057</span>  //GBIF Participation: Programme and Project<a name="line.57"></a>
-<span class="sourceLineNo">058</span>  private String projectId;<a name="line.58"></a>
-<span class="sourceLineNo">059</span>  private String programmeAcronym;<a name="line.59"></a>
-<span class="sourceLineNo">060</span>  private UUID hostingOrganizationKey;<a name="line.60"></a>
-<span class="sourceLineNo">061</span><a name="line.61"></a>
-<span class="sourceLineNo">062</span>  // the verbatim fields for the occurrence<a name="line.62"></a>
-<span class="sourceLineNo">063</span>  private Map&lt;Term, String&gt; verbatimFields = new HashMap&lt;&gt;();<a name="line.63"></a>
-<span class="sourceLineNo">064</span>  // verbatim extension data<a name="line.64"></a>
-<span class="sourceLineNo">065</span>  private Map&lt;String, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions = new HashMap&lt;&gt;();<a name="line.65"></a>
-<span class="sourceLineNo">066</span><a name="line.66"></a>
-<span class="sourceLineNo">067</span>  /**<a name="line.67"></a>
-<span class="sourceLineNo">068</span>   * Get the value of a specific field (Term).<a name="line.68"></a>
-<span class="sourceLineNo">069</span>   */<a name="line.69"></a>
-<span class="sourceLineNo">070</span>  @Nullable<a name="line.70"></a>
-<span class="sourceLineNo">071</span>  public String getVerbatimField(Term term) {<a name="line.71"></a>
-<span class="sourceLineNo">072</span>    Objects.requireNonNull(term, "term can't be null");<a name="line.72"></a>
-<span class="sourceLineNo">073</span>    return verbatimFields.get(term);<a name="line.73"></a>
-<span class="sourceLineNo">074</span>  }<a name="line.74"></a>
-<span class="sourceLineNo">075</span><a name="line.75"></a>
-<span class="sourceLineNo">076</span>  /**<a name="line.76"></a>
-<span class="sourceLineNo">077</span>   * @return true if a verbatim field exists and is not null or an empty string<a name="line.77"></a>
-<span class="sourceLineNo">078</span>   */<a name="line.78"></a>
-<span class="sourceLineNo">079</span>  public boolean hasVerbatimField(Term term) {<a name="line.79"></a>
-<span class="sourceLineNo">080</span>    Objects.requireNonNull(term, "term can't be null");<a name="line.80"></a>
-<span class="sourceLineNo">081</span>    return StringUtils.isNotEmpty(verbatimFields.get(term));<a name="line.81"></a>
-<span class="sourceLineNo">082</span>  }<a name="line.82"></a>
-<span class="sourceLineNo">083</span><a name="line.83"></a>
-<span class="sourceLineNo">084</span>  /**<a name="line.84"></a>
-<span class="sourceLineNo">085</span>   * For setting a specific field without having to replace the entire verbatimFields Map.<a name="line.85"></a>
-<span class="sourceLineNo">086</span>   *<a name="line.86"></a>
-<span class="sourceLineNo">087</span>   * @param term       the field to set<a name="line.87"></a>
-<span class="sourceLineNo">088</span>   * @param fieldValue the field's value<a name="line.88"></a>
-<span class="sourceLineNo">089</span>   */<a name="line.89"></a>
-<span class="sourceLineNo">090</span>  public void setVerbatimField(Term term, @Nullable String fieldValue) {<a name="line.90"></a>
-<span class="sourceLineNo">091</span>    Objects.requireNonNull(term, "term can't be null");<a name="line.91"></a>
-<span class="sourceLineNo">092</span>    verbatimFields.put(term, fieldValue);<a name="line.92"></a>
-<span class="sourceLineNo">093</span>  }<a name="line.93"></a>
+<span class="sourceLineNo">047</span>  @Schema(<a name="line.47"></a>
+<span class="sourceLineNo">048</span>    description = "Unique GBIF key for the occurrence.\n\n" +<a name="line.48"></a>
+<span class="sourceLineNo">049</span>      "We aim to keep these keys stable, but this is not possible in every case."<a name="line.49"></a>
+<span class="sourceLineNo">050</span>  )<a name="line.50"></a>
+<span class="sourceLineNo">051</span>  private Long key;<a name="line.51"></a>
+<span class="sourceLineNo">052</span><a name="line.52"></a>
+<span class="sourceLineNo">053</span>  @Schema(<a name="line.53"></a>
+<span class="sourceLineNo">054</span>    description = "The UUID of the GBIF dataset containing this occurrence."<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  )<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  private UUID datasetKey;<a name="line.56"></a>
+<span class="sourceLineNo">057</span><a name="line.57"></a>
+<span class="sourceLineNo">058</span>  @Schema(<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    description = "The UUID of the organization which publishes the dataset containing this occurrence."<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  )<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  private UUID publishingOrgKey;<a name="line.61"></a>
+<span class="sourceLineNo">062</span><a name="line.62"></a>
+<span class="sourceLineNo">063</span>  @Schema(<a name="line.63"></a>
+<span class="sourceLineNo">064</span>    description = "Any networks to which the dataset containing this occurrence is registered."<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  )<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  private List&lt;UUID&gt; networkKeys;<a name="line.66"></a>
+<span class="sourceLineNo">067</span><a name="line.67"></a>
+<span class="sourceLineNo">068</span>  @Schema(<a name="line.68"></a>
+<span class="sourceLineNo">069</span>    description = "The UUID of the technical installation hosted the dataset containing this occurrence."<a name="line.69"></a>
+<span class="sourceLineNo">070</span>  )<a name="line.70"></a>
+<span class="sourceLineNo">071</span>  private UUID installationKey;<a name="line.71"></a>
+<span class="sourceLineNo">072</span><a name="line.72"></a>
+<span class="sourceLineNo">073</span>  @Schema(<a name="line.73"></a>
+<span class="sourceLineNo">074</span>    description = "The UUID of the publishing organization which operates the technical installation hosting the " +<a name="line.74"></a>
+<span class="sourceLineNo">075</span>      "dataset containing this occurrence."<a name="line.75"></a>
+<span class="sourceLineNo">076</span>  )<a name="line.76"></a>
+<span class="sourceLineNo">077</span>  private UUID hostingOrganizationKey;<a name="line.77"></a>
+<span class="sourceLineNo">078</span><a name="line.78"></a>
+<span class="sourceLineNo">079</span>  @Schema(<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    description = "The country, territory or island based on ISO-3166 of the organization publishing the dataset " +<a name="line.80"></a>
+<span class="sourceLineNo">081</span>      "containing this occurrence."<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  )<a name="line.82"></a>
+<span class="sourceLineNo">083</span>  private Country publishingCountry;<a name="line.83"></a>
+<span class="sourceLineNo">084</span><a name="line.84"></a>
+<span class="sourceLineNo">085</span>  @Schema(<a name="line.85"></a>
+<span class="sourceLineNo">086</span>    description = "The technical protocol by which this occurrence was retrieved from the publisher's systems."<a name="line.86"></a>
+<span class="sourceLineNo">087</span>  )<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  private EndpointType protocol;<a name="line.88"></a>
+<span class="sourceLineNo">089</span><a name="line.89"></a>
+<span class="sourceLineNo">090</span>  @Schema(<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    description = "The time this occurrence was last retrieved from the publisher's systems."<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  )<a name="line.92"></a>
+<span class="sourceLineNo">093</span>  private Date lastCrawled;<a name="line.93"></a>
 <span class="sourceLineNo">094</span><a name="line.94"></a>
-<span class="sourceLineNo">095</span>  /**<a name="line.95"></a>
-<span class="sourceLineNo">096</span>   * The GBIF assigned, persistent key to the occurrence record.<a name="line.96"></a>
-<span class="sourceLineNo">097</span>   * OccurrenceID itself is kept in the verbatim verbatimFields map.<a name="line.97"></a>
-<span class="sourceLineNo">098</span>   */<a name="line.98"></a>
-<span class="sourceLineNo">099</span>  @NotNull<a name="line.99"></a>
-<span class="sourceLineNo">100</span>  public Long getKey() {<a name="line.100"></a>
-<span class="sourceLineNo">101</span>    return key;<a name="line.101"></a>
-<span class="sourceLineNo">102</span>  }<a name="line.102"></a>
-<span class="sourceLineNo">103</span><a name="line.103"></a>
-<span class="sourceLineNo">104</span>  public void setKey(Long key) {<a name="line.104"></a>
-<span class="sourceLineNo">105</span>    this.key = key;<a name="line.105"></a>
-<span class="sourceLineNo">106</span>  }<a name="line.106"></a>
-<span class="sourceLineNo">107</span><a name="line.107"></a>
-<span class="sourceLineNo">108</span>  @NotNull<a name="line.108"></a>
-<span class="sourceLineNo">109</span>  public UUID getDatasetKey() {<a name="line.109"></a>
-<span class="sourceLineNo">110</span>    return datasetKey;<a name="line.110"></a>
-<span class="sourceLineNo">111</span>  }<a name="line.111"></a>
-<span class="sourceLineNo">112</span><a name="line.112"></a>
-<span class="sourceLineNo">113</span>  public void setDatasetKey(UUID datasetKey) {<a name="line.113"></a>
-<span class="sourceLineNo">114</span>    this.datasetKey = datasetKey;<a name="line.114"></a>
-<span class="sourceLineNo">115</span>  }<a name="line.115"></a>
+<span class="sourceLineNo">095</span>  @Schema(<a name="line.95"></a>
+<span class="sourceLineNo">096</span>    description = "The time this occurrence was last processed by GBIF's interpretation system “Pipelines”.\n\n" +<a name="line.96"></a>
+<span class="sourceLineNo">097</span>      "This is the time the record was last changed in GBIF, **not** the time the record was last changed by the " +<a name="line.97"></a>
+<span class="sourceLineNo">098</span>      "publisher.  Data is also reprocessed when we changed the taxonomic backbone, geographic data sources or " +<a name="line.98"></a>
+<span class="sourceLineNo">099</span>      "other interpretation procedures.\n\n" +<a name="line.99"></a>
+<span class="sourceLineNo">100</span>      "An earlier interpretation system distinguished between “parsing” and “interpretation”, but in the current " +<a name="line.100"></a>
+<span class="sourceLineNo">101</span>      "system there is only one process — the two dates will always be the same."<a name="line.101"></a>
+<span class="sourceLineNo">102</span>  )<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  private Date lastParsed;<a name="line.103"></a>
+<span class="sourceLineNo">104</span><a name="line.104"></a>
+<span class="sourceLineNo">105</span>  @Schema(<a name="line.105"></a>
+<span class="sourceLineNo">106</span>    description = "The sequence number of the attempt by GBIF to download (”crawl”), interpret and index the dataset " +<a name="line.106"></a>
+<span class="sourceLineNo">107</span>      "to which this occurrence belongs."<a name="line.107"></a>
+<span class="sourceLineNo">108</span>  )<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  private Integer crawlId;<a name="line.109"></a>
+<span class="sourceLineNo">110</span><a name="line.110"></a>
+<span class="sourceLineNo">111</span>  /** GBIF Participation: Programme and Project */<a name="line.111"></a>
+<span class="sourceLineNo">112</span>  @Schema(<a name="line.112"></a>
+<span class="sourceLineNo">113</span>    description = "The identifier for a project, often assigned by a funded programme."<a name="line.113"></a>
+<span class="sourceLineNo">114</span>  )<a name="line.114"></a>
+<span class="sourceLineNo">115</span>  private String projectId;<a name="line.115"></a>
 <span class="sourceLineNo">116</span><a name="line.116"></a>
-<span class="sourceLineNo">117</span>  @NotNull<a name="line.117"></a>
-<span class="sourceLineNo">118</span>  public UUID getPublishingOrgKey() {<a name="line.118"></a>
-<span class="sourceLineNo">119</span>    return publishingOrgKey;<a name="line.119"></a>
-<span class="sourceLineNo">120</span>  }<a name="line.120"></a>
+<span class="sourceLineNo">117</span>  @Schema(<a name="line.117"></a>
+<span class="sourceLineNo">118</span>    description = "The identifier for a programme which funded the digitization of this occurrence."<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  )<a name="line.119"></a>
+<span class="sourceLineNo">120</span>  private String programmeAcronym;<a name="line.120"></a>
 <span class="sourceLineNo">121</span><a name="line.121"></a>
-<span class="sourceLineNo">122</span>  public void setPublishingOrgKey(UUID publishingOrgKey) {<a name="line.122"></a>
-<span class="sourceLineNo">123</span>    this.publishingOrgKey = publishingOrgKey;<a name="line.123"></a>
-<span class="sourceLineNo">124</span>  }<a name="line.124"></a>
-<span class="sourceLineNo">125</span><a name="line.125"></a>
-<span class="sourceLineNo">126</span>  /**<a name="line.126"></a>
-<span class="sourceLineNo">127</span>   * The GBIF Network associated to the publishing dataset.<a name="line.127"></a>
-<span class="sourceLineNo">128</span>   */<a name="line.128"></a>
-<span class="sourceLineNo">129</span>  @Nullable<a name="line.129"></a>
-<span class="sourceLineNo">130</span>  public List&lt;UUID&gt; getNetworkKeys() {<a name="line.130"></a>
-<span class="sourceLineNo">131</span>    return networkKeys;<a name="line.131"></a>
-<span class="sourceLineNo">132</span>  }<a name="line.132"></a>
-<span class="sourceLineNo">133</span><a name="line.133"></a>
-<span class="sourceLineNo">134</span>  public void setNetworkKeys(List&lt;UUID&gt; networkKeys) {<a name="line.134"></a>
-<span class="sourceLineNo">135</span>    this.networkKeys = networkKeys;<a name="line.135"></a>
-<span class="sourceLineNo">136</span>  }<a name="line.136"></a>
-<span class="sourceLineNo">137</span><a name="line.137"></a>
-<span class="sourceLineNo">138</span>  /**<a name="line.138"></a>
-<span class="sourceLineNo">139</span>   * Technical installation that publishes this occurrence record.<a name="line.139"></a>
-<span class="sourceLineNo">140</span>   */<a name="line.140"></a>
-<span class="sourceLineNo">141</span>  @Nullable<a name="line.141"></a>
-<span class="sourceLineNo">142</span>  public UUID getInstallationKey() {<a name="line.142"></a>
-<span class="sourceLineNo">143</span>    return installationKey;<a name="line.143"></a>
-<span class="sourceLineNo">144</span>  }<a name="line.144"></a>
-<span class="sourceLineNo">145</span><a name="line.145"></a>
-<span class="sourceLineNo">146</span>  public void setInstallationKey(UUID installationKey) {<a name="line.146"></a>
-<span class="sourceLineNo">147</span>    this.installationKey = installationKey;<a name="line.147"></a>
-<span class="sourceLineNo">148</span>  }<a name="line.148"></a>
-<span class="sourceLineNo">149</span><a name="line.149"></a>
-<span class="sourceLineNo">150</span>  /**<a name="line.150"></a>
-<span class="sourceLineNo">151</span>   * The country of the organization that publishes the dataset to which the occurrence belongs.<a name="line.151"></a>
-<span class="sourceLineNo">152</span>   */<a name="line.152"></a>
-<span class="sourceLineNo">153</span>  @Nullable<a name="line.153"></a>
-<span class="sourceLineNo">154</span>  public Country getPublishingCountry() {<a name="line.154"></a>
-<span class="sourceLineNo">155</span>    return publishingCountry;<a name="line.155"></a>
-<span class="sourceLineNo">156</span>  }<a name="line.156"></a>
-<span class="sourceLineNo">157</span><a name="line.157"></a>
-<span class="sourceLineNo">158</span>  public void setPublishingCountry(Country publishingCountry) {<a name="line.158"></a>
-<span class="sourceLineNo">159</span>    this.publishingCountry = publishingCountry;<a name="line.159"></a>
-<span class="sourceLineNo">160</span>  }<a name="line.160"></a>
-<span class="sourceLineNo">161</span><a name="line.161"></a>
-<span class="sourceLineNo">162</span>  @NotNull<a name="line.162"></a>
-<span class="sourceLineNo">163</span>  public EndpointType getProtocol() {<a name="line.163"></a>
-<span class="sourceLineNo">164</span>    return protocol;<a name="line.164"></a>
-<span class="sourceLineNo">165</span>  }<a name="line.165"></a>
-<span class="sourceLineNo">166</span><a name="line.166"></a>
-<span class="sourceLineNo">167</span>  public void setProtocol(EndpointType protocol) {<a name="line.167"></a>
-<span class="sourceLineNo">168</span>    this.protocol = protocol;<a name="line.168"></a>
-<span class="sourceLineNo">169</span>  }<a name="line.169"></a>
-<span class="sourceLineNo">170</span><a name="line.170"></a>
-<span class="sourceLineNo">171</span>  /**<a name="line.171"></a>
-<span class="sourceLineNo">172</span>   * The date this record was last crawled/harvested from the endpoint.<a name="line.172"></a>
-<span class="sourceLineNo">173</span>   */<a name="line.173"></a>
-<span class="sourceLineNo">174</span>  @Nullable<a name="line.174"></a>
-<span class="sourceLineNo">175</span>  public Date getLastCrawled() {<a name="line.175"></a>
-<span class="sourceLineNo">176</span>    return lastCrawled == null ? null : new Date(lastCrawled.getTime());<a name="line.176"></a>
-<span class="sourceLineNo">177</span>  }<a name="line.177"></a>
-<span class="sourceLineNo">178</span><a name="line.178"></a>
-<span class="sourceLineNo">179</span>  public void setLastCrawled(@Nullable Date lastCrawled) {<a name="line.179"></a>
-<span class="sourceLineNo">180</span>    this.lastCrawled = lastCrawled == null ? null : new Date(lastCrawled.getTime());<a name="line.180"></a>
-<span class="sourceLineNo">181</span>  }<a name="line.181"></a>
-<span class="sourceLineNo">182</span><a name="line.182"></a>
-<span class="sourceLineNo">183</span>  /**<a name="line.183"></a>
-<span class="sourceLineNo">184</span>   * The date this record was last parsed from raw xml/json into verbatim verbatimFields.<a name="line.184"></a>
-<span class="sourceLineNo">185</span>   */<a name="line.185"></a>
-<span class="sourceLineNo">186</span>  @Nullable<a name="line.186"></a>
-<span class="sourceLineNo">187</span>  public Date getLastParsed() {<a name="line.187"></a>
-<span class="sourceLineNo">188</span>    return lastParsed;<a name="line.188"></a>
+<span class="sourceLineNo">122</span>  // the verbatim fields for the occurrence<a name="line.122"></a>
+<span class="sourceLineNo">123</span>  @Schema(<a name="line.123"></a>
+<span class="sourceLineNo">124</span>    description = "The verbatim fields for the occurrence, with Darwin Core terms as keys."<a name="line.124"></a>
+<span class="sourceLineNo">125</span>  )<a name="line.125"></a>
+<span class="sourceLineNo">126</span>  private Map&lt;Term, String&gt; verbatimFields = new HashMap&lt;&gt;();<a name="line.126"></a>
+<span class="sourceLineNo">127</span><a name="line.127"></a>
+<span class="sourceLineNo">128</span>  // verbatim extension data<a name="line.128"></a>
+<span class="sourceLineNo">129</span>  @Schema(<a name="line.129"></a>
+<span class="sourceLineNo">130</span>    description = "The verbatim Darwin Core Archive extension fields for this occurrence.\n\n" +<a name="line.130"></a>
+<span class="sourceLineNo">131</span>      "The main key is the record class term (the row type in Darwin Core Archive), within that are " +<a name="line.131"></a>
+<span class="sourceLineNo">132</span>      " values with extension terms as keys."<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  )<a name="line.133"></a>
+<span class="sourceLineNo">134</span>  private Map&lt;String, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions = new HashMap&lt;&gt;();<a name="line.134"></a>
+<span class="sourceLineNo">135</span><a name="line.135"></a>
+<span class="sourceLineNo">136</span>  /**<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   * Get the value of a specific field (Term).<a name="line.137"></a>
+<span class="sourceLineNo">138</span>   */<a name="line.138"></a>
+<span class="sourceLineNo">139</span>  @Nullable<a name="line.139"></a>
+<span class="sourceLineNo">140</span>  public String getVerbatimField(Term term) {<a name="line.140"></a>
+<span class="sourceLineNo">141</span>    Objects.requireNonNull(term, "term can't be null");<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    return verbatimFields.get(term);<a name="line.142"></a>
+<span class="sourceLineNo">143</span>  }<a name="line.143"></a>
+<span class="sourceLineNo">144</span><a name="line.144"></a>
+<span class="sourceLineNo">145</span>  /**<a name="line.145"></a>
+<span class="sourceLineNo">146</span>   * @return true if a verbatim field exists and is not null or an empty string<a name="line.146"></a>
+<span class="sourceLineNo">147</span>   */<a name="line.147"></a>
+<span class="sourceLineNo">148</span>  public boolean hasVerbatimField(Term term) {<a name="line.148"></a>
+<span class="sourceLineNo">149</span>    Objects.requireNonNull(term, "term can't be null");<a name="line.149"></a>
+<span class="sourceLineNo">150</span>    return StringUtils.isNotEmpty(verbatimFields.get(term));<a name="line.150"></a>
+<span class="sourceLineNo">151</span>  }<a name="line.151"></a>
+<span class="sourceLineNo">152</span><a name="line.152"></a>
+<span class="sourceLineNo">153</span>  /**<a name="line.153"></a>
+<span class="sourceLineNo">154</span>   * For setting a specific field without having to replace the entire verbatimFields Map.<a name="line.154"></a>
+<span class="sourceLineNo">155</span>   *<a name="line.155"></a>
+<span class="sourceLineNo">156</span>   * @param term       the field to set<a name="line.156"></a>
+<span class="sourceLineNo">157</span>   * @param fieldValue the field's value<a name="line.157"></a>
+<span class="sourceLineNo">158</span>   */<a name="line.158"></a>
+<span class="sourceLineNo">159</span>  public void setVerbatimField(Term term, @Nullable String fieldValue) {<a name="line.159"></a>
+<span class="sourceLineNo">160</span>    Objects.requireNonNull(term, "term can't be null");<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    verbatimFields.put(term, fieldValue);<a name="line.161"></a>
+<span class="sourceLineNo">162</span>  }<a name="line.162"></a>
+<span class="sourceLineNo">163</span><a name="line.163"></a>
+<span class="sourceLineNo">164</span>  /**<a name="line.164"></a>
+<span class="sourceLineNo">165</span>   * The GBIF assigned, persistent key to the occurrence record.<a name="line.165"></a>
+<span class="sourceLineNo">166</span>   * OccurrenceID itself is kept in the verbatim verbatimFields map.<a name="line.166"></a>
+<span class="sourceLineNo">167</span>   */<a name="line.167"></a>
+<span class="sourceLineNo">168</span>  @NotNull<a name="line.168"></a>
+<span class="sourceLineNo">169</span>  public Long getKey() {<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    return key;<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  }<a name="line.171"></a>
+<span class="sourceLineNo">172</span><a name="line.172"></a>
+<span class="sourceLineNo">173</span>  public void setKey(Long key) {<a name="line.173"></a>
+<span class="sourceLineNo">174</span>    this.key = key;<a name="line.174"></a>
+<span class="sourceLineNo">175</span>  }<a name="line.175"></a>
+<span class="sourceLineNo">176</span><a name="line.176"></a>
+<span class="sourceLineNo">177</span>  @NotNull<a name="line.177"></a>
+<span class="sourceLineNo">178</span>  public UUID getDatasetKey() {<a name="line.178"></a>
+<span class="sourceLineNo">179</span>    return datasetKey;<a name="line.179"></a>
+<span class="sourceLineNo">180</span>  }<a name="line.180"></a>
+<span class="sourceLineNo">181</span><a name="line.181"></a>
+<span class="sourceLineNo">182</span>  public void setDatasetKey(UUID datasetKey) {<a name="line.182"></a>
+<span class="sourceLineNo">183</span>    this.datasetKey = datasetKey;<a name="line.183"></a>
+<span class="sourceLineNo">184</span>  }<a name="line.184"></a>
+<span class="sourceLineNo">185</span><a name="line.185"></a>
+<span class="sourceLineNo">186</span>  @NotNull<a name="line.186"></a>
+<span class="sourceLineNo">187</span>  public UUID getPublishingOrgKey() {<a name="line.187"></a>
+<span class="sourceLineNo">188</span>    return publishingOrgKey;<a name="line.188"></a>
 <span class="sourceLineNo">189</span>  }<a name="line.189"></a>
 <span class="sourceLineNo">190</span><a name="line.190"></a>
-<span class="sourceLineNo">191</span>  public void setLastParsed(@Nullable Date lastParsed) {<a name="line.191"></a>
-<span class="sourceLineNo">192</span>    this.lastParsed = lastParsed == null ? null : new Date(lastParsed.getTime());<a name="line.192"></a>
+<span class="sourceLineNo">191</span>  public void setPublishingOrgKey(UUID publishingOrgKey) {<a name="line.191"></a>
+<span class="sourceLineNo">192</span>    this.publishingOrgKey = publishingOrgKey;<a name="line.192"></a>
 <span class="sourceLineNo">193</span>  }<a name="line.193"></a>
 <span class="sourceLineNo">194</span><a name="line.194"></a>
 <span class="sourceLineNo">195</span>  /**<a name="line.195"></a>
-<span class="sourceLineNo">196</span>   * Crawling attempt id.<a name="line.196"></a>
+<span class="sourceLineNo">196</span>   * The GBIF Network associated to the publishing dataset.<a name="line.196"></a>
 <span class="sourceLineNo">197</span>   */<a name="line.197"></a>
 <span class="sourceLineNo">198</span>  @Nullable<a name="line.198"></a>
-<span class="sourceLineNo">199</span>  public Integer getCrawlId() {<a name="line.199"></a>
-<span class="sourceLineNo">200</span>    return crawlId;<a name="line.200"></a>
+<span class="sourceLineNo">199</span>  public List&lt;UUID&gt; getNetworkKeys() {<a name="line.199"></a>
+<span class="sourceLineNo">200</span>    return networkKeys;<a name="line.200"></a>
 <span class="sourceLineNo">201</span>  }<a name="line.201"></a>
 <span class="sourceLineNo">202</span><a name="line.202"></a>
-<span class="sourceLineNo">203</span>  public void setCrawlId(Integer crawlId) {<a name="line.203"></a>
-<span class="sourceLineNo">204</span>    this.crawlId = crawlId;<a name="line.204"></a>
+<span class="sourceLineNo">203</span>  public void setNetworkKeys(List&lt;UUID&gt; networkKeys) {<a name="line.203"></a>
+<span class="sourceLineNo">204</span>    this.networkKeys = networkKeys;<a name="line.204"></a>
 <span class="sourceLineNo">205</span>  }<a name="line.205"></a>
 <span class="sourceLineNo">206</span><a name="line.206"></a>
 <span class="sourceLineNo">207</span>  /**<a name="line.207"></a>
-<span class="sourceLineNo">208</span>   * GBIF project identifier.<a name="line.208"></a>
+<span class="sourceLineNo">208</span>   * Technical installation that publishes this occurrence record.<a name="line.208"></a>
 <span class="sourceLineNo">209</span>   */<a name="line.209"></a>
 <span class="sourceLineNo">210</span>  @Nullable<a name="line.210"></a>
-<span class="sourceLineNo">211</span>  public String getProjectId() {<a name="line.211"></a>
-<span class="sourceLineNo">212</span>    return projectId;<a name="line.212"></a>
+<span class="sourceLineNo">211</span>  public UUID getInstallationKey() {<a name="line.211"></a>
+<span class="sourceLineNo">212</span>    return installationKey;<a name="line.212"></a>
 <span class="sourceLineNo">213</span>  }<a name="line.213"></a>
 <span class="sourceLineNo">214</span><a name="line.214"></a>
-<span class="sourceLineNo">215</span>  public void setProjectId(String projectId) {<a name="line.215"></a>
-<span class="sourceLineNo">216</span>    this.projectId = projectId;<a name="line.216"></a>
+<span class="sourceLineNo">215</span>  public void setInstallationKey(UUID installationKey) {<a name="line.215"></a>
+<span class="sourceLineNo">216</span>    this.installationKey = installationKey;<a name="line.216"></a>
 <span class="sourceLineNo">217</span>  }<a name="line.217"></a>
 <span class="sourceLineNo">218</span><a name="line.218"></a>
 <span class="sourceLineNo">219</span>  /**<a name="line.219"></a>
-<span class="sourceLineNo">220</span>   * GBIF programme acronym/identifier.<a name="line.220"></a>
+<span class="sourceLineNo">220</span>   * The country of the organization that publishes the dataset to which the occurrence belongs.<a name="line.220"></a>
 <span class="sourceLineNo">221</span>   */<a name="line.221"></a>
 <span class="sourceLineNo">222</span>  @Nullable<a name="line.222"></a>
-<span class="sourceLineNo">223</span>  public String getProgrammeAcronym() {<a name="line.223"></a>
-<span class="sourceLineNo">224</span>    return programmeAcronym;<a name="line.224"></a>
+<span class="sourceLineNo">223</span>  public Country getPublishingCountry() {<a name="line.223"></a>
+<span class="sourceLineNo">224</span>    return publishingCountry;<a name="line.224"></a>
 <span class="sourceLineNo">225</span>  }<a name="line.225"></a>
 <span class="sourceLineNo">226</span><a name="line.226"></a>
-<span class="sourceLineNo">227</span>  public void setProgrammeAcronym(String programmeAcronym) {<a name="line.227"></a>
-<span class="sourceLineNo">228</span>    this.programmeAcronym = programmeAcronym;<a name="line.228"></a>
+<span class="sourceLineNo">227</span>  public void setPublishingCountry(Country publishingCountry) {<a name="line.227"></a>
+<span class="sourceLineNo">228</span>    this.publishingCountry = publishingCountry;<a name="line.228"></a>
 <span class="sourceLineNo">229</span>  }<a name="line.229"></a>
 <span class="sourceLineNo">230</span><a name="line.230"></a>
-<span class="sourceLineNo">231</span>  /**<a name="line.231"></a>
-<span class="sourceLineNo">232</span>   * Organization key of the installation that hosts the occurrence record.<a name="line.232"></a>
-<span class="sourceLineNo">233</span>   */<a name="line.233"></a>
-<span class="sourceLineNo">234</span>  @Nullable<a name="line.234"></a>
-<span class="sourceLineNo">235</span>  public UUID getHostingOrganizationKey() {<a name="line.235"></a>
-<span class="sourceLineNo">236</span>    return hostingOrganizationKey;<a name="line.236"></a>
-<span class="sourceLineNo">237</span>  }<a name="line.237"></a>
-<span class="sourceLineNo">238</span><a name="line.238"></a>
-<span class="sourceLineNo">239</span>  public void setHostingOrganizationKey(UUID hostingOrganizationKey) {<a name="line.239"></a>
-<span class="sourceLineNo">240</span>    this.hostingOrganizationKey = hostingOrganizationKey;<a name="line.240"></a>
-<span class="sourceLineNo">241</span>  }<a name="line.241"></a>
-<span class="sourceLineNo">242</span><a name="line.242"></a>
-<span class="sourceLineNo">243</span>  /**<a name="line.243"></a>
-<span class="sourceLineNo">244</span>   * A map holding all verbatim core terms.<a name="line.244"></a>
-<span class="sourceLineNo">245</span>   */<a name="line.245"></a>
-<span class="sourceLineNo">246</span>  @NotNull<a name="line.246"></a>
-<span class="sourceLineNo">247</span>  @JsonIgnore<a name="line.247"></a>
-<span class="sourceLineNo">248</span>  public Map&lt;Term, String&gt; getVerbatimFields() {<a name="line.248"></a>
-<span class="sourceLineNo">249</span>    return verbatimFields;<a name="line.249"></a>
+<span class="sourceLineNo">231</span>  @NotNull<a name="line.231"></a>
+<span class="sourceLineNo">232</span>  public EndpointType getProtocol() {<a name="line.232"></a>
+<span class="sourceLineNo">233</span>    return protocol;<a name="line.233"></a>
+<span class="sourceLineNo">234</span>  }<a name="line.234"></a>
+<span class="sourceLineNo">235</span><a name="line.235"></a>
+<span class="sourceLineNo">236</span>  public void setProtocol(EndpointType protocol) {<a name="line.236"></a>
+<span class="sourceLineNo">237</span>    this.protocol = protocol;<a name="line.237"></a>
+<span class="sourceLineNo">238</span>  }<a name="line.238"></a>
+<span class="sourceLineNo">239</span><a name="line.239"></a>
+<span class="sourceLineNo">240</span>  /**<a name="line.240"></a>
+<span class="sourceLineNo">241</span>   * The date this record was last crawled/harvested from the endpoint.<a name="line.241"></a>
+<span class="sourceLineNo">242</span>   */<a name="line.242"></a>
+<span class="sourceLineNo">243</span>  @Nullable<a name="line.243"></a>
+<span class="sourceLineNo">244</span>  public Date getLastCrawled() {<a name="line.244"></a>
+<span class="sourceLineNo">245</span>    return lastCrawled == null ? null : new Date(lastCrawled.getTime());<a name="line.245"></a>
+<span class="sourceLineNo">246</span>  }<a name="line.246"></a>
+<span class="sourceLineNo">247</span><a name="line.247"></a>
+<span class="sourceLineNo">248</span>  public void setLastCrawled(@Nullable Date lastCrawled) {<a name="line.248"></a>
+<span class="sourceLineNo">249</span>    this.lastCrawled = lastCrawled == null ? null : new Date(lastCrawled.getTime());<a name="line.249"></a>
 <span class="sourceLineNo">250</span>  }<a name="line.250"></a>
 <span class="sourceLineNo">251</span><a name="line.251"></a>
-<span class="sourceLineNo">252</span>  public void setVerbatimFields(Map&lt;Term, String&gt; verbatimFields) {<a name="line.252"></a>
-<span class="sourceLineNo">253</span>    this.verbatimFields = verbatimFields;<a name="line.253"></a>
-<span class="sourceLineNo">254</span>  }<a name="line.254"></a>
-<span class="sourceLineNo">255</span><a name="line.255"></a>
-<span class="sourceLineNo">256</span>  /**<a name="line.256"></a>
-<span class="sourceLineNo">257</span>   * A map holding all verbatim extension terms.<a name="line.257"></a>
-<span class="sourceLineNo">258</span>   */<a name="line.258"></a>
-<span class="sourceLineNo">259</span>  @NotNull<a name="line.259"></a>
-<span class="sourceLineNo">260</span>  public Map&lt;String, List&lt;Map&lt;Term, String&gt;&gt;&gt; getExtensions() {<a name="line.260"></a>
-<span class="sourceLineNo">261</span>    return extensions;<a name="line.261"></a>
+<span class="sourceLineNo">252</span>  /**<a name="line.252"></a>
+<span class="sourceLineNo">253</span>   * The date this record was last parsed from raw xml/json into verbatim verbatimFields.<a name="line.253"></a>
+<span class="sourceLineNo">254</span>   */<a name="line.254"></a>
+<span class="sourceLineNo">255</span>  @Nullable<a name="line.255"></a>
+<span class="sourceLineNo">256</span>  public Date getLastParsed() {<a name="line.256"></a>
+<span class="sourceLineNo">257</span>    return lastParsed;<a name="line.257"></a>
+<span class="sourceLineNo">258</span>  }<a name="line.258"></a>
+<span class="sourceLineNo">259</span><a name="line.259"></a>
+<span class="sourceLineNo">260</span>  public void setLastParsed(@Nullable Date lastParsed) {<a name="line.260"></a>
+<span class="sourceLineNo">261</span>    this.lastParsed = lastParsed == null ? null : new Date(lastParsed.getTime());<a name="line.261"></a>
 <span class="sourceLineNo">262</span>  }<a name="line.262"></a>
 <span class="sourceLineNo">263</span><a name="line.263"></a>
-<span class="sourceLineNo">264</span>  public void setExtensions(Map&lt;String, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions) {<a name="line.264"></a>
-<span class="sourceLineNo">265</span>    this.extensions = extensions;<a name="line.265"></a>
-<span class="sourceLineNo">266</span>  }<a name="line.266"></a>
-<span class="sourceLineNo">267</span><a name="line.267"></a>
-<span class="sourceLineNo">268</span>  @Override<a name="line.268"></a>
-<span class="sourceLineNo">269</span>  public boolean equals(Object o) {<a name="line.269"></a>
-<span class="sourceLineNo">270</span>    if (this == o) {<a name="line.270"></a>
-<span class="sourceLineNo">271</span>      return true;<a name="line.271"></a>
-<span class="sourceLineNo">272</span>    }<a name="line.272"></a>
-<span class="sourceLineNo">273</span>    if (o == null || getClass() != o.getClass()) {<a name="line.273"></a>
-<span class="sourceLineNo">274</span>      return false;<a name="line.274"></a>
-<span class="sourceLineNo">275</span>    }<a name="line.275"></a>
-<span class="sourceLineNo">276</span>    VerbatimOccurrence that = (VerbatimOccurrence) o;<a name="line.276"></a>
-<span class="sourceLineNo">277</span>    return Objects.equals(key, that.key) &amp;&amp;<a name="line.277"></a>
-<span class="sourceLineNo">278</span>      Objects.equals(datasetKey, that.datasetKey) &amp;&amp;<a name="line.278"></a>
-<span class="sourceLineNo">279</span>      Objects.equals(publishingOrgKey, that.publishingOrgKey) &amp;&amp;<a name="line.279"></a>
-<span class="sourceLineNo">280</span>      Objects.equals(networkKeys, that.networkKeys) &amp;&amp;<a name="line.280"></a>
-<span class="sourceLineNo">281</span>      Objects.equals(installationKey, that.installationKey) &amp;&amp;<a name="line.281"></a>
-<span class="sourceLineNo">282</span>      publishingCountry == that.publishingCountry &amp;&amp;<a name="line.282"></a>
-<span class="sourceLineNo">283</span>      protocol == that.protocol &amp;&amp;<a name="line.283"></a>
-<span class="sourceLineNo">284</span>      Objects.equals(lastCrawled, that.lastCrawled) &amp;&amp;<a name="line.284"></a>
-<span class="sourceLineNo">285</span>      Objects.equals(lastParsed, that.lastParsed) &amp;&amp;<a name="line.285"></a>
-<span class="sourceLineNo">286</span>      Objects.equals(crawlId, that.crawlId) &amp;&amp;<a name="line.286"></a>
-<span class="sourceLineNo">287</span>      Objects.equals(projectId, that.projectId) &amp;&amp;<a name="line.287"></a>
-<span class="sourceLineNo">288</span>      Objects.equals(programmeAcronym, that.programmeAcronym) &amp;&amp;<a name="line.288"></a>
-<span class="sourceLineNo">289</span>      Objects.equals(verbatimFields, that.verbatimFields) &amp;&amp;<a name="line.289"></a>
-<span class="sourceLineNo">290</span>      Objects.equals(extensions, that.extensions);<a name="line.290"></a>
-<span class="sourceLineNo">291</span>  }<a name="line.291"></a>
-<span class="sourceLineNo">292</span><a name="line.292"></a>
-<span class="sourceLineNo">293</span>  @Override<a name="line.293"></a>
-<span class="sourceLineNo">294</span>  public int hashCode() {<a name="line.294"></a>
-<span class="sourceLineNo">295</span>    return Objects<a name="line.295"></a>
-<span class="sourceLineNo">296</span>      .hash(key, datasetKey, publishingOrgKey, networkKeys, installationKey, publishingCountry,<a name="line.296"></a>
-<span class="sourceLineNo">297</span>        protocol, lastCrawled, lastParsed, crawlId, projectId, programmeAcronym, verbatimFields,<a name="line.297"></a>
-<span class="sourceLineNo">298</span>        extensions);<a name="line.298"></a>
-<span class="sourceLineNo">299</span>  }<a name="line.299"></a>
-<span class="sourceLineNo">300</span><a name="line.300"></a>
-<span class="sourceLineNo">301</span>  @Override<a name="line.301"></a>
-<span class="sourceLineNo">302</span>  public String toString() {<a name="line.302"></a>
-<span class="sourceLineNo">303</span>    return new StringJoiner(", ", VerbatimOccurrence.class.getSimpleName() + "[", "]")<a name="line.303"></a>
-<span class="sourceLineNo">304</span>      .add("key=" + key)<a name="line.304"></a>
-<span class="sourceLineNo">305</span>      .add("datasetKey=" + datasetKey)<a name="line.305"></a>
-<span class="sourceLineNo">306</span>      .add("publishingOrgKey=" + publishingOrgKey)<a name="line.306"></a>
-<span class="sourceLineNo">307</span>      .add("networkKeys=" + networkKeys)<a name="line.307"></a>
-<span class="sourceLineNo">308</span>      .add("installationKey=" + installationKey)<a name="line.308"></a>
-<span class="sourceLineNo">309</span>      .add("publishingCountry=" + publishingCountry)<a name="line.309"></a>
-<span class="sourceLineNo">310</span>      .add("protocol=" + protocol)<a name="line.310"></a>
-<span class="sourceLineNo">311</span>      .add("lastCrawled=" + lastCrawled)<a name="line.311"></a>
-<span class="sourceLineNo">312</span>      .add("lastParsed=" + lastParsed)<a name="line.312"></a>
-<span class="sourceLineNo">313</span>      .add("crawlId=" + crawlId)<a name="line.313"></a>
-<span class="sourceLineNo">314</span>      .add("projectId='" + projectId + "'")<a name="line.314"></a>
-<span class="sourceLineNo">315</span>      .add("programmeAcronym='" + programmeAcronym + "'")<a name="line.315"></a>
-<span class="sourceLineNo">316</span>      .add("extensions=" + extensions)<a name="line.316"></a>
-<span class="sourceLineNo">317</span>      .toString();<a name="line.317"></a>
-<span class="sourceLineNo">318</span>  }<a name="line.318"></a>
-<span class="sourceLineNo">319</span><a name="line.319"></a>
-<span class="sourceLineNo">320</span>  /**<a name="line.320"></a>
-<span class="sourceLineNo">321</span>   * This private method is only for deserialization via jackson and not exposed anywhere else!<a name="line.321"></a>
-<span class="sourceLineNo">322</span>   */<a name="line.322"></a>
-<span class="sourceLineNo">323</span>  @JsonAnySetter<a name="line.323"></a>
-<span class="sourceLineNo">324</span>  private void addJsonVerbatimField(String key, String value) {<a name="line.324"></a>
-<span class="sourceLineNo">325</span>    if(StringUtils.isNotEmpty(value)) {<a name="line.325"></a>
-<span class="sourceLineNo">326</span>      Term t = TermFactory.instance().findTerm(key);<a name="line.326"></a>
-<span class="sourceLineNo">327</span>      verbatimFields.put(t, value);<a name="line.327"></a>
-<span class="sourceLineNo">328</span>    }<a name="line.328"></a>
-<span class="sourceLineNo">329</span>  }<a name="line.329"></a>
-<span class="sourceLineNo">330</span><a name="line.330"></a>
-<span class="sourceLineNo">331</span>  /**<a name="line.331"></a>
-<span class="sourceLineNo">332</span>   * This private method is only for serialization via jackson and not exposed anywhere else!<a name="line.332"></a>
-<span class="sourceLineNo">333</span>   * It maps the verbatimField terms into properties with their full qualified name.<a name="line.333"></a>
-<span class="sourceLineNo">334</span>   */<a name="line.334"></a>
-<span class="sourceLineNo">335</span>  @JsonAnyGetter<a name="line.335"></a>
-<span class="sourceLineNo">336</span>  private Map&lt;String, String&gt; jsonVerbatimFields() { // note: for 1.6.0 MUST use non-getter name; otherwise doesn't matter<a name="line.336"></a>
-<span class="sourceLineNo">337</span>    Map&lt;String, String&gt; extendedProps = new HashMap&lt;&gt;();<a name="line.337"></a>
-<span class="sourceLineNo">338</span>    for (Map.Entry&lt;Term, String&gt; prop : verbatimFields.entrySet()) {<a name="line.338"></a>
-<span class="sourceLineNo">339</span>      extendedProps.put(prop.getKey().qualifiedName(), prop.getValue());<a name="line.339"></a>
-<span class="sourceLineNo">340</span>    }<a name="line.340"></a>
-<span class="sourceLineNo">341</span>    return extendedProps;<a name="line.341"></a>
-<span class="sourceLineNo">342</span>  }<a name="line.342"></a>
-<span class="sourceLineNo">343</span>}<a name="line.343"></a>
+<span class="sourceLineNo">264</span>  /**<a name="line.264"></a>
+<span class="sourceLineNo">265</span>   * Crawling attempt id.<a name="line.265"></a>
+<span class="sourceLineNo">266</span>   */<a name="line.266"></a>
+<span class="sourceLineNo">267</span>  @Nullable<a name="line.267"></a>
+<span class="sourceLineNo">268</span>  public Integer getCrawlId() {<a name="line.268"></a>
+<span class="sourceLineNo">269</span>    return crawlId;<a name="line.269"></a>
+<span class="sourceLineNo">270</span>  }<a name="line.270"></a>
+<span class="sourceLineNo">271</span><a name="line.271"></a>
+<span class="sourceLineNo">272</span>  public void setCrawlId(Integer crawlId) {<a name="line.272"></a>
+<span class="sourceLineNo">273</span>    this.crawlId = crawlId;<a name="line.273"></a>
+<span class="sourceLineNo">274</span>  }<a name="line.274"></a>
+<span class="sourceLineNo">275</span><a name="line.275"></a>
+<span class="sourceLineNo">276</span>  /**<a name="line.276"></a>
+<span class="sourceLineNo">277</span>   * GBIF project identifier.<a name="line.277"></a>
+<span class="sourceLineNo">278</span>   */<a name="line.278"></a>
+<span class="sourceLineNo">279</span>  @Nullable<a name="line.279"></a>
+<span class="sourceLineNo">280</span>  public String getProjectId() {<a name="line.280"></a>
+<span class="sourceLineNo">281</span>    return projectId;<a name="line.281"></a>
+<span class="sourceLineNo">282</span>  }<a name="line.282"></a>
+<span class="sourceLineNo">283</span><a name="line.283"></a>
+<span class="sourceLineNo">284</span>  public void setProjectId(String projectId) {<a name="line.284"></a>
+<span class="sourceLineNo">285</span>    this.projectId = projectId;<a name="line.285"></a>
+<span class="sourceLineNo">286</span>  }<a name="line.286"></a>
+<span class="sourceLineNo">287</span><a name="line.287"></a>
+<span class="sourceLineNo">288</span>  /**<a name="line.288"></a>
+<span class="sourceLineNo">289</span>   * GBIF programme acronym/identifier.<a name="line.289"></a>
+<span class="sourceLineNo">290</span>   */<a name="line.290"></a>
+<span class="sourceLineNo">291</span>  @Nullable<a name="line.291"></a>
+<span class="sourceLineNo">292</span>  public String getProgrammeAcronym() {<a name="line.292"></a>
+<span class="sourceLineNo">293</span>    return programmeAcronym;<a name="line.293"></a>
+<span class="sourceLineNo">294</span>  }<a name="line.294"></a>
+<span class="sourceLineNo">295</span><a name="line.295"></a>
+<span class="sourceLineNo">296</span>  public void setProgrammeAcronym(String programmeAcronym) {<a name="line.296"></a>
+<span class="sourceLineNo">297</span>    this.programmeAcronym = programmeAcronym;<a name="line.297"></a>
+<span class="sourceLineNo">298</span>  }<a name="line.298"></a>
+<span class="sourceLineNo">299</span><a name="line.299"></a>
+<span class="sourceLineNo">300</span>  /**<a name="line.300"></a>
+<span class="sourceLineNo">301</span>   * Organization key of the installation that hosts the occurrence record.<a name="line.301"></a>
+<span class="sourceLineNo">302</span>   */<a name="line.302"></a>
+<span class="sourceLineNo">303</span>  @Nullable<a name="line.303"></a>
+<span class="sourceLineNo">304</span>  public UUID getHostingOrganizationKey() {<a name="line.304"></a>
+<span class="sourceLineNo">305</span>    return hostingOrganizationKey;<a name="line.305"></a>
+<span class="sourceLineNo">306</span>  }<a name="line.306"></a>
+<span class="sourceLineNo">307</span><a name="line.307"></a>
+<span class="sourceLineNo">308</span>  public void setHostingOrganizationKey(UUID hostingOrganizationKey) {<a name="line.308"></a>
+<span class="sourceLineNo">309</span>    this.hostingOrganizationKey = hostingOrganizationKey;<a name="line.309"></a>
+<span class="sourceLineNo">310</span>  }<a name="line.310"></a>
+<span class="sourceLineNo">311</span><a name="line.311"></a>
+<span class="sourceLineNo">312</span>  /**<a name="line.312"></a>
+<span class="sourceLineNo">313</span>   * A map holding all verbatim core terms.<a name="line.313"></a>
+<span class="sourceLineNo">314</span>   */<a name="line.314"></a>
+<span class="sourceLineNo">315</span>  @NotNull<a name="line.315"></a>
+<span class="sourceLineNo">316</span>  @JsonIgnore<a name="line.316"></a>
+<span class="sourceLineNo">317</span>  public Map&lt;Term, String&gt; getVerbatimFields() {<a name="line.317"></a>
+<span class="sourceLineNo">318</span>    return verbatimFields;<a name="line.318"></a>
+<span class="sourceLineNo">319</span>  }<a name="line.319"></a>
+<span class="sourceLineNo">320</span><a name="line.320"></a>
+<span class="sourceLineNo">321</span>  public void setVerbatimFields(Map&lt;Term, String&gt; verbatimFields) {<a name="line.321"></a>
+<span class="sourceLineNo">322</span>    this.verbatimFields = verbatimFields;<a name="line.322"></a>
+<span class="sourceLineNo">323</span>  }<a name="line.323"></a>
+<span class="sourceLineNo">324</span><a name="line.324"></a>
+<span class="sourceLineNo">325</span>  /**<a name="line.325"></a>
+<span class="sourceLineNo">326</span>   * A map holding all verbatim extension terms.<a name="line.326"></a>
+<span class="sourceLineNo">327</span>   */<a name="line.327"></a>
+<span class="sourceLineNo">328</span>  @NotNull<a name="line.328"></a>
+<span class="sourceLineNo">329</span>  public Map&lt;String, List&lt;Map&lt;Term, String&gt;&gt;&gt; getExtensions() {<a name="line.329"></a>
+<span class="sourceLineNo">330</span>    return extensions;<a name="line.330"></a>
+<span class="sourceLineNo">331</span>  }<a name="line.331"></a>
+<span class="sourceLineNo">332</span><a name="line.332"></a>
+<span class="sourceLineNo">333</span>  public void setExtensions(Map&lt;String, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions) {<a name="line.333"></a>
+<span class="sourceLineNo">334</span>    this.extensions = extensions;<a name="line.334"></a>
+<span class="sourceLineNo">335</span>  }<a name="line.335"></a>
+<span class="sourceLineNo">336</span><a name="line.336"></a>
+<span class="sourceLineNo">337</span>  @Override<a name="line.337"></a>
+<span class="sourceLineNo">338</span>  public boolean equals(Object o) {<a name="line.338"></a>
+<span class="sourceLineNo">339</span>    if (this == o) {<a name="line.339"></a>
+<span class="sourceLineNo">340</span>      return true;<a name="line.340"></a>
+<span class="sourceLineNo">341</span>    }<a name="line.341"></a>
+<span class="sourceLineNo">342</span>    if (o == null || getClass() != o.getClass()) {<a name="line.342"></a>
+<span class="sourceLineNo">343</span>      return false;<a name="line.343"></a>
+<span class="sourceLineNo">344</span>    }<a name="line.344"></a>
+<span class="sourceLineNo">345</span>    VerbatimOccurrence that = (VerbatimOccurrence) o;<a name="line.345"></a>
+<span class="sourceLineNo">346</span>    return Objects.equals(key, that.key) &amp;&amp;<a name="line.346"></a>
+<span class="sourceLineNo">347</span>      Objects.equals(datasetKey, that.datasetKey) &amp;&amp;<a name="line.347"></a>
+<span class="sourceLineNo">348</span>      Objects.equals(publishingOrgKey, that.publishingOrgKey) &amp;&amp;<a name="line.348"></a>
+<span class="sourceLineNo">349</span>      Objects.equals(networkKeys, that.networkKeys) &amp;&amp;<a name="line.349"></a>
+<span class="sourceLineNo">350</span>      Objects.equals(installationKey, that.installationKey) &amp;&amp;<a name="line.350"></a>
+<span class="sourceLineNo">351</span>      publishingCountry == that.publishingCountry &amp;&amp;<a name="line.351"></a>
+<span class="sourceLineNo">352</span>      protocol == that.protocol &amp;&amp;<a name="line.352"></a>
+<span class="sourceLineNo">353</span>      Objects.equals(lastCrawled, that.lastCrawled) &amp;&amp;<a name="line.353"></a>
+<span class="sourceLineNo">354</span>      Objects.equals(lastParsed, that.lastParsed) &amp;&amp;<a name="line.354"></a>
+<span class="sourceLineNo">355</span>      Objects.equals(crawlId, that.crawlId) &amp;&amp;<a name="line.355"></a>
+<span class="sourceLineNo">356</span>      Objects.equals(projectId, that.projectId) &amp;&amp;<a name="line.356"></a>
+<span class="sourceLineNo">357</span>      Objects.equals(programmeAcronym, that.programmeAcronym) &amp;&amp;<a name="line.357"></a>
+<span class="sourceLineNo">358</span>      Objects.equals(verbatimFields, that.verbatimFields) &amp;&amp;<a name="line.358"></a>
+<span class="sourceLineNo">359</span>      Objects.equals(extensions, that.extensions);<a name="line.359"></a>
+<span class="sourceLineNo">360</span>  }<a name="line.360"></a>
+<span class="sourceLineNo">361</span><a name="line.361"></a>
+<span class="sourceLineNo">362</span>  @Override<a name="line.362"></a>
+<span class="sourceLineNo">363</span>  public int hashCode() {<a name="line.363"></a>
+<span class="sourceLineNo">364</span>    return Objects<a name="line.364"></a>
+<span class="sourceLineNo">365</span>      .hash(key, datasetKey, publishingOrgKey, networkKeys, installationKey, publishingCountry,<a name="line.365"></a>
+<span class="sourceLineNo">366</span>        protocol, lastCrawled, lastParsed, crawlId, projectId, programmeAcronym, verbatimFields,<a name="line.366"></a>
+<span class="sourceLineNo">367</span>        extensions);<a name="line.367"></a>
+<span class="sourceLineNo">368</span>  }<a name="line.368"></a>
+<span class="sourceLineNo">369</span><a name="line.369"></a>
+<span class="sourceLineNo">370</span>  @Override<a name="line.370"></a>
+<span class="sourceLineNo">371</span>  public String toString() {<a name="line.371"></a>
+<span class="sourceLineNo">372</span>    return new StringJoiner(", ", VerbatimOccurrence.class.getSimpleName() + "[", "]")<a name="line.372"></a>
+<span class="sourceLineNo">373</span>      .add("key=" + key)<a name="line.373"></a>
+<span class="sourceLineNo">374</span>      .add("datasetKey=" + datasetKey)<a name="line.374"></a>
+<span class="sourceLineNo">375</span>      .add("publishingOrgKey=" + publishingOrgKey)<a name="line.375"></a>
+<span class="sourceLineNo">376</span>      .add("networkKeys=" + networkKeys)<a name="line.376"></a>
+<span class="sourceLineNo">377</span>      .add("installationKey=" + installationKey)<a name="line.377"></a>
+<span class="sourceLineNo">378</span>      .add("publishingCountry=" + publishingCountry)<a name="line.378"></a>
+<span class="sourceLineNo">379</span>      .add("protocol=" + protocol)<a name="line.379"></a>
+<span class="sourceLineNo">380</span>      .add("lastCrawled=" + lastCrawled)<a name="line.380"></a>
+<span class="sourceLineNo">381</span>      .add("lastParsed=" + lastParsed)<a name="line.381"></a>
+<span class="sourceLineNo">382</span>      .add("crawlId=" + crawlId)<a name="line.382"></a>
+<span class="sourceLineNo">383</span>      .add("projectId='" + projectId + "'")<a name="line.383"></a>
+<span class="sourceLineNo">384</span>      .add("programmeAcronym='" + programmeAcronym + "'")<a name="line.384"></a>
+<span class="sourceLineNo">385</span>      .add("extensions=" + extensions)<a name="line.385"></a>
+<span class="sourceLineNo">386</span>      .toString();<a name="line.386"></a>
+<span class="sourceLineNo">387</span>  }<a name="line.387"></a>
+<span class="sourceLineNo">388</span><a name="line.388"></a>
+<span class="sourceLineNo">389</span>  /**<a name="line.389"></a>
+<span class="sourceLineNo">390</span>   * This private method is only for deserialization via jackson and not exposed anywhere else!<a name="line.390"></a>
+<span class="sourceLineNo">391</span>   */<a name="line.391"></a>
+<span class="sourceLineNo">392</span>  @JsonAnySetter<a name="line.392"></a>
+<span class="sourceLineNo">393</span>  private void addJsonVerbatimField(String key, String value) {<a name="line.393"></a>
+<span class="sourceLineNo">394</span>    if(StringUtils.isNotEmpty(value)) {<a name="line.394"></a>
+<span class="sourceLineNo">395</span>      Term t = TermFactory.instance().findTerm(key);<a name="line.395"></a>
+<span class="sourceLineNo">396</span>      verbatimFields.put(t, value);<a name="line.396"></a>
+<span class="sourceLineNo">397</span>    }<a name="line.397"></a>
+<span class="sourceLineNo">398</span>  }<a name="line.398"></a>
+<span class="sourceLineNo">399</span><a name="line.399"></a>
+<span class="sourceLineNo">400</span>  /**<a name="line.400"></a>
+<span class="sourceLineNo">401</span>   * This private method is only for serialization via jackson and not exposed anywhere else!<a name="line.401"></a>
+<span class="sourceLineNo">402</span>   * It maps the verbatimField terms into properties with their full qualified name.<a name="line.402"></a>
+<span class="sourceLineNo">403</span>   */<a name="line.403"></a>
+<span class="sourceLineNo">404</span>  @JsonAnyGetter<a name="line.404"></a>
+<span class="sourceLineNo">405</span>  private Map&lt;String, String&gt; jsonVerbatimFields() { // note: for 1.6.0 MUST use non-getter name; otherwise doesn't matter<a name="line.405"></a>
+<span class="sourceLineNo">406</span>    Map&lt;String, String&gt; extendedProps = new HashMap&lt;&gt;();<a name="line.406"></a>
+<span class="sourceLineNo">407</span>    for (Map.Entry&lt;Term, String&gt; prop : verbatimFields.entrySet()) {<a name="line.407"></a>
+<span class="sourceLineNo">408</span>      extendedProps.put(prop.getKey().qualifiedName(), prop.getValue());<a name="line.408"></a>
+<span class="sourceLineNo">409</span>    }<a name="line.409"></a>
+<span class="sourceLineNo">410</span>    return extendedProps;<a name="line.410"></a>
+<span class="sourceLineNo">411</span>  }<a name="line.411"></a>
+<span class="sourceLineNo">412</span>}<a name="line.412"></a>
 
 
 
