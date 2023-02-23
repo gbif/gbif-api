@@ -31,52 +31,123 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @SuppressWarnings("unused")
 public class LiteratureSearchResult {
 
-  private String abstr;
+  @Schema(name = "abstract", description = "The abstract from the publication.")
+  private String abstract_;
+
+  @Schema(description = "The date the literature item was found by GBIF's staff or automated processes.")
   private String discovered;
+
+  @Schema(description = "The authors of the publication.")
   private List<Map<String, Object>> authors = new ArrayList<>();
+
+  @Schema(description = "Countries or areas of focus of the study.")
   private Set<Country> countriesOfCoverage = new HashSet<>();
+
+  @Schema(description = "Countries or areas of institution with which authors are affiliated.")
   private Set<Country> countriesOfResearcher = new HashSet<>();
+
+  @Schema(description = "The date the publication was added to the GBIF literature database.")
   private Date added;
+
+  @Schema(description = "The publication date of the publication.")
   private Date published;
+
+  @Schema(description = "The day of publication", minimum = "1", maximum = "31")
   private Integer day;
+
+  @Schema(description = "Keys of GBIF downloads referenced by the publication.")
   private List<String> gbifDownloadKey = new ArrayList<>();
+
+  @Schema(description = "Keys of GBIF occurrences directly mentioned by the paper.")
   private List<Long> gbifOccurrenceKey = new ArrayList<>();
+
+  @Schema(description = "Keys of taxa from the GBIF Backbone Taxonomy that are the focus of the paper.")
   private List<Integer> gbifTaxonKey = new ArrayList<>();
+
+  @Schema(description = "Keys of higher taxa from the GBIF Backbone Taxonomy that are the focus of the paper.")
   private List<Integer> gbifHigherTaxonKey = new ArrayList<>();
+
+  @Schema(description = "A list of GBIF network keys relevant to the publication.")
   private List<UUID> gbifNetworkKey = new ArrayList<>();
+
+  @Schema(description = "A list of GBIF project identifiers relevant to the publication.")
   private List<String> gbifProjectIdentifier = new ArrayList<>();
+
+  @Schema(description = "A list of GBIF programmes relevant to the publication.")
   private List<String> gbifProgramme = new ArrayList<>();
+
+  @Schema(description = "The manner in which GBIF is cited in a paper.")
   private String citationType;
+
+  @Schema(description = "GBIF regions (political divisions) related to the publication.")
   private Set<GbifRegion> gbifRegion = new HashSet<>();
+
+  @Schema(description = "GBIF identifier for this literature item.")
   private UUID id;
+
+  @Schema(description = "Identifiers (such as DOIs) for the literature item.")
   private Map<String, Object> identifiers = new HashMap<>();
+
+  @Schema(description = "Keywords assigned to the literature item.")
   private List<String> keywords = new ArrayList<>();
+
+  @Schema(description = "The language of the publication.")
   private Language language;
+
+  @Schema(description = "Type of literature, e.g. journal article.")
   private LiteratureType literatureType;
+
+  @Schema(description = "The day of publication", minimum = "1", maximum = "12")
   private Integer month;
+
+  @Schema(description = "Unstructured notes.")
   private String notes;
+
+  @Schema(description = "Whether the publication is open access.")
   private boolean openAccess;
+
+  @Schema(description = "Whether the publication has been peer reviewed.")
   private boolean peerReview;
+
+  @Schema(description = "The publisher of the paper.")
   private String publisher;
+
+  @Schema(description = "Relevance to GBIF community, see [literature relevance](https://www.gbif.org/faq?question=literature-relevance).")
   private Set<LiteratureRelevance> relevance = new HashSet<>();
+
+  @Schema(description = "Journal of publication.")
   private String source;
+
+  @Schema(description = "Various tags applied to the literature.")
   private List<String> tags = new ArrayList<>();
+
+  @Schema(description = "The title of the publication.")
   private String title;
+
+  @Schema(description = "Topics of the publication.")
   private Set<LiteratureTopic> topics = new HashSet<>();
+
+  @Schema(description = "The date this literature entry was last modified.")
   private Date modified;
+
+  @Schema(description = "Websites associated with the publication.")
   private List<String> websites = new ArrayList<>();
+
+  @Schema(description = "The year of publication")
   private Integer year;
 
   @JsonProperty("abstract")
-  public String getAbstr() {
-    return abstr;
+  public String getAbstract() {
+    return abstract_;
   }
 
-  public void setAbstr(String abstr) {
-    this.abstr = abstr;
+  public void setAbstract(String abstract_) {
+    this.abstract_ = abstract_;
   }
 
   public String getDiscovered() {

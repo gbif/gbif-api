@@ -15,14 +15,29 @@
  */
 package org.gbif.api.model.common.search;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.Explode;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingRequest;
 
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
 
 /**
  * Generic request class for search operations requesting facets.
@@ -40,6 +55,49 @@ public class FacetedSearchRequest<P extends SearchParameter> extends SearchReque
 
   //Holds the paging configuration for each requested facet
   private Map<P, Pageable> facetPages = new HashMap<>();
+
+  /**
+   * Annotation to document the facet query parameters.
+   */
+  @Target({METHOD})
+  @Retention(RetentionPolicy.RUNTIME)
+  @Inherited
+  @io.swagger.v3.oas.annotations.Parameters(
+    value = {
+      @Parameter(
+        name = "facet",
+        description = "A facet name used to retrieve the most frequent values for a field. This parameter may be " +
+          "repeated to request multiple facets.",
+        array = @ArraySchema(schema = @Schema(implementation = String.class)),
+        in = ParameterIn.QUERY,
+        explode = Explode.TRUE),
+      @Parameter(
+        name = "facetMincount",
+        description =
+          "Used in combination with the facet parameter. Set `facetMincount={#}` to exclude facets with a count less than `{#}`.",
+        schema = @Schema(implementation = Integer.class),
+        in = ParameterIn.QUERY),
+      @Parameter(
+        name = "facetMultiselect",
+        description =
+          "Used in combination with the facet parameter. Set `facetMultiselect=true` to still return counts for values that are not currently filtered.",
+        schema = @Schema(implementation = Boolean.class),
+        in = ParameterIn.QUERY),
+      @Parameter(
+        name = "facetLimit",
+        description =
+          "Facet parameters allow paging requests using the parameters facetOffset and facetLimit",
+        schema = @Schema(implementation = Integer.class),
+        in = ParameterIn.QUERY),
+      @Parameter(
+        name = "facetOffset",
+        description =
+          "Facet parameters allow paging requests using the parameters facetOffset and facetLimit",
+        schema = @Schema(implementation = Integer.class, minimum = "0"),
+        in = ParameterIn.QUERY)
+    }
+  )
+  public @interface FacetParameters {}
 
   public FacetedSearchRequest() {
   }

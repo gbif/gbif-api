@@ -26,6 +26,8 @@ import java.util.regex.Pattern;
 
 import javax.validation.constraints.NotNull;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +48,11 @@ import static org.gbif.api.util.PreconditionUtils.checkArgument;
  * For the syntax of DOI names see the <a href="http://www.doi.org/doi_handbook/2_Numbering.html#2.2">DOI Handbook</a>.
  * All parsing is case-insensitive and resulting components will all be uppercased.
  */
+@Schema(
+  description = "A Digital Object Identifier (DOI).",
+  pattern = "(10[.][0-9]{2,}(?:[.][0-9]+)*/(?:(?![%\"#? ])\\\\S)+)",
+  implementation = String.class
+)
 @JsonSerialize(using = DOI.DoiSerializer.class)
 @JsonDeserialize(using = DOI.DoiDeserializer.class)
 public class DOI implements Serializable {
