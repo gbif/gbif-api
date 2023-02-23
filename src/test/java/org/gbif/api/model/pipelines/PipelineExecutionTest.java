@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,20 +21,20 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /** Tests the {@link PipelineExecution}. */
-public class PipelineExecutionTest {
+class PipelineExecutionTest {
 
   @Test
-  public void pipelineExecutionComparatorTest() {
+  void pipelineExecutionComparatorTest() {
     PipelineExecution ex1 = new PipelineExecution();
     PipelineExecution ex2 = new PipelineExecution();
 
-    assertEquals(0, Objects.compare(ex1, ex2, PipelineExecution.PIPELINE_EXECUTION_BY_CREATED_ASC));
+    assertEquals(0, Objects.compare(ex1, ex2, PipelineProcess.PIPELINE_EXECUTION_BY_CREATED_ASC));
 
     // add creation dates
     ex1.setCreated(LocalDateTime.now());
-    assertEquals(-1, Objects.compare(ex1, ex2, PipelineExecution.PIPELINE_EXECUTION_BY_CREATED_ASC));
+    assertEquals(-1, Objects.compare(ex1, ex2, PipelineProcess.PIPELINE_EXECUTION_BY_CREATED_ASC));
 
     ex2.setCreated(LocalDateTime.now().minusMinutes(30));
-    assertEquals(1, Objects.compare(ex1, ex2, PipelineExecution.PIPELINE_EXECUTION_BY_CREATED_ASC));
+    assertEquals(1, Objects.compare(ex1, ex2, PipelineProcess.PIPELINE_EXECUTION_BY_CREATED_ASC));
   }
 }

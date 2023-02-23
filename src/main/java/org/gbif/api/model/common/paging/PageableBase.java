@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,6 +16,8 @@ package org.gbif.api.model.common.paging;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
 import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
 
@@ -27,7 +27,16 @@ import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFF
  */
 public class PageableBase implements Pageable {
 
+  @Schema(
+    description = "The offset of the results within all the search results.\n\n" +
+      "Subsequent pages can be retrieved by using `offset + count` as the new offset."
+  )
   protected long offset;
+
+  @Schema(
+    description = "The limit used.  Note the limit returned may be lower than the limit " +
+      "requested."
+  )
   protected int limit;
 
   /**

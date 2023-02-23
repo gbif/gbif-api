@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,14 +20,31 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Monthly dataset download statistics.
  */
 public class DownloadStatistics {
 
+  @Schema(
+    description = "The GBIF dataset key for the dataset."
+  )
   private UUID datasetKey;
+
+  @Schema(
+    description = "The total number of records."
+  )
   private Long totalRecords;
+
+  @Schema(
+    description = "The total number of downloads."
+  )
   private Long numberDownloads;
+
+  @Schema(
+    description = "The year and month."
+  )
   private LocalDate yearMonth;
 
   public DownloadStatistics(){

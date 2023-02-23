@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,8 +13,6 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import java.util.Objects;
@@ -27,11 +23,16 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @Schema(
   description = "This predicate checks if the `parameter` is not null (empty)."
 )
 public class IsNotNullPredicate implements Predicate {
 
+  @Schema(
+    description = "The search parameter to test."
+  )
   @NotNull
   private final OccurrenceSearchParameter parameter;
 

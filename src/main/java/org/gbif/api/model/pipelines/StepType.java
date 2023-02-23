@@ -16,42 +16,36 @@ package org.gbif.api.model.pipelines;
 /** Enum to represent the pipelines step names. */
 public enum StepType {
 
-  // Generic step name used to be a replace of the following three when client doesn't know the endpoint type of a dataset
   // Interpretaion
-  TO_VERBATIM("toVerbatim", 1),
-  DWCA_TO_VERBATIM("dwcaToVerbatim", 1),
-  XML_TO_VERBATIM("xmlToVerbatim", 1),
-  ABCD_TO_VERBATIM("abcdToVerbatim", 1),
-  VERBATIM_TO_IDENTIFIER("verbatimToIdentifier", 2),
-  VERBATIM_TO_INTERPRETED("verbatimToInterpreted", 3),
-  INTERPRETED_TO_INDEX("interpretedToIndex", 4),
-  HDFS_VIEW("hdfsView", 4),
-  FRAGMENTER("fragmenter", 4),
-  EVENTS_VERBATIM_TO_INTERPRETED("eventsVerbatimToInterpreted", 4),
-  EVENTS_INTERPRETED_TO_INDEX("eventsInterpretedToIndex", 5),
-  EVENTS_HDFS_VIEW("eventsHdfsView", 5),
+  TO_VERBATIM("toVerbatim"),
+  DWCA_TO_VERBATIM("dwcaToVerbatim"),
+  XML_TO_VERBATIM("xmlToVerbatim"),
+  ABCD_TO_VERBATIM("abcdToVerbatim"),
+  VERBATIM_TO_IDENTIFIER("verbatimToIdentifier"),
+  VERBATIM_TO_INTERPRETED("verbatimToInterpreted"),
+  INTERPRETED_TO_INDEX("interpretedToIndex"),
+  HDFS_VIEW("hdfsView"),
+  FRAGMENTER("fragmenter"),
+  EVENTS_VERBATIM_TO_INTERPRETED("eventsVerbatimToInterpreted"),
+  EVENTS_INTERPRETED_TO_INDEX("eventsInterpretedToIndex"),
+  EVENTS_HDFS_VIEW("eventsHdfsView"),
+
   // Validator
-  VALIDATOR_UPLOAD_ARCHIVE("validatorUploadArchive", 1),
-  VALIDATOR_VALIDATE_ARCHIVE("validatorValidateArchive", 2),
-  VALIDATOR_DWCA_TO_VERBATIM("validatorDwcaToVerbatim", 3),
-  VALIDATOR_XML_TO_VERBATIM("validatorXmlToVerbatim", 3),
-  VALIDATOR_ABCD_TO_VERBATIM("validatorAbcdToVerbatim", 3),
-  VALIDATOR_TABULAR_TO_VERBATIM("validatorTabularToVerbatim", 3),
-  VALIDATOR_VERBATIM_TO_INTERPRETED("validatorVerbatimToInterpreted", 4),
-  VALIDATOR_INTERPRETED_TO_INDEX("validatorInterpretedToIndex", 5),
-  VALIDATOR_COLLECT_METRICS("validatorCollectMetrics", 6);
+  VALIDATOR_UPLOAD_ARCHIVE("validatorUploadArchive"),
+  VALIDATOR_VALIDATE_ARCHIVE("validatorValidateArchive"),
+  VALIDATOR_DWCA_TO_VERBATIM("validatorDwcaToVerbatim"),
+  VALIDATOR_XML_TO_VERBATIM("validatorXmlToVerbatim"),
+  VALIDATOR_ABCD_TO_VERBATIM("validatorAbcdToVerbatim"),
+  VALIDATOR_TABULAR_TO_VERBATIM("validatorTabularToVerbatim"),
+  VALIDATOR_VERBATIM_TO_INTERPRETED("validatorVerbatimToInterpreted"),
+  VALIDATOR_INTERPRETED_TO_INDEX("validatorInterpretedToIndex"),
+  VALIDATOR_COLLECT_METRICS("validatorCollectMetrics");
+
+  StepType(String label) {
+    this.label = label;
+  }
 
   private String label;
-  private int executionOrder;
-
-  StepType(String label, int executionOrder) {
-    this.label = label;
-    this.executionOrder = executionOrder;
-  }
-
-  public int getExecutionOrder() {
-    return executionOrder;
-  }
 
   public String getLabel() {
     return label;

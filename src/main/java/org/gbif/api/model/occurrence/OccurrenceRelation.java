@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,7 +18,7 @@ import java.util.StringJoiner;
 
 /**
  * Occurrence relations based on the dwc:ResourceRelationship model.
- * See <a href="http://darwincore.googlecode.com/svn/trunk/terms/index.htm#relindex">Darwin Core</a>.
+ * See <a href="http://rs.tdwg.org/dwc/terms/ResourceRelationship">Darwin Core</a>.
  */
 public class OccurrenceRelation {
   private String id;  // resourceRelationshipID

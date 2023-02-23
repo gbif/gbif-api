@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -79,7 +77,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * TODO: deal with outdated codes from ISO_3166-3
  */
 @Schema(
-  description = "An enumeration for all current ISO 3166-1 Alpha-2 and Alpha-3 country codes.",
   externalDocs = @ExternalDocumentation(
     description = "API call to retrieve all official values.",
     url = "https://api.gbif.org/v1/enumeration/country"

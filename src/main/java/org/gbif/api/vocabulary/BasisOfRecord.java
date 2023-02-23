@@ -13,12 +13,22 @@
  */
 package org.gbif.api.vocabulary;
 
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * A simple enumeration of all DarwinCore values of BasisOfRecord legal for occurrences.
  *
- * @see <a href="http://rs.tdwg.org/dwc/terms/type-vocabulary/index.htm">Darwin Core Type Vocabulary</a>
- * @see <a href="http://rs.gbif.org/vocabulary/dwc/basis_of_record.xml">GBIF Vocabulary</a>
+ * @see <a href="https://rs.gbif.org/vocabulary/dwc/basis_of_record.xml">GBIF Vocabulary</a>
  */
+@Schema(
+  description = "The values of the Darwin Core term Basis of Record which can apply to occurrences.\n\n" +
+    "See GBIF's [Darwin Core Type Vocabulary](https://rs.gbif.org/vocabulary/dwc/basis_of_record.xml) for definitions.",
+  externalDocs = @ExternalDocumentation(
+    description = "API call to retrieve all official values.",
+    url = "https://api.gbif.org/v1/enumeration/basic/BasisOfRecord"
+  )
+)
 public enum BasisOfRecord {
 
   /**

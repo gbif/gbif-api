@@ -20,9 +20,9 @@ import org.gbif.api.model.pipelines.PipelineProcess;
 import org.gbif.api.model.pipelines.PipelineStep;
 import org.gbif.api.model.pipelines.RunPipelineResponse;
 import org.gbif.api.model.pipelines.ws.PipelineProcessParameters;
-import org.gbif.api.model.pipelines.ws.PipelineStepParameters;
 import org.gbif.api.model.pipelines.ws.RunAllParams;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -59,9 +59,12 @@ public interface PipelinesHistoryService {
    *
    * @param datasetKey dataset identifier
    * @param attempt crawl attempt identifier
-   * @return a instance of pipelines process if exists.
+   * @return an instance of pipelines process if exists.
    */
   PipelineProcess getPipelineProcess(@NotNull UUID datasetKey, int attempt);
+
+  /** Returns information about all running pipelines executions */
+  PagingResponse<PipelineProcess> getRunningPipelineProcess(Pageable pageable);
 
   /**
    * Creates/persists a pipelines process of dataset for an attempt identifier. If the process
@@ -82,36 +85,56 @@ public interface PipelinesHistoryService {
   long addPipelineExecution(long processKey, @NotNull PipelineExecution pipelineExecution);
 
   /**
-   * Adds/persists the information of a pipeline step.
+   * Gets execution key for running dataset
    *
-   * @param processKey sequential identifier of a pipeline process
-   * @param executionKey key of the pipeline execution
+   * @param datasetKey dataset identifier
+   * @return running execution key
+   */
+  Long getRunningExecutionKey(@NotNull UUID datasetKey);
+
+  /**
+   * Update the information of a pipeline step.
+   *
    * @param pipelineStep step to be added
    * @return the key of the PipelineStep created.
    */
-  long addPipelineStep(long processKey, long executionKey, @NotNull PipelineStep pipelineStep);
+  long updatePipelineStep(@NotNull PipelineStep pipelineStep);
 
   /**
    * Gets the PipelineStep of the specified keys.
    *
-   * @param processKey key of the pipeline process
-   * @param executionKey key of the pipeline execution
    * @param stepKey key of the pipeline step
    * @return {@link PipelineStep}.
    */
-  PipelineStep getPipelineStep(long processKey, long executionKey, long stepKey);
+  PipelineStep getPipelineStep(long stepKey);
 
   /**
-   * Updates the status of a pipeline step and retrieves the metrics from ES and inserts them in the
-   * DB.
+   * Gets the PipelineSteps list of the execution key.
    *
-   * @param processKey key of the process of the step
-   * @param executionKey key of the execution
-   * @param stepKey sequential identifier of a pipeline process step
-   * @param stepParams pipeline step parameters.
+   * @param executionKey key of the pipeline execution
+   * @return {@link List<PipelineStep>}.
    */
-  void updatePipelineStepStatusAndMetrics(
-      long processKey, long executionKey, long stepKey, @NotNull PipelineStepParameters stepParams);
+  List<PipelineStep> getPipelineStepsByExecutionKey(long executionKey);
+
+  /**
+   * Mark all pipeline executions as finished to clean running UI
+   */
+  void markAllPipelineExecutionAsFinished();
+
+  /**
+   * Mark pipeline execution as finished when all pipelin steps are finished
+   *
+   * @param executionKey key of the pipeline execution
+   */
+  void markPipelineExecutionIfFinished(long executionKey);
+
+  /**
+   * Change status to ABORTED and set finished date if state is RUNNING, QUEUED or SUBMITTED,
+   * and set pipeline execution as finished
+   *
+   * @param executionKey key of the pipeline execution
+   */
+  void markPipelineStatusAsAborted(long executionKey);
 
   /**
    * Runs the last attempt for all datasets.
@@ -181,7 +204,7 @@ public interface PipelinesHistoryService {
    *
    * @param datasetKey dataset key
    * @param attempt attempt to run
-   * @param message with failed metrics and etc info
+   * @param message with failed metrics and other info
    */
   void sendAbsentIndentifiersEmail(@NotNull UUID datasetKey, int attempt, @NotNull String message);
 

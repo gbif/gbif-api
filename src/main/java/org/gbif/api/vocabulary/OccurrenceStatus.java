@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,12 +13,22 @@
  */
 package org.gbif.api.vocabulary;
 
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * A statement about the presence or absence of an occurrence at a location at a time.
  *
- * @see <a href="http://rs.gbif.org/vocabulary/gbif/occurrence_status_2020-05-14.xml">rs.gbif.org vocabulary</a>
+ * @see <a href="https://rs.gbif.org/vocabulary/gbif/occurrence_status/">rs.gbif.org vocabulary</a>
  */
-public enum OccurrenceStatus {
+@Schema(
+  description = "A statement about the presence or absence of a Taxon at a Location.\n\n" +
+    "For definitions, see the [GBIF occurrence status vocabulary](https://rs.gbif.org/vocabulary/gbif/occurrence_status/).",
+  externalDocs = @ExternalDocumentation(
+    description = "Darwin Core definition",
+    url = "https://rs.tdwg.org/dwc/terms/occurrenceStatus"
+  )
+)public enum OccurrenceStatus {
   PRESENT,
   ABSENT
 }

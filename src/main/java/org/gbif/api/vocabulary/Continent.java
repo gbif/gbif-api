@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,6 +15,9 @@ package org.gbif.api.vocabulary;
 
 import org.gbif.api.util.VocabularyUtils;
 
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * <p>Enumeration for all continents based on the 7 continent model found on
  * <a href="https://en.wikipedia.org/wiki/Continent#Number_of_continents">Wikipedia</a> and the
@@ -27,6 +28,18 @@ import org.gbif.api.util.VocabularyUtils;
  *
  * <p>This is a geographical division.  For GBIF's political divisions, see {@link GbifRegion}.
  */
+@Schema(
+  description = "The continent, based on a 7 continent model described on [Wikipedia](https://en.wikipedia.org/wiki/Continent#Number_of_continents) " +
+    "and the [World Geographical Scheme for Recording Plant Distributions (WGSRPD)](https://www.tdwg.org/standards/109).\n\n" +
+    "In particular this splits the Americas into North and South America with North America including the Caribbean " +
+    "(except Trinidad and Tobago) and reaching down and including Panama.\n\n" +
+    "See the [GBIF Continents](https://github.com/gbif/continents/) for the exact divisions.\n\n" +
+    "*This is a geographical division.  See `GBIFRegion` for GBIF's political divisions.*",
+  externalDocs = @ExternalDocumentation(
+    description = "API call to retrieve all official values.",
+    url = "https://api.gbif.org/v1/enumeration/basic/Continent"
+  )
+)
 public enum Continent {
 
   /**

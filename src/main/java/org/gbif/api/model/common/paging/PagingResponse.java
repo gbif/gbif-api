@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,13 +20,26 @@ import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Paging response bean.
  */
 public class PagingResponse<T> extends PageableBase {
 
+  @Schema(
+    description = "True if this page of search results is the final page."
+  )
   private Boolean endOfRecords;
+
+  @Schema(
+    description = "The total number of records returned by the search."
+  )
   private Long count;
+
+  @Schema(
+    description = "Search results."
+  )
   private List<T> results = new ArrayList<>();
 
   /**

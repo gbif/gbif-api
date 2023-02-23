@@ -13,8 +13,6 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import org.gbif.api.model.occurrence.geo.DistanceUnit;
 import org.gbif.api.util.SearchTypeValidator;
 
@@ -26,6 +24,9 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * This predicate checks if an occurrence location falls within a distance of a location.
  */
@@ -34,15 +35,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 )
 public class GeoDistancePredicate implements Predicate {
 
+  @Hidden
   @NotNull
   private final DistanceUnit.GeoDistance geoDistance;
 
+  @Schema(
+    description = "The latitude of the location."
+  )
   @NotNull
   private final String latitude;
 
+  @Schema(
+    description = "The longitude of the location."
+  )
   @NotNull
   private final String longitude;
 
+  @Schema(
+    description = "The distance as a number and unit, e.g. `5km` or `5000m`."
+  )
   @NotNull
   private final String distance;
 

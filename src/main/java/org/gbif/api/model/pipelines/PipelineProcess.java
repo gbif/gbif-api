@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -31,7 +29,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import static org.gbif.api.model.pipelines.PipelineExecution.PIPELINE_EXECUTION_BY_CREATED_ASC;
 import static org.gbif.api.model.pipelines.PipelineStep.Status.RUNNING;
 
 /**
@@ -56,6 +53,20 @@ public class PipelineProcess implements Serializable {
   private Set<PipelineExecution> executions =
     new TreeSet<>(PIPELINE_EXECUTION_BY_CREATED_ASC.reversed());
 
+  public static final Comparator<PipelineExecution> PIPELINE_EXECUTION_BY_CREATED_ASC =
+    (e1, e2) -> {
+      LocalDateTime created1 = e1 != null ? e1.getCreated() : null;
+      LocalDateTime created2 = e2 != null ? e2.getCreated() : null;
+
+      if (created1 == null) {
+        return created2 == null ? 0 : 1;
+      } else if (created2 == null) {
+        return -1;
+      }
+
+      return created1.compareTo(created2);
+    };
+
   /**
    * Comparator that sorts the pipeline processes by the created date of the latest execution.
    */
@@ -77,8 +88,8 @@ public class PipelineProcess implements Serializable {
     };
 
   /**
-   * Comparator that sorts pipeline processes by the start date of their latest step in an ascending
-   * order. The steps that are running have preference and we take into account only the steps of
+   * Comparator that sorts pipeline processes by the start date of their latest step in ascending
+   * order. The steps that are running have preference, and we take into account only the steps of
    * the latest execution.
    */
   public static final Comparator<PipelineProcess> PIPELINE_PROCESS_BY_LATEST_STEP_RUNNING_ASC =

@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,8 +12,6 @@
  * limitations under the License.
  */
 package org.gbif.api.model.occurrence.predicate;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
@@ -31,6 +27,8 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * This predicate checks if an occurrence location falls within the given WKT geometry {@code value}.
  */
@@ -41,6 +39,9 @@ public class WithinPredicate implements Predicate {
 
   private static final Logger LOG = LoggerFactory.getLogger(WithinPredicate.class);
 
+  @Schema(
+    description = "The WKT geometry to test for.  Occurrences whose location is within this geometry are returned."
+  )
   @NotNull
   private final String geometry;
 

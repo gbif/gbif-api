@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,11 +13,22 @@
  */
 package org.gbif.api.vocabulary;
 
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Vocabulary for the sex of an organism.
  *
- * @see <a href="http://rs.gbif.org/vocabulary/gbif/sex.xml">rs.gbif.org vocabulary</a>
+ * @see <a href="http://rs.gbif.org/vocabulary/gbif/sex">rs.gbif.org vocabulary</a>
  */
+@Schema(
+  description = "The sex of the biological individual(s) represented in the Occurrence.\n\n" +
+    "For definitions, see the [GBIF sex vocabulary](http://rs.gbif.org/vocabulary/gbif/sex)",
+  externalDocs = @ExternalDocumentation(
+    description = "Darwin Core definition",
+    url = "https://rs.tdwg.org/dwc/terms/sex"
+  )
+)
 public enum Sex {
 
   /**
