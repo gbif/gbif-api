@@ -29,6 +29,9 @@ public class ResearcherIdValidatorTest {
     assertTrue(VALIDATOR.isValid("https://www.researcherid.com/rid/M-6306-2017"));
     assertTrue(VALIDATOR.isValid("https://researcherid.com/rid/M-6306-2017"));
     assertTrue(VALIDATOR.isValid("M-6306-2017"));
+    assertTrue(VALIDATOR.isValid("https://www.webofscience.com/wos/author/record/AAK-3007-2021"));
+    assertTrue(VALIDATOR.isValid("AAK-3007-2021"));
+
 
     assertFalse(VALIDATOR.isValid("http://www.researcherid.com/rid/M-63063-2017"));
     assertFalse(VALIDATOR.isValid("http://www.researcherid.com/rid/M-A306-2017"));

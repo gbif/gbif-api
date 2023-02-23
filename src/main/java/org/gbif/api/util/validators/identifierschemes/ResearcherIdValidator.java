@@ -18,28 +18,27 @@ import java.util.regex.Pattern;
 
 public class ResearcherIdValidator implements IdentifierSchemeValidator {
 
-  private static final Pattern RESEARCHER_ID_PATTERN =
+  public static final Pattern FORMAT_PATTERN =
       Pattern.compile(
-          "^(?<prefix>http(?:s)?:\\/\\/(?:www.)?researcherid.com\\/rid\\/)?([A-Z]{1}\\-[0-9]{4}\\-[0-9]{4})$");
+          "^(?<prefix>http(?:s)?:\\/\\/(?:www.)?.+)?([A-Z]{1,3}-\\d{4}-(19|20)\\d\\d)$");
 
   private static final Pattern PUBLONS_PATTERN =
       Pattern.compile(
-          "^(?<prefix>http(?:s)?:\\/\\/(?:www.)?publons.com\\/researcher\\/)?(([A-Z]{1}\\-[0-9]{4}\\-[0-9]{4})|([0-9]+\\/[a-zA-Z\\-\\_]+\\/?))$");
+          "^(?<prefix>http(?:s)?:\\/\\/(?:www.)?publons.com\\/researcher\\/)?(([A-Z]{1,3}-\\d{4}-(19|20)\\d\\d)|([0-9]+\\/[a-zA-Z\\-\\_]+\\/?))$");
 
   @Override
   public boolean isValid(String value) {
     if (value == null || value.isEmpty()) {
       return false;
     }
-    return RESEARCHER_ID_PATTERN.matcher(value).matches()
-        || PUBLONS_PATTERN.matcher(value).matches();
+    return FORMAT_PATTERN.matcher(value).matches() || PUBLONS_PATTERN.matcher(value).matches();
   }
 
   @Override
   public String normalize(String value) {
     Objects.requireNonNull(value, "Identifier value can't be null");
     String trimmedValue = value.trim();
-    if (RESEARCHER_ID_PATTERN.matcher(trimmedValue).matches()
+    if (FORMAT_PATTERN.matcher(trimmedValue).matches()
         || PUBLONS_PATTERN.matcher(trimmedValue).matches()) {
       return trimmedValue;
     }
