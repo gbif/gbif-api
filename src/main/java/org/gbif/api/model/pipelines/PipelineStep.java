@@ -62,6 +62,19 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
   private String modifiedBy;
   private Set<MetricInfo> metrics = new HashSet<>();
 
+  public static final Comparator<PipelineStep> STEPS_BY_TYPE_ASC =
+    (s1, s2) -> {
+      StepType st1 = s1 != null ? s1.getType() : null;
+      StepType st2 = s2 != null ? s2.getType() : null;
+
+      if (st1 == null) {
+        return (st2 == null) ? 0 : 1;
+      } else if (st2 == null) {
+        return -1;
+      }
+      return st1.compareTo(st2);
+    };
+
   /**
    * Comparator that sorts pipeline steps by start date and then by finished date in ascending order.
    */
@@ -70,22 +83,18 @@ public class PipelineStep implements LenientEquals<PipelineStep>, Serializable {
       LocalDateTime finished1 = s1 != null ? s1.getFinished() : null;
       LocalDateTime finished2 = s2 != null ? s2.getFinished() : null;
 
-      if(finished1 == null && finished2 == null){
-        StepType st1 = s1 != null ? s1.getType() : null;
-        StepType st2 = s2 != null ? s2.getType() : null;
-
-        if (st1 == null) {
-          return (st2 == null) ? 0 : 1;
-        } else if (st2 == null) {
-          return -1;
-        }
-        return st1.compareTo(st2);
+      if (finished1 == null && finished2 == null) {
+        return STEPS_BY_TYPE_ASC.compare(s1, s2);
       }
 
       if (finished1 == null) {
         return 1;
       } else if (finished2 == null) {
         return -1;
+      }
+
+      if (finished1.equals(finished2)) {
+        return STEPS_BY_TYPE_ASC.compare(s1, s2);
       }
 
       return finished1.compareTo(finished2);
