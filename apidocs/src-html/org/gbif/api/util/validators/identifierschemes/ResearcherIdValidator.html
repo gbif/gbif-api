@@ -26,34 +26,33 @@
 <span class="sourceLineNo">018</span><a name="line.18"></a>
 <span class="sourceLineNo">019</span>public class ResearcherIdValidator implements IdentifierSchemeValidator {<a name="line.19"></a>
 <span class="sourceLineNo">020</span><a name="line.20"></a>
-<span class="sourceLineNo">021</span>  private static final Pattern RESEARCHER_ID_PATTERN =<a name="line.21"></a>
+<span class="sourceLineNo">021</span>  public static final Pattern FORMAT_PATTERN =<a name="line.21"></a>
 <span class="sourceLineNo">022</span>      Pattern.compile(<a name="line.22"></a>
-<span class="sourceLineNo">023</span>          "^(?&lt;prefix&gt;http(?:s)?:\\/\\/(?:www.)?researcherid.com\\/rid\\/)?([A-Z]{1}\\-[0-9]{4}\\-[0-9]{4})$");<a name="line.23"></a>
+<span class="sourceLineNo">023</span>          "^(?&lt;prefix&gt;http(?:s)?:\\/\\/(?:www.)?.+)?([A-Z]{1,3}-\\d{4}-(19|20)\\d\\d)$");<a name="line.23"></a>
 <span class="sourceLineNo">024</span><a name="line.24"></a>
 <span class="sourceLineNo">025</span>  private static final Pattern PUBLONS_PATTERN =<a name="line.25"></a>
 <span class="sourceLineNo">026</span>      Pattern.compile(<a name="line.26"></a>
-<span class="sourceLineNo">027</span>          "^(?&lt;prefix&gt;http(?:s)?:\\/\\/(?:www.)?publons.com\\/researcher\\/)?(([A-Z]{1}\\-[0-9]{4}\\-[0-9]{4})|([0-9]+\\/[a-zA-Z\\-\\_]+\\/?))$");<a name="line.27"></a>
+<span class="sourceLineNo">027</span>          "^(?&lt;prefix&gt;http(?:s)?:\\/\\/(?:www.)?publons.com\\/researcher\\/)?(([A-Z]{1,3}-\\d{4}-(19|20)\\d\\d)|([0-9]+\\/[a-zA-Z\\-\\_]+\\/?))$");<a name="line.27"></a>
 <span class="sourceLineNo">028</span><a name="line.28"></a>
 <span class="sourceLineNo">029</span>  @Override<a name="line.29"></a>
 <span class="sourceLineNo">030</span>  public boolean isValid(String value) {<a name="line.30"></a>
 <span class="sourceLineNo">031</span>    if (value == null || value.isEmpty()) {<a name="line.31"></a>
 <span class="sourceLineNo">032</span>      return false;<a name="line.32"></a>
 <span class="sourceLineNo">033</span>    }<a name="line.33"></a>
-<span class="sourceLineNo">034</span>    return RESEARCHER_ID_PATTERN.matcher(value).matches()<a name="line.34"></a>
-<span class="sourceLineNo">035</span>        || PUBLONS_PATTERN.matcher(value).matches();<a name="line.35"></a>
-<span class="sourceLineNo">036</span>  }<a name="line.36"></a>
-<span class="sourceLineNo">037</span><a name="line.37"></a>
-<span class="sourceLineNo">038</span>  @Override<a name="line.38"></a>
-<span class="sourceLineNo">039</span>  public String normalize(String value) {<a name="line.39"></a>
-<span class="sourceLineNo">040</span>    Objects.requireNonNull(value, "Identifier value can't be null");<a name="line.40"></a>
-<span class="sourceLineNo">041</span>    String trimmedValue = value.trim();<a name="line.41"></a>
-<span class="sourceLineNo">042</span>    if (RESEARCHER_ID_PATTERN.matcher(trimmedValue).matches()<a name="line.42"></a>
-<span class="sourceLineNo">043</span>        || PUBLONS_PATTERN.matcher(trimmedValue).matches()) {<a name="line.43"></a>
-<span class="sourceLineNo">044</span>      return trimmedValue;<a name="line.44"></a>
-<span class="sourceLineNo">045</span>    }<a name="line.45"></a>
-<span class="sourceLineNo">046</span>    throw new IllegalArgumentException(value + " it not a valid ResearcherID");<a name="line.46"></a>
-<span class="sourceLineNo">047</span>  }<a name="line.47"></a>
-<span class="sourceLineNo">048</span>}<a name="line.48"></a>
+<span class="sourceLineNo">034</span>    return FORMAT_PATTERN.matcher(value).matches() || PUBLONS_PATTERN.matcher(value).matches();<a name="line.34"></a>
+<span class="sourceLineNo">035</span>  }<a name="line.35"></a>
+<span class="sourceLineNo">036</span><a name="line.36"></a>
+<span class="sourceLineNo">037</span>  @Override<a name="line.37"></a>
+<span class="sourceLineNo">038</span>  public String normalize(String value) {<a name="line.38"></a>
+<span class="sourceLineNo">039</span>    Objects.requireNonNull(value, "Identifier value can't be null");<a name="line.39"></a>
+<span class="sourceLineNo">040</span>    String trimmedValue = value.trim();<a name="line.40"></a>
+<span class="sourceLineNo">041</span>    if (FORMAT_PATTERN.matcher(trimmedValue).matches()<a name="line.41"></a>
+<span class="sourceLineNo">042</span>        || PUBLONS_PATTERN.matcher(trimmedValue).matches()) {<a name="line.42"></a>
+<span class="sourceLineNo">043</span>      return trimmedValue;<a name="line.43"></a>
+<span class="sourceLineNo">044</span>    }<a name="line.44"></a>
+<span class="sourceLineNo">045</span>    throw new IllegalArgumentException(value + " it not a valid ResearcherID");<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  }<a name="line.46"></a>
+<span class="sourceLineNo">047</span>}<a name="line.47"></a>
 
 
 

@@ -26,6 +26,8 @@ import java.util.regex.Pattern;
 
 import javax.validation.constraints.NotNull;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,11 +48,16 @@ import static org.gbif.api.util.PreconditionUtils.checkArgument;
  * For the syntax of DOI names see the &lt;a href=&quot;http://www.doi.org/doi_handbook/2_Numbering.html#2.2&quot;&gt;DOI Handbook&lt;/a&gt;.
  * All parsing is case-insensitive and resulting components will all be uppercased.
  */
+@Schema(
+  description = &quot;A Digital Object Identifier (DOI).&quot;,
+  pattern = &quot;(10[.][0-9]{2,}(?:[.][0-9]+)*/(?:(?![%\&quot;#? ])\\\\S)+)&quot;,
+  implementation = String.class
+)
 @JsonSerialize(using = DOI.DoiSerializer.class)
 @JsonDeserialize(using = DOI.DoiDeserializer.class)
 public class DOI implements Serializable {
 
-<span class="fc" id="L53">  private static final Logger LOG = LoggerFactory.getLogger(DOI.class);</span>
+<span class="fc" id="L60">  private static final Logger LOG = LoggerFactory.getLogger(DOI.class);</span>
 
   /**
    * Encoding to create URLs.
@@ -67,9 +74,9 @@ public class DOI implements Serializable {
    */
   public static final String TEST_PREFIX = &quot;10.21373&quot;;
 
-<span class="fc" id="L70">  private static final Pattern HTTP = Pattern.compile(&quot;^https?://(dx\\.)?doi\\.org/&quot;</span>
+<span class="fc" id="L77">  private static final Pattern HTTP = Pattern.compile(&quot;^https?://(dx\\.)?doi\\.org/&quot;</span>
     + &quot;(urn:)?(doi:)?&quot;, Pattern.CASE_INSENSITIVE);
-<span class="fc" id="L72">  private static final Pattern PARSER = Pattern.compile(&quot;^(?:urn:)?(?:doi:)?&quot;           // optional</span>
+<span class="fc" id="L79">  private static final Pattern PARSER = Pattern.compile(&quot;^(?:urn:)?(?:doi:)?&quot;           // optional</span>
     + &quot;(10(?:\\.[0-9]+)+)&quot;
     + &quot;/(.+)$&quot;, Pattern.CASE_INSENSITIVE);
 
@@ -82,22 +89,22 @@ public class DOI implements Serializable {
    * Returns true only if the source can be parsed into a DOI.
    */
   public static boolean isParsable(String source) {
-<span class="fc bfc" id="L85" title="All 2 branches covered.">    if (StringUtils.isNotEmpty(source)) {</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">    if (StringUtils.isNotEmpty(source)) {</span>
       try {
-<span class="fc" id="L87">        return PARSER.matcher(decodeUrl(source)).find();</span>
-<span class="nc" id="L88">      } catch (IllegalArgumentException iaEx) {</span>
-<span class="nc" id="L89">        LOG.debug(&quot;Can not decode URL from the following DOI: {}&quot;, source);</span>
+<span class="fc" id="L94">        return PARSER.matcher(decodeUrl(source)).find();</span>
+<span class="nc" id="L95">      } catch (IllegalArgumentException iaEx) {</span>
+<span class="nc" id="L96">        LOG.debug(&quot;Can not decode URL from the following DOI: {}&quot;, source);</span>
       }
     }
-<span class="fc" id="L92">    return false;</span>
+<span class="fc" id="L99">    return false;</span>
   }
 
   /**
    * Do not use this constructor.
    * Required by JAXB to marshall this object without introducing adapters.
    */
-<span class="nc" id="L99">  public DOI() {</span>
-<span class="nc" id="L100">  }</span>
+<span class="nc" id="L106">  public DOI() {</span>
+<span class="nc" id="L107">  }</span>
 
   /**
    * Parses a simple DOI string of various forms incl URN, URL or plain DOI names.
@@ -105,16 +112,16 @@ public class DOI implements Serializable {
    * @param doi the full simple DOI string
    * @throws java.lang.IllegalArgumentException if invalid DOI string is passed
    */
-<span class="fc" id="L108">  public DOI(String doi) {</span>
-<span class="fc" id="L109">    Objects.requireNonNull(doi, &quot;DOI required&quot;);</span>
-<span class="fc" id="L110">    Matcher m = PARSER.matcher(decodeUrl(doi));</span>
-<span class="fc bfc" id="L111" title="All 2 branches covered.">    if (m.find()) {</span>
-<span class="fc" id="L112">      this.prefix = m.group(1).toLowerCase();</span>
-<span class="fc" id="L113">      this.suffix = m.group(2).toLowerCase();</span>
+<span class="fc" id="L115">  public DOI(String doi) {</span>
+<span class="fc" id="L116">    Objects.requireNonNull(doi, &quot;DOI required&quot;);</span>
+<span class="fc" id="L117">    Matcher m = PARSER.matcher(decodeUrl(doi));</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">    if (m.find()) {</span>
+<span class="fc" id="L119">      this.prefix = m.group(1).toLowerCase();</span>
+<span class="fc" id="L120">      this.suffix = m.group(2).toLowerCase();</span>
     } else {
-<span class="fc" id="L115">      throw new IllegalArgumentException(doi + &quot; is not a valid DOI&quot;);</span>
+<span class="fc" id="L122">      throw new IllegalArgumentException(doi + &quot; is not a valid DOI&quot;);</span>
     }
-<span class="fc" id="L117">  }</span>
+<span class="fc" id="L124">  }</span>
 
   /**
    * Parses a simple DOI string of various forms incl URN, URL or plain DOI names.
@@ -123,11 +130,11 @@ public class DOI implements Serializable {
    * @param suffix arbitrary suffix part of the DOI
    * @throws java.lang.IllegalArgumentException if invalid DOI prefix is given
    */
-<span class="fc" id="L126">  public DOI(String prefix, String suffix) {</span>
-<span class="fc" id="L127">    this.prefix = Objects.requireNonNull(prefix, &quot;DOI prefix required&quot;).toLowerCase();</span>
-<span class="fc" id="L128">    checkArgument(prefix.startsWith(&quot;10.&quot;));</span>
-<span class="fc" id="L129">    this.suffix = Objects.requireNonNull(suffix, &quot;DOI suffix required&quot;).toLowerCase();</span>
-<span class="fc" id="L130">  }</span>
+<span class="fc" id="L133">  public DOI(String prefix, String suffix) {</span>
+<span class="fc" id="L134">    this.prefix = Objects.requireNonNull(prefix, &quot;DOI prefix required&quot;).toLowerCase();</span>
+<span class="fc" id="L135">    checkArgument(prefix.startsWith(&quot;10.&quot;));</span>
+<span class="fc" id="L136">    this.suffix = Objects.requireNonNull(suffix, &quot;DOI suffix required&quot;).toLowerCase();</span>
+<span class="fc" id="L137">  }</span>
 
   /**
    * If the doi is encoded as a URL this method strips the resolver and decodes the URL encoded string entities.
@@ -137,37 +144,37 @@ public class DOI implements Serializable {
    * @throws IllegalArgumentException
    */
   private static String decodeUrl(@NotNull String doi) {
-<span class="fc" id="L140">    Matcher m = HTTP.matcher(doi);</span>
-<span class="fc bfc" id="L141" title="All 2 branches covered.">    if (m.find()) {</span>
+<span class="fc" id="L147">    Matcher m = HTTP.matcher(doi);</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">    if (m.find()) {</span>
       // strip resolver incl potentially starting paths using a badly encoded urn:doi
       // (the colon would need to be encoded in a proper URL)
-<span class="fc" id="L144">      doi = m.replaceFirst(&quot;&quot;);</span>
+<span class="fc" id="L151">      doi = m.replaceFirst(&quot;&quot;);</span>
       // now decode the URL path, we cannot possibly have query parameters or anchors as the DOIs encoded as a URL
       // will just be a path
       try {
-<span class="fc" id="L148">        return URI.create(URLEncoder.encode(doi, CHAR_ENCODING)).getPath();</span>
-<span class="nc" id="L149">      } catch (UnsupportedEncodingException e) {</span>
-<span class="nc" id="L150">        throw new IllegalArgumentException(&quot;Unsupported DOI encoding&quot;, e);</span>
+<span class="fc" id="L155">        return URI.create(URLEncoder.encode(doi, CHAR_ENCODING)).getPath();</span>
+<span class="nc" id="L156">      } catch (UnsupportedEncodingException e) {</span>
+<span class="nc" id="L157">        throw new IllegalArgumentException(&quot;Unsupported DOI encoding&quot;, e);</span>
       }
     }
-<span class="fc" id="L153">    return doi;</span>
+<span class="fc" id="L160">    return doi;</span>
   }
 
   public String getPrefix() {
-<span class="nc" id="L157">    return prefix;</span>
+<span class="nc" id="L164">    return prefix;</span>
   }
 
   public void setPrefix(String prefix) {
-<span class="nc" id="L161">    this.prefix = prefix;</span>
-<span class="nc" id="L162">  }</span>
+<span class="nc" id="L168">    this.prefix = prefix;</span>
+<span class="nc" id="L169">  }</span>
 
   public String getSuffix() {
-<span class="fc" id="L165">    return suffix;</span>
+<span class="fc" id="L172">    return suffix;</span>
   }
 
   public void setSuffix(String suffix) {
-<span class="nc" id="L169">    this.suffix = suffix;</span>
-<span class="nc" id="L170">  }</span>
+<span class="nc" id="L176">    this.suffix = suffix;</span>
+<span class="nc" id="L177">  }</span>
 
   /**
    * See &lt;a href=&quot;http://www.doi.org/doi_handbook/2_Numbering.html#2.6&quot;&gt;DOI Handbook, Visual presentation and other representation of DOI names&lt;/a&gt;.
@@ -177,9 +184,9 @@ public class DOI implements Serializable {
    */
   public URI getUrl() {
     try {
-<span class="fc" id="L180">      return URI.create(RESOLVER + prefix + '/' + URLEncoder.encode(suffix, CHAR_ENCODING));</span>
-<span class="nc" id="L181">    } catch (UnsupportedEncodingException e) {</span>
-<span class="nc" id="L182">      throw new IllegalStateException(&quot;Unsupported DOI encoding&quot;, e);</span>
+<span class="fc" id="L187">      return URI.create(RESOLVER + prefix + '/' + URLEncoder.encode(suffix, CHAR_ENCODING));</span>
+<span class="nc" id="L188">    } catch (UnsupportedEncodingException e) {</span>
+<span class="nc" id="L189">      throw new IllegalStateException(&quot;Unsupported DOI encoding&quot;, e);</span>
     }
   }
 
@@ -187,55 +194,55 @@ public class DOI implements Serializable {
    * @return the DOI name prefixed with &quot;doi:&quot;, as recommended by the DOI Handbook.
    */
   public String getDoiString() {
-<span class="nc" id="L190">    return SCHEME + getDoiName();</span>
+<span class="nc" id="L197">    return SCHEME + getDoiName();</span>
   }
 
   /**
    * @return the pure DOI name without any initial scheme name starting with the prefix, i.e. 10.
    */
   public String getDoiName() {
-<span class="fc" id="L197">    return prefix + '/' + suffix;</span>
+<span class="fc" id="L204">    return prefix + '/' + suffix;</span>
   }
 
   @Override
   public String toString() {
-<span class="fc" id="L202">    return getDoiName();</span>
+<span class="fc" id="L209">    return getDoiName();</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L207">    return Objects.hash(prefix, suffix);</span>
+<span class="fc" id="L214">    return Objects.hash(prefix, suffix);</span>
   }
 
   @Override
   public boolean equals(Object obj) {
-<span class="pc bpc" id="L212" title="1 of 2 branches missed.">    if (this == obj) {</span>
-<span class="nc" id="L213">      return true;</span>
+<span class="pc bpc" id="L219" title="1 of 2 branches missed.">    if (this == obj) {</span>
+<span class="nc" id="L220">      return true;</span>
     }
-<span class="pc bpc" id="L215" title="2 of 4 branches missed.">    if (obj == null || getClass() != obj.getClass()) {</span>
-<span class="nc" id="L216">      return false;</span>
+<span class="pc bpc" id="L222" title="2 of 4 branches missed.">    if (obj == null || getClass() != obj.getClass()) {</span>
+<span class="nc" id="L223">      return false;</span>
     }
-<span class="fc" id="L218">    final DOI other = (DOI) obj;</span>
+<span class="fc" id="L225">    final DOI other = (DOI) obj;</span>
     // prefix and suffix are always uppercased so we can do simple equals here
-<span class="pc bpc" id="L220" title="2 of 4 branches missed.">    return Objects.equals(this.prefix, other.prefix) &amp;&amp; Objects.equals(this.suffix, other.suffix);</span>
+<span class="pc bpc" id="L227" title="2 of 4 branches missed.">    return Objects.equals(this.prefix, other.prefix) &amp;&amp; Objects.equals(this.suffix, other.suffix);</span>
   }
 
-<span class="fc" id="L223">  public static class DoiSerializer extends JsonSerializer&lt;DOI&gt; {</span>
+<span class="fc" id="L230">  public static class DoiSerializer extends JsonSerializer&lt;DOI&gt; {</span>
 
     @Override
     public void serialize(DOI value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-<span class="fc" id="L227">      gen.writeString(value.toString());</span>
-<span class="fc" id="L228">    }</span>
+<span class="fc" id="L234">      gen.writeString(value.toString());</span>
+<span class="fc" id="L235">    }</span>
   }
 
-<span class="fc" id="L231">  public static class DoiDeserializer extends JsonDeserializer&lt;DOI&gt; {</span>
+<span class="fc" id="L238">  public static class DoiDeserializer extends JsonDeserializer&lt;DOI&gt; {</span>
 
     @Override
     public DOI deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-<span class="pc bpc" id="L235" title="2 of 4 branches missed.">      if (p != null &amp;&amp; p.getTextLength() &gt; 0) {</span>
-<span class="fc" id="L236">        return new DOI(p.getText());</span>
+<span class="pc bpc" id="L242" title="2 of 4 branches missed.">      if (p != null &amp;&amp; p.getTextLength() &gt; 0) {</span>
+<span class="fc" id="L243">        return new DOI(p.getText());</span>
       }
-<span class="nc" id="L238">      return null;</span>
+<span class="nc" id="L245">      return null;</span>
     }
   }
 }

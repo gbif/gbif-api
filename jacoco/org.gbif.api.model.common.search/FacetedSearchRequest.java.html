@@ -15,14 +15,29 @@
  */
 package org.gbif.api.model.common.search;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.Explode;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingRequest;
 
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
 
 /**
  * Generic request class for search operations requesting facets.
@@ -31,127 +46,170 @@ import java.util.Set;
 @SuppressWarnings(&quot;unused&quot;)
 public class FacetedSearchRequest&lt;P extends SearchParameter&gt; extends SearchRequest&lt;P&gt; {
 
-<span class="nc" id="L34">  private Set&lt;P&gt; facets = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L49">  private Set&lt;P&gt; facets = new HashSet&lt;&gt;();</span>
 
   private boolean multiSelectFacets;
   private Integer facetMinCount;
-<span class="nc" id="L38">  private Integer facetLimit = 10;</span>
+<span class="nc" id="L53">  private Integer facetLimit = 10;</span>
   private Integer facetOffset;
 
   //Holds the paging configuration for each requested facet
-<span class="nc" id="L42">  private Map&lt;P, Pageable&gt; facetPages = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L57">  private Map&lt;P, Pageable&gt; facetPages = new HashMap&lt;&gt;();</span>
 
-<span class="nc" id="L44">  public FacetedSearchRequest() {</span>
-<span class="nc" id="L45">  }</span>
+  /**
+   * Annotation to document the facet query parameters.
+   */
+  @Target({METHOD})
+  @Retention(RetentionPolicy.RUNTIME)
+  @Inherited
+  @io.swagger.v3.oas.annotations.Parameters(
+    value = {
+      @Parameter(
+        name = &quot;facet&quot;,
+        description = &quot;A facet name used to retrieve the most frequent values for a field. This parameter may be &quot; +
+          &quot;repeated to request multiple facets.&quot;,
+        array = @ArraySchema(schema = @Schema(implementation = String.class)),
+        in = ParameterIn.QUERY,
+        explode = Explode.TRUE),
+      @Parameter(
+        name = &quot;facetMincount&quot;,
+        description =
+          &quot;Used in combination with the facet parameter. Set `facetMincount={#}` to exclude facets with a count less than `{#}`.&quot;,
+        schema = @Schema(implementation = Integer.class),
+        in = ParameterIn.QUERY),
+      @Parameter(
+        name = &quot;facetMultiselect&quot;,
+        description =
+          &quot;Used in combination with the facet parameter. Set `facetMultiselect=true` to still return counts for values that are not currently filtered.&quot;,
+        schema = @Schema(implementation = Boolean.class),
+        in = ParameterIn.QUERY),
+      @Parameter(
+        name = &quot;facetLimit&quot;,
+        description =
+          &quot;Facet parameters allow paging requests using the parameters facetOffset and facetLimit&quot;,
+        schema = @Schema(implementation = Integer.class),
+        in = ParameterIn.QUERY),
+      @Parameter(
+        name = &quot;facetOffset&quot;,
+        description =
+          &quot;Facet parameters allow paging requests using the parameters facetOffset and facetLimit&quot;,
+        schema = @Schema(implementation = Integer.class, minimum = &quot;0&quot;),
+        in = ParameterIn.QUERY)
+    }
+  )
+  public @interface FacetParameters {}
+
+<span class="nc" id="L102">  public FacetedSearchRequest() {</span>
+<span class="nc" id="L103">  }</span>
 
   public FacetedSearchRequest(Pageable page) {
-<span class="nc" id="L48">    super(page);</span>
-<span class="nc" id="L49">  }</span>
+<span class="nc" id="L106">    super(page);</span>
+<span class="nc" id="L107">  }</span>
 
   public FacetedSearchRequest(SearchRequest&lt;P&gt; searchRequest) {
-<span class="nc" id="L52">    super(searchRequest);</span>
-<span class="nc" id="L53">    setHighlight(searchRequest.isHighlight());</span>
-<span class="nc" id="L54">    setParameters(searchRequest.getParameters());</span>
-<span class="nc" id="L55">    setQ(searchRequest.getQ());</span>
-<span class="nc" id="L56">  }</span>
+<span class="nc" id="L110">    super(searchRequest);</span>
+<span class="nc" id="L111">    setHighlight(searchRequest.isHighlight());</span>
+<span class="nc" id="L112">    setParameters(searchRequest.getParameters());</span>
+<span class="nc" id="L113">    setQ(searchRequest.getQ());</span>
+<span class="nc" id="L114">  }</span>
 
   public FacetedSearchRequest(long offset, int limit) {
-<span class="nc" id="L59">    super(offset, limit);</span>
-<span class="nc" id="L60">  }</span>
+<span class="nc" id="L117">    super(offset, limit);</span>
+<span class="nc" id="L118">  }</span>
 
   /**
    * Min count of facet to return, if the facet count is less than this number the facet won't be included.
    */
   public Integer getFacetMinCount() {
-<span class="nc" id="L66">    return facetMinCount;</span>
+<span class="nc" id="L124">    return facetMinCount;</span>
   }
 
   public void setFacetMinCount(Integer facetMinCount) {
-<span class="nc" id="L70">    this.facetMinCount = facetMinCount;</span>
-<span class="nc" id="L71">  }</span>
+<span class="nc" id="L128">    this.facetMinCount = facetMinCount;</span>
+<span class="nc" id="L129">  }</span>
 
   /**
    * Gets the list of requested facets by the search operation.
    * The facets are a list of search parameters.
    */
   public Set&lt;P&gt; getFacets() {
-<span class="nc" id="L78">    return facets;</span>
+<span class="nc" id="L136">    return facets;</span>
   }
 
   /**
    * Sets the list of facets.
    */
   public void setFacets(Set&lt;P&gt; facets) {
-<span class="nc" id="L85">    this.facets = facets;</span>
-<span class="nc" id="L86">  }</span>
+<span class="nc" id="L143">    this.facets = facets;</span>
+<span class="nc" id="L144">  }</span>
 
   /**
    * @return the multiSelectFacets
    */
   public boolean isMultiSelectFacets() {
-<span class="nc" id="L92">    return multiSelectFacets;</span>
+<span class="nc" id="L150">    return multiSelectFacets;</span>
   }
 
   /**
    * @param multiSelectFacets the multiSelectFacets to set
    */
   public void setMultiSelectFacets(boolean multiSelectFacets) {
-<span class="nc" id="L99">    this.multiSelectFacets = multiSelectFacets;</span>
-<span class="nc" id="L100">  }</span>
+<span class="nc" id="L157">    this.multiSelectFacets = multiSelectFacets;</span>
+<span class="nc" id="L158">  }</span>
 
   /**
    * Page size of the facet request.
    */
   public Integer getFacetLimit() {
-<span class="nc" id="L106">    return facetLimit;</span>
+<span class="nc" id="L164">    return facetLimit;</span>
   }
 
   public void setFacetLimit(Integer facetLimit) {
-<span class="nc" id="L110">    this.facetLimit = facetLimit;</span>
-<span class="nc" id="L111">  }</span>
+<span class="nc" id="L168">    this.facetLimit = facetLimit;</span>
+<span class="nc" id="L169">  }</span>
 
   /**
    * Holds the paging configuration for each requested facet.
    */
   public Map&lt;P, Pageable&gt; getFacetPages() {
-<span class="nc" id="L117">    return facetPages;</span>
+<span class="nc" id="L175">    return facetPages;</span>
   }
 
   public void setFacetPages(Map&lt;P, Pageable&gt; facetPages) {
-<span class="nc" id="L121">    this.facetPages = facetPages;</span>
-<span class="nc" id="L122">  }</span>
+<span class="nc" id="L179">    this.facetPages = facetPages;</span>
+<span class="nc" id="L180">  }</span>
 
   /**
    * Sets the paging setting of facet parameter.
    */
   public void addFacetPage(P parameter, int facetOffset, int facetLimit){
-<span class="nc" id="L128">    facetPages.put(parameter, new PagingRequest(facetOffset,facetLimit));</span>
-<span class="nc" id="L129">  }</span>
+<span class="nc" id="L186">    facetPages.put(parameter, new PagingRequest(facetOffset,facetLimit));</span>
+<span class="nc" id="L187">  }</span>
 
   /**
    * Gets the paging configuration of a facet parameter.
    */
   public Pageable getFacetPage(P parameter) {
-<span class="nc" id="L135">    return facetPages.get(parameter);</span>
+<span class="nc" id="L193">    return facetPages.get(parameter);</span>
   }
 
   /**
    * Offset of the facet request.
    */
   public Integer getFacetOffset() {
-<span class="nc" id="L142">    return facetOffset;</span>
+<span class="nc" id="L200">    return facetOffset;</span>
   }
 
   public void setFacetOffset(Integer facetOffset) {
-<span class="nc" id="L146">    this.facetOffset = facetOffset;</span>
-<span class="nc" id="L147">  }</span>
+<span class="nc" id="L204">    this.facetOffset = facetOffset;</span>
+<span class="nc" id="L205">  }</span>
 
   public void addFacets(P... facets) {
-<span class="nc bnc" id="L150" title="All 2 branches missed.">    if (this.facets == null) {</span>
-<span class="nc" id="L151">      this.facets = new HashSet&lt;&gt;(Arrays.asList(facets));</span>
+<span class="nc bnc" id="L208" title="All 2 branches missed.">    if (this.facets == null) {</span>
+<span class="nc" id="L209">      this.facets = new HashSet&lt;&gt;(Arrays.asList(facets));</span>
     } else {
-<span class="nc" id="L153">      this.facets.addAll(new HashSet&lt;&gt;(Arrays.asList(facets)));</span>
+<span class="nc" id="L211">      this.facets.addAll(new HashSet&lt;&gt;(Arrays.asList(facets)));</span>
     }
-<span class="nc" id="L155">  }</span>
+<span class="nc" id="L213">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
