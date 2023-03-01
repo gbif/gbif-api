@@ -24,12 +24,13 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 /**
- * This service exposes information regarding the crawling process and is not intended to provide historical
- * information at the moment. Only information about currently queued and running crawl jobs is exposed.
+ * This service exposes information regarding current crawling process and is not intended to provide historical
+ * information. Only information about currently queued and running crawl jobs is exposed.
  * <p/>
- * We distinguish between XML based (BioCASe, DiGIR, TAPIR) and DwC-A datasets. These don't share the same work queues
- * because their processing is different in the beginning (downloading an archive vs. request-response type iterating
- * over the endpoint. They do however share the same pipeline for processing the gathered data.
+ * We distinguish between XML based (BioCASe, DiGIR, TAPIR), Darwin Core archive, ABCD archive and Camtrap Data Package
+ * datasets. These don't share the same work queues because their processing is different in the beginning
+ * (downloading an archive vs. request-response type iterating over the endpoint. They do however share the same
+ * pipeline for processing the gathered data.
  */
 public interface DatasetProcessService {
 
@@ -64,4 +65,16 @@ public interface DatasetProcessService {
    *         be crawled
    */
   List<DatasetProcessStatus> getPendingDwcaDatasetProcesses();
+
+  /**
+   * @return an ordered list of dataset processing statuses for all ABCD-A based datasets that are currently waiting to
+   *         be crawled
+   */
+  List<DatasetProcessStatus> getPendingAbcdaDatasetProcesses();
+
+  /**
+   * @return an ordered list of dataset processing statuses for all CamtrapDP based datasets that are currently waiting to
+   *         be crawled
+   */
+  List<DatasetProcessStatus> getPendingCamtrapDpDatasetProcesses();
 }
