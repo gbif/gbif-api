@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,6 +21,8 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * TypeSpecimen Model originally designed for both specimens and types, including type specimens, type species and type genera and simple
@@ -72,6 +72,7 @@ public class TypeSpecimen implements NameUsageExtension {
   /**
    * The name usage "taxon" key this description belongs to.
    */
+  @Schema(description = "The name usage “taxon“ to which this type specimen belongs.")
   @Override
   public Integer getTaxonKey() {
     return taxonKey;
@@ -92,6 +93,7 @@ public class TypeSpecimen implements NameUsageExtension {
    *
    * @return the catalogNumber
    */
+  @Schema(description = "An identifier, preferable unique, for the record within the dataset or collection.")
   @Nullable
   @Deprecated
   public String getCatalogNumber() {
@@ -107,7 +109,7 @@ public class TypeSpecimen implements NameUsageExtension {
   }
 
   /**
-   * A text string citating the described specimen. Often found in taxonomic treatments and frequently based on
+   * A text string citing the described specimen. Often found in taxonomic treatments and frequently based on
    * institution code and catalog number.
    * <blockquote>
    * <p>
@@ -118,6 +120,7 @@ public class TypeSpecimen implements NameUsageExtension {
    *
    * @return the citation
    */
+  @Schema(description = "A text string citing the described speciemn.")
   @Nullable
   @Deprecated
   public String getCitation() {
@@ -142,6 +145,8 @@ public class TypeSpecimen implements NameUsageExtension {
    *
    * @return the collectionCode
    */
+  @Schema(description = "The name, acronym, code or initialism identifying the collection or dataset from which the " +
+    "record was derived.")
   @Nullable
   @Deprecated
   public String getCollectionCode() {
@@ -167,6 +172,8 @@ public class TypeSpecimen implements NameUsageExtension {
    *
    * @return the institutionCode
    */
+  @Schema(description = "The name or acronym in use by the institution having custody of the type specimen or " +
+    "information referred to in the record.")
   @Nullable
   @Deprecated
   public String getInstitutionCode() {
@@ -182,7 +189,7 @@ public class TypeSpecimen implements NameUsageExtension {
   }
 
   /**
-   * The location where the the specimen was collected. In case of type specimens the type locality.
+   * The location where the specimen was collected. In case of type specimens the type locality.
    * <blockquote>
    * <p>
    * <i>Examples:</i> Iraq: Mosul: Jabal Khantur prope Sharanish N. Zakho, in fissures rupium calc., 1200 m.
@@ -191,6 +198,7 @@ public class TypeSpecimen implements NameUsageExtension {
    *
    * @return the locality
    */
+  @Schema(description = "The locality where the type specimen was collected, the type locality.")
   @Nullable
   @Deprecated
   public String getLocality() {
@@ -210,6 +218,7 @@ public class TypeSpecimen implements NameUsageExtension {
    *
    * @return the occurrenceId
    */
+  @Schema(description = "An identifier for the specimen, preferable a resolvable, globally-unique identifier.")
   @Nullable
   @Deprecated
   public String getOccurrenceId() {
@@ -235,6 +244,8 @@ public class TypeSpecimen implements NameUsageExtension {
    *
    * @return the recordedBy
    */
+  @Schema(description = "The primary collector or observer, especially one who applied a personal identifier " +
+    "(recordNumber), should be listed first.")
   @Nullable
   @Deprecated
   public String getRecordedBy() {
@@ -260,6 +271,8 @@ public class TypeSpecimen implements NameUsageExtension {
    *
    * @return the scientificName
    */
+  @Schema(description = "The scientific name originally used for the specimen, species or genus.\n\n" +
+    "Not necessarily the same as the currently recognized name.  For type species this is the species name.")
   @Nullable
   public String getScientificName() {
     return scientificName;
@@ -277,6 +290,7 @@ public class TypeSpecimen implements NameUsageExtension {
    *
    * @return the source
    */
+  @Schema(description = "Bibliographic citation referencing a source for the type specimen.")
   @Nullable
   @Override
   public String getSource() {
@@ -291,6 +305,7 @@ public class TypeSpecimen implements NameUsageExtension {
     this.source = source;
   }
 
+  @Schema(description = "The name usage key of the taxon in the checklist including this type specimen.")
   @Nullable
   @Override
   public Integer getSourceTaxonKey() {
@@ -307,6 +322,7 @@ public class TypeSpecimen implements NameUsageExtension {
    *
    * @return the taxonRank
    */
+  @Schema(description = "The rank of the taxon bearing the scientific name.")
   public Rank getTaxonRank() {
     return taxonRank;
   }
@@ -329,6 +345,7 @@ public class TypeSpecimen implements NameUsageExtension {
    *
    * @return the typeDesignatedBy
    */
+  @Schema(description = "The citation of the publication where the type designation is found.")
   @Nullable
   public String getTypeDesignatedBy() {
     return typeDesignatedBy;
@@ -351,6 +368,7 @@ public class TypeSpecimen implements NameUsageExtension {
    *
    * @return the typeDesignationType
    */
+  @Schema(description = "The reason why this specimen is designated as a type.")
   @Nullable
   public TypeDesignationType getTypeDesignationType() {
     return typeDesignationType;
@@ -373,6 +391,7 @@ public class TypeSpecimen implements NameUsageExtension {
    *
    * @return the typeStatus
    */
+  @Schema(description = "The type status of the specimen, not used for type species or type genera.")
   @Nullable
   @Deprecated
   public TypeStatus getTypeStatus() {
@@ -397,6 +416,7 @@ public class TypeSpecimen implements NameUsageExtension {
    *
    * @return the verbatimEventDate
    */
+  @Schema(description = "The date when the specimen was collected.")
   @Nullable
   @Deprecated
   public String getVerbatimEventDate() {
@@ -416,6 +436,7 @@ public class TypeSpecimen implements NameUsageExtension {
    *
    * @return the verbatimLabel
    */
+  @Schema(description = "The full, verbatim text from the specimen label.")
   @Nullable
   @Deprecated
   public String getVerbatimLabel() {
@@ -440,6 +461,7 @@ public class TypeSpecimen implements NameUsageExtension {
    *
    * @return the verbatimLatitude
    */
+  @Schema(description = "The geographic latitude.")
   @Nullable
   @Deprecated
   public String getVerbatimLatitude() {
@@ -464,6 +486,7 @@ public class TypeSpecimen implements NameUsageExtension {
    *
    * @return the verbatimLongitude
    */
+  @Schema(description = "The geographic longitude.")
   @Nullable
   @Deprecated
   public String getVerbatimLongitude() {

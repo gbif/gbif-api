@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -33,6 +31,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Simple metrics about a single, processed checklist dataset in time.
@@ -68,7 +68,6 @@ public class DatasetMetrics {
   private Date created;
   private Date downloaded;
 
-
   public int getKey() {
     return key;
   }
@@ -80,6 +79,7 @@ public class DatasetMetrics {
   /**
    * @return percentage of distinct names that match a name in the Catalogue of Life
    */
+  @Schema(description = "Percentage of distinct names that match a name in the Catalogue of Life.")
   @Max(100)
   @Min(0)
   public int getColCoveragePct() {
@@ -90,6 +90,7 @@ public class DatasetMetrics {
     this.colCoveragePct = colCoveragePct;
   }
 
+  @Schema(description = "Count of names in each constituent dataset.")
   @NotNull
   public Map<UUID, Integer> getCountByConstituent() {
     return countByConstituent;
@@ -99,6 +100,7 @@ public class DatasetMetrics {
     this.countByConstituent = countByConstituent;
   }
 
+  @Schema(description = "Number of names in each kingdom.")
   @NotNull
   public Map<Kingdom, Integer> getCountByKingdom() {
     return countByKingdom;
@@ -108,6 +110,7 @@ public class DatasetMetrics {
     this.countByKingdom = countByKingdom;
   }
 
+  @Schema(description = "Number of names at each taxonomic rank.")
   @NotNull
   public Map<Rank, Integer> getCountByRank() {
     return countByRank;
@@ -120,6 +123,7 @@ public class DatasetMetrics {
   /**
    * @return the number of distinct canonical name strings
    */
+  @Schema(description = "Number of distinct, canonical name strings.")
   @Min(0)
   public int getDistinctNamesCount() {
     return distinctNamesCount;
@@ -129,6 +133,7 @@ public class DatasetMetrics {
     this.distinctNamesCount = distinctNamesCount;
   }
 
+  @Schema(description = "Number of names having extension data.")
   @NotNull
   public Map<Extension, Integer> getCountExtRecordsByExtension() {
     return countExtRecordsByExtension;
@@ -141,6 +146,7 @@ public class DatasetMetrics {
   /**
    * @return number of records matching a name in the Catalogue of Life
    */
+  @Schema(description = "Number of records matching a name in the Catalogue of Life.")
   @Min(0)
   public int getColMatchingCount() {
     return colMatchingCount;
@@ -153,6 +159,7 @@ public class DatasetMetrics {
   /**
    * @return number of records matching a name in the GBIF backbone taxonomy
    */
+  @Schema(description = "Number of records matching a name in the GBIF Backbone Taxonomy.")
   @Min(0)
   public int getNubMatchingCount() {
     return nubMatchingCount;
@@ -162,6 +169,7 @@ public class DatasetMetrics {
     this.nubMatchingCount = nubMatchingCount;
   }
 
+  @Schema(description = "Number of vernacular names by language.")
   @NotNull
   public Map<Language, Integer> getCountNamesByLanguage() {
     return countNamesByLanguage;
@@ -175,6 +183,7 @@ public class DatasetMetrics {
    * @return number of records with a taxonomic status of a synonym.
    *         For occurrence records the nub taxonomy status is used
    */
+  @Schema(description = "Number of records with a taxonomic status of synonym.")
   @Min(0)
   public int getSynonymsCount() {
     return synonymsCount;
@@ -187,6 +196,7 @@ public class DatasetMetrics {
   /**
    * @return total number of name usage records in checklistbank
    */
+  @Schema(description = "Total number of name usage records in Checklistbank.")
   @Min(0)
   public int getUsagesCount() {
     return usagesCount;
@@ -199,6 +209,7 @@ public class DatasetMetrics {
   /**
    * @return map of total name usage counts by their origin
    */
+  @Schema(description = "Total name usages by origin.")
   @NotNull
   public Map<Origin, Integer> getCountByOrigin() {
     return countByOrigin;
@@ -211,6 +222,7 @@ public class DatasetMetrics {
   /**
    * @return map of total name usage counts by their interpretation issue
    */
+  @Schema(description = "Total name usage counts by their interpretation issue.")
   @NotNull
   public Map<NameUsageIssue, Integer> getCountByIssue() {
     return countByIssue;
@@ -223,6 +235,7 @@ public class DatasetMetrics {
   /**
    * @return date this metric was generated. Roughly equivalent with date of indexing
    */
+  @Schema(description = "Date this metric was generated. Roughly equivalent with date of indexing.")
   @NotNull
   @Past
   public Date getCreated() {
@@ -236,6 +249,7 @@ public class DatasetMetrics {
   /**
    * @return date new dataset data was downloaded/harvested last time
    */
+  @Schema(description = "Date new dataset data was downloaded/harvested last time.")
   @NotNull
   @Past
   public Date getDownloaded() {
@@ -246,6 +260,7 @@ public class DatasetMetrics {
     this.downloaded = downloaded;
   }
 
+  @Schema(description = "Dataset key.")
   @NotNull
   public UUID getDatasetKey() {
     return datasetKey;
@@ -258,6 +273,7 @@ public class DatasetMetrics {
   /**
    * @return percentage of distinct names that match a name in the GBIF backbone taxonomy
    */
+  @Schema(description = "Percentage of distinct names that match a name in the GBIF backbone taxonomy.")
   @Max(100)
   @Min(0)
   public int getNubCoveragePct() {

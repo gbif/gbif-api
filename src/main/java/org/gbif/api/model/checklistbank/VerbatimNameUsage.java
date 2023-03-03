@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -35,6 +33,8 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @SuppressWarnings("unused")
 public class VerbatimNameUsage {
 
@@ -49,6 +49,7 @@ public class VerbatimNameUsage {
   /**
    * @return The name usage key
    */
+  @Schema(description = "The name usage key that uniquely identifies this name usage.")
   @NotNull
   public Integer getKey() {
     return key;
@@ -61,6 +62,8 @@ public class VerbatimNameUsage {
   /**
    * A map of extension records, holding all verbatim extension terms.
    */
+  @Schema(description = "Extension records, holding all verbatim extension terms.\n\n" +
+    "A map keyed by extension term names, containing lists of property terms + values.")
   @NotNull
   public Map<Extension, List<Map<Term, String>>> getExtensions() {
     return extensions;
@@ -86,6 +89,7 @@ public class VerbatimNameUsage {
   /**
    * The date this record was last crawled during clb indexing.
    */
+  @Schema(description = "The date this record was last crawled (downloaded from the source) during Checklistbank indexing.")
   @Nullable
   public Date getLastCrawled() {
     return lastCrawled == null ? null : new Date(lastCrawled.getTime());

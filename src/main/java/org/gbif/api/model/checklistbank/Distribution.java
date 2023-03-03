@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -29,6 +27,8 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Distribution Model Object represents a species distribution.
  *
@@ -56,6 +56,7 @@ public class Distribution implements NameUsageExtension {
   /**
    * The name usage "taxon" key this description belongs to.
    */
+  @Schema(description = "The name usage “taxon“ key to which this species profile belongs.")
   @Override
   public Integer getTaxonKey() {
     return taxonKey;
@@ -67,9 +68,9 @@ public class Distribution implements NameUsageExtension {
   }
 
   /**
-   * The CITES (Convention on International Trade in Endangered Species of Wild Fauna and Flora) Appendix number the
-   * taxa is listed. It is possible to have different appendix numbers for different areas, but "global" as an area is
-   * also valid if its the same worldwide see also http://www.cites.org/eng/app/index.shtml
+   * The CITES (Convention on International Trade in Endangered Species of Wild Fauna and Flora) Appendix number under which the
+   * taxon is listed. It is possible to have different appendix numbers for different areas, but "global" as an area is
+   * also valid if it's the same worldwide see also http://www.cites.org/eng/app/index.shtml
    * <blockquote>
    * <p>
    * <i>Example:</i> II
@@ -78,6 +79,9 @@ public class Distribution implements NameUsageExtension {
    *
    * @return the appendixCites.
    */
+  @Schema(description = "The CITES (Convention on International Trade in Endangered Species of Wild Fauna and Flora) " +
+    "Appendix number under which the taxon is listed.\n\n" +
+    "It is possible to have different appendix numbers for different areas, but “global” as an area is also valid.")
   @Nullable
   public CitesAppendix getAppendixCites() {
     return appendixCites;
@@ -93,6 +97,7 @@ public class Distribution implements NameUsageExtension {
   /**
    * @return the country
    */
+  @Schema(description = "The country")
   @Nullable
   public Country getCountry() {
     return country;
@@ -116,6 +121,8 @@ public class Distribution implements NameUsageExtension {
    *
    * @return the endDayOfYear.
    */
+  @Schema(description = "Seasonal temporal subcontext within the eventDate context. " +
+    "The latest ordinal day of the year on which the distribution record is valid.")
   @Nullable
   @Min(1)
   @Max(366)
@@ -140,6 +147,7 @@ public class Distribution implements NameUsageExtension {
    *
    * @return the establishmentMeans
    */
+  @Schema(description = "Term describing whether the organism occurs natively, is introduced or cultivated.")
   @Nullable
   public EstablishmentMeans getEstablishmentMeans() {
     return establishmentMeans;
@@ -164,6 +172,7 @@ public class Distribution implements NameUsageExtension {
    *
    * @see <a href="http://rs.gbif.org/vocabulary/gbif/life_stage.xml">life stage vocabulary for recommended values</a>
    */
+  @Schema(description = "The distribution information pertains solely to a specific life stage of the taxon.")
   @Nullable
   public LifeStage getLifeStage() {
     return lifeStage;
@@ -186,6 +195,7 @@ public class Distribution implements NameUsageExtension {
    *
    * @return the locality
    */
+  @Schema(description = "The verbatim name of the area this distribution record is about.")
   @Nullable
   public String getLocality() {
     return locality;
@@ -211,6 +221,7 @@ public class Distribution implements NameUsageExtension {
    *
    * @return the location id
    */
+  @Schema(description = " A code for the named area this distributon record is about.")
   public String getLocationId() {
     return locationId;
   }
@@ -227,6 +238,7 @@ public class Distribution implements NameUsageExtension {
    *
    * @return the notes
    */
+  @Schema(description = "Additional notes on the distribution.")
   @Nullable
   public String getRemarks() {
     return remarks;
@@ -247,6 +259,7 @@ public class Distribution implements NameUsageExtension {
    *
    * @return the source
    */
+  @Schema(description = "Bibliographic citation referencing a source for the distribution.")
   @Nullable
   @Override
   public String getSource() {
@@ -261,6 +274,7 @@ public class Distribution implements NameUsageExtension {
     this.source = source;
   }
 
+  @Schema(description = "The name usage key of the taxon in the checklist including this distribution.")
   @Nullable
   @Override
   public Integer getSourceTaxonKey() {
@@ -274,8 +288,8 @@ public class Distribution implements NameUsageExtension {
 
   /**
    * Seasonal temporal subcontext within the eventDate context. Useful for migratory species. The earliest ordinal day
-   * of the year on which the distribution record is valid. Numbering starts with 1 for January 1 and ends with 365 for
-   * December 31.
+   * of the year on which the distribution record is valid. Numbering starts with 1 for 1 January and ends with 365 or 366
+   * for 31 December.
    * <blockquote>
    * <p>
    * <i>Example:</i> 90
@@ -284,6 +298,9 @@ public class Distribution implements NameUsageExtension {
    *
    * @return the startDayOfYear.
    */
+  @Schema(description = "Seasonal temporal subcontext within the eventDate context. Useful for migratory species.\n\n" +
+    "The earliest ordinal day of the year on which the distribution record is valid. Numbering starts with 1 for " +
+    "1 January and ends with 365 or 366 for 31 December.")
   @Nullable
   @Min(1)
   @Max(366)
@@ -310,6 +327,7 @@ public class Distribution implements NameUsageExtension {
    *
    * @see <a href="http://rs.gbif.org/vocabulary/gbif/distribution_status_2020-05-14.xml">occurrence status vocabulary</a> for recommended values
    */
+  @Schema(description = "Term describing the occurrence status of the organism in the given area based on how frequent the species occurs.")
   @Nullable
   public DistributionStatus getStatus() {
     return status;
@@ -323,8 +341,18 @@ public class Distribution implements NameUsageExtension {
   }
 
   /**
+   * Relevant temporal context for this entire distribution record including all properties preferably given as a year
+   * range or single year on which the distribution record is valid. For the same area and taxon there could therefore
+   * be several records with different temporal context, e.g. in 5-year intervals for invasive species.
+   * <blockquote>
+   *   <p><i>Example:</i> "1930"; "1939-1945"</p>
+   * </blockquote>
    * @return the temporal
    */
+  @Schema(description = "Relevant temporal context for this entire distribution record including all properties, " +
+    "preferably given as a year range or single year on which the distribution record is valid.\n\n" +
+    "For the same area and taxon there could therefore be several records with different temporal context, " +
+    "e.g. in 5-year intervals for invasive species.")
   @Nullable
   public String getTemporal() {
     return temporal;
@@ -351,6 +379,7 @@ public class Distribution implements NameUsageExtension {
    * @see <a href="http://rs.gbif.org/vocabulary/iucn/threat_status.xml">threat status vocabulary for recommended
    *      values</a>
    */
+  @Schema(description = "Threat status of a species as defined by IUCN.")
   @Nullable
   public ThreatStatus getThreatStatus() {
     return threatStatus;

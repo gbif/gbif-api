@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -42,14 +40,17 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * A usage of a <em>scientific name</em> according to one particular Checklist including the GBIF Taxonomic Backbone,
- * the nub. It is shown as species in the portal and API.
- *
- * All nub usages will have an empty nubKey. Backbone usages can be detected by either the NameUsage.isNub() method or by manually comparing the datasetKey
- * with the fixed backbone datasetKey, see Constants.NUB_DATASET_KEY.
- *
- * Name usages from other checklists with names that also exist in the nub will have a nubKey that points to the related usage in the nub.
+ * the NUB. It is shown as species in the portal and API.
+ * <br>
+ * Backbone (NUB) usages have key==nubKey. Backbone usages can also be detected by either the NameUsage.isNub() method
+ * or by manually comparing the datasetKey with the fixed backbone datasetKey, see Constants.NUB_DATASET_KEY.
+ * <br>
+ * Name usages from other checklists with names that also exist in the backbone will have a nubKey that points to the related usage in the NUB.
+ * <br>
  * To store not eagerly loaded subresources such as vernacular names or synonyms with a usage please use
  * the {@link NameUsageContainer} class.
  */
@@ -170,6 +171,8 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   /**
    * @return the name key for retrieving a parsed name object
    */
+  @Schema(description = "The key for retrieving a parsed name object.\n\n" +
+    "*You are more likely to need the `key` or `nubKey` properties*")
   public Integer getNameKey() {
     return nameKey;
   }
@@ -179,20 +182,30 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   /**
-   * For backbone taxa the source taxon key refers to the original name usage that was used during nub building
+   * For backbone taxa the source taxon key refers to the original name usage that was used during backbone building
    * and is the primary reason that this taxon exists in the backbone.
    * <br/>
-   * All nub usages are build from several underlying checklist usages,
+   * All backbone name usages are built from several underlying checklist usages,
    * but these are sorted by priority and the usage key for the highest priority one becomes the sourceTaxonKey
-   * for a nub usage.
+   * for a backbone usage.
    * <br/>
-   * Some nub usages do not have any source record altogether.
+   * Some backbone usages do not have any source record altogether.
    * For example if there is a subspecies found, but no matching parent species,
    * the missing species will be created nevertheless and has no primary source.
    *
    * @return The key of the name usage this backbone taxon is derived from.
    */
   @Nullable
+  @Schema(description = "The key of the name usage from which this backbone taxon derives.\n" +
+    "\n" +
+    "For backbone taxa the source taxon key refers to the original name usage that was used during " +
+    "backbone building and is the primary reason that this taxon exists in the backbone.\n" +
+    "\n" +
+    "All backbone name usages are built from several underlying checklist usages, but these are sorted by priority " +
+    "and the usage key for the highest priority one becomes the sourceTaxonKey for a backbone usage.\n" +
+    "\n" +
+    "Some backbone usages do not have any source record at all; for example if there is a subspecies found, but no matching " +
+    "parent species, the missing species will be created nevertheless and has no primary source.")
   public Integer getSourceTaxonKey() {
     return sourceTaxonKey;
   }
@@ -204,6 +217,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   /**
    * @return the scientific name of the accepted name
    */
+  @Schema(description = "The scientific name of the accepted name.")
   public String getAccepted() {
     return accepted;
   }
@@ -218,6 +232,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   /**
    * @return the name usage key of the accepted name
    */
+  @Schema(description = "The name usage key of the accepted name.")
   public Integer getAcceptedKey() {
     return acceptedKey;
   }
@@ -230,13 +245,20 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   /**
-   * The taxon concept reference usually a reference to some publication or author + year.
+   * The taxon concept reference is usually a reference to some publication or author and year.
+   * <br>
    * The dwc:taxonAccordingTo reference is usually appended to the scientific name to further qualify the concept
    * with "sensu" or "sec." being used for concatenation. E.g. "Acer nigrum sec. Gleason Cronquist 1991".
+   * <br>
    * In the case of backbone taxa this refers to the primary checklist the name was found in.
    *
    * @return the taxon concept reference
    */
+  @Schema(description = "The taxon concept reference.\n\n" +
+    "This is usually a reference to some publication or an author and year.\n\n" +
+    "The Darwin Core `taxonAccordingTo` reference is usually appended to the scientific name to further qualify " +
+    "the concept with “sensu” or “sec.” being used for concatenation; for example “_Acer nigrum_ sec. Gleason Cronquist 1991”.\n\n" +
+    "In the case of backbone taxa, this refers to the primary checklist in which the name was found.")
   @Nullable
   public String getAccordingTo() {
     return accordingTo;
@@ -254,6 +276,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    *
    * @return the authorship
    */
+  @Schema(description = "The authorship for the scientific name.")
   @Nullable
   public String getAuthorship() {
     return authorship;
@@ -269,6 +292,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   /**
    * @return the scientific name of the basionym
    */
+  @Schema(description = "The scientific name of the basionym.")
   public String getBasionym() {
     return basionym;
   }
@@ -281,10 +305,11 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   /**
-   * Returns the earlier name (basionym) for this scientific name. Return null if the basionym does not exists.
+   * Returns the earlier name (basionym) for this scientific name. Return null if the basionym does not exist.
    *
    * @return the basionymKey
    */
+  @Schema(description = "The name usage key of the basionym.")
   @Nullable
   public Integer getBasionymKey() {
     return basionymKey;
@@ -300,6 +325,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   /**
    * @return the canonicalName
    */
+  @Schema(description = "The canonical name; the name without authorship or references.")
   @Nullable
   public String getCanonicalName() {
     return canonicalName;
@@ -317,6 +343,8 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    *
    * @return the datasetKey
    */
+  @Schema(description = "The checklist that “hosts” this name usage.\n\n" +
+    "For a backbone name usage, this will be `d7dddbf4-2cf0-4f39-9b2a-bb099caae36c`.")
   @NotNull
   public UUID getDatasetKey() {
     return datasetKey;
@@ -334,6 +362,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    *
    * @return the key
    */
+  @Schema(description = "The name usage key that uniquely identifies this name usage.")
   @NotNull
   public Integer getKey() {
     return key;
@@ -349,6 +378,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   /**
    * @return the type of name string classified by CLB.
    */
+  @Schema(description = "The type of name string classified by Checklistbank.")
   public NameType getNameType() {
     return nameType;
   }
@@ -373,6 +403,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    * @see <a href="http://rs.gbif.org/vocabulary/gbif/nomenclatural_status.xml">Nomenclatural Status GBIF
    *      Vocabulary</a>
    */
+  @Schema(description = "The nomenclatural statuses of this name usage.")
   public Set<NomenclaturalStatus> getNomenclaturalStatus() {
     return nomenclaturalStatus;
   }
@@ -387,6 +418,8 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   /**
    * @return the taxon key of the matching backbone name usage
    */
+  @Schema(description = "The taxon key of the matching backbone name usage.\n\n" +
+    "If this is equal to `key`, this name usage is a backbone name usage.")
   @Nullable
   public Integer getNubKey() {
     return nubKey;
@@ -404,6 +437,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    *
    * @return the number of descendants
    */
+  @Schema(description = "A total count of all accepted taxonomic elements under this usage.")
   public int getNumDescendants() {
     return numDescendants;
   }
@@ -424,6 +458,10 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    *
    * @see Origin
    */
+  @Schema(description = "The name usage origin.\n\n" +
+    "The origin of this name usage record, the reason it exists.\n\n" +
+    "In most cases this is because the record existed explicitly in the checklist sources, but some usages are " +
+    "created *de novo* because the exist implicitly in the data.")
   @NotNull
   public Origin getOrigin() {
     return origin;
@@ -441,6 +479,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    *
    * @return the parent name
    */
+  @Schema(description = "The scientific name of the parent.")
   public String getParent() {
     return parent;
   }
@@ -457,6 +496,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    *
    * @return the parentKey
    */
+  @Schema(description = "The name usage key of the immediate parent.  Null for the highest taxonomic level.")
   @Nullable
   public Integer getParentKey() {
     return parentKey;
@@ -472,8 +512,10 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   /**
    * Pro parte synonyms, i.e. a synonym with multiple accepted names, are grouped by a single, primary name usage key.
    *
-   * @return the primary name usage key for a prop parte synonym or null
+   * @return the primary name usage key for a pro parte synonym or null
    */
+  @Schema(description = "The primary name usage key for a *pro parte* synonym.\n\n" +
+    "Synonyms with multiple accepted names are grouped by a single, primary name usage key.")
   public Integer getProParteKey() {
     return proParteKey;
   }
@@ -490,6 +532,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    *
    * @return the publishedIn
    */
+  @Schema(description = "Original publication for this name usage.")
   @Nullable
   public String getPublishedIn() {
     return publishedIn;
@@ -512,6 +555,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    *
    * @return the rank
    */
+  @Schema(description = "The rank for this usage.")
   @Nullable
   public Rank getRank() {
     return rank;
@@ -525,17 +569,21 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   /**
-   * The taxon name (with date and authorship information if applicable).
+   * The scientific name (with date and authorship information if applicable).
    * <blockquote>
    * <p>
    * <i>Example:</i> "Coleoptera" (order), "Vespertilionidae" (family), "Manis" (genus), "Ctenomys sociabilis" (genus +
-   * specificEpithet), "Ambystoma tigrinum diaboli" (genus + specificEpithet + infraspecificEpithet),
+   * specific name), "Ambystoma tigrinum diaboli" (genus + specific name + infraspecific name),
    * "Quercus agrifolia var. oxyadenia (Torr.)"
    * </p>
    * </blockquote>
    *
    * @return the scientificName
    */
+  @Schema(description = "The scientific name, with date and authorship information if available.\n\n" +
+    "Examples: *Coleoptera* (order), *Vespertilionidae* (family), *Manis* (genus), *Ctenomys sociabilis* " +
+    "(genus + specificEpithet), *Ambystoma tigrinum diaboli* (zoology, genus + specific name + infraspecific name) " +
+    "*Quercus agrifolia* var. *oxyadenia* (Torr.) (botany, genus + specific epithet + infraspecific epithet + authorship)")
   @NotNull
   public String getScientificName() {
     return scientificName;
@@ -553,6 +601,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    *
    * @return the subDatasetKey or null
    */
+  @Schema(description = "The optional sub-dataset key for this usage.")
   @Nullable
   public UUID getConstituentKey() {
     return constituentKey;
@@ -575,6 +624,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    *
    * @return the vernacularName
    */
+  @Schema(description = "A common or vernacular name for this usage.")
   @Nullable
   public String getVernacularName() {
     return vernacularName;
@@ -587,13 +637,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.vernacularName = vernacularName;
   }
 
-  /**
-   * @param taxonomicStatus the taxonomicStatus to set
-   */
-  public void setTaxonomicStatus(TaxonomicStatus taxonomicStatus) {
-    this.taxonomicStatus = taxonomicStatus;
-  }
-
+  @Schema(description = "Kingdom.")
   @Override
   public String getKingdom() {
     return kingdom;
@@ -604,6 +648,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.kingdom = kingdom;
   }
 
+  @Schema(description = "Phylum.")
   @Override
   public String getPhylum() {
     return phylum;
@@ -614,6 +659,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.phylum = phylum;
   }
 
+  @Schema(description = "Class.")
   @Override
   public String getClazz() {
     return clazz;
@@ -624,6 +670,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.clazz = clazz;
   }
 
+  @Schema(description = "Order.")
   @Override
   public String getOrder() {
     return order;
@@ -634,6 +681,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.order = order;
   }
 
+  @Schema(description = "Family.")
   @Override
   public String getFamily() {
     return family;
@@ -644,6 +692,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.family = family;
   }
 
+  @Schema(description = "Genus.")
   @Override
   public String getGenus() {
     return genus;
@@ -654,6 +703,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.genus = genus;
   }
 
+  @Schema(description = "Subgenus.")
   @Override
   public String getSubgenus() {
     return subgenus;
@@ -664,6 +714,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.subgenus = subgenus;
   }
 
+  @Schema(description = "Species.")
   @Override
   public String getSpecies() {
     return species;
@@ -674,6 +725,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.species = species;
   }
 
+  @Schema(description = "Name usage key of the kingdom.")
   @Override
   public Integer getKingdomKey() {
     return kingdomKey;
@@ -684,6 +736,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.kingdomKey = kingdomKey;
   }
 
+  @Schema(description = "Name usage key of the phylum.")
   @Override
   public Integer getPhylumKey() {
     return phylumKey;
@@ -694,6 +747,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.phylumKey = phylumKey;
   }
 
+  @Schema(description = "Name usage key of the class.")
   @Override
   public Integer getClassKey() {
     return classKey;
@@ -704,6 +758,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.classKey = classKey;
   }
 
+  @Schema(description = "Name usage key of the order.")
   @Override
   public Integer getOrderKey() {
     return orderKey;
@@ -714,6 +769,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.orderKey = orderKey;
   }
 
+  @Schema(description = "Name usage key of the family.")
   @Override
   public Integer getFamilyKey() {
     return familyKey;
@@ -724,6 +780,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.familyKey = familyKey;
   }
 
+  @Schema(description = "Name usage key of the genus.")
   @Override
   public Integer getGenusKey() {
     return genusKey;
@@ -734,6 +791,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.genusKey = genusKey;
   }
 
+  @Schema(description = "Name usage key of the subgenus.")
   @Override
   public Integer getSubgenusKey() {
     return subgenusKey;
@@ -744,6 +802,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.subgenusKey = subgenusKey;
   }
 
+  @Schema(description = "Name usage key of the species.")
   @Override
   public Integer getSpeciesKey() {
     return speciesKey;
@@ -754,6 +813,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.speciesKey = speciesKey;
   }
 
+  @Schema(description = "Remarks on the name usage.")
   public String getRemarks() {
     return remarks;
   }
@@ -772,15 +832,16 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   /**
-   * A URI link or reference to the source of this record, the records "homepage".
+   * A URI link or reference to the source of this record, the record's "homepage".
    * <blockquote>
    * <p>
-   * <i>Example:</i> http://www.catalogueoflife.org/annual-checklist/show_species_details.php?record_id=6197868
+   * <i>Example:</i> https://www.catalogueoflife.org/data/taxon/4R5YN
    * </p>
    * </blockquote>
    *
    * @return the link
    */
+  @Schema(description = "A URI link or reference to the source of the record, the record's “homepage”.")
   @Nullable
   public URI getReferences() {
     return references;
@@ -817,6 +878,8 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    * The original taxonID of the name usage as found in the source.
    * For backbone taxa and name usages with an origin different to SOURCE this is null.
    */
+  @Schema(description = "The original taxonID of the name usage as found in the source.\n\n" +
+    "For backbone taxa and name usages with an origin different to SOURCE this is null.")
   @Nullable
   public String getTaxonID() {
     return taxonID;
@@ -828,15 +891,26 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    *
    * @return the taxonomicStatus, can be null
    */
+  @Schema(description = "The taxonomic status of the name usage.\n\n" +
+    "Can be null, but for all synonyms with an accepted name usage it is guaranteed to exist.")
   @Nullable
   public TaxonomicStatus getTaxonomicStatus() {
     return taxonomicStatus;
   }
 
   /**
+   * @param taxonomicStatus the taxonomicStatus to set
+   */
+  public void setTaxonomicStatus(TaxonomicStatus taxonomicStatus) {
+    this.taxonomicStatus = taxonomicStatus;
+  }
+
+  /**
    * The interpreted dc:modified from the verbatim source data.
    * Ideally indicating when a record was last modified in the source.
    */
+  @Schema(description = "The interpreted dc:modified from the verbatim source data, ideally indicating when a record " +
+    "was last modified in the source.")
   @Nullable
   public Date getModified() {
     return modified;
@@ -850,6 +924,8 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    * The date this record was deleted.
    * Logical deletions only occur for backbone usages!
    */
+  @Schema(description = "The date this record was deleted.\n\n" +
+    "*Only backbone name usages are soft-deleted.*")
   @Nullable
   public Date getDeleted() {
     return deleted;
@@ -862,6 +938,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   /**
    * The date this record was last crawled during clb indexing.
    */
+  @Schema(description = "The date this record was last crawled (downloaded from the source) during Checklistbank indexing.")
   @Nullable
   public Date getLastCrawled() {
     return lastCrawled;
@@ -875,6 +952,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    * The date this record was last interpreted during indexing.
    * This includes matching to the backbone.
    */
+  @Schema(description = "The date this record was last interpreted during indexing.  This includes matching to the backbone.")
   @Nullable
   public Date getLastInterpreted() {
     return lastInterpreted;
@@ -884,6 +962,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     this.lastInterpreted = lastInterpreted;
   }
 
+  @Schema(description = "Data quality issues found during Checklistbank interpretation.")
   @NotNull
   public Set<NameUsageIssue> getIssues() {
     return issues;
@@ -916,8 +995,9 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
 
   /**
    * Convenience method using the taxonomicStatus field.
-   * @return true if its a synonym
+   * @return true if it's a synonym
    */
+  @JsonIgnore
   public boolean isSynonym() {
     return taxonomicStatus != null && taxonomicStatus.isSynonym();
   }

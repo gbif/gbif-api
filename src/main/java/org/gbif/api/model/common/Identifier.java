@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,6 +22,8 @@ import java.util.StringJoiner;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Identifier Model Object represents an alternative identifier for an occurrence or name usage.
  *
@@ -36,7 +36,7 @@ public class Identifier {
   private IdentifierType type;
 
   /**
-   * Other known identifier used for the same taxon. Can be a URL pointing to a webpage, an xml or rdf document, a DOI,
+   * Other known identifier used for the same taxon. Can be a URL pointing to a webpage, an XML or RDF document, a DOI,
    * UUID or any other identifer.
    * <blockquote>
    * <p>
@@ -46,6 +46,8 @@ public class Identifier {
    *
    * @return the identifier.
    */
+  @Schema(description = "Other known identifier used for the same taxon. Can be a URL pointing to a webpage, an XML or " +
+    "RDF document, a DOI UUID or any other identifer.")
   @NotNull
   public String getIdentifier() {
     return identifier;
@@ -63,6 +65,7 @@ public class Identifier {
    *
    * @return the title
    */
+  @Schema(description = "The optional title of an identifier, mostly for linking.")
   @Nullable
   public String getTitle() {
     return title;
@@ -82,6 +85,7 @@ public class Identifier {
    *
    * @see IdentifierType
    */
+  @Schema(description = "Type of identifier.")
   @NotNull
   public IdentifierType getType() {
     return type;
@@ -95,13 +99,14 @@ public class Identifier {
   }
 
   /**
-   * Creates a http link for an identifier if possible by passing it to some known resolvers for the specific id type.
+   * Creates an HTTP link for an identifier if possible by passing it to some known resolvers for the specific id type.
    * If no link can be constructed, null is returned.
    *
    * @return the url or null if it cannot be created
    *
    * @see org.gbif.api.util.IdentifierUtils#getIdentifierLink(String, org.gbif.api.vocabulary.IdentifierType)
    */
+  @Schema(description = "An HTTP link for an identifier, if a suitable, known resolver exists for the identifier type.")
   @Nullable
   public String getIdentifierLink() {
     return IdentifierUtils.getIdentifierLink(identifier, type);

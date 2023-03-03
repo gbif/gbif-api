@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -19,6 +17,8 @@ import org.gbif.api.model.common.MediaObject;
 
 import javax.annotation.Nullable;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * An extension to the common MediaObject that adds a source taxon key property from checklistbank.
  */
@@ -30,6 +30,7 @@ public class NameUsageMediaObject extends MediaObject implements NameUsageExtens
   /**
    * The name usage "taxon" key this description belongs to.
    */
+  @Schema(description = "The name usage “taxon“ key to which this species profile belongs.")
   @Override
   public Integer getTaxonKey() {
     return taxonKey;
@@ -40,6 +41,7 @@ public class NameUsageMediaObject extends MediaObject implements NameUsageExtens
     this.taxonKey = taxonKey;
   }
 
+  @Schema(description = "The name usage key of the taxon in the checklist including this media object.")
   @Nullable
   @Override
   public Integer getSourceTaxonKey() {

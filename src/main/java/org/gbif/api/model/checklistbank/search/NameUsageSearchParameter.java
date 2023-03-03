@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -33,12 +31,12 @@ import java.util.UUID;
 public enum NameUsageSearchParameter implements SearchParameter {
 
   /**
-   * The checklist dataset key as a uuid.
+   * The checklist dataset key as a UUID.
    */
   DATASET_KEY(UUID.class),
 
   /**
-   * The (sub)dataset constituent key as a uuid. Useful to query larger assembled datasets such as the GBIF Backbone or the Catalogue of Life
+   * The (sub)dataset constituent key as a UUID. Useful to query larger assembled datasets such as the GBIF Backbone or the Catalogue of Life
    */
   CONSTITUENT_KEY(UUID.class),
 
@@ -48,8 +46,8 @@ public enum NameUsageSearchParameter implements SearchParameter {
   RANK(Rank.class),
 
   /**
-   * Filters by any of the higher linnean rank keys.
-   * Note this is within the respective checklist and not searching nunb keys across all checklists.
+   * Filters by any of the higher Linnean rank keys.
+   * Note this is within the respective checklist and not searching NUB keys across all checklists.
    */
   HIGHERTAXON_KEY(Integer.class),
 

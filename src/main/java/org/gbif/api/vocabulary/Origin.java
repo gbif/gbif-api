@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -28,7 +26,7 @@ public enum Origin {
   SOURCE,
 
   /**
-   * Implicit usage from a denormalised classification.
+   * Implicit usage from a denormalized classification.
    */
   DENORMED_CLASSIFICATION,
 
@@ -42,7 +40,7 @@ public enum Origin {
   */
   VERBATIM_ACCEPTED,
 
-    /**
+  /**
    * Implicit usage from a verbatim basionym/original name.
    */
   VERBATIM_BASIONYM,
@@ -63,7 +61,7 @@ public enum Origin {
   IMPLICIT_NAME,
 
   /**
-   * Artificial accepted usage for a synonym if its missing to preserve the taxonomic hierarchy.
+   * Artificial accepted usage for a synonym if it's missing to preserve the taxonomic hierarchy.
    */
   MISSING_ACCEPTED,
 
@@ -84,10 +82,10 @@ public enum Origin {
   OTHER;
 
   /**
-   * Case insensitive lookup of an Origin by its name that does not throw an exception but returns null
+   * Case-insensitive lookup of an Origin by its name that does not throw an exception but returns null
    * for not found origins.
    *
-   * @param origin case insensitive name of the origin
+   * @param origin case-insensitive name of the origin
    *
    * @return the matching Origin or null
    */

@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,6 +21,8 @@ import java.util.StringJoiner;
 import javax.annotation.Nullable;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Basic metrics for a single name usage. These metrics have been embedded in the NameUsage class before
@@ -48,6 +48,7 @@ public class NameUsageMetrics {
    *
    * @return the key
    */
+  @Schema(description = "The name usage key that uniquely identifies this name usage.")
   @NotNull
   public Integer getKey() {
     return key;
@@ -66,6 +67,8 @@ public class NameUsageMetrics {
    *
    * @return the numChildren
    */
+  @Schema(description = "Returns the number of direct taxonomic elements under this usage. “Direct” means that " +
+    "children should have this usageKey as their parentKey.")
   @Min(0)
   public int getNumChildren() {
     return numChildren;
@@ -79,11 +82,13 @@ public class NameUsageMetrics {
   }
 
   /**
-   * Returns the number of classes that are below this taxon. Typically this would mean
+   * Returns the number of classes that are below this taxon. Typically, this would mean
    * this usage is of something above the "class" taxonomic level.
    *
    * @return the numClass
    */
+  @Schema(description = "Returns the number of classes that are below this taxon. Typically, this would mean " +
+    "this usage is of something above the “class” taxonomic level.")
   @Min(0)
   public int getNumClass() {
     return numClass;
@@ -101,6 +106,7 @@ public class NameUsageMetrics {
    *
    * @return the number of descendants
    */
+  @Schema(description = "The number of all accepted taxonomic elements under this usage.")
   public int getNumDescendants() {
     return numDescendants;
   }
@@ -113,11 +119,13 @@ public class NameUsageMetrics {
   }
 
   /**
-   * Returns the number of families that are below this taxon. Typically this would mean
+   * Returns the number of families that are below this taxon. Typically, this would mean
    * this usage is of something above the "family" taxonomic level.
    *
    * @return the numFamily
    */
+  @Schema(description = "Returns the number of families that are below this taxon. Typically, this would mean " +
+    "this usage is of something above the “family” taxonomic level.")
   @Min(0)
   public int getNumFamily() {
     return numFamily;
@@ -131,11 +139,13 @@ public class NameUsageMetrics {
   }
 
   /**
-   * Returns the number of genus that are below this taxon. Typically this would mean
+   * Returns the number of genus that are below this taxon. Typically, this would mean
    * this usage is of something above the "genus" taxonomic level.
    *
    * @return the numGenus
    */
+  @Schema(description = "Returns the number of genus that are below this taxon. Typically, this would mean " +
+    "this usage is of something above the “genus” taxonomic level.")
   @Min(0)
   public int getNumGenus() {
     return numGenus;
@@ -149,11 +159,13 @@ public class NameUsageMetrics {
   }
 
   /**
-   * Returns the number of orders that are below this taxon. Typically this would mean
+   * Returns the number of orders that are below this taxon. Typically, this would mean
    * this usage is of something above the "order" taxonomic level.
    *
    * @return the numOrder
    */
+  @Schema(description = "Returns the number of orders that are below this taxon. Typically, this would mean " +
+    "this usage is of something above the “order” taxonomic level.")
   @Min(0)
   public int getNumOrder() {
     return numOrder;
@@ -167,11 +179,13 @@ public class NameUsageMetrics {
   }
 
   /**
-   * Returns the number of phyla that are below this taxon. Typically this would mean
+   * Returns the number of phyla that are below this taxon. Typically, this would mean
    * this usage is of something above the "phylum" taxonomic level.
    *
    * @return the numPhylum
    */
+  @Schema(description = "Returns the number of phyla that are below this taxon. Typically, this would mean " +
+    "this usage is of something above the “phylum” taxonomic level.")
   @Min(0)
   public int getNumPhylum() {
     return numPhylum;
@@ -185,11 +199,13 @@ public class NameUsageMetrics {
   }
 
   /**
-   * Returns the number of species that are below this taxon. Typically this would mean
+   * Returns the number of species that are below this taxon. Typically, this would mean
    * this usage is of something above the "species" taxonomic level.
    *
    * @return the numSpecies.
    */
+  @Schema(description = "Returns the number of species that are below this taxon. Typically, this would mean " +
+    "this usage is of something above the “species” taxonomic level.")
   @Min(0)
   public int getNumSpecies() {
     return numSpecies;
@@ -203,11 +219,13 @@ public class NameUsageMetrics {
   }
 
   /**
-   * Returns the number of distinct subgenera that are below this taxon. Typically this would mean
+   * Returns the number of distinct subgenera that are below this taxon. Typically, this would mean
    * this usage is of something above the "subgenus" taxonomic level.
    *
    * @return the numSubgenus
    */
+  @Schema(description = "Returns the number of distinct subgenera that are below this taxon. Typically, this would mean " +
+    "this usage is of something above the “subgenus” taxonomic level.")
   @Min(0)
   public int getNumSubgenus() {
     return numSubgenus;
@@ -225,6 +243,7 @@ public class NameUsageMetrics {
    *
    * @return the numSynonyms.
    */
+  @Schema(description = "Returns the number of related synonyms this usage possses.")
   @Min(0)
   public int getNumSynonyms() {
     return numSynonyms;
@@ -243,7 +262,7 @@ public class NameUsageMetrics {
    *
    * @param rank the linnean rank to retrieve counts for
    *
-   * @return the count or null if rank doesnt exist
+   * @return the count or null if rank doesn't exist
    */
   @Nullable
   public Integer getNumByRank(Rank rank) {

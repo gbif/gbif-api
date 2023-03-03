@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +13,7 @@
  */
 package org.gbif.api.model.checklistbank;
 
+
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Language;
 import org.gbif.api.vocabulary.LifeStage;
@@ -25,6 +24,8 @@ import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * VernacularName Model Object represents a vernacular name for a scientific taxon.
@@ -48,8 +49,9 @@ public class VernacularName implements NameUsageExtension {
   private Boolean plural;
 
   /**
-   * The name usage "taxon" key this description belongs to.
+   * The name usage "taxon" key to which this vernacular name belongs.
    */
+  @Schema(description = "The name usage “taxon“ key to which this vernacular name belongs.")
   @Override
   public Integer getTaxonKey() {
     return taxonKey;
@@ -65,6 +67,7 @@ public class VernacularName implements NameUsageExtension {
    *
    * @return the area
    */
+  @Schema(description = "The area where the vernacular name is used.")
   @Nullable
   public String getArea() {
     return area;
@@ -78,20 +81,11 @@ public class VernacularName implements NameUsageExtension {
   }
 
   /**
-   * The standard code for the country in which the vernacular name is used. Recommended best
-   * practice is to use the ISO 3166-1-alpha-2 country codes available as a vocabulary at
-   * http://rs.gbif.org/vocabulary/iso/3166-1_alpha2.xml. For multiple countries separate values
-   * with a comma ",".
-   * <blockquote>
-   * <p>
-   * <i>Example:</i> "AR" for Argentina, "SV" for El Salvador. "AR,CR,SV" for Argentina, Costa Rica,
-   * and El Salvador
-   * combined.
-   * </p>
-   * </blockquote>
+   * The country in which the vernacular name is used.
    *
    * @return the country
    */
+  @Schema(description = "The country or area in which the vernacular name is used.")
   @Nullable
   public Country getCountry() {
     return country;
@@ -115,6 +109,7 @@ public class VernacularName implements NameUsageExtension {
    * @return the language
    */
   @Nullable
+  @Schema(description = "The language (from ISO 639-1) of the vernacular name.")
   public Language getLanguage() {
     return language;
   }
@@ -131,7 +126,7 @@ public class VernacularName implements NameUsageExtension {
    * is to utilise a controlled list of terms for this value.
    * <blockquote>
    * <p>
-   * <i>Example:</i> juvenile" is the life stage of the fish Pomatomus saltatrix for which the name
+   * <i>Example:</i> "juvenile" is the life stage of the fish Pomatomus saltatrix for which the name
    * "snapper blue"
    * refers.
    * </p>
@@ -140,6 +135,8 @@ public class VernacularName implements NameUsageExtension {
    * @return the lifeStage
    * @see <a href="http://rs.gbif.org/vocabulary/gbif/life_stage.xml">Life Stage GBIF Vocabulary</a>
    */
+  @Schema(description = "The age class or life stage of the species for which the vernacular name applies.\n\n" +
+    "For example, a juvenile *Anser anser* is called a “gosling“.")
   @Nullable
   public LifeStage getLifeStage() {
     return lifeStage;
@@ -165,6 +162,9 @@ public class VernacularName implements NameUsageExtension {
    * @return the sex
    * @see <a href="http://rs.gbif.org/vocabulary/gbif/sex.xml">Sex GBIF Vocabulary</a>
    */
+  @Schema(description = "The sex of the taxon for which the vernacular name applies when the name is limited to a " +
+    "specific sex of a species.\n\n" +
+    "For example, “goose“ can refer to either male or female *Anser*, but only males may be called “gander”.")
   @Nullable
   public Sex getSex() {
     return sex;
@@ -188,6 +188,8 @@ public class VernacularName implements NameUsageExtension {
    *
    * @return the source
    */
+  @Schema(description = "Bibliographic citation referencing a source where the vernacular name refers to the " +
+    "cited species.")
   @Nullable
   @Override
   public String getSource() {
@@ -202,6 +204,7 @@ public class VernacularName implements NameUsageExtension {
     this.source = source;
   }
 
+  @Schema(description = "The name usage key of the taxon in the checklist including this vernacular name.")
   @Nullable
   @Override
   public Integer getSourceTaxonKey() {
@@ -223,6 +226,7 @@ public class VernacularName implements NameUsageExtension {
    *
    * @return the vernacularName
    */
+  @Schema(description = "A common or vernacular name.")
   @NotNull
   public String getVernacularName() {
     return vernacularName;
@@ -248,6 +252,7 @@ public class VernacularName implements NameUsageExtension {
    * @return the plural
    * @see <a href="http://rs.gbif.org/vocabulary/basic/boolean.xml">Boolean Vocabulary</a>
    */
+  @Schema(description = "True if the vernacular name refers to a plural form of the name.")
   @Nullable
   public Boolean isPlural() {
     return plural;
@@ -277,6 +282,8 @@ public class VernacularName implements NameUsageExtension {
    * @return the preferred
    * @see <a href="http://rs.gbif.org/vocabulary/basic/boolean.xml">Boolean Vocabulary</a>
    */
+  @Schema(description = "This term is true if the source citing the use of this vernacular name indicates the usage " +
+    "has some preference or specific standing over other possible vernacular names used for the species.")
   @Nullable
   public Boolean isPreferred() {
     return preferred;

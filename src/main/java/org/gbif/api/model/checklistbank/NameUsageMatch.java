@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -32,9 +30,11 @@ import javax.validation.constraints.Min;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * The resulting lookup of a name usage match.
- * A single name usage key with its linnean classification and a confidence value for the match.
+ * A single name usage key with its Linnean classification and a confidence value for the match.
  */
 @SuppressWarnings("unused")
 public class NameUsageMatch implements LinneanClassification, LinneanClassificationKeys, Serializable {
@@ -77,6 +77,8 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
    *
    * @return the lookup confidence
    */
+  @Schema(description = "The confidence that the lookup was correct.\n\n" +
+    "A value between 0 and 100 with higher values being better matches.")
   @Min(0)
   @Max(100)
   public Integer getConfidence() {
@@ -93,6 +95,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
   /**
    * @return the type of match for this result
    */
+  @Schema(description = "The type of match for this result.")
   public MatchType getMatchType() {
     return matchType;
   }
@@ -104,6 +107,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
   /**
    * @return the rank of the matching usage
    */
+  @Schema(description = "The rank of the matching usage.")
   @Nullable
   public Rank getRank() {
     return rank;
@@ -114,10 +118,11 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
   }
 
   /**
-   * The scientific name of the looked up name usage.
+   * The scientific name of the matched name usage.
    *
    * @return the scientific name of the matched usage
    */
+  @Schema(description = "The scientific name of the matched name usage.")
   @Nullable
   public String getScientificName() {
     return scientificName;
@@ -128,10 +133,11 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
   }
 
   /**
-   * The key of the name usage that has been looked up.
+   * The name usage key of the name usage that has been matched.
    *
    * @return the usageKey
    */
+  @Schema(description = "The name usage key of the name usage that has been matched.")
   @Nullable
   public Integer getUsageKey() {
     return usageKey;
@@ -147,6 +153,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
   /**
    * The key of the accepted name usage in case the matched usage was a synonym.
    */
+  @Schema(description = "The key of the accepted name usage in case the matched usage was a synonym.")
   @Nullable
   public Integer getAcceptedUsageKey() {
     return acceptedUsageKey;
@@ -157,8 +164,9 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
   }
 
   /**
-   * @return true if its a synonym
+   * @return true if it's a synonym
    */
+  @Schema(description = "True if the match name is a synonym.")
   public boolean isSynonym() {
     return status != null && status.isSynonym();
   }
@@ -171,6 +179,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
    *   <li>doubtful: treated as accepted but in doubt for some reason</li>
    * </ul>
    */
+  @Schema(description = "The taxonomic status of the backbone usage.")
   public TaxonomicStatus getStatus() {
     return status;
   }
@@ -179,6 +188,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     this.status = status;
   }
 
+  @Schema(description = "Matched name's kingdom.")
   @Override
   @Nullable
   public String getKingdom() {
@@ -190,6 +200,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     this.kingdom = kingdom;
   }
 
+  @Schema(description = "Matched name's phylum.")
   @Override
   @Nullable
   public String getPhylum() {
@@ -201,6 +212,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     this.phylum = phylum;
   }
 
+  @Schema(description = "Matched name's class.")
   @Override
   @Nullable
   public String getClazz() {
@@ -212,6 +224,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     this.clazz = clazz;
   }
 
+  @Schema(description = "Matched name's order.")
   @Override
   @Nullable
   public String getOrder() {
@@ -223,6 +236,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     this.order = order;
   }
 
+  @Schema(description = "Matched name's family.")
   @Override
   @Nullable
   public String getFamily() {
@@ -234,6 +248,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     this.family = family;
   }
 
+  @Schema(description = "Matched name's genus.")
   @Override
   @Nullable
   public String getGenus() {
@@ -245,6 +260,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     this.genus = genus;
   }
 
+  @Schema(description = "Matched name's subgenus.")
   @Override
   @Nullable
   public String getSubgenus() {
@@ -256,6 +272,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     this.subgenus = subgenus;
   }
 
+  @Schema(description = "Matched name's species.")
   @Override
   @Nullable
   public String getSpecies() {
@@ -267,6 +284,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     this.species = species;
   }
 
+  @Schema(description = "Usage key of the kingdom of the matched name.")
   @Override
   @Nullable
   public Integer getKingdomKey() {
@@ -278,6 +296,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     this.kingdomKey = kingdomKey;
   }
 
+  @Schema(description = "Usage key of the phylum of the matched name.")
   @Override
   @Nullable
   public Integer getPhylumKey() {
@@ -289,6 +308,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     this.phylumKey = phylumKey;
   }
 
+  @Schema(description = "Usage key of the class of the matched name.")
   @Override
   @Nullable
   public Integer getClassKey() {
@@ -300,6 +320,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     this.classKey = classKey;
   }
 
+  @Schema(description = "Usage key of the order of the matched name.")
   @Override
   @Nullable
   public Integer getOrderKey() {
@@ -311,6 +332,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     this.orderKey = orderKey;
   }
 
+  @Schema(description = "Usage key of the family of the matched name.")
   @Override
   @Nullable
   public Integer getFamilyKey() {
@@ -322,6 +344,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     this.familyKey = familyKey;
   }
 
+  @Schema(description = "Usage key of the genus of the matched name.")
   @Override
   @Nullable
   public Integer getGenusKey() {
@@ -333,6 +356,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     this.genusKey = genusKey;
   }
 
+  @Schema(description = "Usage key of the subgenus of the matched name.")
   @Override
   @Nullable
   public Integer getSubgenusKey() {
@@ -344,6 +368,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     this.subgenusKey = subgenusKey;
   }
 
+  @Schema(description = "Usage key of the species of the matched name.")
   @Override
   @Nullable
   public Integer getSpeciesKey() {
@@ -355,6 +380,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
     this.speciesKey = speciesKey;
   }
 
+  @Schema(description = "Usage key of the kingdom of the matched name.")
   @Override
   @Nullable
   public String getHigherRank(Rank rank) {

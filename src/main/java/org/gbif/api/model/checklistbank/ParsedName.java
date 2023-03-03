@@ -1,6 +1,4 @@
 /*
- * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -31,19 +29,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
- * A container of a taxon name that is atomised into it's relevant separate parts.
+ * A container of a taxon name that is atomised into its relevant, separate parts.
+ * <br>
  * Hybrid formulas that consist of multiple genera, binomials or species
- * epitheta are relatively poor represented. A simple boolean flag indicates a
- * hybrid formula, e.g. Polygala vulgaris X Polygala epinema but not named
- * hybrids that are have an x or notho as part of a well formed
- * mono/bi/trinomial e.g. xPolygala vulgaris. In the case of hybrid formulas,
+ * epithets are relatively poorly represented. A simple boolean flag indicates a
+ * hybrid formula, e.g. Polygala vulgaris × Polygala epinema but not named
+ * hybrids that are have an × or notho as part of a well-formed
+ * mono/bi/trinomial e.g. ×Polygala vulgaris. In the case of hybrid formulas,
  * i.e. isHybrid=true, the first name in the formula is tried to be kept, at
  * least the genus.
  * <p/>
  * A container of a taxon name that is only atomised into three name parts maximum plus rank and a notho property
  * indicating the name part of named hybrids that is considered to be the hybrid. No authorship is kept. For subgenera
- * we don't use parenthesis to indicate the subgenus, but use explicit rank markers instead.
+ * we don't use parentheses to indicate the subgenus, but use explicit rank markers instead.
  */
 @SuppressWarnings("unused")
 public class ParsedName {
@@ -120,8 +121,9 @@ public class ParsedName {
   }
 
   /**
-   * The original author of this name, e.g basionym or recombination author
+   * The original author of this name, e.g. basionym or recombination author
    */
+  @Schema(description = "The original author of this name, e.g. basionym or recombination author.")
   public String getAuthorship() {
     return authorship;
   }
@@ -133,6 +135,7 @@ public class ParsedName {
   /**
    * The authorship of the original name, i.e. basionym, given in brackets.
    */
+  @Schema(description = "The authorship of the original name, i.e. basionym, given in brackets.")
   public String getBracketAuthorship() {
     return bracketAuthorship;
   }
@@ -144,6 +147,7 @@ public class ParsedName {
   /**
    * The code relevant year of publication of the original name, i.e. basionym, given in brackets.
    */
+  @Schema(description = "The code relevant year of publication of the original name, i.e. basionym, given in brackets.")
   public String getBracketYear() {
     return bracketYear;
   }
@@ -156,6 +160,8 @@ public class ParsedName {
    * The cultivar, cultivar group or grex part of a cultivated plant name.
    * If given the name should be of type NameType.CULTIVAR
    */
+  @Schema(description = "The cultivar, cultivar group or grex part of a cultivated plant name.\n\n" +
+    "If given the name should be of type CULTIVAR")
   public String getCultivarEpithet() {
     return cultivarEpithet;
   }
@@ -169,6 +175,8 @@ public class ParsedName {
    * See <a href="http://www.bacterio.net/-collections.html">List of culture collection codes</a>
    * If given the name should be of type NameType.STRAIN
    */
+  @Schema(description = "The strain or isolate name. Usually a capital collection code string followed by an accession number.\n\n" +
+    "See [List of culture collection codes](http://www.bacterio.net/-collections.html).  If given the name should be of type STRAIN.")
   public String getStrain() {
     return strain;
   }
@@ -180,17 +188,21 @@ public class ParsedName {
   /**
    * The genus part of a bi/trinomial or the monomial in case of names of higher ranks
    */
+  @Schema(description = "The genus part of a bi/trinomial or the monomial in case of names of higher ranks.")
   public String getGenusOrAbove() {
     return genusOrAbove;
   }
 
   /**
-   * The infrageneric part of a name, often given in parenthesis between genus and species epithet, e.g. for a subgenus
+   * The infrageneric part of a name, often given in parentheses between genus and species epithet, e.g. for a subgenus
    */
+  @Schema(description = "The infrageneric part of a name, often given in parentheses between genus and species epithet, " +
+    "e.g. for a subgenus")
   public String getInfraGeneric() {
     return infraGeneric;
   }
 
+  @Schema(description = "The infraspecific part of a name.")
   public String getInfraSpecificEpithet() {
     return infraSpecificEpithet;
   }
@@ -198,6 +210,7 @@ public class ParsedName {
   /**
    * Any nomenclatoral remarks given in this name, e.g. nom. illeg.
    */
+  @Schema(description = "Any nomenclatoral remarks given in this name, e.g. nom. illeg.")
   public String getNomStatus() {
     return nomStatus;
   }
@@ -210,6 +223,8 @@ public class ParsedName {
    * For hybrid names notho indicates which part of the name is considered a hybrid,
    * i.e. genus, species or infraspecific epithet.
    */
+  @Schema(description = "For hybrid names notho indicates which part of the name is considered a hybrid, " +
+    "i.e. genus, species or infraspecific epithet.")
   public NamePart getNotho() {
     return notho;
   }
@@ -221,6 +236,7 @@ public class ParsedName {
   /**
    * Any further remarks found
    */
+  @Schema(description = "Any further remarks found.")
   public String getRemarks() {
     return remarks;
   }
@@ -233,6 +249,8 @@ public class ParsedName {
    * Taxon concept references as part of the name,
    * e.g. "MSW2005" for Gorilla gorilla (Savage, 1847) sec. MSW2005
    */
+  @Schema(description = "Taxon concept references as part of the name, e.g. “MSW2006” for *Gorilla gorilla* " +
+    "(Savage, 1847) sec. MSW2005")
   public String getSensu() {
     return sensu;
   }
@@ -241,6 +259,7 @@ public class ParsedName {
     this.sensu = sensu;
   }
 
+  @Schema(description = "The specific epithet of the name")
   public String getSpecificEpithet() {
     return specificEpithet;
   }
@@ -248,6 +267,7 @@ public class ParsedName {
   /**
    * @return the terminal epithet, infraspecific epithet if existing, the species epithet or null
    */
+  @Schema(description = "The terminal epithet, infraspecific epithet if existing, the species epithet or null")
   @JsonIgnore
   public String getTerminalEpithet() {
     return infraSpecificEpithet == null ? specificEpithet : infraSpecificEpithet;
@@ -256,6 +276,7 @@ public class ParsedName {
   /**
    * A coarse classification of names helping to deal with different syntactical name string structures.
    */
+  @Schema(description = "A coarse classification of names helping to deal with different syntactical name string structures.")
   public NameType getType() {
     return type;
   }
@@ -267,6 +288,7 @@ public class ParsedName {
   /**
    * The year of publication as given in the authorship.
    */
+  @Schema(description = "The year of publication as given in the authorship.")
   public String getYear() {
     return year;
   }
@@ -280,10 +302,12 @@ public class ParsedName {
     return authorship != null || year != null || bracketAuthorship != null || bracketYear != null;
   }
 
+  @Schema(description = "The taxonomic rank of the name.")
   public void setRank(Rank rank) {
     this.rank = rank;
   }
 
+  @Schema(description = "The key for this parsed name object.")
   public Integer getKey() {
     return key;
   }
@@ -295,6 +319,7 @@ public class ParsedName {
   /**
    * The exact verbatim, full scientific name as given before parsing.
    */
+  @Schema(description = "The exact verbatim, full scientific name as given before parsing.")
   public String getScientificName() {
     return scientificName;
   }
@@ -313,6 +338,11 @@ public class ParsedName {
    *
    * @return true if name was only partially parsed, false otherwise
    */
+  @Schema(description = "The GBIF name parser cannot always parse the entire name.\n\n" +
+    "This is often the case when taxonomic, nomenclatural or identification notes are added to the end of the name. " +
+    "In such cases when the name was only partially parsed (NameUsageIssue.PARTIALLY_PARSABLE) " +
+    "this flag should be true.\n\n" +
+    "If the name was not parsed at all this will be false.")
   public boolean isParsedPartially() {
     return parsedPartially;
   }
@@ -325,6 +355,8 @@ public class ParsedName {
    * A flag indicating if a name could not be parsed at all.
    * If false, only the scientific name, rank and potentially the name type is given.
    */
+  @Schema(description = "A flag indicating if a name could not be parsed at all.\n\n" +
+    "If false, only the scientific name, rank and potentially the name type is given.")
   public boolean isParsed() {
     return parsed;
   }
@@ -567,18 +599,22 @@ public class ParsedName {
    * Abies Bracteata
    * Heucherella tiarelloides
    *
-   * @return the 1,2 or 3 parted name as a single string
+   * @return the 1, 2 or 3 parted name as a single string
    */
+  @Schema(description = "The canonical name *sensu strictu* with nothing else but three name parts at most (genus, " +
+    "species, infraspecific).\n\n" +
+    "No rank or hybrid markers and no authorship, cultivar or strain information.\n\n" +
+    "Infrageneric names are represented without a leading genus.\n\n" +
+    "Unicode characters are replaced by their matching ASCII characters.")
   @JsonProperty
   public String canonicalName() {
     return buildName(false, false, false, false, false, false, true, true, true, false, false, false, false, false);
   }
 
   /**
-   * The code compliant, canonical name with 3 name parts at max (genus, species, infraspecific), a rank marker for
+   * The code-compliant, canonical name with three name parts at max (genus, species, infraspecific), a rank marker for
    * infraspecific names and cultivar or strain epithets. The canonical name can be a 1, 2 or 3 parted name, but does
-   * not include any informal notes or
-   * authorships. Notho taxa will have the hybrid marker.
+   * not include any informal notes or authorships. Notho taxa will have the hybrid marker.
    * Unicode characters will be replaced by their matching ASCII characters.
    * <p/>
    * For example:
@@ -589,16 +625,24 @@ public class ParsedName {
    *
    * @return the 1,2 or 3 parted name as a single string
    */
+  @Schema(description = "The code-compliant, canonical name with three name parts at max (genus, species, " +
+    "infraspecific), a rank marker for infraspecific names and cultivar or strain epithets. The canonical name can " +
+    "be a 1, 2 or 3 parted name, but does not include any informal notes or authorships. Notho taxa will have the " +
+    "hybrid marker.\n\n" +
+    "Unicode characters will be replaced by their matching ASCII characters.")
   @JsonProperty
   public String canonicalNameWithMarker() {
     return buildName(true, true, false, false, false, false, true, true, true, false, false, false, true, true);
   }
 
   /**
-   * The code compliant, canonical name with rank & hybrid marker, authorship and cultivar or strain name included.
-   * Informal or nomenclatoral notes, concept references, subgenus and non terminal authorships are removed.
+   * The code-compliant, canonical name with rank and hybrid marker, authorship and cultivar or strain name included.
+   * Informal or nomenclatoral notes, concept references, subgenus and non-terminal authorships are removed.
    * @return the 1,2 or 3 parted name as a single string
    */
+  @Schema(description = "The code-compliant, canonical name with rank and hybrid marker, authorship and cultivar " +
+    "or strain name included. Informal or nomenclatoral notes, concept references, subgenus and non-terminal " +
+    "authorships are removed.")
   @JsonProperty
   public String canonicalNameComplete() {
     return buildName(true, true, true, false, true, false, true, false, true, false, false, false, true, true);

@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,11 +25,13 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Metadata for a multimedia object representing an image, video or audio file.
  * Based on DublinCore and the Simple Multimedia dwc archive extension:
  *
- * @see <a href="http://rs.gbif.org/extension/gbif/1.0/multimedia.xml">Multimedia Definition</a>
+ * @see <a href="https://rs.gbif.org/terms/1.0/Multimedia">Multimedia Definition</a>
  */
 public class MediaObject {
   private MediaType type;
@@ -52,6 +52,7 @@ public class MediaObject {
   /**
    * @return mime type of the file
    */
+  @Schema(description = "The format the image is exposed in.")
   public String getFormat() {
     return format;
   }
@@ -70,6 +71,7 @@ public class MediaObject {
    *
    * @return the created
    */
+  @Schema(description = "The date and time this media item was created.")
   @Nullable
   public Date getCreated() {
     return created;
@@ -92,6 +94,7 @@ public class MediaObject {
    *
    * @return the creator
    */
+  @Schema(description = "The person that created the media item.")
   @Nullable
   public String getCreator() {
     return creator;
@@ -114,6 +117,7 @@ public class MediaObject {
    *
    * @return the description
    */
+  @Schema(description = "A longer description for this media item.")
   @Nullable
   public String getDescription() {
     return description;
@@ -126,6 +130,7 @@ public class MediaObject {
     this.description = description;
   }
 
+  @Schema(description = "The kind of media object.")
   @NotNull
   public MediaType getType() {
     return type;
@@ -144,6 +149,7 @@ public class MediaObject {
    * </p>
    * </blockquote>
    */
+  @Schema(description = "The public URL that identifies and locates the media item.")
   @NotNull
   @JsonProperty("identifier")
   public URI getIdentifier() {
@@ -155,8 +161,8 @@ public class MediaObject {
   }
 
   /**
-   * License for this media item.
-   * Can be text or a identifier like creative commons uses.
+   * Licence for this media item.
+   * Can be text or an identifier like Creative Commons uses.
    * <blockquote>
    * <p>
    * <i>Example:</i> <a
@@ -167,6 +173,7 @@ public class MediaObject {
    *
    * @return the license
    */
+  @Schema(description = "Licence for this media item.")
   @Nullable
   public String getLicense() {
     return license;
@@ -182,6 +189,7 @@ public class MediaObject {
   /**
    * @return link to html webpage with the media item on
    */
+  @Schema(description = "An HTML webpage that shows the image or its metadata.")
   public URI getReferences() {
     return references;
   }
@@ -200,6 +208,7 @@ public class MediaObject {
    *
    * @return the publisher
    */
+  @Schema(description = "An entity responsible for making the media item available.")
   @Nullable
   public String getPublisher() {
     return publisher;
@@ -222,6 +231,7 @@ public class MediaObject {
    *
    * @return the title.
    */
+  @Schema(description = "The media item title.")
   @Nullable
   public String getTitle() {
     return title;
@@ -242,6 +252,7 @@ public class MediaObject {
     this.source = source;
   }
 
+  @Schema(description = "A class or description for whom the image is intended or useful.")
   public String getAudience() {
     return audience;
   }
@@ -250,6 +261,7 @@ public class MediaObject {
     this.audience = audience;
   }
 
+  @Schema(description = "Any contributor in addition to the creator that helped in recording the media item.")
   public String getContributor() {
     return contributor;
   }
@@ -258,6 +270,7 @@ public class MediaObject {
     this.contributor = contributor;
   }
 
+  @Schema(description = "A person or organization owning or managing rights over the media item.")
   public String getRightsHolder() {
     return rightsHolder;
   }

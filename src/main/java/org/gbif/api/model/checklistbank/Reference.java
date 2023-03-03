@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,6 +18,8 @@ import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Reference Model Object represents a literature reference stating a bibliography for a taxon.
@@ -51,6 +51,7 @@ public class Reference implements NameUsageExtension {
   /**
    * The name usage "taxon" key this description belongs to.
    */
+  @Schema(description = "The name usage “taxon“ key to which this species profile belongs.")
   @Override
   public Integer getTaxonKey() {
     return taxonKey;
@@ -71,6 +72,7 @@ public class Reference implements NameUsageExtension {
    *
    * @return the author
    */
+  @Schema(description = "The author or authors of the referenced work.")
   @Nullable
   @Deprecated
   public String getAuthor() {
@@ -98,6 +100,7 @@ public class Reference implements NameUsageExtension {
    *
    * @return the citation
    */
+  @Schema(description = "A text string referring to an un-parsed bibliographic citation.")
   @NotNull
   public String getCitation() {
     return citation;
@@ -115,6 +118,7 @@ public class Reference implements NameUsageExtension {
    *
    * @return the publication date
    */
+  @Schema(description = "Date of publication.")
   @Nullable
   @Deprecated
   public String getDate() {
@@ -137,6 +141,10 @@ public class Reference implements NameUsageExtension {
    * @see <a href="http://www.doi.org/hb.html">DOI Handbook</a>
    * @see <a href="http://de.wikipedia.org/wiki/Digital_Object_Identifier">Wikipedia</a>
    */
+  @Schema(
+    description = "The pure DOI for the publication without potential http resolver or URI prefix.",
+    example = "10.1038/ng0609-637"
+  )
   @Nullable
   public String getDoi() {
     return doi;
@@ -151,6 +159,7 @@ public class Reference implements NameUsageExtension {
    *
    * @return the link
    */
+  @Schema(description = "The reference link.")
   @Nullable
   public String getLink() {
     return link;
@@ -174,6 +183,7 @@ public class Reference implements NameUsageExtension {
    *
    * @return the taxonomic remarks
    */
+  @Schema(description = "Annotation of taxon-specific information related to the referenced publication.")
   @Nullable
   public String getRemarks() {
     return remarks;
@@ -193,6 +203,7 @@ public class Reference implements NameUsageExtension {
    *
    * @return the title
    */
+  @Schema(description = "Title of book or article.")
   @Nullable
   @Deprecated
   public String getTitle() {
@@ -218,6 +229,7 @@ public class Reference implements NameUsageExtension {
    *
    * @return the publication type
    */
+  @Schema(description = "Used to assign a bibliographic reference to list of taxonomic or nomenclatural categories.")
   @Nullable
   public String getType() {
     return type;
@@ -227,6 +239,7 @@ public class Reference implements NameUsageExtension {
     this.type = type;
   }
 
+  @Schema(description = "Bibliographic citation referencing a source for the reference.")
   @Nullable
   @Override
   public String getSource() {
@@ -238,6 +251,7 @@ public class Reference implements NameUsageExtension {
     this.source = source;
   }
 
+  @Schema(description = "The name usage key of the taxon in the checklist including this reference.")
   @Nullable
   @Override
   public Integer getSourceTaxonKey() {

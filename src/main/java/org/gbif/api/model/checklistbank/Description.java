@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,6 +19,8 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Description Model Object represents a taxon description.
@@ -45,6 +45,8 @@ public class Description implements NameUsageExtension {
    * A unique GBIF identifier for any description.
    * This key is used in the table of contents to retrieve the detailed description.
    */
+  @Schema(description = "A unique GBIF identifier for the description.\n\n" +
+    "This key is used in the table of contents to retrieve the detailed description.")
   public Integer getKey() {
     return key;
   }
@@ -56,6 +58,7 @@ public class Description implements NameUsageExtension {
   /**
    * The name usage "taxon" key this description belongs to.
    */
+  @Schema(description = "The name usage “taxon“ key to which this species profile belongs.")
   @Override
   public Integer getTaxonKey() {
     return taxonKey;
@@ -71,6 +74,7 @@ public class Description implements NameUsageExtension {
    *
    * @return the contributor
    */
+  @Schema(description = "An entity responsible for making contributions to the textual information provided for a description.")
   @Nullable
   public String getContributor() {
     return contributor;
@@ -88,6 +92,7 @@ public class Description implements NameUsageExtension {
    *
    * @return the creator
    */
+  @Schema(description = "The author(s) of the textual information provided for a description.")
   @Nullable
   public String getCreator() {
     return creator;
@@ -102,10 +107,12 @@ public class Description implements NameUsageExtension {
 
   /**
    * Any descriptive free text matching the category given as dc:type. The text should be either plain text or
-   * formatted with basic html tags, i.e. h1-4,p,i,b,a,img,ul and li. All other tags should be removed.
+   * formatted with basic HTML tags, i.e. h1-4,p,i,b,a,img,ul and li. All other tags should be removed.
    *
    * @return the description
    */
+  @Schema(description = "Any descriptive, free text matching the category given as dc:type.\n\n" +
+    "The text should be either plain text or HTML.")
   @Nullable
   public String getDescription() {
     return description;
@@ -119,10 +126,11 @@ public class Description implements NameUsageExtension {
   }
 
   /**
-   * ISO 639-1 language code used for the vernacular name value.
+   * ISO 639-1 language code used for the description.
    *
    * @return the language
    */
+  @Schema(description = "ISO 639-1 language code used for the description.")
   @Nullable
   public Language getLanguage() {
     return language;
@@ -145,6 +153,7 @@ public class Description implements NameUsageExtension {
    *
    * @return the license.
    */
+  @Schema(description = "Official permission to do something with the resource.")
   @Nullable
   public String getLicense() {
     return license;
@@ -162,6 +171,7 @@ public class Description implements NameUsageExtension {
    *
    * @return the source
    */
+  @Schema(description = "Bibliographic citation referencing a source for the description.")
   @Nullable
   @Override
   public String getSource() {
@@ -176,6 +186,7 @@ public class Description implements NameUsageExtension {
     this.source = source;
   }
 
+  @Schema(description = "The name usage key of the taxon in the checklist including this description.")
   @Nullable
   @Override
   public Integer getSourceTaxonKey() {
@@ -193,8 +204,10 @@ public class Description implements NameUsageExtension {
    *
    * @return the type
    *
-   * @see <a href="http://rs.gbif.org/vocabulary/gbif/description_type.xml">Description type definition</a>
+   * @see <a href="https://rs.gbif.org/vocabulary/gbif/descriptionType">Description type definition</a>
    */
+  @Schema(description = "The type used to categorize paragraphs of a taxon description.\n\n" +
+    "See the [Description Type vocabulary](http://rs.gbif.org/vocabulary/gbif/descriptionType).")
   @Nullable
   public String getType() {
     return type;

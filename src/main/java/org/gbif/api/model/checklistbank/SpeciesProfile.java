@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,10 +18,12 @@ import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * SpeciesProfile Model Object represents a species profile which describes basic species characteristics.
  *
- * @see <a href="http://rs.gbif.org/extension/gbif/1.0/speciesprofile.xml">Species Profile Definition</a>
+ * @see <a href="http://rs.gbif.org/terms/1.0/SpeciesProfile">Species Profile Extension Definition</a>
  */
 @SuppressWarnings("unused")
 public class SpeciesProfile implements NameUsageExtension {
@@ -44,8 +44,9 @@ public class SpeciesProfile implements NameUsageExtension {
   private Integer sourceTaxonKey;
 
   /**
-   * The name usage "taxon" key this description belongs to.
+   * The name usage "taxon" key this species profile belongs to.
    */
+  @Schema(description = "The name usage “taxon“ key to which this species profile belongs.")
   @Override
   public Integer getTaxonKey() {
     return taxonKey;
@@ -66,6 +67,7 @@ public class SpeciesProfile implements NameUsageExtension {
    *
    * @return the ageInDays
    */
+  @Schema(description = "Maximum observed age of an organism given as number of days.")
   @Nullable
   public Integer getAgeInDays() {
     return ageInDays;
@@ -83,6 +85,7 @@ public class SpeciesProfile implements NameUsageExtension {
    *
    * @return freshwater flag
    */
+  @Schema(description = "Flag indicating whether the taxon is a freshwater organism.")
   @Nullable
   public Boolean isFreshwater() {
     return freshwater;
@@ -93,8 +96,8 @@ public class SpeciesProfile implements NameUsageExtension {
   }
 
   /**
-   * Comma seperated list of mayor habitat classification as defined by IUCN in which a species is known to exist:
-   * <a href="http://www.iucnredlist.org/static/major_habitats">http://www.iucnredlist.org/static/major_habitats</a>
+   * Comma separated list of mayor habitat classification as defined by IUCN in which a species is known to exist:
+   * <a href="https://rs.gbif.org/vocabulary/iucn/habitat/">Habitats Vocabulary</a>
    * <blockquote>
    * <p>
    * <i>Example:</i> 1.1.
@@ -103,6 +106,9 @@ public class SpeciesProfile implements NameUsageExtension {
    *
    * @return the habitat
    */
+  @Schema(description = "Comma-separated list of major habitat classifications as defined by the IUCN in which " +
+    "a species is known to exist.\n\n" +
+    "See [Habitats vocabulary](https://rs.gbif.org/vocabulary/iucn/habitat/).")
   @Nullable
   public String getHabitat() {
     return habitat;
@@ -119,7 +125,7 @@ public class SpeciesProfile implements NameUsageExtension {
    * A term describing the growth/lifeform of an organism. Should be based on a vocabulary like Raunkiær for plants:
    * <a href="http://en.wikipedia.org/wiki/Raunkiær_plant_life-form">http://en.wikipedia.org/wiki/Raunkiær_plant_life-
    * form</a>. Recommended vocabulary:
-   * <a href="http://rs.gbif.org/vocabulary/gbif/life_form.xml">http://rs.gbif.org/vocabulary/gbif/life_form.xml</a>
+   * <a href="https://rs.gbif.org/vocabulary/gbif/life_form">http://rs.gbif.org/vocabulary/gbif/life_form.xml</a>
    * <blockquote>
    * <p>
    * <i>Example:</i> Phanerophyte.
@@ -128,6 +134,8 @@ public class SpeciesProfile implements NameUsageExtension {
    *
    * @return the lifeForm
    */
+  @Schema(description = "A term describing the growth/lifeform of an organism.\n\n" +
+    "See [Life Form vocabulary](https://rs.gbif.org/vocabulary/gbif/life_form).")
   @Nullable
   public String getLifeForm() {
     return lifeForm;
@@ -152,6 +160,7 @@ public class SpeciesProfile implements NameUsageExtension {
    *
    * @return the livingPeriod
    */
+  @Schema(description = "The geological time a currently extinct organism is known to have lived.")
   @Nullable
   public String getLivingPeriod() {
     return livingPeriod;
@@ -174,6 +183,7 @@ public class SpeciesProfile implements NameUsageExtension {
    *
    * @return the massInGram
    */
+  @Schema(description = "Maximum observed weight of an organism in grams.")
   @Nullable
   public Integer getMassInGram() {
     return massInGram;
@@ -187,7 +197,7 @@ public class SpeciesProfile implements NameUsageExtension {
   }
 
   /**
-   * Maximum observed size of an organism in millimeter. Can be either height, length or width, whichever is greater.
+   * Maximum observed size of an organism in millimetres. Can be either height, length or width, whichever is greater.
    * <blockquote>
    * <p>
    * <i>Example:</i> 1500.
@@ -196,6 +206,8 @@ public class SpeciesProfile implements NameUsageExtension {
    *
    * @return the sizeInMillimeter
    */
+  @Schema(description = "Maximum observed size of an organism in millimetres.\n\n" +
+    "Can be either height, length or width, whichever is greater.")
   @Nullable
   public Integer getSizeInMillimeter() {
     return sizeInMillimeter;
@@ -218,6 +230,7 @@ public class SpeciesProfile implements NameUsageExtension {
    *
    * @return the extinct
    */
+  @Schema(description = "Flag indicating an extinct organism.")
   @Nullable
   public Boolean isExtinct() {
     return extinct;
@@ -241,6 +254,7 @@ public class SpeciesProfile implements NameUsageExtension {
    *
    * @return the hybrid
    */
+  @Schema(description = "Flag indicating a hybrid organism.")
   @Nullable
   public Boolean isHybrid() {
     return hybrid;
@@ -263,6 +277,7 @@ public class SpeciesProfile implements NameUsageExtension {
    *
    * @return is marine flag
    */
+  @Schema(description = "A Boolean flag indicating whether the taxon is a marine organism, i.e. can be found in/above sea water.")
   @Nullable
   public Boolean isMarine() {
     return marine;
@@ -276,7 +291,7 @@ public class SpeciesProfile implements NameUsageExtension {
   }
 
   /**
-   * A Boolean flag indicating the taxon is a terrestial organism, i.e. occurrs on land as opposed to the sea.
+   * A Boolean flag indicating the taxon is a terrestrial organism, i.e. occurs on land as opposed to the sea.
    * <blockquote>
    * <p>
    * <i>Example:</i> true - false.
@@ -285,6 +300,7 @@ public class SpeciesProfile implements NameUsageExtension {
    *
    * @return the terrestrial
    */
+  @Schema(description = "A Boolean flag indicating the taxon is a terrestrial organism, i.e. occurs on land as opposed to the sea.")
   @Nullable
   public Boolean isTerrestrial() {
     return terrestrial;
@@ -297,6 +313,7 @@ public class SpeciesProfile implements NameUsageExtension {
     this.terrestrial = terrestrial;
   }
 
+  @Schema(description = "Bibliographic citation referencing a source for the species profile.")
   @Nullable
   @Override
   public String getSource() {
@@ -308,6 +325,7 @@ public class SpeciesProfile implements NameUsageExtension {
     this.source = source;
   }
 
+  @Schema(description = "The name usage key of the taxon in the checklist including this species profile.")
   @Nullable
   @Override
   public Integer getSourceTaxonKey() {

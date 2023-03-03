@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -28,6 +26,8 @@ import java.util.TreeMap;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * A simple class to represent a table of contents for multiple languages. It is used by species
@@ -81,6 +81,7 @@ public class TableOfContents {
     return new HashMap<>();
   }
 
+  @Schema(description = "A table of contents by language, section and description.")
   public Map<Language, Map<String, List<Integer>>> getToc() {
     return toc;
   }
