@@ -45,6 +45,7 @@ public class PipelineExecution implements Serializable {
 
   private String createdBy;
   private Set<PipelineStep> steps = new TreeSet<>(STEPS_BY_FINISHED_ASC);
+  private boolean finished;
 
   public long getKey() {
     return key;
@@ -115,6 +116,15 @@ public class PipelineExecution implements Serializable {
     return this;
   }
 
+  public boolean isFinished() {
+    return finished;
+  }
+
+  public PipelineExecution setFinished(boolean finished) {
+    this.finished = finished;
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -126,12 +136,13 @@ public class PipelineExecution implements Serializable {
       && Objects.equals(remarks, that.remarks)
       && Objects.equals(created, that.created)
       && Objects.equals(createdBy, that.createdBy)
-      && Objects.equals(steps, that.steps);
+      && Objects.equals(steps, that.steps)
+      && Objects.equals(finished, that.finished);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, stepsToRun, rerunReason, remarks, created, createdBy);
+    return Objects.hash(key, stepsToRun, rerunReason, remarks, created, createdBy, finished);
   }
 
   @Override
@@ -144,6 +155,7 @@ public class PipelineExecution implements Serializable {
       .add("created=" + created)
       .add("createdBy='" + createdBy + "'")
       .add("steps='" + steps + "'")
+      .add("finished='" + finished + "'")
       .toString();
   }
 }
