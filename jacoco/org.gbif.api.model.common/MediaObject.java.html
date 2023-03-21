@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MediaObject.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common</a> &gt; <span class="el_source">MediaObject.java</span></div><h1>MediaObject.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,11 +25,13 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Metadata for a multimedia object representing an image, video or audio file.
  * Based on DublinCore and the Simple Multimedia dwc archive extension:
  *
- * @see &lt;a href=&quot;http://rs.gbif.org/extension/gbif/1.0/multimedia.xml&quot;&gt;Multimedia Definition&lt;/a&gt;
+ * @see &lt;a href=&quot;https://rs.gbif.org/terms/1.0/Multimedia&quot;&gt;Multimedia Definition&lt;/a&gt;
  */
 <span class="fc" id="L36">public class MediaObject {</span>
   private MediaType type;
@@ -52,13 +52,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
   /**
    * @return mime type of the file
    */
+  @Schema(description = &quot;The format the image is exposed in.&quot;)
   public String getFormat() {
-<span class="fc" id="L56">    return format;</span>
+<span class="fc" id="L57">    return format;</span>
   }
 
   public void setFormat(String format) {
-<span class="fc" id="L60">    this.format = format;</span>
-<span class="fc" id="L61">  }</span>
+<span class="fc" id="L61">    this.format = format;</span>
+<span class="fc" id="L62">  }</span>
 
   /**
    * The date and time this media item was taken.
@@ -70,17 +71,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
    *
    * @return the created
    */
+  @Schema(description = &quot;The date and time this media item was created.&quot;)
   @Nullable
   public Date getCreated() {
-<span class="fc" id="L75">    return created;</span>
+<span class="fc" id="L77">    return created;</span>
   }
 
   /**
    * @param created the created to set
    */
   public void setCreated(Date created) {
-<span class="fc" id="L82">    this.created = created;</span>
-<span class="fc" id="L83">  }</span>
+<span class="fc" id="L84">    this.created = created;</span>
+<span class="fc" id="L85">  }</span>
 
   /**
    * The person that created the media item.
@@ -92,17 +94,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
    *
    * @return the creator
    */
+  @Schema(description = &quot;The person that created the media item.&quot;)
   @Nullable
   public String getCreator() {
-<span class="fc" id="L97">    return creator;</span>
+<span class="fc" id="L100">    return creator;</span>
   }
 
   /**
    * @param creator the creator to set
    */
   public void setCreator(String creator) {
-<span class="fc" id="L104">    this.creator = creator;</span>
-<span class="fc" id="L105">  }</span>
+<span class="fc" id="L107">    this.creator = creator;</span>
+<span class="fc" id="L108">  }</span>
 
   /**
    * A longer description for this media item.
@@ -114,26 +117,28 @@ import com.fasterxml.jackson.annotation.JsonProperty;
    *
    * @return the description
    */
+  @Schema(description = &quot;A longer description for this media item.&quot;)
   @Nullable
   public String getDescription() {
-<span class="fc" id="L119">    return description;</span>
+<span class="fc" id="L123">    return description;</span>
   }
 
   /**
    * @param description the description to set
    */
   public void setDescription(String description) {
-<span class="nc" id="L126">    this.description = description;</span>
-<span class="nc" id="L127">  }</span>
+<span class="nc" id="L130">    this.description = description;</span>
+<span class="nc" id="L131">  }</span>
 
+  @Schema(description = &quot;The kind of media object.&quot;)
   @NotNull
   public MediaType getType() {
-<span class="fc" id="L131">    return type;</span>
+<span class="fc" id="L136">    return type;</span>
   }
 
   public void setType(MediaType type) {
-<span class="fc" id="L135">    this.type = type;</span>
-<span class="fc" id="L136">  }</span>
+<span class="fc" id="L140">    this.type = type;</span>
+<span class="fc" id="L141">  }</span>
 
   /**
    * The public URL that identifies and locates the media item.
@@ -144,19 +149,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
    * &lt;/p&gt;
    * &lt;/blockquote&gt;
    */
+  @Schema(description = &quot;The public URL that identifies and locates the media item.&quot;)
   @NotNull
   @JsonProperty(&quot;identifier&quot;)
   public URI getIdentifier() {
-<span class="fc" id="L150">    return identifier;</span>
+<span class="fc" id="L156">    return identifier;</span>
   }
 
   public void setIdentifier(URI identifier) {
-<span class="fc" id="L154">    this.identifier = identifier;</span>
-<span class="fc" id="L155">  }</span>
+<span class="fc" id="L160">    this.identifier = identifier;</span>
+<span class="fc" id="L161">  }</span>
 
   /**
-   * License for this media item.
-   * Can be text or a identifier like creative commons uses.
+   * Licence for this media item.
+   * Can be text or an identifier like Creative Commons uses.
    * &lt;blockquote&gt;
    * &lt;p&gt;
    * &lt;i&gt;Example:&lt;/i&gt; &lt;a
@@ -167,28 +173,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
    *
    * @return the license
    */
+  @Schema(description = &quot;Licence for this media item.&quot;)
   @Nullable
   public String getLicense() {
-<span class="fc" id="L172">    return license;</span>
+<span class="fc" id="L179">    return license;</span>
   }
 
   /**
    * @param license the license to set
    */
   public void setLicense(String license) {
-<span class="fc" id="L179">    this.license = license;</span>
-<span class="fc" id="L180">  }</span>
+<span class="fc" id="L186">    this.license = license;</span>
+<span class="fc" id="L187">  }</span>
 
   /**
    * @return link to html webpage with the media item on
    */
+  @Schema(description = &quot;An HTML webpage that shows the image or its metadata.&quot;)
   public URI getReferences() {
-<span class="fc" id="L186">    return references;</span>
+<span class="fc" id="L194">    return references;</span>
   }
 
   public void setReferences(URI references) {
-<span class="fc" id="L190">    this.references = references;</span>
-<span class="fc" id="L191">  }</span>
+<span class="fc" id="L198">    this.references = references;</span>
+<span class="fc" id="L199">  }</span>
 
   /**
    * An entity responsible for making the media item available.
@@ -200,17 +208,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
    *
    * @return the publisher
    */
+  @Schema(description = &quot;An entity responsible for making the media item available.&quot;)
   @Nullable
   public String getPublisher() {
-<span class="fc" id="L205">    return publisher;</span>
+<span class="fc" id="L214">    return publisher;</span>
   }
 
   /**
    * @param publisher the publisher to set
    */
   public void setPublisher(String publisher) {
-<span class="fc" id="L212">    this.publisher = publisher;</span>
-<span class="fc" id="L213">  }</span>
+<span class="fc" id="L221">    this.publisher = publisher;</span>
+<span class="fc" id="L222">  }</span>
 
   /**
    * The media item title.
@@ -222,100 +231,104 @@ import com.fasterxml.jackson.annotation.JsonProperty;
    *
    * @return the title.
    */
+  @Schema(description = &quot;The media item title.&quot;)
   @Nullable
   public String getTitle() {
-<span class="fc" id="L227">    return title;</span>
+<span class="fc" id="L237">    return title;</span>
   }
 
   /**
    * @param title the title to set
    */
   public void setTitle(String title) {
-<span class="fc" id="L234">    this.title = title;</span>
-<span class="fc" id="L235">  }</span>
+<span class="fc" id="L244">    this.title = title;</span>
+<span class="fc" id="L245">  }</span>
 
   public String getSource() {
-<span class="fc" id="L238">    return source;</span>
+<span class="fc" id="L248">    return source;</span>
   }
 
   public void setSource(String source) {
-<span class="nc" id="L242">    this.source = source;</span>
-<span class="nc" id="L243">  }</span>
+<span class="nc" id="L252">    this.source = source;</span>
+<span class="nc" id="L253">  }</span>
 
+  @Schema(description = &quot;A class or description for whom the image is intended or useful.&quot;)
   public String getAudience() {
-<span class="fc" id="L246">    return audience;</span>
+<span class="fc" id="L257">    return audience;</span>
   }
 
   public void setAudience(String audience) {
-<span class="nc" id="L250">    this.audience = audience;</span>
-<span class="nc" id="L251">  }</span>
+<span class="nc" id="L261">    this.audience = audience;</span>
+<span class="nc" id="L262">  }</span>
 
+  @Schema(description = &quot;Any contributor in addition to the creator that helped in recording the media item.&quot;)
   public String getContributor() {
-<span class="fc" id="L254">    return contributor;</span>
+<span class="fc" id="L266">    return contributor;</span>
   }
 
   public void setContributor(String contributor) {
-<span class="nc" id="L258">    this.contributor = contributor;</span>
-<span class="nc" id="L259">  }</span>
+<span class="nc" id="L270">    this.contributor = contributor;</span>
+<span class="nc" id="L271">  }</span>
 
+  @Schema(description = &quot;A person or organization owning or managing rights over the media item.&quot;)
   public String getRightsHolder() {
-<span class="fc" id="L262">    return rightsHolder;</span>
+<span class="fc" id="L275">    return rightsHolder;</span>
   }
 
   public void setRightsHolder(String rightsHolder) {
-<span class="nc" id="L266">    this.rightsHolder = rightsHolder;</span>
-<span class="nc" id="L267">  }</span>
+<span class="nc" id="L279">    this.rightsHolder = rightsHolder;</span>
+<span class="nc" id="L280">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L271" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L272">      return true;</span>
+<span class="pc bpc" id="L284" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L285">      return true;</span>
     }
-<span class="pc bpc" id="L274" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L275">      return false;</span>
+<span class="pc bpc" id="L287" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L288">      return false;</span>
     }
-<span class="fc" id="L277">    MediaObject that = (MediaObject) o;</span>
-<span class="pc bpc" id="L278" title="1 of 2 branches missed.">    return type == that.type &amp;&amp;</span>
-<span class="pc bpc" id="L279" title="1 of 2 branches missed.">      Objects.equals(format, that.format) &amp;&amp;</span>
-<span class="pc bpc" id="L280" title="1 of 2 branches missed.">      Objects.equals(identifier, that.identifier) &amp;&amp;</span>
-<span class="pc bpc" id="L281" title="1 of 2 branches missed.">      Objects.equals(references, that.references) &amp;&amp;</span>
-<span class="pc bpc" id="L282" title="1 of 2 branches missed.">      Objects.equals(title, that.title) &amp;&amp;</span>
-<span class="pc bpc" id="L283" title="1 of 2 branches missed.">      Objects.equals(description, that.description) &amp;&amp;</span>
-<span class="pc bpc" id="L284" title="1 of 2 branches missed.">      Objects.equals(source, that.source) &amp;&amp;</span>
-<span class="pc bpc" id="L285" title="1 of 2 branches missed.">      Objects.equals(audience, that.audience) &amp;&amp;</span>
-<span class="pc bpc" id="L286" title="1 of 2 branches missed.">      Objects.equals(created, that.created) &amp;&amp;</span>
-<span class="fc bfc" id="L287" title="All 2 branches covered.">      Objects.equals(creator, that.creator) &amp;&amp;</span>
-<span class="pc bpc" id="L288" title="1 of 2 branches missed.">      Objects.equals(contributor, that.contributor) &amp;&amp;</span>
-<span class="pc bpc" id="L289" title="1 of 2 branches missed.">      Objects.equals(publisher, that.publisher) &amp;&amp;</span>
-<span class="pc bpc" id="L290" title="1 of 2 branches missed.">      Objects.equals(license, that.license) &amp;&amp;</span>
-<span class="pc bpc" id="L291" title="1 of 2 branches missed.">      Objects.equals(rightsHolder, that.rightsHolder);</span>
+<span class="fc" id="L290">    MediaObject that = (MediaObject) o;</span>
+<span class="pc bpc" id="L291" title="1 of 2 branches missed.">    return type == that.type &amp;&amp;</span>
+<span class="pc bpc" id="L292" title="1 of 2 branches missed.">      Objects.equals(format, that.format) &amp;&amp;</span>
+<span class="pc bpc" id="L293" title="1 of 2 branches missed.">      Objects.equals(identifier, that.identifier) &amp;&amp;</span>
+<span class="pc bpc" id="L294" title="1 of 2 branches missed.">      Objects.equals(references, that.references) &amp;&amp;</span>
+<span class="pc bpc" id="L295" title="1 of 2 branches missed.">      Objects.equals(title, that.title) &amp;&amp;</span>
+<span class="pc bpc" id="L296" title="1 of 2 branches missed.">      Objects.equals(description, that.description) &amp;&amp;</span>
+<span class="pc bpc" id="L297" title="1 of 2 branches missed.">      Objects.equals(source, that.source) &amp;&amp;</span>
+<span class="pc bpc" id="L298" title="1 of 2 branches missed.">      Objects.equals(audience, that.audience) &amp;&amp;</span>
+<span class="pc bpc" id="L299" title="1 of 2 branches missed.">      Objects.equals(created, that.created) &amp;&amp;</span>
+<span class="fc bfc" id="L300" title="All 2 branches covered.">      Objects.equals(creator, that.creator) &amp;&amp;</span>
+<span class="pc bpc" id="L301" title="1 of 2 branches missed.">      Objects.equals(contributor, that.contributor) &amp;&amp;</span>
+<span class="pc bpc" id="L302" title="1 of 2 branches missed.">      Objects.equals(publisher, that.publisher) &amp;&amp;</span>
+<span class="pc bpc" id="L303" title="1 of 2 branches missed.">      Objects.equals(license, that.license) &amp;&amp;</span>
+<span class="pc bpc" id="L304" title="1 of 2 branches missed.">      Objects.equals(rightsHolder, that.rightsHolder);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L296">    return Objects</span>
-<span class="nc" id="L297">      .hash(type, format, identifier, references, title, description, source, audience, created,</span>
+<span class="nc" id="L309">    return Objects</span>
+<span class="nc" id="L310">      .hash(type, format, identifier, references, title, description, source, audience, created,</span>
         creator, contributor, publisher, license, rightsHolder);
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L303">    return new StringJoiner(&quot;, &quot;, MediaObject.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L304">      .add(&quot;type=&quot; + type)</span>
-<span class="nc" id="L305">      .add(&quot;format='&quot; + format + &quot;'&quot;)</span>
-<span class="nc" id="L306">      .add(&quot;identifier=&quot; + identifier)</span>
-<span class="nc" id="L307">      .add(&quot;references=&quot; + references)</span>
-<span class="nc" id="L308">      .add(&quot;title='&quot; + title + &quot;'&quot;)</span>
-<span class="nc" id="L309">      .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
-<span class="nc" id="L310">      .add(&quot;source='&quot; + source + &quot;'&quot;)</span>
-<span class="nc" id="L311">      .add(&quot;audience='&quot; + audience + &quot;'&quot;)</span>
-<span class="nc" id="L312">      .add(&quot;created=&quot; + created)</span>
-<span class="nc" id="L313">      .add(&quot;creator='&quot; + creator + &quot;'&quot;)</span>
-<span class="nc" id="L314">      .add(&quot;contributor='&quot; + contributor + &quot;'&quot;)</span>
-<span class="nc" id="L315">      .add(&quot;publisher='&quot; + publisher + &quot;'&quot;)</span>
-<span class="nc" id="L316">      .add(&quot;license='&quot; + license + &quot;'&quot;)</span>
-<span class="nc" id="L317">      .add(&quot;rightsHolder='&quot; + rightsHolder + &quot;'&quot;)</span>
-<span class="nc" id="L318">      .toString();</span>
+<span class="nc" id="L316">    return new StringJoiner(&quot;, &quot;, MediaObject.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L317">      .add(&quot;type=&quot; + type)</span>
+<span class="nc" id="L318">      .add(&quot;format='&quot; + format + &quot;'&quot;)</span>
+<span class="nc" id="L319">      .add(&quot;identifier=&quot; + identifier)</span>
+<span class="nc" id="L320">      .add(&quot;references=&quot; + references)</span>
+<span class="nc" id="L321">      .add(&quot;title='&quot; + title + &quot;'&quot;)</span>
+<span class="nc" id="L322">      .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
+<span class="nc" id="L323">      .add(&quot;source='&quot; + source + &quot;'&quot;)</span>
+<span class="nc" id="L324">      .add(&quot;audience='&quot; + audience + &quot;'&quot;)</span>
+<span class="nc" id="L325">      .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L326">      .add(&quot;creator='&quot; + creator + &quot;'&quot;)</span>
+<span class="nc" id="L327">      .add(&quot;contributor='&quot; + contributor + &quot;'&quot;)</span>
+<span class="nc" id="L328">      .add(&quot;publisher='&quot; + publisher + &quot;'&quot;)</span>
+<span class="nc" id="L329">      .add(&quot;license='&quot; + license + &quot;'&quot;)</span>
+<span class="nc" id="L330">      .add(&quot;rightsHolder='&quot; + rightsHolder + &quot;'&quot;)</span>
+<span class="nc" id="L331">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Distribution.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">Distribution.java</span></div><h1>Distribution.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -29,6 +27,8 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Distribution Model Object represents a species distribution.
  *
@@ -56,20 +56,21 @@ import javax.validation.constraints.Min;
   /**
    * The name usage &quot;taxon&quot; key this description belongs to.
    */
+  @Schema(description = &quot;The name usage “taxon“ key to which this species profile belongs.&quot;)
   @Override
   public Integer getTaxonKey() {
-<span class="nc" id="L61">    return taxonKey;</span>
+<span class="nc" id="L62">    return taxonKey;</span>
   }
 
   @Override
   public void setTaxonKey(Integer taxonKey) {
-<span class="nc" id="L66">    this.taxonKey = taxonKey;</span>
-<span class="nc" id="L67">  }</span>
+<span class="nc" id="L67">    this.taxonKey = taxonKey;</span>
+<span class="nc" id="L68">  }</span>
 
   /**
-   * The CITES (Convention on International Trade in Endangered Species of Wild Fauna and Flora) Appendix number the
-   * taxa is listed. It is possible to have different appendix numbers for different areas, but &quot;global&quot; as an area is
-   * also valid if its the same worldwide see also http://www.cites.org/eng/app/index.shtml
+   * The CITES (Convention on International Trade in Endangered Species of Wild Fauna and Flora) Appendix number under which the
+   * taxon is listed. It is possible to have different appendix numbers for different areas, but &quot;global&quot; as an area is
+   * also valid if it's the same worldwide see also http://www.cites.org/eng/app/index.shtml
    * &lt;blockquote&gt;
    * &lt;p&gt;
    * &lt;i&gt;Example:&lt;/i&gt; II
@@ -78,32 +79,36 @@ import javax.validation.constraints.Min;
    *
    * @return the appendixCites.
    */
+  @Schema(description = &quot;The CITES (Convention on International Trade in Endangered Species of Wild Fauna and Flora) &quot; +
+    &quot;Appendix number under which the taxon is listed.\n\n&quot; +
+    &quot;It is possible to have different appendix numbers for different areas, but “global” as an area is also valid.&quot;)
   @Nullable
   public CitesAppendix getAppendixCites() {
-<span class="nc" id="L83">    return appendixCites;</span>
+<span class="nc" id="L87">    return appendixCites;</span>
   }
 
   /**
    * @param appendixCites the appendixCites to set
    */
   public void setAppendixCites(CitesAppendix appendixCites) {
-<span class="nc" id="L90">    this.appendixCites = appendixCites;</span>
-<span class="nc" id="L91">  }</span>
+<span class="nc" id="L94">    this.appendixCites = appendixCites;</span>
+<span class="nc" id="L95">  }</span>
 
   /**
    * @return the country
    */
+  @Schema(description = &quot;The country&quot;)
   @Nullable
   public Country getCountry() {
-<span class="nc" id="L98">    return country;</span>
+<span class="nc" id="L103">    return country;</span>
   }
 
   /**
    * @param country the country to set
    */
   public void setCountry(Country country) {
-<span class="fc" id="L105">    this.country = country;</span>
-<span class="fc" id="L106">  }</span>
+<span class="fc" id="L110">    this.country = country;</span>
+<span class="fc" id="L111">  }</span>
 
   /**
    * Seasonal temporal subcontext within the eventDate context. The latest ordinal day of the year on which the
@@ -116,19 +121,21 @@ import javax.validation.constraints.Min;
    *
    * @return the endDayOfYear.
    */
+  @Schema(description = &quot;Seasonal temporal subcontext within the eventDate context. &quot; +
+    &quot;The latest ordinal day of the year on which the distribution record is valid.&quot;)
   @Nullable
   @Min(1)
   @Max(366)
   public Integer getEndDayOfYear() {
-<span class="nc" id="L123">    return endDayOfYear;</span>
+<span class="nc" id="L130">    return endDayOfYear;</span>
   }
 
   /**
    * @param endDayOfYear the endDayOfYear to set
    */
   public void setEndDayOfYear(Integer endDayOfYear) {
-<span class="nc" id="L130">    this.endDayOfYear = endDayOfYear;</span>
-<span class="nc" id="L131">  }</span>
+<span class="nc" id="L137">    this.endDayOfYear = endDayOfYear;</span>
+<span class="nc" id="L138">  }</span>
 
   /**
    * Term describing whether the organism occurs natively, is introduced or cultivated.
@@ -140,17 +147,18 @@ import javax.validation.constraints.Min;
    *
    * @return the establishmentMeans
    */
+  @Schema(description = &quot;Term describing whether the organism occurs natively, is introduced or cultivated.&quot;)
   @Nullable
   public EstablishmentMeans getEstablishmentMeans() {
-<span class="nc" id="L145">    return establishmentMeans;</span>
+<span class="nc" id="L153">    return establishmentMeans;</span>
   }
 
   /**
    * @param establishmentMeans the establishmentMeans to set
    */
   public void setEstablishmentMeans(EstablishmentMeans establishmentMeans) {
-<span class="nc" id="L152">    this.establishmentMeans = establishmentMeans;</span>
-<span class="nc" id="L153">  }</span>
+<span class="nc" id="L160">    this.establishmentMeans = establishmentMeans;</span>
+<span class="nc" id="L161">  }</span>
 
   /**
    * The distribution information pertains solely to a specific life stage of the taxon.
@@ -164,17 +172,18 @@ import javax.validation.constraints.Min;
    *
    * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/gbif/life_stage.xml&quot;&gt;life stage vocabulary for recommended values&lt;/a&gt;
    */
+  @Schema(description = &quot;The distribution information pertains solely to a specific life stage of the taxon.&quot;)
   @Nullable
   public LifeStage getLifeStage() {
-<span class="nc" id="L169">    return lifeStage;</span>
+<span class="nc" id="L178">    return lifeStage;</span>
   }
 
   /**
    * @param lifeStage the lifeStage to set
    */
   public void setLifeStage(LifeStage lifeStage) {
-<span class="nc" id="L176">    this.lifeStage = lifeStage;</span>
-<span class="nc" id="L177">  }</span>
+<span class="nc" id="L185">    this.lifeStage = lifeStage;</span>
+<span class="nc" id="L186">  }</span>
 
   /**
    * The verbatim name of the area this distribution record is about.
@@ -186,17 +195,18 @@ import javax.validation.constraints.Min;
    *
    * @return the locality
    */
+  @Schema(description = &quot;The verbatim name of the area this distribution record is about.&quot;)
   @Nullable
   public String getLocality() {
-<span class="nc" id="L191">    return locality;</span>
+<span class="nc" id="L201">    return locality;</span>
   }
 
   /**
    * @param locality the locality to set
    */
   public void setLocality(String locality) {
-<span class="nc" id="L198">    this.locality = locality;</span>
-<span class="nc" id="L199">  }</span>
+<span class="nc" id="L208">    this.locality = locality;</span>
+<span class="nc" id="L209">  }</span>
 
   /**
    * A code for the named area this distributon record is about.
@@ -211,30 +221,32 @@ import javax.validation.constraints.Min;
    *
    * @return the location id
    */
+  @Schema(description = &quot; A code for the named area this distributon record is about.&quot;)
   public String getLocationId() {
-<span class="nc" id="L215">    return locationId;</span>
+<span class="nc" id="L226">    return locationId;</span>
   }
 
   /**
    * @param locationId the locationId to set
    */
   public void setLocationId(String locationId) {
-<span class="nc" id="L222">    this.locationId = locationId;</span>
-<span class="nc" id="L223">  }</span>
+<span class="nc" id="L233">    this.locationId = locationId;</span>
+<span class="nc" id="L234">  }</span>
 
   /**
    * Additional notes on the distribution.
    *
    * @return the notes
    */
+  @Schema(description = &quot;Additional notes on the distribution.&quot;)
   @Nullable
   public String getRemarks() {
-<span class="nc" id="L232">    return remarks;</span>
+<span class="nc" id="L244">    return remarks;</span>
   }
 
   public void setRemarks(String remarks) {
-<span class="nc" id="L236">    this.remarks = remarks;</span>
-<span class="nc" id="L237">  }</span>
+<span class="nc" id="L248">    this.remarks = remarks;</span>
+<span class="nc" id="L249">  }</span>
 
   /**
    * Source reference for this distribution record. Can be proper publication citation, a webpage URL, etc.
@@ -247,10 +259,11 @@ import javax.validation.constraints.Min;
    *
    * @return the source
    */
+  @Schema(description = &quot;Bibliographic citation referencing a source for the distribution.&quot;)
   @Nullable
   @Override
   public String getSource() {
-<span class="nc" id="L253">    return source;</span>
+<span class="nc" id="L266">    return source;</span>
   }
 
   /**
@@ -258,24 +271,25 @@ import javax.validation.constraints.Min;
    */
   @Override
   public void setSource(String source) {
-<span class="nc" id="L261">    this.source = source;</span>
-<span class="nc" id="L262">  }</span>
+<span class="nc" id="L274">    this.source = source;</span>
+<span class="nc" id="L275">  }</span>
 
+  @Schema(description = &quot;The name usage key of the taxon in the checklist including this distribution.&quot;)
   @Nullable
   @Override
   public Integer getSourceTaxonKey() {
-<span class="nc" id="L267">    return sourceTaxonKey;</span>
+<span class="nc" id="L281">    return sourceTaxonKey;</span>
   }
 
   @Override
   public void setSourceTaxonKey(Integer sourceTaxonKey) {
-<span class="nc" id="L272">    this.sourceTaxonKey = sourceTaxonKey;</span>
-<span class="nc" id="L273">  }</span>
+<span class="nc" id="L286">    this.sourceTaxonKey = sourceTaxonKey;</span>
+<span class="nc" id="L287">  }</span>
 
   /**
    * Seasonal temporal subcontext within the eventDate context. Useful for migratory species. The earliest ordinal day
-   * of the year on which the distribution record is valid. Numbering starts with 1 for January 1 and ends with 365 for
-   * December 31.
+   * of the year on which the distribution record is valid. Numbering starts with 1 for 1 January and ends with 365 or 366
+   * for 31 December.
    * &lt;blockquote&gt;
    * &lt;p&gt;
    * &lt;i&gt;Example:&lt;/i&gt; 90
@@ -284,19 +298,22 @@ import javax.validation.constraints.Min;
    *
    * @return the startDayOfYear.
    */
+  @Schema(description = &quot;Seasonal temporal subcontext within the eventDate context. Useful for migratory species.\n\n&quot; +
+    &quot;The earliest ordinal day of the year on which the distribution record is valid. Numbering starts with 1 for &quot; +
+    &quot;1 January and ends with 365 or 366 for 31 December.&quot;)
   @Nullable
   @Min(1)
   @Max(366)
   public Integer getStartDayOfYear() {
-<span class="nc" id="L291">    return startDayOfYear;</span>
+<span class="nc" id="L308">    return startDayOfYear;</span>
   }
 
   /**
    * @param startDayOfYear the startDayOfYear to set
    */
   public void setStartDayOfYear(Integer startDayOfYear) {
-<span class="fc" id="L298">    this.startDayOfYear = startDayOfYear;</span>
-<span class="fc" id="L299">  }</span>
+<span class="fc" id="L315">    this.startDayOfYear = startDayOfYear;</span>
+<span class="fc" id="L316">  }</span>
 
   /**
    * Term describing the occurrence status of the organism in the given area based on how frequent the species occurs.
@@ -310,32 +327,43 @@ import javax.validation.constraints.Min;
    *
    * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/gbif/distribution_status_2020-05-14.xml&quot;&gt;occurrence status vocabulary&lt;/a&gt; for recommended values
    */
+  @Schema(description = &quot;Term describing the occurrence status of the organism in the given area based on how frequent the species occurs.&quot;)
   @Nullable
   public DistributionStatus getStatus() {
-<span class="nc" id="L315">    return status;</span>
+<span class="nc" id="L333">    return status;</span>
   }
 
   /**
    * @param status the status to set
    */
   public void setStatus(DistributionStatus status) {
-<span class="nc" id="L322">    this.status = status;</span>
-<span class="nc" id="L323">  }</span>
+<span class="nc" id="L340">    this.status = status;</span>
+<span class="nc" id="L341">  }</span>
 
   /**
+   * Relevant temporal context for this entire distribution record including all properties preferably given as a year
+   * range or single year on which the distribution record is valid. For the same area and taxon there could therefore
+   * be several records with different temporal context, e.g. in 5-year intervals for invasive species.
+   * &lt;blockquote&gt;
+   *   &lt;p&gt;&lt;i&gt;Example:&lt;/i&gt; &quot;1930&quot;; &quot;1939-1945&quot;&lt;/p&gt;
+   * &lt;/blockquote&gt;
    * @return the temporal
    */
+  @Schema(description = &quot;Relevant temporal context for this entire distribution record including all properties, &quot; +
+    &quot;preferably given as a year range or single year on which the distribution record is valid.\n\n&quot; +
+    &quot;For the same area and taxon there could therefore be several records with different temporal context, &quot; +
+    &quot;e.g. in 5-year intervals for invasive species.&quot;)
   @Nullable
   public String getTemporal() {
-<span class="nc" id="L330">    return temporal;</span>
+<span class="nc" id="L358">    return temporal;</span>
   }
 
   /**
    * @param temporal the temporal to set
    */
   public void setTemporal(String temporal) {
-<span class="nc" id="L337">    this.temporal = temporal;</span>
-<span class="nc" id="L338">  }</span>
+<span class="nc" id="L365">    this.temporal = temporal;</span>
+<span class="nc" id="L366">  }</span>
 
   /**
    * Threat status of a species as defined by IUCN
@@ -351,69 +379,70 @@ import javax.validation.constraints.Min;
    * @see &lt;a href=&quot;http://rs.gbif.org/vocabulary/iucn/threat_status.xml&quot;&gt;threat status vocabulary for recommended
    *      values&lt;/a&gt;
    */
+  @Schema(description = &quot;Threat status of a species as defined by IUCN.&quot;)
   @Nullable
   public ThreatStatus getThreatStatus() {
-<span class="fc" id="L356">    return threatStatus;</span>
+<span class="fc" id="L385">    return threatStatus;</span>
   }
 
   /**
    * @param threatStatus the threatStatus to set
    */
   public void setThreatStatus(ThreatStatus threatStatus) {
-<span class="fc" id="L363">    this.threatStatus = threatStatus;</span>
-<span class="fc" id="L364">  }</span>
+<span class="fc" id="L392">    this.threatStatus = threatStatus;</span>
+<span class="fc" id="L393">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L368" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L369">      return true;</span>
+<span class="pc bpc" id="L397" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L398">      return true;</span>
     }
-<span class="pc bpc" id="L371" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L372">      return false;</span>
+<span class="pc bpc" id="L400" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L401">      return false;</span>
     }
-<span class="fc" id="L374">    Distribution that = (Distribution) o;</span>
-<span class="pc bpc" id="L375" title="1 of 2 branches missed.">    return Objects.equals(taxonKey, that.taxonKey) &amp;&amp;</span>
-<span class="pc bpc" id="L376" title="1 of 2 branches missed.">      Objects.equals(locationId, that.locationId) &amp;&amp;</span>
-<span class="pc bpc" id="L377" title="4 of 8 branches missed.">      Objects.equals(locality, that.locality) &amp;&amp;</span>
+<span class="fc" id="L403">    Distribution that = (Distribution) o;</span>
+<span class="pc bpc" id="L404" title="1 of 2 branches missed.">    return Objects.equals(taxonKey, that.taxonKey) &amp;&amp;</span>
+<span class="pc bpc" id="L405" title="1 of 2 branches missed.">      Objects.equals(locationId, that.locationId) &amp;&amp;</span>
+<span class="pc bpc" id="L406" title="4 of 8 branches missed.">      Objects.equals(locality, that.locality) &amp;&amp;</span>
       country == that.country &amp;&amp;
       status == that.status &amp;&amp;
       lifeStage == that.lifeStage &amp;&amp;
-<span class="pc bpc" id="L381" title="4 of 8 branches missed.">      Objects.equals(temporal, that.temporal) &amp;&amp;</span>
+<span class="pc bpc" id="L410" title="4 of 8 branches missed.">      Objects.equals(temporal, that.temporal) &amp;&amp;</span>
       threatStatus == that.threatStatus &amp;&amp;
       establishmentMeans == that.establishmentMeans &amp;&amp;
       appendixCites == that.appendixCites &amp;&amp;
-<span class="pc bpc" id="L385" title="1 of 2 branches missed.">      Objects.equals(source, that.source) &amp;&amp;</span>
-<span class="pc bpc" id="L386" title="1 of 2 branches missed.">      Objects.equals(sourceTaxonKey, that.sourceTaxonKey) &amp;&amp;</span>
-<span class="pc bpc" id="L387" title="1 of 2 branches missed.">      Objects.equals(startDayOfYear, that.startDayOfYear) &amp;&amp;</span>
-<span class="pc bpc" id="L388" title="1 of 2 branches missed.">      Objects.equals(endDayOfYear, that.endDayOfYear);</span>
+<span class="pc bpc" id="L414" title="1 of 2 branches missed.">      Objects.equals(source, that.source) &amp;&amp;</span>
+<span class="pc bpc" id="L415" title="1 of 2 branches missed.">      Objects.equals(sourceTaxonKey, that.sourceTaxonKey) &amp;&amp;</span>
+<span class="pc bpc" id="L416" title="1 of 2 branches missed.">      Objects.equals(startDayOfYear, that.startDayOfYear) &amp;&amp;</span>
+<span class="pc bpc" id="L417" title="1 of 2 branches missed.">      Objects.equals(endDayOfYear, that.endDayOfYear);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L393">    return Objects</span>
-<span class="nc" id="L394">      .hash(taxonKey, locationId, locality, country, status, lifeStage, temporal, threatStatus,</span>
+<span class="nc" id="L422">    return Objects</span>
+<span class="nc" id="L423">      .hash(taxonKey, locationId, locality, country, status, lifeStage, temporal, threatStatus,</span>
         establishmentMeans, appendixCites, source, sourceTaxonKey, startDayOfYear, endDayOfYear);
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L400">    return new StringJoiner(&quot;, &quot;, Distribution.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L401">      .add(&quot;taxonKey=&quot; + taxonKey)</span>
-<span class="nc" id="L402">      .add(&quot;locationId='&quot; + locationId + &quot;'&quot;)</span>
-<span class="nc" id="L403">      .add(&quot;locality='&quot; + locality + &quot;'&quot;)</span>
-<span class="nc" id="L404">      .add(&quot;country=&quot; + country)</span>
-<span class="nc" id="L405">      .add(&quot;status=&quot; + status)</span>
-<span class="nc" id="L406">      .add(&quot;lifeStage=&quot; + lifeStage)</span>
-<span class="nc" id="L407">      .add(&quot;temporal='&quot; + temporal + &quot;'&quot;)</span>
-<span class="nc" id="L408">      .add(&quot;threatStatus=&quot; + threatStatus)</span>
-<span class="nc" id="L409">      .add(&quot;establishmentMeans=&quot; + establishmentMeans)</span>
-<span class="nc" id="L410">      .add(&quot;appendixCites=&quot; + appendixCites)</span>
-<span class="nc" id="L411">      .add(&quot;source='&quot; + source + &quot;'&quot;)</span>
-<span class="nc" id="L412">      .add(&quot;sourceTaxonKey=&quot; + sourceTaxonKey)</span>
-<span class="nc" id="L413">      .add(&quot;startDayOfYear=&quot; + startDayOfYear)</span>
-<span class="nc" id="L414">      .add(&quot;endDayOfYear=&quot; + endDayOfYear)</span>
-<span class="nc" id="L415">      .add(&quot;remarks='&quot; + remarks + &quot;'&quot;)</span>
-<span class="nc" id="L416">      .toString();</span>
+<span class="nc" id="L429">    return new StringJoiner(&quot;, &quot;, Distribution.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L430">      .add(&quot;taxonKey=&quot; + taxonKey)</span>
+<span class="nc" id="L431">      .add(&quot;locationId='&quot; + locationId + &quot;'&quot;)</span>
+<span class="nc" id="L432">      .add(&quot;locality='&quot; + locality + &quot;'&quot;)</span>
+<span class="nc" id="L433">      .add(&quot;country=&quot; + country)</span>
+<span class="nc" id="L434">      .add(&quot;status=&quot; + status)</span>
+<span class="nc" id="L435">      .add(&quot;lifeStage=&quot; + lifeStage)</span>
+<span class="nc" id="L436">      .add(&quot;temporal='&quot; + temporal + &quot;'&quot;)</span>
+<span class="nc" id="L437">      .add(&quot;threatStatus=&quot; + threatStatus)</span>
+<span class="nc" id="L438">      .add(&quot;establishmentMeans=&quot; + establishmentMeans)</span>
+<span class="nc" id="L439">      .add(&quot;appendixCites=&quot; + appendixCites)</span>
+<span class="nc" id="L440">      .add(&quot;source='&quot; + source + &quot;'&quot;)</span>
+<span class="nc" id="L441">      .add(&quot;sourceTaxonKey=&quot; + sourceTaxonKey)</span>
+<span class="nc" id="L442">      .add(&quot;startDayOfYear=&quot; + startDayOfYear)</span>
+<span class="nc" id="L443">      .add(&quot;endDayOfYear=&quot; + endDayOfYear)</span>
+<span class="nc" id="L444">      .add(&quot;remarks='&quot; + remarks + &quot;'&quot;)</span>
+<span class="nc" id="L445">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

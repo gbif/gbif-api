@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Origin.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.vocabulary</a> &gt; <span class="el_source">Origin.java</span></div><h1>Origin.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,86 +18,86 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Enumeration to classify name usages by how they originated.
  */
-<span class="fc" id="L23">public enum Origin {</span>
+<span class="fc" id="L21">public enum Origin {</span>
 
   /**
    * Record came straight from source record.
    */
-<span class="fc" id="L28">  SOURCE,</span>
+<span class="fc" id="L26">  SOURCE,</span>
 
   /**
-   * Implicit usage from a denormalised classification.
+   * Implicit usage from a denormalized classification.
    */
-<span class="fc" id="L33">  DENORMED_CLASSIFICATION,</span>
+<span class="fc" id="L31">  DENORMED_CLASSIFICATION,</span>
 
   /**
    * Implicit usage from a verbatim parent name usage.
    */
-<span class="fc" id="L38">  VERBATIM_PARENT,</span>
+<span class="fc" id="L36">  VERBATIM_PARENT,</span>
 
   /**
    * Implicit usage from a verbatim accepted name usage.
   */
-<span class="fc" id="L43">  VERBATIM_ACCEPTED,</span>
+<span class="fc" id="L41">  VERBATIM_ACCEPTED,</span>
 
-    /**
+  /**
    * Implicit usage from a verbatim basionym/original name.
    */
-<span class="fc" id="L48">  VERBATIM_BASIONYM,</span>
+<span class="fc" id="L46">  VERBATIM_BASIONYM,</span>
 
   /**
    * Duplicated usage from a single pro parte record.
    */
-<span class="fc" id="L53">  PROPARTE,</span>
+<span class="fc" id="L51">  PROPARTE,</span>
 
   /**
    * Generated, missing autonym.
    */
-<span class="fc" id="L58">  AUTONYM,</span>
+<span class="fc" id="L56">  AUTONYM,</span>
 
   /**
    * Generated, missing genus or species for &quot;orphaned&quot; lower name.
    */
-<span class="fc" id="L63">  IMPLICIT_NAME,</span>
+<span class="fc" id="L61">  IMPLICIT_NAME,</span>
 
   /**
-   * Artificial accepted usage for a synonym if its missing to preserve the taxonomic hierarchy.
+   * Artificial accepted usage for a synonym if it's missing to preserve the taxonomic hierarchy.
    */
-<span class="fc" id="L68">  MISSING_ACCEPTED,</span>
+<span class="fc" id="L66">  MISSING_ACCEPTED,</span>
 
   /**
    * Placeholder usage for a missing or implicit basionym.
    */
-<span class="fc" id="L73">  BASIONYM_PLACEHOLDER,</span>
+<span class="fc" id="L71">  BASIONYM_PLACEHOLDER,</span>
 
   /**
    * Implicit synonym based on the illegitimate ex author.
    * See ICN article 46: http://www.iapt-taxon.org/nomen/main.php?page=art46
    */
-<span class="fc" id="L79">  EX_AUTHOR_SYNONYM,</span>
+<span class="fc" id="L77">  EX_AUTHOR_SYNONYM,</span>
 
   /**
    * Any other origin not covered by the above.
    */
-<span class="fc" id="L84">  OTHER;</span>
+<span class="fc" id="L82">  OTHER;</span>
 
   /**
-   * Case insensitive lookup of an Origin by its name that does not throw an exception but returns null
+   * Case-insensitive lookup of an Origin by its name that does not throw an exception but returns null
    * for not found origins.
    *
-   * @param origin case insensitive name of the origin
+   * @param origin case-insensitive name of the origin
    *
    * @return the matching Origin or null
    */
   public static Origin fromString(String origin) {
-<span class="nc bnc" id="L95" title="All 2 branches missed.">    if (StringUtils.isNotEmpty(origin)) {</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">    if (StringUtils.isNotEmpty(origin)) {</span>
       try {
-<span class="nc" id="L97">        return valueOf(origin.toUpperCase().trim());</span>
-<span class="nc" id="L98">      } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L95">        return valueOf(origin.toUpperCase().trim());</span>
+<span class="nc" id="L96">      } catch (IllegalArgumentException e) {</span>
         // swallow
       }
     }
-<span class="nc" id="L102">    return null;</span>
+<span class="nc" id="L100">    return null;</span>
   }
 
 }

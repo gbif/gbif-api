@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TableOfContents.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">TableOfContents.java</span></div><h1>TableOfContents.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -28,6 +26,8 @@ import java.util.TreeMap;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * A simple class to represent a table of contents for multiple languages. It is used by species
@@ -81,32 +81,33 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 <span class="nc" id="L81">    return new HashMap&lt;&gt;();</span>
   }
 
+  @Schema(description = &quot;A table of contents by language, section and description.&quot;)
   public Map&lt;Language, Map&lt;String, List&lt;Integer&gt;&gt;&gt; getToc() {
-<span class="nc" id="L85">    return toc;</span>
+<span class="nc" id="L86">    return toc;</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L90" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L91">      return true;</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L92">      return true;</span>
     }
-<span class="nc bnc" id="L93" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L94">      return false;</span>
+<span class="nc bnc" id="L94" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L95">      return false;</span>
     }
-<span class="nc" id="L96">    TableOfContents that = (TableOfContents) o;</span>
-<span class="nc" id="L97">    return Objects.equals(toc, that.toc);</span>
+<span class="nc" id="L97">    TableOfContents that = (TableOfContents) o;</span>
+<span class="nc" id="L98">    return Objects.equals(toc, that.toc);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L102">    return Objects.hash(toc);</span>
+<span class="nc" id="L103">    return Objects.hash(toc);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L107">    return new StringJoiner(&quot;, &quot;, TableOfContents.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L108">      .add(&quot;toc=&quot; + toc)</span>
-<span class="nc" id="L109">      .toString();</span>
+<span class="nc" id="L108">    return new StringJoiner(&quot;, &quot;, TableOfContents.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L109">      .add(&quot;toc=&quot; + toc)</span>
+<span class="nc" id="L110">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

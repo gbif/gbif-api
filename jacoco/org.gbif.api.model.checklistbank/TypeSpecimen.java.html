@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TypeSpecimen.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">TypeSpecimen.java</span></div><h1>TypeSpecimen.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,6 +21,8 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * TypeSpecimen Model originally designed for both specimens and types, including type specimens, type species and type genera and simple
@@ -72,15 +72,16 @@ import javax.annotation.Nullable;
   /**
    * The name usage &quot;taxon&quot; key this description belongs to.
    */
+  @Schema(description = &quot;The name usage “taxon“ to which this type specimen belongs.&quot;)
   @Override
   public Integer getTaxonKey() {
-<span class="nc" id="L77">    return taxonKey;</span>
+<span class="nc" id="L78">    return taxonKey;</span>
   }
 
   @Override
   public void setTaxonKey(Integer taxonKey) {
-<span class="nc" id="L82">    this.taxonKey = taxonKey;</span>
-<span class="nc" id="L83">  }</span>
+<span class="nc" id="L83">    this.taxonKey = taxonKey;</span>
+<span class="nc" id="L84">  }</span>
 
   /**
    * An identifier (preferably unique) for the record within the data set or collection.
@@ -92,10 +93,11 @@ import javax.annotation.Nullable;
    *
    * @return the catalogNumber
    */
+  @Schema(description = &quot;An identifier, preferable unique, for the record within the dataset or collection.&quot;)
   @Nullable
   @Deprecated
   public String getCatalogNumber() {
-<span class="nc" id="L98">    return catalogNumber;</span>
+<span class="nc" id="L100">    return catalogNumber;</span>
   }
 
   /**
@@ -103,11 +105,11 @@ import javax.annotation.Nullable;
    */
   @Deprecated
   public void setCatalogNumber(String catalogNumber) {
-<span class="fc" id="L106">    this.catalogNumber = catalogNumber;</span>
-<span class="fc" id="L107">  }</span>
+<span class="fc" id="L108">    this.catalogNumber = catalogNumber;</span>
+<span class="fc" id="L109">  }</span>
 
   /**
-   * A text string citating the described specimen. Often found in taxonomic treatments and frequently based on
+   * A text string citing the described specimen. Often found in taxonomic treatments and frequently based on
    * institution code and catalog number.
    * &lt;blockquote&gt;
    * &lt;p&gt;
@@ -118,10 +120,11 @@ import javax.annotation.Nullable;
    *
    * @return the citation
    */
+  @Schema(description = &quot;A text string citing the described speciemn.&quot;)
   @Nullable
   @Deprecated
   public String getCitation() {
-<span class="nc" id="L124">    return citation;</span>
+<span class="nc" id="L127">    return citation;</span>
   }
 
   /**
@@ -129,8 +132,8 @@ import javax.annotation.Nullable;
    */
   @Deprecated
   public void setCitation(String citation) {
-<span class="nc" id="L132">    this.citation = citation;</span>
-<span class="nc" id="L133">  }</span>
+<span class="nc" id="L135">    this.citation = citation;</span>
+<span class="nc" id="L136">  }</span>
 
   /**
    * The name, acronym, coden, or initialism identifying the collection or data set from which the record was derived.
@@ -142,10 +145,12 @@ import javax.annotation.Nullable;
    *
    * @return the collectionCode
    */
+  @Schema(description = &quot;The name, acronym, code or initialism identifying the collection or dataset from which the &quot; +
+    &quot;record was derived.&quot;)
   @Nullable
   @Deprecated
   public String getCollectionCode() {
-<span class="nc" id="L148">    return collectionCode;</span>
+<span class="nc" id="L153">    return collectionCode;</span>
   }
 
   /**
@@ -153,8 +158,8 @@ import javax.annotation.Nullable;
    */
   @Deprecated
   public void setCollectionCode(String collectionCode) {
-<span class="nc" id="L156">    this.collectionCode = collectionCode;</span>
-<span class="nc" id="L157">  }</span>
+<span class="nc" id="L161">    this.collectionCode = collectionCode;</span>
+<span class="nc" id="L162">  }</span>
 
   /**
    * The name (or acronym) in use by the institution having custody of the object(s) or information referred to in the
@@ -167,10 +172,12 @@ import javax.annotation.Nullable;
    *
    * @return the institutionCode
    */
+  @Schema(description = &quot;The name or acronym in use by the institution having custody of the type specimen or &quot; +
+    &quot;information referred to in the record.&quot;)
   @Nullable
   @Deprecated
   public String getInstitutionCode() {
-<span class="nc" id="L173">    return institutionCode;</span>
+<span class="nc" id="L180">    return institutionCode;</span>
   }
 
   /**
@@ -178,11 +185,11 @@ import javax.annotation.Nullable;
    */
   @Deprecated
   public void setInstitutionCode(String institutionCode) {
-<span class="nc" id="L181">    this.institutionCode = institutionCode;</span>
-<span class="nc" id="L182">  }</span>
+<span class="nc" id="L188">    this.institutionCode = institutionCode;</span>
+<span class="nc" id="L189">  }</span>
 
   /**
-   * The location where the the specimen was collected. In case of type specimens the type locality.
+   * The location where the specimen was collected. In case of type specimens the type locality.
    * &lt;blockquote&gt;
    * &lt;p&gt;
    * &lt;i&gt;Examples:&lt;/i&gt; Iraq: Mosul: Jabal Khantur prope Sharanish N. Zakho, in fissures rupium calc., 1200 m.
@@ -191,10 +198,11 @@ import javax.annotation.Nullable;
    *
    * @return the locality
    */
+  @Schema(description = &quot;The locality where the type specimen was collected, the type locality.&quot;)
   @Nullable
   @Deprecated
   public String getLocality() {
-<span class="nc" id="L197">    return locality;</span>
+<span class="nc" id="L205">    return locality;</span>
   }
 
   /**
@@ -202,18 +210,19 @@ import javax.annotation.Nullable;
    */
   @Deprecated
   public void setLocality(String locality) {
-<span class="nc" id="L205">    this.locality = locality;</span>
-<span class="nc" id="L206">  }</span>
+<span class="nc" id="L213">    this.locality = locality;</span>
+<span class="nc" id="L214">  }</span>
 
   /**
    * An identifier for the specimen, preferably a resolvable globally unique identifier.
    *
    * @return the occurrenceId
    */
+  @Schema(description = &quot;An identifier for the specimen, preferable a resolvable, globally-unique identifier.&quot;)
   @Nullable
   @Deprecated
   public String getOccurrenceId() {
-<span class="nc" id="L216">    return occurrenceId;</span>
+<span class="nc" id="L225">    return occurrenceId;</span>
   }
 
   /**
@@ -221,8 +230,8 @@ import javax.annotation.Nullable;
    */
   @Deprecated
   public void setOccurrenceId(String occurrenceId) {
-<span class="nc" id="L224">    this.occurrenceId = occurrenceId;</span>
-<span class="nc" id="L225">  }</span>
+<span class="nc" id="L233">    this.occurrenceId = occurrenceId;</span>
+<span class="nc" id="L234">  }</span>
 
   /**
    * The primary collector or observer, especially one who applies a personal identifier (recordNumber), should be
@@ -235,10 +244,12 @@ import javax.annotation.Nullable;
    *
    * @return the recordedBy
    */
+  @Schema(description = &quot;The primary collector or observer, especially one who applied a personal identifier &quot; +
+    &quot;(recordNumber), should be listed first.&quot;)
   @Nullable
   @Deprecated
   public String getRecordedBy() {
-<span class="nc" id="L241">    return recordedBy;</span>
+<span class="nc" id="L252">    return recordedBy;</span>
   }
 
   /**
@@ -246,8 +257,8 @@ import javax.annotation.Nullable;
    */
   @Deprecated
   public void setRecordedBy(String recordedBy) {
-<span class="nc" id="L249">    this.recordedBy = recordedBy;</span>
-<span class="nc" id="L250">  }</span>
+<span class="nc" id="L260">    this.recordedBy = recordedBy;</span>
+<span class="nc" id="L261">  }</span>
 
   /**
    * The scientific name originally used for the specimen, species or genus. Not necessarily the same as the currently
@@ -260,27 +271,30 @@ import javax.annotation.Nullable;
    *
    * @return the scientificName
    */
+  @Schema(description = &quot;The scientific name originally used for the specimen, species or genus.\n\n&quot; +
+    &quot;Not necessarily the same as the currently recognized name.  For type species this is the species name.&quot;)
   @Nullable
   public String getScientificName() {
-<span class="nc" id="L265">    return scientificName;</span>
+<span class="nc" id="L278">    return scientificName;</span>
   }
 
   /**
    * @param scientificName the scientificName to set
    */
   public void setScientificName(String scientificName) {
-<span class="nc" id="L272">    this.scientificName = scientificName;</span>
-<span class="nc" id="L273">  }</span>
+<span class="nc" id="L285">    this.scientificName = scientificName;</span>
+<span class="nc" id="L286">  }</span>
 
   /**
    * The source.
    *
    * @return the source
    */
+  @Schema(description = &quot;Bibliographic citation referencing a source for the type specimen.&quot;)
   @Nullable
   @Override
   public String getSource() {
-<span class="nc" id="L283">    return source;</span>
+<span class="nc" id="L297">    return source;</span>
   }
 
   /**
@@ -288,35 +302,37 @@ import javax.annotation.Nullable;
    */
   @Override
   public void setSource(String source) {
-<span class="nc" id="L291">    this.source = source;</span>
-<span class="nc" id="L292">  }</span>
+<span class="nc" id="L305">    this.source = source;</span>
+<span class="nc" id="L306">  }</span>
 
+  @Schema(description = &quot;The name usage key of the taxon in the checklist including this type specimen.&quot;)
   @Nullable
   @Override
   public Integer getSourceTaxonKey() {
-<span class="nc" id="L297">    return sourceTaxonKey;</span>
+<span class="nc" id="L312">    return sourceTaxonKey;</span>
   }
 
   @Override
   public void setSourceTaxonKey(Integer sourceTaxonKey) {
-<span class="fc" id="L302">    this.sourceTaxonKey = sourceTaxonKey;</span>
-<span class="fc" id="L303">  }</span>
+<span class="fc" id="L317">    this.sourceTaxonKey = sourceTaxonKey;</span>
+<span class="fc" id="L318">  }</span>
 
   /**
    * The rank of the taxon bearing the scientific name.
    *
    * @return the taxonRank
    */
+  @Schema(description = &quot;The rank of the taxon bearing the scientific name.&quot;)
   public Rank getTaxonRank() {
-<span class="nc" id="L311">    return taxonRank;</span>
+<span class="nc" id="L327">    return taxonRank;</span>
   }
 
   /**
    * @param taxonRank the taxonRank to set
    */
   public void setTaxonRank(Rank taxonRank) {
-<span class="fc" id="L318">    this.taxonRank = taxonRank;</span>
-<span class="fc" id="L319">  }</span>
+<span class="fc" id="L334">    this.taxonRank = taxonRank;</span>
+<span class="fc" id="L335">  }</span>
 
   /**
    * The citation of the publication where the type designation is found.
@@ -329,17 +345,18 @@ import javax.annotation.Nullable;
    *
    * @return the typeDesignatedBy
    */
+  @Schema(description = &quot;The citation of the publication where the type designation is found.&quot;)
   @Nullable
   public String getTypeDesignatedBy() {
-<span class="nc" id="L334">    return typeDesignatedBy;</span>
+<span class="nc" id="L351">    return typeDesignatedBy;</span>
   }
 
   /**
    * @param typeDesignatedBy the typeDesignatedBy to set
    */
   public void setTypeDesignatedBy(String typeDesignatedBy) {
-<span class="nc" id="L341">    this.typeDesignatedBy = typeDesignatedBy;</span>
-<span class="nc" id="L342">  }</span>
+<span class="nc" id="L358">    this.typeDesignatedBy = typeDesignatedBy;</span>
+<span class="nc" id="L359">  }</span>
 
   /**
    * The reason why this specimen or name is designated as a type.
@@ -351,17 +368,18 @@ import javax.annotation.Nullable;
    *
    * @return the typeDesignationType
    */
+  @Schema(description = &quot;The reason why this specimen is designated as a type.&quot;)
   @Nullable
   public TypeDesignationType getTypeDesignationType() {
-<span class="nc" id="L356">    return typeDesignationType;</span>
+<span class="nc" id="L374">    return typeDesignationType;</span>
   }
 
   /**
    * @param typeDesignationType the typeDesignationType to set
    */
   public void setTypeDesignationType(TypeDesignationType typeDesignationType) {
-<span class="nc" id="L363">    this.typeDesignationType = typeDesignationType;</span>
-<span class="nc" id="L364">  }</span>
+<span class="nc" id="L381">    this.typeDesignationType = typeDesignationType;</span>
+<span class="nc" id="L382">  }</span>
 
   /**
    * The type status of the specimen, not used for type species or type genus.
@@ -373,10 +391,11 @@ import javax.annotation.Nullable;
    *
    * @return the typeStatus
    */
+  @Schema(description = &quot;The type status of the specimen, not used for type species or type genera.&quot;)
   @Nullable
   @Deprecated
   public TypeStatus getTypeStatus() {
-<span class="nc" id="L379">    return typeStatus;</span>
+<span class="nc" id="L398">    return typeStatus;</span>
   }
 
   /**
@@ -384,8 +403,8 @@ import javax.annotation.Nullable;
    */
   @Deprecated
   public void setTypeStatus(TypeStatus typeStatus) {
-<span class="nc" id="L387">    this.typeStatus = typeStatus;</span>
-<span class="nc" id="L388">  }</span>
+<span class="nc" id="L406">    this.typeStatus = typeStatus;</span>
+<span class="nc" id="L407">  }</span>
 
   /**
    * The date when the specimen was collected.
@@ -397,10 +416,11 @@ import javax.annotation.Nullable;
    *
    * @return the verbatimEventDate
    */
+  @Schema(description = &quot;The date when the specimen was collected.&quot;)
   @Nullable
   @Deprecated
   public String getVerbatimEventDate() {
-<span class="nc" id="L403">    return verbatimEventDate;</span>
+<span class="nc" id="L423">    return verbatimEventDate;</span>
   }
 
   /**
@@ -408,18 +428,19 @@ import javax.annotation.Nullable;
    */
   @Deprecated
   public void setVerbatimEventDate(String verbatimEventDate) {
-<span class="nc" id="L411">    this.verbatimEventDate = verbatimEventDate;</span>
-<span class="nc" id="L412">  }</span>
+<span class="nc" id="L431">    this.verbatimEventDate = verbatimEventDate;</span>
+<span class="nc" id="L432">  }</span>
 
   /**
    * The full, verbatim text from the specimen label.
    *
    * @return the verbatimLabel
    */
+  @Schema(description = &quot;The full, verbatim text from the specimen label.&quot;)
   @Nullable
   @Deprecated
   public String getVerbatimLabel() {
-<span class="nc" id="L422">    return verbatimLabel;</span>
+<span class="nc" id="L443">    return verbatimLabel;</span>
   }
 
   /**
@@ -427,8 +448,8 @@ import javax.annotation.Nullable;
    */
   @Deprecated
   public void setVerbatimLabel(String verbatimLabel) {
-<span class="nc" id="L430">    this.verbatimLabel = verbatimLabel;</span>
-<span class="nc" id="L431">  }</span>
+<span class="nc" id="L451">    this.verbatimLabel = verbatimLabel;</span>
+<span class="nc" id="L452">  }</span>
 
   /**
    * The geographic latitude.
@@ -440,10 +461,11 @@ import javax.annotation.Nullable;
    *
    * @return the verbatimLatitude
    */
+  @Schema(description = &quot;The geographic latitude.&quot;)
   @Nullable
   @Deprecated
   public String getVerbatimLatitude() {
-<span class="nc" id="L446">    return verbatimLatitude;</span>
+<span class="nc" id="L468">    return verbatimLatitude;</span>
   }
 
   /**
@@ -451,8 +473,8 @@ import javax.annotation.Nullable;
    */
   @Deprecated
   public void setVerbatimLatitude(String verbatimLatitude) {
-<span class="nc" id="L454">    this.verbatimLatitude = verbatimLatitude;</span>
-<span class="nc" id="L455">  }</span>
+<span class="nc" id="L476">    this.verbatimLatitude = verbatimLatitude;</span>
+<span class="nc" id="L477">  }</span>
 
   /**
    * The geographic longitude.
@@ -464,10 +486,11 @@ import javax.annotation.Nullable;
    *
    * @return the verbatimLongitude
    */
+  @Schema(description = &quot;The geographic longitude.&quot;)
   @Nullable
   @Deprecated
   public String getVerbatimLongitude() {
-<span class="nc" id="L470">    return verbatimLongitude;</span>
+<span class="nc" id="L493">    return verbatimLongitude;</span>
   }
 
   /**
@@ -475,42 +498,42 @@ import javax.annotation.Nullable;
    */
   @Deprecated
   public void setVerbatimLongitude(String verbatimLongitude) {
-<span class="nc" id="L478">    this.verbatimLongitude = verbatimLongitude;</span>
-<span class="nc" id="L479">  }</span>
+<span class="nc" id="L501">    this.verbatimLongitude = verbatimLongitude;</span>
+<span class="nc" id="L502">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L483" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L484">      return true;</span>
+<span class="pc bpc" id="L506" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L507">      return true;</span>
     }
-<span class="pc bpc" id="L486" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L487">      return false;</span>
+<span class="pc bpc" id="L509" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L510">      return false;</span>
     }
-<span class="fc" id="L489">    TypeSpecimen that = (TypeSpecimen) o;</span>
-<span class="pc bpc" id="L490" title="1 of 2 branches missed.">    return Objects.equals(source, that.source) &amp;&amp;</span>
-<span class="pc bpc" id="L491" title="2 of 4 branches missed.">      Objects.equals(sourceTaxonKey, that.sourceTaxonKey) &amp;&amp;</span>
+<span class="fc" id="L512">    TypeSpecimen that = (TypeSpecimen) o;</span>
+<span class="pc bpc" id="L513" title="1 of 2 branches missed.">    return Objects.equals(source, that.source) &amp;&amp;</span>
+<span class="pc bpc" id="L514" title="2 of 4 branches missed.">      Objects.equals(sourceTaxonKey, that.sourceTaxonKey) &amp;&amp;</span>
       typeDesignationType == that.typeDesignationType &amp;&amp;
-<span class="pc bpc" id="L493" title="1 of 2 branches missed.">      Objects.equals(typeDesignatedBy, that.typeDesignatedBy) &amp;&amp;</span>
-<span class="pc bpc" id="L494" title="3 of 6 branches missed.">      Objects.equals(scientificName, that.scientificName) &amp;&amp;</span>
+<span class="pc bpc" id="L516" title="1 of 2 branches missed.">      Objects.equals(typeDesignatedBy, that.typeDesignatedBy) &amp;&amp;</span>
+<span class="pc bpc" id="L517" title="3 of 6 branches missed.">      Objects.equals(scientificName, that.scientificName) &amp;&amp;</span>
       taxonRank == that.taxonRank &amp;&amp;
       typeStatus == that.typeStatus &amp;&amp;
-<span class="pc bpc" id="L497" title="1 of 2 branches missed.">      Objects.equals(citation, that.citation) &amp;&amp;</span>
-<span class="pc bpc" id="L498" title="1 of 2 branches missed.">      Objects.equals(verbatimLabel, that.verbatimLabel) &amp;&amp;</span>
-<span class="pc bpc" id="L499" title="1 of 2 branches missed.">      Objects.equals(locality, that.locality) &amp;&amp;</span>
-<span class="pc bpc" id="L500" title="1 of 2 branches missed.">      Objects.equals(recordedBy, that.recordedBy) &amp;&amp;</span>
-<span class="pc bpc" id="L501" title="1 of 2 branches missed.">      Objects.equals(verbatimEventDate, that.verbatimEventDate) &amp;&amp;</span>
-<span class="pc bpc" id="L502" title="1 of 2 branches missed.">      Objects.equals(verbatimLongitude, that.verbatimLongitude) &amp;&amp;</span>
-<span class="pc bpc" id="L503" title="1 of 2 branches missed.">      Objects.equals(verbatimLatitude, that.verbatimLatitude) &amp;&amp;</span>
-<span class="pc bpc" id="L504" title="1 of 2 branches missed.">      Objects.equals(occurrenceId, that.occurrenceId) &amp;&amp;</span>
-<span class="pc bpc" id="L505" title="1 of 2 branches missed.">      Objects.equals(institutionCode, that.institutionCode) &amp;&amp;</span>
-<span class="pc bpc" id="L506" title="1 of 2 branches missed.">      Objects.equals(collectionCode, that.collectionCode) &amp;&amp;</span>
-<span class="pc bpc" id="L507" title="1 of 2 branches missed.">      Objects.equals(catalogNumber, that.catalogNumber);</span>
+<span class="pc bpc" id="L520" title="1 of 2 branches missed.">      Objects.equals(citation, that.citation) &amp;&amp;</span>
+<span class="pc bpc" id="L521" title="1 of 2 branches missed.">      Objects.equals(verbatimLabel, that.verbatimLabel) &amp;&amp;</span>
+<span class="pc bpc" id="L522" title="1 of 2 branches missed.">      Objects.equals(locality, that.locality) &amp;&amp;</span>
+<span class="pc bpc" id="L523" title="1 of 2 branches missed.">      Objects.equals(recordedBy, that.recordedBy) &amp;&amp;</span>
+<span class="pc bpc" id="L524" title="1 of 2 branches missed.">      Objects.equals(verbatimEventDate, that.verbatimEventDate) &amp;&amp;</span>
+<span class="pc bpc" id="L525" title="1 of 2 branches missed.">      Objects.equals(verbatimLongitude, that.verbatimLongitude) &amp;&amp;</span>
+<span class="pc bpc" id="L526" title="1 of 2 branches missed.">      Objects.equals(verbatimLatitude, that.verbatimLatitude) &amp;&amp;</span>
+<span class="pc bpc" id="L527" title="1 of 2 branches missed.">      Objects.equals(occurrenceId, that.occurrenceId) &amp;&amp;</span>
+<span class="pc bpc" id="L528" title="1 of 2 branches missed.">      Objects.equals(institutionCode, that.institutionCode) &amp;&amp;</span>
+<span class="pc bpc" id="L529" title="1 of 2 branches missed.">      Objects.equals(collectionCode, that.collectionCode) &amp;&amp;</span>
+<span class="pc bpc" id="L530" title="1 of 2 branches missed.">      Objects.equals(catalogNumber, that.catalogNumber);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L512">    return Objects</span>
-<span class="nc" id="L513">      .hash(source, sourceTaxonKey, typeDesignationType, typeDesignatedBy, scientificName,</span>
+<span class="nc" id="L535">    return Objects</span>
+<span class="nc" id="L536">      .hash(source, sourceTaxonKey, typeDesignationType, typeDesignatedBy, scientificName,</span>
         taxonRank, typeStatus, citation, verbatimLabel, locality, recordedBy, verbatimEventDate,
         verbatimLongitude, verbatimLatitude, occurrenceId, institutionCode, collectionCode,
         catalogNumber);
@@ -518,14 +541,14 @@ import javax.annotation.Nullable;
 
   @Override
   public String toString() {
-<span class="nc" id="L521">    return new StringJoiner(&quot;, &quot;, TypeSpecimen.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L522">      .add(&quot;source='&quot; + source + &quot;'&quot;)</span>
-<span class="nc" id="L523">      .add(&quot;sourceTaxonKey=&quot; + sourceTaxonKey)</span>
-<span class="nc" id="L524">      .add(&quot;typeDesignationType=&quot; + typeDesignationType)</span>
-<span class="nc" id="L525">      .add(&quot;typeDesignatedBy='&quot; + typeDesignatedBy + &quot;'&quot;)</span>
-<span class="nc" id="L526">      .add(&quot;scientificName='&quot; + scientificName + &quot;'&quot;)</span>
-<span class="nc" id="L527">      .add(&quot;taxonRank=&quot; + taxonRank)</span>
-<span class="nc" id="L528">      .toString();</span>
+<span class="nc" id="L544">    return new StringJoiner(&quot;, &quot;, TypeSpecimen.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L545">      .add(&quot;source='&quot; + source + &quot;'&quot;)</span>
+<span class="nc" id="L546">      .add(&quot;sourceTaxonKey=&quot; + sourceTaxonKey)</span>
+<span class="nc" id="L547">      .add(&quot;typeDesignationType=&quot; + typeDesignationType)</span>
+<span class="nc" id="L548">      .add(&quot;typeDesignatedBy='&quot; + typeDesignatedBy + &quot;'&quot;)</span>
+<span class="nc" id="L549">      .add(&quot;scientificName='&quot; + scientificName + &quot;'&quot;)</span>
+<span class="nc" id="L550">      .add(&quot;taxonRank=&quot; + taxonRank)</span>
+<span class="nc" id="L551">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

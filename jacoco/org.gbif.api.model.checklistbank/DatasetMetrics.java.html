@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatasetMetrics.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">DatasetMetrics.java</span></div><h1>DatasetMetrics.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -33,6 +31,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Simple metrics about a single, processed checklist dataset in time.
@@ -68,18 +68,18 @@ import javax.validation.constraints.Past;
   private Date created;
   private Date downloaded;
 
-
   public int getKey() {
-<span class="nc" id="L73">    return key;</span>
+<span class="nc" id="L72">    return key;</span>
   }
 
   public void setKey(int key) {
-<span class="nc" id="L77">    this.key = key;</span>
-<span class="nc" id="L78">  }</span>
+<span class="nc" id="L76">    this.key = key;</span>
+<span class="nc" id="L77">  }</span>
 
   /**
    * @return percentage of distinct names that match a name in the Catalogue of Life
    */
+  @Schema(description = &quot;Percentage of distinct names that match a name in the Catalogue of Life.&quot;)
   @Max(100)
   @Min(0)
   public int getColCoveragePct() {
@@ -90,183 +90,199 @@ import javax.validation.constraints.Past;
 <span class="nc" id="L90">    this.colCoveragePct = colCoveragePct;</span>
 <span class="nc" id="L91">  }</span>
 
+  @Schema(description = &quot;Count of names in each constituent dataset.&quot;)
   @NotNull
   public Map&lt;UUID, Integer&gt; getCountByConstituent() {
-<span class="nc" id="L95">    return countByConstituent;</span>
+<span class="nc" id="L96">    return countByConstituent;</span>
   }
 
   public void setCountByConstituent(Map&lt;UUID, Integer&gt; countByConstituent) {
-<span class="nc" id="L99">    this.countByConstituent = countByConstituent;</span>
-<span class="nc" id="L100">  }</span>
+<span class="nc" id="L100">    this.countByConstituent = countByConstituent;</span>
+<span class="nc" id="L101">  }</span>
 
+  @Schema(description = &quot;Number of names in each kingdom.&quot;)
   @NotNull
   public Map&lt;Kingdom, Integer&gt; getCountByKingdom() {
-<span class="nc" id="L104">    return countByKingdom;</span>
+<span class="nc" id="L106">    return countByKingdom;</span>
   }
 
   public void setCountByKingdom(Map&lt;Kingdom, Integer&gt; countByKingdom) {
-<span class="nc" id="L108">    this.countByKingdom = countByKingdom;</span>
-<span class="nc" id="L109">  }</span>
+<span class="nc" id="L110">    this.countByKingdom = countByKingdom;</span>
+<span class="nc" id="L111">  }</span>
 
+  @Schema(description = &quot;Number of names at each taxonomic rank.&quot;)
   @NotNull
   public Map&lt;Rank, Integer&gt; getCountByRank() {
-<span class="nc" id="L113">    return countByRank;</span>
+<span class="nc" id="L116">    return countByRank;</span>
   }
 
   public void setCountByRank(Map&lt;Rank, Integer&gt; countByRank) {
-<span class="nc" id="L117">    this.countByRank = countByRank;</span>
-<span class="nc" id="L118">  }</span>
+<span class="nc" id="L120">    this.countByRank = countByRank;</span>
+<span class="nc" id="L121">  }</span>
 
   /**
    * @return the number of distinct canonical name strings
    */
+  @Schema(description = &quot;Number of distinct, canonical name strings.&quot;)
   @Min(0)
   public int getDistinctNamesCount() {
-<span class="nc" id="L125">    return distinctNamesCount;</span>
+<span class="nc" id="L129">    return distinctNamesCount;</span>
   }
 
   public void setDistinctNamesCount(int distinctNamesCount) {
-<span class="nc" id="L129">    this.distinctNamesCount = distinctNamesCount;</span>
-<span class="nc" id="L130">  }</span>
+<span class="nc" id="L133">    this.distinctNamesCount = distinctNamesCount;</span>
+<span class="nc" id="L134">  }</span>
 
+  @Schema(description = &quot;Number of names having extension data.&quot;)
   @NotNull
   public Map&lt;Extension, Integer&gt; getCountExtRecordsByExtension() {
-<span class="nc" id="L134">    return countExtRecordsByExtension;</span>
+<span class="nc" id="L139">    return countExtRecordsByExtension;</span>
   }
 
   public void setCountExtRecordsByExtension(Map&lt;Extension, Integer&gt; countExtRecordsByExtension) {
-<span class="nc" id="L138">    this.countExtRecordsByExtension = countExtRecordsByExtension;</span>
-<span class="nc" id="L139">  }</span>
+<span class="nc" id="L143">    this.countExtRecordsByExtension = countExtRecordsByExtension;</span>
+<span class="nc" id="L144">  }</span>
 
   /**
    * @return number of records matching a name in the Catalogue of Life
    */
+  @Schema(description = &quot;Number of records matching a name in the Catalogue of Life.&quot;)
   @Min(0)
   public int getColMatchingCount() {
-<span class="nc" id="L146">    return colMatchingCount;</span>
+<span class="nc" id="L152">    return colMatchingCount;</span>
   }
 
   public void setColMatchingCount(int colMatchingCount) {
-<span class="nc" id="L150">    this.colMatchingCount = colMatchingCount;</span>
-<span class="nc" id="L151">  }</span>
+<span class="nc" id="L156">    this.colMatchingCount = colMatchingCount;</span>
+<span class="nc" id="L157">  }</span>
 
   /**
    * @return number of records matching a name in the GBIF backbone taxonomy
    */
+  @Schema(description = &quot;Number of records matching a name in the GBIF Backbone Taxonomy.&quot;)
   @Min(0)
   public int getNubMatchingCount() {
-<span class="nc" id="L158">    return nubMatchingCount;</span>
+<span class="nc" id="L165">    return nubMatchingCount;</span>
   }
 
   public void setNubMatchingCount(int nubMatchingCount) {
-<span class="nc" id="L162">    this.nubMatchingCount = nubMatchingCount;</span>
-<span class="nc" id="L163">  }</span>
+<span class="nc" id="L169">    this.nubMatchingCount = nubMatchingCount;</span>
+<span class="nc" id="L170">  }</span>
 
+  @Schema(description = &quot;Number of vernacular names by language.&quot;)
   @NotNull
   public Map&lt;Language, Integer&gt; getCountNamesByLanguage() {
-<span class="nc" id="L167">    return countNamesByLanguage;</span>
+<span class="nc" id="L175">    return countNamesByLanguage;</span>
   }
 
   public void setCountNamesByLanguage(Map&lt;Language, Integer&gt; countNamesByLanguage) {
-<span class="nc" id="L171">    this.countNamesByLanguage = countNamesByLanguage;</span>
-<span class="nc" id="L172">  }</span>
+<span class="nc" id="L179">    this.countNamesByLanguage = countNamesByLanguage;</span>
+<span class="nc" id="L180">  }</span>
 
   /**
    * @return number of records with a taxonomic status of a synonym.
    *         For occurrence records the nub taxonomy status is used
    */
+  @Schema(description = &quot;Number of records with a taxonomic status of synonym.&quot;)
   @Min(0)
   public int getSynonymsCount() {
-<span class="nc" id="L180">    return synonymsCount;</span>
+<span class="nc" id="L189">    return synonymsCount;</span>
   }
 
   public void setSynonymsCount(int synonymsCount) {
-<span class="nc" id="L184">    this.synonymsCount = synonymsCount;</span>
-<span class="nc" id="L185">  }</span>
+<span class="nc" id="L193">    this.synonymsCount = synonymsCount;</span>
+<span class="nc" id="L194">  }</span>
 
   /**
    * @return total number of name usage records in checklistbank
    */
+  @Schema(description = &quot;Total number of name usage records in Checklistbank.&quot;)
   @Min(0)
   public int getUsagesCount() {
-<span class="nc" id="L192">    return usagesCount;</span>
+<span class="nc" id="L202">    return usagesCount;</span>
   }
 
   public void setUsagesCount(int usagesCount) {
-<span class="nc" id="L196">    this.usagesCount = usagesCount;</span>
-<span class="nc" id="L197">  }</span>
+<span class="nc" id="L206">    this.usagesCount = usagesCount;</span>
+<span class="nc" id="L207">  }</span>
 
   /**
    * @return map of total name usage counts by their origin
    */
+  @Schema(description = &quot;Total name usages by origin.&quot;)
   @NotNull
   public Map&lt;Origin, Integer&gt; getCountByOrigin() {
-<span class="nc" id="L204">    return countByOrigin;</span>
+<span class="nc" id="L215">    return countByOrigin;</span>
   }
 
   public void setCountByOrigin(Map&lt;Origin, Integer&gt; countByOrigin) {
-<span class="nc" id="L208">    this.countByOrigin = countByOrigin;</span>
-<span class="nc" id="L209">  }</span>
+<span class="nc" id="L219">    this.countByOrigin = countByOrigin;</span>
+<span class="nc" id="L220">  }</span>
 
   /**
    * @return map of total name usage counts by their interpretation issue
    */
+  @Schema(description = &quot;Total name usage counts by their interpretation issue.&quot;)
   @NotNull
   public Map&lt;NameUsageIssue, Integer&gt; getCountByIssue() {
-<span class="nc" id="L216">    return countByIssue;</span>
+<span class="nc" id="L228">    return countByIssue;</span>
   }
 
   public void setCountByIssue(Map&lt;NameUsageIssue, Integer&gt; countByIssue) {
-<span class="nc" id="L220">    this.countByIssue = countByIssue;</span>
-<span class="nc" id="L221">  }</span>
+<span class="nc" id="L232">    this.countByIssue = countByIssue;</span>
+<span class="nc" id="L233">  }</span>
 
   /**
    * @return date this metric was generated. Roughly equivalent with date of indexing
    */
+  @Schema(description = &quot;Date this metric was generated. Roughly equivalent with date of indexing.&quot;)
   @NotNull
   @Past
   public Date getCreated() {
-<span class="nc" id="L229">    return created;</span>
+<span class="nc" id="L242">    return created;</span>
   }
 
   public void setCreated(Date created) {
-<span class="nc" id="L233">    this.created = created;</span>
-<span class="nc" id="L234">  }</span>
+<span class="nc" id="L246">    this.created = created;</span>
+<span class="nc" id="L247">  }</span>
 
   /**
    * @return date new dataset data was downloaded/harvested last time
    */
+  @Schema(description = &quot;Date new dataset data was downloaded/harvested last time.&quot;)
   @NotNull
   @Past
   public Date getDownloaded() {
-<span class="nc" id="L242">    return downloaded;</span>
+<span class="nc" id="L256">    return downloaded;</span>
   }
 
   public void setDownloaded(Date downloaded) {
-<span class="nc" id="L246">    this.downloaded = downloaded;</span>
-<span class="nc" id="L247">  }</span>
+<span class="nc" id="L260">    this.downloaded = downloaded;</span>
+<span class="nc" id="L261">  }</span>
 
+  @Schema(description = &quot;Dataset key.&quot;)
   @NotNull
   public UUID getDatasetKey() {
-<span class="nc" id="L251">    return datasetKey;</span>
+<span class="nc" id="L266">    return datasetKey;</span>
   }
 
   public void setDatasetKey(UUID datasetKey) {
-<span class="fc" id="L255">    this.datasetKey = datasetKey;</span>
-<span class="fc" id="L256">  }</span>
+<span class="fc" id="L270">    this.datasetKey = datasetKey;</span>
+<span class="fc" id="L271">  }</span>
 
   /**
    * @return percentage of distinct names that match a name in the GBIF backbone taxonomy
    */
+  @Schema(description = &quot;Percentage of distinct names that match a name in the GBIF backbone taxonomy.&quot;)
   @Max(100)
   @Min(0)
   public int getNubCoveragePct() {
-<span class="nc" id="L264">    return nubCoveragePct;</span>
+<span class="nc" id="L280">    return nubCoveragePct;</span>
   }
 
   public void setNubCoveragePct(int nubCoveragePct) {
-<span class="nc" id="L268">    this.nubCoveragePct = nubCoveragePct;</span>
-<span class="nc" id="L269">  }</span>
+<span class="nc" id="L284">    this.nubCoveragePct = nubCoveragePct;</span>
+<span class="nc" id="L285">  }</span>
 
   /**
    * For an occurrence dataset get the number of records that are interpreted to belong to a certain nub kingdom.
@@ -279,7 +295,7 @@ import javax.validation.constraints.Past;
    */
   @Min(0)
   public int getCountByKingdom(Kingdom kingdom) {
-<span class="nc" id="L282">    return getCountFromMap(countByKingdom, kingdom);</span>
+<span class="nc" id="L298">    return getCountFromMap(countByKingdom, kingdom);</span>
   }
 
   /**
@@ -292,7 +308,7 @@ import javax.validation.constraints.Past;
    */
   @Min(0)
   public int getCountByRank(Rank rank) {
-<span class="nc" id="L295">    return getCountFromMap(countByRank, rank);</span>
+<span class="nc" id="L311">    return getCountFromMap(countByRank, rank);</span>
   }
 
   /**
@@ -300,7 +316,7 @@ import javax.validation.constraints.Past;
    */
   @Min(0)
   public int getCountByOrigin(Origin origin) {
-<span class="nc" id="L303">    return getCountFromMap(countByOrigin, origin);</span>
+<span class="nc" id="L319">    return getCountFromMap(countByOrigin, origin);</span>
   }
 
   /**
@@ -308,7 +324,7 @@ import javax.validation.constraints.Past;
    */
   @Min(0)
   public int getCountByIssue(NameUsageIssue issue) {
-<span class="nc" id="L311">    return getCountFromMap(countByIssue, issue);</span>
+<span class="nc" id="L327">    return getCountFromMap(countByIssue, issue);</span>
   }
 
   /**
@@ -316,7 +332,7 @@ import javax.validation.constraints.Past;
    */
   @Min(0)
   public int getOtherCount(String key) {
-<span class="nc" id="L319">    return getCountFromMap(otherCount, key);</span>
+<span class="nc" id="L335">    return getCountFromMap(otherCount, key);</span>
   }
 
   /**
@@ -329,7 +345,7 @@ import javax.validation.constraints.Past;
    */
   @Min(0)
   public int getCountNamesByLanguage(Language language) {
-<span class="nc" id="L332">    return getCountFromMap(countNamesByLanguage, language);</span>
+<span class="nc" id="L348">    return getCountFromMap(countNamesByLanguage, language);</span>
   }
 
   /**
@@ -339,40 +355,40 @@ import javax.validation.constraints.Past;
    */
   @Min(0)
   public int getExtensionRecordCount(Extension extension) {
-<span class="nc" id="L342">    return getCountFromMap(countExtRecordsByExtension, extension);</span>
+<span class="nc" id="L358">    return getCountFromMap(countExtRecordsByExtension, extension);</span>
   }
 
   public Map&lt;String, Integer&gt; getOtherCount() {
-<span class="nc" id="L346">    return otherCount;</span>
+<span class="nc" id="L362">    return otherCount;</span>
   }
 
   public void setOtherCount(Map&lt;String, Integer&gt; otherCount) {
-<span class="nc" id="L350">    this.otherCount = otherCount;</span>
-<span class="nc" id="L351">  }</span>
+<span class="nc" id="L366">    this.otherCount = otherCount;</span>
+<span class="nc" id="L367">  }</span>
 
   /**
    * @return value from map if key exists, 0 otherwise
    */
   private int getCountFromMap(Map&lt;?, Integer&gt; map, Object key) {
-<span class="nc bnc" id="L357" title="All 2 branches missed.">    if (key == null) {</span>
-<span class="nc" id="L358">      throw new IllegalArgumentException(&quot;Null not allowed&quot;);</span>
+<span class="nc bnc" id="L373" title="All 2 branches missed.">    if (key == null) {</span>
+<span class="nc" id="L374">      throw new IllegalArgumentException(&quot;Null not allowed&quot;);</span>
     }
-<span class="nc bnc" id="L360" title="All 2 branches missed.">    if (map.containsKey(key)) {</span>
-<span class="nc" id="L361">      return map.get(key);</span>
+<span class="nc bnc" id="L376" title="All 2 branches missed.">    if (map.containsKey(key)) {</span>
+<span class="nc" id="L377">      return map.get(key);</span>
     }
-<span class="nc" id="L363">    return 0;</span>
+<span class="nc" id="L379">    return 0;</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L368" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L369">      return true;</span>
+<span class="pc bpc" id="L384" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L385">      return true;</span>
     }
-<span class="pc bpc" id="L371" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L372">      return false;</span>
+<span class="pc bpc" id="L387" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L388">      return false;</span>
     }
-<span class="fc" id="L374">    DatasetMetrics that = (DatasetMetrics) o;</span>
-<span class="pc bpc" id="L375" title="8 of 16 branches missed.">    return key == that.key &amp;&amp;</span>
+<span class="fc" id="L390">    DatasetMetrics that = (DatasetMetrics) o;</span>
+<span class="pc bpc" id="L391" title="8 of 16 branches missed.">    return key == that.key &amp;&amp;</span>
       usagesCount == that.usagesCount &amp;&amp;
       synonymsCount == that.synonymsCount &amp;&amp;
       distinctNamesCount == that.distinctNamesCount &amp;&amp;
@@ -380,51 +396,51 @@ import javax.validation.constraints.Past;
       colMatchingCount == that.colMatchingCount &amp;&amp;
       nubCoveragePct == that.nubCoveragePct &amp;&amp;
       colCoveragePct == that.colCoveragePct &amp;&amp;
-<span class="pc bpc" id="L383" title="1 of 2 branches missed.">      Objects.equals(datasetKey, that.datasetKey) &amp;&amp;</span>
-<span class="pc bpc" id="L384" title="1 of 2 branches missed.">      Objects.equals(countByConstituent, that.countByConstituent) &amp;&amp;</span>
-<span class="pc bpc" id="L385" title="1 of 2 branches missed.">      Objects.equals(countByKingdom, that.countByKingdom) &amp;&amp;</span>
-<span class="pc bpc" id="L386" title="1 of 2 branches missed.">      Objects.equals(countByRank, that.countByRank) &amp;&amp;</span>
-<span class="pc bpc" id="L387" title="1 of 2 branches missed.">      Objects.equals(countNamesByLanguage, that.countNamesByLanguage) &amp;&amp;</span>
-<span class="pc bpc" id="L388" title="1 of 2 branches missed.">      Objects.equals(countExtRecordsByExtension, that.countExtRecordsByExtension) &amp;&amp;</span>
-<span class="pc bpc" id="L389" title="1 of 2 branches missed.">      Objects.equals(countByOrigin, that.countByOrigin) &amp;&amp;</span>
-<span class="pc bpc" id="L390" title="1 of 2 branches missed.">      Objects.equals(countByIssue, that.countByIssue) &amp;&amp;</span>
-<span class="pc bpc" id="L391" title="1 of 2 branches missed.">      Objects.equals(otherCount, that.otherCount) &amp;&amp;</span>
-<span class="pc bpc" id="L392" title="1 of 2 branches missed.">      Objects.equals(created, that.created) &amp;&amp;</span>
-<span class="pc bpc" id="L393" title="1 of 2 branches missed.">      Objects.equals(downloaded, that.downloaded);</span>
+<span class="pc bpc" id="L399" title="1 of 2 branches missed.">      Objects.equals(datasetKey, that.datasetKey) &amp;&amp;</span>
+<span class="pc bpc" id="L400" title="1 of 2 branches missed.">      Objects.equals(countByConstituent, that.countByConstituent) &amp;&amp;</span>
+<span class="pc bpc" id="L401" title="1 of 2 branches missed.">      Objects.equals(countByKingdom, that.countByKingdom) &amp;&amp;</span>
+<span class="pc bpc" id="L402" title="1 of 2 branches missed.">      Objects.equals(countByRank, that.countByRank) &amp;&amp;</span>
+<span class="pc bpc" id="L403" title="1 of 2 branches missed.">      Objects.equals(countNamesByLanguage, that.countNamesByLanguage) &amp;&amp;</span>
+<span class="pc bpc" id="L404" title="1 of 2 branches missed.">      Objects.equals(countExtRecordsByExtension, that.countExtRecordsByExtension) &amp;&amp;</span>
+<span class="pc bpc" id="L405" title="1 of 2 branches missed.">      Objects.equals(countByOrigin, that.countByOrigin) &amp;&amp;</span>
+<span class="pc bpc" id="L406" title="1 of 2 branches missed.">      Objects.equals(countByIssue, that.countByIssue) &amp;&amp;</span>
+<span class="pc bpc" id="L407" title="1 of 2 branches missed.">      Objects.equals(otherCount, that.otherCount) &amp;&amp;</span>
+<span class="pc bpc" id="L408" title="1 of 2 branches missed.">      Objects.equals(created, that.created) &amp;&amp;</span>
+<span class="pc bpc" id="L409" title="1 of 2 branches missed.">      Objects.equals(downloaded, that.downloaded);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L398">    return Objects</span>
-<span class="nc" id="L399">      .hash(key, datasetKey, usagesCount, synonymsCount, distinctNamesCount, nubMatchingCount,</span>
-<span class="nc" id="L400">        colMatchingCount, nubCoveragePct, colCoveragePct, countByConstituent, countByKingdom,</span>
+<span class="nc" id="L414">    return Objects</span>
+<span class="nc" id="L415">      .hash(key, datasetKey, usagesCount, synonymsCount, distinctNamesCount, nubMatchingCount,</span>
+<span class="nc" id="L416">        colMatchingCount, nubCoveragePct, colCoveragePct, countByConstituent, countByKingdom,</span>
         countByRank, countNamesByLanguage, countExtRecordsByExtension, countByOrigin,
         countByIssue, otherCount, created, downloaded);
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L407">    return new StringJoiner(&quot;, &quot;, DatasetMetrics.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L408">      .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L409">      .add(&quot;datasetKey=&quot; + datasetKey)</span>
-<span class="nc" id="L410">      .add(&quot;usagesCount=&quot; + usagesCount)</span>
-<span class="nc" id="L411">      .add(&quot;synonymsCount=&quot; + synonymsCount)</span>
-<span class="nc" id="L412">      .add(&quot;distinctNamesCount=&quot; + distinctNamesCount)</span>
-<span class="nc" id="L413">      .add(&quot;nubMatchingCount=&quot; + nubMatchingCount)</span>
-<span class="nc" id="L414">      .add(&quot;colMatchingCount=&quot; + colMatchingCount)</span>
-<span class="nc" id="L415">      .add(&quot;nubCoveragePct=&quot; + nubCoveragePct)</span>
-<span class="nc" id="L416">      .add(&quot;colCoveragePct=&quot; + colCoveragePct)</span>
-<span class="nc" id="L417">      .add(&quot;countByConstituent=&quot; + countByConstituent)</span>
-<span class="nc" id="L418">      .add(&quot;countByKingdom=&quot; + countByKingdom)</span>
-<span class="nc" id="L419">      .add(&quot;countByRank=&quot; + countByRank)</span>
-<span class="nc" id="L420">      .add(&quot;countNamesByLanguage=&quot; + countNamesByLanguage)</span>
-<span class="nc" id="L421">      .add(&quot;countExtRecordsByExtension=&quot; + countExtRecordsByExtension)</span>
-<span class="nc" id="L422">      .add(&quot;countByOrigin=&quot; + countByOrigin)</span>
-<span class="nc" id="L423">      .add(&quot;countByIssue=&quot; + countByIssue)</span>
-<span class="nc" id="L424">      .add(&quot;otherCount=&quot; + otherCount)</span>
-<span class="nc" id="L425">      .add(&quot;created=&quot; + created)</span>
-<span class="nc" id="L426">      .add(&quot;downloaded=&quot; + downloaded)</span>
-<span class="nc" id="L427">      .toString();</span>
+<span class="nc" id="L423">    return new StringJoiner(&quot;, &quot;, DatasetMetrics.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L424">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L425">      .add(&quot;datasetKey=&quot; + datasetKey)</span>
+<span class="nc" id="L426">      .add(&quot;usagesCount=&quot; + usagesCount)</span>
+<span class="nc" id="L427">      .add(&quot;synonymsCount=&quot; + synonymsCount)</span>
+<span class="nc" id="L428">      .add(&quot;distinctNamesCount=&quot; + distinctNamesCount)</span>
+<span class="nc" id="L429">      .add(&quot;nubMatchingCount=&quot; + nubMatchingCount)</span>
+<span class="nc" id="L430">      .add(&quot;colMatchingCount=&quot; + colMatchingCount)</span>
+<span class="nc" id="L431">      .add(&quot;nubCoveragePct=&quot; + nubCoveragePct)</span>
+<span class="nc" id="L432">      .add(&quot;colCoveragePct=&quot; + colCoveragePct)</span>
+<span class="nc" id="L433">      .add(&quot;countByConstituent=&quot; + countByConstituent)</span>
+<span class="nc" id="L434">      .add(&quot;countByKingdom=&quot; + countByKingdom)</span>
+<span class="nc" id="L435">      .add(&quot;countByRank=&quot; + countByRank)</span>
+<span class="nc" id="L436">      .add(&quot;countNamesByLanguage=&quot; + countNamesByLanguage)</span>
+<span class="nc" id="L437">      .add(&quot;countExtRecordsByExtension=&quot; + countExtRecordsByExtension)</span>
+<span class="nc" id="L438">      .add(&quot;countByOrigin=&quot; + countByOrigin)</span>
+<span class="nc" id="L439">      .add(&quot;countByIssue=&quot; + countByIssue)</span>
+<span class="nc" id="L440">      .add(&quot;otherCount=&quot; + otherCount)</span>
+<span class="nc" id="L441">      .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L442">      .add(&quot;downloaded=&quot; + downloaded)</span>
+<span class="nc" id="L443">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

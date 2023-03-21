@@ -45,106 +45,118 @@ import static org.gbif.api.model.pipelines.PipelineStep.STEPS_BY_FINISHED_ASC;
 
   private String createdBy;
 <span class="fc" id="L47">  private Set&lt;PipelineStep&gt; steps = new TreeSet&lt;&gt;(STEPS_BY_FINISHED_ASC);</span>
+  private boolean finished;
 
   public long getKey() {
-<span class="nc" id="L50">    return key;</span>
+<span class="nc" id="L51">    return key;</span>
   }
 
   public PipelineExecution setKey(long key) {
-<span class="nc" id="L54">    this.key = key;</span>
-<span class="nc" id="L55">    return this;</span>
+<span class="nc" id="L55">    this.key = key;</span>
+<span class="nc" id="L56">    return this;</span>
   }
 
   public Set&lt;StepType&gt; getStepsToRun() {
-<span class="nc" id="L59">    return stepsToRun;</span>
+<span class="nc" id="L60">    return stepsToRun;</span>
   }
 
   public PipelineExecution setStepsToRun(Set&lt;StepType&gt; stepsToRun) {
-<span class="nc" id="L63">    this.stepsToRun = stepsToRun;</span>
-<span class="nc" id="L64">    return this;</span>
+<span class="nc" id="L64">    this.stepsToRun = stepsToRun;</span>
+<span class="nc" id="L65">    return this;</span>
   }
 
   public String getRerunReason() {
-<span class="nc" id="L68">    return rerunReason;</span>
+<span class="nc" id="L69">    return rerunReason;</span>
   }
 
   public PipelineExecution setRerunReason(String rerunReason) {
-<span class="nc" id="L72">    this.rerunReason = rerunReason;</span>
-<span class="nc" id="L73">    return this;</span>
+<span class="nc" id="L73">    this.rerunReason = rerunReason;</span>
+<span class="nc" id="L74">    return this;</span>
   }
 
   public String getRemarks() {
-<span class="nc" id="L77">    return remarks;</span>
+<span class="nc" id="L78">    return remarks;</span>
   }
 
   public PipelineExecution setRemarks(String remarks) {
-<span class="nc" id="L81">    this.remarks = remarks;</span>
-<span class="nc" id="L82">    return this;</span>
+<span class="nc" id="L82">    this.remarks = remarks;</span>
+<span class="nc" id="L83">    return this;</span>
   }
 
   public LocalDateTime getCreated() {
-<span class="fc" id="L86">    return created;</span>
+<span class="fc" id="L87">    return created;</span>
   }
 
   public PipelineExecution setCreated(LocalDateTime created) {
-<span class="fc" id="L90">    this.created = created;</span>
-<span class="fc" id="L91">    return this;</span>
+<span class="fc" id="L91">    this.created = created;</span>
+<span class="fc" id="L92">    return this;</span>
   }
 
   public String getCreatedBy() {
-<span class="nc" id="L95">    return createdBy;</span>
+<span class="nc" id="L96">    return createdBy;</span>
   }
 
   public PipelineExecution setCreatedBy(String createdBy) {
-<span class="nc" id="L99">    this.createdBy = createdBy;</span>
-<span class="nc" id="L100">    return this;</span>
+<span class="nc" id="L100">    this.createdBy = createdBy;</span>
+<span class="nc" id="L101">    return this;</span>
   }
 
   public Set&lt;PipelineStep&gt; getSteps() {
-<span class="fc" id="L104">    return steps;</span>
+<span class="fc" id="L105">    return steps;</span>
   }
 
   public PipelineExecution setSteps(Set&lt;PipelineStep&gt; steps) {
-<span class="nc" id="L108">    this.steps.clear();</span>
-<span class="nc" id="L109">    this.steps.addAll(steps);</span>
-<span class="nc" id="L110">    return this;</span>
+<span class="nc" id="L109">    this.steps.clear();</span>
+<span class="nc" id="L110">    this.steps.addAll(steps);</span>
+<span class="nc" id="L111">    return this;</span>
   }
 
   public PipelineExecution addStep(PipelineStep step) {
-<span class="fc" id="L114">    steps.add(step);</span>
-<span class="fc" id="L115">    return this;</span>
+<span class="fc" id="L115">    steps.add(step);</span>
+<span class="fc" id="L116">    return this;</span>
+  }
+
+  public boolean isFinished() {
+<span class="nc" id="L120">    return finished;</span>
+  }
+
+  public PipelineExecution setFinished(boolean finished) {
+<span class="nc" id="L124">    this.finished = finished;</span>
+<span class="nc" id="L125">    return this;</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L120" title="All 2 branches missed.">    if (this == o) return true;</span>
-<span class="nc bnc" id="L121" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L122">    PipelineExecution that = (PipelineExecution) o;</span>
-<span class="nc bnc" id="L123" title="All 2 branches missed.">    return key == that.key</span>
-<span class="nc bnc" id="L124" title="All 2 branches missed.">      &amp;&amp; Objects.equals(stepsToRun, that.stepsToRun)</span>
-<span class="nc bnc" id="L125" title="All 2 branches missed.">      &amp;&amp; Objects.equals(rerunReason, that.rerunReason)</span>
-<span class="nc bnc" id="L126" title="All 2 branches missed.">      &amp;&amp; Objects.equals(remarks, that.remarks)</span>
-<span class="nc bnc" id="L127" title="All 2 branches missed.">      &amp;&amp; Objects.equals(created, that.created)</span>
-<span class="nc bnc" id="L128" title="All 2 branches missed.">      &amp;&amp; Objects.equals(createdBy, that.createdBy)</span>
-<span class="nc bnc" id="L129" title="All 2 branches missed.">      &amp;&amp; Objects.equals(steps, that.steps);</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L131" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L132">    PipelineExecution that = (PipelineExecution) o;</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">    return key == that.key</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">      &amp;&amp; Objects.equals(stepsToRun, that.stepsToRun)</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">      &amp;&amp; Objects.equals(rerunReason, that.rerunReason)</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">      &amp;&amp; Objects.equals(remarks, that.remarks)</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">      &amp;&amp; Objects.equals(created, that.created)</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">      &amp;&amp; Objects.equals(createdBy, that.createdBy)</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">      &amp;&amp; Objects.equals(steps, that.steps)</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">      &amp;&amp; Objects.equals(finished, that.finished);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L134">    return Objects.hash(key, stepsToRun, rerunReason, remarks, created, createdBy);</span>
+<span class="nc" id="L145">    return Objects.hash(key, stepsToRun, rerunReason, remarks, created, createdBy, finished);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L139">    return new StringJoiner(&quot;, &quot;, PipelineExecution.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L140">      .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L141">      .add(&quot;stepsToRun=&quot; + stepsToRun)</span>
-<span class="nc" id="L142">      .add(&quot;rerunReason='&quot; + rerunReason + &quot;'&quot;)</span>
-<span class="nc" id="L143">      .add(&quot;remarks='&quot; + remarks + &quot;'&quot;)</span>
-<span class="nc" id="L144">      .add(&quot;created=&quot; + created)</span>
-<span class="nc" id="L145">      .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
-<span class="nc" id="L146">      .add(&quot;steps='&quot; + steps + &quot;'&quot;)</span>
-<span class="nc" id="L147">      .toString();</span>
+<span class="nc" id="L150">    return new StringJoiner(&quot;, &quot;, PipelineExecution.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L151">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L152">      .add(&quot;stepsToRun=&quot; + stepsToRun)</span>
+<span class="nc" id="L153">      .add(&quot;rerunReason='&quot; + rerunReason + &quot;'&quot;)</span>
+<span class="nc" id="L154">      .add(&quot;remarks='&quot; + remarks + &quot;'&quot;)</span>
+<span class="nc" id="L155">      .add(&quot;created=&quot; + created)</span>
+<span class="nc" id="L156">      .add(&quot;createdBy='&quot; + createdBy + &quot;'&quot;)</span>
+<span class="nc" id="L157">      .add(&quot;steps='&quot; + steps + &quot;'&quot;)</span>
+<span class="nc" id="L158">      .add(&quot;finished='&quot; + finished + &quot;'&quot;)</span>
+<span class="nc" id="L159">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

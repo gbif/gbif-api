@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Identifier.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.common</a> &gt; <span class="el_source">Identifier.java</span></div><h1>Identifier.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,6 +22,8 @@ import java.util.StringJoiner;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Identifier Model Object represents an alternative identifier for an occurrence or name usage.
  *
@@ -36,7 +36,7 @@ import javax.validation.constraints.NotNull;
   private IdentifierType type;
 
   /**
-   * Other known identifier used for the same taxon. Can be a URL pointing to a webpage, an xml or rdf document, a DOI,
+   * Other known identifier used for the same taxon. Can be a URL pointing to a webpage, an XML or RDF document, a DOI,
    * UUID or any other identifer.
    * &lt;blockquote&gt;
    * &lt;p&gt;
@@ -46,34 +46,37 @@ import javax.validation.constraints.NotNull;
    *
    * @return the identifier.
    */
+  @Schema(description = &quot;Other known identifier used for the same taxon. Can be a URL pointing to a webpage, an XML or &quot; +
+    &quot;RDF document, a DOI UUID or any other identifer.&quot;)
   @NotNull
   public String getIdentifier() {
-<span class="fc" id="L51">    return identifier;</span>
+<span class="fc" id="L53">    return identifier;</span>
   }
 
   /**
    * @param identifier the identifier to set
    */
   public void setIdentifier(String identifier) {
-<span class="fc" id="L58">    this.identifier = identifier;</span>
-<span class="fc" id="L59">  }</span>
+<span class="fc" id="L60">    this.identifier = identifier;</span>
+<span class="fc" id="L61">  }</span>
 
   /**
    * The optional title of an identifier, mostly for linking.
    *
    * @return the title
    */
+  @Schema(description = &quot;The optional title of an identifier, mostly for linking.&quot;)
   @Nullable
   public String getTitle() {
-<span class="nc" id="L68">    return title;</span>
+<span class="nc" id="L71">    return title;</span>
   }
 
   /**
    * @param title the identifier title to set
    */
   public void setTitle(String title) {
-<span class="fc" id="L75">    this.title = title;</span>
-<span class="fc" id="L76">  }</span>
+<span class="fc" id="L78">    this.title = title;</span>
+<span class="fc" id="L79">  }</span>
 
   /**
    * Type of identifier.
@@ -82,57 +85,59 @@ import javax.validation.constraints.NotNull;
    *
    * @see IdentifierType
    */
+  @Schema(description = &quot;Type of identifier.&quot;)
   @NotNull
   public IdentifierType getType() {
-<span class="fc" id="L87">    return type;</span>
+<span class="fc" id="L91">    return type;</span>
   }
 
   /**
    * @param type the type to set
    */
   public void setType(IdentifierType type) {
-<span class="fc" id="L94">    this.type = type;</span>
-<span class="fc" id="L95">  }</span>
+<span class="fc" id="L98">    this.type = type;</span>
+<span class="fc" id="L99">  }</span>
 
   /**
-   * Creates a http link for an identifier if possible by passing it to some known resolvers for the specific id type.
+   * Creates an HTTP link for an identifier if possible by passing it to some known resolvers for the specific id type.
    * If no link can be constructed, null is returned.
    *
    * @return the url or null if it cannot be created
    *
    * @see org.gbif.api.util.IdentifierUtils#getIdentifierLink(String, org.gbif.api.vocabulary.IdentifierType)
    */
+  @Schema(description = &quot;An HTTP link for an identifier, if a suitable, known resolver exists for the identifier type.&quot;)
   @Nullable
   public String getIdentifierLink() {
-<span class="fc" id="L107">    return IdentifierUtils.getIdentifierLink(identifier, type);</span>
+<span class="fc" id="L112">    return IdentifierUtils.getIdentifierLink(identifier, type);</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L112" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L113">      return true;</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L118">      return true;</span>
     }
-<span class="pc bpc" id="L115" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L116">      return false;</span>
+<span class="pc bpc" id="L120" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L121">      return false;</span>
     }
-<span class="fc" id="L118">    Identifier that = (Identifier) o;</span>
-<span class="pc bpc" id="L119" title="1 of 2 branches missed.">    return Objects.equals(identifier, that.identifier) &amp;&amp;</span>
-<span class="pc bpc" id="L120" title="1 of 4 branches missed.">      Objects.equals(title, that.title) &amp;&amp;</span>
+<span class="fc" id="L123">    Identifier that = (Identifier) o;</span>
+<span class="pc bpc" id="L124" title="1 of 2 branches missed.">    return Objects.equals(identifier, that.identifier) &amp;&amp;</span>
+<span class="pc bpc" id="L125" title="1 of 4 branches missed.">      Objects.equals(title, that.title) &amp;&amp;</span>
       type == that.type;
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L126">    return Objects.hash(identifier, title, type);</span>
+<span class="nc" id="L131">    return Objects.hash(identifier, title, type);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L131">    return new StringJoiner(&quot;, &quot;, Identifier.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L132">      .add(&quot;identifier='&quot; + identifier + &quot;'&quot;)</span>
-<span class="nc" id="L133">      .add(&quot;title='&quot; + title + &quot;'&quot;)</span>
-<span class="nc" id="L134">      .add(&quot;type=&quot; + type)</span>
-<span class="nc" id="L135">      .toString();</span>
+<span class="nc" id="L136">    return new StringJoiner(&quot;, &quot;, Identifier.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L137">      .add(&quot;identifier='&quot; + identifier + &quot;'&quot;)</span>
+<span class="nc" id="L138">      .add(&quot;title='&quot; + title + &quot;'&quot;)</span>
+<span class="nc" id="L139">      .add(&quot;type=&quot; + type)</span>
+<span class="nc" id="L140">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

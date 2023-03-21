@@ -36,64 +36,63 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @SuppressWarnings(&quot;unused&quot;)
 <span class="nc" id="L37">public class LiteratureSearchResult {</span>
 
-  @Schema(name = &quot;abstract&quot;, description = &quot;The abstract from the publication.&quot;)
   private String abstract_;
 
   @Schema(description = &quot;The date the literature item was found by GBIF's staff or automated processes.&quot;)
   private String discovered;
 
-<span class="nc" id="L45">  @Schema(description = &quot;The authors of the publication.&quot;)</span>
+<span class="nc" id="L44">  @Schema(description = &quot;The authors of the publication.&quot;)</span>
   private List&lt;Map&lt;String, Object&gt;&gt; authors = new ArrayList&lt;&gt;();
 
-<span class="nc" id="L48">  @Schema(description = &quot;Countries or areas of focus of the study.&quot;)</span>
+<span class="nc" id="L47">  @Schema(description = &quot;Countries or areas of focus of the study.&quot;)</span>
   private Set&lt;Country&gt; countriesOfCoverage = new HashSet&lt;&gt;();
 
-<span class="nc" id="L51">  @Schema(description = &quot;Countries or areas of institution with which authors are affiliated.&quot;)</span>
+<span class="nc" id="L50">  @Schema(description = &quot;Countries or areas of institution with which authors are affiliated.&quot;)</span>
   private Set&lt;Country&gt; countriesOfResearcher = new HashSet&lt;&gt;();
 
   @Schema(description = &quot;The date the publication was added to the GBIF literature database.&quot;)
   private Date added;
 
-  @Schema(description = &quot;The publication date of the publication.&quot;)
+  @Schema(description = &quot;The publication date of the publication.  See also `year`, `month` and `day`.&quot;)
   private Date published;
 
-  @Schema(description = &quot;The day of publication&quot;, minimum = &quot;1&quot;, maximum = &quot;31&quot;)
+  @Schema(description = &quot;The day of publication. See also `published`.&quot;, minimum = &quot;1&quot;, maximum = &quot;31&quot;)
   private Integer day;
 
-<span class="nc" id="L63">  @Schema(description = &quot;Keys of GBIF downloads referenced by the publication.&quot;)</span>
+<span class="nc" id="L62">  @Schema(description = &quot;Keys of GBIF downloads referenced by the publication.&quot;)</span>
   private List&lt;String&gt; gbifDownloadKey = new ArrayList&lt;&gt;();
 
-<span class="nc" id="L66">  @Schema(description = &quot;Keys of GBIF occurrences directly mentioned by the paper.&quot;)</span>
+<span class="nc" id="L65">  @Schema(description = &quot;Keys of GBIF occurrences directly mentioned by the paper.&quot;)</span>
   private List&lt;Long&gt; gbifOccurrenceKey = new ArrayList&lt;&gt;();
 
-<span class="nc" id="L69">  @Schema(description = &quot;Keys of taxa from the GBIF Backbone Taxonomy that are the focus of the paper.&quot;)</span>
+<span class="nc" id="L68">  @Schema(description = &quot;Keys of taxa from the GBIF Backbone Taxonomy that are the focus of the paper.&quot;)</span>
   private List&lt;Integer&gt; gbifTaxonKey = new ArrayList&lt;&gt;();
 
-<span class="nc" id="L72">  @Schema(description = &quot;Keys of higher taxa from the GBIF Backbone Taxonomy that are the focus of the paper.&quot;)</span>
+<span class="nc" id="L71">  @Schema(description = &quot;Keys of higher taxa from the GBIF Backbone Taxonomy that are the focus of the paper.&quot;)</span>
   private List&lt;Integer&gt; gbifHigherTaxonKey = new ArrayList&lt;&gt;();
 
-<span class="nc" id="L75">  @Schema(description = &quot;A list of GBIF network keys relevant to the publication.&quot;)</span>
+<span class="nc" id="L74">  @Schema(description = &quot;A list of GBIF network keys relevant to the publication.&quot;)</span>
   private List&lt;UUID&gt; gbifNetworkKey = new ArrayList&lt;&gt;();
 
-<span class="nc" id="L78">  @Schema(description = &quot;A list of GBIF project identifiers relevant to the publication.&quot;)</span>
+<span class="nc" id="L77">  @Schema(description = &quot;A list of GBIF project identifiers relevant to the publication.&quot;)</span>
   private List&lt;String&gt; gbifProjectIdentifier = new ArrayList&lt;&gt;();
 
-<span class="nc" id="L81">  @Schema(description = &quot;A list of GBIF programmes relevant to the publication.&quot;)</span>
+<span class="nc" id="L80">  @Schema(description = &quot;A list of GBIF programmes relevant to the publication.&quot;)</span>
   private List&lt;String&gt; gbifProgramme = new ArrayList&lt;&gt;();
 
   @Schema(description = &quot;The manner in which GBIF is cited in a paper.&quot;)
   private String citationType;
 
-<span class="nc" id="L87">  @Schema(description = &quot;GBIF regions (political divisions) related to the publication.&quot;)</span>
+<span class="nc" id="L86">  @Schema(description = &quot;GBIF regions (political divisions) related to the publication.&quot;)</span>
   private Set&lt;GbifRegion&gt; gbifRegion = new HashSet&lt;&gt;();
 
   @Schema(description = &quot;GBIF identifier for this literature item.&quot;)
   private UUID id;
 
-<span class="nc" id="L93">  @Schema(description = &quot;Identifiers (such as DOIs) for the literature item.&quot;)</span>
+<span class="nc" id="L92">  @Schema(description = &quot;Identifiers (such as DOIs) for the literature item.&quot;)</span>
   private Map&lt;String, Object&gt; identifiers = new HashMap&lt;&gt;();
 
-<span class="nc" id="L96">  @Schema(description = &quot;Keywords assigned to the literature item.&quot;)</span>
+<span class="nc" id="L95">  @Schema(description = &quot;Keywords assigned to the literature item.&quot;)</span>
   private List&lt;String&gt; keywords = new ArrayList&lt;&gt;();
 
   @Schema(description = &quot;The language of the publication.&quot;)
@@ -102,7 +101,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   @Schema(description = &quot;Type of literature, e.g. journal article.&quot;)
   private LiteratureType literatureType;
 
-  @Schema(description = &quot;The day of publication&quot;, minimum = &quot;1&quot;, maximum = &quot;12&quot;)
+  @Schema(description = &quot;The month of publication. See also `published`.&quot;, minimum = &quot;1&quot;, maximum = &quot;12&quot;)
   private Integer month;
 
   @Schema(description = &quot;Unstructured notes.&quot;)
@@ -117,30 +116,31 @@ import io.swagger.v3.oas.annotations.media.Schema;
   @Schema(description = &quot;The publisher of the paper.&quot;)
   private String publisher;
 
-<span class="nc" id="L120">  @Schema(description = &quot;Relevance to GBIF community, see [literature relevance](https://www.gbif.org/faq?question=literature-relevance).&quot;)</span>
+<span class="nc" id="L119">  @Schema(description = &quot;Relevance to GBIF community, see [literature relevance](https://www.gbif.org/faq?question=literature-relevance).&quot;)</span>
   private Set&lt;LiteratureRelevance&gt; relevance = new HashSet&lt;&gt;();
 
   @Schema(description = &quot;Journal of publication.&quot;)
   private String source;
 
-<span class="nc" id="L126">  @Schema(description = &quot;Various tags applied to the literature.&quot;)</span>
+<span class="nc" id="L125">  @Schema(description = &quot;Various tags applied to the literature.&quot;)</span>
   private List&lt;String&gt; tags = new ArrayList&lt;&gt;();
 
   @Schema(description = &quot;The title of the publication.&quot;)
   private String title;
 
-<span class="nc" id="L132">  @Schema(description = &quot;Topics of the publication.&quot;)</span>
+<span class="nc" id="L131">  @Schema(description = &quot;Topics of the publication.&quot;)</span>
   private Set&lt;LiteratureTopic&gt; topics = new HashSet&lt;&gt;();
 
   @Schema(description = &quot;The date this literature entry was last modified.&quot;)
   private Date modified;
 
-<span class="nc" id="L138">  @Schema(description = &quot;Websites associated with the publication.&quot;)</span>
+<span class="nc" id="L137">  @Schema(description = &quot;Websites associated with the publication.&quot;)</span>
   private List&lt;String&gt; websites = new ArrayList&lt;&gt;();
 
-  @Schema(description = &quot;The year of publication&quot;)
+  @Schema(description = &quot;The year of publication.  See also `published`.&quot;)
   private Integer year;
 
+  @Schema(name = &quot;abstract&quot;, description = &quot;The abstract from the publication.&quot;)
   @JsonProperty(&quot;abstract&quot;)
   public String getAbstract() {
 <span class="nc" id="L146">    return abstract_;</span>

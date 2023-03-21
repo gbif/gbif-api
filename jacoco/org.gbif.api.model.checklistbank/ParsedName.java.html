@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ParsedName.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.checklistbank</a> &gt; <span class="el_source">ParsedName.java</span></div><h1>ParsedName.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -31,25 +29,28 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
- * A container of a taxon name that is atomised into it's relevant separate parts.
+ * A container of a taxon name that is atomised into its relevant, separate parts.
+ * &lt;br&gt;
  * Hybrid formulas that consist of multiple genera, binomials or species
- * epitheta are relatively poor represented. A simple boolean flag indicates a
- * hybrid formula, e.g. Polygala vulgaris X Polygala epinema but not named
- * hybrids that are have an x or notho as part of a well formed
- * mono/bi/trinomial e.g. xPolygala vulgaris. In the case of hybrid formulas,
+ * epithets are relatively poorly represented. A simple boolean flag indicates a
+ * hybrid formula, e.g. Polygala vulgaris × Polygala epinema but not named
+ * hybrids that are have an × or notho as part of a well-formed
+ * mono/bi/trinomial e.g. ×Polygala vulgaris. In the case of hybrid formulas,
  * i.e. isHybrid=true, the first name in the formula is tried to be kept, at
  * least the genus.
  * &lt;p/&gt;
  * A container of a taxon name that is only atomised into three name parts maximum plus rank and a notho property
  * indicating the name part of named hybrids that is considered to be the hybrid. No authorship is kept. For subgenera
- * we don't use parenthesis to indicate the subgenus, but use explicit rank markers instead.
+ * we don't use parentheses to indicate the subgenus, but use explicit rank markers instead.
  */
 @SuppressWarnings(&quot;unused&quot;)
 public class ParsedName {
 
-<span class="fc" id="L51">  public static final Character HYBRID_MARKER = '×';</span>
-<span class="fc" id="L52">  private static final String HYBRID_MARKER_STR = HYBRID_MARKER.toString();</span>
+<span class="fc" id="L52">  public static final Character HYBRID_MARKER = '×';</span>
+<span class="fc" id="L53">  private static final String HYBRID_MARKER_STR = HYBRID_MARKER.toString();</span>
 
   private Integer key;
   private String scientificName;
@@ -71,8 +72,8 @@ public class ParsedName {
   private String bracketAuthorship;
   private String bracketYear;
   private String sensu;
-<span class="pc" id="L74">  private boolean parsed = true;</span>
-<span class="pc" id="L75">  private boolean parsedPartially = false;</span>
+<span class="pc" id="L75">  private boolean parsed = true;</span>
+<span class="pc" id="L76">  private boolean parsedPartially = false;</span>
 
   /**
    * nomenclatural status note.
@@ -80,8 +81,8 @@ public class ParsedName {
   private String nomStatus;
   private String remarks;
 
-<span class="fc" id="L83">  public ParsedName() {</span>
-<span class="fc" id="L84">  }</span>
+<span class="fc" id="L84">  public ParsedName() {</span>
+<span class="fc" id="L85">  }</span>
 
   public ParsedName(
     NameType type,
@@ -100,208 +101,232 @@ public class ParsedName {
     String sensu,
     String nomStatus,
     String remarks
-<span class="nc" id="L103">  ) {</span>
-<span class="nc" id="L104">    this.type = type;</span>
-<span class="nc" id="L105">    this.genusOrAbove = genusOrAbove;</span>
-<span class="nc" id="L106">    this.infraGeneric = infraGeneric;</span>
-<span class="nc" id="L107">    this.specificEpithet = specificEpithet;</span>
-<span class="nc" id="L108">    this.infraSpecificEpithet = infraSpecificEpithet;</span>
-<span class="nc" id="L109">    this.notho = notho;</span>
-<span class="nc" id="L110">    this.rank = rank;</span>
-<span class="nc" id="L111">    this.authorship = authorship;</span>
-<span class="nc" id="L112">    this.year = year;</span>
-<span class="nc" id="L113">    this.bracketAuthorship = bracketAuthorship;</span>
-<span class="nc" id="L114">    this.bracketYear = bracketYear;</span>
-<span class="nc" id="L115">    this.cultivarEpithet = cultivarEpithet;</span>
-<span class="nc" id="L116">    this.strain = strain;</span>
-<span class="nc" id="L117">    this.sensu = sensu;</span>
-<span class="nc" id="L118">    this.nomStatus = nomStatus;</span>
-<span class="nc" id="L119">    this.remarks = remarks;</span>
-<span class="nc" id="L120">  }</span>
+<span class="nc" id="L104">  ) {</span>
+<span class="nc" id="L105">    this.type = type;</span>
+<span class="nc" id="L106">    this.genusOrAbove = genusOrAbove;</span>
+<span class="nc" id="L107">    this.infraGeneric = infraGeneric;</span>
+<span class="nc" id="L108">    this.specificEpithet = specificEpithet;</span>
+<span class="nc" id="L109">    this.infraSpecificEpithet = infraSpecificEpithet;</span>
+<span class="nc" id="L110">    this.notho = notho;</span>
+<span class="nc" id="L111">    this.rank = rank;</span>
+<span class="nc" id="L112">    this.authorship = authorship;</span>
+<span class="nc" id="L113">    this.year = year;</span>
+<span class="nc" id="L114">    this.bracketAuthorship = bracketAuthorship;</span>
+<span class="nc" id="L115">    this.bracketYear = bracketYear;</span>
+<span class="nc" id="L116">    this.cultivarEpithet = cultivarEpithet;</span>
+<span class="nc" id="L117">    this.strain = strain;</span>
+<span class="nc" id="L118">    this.sensu = sensu;</span>
+<span class="nc" id="L119">    this.nomStatus = nomStatus;</span>
+<span class="nc" id="L120">    this.remarks = remarks;</span>
+<span class="nc" id="L121">  }</span>
 
   /**
-   * The original author of this name, e.g basionym or recombination author
+   * The original author of this name, e.g. basionym or recombination author
    */
+  @Schema(description = &quot;The original author of this name, e.g. basionym or recombination author.&quot;)
   public String getAuthorship() {
-<span class="fc" id="L126">    return authorship;</span>
+<span class="fc" id="L128">    return authorship;</span>
   }
 
   public void setAuthorship(String authorship) {
-<span class="fc" id="L130">    this.authorship = authorship;</span>
-<span class="fc" id="L131">  }</span>
+<span class="fc" id="L132">    this.authorship = authorship;</span>
+<span class="fc" id="L133">  }</span>
 
   /**
    * The authorship of the original name, i.e. basionym, given in brackets.
    */
+  @Schema(description = &quot;The authorship of the original name, i.e. basionym, given in brackets.&quot;)
   public String getBracketAuthorship() {
-<span class="fc" id="L137">    return bracketAuthorship;</span>
+<span class="fc" id="L140">    return bracketAuthorship;</span>
   }
 
   public void setBracketAuthorship(String bracketAuthorship) {
-<span class="fc" id="L141">    this.bracketAuthorship = bracketAuthorship;</span>
-<span class="fc" id="L142">  }</span>
+<span class="fc" id="L144">    this.bracketAuthorship = bracketAuthorship;</span>
+<span class="fc" id="L145">  }</span>
 
   /**
    * The code relevant year of publication of the original name, i.e. basionym, given in brackets.
    */
+  @Schema(description = &quot;The code relevant year of publication of the original name, i.e. basionym, given in brackets.&quot;)
   public String getBracketYear() {
-<span class="fc" id="L148">    return bracketYear;</span>
+<span class="fc" id="L152">    return bracketYear;</span>
   }
 
   public void setBracketYear(String bracketYear) {
-<span class="fc" id="L152">    this.bracketYear = bracketYear;</span>
-<span class="fc" id="L153">  }</span>
+<span class="fc" id="L156">    this.bracketYear = bracketYear;</span>
+<span class="fc" id="L157">  }</span>
 
   /**
    * The cultivar, cultivar group or grex part of a cultivated plant name.
    * If given the name should be of type NameType.CULTIVAR
    */
+  @Schema(description = &quot;The cultivar, cultivar group or grex part of a cultivated plant name.\n\n&quot; +
+    &quot;If given the name should be of type CULTIVAR&quot;)
   public String getCultivarEpithet() {
-<span class="fc" id="L160">    return cultivarEpithet;</span>
+<span class="fc" id="L166">    return cultivarEpithet;</span>
   }
 
   public void setCultivarEpithet(String cultivarEpithet) {
-<span class="nc" id="L164">    this.cultivarEpithet = cultivarEpithet;</span>
-<span class="nc" id="L165">  }</span>
+<span class="nc" id="L170">    this.cultivarEpithet = cultivarEpithet;</span>
+<span class="nc" id="L171">  }</span>
 
   /**
    * The strain or isolate name. Usually a capital collection code string followed by an accession number.
    * See &lt;a href=&quot;http://www.bacterio.net/-collections.html&quot;&gt;List of culture collection codes&lt;/a&gt;
    * If given the name should be of type NameType.STRAIN
    */
+  @Schema(description = &quot;The strain or isolate name. Usually a capital collection code string followed by an accession number.\n\n&quot; +
+    &quot;See [List of culture collection codes](http://www.bacterio.net/-collections.html).  If given the name should be of type STRAIN.&quot;)
   public String getStrain() {
-<span class="fc" id="L173">    return strain;</span>
+<span class="fc" id="L181">    return strain;</span>
   }
 
   public void setStrain(String strain) {
-<span class="fc" id="L177">    this.strain = strain;</span>
-<span class="fc" id="L178">  }</span>
+<span class="fc" id="L185">    this.strain = strain;</span>
+<span class="fc" id="L186">  }</span>
 
   /**
    * The genus part of a bi/trinomial or the monomial in case of names of higher ranks
    */
+  @Schema(description = &quot;The genus part of a bi/trinomial or the monomial in case of names of higher ranks.&quot;)
   public String getGenusOrAbove() {
-<span class="fc" id="L184">    return genusOrAbove;</span>
+<span class="fc" id="L193">    return genusOrAbove;</span>
   }
 
   /**
-   * The infrageneric part of a name, often given in parenthesis between genus and species epithet, e.g. for a subgenus
+   * The infrageneric part of a name, often given in parentheses between genus and species epithet, e.g. for a subgenus
    */
+  @Schema(description = &quot;The infrageneric part of a name, often given in parentheses between genus and species epithet, &quot; +
+    &quot;e.g. for a subgenus&quot;)
   public String getInfraGeneric() {
-<span class="fc" id="L191">    return infraGeneric;</span>
+<span class="fc" id="L202">    return infraGeneric;</span>
   }
 
+  @Schema(description = &quot;The infraspecific part of a name.&quot;)
   public String getInfraSpecificEpithet() {
-<span class="fc" id="L195">    return infraSpecificEpithet;</span>
+<span class="fc" id="L207">    return infraSpecificEpithet;</span>
   }
 
   /**
    * Any nomenclatoral remarks given in this name, e.g. nom. illeg.
    */
+  @Schema(description = &quot;Any nomenclatoral remarks given in this name, e.g. nom. illeg.&quot;)
   public String getNomStatus() {
-<span class="fc" id="L202">    return nomStatus;</span>
+<span class="fc" id="L215">    return nomStatus;</span>
   }
 
   public void setNomStatus(String nomStatus) {
-<span class="fc" id="L206">    this.nomStatus = nomStatus;</span>
-<span class="fc" id="L207">  }</span>
+<span class="fc" id="L219">    this.nomStatus = nomStatus;</span>
+<span class="fc" id="L220">  }</span>
 
   /**
    * For hybrid names notho indicates which part of the name is considered a hybrid,
    * i.e. genus, species or infraspecific epithet.
    */
+  @Schema(description = &quot;For hybrid names notho indicates which part of the name is considered a hybrid, &quot; +
+    &quot;i.e. genus, species or infraspecific epithet.&quot;)
   public NamePart getNotho() {
-<span class="fc" id="L214">    return notho;</span>
+<span class="fc" id="L229">    return notho;</span>
   }
 
   public void setNotho(NamePart notho) {
-<span class="fc" id="L218">    this.notho = notho;</span>
-<span class="fc" id="L219">  }</span>
+<span class="fc" id="L233">    this.notho = notho;</span>
+<span class="fc" id="L234">  }</span>
 
   /**
    * Any further remarks found
    */
+  @Schema(description = &quot;Any further remarks found.&quot;)
   public String getRemarks() {
-<span class="fc" id="L225">    return remarks;</span>
+<span class="fc" id="L241">    return remarks;</span>
   }
 
   public void setRemarks(String remarks) {
-<span class="fc" id="L229">    this.remarks = remarks;</span>
-<span class="fc" id="L230">  }</span>
+<span class="fc" id="L245">    this.remarks = remarks;</span>
+<span class="fc" id="L246">  }</span>
 
   /**
    * Taxon concept references as part of the name,
    * e.g. &quot;MSW2005&quot; for Gorilla gorilla (Savage, 1847) sec. MSW2005
    */
+  @Schema(description = &quot;Taxon concept references as part of the name, e.g. “MSW2006” for *Gorilla gorilla* &quot; +
+    &quot;(Savage, 1847) sec. MSW2005&quot;)
   public String getSensu() {
-<span class="fc" id="L237">    return sensu;</span>
+<span class="fc" id="L255">    return sensu;</span>
   }
 
   public void setSensu(String sensu) {
-<span class="fc" id="L241">    this.sensu = sensu;</span>
-<span class="fc" id="L242">  }</span>
+<span class="fc" id="L259">    this.sensu = sensu;</span>
+<span class="fc" id="L260">  }</span>
 
+  @Schema(description = &quot;The specific epithet of the name&quot;)
   public String getSpecificEpithet() {
-<span class="fc" id="L245">    return specificEpithet;</span>
+<span class="fc" id="L264">    return specificEpithet;</span>
   }
 
   /**
    * @return the terminal epithet, infraspecific epithet if existing, the species epithet or null
    */
+  @Schema(description = &quot;The terminal epithet, infraspecific epithet if existing, the species epithet or null&quot;)
   @JsonIgnore
   public String getTerminalEpithet() {
-<span class="fc bfc" id="L253" title="All 2 branches covered.">    return infraSpecificEpithet == null ? specificEpithet : infraSpecificEpithet;</span>
+<span class="fc bfc" id="L273" title="All 2 branches covered.">    return infraSpecificEpithet == null ? specificEpithet : infraSpecificEpithet;</span>
   }
 
   /**
    * A coarse classification of names helping to deal with different syntactical name string structures.
    */
+  @Schema(description = &quot;A coarse classification of names helping to deal with different syntactical name string structures.&quot;)
   public NameType getType() {
-<span class="fc" id="L260">    return type;</span>
+<span class="fc" id="L281">    return type;</span>
   }
 
   public void setType(NameType type) {
-<span class="fc" id="L264">    this.type = type;</span>
-<span class="fc" id="L265">  }</span>
+<span class="fc" id="L285">    this.type = type;</span>
+<span class="fc" id="L286">  }</span>
 
   /**
    * The year of publication as given in the authorship.
    */
+  @Schema(description = &quot;The year of publication as given in the authorship.&quot;)
   public String getYear() {
-<span class="fc" id="L271">    return year;</span>
+<span class="fc" id="L293">    return year;</span>
   }
 
   public void setYear(String year) {
-<span class="fc" id="L275">    this.year = year;</span>
-<span class="fc" id="L276">  }</span>
+<span class="fc" id="L297">    this.year = year;</span>
+<span class="fc" id="L298">  }</span>
 
   @JsonIgnore
   public boolean hasAuthorship() {
-<span class="nc bnc" id="L280" title="All 8 branches missed.">    return authorship != null || year != null || bracketAuthorship != null || bracketYear != null;</span>
+<span class="nc bnc" id="L302" title="All 8 branches missed.">    return authorship != null || year != null || bracketAuthorship != null || bracketYear != null;</span>
   }
 
+  @Schema(description = &quot;The taxonomic rank of the name.&quot;)
   public void setRank(Rank rank) {
-<span class="fc" id="L284">    this.rank = rank;</span>
-<span class="fc" id="L285">  }</span>
+<span class="fc" id="L307">    this.rank = rank;</span>
+<span class="fc" id="L308">  }</span>
 
+  @Schema(description = &quot;The key for this parsed name object.&quot;)
   public Integer getKey() {
-<span class="fc" id="L288">    return key;</span>
+<span class="fc" id="L312">    return key;</span>
   }
 
   public void setKey(Integer key) {
-<span class="fc" id="L292">    this.key = key;</span>
-<span class="fc" id="L293">  }</span>
+<span class="fc" id="L316">    this.key = key;</span>
+<span class="fc" id="L317">  }</span>
 
   /**
    * The exact verbatim, full scientific name as given before parsing.
    */
+  @Schema(description = &quot;The exact verbatim, full scientific name as given before parsing.&quot;)
   public String getScientificName() {
-<span class="fc" id="L299">    return scientificName;</span>
+<span class="fc" id="L324">    return scientificName;</span>
   }
 
   public void setScientificName(String scientificName) {
-<span class="fc" id="L303">    this.scientificName = scientificName;</span>
-<span class="fc" id="L304">  }</span>
+<span class="fc" id="L328">    this.scientificName = scientificName;</span>
+<span class="fc" id="L329">  }</span>
 
   /**
    * The GBIF name parser cannot always parse the entire name.
@@ -313,33 +338,40 @@ public class ParsedName {
    *
    * @return true if name was only partially parsed, false otherwise
    */
+  @Schema(description = &quot;The GBIF name parser cannot always parse the entire name.\n\n&quot; +
+    &quot;This is often the case when taxonomic, nomenclatural or identification notes are added to the end of the name. &quot; +
+    &quot;In such cases when the name was only partially parsed (NameUsageIssue.PARTIALLY_PARSABLE) &quot; +
+    &quot;this flag should be true.\n\n&quot; +
+    &quot;If the name was not parsed at all this will be false.&quot;)
   public boolean isParsedPartially() {
-<span class="fc" id="L317">    return parsedPartially;</span>
+<span class="fc" id="L347">    return parsedPartially;</span>
   }
 
   public void setParsedPartially(boolean parsedPartially) {
-<span class="fc" id="L321">    this.parsedPartially = parsedPartially;</span>
-<span class="fc" id="L322">  }</span>
+<span class="fc" id="L351">    this.parsedPartially = parsedPartially;</span>
+<span class="fc" id="L352">  }</span>
 
   /**
    * A flag indicating if a name could not be parsed at all.
    * If false, only the scientific name, rank and potentially the name type is given.
    */
+  @Schema(description = &quot;A flag indicating if a name could not be parsed at all.\n\n&quot; +
+    &quot;If false, only the scientific name, rank and potentially the name type is given.&quot;)
   public boolean isParsed() {
-<span class="fc" id="L329">    return parsed;</span>
+<span class="fc" id="L361">    return parsed;</span>
   }
 
   public void setParsed(boolean parsed) {
-<span class="fc" id="L333">    this.parsed = parsed;</span>
-<span class="fc" id="L334">  }</span>
+<span class="fc" id="L365">    this.parsed = parsed;</span>
+<span class="fc" id="L366">  }</span>
 
   /**
    * @return The full concatenated authorship or null if it is a hybrid
    */
   public String authorshipComplete() {
-<span class="nc" id="L340">    StringBuilder sb = new StringBuilder();</span>
-<span class="nc" id="L341">    appendAuthorship(sb);</span>
-<span class="nc" id="L342">    return sb.toString().trim();</span>
+<span class="nc" id="L372">    StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L373">    appendAuthorship(sb);</span>
+<span class="nc" id="L374">    return sb.toString().trim();</span>
   }
 
   /**
@@ -373,187 +405,187 @@ public class ParsedName {
     boolean showCultivar,
     boolean showStrain
   ) {
-<span class="fc" id="L376">    StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L408">    StringBuilder sb = new StringBuilder();</span>
 
-<span class="pc bpc" id="L378" title="1 of 2 branches missed.">    if (NameType.CANDIDATUS == type) {</span>
-<span class="nc" id="L379">      sb.append(&quot;Candidatus &quot;);</span>
+<span class="pc bpc" id="L410" title="1 of 2 branches missed.">    if (NameType.CANDIDATUS == type) {</span>
+<span class="nc" id="L411">      sb.append(&quot;Candidatus &quot;);</span>
     }
 
-<span class="pc bpc" id="L382" title="1 of 8 branches missed.">    if (genusOrAbove != null &amp;&amp; (genusForInfrageneric || infraGeneric == null || specificEpithet != null)) {</span>
-<span class="fc bfc" id="L383" title="All 4 branches covered.">      if (hybridMarker &amp;&amp; NamePart.GENERIC == notho) {</span>
-<span class="fc" id="L384">        sb.append(HYBRID_MARKER);</span>
+<span class="pc bpc" id="L414" title="1 of 8 branches missed.">    if (genusOrAbove != null &amp;&amp; (genusForInfrageneric || infraGeneric == null || specificEpithet != null)) {</span>
+<span class="fc bfc" id="L415" title="All 4 branches covered.">      if (hybridMarker &amp;&amp; NamePart.GENERIC == notho) {</span>
+<span class="fc" id="L416">        sb.append(HYBRID_MARKER);</span>
       }
-<span class="pc bpc" id="L386" title="1 of 2 branches missed.">      if (abbreviateGenus) {</span>
-<span class="nc" id="L387">        sb.append(genusOrAbove.charAt(0)).append('.');</span>
+<span class="pc bpc" id="L418" title="1 of 2 branches missed.">      if (abbreviateGenus) {</span>
+<span class="nc" id="L419">        sb.append(genusOrAbove.charAt(0)).append('.');</span>
       } else {
-<span class="fc" id="L389">        sb.append(genusOrAbove);</span>
+<span class="fc" id="L421">        sb.append(genusOrAbove);</span>
       }
     }
-<span class="fc bfc" id="L392" title="All 2 branches covered.">    if (specificEpithet == null) {</span>
-<span class="fc bfc" id="L393" title="All 2 branches covered.">      if (Rank.SPECIES == rank) {</span>
+<span class="fc bfc" id="L424" title="All 2 branches covered.">    if (specificEpithet == null) {</span>
+<span class="fc bfc" id="L425" title="All 2 branches covered.">      if (Rank.SPECIES == rank) {</span>
         // no species epitheton given, but rank=species. Indetermined species!
-<span class="pc bpc" id="L395" title="1 of 2 branches missed.">        if (showIndet(showIndet)) {</span>
-<span class="nc" id="L396">          sb.append(&quot; spec.&quot;);</span>
+<span class="pc bpc" id="L427" title="1 of 2 branches missed.">        if (showIndet(showIndet)) {</span>
+<span class="nc" id="L428">          sb.append(&quot; spec.&quot;);</span>
         }
-<span class="fc bfc" id="L398" title="All 4 branches covered.">      } else if (rank != null &amp;&amp; rank.isInfraspecific()) {</span>
+<span class="fc bfc" id="L430" title="All 4 branches covered.">      } else if (rank != null &amp;&amp; rank.isInfraspecific()) {</span>
         // no species epitheton given, but rank below species. Indetermined!
-<span class="pc bpc" id="L400" title="1 of 2 branches missed.">        if (showIndet(showIndet)) {</span>
-<span class="nc" id="L401">          sb.append(' ');</span>
-<span class="nc" id="L402">          sb.append(rank.getMarker());</span>
+<span class="pc bpc" id="L432" title="1 of 2 branches missed.">        if (showIndet(showIndet)) {</span>
+<span class="nc" id="L433">          sb.append(' ');</span>
+<span class="nc" id="L434">          sb.append(rank.getMarker());</span>
         }
-<span class="fc bfc" id="L404" title="All 2 branches covered.">      } else if (infraGeneric != null) {</span>
+<span class="fc bfc" id="L436" title="All 2 branches covered.">      } else if (infraGeneric != null) {</span>
         // this is the terminal name part - always show it!
-<span class="fc bfc" id="L406" title="All 4 branches covered.">        if (rankMarker &amp;&amp; rank != null) {</span>
+<span class="fc bfc" id="L438" title="All 4 branches covered.">        if (rankMarker &amp;&amp; rank != null) {</span>
           // If we know the rank we use explicit rank markers
           // this is how botanical infrageneric names are formed, see http://www.iapt-taxon.org/nomen/main.php?page=art21
-<span class="fc" id="L409">          sb.append(' ');</span>
-<span class="fc" id="L410">          appendRankMarker(sb, rank);</span>
-<span class="fc" id="L411">          sb.append(infraGeneric);</span>
+<span class="fc" id="L441">          sb.append(' ');</span>
+<span class="fc" id="L442">          appendRankMarker(sb, rank);</span>
+<span class="fc" id="L443">          sb.append(infraGeneric);</span>
 
         } else {
-<span class="pc bpc" id="L414" title="1 of 4 branches missed.">          if (genusForInfrageneric &amp;&amp; genusOrAbove != null) {</span>
+<span class="pc bpc" id="L446" title="1 of 4 branches missed.">          if (genusForInfrageneric &amp;&amp; genusOrAbove != null) {</span>
             // if we have shown the genus already and we do not know the rank we use parenthesis to indicate an infrageneric
-<span class="fc" id="L416">            sb.append(&quot; (&quot;)</span>
-<span class="fc" id="L417">            .append(infraGeneric)</span>
-<span class="fc" id="L418">            .append(&quot;)&quot;);</span>
+<span class="fc" id="L448">            sb.append(&quot; (&quot;)</span>
+<span class="fc" id="L449">            .append(infraGeneric)</span>
+<span class="fc" id="L450">            .append(&quot;)&quot;);</span>
           } else {
             // no genus shown yet, just show the plain infrageneric name
-<span class="fc" id="L421">            sb.append(infraGeneric);</span>
+<span class="fc" id="L453">            sb.append(infraGeneric);</span>
           }
         }
       }
       // genus/infrageneric authorship
-<span class="fc bfc" id="L426" title="All 2 branches covered.">      if (authorship) {</span>
-<span class="fc" id="L427">        appendAuthorship(sb);</span>
+<span class="fc bfc" id="L458" title="All 2 branches covered.">      if (authorship) {</span>
+<span class="fc" id="L459">        appendAuthorship(sb);</span>
       }
     } else {
-<span class="pc bpc" id="L430" title="5 of 8 branches missed.">      if (infrageneric &amp;&amp; infraGeneric != null &amp;&amp; (rank == null || rank == Rank.GENUS)) {</span>
+<span class="pc bpc" id="L462" title="5 of 8 branches missed.">      if (infrageneric &amp;&amp; infraGeneric != null &amp;&amp; (rank == null || rank == Rank.GENUS)) {</span>
         // only show subgenus if requested
-<span class="nc" id="L432">        sb.append(&quot; (&quot;);</span>
-<span class="nc" id="L433">        sb.append(infraGeneric);</span>
-<span class="nc" id="L434">        sb.append(')');</span>
+<span class="nc" id="L464">        sb.append(&quot; (&quot;);</span>
+<span class="nc" id="L465">        sb.append(infraGeneric);</span>
+<span class="nc" id="L466">        sb.append(')');</span>
       }
 
       // species part
-<span class="fc" id="L438">      sb.append(' ');</span>
-<span class="pc bpc" id="L439" title="1 of 4 branches missed.">      if (hybridMarker &amp;&amp; NamePart.SPECIFIC == notho) {</span>
-<span class="nc" id="L440">        sb.append(HYBRID_MARKER);</span>
+<span class="fc" id="L470">      sb.append(' ');</span>
+<span class="pc bpc" id="L471" title="1 of 4 branches missed.">      if (hybridMarker &amp;&amp; NamePart.SPECIFIC == notho) {</span>
+<span class="nc" id="L472">        sb.append(HYBRID_MARKER);</span>
       }
-<span class="fc" id="L442">      String epi = specificEpithet.replaceAll(&quot;[ _-]&quot;, &quot;-&quot;);</span>
-<span class="fc" id="L443">      sb.append(epi);</span>
+<span class="fc" id="L474">      String epi = specificEpithet.replaceAll(&quot;[ _-]&quot;, &quot;-&quot;);</span>
+<span class="fc" id="L475">      sb.append(epi);</span>
 
-<span class="fc bfc" id="L445" title="All 2 branches covered.">      if (infraSpecificEpithet == null) {</span>
+<span class="fc bfc" id="L477" title="All 2 branches covered.">      if (infraSpecificEpithet == null) {</span>
         // Indetermined? Only show indet cultivar marker if no cultivar epithet exists
-<span class="pc bpc" id="L447" title="8 of 10 branches missed.">        if (showIndet(showIndet) &amp;&amp; rank != null &amp;&amp; rank.isInfraspecific() &amp;&amp; (Rank.CULTIVAR != rank || cultivarEpithet == null)) {</span>
+<span class="pc bpc" id="L479" title="8 of 10 branches missed.">        if (showIndet(showIndet) &amp;&amp; rank != null &amp;&amp; rank.isInfraspecific() &amp;&amp; (Rank.CULTIVAR != rank || cultivarEpithet == null)) {</span>
           // no infraspecific epitheton given, but rank below species. Indetermined!
-<span class="nc" id="L449">          sb.append(' ');</span>
-<span class="nc" id="L450">          sb.append(rank.getMarker());</span>
+<span class="nc" id="L481">          sb.append(' ');</span>
+<span class="nc" id="L482">          sb.append(rank.getMarker());</span>
         }
 
         // species authorship
-<span class="fc bfc" id="L454" title="All 2 branches covered.">        if (authorship) {</span>
-<span class="fc" id="L455">          appendAuthorship(sb);</span>
+<span class="fc bfc" id="L486" title="All 2 branches covered.">        if (authorship) {</span>
+<span class="fc" id="L487">          appendAuthorship(sb);</span>
         }
       } else {
         // infraspecific part
-<span class="fc" id="L459">        sb.append(' ');</span>
-<span class="fc bfc" id="L460" title="All 4 branches covered.">        if (hybridMarker &amp;&amp; NamePart.INFRASPECIFIC == notho) {</span>
-<span class="pc bpc" id="L461" title="1 of 2 branches missed.">          if (rankMarker) {</span>
-<span class="fc" id="L462">            sb.append(&quot;notho&quot;);</span>
+<span class="fc" id="L491">        sb.append(' ');</span>
+<span class="fc bfc" id="L492" title="All 4 branches covered.">        if (hybridMarker &amp;&amp; NamePart.INFRASPECIFIC == notho) {</span>
+<span class="pc bpc" id="L493" title="1 of 2 branches missed.">          if (rankMarker) {</span>
+<span class="fc" id="L494">            sb.append(&quot;notho&quot;);</span>
           } else {
-<span class="nc" id="L464">            sb.append(HYBRID_MARKER);</span>
+<span class="nc" id="L496">            sb.append(HYBRID_MARKER);</span>
           }
         }
-<span class="fc bfc" id="L467" title="All 2 branches covered.">        if (rankMarker) {</span>
-<span class="fc" id="L468">          appendRankMarker(sb, rank);</span>
+<span class="fc bfc" id="L499" title="All 2 branches covered.">        if (rankMarker) {</span>
+<span class="fc" id="L500">          appendRankMarker(sb, rank);</span>
         }
-<span class="fc" id="L470">        epi = infraSpecificEpithet.replaceAll(&quot;[ _-]&quot;, &quot;-&quot;);</span>
-<span class="fc" id="L471">        sb.append(epi);</span>
+<span class="fc" id="L502">        epi = infraSpecificEpithet.replaceAll(&quot;[ _-]&quot;, &quot;-&quot;);</span>
+<span class="fc" id="L503">        sb.append(epi);</span>
         // non autonym authorship ?
-<span class="fc bfc" id="L473" title="All 4 branches covered.">        if (authorship &amp;&amp; !isAutonym()) {</span>
-<span class="fc" id="L474">          appendAuthorship(sb);</span>
+<span class="fc bfc" id="L505" title="All 4 branches covered.">        if (authorship &amp;&amp; !isAutonym()) {</span>
+<span class="fc" id="L506">          appendAuthorship(sb);</span>
         }
       }
     }
 
     // add cultivar name
-<span class="fc bfc" id="L480" title="All 4 branches covered.">    if (showStrain &amp;&amp; strain != null) {</span>
-<span class="fc" id="L481">      sb.append(&quot; &quot;);</span>
-<span class="fc" id="L482">      sb.append(strain);</span>
+<span class="fc bfc" id="L512" title="All 4 branches covered.">    if (showStrain &amp;&amp; strain != null) {</span>
+<span class="fc" id="L513">      sb.append(&quot; &quot;);</span>
+<span class="fc" id="L514">      sb.append(strain);</span>
     }
 
     // add cultivar name
-<span class="pc bpc" id="L486" title="1 of 4 branches missed.">    if (showCultivar &amp;&amp; cultivarEpithet != null) {</span>
-<span class="nc" id="L487">      sb.append(&quot; '&quot;);</span>
-<span class="nc" id="L488">      sb.append(cultivarEpithet);</span>
-<span class="nc" id="L489">      sb.append(&quot;'&quot;);</span>
+<span class="pc bpc" id="L518" title="1 of 4 branches missed.">    if (showCultivar &amp;&amp; cultivarEpithet != null) {</span>
+<span class="nc" id="L519">      sb.append(&quot; '&quot;);</span>
+<span class="nc" id="L520">      sb.append(cultivarEpithet);</span>
+<span class="nc" id="L521">      sb.append(&quot;'&quot;);</span>
     }
 
     // add sensu/sec reference
-<span class="fc bfc" id="L493" title="All 4 branches covered.">    if (showSensu &amp;&amp; sensu != null) {</span>
-<span class="fc" id="L494">      sb.append(&quot; &quot;);</span>
-<span class="fc" id="L495">      sb.append(sensu);</span>
+<span class="fc bfc" id="L525" title="All 4 branches covered.">    if (showSensu &amp;&amp; sensu != null) {</span>
+<span class="fc" id="L526">      sb.append(&quot; &quot;);</span>
+<span class="fc" id="L527">      sb.append(sensu);</span>
     }
 
     // add nom status
-<span class="fc bfc" id="L499" title="All 4 branches covered.">    if (nomNote &amp;&amp; nomStatus != null) {</span>
-<span class="fc" id="L500">      sb.append(&quot;, &quot;);</span>
-<span class="fc" id="L501">      sb.append(nomStatus);</span>
+<span class="fc bfc" id="L531" title="All 4 branches covered.">    if (nomNote &amp;&amp; nomStatus != null) {</span>
+<span class="fc" id="L532">      sb.append(&quot;, &quot;);</span>
+<span class="fc" id="L533">      sb.append(nomStatus);</span>
     }
 
     // add remarks
-<span class="fc bfc" id="L505" title="All 4 branches covered.">    if (remarks &amp;&amp; this.remarks != null) {</span>
-<span class="fc" id="L506">      sb.append(&quot; [&quot;);</span>
-<span class="fc" id="L507">      sb.append(this.remarks);</span>
-<span class="fc" id="L508">      sb.append(&quot;]&quot;);</span>
+<span class="fc bfc" id="L537" title="All 4 branches covered.">    if (remarks &amp;&amp; this.remarks != null) {</span>
+<span class="fc" id="L538">      sb.append(&quot; [&quot;);</span>
+<span class="fc" id="L539">      sb.append(this.remarks);</span>
+<span class="fc" id="L540">      sb.append(&quot;]&quot;);</span>
     }
 
-<span class="fc" id="L511">    String name = sb.toString().trim();</span>
-<span class="fc bfc" id="L512" title="All 2 branches covered.">    if (decomposition) {</span>
-<span class="fc" id="L513">      name = UnicodeUtils.decompose(name);</span>
+<span class="fc" id="L543">    String name = sb.toString().trim();</span>
+<span class="fc bfc" id="L544" title="All 2 branches covered.">    if (decomposition) {</span>
+<span class="fc" id="L545">      name = UnicodeUtils.decompose(name);</span>
     }
-<span class="fc bfc" id="L515" title="All 2 branches covered.">    if (asciiOnly) {</span>
-<span class="fc" id="L516">      name = UnicodeUtils.ascii(name);</span>
+<span class="fc bfc" id="L547" title="All 2 branches covered.">    if (asciiOnly) {</span>
+<span class="fc" id="L548">      name = UnicodeUtils.ascii(name);</span>
     }
 
-<span class="fc" id="L519">    return StringUtils.trimToNull(name);</span>
+<span class="fc" id="L551">    return StringUtils.trimToNull(name);</span>
   }
 
   private boolean showIndet(boolean showIndet) {
-<span class="pc bpc" id="L523" title="2 of 6 branches missed.">    return showIndet &amp;&amp; (type == null || type.isParsable());</span>
+<span class="pc bpc" id="L555" title="2 of 6 branches missed.">    return showIndet &amp;&amp; (type == null || type.isParsable());</span>
   }
 
   private void appendRankMarker(StringBuilder sb, Rank rank) {
-<span class="fc bfc" id="L527" title="All 6 branches covered.">    if (rank != null &amp;&amp; !rank.isUncomparable() &amp;&amp; rank.getMarker() != null) {</span>
-<span class="fc" id="L528">      sb.append(rank.getMarker());</span>
-<span class="fc" id="L529">      sb.append(' ');</span>
+<span class="fc bfc" id="L559" title="All 6 branches covered.">    if (rank != null &amp;&amp; !rank.isUncomparable() &amp;&amp; rank.getMarker() != null) {</span>
+<span class="fc" id="L560">      sb.append(rank.getMarker());</span>
+<span class="fc" id="L561">      sb.append(' ');</span>
     }
-<span class="fc" id="L531">  }</span>
+<span class="fc" id="L563">  }</span>
 
   private void appendAuthorship(StringBuilder sb) {
-<span class="fc bfc" id="L534" title="All 2 branches covered.">    if (bracketAuthorship == null) {</span>
-<span class="pc bpc" id="L535" title="1 of 2 branches missed.">      if (bracketYear != null) {</span>
-<span class="nc" id="L536">        sb.append(&quot; (&quot;);</span>
-<span class="nc" id="L537">        sb.append(bracketYear);</span>
-<span class="nc" id="L538">        sb.append(&quot;)&quot;);</span>
+<span class="fc bfc" id="L566" title="All 2 branches covered.">    if (bracketAuthorship == null) {</span>
+<span class="pc bpc" id="L567" title="1 of 2 branches missed.">      if (bracketYear != null) {</span>
+<span class="nc" id="L568">        sb.append(&quot; (&quot;);</span>
+<span class="nc" id="L569">        sb.append(bracketYear);</span>
+<span class="nc" id="L570">        sb.append(&quot;)&quot;);</span>
       }
     } else {
-<span class="fc" id="L541">      sb.append(&quot; (&quot;);</span>
-<span class="fc" id="L542">      sb.append(bracketAuthorship);</span>
-<span class="fc bfc" id="L543" title="All 2 branches covered.">      if (bracketYear != null) {</span>
-<span class="fc" id="L544">        sb.append(&quot;, &quot;);</span>
-<span class="fc" id="L545">        sb.append(bracketYear);</span>
+<span class="fc" id="L573">      sb.append(&quot; (&quot;);</span>
+<span class="fc" id="L574">      sb.append(bracketAuthorship);</span>
+<span class="fc bfc" id="L575" title="All 2 branches covered.">      if (bracketYear != null) {</span>
+<span class="fc" id="L576">        sb.append(&quot;, &quot;);</span>
+<span class="fc" id="L577">        sb.append(bracketYear);</span>
       }
-<span class="fc" id="L547">      sb.append(&quot;)&quot;);</span>
+<span class="fc" id="L579">      sb.append(&quot;)&quot;);</span>
     }
-<span class="fc bfc" id="L549" title="All 2 branches covered.">    if (authorship != null) {</span>
-<span class="fc" id="L550">      sb.append(&quot; &quot;).append(authorship);</span>
+<span class="fc bfc" id="L581" title="All 2 branches covered.">    if (authorship != null) {</span>
+<span class="fc" id="L582">      sb.append(&quot; &quot;).append(authorship);</span>
     }
-<span class="fc bfc" id="L552" title="All 2 branches covered.">    if (year != null) {</span>
-<span class="fc" id="L553">      sb.append(&quot;, &quot;);</span>
-<span class="fc" id="L554">      sb.append(year);</span>
+<span class="fc bfc" id="L584" title="All 2 branches covered.">    if (year != null) {</span>
+<span class="fc" id="L585">      sb.append(&quot;, &quot;);</span>
+<span class="fc" id="L586">      sb.append(year);</span>
     }
-<span class="fc" id="L556">  }</span>
+<span class="fc" id="L588">  }</span>
 
   /**
    * The canonical name sensu strictu with nothing else but 3 name parts at max (genus, species, infraspecific). No
@@ -567,18 +599,22 @@ public class ParsedName {
    * Abies Bracteata
    * Heucherella tiarelloides
    *
-   * @return the 1,2 or 3 parted name as a single string
+   * @return the 1, 2 or 3 parted name as a single string
    */
+  @Schema(description = &quot;The canonical name *sensu strictu* with nothing else but three name parts at most (genus, &quot; +
+    &quot;species, infraspecific).\n\n&quot; +
+    &quot;No rank or hybrid markers and no authorship, cultivar or strain information.\n\n&quot; +
+    &quot;Infrageneric names are represented without a leading genus.\n\n&quot; +
+    &quot;Unicode characters are replaced by their matching ASCII characters.&quot;)
   @JsonProperty
   public String canonicalName() {
-<span class="fc" id="L574">    return buildName(false, false, false, false, false, false, true, true, true, false, false, false, false, false);</span>
+<span class="fc" id="L611">    return buildName(false, false, false, false, false, false, true, true, true, false, false, false, false, false);</span>
   }
 
   /**
-   * The code compliant, canonical name with 3 name parts at max (genus, species, infraspecific), a rank marker for
+   * The code-compliant, canonical name with three name parts at max (genus, species, infraspecific), a rank marker for
    * infraspecific names and cultivar or strain epithets. The canonical name can be a 1, 2 or 3 parted name, but does
-   * not include any informal notes or
-   * authorships. Notho taxa will have the hybrid marker.
+   * not include any informal notes or authorships. Notho taxa will have the hybrid marker.
    * Unicode characters will be replaced by their matching ASCII characters.
    * &lt;p/&gt;
    * For example:
@@ -589,44 +625,52 @@ public class ParsedName {
    *
    * @return the 1,2 or 3 parted name as a single string
    */
+  @Schema(description = &quot;The code-compliant, canonical name with three name parts at max (genus, species, &quot; +
+    &quot;infraspecific), a rank marker for infraspecific names and cultivar or strain epithets. The canonical name can &quot; +
+    &quot;be a 1, 2 or 3 parted name, but does not include any informal notes or authorships. Notho taxa will have the &quot; +
+    &quot;hybrid marker.\n\n&quot; +
+    &quot;Unicode characters will be replaced by their matching ASCII characters.&quot;)
   @JsonProperty
   public String canonicalNameWithMarker() {
-<span class="fc" id="L594">    return buildName(true, true, false, false, false, false, true, true, true, false, false, false, true, true);</span>
+<span class="fc" id="L635">    return buildName(true, true, false, false, false, false, true, true, true, false, false, false, true, true);</span>
   }
 
   /**
-   * The code compliant, canonical name with rank &amp; hybrid marker, authorship and cultivar or strain name included.
-   * Informal or nomenclatoral notes, concept references, subgenus and non terminal authorships are removed.
+   * The code-compliant, canonical name with rank and hybrid marker, authorship and cultivar or strain name included.
+   * Informal or nomenclatoral notes, concept references, subgenus and non-terminal authorships are removed.
    * @return the 1,2 or 3 parted name as a single string
    */
+  @Schema(description = &quot;The code-compliant, canonical name with rank and hybrid marker, authorship and cultivar &quot; +
+    &quot;or strain name included. Informal or nomenclatoral notes, concept references, subgenus and non-terminal &quot; +
+    &quot;authorships are removed.&quot;)
   @JsonProperty
   public String canonicalNameComplete() {
-<span class="fc" id="L604">    return buildName(true, true, true, false, true, false, true, false, true, false, false, false, true, true);</span>
+<span class="fc" id="L648">    return buildName(true, true, true, false, true, false, true, false, true, false, false, false, true, true);</span>
   }
 
   /**
    * @return the species binomial if this parsed name is a species or below. Or null in case its superspecific
    */
   public String canonicalSpeciesName() {
-<span class="pc bpc" id="L611" title="1 of 4 branches missed.">    if (genusOrAbove != null &amp;&amp; specificEpithet != null) {</span>
-<span class="fc" id="L612">      return genusOrAbove + &quot; &quot; + specificEpithet;</span>
+<span class="pc bpc" id="L655" title="1 of 4 branches missed.">    if (genusOrAbove != null &amp;&amp; specificEpithet != null) {</span>
+<span class="fc" id="L656">      return genusOrAbove + &quot; &quot; + specificEpithet;</span>
     }
-<span class="fc" id="L614">    return null;</span>
+<span class="fc" id="L658">    return null;</span>
   }
 
   /**
    * @return the name with all details that exist.
    */
   public String fullName() {
-<span class="fc" id="L621">    return buildName(true, true, true, true, true, false, false, false, true, true, true, true, true, true);</span>
+<span class="fc" id="L665">    return buildName(true, true, true, true, true, false, false, false, true, true, true, true, true, true);</span>
   }
 
   @JsonIgnore
   public Integer getBracketYearInt() {
     try {
-<span class="nc" id="L627">      return Integer.parseInt(bracketYear);</span>
-<span class="nc" id="L628">    } catch (NumberFormatException e) {</span>
-<span class="nc" id="L629">      return null;</span>
+<span class="nc" id="L671">      return Integer.parseInt(bracketYear);</span>
+<span class="nc" id="L672">    } catch (NumberFormatException e) {</span>
+<span class="nc" id="L673">      return null;</span>
     }
   }
 
@@ -634,31 +678,31 @@ public class ParsedName {
    * @return rank as enumeration or null
    */
   public Rank getRank() {
-<span class="fc" id="L637">    return rank;</span>
+<span class="fc" id="L681">    return rank;</span>
   }
 
   @JsonIgnore
   public Integer getYearInt() {
     try {
-<span class="nc" id="L643">      return Integer.parseInt(year);</span>
-<span class="nc" id="L644">    } catch (NumberFormatException e) {</span>
-<span class="nc" id="L645">      return null;</span>
+<span class="nc" id="L687">      return Integer.parseInt(year);</span>
+<span class="nc" id="L688">    } catch (NumberFormatException e) {</span>
+<span class="nc" id="L689">      return null;</span>
     }
   }
 
   @JsonIgnore
   public boolean isAutonym() {
-<span class="pc bpc" id="L651" title="1 of 4 branches missed.">    return specificEpithet != null &amp;&amp; specificEpithet.equals(infraSpecificEpithet);</span>
+<span class="pc bpc" id="L695" title="1 of 4 branches missed.">    return specificEpithet != null &amp;&amp; specificEpithet.equals(infraSpecificEpithet);</span>
   }
 
   @JsonIgnore
   public boolean isBinomial() {
-<span class="nc bnc" id="L656" title="All 4 branches missed.">    return genusOrAbove != null &amp;&amp; specificEpithet != null;</span>
+<span class="nc bnc" id="L700" title="All 4 branches missed.">    return genusOrAbove != null &amp;&amp; specificEpithet != null;</span>
   }
 
   @JsonIgnore
   public boolean isHybridFormula() {
-<span class="nc bnc" id="L661" title="All 2 branches missed.">    return NameType.HYBRID == type;</span>
+<span class="nc bnc" id="L705" title="All 2 branches missed.">    return NameType.HYBRID == type;</span>
   }
 
   /**
@@ -668,24 +712,24 @@ public class ParsedName {
    */
   @JsonIgnore
   public boolean isIndetermined() {
-<span class="pc bpc" id="L671" title="2 of 8 branches missed.">    return rank != null &amp;&amp; isParsed() &amp;&amp; isParsableType() &amp;&amp; rank.notOtherOrUnknown() &amp;&amp; (</span>
-<span class="fc bfc" id="L672" title="All 4 branches covered.">           (rank.isInfragenericStrictly() &amp;&amp; infraGeneric == null)</span>
-<span class="fc bfc" id="L673" title="All 4 branches covered.">        || (rank.isSpeciesAggregateOrBelow() &amp;&amp; specificEpithet == null)</span>
-<span class="fc bfc" id="L674" title="All 4 branches covered.">        || (rank.isInfraspecific() &amp;&amp; infraSpecificEpithet == null)</span>
+<span class="pc bpc" id="L715" title="2 of 8 branches missed.">    return rank != null &amp;&amp; isParsed() &amp;&amp; isParsableType() &amp;&amp; rank.notOtherOrUnknown() &amp;&amp; (</span>
+<span class="fc bfc" id="L716" title="All 4 branches covered.">           (rank.isInfragenericStrictly() &amp;&amp; infraGeneric == null)</span>
+<span class="fc bfc" id="L717" title="All 4 branches covered.">        || (rank.isSpeciesAggregateOrBelow() &amp;&amp; specificEpithet == null)</span>
+<span class="fc bfc" id="L718" title="All 4 branches covered.">        || (rank.isInfraspecific() &amp;&amp; infraSpecificEpithet == null)</span>
     );
   }
 
   @JsonIgnore
   public boolean isParsableType() {
-<span class="pc bpc" id="L680" title="1 of 4 branches missed.">    return type != null &amp;&amp; type.isParsable();</span>
+<span class="pc bpc" id="L724" title="1 of 4 branches missed.">    return type != null &amp;&amp; type.isParsable();</span>
   }
 
   @JsonIgnore
   public boolean isQualified() {
-<span class="nc bnc" id="L685" title="All 6 branches missed.">    return (authorship != null &amp;&amp; !authorship.isEmpty())</span>
-<span class="nc bnc" id="L686" title="All 4 branches missed.">           || (year != null &amp;&amp; !year.isEmpty())</span>
-<span class="nc bnc" id="L687" title="All 4 branches missed.">           || (bracketAuthorship != null &amp;&amp; !bracketAuthorship.isEmpty())</span>
-<span class="nc bnc" id="L688" title="All 2 branches missed.">           || (bracketYear != null &amp;&amp; !bracketYear.isEmpty());</span>
+<span class="nc bnc" id="L729" title="All 6 branches missed.">    return (authorship != null &amp;&amp; !authorship.isEmpty())</span>
+<span class="nc bnc" id="L730" title="All 4 branches missed.">           || (year != null &amp;&amp; !year.isEmpty())</span>
+<span class="nc bnc" id="L731" title="All 4 branches missed.">           || (bracketAuthorship != null &amp;&amp; !bracketAuthorship.isEmpty())</span>
+<span class="nc bnc" id="L732" title="All 2 branches missed.">           || (bracketYear != null &amp;&amp; !bracketYear.isEmpty());</span>
   }
 
   /**
@@ -693,135 +737,135 @@ public class ParsedName {
    */
   @JsonIgnore
   public boolean isRecombination() {
-<span class="nc bnc" id="L696" title="All 4 branches missed.">    return (!StringUtils.isBlank(bracketAuthorship) || !StringUtils.isBlank(bracketYear));</span>
+<span class="nc bnc" id="L740" title="All 4 branches missed.">    return (!StringUtils.isBlank(bracketAuthorship) || !StringUtils.isBlank(bracketYear));</span>
   }
 
 
   public void setGenusOrAbove(String genusOrAbove) {
-<span class="pc bpc" id="L701" title="1 of 4 branches missed.">    if (genusOrAbove != null &amp;&amp; genusOrAbove.startsWith(HYBRID_MARKER.toString())) {</span>
-<span class="nc" id="L702">      this.genusOrAbove = genusOrAbove.substring(1);</span>
-<span class="nc" id="L703">      notho = NamePart.GENERIC;</span>
+<span class="pc bpc" id="L745" title="1 of 4 branches missed.">    if (genusOrAbove != null &amp;&amp; genusOrAbove.startsWith(HYBRID_MARKER.toString())) {</span>
+<span class="nc" id="L746">      this.genusOrAbove = genusOrAbove.substring(1);</span>
+<span class="nc" id="L747">      notho = NamePart.GENERIC;</span>
     } else {
-<span class="fc" id="L705">      this.genusOrAbove = genusOrAbove;</span>
+<span class="fc" id="L749">      this.genusOrAbove = genusOrAbove;</span>
     }
-<span class="fc" id="L707">  }</span>
+<span class="fc" id="L751">  }</span>
 
   public void setHybridFormula(boolean hybrid) {
-<span class="nc bnc" id="L710" title="All 2 branches missed.">    if (hybrid) {</span>
-<span class="nc" id="L711">      type = NameType.HYBRID;</span>
-<span class="nc bnc" id="L712" title="All 2 branches missed.">    } else if (NameType.HYBRID == type) {</span>
-<span class="nc" id="L713">      type = null;</span>
+<span class="nc bnc" id="L754" title="All 2 branches missed.">    if (hybrid) {</span>
+<span class="nc" id="L755">      type = NameType.HYBRID;</span>
+<span class="nc bnc" id="L756" title="All 2 branches missed.">    } else if (NameType.HYBRID == type) {</span>
+<span class="nc" id="L757">      type = null;</span>
     }
-<span class="nc" id="L715">  }</span>
+<span class="nc" id="L759">  }</span>
 
   public void setInfraGeneric(String infraGeneric) {
-<span class="pc bpc" id="L718" title="2 of 4 branches missed.">    if (infraGeneric != null &amp;&amp; infraGeneric.startsWith(HYBRID_MARKER_STR)) {</span>
-<span class="nc" id="L719">      this.infraGeneric = infraGeneric.substring(1);</span>
-<span class="nc" id="L720">      notho = NamePart.INFRAGENERIC;</span>
+<span class="pc bpc" id="L762" title="2 of 4 branches missed.">    if (infraGeneric != null &amp;&amp; infraGeneric.startsWith(HYBRID_MARKER_STR)) {</span>
+<span class="nc" id="L763">      this.infraGeneric = infraGeneric.substring(1);</span>
+<span class="nc" id="L764">      notho = NamePart.INFRAGENERIC;</span>
     } else {
-<span class="fc" id="L722">      this.infraGeneric = infraGeneric;</span>
+<span class="fc" id="L766">      this.infraGeneric = infraGeneric;</span>
     }
-<span class="fc" id="L724">  }</span>
+<span class="fc" id="L768">  }</span>
 
   public void setInfraSpecificEpithet(String infraSpecies) {
-<span class="pc bpc" id="L727" title="1 of 4 branches missed.">    if (infraSpecies != null &amp;&amp; infraSpecies.startsWith(HYBRID_MARKER_STR)) {</span>
-<span class="nc" id="L728">      this.infraSpecificEpithet = infraSpecies.substring(1);</span>
-<span class="nc" id="L729">      this.notho = NamePart.INFRASPECIFIC;</span>
+<span class="pc bpc" id="L771" title="1 of 4 branches missed.">    if (infraSpecies != null &amp;&amp; infraSpecies.startsWith(HYBRID_MARKER_STR)) {</span>
+<span class="nc" id="L772">      this.infraSpecificEpithet = infraSpecies.substring(1);</span>
+<span class="nc" id="L773">      this.notho = NamePart.INFRASPECIFIC;</span>
     } else {
-<span class="fc" id="L731">      this.infraSpecificEpithet = infraSpecies;</span>
+<span class="fc" id="L775">      this.infraSpecificEpithet = infraSpecies;</span>
     }
-<span class="fc" id="L733">  }</span>
+<span class="fc" id="L777">  }</span>
 
   public void setSpecificEpithet(String species) {
-<span class="pc bpc" id="L736" title="1 of 4 branches missed.">    if (species != null &amp;&amp; species.startsWith(HYBRID_MARKER_STR)) {</span>
-<span class="nc" id="L737">      specificEpithet = species.substring(1);</span>
-<span class="nc" id="L738">      notho = NamePart.SPECIFIC;</span>
+<span class="pc bpc" id="L780" title="1 of 4 branches missed.">    if (species != null &amp;&amp; species.startsWith(HYBRID_MARKER_STR)) {</span>
+<span class="nc" id="L781">      specificEpithet = species.substring(1);</span>
+<span class="nc" id="L782">      notho = NamePart.SPECIFIC;</span>
     } else {
-<span class="fc" id="L740">      specificEpithet = species;</span>
+<span class="fc" id="L784">      specificEpithet = species;</span>
     }
-<span class="fc" id="L742">  }</span>
+<span class="fc" id="L786">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L746" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L747">      return true;</span>
+<span class="pc bpc" id="L790" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L791">      return true;</span>
     }
-<span class="pc bpc" id="L749" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L750">      return false;</span>
+<span class="pc bpc" id="L793" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L794">      return false;</span>
     }
-<span class="fc" id="L752">    ParsedName that = (ParsedName) o;</span>
-<span class="pc bpc" id="L753" title="1 of 2 branches missed.">    return Objects.equals(key, that.key) &amp;&amp;</span>
-<span class="pc bpc" id="L754" title="3 of 6 branches missed.">      Objects.equals(scientificName, that.scientificName) &amp;&amp;</span>
+<span class="fc" id="L796">    ParsedName that = (ParsedName) o;</span>
+<span class="pc bpc" id="L797" title="1 of 2 branches missed.">    return Objects.equals(key, that.key) &amp;&amp;</span>
+<span class="pc bpc" id="L798" title="3 of 6 branches missed.">      Objects.equals(scientificName, that.scientificName) &amp;&amp;</span>
       rank == that.rank &amp;&amp;
       type == that.type &amp;&amp;
-<span class="pc bpc" id="L757" title="1 of 2 branches missed.">      Objects.equals(genusOrAbove, that.genusOrAbove) &amp;&amp;</span>
-<span class="pc bpc" id="L758" title="1 of 2 branches missed.">      Objects.equals(infraGeneric, that.infraGeneric) &amp;&amp;</span>
-<span class="pc bpc" id="L759" title="1 of 2 branches missed.">      Objects.equals(specificEpithet, that.specificEpithet) &amp;&amp;</span>
-<span class="pc bpc" id="L760" title="1 of 2 branches missed.">      Objects.equals(infraSpecificEpithet, that.infraSpecificEpithet) &amp;&amp;</span>
-<span class="pc bpc" id="L761" title="1 of 2 branches missed.">      Objects.equals(cultivarEpithet, that.cultivarEpithet) &amp;&amp;</span>
-<span class="pc bpc" id="L762" title="1 of 2 branches missed.">      Objects.equals(strain, that.strain) &amp;&amp;</span>
-<span class="pc bpc" id="L763" title="1 of 2 branches missed.">      Objects.equals(authorship, that.authorship) &amp;&amp;</span>
-<span class="pc bpc" id="L764" title="1 of 2 branches missed.">      Objects.equals(year, that.year) &amp;&amp;</span>
-<span class="pc bpc" id="L765" title="1 of 2 branches missed.">      Objects.equals(bracketAuthorship, that.bracketAuthorship) &amp;&amp;</span>
-<span class="pc bpc" id="L766" title="1 of 2 branches missed.">      Objects.equals(bracketYear, that.bracketYear);</span>
+<span class="pc bpc" id="L801" title="1 of 2 branches missed.">      Objects.equals(genusOrAbove, that.genusOrAbove) &amp;&amp;</span>
+<span class="pc bpc" id="L802" title="1 of 2 branches missed.">      Objects.equals(infraGeneric, that.infraGeneric) &amp;&amp;</span>
+<span class="pc bpc" id="L803" title="1 of 2 branches missed.">      Objects.equals(specificEpithet, that.specificEpithet) &amp;&amp;</span>
+<span class="pc bpc" id="L804" title="1 of 2 branches missed.">      Objects.equals(infraSpecificEpithet, that.infraSpecificEpithet) &amp;&amp;</span>
+<span class="pc bpc" id="L805" title="1 of 2 branches missed.">      Objects.equals(cultivarEpithet, that.cultivarEpithet) &amp;&amp;</span>
+<span class="pc bpc" id="L806" title="1 of 2 branches missed.">      Objects.equals(strain, that.strain) &amp;&amp;</span>
+<span class="pc bpc" id="L807" title="1 of 2 branches missed.">      Objects.equals(authorship, that.authorship) &amp;&amp;</span>
+<span class="pc bpc" id="L808" title="1 of 2 branches missed.">      Objects.equals(year, that.year) &amp;&amp;</span>
+<span class="pc bpc" id="L809" title="1 of 2 branches missed.">      Objects.equals(bracketAuthorship, that.bracketAuthorship) &amp;&amp;</span>
+<span class="pc bpc" id="L810" title="1 of 2 branches missed.">      Objects.equals(bracketYear, that.bracketYear);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L771">    return Objects</span>
-<span class="fc" id="L772">      .hash(key, scientificName, rank, type, genusOrAbove, infraGeneric, specificEpithet,</span>
+<span class="fc" id="L815">    return Objects</span>
+<span class="fc" id="L816">      .hash(key, scientificName, rank, type, genusOrAbove, infraGeneric, specificEpithet,</span>
         infraSpecificEpithet, cultivarEpithet, strain, authorship, year, bracketAuthorship,
         bracketYear);
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L779">    StringBuilder sb = new StringBuilder();</span>
-<span class="nc" id="L780">    sb.append(scientificName);</span>
-<span class="nc bnc" id="L781" title="All 2 branches missed.">    if (key != null) {</span>
-<span class="nc" id="L782">      sb.append(&quot; [&quot;);</span>
-<span class="nc" id="L783">      sb.append(key);</span>
-<span class="nc" id="L784">      sb.append(&quot;]&quot;);</span>
+<span class="nc" id="L823">    StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L824">    sb.append(scientificName);</span>
+<span class="nc bnc" id="L825" title="All 2 branches missed.">    if (key != null) {</span>
+<span class="nc" id="L826">      sb.append(&quot; [&quot;);</span>
+<span class="nc" id="L827">      sb.append(key);</span>
+<span class="nc" id="L828">      sb.append(&quot;]&quot;);</span>
     }
-<span class="nc bnc" id="L786" title="All 2 branches missed.">    if (genusOrAbove != null) {</span>
-<span class="nc" id="L787">      sb.append(&quot; G:&quot;).append(genusOrAbove);</span>
+<span class="nc bnc" id="L830" title="All 2 branches missed.">    if (genusOrAbove != null) {</span>
+<span class="nc" id="L831">      sb.append(&quot; G:&quot;).append(genusOrAbove);</span>
     }
-<span class="nc bnc" id="L789" title="All 2 branches missed.">    if (infraGeneric != null) {</span>
-<span class="nc" id="L790">      sb.append(&quot; IG:&quot;).append(infraGeneric);</span>
+<span class="nc bnc" id="L833" title="All 2 branches missed.">    if (infraGeneric != null) {</span>
+<span class="nc" id="L834">      sb.append(&quot; IG:&quot;).append(infraGeneric);</span>
     }
-<span class="nc bnc" id="L792" title="All 2 branches missed.">    if (specificEpithet != null) {</span>
-<span class="nc" id="L793">      sb.append(&quot; S:&quot;).append(specificEpithet);</span>
+<span class="nc bnc" id="L836" title="All 2 branches missed.">    if (specificEpithet != null) {</span>
+<span class="nc" id="L837">      sb.append(&quot; S:&quot;).append(specificEpithet);</span>
     }
-<span class="nc bnc" id="L795" title="All 2 branches missed.">    if (rank != null) {</span>
-<span class="nc" id="L796">      sb.append(&quot; R:&quot;).append(rank);</span>
+<span class="nc bnc" id="L839" title="All 2 branches missed.">    if (rank != null) {</span>
+<span class="nc" id="L840">      sb.append(&quot; R:&quot;).append(rank);</span>
     }
-<span class="nc bnc" id="L798" title="All 2 branches missed.">    if (infraSpecificEpithet != null) {</span>
-<span class="nc" id="L799">      sb.append(&quot; IS:&quot;).append(infraSpecificEpithet);</span>
+<span class="nc bnc" id="L842" title="All 2 branches missed.">    if (infraSpecificEpithet != null) {</span>
+<span class="nc" id="L843">      sb.append(&quot; IS:&quot;).append(infraSpecificEpithet);</span>
     }
-<span class="nc bnc" id="L801" title="All 2 branches missed.">    if (cultivarEpithet != null) {</span>
-<span class="nc" id="L802">      sb.append(&quot; CV:&quot;).append(cultivarEpithet);</span>
+<span class="nc bnc" id="L845" title="All 2 branches missed.">    if (cultivarEpithet != null) {</span>
+<span class="nc" id="L846">      sb.append(&quot; CV:&quot;).append(cultivarEpithet);</span>
     }
-<span class="nc bnc" id="L804" title="All 2 branches missed.">    if (strain != null) {</span>
-<span class="nc" id="L805">      sb.append(&quot; STR:&quot;).append(strain);</span>
+<span class="nc bnc" id="L848" title="All 2 branches missed.">    if (strain != null) {</span>
+<span class="nc" id="L849">      sb.append(&quot; STR:&quot;).append(strain);</span>
     }
-<span class="nc bnc" id="L807" title="All 2 branches missed.">    if (authorship != null) {</span>
-<span class="nc" id="L808">      sb.append(&quot; A:&quot;).append(authorship);</span>
+<span class="nc bnc" id="L851" title="All 2 branches missed.">    if (authorship != null) {</span>
+<span class="nc" id="L852">      sb.append(&quot; A:&quot;).append(authorship);</span>
     }
-<span class="nc bnc" id="L810" title="All 2 branches missed.">    if (year != null) {</span>
-<span class="nc" id="L811">      sb.append(&quot; Y:&quot;).append(year);</span>
+<span class="nc bnc" id="L854" title="All 2 branches missed.">    if (year != null) {</span>
+<span class="nc" id="L855">      sb.append(&quot; Y:&quot;).append(year);</span>
     }
-<span class="nc bnc" id="L813" title="All 2 branches missed.">    if (bracketAuthorship != null) {</span>
-<span class="nc" id="L814">      sb.append(&quot; BA:&quot;).append(bracketAuthorship);</span>
+<span class="nc bnc" id="L857" title="All 2 branches missed.">    if (bracketAuthorship != null) {</span>
+<span class="nc" id="L858">      sb.append(&quot; BA:&quot;).append(bracketAuthorship);</span>
     }
-<span class="nc bnc" id="L816" title="All 2 branches missed.">    if (bracketYear != null) {</span>
-<span class="nc" id="L817">      sb.append(&quot; BY:&quot;).append(bracketYear);</span>
+<span class="nc bnc" id="L860" title="All 2 branches missed.">    if (bracketYear != null) {</span>
+<span class="nc" id="L861">      sb.append(&quot; BY:&quot;).append(bracketYear);</span>
     }
-<span class="nc bnc" id="L819" title="All 2 branches missed.">    if (type != null) {</span>
-<span class="nc" id="L820">      sb.append(&quot; [&quot;);</span>
-<span class="nc" id="L821">      sb.append(type);</span>
-<span class="nc" id="L822">      sb.append(&quot;]&quot;);</span>
+<span class="nc bnc" id="L863" title="All 2 branches missed.">    if (type != null) {</span>
+<span class="nc" id="L864">      sb.append(&quot; [&quot;);</span>
+<span class="nc" id="L865">      sb.append(type);</span>
+<span class="nc" id="L866">      sb.append(&quot;]&quot;);</span>
     }
-<span class="nc bnc" id="L824" title="All 2 branches missed.">    return isHybridFormula() ? &quot; [hybrid]&quot; : sb.toString();</span>
+<span class="nc bnc" id="L868" title="All 2 branches missed.">    return isHybridFormula() ? &quot; [hybrid]&quot; : sb.toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
