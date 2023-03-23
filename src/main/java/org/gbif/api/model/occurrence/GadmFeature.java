@@ -19,12 +19,21 @@ import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * A <a href="https://gadm.org">GADM</a> region feature.
  */
 public class GadmFeature {
 
+  @Schema(
+    description = "The identifier in GADM for the administrative division."
+  )
   private String gid;
+
+  @Schema(
+    description = "The English name in GADM for the administrative division."
+  )
   private String name;
 
   public GadmFeature() {

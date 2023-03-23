@@ -17,14 +17,32 @@ package org.gbif.api.model.occurrence;
 
 import java.util.Objects;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * GADM level.
  */
 public class Gadm {
 
+  @Schema(
+    description = "The top-level division for a country, territory or island.\n\n" +
+      "This is usually a three-letter code from ISO 3166."
+  )
   private GadmFeature level0;
+
+  @Schema(
+    description = "The first-level division from the GADM database."
+  )
   private GadmFeature level1;
+
+  @Schema(
+    description = "The second-level division from the GADM database."
+  )
   private GadmFeature level2;
+
+  @Schema(
+    description = "The third-level division from the GADM database."
+  )
   private GadmFeature level3;
 
   public GadmFeature getLevel0() {

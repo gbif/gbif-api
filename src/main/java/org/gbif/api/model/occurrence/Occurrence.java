@@ -515,6 +515,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   )
   private String stateProvince;
 
+  @Schema(
+    description = "The administrative divisions according to the https://gadm.org/[GADM database].\n\n" +
+      "This value is applied by GBIF's processing without consideration of the `stateProvince`, `county` or `locality` fields."
+  )
   private Gadm gadm = new Gadm();
 
   @Schema(
