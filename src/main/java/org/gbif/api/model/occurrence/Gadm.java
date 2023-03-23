@@ -24,27 +24,18 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 public class Gadm {
 
+  private GadmFeature level0;
+
+  private GadmFeature level1;
+
+  private GadmFeature level2;
+
+  private GadmFeature level3;
+
   @Schema(
     description = "The top-level division for a country, territory or island.\n\n" +
       "This is usually a three-letter code from ISO 3166."
   )
-  private GadmFeature level0;
-
-  @Schema(
-    description = "The first-level division from the GADM database."
-  )
-  private GadmFeature level1;
-
-  @Schema(
-    description = "The second-level division from the GADM database."
-  )
-  private GadmFeature level2;
-
-  @Schema(
-    description = "The third-level division from the GADM database."
-  )
-  private GadmFeature level3;
-
   public GadmFeature getLevel0() {
     return level0;
   }
@@ -53,6 +44,9 @@ public class Gadm {
     this.level0 = level0;
   }
 
+  @Schema(
+    description = "The first-level division from the GADM database."
+  )
   public GadmFeature getLevel1() {
     return level1;
   }
@@ -61,6 +55,9 @@ public class Gadm {
     this.level1 = level1;
   }
 
+  @Schema(
+    description = "The second-level division from the GADM database."
+  )
   public GadmFeature getLevel2() {
     return level2;
   }
@@ -69,6 +66,9 @@ public class Gadm {
     this.level2 = level2;
   }
 
+  @Schema(
+    description = "The third-level division from the GADM database."
+  )
   public GadmFeature getLevel3() {
     return level3;
   }

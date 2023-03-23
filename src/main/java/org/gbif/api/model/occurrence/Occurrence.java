@@ -516,7 +516,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private String stateProvince;
 
   @Schema(
-    description = "The administrative divisions according to the https://gadm.org/[GADM database].\n\n" +
+    description = "The administrative divisions according to the [GADM database](https://gadm.org/).\n\n" +
       "This value is applied by GBIF's processing without consideration of the `stateProvince`, `county` or `locality` fields."
   )
   private Gadm gadm = new Gadm();
@@ -596,11 +596,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private String typifiedName; // missing from DwC
 
   @Schema(
-    description = "A specific interpretation issue.",
-    externalDocs = @ExternalDocumentation(
-      description = "List of occurrence issues",
-      url = "/en/guides/dev/issues_and_flags.html"
-    )
+    description = "A specific interpretation issue found during processing and interpretation of the record.\n\n" +
+      "See the link:/en/guides/dev/issues_and_flags.html[list of occurrence issues] and the " +
+      "https://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/OccurrenceIssue.html[OccurrenceIssue enumeration] " +
+      "for possible values and definitions."
   )
   private Set<OccurrenceIssue> issues = EnumSet.noneOf(OccurrenceIssue.class);
 
@@ -698,7 +697,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @Schema(
     description = "Multimedia related to te occurrence.",
     externalDocs = @ExternalDocumentation(
-      description = "GBIF Multemedia extension",
+      description = "GBIF Multimedia extension",
       url = "https://rs.gbif.org/terms/1.0/Multimedia"
     )
   )
