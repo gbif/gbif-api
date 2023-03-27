@@ -24,16 +24,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 /**
  * A <a href="https://gadm.org">GADM</a> region feature.
  */
+@Schema(
+  description = "A region from the GADM database."
+)
 public class GadmFeature {
 
-  @Schema(
-    description = "The identifier in GADM for the administrative division."
-  )
   private String gid;
 
-  @Schema(
-    description = "The English name in GADM for the administrative division."
-  )
   private String name;
 
   public GadmFeature() {
@@ -52,11 +49,17 @@ public class GadmFeature {
     return gid;
   }
 
+  @Schema(
+    description = "The identifier in GADM for the administrative division."
+  )
   public GadmFeature setGid(String gid) {
     this.gid = gid;
     return this;
   }
 
+  @Schema(
+    description = "The English name in GADM for the administrative division."
+  )
   @NotNull
   public String getName() {
     return name;
