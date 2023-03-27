@@ -32,5 +32,6 @@ public class MaintenanceUpdateFrequencyTest {
     assertEquals(MaintenanceUpdateFrequency.NOT_PLANNED, MaintenanceUpdateFrequency.fromString("notPlanned"));
     // typo matches vocabulary
     assertEquals(MaintenanceUpdateFrequency.UNKOWN, MaintenanceUpdateFrequency.fromString("unkown"));
+    assertEquals(MaintenanceUpdateFrequency.UNKNOWN, MaintenanceUpdateFrequency.fromString("unknown"));
   }
 }
