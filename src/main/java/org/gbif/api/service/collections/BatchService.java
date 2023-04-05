@@ -16,18 +16,27 @@
 package org.gbif.api.service.collections;
 
 import org.gbif.api.model.collections.Batch;
-import org.gbif.api.model.collections.CollectionEntityType;
 import org.gbif.api.model.common.export.ExportFormat;
 
-import java.io.InputStream;
-import java.nio.file.Path;
-
-/** Defines the service to suggest changes in GRSciColl entities. */
+/** Defines the service to work with batches. */
 public interface BatchService {
 
-  // TODO: docs
-  int handleBatchAsync(
-      byte[] entitiesFile, byte[] contactsFile, ExportFormat format, boolean update);
+  /**
+   * Handles a batch. The batch can be to either do an initial import or to update existing data.
+   *
+   * @param entitiesFile file with the entities to import or update
+   * @param contactsFile file with the contacts to import or update
+   * @param format {@link ExportFormat} of the files
+   * @param update true if the batch updates existing data, false if it is to do an initial import
+   * @return key of the batch created
+   */
+  int handleBatch(byte[] entitiesFile, byte[] contactsFile, ExportFormat format, boolean update);
 
+  /**
+   * Returns a {@link Batch} by its key.
+   *
+   * @param key key of the batch
+   * @return {@link Batch}
+   */
   Batch get(int key);
 }
