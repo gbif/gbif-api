@@ -22,6 +22,7 @@ import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -111,4 +112,16 @@ public interface CollectionEntity
   Boolean getDisplayOnNHCPortal();
 
   void setDisplayOnNHCPortal(Boolean displayOnNHCPortal);
+
+  List<String> getEmail();
+
+  void setEmail(List<String> email);
+
+  List<String> getPhone();
+
+  void setPhone(List<String> phone);
+
+  List<AlternativeCode> getAlternativeCodes();
+
+  void setAlternativeCodes(List<AlternativeCode> alternativeCodes);
 }

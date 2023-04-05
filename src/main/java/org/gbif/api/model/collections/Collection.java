@@ -321,7 +321,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   private Boolean displayOnNHCPortal;
 
   /** List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc.. */
-  @Valid
   @Override
   public List<Identifier> getIdentifiers() {
     return identifiers;
@@ -429,18 +428,22 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
     this.doi = doi;
   }
 
+  @Override
   public List<String> getEmail() {
     return email;
   }
 
+  @Override
   public void setEmail(List<String> email) {
     this.email = email;
   }
 
+  @Override
   public List<String> getPhone() {
     return phone;
   }
 
+  @Override
   public void setPhone(List<String> phone) {
     this.phone = phone;
   }
@@ -673,10 +676,12 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   }
 
   /** Alternative codes for a collection. */
+  @Override
   public List<AlternativeCode> getAlternativeCodes() {
     return alternativeCodes;
   }
 
+  @Override
   public void setAlternativeCodes(List<AlternativeCode> alternativeCodes) {
     this.alternativeCodes = alternativeCodes;
   }

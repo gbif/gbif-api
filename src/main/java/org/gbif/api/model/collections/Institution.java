@@ -367,18 +367,22 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.active = active;
   }
 
+  @Override
   public List<String> getEmail() {
     return email;
   }
 
+  @Override
   public void setEmail(List<String> email) {
     this.email = email;
   }
 
+  @Override
   public List<String> getPhone() {
     return phone;
   }
 
+  @Override
   public void setPhone(List<String> phone) {
     this.phone = phone;
   }
@@ -650,10 +654,12 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   }
 
   /** Alternative codes for an institution. */
+  @Override
   public List<AlternativeCode> getAlternativeCodes() {
     return alternativeCodes;
   }
 
+  @Override
   public void setAlternativeCodes(List<AlternativeCode> alternativeCodes) {
     this.alternativeCodes = alternativeCodes;
   }
