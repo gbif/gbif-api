@@ -51,252 +51,193 @@ import javax.validation.constraints.Size;
 public class Institution implements CollectionEntity, LenientEquals<Institution> {
 
   @Schema(
-    description = "Unique GBIF key for the institution.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description = "Unique GBIF key for the institution.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private UUID key;
 
   @Schema(
-    description = "Code used to identify the institution.\n\n" +
-      "*(NB Not required for updates.)*"
-  )
+      description =
+          "Code used to identify the institution.\n\n" + "*(NB Not required for updates.)*")
   @Sourceable(masterSources = MasterSourceType.IH)
   private String code;
 
   @Schema(
-    description = "Name or title of the institution.\n\n" +
-      "*(NB Not required for updates.)*"
-  )
+      description = "Name or title of the institution.\n\n" + "*(NB Not required for updates.)*")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private String name;
 
-  @Schema(
-    description = "Description of the institution."
-  )
+  @Schema(description = "Description of the institution.")
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private String description;
 
-  @Schema(
-    description = "Type of the institution, describing its main activity."
-  )
+  @Schema(description = "Type of the institution, describing its main activity.")
   private InstitutionType type;
 
-  @Schema(
-    description = "Whether the institution is active or operational."
-  )
+  @Schema(description = "Whether the institution is active or operational.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private boolean active;
 
-  @Schema(
-    description = "Email addresses associated with the institution."
-  )
+  @Schema(description = "Email addresses associated with the institution.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<@ValidEmail String> email = new ArrayList<>();
 
-  @Schema(
-    description = "Telephone numbers associated with the instutiton."
-  )
+  @Schema(description = "Telephone numbers associated with the instutiton.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<String> phone = new ArrayList<>();
 
-  @Schema(
-    description = "The institution's WWW homepage."
-  )
+  @Schema(description = "The institution's WWW homepage.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private URI homepage;
 
-  @Schema(
-    description = "A URL for the main interactive catalogue of the institution."
-  )
+  @Schema(description = "A URL for the main interactive catalogue of the institution.")
   private URI catalogUrl;
 
-  @Schema(
-    description = "A URL for a machine-readable API for the institution catalogue."
-  )
+  @Schema(description = "A URL for a machine-readable API for the institution catalogue.")
   private URI apiUrl;
 
   @Schema(
-    description = "The mechanisms, processes and relations by which an " +
-      "institution is controlled and directed."
-  )
+      description =
+          "The mechanisms, processes and relations by which an "
+              + "institution is controlled and directed.")
   private InstitutionGovernance institutionalGovernance;
 
   @Schema(
-    description = "The academic or research disciplines to which an " +
-      "institution is dedicated."
-  )
+      description =
+          "The academic or research disciplines to which an " + "institution is dedicated.")
   private List<Discipline> disciplines = new ArrayList<>();
 
-  @Schema(
-    description = "The latitude of the institution."
-  )
+  @Schema(description = "The latitude of the institution.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private BigDecimal latitude;
 
-  @Schema(
-    description = "The longitude of the institution."
-  )
+  @Schema(description = "The longitude of the institution.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private BigDecimal longitude;
 
-  @Schema(
-    description = "The postal address of the institution."
-  )
+  @Schema(description = "The postal address of the institution.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private Address mailingAddress;
 
-  @Schema(
-    description = "The address of the location of the institution."
-  )
+  @Schema(description = "The address of the location of the institution.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private Address address;
 
-  @Schema(
-    description = "Additional names by which the institution is known."
-  )
+  @Schema(description = "Additional names by which the institution is known.")
   private List<String> additionalNames = new ArrayList<>();
 
-  @Schema(
-    description = "The date the institution was founded or established."
-  )
+  @Schema(description = "The date the institution was founded or established.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private Integer foundingDate;
 
   @Schema(
-    description = "A description of the geographic range of the activities " +
-      "performed by the institution."
-  )
+      description =
+          "A description of the geographic range of the activities "
+              + "performed by the institution.")
   private String geographicDescription;
 
   @Schema(
-    description = "A description of the taxonomic range of the activities " +
-      "performed by the institution."
-  )
+      description =
+          "A description of the taxonomic range of the activities "
+              + "performed by the institution.")
   private String taxonomicDescription;
 
-  @Schema(
-    description = "An estimate of the number of specimens hosted by the institution."
-  )
+  @Schema(description = "An estimate of the number of specimens hosted by the institution.")
   private Integer numberSpecimens;
 
-  @Schema(
-    description = "Whether this institution record was imported from *Index Herbariorum*."
-  )
+  @Schema(description = "Whether this institution record was imported from *Index Herbariorum*.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private boolean indexHerbariorumRecord;
 
-  @Schema(
-    description = "A URL to a logo for the institution."
-  )
+  @Schema(description = "A URL to a logo for the institution.")
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private URI logoUrl;
 
-  @Schema(
-    description = "The CITES permit number for the institution."
-  )
+  @Schema(description = "The CITES permit number for the institution.")
   private String citesPermitNumber;
 
   @Schema(
-    description = "The GBIF username of the creator of the institution entity in " +
-      "the GBIF registry.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description =
+          "The GBIF username of the creator of the institution entity in " + "the GBIF registry.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private String createdBy;
 
   @Schema(
-    description = "The GBIF username of the last user to modify the institution " +
-      "entity in the GBIF registry.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description =
+          "The GBIF username of the last user to modify the institution "
+              + "entity in the GBIF registry.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private String modifiedBy;
 
   @Schema(
-    description = "Timestamp of when the institution entity was created in the GBIF " +
-      "registry.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description =
+          "Timestamp of when the institution entity was created in the GBIF " + "registry.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private Date created;
 
   @Schema(
-    description = "Timestamp of when the institution entity was modified in the GBIF " +
-      "registry.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description =
+          "Timestamp of when the institution entity was modified in the GBIF " + "registry.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private Date modified;
 
   @Schema(
-    description = "If present, the institution was deleted at this time. " +
-      "It is possible for it to be restored in the future.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description =
+          "If present, the institution was deleted at this time. "
+              + "It is possible for it to be restored in the future.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private Date deleted;
 
   @Schema(
-    description = "A list of tags associated with this institution.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description = "A list of tags associated with this institution.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private List<Tag> tags = new ArrayList<>();
 
   @Schema(
-    description = "A list of identifiers associated with this institution.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description = "A list of identifiers associated with this institution.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   @Sourceable(masterSources = MasterSourceType.IH, sourceableParts = "IH_IRN")
   private List<Identifier> identifiers = new ArrayList<>();
 
-  @Schema(
-    description = "A list of contact people for this institution."
-  )
+  @Schema(description = "A list of contact people for this institution.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<Contact> contactPersons = new ArrayList<>();
 
   @Schema(
-    description = "A list of machine tags associated with this institution.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description = "A list of machine tags associated with this institution.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private List<MachineTag> machineTags = new ArrayList<>();
 
-  @Schema(
-    description = "Alternative codes for this institution."
-  )
+  @Schema(description = "Alternative codes for this institution.")
   private List<AlternativeCode> alternativeCodes = new ArrayList<>();
 
   @Schema(
-    description = "A list of comments associated with this institution.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description = "A list of comments associated with this institution.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private List<Comment> comments = new ArrayList<>();
 
   @Schema(
-    description = "Mapping of a GRSciColl institution to occurrence records",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description = "Mapping of a GRSciColl institution to occurrence records",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private List<OccurrenceMapping> occurrenceMappings = new ArrayList<>();
 
-  @Schema(
-    description = "A collection record that replaces this collection."
-  )
+  @Schema(description = "A collection record that replaces this collection.")
   private UUID replacedBy;
 
   @Schema(
-    description = "" // TODO
-  )
+      description =
+          "Indicates if the institution was converted to a collection and specifies the UUID key of that collection")
   private UUID convertedToCollection;
 
-  @Schema(
-    description = "The primary source of this institution record."
-  )
+  @Schema(description = "The primary source of this institution record.")
   private MasterSourceType masterSource;
 
   @Schema(
-    description = "Information to assist the synchronization of the master source " +
-      "record with the record in the GBIF registry."
-  )
+      description =
+          "Information to assist the synchronization of the master source "
+              + "record with the record in the GBIF registry.")
   private MasterSourceMetadata masterSourceMetadata;
 
-  @Schema(
-    description = "Whether the institution is shown on the NHC portal."
-  )
+  @Schema(description = "Whether the institution is shown on the NHC portal.")
   private Boolean displayOnNHCPortal;
 
   /** GBIF unique identifier. */
@@ -367,18 +308,22 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.active = active;
   }
 
+  @Override
   public List<String> getEmail() {
     return email;
   }
 
+  @Override
   public void setEmail(List<String> email) {
     this.email = email;
   }
 
+  @Override
   public List<String> getPhone() {
     return phone;
   }
 
+  @Override
   public void setPhone(List<String> phone) {
     this.phone = phone;
   }
@@ -650,10 +595,12 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   }
 
   /** Alternative codes for an institution. */
+  @Override
   public List<AlternativeCode> getAlternativeCodes() {
     return alternativeCodes;
   }
 
+  @Override
   public void setAlternativeCodes(List<AlternativeCode> alternativeCodes) {
     this.alternativeCodes = alternativeCodes;
   }
