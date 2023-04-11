@@ -63,9 +63,16 @@ public enum MaintenanceUpdateFrequency {
    */
   NOT_PLANNED,
   /**
-   * Further updates may still happen, but it is not known for sure. Note: typo matches EML enumeration.
+   * Further updates may still happen, but it is not known for sure.
+   * Note: typo matches EML enumeration.
+   * Deprecated - use {@link MaintenanceUpdateFrequency#UNKNOWN} instead.
    */
+  @Deprecated
   UNKOWN,
+  /**
+   * Further updates may still happen, but it is not known for sure.
+   */
+  UNKNOWN,
   /**
    * Updated according to some other interval.
    */

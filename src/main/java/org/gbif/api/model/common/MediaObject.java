@@ -34,6 +34,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @see <a href="https://rs.gbif.org/terms/1.0/Multimedia">Multimedia Definition</a>
  */
 public class MediaObject {
+  @Schema(
+    description = "The type of media object, based on the [Dublin Core types vocabulary](https://rs.gbif.org/vocabulary/dcterms/type)."
+  )
   private MediaType type;
   private String format;
   private URI identifier;

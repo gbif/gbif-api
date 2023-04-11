@@ -36,7 +36,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @SuppressWarnings("unused")
 public class LiteratureSearchResult {
 
-  @Schema(name = "abstract", description = "The abstract from the publication.")
   private String abstract_;
 
   @Schema(description = "The date the literature item was found by GBIF's staff or automated processes.")
@@ -54,10 +53,10 @@ public class LiteratureSearchResult {
   @Schema(description = "The date the publication was added to the GBIF literature database.")
   private Date added;
 
-  @Schema(description = "The publication date of the publication.")
+  @Schema(description = "The publication date of the publication.  See also `year`, `month` and `day`.")
   private Date published;
 
-  @Schema(description = "The day of publication", minimum = "1", maximum = "31")
+  @Schema(description = "The day of publication. See also `published`.", minimum = "1", maximum = "31")
   private Integer day;
 
   @Schema(description = "Keys of GBIF downloads referenced by the publication.")
@@ -102,7 +101,7 @@ public class LiteratureSearchResult {
   @Schema(description = "Type of literature, e.g. journal article.")
   private LiteratureType literatureType;
 
-  @Schema(description = "The day of publication", minimum = "1", maximum = "12")
+  @Schema(description = "The month of publication. See also `published`.", minimum = "1", maximum = "12")
   private Integer month;
 
   @Schema(description = "Unstructured notes.")
@@ -138,9 +137,10 @@ public class LiteratureSearchResult {
   @Schema(description = "Websites associated with the publication.")
   private List<String> websites = new ArrayList<>();
 
-  @Schema(description = "The year of publication")
+  @Schema(description = "The year of publication.  See also `published`.")
   private Integer year;
 
+  @Schema(name = "abstract", description = "The abstract from the publication.")
   @JsonProperty("abstract")
   public String getAbstract() {
     return abstract_;
