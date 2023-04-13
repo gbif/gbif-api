@@ -27,10 +27,9 @@ public interface BatchService {
    * @param entitiesFile file with the entities to import or update
    * @param contactsFile file with the contacts to import or update
    * @param format {@link ExportFormat} of the files
-   * @param update true if the batch updates existing data, false if it is to do an initial import
    * @return key of the batch created
    */
-  int handleBatch(byte[] entitiesFile, byte[] contactsFile, ExportFormat format, boolean update);
+  int handleBatch(byte[] entitiesFile, byte[] contactsFile, ExportFormat format);
 
   /**
    * Returns a {@link Batch} by its key.

@@ -20,11 +20,6 @@ public class Batch {
   @Schema(description = "State that indicates if the batch is being processed, finished or failed.")
   private State state;
 
-  @Schema(
-      description =
-          "Operation that the batch carries out to indicate if it's an import or an update of existing data.")
-  private Operation operation;
-
   @Schema(description = "Indicates if the batch is for institutions or for collections.")
   private CollectionEntityType entityType;
 
@@ -42,11 +37,6 @@ public class Batch {
       description = "The GBIF username of the creator of the batch in the GBIF registry.",
       accessMode = Schema.AccessMode.READ_ONLY)
   private String createdBy;
-
-  public enum Operation {
-    CREATE,
-    UPDATE;
-  }
 
   public enum State {
     IN_PROGRESS,
