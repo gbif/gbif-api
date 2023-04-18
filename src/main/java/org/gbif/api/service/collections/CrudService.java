@@ -54,4 +54,12 @@ public interface CrudService<T extends CollectionEntity> {
    * @param entity that will replace the existing entity.
    */
   void update(@NotNull @Valid T entity);
+
+  /**
+   * Checks if there is an entity with the key received.
+   *
+   * @param key of the entity to be retrieved.
+   * @return true if found, false otherwise
+   */
+  boolean exists(@NotNull UUID key);
 }

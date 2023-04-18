@@ -19,12 +19,18 @@ import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * A <a href="https://gadm.org">GADM</a> region feature.
  */
+@Schema(
+  description = "A region from the GADM database."
+)
 public class GadmFeature {
 
   private String gid;
+
   private String name;
 
   public GadmFeature() {
@@ -43,11 +49,17 @@ public class GadmFeature {
     return gid;
   }
 
+  @Schema(
+    description = "The identifier in GADM for the administrative division."
+  )
   public GadmFeature setGid(String gid) {
     this.gid = gid;
     return this;
   }
 
+  @Schema(
+    description = "The English name in GADM for the administrative division."
+  )
   @NotNull
   public String getName() {
     return name;
