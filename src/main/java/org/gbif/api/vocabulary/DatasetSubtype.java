@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -70,6 +68,15 @@ public enum DatasetSubtype {
       new HashSet<>(Arrays.asList(SPECIMEN, OBSERVATION)));
 
   /**
+   * A set of all DatasetSubtype that belong to DatasetType SAMPLING_EVENT.
+   *
+   * @see DatasetType#SAMPLING_EVENT
+   */
+  public static final Set<DatasetSubtype> SAMPLING_EVENT_DATASET_SUBTYPES =
+    Collections.unmodifiableSet(
+      new HashSet<>(Arrays.asList(SPECIMEN, OBSERVATION)));
+
+  /**
    * A set of all DatasetSubtype that belong to DatasetType CHECKLIST.
    *
    * @see DatasetType#CHECKLIST
@@ -83,6 +90,6 @@ public enum DatasetSubtype {
    * @return the matching DatasetSubtype or null
    */
   public static DatasetSubtype fromString(String datasetSubType) {
-    return (DatasetSubtype) VocabularyUtils.lookupEnum(datasetSubType, DatasetSubtype.class);
+    return VocabularyUtils.lookupEnum(datasetSubType, DatasetSubtype.class);
   }
 }
