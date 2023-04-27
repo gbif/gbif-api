@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -36,6 +34,13 @@ public class DatasetSubtypeTest {
     assertEquals(DatasetSubtype.DERIVED_FROM_OCCURRENCE, DatasetSubtype.fromString("DERIVED_FROM_OCCURRENCE"));
     assertEquals(DatasetSubtype.SPECIMEN, DatasetSubtype.fromString("SPECIMEN"));
     assertEquals(DatasetSubtype.OBSERVATION, DatasetSubtype.fromString("OBSERVATION"));
+  }
+
+  @Test
+  public void testSamplingEventDatasetSubtypes() {
+    assertEquals(2, DatasetSubtype.SAMPLING_EVENT_DATASET_SUBTYPES.size());
+    assertTrue(DatasetSubtype.SAMPLING_EVENT_DATASET_SUBTYPES.contains(DatasetSubtype.OBSERVATION));
+    assertTrue(DatasetSubtype.SAMPLING_EVENT_DATASET_SUBTYPES.contains(DatasetSubtype.SPECIMEN));
   }
 
   @Test
