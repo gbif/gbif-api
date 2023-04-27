@@ -7,93 +7,100 @@
 <body>
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
-<span class="sourceLineNo">003</span> *<a name="line.3"></a>
-<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
-<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
-<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
+<span class="sourceLineNo">002</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.2"></a>
+<span class="sourceLineNo">003</span> * you may not use this file except in compliance with the License.<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * You may obtain a copy of the License at<a name="line.4"></a>
+<span class="sourceLineNo">005</span> *<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.6"></a>
 <span class="sourceLineNo">007</span> *<a name="line.7"></a>
-<span class="sourceLineNo">008</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
-<span class="sourceLineNo">009</span> *<a name="line.9"></a>
-<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
-<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
-<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
-<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
-<span class="sourceLineNo">015</span> */<a name="line.15"></a>
-<span class="sourceLineNo">016</span>package org.gbif.api.vocabulary;<a name="line.16"></a>
+<span class="sourceLineNo">008</span> * Unless required by applicable law or agreed to in writing, software<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * See the License for the specific language governing permissions and<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * limitations under the License.<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span>package org.gbif.api.vocabulary;<a name="line.14"></a>
+<span class="sourceLineNo">015</span><a name="line.15"></a>
+<span class="sourceLineNo">016</span>import org.gbif.api.util.VocabularyUtils;<a name="line.16"></a>
 <span class="sourceLineNo">017</span><a name="line.17"></a>
-<span class="sourceLineNo">018</span>import org.gbif.api.util.VocabularyUtils;<a name="line.18"></a>
-<span class="sourceLineNo">019</span><a name="line.19"></a>
-<span class="sourceLineNo">020</span>import java.util.Arrays;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import java.util.Collections;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import java.util.HashSet;<a name="line.22"></a>
-<span class="sourceLineNo">023</span>import java.util.Set;<a name="line.23"></a>
-<span class="sourceLineNo">024</span><a name="line.24"></a>
-<span class="sourceLineNo">025</span>/**<a name="line.25"></a>
-<span class="sourceLineNo">026</span> * Enumeration for all possible dataset subtypes.<a name="line.26"></a>
-<span class="sourceLineNo">027</span> */<a name="line.27"></a>
-<span class="sourceLineNo">028</span>public enum DatasetSubtype {<a name="line.28"></a>
-<span class="sourceLineNo">029</span>  /**<a name="line.29"></a>
-<span class="sourceLineNo">030</span>   * A taxonomic checklist that is authoritative in its classification and synonymy.<a name="line.30"></a>
-<span class="sourceLineNo">031</span>   */<a name="line.31"></a>
-<span class="sourceLineNo">032</span>  TAXONOMIC_AUTHORITY,<a name="line.32"></a>
-<span class="sourceLineNo">033</span>  /**<a name="line.33"></a>
-<span class="sourceLineNo">034</span>   * A nomenclatoral checklist that is authoritative in the pure names and publication information.<a name="line.34"></a>
-<span class="sourceLineNo">035</span>   */<a name="line.35"></a>
-<span class="sourceLineNo">036</span>  NOMENCLATOR_AUTHORITY,<a name="line.36"></a>
-<span class="sourceLineNo">037</span>  /**<a name="line.37"></a>
-<span class="sourceLineNo">038</span>   * A thematic checklist that has a theme for grouping names, e.g. parasites of elephants.<a name="line.38"></a>
-<span class="sourceLineNo">039</span>   */<a name="line.39"></a>
-<span class="sourceLineNo">040</span>  INVENTORY_THEMATIC,<a name="line.40"></a>
-<span class="sourceLineNo">041</span>  /**<a name="line.41"></a>
-<span class="sourceLineNo">042</span>   * A regional checklist that has a regional commonality in grouping names, e.g. species in a protected area.<a name="line.42"></a>
-<span class="sourceLineNo">043</span>   */<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  INVENTORY_REGIONAL,<a name="line.44"></a>
-<span class="sourceLineNo">045</span>  /**<a name="line.45"></a>
-<span class="sourceLineNo">046</span>   * A taxonomic checklist with a global, spatial coverage.<a name="line.46"></a>
-<span class="sourceLineNo">047</span>   * This subtype is used in particular by the catalogue of life to assemble its aggregated checklist.<a name="line.47"></a>
-<span class="sourceLineNo">048</span>   */<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  GLOBAL_SPECIES_DATASET,<a name="line.49"></a>
-<span class="sourceLineNo">050</span>  /**<a name="line.50"></a>
-<span class="sourceLineNo">051</span>   * A taxonomic checklist that has been derived from data that was originally occurrence data.<a name="line.51"></a>
-<span class="sourceLineNo">052</span>   */<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  DERIVED_FROM_OCCURRENCE,<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  /**<a name="line.54"></a>
-<span class="sourceLineNo">055</span>   * Specimen data. Possible museum collection.<a name="line.55"></a>
-<span class="sourceLineNo">056</span>   */<a name="line.56"></a>
-<span class="sourceLineNo">057</span>  SPECIMEN,<a name="line.57"></a>
-<span class="sourceLineNo">058</span>  /**<a name="line.58"></a>
-<span class="sourceLineNo">059</span>   * Observation data. Possible monitoring and field observations.<a name="line.59"></a>
-<span class="sourceLineNo">060</span>   */<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  OBSERVATION;<a name="line.61"></a>
-<span class="sourceLineNo">062</span><a name="line.62"></a>
-<span class="sourceLineNo">063</span>  /**<a name="line.63"></a>
-<span class="sourceLineNo">064</span>   * A set of all DatasetSubtype that belong to DatasetType OCCURRENCE.<a name="line.64"></a>
-<span class="sourceLineNo">065</span>   *<a name="line.65"></a>
-<span class="sourceLineNo">066</span>   * @see DatasetType#OCCURRENCE<a name="line.66"></a>
-<span class="sourceLineNo">067</span>   */<a name="line.67"></a>
-<span class="sourceLineNo">068</span>  public static final Set&lt;DatasetSubtype&gt; OCCURRENCE_DATASET_SUBTYPES =<a name="line.68"></a>
-<span class="sourceLineNo">069</span>    Collections.unmodifiableSet(<a name="line.69"></a>
-<span class="sourceLineNo">070</span>      new HashSet&lt;&gt;(Arrays.asList(SPECIMEN, OBSERVATION)));<a name="line.70"></a>
-<span class="sourceLineNo">071</span><a name="line.71"></a>
-<span class="sourceLineNo">072</span>  /**<a name="line.72"></a>
-<span class="sourceLineNo">073</span>   * A set of all DatasetSubtype that belong to DatasetType CHECKLIST.<a name="line.73"></a>
-<span class="sourceLineNo">074</span>   *<a name="line.74"></a>
-<span class="sourceLineNo">075</span>   * @see DatasetType#CHECKLIST<a name="line.75"></a>
-<span class="sourceLineNo">076</span>   */<a name="line.76"></a>
-<span class="sourceLineNo">077</span>  public static final Set&lt;DatasetSubtype&gt; CHECKLIST_DATASET_SUBTYPES =<a name="line.77"></a>
-<span class="sourceLineNo">078</span>    Collections.unmodifiableSet(<a name="line.78"></a>
-<span class="sourceLineNo">079</span>      new HashSet&lt;&gt;(Arrays.asList(TAXONOMIC_AUTHORITY, NOMENCLATOR_AUTHORITY, INVENTORY_THEMATIC,<a name="line.79"></a>
-<span class="sourceLineNo">080</span>        INVENTORY_REGIONAL, GLOBAL_SPECIES_DATASET, DERIVED_FROM_OCCURRENCE)));<a name="line.80"></a>
-<span class="sourceLineNo">081</span><a name="line.81"></a>
-<span class="sourceLineNo">082</span>  /**<a name="line.82"></a>
-<span class="sourceLineNo">083</span>   * @return the matching DatasetSubtype or null<a name="line.83"></a>
-<span class="sourceLineNo">084</span>   */<a name="line.84"></a>
-<span class="sourceLineNo">085</span>  public static DatasetSubtype fromString(String datasetSubType) {<a name="line.85"></a>
-<span class="sourceLineNo">086</span>    return (DatasetSubtype) VocabularyUtils.lookupEnum(datasetSubType, DatasetSubtype.class);<a name="line.86"></a>
-<span class="sourceLineNo">087</span>  }<a name="line.87"></a>
-<span class="sourceLineNo">088</span>}<a name="line.88"></a>
+<span class="sourceLineNo">018</span>import java.util.Arrays;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import java.util.Collections;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import java.util.HashSet;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import java.util.Set;<a name="line.21"></a>
+<span class="sourceLineNo">022</span><a name="line.22"></a>
+<span class="sourceLineNo">023</span>/**<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * Enumeration for all possible dataset subtypes.<a name="line.24"></a>
+<span class="sourceLineNo">025</span> */<a name="line.25"></a>
+<span class="sourceLineNo">026</span>public enum DatasetSubtype {<a name="line.26"></a>
+<span class="sourceLineNo">027</span>  /**<a name="line.27"></a>
+<span class="sourceLineNo">028</span>   * A taxonomic checklist that is authoritative in its classification and synonymy.<a name="line.28"></a>
+<span class="sourceLineNo">029</span>   */<a name="line.29"></a>
+<span class="sourceLineNo">030</span>  TAXONOMIC_AUTHORITY,<a name="line.30"></a>
+<span class="sourceLineNo">031</span>  /**<a name="line.31"></a>
+<span class="sourceLineNo">032</span>   * A nomenclatoral checklist that is authoritative in the pure names and publication information.<a name="line.32"></a>
+<span class="sourceLineNo">033</span>   */<a name="line.33"></a>
+<span class="sourceLineNo">034</span>  NOMENCLATOR_AUTHORITY,<a name="line.34"></a>
+<span class="sourceLineNo">035</span>  /**<a name="line.35"></a>
+<span class="sourceLineNo">036</span>   * A thematic checklist that has a theme for grouping names, e.g. parasites of elephants.<a name="line.36"></a>
+<span class="sourceLineNo">037</span>   */<a name="line.37"></a>
+<span class="sourceLineNo">038</span>  INVENTORY_THEMATIC,<a name="line.38"></a>
+<span class="sourceLineNo">039</span>  /**<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   * A regional checklist that has a regional commonality in grouping names, e.g. species in a protected area.<a name="line.40"></a>
+<span class="sourceLineNo">041</span>   */<a name="line.41"></a>
+<span class="sourceLineNo">042</span>  INVENTORY_REGIONAL,<a name="line.42"></a>
+<span class="sourceLineNo">043</span>  /**<a name="line.43"></a>
+<span class="sourceLineNo">044</span>   * A taxonomic checklist with a global, spatial coverage.<a name="line.44"></a>
+<span class="sourceLineNo">045</span>   * This subtype is used in particular by the catalogue of life to assemble its aggregated checklist.<a name="line.45"></a>
+<span class="sourceLineNo">046</span>   */<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  GLOBAL_SPECIES_DATASET,<a name="line.47"></a>
+<span class="sourceLineNo">048</span>  /**<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   * A taxonomic checklist that has been derived from data that was originally occurrence data.<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   */<a name="line.50"></a>
+<span class="sourceLineNo">051</span>  DERIVED_FROM_OCCURRENCE,<a name="line.51"></a>
+<span class="sourceLineNo">052</span>  /**<a name="line.52"></a>
+<span class="sourceLineNo">053</span>   * Specimen data. Possible museum collection.<a name="line.53"></a>
+<span class="sourceLineNo">054</span>   */<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  SPECIMEN,<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  /**<a name="line.56"></a>
+<span class="sourceLineNo">057</span>   * Observation data. Possible monitoring and field observations.<a name="line.57"></a>
+<span class="sourceLineNo">058</span>   */<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  OBSERVATION;<a name="line.59"></a>
+<span class="sourceLineNo">060</span><a name="line.60"></a>
+<span class="sourceLineNo">061</span>  /**<a name="line.61"></a>
+<span class="sourceLineNo">062</span>   * A set of all DatasetSubtype that belong to DatasetType OCCURRENCE.<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   *<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   * @see DatasetType#OCCURRENCE<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   */<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  public static final Set&lt;DatasetSubtype&gt; OCCURRENCE_DATASET_SUBTYPES =<a name="line.66"></a>
+<span class="sourceLineNo">067</span>    Collections.unmodifiableSet(<a name="line.67"></a>
+<span class="sourceLineNo">068</span>      new HashSet&lt;&gt;(Arrays.asList(SPECIMEN, OBSERVATION)));<a name="line.68"></a>
+<span class="sourceLineNo">069</span><a name="line.69"></a>
+<span class="sourceLineNo">070</span>  /**<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   * A set of all DatasetSubtype that belong to DatasetType SAMPLING_EVENT.<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   *<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   * @see DatasetType#SAMPLING_EVENT<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   */<a name="line.74"></a>
+<span class="sourceLineNo">075</span>  public static final Set&lt;DatasetSubtype&gt; SAMPLING_EVENT_DATASET_SUBTYPES =<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    Collections.unmodifiableSet(<a name="line.76"></a>
+<span class="sourceLineNo">077</span>      new HashSet&lt;&gt;(Arrays.asList(SPECIMEN, OBSERVATION)));<a name="line.77"></a>
+<span class="sourceLineNo">078</span><a name="line.78"></a>
+<span class="sourceLineNo">079</span>  /**<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   * A set of all DatasetSubtype that belong to DatasetType CHECKLIST.<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   *<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   * @see DatasetType#CHECKLIST<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   */<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  public static final Set&lt;DatasetSubtype&gt; CHECKLIST_DATASET_SUBTYPES =<a name="line.84"></a>
+<span class="sourceLineNo">085</span>    Collections.unmodifiableSet(<a name="line.85"></a>
+<span class="sourceLineNo">086</span>      new HashSet&lt;&gt;(Arrays.asList(TAXONOMIC_AUTHORITY, NOMENCLATOR_AUTHORITY, INVENTORY_THEMATIC,<a name="line.86"></a>
+<span class="sourceLineNo">087</span>        INVENTORY_REGIONAL, GLOBAL_SPECIES_DATASET, DERIVED_FROM_OCCURRENCE)));<a name="line.87"></a>
+<span class="sourceLineNo">088</span><a name="line.88"></a>
+<span class="sourceLineNo">089</span>  /**<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   * @return the matching DatasetSubtype or null<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   */<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  public static DatasetSubtype fromString(String datasetSubType) {<a name="line.92"></a>
+<span class="sourceLineNo">093</span>    return VocabularyUtils.lookupEnum(datasetSubType, DatasetSubtype.class);<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  }<a name="line.94"></a>
+<span class="sourceLineNo">095</span>}<a name="line.95"></a>
 
 
 
