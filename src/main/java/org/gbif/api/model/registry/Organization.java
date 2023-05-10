@@ -357,7 +357,7 @@ public class Organization
   }
 
   @Nullable
-  @Size(min = 1, max = 10)
+  @Size(min = 1, max = 30)
   public String getAbbreviation() {
     return abbreviation;
   }
