@@ -50,14 +50,12 @@ public interface NetworkEntity extends Serializable {
   void setDescription(String description);
 
   @Null(groups = {PrePersist.class})
-  @NotNull(groups = {PostPersist.class})
   @Nullable
   Date getCreated();
 
   void setCreated(Date created);
 
   @Null(groups = {PrePersist.class})
-  @NotNull(groups = {PostPersist.class})
   @Nullable
   Date getModified();
 
