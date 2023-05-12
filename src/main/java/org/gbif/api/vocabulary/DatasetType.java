@@ -36,7 +36,11 @@ public enum DatasetType {
   /**
    * A dataset about a sampling event.
    */
-  SAMPLING_EVENT;
+  SAMPLING_EVENT,
+  /**
+   * A material entity dataset.
+   */
+  MATERIAL_ENTITY;
 
   /**
    * @return the matching DatasetType or null
