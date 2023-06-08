@@ -19,7 +19,10 @@ import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Installation;
+import org.gbif.api.model.registry.Organization;
+import org.gbif.api.model.registry.search.InstallationRequestSearchParams;
 import org.gbif.api.model.registry.search.KeyTitleResult;
+import org.gbif.api.model.registry.search.OrganizationRequestSearchParams;
 import org.gbif.api.vocabulary.InstallationType;
 
 import java.util.List;
@@ -61,4 +64,12 @@ public interface InstallationService
    * @return list of installations ordered by creation date with latest coming first
    */
   PagingResponse<Installation> listByType(InstallationType type, @Nullable Pageable page);
+
+  /**
+   * Provides paging service to list installations that can be filtered by multiple parameters.
+   *
+   * @param searchParams {@link InstallationRequestSearchParams}
+   * @return list of installations ordered by creation date with the latest coming first
+   */
+  PagingResponse<Installation> list(InstallationRequestSearchParams searchParams);
 }

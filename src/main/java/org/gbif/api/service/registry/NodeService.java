@@ -22,6 +22,8 @@ import org.gbif.api.model.registry.Installation;
 import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.search.KeyTitleResult;
+import org.gbif.api.model.registry.search.NodeRequestSearchParams;
+import org.gbif.api.model.registry.search.OrganizationRequestSearchParams;
 import org.gbif.api.vocabulary.Country;
 
 import java.util.List;
@@ -94,4 +96,12 @@ public interface NodeService extends NetworkEntityService<Node> {
    * Provides a simple suggest service.
    */
   List<KeyTitleResult> suggest(@Nullable String q);
+
+  /**
+   * Provides paging service to list nodes that can be filtered by multiple parameters.
+   *
+   * @param searchParams {@link NodeRequestSearchParams}
+   * @return list of nodes ordered by creation date with the latest coming first
+   */
+  PagingResponse<Node> list(NodeRequestSearchParams searchParams);
 }

@@ -21,6 +21,8 @@ import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Network;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.search.KeyTitleResult;
+import org.gbif.api.model.registry.search.NetworkRequestSearchParams;
+import org.gbif.api.model.registry.search.OrganizationRequestSearchParams;
 
 import java.util.List;
 import java.util.UUID;
@@ -66,4 +68,12 @@ public interface NetworkService extends NetworkEntityService<Network> {
    * Provides a simple suggest service.
    */
   List<KeyTitleResult> suggest(@Nullable String q);
+
+  /**
+   * Provides paging service to list networks that can be filtered by multiple parameters.
+   *
+   * @param searchParams {@link NetworkRequestSearchParams}
+   * @return list of networks ordered by creation date with the latest coming first
+   */
+  PagingResponse<Network> list(NetworkRequestSearchParams searchParams);
 }

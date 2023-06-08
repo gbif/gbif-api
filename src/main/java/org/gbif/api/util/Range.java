@@ -18,32 +18,19 @@ import javax.validation.constraints.NotNull;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-/**
- * Simplified version of guava's {@code Range}.
- */
+/** Simplified version of guava's {@code Range}. */
 public class Range<T extends Comparable<? super T>> {
 
-  /**
-   * Lower bound.
-   * Unbound if it is {@code null}.
-   */
-  @Schema(
-    description = "The lower bound.  Unbound if null/unspecified."
-  )
-  private T from;
+  /** Lower bound. Unbound if it is {@code null}. */
+  @Schema(description = "The lower bound.  Unbound if null/unspecified.")
+  private final T from;
+
+  /** Upper bound. Unbound if it is {@code null}. */
+  @Schema(description = "The upper bound. Unbound if null/unspecified.")
+  private final T to;
 
   /**
-   * Upper bound.
-   * Unbound if it is {@code null}.
-   */
-  @Schema(
-    description = "The upper bound. Unbound if null/unspecified."
-  )
-  private T to;
-
-  /**
-   * Create a range with bounds {@code from} and {@code to}.
-   * Use factory method instead.
+   * Create a range with bounds {@code from} and {@code to}. Use factory method instead.
    *
    * @throws IllegalArgumentException if {@code from} is greater than {@code to}
    */
@@ -55,30 +42,22 @@ public class Range<T extends Comparable<? super T>> {
     this.to = to;
   }
 
-  /**
-   * Factory method.
-   */
+  /** Factory method. */
   public static <T extends Comparable<? super T>> Range<T> closed(T from, T to) {
     return new Range<>(from, to);
   }
 
-  /**
-   * Returns {@code true} if this range has a lower endpoint.
-   */
+  /** Returns {@code true} if this range has a lower endpoint. */
   public boolean hasLowerBound() {
     return from != null;
   }
 
-  /**
-   * Returns {@code true} if this range has an upper endpoint.
-   */
+  /** Returns {@code true} if this range has an upper endpoint. */
   public boolean hasUpperBound() {
     return to != null;
   }
 
-  /**
-   * Returns {@code true} if {@code value} is within the bounds of this range.
-   */
+  /** Returns {@code true} if {@code value} is within the bounds of this range. */
   public boolean contains(@NotNull T value) {
     return from.compareTo(value) <= 0 && to.compareTo(value) >= 0;
   }
@@ -99,5 +78,20 @@ public class Range<T extends Comparable<? super T>> {
   @Nullable
   public T upperEndpoint() {
     return to;
+  }
+
+  @Override
+  public String toString() {
+    String lower = "*";
+    if (this.lowerEndpoint() != null) {
+      lower = this.lowerEndpoint().toString();
+    }
+
+    String upper = "*";
+    if (this.upperEndpoint() != null) {
+      upper = this.upperEndpoint().toString();
+    }
+
+    return lower + "," + upper;
   }
 }

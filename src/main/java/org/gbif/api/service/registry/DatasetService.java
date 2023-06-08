@@ -21,6 +21,7 @@ import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Grid;
 import org.gbif.api.model.registry.Metadata;
 import org.gbif.api.model.registry.Network;
+import org.gbif.api.model.registry.search.DatasetRequestSearchParams;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.api.vocabulary.MetadataType;
@@ -144,4 +145,12 @@ public interface DatasetService
    * @return List of grids
    */
   List<Grid> listGrids(UUID datasetKey);
+
+  /**
+   * Provides paging service to list datasets that can be filtered by multiple parameters.
+   *
+   * @param searchParams {@link DatasetRequestSearchParams}
+   * @return list of datasets ordered by creation date with the latest coming first
+   */
+  PagingResponse<Dataset> list(DatasetRequestSearchParams searchParams);
 }
