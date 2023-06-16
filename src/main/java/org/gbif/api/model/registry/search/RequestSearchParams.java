@@ -48,4 +48,9 @@ public abstract class RequestSearchParams extends PageableBase {
   public Pageable getPage() {
     return new PagingRequest(this.getOffset(), this.getLimit());
   }
+
+  public void setPage(Pageable page) {
+    this.offset = page.getOffset();
+    this.limit = page.getLimit();
+  }
 }
