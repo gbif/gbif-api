@@ -23,7 +23,6 @@ import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.search.KeyTitleResult;
 import org.gbif.api.model.registry.search.NodeRequestSearchParams;
-import org.gbif.api.model.registry.search.OrganizationRequestSearchParams;
 import org.gbif.api.vocabulary.Country;
 
 import java.util.List;
@@ -39,15 +38,11 @@ import javax.validation.constraints.NotNull;
 @SuppressWarnings("unused")
 public interface NodeService extends NetworkEntityService<Node> {
 
-  /**
-   * Provides access to the organizations endorsed by a single node.
-   */
-  PagingResponse<Organization> endorsedOrganizations(@NotNull UUID nodeKey,
-    @Nullable Pageable page);
+  /** Provides access to the organizations endorsed by a single node. */
+  PagingResponse<Organization> endorsedOrganizations(
+      @NotNull UUID nodeKey, @Nullable Pageable page);
 
-  /**
-   * Provides access to the organizations that are awaiting an endorsement approval.
-   */
+  /** Provides access to the organizations that are awaiting an endorsement approval. */
   PagingResponse<Organization> pendingEndorsements(@Nullable Pageable page);
 
   /**
@@ -92,9 +87,7 @@ public interface NodeService extends NetworkEntityService<Node> {
    */
   PagingResponse<Dataset> endorsedDatasets(@NotNull UUID nodeKey, @Nullable Pageable page);
 
-  /**
-   * Provides a simple suggest service.
-   */
+  /** Provides a simple suggest service. */
   List<KeyTitleResult> suggest(@Nullable String q);
 
   /**

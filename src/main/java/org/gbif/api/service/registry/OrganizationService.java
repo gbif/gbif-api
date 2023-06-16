@@ -21,10 +21,9 @@ import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Installation;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.search.ContactsSearchParams;
-import org.gbif.api.model.registry.search.DatasetRequestSearchParams;
 import org.gbif.api.model.registry.search.KeyTitleResult;
-import org.gbif.api.model.registry.view.OrganizationContactView;
 import org.gbif.api.model.registry.search.OrganizationRequestSearchParams;
+import org.gbif.api.model.registry.view.OrganizationContactView;
 import org.gbif.api.vocabulary.Country;
 
 import java.util.List;

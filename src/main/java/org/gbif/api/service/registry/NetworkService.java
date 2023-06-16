@@ -22,7 +22,6 @@ import org.gbif.api.model.registry.Network;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.search.KeyTitleResult;
 import org.gbif.api.model.registry.search.NetworkRequestSearchParams;
-import org.gbif.api.model.registry.search.OrganizationRequestSearchParams;
 
 import java.util.List;
 import java.util.UUID;
@@ -46,7 +45,8 @@ public interface NetworkService extends NetworkEntityService<Network> {
    *
    * @param networkKey the network identifier
    */
-  PagingResponse<Organization> publishingOrganizations(@NotNull UUID networkKey, @Nullable Pageable page);
+  PagingResponse<Organization> publishingOrganizations(
+      @NotNull UUID networkKey, @Nullable Pageable page);
 
   /**
    * Adds an existing dataset to the list of constituents of a network.
@@ -64,9 +64,7 @@ public interface NetworkService extends NetworkEntityService<Network> {
    */
   void removeConstituent(@NotNull UUID networkKey, @NotNull UUID datasetKey);
 
-  /**
-   * Provides a simple suggest service.
-   */
+  /** Provides a simple suggest service. */
   List<KeyTitleResult> suggest(@Nullable String q);
 
   /**

@@ -28,8 +28,13 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @SuppressWarnings("unused")
-public interface NetworkEntityService<T> extends MachineTagService, TagService, CommentService,
-  IdentifierService, EndpointService, ContactService {
+public interface NetworkEntityService<T>
+    extends MachineTagService,
+        TagService,
+        CommentService,
+        IdentifierService,
+        EndpointService,
+        ContactService {
 
   /**
    * Creates a new entity. Data should be valid.
@@ -73,38 +78,45 @@ public interface NetworkEntityService<T> extends MachineTagService, TagService, 
 
   /**
    * Used to retrieve a list of network entities.
-   * <p>
-   * To iterate over <em>all</em> entities you can use code like this: {@code PagingRequest req =
+   *
+   * <p>To iterate over <em>all</em> entities you can use code like this: {@code PagingRequest req =
    * new PagingRequest(); PagingResponse<T> response; do { response = service.list(req); for (T obj
-   * : response.getResults()) { doStuff(); } req.nextPage(); } while (!response.isEndOfRecords());
-   * }
+   * : response.getResults()) { doStuff(); } req.nextPage(); } while (!response.isEndOfRecords()); }
    *
    * @return a list of network entities ordered by their creation date, newest coming first
+   *     <p>Deprecated: use the list with parameters service.
    */
+  @Deprecated
   PagingResponse<T> list(@Nullable Pageable page);
 
   /**
    * A simple search that supports paging.
    *
    * @return a pageable response of network entities, with accurate counts.
+   *     <p>Deprecated: use the list with parameters service.
    */
+  @Deprecated
   PagingResponse<T> search(String query, @Nullable Pageable page);
 
   /**
    * Lists the entities by the provided identifier, scoped by type.
    *
    * @return a pageable response of network entities, with accurate counts for the identifier
-   * provided
+   *     provided
+   *     <p>Deprecated: use the list with parameters service.
    */
-  PagingResponse<T> listByIdentifier(IdentifierType type, String identifier,
-    @Nullable Pageable page);
+  @Deprecated
+  PagingResponse<T> listByIdentifier(
+      IdentifierType type, String identifier, @Nullable Pageable page);
 
   /**
    * Lists the entities by the provided identifier, which may be of any type.
    *
    * @return a pageable response of network entities, with accurate counts for the identifier
-   * provided
+   *     provided
+   *     <p>Deprecated: use the list with parameters service.
    */
+  @Deprecated
   PagingResponse<T> listByIdentifier(String identifier, @Nullable Pageable page);
 
   /**
@@ -112,8 +124,10 @@ public interface NetworkEntityService<T> extends MachineTagService, TagService, 
    * value.
    *
    * @return a pageable response of network entities, with accurate counts for the machine tag
-   * provided
+   *     provided
+   *     <p>Deprecated: use the list with parameters service.
    */
-  PagingResponse<T> listByMachineTag(String namespace, @Nullable String name,
-    @Nullable String value, @Nullable Pageable page);
+  @Deprecated
+  PagingResponse<T> listByMachineTag(
+      String namespace, @Nullable String name, @Nullable String value, @Nullable Pageable page);
 }

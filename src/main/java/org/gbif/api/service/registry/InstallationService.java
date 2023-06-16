@@ -33,28 +33,23 @@ import javax.validation.constraints.NotNull;
 
 @SuppressWarnings("unused")
 public interface InstallationService
-  extends NetworkEntityService<Installation> {
+    extends NetworkEntityService<Installation> {
 
   /**
    * Provides paging service to list datasets hosted by a specific installation.
    *
-   * @param page paging parameters to use, if {@code page} is {@code null} sensible defaults will be used
+   * @param page paging parameters to use, if {@code page} is {@code null} sensible defaults will be
+   *     used
    */
   PagingResponse<Dataset> getHostedDatasets(@NotNull UUID installationKey, @Nullable Pageable page);
 
-  /**
-   * Provides access to deleted installations.
-   */
+  /** Provides access to deleted installations. */
   PagingResponse<Installation> listDeleted(@Nullable Pageable page);
 
-  /**
-   * Provides access to installations that serve no datasets.
-   */
+  /** Provides access to installations that serve no datasets. */
   PagingResponse<Installation> listNonPublishing(@Nullable Pageable page);
 
-  /**
-   * Provides a simple suggest service.
-   */
+  /** Provides a simple suggest service. */
   List<KeyTitleResult> suggest(@Nullable String q);
 
   /**
