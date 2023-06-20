@@ -27,7 +27,7 @@ import lombok.Setter;
 /** Base class for registry requests to list the entities. */
 @Getter
 @Setter
-public abstract class RequestSearchParams extends PageableBase {
+public class RequestSearchParams extends PageableBase {
 
   public static final String IDENTIFIER_TYPE_PARAM = "identifierType";
   public static final String IDENTIFIER_PARAM = "identifier";
@@ -47,5 +47,12 @@ public abstract class RequestSearchParams extends PageableBase {
 
   public Pageable getPage() {
     return new PagingRequest(this.getOffset(), this.getLimit());
+  }
+
+  public void setPage(Pageable page) {
+    if (page != null) {
+      this.offset = page.getOffset();
+      this.limit = page.getLimit();
+    }
   }
 }
