@@ -106,6 +106,7 @@ public class CollectionSearchRequest extends SearchRequest {
     MasterSourceType masterSourceType;
     String numberSpecimens;
     Boolean displayOnNHCPortal;
+    UUID replacedBy;
     Pageable page;
 
     public Builder institution(UUID institution) {
@@ -213,6 +214,11 @@ public class CollectionSearchRequest extends SearchRequest {
       return this;
     }
 
+    public Builder replacedBy(UUID replacedBy) {
+      this.replacedBy = replacedBy;
+      return this;
+    }
+
     public Builder page(Pageable page) {
       this.page = page;
       return this;
@@ -241,6 +247,7 @@ public class CollectionSearchRequest extends SearchRequest {
       req.setMasterSourceType(masterSourceType);
       req.setNumberSpecimens(numberSpecimens);
       req.setDisplayOnNHCPortal(displayOnNHCPortal);
+      req.setReplacedBy(replacedBy);
       if (page != null) {
         req.setLimit(page.getLimit());
         req.setOffset(page.getOffset());

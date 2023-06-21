@@ -15,15 +15,15 @@
  */
 package org.gbif.api.model.collections.request;
 
-import java.io.Serializable;
-import java.util.UUID;
-
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PageableBase;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
+
+import java.io.Serializable;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -43,9 +43,11 @@ public abstract class SearchRequest extends PageableBase implements Serializable
   @Nullable private String city;
   @Nullable private String fuzzyName;
   @Nullable private Boolean active;
+
   @Nullable private MasterSourceType masterSourceType;
   @Nullable private String numberSpecimens;
   @Nullable private Boolean displayOnNHCPortal;
+  @Nullable private UUID replacedBy;
 
   @Nullable
   public String getQ() {
@@ -201,5 +203,14 @@ public abstract class SearchRequest extends PageableBase implements Serializable
 
   public Pageable getPage() {
     return new PagingRequest(getOffset(), getLimit());
+  }
+
+  @Nullable
+  public UUID getReplacedBy() {
+    return replacedBy;
+  }
+
+  public void setReplacedBy(@Nullable UUID replacedBy) {
+    this.replacedBy = replacedBy;
   }
 }

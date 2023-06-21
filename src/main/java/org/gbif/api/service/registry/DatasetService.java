@@ -21,6 +21,7 @@ import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Grid;
 import org.gbif.api.model.registry.Metadata;
 import org.gbif.api.model.registry.Network;
+import org.gbif.api.model.registry.search.DatasetRequestSearchParams;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.api.vocabulary.MetadataType;
@@ -32,8 +33,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 @SuppressWarnings("unused")
-public interface DatasetService
-  extends NetworkEntityService<Dataset> {
+public interface DatasetService extends NetworkEntityService<Dataset> {
 
   /**
    * Pages through constituents of a dataset, i.e. returns datasets which have a parentDatasetKey
@@ -44,18 +44,21 @@ public interface DatasetService
   PagingResponse<Dataset> listConstituents(UUID datasetKey, @Nullable Pageable page);
 
   /**
-   * Pages through all constituent datasets, i.e. returns datasets which have a non null parentDatasetKey.
+   * Pages through all constituent datasets, i.e. returns datasets which have a non null
+   * parentDatasetKey.
    */
   PagingResponse<Dataset> listConstituents(@Nullable Pageable page);
 
   /**
-   * Provides paging service to list datasets published, i.e. owned by organizations from a given country.
+   * Provides paging service to list datasets published, i.e. owned by organizations from a given
+   * country.
    *
    * @param country the hosting country
    * @param type the optional dataset type filter
    * @return list of datasets ordered by creation date with latest coming first
    */
-  PagingResponse<Dataset> listByCountry(Country country, @Nullable DatasetType type, @Nullable Pageable page);
+  PagingResponse<Dataset> listByCountry(
+      Country country, @Nullable DatasetType type, @Nullable Pageable page);
 
   /**
    * Provides paging service to list datasets published filtered by a particular dataset type.
@@ -66,9 +69,9 @@ public interface DatasetService
   PagingResponse<Dataset> listByType(DatasetType type, @Nullable Pageable page);
 
   /**
-   * Lists all metadata descriptions available for a dataset and optionally filters them by document type.
-   * The list is sorted by priority with the first result ranking highest.
-   * Highest priority in this sense means most relevant for augmenting/updating a dataset with EML being the most
+   * Lists all metadata descriptions available for a dataset and optionally filters them by document
+   * type. The list is sorted by priority with the first result ranking highest. Highest priority in
+   * this sense means most relevant for augmenting/updating a dataset with EML being the most
    * relevant cause informative type.
    *
    * @return the list of metadata entries sorted by priority
@@ -77,19 +80,16 @@ public interface DatasetService
 
   /**
    * Lists all networks that this dataset is a constituent of.
+   *
    * @param datasetKey the dataset in question
    * @return list of networks that have this dataset as a constituent
    */
   List<Network> listNetworks(UUID datasetKey);
 
-  /**
-   * Get a metadata description by its key.
-   */
+  /** Get a metadata description by its key. */
   Metadata getMetadata(int metadataKey);
 
-  /**
-   * Removes a metadata entry and its document by its key.
-   */
+  /** Removes a metadata entry and its document by its key. */
   void deleteMetadata(int metadataKey);
 
   /**
@@ -98,50 +98,55 @@ public interface DatasetService
    * The document type is discovered by the service and returned in the Metadata instance.
    *
    * @param datasetKey the dataset in question
-   * @param document   metadata document to insert
-   *
+   * @param document metadata document to insert
    * @throws IllegalArgumentException if document is not parsable
    */
   Metadata insertMetadata(UUID datasetKey, InputStream document);
 
   /**
-   * Retrieves a GBIF generated EML document overlaying GBIF information with any existing metadata document data.
+   * Retrieves a GBIF generated EML document overlaying GBIF information with any existing metadata
+   * document data.
    */
   InputStream getMetadataDocument(UUID datasetKey);
 
-  /**
-   * Gets the actual metadata document content by its key.
-   */
+  /** Gets the actual metadata document content by its key. */
   InputStream getMetadataDocument(int metadataKey);
 
-  /**
-   * Provides access to deleted datasets.
-   */
-  PagingResponse<Dataset> listDeleted(@Nullable Pageable page);
+  /** Provides access to deleted datasets. */
+  PagingResponse<Dataset> listDeleted(DatasetRequestSearchParams searchParams);
 
   /**
-   * Provides access to datasets that are marked as a duplicate of another. When 2 datasets are considered duplicates,
-   * one is marked as a duplicate of the other. Only the marked dataset is returned in this call.
+   * Provides access to datasets that are marked as a duplicate of another. When 2 datasets are
+   * considered duplicates, one is marked as a duplicate of the other. Only the marked dataset is
+   * returned in this call.
    */
   PagingResponse<Dataset> listDuplicates(@Nullable Pageable page);
 
   /**
-   * Provides access to internal (e.g. not marked as external) datasets, that are not sub datasets that have no
-   * endpoint.
+   * Provides access to internal (e.g. not marked as external) datasets, that are not sub datasets
+   * that have no endpoint.
    */
   PagingResponse<Dataset> listDatasetsWithNoEndpoint(@Nullable Pageable page);
 
   /**
-   * Get a Dataset list from a DOI.
-   * GBIF assigned DOIs and alternate identifiers are returned.
+   * Get a Dataset list from a DOI. GBIF assigned DOIs and alternate identifiers are returned.
    * Multiple dataset could share the same DOI since this is not enforced.
    */
   PagingResponse<Dataset> listByDOI(String doi, @Nullable Pageable page);
 
   /**
    * Get gridded datasets processing info
+   *
    * @param datasetKey the dataset in question
    * @return List of grids
    */
   List<Grid> listGrids(UUID datasetKey);
+
+  /**
+   * Provides paging service to list datasets that can be filtered by multiple parameters.
+   *
+   * @param searchParams {@link DatasetRequestSearchParams}
+   * @return list of datasets ordered by creation date with the latest coming first
+   */
+  PagingResponse<Dataset> list(DatasetRequestSearchParams searchParams);
 }

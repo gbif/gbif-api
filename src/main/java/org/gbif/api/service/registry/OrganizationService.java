@@ -22,6 +22,7 @@ import org.gbif.api.model.registry.Installation;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.search.ContactsSearchParams;
 import org.gbif.api.model.registry.search.KeyTitleResult;
+import org.gbif.api.model.registry.search.OrganizationRequestSearchParams;
 import org.gbif.api.model.registry.view.OrganizationContactView;
 import org.gbif.api.vocabulary.Country;
 
@@ -50,7 +51,7 @@ public interface OrganizationService extends NetworkEntityService<Organization> 
   PagingResponse<Organization> listByCountry(Country country, @Nullable Pageable page);
 
   /** Provides access to deleted organizations. */
-  PagingResponse<Organization> listDeleted(@Nullable Pageable page);
+  PagingResponse<Organization> listDeleted(OrganizationRequestSearchParams searchParams);
 
   /** Provides access to organizations that are awaiting their endorsement approval. */
   PagingResponse<Organization> listPendingEndorsement(@Nullable Pageable page);
@@ -89,6 +90,14 @@ public interface OrganizationService extends NetworkEntityService<Organization> 
    * @return endorsement was confirmed using the provided keys
    */
   boolean revokeEndorsement(@NotNull UUID organizationKey);
+
+  /**
+   * Provides paging service to list organizations that can be filtered by multiple parameters.
+   *
+   * @param searchParams {@link OrganizationRequestSearchParams}
+   * @return list of organizations ordered by creation date with the latest coming first
+   */
+  PagingResponse<Organization> list(OrganizationRequestSearchParams searchParams);
 
   /**
    * Searches for organization contacts filterting by the parameters specified.

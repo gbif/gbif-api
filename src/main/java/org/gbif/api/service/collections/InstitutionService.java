@@ -40,7 +40,7 @@ public interface InstitutionService extends CollectionEntityService<Institution>
   PagingResponse<Institution> list(InstitutionSearchRequest searchRequest);
 
   /** Provides access to deleted institutions. */
-  PagingResponse<Institution> listDeleted(@Nullable UUID replacedBy, @Nullable Pageable page);
+  PagingResponse<Institution> listDeleted(InstitutionSearchRequest searchRequest);
 
   /** Provides a simple suggest service. */
   List<KeyCodeNameResult> suggest(@Nullable String q);

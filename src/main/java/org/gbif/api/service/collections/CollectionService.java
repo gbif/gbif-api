@@ -42,7 +42,7 @@ public interface CollectionService extends CollectionEntityService<Collection> {
   PagingResponse<CollectionView> list(CollectionSearchRequest searchRequest);
 
   /** Provides access to deleted collections. */
-  PagingResponse<CollectionView> listDeleted(@Nullable UUID replacedBy, @Nullable Pageable page);
+  PagingResponse<CollectionView> listDeleted(CollectionSearchRequest searchRequest);
 
   /** Retrieves a {@link CollectionView} by the collection key. */
   CollectionView getCollectionView(@NotNull UUID key);
