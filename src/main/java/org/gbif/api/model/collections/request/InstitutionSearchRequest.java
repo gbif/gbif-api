@@ -22,6 +22,7 @@ import org.gbif.api.vocabulary.collections.InstitutionType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -85,6 +86,7 @@ public class InstitutionSearchRequest extends SearchRequest {
     MasterSourceType masterSourceType;
     String numberSpecimens;
     Boolean displayOnNHCPortal;
+    UUID replacedBy;
     Pageable page;
 
     public Builder query(String q) {
@@ -182,6 +184,11 @@ public class InstitutionSearchRequest extends SearchRequest {
       return this;
     }
 
+    public Builder replacedBy(UUID replacedBy) {
+      this.replacedBy = replacedBy;
+      return this;
+    }
+
     public Builder page(Pageable page) {
       this.page = page;
       return this;
@@ -208,6 +215,7 @@ public class InstitutionSearchRequest extends SearchRequest {
       req.setMasterSourceType(masterSourceType);
       req.setNumberSpecimens(numberSpecimens);
       req.setDisplayOnNHCPortal(displayOnNHCPortal);
+      req.setReplacedBy(replacedBy);
       if (page != null) {
         req.setLimit(page.getLimit());
         req.setOffset(page.getOffset());

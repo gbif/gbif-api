@@ -51,7 +51,7 @@ public interface OrganizationService extends NetworkEntityService<Organization> 
   PagingResponse<Organization> listByCountry(Country country, @Nullable Pageable page);
 
   /** Provides access to deleted organizations. */
-  PagingResponse<Organization> listDeleted(@Nullable Pageable page);
+  PagingResponse<Organization> listDeleted(OrganizationRequestSearchParams searchParams);
 
   /** Provides access to organizations that are awaiting their endorsement approval. */
   PagingResponse<Organization> listPendingEndorsement(@Nullable Pageable page);

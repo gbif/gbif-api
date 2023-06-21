@@ -44,7 +44,7 @@ public interface InstallationService
   PagingResponse<Dataset> getHostedDatasets(@NotNull UUID installationKey, @Nullable Pageable page);
 
   /** Provides access to deleted installations. */
-  PagingResponse<Installation> listDeleted(@Nullable Pageable page);
+  PagingResponse<Installation> listDeleted(InstallationRequestSearchParams searchParams);
 
   /** Provides access to installations that serve no datasets. */
   PagingResponse<Installation> listNonPublishing(@Nullable Pageable page);

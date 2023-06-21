@@ -113,7 +113,7 @@ public interface DatasetService extends NetworkEntityService<Dataset> {
   InputStream getMetadataDocument(int metadataKey);
 
   /** Provides access to deleted datasets. */
-  PagingResponse<Dataset> listDeleted(@Nullable Pageable page);
+  PagingResponse<Dataset> listDeleted(DatasetRequestSearchParams searchParams);
 
   /**
    * Provides access to datasets that are marked as a duplicate of another. When 2 datasets are
