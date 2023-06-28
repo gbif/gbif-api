@@ -116,9 +116,7 @@ public interface PipelinesHistoryService {
    */
   List<PipelineStep> getPipelineStepsByExecutionKey(long executionKey);
 
-  /**
-   * Mark all pipeline executions as finished to clean running UI
-   */
+  /** Mark all pipeline executions as finished to clean running UI */
   void markAllPipelineExecutionAsFinished();
 
   /**
@@ -129,8 +127,8 @@ public interface PipelinesHistoryService {
   void markPipelineExecutionIfFinished(long executionKey);
 
   /**
-   * Change status to ABORTED and set finished date if state is RUNNING, QUEUED or SUBMITTED,
-   * and set pipeline execution as finished
+   * Change status to ABORTED and set finished date if state is RUNNING, QUEUED or SUBMITTED, and
+   * set pipeline execution as finished
    *
    * @param executionKey key of the pipeline execution
    */
@@ -202,10 +200,13 @@ public interface PipelinesHistoryService {
   /**
    * Sends email to data administrator about absent identifiers issue with a dataset
    *
+   * <p>Deprecated: use {@link #notifyAbsentIdentifiers(UUID, int, String)} instead.
+   *
    * @param datasetKey dataset key
    * @param attempt attempt to run
-   * @param message with failed metrics and other info
+   * @param message with failed metrics and other info*
    */
+  @Deprecated
   void sendAbsentIndentifiersEmail(@NotNull UUID datasetKey, int attempt, @NotNull String message);
 
   /**
@@ -224,4 +225,15 @@ public interface PipelinesHistoryService {
    * @param datasetKey dataset key
    */
   void allowAbsentIndentifiers(@NotNull UUID datasetKey);
+
+  /**
+   * Sends a notification to the data administrators about absent identifiers issues with the
+   * dataset.
+   *
+   * @param datasetKey key of the dataset
+   * @param attempt crawling attempt
+   * @param executionKey key of the pipelines execution
+   * @param message cause of the issue
+   */
+  void notifyAbsentIdentifiers(UUID datasetKey, int attempt, long executionKey, String message);
 }
