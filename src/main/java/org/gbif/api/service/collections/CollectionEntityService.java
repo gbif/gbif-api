@@ -40,16 +40,6 @@ public interface CollectionEntityService<T extends CollectionEntity>
         ContactService,
         OccurrenceMappingService {
 
-  /**
-   * Lists the entities having a machine tag in the provided namespace, with the provided name and
-   * value.
-   *
-   * @return a pageable response of collection entities, with accurate counts for the machine tag
-   *     provided
-   */
-  PagingResponse<T> listByMachineTag(
-      String namespace, @Nullable String name, @Nullable String value, @Nullable Pageable page);
-
   /** Replaces a entity with another. The entity replaced is also deleted. */
   void replace(UUID entityToReplaceKey, UUID replacementKey);
 

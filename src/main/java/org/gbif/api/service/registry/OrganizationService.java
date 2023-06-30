@@ -20,7 +20,10 @@ import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Installation;
 import org.gbif.api.model.registry.Organization;
+import org.gbif.api.model.registry.search.ContactsSearchParams;
 import org.gbif.api.model.registry.search.KeyTitleResult;
+import org.gbif.api.model.registry.search.OrganizationRequestSearchParams;
+import org.gbif.api.model.registry.view.OrganizationContactView;
 import org.gbif.api.vocabulary.Country;
 
 import java.util.List;
@@ -30,48 +33,33 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 @SuppressWarnings("unused")
-public interface OrganizationService
-  extends NetworkEntityService<Organization> {
+public interface OrganizationService extends NetworkEntityService<Organization> {
 
   /**
    * Provides paging service to list datasets hosted by, but not owned by, a specific organization.
    */
   PagingResponse<Dataset> hostedDatasets(@NotNull UUID organizationKey, @Nullable Pageable page);
 
-  /**
-   * Provides paging service to list datasets published by a specific organization.
-   */
+  /** Provides paging service to list datasets published by a specific organization. */
   PagingResponse<Dataset> publishedDatasets(@NotNull UUID organizationKey, @Nullable Pageable page);
 
-  /**
-   * Provides paging service to list installations for the organization.
-   */
-  PagingResponse<Installation> installations(@NotNull UUID organizationKey,
-    @Nullable Pageable page);
+  /** Provides paging service to list installations for the organization. */
+  PagingResponse<Installation> installations(
+      @NotNull UUID organizationKey, @Nullable Pageable page);
 
-  /**
-   * Provides access to all organizations from a country.
-   */
+  /** Provides access to all organizations from a country. */
   PagingResponse<Organization> listByCountry(Country country, @Nullable Pageable page);
 
-  /**
-   * Provides access to deleted organizations.
-   */
-  PagingResponse<Organization> listDeleted(@Nullable Pageable page);
+  /** Provides access to deleted organizations. */
+  PagingResponse<Organization> listDeleted(OrganizationRequestSearchParams searchParams);
 
-  /**
-   * Provides access to organizations that are awaiting their endorsement approval.
-   */
+  /** Provides access to organizations that are awaiting their endorsement approval. */
   PagingResponse<Organization> listPendingEndorsement(@Nullable Pageable page);
 
-  /**
-   * Provides access to organizations that are not publishing (e.g. owning) any datasets.
-   */
+  /** Provides access to organizations that are not publishing (e.g. owning) any datasets. */
   PagingResponse<Organization> listNonPublishing(@Nullable Pageable page);
 
-  /**
-   * Provides a simple suggest service.
-   */
+  /** Provides a simple suggest service. */
   List<KeyTitleResult> suggest(@Nullable String q);
 
   /**
@@ -86,9 +74,9 @@ public interface OrganizationService
   boolean confirmEndorsement(@NotNull UUID organizationKey, @NotNull UUID confirmationKey);
 
   /**
-   * Confirm the endorsement of a new {@link Organization} without a confirmationKey.
-   * Confirming the endorsement of an {@link Organization} may not be required or possible depending
-   * how the {@link Organization} was created.
+   * Confirm the endorsement of a new {@link Organization} without a confirmationKey. Confirming the
+   * endorsement of an {@link Organization} may not be required or possible depending how the {@link
+   * Organization} was created.
    *
    * @param organizationKey key of the organization
    * @return endorsement was confirmed using the provided keys
@@ -102,4 +90,20 @@ public interface OrganizationService
    * @return endorsement was confirmed using the provided keys
    */
   boolean revokeEndorsement(@NotNull UUID organizationKey);
+
+  /**
+   * Provides paging service to list organizations that can be filtered by multiple parameters.
+   *
+   * @param searchParams {@link OrganizationRequestSearchParams}
+   * @return list of organizations ordered by creation date with the latest coming first
+   */
+  PagingResponse<Organization> list(OrganizationRequestSearchParams searchParams);
+
+  /**
+   * Searches for organization contacts filterting by the parameters specified.
+   *
+   * @param searchParams {@link ContactsSearchParams}
+   * @return contacts found
+   */
+  PagingResponse<OrganizationContactView> searchContacts(ContactsSearchParams searchParams);
 }

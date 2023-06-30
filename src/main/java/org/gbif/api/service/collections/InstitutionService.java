@@ -15,7 +15,6 @@ package org.gbif.api.service.collections;
 
 import org.gbif.api.model.collections.Institution;
 import org.gbif.api.model.collections.request.InstitutionSearchRequest;
-import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;
 
@@ -23,6 +22,8 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
+
+import org.geojson.FeatureCollection;
 
 /** Service for institutions in the collections context. */
 public interface InstitutionService extends CollectionEntityService<Institution> {
@@ -40,7 +41,7 @@ public interface InstitutionService extends CollectionEntityService<Institution>
   PagingResponse<Institution> list(InstitutionSearchRequest searchRequest);
 
   /** Provides access to deleted institutions. */
-  PagingResponse<Institution> listDeleted(@Nullable UUID replacedBy, @Nullable Pageable page);
+  PagingResponse<Institution> listDeleted(InstitutionSearchRequest searchRequest);
 
   /** Provides a simple suggest service. */
   List<KeyCodeNameResult> suggest(@Nullable String q);
@@ -57,4 +58,12 @@ public interface InstitutionService extends CollectionEntityService<Institution>
    * @return UUID of the created institution
    */
   UUID createFromOrganization(UUID organizationKey, String institutionCode);
+
+  /**
+   * Lists the institutions in GeoJson format.
+   *
+   * @param searchRequest parameters to filter the request
+   * @return a {@link FeatureCollection} object that conforms with GeoJson
+   */
+  FeatureCollection listGeojson(InstitutionSearchRequest searchRequest);
 }
