@@ -36,95 +36,109 @@
 <span class="sourceLineNo">028</span>import javax.validation.constraints.NotNull;<a name="line.28"></a>
 <span class="sourceLineNo">029</span><a name="line.29"></a>
 <span class="sourceLineNo">030</span>@SuppressWarnings("unused")<a name="line.30"></a>
-<span class="sourceLineNo">031</span>public interface NetworkEntityService&lt;T&gt; extends MachineTagService, TagService, CommentService,<a name="line.31"></a>
-<span class="sourceLineNo">032</span>  IdentifierService, EndpointService, ContactService {<a name="line.32"></a>
-<span class="sourceLineNo">033</span><a name="line.33"></a>
-<span class="sourceLineNo">034</span>  /**<a name="line.34"></a>
-<span class="sourceLineNo">035</span>   * Creates a new entity. Data should be valid.<a name="line.35"></a>
-<span class="sourceLineNo">036</span>   *<a name="line.36"></a>
-<span class="sourceLineNo">037</span>   * @param entity to create<a name="line.37"></a>
-<span class="sourceLineNo">038</span>   * @return a key of the newly created entity.<a name="line.38"></a>
-<span class="sourceLineNo">039</span>   */<a name="line.39"></a>
-<span class="sourceLineNo">040</span>  UUID create(@NotNull @Valid T entity);<a name="line.40"></a>
-<span class="sourceLineNo">041</span><a name="line.41"></a>
-<span class="sourceLineNo">042</span>  /**<a name="line.42"></a>
-<span class="sourceLineNo">043</span>   * Updates an existing entity. Data should be valid.<a name="line.43"></a>
-<span class="sourceLineNo">044</span>   *<a name="line.44"></a>
-<span class="sourceLineNo">045</span>   * @param entity to update.<a name="line.45"></a>
-<span class="sourceLineNo">046</span>   */<a name="line.46"></a>
-<span class="sourceLineNo">047</span>  void update(@NotNull @Valid T entity);<a name="line.47"></a>
-<span class="sourceLineNo">048</span><a name="line.48"></a>
-<span class="sourceLineNo">049</span>  // TODO: Define behavior when it is already deleted or does not exist<a name="line.49"></a>
-<span class="sourceLineNo">050</span><a name="line.50"></a>
-<span class="sourceLineNo">051</span>  /**<a name="line.51"></a>
-<span class="sourceLineNo">052</span>   * Deletes an entity by the provided key.<a name="line.52"></a>
-<span class="sourceLineNo">053</span>   *<a name="line.53"></a>
-<span class="sourceLineNo">054</span>   * @param key of the entity to delete.<a name="line.54"></a>
-<span class="sourceLineNo">055</span>   */<a name="line.55"></a>
-<span class="sourceLineNo">056</span>  void delete(@NotNull UUID key);<a name="line.56"></a>
-<span class="sourceLineNo">057</span><a name="line.57"></a>
-<span class="sourceLineNo">058</span>  /**<a name="line.58"></a>
-<span class="sourceLineNo">059</span>   * Gets an entity by the provided key.<a name="line.59"></a>
-<span class="sourceLineNo">060</span>   *<a name="line.60"></a>
-<span class="sourceLineNo">061</span>   * @param key of the entity to get<a name="line.61"></a>
-<span class="sourceLineNo">062</span>   * @return an entity.<a name="line.62"></a>
-<span class="sourceLineNo">063</span>   */<a name="line.63"></a>
-<span class="sourceLineNo">064</span>  T get(@NotNull UUID key);<a name="line.64"></a>
-<span class="sourceLineNo">065</span><a name="line.65"></a>
-<span class="sourceLineNo">066</span>  /**<a name="line.66"></a>
-<span class="sourceLineNo">067</span>   * Retrieves all titles for the requested entity keys in one go<a name="line.67"></a>
-<span class="sourceLineNo">068</span>   *<a name="line.68"></a>
-<span class="sourceLineNo">069</span>   * @param keys entity keys to get titles<a name="line.69"></a>
-<span class="sourceLineNo">070</span>   * @return pairs of entity key - entity title.<a name="line.70"></a>
-<span class="sourceLineNo">071</span>   */<a name="line.71"></a>
-<span class="sourceLineNo">072</span>  Map&lt;UUID, String&gt; getTitles(@NotNull Collection&lt;UUID&gt; keys);<a name="line.72"></a>
-<span class="sourceLineNo">073</span><a name="line.73"></a>
-<span class="sourceLineNo">074</span>  /**<a name="line.74"></a>
-<span class="sourceLineNo">075</span>   * Used to retrieve a list of network entities.<a name="line.75"></a>
-<span class="sourceLineNo">076</span>   * &lt;p&gt;<a name="line.76"></a>
-<span class="sourceLineNo">077</span>   * To iterate over &lt;em&gt;all&lt;/em&gt; entities you can use code like this: {@code PagingRequest req =<a name="line.77"></a>
-<span class="sourceLineNo">078</span>   * new PagingRequest(); PagingResponse&lt;T&gt; response; do { response = service.list(req); for (T obj<a name="line.78"></a>
-<span class="sourceLineNo">079</span>   * : response.getResults()) { doStuff(); } req.nextPage(); } while (!response.isEndOfRecords());<a name="line.79"></a>
-<span class="sourceLineNo">080</span>   * }<a name="line.80"></a>
+<span class="sourceLineNo">031</span>public interface NetworkEntityService&lt;T&gt;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>    extends MachineTagService,<a name="line.32"></a>
+<span class="sourceLineNo">033</span>        TagService,<a name="line.33"></a>
+<span class="sourceLineNo">034</span>        CommentService,<a name="line.34"></a>
+<span class="sourceLineNo">035</span>        IdentifierService,<a name="line.35"></a>
+<span class="sourceLineNo">036</span>        EndpointService,<a name="line.36"></a>
+<span class="sourceLineNo">037</span>        ContactService {<a name="line.37"></a>
+<span class="sourceLineNo">038</span><a name="line.38"></a>
+<span class="sourceLineNo">039</span>  /**<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   * Creates a new entity. Data should be valid.<a name="line.40"></a>
+<span class="sourceLineNo">041</span>   *<a name="line.41"></a>
+<span class="sourceLineNo">042</span>   * @param entity to create<a name="line.42"></a>
+<span class="sourceLineNo">043</span>   * @return a key of the newly created entity.<a name="line.43"></a>
+<span class="sourceLineNo">044</span>   */<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  UUID create(@NotNull @Valid T entity);<a name="line.45"></a>
+<span class="sourceLineNo">046</span><a name="line.46"></a>
+<span class="sourceLineNo">047</span>  /**<a name="line.47"></a>
+<span class="sourceLineNo">048</span>   * Updates an existing entity. Data should be valid.<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   *<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   * @param entity to update.<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   */<a name="line.51"></a>
+<span class="sourceLineNo">052</span>  void update(@NotNull @Valid T entity);<a name="line.52"></a>
+<span class="sourceLineNo">053</span><a name="line.53"></a>
+<span class="sourceLineNo">054</span>  // TODO: Define behavior when it is already deleted or does not exist<a name="line.54"></a>
+<span class="sourceLineNo">055</span><a name="line.55"></a>
+<span class="sourceLineNo">056</span>  /**<a name="line.56"></a>
+<span class="sourceLineNo">057</span>   * Deletes an entity by the provided key.<a name="line.57"></a>
+<span class="sourceLineNo">058</span>   *<a name="line.58"></a>
+<span class="sourceLineNo">059</span>   * @param key of the entity to delete.<a name="line.59"></a>
+<span class="sourceLineNo">060</span>   */<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  void delete(@NotNull UUID key);<a name="line.61"></a>
+<span class="sourceLineNo">062</span><a name="line.62"></a>
+<span class="sourceLineNo">063</span>  /**<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   * Gets an entity by the provided key.<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   *<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   * @param key of the entity to get<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   * @return an entity.<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   */<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  T get(@NotNull UUID key);<a name="line.69"></a>
+<span class="sourceLineNo">070</span><a name="line.70"></a>
+<span class="sourceLineNo">071</span>  /**<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   * Retrieves all titles for the requested entity keys in one go<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   *<a name="line.73"></a>
+<span class="sourceLineNo">074</span>   * @param keys entity keys to get titles<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   * @return pairs of entity key - entity title.<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   */<a name="line.76"></a>
+<span class="sourceLineNo">077</span>  Map&lt;UUID, String&gt; getTitles(@NotNull Collection&lt;UUID&gt; keys);<a name="line.77"></a>
+<span class="sourceLineNo">078</span><a name="line.78"></a>
+<span class="sourceLineNo">079</span>  /**<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   * Used to retrieve a list of network entities.<a name="line.80"></a>
 <span class="sourceLineNo">081</span>   *<a name="line.81"></a>
-<span class="sourceLineNo">082</span>   * @return a list of network entities ordered by their creation date, newest coming first<a name="line.82"></a>
-<span class="sourceLineNo">083</span>   */<a name="line.83"></a>
-<span class="sourceLineNo">084</span>  PagingResponse&lt;T&gt; list(@Nullable Pageable page);<a name="line.84"></a>
-<span class="sourceLineNo">085</span><a name="line.85"></a>
-<span class="sourceLineNo">086</span>  /**<a name="line.86"></a>
-<span class="sourceLineNo">087</span>   * A simple search that supports paging.<a name="line.87"></a>
-<span class="sourceLineNo">088</span>   *<a name="line.88"></a>
-<span class="sourceLineNo">089</span>   * @return a pageable response of network entities, with accurate counts.<a name="line.89"></a>
-<span class="sourceLineNo">090</span>   */<a name="line.90"></a>
-<span class="sourceLineNo">091</span>  PagingResponse&lt;T&gt; search(String query, @Nullable Pageable page);<a name="line.91"></a>
-<span class="sourceLineNo">092</span><a name="line.92"></a>
-<span class="sourceLineNo">093</span>  /**<a name="line.93"></a>
-<span class="sourceLineNo">094</span>   * Lists the entities by the provided identifier, scoped by type.<a name="line.94"></a>
-<span class="sourceLineNo">095</span>   *<a name="line.95"></a>
-<span class="sourceLineNo">096</span>   * @return a pageable response of network entities, with accurate counts for the identifier<a name="line.96"></a>
-<span class="sourceLineNo">097</span>   * provided<a name="line.97"></a>
-<span class="sourceLineNo">098</span>   */<a name="line.98"></a>
-<span class="sourceLineNo">099</span>  PagingResponse&lt;T&gt; listByIdentifier(IdentifierType type, String identifier,<a name="line.99"></a>
-<span class="sourceLineNo">100</span>    @Nullable Pageable page);<a name="line.100"></a>
-<span class="sourceLineNo">101</span><a name="line.101"></a>
-<span class="sourceLineNo">102</span>  /**<a name="line.102"></a>
-<span class="sourceLineNo">103</span>   * Lists the entities by the provided identifier, which may be of any type.<a name="line.103"></a>
-<span class="sourceLineNo">104</span>   *<a name="line.104"></a>
-<span class="sourceLineNo">105</span>   * @return a pageable response of network entities, with accurate counts for the identifier<a name="line.105"></a>
-<span class="sourceLineNo">106</span>   * provided<a name="line.106"></a>
+<span class="sourceLineNo">082</span>   * &lt;p&gt;To iterate over &lt;em&gt;all&lt;/em&gt; entities you can use code like this: {@code PagingRequest req =<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   * new PagingRequest(); PagingResponse&lt;T&gt; response; do { response = service.list(req); for (T obj<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   * : response.getResults()) { doStuff(); } req.nextPage(); } while (!response.isEndOfRecords()); }<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   *<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * @return a list of network entities ordered by their creation date, newest coming first<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   *     &lt;p&gt;Deprecated: use the list with parameters service.<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   */<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  @Deprecated<a name="line.89"></a>
+<span class="sourceLineNo">090</span>  PagingResponse&lt;T&gt; list(@Nullable Pageable page);<a name="line.90"></a>
+<span class="sourceLineNo">091</span><a name="line.91"></a>
+<span class="sourceLineNo">092</span>  /**<a name="line.92"></a>
+<span class="sourceLineNo">093</span>   * A simple search that supports paging.<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   *<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * @return a pageable response of network entities, with accurate counts.<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   *     &lt;p&gt;Deprecated: use the list with parameters service.<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   */<a name="line.97"></a>
+<span class="sourceLineNo">098</span>  @Deprecated<a name="line.98"></a>
+<span class="sourceLineNo">099</span>  PagingResponse&lt;T&gt; search(String query, @Nullable Pageable page);<a name="line.99"></a>
+<span class="sourceLineNo">100</span><a name="line.100"></a>
+<span class="sourceLineNo">101</span>  /**<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   * Lists the entities by the provided identifier, scoped by type.<a name="line.102"></a>
+<span class="sourceLineNo">103</span>   *<a name="line.103"></a>
+<span class="sourceLineNo">104</span>   * @return a pageable response of network entities, with accurate counts for the identifier<a name="line.104"></a>
+<span class="sourceLineNo">105</span>   *     provided<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   *     &lt;p&gt;Deprecated: use the list with parameters service.<a name="line.106"></a>
 <span class="sourceLineNo">107</span>   */<a name="line.107"></a>
-<span class="sourceLineNo">108</span>  PagingResponse&lt;T&gt; listByIdentifier(String identifier, @Nullable Pageable page);<a name="line.108"></a>
-<span class="sourceLineNo">109</span><a name="line.109"></a>
-<span class="sourceLineNo">110</span>  /**<a name="line.110"></a>
-<span class="sourceLineNo">111</span>   * Lists the entities having a machine tag in the provided namespace, with the provided name and<a name="line.111"></a>
-<span class="sourceLineNo">112</span>   * value.<a name="line.112"></a>
-<span class="sourceLineNo">113</span>   *<a name="line.113"></a>
-<span class="sourceLineNo">114</span>   * @return a pageable response of network entities, with accurate counts for the machine tag<a name="line.114"></a>
-<span class="sourceLineNo">115</span>   * provided<a name="line.115"></a>
-<span class="sourceLineNo">116</span>   */<a name="line.116"></a>
-<span class="sourceLineNo">117</span>  PagingResponse&lt;T&gt; listByMachineTag(String namespace, @Nullable String name,<a name="line.117"></a>
-<span class="sourceLineNo">118</span>    @Nullable String value, @Nullable Pageable page);<a name="line.118"></a>
-<span class="sourceLineNo">119</span>}<a name="line.119"></a>
+<span class="sourceLineNo">108</span>  @Deprecated<a name="line.108"></a>
+<span class="sourceLineNo">109</span>  PagingResponse&lt;T&gt; listByIdentifier(<a name="line.109"></a>
+<span class="sourceLineNo">110</span>      IdentifierType type, String identifier, @Nullable Pageable page);<a name="line.110"></a>
+<span class="sourceLineNo">111</span><a name="line.111"></a>
+<span class="sourceLineNo">112</span>  /**<a name="line.112"></a>
+<span class="sourceLineNo">113</span>   * Lists the entities by the provided identifier, which may be of any type.<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   *<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   * @return a pageable response of network entities, with accurate counts for the identifier<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   *     provided<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   *     &lt;p&gt;Deprecated: use the list with parameters service.<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   */<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  @Deprecated<a name="line.119"></a>
+<span class="sourceLineNo">120</span>  PagingResponse&lt;T&gt; listByIdentifier(String identifier, @Nullable Pageable page);<a name="line.120"></a>
+<span class="sourceLineNo">121</span><a name="line.121"></a>
+<span class="sourceLineNo">122</span>  /**<a name="line.122"></a>
+<span class="sourceLineNo">123</span>   * Lists the entities having a machine tag in the provided namespace, with the provided name and<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * value.<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   *<a name="line.125"></a>
+<span class="sourceLineNo">126</span>   * @return a pageable response of network entities, with accurate counts for the machine tag<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   *     provided<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   *     &lt;p&gt;Deprecated: use the list with parameters service.<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   */<a name="line.129"></a>
+<span class="sourceLineNo">130</span>  @Deprecated<a name="line.130"></a>
+<span class="sourceLineNo">131</span>  PagingResponse&lt;T&gt; listByMachineTag(<a name="line.131"></a>
+<span class="sourceLineNo">132</span>      String namespace, @Nullable String name, @Nullable String value, @Nullable Pageable page);<a name="line.132"></a>
+<span class="sourceLineNo">133</span>}<a name="line.133"></a>
 
 
 

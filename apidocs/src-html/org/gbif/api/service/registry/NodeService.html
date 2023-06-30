@@ -30,79 +30,82 @@
 <span class="sourceLineNo">022</span>import org.gbif.api.model.registry.Node;<a name="line.22"></a>
 <span class="sourceLineNo">023</span>import org.gbif.api.model.registry.Organization;<a name="line.23"></a>
 <span class="sourceLineNo">024</span>import org.gbif.api.model.registry.search.KeyTitleResult;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>import org.gbif.api.vocabulary.Country;<a name="line.25"></a>
-<span class="sourceLineNo">026</span><a name="line.26"></a>
-<span class="sourceLineNo">027</span>import java.util.List;<a name="line.27"></a>
-<span class="sourceLineNo">028</span>import java.util.UUID;<a name="line.28"></a>
-<span class="sourceLineNo">029</span><a name="line.29"></a>
-<span class="sourceLineNo">030</span>import javax.annotation.Nullable;<a name="line.30"></a>
-<span class="sourceLineNo">031</span>import javax.validation.constraints.NotNull;<a name="line.31"></a>
-<span class="sourceLineNo">032</span><a name="line.32"></a>
-<span class="sourceLineNo">033</span>/**<a name="line.33"></a>
-<span class="sourceLineNo">034</span> * Actions on a GBIF node. Be aware that of 2013 Nodes DO NOT support the ContactInterface although<a name="line.34"></a>
-<span class="sourceLineNo">035</span> * advertised in this interface!!!<a name="line.35"></a>
-<span class="sourceLineNo">036</span> */<a name="line.36"></a>
-<span class="sourceLineNo">037</span>@SuppressWarnings("unused")<a name="line.37"></a>
-<span class="sourceLineNo">038</span>public interface NodeService extends NetworkEntityService&lt;Node&gt; {<a name="line.38"></a>
-<span class="sourceLineNo">039</span><a name="line.39"></a>
-<span class="sourceLineNo">040</span>  /**<a name="line.40"></a>
-<span class="sourceLineNo">041</span>   * Provides access to the organizations endorsed by a single node.<a name="line.41"></a>
-<span class="sourceLineNo">042</span>   */<a name="line.42"></a>
-<span class="sourceLineNo">043</span>  PagingResponse&lt;Organization&gt; endorsedOrganizations(@NotNull UUID nodeKey,<a name="line.43"></a>
-<span class="sourceLineNo">044</span>    @Nullable Pageable page);<a name="line.44"></a>
-<span class="sourceLineNo">045</span><a name="line.45"></a>
-<span class="sourceLineNo">046</span>  /**<a name="line.46"></a>
-<span class="sourceLineNo">047</span>   * Provides access to the organizations that are awaiting an endorsement approval.<a name="line.47"></a>
-<span class="sourceLineNo">048</span>   */<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  PagingResponse&lt;Organization&gt; pendingEndorsements(@Nullable Pageable page);<a name="line.49"></a>
-<span class="sourceLineNo">050</span><a name="line.50"></a>
-<span class="sourceLineNo">051</span>  /**<a name="line.51"></a>
-<span class="sourceLineNo">052</span>   * Provides access to the organizations that are awaiting an endorsement approval for the given<a name="line.52"></a>
-<span class="sourceLineNo">053</span>   * node.<a name="line.53"></a>
-<span class="sourceLineNo">054</span>   */<a name="line.54"></a>
-<span class="sourceLineNo">055</span>  PagingResponse&lt;Organization&gt; pendingEndorsements(@NotNull UUID nodeKey, @Nullable Pageable page);<a name="line.55"></a>
-<span class="sourceLineNo">056</span><a name="line.56"></a>
-<span class="sourceLineNo">057</span>  /**<a name="line.57"></a>
-<span class="sourceLineNo">058</span>   * Provides the installations that are registered to organizations with an approved endorsement<a name="line.58"></a>
-<span class="sourceLineNo">059</span>   * from the node.<a name="line.59"></a>
-<span class="sourceLineNo">060</span>   */<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  PagingResponse&lt;Installation&gt; installations(@NotNull UUID nodeKey, @Nullable Pageable page);<a name="line.61"></a>
-<span class="sourceLineNo">062</span><a name="line.62"></a>
-<span class="sourceLineNo">063</span>  /**<a name="line.63"></a>
-<span class="sourceLineNo">064</span>   * Returns a node for a given country.<a name="line.64"></a>
-<span class="sourceLineNo">065</span>   *<a name="line.65"></a>
-<span class="sourceLineNo">066</span>   * @return the countries node or null if none exists<a name="line.66"></a>
-<span class="sourceLineNo">067</span>   */<a name="line.67"></a>
-<span class="sourceLineNo">068</span>  Node getByCountry(Country country);<a name="line.68"></a>
-<span class="sourceLineNo">069</span><a name="line.69"></a>
-<span class="sourceLineNo">070</span>  /**<a name="line.70"></a>
-<span class="sourceLineNo">071</span>   * Returns a list of all countries which do have a GBIF node.<a name="line.71"></a>
-<span class="sourceLineNo">072</span>   *<a name="line.72"></a>
-<span class="sourceLineNo">073</span>   * @return list of distinct countries having a GBIF node<a name="line.73"></a>
-<span class="sourceLineNo">074</span>   */<a name="line.74"></a>
-<span class="sourceLineNo">075</span>  List&lt;Country&gt; listNodeCountries();<a name="line.75"></a>
-<span class="sourceLineNo">076</span><a name="line.76"></a>
-<span class="sourceLineNo">077</span>  /**<a name="line.77"></a>
-<span class="sourceLineNo">078</span>   * Returns those countries considered active in GBIF. To be active a country must have a Node of<a name="line.78"></a>
-<span class="sourceLineNo">079</span>   * type country present, that is either of voting or associate status.<a name="line.79"></a>
-<span class="sourceLineNo">080</span>   *<a name="line.80"></a>
-<span class="sourceLineNo">081</span>   * @return A list of countries ordered by iso code<a name="line.81"></a>
-<span class="sourceLineNo">082</span>   */<a name="line.82"></a>
-<span class="sourceLineNo">083</span>  List&lt;Country&gt; listActiveCountries();<a name="line.83"></a>
-<span class="sourceLineNo">084</span><a name="line.84"></a>
-<span class="sourceLineNo">085</span>  /**<a name="line.85"></a>
-<span class="sourceLineNo">086</span>   * Provides paging service to list datasets published, i.e. owned by organizations endorsed by the<a name="line.86"></a>
-<span class="sourceLineNo">087</span>   * given node.<a name="line.87"></a>
-<span class="sourceLineNo">088</span>   *<a name="line.88"></a>
-<span class="sourceLineNo">089</span>   * @return list of datasets ordered by creation date with latest coming first<a name="line.89"></a>
-<span class="sourceLineNo">090</span>   */<a name="line.90"></a>
-<span class="sourceLineNo">091</span>  PagingResponse&lt;Dataset&gt; endorsedDatasets(@NotNull UUID nodeKey, @Nullable Pageable page);<a name="line.91"></a>
+<span class="sourceLineNo">025</span>import org.gbif.api.model.registry.search.NodeRequestSearchParams;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import org.gbif.api.vocabulary.Country;<a name="line.26"></a>
+<span class="sourceLineNo">027</span><a name="line.27"></a>
+<span class="sourceLineNo">028</span>import java.util.List;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import java.util.UUID;<a name="line.29"></a>
+<span class="sourceLineNo">030</span><a name="line.30"></a>
+<span class="sourceLineNo">031</span>import javax.annotation.Nullable;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import javax.validation.constraints.NotNull;<a name="line.32"></a>
+<span class="sourceLineNo">033</span><a name="line.33"></a>
+<span class="sourceLineNo">034</span>/**<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * Actions on a GBIF node. Be aware that of 2013 Nodes DO NOT support the ContactInterface although<a name="line.35"></a>
+<span class="sourceLineNo">036</span> * advertised in this interface!!!<a name="line.36"></a>
+<span class="sourceLineNo">037</span> */<a name="line.37"></a>
+<span class="sourceLineNo">038</span>@SuppressWarnings("unused")<a name="line.38"></a>
+<span class="sourceLineNo">039</span>public interface NodeService extends NetworkEntityService&lt;Node&gt; {<a name="line.39"></a>
+<span class="sourceLineNo">040</span><a name="line.40"></a>
+<span class="sourceLineNo">041</span>  /** Provides access to the organizations endorsed by a single node. */<a name="line.41"></a>
+<span class="sourceLineNo">042</span>  PagingResponse&lt;Organization&gt; endorsedOrganizations(<a name="line.42"></a>
+<span class="sourceLineNo">043</span>      @NotNull UUID nodeKey, @Nullable Pageable page);<a name="line.43"></a>
+<span class="sourceLineNo">044</span><a name="line.44"></a>
+<span class="sourceLineNo">045</span>  /** Provides access to the organizations that are awaiting an endorsement approval. */<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  PagingResponse&lt;Organization&gt; pendingEndorsements(@Nullable Pageable page);<a name="line.46"></a>
+<span class="sourceLineNo">047</span><a name="line.47"></a>
+<span class="sourceLineNo">048</span>  /**<a name="line.48"></a>
+<span class="sourceLineNo">049</span>   * Provides access to the organizations that are awaiting an endorsement approval for the given<a name="line.49"></a>
+<span class="sourceLineNo">050</span>   * node.<a name="line.50"></a>
+<span class="sourceLineNo">051</span>   */<a name="line.51"></a>
+<span class="sourceLineNo">052</span>  PagingResponse&lt;Organization&gt; pendingEndorsements(@NotNull UUID nodeKey, @Nullable Pageable page);<a name="line.52"></a>
+<span class="sourceLineNo">053</span><a name="line.53"></a>
+<span class="sourceLineNo">054</span>  /**<a name="line.54"></a>
+<span class="sourceLineNo">055</span>   * Provides the installations that are registered to organizations with an approved endorsement<a name="line.55"></a>
+<span class="sourceLineNo">056</span>   * from the node.<a name="line.56"></a>
+<span class="sourceLineNo">057</span>   */<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  PagingResponse&lt;Installation&gt; installations(@NotNull UUID nodeKey, @Nullable Pageable page);<a name="line.58"></a>
+<span class="sourceLineNo">059</span><a name="line.59"></a>
+<span class="sourceLineNo">060</span>  /**<a name="line.60"></a>
+<span class="sourceLineNo">061</span>   * Returns a node for a given country.<a name="line.61"></a>
+<span class="sourceLineNo">062</span>   *<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   * @return the countries node or null if none exists<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   */<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  Node getByCountry(Country country);<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>  /**<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   * Returns a list of all countries which do have a GBIF node.<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   *<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * @return list of distinct countries having a GBIF node<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   */<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  List&lt;Country&gt; listNodeCountries();<a name="line.72"></a>
+<span class="sourceLineNo">073</span><a name="line.73"></a>
+<span class="sourceLineNo">074</span>  /**<a name="line.74"></a>
+<span class="sourceLineNo">075</span>   * Returns those countries considered active in GBIF. To be active a country must have a Node of<a name="line.75"></a>
+<span class="sourceLineNo">076</span>   * type country present, that is either of voting or associate status.<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   *<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   * @return A list of countries ordered by iso code<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   */<a name="line.79"></a>
+<span class="sourceLineNo">080</span>  List&lt;Country&gt; listActiveCountries();<a name="line.80"></a>
+<span class="sourceLineNo">081</span><a name="line.81"></a>
+<span class="sourceLineNo">082</span>  /**<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   * Provides paging service to list datasets published, i.e. owned by organizations endorsed by the<a name="line.83"></a>
+<span class="sourceLineNo">084</span>   * given node.<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   *<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * @return list of datasets ordered by creation date with latest coming first<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   */<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  PagingResponse&lt;Dataset&gt; endorsedDatasets(@NotNull UUID nodeKey, @Nullable Pageable page);<a name="line.88"></a>
+<span class="sourceLineNo">089</span><a name="line.89"></a>
+<span class="sourceLineNo">090</span>  /** Provides a simple suggest service. */<a name="line.90"></a>
+<span class="sourceLineNo">091</span>  List&lt;KeyTitleResult&gt; suggest(@Nullable String q);<a name="line.91"></a>
 <span class="sourceLineNo">092</span><a name="line.92"></a>
 <span class="sourceLineNo">093</span>  /**<a name="line.93"></a>
-<span class="sourceLineNo">094</span>   * Provides a simple suggest service.<a name="line.94"></a>
-<span class="sourceLineNo">095</span>   */<a name="line.95"></a>
-<span class="sourceLineNo">096</span>  List&lt;KeyTitleResult&gt; suggest(@Nullable String q);<a name="line.96"></a>
-<span class="sourceLineNo">097</span>}<a name="line.97"></a>
+<span class="sourceLineNo">094</span>   * Provides paging service to list nodes that can be filtered by multiple parameters.<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   *<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   * @param searchParams {@link NodeRequestSearchParams}<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * @return list of nodes ordered by creation date with the latest coming first<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   */<a name="line.98"></a>
+<span class="sourceLineNo">099</span>  PagingResponse&lt;Node&gt; list(NodeRequestSearchParams searchParams);<a name="line.99"></a>
+<span class="sourceLineNo">100</span>}<a name="line.100"></a>
 
 
 

@@ -26,89 +26,83 @@
 <span class="sourceLineNo">018</span><a name="line.18"></a>
 <span class="sourceLineNo">019</span>import io.swagger.v3.oas.annotations.media.Schema;<a name="line.19"></a>
 <span class="sourceLineNo">020</span><a name="line.20"></a>
-<span class="sourceLineNo">021</span>/**<a name="line.21"></a>
-<span class="sourceLineNo">022</span> * Simplified version of guava's {@code Range}.<a name="line.22"></a>
-<span class="sourceLineNo">023</span> */<a name="line.23"></a>
-<span class="sourceLineNo">024</span>public class Range&lt;T extends Comparable&lt;? super T&gt;&gt; {<a name="line.24"></a>
-<span class="sourceLineNo">025</span><a name="line.25"></a>
-<span class="sourceLineNo">026</span>  /**<a name="line.26"></a>
-<span class="sourceLineNo">027</span>   * Lower bound.<a name="line.27"></a>
-<span class="sourceLineNo">028</span>   * Unbound if it is {@code null}.<a name="line.28"></a>
-<span class="sourceLineNo">029</span>   */<a name="line.29"></a>
-<span class="sourceLineNo">030</span>  @Schema(<a name="line.30"></a>
-<span class="sourceLineNo">031</span>    description = "The lower bound.  Unbound if null/unspecified."<a name="line.31"></a>
-<span class="sourceLineNo">032</span>  )<a name="line.32"></a>
-<span class="sourceLineNo">033</span>  private T from;<a name="line.33"></a>
-<span class="sourceLineNo">034</span><a name="line.34"></a>
-<span class="sourceLineNo">035</span>  /**<a name="line.35"></a>
-<span class="sourceLineNo">036</span>   * Upper bound.<a name="line.36"></a>
-<span class="sourceLineNo">037</span>   * Unbound if it is {@code null}.<a name="line.37"></a>
-<span class="sourceLineNo">038</span>   */<a name="line.38"></a>
-<span class="sourceLineNo">039</span>  @Schema(<a name="line.39"></a>
-<span class="sourceLineNo">040</span>    description = "The upper bound. Unbound if null/unspecified."<a name="line.40"></a>
-<span class="sourceLineNo">041</span>  )<a name="line.41"></a>
-<span class="sourceLineNo">042</span>  private T to;<a name="line.42"></a>
-<span class="sourceLineNo">043</span><a name="line.43"></a>
-<span class="sourceLineNo">044</span>  /**<a name="line.44"></a>
-<span class="sourceLineNo">045</span>   * Create a range with bounds {@code from} and {@code to}.<a name="line.45"></a>
-<span class="sourceLineNo">046</span>   * Use factory method instead.<a name="line.46"></a>
-<span class="sourceLineNo">047</span>   *<a name="line.47"></a>
-<span class="sourceLineNo">048</span>   * @throws IllegalArgumentException if {@code from} is greater than {@code to}<a name="line.48"></a>
-<span class="sourceLineNo">049</span>   */<a name="line.49"></a>
-<span class="sourceLineNo">050</span>  private Range(T from, T to) {<a name="line.50"></a>
-<span class="sourceLineNo">051</span>    if (from != null &amp;&amp; to != null &amp;&amp; from.compareTo(to) &gt; 0) {<a name="line.51"></a>
-<span class="sourceLineNo">052</span>      throw new IllegalArgumentException(String.format("Invalid range: (%s,%s)", from, to));<a name="line.52"></a>
-<span class="sourceLineNo">053</span>    }<a name="line.53"></a>
-<span class="sourceLineNo">054</span>    this.from = from;<a name="line.54"></a>
-<span class="sourceLineNo">055</span>    this.to = to;<a name="line.55"></a>
-<span class="sourceLineNo">056</span>  }<a name="line.56"></a>
-<span class="sourceLineNo">057</span><a name="line.57"></a>
-<span class="sourceLineNo">058</span>  /**<a name="line.58"></a>
-<span class="sourceLineNo">059</span>   * Factory method.<a name="line.59"></a>
-<span class="sourceLineNo">060</span>   */<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  public static &lt;T extends Comparable&lt;? super T&gt;&gt; Range&lt;T&gt; closed(T from, T to) {<a name="line.61"></a>
-<span class="sourceLineNo">062</span>    return new Range&lt;&gt;(from, to);<a name="line.62"></a>
+<span class="sourceLineNo">021</span>/** Simplified version of guava's {@code Range}. */<a name="line.21"></a>
+<span class="sourceLineNo">022</span>public class Range&lt;T extends Comparable&lt;? super T&gt;&gt; {<a name="line.22"></a>
+<span class="sourceLineNo">023</span><a name="line.23"></a>
+<span class="sourceLineNo">024</span>  /** Lower bound. Unbound if it is {@code null}. */<a name="line.24"></a>
+<span class="sourceLineNo">025</span>  @Schema(description = "The lower bound.  Unbound if null/unspecified.")<a name="line.25"></a>
+<span class="sourceLineNo">026</span>  private final T from;<a name="line.26"></a>
+<span class="sourceLineNo">027</span><a name="line.27"></a>
+<span class="sourceLineNo">028</span>  /** Upper bound. Unbound if it is {@code null}. */<a name="line.28"></a>
+<span class="sourceLineNo">029</span>  @Schema(description = "The upper bound. Unbound if null/unspecified.")<a name="line.29"></a>
+<span class="sourceLineNo">030</span>  private final T to;<a name="line.30"></a>
+<span class="sourceLineNo">031</span><a name="line.31"></a>
+<span class="sourceLineNo">032</span>  /**<a name="line.32"></a>
+<span class="sourceLineNo">033</span>   * Create a range with bounds {@code from} and {@code to}. Use factory method instead.<a name="line.33"></a>
+<span class="sourceLineNo">034</span>   *<a name="line.34"></a>
+<span class="sourceLineNo">035</span>   * @throws IllegalArgumentException if {@code from} is greater than {@code to}<a name="line.35"></a>
+<span class="sourceLineNo">036</span>   */<a name="line.36"></a>
+<span class="sourceLineNo">037</span>  private Range(T from, T to) {<a name="line.37"></a>
+<span class="sourceLineNo">038</span>    if (from != null &amp;&amp; to != null &amp;&amp; from.compareTo(to) &gt; 0) {<a name="line.38"></a>
+<span class="sourceLineNo">039</span>      throw new IllegalArgumentException(String.format("Invalid range: (%s,%s)", from, to));<a name="line.39"></a>
+<span class="sourceLineNo">040</span>    }<a name="line.40"></a>
+<span class="sourceLineNo">041</span>    this.from = from;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>    this.to = to;<a name="line.42"></a>
+<span class="sourceLineNo">043</span>  }<a name="line.43"></a>
+<span class="sourceLineNo">044</span><a name="line.44"></a>
+<span class="sourceLineNo">045</span>  /** Factory method. */<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  public static &lt;T extends Comparable&lt;? super T&gt;&gt; Range&lt;T&gt; closed(T from, T to) {<a name="line.46"></a>
+<span class="sourceLineNo">047</span>    return new Range&lt;&gt;(from, to);<a name="line.47"></a>
+<span class="sourceLineNo">048</span>  }<a name="line.48"></a>
+<span class="sourceLineNo">049</span><a name="line.49"></a>
+<span class="sourceLineNo">050</span>  /** Returns {@code true} if this range has a lower endpoint. */<a name="line.50"></a>
+<span class="sourceLineNo">051</span>  public boolean hasLowerBound() {<a name="line.51"></a>
+<span class="sourceLineNo">052</span>    return from != null;<a name="line.52"></a>
+<span class="sourceLineNo">053</span>  }<a name="line.53"></a>
+<span class="sourceLineNo">054</span><a name="line.54"></a>
+<span class="sourceLineNo">055</span>  /** Returns {@code true} if this range has an upper endpoint. */<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  public boolean hasUpperBound() {<a name="line.56"></a>
+<span class="sourceLineNo">057</span>    return to != null;<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  }<a name="line.58"></a>
+<span class="sourceLineNo">059</span><a name="line.59"></a>
+<span class="sourceLineNo">060</span>  /** Returns {@code true} if {@code value} is within the bounds of this range. */<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  public boolean contains(@NotNull T value) {<a name="line.61"></a>
+<span class="sourceLineNo">062</span>    return from.compareTo(value) &lt;= 0 &amp;&amp; to.compareTo(value) &gt;= 0;<a name="line.62"></a>
 <span class="sourceLineNo">063</span>  }<a name="line.63"></a>
 <span class="sourceLineNo">064</span><a name="line.64"></a>
 <span class="sourceLineNo">065</span>  /**<a name="line.65"></a>
-<span class="sourceLineNo">066</span>   * Returns {@code true} if this range has a lower endpoint.<a name="line.66"></a>
-<span class="sourceLineNo">067</span>   */<a name="line.67"></a>
-<span class="sourceLineNo">068</span>  public boolean hasLowerBound() {<a name="line.68"></a>
-<span class="sourceLineNo">069</span>    return from != null;<a name="line.69"></a>
-<span class="sourceLineNo">070</span>  }<a name="line.70"></a>
-<span class="sourceLineNo">071</span><a name="line.71"></a>
-<span class="sourceLineNo">072</span>  /**<a name="line.72"></a>
-<span class="sourceLineNo">073</span>   * Returns {@code true} if this range has an upper endpoint.<a name="line.73"></a>
-<span class="sourceLineNo">074</span>   */<a name="line.74"></a>
-<span class="sourceLineNo">075</span>  public boolean hasUpperBound() {<a name="line.75"></a>
-<span class="sourceLineNo">076</span>    return to != null;<a name="line.76"></a>
-<span class="sourceLineNo">077</span>  }<a name="line.77"></a>
-<span class="sourceLineNo">078</span><a name="line.78"></a>
-<span class="sourceLineNo">079</span>  /**<a name="line.79"></a>
-<span class="sourceLineNo">080</span>   * Returns {@code true} if {@code value} is within the bounds of this range.<a name="line.80"></a>
-<span class="sourceLineNo">081</span>   */<a name="line.81"></a>
-<span class="sourceLineNo">082</span>  public boolean contains(@NotNull T value) {<a name="line.82"></a>
-<span class="sourceLineNo">083</span>    return from.compareTo(value) &lt;= 0 &amp;&amp; to.compareTo(value) &gt;= 0;<a name="line.83"></a>
-<span class="sourceLineNo">084</span>  }<a name="line.84"></a>
-<span class="sourceLineNo">085</span><a name="line.85"></a>
-<span class="sourceLineNo">086</span>  /**<a name="line.86"></a>
-<span class="sourceLineNo">087</span>   * Returns {@code true} if the bounds of {@code other} do not extend outside the bounds of this<a name="line.87"></a>
-<span class="sourceLineNo">088</span>   * range.<a name="line.88"></a>
-<span class="sourceLineNo">089</span>   */<a name="line.89"></a>
-<span class="sourceLineNo">090</span>  public boolean encloses(@NotNull Range&lt;T&gt; other) {<a name="line.90"></a>
-<span class="sourceLineNo">091</span>    return from.compareTo(other.from) &lt;= 0 &amp;&amp; to.compareTo(other.to) &gt;= 0;<a name="line.91"></a>
-<span class="sourceLineNo">092</span>  }<a name="line.92"></a>
-<span class="sourceLineNo">093</span><a name="line.93"></a>
-<span class="sourceLineNo">094</span>  @Nullable<a name="line.94"></a>
-<span class="sourceLineNo">095</span>  public T lowerEndpoint() {<a name="line.95"></a>
-<span class="sourceLineNo">096</span>    return from;<a name="line.96"></a>
-<span class="sourceLineNo">097</span>  }<a name="line.97"></a>
-<span class="sourceLineNo">098</span><a name="line.98"></a>
-<span class="sourceLineNo">099</span>  @Nullable<a name="line.99"></a>
-<span class="sourceLineNo">100</span>  public T upperEndpoint() {<a name="line.100"></a>
-<span class="sourceLineNo">101</span>    return to;<a name="line.101"></a>
-<span class="sourceLineNo">102</span>  }<a name="line.102"></a>
-<span class="sourceLineNo">103</span>}<a name="line.103"></a>
+<span class="sourceLineNo">066</span>   * Returns {@code true} if the bounds of {@code other} do not extend outside the bounds of this<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   * range.<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   */<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  public boolean encloses(@NotNull Range&lt;T&gt; other) {<a name="line.69"></a>
+<span class="sourceLineNo">070</span>    return from.compareTo(other.from) &lt;= 0 &amp;&amp; to.compareTo(other.to) &gt;= 0;<a name="line.70"></a>
+<span class="sourceLineNo">071</span>  }<a name="line.71"></a>
+<span class="sourceLineNo">072</span><a name="line.72"></a>
+<span class="sourceLineNo">073</span>  @Nullable<a name="line.73"></a>
+<span class="sourceLineNo">074</span>  public T lowerEndpoint() {<a name="line.74"></a>
+<span class="sourceLineNo">075</span>    return from;<a name="line.75"></a>
+<span class="sourceLineNo">076</span>  }<a name="line.76"></a>
+<span class="sourceLineNo">077</span><a name="line.77"></a>
+<span class="sourceLineNo">078</span>  @Nullable<a name="line.78"></a>
+<span class="sourceLineNo">079</span>  public T upperEndpoint() {<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    return to;<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  }<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>  @Override<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  public String toString() {<a name="line.84"></a>
+<span class="sourceLineNo">085</span>    String lower = "*";<a name="line.85"></a>
+<span class="sourceLineNo">086</span>    if (this.lowerEndpoint() != null) {<a name="line.86"></a>
+<span class="sourceLineNo">087</span>      lower = this.lowerEndpoint().toString();<a name="line.87"></a>
+<span class="sourceLineNo">088</span>    }<a name="line.88"></a>
+<span class="sourceLineNo">089</span><a name="line.89"></a>
+<span class="sourceLineNo">090</span>    String upper = "*";<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    if (this.upperEndpoint() != null) {<a name="line.91"></a>
+<span class="sourceLineNo">092</span>      upper = this.upperEndpoint().toString();<a name="line.92"></a>
+<span class="sourceLineNo">093</span>    }<a name="line.93"></a>
+<span class="sourceLineNo">094</span><a name="line.94"></a>
+<span class="sourceLineNo">095</span>    return lower + "," + upper;<a name="line.95"></a>
+<span class="sourceLineNo">096</span>  }<a name="line.96"></a>
+<span class="sourceLineNo">097</span>}<a name="line.97"></a>
 
 
 
