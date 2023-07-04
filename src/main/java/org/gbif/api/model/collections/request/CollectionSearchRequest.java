@@ -15,6 +15,7 @@ package org.gbif.api.model.collections.request;
 
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.collections.AccessionStatus;
 import org.gbif.api.vocabulary.collections.CollectionContentType;
@@ -95,7 +96,8 @@ public class CollectionSearchRequest extends SearchRequest {
     String machineTagValue;
     IdentifierType identifierType;
     String identifier;
-    Country country;
+    List<Country> country;
+    List<GbifRegion> gbifRegion;
     String city;
     String fuzzyName;
     Boolean active;
@@ -159,8 +161,13 @@ public class CollectionSearchRequest extends SearchRequest {
       return this;
     }
 
-    public Builder country(Country country) {
+    public Builder country(List<Country> country) {
       this.country = country;
+      return this;
+    }
+
+    public Builder gbifRegion(List<GbifRegion> gbifRegion) {
+      this.gbifRegion = gbifRegion;
       return this;
     }
 
@@ -237,6 +244,7 @@ public class CollectionSearchRequest extends SearchRequest {
       req.setIdentifierType(identifierType);
       req.setIdentifier(identifier);
       req.setCountry(country);
+      req.setGbifRegion(gbifRegion);
       req.setCity(city);
       req.setFuzzyName(fuzzyName);
       req.setActive(active);

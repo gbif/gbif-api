@@ -19,10 +19,12 @@ import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PageableBase;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -39,7 +41,8 @@ public abstract class SearchRequest extends PageableBase implements Serializable
   @Nullable private String machineTagValue;
   @Nullable private IdentifierType identifierType;
   @Nullable private String identifier;
-  @Nullable private Country country;
+  @Nullable private List<Country> country;
+  @Nullable private List<GbifRegion> gbifRegion;
   @Nullable private String city;
   @Nullable private String fuzzyName;
   @Nullable private Boolean active;
@@ -140,11 +143,11 @@ public abstract class SearchRequest extends PageableBase implements Serializable
   }
 
   @Nullable
-  public Country getCountry() {
+  public List<Country> getCountry() {
     return country;
   }
 
-  public void setCountry(@Nullable Country country) {
+  public void setCountry(@Nullable List<Country> country) {
     this.country = country;
   }
 
@@ -212,5 +215,14 @@ public abstract class SearchRequest extends PageableBase implements Serializable
 
   public void setReplacedBy(@Nullable UUID replacedBy) {
     this.replacedBy = replacedBy;
+  }
+
+  @Nullable
+  public List<GbifRegion> getGbifRegion() {
+    return gbifRegion;
+  }
+
+  public void setGbifRegion(@Nullable List<GbifRegion> gbifRegion) {
+    this.gbifRegion = gbifRegion;
   }
 }
