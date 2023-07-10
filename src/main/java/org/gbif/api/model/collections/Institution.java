@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.collections;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.gbif.api.model.registry.Comment;
 import org.gbif.api.model.registry.Identifier;
 import org.gbif.api.model.registry.LenientEquals;
@@ -675,6 +677,7 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   }
 
   @Hidden
+  @JsonIgnore
   public String getCountry() {
     if (address != null && address.getCountry() != null) {
       return address.getCountry().getIso2LetterCode();
@@ -685,6 +688,7 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   }
 
   @Hidden
+  @JsonIgnore
   public String getCity() {
     if (address != null && address.getCity() != null) {
       return address.getCity();
@@ -695,6 +699,7 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   }
 
   @Hidden
+  @JsonIgnore
   public String getProvince() {
     if (address != null && address.getProvince() != null) {
       return address.getProvince();

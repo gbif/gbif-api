@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.collections;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -697,6 +699,7 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   }
 
   @Hidden
+  @JsonIgnore
   public String getCountry() {
     if (address != null && address.getCountry() != null) {
       return address.getCountry().getIso2LetterCode();
@@ -707,6 +710,7 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   }
 
   @Hidden
+  @JsonIgnore
   public String getCity() {
     if (address != null && address.getCity() != null) {
       return address.getCity();
@@ -717,6 +721,7 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   }
 
   @Hidden
+  @JsonIgnore
   public String getProvince() {
     if (address != null && address.getProvince() != null) {
       return address.getProvince();
