@@ -13,8 +13,6 @@
  */
 package org.gbif.api.model.collections;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import org.gbif.api.model.registry.Comment;
 import org.gbif.api.model.registry.Identifier;
 import org.gbif.api.model.registry.LenientEquals;
@@ -42,6 +40,9 @@ import javax.annotation.Nullable;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * The owner or location of collection. Usually an established organization or foundation,
@@ -671,6 +672,36 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   @Override
   public void setDisplayOnNHCPortal(Boolean displayOnNHCPortal) {
     this.displayOnNHCPortal = displayOnNHCPortal;
+  }
+
+  @Hidden
+  public String getCountry() {
+    if (address != null && address.getCountry() != null) {
+      return address.getCountry().getIso2LetterCode();
+    } else if (mailingAddress != null && mailingAddress.getCountry() != null) {
+      return mailingAddress.getCountry().getIso2LetterCode();
+    }
+    return null;
+  }
+
+  @Hidden
+  public String getCity() {
+    if (address != null && address.getCity() != null) {
+      return address.getCity();
+    } else if (mailingAddress != null && mailingAddress.getCity() != null) {
+      return mailingAddress.getCity();
+    }
+    return null;
+  }
+
+  @Hidden
+  public String getProvince() {
+    if (address != null && address.getProvince() != null) {
+      return address.getProvince();
+    } else if (mailingAddress != null && mailingAddress.getProvince() != null) {
+      return mailingAddress.getProvince();
+    }
+    return null;
   }
 
   @Override

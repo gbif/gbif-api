@@ -13,6 +13,7 @@
  */
 package org.gbif.api.model.collections;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.gbif.api.model.common.DOI;
@@ -54,270 +55,203 @@ import javax.validation.constraints.Size;
 public class Collection implements CollectionEntity, LenientEquals<Collection> {
 
   @Schema(
-    description = "Unique GBIF key for the collection.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description = "Unique GBIF key for the collection.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private UUID key;
 
   @Schema(
-    description = "Code of the collection — identifies a collection at the " +
-      "owner's location.\n\n" +
-      "*(NB Not required for updates.)*"
-  )
+      description =
+          "Code of the collection — identifies a collection at the "
+              + "owner's location.\n\n"
+              + "*(NB Not required for updates.)*")
   @Sourceable(masterSources = MasterSourceType.IH)
   private String code;
 
   @Schema(
-    description = "Descriptive name of the collection.\n\n" +
-      "*(NB Not required for updates.)*"
-  )
+      description = "Descriptive name of the collection.\n\n" + "*(NB Not required for updates.)*")
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   @Sourceable(masterSources = MasterSourceType.IH, overridable = true)
   private String name;
 
-  @Schema(
-    description = "Description or summary of the contents of the collection."
-  )
+  @Schema(description = "Description or summary of the contents of the collection.")
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private String description;
 
-  @Schema(
-    description = "Content type of the elements found in the collection."
-  )
+  @Schema(description = "Content type of the elements found in the collection.")
   private List<CollectionContentType> contentTypes = new ArrayList<>();
 
-  @Schema(
-    description = "Whether the collection is active/maintained."
-  )
+  @Schema(description = "Whether the collection is active/maintained.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private boolean active;
 
-  @Schema(
-    description = "Whether this collection belongs to an individual."
-  )
+  @Schema(description = "Whether this collection belongs to an individual.")
   private boolean personalCollection;
 
   @Schema(
-    description = "A Digital Object Identifier for the collection.",
-    implementation = String.class,
-    pattern = "(10(?:\\.[0-9]+)+)" + "/(.+)"
-  )
+      description = "A Digital Object Identifier for the collection.",
+      implementation = String.class,
+      pattern = "(10(?:\\.[0-9]+)+)" + "/(.+)")
   private DOI doi;
 
-  @Schema(
-    description = "Email addresses associated with the collection."
-  )
+  @Schema(description = "Email addresses associated with the collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private List<@ValidEmail String> email = new ArrayList<>();
 
-  @Schema(
-    description = "Telephone numbers associated with the collection."
-  )
+  @Schema(description = "Telephone numbers associated with the collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private List<String> phone = new ArrayList<>();
 
-  @Schema(
-    description = "The collection's WWW homepage."
-  )
+  @Schema(description = "The collection's WWW homepage.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private URI homepage;
 
-  @Schema(
-    description = "A URL for an interactive catalogue of the collection."
-  )
+  @Schema(description = "A URL for an interactive catalogue of the collection.")
   private URI catalogUrl;
 
-  @Schema(
-    description = "A URL for a machine-readable API for the collection catalogue."
-  )
+  @Schema(description = "A URL for a machine-readable API for the collection catalogue.")
   private URI apiUrl;
 
-  @Schema(
-    description = "The preservation mechanisms used for this collection."
-  )
+  @Schema(description = "The preservation mechanisms used for this collection.")
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private List<PreservationType> preservationTypes = new ArrayList<>();
 
-  @Schema(
-    description = "How the collection was added or joined."
-  )
+  @Schema(description = "How the collection was added or joined.")
   private AccessionStatus accessionStatus;
 
-  @Schema(
-    description = "The key of the institution owning or hosting the collection."
-  )
+  @Schema(description = "The key of the institution owning or hosting the collection.")
   private UUID institutionKey;
 
-  @Schema(
-    description = "The postal address of the collection."
-  )
+  @Schema(description = "The postal address of the collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private Address mailingAddress;
 
-  @Schema(
-    description = "The address of the location of the collection."
-  )
+  @Schema(description = "The address of the location of the collection.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private Address address;
 
   @Schema(
-    description = "The GBIF username of the creator of the collection entity in " +
-      "the GBIF registry.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description =
+          "The GBIF username of the creator of the collection entity in " + "the GBIF registry.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private String createdBy;
 
   @Schema(
-    description = "The GBIF username of the last user to modify the collection " +
-      "entity in the GBIF registry.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description =
+          "The GBIF username of the last user to modify the collection "
+              + "entity in the GBIF registry.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private String modifiedBy;
 
   @Schema(
-    description = "Timestamp of when the collection entity was created in the GBIF " +
-      "registry.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description =
+          "Timestamp of when the collection entity was created in the GBIF " + "registry.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private Date created;
 
   @Schema(
-    description = "Timestamp of when the collection entity was modified in the GBIF " +
-      "registry.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description =
+          "Timestamp of when the collection entity was modified in the GBIF " + "registry.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private Date modified;
 
   @Schema(
-    description = "If present, the collection was deleted at this time. " +
-      "It is possible for it to be restored in the future.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description =
+          "If present, the collection was deleted at this time. "
+              + "It is possible for it to be restored in the future.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private Date deleted;
 
   @Schema(
-    description = "A list of tags associated with this collection.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description = "A list of tags associated with this collection.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private List<Tag> tags = new ArrayList<>();
 
   @Schema(
-    description = "A list of identifiers associated with this collection.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description = "A list of identifiers associated with this collection.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   @Sourceable(masterSources = MasterSourceType.IH, sourceableParts = "IH_IRN")
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY, sourceableParts = "DOI")
   private List<Identifier> identifiers = new ArrayList<>();
 
   @Schema(
-    description = "A list of contact people for this collection.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description = "A list of contact people for this collection.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<Contact> contactPersons = new ArrayList<>();
 
-  @Schema(
-    description = "Whether there is a record for this collection in *Index Herbariorum*."
-  )
+  @Schema(description = "Whether there is a record for this collection in *Index Herbariorum*.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private boolean indexHerbariorumRecord;
 
-  @Schema(
-    description = "The number of specimens contained in this collection."
-  )
+  @Schema(description = "The number of specimens contained in this collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private Integer numberSpecimens;
 
   @Schema(
-    description = "A list of machine tags associated with this collection.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description = "A list of machine tags associated with this collection.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private List<MachineTag> machineTags = new ArrayList<>();
 
-  @Schema(
-    description = "The taxonomic coverage of this collection."
-  )
+  @Schema(description = "The taxonomic coverage of this collection.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private String taxonomicCoverage;
 
-  @Schema(
-    description = "The geographic scope of this collection."
-  )
+  @Schema(description = "The geographic scope of this collection.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private String geography;
 
-  @Schema(
-    description = "Notes on the collection."
-  )
+  @Schema(description = "Notes on the collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private String notes;
 
-  @Schema(
-    description = "Other collections incorporated into this collection."
-  )
+  @Schema(description = "Other collections incorporated into this collection.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<String> incorporatedCollections = new ArrayList<>();
 
-  @Schema(
-    description = "Important collectors who have specimens in this collection."
-  )
+  @Schema(description = "Important collectors who have specimens in this collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private List<String> importantCollectors = new ArrayList<>();
 
   @Schema(
-    description = "A summary of the collection." // TODO, a summary of what?
-  )
+      description = "A summary of the collection." // TODO, a summary of what?
+      )
   @Sourceable(masterSources = MasterSourceType.IH)
   private Map<String, Integer> collectionSummary = new HashMap<>();
 
-  @Schema(
-    description = "Alternative codes for this collection."
-  )
+  @Schema(description = "Alternative codes for this collection.")
   private List<AlternativeCode> alternativeCodes = new ArrayList<>();
 
   @Schema(
-    description = "A list of comments associated with this collection.",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description = "A list of comments associated with this collection.",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private List<Comment> comments = new ArrayList<>();
 
   @Schema(
-    description = "Mapping of a GRSciColl collection to occurrence records",
-    accessMode = Schema.AccessMode.READ_ONLY
-  )
+      description = "Mapping of a GRSciColl collection to occurrence records",
+      accessMode = Schema.AccessMode.READ_ONLY)
   private List<OccurrenceMapping> occurrenceMappings = new ArrayList<>();
 
-  @Schema(
-    description = "A collection record that replaces this collection."
-  )
+  @Schema(description = "A collection record that replaces this collection.")
   private UUID replacedBy;
 
-  @Schema(
-    description = "The primary source of this collection record."
-  )
+  @Schema(description = "The primary source of this collection record.")
   private MasterSourceType masterSource;
 
   @Schema(
-    description = "Information to assist the synchronization of the master source " +
-      "record with the record in the GBIF registry."
-  )
+      description =
+          "Information to assist the synchronization of the master source "
+              + "record with the record in the GBIF registry.")
   private MasterSourceMetadata masterSourceMetadata;
 
-  @Schema(
-    description = "An organizational department managing the collection."
-  )
+  @Schema(description = "An organizational department managing the collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private String department;
 
-  @Schema(
-    description = "An organizational division managing the collection."
-  )
+  @Schema(description = "An organizational division managing the collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private String division;
 
-  @Schema(
-    description = "Whether the collection is shown on the NHC portal."
-  )
+  @Schema(description = "Whether the collection is shown on the NHC portal.")
   private Boolean displayOnNHCPortal;
 
   /** List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc.. */
@@ -760,6 +694,36 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Override
   public void setDisplayOnNHCPortal(Boolean displayOnNHCPortal) {
     this.displayOnNHCPortal = displayOnNHCPortal;
+  }
+
+  @Hidden
+  public String getCountry() {
+    if (address != null && address.getCountry() != null) {
+      return address.getCountry().getIso2LetterCode();
+    } else if (mailingAddress != null && mailingAddress.getCountry() != null) {
+      return mailingAddress.getCountry().getIso2LetterCode();
+    }
+    return null;
+  }
+
+  @Hidden
+  public String getCity() {
+    if (address != null && address.getCity() != null) {
+      return address.getCity();
+    } else if (mailingAddress != null && mailingAddress.getCity() != null) {
+      return mailingAddress.getCity();
+    }
+    return null;
+  }
+
+  @Hidden
+  public String getProvince() {
+    if (address != null && address.getProvince() != null) {
+      return address.getProvince();
+    } else if (mailingAddress != null && mailingAddress.getProvince() != null) {
+      return mailingAddress.getProvince();
+    }
+    return null;
   }
 
   @Override
