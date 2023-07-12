@@ -18,6 +18,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.Comment;
 import org.gbif.api.model.registry.Identifier;
@@ -54,6 +57,8 @@ import javax.validation.constraints.Size;
  * collections such as those that result from expeditions and voyages of discovery.
  */
 @SuppressWarnings("unused")
+@ToString
+@EqualsAndHashCode
 public class Collection implements CollectionEntity, LenientEquals<Collection> {
 
   @Schema(
@@ -255,6 +260,12 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
 
   @Schema(description = "Whether the collection is shown on the NHC portal.")
   private Boolean displayOnNHCPortal;
+
+  @Schema(description = "An estimate of the number of occurrences linked to the institution.")
+  private Integer occurrenceCount;
+
+  @Schema(description = "An estimate of the number of type specimens linked to the institution.")
+  private Integer typeSpecimenCount;
 
   /** List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc.. */
   @Override
@@ -731,154 +742,20 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
     return null;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Collection that = (Collection) o;
-    return active == that.active
-        && personalCollection == that.personalCollection
-        && Objects.equals(key, that.key)
-        && Objects.equals(code, that.code)
-        && Objects.equals(name, that.name)
-        && Objects.equals(description, that.description)
-        && Objects.equals(contentTypes, that.contentTypes)
-        && Objects.equals(doi, that.doi)
-        && Objects.equals(email, that.email)
-        && Objects.equals(phone, that.phone)
-        && Objects.equals(homepage, that.homepage)
-        && Objects.equals(catalogUrl, that.catalogUrl)
-        && Objects.equals(apiUrl, that.apiUrl)
-        && Objects.equals(preservationTypes, that.preservationTypes)
-        && accessionStatus == that.accessionStatus
-        && Objects.equals(institutionKey, that.institutionKey)
-        && Objects.equals(mailingAddress, that.mailingAddress)
-        && Objects.equals(address, that.address)
-        && Objects.equals(createdBy, that.createdBy)
-        && Objects.equals(modifiedBy, that.modifiedBy)
-        && Objects.equals(created, that.created)
-        && Objects.equals(modified, that.modified)
-        && Objects.equals(deleted, that.deleted)
-        && Objects.equals(tags, that.tags)
-        && Objects.equals(identifiers, that.identifiers)
-        && Objects.equals(contactPersons, that.contactPersons)
-        && indexHerbariorumRecord == that.indexHerbariorumRecord
-        && Objects.equals(numberSpecimens, that.numberSpecimens)
-        && Objects.equals(machineTags, that.machineTags)
-        && Objects.equals(taxonomicCoverage, that.taxonomicCoverage)
-        && Objects.equals(geography, that.geography)
-        && Objects.equals(notes, that.notes)
-        && Objects.equals(incorporatedCollections, that.incorporatedCollections)
-        && Objects.equals(importantCollectors, that.importantCollectors)
-        && Objects.equals(collectionSummary, that.collectionSummary)
-        && Objects.equals(alternativeCodes, that.alternativeCodes)
-        && Objects.equals(comments, that.comments)
-        && Objects.equals(occurrenceMappings, that.occurrenceMappings)
-        && Objects.equals(replacedBy, that.replacedBy)
-        && Objects.equals(masterSource, that.masterSource)
-        && Objects.equals(masterSourceMetadata, that.masterSourceMetadata)
-        && Objects.equals(division, that.division)
-        && Objects.equals(department, that.department)
-        && Objects.equals(displayOnNHCPortal, that.displayOnNHCPortal);
+  public Integer getOccurrenceCount() {
+    return occurrenceCount;
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-        key,
-        code,
-        name,
-        description,
-        contentTypes,
-        active,
-        personalCollection,
-        doi,
-        email,
-        phone,
-        homepage,
-        catalogUrl,
-        apiUrl,
-        preservationTypes,
-        accessionStatus,
-        institutionKey,
-        mailingAddress,
-        address,
-        createdBy,
-        modifiedBy,
-        created,
-        modified,
-        deleted,
-        tags,
-        identifiers,
-        contactPersons,
-        indexHerbariorumRecord,
-        numberSpecimens,
-        machineTags,
-        taxonomicCoverage,
-        geography,
-        notes,
-        incorporatedCollections,
-        importantCollectors,
-        collectionSummary,
-        alternativeCodes,
-        comments,
-        occurrenceMappings,
-        replacedBy,
-        masterSource,
-        masterSourceMetadata,
-        division,
-        department,
-        displayOnNHCPortal);
+  public void setOccurrenceCount(Integer occurrenceCount) {
+    this.occurrenceCount = occurrenceCount;
   }
 
-  @Override
-  public String toString() {
-    return new StringJoiner(", ", Collection.class.getSimpleName() + "[", "]")
-        .add("key=" + key)
-        .add("code='" + code + "'")
-        .add("name='" + name + "'")
-        .add("description='" + description + "'")
-        .add("contentTypes=" + contentTypes)
-        .add("active=" + active)
-        .add("personalCollection=" + personalCollection)
-        .add("doi=" + doi)
-        .add("email=" + email)
-        .add("phone=" + phone)
-        .add("homepage=" + homepage)
-        .add("catalogUrl=" + catalogUrl)
-        .add("apiUrl=" + apiUrl)
-        .add("preservationTypes=" + preservationTypes)
-        .add("accessionStatus=" + accessionStatus)
-        .add("institutionKey=" + institutionKey)
-        .add("mailingAddress=" + mailingAddress)
-        .add("address=" + address)
-        .add("createdBy='" + createdBy + "'")
-        .add("modifiedBy='" + modifiedBy + "'")
-        .add("created=" + created)
-        .add("modified=" + modified)
-        .add("deleted=" + deleted)
-        .add("tags=" + tags)
-        .add("identifiers=" + identifiers)
-        .add("contactPersons=" + contactPersons)
-        .add("indexHerbariorumRecord=" + indexHerbariorumRecord)
-        .add("numberSpecimens=" + numberSpecimens)
-        .add("machineTags=" + machineTags)
-        .add("taxonomicCoverage=" + taxonomicCoverage)
-        .add("geography=" + geography)
-        .add("notes=" + notes)
-        .add("incorporatedCollections=" + incorporatedCollections)
-        .add("importantCollectors=" + importantCollectors)
-        .add("collectionSummary=" + collectionSummary)
-        .add("alternativeCodes=" + alternativeCodes)
-        .add("comments=" + comments)
-        .add("occurrenceMappings=" + occurrenceMappings)
-        .add("replacedBy=" + replacedBy)
-        .add("masterSource=" + masterSource)
-        .add("masterSourceMetadata=" + masterSourceMetadata)
-        .add("division=" + division)
-        .add("department=" + department)
-        .add("displayOnNHCPortal=" + displayOnNHCPortal)
-        .toString();
+  public Integer getTypeSpecimenCount() {
+    return typeSpecimenCount;
+  }
+
+  public void setTypeSpecimenCount(Integer typeSpecimenCount) {
+    this.typeSpecimenCount = typeSpecimenCount;
   }
 
   @Override

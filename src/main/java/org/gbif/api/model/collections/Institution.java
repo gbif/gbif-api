@@ -15,6 +15,9 @@ package org.gbif.api.model.collections;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 import org.gbif.api.model.registry.Comment;
 import org.gbif.api.model.registry.Identifier;
 import org.gbif.api.model.registry.LenientEquals;
@@ -51,6 +54,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * especially one dedicated to education, public service, or culture.
  */
 @SuppressWarnings("unused")
+@ToString
+@EqualsAndHashCode
 public class Institution implements CollectionEntity, LenientEquals<Institution> {
 
   @Schema(
@@ -242,6 +247,12 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
 
   @Schema(description = "Whether the institution is shown on the NHC portal.")
   private Boolean displayOnNHCPortal;
+
+  @Schema(description = "An estimate of the number of occurrences linked to the institution.")
+  private Integer occurrenceCount;
+
+  @Schema(description = "An estimate of the number of type specimens linked to the institution.")
+  private Integer typeSpecimenCount;
 
   /** GBIF unique identifier. */
   @Override
@@ -676,6 +687,22 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.displayOnNHCPortal = displayOnNHCPortal;
   }
 
+  public Integer getOccurrenceCount() {
+    return occurrenceCount;
+  }
+
+  public void setOccurrenceCount(Integer occurrenceCount) {
+    this.occurrenceCount = occurrenceCount;
+  }
+
+  public Integer getTypeSpecimenCount() {
+    return typeSpecimenCount;
+  }
+
+  public void setTypeSpecimenCount(Integer typeSpecimenCount) {
+    this.typeSpecimenCount = typeSpecimenCount;
+  }
+
   @Hidden
   @JsonIgnore
   public String getCountry() {
@@ -707,150 +734,6 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
       return mailingAddress.getProvince();
     }
     return null;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Institution that = (Institution) o;
-    return active == that.active
-        && indexHerbariorumRecord == that.indexHerbariorumRecord
-        && Objects.equals(key, that.key)
-        && Objects.equals(code, that.code)
-        && Objects.equals(name, that.name)
-        && Objects.equals(description, that.description)
-        && type == that.type
-        && Objects.equals(email, that.email)
-        && Objects.equals(phone, that.phone)
-        && Objects.equals(homepage, that.homepage)
-        && Objects.equals(catalogUrl, that.catalogUrl)
-        && Objects.equals(apiUrl, that.apiUrl)
-        && institutionalGovernance == that.institutionalGovernance
-        && Objects.equals(disciplines, that.disciplines)
-        && Objects.equals(latitude, that.latitude)
-        && Objects.equals(longitude, that.longitude)
-        && Objects.equals(mailingAddress, that.mailingAddress)
-        && Objects.equals(address, that.address)
-        && Objects.equals(additionalNames, that.additionalNames)
-        && Objects.equals(foundingDate, that.foundingDate)
-        && Objects.equals(geographicDescription, that.geographicDescription)
-        && Objects.equals(taxonomicDescription, that.taxonomicDescription)
-        && Objects.equals(numberSpecimens, that.numberSpecimens)
-        && Objects.equals(logoUrl, that.logoUrl)
-        && Objects.equals(citesPermitNumber, that.citesPermitNumber)
-        && Objects.equals(createdBy, that.createdBy)
-        && Objects.equals(modifiedBy, that.modifiedBy)
-        && Objects.equals(created, that.created)
-        && Objects.equals(modified, that.modified)
-        && Objects.equals(deleted, that.deleted)
-        && Objects.equals(tags, that.tags)
-        && Objects.equals(identifiers, that.identifiers)
-        && Objects.equals(contactPersons, that.contactPersons)
-        && Objects.equals(machineTags, that.machineTags)
-        && Objects.equals(alternativeCodes, that.alternativeCodes)
-        && Objects.equals(comments, that.comments)
-        && Objects.equals(occurrenceMappings, that.occurrenceMappings)
-        && Objects.equals(replacedBy, that.replacedBy)
-        && Objects.equals(convertedToCollection, that.convertedToCollection)
-        && Objects.equals(masterSource, that.masterSource)
-        && Objects.equals(masterSourceMetadata, that.masterSourceMetadata)
-        && Objects.equals(displayOnNHCPortal, that.displayOnNHCPortal);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-        key,
-        code,
-        name,
-        description,
-        type,
-        active,
-        email,
-        phone,
-        homepage,
-        catalogUrl,
-        apiUrl,
-        institutionalGovernance,
-        disciplines,
-        latitude,
-        longitude,
-        mailingAddress,
-        address,
-        additionalNames,
-        foundingDate,
-        geographicDescription,
-        taxonomicDescription,
-        numberSpecimens,
-        indexHerbariorumRecord,
-        logoUrl,
-        citesPermitNumber,
-        createdBy,
-        modifiedBy,
-        created,
-        modified,
-        deleted,
-        tags,
-        identifiers,
-        contactPersons,
-        machineTags,
-        alternativeCodes,
-        comments,
-        occurrenceMappings,
-        replacedBy,
-        convertedToCollection,
-        masterSource,
-        masterSourceMetadata,
-        displayOnNHCPortal);
-  }
-
-  @Override
-  public String toString() {
-    return new StringJoiner(", ", Institution.class.getSimpleName() + "[", "]")
-        .add("key=" + key)
-        .add("code='" + code + "'")
-        .add("name='" + name + "'")
-        .add("description='" + description + "'")
-        .add("type=" + type)
-        .add("active=" + active)
-        .add("email=" + email)
-        .add("phone=" + phone)
-        .add("homepage=" + homepage)
-        .add("catalogUrl=" + catalogUrl)
-        .add("apiUrl=" + apiUrl)
-        .add("institutionalGovernance=" + institutionalGovernance)
-        .add("disciplines=" + disciplines)
-        .add("latitude=" + latitude)
-        .add("longitude=" + longitude)
-        .add("mailingAddress=" + mailingAddress)
-        .add("address=" + address)
-        .add("additionalNames=" + additionalNames)
-        .add("foundingDate=" + foundingDate)
-        .add("geographicDescription='" + geographicDescription + "'")
-        .add("taxonomicDescription='" + taxonomicDescription + "'")
-        .add("numberSpecimens=" + numberSpecimens)
-        .add("indexHerbariorumRecord=" + indexHerbariorumRecord)
-        .add("logoUrl=" + logoUrl)
-        .add("citesPermitNumber='" + citesPermitNumber + "'")
-        .add("createdBy='" + createdBy + "'")
-        .add("modifiedBy='" + modifiedBy + "'")
-        .add("created=" + created)
-        .add("modified=" + modified)
-        .add("deleted=" + deleted)
-        .add("tags=" + tags)
-        .add("identifiers=" + identifiers)
-        .add("contactPersons=" + contactPersons)
-        .add("machineTags=" + machineTags)
-        .add("alternativeCodes=" + alternativeCodes)
-        .add("comments=" + comments)
-        .add("occurrenceMappings=" + occurrenceMappings)
-        .add("replacedBy=" + replacedBy)
-        .add("convertedToCollection=" + convertedToCollection)
-        .add("masterSource=" + masterSource)
-        .add("masterSourceMetadata=" + masterSourceMetadata)
-        .add("displayOnNHCPortal=" + displayOnNHCPortal)
-        .toString();
   }
 
   @Override

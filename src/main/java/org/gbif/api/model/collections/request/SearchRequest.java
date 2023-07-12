@@ -46,11 +46,12 @@ public abstract class SearchRequest extends PageableBase implements Serializable
   @Nullable private String city;
   @Nullable private String fuzzyName;
   @Nullable private Boolean active;
-
   @Nullable private MasterSourceType masterSourceType;
   @Nullable private String numberSpecimens;
   @Nullable private Boolean displayOnNHCPortal;
   @Nullable private UUID replacedBy;
+  @Nullable private String occurrenceCount;
+  @Nullable private String typeSpecimenCount;
 
   @Nullable
   public String getQ() {
@@ -224,5 +225,23 @@ public abstract class SearchRequest extends PageableBase implements Serializable
 
   public void setGbifRegion(@Nullable List<GbifRegion> gbifRegion) {
     this.gbifRegion = gbifRegion;
+  }
+
+  @Nullable
+  public String getOccurrenceCount() {
+    return occurrenceCount;
+  }
+
+  public void setOccurrenceCount(@Nullable String occurrenceCount) {
+    this.occurrenceCount = occurrenceCount;
+  }
+
+  @Nullable
+  public String getTypeSpecimenCount() {
+    return typeSpecimenCount;
+  }
+
+  public void setTypeSpecimenCount(@Nullable String typeSpecimenCount) {
+    this.typeSpecimenCount = typeSpecimenCount;
   }
 }

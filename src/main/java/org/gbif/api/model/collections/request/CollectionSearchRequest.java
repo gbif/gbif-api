@@ -109,6 +109,8 @@ public class CollectionSearchRequest extends SearchRequest {
     String numberSpecimens;
     Boolean displayOnNHCPortal;
     UUID replacedBy;
+    String occurrenceCount;
+    String typeSpecimenCount;
     Pageable page;
 
     public Builder institution(UUID institution) {
@@ -226,6 +228,16 @@ public class CollectionSearchRequest extends SearchRequest {
       return this;
     }
 
+    public Builder occurrenceCount(String occurrenceCount) {
+      this.occurrenceCount = occurrenceCount;
+      return this;
+    }
+
+    public Builder typeSpecimenCount(String typeSpecimenCount) {
+      this.typeSpecimenCount = typeSpecimenCount;
+      return this;
+    }
+
     public Builder page(Pageable page) {
       this.page = page;
       return this;
@@ -256,6 +268,8 @@ public class CollectionSearchRequest extends SearchRequest {
       req.setNumberSpecimens(numberSpecimens);
       req.setDisplayOnNHCPortal(displayOnNHCPortal);
       req.setReplacedBy(replacedBy);
+      req.setOccurrenceCount(occurrenceCount);
+      req.setTypeSpecimenCount(typeSpecimenCount);
       if (page != null) {
         req.setLimit(page.getLimit());
         req.setOffset(page.getOffset());
