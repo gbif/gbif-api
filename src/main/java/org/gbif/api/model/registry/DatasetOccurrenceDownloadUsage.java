@@ -13,6 +13,10 @@
  */
 package org.gbif.api.model.registry;
 
+import lombok.EqualsAndHashCode;
+
+import lombok.ToString;
+
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.occurrence.Download;
 
@@ -31,6 +35,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * references to the download and dataset entities.
  */
 @SuppressWarnings("unused")
+@EqualsAndHashCode
+@ToString
 public class DatasetOccurrenceDownloadUsage implements Serializable {
 
   @Schema(
@@ -70,6 +76,11 @@ public class DatasetOccurrenceDownloadUsage implements Serializable {
     description = "Further information about the download."
   )
   private Download download;
+
+  @Schema(
+    description = "The publishing country code of the publishing organization of the dataset."
+  )
+  private String publishingCountryCode;
 
   /**
    * Dataset key.
@@ -151,46 +162,11 @@ public class DatasetOccurrenceDownloadUsage implements Serializable {
     this.datasetCitation = datasetCitation;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    DatasetOccurrenceDownloadUsage that = (DatasetOccurrenceDownloadUsage) o;
-    return numberRecords == that.numberRecords
-        && Objects.equals(downloadKey, that.downloadKey)
-        && Objects.equals(datasetKey, that.datasetKey)
-        && Objects.equals(datasetTitle, that.datasetTitle)
-        && Objects.equals(datasetDOI, that.datasetDOI)
-        && Objects.equals(datasetCitation, that.datasetCitation)
-        && Objects.equals(download, that.download);
+  public String getPublishingCountryCode() {
+    return publishingCountryCode;
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-        downloadKey,
-        datasetKey,
-        datasetTitle,
-        datasetDOI,
-        datasetCitation,
-        numberRecords,
-        download);
-  }
-
-  @Override
-  public String toString() {
-    return new StringJoiner(", ", DatasetOccurrenceDownloadUsage.class.getSimpleName() + "[", "]")
-        .add("downloadKey='" + downloadKey + "'")
-        .add("datasetKey=" + datasetKey)
-        .add("datasetTitle='" + datasetTitle + "'")
-        .add("datasetDOI=" + datasetDOI)
-        .add("datasetCitation='" + datasetCitation + "'")
-        .add("numberRecords=" + numberRecords)
-        .add("download=" + download)
-        .toString();
+  public void setPublishingCountryCode(String publishingCountryCode) {
+    this.publishingCountryCode = publishingCountryCode;
   }
 }

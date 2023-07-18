@@ -17,8 +17,14 @@ import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.occurrence.Download;
 import org.gbif.api.model.occurrence.DownloadStatistics;
+import org.gbif.api.model.registry.CountryOccurrenceDownloadUsage;
 import org.gbif.api.model.registry.DatasetOccurrenceDownloadUsage;
+import org.gbif.api.model.registry.OrganizationOccurrenceDownloadUsage;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.CountryUsageSortField;
+import org.gbif.api.vocabulary.DatasetUsageSortField;
+import org.gbif.api.vocabulary.OrganizationUsageSortField;
+import org.gbif.api.vocabulary.SortOrder;
 
 import java.util.Date;
 import java.util.Map;
@@ -28,6 +34,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 /**
  * Interface to access and persist information about occurrence download events.
@@ -82,6 +89,26 @@ public interface OccurrenceDownloadService {
    */
   PagingResponse<DatasetOccurrenceDownloadUsage> listDatasetUsages(@NotNull String keyOrDoi,
     @Nullable Pageable page);
+
+  PagingResponse<DatasetOccurrenceDownloadUsage> listDatasetUsages(
+      @NotNull String keyOrDoi,
+      @Nullable String datasetTitle,
+      @Nullable DatasetUsageSortField sortBy,
+      @Nullable SortOrder sortOrder,
+      @Nullable Pageable page);
+
+  PagingResponse<OrganizationOccurrenceDownloadUsage> listOrganizationUsages(
+      @NotNull String keyOrDoi,
+      @Nullable String organizationTitle,
+      @Nullable OrganizationUsageSortField sortBy,
+      @Nullable SortOrder sortOrder,
+      @Nullable Pageable page);
+
+  PagingResponse<CountryOccurrenceDownloadUsage> listCountryUsages(
+      @NotNull String keyOrDoi,
+      @Nullable CountryUsageSortField sortBy,
+      @Nullable SortOrder sortOrder,
+      @Nullable Pageable page);
 
   /**
    * Retrieve citation details of a download by its unique key or DOI.

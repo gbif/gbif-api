@@ -21,8 +21,6 @@ import org.gbif.api.vocabulary.License;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.EnumSet;
-import java.util.Objects;
-import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -32,7 +30,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+@ToString
+@EqualsAndHashCode
 public class Download implements Serializable {
 
   /**
@@ -146,6 +148,16 @@ public class Download implements Serializable {
     description = "The total number of datasets from which occurrence records were drawn."
   )
   private long numberDatasets;
+
+  @Schema(
+    description = "The total number of organizations from which occurrence records were drawn."
+  )
+  private long numberOrganizations;
+
+  @Schema(
+    description = "The total number of publishing countries from which occurrence records were drawn."
+  )
+  private long numberPublishingCountries;
 
   @Hidden
   private String source;
@@ -325,55 +337,19 @@ public class Download implements Serializable {
     this.source = source;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Download download = (Download) o;
-    return size == download.size &&
-      totalRecords == download.totalRecords &&
-      numberDatasets == download.numberDatasets &&
-      Objects.equals(key, download.key) &&
-      Objects.equals(doi, download.doi) &&
-      license == download.license &&
-      Objects.equals(request, download.request) &&
-      Objects.equals(created, download.created) &&
-      Objects.equals(modified, download.modified) &&
-      Objects.equals(eraseAfter, download.eraseAfter) &&
-      Objects.equals(erasureNotification, download.erasureNotification) &&
-      status == download.status &&
-      Objects.equals(downloadLink, download.downloadLink) &&
-      Objects.equals(source, download.source);
+  public long getNumberOrganizations() {
+    return numberOrganizations;
   }
 
-  @Override
-  public int hashCode() {
-    return Objects
-      .hash(key, doi, license, request, created, modified, eraseAfter, status, downloadLink, size,
-        totalRecords, numberDatasets, source);
+  public void setNumberOrganizations(long numberOrganizations) {
+    this.numberOrganizations = numberOrganizations;
   }
 
-  @Override
-  public String toString() {
-    return new StringJoiner(", ", Download.class.getSimpleName() + "[", "]")
-      .add("key='" + key + "'")
-      .add("doi=" + doi)
-      .add("license=" + license)
-      .add("request=" + request)
-      .add("created=" + created)
-      .add("modified=" + modified)
-      .add("eraseAfter=" + eraseAfter)
-      .add("erasureNotification=" + erasureNotification)
-      .add("status=" + status)
-      .add("downloadLink='" + downloadLink + "'")
-      .add("size=" + size)
-      .add("totalRecords=" + totalRecords)
-      .add("numberDatasets=" + numberDatasets)
-      .add("source=" + source)
-      .toString();
+  public long getNumberPublishingCountries() {
+    return numberPublishingCountries;
+  }
+
+  public void setNumberPublishingCountries(long numberPublishingCountries) {
+    this.numberPublishingCountries = numberPublishingCountries;
   }
 }
