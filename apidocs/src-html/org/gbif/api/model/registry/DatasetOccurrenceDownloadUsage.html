@@ -21,187 +21,163 @@
 <span class="sourceLineNo">013</span> */<a name="line.13"></a>
 <span class="sourceLineNo">014</span>package org.gbif.api.model.registry;<a name="line.14"></a>
 <span class="sourceLineNo">015</span><a name="line.15"></a>
-<span class="sourceLineNo">016</span>import org.gbif.api.model.common.DOI;<a name="line.16"></a>
-<span class="sourceLineNo">017</span>import org.gbif.api.model.occurrence.Download;<a name="line.17"></a>
-<span class="sourceLineNo">018</span><a name="line.18"></a>
-<span class="sourceLineNo">019</span>import java.io.Serializable;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import java.util.Objects;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import java.util.StringJoiner;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import java.util.UUID;<a name="line.22"></a>
-<span class="sourceLineNo">023</span><a name="line.23"></a>
-<span class="sourceLineNo">024</span>import javax.validation.constraints.NotNull;<a name="line.24"></a>
-<span class="sourceLineNo">025</span><a name="line.25"></a>
-<span class="sourceLineNo">026</span>import io.swagger.v3.oas.annotations.media.Schema;<a name="line.26"></a>
+<span class="sourceLineNo">016</span>import lombok.EqualsAndHashCode;<a name="line.16"></a>
+<span class="sourceLineNo">017</span><a name="line.17"></a>
+<span class="sourceLineNo">018</span>import lombok.ToString;<a name="line.18"></a>
+<span class="sourceLineNo">019</span><a name="line.19"></a>
+<span class="sourceLineNo">020</span>import org.gbif.api.model.common.DOI;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import org.gbif.api.model.occurrence.Download;<a name="line.21"></a>
+<span class="sourceLineNo">022</span><a name="line.22"></a>
+<span class="sourceLineNo">023</span>import java.io.Serializable;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.util.Objects;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.util.StringJoiner;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.util.UUID;<a name="line.26"></a>
 <span class="sourceLineNo">027</span><a name="line.27"></a>
-<span class="sourceLineNo">028</span>/**<a name="line.28"></a>
-<span class="sourceLineNo">029</span> * Represents the information about the usage of one dataset in an occurrence download.<a name="line.29"></a>
-<span class="sourceLineNo">030</span> * Provides information about the number of records that the dataset provided to the download; additionally, provide the<a name="line.30"></a>
-<span class="sourceLineNo">031</span> * references to the download and dataset entities.<a name="line.31"></a>
-<span class="sourceLineNo">032</span> */<a name="line.32"></a>
-<span class="sourceLineNo">033</span>@SuppressWarnings("unused")<a name="line.33"></a>
-<span class="sourceLineNo">034</span>public class DatasetOccurrenceDownloadUsage implements Serializable {<a name="line.34"></a>
-<span class="sourceLineNo">035</span><a name="line.35"></a>
-<span class="sourceLineNo">036</span>  @Schema(<a name="line.36"></a>
-<span class="sourceLineNo">037</span>    description = "The GBIF key assigned to the download.\n\n" +<a name="line.37"></a>
-<span class="sourceLineNo">038</span>      "Note that citations should instead use the download DOI."<a name="line.38"></a>
-<span class="sourceLineNo">039</span>  )<a name="line.39"></a>
-<span class="sourceLineNo">040</span>  private String downloadKey;<a name="line.40"></a>
+<span class="sourceLineNo">028</span>import javax.validation.constraints.NotNull;<a name="line.28"></a>
+<span class="sourceLineNo">029</span><a name="line.29"></a>
+<span class="sourceLineNo">030</span>import io.swagger.v3.oas.annotations.media.Schema;<a name="line.30"></a>
+<span class="sourceLineNo">031</span><a name="line.31"></a>
+<span class="sourceLineNo">032</span>/**<a name="line.32"></a>
+<span class="sourceLineNo">033</span> * Represents the information about the usage of one dataset in an occurrence download.<a name="line.33"></a>
+<span class="sourceLineNo">034</span> * Provides information about the number of records that the dataset provided to the download; additionally, provide the<a name="line.34"></a>
+<span class="sourceLineNo">035</span> * references to the download and dataset entities.<a name="line.35"></a>
+<span class="sourceLineNo">036</span> */<a name="line.36"></a>
+<span class="sourceLineNo">037</span>@SuppressWarnings("unused")<a name="line.37"></a>
+<span class="sourceLineNo">038</span>@EqualsAndHashCode<a name="line.38"></a>
+<span class="sourceLineNo">039</span>@ToString<a name="line.39"></a>
+<span class="sourceLineNo">040</span>public class DatasetOccurrenceDownloadUsage implements Serializable {<a name="line.40"></a>
 <span class="sourceLineNo">041</span><a name="line.41"></a>
 <span class="sourceLineNo">042</span>  @Schema(<a name="line.42"></a>
-<span class="sourceLineNo">043</span>    description = "The GBIF dataset key of the dataset."<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  )<a name="line.44"></a>
-<span class="sourceLineNo">045</span>  private UUID datasetKey;<a name="line.45"></a>
-<span class="sourceLineNo">046</span><a name="line.46"></a>
-<span class="sourceLineNo">047</span>  @Schema(<a name="line.47"></a>
-<span class="sourceLineNo">048</span>    description = "The title of the dataset, at the time the download was created."<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  )<a name="line.49"></a>
-<span class="sourceLineNo">050</span>  private String datasetTitle;<a name="line.50"></a>
-<span class="sourceLineNo">051</span><a name="line.51"></a>
-<span class="sourceLineNo">052</span>  @Schema(<a name="line.52"></a>
-<span class="sourceLineNo">053</span>    description = "The primary Digital Object Identifier (DOI) for the dataset.",<a name="line.53"></a>
-<span class="sourceLineNo">054</span>    implementation = String.class,<a name="line.54"></a>
-<span class="sourceLineNo">055</span>    pattern = "(10(?:\\.[0-9]+)+)" + "/(.+)"<a name="line.55"></a>
-<span class="sourceLineNo">056</span>  )<a name="line.56"></a>
-<span class="sourceLineNo">057</span>  private DOI datasetDOI;<a name="line.57"></a>
-<span class="sourceLineNo">058</span><a name="line.58"></a>
-<span class="sourceLineNo">059</span>  @Schema(<a name="line.59"></a>
-<span class="sourceLineNo">060</span>    description = "The citation for the dataset, at the time the download was created."<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  )<a name="line.61"></a>
-<span class="sourceLineNo">062</span>  private String datasetCitation;<a name="line.62"></a>
-<span class="sourceLineNo">063</span><a name="line.63"></a>
-<span class="sourceLineNo">064</span>  @Schema(<a name="line.64"></a>
-<span class="sourceLineNo">065</span>    description = "The number of records from this dataset included in the download."<a name="line.65"></a>
-<span class="sourceLineNo">066</span>  )<a name="line.66"></a>
-<span class="sourceLineNo">067</span>  private long numberRecords;<a name="line.67"></a>
-<span class="sourceLineNo">068</span><a name="line.68"></a>
-<span class="sourceLineNo">069</span>  @Schema(<a name="line.69"></a>
-<span class="sourceLineNo">070</span>    description = "Further information about the download."<a name="line.70"></a>
-<span class="sourceLineNo">071</span>  )<a name="line.71"></a>
-<span class="sourceLineNo">072</span>  private Download download;<a name="line.72"></a>
-<span class="sourceLineNo">073</span><a name="line.73"></a>
-<span class="sourceLineNo">074</span>  /**<a name="line.74"></a>
-<span class="sourceLineNo">075</span>   * Dataset key.<a name="line.75"></a>
-<span class="sourceLineNo">076</span>   */<a name="line.76"></a>
-<span class="sourceLineNo">077</span>  @NotNull<a name="line.77"></a>
-<span class="sourceLineNo">078</span>  public UUID getDatasetKey() {<a name="line.78"></a>
-<span class="sourceLineNo">079</span>    return datasetKey;<a name="line.79"></a>
-<span class="sourceLineNo">080</span>  }<a name="line.80"></a>
-<span class="sourceLineNo">081</span><a name="line.81"></a>
-<span class="sourceLineNo">082</span>  /**<a name="line.82"></a>
-<span class="sourceLineNo">083</span>   * @return the download<a name="line.83"></a>
-<span class="sourceLineNo">084</span>   */<a name="line.84"></a>
-<span class="sourceLineNo">085</span>  public Download getDownload() {<a name="line.85"></a>
-<span class="sourceLineNo">086</span>    return download;<a name="line.86"></a>
-<span class="sourceLineNo">087</span>  }<a name="line.87"></a>
-<span class="sourceLineNo">088</span><a name="line.88"></a>
-<span class="sourceLineNo">089</span>  /**<a name="line.89"></a>
-<span class="sourceLineNo">090</span>   * Occurrence download key.<a name="line.90"></a>
-<span class="sourceLineNo">091</span>   */<a name="line.91"></a>
-<span class="sourceLineNo">092</span>  @NotNull<a name="line.92"></a>
-<span class="sourceLineNo">093</span>  public String getDownloadKey() {<a name="line.93"></a>
-<span class="sourceLineNo">094</span>    return downloadKey;<a name="line.94"></a>
-<span class="sourceLineNo">095</span>  }<a name="line.95"></a>
-<span class="sourceLineNo">096</span><a name="line.96"></a>
-<span class="sourceLineNo">097</span>  /**<a name="line.97"></a>
-<span class="sourceLineNo">098</span>   * Number of records that the dataset has provided to the occurrence download.<a name="line.98"></a>
-<span class="sourceLineNo">099</span>   */<a name="line.99"></a>
-<span class="sourceLineNo">100</span>  @NotNull<a name="line.100"></a>
-<span class="sourceLineNo">101</span>  public long getNumberRecords() {<a name="line.101"></a>
-<span class="sourceLineNo">102</span>    return numberRecords;<a name="line.102"></a>
-<span class="sourceLineNo">103</span>  }<a name="line.103"></a>
-<span class="sourceLineNo">104</span><a name="line.104"></a>
-<span class="sourceLineNo">105</span>  /**<a name="line.105"></a>
-<span class="sourceLineNo">106</span>   * Dataset title at the moment when the download was created.<a name="line.106"></a>
-<span class="sourceLineNo">107</span>   */<a name="line.107"></a>
-<span class="sourceLineNo">108</span>  public String getDatasetTitle() {<a name="line.108"></a>
-<span class="sourceLineNo">109</span>    return datasetTitle;<a name="line.109"></a>
-<span class="sourceLineNo">110</span>  }<a name="line.110"></a>
-<span class="sourceLineNo">111</span><a name="line.111"></a>
-<span class="sourceLineNo">112</span>  /**<a name="line.112"></a>
-<span class="sourceLineNo">113</span>   * Dataset DOI at the moment when the download was created.<a name="line.113"></a>
-<span class="sourceLineNo">114</span>   */<a name="line.114"></a>
-<span class="sourceLineNo">115</span>  public DOI getDatasetDOI() {<a name="line.115"></a>
-<span class="sourceLineNo">116</span>    return datasetDOI;<a name="line.116"></a>
-<span class="sourceLineNo">117</span>  }<a name="line.117"></a>
-<span class="sourceLineNo">118</span><a name="line.118"></a>
-<span class="sourceLineNo">119</span>  /**<a name="line.119"></a>
-<span class="sourceLineNo">120</span>   * Dataset citation at the moment when the download was created.<a name="line.120"></a>
-<span class="sourceLineNo">121</span>   */<a name="line.121"></a>
-<span class="sourceLineNo">122</span>  public String getDatasetCitation() {<a name="line.122"></a>
-<span class="sourceLineNo">123</span>    return datasetCitation;<a name="line.123"></a>
-<span class="sourceLineNo">124</span>  }<a name="line.124"></a>
-<span class="sourceLineNo">125</span><a name="line.125"></a>
-<span class="sourceLineNo">126</span>  public void setDatasetKey(UUID datasetKey) {<a name="line.126"></a>
-<span class="sourceLineNo">127</span>    this.datasetKey = datasetKey;<a name="line.127"></a>
+<span class="sourceLineNo">043</span>    description = "The GBIF key assigned to the download.\n\n" +<a name="line.43"></a>
+<span class="sourceLineNo">044</span>      "Note that citations should instead use the download DOI."<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  )<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  private String downloadKey;<a name="line.46"></a>
+<span class="sourceLineNo">047</span><a name="line.47"></a>
+<span class="sourceLineNo">048</span>  @Schema(<a name="line.48"></a>
+<span class="sourceLineNo">049</span>    description = "The GBIF dataset key of the dataset."<a name="line.49"></a>
+<span class="sourceLineNo">050</span>  )<a name="line.50"></a>
+<span class="sourceLineNo">051</span>  private UUID datasetKey;<a name="line.51"></a>
+<span class="sourceLineNo">052</span><a name="line.52"></a>
+<span class="sourceLineNo">053</span>  @Schema(<a name="line.53"></a>
+<span class="sourceLineNo">054</span>    description = "The title of the dataset, at the time the download was created."<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  )<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  private String datasetTitle;<a name="line.56"></a>
+<span class="sourceLineNo">057</span><a name="line.57"></a>
+<span class="sourceLineNo">058</span>  @Schema(<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    description = "The primary Digital Object Identifier (DOI) for the dataset.",<a name="line.59"></a>
+<span class="sourceLineNo">060</span>    implementation = String.class,<a name="line.60"></a>
+<span class="sourceLineNo">061</span>    pattern = "(10(?:\\.[0-9]+)+)" + "/(.+)"<a name="line.61"></a>
+<span class="sourceLineNo">062</span>  )<a name="line.62"></a>
+<span class="sourceLineNo">063</span>  private DOI datasetDOI;<a name="line.63"></a>
+<span class="sourceLineNo">064</span><a name="line.64"></a>
+<span class="sourceLineNo">065</span>  @Schema(<a name="line.65"></a>
+<span class="sourceLineNo">066</span>    description = "The citation for the dataset, at the time the download was created."<a name="line.66"></a>
+<span class="sourceLineNo">067</span>  )<a name="line.67"></a>
+<span class="sourceLineNo">068</span>  private String datasetCitation;<a name="line.68"></a>
+<span class="sourceLineNo">069</span><a name="line.69"></a>
+<span class="sourceLineNo">070</span>  @Schema(<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    description = "The number of records from this dataset included in the download."<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  )<a name="line.72"></a>
+<span class="sourceLineNo">073</span>  private long numberRecords;<a name="line.73"></a>
+<span class="sourceLineNo">074</span><a name="line.74"></a>
+<span class="sourceLineNo">075</span>  @Schema(<a name="line.75"></a>
+<span class="sourceLineNo">076</span>    description = "Further information about the download."<a name="line.76"></a>
+<span class="sourceLineNo">077</span>  )<a name="line.77"></a>
+<span class="sourceLineNo">078</span>  private Download download;<a name="line.78"></a>
+<span class="sourceLineNo">079</span><a name="line.79"></a>
+<span class="sourceLineNo">080</span>  @Schema(<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    description = "The publishing country code of the publishing organization of the dataset."<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  )<a name="line.82"></a>
+<span class="sourceLineNo">083</span>  private String publishingCountryCode;<a name="line.83"></a>
+<span class="sourceLineNo">084</span><a name="line.84"></a>
+<span class="sourceLineNo">085</span>  /**<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * Dataset key.<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   */<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  @NotNull<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  public UUID getDatasetKey() {<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    return datasetKey;<a name="line.90"></a>
+<span class="sourceLineNo">091</span>  }<a name="line.91"></a>
+<span class="sourceLineNo">092</span><a name="line.92"></a>
+<span class="sourceLineNo">093</span>  /**<a name="line.93"></a>
+<span class="sourceLineNo">094</span>   * @return the download<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   */<a name="line.95"></a>
+<span class="sourceLineNo">096</span>  public Download getDownload() {<a name="line.96"></a>
+<span class="sourceLineNo">097</span>    return download;<a name="line.97"></a>
+<span class="sourceLineNo">098</span>  }<a name="line.98"></a>
+<span class="sourceLineNo">099</span><a name="line.99"></a>
+<span class="sourceLineNo">100</span>  /**<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   * Occurrence download key.<a name="line.101"></a>
+<span class="sourceLineNo">102</span>   */<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  @NotNull<a name="line.103"></a>
+<span class="sourceLineNo">104</span>  public String getDownloadKey() {<a name="line.104"></a>
+<span class="sourceLineNo">105</span>    return downloadKey;<a name="line.105"></a>
+<span class="sourceLineNo">106</span>  }<a name="line.106"></a>
+<span class="sourceLineNo">107</span><a name="line.107"></a>
+<span class="sourceLineNo">108</span>  /**<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   * Number of records that the dataset has provided to the occurrence download.<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   */<a name="line.110"></a>
+<span class="sourceLineNo">111</span>  @NotNull<a name="line.111"></a>
+<span class="sourceLineNo">112</span>  public long getNumberRecords() {<a name="line.112"></a>
+<span class="sourceLineNo">113</span>    return numberRecords;<a name="line.113"></a>
+<span class="sourceLineNo">114</span>  }<a name="line.114"></a>
+<span class="sourceLineNo">115</span><a name="line.115"></a>
+<span class="sourceLineNo">116</span>  /**<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   * Dataset title at the moment when the download was created.<a name="line.117"></a>
+<span class="sourceLineNo">118</span>   */<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  public String getDatasetTitle() {<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    return datasetTitle;<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  }<a name="line.121"></a>
+<span class="sourceLineNo">122</span><a name="line.122"></a>
+<span class="sourceLineNo">123</span>  /**<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * Dataset DOI at the moment when the download was created.<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   */<a name="line.125"></a>
+<span class="sourceLineNo">126</span>  public DOI getDatasetDOI() {<a name="line.126"></a>
+<span class="sourceLineNo">127</span>    return datasetDOI;<a name="line.127"></a>
 <span class="sourceLineNo">128</span>  }<a name="line.128"></a>
 <span class="sourceLineNo">129</span><a name="line.129"></a>
-<span class="sourceLineNo">130</span>  public void setDownload(Download download) {<a name="line.130"></a>
-<span class="sourceLineNo">131</span>    this.download = download;<a name="line.131"></a>
-<span class="sourceLineNo">132</span>  }<a name="line.132"></a>
-<span class="sourceLineNo">133</span><a name="line.133"></a>
-<span class="sourceLineNo">134</span>  public void setDownloadKey(String downloadKey) {<a name="line.134"></a>
-<span class="sourceLineNo">135</span>    this.downloadKey = downloadKey;<a name="line.135"></a>
-<span class="sourceLineNo">136</span>  }<a name="line.136"></a>
-<span class="sourceLineNo">137</span><a name="line.137"></a>
-<span class="sourceLineNo">138</span>  public void setNumberRecords(long numberOfRecords) {<a name="line.138"></a>
-<span class="sourceLineNo">139</span>    this.numberRecords = numberOfRecords;<a name="line.139"></a>
-<span class="sourceLineNo">140</span>  }<a name="line.140"></a>
-<span class="sourceLineNo">141</span><a name="line.141"></a>
-<span class="sourceLineNo">142</span>  public void setDatasetTitle(String datasetTitle) {<a name="line.142"></a>
-<span class="sourceLineNo">143</span>    this.datasetTitle = datasetTitle;<a name="line.143"></a>
-<span class="sourceLineNo">144</span>  }<a name="line.144"></a>
-<span class="sourceLineNo">145</span><a name="line.145"></a>
-<span class="sourceLineNo">146</span>  public void setDatasetDOI(DOI datasetDOI) {<a name="line.146"></a>
-<span class="sourceLineNo">147</span>    this.datasetDOI = datasetDOI;<a name="line.147"></a>
-<span class="sourceLineNo">148</span>  }<a name="line.148"></a>
-<span class="sourceLineNo">149</span><a name="line.149"></a>
-<span class="sourceLineNo">150</span>  public void setDatasetCitation(String datasetCitation) {<a name="line.150"></a>
-<span class="sourceLineNo">151</span>    this.datasetCitation = datasetCitation;<a name="line.151"></a>
-<span class="sourceLineNo">152</span>  }<a name="line.152"></a>
-<span class="sourceLineNo">153</span><a name="line.153"></a>
-<span class="sourceLineNo">154</span>  @Override<a name="line.154"></a>
-<span class="sourceLineNo">155</span>  public boolean equals(Object o) {<a name="line.155"></a>
-<span class="sourceLineNo">156</span>    if (this == o) {<a name="line.156"></a>
-<span class="sourceLineNo">157</span>      return true;<a name="line.157"></a>
-<span class="sourceLineNo">158</span>    }<a name="line.158"></a>
-<span class="sourceLineNo">159</span>    if (o == null || getClass() != o.getClass()) {<a name="line.159"></a>
-<span class="sourceLineNo">160</span>      return false;<a name="line.160"></a>
-<span class="sourceLineNo">161</span>    }<a name="line.161"></a>
-<span class="sourceLineNo">162</span>    DatasetOccurrenceDownloadUsage that = (DatasetOccurrenceDownloadUsage) o;<a name="line.162"></a>
-<span class="sourceLineNo">163</span>    return numberRecords == that.numberRecords<a name="line.163"></a>
-<span class="sourceLineNo">164</span>        &amp;&amp; Objects.equals(downloadKey, that.downloadKey)<a name="line.164"></a>
-<span class="sourceLineNo">165</span>        &amp;&amp; Objects.equals(datasetKey, that.datasetKey)<a name="line.165"></a>
-<span class="sourceLineNo">166</span>        &amp;&amp; Objects.equals(datasetTitle, that.datasetTitle)<a name="line.166"></a>
-<span class="sourceLineNo">167</span>        &amp;&amp; Objects.equals(datasetDOI, that.datasetDOI)<a name="line.167"></a>
-<span class="sourceLineNo">168</span>        &amp;&amp; Objects.equals(datasetCitation, that.datasetCitation)<a name="line.168"></a>
-<span class="sourceLineNo">169</span>        &amp;&amp; Objects.equals(download, that.download);<a name="line.169"></a>
-<span class="sourceLineNo">170</span>  }<a name="line.170"></a>
-<span class="sourceLineNo">171</span><a name="line.171"></a>
-<span class="sourceLineNo">172</span>  @Override<a name="line.172"></a>
-<span class="sourceLineNo">173</span>  public int hashCode() {<a name="line.173"></a>
-<span class="sourceLineNo">174</span>    return Objects.hash(<a name="line.174"></a>
-<span class="sourceLineNo">175</span>        downloadKey,<a name="line.175"></a>
-<span class="sourceLineNo">176</span>        datasetKey,<a name="line.176"></a>
-<span class="sourceLineNo">177</span>        datasetTitle,<a name="line.177"></a>
-<span class="sourceLineNo">178</span>        datasetDOI,<a name="line.178"></a>
-<span class="sourceLineNo">179</span>        datasetCitation,<a name="line.179"></a>
-<span class="sourceLineNo">180</span>        numberRecords,<a name="line.180"></a>
-<span class="sourceLineNo">181</span>        download);<a name="line.181"></a>
-<span class="sourceLineNo">182</span>  }<a name="line.182"></a>
-<span class="sourceLineNo">183</span><a name="line.183"></a>
-<span class="sourceLineNo">184</span>  @Override<a name="line.184"></a>
-<span class="sourceLineNo">185</span>  public String toString() {<a name="line.185"></a>
-<span class="sourceLineNo">186</span>    return new StringJoiner(", ", DatasetOccurrenceDownloadUsage.class.getSimpleName() + "[", "]")<a name="line.186"></a>
-<span class="sourceLineNo">187</span>        .add("downloadKey='" + downloadKey + "'")<a name="line.187"></a>
-<span class="sourceLineNo">188</span>        .add("datasetKey=" + datasetKey)<a name="line.188"></a>
-<span class="sourceLineNo">189</span>        .add("datasetTitle='" + datasetTitle + "'")<a name="line.189"></a>
-<span class="sourceLineNo">190</span>        .add("datasetDOI=" + datasetDOI)<a name="line.190"></a>
-<span class="sourceLineNo">191</span>        .add("datasetCitation='" + datasetCitation + "'")<a name="line.191"></a>
-<span class="sourceLineNo">192</span>        .add("numberRecords=" + numberRecords)<a name="line.192"></a>
-<span class="sourceLineNo">193</span>        .add("download=" + download)<a name="line.193"></a>
-<span class="sourceLineNo">194</span>        .toString();<a name="line.194"></a>
-<span class="sourceLineNo">195</span>  }<a name="line.195"></a>
-<span class="sourceLineNo">196</span>}<a name="line.196"></a>
+<span class="sourceLineNo">130</span>  /**<a name="line.130"></a>
+<span class="sourceLineNo">131</span>   * Dataset citation at the moment when the download was created.<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   */<a name="line.132"></a>
+<span class="sourceLineNo">133</span>  public String getDatasetCitation() {<a name="line.133"></a>
+<span class="sourceLineNo">134</span>    return datasetCitation;<a name="line.134"></a>
+<span class="sourceLineNo">135</span>  }<a name="line.135"></a>
+<span class="sourceLineNo">136</span><a name="line.136"></a>
+<span class="sourceLineNo">137</span>  public void setDatasetKey(UUID datasetKey) {<a name="line.137"></a>
+<span class="sourceLineNo">138</span>    this.datasetKey = datasetKey;<a name="line.138"></a>
+<span class="sourceLineNo">139</span>  }<a name="line.139"></a>
+<span class="sourceLineNo">140</span><a name="line.140"></a>
+<span class="sourceLineNo">141</span>  public void setDownload(Download download) {<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    this.download = download;<a name="line.142"></a>
+<span class="sourceLineNo">143</span>  }<a name="line.143"></a>
+<span class="sourceLineNo">144</span><a name="line.144"></a>
+<span class="sourceLineNo">145</span>  public void setDownloadKey(String downloadKey) {<a name="line.145"></a>
+<span class="sourceLineNo">146</span>    this.downloadKey = downloadKey;<a name="line.146"></a>
+<span class="sourceLineNo">147</span>  }<a name="line.147"></a>
+<span class="sourceLineNo">148</span><a name="line.148"></a>
+<span class="sourceLineNo">149</span>  public void setNumberRecords(long numberOfRecords) {<a name="line.149"></a>
+<span class="sourceLineNo">150</span>    this.numberRecords = numberOfRecords;<a name="line.150"></a>
+<span class="sourceLineNo">151</span>  }<a name="line.151"></a>
+<span class="sourceLineNo">152</span><a name="line.152"></a>
+<span class="sourceLineNo">153</span>  public void setDatasetTitle(String datasetTitle) {<a name="line.153"></a>
+<span class="sourceLineNo">154</span>    this.datasetTitle = datasetTitle;<a name="line.154"></a>
+<span class="sourceLineNo">155</span>  }<a name="line.155"></a>
+<span class="sourceLineNo">156</span><a name="line.156"></a>
+<span class="sourceLineNo">157</span>  public void setDatasetDOI(DOI datasetDOI) {<a name="line.157"></a>
+<span class="sourceLineNo">158</span>    this.datasetDOI = datasetDOI;<a name="line.158"></a>
+<span class="sourceLineNo">159</span>  }<a name="line.159"></a>
+<span class="sourceLineNo">160</span><a name="line.160"></a>
+<span class="sourceLineNo">161</span>  public void setDatasetCitation(String datasetCitation) {<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    this.datasetCitation = datasetCitation;<a name="line.162"></a>
+<span class="sourceLineNo">163</span>  }<a name="line.163"></a>
+<span class="sourceLineNo">164</span><a name="line.164"></a>
+<span class="sourceLineNo">165</span>  public String getPublishingCountryCode() {<a name="line.165"></a>
+<span class="sourceLineNo">166</span>    return publishingCountryCode;<a name="line.166"></a>
+<span class="sourceLineNo">167</span>  }<a name="line.167"></a>
+<span class="sourceLineNo">168</span><a name="line.168"></a>
+<span class="sourceLineNo">169</span>  public void setPublishingCountryCode(String publishingCountryCode) {<a name="line.169"></a>
+<span class="sourceLineNo">170</span>    this.publishingCountryCode = publishingCountryCode;<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  }<a name="line.171"></a>
+<span class="sourceLineNo">172</span>}<a name="line.172"></a>
 
 
 

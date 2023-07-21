@@ -21,8 +21,6 @@ import org.gbif.api.vocabulary.License;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.EnumSet;
-import java.util.Objects;
-import java.util.StringJoiner;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -32,8 +30,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-<span class="fc" id="L36">public class Download implements Serializable {</span>
+<span class="nc" id="L36">@ToString</span>
+<span class="nc bnc" id="L37" title="All 104 branches missed.">@EqualsAndHashCode</span>
+<span class="fc" id="L38">public class Download implements Serializable {</span>
 
   /**
    * Reflects the possibles statuses of a download during its execution.
@@ -47,7 +49,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
    * - SUSPENDED: the download was paused and its execution will be resumed later
    * - FILE_ERASED: the download was successful, but the download file has been deleted
    */
-<span class="fc" id="L50">  @Schema(</span>
+<span class="fc" id="L52">  @Schema(</span>
     description = &quot;The status of the download.\n\n&quot; +
       &quot;* `PREPARING`: the download is initiating\n&quot; +
       &quot;* `RUNNING`: the download is being processed\n&quot; +
@@ -60,24 +62,24 @@ import io.swagger.v3.oas.annotations.media.Schema;
       &quot;[has since been deleted](https://www.gbif.org/faq?question=for-how-long-will-does-gbif-store-downloads).&quot;
   )
   public enum Status {
-<span class="fc" id="L63">    PREPARING,</span>
-<span class="fc" id="L64">    RUNNING,</span>
-<span class="fc" id="L65">    SUCCEEDED,</span>
-<span class="fc" id="L66">    CANCELLED,</span>
-<span class="fc" id="L67">    KILLED,</span>
-<span class="fc" id="L68">    FAILED,</span>
-<span class="fc" id="L69">    SUSPENDED,</span>
-<span class="fc" id="L70">    FILE_ERASED;</span>
+<span class="fc" id="L65">    PREPARING,</span>
+<span class="fc" id="L66">    RUNNING,</span>
+<span class="fc" id="L67">    SUCCEEDED,</span>
+<span class="fc" id="L68">    CANCELLED,</span>
+<span class="fc" id="L69">    KILLED,</span>
+<span class="fc" id="L70">    FAILED,</span>
+<span class="fc" id="L71">    SUSPENDED,</span>
+<span class="fc" id="L72">    FILE_ERASED;</span>
 
     /**
      * Statuses that represent a download that that hasn't finished.
      */
-<span class="fc" id="L75">    public static final EnumSet&lt;Status&gt; EXECUTING_STATUSES = EnumSet.of(PREPARING, RUNNING, SUSPENDED);</span>
+<span class="fc" id="L77">    public static final EnumSet&lt;Status&gt; EXECUTING_STATUSES = EnumSet.of(PREPARING, RUNNING, SUSPENDED);</span>
 
     /**
      * Statuses that represent a download that that has finished.
      */
-<span class="fc" id="L80">    public static final EnumSet&lt;Status&gt; FINISH_STATUSES = EnumSet.of(SUCCEEDED, CANCELLED, KILLED, FAILED, FILE_ERASED);</span>
+<span class="fc" id="L82">    public static final EnumSet&lt;Status&gt; FINISH_STATUSES = EnumSet.of(SUCCEEDED, CANCELLED, KILLED, FAILED, FILE_ERASED);</span>
   }
 
   @Schema(
@@ -147,6 +149,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
   )
   private long numberDatasets;
 
+  @Schema(
+    description = &quot;The total number of organizations from which occurrence records were drawn.&quot;
+  )
+  private long numberOrganizations;
+
+  @Schema(
+    description = &quot;The total number of publishing countries from which occurrence records were drawn.&quot;
+  )
+  private long numberPublishingCountries;
+
   @Hidden
   private String source;
 
@@ -157,7 +169,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   @NotNull(groups = {PostPersist.class})
   @Nullable
   public Date getCreated() {
-<span class="nc" id="L160">    return created;</span>
+<span class="nc" id="L172">    return created;</span>
   }
 
   /**
@@ -165,7 +177,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
    */
   @Nullable
   public String getDownloadLink() {
-<span class="nc" id="L168">    return downloadLink;</span>
+<span class="nc" id="L180">    return downloadLink;</span>
   }
 
   /**
@@ -173,7 +185,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
    */
   @NotNull
   public String getKey() {
-<span class="nc" id="L176">    return key;</span>
+<span class="nc" id="L188">    return key;</span>
   }
 
   /**
@@ -183,7 +195,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   @NotNull(groups = {PostPersist.class})
   @Nullable
   public Date getModified() {
-<span class="nc" id="L186">    return modified;</span>
+<span class="nc" id="L198">    return modified;</span>
   }
 
   /**
@@ -191,7 +203,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
    */
   @Nullable
   public Date getEraseAfter() {
-<span class="nc" id="L194">    return eraseAfter;</span>
+<span class="nc" id="L206">    return eraseAfter;</span>
   }
 
   /**
@@ -199,7 +211,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
    */
   @Nullable
   public Date getErasureNotification() {
-<span class="nc" id="L202">    return erasureNotification;</span>
+<span class="nc" id="L214">    return erasureNotification;</span>
   }
 
   /**
@@ -207,7 +219,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
    */
   @NotNull
   public DownloadRequest getRequest() {
-<span class="nc" id="L210">    return request;</span>
+<span class="nc" id="L222">    return request;</span>
   }
 
   /**
@@ -215,7 +227,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
    */
   @NotNull
   public Status getStatus() {
-<span class="nc" id="L218">    return status;</span>
+<span class="nc" id="L230">    return status;</span>
   }
 
   /**
@@ -223,35 +235,35 @@ import io.swagger.v3.oas.annotations.media.Schema;
    */
   @JsonIgnore
   public boolean isAvailable() {
-<span class="fc bfc" id="L226" title="All 2 branches covered.">    return status == Status.SUCCEEDED;</span>
+<span class="fc bfc" id="L238" title="All 2 branches covered.">    return status == Status.SUCCEEDED;</span>
   }
 
   /**
    * Size in bytes of the produced file.
    */
   public long getSize() {
-<span class="nc" id="L233">    return size;</span>
+<span class="nc" id="L245">    return size;</span>
   }
 
   /**
    * Number of occurrence records in the download file.
    */
   public long getTotalRecords() {
-<span class="nc" id="L240">    return totalRecords;</span>
+<span class="nc" id="L252">    return totalRecords;</span>
   }
 
   /**
    * Number of datasets in the download file.
    */
   public long getNumberDatasets() {
-<span class="nc" id="L247">    return numberDatasets;</span>
+<span class="nc" id="L259">    return numberDatasets;</span>
   }
 
   /**
    * Source of the download to determine how the download was originated.
    */
   public String getSource() {
-<span class="nc" id="L254">    return source;</span>
+<span class="nc" id="L266">    return source;</span>
   }
 
   /**
@@ -259,122 +271,86 @@ import io.swagger.v3.oas.annotations.media.Schema;
    */
   @Nullable
   public DOI getDoi() {
-<span class="nc" id="L262">    return doi;</span>
+<span class="nc" id="L274">    return doi;</span>
   }
 
   /**
    * Get the license assigned to this occurrence download.
    */
   public License getLicense() {
-<span class="nc" id="L269">    return license;</span>
+<span class="nc" id="L281">    return license;</span>
   }
 
   public void setCreated(Date created) {
-<span class="nc" id="L273">    this.created = created;</span>
-<span class="nc" id="L274">  }</span>
-
-  public void setDownloadLink(String downloadLink) {
-<span class="nc" id="L277">    this.downloadLink = downloadLink;</span>
-<span class="nc" id="L278">  }</span>
-
-  public void setKey(String key) {
-<span class="nc" id="L281">    this.key = key;</span>
-<span class="nc" id="L282">  }</span>
-
-  public void setDoi(DOI doi) {
-<span class="nc" id="L285">    this.doi = doi;</span>
+<span class="nc" id="L285">    this.created = created;</span>
 <span class="nc" id="L286">  }</span>
 
-  public void setLicense(License license) {
-<span class="nc" id="L289">    this.license = license;</span>
+  public void setDownloadLink(String downloadLink) {
+<span class="nc" id="L289">    this.downloadLink = downloadLink;</span>
 <span class="nc" id="L290">  }</span>
 
-  public void setModified(Date modified) {
-<span class="nc" id="L293">    this.modified = modified;</span>
+  public void setKey(String key) {
+<span class="nc" id="L293">    this.key = key;</span>
 <span class="nc" id="L294">  }</span>
 
-  public void setEraseAfter(Date eraseAfter) {
-<span class="nc" id="L297">    this.eraseAfter = eraseAfter;</span>
+  public void setDoi(DOI doi) {
+<span class="nc" id="L297">    this.doi = doi;</span>
 <span class="nc" id="L298">  }</span>
 
-  public void setErasureNotification(Date erasureNotification) {
-<span class="nc" id="L301">    this.erasureNotification = erasureNotification;</span>
+  public void setLicense(License license) {
+<span class="nc" id="L301">    this.license = license;</span>
 <span class="nc" id="L302">  }</span>
 
-  public void setRequest(DownloadRequest request) {
-<span class="nc" id="L305">    this.request = request;</span>
+  public void setModified(Date modified) {
+<span class="nc" id="L305">    this.modified = modified;</span>
 <span class="nc" id="L306">  }</span>
 
-  public void setStatus(Status status) {
-<span class="fc" id="L309">    this.status = status;</span>
-<span class="fc" id="L310">  }</span>
+  public void setEraseAfter(Date eraseAfter) {
+<span class="nc" id="L309">    this.eraseAfter = eraseAfter;</span>
+<span class="nc" id="L310">  }</span>
 
-  public void setSize(long size) {
-<span class="nc" id="L313">    this.size = size;</span>
+  public void setErasureNotification(Date erasureNotification) {
+<span class="nc" id="L313">    this.erasureNotification = erasureNotification;</span>
 <span class="nc" id="L314">  }</span>
 
-  public void setTotalRecords(long totalRecords) {
-<span class="nc" id="L317">    this.totalRecords = totalRecords;</span>
+  public void setRequest(DownloadRequest request) {
+<span class="nc" id="L317">    this.request = request;</span>
 <span class="nc" id="L318">  }</span>
 
-  public void setNumberDatasets(long numberDatasets) {
-<span class="nc" id="L321">    this.numberDatasets = numberDatasets;</span>
-<span class="nc" id="L322">  }</span>
+  public void setStatus(Status status) {
+<span class="fc" id="L321">    this.status = status;</span>
+<span class="fc" id="L322">  }</span>
 
-  public void setSource(String source) {
-<span class="nc" id="L325">    this.source = source;</span>
+  public void setSize(long size) {
+<span class="nc" id="L325">    this.size = size;</span>
 <span class="nc" id="L326">  }</span>
 
-  @Override
-  public boolean equals(Object o) {
-<span class="nc bnc" id="L330" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L331">      return true;</span>
-    }
-<span class="nc bnc" id="L333" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L334">      return false;</span>
-    }
-<span class="nc" id="L336">    Download download = (Download) o;</span>
-<span class="nc bnc" id="L337" title="All 6 branches missed.">    return size == download.size &amp;&amp;</span>
-      totalRecords == download.totalRecords &amp;&amp;
-      numberDatasets == download.numberDatasets &amp;&amp;
-<span class="nc bnc" id="L340" title="All 2 branches missed.">      Objects.equals(key, download.key) &amp;&amp;</span>
-<span class="nc bnc" id="L341" title="All 4 branches missed.">      Objects.equals(doi, download.doi) &amp;&amp;</span>
-      license == download.license &amp;&amp;
-<span class="nc bnc" id="L343" title="All 2 branches missed.">      Objects.equals(request, download.request) &amp;&amp;</span>
-<span class="nc bnc" id="L344" title="All 2 branches missed.">      Objects.equals(created, download.created) &amp;&amp;</span>
-<span class="nc bnc" id="L345" title="All 2 branches missed.">      Objects.equals(modified, download.modified) &amp;&amp;</span>
-<span class="nc bnc" id="L346" title="All 2 branches missed.">      Objects.equals(eraseAfter, download.eraseAfter) &amp;&amp;</span>
-<span class="nc bnc" id="L347" title="All 4 branches missed.">      Objects.equals(erasureNotification, download.erasureNotification) &amp;&amp;</span>
-      status == download.status &amp;&amp;
-<span class="nc bnc" id="L349" title="All 2 branches missed.">      Objects.equals(downloadLink, download.downloadLink) &amp;&amp;</span>
-<span class="nc bnc" id="L350" title="All 2 branches missed.">      Objects.equals(source, download.source);</span>
+  public void setTotalRecords(long totalRecords) {
+<span class="nc" id="L329">    this.totalRecords = totalRecords;</span>
+<span class="nc" id="L330">  }</span>
+
+  public void setNumberDatasets(long numberDatasets) {
+<span class="nc" id="L333">    this.numberDatasets = numberDatasets;</span>
+<span class="nc" id="L334">  }</span>
+
+  public void setSource(String source) {
+<span class="nc" id="L337">    this.source = source;</span>
+<span class="nc" id="L338">  }</span>
+
+  public long getNumberOrganizations() {
+<span class="nc" id="L341">    return numberOrganizations;</span>
   }
 
-  @Override
-  public int hashCode() {
-<span class="nc" id="L355">    return Objects</span>
-<span class="nc" id="L356">      .hash(key, doi, license, request, created, modified, eraseAfter, status, downloadLink, size,</span>
-<span class="nc" id="L357">        totalRecords, numberDatasets, source);</span>
+  public void setNumberOrganizations(long numberOrganizations) {
+<span class="nc" id="L345">    this.numberOrganizations = numberOrganizations;</span>
+<span class="nc" id="L346">  }</span>
+
+  public long getNumberPublishingCountries() {
+<span class="nc" id="L349">    return numberPublishingCountries;</span>
   }
 
-  @Override
-  public String toString() {
-<span class="nc" id="L362">    return new StringJoiner(&quot;, &quot;, Download.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L363">      .add(&quot;key='&quot; + key + &quot;'&quot;)</span>
-<span class="nc" id="L364">      .add(&quot;doi=&quot; + doi)</span>
-<span class="nc" id="L365">      .add(&quot;license=&quot; + license)</span>
-<span class="nc" id="L366">      .add(&quot;request=&quot; + request)</span>
-<span class="nc" id="L367">      .add(&quot;created=&quot; + created)</span>
-<span class="nc" id="L368">      .add(&quot;modified=&quot; + modified)</span>
-<span class="nc" id="L369">      .add(&quot;eraseAfter=&quot; + eraseAfter)</span>
-<span class="nc" id="L370">      .add(&quot;erasureNotification=&quot; + erasureNotification)</span>
-<span class="nc" id="L371">      .add(&quot;status=&quot; + status)</span>
-<span class="nc" id="L372">      .add(&quot;downloadLink='&quot; + downloadLink + &quot;'&quot;)</span>
-<span class="nc" id="L373">      .add(&quot;size=&quot; + size)</span>
-<span class="nc" id="L374">      .add(&quot;totalRecords=&quot; + totalRecords)</span>
-<span class="nc" id="L375">      .add(&quot;numberDatasets=&quot; + numberDatasets)</span>
-<span class="nc" id="L376">      .add(&quot;source=&quot; + source)</span>
-<span class="nc" id="L377">      .toString();</span>
-  }
+  public void setNumberPublishingCountries(long numberPublishingCountries) {
+<span class="nc" id="L353">    this.numberPublishingCountries = numberPublishingCountries;</span>
+<span class="nc" id="L354">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

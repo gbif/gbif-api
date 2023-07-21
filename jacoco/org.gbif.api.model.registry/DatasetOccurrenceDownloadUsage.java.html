@@ -13,6 +13,10 @@
  */
 package org.gbif.api.model.registry;
 
+import lombok.EqualsAndHashCode;
+
+import lombok.ToString;
+
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.occurrence.Download;
 
@@ -31,7 +35,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * references to the download and dataset entities.
  */
 @SuppressWarnings(&quot;unused&quot;)
-<span class="nc" id="L34">public class DatasetOccurrenceDownloadUsage implements Serializable {</span>
+<span class="nc bnc" id="L38" title="All 64 branches missed.">@EqualsAndHashCode</span>
+<span class="nc" id="L39">@ToString</span>
+<span class="nc" id="L40">public class DatasetOccurrenceDownloadUsage implements Serializable {</span>
 
   @Schema(
     description = &quot;The GBIF key assigned to the download.\n\n&quot; +
@@ -71,19 +77,24 @@ import io.swagger.v3.oas.annotations.media.Schema;
   )
   private Download download;
 
+  @Schema(
+    description = &quot;The publishing country code of the publishing organization of the dataset.&quot;
+  )
+  private String publishingCountryCode;
+
   /**
    * Dataset key.
    */
   @NotNull
   public UUID getDatasetKey() {
-<span class="nc" id="L79">    return datasetKey;</span>
+<span class="nc" id="L90">    return datasetKey;</span>
   }
 
   /**
    * @return the download
    */
   public Download getDownload() {
-<span class="nc" id="L86">    return download;</span>
+<span class="nc" id="L97">    return download;</span>
   }
 
   /**
@@ -91,7 +102,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
    */
   @NotNull
   public String getDownloadKey() {
-<span class="nc" id="L94">    return downloadKey;</span>
+<span class="nc" id="L105">    return downloadKey;</span>
   }
 
   /**
@@ -99,99 +110,64 @@ import io.swagger.v3.oas.annotations.media.Schema;
    */
   @NotNull
   public long getNumberRecords() {
-<span class="nc" id="L102">    return numberRecords;</span>
+<span class="nc" id="L113">    return numberRecords;</span>
   }
 
   /**
    * Dataset title at the moment when the download was created.
    */
   public String getDatasetTitle() {
-<span class="nc" id="L109">    return datasetTitle;</span>
+<span class="nc" id="L120">    return datasetTitle;</span>
   }
 
   /**
    * Dataset DOI at the moment when the download was created.
    */
   public DOI getDatasetDOI() {
-<span class="nc" id="L116">    return datasetDOI;</span>
+<span class="nc" id="L127">    return datasetDOI;</span>
   }
 
   /**
    * Dataset citation at the moment when the download was created.
    */
   public String getDatasetCitation() {
-<span class="nc" id="L123">    return datasetCitation;</span>
+<span class="nc" id="L134">    return datasetCitation;</span>
   }
 
   public void setDatasetKey(UUID datasetKey) {
-<span class="nc" id="L127">    this.datasetKey = datasetKey;</span>
-<span class="nc" id="L128">  }</span>
+<span class="nc" id="L138">    this.datasetKey = datasetKey;</span>
+<span class="nc" id="L139">  }</span>
 
   public void setDownload(Download download) {
-<span class="nc" id="L131">    this.download = download;</span>
-<span class="nc" id="L132">  }</span>
+<span class="nc" id="L142">    this.download = download;</span>
+<span class="nc" id="L143">  }</span>
 
   public void setDownloadKey(String downloadKey) {
-<span class="nc" id="L135">    this.downloadKey = downloadKey;</span>
-<span class="nc" id="L136">  }</span>
+<span class="nc" id="L146">    this.downloadKey = downloadKey;</span>
+<span class="nc" id="L147">  }</span>
 
   public void setNumberRecords(long numberOfRecords) {
-<span class="nc" id="L139">    this.numberRecords = numberOfRecords;</span>
-<span class="nc" id="L140">  }</span>
+<span class="nc" id="L150">    this.numberRecords = numberOfRecords;</span>
+<span class="nc" id="L151">  }</span>
 
   public void setDatasetTitle(String datasetTitle) {
-<span class="nc" id="L143">    this.datasetTitle = datasetTitle;</span>
-<span class="nc" id="L144">  }</span>
+<span class="nc" id="L154">    this.datasetTitle = datasetTitle;</span>
+<span class="nc" id="L155">  }</span>
 
   public void setDatasetDOI(DOI datasetDOI) {
-<span class="nc" id="L147">    this.datasetDOI = datasetDOI;</span>
-<span class="nc" id="L148">  }</span>
+<span class="nc" id="L158">    this.datasetDOI = datasetDOI;</span>
+<span class="nc" id="L159">  }</span>
 
   public void setDatasetCitation(String datasetCitation) {
-<span class="nc" id="L151">    this.datasetCitation = datasetCitation;</span>
-<span class="nc" id="L152">  }</span>
+<span class="nc" id="L162">    this.datasetCitation = datasetCitation;</span>
+<span class="nc" id="L163">  }</span>
 
-  @Override
-  public boolean equals(Object o) {
-<span class="nc bnc" id="L156" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L157">      return true;</span>
-    }
-<span class="nc bnc" id="L159" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L160">      return false;</span>
-    }
-<span class="nc" id="L162">    DatasetOccurrenceDownloadUsage that = (DatasetOccurrenceDownloadUsage) o;</span>
-<span class="nc bnc" id="L163" title="All 2 branches missed.">    return numberRecords == that.numberRecords</span>
-<span class="nc bnc" id="L164" title="All 2 branches missed.">        &amp;&amp; Objects.equals(downloadKey, that.downloadKey)</span>
-<span class="nc bnc" id="L165" title="All 2 branches missed.">        &amp;&amp; Objects.equals(datasetKey, that.datasetKey)</span>
-<span class="nc bnc" id="L166" title="All 2 branches missed.">        &amp;&amp; Objects.equals(datasetTitle, that.datasetTitle)</span>
-<span class="nc bnc" id="L167" title="All 2 branches missed.">        &amp;&amp; Objects.equals(datasetDOI, that.datasetDOI)</span>
-<span class="nc bnc" id="L168" title="All 2 branches missed.">        &amp;&amp; Objects.equals(datasetCitation, that.datasetCitation)</span>
-<span class="nc bnc" id="L169" title="All 2 branches missed.">        &amp;&amp; Objects.equals(download, that.download);</span>
+  public String getPublishingCountryCode() {
+<span class="nc" id="L166">    return publishingCountryCode;</span>
   }
 
-  @Override
-  public int hashCode() {
-<span class="nc" id="L174">    return Objects.hash(</span>
-        downloadKey,
-        datasetKey,
-        datasetTitle,
-        datasetDOI,
-        datasetCitation,
-<span class="nc" id="L180">        numberRecords,</span>
-        download);
-  }
-
-  @Override
-  public String toString() {
-<span class="nc" id="L186">    return new StringJoiner(&quot;, &quot;, DatasetOccurrenceDownloadUsage.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L187">        .add(&quot;downloadKey='&quot; + downloadKey + &quot;'&quot;)</span>
-<span class="nc" id="L188">        .add(&quot;datasetKey=&quot; + datasetKey)</span>
-<span class="nc" id="L189">        .add(&quot;datasetTitle='&quot; + datasetTitle + &quot;'&quot;)</span>
-<span class="nc" id="L190">        .add(&quot;datasetDOI=&quot; + datasetDOI)</span>
-<span class="nc" id="L191">        .add(&quot;datasetCitation='&quot; + datasetCitation + &quot;'&quot;)</span>
-<span class="nc" id="L192">        .add(&quot;numberRecords=&quot; + numberRecords)</span>
-<span class="nc" id="L193">        .add(&quot;download=&quot; + download)</span>
-<span class="nc" id="L194">        .toString();</span>
-  }
+  public void setPublishingCountryCode(String publishingCountryCode) {
+<span class="nc" id="L170">    this.publishingCountryCode = publishingCountryCode;</span>
+<span class="nc" id="L171">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
