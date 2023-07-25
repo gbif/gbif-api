@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.occurrence;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
@@ -33,9 +35,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-<span class="nc" id="L36">@ToString</span>
-<span class="nc bnc" id="L37" title="All 104 branches missed.">@EqualsAndHashCode</span>
-<span class="fc" id="L38">public class Download implements Serializable {</span>
+import static com.fasterxml.jackson.annotation.JsonInclude.*;
+
+<span class="nc" id="L40">@ToString</span>
+<span class="nc bnc" id="L41" title="All 116 branches missed.">@EqualsAndHashCode</span>
+<span class="fc" id="L42">public class Download implements Serializable {</span>
 
   /**
    * Reflects the possibles statuses of a download during its execution.
@@ -49,7 +53,7 @@ import lombok.ToString;
    * - SUSPENDED: the download was paused and its execution will be resumed later
    * - FILE_ERASED: the download was successful, but the download file has been deleted
    */
-<span class="fc" id="L52">  @Schema(</span>
+<span class="fc" id="L56">  @Schema(</span>
     description = &quot;The status of the download.\n\n&quot; +
       &quot;* `PREPARING`: the download is initiating\n&quot; +
       &quot;* `RUNNING`: the download is being processed\n&quot; +
@@ -62,24 +66,24 @@ import lombok.ToString;
       &quot;[has since been deleted](https://www.gbif.org/faq?question=for-how-long-will-does-gbif-store-downloads).&quot;
   )
   public enum Status {
-<span class="fc" id="L65">    PREPARING,</span>
-<span class="fc" id="L66">    RUNNING,</span>
-<span class="fc" id="L67">    SUCCEEDED,</span>
-<span class="fc" id="L68">    CANCELLED,</span>
-<span class="fc" id="L69">    KILLED,</span>
-<span class="fc" id="L70">    FAILED,</span>
-<span class="fc" id="L71">    SUSPENDED,</span>
-<span class="fc" id="L72">    FILE_ERASED;</span>
+<span class="fc" id="L69">    PREPARING,</span>
+<span class="fc" id="L70">    RUNNING,</span>
+<span class="fc" id="L71">    SUCCEEDED,</span>
+<span class="fc" id="L72">    CANCELLED,</span>
+<span class="fc" id="L73">    KILLED,</span>
+<span class="fc" id="L74">    FAILED,</span>
+<span class="fc" id="L75">    SUSPENDED,</span>
+<span class="fc" id="L76">    FILE_ERASED;</span>
 
     /**
      * Statuses that represent a download that that hasn't finished.
      */
-<span class="fc" id="L77">    public static final EnumSet&lt;Status&gt; EXECUTING_STATUSES = EnumSet.of(PREPARING, RUNNING, SUSPENDED);</span>
+<span class="fc" id="L81">    public static final EnumSet&lt;Status&gt; EXECUTING_STATUSES = EnumSet.of(PREPARING, RUNNING, SUSPENDED);</span>
 
     /**
      * Statuses that represent a download that that has finished.
      */
-<span class="fc" id="L82">    public static final EnumSet&lt;Status&gt; FINISH_STATUSES = EnumSet.of(SUCCEEDED, CANCELLED, KILLED, FAILED, FILE_ERASED);</span>
+<span class="fc" id="L86">    public static final EnumSet&lt;Status&gt; FINISH_STATUSES = EnumSet.of(SUCCEEDED, CANCELLED, KILLED, FAILED, FILE_ERASED);</span>
   }
 
   @Schema(
@@ -152,12 +156,14 @@ import lombok.ToString;
   @Schema(
     description = &quot;The total number of organizations from which occurrence records were drawn.&quot;
   )
-  private long numberOrganizations;
+  @JsonInclude(Include.NON_NULL)
+  private Long numberOrganizations;
 
   @Schema(
     description = &quot;The total number of publishing countries from which occurrence records were drawn.&quot;
   )
-  private long numberPublishingCountries;
+  @JsonInclude(Include.NON_NULL)
+  private Long numberPublishingCountries;
 
   @Hidden
   private String source;
@@ -169,7 +175,7 @@ import lombok.ToString;
   @NotNull(groups = {PostPersist.class})
   @Nullable
   public Date getCreated() {
-<span class="nc" id="L172">    return created;</span>
+<span class="nc" id="L178">    return created;</span>
   }
 
   /**
@@ -177,7 +183,7 @@ import lombok.ToString;
    */
   @Nullable
   public String getDownloadLink() {
-<span class="nc" id="L180">    return downloadLink;</span>
+<span class="nc" id="L186">    return downloadLink;</span>
   }
 
   /**
@@ -185,7 +191,7 @@ import lombok.ToString;
    */
   @NotNull
   public String getKey() {
-<span class="nc" id="L188">    return key;</span>
+<span class="nc" id="L194">    return key;</span>
   }
 
   /**
@@ -195,7 +201,7 @@ import lombok.ToString;
   @NotNull(groups = {PostPersist.class})
   @Nullable
   public Date getModified() {
-<span class="nc" id="L198">    return modified;</span>
+<span class="nc" id="L204">    return modified;</span>
   }
 
   /**
@@ -203,7 +209,7 @@ import lombok.ToString;
    */
   @Nullable
   public Date getEraseAfter() {
-<span class="nc" id="L206">    return eraseAfter;</span>
+<span class="nc" id="L212">    return eraseAfter;</span>
   }
 
   /**
@@ -211,7 +217,7 @@ import lombok.ToString;
    */
   @Nullable
   public Date getErasureNotification() {
-<span class="nc" id="L214">    return erasureNotification;</span>
+<span class="nc" id="L220">    return erasureNotification;</span>
   }
 
   /**
@@ -219,7 +225,7 @@ import lombok.ToString;
    */
   @NotNull
   public DownloadRequest getRequest() {
-<span class="nc" id="L222">    return request;</span>
+<span class="nc" id="L228">    return request;</span>
   }
 
   /**
@@ -227,7 +233,7 @@ import lombok.ToString;
    */
   @NotNull
   public Status getStatus() {
-<span class="nc" id="L230">    return status;</span>
+<span class="nc" id="L236">    return status;</span>
   }
 
   /**
@@ -235,35 +241,35 @@ import lombok.ToString;
    */
   @JsonIgnore
   public boolean isAvailable() {
-<span class="fc bfc" id="L238" title="All 2 branches covered.">    return status == Status.SUCCEEDED;</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">    return status == Status.SUCCEEDED;</span>
   }
 
   /**
    * Size in bytes of the produced file.
    */
   public long getSize() {
-<span class="nc" id="L245">    return size;</span>
+<span class="nc" id="L251">    return size;</span>
   }
 
   /**
    * Number of occurrence records in the download file.
    */
   public long getTotalRecords() {
-<span class="nc" id="L252">    return totalRecords;</span>
+<span class="nc" id="L258">    return totalRecords;</span>
   }
 
   /**
    * Number of datasets in the download file.
    */
   public long getNumberDatasets() {
-<span class="nc" id="L259">    return numberDatasets;</span>
+<span class="nc" id="L265">    return numberDatasets;</span>
   }
 
   /**
    * Source of the download to determine how the download was originated.
    */
   public String getSource() {
-<span class="nc" id="L266">    return source;</span>
+<span class="nc" id="L272">    return source;</span>
   }
 
   /**
@@ -271,86 +277,88 @@ import lombok.ToString;
    */
   @Nullable
   public DOI getDoi() {
-<span class="nc" id="L274">    return doi;</span>
+<span class="nc" id="L280">    return doi;</span>
   }
 
   /**
    * Get the license assigned to this occurrence download.
    */
   public License getLicense() {
-<span class="nc" id="L281">    return license;</span>
+<span class="nc" id="L287">    return license;</span>
   }
 
   public void setCreated(Date created) {
-<span class="nc" id="L285">    this.created = created;</span>
-<span class="nc" id="L286">  }</span>
+<span class="nc" id="L291">    this.created = created;</span>
+<span class="nc" id="L292">  }</span>
 
   public void setDownloadLink(String downloadLink) {
-<span class="nc" id="L289">    this.downloadLink = downloadLink;</span>
-<span class="nc" id="L290">  }</span>
+<span class="nc" id="L295">    this.downloadLink = downloadLink;</span>
+<span class="nc" id="L296">  }</span>
 
   public void setKey(String key) {
-<span class="nc" id="L293">    this.key = key;</span>
-<span class="nc" id="L294">  }</span>
+<span class="nc" id="L299">    this.key = key;</span>
+<span class="nc" id="L300">  }</span>
 
   public void setDoi(DOI doi) {
-<span class="nc" id="L297">    this.doi = doi;</span>
-<span class="nc" id="L298">  }</span>
+<span class="nc" id="L303">    this.doi = doi;</span>
+<span class="nc" id="L304">  }</span>
 
   public void setLicense(License license) {
-<span class="nc" id="L301">    this.license = license;</span>
-<span class="nc" id="L302">  }</span>
+<span class="nc" id="L307">    this.license = license;</span>
+<span class="nc" id="L308">  }</span>
 
   public void setModified(Date modified) {
-<span class="nc" id="L305">    this.modified = modified;</span>
-<span class="nc" id="L306">  }</span>
+<span class="nc" id="L311">    this.modified = modified;</span>
+<span class="nc" id="L312">  }</span>
 
   public void setEraseAfter(Date eraseAfter) {
-<span class="nc" id="L309">    this.eraseAfter = eraseAfter;</span>
-<span class="nc" id="L310">  }</span>
+<span class="nc" id="L315">    this.eraseAfter = eraseAfter;</span>
+<span class="nc" id="L316">  }</span>
 
   public void setErasureNotification(Date erasureNotification) {
-<span class="nc" id="L313">    this.erasureNotification = erasureNotification;</span>
-<span class="nc" id="L314">  }</span>
+<span class="nc" id="L319">    this.erasureNotification = erasureNotification;</span>
+<span class="nc" id="L320">  }</span>
 
   public void setRequest(DownloadRequest request) {
-<span class="nc" id="L317">    this.request = request;</span>
-<span class="nc" id="L318">  }</span>
+<span class="nc" id="L323">    this.request = request;</span>
+<span class="nc" id="L324">  }</span>
 
   public void setStatus(Status status) {
-<span class="fc" id="L321">    this.status = status;</span>
-<span class="fc" id="L322">  }</span>
+<span class="fc" id="L327">    this.status = status;</span>
+<span class="fc" id="L328">  }</span>
 
   public void setSize(long size) {
-<span class="nc" id="L325">    this.size = size;</span>
-<span class="nc" id="L326">  }</span>
+<span class="nc" id="L331">    this.size = size;</span>
+<span class="nc" id="L332">  }</span>
 
   public void setTotalRecords(long totalRecords) {
-<span class="nc" id="L329">    this.totalRecords = totalRecords;</span>
-<span class="nc" id="L330">  }</span>
+<span class="nc" id="L335">    this.totalRecords = totalRecords;</span>
+<span class="nc" id="L336">  }</span>
 
   public void setNumberDatasets(long numberDatasets) {
-<span class="nc" id="L333">    this.numberDatasets = numberDatasets;</span>
-<span class="nc" id="L334">  }</span>
+<span class="nc" id="L339">    this.numberDatasets = numberDatasets;</span>
+<span class="nc" id="L340">  }</span>
 
   public void setSource(String source) {
-<span class="nc" id="L337">    this.source = source;</span>
-<span class="nc" id="L338">  }</span>
+<span class="nc" id="L343">    this.source = source;</span>
+<span class="nc" id="L344">  }</span>
 
-  public long getNumberOrganizations() {
-<span class="nc" id="L341">    return numberOrganizations;</span>
+  @Nullable
+  public Long getNumberOrganizations() {
+<span class="nc" id="L348">    return numberOrganizations;</span>
   }
 
-  public void setNumberOrganizations(long numberOrganizations) {
-<span class="nc" id="L345">    this.numberOrganizations = numberOrganizations;</span>
-<span class="nc" id="L346">  }</span>
+  public void setNumberOrganizations(Long numberOrganizations) {
+<span class="nc" id="L352">    this.numberOrganizations = numberOrganizations;</span>
+<span class="nc" id="L353">  }</span>
 
-  public long getNumberPublishingCountries() {
-<span class="nc" id="L349">    return numberPublishingCountries;</span>
+  @Nullable
+  public Long getNumberPublishingCountries() {
+<span class="nc" id="L357">    return numberPublishingCountries;</span>
   }
 
-  public void setNumberPublishingCountries(long numberPublishingCountries) {
-<span class="nc" id="L353">    this.numberPublishingCountries = numberPublishingCountries;</span>
-<span class="nc" id="L354">  }</span>
+  public void setNumberPublishingCountries(Long numberPublishingCountries) {
+<span class="nc" id="L361">    this.numberPublishingCountries = numberPublishingCountries;</span>
+<span class="nc" id="L362">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
