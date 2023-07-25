@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.occurrence;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
@@ -32,6 +34,8 @@ import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import static com.fasterxml.jackson.annotation.JsonInclude.*;
 
 @ToString
 @EqualsAndHashCode
@@ -152,12 +156,14 @@ public class Download implements Serializable {
   @Schema(
     description = "The total number of organizations from which occurrence records were drawn."
   )
-  private long numberOrganizations;
+  @JsonInclude(Include.NON_NULL)
+  private Long numberOrganizations;
 
   @Schema(
     description = "The total number of publishing countries from which occurrence records were drawn."
   )
-  private long numberPublishingCountries;
+  @JsonInclude(Include.NON_NULL)
+  private Long numberPublishingCountries;
 
   @Hidden
   private String source;
