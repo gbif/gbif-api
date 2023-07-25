@@ -343,19 +343,21 @@ public class Download implements Serializable {
     this.source = source;
   }
 
-  public long getNumberOrganizations() {
+  @Nullable
+  public Long getNumberOrganizations() {
     return numberOrganizations;
   }
 
-  public void setNumberOrganizations(long numberOrganizations) {
+  public void setNumberOrganizations(Long numberOrganizations) {
     this.numberOrganizations = numberOrganizations;
   }
 
-  public long getNumberPublishingCountries() {
+  @Nullable
+  public Long getNumberPublishingCountries() {
     return numberPublishingCountries;
   }
 
-  public void setNumberPublishingCountries(long numberPublishingCountries) {
+  public void setNumberPublishingCountries(Long numberPublishingCountries) {
     this.numberPublishingCountries = numberPublishingCountries;
   }
 }
