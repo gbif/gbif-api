@@ -151,7 +151,8 @@ public class Download implements Serializable {
   @Schema(
     description = "The total number of datasets from which occurrence records were drawn."
   )
-  private long numberDatasets;
+  @JsonInclude(Include.NON_NULL)
+  private Long numberDatasets;
 
   @Schema(
     description = "The total number of organizations from which occurrence records were drawn."
@@ -261,7 +262,8 @@ public class Download implements Serializable {
   /**
    * Number of datasets in the download file.
    */
-  public long getNumberDatasets() {
+  @Nullable
+  public Long getNumberDatasets() {
     return numberDatasets;
   }
 
@@ -335,7 +337,7 @@ public class Download implements Serializable {
     this.totalRecords = totalRecords;
   }
 
-  public void setNumberDatasets(long numberDatasets) {
+  public void setNumberDatasets(Long numberDatasets) {
     this.numberDatasets = numberDatasets;
   }
 

@@ -34,11 +34,8 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 
-/**
- * Interface to access and persist information about occurrence download events.
- */
+/** Interface to access and persist information about occurrence download events. */
 @SuppressWarnings("unused")
 public interface OccurrenceDownloadService {
 
@@ -48,9 +45,7 @@ public interface OccurrenceDownloadService {
    */
   void create(@NotNull @Valid Download download);
 
-  /**
-   * Retrieves a occurrence download by its unique key or DOI.
-   */
+  /** Retrieves a occurrence download by its unique key or DOI. */
   Download get(@NotNull String keyOrDoi);
 
   /**
@@ -60,35 +55,36 @@ public interface OccurrenceDownloadService {
   PagingResponse<Download> list(
       @Nullable Pageable page, @Nullable Set<Download.Status> status, @Nullable String source);
 
-  /**
-   * Retrieves a pageable result of the downloads created by a user in a given status.
-   */
-  PagingResponse<Download> listByUser(@NotNull String user, @Nullable Pageable page,
-    @Nullable Set<Download.Status> status);
+  /** Retrieves a pageable result of the downloads created by a user in a given status. */
+  PagingResponse<Download> listByUser(
+      @NotNull String user,
+      @Nullable Pageable page,
+      @Nullable Set<Download.Status> status,
+      Date from,
+      Boolean statistics);
 
   /**
    * Retrieves a pageable result of the downloads created by a user in a given status.
    *
-   * Internal use only; behaviour may change without notice.
+   * <p>Internal use only; behaviour may change without notice.
    */
-  PagingResponse<Download> listByEraseAfter(@Nullable Pageable page,
-                                            @Nullable String eraseAfter,
-                                            @Nullable Long size,
-                                            @Nullable String erasureNotification);
+  PagingResponse<Download> listByEraseAfter(
+      @Nullable Pageable page,
+      @Nullable String eraseAfter,
+      @Nullable Long size,
+      @Nullable String erasureNotification);
 
-  /**
-   * Update an existing occurrence download.
-   */
+  /** Update an existing occurrence download. */
   void update(@NotNull @Valid Download download);
 
   /**
    * Retrieves a pageable result of the dataset usages in a occurrence download.
-   * <p>
-   * The Downloads in the DatasetOccurrenceDownloadUsages are null, to avoid redundant repetition of
-   * potentially large objects.
+   *
+   * <p>The Downloads in the DatasetOccurrenceDownloadUsages are null, to avoid redundant repetition
+   * of potentially large objects.
    */
-  PagingResponse<DatasetOccurrenceDownloadUsage> listDatasetUsages(@NotNull String keyOrDoi,
-    @Nullable Pageable page);
+  PagingResponse<DatasetOccurrenceDownloadUsage> listDatasetUsages(
+      @NotNull String keyOrDoi, @Nullable Pageable page);
 
   PagingResponse<DatasetOccurrenceDownloadUsage> listDatasetUsages(
       @NotNull String keyOrDoi,
@@ -110,54 +106,49 @@ public interface OccurrenceDownloadService {
       @Nullable SortOrder sortOrder,
       @Nullable Pageable page);
 
-  /**
-   * Retrieve citation details of a download by its unique key or DOI.
-   */
+  /** Retrieve citation details of a download by its unique key or DOI. */
   String getCitation(@NotNull String keyOrDoi);
 
-  /**
-   * Retrieves downloads monthly stats by country (user and publishing country) and dataset.
-   */
-  Map<Integer, Map<Integer, Long>> getDownloadsByUserCountry(@Nullable Date fromDate,
-    @Nullable Date toDate,
-    @Nullable Country userCountry);
+  /** Retrieves downloads monthly stats by country (user and publishing country) and dataset. */
+  Map<Integer, Map<Integer, Long>> getDownloadsByUserCountry(
+      @Nullable Date fromDate, @Nullable Date toDate, @Nullable Country userCountry);
 
   /** Retrieves downloads monthly stats by source. */
   Map<Integer, Map<Integer, Long>> getDownloadsBySource(
       @Nullable Date fromDate, @Nullable Date toDate, @Nullable String source);
 
   /**
-   * Retrieves downloaded records monthly stats by country (user and publishing country) and dataset.
+   * Retrieves downloaded records monthly stats by country (user and publishing country) and
+   * dataset.
    */
-  Map<Integer, Map<Integer, Long>> getDownloadedRecordsByDataset(@Nullable Date fromDate,
-    @Nullable Date toDate,
-    @Nullable Country publishingCountry,
-    @Nullable UUID datasetKey,
-    @Nullable UUID publishingOrgKey);
+  Map<Integer, Map<Integer, Long>> getDownloadedRecordsByDataset(
+      @Nullable Date fromDate,
+      @Nullable Date toDate,
+      @Nullable Country publishingCountry,
+      @Nullable UUID datasetKey,
+      @Nullable UUID publishingOrgKey);
 
-  /**
-   * Retrieves downloads monthly stats by country (user and publishing country) and dataset.
-   */
-  Map<Integer, Map<Integer, Long>> getDownloadsByDataset(@Nullable Date fromDate,
-                                                         @Nullable Date toDate,
-                                                         @Nullable Country publishingCountry,
-                                                         @Nullable UUID datasetKey,
-                                                         @Nullable UUID publishingOrgKey);
+  /** Retrieves downloads monthly stats by country (user and publishing country) and dataset. */
+  Map<Integer, Map<Integer, Long>> getDownloadsByDataset(
+      @Nullable Date fromDate,
+      @Nullable Date toDate,
+      @Nullable Country publishingCountry,
+      @Nullable UUID datasetKey,
+      @Nullable UUID publishingOrgKey);
 
-  /**
-   * Retrieves downloads monthly stats by country (user and publishing country) and dataset.
-   */
-  PagingResponse<DownloadStatistics> getDownloadStatistics(@Nullable Date fromDate,
-                                                           @Nullable Date toDate,
-                                                           @Nullable Country publishingCountry,
-                                                           @Nullable UUID datasetKey,
-                                                           @Nullable UUID publishingOrgKey,
-                                                           @Nullable Pageable page);
+  /** Retrieves downloads monthly stats by country (user and publishing country) and dataset. */
+  PagingResponse<DownloadStatistics> getDownloadStatistics(
+      @Nullable Date fromDate,
+      @Nullable Date toDate,
+      @Nullable Country publishingCountry,
+      @Nullable UUID datasetKey,
+      @Nullable UUID publishingOrgKey,
+      @Nullable Pageable page);
 
   /**
    * Persists usages of datasets in an occurrence download.
    *
-   * @param downloadKey      downloadkey of the datasets' usage information.
+   * @param downloadKey downloadkey of the datasets' usage information.
    * @param datasetCitations map of datasetkey as key and number of records as value.
    */
   void createUsages(@NotNull String downloadKey, @NotNull Map<UUID, Long> datasetCitations);
