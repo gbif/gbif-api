@@ -13,6 +13,7 @@
  */
 package org.gbif.api.service.occurrence;
 
+import org.gbif.api.model.occurrence.Download;
 import org.gbif.api.model.occurrence.DownloadRequest;
 
 import java.io.File;
@@ -55,4 +56,11 @@ public interface DownloadRequestService {
    */
   @Nullable
   File getResultFile(String downloadKey);
+
+  /**
+   * @param download of the corresponding download request
+   * @return the zipped download result file or null if it's not existing or ready yet
+   */
+  @Nullable
+  File getResultFile(Download download);
 }
