@@ -63,6 +63,13 @@ public interface OccurrenceDownloadService {
       Date from,
       Boolean statistics);
 
+  /** Counts the downloads created by a user. */
+  long countByUser(
+      @NotNull String user,
+      @Nullable Pageable page,
+      @Nullable Set<Download.Status> status,
+      Date from);
+
   /**
    * Retrieves a pageable result of the downloads created by a user in a given status.
    *
