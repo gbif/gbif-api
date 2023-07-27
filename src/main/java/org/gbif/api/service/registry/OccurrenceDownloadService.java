@@ -55,6 +55,9 @@ public interface OccurrenceDownloadService {
   PagingResponse<Download> list(
       @Nullable Pageable page, @Nullable Set<Download.Status> status, @Nullable String source);
 
+  /** Counts downloads based on the given parameters. */
+  long count(@Nullable Set<Download.Status> status, @Nullable String source);
+
   /** Retrieves a pageable result of the downloads created by a user in a given status. */
   PagingResponse<Download> listByUser(
       @NotNull String user,
