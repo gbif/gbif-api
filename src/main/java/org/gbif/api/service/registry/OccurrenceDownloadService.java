@@ -26,6 +26,7 @@ import org.gbif.api.vocabulary.DatasetUsageSortField;
 import org.gbif.api.vocabulary.OrganizationUsageSortField;
 import org.gbif.api.vocabulary.SortOrder;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -63,14 +64,14 @@ public interface OccurrenceDownloadService {
       @NotNull String user,
       @Nullable Pageable page,
       @Nullable Set<Download.Status> status,
-      Date from,
+      LocalDateTime from,
       Boolean statistics);
 
   /** Counts the downloads created by a user. */
   long countByUser(
       @NotNull String user,
       @Nullable Set<Download.Status> status,
-      Date from);
+      LocalDateTime from);
 
   /**
    * Retrieves a pageable result of the downloads created by a user in a given status.
