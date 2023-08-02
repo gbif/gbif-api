@@ -20,10 +20,8 @@ import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Installation;
 import org.gbif.api.model.registry.Organization;
-import org.gbif.api.model.registry.search.ContactsSearchParams;
 import org.gbif.api.model.registry.search.KeyTitleResult;
 import org.gbif.api.model.registry.search.OrganizationRequestSearchParams;
-import org.gbif.api.model.registry.view.OrganizationContactView;
 import org.gbif.api.vocabulary.Country;
 
 import java.util.List;
@@ -98,12 +96,4 @@ public interface OrganizationService extends NetworkEntityService<Organization> 
    * @return list of organizations ordered by creation date with the latest coming first
    */
   PagingResponse<Organization> list(OrganizationRequestSearchParams searchParams);
-
-  /**
-   * Searches for organization contacts filterting by the parameters specified.
-   *
-   * @param searchParams {@link ContactsSearchParams}
-   * @return contacts found
-   */
-  PagingResponse<OrganizationContactView> searchContacts(ContactsSearchParams searchParams);
 }
