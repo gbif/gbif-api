@@ -33,12 +33,13 @@ public class DownloadStatistics {
   private UUID datasetKey;
 
   @Schema(
-    description = "The total number of records."
+    description = "The total number of records in downloads from the given dataset.  Records present in multiple " +
+      "downloads will be counted more than once."
   )
   private Long totalRecords;
 
   @Schema(
-    description = "The total number of downloads."
+    description = "The number of downloads including at least one record from the dataset."
   )
   private Long numberDownloads;
 
