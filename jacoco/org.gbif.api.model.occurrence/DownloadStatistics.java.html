@@ -33,12 +33,13 @@ public class DownloadStatistics {
   private UUID datasetKey;
 
   @Schema(
-    description = &quot;The total number of records.&quot;
+    description = &quot;The total number of records in downloads from the given dataset.  Records present in multiple &quot; +
+      &quot;downloads will be counted more than once.&quot;
   )
   private Long totalRecords;
 
   @Schema(
-    description = &quot;The total number of downloads.&quot;
+    description = &quot;The number of downloads including at least one record from the dataset.&quot;
   )
   private Long numberDownloads;
 
@@ -47,85 +48,85 @@ public class DownloadStatistics {
   )
   private LocalDate yearMonth;
 
-<span class="nc" id="L50">  public DownloadStatistics(){</span>
+<span class="nc" id="L51">  public DownloadStatistics(){</span>
 
-<span class="nc" id="L52">  }</span>
+<span class="nc" id="L53">  }</span>
 
-<span class="nc" id="L54">  public DownloadStatistics(UUID datasetKey, Long totalRecords, Long numberDownloads, LocalDate yearMonth) {</span>
-<span class="nc" id="L55">    this.datasetKey = datasetKey;</span>
-<span class="nc" id="L56">    this.totalRecords = totalRecords;</span>
-<span class="nc" id="L57">    this.numberDownloads = numberDownloads;</span>
-<span class="nc" id="L58">    this.yearMonth = yearMonth;</span>
-<span class="nc" id="L59">  }</span>
+<span class="nc" id="L55">  public DownloadStatistics(UUID datasetKey, Long totalRecords, Long numberDownloads, LocalDate yearMonth) {</span>
+<span class="nc" id="L56">    this.datasetKey = datasetKey;</span>
+<span class="nc" id="L57">    this.totalRecords = totalRecords;</span>
+<span class="nc" id="L58">    this.numberDownloads = numberDownloads;</span>
+<span class="nc" id="L59">    this.yearMonth = yearMonth;</span>
+<span class="nc" id="L60">  }</span>
 
   public UUID getDatasetKey() {
-<span class="nc" id="L62">    return datasetKey;</span>
+<span class="nc" id="L63">    return datasetKey;</span>
   }
 
   public void setDatasetKey(UUID datasetKey) {
-<span class="nc" id="L66">    this.datasetKey = datasetKey;</span>
-<span class="nc" id="L67">  }</span>
+<span class="nc" id="L67">    this.datasetKey = datasetKey;</span>
+<span class="nc" id="L68">  }</span>
 
   public Long getTotalRecords() {
-<span class="nc" id="L70">    return totalRecords;</span>
+<span class="nc" id="L71">    return totalRecords;</span>
   }
 
   public void setTotalRecords(Long totalRecords) {
-<span class="nc" id="L74">    this.totalRecords = totalRecords;</span>
-<span class="nc" id="L75">  }</span>
+<span class="nc" id="L75">    this.totalRecords = totalRecords;</span>
+<span class="nc" id="L76">  }</span>
 
   public Long getNumberDownloads() {
-<span class="nc" id="L78">    return numberDownloads;</span>
+<span class="nc" id="L79">    return numberDownloads;</span>
   }
 
   public void setNumberDownloads(Long numberDownloads) {
-<span class="nc" id="L82">    this.numberDownloads = numberDownloads;</span>
-<span class="nc" id="L83">  }</span>
+<span class="nc" id="L83">    this.numberDownloads = numberDownloads;</span>
+<span class="nc" id="L84">  }</span>
 
   /**
    * Ignore in serialization, only year and month is relevant.
    */
   @JsonIgnore
   public LocalDate getYearMonth() {
-<span class="nc" id="L90">    return yearMonth;</span>
+<span class="nc" id="L91">    return yearMonth;</span>
   }
 
   public void setYearMonth(LocalDate yearMonth) {
-<span class="nc" id="L94">    this.yearMonth = yearMonth;</span>
-<span class="nc" id="L95">  }</span>
+<span class="nc" id="L95">    this.yearMonth = yearMonth;</span>
+<span class="nc" id="L96">  }</span>
 
   public int getYear() {
-<span class="nc" id="L98">    return yearMonth.getYear();</span>
+<span class="nc" id="L99">    return yearMonth.getYear();</span>
   }
 
   public int getMonth() {
-<span class="nc" id="L102">    return yearMonth.getMonthValue();</span>
+<span class="nc" id="L103">    return yearMonth.getMonthValue();</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L107" title="All 2 branches missed.">    if (this == o) return true;</span>
-<span class="nc bnc" id="L108" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L109">    DownloadStatistics that = (DownloadStatistics) o;</span>
-<span class="nc bnc" id="L110" title="All 2 branches missed.">    return datasetKey.equals(that.datasetKey)</span>
-<span class="nc bnc" id="L111" title="All 2 branches missed.">           &amp;&amp; totalRecords.equals(that.totalRecords)</span>
-<span class="nc bnc" id="L112" title="All 2 branches missed.">           &amp;&amp; numberDownloads.equals(that.numberDownloads)</span>
-<span class="nc bnc" id="L113" title="All 2 branches missed.">           &amp;&amp; yearMonth.equals(that.yearMonth);</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L109" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L110">    DownloadStatistics that = (DownloadStatistics) o;</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">    return datasetKey.equals(that.datasetKey)</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">           &amp;&amp; totalRecords.equals(that.totalRecords)</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">           &amp;&amp; numberDownloads.equals(that.numberDownloads)</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">           &amp;&amp; yearMonth.equals(that.yearMonth);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L118">    return Objects.hash(datasetKey, totalRecords, numberDownloads, yearMonth);</span>
+<span class="nc" id="L119">    return Objects.hash(datasetKey, totalRecords, numberDownloads, yearMonth);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L123">    return new StringJoiner(&quot;, &quot;, DownloadStatistics.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L124">      .add(&quot;datasetKey=&quot; + datasetKey)</span>
-<span class="nc" id="L125">      .add(&quot;totalRecords=&quot; + totalRecords)</span>
-<span class="nc" id="L126">      .add(&quot;numberDownloads=&quot; + numberDownloads)</span>
-<span class="nc" id="L127">      .add(&quot;yearMonth=&quot; + yearMonth)</span>
-<span class="nc" id="L128">      .toString();</span>
+<span class="nc" id="L124">    return new StringJoiner(&quot;, &quot;, DownloadStatistics.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L125">      .add(&quot;datasetKey=&quot; + datasetKey)</span>
+<span class="nc" id="L126">      .add(&quot;totalRecords=&quot; + totalRecords)</span>
+<span class="nc" id="L127">      .add(&quot;numberDownloads=&quot; + numberDownloads)</span>
+<span class="nc" id="L128">      .add(&quot;yearMonth=&quot; + yearMonth)</span>
+<span class="nc" id="L129">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

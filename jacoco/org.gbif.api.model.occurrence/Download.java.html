@@ -38,7 +38,7 @@ import lombok.ToString;
 import static com.fasterxml.jackson.annotation.JsonInclude.*;
 
 <span class="nc" id="L40">@ToString</span>
-<span class="nc bnc" id="L41" title="All 116 branches missed.">@EqualsAndHashCode</span>
+<span class="nc bnc" id="L41" title="All 122 branches missed.">@EqualsAndHashCode</span>
 <span class="fc" id="L42">public class Download implements Serializable {</span>
 
   /**
@@ -151,7 +151,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.*;
   @Schema(
     description = &quot;The total number of datasets from which occurrence records were drawn.&quot;
   )
-  private long numberDatasets;
+  @JsonInclude(Include.NON_NULL)
+  private Long numberDatasets;
 
   @Schema(
     description = &quot;The total number of organizations from which occurrence records were drawn.&quot;
@@ -175,7 +176,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.*;
   @NotNull(groups = {PostPersist.class})
   @Nullable
   public Date getCreated() {
-<span class="nc" id="L178">    return created;</span>
+<span class="nc" id="L179">    return created;</span>
   }
 
   /**
@@ -183,7 +184,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.*;
    */
   @Nullable
   public String getDownloadLink() {
-<span class="nc" id="L186">    return downloadLink;</span>
+<span class="nc" id="L187">    return downloadLink;</span>
   }
 
   /**
@@ -191,7 +192,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.*;
    */
   @NotNull
   public String getKey() {
-<span class="nc" id="L194">    return key;</span>
+<span class="nc" id="L195">    return key;</span>
   }
 
   /**
@@ -201,7 +202,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.*;
   @NotNull(groups = {PostPersist.class})
   @Nullable
   public Date getModified() {
-<span class="nc" id="L204">    return modified;</span>
+<span class="nc" id="L205">    return modified;</span>
   }
 
   /**
@@ -209,7 +210,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.*;
    */
   @Nullable
   public Date getEraseAfter() {
-<span class="nc" id="L212">    return eraseAfter;</span>
+<span class="nc" id="L213">    return eraseAfter;</span>
   }
 
   /**
@@ -217,7 +218,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.*;
    */
   @Nullable
   public Date getErasureNotification() {
-<span class="nc" id="L220">    return erasureNotification;</span>
+<span class="nc" id="L221">    return erasureNotification;</span>
   }
 
   /**
@@ -225,7 +226,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.*;
    */
   @NotNull
   public DownloadRequest getRequest() {
-<span class="nc" id="L228">    return request;</span>
+<span class="nc" id="L229">    return request;</span>
   }
 
   /**
@@ -233,7 +234,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.*;
    */
   @NotNull
   public Status getStatus() {
-<span class="nc" id="L236">    return status;</span>
+<span class="nc" id="L237">    return status;</span>
   }
 
   /**
@@ -241,35 +242,36 @@ import static com.fasterxml.jackson.annotation.JsonInclude.*;
    */
   @JsonIgnore
   public boolean isAvailable() {
-<span class="fc bfc" id="L244" title="All 2 branches covered.">    return status == Status.SUCCEEDED;</span>
+<span class="fc bfc" id="L245" title="All 2 branches covered.">    return status == Status.SUCCEEDED;</span>
   }
 
   /**
    * Size in bytes of the produced file.
    */
   public long getSize() {
-<span class="nc" id="L251">    return size;</span>
+<span class="nc" id="L252">    return size;</span>
   }
 
   /**
    * Number of occurrence records in the download file.
    */
   public long getTotalRecords() {
-<span class="nc" id="L258">    return totalRecords;</span>
+<span class="nc" id="L259">    return totalRecords;</span>
   }
 
   /**
    * Number of datasets in the download file.
    */
-  public long getNumberDatasets() {
-<span class="nc" id="L265">    return numberDatasets;</span>
+  @Nullable
+  public Long getNumberDatasets() {
+<span class="nc" id="L267">    return numberDatasets;</span>
   }
 
   /**
    * Source of the download to determine how the download was originated.
    */
   public String getSource() {
-<span class="nc" id="L272">    return source;</span>
+<span class="nc" id="L274">    return source;</span>
   }
 
   /**
@@ -277,88 +279,88 @@ import static com.fasterxml.jackson.annotation.JsonInclude.*;
    */
   @Nullable
   public DOI getDoi() {
-<span class="nc" id="L280">    return doi;</span>
+<span class="nc" id="L282">    return doi;</span>
   }
 
   /**
    * Get the license assigned to this occurrence download.
    */
   public License getLicense() {
-<span class="nc" id="L287">    return license;</span>
+<span class="nc" id="L289">    return license;</span>
   }
 
   public void setCreated(Date created) {
-<span class="nc" id="L291">    this.created = created;</span>
-<span class="nc" id="L292">  }</span>
+<span class="nc" id="L293">    this.created = created;</span>
+<span class="nc" id="L294">  }</span>
 
   public void setDownloadLink(String downloadLink) {
-<span class="nc" id="L295">    this.downloadLink = downloadLink;</span>
-<span class="nc" id="L296">  }</span>
+<span class="nc" id="L297">    this.downloadLink = downloadLink;</span>
+<span class="nc" id="L298">  }</span>
 
   public void setKey(String key) {
-<span class="nc" id="L299">    this.key = key;</span>
-<span class="nc" id="L300">  }</span>
+<span class="nc" id="L301">    this.key = key;</span>
+<span class="nc" id="L302">  }</span>
 
   public void setDoi(DOI doi) {
-<span class="nc" id="L303">    this.doi = doi;</span>
-<span class="nc" id="L304">  }</span>
+<span class="nc" id="L305">    this.doi = doi;</span>
+<span class="nc" id="L306">  }</span>
 
   public void setLicense(License license) {
-<span class="nc" id="L307">    this.license = license;</span>
-<span class="nc" id="L308">  }</span>
+<span class="nc" id="L309">    this.license = license;</span>
+<span class="nc" id="L310">  }</span>
 
   public void setModified(Date modified) {
-<span class="nc" id="L311">    this.modified = modified;</span>
-<span class="nc" id="L312">  }</span>
+<span class="nc" id="L313">    this.modified = modified;</span>
+<span class="nc" id="L314">  }</span>
 
   public void setEraseAfter(Date eraseAfter) {
-<span class="nc" id="L315">    this.eraseAfter = eraseAfter;</span>
-<span class="nc" id="L316">  }</span>
+<span class="nc" id="L317">    this.eraseAfter = eraseAfter;</span>
+<span class="nc" id="L318">  }</span>
 
   public void setErasureNotification(Date erasureNotification) {
-<span class="nc" id="L319">    this.erasureNotification = erasureNotification;</span>
-<span class="nc" id="L320">  }</span>
+<span class="nc" id="L321">    this.erasureNotification = erasureNotification;</span>
+<span class="nc" id="L322">  }</span>
 
   public void setRequest(DownloadRequest request) {
-<span class="nc" id="L323">    this.request = request;</span>
-<span class="nc" id="L324">  }</span>
+<span class="nc" id="L325">    this.request = request;</span>
+<span class="nc" id="L326">  }</span>
 
   public void setStatus(Status status) {
-<span class="fc" id="L327">    this.status = status;</span>
-<span class="fc" id="L328">  }</span>
+<span class="fc" id="L329">    this.status = status;</span>
+<span class="fc" id="L330">  }</span>
 
   public void setSize(long size) {
-<span class="nc" id="L331">    this.size = size;</span>
-<span class="nc" id="L332">  }</span>
+<span class="nc" id="L333">    this.size = size;</span>
+<span class="nc" id="L334">  }</span>
 
   public void setTotalRecords(long totalRecords) {
-<span class="nc" id="L335">    this.totalRecords = totalRecords;</span>
-<span class="nc" id="L336">  }</span>
+<span class="nc" id="L337">    this.totalRecords = totalRecords;</span>
+<span class="nc" id="L338">  }</span>
 
-  public void setNumberDatasets(long numberDatasets) {
-<span class="nc" id="L339">    this.numberDatasets = numberDatasets;</span>
-<span class="nc" id="L340">  }</span>
+  public void setNumberDatasets(Long numberDatasets) {
+<span class="nc" id="L341">    this.numberDatasets = numberDatasets;</span>
+<span class="nc" id="L342">  }</span>
 
   public void setSource(String source) {
-<span class="nc" id="L343">    this.source = source;</span>
-<span class="nc" id="L344">  }</span>
+<span class="nc" id="L345">    this.source = source;</span>
+<span class="nc" id="L346">  }</span>
 
   @Nullable
   public Long getNumberOrganizations() {
-<span class="nc" id="L348">    return numberOrganizations;</span>
+<span class="nc" id="L350">    return numberOrganizations;</span>
   }
 
   public void setNumberOrganizations(Long numberOrganizations) {
-<span class="nc" id="L352">    this.numberOrganizations = numberOrganizations;</span>
-<span class="nc" id="L353">  }</span>
+<span class="nc" id="L354">    this.numberOrganizations = numberOrganizations;</span>
+<span class="nc" id="L355">  }</span>
 
   @Nullable
   public Long getNumberPublishingCountries() {
-<span class="nc" id="L357">    return numberPublishingCountries;</span>
+<span class="nc" id="L359">    return numberPublishingCountries;</span>
   }
 
   public void setNumberPublishingCountries(Long numberPublishingCountries) {
-<span class="nc" id="L361">    this.numberPublishingCountries = numberPublishingCountries;</span>
-<span class="nc" id="L362">  }</span>
+<span class="nc" id="L363">    this.numberPublishingCountries = numberPublishingCountries;</span>
+<span class="nc" id="L364">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
