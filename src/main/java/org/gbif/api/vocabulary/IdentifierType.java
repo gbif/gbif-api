@@ -13,6 +13,7 @@
  */
 package org.gbif.api.vocabulary;
 
+import org.gbif.api.util.IdentifierUtils;
 import org.gbif.api.util.VocabularyUtils;
 
 import java.util.Arrays;
@@ -94,11 +95,16 @@ public enum IdentifierType {
    * https://cites.org/
    */
   CITES,
-
   /**
    * Symbiota IDs to help linking GrSciColl occurrences.
    */
-  SYMBIOTA_UUID;
+  SYMBIOTA_UUID,
+  WIKIDATA,
+
+  /**
+   * https://www.ncbi.nlm.nih.gov/
+   */
+  NCBI_BIOCOLLECTION;
 
   // TODO: Check if this is used, it didn't exist in the new Registry2 API, but I preserved it from the old vocabulary
   public static final List<IdentifierType> TYPES;
@@ -144,6 +150,10 @@ public enum IdentifierType {
 
     if (lcIdentifier.startsWith("https://ror.org")) {
       return ROR;
+    }
+
+    if(IdentifierUtils.isValidWikidataIdentifier(lcIdentifier)) {
+      return WIKIDATA;
     }
 
     if (lcIdentifier.startsWith("http:")

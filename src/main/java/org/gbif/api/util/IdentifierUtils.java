@@ -20,6 +20,8 @@ import org.gbif.api.vocabulary.IdentifierType;
 
 import javax.annotation.Nullable;
 
+import java.util.regex.Pattern;
+
 /**
  * This class contains utility methods for identifiers. Currently there are 3 separate Identifier
  * classes: </br> 1) org.gbif.api.model.checklistbank.Identifier 2)
@@ -27,6 +29,9 @@ import javax.annotation.Nullable;
  * common to 2 or more classes should be listed here.
  */
 public class IdentifierUtils {
+
+  public static final Pattern WIKIDATA_PATTERN =
+      Pattern.compile("http(s)?://www.wikidata.org/entity/([A-Za-z][0-9]+)$");
 
   /**
    * Creates a http link for an identifier if possible by passing it to some known resolvers for the
@@ -74,5 +79,13 @@ public class IdentifierUtils {
 
     Country country = Country.fromIsoCode(parts[0]);
     return country != null;
+  }
+
+  public static boolean isValidWikidataIdentifier(String identifier) {
+    if (identifier == null || identifier.isEmpty()) {
+      return false;
+    }
+
+    return WIKIDATA_PATTERN.matcher(identifier).matches();
   }
 }

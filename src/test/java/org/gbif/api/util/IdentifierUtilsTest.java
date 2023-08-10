@@ -19,12 +19,15 @@ import org.gbif.api.vocabulary.IdentifierType;
 
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class IdentifierUtilsTest {
 
@@ -63,5 +66,14 @@ public class IdentifierUtilsTest {
   @MethodSource("getTestParameters")
   public void testGetIdentifierLinkWithoutType(String expected, String identifier, IdentifierType type) {
     assertNull(IdentifierUtils.getIdentifierLink(identifier, null));
+  }
+
+  @Test
+  public void wikidataValidatorTest() {
+    assertTrue(IdentifierUtils.isValidWikidataIdentifier("http://www.wikidata.org/entity/Q1528756"));
+    assertTrue(IdentifierUtils.isValidWikidataIdentifier("https://www.wikidata.org/entity/q1528756"));
+    assertFalse(IdentifierUtils.isValidWikidataIdentifier("https://www.wikidata.org/entity/1528756"));
+    assertFalse(IdentifierUtils.isValidWikidataIdentifier("https://www.wikidata.org/entity/q15287h56"));
+    assertFalse(IdentifierUtils.isValidWikidataIdentifier("https://www.wikidata.org/entity/1528756"));
   }
 }
