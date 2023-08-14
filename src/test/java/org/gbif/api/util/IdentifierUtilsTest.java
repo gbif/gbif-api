@@ -74,6 +74,6 @@ public class IdentifierUtilsTest {
     assertTrue(IdentifierUtils.isValidWikidataIdentifier("https://www.wikidata.org/entity/q1528756"));
     assertFalse(IdentifierUtils.isValidWikidataIdentifier("https://www.wikidata.org/entity/1528756"));
     assertFalse(IdentifierUtils.isValidWikidataIdentifier("https://www.wikidata.org/entity/q15287h56"));
-    assertFalse(IdentifierUtils.isValidWikidataIdentifier("https://www.wikidata.org/entity/1528756"));
+    assertFalse(IdentifierUtils.isValidWikidataIdentifier("https://www.wikidata.org/entity/1528756q"));
   }
 }
