@@ -595,7 +595,12 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Preparations methods of an occurrence.
    */
-  PREPARATIONS(String.class);
+  PREPARATIONS(String.class),
+
+  /**
+   * Unique GBIF key for the occurrence.
+   */
+  GBIF_ID(String.class);
 
   private final Class<?> type;
 
