@@ -110,8 +110,10 @@ public class Dataset
   private UUID parentDatasetKey;
 
   @Schema(
-    description = "A dataset of which this dataset is a duplicate. Typically," +
-      "this means this dataset is a new version of the duplicated dataset."
+    description = "A dataset of which this dataset is a duplicate. Typically, " +
+      "this means this dataset is an old version of the duplicated dataset, " +
+      "which has replaced this dataset. Therefore **this link is usually found " +
+      "on deleted datasets**."
   )
   private UUID duplicateOfDatasetKey;
 
