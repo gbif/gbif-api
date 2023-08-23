@@ -11,20 +11,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gbif.api.model.occurrence.search;
+package org.gbif.api.ws.mixin;
 
-import org.gbif.api.model.predicate.Predicate;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
-/** Search request that uses a predicate filter like the ones used un downloads.*/
-public class OccurrencePredicateSearchRequest extends OccurrenceSearchRequest {
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-  private Predicate predicate;
-
-  public Predicate getPredicate() {
-    return predicate;
-  }
-
-  public void setPredicate(Predicate predicate) {
-    this.predicate = predicate;
-  }
+/**
+ * Mixin interface used to serialize license enums into urls.
+ */
+@JsonDeserialize(as = OccurrenceSearchParameter.class)
+public interface SearchParameterMixin {
 }

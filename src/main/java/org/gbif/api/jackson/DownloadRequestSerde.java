@@ -13,13 +13,15 @@
  */
 package org.gbif.api.jackson;
 
+import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.occurrence.DownloadFormat;
 import org.gbif.api.model.occurrence.DownloadRequest;
 import org.gbif.api.model.occurrence.DownloadType;
 import org.gbif.api.model.occurrence.PredicateDownloadRequest;
-import org.gbif.api.model.occurrence.predicate.Predicate;
+import org.gbif.api.model.predicate.Predicate;
 import org.gbif.api.util.VocabularyUtils;
 import org.gbif.api.vocabulary.Extension;
+import org.gbif.api.ws.mixin.SearchParameterMixin;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,6 +69,10 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
   private static final String VERBATIM_EXTENSIONS = "verbatimExtensions";
   private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);
   private static final ObjectMapper MAPPER = new ObjectMapper();
+
+  static {
+    MAPPER.addMixIn(SearchParameter.class, SearchParameterMixin.class);
+  }
 
   @Override
   public DownloadRequest deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {

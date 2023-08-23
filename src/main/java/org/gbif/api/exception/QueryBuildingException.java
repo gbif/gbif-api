@@ -11,20 +11,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gbif.api.model.occurrence.search;
+package org.gbif.api.exception;
 
-import org.gbif.api.model.predicate.Predicate;
+public class QueryBuildingException extends Exception {
+  public QueryBuildingException() {}
 
-/** Search request that uses a predicate filter like the ones used un downloads.*/
-public class OccurrencePredicateSearchRequest extends OccurrenceSearchRequest {
-
-  private Predicate predicate;
-
-  public Predicate getPredicate() {
-    return predicate;
+  public QueryBuildingException(String message) {
+    super(message);
   }
 
-  public void setPredicate(Predicate predicate) {
-    this.predicate = predicate;
+  public QueryBuildingException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
+  public QueryBuildingException(Throwable cause) {
+    super(cause);
+  }
+
+  public QueryBuildingException(
+      String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    super(message, cause, enableSuppression, writableStackTrace);
   }
 }
