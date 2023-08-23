@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -43,7 +41,7 @@ public class SearchTypeValidatorIntegerRangeTest {
 
   @ParameterizedTest
   @MethodSource("data")
-  public void testRange(String arg, Integer start, Integer end) {
+  public void testNumericRange(String arg, Integer start, Integer end) {
     try {
       Range<Integer> range = SearchTypeValidator.parseIntegerRange(arg);
       if (start == null && end == null) {
@@ -62,7 +60,7 @@ public class SearchTypeValidatorIntegerRangeTest {
           assertNull(end);
         }
 
-        assertTrue(SearchTypeValidator.isRange(arg));
+        assertTrue(SearchTypeValidator.isNumericRange(arg));
       }
 
     } catch (IllegalArgumentException e) {

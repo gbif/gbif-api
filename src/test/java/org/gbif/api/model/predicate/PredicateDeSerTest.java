@@ -36,6 +36,7 @@ public class PredicateDeSerTest {
     assertPredicate("conjunction.json");
     assertPredicate("within.json");
     assertPredicate("equals_catalog_number.json");
+    assertPredicate("equals_date_range.json");
     assertPredicate("like_catalog_number.json");
     assertPredicate("and_with_not.json");
     assertPredicate("conjunction_with_in.json");

@@ -19,6 +19,7 @@ import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.model.common.MediaObject;
 import org.gbif.api.util.ClassificationUtils;
+import org.gbif.api.util.IsoDateInterval;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
@@ -575,7 +576,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/eventDate"
     )
   )
-  private Date eventDate;
+  private IsoDateInterval eventDate;
 
   @Schema(
     description = "A list (concatenated and separated) of nomenclatural types (type status, typified scientific name, " +
@@ -1525,12 +1526,12 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * The date the occurrence was recorded or collected.
    */
   @Nullable
-  public Date getEventDate() {
-    return eventDate == null ? null : new Date(eventDate.getTime());
+  public IsoDateInterval getEventDate() {
+    return eventDate == null ? null : new IsoDateInterval(eventDate.getFrom(), eventDate.getTo());
   }
 
-  public void setEventDate(@Nullable Date eventDate) {
-    this.eventDate = eventDate == null ? null : new Date(eventDate.getTime());
+  public void setEventDate(@Nullable IsoDateInterval eventDate) {
+    this.eventDate = eventDate == null ? null : new IsoDateInterval(eventDate.getFrom(), eventDate.getTo());
   }
 
   @Nullable

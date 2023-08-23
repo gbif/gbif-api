@@ -1,6 +1,4 @@
 /*
- * Copyright 2013-2021 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,9 +13,7 @@
  */
 package org.gbif.api.util;
 
-import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * Test case for class OccurrenceDateParsingUtils.
+ * Test case for class IsoDateParsingUtils.
  */
 public class IsoDateParsingUtilsTest {
 

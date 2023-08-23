@@ -14,6 +14,7 @@
 package org.gbif.api.model.occurrence.search;
 
 import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.util.IsoDateInterval;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
@@ -84,7 +85,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * <dd>all dates</dd>
    * </dl>
    */
-  EVENT_DATE(Date.class),
+  EVENT_DATE(IsoDateInterval.class),
 
   /**
    * An identifier for the set of information associated with an Event (something that occurs at a place and time).
