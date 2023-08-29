@@ -15,6 +15,10 @@
  */
 package org.gbif.api.model.common.search;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+
 /**
  * Interface to be implemented by all search parameter enumerations.
  * The enumeration member name should avoid the following names which are already defined as
@@ -28,6 +32,7 @@ package org.gbif.api.model.common.search;
  * <li>facet</li>
  * </ul>
  */
+@JsonDeserialize(as = OccurrenceSearchParameter.class)
 public interface SearchParameter {
 
   String name();

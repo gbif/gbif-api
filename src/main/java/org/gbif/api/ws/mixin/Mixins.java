@@ -13,7 +13,6 @@
  */
 package org.gbif.api.ws.mixin;
 
-import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.occurrence.Download;
 import org.gbif.api.model.occurrence.Occurrence;
 import org.gbif.api.model.registry.Dataset;
@@ -51,7 +50,6 @@ public class Mixins {
     PREDEFINED_MIXINS.put(Node.class, NodeMixin.class);
     PREDEFINED_MIXINS.put(Network.class, NetworkMixin.class);
     PREDEFINED_MIXINS.put(Organization.class, OrganizationMixin.class);
-    PREDEFINED_MIXINS.put(SearchParameter.class, SearchParameterMixin.class);
   }
 
   /**

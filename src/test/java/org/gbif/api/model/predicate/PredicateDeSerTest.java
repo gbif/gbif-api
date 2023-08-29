@@ -13,9 +13,6 @@
  */
 package org.gbif.api.model.predicate;
 
-import org.gbif.api.model.common.search.SearchParameter;
-import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -23,19 +20,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /** Test cases and examples of serialization or predicates using a mixing. */
 public class PredicateDeSerTest {
 
-  @JsonDeserialize(as = OccurrenceSearchParameter.class)
-  public class OccurrenceSearchParameterMixin {}
-
   private static final ObjectMapper MAPPER = new ObjectMapper();
-
-  static {
-    MAPPER.addMixIn(SearchParameter.class, OccurrenceSearchParameterMixin.class);
-  }
 
   private File getTestFile(String predicateFile) {
     return new File(getClass().getResource("/predicate/" + predicateFile).getFile());
