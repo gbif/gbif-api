@@ -218,10 +218,59 @@ public enum OccurrenceIssue implements InterpretationRemark {
   TAXON_MATCH_AGGREGATE(WARNING, TermsGroup.TAXONOMY_TERMS),
 
   /**
+   * The scientificNameID uses a pattern that is not configured in GBIF. The backbone lookup was performed using the
+   * names on the record and the scientificNameID is nullified in the interpreted record.
+   * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
+   */
+  SCIENTIFIC_NAME_ID_IGNORED(WARNING, TermsGroup.TAXONOMY_TERMS),
+
+  /**
+   * The taxonConceptID uses a pattern that is not configured in GBIF. The backbone lookup was performed using the
+   * names on the record and the taxonConceptID is nullified in the interpreted record.
+   * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
+   */
+  TAXON_CONCEPT_ID_IGNORED(WARNING, TermsGroup.TAXONOMY_TERMS),
+
+  /**
+   * The scientificNameID matched a known pattern, but it was not found in the associated checklist. The backbone
+   * lookup was performed using the names on the record ignoring the ID and the scientificNameID is nullified in the
+   * interpreted record. This may indicate a poorly formatted identifier or may be caused by a newly created ID that
+   * isn't yet known in the version of the published checklist.
+   * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
+   */
+  SCIENTIFIC_NAME_ID_NOT_FOUND(WARNING, TermsGroup.TAXONOMY_TERMS),
+
+  /**
+   * The taxonConceptID matched a known pattern, but it was not found in the associated checklist. The backbone lookup
+   * was performed using the names on the record ignoring the ID and the taxonConceptID is nullified in the interpreted
+   * record. This may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't yet
+   * known in the version of the published checklist.
+   * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
+   */
+  TAXON_CONCEPT_ID_NOT_FOUND(WARNING, TermsGroup.TAXONOMY_TERMS),
+
+  /**
+   * The scientificName provided in the occurrence record does not precisely match the name in the registered checklist
+   * when using the scientificNameID or taxonConceptID to look it up. Publishers are advised to check the ID is correct,
+   * or update the formatting of the names on their records.
+   * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
+   */
+  SCIENTIFIC_NAME_AND_ID_INCONSISTENT(WARNING, TermsGroup.TAXONOMY_TERMS),
+
+  /**
    * Matching to the taxonomic backbone cannot be done because there was no match at all, or several
    * matches with too little information to keep them apart (potentially homonyms).
    */
   TAXON_MATCH_NONE(WARNING, TermsGroup.TAXONOMY_TERMS),
+
+  /**
+   * The GBIF Backbone concept was found using the scientificNameID or taxonConceptID, but it differs from what would
+   * have been found if the classification names on the record were used. This may indicate a gap in the GBIF backbone,
+   * a poor mapping between the checklist and the backbone, or a mismatch between the classification names and the
+   * declared IDs (scientificNameID or taxonConceptID) on the occurrence record itself.
+   * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
+   */
+  TAXON_MATCH_NAME_AND_ID_AMBIGUOUS(WARNING, TermsGroup.TAXONOMY_TERMS),
 
   /**
    * Set if supplied depth is not given in the metric system, for example using feet instead of
@@ -460,7 +509,9 @@ public enum OccurrenceIssue implements InterpretationRemark {
       DwcTerm.scientificNameAuthorship,
       DwcTerm.genericName,
       DwcTerm.specificEpithet,
-      DwcTerm.infraspecificEpithet
+      DwcTerm.infraspecificEpithet,
+      DwcTerm.scientificNameID,
+      DwcTerm.taxonConceptID,
     };
 
     static final Term[] INSTITUTION_TERMS = {
@@ -525,14 +576,4 @@ public enum OccurrenceIssue implements InterpretationRemark {
         PRESUMED_SWAPPED_COORDINATE,
         PRESUMED_NEGATED_LONGITUDE,
         PRESUMED_NEGATED_LATITUDE));
-
-  /**
-   * All issues that indicate problems with the taxonomy or taxonomic matching.
-   */
-  public static final List<OccurrenceIssue> TAXONOMIC_RULES =
-    Collections.unmodifiableList(
-      Arrays.asList(
-        TAXON_MATCH_FUZZY,
-        TAXON_MATCH_HIGHERRANK,
-        TAXON_MATCH_NONE));
 }
