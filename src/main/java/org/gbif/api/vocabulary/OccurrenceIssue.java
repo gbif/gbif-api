@@ -218,41 +218,72 @@ public enum OccurrenceIssue implements InterpretationRemark {
   TAXON_MATCH_AGGREGATE(WARNING, TermsGroup.TAXONOMY_TERMS),
 
   /**
-   * The scientificNameID uses a pattern that is not configured in GBIF. The backbone lookup was performed using the
-   * names on the record and the scientificNameID is nullified in the interpreted record.
+   * The scientificNameID was not used when mapping the record to the GBIF backbone. This may indicate one of
+   * <ul>
+   *   <li>The ID uses a pattern not configured for use by GBIF</li>
+   *   <li>The ID did not uniquely(!) identify a concept in the checklist</li>
+   *   <li>The ID found a concept in the checklist which did not map to the backbone</li>
+   *   <li>A different ID was used, or the record names were used as no ID lookup successfully linked to the backbone</li>
+   * </ul>
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
    */
-  SCIENTIFIC_NAME_ID_IGNORED(WARNING, TermsGroup.TAXONOMY_TERMS),
+  TAXON_MATCH_SCIENTIFIC_NAME_ID_IGNORED(INFO, TermsGroup.TAXONOMY_TERMS),
 
   /**
-   * The taxonConceptID uses a pattern that is not configured in GBIF. The backbone lookup was performed using the
-   * names on the record and the taxonConceptID is nullified in the interpreted record.
+   * The taxonConceptID was not used when mapping the record to the GBIF backbone. This may indicate one of
+   * <ul>
+   *   <li>The ID uses a pattern not configured for use by GBIF</li>
+   *   <li>The ID did not uniquely(!) identify a concept in the checklist</li>
+   *   <li>The ID found a concept in the checklist which did not map to the backbone</li>
+   *   <li>A different ID was used, or the record names were used as no ID lookup successfully linked to the backbone</li>
+   * </ul>
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
    */
-  TAXON_CONCEPT_ID_IGNORED(WARNING, TermsGroup.TAXONOMY_TERMS),
+  TAXON_MATCH_TAXON_CONCEPT_ID_IGNORED(INFO, TermsGroup.TAXONOMY_TERMS),
 
   /**
-   * The scientificNameID matched a known pattern, but it was not found in the associated checklist. The backbone
-   * lookup was performed using the names on the record ignoring the ID and the scientificNameID is nullified in the
-   * interpreted record. This may indicate a poorly formatted identifier or may be caused by a newly created ID that
+   * The taxonID was not used when mapping the record to the GBIF backbone. This may indicate one of
+   * <ul>
+   *   <li>The ID uses a pattern not configured for use by GBIF</li>
+   *   <li>The ID did not uniquely(!) identify a concept in the checklist</li>
+   *   <li>The ID found a concept in the checklist which did not map to the backbone</li>
+   *   <li>A different ID was used, or the record names were used as no ID lookup successfully linked to the backbone</li>
+   * </ul>
+   * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
+   */
+  TAXON_MATCH_TAXON_ID_IGNORED(INFO, TermsGroup.TAXONOMY_TERMS),
+
+  /**
+   * The scientificNameID matched a known pattern, but it was not found in the associated checklist.
+   * The backbone lookup was performed using either the names or a different ID on the record.
+   * This may indicate a poorly formatted identifier or may be caused by a newly created ID that
    * isn't yet known in the version of the published checklist.
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
    */
   SCIENTIFIC_NAME_ID_NOT_FOUND(WARNING, TermsGroup.TAXONOMY_TERMS),
 
   /**
-   * The taxonConceptID matched a known pattern, but it was not found in the associated checklist. The backbone lookup
-   * was performed using the names on the record ignoring the ID and the taxonConceptID is nullified in the interpreted
-   * record. This may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't yet
+   * The taxonConceptID matched a known pattern, but it was not found in the associated checklist.
+   * The backbone lookup was performed using either the names or a different ID on the record.
+   * This may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't yet
    * known in the version of the published checklist.
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
    */
   TAXON_CONCEPT_ID_NOT_FOUND(WARNING, TermsGroup.TAXONOMY_TERMS),
 
   /**
+   * The taxonID matched a known pattern, but it was not found in the associated checklist.
+   * The backbone lookup was performed using either the names or a different ID on the record.
+   * This may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't yet
+   * known in the version of the published checklist.
+   * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
+   */
+  TAXON_ID_NOT_FOUND(WARNING, TermsGroup.TAXONOMY_TERMS),
+
+  /**
    * The scientificName provided in the occurrence record does not precisely match the name in the registered checklist
-   * when using the scientificNameID or taxonConceptID to look it up. Publishers are advised to check the ID is correct,
-   * or update the formatting of the names on their records.
+   * when using the scientificNameID, taxonID or taxonConceptID to look it up. Publishers are advised to check the IDs
+   * are correct, or update the formatting of the names on their records.
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
    */
   SCIENTIFIC_NAME_AND_ID_INCONSISTENT(WARNING, TermsGroup.TAXONOMY_TERMS),
