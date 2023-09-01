@@ -17,6 +17,7 @@ import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.util.RangeValue;
 
 import java.util.Objects;
+import java.util.StringJoiner;
 
 import javax.validation.constraints.NotNull;
 
@@ -57,4 +58,12 @@ public class RangePredicate<S extends SearchParameter> implements Predicate {
     public RangeValue getValue() {
         return value;
     }
+
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", this.getClass().getSimpleName() + "[", "]")
+      .add("key=" + key)
+      .add("value='" + value + "'")
+      .toString();
+  }
 }

@@ -76,7 +76,7 @@ public class CompoundPredicate implements Predicate {
 
   @Override
   public String toString() {
-    return new StringJoiner(", ", CompoundPredicate.class.getSimpleName() + "[", "]")
+    return new StringJoiner(", ", this.getClass().getSimpleName() + "[", "]")
       .add("predicates=" + predicates)
       .toString();
   }

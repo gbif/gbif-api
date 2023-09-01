@@ -13,9 +13,9 @@
  */
 package org.gbif.api.model.common.search;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * Interface to be implemented by all search parameter enumerations.

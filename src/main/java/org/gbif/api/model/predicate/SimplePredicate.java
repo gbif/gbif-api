@@ -129,7 +129,7 @@ public class SimplePredicate<S extends SearchParameter> implements Predicate {
 
   @Override
   public String toString() {
-    return new StringJoiner(", ", SimplePredicate.class.getSimpleName() + "[", "]")
+    return new StringJoiner(", ", this.getClass().getSimpleName() + "[", "]")
       .add("key=" + key)
       .add("value='" + value + "'")
       .add("matchCase='" + matchCase + "'")
