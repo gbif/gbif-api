@@ -50,6 +50,7 @@ public class SearchTypeValidatorTest {
 
   public static Stream<Arguments> data() {
     return Stream.of(
+      // SearchParameter, value, isValid, isNumericRange, isDateRange
       Arguments.of(LAST_INTERPRETED, "2000-10,*", true, false, true),
       Arguments.of(RECORDED_BY, "henry", true, false, false),
       Arguments.of(ELEVATION, "1080", true, false, true),
@@ -79,6 +80,7 @@ public class SearchTypeValidatorTest {
       Arguments.of(IS_EXTINCT, "ja", false, false, false),
       Arguments.of(IS_EXTINCT, "no", false, false, false),
       Arguments.of(SCIENTIFIC_NAME, "abies%", true, false, false),
+      // SearchParameter, value, isValid, isNumericRange, isDateRange
       Arguments.of(GEOMETRY, "POINT (30 10)", true, false, false),
       Arguments.of(GEOMETRY, "POINT (30 10.12)", true, false, false),
       Arguments.of(GEOMETRY, "POINT (30 10.12)", true, false, false),
@@ -113,6 +115,7 @@ public class SearchTypeValidatorTest {
       Arguments.of(MONTH, "1", true, false, false),
       Arguments.of(MONTH, "-11", false, false, false),
       Arguments.of(MONTH, "1267", false, false, true),
+      // SearchParameter, value, isValid, isNumericRange, isDateRange
       Arguments.of(EVENT_DATE, "1900-06", true, false, true),
       Arguments.of(EVENT_DATE, "01-01", false, false, false),
       Arguments.of(EVENT_DATE, "1900-01-01", true, false, false),
@@ -134,6 +137,7 @@ public class SearchTypeValidatorTest {
       Arguments.of(LAST_INTERPRETED, "*", true, false, false),
       Arguments.of(LAST_INTERPRETED, "*,2000", true, true, true),
       Arguments.of(LAST_INTERPRETED, "2000-10,*", true, false, true),
+      // SearchParameter, value, isValid, isNumericRange, isDateRange
       Arguments.of(DECIMAL_LATITUDE, "90.0", true, false, false),
       Arguments.of(DECIMAL_LATITUDE, "180.0", false, false, false),
       Arguments.of(DECIMAL_LATITUDE, "50.0,92.2", false, true, false),
