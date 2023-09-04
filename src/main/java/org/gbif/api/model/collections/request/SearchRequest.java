@@ -18,9 +18,11 @@ package org.gbif.api.model.collections.request;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PageableBase;
 import org.gbif.api.model.common.paging.PagingRequest;
+import org.gbif.api.vocabulary.CollectionsSortField;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.IdentifierType;
+import org.gbif.api.vocabulary.SortOrder;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 import java.io.Serializable;
@@ -52,6 +54,8 @@ public abstract class SearchRequest extends PageableBase implements Serializable
   @Nullable private UUID replacedBy;
   @Nullable private String occurrenceCount;
   @Nullable private String typeSpecimenCount;
+  @Nullable private CollectionsSortField sortBy;
+  @Nullable private SortOrder sortOrder;
 
   @Nullable
   public String getQ() {
@@ -243,5 +247,23 @@ public abstract class SearchRequest extends PageableBase implements Serializable
 
   public void setTypeSpecimenCount(@Nullable String typeSpecimenCount) {
     this.typeSpecimenCount = typeSpecimenCount;
+  }
+
+  @Nullable
+  public CollectionsSortField getSortBy() {
+    return sortBy;
+  }
+
+  public void setSortBy(@Nullable CollectionsSortField sortBy) {
+    this.sortBy = sortBy;
+  }
+
+  @Nullable
+  public SortOrder getSortOrder() {
+    return sortOrder;
+  }
+
+  public void setSortOrder(@Nullable SortOrder sortOrder) {
+    this.sortOrder = sortOrder;
   }
 }
