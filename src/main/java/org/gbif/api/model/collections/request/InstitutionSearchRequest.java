@@ -14,9 +14,11 @@
 package org.gbif.api.model.collections.request;
 
 import org.gbif.api.model.common.paging.Pageable;
+import org.gbif.api.vocabulary.CollectionsSortField;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.IdentifierType;
+import org.gbif.api.vocabulary.SortOrder;
 import org.gbif.api.vocabulary.collections.Discipline;
 import org.gbif.api.vocabulary.collections.InstitutionGovernance;
 import org.gbif.api.vocabulary.collections.InstitutionType;
@@ -91,6 +93,8 @@ public class InstitutionSearchRequest extends SearchRequest {
     UUID replacedBy;
     String occurrenceCount;
     String typeSpecimenCount;
+    CollectionsSortField sortBy;
+    SortOrder sortOrder;
     Pageable page;
 
     public Builder query(String q) {
@@ -208,6 +212,16 @@ public class InstitutionSearchRequest extends SearchRequest {
       return this;
     }
 
+    public Builder sortBy(CollectionsSortField sortBy) {
+      this.sortBy = sortBy;
+      return this;
+    }
+
+    public Builder sortOrder(SortOrder sortOrder) {
+      this.sortOrder = sortOrder;
+      return this;
+    }
+
     public Builder page(Pageable page) {
       this.page = page;
       return this;
@@ -238,6 +252,8 @@ public class InstitutionSearchRequest extends SearchRequest {
       req.setReplacedBy(replacedBy);
       req.setOccurrenceCount(occurrenceCount);
       req.setTypeSpecimenCount(typeSpecimenCount);
+      req.setSortBy(sortBy);
+      req.setSortOrder(sortOrder);
       if (page != null) {
         req.setLimit(page.getLimit());
         req.setOffset(page.getOffset());
