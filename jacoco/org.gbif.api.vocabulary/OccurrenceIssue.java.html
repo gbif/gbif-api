@@ -218,177 +218,257 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
 <span class="fc" id="L218">  TAXON_MATCH_AGGREGATE(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
 
   /**
+   * The scientificNameID was not used when mapping the record to the GBIF backbone. This may indicate one of
+   * &lt;ul&gt;
+   *   &lt;li&gt;The ID uses a pattern not configured for use by GBIF&lt;/li&gt;
+   *   &lt;li&gt;The ID did not uniquely(!) identify a concept in the checklist&lt;/li&gt;
+   *   &lt;li&gt;The ID found a concept in the checklist which did not map to the backbone&lt;/li&gt;
+   *   &lt;li&gt;A different ID was used, or the record names were used as no ID lookup successfully linked to the backbone&lt;/li&gt;
+   * &lt;/ul&gt;
+   * @see &lt;a href=&quot;https://github.com/gbif/pipelines/issues/217&quot;&gt;gbif/pipelines#217&lt;/a&gt;
+   */
+<span class="fc" id="L230">  TAXON_MATCH_SCIENTIFIC_NAME_ID_IGNORED(INFO, TermsGroup.TAXONOMY_TERMS),</span>
+
+  /**
+   * The taxonConceptID was not used when mapping the record to the GBIF backbone. This may indicate one of
+   * &lt;ul&gt;
+   *   &lt;li&gt;The ID uses a pattern not configured for use by GBIF&lt;/li&gt;
+   *   &lt;li&gt;The ID did not uniquely(!) identify a concept in the checklist&lt;/li&gt;
+   *   &lt;li&gt;The ID found a concept in the checklist which did not map to the backbone&lt;/li&gt;
+   *   &lt;li&gt;A different ID was used, or the record names were used as no ID lookup successfully linked to the backbone&lt;/li&gt;
+   * &lt;/ul&gt;
+   * @see &lt;a href=&quot;https://github.com/gbif/pipelines/issues/217&quot;&gt;gbif/pipelines#217&lt;/a&gt;
+   */
+<span class="fc" id="L242">  TAXON_MATCH_TAXON_CONCEPT_ID_IGNORED(INFO, TermsGroup.TAXONOMY_TERMS),</span>
+
+  /**
+   * The taxonID was not used when mapping the record to the GBIF backbone. This may indicate one of
+   * &lt;ul&gt;
+   *   &lt;li&gt;The ID uses a pattern not configured for use by GBIF&lt;/li&gt;
+   *   &lt;li&gt;The ID did not uniquely(!) identify a concept in the checklist&lt;/li&gt;
+   *   &lt;li&gt;The ID found a concept in the checklist which did not map to the backbone&lt;/li&gt;
+   *   &lt;li&gt;A different ID was used, or the record names were used as no ID lookup successfully linked to the backbone&lt;/li&gt;
+   * &lt;/ul&gt;
+   * @see &lt;a href=&quot;https://github.com/gbif/pipelines/issues/217&quot;&gt;gbif/pipelines#217&lt;/a&gt;
+   */
+<span class="fc" id="L254">  TAXON_MATCH_TAXON_ID_IGNORED(INFO, TermsGroup.TAXONOMY_TERMS),</span>
+
+  /**
+   * The scientificNameID matched a known pattern, but it was not found in the associated checklist.
+   * The backbone lookup was performed using either the names or a different ID on the record.
+   * This may indicate a poorly formatted identifier or may be caused by a newly created ID that
+   * isn't yet known in the version of the published checklist.
+   * @see &lt;a href=&quot;https://github.com/gbif/pipelines/issues/217&quot;&gt;gbif/pipelines#217&lt;/a&gt;
+   */
+<span class="fc" id="L263">  SCIENTIFIC_NAME_ID_NOT_FOUND(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+
+  /**
+   * The taxonConceptID matched a known pattern, but it was not found in the associated checklist.
+   * The backbone lookup was performed using either the names or a different ID on the record.
+   * This may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't yet
+   * known in the version of the published checklist.
+   * @see &lt;a href=&quot;https://github.com/gbif/pipelines/issues/217&quot;&gt;gbif/pipelines#217&lt;/a&gt;
+   */
+<span class="fc" id="L272">  TAXON_CONCEPT_ID_NOT_FOUND(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+
+  /**
+   * The taxonID matched a known pattern, but it was not found in the associated checklist.
+   * The backbone lookup was performed using either the names or a different ID on the record.
+   * This may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't yet
+   * known in the version of the published checklist.
+   * @see &lt;a href=&quot;https://github.com/gbif/pipelines/issues/217&quot;&gt;gbif/pipelines#217&lt;/a&gt;
+   */
+<span class="fc" id="L281">  TAXON_ID_NOT_FOUND(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+
+  /**
+   * The scientificName provided in the occurrence record does not precisely match the name in the registered checklist
+   * when using the scientificNameID, taxonID or taxonConceptID to look it up. Publishers are advised to check the IDs
+   * are correct, or update the formatting of the names on their records.
+   * @see &lt;a href=&quot;https://github.com/gbif/pipelines/issues/217&quot;&gt;gbif/pipelines#217&lt;/a&gt;
+   */
+<span class="fc" id="L289">  SCIENTIFIC_NAME_AND_ID_INCONSISTENT(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+
+  /**
    * Matching to the taxonomic backbone cannot be done because there was no match at all, or several
    * matches with too little information to keep them apart (potentially homonyms).
    */
-<span class="fc" id="L224">  TAXON_MATCH_NONE(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+<span class="fc" id="L295">  TAXON_MATCH_NONE(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+
+  /**
+   * The GBIF Backbone concept was found using the scientificNameID or taxonConceptID, but it differs from what would
+   * have been found if the classification names on the record were used. This may indicate a gap in the GBIF backbone,
+   * a poor mapping between the checklist and the backbone, or a mismatch between the classification names and the
+   * declared IDs (scientificNameID or taxonConceptID) on the occurrence record itself.
+   * @see &lt;a href=&quot;https://github.com/gbif/pipelines/issues/217&quot;&gt;gbif/pipelines#217&lt;/a&gt;
+   */
+<span class="fc" id="L304">  TAXON_MATCH_NAME_AND_ID_AMBIGUOUS(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
 
   /**
    * Set if supplied depth is not given in the metric system, for example using feet instead of
    * meters
    */
-<span class="fc" id="L230">  DEPTH_NOT_METRIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
+<span class="fc" id="L310">  DEPTH_NOT_METRIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
 
   /**
    * Set if depth is larger than 11,000m or negative.
    */
-<span class="fc" id="L235">  DEPTH_UNLIKELY(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
+<span class="fc" id="L315">  DEPTH_UNLIKELY(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
 
   /**
    * Set if supplied minimum depth &gt; maximum depth
    */
-<span class="fc" id="L240">  DEPTH_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
+<span class="fc" id="L320">  DEPTH_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
 
   /**
    * Set if depth is a non-numeric value
    */
-<span class="fc" id="L245">  DEPTH_NON_NUMERIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
+<span class="fc" id="L325">  DEPTH_NON_NUMERIC(WARNING, DwcTerm.minimumDepthInMeters, DwcTerm.maximumDepthInMeters),</span>
 
   /**
    * Set if elevation is above the troposphere (17km) or below 11km (Mariana Trench).
    */
-<span class="fc" id="L250">  ELEVATION_UNLIKELY(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),</span>
+<span class="fc" id="L330">  ELEVATION_UNLIKELY(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),</span>
 
   /**
    * Set if supplied minimum elevation &gt; maximum elevation
    */
-<span class="fc" id="L255">  ELEVATION_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumElevationInMeters,</span>
+<span class="fc" id="L335">  ELEVATION_MIN_MAX_SWAPPED(WARNING, DwcTerm.minimumElevationInMeters,</span>
     DwcTerm.maximumElevationInMeters),
 
   /**
    * Set if supplied elevation is not given in the metric system, for example using feet instead of
    * meters
    */
-<span class="fc" id="L262">  ELEVATION_NOT_METRIC(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),</span>
+<span class="fc" id="L342">  ELEVATION_NOT_METRIC(WARNING, DwcTerm.minimumElevationInMeters, DwcTerm.maximumElevationInMeters),</span>
 
   /**
    * Set if elevation is a non-numeric value
    */
-<span class="fc" id="L267">  ELEVATION_NON_NUMERIC(WARNING, DwcTerm.minimumElevationInMeters,</span>
+<span class="fc" id="L347">  ELEVATION_NON_NUMERIC(WARNING, DwcTerm.minimumElevationInMeters,</span>
     DwcTerm.maximumElevationInMeters),
 
   /**
    * A (partial) invalid date is given for dc:modified, such as a nonexistent date, zero month, etc.
    */
-<span class="fc" id="L273">  MODIFIED_DATE_INVALID(WARNING, DcTerm.modified),</span>
+<span class="fc" id="L353">  MODIFIED_DATE_INVALID(WARNING, DcTerm.modified),</span>
 
   /**
    * The date given for dc:modified is in the future or predates Unix time (1970).
    */
-<span class="fc" id="L278">  MODIFIED_DATE_UNLIKELY(WARNING, DcTerm.modified),</span>
+<span class="fc" id="L358">  MODIFIED_DATE_UNLIKELY(WARNING, DcTerm.modified),</span>
 
   /**
    * The date given for dwc:dateIdentified is in the future or before Linnean times (1700).
    */
-<span class="fc" id="L283">  IDENTIFIED_DATE_UNLIKELY(WARNING, DwcTerm.dateIdentified),</span>
+<span class="fc" id="L363">  IDENTIFIED_DATE_UNLIKELY(WARNING, DwcTerm.dateIdentified),</span>
 
   /**
    * The date given for dwc:dateIdentified is invalid and can't be interpreted at all.
    */
-<span class="fc" id="L288">  IDENTIFIED_DATE_INVALID(WARNING, DwcTerm.dateIdentified),</span>
+<span class="fc" id="L368">  IDENTIFIED_DATE_INVALID(WARNING, DwcTerm.dateIdentified),</span>
 
   /**
    * The given basis of record is impossible to interpret or significantly different from the
    * recommended vocabulary.
    */
-<span class="fc" id="L294">  BASIS_OF_RECORD_INVALID(WARNING, DwcTerm.basisOfRecord),</span>
+<span class="fc" id="L374">  BASIS_OF_RECORD_INVALID(WARNING, DwcTerm.basisOfRecord),</span>
 
   /**
    * The given type status is impossible to interpret or significantly different from the
    * recommended vocabulary.
    */
-<span class="fc" id="L300">  TYPE_STATUS_INVALID(WARNING, DwcTerm.typeStatus),</span>
+<span class="fc" id="L380">  TYPE_STATUS_INVALID(WARNING, DwcTerm.typeStatus),</span>
 
   /**
    * An invalid date is given for dc:created of a multimedia object.
    */
-<span class="fc" id="L305">  MULTIMEDIA_DATE_INVALID(WARNING),</span>
+<span class="fc" id="L385">  MULTIMEDIA_DATE_INVALID(WARNING),</span>
 
   /**
    * An invalid URI is given for a multimedia object.
    */
-<span class="fc" id="L310">  MULTIMEDIA_URI_INVALID(WARNING),</span>
+<span class="fc" id="L390">  MULTIMEDIA_URI_INVALID(WARNING),</span>
 
   /**
    * An invalid URI is given for dc:references.
    */
-<span class="fc" id="L315">  REFERENCES_URI_INVALID(WARNING, DcTerm.references),</span>
+<span class="fc" id="L395">  REFERENCES_URI_INVALID(WARNING, DcTerm.references),</span>
 
   /**
    * An error occurred during interpretation, leaving the record interpretation incomplete.
    */
-<span class="fc" id="L320">  INTERPRETATION_ERROR(ERROR),</span>
+<span class="fc" id="L400">  INTERPRETATION_ERROR(ERROR),</span>
 
   /**
    * The individual count value is not a positive integer
    */
-<span class="fc" id="L325">  INDIVIDUAL_COUNT_INVALID(WARNING, DwcTerm.individualCount),</span>
+<span class="fc" id="L405">  INDIVIDUAL_COUNT_INVALID(WARNING, DwcTerm.individualCount),</span>
 
   /**
    * Example: individual count value &gt; 0, but occurrence status is absent.
    */
-<span class="fc" id="L330">  INDIVIDUAL_COUNT_CONFLICTS_WITH_OCCURRENCE_STATUS(WARNING, DwcTerm.individualCount),</span>
+<span class="fc" id="L410">  INDIVIDUAL_COUNT_CONFLICTS_WITH_OCCURRENCE_STATUS(WARNING, DwcTerm.individualCount),</span>
 
   /**
    * Occurrence status value can't be assigned to {@link OccurrenceStatus}
    */
-<span class="fc" id="L335">  OCCURRENCE_STATUS_UNPARSABLE(WARNING, DwcTerm.occurrenceStatus),</span>
+<span class="fc" id="L415">  OCCURRENCE_STATUS_UNPARSABLE(WARNING, DwcTerm.occurrenceStatus),</span>
 
   /**
    * Occurrence status was inferred from the individual count value
    */
-<span class="fc" id="L340">  OCCURRENCE_STATUS_INFERRED_FROM_INDIVIDUAL_COUNT(WARNING, DwcTerm.occurrenceStatus),</span>
+<span class="fc" id="L420">  OCCURRENCE_STATUS_INFERRED_FROM_INDIVIDUAL_COUNT(WARNING, DwcTerm.occurrenceStatus),</span>
 
   /**
    * Occurrence status was inferred from basis of records
    */
-<span class="fc" id="L345">  OCCURRENCE_STATUS_INFERRED_FROM_BASIS_OF_RECORD(WARNING, DwcTerm.occurrenceStatus),</span>
+<span class="fc" id="L425">  OCCURRENCE_STATUS_INFERRED_FROM_BASIS_OF_RECORD(WARNING, DwcTerm.occurrenceStatus),</span>
 
   /**
    * The date given for dwc:georeferencedDate is in the future or before Linnean times (1700).
    */
-<span class="fc" id="L350">  GEOREFERENCED_DATE_UNLIKELY(WARNING, DwcTerm.georeferencedDate),</span>
+<span class="fc" id="L430">  GEOREFERENCED_DATE_UNLIKELY(WARNING, DwcTerm.georeferencedDate),</span>
 
   /**
    * The date given for dwc:georeferencedDate is invalid and can't be interpreted at all.
    */
-<span class="fc" id="L355">  GEOREFERENCED_DATE_INVALID(WARNING, DwcTerm.georeferencedDate),</span>
+<span class="fc" id="L435">  GEOREFERENCED_DATE_INVALID(WARNING, DwcTerm.georeferencedDate),</span>
 
   /**
    * The given institution matches with more than 1 GRSciColl institution.
    */
-<span class="fc" id="L360">  AMBIGUOUS_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS),</span>
+<span class="fc" id="L440">  AMBIGUOUS_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS),</span>
 
   /**
    * The given collection matches with more than 1 GRSciColl collection.
    */
-<span class="fc" id="L365">  AMBIGUOUS_COLLECTION(INFO, TermsGroup.COLLECTION_TERMS),</span>
+<span class="fc" id="L445">  AMBIGUOUS_COLLECTION(INFO, TermsGroup.COLLECTION_TERMS),</span>
 
   /**
    * The given institution couldn't be matched with any GRSciColl institution.
    */
-<span class="fc" id="L370">  INSTITUTION_MATCH_NONE(INFO, TermsGroup.INSTITUTION_TERMS),</span>
+<span class="fc" id="L450">  INSTITUTION_MATCH_NONE(INFO, TermsGroup.INSTITUTION_TERMS),</span>
 
   /**
    * The given collection couldn't be matched with any GRSciColl collection.
    */
-<span class="fc" id="L375">  COLLECTION_MATCH_NONE(INFO, TermsGroup.COLLECTION_TERMS),</span>
+<span class="fc" id="L455">  COLLECTION_MATCH_NONE(INFO, TermsGroup.COLLECTION_TERMS),</span>
 
   /**
    * The given institution was fuzzily matched to a GRSciColl institution. This can happen when
    * either the code or the ID don't match or when the institution name is used instead of the code.
    */
-<span class="fc" id="L381">  INSTITUTION_MATCH_FUZZY(INFO, TermsGroup.INSTITUTION_TERMS),</span>
+<span class="fc" id="L461">  INSTITUTION_MATCH_FUZZY(INFO, TermsGroup.INSTITUTION_TERMS),</span>
 
   /**
    * The given collection was fuzzily matched to a GRSciColl collection. This can happen when either
    * the code or the ID don't match or when the collection name is used instead of the code.
    */
-<span class="fc" id="L387">  COLLECTION_MATCH_FUZZY(INFO, TermsGroup.COLLECTION_TERMS),</span>
+<span class="fc" id="L467">  COLLECTION_MATCH_FUZZY(INFO, TermsGroup.COLLECTION_TERMS),</span>
 
   /** The collection matched doesn't belong to the institution matched. */
-<span class="fc" id="L390">  INSTITUTION_COLLECTION_MISMATCH(</span>
-<span class="fc" id="L391">    INFO, ArrayUtils.addAll(TermsGroup.INSTITUTION_TERMS, TermsGroup.INSTITUTION_TERMS)),</span>
+<span class="fc" id="L470">  INSTITUTION_COLLECTION_MISMATCH(</span>
+<span class="fc" id="L471">    INFO, ArrayUtils.addAll(TermsGroup.INSTITUTION_TERMS, TermsGroup.INSTITUTION_TERMS)),</span>
 
   /**
    * The given owner institution is different than the given institution. Therefore we assume it
@@ -396,14 +476,14 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
    *
    * Deprecated by {@link #DIFFERENT_OWNER_INSTITUTION}.
    */
-<span class="fc" id="L399">  @Deprecated</span>
+<span class="fc" id="L479">  @Deprecated</span>
   POSSIBLY_ON_LOAN(INFO, TermsGroup.INSTITUTION_TERMS),
 
   /**
    * The given owner institution is different than the given institution. Therefore we assume it
    * doesn't belong to the institution and we don't link it to the occurrence.
    */
-<span class="fc" id="L406">  DIFFERENT_OWNER_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS);</span>
+<span class="fc" id="L486">  DIFFERENT_OWNER_INSTITUTION(INFO, TermsGroup.INSTITUTION_TERMS);</span>
 
   /**
    * Simple helper nested class to allow grouping of Term mostly to increase readability of this
@@ -411,7 +491,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
    */
   private static class TermsGroup {
 
-<span class="fc" id="L414">    static final Term[] COORDINATES_TERMS_NO_DATUM = {</span>
+<span class="fc" id="L494">    static final Term[] COORDINATES_TERMS_NO_DATUM = {</span>
       DwcTerm.decimalLatitude,
       DwcTerm.decimalLongitude,
       DwcTerm.verbatimLatitude,
@@ -419,7 +499,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.verbatimCoordinates
     };
 
-<span class="fc" id="L422">    static final Term[] COORDINATES_TERMS = {</span>
+<span class="fc" id="L502">    static final Term[] COORDINATES_TERMS = {</span>
       DwcTerm.decimalLatitude,
       DwcTerm.decimalLongitude,
       DwcTerm.verbatimLatitude,
@@ -428,12 +508,12 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.geodeticDatum
     };
 
-<span class="fc" id="L431">    static final Term[] COUNTRY_TERMS = {</span>
+<span class="fc" id="L511">    static final Term[] COUNTRY_TERMS = {</span>
       DwcTerm.country,
       DwcTerm.countryCode
     };
 
-<span class="fc" id="L436">    static final Term[] COORDINATES_COUNTRY_TERMS = {</span>
+<span class="fc" id="L516">    static final Term[] COORDINATES_COUNTRY_TERMS = {</span>
       DwcTerm.decimalLatitude,
       DwcTerm.decimalLongitude,
       DwcTerm.verbatimLatitude,
@@ -444,12 +524,12 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.countryCode
     };
 
-<span class="fc" id="L447">    static final Term[] RECORDED_DATE_TERMS = {</span>
+<span class="fc" id="L527">    static final Term[] RECORDED_DATE_TERMS = {</span>
       DwcTerm.eventDate,
       DwcTerm.year, DwcTerm.month, DwcTerm.day
     };
 
-<span class="fc" id="L452">    static final Term[] TAXONOMY_TERMS = {</span>
+<span class="fc" id="L532">    static final Term[] TAXONOMY_TERMS = {</span>
       DwcTerm.kingdom,
       DwcTerm.phylum,
       DwcTerm.class_,
@@ -460,14 +540,16 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.scientificNameAuthorship,
       DwcTerm.genericName,
       DwcTerm.specificEpithet,
-      DwcTerm.infraspecificEpithet
+      DwcTerm.infraspecificEpithet,
+      DwcTerm.scientificNameID,
+      DwcTerm.taxonConceptID,
     };
 
-<span class="fc" id="L466">    static final Term[] INSTITUTION_TERMS = {</span>
+<span class="fc" id="L548">    static final Term[] INSTITUTION_TERMS = {</span>
       DwcTerm.institutionCode, DwcTerm.institutionID, DwcTerm.ownerInstitutionCode
     };
 
-<span class="fc" id="L470">    static final Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};</span>
+<span class="fc" id="L552">    static final Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};</span>
   }
 
   private final Set&lt;Term&gt; relatedTerms;
@@ -477,47 +559,47 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
   /**
    * {@link OccurrenceIssue} not linked to any specific {@link Term}.
    */
-<span class="fc" id="L480">  OccurrenceIssue(InterpretationRemarkSeverity severity) {</span>
-<span class="fc" id="L481">    this.severity = severity;</span>
-<span class="fc" id="L482">    this.relatedTerms = Collections.emptySet();</span>
-<span class="fc" id="L483">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
-<span class="fc" id="L484">  }</span>
+<span class="fc" id="L562">  OccurrenceIssue(InterpretationRemarkSeverity severity) {</span>
+<span class="fc" id="L563">    this.severity = severity;</span>
+<span class="fc" id="L564">    this.relatedTerms = Collections.emptySet();</span>
+<span class="fc" id="L565">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
+<span class="fc" id="L566">  }</span>
 
   /**
    * {@link OccurrenceIssue} linked to the provided {@link Term}.
    */
-<span class="fc" id="L489">  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {</span>
-<span class="fc" id="L490">    this.severity = severity;</span>
-<span class="fc" id="L491">    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));</span>
-<span class="fc" id="L492">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
-<span class="fc" id="L493">  }</span>
+<span class="fc" id="L571">  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {</span>
+<span class="fc" id="L572">    this.severity = severity;</span>
+<span class="fc" id="L573">    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));</span>
+<span class="fc" id="L574">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
+<span class="fc" id="L575">  }</span>
 
   @Override
   public String getId() {
-<span class="fc" id="L497">    return name();</span>
+<span class="fc" id="L579">    return name();</span>
   }
 
   @Override
   public Set&lt;Term&gt; getRelatedTerms() {
-<span class="nc" id="L502">    return relatedTerms;</span>
+<span class="nc" id="L584">    return relatedTerms;</span>
   }
 
   @Override
   public InterpretationRemarkSeverity getSeverity() {
-<span class="fc" id="L507">    return severity;</span>
+<span class="fc" id="L589">    return severity;</span>
   }
 
   @Override
   public boolean isDeprecated() {
-<span class="fc" id="L512">    return isDeprecated;</span>
+<span class="fc" id="L594">    return isDeprecated;</span>
   }
 
   /**
    * All issues that indicate problems with the coordinates and thus should not be shown on maps.
    */
-<span class="fc" id="L518">  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =</span>
-<span class="fc" id="L519">    Collections.unmodifiableList(</span>
-<span class="fc" id="L520">      Arrays.asList(</span>
+<span class="fc" id="L600">  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =</span>
+<span class="fc" id="L601">    Collections.unmodifiableList(</span>
+<span class="fc" id="L602">      Arrays.asList(</span>
         ZERO_COORDINATE,
         COORDINATE_OUT_OF_RANGE,
         COORDINATE_INVALID,
@@ -525,15 +607,5 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
         PRESUMED_SWAPPED_COORDINATE,
         PRESUMED_NEGATED_LONGITUDE,
         PRESUMED_NEGATED_LATITUDE));
-
-  /**
-   * All issues that indicate problems with the taxonomy or taxonomic matching.
-   */
-<span class="fc" id="L532">  public static final List&lt;OccurrenceIssue&gt; TAXONOMIC_RULES =</span>
-<span class="fc" id="L533">    Collections.unmodifiableList(</span>
-<span class="fc" id="L534">      Arrays.asList(</span>
-        TAXON_MATCH_FUZZY,
-        TAXON_MATCH_HIGHERRANK,
-        TAXON_MATCH_NONE));
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
