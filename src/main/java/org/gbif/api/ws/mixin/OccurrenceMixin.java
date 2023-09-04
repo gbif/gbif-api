@@ -22,6 +22,9 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import org.gbif.api.jackson.IsoDateIntervalSerde;
+import org.gbif.api.util.IsoDateInterval;
+
 public interface OccurrenceMixin extends LicenseMixin {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -29,6 +32,6 @@ public interface OccurrenceMixin extends LicenseMixin {
   Date getDateIdentified();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  @JsonSerialize(using = DateSerde.NoTimezoneDateJsonSerializer.class, keyUsing = DateSerde.NoTimezoneDateJsonSerializer.class)
-  Date getEventDate();
+  @JsonSerialize(using = IsoDateIntervalSerde.NoTimezoneDateRangeJsonSerializer.class, keyUsing = IsoDateIntervalSerde.NoTimezoneDateRangeJsonSerializer.class)
+  IsoDateInterval getEventDate();
 }

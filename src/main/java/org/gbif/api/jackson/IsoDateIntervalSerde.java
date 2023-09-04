@@ -17,7 +17,6 @@ import org.gbif.api.util.IsoDateInterval;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Date;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -31,10 +30,10 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 /**
  * Jackson {@link JsonSerializer} classes for {@link IsoDateInterval}s with specified formats.
  */
-public class IsoDateRangeSerde {
+public class IsoDateIntervalSerde {
 
   /**
-   * Jackson {@link JsonSerializer} for {@link Date}.
+   * Jackson {@link JsonSerializer} for {@link IsoDateInterval}.
    */
   public static class NoTimezoneDateRangeJsonSerializer extends JsonSerializer<IsoDateInterval> {
 

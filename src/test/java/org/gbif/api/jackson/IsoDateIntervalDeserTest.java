@@ -74,8 +74,8 @@ public class IsoDateIntervalDeserTest {
   }
 
   public static class DateRangeWrapper {
-    @JsonSerialize(using = IsoDateRangeSerde.NoTimezoneDateRangeJsonSerializer.class)
-    @JsonDeserialize(using = IsoDateRangeSerde.FlexibleDateRangeJsonDeserializer.class)
+    @JsonSerialize(using = IsoDateIntervalSerde.NoTimezoneDateRangeJsonSerializer.class)
+    @JsonDeserialize(using = IsoDateIntervalSerde.FlexibleDateRangeJsonDeserializer.class)
     public IsoDateInterval isoDateInterval;
 
     public DateRangeWrapper() {}
