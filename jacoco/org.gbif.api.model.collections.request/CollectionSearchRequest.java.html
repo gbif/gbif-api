@@ -14,9 +14,11 @@
 package org.gbif.api.model.collections.request;
 
 import org.gbif.api.model.common.paging.Pageable;
+import org.gbif.api.vocabulary.CollectionsSortField;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.IdentifierType;
+import org.gbif.api.vocabulary.SortOrder;
 import org.gbif.api.vocabulary.collections.AccessionStatus;
 import org.gbif.api.vocabulary.collections.CollectionContentType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
@@ -27,7 +29,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-<span class="nc" id="L30">public class CollectionSearchRequest extends SearchRequest {</span>
+<span class="nc" id="L32">public class CollectionSearchRequest extends SearchRequest {</span>
 
   @Nullable private UUID institution;
   @Nullable private List&lt;CollectionContentType&gt; contentTypes;
@@ -37,54 +39,54 @@ import javax.annotation.Nullable;
 
   @Nullable
   public UUID getInstitution() {
-<span class="nc" id="L40">    return institution;</span>
+<span class="nc" id="L42">    return institution;</span>
   }
 
   public void setInstitution(@Nullable UUID institution) {
-<span class="nc" id="L44">    this.institution = institution;</span>
-<span class="nc" id="L45">  }</span>
+<span class="nc" id="L46">    this.institution = institution;</span>
+<span class="nc" id="L47">  }</span>
 
   @Nullable
   public List&lt;CollectionContentType&gt; getContentTypes() {
-<span class="nc" id="L49">    return contentTypes;</span>
+<span class="nc" id="L51">    return contentTypes;</span>
   }
 
   public void setContentTypes(@Nullable List&lt;CollectionContentType&gt; contentTypes) {
-<span class="nc" id="L53">    this.contentTypes = contentTypes;</span>
-<span class="nc" id="L54">  }</span>
+<span class="nc" id="L55">    this.contentTypes = contentTypes;</span>
+<span class="nc" id="L56">  }</span>
 
   @Nullable
   public List&lt;PreservationType&gt; getPreservationTypes() {
-<span class="nc" id="L58">    return preservationTypes;</span>
+<span class="nc" id="L60">    return preservationTypes;</span>
   }
 
   public void setPreservationTypes(@Nullable List&lt;PreservationType&gt; preservationTypes) {
-<span class="nc" id="L62">    this.preservationTypes = preservationTypes;</span>
-<span class="nc" id="L63">  }</span>
+<span class="nc" id="L64">    this.preservationTypes = preservationTypes;</span>
+<span class="nc" id="L65">  }</span>
 
   @Nullable
   public AccessionStatus getAccessionStatus() {
-<span class="nc" id="L67">    return accessionStatus;</span>
+<span class="nc" id="L69">    return accessionStatus;</span>
   }
 
   public void setAccessionStatus(@Nullable AccessionStatus accessionStatus) {
-<span class="nc" id="L71">    this.accessionStatus = accessionStatus;</span>
-<span class="nc" id="L72">  }</span>
+<span class="nc" id="L73">    this.accessionStatus = accessionStatus;</span>
+<span class="nc" id="L74">  }</span>
 
   @Nullable
   public Boolean getPersonalCollection() {
-<span class="nc" id="L76">    return personalCollection;</span>
+<span class="nc" id="L78">    return personalCollection;</span>
   }
 
   public void setPersonalCollection(@Nullable Boolean personalCollection) {
-<span class="nc" id="L80">    this.personalCollection = personalCollection;</span>
-<span class="nc" id="L81">  }</span>
+<span class="nc" id="L82">    this.personalCollection = personalCollection;</span>
+<span class="nc" id="L83">  }</span>
 
   public static Builder builder() {
-<span class="nc" id="L84">    return new Builder();</span>
+<span class="nc" id="L86">    return new Builder();</span>
   }
 
-<span class="nc" id="L87">  public static class Builder {</span>
+<span class="nc" id="L89">  public static class Builder {</span>
 
     UUID institution;
     String q;
@@ -111,170 +113,184 @@ import javax.annotation.Nullable;
     UUID replacedBy;
     String occurrenceCount;
     String typeSpecimenCount;
+    CollectionsSortField sortBy;
+    SortOrder sortOrder;
     Pageable page;
 
     public Builder institution(UUID institution) {
-<span class="nc" id="L117">      this.institution = institution;</span>
-<span class="nc" id="L118">      return this;</span>
+<span class="nc" id="L121">      this.institution = institution;</span>
+<span class="nc" id="L122">      return this;</span>
     }
 
     public Builder query(String q) {
-<span class="nc" id="L122">      this.q = q;</span>
-<span class="nc" id="L123">      return this;</span>
+<span class="nc" id="L126">      this.q = q;</span>
+<span class="nc" id="L127">      return this;</span>
     }
 
     public Builder code(String code) {
-<span class="nc" id="L127">      this.code = code;</span>
-<span class="nc" id="L128">      return this;</span>
+<span class="nc" id="L131">      this.code = code;</span>
+<span class="nc" id="L132">      return this;</span>
     }
 
     public Builder name(String name) {
-<span class="nc" id="L132">      this.name = name;</span>
-<span class="nc" id="L133">      return this;</span>
+<span class="nc" id="L136">      this.name = name;</span>
+<span class="nc" id="L137">      return this;</span>
     }
 
     public Builder alternativeCode(String alternativeCode) {
-<span class="nc" id="L137">      this.alternativeCode = alternativeCode;</span>
-<span class="nc" id="L138">      return this;</span>
+<span class="nc" id="L141">      this.alternativeCode = alternativeCode;</span>
+<span class="nc" id="L142">      return this;</span>
     }
 
     public Builder machineTagNamespace(String machineTagNamespace) {
-<span class="nc" id="L142">      this.machineTagNamespace = machineTagNamespace;</span>
-<span class="nc" id="L143">      return this;</span>
+<span class="nc" id="L146">      this.machineTagNamespace = machineTagNamespace;</span>
+<span class="nc" id="L147">      return this;</span>
     }
 
     public Builder machineTagName(String machineTagName) {
-<span class="nc" id="L147">      this.machineTagName = machineTagName;</span>
-<span class="nc" id="L148">      return this;</span>
+<span class="nc" id="L151">      this.machineTagName = machineTagName;</span>
+<span class="nc" id="L152">      return this;</span>
     }
 
     public Builder machineTagValue(String machineTagValue) {
-<span class="nc" id="L152">      this.machineTagValue = machineTagValue;</span>
-<span class="nc" id="L153">      return this;</span>
+<span class="nc" id="L156">      this.machineTagValue = machineTagValue;</span>
+<span class="nc" id="L157">      return this;</span>
     }
 
     public Builder identifierType(IdentifierType identifierType) {
-<span class="nc" id="L157">      this.identifierType = identifierType;</span>
-<span class="nc" id="L158">      return this;</span>
+<span class="nc" id="L161">      this.identifierType = identifierType;</span>
+<span class="nc" id="L162">      return this;</span>
     }
 
     public Builder identifier(String identifier) {
-<span class="nc" id="L162">      this.identifier = identifier;</span>
-<span class="nc" id="L163">      return this;</span>
+<span class="nc" id="L166">      this.identifier = identifier;</span>
+<span class="nc" id="L167">      return this;</span>
     }
 
     public Builder country(List&lt;Country&gt; country) {
-<span class="nc" id="L167">      this.country = country;</span>
-<span class="nc" id="L168">      return this;</span>
+<span class="nc" id="L171">      this.country = country;</span>
+<span class="nc" id="L172">      return this;</span>
     }
 
     public Builder gbifRegion(List&lt;GbifRegion&gt; gbifRegion) {
-<span class="nc" id="L172">      this.gbifRegion = gbifRegion;</span>
-<span class="nc" id="L173">      return this;</span>
+<span class="nc" id="L176">      this.gbifRegion = gbifRegion;</span>
+<span class="nc" id="L177">      return this;</span>
     }
 
     public Builder city(String city) {
-<span class="nc" id="L177">      this.city = city;</span>
-<span class="nc" id="L178">      return this;</span>
+<span class="nc" id="L181">      this.city = city;</span>
+<span class="nc" id="L182">      return this;</span>
     }
 
     public Builder fuzzyName(String fuzzyName) {
-<span class="nc" id="L182">      this.fuzzyName = fuzzyName;</span>
-<span class="nc" id="L183">      return this;</span>
+<span class="nc" id="L186">      this.fuzzyName = fuzzyName;</span>
+<span class="nc" id="L187">      return this;</span>
     }
 
     public Builder active(boolean active) {
-<span class="nc" id="L187">      this.active = active;</span>
-<span class="nc" id="L188">      return this;</span>
+<span class="nc" id="L191">      this.active = active;</span>
+<span class="nc" id="L192">      return this;</span>
     }
 
     public Builder contentTypes(List&lt;CollectionContentType&gt; contentTypes) {
-<span class="nc" id="L192">      this.contentTypes = contentTypes;</span>
-<span class="nc" id="L193">      return this;</span>
+<span class="nc" id="L196">      this.contentTypes = contentTypes;</span>
+<span class="nc" id="L197">      return this;</span>
     }
 
     public Builder preservationTypes(List&lt;PreservationType&gt; preservationTypes) {
-<span class="nc" id="L197">      this.preservationTypes = preservationTypes;</span>
-<span class="nc" id="L198">      return this;</span>
+<span class="nc" id="L201">      this.preservationTypes = preservationTypes;</span>
+<span class="nc" id="L202">      return this;</span>
     }
 
     public Builder accessionStatus(AccessionStatus accessionStatus) {
-<span class="nc" id="L202">      this.accessionStatus = accessionStatus;</span>
-<span class="nc" id="L203">      return this;</span>
+<span class="nc" id="L206">      this.accessionStatus = accessionStatus;</span>
+<span class="nc" id="L207">      return this;</span>
     }
 
     public Builder personalCollection(boolean personalCollection) {
-<span class="nc" id="L207">      this.personalCollection = personalCollection;</span>
-<span class="nc" id="L208">      return this;</span>
+<span class="nc" id="L211">      this.personalCollection = personalCollection;</span>
+<span class="nc" id="L212">      return this;</span>
     }
 
     public Builder masterSourceType(MasterSourceType masterSourceType) {
-<span class="nc" id="L212">      this.masterSourceType = masterSourceType;</span>
-<span class="nc" id="L213">      return this;</span>
+<span class="nc" id="L216">      this.masterSourceType = masterSourceType;</span>
+<span class="nc" id="L217">      return this;</span>
     }
 
     public Builder numberSpecimens(String numberSpecimens) {
-<span class="nc" id="L217">      this.numberSpecimens = numberSpecimens;</span>
-<span class="nc" id="L218">      return this;</span>
+<span class="nc" id="L221">      this.numberSpecimens = numberSpecimens;</span>
+<span class="nc" id="L222">      return this;</span>
     }
 
     public Builder displayOnNHCPortal(boolean displayOnNHCPortal) {
-<span class="nc" id="L222">      this.displayOnNHCPortal = displayOnNHCPortal;</span>
-<span class="nc" id="L223">      return this;</span>
+<span class="nc" id="L226">      this.displayOnNHCPortal = displayOnNHCPortal;</span>
+<span class="nc" id="L227">      return this;</span>
     }
 
     public Builder replacedBy(UUID replacedBy) {
-<span class="nc" id="L227">      this.replacedBy = replacedBy;</span>
-<span class="nc" id="L228">      return this;</span>
+<span class="nc" id="L231">      this.replacedBy = replacedBy;</span>
+<span class="nc" id="L232">      return this;</span>
     }
 
     public Builder occurrenceCount(String occurrenceCount) {
-<span class="nc" id="L232">      this.occurrenceCount = occurrenceCount;</span>
-<span class="nc" id="L233">      return this;</span>
+<span class="nc" id="L236">      this.occurrenceCount = occurrenceCount;</span>
+<span class="nc" id="L237">      return this;</span>
     }
 
     public Builder typeSpecimenCount(String typeSpecimenCount) {
-<span class="nc" id="L237">      this.typeSpecimenCount = typeSpecimenCount;</span>
-<span class="nc" id="L238">      return this;</span>
+<span class="nc" id="L241">      this.typeSpecimenCount = typeSpecimenCount;</span>
+<span class="nc" id="L242">      return this;</span>
+    }
+
+    public Builder sortBy(CollectionsSortField sortBy) {
+<span class="nc" id="L246">      this.sortBy = sortBy;</span>
+<span class="nc" id="L247">      return this;</span>
+    }
+
+    public Builder sortOrder(SortOrder sortOrder) {
+<span class="nc" id="L251">      this.sortOrder = sortOrder;</span>
+<span class="nc" id="L252">      return this;</span>
     }
 
     public Builder page(Pageable page) {
-<span class="nc" id="L242">      this.page = page;</span>
-<span class="nc" id="L243">      return this;</span>
+<span class="nc" id="L256">      this.page = page;</span>
+<span class="nc" id="L257">      return this;</span>
     }
 
     public CollectionSearchRequest build() {
-<span class="nc" id="L247">      CollectionSearchRequest req = new CollectionSearchRequest();</span>
-<span class="nc" id="L248">      req.setInstitution(institution);</span>
-<span class="nc" id="L249">      req.setQ(q);</span>
-<span class="nc" id="L250">      req.setCode(code);</span>
-<span class="nc" id="L251">      req.setName(name);</span>
-<span class="nc" id="L252">      req.setAlternativeCode(alternativeCode);</span>
-<span class="nc" id="L253">      req.setMachineTagNamespace(machineTagNamespace);</span>
-<span class="nc" id="L254">      req.setMachineTagName(machineTagName);</span>
-<span class="nc" id="L255">      req.setMachineTagValue(machineTagValue);</span>
-<span class="nc" id="L256">      req.setIdentifierType(identifierType);</span>
-<span class="nc" id="L257">      req.setIdentifier(identifier);</span>
-<span class="nc" id="L258">      req.setCountry(country);</span>
-<span class="nc" id="L259">      req.setGbifRegion(gbifRegion);</span>
-<span class="nc" id="L260">      req.setCity(city);</span>
-<span class="nc" id="L261">      req.setFuzzyName(fuzzyName);</span>
-<span class="nc" id="L262">      req.setActive(active);</span>
-<span class="nc" id="L263">      req.setContentTypes(contentTypes);</span>
-<span class="nc" id="L264">      req.setPreservationTypes(preservationTypes);</span>
-<span class="nc" id="L265">      req.setAccessionStatus(accessionStatus);</span>
-<span class="nc" id="L266">      req.setPersonalCollection(personalCollection);</span>
-<span class="nc" id="L267">      req.setMasterSourceType(masterSourceType);</span>
-<span class="nc" id="L268">      req.setNumberSpecimens(numberSpecimens);</span>
-<span class="nc" id="L269">      req.setDisplayOnNHCPortal(displayOnNHCPortal);</span>
-<span class="nc" id="L270">      req.setReplacedBy(replacedBy);</span>
-<span class="nc" id="L271">      req.setOccurrenceCount(occurrenceCount);</span>
-<span class="nc" id="L272">      req.setTypeSpecimenCount(typeSpecimenCount);</span>
-<span class="nc bnc" id="L273" title="All 2 branches missed.">      if (page != null) {</span>
-<span class="nc" id="L274">        req.setLimit(page.getLimit());</span>
-<span class="nc" id="L275">        req.setOffset(page.getOffset());</span>
+<span class="nc" id="L261">      CollectionSearchRequest req = new CollectionSearchRequest();</span>
+<span class="nc" id="L262">      req.setInstitution(institution);</span>
+<span class="nc" id="L263">      req.setQ(q);</span>
+<span class="nc" id="L264">      req.setCode(code);</span>
+<span class="nc" id="L265">      req.setName(name);</span>
+<span class="nc" id="L266">      req.setAlternativeCode(alternativeCode);</span>
+<span class="nc" id="L267">      req.setMachineTagNamespace(machineTagNamespace);</span>
+<span class="nc" id="L268">      req.setMachineTagName(machineTagName);</span>
+<span class="nc" id="L269">      req.setMachineTagValue(machineTagValue);</span>
+<span class="nc" id="L270">      req.setIdentifierType(identifierType);</span>
+<span class="nc" id="L271">      req.setIdentifier(identifier);</span>
+<span class="nc" id="L272">      req.setCountry(country);</span>
+<span class="nc" id="L273">      req.setGbifRegion(gbifRegion);</span>
+<span class="nc" id="L274">      req.setCity(city);</span>
+<span class="nc" id="L275">      req.setFuzzyName(fuzzyName);</span>
+<span class="nc" id="L276">      req.setActive(active);</span>
+<span class="nc" id="L277">      req.setContentTypes(contentTypes);</span>
+<span class="nc" id="L278">      req.setPreservationTypes(preservationTypes);</span>
+<span class="nc" id="L279">      req.setAccessionStatus(accessionStatus);</span>
+<span class="nc" id="L280">      req.setPersonalCollection(personalCollection);</span>
+<span class="nc" id="L281">      req.setMasterSourceType(masterSourceType);</span>
+<span class="nc" id="L282">      req.setNumberSpecimens(numberSpecimens);</span>
+<span class="nc" id="L283">      req.setDisplayOnNHCPortal(displayOnNHCPortal);</span>
+<span class="nc" id="L284">      req.setReplacedBy(replacedBy);</span>
+<span class="nc" id="L285">      req.setOccurrenceCount(occurrenceCount);</span>
+<span class="nc" id="L286">      req.setTypeSpecimenCount(typeSpecimenCount);</span>
+<span class="nc" id="L287">      req.setSortBy(sortBy);</span>
+<span class="nc" id="L288">      req.setSortOrder(sortOrder);</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">      if (page != null) {</span>
+<span class="nc" id="L290">        req.setLimit(page.getLimit());</span>
+<span class="nc" id="L291">        req.setOffset(page.getOffset());</span>
       }
-<span class="nc" id="L277">      return req;</span>
+<span class="nc" id="L293">      return req;</span>
     }
   }
 }
