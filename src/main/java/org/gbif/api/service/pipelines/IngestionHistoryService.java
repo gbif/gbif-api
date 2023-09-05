@@ -17,19 +17,22 @@ package org.gbif.api.service.pipelines;
 
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
+import org.gbif.api.model.crawler.FinishReason;
 import org.gbif.api.model.pipelines.IngestionProcess;
 
+import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 public interface IngestionHistoryService {
 
-  PagingResponse<IngestionProcess> history(Pageable pageable);
+  PagingResponse<IngestionProcess> history(
+      @Nullable List<FinishReason> finishReasons, Pageable pageable);
 
   PagingResponse<IngestionProcess> history(
-    @NotNull UUID datasetKey, Pageable pageable);
+      @NotNull UUID datasetKey, @Nullable List<FinishReason> finishReasons, Pageable pageable);
 
-  IngestionProcess getIngestion(
-    @NotNull UUID datasetKey, int attempt);
+  IngestionProcess getIngestion(@NotNull UUID datasetKey, int attempt);
 }
