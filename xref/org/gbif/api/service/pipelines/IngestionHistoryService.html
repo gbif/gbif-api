@@ -25,22 +25,25 @@
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.common.paging.Pageable;
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.common.paging.PagingResponse;
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.pipelines.IngestionProcess;
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> java.util.UUID;
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> javax.validation.constraints.NotNull;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.crawler.FinishReason;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.pipelines.IngestionProcess;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> java.util.UUID;
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>  
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">interface</strong> <a name="IngestionHistoryService" href="../../../../../org/gbif/api/service/pipelines/IngestionHistoryService.html#IngestionHistoryService">IngestionHistoryService</a> {
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>    PagingResponse&lt;IngestionProcess&gt; history(<a name="Pageable" href="../../../../../org/gbif/api/model/common/paging/Pageable.html#Pageable">Pageable</a> pageable);
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>    PagingResponse&lt;IngestionProcess&gt; history(
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>      @NotNull UUID datasetKey, <a name="Pageable" href="../../../../../org/gbif/api/model/common/paging/Pageable.html#Pageable">Pageable</a> pageable);
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>    <a name="IngestionProcess" href="../../../../../org/gbif/api/model/pipelines/IngestionProcess.html#IngestionProcess">IngestionProcess</a> getIngestion(
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>      @NotNull UUID datasetKey, <strong class="jxr_keyword">int</strong> attempt);
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  }
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> javax.annotation.Nullable;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> javax.validation.constraints.NotNull;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">interface</strong> <a name="IngestionHistoryService" href="../../../../../org/gbif/api/service/pipelines/IngestionHistoryService.html#IngestionHistoryService">IngestionHistoryService</a> {
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>    PagingResponse&lt;IngestionProcess&gt; history(
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>        @Nullable List&lt;FinishReason&gt; finishReasons, <a name="Pageable" href="../../../../../org/gbif/api/model/common/paging/Pageable.html#Pageable">Pageable</a> pageable);
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>    PagingResponse&lt;IngestionProcess&gt; history(
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>        @NotNull UUID datasetKey, @Nullable List&lt;FinishReason&gt; finishReasons, <a name="Pageable" href="../../../../../org/gbif/api/model/common/paging/Pageable.html#Pageable">Pageable</a> pageable);
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>    <a name="IngestionProcess" href="../../../../../org/gbif/api/model/pipelines/IngestionProcess.html#IngestionProcess">IngestionProcess</a> getIngestion(@NotNull UUID datasetKey, <strong class="jxr_keyword">int</strong> attempt);
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2023 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>
