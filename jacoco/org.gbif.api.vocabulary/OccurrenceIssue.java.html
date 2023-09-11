@@ -227,7 +227,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
    * &lt;/ul&gt;
    * @see &lt;a href=&quot;https://github.com/gbif/pipelines/issues/217&quot;&gt;gbif/pipelines#217&lt;/a&gt;
    */
-<span class="fc" id="L230">  TAXON_MATCH_SCIENTIFIC_NAME_ID_IGNORED(INFO, TermsGroup.TAXONOMY_TERMS),</span>
+<span class="fc" id="L230">  TAXON_MATCH_SCIENTIFIC_NAME_ID_IGNORED(INFO, DwcTerm.scientificNameID),</span>
 
   /**
    * The taxonConceptID was not used when mapping the record to the GBIF backbone. This may indicate one of
@@ -239,7 +239,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
    * &lt;/ul&gt;
    * @see &lt;a href=&quot;https://github.com/gbif/pipelines/issues/217&quot;&gt;gbif/pipelines#217&lt;/a&gt;
    */
-<span class="fc" id="L242">  TAXON_MATCH_TAXON_CONCEPT_ID_IGNORED(INFO, TermsGroup.TAXONOMY_TERMS),</span>
+<span class="fc" id="L242">  TAXON_MATCH_TAXON_CONCEPT_ID_IGNORED(INFO, DwcTerm.taxonConceptID),</span>
 
   /**
    * The taxonID was not used when mapping the record to the GBIF backbone. This may indicate one of
@@ -251,7 +251,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
    * &lt;/ul&gt;
    * @see &lt;a href=&quot;https://github.com/gbif/pipelines/issues/217&quot;&gt;gbif/pipelines#217&lt;/a&gt;
    */
-<span class="fc" id="L254">  TAXON_MATCH_TAXON_ID_IGNORED(INFO, TermsGroup.TAXONOMY_TERMS),</span>
+<span class="fc" id="L254">  TAXON_MATCH_TAXON_ID_IGNORED(INFO, DwcTerm.taxonID),</span>
 
   /**
    * The scientificNameID matched a known pattern, but it was not found in the associated checklist.
@@ -260,7 +260,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
    * isn't yet known in the version of the published checklist.
    * @see &lt;a href=&quot;https://github.com/gbif/pipelines/issues/217&quot;&gt;gbif/pipelines#217&lt;/a&gt;
    */
-<span class="fc" id="L263">  SCIENTIFIC_NAME_ID_NOT_FOUND(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+<span class="fc" id="L263">  SCIENTIFIC_NAME_ID_NOT_FOUND(WARNING, DwcTerm.scientificNameID),</span>
 
   /**
    * The taxonConceptID matched a known pattern, but it was not found in the associated checklist.
@@ -269,7 +269,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
    * known in the version of the published checklist.
    * @see &lt;a href=&quot;https://github.com/gbif/pipelines/issues/217&quot;&gt;gbif/pipelines#217&lt;/a&gt;
    */
-<span class="fc" id="L272">  TAXON_CONCEPT_ID_NOT_FOUND(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+<span class="fc" id="L272">  TAXON_CONCEPT_ID_NOT_FOUND(WARNING, DwcTerm.taxonConceptID),</span>
 
   /**
    * The taxonID matched a known pattern, but it was not found in the associated checklist.
@@ -278,7 +278,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
    * known in the version of the published checklist.
    * @see &lt;a href=&quot;https://github.com/gbif/pipelines/issues/217&quot;&gt;gbif/pipelines#217&lt;/a&gt;
    */
-<span class="fc" id="L281">  TAXON_ID_NOT_FOUND(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+<span class="fc" id="L281">  TAXON_ID_NOT_FOUND(WARNING, DwcTerm.taxonID),</span>
 
   /**
    * The scientificName provided in the occurrence record does not precisely match the name in the registered checklist
@@ -286,7 +286,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
    * are correct, or update the formatting of the names on their records.
    * @see &lt;a href=&quot;https://github.com/gbif/pipelines/issues/217&quot;&gt;gbif/pipelines#217&lt;/a&gt;
    */
-<span class="fc" id="L289">  SCIENTIFIC_NAME_AND_ID_INCONSISTENT(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
+<span class="fc" id="L289">  SCIENTIFIC_NAME_AND_ID_INCONSISTENT(WARNING, DwcTerm.scientificNameID, DwcTerm.taxonID, DwcTerm.taxonConceptID, DwcTerm.scientificName),</span>
 
   /**
    * Matching to the taxonomic backbone cannot be done because there was no match at all, or several
@@ -295,7 +295,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
 <span class="fc" id="L295">  TAXON_MATCH_NONE(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
 
   /**
-   * The GBIF Backbone concept was found using the scientificNameID or taxonConceptID, but it differs from what would
+   * The GBIF Backbone concept was found using the scientificNameID, taxonID or taxonConceptID, but it differs from what would
    * have been found if the classification names on the record were used. This may indicate a gap in the GBIF backbone,
    * a poor mapping between the checklist and the backbone, or a mismatch between the classification names and the
    * declared IDs (scientificNameID or taxonConceptID) on the occurrence record itself.
