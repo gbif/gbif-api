@@ -17,10 +17,11 @@ import org.gbif.api.util.IsoDateInterval;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
 
 import org.junit.jupiter.api.Test;
@@ -42,21 +43,36 @@ public class IsoDateIntervalDeserTest {
   @Test
   public void testBothWays() throws IOException {
     // Implicit ranges
-    test(ZonedDateTime.of(2009, 02, 04, 05, 06, 07, 0, ZoneOffset.UTC), null, "2009-02-04T05:06:07Z");
-    test(LocalDate.of(2009, 02, 04), null, "2009-02-04");
-    test(YearMonth.of(2009, 02), null, "2009-02");
+    test(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 0, ZoneOffset.UTC), null, "2009-02-04T05:06:07Z");
+    test(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 0, ZoneOffset.ofHours(5)), null, "2009-02-04T05:06:07+05:00");
+    test(LocalDateTime.of(2009, 2, 4, 5, 6, 7, 0), null, "2009-02-04T05:06:07");
+    test(OffsetDateTime.of(2009, 2, 4, 5, 6, 0, 0, ZoneOffset.UTC), null, "2009-02-04T05:06Z");
+    test(OffsetDateTime.of(2009, 2, 4, 5, 6, 0, 0, ZoneOffset.ofHours(5)), null, "2009-02-04T05:06+05:00");
+    test(LocalDateTime.of(2009, 2, 4, 5, 6), null, "2009-02-04T05:06");
+    test(LocalDate.of(2009, 2, 4), null, "2009-02-04");
+    test(YearMonth.of(2009, 2), null, "2009-02");
     test(Year.of(2009), null, "2009");
 
     // Implicit ranges to simplify
-    test(ZonedDateTime.of(2009, 02, 04, 05, 06, 07, 0, ZoneOffset.UTC), ZonedDateTime.of(2009, 02, 04, 05, 06, 07, 0, ZoneOffset.UTC), "2009-02-04T05:06:07Z");
-    test(LocalDate.of(2009, 02, 04), LocalDate.of(2009, 02, 04), "2009-02-04");
-    test(YearMonth.of(2009, 02), YearMonth.of(2009, 02), "2009-02");
+    test(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 0, ZoneOffset.UTC), OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 0, ZoneOffset.UTC), "2009-02-04T05:06:07Z");
+    test(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 0, ZoneOffset.ofHours(5)), OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 0, ZoneOffset.ofHours(5)), "2009-02-04T05:06:07+05:00");
+    test(LocalDateTime.of(2009, 2, 4, 5, 6, 7, 0), LocalDateTime.of(2009, 2, 4, 5, 6, 7, 0), "2009-02-04T05:06:07");
+    test(OffsetDateTime.of(2009, 2, 4, 5, 6, 0, 0, ZoneOffset.UTC), OffsetDateTime.of(2009, 2, 4, 5, 6, 0, 0, ZoneOffset.UTC), "2009-02-04T05:06Z");
+    test(OffsetDateTime.of(2009, 2, 4, 5, 6, 0, 0, ZoneOffset.ofHours(5)), OffsetDateTime.of(2009, 2, 4, 5, 6, 0, 0, ZoneOffset.ofHours(5)), "2009-02-04T05:06+05:00");
+    test(LocalDateTime.of(2009, 2, 4, 5, 6), LocalDateTime.of(2009, 2, 4, 5, 6), "2009-02-04T05:06");
+    test(LocalDate.of(2009, 2, 4), LocalDate.of(2009, 2, 4), "2009-02-04");
+    test(YearMonth.of(2009, 2), YearMonth.of(2009, 2), "2009-02");
     test(Year.of(2009), Year.of(2009), "2009");
 
     // Explicit ranges
-    test(ZonedDateTime.of(2009, 02, 04, 05, 06, 07, 0, ZoneOffset.UTC), ZonedDateTime.of(2009, 02, 14, 15, 16, 17, 0, ZoneOffset.UTC), "2009-02-04T05:06:07Z/2009-02-14T15:16:17Z");
-    test(LocalDate.of(2023, 01, 13), LocalDate.of(2023, 01, 14), "2023-01-13/2023-01-14");
-    test(YearMonth.of(2009, 02), YearMonth.of(2009, 04), "2009-02/2009-04");
+    test(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 0, ZoneOffset.UTC), OffsetDateTime.of(2009, 2, 14, 15, 16, 17, 0, ZoneOffset.UTC), "2009-02-04T05:06:07Z/2009-02-14T15:16:17Z");
+    test(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 0, ZoneOffset.ofHours(5)), OffsetDateTime.of(2009, 2, 14, 15, 16, 17, 0, ZoneOffset.ofHours(5)), "2009-02-04T05:06:07+05:00/2009-02-14T15:16:17+05:00");
+    test(LocalDateTime.of(2009, 2, 4, 5, 6, 7, 0), LocalDateTime.of(2009, 2, 14, 15, 16, 17, 0), "2009-02-04T05:06:07/2009-02-14T15:16:17");
+    test(OffsetDateTime.of(2009, 2, 4, 5, 6, 0, 0, ZoneOffset.UTC), OffsetDateTime.of(2009, 2, 14, 15, 16, 0, 0, ZoneOffset.UTC), "2009-02-04T05:06Z/2009-02-14T15:16Z");
+    test(OffsetDateTime.of(2009, 2, 4, 5, 6, 0, 0, ZoneOffset.ofHours(5)), OffsetDateTime.of(2009, 2, 14, 15, 16, 0, 0, ZoneOffset.ofHours(5)), "2009-02-04T05:06+05:00/2009-02-14T15:16+05:00");
+    test(LocalDateTime.of(2009, 2, 4, 5, 6), LocalDateTime.of(2009, 2, 14, 15, 16), "2009-02-04T05:06/2009-02-14T15:16");
+    test(LocalDate.of(2023, 1, 13), LocalDate.of(2023, 1, 14), "2023-01-13/2023-01-14");
+    test(YearMonth.of(2009, 2), YearMonth.of(2009, 4), "2009-02/2009-04");
     test(Year.of(2009), Year.of(2010), "2009/2010");
   }
 

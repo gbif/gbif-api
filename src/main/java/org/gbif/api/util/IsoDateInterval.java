@@ -198,18 +198,10 @@ public class IsoDateInterval {
       return LocalDate.parse(text);
     }
 
-    if (text.length() == 19) {
+    if (text.length() == 16 || text.length() == 19) {
       return LocalDateTime.parse(text);
     }
 
-    if (text.length() == 25) {
-      return OffsetDateTime.parse(text);
-    }
-
-    if (text.length() >= 20) {
-      return ZonedDateTime.parse(text);
-    }
-
-    throw new RuntimeException("Unable to parse date '"+text+"' into a Year, YearMonth, LocalDate or (Local|Offset|Zoned)DateTime");
+    return OffsetDateTime.parse(text);
   }
 }
