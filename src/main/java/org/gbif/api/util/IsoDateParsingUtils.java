@@ -18,6 +18,8 @@ package org.gbif.api.util;
 import java.text.ParseException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
@@ -255,5 +257,15 @@ public class IsoDateParsingUtils {
     }
 
     throw new IllegalArgumentException("Date value must be a single value or a range");
+  }
+
+  public static TemporalAccessor stripOffsetOrZone(TemporalAccessor temporalAccessor, boolean ignoreOffset) {
+    if (temporalAccessor == null) {
+      return null;
+    } else if (!ignoreOffset && temporalAccessor.isSupported(ChronoField.OFFSET_SECONDS)) {
+      return ((OffsetDateTime)temporalAccessor.query(OffsetDateTime::from)).atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
+    } else {
+      return temporalAccessor.isSupported(ChronoField.SECOND_OF_DAY) ? (TemporalAccessor)temporalAccessor.query(LocalDateTime::from) : temporalAccessor;
+    }
   }
 }

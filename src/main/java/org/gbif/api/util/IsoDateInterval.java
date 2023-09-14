@@ -140,15 +140,35 @@ public class IsoDateInterval {
    */
   @Override
   public String toString() {
+    return toString(false);
+  }
+
+  /**
+   * Returns the date-time interval formatted as a single value where the from and to values are the same
+   * (e.g. "2023"), or as unabbreviated date-times at the defined accuracy otherwise ("2023-08-29/2023-08-30" rather
+   * than "2023-08-29/30").
+   *
+   * Optionally ignore the offset.
+   */
+  public String toString(boolean ignoreOffset) {
     if (this.getFrom() == null) {
       return null;
     }
 
-    StringBuilder s = new StringBuilder(this.getFrom().toString());
+    StringBuilder s = new StringBuilder();
+    if (ignoreOffset) {
+      s.append(IsoDateParsingUtils.stripOffsetOrZone(this.getFrom(), true).toString());
+    } else {
+      s.append(this.getFrom().toString());
+    }
 
     if (this.getTo() != null && !this.getFrom().equals(this.getTo())) {
       s.append('/');
-      s.append(this.getTo().toString());
+      if (ignoreOffset) {
+        s.append(IsoDateParsingUtils.stripOffsetOrZone(this.getTo(), true).toString());
+      } else {
+        s.append(this.getTo().toString());
+      }
     }
 
     return s.toString();
