@@ -43,6 +43,9 @@ public class IsoDateIntervalDeserTest {
   @Test
   public void testBothWays() throws IOException {
     // Implicit ranges
+    test(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 789_000_000, ZoneOffset.UTC), null, "2009-02-04T05:06:07.789Z");
+    test(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 789_000_000, ZoneOffset.ofHours(5)), null, "2009-02-04T05:06:07.789+05:00");
+    test(LocalDateTime.of(2009, 2, 4, 5, 6, 7, 789_000_000), null, "2009-02-04T05:06:07.789");
     test(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 0, ZoneOffset.UTC), null, "2009-02-04T05:06:07Z");
     test(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 0, ZoneOffset.ofHours(5)), null, "2009-02-04T05:06:07+05:00");
     test(LocalDateTime.of(2009, 2, 4, 5, 6, 7, 0), null, "2009-02-04T05:06:07");
