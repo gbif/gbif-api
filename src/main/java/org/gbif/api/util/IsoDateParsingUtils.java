@@ -52,7 +52,7 @@ public class IsoDateParsingUtils {
    * or a year-month-day-hour-minute-second-fraction — all with an optional timezone.
    */
   private static final DateTimeFormatter DATE_TIME_PATTERN =
-    DateTimeFormatter.ofPattern("[yyyy[-MM[-dd['T'HH:mm[:ss[.SSSSSSSSS][.SSSSSS][.SSS]]]]][XXXXX][XXXX][XXX][XX][X]]");
+    DateTimeFormatter.ofPattern("[yyyy[-MM[-dd['T'HH:mm[:ss[.SSSSSSSSS][.SSSSSSSS][.SSSSSSS][.SSSSSS][.SSSSS][.SSSS][.SSS][.SS][.S]]]]][XXXXX][XXXX][XXX][XX][X]]");
 
   public static final String SIMPLE_ISO_DATE_STR_PATTERN = "\\d{4}(?:-\\d{1,2}(?:-\\d{1,2})?)?";
 
