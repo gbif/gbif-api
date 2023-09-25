@@ -449,7 +449,7 @@ public class Organization
     this.province = province;
   }
 
-  @Nullable
+  @NotNull
   @Override
   public Country getCountry() {
     return country;
