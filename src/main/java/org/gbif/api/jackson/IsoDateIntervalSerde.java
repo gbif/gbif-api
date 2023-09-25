@@ -35,7 +35,7 @@ public class IsoDateIntervalSerde {
   /**
    * Jackson {@link JsonSerializer} for {@link IsoDateInterval}.
    */
-  public static class NoTimezoneDateRangeJsonSerializer extends JsonSerializer<IsoDateInterval> {
+  public static class IsoDateIntervalSerializer extends JsonSerializer<IsoDateInterval> {
 
     @Override
     public void serialize(IsoDateInterval value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
@@ -49,7 +49,7 @@ public class IsoDateIntervalSerde {
   /**
    * Jackson {@link JsonDeserializer} for {@link IsoDateInterval}s formatted above, falling back to the Jackson way.
    */
-  public static class FlexibleDateRangeJsonDeserializer extends JsonDeserializer<IsoDateInterval> {
+  public static class IsoDateIntervalDeserializer extends JsonDeserializer<IsoDateInterval> {
 
     @Override
     public IsoDateInterval deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
@@ -59,7 +59,7 @@ public class IsoDateIntervalSerde {
         try {
           return IsoDateInterval.fromString(text);
         } catch (ParseException e) {
-          throw JsonMappingException.from(jp, "Unable to parse date string");
+          throw JsonMappingException.from(jp, "Unable to parse date interval string");
         }
 
       }

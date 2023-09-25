@@ -32,6 +32,6 @@ public interface OccurrenceMixin extends LicenseMixin {
   Date getDateIdentified();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  @JsonSerialize(using = IsoDateIntervalSerde.NoTimezoneDateRangeJsonSerializer.class, keyUsing = IsoDateIntervalSerde.NoTimezoneDateRangeJsonSerializer.class)
+  @JsonSerialize(using = IsoDateIntervalSerde.IsoDateIntervalSerializer.class, keyUsing = IsoDateIntervalSerde.IsoDateIntervalSerializer.class)
   IsoDateInterval getEventDate();
 }

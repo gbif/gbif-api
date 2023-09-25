@@ -183,13 +183,13 @@ public enum OccurrenceIssue implements InterpretationRemark {
   PRESUMED_NEGATED_LATITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),
 
   /**
-   * The recorded date specified as the eventDate string and the individual year, month, day are
-   * contradictory.
+   * The recorded date specified as the eventDate string and the individual year, month, day and/or
+   * startDayOfYear, endDayOfYear are contradictory.
    */
   RECORDED_DATE_MISMATCH(WARNING, TermsGroup.RECORDED_DATE_TERMS),
 
   /**
-   * A (partial) invalid date is given, such as a non existing date, zero month, etc.
+   * A (partial) invalid date is given, such as a non-existent date, zero month, etc.
    */
   RECORDED_DATE_INVALID(WARNING, TermsGroup.RECORDED_DATE_TERMS),
 
@@ -200,7 +200,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
   RECORDED_DATE_UNLIKELY(WARNING, TermsGroup.RECORDED_DATE_TERMS),
 
   /**
-   * Matching to the taxonomic backbone can only be done using a fuzzy, non exact match.
+   * Matching to the taxonomic backbone can only be done using a fuzzy, non-exact match.
    */
   TAXON_MATCH_FUZZY(WARNING, TermsGroup.TAXONOMY_TERMS),
 
@@ -227,7 +227,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
    * </ul>
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
    */
-  TAXON_MATCH_SCIENTIFIC_NAME_ID_IGNORED(INFO, TermsGroup.TAXONOMY_TERMS),
+  TAXON_MATCH_SCIENTIFIC_NAME_ID_IGNORED(INFO, DwcTerm.scientificNameID),
 
   /**
    * The taxonConceptID was not used when mapping the record to the GBIF backbone. This may indicate one of
@@ -239,7 +239,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
    * </ul>
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
    */
-  TAXON_MATCH_TAXON_CONCEPT_ID_IGNORED(INFO, TermsGroup.TAXONOMY_TERMS),
+  TAXON_MATCH_TAXON_CONCEPT_ID_IGNORED(INFO, DwcTerm.taxonConceptID),
 
   /**
    * The taxonID was not used when mapping the record to the GBIF backbone. This may indicate one of
@@ -251,7 +251,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
    * </ul>
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
    */
-  TAXON_MATCH_TAXON_ID_IGNORED(INFO, TermsGroup.TAXONOMY_TERMS),
+  TAXON_MATCH_TAXON_ID_IGNORED(INFO, DwcTerm.taxonID),
 
   /**
    * The scientificNameID matched a known pattern, but it was not found in the associated checklist.
@@ -260,7 +260,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
    * isn't yet known in the version of the published checklist.
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
    */
-  SCIENTIFIC_NAME_ID_NOT_FOUND(WARNING, TermsGroup.TAXONOMY_TERMS),
+  SCIENTIFIC_NAME_ID_NOT_FOUND(WARNING, DwcTerm.scientificNameID),
 
   /**
    * The taxonConceptID matched a known pattern, but it was not found in the associated checklist.
@@ -269,7 +269,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
    * known in the version of the published checklist.
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
    */
-  TAXON_CONCEPT_ID_NOT_FOUND(WARNING, TermsGroup.TAXONOMY_TERMS),
+  TAXON_CONCEPT_ID_NOT_FOUND(WARNING, DwcTerm.taxonConceptID),
 
   /**
    * The taxonID matched a known pattern, but it was not found in the associated checklist.
@@ -278,7 +278,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
    * known in the version of the published checklist.
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
    */
-  TAXON_ID_NOT_FOUND(WARNING, TermsGroup.TAXONOMY_TERMS),
+  TAXON_ID_NOT_FOUND(WARNING, DwcTerm.taxonID),
 
   /**
    * The scientificName provided in the occurrence record does not precisely match the name in the registered checklist
@@ -286,7 +286,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
    * are correct, or update the formatting of the names on their records.
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
    */
-  SCIENTIFIC_NAME_AND_ID_INCONSISTENT(WARNING, TermsGroup.TAXONOMY_TERMS),
+  SCIENTIFIC_NAME_AND_ID_INCONSISTENT(WARNING, DwcTerm.scientificNameID, DwcTerm.taxonID, DwcTerm.taxonConceptID, DwcTerm.scientificName),
 
   /**
    * Matching to the taxonomic backbone cannot be done because there was no match at all, or several
@@ -295,7 +295,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
   TAXON_MATCH_NONE(WARNING, TermsGroup.TAXONOMY_TERMS),
 
   /**
-   * The GBIF Backbone concept was found using the scientificNameID or taxonConceptID, but it differs from what would
+   * The GBIF Backbone concept was found using the scientificNameID, taxonID or taxonConceptID, but it differs from what would
    * have been found if the classification names on the record were used. This may indicate a gap in the GBIF backbone,
    * a poor mapping between the checklist and the backbone, or a mismatch between the classification names and the
    * declared IDs (scientificNameID or taxonConceptID) on the occurrence record itself.
@@ -526,7 +526,8 @@ public enum OccurrenceIssue implements InterpretationRemark {
 
     static final Term[] RECORDED_DATE_TERMS = {
       DwcTerm.eventDate,
-      DwcTerm.year, DwcTerm.month, DwcTerm.day
+      DwcTerm.year, DwcTerm.month, DwcTerm.day,
+      DwcTerm.startDayOfYear, DwcTerm.endDayOfYear
     };
 
     static final Term[] TAXONOMY_TERMS = {

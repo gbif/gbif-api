@@ -18,6 +18,8 @@ package org.gbif.api.util;
 import java.text.ParseException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
@@ -28,6 +30,7 @@ import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 import java.time.format.SignStyle;
 import java.time.temporal.ChronoField;
+import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.util.regex.Pattern;
 
@@ -44,6 +47,13 @@ import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
  */
 public class IsoDateParsingUtils {
 
+  /**
+   * A year, or a year-month, or a year-month-day, or a year-month-day-hour-minute, or a year-month-day-hour-minute-second,
+   * or a year-month-day-hour-minute-second-fraction — all with an optional timezone.
+   */
+  private static final DateTimeFormatter DATE_TIME_PATTERN =
+    DateTimeFormatter.ofPattern("[yyyy[-MM[-dd['T'HH:mm[:ss[.SSSSSSSSS][.SSSSSSSS][.SSSSSSS][.SSSSSS][.SSSSS][.SSSS][.SSS][.SS][.S]]]]][XXXXX][XXXX][XXX][XX][X]]");
+
   public static final String SIMPLE_ISO_DATE_STR_PATTERN = "\\d{4}(?:-\\d{1,2}(?:-\\d{1,2})?)?";
 
   // match formats 'yyyy', 'yyyy-MM', 'yyyy-M', 'yyyy-MM-dd', 'yyyy-MM-d' and 'yyyy-M-d'.
@@ -56,7 +66,7 @@ public class IsoDateParsingUtils {
    * Enumerations with the allowed date formats by the occurrence search service.
    */
   public enum IsoDateFormat {
-    FULL(new DateTimeFormatterBuilder()
+    YEAR_MONTH_DAY(new DateTimeFormatterBuilder()
       .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
       .appendLiteral('-')
       .appendValue(ChronoField.MONTH_OF_YEAR, 1, 2, SignStyle.NEVER)
@@ -106,7 +116,7 @@ public class IsoDateParsingUtils {
 
       try {
         switch (this) {
-          case FULL:
+          case YEAR_MONTH_DAY:
             return dateFormatter.parse(value, LocalDate::from);
 
           case YEAR_MONTH:
@@ -131,7 +141,7 @@ public class IsoDateParsingUtils {
 
       TemporalAccessor ta = parseDate(value);
       switch (this) {
-        case FULL:
+        case YEAR_MONTH_DAY:
           return LocalDate.from(ta);
 
         case YEAR_MONTH:
@@ -156,7 +166,7 @@ public class IsoDateParsingUtils {
 
       TemporalAccessor ta = parseDate(value);
       switch (this) {
-        case FULL:
+        case YEAR_MONTH_DAY:
           return LocalDate.from(ta).plusDays(1);
 
         case YEAR_MONTH:
@@ -193,6 +203,28 @@ public class IsoDateParsingUtils {
       }
     }
     throw new IllegalArgumentException(value + " is not a valid date");
+  }
+
+  /**
+   * Parses an ISO 8601-format date or date-time.
+   */
+  public static Temporal parseTemporal(String value) {
+    if (QUERY_WILDCARD.equals(value)) {
+      return null;
+    }
+
+    if (value == null || value.isEmpty()) {
+      return null;
+    }
+
+    // parse string
+    return (Temporal) DATE_TIME_PATTERN.parseBest(
+      value,
+      OffsetDateTime::from,
+      LocalDateTime::from,
+      LocalDate::from,
+      YearMonth::from,
+      Year::from);
   }
 
   /**
@@ -255,5 +287,15 @@ public class IsoDateParsingUtils {
     }
 
     throw new IllegalArgumentException("Date value must be a single value or a range");
+  }
+
+  public static TemporalAccessor stripOffsetOrZone(TemporalAccessor temporalAccessor, boolean ignoreOffset) {
+    if (temporalAccessor == null) {
+      return null;
+    } else if (!ignoreOffset && temporalAccessor.isSupported(ChronoField.OFFSET_SECONDS)) {
+      return ((OffsetDateTime)temporalAccessor.query(OffsetDateTime::from)).atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
+    } else {
+      return temporalAccessor.isSupported(ChronoField.SECOND_OF_DAY) ? (TemporalAccessor)temporalAccessor.query(LocalDateTime::from) : temporalAccessor;
+    }
   }
 }

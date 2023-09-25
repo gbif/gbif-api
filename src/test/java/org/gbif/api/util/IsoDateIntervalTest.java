@@ -105,5 +105,13 @@ public class IsoDateIntervalTest {
     assertEquals("1800-06-12T13:14:15+03:00/1900-06-12T13:14:15-03:00", new IsoDateInterval(OffsetDateTime.of(1800, 06, 12, 13, 14, 15, 0, ZoneOffset.ofHours(3)), OffsetDateTime.of(1900, 06, 12, 13, 14, 15, 0, ZoneOffset.ofHours(-3))).toString());
     assertEquals("1800-06-12T13:14:15Z", new IsoDateInterval(ZonedDateTime.of(1800, 06, 12, 13, 14, 15, 0, ZoneOffset.UTC)).toString());
     assertEquals("1800-06-12T13:14:15Z/1900-06-12T13:14:15Z", new IsoDateInterval(ZonedDateTime.of(1800, 06, 12, 13, 14, 15, 0, ZoneOffset.UTC), ZonedDateTime.of(1900, 06, 12, 13, 14, 15, 0, ZoneOffset.UTC)).toString());
+
+    // Stripped offset
+    assertEquals("1800-06-12T13:14:15", new IsoDateInterval(LocalDateTime.of(1800, 06, 12, 13, 14, 15)).toString(true));
+    assertEquals("1800-06-12T13:14:15/1900-06-12T13:14:15", new IsoDateInterval(LocalDateTime.of(1800, 06, 12, 13, 14, 15), LocalDateTime.of(1900, 06, 12, 13, 14, 15)).toString(true));
+    assertEquals("1800-06-12T13:14:15", new IsoDateInterval(OffsetDateTime.of(1800, 06, 12, 13, 14, 15, 0, ZoneOffset.ofHours(3))).toString(true));
+    assertEquals("1800-06-12T13:14:15/1900-06-12T13:14:15", new IsoDateInterval(OffsetDateTime.of(1800, 06, 12, 13, 14, 15, 0, ZoneOffset.ofHours(3)), OffsetDateTime.of(1900, 06, 12, 13, 14, 15, 0, ZoneOffset.ofHours(-3))).toString(true));
+    assertEquals("1800-06-12T13:14:15", new IsoDateInterval(ZonedDateTime.of(1800, 06, 12, 13, 14, 15, 0, ZoneOffset.UTC)).toString(true));
+    assertEquals("1800-06-12T13:14:15/1900-06-12T13:14:15", new IsoDateInterval(ZonedDateTime.of(1800, 06, 12, 13, 14, 15, 0, ZoneOffset.UTC), ZonedDateTime.of(1900, 06, 12, 13, 14, 15, 0, ZoneOffset.UTC)).toString(true));
   }
 }
