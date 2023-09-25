@@ -15,6 +15,7 @@
  */
 package org.gbif.api.model.registry;
 
+import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Language;
 
 import java.net.URI;
@@ -53,6 +54,7 @@ public class OrganizationTest {
     Set<String> propertiesInViolation = new HashSet<>();
     propertiesInViolation.add("title");
     propertiesInViolation.add("logoUrl");
+    propertiesInViolation.add("country");
 
     for (ConstraintViolation<?> cv : violations) {
       propertiesInViolation.remove(cv.getPropertyPath().toString());
@@ -65,6 +67,7 @@ public class OrganizationTest {
     org.setLogoUrl(URI.create("http://www.gbif.org/logo.png"));
     org.setLanguage(Language.ENGLISH);
     org.setEndorsingNodeKey(UUID.randomUUID());
+    org.setCountry(Country.DENMARK);
 
     // perform validation again
     violations = validator.validate(org);
