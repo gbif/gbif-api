@@ -25,14 +25,12 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 /**
- * Interface to access and persists information about occurrence download events.
- * This interface was initially implemented as a internal GBIF component that shouldn't be exposed for the public use.
+ * Interface to access and persists information about occurrence download events. This interface was
+ * initially implemented as a internal GBIF component that shouldn't be exposed for the public use.
  */
 @SuppressWarnings("unused")
 public interface DatasetOccurrenceDownloadUsageService {
-  /**
-   * Retrieves a pageable result of the downloads which contain data taken from a dataset.
-   */
-  PagingResponse<DatasetOccurrenceDownloadUsage> listByDataset(@NotNull UUID datasetKey,
-    @Nullable Pageable page);
+  /** Retrieves a pageable result of the downloads which contain data taken from a dataset. */
+  PagingResponse<DatasetOccurrenceDownloadUsage> listByDataset(
+      @NotNull UUID datasetKey, Boolean showDownloadDetails, @Nullable Pageable page);
 }
