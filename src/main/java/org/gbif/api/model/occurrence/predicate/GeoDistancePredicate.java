@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.occurrence.predicate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.gbif.api.model.occurrence.geo.DistanceUnit;
 import org.gbif.api.util.SearchTypeValidator;
 
@@ -100,6 +102,7 @@ public class GeoDistancePredicate implements Predicate {
     return distance;
   }
 
+  @JsonIgnore
   public DistanceUnit.GeoDistance getGeoDistance() {
     return geoDistance;
   }
