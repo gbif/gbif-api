@@ -22,6 +22,7 @@ import java.util.StringJoiner;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.Hidden;
@@ -100,6 +101,7 @@ public class GeoDistancePredicate implements Predicate {
     return distance;
   }
 
+  @JsonIgnore
   public DistanceUnit.GeoDistance getGeoDistance() {
     return geoDistance;
   }

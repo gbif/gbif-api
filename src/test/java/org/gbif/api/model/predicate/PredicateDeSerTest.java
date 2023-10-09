@@ -42,6 +42,7 @@ public class PredicateDeSerTest {
     assertPredicate("conjunction_with_in.json");
     assertPredicate("complex_conjunction_with_in.json");
     assertPredicate("range.json");
+    assertPredicate("distance.json");
   }
 
   private void assertPredicate(String fileName) throws IOException {
