@@ -21,6 +21,7 @@ import org.gbif.api.model.collections.suggestions.Status;
 import org.gbif.api.model.collections.suggestions.Type;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
+import org.gbif.api.vocabulary.Country;
 
 import java.util.UUID;
 
@@ -43,9 +44,10 @@ public interface ChangeSuggestionService<
   R getChangeSuggestion(int key);
 
   PagingResponse<R> list(
-      @Nullable Status status,
-      @Nullable Type type,
-      @Nullable String proposedBy,
-      @Nullable UUID entityKey,
-      @Nullable Pageable page);
+    @Nullable Status status,
+    @Nullable Type type,
+    @Nullable String proposedBy,
+    @Nullable UUID entityKey,
+    @Nullable Country country,
+    @Nullable Pageable page);
 }
