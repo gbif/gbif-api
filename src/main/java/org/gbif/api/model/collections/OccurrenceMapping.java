@@ -35,6 +35,10 @@ public class OccurrenceMapping implements Serializable, LenientEquals<Occurrence
 
   private Integer key;
   private String code;
+  /*
+   Only used for collections when they need to specify the institution code.
+  */
+  private String parentCode;
   private String identifier;
   private UUID datasetKey;
   private String createdBy;
@@ -43,9 +47,14 @@ public class OccurrenceMapping implements Serializable, LenientEquals<Occurrence
   public OccurrenceMapping() {}
 
   public OccurrenceMapping(String code, String identifier, UUID datasetKey) {
+    this(code, identifier, datasetKey, null);
+  }
+
+  public OccurrenceMapping(String code, String identifier, UUID datasetKey, String parentCode) {
     this.code = code;
     this.identifier = identifier;
     this.datasetKey = datasetKey;
+    this.parentCode = parentCode;
   }
 
   /** Unique identifier, assigned by the persistence store. */
@@ -67,6 +76,16 @@ public class OccurrenceMapping implements Serializable, LenientEquals<Occurrence
 
   public void setCode(String code) {
     this.code = code;
+  }
+
+  @Nullable
+  @Size(min = 1)
+  public String getParentCode() {
+    return parentCode;
+  }
+
+  public void setParentCode(String parentCode) {
+    this.parentCode = parentCode;
   }
 
   @Nullable
@@ -115,6 +134,7 @@ public class OccurrenceMapping implements Serializable, LenientEquals<Occurrence
     OccurrenceMapping that = (OccurrenceMapping) o;
     return Objects.equals(key, that.key)
         && Objects.equals(code, that.code)
+        && Objects.equals(parentCode, that.parentCode)
         && Objects.equals(identifier, that.identifier)
         && Objects.equals(datasetKey, that.datasetKey)
         && Objects.equals(createdBy, that.createdBy)
@@ -123,7 +143,7 @@ public class OccurrenceMapping implements Serializable, LenientEquals<Occurrence
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, code, identifier, datasetKey, createdBy, created);
+    return Objects.hash(key, code, parentCode, identifier, datasetKey, createdBy, created);
   }
 
   @Override
@@ -131,6 +151,7 @@ public class OccurrenceMapping implements Serializable, LenientEquals<Occurrence
     return new StringJoiner(", ", OccurrenceMapping.class.getSimpleName() + "[", "]")
         .add("key=" + key)
         .add("code='" + code + "'")
+        .add("parentCode='" + parentCode + "'")
         .add("identifier='" + identifier + "'")
         .add("datasetKey=" + datasetKey)
         .add("createdBy='" + createdBy + "'")
@@ -144,6 +165,7 @@ public class OccurrenceMapping implements Serializable, LenientEquals<Occurrence
       return true;
     }
     return Objects.equals(code, other.code)
+        && Objects.equals(parentCode, other.parentCode)
         && Objects.equals(identifier, other.identifier)
         && Objects.equals(datasetKey, other.datasetKey);
   }
