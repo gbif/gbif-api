@@ -287,13 +287,29 @@ public class IsoDateParsingUtils {
     throw new IllegalArgumentException("Date value must be a single value or a range");
   }
 
+  /**
+   * Remove the offset, either ignoring it or using it to adjust the time.
+   */
   public static TemporalAccessor stripOffsetOrZone(TemporalAccessor temporalAccessor, boolean ignoreOffset) {
     if (temporalAccessor == null) {
       return null;
     } else if (!ignoreOffset && temporalAccessor.isSupported(ChronoField.OFFSET_SECONDS)) {
-      return ((OffsetDateTime)temporalAccessor.query(OffsetDateTime::from)).atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
+      return (temporalAccessor.query(OffsetDateTime::from)).atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
     } else {
-      return temporalAccessor.isSupported(ChronoField.SECOND_OF_DAY) ? (TemporalAccessor)temporalAccessor.query(LocalDateTime::from) : temporalAccessor;
+      return temporalAccessor.isSupported(ChronoField.SECOND_OF_DAY) ? temporalAccessor.query(LocalDateTime::from) : temporalAccessor;
+    }
+  }
+
+  /**
+   * Remove the offset, either ignoring it or using it to adjust the time, unless the offset is 0 (UTC).
+   */
+  public static TemporalAccessor stripOffsetOrZoneExceptUTC(TemporalAccessor temporalAccessor, boolean ignoreOffset) {
+    if (temporalAccessor == null) {
+      return null;
+    } else if (temporalAccessor.isSupported(ChronoField.OFFSET_SECONDS) && temporalAccessor.get(ChronoField.OFFSET_SECONDS) == 0) {
+      return (temporalAccessor.query(OffsetDateTime::from)).atZoneSameInstant(ZoneOffset.UTC);
+    } else {
+      return stripOffsetOrZone(temporalAccessor, ignoreOffset);
     }
   }
 }

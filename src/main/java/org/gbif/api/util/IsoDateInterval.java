@@ -148,24 +148,24 @@ public class IsoDateInterval {
    * (e.g. "2023"), or as unabbreviated date-times at the defined accuracy otherwise ("2023-08-29/2023-08-30" rather
    * than "2023-08-29/30").
    *
-   * Optionally ignore the offset.
+   * Optionally ignore a non-UTC offset.
    */
-  public String toString(boolean ignoreOffset) {
+  public String toString(boolean ignoreNonUTCOffset) {
     if (this.getFrom() == null) {
       return null;
     }
 
     StringBuilder s = new StringBuilder();
-    if (ignoreOffset) {
-      s.append(IsoDateParsingUtils.stripOffsetOrZone(this.getFrom(), true).toString());
+    if (ignoreNonUTCOffset) {
+      s.append(IsoDateParsingUtils.stripOffsetOrZoneExceptUTC(this.getFrom(), true).toString());
     } else {
       s.append(this.getFrom().toString());
     }
 
     if (this.getTo() != null && !this.getFrom().equals(this.getTo())) {
       s.append('/');
-      if (ignoreOffset) {
-        s.append(IsoDateParsingUtils.stripOffsetOrZone(this.getTo(), true).toString());
+      if (ignoreNonUTCOffset) {
+        s.append(IsoDateParsingUtils.stripOffsetOrZoneExceptUTC(this.getTo(), true).toString());
       } else {
         s.append(this.getTo().toString());
       }
