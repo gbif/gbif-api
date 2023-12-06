@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.predicate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.gbif.api.model.occurrence.geo.DistanceUnit;
 import org.gbif.api.util.SearchTypeValidator;
 
