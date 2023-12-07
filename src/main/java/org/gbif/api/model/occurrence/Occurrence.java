@@ -22,6 +22,7 @@ import org.gbif.api.util.ClassificationUtils;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.OccurrenceStatus;
@@ -44,8 +45,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
-import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -62,10 +63,14 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Represents an Occurrence as interpreted by GBIF, adding typed properties on top of the verbatim ones.
  */
+@EqualsAndHashCode
+@ToString
 @SuppressWarnings("unused")
 public class Occurrence extends VerbatimOccurrence implements LinneanClassification, LinneanClassificationKeys {
 
@@ -413,6 +418,15 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   )
   private String iucnRedListCategory;
 
+  @Schema(
+    description = "An identifier for the taxonomic concept to which the record refers - not for the nomenclatural details of a dwc:Taxon.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/taxonConceptID"
+    )
+  )
+  private String taxonConceptID;
+
   // identification
 
   @Schema(
@@ -536,6 +550,42 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       "`coordinateUncertaintyInMeters` and `georeferenceRemarks`."
   )
   private Double distanceFromCentroidInMeters;
+
+  @Schema(
+    description = "The name of the island on or near which the dcterms:Location occurs",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/island"
+    )
+  )
+  private String island;
+
+  @Schema(
+    description = "The name of the island group in which the dcterms:Location occurs.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/islandGroup"
+    )
+  )
+  private String islandGroup;
+
+  @Schema(
+    description = "A list (concatenated and separated) of geographic names less specific than the information captured in the dwc:locality term.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/higherGeography"
+    )
+  )
+  private String higherGeography;
+
+  @Schema(
+    description = "A list (concatenated and separated) of names of people, groups, or organizations who determined the georeference (spatial representation) for the dcterms:Location.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/georeferencedBy"
+    )
+  )
+  private String georeferencedBy;
 
   // recording event
 
@@ -683,6 +733,20 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   )
   private Double relativeOrganismQuantity;
 
+  @Schema(
+    description = "Flag occurrence when associatedSequences/extension exists"
+  )
+  private boolean isSequenced;
+
+  @Schema(
+    description = "An identifier given to the dwc:Event in the field. Often serves as a link between field notes and the dwc:Event.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/fieldNumber"
+    )
+  )
+  private String fieldNumber;
+
   // interpreted extension data
 
   @Schema(
@@ -794,6 +858,160 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     )
   )
   private String otherCatalogNumbers;
+
+  @Schema(
+    description = "A list (concatenated and separated) of previous assignments of names to the dwc:Organism.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/previousIdentifications"
+    )
+  )
+  private String previousIdentifications;
+
+  @Schema(
+    description = "The full name of the earliest possible geochronologic eon or lowest chrono-stratigraphic eonothem or the informal name (\"Precambrian\") attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/earliestEonOrLowestEonothem"
+    )
+  )
+  private String earliestEonOrLowestEonothem;
+
+  @Schema(
+    description = "The full name of the latest possible geochronologic eon or highest chrono-stratigraphic eonothem or the informal name (\"Precambrian\") attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/latestEonOrHighestEonothem"
+    )
+  )
+  private String latestEonOrHighestEonothem;
+
+  @Schema(
+    description = "The full name of the earliest possible geochronologic era or lowest chronostratigraphic erathem attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/earliestEraOrLowestErathem"
+    )
+  )
+  private String earliestEraOrLowestErathem;
+
+  @Schema(
+    description = "The full name of the latest possible geochronologic era or highest chronostratigraphic erathem attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/latestEraOrHighestErathem"
+    )
+  )
+  private String latestEraOrHighestErathem;
+
+  @Schema(
+    description = "The full name of the earliest possible geochronologic period or lowest chronostratigraphic system attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/earliestPeriodOrLowestSystem"
+    )
+  )
+  private String earliestPeriodOrLowestSystem;
+
+  @Schema(
+    description = "The full name of the latest possible geochronologic period or highest chronostratigraphic system attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/latestPeriodOrHighestSystem"
+    )
+  )
+  private String latestPeriodOrHighestSystem;
+
+  @Schema(
+    description = "The full name of the earliest possible geochronologic epoch or lowest chronostratigraphic series attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/earliestEpochOrLowestSeries"
+    )
+  )
+  private String earliestEpochOrLowestSeries;
+
+  @Schema(
+    description = "The full name of the latest possible geochronologic epoch or highest chronostratigraphic series attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/latestEpochOrHighestSeries"
+    )
+  )
+  private String latestEpochOrHighestSeries;
+
+  @Schema(
+    description = "The full name of the earliest possible geochronologic age or lowest chronostratigraphic stage attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/earliestAgeOrLowestStage"
+    )
+  )
+  private String earliestAgeOrLowestStage;
+
+  @Schema(
+    description = "The full name of the latest possible geochronologic age or highest chronostratigraphic stage attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/latestAgeOrHighestStage"
+    )
+  )
+  private String latestAgeOrHighestStage;
+
+  @Schema(
+    description = "The full name of the lowest possible geological biostratigraphic zone of the stratigraphic horizon from which the dwc:MaterialEntity was collected.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/lowestBiostratigraphicZone"
+    )
+  )
+  private String lowestBiostratigraphicZone;
+
+  @Schema(
+    description = "The full name of the highest possible geological biostratigraphic zone of the stratigraphic horizon from which the dwc:MaterialEntity was collected.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/highestBiostratigraphicZone"
+    )
+  )
+  private String highestBiostratigraphicZone;
+
+  @Schema(
+    description = "The full name of the lithostratigraphic group from which the dwc:MaterialEntity was collected.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/group"
+    )
+  )
+  private String group;
+
+  @Schema(
+    description = "The full name of the lithostratigraphic formation from which the dwc:MaterialEntity was collected.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/formation"
+    )
+  )
+  private String formation;
+
+  @Schema(
+    description = "The full name of the lithostratigraphic member from which the dwc:MaterialEntity was collected.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/member"
+    )
+  )
+  private String member;
+
+  @Schema(
+    description = "The full name of the lithostratigraphic bed from which the dwc:MaterialEntity was collected.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/bed"
+    )
+  )
+  private String bed;
+
 
   @Schema(
     description = "A person, group, or organization responsible for recording the original occurrence.",
@@ -1102,6 +1320,15 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setIucnRedListCategory(String iucnRedListCategory) {
     this.iucnRedListCategory = iucnRedListCategory;
+  }
+
+  @Nullable
+  public String getTaxonConceptID() {
+    return taxonConceptID;
+  }
+
+  public void setTaxonConceptID(String taxonConceptID) {
+    this.taxonConceptID = taxonConceptID;
   }
 
   /**
@@ -1421,6 +1648,12 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.country = country;
   }
 
+  @Nullable
+  @JsonProperty("gbifRegion")
+  public GbifRegion getGbifRegion() {
+    return Optional.ofNullable(country).map(Country::getGbifRegion).orElse(null);
+  }
+
   /**
    * Renders the country title as a JSON property country in addition to the ISO 3166 2 letter countryCode being
    * serialized by the regular country Java property.
@@ -1471,6 +1704,42 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setDistanceFromCentroidInMeters(Double distanceFromCentroidInMeters) {
     this.distanceFromCentroidInMeters = distanceFromCentroidInMeters;
+  }
+
+  @Nullable
+  public String getIsland() {
+    return island;
+  }
+
+  public void setIsland(String island) {
+    this.island = island;
+  }
+
+  @Nullable
+  public String getIslandGroup() {
+    return islandGroup;
+  }
+
+  public void setIslandGroup(String islandGroup) {
+    this.islandGroup = islandGroup;
+  }
+
+  @Nullable
+  public String getHigherGeography() {
+    return higherGeography;
+  }
+
+  public void setHigherGeography(String higherGeography) {
+    this.higherGeography = higherGeography;
+  }
+
+  @Nullable
+  public String getGeoreferencedBy() {
+    return georeferencedBy;
+  }
+
+  public void setGeoreferencedBy(String georeferencedBy) {
+    this.georeferencedBy = georeferencedBy;
   }
 
   /**
@@ -1672,6 +1941,29 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   /**
+   * Flag occurrence when associatedSequences/extension exists
+   */
+  public boolean getIsSequenced() {
+    return isSequenced;
+  }
+
+  public void setIsSequenced(boolean isSequenced) {
+    this.isSequenced = isSequenced;
+  }
+
+  /**
+   * An identifier given to the dwc:Event in the field. Often serves as a link between field notes and the dwc:Event.
+   */
+  @Nullable
+  public String getFieldNumber() {
+    return fieldNumber;
+  }
+
+  public void setFieldNumber(String fieldNumber) {
+    this.fieldNumber = fieldNumber;
+  }
+
+  /**
    * Applied license to the occurrence record or dataset to which this record belongs to.
    */
   @NotNull
@@ -1816,6 +2108,159 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.otherCatalogNumbers = otherCatalogNumbers;
   }
 
+  @Nullable
+  public String getPreviousIdentifications() {
+    return previousIdentifications;
+  }
+
+  public void setPreviousIdentifications(String previousIdentifications) {
+    this.previousIdentifications = previousIdentifications;
+  }
+
+  @Nullable
+  public String getEarliestEonOrLowestEonothem() {
+    return earliestEonOrLowestEonothem;
+  }
+
+  public void setEarliestEonOrLowestEonothem(String earliestEonOrLowestEonothem) {
+    this.earliestEonOrLowestEonothem = earliestEonOrLowestEonothem;
+  }
+
+  @Nullable
+  public String getLatestEonOrHighestEonothem() {
+    return latestEonOrHighestEonothem;
+  }
+
+  public void setLatestEonOrHighestEonothem(String latestEonOrHighestEonothem) {
+    this.latestEonOrHighestEonothem = latestEonOrHighestEonothem;
+  }
+
+  @Nullable
+  public String getEarliestEraOrLowestErathem() {
+    return earliestEraOrLowestErathem;
+  }
+
+  public void setEarliestEraOrLowestErathem(String earliestEraOrLowestErathem) {
+    this.earliestEraOrLowestErathem = earliestEraOrLowestErathem;
+  }
+
+  @Nullable
+  public String getLatestEraOrHighestErathem() {
+    return latestEraOrHighestErathem;
+  }
+
+  public void setLatestEraOrHighestErathem(String latestEraOrHighestErathem) {
+    this.latestEraOrHighestErathem = latestEraOrHighestErathem;
+  }
+
+  @Nullable
+  public String getEarliestPeriodOrLowestSystem() {
+    return earliestPeriodOrLowestSystem;
+  }
+
+  public void setEarliestPeriodOrLowestSystem(String earliestPeriodOrLowestSystem) {
+    this.earliestPeriodOrLowestSystem = earliestPeriodOrLowestSystem;
+  }
+
+  @Nullable
+  public String getLatestPeriodOrHighestSystem() {
+    return latestPeriodOrHighestSystem;
+  }
+
+  public void setLatestPeriodOrHighestSystem(String latestPeriodOrHighestSystem) {
+    this.latestPeriodOrHighestSystem = latestPeriodOrHighestSystem;
+  }
+
+  @Nullable
+  public String getEarliestEpochOrLowestSeries() {
+    return earliestEpochOrLowestSeries;
+  }
+
+  public void setEarliestEpochOrLowestSeries(String earliestEpochOrLowestSeries) {
+    this.earliestEpochOrLowestSeries = earliestEpochOrLowestSeries;
+  }
+
+  @Nullable
+  public String getLatestEpochOrHighestSeries() {
+    return latestEpochOrHighestSeries;
+  }
+
+  public void setLatestEpochOrHighestSeries(String latestEpochOrHighestSeries) {
+    this.latestEpochOrHighestSeries = latestEpochOrHighestSeries;
+  }
+
+  @Nullable
+  public String getEarliestAgeOrLowestStage() {
+    return earliestAgeOrLowestStage;
+  }
+
+  public void setEarliestAgeOrLowestStage(String earliestAgeOrLowestStage) {
+    this.earliestAgeOrLowestStage = earliestAgeOrLowestStage;
+  }
+
+  @Nullable
+  public String getLatestAgeOrHighestStage() {
+    return latestAgeOrHighestStage;
+  }
+
+  public void setLatestAgeOrHighestStage(String latestAgeOrHighestStage) {
+    this.latestAgeOrHighestStage = latestAgeOrHighestStage;
+  }
+
+  @Nullable
+  public String getLowestBiostratigraphicZone() {
+    return lowestBiostratigraphicZone;
+  }
+
+  public void setLowestBiostratigraphicZone(String lowestBiostratigraphicZone) {
+    this.lowestBiostratigraphicZone = lowestBiostratigraphicZone;
+  }
+
+  @Nullable
+  public String getHighestBiostratigraphicZone() {
+    return highestBiostratigraphicZone;
+  }
+
+  public void setHighestBiostratigraphicZone(String highestBiostratigraphicZone) {
+    this.highestBiostratigraphicZone = highestBiostratigraphicZone;
+  }
+
+  @Nullable
+  public String getGroup() {
+    return group;
+  }
+
+  public void setGroup(String group) {
+    this.group = group;
+  }
+
+  @Nullable
+  public String getFormation() {
+    return formation;
+  }
+
+  public void setFormation(String formation) {
+    this.formation = formation;
+  }
+
+  @Nullable
+  public String getMember() {
+    return member;
+  }
+
+  public void setMember(String member) {
+    this.member = member;
+  }
+
+  @Nullable
+  public String getBed() {
+    return bed;
+  }
+
+  public void setBed(String bed) {
+    this.bed = bed;
+  }
+
   public String getRecordedBy() {
     return recordedBy;
   }
@@ -1860,203 +2305,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       }
     }
     return false;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    if (!super.equals(o)) {
-      return false;
-    }
-    Occurrence that = (Occurrence) o;
-    return basisOfRecord == that.basisOfRecord &&
-      Objects.equals(individualCount, that.individualCount) &&
-      sex == that.sex &&
-      Objects.equals(lifeStage, that.lifeStage) &&
-      Objects.equals(establishmentMeans, that.establishmentMeans) &&
-      Objects.equals(taxonKey, that.taxonKey) &&
-      Objects.equals(kingdomKey, that.kingdomKey) &&
-      Objects.equals(phylumKey, that.phylumKey) &&
-      Objects.equals(classKey, that.classKey) &&
-      Objects.equals(orderKey, that.orderKey) &&
-      Objects.equals(familyKey, that.familyKey) &&
-      Objects.equals(genusKey, that.genusKey) &&
-      Objects.equals(subgenusKey, that.subgenusKey) &&
-      Objects.equals(speciesKey, that.speciesKey) &&
-      Objects.equals(acceptedTaxonKey, that.acceptedTaxonKey) &&
-      Objects.equals(scientificName, that.scientificName) &&
-      Objects.equals(acceptedScientificName, that.acceptedScientificName) &&
-      Objects.equals(kingdom, that.kingdom) &&
-      Objects.equals(phylum, that.phylum) &&
-      Objects.equals(clazz, that.clazz) &&
-      Objects.equals(order, that.order) &&
-      Objects.equals(family, that.family) &&
-      Objects.equals(genus, that.genus) &&
-      Objects.equals(subgenus, that.subgenus) &&
-      Objects.equals(species, that.species) &&
-      Objects.equals(genericName, that.genericName) &&
-      Objects.equals(specificEpithet, that.specificEpithet) &&
-      Objects.equals(infraspecificEpithet, that.infraspecificEpithet) &&
-      taxonRank == that.taxonRank &&
-      taxonomicStatus == that.taxonomicStatus &&
-      Objects.equals(dateIdentified, that.dateIdentified) &&
-      Objects.equals(decimalLongitude, that.decimalLongitude) &&
-      Objects.equals(decimalLatitude, that.decimalLatitude) &&
-      Objects.equals(coordinatePrecision, that.coordinatePrecision) &&
-      Objects.equals(coordinateUncertaintyInMeters, that.coordinateUncertaintyInMeters) &&
-      Objects.equals(elevation, that.elevation) &&
-      Objects.equals(elevationAccuracy, that.elevationAccuracy) &&
-      Objects.equals(depth, that.depth) &&
-      Objects.equals(depthAccuracy, that.depthAccuracy) &&
-      continent == that.continent &&
-      country == that.country &&
-      Objects.equals(stateProvince, that.stateProvince) &&
-      Objects.equals(waterBody, that.waterBody) &&
-      Objects.equals(year, that.year) &&
-      Objects.equals(month, that.month) &&
-      Objects.equals(day, that.day) &&
-      Objects.equals(eventDate, that.eventDate) &&
-      Objects.equals(typeStatus, that.typeStatus) &&
-      Objects.equals(typifiedName, that.typifiedName) &&
-      Objects.equals(issues, that.issues) &&
-      Objects.equals(modified, that.modified) &&
-      Objects.equals(lastInterpreted, that.lastInterpreted) &&
-      Objects.equals(references, that.references) &&
-      license == that.license &&
-      Objects.equals(organismQuantity, that.organismQuantity) &&
-      Objects.equals(organismQuantityType, that.organismQuantityType) &&
-      Objects.equals(sampleSizeUnit, that.sampleSizeUnit) &&
-      Objects.equals(sampleSizeValue, that.sampleSizeValue) &&
-      Objects.equals(relativeOrganismQuantity, that.relativeOrganismQuantity) &&
-      Objects.equals(identifiers, that.identifiers) &&
-      Objects.equals(media, that.media) &&
-      Objects.equals(facts, that.facts) &&
-      Objects.equals(relations, that.relations) &&
-      Objects.equals(identifiedByIds, that.identifiedByIds) &&
-      Objects.equals(recordedByIds, that.recordedByIds) &&
-      Objects.equals(occurrenceStatus, that.occurrenceStatus) &&
-      Objects.equals(gadm, that.gadm) &&
-      Objects.equals(institutionKey, that.institutionKey) &&
-      Objects.equals(collectionKey, that.collectionKey) &&
-      Objects.equals(isInCluster, that.isInCluster) &&
-      Objects.equals(pathway, that.pathway) &&
-      Objects.equals(degreeOfEstablishment, that.degreeOfEstablishment) &&
-      Objects.equals(datasetID, that.datasetID) &&
-      Objects.equals(datasetName, that.datasetName) &&
-      Objects.equals(otherCatalogNumbers, that.otherCatalogNumbers) &&
-      Objects.equals(recordedBy, that.recordedBy) &&
-      Objects.equals(identifiedBy, that.identifiedBy) &&
-      Objects.equals(preparations, that.preparations) &&
-      Objects.equals(samplingProtocol, that.samplingProtocol);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects
-      .hash(super.hashCode(), basisOfRecord, individualCount, sex, lifeStage, establishmentMeans,
-        taxonKey, kingdomKey, phylumKey, classKey, orderKey, familyKey, genusKey, subgenusKey,
-        speciesKey, acceptedTaxonKey, scientificName, acceptedScientificName, kingdom, phylum,
-        clazz, order, family, genus, subgenus, species, genericName, specificEpithet,
-        infraspecificEpithet, taxonRank, taxonomicStatus, dateIdentified, decimalLongitude,
-        decimalLatitude, coordinatePrecision, coordinateUncertaintyInMeters, elevation,
-        elevationAccuracy, depth, depthAccuracy, continent, country, stateProvince, waterBody, year,
-        month, day, eventDate, typeStatus, typifiedName, issues, modified, lastInterpreted,
-        references, license, organismQuantity, organismQuantityType, sampleSizeUnit,
-        sampleSizeValue, relativeOrganismQuantity, identifiers, media, facts, relations, recordedByIds,
-        identifiedByIds, occurrenceStatus, gadm, institutionKey, collectionKey, isInCluster,
-        pathway, degreeOfEstablishment, datasetID, datasetName, otherCatalogNumbers, recordedBy, identifiedBy,
-        preparations, samplingProtocol);
-  }
-
-  @Override
-  public String toString() {
-    return new StringJoiner(", ", Occurrence.class.getSimpleName() + "[", "]")
-      .add("basisOfRecord=" + basisOfRecord)
-      .add("individualCount=" + individualCount)
-      .add("sex=" + sex)
-      .add("lifeStage=" + lifeStage)
-      .add("establishmentMeans=" + establishmentMeans)
-      .add("taxonKey=" + taxonKey)
-      .add("kingdomKey=" + kingdomKey)
-      .add("phylumKey=" + phylumKey)
-      .add("classKey=" + classKey)
-      .add("orderKey=" + orderKey)
-      .add("familyKey=" + familyKey)
-      .add("genusKey=" + genusKey)
-      .add("subgenusKey=" + subgenusKey)
-      .add("speciesKey=" + speciesKey)
-      .add("acceptedTaxonKey=" + acceptedTaxonKey)
-      .add("scientificName='" + scientificName + "'")
-      .add("acceptedScientificName='" + acceptedScientificName + "'")
-      .add("kingdom='" + kingdom + "'")
-      .add("phylum='" + phylum + "'")
-      .add("clazz='" + clazz + "'")
-      .add("order='" + order + "'")
-      .add("family='" + family + "'")
-      .add("genus='" + genus + "'")
-      .add("subgenus='" + subgenus + "'")
-      .add("species='" + species + "'")
-      .add("genericName='" + genericName + "'")
-      .add("specificEpithet='" + specificEpithet + "'")
-      .add("infraspecificEpithet='" + infraspecificEpithet + "'")
-      .add("taxonRank=" + taxonRank)
-      .add("taxonomicStatus=" + taxonomicStatus)
-      .add("dateIdentified=" + dateIdentified)
-      .add("decimalLongitude=" + decimalLongitude)
-      .add("decimalLatitude=" + decimalLatitude)
-      .add("coordinatePrecision=" + coordinatePrecision)
-      .add("coordinateUncertaintyInMeters=" + coordinateUncertaintyInMeters)
-      .add("coordinateAccuracy=" + coordinateAccuracy)
-      .add("elevation=" + elevation)
-      .add("elevationAccuracy=" + elevationAccuracy)
-      .add("depth=" + depth)
-      .add("depthAccuracy=" + depthAccuracy)
-      .add("continent=" + continent)
-      .add("country=" + country)
-      .add("stateProvince='" + stateProvince + "'")
-      .add("waterBody='" + waterBody + "'")
-      .add("year=" + year)
-      .add("month=" + month)
-      .add("day=" + day)
-      .add("eventDate=" + eventDate)
-      .add("typeStatus=" + typeStatus)
-      .add("typifiedName='" + typifiedName + "'")
-      .add("issues=" + issues)
-      .add("modified=" + modified)
-      .add("lastInterpreted=" + lastInterpreted)
-      .add("references=" + references)
-      .add("license=" + license)
-      .add("organismQuantity=" + organismQuantity)
-      .add("organismQuantityType='" + organismQuantityType + "'")
-      .add("sampleSizeUnit='" + sampleSizeUnit + "'")
-      .add("sampleSizeValue=" + sampleSizeValue)
-      .add("relativeOrganismQuantity=" + relativeOrganismQuantity)
-      .add("identifiers=" + identifiers)
-      .add("media=" + media)
-      .add("facts=" + facts)
-      .add("relations=" + relations)
-      .add("recordedByIds=" + recordedByIds)
-      .add("identifiedByIds=" + identifiedByIds)
-      .add("occurrenceStatus=" + occurrenceStatus)
-      .add("gadm=" + gadm)
-      .add("institutionKey=" + institutionKey)
-      .add("collectionKey=" + collectionKey)
-      .add("isInCluster=" + isInCluster)
-      .add("pathway=" + pathway)
-      .add("degreeOfEstablishment=" + degreeOfEstablishment)
-      .add("datasetID=" + datasetID)
-      .add("datasetName=" + datasetName)
-      .add("otherCatalogNumbers=" + otherCatalogNumbers)
-      .add("recordedBy=" + recordedBy)
-      .add("identifiedBy=" + identifiedBy)
-      .add("preparations=" + preparations)
-      .add("samplingProtocol=" + samplingProtocol)
-      .toString();
   }
 
   /**

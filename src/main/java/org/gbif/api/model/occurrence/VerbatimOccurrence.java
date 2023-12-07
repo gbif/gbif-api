@@ -15,6 +15,7 @@ package org.gbif.api.model.occurrence;
 
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
+import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.TermFactory;
 
@@ -23,8 +24,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -227,6 +231,13 @@ public class VerbatimOccurrence {
   public void setPublishingCountry(Country publishingCountry) {
     this.publishingCountry = publishingCountry;
   }
+
+  @Nullable
+  @JsonProperty("publishedByGbifRegion")
+  public GbifRegion getPublishedByGbifRegion() {
+    return Optional.ofNullable(publishingCountry).map(Country::getGbifRegion).orElse(null);
+  }
+
 
   @NotNull
   public EndpointType getProtocol() {
