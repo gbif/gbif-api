@@ -704,7 +704,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * The full name of the latest possible geochronologic period or highest chronostratigraphic system attributable to
    * the stratigraphic horizon from which the MaterialEntity was collected.
    */
-  LATEST_PERIOD_OR_LOWEST_SYSTEM(String.class),
+  LATEST_PERIOD_OR_HIGHEST_SYSTEM(String.class),
 
   /**
    * The full name of the earliest possible geochronologic epoch or lowest chronostratigraphic series attributable to
