@@ -13,9 +13,9 @@
  */
 package org.gbif.api.model.occurrence;
 
-import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
-import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+import org.gbif.api.model.predicate.EqualsPredicate;
+import org.gbif.api.model.predicate.Predicate;
 import org.gbif.api.vocabulary.Extension;
 
 import java.io.ByteArrayOutputStream;

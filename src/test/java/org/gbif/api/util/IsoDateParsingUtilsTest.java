@@ -1,6 +1,4 @@
 /*
- * Copyright 2013-2021 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,9 +13,14 @@
  */
 package org.gbif.api.util;
 
-import java.time.Instant;
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.Year;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.time.temporal.Temporal;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * Test case for class OccurrenceDateParsingUtils.
+ * Test case for class IsoDateParsingUtils.
  */
 public class IsoDateParsingUtilsTest {
 
@@ -127,5 +130,46 @@ public class IsoDateParsingUtilsTest {
 
     assertEquals(LocalDate.parse("2000-05-01"), IsoDateParsingUtils.parseDateRange("2000-05,2010").lowerEndpoint());
     assertEquals(LocalDate.parse("2011-01-01"), IsoDateParsingUtils.parseDateRange("2000-05,2010").upperEndpoint());
+  }
+
+  @Test
+  public void testParseTemporal() throws IOException {
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 789_123_456, ZoneOffset.UTC), "2009-02-04T05:06:07.789123456Z");
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 789_123_450, ZoneOffset.UTC), "2009-02-04T05:06:07.78912345Z");
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 789_123_400, ZoneOffset.UTC), "2009-02-04T05:06:07.7891234Z");
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 789_123_000, ZoneOffset.UTC), "2009-02-04T05:06:07.789123Z");
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 789_120_000, ZoneOffset.UTC), "2009-02-04T05:06:07.78912Z");
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 789_100_000, ZoneOffset.UTC), "2009-02-04T05:06:07.7891Z");
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 789_000_000, ZoneOffset.UTC), "2009-02-04T05:06:07.789Z");
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 780_000_000, ZoneOffset.UTC), "2009-02-04T05:06:07.78Z");
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 700_000_000, ZoneOffset.UTC), "2009-02-04T05:06:07.7Z");
+
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 789_000_000, ZoneOffset.ofHoursMinutesSeconds(5, 30, 45)), "2009-02-04T05:06:07.789+05:30:45");
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 789_000_000, ZoneOffset.ofHoursMinutes(5, 30)), "2009-02-04T05:06:07.789+05:30:00");
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 789_000_000, ZoneOffset.ofHours(5)), "2009-02-04T05:06:07.789+05:00:00");
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 789_000_000, ZoneOffset.ofHours(5)), "2009-02-04T05:06:07.789+05:00");
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 789_000_000, ZoneOffset.ofHoursMinutes(5, 30)), "2009-02-04T05:06:07.789+0530");
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 789_000_000, ZoneOffset.ofHours(5)), "2009-02-04T05:06:07.789+05");
+
+    assertParseTemporal(LocalDateTime.of(2009, 2, 4, 5, 6, 7, 789_000_000), "2009-02-04T05:06:07.789");
+
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 0, ZoneOffset.UTC), "2009-02-04T05:06:07Z");
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 7, 0, ZoneOffset.ofHours(5)), "2009-02-04T05:06:07+05:00");
+    assertParseTemporal(LocalDateTime.of(2009, 2, 4, 5, 6, 7, 0), "2009-02-04T05:06:07");
+
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 0, 0, ZoneOffset.UTC), "2009-02-04T05:06Z");
+    assertParseTemporal(OffsetDateTime.of(2009, 2, 4, 5, 6, 0, 0, ZoneOffset.ofHours(5)), "2009-02-04T05:06+05:00");
+    assertParseTemporal(LocalDateTime.of(2009, 2, 4, 5, 6), "2009-02-04T05:06");
+
+    assertParseTemporal(LocalDate.of(2009, 2, 4), "2009-02-04");
+
+    assertParseTemporal(YearMonth.of(2009, 2), "2009-02");
+
+    assertParseTemporal(Year.of(2009), "2009");
+  }
+
+  private void assertParseTemporal(Temporal expected, String text) throws IOException {
+    Temporal parsed = IsoDateParsingUtils.parseTemporal(text);
+    assertEquals(expected, parsed);
   }
 }

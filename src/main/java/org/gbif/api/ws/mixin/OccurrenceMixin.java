@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,6 +14,8 @@
 package org.gbif.api.ws.mixin;
 
 import org.gbif.api.jackson.DateSerde;
+import org.gbif.api.jackson.IsoDateIntervalSerde;
+import org.gbif.api.util.IsoDateInterval;
 
 import java.util.Date;
 
@@ -29,6 +29,6 @@ public interface OccurrenceMixin extends LicenseMixin {
   Date getDateIdentified();
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  @JsonSerialize(using = DateSerde.NoTimezoneDateJsonSerializer.class, keyUsing = DateSerde.NoTimezoneDateJsonSerializer.class)
-  Date getEventDate();
+  @JsonSerialize(using = IsoDateIntervalSerde.IsoDateIntervalSerializer.class, keyUsing = IsoDateIntervalSerde.IsoDateIntervalSerializer.class)
+  IsoDateInterval getEventDate();
 }

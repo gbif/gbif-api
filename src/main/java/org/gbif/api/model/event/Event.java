@@ -22,6 +22,7 @@ import org.gbif.api.model.occurrence.MeasurementOrFact;
 import org.gbif.api.model.occurrence.Occurrence;
 import org.gbif.api.model.occurrence.OccurrenceRelation;
 import org.gbif.api.model.occurrence.VerbatimOccurrence;
+import org.gbif.api.util.IsoDateInterval;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
@@ -213,7 +214,7 @@ public class Event extends VerbatimOccurrence {
   private Integer year;
   private Integer month;
   private Integer day;
-  private Date eventDate;
+  private IsoDateInterval eventDate;
 
   private Set<OccurrenceIssue> issues = EnumSet.noneOf(OccurrenceIssue.class);
 

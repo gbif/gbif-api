@@ -19,6 +19,7 @@ import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.model.common.LinneanClassificationKeys;
 import org.gbif.api.model.common.MediaObject;
 import org.gbif.api.util.ClassificationUtils;
+import org.gbif.api.util.IsoDateInterval;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
@@ -618,14 +619,33 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Schema(
     description = "The date-time during which an Event occurred. For occurrences, this is the date-time when the " +
-      "event was recorded. Not suitable for a time in a geological context.\n\n" +
-      "**Note: This field is planned to expand to allow date ranges. See [issue](https://github.com/gbif/gbif-api/issues/4#issuecomment-1385497157).**",
+      "event was recorded. Not suitable for a time in a geological context.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
       url = "https://rs.tdwg.org/dwc/terms/eventDate"
     )
   )
-  private Date eventDate;
+  private IsoDateInterval eventDate;
+
+  @Schema(
+    description = "The latest integer day of the year on which the Event occurred (1 for 1 January, 365 for " +
+      "31 December, except in a leap year, in which case it is 366).",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/endDayOfYear"
+    )
+  )
+  private Integer startDayOfYear;
+
+  @Schema(
+    description = "The earliest integer day of the year on which the Event occurred (1 for 1 January, 365 for " +
+      "31 December, except in a leap year, in which case it is 366).",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/startDayOfYear"
+    )
+  )
+  private Integer endDayOfYear;
 
   @Schema(
     description = "A list (concatenated and separated) of nomenclatural types (type status, typified scientific name, " +
@@ -1794,12 +1814,44 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * The date the occurrence was recorded or collected.
    */
   @Nullable
-  public Date getEventDate() {
-    return eventDate == null ? null : new Date(eventDate.getTime());
+  public IsoDateInterval getEventDate() {
+    return eventDate == null ? null : new IsoDateInterval(eventDate.getFrom(), eventDate.getTo());
   }
 
-  public void setEventDate(@Nullable Date eventDate) {
-    this.eventDate = eventDate == null ? null : new Date(eventDate.getTime());
+  public void setEventDate(@Nullable IsoDateInterval eventDate) {
+    this.eventDate = eventDate == null ? null : new IsoDateInterval(eventDate.getFrom(), eventDate.getTo());
+  }
+
+  /**
+   * The earliest integer day of the year of the event.
+   *
+   * @return the earliest integer day of the event date
+   */
+  @Min(1)
+  @Max(366)
+  @Nullable
+  public Integer getStartDayOfYear() {
+    return startDayOfYear;
+  }
+
+  public void setStartDayOfYear(@Nullable Integer startDayOfYear) {
+    this.startDayOfYear = startDayOfYear;
+  }
+
+  /**
+   * The latest integer day of the year of the event.
+   *
+   * @return the latest integer day of the event date
+   */
+  @Min(1)
+  @Max(366)
+  @Nullable
+  public Integer getEndDayOfYear() {
+    return endDayOfYear;
+  }
+
+  public void setEndDayOfYear(@Nullable Integer endDayOfYear) {
+    this.endDayOfYear = endDayOfYear;
   }
 
   @Nullable

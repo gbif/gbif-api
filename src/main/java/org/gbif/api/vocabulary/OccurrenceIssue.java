@@ -183,13 +183,13 @@ public enum OccurrenceIssue implements InterpretationRemark {
   PRESUMED_NEGATED_LATITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),
 
   /**
-   * The recorded date specified as the eventDate string and the individual year, month, day are
-   * contradictory.
+   * The recorded date specified as the eventDate string and the individual year, month, day and/or
+   * startDayOfYear, endDayOfYear are contradictory.
    */
   RECORDED_DATE_MISMATCH(WARNING, TermsGroup.RECORDED_DATE_TERMS),
 
   /**
-   * A (partial) invalid date is given, such as a non existing date, zero month, etc.
+   * A (partial) invalid date is given, such as a non-existent date, zero month, etc.
    */
   RECORDED_DATE_INVALID(WARNING, TermsGroup.RECORDED_DATE_TERMS),
 
@@ -200,7 +200,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
   RECORDED_DATE_UNLIKELY(WARNING, TermsGroup.RECORDED_DATE_TERMS),
 
   /**
-   * Matching to the taxonomic backbone can only be done using a fuzzy, non exact match.
+   * Matching to the taxonomic backbone can only be done using a fuzzy, non-exact match.
    */
   TAXON_MATCH_FUZZY(WARNING, TermsGroup.TAXONOMY_TERMS),
 
@@ -526,7 +526,8 @@ public enum OccurrenceIssue implements InterpretationRemark {
 
     static final Term[] RECORDED_DATE_TERMS = {
       DwcTerm.eventDate,
-      DwcTerm.year, DwcTerm.month, DwcTerm.day
+      DwcTerm.year, DwcTerm.month, DwcTerm.day,
+      DwcTerm.startDayOfYear, DwcTerm.endDayOfYear
     };
 
     static final Term[] TAXONOMY_TERMS = {

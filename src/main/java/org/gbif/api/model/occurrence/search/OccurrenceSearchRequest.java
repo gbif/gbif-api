@@ -16,6 +16,7 @@ package org.gbif.api.model.occurrence.search;
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.FacetedSearchRequest;
+import org.gbif.api.util.IsoDateInterval;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
@@ -189,7 +190,7 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     addParameter(OccurrenceSearchParameter.YEAR, year);
   }
 
-  public void addEventDateFilter(Date date) {
+  public void addEventDateFilter(IsoDateInterval date) {
     addParameter(OccurrenceSearchParameter.EVENT_DATE, date);
   }
 

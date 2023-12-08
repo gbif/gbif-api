@@ -13,8 +13,6 @@
  */
 package org.gbif.api.model.occurrence;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
@@ -29,6 +27,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -44,7 +43,7 @@ public class Download implements Serializable {
   /**
    * Reflects the possibles statuses of a download during its execution.
    * The download statuses are:
-   * - PREPARING: the download is initiating
+   * - PREPARING: the download is in a queue, waiting for other downloads to complete
    * - RUNNING: the download is being processed
    * - SUCCEEDED: the file is ready to be downloaded
    * - CANCELLED: the download was cancelled by the user
@@ -55,7 +54,7 @@ public class Download implements Serializable {
    */
   @Schema(
     description = "The status of the download.\n\n" +
-      "* `PREPARING`: the download is initiating\n" +
+      "* `PREPARING`: the download is in a queue, waiting for other downloads to complete\n" +
       "* `RUNNING`: the download is being processed\n" +
       "* `SUCCEEDED`: the download has completed and the file is ready to be downloaded\n" +
       "* `CANCELLED`: the download was cancelled by the user\n" +

@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +13,10 @@
  */
 package org.gbif.api.model.common.search;
 
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 /**
  * Interface to be implemented by all search parameter enumerations.
  * The enumeration member name should avoid the following names which are already defined as
@@ -28,6 +30,7 @@ package org.gbif.api.model.common.search;
  * <li>facet</li>
  * </ul>
  */
+@JsonDeserialize(as = OccurrenceSearchParameter.class)
 public interface SearchParameter {
 
   String name();

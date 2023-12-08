@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,6 +15,7 @@ package org.gbif.api.model.common.search;
 
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PageableBase;
+import org.gbif.api.util.IsoDateInterval;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -290,6 +289,18 @@ public class SearchRequest<P extends SearchParameter> extends PageableBase {
       // not thread safe, new instance
       DateFormat iso = new SimpleDateFormat("yyyy-MM-dd");
       addParameter(parameter, iso.format(value));
+    }
+  }
+
+  /**
+   * Adds the specified date parameter as an ISO date interval.
+   *
+   * @param parameter parameter to add date interval for
+   * @param value     date value of the parameter to add
+   */
+  public void addParameter(P parameter, IsoDateInterval value) {
+    if (value != null) {
+      addParameter(parameter, value.toString());
     }
   }
 

@@ -90,10 +90,12 @@ public class SearchTypeValidator {
   private static final Pattern DECIMAL_RANGE_PATTERN = Pattern.compile(
     "^" + DECIMAL_OR_WILDCARD + "\\s*,\\s*" + DECIMAL_OR_WILDCARD + "$", Pattern.CASE_INSENSITIVE);
 
+  public static final String SIMPLE_ISO_YEAR_MONTH_PATTERN = "\\d{4}(?:-\\d{1,2})?";
+
   private static final String DATE_OR_WILDCARD = "(" + SIMPLE_ISO_DATE_STR_PATTERN + "|\\*)";
 
   private static final Pattern DATE_RANGE_PATTERN = Pattern.compile(
-    "^" + DATE_OR_WILDCARD + "\\s*,\\s*" + DATE_OR_WILDCARD + "$", Pattern.CASE_INSENSITIVE);
+    "^(" + DATE_OR_WILDCARD + "\\s*,\\s*" + DATE_OR_WILDCARD + "|" + SIMPLE_ISO_YEAR_MONTH_PATTERN + ")$", Pattern.CASE_INSENSITIVE);
 
   /**
    * Private default constructor.
@@ -103,14 +105,27 @@ public class SearchTypeValidator {
   }
 
   /**
-   * Determines whether the value given is a valid decimal or date range, delimiting two values by a comma.
+   * Determines whether the value given is a valid numeric range, delimiting two values by a comma.
    *
    * @return true if the given value is a valid range
    */
-  public static boolean isRange(String value) {
+  public static boolean isNumericRange(String value) {
     if (StringUtils.isNotEmpty(value)) {
       // decimal range for ints or doubles, or date range
-      return DECIMAL_RANGE_PATTERN.matcher(value).find() || DATE_RANGE_PATTERN.matcher(value).find();
+      return DECIMAL_RANGE_PATTERN.matcher(value).find();
+    }
+    return false;
+  }
+
+  /**
+   * Determines whether the value given is a valid date range or low precision (year, year-month) date, delimiting two values by a comma.
+   *
+   * @return true if the given value is a valid date range
+   */
+  public static boolean isDateRange(String value) {
+    if (StringUtils.isNotEmpty(value)) {
+      // date range
+      return DATE_RANGE_PATTERN.matcher(value).find();
     }
     return false;
   }
@@ -225,6 +240,10 @@ public class SearchTypeValidator {
           // ISO date strings
           validateDate(value);
 
+        } else if (IsoDateInterval.class.isAssignableFrom(pType)) {
+          // ISO date strings
+          validateDate(value);
+
         } else if (!String.class.isAssignableFrom(pType)) {
           // any string allowed
           // an unexpected data type - update this method!!
@@ -263,7 +282,7 @@ public class SearchTypeValidator {
    * Validates if the string value is a valid ISO 8601 format.
    */
   private static void validateDate(String value) {
-    if (isRange(value)) {
+    if (isDateRange(value)) {
       IsoDateParsingUtils.parseDateRange(value);
     } else {
       IsoDateParsingUtils.parseDate(value);
@@ -298,7 +317,7 @@ public class SearchTypeValidator {
         throw new IllegalArgumentException(String.format(errorMsg, value));
       }
     } catch (NumberFormatException e) {
-      if (isRange(value)) {
+      if (isNumericRange(value)) {
         Range<Double> rangeValue = parseDecimalRange(value);
         if (!range.encloses(rangeValue)) {
           throw new IllegalArgumentException(String.format(errorMsg, value));
