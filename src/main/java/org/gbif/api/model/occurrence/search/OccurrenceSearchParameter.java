@@ -19,10 +19,12 @@ import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
+import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.OccurrenceStatus;
+import org.gbif.api.vocabulary.Sex;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.TypeStatus;
 
@@ -64,6 +66,18 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   MONTH(Integer.class),
 
   /**
+   * The earliest integer day of the year on which the event occurred (1 for January 1, 365 for December 31, except in a
+   * leap year, in which case it is 366).
+   */
+  START_DAY_OF_YEAR(Integer.class),
+
+  /**
+   * The latest integer day of the year on which the event occurred (1 for January 1, 365 for December 31, except in a
+   * leap year, in which case it is 366).
+   */
+  END_DAY_OF_YEAR(Integer.class),
+
+  /**
    * Event date (date the occurrence was recorded) in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
    * This parameter accepts comma separated range values, examples of valid ranges are:
    * <dl>
@@ -89,7 +103,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
 
   /**
    * An identifier for the set of information associated with an Event (something that occurs at a place and time).
-   * May be a global unique identifier or an identifier specific to the data set.
+   * Maybe a global unique identifier or an identifier specific to the data set.
    */
   EVENT_ID(String.class),
 
@@ -102,6 +116,11 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * The name of, reference to, or description of the method or protocol used during an Event.
    */
   SAMPLING_PROTOCOL(String.class),
+
+  /**
+   * A list (concatenated and separated) of previous assignments of names to the organism.
+   */
+  PREVIOUS_IDENTIFICATIONS(String.class),
 
   /**
    * Last interpreted date in ISO 8601 formats:yyyy, yyyy-MM, yyyy-MM-dd and MM-dd.
@@ -183,6 +202,11 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   COUNTRY(Country.class),
 
   /**
+   * GBIF region based on country
+   */
+  GBIF_REGION(GbifRegion.class),
+
+  /**
    * Continent the occurrence was recorded in.
    */
   CONTINENT(Continent.class),
@@ -191,6 +215,11 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * The country of the organization that publishes the dataset the occurrence belongs to.
    */
   PUBLISHING_COUNTRY(Country.class),
+
+  /**
+   * GBIF region based on publishibg country
+   */
+  PUBLISHED_BY_GBIF_REGION(GbifRegion.class),
 
   /**
    * Altitude/elevation in meters above sea level.
@@ -259,6 +288,16 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   BASIS_OF_RECORD(BasisOfRecord.class),
 
   /**
+   * The sex of the biological individual(s) represented in the occurrence.
+   */
+  SEX(Sex.class),
+
+  /**
+   * Presents of associated sequences or an extension
+   */
+  IS_SEQUENCED(Boolean.class),
+
+  /**
    * A taxon key from the GBIF backbone. All included and synonym taxa are included in the search, so a search for
    * aves with taxonKey=212 will match all birds, no matter which species.
    */
@@ -320,9 +359,15 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   VERBATIM_SCIENTIFIC_NAME(String.class),
 
   /**
-   * Verbatim identifier for the set of taxon information. May be a global unique identifier or an identifier specific to the data set.
+   * Verbatim identifier for the set of taxon information. Maybe a global unique identifier or an identifier specific to
+   * the data set.
    */
   TAXON_ID(String.class),
+
+  /**
+   * An identifier for the taxonomic concept to which the record refers - not for the nomenclatural details of a taxon.
+   */
+  TAXON_CONCEPT_ID(String.class),
 
   /**
    * The status of the use of the  GBIF Backbone taxonKey.
@@ -597,6 +642,125 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * Preparations methods of an occurrence.
    */
   PREPARATIONS(String.class),
+
+  /**
+   * The name of the island on or near which the location occurs.
+   */
+  ISLAND(String.class),
+
+  /**
+   * The name of the island group in which the location occurs.
+   */
+  ISLAND_GROUP(String.class),
+
+  /**
+   * A list (concatenated and separated) of names of people, groups, or organizations who determined the georeference
+   * (spatial representation) for the location.
+   */
+  GEOREFERENCED_BY(String.class),
+
+  /**
+   * A list (concatenated and separated) of geographic names less specific than the information captured in the locality
+   * term.
+   */
+  HIGHER_GEOGRAPHY(String.class),
+
+  /**
+   * 	An identifier given to the event in the field. Often serves as a link between field notes and the event.
+   */
+  FIELD_NUMBER(String.class),
+
+  /**
+   * The full name of the earliest possible geochronologic eon or lowest chrono-stratigraphic eonothem or the informal
+   * name ("Precambrian") attributable to the stratigraphic horizon from which the MaterialEntity was collected.
+   */
+  EARLIEST_EON_OR_LOWEST_EONOTHEM(String.class),
+
+  /**
+   * The full name of the latest possible geochronologic eon or highest chrono-stratigraphic eonothem or the informal
+   * name ("Precambrian") attributable to the stratigraphic horizon from which the MaterialEntity was collected.
+   */
+  LATEST_EON_OR_HIGHEST_EONOTHEM(String.class),
+
+  /**
+   * The full name of the earliest possible geochronologic era or lowest chronostratigraphic erathem attributable to the
+   * stratigraphic horizon from which the MaterialEntity was collected.
+   */
+  EARLIEST_ERA_OR_LOWEST_ERATHEM(String.class),
+
+  /**
+   * The full name of the latest possible geochronologic era or highest chronostratigraphic erathem attributable to the
+   * stratigraphic horizon from which the MaterialEntity was collected.
+   */
+  LATEST_ERA_OR_HIGHEST_ERATHEM(String.class),
+
+  /**
+   * The full name of the earliest possible geochronologic period or lowest chronostratigraphic system attributable to
+   * the stratigraphic horizon from which the MaterialEntity was collected.
+   */
+  EARLIEST_PERIOD_OR_LOWEST_SYSTEM(String.class),
+
+  /**
+   * The full name of the latest possible geochronologic period or highest chronostratigraphic system attributable to
+   * the stratigraphic horizon from which the MaterialEntity was collected.
+   */
+  LATEST_PERIOD_OR_LOWEST_SYSTEM(String.class),
+
+  /**
+   * The full name of the earliest possible geochronologic epoch or lowest chronostratigraphic series attributable to
+   * the stratigraphic horizon from which the MaterialEntity was collected.
+   */
+  EARLIEST_EPOCH_OR_LOWEST_SERIES(String.class),
+
+  /**
+   * The full name of the latest possible geochronologic epoch or highest chronostratigraphic series attributable to the
+   * stratigraphic horizon from which the MaterialEntity was collected.
+   */
+  LATEST_EPOCH_OR_HIGHEST_SERIES(String.class),
+
+  /**
+   * The full name of the earliest possible geochronologic age or lowest chronostratigraphic stage attributable to the
+   * stratigraphic horizon from which the MaterialEntity was collected.
+   */
+  EARLIEST_AGE_OR_LOWEST_STAGE(String.class),
+
+  /**
+   * The full name of the latest possible geochronologic age or highest chronostratigraphic stage attributable to the
+   * stratigraphic horizon from which the MaterialEntity was collected.
+   */
+  LATEST_AGE_OR_HIGHEST_STAGE(String.class),
+
+  /**
+   * The full name of the lowest possible geological biostratigraphic zone of the stratigraphic horizon from which the
+   * MaterialEntity was collected.
+   */
+  LOWEST_BIOSTRATIGRAPHIC_ZONE(String.class),
+
+  /**
+   * The full name of the highest possible geological biostratigraphic zone of the stratigraphic horizon from which the
+   * MaterialEntity was collected.
+   */
+  HIGHEST_BIOSTRATIGRAPHIC_ZONE(String.class),
+
+  /**
+   * The full name of the lithostratigraphic group from which the MaterialEntity was collected.
+   */
+  GROUP(String.class),
+
+  /**
+   * The full name of the lithostratigraphic formation from which the MaterialEntity was collected.
+   */
+  FORMATION(String.class),
+
+  /**
+   * The full name of the lithostratigraphic member from which the MaterialEntity was collected.
+   */
+  MEMBER(String.class),
+
+  /**
+   * The full name of the lithostratigraphic bed from which the MaterialEntity was collected.
+   */
+  BED(String.class),
 
   /**
    * Unique GBIF key for the occurrence.
