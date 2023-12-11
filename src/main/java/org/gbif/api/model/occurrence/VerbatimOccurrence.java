@@ -238,6 +238,9 @@ public class VerbatimOccurrence {
     return Optional.ofNullable(publishingCountry).map(Country::getGbifRegion).orElse(null);
   }
 
+  public void setPublishedByGbifRegion(String gbifRegion) {
+    // ignore, setter only to avoid JSON being written into the fields map
+  }
 
   @NotNull
   public EndpointType getProtocol() {

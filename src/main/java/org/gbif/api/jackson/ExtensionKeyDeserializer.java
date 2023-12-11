@@ -17,8 +17,6 @@ package org.gbif.api.jackson;
 
 import org.gbif.api.vocabulary.Extension;
 
-import java.io.IOException;
-
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.KeyDeserializer;
 
@@ -28,7 +26,7 @@ import com.fasterxml.jackson.databind.KeyDeserializer;
 public class ExtensionKeyDeserializer extends KeyDeserializer {
 
   @Override
-  public Object deserializeKey(String key, DeserializationContext ctxt) throws IOException {
+  public Object deserializeKey(String key, DeserializationContext ctxt) {
     return Extension.fromRowType(key);
   }
 }

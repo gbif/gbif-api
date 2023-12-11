@@ -20,6 +20,7 @@ import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
+import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.Rank;
@@ -339,10 +340,12 @@ public class OccurrenceTest {
     assertTrue(json.contains("\"class\" : \"Insecta\""));
     assertTrue(json.contains("\"countryCode\" : \"DZ\""));
     assertTrue(json.contains("\"country\" : \"Algeria\""));
+    assertTrue(json.contains("\"gbifRegion\" : \"AFRICA\""));
 
     Occurrence o2 = mapper.readValue(json, Occurrence.class);
 
     assertEquals(Country.ALGERIA, o2.getCountry());
+    assertEquals(GbifRegion.AFRICA, o2.getGbifRegion());
     assertEquals("Insecta", o2.getClazz());
     assertNull(o2.getGeodeticDatum());
 

@@ -31,6 +31,7 @@ import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.Sex;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.dwc.terms.DwcTerm;
+import org.gbif.dwc.terms.GbifTerm;
 import org.gbif.dwc.terms.Term;
 import org.gbif.dwc.terms.UnknownTerm;
 
@@ -80,7 +81,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private static final Set<String> PROPERTIES = Collections.unmodifiableSet(
     Stream.concat(
       // we need to these JSON properties manually because we have a fixed getter but no field for it
-      Stream.of(DwcTerm.geodeticDatum.simpleName(), "class", "countryCode"),
+      Stream.of(DwcTerm.geodeticDatum.simpleName(), "class", DwcTerm.countryCode.simpleName(), GbifTerm.gbifRegion.simpleName(), GbifTerm.publishedByGbifRegion.simpleName()),
       Stream.concat(Arrays.stream(Occurrence.class.getDeclaredFields()),
         Arrays.stream(VerbatimOccurrence.class.getDeclaredFields()))
         .filter(field -> !Modifier.isStatic(field.getModifiers()))
@@ -1672,6 +1673,10 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   @JsonProperty("gbifRegion")
   public GbifRegion getGbifRegion() {
     return Optional.ofNullable(country).map(Country::getGbifRegion).orElse(null);
+  }
+
+  private void setGbifRegion(String gbifRegion) {
+    // ignore, setter only to avoid JSON being written into the fields map
   }
 
   /**
