@@ -668,7 +668,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   @Schema(
     description = "A specific interpretation issue found during processing and interpretation of the record.\n\n" +
-      "See the link:/en/guides/dev/issues_and_flags.html[list of occurrence issues] and the " +
+      "See the https://links.gbif.org/occurrence-issues[list of occurrence issues] and the " +
       "https://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/OccurrenceIssue.html[OccurrenceIssue enumeration] " +
       "for possible values and definitions."
   )
