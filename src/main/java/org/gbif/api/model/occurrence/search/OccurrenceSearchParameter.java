@@ -763,6 +763,12 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   BED(String.class),
 
   /**
+   * A list (concatenated and separated) of identifiers (publication, global unique identifier, URI) of
+   * genetic sequence information associated with the material entity.
+   */
+  ASSOCIATED_SEQUENCES(String.class),
+
+  /**
    * Unique GBIF key for the occurrence.
    */
   GBIF_ID(String.class);

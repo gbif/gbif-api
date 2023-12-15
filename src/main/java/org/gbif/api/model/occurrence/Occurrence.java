@@ -760,13 +760,22 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private boolean isSequenced;
 
   @Schema(
-    description = "An identifier given to the dwc:Event in the field. Often serves as a link between field notes and the dwc:Event.",
+    description = "An identifier given to the dwc:Event in the field. Often serves as a link between field notes and the event.",
     externalDocs = @ExternalDocumentation(
       description = "Darwin Core definition",
       url = "https://rs.tdwg.org/dwc/terms/fieldNumber"
     )
   )
   private String fieldNumber;
+
+  @Schema(
+      description = "A list (concatenated and separated) of identifiers (publication, global unique identifier, URI) "
+        + "of genetic sequence information associated with the material entity.",
+      externalDocs =
+          @ExternalDocumentation(
+              description = "Darwin Core definition",
+              url = "https://rs.tdwg.org/dwc/terms/associatedSequences"))
+  private String associatedSequences;
 
   // interpreted extension data
 
@@ -2009,7 +2018,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   /**
-   * An identifier given to the dwc:Event in the field. Often serves as a link between field notes and the dwc:Event.
+   * An identifier given to the event in the field. Often serves as a link between field notes and the event.
    */
   @Nullable
   public String getFieldNumber() {
@@ -2018,6 +2027,19 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setFieldNumber(String fieldNumber) {
     this.fieldNumber = fieldNumber;
+  }
+
+  /**
+   * A list (concatenated and separated) of identifiers (publication, global unique identifier, URI) of genetic
+   * sequence information associated with the material entity.
+   */
+  @Nullable
+  public String getAssociatedSequences() {
+    return associatedSequences;
+  }
+
+  public void setAssociatedSequences(String associatedSequences) {
+    this.associatedSequences = associatedSequences;
   }
 
   /**
