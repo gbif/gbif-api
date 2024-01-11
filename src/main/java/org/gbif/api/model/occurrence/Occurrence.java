@@ -420,15 +420,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   )
   private String iucnRedListCategory;
 
-  @Schema(
-    description = "An identifier for the taxonomic concept to which the record refers - not for the nomenclatural details of a dwc:Taxon.",
-    externalDocs = @ExternalDocumentation(
-      description = "Darwin Core definition",
-      url = "https://rs.tdwg.org/dwc/terms/taxonConceptID"
-    )
-  )
-  private String taxonConceptID;
-
   // identification
 
   @Schema(
@@ -552,24 +543,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       "`coordinateUncertaintyInMeters` and `georeferenceRemarks`."
   )
   private Double distanceFromCentroidInMeters;
-
-  @Schema(
-    description = "The name of the island on or near which the dcterms:Location occurs",
-    externalDocs = @ExternalDocumentation(
-      description = "Darwin Core definition",
-      url = "https://rs.tdwg.org/dwc/terms/island"
-    )
-  )
-  private String island;
-
-  @Schema(
-    description = "The name of the island group in which the dcterms:Location occurs.",
-    externalDocs = @ExternalDocumentation(
-      description = "Darwin Core definition",
-      url = "https://rs.tdwg.org/dwc/terms/islandGroup"
-    )
-  )
-  private String islandGroup;
 
   @Schema(
     description = "A list (concatenated and separated) of geographic names less specific than the information captured in the dwc:locality term.",
@@ -760,15 +733,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private boolean isSequenced;
 
   @Schema(
-    description = "An identifier given to the dwc:Event in the field. Often serves as a link between field notes and the event.",
-    externalDocs = @ExternalDocumentation(
-      description = "Darwin Core definition",
-      url = "https://rs.tdwg.org/dwc/terms/fieldNumber"
-    )
-  )
-  private String fieldNumber;
-
-  @Schema(
       description = "A list (concatenated and separated) of identifiers (publication, global unique identifier, URI) "
         + "of genetic sequence information associated with the material entity.",
       externalDocs =
@@ -888,15 +852,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     )
   )
   private String otherCatalogNumbers;
-
-  @Schema(
-    description = "A list (concatenated and separated) of previous assignments of names to the dwc:Organism.",
-    externalDocs = @ExternalDocumentation(
-      description = "Darwin Core definition",
-      url = "https://rs.tdwg.org/dwc/terms/previousIdentifications"
-    )
-  )
-  private String previousIdentifications;
 
   @Schema(
     description = "The full name of the earliest possible geochronologic eon or lowest chrono-stratigraphic eonothem or the informal name (\"Precambrian\") attributable to the stratigraphic horizon from which the dwc:MaterialEntity was collected.",
@@ -1352,15 +1307,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
     this.iucnRedListCategory = iucnRedListCategory;
   }
 
-  @Nullable
-  public String getTaxonConceptID() {
-    return taxonConceptID;
-  }
-
-  public void setTaxonConceptID(String taxonConceptID) {
-    this.taxonConceptID = taxonConceptID;
-  }
-
   /**
    * The scientific name for taxonKey from the GBIF backbone.
    */
@@ -1741,24 +1687,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
-  public String getIsland() {
-    return island;
-  }
-
-  public void setIsland(String island) {
-    this.island = island;
-  }
-
-  @Nullable
-  public String getIslandGroup() {
-    return islandGroup;
-  }
-
-  public void setIslandGroup(String islandGroup) {
-    this.islandGroup = islandGroup;
-  }
-
-  @Nullable
   public String getHigherGeography() {
     return higherGeography;
   }
@@ -2018,18 +1946,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   /**
-   * An identifier given to the event in the field. Often serves as a link between field notes and the event.
-   */
-  @Nullable
-  public String getFieldNumber() {
-    return fieldNumber;
-  }
-
-  public void setFieldNumber(String fieldNumber) {
-    this.fieldNumber = fieldNumber;
-  }
-
-  /**
    * A list (concatenated and separated) of identifiers (publication, global unique identifier, URI) of genetic
    * sequence information associated with the material entity.
    */
@@ -2185,15 +2101,6 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setOtherCatalogNumbers(String otherCatalogNumbers) {
     this.otherCatalogNumbers = otherCatalogNumbers;
-  }
-
-  @Nullable
-  public String getPreviousIdentifications() {
-    return previousIdentifications;
-  }
-
-  public void setPreviousIdentifications(String previousIdentifications) {
-    this.previousIdentifications = previousIdentifications;
   }
 
   @Nullable
