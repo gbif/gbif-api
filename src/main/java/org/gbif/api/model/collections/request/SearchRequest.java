@@ -56,6 +56,7 @@ public abstract class SearchRequest extends PageableBase implements Serializable
   @Nullable private String typeSpecimenCount;
   @Nullable private CollectionsSortField sortBy;
   @Nullable private SortOrder sortOrder;
+  @Nullable private List<UUID> institutionKeys;
 
   @Nullable
   public String getQ() {
@@ -265,5 +266,14 @@ public abstract class SearchRequest extends PageableBase implements Serializable
 
   public void setSortOrder(@Nullable SortOrder sortOrder) {
     this.sortOrder = sortOrder;
+  }
+
+  @Nullable
+  public List<UUID> getInstitutionKeys() {
+    return institutionKeys;
+  }
+
+  public void setInstitutionKeys(@Nullable List<UUID> institutionKeys) {
+    this.institutionKeys = institutionKeys;
   }
 }
