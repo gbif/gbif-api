@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
 
 public class CollectionSearchRequest extends SearchRequest {
 
-  @Nullable private UUID institution;
+  @Deprecated @Nullable private UUID institution;
   @Nullable private List<CollectionContentType> contentTypes;
   @Nullable private List<PreservationType> preservationTypes;
   @Nullable private AccessionStatus accessionStatus;
@@ -113,6 +113,7 @@ public class CollectionSearchRequest extends SearchRequest {
     UUID replacedBy;
     String occurrenceCount;
     String typeSpecimenCount;
+    List<UUID> institutionKeys;
     CollectionsSortField sortBy;
     SortOrder sortOrder;
     Pageable page;
@@ -242,6 +243,11 @@ public class CollectionSearchRequest extends SearchRequest {
       return this;
     }
 
+    public Builder institutionKeys(List<UUID> institutionKeys) {
+      this.institutionKeys = institutionKeys;
+      return this;
+    }
+
     public Builder sortBy(CollectionsSortField sortBy) {
       this.sortBy = sortBy;
       return this;
@@ -284,6 +290,7 @@ public class CollectionSearchRequest extends SearchRequest {
       req.setReplacedBy(replacedBy);
       req.setOccurrenceCount(occurrenceCount);
       req.setTypeSpecimenCount(typeSpecimenCount);
+      req.setInstitutionKeys(institutionKeys);
       req.setSortBy(sortBy);
       req.setSortOrder(sortOrder);
       if (page != null) {
