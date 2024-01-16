@@ -14,7 +14,7 @@
 package org.gbif.api.model.occurrence;
 
 
-import org.gbif.api.model.occurrence.predicate.Predicate;
+import org.gbif.api.model.predicate.Predicate;
 import org.gbif.api.vocabulary.Extension;
 
 import java.util.Collection;

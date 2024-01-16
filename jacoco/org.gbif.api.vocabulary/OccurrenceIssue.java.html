@@ -183,13 +183,13 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
 <span class="fc" id="L183">  PRESUMED_NEGATED_LATITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),</span>
 
   /**
-   * The recorded date specified as the eventDate string and the individual year, month, day are
-   * contradictory.
+   * The recorded date specified as the eventDate string and the individual year, month, day and/or
+   * startDayOfYear, endDayOfYear are contradictory.
    */
 <span class="fc" id="L189">  RECORDED_DATE_MISMATCH(WARNING, TermsGroup.RECORDED_DATE_TERMS),</span>
 
   /**
-   * A (partial) invalid date is given, such as a non existing date, zero month, etc.
+   * A (partial) invalid date is given, such as a non-existent date, zero month, etc.
    */
 <span class="fc" id="L194">  RECORDED_DATE_INVALID(WARNING, TermsGroup.RECORDED_DATE_TERMS),</span>
 
@@ -200,7 +200,7 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
 <span class="fc" id="L200">  RECORDED_DATE_UNLIKELY(WARNING, TermsGroup.RECORDED_DATE_TERMS),</span>
 
   /**
-   * Matching to the taxonomic backbone can only be done using a fuzzy, non exact match.
+   * Matching to the taxonomic backbone can only be done using a fuzzy, non-exact match.
    */
 <span class="fc" id="L205">  TAXON_MATCH_FUZZY(WARNING, TermsGroup.TAXONOMY_TERMS),</span>
 
@@ -526,10 +526,11 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
 
 <span class="fc" id="L527">    static final Term[] RECORDED_DATE_TERMS = {</span>
       DwcTerm.eventDate,
-      DwcTerm.year, DwcTerm.month, DwcTerm.day
+      DwcTerm.year, DwcTerm.month, DwcTerm.day,
+      DwcTerm.startDayOfYear, DwcTerm.endDayOfYear
     };
 
-<span class="fc" id="L532">    static final Term[] TAXONOMY_TERMS = {</span>
+<span class="fc" id="L533">    static final Term[] TAXONOMY_TERMS = {</span>
       DwcTerm.kingdom,
       DwcTerm.phylum,
       DwcTerm.class_,
@@ -545,11 +546,11 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
       DwcTerm.taxonConceptID,
     };
 
-<span class="fc" id="L548">    static final Term[] INSTITUTION_TERMS = {</span>
+<span class="fc" id="L549">    static final Term[] INSTITUTION_TERMS = {</span>
       DwcTerm.institutionCode, DwcTerm.institutionID, DwcTerm.ownerInstitutionCode
     };
 
-<span class="fc" id="L552">    static final Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};</span>
+<span class="fc" id="L553">    static final Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};</span>
   }
 
   private final Set&lt;Term&gt; relatedTerms;
@@ -559,47 +560,47 @@ import static org.gbif.api.vocabulary.InterpretationRemarkSeverity.WARNING;
   /**
    * {@link OccurrenceIssue} not linked to any specific {@link Term}.
    */
-<span class="fc" id="L562">  OccurrenceIssue(InterpretationRemarkSeverity severity) {</span>
-<span class="fc" id="L563">    this.severity = severity;</span>
-<span class="fc" id="L564">    this.relatedTerms = Collections.emptySet();</span>
-<span class="fc" id="L565">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
-<span class="fc" id="L566">  }</span>
+<span class="fc" id="L563">  OccurrenceIssue(InterpretationRemarkSeverity severity) {</span>
+<span class="fc" id="L564">    this.severity = severity;</span>
+<span class="fc" id="L565">    this.relatedTerms = Collections.emptySet();</span>
+<span class="fc" id="L566">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
+<span class="fc" id="L567">  }</span>
 
   /**
    * {@link OccurrenceIssue} linked to the provided {@link Term}.
    */
-<span class="fc" id="L571">  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {</span>
-<span class="fc" id="L572">    this.severity = severity;</span>
-<span class="fc" id="L573">    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));</span>
-<span class="fc" id="L574">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
-<span class="fc" id="L575">  }</span>
+<span class="fc" id="L572">  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {</span>
+<span class="fc" id="L573">    this.severity = severity;</span>
+<span class="fc" id="L574">    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));</span>
+<span class="fc" id="L575">    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());</span>
+<span class="fc" id="L576">  }</span>
 
   @Override
   public String getId() {
-<span class="fc" id="L579">    return name();</span>
+<span class="fc" id="L580">    return name();</span>
   }
 
   @Override
   public Set&lt;Term&gt; getRelatedTerms() {
-<span class="nc" id="L584">    return relatedTerms;</span>
+<span class="nc" id="L585">    return relatedTerms;</span>
   }
 
   @Override
   public InterpretationRemarkSeverity getSeverity() {
-<span class="fc" id="L589">    return severity;</span>
+<span class="fc" id="L590">    return severity;</span>
   }
 
   @Override
   public boolean isDeprecated() {
-<span class="fc" id="L594">    return isDeprecated;</span>
+<span class="fc" id="L595">    return isDeprecated;</span>
   }
 
   /**
    * All issues that indicate problems with the coordinates and thus should not be shown on maps.
    */
-<span class="fc" id="L600">  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =</span>
-<span class="fc" id="L601">    Collections.unmodifiableList(</span>
-<span class="fc" id="L602">      Arrays.asList(</span>
+<span class="fc" id="L601">  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =</span>
+<span class="fc" id="L602">    Collections.unmodifiableList(</span>
+<span class="fc" id="L603">      Arrays.asList(</span>
         ZERO_COORDINATE,
         COORDINATE_OUT_OF_RANGE,
         COORDINATE_INVALID,

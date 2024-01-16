@@ -30,280 +30,281 @@
 <span class="sourceLineNo">022</span>import org.gbif.api.model.occurrence.Occurrence;<a name="line.22"></a>
 <span class="sourceLineNo">023</span>import org.gbif.api.model.occurrence.OccurrenceRelation;<a name="line.23"></a>
 <span class="sourceLineNo">024</span>import org.gbif.api.model.occurrence.VerbatimOccurrence;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>import org.gbif.api.vocabulary.BasisOfRecord;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import org.gbif.api.vocabulary.Continent;<a name="line.26"></a>
-<span class="sourceLineNo">027</span>import org.gbif.api.vocabulary.Country;<a name="line.27"></a>
-<span class="sourceLineNo">028</span>import org.gbif.api.vocabulary.License;<a name="line.28"></a>
-<span class="sourceLineNo">029</span>import org.gbif.api.vocabulary.OccurrenceIssue;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>import org.gbif.api.vocabulary.OccurrenceStatus;<a name="line.30"></a>
-<span class="sourceLineNo">031</span>import org.gbif.api.vocabulary.Sex;<a name="line.31"></a>
-<span class="sourceLineNo">032</span>import org.gbif.dwc.terms.DwcTerm;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>import org.gbif.dwc.terms.Term;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>import org.gbif.dwc.terms.UnknownTerm;<a name="line.34"></a>
-<span class="sourceLineNo">035</span><a name="line.35"></a>
-<span class="sourceLineNo">036</span>import java.lang.reflect.Field;<a name="line.36"></a>
-<span class="sourceLineNo">037</span>import java.lang.reflect.Modifier;<a name="line.37"></a>
-<span class="sourceLineNo">038</span>import java.net.URI;<a name="line.38"></a>
-<span class="sourceLineNo">039</span>import java.util.ArrayList;<a name="line.39"></a>
-<span class="sourceLineNo">040</span>import java.util.Arrays;<a name="line.40"></a>
-<span class="sourceLineNo">041</span>import java.util.Collections;<a name="line.41"></a>
-<span class="sourceLineNo">042</span>import java.util.Date;<a name="line.42"></a>
-<span class="sourceLineNo">043</span>import java.util.EnumSet;<a name="line.43"></a>
-<span class="sourceLineNo">044</span>import java.util.HashMap;<a name="line.44"></a>
-<span class="sourceLineNo">045</span>import java.util.List;<a name="line.45"></a>
-<span class="sourceLineNo">046</span>import java.util.Map;<a name="line.46"></a>
-<span class="sourceLineNo">047</span>import java.util.Set;<a name="line.47"></a>
-<span class="sourceLineNo">048</span>import java.util.stream.Collectors;<a name="line.48"></a>
-<span class="sourceLineNo">049</span>import java.util.stream.Stream;<a name="line.49"></a>
-<span class="sourceLineNo">050</span><a name="line.50"></a>
-<span class="sourceLineNo">051</span>import javax.annotation.Nullable;<a name="line.51"></a>
-<span class="sourceLineNo">052</span><a name="line.52"></a>
-<span class="sourceLineNo">053</span>import com.fasterxml.jackson.annotation.JsonAnyGetter;<a name="line.53"></a>
-<span class="sourceLineNo">054</span>import com.fasterxml.jackson.annotation.JsonIgnore;<a name="line.54"></a>
-<span class="sourceLineNo">055</span>import com.fasterxml.jackson.annotation.JsonProperty;<a name="line.55"></a>
-<span class="sourceLineNo">056</span>import com.fasterxml.jackson.databind.annotation.JsonDeserialize;<a name="line.56"></a>
-<span class="sourceLineNo">057</span>import com.fasterxml.jackson.databind.annotation.JsonSerialize;<a name="line.57"></a>
-<span class="sourceLineNo">058</span><a name="line.58"></a>
-<span class="sourceLineNo">059</span>import lombok.AllArgsConstructor;<a name="line.59"></a>
-<span class="sourceLineNo">060</span>import lombok.Data;<a name="line.60"></a>
-<span class="sourceLineNo">061</span><a name="line.61"></a>
-<span class="sourceLineNo">062</span>/**<a name="line.62"></a>
-<span class="sourceLineNo">063</span> * Event class based on https://dwc.tdwg.org/terms/#event.<a name="line.63"></a>
-<span class="sourceLineNo">064</span> */<a name="line.64"></a>
-<span class="sourceLineNo">065</span>@Data<a name="line.65"></a>
-<span class="sourceLineNo">066</span>public class Event extends VerbatimOccurrence {<a name="line.66"></a>
-<span class="sourceLineNo">067</span><a name="line.67"></a>
-<span class="sourceLineNo">068</span>  public static final String GEO_DATUM = "WGS84";<a name="line.68"></a>
-<span class="sourceLineNo">069</span><a name="line.69"></a>
-<span class="sourceLineNo">070</span>  // keep names of ALL properties of this class in a set for jackson serialization, see #properties()<a name="line.70"></a>
-<span class="sourceLineNo">071</span>  private static final Set&lt;String&gt; PROPERTIES = Collections.unmodifiableSet(<a name="line.71"></a>
-<span class="sourceLineNo">072</span>    Stream.concat(<a name="line.72"></a>
-<span class="sourceLineNo">073</span>      // we need to these json properties manually because we have a fixed getter but no field for it<a name="line.73"></a>
-<span class="sourceLineNo">074</span>      Stream.of(DwcTerm.geodeticDatum.simpleName(), "class", "countryCode"),<a name="line.74"></a>
-<span class="sourceLineNo">075</span>      Stream.concat(Arrays.stream(Event.class.getDeclaredFields()),<a name="line.75"></a>
-<span class="sourceLineNo">076</span>                    Arrays.stream(VerbatimOccurrence.class.getDeclaredFields()))<a name="line.76"></a>
-<span class="sourceLineNo">077</span>        .filter(field -&gt; !Modifier.isStatic(field.getModifiers()))<a name="line.77"></a>
-<span class="sourceLineNo">078</span>        .map(Field::getName)).collect(Collectors.toSet()));<a name="line.78"></a>
-<span class="sourceLineNo">079</span><a name="line.79"></a>
-<span class="sourceLineNo">080</span>  public static Event fromOccurrence(Occurrence occurrence) {<a name="line.80"></a>
-<span class="sourceLineNo">081</span>    Event event =new Event();<a name="line.81"></a>
-<span class="sourceLineNo">082</span>    event.setKey(occurrence.getKey());<a name="line.82"></a>
-<span class="sourceLineNo">083</span>    event.setDatasetKey(occurrence.getDatasetKey());<a name="line.83"></a>
-<span class="sourceLineNo">084</span>    event.setPublishingOrgKey(occurrence.getPublishingOrgKey());<a name="line.84"></a>
-<span class="sourceLineNo">085</span>    event.setNetworkKeys(occurrence.getNetworkKeys());<a name="line.85"></a>
-<span class="sourceLineNo">086</span>    event.setInstallationKey(occurrence.getInstallationKey());<a name="line.86"></a>
-<span class="sourceLineNo">087</span>    event.setPublishingCountry(occurrence.getPublishingCountry());<a name="line.87"></a>
-<span class="sourceLineNo">088</span>    event.setProtocol(occurrence.getProtocol());<a name="line.88"></a>
-<span class="sourceLineNo">089</span>    event.setLastCrawled(occurrence.getLastCrawled());<a name="line.89"></a>
-<span class="sourceLineNo">090</span>    event.setLastParsed(occurrence.getLastParsed());<a name="line.90"></a>
-<span class="sourceLineNo">091</span>    event.setCrawlId(occurrence.getCrawlId());<a name="line.91"></a>
-<span class="sourceLineNo">092</span>    event.setProjectId(occurrence.getProjectId());<a name="line.92"></a>
-<span class="sourceLineNo">093</span>    event.setProgrammeAcronym(occurrence.getProgrammeAcronym());<a name="line.93"></a>
-<span class="sourceLineNo">094</span>    event.setHostingOrganizationKey(occurrence.getHostingOrganizationKey());<a name="line.94"></a>
-<span class="sourceLineNo">095</span>    event.setVerbatimFields(occurrence.getVerbatimFields());<a name="line.95"></a>
-<span class="sourceLineNo">096</span>    event.setExtensions(occurrence.getExtensions());<a name="line.96"></a>
-<span class="sourceLineNo">097</span>    event.setBasisOfRecord(occurrence.getBasisOfRecord());<a name="line.97"></a>
-<span class="sourceLineNo">098</span>    event.setIndividualCount(occurrence.getIndividualCount());<a name="line.98"></a>
-<span class="sourceLineNo">099</span>    event.setOccurrenceStatus(occurrence.getOccurrenceStatus());<a name="line.99"></a>
-<span class="sourceLineNo">100</span>    event.setSex(occurrence.getSex());<a name="line.100"></a>
-<span class="sourceLineNo">101</span>    event.setLifeStage(occurrence.getLifeStage());<a name="line.101"></a>
-<span class="sourceLineNo">102</span>    event.setEstablishmentMeans(occurrence.getEstablishmentMeans());<a name="line.102"></a>
-<span class="sourceLineNo">103</span>    event.setDegreeOfEstablishment(occurrence.getDegreeOfEstablishment());<a name="line.103"></a>
-<span class="sourceLineNo">104</span>    event.setPathway(occurrence.getPathway());<a name="line.104"></a>
-<span class="sourceLineNo">105</span>    event.setDateIdentified(occurrence.getDateIdentified());<a name="line.105"></a>
-<span class="sourceLineNo">106</span>    event.setDecimalLongitude(occurrence.getDecimalLongitude());<a name="line.106"></a>
-<span class="sourceLineNo">107</span>    event.setDecimalLatitude(occurrence.getDecimalLatitude());<a name="line.107"></a>
-<span class="sourceLineNo">108</span>    event.setCoordinatePrecision(occurrence.getCoordinatePrecision());<a name="line.108"></a>
-<span class="sourceLineNo">109</span>    event.setCoordinateUncertaintyInMeters(occurrence.getCoordinateUncertaintyInMeters());<a name="line.109"></a>
-<span class="sourceLineNo">110</span>    event.setCoordinateAccuracy(occurrence.getCoordinateAccuracy());<a name="line.110"></a>
-<span class="sourceLineNo">111</span>    event.setElevation(occurrence.getElevation());<a name="line.111"></a>
-<span class="sourceLineNo">112</span>    event.setElevationAccuracy(occurrence.getElevationAccuracy());<a name="line.112"></a>
-<span class="sourceLineNo">113</span>    event.setDepth(occurrence.getDepth());<a name="line.113"></a>
-<span class="sourceLineNo">114</span>    event.setDepthAccuracy(occurrence.getDepthAccuracy());<a name="line.114"></a>
-<span class="sourceLineNo">115</span>    event.setContinent(occurrence.getContinent());<a name="line.115"></a>
-<span class="sourceLineNo">116</span>    event.setCountry(occurrence.getCountry());<a name="line.116"></a>
-<span class="sourceLineNo">117</span>    event.setStateProvince(occurrence.getStateProvince());<a name="line.117"></a>
-<span class="sourceLineNo">118</span>    event.setWaterBody(occurrence.getWaterBody());<a name="line.118"></a>
-<span class="sourceLineNo">119</span>    event.setDistanceFromCentroidInMeters(occurrence.getDistanceFromCentroidInMeters());<a name="line.119"></a>
-<span class="sourceLineNo">120</span>    event.setYear(occurrence.getYear());<a name="line.120"></a>
-<span class="sourceLineNo">121</span>    event.setMonth(occurrence.getMonth());<a name="line.121"></a>
-<span class="sourceLineNo">122</span>    event.setDay(occurrence.getDay());<a name="line.122"></a>
-<span class="sourceLineNo">123</span>    event.setEventDate(occurrence.getEventDate());<a name="line.123"></a>
-<span class="sourceLineNo">124</span>    event.setIssues(occurrence.getIssues());<a name="line.124"></a>
-<span class="sourceLineNo">125</span>    event.setModified(occurrence.getModified());<a name="line.125"></a>
-<span class="sourceLineNo">126</span>    event.setLastInterpreted(occurrence.getLastInterpreted());<a name="line.126"></a>
-<span class="sourceLineNo">127</span>    event.setReferences(occurrence.getReferences());<a name="line.127"></a>
-<span class="sourceLineNo">128</span>    event.setLicense(occurrence.getLicense());<a name="line.128"></a>
-<span class="sourceLineNo">129</span>    event.setOrganismQuantity(occurrence.getOrganismQuantity());<a name="line.129"></a>
-<span class="sourceLineNo">130</span>    event.setOrganismQuantityType(occurrence.getOrganismQuantityType());<a name="line.130"></a>
-<span class="sourceLineNo">131</span>    event.setSampleSizeUnit(occurrence.getSampleSizeUnit());<a name="line.131"></a>
-<span class="sourceLineNo">132</span>    event.setSampleSizeValue(occurrence.getSampleSizeValue());<a name="line.132"></a>
-<span class="sourceLineNo">133</span>    event.setRelativeOrganismQuantity(occurrence.getRelativeOrganismQuantity());<a name="line.133"></a>
-<span class="sourceLineNo">134</span>    event.setIdentifiers(occurrence.getIdentifiers());<a name="line.134"></a>
-<span class="sourceLineNo">135</span>    event.setMedia(occurrence.getMedia());<a name="line.135"></a>
-<span class="sourceLineNo">136</span>    event.setFacts(occurrence.getFacts());<a name="line.136"></a>
-<span class="sourceLineNo">137</span>    event.setRelations(occurrence.getRelations());<a name="line.137"></a>
-<span class="sourceLineNo">138</span>    event.setRecordedByIds(occurrence.getRecordedByIds());<a name="line.138"></a>
-<span class="sourceLineNo">139</span>    event.setIdentifiedByIds(occurrence.getIdentifiedByIds());<a name="line.139"></a>
-<span class="sourceLineNo">140</span>    event.setGadm(occurrence.getGadm());<a name="line.140"></a>
-<span class="sourceLineNo">141</span>    event.setInstitutionKey(occurrence.getInstitutionKey());<a name="line.141"></a>
-<span class="sourceLineNo">142</span>    event.setCollectionKey(occurrence.getCollectionKey());<a name="line.142"></a>
-<span class="sourceLineNo">143</span>    event.setInCluster(occurrence.getIsInCluster());<a name="line.143"></a>
-<span class="sourceLineNo">144</span>    event.setDatasetID(occurrence.getDatasetID());<a name="line.144"></a>
-<span class="sourceLineNo">145</span>    event.setDatasetName(occurrence.getDatasetName());<a name="line.145"></a>
-<span class="sourceLineNo">146</span>    event.setOtherCatalogNumbers(occurrence.getOtherCatalogNumbers());<a name="line.146"></a>
-<span class="sourceLineNo">147</span>    event.setRecordedBy(occurrence.getRecordedBy());<a name="line.147"></a>
-<span class="sourceLineNo">148</span>    event.setIdentifiedBy(occurrence.getIdentifiedBy());<a name="line.148"></a>
-<span class="sourceLineNo">149</span>    event.setPreparations(occurrence.getPreparations());<a name="line.149"></a>
-<span class="sourceLineNo">150</span>    event.setSamplingProtocol(occurrence.getSamplingProtocol());<a name="line.150"></a>
-<span class="sourceLineNo">151</span>    return event;<a name="line.151"></a>
-<span class="sourceLineNo">152</span>  }<a name="line.152"></a>
-<span class="sourceLineNo">153</span><a name="line.153"></a>
-<span class="sourceLineNo">154</span>  @Data<a name="line.154"></a>
-<span class="sourceLineNo">155</span>  @AllArgsConstructor<a name="line.155"></a>
-<span class="sourceLineNo">156</span>  public static class ParentLineage {<a name="line.156"></a>
-<span class="sourceLineNo">157</span>    private String id;<a name="line.157"></a>
-<span class="sourceLineNo">158</span>    private String eventType;<a name="line.158"></a>
-<span class="sourceLineNo">159</span>  }<a name="line.159"></a>
-<span class="sourceLineNo">160</span><a name="line.160"></a>
-<span class="sourceLineNo">161</span>  @Data<a name="line.161"></a>
-<span class="sourceLineNo">162</span>  @AllArgsConstructor<a name="line.162"></a>
-<span class="sourceLineNo">163</span>  public static class VocabularyConcept {<a name="line.163"></a>
-<span class="sourceLineNo">164</span>    private String concept;<a name="line.164"></a>
-<span class="sourceLineNo">165</span>    private Set&lt;String&gt; lineage;<a name="line.165"></a>
-<span class="sourceLineNo">166</span>  }<a name="line.166"></a>
-<span class="sourceLineNo">167</span><a name="line.167"></a>
-<span class="sourceLineNo">168</span>  private String id;<a name="line.168"></a>
-<span class="sourceLineNo">169</span>  private Set&lt;String&gt; samplingProtocols;<a name="line.169"></a>
-<span class="sourceLineNo">170</span>  private String eventID;<a name="line.170"></a>
-<span class="sourceLineNo">171</span>  private String parentEventID;<a name="line.171"></a>
-<span class="sourceLineNo">172</span>  private Integer startDayOfYear;<a name="line.172"></a>
-<span class="sourceLineNo">173</span>  private Integer endDayOfYear;<a name="line.173"></a>
-<span class="sourceLineNo">174</span>  private String locationID;<a name="line.174"></a>
-<span class="sourceLineNo">175</span>  private VocabularyConcept eventType;<a name="line.175"></a>
-<span class="sourceLineNo">176</span>  private List&lt;ParentLineage&gt; parentsLineage;<a name="line.176"></a>
-<span class="sourceLineNo">177</span><a name="line.177"></a>
-<span class="sourceLineNo">178</span>  // occurrence fields<a name="line.178"></a>
-<span class="sourceLineNo">179</span>  private BasisOfRecord basisOfRecord;<a name="line.179"></a>
-<span class="sourceLineNo">180</span>  private Integer individualCount;<a name="line.180"></a>
-<span class="sourceLineNo">181</span>  private OccurrenceStatus occurrenceStatus;<a name="line.181"></a>
-<span class="sourceLineNo">182</span>  private Sex sex;<a name="line.182"></a>
-<span class="sourceLineNo">183</span>  private String lifeStage;<a name="line.183"></a>
-<span class="sourceLineNo">184</span>  private String establishmentMeans;<a name="line.184"></a>
-<span class="sourceLineNo">185</span>  private String degreeOfEstablishment;<a name="line.185"></a>
-<span class="sourceLineNo">186</span>  private String pathway;<a name="line.186"></a>
-<span class="sourceLineNo">187</span><a name="line.187"></a>
-<span class="sourceLineNo">188</span>  // identification<a name="line.188"></a>
-<span class="sourceLineNo">189</span>  private Date dateIdentified;<a name="line.189"></a>
-<span class="sourceLineNo">190</span>  // location<a name="line.190"></a>
-<span class="sourceLineNo">191</span>  private Double decimalLongitude;<a name="line.191"></a>
-<span class="sourceLineNo">192</span>  private Double decimalLatitude;<a name="line.192"></a>
-<span class="sourceLineNo">193</span><a name="line.193"></a>
-<span class="sourceLineNo">194</span>  //coordinatePrecision and coordinateUncertaintyInMeters should be BigDecimal see POR-2795<a name="line.194"></a>
-<span class="sourceLineNo">195</span>  private Double coordinatePrecision;<a name="line.195"></a>
-<span class="sourceLineNo">196</span>  private Double coordinateUncertaintyInMeters;<a name="line.196"></a>
-<span class="sourceLineNo">197</span>  @Deprecated //see getter<a name="line.197"></a>
-<span class="sourceLineNo">198</span>  private Double coordinateAccuracy;<a name="line.198"></a>
-<span class="sourceLineNo">199</span><a name="line.199"></a>
-<span class="sourceLineNo">200</span>  private Double elevation;<a name="line.200"></a>
-<span class="sourceLineNo">201</span>  private Double elevationAccuracy;<a name="line.201"></a>
-<span class="sourceLineNo">202</span>  private Double depth;<a name="line.202"></a>
-<span class="sourceLineNo">203</span>  private Double depthAccuracy;<a name="line.203"></a>
-<span class="sourceLineNo">204</span>  private Continent continent;<a name="line.204"></a>
-<span class="sourceLineNo">205</span>  @JsonSerialize(using = Country.IsoSerializer.class)<a name="line.205"></a>
-<span class="sourceLineNo">206</span>  @JsonDeserialize(using = Country.IsoDeserializer.class)<a name="line.206"></a>
-<span class="sourceLineNo">207</span>  private Country country;<a name="line.207"></a>
-<span class="sourceLineNo">208</span>  private String stateProvince;<a name="line.208"></a>
-<span class="sourceLineNo">209</span>  private String waterBody;<a name="line.209"></a>
-<span class="sourceLineNo">210</span>  private Double distanceFromCentroidInMeters;<a name="line.210"></a>
-<span class="sourceLineNo">211</span><a name="line.211"></a>
-<span class="sourceLineNo">212</span>  // recording event<a name="line.212"></a>
-<span class="sourceLineNo">213</span>  private Integer year;<a name="line.213"></a>
-<span class="sourceLineNo">214</span>  private Integer month;<a name="line.214"></a>
-<span class="sourceLineNo">215</span>  private Integer day;<a name="line.215"></a>
-<span class="sourceLineNo">216</span>  private Date eventDate;<a name="line.216"></a>
-<span class="sourceLineNo">217</span><a name="line.217"></a>
-<span class="sourceLineNo">218</span>  private Set&lt;OccurrenceIssue&gt; issues = EnumSet.noneOf(OccurrenceIssue.class);<a name="line.218"></a>
-<span class="sourceLineNo">219</span><a name="line.219"></a>
-<span class="sourceLineNo">220</span>  // record level<a name="line.220"></a>
-<span class="sourceLineNo">221</span>  private Date modified;  // interpreted dc:modified, i.e. date changed in source<a name="line.221"></a>
-<span class="sourceLineNo">222</span>  private Date lastInterpreted;<a name="line.222"></a>
-<span class="sourceLineNo">223</span>  private URI references;<a name="line.223"></a>
-<span class="sourceLineNo">224</span>  private License license;<a name="line.224"></a>
-<span class="sourceLineNo">225</span>  private Double organismQuantity;<a name="line.225"></a>
-<span class="sourceLineNo">226</span>  private String organismQuantityType;<a name="line.226"></a>
-<span class="sourceLineNo">227</span>  private String sampleSizeUnit;<a name="line.227"></a>
-<span class="sourceLineNo">228</span>  private Double sampleSizeValue;<a name="line.228"></a>
-<span class="sourceLineNo">229</span>  private Double relativeOrganismQuantity;<a name="line.229"></a>
-<span class="sourceLineNo">230</span><a name="line.230"></a>
-<span class="sourceLineNo">231</span>  // interpreted extension data<a name="line.231"></a>
-<span class="sourceLineNo">232</span>  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();<a name="line.232"></a>
-<span class="sourceLineNo">233</span>  private List&lt;MediaObject&gt; media = new ArrayList&lt;&gt;();<a name="line.233"></a>
-<span class="sourceLineNo">234</span>  private List&lt;MeasurementOrFact&gt; facts = new ArrayList&lt;&gt;();<a name="line.234"></a>
-<span class="sourceLineNo">235</span>  private List&lt;OccurrenceRelation&gt; relations = new ArrayList&lt;&gt;();<a name="line.235"></a>
-<span class="sourceLineNo">236</span>  @JsonProperty("recordedByIDs")<a name="line.236"></a>
-<span class="sourceLineNo">237</span>  private List&lt;AgentIdentifier&gt; recordedByIds = new ArrayList&lt;&gt;();<a name="line.237"></a>
-<span class="sourceLineNo">238</span>  @JsonProperty("identifiedByIDs")<a name="line.238"></a>
-<span class="sourceLineNo">239</span>  private List&lt;AgentIdentifier&gt; identifiedByIds = new ArrayList&lt;&gt;();<a name="line.239"></a>
-<span class="sourceLineNo">240</span>  private Gadm gadm = new Gadm();<a name="line.240"></a>
-<span class="sourceLineNo">241</span>  @Experimental<a name="line.241"></a>
-<span class="sourceLineNo">242</span>  private String institutionKey;<a name="line.242"></a>
-<span class="sourceLineNo">243</span>  @Experimental<a name="line.243"></a>
-<span class="sourceLineNo">244</span>  private String collectionKey;<a name="line.244"></a>
-<span class="sourceLineNo">245</span>  private boolean isInCluster;<a name="line.245"></a>
-<span class="sourceLineNo">246</span>  private String datasetID;<a name="line.246"></a>
-<span class="sourceLineNo">247</span>  private String datasetName;<a name="line.247"></a>
-<span class="sourceLineNo">248</span>  private String otherCatalogNumbers;<a name="line.248"></a>
-<span class="sourceLineNo">249</span>  private String recordedBy;<a name="line.249"></a>
-<span class="sourceLineNo">250</span>  private String identifiedBy;<a name="line.250"></a>
-<span class="sourceLineNo">251</span>  private String preparations;<a name="line.251"></a>
-<span class="sourceLineNo">252</span>  private String samplingProtocol;<a name="line.252"></a>
-<span class="sourceLineNo">253</span><a name="line.253"></a>
-<span class="sourceLineNo">254</span>  /**<a name="line.254"></a>
-<span class="sourceLineNo">255</span>   * Convenience method checking if any spatial validation rule has not passed.<a name="line.255"></a>
-<span class="sourceLineNo">256</span>   * Primarily used to indicate that the record should not be displayed on a map.<a name="line.256"></a>
-<span class="sourceLineNo">257</span>   */<a name="line.257"></a>
-<span class="sourceLineNo">258</span>  @JsonIgnore<a name="line.258"></a>
-<span class="sourceLineNo">259</span>  public boolean hasSpatialIssue() {<a name="line.259"></a>
-<span class="sourceLineNo">260</span>    for (OccurrenceIssue rule : OccurrenceIssue.GEOSPATIAL_RULES) {<a name="line.260"></a>
-<span class="sourceLineNo">261</span>      if (issues.contains(rule)) {<a name="line.261"></a>
-<span class="sourceLineNo">262</span>        return true;<a name="line.262"></a>
-<span class="sourceLineNo">263</span>      }<a name="line.263"></a>
-<span class="sourceLineNo">264</span>    }<a name="line.264"></a>
-<span class="sourceLineNo">265</span>    return false;<a name="line.265"></a>
-<span class="sourceLineNo">266</span>  }<a name="line.266"></a>
-<span class="sourceLineNo">267</span><a name="line.267"></a>
-<span class="sourceLineNo">268</span>  /**<a name="line.268"></a>
-<span class="sourceLineNo">269</span>   * The geodetic datum for the interpreted decimal coordinates.<a name="line.269"></a>
-<span class="sourceLineNo">270</span>   * This is always WGS84 if there a coordinate exists as we reproject other datums into WGS84.<a name="line.270"></a>
-<span class="sourceLineNo">271</span>   */<a name="line.271"></a>
-<span class="sourceLineNo">272</span>  @Nullable<a name="line.272"></a>
-<span class="sourceLineNo">273</span>  public String getGeodeticDatum() {<a name="line.273"></a>
-<span class="sourceLineNo">274</span>    if (decimalLatitude != null) {<a name="line.274"></a>
-<span class="sourceLineNo">275</span>      return GEO_DATUM;<a name="line.275"></a>
-<span class="sourceLineNo">276</span>    }<a name="line.276"></a>
-<span class="sourceLineNo">277</span>    return null;<a name="line.277"></a>
-<span class="sourceLineNo">278</span>  }<a name="line.278"></a>
-<span class="sourceLineNo">279</span><a name="line.279"></a>
-<span class="sourceLineNo">280</span>  /**<a name="line.280"></a>
-<span class="sourceLineNo">281</span>   * This private method is only for serialization via jackson and not exposed anywhere else!<a name="line.281"></a>
-<span class="sourceLineNo">282</span>   * It maps the verbatimField terms into properties with their simple name or qualified names for UnknownTerms.<a name="line.282"></a>
-<span class="sourceLineNo">283</span>   */<a name="line.283"></a>
-<span class="sourceLineNo">284</span>  @JsonAnyGetter<a name="line.284"></a>
-<span class="sourceLineNo">285</span>  private Map&lt;String, String&gt; jsonVerbatimFields() {<a name="line.285"></a>
-<span class="sourceLineNo">286</span>    Map&lt;String, String&gt; extendedProps = new HashMap&lt;&gt;();<a name="line.286"></a>
-<span class="sourceLineNo">287</span>    for (Map.Entry&lt;Term, String&gt; prop : getVerbatimFields().entrySet()) {<a name="line.287"></a>
-<span class="sourceLineNo">288</span>      Term t = prop.getKey();<a name="line.288"></a>
-<span class="sourceLineNo">289</span>      if (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())) {<a name="line.289"></a>
-<span class="sourceLineNo">290</span>        extendedProps.put(t.qualifiedName(), prop.getValue());<a name="line.290"></a>
-<span class="sourceLineNo">291</span>      } else {<a name="line.291"></a>
-<span class="sourceLineNo">292</span>        // render all terms in controlled enumerations as simple names only - unless we have a property of that name already!<a name="line.292"></a>
-<span class="sourceLineNo">293</span>        extendedProps.put(t.simpleName(), prop.getValue());<a name="line.293"></a>
-<span class="sourceLineNo">294</span>      }<a name="line.294"></a>
-<span class="sourceLineNo">295</span>    }<a name="line.295"></a>
-<span class="sourceLineNo">296</span>    return extendedProps;<a name="line.296"></a>
-<span class="sourceLineNo">297</span>  }<a name="line.297"></a>
-<span class="sourceLineNo">298</span>}<a name="line.298"></a>
+<span class="sourceLineNo">025</span>import org.gbif.api.util.IsoDateInterval;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import org.gbif.api.vocabulary.BasisOfRecord;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import org.gbif.api.vocabulary.Continent;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import org.gbif.api.vocabulary.Country;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import org.gbif.api.vocabulary.License;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import org.gbif.api.vocabulary.OccurrenceIssue;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import org.gbif.api.vocabulary.OccurrenceStatus;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import org.gbif.api.vocabulary.Sex;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import org.gbif.dwc.terms.DwcTerm;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>import org.gbif.dwc.terms.Term;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>import org.gbif.dwc.terms.UnknownTerm;<a name="line.35"></a>
+<span class="sourceLineNo">036</span><a name="line.36"></a>
+<span class="sourceLineNo">037</span>import java.lang.reflect.Field;<a name="line.37"></a>
+<span class="sourceLineNo">038</span>import java.lang.reflect.Modifier;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>import java.net.URI;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>import java.util.ArrayList;<a name="line.40"></a>
+<span class="sourceLineNo">041</span>import java.util.Arrays;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>import java.util.Collections;<a name="line.42"></a>
+<span class="sourceLineNo">043</span>import java.util.Date;<a name="line.43"></a>
+<span class="sourceLineNo">044</span>import java.util.EnumSet;<a name="line.44"></a>
+<span class="sourceLineNo">045</span>import java.util.HashMap;<a name="line.45"></a>
+<span class="sourceLineNo">046</span>import java.util.List;<a name="line.46"></a>
+<span class="sourceLineNo">047</span>import java.util.Map;<a name="line.47"></a>
+<span class="sourceLineNo">048</span>import java.util.Set;<a name="line.48"></a>
+<span class="sourceLineNo">049</span>import java.util.stream.Collectors;<a name="line.49"></a>
+<span class="sourceLineNo">050</span>import java.util.stream.Stream;<a name="line.50"></a>
+<span class="sourceLineNo">051</span><a name="line.51"></a>
+<span class="sourceLineNo">052</span>import javax.annotation.Nullable;<a name="line.52"></a>
+<span class="sourceLineNo">053</span><a name="line.53"></a>
+<span class="sourceLineNo">054</span>import com.fasterxml.jackson.annotation.JsonAnyGetter;<a name="line.54"></a>
+<span class="sourceLineNo">055</span>import com.fasterxml.jackson.annotation.JsonIgnore;<a name="line.55"></a>
+<span class="sourceLineNo">056</span>import com.fasterxml.jackson.annotation.JsonProperty;<a name="line.56"></a>
+<span class="sourceLineNo">057</span>import com.fasterxml.jackson.databind.annotation.JsonDeserialize;<a name="line.57"></a>
+<span class="sourceLineNo">058</span>import com.fasterxml.jackson.databind.annotation.JsonSerialize;<a name="line.58"></a>
+<span class="sourceLineNo">059</span><a name="line.59"></a>
+<span class="sourceLineNo">060</span>import lombok.AllArgsConstructor;<a name="line.60"></a>
+<span class="sourceLineNo">061</span>import lombok.Data;<a name="line.61"></a>
+<span class="sourceLineNo">062</span><a name="line.62"></a>
+<span class="sourceLineNo">063</span>/**<a name="line.63"></a>
+<span class="sourceLineNo">064</span> * Event class based on https://dwc.tdwg.org/terms/#event.<a name="line.64"></a>
+<span class="sourceLineNo">065</span> */<a name="line.65"></a>
+<span class="sourceLineNo">066</span>@Data<a name="line.66"></a>
+<span class="sourceLineNo">067</span>public class Event extends VerbatimOccurrence {<a name="line.67"></a>
+<span class="sourceLineNo">068</span><a name="line.68"></a>
+<span class="sourceLineNo">069</span>  public static final String GEO_DATUM = "WGS84";<a name="line.69"></a>
+<span class="sourceLineNo">070</span><a name="line.70"></a>
+<span class="sourceLineNo">071</span>  // keep names of ALL properties of this class in a set for jackson serialization, see #properties()<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  private static final Set&lt;String&gt; PROPERTIES = Collections.unmodifiableSet(<a name="line.72"></a>
+<span class="sourceLineNo">073</span>    Stream.concat(<a name="line.73"></a>
+<span class="sourceLineNo">074</span>      // we need to these json properties manually because we have a fixed getter but no field for it<a name="line.74"></a>
+<span class="sourceLineNo">075</span>      Stream.of(DwcTerm.geodeticDatum.simpleName(), "class", "countryCode"),<a name="line.75"></a>
+<span class="sourceLineNo">076</span>      Stream.concat(Arrays.stream(Event.class.getDeclaredFields()),<a name="line.76"></a>
+<span class="sourceLineNo">077</span>                    Arrays.stream(VerbatimOccurrence.class.getDeclaredFields()))<a name="line.77"></a>
+<span class="sourceLineNo">078</span>        .filter(field -&gt; !Modifier.isStatic(field.getModifiers()))<a name="line.78"></a>
+<span class="sourceLineNo">079</span>        .map(Field::getName)).collect(Collectors.toSet()));<a name="line.79"></a>
+<span class="sourceLineNo">080</span><a name="line.80"></a>
+<span class="sourceLineNo">081</span>  public static Event fromOccurrence(Occurrence occurrence) {<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    Event event =new Event();<a name="line.82"></a>
+<span class="sourceLineNo">083</span>    event.setKey(occurrence.getKey());<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    event.setDatasetKey(occurrence.getDatasetKey());<a name="line.84"></a>
+<span class="sourceLineNo">085</span>    event.setPublishingOrgKey(occurrence.getPublishingOrgKey());<a name="line.85"></a>
+<span class="sourceLineNo">086</span>    event.setNetworkKeys(occurrence.getNetworkKeys());<a name="line.86"></a>
+<span class="sourceLineNo">087</span>    event.setInstallationKey(occurrence.getInstallationKey());<a name="line.87"></a>
+<span class="sourceLineNo">088</span>    event.setPublishingCountry(occurrence.getPublishingCountry());<a name="line.88"></a>
+<span class="sourceLineNo">089</span>    event.setProtocol(occurrence.getProtocol());<a name="line.89"></a>
+<span class="sourceLineNo">090</span>    event.setLastCrawled(occurrence.getLastCrawled());<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    event.setLastParsed(occurrence.getLastParsed());<a name="line.91"></a>
+<span class="sourceLineNo">092</span>    event.setCrawlId(occurrence.getCrawlId());<a name="line.92"></a>
+<span class="sourceLineNo">093</span>    event.setProjectId(occurrence.getProjectId());<a name="line.93"></a>
+<span class="sourceLineNo">094</span>    event.setProgrammeAcronym(occurrence.getProgrammeAcronym());<a name="line.94"></a>
+<span class="sourceLineNo">095</span>    event.setHostingOrganizationKey(occurrence.getHostingOrganizationKey());<a name="line.95"></a>
+<span class="sourceLineNo">096</span>    event.setVerbatimFields(occurrence.getVerbatimFields());<a name="line.96"></a>
+<span class="sourceLineNo">097</span>    event.setExtensions(occurrence.getExtensions());<a name="line.97"></a>
+<span class="sourceLineNo">098</span>    event.setBasisOfRecord(occurrence.getBasisOfRecord());<a name="line.98"></a>
+<span class="sourceLineNo">099</span>    event.setIndividualCount(occurrence.getIndividualCount());<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    event.setOccurrenceStatus(occurrence.getOccurrenceStatus());<a name="line.100"></a>
+<span class="sourceLineNo">101</span>    event.setSex(occurrence.getSex());<a name="line.101"></a>
+<span class="sourceLineNo">102</span>    event.setLifeStage(occurrence.getLifeStage());<a name="line.102"></a>
+<span class="sourceLineNo">103</span>    event.setEstablishmentMeans(occurrence.getEstablishmentMeans());<a name="line.103"></a>
+<span class="sourceLineNo">104</span>    event.setDegreeOfEstablishment(occurrence.getDegreeOfEstablishment());<a name="line.104"></a>
+<span class="sourceLineNo">105</span>    event.setPathway(occurrence.getPathway());<a name="line.105"></a>
+<span class="sourceLineNo">106</span>    event.setDateIdentified(occurrence.getDateIdentified());<a name="line.106"></a>
+<span class="sourceLineNo">107</span>    event.setDecimalLongitude(occurrence.getDecimalLongitude());<a name="line.107"></a>
+<span class="sourceLineNo">108</span>    event.setDecimalLatitude(occurrence.getDecimalLatitude());<a name="line.108"></a>
+<span class="sourceLineNo">109</span>    event.setCoordinatePrecision(occurrence.getCoordinatePrecision());<a name="line.109"></a>
+<span class="sourceLineNo">110</span>    event.setCoordinateUncertaintyInMeters(occurrence.getCoordinateUncertaintyInMeters());<a name="line.110"></a>
+<span class="sourceLineNo">111</span>    event.setCoordinateAccuracy(occurrence.getCoordinateAccuracy());<a name="line.111"></a>
+<span class="sourceLineNo">112</span>    event.setElevation(occurrence.getElevation());<a name="line.112"></a>
+<span class="sourceLineNo">113</span>    event.setElevationAccuracy(occurrence.getElevationAccuracy());<a name="line.113"></a>
+<span class="sourceLineNo">114</span>    event.setDepth(occurrence.getDepth());<a name="line.114"></a>
+<span class="sourceLineNo">115</span>    event.setDepthAccuracy(occurrence.getDepthAccuracy());<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    event.setContinent(occurrence.getContinent());<a name="line.116"></a>
+<span class="sourceLineNo">117</span>    event.setCountry(occurrence.getCountry());<a name="line.117"></a>
+<span class="sourceLineNo">118</span>    event.setStateProvince(occurrence.getStateProvince());<a name="line.118"></a>
+<span class="sourceLineNo">119</span>    event.setWaterBody(occurrence.getWaterBody());<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    event.setDistanceFromCentroidInMeters(occurrence.getDistanceFromCentroidInMeters());<a name="line.120"></a>
+<span class="sourceLineNo">121</span>    event.setYear(occurrence.getYear());<a name="line.121"></a>
+<span class="sourceLineNo">122</span>    event.setMonth(occurrence.getMonth());<a name="line.122"></a>
+<span class="sourceLineNo">123</span>    event.setDay(occurrence.getDay());<a name="line.123"></a>
+<span class="sourceLineNo">124</span>    event.setEventDate(occurrence.getEventDate());<a name="line.124"></a>
+<span class="sourceLineNo">125</span>    event.setIssues(occurrence.getIssues());<a name="line.125"></a>
+<span class="sourceLineNo">126</span>    event.setModified(occurrence.getModified());<a name="line.126"></a>
+<span class="sourceLineNo">127</span>    event.setLastInterpreted(occurrence.getLastInterpreted());<a name="line.127"></a>
+<span class="sourceLineNo">128</span>    event.setReferences(occurrence.getReferences());<a name="line.128"></a>
+<span class="sourceLineNo">129</span>    event.setLicense(occurrence.getLicense());<a name="line.129"></a>
+<span class="sourceLineNo">130</span>    event.setOrganismQuantity(occurrence.getOrganismQuantity());<a name="line.130"></a>
+<span class="sourceLineNo">131</span>    event.setOrganismQuantityType(occurrence.getOrganismQuantityType());<a name="line.131"></a>
+<span class="sourceLineNo">132</span>    event.setSampleSizeUnit(occurrence.getSampleSizeUnit());<a name="line.132"></a>
+<span class="sourceLineNo">133</span>    event.setSampleSizeValue(occurrence.getSampleSizeValue());<a name="line.133"></a>
+<span class="sourceLineNo">134</span>    event.setRelativeOrganismQuantity(occurrence.getRelativeOrganismQuantity());<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    event.setIdentifiers(occurrence.getIdentifiers());<a name="line.135"></a>
+<span class="sourceLineNo">136</span>    event.setMedia(occurrence.getMedia());<a name="line.136"></a>
+<span class="sourceLineNo">137</span>    event.setFacts(occurrence.getFacts());<a name="line.137"></a>
+<span class="sourceLineNo">138</span>    event.setRelations(occurrence.getRelations());<a name="line.138"></a>
+<span class="sourceLineNo">139</span>    event.setRecordedByIds(occurrence.getRecordedByIds());<a name="line.139"></a>
+<span class="sourceLineNo">140</span>    event.setIdentifiedByIds(occurrence.getIdentifiedByIds());<a name="line.140"></a>
+<span class="sourceLineNo">141</span>    event.setGadm(occurrence.getGadm());<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    event.setInstitutionKey(occurrence.getInstitutionKey());<a name="line.142"></a>
+<span class="sourceLineNo">143</span>    event.setCollectionKey(occurrence.getCollectionKey());<a name="line.143"></a>
+<span class="sourceLineNo">144</span>    event.setInCluster(occurrence.getIsInCluster());<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    event.setDatasetID(occurrence.getDatasetID());<a name="line.145"></a>
+<span class="sourceLineNo">146</span>    event.setDatasetName(occurrence.getDatasetName());<a name="line.146"></a>
+<span class="sourceLineNo">147</span>    event.setOtherCatalogNumbers(occurrence.getOtherCatalogNumbers());<a name="line.147"></a>
+<span class="sourceLineNo">148</span>    event.setRecordedBy(occurrence.getRecordedBy());<a name="line.148"></a>
+<span class="sourceLineNo">149</span>    event.setIdentifiedBy(occurrence.getIdentifiedBy());<a name="line.149"></a>
+<span class="sourceLineNo">150</span>    event.setPreparations(occurrence.getPreparations());<a name="line.150"></a>
+<span class="sourceLineNo">151</span>    event.setSamplingProtocol(occurrence.getSamplingProtocol());<a name="line.151"></a>
+<span class="sourceLineNo">152</span>    return event;<a name="line.152"></a>
+<span class="sourceLineNo">153</span>  }<a name="line.153"></a>
+<span class="sourceLineNo">154</span><a name="line.154"></a>
+<span class="sourceLineNo">155</span>  @Data<a name="line.155"></a>
+<span class="sourceLineNo">156</span>  @AllArgsConstructor<a name="line.156"></a>
+<span class="sourceLineNo">157</span>  public static class ParentLineage {<a name="line.157"></a>
+<span class="sourceLineNo">158</span>    private String id;<a name="line.158"></a>
+<span class="sourceLineNo">159</span>    private String eventType;<a name="line.159"></a>
+<span class="sourceLineNo">160</span>  }<a name="line.160"></a>
+<span class="sourceLineNo">161</span><a name="line.161"></a>
+<span class="sourceLineNo">162</span>  @Data<a name="line.162"></a>
+<span class="sourceLineNo">163</span>  @AllArgsConstructor<a name="line.163"></a>
+<span class="sourceLineNo">164</span>  public static class VocabularyConcept {<a name="line.164"></a>
+<span class="sourceLineNo">165</span>    private String concept;<a name="line.165"></a>
+<span class="sourceLineNo">166</span>    private Set&lt;String&gt; lineage;<a name="line.166"></a>
+<span class="sourceLineNo">167</span>  }<a name="line.167"></a>
+<span class="sourceLineNo">168</span><a name="line.168"></a>
+<span class="sourceLineNo">169</span>  private String id;<a name="line.169"></a>
+<span class="sourceLineNo">170</span>  private Set&lt;String&gt; samplingProtocols;<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  private String eventID;<a name="line.171"></a>
+<span class="sourceLineNo">172</span>  private String parentEventID;<a name="line.172"></a>
+<span class="sourceLineNo">173</span>  private Integer startDayOfYear;<a name="line.173"></a>
+<span class="sourceLineNo">174</span>  private Integer endDayOfYear;<a name="line.174"></a>
+<span class="sourceLineNo">175</span>  private String locationID;<a name="line.175"></a>
+<span class="sourceLineNo">176</span>  private VocabularyConcept eventType;<a name="line.176"></a>
+<span class="sourceLineNo">177</span>  private List&lt;ParentLineage&gt; parentsLineage;<a name="line.177"></a>
+<span class="sourceLineNo">178</span><a name="line.178"></a>
+<span class="sourceLineNo">179</span>  // occurrence fields<a name="line.179"></a>
+<span class="sourceLineNo">180</span>  private BasisOfRecord basisOfRecord;<a name="line.180"></a>
+<span class="sourceLineNo">181</span>  private Integer individualCount;<a name="line.181"></a>
+<span class="sourceLineNo">182</span>  private OccurrenceStatus occurrenceStatus;<a name="line.182"></a>
+<span class="sourceLineNo">183</span>  private Sex sex;<a name="line.183"></a>
+<span class="sourceLineNo">184</span>  private String lifeStage;<a name="line.184"></a>
+<span class="sourceLineNo">185</span>  private String establishmentMeans;<a name="line.185"></a>
+<span class="sourceLineNo">186</span>  private String degreeOfEstablishment;<a name="line.186"></a>
+<span class="sourceLineNo">187</span>  private String pathway;<a name="line.187"></a>
+<span class="sourceLineNo">188</span><a name="line.188"></a>
+<span class="sourceLineNo">189</span>  // identification<a name="line.189"></a>
+<span class="sourceLineNo">190</span>  private Date dateIdentified;<a name="line.190"></a>
+<span class="sourceLineNo">191</span>  // location<a name="line.191"></a>
+<span class="sourceLineNo">192</span>  private Double decimalLongitude;<a name="line.192"></a>
+<span class="sourceLineNo">193</span>  private Double decimalLatitude;<a name="line.193"></a>
+<span class="sourceLineNo">194</span><a name="line.194"></a>
+<span class="sourceLineNo">195</span>  //coordinatePrecision and coordinateUncertaintyInMeters should be BigDecimal see POR-2795<a name="line.195"></a>
+<span class="sourceLineNo">196</span>  private Double coordinatePrecision;<a name="line.196"></a>
+<span class="sourceLineNo">197</span>  private Double coordinateUncertaintyInMeters;<a name="line.197"></a>
+<span class="sourceLineNo">198</span>  @Deprecated //see getter<a name="line.198"></a>
+<span class="sourceLineNo">199</span>  private Double coordinateAccuracy;<a name="line.199"></a>
+<span class="sourceLineNo">200</span><a name="line.200"></a>
+<span class="sourceLineNo">201</span>  private Double elevation;<a name="line.201"></a>
+<span class="sourceLineNo">202</span>  private Double elevationAccuracy;<a name="line.202"></a>
+<span class="sourceLineNo">203</span>  private Double depth;<a name="line.203"></a>
+<span class="sourceLineNo">204</span>  private Double depthAccuracy;<a name="line.204"></a>
+<span class="sourceLineNo">205</span>  private Continent continent;<a name="line.205"></a>
+<span class="sourceLineNo">206</span>  @JsonSerialize(using = Country.IsoSerializer.class)<a name="line.206"></a>
+<span class="sourceLineNo">207</span>  @JsonDeserialize(using = Country.IsoDeserializer.class)<a name="line.207"></a>
+<span class="sourceLineNo">208</span>  private Country country;<a name="line.208"></a>
+<span class="sourceLineNo">209</span>  private String stateProvince;<a name="line.209"></a>
+<span class="sourceLineNo">210</span>  private String waterBody;<a name="line.210"></a>
+<span class="sourceLineNo">211</span>  private Double distanceFromCentroidInMeters;<a name="line.211"></a>
+<span class="sourceLineNo">212</span><a name="line.212"></a>
+<span class="sourceLineNo">213</span>  // recording event<a name="line.213"></a>
+<span class="sourceLineNo">214</span>  private Integer year;<a name="line.214"></a>
+<span class="sourceLineNo">215</span>  private Integer month;<a name="line.215"></a>
+<span class="sourceLineNo">216</span>  private Integer day;<a name="line.216"></a>
+<span class="sourceLineNo">217</span>  private IsoDateInterval eventDate;<a name="line.217"></a>
+<span class="sourceLineNo">218</span><a name="line.218"></a>
+<span class="sourceLineNo">219</span>  private Set&lt;OccurrenceIssue&gt; issues = EnumSet.noneOf(OccurrenceIssue.class);<a name="line.219"></a>
+<span class="sourceLineNo">220</span><a name="line.220"></a>
+<span class="sourceLineNo">221</span>  // record level<a name="line.221"></a>
+<span class="sourceLineNo">222</span>  private Date modified;  // interpreted dc:modified, i.e. date changed in source<a name="line.222"></a>
+<span class="sourceLineNo">223</span>  private Date lastInterpreted;<a name="line.223"></a>
+<span class="sourceLineNo">224</span>  private URI references;<a name="line.224"></a>
+<span class="sourceLineNo">225</span>  private License license;<a name="line.225"></a>
+<span class="sourceLineNo">226</span>  private Double organismQuantity;<a name="line.226"></a>
+<span class="sourceLineNo">227</span>  private String organismQuantityType;<a name="line.227"></a>
+<span class="sourceLineNo">228</span>  private String sampleSizeUnit;<a name="line.228"></a>
+<span class="sourceLineNo">229</span>  private Double sampleSizeValue;<a name="line.229"></a>
+<span class="sourceLineNo">230</span>  private Double relativeOrganismQuantity;<a name="line.230"></a>
+<span class="sourceLineNo">231</span><a name="line.231"></a>
+<span class="sourceLineNo">232</span>  // interpreted extension data<a name="line.232"></a>
+<span class="sourceLineNo">233</span>  private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();<a name="line.233"></a>
+<span class="sourceLineNo">234</span>  private List&lt;MediaObject&gt; media = new ArrayList&lt;&gt;();<a name="line.234"></a>
+<span class="sourceLineNo">235</span>  private List&lt;MeasurementOrFact&gt; facts = new ArrayList&lt;&gt;();<a name="line.235"></a>
+<span class="sourceLineNo">236</span>  private List&lt;OccurrenceRelation&gt; relations = new ArrayList&lt;&gt;();<a name="line.236"></a>
+<span class="sourceLineNo">237</span>  @JsonProperty("recordedByIDs")<a name="line.237"></a>
+<span class="sourceLineNo">238</span>  private List&lt;AgentIdentifier&gt; recordedByIds = new ArrayList&lt;&gt;();<a name="line.238"></a>
+<span class="sourceLineNo">239</span>  @JsonProperty("identifiedByIDs")<a name="line.239"></a>
+<span class="sourceLineNo">240</span>  private List&lt;AgentIdentifier&gt; identifiedByIds = new ArrayList&lt;&gt;();<a name="line.240"></a>
+<span class="sourceLineNo">241</span>  private Gadm gadm = new Gadm();<a name="line.241"></a>
+<span class="sourceLineNo">242</span>  @Experimental<a name="line.242"></a>
+<span class="sourceLineNo">243</span>  private String institutionKey;<a name="line.243"></a>
+<span class="sourceLineNo">244</span>  @Experimental<a name="line.244"></a>
+<span class="sourceLineNo">245</span>  private String collectionKey;<a name="line.245"></a>
+<span class="sourceLineNo">246</span>  private boolean isInCluster;<a name="line.246"></a>
+<span class="sourceLineNo">247</span>  private String datasetID;<a name="line.247"></a>
+<span class="sourceLineNo">248</span>  private String datasetName;<a name="line.248"></a>
+<span class="sourceLineNo">249</span>  private String otherCatalogNumbers;<a name="line.249"></a>
+<span class="sourceLineNo">250</span>  private String recordedBy;<a name="line.250"></a>
+<span class="sourceLineNo">251</span>  private String identifiedBy;<a name="line.251"></a>
+<span class="sourceLineNo">252</span>  private String preparations;<a name="line.252"></a>
+<span class="sourceLineNo">253</span>  private String samplingProtocol;<a name="line.253"></a>
+<span class="sourceLineNo">254</span><a name="line.254"></a>
+<span class="sourceLineNo">255</span>  /**<a name="line.255"></a>
+<span class="sourceLineNo">256</span>   * Convenience method checking if any spatial validation rule has not passed.<a name="line.256"></a>
+<span class="sourceLineNo">257</span>   * Primarily used to indicate that the record should not be displayed on a map.<a name="line.257"></a>
+<span class="sourceLineNo">258</span>   */<a name="line.258"></a>
+<span class="sourceLineNo">259</span>  @JsonIgnore<a name="line.259"></a>
+<span class="sourceLineNo">260</span>  public boolean hasSpatialIssue() {<a name="line.260"></a>
+<span class="sourceLineNo">261</span>    for (OccurrenceIssue rule : OccurrenceIssue.GEOSPATIAL_RULES) {<a name="line.261"></a>
+<span class="sourceLineNo">262</span>      if (issues.contains(rule)) {<a name="line.262"></a>
+<span class="sourceLineNo">263</span>        return true;<a name="line.263"></a>
+<span class="sourceLineNo">264</span>      }<a name="line.264"></a>
+<span class="sourceLineNo">265</span>    }<a name="line.265"></a>
+<span class="sourceLineNo">266</span>    return false;<a name="line.266"></a>
+<span class="sourceLineNo">267</span>  }<a name="line.267"></a>
+<span class="sourceLineNo">268</span><a name="line.268"></a>
+<span class="sourceLineNo">269</span>  /**<a name="line.269"></a>
+<span class="sourceLineNo">270</span>   * The geodetic datum for the interpreted decimal coordinates.<a name="line.270"></a>
+<span class="sourceLineNo">271</span>   * This is always WGS84 if there a coordinate exists as we reproject other datums into WGS84.<a name="line.271"></a>
+<span class="sourceLineNo">272</span>   */<a name="line.272"></a>
+<span class="sourceLineNo">273</span>  @Nullable<a name="line.273"></a>
+<span class="sourceLineNo">274</span>  public String getGeodeticDatum() {<a name="line.274"></a>
+<span class="sourceLineNo">275</span>    if (decimalLatitude != null) {<a name="line.275"></a>
+<span class="sourceLineNo">276</span>      return GEO_DATUM;<a name="line.276"></a>
+<span class="sourceLineNo">277</span>    }<a name="line.277"></a>
+<span class="sourceLineNo">278</span>    return null;<a name="line.278"></a>
+<span class="sourceLineNo">279</span>  }<a name="line.279"></a>
+<span class="sourceLineNo">280</span><a name="line.280"></a>
+<span class="sourceLineNo">281</span>  /**<a name="line.281"></a>
+<span class="sourceLineNo">282</span>   * This private method is only for serialization via jackson and not exposed anywhere else!<a name="line.282"></a>
+<span class="sourceLineNo">283</span>   * It maps the verbatimField terms into properties with their simple name or qualified names for UnknownTerms.<a name="line.283"></a>
+<span class="sourceLineNo">284</span>   */<a name="line.284"></a>
+<span class="sourceLineNo">285</span>  @JsonAnyGetter<a name="line.285"></a>
+<span class="sourceLineNo">286</span>  private Map&lt;String, String&gt; jsonVerbatimFields() {<a name="line.286"></a>
+<span class="sourceLineNo">287</span>    Map&lt;String, String&gt; extendedProps = new HashMap&lt;&gt;();<a name="line.287"></a>
+<span class="sourceLineNo">288</span>    for (Map.Entry&lt;Term, String&gt; prop : getVerbatimFields().entrySet()) {<a name="line.288"></a>
+<span class="sourceLineNo">289</span>      Term t = prop.getKey();<a name="line.289"></a>
+<span class="sourceLineNo">290</span>      if (t instanceof UnknownTerm || PROPERTIES.contains(t.simpleName())) {<a name="line.290"></a>
+<span class="sourceLineNo">291</span>        extendedProps.put(t.qualifiedName(), prop.getValue());<a name="line.291"></a>
+<span class="sourceLineNo">292</span>      } else {<a name="line.292"></a>
+<span class="sourceLineNo">293</span>        // render all terms in controlled enumerations as simple names only - unless we have a property of that name already!<a name="line.293"></a>
+<span class="sourceLineNo">294</span>        extendedProps.put(t.simpleName(), prop.getValue());<a name="line.294"></a>
+<span class="sourceLineNo">295</span>      }<a name="line.295"></a>
+<span class="sourceLineNo">296</span>    }<a name="line.296"></a>
+<span class="sourceLineNo">297</span>    return extendedProps;<a name="line.297"></a>
+<span class="sourceLineNo">298</span>  }<a name="line.298"></a>
+<span class="sourceLineNo">299</span>}<a name="line.299"></a>
 
 
 

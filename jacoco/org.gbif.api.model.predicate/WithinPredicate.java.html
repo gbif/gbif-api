@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WithinPredicate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.predicate</a> &gt; <span class="el_source">WithinPredicate.java</span></div><h1>WithinPredicate.java</h1><pre class="source lang-java linenums">/*
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.predicate;
+
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+import org.gbif.api.util.SearchTypeValidator;
+
+import java.util.Objects;
+import java.util.StringJoiner;
+
+import javax.validation.constraints.NotNull;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+
+/**
+ * This predicate checks if an occurrence location falls within the given WKT geometry {@code value}.
+ */
+@Schema(
+  description = &quot;This predicate checks if an occurrence falls within the given WKT geometry.&quot;
+)
+public class WithinPredicate implements Predicate {
+
+<span class="fc" id="L40">  private static final Logger LOG = LoggerFactory.getLogger(WithinPredicate.class);</span>
+
+  @Schema(
+    description = &quot;The WKT geometry to test for.  Occurrences whose location is within this geometry are returned.&quot;
+  )
+  @NotNull
+  private final String geometry;
+
+  /**
+   * Builds a new within predicate for a single, simple geometry as
+   * &lt;a href=&quot;http://en.wikipedia.org/wiki/Well-known_text&quot;&gt;Well Known Text&lt;/a&gt; (WKT).
+   * Multi geometries like MULTIPOLYGON are not supported and multiple predicates should be used instead.
+   * &lt;br/&gt;
+   * The validation implemented does a basic syntax check for the following simple geometries, but does not
+   * verify that the resulting geometries are topologically valid (see the OGC SFS specification).
+   * &lt;ul&gt;
+   *   &lt;li&gt;POINT&lt;/li&gt;
+   *   &lt;li&gt;LINESTRING&lt;/li&gt;
+   *   &lt;li&gt;POLYGON&lt;/li&gt;
+   *   &lt;li&gt;LINEARRING&lt;/li&gt;
+   * &lt;/ul&gt;
+   * &lt;strong&gt;Unlike other predicates, this validation only logs in case of an invalid string.&lt;/strong&gt;
+   * This is because the WKT parser has been changed over time, and some old strings are not valid according
+   * to the current parser.
+   *
+   * @param geometry
+   */
+  @JsonCreator
+<span class="fc" id="L68">  public WithinPredicate(@JsonProperty(&quot;geometry&quot;) String geometry) {</span>
+<span class="fc" id="L69">    Objects.requireNonNull(geometry, &quot;&lt;geometry&gt; may not be null&quot;);</span>
+    try {
+      // test if it is a valid WKT
+<span class="fc" id="L72">      SearchTypeValidator.validate(OccurrenceSearchParameter.GEOMETRY, geometry);</span>
+<span class="fc" id="L73">    } catch (IllegalArgumentException e) {</span>
+      // Log invalid strings, but continue - the geometry parser has changed over time, and some once-valid strings
+      // are no longer considered valid.  See https://github.com/gbif/gbif-api/issues/48.
+<span class="fc" id="L76">      LOG.warn(&quot;Invalid geometry string {}: {}&quot;, geometry, e.getMessage());</span>
+<span class="fc" id="L77">    }</span>
+<span class="fc" id="L78">    this.geometry = geometry;</span>
+<span class="fc" id="L79">  }</span>
+
+  public String getGeometry() {
+<span class="nc" id="L82">    return geometry;</span>
+  }
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L87" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L88">      return true;</span>
+    }
+<span class="nc bnc" id="L90" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L91">      return false;</span>
+    }
+<span class="nc" id="L93">    WithinPredicate that = (WithinPredicate) o;</span>
+<span class="nc" id="L94">    return Objects.equals(geometry, that.geometry);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L99">    return Objects.hash(geometry);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L104">    return new StringJoiner(&quot;, &quot;, WithinPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L105">      .add(&quot;geometry='&quot; + geometry + &quot;'&quot;)</span>
+<span class="nc" id="L106">      .toString();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

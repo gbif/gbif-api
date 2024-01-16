@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IsoDateParsingUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util</a> &gt; <span class="el_source">IsoDateParsingUtils.java</span></div><h1>IsoDateParsingUtils.java</h1><pre class="source lang-java linenums">/*
- * Copyright 2020-2021 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,6 +16,8 @@ package org.gbif.api.util;
 import java.text.ParseException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZoneOffset;
@@ -28,6 +28,7 @@ import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 import java.time.format.SignStyle;
 import java.time.temporal.ChronoField;
+import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.util.regex.Pattern;
 
@@ -44,33 +45,40 @@ import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
  */
 public class IsoDateParsingUtils {
 
+  /**
+   * A year, or a year-month, or a year-month-day, or a year-month-day-hour-minute, or a year-month-day-hour-minute-second,
+   * or a year-month-day-hour-minute-second-fraction — all with an optional timezone.
+   */
+<span class="fc" id="L52">  private static final DateTimeFormatter DATE_TIME_PATTERN =</span>
+<span class="fc" id="L53">    DateTimeFormatter.ofPattern(&quot;[yyyy[-MM[-dd['T'HH:mm[:ss[.SSSSSSSSS][.SSSSSSSS][.SSSSSSS][.SSSSSS][.SSSSS][.SSSS][.SSS][.SS][.S]]]]][XXXXX][XXXX][XXX][XX][X]]&quot;);</span>
+
   public static final String SIMPLE_ISO_DATE_STR_PATTERN = &quot;\\d{4}(?:-\\d{1,2}(?:-\\d{1,2})?)?&quot;;
 
   // match formats 'yyyy', 'yyyy-MM', 'yyyy-M', 'yyyy-MM-dd', 'yyyy-MM-d' and 'yyyy-M-d'.
-<span class="fc" id="L50">  public static final Pattern SIMPLE_ISO_PATTERN = Pattern.compile(SIMPLE_ISO_DATE_STR_PATTERN);</span>
+<span class="fc" id="L58">  public static final Pattern SIMPLE_ISO_PATTERN = Pattern.compile(SIMPLE_ISO_DATE_STR_PATTERN);</span>
 
   // Format as yyyy-MM-dd.
-<span class="fc" id="L53">  public static final DateTimeFormatter ISO_DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneOffset.UTC);</span>
+<span class="fc" id="L61">  public static final DateTimeFormatter ISO_DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneOffset.UTC);</span>
 
   /**
    * Enumerations with the allowed date formats by the occurrence search service.
    */
-<span class="fc" id="L58">  public enum IsoDateFormat {</span>
-<span class="fc" id="L59">    FULL(new DateTimeFormatterBuilder()</span>
-<span class="fc" id="L60">      .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)</span>
-<span class="fc" id="L61">      .appendLiteral('-')</span>
-<span class="fc" id="L62">      .appendValue(ChronoField.MONTH_OF_YEAR, 1, 2, SignStyle.NEVER)</span>
-<span class="fc" id="L63">      .appendLiteral('-')</span>
-<span class="fc" id="L64">      .appendValue(ChronoField.DAY_OF_MONTH, 1, 2, SignStyle.NEVER)</span>
-<span class="fc" id="L65">      .toFormatter()),</span>
-<span class="fc" id="L66">    YEAR_MONTH(new DateTimeFormatterBuilder()</span>
-<span class="fc" id="L67">      .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)</span>
-<span class="fc" id="L68">      .appendLiteral('-')</span>
-<span class="fc" id="L69">      .appendValue(ChronoField.MONTH_OF_YEAR, 1, 2, SignStyle.NEVER)</span>
-<span class="fc" id="L70">      .toFormatter()),</span>
-<span class="fc" id="L71">    YEAR(new DateTimeFormatterBuilder()</span>
-<span class="fc" id="L72">      .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)</span>
-<span class="fc" id="L73">      .toFormatter());</span>
+<span class="fc" id="L66">  public enum IsoDateFormat {</span>
+<span class="fc" id="L67">    YEAR_MONTH_DAY(new DateTimeFormatterBuilder()</span>
+<span class="fc" id="L68">      .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)</span>
+<span class="fc" id="L69">      .appendLiteral('-')</span>
+<span class="fc" id="L70">      .appendValue(ChronoField.MONTH_OF_YEAR, 1, 2, SignStyle.NEVER)</span>
+<span class="fc" id="L71">      .appendLiteral('-')</span>
+<span class="fc" id="L72">      .appendValue(ChronoField.DAY_OF_MONTH, 1, 2, SignStyle.NEVER)</span>
+<span class="fc" id="L73">      .toFormatter()),</span>
+<span class="fc" id="L74">    YEAR_MONTH(new DateTimeFormatterBuilder()</span>
+<span class="fc" id="L75">      .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)</span>
+<span class="fc" id="L76">      .appendLiteral('-')</span>
+<span class="fc" id="L77">      .appendValue(ChronoField.MONTH_OF_YEAR, 1, 2, SignStyle.NEVER)</span>
+<span class="fc" id="L78">      .toFormatter()),</span>
+<span class="fc" id="L79">    YEAR(new DateTimeFormatterBuilder()</span>
+<span class="fc" id="L80">      .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)</span>
+<span class="fc" id="L81">      .toFormatter());</span>
 
     private final DateTimeFormatter dateFormatter;
 
@@ -78,21 +86,21 @@ public class IsoDateParsingUtils {
      * Private constructors.
      * Receives a pattern and creates a strict DateTimeFormatter.
      */
-<span class="fc" id="L81">    IsoDateFormat(DateTimeFormatter dateFormatter) {</span>
-<span class="fc" id="L82">      this.dateFormatter = dateFormatter</span>
-<span class="fc" id="L83">        .withZone(ZoneOffset.UTC)</span>
-<span class="fc" id="L84">        .withResolverStyle(ResolverStyle.STRICT)</span>
-<span class="fc" id="L85">        .withChronology(IsoChronology.INSTANCE);</span>
-<span class="fc" id="L86">    }</span>
+<span class="fc" id="L89">    IsoDateFormat(DateTimeFormatter dateFormatter) {</span>
+<span class="fc" id="L90">      this.dateFormatter = dateFormatter</span>
+<span class="fc" id="L91">        .withZone(ZoneOffset.UTC)</span>
+<span class="fc" id="L92">        .withResolverStyle(ResolverStyle.STRICT)</span>
+<span class="fc" id="L93">        .withChronology(IsoChronology.INSTANCE);</span>
+<span class="fc" id="L94">    }</span>
 
     /**
      * Checks if the parameter &quot;value&quot; can be parsed using the date format.
      */
     public boolean isValidDate(String value) {
       try {
-<span class="pc bpc" id="L93" title="1 of 2 branches missed.">        return (parseDate(value) != null);</span>
-<span class="fc" id="L94">      } catch (ParseException e) {</span>
-<span class="fc" id="L95">        return false;</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        return (parseDate(value) != null);</span>
+<span class="fc" id="L102">      } catch (ParseException e) {</span>
+<span class="fc" id="L103">        return false;</span>
       }
     }
 
@@ -100,75 +108,75 @@ public class IsoDateParsingUtils {
      * Try to parse a string with the current date format.
      */
     public TemporalAccessor parseDate(String value) throws ParseException {
-<span class="pc bpc" id="L103" title="1 of 2 branches missed.">      if (QUERY_WILDCARD.equals(value)) {</span>
-<span class="nc" id="L104">        return null;</span>
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">      if (QUERY_WILDCARD.equals(value)) {</span>
+<span class="nc" id="L112">        return null;</span>
       }
 
       try {
-<span class="pc bpc" id="L108" title="1 of 4 branches missed.">        switch (this) {</span>
-          case FULL:
-<span class="fc" id="L110">            return dateFormatter.parse(value, LocalDate::from);</span>
+<span class="pc bpc" id="L116" title="1 of 4 branches missed.">        switch (this) {</span>
+          case YEAR_MONTH_DAY:
+<span class="fc" id="L118">            return dateFormatter.parse(value, LocalDate::from);</span>
 
           case YEAR_MONTH:
-<span class="fc" id="L113">            return dateFormatter.parse(value, YearMonth::from);</span>
+<span class="fc" id="L121">            return dateFormatter.parse(value, YearMonth::from);</span>
 
           case YEAR:
-<span class="fc" id="L116">            return dateFormatter.parse(value, Year::from);</span>
+<span class="fc" id="L124">            return dateFormatter.parse(value, Year::from);</span>
         }
-<span class="fc" id="L118">      } catch (DateTimeException e) {</span>
-<span class="fc" id="L119">        throw new ParseException(value + &quot; is not a valid date&quot;, 0);</span>
-<span class="nc" id="L120">      }</span>
-<span class="nc" id="L121">      throw new ParseException(value + &quot; is not a valid date&quot;, 0);</span>
+<span class="fc" id="L126">      } catch (DateTimeException e) {</span>
+<span class="fc" id="L127">        throw new ParseException(value + &quot; is not a valid date&quot;, 0);</span>
+<span class="nc" id="L128">      }</span>
+<span class="nc" id="L129">      throw new ParseException(value + &quot; is not a valid date&quot;, 0);</span>
     }
 
     /**
      * Returns the earliest date of a possible closed range, e.g. 2000-01-01 for 2000.
      */
     public LocalDate earliestDate(String value) throws ParseException {
-<span class="pc bpc" id="L128" title="1 of 2 branches missed.">      if (QUERY_WILDCARD.equals(value)) {</span>
-<span class="nc" id="L129">        return null;</span>
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">      if (QUERY_WILDCARD.equals(value)) {</span>
+<span class="nc" id="L137">        return null;</span>
       }
 
-<span class="fc" id="L132">      TemporalAccessor ta = parseDate(value);</span>
-<span class="pc bpc" id="L133" title="1 of 4 branches missed.">      switch (this) {</span>
-        case FULL:
-<span class="fc" id="L135">          return LocalDate.from(ta);</span>
+<span class="fc" id="L140">      TemporalAccessor ta = parseDate(value);</span>
+<span class="pc bpc" id="L141" title="1 of 4 branches missed.">      switch (this) {</span>
+        case YEAR_MONTH_DAY:
+<span class="fc" id="L143">          return LocalDate.from(ta);</span>
 
         case YEAR_MONTH:
-<span class="fc" id="L138">          YearMonth yearMonth = YearMonth.from(parseDate(value));</span>
-<span class="fc" id="L139">          return yearMonth.atDay(1);</span>
+<span class="fc" id="L146">          YearMonth yearMonth = YearMonth.from(parseDate(value));</span>
+<span class="fc" id="L147">          return yearMonth.atDay(1);</span>
 
         case YEAR:
-<span class="fc" id="L142">          Year year = Year.from(parseDate(value));</span>
-<span class="fc" id="L143">          return year.atDay(1);</span>
+<span class="fc" id="L150">          Year year = Year.from(parseDate(value));</span>
+<span class="fc" id="L151">          return year.atDay(1);</span>
       }
 
-<span class="nc" id="L146">      throw new ParseException(value + &quot; is not a valid date&quot;, 0);</span>
+<span class="nc" id="L154">      throw new ParseException(value + &quot; is not a valid date&quot;, 0);</span>
     }
 
     /**
      * Returns the latest date of a possible open range, e.g. 2001-01-01 for 2000.
      */
     public LocalDate latestDate(String value) throws ParseException {
-<span class="pc bpc" id="L153" title="1 of 2 branches missed.">      if (QUERY_WILDCARD.equals(value)) {</span>
-<span class="nc" id="L154">        return null;</span>
+<span class="pc bpc" id="L161" title="1 of 2 branches missed.">      if (QUERY_WILDCARD.equals(value)) {</span>
+<span class="nc" id="L162">        return null;</span>
       }
 
-<span class="fc" id="L157">      TemporalAccessor ta = parseDate(value);</span>
-<span class="pc bpc" id="L158" title="1 of 4 branches missed.">      switch (this) {</span>
-        case FULL:
-<span class="fc" id="L160">          return LocalDate.from(ta).plusDays(1);</span>
+<span class="fc" id="L165">      TemporalAccessor ta = parseDate(value);</span>
+<span class="pc bpc" id="L166" title="1 of 4 branches missed.">      switch (this) {</span>
+        case YEAR_MONTH_DAY:
+<span class="fc" id="L168">          return LocalDate.from(ta).plusDays(1);</span>
 
         case YEAR_MONTH:
-<span class="fc" id="L163">          YearMonth yearMonth = YearMonth.from(parseDate(value));</span>
-<span class="fc" id="L164">          return yearMonth.atEndOfMonth().plusDays(1);</span>
+<span class="fc" id="L171">          YearMonth yearMonth = YearMonth.from(parseDate(value));</span>
+<span class="fc" id="L172">          return yearMonth.atEndOfMonth().plusDays(1);</span>
 
         case YEAR:
-<span class="fc" id="L167">          Year year = Year.from(parseDate(value));</span>
-<span class="fc bfc" id="L168" title="All 2 branches covered.">          return year.atDay(year.isLeap() ? 366 : 365).plusDays(1);</span>
+<span class="fc" id="L175">          Year year = Year.from(parseDate(value));</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">          return year.atDay(year.isLeap() ? 366 : 365).plusDays(1);</span>
       }
 
-<span class="nc" id="L171">      throw new ParseException(value + &quot; is not a valid date&quot;, 0);</span>
+<span class="nc" id="L179">      throw new ParseException(value + &quot; is not a valid date&quot;, 0);</span>
     }
   }
 
@@ -185,14 +193,36 @@ public class IsoDateParsingUtils {
    */
   public static IsoDateFormat getFirstDateFormatMatch(String value) throws IllegalArgumentException {
     // 4 digits for a year must exist
-<span class="fc bfc" id="L188" title="All 2 branches covered.">    if (SIMPLE_ISO_PATTERN.matcher(value).find()) {</span>
-<span class="fc bfc" id="L189" title="All 2 branches covered.">      for (IsoDateFormat dateFormat : IsoDateFormat.values()) {</span>
-<span class="fc bfc" id="L190" title="All 2 branches covered.">        if (dateFormat.isValidDate(value)) {</span>
-<span class="fc" id="L191">          return dateFormat;</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">    if (SIMPLE_ISO_PATTERN.matcher(value).find()) {</span>
+<span class="fc bfc" id="L197" title="All 2 branches covered.">      for (IsoDateFormat dateFormat : IsoDateFormat.values()) {</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">        if (dateFormat.isValidDate(value)) {</span>
+<span class="fc" id="L199">          return dateFormat;</span>
         }
       }
     }
-<span class="fc" id="L195">    throw new IllegalArgumentException(value + &quot; is not a valid date&quot;);</span>
+<span class="fc" id="L203">    throw new IllegalArgumentException(value + &quot; is not a valid date&quot;);</span>
+  }
+
+  /**
+   * Parses an ISO 8601-format date or date-time.
+   */
+  public static Temporal parseTemporal(String value) {
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">    if (QUERY_WILDCARD.equals(value)) {</span>
+<span class="nc" id="L211">      return null;</span>
+    }
+
+<span class="pc bpc" id="L214" title="2 of 4 branches missed.">    if (value == null || value.isEmpty()) {</span>
+<span class="nc" id="L215">      return null;</span>
+    }
+
+    // parse string
+<span class="fc" id="L219">    return (Temporal) DATE_TIME_PATTERN.parseBest(</span>
+      value,
+      OffsetDateTime::from,
+      LocalDateTime::from,
+      LocalDate::from,
+      YearMonth::from,
+      Year::from);
   }
 
   /**
@@ -202,19 +232,19 @@ public class IsoDateParsingUtils {
    * @throws IllegalArgumentException in case of unparsable dates
    */
   public static LocalDate parseDate(String value) {
-<span class="pc bpc" id="L205" title="1 of 2 branches missed.">    if (StringUtils.isEmpty(value)) {</span>
-<span class="nc" id="L206">      throw new IllegalArgumentException(&quot;Date parameter can't be null or empty&quot;);</span>
+<span class="pc bpc" id="L235" title="1 of 2 branches missed.">    if (StringUtils.isEmpty(value)) {</span>
+<span class="nc" id="L236">      throw new IllegalArgumentException(&quot;Date parameter can't be null or empty&quot;);</span>
     }
 
     // could be a wildcard
-<span class="fc bfc" id="L210" title="All 2 branches covered.">    if (QUERY_WILDCARD.equals(value)) {</span>
-<span class="fc" id="L211">      return null;</span>
+<span class="fc bfc" id="L240" title="All 2 branches covered.">    if (QUERY_WILDCARD.equals(value)) {</span>
+<span class="fc" id="L241">      return null;</span>
     }
 
     try {
-<span class="fc" id="L215">      return getFirstDateFormatMatch(value).earliestDate(value);</span>
-<span class="nc" id="L216">    } catch (DateTimeParseException | ParseException e) {</span>
-<span class="nc" id="L217">      throw new IllegalArgumentException(String.format(&quot;%s is not a valid date parameter&quot;, value));</span>
+<span class="fc" id="L245">      return getFirstDateFormatMatch(value).earliestDate(value);</span>
+<span class="nc" id="L246">    } catch (DateTimeParseException | ParseException e) {</span>
+<span class="nc" id="L247">      throw new IllegalArgumentException(String.format(&quot;%s is not a valid date parameter&quot;, value));</span>
     }
   }
 
@@ -223,38 +253,64 @@ public class IsoDateParsingUtils {
    * Returns null for an unbounded side of the range (*).
    */
   public static Range&lt;LocalDate&gt; parseDateRange(String value) {
-<span class="pc bpc" id="L226" title="1 of 2 branches missed.">    if (StringUtils.isEmpty(value)) {</span>
-<span class="nc" id="L227">      throw new IllegalArgumentException(&quot;Date parameter can't be null or empty&quot;);</span>
+<span class="pc bpc" id="L256" title="1 of 2 branches missed.">    if (StringUtils.isEmpty(value)) {</span>
+<span class="nc" id="L257">      throw new IllegalArgumentException(&quot;Date parameter can't be null or empty&quot;);</span>
     }
-<span class="fc" id="L229">    final String[] dateValues = value.split(&quot;,&quot;);</span>
+<span class="fc" id="L259">    final String[] dateValues = value.split(&quot;,&quot;);</span>
 
-<span class="fc bfc" id="L231" title="All 2 branches covered.">    if (dateValues.length == 1) {</span>
+<span class="fc bfc" id="L261" title="All 2 branches covered.">    if (dateValues.length == 1) {</span>
       try {
-<span class="fc" id="L233">        final LocalDate lowerDate = parseDate(dateValues[0]);</span>
-<span class="fc" id="L234">        final LocalDate upperDate = getFirstDateFormatMatch(dateValues[0]).latestDate(dateValues[0]);</span>
+<span class="fc" id="L263">        final LocalDate lowerDate = parseDate(dateValues[0]);</span>
+<span class="fc" id="L264">        final LocalDate upperDate = getFirstDateFormatMatch(dateValues[0]).latestDate(dateValues[0]);</span>
 
-<span class="fc" id="L236">        return Range.closed(lowerDate, upperDate);</span>
-<span class="nc" id="L237">      } catch (ParseException e) {</span>
-<span class="nc" id="L238">        throw new IllegalArgumentException(String.format(&quot;%s is not a valid date parameter&quot;, value));</span>
+<span class="fc" id="L266">        return Range.closed(lowerDate, upperDate);</span>
+<span class="nc" id="L267">      } catch (ParseException e) {</span>
+<span class="nc" id="L268">        throw new IllegalArgumentException(String.format(&quot;%s is not a valid date parameter&quot;, value));</span>
       }
     }
 
-<span class="pc bpc" id="L242" title="1 of 2 branches missed.">    if (dateValues.length == 2) {</span>
+<span class="pc bpc" id="L272" title="1 of 2 branches missed.">    if (dateValues.length == 2) {</span>
       try {
-<span class="fc" id="L244">        final LocalDate lowerDate = parseDate(dateValues[0]);</span>
-<span class="fc" id="L245">        LocalDate upperDate = parseDate(dateValues[1]);</span>
+<span class="fc" id="L274">        final LocalDate lowerDate = parseDate(dateValues[0]);</span>
+<span class="fc" id="L275">        LocalDate upperDate = parseDate(dateValues[1]);</span>
 
-<span class="fc bfc" id="L247" title="All 2 branches covered.">        if (upperDate != null) {</span>
-<span class="fc" id="L248">          upperDate = getFirstDateFormatMatch(dateValues[1]).latestDate(dateValues[1]);</span>
+<span class="fc bfc" id="L277" title="All 2 branches covered.">        if (upperDate != null) {</span>
+<span class="fc" id="L278">          upperDate = getFirstDateFormatMatch(dateValues[1]).latestDate(dateValues[1]);</span>
         }
 
-<span class="fc" id="L251">        return Range.closed(lowerDate, upperDate);</span>
-<span class="nc" id="L252">      } catch (ParseException e) {</span>
-<span class="nc" id="L253">        throw new IllegalArgumentException(String.format(&quot;%s is not a valid date parameter&quot;, value));</span>
+<span class="fc" id="L281">        return Range.closed(lowerDate, upperDate);</span>
+<span class="nc" id="L282">      } catch (ParseException e) {</span>
+<span class="nc" id="L283">        throw new IllegalArgumentException(String.format(&quot;%s is not a valid date parameter&quot;, value));</span>
       }
     }
 
-<span class="nc" id="L257">    throw new IllegalArgumentException(&quot;Date value must be a single value or a range&quot;);</span>
+<span class="nc" id="L287">    throw new IllegalArgumentException(&quot;Date value must be a single value or a range&quot;);</span>
+  }
+
+  /**
+   * Remove the offset, either ignoring it or using it to adjust the time.
+   */
+  public static TemporalAccessor stripOffsetOrZone(TemporalAccessor temporalAccessor, boolean ignoreOffset) {
+<span class="pc bpc" id="L294" title="1 of 2 branches missed.">    if (temporalAccessor == null) {</span>
+<span class="nc" id="L295">      return null;</span>
+<span class="pc bpc" id="L296" title="3 of 4 branches missed.">    } else if (!ignoreOffset &amp;&amp; temporalAccessor.isSupported(ChronoField.OFFSET_SECONDS)) {</span>
+<span class="nc" id="L297">      return (temporalAccessor.query(OffsetDateTime::from)).atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();</span>
+    } else {
+<span class="pc bpc" id="L299" title="1 of 2 branches missed.">      return temporalAccessor.isSupported(ChronoField.SECOND_OF_DAY) ? temporalAccessor.query(LocalDateTime::from) : temporalAccessor;</span>
+    }
+  }
+
+  /**
+   * Remove the offset, either ignoring it or using it to adjust the time, unless the offset is 0 (UTC).
+   */
+  public static TemporalAccessor stripOffsetOrZoneExceptUTC(TemporalAccessor temporalAccessor, boolean ignoreOffset) {
+<span class="pc bpc" id="L307" title="1 of 2 branches missed.">    if (temporalAccessor == null) {</span>
+<span class="nc" id="L308">      return null;</span>
+<span class="fc bfc" id="L309" title="All 4 branches covered.">    } else if (temporalAccessor.isSupported(ChronoField.OFFSET_SECONDS) &amp;&amp; temporalAccessor.get(ChronoField.OFFSET_SECONDS) == 0) {</span>
+<span class="fc" id="L310">      return (temporalAccessor.query(OffsetDateTime::from)).atZoneSameInstant(ZoneOffset.UTC);</span>
+    } else {
+<span class="fc" id="L312">      return stripOffsetOrZone(temporalAccessor, ignoreOffset);</span>
+    }
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

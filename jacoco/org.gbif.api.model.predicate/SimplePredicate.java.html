@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SimplePredicate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.predicate</a> &gt; <span class="el_source">SimplePredicate.java</span></div><h1>SimplePredicate.java</h1><pre class="source lang-java linenums">/*
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.predicate;
+
+import org.gbif.api.annotation.Experimental;
+import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+import org.gbif.api.util.IsoDateInterval;
+import org.gbif.api.util.SearchTypeValidator;
+
+import java.util.Date;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.StringJoiner;
+
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import static org.gbif.api.util.PreconditionUtils.checkArgument;
+
+public class SimplePredicate&lt;S extends SearchParameter&gt; implements Predicate {
+
+  @Schema(
+    description = &quot;The search parameter to test.&quot;
+  )
+  @NotNull
+  private final S key;
+
+  @Schema(
+    description = &quot;The value to test for.&quot;
+  )
+  @NotNull
+  private final String value;
+
+  @Schema(
+    description = &quot;Whether to match letter case (UPPER or lower case) on string value comparisons.&quot;
+  )
+  @Experimental
+  @Nullable
+  private final Boolean matchCase;
+
+<span class="fc" id="L55">  protected SimplePredicate(boolean checkForNonEquals, S key, String value, Boolean matchCase) {</span>
+<span class="fc" id="L56">    this.matchCase = matchCase;</span>
+<span class="fc" id="L57">    Objects.requireNonNull(key, &quot;&lt;key&gt; may not be null&quot;);</span>
+<span class="fc" id="L58">    Objects.requireNonNull(value, &quot;&lt;value&gt; may not be null&quot;);</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">    checkArgument(!value.isEmpty(), &quot;&lt;value&gt; may not be empty&quot;);</span>
+    // make sure the value is of the right type according to the key given
+<span class="fc" id="L61">    SearchTypeValidator.validate(key, value);</span>
+
+<span class="fc" id="L63">    this.key = key;</span>
+<span class="fc" id="L64">    this.value = value;</span>
+
+<span class="fc" id="L66">    checkPredicateAllowed();</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">    if (checkForNonEquals) {</span>
+<span class="fc" id="L68">      checkNonEqualsComparatorAllowed();</span>
+    }
+<span class="fc" id="L70">  }</span>
+
+  public S getKey() {
+<span class="fc" id="L73">    return key;</span>
+  }
+
+  public String getValue() {
+<span class="fc" id="L77">    return value;</span>
+  }
+
+  /**
+   * This flag enables the use of case-sensitive matches and aggregations on certain search parameters.
+   * &lt;p&gt;
+   * Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol, catalogNumber, collectionCode,
+   * institutionCode, eventId, parentEventId, waterBody, stateProvince, recordNumber, identifiedBy, organismId and locality.
+   * &lt;p&gt;
+   * This is an experimental feature and its implementation map change or be removed at any time.
+   */
+  @Experimental
+  public Boolean isMatchCase() {
+<span class="fc" id="L90">    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);</span>
+  }
+
+  /**
+   * @throws IllegalArgumentException if the key SearchParameter is Geometry
+   */
+  private void checkPredicateAllowed() {
+<span class="fc bfc" id="L97" title="All 2 branches covered.">    if (OccurrenceSearchParameter.GEOMETRY == key) {</span>
+<span class="fc" id="L98">      throw new IllegalArgumentException(&quot;Geometry parameter must use a Within predicate&quot;);</span>
+    }
+<span class="fc" id="L100">  }</span>
+
+  /**
+   * @throws IllegalArgumentException if the key SearchParameter allows other comparators than
+   *                                  equals
+   */
+  private void checkNonEqualsComparatorAllowed() {
+<span class="pc bpc" id="L107" title="2 of 6 branches missed.">    if (!(Number.class.isAssignableFrom(key.type()) || Date.class.isAssignableFrom(key.type()) || IsoDateInterval.class.isAssignableFrom(key.type()))) {</span>
+<span class="fc" id="L108">      throw new IllegalArgumentException(</span>
+<span class="fc" id="L109">        &quot;Only equals comparisons are allowed for search parameter &quot; + key + &quot; of type &quot; + key.type());</span>
+    }
+<span class="fc" id="L111">  }</span>
+
+  @Override
+  public boolean equals(Object o) {
+<span class="fc bfc" id="L115" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L116">      return true;</span>
+    }
+<span class="pc bpc" id="L118" title="1 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="fc" id="L119">      return false;</span>
+    }
+<span class="fc" id="L121">    SimplePredicate&lt;S&gt; that = (SimplePredicate&lt;S&gt;) o;</span>
+<span class="pc bpc" id="L122" title="3 of 6 branches missed.">    return key == that.key &amp;&amp; Objects.equals(value, that.value) &amp;&amp; matchCase == that.matchCase;</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="fc" id="L127">    return Objects.hash(key, value);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="fc" id="L132">    return new StringJoiner(&quot;, &quot;, this.getClass().getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="fc" id="L133">      .add(&quot;key=&quot; + key)</span>
+<span class="fc" id="L134">      .add(&quot;value='&quot; + value + &quot;'&quot;)</span>
+<span class="fc" id="L135">      .add(&quot;matchCase='&quot; + matchCase + &quot;'&quot;)</span>
+<span class="fc" id="L136">      .toString();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

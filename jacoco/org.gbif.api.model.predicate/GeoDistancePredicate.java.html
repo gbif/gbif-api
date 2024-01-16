@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GeoDistancePredicate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.predicate</a> &gt; <span class="el_source">GeoDistancePredicate.java</span></div><h1>GeoDistancePredicate.java</h1><pre class="source lang-java linenums">/*
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.predicate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.gbif.api.model.occurrence.geo.DistanceUnit;
+import org.gbif.api.util.SearchTypeValidator;
+
+import java.util.Objects;
+import java.util.StringJoiner;
+
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+/**
+ * This predicate checks if an occurrence location falls within a distance of a location.
+ */
+@Schema(
+  description = &quot;This predicate checks if an occurrence falls within a distance of a location.&quot;
+)
+public class GeoDistancePredicate implements Predicate {
+
+  @Hidden
+  @NotNull
+  private final DistanceUnit.GeoDistance geoDistance;
+
+  @Schema(
+    description = &quot;The latitude of the location.&quot;
+  )
+  @NotNull
+  private final String latitude;
+
+  @Schema(
+    description = &quot;The longitude of the location.&quot;
+  )
+  @NotNull
+  private final String longitude;
+
+  @Schema(
+    description = &quot;The distance as a number and unit, e.g. `5km` or `5000m`.&quot;
+  )
+  @NotNull
+  private final String distance;
+
+  /**
+   * Builds a new geodistance predicate that matches records within a given distance of a geopoint..
+   *
+   * @param latitude
+   * @param longitude
+   * @param distance
+   */
+  @JsonCreator
+  public GeoDistancePredicate(@JsonProperty(&quot;latitude&quot;) String latitude,
+                              @JsonProperty(&quot;longitude&quot;) String longitude,
+<span class="fc" id="L73">                              @JsonProperty(&quot;distance&quot;) String distance) {</span>
+<span class="fc" id="L74">    Objects.requireNonNull(latitude, &quot;&lt;latitude&gt; may not be null&quot;);</span>
+<span class="fc" id="L75">    Objects.requireNonNull(longitude, &quot;&lt;longitude&gt; may not be null&quot;);</span>
+<span class="fc" id="L76">    Objects.requireNonNull(distance, &quot;&lt;distance&gt; may not be null&quot;);</span>
+<span class="fc" id="L77">    this.latitude = latitude;</span>
+<span class="fc" id="L78">    this.longitude = longitude;</span>
+<span class="fc" id="L79">    this.distance = distance;</span>
+    // test if it is a valid GeoDistance
+<span class="fc" id="L81">    SearchTypeValidator.validateGeoDistance(latitude, longitude, distance);</span>
+
+<span class="fc" id="L83">    this.geoDistance = DistanceUnit.GeoDistance.parseGeoDistance(latitude, longitude, distance);</span>
+<span class="fc" id="L84">  }</span>
+
+<span class="nc" id="L86">  public GeoDistancePredicate(@NotNull DistanceUnit.GeoDistance geoDistance) {</span>
+<span class="nc" id="L87">    this.geoDistance = geoDistance;</span>
+
+<span class="nc" id="L89">    this.latitude = Double.toString(geoDistance.getLatitude());</span>
+<span class="nc" id="L90">    this.longitude = Double.toString(geoDistance.getLongitude());</span>
+<span class="nc" id="L91">    this.distance = geoDistance.getDistance().toString();</span>
+<span class="nc" id="L92">  }</span>
+
+  public String getLatitude() {
+<span class="nc" id="L95">    return latitude;</span>
+  }
+
+  public String getLongitude() {
+<span class="nc" id="L99">    return longitude;</span>
+  }
+
+  public String getDistance() {
+<span class="nc" id="L103">    return distance;</span>
+  }
+
+  @JsonIgnore
+  public DistanceUnit.GeoDistance getGeoDistance() {
+<span class="nc" id="L108">    return geoDistance;</span>
+  }
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L113" title="All 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L114" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L115">    GeoDistancePredicate that = (GeoDistancePredicate) o;</span>
+<span class="nc" id="L116">    return Objects.equals(geoDistance, that.geoDistance);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L121">    return Objects.hash(geoDistance);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L126">    return new StringJoiner(&quot;, &quot;, GeoDistancePredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L127">            .add(&quot;geoDistance=&quot; + geoDistance).toString();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

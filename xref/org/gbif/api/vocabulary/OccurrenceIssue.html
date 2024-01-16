@@ -191,13 +191,13 @@
 <a class="jxr_linenumber" name="L183" href="#L183">183</a>   PRESUMED_NEGATED_LATITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),
 <a class="jxr_linenumber" name="L184" href="#L184">184</a> 
 <a class="jxr_linenumber" name="L185" href="#L185">185</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L186" href="#L186">186</a> <em class="jxr_javadoccomment">   * The recorded date specified as the eventDate string and the individual year, month, day are</em>
-<a class="jxr_linenumber" name="L187" href="#L187">187</a> <em class="jxr_javadoccomment">   * contradictory.</em>
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> <em class="jxr_javadoccomment">   * The recorded date specified as the eventDate string and the individual year, month, day and/or</em>
+<a class="jxr_linenumber" name="L187" href="#L187">187</a> <em class="jxr_javadoccomment">   * startDayOfYear, endDayOfYear are contradictory.</em>
 <a class="jxr_linenumber" name="L188" href="#L188">188</a> <em class="jxr_javadoccomment">   */</em>
 <a class="jxr_linenumber" name="L189" href="#L189">189</a>   RECORDED_DATE_MISMATCH(WARNING, TermsGroup.RECORDED_DATE_TERMS),
 <a class="jxr_linenumber" name="L190" href="#L190">190</a> 
 <a class="jxr_linenumber" name="L191" href="#L191">191</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L192" href="#L192">192</a> <em class="jxr_javadoccomment">   * A (partial) invalid date is given, such as a non existing date, zero month, etc.</em>
+<a class="jxr_linenumber" name="L192" href="#L192">192</a> <em class="jxr_javadoccomment">   * A (partial) invalid date is given, such as a non-existent date, zero month, etc.</em>
 <a class="jxr_linenumber" name="L193" href="#L193">193</a> <em class="jxr_javadoccomment">   */</em>
 <a class="jxr_linenumber" name="L194" href="#L194">194</a>   RECORDED_DATE_INVALID(WARNING, TermsGroup.RECORDED_DATE_TERMS),
 <a class="jxr_linenumber" name="L195" href="#L195">195</a> 
@@ -208,7 +208,7 @@
 <a class="jxr_linenumber" name="L200" href="#L200">200</a>   RECORDED_DATE_UNLIKELY(WARNING, TermsGroup.RECORDED_DATE_TERMS),
 <a class="jxr_linenumber" name="L201" href="#L201">201</a> 
 <a class="jxr_linenumber" name="L202" href="#L202">202</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L203" href="#L203">203</a> <em class="jxr_javadoccomment">   * Matching to the taxonomic backbone can only be done using a fuzzy, non exact match.</em>
+<a class="jxr_linenumber" name="L203" href="#L203">203</a> <em class="jxr_javadoccomment">   * Matching to the taxonomic backbone can only be done using a fuzzy, non-exact match.</em>
 <a class="jxr_linenumber" name="L204" href="#L204">204</a> <em class="jxr_javadoccomment">   */</em>
 <a class="jxr_linenumber" name="L205" href="#L205">205</a>   TAXON_MATCH_FUZZY(WARNING, TermsGroup.TAXONOMY_TERMS),
 <a class="jxr_linenumber" name="L206" href="#L206">206</a> 
@@ -534,88 +534,89 @@
 <a class="jxr_linenumber" name="L526" href="#L526">526</a> 
 <a class="jxr_linenumber" name="L527" href="#L527">527</a>     <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Term[] RECORDED_DATE_TERMS = {
 <a class="jxr_linenumber" name="L528" href="#L528">528</a>       DwcTerm.eventDate,
-<a class="jxr_linenumber" name="L529" href="#L529">529</a>       DwcTerm.year, DwcTerm.month, DwcTerm.day
-<a class="jxr_linenumber" name="L530" href="#L530">530</a>     };
-<a class="jxr_linenumber" name="L531" href="#L531">531</a> 
-<a class="jxr_linenumber" name="L532" href="#L532">532</a>     <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Term[] TAXONOMY_TERMS = {
-<a class="jxr_linenumber" name="L533" href="#L533">533</a>       DwcTerm.kingdom,
-<a class="jxr_linenumber" name="L534" href="#L534">534</a>       DwcTerm.phylum,
-<a class="jxr_linenumber" name="L535" href="#L535">535</a>       DwcTerm.<strong class="jxr_keyword">class</strong>_,
-<a class="jxr_linenumber" name="L536" href="#L536">536</a>       DwcTerm.order,
-<a class="jxr_linenumber" name="L537" href="#L537">537</a>       DwcTerm.family,
-<a class="jxr_linenumber" name="L538" href="#L538">538</a>       DwcTerm.genus,
-<a class="jxr_linenumber" name="L539" href="#L539">539</a>       DwcTerm.scientificName,
-<a class="jxr_linenumber" name="L540" href="#L540">540</a>       DwcTerm.scientificNameAuthorship,
-<a class="jxr_linenumber" name="L541" href="#L541">541</a>       DwcTerm.genericName,
-<a class="jxr_linenumber" name="L542" href="#L542">542</a>       DwcTerm.specificEpithet,
-<a class="jxr_linenumber" name="L543" href="#L543">543</a>       DwcTerm.infraspecificEpithet,
-<a class="jxr_linenumber" name="L544" href="#L544">544</a>       DwcTerm.scientificNameID,
-<a class="jxr_linenumber" name="L545" href="#L545">545</a>       DwcTerm.taxonConceptID,
-<a class="jxr_linenumber" name="L546" href="#L546">546</a>     };
-<a class="jxr_linenumber" name="L547" href="#L547">547</a> 
-<a class="jxr_linenumber" name="L548" href="#L548">548</a>     <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Term[] INSTITUTION_TERMS = {
-<a class="jxr_linenumber" name="L549" href="#L549">549</a>       DwcTerm.institutionCode, DwcTerm.institutionID, DwcTerm.ownerInstitutionCode
-<a class="jxr_linenumber" name="L550" href="#L550">550</a>     };
-<a class="jxr_linenumber" name="L551" href="#L551">551</a> 
-<a class="jxr_linenumber" name="L552" href="#L552">552</a>     <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};
-<a class="jxr_linenumber" name="L553" href="#L553">553</a>   }
-<a class="jxr_linenumber" name="L554" href="#L554">554</a> 
-<a class="jxr_linenumber" name="L555" href="#L555">555</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> Set&lt;Term&gt; relatedTerms;
-<a class="jxr_linenumber" name="L556" href="#L556">556</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <a name="InterpretationRemarkSeverity" href="../../../../org/gbif/api/vocabulary/InterpretationRemarkSeverity.html#InterpretationRemarkSeverity">InterpretationRemarkSeverity</a> severity;
-<a class="jxr_linenumber" name="L557" href="#L557">557</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> isDeprecated;
-<a class="jxr_linenumber" name="L558" href="#L558">558</a> 
-<a class="jxr_linenumber" name="L559" href="#L559">559</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L560" href="#L560">560</a> <em class="jxr_javadoccomment">   * {@link OccurrenceIssue} not linked to any specific {@link Term}.</em>
-<a class="jxr_linenumber" name="L561" href="#L561">561</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L562" href="#L562">562</a>   <a name="OccurrenceIssue" href="../../../../org/gbif/api/vocabulary/OccurrenceIssue.html#OccurrenceIssue">OccurrenceIssue</a>(<a name="InterpretationRemarkSeverity" href="../../../../org/gbif/api/vocabulary/InterpretationRemarkSeverity.html#InterpretationRemarkSeverity">InterpretationRemarkSeverity</a> severity) {
-<a class="jxr_linenumber" name="L563" href="#L563">563</a>     <strong class="jxr_keyword">this</strong>.severity = severity;
-<a class="jxr_linenumber" name="L564" href="#L564">564</a>     <strong class="jxr_keyword">this</strong>.relatedTerms = Collections.emptySet();
-<a class="jxr_linenumber" name="L565" href="#L565">565</a>     <strong class="jxr_keyword">this</strong>.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.<strong class="jxr_keyword">class</strong>, <strong class="jxr_keyword">this</strong>.name());
-<a class="jxr_linenumber" name="L566" href="#L566">566</a>   }
-<a class="jxr_linenumber" name="L567" href="#L567">567</a> 
-<a class="jxr_linenumber" name="L568" href="#L568">568</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L569" href="#L569">569</a> <em class="jxr_javadoccomment">   * {@link OccurrenceIssue} linked to the provided {@link Term}.</em>
-<a class="jxr_linenumber" name="L570" href="#L570">570</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L571" href="#L571">571</a>   <a name="OccurrenceIssue" href="../../../../org/gbif/api/vocabulary/OccurrenceIssue.html#OccurrenceIssue">OccurrenceIssue</a>(<a name="InterpretationRemarkSeverity" href="../../../../org/gbif/api/vocabulary/InterpretationRemarkSeverity.html#InterpretationRemarkSeverity">InterpretationRemarkSeverity</a> severity, Term... relatedTerms) {
-<a class="jxr_linenumber" name="L572" href="#L572">572</a>     <strong class="jxr_keyword">this</strong>.severity = severity;
-<a class="jxr_linenumber" name="L573" href="#L573">573</a>     <strong class="jxr_keyword">this</strong>.relatedTerms = Collections.unmodifiableSet(<strong class="jxr_keyword">new</strong> HashSet&lt;&gt;(Arrays.asList(relatedTerms)));
-<a class="jxr_linenumber" name="L574" href="#L574">574</a>     <strong class="jxr_keyword">this</strong>.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.<strong class="jxr_keyword">class</strong>, <strong class="jxr_keyword">this</strong>.name());
-<a class="jxr_linenumber" name="L575" href="#L575">575</a>   }
-<a class="jxr_linenumber" name="L576" href="#L576">576</a> 
-<a class="jxr_linenumber" name="L577" href="#L577">577</a>   @Override
-<a class="jxr_linenumber" name="L578" href="#L578">578</a>   <strong class="jxr_keyword">public</strong> String getId() {
-<a class="jxr_linenumber" name="L579" href="#L579">579</a>     <strong class="jxr_keyword">return</strong> name();
-<a class="jxr_linenumber" name="L580" href="#L580">580</a>   }
-<a class="jxr_linenumber" name="L581" href="#L581">581</a> 
-<a class="jxr_linenumber" name="L582" href="#L582">582</a>   @Override
-<a class="jxr_linenumber" name="L583" href="#L583">583</a>   <strong class="jxr_keyword">public</strong> Set&lt;Term&gt; getRelatedTerms() {
-<a class="jxr_linenumber" name="L584" href="#L584">584</a>     <strong class="jxr_keyword">return</strong> relatedTerms;
-<a class="jxr_linenumber" name="L585" href="#L585">585</a>   }
-<a class="jxr_linenumber" name="L586" href="#L586">586</a> 
-<a class="jxr_linenumber" name="L587" href="#L587">587</a>   @Override
-<a class="jxr_linenumber" name="L588" href="#L588">588</a>   <strong class="jxr_keyword">public</strong> <a name="InterpretationRemarkSeverity" href="../../../../org/gbif/api/vocabulary/InterpretationRemarkSeverity.html#InterpretationRemarkSeverity">InterpretationRemarkSeverity</a> getSeverity() {
-<a class="jxr_linenumber" name="L589" href="#L589">589</a>     <strong class="jxr_keyword">return</strong> severity;
-<a class="jxr_linenumber" name="L590" href="#L590">590</a>   }
-<a class="jxr_linenumber" name="L591" href="#L591">591</a> 
-<a class="jxr_linenumber" name="L592" href="#L592">592</a>   @Override
-<a class="jxr_linenumber" name="L593" href="#L593">593</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isDeprecated() {
-<a class="jxr_linenumber" name="L594" href="#L594">594</a>     <strong class="jxr_keyword">return</strong> isDeprecated;
-<a class="jxr_linenumber" name="L595" href="#L595">595</a>   }
-<a class="jxr_linenumber" name="L596" href="#L596">596</a> 
-<a class="jxr_linenumber" name="L597" href="#L597">597</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L598" href="#L598">598</a> <em class="jxr_javadoccomment">   * All issues that indicate problems with the coordinates and thus should not be shown on maps.</em>
-<a class="jxr_linenumber" name="L599" href="#L599">599</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L600" href="#L600">600</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =
-<a class="jxr_linenumber" name="L601" href="#L601">601</a>     Collections.unmodifiableList(
-<a class="jxr_linenumber" name="L602" href="#L602">602</a>       Arrays.asList(
-<a class="jxr_linenumber" name="L603" href="#L603">603</a>         ZERO_COORDINATE,
-<a class="jxr_linenumber" name="L604" href="#L604">604</a>         COORDINATE_OUT_OF_RANGE,
-<a class="jxr_linenumber" name="L605" href="#L605">605</a>         COORDINATE_INVALID,
-<a class="jxr_linenumber" name="L606" href="#L606">606</a>         COUNTRY_COORDINATE_MISMATCH,
-<a class="jxr_linenumber" name="L607" href="#L607">607</a>         PRESUMED_SWAPPED_COORDINATE,
-<a class="jxr_linenumber" name="L608" href="#L608">608</a>         PRESUMED_NEGATED_LONGITUDE,
-<a class="jxr_linenumber" name="L609" href="#L609">609</a>         PRESUMED_NEGATED_LATITUDE));
-<a class="jxr_linenumber" name="L610" href="#L610">610</a> }
+<a class="jxr_linenumber" name="L529" href="#L529">529</a>       DwcTerm.year, DwcTerm.month, DwcTerm.day,
+<a class="jxr_linenumber" name="L530" href="#L530">530</a>       DwcTerm.startDayOfYear, DwcTerm.endDayOfYear
+<a class="jxr_linenumber" name="L531" href="#L531">531</a>     };
+<a class="jxr_linenumber" name="L532" href="#L532">532</a> 
+<a class="jxr_linenumber" name="L533" href="#L533">533</a>     <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Term[] TAXONOMY_TERMS = {
+<a class="jxr_linenumber" name="L534" href="#L534">534</a>       DwcTerm.kingdom,
+<a class="jxr_linenumber" name="L535" href="#L535">535</a>       DwcTerm.phylum,
+<a class="jxr_linenumber" name="L536" href="#L536">536</a>       DwcTerm.<strong class="jxr_keyword">class</strong>_,
+<a class="jxr_linenumber" name="L537" href="#L537">537</a>       DwcTerm.order,
+<a class="jxr_linenumber" name="L538" href="#L538">538</a>       DwcTerm.family,
+<a class="jxr_linenumber" name="L539" href="#L539">539</a>       DwcTerm.genus,
+<a class="jxr_linenumber" name="L540" href="#L540">540</a>       DwcTerm.scientificName,
+<a class="jxr_linenumber" name="L541" href="#L541">541</a>       DwcTerm.scientificNameAuthorship,
+<a class="jxr_linenumber" name="L542" href="#L542">542</a>       DwcTerm.genericName,
+<a class="jxr_linenumber" name="L543" href="#L543">543</a>       DwcTerm.specificEpithet,
+<a class="jxr_linenumber" name="L544" href="#L544">544</a>       DwcTerm.infraspecificEpithet,
+<a class="jxr_linenumber" name="L545" href="#L545">545</a>       DwcTerm.scientificNameID,
+<a class="jxr_linenumber" name="L546" href="#L546">546</a>       DwcTerm.taxonConceptID,
+<a class="jxr_linenumber" name="L547" href="#L547">547</a>     };
+<a class="jxr_linenumber" name="L548" href="#L548">548</a> 
+<a class="jxr_linenumber" name="L549" href="#L549">549</a>     <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Term[] INSTITUTION_TERMS = {
+<a class="jxr_linenumber" name="L550" href="#L550">550</a>       DwcTerm.institutionCode, DwcTerm.institutionID, DwcTerm.ownerInstitutionCode
+<a class="jxr_linenumber" name="L551" href="#L551">551</a>     };
+<a class="jxr_linenumber" name="L552" href="#L552">552</a> 
+<a class="jxr_linenumber" name="L553" href="#L553">553</a>     <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};
+<a class="jxr_linenumber" name="L554" href="#L554">554</a>   }
+<a class="jxr_linenumber" name="L555" href="#L555">555</a> 
+<a class="jxr_linenumber" name="L556" href="#L556">556</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> Set&lt;Term&gt; relatedTerms;
+<a class="jxr_linenumber" name="L557" href="#L557">557</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <a name="InterpretationRemarkSeverity" href="../../../../org/gbif/api/vocabulary/InterpretationRemarkSeverity.html#InterpretationRemarkSeverity">InterpretationRemarkSeverity</a> severity;
+<a class="jxr_linenumber" name="L558" href="#L558">558</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> isDeprecated;
+<a class="jxr_linenumber" name="L559" href="#L559">559</a> 
+<a class="jxr_linenumber" name="L560" href="#L560">560</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L561" href="#L561">561</a> <em class="jxr_javadoccomment">   * {@link OccurrenceIssue} not linked to any specific {@link Term}.</em>
+<a class="jxr_linenumber" name="L562" href="#L562">562</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L563" href="#L563">563</a>   <a name="OccurrenceIssue" href="../../../../org/gbif/api/vocabulary/OccurrenceIssue.html#OccurrenceIssue">OccurrenceIssue</a>(<a name="InterpretationRemarkSeverity" href="../../../../org/gbif/api/vocabulary/InterpretationRemarkSeverity.html#InterpretationRemarkSeverity">InterpretationRemarkSeverity</a> severity) {
+<a class="jxr_linenumber" name="L564" href="#L564">564</a>     <strong class="jxr_keyword">this</strong>.severity = severity;
+<a class="jxr_linenumber" name="L565" href="#L565">565</a>     <strong class="jxr_keyword">this</strong>.relatedTerms = Collections.emptySet();
+<a class="jxr_linenumber" name="L566" href="#L566">566</a>     <strong class="jxr_keyword">this</strong>.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.<strong class="jxr_keyword">class</strong>, <strong class="jxr_keyword">this</strong>.name());
+<a class="jxr_linenumber" name="L567" href="#L567">567</a>   }
+<a class="jxr_linenumber" name="L568" href="#L568">568</a> 
+<a class="jxr_linenumber" name="L569" href="#L569">569</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L570" href="#L570">570</a> <em class="jxr_javadoccomment">   * {@link OccurrenceIssue} linked to the provided {@link Term}.</em>
+<a class="jxr_linenumber" name="L571" href="#L571">571</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L572" href="#L572">572</a>   <a name="OccurrenceIssue" href="../../../../org/gbif/api/vocabulary/OccurrenceIssue.html#OccurrenceIssue">OccurrenceIssue</a>(<a name="InterpretationRemarkSeverity" href="../../../../org/gbif/api/vocabulary/InterpretationRemarkSeverity.html#InterpretationRemarkSeverity">InterpretationRemarkSeverity</a> severity, Term... relatedTerms) {
+<a class="jxr_linenumber" name="L573" href="#L573">573</a>     <strong class="jxr_keyword">this</strong>.severity = severity;
+<a class="jxr_linenumber" name="L574" href="#L574">574</a>     <strong class="jxr_keyword">this</strong>.relatedTerms = Collections.unmodifiableSet(<strong class="jxr_keyword">new</strong> HashSet&lt;&gt;(Arrays.asList(relatedTerms)));
+<a class="jxr_linenumber" name="L575" href="#L575">575</a>     <strong class="jxr_keyword">this</strong>.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.<strong class="jxr_keyword">class</strong>, <strong class="jxr_keyword">this</strong>.name());
+<a class="jxr_linenumber" name="L576" href="#L576">576</a>   }
+<a class="jxr_linenumber" name="L577" href="#L577">577</a> 
+<a class="jxr_linenumber" name="L578" href="#L578">578</a>   @Override
+<a class="jxr_linenumber" name="L579" href="#L579">579</a>   <strong class="jxr_keyword">public</strong> String getId() {
+<a class="jxr_linenumber" name="L580" href="#L580">580</a>     <strong class="jxr_keyword">return</strong> name();
+<a class="jxr_linenumber" name="L581" href="#L581">581</a>   }
+<a class="jxr_linenumber" name="L582" href="#L582">582</a> 
+<a class="jxr_linenumber" name="L583" href="#L583">583</a>   @Override
+<a class="jxr_linenumber" name="L584" href="#L584">584</a>   <strong class="jxr_keyword">public</strong> Set&lt;Term&gt; getRelatedTerms() {
+<a class="jxr_linenumber" name="L585" href="#L585">585</a>     <strong class="jxr_keyword">return</strong> relatedTerms;
+<a class="jxr_linenumber" name="L586" href="#L586">586</a>   }
+<a class="jxr_linenumber" name="L587" href="#L587">587</a> 
+<a class="jxr_linenumber" name="L588" href="#L588">588</a>   @Override
+<a class="jxr_linenumber" name="L589" href="#L589">589</a>   <strong class="jxr_keyword">public</strong> <a name="InterpretationRemarkSeverity" href="../../../../org/gbif/api/vocabulary/InterpretationRemarkSeverity.html#InterpretationRemarkSeverity">InterpretationRemarkSeverity</a> getSeverity() {
+<a class="jxr_linenumber" name="L590" href="#L590">590</a>     <strong class="jxr_keyword">return</strong> severity;
+<a class="jxr_linenumber" name="L591" href="#L591">591</a>   }
+<a class="jxr_linenumber" name="L592" href="#L592">592</a> 
+<a class="jxr_linenumber" name="L593" href="#L593">593</a>   @Override
+<a class="jxr_linenumber" name="L594" href="#L594">594</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isDeprecated() {
+<a class="jxr_linenumber" name="L595" href="#L595">595</a>     <strong class="jxr_keyword">return</strong> isDeprecated;
+<a class="jxr_linenumber" name="L596" href="#L596">596</a>   }
+<a class="jxr_linenumber" name="L597" href="#L597">597</a> 
+<a class="jxr_linenumber" name="L598" href="#L598">598</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L599" href="#L599">599</a> <em class="jxr_javadoccomment">   * All issues that indicate problems with the coordinates and thus should not be shown on maps.</em>
+<a class="jxr_linenumber" name="L600" href="#L600">600</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L601" href="#L601">601</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =
+<a class="jxr_linenumber" name="L602" href="#L602">602</a>     Collections.unmodifiableList(
+<a class="jxr_linenumber" name="L603" href="#L603">603</a>       Arrays.asList(
+<a class="jxr_linenumber" name="L604" href="#L604">604</a>         ZERO_COORDINATE,
+<a class="jxr_linenumber" name="L605" href="#L605">605</a>         COORDINATE_OUT_OF_RANGE,
+<a class="jxr_linenumber" name="L606" href="#L606">606</a>         COORDINATE_INVALID,
+<a class="jxr_linenumber" name="L607" href="#L607">607</a>         COUNTRY_COORDINATE_MISMATCH,
+<a class="jxr_linenumber" name="L608" href="#L608">608</a>         PRESUMED_SWAPPED_COORDINATE,
+<a class="jxr_linenumber" name="L609" href="#L609">609</a>         PRESUMED_NEGATED_LONGITUDE,
+<a class="jxr_linenumber" name="L610" href="#L610">610</a>         PRESUMED_NEGATED_LATITUDE));
+<a class="jxr_linenumber" name="L611" href="#L611">611</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2024 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>

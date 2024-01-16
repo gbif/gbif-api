@@ -191,13 +191,13 @@
 <span class="sourceLineNo">183</span>  PRESUMED_NEGATED_LATITUDE(WARNING, TermsGroup.COORDINATES_TERMS_NO_DATUM),<a name="line.183"></a>
 <span class="sourceLineNo">184</span><a name="line.184"></a>
 <span class="sourceLineNo">185</span>  /**<a name="line.185"></a>
-<span class="sourceLineNo">186</span>   * The recorded date specified as the eventDate string and the individual year, month, day are<a name="line.186"></a>
-<span class="sourceLineNo">187</span>   * contradictory.<a name="line.187"></a>
+<span class="sourceLineNo">186</span>   * The recorded date specified as the eventDate string and the individual year, month, day and/or<a name="line.186"></a>
+<span class="sourceLineNo">187</span>   * startDayOfYear, endDayOfYear are contradictory.<a name="line.187"></a>
 <span class="sourceLineNo">188</span>   */<a name="line.188"></a>
 <span class="sourceLineNo">189</span>  RECORDED_DATE_MISMATCH(WARNING, TermsGroup.RECORDED_DATE_TERMS),<a name="line.189"></a>
 <span class="sourceLineNo">190</span><a name="line.190"></a>
 <span class="sourceLineNo">191</span>  /**<a name="line.191"></a>
-<span class="sourceLineNo">192</span>   * A (partial) invalid date is given, such as a non existing date, zero month, etc.<a name="line.192"></a>
+<span class="sourceLineNo">192</span>   * A (partial) invalid date is given, such as a non-existent date, zero month, etc.<a name="line.192"></a>
 <span class="sourceLineNo">193</span>   */<a name="line.193"></a>
 <span class="sourceLineNo">194</span>  RECORDED_DATE_INVALID(WARNING, TermsGroup.RECORDED_DATE_TERMS),<a name="line.194"></a>
 <span class="sourceLineNo">195</span><a name="line.195"></a>
@@ -208,7 +208,7 @@
 <span class="sourceLineNo">200</span>  RECORDED_DATE_UNLIKELY(WARNING, TermsGroup.RECORDED_DATE_TERMS),<a name="line.200"></a>
 <span class="sourceLineNo">201</span><a name="line.201"></a>
 <span class="sourceLineNo">202</span>  /**<a name="line.202"></a>
-<span class="sourceLineNo">203</span>   * Matching to the taxonomic backbone can only be done using a fuzzy, non exact match.<a name="line.203"></a>
+<span class="sourceLineNo">203</span>   * Matching to the taxonomic backbone can only be done using a fuzzy, non-exact match.<a name="line.203"></a>
 <span class="sourceLineNo">204</span>   */<a name="line.204"></a>
 <span class="sourceLineNo">205</span>  TAXON_MATCH_FUZZY(WARNING, TermsGroup.TAXONOMY_TERMS),<a name="line.205"></a>
 <span class="sourceLineNo">206</span><a name="line.206"></a>
@@ -534,88 +534,89 @@
 <span class="sourceLineNo">526</span><a name="line.526"></a>
 <span class="sourceLineNo">527</span>    static final Term[] RECORDED_DATE_TERMS = {<a name="line.527"></a>
 <span class="sourceLineNo">528</span>      DwcTerm.eventDate,<a name="line.528"></a>
-<span class="sourceLineNo">529</span>      DwcTerm.year, DwcTerm.month, DwcTerm.day<a name="line.529"></a>
-<span class="sourceLineNo">530</span>    };<a name="line.530"></a>
-<span class="sourceLineNo">531</span><a name="line.531"></a>
-<span class="sourceLineNo">532</span>    static final Term[] TAXONOMY_TERMS = {<a name="line.532"></a>
-<span class="sourceLineNo">533</span>      DwcTerm.kingdom,<a name="line.533"></a>
-<span class="sourceLineNo">534</span>      DwcTerm.phylum,<a name="line.534"></a>
-<span class="sourceLineNo">535</span>      DwcTerm.class_,<a name="line.535"></a>
-<span class="sourceLineNo">536</span>      DwcTerm.order,<a name="line.536"></a>
-<span class="sourceLineNo">537</span>      DwcTerm.family,<a name="line.537"></a>
-<span class="sourceLineNo">538</span>      DwcTerm.genus,<a name="line.538"></a>
-<span class="sourceLineNo">539</span>      DwcTerm.scientificName,<a name="line.539"></a>
-<span class="sourceLineNo">540</span>      DwcTerm.scientificNameAuthorship,<a name="line.540"></a>
-<span class="sourceLineNo">541</span>      DwcTerm.genericName,<a name="line.541"></a>
-<span class="sourceLineNo">542</span>      DwcTerm.specificEpithet,<a name="line.542"></a>
-<span class="sourceLineNo">543</span>      DwcTerm.infraspecificEpithet,<a name="line.543"></a>
-<span class="sourceLineNo">544</span>      DwcTerm.scientificNameID,<a name="line.544"></a>
-<span class="sourceLineNo">545</span>      DwcTerm.taxonConceptID,<a name="line.545"></a>
-<span class="sourceLineNo">546</span>    };<a name="line.546"></a>
-<span class="sourceLineNo">547</span><a name="line.547"></a>
-<span class="sourceLineNo">548</span>    static final Term[] INSTITUTION_TERMS = {<a name="line.548"></a>
-<span class="sourceLineNo">549</span>      DwcTerm.institutionCode, DwcTerm.institutionID, DwcTerm.ownerInstitutionCode<a name="line.549"></a>
-<span class="sourceLineNo">550</span>    };<a name="line.550"></a>
-<span class="sourceLineNo">551</span><a name="line.551"></a>
-<span class="sourceLineNo">552</span>    static final Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};<a name="line.552"></a>
-<span class="sourceLineNo">553</span>  }<a name="line.553"></a>
-<span class="sourceLineNo">554</span><a name="line.554"></a>
-<span class="sourceLineNo">555</span>  private final Set&lt;Term&gt; relatedTerms;<a name="line.555"></a>
-<span class="sourceLineNo">556</span>  private final InterpretationRemarkSeverity severity;<a name="line.556"></a>
-<span class="sourceLineNo">557</span>  private final boolean isDeprecated;<a name="line.557"></a>
-<span class="sourceLineNo">558</span><a name="line.558"></a>
-<span class="sourceLineNo">559</span>  /**<a name="line.559"></a>
-<span class="sourceLineNo">560</span>   * {@link OccurrenceIssue} not linked to any specific {@link Term}.<a name="line.560"></a>
-<span class="sourceLineNo">561</span>   */<a name="line.561"></a>
-<span class="sourceLineNo">562</span>  OccurrenceIssue(InterpretationRemarkSeverity severity) {<a name="line.562"></a>
-<span class="sourceLineNo">563</span>    this.severity = severity;<a name="line.563"></a>
-<span class="sourceLineNo">564</span>    this.relatedTerms = Collections.emptySet();<a name="line.564"></a>
-<span class="sourceLineNo">565</span>    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());<a name="line.565"></a>
-<span class="sourceLineNo">566</span>  }<a name="line.566"></a>
-<span class="sourceLineNo">567</span><a name="line.567"></a>
-<span class="sourceLineNo">568</span>  /**<a name="line.568"></a>
-<span class="sourceLineNo">569</span>   * {@link OccurrenceIssue} linked to the provided {@link Term}.<a name="line.569"></a>
-<span class="sourceLineNo">570</span>   */<a name="line.570"></a>
-<span class="sourceLineNo">571</span>  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {<a name="line.571"></a>
-<span class="sourceLineNo">572</span>    this.severity = severity;<a name="line.572"></a>
-<span class="sourceLineNo">573</span>    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));<a name="line.573"></a>
-<span class="sourceLineNo">574</span>    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());<a name="line.574"></a>
-<span class="sourceLineNo">575</span>  }<a name="line.575"></a>
-<span class="sourceLineNo">576</span><a name="line.576"></a>
-<span class="sourceLineNo">577</span>  @Override<a name="line.577"></a>
-<span class="sourceLineNo">578</span>  public String getId() {<a name="line.578"></a>
-<span class="sourceLineNo">579</span>    return name();<a name="line.579"></a>
-<span class="sourceLineNo">580</span>  }<a name="line.580"></a>
-<span class="sourceLineNo">581</span><a name="line.581"></a>
-<span class="sourceLineNo">582</span>  @Override<a name="line.582"></a>
-<span class="sourceLineNo">583</span>  public Set&lt;Term&gt; getRelatedTerms() {<a name="line.583"></a>
-<span class="sourceLineNo">584</span>    return relatedTerms;<a name="line.584"></a>
-<span class="sourceLineNo">585</span>  }<a name="line.585"></a>
-<span class="sourceLineNo">586</span><a name="line.586"></a>
-<span class="sourceLineNo">587</span>  @Override<a name="line.587"></a>
-<span class="sourceLineNo">588</span>  public InterpretationRemarkSeverity getSeverity() {<a name="line.588"></a>
-<span class="sourceLineNo">589</span>    return severity;<a name="line.589"></a>
-<span class="sourceLineNo">590</span>  }<a name="line.590"></a>
-<span class="sourceLineNo">591</span><a name="line.591"></a>
-<span class="sourceLineNo">592</span>  @Override<a name="line.592"></a>
-<span class="sourceLineNo">593</span>  public boolean isDeprecated() {<a name="line.593"></a>
-<span class="sourceLineNo">594</span>    return isDeprecated;<a name="line.594"></a>
-<span class="sourceLineNo">595</span>  }<a name="line.595"></a>
-<span class="sourceLineNo">596</span><a name="line.596"></a>
-<span class="sourceLineNo">597</span>  /**<a name="line.597"></a>
-<span class="sourceLineNo">598</span>   * All issues that indicate problems with the coordinates and thus should not be shown on maps.<a name="line.598"></a>
-<span class="sourceLineNo">599</span>   */<a name="line.599"></a>
-<span class="sourceLineNo">600</span>  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =<a name="line.600"></a>
-<span class="sourceLineNo">601</span>    Collections.unmodifiableList(<a name="line.601"></a>
-<span class="sourceLineNo">602</span>      Arrays.asList(<a name="line.602"></a>
-<span class="sourceLineNo">603</span>        ZERO_COORDINATE,<a name="line.603"></a>
-<span class="sourceLineNo">604</span>        COORDINATE_OUT_OF_RANGE,<a name="line.604"></a>
-<span class="sourceLineNo">605</span>        COORDINATE_INVALID,<a name="line.605"></a>
-<span class="sourceLineNo">606</span>        COUNTRY_COORDINATE_MISMATCH,<a name="line.606"></a>
-<span class="sourceLineNo">607</span>        PRESUMED_SWAPPED_COORDINATE,<a name="line.607"></a>
-<span class="sourceLineNo">608</span>        PRESUMED_NEGATED_LONGITUDE,<a name="line.608"></a>
-<span class="sourceLineNo">609</span>        PRESUMED_NEGATED_LATITUDE));<a name="line.609"></a>
-<span class="sourceLineNo">610</span>}<a name="line.610"></a>
+<span class="sourceLineNo">529</span>      DwcTerm.year, DwcTerm.month, DwcTerm.day,<a name="line.529"></a>
+<span class="sourceLineNo">530</span>      DwcTerm.startDayOfYear, DwcTerm.endDayOfYear<a name="line.530"></a>
+<span class="sourceLineNo">531</span>    };<a name="line.531"></a>
+<span class="sourceLineNo">532</span><a name="line.532"></a>
+<span class="sourceLineNo">533</span>    static final Term[] TAXONOMY_TERMS = {<a name="line.533"></a>
+<span class="sourceLineNo">534</span>      DwcTerm.kingdom,<a name="line.534"></a>
+<span class="sourceLineNo">535</span>      DwcTerm.phylum,<a name="line.535"></a>
+<span class="sourceLineNo">536</span>      DwcTerm.class_,<a name="line.536"></a>
+<span class="sourceLineNo">537</span>      DwcTerm.order,<a name="line.537"></a>
+<span class="sourceLineNo">538</span>      DwcTerm.family,<a name="line.538"></a>
+<span class="sourceLineNo">539</span>      DwcTerm.genus,<a name="line.539"></a>
+<span class="sourceLineNo">540</span>      DwcTerm.scientificName,<a name="line.540"></a>
+<span class="sourceLineNo">541</span>      DwcTerm.scientificNameAuthorship,<a name="line.541"></a>
+<span class="sourceLineNo">542</span>      DwcTerm.genericName,<a name="line.542"></a>
+<span class="sourceLineNo">543</span>      DwcTerm.specificEpithet,<a name="line.543"></a>
+<span class="sourceLineNo">544</span>      DwcTerm.infraspecificEpithet,<a name="line.544"></a>
+<span class="sourceLineNo">545</span>      DwcTerm.scientificNameID,<a name="line.545"></a>
+<span class="sourceLineNo">546</span>      DwcTerm.taxonConceptID,<a name="line.546"></a>
+<span class="sourceLineNo">547</span>    };<a name="line.547"></a>
+<span class="sourceLineNo">548</span><a name="line.548"></a>
+<span class="sourceLineNo">549</span>    static final Term[] INSTITUTION_TERMS = {<a name="line.549"></a>
+<span class="sourceLineNo">550</span>      DwcTerm.institutionCode, DwcTerm.institutionID, DwcTerm.ownerInstitutionCode<a name="line.550"></a>
+<span class="sourceLineNo">551</span>    };<a name="line.551"></a>
+<span class="sourceLineNo">552</span><a name="line.552"></a>
+<span class="sourceLineNo">553</span>    static final Term[] COLLECTION_TERMS = {DwcTerm.collectionCode, DwcTerm.collectionID};<a name="line.553"></a>
+<span class="sourceLineNo">554</span>  }<a name="line.554"></a>
+<span class="sourceLineNo">555</span><a name="line.555"></a>
+<span class="sourceLineNo">556</span>  private final Set&lt;Term&gt; relatedTerms;<a name="line.556"></a>
+<span class="sourceLineNo">557</span>  private final InterpretationRemarkSeverity severity;<a name="line.557"></a>
+<span class="sourceLineNo">558</span>  private final boolean isDeprecated;<a name="line.558"></a>
+<span class="sourceLineNo">559</span><a name="line.559"></a>
+<span class="sourceLineNo">560</span>  /**<a name="line.560"></a>
+<span class="sourceLineNo">561</span>   * {@link OccurrenceIssue} not linked to any specific {@link Term}.<a name="line.561"></a>
+<span class="sourceLineNo">562</span>   */<a name="line.562"></a>
+<span class="sourceLineNo">563</span>  OccurrenceIssue(InterpretationRemarkSeverity severity) {<a name="line.563"></a>
+<span class="sourceLineNo">564</span>    this.severity = severity;<a name="line.564"></a>
+<span class="sourceLineNo">565</span>    this.relatedTerms = Collections.emptySet();<a name="line.565"></a>
+<span class="sourceLineNo">566</span>    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());<a name="line.566"></a>
+<span class="sourceLineNo">567</span>  }<a name="line.567"></a>
+<span class="sourceLineNo">568</span><a name="line.568"></a>
+<span class="sourceLineNo">569</span>  /**<a name="line.569"></a>
+<span class="sourceLineNo">570</span>   * {@link OccurrenceIssue} linked to the provided {@link Term}.<a name="line.570"></a>
+<span class="sourceLineNo">571</span>   */<a name="line.571"></a>
+<span class="sourceLineNo">572</span>  OccurrenceIssue(InterpretationRemarkSeverity severity, Term... relatedTerms) {<a name="line.572"></a>
+<span class="sourceLineNo">573</span>    this.severity = severity;<a name="line.573"></a>
+<span class="sourceLineNo">574</span>    this.relatedTerms = Collections.unmodifiableSet(new HashSet&lt;&gt;(Arrays.asList(relatedTerms)));<a name="line.574"></a>
+<span class="sourceLineNo">575</span>    this.isDeprecated = AnnotationUtils.isFieldDeprecated(OccurrenceIssue.class, this.name());<a name="line.575"></a>
+<span class="sourceLineNo">576</span>  }<a name="line.576"></a>
+<span class="sourceLineNo">577</span><a name="line.577"></a>
+<span class="sourceLineNo">578</span>  @Override<a name="line.578"></a>
+<span class="sourceLineNo">579</span>  public String getId() {<a name="line.579"></a>
+<span class="sourceLineNo">580</span>    return name();<a name="line.580"></a>
+<span class="sourceLineNo">581</span>  }<a name="line.581"></a>
+<span class="sourceLineNo">582</span><a name="line.582"></a>
+<span class="sourceLineNo">583</span>  @Override<a name="line.583"></a>
+<span class="sourceLineNo">584</span>  public Set&lt;Term&gt; getRelatedTerms() {<a name="line.584"></a>
+<span class="sourceLineNo">585</span>    return relatedTerms;<a name="line.585"></a>
+<span class="sourceLineNo">586</span>  }<a name="line.586"></a>
+<span class="sourceLineNo">587</span><a name="line.587"></a>
+<span class="sourceLineNo">588</span>  @Override<a name="line.588"></a>
+<span class="sourceLineNo">589</span>  public InterpretationRemarkSeverity getSeverity() {<a name="line.589"></a>
+<span class="sourceLineNo">590</span>    return severity;<a name="line.590"></a>
+<span class="sourceLineNo">591</span>  }<a name="line.591"></a>
+<span class="sourceLineNo">592</span><a name="line.592"></a>
+<span class="sourceLineNo">593</span>  @Override<a name="line.593"></a>
+<span class="sourceLineNo">594</span>  public boolean isDeprecated() {<a name="line.594"></a>
+<span class="sourceLineNo">595</span>    return isDeprecated;<a name="line.595"></a>
+<span class="sourceLineNo">596</span>  }<a name="line.596"></a>
+<span class="sourceLineNo">597</span><a name="line.597"></a>
+<span class="sourceLineNo">598</span>  /**<a name="line.598"></a>
+<span class="sourceLineNo">599</span>   * All issues that indicate problems with the coordinates and thus should not be shown on maps.<a name="line.599"></a>
+<span class="sourceLineNo">600</span>   */<a name="line.600"></a>
+<span class="sourceLineNo">601</span>  public static final List&lt;OccurrenceIssue&gt; GEOSPATIAL_RULES =<a name="line.601"></a>
+<span class="sourceLineNo">602</span>    Collections.unmodifiableList(<a name="line.602"></a>
+<span class="sourceLineNo">603</span>      Arrays.asList(<a name="line.603"></a>
+<span class="sourceLineNo">604</span>        ZERO_COORDINATE,<a name="line.604"></a>
+<span class="sourceLineNo">605</span>        COORDINATE_OUT_OF_RANGE,<a name="line.605"></a>
+<span class="sourceLineNo">606</span>        COORDINATE_INVALID,<a name="line.606"></a>
+<span class="sourceLineNo">607</span>        COUNTRY_COORDINATE_MISMATCH,<a name="line.607"></a>
+<span class="sourceLineNo">608</span>        PRESUMED_SWAPPED_COORDINATE,<a name="line.608"></a>
+<span class="sourceLineNo">609</span>        PRESUMED_NEGATED_LONGITUDE,<a name="line.609"></a>
+<span class="sourceLineNo">610</span>        PRESUMED_NEGATED_LATITUDE));<a name="line.610"></a>
+<span class="sourceLineNo">611</span>}<a name="line.611"></a>
 
 
 

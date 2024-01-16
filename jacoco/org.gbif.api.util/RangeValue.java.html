@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RangeValue.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.util</a> &gt; <span class="el_source">RangeValue.java</span></div><h1>RangeValue.java</h1><pre class="source lang-java linenums">/*
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.util;
+
+import java.util.Objects;
+
+import javax.annotation.Nullable;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * A range used for predicates allowing including or excluding the end values.
+ */
+public class RangeValue {
+
+  @JsonCreator
+  public RangeValue(
+      @Nullable @JsonProperty(&quot;gte&quot;) String gte,
+      @Nullable @JsonProperty(&quot;gt&quot;) String gt,
+      @Nullable @JsonProperty(&quot;lte&quot;) String lte,
+<span class="fc" id="L33">      @Nullable @JsonProperty(&quot;lt&quot;) String lt) {</span>
+
+<span class="pc bpc" id="L35" title="3 of 4 branches missed.">    if (Objects.isNull(gte) &amp;&amp; Objects.isNull(gt)) {</span>
+<span class="nc" id="L36">      throw new IllegalArgumentException(&quot;Specify gte or gt&quot;);</span>
+    }
+<span class="pc bpc" id="L38" title="1 of 4 branches missed.">    if (Objects.isNull(lte) &amp;&amp; Objects.isNull(lt)) {</span>
+<span class="fc" id="L39">      throw new IllegalArgumentException(&quot;Specify lte or lt&quot;);</span>
+    }
+<span class="pc bpc" id="L41" title="2 of 4 branches missed.">    if (!Objects.isNull(gte) &amp;&amp; !Objects.isNull(gt)) {</span>
+<span class="nc" id="L42">      throw new IllegalArgumentException(&quot;Specify gte or gt, not both&quot;);</span>
+    }
+<span class="pc bpc" id="L44" title="2 of 4 branches missed.">    if (lte != null &amp;&amp; lt != null) {</span>
+<span class="nc" id="L45">      throw new IllegalArgumentException(&quot;Specify lte or lt, not both&quot;);</span>
+    }
+<span class="fc" id="L47">    this.gte = gte;</span>
+<span class="fc" id="L48">    this.lte = lte;</span>
+<span class="fc" id="L49">    this.gt = gt;</span>
+<span class="fc" id="L50">    this.lt = lt;</span>
+<span class="fc" id="L51">  }</span>
+
+  @JsonProperty(&quot;gt&quot;)
+  String gt;
+
+  @JsonProperty(&quot;lt&quot;)
+  String lt;
+
+  @JsonProperty(&quot;gte&quot;)
+  String gte;
+
+  @JsonProperty(&quot;lte&quot;)
+  String lte;
+
+  public String getGte() {
+<span class="nc" id="L66">    return gte;</span>
+  }
+
+  public String getLte() {
+<span class="nc" id="L70">    return lte;</span>
+  }
+
+  public String getGt() {
+<span class="nc" id="L74">    return gt;</span>
+  }
+
+  public String getLt() {
+<span class="nc" id="L78">    return lt;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
