@@ -17,6 +17,7 @@ import org.gbif.api.model.occurrence.DownloadFormat;
 import org.gbif.api.model.occurrence.DownloadRequest;
 import org.gbif.api.model.occurrence.DownloadType;
 import org.gbif.api.model.occurrence.PredicateDownloadRequest;
+import org.gbif.api.model.occurrence.SqlDownloadRequest;
 import org.gbif.api.model.predicate.Predicate;
 import org.gbif.api.util.VocabularyUtils;
 import org.gbif.api.vocabulary.Extension;
@@ -57,6 +58,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
   private static final String PREDICATE = "predicate";
   private static final List<String> SEND_NOTIFICATION = Collections
     .unmodifiableList(Arrays.asList("sendNotification", "send_notification"));
+  private static final String SQL = "sql";
   private static final List<String> NOTIFICATION_ADDRESSES =
     Collections.unmodifiableList(
       Arrays.asList("notificationAddresses", "notificationAddress", "notification_addresses",
@@ -100,9 +102,6 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
       sendNotification |= Optional.ofNullable(node.get(jsonKey)).map(JsonNode::asBoolean).orElse(Boolean.FALSE);
     }
 
-    JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);
-    Predicate predicateObj = predicate == null ? null : MAPPER.treeToValue(predicate, Predicate.class);
-
     Set<Extension> extensions = Optional.ofNullable(node.get(VERBATIM_EXTENSIONS)).map(jsonNode -> {
       try {
         return Arrays.stream(MAPPER.treeToValue(jsonNode, String[].class))
@@ -113,6 +112,20 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
       }
     }).orElse(Collections.emptySet());
 
-    return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format, type, extensions);
+    String sql = Optional.ofNullable(node.get(SQL)).map(JsonNode::asText).orElse(null);
+
+    if (sql != null) {
+      if (format != DownloadFormat.SQL_TSV_ZIP) {
+        throw new RuntimeException("SQL downloads must use a suitable download format: SQL_TSV_ZIP.");
+      }
+      return new SqlDownloadRequest(sql, creator, notificationAddresses, sendNotification, type, format);
+    } else {
+      if (format == DownloadFormat.SQL_TSV_ZIP) {
+        throw new RuntimeException("Predicate downloads must not use an SQL download format.");
+      }
+      JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);
+      Predicate predicateObj = predicate == null ? null : MAPPER.treeToValue(predicate, Predicate.class);
+      return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format, type, extensions);
+    }
   }
 }

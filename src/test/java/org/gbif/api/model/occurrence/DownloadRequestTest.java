@@ -33,6 +33,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -70,6 +71,14 @@ public class DownloadRequestTest {
       + " \"format\": \"SIMPLE_CSV\","
       + " \"predicate\": null"
       + "}";
+
+  private static final String SQL_REQUEST = "{"
+    + " \"creator\":\"" + TEST_USER + "\","
+    + " \"notificationAddresses\": [\"" + TEST_EMAIL +"\"],"
+    + " \"sendNotification\":\"true\","
+    + " \"format\": \"SQL_TSV_ZIP\","
+    + " \"sql\": \"SELECT basisOfRecord, COUNT(DISTINCT speciesKey) AS speciesCount FROM occurrence WHERE year = 2018 GROUP BY basisOfRecord\""
+    + "}";
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -169,6 +178,16 @@ public class DownloadRequestTest {
   public void testDownloadRequestSerde2() throws IOException {
     DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE_AVAIL, DownloadRequest.class);
     assertNull(((PredicateDownloadRequest)request).getPredicate());
+    assertTrue(request.getSendNotification());
+    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
+  }
+
+  @Test
+  public void testSQLDownloadSerde() throws IOException {
+    SqlDownloadRequest request = MAPPER.readValue(SQL_REQUEST, SqlDownloadRequest.class);
+    assertEquals(TEST_USER, request.getCreator());
+    assertNotNull(request.getSql());
+    assertEquals(DownloadFormat.SQL_TSV_ZIP, request.getFormat());
     assertTrue(request.getSendNotification());
     assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
   }

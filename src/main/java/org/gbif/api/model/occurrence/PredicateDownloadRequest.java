@@ -14,10 +14,13 @@
 package org.gbif.api.model.occurrence;
 
 
+import io.swagger.v3.oas.annotations.Hidden;
+
 import org.gbif.api.model.predicate.Predicate;
 import org.gbif.api.vocabulary.Extension;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
@@ -46,6 +49,10 @@ public class PredicateDownloadRequest extends DownloadRequest {
   )
   private Predicate predicate;
 
+  @Hidden
+  @JsonProperty("verbatimExtensions")
+  private Set<Extension> verbatimExtensions;
+
   public PredicateDownloadRequest() {
 
   }
@@ -62,8 +69,9 @@ public class PredicateDownloadRequest extends DownloadRequest {
     @JsonProperty("format") @Nullable DownloadFormat format,
     @JsonProperty("type") @Nullable DownloadType type,
     @JsonProperty("verbatimExtensions") @Nullable Set<Extension> verbatimExtensions) {
-    super(creator, notificationAddresses, sendNotification == null? Boolean.TRUE : sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type == null? DownloadType.OCCURRENCE : type, verbatimExtensions);
+    super(creator, notificationAddresses, sendNotification == null? Boolean.TRUE : sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type == null? DownloadType.OCCURRENCE : type);
     this.predicate = predicate;
+    this.verbatimExtensions = verbatimExtensions == null? Collections.emptySet(): verbatimExtensions;
   }
 
   /**
@@ -79,6 +87,18 @@ public class PredicateDownloadRequest extends DownloadRequest {
     this.predicate = predicate;
   }
 
+  /**
+   * Requested verbatimExtensions for this download.
+   */
+  @Nullable
+  public Set<Extension> getVerbatimExtensions() {
+    return verbatimExtensions;
+  }
+
+  public void setVerbatimExtensions(Set<Extension> verbatimExtensions) {
+    this.verbatimExtensions = verbatimExtensions;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -91,18 +111,25 @@ public class PredicateDownloadRequest extends DownloadRequest {
       return false;
     }
     PredicateDownloadRequest that = (PredicateDownloadRequest) o;
-    return Objects.equals(predicate, that.predicate);
+    return Objects.equals(predicate, that.predicate) &&
+      Objects.equals(verbatimExtensions, that.verbatimExtensions);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), predicate);
+    return Objects.hash(super.hashCode(), predicate, verbatimExtensions);
   }
 
   @Override
   public String toString() {
     return new StringJoiner(", ", PredicateDownloadRequest.class.getSimpleName() + "[", "]")
       .add("predicate=" + predicate)
+      .add("creator='" + getCreator() + "'")
+      .add("notificationAddresses=" + getNotificationAddresses())
+      .add("sendNotification=" + getSendNotification())
+      .add("format=" + getFormat())
+      .add("type=" + getType())
+      .add("verbatimExtensions=" + verbatimExtensions)
       .toString();
   }
 }
