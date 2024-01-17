@@ -57,12 +57,6 @@ public enum DownloadFormat {
   BIONOMIA(".zip"),
 
   /**
-   * Special CSV format for the <a href="https://www.iucn.org/">International Union for Conservation of Nature</a>
-   * <a href="https://www.iucnredlist.org/">Red List</a> project.
-   */
-  IUCN(".csv"),
-
-  /**
    * Parquet (with Snappy compression codec) format export of the most common indexed terms.
    */
   SIMPLE_PARQUET(".zip");
