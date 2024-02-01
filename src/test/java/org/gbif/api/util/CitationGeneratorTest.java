@@ -17,6 +17,7 @@ import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.CitationContact;
 import org.gbif.api.model.registry.Contact;
 import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.Endpoint;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.vocabulary.ContactType;
 import org.gbif.api.vocabulary.DatasetType;
@@ -29,6 +30,7 @@ import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
 
+import org.gbif.api.vocabulary.EndpointType;
 import org.junit.jupiter.api.Test;
 
 import static org.gbif.api.model.common.DOI.TEST_PREFIX;
@@ -177,6 +179,31 @@ public class CitationGeneratorTest {
   }
 
   @Test
+  public void testCompleteCitationCamtrapAuthorMultipleRoles() {
+    Organization org = new Organization();
+    org.setTitle("Cited Organization");
+
+    Dataset dataset = getTestCamtrapOccurrenceDatasetObject();
+
+    dataset.getContacts().add(createContact("John D.", "Doe", ContactType.POINT_OF_CONTACT));
+    dataset.getContacts().add(createContact("Jim", "Carey", ContactType.PRINCIPAL_INVESTIGATOR));
+    dataset.getContacts().add(createContact("Jack", "White", ContactType.CONTENT_PROVIDER));
+    dataset.getContacts().add(createContact("", "Rights Holder", ContactType.OWNER));
+    dataset.getContacts().add(createContact("", "Publisher", ContactType.DISTRIBUTOR));
+
+    CitationGenerator.CitationData citation = CitationGenerator.generateCitation(dataset, org);
+
+    assertEquals(
+        "Doe J D, Carey J, White J (2009). Dataset to be cited. Version 2.1. Cited Organization. "
+            + "Occurrence dataset https://doi.org/10.21373/abcd accessed via GBIF.org on "
+            + LocalDate.now(ZoneId.of("UTC"))
+            + ".",
+        citation.getCitation().getText());
+
+    assertEquals(citation.getContacts().size(), 3);
+  }
+
+  @Test
   public void testCompleteCitationNoOriginator() {
     Organization org = new Organization();
     org.setTitle("Cited Organization");
@@ -286,6 +313,24 @@ public class CitationGeneratorTest {
             LocalDate.of(2009, 2, 8).atStartOfDay(ZoneId.of("UTC")).toInstant().toEpochMilli()));
 
     dataset.setType(DatasetType.SAMPLING_EVENT);
+
+    return dataset;
+  }
+
+  private Dataset getTestCamtrapOccurrenceDatasetObject() {
+    Dataset dataset = new Dataset();
+    dataset.setTitle("Dataset to be cited");
+    dataset.setVersion("2.1");
+    dataset.setDoi(new DOI(TEST_PREFIX + "/abcd"));
+    dataset.setPubDate(
+        new Date(
+            LocalDate.of(2009, 2, 8).atStartOfDay(ZoneId.of("UTC")).toInstant().toEpochMilli()));
+
+    dataset.setType(DatasetType.OCCURRENCE);
+
+    Endpoint camtrapEndpoint = new Endpoint();
+    camtrapEndpoint.setType(EndpointType.CAMTRAP_DP);
+    dataset.addEndpoint(camtrapEndpoint);
 
     return dataset;
   }
