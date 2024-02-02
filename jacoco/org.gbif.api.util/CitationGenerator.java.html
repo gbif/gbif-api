@@ -17,6 +17,7 @@ import org.gbif.api.model.registry.Citation;
 import org.gbif.api.model.registry.CitationContact;
 import org.gbif.api.model.registry.Contact;
 import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.Endpoint;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.vocabulary.ContactType;
 
@@ -41,6 +42,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import lombok.Builder;
 import lombok.Data;
+import org.gbif.api.vocabulary.EndpointType;
 
 /**
  * Helper class tha generates a Citation String from {@link Dataset} and {@link Organization}
@@ -48,24 +50,28 @@ import lombok.Data;
  */
 public final class CitationGenerator {
 
-<span class="fc" id="L51">  private static final ZoneId UTC = ZoneId.of(&quot;UTC&quot;);</span>
-<span class="fc" id="L52">  private static final ContactType MANDATORY_CONTACT_TYPE = ContactType.ORIGINATOR;</span>
-<span class="fc" id="L53">  private static final EnumSet&lt;ContactType&gt; AUTHOR_CONTACT_TYPE =</span>
-<span class="fc" id="L54">      EnumSet.of(ContactType.ORIGINATOR, ContactType.METADATA_AUTHOR);</span>
-<span class="fc" id="L55">  private static final Predicate&lt;Contact&gt; IS_NAME_PROVIDED_FCT =</span>
-<span class="fc" id="L56">      ctc -&gt; StringUtils.isNotBlank(ctc.getLastName());</span>
-<span class="fc" id="L57">  private static final Predicate&lt;CitationContact&gt; IS_CONTACT_NAME_PROVIDED =</span>
-<span class="fc" id="L58">      ctc -&gt; StringUtils.isNotBlank(ctc.getLastName());</span>
-<span class="fc" id="L59">  private static final Predicate&lt;Contact&gt; IS_ELIGIBLE_CONTACT_TYPE =</span>
-<span class="fc" id="L60">      ctc -&gt; AUTHOR_CONTACT_TYPE.contains(ctc.getType());</span>
+<span class="fc" id="L53">  private static final ZoneId UTC = ZoneId.of(&quot;UTC&quot;);</span>
+<span class="fc" id="L54">  private static final ContactType MANDATORY_CONTACT_TYPE = ContactType.ORIGINATOR;</span>
+<span class="fc" id="L55">  private static final EnumSet&lt;ContactType&gt; AUTHOR_CONTACT_TYPE =</span>
+<span class="fc" id="L56">      EnumSet.of(ContactType.ORIGINATOR, ContactType.METADATA_AUTHOR);</span>
+<span class="fc" id="L57">  private static final EnumSet&lt;ContactType&gt; CAMTRAP_CITATION_CONTACT_TYPE =</span>
+<span class="fc" id="L58">      EnumSet.of(ContactType.POINT_OF_CONTACT, ContactType.PRINCIPAL_INVESTIGATOR, ContactType.CONTENT_PROVIDER);</span>
+<span class="fc" id="L59">  private static final Predicate&lt;Contact&gt; IS_NAME_PROVIDED_FCT =</span>
+<span class="fc" id="L60">      ctc -&gt; StringUtils.isNotBlank(ctc.getLastName());</span>
+<span class="fc" id="L61">  private static final Predicate&lt;CitationContact&gt; IS_CONTACT_NAME_PROVIDED =</span>
+<span class="fc" id="L62">      ctc -&gt; StringUtils.isNotBlank(ctc.getLastName());</span>
+<span class="fc" id="L63">  private static final Predicate&lt;Contact&gt; IS_ELIGIBLE_CONTACT_TYPE =</span>
+<span class="fc" id="L64">      ctc -&gt; AUTHOR_CONTACT_TYPE.contains(ctc.getType());</span>
+<span class="fc" id="L65">  private static final Predicate&lt;Contact&gt; IS_ELIGIBLE_CAMTRAP_CONTACT_TYPE =</span>
+<span class="fc" id="L66">      ctc -&gt; CAMTRAP_CITATION_CONTACT_TYPE.contains(ctc.getType());</span>
 
   /** Utility class */
   private CitationGenerator() {}
 
   @SuppressWarnings(&quot;unused&quot;)
   public static CitationData generateCitation(Dataset dataset, Organization org) {
-<span class="fc" id="L67">    Objects.requireNonNull(org, &quot;Organization shall be provided&quot;);</span>
-<span class="fc" id="L68">    return generateCitation(dataset, org.getTitle());</span>
+<span class="fc" id="L73">    Objects.requireNonNull(org, &quot;Organization shall be provided&quot;);</span>
+<span class="fc" id="L74">    return generateCitation(dataset, org.getTitle());</span>
   }
 
   /**
@@ -75,28 +81,28 @@ public final class CitationGenerator {
    */
   @SuppressWarnings(&quot;unused&quot;)
   public static String generatePublisherProvidedCitation(Dataset dataset) {
-<span class="nc" id="L78">    Objects.requireNonNull(dataset, &quot;Dataset shall be provided&quot;);</span>
-<span class="nc" id="L79">    Objects.requireNonNull(dataset.getCitation(), &quot;Dataset.citation shall be provided&quot;);</span>
-<span class="nc" id="L80">    String originalCitationText = dataset.getCitation().getText();</span>
-<span class="nc" id="L81">    Objects.requireNonNull(originalCitationText, &quot;Dataset.citation.text shall be provided&quot;);</span>
+<span class="nc" id="L84">    Objects.requireNonNull(dataset, &quot;Dataset shall be provided&quot;);</span>
+<span class="nc" id="L85">    Objects.requireNonNull(dataset.getCitation(), &quot;Dataset.citation shall be provided&quot;);</span>
+<span class="nc" id="L86">    String originalCitationText = dataset.getCitation().getText();</span>
+<span class="nc" id="L87">    Objects.requireNonNull(originalCitationText, &quot;Dataset.citation.text shall be provided&quot;);</span>
 
-<span class="nc" id="L83">    StringJoiner joiner = new StringJoiner(&quot; &quot;);</span>
+<span class="nc" id="L89">    StringJoiner joiner = new StringJoiner(&quot; &quot;);</span>
 
-<span class="nc" id="L85">    joiner.add(originalCitationText);</span>
+<span class="nc" id="L91">    joiner.add(originalCitationText);</span>
 
     // Check DOI exists, and append it if it doesn't.
-<span class="nc bnc" id="L88" title="All 2 branches missed.">    if (!originalCitationText.toLowerCase().contains(&quot;doi.org&quot;)</span>
-<span class="nc bnc" id="L89" title="All 2 branches missed.">        &amp;&amp; !originalCitationText.toLowerCase().contains(&quot;doi:&quot;)) {</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">    if (!originalCitationText.toLowerCase().contains(&quot;doi.org&quot;)</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        &amp;&amp; !originalCitationText.toLowerCase().contains(&quot;doi:&quot;)) {</span>
       try {
-<span class="nc" id="L91">        joiner.add(URLDecoder.decode(dataset.getDoi().getUrl().toString(), &quot;UTF-8&quot;));</span>
-<span class="nc" id="L92">      } catch (UnsupportedEncodingException e) {</span>
-<span class="nc" id="L93">        throw new IllegalArgumentException(&quot;Couldn't decode DOI URL&quot;, e);</span>
-<span class="nc" id="L94">      }</span>
+<span class="nc" id="L97">        joiner.add(URLDecoder.decode(dataset.getDoi().getUrl().toString(), &quot;UTF-8&quot;));</span>
+<span class="nc" id="L98">      } catch (UnsupportedEncodingException e) {</span>
+<span class="nc" id="L99">        throw new IllegalArgumentException(&quot;Couldn't decode DOI URL&quot;, e);</span>
+<span class="nc" id="L100">      }</span>
     }
 
-<span class="nc" id="L97">    joiner.add(&quot;accessed via GBIF.org on &quot; + LocalDate.now(UTC) + &quot;.&quot;);</span>
+<span class="nc" id="L103">    joiner.add(&quot;accessed via GBIF.org on &quot; + LocalDate.now(UTC) + &quot;.&quot;);</span>
 
-<span class="nc" id="L99">    return joiner.toString();</span>
+<span class="nc" id="L105">    return joiner.toString();</span>
   }
 
   /**
@@ -106,62 +112,79 @@ public final class CitationGenerator {
    */
   public static CitationData generateCitation(Dataset dataset, String organizationTitle) {
 
-<span class="fc" id="L109">    Objects.requireNonNull(dataset, &quot;Dataset shall be provided&quot;);</span>
-<span class="fc" id="L110">    Objects.requireNonNull(organizationTitle, &quot;Organization title shall be provided&quot;);</span>
+<span class="fc" id="L115">    Objects.requireNonNull(dataset, &quot;Dataset shall be provided&quot;);</span>
+<span class="fc" id="L116">    Objects.requireNonNull(organizationTitle, &quot;Organization title shall be provided&quot;);</span>
 
-<span class="fc" id="L112">    Citation citation = new Citation();</span>
+<span class="fc" id="L118">    Citation citation = new Citation();</span>
 
-<span class="fc" id="L114">    List&lt;CitationContact&gt; contacts = getAuthors(dataset.getContacts());</span>
+<span class="fc" id="L120">    List&lt;CitationContact&gt; contacts = getAuthors(dataset);</span>
 
-<span class="fc" id="L116">    StringJoiner joiner = new StringJoiner(&quot; &quot;);</span>
-<span class="fc" id="L117">    List&lt;String&gt; authorsName = generateAuthorsName(contacts);</span>
-<span class="fc" id="L118">    String authors = String.join(&quot;, &quot;, authorsName);</span>
+<span class="fc" id="L122">    StringJoiner joiner = new StringJoiner(&quot; &quot;);</span>
+<span class="fc" id="L123">    List&lt;String&gt; authorsName = generateAuthorsName(contacts);</span>
+<span class="fc" id="L124">    String authors = String.join(&quot;, &quot;, authorsName);</span>
 
-<span class="fc" id="L120">    boolean authorsNameAvailable = StringUtils.isNotBlank(authors);</span>
-<span class="fc bfc" id="L121" title="All 2 branches covered.">    authors = authorsNameAvailable ? authors : organizationTitle;</span>
+<span class="fc" id="L126">    boolean authorsNameAvailable = StringUtils.isNotBlank(authors);</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">    authors = authorsNameAvailable ? authors : organizationTitle;</span>
 
     // only add a dot if we are not going to add it with the year
-<span class="fc bfc" id="L124" title="All 2 branches covered.">    authors += dataset.getPubDate() == null ? &quot;.&quot; : &quot;&quot;;</span>
-<span class="fc" id="L125">    joiner.add(authors);</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">    authors += dataset.getPubDate() == null ? &quot;.&quot; : &quot;&quot;;</span>
+<span class="fc" id="L131">    joiner.add(authors);</span>
 
-<span class="fc bfc" id="L127" title="All 2 branches covered.">    if (dataset.getPubDate() != null) {</span>
-<span class="fc" id="L128">      joiner.add(&quot;(&quot; + dataset.getPubDate().toInstant().atZone(UTC).getYear() + &quot;).&quot;);</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">    if (dataset.getPubDate() != null) {</span>
+<span class="fc" id="L134">      joiner.add(&quot;(&quot; + dataset.getPubDate().toInstant().atZone(UTC).getYear() + &quot;).&quot;);</span>
     }
 
     // add title
-<span class="fc" id="L132">    joiner.add(StringUtils.trim(dataset.getTitle()) + &quot;.&quot;);</span>
+<span class="fc" id="L138">    joiner.add(StringUtils.trim(dataset.getTitle()) + &quot;.&quot;);</span>
 
     // add version
-<span class="pc bpc" id="L135" title="1 of 2 branches missed.">    if (dataset.getVersion() != null) {</span>
-<span class="fc" id="L136">      joiner.add(&quot;Version &quot; + dataset.getVersion() + &quot;.&quot;);</span>
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">    if (dataset.getVersion() != null) {</span>
+<span class="fc" id="L142">      joiner.add(&quot;Version &quot; + dataset.getVersion() + &quot;.&quot;);</span>
     }
 
     // add publisher except if it was used instead of the authors
-<span class="fc bfc" id="L140" title="All 2 branches covered.">    if (authorsNameAvailable) {</span>
-<span class="fc" id="L141">      joiner.add(StringUtils.trim(organizationTitle) + &quot;.&quot;);</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">    if (authorsNameAvailable) {</span>
+<span class="fc" id="L147">      joiner.add(StringUtils.trim(organizationTitle) + &quot;.&quot;);</span>
     }
 
-<span class="pc bpc" id="L144" title="1 of 2 branches missed.">    if (dataset.getType() != null) {</span>
-<span class="fc" id="L145">      joiner.add(StringUtils.capitalize(dataset.getType().name().replace('_', ' ').toLowerCase()));</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">    if (dataset.getType() != null) {</span>
+<span class="fc" id="L151">      joiner.add(StringUtils.capitalize(dataset.getType().name().replace('_', ' ').toLowerCase()));</span>
     }
-<span class="fc" id="L147">    joiner.add(&quot;dataset&quot;);</span>
+<span class="fc" id="L153">    joiner.add(&quot;dataset&quot;);</span>
 
     // add DOI as the identifier.
-<span class="pc bpc" id="L150" title="1 of 2 branches missed.">    if (dataset.getDoi() != null) {</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">    if (dataset.getDoi() != null) {</span>
       try {
-<span class="fc" id="L152">        joiner.add(</span>
-<span class="fc" id="L153">            URLDecoder.decode(dataset.getDoi().getUrl().toString(), StandardCharsets.UTF_8.name()));</span>
-<span class="nc" id="L154">      } catch (UnsupportedEncodingException e) {</span>
-<span class="nc" id="L155">        throw new IllegalArgumentException(&quot;Couldn't decode DOI URL&quot;, e);</span>
-<span class="fc" id="L156">      }</span>
+<span class="fc" id="L158">        joiner.add(</span>
+<span class="fc" id="L159">            URLDecoder.decode(dataset.getDoi().getUrl().toString(), StandardCharsets.UTF_8.name()));</span>
+<span class="nc" id="L160">      } catch (UnsupportedEncodingException e) {</span>
+<span class="nc" id="L161">        throw new IllegalArgumentException(&quot;Couldn't decode DOI URL&quot;, e);</span>
+<span class="fc" id="L162">      }</span>
     }
 
-<span class="fc" id="L159">    joiner.add(&quot;accessed via GBIF.org on &quot; + LocalDate.now(UTC) + &quot;.&quot;);</span>
+<span class="fc" id="L165">    joiner.add(&quot;accessed via GBIF.org on &quot; + LocalDate.now(UTC) + &quot;.&quot;);</span>
 
-<span class="fc" id="L161">    citation.setText(joiner.toString());</span>
-<span class="fc" id="L162">    citation.setCitationProvidedBySource(false);</span>
+<span class="fc" id="L167">    citation.setText(joiner.toString());</span>
+<span class="fc" id="L168">    citation.setCitationProvidedBySource(false);</span>
 
-<span class="fc" id="L164">    return CitationData.builder().citation(citation).contacts(contacts).build();</span>
+<span class="fc" id="L170">    return CitationData.builder().citation(citation).contacts(contacts).build();</span>
+  }
+
+  public static List&lt;CitationContact&gt; getAuthors(Dataset dataset) {
+<span class="fc" id="L174">    boolean isCamtrap = dataset.getEndpoints().stream()</span>
+<span class="fc" id="L175">        .map(Endpoint::getType)</span>
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">        .anyMatch(e -&gt; e == EndpointType.CAMTRAP_DP);</span>
+
+<span class="fc bfc" id="L178" title="All 2 branches covered.">    return isCamtrap ? getAuthorsForCamtrap(dataset.getContacts()) : getAuthors(dataset.getContacts());</span>
+  }
+
+  public static List&lt;CitationContact&gt; getAuthorsForCamtrap(List&lt;Contact&gt; contacts) {
+<span class="pc bpc" id="L182" title="2 of 4 branches missed.">    if (contacts == null || contacts.isEmpty()) {</span>
+<span class="nc" id="L183">      return Collections.emptyList();</span>
+    }
+
+<span class="fc" id="L186">    return getUniqueAuthors(</span>
+<span class="fc" id="L187">        contacts, ctc -&gt; IS_NAME_PROVIDED_FCT.and(IS_ELIGIBLE_CAMTRAP_CONTACT_TYPE).test(ctc));</span>
   }
 
   /**
@@ -173,24 +196,24 @@ public final class CitationGenerator {
    * @return ordered list of authors or empty list, never null
    */
   public static List&lt;CitationContact&gt; getAuthors(List&lt;Contact&gt; contacts) {
-<span class="pc bpc" id="L176" title="2 of 4 branches missed.">    if (contacts == null || contacts.isEmpty()) {</span>
-<span class="nc" id="L177">      return Collections.emptyList();</span>
+<span class="pc bpc" id="L199" title="2 of 4 branches missed.">    if (contacts == null || contacts.isEmpty()) {</span>
+<span class="nc" id="L200">      return Collections.emptyList();</span>
     }
 
-<span class="fc" id="L180">    List&lt;CitationContact&gt; uniqueContacts =</span>
-<span class="fc" id="L181">        getUniqueAuthors(</span>
-<span class="fc" id="L182">            contacts, ctc -&gt; IS_NAME_PROVIDED_FCT.and(IS_ELIGIBLE_CONTACT_TYPE).test(ctc));</span>
+<span class="fc" id="L203">    List&lt;CitationContact&gt; uniqueContacts =</span>
+<span class="fc" id="L204">        getUniqueAuthors(</span>
+<span class="fc" id="L205">            contacts, ctc -&gt; IS_NAME_PROVIDED_FCT.and(IS_ELIGIBLE_CONTACT_TYPE).test(ctc));</span>
 
     // make sure we have at least one instance of {@link #MANDATORY_CONTACT_TYPE}
-<span class="fc" id="L185">    Optional&lt;CitationContact&gt; firstOriginator =</span>
-<span class="fc" id="L186">        uniqueContacts.stream()</span>
-<span class="fc" id="L187">            .filter(ctc -&gt; ctc.getRoles().contains(MANDATORY_CONTACT_TYPE))</span>
-<span class="fc" id="L188">            .findFirst();</span>
+<span class="fc" id="L208">    Optional&lt;CitationContact&gt; firstOriginator =</span>
+<span class="fc" id="L209">        uniqueContacts.stream()</span>
+<span class="fc" id="L210">            .filter(ctc -&gt; ctc.getRoles().contains(MANDATORY_CONTACT_TYPE))</span>
+<span class="fc" id="L211">            .findFirst();</span>
 
-<span class="fc bfc" id="L190" title="All 2 branches covered.">    if (firstOriginator.isPresent()) {</span>
-<span class="fc" id="L191">      return uniqueContacts;</span>
+<span class="fc bfc" id="L213" title="All 2 branches covered.">    if (firstOriginator.isPresent()) {</span>
+<span class="fc" id="L214">      return uniqueContacts;</span>
     }
-<span class="fc" id="L193">    return Collections.emptyList();</span>
+<span class="fc" id="L216">    return Collections.emptyList();</span>
   }
 
   /**
@@ -201,14 +224,14 @@ public final class CitationGenerator {
    * @return list of author names (if it can be generated) or empty list, never null
    */
   public static List&lt;String&gt; generateAuthorsName(List&lt;CitationContact&gt; authors) {
-<span class="pc bpc" id="L204" title="1 of 4 branches missed.">    if (authors == null || authors.isEmpty()) {</span>
-<span class="fc" id="L205">      return Collections.emptyList();</span>
+<span class="pc bpc" id="L227" title="1 of 4 branches missed.">    if (authors == null || authors.isEmpty()) {</span>
+<span class="fc" id="L228">      return Collections.emptyList();</span>
     }
 
-<span class="fc" id="L208">    return authors.stream()</span>
-<span class="fc" id="L209">        .filter(IS_CONTACT_NAME_PROVIDED)</span>
-<span class="fc" id="L210">        .map(CitationContact::getAbbreviatedName)</span>
-<span class="fc" id="L211">        .collect(Collectors.toList());</span>
+<span class="fc" id="L231">    return authors.stream()</span>
+<span class="fc" id="L232">        .filter(IS_CONTACT_NAME_PROVIDED)</span>
+<span class="fc" id="L233">        .map(CitationContact::getAbbreviatedName)</span>
+<span class="fc" id="L234">        .collect(Collectors.toList());</span>
   }
 
   /**
@@ -223,42 +246,42 @@ public final class CitationGenerator {
    */
   private static List&lt;CitationContact&gt; getUniqueAuthors(
       List&lt;Contact&gt; authors, Predicate&lt;Contact&gt; filter) {
-<span class="fc" id="L226">    List&lt;CitationContact&gt; uniqueContact = new ArrayList&lt;&gt;();</span>
-<span class="pc bpc" id="L227" title="1 of 2 branches missed.">    if (authors != null) {</span>
-<span class="fc" id="L228">      authors.forEach(</span>
+<span class="fc" id="L249">    List&lt;CitationContact&gt; uniqueContact = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L250" title="1 of 2 branches missed.">    if (authors != null) {</span>
+<span class="fc" id="L251">      authors.forEach(</span>
           ctc -&gt; {
-<span class="fc bfc" id="L230" title="All 2 branches covered.">            if (filter.test(ctc)) {</span>
-<span class="fc" id="L231">              Optional&lt;CitationContact&gt; author = findInAuthorList(ctc, uniqueContact);</span>
-<span class="fc bfc" id="L232" title="All 2 branches covered.">              if (!author.isPresent()) {</span>
-<span class="fc" id="L233">                HashSet&lt;ContactType&gt; contactTypes = new HashSet&lt;&gt;();</span>
-<span class="pc bpc" id="L234" title="1 of 2 branches missed.">                if (ctc.getType() != null) {</span>
-<span class="fc" id="L235">                  contactTypes.add(ctc.getType());</span>
+<span class="fc bfc" id="L253" title="All 2 branches covered.">            if (filter.test(ctc)) {</span>
+<span class="fc" id="L254">              Optional&lt;CitationContact&gt; author = findInAuthorList(ctc, uniqueContact);</span>
+<span class="fc bfc" id="L255" title="All 2 branches covered.">              if (!author.isPresent()) {</span>
+<span class="fc" id="L256">                HashSet&lt;ContactType&gt; contactTypes = new HashSet&lt;&gt;();</span>
+<span class="pc bpc" id="L257" title="1 of 2 branches missed.">                if (ctc.getType() != null) {</span>
+<span class="fc" id="L258">                  contactTypes.add(ctc.getType());</span>
                 }
-<span class="fc" id="L237">                HashSet&lt;String&gt; userIds = new HashSet&lt;&gt;();</span>
-<span class="pc bpc" id="L238" title="1 of 4 branches missed.">                if (ctc.getUserId() != null &amp;&amp; !ctc.getUserId().isEmpty()) {</span>
-<span class="fc" id="L239">                  userIds.addAll(ctc.getUserId());</span>
+<span class="fc" id="L260">                HashSet&lt;String&gt; userIds = new HashSet&lt;&gt;();</span>
+<span class="pc bpc" id="L261" title="1 of 4 branches missed.">                if (ctc.getUserId() != null &amp;&amp; !ctc.getUserId().isEmpty()) {</span>
+<span class="fc" id="L262">                  userIds.addAll(ctc.getUserId());</span>
                 }
-<span class="fc" id="L241">                uniqueContact.add(</span>
+<span class="fc" id="L264">                uniqueContact.add(</span>
                     new CitationContact(
-<span class="fc" id="L243">                        ctc.getKey(),</span>
-<span class="fc" id="L244">                        getAuthorName(ctc),</span>
-<span class="fc" id="L245">                        ctc.getFirstName(),</span>
-<span class="fc" id="L246">                        ctc.getLastName(),</span>
+<span class="fc" id="L266">                        ctc.getKey(),</span>
+<span class="fc" id="L267">                        getAuthorName(ctc),</span>
+<span class="fc" id="L268">                        ctc.getFirstName(),</span>
+<span class="fc" id="L269">                        ctc.getLastName(),</span>
                         contactTypes,
                         userIds));
-<span class="fc" id="L249">              } else {</span>
-<span class="fc" id="L250">                author.ifPresent(</span>
+<span class="fc" id="L272">              } else {</span>
+<span class="fc" id="L273">                author.ifPresent(</span>
                     a -&gt; {
-<span class="fc" id="L252">                      a.getRoles().add(ctc.getType());</span>
-<span class="pc bpc" id="L253" title="1 of 2 branches missed.">                      if (ctc.getUserId() != null) {</span>
-<span class="fc" id="L254">                        a.getUserId().addAll(ctc.getUserId());</span>
+<span class="fc" id="L275">                      a.getRoles().add(ctc.getType());</span>
+<span class="pc bpc" id="L276" title="1 of 2 branches missed.">                      if (ctc.getUserId() != null) {</span>
+<span class="fc" id="L277">                        a.getUserId().addAll(ctc.getUserId());</span>
                       }
-<span class="fc" id="L256">                    });</span>
+<span class="fc" id="L279">                    });</span>
               }
             }
-<span class="fc" id="L259">          });</span>
+<span class="fc" id="L282">          });</span>
     }
-<span class="fc" id="L261">    return uniqueContact;</span>
+<span class="fc" id="L284">    return uniqueContact;</span>
   }
 
   /**
@@ -271,12 +294,12 @@ public final class CitationGenerator {
    */
   private static Optional&lt;CitationContact&gt; findInAuthorList(
       Contact ctc, List&lt;CitationContact&gt; uniqueContacts) {
-<span class="fc" id="L274">    return uniqueContacts.stream()</span>
-<span class="fc" id="L275">        .filter(</span>
+<span class="fc" id="L297">    return uniqueContacts.stream()</span>
+<span class="fc" id="L298">        .filter(</span>
             author -&gt;
-<span class="fc bfc" id="L277" title="All 2 branches covered.">                StringUtils.equalsIgnoreCase(ctc.getLastName(), author.getLastName())</span>
-<span class="pc bpc" id="L278" title="1 of 2 branches missed.">                    &amp;&amp; StringUtils.equalsIgnoreCase(ctc.getFirstName(), author.getFirstName()))</span>
-<span class="fc" id="L279">        .findFirst();</span>
+<span class="fc bfc" id="L300" title="All 2 branches covered.">                StringUtils.equalsIgnoreCase(ctc.getLastName(), author.getLastName())</span>
+<span class="pc bpc" id="L301" title="1 of 2 branches missed.">                    &amp;&amp; StringUtils.equalsIgnoreCase(ctc.getFirstName(), author.getFirstName()))</span>
+<span class="fc" id="L302">        .findFirst();</span>
   }
 
   /**
@@ -288,36 +311,36 @@ public final class CitationGenerator {
    * @return name
    */
   public static String getAuthorName(Contact creator) {
-<span class="fc" id="L291">    StringBuilder sb = new StringBuilder();</span>
-<span class="fc" id="L292">    String lastName = StringUtils.trimToNull(creator.getLastName());</span>
-<span class="fc" id="L293">    String firstNames = StringUtils.trimToNull(creator.getFirstName());</span>
-<span class="fc" id="L294">    String organization = StringUtils.trimToNull(creator.getOrganization());</span>
+<span class="fc" id="L314">    StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L315">    String lastName = StringUtils.trimToNull(creator.getLastName());</span>
+<span class="fc" id="L316">    String firstNames = StringUtils.trimToNull(creator.getFirstName());</span>
+<span class="fc" id="L317">    String organization = StringUtils.trimToNull(creator.getOrganization());</span>
 
-<span class="fc bfc" id="L296" title="All 4 branches covered.">    if (lastName != null &amp;&amp; firstNames != null) {</span>
-<span class="fc" id="L297">      sb.append(lastName);</span>
-<span class="fc" id="L298">      sb.append(&quot; &quot;);</span>
+<span class="fc bfc" id="L319" title="All 4 branches covered.">    if (lastName != null &amp;&amp; firstNames != null) {</span>
+<span class="fc" id="L320">      sb.append(lastName);</span>
+<span class="fc" id="L321">      sb.append(&quot; &quot;);</span>
       // add first initial of each first name, capitalized
-<span class="fc" id="L300">      String[] names = firstNames.split(&quot;\\s+&quot;);</span>
+<span class="fc" id="L323">      String[] names = firstNames.split(&quot;\\s+&quot;);</span>
 
-<span class="fc" id="L302">      sb.append(</span>
-<span class="fc" id="L303">          Arrays.stream(names)</span>
-<span class="pc bpc" id="L304" title="1 of 2 branches missed.">              .filter(str -&gt; !StringUtils.isBlank(str))</span>
-<span class="fc" id="L305">              .map(str -&gt; StringUtils.upperCase(String.valueOf(str.charAt(0))))</span>
-<span class="fc" id="L306">              .collect(Collectors.joining(&quot; &quot;)));</span>
-<span class="fc bfc" id="L307" title="All 2 branches covered.">    } else if (lastName != null) {</span>
-<span class="fc" id="L308">      sb.append(lastName);</span>
-<span class="pc bpc" id="L309" title="1 of 2 branches missed.">    } else if (organization != null) {</span>
-<span class="fc" id="L310">      sb.append(organization);</span>
+<span class="fc" id="L325">      sb.append(</span>
+<span class="fc" id="L326">          Arrays.stream(names)</span>
+<span class="pc bpc" id="L327" title="1 of 2 branches missed.">              .filter(str -&gt; !StringUtils.isBlank(str))</span>
+<span class="fc" id="L328">              .map(str -&gt; StringUtils.upperCase(String.valueOf(str.charAt(0))))</span>
+<span class="fc" id="L329">              .collect(Collectors.joining(&quot; &quot;)));</span>
+<span class="fc bfc" id="L330" title="All 2 branches covered.">    } else if (lastName != null) {</span>
+<span class="fc" id="L331">      sb.append(lastName);</span>
+<span class="pc bpc" id="L332" title="1 of 2 branches missed.">    } else if (organization != null) {</span>
+<span class="fc" id="L333">      sb.append(organization);</span>
     }
-<span class="fc" id="L312">    return sb.toString();</span>
+<span class="fc" id="L335">    return sb.toString();</span>
   }
 
-<span class="nc bnc" id="L315" title="All 22 branches missed.">  @Data</span>
-<span class="pc" id="L316">  @Builder</span>
+<span class="nc bnc" id="L338" title="All 22 branches missed.">  @Data</span>
+<span class="pc" id="L339">  @Builder</span>
   public static class CitationData {
 
-<span class="fc" id="L319">    private final Citation citation;</span>
-<span class="fc" id="L320">    private final List&lt;CitationContact&gt; contacts;</span>
+<span class="fc" id="L342">    private final Citation citation;</span>
+<span class="fc" id="L343">    private final List&lt;CitationContact&gt; contacts;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

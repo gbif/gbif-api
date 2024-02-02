@@ -25,309 +25,332 @@
 <span class="sourceLineNo">017</span>import org.gbif.api.model.registry.CitationContact;<a name="line.17"></a>
 <span class="sourceLineNo">018</span>import org.gbif.api.model.registry.Contact;<a name="line.18"></a>
 <span class="sourceLineNo">019</span>import org.gbif.api.model.registry.Dataset;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import org.gbif.api.model.registry.Organization;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import org.gbif.api.vocabulary.ContactType;<a name="line.21"></a>
-<span class="sourceLineNo">022</span><a name="line.22"></a>
-<span class="sourceLineNo">023</span>import java.io.UnsupportedEncodingException;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import java.net.URLDecoder;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>import java.nio.charset.StandardCharsets;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import java.time.LocalDate;<a name="line.26"></a>
-<span class="sourceLineNo">027</span>import java.time.ZoneId;<a name="line.27"></a>
-<span class="sourceLineNo">028</span>import java.util.ArrayList;<a name="line.28"></a>
-<span class="sourceLineNo">029</span>import java.util.Arrays;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>import java.util.Collections;<a name="line.30"></a>
-<span class="sourceLineNo">031</span>import java.util.EnumSet;<a name="line.31"></a>
-<span class="sourceLineNo">032</span>import java.util.HashSet;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>import java.util.List;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>import java.util.Objects;<a name="line.34"></a>
-<span class="sourceLineNo">035</span>import java.util.Optional;<a name="line.35"></a>
-<span class="sourceLineNo">036</span>import java.util.StringJoiner;<a name="line.36"></a>
-<span class="sourceLineNo">037</span>import java.util.function.Predicate;<a name="line.37"></a>
-<span class="sourceLineNo">038</span>import java.util.stream.Collectors;<a name="line.38"></a>
-<span class="sourceLineNo">039</span><a name="line.39"></a>
-<span class="sourceLineNo">040</span>import org.apache.commons.lang3.StringUtils;<a name="line.40"></a>
-<span class="sourceLineNo">041</span><a name="line.41"></a>
-<span class="sourceLineNo">042</span>import lombok.Builder;<a name="line.42"></a>
-<span class="sourceLineNo">043</span>import lombok.Data;<a name="line.43"></a>
-<span class="sourceLineNo">044</span><a name="line.44"></a>
-<span class="sourceLineNo">045</span>/**<a name="line.45"></a>
-<span class="sourceLineNo">046</span> * Helper class tha generates a Citation String from {@link Dataset} and {@link Organization}<a name="line.46"></a>
-<span class="sourceLineNo">047</span> * objects. Documentation : /docs/citations.md<a name="line.47"></a>
-<span class="sourceLineNo">048</span> */<a name="line.48"></a>
-<span class="sourceLineNo">049</span>public final class CitationGenerator {<a name="line.49"></a>
-<span class="sourceLineNo">050</span><a name="line.50"></a>
-<span class="sourceLineNo">051</span>  private static final ZoneId UTC = ZoneId.of("UTC");<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  private static final ContactType MANDATORY_CONTACT_TYPE = ContactType.ORIGINATOR;<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  private static final EnumSet&lt;ContactType&gt; AUTHOR_CONTACT_TYPE =<a name="line.53"></a>
-<span class="sourceLineNo">054</span>      EnumSet.of(ContactType.ORIGINATOR, ContactType.METADATA_AUTHOR);<a name="line.54"></a>
-<span class="sourceLineNo">055</span>  private static final Predicate&lt;Contact&gt; IS_NAME_PROVIDED_FCT =<a name="line.55"></a>
-<span class="sourceLineNo">056</span>      ctc -&gt; StringUtils.isNotBlank(ctc.getLastName());<a name="line.56"></a>
-<span class="sourceLineNo">057</span>  private static final Predicate&lt;CitationContact&gt; IS_CONTACT_NAME_PROVIDED =<a name="line.57"></a>
-<span class="sourceLineNo">058</span>      ctc -&gt; StringUtils.isNotBlank(ctc.getLastName());<a name="line.58"></a>
-<span class="sourceLineNo">059</span>  private static final Predicate&lt;Contact&gt; IS_ELIGIBLE_CONTACT_TYPE =<a name="line.59"></a>
-<span class="sourceLineNo">060</span>      ctc -&gt; AUTHOR_CONTACT_TYPE.contains(ctc.getType());<a name="line.60"></a>
-<span class="sourceLineNo">061</span><a name="line.61"></a>
-<span class="sourceLineNo">062</span>  /** Utility class */<a name="line.62"></a>
-<span class="sourceLineNo">063</span>  private CitationGenerator() {}<a name="line.63"></a>
-<span class="sourceLineNo">064</span><a name="line.64"></a>
-<span class="sourceLineNo">065</span>  @SuppressWarnings("unused")<a name="line.65"></a>
-<span class="sourceLineNo">066</span>  public static CitationData generateCitation(Dataset dataset, Organization org) {<a name="line.66"></a>
-<span class="sourceLineNo">067</span>    Objects.requireNonNull(org, "Organization shall be provided");<a name="line.67"></a>
-<span class="sourceLineNo">068</span>    return generateCitation(dataset, org.getTitle());<a name="line.68"></a>
-<span class="sourceLineNo">069</span>  }<a name="line.69"></a>
+<span class="sourceLineNo">020</span>import org.gbif.api.model.registry.Endpoint;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import org.gbif.api.model.registry.Organization;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import org.gbif.api.vocabulary.ContactType;<a name="line.22"></a>
+<span class="sourceLineNo">023</span><a name="line.23"></a>
+<span class="sourceLineNo">024</span>import java.io.UnsupportedEncodingException;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import java.net.URLDecoder;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.nio.charset.StandardCharsets;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import java.time.LocalDate;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import java.time.ZoneId;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import java.util.ArrayList;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import java.util.Arrays;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import java.util.Collections;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import java.util.EnumSet;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import java.util.HashSet;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>import java.util.List;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>import java.util.Objects;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>import java.util.Optional;<a name="line.36"></a>
+<span class="sourceLineNo">037</span>import java.util.StringJoiner;<a name="line.37"></a>
+<span class="sourceLineNo">038</span>import java.util.function.Predicate;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>import java.util.stream.Collectors;<a name="line.39"></a>
+<span class="sourceLineNo">040</span><a name="line.40"></a>
+<span class="sourceLineNo">041</span>import org.apache.commons.lang3.StringUtils;<a name="line.41"></a>
+<span class="sourceLineNo">042</span><a name="line.42"></a>
+<span class="sourceLineNo">043</span>import lombok.Builder;<a name="line.43"></a>
+<span class="sourceLineNo">044</span>import lombok.Data;<a name="line.44"></a>
+<span class="sourceLineNo">045</span>import org.gbif.api.vocabulary.EndpointType;<a name="line.45"></a>
+<span class="sourceLineNo">046</span><a name="line.46"></a>
+<span class="sourceLineNo">047</span>/**<a name="line.47"></a>
+<span class="sourceLineNo">048</span> * Helper class tha generates a Citation String from {@link Dataset} and {@link Organization}<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * objects. Documentation : /docs/citations.md<a name="line.49"></a>
+<span class="sourceLineNo">050</span> */<a name="line.50"></a>
+<span class="sourceLineNo">051</span>public final class CitationGenerator {<a name="line.51"></a>
+<span class="sourceLineNo">052</span><a name="line.52"></a>
+<span class="sourceLineNo">053</span>  private static final ZoneId UTC = ZoneId.of("UTC");<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  private static final ContactType MANDATORY_CONTACT_TYPE = ContactType.ORIGINATOR;<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  private static final EnumSet&lt;ContactType&gt; AUTHOR_CONTACT_TYPE =<a name="line.55"></a>
+<span class="sourceLineNo">056</span>      EnumSet.of(ContactType.ORIGINATOR, ContactType.METADATA_AUTHOR);<a name="line.56"></a>
+<span class="sourceLineNo">057</span>  private static final EnumSet&lt;ContactType&gt; CAMTRAP_CITATION_CONTACT_TYPE =<a name="line.57"></a>
+<span class="sourceLineNo">058</span>      EnumSet.of(ContactType.POINT_OF_CONTACT, ContactType.PRINCIPAL_INVESTIGATOR, ContactType.CONTENT_PROVIDER);<a name="line.58"></a>
+<span class="sourceLineNo">059</span>  private static final Predicate&lt;Contact&gt; IS_NAME_PROVIDED_FCT =<a name="line.59"></a>
+<span class="sourceLineNo">060</span>      ctc -&gt; StringUtils.isNotBlank(ctc.getLastName());<a name="line.60"></a>
+<span class="sourceLineNo">061</span>  private static final Predicate&lt;CitationContact&gt; IS_CONTACT_NAME_PROVIDED =<a name="line.61"></a>
+<span class="sourceLineNo">062</span>      ctc -&gt; StringUtils.isNotBlank(ctc.getLastName());<a name="line.62"></a>
+<span class="sourceLineNo">063</span>  private static final Predicate&lt;Contact&gt; IS_ELIGIBLE_CONTACT_TYPE =<a name="line.63"></a>
+<span class="sourceLineNo">064</span>      ctc -&gt; AUTHOR_CONTACT_TYPE.contains(ctc.getType());<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  private static final Predicate&lt;Contact&gt; IS_ELIGIBLE_CAMTRAP_CONTACT_TYPE =<a name="line.65"></a>
+<span class="sourceLineNo">066</span>      ctc -&gt; CAMTRAP_CITATION_CONTACT_TYPE.contains(ctc.getType());<a name="line.66"></a>
+<span class="sourceLineNo">067</span><a name="line.67"></a>
+<span class="sourceLineNo">068</span>  /** Utility class */<a name="line.68"></a>
+<span class="sourceLineNo">069</span>  private CitationGenerator() {}<a name="line.69"></a>
 <span class="sourceLineNo">070</span><a name="line.70"></a>
-<span class="sourceLineNo">071</span>  /**<a name="line.71"></a>
-<span class="sourceLineNo">072</span>   * Generate a citation for a {@link Dataset} using the publisher's provided citation.<a name="line.72"></a>
-<span class="sourceLineNo">073</span>   * @param dataset dataset<a name="line.73"></a>
-<span class="sourceLineNo">074</span>   * @return generated citation as {@link String}<a name="line.74"></a>
-<span class="sourceLineNo">075</span>   */<a name="line.75"></a>
-<span class="sourceLineNo">076</span>  @SuppressWarnings("unused")<a name="line.76"></a>
-<span class="sourceLineNo">077</span>  public static String generatePublisherProvidedCitation(Dataset dataset) {<a name="line.77"></a>
-<span class="sourceLineNo">078</span>    Objects.requireNonNull(dataset, "Dataset shall be provided");<a name="line.78"></a>
-<span class="sourceLineNo">079</span>    Objects.requireNonNull(dataset.getCitation(), "Dataset.citation shall be provided");<a name="line.79"></a>
-<span class="sourceLineNo">080</span>    String originalCitationText = dataset.getCitation().getText();<a name="line.80"></a>
-<span class="sourceLineNo">081</span>    Objects.requireNonNull(originalCitationText, "Dataset.citation.text shall be provided");<a name="line.81"></a>
-<span class="sourceLineNo">082</span><a name="line.82"></a>
-<span class="sourceLineNo">083</span>    StringJoiner joiner = new StringJoiner(" ");<a name="line.83"></a>
-<span class="sourceLineNo">084</span><a name="line.84"></a>
-<span class="sourceLineNo">085</span>    joiner.add(originalCitationText);<a name="line.85"></a>
-<span class="sourceLineNo">086</span><a name="line.86"></a>
-<span class="sourceLineNo">087</span>    // Check DOI exists, and append it if it doesn't.<a name="line.87"></a>
-<span class="sourceLineNo">088</span>    if (!originalCitationText.toLowerCase().contains("doi.org")<a name="line.88"></a>
-<span class="sourceLineNo">089</span>        &amp;&amp; !originalCitationText.toLowerCase().contains("doi:")) {<a name="line.89"></a>
-<span class="sourceLineNo">090</span>      try {<a name="line.90"></a>
-<span class="sourceLineNo">091</span>        joiner.add(URLDecoder.decode(dataset.getDoi().getUrl().toString(), "UTF-8"));<a name="line.91"></a>
-<span class="sourceLineNo">092</span>      } catch (UnsupportedEncodingException e) {<a name="line.92"></a>
-<span class="sourceLineNo">093</span>        throw new IllegalArgumentException("Couldn't decode DOI URL", e);<a name="line.93"></a>
-<span class="sourceLineNo">094</span>      }<a name="line.94"></a>
-<span class="sourceLineNo">095</span>    }<a name="line.95"></a>
-<span class="sourceLineNo">096</span><a name="line.96"></a>
-<span class="sourceLineNo">097</span>    joiner.add("accessed via GBIF.org on " + LocalDate.now(UTC) + ".");<a name="line.97"></a>
-<span class="sourceLineNo">098</span><a name="line.98"></a>
-<span class="sourceLineNo">099</span>    return joiner.toString();<a name="line.99"></a>
-<span class="sourceLineNo">100</span>  }<a name="line.100"></a>
-<span class="sourceLineNo">101</span><a name="line.101"></a>
-<span class="sourceLineNo">102</span>  /**<a name="line.102"></a>
-<span class="sourceLineNo">103</span>   * Generate a citation for a {@link Dataset} and its {@link Organization}. TODO add support for<a name="line.103"></a>
-<span class="sourceLineNo">104</span>   * i18n<a name="line.104"></a>
-<span class="sourceLineNo">105</span>   * @return generated citation as {@link String}<a name="line.105"></a>
-<span class="sourceLineNo">106</span>   */<a name="line.106"></a>
-<span class="sourceLineNo">107</span>  public static CitationData generateCitation(Dataset dataset, String organizationTitle) {<a name="line.107"></a>
-<span class="sourceLineNo">108</span><a name="line.108"></a>
-<span class="sourceLineNo">109</span>    Objects.requireNonNull(dataset, "Dataset shall be provided");<a name="line.109"></a>
-<span class="sourceLineNo">110</span>    Objects.requireNonNull(organizationTitle, "Organization title shall be provided");<a name="line.110"></a>
-<span class="sourceLineNo">111</span><a name="line.111"></a>
-<span class="sourceLineNo">112</span>    Citation citation = new Citation();<a name="line.112"></a>
-<span class="sourceLineNo">113</span><a name="line.113"></a>
-<span class="sourceLineNo">114</span>    List&lt;CitationContact&gt; contacts = getAuthors(dataset.getContacts());<a name="line.114"></a>
-<span class="sourceLineNo">115</span><a name="line.115"></a>
-<span class="sourceLineNo">116</span>    StringJoiner joiner = new StringJoiner(" ");<a name="line.116"></a>
-<span class="sourceLineNo">117</span>    List&lt;String&gt; authorsName = generateAuthorsName(contacts);<a name="line.117"></a>
-<span class="sourceLineNo">118</span>    String authors = String.join(", ", authorsName);<a name="line.118"></a>
+<span class="sourceLineNo">071</span>  @SuppressWarnings("unused")<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  public static CitationData generateCitation(Dataset dataset, Organization org) {<a name="line.72"></a>
+<span class="sourceLineNo">073</span>    Objects.requireNonNull(org, "Organization shall be provided");<a name="line.73"></a>
+<span class="sourceLineNo">074</span>    return generateCitation(dataset, org.getTitle());<a name="line.74"></a>
+<span class="sourceLineNo">075</span>  }<a name="line.75"></a>
+<span class="sourceLineNo">076</span><a name="line.76"></a>
+<span class="sourceLineNo">077</span>  /**<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   * Generate a citation for a {@link Dataset} using the publisher's provided citation.<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   * @param dataset dataset<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   * @return generated citation as {@link String}<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   */<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  @SuppressWarnings("unused")<a name="line.82"></a>
+<span class="sourceLineNo">083</span>  public static String generatePublisherProvidedCitation(Dataset dataset) {<a name="line.83"></a>
+<span class="sourceLineNo">084</span>    Objects.requireNonNull(dataset, "Dataset shall be provided");<a name="line.84"></a>
+<span class="sourceLineNo">085</span>    Objects.requireNonNull(dataset.getCitation(), "Dataset.citation shall be provided");<a name="line.85"></a>
+<span class="sourceLineNo">086</span>    String originalCitationText = dataset.getCitation().getText();<a name="line.86"></a>
+<span class="sourceLineNo">087</span>    Objects.requireNonNull(originalCitationText, "Dataset.citation.text shall be provided");<a name="line.87"></a>
+<span class="sourceLineNo">088</span><a name="line.88"></a>
+<span class="sourceLineNo">089</span>    StringJoiner joiner = new StringJoiner(" ");<a name="line.89"></a>
+<span class="sourceLineNo">090</span><a name="line.90"></a>
+<span class="sourceLineNo">091</span>    joiner.add(originalCitationText);<a name="line.91"></a>
+<span class="sourceLineNo">092</span><a name="line.92"></a>
+<span class="sourceLineNo">093</span>    // Check DOI exists, and append it if it doesn't.<a name="line.93"></a>
+<span class="sourceLineNo">094</span>    if (!originalCitationText.toLowerCase().contains("doi.org")<a name="line.94"></a>
+<span class="sourceLineNo">095</span>        &amp;&amp; !originalCitationText.toLowerCase().contains("doi:")) {<a name="line.95"></a>
+<span class="sourceLineNo">096</span>      try {<a name="line.96"></a>
+<span class="sourceLineNo">097</span>        joiner.add(URLDecoder.decode(dataset.getDoi().getUrl().toString(), "UTF-8"));<a name="line.97"></a>
+<span class="sourceLineNo">098</span>      } catch (UnsupportedEncodingException e) {<a name="line.98"></a>
+<span class="sourceLineNo">099</span>        throw new IllegalArgumentException("Couldn't decode DOI URL", e);<a name="line.99"></a>
+<span class="sourceLineNo">100</span>      }<a name="line.100"></a>
+<span class="sourceLineNo">101</span>    }<a name="line.101"></a>
+<span class="sourceLineNo">102</span><a name="line.102"></a>
+<span class="sourceLineNo">103</span>    joiner.add("accessed via GBIF.org on " + LocalDate.now(UTC) + ".");<a name="line.103"></a>
+<span class="sourceLineNo">104</span><a name="line.104"></a>
+<span class="sourceLineNo">105</span>    return joiner.toString();<a name="line.105"></a>
+<span class="sourceLineNo">106</span>  }<a name="line.106"></a>
+<span class="sourceLineNo">107</span><a name="line.107"></a>
+<span class="sourceLineNo">108</span>  /**<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   * Generate a citation for a {@link Dataset} and its {@link Organization}. TODO add support for<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   * i18n<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   * @return generated citation as {@link String}<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   */<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  public static CitationData generateCitation(Dataset dataset, String organizationTitle) {<a name="line.113"></a>
+<span class="sourceLineNo">114</span><a name="line.114"></a>
+<span class="sourceLineNo">115</span>    Objects.requireNonNull(dataset, "Dataset shall be provided");<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    Objects.requireNonNull(organizationTitle, "Organization title shall be provided");<a name="line.116"></a>
+<span class="sourceLineNo">117</span><a name="line.117"></a>
+<span class="sourceLineNo">118</span>    Citation citation = new Citation();<a name="line.118"></a>
 <span class="sourceLineNo">119</span><a name="line.119"></a>
-<span class="sourceLineNo">120</span>    boolean authorsNameAvailable = StringUtils.isNotBlank(authors);<a name="line.120"></a>
-<span class="sourceLineNo">121</span>    authors = authorsNameAvailable ? authors : organizationTitle;<a name="line.121"></a>
-<span class="sourceLineNo">122</span><a name="line.122"></a>
-<span class="sourceLineNo">123</span>    // only add a dot if we are not going to add it with the year<a name="line.123"></a>
-<span class="sourceLineNo">124</span>    authors += dataset.getPubDate() == null ? "." : "";<a name="line.124"></a>
-<span class="sourceLineNo">125</span>    joiner.add(authors);<a name="line.125"></a>
-<span class="sourceLineNo">126</span><a name="line.126"></a>
-<span class="sourceLineNo">127</span>    if (dataset.getPubDate() != null) {<a name="line.127"></a>
-<span class="sourceLineNo">128</span>      joiner.add("(" + dataset.getPubDate().toInstant().atZone(UTC).getYear() + ").");<a name="line.128"></a>
-<span class="sourceLineNo">129</span>    }<a name="line.129"></a>
-<span class="sourceLineNo">130</span><a name="line.130"></a>
-<span class="sourceLineNo">131</span>    // add title<a name="line.131"></a>
-<span class="sourceLineNo">132</span>    joiner.add(StringUtils.trim(dataset.getTitle()) + ".");<a name="line.132"></a>
-<span class="sourceLineNo">133</span><a name="line.133"></a>
-<span class="sourceLineNo">134</span>    // add version<a name="line.134"></a>
-<span class="sourceLineNo">135</span>    if (dataset.getVersion() != null) {<a name="line.135"></a>
-<span class="sourceLineNo">136</span>      joiner.add("Version " + dataset.getVersion() + ".");<a name="line.136"></a>
-<span class="sourceLineNo">137</span>    }<a name="line.137"></a>
-<span class="sourceLineNo">138</span><a name="line.138"></a>
-<span class="sourceLineNo">139</span>    // add publisher except if it was used instead of the authors<a name="line.139"></a>
-<span class="sourceLineNo">140</span>    if (authorsNameAvailable) {<a name="line.140"></a>
-<span class="sourceLineNo">141</span>      joiner.add(StringUtils.trim(organizationTitle) + ".");<a name="line.141"></a>
-<span class="sourceLineNo">142</span>    }<a name="line.142"></a>
-<span class="sourceLineNo">143</span><a name="line.143"></a>
-<span class="sourceLineNo">144</span>    if (dataset.getType() != null) {<a name="line.144"></a>
-<span class="sourceLineNo">145</span>      joiner.add(StringUtils.capitalize(dataset.getType().name().replace('_', ' ').toLowerCase()));<a name="line.145"></a>
-<span class="sourceLineNo">146</span>    }<a name="line.146"></a>
-<span class="sourceLineNo">147</span>    joiner.add("dataset");<a name="line.147"></a>
-<span class="sourceLineNo">148</span><a name="line.148"></a>
-<span class="sourceLineNo">149</span>    // add DOI as the identifier.<a name="line.149"></a>
-<span class="sourceLineNo">150</span>    if (dataset.getDoi() != null) {<a name="line.150"></a>
-<span class="sourceLineNo">151</span>      try {<a name="line.151"></a>
-<span class="sourceLineNo">152</span>        joiner.add(<a name="line.152"></a>
-<span class="sourceLineNo">153</span>            URLDecoder.decode(dataset.getDoi().getUrl().toString(), StandardCharsets.UTF_8.name()));<a name="line.153"></a>
-<span class="sourceLineNo">154</span>      } catch (UnsupportedEncodingException e) {<a name="line.154"></a>
-<span class="sourceLineNo">155</span>        throw new IllegalArgumentException("Couldn't decode DOI URL", e);<a name="line.155"></a>
-<span class="sourceLineNo">156</span>      }<a name="line.156"></a>
-<span class="sourceLineNo">157</span>    }<a name="line.157"></a>
-<span class="sourceLineNo">158</span><a name="line.158"></a>
-<span class="sourceLineNo">159</span>    joiner.add("accessed via GBIF.org on " + LocalDate.now(UTC) + ".");<a name="line.159"></a>
-<span class="sourceLineNo">160</span><a name="line.160"></a>
-<span class="sourceLineNo">161</span>    citation.setText(joiner.toString());<a name="line.161"></a>
-<span class="sourceLineNo">162</span>    citation.setCitationProvidedBySource(false);<a name="line.162"></a>
-<span class="sourceLineNo">163</span><a name="line.163"></a>
-<span class="sourceLineNo">164</span>    return CitationData.builder().citation(citation).contacts(contacts).build();<a name="line.164"></a>
-<span class="sourceLineNo">165</span>  }<a name="line.165"></a>
+<span class="sourceLineNo">120</span>    List&lt;CitationContact&gt; contacts = getAuthors(dataset);<a name="line.120"></a>
+<span class="sourceLineNo">121</span><a name="line.121"></a>
+<span class="sourceLineNo">122</span>    StringJoiner joiner = new StringJoiner(" ");<a name="line.122"></a>
+<span class="sourceLineNo">123</span>    List&lt;String&gt; authorsName = generateAuthorsName(contacts);<a name="line.123"></a>
+<span class="sourceLineNo">124</span>    String authors = String.join(", ", authorsName);<a name="line.124"></a>
+<span class="sourceLineNo">125</span><a name="line.125"></a>
+<span class="sourceLineNo">126</span>    boolean authorsNameAvailable = StringUtils.isNotBlank(authors);<a name="line.126"></a>
+<span class="sourceLineNo">127</span>    authors = authorsNameAvailable ? authors : organizationTitle;<a name="line.127"></a>
+<span class="sourceLineNo">128</span><a name="line.128"></a>
+<span class="sourceLineNo">129</span>    // only add a dot if we are not going to add it with the year<a name="line.129"></a>
+<span class="sourceLineNo">130</span>    authors += dataset.getPubDate() == null ? "." : "";<a name="line.130"></a>
+<span class="sourceLineNo">131</span>    joiner.add(authors);<a name="line.131"></a>
+<span class="sourceLineNo">132</span><a name="line.132"></a>
+<span class="sourceLineNo">133</span>    if (dataset.getPubDate() != null) {<a name="line.133"></a>
+<span class="sourceLineNo">134</span>      joiner.add("(" + dataset.getPubDate().toInstant().atZone(UTC).getYear() + ").");<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    }<a name="line.135"></a>
+<span class="sourceLineNo">136</span><a name="line.136"></a>
+<span class="sourceLineNo">137</span>    // add title<a name="line.137"></a>
+<span class="sourceLineNo">138</span>    joiner.add(StringUtils.trim(dataset.getTitle()) + ".");<a name="line.138"></a>
+<span class="sourceLineNo">139</span><a name="line.139"></a>
+<span class="sourceLineNo">140</span>    // add version<a name="line.140"></a>
+<span class="sourceLineNo">141</span>    if (dataset.getVersion() != null) {<a name="line.141"></a>
+<span class="sourceLineNo">142</span>      joiner.add("Version " + dataset.getVersion() + ".");<a name="line.142"></a>
+<span class="sourceLineNo">143</span>    }<a name="line.143"></a>
+<span class="sourceLineNo">144</span><a name="line.144"></a>
+<span class="sourceLineNo">145</span>    // add publisher except if it was used instead of the authors<a name="line.145"></a>
+<span class="sourceLineNo">146</span>    if (authorsNameAvailable) {<a name="line.146"></a>
+<span class="sourceLineNo">147</span>      joiner.add(StringUtils.trim(organizationTitle) + ".");<a name="line.147"></a>
+<span class="sourceLineNo">148</span>    }<a name="line.148"></a>
+<span class="sourceLineNo">149</span><a name="line.149"></a>
+<span class="sourceLineNo">150</span>    if (dataset.getType() != null) {<a name="line.150"></a>
+<span class="sourceLineNo">151</span>      joiner.add(StringUtils.capitalize(dataset.getType().name().replace('_', ' ').toLowerCase()));<a name="line.151"></a>
+<span class="sourceLineNo">152</span>    }<a name="line.152"></a>
+<span class="sourceLineNo">153</span>    joiner.add("dataset");<a name="line.153"></a>
+<span class="sourceLineNo">154</span><a name="line.154"></a>
+<span class="sourceLineNo">155</span>    // add DOI as the identifier.<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    if (dataset.getDoi() != null) {<a name="line.156"></a>
+<span class="sourceLineNo">157</span>      try {<a name="line.157"></a>
+<span class="sourceLineNo">158</span>        joiner.add(<a name="line.158"></a>
+<span class="sourceLineNo">159</span>            URLDecoder.decode(dataset.getDoi().getUrl().toString(), StandardCharsets.UTF_8.name()));<a name="line.159"></a>
+<span class="sourceLineNo">160</span>      } catch (UnsupportedEncodingException e) {<a name="line.160"></a>
+<span class="sourceLineNo">161</span>        throw new IllegalArgumentException("Couldn't decode DOI URL", e);<a name="line.161"></a>
+<span class="sourceLineNo">162</span>      }<a name="line.162"></a>
+<span class="sourceLineNo">163</span>    }<a name="line.163"></a>
+<span class="sourceLineNo">164</span><a name="line.164"></a>
+<span class="sourceLineNo">165</span>    joiner.add("accessed via GBIF.org on " + LocalDate.now(UTC) + ".");<a name="line.165"></a>
 <span class="sourceLineNo">166</span><a name="line.166"></a>
-<span class="sourceLineNo">167</span>  /**<a name="line.167"></a>
-<span class="sourceLineNo">168</span>   * Extracts an ordered list of unique authors from a list of contacts. A {@link Contact} is<a name="line.168"></a>
-<span class="sourceLineNo">169</span>   * identified as an author when his {@link ContactType} is contained in {@link<a name="line.169"></a>
-<span class="sourceLineNo">170</span>   * #AUTHOR_CONTACT_TYPE}. But, we shall at least have one contact of type MANDATORY_CONTACT_TYPE.<a name="line.170"></a>
-<span class="sourceLineNo">171</span>   *<a name="line.171"></a>
-<span class="sourceLineNo">172</span>   * @param contacts list of contacts available<a name="line.172"></a>
-<span class="sourceLineNo">173</span>   * @return ordered list of authors or empty list, never null<a name="line.173"></a>
-<span class="sourceLineNo">174</span>   */<a name="line.174"></a>
-<span class="sourceLineNo">175</span>  public static List&lt;CitationContact&gt; getAuthors(List&lt;Contact&gt; contacts) {<a name="line.175"></a>
-<span class="sourceLineNo">176</span>    if (contacts == null || contacts.isEmpty()) {<a name="line.176"></a>
-<span class="sourceLineNo">177</span>      return Collections.emptyList();<a name="line.177"></a>
-<span class="sourceLineNo">178</span>    }<a name="line.178"></a>
-<span class="sourceLineNo">179</span><a name="line.179"></a>
-<span class="sourceLineNo">180</span>    List&lt;CitationContact&gt; uniqueContacts =<a name="line.180"></a>
-<span class="sourceLineNo">181</span>        getUniqueAuthors(<a name="line.181"></a>
-<span class="sourceLineNo">182</span>            contacts, ctc -&gt; IS_NAME_PROVIDED_FCT.and(IS_ELIGIBLE_CONTACT_TYPE).test(ctc));<a name="line.182"></a>
-<span class="sourceLineNo">183</span><a name="line.183"></a>
-<span class="sourceLineNo">184</span>    // make sure we have at least one instance of {@link #MANDATORY_CONTACT_TYPE}<a name="line.184"></a>
-<span class="sourceLineNo">185</span>    Optional&lt;CitationContact&gt; firstOriginator =<a name="line.185"></a>
-<span class="sourceLineNo">186</span>        uniqueContacts.stream()<a name="line.186"></a>
-<span class="sourceLineNo">187</span>            .filter(ctc -&gt; ctc.getRoles().contains(MANDATORY_CONTACT_TYPE))<a name="line.187"></a>
-<span class="sourceLineNo">188</span>            .findFirst();<a name="line.188"></a>
+<span class="sourceLineNo">167</span>    citation.setText(joiner.toString());<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    citation.setCitationProvidedBySource(false);<a name="line.168"></a>
+<span class="sourceLineNo">169</span><a name="line.169"></a>
+<span class="sourceLineNo">170</span>    return CitationData.builder().citation(citation).contacts(contacts).build();<a name="line.170"></a>
+<span class="sourceLineNo">171</span>  }<a name="line.171"></a>
+<span class="sourceLineNo">172</span><a name="line.172"></a>
+<span class="sourceLineNo">173</span>  public static List&lt;CitationContact&gt; getAuthors(Dataset dataset) {<a name="line.173"></a>
+<span class="sourceLineNo">174</span>    boolean isCamtrap = dataset.getEndpoints().stream()<a name="line.174"></a>
+<span class="sourceLineNo">175</span>        .map(Endpoint::getType)<a name="line.175"></a>
+<span class="sourceLineNo">176</span>        .anyMatch(e -&gt; e == EndpointType.CAMTRAP_DP);<a name="line.176"></a>
+<span class="sourceLineNo">177</span><a name="line.177"></a>
+<span class="sourceLineNo">178</span>    return isCamtrap ? getAuthorsForCamtrap(dataset.getContacts()) : getAuthors(dataset.getContacts());<a name="line.178"></a>
+<span class="sourceLineNo">179</span>  }<a name="line.179"></a>
+<span class="sourceLineNo">180</span><a name="line.180"></a>
+<span class="sourceLineNo">181</span>  public static List&lt;CitationContact&gt; getAuthorsForCamtrap(List&lt;Contact&gt; contacts) {<a name="line.181"></a>
+<span class="sourceLineNo">182</span>    if (contacts == null || contacts.isEmpty()) {<a name="line.182"></a>
+<span class="sourceLineNo">183</span>      return Collections.emptyList();<a name="line.183"></a>
+<span class="sourceLineNo">184</span>    }<a name="line.184"></a>
+<span class="sourceLineNo">185</span><a name="line.185"></a>
+<span class="sourceLineNo">186</span>    return getUniqueAuthors(<a name="line.186"></a>
+<span class="sourceLineNo">187</span>        contacts, ctc -&gt; IS_NAME_PROVIDED_FCT.and(IS_ELIGIBLE_CAMTRAP_CONTACT_TYPE).test(ctc));<a name="line.187"></a>
+<span class="sourceLineNo">188</span>  }<a name="line.188"></a>
 <span class="sourceLineNo">189</span><a name="line.189"></a>
-<span class="sourceLineNo">190</span>    if (firstOriginator.isPresent()) {<a name="line.190"></a>
-<span class="sourceLineNo">191</span>      return uniqueContacts;<a name="line.191"></a>
-<span class="sourceLineNo">192</span>    }<a name="line.192"></a>
-<span class="sourceLineNo">193</span>    return Collections.emptyList();<a name="line.193"></a>
-<span class="sourceLineNo">194</span>  }<a name="line.194"></a>
-<span class="sourceLineNo">195</span><a name="line.195"></a>
-<span class="sourceLineNo">196</span>  /**<a name="line.196"></a>
-<span class="sourceLineNo">197</span>   * Given a list of authors, generates a {@link List} of {@link String} representing the authors<a name="line.197"></a>
-<span class="sourceLineNo">198</span>   * name. If a contact doesn't have a first AND last name it will not be included.<a name="line.198"></a>
-<span class="sourceLineNo">199</span>   *<a name="line.199"></a>
-<span class="sourceLineNo">200</span>   * @param authors ordered list of authors<a name="line.200"></a>
-<span class="sourceLineNo">201</span>   * @return list of author names (if it can be generated) or empty list, never null<a name="line.201"></a>
-<span class="sourceLineNo">202</span>   */<a name="line.202"></a>
-<span class="sourceLineNo">203</span>  public static List&lt;String&gt; generateAuthorsName(List&lt;CitationContact&gt; authors) {<a name="line.203"></a>
-<span class="sourceLineNo">204</span>    if (authors == null || authors.isEmpty()) {<a name="line.204"></a>
-<span class="sourceLineNo">205</span>      return Collections.emptyList();<a name="line.205"></a>
-<span class="sourceLineNo">206</span>    }<a name="line.206"></a>
-<span class="sourceLineNo">207</span><a name="line.207"></a>
-<span class="sourceLineNo">208</span>    return authors.stream()<a name="line.208"></a>
-<span class="sourceLineNo">209</span>        .filter(IS_CONTACT_NAME_PROVIDED)<a name="line.209"></a>
-<span class="sourceLineNo">210</span>        .map(CitationContact::getAbbreviatedName)<a name="line.210"></a>
-<span class="sourceLineNo">211</span>        .collect(Collectors.toList());<a name="line.211"></a>
-<span class="sourceLineNo">212</span>  }<a name="line.212"></a>
-<span class="sourceLineNo">213</span><a name="line.213"></a>
-<span class="sourceLineNo">214</span>  /**<a name="line.214"></a>
-<span class="sourceLineNo">215</span>   * This method is used to get the list of "unique" authors. Currently, uniqueness is based on<a name="line.215"></a>
-<span class="sourceLineNo">216</span>   * lastName + firstNames. The order of the provided list will be preserved which also means the<a name="line.216"></a>
-<span class="sourceLineNo">217</span>   * first {@link ContactType} found for a contact is the one that will be used for this contact<a name="line.217"></a>
-<span class="sourceLineNo">218</span>   * (after applying the filter).<a name="line.218"></a>
-<span class="sourceLineNo">219</span>   *<a name="line.219"></a>
-<span class="sourceLineNo">220</span>   * @param authors a list of contacts representing possible authors<a name="line.220"></a>
-<span class="sourceLineNo">221</span>   * @param filter {@link Predicate} used to pre-filter contacts<a name="line.221"></a>
-<span class="sourceLineNo">222</span>   * @return list of contacts<a name="line.222"></a>
-<span class="sourceLineNo">223</span>   */<a name="line.223"></a>
-<span class="sourceLineNo">224</span>  private static List&lt;CitationContact&gt; getUniqueAuthors(<a name="line.224"></a>
-<span class="sourceLineNo">225</span>      List&lt;Contact&gt; authors, Predicate&lt;Contact&gt; filter) {<a name="line.225"></a>
-<span class="sourceLineNo">226</span>    List&lt;CitationContact&gt; uniqueContact = new ArrayList&lt;&gt;();<a name="line.226"></a>
-<span class="sourceLineNo">227</span>    if (authors != null) {<a name="line.227"></a>
-<span class="sourceLineNo">228</span>      authors.forEach(<a name="line.228"></a>
-<span class="sourceLineNo">229</span>          ctc -&gt; {<a name="line.229"></a>
-<span class="sourceLineNo">230</span>            if (filter.test(ctc)) {<a name="line.230"></a>
-<span class="sourceLineNo">231</span>              Optional&lt;CitationContact&gt; author = findInAuthorList(ctc, uniqueContact);<a name="line.231"></a>
-<span class="sourceLineNo">232</span>              if (!author.isPresent()) {<a name="line.232"></a>
-<span class="sourceLineNo">233</span>                HashSet&lt;ContactType&gt; contactTypes = new HashSet&lt;&gt;();<a name="line.233"></a>
-<span class="sourceLineNo">234</span>                if (ctc.getType() != null) {<a name="line.234"></a>
-<span class="sourceLineNo">235</span>                  contactTypes.add(ctc.getType());<a name="line.235"></a>
-<span class="sourceLineNo">236</span>                }<a name="line.236"></a>
-<span class="sourceLineNo">237</span>                HashSet&lt;String&gt; userIds = new HashSet&lt;&gt;();<a name="line.237"></a>
-<span class="sourceLineNo">238</span>                if (ctc.getUserId() != null &amp;&amp; !ctc.getUserId().isEmpty()) {<a name="line.238"></a>
-<span class="sourceLineNo">239</span>                  userIds.addAll(ctc.getUserId());<a name="line.239"></a>
-<span class="sourceLineNo">240</span>                }<a name="line.240"></a>
-<span class="sourceLineNo">241</span>                uniqueContact.add(<a name="line.241"></a>
-<span class="sourceLineNo">242</span>                    new CitationContact(<a name="line.242"></a>
-<span class="sourceLineNo">243</span>                        ctc.getKey(),<a name="line.243"></a>
-<span class="sourceLineNo">244</span>                        getAuthorName(ctc),<a name="line.244"></a>
-<span class="sourceLineNo">245</span>                        ctc.getFirstName(),<a name="line.245"></a>
-<span class="sourceLineNo">246</span>                        ctc.getLastName(),<a name="line.246"></a>
-<span class="sourceLineNo">247</span>                        contactTypes,<a name="line.247"></a>
-<span class="sourceLineNo">248</span>                        userIds));<a name="line.248"></a>
-<span class="sourceLineNo">249</span>              } else {<a name="line.249"></a>
-<span class="sourceLineNo">250</span>                author.ifPresent(<a name="line.250"></a>
-<span class="sourceLineNo">251</span>                    a -&gt; {<a name="line.251"></a>
-<span class="sourceLineNo">252</span>                      a.getRoles().add(ctc.getType());<a name="line.252"></a>
-<span class="sourceLineNo">253</span>                      if (ctc.getUserId() != null) {<a name="line.253"></a>
-<span class="sourceLineNo">254</span>                        a.getUserId().addAll(ctc.getUserId());<a name="line.254"></a>
-<span class="sourceLineNo">255</span>                      }<a name="line.255"></a>
-<span class="sourceLineNo">256</span>                    });<a name="line.256"></a>
-<span class="sourceLineNo">257</span>              }<a name="line.257"></a>
-<span class="sourceLineNo">258</span>            }<a name="line.258"></a>
-<span class="sourceLineNo">259</span>          });<a name="line.259"></a>
-<span class="sourceLineNo">260</span>    }<a name="line.260"></a>
-<span class="sourceLineNo">261</span>    return uniqueContact;<a name="line.261"></a>
-<span class="sourceLineNo">262</span>  }<a name="line.262"></a>
-<span class="sourceLineNo">263</span><a name="line.263"></a>
-<span class="sourceLineNo">264</span>  /**<a name="line.264"></a>
-<span class="sourceLineNo">265</span>   * Check if a specific {@link Contact} is NOT already in the list of "unique" contact. Currently,<a name="line.265"></a>
-<span class="sourceLineNo">266</span>   * uniqueness is based on the comparisons of lastName and firstNames.<a name="line.266"></a>
-<span class="sourceLineNo">267</span>   *<a name="line.267"></a>
-<span class="sourceLineNo">268</span>   * @param ctc contact to check<a name="line.268"></a>
-<span class="sourceLineNo">269</span>   * @param uniqueContacts list of contacts<a name="line.269"></a>
-<span class="sourceLineNo">270</span>   * @return contact wrapped in optional<a name="line.270"></a>
-<span class="sourceLineNo">271</span>   */<a name="line.271"></a>
-<span class="sourceLineNo">272</span>  private static Optional&lt;CitationContact&gt; findInAuthorList(<a name="line.272"></a>
-<span class="sourceLineNo">273</span>      Contact ctc, List&lt;CitationContact&gt; uniqueContacts) {<a name="line.273"></a>
-<span class="sourceLineNo">274</span>    return uniqueContacts.stream()<a name="line.274"></a>
-<span class="sourceLineNo">275</span>        .filter(<a name="line.275"></a>
-<span class="sourceLineNo">276</span>            author -&gt;<a name="line.276"></a>
-<span class="sourceLineNo">277</span>                StringUtils.equalsIgnoreCase(ctc.getLastName(), author.getLastName())<a name="line.277"></a>
-<span class="sourceLineNo">278</span>                    &amp;&amp; StringUtils.equalsIgnoreCase(ctc.getFirstName(), author.getFirstName()))<a name="line.278"></a>
-<span class="sourceLineNo">279</span>        .findFirst();<a name="line.279"></a>
-<span class="sourceLineNo">280</span>  }<a name="line.280"></a>
-<span class="sourceLineNo">281</span><a name="line.281"></a>
-<span class="sourceLineNo">282</span>  /**<a name="line.282"></a>
-<span class="sourceLineNo">283</span>   * Given a {@link Contact}, generates a String for that contact for citation purpose. The<a name="line.283"></a>
-<span class="sourceLineNo">284</span>   * organization will be used (if present) in case we don't have both lastName and firstNames of<a name="line.284"></a>
-<span class="sourceLineNo">285</span>   * the contact.<a name="line.285"></a>
-<span class="sourceLineNo">286</span>   *<a name="line.286"></a>
-<span class="sourceLineNo">287</span>   * @param creator contact object<a name="line.287"></a>
-<span class="sourceLineNo">288</span>   * @return name<a name="line.288"></a>
-<span class="sourceLineNo">289</span>   */<a name="line.289"></a>
-<span class="sourceLineNo">290</span>  public static String getAuthorName(Contact creator) {<a name="line.290"></a>
-<span class="sourceLineNo">291</span>    StringBuilder sb = new StringBuilder();<a name="line.291"></a>
-<span class="sourceLineNo">292</span>    String lastName = StringUtils.trimToNull(creator.getLastName());<a name="line.292"></a>
-<span class="sourceLineNo">293</span>    String firstNames = StringUtils.trimToNull(creator.getFirstName());<a name="line.293"></a>
-<span class="sourceLineNo">294</span>    String organization = StringUtils.trimToNull(creator.getOrganization());<a name="line.294"></a>
-<span class="sourceLineNo">295</span><a name="line.295"></a>
-<span class="sourceLineNo">296</span>    if (lastName != null &amp;&amp; firstNames != null) {<a name="line.296"></a>
-<span class="sourceLineNo">297</span>      sb.append(lastName);<a name="line.297"></a>
-<span class="sourceLineNo">298</span>      sb.append(" ");<a name="line.298"></a>
-<span class="sourceLineNo">299</span>      // add first initial of each first name, capitalized<a name="line.299"></a>
-<span class="sourceLineNo">300</span>      String[] names = firstNames.split("\\s+");<a name="line.300"></a>
-<span class="sourceLineNo">301</span><a name="line.301"></a>
-<span class="sourceLineNo">302</span>      sb.append(<a name="line.302"></a>
-<span class="sourceLineNo">303</span>          Arrays.stream(names)<a name="line.303"></a>
-<span class="sourceLineNo">304</span>              .filter(str -&gt; !StringUtils.isBlank(str))<a name="line.304"></a>
-<span class="sourceLineNo">305</span>              .map(str -&gt; StringUtils.upperCase(String.valueOf(str.charAt(0))))<a name="line.305"></a>
-<span class="sourceLineNo">306</span>              .collect(Collectors.joining(" ")));<a name="line.306"></a>
-<span class="sourceLineNo">307</span>    } else if (lastName != null) {<a name="line.307"></a>
-<span class="sourceLineNo">308</span>      sb.append(lastName);<a name="line.308"></a>
-<span class="sourceLineNo">309</span>    } else if (organization != null) {<a name="line.309"></a>
-<span class="sourceLineNo">310</span>      sb.append(organization);<a name="line.310"></a>
-<span class="sourceLineNo">311</span>    }<a name="line.311"></a>
-<span class="sourceLineNo">312</span>    return sb.toString();<a name="line.312"></a>
-<span class="sourceLineNo">313</span>  }<a name="line.313"></a>
-<span class="sourceLineNo">314</span><a name="line.314"></a>
-<span class="sourceLineNo">315</span>  @Data<a name="line.315"></a>
-<span class="sourceLineNo">316</span>  @Builder<a name="line.316"></a>
-<span class="sourceLineNo">317</span>  public static class CitationData {<a name="line.317"></a>
+<span class="sourceLineNo">190</span>  /**<a name="line.190"></a>
+<span class="sourceLineNo">191</span>   * Extracts an ordered list of unique authors from a list of contacts. A {@link Contact} is<a name="line.191"></a>
+<span class="sourceLineNo">192</span>   * identified as an author when his {@link ContactType} is contained in {@link<a name="line.192"></a>
+<span class="sourceLineNo">193</span>   * #AUTHOR_CONTACT_TYPE}. But, we shall at least have one contact of type MANDATORY_CONTACT_TYPE.<a name="line.193"></a>
+<span class="sourceLineNo">194</span>   *<a name="line.194"></a>
+<span class="sourceLineNo">195</span>   * @param contacts list of contacts available<a name="line.195"></a>
+<span class="sourceLineNo">196</span>   * @return ordered list of authors or empty list, never null<a name="line.196"></a>
+<span class="sourceLineNo">197</span>   */<a name="line.197"></a>
+<span class="sourceLineNo">198</span>  public static List&lt;CitationContact&gt; getAuthors(List&lt;Contact&gt; contacts) {<a name="line.198"></a>
+<span class="sourceLineNo">199</span>    if (contacts == null || contacts.isEmpty()) {<a name="line.199"></a>
+<span class="sourceLineNo">200</span>      return Collections.emptyList();<a name="line.200"></a>
+<span class="sourceLineNo">201</span>    }<a name="line.201"></a>
+<span class="sourceLineNo">202</span><a name="line.202"></a>
+<span class="sourceLineNo">203</span>    List&lt;CitationContact&gt; uniqueContacts =<a name="line.203"></a>
+<span class="sourceLineNo">204</span>        getUniqueAuthors(<a name="line.204"></a>
+<span class="sourceLineNo">205</span>            contacts, ctc -&gt; IS_NAME_PROVIDED_FCT.and(IS_ELIGIBLE_CONTACT_TYPE).test(ctc));<a name="line.205"></a>
+<span class="sourceLineNo">206</span><a name="line.206"></a>
+<span class="sourceLineNo">207</span>    // make sure we have at least one instance of {@link #MANDATORY_CONTACT_TYPE}<a name="line.207"></a>
+<span class="sourceLineNo">208</span>    Optional&lt;CitationContact&gt; firstOriginator =<a name="line.208"></a>
+<span class="sourceLineNo">209</span>        uniqueContacts.stream()<a name="line.209"></a>
+<span class="sourceLineNo">210</span>            .filter(ctc -&gt; ctc.getRoles().contains(MANDATORY_CONTACT_TYPE))<a name="line.210"></a>
+<span class="sourceLineNo">211</span>            .findFirst();<a name="line.211"></a>
+<span class="sourceLineNo">212</span><a name="line.212"></a>
+<span class="sourceLineNo">213</span>    if (firstOriginator.isPresent()) {<a name="line.213"></a>
+<span class="sourceLineNo">214</span>      return uniqueContacts;<a name="line.214"></a>
+<span class="sourceLineNo">215</span>    }<a name="line.215"></a>
+<span class="sourceLineNo">216</span>    return Collections.emptyList();<a name="line.216"></a>
+<span class="sourceLineNo">217</span>  }<a name="line.217"></a>
+<span class="sourceLineNo">218</span><a name="line.218"></a>
+<span class="sourceLineNo">219</span>  /**<a name="line.219"></a>
+<span class="sourceLineNo">220</span>   * Given a list of authors, generates a {@link List} of {@link String} representing the authors<a name="line.220"></a>
+<span class="sourceLineNo">221</span>   * name. If a contact doesn't have a first AND last name it will not be included.<a name="line.221"></a>
+<span class="sourceLineNo">222</span>   *<a name="line.222"></a>
+<span class="sourceLineNo">223</span>   * @param authors ordered list of authors<a name="line.223"></a>
+<span class="sourceLineNo">224</span>   * @return list of author names (if it can be generated) or empty list, never null<a name="line.224"></a>
+<span class="sourceLineNo">225</span>   */<a name="line.225"></a>
+<span class="sourceLineNo">226</span>  public static List&lt;String&gt; generateAuthorsName(List&lt;CitationContact&gt; authors) {<a name="line.226"></a>
+<span class="sourceLineNo">227</span>    if (authors == null || authors.isEmpty()) {<a name="line.227"></a>
+<span class="sourceLineNo">228</span>      return Collections.emptyList();<a name="line.228"></a>
+<span class="sourceLineNo">229</span>    }<a name="line.229"></a>
+<span class="sourceLineNo">230</span><a name="line.230"></a>
+<span class="sourceLineNo">231</span>    return authors.stream()<a name="line.231"></a>
+<span class="sourceLineNo">232</span>        .filter(IS_CONTACT_NAME_PROVIDED)<a name="line.232"></a>
+<span class="sourceLineNo">233</span>        .map(CitationContact::getAbbreviatedName)<a name="line.233"></a>
+<span class="sourceLineNo">234</span>        .collect(Collectors.toList());<a name="line.234"></a>
+<span class="sourceLineNo">235</span>  }<a name="line.235"></a>
+<span class="sourceLineNo">236</span><a name="line.236"></a>
+<span class="sourceLineNo">237</span>  /**<a name="line.237"></a>
+<span class="sourceLineNo">238</span>   * This method is used to get the list of "unique" authors. Currently, uniqueness is based on<a name="line.238"></a>
+<span class="sourceLineNo">239</span>   * lastName + firstNames. The order of the provided list will be preserved which also means the<a name="line.239"></a>
+<span class="sourceLineNo">240</span>   * first {@link ContactType} found for a contact is the one that will be used for this contact<a name="line.240"></a>
+<span class="sourceLineNo">241</span>   * (after applying the filter).<a name="line.241"></a>
+<span class="sourceLineNo">242</span>   *<a name="line.242"></a>
+<span class="sourceLineNo">243</span>   * @param authors a list of contacts representing possible authors<a name="line.243"></a>
+<span class="sourceLineNo">244</span>   * @param filter {@link Predicate} used to pre-filter contacts<a name="line.244"></a>
+<span class="sourceLineNo">245</span>   * @return list of contacts<a name="line.245"></a>
+<span class="sourceLineNo">246</span>   */<a name="line.246"></a>
+<span class="sourceLineNo">247</span>  private static List&lt;CitationContact&gt; getUniqueAuthors(<a name="line.247"></a>
+<span class="sourceLineNo">248</span>      List&lt;Contact&gt; authors, Predicate&lt;Contact&gt; filter) {<a name="line.248"></a>
+<span class="sourceLineNo">249</span>    List&lt;CitationContact&gt; uniqueContact = new ArrayList&lt;&gt;();<a name="line.249"></a>
+<span class="sourceLineNo">250</span>    if (authors != null) {<a name="line.250"></a>
+<span class="sourceLineNo">251</span>      authors.forEach(<a name="line.251"></a>
+<span class="sourceLineNo">252</span>          ctc -&gt; {<a name="line.252"></a>
+<span class="sourceLineNo">253</span>            if (filter.test(ctc)) {<a name="line.253"></a>
+<span class="sourceLineNo">254</span>              Optional&lt;CitationContact&gt; author = findInAuthorList(ctc, uniqueContact);<a name="line.254"></a>
+<span class="sourceLineNo">255</span>              if (!author.isPresent()) {<a name="line.255"></a>
+<span class="sourceLineNo">256</span>                HashSet&lt;ContactType&gt; contactTypes = new HashSet&lt;&gt;();<a name="line.256"></a>
+<span class="sourceLineNo">257</span>                if (ctc.getType() != null) {<a name="line.257"></a>
+<span class="sourceLineNo">258</span>                  contactTypes.add(ctc.getType());<a name="line.258"></a>
+<span class="sourceLineNo">259</span>                }<a name="line.259"></a>
+<span class="sourceLineNo">260</span>                HashSet&lt;String&gt; userIds = new HashSet&lt;&gt;();<a name="line.260"></a>
+<span class="sourceLineNo">261</span>                if (ctc.getUserId() != null &amp;&amp; !ctc.getUserId().isEmpty()) {<a name="line.261"></a>
+<span class="sourceLineNo">262</span>                  userIds.addAll(ctc.getUserId());<a name="line.262"></a>
+<span class="sourceLineNo">263</span>                }<a name="line.263"></a>
+<span class="sourceLineNo">264</span>                uniqueContact.add(<a name="line.264"></a>
+<span class="sourceLineNo">265</span>                    new CitationContact(<a name="line.265"></a>
+<span class="sourceLineNo">266</span>                        ctc.getKey(),<a name="line.266"></a>
+<span class="sourceLineNo">267</span>                        getAuthorName(ctc),<a name="line.267"></a>
+<span class="sourceLineNo">268</span>                        ctc.getFirstName(),<a name="line.268"></a>
+<span class="sourceLineNo">269</span>                        ctc.getLastName(),<a name="line.269"></a>
+<span class="sourceLineNo">270</span>                        contactTypes,<a name="line.270"></a>
+<span class="sourceLineNo">271</span>                        userIds));<a name="line.271"></a>
+<span class="sourceLineNo">272</span>              } else {<a name="line.272"></a>
+<span class="sourceLineNo">273</span>                author.ifPresent(<a name="line.273"></a>
+<span class="sourceLineNo">274</span>                    a -&gt; {<a name="line.274"></a>
+<span class="sourceLineNo">275</span>                      a.getRoles().add(ctc.getType());<a name="line.275"></a>
+<span class="sourceLineNo">276</span>                      if (ctc.getUserId() != null) {<a name="line.276"></a>
+<span class="sourceLineNo">277</span>                        a.getUserId().addAll(ctc.getUserId());<a name="line.277"></a>
+<span class="sourceLineNo">278</span>                      }<a name="line.278"></a>
+<span class="sourceLineNo">279</span>                    });<a name="line.279"></a>
+<span class="sourceLineNo">280</span>              }<a name="line.280"></a>
+<span class="sourceLineNo">281</span>            }<a name="line.281"></a>
+<span class="sourceLineNo">282</span>          });<a name="line.282"></a>
+<span class="sourceLineNo">283</span>    }<a name="line.283"></a>
+<span class="sourceLineNo">284</span>    return uniqueContact;<a name="line.284"></a>
+<span class="sourceLineNo">285</span>  }<a name="line.285"></a>
+<span class="sourceLineNo">286</span><a name="line.286"></a>
+<span class="sourceLineNo">287</span>  /**<a name="line.287"></a>
+<span class="sourceLineNo">288</span>   * Check if a specific {@link Contact} is NOT already in the list of "unique" contact. Currently,<a name="line.288"></a>
+<span class="sourceLineNo">289</span>   * uniqueness is based on the comparisons of lastName and firstNames.<a name="line.289"></a>
+<span class="sourceLineNo">290</span>   *<a name="line.290"></a>
+<span class="sourceLineNo">291</span>   * @param ctc contact to check<a name="line.291"></a>
+<span class="sourceLineNo">292</span>   * @param uniqueContacts list of contacts<a name="line.292"></a>
+<span class="sourceLineNo">293</span>   * @return contact wrapped in optional<a name="line.293"></a>
+<span class="sourceLineNo">294</span>   */<a name="line.294"></a>
+<span class="sourceLineNo">295</span>  private static Optional&lt;CitationContact&gt; findInAuthorList(<a name="line.295"></a>
+<span class="sourceLineNo">296</span>      Contact ctc, List&lt;CitationContact&gt; uniqueContacts) {<a name="line.296"></a>
+<span class="sourceLineNo">297</span>    return uniqueContacts.stream()<a name="line.297"></a>
+<span class="sourceLineNo">298</span>        .filter(<a name="line.298"></a>
+<span class="sourceLineNo">299</span>            author -&gt;<a name="line.299"></a>
+<span class="sourceLineNo">300</span>                StringUtils.equalsIgnoreCase(ctc.getLastName(), author.getLastName())<a name="line.300"></a>
+<span class="sourceLineNo">301</span>                    &amp;&amp; StringUtils.equalsIgnoreCase(ctc.getFirstName(), author.getFirstName()))<a name="line.301"></a>
+<span class="sourceLineNo">302</span>        .findFirst();<a name="line.302"></a>
+<span class="sourceLineNo">303</span>  }<a name="line.303"></a>
+<span class="sourceLineNo">304</span><a name="line.304"></a>
+<span class="sourceLineNo">305</span>  /**<a name="line.305"></a>
+<span class="sourceLineNo">306</span>   * Given a {@link Contact}, generates a String for that contact for citation purpose. The<a name="line.306"></a>
+<span class="sourceLineNo">307</span>   * organization will be used (if present) in case we don't have both lastName and firstNames of<a name="line.307"></a>
+<span class="sourceLineNo">308</span>   * the contact.<a name="line.308"></a>
+<span class="sourceLineNo">309</span>   *<a name="line.309"></a>
+<span class="sourceLineNo">310</span>   * @param creator contact object<a name="line.310"></a>
+<span class="sourceLineNo">311</span>   * @return name<a name="line.311"></a>
+<span class="sourceLineNo">312</span>   */<a name="line.312"></a>
+<span class="sourceLineNo">313</span>  public static String getAuthorName(Contact creator) {<a name="line.313"></a>
+<span class="sourceLineNo">314</span>    StringBuilder sb = new StringBuilder();<a name="line.314"></a>
+<span class="sourceLineNo">315</span>    String lastName = StringUtils.trimToNull(creator.getLastName());<a name="line.315"></a>
+<span class="sourceLineNo">316</span>    String firstNames = StringUtils.trimToNull(creator.getFirstName());<a name="line.316"></a>
+<span class="sourceLineNo">317</span>    String organization = StringUtils.trimToNull(creator.getOrganization());<a name="line.317"></a>
 <span class="sourceLineNo">318</span><a name="line.318"></a>
-<span class="sourceLineNo">319</span>    private final Citation citation;<a name="line.319"></a>
-<span class="sourceLineNo">320</span>    private final List&lt;CitationContact&gt; contacts;<a name="line.320"></a>
-<span class="sourceLineNo">321</span>  }<a name="line.321"></a>
-<span class="sourceLineNo">322</span>}<a name="line.322"></a>
+<span class="sourceLineNo">319</span>    if (lastName != null &amp;&amp; firstNames != null) {<a name="line.319"></a>
+<span class="sourceLineNo">320</span>      sb.append(lastName);<a name="line.320"></a>
+<span class="sourceLineNo">321</span>      sb.append(" ");<a name="line.321"></a>
+<span class="sourceLineNo">322</span>      // add first initial of each first name, capitalized<a name="line.322"></a>
+<span class="sourceLineNo">323</span>      String[] names = firstNames.split("\\s+");<a name="line.323"></a>
+<span class="sourceLineNo">324</span><a name="line.324"></a>
+<span class="sourceLineNo">325</span>      sb.append(<a name="line.325"></a>
+<span class="sourceLineNo">326</span>          Arrays.stream(names)<a name="line.326"></a>
+<span class="sourceLineNo">327</span>              .filter(str -&gt; !StringUtils.isBlank(str))<a name="line.327"></a>
+<span class="sourceLineNo">328</span>              .map(str -&gt; StringUtils.upperCase(String.valueOf(str.charAt(0))))<a name="line.328"></a>
+<span class="sourceLineNo">329</span>              .collect(Collectors.joining(" ")));<a name="line.329"></a>
+<span class="sourceLineNo">330</span>    } else if (lastName != null) {<a name="line.330"></a>
+<span class="sourceLineNo">331</span>      sb.append(lastName);<a name="line.331"></a>
+<span class="sourceLineNo">332</span>    } else if (organization != null) {<a name="line.332"></a>
+<span class="sourceLineNo">333</span>      sb.append(organization);<a name="line.333"></a>
+<span class="sourceLineNo">334</span>    }<a name="line.334"></a>
+<span class="sourceLineNo">335</span>    return sb.toString();<a name="line.335"></a>
+<span class="sourceLineNo">336</span>  }<a name="line.336"></a>
+<span class="sourceLineNo">337</span><a name="line.337"></a>
+<span class="sourceLineNo">338</span>  @Data<a name="line.338"></a>
+<span class="sourceLineNo">339</span>  @Builder<a name="line.339"></a>
+<span class="sourceLineNo">340</span>  public static class CitationData {<a name="line.340"></a>
+<span class="sourceLineNo">341</span><a name="line.341"></a>
+<span class="sourceLineNo">342</span>    private final Citation citation;<a name="line.342"></a>
+<span class="sourceLineNo">343</span>    private final List&lt;CitationContact&gt; contacts;<a name="line.343"></a>
+<span class="sourceLineNo">344</span>  }<a name="line.344"></a>
+<span class="sourceLineNo">345</span>}<a name="line.345"></a>
 
 
 
