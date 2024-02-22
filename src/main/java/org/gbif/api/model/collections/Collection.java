@@ -13,14 +13,6 @@
  */
 package org.gbif.api.model.collections;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import io.swagger.v3.oas.annotations.Hidden;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.Comment;
 import org.gbif.api.model.registry.Identifier;
@@ -43,13 +35,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 /**
  * A group of specimens or other natural history objects. Types of collections can be: specimens,
@@ -203,9 +202,10 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private String taxonomicCoverage;
 
-  @Schema(description = "The geographic scope of this collection.")
+  @Getter
+  @Schema(description = "The geographic coverage of this collection.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
-  private String geography;
+  private String geographicCoverage;
 
   @Schema(description = "Notes on the collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
@@ -582,12 +582,8 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
     this.taxonomicCoverage = taxonomicCoverage;
   }
 
-  public String getGeography() {
-    return geography;
-  }
-
-  public void setGeography(String geography) {
-    this.geography = geography;
+  public void setGeographicCoverage(String geographicCoverage) {
+    this.geographicCoverage = geographicCoverage;
   }
 
   public String getNotes() {
@@ -785,7 +781,7 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
         && indexHerbariorumRecord == other.indexHerbariorumRecord
         && Objects.equals(numberSpecimens, other.numberSpecimens)
         && Objects.equals(taxonomicCoverage, other.taxonomicCoverage)
-        && Objects.equals(geography, other.geography)
+        && Objects.equals(geographicCoverage, other.geographicCoverage)
         && Objects.equals(notes, other.notes)
         && Objects.equals(incorporatedCollections, other.incorporatedCollections)
         && Objects.equals(importantCollectors, other.importantCollectors)
