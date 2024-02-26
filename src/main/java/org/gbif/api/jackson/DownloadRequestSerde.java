@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -67,8 +68,16 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
   private static final String FORMAT = "format";
   private static final String TYPE = "type";
   private static final String VERBATIM_EXTENSIONS = "verbatimExtensions";
+  private static final Set<String> ALL_PROPERTIES;
   private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);
   private static final ObjectMapper MAPPER = new ObjectMapper();
+
+  static {
+    Set<String> allProperties = new HashSet<>(Arrays.asList(PREDICATE, SQL, CREATOR, FORMAT, TYPE, VERBATIM_EXTENSIONS));
+    allProperties.addAll(SEND_NOTIFICATION);
+    allProperties.addAll(NOTIFICATION_ADDRESSES);
+    ALL_PROPERTIES = Collections.unmodifiableSet(allProperties);
+  }
 
   @Override
   public DownloadRequest deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
@@ -113,6 +122,10 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
     }).orElse(Collections.emptySet());
 
     String sql = Optional.ofNullable(node.get(SQL)).map(JsonNode::asText).orElse(null);
+
+    // Reject if unknown field names are present
+    // https://github.com/gbif/occurrence/issues/273
+    node.fieldNames().forEachRemaining(n -> { if (!ALL_PROPERTIES.contains(n)) { throw new RuntimeException("Unknown JSON property '"+n+"'."); }});
 
     if (sql != null) {
       if (format != DownloadFormat.SQL_TSV_ZIP) {

@@ -73,6 +73,9 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
     checkArgument(!values.isEmpty(), "<values> may not be empty");
     // make sure the value is of the right type according to the key given
     for (String value : values) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
       SearchTypeValidator.validate(key, value);
     }
 

@@ -19,10 +19,13 @@ import org.gbif.api.model.predicate.Predicate;
 import org.gbif.api.vocabulary.Extension;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.Collections;
 
 import org.hamcrest.core.IsCollectionContaining;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -79,6 +82,16 @@ public class DownloadRequestTest {
     + " \"format\": \"SQL_TSV_ZIP\","
     + " \"sql\": \"SELECT basisOfRecord, COUNT(DISTINCT speciesKey) AS speciesCount FROM occurrence WHERE year = 2018 GROUP BY basisOfRecord\""
     + "}";
+
+  private static final String UNKNOWN_PROPERTY = "{"
+    + " \"creator\":\"" + TEST_USER + "\", "
+    + " \"notification_addresses\": [\"" + TEST_EMAIL +"\"],"
+    + " \"send_notification\":\"true\","
+    + " \"format\": \"SIMPLE_CSV\","
+    + " \"predicate\":{\"type\":\"equals\",\"key\":\"TAXON_KEY\",\"value\":\"3\"},"
+    + " \"somethingElse\": 12345"
+    + "}";
+
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -138,7 +151,7 @@ public class DownloadRequestTest {
   @Test
   public void testSerde() throws IOException {
     PredicateDownloadRequest d = newDownload(new EqualsPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, "b", false));
-    try(ByteArrayOutputStream baos = new ByteArrayOutputStream()){
+    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
       MAPPER.writeValue(baos, d);
       PredicateDownloadRequest d2 = MAPPER.readValue(baos.toByteArray(), PredicateDownloadRequest.class);
       assertEquals(d, d2);
@@ -193,6 +206,21 @@ public class DownloadRequestTest {
   }
 
   /**
+   * Tests that an unknown property is rejected.
+   *
+   * For much of the API these are allowed, but it causes problems when typing errors etc trigger all-data downloads.
+   */
+  @Test
+  public void testDownloadRequestSerdeUnknown() throws IOException {
+    try {
+      DownloadRequest request = MAPPER.readValue(UNKNOWN_PROPERTY, DownloadRequest.class);
+      fail();
+    } catch (Exception e) {
+      assertEquals("Unknown JSON property 'somethingElse'.", e.getMessage());
+    }
+  }
+
+  /**
    * Tests that an empty JSON {} is translated into null.
    */
   @Test
@@ -200,5 +228,23 @@ public class DownloadRequestTest {
     String json = "{}";
     DownloadRequest request = MAPPER.readValue(json, DownloadRequest.class);
     assertNull(request);
+  }
+
+  @Disabled
+  @Test
+  public void existingDownloadsTest() throws Exception {
+    String format = "{\"predicate\": %s}";
+    String line = null;
+    String[] filterLine = null;
+    // SELECT key, filter FROM occurrence_download WHERE filter IS NOT NULL ORDER BY created
+    try (RandomAccessFile filterLines = new RandomAccessFile("/home/mblissett/Temp/all-download-filters", "r")) {
+      while ((line = filterLines.readLine()) != null ) {
+        filterLine = line.split("\t");
+        MAPPER.readValue(String.format(format, filterLine[1]), DownloadRequest.class);
+      }
+    } catch (Exception e) {
+      System.err.println(e);
+      fail("Exception with existing download " + filterLine[0] + " «" + filterLine[1] + "»");
+    }
   }
 }
