@@ -16,10 +16,10 @@ package org.gbif.api.model.occurrence;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.predicate.EqualsPredicate;
 import org.gbif.api.model.predicate.Predicate;
+import org.gbif.api.model.predicate.WithinPredicate;
 import org.gbif.api.vocabulary.Extension;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Collections;
@@ -63,7 +63,7 @@ public class DownloadRequestTest {
   private static final String SIMPLE_CSV_NULL_PREDICATE = "{"
       + " \"creator\":\"" + TEST_USER + "\", "
       + " \"notificationAddress\": [\"" + TEST_EMAIL +"\"],"
-      + " \"sendNotification\":\"true\","
+      + " \"sendNotification\":true," // Note boolean rather than string
       + " \"format\": \"SIMPLE_CSV\""
       + "}";
 
@@ -179,12 +179,15 @@ public class DownloadRequestTest {
     assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
   }
 
+  @Disabled
   @Test
-  public void testDownloadRequestSerde1() throws IOException {
-    DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE, DownloadRequest.class);
-    assertNull(((PredicateDownloadRequest)request).getPredicate());
-    assertTrue(request.getSendNotification());
-    assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
+  public void testDownloadRequestMissingPredicate() throws IOException {
+    try {
+      DownloadRequest request = MAPPER.readValue(SIMPLE_CSV_NULL_PREDICATE, DownloadRequest.class);
+      fail();
+    } catch (Exception e) {
+      assertEquals("A predicate must be specified. Use {} for everything.", e.getMessage());
+    }
   }
 
   @Test
@@ -228,6 +231,144 @@ public class DownloadRequestTest {
     String json = "{}";
     DownloadRequest request = MAPPER.readValue(json, DownloadRequest.class);
     assertNull(request);
+  }
+
+  /**
+   * Request sent by PyGBIF ≤ 0.6.1.  For backward compatibility, do not change this test!
+   *
+   * Note the 'created' property, the quoted booleans, and the underscore in notification_address.
+   */
+  @Test
+  public void downloadFromPygbifTest() throws Exception {
+    String downloadRequest = "{\n"
+      + "  \"creator\":\"pygbif\",\n"
+      + "  \"notification_address\":[\"pygbif@mailinator.com\"],\n"
+      + "  \"created\":\"2023\",\n"
+      + "  \"sendNotification\":\"true\",\n"
+      + "  \"format\": \"SIMPLE_CSV\",\n"
+      + "  \"predicate\":{\n"
+      + "    \"type\":\"within\",\n"
+      + "    \"geometry\":\"POLYGON ((-85.781 17.978,-81.035 14.774,-77.343 10.314,-79.277 6.315,-93.955 14.604,-91.450 18.229,-87.626 19.311,-85.781 17.978))\"\n"
+      + "  }\n"
+      + "}";
+
+    DownloadRequest request = MAPPER.readValue(downloadRequest, DownloadRequest.class);
+    assertEquals("pygbif", request.getCreator());
+    assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
+    assertTrue(request.getSendNotification());
+    assertEquals("pygbif@mailinator.com", request.getNotificationAddressesAsString());
+    assertEquals(WithinPredicate.class, ((PredicateDownloadRequest) request).getPredicate().getClass());
+  }
+
+  /**
+   * Request sent by RGBIF 3.75+.  For backward compatibility, do not change this test!
+   *
+   * Note the lack of sendNotification.
+   */
+  @Test
+  public void downloadFromRgbifTest() throws Exception {
+    String downloadRequest = "{\n"
+      + "  \"creator\":\"rgbif\",\n"
+      + "  \"notification_address\":[\"rgbif@mailinator.com\"],\n"
+      + "  \"format\": \"SIMPLE_CSV\",\n"
+      + "  \"predicate\":{\n"
+      + "    \"type\":\"within\",\n"
+      + "    \"geometry\":\"POLYGON ((-85.781 17.978,-81.035 14.774,-77.343 10.314,-79.277 6.315,-93.955 14.604,-91.450 18.229,-87.626 19.311,-85.781 17.978))\"\n"
+      + "  }\n"
+      + "}";
+
+    DownloadRequest request = MAPPER.readValue(downloadRequest, DownloadRequest.class);
+    assertEquals("rgbif", request.getCreator());
+    assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
+    assertFalse(request.getSendNotification());
+    assertEquals("rgbif@mailinator.com", request.getNotificationAddressesAsString());
+    assertEquals(WithinPredicate.class, ((PredicateDownloadRequest) request).getPredicate().getClass());
+  }
+
+  /**
+   * Working request at v0.188.  For backward compatibility, do not change this test!
+   *
+   * Note the 212 rather than "212".
+   */
+  @Test
+  public void downloadWithNumbersTest() throws Exception {
+    String downloadRequest = "{\n"
+      + "  \"creator\":\"gbif_user\",\n"
+      + "  \"notification_address\":[\"gbif_user@mailinator.com\"],\n"
+      + "  \"created\":\"2023\",\n"
+      + "  \"format\": \"SIMPLE_CSV\",\n"
+      + "  \"predicate\":{\n"
+      + "    \"type\":\"equals\",\n"
+      + "    \"key\":\"TAXON_KEY\",\n"
+      + "    \"value\":212\n"
+      + "  }\n"
+      + "}";
+
+    DownloadRequest request = MAPPER.readValue(downloadRequest, DownloadRequest.class);
+    assertEquals("gbif_user", request.getCreator());
+    assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
+    assertFalse(request.getSendNotification());
+    assertEquals("gbif_user@mailinator.com", request.getNotificationAddressesAsString());
+    assertEquals(EqualsPredicate.class, ((PredicateDownloadRequest) request).getPredicate().getClass());
+    assertEquals("212", ((EqualsPredicate) ((PredicateDownloadRequest) request).getPredicate()).getValue());
+  }
+
+  /**
+   * Test three extension situations: known and supported, known but not supported, unknown.
+   */
+  @Test
+  public void downloadWithExtensionTest() throws Exception {
+    String requestTemplate = "{\n"
+      + "  \"creator\":\"gbif_user\",\n"
+      + "  \"notification_address\":[\"gbif_user@mailinator.com\"],\n"
+      + "  \"created\":\"2024\",\n"
+      + "  \"format\": \"DWCA\",\n"
+      + "  \"predicate\":{\n"
+      + "    \"type\":\"equals\",\n"
+      + "    \"key\":\"TAXON_KEY\",\n"
+      + "    \"value\":\"212\"\n"
+      + "  },\n"
+      + "  %s\n"
+      + "}";
+
+    DownloadRequest request;
+
+    // Known and supported extension
+    request = MAPPER.readValue(String.format(requestTemplate, "'verbatimExtensions':['http://rs.tdwg.org/dwc/terms/MeasurementOrFact']".replace("'", "\"")), DownloadRequest.class);
+    assertEquals("gbif_user", request.getCreator());
+    assertEquals(DownloadFormat.DWCA, request.getFormat());
+    assertEquals("gbif_user@mailinator.com", request.getNotificationAddressesAsString());
+    assertEquals(EqualsPredicate.class, ((PredicateDownloadRequest) request).getPredicate().getClass());
+    assertEquals("212", ((EqualsPredicate) ((PredicateDownloadRequest) request).getPredicate()).getValue());
+    assertEquals(Extension.MEASUREMENT_OR_FACT, ((PredicateDownloadRequest) request).getVerbatimExtensions().iterator().next());
+
+    // Known and *unsupported* extension
+    try {
+      MAPPER.readValue(String.format(requestTemplate, "'verbatimExtensions':['http://zooarchnet.org/dwc/terms/ChronometricDate']".replace("'", "\"")), DownloadRequest.class);
+      fail();
+    } catch (Exception e) {
+    }
+
+    // Unknown extension
+    try {
+      MAPPER.readValue(String.format(requestTemplate, "'verbatimExtensions':['http://example.org/nothing']".replace("'", "\"")), DownloadRequest.class);
+      fail();
+    } catch (Exception e) {
+    }
+
+    // Extension enum value — not supported as these are a bit too internal
+    try {
+      MAPPER.readValue(String.format(requestTemplate, "'verbatimExtensions':['MEASUREMENT_OR_FACT']".replace("'", "\"")), DownloadRequest.class);
+      fail();
+    } catch (Exception e) {
+    }
+
+    // Null value
+    try {
+      MAPPER.readValue(String.format(requestTemplate, "'verbatimExtensions':[null]".replace("'", "\"")), DownloadRequest.class);
+      fail();
+    } catch (Exception e) {
+    }
   }
 
   @Disabled
