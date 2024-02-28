@@ -111,11 +111,11 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private URI homepage;
 
-  @Schema(description = "A URL for an interactive catalogue of the collection.")
-  private URI catalogUrl;
+  @Schema(description = "URLs for interactive catalogues of the collection.")
+  private List<@HttpURI URI> catalogUrls = new ArrayList<>();
 
-  @Schema(description = "A URL for a machine-readable API for the collection catalogue.")
-  private URI apiUrl;
+  @Schema(description = "URLs for machine-readable APIs for the collection catalogue.")
+  private List<@HttpURI URI> apiUrls = new ArrayList<>();
 
   @Schema(description = "The preservation mechanisms used for this collection.")
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
@@ -407,25 +407,23 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   }
 
   /** URI that exposes data about the catalog associated to a collection. */
-  @HttpURI
   @Nullable
-  public URI getCatalogUrl() {
-    return catalogUrl;
+  public List<URI> getCatalogUrls() {
+    return catalogUrls;
   }
 
-  public void setCatalogUrl(URI catalogUrl) {
-    this.catalogUrl = catalogUrl;
+  public void setCatalogUrls(List<URI> catalogUrls) {
+    this.catalogUrls = catalogUrls;
   }
 
   /** Machine consumable endpoint of information about a collection. */
-  @HttpURI
   @Nullable
-  public URI getApiUrl() {
-    return apiUrl;
+  public List<URI> getApiUrls() {
+    return apiUrls;
   }
 
-  public void setApiUrl(URI apiUrl) {
-    this.apiUrl = apiUrl;
+  public void setApiUrls(List<URI> apiUrls) {
+    this.apiUrls = apiUrls;
   }
 
   /** Types of preservation mechanisms used for this collections. */
@@ -770,8 +768,8 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
         && Objects.equals(email, other.email)
         && Objects.equals(phone, other.phone)
         && Objects.equals(homepage, other.homepage)
-        && Objects.equals(catalogUrl, other.catalogUrl)
-        && Objects.equals(apiUrl, other.apiUrl)
+        && Objects.equals(catalogUrls, other.catalogUrls)
+        && Objects.equals(apiUrls, other.apiUrls)
         && Objects.equals(preservationTypes, other.preservationTypes)
         && accessionStatus == other.accessionStatus
         && Objects.equals(institutionKey, other.institutionKey)

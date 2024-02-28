@@ -78,8 +78,8 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private String description;
 
-  @Schema(description = "Type of the institution, describing its main activity.")
-  private InstitutionType type;
+  @Schema(description = "Types of the institution, describing its main activities.")
+  private List<InstitutionType> types = new ArrayList<>();
 
   @Schema(description = "Whether the institution is active or operational.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
@@ -97,17 +97,17 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private URI homepage;
 
-  @Schema(description = "A URL for the main interactive catalogue of the institution.")
-  private URI catalogUrl;
+  @Schema(description = "URLs for the main interactive catalogues of the institution.")
+  private List<@HttpURI URI> catalogUrls = new ArrayList<>();
 
-  @Schema(description = "A URL for a machine-readable API for the institution catalogue.")
-  private URI apiUrl;
+  @Schema(description = "URLs for machine-readable APIs for the institution catalogues.")
+  private List<@HttpURI URI> apiUrls = new ArrayList<>();
 
   @Schema(
       description =
           "The mechanisms, processes and relations by which an "
               + "institution is controlled and directed.")
-  private InstitutionGovernance institutionalGovernance;
+  private List<InstitutionGovernance> institutionalGovernances = new ArrayList<>();
 
   @Schema(
       description =
@@ -302,13 +302,13 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.description = description;
   }
 
-  /** Describes the main activity of an institution. */
-  public InstitutionType getType() {
-    return type;
+  /** Describes the main activities of an institution. */
+  public List<InstitutionType> getTypes() {
+    return types;
   }
 
-  public void setType(InstitutionType type) {
-    this.type = type;
+  public void setTypes(List<InstitutionType> types) {
+    this.types = types;
   }
 
   /** Is the institution active/operational?. */
@@ -354,34 +354,32 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   }
 
   /** URL to the main catalogue of an institution. */
-  @HttpURI
   @Nullable
-  public URI getCatalogUrl() {
-    return catalogUrl;
+  public List<URI> getCatalogUrls() {
+    return catalogUrls;
   }
 
-  public void setCatalogUrl(URI catalogUrl) {
-    this.catalogUrl = catalogUrl;
+  public void setCatalogUrls(List<URI> catalogUrls) {
+    this.catalogUrls = catalogUrls;
   }
 
   /** Machine-consumable endpoint of an institution and probably its collections. */
-  @HttpURI
   @Nullable
-  public URI getApiUrl() {
-    return apiUrl;
+  public List<URI> getApiUrls() {
+    return apiUrls;
   }
 
-  public void setApiUrl(URI apiUrl) {
-    this.apiUrl = apiUrl;
+  public void setApiUrls(List<URI> apiUrls) {
+    this.apiUrls = apiUrls;
   }
 
   /** Governance nature of an institution. */
-  public InstitutionGovernance getInstitutionalGovernance() {
-    return institutionalGovernance;
+  public List<InstitutionGovernance> getInstitutionalGovernances() {
+    return institutionalGovernances;
   }
 
-  public void setInstitutionalGovernance(InstitutionGovernance institutionalGovernance) {
-    this.institutionalGovernance = institutionalGovernance;
+  public void setInstitutionalGovernances(List<InstitutionGovernance> institutionalGovernances) {
+    this.institutionalGovernances = institutionalGovernances;
   }
 
   /** Activities to which an institution is dedicated. */
@@ -747,13 +745,13 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
         && Objects.equals(code, other.code)
         && Objects.equals(name, other.name)
         && Objects.equals(description, other.description)
-        && type == other.type
+        && Objects.equals(types, other.types)
         && Objects.equals(email, other.email)
         && Objects.equals(phone, other.phone)
         && Objects.equals(homepage, other.homepage)
-        && Objects.equals(catalogUrl, other.catalogUrl)
-        && Objects.equals(apiUrl, other.apiUrl)
-        && institutionalGovernance == other.institutionalGovernance
+        && Objects.equals(catalogUrls, other.catalogUrls)
+        && Objects.equals(apiUrls, other.apiUrls)
+        && Objects.equals(institutionalGovernances, other.institutionalGovernances)
         && Objects.equals(disciplines, other.disciplines)
         && Objects.equals(latitude, other.latitude)
         && Objects.equals(longitude, other.longitude)
