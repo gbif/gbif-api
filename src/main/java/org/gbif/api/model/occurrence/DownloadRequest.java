@@ -14,10 +14,10 @@
 package org.gbif.api.model.occurrence;
 
 import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.gbif.api.jackson.DownloadRequestSerde;
-import org.gbif.api.vocabulary.Extension;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -41,6 +41,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * Represents a request to download occurrence records.
  * This is the base class for specific type of downloads: predicate based downloads and SQL downloads.
  */
+@Schema(
+  description = "An occurrence download request.",
+  oneOf = {PredicateDownloadRequest.class, SqlDownloadRequest.class}
+)
 @SuppressWarnings("unused")
 @JsonDeserialize(using = DownloadRequestSerde.class)
 public abstract class DownloadRequest implements Serializable {
@@ -53,8 +57,10 @@ public abstract class DownloadRequest implements Serializable {
   @JsonProperty("creator")
   private String creator;
 
-  @Schema(
-    description = "A list of email addresses to notify when the download finishes."
+  @ArraySchema(
+    schema = @Schema(
+      description = "An email addresses to notify when the download finishes."
+    )
   )
   @JsonProperty("notificationAddresses")
   private Set<String> notificationAddresses;
@@ -75,10 +81,6 @@ public abstract class DownloadRequest implements Serializable {
   @JsonProperty("type")
   private DownloadType type;
 
-  @Hidden
-  @JsonProperty("verbatimExtensions")
-  private Set<Extension> verbatimExtensions;
-
   /**
    * Default constructor.
    */
@@ -88,8 +90,7 @@ public abstract class DownloadRequest implements Serializable {
 
   public DownloadRequest(String creator, Collection<String> notificationAddresses,
                          Boolean sendNotification, DownloadFormat format,
-                         DownloadType downloadType,
-                         Set<Extension> verbatimExtensions
+                         DownloadType downloadType
   ) {
     this.creator = creator;
     this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :
@@ -97,7 +98,6 @@ public abstract class DownloadRequest implements Serializable {
     this.sendNotification = sendNotification;
     this.format = format;
     this.type = downloadType;
-    this.verbatimExtensions = verbatimExtensions == null? Collections.emptySet(): verbatimExtensions;
   }
 
   /**
@@ -108,12 +108,20 @@ public abstract class DownloadRequest implements Serializable {
     return creator;
   }
 
+  public void setCreator(String creator) {
+    this.creator = creator;
+  }
+
   /**
    * @return set of email addresses for notifications
    */
   @Nullable
   public Set<String> getNotificationAddresses() {
     return notificationAddresses;
+  }
+
+  public void setNotificationAddresses(Set<String> notificationAddresses) {
+    this.notificationAddresses = notificationAddresses;
   }
 
   /**
@@ -129,14 +137,6 @@ public abstract class DownloadRequest implements Serializable {
         .collect(Collectors.joining(DELIMITER));
     }
     return null;
-  }
-
-  public void setCreator(String creator) {
-    this.creator = creator;
-  }
-
-  public void setNotificationAddresses(Set<String> notificationAddresses) {
-    this.notificationAddresses = notificationAddresses;
   }
 
   /**
@@ -185,16 +185,9 @@ public abstract class DownloadRequest implements Serializable {
     this.type = type;
   }
 
-  /**
-   * Requested verbatimExtensions for this download.
-   */
-  @Nullable
-  public Set<Extension> getVerbatimExtensions() {
-    return verbatimExtensions;
-  }
-
-  public void setVerbatimExtensions(Set<Extension> verbatimExtensions) {
-    this.verbatimExtensions = verbatimExtensions;
+  @JsonIgnore
+  public String getFileExtension() {
+    return format.getExtension();
   }
 
   @Override
@@ -210,13 +203,12 @@ public abstract class DownloadRequest implements Serializable {
       Objects.equals(creator, that.creator) &&
       Objects.equals(notificationAddresses, that.notificationAddresses) &&
       format == that.format &&
-      type == that.type &&
-      Objects.equals(verbatimExtensions, that.verbatimExtensions);
+      type == that.type;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(creator, notificationAddresses, sendNotification, format, type, verbatimExtensions);
+    return Objects.hash(creator, notificationAddresses, sendNotification, format, type);
   }
 
   @Override
@@ -227,7 +219,6 @@ public abstract class DownloadRequest implements Serializable {
       .add("sendNotification=" + sendNotification)
       .add("format=" + format)
       .add("type=" + type)
-      .add("verbatimExtensions=" + verbatimExtensions)
       .toString();
   }
 }

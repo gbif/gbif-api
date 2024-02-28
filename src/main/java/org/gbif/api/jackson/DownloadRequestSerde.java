@@ -17,6 +17,7 @@ import org.gbif.api.model.occurrence.DownloadFormat;
 import org.gbif.api.model.occurrence.DownloadRequest;
 import org.gbif.api.model.occurrence.DownloadType;
 import org.gbif.api.model.occurrence.PredicateDownloadRequest;
+import org.gbif.api.model.occurrence.SqlDownloadRequest;
 import org.gbif.api.model.predicate.Predicate;
 import org.gbif.api.util.VocabularyUtils;
 import org.gbif.api.vocabulary.Extension;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -57,6 +59,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
   private static final String PREDICATE = "predicate";
   private static final List<String> SEND_NOTIFICATION = Collections
     .unmodifiableList(Arrays.asList("sendNotification", "send_notification"));
+  private static final String SQL = "sql";
   private static final List<String> NOTIFICATION_ADDRESSES =
     Collections.unmodifiableList(
       Arrays.asList("notificationAddresses", "notificationAddress", "notification_addresses",
@@ -65,8 +68,23 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
   private static final String FORMAT = "format";
   private static final String TYPE = "type";
   private static final String VERBATIM_EXTENSIONS = "verbatimExtensions";
+
+  // Properties we ignore.
+  private static final List<String> IGNORED_PROPERTIES =
+    Collections.unmodifiableList(
+      Arrays.asList("created"));
+
+  private static final Set<String> ALL_PROPERTIES;
   private static final Logger LOG = LoggerFactory.getLogger(DownloadRequestSerde.class);
   private static final ObjectMapper MAPPER = new ObjectMapper();
+
+  static {
+    Set<String> allProperties = new HashSet<>(Arrays.asList(PREDICATE, SQL, CREATOR, FORMAT, TYPE, VERBATIM_EXTENSIONS));
+    allProperties.addAll(SEND_NOTIFICATION);
+    allProperties.addAll(NOTIFICATION_ADDRESSES);
+    allProperties.addAll(IGNORED_PROPERTIES);
+    ALL_PROPERTIES = Collections.unmodifiableSet(allProperties);
+  }
 
   @Override
   public DownloadRequest deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
@@ -100,9 +118,6 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
       sendNotification |= Optional.ofNullable(node.get(jsonKey)).map(JsonNode::asBoolean).orElse(Boolean.FALSE);
     }
 
-    JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);
-    Predicate predicateObj = predicate == null ? null : MAPPER.treeToValue(predicate, Predicate.class);
-
     Set<Extension> extensions = Optional.ofNullable(node.get(VERBATIM_EXTENSIONS)).map(jsonNode -> {
       try {
         return Arrays.stream(MAPPER.treeToValue(jsonNode, String[].class))
@@ -113,6 +128,36 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
       }
     }).orElse(Collections.emptySet());
 
-    return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format, type, extensions);
+    // Check requested extensions are available for download.
+    for (Extension e : extensions) {
+      if (!Extension.availableExtensions().contains(e)) {
+        throw new RuntimeException("The "+e.getRowType()+" extension is not available for downloads.");
+      }
+    }
+
+    String sql = Optional.ofNullable(node.get(SQL)).map(JsonNode::asText).orElse(null);
+
+    // Reject if unknown field names are present
+    // https://github.com/gbif/occurrence/issues/273
+    node.fieldNames().forEachRemaining(n -> { if (!ALL_PROPERTIES.contains(n)) { throw new RuntimeException("Unknown JSON property '"+n+"'."); }});
+
+    if (sql != null) {
+      if (format != DownloadFormat.SQL_TSV_ZIP) {
+        throw new RuntimeException("SQL downloads must use a suitable download format: SQL_TSV_ZIP.");
+      }
+      return new SqlDownloadRequest(sql, creator, notificationAddresses, sendNotification, type, format);
+    } else {
+      if (format == DownloadFormat.SQL_TSV_ZIP) {
+        throw new RuntimeException("Predicate downloads must not use an SQL download format.");
+      }
+      JsonNode predicate = Optional.ofNullable(node.get(PREDICATE)).orElse(null);
+      // Not yet enforced, we would need e.g. http://api.gbif.org/v1/occurrence/download/request/predicate?format=DWCA
+      // to return 'predicate: {}' etc.
+      //if (predicate == null) {
+      //  throw new RuntimeException("A predicate must be specified. Use {} for everything.");
+      //}
+      Predicate predicateObj = predicate == null ? null : MAPPER.treeToValue(predicate, Predicate.class);
+      return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format, type, extensions);
+    }
   }
 }
