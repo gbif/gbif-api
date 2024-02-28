@@ -21,99 +21,162 @@
 <span class="sourceLineNo">013</span> */<a name="line.13"></a>
 <span class="sourceLineNo">014</span>package org.gbif.api.model.occurrence;<a name="line.14"></a>
 <span class="sourceLineNo">015</span><a name="line.15"></a>
-<span class="sourceLineNo">016</span><a name="line.16"></a>
-<span class="sourceLineNo">017</span>import org.gbif.api.model.predicate.Predicate;<a name="line.17"></a>
-<span class="sourceLineNo">018</span>import org.gbif.api.vocabulary.Extension;<a name="line.18"></a>
+<span class="sourceLineNo">016</span>import io.swagger.v3.oas.annotations.ExternalDocumentation;<a name="line.16"></a>
+<span class="sourceLineNo">017</span><a name="line.17"></a>
+<span class="sourceLineNo">018</span>import io.swagger.v3.oas.annotations.media.ArraySchema;<a name="line.18"></a>
 <span class="sourceLineNo">019</span><a name="line.19"></a>
-<span class="sourceLineNo">020</span>import java.util.Collection;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import java.util.Objects;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import java.util.Set;<a name="line.22"></a>
-<span class="sourceLineNo">023</span>import java.util.StringJoiner;<a name="line.23"></a>
-<span class="sourceLineNo">024</span><a name="line.24"></a>
-<span class="sourceLineNo">025</span>import javax.annotation.Nullable;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import javax.validation.Valid;<a name="line.26"></a>
-<span class="sourceLineNo">027</span><a name="line.27"></a>
-<span class="sourceLineNo">028</span>import com.fasterxml.jackson.annotation.JsonCreator;<a name="line.28"></a>
-<span class="sourceLineNo">029</span>import com.fasterxml.jackson.annotation.JsonProperty;<a name="line.29"></a>
-<span class="sourceLineNo">030</span><a name="line.30"></a>
-<span class="sourceLineNo">031</span>import io.swagger.v3.oas.annotations.media.Schema;<a name="line.31"></a>
-<span class="sourceLineNo">032</span><a name="line.32"></a>
-<span class="sourceLineNo">033</span>/**<a name="line.33"></a>
-<span class="sourceLineNo">034</span> * An occurrence download request whose filters are based on predicates ( see {@link Predicate}).<a name="line.34"></a>
-<span class="sourceLineNo">035</span> */<a name="line.35"></a>
-<span class="sourceLineNo">036</span>@Schema(<a name="line.36"></a>
-<span class="sourceLineNo">037</span>  description = "An occurrence download request whose filters are based on predicates."<a name="line.37"></a>
-<span class="sourceLineNo">038</span>)<a name="line.38"></a>
-<span class="sourceLineNo">039</span>public class PredicateDownloadRequest extends DownloadRequest {<a name="line.39"></a>
-<span class="sourceLineNo">040</span><a name="line.40"></a>
-<span class="sourceLineNo">041</span>  //Default download format.<a name="line.41"></a>
-<span class="sourceLineNo">042</span>  private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.SIMPLE_CSV;<a name="line.42"></a>
-<span class="sourceLineNo">043</span><a name="line.43"></a>
-<span class="sourceLineNo">044</span>  @Schema(<a name="line.44"></a>
-<span class="sourceLineNo">045</span>    description = "A predicate defining the filters to apply to the download."<a name="line.45"></a>
-<span class="sourceLineNo">046</span>  )<a name="line.46"></a>
-<span class="sourceLineNo">047</span>  private Predicate predicate;<a name="line.47"></a>
+<span class="sourceLineNo">020</span>import org.gbif.api.model.predicate.ConjunctionPredicate;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>import org.gbif.api.model.predicate.DisjunctionPredicate;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import org.gbif.api.model.predicate.EqualsPredicate;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import org.gbif.api.model.predicate.GeoDistancePredicate;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import org.gbif.api.model.predicate.GreaterThanOrEqualsPredicate;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import org.gbif.api.model.predicate.GreaterThanPredicate;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import org.gbif.api.model.predicate.InPredicate;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import org.gbif.api.model.predicate.IsNotNullPredicate;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import org.gbif.api.model.predicate.IsNullPredicate;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import org.gbif.api.model.predicate.LessThanOrEqualsPredicate;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import org.gbif.api.model.predicate.LessThanPredicate;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import org.gbif.api.model.predicate.LikePredicate;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import org.gbif.api.model.predicate.NotPredicate;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import org.gbif.api.model.predicate.Predicate;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>import org.gbif.api.model.predicate.WithinPredicate;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>import org.gbif.api.vocabulary.Extension;<a name="line.35"></a>
+<span class="sourceLineNo">036</span><a name="line.36"></a>
+<span class="sourceLineNo">037</span>import java.util.Collection;<a name="line.37"></a>
+<span class="sourceLineNo">038</span>import java.util.Collections;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>import java.util.Objects;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>import java.util.Set;<a name="line.40"></a>
+<span class="sourceLineNo">041</span>import java.util.StringJoiner;<a name="line.41"></a>
+<span class="sourceLineNo">042</span><a name="line.42"></a>
+<span class="sourceLineNo">043</span>import javax.annotation.Nullable;<a name="line.43"></a>
+<span class="sourceLineNo">044</span>import javax.validation.Valid;<a name="line.44"></a>
+<span class="sourceLineNo">045</span><a name="line.45"></a>
+<span class="sourceLineNo">046</span>import com.fasterxml.jackson.annotation.JsonCreator;<a name="line.46"></a>
+<span class="sourceLineNo">047</span>import com.fasterxml.jackson.annotation.JsonProperty;<a name="line.47"></a>
 <span class="sourceLineNo">048</span><a name="line.48"></a>
-<span class="sourceLineNo">049</span>  public PredicateDownloadRequest() {<a name="line.49"></a>
+<span class="sourceLineNo">049</span>import io.swagger.v3.oas.annotations.media.Schema;<a name="line.49"></a>
 <span class="sourceLineNo">050</span><a name="line.50"></a>
-<span class="sourceLineNo">051</span>  }<a name="line.51"></a>
-<span class="sourceLineNo">052</span><a name="line.52"></a>
-<span class="sourceLineNo">053</span>  /**<a name="line.53"></a>
-<span class="sourceLineNo">054</span>   * Full constructor. Used to create instances using JSON serialization.<a name="line.54"></a>
-<span class="sourceLineNo">055</span>   */<a name="line.55"></a>
-<span class="sourceLineNo">056</span>  @JsonCreator<a name="line.56"></a>
-<span class="sourceLineNo">057</span>  public PredicateDownloadRequest(<a name="line.57"></a>
-<span class="sourceLineNo">058</span>    @JsonProperty("predicate") Predicate predicate,<a name="line.58"></a>
-<span class="sourceLineNo">059</span>    @JsonProperty("creator") @Nullable String creator,<a name="line.59"></a>
-<span class="sourceLineNo">060</span>    @JsonProperty("notificationAddresses") @Nullable Collection&lt;String&gt; notificationAddresses,<a name="line.60"></a>
-<span class="sourceLineNo">061</span>    @JsonProperty("sendNotification") @Nullable Boolean sendNotification,<a name="line.61"></a>
-<span class="sourceLineNo">062</span>    @JsonProperty("format") @Nullable DownloadFormat format,<a name="line.62"></a>
-<span class="sourceLineNo">063</span>    @JsonProperty("type") @Nullable DownloadType type,<a name="line.63"></a>
-<span class="sourceLineNo">064</span>    @JsonProperty("verbatimExtensions") @Nullable Set&lt;Extension&gt; verbatimExtensions) {<a name="line.64"></a>
-<span class="sourceLineNo">065</span>    super(creator, notificationAddresses, sendNotification == null? Boolean.TRUE : sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type == null? DownloadType.OCCURRENCE : type, verbatimExtensions);<a name="line.65"></a>
-<span class="sourceLineNo">066</span>    this.predicate = predicate;<a name="line.66"></a>
-<span class="sourceLineNo">067</span>  }<a name="line.67"></a>
-<span class="sourceLineNo">068</span><a name="line.68"></a>
-<span class="sourceLineNo">069</span>  /**<a name="line.69"></a>
-<span class="sourceLineNo">070</span>   * @return the download filter<a name="line.70"></a>
-<span class="sourceLineNo">071</span>   */<a name="line.71"></a>
-<span class="sourceLineNo">072</span>  @Nullable<a name="line.72"></a>
-<span class="sourceLineNo">073</span>  @Valid<a name="line.73"></a>
-<span class="sourceLineNo">074</span>  public Predicate getPredicate() {<a name="line.74"></a>
-<span class="sourceLineNo">075</span>    return predicate;<a name="line.75"></a>
-<span class="sourceLineNo">076</span>  }<a name="line.76"></a>
-<span class="sourceLineNo">077</span><a name="line.77"></a>
-<span class="sourceLineNo">078</span>  public void setPredicate(Predicate predicate) {<a name="line.78"></a>
-<span class="sourceLineNo">079</span>    this.predicate = predicate;<a name="line.79"></a>
-<span class="sourceLineNo">080</span>  }<a name="line.80"></a>
-<span class="sourceLineNo">081</span><a name="line.81"></a>
-<span class="sourceLineNo">082</span>  @Override<a name="line.82"></a>
-<span class="sourceLineNo">083</span>  public boolean equals(Object o) {<a name="line.83"></a>
-<span class="sourceLineNo">084</span>    if (this == o) {<a name="line.84"></a>
-<span class="sourceLineNo">085</span>      return true;<a name="line.85"></a>
-<span class="sourceLineNo">086</span>    }<a name="line.86"></a>
-<span class="sourceLineNo">087</span>    if (o == null || getClass() != o.getClass()) {<a name="line.87"></a>
-<span class="sourceLineNo">088</span>      return false;<a name="line.88"></a>
-<span class="sourceLineNo">089</span>    }<a name="line.89"></a>
-<span class="sourceLineNo">090</span>    if (!super.equals(o)) {<a name="line.90"></a>
-<span class="sourceLineNo">091</span>      return false;<a name="line.91"></a>
-<span class="sourceLineNo">092</span>    }<a name="line.92"></a>
-<span class="sourceLineNo">093</span>    PredicateDownloadRequest that = (PredicateDownloadRequest) o;<a name="line.93"></a>
-<span class="sourceLineNo">094</span>    return Objects.equals(predicate, that.predicate);<a name="line.94"></a>
-<span class="sourceLineNo">095</span>  }<a name="line.95"></a>
-<span class="sourceLineNo">096</span><a name="line.96"></a>
-<span class="sourceLineNo">097</span>  @Override<a name="line.97"></a>
-<span class="sourceLineNo">098</span>  public int hashCode() {<a name="line.98"></a>
-<span class="sourceLineNo">099</span>    return Objects.hash(super.hashCode(), predicate);<a name="line.99"></a>
-<span class="sourceLineNo">100</span>  }<a name="line.100"></a>
-<span class="sourceLineNo">101</span><a name="line.101"></a>
-<span class="sourceLineNo">102</span>  @Override<a name="line.102"></a>
-<span class="sourceLineNo">103</span>  public String toString() {<a name="line.103"></a>
-<span class="sourceLineNo">104</span>    return new StringJoiner(", ", PredicateDownloadRequest.class.getSimpleName() + "[", "]")<a name="line.104"></a>
-<span class="sourceLineNo">105</span>      .add("predicate=" + predicate)<a name="line.105"></a>
-<span class="sourceLineNo">106</span>      .toString();<a name="line.106"></a>
-<span class="sourceLineNo">107</span>  }<a name="line.107"></a>
-<span class="sourceLineNo">108</span>}<a name="line.108"></a>
+<span class="sourceLineNo">051</span>/**<a name="line.51"></a>
+<span class="sourceLineNo">052</span> * An occurrence download request whose filters are based on predicates ( see {@link Predicate}).<a name="line.52"></a>
+<span class="sourceLineNo">053</span> */<a name="line.53"></a>
+<span class="sourceLineNo">054</span>@Schema(<a name="line.54"></a>
+<span class="sourceLineNo">055</span>  description = "An occurrence download request whose filters are based on predicates."<a name="line.55"></a>
+<span class="sourceLineNo">056</span>)<a name="line.56"></a>
+<span class="sourceLineNo">057</span>public class PredicateDownloadRequest extends DownloadRequest {<a name="line.57"></a>
+<span class="sourceLineNo">058</span><a name="line.58"></a>
+<span class="sourceLineNo">059</span>  //Default download format.<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.SIMPLE_CSV;<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>  @Schema(<a name="line.62"></a>
+<span class="sourceLineNo">063</span>    description = "A predicate defining the filters to apply to the download.",<a name="line.63"></a>
+<span class="sourceLineNo">064</span>    externalDocs = @ExternalDocumentation(url = "https://techdocs.gbif.org/en/data-use/api-downloads#predicates"),<a name="line.64"></a>
+<span class="sourceLineNo">065</span>    oneOf = {<a name="line.65"></a>
+<span class="sourceLineNo">066</span>      ConjunctionPredicate.class,<a name="line.66"></a>
+<span class="sourceLineNo">067</span>      DisjunctionPredicate.class,<a name="line.67"></a>
+<span class="sourceLineNo">068</span>      EqualsPredicate.class,<a name="line.68"></a>
+<span class="sourceLineNo">069</span>      GeoDistancePredicate.class,<a name="line.69"></a>
+<span class="sourceLineNo">070</span>      GreaterThanOrEqualsPredicate.class,<a name="line.70"></a>
+<span class="sourceLineNo">071</span>      GreaterThanPredicate.class,<a name="line.71"></a>
+<span class="sourceLineNo">072</span>      InPredicate.class,<a name="line.72"></a>
+<span class="sourceLineNo">073</span>      IsNotNullPredicate.class,<a name="line.73"></a>
+<span class="sourceLineNo">074</span>      IsNullPredicate.class,<a name="line.74"></a>
+<span class="sourceLineNo">075</span>      LessThanOrEqualsPredicate.class,<a name="line.75"></a>
+<span class="sourceLineNo">076</span>      LessThanPredicate.class,<a name="line.76"></a>
+<span class="sourceLineNo">077</span>      LikePredicate.class,<a name="line.77"></a>
+<span class="sourceLineNo">078</span>      NotPredicate.class,<a name="line.78"></a>
+<span class="sourceLineNo">079</span>      WithinPredicate.class<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    }<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  )<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  private Predicate predicate;<a name="line.82"></a>
+<span class="sourceLineNo">083</span><a name="line.83"></a>
+<span class="sourceLineNo">084</span>  @ArraySchema(<a name="line.84"></a>
+<span class="sourceLineNo">085</span>    schema = @Schema(<a name="line.85"></a>
+<span class="sourceLineNo">086</span>      description = "A verbatim (unprocessed) extension to include on a Darwin Core Archive download."<a name="line.86"></a>
+<span class="sourceLineNo">087</span>    )<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  )<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  @JsonProperty("verbatimExtensions")<a name="line.89"></a>
+<span class="sourceLineNo">090</span>  private Set&lt;Extension&gt; verbatimExtensions;<a name="line.90"></a>
+<span class="sourceLineNo">091</span><a name="line.91"></a>
+<span class="sourceLineNo">092</span>  public PredicateDownloadRequest() {<a name="line.92"></a>
+<span class="sourceLineNo">093</span><a name="line.93"></a>
+<span class="sourceLineNo">094</span>  }<a name="line.94"></a>
+<span class="sourceLineNo">095</span><a name="line.95"></a>
+<span class="sourceLineNo">096</span>  /**<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * Full constructor. Used to create instances using JSON serialization.<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   */<a name="line.98"></a>
+<span class="sourceLineNo">099</span>  @JsonCreator<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  public PredicateDownloadRequest(<a name="line.100"></a>
+<span class="sourceLineNo">101</span>    @JsonProperty("predicate") Predicate predicate,<a name="line.101"></a>
+<span class="sourceLineNo">102</span>    @JsonProperty("creator") @Nullable String creator,<a name="line.102"></a>
+<span class="sourceLineNo">103</span>    @JsonProperty("notificationAddresses") @Nullable Collection&lt;String&gt; notificationAddresses,<a name="line.103"></a>
+<span class="sourceLineNo">104</span>    @JsonProperty("sendNotification") @Nullable Boolean sendNotification,<a name="line.104"></a>
+<span class="sourceLineNo">105</span>    @JsonProperty("format") @Nullable DownloadFormat format,<a name="line.105"></a>
+<span class="sourceLineNo">106</span>    @JsonProperty("type") @Nullable DownloadType type,<a name="line.106"></a>
+<span class="sourceLineNo">107</span>    @JsonProperty("verbatimExtensions") @Nullable Set&lt;Extension&gt; verbatimExtensions) {<a name="line.107"></a>
+<span class="sourceLineNo">108</span>    super(creator, notificationAddresses, sendNotification == null? Boolean.TRUE : sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type == null? DownloadType.OCCURRENCE : type);<a name="line.108"></a>
+<span class="sourceLineNo">109</span>    this.predicate = predicate;<a name="line.109"></a>
+<span class="sourceLineNo">110</span>    this.verbatimExtensions = verbatimExtensions == null? Collections.emptySet(): verbatimExtensions;<a name="line.110"></a>
+<span class="sourceLineNo">111</span>  }<a name="line.111"></a>
+<span class="sourceLineNo">112</span><a name="line.112"></a>
+<span class="sourceLineNo">113</span>  /**<a name="line.113"></a>
+<span class="sourceLineNo">114</span>   * @return the download filter<a name="line.114"></a>
+<span class="sourceLineNo">115</span>   */<a name="line.115"></a>
+<span class="sourceLineNo">116</span>  @Nullable<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  @Valid<a name="line.117"></a>
+<span class="sourceLineNo">118</span>  public Predicate getPredicate() {<a name="line.118"></a>
+<span class="sourceLineNo">119</span>    return predicate;<a name="line.119"></a>
+<span class="sourceLineNo">120</span>  }<a name="line.120"></a>
+<span class="sourceLineNo">121</span><a name="line.121"></a>
+<span class="sourceLineNo">122</span>  public void setPredicate(Predicate predicate) {<a name="line.122"></a>
+<span class="sourceLineNo">123</span>    this.predicate = predicate;<a name="line.123"></a>
+<span class="sourceLineNo">124</span>  }<a name="line.124"></a>
+<span class="sourceLineNo">125</span><a name="line.125"></a>
+<span class="sourceLineNo">126</span>  /**<a name="line.126"></a>
+<span class="sourceLineNo">127</span>   * Requested verbatimExtensions for this download.<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   */<a name="line.128"></a>
+<span class="sourceLineNo">129</span>  @Nullable<a name="line.129"></a>
+<span class="sourceLineNo">130</span>  public Set&lt;Extension&gt; getVerbatimExtensions() {<a name="line.130"></a>
+<span class="sourceLineNo">131</span>    return verbatimExtensions;<a name="line.131"></a>
+<span class="sourceLineNo">132</span>  }<a name="line.132"></a>
+<span class="sourceLineNo">133</span><a name="line.133"></a>
+<span class="sourceLineNo">134</span>  public void setVerbatimExtensions(Set&lt;Extension&gt; verbatimExtensions) {<a name="line.134"></a>
+<span class="sourceLineNo">135</span>    this.verbatimExtensions = verbatimExtensions;<a name="line.135"></a>
+<span class="sourceLineNo">136</span>  }<a name="line.136"></a>
+<span class="sourceLineNo">137</span><a name="line.137"></a>
+<span class="sourceLineNo">138</span>  @Override<a name="line.138"></a>
+<span class="sourceLineNo">139</span>  public boolean equals(Object o) {<a name="line.139"></a>
+<span class="sourceLineNo">140</span>    if (this == o) {<a name="line.140"></a>
+<span class="sourceLineNo">141</span>      return true;<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    }<a name="line.142"></a>
+<span class="sourceLineNo">143</span>    if (o == null || getClass() != o.getClass()) {<a name="line.143"></a>
+<span class="sourceLineNo">144</span>      return false;<a name="line.144"></a>
+<span class="sourceLineNo">145</span>    }<a name="line.145"></a>
+<span class="sourceLineNo">146</span>    if (!super.equals(o)) {<a name="line.146"></a>
+<span class="sourceLineNo">147</span>      return false;<a name="line.147"></a>
+<span class="sourceLineNo">148</span>    }<a name="line.148"></a>
+<span class="sourceLineNo">149</span>    PredicateDownloadRequest that = (PredicateDownloadRequest) o;<a name="line.149"></a>
+<span class="sourceLineNo">150</span>    return Objects.equals(predicate, that.predicate) &amp;&amp;<a name="line.150"></a>
+<span class="sourceLineNo">151</span>      Objects.equals(verbatimExtensions, that.verbatimExtensions);<a name="line.151"></a>
+<span class="sourceLineNo">152</span>  }<a name="line.152"></a>
+<span class="sourceLineNo">153</span><a name="line.153"></a>
+<span class="sourceLineNo">154</span>  @Override<a name="line.154"></a>
+<span class="sourceLineNo">155</span>  public int hashCode() {<a name="line.155"></a>
+<span class="sourceLineNo">156</span>    return Objects.hash(super.hashCode(), predicate, verbatimExtensions);<a name="line.156"></a>
+<span class="sourceLineNo">157</span>  }<a name="line.157"></a>
+<span class="sourceLineNo">158</span><a name="line.158"></a>
+<span class="sourceLineNo">159</span>  @Override<a name="line.159"></a>
+<span class="sourceLineNo">160</span>  public String toString() {<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    return new StringJoiner(", ", PredicateDownloadRequest.class.getSimpleName() + "[", "]")<a name="line.161"></a>
+<span class="sourceLineNo">162</span>      .add("predicate=" + predicate)<a name="line.162"></a>
+<span class="sourceLineNo">163</span>      .add("creator='" + getCreator() + "'")<a name="line.163"></a>
+<span class="sourceLineNo">164</span>      .add("notificationAddresses=" + getNotificationAddresses())<a name="line.164"></a>
+<span class="sourceLineNo">165</span>      .add("sendNotification=" + getSendNotification())<a name="line.165"></a>
+<span class="sourceLineNo">166</span>      .add("format=" + getFormat())<a name="line.166"></a>
+<span class="sourceLineNo">167</span>      .add("type=" + getType())<a name="line.167"></a>
+<span class="sourceLineNo">168</span>      .add("verbatimExtensions=" + verbatimExtensions)<a name="line.168"></a>
+<span class="sourceLineNo">169</span>      .toString();<a name="line.169"></a>
+<span class="sourceLineNo">170</span>  }<a name="line.170"></a>
+<span class="sourceLineNo">171</span>}<a name="line.171"></a>
 
 
 

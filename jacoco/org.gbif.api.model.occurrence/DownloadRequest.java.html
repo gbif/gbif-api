@@ -14,10 +14,10 @@
 package org.gbif.api.model.occurrence;
 
 import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.gbif.api.jackson.DownloadRequestSerde;
-import org.gbif.api.vocabulary.Extension;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -41,6 +41,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * Represents a request to download occurrence records.
  * This is the base class for specific type of downloads: predicate based downloads and SQL downloads.
  */
+@Schema(
+  description = &quot;An occurrence download request.&quot;,
+  oneOf = {PredicateDownloadRequest.class, SqlDownloadRequest.class}
+)
 @SuppressWarnings(&quot;unused&quot;)
 @JsonDeserialize(using = DownloadRequestSerde.class)
 public abstract class DownloadRequest implements Serializable {
@@ -53,8 +57,10 @@ public abstract class DownloadRequest implements Serializable {
   @JsonProperty(&quot;creator&quot;)
   private String creator;
 
-  @Schema(
-    description = &quot;A list of email addresses to notify when the download finishes.&quot;
+  @ArraySchema(
+    schema = @Schema(
+      description = &quot;An email addresses to notify when the download finishes.&quot;
+    )
   )
   @JsonProperty(&quot;notificationAddresses&quot;)
   private Set&lt;String&gt; notificationAddresses;
@@ -75,29 +81,23 @@ public abstract class DownloadRequest implements Serializable {
   @JsonProperty(&quot;type&quot;)
   private DownloadType type;
 
-  @Hidden
-  @JsonProperty(&quot;verbatimExtensions&quot;)
-  private Set&lt;Extension&gt; verbatimExtensions;
-
   /**
    * Default constructor.
    */
-<span class="nc" id="L85">  public DownloadRequest() {</span>
+<span class="nc" id="L87">  public DownloadRequest() {</span>
     // Empty constructor required to create instances from the data access layer.
-<span class="nc" id="L87">  }</span>
+<span class="nc" id="L89">  }</span>
 
   public DownloadRequest(String creator, Collection&lt;String&gt; notificationAddresses,
                          Boolean sendNotification, DownloadFormat format,
-                         DownloadType downloadType,
-                         Set&lt;Extension&gt; verbatimExtensions
-<span class="fc" id="L93">  ) {</span>
-<span class="fc" id="L94">    this.creator = creator;</span>
-<span class="pc bpc" id="L95" title="1 of 2 branches missed.">    this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :</span>
-<span class="fc" id="L96">      Collections.unmodifiableSet(new HashSet&lt;&gt;(notificationAddresses));</span>
-<span class="fc" id="L97">    this.sendNotification = sendNotification;</span>
-<span class="fc" id="L98">    this.format = format;</span>
-<span class="fc" id="L99">    this.type = downloadType;</span>
-<span class="pc bpc" id="L100" title="1 of 2 branches missed.">    this.verbatimExtensions = verbatimExtensions == null? Collections.emptySet(): verbatimExtensions;</span>
+                         DownloadType downloadType
+<span class="fc" id="L94">  ) {</span>
+<span class="fc" id="L95">    this.creator = creator;</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">    this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :</span>
+<span class="fc" id="L97">      Collections.unmodifiableSet(new HashSet&lt;&gt;(notificationAddresses));</span>
+<span class="fc" id="L98">    this.sendNotification = sendNotification;</span>
+<span class="fc" id="L99">    this.format = format;</span>
+<span class="fc" id="L100">    this.type = downloadType;</span>
 <span class="fc" id="L101">  }</span>
 
   /**
@@ -108,13 +108,21 @@ public abstract class DownloadRequest implements Serializable {
 <span class="fc" id="L108">    return creator;</span>
   }
 
+  public void setCreator(String creator) {
+<span class="nc" id="L112">    this.creator = creator;</span>
+<span class="nc" id="L113">  }</span>
+
   /**
    * @return set of email addresses for notifications
    */
   @Nullable
   public Set&lt;String&gt; getNotificationAddresses() {
-<span class="fc" id="L116">    return notificationAddresses;</span>
+<span class="fc" id="L120">    return notificationAddresses;</span>
   }
+
+  public void setNotificationAddresses(Set&lt;String&gt; notificationAddresses) {
+<span class="nc" id="L124">    this.notificationAddresses = notificationAddresses;</span>
+<span class="nc" id="L125">  }</span>
 
   /**
    * Returns the notification addresses as single string. The emails are separated by ','.
@@ -122,22 +130,14 @@ public abstract class DownloadRequest implements Serializable {
   @Nullable
   @JsonIgnore
   public String getNotificationAddressesAsString() {
-<span class="pc bpc" id="L125" title="1 of 2 branches missed.">    if (notificationAddresses != null) {</span>
-<span class="fc" id="L126">      return notificationAddresses.stream()</span>
-<span class="fc" id="L127">        .filter(Objects::nonNull)</span>
-<span class="fc" id="L128">        .map(String::trim)</span>
-<span class="fc" id="L129">        .collect(Collectors.joining(DELIMITER));</span>
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">    if (notificationAddresses != null) {</span>
+<span class="fc" id="L134">      return notificationAddresses.stream()</span>
+<span class="fc" id="L135">        .filter(Objects::nonNull)</span>
+<span class="fc" id="L136">        .map(String::trim)</span>
+<span class="fc" id="L137">        .collect(Collectors.joining(DELIMITER));</span>
     }
-<span class="nc" id="L131">    return null;</span>
+<span class="nc" id="L139">    return null;</span>
   }
-
-  public void setCreator(String creator) {
-<span class="nc" id="L135">    this.creator = creator;</span>
-<span class="nc" id="L136">  }</span>
-
-  public void setNotificationAddresses(Set&lt;String&gt; notificationAddresses) {
-<span class="nc" id="L139">    this.notificationAddresses = notificationAddresses;</span>
-<span class="nc" id="L140">  }</span>
 
   /**
    * Sets the notificationAddresses using a single String value that is split by ','.
@@ -185,50 +185,41 @@ public abstract class DownloadRequest implements Serializable {
 <span class="nc" id="L185">    this.type = type;</span>
 <span class="nc" id="L186">  }</span>
 
-  /**
-   * Requested verbatimExtensions for this download.
-   */
-  @Nullable
-  public Set&lt;Extension&gt; getVerbatimExtensions() {
-<span class="fc" id="L193">    return verbatimExtensions;</span>
+  @JsonIgnore
+  public String getFileExtension() {
+<span class="nc" id="L190">    return format.getExtension();</span>
   }
-
-  public void setVerbatimExtensions(Set&lt;Extension&gt; verbatimExtensions) {
-<span class="nc" id="L197">    this.verbatimExtensions = verbatimExtensions;</span>
-<span class="nc" id="L198">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L202" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L203">      return true;</span>
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L196">      return true;</span>
     }
-<span class="pc bpc" id="L205" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L206">      return false;</span>
+<span class="pc bpc" id="L198" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L199">      return false;</span>
     }
-<span class="fc" id="L208">    DownloadRequest that = (DownloadRequest) o;</span>
-<span class="pc bpc" id="L209" title="1 of 2 branches missed.">    return sendNotification == that.sendNotification &amp;&amp;</span>
-<span class="pc bpc" id="L210" title="1 of 2 branches missed.">      Objects.equals(creator, that.creator) &amp;&amp;</span>
-<span class="pc bpc" id="L211" title="3 of 6 branches missed.">      Objects.equals(notificationAddresses, that.notificationAddresses) &amp;&amp;</span>
+<span class="fc" id="L201">    DownloadRequest that = (DownloadRequest) o;</span>
+<span class="pc bpc" id="L202" title="1 of 2 branches missed.">    return sendNotification == that.sendNotification &amp;&amp;</span>
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">      Objects.equals(creator, that.creator) &amp;&amp;</span>
+<span class="pc bpc" id="L204" title="3 of 6 branches missed.">      Objects.equals(notificationAddresses, that.notificationAddresses) &amp;&amp;</span>
       format == that.format &amp;&amp;
-      type == that.type &amp;&amp;
-<span class="pc bpc" id="L214" title="1 of 2 branches missed.">      Objects.equals(verbatimExtensions, that.verbatimExtensions);</span>
+      type == that.type;
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L219">    return Objects.hash(creator, notificationAddresses, sendNotification, format, type, verbatimExtensions);</span>
+<span class="fc" id="L211">    return Objects.hash(creator, notificationAddresses, sendNotification, format, type);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L224">    return new StringJoiner(&quot;, &quot;, DownloadRequest.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L225">      .add(&quot;creator='&quot; + creator + &quot;'&quot;)</span>
-<span class="nc" id="L226">      .add(&quot;notificationAddresses=&quot; + notificationAddresses)</span>
-<span class="nc" id="L227">      .add(&quot;sendNotification=&quot; + sendNotification)</span>
-<span class="nc" id="L228">      .add(&quot;format=&quot; + format)</span>
-<span class="nc" id="L229">      .add(&quot;type=&quot; + type)</span>
-<span class="nc" id="L230">      .add(&quot;verbatimExtensions=&quot; + verbatimExtensions)</span>
-<span class="nc" id="L231">      .toString();</span>
+<span class="nc" id="L216">    return new StringJoiner(&quot;, &quot;, DownloadRequest.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L217">      .add(&quot;creator='&quot; + creator + &quot;'&quot;)</span>
+<span class="nc" id="L218">      .add(&quot;notificationAddresses=&quot; + notificationAddresses)</span>
+<span class="nc" id="L219">      .add(&quot;sendNotification=&quot; + sendNotification)</span>
+<span class="nc" id="L220">      .add(&quot;format=&quot; + format)</span>
+<span class="nc" id="L221">      .add(&quot;type=&quot; + type)</span>
+<span class="nc" id="L222">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

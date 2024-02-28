@@ -81,60 +81,63 @@
 <span class="sourceLineNo">073</span>    checkArgument(!values.isEmpty(), "&lt;values&gt; may not be empty");<a name="line.73"></a>
 <span class="sourceLineNo">074</span>    // make sure the value is of the right type according to the key given<a name="line.74"></a>
 <span class="sourceLineNo">075</span>    for (String value : values) {<a name="line.75"></a>
-<span class="sourceLineNo">076</span>      SearchTypeValidator.validate(key, value);<a name="line.76"></a>
-<span class="sourceLineNo">077</span>    }<a name="line.77"></a>
-<span class="sourceLineNo">078</span><a name="line.78"></a>
-<span class="sourceLineNo">079</span>    this.key = key;<a name="line.79"></a>
-<span class="sourceLineNo">080</span>    this.values = Collections.unmodifiableList(new ArrayList&lt;&gt;(values));<a name="line.80"></a>
-<span class="sourceLineNo">081</span>  }<a name="line.81"></a>
-<span class="sourceLineNo">082</span><a name="line.82"></a>
-<span class="sourceLineNo">083</span>  public S getKey() {<a name="line.83"></a>
-<span class="sourceLineNo">084</span>    return key;<a name="line.84"></a>
-<span class="sourceLineNo">085</span>  }<a name="line.85"></a>
-<span class="sourceLineNo">086</span><a name="line.86"></a>
-<span class="sourceLineNo">087</span>  public Collection&lt;String&gt; getValues() {<a name="line.87"></a>
-<span class="sourceLineNo">088</span>    return values;<a name="line.88"></a>
-<span class="sourceLineNo">089</span>  }<a name="line.89"></a>
-<span class="sourceLineNo">090</span><a name="line.90"></a>
-<span class="sourceLineNo">091</span>  /**<a name="line.91"></a>
-<span class="sourceLineNo">092</span>   * This flag enables the use of case-sensitive matches and aggregations on certain search parameters.<a name="line.92"></a>
-<span class="sourceLineNo">093</span>   * &lt;p&gt;<a name="line.93"></a>
-<span class="sourceLineNo">094</span>   * Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol, catalogNumber, collectionCode,<a name="line.94"></a>
-<span class="sourceLineNo">095</span>   * institutionCode, eventId, parentEventId, waterBody, stateProvince, recordNumber, identifiedBy, organismId and locality.<a name="line.95"></a>
+<span class="sourceLineNo">076</span>      if (value == null) {<a name="line.76"></a>
+<span class="sourceLineNo">077</span>        throw new NullPointerException();<a name="line.77"></a>
+<span class="sourceLineNo">078</span>      }<a name="line.78"></a>
+<span class="sourceLineNo">079</span>      SearchTypeValidator.validate(key, value);<a name="line.79"></a>
+<span class="sourceLineNo">080</span>    }<a name="line.80"></a>
+<span class="sourceLineNo">081</span><a name="line.81"></a>
+<span class="sourceLineNo">082</span>    this.key = key;<a name="line.82"></a>
+<span class="sourceLineNo">083</span>    this.values = Collections.unmodifiableList(new ArrayList&lt;&gt;(values));<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  }<a name="line.84"></a>
+<span class="sourceLineNo">085</span><a name="line.85"></a>
+<span class="sourceLineNo">086</span>  public S getKey() {<a name="line.86"></a>
+<span class="sourceLineNo">087</span>    return key;<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  }<a name="line.88"></a>
+<span class="sourceLineNo">089</span><a name="line.89"></a>
+<span class="sourceLineNo">090</span>  public Collection&lt;String&gt; getValues() {<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    return values;<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  }<a name="line.92"></a>
+<span class="sourceLineNo">093</span><a name="line.93"></a>
+<span class="sourceLineNo">094</span>  /**<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * This flag enables the use of case-sensitive matches and aggregations on certain search parameters.<a name="line.95"></a>
 <span class="sourceLineNo">096</span>   * &lt;p&gt;<a name="line.96"></a>
-<span class="sourceLineNo">097</span>   * This is an experimental feature and its implementation map change or be removed at any time.<a name="line.97"></a>
-<span class="sourceLineNo">098</span>   */<a name="line.98"></a>
-<span class="sourceLineNo">099</span>  @Experimental<a name="line.99"></a>
-<span class="sourceLineNo">100</span>  public Boolean isMatchCase() {<a name="line.100"></a>
-<span class="sourceLineNo">101</span>    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);<a name="line.101"></a>
-<span class="sourceLineNo">102</span>  }<a name="line.102"></a>
-<span class="sourceLineNo">103</span><a name="line.103"></a>
-<span class="sourceLineNo">104</span>  @Override<a name="line.104"></a>
-<span class="sourceLineNo">105</span>  public boolean equals(Object o) {<a name="line.105"></a>
-<span class="sourceLineNo">106</span>    if (this == o) {<a name="line.106"></a>
-<span class="sourceLineNo">107</span>      return true;<a name="line.107"></a>
-<span class="sourceLineNo">108</span>    }<a name="line.108"></a>
-<span class="sourceLineNo">109</span>    if (o == null || getClass() != o.getClass()) {<a name="line.109"></a>
-<span class="sourceLineNo">110</span>      return false;<a name="line.110"></a>
+<span class="sourceLineNo">097</span>   * Fields that support this feature are: occurrenceId, recordedBy, samplingProtocol, catalogNumber, collectionCode,<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   * institutionCode, eventId, parentEventId, waterBody, stateProvince, recordNumber, identifiedBy, organismId and locality.<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   * &lt;p&gt;<a name="line.99"></a>
+<span class="sourceLineNo">100</span>   * This is an experimental feature and its implementation map change or be removed at any time.<a name="line.100"></a>
+<span class="sourceLineNo">101</span>   */<a name="line.101"></a>
+<span class="sourceLineNo">102</span>  @Experimental<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  public Boolean isMatchCase() {<a name="line.103"></a>
+<span class="sourceLineNo">104</span>    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);<a name="line.104"></a>
+<span class="sourceLineNo">105</span>  }<a name="line.105"></a>
+<span class="sourceLineNo">106</span><a name="line.106"></a>
+<span class="sourceLineNo">107</span>  @Override<a name="line.107"></a>
+<span class="sourceLineNo">108</span>  public boolean equals(Object o) {<a name="line.108"></a>
+<span class="sourceLineNo">109</span>    if (this == o) {<a name="line.109"></a>
+<span class="sourceLineNo">110</span>      return true;<a name="line.110"></a>
 <span class="sourceLineNo">111</span>    }<a name="line.111"></a>
-<span class="sourceLineNo">112</span>    InPredicate&lt;S&gt; that = (InPredicate&lt;S&gt;) o;<a name="line.112"></a>
-<span class="sourceLineNo">113</span>    return key == that.key &amp;&amp; Objects.equals(values, that.values) &amp;&amp; matchCase == that.matchCase;<a name="line.113"></a>
-<span class="sourceLineNo">114</span>  }<a name="line.114"></a>
-<span class="sourceLineNo">115</span><a name="line.115"></a>
-<span class="sourceLineNo">116</span>  @Override<a name="line.116"></a>
-<span class="sourceLineNo">117</span>  public int hashCode() {<a name="line.117"></a>
-<span class="sourceLineNo">118</span>    return Objects.hash(key, values);<a name="line.118"></a>
-<span class="sourceLineNo">119</span>  }<a name="line.119"></a>
-<span class="sourceLineNo">120</span><a name="line.120"></a>
-<span class="sourceLineNo">121</span>  @Override<a name="line.121"></a>
-<span class="sourceLineNo">122</span>  public String toString() {<a name="line.122"></a>
-<span class="sourceLineNo">123</span>    return new StringJoiner(", ", InPredicate.class.getSimpleName() + "[", "]")<a name="line.123"></a>
-<span class="sourceLineNo">124</span>      .add("key=" + key)<a name="line.124"></a>
-<span class="sourceLineNo">125</span>      .add("values=" + values)<a name="line.125"></a>
-<span class="sourceLineNo">126</span>      .add("matchCase=" + matchCase)<a name="line.126"></a>
-<span class="sourceLineNo">127</span>      .toString();<a name="line.127"></a>
-<span class="sourceLineNo">128</span>  }<a name="line.128"></a>
-<span class="sourceLineNo">129</span>}<a name="line.129"></a>
+<span class="sourceLineNo">112</span>    if (o == null || getClass() != o.getClass()) {<a name="line.112"></a>
+<span class="sourceLineNo">113</span>      return false;<a name="line.113"></a>
+<span class="sourceLineNo">114</span>    }<a name="line.114"></a>
+<span class="sourceLineNo">115</span>    InPredicate&lt;S&gt; that = (InPredicate&lt;S&gt;) o;<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    return key == that.key &amp;&amp; Objects.equals(values, that.values) &amp;&amp; matchCase == that.matchCase;<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  }<a name="line.117"></a>
+<span class="sourceLineNo">118</span><a name="line.118"></a>
+<span class="sourceLineNo">119</span>  @Override<a name="line.119"></a>
+<span class="sourceLineNo">120</span>  public int hashCode() {<a name="line.120"></a>
+<span class="sourceLineNo">121</span>    return Objects.hash(key, values);<a name="line.121"></a>
+<span class="sourceLineNo">122</span>  }<a name="line.122"></a>
+<span class="sourceLineNo">123</span><a name="line.123"></a>
+<span class="sourceLineNo">124</span>  @Override<a name="line.124"></a>
+<span class="sourceLineNo">125</span>  public String toString() {<a name="line.125"></a>
+<span class="sourceLineNo">126</span>    return new StringJoiner(", ", InPredicate.class.getSimpleName() + "[", "]")<a name="line.126"></a>
+<span class="sourceLineNo">127</span>      .add("key=" + key)<a name="line.127"></a>
+<span class="sourceLineNo">128</span>      .add("values=" + values)<a name="line.128"></a>
+<span class="sourceLineNo">129</span>      .add("matchCase=" + matchCase)<a name="line.129"></a>
+<span class="sourceLineNo">130</span>      .toString();<a name="line.130"></a>
+<span class="sourceLineNo">131</span>  }<a name="line.131"></a>
+<span class="sourceLineNo">132</span>}<a name="line.132"></a>
 
 
 

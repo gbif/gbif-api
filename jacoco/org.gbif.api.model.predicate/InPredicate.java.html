@@ -73,19 +73,22 @@ public class InPredicate&lt;S extends SearchParameter&gt; implements Predicate {
 <span class="fc bfc" id="L73" title="All 2 branches covered.">    checkArgument(!values.isEmpty(), &quot;&lt;values&gt; may not be empty&quot;);</span>
     // make sure the value is of the right type according to the key given
 <span class="fc bfc" id="L75" title="All 2 branches covered.">    for (String value : values) {</span>
-<span class="fc" id="L76">      SearchTypeValidator.validate(key, value);</span>
-<span class="fc" id="L77">    }</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">      if (value == null) {</span>
+<span class="fc" id="L77">        throw new NullPointerException();</span>
+      }
+<span class="fc" id="L79">      SearchTypeValidator.validate(key, value);</span>
+<span class="fc" id="L80">    }</span>
 
-<span class="fc" id="L79">    this.key = key;</span>
-<span class="fc" id="L80">    this.values = Collections.unmodifiableList(new ArrayList&lt;&gt;(values));</span>
-<span class="fc" id="L81">  }</span>
+<span class="fc" id="L82">    this.key = key;</span>
+<span class="fc" id="L83">    this.values = Collections.unmodifiableList(new ArrayList&lt;&gt;(values));</span>
+<span class="fc" id="L84">  }</span>
 
   public S getKey() {
-<span class="fc" id="L84">    return key;</span>
+<span class="fc" id="L87">    return key;</span>
   }
 
   public Collection&lt;String&gt; getValues() {
-<span class="fc" id="L88">    return values;</span>
+<span class="fc" id="L91">    return values;</span>
   }
 
   /**
@@ -98,33 +101,33 @@ public class InPredicate&lt;S extends SearchParameter&gt; implements Predicate {
    */
   @Experimental
   public Boolean isMatchCase() {
-<span class="nc" id="L101">    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);</span>
+<span class="nc" id="L104">    return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="fc bfc" id="L106" title="All 2 branches covered.">    if (this == o) {</span>
-<span class="fc" id="L107">      return true;</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L110">      return true;</span>
     }
-<span class="pc bpc" id="L109" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L110">      return false;</span>
+<span class="pc bpc" id="L112" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L113">      return false;</span>
     }
-<span class="fc" id="L112">    InPredicate&lt;S&gt; that = (InPredicate&lt;S&gt;) o;</span>
-<span class="pc bpc" id="L113" title="2 of 6 branches missed.">    return key == that.key &amp;&amp; Objects.equals(values, that.values) &amp;&amp; matchCase == that.matchCase;</span>
+<span class="fc" id="L115">    InPredicate&lt;S&gt; that = (InPredicate&lt;S&gt;) o;</span>
+<span class="pc bpc" id="L116" title="2 of 6 branches missed.">    return key == that.key &amp;&amp; Objects.equals(values, that.values) &amp;&amp; matchCase == that.matchCase;</span>
   }
 
   @Override
   public int hashCode() {
-<span class="fc" id="L118">    return Objects.hash(key, values);</span>
+<span class="fc" id="L121">    return Objects.hash(key, values);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L123">    return new StringJoiner(&quot;, &quot;, InPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L124">      .add(&quot;key=&quot; + key)</span>
-<span class="nc" id="L125">      .add(&quot;values=&quot; + values)</span>
-<span class="nc" id="L126">      .add(&quot;matchCase=&quot; + matchCase)</span>
-<span class="nc" id="L127">      .toString();</span>
+<span class="nc" id="L126">    return new StringJoiner(&quot;, &quot;, InPredicate.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L127">      .add(&quot;key=&quot; + key)</span>
+<span class="nc" id="L128">      .add(&quot;values=&quot; + values)</span>
+<span class="nc" id="L129">      .add(&quot;matchCase=&quot; + matchCase)</span>
+<span class="nc" id="L130">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

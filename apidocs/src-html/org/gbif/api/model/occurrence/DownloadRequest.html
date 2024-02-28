@@ -22,10 +22,10 @@
 <span class="sourceLineNo">014</span>package org.gbif.api.model.occurrence;<a name="line.14"></a>
 <span class="sourceLineNo">015</span><a name="line.15"></a>
 <span class="sourceLineNo">016</span>import io.swagger.v3.oas.annotations.Hidden;<a name="line.16"></a>
-<span class="sourceLineNo">017</span>import io.swagger.v3.oas.annotations.media.Schema;<a name="line.17"></a>
-<span class="sourceLineNo">018</span><a name="line.18"></a>
-<span class="sourceLineNo">019</span>import org.gbif.api.jackson.DownloadRequestSerde;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import org.gbif.api.vocabulary.Extension;<a name="line.20"></a>
+<span class="sourceLineNo">017</span>import io.swagger.v3.oas.annotations.media.ArraySchema;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import io.swagger.v3.oas.annotations.media.Schema;<a name="line.18"></a>
+<span class="sourceLineNo">019</span><a name="line.19"></a>
+<span class="sourceLineNo">020</span>import org.gbif.api.jackson.DownloadRequestSerde;<a name="line.20"></a>
 <span class="sourceLineNo">021</span><a name="line.21"></a>
 <span class="sourceLineNo">022</span>import java.io.Serializable;<a name="line.22"></a>
 <span class="sourceLineNo">023</span>import java.util.Collection;<a name="line.23"></a>
@@ -49,63 +49,63 @@
 <span class="sourceLineNo">041</span> * Represents a request to download occurrence records.<a name="line.41"></a>
 <span class="sourceLineNo">042</span> * This is the base class for specific type of downloads: predicate based downloads and SQL downloads.<a name="line.42"></a>
 <span class="sourceLineNo">043</span> */<a name="line.43"></a>
-<span class="sourceLineNo">044</span>@SuppressWarnings("unused")<a name="line.44"></a>
-<span class="sourceLineNo">045</span>@JsonDeserialize(using = DownloadRequestSerde.class)<a name="line.45"></a>
-<span class="sourceLineNo">046</span>public abstract class DownloadRequest implements Serializable {<a name="line.46"></a>
-<span class="sourceLineNo">047</span><a name="line.47"></a>
-<span class="sourceLineNo">048</span>  private static final String DELIMITER = ",";<a name="line.48"></a>
-<span class="sourceLineNo">049</span><a name="line.49"></a>
-<span class="sourceLineNo">050</span>  @Schema(<a name="line.50"></a>
-<span class="sourceLineNo">051</span>    description = "The GBIF username of the initiator of the download request."<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  )<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  @JsonProperty("creator")<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  private String creator;<a name="line.54"></a>
-<span class="sourceLineNo">055</span><a name="line.55"></a>
-<span class="sourceLineNo">056</span>  @Schema(<a name="line.56"></a>
-<span class="sourceLineNo">057</span>    description = "A list of email addresses to notify when the download finishes."<a name="line.57"></a>
-<span class="sourceLineNo">058</span>  )<a name="line.58"></a>
-<span class="sourceLineNo">059</span>  @JsonProperty("notificationAddresses")<a name="line.59"></a>
-<span class="sourceLineNo">060</span>  private Set&lt;String&gt; notificationAddresses;<a name="line.60"></a>
-<span class="sourceLineNo">061</span><a name="line.61"></a>
-<span class="sourceLineNo">062</span>  @Schema(<a name="line.62"></a>
-<span class="sourceLineNo">063</span>    description = "Whether to send a notification email when the download finishes."<a name="line.63"></a>
+<span class="sourceLineNo">044</span>@Schema(<a name="line.44"></a>
+<span class="sourceLineNo">045</span>  description = "An occurrence download request.",<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  oneOf = {PredicateDownloadRequest.class, SqlDownloadRequest.class}<a name="line.46"></a>
+<span class="sourceLineNo">047</span>)<a name="line.47"></a>
+<span class="sourceLineNo">048</span>@SuppressWarnings("unused")<a name="line.48"></a>
+<span class="sourceLineNo">049</span>@JsonDeserialize(using = DownloadRequestSerde.class)<a name="line.49"></a>
+<span class="sourceLineNo">050</span>public abstract class DownloadRequest implements Serializable {<a name="line.50"></a>
+<span class="sourceLineNo">051</span><a name="line.51"></a>
+<span class="sourceLineNo">052</span>  private static final String DELIMITER = ",";<a name="line.52"></a>
+<span class="sourceLineNo">053</span><a name="line.53"></a>
+<span class="sourceLineNo">054</span>  @Schema(<a name="line.54"></a>
+<span class="sourceLineNo">055</span>    description = "The GBIF username of the initiator of the download request."<a name="line.55"></a>
+<span class="sourceLineNo">056</span>  )<a name="line.56"></a>
+<span class="sourceLineNo">057</span>  @JsonProperty("creator")<a name="line.57"></a>
+<span class="sourceLineNo">058</span>  private String creator;<a name="line.58"></a>
+<span class="sourceLineNo">059</span><a name="line.59"></a>
+<span class="sourceLineNo">060</span>  @ArraySchema(<a name="line.60"></a>
+<span class="sourceLineNo">061</span>    schema = @Schema(<a name="line.61"></a>
+<span class="sourceLineNo">062</span>      description = "An email addresses to notify when the download finishes."<a name="line.62"></a>
+<span class="sourceLineNo">063</span>    )<a name="line.63"></a>
 <span class="sourceLineNo">064</span>  )<a name="line.64"></a>
-<span class="sourceLineNo">065</span>  @JsonProperty("sendNotification")<a name="line.65"></a>
-<span class="sourceLineNo">066</span>  private Boolean sendNotification;<a name="line.66"></a>
+<span class="sourceLineNo">065</span>  @JsonProperty("notificationAddresses")<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  private Set&lt;String&gt; notificationAddresses;<a name="line.66"></a>
 <span class="sourceLineNo">067</span><a name="line.67"></a>
 <span class="sourceLineNo">068</span>  @Schema(<a name="line.68"></a>
-<span class="sourceLineNo">069</span>    description = "The data format of the download."<a name="line.69"></a>
+<span class="sourceLineNo">069</span>    description = "Whether to send a notification email when the download finishes."<a name="line.69"></a>
 <span class="sourceLineNo">070</span>  )<a name="line.70"></a>
-<span class="sourceLineNo">071</span>  @JsonProperty("format")<a name="line.71"></a>
-<span class="sourceLineNo">072</span>  private DownloadFormat format;<a name="line.72"></a>
+<span class="sourceLineNo">071</span>  @JsonProperty("sendNotification")<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  private Boolean sendNotification;<a name="line.72"></a>
 <span class="sourceLineNo">073</span><a name="line.73"></a>
-<span class="sourceLineNo">074</span>  @Hidden<a name="line.74"></a>
-<span class="sourceLineNo">075</span>  @JsonProperty("type")<a name="line.75"></a>
-<span class="sourceLineNo">076</span>  private DownloadType type;<a name="line.76"></a>
-<span class="sourceLineNo">077</span><a name="line.77"></a>
-<span class="sourceLineNo">078</span>  @Hidden<a name="line.78"></a>
-<span class="sourceLineNo">079</span>  @JsonProperty("verbatimExtensions")<a name="line.79"></a>
-<span class="sourceLineNo">080</span>  private Set&lt;Extension&gt; verbatimExtensions;<a name="line.80"></a>
-<span class="sourceLineNo">081</span><a name="line.81"></a>
-<span class="sourceLineNo">082</span>  /**<a name="line.82"></a>
-<span class="sourceLineNo">083</span>   * Default constructor.<a name="line.83"></a>
-<span class="sourceLineNo">084</span>   */<a name="line.84"></a>
-<span class="sourceLineNo">085</span>  public DownloadRequest() {<a name="line.85"></a>
-<span class="sourceLineNo">086</span>    // Empty constructor required to create instances from the data access layer.<a name="line.86"></a>
-<span class="sourceLineNo">087</span>  }<a name="line.87"></a>
-<span class="sourceLineNo">088</span><a name="line.88"></a>
-<span class="sourceLineNo">089</span>  public DownloadRequest(String creator, Collection&lt;String&gt; notificationAddresses,<a name="line.89"></a>
-<span class="sourceLineNo">090</span>                         Boolean sendNotification, DownloadFormat format,<a name="line.90"></a>
-<span class="sourceLineNo">091</span>                         DownloadType downloadType,<a name="line.91"></a>
-<span class="sourceLineNo">092</span>                         Set&lt;Extension&gt; verbatimExtensions<a name="line.92"></a>
-<span class="sourceLineNo">093</span>  ) {<a name="line.93"></a>
-<span class="sourceLineNo">094</span>    this.creator = creator;<a name="line.94"></a>
-<span class="sourceLineNo">095</span>    this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :<a name="line.95"></a>
-<span class="sourceLineNo">096</span>      Collections.unmodifiableSet(new HashSet&lt;&gt;(notificationAddresses));<a name="line.96"></a>
-<span class="sourceLineNo">097</span>    this.sendNotification = sendNotification;<a name="line.97"></a>
-<span class="sourceLineNo">098</span>    this.format = format;<a name="line.98"></a>
-<span class="sourceLineNo">099</span>    this.type = downloadType;<a name="line.99"></a>
-<span class="sourceLineNo">100</span>    this.verbatimExtensions = verbatimExtensions == null? Collections.emptySet(): verbatimExtensions;<a name="line.100"></a>
+<span class="sourceLineNo">074</span>  @Schema(<a name="line.74"></a>
+<span class="sourceLineNo">075</span>    description = "The data format of the download."<a name="line.75"></a>
+<span class="sourceLineNo">076</span>  )<a name="line.76"></a>
+<span class="sourceLineNo">077</span>  @JsonProperty("format")<a name="line.77"></a>
+<span class="sourceLineNo">078</span>  private DownloadFormat format;<a name="line.78"></a>
+<span class="sourceLineNo">079</span><a name="line.79"></a>
+<span class="sourceLineNo">080</span>  @Hidden<a name="line.80"></a>
+<span class="sourceLineNo">081</span>  @JsonProperty("type")<a name="line.81"></a>
+<span class="sourceLineNo">082</span>  private DownloadType type;<a name="line.82"></a>
+<span class="sourceLineNo">083</span><a name="line.83"></a>
+<span class="sourceLineNo">084</span>  /**<a name="line.84"></a>
+<span class="sourceLineNo">085</span>   * Default constructor.<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   */<a name="line.86"></a>
+<span class="sourceLineNo">087</span>  public DownloadRequest() {<a name="line.87"></a>
+<span class="sourceLineNo">088</span>    // Empty constructor required to create instances from the data access layer.<a name="line.88"></a>
+<span class="sourceLineNo">089</span>  }<a name="line.89"></a>
+<span class="sourceLineNo">090</span><a name="line.90"></a>
+<span class="sourceLineNo">091</span>  public DownloadRequest(String creator, Collection&lt;String&gt; notificationAddresses,<a name="line.91"></a>
+<span class="sourceLineNo">092</span>                         Boolean sendNotification, DownloadFormat format,<a name="line.92"></a>
+<span class="sourceLineNo">093</span>                         DownloadType downloadType<a name="line.93"></a>
+<span class="sourceLineNo">094</span>  ) {<a name="line.94"></a>
+<span class="sourceLineNo">095</span>    this.creator = creator;<a name="line.95"></a>
+<span class="sourceLineNo">096</span>    this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :<a name="line.96"></a>
+<span class="sourceLineNo">097</span>      Collections.unmodifiableSet(new HashSet&lt;&gt;(notificationAddresses));<a name="line.97"></a>
+<span class="sourceLineNo">098</span>    this.sendNotification = sendNotification;<a name="line.98"></a>
+<span class="sourceLineNo">099</span>    this.format = format;<a name="line.99"></a>
+<span class="sourceLineNo">100</span>    this.type = downloadType;<a name="line.100"></a>
 <span class="sourceLineNo">101</span>  }<a name="line.101"></a>
 <span class="sourceLineNo">102</span><a name="line.102"></a>
 <span class="sourceLineNo">103</span>  /**<a name="line.103"></a>
@@ -116,35 +116,35 @@
 <span class="sourceLineNo">108</span>    return creator;<a name="line.108"></a>
 <span class="sourceLineNo">109</span>  }<a name="line.109"></a>
 <span class="sourceLineNo">110</span><a name="line.110"></a>
-<span class="sourceLineNo">111</span>  /**<a name="line.111"></a>
-<span class="sourceLineNo">112</span>   * @return set of email addresses for notifications<a name="line.112"></a>
-<span class="sourceLineNo">113</span>   */<a name="line.113"></a>
-<span class="sourceLineNo">114</span>  @Nullable<a name="line.114"></a>
-<span class="sourceLineNo">115</span>  public Set&lt;String&gt; getNotificationAddresses() {<a name="line.115"></a>
-<span class="sourceLineNo">116</span>    return notificationAddresses;<a name="line.116"></a>
-<span class="sourceLineNo">117</span>  }<a name="line.117"></a>
-<span class="sourceLineNo">118</span><a name="line.118"></a>
-<span class="sourceLineNo">119</span>  /**<a name="line.119"></a>
-<span class="sourceLineNo">120</span>   * Returns the notification addresses as single string. The emails are separated by ','.<a name="line.120"></a>
-<span class="sourceLineNo">121</span>   */<a name="line.121"></a>
-<span class="sourceLineNo">122</span>  @Nullable<a name="line.122"></a>
-<span class="sourceLineNo">123</span>  @JsonIgnore<a name="line.123"></a>
-<span class="sourceLineNo">124</span>  public String getNotificationAddressesAsString() {<a name="line.124"></a>
-<span class="sourceLineNo">125</span>    if (notificationAddresses != null) {<a name="line.125"></a>
-<span class="sourceLineNo">126</span>      return notificationAddresses.stream()<a name="line.126"></a>
-<span class="sourceLineNo">127</span>        .filter(Objects::nonNull)<a name="line.127"></a>
-<span class="sourceLineNo">128</span>        .map(String::trim)<a name="line.128"></a>
-<span class="sourceLineNo">129</span>        .collect(Collectors.joining(DELIMITER));<a name="line.129"></a>
-<span class="sourceLineNo">130</span>    }<a name="line.130"></a>
-<span class="sourceLineNo">131</span>    return null;<a name="line.131"></a>
-<span class="sourceLineNo">132</span>  }<a name="line.132"></a>
-<span class="sourceLineNo">133</span><a name="line.133"></a>
-<span class="sourceLineNo">134</span>  public void setCreator(String creator) {<a name="line.134"></a>
-<span class="sourceLineNo">135</span>    this.creator = creator;<a name="line.135"></a>
-<span class="sourceLineNo">136</span>  }<a name="line.136"></a>
-<span class="sourceLineNo">137</span><a name="line.137"></a>
-<span class="sourceLineNo">138</span>  public void setNotificationAddresses(Set&lt;String&gt; notificationAddresses) {<a name="line.138"></a>
-<span class="sourceLineNo">139</span>    this.notificationAddresses = notificationAddresses;<a name="line.139"></a>
+<span class="sourceLineNo">111</span>  public void setCreator(String creator) {<a name="line.111"></a>
+<span class="sourceLineNo">112</span>    this.creator = creator;<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  }<a name="line.113"></a>
+<span class="sourceLineNo">114</span><a name="line.114"></a>
+<span class="sourceLineNo">115</span>  /**<a name="line.115"></a>
+<span class="sourceLineNo">116</span>   * @return set of email addresses for notifications<a name="line.116"></a>
+<span class="sourceLineNo">117</span>   */<a name="line.117"></a>
+<span class="sourceLineNo">118</span>  @Nullable<a name="line.118"></a>
+<span class="sourceLineNo">119</span>  public Set&lt;String&gt; getNotificationAddresses() {<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    return notificationAddresses;<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  }<a name="line.121"></a>
+<span class="sourceLineNo">122</span><a name="line.122"></a>
+<span class="sourceLineNo">123</span>  public void setNotificationAddresses(Set&lt;String&gt; notificationAddresses) {<a name="line.123"></a>
+<span class="sourceLineNo">124</span>    this.notificationAddresses = notificationAddresses;<a name="line.124"></a>
+<span class="sourceLineNo">125</span>  }<a name="line.125"></a>
+<span class="sourceLineNo">126</span><a name="line.126"></a>
+<span class="sourceLineNo">127</span>  /**<a name="line.127"></a>
+<span class="sourceLineNo">128</span>   * Returns the notification addresses as single string. The emails are separated by ','.<a name="line.128"></a>
+<span class="sourceLineNo">129</span>   */<a name="line.129"></a>
+<span class="sourceLineNo">130</span>  @Nullable<a name="line.130"></a>
+<span class="sourceLineNo">131</span>  @JsonIgnore<a name="line.131"></a>
+<span class="sourceLineNo">132</span>  public String getNotificationAddressesAsString() {<a name="line.132"></a>
+<span class="sourceLineNo">133</span>    if (notificationAddresses != null) {<a name="line.133"></a>
+<span class="sourceLineNo">134</span>      return notificationAddresses.stream()<a name="line.134"></a>
+<span class="sourceLineNo">135</span>        .filter(Objects::nonNull)<a name="line.135"></a>
+<span class="sourceLineNo">136</span>        .map(String::trim)<a name="line.136"></a>
+<span class="sourceLineNo">137</span>        .collect(Collectors.joining(DELIMITER));<a name="line.137"></a>
+<span class="sourceLineNo">138</span>    }<a name="line.138"></a>
+<span class="sourceLineNo">139</span>    return null;<a name="line.139"></a>
 <span class="sourceLineNo">140</span>  }<a name="line.140"></a>
 <span class="sourceLineNo">141</span><a name="line.141"></a>
 <span class="sourceLineNo">142</span>  /**<a name="line.142"></a>
@@ -193,52 +193,43 @@
 <span class="sourceLineNo">185</span>    this.type = type;<a name="line.185"></a>
 <span class="sourceLineNo">186</span>  }<a name="line.186"></a>
 <span class="sourceLineNo">187</span><a name="line.187"></a>
-<span class="sourceLineNo">188</span>  /**<a name="line.188"></a>
-<span class="sourceLineNo">189</span>   * Requested verbatimExtensions for this download.<a name="line.189"></a>
-<span class="sourceLineNo">190</span>   */<a name="line.190"></a>
-<span class="sourceLineNo">191</span>  @Nullable<a name="line.191"></a>
-<span class="sourceLineNo">192</span>  public Set&lt;Extension&gt; getVerbatimExtensions() {<a name="line.192"></a>
-<span class="sourceLineNo">193</span>    return verbatimExtensions;<a name="line.193"></a>
-<span class="sourceLineNo">194</span>  }<a name="line.194"></a>
-<span class="sourceLineNo">195</span><a name="line.195"></a>
-<span class="sourceLineNo">196</span>  public void setVerbatimExtensions(Set&lt;Extension&gt; verbatimExtensions) {<a name="line.196"></a>
-<span class="sourceLineNo">197</span>    this.verbatimExtensions = verbatimExtensions;<a name="line.197"></a>
-<span class="sourceLineNo">198</span>  }<a name="line.198"></a>
-<span class="sourceLineNo">199</span><a name="line.199"></a>
-<span class="sourceLineNo">200</span>  @Override<a name="line.200"></a>
-<span class="sourceLineNo">201</span>  public boolean equals(Object o) {<a name="line.201"></a>
-<span class="sourceLineNo">202</span>    if (this == o) {<a name="line.202"></a>
-<span class="sourceLineNo">203</span>      return true;<a name="line.203"></a>
-<span class="sourceLineNo">204</span>    }<a name="line.204"></a>
-<span class="sourceLineNo">205</span>    if (o == null || getClass() != o.getClass()) {<a name="line.205"></a>
-<span class="sourceLineNo">206</span>      return false;<a name="line.206"></a>
-<span class="sourceLineNo">207</span>    }<a name="line.207"></a>
-<span class="sourceLineNo">208</span>    DownloadRequest that = (DownloadRequest) o;<a name="line.208"></a>
-<span class="sourceLineNo">209</span>    return sendNotification == that.sendNotification &amp;&amp;<a name="line.209"></a>
-<span class="sourceLineNo">210</span>      Objects.equals(creator, that.creator) &amp;&amp;<a name="line.210"></a>
-<span class="sourceLineNo">211</span>      Objects.equals(notificationAddresses, that.notificationAddresses) &amp;&amp;<a name="line.211"></a>
-<span class="sourceLineNo">212</span>      format == that.format &amp;&amp;<a name="line.212"></a>
-<span class="sourceLineNo">213</span>      type == that.type &amp;&amp;<a name="line.213"></a>
-<span class="sourceLineNo">214</span>      Objects.equals(verbatimExtensions, that.verbatimExtensions);<a name="line.214"></a>
-<span class="sourceLineNo">215</span>  }<a name="line.215"></a>
-<span class="sourceLineNo">216</span><a name="line.216"></a>
-<span class="sourceLineNo">217</span>  @Override<a name="line.217"></a>
-<span class="sourceLineNo">218</span>  public int hashCode() {<a name="line.218"></a>
-<span class="sourceLineNo">219</span>    return Objects.hash(creator, notificationAddresses, sendNotification, format, type, verbatimExtensions);<a name="line.219"></a>
-<span class="sourceLineNo">220</span>  }<a name="line.220"></a>
-<span class="sourceLineNo">221</span><a name="line.221"></a>
-<span class="sourceLineNo">222</span>  @Override<a name="line.222"></a>
-<span class="sourceLineNo">223</span>  public String toString() {<a name="line.223"></a>
-<span class="sourceLineNo">224</span>    return new StringJoiner(", ", DownloadRequest.class.getSimpleName() + "[", "]")<a name="line.224"></a>
-<span class="sourceLineNo">225</span>      .add("creator='" + creator + "'")<a name="line.225"></a>
-<span class="sourceLineNo">226</span>      .add("notificationAddresses=" + notificationAddresses)<a name="line.226"></a>
-<span class="sourceLineNo">227</span>      .add("sendNotification=" + sendNotification)<a name="line.227"></a>
-<span class="sourceLineNo">228</span>      .add("format=" + format)<a name="line.228"></a>
-<span class="sourceLineNo">229</span>      .add("type=" + type)<a name="line.229"></a>
-<span class="sourceLineNo">230</span>      .add("verbatimExtensions=" + verbatimExtensions)<a name="line.230"></a>
-<span class="sourceLineNo">231</span>      .toString();<a name="line.231"></a>
-<span class="sourceLineNo">232</span>  }<a name="line.232"></a>
-<span class="sourceLineNo">233</span>}<a name="line.233"></a>
+<span class="sourceLineNo">188</span>  @JsonIgnore<a name="line.188"></a>
+<span class="sourceLineNo">189</span>  public String getFileExtension() {<a name="line.189"></a>
+<span class="sourceLineNo">190</span>    return format.getExtension();<a name="line.190"></a>
+<span class="sourceLineNo">191</span>  }<a name="line.191"></a>
+<span class="sourceLineNo">192</span><a name="line.192"></a>
+<span class="sourceLineNo">193</span>  @Override<a name="line.193"></a>
+<span class="sourceLineNo">194</span>  public boolean equals(Object o) {<a name="line.194"></a>
+<span class="sourceLineNo">195</span>    if (this == o) {<a name="line.195"></a>
+<span class="sourceLineNo">196</span>      return true;<a name="line.196"></a>
+<span class="sourceLineNo">197</span>    }<a name="line.197"></a>
+<span class="sourceLineNo">198</span>    if (o == null || getClass() != o.getClass()) {<a name="line.198"></a>
+<span class="sourceLineNo">199</span>      return false;<a name="line.199"></a>
+<span class="sourceLineNo">200</span>    }<a name="line.200"></a>
+<span class="sourceLineNo">201</span>    DownloadRequest that = (DownloadRequest) o;<a name="line.201"></a>
+<span class="sourceLineNo">202</span>    return sendNotification == that.sendNotification &amp;&amp;<a name="line.202"></a>
+<span class="sourceLineNo">203</span>      Objects.equals(creator, that.creator) &amp;&amp;<a name="line.203"></a>
+<span class="sourceLineNo">204</span>      Objects.equals(notificationAddresses, that.notificationAddresses) &amp;&amp;<a name="line.204"></a>
+<span class="sourceLineNo">205</span>      format == that.format &amp;&amp;<a name="line.205"></a>
+<span class="sourceLineNo">206</span>      type == that.type;<a name="line.206"></a>
+<span class="sourceLineNo">207</span>  }<a name="line.207"></a>
+<span class="sourceLineNo">208</span><a name="line.208"></a>
+<span class="sourceLineNo">209</span>  @Override<a name="line.209"></a>
+<span class="sourceLineNo">210</span>  public int hashCode() {<a name="line.210"></a>
+<span class="sourceLineNo">211</span>    return Objects.hash(creator, notificationAddresses, sendNotification, format, type);<a name="line.211"></a>
+<span class="sourceLineNo">212</span>  }<a name="line.212"></a>
+<span class="sourceLineNo">213</span><a name="line.213"></a>
+<span class="sourceLineNo">214</span>  @Override<a name="line.214"></a>
+<span class="sourceLineNo">215</span>  public String toString() {<a name="line.215"></a>
+<span class="sourceLineNo">216</span>    return new StringJoiner(", ", DownloadRequest.class.getSimpleName() + "[", "]")<a name="line.216"></a>
+<span class="sourceLineNo">217</span>      .add("creator='" + creator + "'")<a name="line.217"></a>
+<span class="sourceLineNo">218</span>      .add("notificationAddresses=" + notificationAddresses)<a name="line.218"></a>
+<span class="sourceLineNo">219</span>      .add("sendNotification=" + sendNotification)<a name="line.219"></a>
+<span class="sourceLineNo">220</span>      .add("format=" + format)<a name="line.220"></a>
+<span class="sourceLineNo">221</span>      .add("type=" + type)<a name="line.221"></a>
+<span class="sourceLineNo">222</span>      .toString();<a name="line.222"></a>
+<span class="sourceLineNo">223</span>  }<a name="line.223"></a>
+<span class="sourceLineNo">224</span>}<a name="line.224"></a>
 
 
 

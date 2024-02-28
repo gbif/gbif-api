@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SqlDownloadRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.occurrence</a> &gt; <span class="el_source">SqlDownloadRequest.java</span></div><h1>SqlDownloadRequest.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.occurrence;
+
+import java.util.Collection;
+import java.util.Objects;
+import java.util.StringJoiner;
+
+import javax.annotation.Nullable;
+import javax.validation.Valid;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+/**
+ * SQL Based downloads — experimental feature.
+ */
+@Schema(
+  description = &quot;An occurrence download request defined in SQL.&quot;,
+  externalDocs = @ExternalDocumentation(url = &quot;https://techdocs.gbif.org/en/data-use/api-sql-downloads&quot;)
+)
+public class SqlDownloadRequest extends DownloadRequest {
+
+  //Default download format.
+<span class="fc" id="L26">  private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.SQL_TSV_ZIP;</span>
+
+  @Schema(
+    description = &quot;An SQL query defining the filter and output for the download.&quot;
+  )
+  private String sql;
+
+<span class="nc" id="L33">  public SqlDownloadRequest() {</span>
+
+<span class="nc" id="L35">  }</span>
+
+  /**
+   * Full constructor. Used to create instances using JSON serialization.
+   */
+  @JsonCreator
+  public SqlDownloadRequest(
+    @JsonProperty(&quot;sql&quot;) String sql,
+    @JsonProperty(&quot;creator&quot;) @Nullable String creator,
+    @JsonProperty(&quot;notificationAddresses&quot;) @Nullable Collection&lt;String&gt; notificationAddresses,
+    @JsonProperty(&quot;sendNotification&quot;) @Nullable Boolean sendNotification,
+    @JsonProperty(&quot;type&quot;) @Nullable DownloadType type,
+    @JsonProperty(&quot;format&quot;) @Nullable DownloadFormat format) {
+    // Check the format is suitable for an SQL download, and check predicate formats are suitable for predicate downloads.
+<span class="pc bpc" id="L49" title="3 of 6 branches missed.">    super(creator, notificationAddresses, sendNotification == null ? Boolean.TRUE : sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type == null? DownloadType.OCCURRENCE : type);</span>
+<span class="fc" id="L50">    this.sql = sql;</span>
+<span class="fc" id="L51">  }</span>
+
+  /**
+   *
+   * @return the sql query.
+   */
+  @Valid
+  public String getSql() {
+<span class="fc" id="L59">    return sql;</span>
+  }
+
+  /**
+   * This parameter when present provides the SQL query for custom download
+   * @param sql
+   */
+  public void setSql(String sql) {
+<span class="nc" id="L67">    this.sql = sql;</span>
+<span class="nc" id="L68">  }</span>
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L72">    return Objects.hash(super.hashCode(), sql);</span>
+  }
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L77" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L78">      return true;</span>
+    }
+<span class="nc bnc" id="L80" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L81">      return false;</span>
+    }
+<span class="nc bnc" id="L83" title="All 2 branches missed.">    if (!super.equals(o)) {</span>
+<span class="nc" id="L84">      return false;</span>
+    }
+<span class="nc" id="L86">    SqlDownloadRequest that = (SqlDownloadRequest) o;</span>
+<span class="nc" id="L87">    return Objects.equals(sql, that.sql);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L92">    return new StringJoiner(&quot;, &quot;, SqlDownloadRequest.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L93">      .add(&quot;sql=&quot; + sql)</span>
+<span class="nc" id="L94">      .toString();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
