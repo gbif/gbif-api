@@ -13,10 +13,25 @@
  */
 package org.gbif.api.model.occurrence;
 
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 
-import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 
+import org.gbif.api.model.predicate.ConjunctionPredicate;
+import org.gbif.api.model.predicate.DisjunctionPredicate;
+import org.gbif.api.model.predicate.EqualsPredicate;
+import org.gbif.api.model.predicate.GeoDistancePredicate;
+import org.gbif.api.model.predicate.GreaterThanOrEqualsPredicate;
+import org.gbif.api.model.predicate.GreaterThanPredicate;
+import org.gbif.api.model.predicate.InPredicate;
+import org.gbif.api.model.predicate.IsNotNullPredicate;
+import org.gbif.api.model.predicate.IsNullPredicate;
+import org.gbif.api.model.predicate.LessThanOrEqualsPredicate;
+import org.gbif.api.model.predicate.LessThanPredicate;
+import org.gbif.api.model.predicate.LikePredicate;
+import org.gbif.api.model.predicate.NotPredicate;
 import org.gbif.api.model.predicate.Predicate;
+import org.gbif.api.model.predicate.WithinPredicate;
 import org.gbif.api.vocabulary.Extension;
 
 import java.util.Collection;
@@ -45,11 +60,32 @@ public class PredicateDownloadRequest extends DownloadRequest {
   private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.SIMPLE_CSV;
 
   @Schema(
-    description = "A predicate defining the filters to apply to the download."
+    description = "A predicate defining the filters to apply to the download.",
+    externalDocs = @ExternalDocumentation(url = "https://techdocs.gbif.org/en/data-use/api-downloads#predicates"),
+    oneOf = {
+      ConjunctionPredicate.class,
+      DisjunctionPredicate.class,
+      EqualsPredicate.class,
+      GeoDistancePredicate.class,
+      GreaterThanOrEqualsPredicate.class,
+      GreaterThanPredicate.class,
+      InPredicate.class,
+      IsNotNullPredicate.class,
+      IsNullPredicate.class,
+      LessThanOrEqualsPredicate.class,
+      LessThanPredicate.class,
+      LikePredicate.class,
+      NotPredicate.class,
+      WithinPredicate.class
+    }
   )
   private Predicate predicate;
 
-  @Hidden
+  @ArraySchema(
+    schema = @Schema(
+      description = "A verbatim (unprocessed) extension to include on a Darwin Core Archive download."
+    )
+  )
   @JsonProperty("verbatimExtensions")
   private Set<Extension> verbatimExtensions;
 
