@@ -20,7 +20,7 @@ package org.gbif.api.vocabulary;
  */
 public enum UserRole {
   /**
-   * A regular, registered GBIF drupal user.
+   * A regular, registered GBIF user.
    */
   USER,
 
@@ -39,7 +39,12 @@ public enum UserRole {
   EDITOR,
 
   /**
-   * A registry administrator with all permissions, often used by internal GBIF applications.
+   * A user invited to test particular restricted features.
+   */
+  INVITED_TESTER,
+
+  /**
+   * A registry administrator with all permissions, often used by internal GBIF applications and secretariat staff.
    */
   REGISTRY_ADMIN,
 
@@ -77,17 +82,17 @@ public enum UserRole {
   VOCABULARY_EDITOR,
 
   /**
-   * A grscicoll administrator with all permissions.
+   * A GRSciColl administrator with all permissions.
    */
   GRSCICOLL_ADMIN,
 
   /**
-   * A grscicoll editor with limited permissions.
+   * A GRSciColl editor with limited permissions.
    */
   GRSCICOLL_EDITOR,
 
   /**
-   * A grscicoll mediator with more permissions than an editor but less than an admin.
+   * A GRSciColl mediator with more permissions than an editor but less than an admin.
    */
   GRSCICOLL_MEDIATOR,
 
