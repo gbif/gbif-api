@@ -35,7 +35,7 @@ public class WithinPredicateTest {
     assertThrows(NullPointerException.class, () -> new WithinPredicate(null));
   }
 
-  // API no longer throws an exeception here.
+  // API no longer throws an exception here.
   public void testBadConstructor1() {
     new WithinPredicate("POLYGON");
   }
