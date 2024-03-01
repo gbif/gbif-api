@@ -21,6 +21,9 @@ import org.gbif.api.vocabulary.Country;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(as = LiteratureSearchParameter.class)
 public enum LiteratureSearchParameter implements SearchParameter {
   COUNTRIES_OF_RESEARCHER(Country.class),
   COUNTRIES_OF_COVERAGE(Country.class),
