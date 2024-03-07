@@ -108,4 +108,16 @@ public class InPredicateTest {
         NullPointerException.class,
         () -> new InPredicate<>(OccurrenceSearchParameter.CATALOG_NUMBER, null, false));
   }
+
+  @Test
+  public void testNullValue() {
+    List<String> list = new ArrayList<>();
+    list.add("foo");
+    list.add(null);
+    list.add("bar");
+
+    assertThrows(
+      NullPointerException.class,
+      () -> new InPredicate<>(TEST_KEY, list, false));
+  }
 }

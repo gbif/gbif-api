@@ -14,10 +14,10 @@
 package org.gbif.api.model.occurrence;
 
 import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.gbif.api.jackson.DownloadRequestSerde;
-import org.gbif.api.vocabulary.Extension;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -41,6 +41,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * Represents a request to download occurrence records.
  * This is the base class for specific type of downloads: predicate based downloads and SQL downloads.
  */
+@Schema(
+  description = "An occurrence download request.",
+  oneOf = {PredicateDownloadRequest.class, SqlDownloadRequest.class}
+)
 @SuppressWarnings("unused")
 @JsonDeserialize(using = DownloadRequestSerde.class)
 public abstract class DownloadRequest implements Serializable {
@@ -53,8 +57,10 @@ public abstract class DownloadRequest implements Serializable {
   @JsonProperty("creator")
   private String creator;
 
-  @Schema(
-    description = "A list of email addresses to notify when the download finishes."
+  @ArraySchema(
+    schema = @Schema(
+      description = "An email addresses to notify when the download finishes."
+    )
   )
   @JsonProperty("notificationAddresses")
   private Set<String> notificationAddresses;

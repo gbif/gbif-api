@@ -10,14 +10,24 @@ import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * SQL Based downloads — experimental feature.
  */
+@Schema(
+  description = "An occurrence download request defined in SQL.",
+  externalDocs = @ExternalDocumentation(url = "https://techdocs.gbif.org/en/data-use/api-sql-downloads")
+)
 public class SqlDownloadRequest extends DownloadRequest {
 
   //Default download format.
   private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.SQL_TSV_ZIP;
 
+  @Schema(
+    description = "An SQL query defining the filter and output for the download."
+  )
   private String sql;
 
   public SqlDownloadRequest() {
