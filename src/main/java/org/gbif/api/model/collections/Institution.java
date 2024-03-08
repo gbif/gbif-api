@@ -112,7 +112,7 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   @Schema(
       description =
           "The academic or research disciplines to which an " + "institution is dedicated.")
-  private List<Discipline> disciplines = new ArrayList<>();
+  private List<String> disciplines = new ArrayList<>();
 
   @Schema(description = "The latitude of the institution.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
@@ -383,11 +383,11 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   }
 
   /** Activities to which an institution is dedicated. */
-  public List<Discipline> getDisciplines() {
+  public List<String> getDisciplines() {
     return disciplines;
   }
 
-  public void setDisciplines(List<Discipline> disciplines) {
+  public void setDisciplines(List<String> disciplines) {
     this.disciplines = disciplines;
   }
 

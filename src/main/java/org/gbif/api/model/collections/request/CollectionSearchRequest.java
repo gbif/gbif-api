@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
 public class CollectionSearchRequest extends SearchRequest {
 
   @Deprecated @Nullable private UUID institution;
-  @Nullable private List<CollectionContentType> contentTypes;
+  @Nullable private List<String> contentTypes;
   @Nullable private List<PreservationType> preservationTypes;
   @Nullable private AccessionStatus accessionStatus;
   @Nullable private Boolean personalCollection;
@@ -47,11 +47,11 @@ public class CollectionSearchRequest extends SearchRequest {
   }
 
   @Nullable
-  public List<CollectionContentType> getContentTypes() {
+  public List<String> getContentTypes() {
     return contentTypes;
   }
 
-  public void setContentTypes(@Nullable List<CollectionContentType> contentTypes) {
+  public void setContentTypes(@Nullable List<String> contentTypes) {
     this.contentTypes = contentTypes;
   }
 
@@ -103,7 +103,7 @@ public class CollectionSearchRequest extends SearchRequest {
     String city;
     String fuzzyName;
     Boolean active;
-    List<CollectionContentType> contentTypes;
+    List<String> contentTypes;
     List<PreservationType> preservationTypes;
     AccessionStatus accessionStatus;
     Boolean personalCollection;
@@ -193,7 +193,7 @@ public class CollectionSearchRequest extends SearchRequest {
       return this;
     }
 
-    public Builder contentTypes(List<CollectionContentType> contentTypes) {
+    public Builder contentTypes(List<String> contentTypes) {
       this.contentTypes = contentTypes;
       return this;
     }

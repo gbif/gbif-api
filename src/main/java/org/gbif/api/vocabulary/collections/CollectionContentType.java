@@ -19,7 +19,10 @@ package org.gbif.api.vocabulary.collections;
  * Types of a (sub) group of elements contained in collection..
  *
  * Note: The descriptions are the original values migrated from GRBIO.
+ *
+ * Deprecated to use the vocabulary server instead.
  */
+@Deprecated
 public enum CollectionContentType {
 
   ARCHAEOLOGICAL_OTHER("Archaeological: Other or Undefined"),

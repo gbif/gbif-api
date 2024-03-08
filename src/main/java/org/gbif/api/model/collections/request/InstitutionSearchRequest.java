@@ -35,7 +35,7 @@ public class InstitutionSearchRequest extends SearchRequest {
 
   @Nullable private InstitutionGovernance institutionalGovernance;
 
-  @Nullable private List<Discipline> disciplines;
+  @Nullable private List<String> disciplines;
 
   @Nullable
   public InstitutionType getType() {
@@ -56,11 +56,11 @@ public class InstitutionSearchRequest extends SearchRequest {
   }
 
   @Nullable
-  public List<Discipline> getDisciplines() {
+  public List<String> getDisciplines() {
     return disciplines;
   }
 
-  public void setDisciplines(@Nullable List<Discipline> disciplines) {
+  public void setDisciplines(@Nullable List<String> disciplines) {
     this.disciplines = disciplines;
   }
 
@@ -86,7 +86,7 @@ public class InstitutionSearchRequest extends SearchRequest {
     Boolean active;
     InstitutionType type;
     InstitutionGovernance institutionalGovernance;
-    List<Discipline> disciplines;
+    List<String> disciplines;
     MasterSourceType masterSourceType;
     String numberSpecimens;
     Boolean displayOnNHCPortal;
@@ -178,7 +178,7 @@ public class InstitutionSearchRequest extends SearchRequest {
       return this;
     }
 
-    public Builder disciplines(List<Discipline> disciplines) {
+    public Builder disciplines(List<String> disciplines) {
       this.disciplines = disciplines;
       return this;
     }

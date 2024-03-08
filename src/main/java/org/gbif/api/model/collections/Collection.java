@@ -84,7 +84,7 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   private String description;
 
   @Schema(description = "Content type of the elements found in the collection.")
-  private List<CollectionContentType> contentTypes = new ArrayList<>();
+  private List<String> contentTypes = new ArrayList<>();
 
   @Schema(description = "Whether the collection is active/maintained.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
@@ -338,11 +338,11 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   }
 
   /** Content type of the elements found in a collection. */
-  public List<CollectionContentType> getContentTypes() {
+  public List<String> getContentTypes() {
     return contentTypes;
   }
 
-  public void setContentTypes(List<CollectionContentType> contentTypes) {
+  public void setContentTypes(List<String> contentTypes) {
     this.contentTypes = contentTypes;
   }
 
