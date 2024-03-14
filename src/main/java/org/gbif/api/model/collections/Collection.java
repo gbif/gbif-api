@@ -185,10 +185,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<Contact> contactPersons = new ArrayList<>();
 
-  @Schema(description = "Whether there is a record for this collection in *Index Herbariorum*.")
-  @Sourceable(masterSources = MasterSourceType.IH)
-  private boolean indexHerbariorumRecord;
-
   @Schema(description = "The number of specimens contained in this collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private Integer numberSpecimens;
@@ -540,14 +536,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
     this.contactPersons = contactPersons;
   }
 
-  public boolean isIndexHerbariorumRecord() {
-    return indexHerbariorumRecord;
-  }
-
-  public void setIndexHerbariorumRecord(boolean indexHerbariorumRecord) {
-    this.indexHerbariorumRecord = indexHerbariorumRecord;
-  }
-
   public Integer getNumberSpecimens() {
     return numberSpecimens;
   }
@@ -776,7 +764,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
         && LenientEqualsUtils.lenientEquals(mailingAddress, other.mailingAddress)
         && LenientEqualsUtils.lenientEquals(address, other.address)
         && Objects.equals(deleted, other.deleted)
-        && indexHerbariorumRecord == other.indexHerbariorumRecord
         && Objects.equals(numberSpecimens, other.numberSpecimens)
         && Objects.equals(taxonomicCoverage, other.taxonomicCoverage)
         && Objects.equals(geographicCoverage, other.geographicCoverage)

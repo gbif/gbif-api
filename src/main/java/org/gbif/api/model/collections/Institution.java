@@ -13,11 +13,6 @@
  */
 package org.gbif.api.model.collections;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
 import org.gbif.api.model.registry.Comment;
 import org.gbif.api.model.registry.Identifier;
 import org.gbif.api.model.registry.LenientEquals;
@@ -27,7 +22,6 @@ import org.gbif.api.model.registry.Tag;
 import org.gbif.api.util.HttpURI;
 import org.gbif.api.util.LenientEqualsUtils;
 import org.gbif.api.util.validators.email.ValidEmail;
-import org.gbif.api.vocabulary.collections.Discipline;
 import org.gbif.api.vocabulary.collections.InstitutionGovernance;
 import org.gbif.api.vocabulary.collections.InstitutionType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
@@ -38,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -46,8 +39,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * The owner or location of collection. Usually an established organization or foundation,
@@ -137,31 +134,12 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   @Sourceable(masterSources = MasterSourceType.IH)
   private Integer foundingDate;
 
-  @Schema(
-      description =
-          "A description of the geographic range of the activities "
-              + "performed by the institution.")
-  private String geographicDescription;
-
-  @Schema(
-      description =
-          "A description of the taxonomic range of the activities "
-              + "performed by the institution.")
-  private String taxonomicDescription;
-
   @Schema(description = "An estimate of the number of specimens hosted by the institution.")
   private Integer numberSpecimens;
-
-  @Schema(description = "Whether this institution record was imported from *Index Herbariorum*.")
-  @Sourceable(masterSources = MasterSourceType.IH)
-  private boolean indexHerbariorumRecord;
 
   @Schema(description = "A URL to a logo for the institution.")
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private URI logoUrl;
-
-  @Schema(description = "The CITES permit number for the institution.")
-  private String citesPermitNumber;
 
   @Schema(
       description =
@@ -451,24 +429,6 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.foundingDate = foundingDate;
   }
 
-  /** Geographical coverage of the activities performed by an institution. */
-  public String getGeographicDescription() {
-    return geographicDescription;
-  }
-
-  public void setGeographicDescription(String geographicDescription) {
-    this.geographicDescription = geographicDescription;
-  }
-
-  /** Taxonomic description of the collections maintained by an institution. */
-  public String getTaxonomicDescription() {
-    return taxonomicDescription;
-  }
-
-  public void setTaxonomicDescription(String taxonomicDescription) {
-    this.taxonomicDescription = taxonomicDescription;
-  }
-
   /** Estimated number of specimens hosted by an institution. */
   public Integer getNumberSpecimens() {
     return numberSpecimens;
@@ -476,15 +436,6 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
 
   public void setNumberSpecimens(Integer numberSpecimens) {
     this.numberSpecimens = numberSpecimens;
-  }
-
-  /** Was the institution record imported form Index Herbariorum. */
-  public boolean isIndexHerbariorumRecord() {
-    return indexHerbariorumRecord;
-  }
-
-  public void setIndexHerbariorumRecord(boolean indexHerbariorumRecord) {
-    this.indexHerbariorumRecord = indexHerbariorumRecord;
   }
 
   /** Logo/Image that identifies the institution. */
@@ -496,18 +447,6 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
 
   public void setLogoUrl(URI logoUrl) {
     this.logoUrl = logoUrl;
-  }
-
-  /**
-   * CITES (see http://ec.europa.eu/environment/cites/info_permits_en.htm) licence given for this
-   * collection.
-   */
-  public String getCitesPermitNumber() {
-    return citesPermitNumber;
-  }
-
-  public void setCitesPermitNumber(String citesPermitNumber) {
-    this.citesPermitNumber = citesPermitNumber;
   }
 
   @Override
@@ -740,7 +679,6 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
       return true;
     }
     return active == other.active
-        && indexHerbariorumRecord == other.indexHerbariorumRecord
         && Objects.equals(key, other.key)
         && Objects.equals(code, other.code)
         && Objects.equals(name, other.name)
@@ -759,11 +697,8 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
         && LenientEqualsUtils.lenientEquals(address, other.address)
         && Objects.equals(additionalNames, other.additionalNames)
         && Objects.equals(foundingDate, other.foundingDate)
-        && Objects.equals(geographicDescription, other.geographicDescription)
         && Objects.equals(numberSpecimens, other.numberSpecimens)
-        && Objects.equals(taxonomicDescription, other.taxonomicDescription)
         && Objects.equals(logoUrl, other.logoUrl)
-        && Objects.equals(citesPermitNumber, other.citesPermitNumber)
         && Objects.equals(deleted, other.deleted)
         && Objects.equals(alternativeCodes, other.alternativeCodes)
         && Objects.equals(comments, other.comments)
