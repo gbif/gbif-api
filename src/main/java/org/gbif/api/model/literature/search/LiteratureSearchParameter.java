@@ -18,6 +18,7 @@ import org.gbif.api.model.literature.LiteratureRelevance;
 import org.gbif.api.model.literature.LiteratureTopic;
 import org.gbif.api.model.literature.LiteratureType;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.Language;
 
 import java.util.UUID;
 
@@ -42,7 +43,8 @@ public enum LiteratureSearchParameter implements SearchParameter {
   CITATION_TYPE(String.class), // citation type
   DOI(String.class),
   SOURCE(String.class), // journal
-  PUBLISHER(String.class); // journal publisher
+  PUBLISHER(String.class), // journal publisher
+  LANGUAGE(Language.class);
 
   private final Class<?> type;
 
