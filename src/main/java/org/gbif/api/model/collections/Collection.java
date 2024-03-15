@@ -23,8 +23,8 @@ import org.gbif.api.model.registry.Tag;
 import org.gbif.api.util.HttpURI;
 import org.gbif.api.util.LenientEqualsUtils;
 import org.gbif.api.util.validators.email.ValidEmail;
+import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.collections.AccessionStatus;
-import org.gbif.api.vocabulary.collections.CollectionContentType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
 import org.gbif.api.vocabulary.collections.PreservationType;
 
@@ -198,7 +198,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private String taxonomicCoverage;
 
-  @Getter
   @Schema(description = "The geographic coverage of this collection.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private String geographicCoverage;
@@ -262,6 +261,25 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
 
   @Schema(description = "An estimate of the number of type specimens linked to the institution.")
   private Integer typeSpecimenCount;
+
+  @Getter
+  @Schema(
+      description =
+          "URI to the image to be featured on the collection page, this image should be associated with a license.")
+  private URI featuredImageUrl;
+
+  @Getter
+  @Schema(
+      description = "The license associated with the image to be featured on the collection page.")
+  private License featuredImageLicense;
+
+  @Getter
+  @Schema(
+      description =
+          "Temporal scope or focus of the collection. This free text field can be used to describe both the collection "
+              + "date ranges as well as the geological time group(s) of the collection objects in the context of "
+              + "paleontological collections.")
+  private String temporalCoverage;
 
   /** List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc.. */
   @Override
@@ -568,6 +586,10 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
     this.taxonomicCoverage = taxonomicCoverage;
   }
 
+  public String getGeographicCoverage() {
+    return geographicCoverage;
+  }
+
   public void setGeographicCoverage(String geographicCoverage) {
     this.geographicCoverage = geographicCoverage;
   }
@@ -691,6 +713,38 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
     this.displayOnNHCPortal = displayOnNHCPortal;
   }
 
+  @HttpURI
+  @Nullable
+  @Override
+  public URI getFeaturedImageUrl() {
+    return featuredImageUrl;
+  }
+
+  @Override
+  public void setFeaturedImageUrl(URI featuredImageUrl) {
+    this.featuredImageUrl = featuredImageUrl;
+  }
+
+  @Nullable
+  @Override
+  public License getFeaturedImageLicense() {
+    return featuredImageLicense;
+  }
+
+  @Override
+  public void setFeaturedImageLicense(License featuredImageLicense) {
+    this.featuredImageLicense = featuredImageLicense;
+  }
+
+  @Nullable
+  public String getTemporalCoverage() {
+    return temporalCoverage;
+  }
+
+  public void setTemporalCoverage(String temporalCoverage) {
+    this.temporalCoverage = temporalCoverage;
+  }
+
   @Hidden
   @JsonIgnore
   public String getCountry() {
@@ -779,6 +833,9 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
         && Objects.equals(masterSourceMetadata, other.masterSourceMetadata)
         && Objects.equals(division, other.division)
         && Objects.equals(department, other.department)
-        && Objects.equals(displayOnNHCPortal, other.displayOnNHCPortal);
+        && Objects.equals(displayOnNHCPortal, other.displayOnNHCPortal)
+        && Objects.equals(featuredImageUrl, other.featuredImageUrl)
+        && Objects.equals(featuredImageLicense, other.featuredImageLicense)
+        && Objects.equals(temporalCoverage, other.temporalCoverage);
   }
 }

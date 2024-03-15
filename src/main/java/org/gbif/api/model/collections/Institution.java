@@ -22,6 +22,7 @@ import org.gbif.api.model.registry.Tag;
 import org.gbif.api.util.HttpURI;
 import org.gbif.api.util.LenientEqualsUtils;
 import org.gbif.api.util.validators.email.ValidEmail;
+import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.collections.InstitutionGovernance;
 import org.gbif.api.vocabulary.collections.InstitutionType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
@@ -231,6 +232,15 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
 
   @Schema(description = "An estimate of the number of type specimens linked to the institution.")
   private Integer typeSpecimenCount;
+
+  @Schema(
+      description =
+          "URI to the image to be featured on the institution page, this image should be associated with a license.")
+  private URI featuredImageUrl;
+
+  @Schema(
+      description = "The license associated with the image to be featured on the institution page.")
+  private License featuredImageLicense;
 
   /** GBIF unique identifier. */
   @Override
@@ -640,6 +650,29 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.typeSpecimenCount = typeSpecimenCount;
   }
 
+  @HttpURI
+  @Nullable
+  @Override
+  public URI getFeaturedImageUrl() {
+    return featuredImageUrl;
+  }
+
+  @Override
+  public void setFeaturedImageUrl(URI featuredImageUrl) {
+    this.featuredImageUrl = featuredImageUrl;
+  }
+
+  @Nullable
+  @Override
+  public License getFeaturedImageLicense() {
+    return featuredImageLicense;
+  }
+
+  @Override
+  public void setFeaturedImageLicense(License featuredImageLicense) {
+    this.featuredImageLicense = featuredImageLicense;
+  }
+
   @Hidden
   @JsonIgnore
   public String getCountry() {
@@ -707,6 +740,8 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
         && Objects.equals(convertedToCollection, other.convertedToCollection)
         && Objects.equals(masterSource, other.masterSource)
         && Objects.equals(masterSourceMetadata, other.masterSourceMetadata)
-        && Objects.equals(displayOnNHCPortal, other.displayOnNHCPortal);
+        && Objects.equals(displayOnNHCPortal, other.displayOnNHCPortal)
+        && Objects.equals(featuredImageUrl, other.featuredImageUrl)
+        && Objects.equals(featuredImageLicense, other.featuredImageLicense);
   }
 }

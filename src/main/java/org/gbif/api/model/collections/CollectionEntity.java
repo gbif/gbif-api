@@ -18,9 +18,12 @@ import org.gbif.api.model.registry.Identifiable;
 import org.gbif.api.model.registry.MachineTaggable;
 import org.gbif.api.model.registry.PrePersist;
 import org.gbif.api.model.registry.Taggable;
+import org.gbif.api.util.HttpURI;
+import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 import java.io.Serializable;
+import java.net.URI;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -127,4 +130,15 @@ public interface CollectionEntity
   List<AlternativeCode> getAlternativeCodes();
 
   void setAlternativeCodes(List<AlternativeCode> alternativeCodes);
+
+  @HttpURI
+  @Nullable
+  URI getFeaturedImageUrl();
+
+  void setFeaturedImageUrl(URI featuredImageUrl);
+
+  @Nullable
+  License getFeaturedImageLicense();
+
+  void setFeaturedImageLicense(License featuredImageLicense);
 }
