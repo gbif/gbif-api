@@ -21,7 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -1061,8 +1060,13 @@ public enum Language {
 
     static Language lenientParse(String value) {
       Language l = Language.fromIsoCode(value);
-      if (l == Language.UNKNOWN && !EnumUtils.isValidEnum(Language.class, value)) {
-        return Language.UNKNOWN;
+      // backwards compatible
+      if (Language.UNKNOWN == l) {
+        try {
+          l = Language.valueOf(value);
+        } catch (IllegalArgumentException e) {
+          l = Language.UNKNOWN;
+        }
       }
       return l;
     }
