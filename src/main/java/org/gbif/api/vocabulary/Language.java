@@ -43,610 +43,980 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @JsonSerialize(using = Language.IsoSerializer.class, keyUsing = Language.IsoKeySerializer.class)
 @JsonDeserialize(
-    using = Language.LenientDeserializer.class,
-    keyUsing = Language.LenientKeyDeserializer.class)
+  using = Language.LenientDeserializer.class,
+  keyUsing = Language.LenientKeyDeserializer.class)
 public enum Language {
 
-  /** Abkhazian. */
+  /**
+   * Abkhazian.
+   */
   ABKHAZIAN("ab"),
 
-  /** Afar. */
+  /**
+   * Afar.
+   */
   AFAR("aa"),
 
-  /** Afrikaans. */
+  /**
+   * Afrikaans.
+   */
   AFRIKAANS("af"),
 
-  /** Akan. */
+  /**
+   * Akan.
+   */
   AKAN("ak"),
 
-  /** Albanian. */
+  /**
+   * Albanian.
+   */
   ALBANIAN("sq"),
 
-  /** Amharic. */
+  /**
+   * Amharic.
+   */
   AMHARIC("am"),
 
-  /** Arabic. */
+  /**
+   * Arabic.
+   */
   ARABIC("ar"),
 
-  /** Aragonese. */
+  /**
+   * Aragonese.
+   */
   ARAGONESE("an"),
 
-  /** Armenian. */
+  /**
+   * Armenian.
+   */
   ARMENIAN("hy"),
 
-  /** Assamese. */
+  /**
+   * Assamese.
+   */
   ASSAMESE("as"),
 
-  /** Avaric. */
+  /**
+   * Avaric.
+   */
   AVARIC("av"),
 
-  /** Avestan. */
+  /**
+   * Avestan.
+   */
   AVESTAN("ae"),
 
-  /** Aymara. */
+  /**
+   * Aymara.
+   */
   AYMARA("ay"),
 
-  /** Azerbaijani. */
+  /**
+   * Azerbaijani.
+   */
   AZERBAIJANI("az"),
 
-  /** Bambara. */
+  /**
+   * Bambara.
+   */
   BAMBARA("bm"),
 
-  /** Bashkir. */
+  /**
+   * Bashkir.
+   */
   BASHKIR("ba"),
 
-  /** Basque. */
+  /**
+   * Basque.
+   */
   BASQUE("eu"),
 
-  /** Belarusian. */
+  /**
+   * Belarusian.
+   */
   BELARUSIAN("be"),
 
-  /** Bengali. */
+  /**
+   * Bengali.
+   */
   BENGALI("bn"),
 
-  /** Bihari. */
+  /**
+   * Bihari.
+   */
   BIHARI("bh"),
 
-  /** Bislama. */
+  /**
+   * Bislama.
+   */
   BISLAMA("bi"),
 
-  /** Bosnian. */
+  /**
+   * Bosnian.
+   */
   BOSNIAN("bs"),
 
-  /** Breton. */
+  /**
+   * Breton.
+   */
   BRETON("br"),
 
-  /** Bulgarian. */
+  /**
+   * Bulgarian.
+   */
   BULGARIAN("bg"),
 
-  /** Burmese. */
+  /**
+   * Burmese.
+   */
   BURMESE("my"),
 
-  /** Catalan. */
+  /**
+   * Catalan.
+   */
   CATALAN("ca"),
 
-  /** Chamorro. */
+  /**
+   * Chamorro.
+   */
   CHAMORRO("ch"),
 
-  /** Chechen. */
+  /**
+   * Chechen.
+   */
   CHECHEN("ce"),
 
-  /** Chinese. */
+  /**
+   * Chinese.
+   */
   CHINESE("zh"),
 
-  /** Church Slavic. */
+  /**
+   * Church Slavic.
+   */
   CHURCH_SLAVIC("cu"),
 
-  /** Chuvash. */
+  /**
+   * Chuvash.
+   */
   CHUVASH("cv"),
 
-  /** Cornish. */
+  /**
+   * Cornish.
+   */
   CORNISH("kw"),
 
-  /** Corsican. */
+  /**
+   * Corsican.
+   */
   CORSICAN("co"),
 
-  /** Cree. */
+  /**
+   * Cree.
+   */
   CREE("cr"),
 
-  /** Croatian. */
+  /**
+   * Croatian.
+   */
   CROATIAN("hr"),
 
-  /** Czech. */
+  /**
+   * Czech.
+   */
   CZECH("cs"),
 
-  /** Danish. */
+  /**
+   * Danish.
+   */
   DANISH("da"),
 
-  /** Divehi. */
+  /**
+   * Divehi.
+   */
   DIVEHI("dv"),
 
-  /** Dutch. */
+  /**
+   * Dutch.
+   */
   DUTCH("nl"),
 
-  /** Dzongkha. */
+  /**
+   * Dzongkha.
+   */
   DZONGKHA("dz"),
 
-  /** English. */
+  /**
+   * English.
+   */
   ENGLISH("en"),
 
-  /** Esperanto. */
+  /**
+   * Esperanto.
+   */
   ESPERANTO("eo"),
 
-  /** Estonian. */
+  /**
+   * Estonian.
+   */
   ESTONIAN("et"),
 
-  /** Ewe. */
+  /**
+   * Ewe.
+   */
   EWE("ee"),
 
-  /** Faroese. */
+  /**
+   * Faroese.
+   */
   FAROESE("fo"),
 
-  /** Fijian. */
+  /**
+   * Fijian.
+   */
   FIJIAN("fj"),
 
-  /** Finnish. */
+  /**
+   * Finnish.
+   */
   FINNISH("fi"),
 
-  /** French. */
+  /**
+   * French.
+   */
   FRENCH("fr"),
 
-  /** Frisian. */
+  /**
+   * Frisian.
+   */
   FRISIAN("fy"),
 
-  /** Fulah. */
+  /**
+   * Fulah.
+   */
   FULAH("ff"),
 
-  /** Gallegan. */
+  /**
+   * Gallegan.
+   */
   GALLEGAN("gl"),
 
-  /** Ganda. */
+  /**
+   * Ganda.
+   */
   GANDA("lg"),
 
-  /** Georgian. */
+  /**
+   * Georgian.
+   */
   GEORGIAN("ka"),
 
-  /** German. */
+  /**
+   * German.
+   */
   GERMAN("de"),
 
-  /** Greek. */
+  /**
+   * Greek.
+   */
   GREEK("el"),
 
-  /** Greenlandic. */
+  /**
+   * Greenlandic.
+   */
   GREENLANDIC("kl"),
 
-  /** Guarani. */
+  /**
+   * Guarani.
+   */
   GUARANI("gn"),
 
-  /** Gujarati. */
+  /**
+   * Gujarati.
+   */
   GUJARATI("gu"),
 
-  /** Haitian. */
+  /**
+   * Haitian.
+   */
   HAITIAN("ht"),
 
-  /** Hausa. */
+  /**
+   * Hausa.
+   */
   HAUSA("ha"),
 
-  /** Hebrew. */
+  /**
+   * Hebrew.
+   */
   HEBREW("he"),
 
-  /** Herero. */
+  /**
+   * Herero.
+   */
   HERERO("hz"),
 
-  /** Hindi. */
+  /**
+   * Hindi.
+   */
   HINDI("hi"),
 
-  /** Hiri Motu. */
+  /**
+   * Hiri Motu.
+   */
   HIRI_MOTU("ho"),
 
-  /** Hungarian. */
+  /**
+   * Hungarian.
+   */
   HUNGARIAN("hu"),
 
-  /** Icelandic. */
+  /**
+   * Icelandic.
+   */
   ICELANDIC("is"),
 
-  /** Ido. */
+  /**
+   * Ido.
+   */
   IDO("io"),
 
-  /** Igbo. */
+  /**
+   * Igbo.
+   */
   IGBO("ig"),
 
-  /** Indonesian. */
+  /**
+   * Indonesian.
+   */
   INDONESIAN("id"),
 
-  /** Interlingua. */
+  /**
+   * Interlingua.
+   */
   INTERLINGUA("ia"),
 
-  /** Interlingue. */
+  /**
+   * Interlingue.
+   */
   INTERLINGUE("ie"),
 
-  /** Inuktitut. */
+  /**
+   * Inuktitut.
+   */
   INUKTITUT("iu"),
 
-  /** Inupiaq. */
+  /**
+   * Inupiaq.
+   */
   INUPIAQ("ik"),
 
-  /** Irish. */
+  /**
+   * Irish.
+   */
   IRISH("ga"),
 
-  /** Italian. */
+  /**
+   * Italian.
+   */
   ITALIAN("it"),
 
-  /** Japanese. */
+  /**
+   * Japanese.
+   */
   JAPANESE("ja"),
 
-  /** Javanese. */
+  /**
+   * Javanese.
+   */
   JAVANESE("jv"),
 
-  /** Kannada. */
+  /**
+   * Kannada.
+   */
   KANNADA("kn"),
 
-  /** Kanuri. */
+  /**
+   * Kanuri.
+   */
   KANURI("kr"),
 
-  /** Kashmiri. */
+  /**
+   * Kashmiri.
+   */
   KASHMIRI("ks"),
 
-  /** Kazakh. */
+  /**
+   * Kazakh.
+   */
   KAZAKH("kk"),
 
-  /** Khmer. */
+  /**
+   * Khmer.
+   */
   KHMER("km"),
 
-  /** Kikuyu. */
+  /**
+   * Kikuyu.
+   */
   KIKUYU("ki"),
 
-  /** Kinyarwanda. */
+  /**
+   * Kinyarwanda.
+   */
   KINYARWANDA("rw"),
 
-  /** Kirghiz. */
+  /**
+   * Kirghiz.
+   */
   KIRGHIZ("ky"),
 
-  /** Komi. */
+  /**
+   * Komi.
+   */
   KOMI("kv"),
 
-  /** Kongo. */
+  /**
+   * Kongo.
+   */
   KONGO("kg"),
 
-  /** Korean. */
+  /**
+   * Korean.
+   */
   KOREAN("ko"),
 
-  /** Kurdish. */
+  /**
+   * Kurdish.
+   */
   KURDISH("ku"),
 
-  /** Kwanyama. */
+  /**
+   * Kwanyama.
+   */
   KWANYAMA("kj"),
 
-  /** Lao. */
+  /**
+   * Lao.
+   */
   LAO("lo"),
 
-  /** Latin. */
+  /**
+   * Latin.
+   */
   LATIN("la"),
 
-  /** Latvian. */
+  /**
+   * Latvian.
+   */
   LATVIAN("lv"),
 
-  /** Limburgish. */
+  /**
+   * Limburgish.
+   */
   LIMBURGISH("li"),
 
-  /** Lingala. */
+  /**
+   * Lingala.
+   */
   LINGALA("ln"),
 
-  /** Lithuanian. */
+  /**
+   * Lithuanian.
+   */
   LITHUANIAN("lt"),
 
-  /** Luba-Katanga. */
+  /**
+   * Luba-Katanga.
+   */
   LUBA_KATANGA("lu"),
 
-  /** Luxembourgish. */
+  /**
+   * Luxembourgish.
+   */
   LUXEMBOURGISH("lb"),
 
-  /** Macedonian. */
+  /**
+   * Macedonian.
+   */
   MACEDONIAN("mk"),
 
-  /** Malagasy. */
+  /**
+   * Malagasy.
+   */
   MALAGASY("mg"),
 
-  /** Malay. */
+  /**
+   * Malay.
+   */
   MALAY("ms"),
 
-  /** Malayalam. */
+  /**
+   * Malayalam.
+   */
   MALAYALAM("ml"),
 
-  /** Maltese. */
+  /**
+   * Maltese.
+   */
   MALTESE("mt"),
 
-  /** Manx. */
+  /**
+   * Manx.
+   */
   MANX("gv"),
 
-  /** Maori. */
+  /**
+   * Maori.
+   */
   MAORI("mi"),
 
-  /** Marathi. */
+  /**
+   * Marathi.
+   */
   MARATHI("mr"),
 
-  /** Marshallese. */
+  /**
+   * Marshallese.
+   */
   MARSHALLESE("mh"),
 
-  /** Moldavian. */
+  /**
+   * Moldavian.
+   */
   MOLDAVIAN("mo"),
 
-  /** Mongolian. */
+  /**
+   * Mongolian.
+   */
   MONGOLIAN("mn"),
 
-  /** Nauru. */
+  /**
+   * Nauru.
+   */
   NAURU("na"),
 
-  /** Navajo. */
+  /**
+   * Navajo.
+   */
   NAVAJO("nv"),
 
-  /** Ndonga. */
+  /**
+   * Ndonga.
+   */
   NDONGA("ng"),
 
-  /** Nepali. */
+  /**
+   * Nepali.
+   */
   NEPALI("ne"),
 
-  /** North Ndebele. */
+  /**
+   * North Ndebele.
+   */
   NORTH_NDEBELE("nd"),
 
-  /** Northern Sami. */
+  /**
+   * Northern Sami.
+   */
   NORTHERN_SAMI("se"),
 
-  /** Norwegian Bokmål. */
+  /**
+   * Norwegian Bokmål.
+   */
   NORWEGIAN_BOKMAL("nb"),
 
-  /** Norwegian Nynorsk. */
+  /**
+   * Norwegian Nynorsk.
+   */
   NORWEGIAN_NYNORSK("nn"),
 
-  /** Norwegian. */
+  /**
+   * Norwegian.
+   */
   NORWEGIAN("no"),
 
-  /** Nyanja. */
+  /**
+   * Nyanja.
+   */
   NYANJA("ny"),
 
-  /** Occitan. */
+  /**
+   * Occitan.
+   */
   OCCITAN("oc"),
 
-  /** Ojibwa. */
+  /**
+   * Ojibwa.
+   */
   OJIBWA("oj"),
 
-  /** Oriya. */
+  /**
+   * Oriya.
+   */
   ORIYA("or"),
 
-  /** Oromo. */
+  /**
+   * Oromo.
+   */
   OROMO("om"),
 
-  /** Ossetian. */
+  /**
+   * Ossetian.
+   */
   OSSETIAN("os"),
 
-  /** Pali. */
+  /**
+   * Pali.
+   */
   PALI("pi"),
 
-  /** Panjabi. */
+  /**
+   * Panjabi.
+   */
   PANJABI("pa"),
 
-  /** Persian. */
+  /**
+   * Persian.
+   */
   PERSIAN("fa"),
 
-  /** Polish. */
+  /**
+   * Polish.
+   */
   POLISH("pl"),
 
-  /** Portuguese. */
+  /**
+   * Portuguese.
+   */
   PORTUGUESE("pt"),
 
-  /** Pushto. */
+  /**
+   * Pushto.
+   */
   PUSHTO("ps"),
 
-  /** Quechua. */
+  /**
+   * Quechua.
+   */
   QUECHUA("qu"),
 
-  /** Raeto-Romance. */
+  /**
+   * Raeto-Romance.
+   */
   RAETO_ROMANCE("rm"),
 
-  /** Romanian. */
+  /**
+   * Romanian.
+   */
   ROMANIAN("ro"),
 
-  /** Rundi. */
+  /**
+   * Rundi.
+   */
   RUNDI("rn"),
 
-  /** Russian. */
+  /**
+   * Russian.
+   */
   RUSSIAN("ru"),
 
-  /** Samoan. */
+  /**
+   * Samoan.
+   */
   SAMOAN("sm"),
 
-  /** Sango. */
+  /**
+   * Sango.
+   */
   SANGO("sg"),
 
-  /** Sanskrit. */
+  /**
+   * Sanskrit.
+   */
   SANSKRIT("sa"),
 
-  /** Sardinian. */
+  /**
+   * Sardinian.
+   */
   SARDINIAN("sc"),
 
-  /** Scottish Gaelic. */
+  /**
+   * Scottish Gaelic.
+   */
   SCOTTISH_GAELIC("gd"),
 
-  /** Serbian. */
+  /**
+   * Serbian.
+   */
   SERBIAN("sr"),
 
-  /** Shona. */
+  /**
+   * Shona.
+   */
   SHONA("sn"),
 
-  /** Sichuan Yi. */
+  /**
+   * Sichuan Yi.
+   */
   SICHUAN_YI("ii"),
 
-  /** Sindhi. */
+  /**
+   * Sindhi.
+   */
   SINDHI("sd"),
 
-  /** Sinhalese. */
+  /**
+   * Sinhalese.
+   */
   SINHALESE("si"),
 
-  /** Slovak. */
+  /**
+   * Slovak.
+   */
   SLOVAK("sk"),
 
-  /** Slovenian. */
+  /**
+   * Slovenian.
+   */
   SLOVENIAN("sl"),
 
-  /** Somali. */
+  /**
+   * Somali.
+   */
   SOMALI("so"),
 
-  /** South Ndebele. */
+  /**
+   * South Ndebele.
+   */
   SOUTH_NDEBELE("nr"),
 
-  /** Southern Sotho. */
+  /**
+   * Southern Sotho.
+   */
   SOUTHERN_SOTHO("st"),
 
-  /** Spanish. */
+  /**
+   * Spanish.
+   */
   SPANISH("es"),
 
-  /** Sundanese. */
+  /**
+   * Sundanese.
+   */
   SUNDANESE("su"),
 
-  /** Swahili. */
+  /**
+   * Swahili.
+   */
   SWAHILI("sw"),
 
-  /** Swati. */
+  /**
+   * Swati.
+   */
   SWATI("ss"),
 
-  /** Swedish. */
+  /**
+   * Swedish.
+   */
   SWEDISH("sv"),
 
-  /** Tagalog. */
+  /**
+   * Tagalog.
+   */
   TAGALOG("tl"),
 
-  /** Tahitian. */
+  /**
+   * Tahitian.
+   */
   TAHITIAN("ty"),
 
-  /** Tajik. */
+  /**
+   * Tajik.
+   */
   TAJIK("tg"),
 
-  /** Tamil. */
+  /**
+   * Tamil.
+   */
   TAMIL("ta"),
 
-  /** Tatar. */
+  /**
+   * Tatar.
+   */
   TATAR("tt"),
 
-  /** Telugu. */
+  /**
+   * Telugu.
+   */
   TELUGU("te"),
 
-  /** Thai. */
+  /**
+   * Thai.
+   */
   THAI("th"),
 
-  /** Tibetan. */
+  /**
+   * Tibetan.
+   */
   TIBETAN("bo"),
 
-  /** Tigrinya. */
+  /**
+   * Tigrinya.
+   */
   TIGRINYA("ti"),
 
-  /** Tonga. */
+  /**
+   * Tonga.
+   */
   TONGA("to"),
 
-  /** Tsonga. */
+  /**
+   * Tsonga.
+   */
   TSONGA("ts"),
 
-  /** Tswana. */
+  /**
+   * Tswana.
+   */
   TSWANA("tn"),
 
-  /** Turkish. */
+  /**
+   * Turkish.
+   */
   TURKISH("tr"),
 
-  /** Turkmen. */
+  /**
+   * Turkmen.
+   */
   TURKMEN("tk"),
 
-  /** Twi. */
+  /**
+   * Twi.
+   */
   TWI("tw"),
 
-  /** Uighur. */
+  /**
+   * Uighur.
+   */
   UIGHUR("ug"),
 
-  /** Ukrainian. */
+  /**
+   * Ukrainian.
+   */
   UKRAINIAN("uk"),
 
-  /** Urdu. */
+  /**
+   * Urdu.
+   */
   URDU("ur"),
 
-  /** Uzbek. */
+  /**
+   * Uzbek.
+   */
   UZBEK("uz"),
 
-  /** Venda. */
+  /**
+   * Venda.
+   */
   VENDA("ve"),
 
-  /** Vietnamese. */
+  /**
+   * Vietnamese.
+   */
   VIETNAMESE("vi"),
 
-  /** Volapük. */
+  /**
+   * Volapük.
+   */
   VOLAPÜK("vo"),
 
-  /** Walloon. */
+  /**
+   * Walloon.
+   */
   WALLOON("wa"),
 
-  /** Welsh. */
+  /**
+   * Welsh.
+   */
   WELSH("cy"),
 
-  /** Wolof. */
+  /**
+   * Wolof.
+   */
   WOLOF("wo"),
 
-  /** Xhosa. */
+  /**
+   * Xhosa.
+   */
   XHOSA("xh"),
 
-  /** Yiddish. */
+  /**
+   * Yiddish.
+   */
   YIDDISH("yi"),
 
-  /** Yoruba. */
+  /**
+   * Yoruba.
+   */
   YORUBA("yo"),
 
-  /** Zhuang. */
+  /**
+   * Zhuang.
+   */
   ZHUANG("za"),
 
-  /** Zulu. */
+  /**
+   * Zulu.
+   */
   ZULU("zu"),
 
-  /** Unknown or Invalid language. */
+  /**
+   * Unknown or Invalid language.
+   */
   UNKNOWN("");
 
   public static final List<Language> LANGUAGES;
-
-  private final String code;
 
   static {
     LANGUAGES = Collections.unmodifiableList(Arrays.asList(Language.values()));
   }
 
-  /**
-   * @param code the case insensitive 2 or 3 letter codes
-   * @return the matching language or UNKNOWN
-   */
-  public static Language fromIsoCode(String code) {
-    if (StringUtils.isNotEmpty(code)) {
-      String codeLower = code.toLowerCase().trim();
-      if (codeLower.length() == 2) {
-        for (Language language : Language.values()) {
-          if (codeLower.equals(language.getIso2LetterCode())) {
-            return language;
-          }
-        }
-      } else if (codeLower.length() == 3) {
-        for (Language language : Language.values()) {
-          if (codeLower.equals(language.getIso3LetterCode())) {
-            return language;
-          }
-        }
-      }
-    }
-    return UNKNOWN;
-  }
+  private final String code;
 
   Language(String code) {
     this.code = code;
   }
 
-  /** @return the 2 letter iso 639-1 code in lower case. */
+  /**
+   * @param code the case-insensitive 2 or 3-letter codes
+   * @return the matching language or UNKNOWN
+   */
+  public static Language fromIsoCode(String code) {
+    if (StringUtils.isEmpty(code)) {
+      return UNKNOWN;
+    }
+    String codeLower = code.toLowerCase().trim();
+    for (Language language : Language.values()) {
+      if (codeLower.equals(language.getIso2LetterCode()) || codeLower.equals(
+        language.getIso3LetterCode())) {
+        return language;
+      }
+    }
+    return UNKNOWN;
+  }
+
+  /**
+   * @return the 2-letter iso 639-1 code in lower case.
+   */
   public String getIso2LetterCode() {
     return code;
   }
 
-  /** @return the 3 letter iso 639-2 code in lower case. */
+  /**
+   * @return the 3-letter iso 639-2 code in lower case.
+   */
   @JsonValue
   public String getIso3LetterCode() {
     return getLocale().getISO3Language();
@@ -656,23 +1026,29 @@ public enum Language {
     return new Locale(code);
   }
 
-  /** @return the language title in the English language. */
+  /**
+   * @return the language title in the English language.
+   */
   public String getTitleEnglish() {
     return getLocale().getDisplayLanguage(Locale.ENGLISH);
   }
 
-  /** @return the language title in the native language. */
+  /**
+   * @return the language title in the native language.
+   */
   public String getTitleNative() {
     Locale loc = getLocale();
     return loc.getDisplayLanguage(loc);
   }
 
-  /** Serializes the value in a 3 letter ISO format. */
+  /**
+   * Serializes the value in a 3 letter ISO format.
+   */
   public static class IsoSerializer extends JsonSerializer<Language> {
 
     @Override
     public void serialize(Language value, JsonGenerator jgen, SerializerProvider provider)
-        throws IOException {
+      throws IOException {
       jgen.writeString(value.getIso3LetterCode());
     }
   }
@@ -682,20 +1058,6 @@ public enum Language {
    * much backwards compatibility as possible with e.g. the registry api.
    */
   public static class LenientDeserializer extends JsonDeserializer<Language> {
-    @Override
-    public Language deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-      try {
-        if (jp != null && jp.getTextLength() > 0) {
-          return lenientParse(jp.getText());
-        } else {
-          return Language.UNKNOWN; // none provided
-        }
-      } catch (Exception e) {
-        throw new IOException(
-            "Unable to deserialize language from provided value (hint: not an ISO 2 or 3 character?): "
-                + jp.getText());
-      }
-    }
 
     static Language lenientParse(String value) {
       Language l = Language.fromIsoCode(value);
@@ -707,7 +1069,23 @@ public enum Language {
           l = Language.UNKNOWN;
         }
       }
+
       return l;
+    }
+
+    @Override
+    public Language deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+      try {
+        if (jp != null && jp.getTextLength() > 0) {
+          return lenientParse(jp.getText());
+        } else {
+          return Language.UNKNOWN; // none provided
+        }
+      } catch (Exception e) {
+        throw new IOException(
+          "Unable to deserialize language from provided value (hint: not an ISO 2 or 3 character?): "
+            + jp.getText());
+      }
     }
   }
 
@@ -723,8 +1101,8 @@ public enum Language {
         }
       } catch (Exception e) {
         throw new IOException(
-            "Unable to deserialize language from provided value (hint: not an ISO 2 or 3 character?): "
-                + key);
+          "Unable to deserialize language from provided value (hint: not an ISO 2 or 3 character?): "
+            + key);
       }
     }
   }
@@ -733,8 +1111,8 @@ public enum Language {
 
     @Override
     public void serialize(
-        Language language, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
-        throws IOException {
+      Language language, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
+      throws IOException {
       jsonGenerator.writeFieldName(language.getIso3LetterCode());
     }
   }
