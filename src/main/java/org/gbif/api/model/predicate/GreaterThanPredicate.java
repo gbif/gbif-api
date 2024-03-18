@@ -49,4 +49,9 @@ public class GreaterThanPredicate<S extends SearchParameter> extends SimplePredi
     return Objects.equals(this.getKey(), that.getKey())
       && Objects.equals(this.getValue(), that.getValue());
   }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.getKey(), this.getValue());
+  }
 }

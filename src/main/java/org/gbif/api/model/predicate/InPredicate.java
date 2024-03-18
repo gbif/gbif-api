@@ -66,7 +66,7 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
   public InPredicate(
       @JsonProperty("key") S key,
       @JsonProperty("values") Collection<String> values,
-      @JsonProperty(value = "matchCase", defaultValue = "false") Boolean matchCase) {
+      @JsonProperty(value = "matchCase") Boolean matchCase) {
     this.matchCase = matchCase;
     Objects.requireNonNull(key, "<key> may not be null");
     Objects.requireNonNull(values, "<values> may not be null");
@@ -118,7 +118,7 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, values);
+    return Objects.hash(key, values, matchCase);
   }
 
   @Override
