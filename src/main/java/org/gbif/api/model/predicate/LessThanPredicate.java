@@ -20,6 +20,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.Objects;
+
 /**
  * This predicate checks if its {@code key} is less than its {@code value}.
  */
@@ -31,5 +33,25 @@ public class LessThanPredicate<S extends SearchParameter> extends SimplePredicat
   @JsonCreator
   public LessThanPredicate(@JsonProperty("key") S key, @JsonProperty("value") String value) {
     super(true, key, value, null);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+
+    if (!(obj instanceof LessThanPredicate)) {
+      return false;
+    }
+
+    SimplePredicate<S> that = (SimplePredicate<S>) obj;
+    return Objects.equals(this.getKey(), that.getKey())
+      && Objects.equals(this.getValue(), that.getValue());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.getKey(), this.getValue());
   }
 }

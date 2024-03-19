@@ -45,14 +45,31 @@ public class SimplePredicateTest {
         new EqualsPredicate<>(TEST_KEY, TEST_VALUE, false);
     SimplePredicate<OccurrenceSearchParameter> ep2 =
         new EqualsPredicate<>(TEST_KEY, TEST_VALUE, false);
+
+    SimplePredicate<OccurrenceSearchParameter> lp1 =
+        new LikePredicate<>(TEST_KEY, TEST_VALUE, true);
+    SimplePredicate<OccurrenceSearchParameter> lp2 =
+        new LikePredicate<>(TEST_KEY, TEST_VALUE, true);
+
     SimplePredicate<OccurrenceSearchParameter> gt1 =
         new GreaterThanPredicate<>(COMP_PARAM, COMP_VALUE);
     SimplePredicate<OccurrenceSearchParameter> gt2 =
         new GreaterThanPredicate<>(COMP_PARAM, COMP_VALUE);
+
     SimplePredicate<OccurrenceSearchParameter> lt1 =
         new LessThanPredicate<>(COMP_PARAM, COMP_VALUE);
     SimplePredicate<OccurrenceSearchParameter> lt2 =
         new LessThanPredicate<>(COMP_PARAM, COMP_VALUE);
+
+    SimplePredicate<OccurrenceSearchParameter> gte1 =
+        new GreaterThanOrEqualsPredicate<>(COMP_PARAM, COMP_VALUE);
+    SimplePredicate<OccurrenceSearchParameter> gte2 =
+        new GreaterThanOrEqualsPredicate<>(COMP_PARAM, COMP_VALUE);
+
+    SimplePredicate<OccurrenceSearchParameter> lte1 =
+        new LessThanOrEqualsPredicate<>(COMP_PARAM, COMP_VALUE);
+    SimplePredicate<OccurrenceSearchParameter> lte2 =
+        new LessThanOrEqualsPredicate<>(COMP_PARAM, COMP_VALUE);
 
     // All of them are equal to themselves
     assertThat(ep1, equalTo(ep1));
@@ -67,9 +84,13 @@ public class SimplePredicateTest {
     // And certainly unequal to any other Predicate
     assertThat(ep1, not(equalTo(mock(Predicate.class))));
 
+    // But they are equal to their twins
     assertThat(ep1, equalTo(ep2));
+    assertThat(lp1, equalTo(lp2));
     assertThat(gt1, equalTo(gt2));
     assertThat(lt1, equalTo(lt2));
+    assertThat(gte1, equalTo(gte2));
+    assertThat(lte1, equalTo(lte2));
 
     ep2 = new EqualsPredicate<>(TEST_KEY, "FOOBAR", false);
     assertThat(ep1, not(equalTo(ep2)));

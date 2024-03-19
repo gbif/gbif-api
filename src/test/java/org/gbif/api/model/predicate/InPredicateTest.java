@@ -63,19 +63,24 @@ public class InPredicateTest {
 
   @Test
   public void testEquals() {
-    List<String> list = new ArrayList<>();
-    list.add("foo");
-    list.add("bar");
-    Predicate ip1 = new InPredicate<>(TEST_KEY, list, false);
-    Predicate ip2 = new InPredicate<>(TEST_KEY, list, false);
+    List<String> list1 = new ArrayList<>();
+    list1.add("foo");
+    list1.add("bar");
+
+    List<String> list2 = new ArrayList<>();
+    list2.add("foo");
+    list2.add("bar");
+
+    Predicate ip1 = new InPredicate<>(TEST_KEY, list1, false);
+    Predicate ip2 = new InPredicate<>(TEST_KEY, list2, false);
 
     assertThat(ip1, both(equalTo(ip1)).and(equalTo(ip2)));
 
     Predicate p = mock(Predicate.class);
     assertThat(p, not(equalTo(ip1)));
 
-    list.add("oink");
-    ip2 = new InPredicate<>(TEST_KEY, list, false);
+    list2.add("oink");
+    ip2 = new InPredicate<>(TEST_KEY, list2, false);
     assertThat(ip2, not(equalTo(ip1)));
   }
 
