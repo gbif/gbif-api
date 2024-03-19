@@ -20,6 +20,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.Objects;
+
 /**
  * This predicate checks if its {@code key} is less or equal than its {@code value}.
  */
@@ -31,7 +33,27 @@ public class LessThanOrEqualsPredicate&lt;S extends SearchParameter&gt; extends 
   @JsonCreator
   public LessThanOrEqualsPredicate(
       @JsonProperty(&quot;key&quot;) S key, @JsonProperty(&quot;value&quot;) String value) {
-<span class="fc" id="L34">    super(true, key, value, null);</span>
-<span class="fc" id="L35">  }</span>
+<span class="fc" id="L36">    super(true, key, value, null);</span>
+<span class="fc" id="L37">  }</span>
+
+  @Override
+  public boolean equals(Object obj) {
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">    if (this == obj) {</span>
+<span class="nc" id="L42">      return true;</span>
+    }
+
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">    if (!(obj instanceof LessThanOrEqualsPredicate)) {</span>
+<span class="nc" id="L46">      return false;</span>
+    }
+
+<span class="fc" id="L49">    SimplePredicate&lt;S&gt; that = (SimplePredicate&lt;S&gt;) obj;</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">    return Objects.equals(this.getKey(), that.getKey())</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">      &amp;&amp; Objects.equals(this.getValue(), that.getValue());</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L56">    return Objects.hash(this.getKey(), this.getValue());</span>
+  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

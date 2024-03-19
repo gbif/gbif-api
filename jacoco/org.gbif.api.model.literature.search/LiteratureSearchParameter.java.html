@@ -18,41 +18,46 @@ import org.gbif.api.model.literature.LiteratureRelevance;
 import org.gbif.api.model.literature.LiteratureTopic;
 import org.gbif.api.model.literature.LiteratureType;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.Language;
 
 import java.util.UUID;
 
-<span class="nc" id="L24">public enum LiteratureSearchParameter implements SearchParameter {</span>
-<span class="nc" id="L25">  COUNTRIES_OF_RESEARCHER(Country.class),</span>
-<span class="nc" id="L26">  COUNTRIES_OF_COVERAGE(Country.class),</span>
-<span class="nc" id="L27">  LITERATURE_TYPE(LiteratureType.class),</span>
-<span class="nc" id="L28">  RELEVANCE(LiteratureRelevance.class),</span>
-<span class="nc" id="L29">  YEAR(Integer.class),</span>
-<span class="nc" id="L30">  TOPICS(LiteratureTopic.class),</span>
-<span class="nc" id="L31">  GBIF_DATASET_KEY(UUID.class), // dataset</span>
-<span class="nc" id="L32">  PUBLISHING_ORGANIZATION_KEY(UUID.class), // publisher</span>
-<span class="nc" id="L33">  PEER_REVIEW(Boolean.class),</span>
-<span class="nc" id="L34">  OPEN_ACCESS(Boolean.class),</span>
-<span class="nc" id="L35">  GBIF_DOWNLOAD_KEY(String.class), // download key</span>
-<span class="nc" id="L36">  GBIF_OCCURRENCE_KEY(Long.class), // occurrence key</span>
-<span class="nc" id="L37">  GBIF_TAXON_KEY(Integer.class), // taxon key</span>
-<span class="nc" id="L38">  GBIF_HIGHERTAXON_KEY(Integer.class), //higher taxon key</span>
-<span class="nc" id="L39">  GBIF_NETWORK_KEY(UUID.class), // network keys</span>
-<span class="nc" id="L40">  GBIF_PROJECT_IDENTIFIER(String.class), // project identifier</span>
-<span class="nc" id="L41">  GBIF_PROGRAMME(String.class), // project identifier</span>
-<span class="nc" id="L42">  CITATION_TYPE(String.class), // citation type</span>
-<span class="nc" id="L43">  DOI(String.class),</span>
-<span class="nc" id="L44">  SOURCE(String.class), // journal</span>
-<span class="nc" id="L45">  PUBLISHER(String.class); // journal publisher</span>
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+<span class="nc" id="L27">@JsonDeserialize(as = LiteratureSearchParameter.class)</span>
+public enum LiteratureSearchParameter implements SearchParameter {
+<span class="nc" id="L29">  COUNTRIES_OF_RESEARCHER(Country.class),</span>
+<span class="nc" id="L30">  COUNTRIES_OF_COVERAGE(Country.class),</span>
+<span class="nc" id="L31">  LITERATURE_TYPE(LiteratureType.class),</span>
+<span class="nc" id="L32">  RELEVANCE(LiteratureRelevance.class),</span>
+<span class="nc" id="L33">  YEAR(Integer.class),</span>
+<span class="nc" id="L34">  TOPICS(LiteratureTopic.class),</span>
+<span class="nc" id="L35">  GBIF_DATASET_KEY(UUID.class), // dataset</span>
+<span class="nc" id="L36">  PUBLISHING_ORGANIZATION_KEY(UUID.class), // publisher</span>
+<span class="nc" id="L37">  PEER_REVIEW(Boolean.class),</span>
+<span class="nc" id="L38">  OPEN_ACCESS(Boolean.class),</span>
+<span class="nc" id="L39">  GBIF_DOWNLOAD_KEY(String.class), // download key</span>
+<span class="nc" id="L40">  GBIF_OCCURRENCE_KEY(Long.class), // occurrence key</span>
+<span class="nc" id="L41">  GBIF_TAXON_KEY(Integer.class), // taxon key</span>
+<span class="nc" id="L42">  GBIF_HIGHERTAXON_KEY(Integer.class), //higher taxon key</span>
+<span class="nc" id="L43">  GBIF_NETWORK_KEY(UUID.class), // network keys</span>
+<span class="nc" id="L44">  GBIF_PROJECT_IDENTIFIER(String.class), // project identifier</span>
+<span class="nc" id="L45">  GBIF_PROGRAMME(String.class), // project identifier</span>
+<span class="nc" id="L46">  CITATION_TYPE(String.class), // citation type</span>
+<span class="nc" id="L47">  DOI(String.class),</span>
+<span class="nc" id="L48">  SOURCE(String.class), // journal</span>
+<span class="nc" id="L49">  PUBLISHER(String.class), // journal publisher</span>
+<span class="nc" id="L50">  LANGUAGE(Language.class);</span>
 
   private final Class&lt;?&gt; type;
 
-<span class="nc" id="L49">  LiteratureSearchParameter(Class&lt;?&gt; type) {</span>
-<span class="nc" id="L50">    this.type = type;</span>
-<span class="nc" id="L51">  }</span>
+<span class="nc" id="L54">  LiteratureSearchParameter(Class&lt;?&gt; type) {</span>
+<span class="nc" id="L55">    this.type = type;</span>
+<span class="nc" id="L56">  }</span>
 
   @Override
   public Class&lt;?&gt; type() {
-<span class="nc" id="L55">    return type;</span>
+<span class="nc" id="L60">    return type;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
