@@ -13,7 +13,10 @@
  */
 package org.gbif.api.model.checklistbank.search;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.vocabulary.Habitat;
 import org.gbif.api.vocabulary.NameType;
 import org.gbif.api.vocabulary.NameUsageIssue;
@@ -28,6 +31,7 @@ import java.util.UUID;
 /**
  * Each value in the enum represents a search parameter or facet of the name usage search.
  */
+@JsonDeserialize(as = NameUsageSearchParameter.class)
 public enum NameUsageSearchParameter implements SearchParameter {
 
   /**
