@@ -13,7 +13,10 @@
  */
 package org.gbif.api.model.checklistbank.search;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import org.gbif.api.model.common.search.SearchParameter;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.vocabulary.Habitat;
 import org.gbif.api.vocabulary.NameType;
 import org.gbif.api.vocabulary.NameUsageIssue;
@@ -28,72 +31,73 @@ import java.util.UUID;
 /**
  * Each value in the enum represents a search parameter or facet of the name usage search.
  */
-<span class="fc" id="L31">public enum NameUsageSearchParameter implements SearchParameter {</span>
+<span class="fc" id="L34">@JsonDeserialize(as = NameUsageSearchParameter.class)</span>
+public enum NameUsageSearchParameter implements SearchParameter {
 
   /**
    * The checklist dataset key as a UUID.
    */
-<span class="fc" id="L36">  DATASET_KEY(UUID.class),</span>
+<span class="fc" id="L40">  DATASET_KEY(UUID.class),</span>
 
   /**
    * The (sub)dataset constituent key as a UUID. Useful to query larger assembled datasets such as the GBIF Backbone or the Catalogue of Life
    */
-<span class="fc" id="L41">  CONSTITUENT_KEY(UUID.class),</span>
+<span class="fc" id="L45">  CONSTITUENT_KEY(UUID.class),</span>
 
   /**
    * Filters by the rank of the name usage.
    */
-<span class="fc" id="L46">  RANK(Rank.class),</span>
+<span class="fc" id="L50">  RANK(Rank.class),</span>
 
   /**
    * Filters by any of the higher Linnean rank keys.
    * Note this is within the respective checklist and not searching NUB keys across all checklists.
    */
-<span class="fc" id="L52">  HIGHERTAXON_KEY(Integer.class),</span>
+<span class="fc" id="L56">  HIGHERTAXON_KEY(Integer.class),</span>
 
   /**
    * Filter by the taxonomis status.
    */
-<span class="fc" id="L57">  STATUS(TaxonomicStatus.class),</span>
+<span class="fc" id="L61">  STATUS(TaxonomicStatus.class),</span>
 
   /**
    * Boolean filter for extinct taxa.
    */
-<span class="fc" id="L62">  IS_EXTINCT(Boolean.class),</span>
+<span class="fc" id="L66">  IS_EXTINCT(Boolean.class),</span>
 
   /**
    * Filter by the known habitats.
    */
-<span class="fc" id="L67">  HABITAT(Habitat.class),</span>
+<span class="fc" id="L71">  HABITAT(Habitat.class),</span>
 
   /**
    * Filter by the threat status.
    */
-<span class="fc" id="L72">  THREAT(ThreatStatus.class),</span>
+<span class="fc" id="L76">  THREAT(ThreatStatus.class),</span>
 
   /**
    * Filter by the nomenclatural status.
    */
-<span class="fc" id="L77">  NOMENCLATURAL_STATUS(NomenclaturalStatus.class),</span>
+<span class="fc" id="L81">  NOMENCLATURAL_STATUS(NomenclaturalStatus.class),</span>
 
   /**
    * Filter by the name type.
    */
-<span class="fc" id="L82">  NAME_TYPE(NameType.class),</span>
+<span class="fc" id="L86">  NAME_TYPE(NameType.class),</span>
 
   /**
    * Searches name usages for those that have a specific issue.
    */
-<span class="fc" id="L87">  ISSUE(NameUsageIssue.class),</span>
+<span class="fc" id="L91">  ISSUE(NameUsageIssue.class),</span>
 
   /**
    * Searches name usages for those with a specific origin.
    */
-<span class="fc" id="L92">  ORIGIN(Origin.class);</span>
+<span class="fc" id="L96">  ORIGIN(Origin.class);</span>
 
-<span class="fc" id="L94">  private NameUsageSearchParameter(Class&lt;?&gt; type) {</span>
-<span class="fc" id="L95">    this.type = type;</span>
-<span class="fc" id="L96">  }</span>
+<span class="fc" id="L98">  private NameUsageSearchParameter(Class&lt;?&gt; type) {</span>
+<span class="fc" id="L99">    this.type = type;</span>
+<span class="fc" id="L100">  }</span>
 
   private final Class&lt;?&gt; type;
 
@@ -102,7 +106,7 @@ import java.util.UUID;
    */
   @Override
   public Class&lt;?&gt; type() {
-<span class="fc" id="L105">    return type;</span>
+<span class="fc" id="L109">    return type;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
