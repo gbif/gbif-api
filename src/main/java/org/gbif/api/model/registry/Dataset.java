@@ -86,7 +86,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  *
  * @see <a href="http://rs.gbif.org/schema/eml-gbif-profile/dev/eml.xsd">GBIF EML Profile XML Schema</a>
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "LombokSetterMayBeUsed", "LombokGetterMayBeUsed"})
 public class Dataset
     implements NetworkEntity,
     Contactable,
@@ -684,6 +684,14 @@ public class Dataset
    */
   public void setSubtype(DatasetSubtype subtype) {
     this.subtype = subtype;
+  }
+
+  public String getShortName() {
+    return shortName;
+  }
+
+  public void setShortName(String shortName) {
+    this.shortName = shortName;
   }
 
   /**

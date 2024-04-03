@@ -25,7 +25,7 @@ import java.util.StringJoiner;
  * contains the list of investigators and for the award, while the `award` field contains specifics such as the agency
  * name, award number, and funding program identifiers.
  */
-@SuppressWarnings({"LombokSetterMayBeUsed", "LombokGetterMayBeUsed"})
+@SuppressWarnings({"unused", "LombokSetterMayBeUsed", "LombokGetterMayBeUsed"})
 public class ProjectAward {
 
   private String funderName;

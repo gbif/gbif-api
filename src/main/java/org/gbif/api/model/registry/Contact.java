@@ -37,7 +37,7 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang3.StringUtils;
 
 // TODO: Should have a cross-field validation for key & created
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "LombokSetterMayBeUsed", "LombokGetterMayBeUsed"})
 public class Contact implements Address, LenientEquals<Contact> {
 
   @Schema(

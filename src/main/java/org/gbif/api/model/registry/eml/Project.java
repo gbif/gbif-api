@@ -30,6 +30,7 @@ import javax.annotation.Nullable;
  * A dataset can be part of a project. A project can have a unique identifier, used to link datasets associated with
  * the same project.
  */
+@SuppressWarnings({"unused", "LombokSetterMayBeUsed", "LombokGetterMayBeUsed"})
 public class Project implements Serializable {
 
   private static final long serialVersionUID = -2625204169061362016L;
