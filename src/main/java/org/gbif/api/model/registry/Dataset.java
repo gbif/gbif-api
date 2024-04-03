@@ -410,6 +410,12 @@ public class Dataset
   private String maintenanceDescription;
 
   @Schema(
+      description = "A description of changes made to the data since its release.",
+      accessMode = Schema.AccessMode.READ_ONLY
+  )
+  private List<MaintenanceChange> maintenanceChangeHistory;
+
+  @Schema(
     description = "The data and metadata license retrieved from this dataset's metadata documents.",
     accessMode = Schema.AccessMode.READ_ONLY
   )
@@ -582,6 +588,14 @@ public class Dataset
    */
   public void setMaintenanceUpdateFrequency(MaintenanceUpdateFrequency maintenanceUpdateFrequency) {
     this.maintenanceUpdateFrequency = maintenanceUpdateFrequency;
+  }
+
+  public List<MaintenanceChange> getMaintenanceChangeHistory() {
+    return maintenanceChangeHistory;
+  }
+
+  public void setMaintenanceChangeHistory(List<MaintenanceChange> maintenanceChangeHistory) {
+    this.maintenanceChangeHistory = maintenanceChangeHistory;
   }
 
   /**
@@ -1106,6 +1120,7 @@ public class Dataset
         && Objects.equals(pubDate, dataset.pubDate)
         && maintenanceUpdateFrequency == dataset.maintenanceUpdateFrequency
         && Objects.equals(maintenanceDescription, dataset.maintenanceDescription)
+        && Objects.equals(maintenanceChangeHistory, dataset.maintenanceChangeHistory)
         && license == dataset.license;
   }
 
@@ -1165,6 +1180,7 @@ public class Dataset
         pubDate,
         maintenanceUpdateFrequency,
         maintenanceDescription,
+        maintenanceChangeHistory,
         license);
   }
 
@@ -1224,6 +1240,7 @@ public class Dataset
         .add("pubDate=" + pubDate)
         .add("maintenanceUpdateFrequency=" + maintenanceUpdateFrequency)
         .add("maintenanceDescription='" + maintenanceDescription + "'")
+        .add("maintenanceChangeHistory=" + maintenanceChangeHistory)
         .add("license=" + license)
         .toString();
   }
@@ -1258,6 +1275,7 @@ public class Dataset
         && Objects.equals(this.lockedForAutoUpdate, other.lockedForAutoUpdate)
         && Objects.equals(this.deleted, other.deleted)
         && Objects.equals(this.maintenanceUpdateFrequency, other.maintenanceUpdateFrequency)
-        && Objects.equals(this.maintenanceDescription, other.maintenanceDescription);
+        && Objects.equals(this.maintenanceDescription, other.maintenanceDescription)
+        && Objects.equals(this.maintenanceChangeHistory, other.maintenanceChangeHistory);
   }
 }
