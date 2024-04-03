@@ -51,7 +51,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * A GBIF dataset which provides occurrence data, checklist data, sampling event data or metadata.
- * This Dataset class is covering all of the GBIF metadata profile v1.1, but only few properties are kept in the
+ * This Dataset class is covering all the GBIF metadata profile v1.3, but only a few properties are kept in the
  * database table:
  * <ul>
  * <li>key</li>
