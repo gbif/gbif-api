@@ -18,6 +18,7 @@ package org.gbif.api.model.registry.eml;
 import org.gbif.api.model.registry.Contact;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -41,8 +42,10 @@ public class Project implements Serializable {
   private List<Contact> contacts;
   private String abstract_;
   private String funding;
+  private ProjectAward award;
   private String studyAreaDescription;
   private String designDescription;
+  private List<Project> relatedProjects = new ArrayList<>();
 
   public Project() {
   }
@@ -91,6 +94,14 @@ public class Project implements Serializable {
     this.funding = funding;
   }
 
+  public ProjectAward getAward() {
+    return award;
+  }
+
+  public void setAward(ProjectAward award) {
+    this.award = award;
+  }
+
   public String getStudyAreaDescription() {
     return studyAreaDescription;
   }
@@ -129,12 +140,20 @@ public class Project implements Serializable {
     this.description = description;
   }
 
+  public List<Project> getRelatedProjects() {
+    return relatedProjects;
+  }
+
+  public void setRelatedProjects(List<Project> relatedProjects) {
+    this.relatedProjects = relatedProjects;
+  }
+
   /**
    * Add contact to Contact List.
    */
   public void addContact(Contact contact) {
     if (contacts == null) {
-      contacts = new LinkedList<Contact>();
+      contacts = new LinkedList<>();
     }
     contacts.add(contact);
   }
@@ -154,28 +173,32 @@ public class Project implements Serializable {
       Objects.equals(contacts, project.contacts) &&
       Objects.equals(abstract_, project.abstract_) &&
       Objects.equals(funding, project.funding) &&
+      Objects.equals(award, project.award) &&
       Objects.equals(studyAreaDescription, project.studyAreaDescription) &&
-      Objects.equals(designDescription, project.designDescription);
+      Objects.equals(designDescription, project.designDescription) &&
+      Objects.equals(relatedProjects, project.relatedProjects);
   }
 
   @Override
   public int hashCode() {
     return Objects
-      .hash(title, identifier, description, contacts, abstract_, funding, studyAreaDescription,
-        designDescription);
+      .hash(title, identifier, description, contacts, abstract_, funding, award, studyAreaDescription,
+        designDescription, relatedProjects);
   }
 
   @Override
   public String toString() {
     return new StringJoiner(", ", Project.class.getSimpleName() + "[", "]")
-      .add("title='" + title + "'")
-      .add("identifier='" + identifier + "'")
-      .add("description='" + description + "'")
-      .add("contacts=" + contacts)
-      .add("abstract_='" + abstract_ + "'")
-      .add("funding='" + funding + "'")
-      .add("studyAreaDescription='" + studyAreaDescription + "'")
-      .add("designDescription='" + designDescription + "'")
-      .toString();
+        .add("title='" + title + "'")
+        .add("identifier='" + identifier + "'")
+        .add("description='" + description + "'")
+        .add("contacts=" + contacts)
+        .add("abstract_='" + abstract_ + "'")
+        .add("funding='" + funding + "'")
+        .add("award=" + award)
+        .add("studyAreaDescription='" + studyAreaDescription + "'")
+        .add("designDescription='" + designDescription + "'")
+        .add("relatedProjects=" + relatedProjects)
+        .toString();
   }
 }
