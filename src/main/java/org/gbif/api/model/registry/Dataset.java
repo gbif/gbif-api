@@ -168,6 +168,11 @@ public class Dataset
   private DatasetSubtype subtype;
 
   @Schema(
+      description = "Concise name of the dataset."
+  )
+  private String shortName;
+
+  @Schema(
     description = "The title of the dataset.\n\n" +
       "*(NB Not required for updates.)*"
   )
