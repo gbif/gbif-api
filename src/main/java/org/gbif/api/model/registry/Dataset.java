@@ -1066,6 +1066,7 @@ public class Dataset
         && Objects.equals(version, dataset.version)
         && type == dataset.type
         && subtype == dataset.subtype
+        && Objects.equals(shortName, dataset.shortName)
         && Objects.equals(title, dataset.title)
         && Objects.equals(alias, dataset.alias)
         && Objects.equals(abbreviation, dataset.abbreviation)
@@ -1123,6 +1124,7 @@ public class Dataset
         numConstituents,
         type,
         subtype,
+        shortName,
         title,
         alias,
         abbreviation,
@@ -1181,6 +1183,7 @@ public class Dataset
         .add("numConstituents=" + numConstituents)
         .add("type=" + type)
         .add("subtype=" + subtype)
+        .add("shortName='" + shortName + "'")
         .add("title='" + title + "'")
         .add("alias='" + alias + "'")
         .add("abbreviation='" + abbreviation + "'")
@@ -1242,6 +1245,7 @@ public class Dataset
         && Objects.equals(this.external, other.external)
         && Objects.equals(this.type, other.type)
         && Objects.equals(this.subtype, other.subtype)
+        && Objects.equals(this.shortName, other.shortName)
         && Objects.equals(this.title, other.title)
         && Objects.equals(this.alias, other.alias)
         && Objects.equals(this.abbreviation, other.abbreviation)
