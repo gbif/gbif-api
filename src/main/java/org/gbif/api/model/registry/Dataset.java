@@ -386,6 +386,24 @@ public class Dataset
   private String purpose;
 
   @Schema(
+      description = "An overview of the background and context for the dataset.",
+      accessMode = Schema.AccessMode.READ_ONLY
+  )
+  private String introduction;
+
+  @Schema(
+      description = "A high level overview of interpretation, structure, and content of the dataset.",
+      accessMode = Schema.AccessMode.READ_ONLY
+  )
+  private String gettingStarted;
+
+  @Schema(
+      description = "Text that acknowledges funders and other key contributors.",
+      accessMode = Schema.AccessMode.READ_ONLY
+  )
+  private String acknowledgements;
+
+  @Schema(
     description = "Additional information retrieved from this dataset's metadata documents.",
     accessMode = Schema.AccessMode.READ_ONLY
   )
@@ -1042,6 +1060,33 @@ public class Dataset
     this.purpose = purpose;
   }
 
+  @Nullable
+  public String getIntroduction() {
+    return introduction;
+  }
+
+  public void setIntroduction(String introduction) {
+    this.introduction = introduction;
+  }
+
+  @Nullable
+  public String getGettingStarted() {
+    return gettingStarted;
+  }
+
+  public void setGettingStarted(String gettingStarted) {
+    this.gettingStarted = gettingStarted;
+  }
+
+  @Nullable
+  public String getAcknowledgements() {
+    return acknowledgements;
+  }
+
+  public void setAcknowledgements(String acknowledgements) {
+    this.acknowledgements = acknowledgements;
+  }
+
   public String getAdditionalInfo() {
     return additionalInfo;
   }
@@ -1116,6 +1161,9 @@ public class Dataset
         && Objects.equals(dataDescriptions, dataset.dataDescriptions)
         && dataLanguage == dataset.dataLanguage
         && Objects.equals(purpose, dataset.purpose)
+        && Objects.equals(introduction, dataset.introduction)
+        && Objects.equals(gettingStarted, dataset.gettingStarted)
+        && Objects.equals(acknowledgements, dataset.acknowledgements)
         && Objects.equals(additionalInfo, dataset.additionalInfo)
         && Objects.equals(pubDate, dataset.pubDate)
         && maintenanceUpdateFrequency == dataset.maintenanceUpdateFrequency
@@ -1176,6 +1224,9 @@ public class Dataset
         dataDescriptions,
         dataLanguage,
         purpose,
+        introduction,
+        gettingStarted,
+        acknowledgements,
         additionalInfo,
         pubDate,
         maintenanceUpdateFrequency,
@@ -1236,6 +1287,9 @@ public class Dataset
         .add("dataDescriptions=" + dataDescriptions)
         .add("dataLanguage=" + dataLanguage)
         .add("purpose='" + purpose + "'")
+        .add("introduction='" + introduction + "'")
+        .add("gettingStarted='" + gettingStarted + "'")
+        .add("acknowledgements='" + acknowledgements + "'")
         .add("additionalInfo='" + additionalInfo + "'")
         .add("pubDate=" + pubDate)
         .add("maintenanceUpdateFrequency=" + maintenanceUpdateFrequency)
@@ -1262,7 +1316,6 @@ public class Dataset
         && Objects.equals(this.external, other.external)
         && Objects.equals(this.type, other.type)
         && Objects.equals(this.subtype, other.subtype)
-        && Objects.equals(this.shortName, other.shortName)
         && Objects.equals(this.title, other.title)
         && Objects.equals(this.alias, other.alias)
         && Objects.equals(this.abbreviation, other.abbreviation)
@@ -1275,7 +1328,6 @@ public class Dataset
         && Objects.equals(this.lockedForAutoUpdate, other.lockedForAutoUpdate)
         && Objects.equals(this.deleted, other.deleted)
         && Objects.equals(this.maintenanceUpdateFrequency, other.maintenanceUpdateFrequency)
-        && Objects.equals(this.maintenanceDescription, other.maintenanceDescription)
-        && Objects.equals(this.maintenanceChangeHistory, other.maintenanceChangeHistory);
+        && Objects.equals(this.maintenanceDescription, other.maintenanceDescription);
   }
 }
