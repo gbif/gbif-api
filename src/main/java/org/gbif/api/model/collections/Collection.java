@@ -214,9 +214,7 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Sourceable(masterSources = MasterSourceType.IH)
   private List<String> importantCollectors = new ArrayList<>();
 
-  @Schema(
-      description = "A summary of the collection." // TODO, a summary of what?
-      )
+  @Schema(description = "A summary of metrics of the collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private Map<String, Integer> collectionSummary = new HashMap<>();
 
