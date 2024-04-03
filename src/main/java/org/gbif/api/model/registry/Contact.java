@@ -62,6 +62,12 @@ public class Contact implements Address, LenientEquals<Contact> {
   private List<String> userId = new ArrayList<>();
 
   @Schema(
+      description = "The salutation is used in addressing an individual with a particular title, " +
+          "such as Dr., Ms., Mrs., Mr., etc."
+  )
+  private String salutation;
+
+  @Schema(
     description = "The personal name of the contact."
   )
   private String firstName;
@@ -237,6 +243,15 @@ public class Contact implements Address, LenientEquals<Contact> {
         }
       }
     }
+  }
+
+  @Nullable
+  public String getSalutation() {
+    return salutation;
+  }
+
+  public void setSalutation(String salutation) {
+    this.salutation = salutation;
   }
 
   @Nullable
@@ -454,6 +469,7 @@ public class Contact implements Address, LenientEquals<Contact> {
         && Objects.equals(key, contact.key)
         && type == contact.type
         && Objects.equals(userId, contact.userId)
+        && Objects.equals(salutation, contact.salutation)
         && Objects.equals(firstName, contact.firstName)
         && Objects.equals(lastName, contact.lastName)
         && Objects.equals(position, contact.position)
@@ -480,6 +496,7 @@ public class Contact implements Address, LenientEquals<Contact> {
         type,
         primary,
         userId,
+        salutation,
         firstName,
         lastName,
         position,
@@ -506,6 +523,7 @@ public class Contact implements Address, LenientEquals<Contact> {
         .add("type=" + type)
         .add("primary=" + primary)
         .add("userId=" + userId)
+        .add("salutation='" + salutation + "'")
         .add("firstName='" + firstName + "'")
         .add("lastName='" + lastName + "'")
         .add("position=" + position)
@@ -539,6 +557,7 @@ public class Contact implements Address, LenientEquals<Contact> {
     return Objects.equals(type, contact.type)
         && Objects.equals(primary, contact.primary)
         && Objects.equals(userId, contact.userId)
+        && Objects.equals(salutation, contact.salutation)
         && Objects.equals(firstName, contact.firstName)
         && Objects.equals(lastName, contact.lastName)
         && Objects.equals(position, contact.position)
