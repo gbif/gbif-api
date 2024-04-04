@@ -51,6 +51,10 @@ public class ProjectAward {
     this.funderIdentifiers = funderIdentifiers;
   }
 
+  public void addFunderIdentifier(String funderIdentifier) {
+    this.funderIdentifiers.add(funderIdentifier);
+  }
+
   @Nullable
   public String getAwardNumber() {
     return awardNumber;

@@ -149,6 +149,10 @@ public class Project implements Serializable {
     this.relatedProjects = relatedProjects;
   }
 
+  public void addRelatedProject(Project relatedProject) {
+    this.relatedProjects.add(relatedProject);
+  }
+
   /**
    * Add contact to Contact List.
    */
