@@ -43,7 +43,7 @@ public class Project implements Serializable {
   private List<Contact> contacts;
   private String abstract_;
   private String funding;
-  private ProjectAward award;
+  private List<ProjectAward> awards = new ArrayList<>();
   private String studyAreaDescription;
   private String designDescription;
   private List<Project> relatedProjects = new ArrayList<>();
@@ -95,12 +95,16 @@ public class Project implements Serializable {
     this.funding = funding;
   }
 
-  public ProjectAward getAward() {
-    return award;
+  public List<ProjectAward> getAwards() {
+    return awards;
   }
 
-  public void setAward(ProjectAward award) {
-    this.award = award;
+  public void setAwards(List<ProjectAward> awards) {
+    this.awards = awards;
+  }
+
+  public void addAward(ProjectAward award) {
+    this.awards.add(award);
   }
 
   public String getStudyAreaDescription() {
@@ -178,7 +182,7 @@ public class Project implements Serializable {
       Objects.equals(contacts, project.contacts) &&
       Objects.equals(abstract_, project.abstract_) &&
       Objects.equals(funding, project.funding) &&
-      Objects.equals(award, project.award) &&
+      Objects.equals(awards, project.awards) &&
       Objects.equals(studyAreaDescription, project.studyAreaDescription) &&
       Objects.equals(designDescription, project.designDescription) &&
       Objects.equals(relatedProjects, project.relatedProjects);
@@ -187,7 +191,7 @@ public class Project implements Serializable {
   @Override
   public int hashCode() {
     return Objects
-      .hash(title, identifier, description, contacts, abstract_, funding, award, studyAreaDescription,
+      .hash(title, identifier, description, contacts, abstract_, funding, awards, studyAreaDescription,
         designDescription, relatedProjects);
   }
 
@@ -200,7 +204,7 @@ public class Project implements Serializable {
         .add("contacts=" + contacts)
         .add("abstract_='" + abstract_ + "'")
         .add("funding='" + funding + "'")
-        .add("award=" + award)
+        .add("awards=" + awards)
         .add("studyAreaDescription='" + studyAreaDescription + "'")
         .add("designDescription='" + designDescription + "'")
         .add("relatedProjects=" + relatedProjects)
