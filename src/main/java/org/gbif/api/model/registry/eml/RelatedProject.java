@@ -42,11 +42,11 @@ public class RelatedProject {
     this.identifier = identifier;
   }
 
-  public String getAbstract_() {
+  public String getAbstract() {
     return abstract_;
   }
 
-  public void setAbstract_(String abstract_) {
+  public void setAbstract(String abstract_) {
     this.abstract_ = abstract_;
   }
 
