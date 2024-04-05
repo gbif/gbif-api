@@ -184,7 +184,6 @@ public class Contact implements Address, LenientEquals<Contact> {
     this.primary = primary;
   }
 
-  @Nullable
   public List<String> getUserId() {
     return userId;
   }
@@ -309,7 +308,6 @@ public class Contact implements Address, LenientEquals<Contact> {
   }
 
   @Override
-  @Nullable
   public List<String> getEmail() {
     return email;
   }
@@ -324,7 +322,6 @@ public class Contact implements Address, LenientEquals<Contact> {
   }
 
   @Override
-  @Nullable
   public List<String> getPhone() {
     return phone;
   }
