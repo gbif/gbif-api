@@ -64,6 +64,10 @@ public class MaintenanceChange {
     this.comments = comments;
   }
 
+  public void addComment(String comment) {
+    this.comments.add(comment);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
