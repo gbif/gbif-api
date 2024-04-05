@@ -13,6 +13,7 @@
  */
 package org.gbif.api.model.registry.eml;
 
+import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -34,6 +35,7 @@ public class RelatedProject {
     this.title = title;
   }
 
+  @Nullable
   public String getIdentifier() {
     return identifier;
   }
@@ -42,6 +44,7 @@ public class RelatedProject {
     this.identifier = identifier;
   }
 
+  @Nullable
   public String getAbstract() {
     return abstract_;
   }
