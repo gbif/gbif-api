@@ -15,8 +15,6 @@ package org.gbif.api.model.predicate;
 
 import org.gbif.api.model.common.search.SearchParameter;
 
-import java.util.Objects;
-
 import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,20 +36,4 @@ public class EqualsPredicate<S extends SearchParameter> extends SimplePredicate<
     @Nullable @JsonProperty(value = "matchCase") Boolean matchCase) {
     super(false, key, value, matchCase);
   }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-
-    if (!(obj instanceof EqualsPredicate)) {
-      return false;
-    }
-
-    SimplePredicate<S> that = (SimplePredicate<S>) obj;
-    return Objects.equals(this.getKey(), that.getKey())
-        && Objects.equals(this.getValue(), that.getValue());
-  }
-
 }

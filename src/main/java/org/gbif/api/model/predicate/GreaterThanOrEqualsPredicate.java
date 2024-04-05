@@ -50,4 +50,9 @@ public class GreaterThanOrEqualsPredicate<S extends SearchParameter> extends Sim
     return Objects.equals(this.getKey(), that.getKey())
       && Objects.equals(this.getValue(), that.getValue());
   }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.getKey(), this.getValue());
+  }
 }

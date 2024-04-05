@@ -81,24 +81,28 @@ public class SearchTypeValidatorTest {
       Arguments.of(IS_EXTINCT, "no", false, false, false),
       Arguments.of(SCIENTIFIC_NAME, "abies%", true, false, false),
       // SearchParameter, value, isValid, isNumericRange, isDateRange
+      Arguments.of(GEOMETRY, "EMPTY", false, false, false), // Valid WKT but not accepted
       Arguments.of(GEOMETRY, "POINT (30 10)", true, false, false),
       Arguments.of(GEOMETRY, "POINT (30 10.12)", true, false, false),
       Arguments.of(GEOMETRY, "POINT (30 10.12)", true, false, false),
-      Arguments.of(GEOMETRY, "POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))", true, false, false),
-      Arguments.of(GEOMETRY, "polygon ((30.12 10, 10 20, 20 40, 40 40, 30.12 10))", true, false, false),
-      Arguments.of(GEOMETRY, "Polygon ((30.12 10, 10 20, 20 40, 40 40, 30.1200 10.00))", true, false, false),
-      Arguments.of(GEOMETRY, "POLYGON ((30,12 10, 10 20, 20 40, 40 40, 30,12 10))", false, false, false),
-      Arguments.of(GEOMETRY, "POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10,))", false, false, false),
-      Arguments.of(GEOMETRY, "POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10),)", false, false, false),
-      Arguments.of(GEOMETRY, "POLYGON ((30.12 10, 10 20, 20 40, 40 40, 30.12 10.01))", false, false, false), // valid wkt, although not a closed polygon
-      Arguments.of(GEOMETRY, "POLYGON  ( (30 10 , 10 20 , 20 40 , 40 40 , 30 20)  )", false, false, false), // valid wkt, although not a closed polygon
-      Arguments.of(GEOMETRY, "POLYGON ((35 10, 10 20, 15 40, 45 45, 35 10),(20 30, 35 35, 30 20, 20 30))", true, false, false), // valid donut
-      Arguments.of(GEOMETRY, "POLYGON ((35 10, 10 20, 15 40, 45 45, 35 10),(20 30, 35 35, 30 20, 20 30))", true, false, false),
-      Arguments.of(GEOMETRY, "MULTIPOLYGON (((35 10, 10 20, 15 40, 45 45, 35 10)),((20 30, 35 35, 30 20, 20 30)))", false, false, false), // invalid, overlaps
-      Arguments.of(GEOMETRY, "MULTIPOLYGON (((35 10, 10 20, 15 40, 45 45, 35 10)),((120 30, 135 35, 130 20, 120 30)))", true, false, false),
+      Arguments.of(GEOMETRY, "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))", true, false, false),
+      Arguments.of(GEOMETRY, "POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))", false, false, false), // Clockwise
+      Arguments.of(GEOMETRY, "POLYGON ((30.12 10, 40 40, 20 40, 10 20, 30.12 10))", true, false, false),
+      Arguments.of(GEOMETRY, "POLYGON ((30.12 10, 40 40, 20 40, 10 20, 30.1200 10.00))", true, false, false),
+      Arguments.of(GEOMETRY, "POLYGON ((30,12 10, 40 40, 20 40, 10 20, 30,12 10))", false, false, false), // Missing ordinate
+      Arguments.of(GEOMETRY, "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10,))", false, false, false), // Extra comma
+      Arguments.of(GEOMETRY, "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10),)", false, false, false), // Extra comma
+      Arguments.of(GEOMETRY, "POLYGON ((30.12 10, 10 20, 20 40, 40 40, 30.12 10.01))", false, false, false), // Valid WKT but not a closed polygon
+      Arguments.of(GEOMETRY, "POLYGON  ( (30 10 , 10 20 , 20 40 , 40 40 , 30 20)  )", false, false, false), // Valid WKT but not a closed polygon
+      Arguments.of(GEOMETRY, "POLYGON ((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))", true, false, false), // Valid donut
+      Arguments.of(GEOMETRY, "POLYGON ((35 10, 10 20, 15 40, 45 45, 35 10),(20 30, 30 20, 35 35, 20 30))", false, false, false), // Clockwise outer, anticlockwise inner
+      Arguments.of(GEOMETRY, "POLYGON ((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 30 20, 35 35, 20 30))", false, false, false), // Anticlockwise outer, anticlockwise inner
+      Arguments.of(GEOMETRY, "MULTIPOLYGON (((30 10, 40 40, 20 40, 10 20, 30 10)),((120 30, 130 20, 135 35, 120 30)))", true, false, false),
+      Arguments.of(GEOMETRY, "MULTIPOLYGON (((30 10, 10 20, 20 40, 40 40, 30 10)),((120 30, 130 20, 135 35, 120 30)))", false, false, false), // First polygon is clockwise
+      Arguments.of(GEOMETRY, "MULTIPOLYGON (((30 10, 40 40, 20 40, 10 20, 30 10)),((20 30, 30 20, 35 35, 20 30)))", false, false, false), // Overlaps
       Arguments.of(GEOMETRY, "MULTIPOLYGON(((-125 38.4, -121.8 38.4, -121.8 40.9, -125 40.9, -125 38.4)),((-115 22.4, -111.8 22.4, -111.8 30.9, -115 30.9, -115 22.4)))", true, false, false),
       Arguments.of(GEOMETRY, "LINESTRING (30 10, 10 30, 40 40)", true, false, false),
-      Arguments.of(GEOMETRY, "LINESTRING (30 10, 10 30, 40 40,)", false, false, false),
+      Arguments.of(GEOMETRY, "LINESTRING (30 10, 10 30, 40 40,)", false, false, false), // Extra comma
       Arguments.of(YEAR, "1991", true, false, true),
       Arguments.of(YEAR, "1991-01-31", false, false, false),
       Arguments.of(YEAR, "860", true, false, false),

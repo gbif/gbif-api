@@ -32,7 +32,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.locationtech.jts.algorithm.Orientation;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.operation.valid.IsValidOp;
 import org.locationtech.spatial4j.context.jts.DatelineRule;
@@ -358,9 +360,17 @@ public class SearchTypeValidator {
           throw new IllegalArgumentException("Empty geometry: " + wellKnownText);
         }
 
-        // Calculating the area > 0 ensures that polygons that are representing lines or points are invalidated
-        if (geometry instanceof Polygon && geometry.getArea() == 0.0) {
-          throw new IllegalArgumentException("Polygon with zero area: " + wellKnownText);
+        // Validate a polygon — check the winding order
+        if (geometry instanceof Polygon) {
+          validatePolygon((Polygon) geometry, wellKnownText);
+        }
+
+        // Validate polygons within a multipolygon
+        if (geometry instanceof MultiPolygon) {
+          MultiPolygon multiPolygon = (MultiPolygon) geometry;
+          for (int p = 0; p < multiPolygon.getNumGeometries(); p++) {
+            validatePolygon((Polygon) multiPolygon.getGeometryN(p), wellKnownText);
+          }
         }
 
         switch (geometry.getGeometryType().toUpperCase()) {
@@ -381,6 +391,33 @@ public class SearchTypeValidator {
       throw new IllegalArgumentException("Cannot parse simple WKT: " + wellKnownText + " " + e.getMessage());
     } catch (InvalidShapeException e) {
       throw new IllegalArgumentException("Invalid shape in WKT: " + wellKnownText + " " + e.getMessage());
+    }
+  }
+
+  private static void validatePolygon(Polygon polygon, String wellKnownText) {
+    // Calculating the area > 0 ensures that polygons that are representing lines or points are invalidated
+    if (polygon.getArea() == 0.0) {
+      throw new IllegalArgumentException("Polygon with zero area: " + polygon.toText());
+    }
+
+    // Exterior ring must be anticlockwise
+    boolean isCCW = Orientation.isCCW(polygon.getExteriorRing().getCoordinates());
+    if (!isCCW) {
+      String reversedText = polygon.getExteriorRing().reverse().toText();
+      throw new IllegalArgumentException("Polygon with clockwise exterior ring: " + wellKnownText +
+        ". Did you mean these coordinates?  (Note this is only part of the polygon or multipolygon you provided.) " +
+        reversedText);
+    }
+
+    // Interior rings must be clockwise
+    for (int r = 0; r < polygon.getNumInteriorRing(); r++) {
+      isCCW = Orientation.isCCW(polygon.getInteriorRingN(r).getCoordinates());
+      if (isCCW) {
+        String reversedText = polygon.getInteriorRingN(r).reverse().toText();
+        throw new IllegalArgumentException("Polygon with anticlockwise interior ring: " + wellKnownText +
+          ". Did you mean these coordinates? (Note this is only part of the polygon or multipolygon you provided.) " +
+          reversedText);
+      }
     }
   }
 

@@ -51,7 +51,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * A GBIF dataset which provides occurrence data, checklist data, sampling event data or metadata.
- * This Dataset class is covering all of the GBIF metadata profile v1.1, but only few properties are kept in the
+ * This Dataset class is covering all the GBIF metadata profile v1.3, but only a few properties are kept in the
  * database table:
  * <ul>
  * <li>key</li>
@@ -86,7 +86,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  *
  * @see <a href="http://rs.gbif.org/schema/eml-gbif-profile/dev/eml.xsd">GBIF EML Profile XML Schema</a>
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "LombokSetterMayBeUsed", "LombokGetterMayBeUsed"})
 public class Dataset
     implements NetworkEntity,
     Contactable,
@@ -166,6 +166,11 @@ public class Dataset
     description = "The sub-type of the dataset."
   )
   private DatasetSubtype subtype;
+
+  @Schema(
+      description = "Concise name of the dataset."
+  )
+  private String shortName;
 
   @Schema(
     description = "The title of the dataset.\n\n" +
@@ -381,6 +386,24 @@ public class Dataset
   private String purpose;
 
   @Schema(
+      description = "An overview of the background and context for the dataset.",
+      accessMode = Schema.AccessMode.READ_ONLY
+  )
+  private String introduction;
+
+  @Schema(
+      description = "A high level overview of interpretation, structure, and content of the dataset.",
+      accessMode = Schema.AccessMode.READ_ONLY
+  )
+  private String gettingStarted;
+
+  @Schema(
+      description = "Text that acknowledges funders and other key contributors.",
+      accessMode = Schema.AccessMode.READ_ONLY
+  )
+  private String acknowledgements;
+
+  @Schema(
     description = "Additional information retrieved from this dataset's metadata documents.",
     accessMode = Schema.AccessMode.READ_ONLY
   )
@@ -403,6 +426,12 @@ public class Dataset
     accessMode = Schema.AccessMode.READ_ONLY
   )
   private String maintenanceDescription;
+
+  @Schema(
+      description = "A description of changes made to the data since its release.",
+      accessMode = Schema.AccessMode.READ_ONLY
+  )
+  private List<MaintenanceChange> maintenanceChangeHistory = new ArrayList<>();
 
   @Schema(
     description = "The data and metadata license retrieved from this dataset's metadata documents.",
@@ -579,6 +608,18 @@ public class Dataset
     this.maintenanceUpdateFrequency = maintenanceUpdateFrequency;
   }
 
+  public List<MaintenanceChange> getMaintenanceChangeHistory() {
+    return maintenanceChangeHistory;
+  }
+
+  public void setMaintenanceChangeHistory(List<MaintenanceChange> maintenanceChangeHistory) {
+    this.maintenanceChangeHistory = maintenanceChangeHistory;
+  }
+
+  public void addMaintenanceChange(MaintenanceChange maintenanceChange) {
+    this.maintenanceChangeHistory.add(maintenanceChange);
+  }
+
   /**
    * A description of the maintenance frequency of this resource.
    *
@@ -679,6 +720,14 @@ public class Dataset
    */
   public void setSubtype(DatasetSubtype subtype) {
     this.subtype = subtype;
+  }
+
+  public String getShortName() {
+    return shortName;
+  }
+
+  public void setShortName(String shortName) {
+    this.shortName = shortName;
   }
 
   /**
@@ -1015,6 +1064,33 @@ public class Dataset
     this.purpose = purpose;
   }
 
+  @Nullable
+  public String getIntroduction() {
+    return introduction;
+  }
+
+  public void setIntroduction(String introduction) {
+    this.introduction = introduction;
+  }
+
+  @Nullable
+  public String getGettingStarted() {
+    return gettingStarted;
+  }
+
+  public void setGettingStarted(String gettingStarted) {
+    this.gettingStarted = gettingStarted;
+  }
+
+  @Nullable
+  public String getAcknowledgements() {
+    return acknowledgements;
+  }
+
+  public void setAcknowledgements(String acknowledgements) {
+    this.acknowledgements = acknowledgements;
+  }
+
   public String getAdditionalInfo() {
     return additionalInfo;
   }
@@ -1053,6 +1129,7 @@ public class Dataset
         && Objects.equals(version, dataset.version)
         && type == dataset.type
         && subtype == dataset.subtype
+        && Objects.equals(shortName, dataset.shortName)
         && Objects.equals(title, dataset.title)
         && Objects.equals(alias, dataset.alias)
         && Objects.equals(abbreviation, dataset.abbreviation)
@@ -1088,10 +1165,14 @@ public class Dataset
         && Objects.equals(dataDescriptions, dataset.dataDescriptions)
         && dataLanguage == dataset.dataLanguage
         && Objects.equals(purpose, dataset.purpose)
+        && Objects.equals(introduction, dataset.introduction)
+        && Objects.equals(gettingStarted, dataset.gettingStarted)
+        && Objects.equals(acknowledgements, dataset.acknowledgements)
         && Objects.equals(additionalInfo, dataset.additionalInfo)
         && Objects.equals(pubDate, dataset.pubDate)
         && maintenanceUpdateFrequency == dataset.maintenanceUpdateFrequency
         && Objects.equals(maintenanceDescription, dataset.maintenanceDescription)
+        && Objects.equals(maintenanceChangeHistory, dataset.maintenanceChangeHistory)
         && license == dataset.license;
   }
 
@@ -1110,6 +1191,7 @@ public class Dataset
         numConstituents,
         type,
         subtype,
+        shortName,
         title,
         alias,
         abbreviation,
@@ -1146,10 +1228,14 @@ public class Dataset
         dataDescriptions,
         dataLanguage,
         purpose,
+        introduction,
+        gettingStarted,
+        acknowledgements,
         additionalInfo,
         pubDate,
         maintenanceUpdateFrequency,
         maintenanceDescription,
+        maintenanceChangeHistory,
         license);
   }
 
@@ -1168,6 +1254,7 @@ public class Dataset
         .add("numConstituents=" + numConstituents)
         .add("type=" + type)
         .add("subtype=" + subtype)
+        .add("shortName='" + shortName + "'")
         .add("title='" + title + "'")
         .add("alias='" + alias + "'")
         .add("abbreviation='" + abbreviation + "'")
@@ -1204,10 +1291,14 @@ public class Dataset
         .add("dataDescriptions=" + dataDescriptions)
         .add("dataLanguage=" + dataLanguage)
         .add("purpose='" + purpose + "'")
+        .add("introduction='" + introduction + "'")
+        .add("gettingStarted='" + gettingStarted + "'")
+        .add("acknowledgements='" + acknowledgements + "'")
         .add("additionalInfo='" + additionalInfo + "'")
         .add("pubDate=" + pubDate)
         .add("maintenanceUpdateFrequency=" + maintenanceUpdateFrequency)
         .add("maintenanceDescription='" + maintenanceDescription + "'")
+        .add("maintenanceChangeHistory=" + maintenanceChangeHistory)
         .add("license=" + license)
         .toString();
   }

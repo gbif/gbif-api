@@ -125,7 +125,7 @@ public class SimplePredicate<S extends SearchParameter> implements Predicate {
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, value);
+    return Objects.hash(key, value, matchCase);
   }
 
   @Override
