@@ -46,7 +46,7 @@ public class Project implements Serializable {
   private List<ProjectAward> awards = new ArrayList<>();
   private String studyAreaDescription;
   private String designDescription;
-  private List<Project> relatedProjects = new ArrayList<>();
+  private List<RelatedProject> relatedProjects = new ArrayList<>();
 
   public Project() {
   }
@@ -145,15 +145,15 @@ public class Project implements Serializable {
     this.description = description;
   }
 
-  public List<Project> getRelatedProjects() {
+  public List<RelatedProject> getRelatedProjects() {
     return relatedProjects;
   }
 
-  public void setRelatedProjects(List<Project> relatedProjects) {
+  public void setRelatedProjects(List<RelatedProject> relatedProjects) {
     this.relatedProjects = relatedProjects;
   }
 
-  public void addRelatedProject(Project relatedProject) {
+  public void addRelatedProject(RelatedProject relatedProject) {
     this.relatedProjects.add(relatedProject);
   }
 
