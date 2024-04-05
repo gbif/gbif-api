@@ -616,6 +616,10 @@ public class Dataset
     this.maintenanceChangeHistory = maintenanceChangeHistory;
   }
 
+  public void addMaintenanceChange(MaintenanceChange maintenanceChange) {
+    this.maintenanceChangeHistory.add(maintenanceChange);
+  }
+
   /**
    * A description of the maintenance frequency of this resource.
    *
