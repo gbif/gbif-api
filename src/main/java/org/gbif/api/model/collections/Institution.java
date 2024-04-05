@@ -23,8 +23,6 @@ import org.gbif.api.util.HttpURI;
 import org.gbif.api.util.LenientEqualsUtils;
 import org.gbif.api.util.validators.email.ValidEmail;
 import org.gbif.api.vocabulary.License;
-import org.gbif.api.vocabulary.collections.InstitutionGovernance;
-import org.gbif.api.vocabulary.collections.InstitutionType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 import java.math.BigDecimal;
@@ -77,7 +75,7 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   private String description;
 
   @Schema(description = "Types of the institution, describing its main activities.")
-  private List<InstitutionType> types = new ArrayList<>();
+  private List<String> types = new ArrayList<>();
 
   @Schema(description = "Whether the institution is active or operational.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
@@ -105,7 +103,7 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
       description =
           "The mechanisms, processes and relations by which an "
               + "institution is controlled and directed.")
-  private List<InstitutionGovernance> institutionalGovernances = new ArrayList<>();
+  private List<String> institutionalGovernances = new ArrayList<>();
 
   @Schema(
       description =
@@ -291,11 +289,11 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   }
 
   /** Describes the main activities of an institution. */
-  public List<InstitutionType> getTypes() {
+  public List<String> getTypes() {
     return types;
   }
 
-  public void setTypes(List<InstitutionType> types) {
+  public void setTypes(List<String> types) {
     this.types = types;
   }
 
@@ -362,11 +360,11 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   }
 
   /** Governance nature of an institution. */
-  public List<InstitutionGovernance> getInstitutionalGovernances() {
+  public List<String> getInstitutionalGovernances() {
     return institutionalGovernances;
   }
 
-  public void setInstitutionalGovernances(List<InstitutionGovernance> institutionalGovernances) {
+  public void setInstitutionalGovernances(List<String> institutionalGovernances) {
     this.institutionalGovernances = institutionalGovernances;
   }
 

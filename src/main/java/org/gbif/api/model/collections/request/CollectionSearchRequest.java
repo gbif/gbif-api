@@ -19,9 +19,7 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.SortOrder;
-import org.gbif.api.vocabulary.collections.AccessionStatus;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
-import org.gbif.api.vocabulary.collections.PreservationType;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,8 +30,8 @@ public class CollectionSearchRequest extends SearchRequest {
 
   @Deprecated @Nullable private UUID institution;
   @Nullable private List<String> contentTypes;
-  @Nullable private List<PreservationType> preservationTypes;
-  @Nullable private AccessionStatus accessionStatus;
+  @Nullable private List<String> preservationTypes;
+  @Nullable private String accessionStatus;
   @Nullable private Boolean personalCollection;
 
   @Nullable
@@ -55,20 +53,20 @@ public class CollectionSearchRequest extends SearchRequest {
   }
 
   @Nullable
-  public List<PreservationType> getPreservationTypes() {
+  public List<String> getPreservationTypes() {
     return preservationTypes;
   }
 
-  public void setPreservationTypes(@Nullable List<PreservationType> preservationTypes) {
+  public void setPreservationTypes(@Nullable List<String> preservationTypes) {
     this.preservationTypes = preservationTypes;
   }
 
   @Nullable
-  public AccessionStatus getAccessionStatus() {
+  public String getAccessionStatus() {
     return accessionStatus;
   }
 
-  public void setAccessionStatus(@Nullable AccessionStatus accessionStatus) {
+  public void setAccessionStatus(@Nullable String accessionStatus) {
     this.accessionStatus = accessionStatus;
   }
 
@@ -103,8 +101,8 @@ public class CollectionSearchRequest extends SearchRequest {
     String fuzzyName;
     Boolean active;
     List<String> contentTypes;
-    List<PreservationType> preservationTypes;
-    AccessionStatus accessionStatus;
+    List<String> preservationTypes;
+    String accessionStatus;
     Boolean personalCollection;
     MasterSourceType masterSourceType;
     String numberSpecimens;
@@ -197,12 +195,12 @@ public class CollectionSearchRequest extends SearchRequest {
       return this;
     }
 
-    public Builder preservationTypes(List<PreservationType> preservationTypes) {
+    public Builder preservationTypes(List<String> preservationTypes) {
       this.preservationTypes = preservationTypes;
       return this;
     }
 
-    public Builder accessionStatus(AccessionStatus accessionStatus) {
+    public Builder accessionStatus(String accessionStatus) {
       this.accessionStatus = accessionStatus;
       return this;
     }

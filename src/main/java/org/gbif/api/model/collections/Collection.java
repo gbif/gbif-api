@@ -24,9 +24,7 @@ import org.gbif.api.util.HttpURI;
 import org.gbif.api.util.LenientEqualsUtils;
 import org.gbif.api.util.validators.email.ValidEmail;
 import org.gbif.api.vocabulary.License;
-import org.gbif.api.vocabulary.collections.AccessionStatus;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
-import org.gbif.api.vocabulary.collections.PreservationType;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -119,10 +117,10 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
 
   @Schema(description = "The preservation mechanisms used for this collection.")
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
-  private List<PreservationType> preservationTypes = new ArrayList<>();
+  private List<String> preservationTypes = new ArrayList<>();
 
   @Schema(description = "How the collection was added or joined.")
-  private AccessionStatus accessionStatus;
+  private String accessionStatus;
 
   @Schema(description = "The key of the institution owning or hosting the collection.")
   private UUID institutionKey;
@@ -439,20 +437,20 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   }
 
   /** Types of preservation mechanisms used for this collections. */
-  public List<PreservationType> getPreservationTypes() {
+  public List<String> getPreservationTypes() {
     return preservationTypes;
   }
 
-  public void setPreservationTypes(List<PreservationType> preservationTypes) {
+  public void setPreservationTypes(List<String> preservationTypes) {
     this.preservationTypes = preservationTypes;
   }
 
   /** Defines how a collection as been added or joined. */
-  public AccessionStatus getAccessionStatus() {
+  public String getAccessionStatus() {
     return accessionStatus;
   }
 
-  public void setAccessionStatus(AccessionStatus accessionStatus) {
+  public void setAccessionStatus(String accessionStatus) {
     this.accessionStatus = accessionStatus;
   }
 
@@ -811,7 +809,7 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
         && Objects.equals(catalogUrls, other.catalogUrls)
         && Objects.equals(apiUrls, other.apiUrls)
         && Objects.equals(preservationTypes, other.preservationTypes)
-        && accessionStatus == other.accessionStatus
+        && Objects.equals(accessionStatus, other.accessionStatus)
         && Objects.equals(institutionKey, other.institutionKey)
         && LenientEqualsUtils.lenientEquals(mailingAddress, other.mailingAddress)
         && LenientEqualsUtils.lenientEquals(address, other.address)

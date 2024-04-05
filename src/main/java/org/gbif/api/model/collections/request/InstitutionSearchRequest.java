@@ -19,9 +19,6 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.SortOrder;
-import org.gbif.api.vocabulary.collections.Format;
-import org.gbif.api.vocabulary.collections.InstitutionGovernance;
-import org.gbif.api.vocabulary.collections.InstitutionType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 import java.util.List;
@@ -31,27 +28,27 @@ import javax.annotation.Nullable;
 
 public class InstitutionSearchRequest extends SearchRequest {
 
-  @Nullable private InstitutionType type;
+  @Nullable private List<String> type;
 
-  @Nullable private InstitutionGovernance institutionalGovernance;
+  @Nullable private List<String> institutionalGovernance;
 
   @Nullable private List<String> disciplines;
 
   @Nullable
-  public InstitutionType getType() {
+  public List<String> getType() {
     return type;
   }
 
-  public void setType(@Nullable InstitutionType type) {
+  public void setType(@Nullable List<String> type) {
     this.type = type;
   }
 
   @Nullable
-  public InstitutionGovernance getInstitutionalGovernance() {
+  public List<String> getInstitutionalGovernance() {
     return institutionalGovernance;
   }
 
-  public void setInstitutionalGovernance(@Nullable InstitutionGovernance institutionalGovernance) {
+  public void setInstitutionalGovernance(@Nullable List<String> institutionalGovernance) {
     this.institutionalGovernance = institutionalGovernance;
   }
 
@@ -84,8 +81,8 @@ public class InstitutionSearchRequest extends SearchRequest {
     String city;
     String fuzzyName;
     Boolean active;
-    InstitutionType type;
-    InstitutionGovernance institutionalGovernance;
+    List<String> type;
+    List<String> institutionalGovernance;
     List<String> disciplines;
     MasterSourceType masterSourceType;
     String numberSpecimens;
@@ -168,12 +165,12 @@ public class InstitutionSearchRequest extends SearchRequest {
       return this;
     }
 
-    public Builder type(InstitutionType type) {
+    public Builder type(List<String> type) {
       this.type = type;
       return this;
     }
 
-    public Builder institutionalGovernance(InstitutionGovernance institutionalGovernance) {
+    public Builder institutionalGovernance(List<String> institutionalGovernance) {
       this.institutionalGovernance = institutionalGovernance;
       return this;
     }
