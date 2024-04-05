@@ -431,7 +431,7 @@ public class Dataset
       description = "A description of changes made to the data since its release.",
       accessMode = Schema.AccessMode.READ_ONLY
   )
-  private List<MaintenanceChange> maintenanceChangeHistory;
+  private List<MaintenanceChange> maintenanceChangeHistory = new ArrayList<>();
 
   @Schema(
     description = "The data and metadata license retrieved from this dataset's metadata documents.",
