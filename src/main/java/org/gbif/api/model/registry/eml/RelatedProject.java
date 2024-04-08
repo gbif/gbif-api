@@ -17,6 +17,7 @@ import org.gbif.api.model.registry.Contact;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -55,6 +56,13 @@ public class RelatedProject {
 
   public void setContacts(List<Contact> contacts) {
     this.contacts = contacts;
+  }
+
+  public void addContact(Contact contact) {
+    if (contacts == null) {
+      contacts = new LinkedList<>();
+    }
+    contacts.add(contact);
   }
 
   @Nullable
