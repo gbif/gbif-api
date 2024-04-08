@@ -15,9 +15,8 @@ package org.gbif.api.model.registry;
 
 import org.gbif.api.vocabulary.MaintenanceUpdateFrequency;
 
-import java.util.ArrayList;
+import javax.annotation.Nullable;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -30,7 +29,7 @@ public class MaintenanceChange {
   private String changeScope;
   private MaintenanceUpdateFrequency oldValue;
   private Date changeDate;
-  private List<String> comments = new ArrayList<>();
+  private String comment;
 
   public String getChangeScope() {
     return changeScope;
@@ -56,16 +55,13 @@ public class MaintenanceChange {
     this.changeDate = changeDate;
   }
 
-  public List<String> getComments() {
-    return comments;
+  @Nullable
+  public String getComment() {
+    return comment;
   }
 
-  public void setComments(List<String> comments) {
-    this.comments = comments;
-  }
-
-  public void addComment(String comment) {
-    this.comments.add(comment);
+  public void setComment(String comment) {
+    this.comment = comment;
   }
 
   @Override
@@ -76,12 +72,12 @@ public class MaintenanceChange {
     return Objects.equals(changeScope, that.changeScope)
         && Objects.equals(oldValue, that.oldValue)
         && Objects.equals(changeDate, that.changeDate)
-        && Objects.equals(comments, that.comments);
+        && Objects.equals(comment, that.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(changeScope, oldValue, changeDate, comments);
+    return Objects.hash(changeScope, oldValue, changeDate, comment);
   }
 
   @Override
@@ -90,7 +86,7 @@ public class MaintenanceChange {
         .add("changeScope='" + changeScope + "'")
         .add("oldValue='" + oldValue + "'")
         .add("changeDate=" + changeDate)
-        .add("comments=" + comments)
+        .add("comment='" + comment + "'")
         .toString();
   }
 }
