@@ -13,7 +13,11 @@
  */
 package org.gbif.api.model.registry.eml;
 
+import org.gbif.api.model.registry.Contact;
+
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -25,6 +29,7 @@ public class RelatedProject {
 
   private String title;
   private String identifier;
+  private List<Contact> contacts = new ArrayList<>();
   private String abstract_;
 
   public String getTitle() {
@@ -44,6 +49,14 @@ public class RelatedProject {
     this.identifier = identifier;
   }
 
+  public List<Contact> getContacts() {
+    return contacts;
+  }
+
+  public void setContacts(List<Contact> contacts) {
+    this.contacts = contacts;
+  }
+
   @Nullable
   public String getAbstract() {
     return abstract_;
@@ -60,12 +73,13 @@ public class RelatedProject {
     RelatedProject that = (RelatedProject) o;
     return Objects.equals(title, that.title)
         && Objects.equals(identifier, that.identifier)
-        && Objects.equals(abstract_, that.abstract_);
+        && Objects.equals(abstract_, that.abstract_)
+        && Objects.equals(contacts, that.contacts);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(title, identifier, abstract_);
+    return Objects.hash(title, identifier, abstract_, contacts);
   }
 
   @Override
@@ -74,6 +88,7 @@ public class RelatedProject {
         .add("title='" + title + "'")
         .add("identifier='" + identifier + "'")
         .add("abstract_='" + abstract_ + "'")
+        .add("contacts=" + contacts)
         .toString();
   }
 }
