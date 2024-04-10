@@ -13,11 +13,6 @@
  */
 package org.gbif.api.model.literature.search;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-
-import lombok.Setter;
-
 import org.gbif.api.model.literature.LiteratureRelevance;
 import org.gbif.api.model.literature.LiteratureTopic;
 import org.gbif.api.model.literature.LiteratureType;
@@ -37,6 +32,10 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
