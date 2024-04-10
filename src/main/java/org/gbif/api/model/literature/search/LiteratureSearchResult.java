@@ -13,6 +13,7 @@
  */
 package org.gbif.api.model.literature.search;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 
 import lombok.Setter;
@@ -42,6 +43,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @SuppressWarnings("unused")
 public class LiteratureSearchResult {
 
+  @Getter(AccessLevel.NONE)
+  @Setter(AccessLevel.NONE)
   private String abstract_;
 
   @Schema(description = "The date the literature item was found by GBIF's staff or automated processes.")
