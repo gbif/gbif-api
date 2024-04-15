@@ -722,6 +722,7 @@ public class Dataset
     this.subtype = subtype;
   }
 
+  @Nullable
   public String getShortName() {
     return shortName;
   }
