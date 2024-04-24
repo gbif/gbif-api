@@ -20,6 +20,7 @@ import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.SortOrder;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
+import org.gbif.api.vocabulary.collections.Source;
 
 import java.util.List;
 import java.util.UUID;
@@ -94,6 +95,8 @@ public class InstitutionSearchRequest extends SearchRequest {
     CollectionsSortField sortBy;
     SortOrder sortOrder;
     Pageable page;
+    String sourceId;
+    Source source;
 
     public Builder query(String q) {
       this.q = q;
@@ -230,6 +233,16 @@ public class InstitutionSearchRequest extends SearchRequest {
       return this;
     }
 
+    public Builder sourceId(String sourceId) {
+      this.sourceId = sourceId;
+      return this;
+    }
+
+    public Builder source(Source source) {
+      this.source = source;
+      return this;
+    }
+
     public InstitutionSearchRequest build() {
       InstitutionSearchRequest req = new InstitutionSearchRequest();
       req.setQ(q);
@@ -258,6 +271,8 @@ public class InstitutionSearchRequest extends SearchRequest {
       req.setInstitutionKeys(institutionKeys);
       req.setSortBy(sortBy);
       req.setSortOrder(sortOrder);
+      req.setSourceId(sourceId);
+      req.setSource(source);
       if (page != null) {
         req.setLimit(page.getLimit());
         req.setOffset(page.getOffset());
