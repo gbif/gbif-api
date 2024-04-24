@@ -24,6 +24,7 @@ import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.SortOrder;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
+import org.gbif.api.vocabulary.collections.Source;
 
 import java.io.Serializable;
 import java.util.List;
@@ -57,6 +58,8 @@ public abstract class SearchRequest extends PageableBase implements Serializable
   @Nullable private CollectionsSortField sortBy;
   @Nullable private SortOrder sortOrder;
   @Nullable private List<UUID> institutionKeys;
+  @Nullable private Source source;
+  @Nullable private String sourceId;
 
   @Nullable
   public String getQ() {
@@ -276,4 +279,14 @@ public abstract class SearchRequest extends PageableBase implements Serializable
   public void setInstitutionKeys(@Nullable List<UUID> institutionKeys) {
     this.institutionKeys = institutionKeys;
   }
+
+  @Nullable
+  public String getSourceId() { return sourceId; }
+
+  public void setSourceId(@Nullable String sourceId) { this.sourceId = sourceId; }
+
+  @Nullable
+  public Source getSource() { return source; }
+
+  public void setSource(@Nullable Source source) { this.source = source; }
 }
