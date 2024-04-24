@@ -37,8 +37,6 @@ public class CollectionSearchRequest extends SearchRequest {
   @Nullable private List<PreservationType> preservationTypes;
   @Nullable private AccessionStatus accessionStatus;
   @Nullable private Boolean personalCollection;
-  @Nullable private String sourceId;
-  @Nullable private Source source;
 
   @Nullable
   public UUID getInstitution() {
@@ -84,17 +82,6 @@ public class CollectionSearchRequest extends SearchRequest {
   public void setPersonalCollection(@Nullable Boolean personalCollection) {
     this.personalCollection = personalCollection;
   }
-
-  @Nullable
-  public String getSourceId() { return sourceId; }
-
-  public void setSourceId(@Nullable String sourceId) { this.sourceId = sourceId; }
-
-  @Nullable
-  public Source getSource() { return source; }
-
-  public void setSource(@Nullable Source source) { this.source = source; }
-
 
   public static Builder builder() {
     return new Builder();

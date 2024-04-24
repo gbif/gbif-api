@@ -38,10 +38,6 @@ public class InstitutionSearchRequest extends SearchRequest {
 
   @Nullable private List<Discipline> disciplines;
 
-  @Nullable private String sourceId;
-
-  @Nullable private Source source;
-
   @Nullable
   public InstitutionType getType() {
     return type;
@@ -68,16 +64,6 @@ public class InstitutionSearchRequest extends SearchRequest {
   public void setDisciplines(@Nullable List<Discipline> disciplines) {
     this.disciplines = disciplines;
   }
-
-  @Nullable
-  public String getSourceId() { return sourceId; }
-
-  public void setSourceId(@Nullable String sourceId) { this.sourceId = sourceId; }
-
-  @Nullable
-  public Source getSource() { return source; }
-
-  public void setSource(@Nullable Source source) { this.source = source; }
 
   public static Builder builder() {
     return new Builder();
