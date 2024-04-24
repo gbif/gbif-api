@@ -23,6 +23,7 @@ import org.gbif.api.vocabulary.collections.AccessionStatus;
 import org.gbif.api.vocabulary.collections.CollectionContentType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
 import org.gbif.api.vocabulary.collections.PreservationType;
+import org.gbif.api.vocabulary.collections.Source;
 
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +37,8 @@ public class CollectionSearchRequest extends SearchRequest {
   @Nullable private List<PreservationType> preservationTypes;
   @Nullable private AccessionStatus accessionStatus;
   @Nullable private Boolean personalCollection;
+  @Nullable private String sourceId;
+  @Nullable private Source source;
 
   @Nullable
   public UUID getInstitution() {
@@ -82,6 +85,17 @@ public class CollectionSearchRequest extends SearchRequest {
     this.personalCollection = personalCollection;
   }
 
+  @Nullable
+  public String getSourceId() { return sourceId; }
+
+  public void setSourceId(@Nullable String sourceId) { this.sourceId = sourceId; }
+
+  @Nullable
+  public Source getSource() { return source; }
+
+  public void setSource(@Nullable Source source) { this.source = source; }
+
+
   public static Builder builder() {
     return new Builder();
   }
@@ -117,6 +131,8 @@ public class CollectionSearchRequest extends SearchRequest {
     CollectionsSortField sortBy;
     SortOrder sortOrder;
     Pageable page;
+    String sourceId;
+    Source source;
 
     public Builder institution(UUID institution) {
       this.institution = institution;
@@ -258,6 +274,16 @@ public class CollectionSearchRequest extends SearchRequest {
       return this;
     }
 
+    public CollectionSearchRequest.Builder sourceId(String sourceId) {
+      this.sourceId = sourceId;
+      return this;
+    }
+
+    public CollectionSearchRequest.Builder source(Source source) {
+      this.source = source;
+      return this;
+    }
+
     public Builder page(Pageable page) {
       this.page = page;
       return this;
@@ -291,6 +317,8 @@ public class CollectionSearchRequest extends SearchRequest {
       req.setOccurrenceCount(occurrenceCount);
       req.setTypeSpecimenCount(typeSpecimenCount);
       req.setInstitutionKeys(institutionKeys);
+      req.setSourceId(sourceId);
+      req.setSource(source);
       req.setSortBy(sortBy);
       req.setSortOrder(sortOrder);
       if (page != null) {

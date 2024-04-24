@@ -23,6 +23,7 @@ import org.gbif.api.vocabulary.collections.Discipline;
 import org.gbif.api.vocabulary.collections.InstitutionGovernance;
 import org.gbif.api.vocabulary.collections.InstitutionType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
+import org.gbif.api.vocabulary.collections.Source;
 
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +37,10 @@ public class InstitutionSearchRequest extends SearchRequest {
   @Nullable private InstitutionGovernance institutionalGovernance;
 
   @Nullable private List<Discipline> disciplines;
+
+  @Nullable private String sourceId;
+
+  @Nullable private Source source;
 
   @Nullable
   public InstitutionType getType() {
@@ -63,6 +68,16 @@ public class InstitutionSearchRequest extends SearchRequest {
   public void setDisciplines(@Nullable List<Discipline> disciplines) {
     this.disciplines = disciplines;
   }
+
+  @Nullable
+  public String getSourceId() { return sourceId; }
+
+  public void setSourceId(@Nullable String sourceId) { this.sourceId = sourceId; }
+
+  @Nullable
+  public Source getSource() { return source; }
+
+  public void setSource(@Nullable Source source) { this.source = source; }
 
   public static Builder builder() {
     return new Builder();
@@ -97,6 +112,8 @@ public class InstitutionSearchRequest extends SearchRequest {
     CollectionsSortField sortBy;
     SortOrder sortOrder;
     Pageable page;
+    String sourceId;
+    Source source;
 
     public Builder query(String q) {
       this.q = q;
@@ -233,6 +250,16 @@ public class InstitutionSearchRequest extends SearchRequest {
       return this;
     }
 
+    public Builder sourceId(String sourceId) {
+      this.sourceId = sourceId;
+      return this;
+    }
+
+    public Builder source(Source source) {
+      this.source = source;
+      return this;
+    }
+
     public InstitutionSearchRequest build() {
       InstitutionSearchRequest req = new InstitutionSearchRequest();
       req.setQ(q);
@@ -261,6 +288,8 @@ public class InstitutionSearchRequest extends SearchRequest {
       req.setInstitutionKeys(institutionKeys);
       req.setSortBy(sortBy);
       req.setSortOrder(sortOrder);
+      req.setSourceId(sourceId);
+      req.setSource(source);
       if (page != null) {
         req.setLimit(page.getLimit());
         req.setOffset(page.getOffset());
