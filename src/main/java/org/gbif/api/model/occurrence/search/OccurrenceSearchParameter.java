@@ -104,18 +104,11 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Lower limit for the range of the event date (date the occurrence was recorded).
    *
-   * Included for backward compatibility: https://github.com/gbif/occurrence/issues/346
+   * Included for backward compatibility as it mimicks the previous search behaviour:
+   * https://github.com/gbif/occurrence/issues/346
    */
   @Deprecated
   EVENT_DATE_GTE(Date.class),
-
-  /**
-   * Upper limit for the range of the event date (date the occurrence was recorded).
-   *
-   * Included for backward compatibility: https://github.com/gbif/occurrence/issues/346
-   */
-  @Deprecated
-  EVENT_DATE_LTE(Date.class),
 
   /**
    * An identifier for the set of information associated with an Event (something that occurs at a place and time).
