@@ -17,7 +17,10 @@ package org.gbif.api.vocabulary.collections;
 
 /**
  * Categorization of institutions (collection holders) types.
+ *
+ * Deprecated to use the vocabulary server instead.
  */
+@Deprecated
 public enum InstitutionType {
   BIOMEDICAL_RESEARCH_INSTITUTE,
   BOTANICAL_GARDEN,

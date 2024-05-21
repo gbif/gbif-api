@@ -13,7 +13,9 @@
  */
 package org.gbif.api.service.collections;
 
+import org.gbif.api.model.collections.CollectionEntity;
 import org.gbif.api.model.collections.Institution;
+import org.gbif.api.model.collections.latimercore.OrganisationalUnit;
 import org.gbif.api.model.collections.request.InstitutionSearchRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;
@@ -22,6 +24,8 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.geojson.FeatureCollection;
 
@@ -39,6 +43,21 @@ public interface InstitutionService extends CollectionEntityService<Institution>
    * @return a list of entities ordered by their creation date, newest coming first
    */
   PagingResponse<Institution> list(InstitutionSearchRequest searchRequest);
+
+  /**
+   * Similar to the {@link #list(InstitutionSearchRequest)} method but returns the results in
+   * Latimer Core format.
+   */
+  PagingResponse<OrganisationalUnit> listAsLatimerCore(InstitutionSearchRequest searchRequest);
+
+  /** Similar to the {@link #get(UUID)} method but returns the results in Latimer Core format. */
+  OrganisationalUnit getAsLatimerCore(@NotNull UUID key);
+
+  /** Similar to {@link #create(CollectionEntity)} but it accepts Latimer Core. */
+  UUID createFromLatimerCore(@NotNull @Valid OrganisationalUnit organisationalUnit);
+
+  /** Similar to {@link #update(CollectionEntity)})} but it accepts Latimer Core. */
+  void updateFromLatimerCore(@NotNull @Valid OrganisationalUnit entity);
 
   /** Provides access to deleted institutions. */
   PagingResponse<Institution> listDeleted(InstitutionSearchRequest searchRequest);

@@ -19,10 +19,9 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.SortOrder;
-import org.gbif.api.vocabulary.collections.AccessionStatus;
-import org.gbif.api.vocabulary.collections.CollectionContentType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
 import org.gbif.api.vocabulary.collections.PreservationType;
+import org.gbif.api.vocabulary.collections.Source;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,9 +31,9 @@ import javax.annotation.Nullable;
 public class CollectionSearchRequest extends SearchRequest {
 
   @Deprecated @Nullable private UUID institution;
-  @Nullable private List<CollectionContentType> contentTypes;
-  @Nullable private List<PreservationType> preservationTypes;
-  @Nullable private AccessionStatus accessionStatus;
+  @Nullable private List<String> contentTypes;
+  @Nullable private List<String> preservationTypes;
+  @Nullable private String accessionStatus;
   @Nullable private Boolean personalCollection;
 
   @Nullable
@@ -47,29 +46,29 @@ public class CollectionSearchRequest extends SearchRequest {
   }
 
   @Nullable
-  public List<CollectionContentType> getContentTypes() {
+  public List<String> getContentTypes() {
     return contentTypes;
   }
 
-  public void setContentTypes(@Nullable List<CollectionContentType> contentTypes) {
+  public void setContentTypes(@Nullable List<String> contentTypes) {
     this.contentTypes = contentTypes;
   }
 
   @Nullable
-  public List<PreservationType> getPreservationTypes() {
+  public List<String> getPreservationTypes() {
     return preservationTypes;
   }
 
-  public void setPreservationTypes(@Nullable List<PreservationType> preservationTypes) {
+  public void setPreservationTypes(@Nullable List<String> preservationTypes) {
     this.preservationTypes = preservationTypes;
   }
 
   @Nullable
-  public AccessionStatus getAccessionStatus() {
+  public String getAccessionStatus() {
     return accessionStatus;
   }
 
-  public void setAccessionStatus(@Nullable AccessionStatus accessionStatus) {
+  public void setAccessionStatus(@Nullable String accessionStatus) {
     this.accessionStatus = accessionStatus;
   }
 
@@ -103,9 +102,9 @@ public class CollectionSearchRequest extends SearchRequest {
     String city;
     String fuzzyName;
     Boolean active;
-    List<CollectionContentType> contentTypes;
-    List<PreservationType> preservationTypes;
-    AccessionStatus accessionStatus;
+    List<String> contentTypes;
+    List<String> preservationTypes;
+    String accessionStatus;
     Boolean personalCollection;
     MasterSourceType masterSourceType;
     String numberSpecimens;
@@ -117,6 +116,8 @@ public class CollectionSearchRequest extends SearchRequest {
     CollectionsSortField sortBy;
     SortOrder sortOrder;
     Pageable page;
+    String sourceId;
+    Source source;
 
     public Builder institution(UUID institution) {
       this.institution = institution;
@@ -193,17 +194,17 @@ public class CollectionSearchRequest extends SearchRequest {
       return this;
     }
 
-    public Builder contentTypes(List<CollectionContentType> contentTypes) {
+    public Builder contentTypes(List<String> contentTypes) {
       this.contentTypes = contentTypes;
       return this;
     }
 
-    public Builder preservationTypes(List<PreservationType> preservationTypes) {
+    public Builder preservationTypes(List<String> preservationTypes) {
       this.preservationTypes = preservationTypes;
       return this;
     }
 
-    public Builder accessionStatus(AccessionStatus accessionStatus) {
+    public Builder accessionStatus(String accessionStatus) {
       this.accessionStatus = accessionStatus;
       return this;
     }
@@ -258,6 +259,16 @@ public class CollectionSearchRequest extends SearchRequest {
       return this;
     }
 
+    public CollectionSearchRequest.Builder sourceId(String sourceId) {
+      this.sourceId = sourceId;
+      return this;
+    }
+
+    public CollectionSearchRequest.Builder source(Source source) {
+      this.source = source;
+      return this;
+    }
+
     public Builder page(Pageable page) {
       this.page = page;
       return this;
@@ -291,6 +302,8 @@ public class CollectionSearchRequest extends SearchRequest {
       req.setOccurrenceCount(occurrenceCount);
       req.setTypeSpecimenCount(typeSpecimenCount);
       req.setInstitutionKeys(institutionKeys);
+      req.setSourceId(sourceId);
+      req.setSource(source);
       req.setSortBy(sortBy);
       req.setSortOrder(sortOrder);
       if (page != null) {

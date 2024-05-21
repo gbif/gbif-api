@@ -13,11 +13,6 @@
  */
 package org.gbif.api.model.collections;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
 import org.gbif.api.model.registry.Comment;
 import org.gbif.api.model.registry.Identifier;
 import org.gbif.api.model.registry.LenientEquals;
@@ -27,9 +22,7 @@ import org.gbif.api.model.registry.Tag;
 import org.gbif.api.util.HttpURI;
 import org.gbif.api.util.LenientEqualsUtils;
 import org.gbif.api.util.validators.email.ValidEmail;
-import org.gbif.api.vocabulary.collections.Discipline;
-import org.gbif.api.vocabulary.collections.InstitutionGovernance;
-import org.gbif.api.vocabulary.collections.InstitutionType;
+import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
 
 import java.math.BigDecimal;
@@ -38,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -46,8 +38,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * The owner or location of collection. Usually an established organization or foundation,
@@ -78,8 +74,8 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private String description;
 
-  @Schema(description = "Type of the institution, describing its main activity.")
-  private InstitutionType type;
+  @Schema(description = "Types of the institution, describing its main activities.")
+  private List<String> types = new ArrayList<>();
 
   @Schema(description = "Whether the institution is active or operational.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
@@ -97,22 +93,22 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private URI homepage;
 
-  @Schema(description = "A URL for the main interactive catalogue of the institution.")
-  private URI catalogUrl;
+  @Schema(description = "URLs for the main interactive catalogues of the institution.")
+  private List<@HttpURI URI> catalogUrls = new ArrayList<>();
 
-  @Schema(description = "A URL for a machine-readable API for the institution catalogue.")
-  private URI apiUrl;
+  @Schema(description = "URLs for machine-readable APIs for the institution catalogues.")
+  private List<@HttpURI URI> apiUrls = new ArrayList<>();
 
   @Schema(
       description =
           "The mechanisms, processes and relations by which an "
               + "institution is controlled and directed.")
-  private InstitutionGovernance institutionalGovernance;
+  private List<String> institutionalGovernances = new ArrayList<>();
 
   @Schema(
       description =
           "The academic or research disciplines to which an " + "institution is dedicated.")
-  private List<Discipline> disciplines = new ArrayList<>();
+  private List<String> disciplines = new ArrayList<>();
 
   @Schema(description = "The latitude of the institution.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
@@ -137,31 +133,12 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   @Sourceable(masterSources = MasterSourceType.IH)
   private Integer foundingDate;
 
-  @Schema(
-      description =
-          "A description of the geographic range of the activities "
-              + "performed by the institution.")
-  private String geographicDescription;
-
-  @Schema(
-      description =
-          "A description of the taxonomic range of the activities "
-              + "performed by the institution.")
-  private String taxonomicDescription;
-
   @Schema(description = "An estimate of the number of specimens hosted by the institution.")
   private Integer numberSpecimens;
-
-  @Schema(description = "Whether this institution record was imported from *Index Herbariorum*.")
-  @Sourceable(masterSources = MasterSourceType.IH)
-  private boolean indexHerbariorumRecord;
 
   @Schema(description = "A URL to a logo for the institution.")
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private URI logoUrl;
-
-  @Schema(description = "The CITES permit number for the institution.")
-  private String citesPermitNumber;
 
   @Schema(
       description =
@@ -254,6 +231,15 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   @Schema(description = "An estimate of the number of type specimens linked to the institution.")
   private Integer typeSpecimenCount;
 
+  @Schema(
+      description =
+          "URI to the image to be featured on the institution page, this image should be associated with a license.")
+  private URI featuredImageUrl;
+
+  @Schema(
+      description = "The license associated with the image to be featured on the institution page.")
+  private License featuredImageLicense;
+
   /** GBIF unique identifier. */
   @Override
   public UUID getKey() {
@@ -302,13 +288,13 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.description = description;
   }
 
-  /** Describes the main activity of an institution. */
-  public InstitutionType getType() {
-    return type;
+  /** Describes the main activities of an institution. */
+  public List<String> getTypes() {
+    return types;
   }
 
-  public void setType(InstitutionType type) {
-    this.type = type;
+  public void setTypes(List<String> types) {
+    this.types = types;
   }
 
   /** Is the institution active/operational?. */
@@ -354,42 +340,40 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
   }
 
   /** URL to the main catalogue of an institution. */
-  @HttpURI
   @Nullable
-  public URI getCatalogUrl() {
-    return catalogUrl;
+  public List<URI> getCatalogUrls() {
+    return catalogUrls;
   }
 
-  public void setCatalogUrl(URI catalogUrl) {
-    this.catalogUrl = catalogUrl;
+  public void setCatalogUrls(List<URI> catalogUrls) {
+    this.catalogUrls = catalogUrls;
   }
 
   /** Machine-consumable endpoint of an institution and probably its collections. */
-  @HttpURI
   @Nullable
-  public URI getApiUrl() {
-    return apiUrl;
+  public List<URI> getApiUrls() {
+    return apiUrls;
   }
 
-  public void setApiUrl(URI apiUrl) {
-    this.apiUrl = apiUrl;
+  public void setApiUrls(List<URI> apiUrls) {
+    this.apiUrls = apiUrls;
   }
 
   /** Governance nature of an institution. */
-  public InstitutionGovernance getInstitutionalGovernance() {
-    return institutionalGovernance;
+  public List<String> getInstitutionalGovernances() {
+    return institutionalGovernances;
   }
 
-  public void setInstitutionalGovernance(InstitutionGovernance institutionalGovernance) {
-    this.institutionalGovernance = institutionalGovernance;
+  public void setInstitutionalGovernances(List<String> institutionalGovernances) {
+    this.institutionalGovernances = institutionalGovernances;
   }
 
   /** Activities to which an institution is dedicated. */
-  public List<Discipline> getDisciplines() {
+  public List<String> getDisciplines() {
     return disciplines;
   }
 
-  public void setDisciplines(List<Discipline> disciplines) {
+  public void setDisciplines(List<String> disciplines) {
     this.disciplines = disciplines;
   }
 
@@ -453,24 +437,6 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.foundingDate = foundingDate;
   }
 
-  /** Geographical coverage of the activities performed by an institution. */
-  public String getGeographicDescription() {
-    return geographicDescription;
-  }
-
-  public void setGeographicDescription(String geographicDescription) {
-    this.geographicDescription = geographicDescription;
-  }
-
-  /** Taxonomic description of the collections maintained by an institution. */
-  public String getTaxonomicDescription() {
-    return taxonomicDescription;
-  }
-
-  public void setTaxonomicDescription(String taxonomicDescription) {
-    this.taxonomicDescription = taxonomicDescription;
-  }
-
   /** Estimated number of specimens hosted by an institution. */
   public Integer getNumberSpecimens() {
     return numberSpecimens;
@@ -478,15 +444,6 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
 
   public void setNumberSpecimens(Integer numberSpecimens) {
     this.numberSpecimens = numberSpecimens;
-  }
-
-  /** Was the institution record imported form Index Herbariorum. */
-  public boolean isIndexHerbariorumRecord() {
-    return indexHerbariorumRecord;
-  }
-
-  public void setIndexHerbariorumRecord(boolean indexHerbariorumRecord) {
-    this.indexHerbariorumRecord = indexHerbariorumRecord;
   }
 
   /** Logo/Image that identifies the institution. */
@@ -498,18 +455,6 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
 
   public void setLogoUrl(URI logoUrl) {
     this.logoUrl = logoUrl;
-  }
-
-  /**
-   * CITES (see http://ec.europa.eu/environment/cites/info_permits_en.htm) licence given for this
-   * collection.
-   */
-  public String getCitesPermitNumber() {
-    return citesPermitNumber;
-  }
-
-  public void setCitesPermitNumber(String citesPermitNumber) {
-    this.citesPermitNumber = citesPermitNumber;
   }
 
   @Override
@@ -703,6 +648,29 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
     this.typeSpecimenCount = typeSpecimenCount;
   }
 
+  @HttpURI
+  @Nullable
+  @Override
+  public URI getFeaturedImageUrl() {
+    return featuredImageUrl;
+  }
+
+  @Override
+  public void setFeaturedImageUrl(URI featuredImageUrl) {
+    this.featuredImageUrl = featuredImageUrl;
+  }
+
+  @Nullable
+  @Override
+  public License getFeaturedImageLicense() {
+    return featuredImageLicense;
+  }
+
+  @Override
+  public void setFeaturedImageLicense(License featuredImageLicense) {
+    this.featuredImageLicense = featuredImageLicense;
+  }
+
   @Hidden
   @JsonIgnore
   public String getCountry() {
@@ -742,18 +710,17 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
       return true;
     }
     return active == other.active
-        && indexHerbariorumRecord == other.indexHerbariorumRecord
         && Objects.equals(key, other.key)
         && Objects.equals(code, other.code)
         && Objects.equals(name, other.name)
         && Objects.equals(description, other.description)
-        && type == other.type
+        && Objects.equals(types, other.types)
         && Objects.equals(email, other.email)
         && Objects.equals(phone, other.phone)
         && Objects.equals(homepage, other.homepage)
-        && Objects.equals(catalogUrl, other.catalogUrl)
-        && Objects.equals(apiUrl, other.apiUrl)
-        && institutionalGovernance == other.institutionalGovernance
+        && Objects.equals(catalogUrls, other.catalogUrls)
+        && Objects.equals(apiUrls, other.apiUrls)
+        && Objects.equals(institutionalGovernances, other.institutionalGovernances)
         && Objects.equals(disciplines, other.disciplines)
         && Objects.equals(latitude, other.latitude)
         && Objects.equals(longitude, other.longitude)
@@ -761,11 +728,8 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
         && LenientEqualsUtils.lenientEquals(address, other.address)
         && Objects.equals(additionalNames, other.additionalNames)
         && Objects.equals(foundingDate, other.foundingDate)
-        && Objects.equals(geographicDescription, other.geographicDescription)
         && Objects.equals(numberSpecimens, other.numberSpecimens)
-        && Objects.equals(taxonomicDescription, other.taxonomicDescription)
         && Objects.equals(logoUrl, other.logoUrl)
-        && Objects.equals(citesPermitNumber, other.citesPermitNumber)
         && Objects.equals(deleted, other.deleted)
         && Objects.equals(alternativeCodes, other.alternativeCodes)
         && Objects.equals(comments, other.comments)
@@ -774,6 +738,8 @@ public class Institution implements CollectionEntity, LenientEquals<Institution>
         && Objects.equals(convertedToCollection, other.convertedToCollection)
         && Objects.equals(masterSource, other.masterSource)
         && Objects.equals(masterSourceMetadata, other.masterSourceMetadata)
-        && Objects.equals(displayOnNHCPortal, other.displayOnNHCPortal);
+        && Objects.equals(displayOnNHCPortal, other.displayOnNHCPortal)
+        && Objects.equals(featuredImageUrl, other.featuredImageUrl)
+        && Objects.equals(featuredImageLicense, other.featuredImageLicense);
   }
 }

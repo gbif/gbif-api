@@ -19,7 +19,10 @@ package org.gbif.api.vocabulary.collections;
  * Mechanism of preservation applied to a collection.
  *
  * Note: The descriptions are the original values migrated from GRBIO.
+ *
+ * Deprecated to use the vocabulary server instead.
  */
+@Deprecated
 public enum PreservationType {
 
   STORAGE_OUTDOORS("Storage Environment: Ambient uncontrolled environment (outdoors)"),

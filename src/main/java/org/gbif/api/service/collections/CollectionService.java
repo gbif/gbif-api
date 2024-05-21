@@ -14,9 +14,11 @@
 package org.gbif.api.service.collections;
 
 import org.gbif.api.model.collections.Collection;
+import org.gbif.api.model.collections.CollectionEntity;
+import org.gbif.api.model.collections.latimercore.ObjectGroup;
+import org.gbif.api.model.collections.latimercore.OrganisationalUnit;
 import org.gbif.api.model.collections.request.CollectionSearchRequest;
 import org.gbif.api.model.collections.view.CollectionView;
-import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;
 
@@ -24,6 +26,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /** API Service to work with collections. */
@@ -41,8 +44,23 @@ public interface CollectionService extends CollectionEntityService<Collection> {
    */
   PagingResponse<CollectionView> list(CollectionSearchRequest searchRequest);
 
+  /**
+   * Similar to the {@link #list(CollectionSearchRequest)} method but returns the results in Latimer
+   * Core format.
+   */
+  PagingResponse<ObjectGroup> listAsLatimerCore(CollectionSearchRequest searchRequest);
+
   /** Provides access to deleted collections. */
   PagingResponse<CollectionView> listDeleted(CollectionSearchRequest searchRequest);
+
+  /** Similar to {@link #get(UUID)} but it returns the result in Latimer Core format. */
+  ObjectGroup getAsLatimerCore(@NotNull UUID key);
+
+  /** Similar to {@link #create(CollectionEntity)} but it accepts Latimer Core. */
+  UUID createFromLatimerCore(@NotNull @Valid ObjectGroup objectGroup);
+
+  /** Similar to {@link #update(CollectionEntity)})} but it accepts Latimer Core. */
+  void updateFromLatimerCore(@NotNull @Valid ObjectGroup entity);
 
   /** Retrieves a {@link CollectionView} by the collection key. */
   CollectionView getCollectionView(@NotNull UUID key);

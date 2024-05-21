@@ -37,7 +37,7 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang3.StringUtils;
 
 // TODO: Should have a cross-field validation for key & created
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "LombokSetterMayBeUsed", "LombokGetterMayBeUsed"})
 public class Contact implements Address, LenientEquals<Contact> {
 
   @Schema(
@@ -60,6 +60,12 @@ public class Contact implements Address, LenientEquals<Contact> {
     description = "A list of user identifiers for this contact."
   )
   private List<String> userId = new ArrayList<>();
+
+  @Schema(
+      description = "The salutation is used in addressing an individual with a particular title, " +
+          "such as Dr., Ms., Mrs., Mr., etc."
+  )
+  private String salutation;
 
   @Schema(
     description = "The personal name of the contact."
@@ -178,7 +184,6 @@ public class Contact implements Address, LenientEquals<Contact> {
     this.primary = primary;
   }
 
-  @Nullable
   public List<String> getUserId() {
     return userId;
   }
@@ -240,6 +245,15 @@ public class Contact implements Address, LenientEquals<Contact> {
   }
 
   @Nullable
+  public String getSalutation() {
+    return salutation;
+  }
+
+  public void setSalutation(String salutation) {
+    this.salutation = salutation;
+  }
+
+  @Nullable
   @Size(min = 1)
   public String getFirstName() {
     return firstName;
@@ -294,7 +308,6 @@ public class Contact implements Address, LenientEquals<Contact> {
   }
 
   @Override
-  @Nullable
   public List<String> getEmail() {
     return email;
   }
@@ -309,7 +322,6 @@ public class Contact implements Address, LenientEquals<Contact> {
   }
 
   @Override
-  @Nullable
   public List<String> getPhone() {
     return phone;
   }
@@ -454,6 +466,7 @@ public class Contact implements Address, LenientEquals<Contact> {
         && Objects.equals(key, contact.key)
         && type == contact.type
         && Objects.equals(userId, contact.userId)
+        && Objects.equals(salutation, contact.salutation)
         && Objects.equals(firstName, contact.firstName)
         && Objects.equals(lastName, contact.lastName)
         && Objects.equals(position, contact.position)
@@ -480,6 +493,7 @@ public class Contact implements Address, LenientEquals<Contact> {
         type,
         primary,
         userId,
+        salutation,
         firstName,
         lastName,
         position,
@@ -506,6 +520,7 @@ public class Contact implements Address, LenientEquals<Contact> {
         .add("type=" + type)
         .add("primary=" + primary)
         .add("userId=" + userId)
+        .add("salutation='" + salutation + "'")
         .add("firstName='" + firstName + "'")
         .add("lastName='" + lastName + "'")
         .add("position=" + position)
@@ -539,6 +554,7 @@ public class Contact implements Address, LenientEquals<Contact> {
     return Objects.equals(type, contact.type)
         && Objects.equals(primary, contact.primary)
         && Objects.equals(userId, contact.userId)
+        && Objects.equals(salutation, contact.salutation)
         && Objects.equals(firstName, contact.firstName)
         && Objects.equals(lastName, contact.lastName)
         && Objects.equals(position, contact.position)

@@ -19,7 +19,10 @@ package org.gbif.api.vocabulary.collections;
  * Academic or research discipline to which an institution is dedicated.
  *
  * Note: The descriptions are the original values migrated from GRBIO.
+ *
+ * Deprecated to use the vocabulary server instead.
  */
+@Deprecated
 public enum Discipline {
 
   ARCHAEOLOGY("Archaeology: General"),

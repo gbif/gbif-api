@@ -13,14 +13,6 @@
  */
 package org.gbif.api.model.collections;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import io.swagger.v3.oas.annotations.Hidden;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.Comment;
 import org.gbif.api.model.registry.Identifier;
@@ -31,10 +23,8 @@ import org.gbif.api.model.registry.Tag;
 import org.gbif.api.util.HttpURI;
 import org.gbif.api.util.LenientEqualsUtils;
 import org.gbif.api.util.validators.email.ValidEmail;
-import org.gbif.api.vocabulary.collections.AccessionStatus;
-import org.gbif.api.vocabulary.collections.CollectionContentType;
+import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
-import org.gbif.api.vocabulary.collections.PreservationType;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -43,13 +33,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 /**
  * A group of specimens or other natural history objects. Types of collections can be: specimens,
@@ -85,7 +82,7 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   private String description;
 
   @Schema(description = "Content type of the elements found in the collection.")
-  private List<CollectionContentType> contentTypes = new ArrayList<>();
+  private List<String> contentTypes = new ArrayList<>();
 
   @Schema(description = "Whether the collection is active/maintained.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
@@ -112,18 +109,18 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private URI homepage;
 
-  @Schema(description = "A URL for an interactive catalogue of the collection.")
-  private URI catalogUrl;
+  @Schema(description = "URLs for interactive catalogues of the collection.")
+  private List<@HttpURI URI> catalogUrls = new ArrayList<>();
 
-  @Schema(description = "A URL for a machine-readable API for the collection catalogue.")
-  private URI apiUrl;
+  @Schema(description = "URLs for machine-readable APIs for the collection catalogue.")
+  private List<@HttpURI URI> apiUrls = new ArrayList<>();
 
   @Schema(description = "The preservation mechanisms used for this collection.")
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
-  private List<PreservationType> preservationTypes = new ArrayList<>();
+  private List<String> preservationTypes = new ArrayList<>();
 
   @Schema(description = "How the collection was added or joined.")
-  private AccessionStatus accessionStatus;
+  private String accessionStatus;
 
   @Schema(description = "The key of the institution owning or hosting the collection.")
   private UUID institutionKey;
@@ -186,10 +183,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<Contact> contactPersons = new ArrayList<>();
 
-  @Schema(description = "Whether there is a record for this collection in *Index Herbariorum*.")
-  @Sourceable(masterSources = MasterSourceType.IH)
-  private boolean indexHerbariorumRecord;
-
   @Schema(description = "The number of specimens contained in this collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private Integer numberSpecimens;
@@ -203,9 +196,9 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private String taxonomicCoverage;
 
-  @Schema(description = "The geographic scope of this collection.")
+  @Schema(description = "The geographic coverage of this collection.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
-  private String geography;
+  private String geographicCoverage;
 
   @Schema(description = "Notes on the collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
@@ -219,9 +212,7 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Sourceable(masterSources = MasterSourceType.IH)
   private List<String> importantCollectors = new ArrayList<>();
 
-  @Schema(
-      description = "A summary of the collection." // TODO, a summary of what?
-      )
+  @Schema(description = "A summary of metrics of the collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private Map<String, Integer> collectionSummary = new HashMap<>();
 
@@ -266,6 +257,25 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
 
   @Schema(description = "An estimate of the number of type specimens linked to the institution.")
   private Integer typeSpecimenCount;
+
+  @Getter
+  @Schema(
+      description =
+          "URI to the image to be featured on the collection page, this image should be associated with a license.")
+  private URI featuredImageUrl;
+
+  @Getter
+  @Schema(
+      description = "The license associated with the image to be featured on the collection page.")
+  private License featuredImageLicense;
+
+  @Getter
+  @Schema(
+      description =
+          "Temporal scope or focus of the collection. This free text field can be used to describe both the collection "
+              + "date ranges as well as the geological time group(s) of the collection objects in the context of "
+              + "paleontological collections.")
+  private String temporalCoverage;
 
   /** List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc.. */
   @Override
@@ -338,11 +348,11 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   }
 
   /** Content type of the elements found in a collection. */
-  public List<CollectionContentType> getContentTypes() {
+  public List<String> getContentTypes() {
     return contentTypes;
   }
 
-  public void setContentTypes(List<CollectionContentType> contentTypes) {
+  public void setContentTypes(List<String> contentTypes) {
     this.contentTypes = contentTypes;
   }
 
@@ -407,42 +417,40 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   }
 
   /** URI that exposes data about the catalog associated to a collection. */
-  @HttpURI
   @Nullable
-  public URI getCatalogUrl() {
-    return catalogUrl;
+  public List<URI> getCatalogUrls() {
+    return catalogUrls;
   }
 
-  public void setCatalogUrl(URI catalogUrl) {
-    this.catalogUrl = catalogUrl;
+  public void setCatalogUrls(List<URI> catalogUrls) {
+    this.catalogUrls = catalogUrls;
   }
 
   /** Machine consumable endpoint of information about a collection. */
-  @HttpURI
   @Nullable
-  public URI getApiUrl() {
-    return apiUrl;
+  public List<URI> getApiUrls() {
+    return apiUrls;
   }
 
-  public void setApiUrl(URI apiUrl) {
-    this.apiUrl = apiUrl;
+  public void setApiUrls(List<URI> apiUrls) {
+    this.apiUrls = apiUrls;
   }
 
   /** Types of preservation mechanisms used for this collections. */
-  public List<PreservationType> getPreservationTypes() {
+  public List<String> getPreservationTypes() {
     return preservationTypes;
   }
 
-  public void setPreservationTypes(List<PreservationType> preservationTypes) {
+  public void setPreservationTypes(List<String> preservationTypes) {
     this.preservationTypes = preservationTypes;
   }
 
   /** Defines how a collection as been added or joined. */
-  public AccessionStatus getAccessionStatus() {
+  public String getAccessionStatus() {
     return accessionStatus;
   }
 
-  public void setAccessionStatus(AccessionStatus accessionStatus) {
+  public void setAccessionStatus(String accessionStatus) {
     this.accessionStatus = accessionStatus;
   }
 
@@ -542,14 +550,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
     this.contactPersons = contactPersons;
   }
 
-  public boolean isIndexHerbariorumRecord() {
-    return indexHerbariorumRecord;
-  }
-
-  public void setIndexHerbariorumRecord(boolean indexHerbariorumRecord) {
-    this.indexHerbariorumRecord = indexHerbariorumRecord;
-  }
-
   public Integer getNumberSpecimens() {
     return numberSpecimens;
   }
@@ -582,12 +582,12 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
     this.taxonomicCoverage = taxonomicCoverage;
   }
 
-  public String getGeography() {
-    return geography;
+  public String getGeographicCoverage() {
+    return geographicCoverage;
   }
 
-  public void setGeography(String geography) {
-    this.geography = geography;
+  public void setGeographicCoverage(String geographicCoverage) {
+    this.geographicCoverage = geographicCoverage;
   }
 
   public String getNotes() {
@@ -709,6 +709,38 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
     this.displayOnNHCPortal = displayOnNHCPortal;
   }
 
+  @HttpURI
+  @Nullable
+  @Override
+  public URI getFeaturedImageUrl() {
+    return featuredImageUrl;
+  }
+
+  @Override
+  public void setFeaturedImageUrl(URI featuredImageUrl) {
+    this.featuredImageUrl = featuredImageUrl;
+  }
+
+  @Nullable
+  @Override
+  public License getFeaturedImageLicense() {
+    return featuredImageLicense;
+  }
+
+  @Override
+  public void setFeaturedImageLicense(License featuredImageLicense) {
+    this.featuredImageLicense = featuredImageLicense;
+  }
+
+  @Nullable
+  public String getTemporalCoverage() {
+    return temporalCoverage;
+  }
+
+  public void setTemporalCoverage(String temporalCoverage) {
+    this.temporalCoverage = temporalCoverage;
+  }
+
   @Hidden
   @JsonIgnore
   public String getCountry() {
@@ -774,18 +806,17 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
         && Objects.equals(email, other.email)
         && Objects.equals(phone, other.phone)
         && Objects.equals(homepage, other.homepage)
-        && Objects.equals(catalogUrl, other.catalogUrl)
-        && Objects.equals(apiUrl, other.apiUrl)
+        && Objects.equals(catalogUrls, other.catalogUrls)
+        && Objects.equals(apiUrls, other.apiUrls)
         && Objects.equals(preservationTypes, other.preservationTypes)
-        && accessionStatus == other.accessionStatus
+        && Objects.equals(accessionStatus, other.accessionStatus)
         && Objects.equals(institutionKey, other.institutionKey)
         && LenientEqualsUtils.lenientEquals(mailingAddress, other.mailingAddress)
         && LenientEqualsUtils.lenientEquals(address, other.address)
         && Objects.equals(deleted, other.deleted)
-        && indexHerbariorumRecord == other.indexHerbariorumRecord
         && Objects.equals(numberSpecimens, other.numberSpecimens)
         && Objects.equals(taxonomicCoverage, other.taxonomicCoverage)
-        && Objects.equals(geography, other.geography)
+        && Objects.equals(geographicCoverage, other.geographicCoverage)
         && Objects.equals(notes, other.notes)
         && Objects.equals(incorporatedCollections, other.incorporatedCollections)
         && Objects.equals(importantCollectors, other.importantCollectors)
@@ -798,6 +829,9 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
         && Objects.equals(masterSourceMetadata, other.masterSourceMetadata)
         && Objects.equals(division, other.division)
         && Objects.equals(department, other.department)
-        && Objects.equals(displayOnNHCPortal, other.displayOnNHCPortal);
+        && Objects.equals(displayOnNHCPortal, other.displayOnNHCPortal)
+        && Objects.equals(featuredImageUrl, other.featuredImageUrl)
+        && Objects.equals(featuredImageLicense, other.featuredImageLicense)
+        && Objects.equals(temporalCoverage, other.temporalCoverage);
   }
 }
