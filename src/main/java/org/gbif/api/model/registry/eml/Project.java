@@ -18,6 +18,7 @@ package org.gbif.api.model.registry.eml;
 import org.gbif.api.model.registry.Contact;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -29,6 +30,7 @@ import javax.annotation.Nullable;
  * A dataset can be part of a project. A project can have a unique identifier, used to link datasets associated with
  * the same project.
  */
+@SuppressWarnings({"unused", "LombokSetterMayBeUsed", "LombokGetterMayBeUsed"})
 public class Project implements Serializable {
 
   private static final long serialVersionUID = -2625204169061362016L;
@@ -41,8 +43,10 @@ public class Project implements Serializable {
   private List<Contact> contacts;
   private String abstract_;
   private String funding;
+  private List<ProjectAward> awards = new ArrayList<>();
   private String studyAreaDescription;
   private String designDescription;
+  private List<RelatedProject> relatedProjects = new ArrayList<>();
 
   public Project() {
   }
@@ -91,6 +95,18 @@ public class Project implements Serializable {
     this.funding = funding;
   }
 
+  public List<ProjectAward> getAwards() {
+    return awards;
+  }
+
+  public void setAwards(List<ProjectAward> awards) {
+    this.awards = awards;
+  }
+
+  public void addAward(ProjectAward award) {
+    this.awards.add(award);
+  }
+
   public String getStudyAreaDescription() {
     return studyAreaDescription;
   }
@@ -129,12 +145,24 @@ public class Project implements Serializable {
     this.description = description;
   }
 
+  public List<RelatedProject> getRelatedProjects() {
+    return relatedProjects;
+  }
+
+  public void setRelatedProjects(List<RelatedProject> relatedProjects) {
+    this.relatedProjects = relatedProjects;
+  }
+
+  public void addRelatedProject(RelatedProject relatedProject) {
+    this.relatedProjects.add(relatedProject);
+  }
+
   /**
    * Add contact to Contact List.
    */
   public void addContact(Contact contact) {
     if (contacts == null) {
-      contacts = new LinkedList<Contact>();
+      contacts = new LinkedList<>();
     }
     contacts.add(contact);
   }
@@ -154,28 +182,32 @@ public class Project implements Serializable {
       Objects.equals(contacts, project.contacts) &&
       Objects.equals(abstract_, project.abstract_) &&
       Objects.equals(funding, project.funding) &&
+      Objects.equals(awards, project.awards) &&
       Objects.equals(studyAreaDescription, project.studyAreaDescription) &&
-      Objects.equals(designDescription, project.designDescription);
+      Objects.equals(designDescription, project.designDescription) &&
+      Objects.equals(relatedProjects, project.relatedProjects);
   }
 
   @Override
   public int hashCode() {
     return Objects
-      .hash(title, identifier, description, contacts, abstract_, funding, studyAreaDescription,
-        designDescription);
+      .hash(title, identifier, description, contacts, abstract_, funding, awards, studyAreaDescription,
+        designDescription, relatedProjects);
   }
 
   @Override
   public String toString() {
     return new StringJoiner(", ", Project.class.getSimpleName() + "[", "]")
-      .add("title='" + title + "'")
-      .add("identifier='" + identifier + "'")
-      .add("description='" + description + "'")
-      .add("contacts=" + contacts)
-      .add("abstract_='" + abstract_ + "'")
-      .add("funding='" + funding + "'")
-      .add("studyAreaDescription='" + studyAreaDescription + "'")
-      .add("designDescription='" + designDescription + "'")
-      .toString();
+        .add("title='" + title + "'")
+        .add("identifier='" + identifier + "'")
+        .add("description='" + description + "'")
+        .add("contacts=" + contacts)
+        .add("abstract_='" + abstract_ + "'")
+        .add("funding='" + funding + "'")
+        .add("awards=" + awards)
+        .add("studyAreaDescription='" + studyAreaDescription + "'")
+        .add("designDescription='" + designDescription + "'")
+        .add("relatedProjects=" + relatedProjects)
+        .toString();
   }
 }
