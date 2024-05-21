@@ -51,6 +51,7 @@ import static org.gbif.api.util.PreconditionUtils.checkArgument;
 @Schema(
   description = "A Digital Object Identifier (DOI).",
   pattern = "(10[.][0-9]{2,}(?:[.][0-9]+)*/(?:(?![%\"#? ])\\\\S)+)",
+  example = "10.15468/igasai",
   implementation = String.class
 )
 @JsonSerialize(using = DOI.DoiSerializer.class)
