@@ -77,7 +77,7 @@
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>    <strong class="jxr_keyword">private</strong> <a name="CitationGenerator" href="../../../../org/gbif/api/util/CitationGenerator.html#CitationGenerator">CitationGenerator</a>() {}
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>    @SuppressWarnings(<span class="jxr_string">"unused"</span>)
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> CitationData generateCitation(<a name="Dataset" href="../../../../org/gbif/api/model/registry/Dataset.html#Dataset">Dataset</a> dataset, <a name="Organization" href="../../../../org/gbif/api/model/registry/Organization.html#Organization">Organization</a> org) {
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> CitationData generateCitation(Dataset dataset, <a name="Organization" href="../../../../org/gbif/api/model/registry/Organization.html#Organization">Organization</a> org) {
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>      Objects.requireNonNull(org, <span class="jxr_string">"Organization shall be provided"</span>);
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>      <strong class="jxr_keyword">return</strong> generateCitation(dataset, org.getTitle());
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>    }
@@ -88,7 +88,7 @@
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>  <em class="jxr_javadoccomment">   * @return generated citation as {@link String}</em>
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>  <em class="jxr_javadoccomment">   */</em>
 <a class="jxr_linenumber" name="L82" href="#L82">82</a>    @SuppressWarnings(<span class="jxr_string">"unused"</span>)
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> String generatePublisherProvidedCitation(<a name="Dataset" href="../../../../org/gbif/api/model/registry/Dataset.html#Dataset">Dataset</a> dataset) {
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> String generatePublisherProvidedCitation(Dataset dataset) {
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>      Objects.requireNonNull(dataset, <span class="jxr_string">"Dataset shall be provided"</span>);
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>      Objects.requireNonNull(dataset.getCitation(), <span class="jxr_string">"Dataset.citation shall be provided"</span>);
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>      String originalCitationText = dataset.getCitation().getText();
@@ -118,7 +118,7 @@
 <a class="jxr_linenumber" name="L110" href="#L110">110</a> <em class="jxr_javadoccomment">   * i18n</em>
 <a class="jxr_linenumber" name="L111" href="#L111">111</a> <em class="jxr_javadoccomment">   * @return generated citation as {@link String}</em>
 <a class="jxr_linenumber" name="L112" href="#L112">112</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L113" href="#L113">113</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> CitationData generateCitation(<a name="Dataset" href="../../../../org/gbif/api/model/registry/Dataset.html#Dataset">Dataset</a> dataset, String organizationTitle) {
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> CitationData generateCitation(Dataset dataset, String organizationTitle) {
 <a class="jxr_linenumber" name="L114" href="#L114">114</a> 
 <a class="jxr_linenumber" name="L115" href="#L115">115</a>     Objects.requireNonNull(dataset, <span class="jxr_string">"Dataset shall be provided"</span>);
 <a class="jxr_linenumber" name="L116" href="#L116">116</a>     Objects.requireNonNull(organizationTitle, <span class="jxr_string">"Organization title shall be provided"</span>);
@@ -178,7 +178,7 @@
 <a class="jxr_linenumber" name="L170" href="#L170">170</a>     <strong class="jxr_keyword">return</strong> CitationData.builder().citation(citation).contacts(contacts).build();
 <a class="jxr_linenumber" name="L171" href="#L171">171</a>   }
 <a class="jxr_linenumber" name="L172" href="#L172">172</a> 
-<a class="jxr_linenumber" name="L173" href="#L173">173</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> List&lt;CitationContact&gt; getAuthors(<a name="Dataset" href="../../../../org/gbif/api/model/registry/Dataset.html#Dataset">Dataset</a> dataset) {
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> List&lt;CitationContact&gt; getAuthors(Dataset dataset) {
 <a class="jxr_linenumber" name="L174" href="#L174">174</a>     <strong class="jxr_keyword">boolean</strong> isCamtrap = dataset.getEndpoints().stream()
 <a class="jxr_linenumber" name="L175" href="#L175">175</a>         .map(Endpoint::getType)
 <a class="jxr_linenumber" name="L176" href="#L176">176</a>         .anyMatch(e -&gt; e == EndpointType.CAMTRAP_DP);
@@ -301,7 +301,7 @@
 <a class="jxr_linenumber" name="L293" href="#L293">293</a> <em class="jxr_javadoccomment">   * @return contact wrapped in optional</em>
 <a class="jxr_linenumber" name="L294" href="#L294">294</a> <em class="jxr_javadoccomment">   */</em>
 <a class="jxr_linenumber" name="L295" href="#L295">295</a>   <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Optional&lt;CitationContact&gt; findInAuthorList(
-<a class="jxr_linenumber" name="L296" href="#L296">296</a>       <a name="Contact" href="../../../../org/gbif/api/model/registry/Contact.html#Contact">Contact</a> ctc, List&lt;CitationContact&gt; uniqueContacts) {
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>       Contact ctc, List&lt;CitationContact&gt; uniqueContacts) {
 <a class="jxr_linenumber" name="L297" href="#L297">297</a>     <strong class="jxr_keyword">return</strong> uniqueContacts.stream()
 <a class="jxr_linenumber" name="L298" href="#L298">298</a>         .filter(
 <a class="jxr_linenumber" name="L299" href="#L299">299</a>             author -&gt;
@@ -318,7 +318,7 @@
 <a class="jxr_linenumber" name="L310" href="#L310">310</a> <em class="jxr_javadoccomment">   * @param creator contact object</em>
 <a class="jxr_linenumber" name="L311" href="#L311">311</a> <em class="jxr_javadoccomment">   * @return name</em>
 <a class="jxr_linenumber" name="L312" href="#L312">312</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L313" href="#L313">313</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> String getAuthorName(<a name="Contact" href="../../../../org/gbif/api/model/registry/Contact.html#Contact">Contact</a> creator) {
+<a class="jxr_linenumber" name="L313" href="#L313">313</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> String getAuthorName(Contact creator) {
 <a class="jxr_linenumber" name="L314" href="#L314">314</a>     StringBuilder sb = <strong class="jxr_keyword">new</strong> StringBuilder();
 <a class="jxr_linenumber" name="L315" href="#L315">315</a>     String lastName = StringUtils.trimToNull(creator.getLastName());
 <a class="jxr_linenumber" name="L316" href="#L316">316</a>     String firstNames = StringUtils.trimToNull(creator.getFirstName());

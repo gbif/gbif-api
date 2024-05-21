@@ -18,6 +18,7 @@ package org.gbif.api.model.registry.eml;
 import org.gbif.api.model.registry.Contact;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -29,6 +30,7 @@ import javax.annotation.Nullable;
  * A dataset can be part of a project. A project can have a unique identifier, used to link datasets associated with
  * the same project.
  */
+@SuppressWarnings({&quot;unused&quot;, &quot;LombokSetterMayBeUsed&quot;, &quot;LombokGetterMayBeUsed&quot;})
 public class Project implements Serializable {
 
   private static final long serialVersionUID = -2625204169061362016L;
@@ -41,71 +43,85 @@ public class Project implements Serializable {
   private List&lt;Contact&gt; contacts;
   private String abstract_;
   private String funding;
+<span class="pc" id="L46">  private List&lt;ProjectAward&gt; awards = new ArrayList&lt;&gt;();</span>
   private String studyAreaDescription;
   private String designDescription;
+<span class="pc" id="L49">  private List&lt;RelatedProject&gt; relatedProjects = new ArrayList&lt;&gt;();</span>
 
-<span class="nc" id="L47">  public Project() {</span>
-<span class="nc" id="L48">  }</span>
+<span class="nc" id="L51">  public Project() {</span>
+<span class="nc" id="L52">  }</span>
 
   public Project(
     String title, String identifier, List&lt;Contact&gt; contacts, String abstract_, String funding,
-<span class="fc" id="L52">    String studyAreaDescription, String designDescription) {</span>
-<span class="fc" id="L53">    this.title = title;</span>
-<span class="fc" id="L54">    this.identifier = identifier;</span>
-<span class="fc" id="L55">    this.contacts = contacts;</span>
-<span class="fc" id="L56">    this.abstract_ = abstract_;</span>
-<span class="fc" id="L57">    this.funding = funding;</span>
-<span class="fc" id="L58">    this.studyAreaDescription = studyAreaDescription;</span>
-<span class="fc" id="L59">    this.designDescription = designDescription;</span>
-<span class="fc" id="L60">  }</span>
+<span class="fc" id="L56">    String studyAreaDescription, String designDescription) {</span>
+<span class="fc" id="L57">    this.title = title;</span>
+<span class="fc" id="L58">    this.identifier = identifier;</span>
+<span class="fc" id="L59">    this.contacts = contacts;</span>
+<span class="fc" id="L60">    this.abstract_ = abstract_;</span>
+<span class="fc" id="L61">    this.funding = funding;</span>
+<span class="fc" id="L62">    this.studyAreaDescription = studyAreaDescription;</span>
+<span class="fc" id="L63">    this.designDescription = designDescription;</span>
+<span class="fc" id="L64">  }</span>
 
   public String getAbstract() {
-<span class="nc" id="L63">    return abstract_;</span>
+<span class="nc" id="L67">    return abstract_;</span>
   }
 
   public void setAbstract(String abstract_) {
-<span class="nc" id="L67">    this.abstract_ = abstract_;</span>
-<span class="nc" id="L68">  }</span>
+<span class="nc" id="L71">    this.abstract_ = abstract_;</span>
+<span class="nc" id="L72">  }</span>
 
   public List&lt;Contact&gt; getContacts() {
-<span class="nc" id="L71">    return contacts;</span>
+<span class="nc" id="L75">    return contacts;</span>
   }
 
   public void setContacts(List&lt;Contact&gt; contacts) {
-<span class="nc" id="L75">    this.contacts = contacts;</span>
-<span class="nc" id="L76">  }</span>
+<span class="nc" id="L79">    this.contacts = contacts;</span>
+<span class="nc" id="L80">  }</span>
 
   public String getDesignDescription() {
-<span class="nc" id="L79">    return designDescription;</span>
+<span class="nc" id="L83">    return designDescription;</span>
   }
 
   public void setDesignDescription(String designDescription) {
-<span class="nc" id="L83">    this.designDescription = designDescription;</span>
-<span class="nc" id="L84">  }</span>
+<span class="nc" id="L87">    this.designDescription = designDescription;</span>
+<span class="nc" id="L88">  }</span>
 
   public String getFunding() {
-<span class="nc" id="L87">    return funding;</span>
+<span class="nc" id="L91">    return funding;</span>
   }
 
   public void setFunding(String funding) {
-<span class="nc" id="L91">    this.funding = funding;</span>
-<span class="nc" id="L92">  }</span>
+<span class="nc" id="L95">    this.funding = funding;</span>
+<span class="nc" id="L96">  }</span>
+
+  public List&lt;ProjectAward&gt; getAwards() {
+<span class="nc" id="L99">    return awards;</span>
+  }
+
+  public void setAwards(List&lt;ProjectAward&gt; awards) {
+<span class="nc" id="L103">    this.awards = awards;</span>
+<span class="nc" id="L104">  }</span>
+
+  public void addAward(ProjectAward award) {
+<span class="nc" id="L107">    this.awards.add(award);</span>
+<span class="nc" id="L108">  }</span>
 
   public String getStudyAreaDescription() {
-<span class="nc" id="L95">    return studyAreaDescription;</span>
+<span class="nc" id="L111">    return studyAreaDescription;</span>
   }
 
   public void setStudyAreaDescription(String studyAreaDescription) {
-<span class="nc" id="L99">    this.studyAreaDescription = studyAreaDescription;</span>
-<span class="nc" id="L100">  }</span>
+<span class="nc" id="L115">    this.studyAreaDescription = studyAreaDescription;</span>
+<span class="nc" id="L116">  }</span>
 
   public String getTitle() {
-<span class="nc" id="L103">    return title;</span>
+<span class="nc" id="L119">    return title;</span>
   }
 
   public void setTitle(String title) {
-<span class="nc" id="L107">    this.title = title;</span>
-<span class="nc" id="L108">  }</span>
+<span class="nc" id="L123">    this.title = title;</span>
+<span class="nc" id="L124">  }</span>
 
   /**
    * A unique identifier for the project. Used to link multiple datasets associated with the same project.
@@ -114,69 +130,85 @@ public class Project implements Serializable {
    */
   @Nullable
   public String getIdentifier() {
-<span class="nc" id="L117">    return identifier;</span>
+<span class="nc" id="L133">    return identifier;</span>
   }
 
   public void setIdentifier(String identifier) {
-<span class="nc" id="L121">    this.identifier = identifier;</span>
-<span class="nc" id="L122">  }</span>
+<span class="nc" id="L137">    this.identifier = identifier;</span>
+<span class="nc" id="L138">  }</span>
 
   public String getDescription() {
-<span class="nc" id="L125">    return description;</span>
+<span class="nc" id="L141">    return description;</span>
   }
 
   public void setDescription(String description) {
-<span class="nc" id="L129">    this.description = description;</span>
-<span class="nc" id="L130">  }</span>
+<span class="nc" id="L145">    this.description = description;</span>
+<span class="nc" id="L146">  }</span>
+
+  public List&lt;RelatedProject&gt; getRelatedProjects() {
+<span class="nc" id="L149">    return relatedProjects;</span>
+  }
+
+  public void setRelatedProjects(List&lt;RelatedProject&gt; relatedProjects) {
+<span class="nc" id="L153">    this.relatedProjects = relatedProjects;</span>
+<span class="nc" id="L154">  }</span>
+
+  public void addRelatedProject(RelatedProject relatedProject) {
+<span class="nc" id="L157">    this.relatedProjects.add(relatedProject);</span>
+<span class="nc" id="L158">  }</span>
 
   /**
    * Add contact to Contact List.
    */
   public void addContact(Contact contact) {
-<span class="nc bnc" id="L136" title="All 2 branches missed.">    if (contacts == null) {</span>
-<span class="nc" id="L137">      contacts = new LinkedList&lt;Contact&gt;();</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">    if (contacts == null) {</span>
+<span class="nc" id="L165">      contacts = new LinkedList&lt;&gt;();</span>
     }
-<span class="nc" id="L139">    contacts.add(contact);</span>
-<span class="nc" id="L140">  }</span>
+<span class="nc" id="L167">    contacts.add(contact);</span>
+<span class="nc" id="L168">  }</span>
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L144" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L145">      return true;</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L173">      return true;</span>
     }
-<span class="pc bpc" id="L147" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L148">      return false;</span>
+<span class="pc bpc" id="L175" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L176">      return false;</span>
     }
-<span class="fc" id="L150">    Project project = (Project) o;</span>
-<span class="pc bpc" id="L151" title="1 of 2 branches missed.">    return Objects.equals(title, project.title) &amp;&amp;</span>
-<span class="pc bpc" id="L152" title="1 of 2 branches missed.">      Objects.equals(identifier, project.identifier) &amp;&amp;</span>
-<span class="nc bnc" id="L153" title="All 2 branches missed.">      Objects.equals(description, project.description) &amp;&amp;</span>
-<span class="nc bnc" id="L154" title="All 2 branches missed.">      Objects.equals(contacts, project.contacts) &amp;&amp;</span>
-<span class="nc bnc" id="L155" title="All 2 branches missed.">      Objects.equals(abstract_, project.abstract_) &amp;&amp;</span>
-<span class="nc bnc" id="L156" title="All 2 branches missed.">      Objects.equals(funding, project.funding) &amp;&amp;</span>
-<span class="nc bnc" id="L157" title="All 2 branches missed.">      Objects.equals(studyAreaDescription, project.studyAreaDescription) &amp;&amp;</span>
-<span class="pc bnc" id="L158" title="All 2 branches missed.">      Objects.equals(designDescription, project.designDescription);</span>
+<span class="fc" id="L178">    Project project = (Project) o;</span>
+<span class="pc bpc" id="L179" title="1 of 2 branches missed.">    return Objects.equals(title, project.title) &amp;&amp;</span>
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">      Objects.equals(identifier, project.identifier) &amp;&amp;</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">      Objects.equals(description, project.description) &amp;&amp;</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">      Objects.equals(contacts, project.contacts) &amp;&amp;</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">      Objects.equals(abstract_, project.abstract_) &amp;&amp;</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">      Objects.equals(funding, project.funding) &amp;&amp;</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">      Objects.equals(awards, project.awards) &amp;&amp;</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">      Objects.equals(studyAreaDescription, project.studyAreaDescription) &amp;&amp;</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">      Objects.equals(designDescription, project.designDescription) &amp;&amp;</span>
+<span class="pc bnc" id="L188" title="All 2 branches missed.">      Objects.equals(relatedProjects, project.relatedProjects);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L163">    return Objects</span>
-<span class="nc" id="L164">      .hash(title, identifier, description, contacts, abstract_, funding, studyAreaDescription,</span>
-        designDescription);
+<span class="nc" id="L193">    return Objects</span>
+<span class="nc" id="L194">      .hash(title, identifier, description, contacts, abstract_, funding, awards, studyAreaDescription,</span>
+        designDescription, relatedProjects);
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L170">    return new StringJoiner(&quot;, &quot;, Project.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L171">      .add(&quot;title='&quot; + title + &quot;'&quot;)</span>
-<span class="nc" id="L172">      .add(&quot;identifier='&quot; + identifier + &quot;'&quot;)</span>
-<span class="nc" id="L173">      .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
-<span class="nc" id="L174">      .add(&quot;contacts=&quot; + contacts)</span>
-<span class="nc" id="L175">      .add(&quot;abstract_='&quot; + abstract_ + &quot;'&quot;)</span>
-<span class="nc" id="L176">      .add(&quot;funding='&quot; + funding + &quot;'&quot;)</span>
-<span class="nc" id="L177">      .add(&quot;studyAreaDescription='&quot; + studyAreaDescription + &quot;'&quot;)</span>
-<span class="nc" id="L178">      .add(&quot;designDescription='&quot; + designDescription + &quot;'&quot;)</span>
-<span class="nc" id="L179">      .toString();</span>
+<span class="nc" id="L200">    return new StringJoiner(&quot;, &quot;, Project.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L201">        .add(&quot;title='&quot; + title + &quot;'&quot;)</span>
+<span class="nc" id="L202">        .add(&quot;identifier='&quot; + identifier + &quot;'&quot;)</span>
+<span class="nc" id="L203">        .add(&quot;description='&quot; + description + &quot;'&quot;)</span>
+<span class="nc" id="L204">        .add(&quot;contacts=&quot; + contacts)</span>
+<span class="nc" id="L205">        .add(&quot;abstract_='&quot; + abstract_ + &quot;'&quot;)</span>
+<span class="nc" id="L206">        .add(&quot;funding='&quot; + funding + &quot;'&quot;)</span>
+<span class="nc" id="L207">        .add(&quot;awards=&quot; + awards)</span>
+<span class="nc" id="L208">        .add(&quot;studyAreaDescription='&quot; + studyAreaDescription + &quot;'&quot;)</span>
+<span class="nc" id="L209">        .add(&quot;designDescription='&quot; + designDescription + &quot;'&quot;)</span>
+<span class="nc" id="L210">        .add(&quot;relatedProjects=&quot; + relatedProjects)</span>
+<span class="nc" id="L211">        .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

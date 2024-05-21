@@ -27,84 +27,84 @@
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.GbifRegion;
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.IdentifierType;
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.SortOrder;
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.collections.Discipline;
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.collections.InstitutionGovernance;
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.collections.InstitutionType;
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.collections.MasterSourceType;
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> java.util.List;
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> java.util.UUID;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.collections.MasterSourceType;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.collections.Source;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> java.util.UUID;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> javax.annotation.Nullable;
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> javax.annotation.Nullable;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="InstitutionSearchRequest" href="../../../../../../org/gbif/api/model/collections/request/InstitutionSearchRequest.html#InstitutionSearchRequest">InstitutionSearchRequest</a> <strong class="jxr_keyword">extends</strong> <a name="SearchRequest" href="../../../../../../org/gbif/api/model/collections/request/SearchRequest.html#SearchRequest">SearchRequest</a> {
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="InstitutionSearchRequest" href="../../../../../../org/gbif/api/model/collections/request/InstitutionSearchRequest.html#InstitutionSearchRequest">InstitutionSearchRequest</a> <strong class="jxr_keyword">extends</strong> <a name="SearchRequest" href="../../../../../../org/gbif/api/model/collections/request/SearchRequest.html#SearchRequest">SearchRequest</a> {
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; type;
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>    @Nullable <strong class="jxr_keyword">private</strong> <a name="InstitutionType" href="../../../../../../org/gbif/api/vocabulary/collections/InstitutionType.html#InstitutionType">InstitutionType</a> type;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; institutionalGovernance;
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>  
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>    @Nullable <strong class="jxr_keyword">private</strong> <a name="InstitutionGovernance" href="../../../../../../org/gbif/api/vocabulary/collections/InstitutionGovernance.html#InstitutionGovernance">InstitutionGovernance</a> institutionalGovernance;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; disciplines;
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;Discipline&gt; disciplines;
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>  
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>    @Nullable
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>    <strong class="jxr_keyword">public</strong> <a name="InstitutionType" href="../../../../../../org/gbif/api/vocabulary/collections/InstitutionType.html#InstitutionType">InstitutionType</a> getType() {
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>      <strong class="jxr_keyword">return</strong> type;
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>    }
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>  
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setType(@Nullable <a name="InstitutionType" href="../../../../../../org/gbif/api/vocabulary/collections/InstitutionType.html#InstitutionType">InstitutionType</a> type) {
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>      <strong class="jxr_keyword">this</strong>.type = type;
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>    }
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>  
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>    @Nullable
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>    <strong class="jxr_keyword">public</strong> <a name="InstitutionGovernance" href="../../../../../../org/gbif/api/vocabulary/collections/InstitutionGovernance.html#InstitutionGovernance">InstitutionGovernance</a> getInstitutionalGovernance() {
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>      <strong class="jxr_keyword">return</strong> institutionalGovernance;
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>    }
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>  
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setInstitutionalGovernance(@Nullable <a name="InstitutionGovernance" href="../../../../../../org/gbif/api/vocabulary/collections/InstitutionGovernance.html#InstitutionGovernance">InstitutionGovernance</a> institutionalGovernance) {
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>      <strong class="jxr_keyword">this</strong>.institutionalGovernance = institutionalGovernance;
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>    }
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>  
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>    @Nullable
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>    <strong class="jxr_keyword">public</strong> List&lt;Discipline&gt; getDisciplines() {
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>      <strong class="jxr_keyword">return</strong> disciplines;
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>    }
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>  
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setDisciplines(@Nullable List&lt;Discipline&gt; disciplines) {
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>      <strong class="jxr_keyword">this</strong>.disciplines = disciplines;
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>    }
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>  
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> Builder builder() {
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>      <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Builder();
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>    }
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>    @Nullable
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>    <strong class="jxr_keyword">public</strong> List&lt;String&gt; getType() {
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>      <strong class="jxr_keyword">return</strong> type;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>    }
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setType(@Nullable List&lt;String&gt; type) {
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>      <strong class="jxr_keyword">this</strong>.type = type;
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>    }
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>    @Nullable
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>    <strong class="jxr_keyword">public</strong> List&lt;String&gt; getInstitutionalGovernance() {
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>      <strong class="jxr_keyword">return</strong> institutionalGovernance;
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>    }
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setInstitutionalGovernance(@Nullable List&lt;String&gt; institutionalGovernance) {
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>      <strong class="jxr_keyword">this</strong>.institutionalGovernance = institutionalGovernance;
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>    }
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>    @Nullable
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>    <strong class="jxr_keyword">public</strong> List&lt;String&gt; getDisciplines() {
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>      <strong class="jxr_keyword">return</strong> disciplines;
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>    }
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setDisciplines(@Nullable List&lt;String&gt; disciplines) {
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>      <strong class="jxr_keyword">this</strong>.disciplines = disciplines;
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>    }
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> Builder builder() {
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>      <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> Builder();
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>    }
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> Builder {
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> Builder {
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>  
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>      String q;
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>      String code;
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>      String name;
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>      String alternativeCode;
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>      String machineTagNamespace;
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>      String machineTagName;
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>      String machineTagValue;
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>      <a name="IdentifierType" href="../../../../../../org/gbif/api/vocabulary/IdentifierType.html#IdentifierType">IdentifierType</a> identifierType;
-<a class="jxr_linenumber" name="L81" href="#L81">81</a>      String identifier;
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>      List&lt;Country&gt; country;
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>      List&lt;GbifRegion&gt; gbifRegion;
-<a class="jxr_linenumber" name="L84" href="#L84">84</a>      String city;
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>      String fuzzyName;
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>      Boolean active;
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>      <a name="InstitutionType" href="../../../../../../org/gbif/api/vocabulary/collections/InstitutionType.html#InstitutionType">InstitutionType</a> type;
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>      <a name="InstitutionGovernance" href="../../../../../../org/gbif/api/vocabulary/collections/InstitutionGovernance.html#InstitutionGovernance">InstitutionGovernance</a> institutionalGovernance;
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>      List&lt;Discipline&gt; disciplines;
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>      <a name="MasterSourceType" href="../../../../../../org/gbif/api/vocabulary/collections/MasterSourceType.html#MasterSourceType">MasterSourceType</a> masterSourceType;
-<a class="jxr_linenumber" name="L91" href="#L91">91</a>      String numberSpecimens;
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>      Boolean displayOnNHCPortal;
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>      UUID replacedBy;
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>      String occurrenceCount;
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>      String typeSpecimenCount;
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>      List&lt;UUID&gt; institutionKeys;
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>      <a name="CollectionsSortField" href="../../../../../../org/gbif/api/vocabulary/CollectionsSortField.html#CollectionsSortField">CollectionsSortField</a> sortBy;
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>      <a name="SortOrder" href="../../../../../../org/gbif/api/vocabulary/SortOrder.html#SortOrder">SortOrder</a> sortOrder;
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>      <a name="Pageable" href="../../../../../../org/gbif/api/model/common/paging/Pageable.html#Pageable">Pageable</a> page;
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>      String q;
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>      String code;
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>      String name;
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>      String alternativeCode;
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>      String machineTagNamespace;
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>      String machineTagName;
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>      String machineTagValue;
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>      <a name="IdentifierType" href="../../../../../../org/gbif/api/vocabulary/IdentifierType.html#IdentifierType">IdentifierType</a> identifierType;
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>      String identifier;
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>      List&lt;Country&gt; country;
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>      List&lt;GbifRegion&gt; gbifRegion;
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>      String city;
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>      String fuzzyName;
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>      Boolean active;
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>      List&lt;String&gt; type;
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>      List&lt;String&gt; institutionalGovernance;
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>      List&lt;String&gt; disciplines;
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>      <a name="MasterSourceType" href="../../../../../../org/gbif/api/vocabulary/collections/MasterSourceType.html#MasterSourceType">MasterSourceType</a> masterSourceType;
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>      String numberSpecimens;
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>      Boolean displayOnNHCPortal;
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>      UUID replacedBy;
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>      String occurrenceCount;
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>      String typeSpecimenCount;
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>      List&lt;UUID&gt; institutionKeys;
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>      <a name="CollectionsSortField" href="../../../../../../org/gbif/api/vocabulary/CollectionsSortField.html#CollectionsSortField">CollectionsSortField</a> sortBy;
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>      <a name="SortOrder" href="../../../../../../org/gbif/api/vocabulary/SortOrder.html#SortOrder">SortOrder</a> sortOrder;
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>      <a name="Pageable" href="../../../../../../org/gbif/api/model/common/paging/Pageable.html#Pageable">Pageable</a> page;
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>      String sourceId;
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>      <a name="Source" href="../../../../../../org/gbif/api/vocabulary/collections/Source.html#Source">Source</a> source;
 <a class="jxr_linenumber" name="L100" href="#L100">100</a> 
 <a class="jxr_linenumber" name="L101" href="#L101">101</a>     <strong class="jxr_keyword">public</strong> Builder query(String q) {
 <a class="jxr_linenumber" name="L102" href="#L102">102</a>       <strong class="jxr_keyword">this</strong>.q = q;
@@ -176,17 +176,17 @@
 <a class="jxr_linenumber" name="L168" href="#L168">168</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
 <a class="jxr_linenumber" name="L169" href="#L169">169</a>     }
 <a class="jxr_linenumber" name="L170" href="#L170">170</a> 
-<a class="jxr_linenumber" name="L171" href="#L171">171</a>     <strong class="jxr_keyword">public</strong> Builder type(<a name="InstitutionType" href="../../../../../../org/gbif/api/vocabulary/collections/InstitutionType.html#InstitutionType">InstitutionType</a> type) {
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>     <strong class="jxr_keyword">public</strong> Builder type(List&lt;String&gt; type) {
 <a class="jxr_linenumber" name="L172" href="#L172">172</a>       <strong class="jxr_keyword">this</strong>.type = type;
 <a class="jxr_linenumber" name="L173" href="#L173">173</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
 <a class="jxr_linenumber" name="L174" href="#L174">174</a>     }
 <a class="jxr_linenumber" name="L175" href="#L175">175</a> 
-<a class="jxr_linenumber" name="L176" href="#L176">176</a>     <strong class="jxr_keyword">public</strong> Builder institutionalGovernance(<a name="InstitutionGovernance" href="../../../../../../org/gbif/api/vocabulary/collections/InstitutionGovernance.html#InstitutionGovernance">InstitutionGovernance</a> institutionalGovernance) {
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>     <strong class="jxr_keyword">public</strong> Builder institutionalGovernance(List&lt;String&gt; institutionalGovernance) {
 <a class="jxr_linenumber" name="L177" href="#L177">177</a>       <strong class="jxr_keyword">this</strong>.institutionalGovernance = institutionalGovernance;
 <a class="jxr_linenumber" name="L178" href="#L178">178</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
 <a class="jxr_linenumber" name="L179" href="#L179">179</a>     }
 <a class="jxr_linenumber" name="L180" href="#L180">180</a> 
-<a class="jxr_linenumber" name="L181" href="#L181">181</a>     <strong class="jxr_keyword">public</strong> Builder disciplines(List&lt;Discipline&gt; disciplines) {
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>     <strong class="jxr_keyword">public</strong> Builder disciplines(List&lt;String&gt; disciplines) {
 <a class="jxr_linenumber" name="L182" href="#L182">182</a>       <strong class="jxr_keyword">this</strong>.disciplines = disciplines;
 <a class="jxr_linenumber" name="L183" href="#L183">183</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
 <a class="jxr_linenumber" name="L184" href="#L184">184</a>     }
@@ -241,42 +241,54 @@
 <a class="jxr_linenumber" name="L233" href="#L233">233</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
 <a class="jxr_linenumber" name="L234" href="#L234">234</a>     }
 <a class="jxr_linenumber" name="L235" href="#L235">235</a> 
-<a class="jxr_linenumber" name="L236" href="#L236">236</a>     <strong class="jxr_keyword">public</strong> <a name="InstitutionSearchRequest" href="../../../../../../org/gbif/api/model/collections/request/InstitutionSearchRequest.html#InstitutionSearchRequest">InstitutionSearchRequest</a> build() {
-<a class="jxr_linenumber" name="L237" href="#L237">237</a>       <a name="InstitutionSearchRequest" href="../../../../../../org/gbif/api/<a name="InstitutionSearchRequest" href="../../../../../../org/gbif/api/model/collections/request/InstitutionSearchRequest.html#InstitutionSearchRequest">InstitutionSearchRequest</a>t/InstitutionSearchRequest.html#InstitutionSearchRequest">InstitutionSearchRequest</a> req = <strong class="jxr_keyword">new</strong> <a name="InstitutionSearchRequest" href="../../../../../../org/gbif/api/model/collections/request/InstitutionSearchRequest.html#InstitutionSearchRequest">InstitutionSearchRequest</a>();
-<a class="jxr_linenumber" name="L238" href="#L238">238</a>       req.setQ(q);
-<a class="jxr_linenumber" name="L239" href="#L239">239</a>       req.setCode(code);
-<a class="jxr_linenumber" name="L240" href="#L240">240</a>       req.setName(name);
-<a class="jxr_linenumber" name="L241" href="#L241">241</a>       req.setAlternativeCode(alternativeCode);
-<a class="jxr_linenumber" name="L242" href="#L242">242</a>       req.setMachineTagNamespace(machineTagNamespace);
-<a class="jxr_linenumber" name="L243" href="#L243">243</a>       req.setMachineTagName(machineTagName);
-<a class="jxr_linenumber" name="L244" href="#L244">244</a>       req.setMachineTagValue(machineTagValue);
-<a class="jxr_linenumber" name="L245" href="#L245">245</a>       req.setIdentifierType(identifierType);
-<a class="jxr_linenumber" name="L246" href="#L246">246</a>       req.setIdentifier(identifier);
-<a class="jxr_linenumber" name="L247" href="#L247">247</a>       req.setCountry(country);
-<a class="jxr_linenumber" name="L248" href="#L248">248</a>       req.setGbifRegion(gbifRegion);
-<a class="jxr_linenumber" name="L249" href="#L249">249</a>       req.setCity(city);
-<a class="jxr_linenumber" name="L250" href="#L250">250</a>       req.setFuzzyName(fuzzyName);
-<a class="jxr_linenumber" name="L251" href="#L251">251</a>       req.setActive(active);
-<a class="jxr_linenumber" name="L252" href="#L252">252</a>       req.setType(type);
-<a class="jxr_linenumber" name="L253" href="#L253">253</a>       req.setInstitutionalGovernance(institutionalGovernance);
-<a class="jxr_linenumber" name="L254" href="#L254">254</a>       req.setDisciplines(disciplines);
-<a class="jxr_linenumber" name="L255" href="#L255">255</a>       req.setMasterSourceType(masterSourceType);
-<a class="jxr_linenumber" name="L256" href="#L256">256</a>       req.setNumberSpecimens(numberSpecimens);
-<a class="jxr_linenumber" name="L257" href="#L257">257</a>       req.setDisplayOnNHCPortal(displayOnNHCPortal);
-<a class="jxr_linenumber" name="L258" href="#L258">258</a>       req.setReplacedBy(replacedBy);
-<a class="jxr_linenumber" name="L259" href="#L259">259</a>       req.setOccurrenceCount(occurrenceCount);
-<a class="jxr_linenumber" name="L260" href="#L260">260</a>       req.setTypeSpecimenCount(typeSpecimenCount);
-<a class="jxr_linenumber" name="L261" href="#L261">261</a>       req.setInstitutionKeys(institutionKeys);
-<a class="jxr_linenumber" name="L262" href="#L262">262</a>       req.setSortBy(sortBy);
-<a class="jxr_linenumber" name="L263" href="#L263">263</a>       req.setSortOrder(sortOrder);
-<a class="jxr_linenumber" name="L264" href="#L264">264</a>       <strong class="jxr_keyword">if</strong> (page != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L265" href="#L265">265</a>         req.setLimit(page.getLimit());
-<a class="jxr_linenumber" name="L266" href="#L266">266</a>         req.setOffset(page.getOffset());
-<a class="jxr_linenumber" name="L267" href="#L267">267</a>       }
-<a class="jxr_linenumber" name="L268" href="#L268">268</a>       <strong class="jxr_keyword">return</strong> req;
-<a class="jxr_linenumber" name="L269" href="#L269">269</a>     }
-<a class="jxr_linenumber" name="L270" href="#L270">270</a>   }
-<a class="jxr_linenumber" name="L271" href="#L271">271</a> }
+<a class="jxr_linenumber" name="L236" href="#L236">236</a>     <strong class="jxr_keyword">public</strong> Builder sourceId(String sourceId) {
+<a class="jxr_linenumber" name="L237" href="#L237">237</a>       <strong class="jxr_keyword">this</strong>.sourceId = sourceId;
+<a class="jxr_linenumber" name="L238" href="#L238">238</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L239" href="#L239">239</a>     }
+<a class="jxr_linenumber" name="L240" href="#L240">240</a> 
+<a class="jxr_linenumber" name="L241" href="#L241">241</a>     <strong class="jxr_keyword">public</strong> Builder source(<a name="Source" href="../../../../../../org/gbif/api/vocabulary/collections/Source.html#Source">Source</a> source) {
+<a class="jxr_linenumber" name="L242" href="#L242">242</a>       <strong class="jxr_keyword">this</strong>.source = source;
+<a class="jxr_linenumber" name="L243" href="#L243">243</a>       <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L244" href="#L244">244</a>     }
+<a class="jxr_linenumber" name="L245" href="#L245">245</a> 
+<a class="jxr_linenumber" name="L246" href="#L246">246</a>     <strong class="jxr_keyword">public</strong> <a name="InstitutionSearchRequest" href="../../../../../../org/gbif/api/model/collections/request/InstitutionSearchRequest.html#InstitutionSearchRequest">InstitutionSearchRequest</a> build() {
+<a class="jxr_linenumber" name="L247" href="#L247">247</a>       <a name="InstitutionSearchRequest" href="../../../../../../org/gbif/api/<a name="InstitutionSearchRequest" href="../../../../../../org/gbif/api/model/collections/request/InstitutionSearchRequest.html#InstitutionSearchRequest">InstitutionSearchRequest</a>t/InstitutionSearchRequest.html#InstitutionSearchRequest">InstitutionSearchRequest</a> req = <strong class="jxr_keyword">new</strong> <a name="InstitutionSearchRequest" href="../../../../../../org/gbif/api/model/collections/request/InstitutionSearchRequest.html#InstitutionSearchRequest">InstitutionSearchRequest</a>();
+<a class="jxr_linenumber" name="L248" href="#L248">248</a>       req.setQ(q);
+<a class="jxr_linenumber" name="L249" href="#L249">249</a>       req.setCode(code);
+<a class="jxr_linenumber" name="L250" href="#L250">250</a>       req.setName(name);
+<a class="jxr_linenumber" name="L251" href="#L251">251</a>       req.setAlternativeCode(alternativeCode);
+<a class="jxr_linenumber" name="L252" href="#L252">252</a>       req.setMachineTagNamespace(machineTagNamespace);
+<a class="jxr_linenumber" name="L253" href="#L253">253</a>       req.setMachineTagName(machineTagName);
+<a class="jxr_linenumber" name="L254" href="#L254">254</a>       req.setMachineTagValue(machineTagValue);
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>       req.setIdentifierType(identifierType);
+<a class="jxr_linenumber" name="L256" href="#L256">256</a>       req.setIdentifier(identifier);
+<a class="jxr_linenumber" name="L257" href="#L257">257</a>       req.setCountry(country);
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>       req.setGbifRegion(gbifRegion);
+<a class="jxr_linenumber" name="L259" href="#L259">259</a>       req.setCity(city);
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>       req.setFuzzyName(fuzzyName);
+<a class="jxr_linenumber" name="L261" href="#L261">261</a>       req.setActive(active);
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>       req.setType(type);
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>       req.setInstitutionalGovernance(institutionalGovernance);
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>       req.setDisciplines(disciplines);
+<a class="jxr_linenumber" name="L265" href="#L265">265</a>       req.setMasterSourceType(masterSourceType);
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>       req.setNumberSpecimens(numberSpecimens);
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>       req.setDisplayOnNHCPortal(displayOnNHCPortal);
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>       req.setReplacedBy(replacedBy);
+<a class="jxr_linenumber" name="L269" href="#L269">269</a>       req.setOccurrenceCount(occurrenceCount);
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>       req.setTypeSpecimenCount(typeSpecimenCount);
+<a class="jxr_linenumber" name="L271" href="#L271">271</a>       req.setInstitutionKeys(institutionKeys);
+<a class="jxr_linenumber" name="L272" href="#L272">272</a>       req.setSortBy(sortBy);
+<a class="jxr_linenumber" name="L273" href="#L273">273</a>       req.setSortOrder(sortOrder);
+<a class="jxr_linenumber" name="L274" href="#L274">274</a>       req.setSourceId(sourceId);
+<a class="jxr_linenumber" name="L275" href="#L275">275</a>       req.setSource(source);
+<a class="jxr_linenumber" name="L276" href="#L276">276</a>       <strong class="jxr_keyword">if</strong> (page != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>         req.setLimit(page.getLimit());
+<a class="jxr_linenumber" name="L278" href="#L278">278</a>         req.setOffset(page.getOffset());
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>       }
+<a class="jxr_linenumber" name="L280" href="#L280">280</a>       <strong class="jxr_keyword">return</strong> req;
+<a class="jxr_linenumber" name="L281" href="#L281">281</a>     }
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>   }
+<a class="jxr_linenumber" name="L283" href="#L283">283</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2024 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>

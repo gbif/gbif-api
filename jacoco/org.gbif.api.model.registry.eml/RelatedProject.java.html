@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RelatedProject.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry.eml</a> &gt; <span class="el_source">RelatedProject.java</span></div><h1>RelatedProject.java</h1><pre class="source lang-java linenums">/*
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.registry.eml;
+
+import org.gbif.api.model.registry.Contact;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
+
+/**
+ * A dedicated class for related projects. Unless {@link Project} it only has essential fields.
+ */
+@SuppressWarnings({&quot;unused&quot;, &quot;LombokSetterMayBeUsed&quot;, &quot;LombokGetterMayBeUsed&quot;})
+<span class="nc" id="L29">public class RelatedProject {</span>
+
+  private String title;
+  private String identifier;
+<span class="nc" id="L33">  private List&lt;Contact&gt; contacts = new ArrayList&lt;&gt;();</span>
+  private String abstract_;
+
+  public String getTitle() {
+<span class="nc" id="L37">    return title;</span>
+  }
+
+  public void setTitle(String title) {
+<span class="nc" id="L41">    this.title = title;</span>
+<span class="nc" id="L42">  }</span>
+
+  @Nullable
+  public String getIdentifier() {
+<span class="nc" id="L46">    return identifier;</span>
+  }
+
+  public void setIdentifier(String identifier) {
+<span class="nc" id="L50">    this.identifier = identifier;</span>
+<span class="nc" id="L51">  }</span>
+
+  public List&lt;Contact&gt; getContacts() {
+<span class="nc" id="L54">    return contacts;</span>
+  }
+
+  public void setContacts(List&lt;Contact&gt; contacts) {
+<span class="nc" id="L58">    this.contacts = contacts;</span>
+<span class="nc" id="L59">  }</span>
+
+  public void addContact(Contact contact) {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">    if (contacts == null) {</span>
+<span class="nc" id="L63">      contacts = new LinkedList&lt;&gt;();</span>
+    }
+<span class="nc" id="L65">    contacts.add(contact);</span>
+<span class="nc" id="L66">  }</span>
+
+  @Nullable
+  public String getAbstract() {
+<span class="nc" id="L70">    return abstract_;</span>
+  }
+
+  public void setAbstract(String abstract_) {
+<span class="nc" id="L74">    this.abstract_ = abstract_;</span>
+<span class="nc" id="L75">  }</span>
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L79" title="All 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L80" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L81">    RelatedProject that = (RelatedProject) o;</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">    return Objects.equals(title, that.title)</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        &amp;&amp; Objects.equals(identifier, that.identifier)</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        &amp;&amp; Objects.equals(abstract_, that.abstract_)</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        &amp;&amp; Objects.equals(contacts, that.contacts);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L90">    return Objects.hash(title, identifier, abstract_, contacts);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L95">    return new StringJoiner(&quot;, &quot;, RelatedProject.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L96">        .add(&quot;title='&quot; + title + &quot;'&quot;)</span>
+<span class="nc" id="L97">        .add(&quot;identifier='&quot; + identifier + &quot;'&quot;)</span>
+<span class="nc" id="L98">        .add(&quot;abstract_='&quot; + abstract_ + &quot;'&quot;)</span>
+<span class="nc" id="L99">        .add(&quot;contacts=&quot; + contacts)</span>
+<span class="nc" id="L100">        .toString();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -19,56 +19,54 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.SortOrder;
-import org.gbif.api.vocabulary.collections.Discipline;
-import org.gbif.api.vocabulary.collections.InstitutionGovernance;
-import org.gbif.api.vocabulary.collections.InstitutionType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
+import org.gbif.api.vocabulary.collections.Source;
 
 import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-<span class="nc" id="L32">public class InstitutionSearchRequest extends SearchRequest {</span>
+<span class="nc" id="L30">public class InstitutionSearchRequest extends SearchRequest {</span>
 
-  @Nullable private InstitutionType type;
+  @Nullable private List&lt;String&gt; type;
 
-  @Nullable private InstitutionGovernance institutionalGovernance;
+  @Nullable private List&lt;String&gt; institutionalGovernance;
 
-  @Nullable private List&lt;Discipline&gt; disciplines;
-
-  @Nullable
-  public InstitutionType getType() {
-<span class="nc" id="L42">    return type;</span>
-  }
-
-  public void setType(@Nullable InstitutionType type) {
-<span class="nc" id="L46">    this.type = type;</span>
-<span class="nc" id="L47">  }</span>
+  @Nullable private List&lt;String&gt; disciplines;
 
   @Nullable
-  public InstitutionGovernance getInstitutionalGovernance() {
-<span class="nc" id="L51">    return institutionalGovernance;</span>
+  public List&lt;String&gt; getType() {
+<span class="nc" id="L40">    return type;</span>
   }
 
-  public void setInstitutionalGovernance(@Nullable InstitutionGovernance institutionalGovernance) {
-<span class="nc" id="L55">    this.institutionalGovernance = institutionalGovernance;</span>
-<span class="nc" id="L56">  }</span>
+  public void setType(@Nullable List&lt;String&gt; type) {
+<span class="nc" id="L44">    this.type = type;</span>
+<span class="nc" id="L45">  }</span>
 
   @Nullable
-  public List&lt;Discipline&gt; getDisciplines() {
-<span class="nc" id="L60">    return disciplines;</span>
+  public List&lt;String&gt; getInstitutionalGovernance() {
+<span class="nc" id="L49">    return institutionalGovernance;</span>
   }
 
-  public void setDisciplines(@Nullable List&lt;Discipline&gt; disciplines) {
-<span class="nc" id="L64">    this.disciplines = disciplines;</span>
-<span class="nc" id="L65">  }</span>
+  public void setInstitutionalGovernance(@Nullable List&lt;String&gt; institutionalGovernance) {
+<span class="nc" id="L53">    this.institutionalGovernance = institutionalGovernance;</span>
+<span class="nc" id="L54">  }</span>
+
+  @Nullable
+  public List&lt;String&gt; getDisciplines() {
+<span class="nc" id="L58">    return disciplines;</span>
+  }
+
+  public void setDisciplines(@Nullable List&lt;String&gt; disciplines) {
+<span class="nc" id="L62">    this.disciplines = disciplines;</span>
+<span class="nc" id="L63">  }</span>
 
   public static Builder builder() {
-<span class="nc" id="L68">    return new Builder();</span>
+<span class="nc" id="L66">    return new Builder();</span>
   }
 
-<span class="nc" id="L71">  public static class Builder {</span>
+<span class="nc" id="L69">  public static class Builder {</span>
 
     String q;
     String code;
@@ -84,9 +82,9 @@ import javax.annotation.Nullable;
     String city;
     String fuzzyName;
     Boolean active;
-    InstitutionType type;
-    InstitutionGovernance institutionalGovernance;
-    List&lt;Discipline&gt; disciplines;
+    List&lt;String&gt; type;
+    List&lt;String&gt; institutionalGovernance;
+    List&lt;String&gt; disciplines;
     MasterSourceType masterSourceType;
     String numberSpecimens;
     Boolean displayOnNHCPortal;
@@ -97,6 +95,8 @@ import javax.annotation.Nullable;
     CollectionsSortField sortBy;
     SortOrder sortOrder;
     Pageable page;
+    String sourceId;
+    Source source;
 
     public Builder query(String q) {
 <span class="nc" id="L102">      this.q = q;</span>
@@ -168,17 +168,17 @@ import javax.annotation.Nullable;
 <span class="nc" id="L168">      return this;</span>
     }
 
-    public Builder type(InstitutionType type) {
+    public Builder type(List&lt;String&gt; type) {
 <span class="nc" id="L172">      this.type = type;</span>
 <span class="nc" id="L173">      return this;</span>
     }
 
-    public Builder institutionalGovernance(InstitutionGovernance institutionalGovernance) {
+    public Builder institutionalGovernance(List&lt;String&gt; institutionalGovernance) {
 <span class="nc" id="L177">      this.institutionalGovernance = institutionalGovernance;</span>
 <span class="nc" id="L178">      return this;</span>
     }
 
-    public Builder disciplines(List&lt;Discipline&gt; disciplines) {
+    public Builder disciplines(List&lt;String&gt; disciplines) {
 <span class="nc" id="L182">      this.disciplines = disciplines;</span>
 <span class="nc" id="L183">      return this;</span>
     }
@@ -233,39 +233,51 @@ import javax.annotation.Nullable;
 <span class="nc" id="L233">      return this;</span>
     }
 
+    public Builder sourceId(String sourceId) {
+<span class="nc" id="L237">      this.sourceId = sourceId;</span>
+<span class="nc" id="L238">      return this;</span>
+    }
+
+    public Builder source(Source source) {
+<span class="nc" id="L242">      this.source = source;</span>
+<span class="nc" id="L243">      return this;</span>
+    }
+
     public InstitutionSearchRequest build() {
-<span class="nc" id="L237">      InstitutionSearchRequest req = new InstitutionSearchRequest();</span>
-<span class="nc" id="L238">      req.setQ(q);</span>
-<span class="nc" id="L239">      req.setCode(code);</span>
-<span class="nc" id="L240">      req.setName(name);</span>
-<span class="nc" id="L241">      req.setAlternativeCode(alternativeCode);</span>
-<span class="nc" id="L242">      req.setMachineTagNamespace(machineTagNamespace);</span>
-<span class="nc" id="L243">      req.setMachineTagName(machineTagName);</span>
-<span class="nc" id="L244">      req.setMachineTagValue(machineTagValue);</span>
-<span class="nc" id="L245">      req.setIdentifierType(identifierType);</span>
-<span class="nc" id="L246">      req.setIdentifier(identifier);</span>
-<span class="nc" id="L247">      req.setCountry(country);</span>
-<span class="nc" id="L248">      req.setGbifRegion(gbifRegion);</span>
-<span class="nc" id="L249">      req.setCity(city);</span>
-<span class="nc" id="L250">      req.setFuzzyName(fuzzyName);</span>
-<span class="nc" id="L251">      req.setActive(active);</span>
-<span class="nc" id="L252">      req.setType(type);</span>
-<span class="nc" id="L253">      req.setInstitutionalGovernance(institutionalGovernance);</span>
-<span class="nc" id="L254">      req.setDisciplines(disciplines);</span>
-<span class="nc" id="L255">      req.setMasterSourceType(masterSourceType);</span>
-<span class="nc" id="L256">      req.setNumberSpecimens(numberSpecimens);</span>
-<span class="nc" id="L257">      req.setDisplayOnNHCPortal(displayOnNHCPortal);</span>
-<span class="nc" id="L258">      req.setReplacedBy(replacedBy);</span>
-<span class="nc" id="L259">      req.setOccurrenceCount(occurrenceCount);</span>
-<span class="nc" id="L260">      req.setTypeSpecimenCount(typeSpecimenCount);</span>
-<span class="nc" id="L261">      req.setInstitutionKeys(institutionKeys);</span>
-<span class="nc" id="L262">      req.setSortBy(sortBy);</span>
-<span class="nc" id="L263">      req.setSortOrder(sortOrder);</span>
-<span class="nc bnc" id="L264" title="All 2 branches missed.">      if (page != null) {</span>
-<span class="nc" id="L265">        req.setLimit(page.getLimit());</span>
-<span class="nc" id="L266">        req.setOffset(page.getOffset());</span>
+<span class="nc" id="L247">      InstitutionSearchRequest req = new InstitutionSearchRequest();</span>
+<span class="nc" id="L248">      req.setQ(q);</span>
+<span class="nc" id="L249">      req.setCode(code);</span>
+<span class="nc" id="L250">      req.setName(name);</span>
+<span class="nc" id="L251">      req.setAlternativeCode(alternativeCode);</span>
+<span class="nc" id="L252">      req.setMachineTagNamespace(machineTagNamespace);</span>
+<span class="nc" id="L253">      req.setMachineTagName(machineTagName);</span>
+<span class="nc" id="L254">      req.setMachineTagValue(machineTagValue);</span>
+<span class="nc" id="L255">      req.setIdentifierType(identifierType);</span>
+<span class="nc" id="L256">      req.setIdentifier(identifier);</span>
+<span class="nc" id="L257">      req.setCountry(country);</span>
+<span class="nc" id="L258">      req.setGbifRegion(gbifRegion);</span>
+<span class="nc" id="L259">      req.setCity(city);</span>
+<span class="nc" id="L260">      req.setFuzzyName(fuzzyName);</span>
+<span class="nc" id="L261">      req.setActive(active);</span>
+<span class="nc" id="L262">      req.setType(type);</span>
+<span class="nc" id="L263">      req.setInstitutionalGovernance(institutionalGovernance);</span>
+<span class="nc" id="L264">      req.setDisciplines(disciplines);</span>
+<span class="nc" id="L265">      req.setMasterSourceType(masterSourceType);</span>
+<span class="nc" id="L266">      req.setNumberSpecimens(numberSpecimens);</span>
+<span class="nc" id="L267">      req.setDisplayOnNHCPortal(displayOnNHCPortal);</span>
+<span class="nc" id="L268">      req.setReplacedBy(replacedBy);</span>
+<span class="nc" id="L269">      req.setOccurrenceCount(occurrenceCount);</span>
+<span class="nc" id="L270">      req.setTypeSpecimenCount(typeSpecimenCount);</span>
+<span class="nc" id="L271">      req.setInstitutionKeys(institutionKeys);</span>
+<span class="nc" id="L272">      req.setSortBy(sortBy);</span>
+<span class="nc" id="L273">      req.setSortOrder(sortOrder);</span>
+<span class="nc" id="L274">      req.setSourceId(sourceId);</span>
+<span class="nc" id="L275">      req.setSource(source);</span>
+<span class="nc bnc" id="L276" title="All 2 branches missed.">      if (page != null) {</span>
+<span class="nc" id="L277">        req.setLimit(page.getLimit());</span>
+<span class="nc" id="L278">        req.setOffset(page.getOffset());</span>
       }
-<span class="nc" id="L268">      return req;</span>
+<span class="nc" id="L280">      return req;</span>
     }
   }
 }

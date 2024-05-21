@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProjectAward.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.registry.eml</a> &gt; <span class="el_source">ProjectAward.java</span></div><h1>ProjectAward.java</h1><pre class="source lang-java linenums">/*
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.gbif.api.model.registry.eml;
+
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
+
+/**
+ * ProjectAward is used to enter information about a funding award associated with a project. The containing project
+ * contains the list of investigators and for the award, while the `award` field contains specifics such as the agency
+ * name, award number, and funding program identifiers.
+ */
+@SuppressWarnings({&quot;unused&quot;, &quot;LombokSetterMayBeUsed&quot;, &quot;LombokGetterMayBeUsed&quot;})
+<span class="nc" id="L29">public class ProjectAward {</span>
+
+  private String funderName;
+<span class="nc" id="L32">  private List&lt;String&gt; funderIdentifiers = new ArrayList&lt;&gt;();</span>
+  private String awardNumber;
+  private String title;
+  private String awardUrl;
+
+  @NotNull
+  public String getFunderName() {
+<span class="nc" id="L39">    return funderName;</span>
+  }
+
+  public void setFunderName(String funderName) {
+<span class="nc" id="L43">    this.funderName = funderName;</span>
+<span class="nc" id="L44">  }</span>
+
+  public List&lt;String&gt; getFunderIdentifiers() {
+<span class="nc" id="L47">    return funderIdentifiers;</span>
+  }
+
+  public void setFunderIdentifiers(List&lt;String&gt; funderIdentifiers) {
+<span class="nc" id="L51">    this.funderIdentifiers = funderIdentifiers;</span>
+<span class="nc" id="L52">  }</span>
+
+  public void addFunderIdentifier(String funderIdentifier) {
+<span class="nc" id="L55">    this.funderIdentifiers.add(funderIdentifier);</span>
+<span class="nc" id="L56">  }</span>
+
+  @Nullable
+  public String getAwardNumber() {
+<span class="nc" id="L60">    return awardNumber;</span>
+  }
+
+  public void setAwardNumber(@Nullable String awardNumber) {
+<span class="nc" id="L64">    this.awardNumber = awardNumber;</span>
+<span class="nc" id="L65">  }</span>
+
+  @NotNull
+  public String getTitle() {
+<span class="nc" id="L69">    return title;</span>
+  }
+
+  public void setTitle(String title) {
+<span class="nc" id="L73">    this.title = title;</span>
+<span class="nc" id="L74">  }</span>
+
+  @Nullable
+  public String getAwardUrl() {
+<span class="nc" id="L78">    return awardUrl;</span>
+  }
+
+  public void setAwardUrl(@Nullable String awardUrl) {
+<span class="nc" id="L82">    this.awardUrl = awardUrl;</span>
+<span class="nc" id="L83">  }</span>
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L87" title="All 2 branches missed.">    if (this == o) return true;</span>
+<span class="nc bnc" id="L88" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L89">    ProjectAward that = (ProjectAward) o;</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">    return Objects.equals(funderName, that.funderName)</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        &amp;&amp; Objects.equals(funderIdentifiers, that.funderIdentifiers)</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        &amp;&amp; Objects.equals(awardNumber, that.awardNumber)</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        &amp;&amp; Objects.equals(title, that.title)</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        &amp;&amp; Objects.equals(awardUrl, that.awardUrl);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L99">    return Objects.hash(funderName, funderIdentifiers, awardNumber, title, awardUrl);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L104">    return new StringJoiner(&quot;, &quot;, ProjectAward.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L105">        .add(&quot;funderName='&quot; + funderName + &quot;'&quot;)</span>
+<span class="nc" id="L106">        .add(&quot;funderIdentifiers=&quot; + funderIdentifiers)</span>
+<span class="nc" id="L107">        .add(&quot;awardNumber='&quot; + awardNumber + &quot;'&quot;)</span>
+<span class="nc" id="L108">        .add(&quot;title='&quot; + title + &quot;'&quot;)</span>
+<span class="nc" id="L109">        .add(&quot;awardUrl='&quot; + awardUrl + &quot;'&quot;)</span>
+<span class="nc" id="L110">        .toString();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

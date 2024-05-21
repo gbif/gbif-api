@@ -13,14 +13,6 @@
  */
 package org.gbif.api.model.collections;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import io.swagger.v3.oas.annotations.Hidden;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.Comment;
 import org.gbif.api.model.registry.Identifier;
@@ -31,10 +23,8 @@ import org.gbif.api.model.registry.Tag;
 import org.gbif.api.util.HttpURI;
 import org.gbif.api.util.LenientEqualsUtils;
 import org.gbif.api.util.validators.email.ValidEmail;
-import org.gbif.api.vocabulary.collections.AccessionStatus;
-import org.gbif.api.vocabulary.collections.CollectionContentType;
+import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
-import org.gbif.api.vocabulary.collections.PreservationType;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -43,7 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.StringJoiner;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -51,15 +40,23 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
 /**
  * A group of specimens or other natural history objects. Types of collections can be: specimens,
  * original artwork, archives, observations, library materials, datasets, photographs or mixed
  * collections such as those that result from expeditions and voyages of discovery.
  */
 @SuppressWarnings(&quot;unused&quot;)
-<span class="nc" id="L60">@ToString</span>
-<span class="nc bnc" id="L61" title="All 362 branches missed.">@EqualsAndHashCode</span>
-<span class="nc" id="L62">public class Collection implements CollectionEntity, LenientEquals&lt;Collection&gt; {</span>
+<span class="nc" id="L57">@ToString</span>
+<span class="nc bnc" id="L58" title="All 382 branches missed.">@EqualsAndHashCode</span>
+<span class="nc" id="L59">public class Collection implements CollectionEntity, LenientEquals&lt;Collection&gt; {</span>
 
   @Schema(
       description = &quot;Unique GBIF key for the collection.&quot;,
@@ -84,8 +81,8 @@ import javax.validation.constraints.Size;
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private String description;
 
-<span class="nc" id="L87">  @Schema(description = &quot;Content type of the elements found in the collection.&quot;)</span>
-  private List&lt;CollectionContentType&gt; contentTypes = new ArrayList&lt;&gt;();
+<span class="nc" id="L84">  @Schema(description = &quot;Content type of the elements found in the collection.&quot;)</span>
+  private List&lt;String&gt; contentTypes = new ArrayList&lt;&gt;();
 
   @Schema(description = &quot;Whether the collection is active/maintained.&quot;)
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
@@ -100,11 +97,11 @@ import javax.validation.constraints.Size;
       pattern = &quot;(10(?:\\.[0-9]+)+)&quot; + &quot;/(.+)&quot;)
   private DOI doi;
 
-<span class="nc" id="L103">  @Schema(description = &quot;Email addresses associated with the collection.&quot;)</span>
+<span class="nc" id="L100">  @Schema(description = &quot;Email addresses associated with the collection.&quot;)</span>
   @Sourceable(masterSources = MasterSourceType.IH)
   private List&lt;@ValidEmail String&gt; email = new ArrayList&lt;&gt;();
 
-<span class="nc" id="L107">  @Schema(description = &quot;Telephone numbers associated with the collection.&quot;)</span>
+<span class="nc" id="L104">  @Schema(description = &quot;Telephone numbers associated with the collection.&quot;)</span>
   @Sourceable(masterSources = MasterSourceType.IH)
   private List&lt;String&gt; phone = new ArrayList&lt;&gt;();
 
@@ -112,18 +109,18 @@ import javax.validation.constraints.Size;
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private URI homepage;
 
-  @Schema(description = &quot;A URL for an interactive catalogue of the collection.&quot;)
-  private URI catalogUrl;
+<span class="nc" id="L112">  @Schema(description = &quot;URLs for interactive catalogues of the collection.&quot;)</span>
+  private List&lt;@HttpURI URI&gt; catalogUrls = new ArrayList&lt;&gt;();
 
-  @Schema(description = &quot;A URL for a machine-readable API for the collection catalogue.&quot;)
-  private URI apiUrl;
+<span class="nc" id="L115">  @Schema(description = &quot;URLs for machine-readable APIs for the collection catalogue.&quot;)</span>
+  private List&lt;@HttpURI URI&gt; apiUrls = new ArrayList&lt;&gt;();
 
-<span class="nc" id="L121">  @Schema(description = &quot;The preservation mechanisms used for this collection.&quot;)</span>
+<span class="nc" id="L118">  @Schema(description = &quot;The preservation mechanisms used for this collection.&quot;)</span>
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
-  private List&lt;PreservationType&gt; preservationTypes = new ArrayList&lt;&gt;();
+  private List&lt;String&gt; preservationTypes = new ArrayList&lt;&gt;();
 
   @Schema(description = &quot;How the collection was added or joined.&quot;)
-  private AccessionStatus accessionStatus;
+  private String accessionStatus;
 
   @Schema(description = &quot;The key of the institution owning or hosting the collection.&quot;)
   private UUID institutionKey;
@@ -168,33 +165,29 @@ import javax.validation.constraints.Size;
       accessMode = Schema.AccessMode.READ_ONLY)
   private Date deleted;
 
-<span class="nc" id="L171">  @Schema(</span>
+<span class="nc" id="L168">  @Schema(</span>
       description = &quot;A list of tags associated with this collection.&quot;,
       accessMode = Schema.AccessMode.READ_ONLY)
   private List&lt;Tag&gt; tags = new ArrayList&lt;&gt;();
 
-<span class="nc" id="L176">  @Schema(</span>
+<span class="nc" id="L173">  @Schema(</span>
       description = &quot;A list of identifiers associated with this collection.&quot;,
       accessMode = Schema.AccessMode.READ_ONLY)
   @Sourceable(masterSources = MasterSourceType.IH, sourceableParts = &quot;IH_IRN&quot;)
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY, sourceableParts = &quot;DOI&quot;)
   private List&lt;Identifier&gt; identifiers = new ArrayList&lt;&gt;();
 
-<span class="nc" id="L183">  @Schema(</span>
+<span class="nc" id="L180">  @Schema(</span>
       description = &quot;A list of contact people for this collection.&quot;,
       accessMode = Schema.AccessMode.READ_ONLY)
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List&lt;Contact&gt; contactPersons = new ArrayList&lt;&gt;();
 
-  @Schema(description = &quot;Whether there is a record for this collection in *Index Herbariorum*.&quot;)
-  @Sourceable(masterSources = MasterSourceType.IH)
-  private boolean indexHerbariorumRecord;
-
   @Schema(description = &quot;The number of specimens contained in this collection.&quot;)
   @Sourceable(masterSources = MasterSourceType.IH)
   private Integer numberSpecimens;
 
-<span class="nc" id="L197">  @Schema(</span>
+<span class="nc" id="L190">  @Schema(</span>
       description = &quot;A list of machine tags associated with this collection.&quot;,
       accessMode = Schema.AccessMode.READ_ONLY)
   private List&lt;MachineTag&gt; machineTags = new ArrayList&lt;&gt;();
@@ -203,37 +196,35 @@ import javax.validation.constraints.Size;
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private String taxonomicCoverage;
 
-  @Schema(description = &quot;The geographic scope of this collection.&quot;)
+  @Schema(description = &quot;The geographic coverage of this collection.&quot;)
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
-  private String geography;
+  private String geographicCoverage;
 
   @Schema(description = &quot;Notes on the collection.&quot;)
   @Sourceable(masterSources = MasterSourceType.IH)
   private String notes;
 
-<span class="nc" id="L214">  @Schema(description = &quot;Other collections incorporated into this collection.&quot;)</span>
+<span class="nc" id="L207">  @Schema(description = &quot;Other collections incorporated into this collection.&quot;)</span>
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List&lt;String&gt; incorporatedCollections = new ArrayList&lt;&gt;();
 
-<span class="nc" id="L218">  @Schema(description = &quot;Important collectors who have specimens in this collection.&quot;)</span>
+<span class="nc" id="L211">  @Schema(description = &quot;Important collectors who have specimens in this collection.&quot;)</span>
   @Sourceable(masterSources = MasterSourceType.IH)
   private List&lt;String&gt; importantCollectors = new ArrayList&lt;&gt;();
 
-<span class="nc" id="L222">  @Schema(</span>
-      description = &quot;A summary of the collection.&quot; // TODO, a summary of what?
-      )
+<span class="nc" id="L215">  @Schema(description = &quot;A summary of metrics of the collection.&quot;)</span>
   @Sourceable(masterSources = MasterSourceType.IH)
   private Map&lt;String, Integer&gt; collectionSummary = new HashMap&lt;&gt;();
 
-<span class="nc" id="L228">  @Schema(description = &quot;Alternative codes for this collection.&quot;)</span>
+<span class="nc" id="L219">  @Schema(description = &quot;Alternative codes for this collection.&quot;)</span>
   private List&lt;AlternativeCode&gt; alternativeCodes = new ArrayList&lt;&gt;();
 
-<span class="nc" id="L231">  @Schema(</span>
+<span class="nc" id="L222">  @Schema(</span>
       description = &quot;A list of comments associated with this collection.&quot;,
       accessMode = Schema.AccessMode.READ_ONLY)
   private List&lt;Comment&gt; comments = new ArrayList&lt;&gt;();
 
-<span class="nc" id="L236">  @Schema(</span>
+<span class="nc" id="L227">  @Schema(</span>
       description = &quot;Mapping of a GRSciColl collection to occurrence records&quot;,
       accessMode = Schema.AccessMode.READ_ONLY)
   private List&lt;OccurrenceMapping&gt; occurrenceMappings = new ArrayList&lt;&gt;();
@@ -267,287 +258,296 @@ import javax.validation.constraints.Size;
   @Schema(description = &quot;An estimate of the number of type specimens linked to the institution.&quot;)
   private Integer typeSpecimenCount;
 
+  @Getter
+  @Schema(
+      description =
+          &quot;URI to the image to be featured on the collection page, this image should be associated with a license.&quot;)
+  private URI featuredImageUrl;
+
+  @Getter
+  @Schema(
+      description = &quot;The license associated with the image to be featured on the collection page.&quot;)
+  private License featuredImageLicense;
+
+  @Getter
+  @Schema(
+      description =
+          &quot;Temporal scope or focus of the collection. This free text field can be used to describe both the collection &quot;
+              + &quot;date ranges as well as the geological time group(s) of the collection objects in the context of &quot;
+              + &quot;paleontological collections.&quot;)
+  private String temporalCoverage;
+
   /** List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc.. */
   @Override
   public List&lt;Identifier&gt; getIdentifiers() {
-<span class="nc" id="L273">    return identifiers;</span>
+<span class="nc" id="L283">    return identifiers;</span>
   }
 
   @Override
   public void setIdentifiers(List&lt;Identifier&gt; identifiers) {
-<span class="nc" id="L278">    this.identifiers = identifiers;</span>
-<span class="nc" id="L279">  }</span>
+<span class="nc" id="L288">    this.identifiers = identifiers;</span>
+<span class="nc" id="L289">  }</span>
 
   /** (Meta)Tags or labels. */
   @Valid
   @Override
   public List&lt;Tag&gt; getTags() {
-<span class="nc" id="L285">    return tags;</span>
+<span class="nc" id="L295">    return tags;</span>
   }
 
   @Override
   public void setTags(List&lt;Tag&gt; tags) {
-<span class="nc" id="L290">    this.tags = tags;</span>
-<span class="nc" id="L291">  }</span>
+<span class="nc" id="L300">    this.tags = tags;</span>
+<span class="nc" id="L301">  }</span>
 
   /** GBIF Unique identifier of this collection. */
   @Override
   public UUID getKey() {
-<span class="nc" id="L296">    return key;</span>
+<span class="nc" id="L306">    return key;</span>
   }
 
   @Override
   public void setKey(UUID key) {
-<span class="nc" id="L301">    this.key = key;</span>
-<span class="nc" id="L302">  }</span>
+<span class="nc" id="L311">    this.key = key;</span>
+<span class="nc" id="L312">  }</span>
 
   /** Collection code: identifies a collection at the owner's location. */
   @NotNull(groups = PrePersist.class)
   @Override
   public String getCode() {
-<span class="nc" id="L308">    return code;</span>
+<span class="nc" id="L318">    return code;</span>
   }
 
   @Override
   public void setCode(String code) {
-<span class="nc" id="L313">    this.code = code;</span>
-<span class="nc" id="L314">  }</span>
+<span class="nc" id="L323">    this.code = code;</span>
+<span class="nc" id="L324">  }</span>
 
   /** Descriptive name of a collection. */
   @NotNull
   @Override
   public String getName() {
-<span class="nc" id="L320">    return name;</span>
+<span class="nc" id="L330">    return name;</span>
   }
 
   @Override
   public void setName(String name) {
-<span class="nc" id="L325">    this.name = name;</span>
-<span class="nc" id="L326">  }</span>
+<span class="nc" id="L335">    this.name = name;</span>
+<span class="nc" id="L336">  }</span>
 
   /** Textual description/summary of the contents of a collection. */
   @Size(min = 1)
   @Override
   public String getDescription() {
-<span class="nc" id="L332">    return description;</span>
+<span class="nc" id="L342">    return description;</span>
   }
 
   @Override
   public void setDescription(String description) {
-<span class="nc" id="L337">    this.description = description;</span>
-<span class="nc" id="L338">  }</span>
+<span class="nc" id="L347">    this.description = description;</span>
+<span class="nc" id="L348">  }</span>
 
   /** Content type of the elements found in a collection. */
-  public List&lt;CollectionContentType&gt; getContentTypes() {
-<span class="nc" id="L342">    return contentTypes;</span>
+  public List&lt;String&gt; getContentTypes() {
+<span class="nc" id="L352">    return contentTypes;</span>
   }
 
-  public void setContentTypes(List&lt;CollectionContentType&gt; contentTypes) {
-<span class="nc" id="L346">    this.contentTypes = contentTypes;</span>
-<span class="nc" id="L347">  }</span>
+  public void setContentTypes(List&lt;String&gt; contentTypes) {
+<span class="nc" id="L356">    this.contentTypes = contentTypes;</span>
+<span class="nc" id="L357">  }</span>
 
   /** Is this collection currently active/maintained. */
   @Override
   public boolean isActive() {
-<span class="nc" id="L352">    return active;</span>
+<span class="nc" id="L362">    return active;</span>
   }
 
   @Override
   public void setActive(boolean active) {
-<span class="nc" id="L357">    this.active = active;</span>
-<span class="nc" id="L358">  }</span>
+<span class="nc" id="L367">    this.active = active;</span>
+<span class="nc" id="L368">  }</span>
 
   /** Does this collections belong to an individual?. */
   public boolean isPersonalCollection() {
-<span class="nc" id="L362">    return personalCollection;</span>
+<span class="nc" id="L372">    return personalCollection;</span>
   }
 
   public void setPersonalCollection(boolean personalCollection) {
-<span class="nc" id="L366">    this.personalCollection = personalCollection;</span>
-<span class="nc" id="L367">  }</span>
+<span class="nc" id="L376">    this.personalCollection = personalCollection;</span>
+<span class="nc" id="L377">  }</span>
 
   /** Digital Object Identifier assigned to this collection. */
   public DOI getDoi() {
-<span class="nc" id="L371">    return doi;</span>
+<span class="nc" id="L381">    return doi;</span>
   }
 
   public void setDoi(DOI doi) {
-<span class="nc" id="L375">    this.doi = doi;</span>
-<span class="nc" id="L376">  }</span>
+<span class="nc" id="L385">    this.doi = doi;</span>
+<span class="nc" id="L386">  }</span>
 
   @Override
   public List&lt;String&gt; getEmail() {
-<span class="nc" id="L380">    return email;</span>
+<span class="nc" id="L390">    return email;</span>
   }
 
   @Override
   public void setEmail(List&lt;String&gt; email) {
-<span class="nc" id="L385">    this.email = email;</span>
-<span class="nc" id="L386">  }</span>
+<span class="nc" id="L395">    this.email = email;</span>
+<span class="nc" id="L396">  }</span>
 
   @Override
   public List&lt;String&gt; getPhone() {
-<span class="nc" id="L390">    return phone;</span>
+<span class="nc" id="L400">    return phone;</span>
   }
 
   @Override
   public void setPhone(List&lt;String&gt; phone) {
-<span class="nc" id="L395">    this.phone = phone;</span>
-<span class="nc" id="L396">  }</span>
+<span class="nc" id="L405">    this.phone = phone;</span>
+<span class="nc" id="L406">  }</span>
 
   /** URL containing information about a collection. */
   @HttpURI
   @Nullable
   public URI getHomepage() {
-<span class="nc" id="L402">    return homepage;</span>
+<span class="nc" id="L412">    return homepage;</span>
   }
 
   public void setHomepage(URI homepage) {
-<span class="nc" id="L406">    this.homepage = homepage;</span>
-<span class="nc" id="L407">  }</span>
+<span class="nc" id="L416">    this.homepage = homepage;</span>
+<span class="nc" id="L417">  }</span>
 
   /** URI that exposes data about the catalog associated to a collection. */
-  @HttpURI
   @Nullable
-  public URI getCatalogUrl() {
-<span class="nc" id="L413">    return catalogUrl;</span>
+  public List&lt;URI&gt; getCatalogUrls() {
+<span class="nc" id="L422">    return catalogUrls;</span>
   }
 
-  public void setCatalogUrl(URI catalogUrl) {
-<span class="nc" id="L417">    this.catalogUrl = catalogUrl;</span>
-<span class="nc" id="L418">  }</span>
+  public void setCatalogUrls(List&lt;URI&gt; catalogUrls) {
+<span class="nc" id="L426">    this.catalogUrls = catalogUrls;</span>
+<span class="nc" id="L427">  }</span>
 
   /** Machine consumable endpoint of information about a collection. */
-  @HttpURI
   @Nullable
-  public URI getApiUrl() {
-<span class="nc" id="L424">    return apiUrl;</span>
+  public List&lt;URI&gt; getApiUrls() {
+<span class="nc" id="L432">    return apiUrls;</span>
   }
 
-  public void setApiUrl(URI apiUrl) {
-<span class="nc" id="L428">    this.apiUrl = apiUrl;</span>
-<span class="nc" id="L429">  }</span>
+  public void setApiUrls(List&lt;URI&gt; apiUrls) {
+<span class="nc" id="L436">    this.apiUrls = apiUrls;</span>
+<span class="nc" id="L437">  }</span>
 
   /** Types of preservation mechanisms used for this collections. */
-  public List&lt;PreservationType&gt; getPreservationTypes() {
-<span class="nc" id="L433">    return preservationTypes;</span>
+  public List&lt;String&gt; getPreservationTypes() {
+<span class="nc" id="L441">    return preservationTypes;</span>
   }
 
-  public void setPreservationTypes(List&lt;PreservationType&gt; preservationTypes) {
-<span class="nc" id="L437">    this.preservationTypes = preservationTypes;</span>
-<span class="nc" id="L438">  }</span>
+  public void setPreservationTypes(List&lt;String&gt; preservationTypes) {
+<span class="nc" id="L445">    this.preservationTypes = preservationTypes;</span>
+<span class="nc" id="L446">  }</span>
 
   /** Defines how a collection as been added or joined. */
-  public AccessionStatus getAccessionStatus() {
-<span class="nc" id="L442">    return accessionStatus;</span>
+  public String getAccessionStatus() {
+<span class="nc" id="L450">    return accessionStatus;</span>
   }
 
-  public void setAccessionStatus(AccessionStatus accessionStatus) {
-<span class="nc" id="L446">    this.accessionStatus = accessionStatus;</span>
-<span class="nc" id="L447">  }</span>
+  public void setAccessionStatus(String accessionStatus) {
+<span class="nc" id="L454">    this.accessionStatus = accessionStatus;</span>
+<span class="nc" id="L455">  }</span>
 
   /** Institution that owns or hosts this collection. */
   public UUID getInstitutionKey() {
-<span class="nc" id="L451">    return institutionKey;</span>
+<span class="nc" id="L459">    return institutionKey;</span>
   }
 
   public void setInstitutionKey(UUID institutionKey) {
-<span class="nc" id="L455">    this.institutionKey = institutionKey;</span>
-<span class="nc" id="L456">  }</span>
+<span class="nc" id="L463">    this.institutionKey = institutionKey;</span>
+<span class="nc" id="L464">  }</span>
 
   /** Address used to send/receive physical mail. */
   @Nullable
   @Valid
   @Override
   public Address getMailingAddress() {
-<span class="nc" id="L463">    return mailingAddress;</span>
+<span class="nc" id="L471">    return mailingAddress;</span>
   }
 
   @Override
   public void setMailingAddress(Address mailingAddress) {
-<span class="nc" id="L468">    this.mailingAddress = mailingAddress;</span>
-<span class="nc" id="L469">  }</span>
+<span class="nc" id="L476">    this.mailingAddress = mailingAddress;</span>
+<span class="nc" id="L477">  }</span>
 
   /** Address where this collection is situated. */
   @Nullable
   @Valid
   @Override
   public Address getAddress() {
-<span class="nc" id="L476">    return address;</span>
+<span class="nc" id="L484">    return address;</span>
   }
 
   @Override
   public void setAddress(Address address) {
-<span class="nc" id="L481">    this.address = address;</span>
-<span class="nc" id="L482">  }</span>
+<span class="nc" id="L489">    this.address = address;</span>
+<span class="nc" id="L490">  }</span>
 
   @Override
   public String getCreatedBy() {
-<span class="nc" id="L486">    return createdBy;</span>
+<span class="nc" id="L494">    return createdBy;</span>
   }
 
   @Override
   public void setCreatedBy(String createdBy) {
-<span class="nc" id="L491">    this.createdBy = createdBy;</span>
-<span class="nc" id="L492">  }</span>
+<span class="nc" id="L499">    this.createdBy = createdBy;</span>
+<span class="nc" id="L500">  }</span>
 
   @Override
   public String getModifiedBy() {
-<span class="nc" id="L496">    return modifiedBy;</span>
+<span class="nc" id="L504">    return modifiedBy;</span>
   }
 
   @Override
   public void setModifiedBy(String modifiedBy) {
-<span class="nc" id="L501">    this.modifiedBy = modifiedBy;</span>
-<span class="nc" id="L502">  }</span>
+<span class="nc" id="L509">    this.modifiedBy = modifiedBy;</span>
+<span class="nc" id="L510">  }</span>
 
   @Override
   public Date getCreated() {
-<span class="nc" id="L506">    return created;</span>
+<span class="nc" id="L514">    return created;</span>
   }
 
   @Override
   public void setCreated(Date created) {
-<span class="nc" id="L511">    this.created = created;</span>
-<span class="nc" id="L512">  }</span>
+<span class="nc" id="L519">    this.created = created;</span>
+<span class="nc" id="L520">  }</span>
 
   @Override
   public Date getModified() {
-<span class="nc" id="L516">    return modified;</span>
+<span class="nc" id="L524">    return modified;</span>
   }
 
   @Override
   public void setModified(Date modified) {
-<span class="nc" id="L521">    this.modified = modified;</span>
-<span class="nc" id="L522">  }</span>
+<span class="nc" id="L529">    this.modified = modified;</span>
+<span class="nc" id="L530">  }</span>
 
   @Override
   public Date getDeleted() {
-<span class="nc" id="L526">    return deleted;</span>
+<span class="nc" id="L534">    return deleted;</span>
   }
 
   @Override
   public void setDeleted(Date deleted) {
-<span class="nc" id="L531">    this.deleted = deleted;</span>
-<span class="nc" id="L532">  }</span>
+<span class="nc" id="L539">    this.deleted = deleted;</span>
+<span class="nc" id="L540">  }</span>
 
   @Valid
   @Override
   public List&lt;Contact&gt; getContactPersons() {
-<span class="nc" id="L537">    return contactPersons;</span>
+<span class="nc" id="L545">    return contactPersons;</span>
   }
 
   @Override
   public void setContactPersons(List&lt;Contact&gt; contactPersons) {
-<span class="nc" id="L542">    this.contactPersons = contactPersons;</span>
-<span class="nc" id="L543">  }</span>
-
-  public boolean isIndexHerbariorumRecord() {
-<span class="nc" id="L546">    return indexHerbariorumRecord;</span>
-  }
-
-  public void setIndexHerbariorumRecord(boolean indexHerbariorumRecord) {
-<span class="nc" id="L550">    this.indexHerbariorumRecord = indexHerbariorumRecord;</span>
+<span class="nc" id="L550">    this.contactPersons = contactPersons;</span>
 <span class="nc" id="L551">  }</span>
 
   public Integer getNumberSpecimens() {
@@ -582,12 +582,12 @@ import javax.validation.constraints.Size;
 <span class="nc" id="L582">    this.taxonomicCoverage = taxonomicCoverage;</span>
 <span class="nc" id="L583">  }</span>
 
-  public String getGeography() {
-<span class="nc" id="L586">    return geography;</span>
+  public String getGeographicCoverage() {
+<span class="nc" id="L586">    return geographicCoverage;</span>
   }
 
-  public void setGeography(String geography) {
-<span class="nc" id="L590">    this.geography = geography;</span>
+  public void setGeographicCoverage(String geographicCoverage) {
+<span class="nc" id="L590">    this.geographicCoverage = geographicCoverage;</span>
 <span class="nc" id="L591">  }</span>
 
   public String getNotes() {
@@ -709,96 +709,130 @@ import javax.validation.constraints.Size;
 <span class="nc" id="L709">    this.displayOnNHCPortal = displayOnNHCPortal;</span>
 <span class="nc" id="L710">  }</span>
 
+  @HttpURI
+  @Nullable
+  @Override
+  public URI getFeaturedImageUrl() {
+<span class="nc" id="L716">    return featuredImageUrl;</span>
+  }
+
+  @Override
+  public void setFeaturedImageUrl(URI featuredImageUrl) {
+<span class="nc" id="L721">    this.featuredImageUrl = featuredImageUrl;</span>
+<span class="nc" id="L722">  }</span>
+
+  @Nullable
+  @Override
+  public License getFeaturedImageLicense() {
+<span class="nc" id="L727">    return featuredImageLicense;</span>
+  }
+
+  @Override
+  public void setFeaturedImageLicense(License featuredImageLicense) {
+<span class="nc" id="L732">    this.featuredImageLicense = featuredImageLicense;</span>
+<span class="nc" id="L733">  }</span>
+
+  @Nullable
+  public String getTemporalCoverage() {
+<span class="nc" id="L737">    return temporalCoverage;</span>
+  }
+
+  public void setTemporalCoverage(String temporalCoverage) {
+<span class="nc" id="L741">    this.temporalCoverage = temporalCoverage;</span>
+<span class="nc" id="L742">  }</span>
+
   @Hidden
   @JsonIgnore
   public String getCountry() {
-<span class="nc bnc" id="L715" title="All 4 branches missed.">    if (address != null &amp;&amp; address.getCountry() != null) {</span>
-<span class="nc" id="L716">      return address.getCountry().getIso2LetterCode();</span>
-<span class="nc bnc" id="L717" title="All 4 branches missed.">    } else if (mailingAddress != null &amp;&amp; mailingAddress.getCountry() != null) {</span>
-<span class="nc" id="L718">      return mailingAddress.getCountry().getIso2LetterCode();</span>
+<span class="nc bnc" id="L747" title="All 4 branches missed.">    if (address != null &amp;&amp; address.getCountry() != null) {</span>
+<span class="nc" id="L748">      return address.getCountry().getIso2LetterCode();</span>
+<span class="nc bnc" id="L749" title="All 4 branches missed.">    } else if (mailingAddress != null &amp;&amp; mailingAddress.getCountry() != null) {</span>
+<span class="nc" id="L750">      return mailingAddress.getCountry().getIso2LetterCode();</span>
     }
-<span class="nc" id="L720">    return null;</span>
+<span class="nc" id="L752">    return null;</span>
   }
 
   @Hidden
   @JsonIgnore
   public String getCity() {
-<span class="nc bnc" id="L726" title="All 4 branches missed.">    if (address != null &amp;&amp; address.getCity() != null) {</span>
-<span class="nc" id="L727">      return address.getCity();</span>
-<span class="nc bnc" id="L728" title="All 4 branches missed.">    } else if (mailingAddress != null &amp;&amp; mailingAddress.getCity() != null) {</span>
-<span class="nc" id="L729">      return mailingAddress.getCity();</span>
+<span class="nc bnc" id="L758" title="All 4 branches missed.">    if (address != null &amp;&amp; address.getCity() != null) {</span>
+<span class="nc" id="L759">      return address.getCity();</span>
+<span class="nc bnc" id="L760" title="All 4 branches missed.">    } else if (mailingAddress != null &amp;&amp; mailingAddress.getCity() != null) {</span>
+<span class="nc" id="L761">      return mailingAddress.getCity();</span>
     }
-<span class="nc" id="L731">    return null;</span>
+<span class="nc" id="L763">    return null;</span>
   }
 
   @Hidden
   @JsonIgnore
   public String getProvince() {
-<span class="nc bnc" id="L737" title="All 4 branches missed.">    if (address != null &amp;&amp; address.getProvince() != null) {</span>
-<span class="nc" id="L738">      return address.getProvince();</span>
-<span class="nc bnc" id="L739" title="All 4 branches missed.">    } else if (mailingAddress != null &amp;&amp; mailingAddress.getProvince() != null) {</span>
-<span class="nc" id="L740">      return mailingAddress.getProvince();</span>
+<span class="nc bnc" id="L769" title="All 4 branches missed.">    if (address != null &amp;&amp; address.getProvince() != null) {</span>
+<span class="nc" id="L770">      return address.getProvince();</span>
+<span class="nc bnc" id="L771" title="All 4 branches missed.">    } else if (mailingAddress != null &amp;&amp; mailingAddress.getProvince() != null) {</span>
+<span class="nc" id="L772">      return mailingAddress.getProvince();</span>
     }
-<span class="nc" id="L742">    return null;</span>
+<span class="nc" id="L774">    return null;</span>
   }
 
   public Integer getOccurrenceCount() {
-<span class="nc" id="L746">    return occurrenceCount;</span>
+<span class="nc" id="L778">    return occurrenceCount;</span>
   }
 
   public void setOccurrenceCount(Integer occurrenceCount) {
-<span class="nc" id="L750">    this.occurrenceCount = occurrenceCount;</span>
-<span class="nc" id="L751">  }</span>
+<span class="nc" id="L782">    this.occurrenceCount = occurrenceCount;</span>
+<span class="nc" id="L783">  }</span>
 
   public Integer getTypeSpecimenCount() {
-<span class="nc" id="L754">    return typeSpecimenCount;</span>
+<span class="nc" id="L786">    return typeSpecimenCount;</span>
   }
 
   public void setTypeSpecimenCount(Integer typeSpecimenCount) {
-<span class="nc" id="L758">    this.typeSpecimenCount = typeSpecimenCount;</span>
-<span class="nc" id="L759">  }</span>
+<span class="nc" id="L790">    this.typeSpecimenCount = typeSpecimenCount;</span>
+<span class="nc" id="L791">  }</span>
 
   @Override
   public boolean lenientEquals(Collection other) {
-<span class="nc bnc" id="L763" title="All 2 branches missed.">    if (this == other) {</span>
-<span class="nc" id="L764">      return true;</span>
+<span class="nc bnc" id="L795" title="All 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L796">      return true;</span>
     }
-<span class="nc bnc" id="L766" title="All 4 branches missed.">    return active == other.active</span>
+<span class="nc bnc" id="L798" title="All 4 branches missed.">    return active == other.active</span>
         &amp;&amp; personalCollection == other.personalCollection
-<span class="nc bnc" id="L768" title="All 2 branches missed.">        &amp;&amp; Objects.equals(key, other.key)</span>
-<span class="nc bnc" id="L769" title="All 2 branches missed.">        &amp;&amp; Objects.equals(code, other.code)</span>
-<span class="nc bnc" id="L770" title="All 2 branches missed.">        &amp;&amp; Objects.equals(name, other.name)</span>
-<span class="nc bnc" id="L771" title="All 2 branches missed.">        &amp;&amp; Objects.equals(description, other.description)</span>
-<span class="nc bnc" id="L772" title="All 2 branches missed.">        &amp;&amp; Objects.equals(contentTypes, other.contentTypes)</span>
-<span class="nc bnc" id="L773" title="All 2 branches missed.">        &amp;&amp; Objects.equals(doi, other.doi)</span>
-<span class="nc bnc" id="L774" title="All 2 branches missed.">        &amp;&amp; Objects.equals(email, other.email)</span>
-<span class="nc bnc" id="L775" title="All 2 branches missed.">        &amp;&amp; Objects.equals(phone, other.phone)</span>
-<span class="nc bnc" id="L776" title="All 2 branches missed.">        &amp;&amp; Objects.equals(homepage, other.homepage)</span>
-<span class="nc bnc" id="L777" title="All 2 branches missed.">        &amp;&amp; Objects.equals(catalogUrl, other.catalogUrl)</span>
-<span class="nc bnc" id="L778" title="All 2 branches missed.">        &amp;&amp; Objects.equals(apiUrl, other.apiUrl)</span>
-<span class="nc bnc" id="L779" title="All 4 branches missed.">        &amp;&amp; Objects.equals(preservationTypes, other.preservationTypes)</span>
-        &amp;&amp; accessionStatus == other.accessionStatus
-<span class="nc bnc" id="L781" title="All 2 branches missed.">        &amp;&amp; Objects.equals(institutionKey, other.institutionKey)</span>
-<span class="nc bnc" id="L782" title="All 2 branches missed.">        &amp;&amp; LenientEqualsUtils.lenientEquals(mailingAddress, other.mailingAddress)</span>
-<span class="nc bnc" id="L783" title="All 2 branches missed.">        &amp;&amp; LenientEqualsUtils.lenientEquals(address, other.address)</span>
-<span class="nc bnc" id="L784" title="All 4 branches missed.">        &amp;&amp; Objects.equals(deleted, other.deleted)</span>
-        &amp;&amp; indexHerbariorumRecord == other.indexHerbariorumRecord
-<span class="nc bnc" id="L786" title="All 2 branches missed.">        &amp;&amp; Objects.equals(numberSpecimens, other.numberSpecimens)</span>
-<span class="nc bnc" id="L787" title="All 2 branches missed.">        &amp;&amp; Objects.equals(taxonomicCoverage, other.taxonomicCoverage)</span>
-<span class="nc bnc" id="L788" title="All 2 branches missed.">        &amp;&amp; Objects.equals(geography, other.geography)</span>
-<span class="nc bnc" id="L789" title="All 2 branches missed.">        &amp;&amp; Objects.equals(notes, other.notes)</span>
-<span class="nc bnc" id="L790" title="All 2 branches missed.">        &amp;&amp; Objects.equals(incorporatedCollections, other.incorporatedCollections)</span>
-<span class="nc bnc" id="L791" title="All 2 branches missed.">        &amp;&amp; Objects.equals(importantCollectors, other.importantCollectors)</span>
-<span class="nc bnc" id="L792" title="All 2 branches missed.">        &amp;&amp; Objects.equals(collectionSummary, other.collectionSummary)</span>
-<span class="nc bnc" id="L793" title="All 2 branches missed.">        &amp;&amp; Objects.equals(alternativeCodes, other.alternativeCodes)</span>
-<span class="nc bnc" id="L794" title="All 2 branches missed.">        &amp;&amp; Objects.equals(comments, other.comments)</span>
-<span class="nc bnc" id="L795" title="All 2 branches missed.">        &amp;&amp; Objects.equals(occurrenceMappings, other.occurrenceMappings)</span>
-<span class="nc bnc" id="L796" title="All 2 branches missed.">        &amp;&amp; Objects.equals(replacedBy, other.replacedBy)</span>
-<span class="nc bnc" id="L797" title="All 2 branches missed.">        &amp;&amp; Objects.equals(masterSource, other.masterSource)</span>
-<span class="nc bnc" id="L798" title="All 2 branches missed.">        &amp;&amp; Objects.equals(masterSourceMetadata, other.masterSourceMetadata)</span>
-<span class="nc bnc" id="L799" title="All 2 branches missed.">        &amp;&amp; Objects.equals(division, other.division)</span>
-<span class="nc bnc" id="L800" title="All 2 branches missed.">        &amp;&amp; Objects.equals(department, other.department)</span>
-<span class="nc bnc" id="L801" title="All 2 branches missed.">        &amp;&amp; Objects.equals(displayOnNHCPortal, other.displayOnNHCPortal);</span>
+<span class="nc bnc" id="L800" title="All 2 branches missed.">        &amp;&amp; Objects.equals(key, other.key)</span>
+<span class="nc bnc" id="L801" title="All 2 branches missed.">        &amp;&amp; Objects.equals(code, other.code)</span>
+<span class="nc bnc" id="L802" title="All 2 branches missed.">        &amp;&amp; Objects.equals(name, other.name)</span>
+<span class="nc bnc" id="L803" title="All 2 branches missed.">        &amp;&amp; Objects.equals(description, other.description)</span>
+<span class="nc bnc" id="L804" title="All 2 branches missed.">        &amp;&amp; Objects.equals(contentTypes, other.contentTypes)</span>
+<span class="nc bnc" id="L805" title="All 2 branches missed.">        &amp;&amp; Objects.equals(doi, other.doi)</span>
+<span class="nc bnc" id="L806" title="All 2 branches missed.">        &amp;&amp; Objects.equals(email, other.email)</span>
+<span class="nc bnc" id="L807" title="All 2 branches missed.">        &amp;&amp; Objects.equals(phone, other.phone)</span>
+<span class="nc bnc" id="L808" title="All 2 branches missed.">        &amp;&amp; Objects.equals(homepage, other.homepage)</span>
+<span class="nc bnc" id="L809" title="All 2 branches missed.">        &amp;&amp; Objects.equals(catalogUrls, other.catalogUrls)</span>
+<span class="nc bnc" id="L810" title="All 2 branches missed.">        &amp;&amp; Objects.equals(apiUrls, other.apiUrls)</span>
+<span class="nc bnc" id="L811" title="All 2 branches missed.">        &amp;&amp; Objects.equals(preservationTypes, other.preservationTypes)</span>
+<span class="nc bnc" id="L812" title="All 2 branches missed.">        &amp;&amp; Objects.equals(accessionStatus, other.accessionStatus)</span>
+<span class="nc bnc" id="L813" title="All 2 branches missed.">        &amp;&amp; Objects.equals(institutionKey, other.institutionKey)</span>
+<span class="nc bnc" id="L814" title="All 2 branches missed.">        &amp;&amp; LenientEqualsUtils.lenientEquals(mailingAddress, other.mailingAddress)</span>
+<span class="nc bnc" id="L815" title="All 2 branches missed.">        &amp;&amp; LenientEqualsUtils.lenientEquals(address, other.address)</span>
+<span class="nc bnc" id="L816" title="All 2 branches missed.">        &amp;&amp; Objects.equals(deleted, other.deleted)</span>
+<span class="nc bnc" id="L817" title="All 2 branches missed.">        &amp;&amp; Objects.equals(numberSpecimens, other.numberSpecimens)</span>
+<span class="nc bnc" id="L818" title="All 2 branches missed.">        &amp;&amp; Objects.equals(taxonomicCoverage, other.taxonomicCoverage)</span>
+<span class="nc bnc" id="L819" title="All 2 branches missed.">        &amp;&amp; Objects.equals(geographicCoverage, other.geographicCoverage)</span>
+<span class="nc bnc" id="L820" title="All 2 branches missed.">        &amp;&amp; Objects.equals(notes, other.notes)</span>
+<span class="nc bnc" id="L821" title="All 2 branches missed.">        &amp;&amp; Objects.equals(incorporatedCollections, other.incorporatedCollections)</span>
+<span class="nc bnc" id="L822" title="All 2 branches missed.">        &amp;&amp; Objects.equals(importantCollectors, other.importantCollectors)</span>
+<span class="nc bnc" id="L823" title="All 2 branches missed.">        &amp;&amp; Objects.equals(collectionSummary, other.collectionSummary)</span>
+<span class="nc bnc" id="L824" title="All 2 branches missed.">        &amp;&amp; Objects.equals(alternativeCodes, other.alternativeCodes)</span>
+<span class="nc bnc" id="L825" title="All 2 branches missed.">        &amp;&amp; Objects.equals(comments, other.comments)</span>
+<span class="nc bnc" id="L826" title="All 2 branches missed.">        &amp;&amp; Objects.equals(occurrenceMappings, other.occurrenceMappings)</span>
+<span class="nc bnc" id="L827" title="All 2 branches missed.">        &amp;&amp; Objects.equals(replacedBy, other.replacedBy)</span>
+<span class="nc bnc" id="L828" title="All 2 branches missed.">        &amp;&amp; Objects.equals(masterSource, other.masterSource)</span>
+<span class="nc bnc" id="L829" title="All 2 branches missed.">        &amp;&amp; Objects.equals(masterSourceMetadata, other.masterSourceMetadata)</span>
+<span class="nc bnc" id="L830" title="All 2 branches missed.">        &amp;&amp; Objects.equals(division, other.division)</span>
+<span class="nc bnc" id="L831" title="All 2 branches missed.">        &amp;&amp; Objects.equals(department, other.department)</span>
+<span class="nc bnc" id="L832" title="All 2 branches missed.">        &amp;&amp; Objects.equals(displayOnNHCPortal, other.displayOnNHCPortal)</span>
+<span class="nc bnc" id="L833" title="All 2 branches missed.">        &amp;&amp; Objects.equals(featuredImageUrl, other.featuredImageUrl)</span>
+<span class="nc bnc" id="L834" title="All 2 branches missed.">        &amp;&amp; Objects.equals(featuredImageLicense, other.featuredImageLicense)</span>
+<span class="nc bnc" id="L835" title="All 2 branches missed.">        &amp;&amp; Objects.equals(temporalCoverage, other.temporalCoverage);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
