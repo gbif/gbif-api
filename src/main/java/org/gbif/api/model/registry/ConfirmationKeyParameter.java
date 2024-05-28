@@ -17,7 +17,7 @@ package org.gbif.api.model.registry;
 
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Confirmation key is a UUID used to confirm an entity.

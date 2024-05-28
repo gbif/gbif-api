@@ -19,7 +19,7 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

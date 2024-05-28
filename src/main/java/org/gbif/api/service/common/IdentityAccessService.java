@@ -17,7 +17,7 @@ package org.gbif.api.service.common;
 
 import org.gbif.api.model.common.GbifUser;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * Identity service accessing a single user, in read-only.

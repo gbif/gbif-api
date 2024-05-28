@@ -20,7 +20,7 @@ import org.gbif.api.vocabulary.Kingdom;
 
 import java.util.Map;
 
-import javax.validation.constraints.Min;
+import jakarta.validation.constraints.Min;
 
 /**
  * Supports listing occurrence counts by known dimensions.
@@ -39,7 +39,7 @@ public interface OccurrenceDistributionIndexService {
 
   /**
    * Returns the occurrence records count by year. The result is ordered descending by the count.
-   * 
+   *
    * @param from minimum year
    * @param to maximum year
    */

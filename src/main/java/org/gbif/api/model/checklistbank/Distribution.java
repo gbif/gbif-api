@@ -23,9 +23,9 @@ import org.gbif.api.vocabulary.ThreatStatus;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import javax.annotation.Nullable;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

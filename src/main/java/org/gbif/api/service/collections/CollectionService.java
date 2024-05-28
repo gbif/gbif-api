@@ -25,9 +25,9 @@ import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nullable;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 /** API Service to work with collections. */
 public interface CollectionService extends CollectionEntityService<Collection> {

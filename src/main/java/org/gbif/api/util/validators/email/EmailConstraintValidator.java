@@ -13,15 +13,15 @@
  */
 package org.gbif.api.util.validators.email;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
 /**
  * {@link ConstraintValidator} that validates emails. Uses apache commons {@link EmailValidator}
  * <p>
- * Handles {@link ValidEmail} annotation which is better than default {@link javax.validation.constraints.Email}.
+ * Handles {@link ValidEmail} annotation which is better than default {@link jakarta.validation.constraints.Email}.
  * Default one finds some values valid like: "mail@mail", "mail@mail.e", but this one not.
  */
 public class EmailConstraintValidator implements ConstraintValidator<ValidEmail, String> {

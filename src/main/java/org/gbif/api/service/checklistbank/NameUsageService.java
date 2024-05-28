@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * This is the public interface providing methods for retrieving name usages in general, no matter if nub or

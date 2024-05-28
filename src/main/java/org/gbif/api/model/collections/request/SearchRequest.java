@@ -30,11 +30,13 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
+
 
 public abstract class SearchRequest extends PageableBase implements Serializable {
 
-  @Nullable private String q;
+  @Nullable
+  private String q;
   @Nullable private String code;
   @Nullable private String name;
   @Nullable private String alternativeCode;

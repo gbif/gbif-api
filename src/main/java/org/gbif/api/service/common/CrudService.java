@@ -18,7 +18,7 @@ package org.gbif.api.service.common;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * A generic CRUD service interface for any writable entity.

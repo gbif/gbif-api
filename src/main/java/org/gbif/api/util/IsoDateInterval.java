@@ -24,7 +24,7 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

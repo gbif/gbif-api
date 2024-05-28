@@ -19,7 +19,7 @@ import org.gbif.api.model.checklistbank.NameUsageMatch;
 import org.gbif.api.model.common.LinneanClassification;
 import org.gbif.api.vocabulary.Rank;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * A lookup service that fuzzy matches classified scientific names against a body of names.

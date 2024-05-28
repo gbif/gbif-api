@@ -24,9 +24,9 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Size;
 
 /**
  * A tag that has a namespace, name and a value. {@code created} and {@code createdBy} are automatically set upon

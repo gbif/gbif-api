@@ -26,7 +26,7 @@ import org.gbif.api.vocabulary.collections.Source;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public class CollectionSearchRequest extends SearchRequest {
 

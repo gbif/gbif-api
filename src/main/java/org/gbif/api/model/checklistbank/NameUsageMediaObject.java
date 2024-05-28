@@ -15,7 +15,7 @@ package org.gbif.api.model.checklistbank;
 
 import org.gbif.api.model.common.MediaObject;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

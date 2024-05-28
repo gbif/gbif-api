@@ -30,7 +30,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 @SuppressWarnings("unused")
 public interface DatasetService extends NetworkEntityService<Dataset> {
