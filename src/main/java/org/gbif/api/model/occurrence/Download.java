@@ -22,9 +22,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.EnumSet;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;

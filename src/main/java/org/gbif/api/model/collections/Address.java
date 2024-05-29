@@ -23,8 +23,8 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.Null;
+import javax.annotation.Nullable;
+import javax.validation.constraints.Null;
 
 /** The particulars of the place where a institution of collection is situated. */
 @SuppressWarnings("unused")

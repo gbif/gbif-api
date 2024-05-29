@@ -21,8 +21,8 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.Size;
+import javax.annotation.Nullable;
+import javax.validation.constraints.Size;
 
 /**
  * A package visible providing the commonality for addresses, including the constraint validations.

@@ -18,7 +18,7 @@ package org.gbif.api.util.iterables;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.vocabulary.DatasetType;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

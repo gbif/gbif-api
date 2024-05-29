@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * A dataset can be part of a project. A project can have a unique identifier, used to link datasets associated with

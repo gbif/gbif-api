@@ -32,9 +32,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+import javax.annotation.Nullable;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /** Interface to access and persist information about occurrence download events. */
 @SuppressWarnings("unused")

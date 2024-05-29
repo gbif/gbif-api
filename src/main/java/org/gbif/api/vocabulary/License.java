@@ -17,7 +17,7 @@ import org.gbif.api.util.VocabularyUtils;
 
 import java.util.Optional;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 

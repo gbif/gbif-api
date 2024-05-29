@@ -17,7 +17,7 @@ package org.gbif.api.model.common;
 
 import org.gbif.api.vocabulary.Rank;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * A flat taxonomic classification using the major, Linnean ranks with verbatim names and integer based keys.

@@ -19,7 +19,7 @@ import org.gbif.api.util.SearchTypeValidator;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

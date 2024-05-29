@@ -19,7 +19,7 @@ import java.util.StringJoiner;
 
 import org.gbif.api.vocabulary.collections.IdType;
 
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 
 /** User ID for GRSciColl contacts. */
 public class UserId implements Serializable {

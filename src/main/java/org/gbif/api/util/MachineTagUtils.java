@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * Utility class to simplify your life when dealing with machine tags.

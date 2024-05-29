@@ -18,7 +18,7 @@ package org.gbif.api.util;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 import java.util.regex.Pattern;
 

@@ -15,7 +15,7 @@
  */
 package org.gbif.api.model.checklistbank;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 public interface NameUsageExtension {
 

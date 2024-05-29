@@ -15,7 +15,7 @@ package org.gbif.api.model.collections;
 
 import java.util.List;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 /** Entity that can have a list of contacts and addresses. */
 public interface Contactable {

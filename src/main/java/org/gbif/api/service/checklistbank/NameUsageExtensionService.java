@@ -18,7 +18,7 @@ package org.gbif.api.service.checklistbank;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * Parameterized service interface for model classes extending a NameUsage.

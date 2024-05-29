@@ -34,8 +34,8 @@ import java.util.Set;
 import java.util.StringJoiner;
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+import javax.annotation.Nullable;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 public interface CollectionEntityService<T extends CollectionEntity>
     extends CrudService<T>,

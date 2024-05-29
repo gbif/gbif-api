@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * This service exposes information regarding current crawling process and is not intended to provide historical

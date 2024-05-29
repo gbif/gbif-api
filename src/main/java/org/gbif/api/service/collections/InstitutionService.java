@@ -23,9 +23,9 @@ import org.gbif.api.model.registry.search.collections.KeyCodeNameResult;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+import javax.annotation.Nullable;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.geojson.FeatureCollection;
 

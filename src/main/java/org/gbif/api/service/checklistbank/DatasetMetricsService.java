@@ -20,7 +20,7 @@ import org.gbif.api.model.checklistbank.DatasetMetrics;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 public interface DatasetMetricsService {
 

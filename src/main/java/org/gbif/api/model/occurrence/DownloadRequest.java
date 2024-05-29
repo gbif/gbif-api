@@ -29,7 +29,7 @@ import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 

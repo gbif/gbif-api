@@ -25,7 +25,7 @@ import org.gbif.api.vocabulary.Country;
 import java.util.Date;
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * Iterates over results of {@link OccurrenceDownloadService#getDownloadStatistics(Date, Date, Country, UUID, UUID, Pageable)}.

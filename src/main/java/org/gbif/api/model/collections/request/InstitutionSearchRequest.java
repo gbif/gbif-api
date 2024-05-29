@@ -25,7 +25,7 @@ import org.gbif.api.vocabulary.collections.Source;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 public class InstitutionSearchRequest extends SearchRequest {
 

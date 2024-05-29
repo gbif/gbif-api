@@ -18,7 +18,7 @@ package org.gbif.api.model.collections;
 
 import java.util.List;
 
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 
 /** Generic {@link org.gbif.api.model.collections.OccurrenceMapping} interface for entities. */
 @SuppressWarnings("unused")

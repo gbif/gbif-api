@@ -19,8 +19,8 @@ import java.net.URI;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

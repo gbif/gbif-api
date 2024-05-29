@@ -13,7 +13,7 @@
  */
 package org.gbif.api.service.occurrence;
 
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 
 public interface DownloadLauncherService {
 

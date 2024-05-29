@@ -17,7 +17,7 @@ package org.gbif.api.service.common;
 
 import org.gbif.api.model.common.User;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * This read only service used to connect to a Drupal DB is deprecated in favour of the IdentityAccessService.

@@ -24,8 +24,8 @@ import org.gbif.api.model.common.paging.PagingResponse;
 
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.Valid;
+import javax.annotation.Nullable;
+import javax.validation.Valid;
 
 /** Defines the service to suggest changes in GRSciColl entities. */
 public interface ChangeSuggestionService<

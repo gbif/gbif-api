@@ -26,9 +26,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @SuppressWarnings("unused")
 public interface PipelinesHistoryService {

@@ -15,8 +15,8 @@ package org.gbif.api.util;
 
 import java.net.URI;
 
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 /**
  * Constrain validator that validates URI objects with a @HttpURI annotation.
@@ -28,7 +28,7 @@ public class URIValidator implements ConstraintValidator<HttpURI, URI> {
 
   /**
    * Initializes the validator in preparation for
-   * {@link #isValid(URI, jakarta.validation.ConstraintValidatorContext)} calls.
+   * {@link #isValid(URI, javax.validation.ConstraintValidatorContext)} calls.
    * The constraint annotation for a given constraint declaration
    * is passed.
    * This method is guaranteed to be called before any use of this instance for

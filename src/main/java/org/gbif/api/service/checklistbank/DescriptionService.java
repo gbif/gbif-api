@@ -18,7 +18,7 @@ package org.gbif.api.service.checklistbank;
 import org.gbif.api.model.checklistbank.Description;
 import org.gbif.api.model.checklistbank.TableOfContents;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * Service interface for Description Interface methods. This is the public interface

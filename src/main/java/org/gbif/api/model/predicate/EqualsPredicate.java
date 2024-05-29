@@ -15,7 +15,7 @@ package org.gbif.api.model.predicate;
 
 import org.gbif.api.model.common.search.SearchParameter;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

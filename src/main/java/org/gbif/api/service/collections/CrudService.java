@@ -19,8 +19,8 @@ import org.gbif.api.model.collections.CollectionEntity;
 
 import java.util.UUID;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /** Base CRUD service for {@link CollectionEntity} entities. */
 public interface CrudService<T extends CollectionEntity> {

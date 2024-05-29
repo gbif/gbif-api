@@ -21,7 +21,7 @@ import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.vocabulary.DatasetType;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * Pages through all datasets filtering by type only.

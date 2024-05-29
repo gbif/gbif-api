@@ -24,9 +24,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import javax.annotation.Nullable;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

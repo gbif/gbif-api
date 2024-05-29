@@ -20,8 +20,8 @@ import org.gbif.api.model.collections.OccurrenceMapping;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /** Service that provides a set of operations on {@link OccurrenceMapping}. */
 public interface OccurrenceMappingService {

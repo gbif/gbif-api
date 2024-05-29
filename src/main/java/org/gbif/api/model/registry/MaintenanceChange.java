@@ -15,7 +15,7 @@ package org.gbif.api.model.registry;
 
 import org.gbif.api.vocabulary.MaintenanceUpdateFrequency;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 import java.util.Date;
 import java.util.Objects;
 import java.util.StringJoiner;

@@ -22,7 +22,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * A contact used to generate a dataset citation.

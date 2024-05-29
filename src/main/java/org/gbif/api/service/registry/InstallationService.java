@@ -28,8 +28,8 @@ import org.gbif.api.vocabulary.InstallationType;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 @SuppressWarnings("unused")
 public interface InstallationService

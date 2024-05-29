@@ -13,8 +13,8 @@
  */
 package org.gbif.api.model.registry.eml;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

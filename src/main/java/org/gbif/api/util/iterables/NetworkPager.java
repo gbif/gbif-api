@@ -23,7 +23,7 @@ import org.gbif.api.vocabulary.DatasetType;
 
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * Iterates over all datasets belonging to a given network.

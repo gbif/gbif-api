@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.Valid;
+import javax.annotation.Nullable;
+import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

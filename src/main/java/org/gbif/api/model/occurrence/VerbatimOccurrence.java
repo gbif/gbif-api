@@ -30,8 +30,8 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
 

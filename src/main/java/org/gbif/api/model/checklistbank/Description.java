@@ -18,7 +18,7 @@ import org.gbif.api.vocabulary.Language;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

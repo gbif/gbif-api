@@ -17,7 +17,7 @@ package org.gbif.api.model.registry;
 
 import java.util.List;
 
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 
 /**
  * Generic tag interface for entities.

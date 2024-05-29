@@ -25,9 +25,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 import org.junit.jupiter.api.Test;
 

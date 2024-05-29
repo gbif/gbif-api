@@ -21,7 +21,7 @@ import org.gbif.api.model.registry.search.DatasetSearchRequest;
 import org.gbif.api.model.registry.search.DatasetSearchResult;
 import org.gbif.api.service.registry.DatasetSearchService;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * Pages through all datasets search results.
