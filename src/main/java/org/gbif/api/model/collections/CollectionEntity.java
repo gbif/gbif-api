@@ -141,4 +141,9 @@ public interface CollectionEntity
   License getFeaturedImageLicense();
 
   void setFeaturedImageLicense(License featuredImageLicense);
+
+  @Nullable
+  String getFeaturedImageAttribution();
+
+  void setFeaturedImageAttribution(String featuredImageAttribution);
 }
