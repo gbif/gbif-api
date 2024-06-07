@@ -20,7 +20,6 @@ import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.SortOrder;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
-import org.gbif.api.vocabulary.collections.PreservationType;
 import org.gbif.api.vocabulary.collections.Source;
 
 import java.util.List;
@@ -33,7 +32,7 @@ public class CollectionSearchRequest extends SearchRequest {
   @Deprecated @Nullable private UUID institution;
   @Nullable private List<String> contentTypes;
   @Nullable private List<String> preservationTypes;
-  @Nullable private String accessionStatus;
+  @Nullable private List<String> accessionStatus;
   @Nullable private Boolean personalCollection;
 
   @Nullable
@@ -64,11 +63,11 @@ public class CollectionSearchRequest extends SearchRequest {
   }
 
   @Nullable
-  public String getAccessionStatus() {
+  public List<String> getAccessionStatus() {
     return accessionStatus;
   }
 
-  public void setAccessionStatus(@Nullable String accessionStatus) {
+  public void setAccessionStatus(@Nullable List<String> accessionStatus) {
     this.accessionStatus = accessionStatus;
   }
 
@@ -104,7 +103,7 @@ public class CollectionSearchRequest extends SearchRequest {
     Boolean active;
     List<String> contentTypes;
     List<String> preservationTypes;
-    String accessionStatus;
+    List<String> accessionStatus;
     Boolean personalCollection;
     MasterSourceType masterSourceType;
     String numberSpecimens;
@@ -204,7 +203,7 @@ public class CollectionSearchRequest extends SearchRequest {
       return this;
     }
 
-    public Builder accessionStatus(String accessionStatus) {
+    public Builder accessionStatus(List<String> accessionStatus) {
       this.accessionStatus = accessionStatus;
       return this;
     }
