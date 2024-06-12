@@ -84,7 +84,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   private String description;
 
   /**
-   * -- GETTER --
    * Content type of the elements found in a collection.
    */
   @Getter
@@ -97,7 +96,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   private boolean active;
 
   /**
-   * -- GETTER --
    * Does this collections belong to an individual?.
    */
   @Setter
@@ -106,7 +104,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   private boolean personalCollection;
 
   /**
-   * -- GETTER --
    * Digital Object Identifier assigned to this collection.
    */
   @Setter
@@ -139,8 +136,7 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   private List<@HttpURI URI> apiUrls = new ArrayList<>();
 
   /**
-   * -- GETTER --
-   * Types of preservation mechanisms used for this collections.
+   * Types of preservation mechanisms used for these collections.
    */
   @Setter
   @Getter
@@ -149,7 +145,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   private List<String> preservationTypes = new ArrayList<>();
 
   /**
-   * -- GETTER --
    * Defines how a collection as been added or joined.
    */
   @Setter
@@ -158,7 +153,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   private String accessionStatus;
 
   /**
-   * -- GETTER --
    * Institution that owns or hosts this collection.
    */
   @Setter
