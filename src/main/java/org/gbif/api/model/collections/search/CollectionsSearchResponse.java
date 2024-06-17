@@ -13,6 +13,10 @@
  */
 package org.gbif.api.model.collections.search;
 
+import lombok.Getter;
+
+import lombok.Setter;
+
 import org.gbif.api.vocabulary.Country;
 
 import java.util.Objects;
@@ -20,6 +24,8 @@ import java.util.Set;
 import java.util.UUID;
 
 /** Models the response for the Collections search. */
+@Getter
+@Setter
 public class CollectionsSearchResponse {
 
   private String type;
@@ -38,113 +44,11 @@ public class CollectionsSearchResponse {
 
   private Set<Match> matches;
 
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  public UUID getKey() {
-    return key;
-  }
-
-  public void setKey(UUID key) {
-    this.key = key;
-  }
-
-  public String getCode() {
-    return code;
-  }
-
-  public void setCode(String code) {
-    this.code = code;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public UUID getInstitutionKey() {
-    return institutionKey;
-  }
-
-  public void setInstitutionKey(UUID institutionKey) {
-    this.institutionKey = institutionKey;
-  }
-
-  public String getInstitutionCode() {
-    return institutionCode;
-  }
-
-  public void setInstitutionCode(String institutionCode) {
-    this.institutionCode = institutionCode;
-  }
-
-  public String getInstitutionName() {
-    return institutionName;
-  }
-
-  public void setInstitutionName(String institutionName) {
-    this.institutionName = institutionName;
-  }
-
-  public boolean isDisplayOnNHCPortal() {
-    return displayOnNHCPortal;
-  }
-
-  public void setDisplayOnNHCPortal(boolean displayOnNHCPortal) {
-    this.displayOnNHCPortal = displayOnNHCPortal;
-  }
-
-  public Country getCountry() {
-    return country;
-  }
-
-  public void setCountry(Country country) {
-    this.country = country;
-  }
-
-  public Country getMailingCountry() {
-    return mailingCountry;
-  }
-
-  public void setMailingCountry(Country mailingCountry) {
-    this.mailingCountry = mailingCountry;
-  }
-
-  public Set<Match> getMatches() {
-    return matches;
-  }
-
-  public void setMatches(Set<Match> matches) {
-    this.matches = matches;
-  }
-
+  @Setter
+  @Getter
   public static class Match {
     private String field;
     private String snippet;
-
-    public String getField() {
-      return field;
-    }
-
-    public void setField(String field) {
-      this.field = field;
-    }
-
-    public String getSnippet() {
-      return snippet;
-    }
-
-    public void setSnippet(String snippet) {
-      this.snippet = snippet;
-    }
 
     @Override
     public boolean equals(Object o) {
