@@ -13,6 +13,10 @@
  */
 package org.gbif.api.model.collections.search;
 
+import lombok.Getter;
+
+import lombok.Setter;
+
 import org.gbif.api.vocabulary.Country;
 
 import java.util.Objects;
@@ -20,171 +24,71 @@ import java.util.Set;
 import java.util.UUID;
 
 /** Models the response for the Collections search. */
-<span class="nc" id="L23">public class CollectionsSearchResponse {</span>
+@Getter
+<span class="nc" id="L28">@Setter</span>
+<span class="nc" id="L29">public class CollectionsSearchResponse {</span>
 
-  private String type;
-  private UUID key;
-  private String code;
-  private String name;
-  private UUID institutionKey;
-  private String institutionCode;
-  private String institutionName;
+<span class="nc" id="L31">  private String type;</span>
+<span class="nc" id="L32">  private UUID key;</span>
+<span class="nc" id="L33">  private String code;</span>
+<span class="nc" id="L34">  private String name;</span>
+<span class="nc" id="L35">  private UUID institutionKey;</span>
+<span class="nc" id="L36">  private String institutionCode;</span>
+<span class="nc" id="L37">  private String institutionName;</span>
 
-  private boolean displayOnNHCPortal;
+<span class="nc" id="L39">  private boolean displayOnNHCPortal;</span>
 
-  private Country country;
+<span class="nc" id="L41">  private Country country;</span>
 
-  private Country mailingCountry;
+<span class="nc" id="L43">  private Country mailingCountry;</span>
 
-  private Set&lt;Match&gt; matches;
+<span class="nc" id="L45">  private Set&lt;Match&gt; matches;</span>
 
-  public String getType() {
-<span class="nc" id="L42">    return type;</span>
-  }
-
-  public void setType(String type) {
-<span class="nc" id="L46">    this.type = type;</span>
-<span class="nc" id="L47">  }</span>
-
-  public UUID getKey() {
-<span class="nc" id="L50">    return key;</span>
-  }
-
-  public void setKey(UUID key) {
-<span class="nc" id="L54">    this.key = key;</span>
-<span class="nc" id="L55">  }</span>
-
-  public String getCode() {
-<span class="nc" id="L58">    return code;</span>
-  }
-
-  public void setCode(String code) {
-<span class="nc" id="L62">    this.code = code;</span>
-<span class="nc" id="L63">  }</span>
-
-  public String getName() {
-<span class="nc" id="L66">    return name;</span>
-  }
-
-  public void setName(String name) {
-<span class="nc" id="L70">    this.name = name;</span>
-<span class="nc" id="L71">  }</span>
-
-  public UUID getInstitutionKey() {
-<span class="nc" id="L74">    return institutionKey;</span>
-  }
-
-  public void setInstitutionKey(UUID institutionKey) {
-<span class="nc" id="L78">    this.institutionKey = institutionKey;</span>
-<span class="nc" id="L79">  }</span>
-
-  public String getInstitutionCode() {
-<span class="nc" id="L82">    return institutionCode;</span>
-  }
-
-  public void setInstitutionCode(String institutionCode) {
-<span class="nc" id="L86">    this.institutionCode = institutionCode;</span>
-<span class="nc" id="L87">  }</span>
-
-  public String getInstitutionName() {
-<span class="nc" id="L90">    return institutionName;</span>
-  }
-
-  public void setInstitutionName(String institutionName) {
-<span class="nc" id="L94">    this.institutionName = institutionName;</span>
-<span class="nc" id="L95">  }</span>
-
-  public boolean isDisplayOnNHCPortal() {
-<span class="nc" id="L98">    return displayOnNHCPortal;</span>
-  }
-
-  public void setDisplayOnNHCPortal(boolean displayOnNHCPortal) {
-<span class="nc" id="L102">    this.displayOnNHCPortal = displayOnNHCPortal;</span>
-<span class="nc" id="L103">  }</span>
-
-  public Country getCountry() {
-<span class="nc" id="L106">    return country;</span>
-  }
-
-  public void setCountry(Country country) {
-<span class="nc" id="L110">    this.country = country;</span>
-<span class="nc" id="L111">  }</span>
-
-  public Country getMailingCountry() {
-<span class="nc" id="L114">    return mailingCountry;</span>
-  }
-
-  public void setMailingCountry(Country mailingCountry) {
-<span class="nc" id="L118">    this.mailingCountry = mailingCountry;</span>
-<span class="nc" id="L119">  }</span>
-
-  public Set&lt;Match&gt; getMatches() {
-<span class="nc" id="L122">    return matches;</span>
-  }
-
-  public void setMatches(Set&lt;Match&gt; matches) {
-<span class="nc" id="L126">    this.matches = matches;</span>
-<span class="nc" id="L127">  }</span>
-
-<span class="nc" id="L129">  public static class Match {</span>
-    private String field;
-    private String snippet;
-
-    public String getField() {
-<span class="nc" id="L134">      return field;</span>
-    }
-
-    public void setField(String field) {
-<span class="nc" id="L138">      this.field = field;</span>
-<span class="nc" id="L139">    }</span>
-
-    public String getSnippet() {
-<span class="nc" id="L142">      return snippet;</span>
-    }
-
-    public void setSnippet(String snippet) {
-<span class="nc" id="L146">      this.snippet = snippet;</span>
-<span class="nc" id="L147">    }</span>
+<span class="nc" id="L47">  @Setter</span>
+  @Getter
+<span class="nc" id="L49">  public static class Match {</span>
+<span class="nc" id="L50">    private String field;</span>
+<span class="nc" id="L51">    private String snippet;</span>
 
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L151" title="All 2 branches missed.">      if (this == o) return true;</span>
-<span class="nc bnc" id="L152" title="All 4 branches missed.">      if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L153">      Match match = (Match) o;</span>
-<span class="nc" id="L154">      return Objects.equals(field, match.field);</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">      if (this == o) return true;</span>
+<span class="nc bnc" id="L56" title="All 4 branches missed.">      if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L57">      Match match = (Match) o;</span>
+<span class="nc" id="L58">      return Objects.equals(field, match.field);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="nc" id="L159">      return Objects.hash(field);</span>
+<span class="nc" id="L63">      return Objects.hash(field);</span>
     }
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L165" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L166">      return true;</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L70">      return true;</span>
     }
-<span class="nc bnc" id="L168" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L169">      return false;</span>
+<span class="nc bnc" id="L72" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L73">      return false;</span>
     }
-<span class="nc" id="L171">    CollectionsSearchResponse response = (CollectionsSearchResponse) o;</span>
-<span class="nc bnc" id="L172" title="All 2 branches missed.">    return Objects.equals(type, response.type)</span>
-<span class="nc bnc" id="L173" title="All 2 branches missed.">        &amp;&amp; Objects.equals(key, response.key)</span>
-<span class="nc bnc" id="L174" title="All 2 branches missed.">        &amp;&amp; Objects.equals(code, response.code)</span>
-<span class="nc bnc" id="L175" title="All 2 branches missed.">        &amp;&amp; Objects.equals(name, response.name)</span>
-<span class="nc bnc" id="L176" title="All 2 branches missed.">        &amp;&amp; Objects.equals(institutionKey, response.institutionKey)</span>
-<span class="nc bnc" id="L177" title="All 2 branches missed.">        &amp;&amp; Objects.equals(institutionCode, response.institutionCode)</span>
-<span class="nc bnc" id="L178" title="All 2 branches missed.">        &amp;&amp; Objects.equals(institutionName, response.institutionName)</span>
-<span class="nc bnc" id="L179" title="All 2 branches missed.">        &amp;&amp; Objects.equals(displayOnNHCPortal, response.displayOnNHCPortal)</span>
-<span class="nc bnc" id="L180" title="All 2 branches missed.">        &amp;&amp; Objects.equals(country, response.country)</span>
-<span class="nc bnc" id="L181" title="All 2 branches missed.">        &amp;&amp; Objects.equals(mailingCountry, response.mailingCountry)</span>
-<span class="nc bnc" id="L182" title="All 2 branches missed.">        &amp;&amp; Objects.equals(matches, response.matches);</span>
+<span class="nc" id="L75">    CollectionsSearchResponse response = (CollectionsSearchResponse) o;</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">    return Objects.equals(type, response.type)</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        &amp;&amp; Objects.equals(key, response.key)</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        &amp;&amp; Objects.equals(code, response.code)</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        &amp;&amp; Objects.equals(name, response.name)</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        &amp;&amp; Objects.equals(institutionKey, response.institutionKey)</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        &amp;&amp; Objects.equals(institutionCode, response.institutionCode)</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        &amp;&amp; Objects.equals(institutionName, response.institutionName)</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        &amp;&amp; Objects.equals(displayOnNHCPortal, response.displayOnNHCPortal)</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        &amp;&amp; Objects.equals(country, response.country)</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        &amp;&amp; Objects.equals(mailingCountry, response.mailingCountry)</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        &amp;&amp; Objects.equals(matches, response.matches);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L187">    return Objects.hash(</span>
+<span class="nc" id="L91">    return Objects.hash(</span>
         type,
         key,
         code,
@@ -192,7 +96,7 @@ import java.util.UUID;
         institutionKey,
         institutionCode,
         institutionName,
-<span class="nc" id="L195">        displayOnNHCPortal,</span>
+<span class="nc" id="L99">        displayOnNHCPortal,</span>
         country,
         mailingCountry,
         matches);
