@@ -47,7 +47,7 @@ public class Identifier {
    * @return the identifier.
    */
   @Schema(description = "Other known identifier used for the same taxon. Can be a URL pointing to a webpage, an XML or " +
-    "RDF document, a DOI UUID or any other identifer.")
+    "RDF document, a DOI UUID or any other identifier.")
   @NotNull
   public String getIdentifier() {
     return identifier;

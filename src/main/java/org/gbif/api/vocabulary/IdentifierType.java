@@ -147,7 +147,7 @@ public enum IdentifierType {
         || lcIdentifier.startsWith("https://doi.org/10.")) {
       return DOI;
     }
-
+    //Todo: ADD CHECK HERE
     if (lcIdentifier.startsWith("https://ror.org")) {
       return ROR;
     }
