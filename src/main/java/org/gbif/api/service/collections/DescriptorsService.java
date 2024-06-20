@@ -1,11 +1,9 @@
 package org.gbif.api.service.collections;
 
 import org.gbif.api.model.collections.descriptors.Descriptor;
-import org.gbif.api.model.collections.descriptors.Record;
-import org.gbif.api.model.collections.descriptors.VerbatimField;
+import org.gbif.api.model.collections.descriptors.DescriptorRecord;
 import org.gbif.api.model.collections.request.DescriptorRecordsSearchRequest;
 import org.gbif.api.model.collections.request.DescriptorsSearchRequest;
-import org.gbif.api.model.collections.request.DescriptorsVerbatimFieldsSearchRequest;
 import org.gbif.api.model.common.export.ExportFormat;
 import org.gbif.api.model.common.paging.PagingResponse;
 
@@ -73,22 +71,13 @@ public interface DescriptorsService {
    * @param key of the descriptor record to be retrieved.
    * @return the descriptor record
    */
-  Record getDescriptorRecord(@NotNull long key);
+  DescriptorRecord getDescriptorRecord(@NotNull long key);
 
   /**
-   * Pages {@link Record} entities based on the parameters received.
+   * Pages {@link DescriptorRecord} entities based on the parameters received.
    *
    * @param searchRequest {@link DescriptorRecordsSearchRequest} with all the parameters
    * @return a list of entities ordered by their creation date, newest coming first
    */
-  PagingResponse<Record> listDescriptorRecords(DescriptorRecordsSearchRequest searchRequest);
-
-  /**
-   * Pages {@link Record} entities based on the parameters received.
-   *
-   * @param searchRequest {@link DescriptorsVerbatimFieldsSearchRequest} with all the parameters
-   * @return a list of entities ordered by their creation date, newest coming first
-   */
-  PagingResponse<VerbatimField> listDescriptorRecordVerbatimFields(
-      DescriptorsVerbatimFieldsSearchRequest searchRequest);
+  PagingResponse<DescriptorRecord> listDescriptorRecords(DescriptorRecordsSearchRequest searchRequest);
 }

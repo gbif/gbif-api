@@ -6,12 +6,14 @@ import org.gbif.api.vocabulary.TypeStatus;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import lombok.Data;
 
 @Data
-public class Record implements Serializable {
+public class DescriptorRecord implements Serializable {
 
   private long key;
   private Long descriptorKey;
@@ -25,4 +27,5 @@ public class Record implements Serializable {
   private String discipline;
   private String objectClassification;
   private List<String> issues = new ArrayList<>();
+  private Map<String, String> verbatim = new HashMap<>();
 }
