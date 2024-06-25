@@ -44,7 +44,8 @@ public class IdentifierUtilsTest {
       Arguments.of("http://ipt.gbif.org/resource.do?r=ds1", "http://ipt.gbif.org/resource.do?r=ds1", IdentifierType.URL),
       Arguments.of("ftp://ftp.gbif.org", "ftp://ftp.gbif.org", IdentifierType.FTP),
       Arguments.of("https://doi.org/10.1016/S1097-2765(03)00225-9", "10.1016/S1097-2765(03)00225-9", IdentifierType.DOI),
-      Arguments.of("http://www.lsid.info/132187", "132187", IdentifierType.LSID)
+      Arguments.of("http://www.lsid.info/132187", "132187", IdentifierType.LSID),
+      Arguments.of("https://ror.org/02mhbdp94.","https://ror.org/02mhbdp94.", IdentifierType.ROR)
     );
   }
 
@@ -75,5 +76,13 @@ public class IdentifierUtilsTest {
     assertFalse(IdentifierUtils.isValidWikidataIdentifier("https://www.wikidata.org/entity/1528756"));
     assertFalse(IdentifierUtils.isValidWikidataIdentifier("https://www.wikidata.org/entity/q15287h56"));
     assertFalse(IdentifierUtils.isValidWikidataIdentifier("https://www.wikidata.org/entity/1528756q"));
+  }
+
+  @Test
+  public void rorIDValidatorTest() {
+    assertTrue(IdentifierUtils.isValidRORIdentifier("https://ror.org/0566bfb96"));
+    assertFalse(IdentifierUtils.isValidRORIdentifier("https://ror.org/https://ror.org/0566bfb96"));
+    assertFalse(IdentifierUtils.isValidRORIdentifier("0566bfb96"));
+    assertFalse(IdentifierUtils.isValidRORIdentifier("https://ror.org/2566bfb96"));
   }
 }

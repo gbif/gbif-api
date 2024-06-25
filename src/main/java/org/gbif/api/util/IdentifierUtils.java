@@ -54,6 +54,7 @@ public class IdentifierUtils {
       case URI:
       case URL:
       case FTP:
+      case ROR:
         return identifier;
       case DOI:
         return "https://doi.org/" + identifier;
@@ -61,8 +62,6 @@ public class IdentifierUtils {
         return "http://www.lsid.info/" + identifier;
       case GBIF_PORTAL:
         return "https://www.gbif.org/dataset/" + identifier;
-      case ROR:
-        return "https://ror.org/" + identifier;
     }
     return null;
   }
