@@ -1,24 +1,34 @@
 package org.gbif.api.model.collections.descriptors;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.UUID;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.Data;
+import org.gbif.api.v2.RankedName;
+import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.Rank;
+import org.gbif.api.vocabulary.TypeStatus;
 
 @Data
 public class Descriptor implements Serializable {
 
   private long key;
-  @NotBlank private String title;
-  private String description;
-  @NotNull private UUID collectionKey;
-  private Date created;
-  private String createdBy;
-  private Date modified;
-  private String modifiedBy;
-  private Date deleted;
+  private Long descriptorSetKey;
+  private Integer usageKey;
+  private String usageName;
+  private Rank usageRank;
+  private Country country;
+  private Integer individualCount;
+  private List<String> identifiedBy;
+  private Date dateIdentified;
+  private List<TypeStatus> typeStatus;
+  private List<String> recordedBy;
+  private String discipline;
+  private String objectClassification;
+  private List<RankedName> taxonClassification;
+  private List<String> issues = new ArrayList<>();
+  private Map<String, String> verbatim = new HashMap<>();
 }

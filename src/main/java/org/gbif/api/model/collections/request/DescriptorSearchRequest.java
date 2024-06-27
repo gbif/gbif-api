@@ -4,6 +4,7 @@ import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PageableBase;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TypeStatus;
 
 import java.io.Serializable;
@@ -21,11 +22,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DescriptorRecordsSearchRequest extends PageableBase implements Serializable {
+public class DescriptorSearchRequest extends PageableBase implements Serializable {
 
   @Nullable private String query;
-  @Nullable private Long descriptorKey;
-  @Nullable private List<String> scientificName;
+  @Nullable private Long descriptorSetKey;
+  @Nullable private List<Integer> usageKey;
+  @Nullable private List<String> usageName;
+  @Nullable private List<Rank> usageRank;
+  @Nullable private List<Integer> taxonKey;
   @Nullable private List<Country> country;
   @Nullable private String individualCount;
   @Nullable private List<String> identifiedBy;
