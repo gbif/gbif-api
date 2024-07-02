@@ -428,12 +428,6 @@ public class Dataset
   private String maintenanceDescription;
 
   @Schema(
-      description = "A description of changes made to the data since its release.",
-      accessMode = Schema.AccessMode.READ_ONLY
-  )
-  private List<MaintenanceChange> maintenanceChangeHistory = new ArrayList<>();
-
-  @Schema(
     description = "The data and metadata license retrieved from this dataset's metadata documents.",
     accessMode = Schema.AccessMode.READ_ONLY
   )
@@ -606,18 +600,6 @@ public class Dataset
    */
   public void setMaintenanceUpdateFrequency(MaintenanceUpdateFrequency maintenanceUpdateFrequency) {
     this.maintenanceUpdateFrequency = maintenanceUpdateFrequency;
-  }
-
-  public List<MaintenanceChange> getMaintenanceChangeHistory() {
-    return maintenanceChangeHistory;
-  }
-
-  public void setMaintenanceChangeHistory(List<MaintenanceChange> maintenanceChangeHistory) {
-    this.maintenanceChangeHistory = maintenanceChangeHistory;
-  }
-
-  public void addMaintenanceChange(MaintenanceChange maintenanceChange) {
-    this.maintenanceChangeHistory.add(maintenanceChange);
   }
 
   /**
@@ -1173,7 +1155,6 @@ public class Dataset
         && Objects.equals(pubDate, dataset.pubDate)
         && maintenanceUpdateFrequency == dataset.maintenanceUpdateFrequency
         && Objects.equals(maintenanceDescription, dataset.maintenanceDescription)
-        && Objects.equals(maintenanceChangeHistory, dataset.maintenanceChangeHistory)
         && license == dataset.license;
   }
 
@@ -1236,7 +1217,6 @@ public class Dataset
         pubDate,
         maintenanceUpdateFrequency,
         maintenanceDescription,
-        maintenanceChangeHistory,
         license);
   }
 
@@ -1299,7 +1279,6 @@ public class Dataset
         .add("pubDate=" + pubDate)
         .add("maintenanceUpdateFrequency=" + maintenanceUpdateFrequency)
         .add("maintenanceDescription='" + maintenanceDescription + "'")
-        .add("maintenanceChangeHistory=" + maintenanceChangeHistory)
         .add("license=" + license)
         .toString();
   }
