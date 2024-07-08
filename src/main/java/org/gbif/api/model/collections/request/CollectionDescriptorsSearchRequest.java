@@ -1,11 +1,12 @@
 package org.gbif.api.model.collections.request;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import javax.annotation.Nullable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
+import org.gbif.api.util.Range;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TypeStatus;
@@ -22,12 +23,10 @@ public class CollectionDescriptorsSearchRequest extends CollectionSearchRequest 
   @Nullable private List<Country> descriptorCountry;
   @Nullable private String individualCount;
   @Nullable private List<String> identifiedBy;
-  @Nullable private Date dateIdentified;
-  @Nullable private Date dateIdentifiedFrom;
-  @Nullable private Date dateIdentifiedBefore;
+  @Nullable private Range<LocalDate> dateIdentified;
   @Nullable private List<TypeStatus> typeStatus;
   @Nullable private List<String> recordedBy;
   @Nullable private List<String> discipline;
   @Nullable private List<String> objectClassification;
-  @Nullable private List<String> issues;
+  @Nullable private List<String> issue;
 }

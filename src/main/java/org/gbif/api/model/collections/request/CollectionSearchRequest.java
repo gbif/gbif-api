@@ -30,13 +30,4 @@ public class CollectionSearchRequest extends SearchRequest {
   @Nullable private List<String> preservationTypes;
   @Nullable private List<String> accessionStatus;
   @Nullable private Boolean personalCollection;
-
-  @Nullable
-  public UUID getInstitution() {
-    return institution;
-  }
-
-  public void setInstitution(@Nullable UUID institution) {
-    this.institution = institution;
-  }
 }
