@@ -65,15 +65,15 @@ public enum StepType {
   private static final Set<StepType> EVENT_TYPE =
       Set.of(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_INTERPRETED_TO_INDEX, EVENTS_HDFS_VIEW);
 
-  public boolean isEventType(StepType type) {
+  public static boolean isEventType(StepType type) {
     return EVENT_TYPE.contains(type);
   }
 
-  public boolean isOccurrenceType(StepType type) {
+  public static boolean isOccurrenceType(StepType type) {
     return OCCURRENCE_TYPE.contains(type);
   }
 
-  public boolean isVerbatimType(StepType type) {
+  public static boolean isVerbatimType(StepType type) {
     return VERBATIM_TYPE.contains(type);
   }
 }
