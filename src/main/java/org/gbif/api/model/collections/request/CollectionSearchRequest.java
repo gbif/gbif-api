@@ -19,10 +19,7 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.SortOrder;
-import org.gbif.api.vocabulary.collections.AccessionStatus;
-import org.gbif.api.vocabulary.collections.CollectionContentType;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
-import org.gbif.api.vocabulary.collections.PreservationType;
 import org.gbif.api.vocabulary.collections.Source;
 
 import java.util.List;
@@ -33,9 +30,9 @@ import javax.annotation.Nullable;
 public class CollectionSearchRequest extends SearchRequest {
 
   @Deprecated @Nullable private UUID institution;
-  @Nullable private List<CollectionContentType> contentTypes;
-  @Nullable private List<PreservationType> preservationTypes;
-  @Nullable private AccessionStatus accessionStatus;
+  @Nullable private List<String> contentTypes;
+  @Nullable private List<String> preservationTypes;
+  @Nullable private List<String> accessionStatus;
   @Nullable private Boolean personalCollection;
 
   @Nullable
@@ -48,29 +45,29 @@ public class CollectionSearchRequest extends SearchRequest {
   }
 
   @Nullable
-  public List<CollectionContentType> getContentTypes() {
+  public List<String> getContentTypes() {
     return contentTypes;
   }
 
-  public void setContentTypes(@Nullable List<CollectionContentType> contentTypes) {
+  public void setContentTypes(@Nullable List<String> contentTypes) {
     this.contentTypes = contentTypes;
   }
 
   @Nullable
-  public List<PreservationType> getPreservationTypes() {
+  public List<String> getPreservationTypes() {
     return preservationTypes;
   }
 
-  public void setPreservationTypes(@Nullable List<PreservationType> preservationTypes) {
+  public void setPreservationTypes(@Nullable List<String> preservationTypes) {
     this.preservationTypes = preservationTypes;
   }
 
   @Nullable
-  public AccessionStatus getAccessionStatus() {
+  public List<String> getAccessionStatus() {
     return accessionStatus;
   }
 
-  public void setAccessionStatus(@Nullable AccessionStatus accessionStatus) {
+  public void setAccessionStatus(@Nullable List<String> accessionStatus) {
     this.accessionStatus = accessionStatus;
   }
 
@@ -104,9 +101,9 @@ public class CollectionSearchRequest extends SearchRequest {
     String city;
     String fuzzyName;
     Boolean active;
-    List<CollectionContentType> contentTypes;
-    List<PreservationType> preservationTypes;
-    AccessionStatus accessionStatus;
+    List<String> contentTypes;
+    List<String> preservationTypes;
+    List<String> accessionStatus;
     Boolean personalCollection;
     MasterSourceType masterSourceType;
     String numberSpecimens;
@@ -196,17 +193,17 @@ public class CollectionSearchRequest extends SearchRequest {
       return this;
     }
 
-    public Builder contentTypes(List<CollectionContentType> contentTypes) {
+    public Builder contentTypes(List<String> contentTypes) {
       this.contentTypes = contentTypes;
       return this;
     }
 
-    public Builder preservationTypes(List<PreservationType> preservationTypes) {
+    public Builder preservationTypes(List<String> preservationTypes) {
       this.preservationTypes = preservationTypes;
       return this;
     }
 
-    public Builder accessionStatus(AccessionStatus accessionStatus) {
+    public Builder accessionStatus(List<String> accessionStatus) {
       this.accessionStatus = accessionStatus;
       return this;
     }

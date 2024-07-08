@@ -32,7 +32,7 @@ import javax.validation.Payload;
  * </ul>
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.FIELD})
+@Target({ElementType.METHOD, ElementType.FIELD, ElementType.TYPE_USE})
 @Constraint(validatedBy = URIValidator.class)
 public @interface HttpURI {
 
