@@ -36,7 +36,7 @@ public class DescriptorSearchRequest extends PageableBase implements Serializabl
   @Nullable private Date dateIdentified;
   @Nullable private Date dateIdentifiedFrom;
   @Nullable private Date dateIdentifiedBefore;
-  @Nullable private List<TypeStatus> typeStatus;
+  @Nullable private List<String> typeStatus;
   @Nullable private List<String> recordedBy;
   @Nullable private List<String> discipline;
   @Nullable private List<String> objectClassification;

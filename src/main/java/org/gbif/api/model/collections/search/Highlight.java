@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Setter
 @Getter
-public class Match {
+public class Highlight {
   private String field;
   private String snippet;
 
@@ -15,8 +15,8 @@ public class Match {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    Match match = (Match) o;
-    return Objects.equals(field, match.field);
+    Highlight highlight = (Highlight) o;
+    return Objects.equals(field, highlight.field);
   }
 
   @Override

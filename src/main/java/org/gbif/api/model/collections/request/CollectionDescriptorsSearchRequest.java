@@ -24,7 +24,7 @@ public class CollectionDescriptorsSearchRequest extends CollectionSearchRequest 
   @Nullable private String individualCount;
   @Nullable private List<String> identifiedBy;
   @Nullable private Range<LocalDate> dateIdentified;
-  @Nullable private List<TypeStatus> typeStatus;
+  @Nullable private List<String> typeStatus;
   @Nullable private List<String> recordedBy;
   @Nullable private List<String> discipline;
   @Nullable private List<String> objectClassification;

@@ -33,5 +33,5 @@ public abstract class BaseSearchResponse {
   private URI featuredImageUrl;
   private String featuredImageAttribution;
   private MasterSourceType masterSource;
-  private Set<Match> matches = new HashSet<>();
+  private Set<Highlight> highlights = new HashSet<>();
 }

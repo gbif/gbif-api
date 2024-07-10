@@ -18,7 +18,7 @@ public class DescriptorMatch {
   private Integer individualCount;
   private List<String> identifiedBy;
   private Date dateIdentified;
-  private List<TypeStatus> typeStatus;
+  private List<String> typeStatus;
   private List<String> recordedBy;
   private String discipline;
   private String objectClassification;
