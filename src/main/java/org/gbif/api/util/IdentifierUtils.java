@@ -34,7 +34,7 @@ public class IdentifierUtils {
       Pattern.compile("http(s)?://www.wikidata.org/entity/([A-Za-z][0-9]+)$");
 
   public static final Pattern ROR_PATTERN =
-      Pattern.compile("http(s)?://ror.org/(^0[a-z|0-9]{6}[0-9]{2}$)");
+    Pattern.compile("https?://ror\\.org/0[a-z0-9]{6}[0-9]{2}");
 
   /**
    * Creates a http link for an identifier if possible by passing it to some known resolvers for the
@@ -54,6 +54,7 @@ public class IdentifierUtils {
       case URI:
       case URL:
       case FTP:
+      case ROR:
         return identifier;
       case DOI:
         return "https://doi.org/" + identifier;
@@ -61,8 +62,6 @@ public class IdentifierUtils {
         return "http://www.lsid.info/" + identifier;
       case GBIF_PORTAL:
         return "https://www.gbif.org/dataset/" + identifier;
-      case ROR:
-        return "https://ror.org/" + identifier;
     }
     return null;
   }
