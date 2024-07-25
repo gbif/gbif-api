@@ -57,11 +57,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @SuppressWarnings("unused")
 public class NameUsage implements LinneanClassification, LinneanClassificationKeys {
 
-  private Integer key;
-  private Integer nubKey;
-  private Integer nameKey;
+  private String key;
+  private String nubKey;
+  private String nameKey;
   private String taxonID;
-  private Integer sourceTaxonKey;
+  private String sourceTaxonKey;
   // for LinneanClassification
   private String kingdom;
   private String phylum;
@@ -73,18 +73,18 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   private String subgenus;
   private String species;
   // for LinneanClassificationKeys
-  private Integer kingdomKey;
-  private Integer phylumKey;
-  private Integer classKey;
-  private Integer orderKey;
-  private Integer familyKey;
-  private Integer genusKey;
-  private Integer subgenusKey;
-  private Integer speciesKey;
+  private String kingdomKey;
+  private String phylumKey;
+  private String classKey;
+  private String orderKey;
+  private String familyKey;
+  private String genusKey;
+  private String subgenusKey;
+  private String speciesKey;
 
   private UUID datasetKey;
   private UUID constituentKey;
-  private Integer parentKey;
+  private String parentKey;
   private String parent;
   private Integer proParteKey;
   private Integer acceptedKey;
@@ -173,11 +173,11 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    */
   @Schema(description = "The key for retrieving a parsed name object.\n\n" +
     "*You are more likely to need the `key` or `nubKey` properties*")
-  public Integer getNameKey() {
+  public String getNameKey() {
     return nameKey;
   }
 
-  public void setNameKey(Integer nameKey) {
+  public void setNameKey(String nameKey) {
     this.nameKey = nameKey;
   }
 
@@ -206,11 +206,11 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
     "\n" +
     "Some backbone usages do not have any source record at all; for example if there is a subspecies found, but no matching " +
     "parent species, the missing species will be created nevertheless and has no primary source.")
-  public Integer getSourceTaxonKey() {
+  public String getSourceTaxonKey() {
     return sourceTaxonKey;
   }
 
-  public void setSourceTaxonKey(Integer sourceTaxonKey) {
+  public void setSourceTaxonKey(String sourceTaxonKey) {
     this.sourceTaxonKey = sourceTaxonKey;
   }
 
@@ -364,14 +364,14 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    */
   @Schema(description = "The name usage key that uniquely identifies this name usage.")
   @NotNull
-  public Integer getKey() {
+  public String getKey() {
     return key;
   }
 
   /**
    * @param key the key to set
    */
-  public void setKey(Integer key) {
+  public void setKey(String key) {
     this.key = key;
   }
 
@@ -421,14 +421,14 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   @Schema(description = "The taxon key of the matching backbone name usage.\n\n" +
     "If this is equal to `key`, this name usage is a backbone name usage.")
   @Nullable
-  public Integer getNubKey() {
+  public String getNubKey() {
     return nubKey;
   }
 
   /**
    * @param nubKey the nubKey to set
    */
-  public void setNubKey(Integer nubKey) {
+  public void setNubKey(String nubKey) {
     this.nubKey = nubKey;
   }
 
@@ -498,14 +498,14 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    */
   @Schema(description = "The name usage key of the immediate parent.  Null for the highest taxonomic level.")
   @Nullable
-  public Integer getParentKey() {
+  public String getParentKey() {
     return parentKey;
   }
 
   /**
    * @param parentKey the parentKey to set
    */
-  public void setParentKey(Integer parentKey) {
+  public void setParentKey(String parentKey) {
     this.parentKey = parentKey;
   }
 
@@ -727,89 +727,89 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
 
   @Schema(description = "Name usage key of the kingdom.")
   @Override
-  public Integer getKingdomKey() {
+  public String getKingdomKey() {
     return kingdomKey;
   }
 
   @Override
-  public void setKingdomKey(Integer kingdomKey) {
+  public void setKingdomKey(String kingdomKey) {
     this.kingdomKey = kingdomKey;
   }
 
   @Schema(description = "Name usage key of the phylum.")
   @Override
-  public Integer getPhylumKey() {
+  public String getPhylumKey() {
     return phylumKey;
   }
 
   @Override
-  public void setPhylumKey(Integer phylumKey) {
+  public void setPhylumKey(String phylumKey) {
     this.phylumKey = phylumKey;
   }
 
   @Schema(description = "Name usage key of the class.")
   @Override
-  public Integer getClassKey() {
+  public String getClassKey() {
     return classKey;
   }
 
   @Override
-  public void setClassKey(Integer classKey) {
+  public void setClassKey(String classKey) {
     this.classKey = classKey;
   }
 
   @Schema(description = "Name usage key of the order.")
   @Override
-  public Integer getOrderKey() {
+  public String getOrderKey() {
     return orderKey;
   }
 
   @Override
-  public void setOrderKey(Integer orderKey) {
+  public void setOrderKey(String orderKey) {
     this.orderKey = orderKey;
   }
 
   @Schema(description = "Name usage key of the family.")
   @Override
-  public Integer getFamilyKey() {
+  public String getFamilyKey() {
     return familyKey;
   }
 
   @Override
-  public void setFamilyKey(Integer familyKey) {
+  public void setFamilyKey(String familyKey) {
     this.familyKey = familyKey;
   }
 
   @Schema(description = "Name usage key of the genus.")
   @Override
-  public Integer getGenusKey() {
+  public String getGenusKey() {
     return genusKey;
   }
 
   @Override
-  public void setGenusKey(Integer genusKey) {
+  public void setGenusKey(String genusKey) {
     this.genusKey = genusKey;
   }
 
   @Schema(description = "Name usage key of the subgenus.")
   @Override
-  public Integer getSubgenusKey() {
+  public String getSubgenusKey() {
     return subgenusKey;
   }
 
   @Override
-  public void setSubgenusKey(Integer subgenusKey) {
+  public void setSubgenusKey(String subgenusKey) {
     this.subgenusKey = subgenusKey;
   }
 
   @Schema(description = "Name usage key of the species.")
   @Override
-  public Integer getSpeciesKey() {
+  public String getSpeciesKey() {
     return speciesKey;
   }
 
   @Override
-  public void setSpeciesKey(Integer speciesKey) {
+  public void setSpeciesKey(String speciesKey) {
     this.speciesKey = speciesKey;
   }
 
@@ -857,7 +857,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
   }
 
   @Override
-  public Integer getHigherRankKey(Rank rank) {
+  public String getHigherRankKey(Rank rank) {
     return ClassificationUtils.getHigherRankKey(this, rank);
   }
 
@@ -870,7 +870,7 @@ public class NameUsage implements LinneanClassification, LinneanClassificationKe
    */
   @NotNull
   @JsonIgnore
-  public LinkedHashMap<Integer, String> getHigherClassificationMap() {
+  public LinkedHashMap<String, String> getHigherClassificationMap() {
     return ClassificationUtils.getHigherClassificationMap(this, key, parentKey, parent);
   }
 

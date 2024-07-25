@@ -41,8 +41,8 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
 
   private static final long serialVersionUID = -8927655067465421358L;
 
-  private Integer usageKey;
-  private Integer acceptedUsageKey;
+  private String usageKey;
+  private String acceptedUsageKey;
   private String scientificName;
   private String canonicalName;
   private Rank rank;
@@ -62,14 +62,14 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
   private String subgenus;
   private String species;
   // for LinneanClassificationKeys
-  private Integer kingdomKey;
-  private Integer phylumKey;
-  private Integer classKey;
-  private Integer orderKey;
-  private Integer familyKey;
-  private Integer genusKey;
-  private Integer subgenusKey;
-  private Integer speciesKey;
+  private String kingdomKey;
+  private String phylumKey;
+  private String classKey;
+  private String orderKey;
+  private String familyKey;
+  private String genusKey;
+  private String subgenusKey;
+  private String speciesKey;
 
   /**
    * The confidence that the lookup was correct.
@@ -139,14 +139,14 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
    */
   @Schema(description = "The name usage key of the name usage that has been matched.")
   @Nullable
-  public Integer getUsageKey() {
+  public String getUsageKey() {
     return usageKey;
   }
 
   /**
    * @param usageKey the usageKey to set
    */
-  public void setUsageKey(Integer usageKey) {
+  public void setUsageKey(String usageKey) {
     this.usageKey = usageKey;
   }
 
@@ -155,11 +155,11 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
    */
   @Schema(description = "The key of the accepted name usage in case the matched usage was a synonym.")
   @Nullable
-  public Integer getAcceptedUsageKey() {
+  public String getAcceptedUsageKey() {
     return acceptedUsageKey;
   }
 
-  public void setAcceptedUsageKey(Integer acceptedUsageKey) {
+  public void setAcceptedUsageKey(String acceptedUsageKey) {
     this.acceptedUsageKey = acceptedUsageKey;
   }
 
@@ -287,96 +287,96 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
   @Schema(description = "Usage key of the kingdom of the matched name.")
   @Override
   @Nullable
-  public Integer getKingdomKey() {
+  public String getKingdomKey() {
     return kingdomKey;
   }
 
   @Override
-  public void setKingdomKey(Integer kingdomKey) {
+  public void setKingdomKey(String kingdomKey) {
     this.kingdomKey = kingdomKey;
   }
 
   @Schema(description = "Usage key of the phylum of the matched name.")
   @Override
   @Nullable
-  public Integer getPhylumKey() {
+  public String getPhylumKey() {
     return phylumKey;
   }
 
   @Override
-  public void setPhylumKey(Integer phylumKey) {
+  public void setPhylumKey(String phylumKey) {
     this.phylumKey = phylumKey;
   }
 
   @Schema(description = "Usage key of the class of the matched name.")
   @Override
   @Nullable
-  public Integer getClassKey() {
+  public String getClassKey() {
     return classKey;
   }
 
   @Override
-  public void setClassKey(Integer classKey) {
+  public void setClassKey(String classKey) {
     this.classKey = classKey;
   }
 
   @Schema(description = "Usage key of the order of the matched name.")
   @Override
   @Nullable
-  public Integer getOrderKey() {
+  public String getOrderKey() {
     return orderKey;
   }
 
   @Override
-  public void setOrderKey(Integer orderKey) {
+  public void setOrderKey(String orderKey) {
     this.orderKey = orderKey;
   }
 
   @Schema(description = "Usage key of the family of the matched name.")
   @Override
   @Nullable
-  public Integer getFamilyKey() {
+  public String getFamilyKey() {
     return familyKey;
   }
 
   @Override
-  public void setFamilyKey(Integer familyKey) {
+  public void setFamilyKey(String familyKey) {
     this.familyKey = familyKey;
   }
 
   @Schema(description = "Usage key of the genus of the matched name.")
   @Override
   @Nullable
-  public Integer getGenusKey() {
+  public String getGenusKey() {
     return genusKey;
   }
 
   @Override
-  public void setGenusKey(Integer genusKey) {
+  public void setGenusKey(String genusKey) {
     this.genusKey = genusKey;
   }
 
   @Schema(description = "Usage key of the subgenus of the matched name.")
   @Override
   @Nullable
-  public Integer getSubgenusKey() {
+  public String getSubgenusKey() {
     return subgenusKey;
   }
 
   @Override
-  public void setSubgenusKey(Integer subgenusKey) {
+  public void setSubgenusKey(String subgenusKey) {
     this.subgenusKey = subgenusKey;
   }
 
   @Schema(description = "Usage key of the species of the matched name.")
   @Override
   @Nullable
-  public Integer getSpeciesKey() {
+  public String getSpeciesKey() {
     return speciesKey;
   }
 
   @Override
-  public void setSpeciesKey(Integer speciesKey) {
+  public void setSpeciesKey(String speciesKey) {
     this.speciesKey = speciesKey;
   }
 
@@ -388,7 +388,7 @@ public class NameUsageMatch implements LinneanClassification, LinneanClassificat
   }
 
   @Override
-  public Integer getHigherRankKey(Rank rank) {
+  public String getHigherRankKey(Rank rank) {
     return ClassificationUtils.getHigherRankKey(this, rank);
   }
 

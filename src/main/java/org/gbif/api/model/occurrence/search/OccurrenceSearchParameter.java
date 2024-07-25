@@ -310,52 +310,52 @@ public enum OccurrenceSearchParameter implements SearchParameter {
    * A taxon key from the GBIF backbone. All included and synonym taxa are included in the search, so a search for
    * aves with taxonKey=212 will match all birds, no matter which species.
    */
-  TAXON_KEY(Integer.class),
+  TAXON_KEY(String.class),
 
   /**
    * A taxon key from the GBIF backbone for the name usage of the currently valid or accepted taxon.
    */
-  ACCEPTED_TAXON_KEY(Integer.class),
+  ACCEPTED_TAXON_KEY(String.class),
 
   /**
    * A kingdom key from the GBIF backbone.
    */
-  KINGDOM_KEY(Integer.class),
+  KINGDOM_KEY(String.class),
 
   /**
    * A phylum key from the GBIF backbone.
    */
-  PHYLUM_KEY(Integer.class),
+  PHYLUM_KEY(String.class),
 
   /**
    * A class key from the GBIF backbone.
    */
-  CLASS_KEY(Integer.class),
+  CLASS_KEY(String.class),
 
   /**
    * A order key from the GBIF backbone.
    */
-  ORDER_KEY(Integer.class),
+  ORDER_KEY(String.class),
 
   /**
    * A family key from the GBIF backbone.
    */
-  FAMILY_KEY(Integer.class),
+  FAMILY_KEY(String.class),
 
   /**
    * A genus key from the GBIF backbone.
    */
-  GENUS_KEY(Integer.class),
+  GENUS_KEY(String.class),
 
   /**
    * A subgenus key from the GBIF backbone.
    */
-  SUBGENUS_KEY(Integer.class),
+  SUBGENUS_KEY(String.class),
 
   /**
    * A species key from the GBIF backbone.
    */
-  SPECIES_KEY(Integer.class),
+  SPECIES_KEY(String.class),
 
   /**
    * Searches the interpreted, full scientific name of the occurrence.

@@ -36,8 +36,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @SuppressWarnings("unused")
 public class NameUsageSuggestResult implements LinneanClassification, LinneanClassificationKeys {
 
-  private Integer key;
-  private Integer nameKey;
+  private String key;
+  private String nameKey;
 
   // for LinneanClassification
   private String kingdom;
@@ -50,18 +50,18 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   private String subgenus;
   private String species;
   // for LinneanClassificationKeys
-  private Integer kingdomKey;
-  private Integer phylumKey;
-  private Integer classKey;
-  private Integer orderKey;
-  private Integer familyKey;
-  private Integer genusKey;
-  private Integer subgenusKey;
-  private Integer speciesKey;
+  private String kingdomKey;
+  private String phylumKey;
+  private String classKey;
+  private String orderKey;
+  private String familyKey;
+  private String genusKey;
+  private String subgenusKey;
+  private String speciesKey;
 
   private String parent;
-  private Integer parentKey;
-  private Integer nubKey;
+  private String parentKey;
+  private String nubKey;
   private String scientificName;
   private String canonicalName;
   private Rank rank;
@@ -70,11 +70,11 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   /**
    * @return the name key for retrieving a parsed name object
    */
-  public Integer getNameKey() {
+  public String getNameKey() {
     return nameKey;
   }
 
-  public void setNameKey(Integer nameKey) {
+  public void setNameKey(String nameKey) {
     this.nameKey = nameKey;
   }
 
@@ -101,18 +101,18 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
     this.status = status;
   }
 
-  public Integer getNubKey() {
+  public String getNubKey() {
     return nubKey;
   }
 
-  public void setNubKey(Integer nubKey) {
+  public void setNubKey(String nubKey) {
     this.nubKey = nubKey;
   }
 
   /**
    * Taxon key.
    */
-  public Integer getKey() {
+  public String getKey() {
     return key;
   }
 
@@ -157,42 +157,42 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   }
 
   @Override
-  public Integer getKingdomKey() {
+  public String getKingdomKey() {
     return kingdomKey;
   }
 
   @Override
-  public Integer getPhylumKey() {
+  public String getPhylumKey() {
     return phylumKey;
   }
 
   @Override
-  public Integer getClassKey() {
+  public String getClassKey() {
     return classKey;
   }
 
   @Override
-  public Integer getOrderKey() {
+  public String getOrderKey() {
     return orderKey;
   }
 
   @Override
-  public Integer getFamilyKey() {
+  public String getFamilyKey() {
     return familyKey;
   }
 
   @Override
-  public Integer getGenusKey() {
+  public String getGenusKey() {
     return genusKey;
   }
 
   @Override
-  public Integer getSubgenusKey() {
+  public String getSubgenusKey() {
     return subgenusKey;
   }
 
   @Override
-  public Integer getSpeciesKey() {
+  public String getSpeciesKey() {
     return speciesKey;
   }
 
@@ -205,7 +205,7 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   }
 
   @Override
-  public void setClassKey(Integer classKey) {
+  public void setClassKey(String classKey) {
     this.classKey = classKey;
   }
 
@@ -220,7 +220,7 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   }
 
   @Override
-  public void setFamilyKey(Integer familyKey) {
+  public void setFamilyKey(String familyKey) {
     this.familyKey = familyKey;
   }
 
@@ -230,11 +230,11 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   }
 
   @Override
-  public void setGenusKey(Integer genusKey) {
+  public void setGenusKey(String genusKey) {
     this.genusKey = genusKey;
   }
 
-  public void setKey(Integer key) {
+  public void setKey(String key) {
     this.key = key;
   }
 
@@ -244,7 +244,7 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   }
 
   @Override
-  public void setKingdomKey(Integer kingdomKey) {
+  public void setKingdomKey(String kingdomKey) {
     this.kingdomKey = kingdomKey;
   }
 
@@ -254,7 +254,7 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   }
 
   @Override
-  public void setOrderKey(Integer orderKey) {
+  public void setOrderKey(String orderKey) {
     this.orderKey = orderKey;
   }
 
@@ -264,7 +264,7 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   }
 
   @Override
-  public void setPhylumKey(Integer phylumKey) {
+  public void setPhylumKey(String phylumKey) {
     this.phylumKey = phylumKey;
   }
 
@@ -274,7 +274,7 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   }
 
   @Override
-  public void setSpeciesKey(Integer speciesKey) {
+  public void setSpeciesKey(String speciesKey) {
     this.speciesKey = speciesKey;
   }
 
@@ -284,7 +284,7 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   }
 
   @Override
-  public void setSubgenusKey(Integer subgenusKey) {
+  public void setSubgenusKey(String subgenusKey) {
     this.subgenusKey = subgenusKey;
   }
 
@@ -292,7 +292,7 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
     return parent;
   }
 
-  public Integer getParentKey() {
+  public String getParentKey() {
     return parentKey;
   }
 
@@ -300,7 +300,7 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
     this.parent = parent;
   }
 
-  public void setParentKey(Integer parentKey) {
+  public void setParentKey(String parentKey) {
     this.parentKey = parentKey;
   }
 
@@ -318,7 +318,7 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
   }
 
   @Override
-  public Integer getHigherRankKey(Rank rank) {
+  public String getHigherRankKey(Rank rank) {
     return ClassificationUtils.getHigherRankKey(this, rank);
   }
 
@@ -330,7 +330,7 @@ public class NameUsageSuggestResult implements LinneanClassification, LinneanCla
    * @return map of higher ranks
    */
   @NotNull
-  public LinkedHashMap<Integer, String> getHigherClassificationMap() {
+  public LinkedHashMap<String, String> getHigherClassificationMap() {
     return ClassificationUtils.getHigherClassificationMap(this, key, parentKey, parent);
   }
 

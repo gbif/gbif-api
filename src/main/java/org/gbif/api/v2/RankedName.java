@@ -23,24 +23,24 @@ import java.util.Objects;
  *
  */
 public class RankedName {
-  private int key;
+  private String key;
   private String name;
   private Rank rank;
 
   public RankedName() {
   }
 
-  public RankedName(int key, String name, Rank rank) {
+  public RankedName(String key, String name, Rank rank) {
     this.key = key;
     this.name = name;
     this.rank = rank;
   }
 
-  public int getKey() {
+  public String getKey() {
     return key;
   }
 
-  public void setKey(int key) {
+  public void setKey(String key) {
     this.key = key;
   }
 

@@ -162,7 +162,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
-  private Integer taxonKey;
+  private String taxonKey;
 
   @Schema(
     description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the kingdom of this" +
@@ -172,7 +172,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
-  private Integer kingdomKey;
+  private String kingdomKey;
 
   @Schema(
     description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the phylum of this" +
@@ -182,7 +182,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
-  private Integer phylumKey;
+  private String phylumKey;
 
   @Schema(
     description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the class of this" +
@@ -192,7 +192,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
-  private Integer classKey;
+  private String classKey;
 
   @Schema(
     description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the order of this" +
@@ -202,7 +202,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
-  private Integer orderKey;
+  private String orderKey;
 
   @Schema(
     description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the family of this" +
@@ -212,7 +212,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
-  private Integer familyKey;
+  private String familyKey;
 
   @Schema(
     description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the genus of this" +
@@ -222,7 +222,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
-  private Integer genusKey;
+  private String genusKey;
 
   @Schema(
     description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the subgenus of this" +
@@ -232,7 +232,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
-  private Integer subgenusKey;
+  private String subgenusKey;
 
   @Schema(
     description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the species of this" +
@@ -242,7 +242,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
-  private Integer speciesKey;
+  private String speciesKey;
 
   @Schema(
     description = "A taxon key from the [GBIF backbone](https://doi.org/10.15468/39omei) for the accepted taxon of " +
@@ -252,7 +252,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
       url = "https://rs.tdwg.org/dwc/terms/"
     )
   )
-  private Integer acceptedTaxonKey;
+  private String acceptedTaxonKey;
 
   // taxonomy as name strings → LinneanClassification
 
@@ -1123,94 +1123,94 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * represent the lowest matching rank. In the worst case this could just be for example Animalia.
    */
   @Nullable
-  public Integer getTaxonKey() {
+  public String getTaxonKey() {
     return taxonKey;
   }
 
-  public void setTaxonKey(Integer taxonKey) {
+  public void setTaxonKey(String taxonKey) {
     this.taxonKey = taxonKey;
   }
 
   @Nullable
   @Override
-  public Integer getKingdomKey() {
+  public String getKingdomKey() {
     return kingdomKey;
   }
 
   @Override
-  public void setKingdomKey(@Nullable Integer kingdomKey) {
+  public void setKingdomKey(@Nullable String kingdomKey) {
     this.kingdomKey = kingdomKey;
   }
 
   @Nullable
   @Override
-  public Integer getPhylumKey() {
+  public String getPhylumKey() {
     return phylumKey;
   }
 
   @Override
-  public void setPhylumKey(@Nullable Integer phylumKey) {
+  public void setPhylumKey(@Nullable String phylumKey) {
     this.phylumKey = phylumKey;
   }
 
   @Nullable
   @Override
-  public Integer getClassKey() {
+  public String getClassKey() {
     return classKey;
   }
 
   @Override
-  public void setClassKey(@Nullable Integer classKey) {
+  public void setClassKey(@Nullable String classKey) {
     this.classKey = classKey;
   }
 
   @Nullable
   @Override
-  public Integer getOrderKey() {
+  public String getOrderKey() {
     return orderKey;
   }
 
   @Override
-  public void setOrderKey(@Nullable Integer orderKey) {
+  public void setOrderKey(@Nullable String orderKey) {
     this.orderKey = orderKey;
   }
 
   @Nullable
   @Override
-  public Integer getFamilyKey() {
+  public String getFamilyKey() {
     return familyKey;
   }
 
   @Override
-  public void setFamilyKey(@Nullable Integer familyKey) {
+  public void setFamilyKey(@Nullable String familyKey) {
     this.familyKey = familyKey;
   }
 
   @Nullable
   @Override
-  public Integer getGenusKey() {
+  public String getGenusKey() {
     return genusKey;
   }
 
   @Override
-  public void setGenusKey(@Nullable Integer genusKey) {
+  public void setGenusKey(@Nullable String genusKey) {
     this.genusKey = genusKey;
   }
 
   @Nullable
   @Override
-  public Integer getSubgenusKey() {
+  public String getSubgenusKey() {
     return subgenusKey;
   }
 
   @Override
-  public void setSubgenusKey(@Nullable Integer subgenusKey) {
+  public void setSubgenusKey(@Nullable String subgenusKey) {
     this.subgenusKey = subgenusKey;
   }
 
   @Nullable
   @Override
-  public Integer getHigherRankKey(Rank rank) {
+  public String getHigherRankKey(Rank rank) {
     return ClassificationUtils.getHigherRankKey(this, rank);
   }
 
@@ -1222,7 +1222,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    */
   @NotNull
   @JsonIgnore
-  public Map<Integer, String> getHigherClassificationMap() {
+  public Map<String, String> getHigherClassificationMap() {
     return taxonKey == null ? ClassificationUtils.getHigherClassificationMap(this)
       : ClassificationUtils.getHigherClassificationMap(this, taxonKey, null, null);
   }
@@ -1234,12 +1234,12 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    */
   @Nullable
   @Override
-  public Integer getSpeciesKey() {
+  public String getSpeciesKey() {
     return speciesKey;
   }
 
   @Override
-  public void setSpeciesKey(@Nullable Integer speciesKey) {
+  public void setSpeciesKey(@Nullable String speciesKey) {
     this.speciesKey = speciesKey;
   }
 
@@ -1247,11 +1247,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
    * The accepted taxon key from the GBIF backbone.
    */
   @Nullable
-  public Integer getAcceptedTaxonKey() {
+  public String getAcceptedTaxonKey() {
     return acceptedTaxonKey;
   }
 
-  public void setAcceptedTaxonKey(Integer acceptedTaxonKey) {
+  public void setAcceptedTaxonKey(String acceptedTaxonKey) {
     this.acceptedTaxonKey = acceptedTaxonKey;
   }
 

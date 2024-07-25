@@ -131,7 +131,7 @@ public class ClassificationUtils {
    * @return map of higher ranks
    */
   @NotNull
-  public static <T extends LinneanClassification & LinneanClassificationKeys> LinkedHashMap<Integer, String> getHigherClassificationMap(
+  public static <T extends LinneanClassification & LinneanClassificationKeys> LinkedHashMap<String, String> getHigherClassificationMap(
     T lc) {
     return getHigherClassificationBaseMap(lc);
   }
@@ -147,9 +147,9 @@ public class ClassificationUtils {
    * @return map of higher ranks
    */
   @NotNull
-  public static <T extends LinneanClassification & LinneanClassificationKeys> LinkedHashMap<Integer, String> getHigherClassificationMap(
-    T lc, int key, Integer parentKey, String parent) {
-    LinkedHashMap<Integer, String> map = getHigherClassificationBaseMap(lc);
+  public static <T extends LinneanClassification & LinneanClassificationKeys> LinkedHashMap<String, String> getHigherClassificationMap(
+    T lc, String key, String parentKey, String parent) {
+    LinkedHashMap<String, String> map = getHigherClassificationBaseMap(lc);
 
     if (parentKey != null) {
       map.put(parentKey, parent);
@@ -160,9 +160,9 @@ public class ClassificationUtils {
     return map;
   }
 
-  private static <T extends LinneanClassification & LinneanClassificationKeys> LinkedHashMap<Integer, String> getHigherClassificationBaseMap(
+  private static <T extends LinneanClassification & LinneanClassificationKeys> LinkedHashMap<String, String> getHigherClassificationBaseMap(
     T lc) {
-    LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+    LinkedHashMap<String, String> map = new LinkedHashMap<>();
     if (lc.getKingdomKey() != null) {
       map.put(lc.getKingdomKey(), lc.getKingdom());
     }
@@ -197,7 +197,7 @@ public class ClassificationUtils {
    * @return the key of the higher taxon or null if rank doesnt exist
    */
   @Nullable
-  public static Integer getHigherRankKey(LinneanClassificationKeys lck, Rank rank) {
+  public static String getHigherRankKey(LinneanClassificationKeys lck, Rank rank) {
     if (rank != null) {
       switch (rank) {
         case KINGDOM:
@@ -228,7 +228,7 @@ public class ClassificationUtils {
    * @param rank     the higher rank to set
    * @param usageKey key of the higher ranks usage
    */
-  public static void setHigherRankKey(LinneanClassificationKeys lck, Rank rank, Integer usageKey) {
+  public static void setHigherRankKey(LinneanClassificationKeys lck, Rank rank, String usageKey) {
     if (rank != null) {
       switch (rank) {
         case KINGDOM:
@@ -269,7 +269,7 @@ public class ClassificationUtils {
    * @param usageKey key of the higher ranks usage
    */
   public static <T extends LinneanClassification & LinneanClassificationKeys> void setHigherRank(
-    T lc, Rank rank, String name, Integer usageKey
+    T lc, Rank rank, String name, String usageKey
   ) {
     setHigherRank(lc, rank, name);
     setHigherRankKey(lc, rank, usageKey);
