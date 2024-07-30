@@ -54,4 +54,30 @@ public class CollectionChangeSuggestion extends BaseChangeSuggestion<Collection>
       createInstitution);
   }
 
+  @Override
+  public String toString() {
+    return "CollectionChangeSuggestion{" +
+      "ihIdentifier='" + ihIdentifier + '\'' +
+      ", createInstitution=" + createInstitution +
+      ", key=" + getKey() +
+      ", type=" + getType() +
+      ", status=" + getStatus() +
+      ", entityKey=" + getEntityKey() +
+      ", entityName='" + getEntityName() + '\'' +
+      ", entityCountry=" + getEntityCountry() +
+      ", suggestedEntity=" + getSuggestedEntity() +
+      ", proposed=" + getProposed() +
+      ", proposedBy='" + getProposedBy() + '\'' +
+      ", proposerEmail='" + getProposerEmail() + '\'' +
+      ", applied=" + getApplied() +
+      ", appliedBy='" + getAppliedBy() + '\'' +
+      ", discarded=" + getDiscarded() +
+      ", discardedBy='" + getDiscardedBy() + '\'' +
+      ", comments=" + getComments() +
+      ", mergeTargetKey=" + getMergeTargetKey() +
+      ", changes=" + getChanges() +
+      ", modified=" + getModified() +
+      ", modifiedBy='" + getModifiedBy() + '\'' +
+      '}';
+  }
 }
