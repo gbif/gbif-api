@@ -306,4 +306,29 @@ public abstract class BaseChangeSuggestion<T extends CollectionEntity>
         modified,
         modifiedBy);
   }
+
+  @Override
+  public String toString() {
+    return "BaseChangeSuggestion{" +
+      "key=" + key +
+      ", type=" + type +
+      ", status=" + status +
+      ", entityKey=" + entityKey +
+      ", entityName='" + entityName + '\'' +
+      ", entityCountry=" + entityCountry +
+      ", suggestedEntity=" + suggestedEntity +
+      ", proposed=" + proposed +
+      ", proposedBy='" + proposedBy + '\'' +
+      ", proposerEmail='" + proposerEmail + '\'' +
+      ", applied=" + applied +
+      ", appliedBy='" + appliedBy + '\'' +
+      ", discarded=" + discarded +
+      ", discardedBy='" + discardedBy + '\'' +
+      ", comments=" + comments +
+      ", mergeTargetKey=" + mergeTargetKey +
+      ", changes=" + changes +
+      ", modified=" + modified +
+      ", modifiedBy='" + modifiedBy + '\'' +
+      '}';
+  }
 }
