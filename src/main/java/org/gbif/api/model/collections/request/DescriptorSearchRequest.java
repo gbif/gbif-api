@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class DescriptorSearchRequest extends PageableBase implements Serializable {
 
   @Nullable private String query;
-  @Nullable private Long descriptorSetKey;
+  @Nullable private Long descriptorGroupKey;
   @Nullable private List<Integer> usageKey;
   @Nullable private List<String> usageName;
   @Nullable private List<Rank> usageRank;

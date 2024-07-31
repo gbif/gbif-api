@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class DescriptorSet implements LenientEquals<DescriptorSet>, Serializable {
+public class DescriptorGroup implements LenientEquals<DescriptorGroup>, Serializable {
 
   private long key;
   @NotBlank private String title;
@@ -26,7 +26,7 @@ public class DescriptorSet implements LenientEquals<DescriptorSet>, Serializable
   private Date deleted;
 
   @Override
-  public boolean lenientEquals(DescriptorSet other) {
+  public boolean lenientEquals(DescriptorGroup other) {
     if (this == other) {
       return true;
     }
