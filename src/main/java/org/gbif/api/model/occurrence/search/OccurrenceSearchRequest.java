@@ -13,6 +13,9 @@
  */
 package org.gbif.api.model.occurrence.search;
 
+import java.util.Date;
+import java.util.Optional;
+import java.util.UUID;
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.FacetedSearchRequest;
@@ -25,10 +28,6 @@ import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.TypeStatus;
-
-import java.util.Date;
-import java.util.Optional;
-import java.util.UUID;
 
 /** Request class for issuing search request to the occurrence search service. */
 public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSearchParameter> {
@@ -256,6 +255,18 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
 
   public void addGadmLevel3GidFilter(String gadm3) {
     addParameter(OccurrenceSearchParameter.GADM_LEVEL_3_GID, gadm3);
+  }
+
+  public void addGeologicalTimeFilter(String geologicalTimeConcept) {
+    addParameter(OccurrenceSearchParameter.GEOLOGICAL_TIME, geologicalTimeConcept);
+  }
+
+  public void addLithostratigraphyFilter(String lithostratigraphy) {
+    addParameter(OccurrenceSearchParameter.LITHOSTRATIGRAPHY, lithostratigraphy);
+  }
+
+  public void addBiostratigraphyFilter(String biostratigraphy) {
+    addParameter(OccurrenceSearchParameter.BIOSTRATIGRAPHY, biostratigraphy);
   }
 
   @Experimental
