@@ -60,6 +60,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * <li>version</li>
  * <li>installationKey</li>
  * <li>publishingOrganizationKey</li>
+ * <li>publishingOrganizationName</li>
  * <li>networkKeys</li>
  * <li>license</li>
  * <li>maintenanceUpdateFrequency</li>
@@ -128,6 +129,12 @@ public class Dataset
       "*(NB Not required for updates.)*"
   )
   private UUID publishingOrganizationKey;
+
+  @Schema(
+      description = "The publishing organization name.\n\n" +
+          "*(NB Not required for updates.)*"
+  )
+  private String publishingOrganizationName;
 
   @Schema(
     description = "A list of GBIF Networks to which this dataset belongs."
@@ -573,6 +580,15 @@ public class Dataset
    */
   public void setPublishingOrganizationKey(UUID publishingOrganizationKey) {
     this.publishingOrganizationKey = publishingOrganizationKey;
+  }
+
+  @Nullable
+  public String getPublishingOrganizationName() {
+    return publishingOrganizationName;
+  }
+
+  public void setPublishingOrganizationName(String publishingOrganizationName) {
+    this.publishingOrganizationName = publishingOrganizationName;
   }
 
   /**
@@ -1166,6 +1182,7 @@ public class Dataset
         duplicateOfDatasetKey,
         installationKey,
         publishingOrganizationKey,
+        publishingOrganizationName,
         networkKeys,
         doi,
         version,
@@ -1228,6 +1245,7 @@ public class Dataset
         .add("duplicateOfDatasetKey=" + duplicateOfDatasetKey)
         .add("installationKey=" + installationKey)
         .add("publishingOrganizationKey=" + publishingOrganizationKey)
+        .add("publishingOrganizationName=" + publishingOrganizationName)
         .add("networkKeys=" + networkKeys)
         .add("doi=" + doi)
         .add("version='" + version + "'")
@@ -1296,6 +1314,7 @@ public class Dataset
         && Objects.equals(this.duplicateOfDatasetKey, other.duplicateOfDatasetKey)
         && Objects.equals(this.installationKey, other.installationKey)
         && Objects.equals(this.publishingOrganizationKey, other.publishingOrganizationKey)
+        && Objects.equals(this.publishingOrganizationName, other.publishingOrganizationName)
         && Objects.equals(this.doi, other.doi)
         && Objects.equals(this.external, other.external)
         && Objects.equals(this.type, other.type)
