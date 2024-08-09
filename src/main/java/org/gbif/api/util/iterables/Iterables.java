@@ -13,8 +13,17 @@
  */
 package org.gbif.api.util.iterables;
 
+import java.util.Collections;
+import java.util.Date;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Function;
+import javax.annotation.Nullable;
 import org.gbif.api.model.collections.Institution;
+import org.gbif.api.model.collections.descriptors.Descriptor;
 import org.gbif.api.model.collections.request.CollectionSearchRequest;
+import org.gbif.api.model.collections.request.DescriptorSearchRequest;
 import org.gbif.api.model.collections.request.InstitutionSearchRequest;
 import org.gbif.api.model.collections.view.CollectionView;
 import org.gbif.api.model.common.paging.Pageable;
@@ -29,6 +38,7 @@ import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.search.DatasetSearchRequest;
 import org.gbif.api.model.registry.search.DatasetSearchResult;
 import org.gbif.api.service.collections.CollectionService;
+import org.gbif.api.service.collections.DescriptorsService;
 import org.gbif.api.service.collections.InstitutionService;
 import org.gbif.api.service.registry.DatasetSearchService;
 import org.gbif.api.service.registry.DatasetService;
@@ -39,53 +49,54 @@ import org.gbif.api.service.registry.OccurrenceDownloadService;
 import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetType;
-
-import java.util.Collections;
-import java.util.Date;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.function.Function;
-
-import javax.annotation.Nullable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Factory constructing registry entity iterables using specific pagers under the hood.
- */
+/** Factory constructing registry entity iterables using specific pagers under the hood. */
 @SuppressWarnings("unused")
 public class Iterables {
   private static final Logger LOG = LoggerFactory.getLogger(Iterables.class);
 
-  /**
-   * Private default constructor.
-   */
+  /** Private default constructor. */
   private Iterables() {
-    //empty private constructor
+    // empty private constructor
   }
 
   /**
-   * @param key a valid dataset, organization or installation key. If null all datasets will be iterated over
+   * @param key a valid dataset, organization or installation key. If null all datasets will be
+   *     iterated over
    * @throws IllegalArgumentException if given key is not existing
    */
-  public static Iterable<Dataset> datasets(@Nullable UUID key, @Nullable DatasetType type,
-                                           DatasetService ds, OrganizationService os, InstallationService is,
-                                           NetworkService ns, NodeService nos) {
+  public static Iterable<Dataset> datasets(
+      @Nullable UUID key,
+      @Nullable DatasetType type,
+      DatasetService ds,
+      OrganizationService os,
+      InstallationService is,
+      NetworkService ns,
+      NodeService nos) {
     return datasets(key, type, ds, os, is, ns, nos, PagingConstants.DEFAULT_PARAM_LIMIT);
   }
 
   /**
-   * Returns a dataset iterable by testing the given registry key first to see whether it is a dataset, organization or installation.
-   * In case of an organization key the published datasets will be returned.
+   * Returns a dataset iterable by testing the given registry key first to see whether it is a
+   * dataset, organization or installation. In case of an organization key the published datasets
+   * will be returned.
    *
-   * @param key a valid dataset, organization or installation key. If null all datasets will be iterated over
+   * @param key a valid dataset, organization or installation key. If null all datasets will be
+   *     iterated over
    * @param pageSize to use when talking to the registry
    * @throws IllegalArgumentException if given key is not existing
    */
-  public static Iterable<Dataset> datasets(@Nullable UUID key, @Nullable DatasetType type,
-                                           DatasetService ds, OrganizationService os, InstallationService is,
-                                           NetworkService ns, NodeService nos, int pageSize) {
+  public static Iterable<Dataset> datasets(
+      @Nullable UUID key,
+      @Nullable DatasetType type,
+      DatasetService ds,
+      OrganizationService os,
+      InstallationService is,
+      NetworkService ns,
+      NodeService nos,
+      int pageSize) {
     if (key == null) {
       LOG.info("Iterate over all {} datasets", type == null ? "" : type);
       return new DatasetPager(ds, type, pageSize);
@@ -99,7 +110,8 @@ public class Iterables {
       return new OrgPublishingPager(os, key, type, pageSize);
 
     } else if (isInstallation(key, is)) {
-      LOG.info("Iterate over all {} datasets hosted by installation {}", type == null ? "" : type, key);
+      LOG.info(
+          "Iterate over all {} datasets hosted by installation {}", type == null ? "" : type, key);
       return new InstallationPager(is, key, type, pageSize);
 
     } else if (isNode(key, nos)) {
@@ -107,7 +119,8 @@ public class Iterables {
       return new NetworkPager(ns, key, type, pageSize);
 
     } else if (isNetwork(key, ns)) {
-      LOG.info("Iterate over all {} datasets belonging to network {}", type == null ? "" : type, key);
+      LOG.info(
+          "Iterate over all {} datasets belonging to network {}", type == null ? "" : type, key);
       return new NodeDatasetPager(nos, key, type, pageSize);
     }
     throw new IllegalArgumentException("Given key is no valid GBIF registry key: " + key);
@@ -121,21 +134,23 @@ public class Iterables {
     return new DatasetPager(service, type, PagingConstants.DEFAULT_PARAM_LIMIT);
   }
 
-  /**
-   * Iterates over dataset search results.
-   */
-  public static Iterable<DatasetSearchResult> datasetSearchResults(@Nullable DatasetSearchRequest datasetSearchRequest,
-                                                                   DatasetSearchService datasetSearchService,
-                                                                   @Nullable Integer limit) {
-    return new  DatasetSearchResultsPager(datasetSearchService, datasetSearchRequest,
-                                          Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
+  /** Iterates over dataset search results. */
+  public static Iterable<DatasetSearchResult> datasetSearchResults(
+      @Nullable DatasetSearchRequest datasetSearchRequest,
+      DatasetSearchService datasetSearchService,
+      @Nullable Integer limit) {
+    return new DatasetSearchResultsPager(
+        datasetSearchService,
+        datasetSearchRequest,
+        Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
   }
 
   /**
    * @param key a valid organization key
    * @param type an optional filter to just include the given dataset type
    */
-  public static Iterable<Dataset> publishedDatasets(UUID key, @Nullable DatasetType type, OrganizationService service) {
+  public static Iterable<Dataset> publishedDatasets(
+      UUID key, @Nullable DatasetType type, OrganizationService service) {
     LOG.info("Iterate over all {} datasets published by {}", type == null ? "" : type, key);
     return new OrgPublishingPager(service, key, type, PagingConstants.DEFAULT_PARAM_LIMIT);
   }
@@ -144,8 +159,10 @@ public class Iterables {
    * @param key a valid organization key
    * @param type an optional filter to just include the given dataset type
    */
-  public static Iterable<Dataset> hostedDatasets(UUID key, @Nullable DatasetType type, OrganizationService service) {
-    LOG.info("Iterate over all {} datasets hosted by organization {}", type == null ? "" : type, key);
+  public static Iterable<Dataset> hostedDatasets(
+      UUID key, @Nullable DatasetType type, OrganizationService service) {
+    LOG.info(
+        "Iterate over all {} datasets hosted by organization {}", type == null ? "" : type, key);
     return new OrgHostingPager(service, key, type, PagingConstants.DEFAULT_PARAM_LIMIT);
   }
 
@@ -153,8 +170,10 @@ public class Iterables {
    * @param key a valid installation key
    * @param type an optional filter to just include the given dataset type
    */
-  public static Iterable<Dataset> hostedDatasets(UUID key, @Nullable DatasetType type, InstallationService service) {
-    LOG.info("Iterate over all {} datasets hosted by installation {}", type == null ? "" : type, key);
+  public static Iterable<Dataset> hostedDatasets(
+      UUID key, @Nullable DatasetType type, InstallationService service) {
+    LOG.info(
+        "Iterate over all {} datasets hosted by installation {}", type == null ? "" : type, key);
     return new InstallationPager(service, key, type, PagingConstants.DEFAULT_PARAM_LIMIT);
   }
 
@@ -168,10 +187,12 @@ public class Iterables {
 
   /**
    * Iterates over all constituents of a given network.
+   *
    * @param key a valid network key
    * @param type an optional filter to just include the given dataset type
    */
-  public static Iterable<Dataset> networkDatasets(UUID key, @Nullable DatasetType type, NetworkService service) {
+  public static Iterable<Dataset> networkDatasets(
+      UUID key, @Nullable DatasetType type, NetworkService service) {
     LOG.info("Iterate over all {} datasets belonging to network {}", type == null ? "" : type, key);
     return new NetworkPager(service, key, type, PagingConstants.DEFAULT_PARAM_LIMIT);
   }
@@ -180,17 +201,18 @@ public class Iterables {
    * @param nodeKey a valid endorsing node key
    * @param type an optional filter to just include the given dataset type
    */
-  public static Iterable<Dataset> endorsedDatasets(UUID nodeKey, @Nullable DatasetType type, NodeService service) {
+  public static Iterable<Dataset> endorsedDatasets(
+      UUID nodeKey, @Nullable DatasetType type, NodeService service) {
     LOG.info("Iterate over all {} datasets endorsed by node {}", type == null ? "" : type, nodeKey);
     return new NodeDatasetPager(service, nodeKey, type, PagingConstants.DEFAULT_PARAM_LIMIT);
   }
 
   /**
-   *
    * @param pager producer function of next page response
-   * @return a  dataset iterable based on producer function
+   * @return a dataset iterable based on producer function
    */
-  public static Iterable<Dataset> datasetsIterable(Function<PagingRequest, PagingResponse<Dataset>> pager) {
+  public static Iterable<Dataset> datasetsIterable(
+      Function<PagingRequest, PagingResponse<Dataset>> pager) {
     return new DatasetBasePager(null, PagingConstants.DEFAULT_PARAM_LIMIT) {
       @Override
       public PagingResponse<Dataset> nextPage(PagingRequest page) {
@@ -202,8 +224,9 @@ public class Iterables {
   /**
    * @param country an optional country filter
    */
-  public static Iterable<Organization> organizations(@Nullable Country country, OrganizationService service) {
-    LOG.info("Iterate over all organizations {}", country == null ? "" : "from country "+country);
+  public static Iterable<Organization> organizations(
+      @Nullable Country country, OrganizationService service) {
+    LOG.info("Iterate over all organizations {}", country == null ? "" : "from country " + country);
     return new OrganizationPager(service, country, PagingConstants.DEFAULT_PARAM_LIMIT);
   }
 
@@ -215,60 +238,86 @@ public class Iterables {
     return new NodeOrganizationPager(service, nodeKey, PagingConstants.DEFAULT_PARAM_LIMIT);
   }
 
-  /**
-   * Iterate over all endorsing nodes
-   */
+  /** Iterate over all endorsing nodes */
   public static Iterable<Node> nodes(NodeService service) {
     LOG.info("Iterate over all nodes");
     return new NodePager(service, PagingConstants.DEFAULT_PARAM_LIMIT);
   }
 
   /**
-   * Iterable for {@link OccurrenceDownloadService#getDownloadStatistics(Date, Date, Country, UUID, UUID, Pageable)}.
+   * Iterable for {@link OccurrenceDownloadService#getDownloadStatistics(Date, Date, Country, UUID,
+   * UUID, Pageable)}.
    */
-  public static Iterable<DownloadStatistics> downloadStatistics(OccurrenceDownloadService service,
-                                                                @Nullable Date fromDate,
-                                                                @Nullable Date toDate,
-                                                                @Nullable Country publishingCountry,
-                                                                @Nullable UUID datasetKey,
-                                                                @Nullable UUID publishingOrgKey,
-                                                                @Nullable Integer limit) {
+  public static Iterable<DownloadStatistics> downloadStatistics(
+      OccurrenceDownloadService service,
+      @Nullable Date fromDate,
+      @Nullable Date toDate,
+      @Nullable Country publishingCountry,
+      @Nullable UUID datasetKey,
+      @Nullable UUID publishingOrgKey,
+      @Nullable Integer limit) {
     LOG.info("Iterate over download statistics");
-    return new DownloadStatisticPager(service, fromDate, toDate,
-                                      publishingCountry, datasetKey, publishingOrgKey,
-                                      Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
+    return new DownloadStatisticPager(
+        service,
+        fromDate,
+        toDate,
+        publishingCountry,
+        datasetKey,
+        publishingOrgKey,
+        Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
   }
 
-  /**
-   * Iterable for {@link OccurrenceDownloadService#listDatasetUsages(String, Pageable)}.
-   */
-  public static Iterable<DatasetOccurrenceDownloadUsage> datasetOccurrenceDownloadUsages(OccurrenceDownloadService service,
-                                                                                         String downloadKey,
-                                                                                         @Nullable Integer limit) {
+  /** Iterable for {@link OccurrenceDownloadService#listDatasetUsages(String, Pageable)}. */
+  public static Iterable<DatasetOccurrenceDownloadUsage> datasetOccurrenceDownloadUsages(
+      OccurrenceDownloadService service, String downloadKey, @Nullable Integer limit) {
     LOG.info("Iterate over download dataset usages of download {}", downloadKey);
-    return new DatasetOccurrenceDownloadUsagesPager(service,
-                                                    downloadKey,
-                                                    Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
+    return new DatasetOccurrenceDownloadUsagesPager(
+        service,
+        downloadKey,
+        Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
   }
 
-  /**
-   * Iterable for {@link CollectionService#list(CollectionSearchRequest)}.
-   */
-  public static Iterable<CollectionView> collections(CollectionSearchRequest searchRequest,
-                                                     CollectionService service,
-                                                     @Nullable Integer limit) {
+  /** Iterable for {@link CollectionService#list(CollectionSearchRequest)}. */
+  public static Iterable<CollectionView> collections(
+      CollectionSearchRequest searchRequest, CollectionService service, @Nullable Integer limit) {
     LOG.info("Iterating over a collection's search results");
-    return new CollectionsPager(service, searchRequest, Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
+    return new CollectionsPager(
+        service,
+        searchRequest,
+        Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
+  }
+
+  /** Iterable for {@link InstitutionService#list(InstitutionSearchRequest)}. */
+  public static Iterable<Institution> institutions(
+      InstitutionSearchRequest searchRequest, InstitutionService service, @Nullable Integer limit) {
+    LOG.info("Iterating over a institution's search results");
+    return new InstitutionsPager(
+        service,
+        searchRequest,
+        Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
+  }
+
+  /** Iterable for {@link DescriptorsService#listDescriptors(DescriptorSearchRequest)}. */
+  public static Iterable<Descriptor> descriptors(
+      DescriptorsService service, DescriptorSearchRequest searchRequest, @Nullable Integer limit) {
+    LOG.info("Iterating over a collection descriptor's search results");
+    return new CollectionDescriptorPager(
+        service,
+        searchRequest,
+        Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
   }
 
   /**
-   * Iterable for {@link InstitutionService#list(InstitutionSearchRequest)}.
+   * Iterable for the verbatim fields of {@link
+   * DescriptorsService#listDescriptors(DescriptorSearchRequest)}.
    */
-  public static Iterable<Institution> institutions(InstitutionSearchRequest searchRequest,
-                                                   InstitutionService service,
-                                                   @Nullable Integer limit) {
-    LOG.info("Iterating over a institution's search results");
-    return new InstitutionsPager(service, searchRequest, Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
+  public static Iterable<Map<String, String>> descriptorVerbatims(
+      DescriptorsService service, DescriptorSearchRequest searchRequest, @Nullable Integer limit) {
+    LOG.info("Iterating over a collection descriptor's search results");
+    return new CollectionDescriptorVerbatimPager(
+        service,
+        searchRequest,
+        Optional.ofNullable(limit).orElse(PagingConstants.DEFAULT_PARAM_LIMIT));
   }
 
   private static boolean isDataset(UUID key, DatasetService ds) {

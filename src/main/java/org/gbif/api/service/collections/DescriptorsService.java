@@ -1,12 +1,13 @@
 package org.gbif.api.service.collections;
 
+import java.util.Set;
 import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.gbif.api.model.collections.descriptors.Descriptor;
 import org.gbif.api.model.collections.descriptors.DescriptorGroup;
-import org.gbif.api.model.collections.request.DescriptorSearchRequest;
 import org.gbif.api.model.collections.request.DescriptorGroupSearchRequest;
+import org.gbif.api.model.collections.request.DescriptorSearchRequest;
 import org.gbif.api.model.common.export.ExportFormat;
 import org.gbif.api.model.common.paging.PagingResponse;
 
@@ -78,4 +79,20 @@ public interface DescriptorsService {
    * @return a list of entities ordered by their creation date, newest coming first
    */
   PagingResponse<Descriptor> listDescriptors(DescriptorSearchRequest searchRequest);
+
+  /**
+   * Counts the number of {@link Descriptor} for the request received.
+   *
+   * @param searchRequest {@link DescriptorSearchRequest} with all the parameters
+   * @return number of descriptors
+   */
+  long countDescriptors(DescriptorSearchRequest searchRequest);
+
+  /**
+   * Get the names of the verbatim fields of a descriptor group.
+   *
+   * @param descriptorGroupKey key of the descriptor group.
+   * @return the names
+   */
+  Set<String> getVerbatimNames(long descriptorGroupKey);
 }

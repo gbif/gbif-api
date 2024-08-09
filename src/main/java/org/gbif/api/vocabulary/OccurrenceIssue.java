@@ -487,8 +487,7 @@ public enum OccurrenceIssue implements InterpretationRemark {
       DwcTerm.earliestEpochOrLowestSeries,
       DwcTerm.latestEpochOrHighestSeries,
       DwcTerm.earliestAgeOrLowestStage,
-      DwcTerm.latestAgeOrHighestStage),
-  ;
+      DwcTerm.latestAgeOrHighestStage);
 
   /**
    * Simple helper nested class to allow grouping of Term mostly to increase readability of this
