@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PageableBase;
+import org.gbif.api.model.common.paging.PagingConstants;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Rank;
@@ -47,8 +48,8 @@ public class DescriptorSearchRequest extends PageableBase implements Serializabl
   }
 
   public static class DescriptorSearchRequestBuilder {
-    long offset;
-    int limit;
+    long offset = PagingConstants.DEFAULT_PARAM_OFFSET;
+    int limit = PagingConstants.DEFAULT_PARAM_LIMIT;
 
     public DescriptorSearchRequestBuilder offset(long offset) {
       this.offset = offset;
