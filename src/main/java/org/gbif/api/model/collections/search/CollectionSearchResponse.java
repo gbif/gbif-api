@@ -22,6 +22,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /** Models the response for the Collection search. */
+@SuppressWarnings("MissingOverride")
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class CollectionSearchResponse extends BaseSearchResponse {
