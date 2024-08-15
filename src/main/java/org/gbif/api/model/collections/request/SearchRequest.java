@@ -15,8 +15,14 @@
  */
 package org.gbif.api.model.collections.request;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.UUID;
+import javax.annotation.Nullable;
+import lombok.Data;
+import lombok.experimental.SuperBuilder;
 import org.gbif.api.model.common.paging.Pageable;
-import org.gbif.api.model.common.paging.PageableBase;
+import org.gbif.api.model.common.paging.PagingConstants;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.vocabulary.CollectionsSortField;
 import org.gbif.api.vocabulary.Country;
@@ -26,14 +32,11 @@ import org.gbif.api.vocabulary.SortOrder;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
 import org.gbif.api.vocabulary.collections.Source;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.UUID;
+@SuperBuilder
+@Data
+public abstract class SearchRequest implements Serializable {
 
-import javax.annotation.Nullable;
-
-public abstract class SearchRequest extends PageableBase implements Serializable {
-
+  @Nullable private Boolean hl;
   @Nullable private String q;
   @Nullable private String code;
   @Nullable private String name;
@@ -60,233 +63,12 @@ public abstract class SearchRequest extends PageableBase implements Serializable
   @Nullable private List<UUID> institutionKeys;
   @Nullable private Source source;
   @Nullable private String sourceId;
-
-  @Nullable
-  public String getQ() {
-    return q;
-  }
-
-  public void setQ(@Nullable String q) {
-    this.q = q;
-  }
-
-  @Nullable
-  public String getCode() {
-    return code;
-  }
-
-  public void setCode(@Nullable String code) {
-    this.code = code;
-  }
-
-  @Nullable
-  public String getName() {
-    return name;
-  }
-
-  public void setName(@Nullable String name) {
-    this.name = name;
-  }
-
-  @Nullable
-  public String getAlternativeCode() {
-    return alternativeCode;
-  }
-
-  public void setAlternativeCode(@Nullable String alternativeCode) {
-    this.alternativeCode = alternativeCode;
-  }
-
-  @Nullable
-  public UUID getContact() {
-    return contact;
-  }
-
-  public void setContact(@Nullable UUID contact) {
-    this.contact = contact;
-  }
-
-  @Nullable
-  public String getMachineTagNamespace() {
-    return machineTagNamespace;
-  }
-
-  public void setMachineTagNamespace(@Nullable String machineTagNamespace) {
-    this.machineTagNamespace = machineTagNamespace;
-  }
-
-  @Nullable
-  public String getMachineTagName() {
-    return machineTagName;
-  }
-
-  public void setMachineTagName(@Nullable String machineTagName) {
-    this.machineTagName = machineTagName;
-  }
-
-  @Nullable
-  public String getMachineTagValue() {
-    return machineTagValue;
-  }
-
-  public void setMachineTagValue(@Nullable String machineTagValue) {
-    this.machineTagValue = machineTagValue;
-  }
-
-  @Nullable
-  public IdentifierType getIdentifierType() {
-    return identifierType;
-  }
-
-  public void setIdentifierType(@Nullable IdentifierType identifierType) {
-    this.identifierType = identifierType;
-  }
-
-  @Nullable
-  public String getIdentifier() {
-    return identifier;
-  }
-
-  public void setIdentifier(@Nullable String identifier) {
-    this.identifier = identifier;
-  }
-
-  @Nullable
-  public List<Country> getCountry() {
-    return country;
-  }
-
-  public void setCountry(@Nullable List<Country> country) {
-    this.country = country;
-  }
-
-  @Nullable
-  public String getCity() {
-    return city;
-  }
-
-  public void setCity(@Nullable String city) {
-    this.city = city;
-  }
-
-  @Nullable
-  public String getFuzzyName() {
-    return fuzzyName;
-  }
-
-  public void setFuzzyName(@Nullable String fuzzyName) {
-    this.fuzzyName = fuzzyName;
-  }
-
-  @Nullable
-  public Boolean getActive() {
-    return active;
-  }
-
-  public void setActive(@Nullable Boolean active) {
-    this.active = active;
-  }
-
-  @Nullable
-  public MasterSourceType getMasterSourceType() {
-    return masterSourceType;
-  }
-
-  public void setMasterSourceType(@Nullable MasterSourceType masterSourceType) {
-    this.masterSourceType = masterSourceType;
-  }
-
-  @Nullable
-  public String getNumberSpecimens() {
-    return numberSpecimens;
-  }
-
-  public void setNumberSpecimens(@Nullable String numberSpecimens) {
-    this.numberSpecimens = numberSpecimens;
-  }
-
-  public Boolean getDisplayOnNHCPortal() {
-    return displayOnNHCPortal;
-  }
-
-  public void setDisplayOnNHCPortal(Boolean displayOnNHCPortal) {
-    this.displayOnNHCPortal = displayOnNHCPortal;
-  }
+  @Nullable private Long offset;
+  @Nullable private Integer limit;
 
   public Pageable getPage() {
-    return new PagingRequest(getOffset(), getLimit());
+    return new PagingRequest(
+        offset != null ? offset : PagingConstants.DEFAULT_PARAM_OFFSET,
+        limit != null ? limit : PagingConstants.DEFAULT_PARAM_LIMIT);
   }
-
-  @Nullable
-  public UUID getReplacedBy() {
-    return replacedBy;
-  }
-
-  public void setReplacedBy(@Nullable UUID replacedBy) {
-    this.replacedBy = replacedBy;
-  }
-
-  @Nullable
-  public List<GbifRegion> getGbifRegion() {
-    return gbifRegion;
-  }
-
-  public void setGbifRegion(@Nullable List<GbifRegion> gbifRegion) {
-    this.gbifRegion = gbifRegion;
-  }
-
-  @Nullable
-  public String getOccurrenceCount() {
-    return occurrenceCount;
-  }
-
-  public void setOccurrenceCount(@Nullable String occurrenceCount) {
-    this.occurrenceCount = occurrenceCount;
-  }
-
-  @Nullable
-  public String getTypeSpecimenCount() {
-    return typeSpecimenCount;
-  }
-
-  public void setTypeSpecimenCount(@Nullable String typeSpecimenCount) {
-    this.typeSpecimenCount = typeSpecimenCount;
-  }
-
-  @Nullable
-  public CollectionsSortField getSortBy() {
-    return sortBy;
-  }
-
-  public void setSortBy(@Nullable CollectionsSortField sortBy) {
-    this.sortBy = sortBy;
-  }
-
-  @Nullable
-  public SortOrder getSortOrder() {
-    return sortOrder;
-  }
-
-  public void setSortOrder(@Nullable SortOrder sortOrder) {
-    this.sortOrder = sortOrder;
-  }
-
-  @Nullable
-  public List<UUID> getInstitutionKeys() {
-    return institutionKeys;
-  }
-
-  public void setInstitutionKeys(@Nullable List<UUID> institutionKeys) {
-    this.institutionKeys = institutionKeys;
-  }
-
-  @Nullable
-  public String getSourceId() { return sourceId; }
-
-  public void setSourceId(@Nullable String sourceId) { this.sourceId = sourceId; }
-
-  @Nullable
-  public Source getSource() { return source; }
-
-  public void setSource(@Nullable Source source) { this.source = source; }
 }

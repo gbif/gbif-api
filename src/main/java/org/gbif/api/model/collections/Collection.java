@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.collections;
 
+import lombok.Setter;
+
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.Comment;
 import org.gbif.api.model.registry.Identifier;
@@ -81,6 +83,11 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private String description;
 
+  /**
+   * Content type of the elements found in a collection.
+   */
+  @Getter
+  @Setter
   @Schema(description = "Content type of the elements found in the collection.")
   private List<String> contentTypes = new ArrayList<>();
 
@@ -88,9 +95,19 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private boolean active;
 
+  /**
+   * Does this collections belong to an individual?.
+   */
+  @Setter
+  @Getter
   @Schema(description = "Whether this collection belongs to an individual.")
   private boolean personalCollection;
 
+  /**
+   * Digital Object Identifier assigned to this collection.
+   */
+  @Setter
+  @Getter
   @Schema(
       description = "A Digital Object Identifier for the collection.",
       implementation = String.class,
@@ -105,23 +122,41 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Sourceable(masterSources = MasterSourceType.IH)
   private List<String> phone = new ArrayList<>();
 
+  @Setter
   @Schema(description = "The collection's WWW homepage.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private URI homepage;
 
+  @Setter
   @Schema(description = "URLs for interactive catalogues of the collection.")
   private List<@HttpURI URI> catalogUrls = new ArrayList<>();
 
+  @Setter
   @Schema(description = "URLs for machine-readable APIs for the collection catalogue.")
   private List<@HttpURI URI> apiUrls = new ArrayList<>();
 
+  /**
+   * Types of preservation mechanisms used for these collections.
+   */
+  @Setter
+  @Getter
   @Schema(description = "The preservation mechanisms used for this collection.")
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
   private List<String> preservationTypes = new ArrayList<>();
 
+  /**
+   * Defines how a collection as been added or joined.
+   */
+  @Setter
+  @Getter
   @Schema(description = "How the collection was added or joined.")
   private String accessionStatus;
 
+  /**
+   * Institution that owns or hosts this collection.
+   */
+  @Setter
+  @Getter
   @Schema(description = "The key of the institution owning or hosting the collection.")
   private UUID institutionKey;
 
@@ -183,6 +218,8 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<Contact> contactPersons = new ArrayList<>();
 
+  @Setter
+  @Getter
   @Schema(description = "The number of specimens contained in this collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private Integer numberSpecimens;
@@ -192,26 +229,38 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
       accessMode = Schema.AccessMode.READ_ONLY)
   private List<MachineTag> machineTags = new ArrayList<>();
 
+  @Setter
+  @Getter
   @Schema(description = "The taxonomic coverage of this collection.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private String taxonomicCoverage;
 
+  @Setter
+  @Getter
   @Schema(description = "The geographic coverage of this collection.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private String geographicCoverage;
 
+  @Setter
+  @Getter
   @Schema(description = "Notes on the collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private String notes;
 
+  @Setter
+  @Getter
   @Schema(description = "Other collections incorporated into this collection.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<String> incorporatedCollections = new ArrayList<>();
 
+  @Setter
+  @Getter
   @Schema(description = "Important collectors who have specimens in this collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private List<String> importantCollectors = new ArrayList<>();
 
+  @Setter
+  @Getter
   @Schema(description = "A summary of metrics of the collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private Map<String, Integer> collectionSummary = new HashMap<>();
@@ -241,10 +290,14 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
               + "record with the record in the GBIF registry.")
   private MasterSourceMetadata masterSourceMetadata;
 
+  @Setter
+  @Getter
   @Schema(description = "An organizational department managing the collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private String department;
 
+  @Setter
+  @Getter
   @Schema(description = "An organizational division managing the collection.")
   @Sourceable(masterSources = MasterSourceType.IH)
   private String division;
@@ -252,30 +305,38 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Schema(description = "Whether the collection is shown on the NHC portal.")
   private Boolean displayOnNHCPortal;
 
+  @Setter
+  @Getter
   @Schema(description = "An estimate of the number of occurrences linked to the institution.")
   private Integer occurrenceCount;
 
+  @Setter
+  @Getter
   @Schema(description = "An estimate of the number of type specimens linked to the institution.")
   private Integer typeSpecimenCount;
 
-  @Getter
   @Schema(
       description =
           "URI to the image to be featured on the collection page, this image should be associated with a license.")
   private URI featuredImageUrl;
 
-  @Getter
   @Schema(
       description = "The license associated with the image to be featured on the collection page.")
   private License featuredImageLicense;
 
-  @Getter
+  @Setter
   @Schema(
       description =
           "Temporal scope or focus of the collection. This free text field can be used to describe both the collection "
               + "date ranges as well as the geological time group(s) of the collection objects in the context of "
               + "paleontological collections.")
   private String temporalCoverage;
+
+  @Schema(
+    description = " Information about ownership, attribution, etc. of the featured image. This value with "
+      + "be used to generate a suggested citation of the image."
+  )
+  private String featuredImageAttribution;
 
   /** List of alternative identifiers: UUIDs, external system identifiers, LSIDs, etc.. */
   @Override
@@ -347,15 +408,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
     this.description = description;
   }
 
-  /** Content type of the elements found in a collection. */
-  public List<String> getContentTypes() {
-    return contentTypes;
-  }
-
-  public void setContentTypes(List<String> contentTypes) {
-    this.contentTypes = contentTypes;
-  }
-
   /** Is this collection currently active/maintained. */
   @Override
   public boolean isActive() {
@@ -365,24 +417,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Override
   public void setActive(boolean active) {
     this.active = active;
-  }
-
-  /** Does this collections belong to an individual?. */
-  public boolean isPersonalCollection() {
-    return personalCollection;
-  }
-
-  public void setPersonalCollection(boolean personalCollection) {
-    this.personalCollection = personalCollection;
-  }
-
-  /** Digital Object Identifier assigned to this collection. */
-  public DOI getDoi() {
-    return doi;
-  }
-
-  public void setDoi(DOI doi) {
-    this.doi = doi;
   }
 
   @Override
@@ -412,55 +446,16 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
     return homepage;
   }
 
-  public void setHomepage(URI homepage) {
-    this.homepage = homepage;
-  }
-
   /** URI that exposes data about the catalog associated to a collection. */
   @Nullable
   public List<URI> getCatalogUrls() {
     return catalogUrls;
   }
 
-  public void setCatalogUrls(List<URI> catalogUrls) {
-    this.catalogUrls = catalogUrls;
-  }
-
   /** Machine consumable endpoint of information about a collection. */
   @Nullable
   public List<URI> getApiUrls() {
     return apiUrls;
-  }
-
-  public void setApiUrls(List<URI> apiUrls) {
-    this.apiUrls = apiUrls;
-  }
-
-  /** Types of preservation mechanisms used for this collections. */
-  public List<String> getPreservationTypes() {
-    return preservationTypes;
-  }
-
-  public void setPreservationTypes(List<String> preservationTypes) {
-    this.preservationTypes = preservationTypes;
-  }
-
-  /** Defines how a collection as been added or joined. */
-  public String getAccessionStatus() {
-    return accessionStatus;
-  }
-
-  public void setAccessionStatus(String accessionStatus) {
-    this.accessionStatus = accessionStatus;
-  }
-
-  /** Institution that owns or hosts this collection. */
-  public UUID getInstitutionKey() {
-    return institutionKey;
-  }
-
-  public void setInstitutionKey(UUID institutionKey) {
-    this.institutionKey = institutionKey;
   }
 
   /** Address used to send/receive physical mail. */
@@ -550,14 +545,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
     this.contactPersons = contactPersons;
   }
 
-  public Integer getNumberSpecimens() {
-    return numberSpecimens;
-  }
-
-  public void setNumberSpecimens(Integer numberSpecimens) {
-    this.numberSpecimens = numberSpecimens;
-  }
-
   @Valid
   @Override
   public @NotNull List<MachineTag> getMachineTags() {
@@ -572,54 +559,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Override
   public void addMachineTag(MachineTag machineTag) {
     machineTags.add(machineTag);
-  }
-
-  public String getTaxonomicCoverage() {
-    return taxonomicCoverage;
-  }
-
-  public void setTaxonomicCoverage(String taxonomicCoverage) {
-    this.taxonomicCoverage = taxonomicCoverage;
-  }
-
-  public String getGeographicCoverage() {
-    return geographicCoverage;
-  }
-
-  public void setGeographicCoverage(String geographicCoverage) {
-    this.geographicCoverage = geographicCoverage;
-  }
-
-  public String getNotes() {
-    return notes;
-  }
-
-  public void setNotes(String notes) {
-    this.notes = notes;
-  }
-
-  public List<String> getIncorporatedCollections() {
-    return incorporatedCollections;
-  }
-
-  public void setIncorporatedCollections(List<String> incorporatedCollections) {
-    this.incorporatedCollections = incorporatedCollections;
-  }
-
-  public List<String> getImportantCollectors() {
-    return importantCollectors;
-  }
-
-  public void setImportantCollectors(List<String> importantCollectors) {
-    this.importantCollectors = importantCollectors;
-  }
-
-  public Map<String, Integer> getCollectionSummary() {
-    return collectionSummary;
-  }
-
-  public void setCollectionSummary(Map<String, Integer> collectionSummary) {
-    this.collectionSummary = collectionSummary;
   }
 
   /** Alternative codes for a collection. */
@@ -683,22 +622,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
     this.masterSourceMetadata = masterSourceMetadata;
   }
 
-  public String getDepartment() {
-    return department;
-  }
-
-  public void setDepartment(String department) {
-    this.department = department;
-  }
-
-  public String getDivision() {
-    return division;
-  }
-
-  public void setDivision(String division) {
-    this.division = division;
-  }
-
   @Override
   public Boolean getDisplayOnNHCPortal() {
     return displayOnNHCPortal;
@@ -737,10 +660,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
     return temporalCoverage;
   }
 
-  public void setTemporalCoverage(String temporalCoverage) {
-    this.temporalCoverage = temporalCoverage;
-  }
-
   @Hidden
   @JsonIgnore
   public String getCountry() {
@@ -774,20 +693,15 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
     return null;
   }
 
-  public Integer getOccurrenceCount() {
-    return occurrenceCount;
+  @Nullable
+  @Override
+  public String getFeaturedImageAttribution() {
+    return featuredImageAttribution;
   }
 
-  public void setOccurrenceCount(Integer occurrenceCount) {
-    this.occurrenceCount = occurrenceCount;
-  }
-
-  public Integer getTypeSpecimenCount() {
-    return typeSpecimenCount;
-  }
-
-  public void setTypeSpecimenCount(Integer typeSpecimenCount) {
-    this.typeSpecimenCount = typeSpecimenCount;
+  @Override
+  public void setFeaturedImageAttribution(String featuredImageAttribution) {
+    this.featuredImageAttribution = featuredImageAttribution;
   }
 
   @Override
@@ -832,6 +746,7 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
         && Objects.equals(displayOnNHCPortal, other.displayOnNHCPortal)
         && Objects.equals(featuredImageUrl, other.featuredImageUrl)
         && Objects.equals(featuredImageLicense, other.featuredImageLicense)
-        && Objects.equals(temporalCoverage, other.temporalCoverage);
+        && Objects.equals(temporalCoverage, other.temporalCoverage)
+        && Objects.equals(featuredImageAttribution, other.featuredImageAttribution);
   }
 }
