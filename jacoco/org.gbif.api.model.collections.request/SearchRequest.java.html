@@ -15,8 +15,14 @@
  */
 package org.gbif.api.model.collections.request;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.UUID;
+import javax.annotation.Nullable;
+import lombok.Data;
+import lombok.experimental.SuperBuilder;
 import org.gbif.api.model.common.paging.Pageable;
-import org.gbif.api.model.common.paging.PageableBase;
+import org.gbif.api.model.common.paging.PagingConstants;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.vocabulary.CollectionsSortField;
 import org.gbif.api.vocabulary.Country;
@@ -26,268 +32,44 @@ import org.gbif.api.vocabulary.SortOrder;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
 import org.gbif.api.vocabulary.collections.Source;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.UUID;
+<span class="nc" id="L35">@SuperBuilder</span>
+<span class="nc bnc" id="L36" title="All 238 branches missed.">@Data</span>
+public abstract class SearchRequest implements Serializable {
 
-import javax.annotation.Nullable;
-
-<span class="nc" id="L35">public abstract class SearchRequest extends PageableBase implements Serializable {</span>
-
-  @Nullable private String q;
-  @Nullable private String code;
-  @Nullable private String name;
-  @Nullable private String alternativeCode;
-  @Nullable private UUID contact;
-  @Nullable private String machineTagNamespace;
-  @Nullable private String machineTagName;
-  @Nullable private String machineTagValue;
-  @Nullable private IdentifierType identifierType;
-  @Nullable private String identifier;
-  @Nullable private List&lt;Country&gt; country;
-  @Nullable private List&lt;GbifRegion&gt; gbifRegion;
-  @Nullable private String city;
-  @Nullable private String fuzzyName;
-  @Nullable private Boolean active;
-  @Nullable private MasterSourceType masterSourceType;
-  @Nullable private String numberSpecimens;
-  @Nullable private Boolean displayOnNHCPortal;
-  @Nullable private UUID replacedBy;
-  @Nullable private String occurrenceCount;
-  @Nullable private String typeSpecimenCount;
-  @Nullable private CollectionsSortField sortBy;
-  @Nullable private SortOrder sortOrder;
-  @Nullable private List&lt;UUID&gt; institutionKeys;
-  @Nullable private Source source;
-  @Nullable private String sourceId;
-
-  @Nullable
-  public String getQ() {
-<span class="nc" id="L66">    return q;</span>
-  }
-
-  public void setQ(@Nullable String q) {
-<span class="nc" id="L70">    this.q = q;</span>
-<span class="nc" id="L71">  }</span>
-
-  @Nullable
-  public String getCode() {
-<span class="nc" id="L75">    return code;</span>
-  }
-
-  public void setCode(@Nullable String code) {
-<span class="nc" id="L79">    this.code = code;</span>
-<span class="nc" id="L80">  }</span>
-
-  @Nullable
-  public String getName() {
-<span class="nc" id="L84">    return name;</span>
-  }
-
-  public void setName(@Nullable String name) {
-<span class="nc" id="L88">    this.name = name;</span>
-<span class="nc" id="L89">  }</span>
-
-  @Nullable
-  public String getAlternativeCode() {
-<span class="nc" id="L93">    return alternativeCode;</span>
-  }
-
-  public void setAlternativeCode(@Nullable String alternativeCode) {
-<span class="nc" id="L97">    this.alternativeCode = alternativeCode;</span>
-<span class="nc" id="L98">  }</span>
-
-  @Nullable
-  public UUID getContact() {
-<span class="nc" id="L102">    return contact;</span>
-  }
-
-  public void setContact(@Nullable UUID contact) {
-<span class="nc" id="L106">    this.contact = contact;</span>
-<span class="nc" id="L107">  }</span>
-
-  @Nullable
-  public String getMachineTagNamespace() {
-<span class="nc" id="L111">    return machineTagNamespace;</span>
-  }
-
-  public void setMachineTagNamespace(@Nullable String machineTagNamespace) {
-<span class="nc" id="L115">    this.machineTagNamespace = machineTagNamespace;</span>
-<span class="nc" id="L116">  }</span>
-
-  @Nullable
-  public String getMachineTagName() {
-<span class="nc" id="L120">    return machineTagName;</span>
-  }
-
-  public void setMachineTagName(@Nullable String machineTagName) {
-<span class="nc" id="L124">    this.machineTagName = machineTagName;</span>
-<span class="nc" id="L125">  }</span>
-
-  @Nullable
-  public String getMachineTagValue() {
-<span class="nc" id="L129">    return machineTagValue;</span>
-  }
-
-  public void setMachineTagValue(@Nullable String machineTagValue) {
-<span class="nc" id="L133">    this.machineTagValue = machineTagValue;</span>
-<span class="nc" id="L134">  }</span>
-
-  @Nullable
-  public IdentifierType getIdentifierType() {
-<span class="nc" id="L138">    return identifierType;</span>
-  }
-
-  public void setIdentifierType(@Nullable IdentifierType identifierType) {
-<span class="nc" id="L142">    this.identifierType = identifierType;</span>
-<span class="nc" id="L143">  }</span>
-
-  @Nullable
-  public String getIdentifier() {
-<span class="nc" id="L147">    return identifier;</span>
-  }
-
-  public void setIdentifier(@Nullable String identifier) {
-<span class="nc" id="L151">    this.identifier = identifier;</span>
-<span class="nc" id="L152">  }</span>
-
-  @Nullable
-  public List&lt;Country&gt; getCountry() {
-<span class="nc" id="L156">    return country;</span>
-  }
-
-  public void setCountry(@Nullable List&lt;Country&gt; country) {
-<span class="nc" id="L160">    this.country = country;</span>
-<span class="nc" id="L161">  }</span>
-
-  @Nullable
-  public String getCity() {
-<span class="nc" id="L165">    return city;</span>
-  }
-
-  public void setCity(@Nullable String city) {
-<span class="nc" id="L169">    this.city = city;</span>
-<span class="nc" id="L170">  }</span>
-
-  @Nullable
-  public String getFuzzyName() {
-<span class="nc" id="L174">    return fuzzyName;</span>
-  }
-
-  public void setFuzzyName(@Nullable String fuzzyName) {
-<span class="nc" id="L178">    this.fuzzyName = fuzzyName;</span>
-<span class="nc" id="L179">  }</span>
-
-  @Nullable
-  public Boolean getActive() {
-<span class="nc" id="L183">    return active;</span>
-  }
-
-  public void setActive(@Nullable Boolean active) {
-<span class="nc" id="L187">    this.active = active;</span>
-<span class="nc" id="L188">  }</span>
-
-  @Nullable
-  public MasterSourceType getMasterSourceType() {
-<span class="nc" id="L192">    return masterSourceType;</span>
-  }
-
-  public void setMasterSourceType(@Nullable MasterSourceType masterSourceType) {
-<span class="nc" id="L196">    this.masterSourceType = masterSourceType;</span>
-<span class="nc" id="L197">  }</span>
-
-  @Nullable
-  public String getNumberSpecimens() {
-<span class="nc" id="L201">    return numberSpecimens;</span>
-  }
-
-  public void setNumberSpecimens(@Nullable String numberSpecimens) {
-<span class="nc" id="L205">    this.numberSpecimens = numberSpecimens;</span>
-<span class="nc" id="L206">  }</span>
-
-  public Boolean getDisplayOnNHCPortal() {
-<span class="nc" id="L209">    return displayOnNHCPortal;</span>
-  }
-
-  public void setDisplayOnNHCPortal(Boolean displayOnNHCPortal) {
-<span class="nc" id="L213">    this.displayOnNHCPortal = displayOnNHCPortal;</span>
-<span class="nc" id="L214">  }</span>
+<span class="nc" id="L39">  @Nullable private Boolean hl;</span>
+<span class="nc" id="L40">  @Nullable private String q;</span>
+<span class="nc" id="L41">  @Nullable private String code;</span>
+<span class="nc" id="L42">  @Nullable private String name;</span>
+<span class="nc" id="L43">  @Nullable private String alternativeCode;</span>
+<span class="nc" id="L44">  @Nullable private UUID contact;</span>
+<span class="nc" id="L45">  @Nullable private String machineTagNamespace;</span>
+<span class="nc" id="L46">  @Nullable private String machineTagName;</span>
+<span class="nc" id="L47">  @Nullable private String machineTagValue;</span>
+<span class="nc" id="L48">  @Nullable private IdentifierType identifierType;</span>
+<span class="nc" id="L49">  @Nullable private String identifier;</span>
+<span class="nc" id="L50">  @Nullable private List&lt;Country&gt; country;</span>
+<span class="nc" id="L51">  @Nullable private List&lt;GbifRegion&gt; gbifRegion;</span>
+<span class="nc" id="L52">  @Nullable private String city;</span>
+<span class="nc" id="L53">  @Nullable private String fuzzyName;</span>
+<span class="nc" id="L54">  @Nullable private Boolean active;</span>
+<span class="nc" id="L55">  @Nullable private MasterSourceType masterSourceType;</span>
+<span class="nc" id="L56">  @Nullable private String numberSpecimens;</span>
+<span class="nc" id="L57">  @Nullable private Boolean displayOnNHCPortal;</span>
+<span class="nc" id="L58">  @Nullable private UUID replacedBy;</span>
+<span class="nc" id="L59">  @Nullable private String occurrenceCount;</span>
+<span class="nc" id="L60">  @Nullable private String typeSpecimenCount;</span>
+<span class="nc" id="L61">  @Nullable private CollectionsSortField sortBy;</span>
+<span class="nc" id="L62">  @Nullable private SortOrder sortOrder;</span>
+<span class="nc" id="L63">  @Nullable private List&lt;UUID&gt; institutionKeys;</span>
+<span class="nc" id="L64">  @Nullable private Source source;</span>
+<span class="nc" id="L65">  @Nullable private String sourceId;</span>
+<span class="nc" id="L66">  @Nullable private Long offset;</span>
+<span class="nc" id="L67">  @Nullable private Integer limit;</span>
 
   public Pageable getPage() {
-<span class="nc" id="L217">    return new PagingRequest(getOffset(), getLimit());</span>
+<span class="nc" id="L70">    return new PagingRequest(</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        offset != null ? offset : PagingConstants.DEFAULT_PARAM_OFFSET,</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        limit != null ? limit : PagingConstants.DEFAULT_PARAM_LIMIT);</span>
   }
-
-  @Nullable
-  public UUID getReplacedBy() {
-<span class="nc" id="L222">    return replacedBy;</span>
-  }
-
-  public void setReplacedBy(@Nullable UUID replacedBy) {
-<span class="nc" id="L226">    this.replacedBy = replacedBy;</span>
-<span class="nc" id="L227">  }</span>
-
-  @Nullable
-  public List&lt;GbifRegion&gt; getGbifRegion() {
-<span class="nc" id="L231">    return gbifRegion;</span>
-  }
-
-  public void setGbifRegion(@Nullable List&lt;GbifRegion&gt; gbifRegion) {
-<span class="nc" id="L235">    this.gbifRegion = gbifRegion;</span>
-<span class="nc" id="L236">  }</span>
-
-  @Nullable
-  public String getOccurrenceCount() {
-<span class="nc" id="L240">    return occurrenceCount;</span>
-  }
-
-  public void setOccurrenceCount(@Nullable String occurrenceCount) {
-<span class="nc" id="L244">    this.occurrenceCount = occurrenceCount;</span>
-<span class="nc" id="L245">  }</span>
-
-  @Nullable
-  public String getTypeSpecimenCount() {
-<span class="nc" id="L249">    return typeSpecimenCount;</span>
-  }
-
-  public void setTypeSpecimenCount(@Nullable String typeSpecimenCount) {
-<span class="nc" id="L253">    this.typeSpecimenCount = typeSpecimenCount;</span>
-<span class="nc" id="L254">  }</span>
-
-  @Nullable
-  public CollectionsSortField getSortBy() {
-<span class="nc" id="L258">    return sortBy;</span>
-  }
-
-  public void setSortBy(@Nullable CollectionsSortField sortBy) {
-<span class="nc" id="L262">    this.sortBy = sortBy;</span>
-<span class="nc" id="L263">  }</span>
-
-  @Nullable
-  public SortOrder getSortOrder() {
-<span class="nc" id="L267">    return sortOrder;</span>
-  }
-
-  public void setSortOrder(@Nullable SortOrder sortOrder) {
-<span class="nc" id="L271">    this.sortOrder = sortOrder;</span>
-<span class="nc" id="L272">  }</span>
-
-  @Nullable
-  public List&lt;UUID&gt; getInstitutionKeys() {
-<span class="nc" id="L276">    return institutionKeys;</span>
-  }
-
-  public void setInstitutionKeys(@Nullable List&lt;UUID&gt; institutionKeys) {
-<span class="nc" id="L280">    this.institutionKeys = institutionKeys;</span>
-<span class="nc" id="L281">  }</span>
-
-  @Nullable
-<span class="nc" id="L284">  public String getSourceId() { return sourceId; }</span>
-
-<span class="nc" id="L286">  public void setSourceId(@Nullable String sourceId) { this.sourceId = sourceId; }</span>
-
-  @Nullable
-<span class="nc" id="L289">  public Source getSource() { return source; }</span>
-
-<span class="nc" id="L291">  public void setSource(@Nullable Source source) { this.source = source; }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

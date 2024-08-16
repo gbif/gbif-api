@@ -15,8 +15,70 @@
  */
 package org.gbif.api.model.collections.suggestions;
 
+import java.util.Objects;
+
+import lombok.Getter;
+import lombok.Setter;
+
 import org.gbif.api.model.collections.Collection;
 
-<span class="nc" id="L20">public class CollectionChangeSuggestion extends BaseChangeSuggestion&lt;Collection&gt; {</span>
+@Getter
+<span class="nc" id="L26">@Setter</span>
+<span class="nc" id="L27">public class CollectionChangeSuggestion extends BaseChangeSuggestion&lt;Collection&gt; {</span>
+
+<span class="nc" id="L29">  private String ihIdentifier;</span>
+
+<span class="nc" id="L31">  private Boolean createInstitution;</span>
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L35" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L36">      return true;</span>
+    }
+<span class="nc bnc" id="L38" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L39">      return false;</span>
+    }
+<span class="nc bnc" id="L41" title="All 2 branches missed.">    if (!super.equals(o)) {</span>
+<span class="nc" id="L42">      return false;</span>
+    }
+<span class="nc" id="L44">    CollectionChangeSuggestion that = (CollectionChangeSuggestion) o;</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">    return Objects.equals(ihIdentifier, that.ihIdentifier)</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">      &amp;&amp; Objects.equals(createInstitution, that.createInstitution);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L51">    return Objects.hash(</span>
+<span class="nc" id="L52">      super.hashCode(),</span>
+      ihIdentifier,
+      createInstitution);
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L59">    return &quot;CollectionChangeSuggestion{&quot; +</span>
+      &quot;ihIdentifier='&quot; + ihIdentifier + '\'' +
+      &quot;, createInstitution=&quot; + createInstitution +
+<span class="nc" id="L62">      &quot;, key=&quot; + getKey() +</span>
+<span class="nc" id="L63">      &quot;, type=&quot; + getType() +</span>
+<span class="nc" id="L64">      &quot;, status=&quot; + getStatus() +</span>
+<span class="nc" id="L65">      &quot;, entityKey=&quot; + getEntityKey() +</span>
+<span class="nc" id="L66">      &quot;, entityName='&quot; + getEntityName() + '\'' +</span>
+<span class="nc" id="L67">      &quot;, entityCountry=&quot; + getEntityCountry() +</span>
+<span class="nc" id="L68">      &quot;, suggestedEntity=&quot; + getSuggestedEntity() +</span>
+<span class="nc" id="L69">      &quot;, proposed=&quot; + getProposed() +</span>
+<span class="nc" id="L70">      &quot;, proposedBy='&quot; + getProposedBy() + '\'' +</span>
+<span class="nc" id="L71">      &quot;, proposerEmail='&quot; + getProposerEmail() + '\'' +</span>
+<span class="nc" id="L72">      &quot;, applied=&quot; + getApplied() +</span>
+<span class="nc" id="L73">      &quot;, appliedBy='&quot; + getAppliedBy() + '\'' +</span>
+<span class="nc" id="L74">      &quot;, discarded=&quot; + getDiscarded() +</span>
+<span class="nc" id="L75">      &quot;, discardedBy='&quot; + getDiscardedBy() + '\'' +</span>
+<span class="nc" id="L76">      &quot;, comments=&quot; + getComments() +</span>
+<span class="nc" id="L77">      &quot;, mergeTargetKey=&quot; + getMergeTargetKey() +</span>
+<span class="nc" id="L78">      &quot;, changes=&quot; + getChanges() +</span>
+<span class="nc" id="L79">      &quot;, modified=&quot; + getModified() +</span>
+<span class="nc" id="L80">      &quot;, modifiedBy='&quot; + getModifiedBy() + '\'' +</span>
+      '}';
+  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

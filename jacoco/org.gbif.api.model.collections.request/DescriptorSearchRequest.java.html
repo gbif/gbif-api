@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DescriptorSearchRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections.request</a> &gt; <span class="el_source">DescriptorSearchRequest.java</span></div><h1>DescriptorSearchRequest.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.collections.request;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import javax.annotation.Nullable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.gbif.api.model.common.paging.Pageable;
+import org.gbif.api.model.common.paging.PageableBase;
+import org.gbif.api.model.common.paging.PagingConstants;
+import org.gbif.api.model.common.paging.PagingRequest;
+import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.Rank;
+
+<span class="nc bnc" id="L18" title="All 142 branches missed.">@Data</span>
+<span class="nc" id="L19">@NoArgsConstructor</span>
+<span class="nc" id="L20">@AllArgsConstructor</span>
+<span class="nc" id="L21">@Builder</span>
+public class DescriptorSearchRequest extends PageableBase implements Serializable {
+
+<span class="nc" id="L24">  @Nullable private String q;</span>
+<span class="nc" id="L25">  @Nullable private Long descriptorGroupKey;</span>
+<span class="nc" id="L26">  @Nullable private List&lt;Integer&gt; usageKey;</span>
+<span class="nc" id="L27">  @Nullable private List&lt;String&gt; usageName;</span>
+<span class="nc" id="L28">  @Nullable private List&lt;Rank&gt; usageRank;</span>
+<span class="nc" id="L29">  @Nullable private List&lt;Integer&gt; taxonKey;</span>
+<span class="nc" id="L30">  @Nullable private List&lt;Country&gt; country;</span>
+<span class="nc" id="L31">  @Nullable private String individualCount;</span>
+<span class="nc" id="L32">  @Nullable private List&lt;String&gt; identifiedBy;</span>
+<span class="nc" id="L33">  @Nullable private Date dateIdentified;</span>
+<span class="nc" id="L34">  @Nullable private Date dateIdentifiedFrom;</span>
+<span class="nc" id="L35">  @Nullable private Date dateIdentifiedBefore;</span>
+<span class="nc" id="L36">  @Nullable private List&lt;String&gt; typeStatus;</span>
+<span class="nc" id="L37">  @Nullable private List&lt;String&gt; recordedBy;</span>
+<span class="nc" id="L38">  @Nullable private List&lt;String&gt; discipline;</span>
+<span class="nc" id="L39">  @Nullable private List&lt;String&gt; objectClassification;</span>
+<span class="nc" id="L40">  @Nullable private List&lt;String&gt; issues;</span>
+
+  public Pageable getPage() {
+<span class="nc" id="L43">    return new PagingRequest(getOffset(), getLimit());</span>
+  }
+
+  public static DescriptorSearchRequestBuilder builder() {
+<span class="nc" id="L47">    return new CustomBuilder();</span>
+  }
+
+  public static class DescriptorSearchRequestBuilder {
+<span class="nc" id="L51">    long offset = PagingConstants.DEFAULT_PARAM_OFFSET;</span>
+<span class="nc" id="L52">    int limit = PagingConstants.DEFAULT_PARAM_LIMIT;</span>
+
+    public DescriptorSearchRequestBuilder offset(long offset) {
+<span class="nc" id="L55">      this.offset = offset;</span>
+<span class="nc" id="L56">      return this;</span>
+    }
+
+    public DescriptorSearchRequestBuilder limit(int limit) {
+<span class="nc" id="L60">      this.limit = limit;</span>
+<span class="nc" id="L61">      return this;</span>
+    }
+  }
+
+<span class="nc" id="L65">  public static class CustomBuilder extends DescriptorSearchRequestBuilder {</span>
+
+    @Override
+    public DescriptorSearchRequest build() {
+<span class="nc" id="L69">      DescriptorSearchRequest descriptorSearchRequest = super.build();</span>
+<span class="nc" id="L70">      descriptorSearchRequest.setOffset(offset);</span>
+<span class="nc" id="L71">      descriptorSearchRequest.setLimit(limit);</span>
+<span class="nc" id="L72">      return descriptorSearchRequest;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

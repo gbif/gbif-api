@@ -52,39 +52,48 @@
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>        Arguments.of(<span class="jxr_string">"http://ipt.gbif.org/resource.do?r=ds1"</span>, <span class="jxr_string">"http://ipt.gbif.org/resource.do?r=ds1"</span>, IdentifierType.URL),
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>        Arguments.of(<span class="jxr_string">"ftp://ftp.gbif.org"</span>, <span class="jxr_string">"ftp://ftp.gbif.org"</span>, IdentifierType.FTP),
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>        Arguments.of(<span class="jxr_string">"https://doi.org/10.1016/S1097-2765(03)00225-9"</span>, <span class="jxr_string">"10.1016/S1097-2765(03)00225-9"</span>, IdentifierType.DOI),
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>        Arguments.of(<span class="jxr_string">"http://www.lsid.info/132187"</span>, <span class="jxr_string">"132187"</span>, IdentifierType.LSID)
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>      );
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>    }
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>  
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>    @ParameterizedTest
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>    @MethodSource(<span class="jxr_string">"getTestParameters"</span>)
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testGetIdentifierLink(String expected, String identifier, IdentifierType type) {
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>      assertEquals(expected, IdentifierUtils.getIdentifierLink(identifier, type));
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>    }
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>  
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>    @SuppressWarnings({<span class="jxr_string">"ConstantConditions"</span>, <span class="jxr_string">"unused"</span>})
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>    @ParameterizedTest
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>    @MethodSource(<span class="jxr_string">"getTestParameters"</span>)
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testGetIdentifierLinkWithoutIdentifer(String expected, String identifier, IdentifierType type) {
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>      assertNull(IdentifierUtils.getIdentifierLink(<strong class="jxr_keyword">null</strong>, type));
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>    }
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>  
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>    @SuppressWarnings({<span class="jxr_string">"ConstantConditions"</span>, <span class="jxr_string">"unused"</span>})
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>    @ParameterizedTest
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>    @MethodSource(<span class="jxr_string">"getTestParameters"</span>)
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testGetIdentifierLinkWithoutType(String expected, String identifier, IdentifierType type) {
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>      assertNull(IdentifierUtils.getIdentifierLink(identifier, <strong class="jxr_keyword">null</strong>));
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>    }
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>  
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>    @Test
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> wikidataValidatorTest() {
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>      assertTrue(IdentifierUtils.isValidWikidataIdentifier(<span class="jxr_string">"http://www.wikidata.org/entity/Q1528756"</span>));
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>      assertTrue(IdentifierUtils.isValidWikidataIdentifier(<span class="jxr_string">"https://www.wikidata.org/entity/q1528756"</span>));
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>      assertFalse(IdentifierUtils.isValidWikidataIdentifier(<span class="jxr_string">"https://www.wikidata.org/entity/1528756"</span>));
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>      assertFalse(IdentifierUtils.isValidWikidataIdentifier(<span class="jxr_string">"https://www.wikidata.org/entity/q15287h56"</span>));
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>      assertFalse(IdentifierUtils.isValidWikidataIdentifier(<span class="jxr_string">"https://www.wikidata.org/entity/1528756q"</span>));
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>    }
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>  }
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>        Arguments.of(<span class="jxr_string">"http://www.lsid.info/132187"</span>, <span class="jxr_string">"132187"</span>, IdentifierType.LSID),
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>        Arguments.of(<span class="jxr_string">"https://ror.org/02mhbdp94."</span>,<span class="jxr_string">"https://ror.org/02mhbdp94."</span>, IdentifierType.ROR)
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>      );
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>    }
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>    @ParameterizedTest
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>    @MethodSource(<span class="jxr_string">"getTestParameters"</span>)
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testGetIdentifierLink(String expected, String identifier, IdentifierType type) {
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>      assertEquals(expected, IdentifierUtils.getIdentifierLink(identifier, type));
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>    }
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>    @SuppressWarnings({<span class="jxr_string">"ConstantConditions"</span>, <span class="jxr_string">"unused"</span>})
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>    @ParameterizedTest
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>    @MethodSource(<span class="jxr_string">"getTestParameters"</span>)
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testGetIdentifierLinkWithoutIdentifer(String expected, String identifier, IdentifierType type) {
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>      assertNull(IdentifierUtils.getIdentifierLink(<strong class="jxr_keyword">null</strong>, type));
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>    }
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>    @SuppressWarnings({<span class="jxr_string">"ConstantConditions"</span>, <span class="jxr_string">"unused"</span>})
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>    @ParameterizedTest
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>    @MethodSource(<span class="jxr_string">"getTestParameters"</span>)
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testGetIdentifierLinkWithoutType(String expected, String identifier, IdentifierType type) {
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>      assertNull(IdentifierUtils.getIdentifierLink(identifier, <strong class="jxr_keyword">null</strong>));
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>    }
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>    @Test
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> wikidataValidatorTest() {
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>      assertTrue(IdentifierUtils.isValidWikidataIdentifier(<span class="jxr_string">"http://www.wikidata.org/entity/Q1528756"</span>));
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>      assertTrue(IdentifierUtils.isValidWikidataIdentifier(<span class="jxr_string">"https://www.wikidata.org/entity/q1528756"</span>));
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>      assertFalse(IdentifierUtils.isValidWikidataIdentifier(<span class="jxr_string">"https://www.wikidata.org/entity/1528756"</span>));
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>      assertFalse(IdentifierUtils.isValidWikidataIdentifier(<span class="jxr_string">"https://www.wikidata.org/entity/q15287h56"</span>));
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>      assertFalse(IdentifierUtils.isValidWikidataIdentifier(<span class="jxr_string">"https://www.wikidata.org/entity/1528756q"</span>));
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>    }
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>    @Test
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> rorIDValidatorTest() {
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>      assertTrue(IdentifierUtils.isValidRORIdentifier(<span class="jxr_string">"https://ror.org/0566bfb96"</span>));
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>      assertFalse(IdentifierUtils.isValidRORIdentifier(<span class="jxr_string">"https://ror.org/https://ror.org/0566bfb96"</span>));
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>      assertFalse(IdentifierUtils.isValidRORIdentifier(<span class="jxr_string">"0566bfb96"</span>));
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>      assertFalse(IdentifierUtils.isValidRORIdentifier(<span class="jxr_string">"https://ror.org/2566bfb96"</span>));
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>    }
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2024 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>

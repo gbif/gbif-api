@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DescriptorGroup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections.descriptors</a> &gt; <span class="el_source">DescriptorGroup.java</span></div><h1>DescriptorGroup.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.collections.descriptors;
+
+import org.gbif.api.model.registry.LenientEquals;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Objects;
+import java.util.UUID;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import lombok.Data;
+
+<span class="nc bnc" id="L15" title="All 72 branches missed.">@Data</span>
+public class DescriptorGroup implements LenientEquals&lt;DescriptorGroup&gt;, Serializable {
+
+<span class="nc" id="L18">  private long key;</span>
+<span class="nc" id="L19">  @NotBlank private String title;</span>
+<span class="nc" id="L20">  private String description;</span>
+<span class="nc" id="L21">  @NotNull private UUID collectionKey;</span>
+<span class="nc" id="L22">  private Date created;</span>
+<span class="nc" id="L23">  private String createdBy;</span>
+<span class="nc" id="L24">  private Date modified;</span>
+<span class="nc" id="L25">  private String modifiedBy;</span>
+<span class="nc" id="L26">  private Date deleted;</span>
+
+  @Override
+  public boolean lenientEquals(DescriptorGroup other) {
+<span class="nc bnc" id="L30" title="All 2 branches missed.">    if (this == other) {</span>
+<span class="nc" id="L31">      return true;</span>
+    }
+
+<span class="nc bnc" id="L34" title="All 2 branches missed.">    return key == other.key</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        &amp;&amp; Objects.equals(title, other.title)</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        &amp;&amp; Objects.equals(description, other.description)</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        &amp;&amp; Objects.equals(collectionKey, other.collectionKey);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

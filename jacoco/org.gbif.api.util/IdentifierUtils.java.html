@@ -33,6 +33,9 @@ import java.util.regex.Pattern;
 <span class="fc" id="L33">  public static final Pattern WIKIDATA_PATTERN =</span>
 <span class="fc" id="L34">      Pattern.compile(&quot;http(s)?://www.wikidata.org/entity/([A-Za-z][0-9]+)$&quot;);</span>
 
+<span class="fc" id="L36">  public static final Pattern ROR_PATTERN =</span>
+<span class="fc" id="L37">    Pattern.compile(&quot;https?://ror\\.org/0[a-z0-9]{6}[0-9]{2}&quot;);</span>
+
   /**
    * Creates a http link for an identifier if possible by passing it to some known resolvers for the
    * specific id type. If no link can be constructed, null is returned.
@@ -43,50 +46,59 @@ import java.util.regex.Pattern;
    */
   @Nullable
   public static String getIdentifierLink(String identifier, IdentifierType type) {
-<span class="fc bfc" id="L46" title="All 4 branches covered.">    if (identifier == null || type == null) {</span>
-<span class="fc" id="L47">      return null;</span>
+<span class="fc bfc" id="L49" title="All 4 branches covered.">    if (identifier == null || type == null) {</span>
+<span class="fc" id="L50">      return null;</span>
     }
-<span class="fc bfc" id="L49" title="All 5 branches covered.">    switch (type) {</span>
+<span class="fc bfc" id="L52" title="All 5 branches covered.">    switch (type) {</span>
       case HANDLER:
       case URI:
       case URL:
       case FTP:
-<span class="fc" id="L54">        return identifier;</span>
+      case ROR:
+<span class="fc" id="L58">        return identifier;</span>
       case DOI:
-<span class="fc" id="L56">        return &quot;https://doi.org/&quot; + identifier;</span>
+<span class="fc" id="L60">        return &quot;https://doi.org/&quot; + identifier;</span>
       case LSID:
-<span class="fc" id="L58">        return &quot;http://www.lsid.info/&quot; + identifier;</span>
+<span class="fc" id="L62">        return &quot;http://www.lsid.info/&quot; + identifier;</span>
       case GBIF_PORTAL:
-<span class="fc" id="L60">        return &quot;https://www.gbif.org/dataset/&quot; + identifier;</span>
+<span class="fc" id="L64">        return &quot;https://www.gbif.org/dataset/&quot; + identifier;</span>
     }
-<span class="fc" id="L62">    return null;</span>
+<span class="fc" id="L66">    return null;</span>
   }
 
   /** CITES identifier validation according to https://cites.org/eng/common/reg/e_si.html. */
   public static boolean isValidCitesIdentifier(String identifier) {
-<span class="nc bnc" id="L67" title="All 4 branches missed.">    if (identifier == null || identifier.isEmpty()) {</span>
-<span class="nc" id="L68">      return false;</span>
+<span class="nc bnc" id="L71" title="All 4 branches missed.">    if (identifier == null || identifier.isEmpty()) {</span>
+<span class="nc" id="L72">      return false;</span>
     }
 
-<span class="nc" id="L71">    String[] parts = identifier.split(&quot;\\s+&quot;);</span>
-<span class="nc bnc" id="L72" title="All 2 branches missed.">    if (parts.length &lt; 2) {</span>
-<span class="nc" id="L73">      return false;</span>
-    }
-
-<span class="nc bnc" id="L76" title="All 2 branches missed.">    if (parts[0].length() != 2) {</span>
+<span class="nc" id="L75">    String[] parts = identifier.split(&quot;\\s+&quot;);</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">    if (parts.length &lt; 2) {</span>
 <span class="nc" id="L77">      return false;</span>
     }
 
-<span class="nc" id="L80">    Country country = Country.fromIsoCode(parts[0]);</span>
-<span class="nc bnc" id="L81" title="All 2 branches missed.">    return country != null;</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">    if (parts[0].length() != 2) {</span>
+<span class="nc" id="L81">      return false;</span>
+    }
+
+<span class="nc" id="L84">    Country country = Country.fromIsoCode(parts[0]);</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">    return country != null;</span>
   }
 
   public static boolean isValidWikidataIdentifier(String identifier) {
-<span class="pc bpc" id="L85" title="2 of 4 branches missed.">    if (identifier == null || identifier.isEmpty()) {</span>
-<span class="nc" id="L86">      return false;</span>
+<span class="pc bpc" id="L89" title="2 of 4 branches missed.">    if (identifier == null || identifier.isEmpty()) {</span>
+<span class="nc" id="L90">      return false;</span>
     }
 
-<span class="fc" id="L89">    return WIKIDATA_PATTERN.matcher(identifier).matches();</span>
+<span class="fc" id="L93">    return WIKIDATA_PATTERN.matcher(identifier).matches();</span>
+  }
+
+  public static boolean isValidRORIdentifier(String identifier) {
+<span class="pc bpc" id="L97" title="2 of 4 branches missed.">    if (identifier == null || identifier.isEmpty()) {</span>
+<span class="nc" id="L98">      return false;</span>
+    }
+
+<span class="fc" id="L101">    return ROR_PATTERN.matcher(identifier).matches();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

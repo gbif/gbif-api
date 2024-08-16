@@ -38,73 +38,77 @@
 <span class="sourceLineNo">030</span>import javax.annotation.Nullable;<a name="line.30"></a>
 <span class="sourceLineNo">031</span>import javax.validation.constraints.NotNull;<a name="line.31"></a>
 <span class="sourceLineNo">032</span><a name="line.32"></a>
-<span class="sourceLineNo">033</span>@SuppressWarnings("unused")<a name="line.33"></a>
-<span class="sourceLineNo">034</span>public interface OrganizationService extends NetworkEntityService&lt;Organization&gt; {<a name="line.34"></a>
-<span class="sourceLineNo">035</span><a name="line.35"></a>
-<span class="sourceLineNo">036</span>  /**<a name="line.36"></a>
-<span class="sourceLineNo">037</span>   * Provides paging service to list datasets hosted by, but not owned by, a specific organization.<a name="line.37"></a>
-<span class="sourceLineNo">038</span>   */<a name="line.38"></a>
-<span class="sourceLineNo">039</span>  PagingResponse&lt;Dataset&gt; hostedDatasets(@NotNull UUID organizationKey, @Nullable Pageable page);<a name="line.39"></a>
-<span class="sourceLineNo">040</span><a name="line.40"></a>
-<span class="sourceLineNo">041</span>  /** Provides paging service to list datasets published by a specific organization. */<a name="line.41"></a>
-<span class="sourceLineNo">042</span>  PagingResponse&lt;Dataset&gt; publishedDatasets(@NotNull UUID organizationKey, @Nullable Pageable page);<a name="line.42"></a>
-<span class="sourceLineNo">043</span><a name="line.43"></a>
-<span class="sourceLineNo">044</span>  /** Provides paging service to list installations for the organization. */<a name="line.44"></a>
-<span class="sourceLineNo">045</span>  PagingResponse&lt;Installation&gt; installations(<a name="line.45"></a>
-<span class="sourceLineNo">046</span>      @NotNull UUID organizationKey, @Nullable Pageable page);<a name="line.46"></a>
-<span class="sourceLineNo">047</span><a name="line.47"></a>
-<span class="sourceLineNo">048</span>  /** Provides access to all organizations from a country. */<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  PagingResponse&lt;Organization&gt; listByCountry(Country country, @Nullable Pageable page);<a name="line.49"></a>
-<span class="sourceLineNo">050</span><a name="line.50"></a>
-<span class="sourceLineNo">051</span>  /** Provides access to deleted organizations. */<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  PagingResponse&lt;Organization&gt; listDeleted(OrganizationRequestSearchParams searchParams);<a name="line.52"></a>
-<span class="sourceLineNo">053</span><a name="line.53"></a>
-<span class="sourceLineNo">054</span>  /** Provides access to organizations that are awaiting their endorsement approval. */<a name="line.54"></a>
-<span class="sourceLineNo">055</span>  PagingResponse&lt;Organization&gt; listPendingEndorsement(@Nullable Pageable page);<a name="line.55"></a>
-<span class="sourceLineNo">056</span><a name="line.56"></a>
-<span class="sourceLineNo">057</span>  /** Provides access to organizations that are not publishing (e.g. owning) any datasets. */<a name="line.57"></a>
-<span class="sourceLineNo">058</span>  PagingResponse&lt;Organization&gt; listNonPublishing(@Nullable Pageable page);<a name="line.58"></a>
-<span class="sourceLineNo">059</span><a name="line.59"></a>
-<span class="sourceLineNo">060</span>  /** Provides a simple suggest service. */<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  List&lt;KeyTitleResult&gt; suggest(@Nullable String q);<a name="line.61"></a>
-<span class="sourceLineNo">062</span><a name="line.62"></a>
-<span class="sourceLineNo">063</span>  /**<a name="line.63"></a>
-<span class="sourceLineNo">064</span>   * Confirm the endorsement of a new {@link Organization} by providing a confirmationKey.<a name="line.64"></a>
-<span class="sourceLineNo">065</span>   * Confirming the endorsement of an {@link Organization} may not be required or possible depending<a name="line.65"></a>
-<span class="sourceLineNo">066</span>   * how the {@link Organization} was created.<a name="line.66"></a>
-<span class="sourceLineNo">067</span>   *<a name="line.67"></a>
-<span class="sourceLineNo">068</span>   * @param organizationKey key of the organization<a name="line.68"></a>
-<span class="sourceLineNo">069</span>   * @param confirmationKey (aka challenge code)<a name="line.69"></a>
-<span class="sourceLineNo">070</span>   * @return endorsement was confirmed using the provided keys<a name="line.70"></a>
-<span class="sourceLineNo">071</span>   */<a name="line.71"></a>
-<span class="sourceLineNo">072</span>  boolean confirmEndorsement(@NotNull UUID organizationKey, @NotNull UUID confirmationKey);<a name="line.72"></a>
-<span class="sourceLineNo">073</span><a name="line.73"></a>
-<span class="sourceLineNo">074</span>  /**<a name="line.74"></a>
-<span class="sourceLineNo">075</span>   * Confirm the endorsement of a new {@link Organization} without a confirmationKey. Confirming the<a name="line.75"></a>
-<span class="sourceLineNo">076</span>   * endorsement of an {@link Organization} may not be required or possible depending how the {@link<a name="line.76"></a>
-<span class="sourceLineNo">077</span>   * Organization} was created.<a name="line.77"></a>
-<span class="sourceLineNo">078</span>   *<a name="line.78"></a>
-<span class="sourceLineNo">079</span>   * @param organizationKey key of the organization<a name="line.79"></a>
-<span class="sourceLineNo">080</span>   * @return endorsement was confirmed using the provided keys<a name="line.80"></a>
-<span class="sourceLineNo">081</span>   */<a name="line.81"></a>
-<span class="sourceLineNo">082</span>  boolean confirmEndorsement(@NotNull UUID organizationKey);<a name="line.82"></a>
-<span class="sourceLineNo">083</span><a name="line.83"></a>
-<span class="sourceLineNo">084</span>  /**<a name="line.84"></a>
-<span class="sourceLineNo">085</span>   * Revoke the endorsement of the {@link Organization}.<a name="line.85"></a>
-<span class="sourceLineNo">086</span>   *<a name="line.86"></a>
-<span class="sourceLineNo">087</span>   * @param organizationKey key of the organization<a name="line.87"></a>
-<span class="sourceLineNo">088</span>   * @return endorsement was confirmed using the provided keys<a name="line.88"></a>
-<span class="sourceLineNo">089</span>   */<a name="line.89"></a>
-<span class="sourceLineNo">090</span>  boolean revokeEndorsement(@NotNull UUID organizationKey);<a name="line.90"></a>
-<span class="sourceLineNo">091</span><a name="line.91"></a>
-<span class="sourceLineNo">092</span>  /**<a name="line.92"></a>
-<span class="sourceLineNo">093</span>   * Provides paging service to list organizations that can be filtered by multiple parameters.<a name="line.93"></a>
-<span class="sourceLineNo">094</span>   *<a name="line.94"></a>
-<span class="sourceLineNo">095</span>   * @param searchParams {@link OrganizationRequestSearchParams}<a name="line.95"></a>
-<span class="sourceLineNo">096</span>   * @return list of organizations ordered by creation date with the latest coming first<a name="line.96"></a>
-<span class="sourceLineNo">097</span>   */<a name="line.97"></a>
-<span class="sourceLineNo">098</span>  PagingResponse&lt;Organization&gt; list(OrganizationRequestSearchParams searchParams);<a name="line.98"></a>
-<span class="sourceLineNo">099</span>}<a name="line.99"></a>
+<span class="sourceLineNo">033</span>import org.geojson.FeatureCollection;<a name="line.33"></a>
+<span class="sourceLineNo">034</span><a name="line.34"></a>
+<span class="sourceLineNo">035</span>@SuppressWarnings("unused")<a name="line.35"></a>
+<span class="sourceLineNo">036</span>public interface OrganizationService extends NetworkEntityService&lt;Organization&gt; {<a name="line.36"></a>
+<span class="sourceLineNo">037</span><a name="line.37"></a>
+<span class="sourceLineNo">038</span>  /**<a name="line.38"></a>
+<span class="sourceLineNo">039</span>   * Provides paging service to list datasets hosted by, but not owned by, a specific organization.<a name="line.39"></a>
+<span class="sourceLineNo">040</span>   */<a name="line.40"></a>
+<span class="sourceLineNo">041</span>  PagingResponse&lt;Dataset&gt; hostedDatasets(@NotNull UUID organizationKey, @Nullable Pageable page);<a name="line.41"></a>
+<span class="sourceLineNo">042</span><a name="line.42"></a>
+<span class="sourceLineNo">043</span>  /** Provides paging service to list datasets published by a specific organization. */<a name="line.43"></a>
+<span class="sourceLineNo">044</span>  PagingResponse&lt;Dataset&gt; publishedDatasets(@NotNull UUID organizationKey, @Nullable Pageable page);<a name="line.44"></a>
+<span class="sourceLineNo">045</span><a name="line.45"></a>
+<span class="sourceLineNo">046</span>  /** Provides paging service to list installations for the organization. */<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  PagingResponse&lt;Installation&gt; installations(<a name="line.47"></a>
+<span class="sourceLineNo">048</span>      @NotNull UUID organizationKey, @Nullable Pageable page);<a name="line.48"></a>
+<span class="sourceLineNo">049</span><a name="line.49"></a>
+<span class="sourceLineNo">050</span>  /** Provides access to all organizations from a country. */<a name="line.50"></a>
+<span class="sourceLineNo">051</span>  PagingResponse&lt;Organization&gt; listByCountry(Country country, @Nullable Pageable page);<a name="line.51"></a>
+<span class="sourceLineNo">052</span><a name="line.52"></a>
+<span class="sourceLineNo">053</span>  /** Provides access to deleted organizations. */<a name="line.53"></a>
+<span class="sourceLineNo">054</span>  PagingResponse&lt;Organization&gt; listDeleted(OrganizationRequestSearchParams searchParams);<a name="line.54"></a>
+<span class="sourceLineNo">055</span><a name="line.55"></a>
+<span class="sourceLineNo">056</span>  /** Provides access to organizations that are awaiting their endorsement approval. */<a name="line.56"></a>
+<span class="sourceLineNo">057</span>  PagingResponse&lt;Organization&gt; listPendingEndorsement(@Nullable Pageable page);<a name="line.57"></a>
+<span class="sourceLineNo">058</span><a name="line.58"></a>
+<span class="sourceLineNo">059</span>  /** Provides access to organizations that are not publishing (e.g. owning) any datasets. */<a name="line.59"></a>
+<span class="sourceLineNo">060</span>  PagingResponse&lt;Organization&gt; listNonPublishing(@Nullable Pageable page);<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>  /** Provides a simple suggest service. */<a name="line.62"></a>
+<span class="sourceLineNo">063</span>  List&lt;KeyTitleResult&gt; suggest(@Nullable String q);<a name="line.63"></a>
+<span class="sourceLineNo">064</span><a name="line.64"></a>
+<span class="sourceLineNo">065</span>  /**<a name="line.65"></a>
+<span class="sourceLineNo">066</span>   * Confirm the endorsement of a new {@link Organization} by providing a confirmationKey.<a name="line.66"></a>
+<span class="sourceLineNo">067</span>   * Confirming the endorsement of an {@link Organization} may not be required or possible depending<a name="line.67"></a>
+<span class="sourceLineNo">068</span>   * how the {@link Organization} was created.<a name="line.68"></a>
+<span class="sourceLineNo">069</span>   *<a name="line.69"></a>
+<span class="sourceLineNo">070</span>   * @param organizationKey key of the organization<a name="line.70"></a>
+<span class="sourceLineNo">071</span>   * @param confirmationKey (aka challenge code)<a name="line.71"></a>
+<span class="sourceLineNo">072</span>   * @return endorsement was confirmed using the provided keys<a name="line.72"></a>
+<span class="sourceLineNo">073</span>   */<a name="line.73"></a>
+<span class="sourceLineNo">074</span>  boolean confirmEndorsement(@NotNull UUID organizationKey, @NotNull UUID confirmationKey);<a name="line.74"></a>
+<span class="sourceLineNo">075</span><a name="line.75"></a>
+<span class="sourceLineNo">076</span>  /**<a name="line.76"></a>
+<span class="sourceLineNo">077</span>   * Confirm the endorsement of a new {@link Organization} without a confirmationKey. Confirming the<a name="line.77"></a>
+<span class="sourceLineNo">078</span>   * endorsement of an {@link Organization} may not be required or possible depending how the {@link<a name="line.78"></a>
+<span class="sourceLineNo">079</span>   * Organization} was created.<a name="line.79"></a>
+<span class="sourceLineNo">080</span>   *<a name="line.80"></a>
+<span class="sourceLineNo">081</span>   * @param organizationKey key of the organization<a name="line.81"></a>
+<span class="sourceLineNo">082</span>   * @return endorsement was confirmed using the provided keys<a name="line.82"></a>
+<span class="sourceLineNo">083</span>   */<a name="line.83"></a>
+<span class="sourceLineNo">084</span>  boolean confirmEndorsement(@NotNull UUID organizationKey);<a name="line.84"></a>
+<span class="sourceLineNo">085</span><a name="line.85"></a>
+<span class="sourceLineNo">086</span>  /**<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * Revoke the endorsement of the {@link Organization}.<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   *<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   * @param organizationKey key of the organization<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   * @return endorsement was confirmed using the provided keys<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   */<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  boolean revokeEndorsement(@NotNull UUID organizationKey);<a name="line.92"></a>
+<span class="sourceLineNo">093</span><a name="line.93"></a>
+<span class="sourceLineNo">094</span>  /**<a name="line.94"></a>
+<span class="sourceLineNo">095</span>   * Provides paging service to list organizations that can be filtered by multiple parameters.<a name="line.95"></a>
+<span class="sourceLineNo">096</span>   *<a name="line.96"></a>
+<span class="sourceLineNo">097</span>   * @param searchParams {@link OrganizationRequestSearchParams}<a name="line.97"></a>
+<span class="sourceLineNo">098</span>   * @return list of organizations ordered by creation date with the latest coming first<a name="line.98"></a>
+<span class="sourceLineNo">099</span>   */<a name="line.99"></a>
+<span class="sourceLineNo">100</span>  PagingResponse&lt;Organization&gt; list(OrganizationRequestSearchParams searchParams);<a name="line.100"></a>
+<span class="sourceLineNo">101</span><a name="line.101"></a>
+<span class="sourceLineNo">102</span>  FeatureCollection listGeoJson(OrganizationRequestSearchParams request);<a name="line.102"></a>
+<span class="sourceLineNo">103</span>}<a name="line.103"></a>
 
 
 
