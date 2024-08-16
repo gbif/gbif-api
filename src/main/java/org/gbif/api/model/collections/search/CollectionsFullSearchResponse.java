@@ -11,21 +11,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gbif.api.model.collections.request;
+package org.gbif.api.model.collections.search;
 
-import java.util.List;
-import javax.annotation.Nullable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.SuperBuilder;
 
+import org.gbif.api.vocabulary.Country;
+
+/** Models the response for the Collections search. */
 @SuppressWarnings("MissingOverride")
 @EqualsAndHashCode(callSuper = true)
-@SuperBuilder
 @Data
-public class InstitutionSearchRequest extends SearchRequest {
+public class CollectionsFullSearchResponse extends BaseSearchResponse {
 
-  @Nullable private List<String> type;
-  @Nullable private List<String> institutionalGovernance;
-  @Nullable private List<String> disciplines;
+  private String type;
+  private UUID institutionKey;
+  private String institutionCode;
+  private String institutionName;
+  private Set<DescriptorMatch> descriptorMatches = new HashSet<>();
 }

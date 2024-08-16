@@ -13,6 +13,9 @@
  */
 package org.gbif.api.model.occurrence.search;
 
+import java.util.Date;
+import java.util.Optional;
+import java.util.UUID;
 import org.gbif.api.annotation.Experimental;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.search.FacetedSearchRequest;
@@ -25,10 +28,6 @@ import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.TypeStatus;
-
-import java.util.Date;
-import java.util.Optional;
-import java.util.UUID;
 
 /** Request class for issuing search request to the occurrence search service. */
 public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSearchParameter> {

@@ -33,6 +33,9 @@ public class IdentifierUtils {
   public static final Pattern WIKIDATA_PATTERN =
       Pattern.compile("http(s)?://www.wikidata.org/entity/([A-Za-z][0-9]+)$");
 
+  public static final Pattern ROR_PATTERN =
+    Pattern.compile("https?://ror\\.org/0[a-z0-9]{6}[0-9]{2}");
+
   /**
    * Creates a http link for an identifier if possible by passing it to some known resolvers for the
    * specific id type. If no link can be constructed, null is returned.
@@ -51,6 +54,7 @@ public class IdentifierUtils {
       case URI:
       case URL:
       case FTP:
+      case ROR:
         return identifier;
       case DOI:
         return "https://doi.org/" + identifier;
@@ -87,5 +91,13 @@ public class IdentifierUtils {
     }
 
     return WIKIDATA_PATTERN.matcher(identifier).matches();
+  }
+
+  public static boolean isValidRORIdentifier(String identifier) {
+    if (identifier == null || identifier.isEmpty()) {
+      return false;
+    }
+
+    return ROR_PATTERN.matcher(identifier).matches();
   }
 }
