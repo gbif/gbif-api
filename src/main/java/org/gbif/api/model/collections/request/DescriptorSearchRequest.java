@@ -21,7 +21,7 @@ import org.gbif.api.vocabulary.Rank;
 @Builder
 public class DescriptorSearchRequest extends PageableBase implements Serializable {
 
-  @Nullable private String query;
+  @Nullable private String q;
   @Nullable private Long descriptorGroupKey;
   @Nullable private List<Integer> usageKey;
   @Nullable private List<String> usageName;
