@@ -99,5 +99,11 @@ public interface OrganizationService extends NetworkEntityService<Organization> 
    */
   PagingResponse<Organization> list(OrganizationRequestSearchParams searchParams);
 
+  /**
+   * Lists the organizations in GeoJson format.
+   *
+   * @param request parameters to filter the request
+   * @return a {@link FeatureCollection} object that conforms with GeoJson
+   */
   FeatureCollection listGeoJson(OrganizationRequestSearchParams request);
 }
