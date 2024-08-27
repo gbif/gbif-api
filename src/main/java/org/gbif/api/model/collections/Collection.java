@@ -13,8 +13,23 @@
  */
 package org.gbif.api.model.collections;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+import javax.annotation.Nullable;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.Setter;
-
+import lombok.ToString;
 import org.gbif.api.model.common.DOI;
 import org.gbif.api.model.registry.Comment;
 import org.gbif.api.model.registry.Identifier;
@@ -27,28 +42,6 @@ import org.gbif.api.util.LenientEqualsUtils;
 import org.gbif.api.util.validators.email.ValidEmail;
 import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
-
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import io.swagger.v3.oas.annotations.Hidden;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
 
 /**
  * A group of specimens or other natural history objects. Types of collections can be: specimens,
@@ -252,18 +245,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Schema(description = "Other collections incorporated into this collection.")
   @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
   private List<String> incorporatedCollections = new ArrayList<>();
-
-  @Setter
-  @Getter
-  @Schema(description = "Important collectors who have specimens in this collection.")
-  @Sourceable(masterSources = MasterSourceType.IH)
-  private List<String> importantCollectors = new ArrayList<>();
-
-  @Setter
-  @Getter
-  @Schema(description = "A summary of metrics of the collection.")
-  @Sourceable(masterSources = MasterSourceType.IH)
-  private Map<String, Integer> collectionSummary = new HashMap<>();
 
   @Schema(description = "Alternative codes for this collection.")
   private List<AlternativeCode> alternativeCodes = new ArrayList<>();
@@ -733,8 +714,6 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
         && Objects.equals(geographicCoverage, other.geographicCoverage)
         && Objects.equals(notes, other.notes)
         && Objects.equals(incorporatedCollections, other.incorporatedCollections)
-        && Objects.equals(importantCollectors, other.importantCollectors)
-        && Objects.equals(collectionSummary, other.collectionSummary)
         && Objects.equals(alternativeCodes, other.alternativeCodes)
         && Objects.equals(comments, other.comments)
         && Objects.equals(occurrenceMappings, other.occurrenceMappings)
