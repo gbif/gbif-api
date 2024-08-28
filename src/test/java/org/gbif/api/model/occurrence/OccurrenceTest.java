@@ -127,9 +127,9 @@ public class OccurrenceTest {
   public void testGetHigherClassificationMap() {
     Occurrence occ = new Occurrence();
     occ.setFamily("Plants family");
-    occ.setFamilyKey(String.valueOf(16));
+    occ.setFamilyKey(16);
     occ.setKingdom("Plants");
-    occ.setKingdomKey(String.valueOf(6));
+    occ.setKingdomKey(6);
 
     assertEquals(2, occ.getHigherClassificationMap().size());
     assertTrue(occ.getHigherClassificationMap().containsKey(16));
@@ -137,10 +137,10 @@ public class OccurrenceTest {
     assertTrue(occ.getHigherClassificationMap().containsValue("Plants"));
     assertTrue(occ.getHigherClassificationMap().containsValue("Plants family"));
 
-    occ.setTaxonKey(String.valueOf(200));
+    occ.setTaxonKey(200);
     assertEquals(2, occ.getHigherClassificationMap().size());
 
-    occ.setTaxonKey(String.valueOf(16));
+    occ.setTaxonKey(16);
     assertEquals(1, occ.getHigherClassificationMap().size());
     assertTrue(occ.getHigherClassificationMap().containsKey(6));
     assertTrue(occ.getHigherClassificationMap().containsValue("Plants"));
@@ -152,9 +152,9 @@ public class OccurrenceTest {
   public void testGetHigherTaxon() {
     Occurrence occ = new Occurrence();
     occ.setFamily("Plants family");
-    occ.setFamilyKey(String.valueOf(16));
+    occ.setFamilyKey(16);
     occ.setKingdom("Plants");
-    occ.setKingdomKey(String.valueOf(6));
+    occ.setKingdomKey(6);
 
     assertEquals(6, occ.getHigherRankKey(Rank.KINGDOM));
     assertEquals("Plants", occ.getHigherRank(Rank.KINGDOM));
@@ -204,9 +204,9 @@ public class OccurrenceTest {
   public void testJsonSerde() throws IOException {
     Occurrence occ = new Occurrence();
     occ.setFamily("Plants family");
-    occ.setFamilyKey(String.valueOf(16));
+    occ.setFamilyKey(16);
     occ.setKingdom("Plants");
-    occ.setKingdomKey(String.valueOf(6));
+    occ.setKingdomKey(6);
     occ.setCoordinateUncertaintyInMeters(25.5);
 
     occ.getVerbatimFields().put(DwcTerm.catalogNumber, "MD10782");
@@ -261,7 +261,7 @@ public class OccurrenceTest {
     o.setCountry(Country.ALBANIA);
     o.setContinent(Continent.AFRICA);
     o.setBasisOfRecord(BasisOfRecord.OBSERVATION);
-    o.setTaxonKey(String.valueOf(212));
+    o.setTaxonKey(212);
     o.setDay(21);
     o.setMonth(1);
     o.setYear(1973);
@@ -331,7 +331,7 @@ public class OccurrenceTest {
     Occurrence o = new Occurrence();
     o.setKey(7L);
     o.setCountry(Country.ALGERIA);
-    o.setClassKey(String.valueOf(999));
+    o.setClassKey(999);
     o.setClazz("Insecta");
     o.setVerbatimField(DwcTerm.recordedBy, "Sankt Nikolaus");
 
@@ -378,7 +378,7 @@ public class OccurrenceTest {
     Occurrence o = new Occurrence();
     o.setKey(7L);
     o.setCountry(Country.ALGERIA);
-    o.setClassKey(String.valueOf(999));
+    o.setClassKey(999);
     o.setClazz("Insecta");
     o.setVerbatimField(DwcTerm.recordedBy, "Sankt Nikolaus");
     MediaObject mediaObject = new MediaObject();

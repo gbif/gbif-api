@@ -32,12 +32,12 @@ public class KingdomTest {
 
   @Test
   public void testNubUsageKey() {
-    assertEquals(0, Kingdom.INCERTAE_SEDIS.nubUsageKey());
-    assertEquals(1, Kingdom.ANIMALIA.nubUsageKey());
-    assertEquals(6, Kingdom.PLANTAE.nubUsageKey());
+    assertEquals("0", Kingdom.INCERTAE_SEDIS.nubUsageKey());
+    assertEquals("1", Kingdom.ANIMALIA.nubUsageKey());
+    assertEquals("6", Kingdom.PLANTAE.nubUsageKey());
 
     for (Kingdom k : Kingdom.values()) {
-      assertEquals(k.ordinal(), k.nubUsageKey());
+      assertEquals(String.valueOf(k.ordinal()), k.nubUsageKey());
     }
   }
 

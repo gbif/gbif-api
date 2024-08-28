@@ -21,7 +21,10 @@ import javax.annotation.Nullable;
 
 /**
  * A flat taxonomic classification using the major, Linnean ranks with verbatim names and integer based keys.
+ *
+ * @deprecated
  */
+@Deprecated
 public interface LinneanClassificationKeys {
 
   /**
@@ -31,12 +34,12 @@ public interface LinneanClassificationKeys {
    * @return the classKey
    */
   @Nullable
-  String getClassKey();
+  Integer getClassKey();
 
   /**
    * @param classKey the classKey to set
    */
-  void setClassKey(String classKey);
+  void setClassKey(Integer classKey);
 
   /**
    * Return the family key for this usage. If the usage is for something above the "family" taxonomic level,
@@ -45,12 +48,12 @@ public interface LinneanClassificationKeys {
    * @return the familyKey
    */
   @Nullable
-  String getFamilyKey();
+  Integer getFamilyKey();
 
   /**
    * @param familyKey the familyKey to set
    */
-  void setFamilyKey(String familyKey);
+  void setFamilyKey(Integer familyKey);
 
   /**
    * Return the genus key for this usage. If the usage is for something above the "genus" taxonomic level,
@@ -59,12 +62,12 @@ public interface LinneanClassificationKeys {
    * @return the genusKey
    */
   @Nullable
-  String getGenusKey();
+  Integer getGenusKey();
 
   /**
    * @param genusKey the genusKey to set
    */
-  void setGenusKey(String genusKey);
+  void setGenusKey(Integer genusKey);
 
   /**
    * Return the kingdom key for this usage. If the usage is for something above the "kingdom" taxonomic level,
@@ -73,12 +76,12 @@ public interface LinneanClassificationKeys {
    * @return the kingdomKey
    */
   @Nullable
-  String getKingdomKey();
+  Integer getKingdomKey();
 
   /**
    * @param kingdomKey the kingdomKey to set
    */
-  void setKingdomKey(String kingdomKey);
+  void setKingdomKey(Integer kingdomKey);
 
   /**
    * Return the order key for this usage. If the usage is for something above the "order" taxonomic level,
@@ -87,12 +90,12 @@ public interface LinneanClassificationKeys {
    * @return the orderKey
    */
   @Nullable
-  String getOrderKey();
+  Integer getOrderKey();
 
   /**
    * @param orderKey the orderKey to set
    */
-  void setOrderKey(String orderKey);
+  void setOrderKey(Integer orderKey);
 
   /**
    * Return the phylum key for this usage. If the usage is for something above the "phylum" taxonomic level,
@@ -101,12 +104,12 @@ public interface LinneanClassificationKeys {
    * @return the phylumKey
    */
   @Nullable
-  String getPhylumKey();
+  Integer getPhylumKey();
 
   /**
    * @param phylumKey the phylumKey to set
    */
-  void setPhylumKey(String phylumKey);
+  void setPhylumKey(Integer phylumKey);
 
   /**
    * Return the species key for this usage. If the usage is for something above the "species" taxonomic level,
@@ -115,12 +118,12 @@ public interface LinneanClassificationKeys {
    * @return the speciesKey
    */
   @Nullable
-  String getSpeciesKey();
+  Integer getSpeciesKey();
 
   /**
    * @param speciesKey the speciesKey to set
    */
-  void setSpeciesKey(String speciesKey);
+  void setSpeciesKey(Integer speciesKey);
 
   /**
    * Return the subgenus key for this usage.
@@ -129,12 +132,12 @@ public interface LinneanClassificationKeys {
    * @return subgenusKey
    */
   @Nullable
-  String getSubgenusKey();
+  Integer getSubgenusKey();
 
   /**
    * @param subgenusKey the subgenus usage key
    */
-  void setSubgenusKey(String subgenusKey);
+  void setSubgenusKey(Integer subgenusKey);
 
   /**
    * Gets a higher taxon key by passing the rank of it.
@@ -145,5 +148,5 @@ public interface LinneanClassificationKeys {
    * @return the key of the higher taxon or null if rank doesnt exist
    */
   @Nullable
-  String getHigherRankKey(Rank rank);
+  Integer getHigherRankKey(Rank rank);
 }

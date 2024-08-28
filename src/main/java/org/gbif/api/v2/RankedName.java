@@ -15,8 +15,6 @@
  */
 package org.gbif.api.v2;
 
-import org.gbif.api.vocabulary.Rank;
-
 import java.util.Objects;
 
 /**
@@ -25,12 +23,12 @@ import java.util.Objects;
 public class RankedName {
   private String key;
   private String name;
-  private Rank rank;
+  private String rank;
 
   public RankedName() {
   }
 
-  public RankedName(String key, String name, Rank rank) {
+  public RankedName(String key, String name, String rank) {
     this.key = key;
     this.name = name;
     this.rank = rank;
@@ -52,11 +50,11 @@ public class RankedName {
     this.name = name;
   }
 
-  public Rank getRank() {
+  public String getRank() {
     return rank;
   }
 
-  public void setRank(Rank rank) {
+  public void setRank(String rank) {
     this.rank = rank;
   }
 
