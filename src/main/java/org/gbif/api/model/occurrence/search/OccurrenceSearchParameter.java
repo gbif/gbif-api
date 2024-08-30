@@ -43,6 +43,11 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   DATASET_KEY(UUID.class),
 
   /**
+   * The checklist key to use for taxonomy matching.
+   */
+  CHECKLIST_KEY(String.class),
+
+  /**
    * The 4 digit year. A year of 98 will be 98 common era, not 1998.
    * This parameter accepts comma separated range values, e.g.:
    * <dl>

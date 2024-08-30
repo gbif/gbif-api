@@ -27,6 +27,7 @@ public interface InterpretationType extends Serializable {
     TEMPORAL,
     LOCATION,
     TAXONOMY,
+    MULTI_TAXONOMY,
     GRSCICOLL,
     EVENT,
     // Extension types
