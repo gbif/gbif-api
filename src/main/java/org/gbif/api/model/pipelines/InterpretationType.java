@@ -83,6 +83,7 @@ public interface InterpretationType extends Serializable {
           TEMPORAL,
           LOCATION,
           TAXONOMY,
+          MULTI_TAXONOMY,
           GRSCICOLL,
           // Extension types
           IMAGE,
