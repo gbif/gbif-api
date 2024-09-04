@@ -33,6 +33,7 @@ public enum LiteratureSearchParameter implements SearchParameter {
   LITERATURE_TYPE(LiteratureType.class),
   RELEVANCE(LiteratureRelevance.class),
   YEAR(Integer.class),
+  WEBSITES(String.class),
   TOPICS(LiteratureTopic.class),
   GBIF_DATASET_KEY(UUID.class), // dataset
   PUBLISHING_ORGANIZATION_KEY(UUID.class), // publisher
