@@ -26,6 +26,7 @@ import java.util.stream.Stream;
  * @see <a href="http://rs.gbif.org/vocabulary/gbif/type_status_2021-01-18.xml">rs.gbif.org vocabulary</a>
  * @see <a href="http://www.bgbm.org/TDWG/CODATA/Schema/ABCD_2.06/HTML/ABCD_2.06.html#element_NomenclaturalTypeDesignations_Link">Types in ABCD</a>
  */
+@Deprecated
 public enum TypeStatus {
 
   /**
