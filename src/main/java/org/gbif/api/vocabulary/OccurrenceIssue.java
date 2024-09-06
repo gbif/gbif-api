@@ -336,6 +336,11 @@ public enum OccurrenceIssue implements InterpretationRemark {
    */
   TYPE_STATUS_INVALID(WARNING, DwcTerm.typeStatus),
 
+  /**
+   * The given type status contains some words that express uncertainty.
+   */
+  SUSPECTED_TYPE(WARNING, DwcTerm.typeStatus),
+
   /** An invalid date is given for dc:created of a multimedia object. */
   MULTIMEDIA_DATE_INVALID(WARNING),
 
