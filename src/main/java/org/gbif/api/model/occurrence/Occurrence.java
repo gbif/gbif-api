@@ -287,6 +287,17 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private String scientificName;  // the interpreted name matching taxonKey
 
   @Schema(
+    description = "The scientific name authorship for the taxon from the " +
+      "[GBIF backbone](https://doi.org/10.15468/39omei) matched to this occurrence.  This could be a synonym, see " +
+      "also `acceptedScientificName`.",
+    externalDocs = @ExternalDocumentation(
+      description = "Darwin Core definition",
+      url = "https://rs.tdwg.org/dwc/terms/"
+    )
+  )
+  private String scientificNameAuthorship;
+
+  @Schema(
     description = "The accepted scientific name (including authorship) for the taxon from the " +
       "[GBIF backbone](https://doi.org/10.15468/39omei) matched to this occurrence.",
     externalDocs = @ExternalDocumentation(
@@ -1336,6 +1347,18 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
 
   public void setScientificName(@Nullable String scientificName) {
     this.scientificName = scientificName;
+  }
+
+  /**
+   * The scientific name authorship for taxonKey from the GBIF backbone.
+   */
+  @Nullable
+  public String getScientificNameAuthorship() {
+    return scientificNameAuthorship;
+  }
+
+  public void setScientificNameAuthorship(String scientificNameAuthorship) {
+    this.scientificNameAuthorship = scientificNameAuthorship;
   }
 
   /**
