@@ -13,6 +13,7 @@
  */
 package org.gbif.api.service.collections;
 
+import org.gbif.api.model.collections.CollectionEntity;
 import org.gbif.api.model.collections.Contact;
 
 import java.util.List;
@@ -20,6 +21,8 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import org.gbif.api.model.collections.suggestions.ChangeSuggestion;
 
 /** API Service for the contacts in the collections service. */
 public interface ContactService {
@@ -63,4 +66,12 @@ public interface ContactService {
    * @param newContactPersons contact persons that will replace the existing ones.
    */
   void replaceContactPersons(@NotNull UUID entityKey, List<@Valid Contact> newContactPersons);
+
+  /**
+   * Adds a {@link Contact} IH contact to an entity.
+   *
+   * @param entityKey key of the entity where the contact will be added to.
+   * @param changeSuggestion suggestion to get contacts from
+   */
+  <T extends CollectionEntity> void addSuggestionContacts(@NotNull UUID entityKey, @NotNull ChangeSuggestion<T> changeSuggestion);
 }
