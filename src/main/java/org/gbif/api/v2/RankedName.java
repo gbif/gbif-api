@@ -15,73 +15,17 @@
  */
 package org.gbif.api.v2;
 
-import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-/**
- *
- */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RankedName {
+
   private String key;
   private String name;
   private String rank;
-
-  public RankedName() {
-  }
-
-  public RankedName(String key, String name, String rank) {
-    this.key = key;
-    this.name = name;
-    this.rank = rank;
-  }
-
-  public String getKey() {
-    return key;
-  }
-
-  public void setKey(String key) {
-    this.key = key;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getRank() {
-    return rank;
-  }
-
-  public void setRank(String rank) {
-    this.rank = rank;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    RankedName u = (RankedName) o;
-    return key == u.key &&
-        Objects.equals(name, u.name) &&
-        rank == u.rank;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(key, name, rank);
-  }
-
-  @Override
-  public String toString() {
-    return new StringBuilder()
-        .append(name)
-        .append(" [")
-        .append(key)
-        .append(',')
-        .append(rank)
-        .append(']')
-        .toString();
-  }
+  private String authorship;
 }
