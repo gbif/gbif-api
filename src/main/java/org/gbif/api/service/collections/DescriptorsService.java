@@ -95,4 +95,21 @@ public interface DescriptorsService {
    * @return the names
    */
   Set<String> getVerbatimNames(long descriptorGroupKey);
+
+  /**
+   * Reinterprets a descriptor group.
+   *
+   * @param descriptorGroupKey key of the descriptor group.
+   */
+  void reinterpretDescriptorGroup(@NotNull long descriptorGroupKey);
+
+  /**
+   * Reinterprets all the descriptor groups of a collection.
+   *
+   * @param collectionKey key of the collection
+   */
+  void reinterpretCollectionDescriptorGroups(@NotNull UUID collectionKey);
+
+  /** Reinterprets all the descriptor groups of all collections. */
+  void reinterpretAllDescriptorGroups();
 }
