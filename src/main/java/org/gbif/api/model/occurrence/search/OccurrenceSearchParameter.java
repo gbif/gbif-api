@@ -50,40 +50,7 @@ import java.util.UUID;
  */
 public class OccurrenceSearchParameter implements SearchParameter, Serializable {
 
-  public static class OccurrenceSearchParameterDeserializer extends JsonDeserializer<OccurrenceSearchParameter> {
 
-    @Override
-    public OccurrenceSearchParameter deserialize(com.fasterxml.jackson.core.JsonParser jsonParser, com.fasterxml.jackson.databind.DeserializationContext deserializationContext) throws IOException, JacksonException {
-
-//      JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-
-      Field[] values = OccurrenceSearchParameter.class.getFields();
-      try {
-        String value = jsonParser.getText();
-        for (Field field: values) {
-          if (field.getName().equalsIgnoreCase(value)) {
-            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);
-          }
-        }
-      } catch (IllegalAccessException e) {
-       // throw new RuntimeException(e);
-      }
-
-      try {
-        ObjectNode node = jsonParser.getCodec().readTree(jsonParser);
-        String value = node.get("name").asText();
-        for (Field field: values) {
-          if (field.getName().equalsIgnoreCase(value)) {
-            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);
-          }
-        }
-      } catch (Exception e) {
-//        throw new RuntimeException(e);
-      }
-
-      return null;
-    }
-  }
 
   /**
    * The dataset key as a UUID.
@@ -849,21 +816,6 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
    */
   public final static OccurrenceSearchParameter BIOSTRATIGRAPHY = new OccurrenceSearchParameter("BIOSTRATIGRAPHY", String.class);
 
-  /**
-   * Searchs in the chronostratigraphy fields(eon, era, period, epoch, age).
-   */
-  public final static OccurrenceSearchParameter CHRONOSTRATIGRAPHY = new OccurrenceSearchParameter("CHRONOSTRATIGRAPHY", String.class);
-
-  /**
-   * Searchs in the lithology fields.
-   */
-  public final static OccurrenceSearchParameter LITHOLOGY = new OccurrenceSearchParameter("LITHOLOGY", String.class);
-
-  /**
-   * Searchs in the event fields.
-   */
-  public final static OccurrenceSearchParameter EVENT = new OccurrenceSearchParameter("EVENT", String.class);
-
   public static OccurrenceSearchParameter[] values(){
 
     Field[] values = OccurrenceSearchParameter.class.getFields();
@@ -950,5 +902,38 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
       }
     }
     return Optional.empty();
+  }
+
+  public static class OccurrenceSearchParameterDeserializer extends JsonDeserializer<OccurrenceSearchParameter> {
+
+    @Override
+    public OccurrenceSearchParameter deserialize(com.fasterxml.jackson.core.JsonParser jsonParser, com.fasterxml.jackson.databind.DeserializationContext deserializationContext) throws IOException, JacksonException {
+
+      Field[] values = OccurrenceSearchParameter.class.getFields();
+      try {
+        String value = jsonParser.getText();
+        for (Field field: values) {
+          if (field.getName().equalsIgnoreCase(value)) {
+            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);
+          }
+        }
+      } catch (IllegalAccessException e) {
+        // DO NOTHING
+      }
+
+      try {
+        ObjectNode node = jsonParser.getCodec().readTree(jsonParser);
+        String value = node.get("name").asText();
+        for (Field field: values) {
+          if (field.getName().equalsIgnoreCase(value)) {
+            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);
+          }
+        }
+      } catch (Exception e) {
+        // DO NOTHING
+      }
+
+      return null;
+    }
   }
 }
