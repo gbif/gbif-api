@@ -13,6 +13,12 @@
  */
 package org.gbif.api.model.occurrence.search;
 import com.fasterxml.jackson.annotation.*;
+
+import com.fasterxml.jackson.core.JacksonException;
+
+import com.fasterxml.jackson.databind.JsonDeserializer;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.util.IsoDateInterval;
 import org.gbif.api.vocabulary.BasisOfRecord;
@@ -28,9 +34,10 @@ import org.gbif.api.vocabulary.Sex;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.TypeStatus;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -41,7 +48,42 @@ import java.util.UUID;
  * Supported query parameters by the occurrence search and download service.
  * For download predicates only the numerical types support comparisons other than equals.
  */
-public class OccurrenceSearchParameter implements SearchParameter {
+public class OccurrenceSearchParameter implements SearchParameter, Serializable {
+
+  public static class OccurrenceSearchParameterDeserializer extends JsonDeserializer<OccurrenceSearchParameter> {
+
+    @Override
+    public OccurrenceSearchParameter deserialize(com.fasterxml.jackson.core.JsonParser jsonParser, com.fasterxml.jackson.databind.DeserializationContext deserializationContext) throws IOException, JacksonException {
+
+//      JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+
+      Field[] values = OccurrenceSearchParameter.class.getFields();
+      try {
+        String value = jsonParser.getText();
+        for (Field field: values) {
+          if (field.getName().equalsIgnoreCase(value)) {
+            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);
+          }
+        }
+      } catch (IllegalAccessException e) {
+       // throw new RuntimeException(e);
+      }
+
+      try {
+        ObjectNode node = jsonParser.getCodec().readTree(jsonParser);
+        String value = node.get("name").asText();
+        for (Field field: values) {
+          if (field.getName().equalsIgnoreCase(value)) {
+            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);
+          }
+        }
+      } catch (Exception e) {
+//        throw new RuntimeException(e);
+      }
+
+      return null;
+    }
+  }
 
   /**
    * The dataset key as a UUID.
@@ -836,8 +878,10 @@ public class OccurrenceSearchParameter implements SearchParameter {
     return c.toArray(new OccurrenceSearchParameter[0]);
   }
 
-  private final Class<?> type;
-  private final String name;
+  private Class<?> type;
+  private String name;
+
+  public OccurrenceSearchParameter() {}
 
   public OccurrenceSearchParameter(String name, Class<?> type) {
     this.name = name;
@@ -879,8 +923,6 @@ public class OccurrenceSearchParameter implements SearchParameter {
   public String getSerializedValue() {
     return name;
   }
-
-
 
   @Override
   public int hashCode() {
