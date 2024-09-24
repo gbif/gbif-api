@@ -780,7 +780,22 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Unique GBIF key for the occurrence.
    */
-  GBIF_ID(String.class);
+  GBIF_ID(String.class),
+
+  /**
+   * Geological time of an occurrence that searchs in the chronostratigraphy fields.
+   */
+  GEOLOGICAL_TIME(String.class),
+
+  /**
+   * Searchs in the lithostratigraphy fields(bed, formation, group, member).
+   */
+  LITHOSTRATIGRAPHY(String.class),
+
+  /**
+   * Searchs in the biostratigraphy fields(lowest and highest biostratigraphy).
+   */
+  BIOSTRATIGRAPHY(String.class);
 
   private final Class<?> type;
 

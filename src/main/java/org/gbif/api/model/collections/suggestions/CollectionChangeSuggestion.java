@@ -15,7 +15,69 @@
  */
 package org.gbif.api.model.collections.suggestions;
 
+import java.util.Objects;
+
+import lombok.Getter;
+import lombok.Setter;
+
 import org.gbif.api.model.collections.Collection;
 
+@Getter
+@Setter
 public class CollectionChangeSuggestion extends BaseChangeSuggestion<Collection> {
+
+  private String ihIdentifier;
+
+  private Boolean createInstitution;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    if (!super.equals(o)) {
+      return false;
+    }
+    CollectionChangeSuggestion that = (CollectionChangeSuggestion) o;
+    return Objects.equals(ihIdentifier, that.ihIdentifier)
+      && Objects.equals(createInstitution, that.createInstitution);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      super.hashCode(),
+      ihIdentifier,
+      createInstitution);
+  }
+
+  @Override
+  public String toString() {
+    return "CollectionChangeSuggestion{" +
+      "ihIdentifier='" + ihIdentifier + '\'' +
+      ", createInstitution=" + createInstitution +
+      ", key=" + getKey() +
+      ", type=" + getType() +
+      ", status=" + getStatus() +
+      ", entityKey=" + getEntityKey() +
+      ", entityName='" + getEntityName() + '\'' +
+      ", entityCountry=" + getEntityCountry() +
+      ", suggestedEntity=" + getSuggestedEntity() +
+      ", proposed=" + getProposed() +
+      ", proposedBy='" + getProposedBy() + '\'' +
+      ", proposerEmail='" + getProposerEmail() + '\'' +
+      ", applied=" + getApplied() +
+      ", appliedBy='" + getAppliedBy() + '\'' +
+      ", discarded=" + getDiscarded() +
+      ", discardedBy='" + getDiscardedBy() + '\'' +
+      ", comments=" + getComments() +
+      ", mergeTargetKey=" + getMergeTargetKey() +
+      ", changes=" + getChanges() +
+      ", modified=" + getModified() +
+      ", modifiedBy='" + getModifiedBy() + '\'' +
+      '}';
+  }
 }

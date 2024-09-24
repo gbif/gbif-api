@@ -47,5 +47,6 @@ public interface ChangeSuggestionService<
       @Nullable Type type,
       @Nullable String proposedBy,
       @Nullable UUID entityKey,
+      @Nullable String ihIdentifier,
       @Nullable Pageable page);
 }

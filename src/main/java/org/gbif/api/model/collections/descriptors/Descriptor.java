@@ -16,7 +16,7 @@ import org.gbif.api.vocabulary.TypeStatus;
 public class Descriptor implements Serializable {
 
   private long key;
-  private Long descriptorSetKey;
+  private Long descriptorGroupKey;
   private Integer usageKey;
   private String usageName;
   private Rank usageRank;

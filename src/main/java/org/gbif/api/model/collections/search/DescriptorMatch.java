@@ -5,12 +5,11 @@ import java.util.List;
 import lombok.Data;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Rank;
-import org.gbif.api.vocabulary.TypeStatus;
 
 @Data
 public class DescriptorMatch {
   private Long key;
-  private Long descriptorSetKey;
+  private Long descriptorGroupKey;
   private String usageName;
   private Long usageKey;
   private Rank usageRank;
