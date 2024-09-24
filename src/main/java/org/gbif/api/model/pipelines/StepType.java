@@ -13,10 +13,13 @@
  */
 package org.gbif.api.model.pipelines;
 
+import java.util.EnumSet;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import org.gbif.api.annotation.Experimental;
 
 /** Enum to represent the pipelines step names. */
 @Getter
@@ -37,6 +40,8 @@ public enum StepType {
   VERBATIM_TO_INTERPRETED("verbatimToInterpreted"),
   INTERPRETED_TO_INDEX("interpretedToIndex"),
   HDFS_VIEW("hdfsView"),
+  @Experimental
+  DATA_WAREHOUSE("dataWarehouse"),
 
   // Event interpretation
   EVENTS_VERBATIM_TO_INTERPRETED("eventsVerbatimToInterpreted"),
@@ -57,13 +62,13 @@ public enum StepType {
   private final String label;
 
   private static final Set<StepType> VERBATIM_TYPE =
-      Set.of(TO_VERBATIM, DWCA_TO_VERBATIM, XML_TO_VERBATIM, ABCD_TO_VERBATIM, FRAGMENTER);
+    EnumSet.of(TO_VERBATIM, DWCA_TO_VERBATIM, XML_TO_VERBATIM, ABCD_TO_VERBATIM, FRAGMENTER);
 
   private static final Set<StepType> OCCURRENCE_TYPE =
-      Set.of(VERBATIM_TO_IDENTIFIER, VERBATIM_TO_INTERPRETED, INTERPRETED_TO_INDEX, HDFS_VIEW);
+      EnumSet.of(VERBATIM_TO_IDENTIFIER, VERBATIM_TO_INTERPRETED, INTERPRETED_TO_INDEX, HDFS_VIEW);
 
   private static final Set<StepType> EVENT_TYPE =
-      Set.of(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_INTERPRETED_TO_INDEX, EVENTS_HDFS_VIEW);
+    EnumSet.of(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_INTERPRETED_TO_INDEX, EVENTS_HDFS_VIEW);
 
   public static boolean isEventType(StepType type) {
     return EVENT_TYPE.contains(type);

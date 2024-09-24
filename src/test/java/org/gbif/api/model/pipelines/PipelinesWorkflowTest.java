@@ -39,9 +39,9 @@ public class PipelinesWorkflowTest {
 
     Set<StepType> allNodesFor = PipelinesWorkflow.getOccurrenceWorkflow().getAllNodesFor(types);
 
-    Assertions.assertEquals(5, allNodesFor.size());
+    Assertions.assertEquals(6, allNodesFor.size());
     Assertions.assertTrue(allNodesFor.containsAll(
-      Arrays.asList(VERBATIM_TO_IDENTIFIER, VERBATIM_TO_INTERPRETED, HDFS_VIEW, INTERPRETED_TO_INDEX, FRAGMENTER)));
+      Arrays.asList(VERBATIM_TO_IDENTIFIER, VERBATIM_TO_INTERPRETED, HDFS_VIEW, INTERPRETED_TO_INDEX, FRAGMENTER, DATA_WAREHOUSE)));
   }
 
   @Test
@@ -51,7 +51,7 @@ public class PipelinesWorkflowTest {
 
     Set<StepType> allNodesFor = PipelinesWorkflow.getEventOccurrenceWorkflow().getAllNodesFor(types);
 
-    Assertions.assertEquals(5, allNodesFor.size());
+    Assertions.assertEquals(6, allNodesFor.size());
     Assertions.assertTrue(allNodesFor.containsAll(
       Arrays.asList(HDFS_VIEW, INTERPRETED_TO_INDEX, EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_HDFS_VIEW,
         EVENTS_INTERPRETED_TO_INDEX)));
@@ -98,7 +98,7 @@ public class PipelinesWorkflowTest {
 
     Graph<StepType> wf = PipelinesWorkflow.getEventOccurrenceWorkflow();
 
-    Assertions.assertEquals(9, wf.getNodesQuantity());
+    Assertions.assertEquals(10, wf.getNodesQuantity());
 
     Assertions.assertEquals(1, wf.getLevel(DWCA_TO_VERBATIM));
     Assertions.assertEquals(2, wf.getLevel(VERBATIM_TO_IDENTIFIER));
@@ -152,7 +152,7 @@ public class PipelinesWorkflowTest {
 
     // EVENTS_HDFS_VIEW -> 0
     List<Graph<StepType>.Edge> eventsHdfsViewEdges = wf.getNodeEdges(EVENTS_HDFS_VIEW);
-    Assertions.assertEquals(0, eventsHdfsViewEdges.size());
+    Assertions.assertEquals(1, eventsHdfsViewEdges.size());
   }
 
   @Test
@@ -160,12 +160,13 @@ public class PipelinesWorkflowTest {
 
     Graph<StepType> wf = PipelinesWorkflow.getEventWorkflow();
 
-    Assertions.assertEquals(4, wf.getNodesQuantity());
+    Assertions.assertEquals(5, wf.getNodesQuantity());
 
     Assertions.assertEquals(1, wf.getLevel(DWCA_TO_VERBATIM));
     Assertions.assertEquals(2, wf.getLevel(EVENTS_VERBATIM_TO_INTERPRETED));
     Assertions.assertEquals(3, wf.getLevel(EVENTS_INTERPRETED_TO_INDEX));
     Assertions.assertEquals(3, wf.getLevel(EVENTS_HDFS_VIEW));
+    Assertions.assertEquals(4, wf.getLevel(DATA_WAREHOUSE));
 
     // DWCA_TO_VERBATIM -> EVENTS_VERBATIM_TO_INTERPRETED
     List<Graph<StepType>.Edge> dwcaToVerbatimEdges = wf.getNodeEdges(DWCA_TO_VERBATIM);
@@ -184,7 +185,7 @@ public class PipelinesWorkflowTest {
 
     // EVENTS_HDFS_VIEW -> 0
     List<Graph<StepType>.Edge> eventsHdfsViewEdges = wf.getNodeEdges(EVENTS_HDFS_VIEW);
-    Assertions.assertEquals(0, eventsHdfsViewEdges.size());
+    Assertions.assertEquals(1, eventsHdfsViewEdges.size());
   }
 
   @Test
@@ -200,8 +201,9 @@ public class PipelinesWorkflowTest {
     Assertions.assertEquals(4, wf.getLevel(INTERPRETED_TO_INDEX));
     Assertions.assertEquals(4, wf.getLevel(HDFS_VIEW));
     Assertions.assertEquals(4, wf.getLevel(FRAGMENTER));
+    Assertions.assertEquals(5, wf.getLevel(DATA_WAREHOUSE));
 
-    Assertions.assertEquals(8, wf.getNodesQuantity());
+    Assertions.assertEquals(9, wf.getNodesQuantity());
 
     // DWCA_TO_VERBATIM -> VERBATIM_TO_IDENTIFIER
     List<Graph<StepType>.Edge> dwcaToVerbatimEdges = wf.getNodeEdges(DWCA_TO_VERBATIM);
@@ -236,7 +238,7 @@ public class PipelinesWorkflowTest {
 
     // HDFS_VIEW -> 0
     List<Graph<StepType>.Edge> hdfsViewEdges = wf.getNodeEdges(HDFS_VIEW);
-    Assertions.assertEquals(0, hdfsViewEdges.size());
+    Assertions.assertEquals(1, hdfsViewEdges.size());
 
     // FRAGMENTER -> 0
     List<Graph<StepType>.Edge> fragmenterEdges = wf.getNodeEdges(FRAGMENTER);
