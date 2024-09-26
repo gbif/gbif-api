@@ -931,14 +931,20 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
     @Override
     public OccurrenceSearchParameter deserialize(com.fasterxml.jackson.core.JsonParser jsonParser, com.fasterxml.jackson.databind.DeserializationContext deserializationContext) throws IOException, JacksonException {
 
+      // FIXME this logic will be moved out of this api class...
       Field[] values = OccurrenceSearchParameter.class.getFields();
       try {
         String value = jsonParser.getText();
+        if (value.startsWith("TAXON_DEPTH_")) {
+          return new OccurrenceSearchParameter(value, String.class);
+        }
+
         for (Field field: values) {
           if (field.getName().equalsIgnoreCase(value)) {
             return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);
           }
         }
+
       } catch (IllegalAccessException e) {
         // DO NOTHING
       }
