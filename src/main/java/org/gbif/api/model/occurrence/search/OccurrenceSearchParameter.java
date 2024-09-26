@@ -16,8 +16,11 @@ import com.fasterxml.jackson.annotation.*;
 
 import com.fasterxml.jackson.core.JacksonException;
 
+import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
+import com.fasterxml.jackson.databind.KeyDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.util.IsoDateInterval;
@@ -48,9 +51,8 @@ import java.util.UUID;
  * Supported query parameters by the occurrence search and download service.
  * For download predicates only the numerical types support comparisons other than equals.
  */
+@JsonDeserialize(as = OccurrenceSearchParameter.class, using = OccurrenceSearchParameter.OccurrenceSearchParameterDeserializer.class)
 public class OccurrenceSearchParameter implements SearchParameter, Serializable {
-
-
 
   /**
    * The dataset key as a UUID.
@@ -902,6 +904,25 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
       }
     }
     return Optional.empty();
+  }
+
+
+  public static class OccurrenceSearchParameterKeyDeserializer extends KeyDeserializer {
+
+    @Override
+    public Object deserializeKey(String value, DeserializationContext deserializationContext) throws IOException {
+      Field[] values = OccurrenceSearchParameter.class.getFields();
+      try {
+        for (Field field: values) {
+          if (field.getName().equalsIgnoreCase(value)) {
+            return (OccurrenceSearchParameter) field.get(OccurrenceSearchParameter.class);
+          }
+        }
+      } catch (IllegalAccessException e) {
+        // DO NOTHING
+      }
+      return null;
+    }
   }
 
   public static class OccurrenceSearchParameterDeserializer extends JsonDeserializer<OccurrenceSearchParameter> {

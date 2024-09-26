@@ -62,12 +62,30 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
   @Nullable
   private final Boolean matchCase;
 
+  @Schema(
+    description = "Whether to use ."
+  )
+  @Experimental
+  @Nullable
+  private final String checklistKey;
+
+  public InPredicate(
+    S key,
+    Collection<String> values,
+    Boolean matchCase
+  ) {
+    this(key, values, matchCase, null);
+  }
+
   @JsonCreator
   public InPredicate(
       @JsonProperty("key") S key,
       @JsonProperty("values") Collection<String> values,
-      @JsonProperty(value = "matchCase") Boolean matchCase) {
+      @Nullable @JsonProperty(value = "matchCase") Boolean matchCase,
+      @Nullable @JsonProperty(value = "checklistKey") String checklistKey
+    ) {
     this.matchCase = matchCase;
+    this.checklistKey = checklistKey;
     Objects.requireNonNull(key, "<key> may not be null");
     Objects.requireNonNull(values, "<values> may not be null");
     checkArgument(!values.isEmpty(), "<values> may not be empty");
@@ -104,6 +122,11 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
     return Optional.ofNullable(matchCase).orElse(Boolean.FALSE);
   }
 
+  @Experimental
+  public String getChecklistKey() {
+    return checklistKey;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -113,12 +136,15 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
       return false;
     }
     InPredicate<S> that = (InPredicate<S>) o;
-    return key == that.key && Objects.equals(values, that.values) && matchCase == that.matchCase;
+    return key == that.key
+      && Objects.equals(values, that.values)
+      && matchCase == that.matchCase
+      && Objects.equals(checklistKey, that.checklistKey);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, values, matchCase);
+    return Objects.hash(key, values, matchCase, checklistKey);
   }
 
   @Override
@@ -127,6 +153,7 @@ public class InPredicate<S extends SearchParameter> implements Predicate {
       .add("key=" + key)
       .add("values=" + values)
       .add("matchCase=" + matchCase)
+      .add("checklistKey=" + checklistKey)
       .toString();
   }
 }

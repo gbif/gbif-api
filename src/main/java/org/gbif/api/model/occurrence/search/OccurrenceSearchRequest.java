@@ -278,4 +278,9 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
   public void addCollectionKeyFilter(String collectionKey) {
     addParameter(OccurrenceSearchParameter.COLLECTION_KEY, collectionKey);
   }
+
+  @Experimental
+  public void addChecklistKeyFilter(String checklistKey) {
+    addParameter(OccurrenceSearchParameter.CHECKLIST_KEY, checklistKey);
+  }
 }
