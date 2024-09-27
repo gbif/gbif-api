@@ -299,7 +299,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * The sex of the biological individual(s) represented in the occurrence.
    */
-  SEX(Sex.class),
+  SEX(String.class),
 
   /**
    * Presents of associated sequences or an extension
@@ -433,7 +433,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Nomenclatural type (type status, typified scientific name, publication) applied to the subject.
    */
-  TYPE_STATUS(TypeStatus.class),
+  TYPE_STATUS(String.class),
 
   /**
    * The kind of media object.
