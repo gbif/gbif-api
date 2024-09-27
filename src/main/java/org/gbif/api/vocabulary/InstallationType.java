@@ -27,7 +27,9 @@ public enum InstallationType {
   HTTP_INSTALLATION,
   SYMBIOTA_INSTALLATION,
   EARTHCAPE_INSTALLATION,
-  GBIF_EDNA_TOOL;
+
+  //Metabarcoding Data Toolkit
+  MDT_INSTALLATION;
 
   /**
    * @return the matching InstallationType or null

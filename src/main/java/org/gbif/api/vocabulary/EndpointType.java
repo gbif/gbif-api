@@ -88,12 +88,12 @@ public enum EndpointType {
   /**
    * The <a href="https://biom-format.org/documentation/format_versions/biom-1.0.html">BIOM JSON</a> file format for representing biological sample by observation contingency tables.
    */
-  BIOM1_0_GBIF_v1_0,
+  BIOM_1_0,
 
   /**
    * The <a href="https://biom-format.org/documentation/format_versions/biom-2.1.html">BIOM HDF5</a> file format.
    */
-  BIOM2_1_GBIF_v1_0,
+  BIOM_2_1,
 
   /**
    * Any other service not covered by this enum so far.
