@@ -22,9 +22,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.apache.commons.lang3.ArrayUtils;
+
 import org.gbif.api.util.AnnotationUtils;
-import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.Term;
 
@@ -92,8 +93,8 @@ public enum OccurrenceIssue implements InterpretationRemark {
   FOOTPRINT_SRS_INVALID(WARNING, DwcTerm.footprintSRS),
 
   /**
-   * The Footprint Well-Known-Text conflicts with the interpreted coordinates (Decimal Latitude,
-   * Decimal Longitude etc).
+   * The Footprint Well-Known-Text conflicts with the interpreted coordinates
+   * (Decimal Latitude, Decimal Longitude etc).
    */
   FOOTPRINT_WKT_MISMATCH(WARNING, DwcTerm.footprintWKT),
 
@@ -151,7 +152,9 @@ public enum OccurrenceIssue implements InterpretationRemark {
    */
   RECORDED_DATE_UNLIKELY(WARNING, TermsGroup.RECORDED_DATE_TERMS),
 
-  /** Matching to the taxonomic backbone can only be done using a fuzzy, non-exact match. */
+  /**
+   * Matching to the taxonomic backbone can only be done using a fuzzy, non-exact match.
+   */
   TAXON_MATCH_FUZZY(WARNING, TermsGroup.TAXONOMY_TERMS),
 
   /**
@@ -161,24 +164,20 @@ public enum OccurrenceIssue implements InterpretationRemark {
   TAXON_MATCH_HIGHERRANK(WARNING, TermsGroup.TAXONOMY_TERMS),
 
   /**
-   * Matching to the taxonomic backbone can only be done on a species level, but the occurrence was
-   * in fact considered a broader species aggregate/complex.
+   * Matching to the taxonomic backbone can only be done on a species level,
+   * but the occurrence was in fact considered a broader species aggregate/complex.
    *
-   * @see <a
-   *     href="https://github.com/gbif/portal-feedback/issues/2935">gbif/portal-feedback#2935</a>
+   * @see <a href="https://github.com/gbif/portal-feedback/issues/2935">gbif/portal-feedback#2935</a>
    */
   TAXON_MATCH_AGGREGATE(WARNING, TermsGroup.TAXONOMY_TERMS),
 
   /**
-   * The scientificNameID was not used when mapping the record to the GBIF backbone. This may
-   * indicate one of
-   *
+   * The scientificNameID was not used when mapping the record to the GBIF backbone. This may indicate one of
    * <ul>
-   *   <li>The ID uses a pattern not configured for use by GBIF
-   *   <li>The ID did not uniquely(!) identify a concept in the checklist
-   *   <li>The ID found a concept in the checklist which did not map to the backbone
-   *   <li>A different ID was used, or the record names were used as no ID lookup successfully
-   *       linked to the backbone
+   *   <li>The ID uses a pattern not configured for use by GBIF</li>
+   *   <li>The ID did not uniquely(!) identify a concept in the checklist</li>
+   *   <li>The ID found a concept in the checklist which did not map to the backbone</li>
+   *   <li>A different ID was used, or the record names were used as no ID lookup successfully linked to the backbone</li>
    * </ul>
    *
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
@@ -186,15 +185,12 @@ public enum OccurrenceIssue implements InterpretationRemark {
   TAXON_MATCH_SCIENTIFIC_NAME_ID_IGNORED(INFO, DwcTerm.scientificNameID),
 
   /**
-   * The taxonConceptID was not used when mapping the record to the GBIF backbone. This may indicate
-   * one of
-   *
+   * The taxonConceptID was not used when mapping the record to the GBIF backbone. This may indicate one of
    * <ul>
-   *   <li>The ID uses a pattern not configured for use by GBIF
-   *   <li>The ID did not uniquely(!) identify a concept in the checklist
-   *   <li>The ID found a concept in the checklist which did not map to the backbone
-   *   <li>A different ID was used, or the record names were used as no ID lookup successfully
-   *       linked to the backbone
+   *   <li>The ID uses a pattern not configured for use by GBIF</li>
+   *   <li>The ID did not uniquely(!) identify a concept in the checklist</li>
+   *   <li>The ID found a concept in the checklist which did not map to the backbone</li>
+   *   <li>A different ID was used, or the record names were used as no ID lookup successfully linked to the backbone</li>
    * </ul>
    *
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
@@ -205,11 +201,10 @@ public enum OccurrenceIssue implements InterpretationRemark {
    * The taxonID was not used when mapping the record to the GBIF backbone. This may indicate one of
    *
    * <ul>
-   *   <li>The ID uses a pattern not configured for use by GBIF
-   *   <li>The ID did not uniquely(!) identify a concept in the checklist
-   *   <li>The ID found a concept in the checklist which did not map to the backbone
-   *   <li>A different ID was used, or the record names were used as no ID lookup successfully
-   *       linked to the backbone
+   *   <li>The ID uses a pattern not configured for use by GBIF</li>
+   *   <li>The ID did not uniquely(!) identify a concept in the checklist</li>
+   *   <li>The ID found a concept in the checklist which did not map to the backbone</li>
+   *   <li>A different ID was used, or the record names were used as no ID lookup successfully linked to the backbone</li>
    * </ul>
    *
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
@@ -218,9 +213,9 @@ public enum OccurrenceIssue implements InterpretationRemark {
 
   /**
    * The scientificNameID matched a known pattern, but it was not found in the associated checklist.
-   * The backbone lookup was performed using either the names or a different ID on the record. This
-   * may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't
-   * yet known in the version of the published checklist.
+   * The backbone lookup was performed using either the names or a different ID on the record.
+   * This may indicate a poorly formatted identifier or may be caused by a newly created ID that
+   * isn't yet known in the version of the published checklist.
    *
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
    */
@@ -228,18 +223,18 @@ public enum OccurrenceIssue implements InterpretationRemark {
 
   /**
    * The taxonConceptID matched a known pattern, but it was not found in the associated checklist.
-   * The backbone lookup was performed using either the names or a different ID on the record. This
-   * may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't
-   * yet known in the version of the published checklist.
+   * The backbone lookup was performed using either the names or a different ID on the record.
+   * This may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't yet
+   * known in the version of the published checklist.
    *
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
    */
   TAXON_CONCEPT_ID_NOT_FOUND(WARNING, DwcTerm.taxonConceptID),
 
   /**
-   * The taxonID matched a known pattern, but it was not found in the associated checklist. The
-   * backbone lookup was performed using either the names or a different ID on the record. This may
-   * indicate a poorly formatted identifier or may be caused by a newly created ID that isn't yet
+   * The taxonID matched a known pattern, but it was not found in the associated checklist.
+   * The backbone lookup was performed using either the names or a different ID on the record.
+   * This may indicate a poorly formatted identifier or may be caused by a newly created ID that isn't yet
    * known in the version of the published checklist.
    *
    * @see <a href="https://github.com/gbif/pipelines/issues/217">gbif/pipelines#217</a>
