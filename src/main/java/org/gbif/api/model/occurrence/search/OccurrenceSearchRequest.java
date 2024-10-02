@@ -257,6 +257,18 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     addParameter(OccurrenceSearchParameter.GADM_LEVEL_3_GID, gadm3);
   }
 
+  public void addGeologicalTimeFilter(String geologicalTimeConcept) {
+    addParameter(OccurrenceSearchParameter.GEOLOGICAL_TIME, geologicalTimeConcept);
+  }
+
+  public void addLithostratigraphyFilter(String lithostratigraphy) {
+    addParameter(OccurrenceSearchParameter.LITHOSTRATIGRAPHY, lithostratigraphy);
+  }
+
+  public void addBiostratigraphyFilter(String biostratigraphy) {
+    addParameter(OccurrenceSearchParameter.BIOSTRATIGRAPHY, biostratigraphy);
+  }
+
   @Experimental
   public void addInstitutionKeyFilter(String institutionKey) {
     addParameter(OccurrenceSearchParameter.INSTITUTION_KEY, institutionKey);

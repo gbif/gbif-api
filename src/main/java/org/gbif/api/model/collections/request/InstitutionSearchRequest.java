@@ -19,7 +19,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 
-@SuppressWarnings("MissingOverride")
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @Data

@@ -22,7 +22,6 @@ import lombok.EqualsAndHashCode;
 import org.gbif.api.vocabulary.Country;
 
 /** Models the response for the Collections search. */
-@SuppressWarnings("MissingOverride")
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class CollectionsFullSearchResponse extends BaseSearchResponse {
