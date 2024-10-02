@@ -26,6 +26,7 @@ import java.util.Set;
 import org.apache.commons.lang3.ArrayUtils;
 
 import org.gbif.api.util.AnnotationUtils;
+import org.gbif.dwc.terms.DcTerm;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.Term;
 
