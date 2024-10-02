@@ -60,7 +60,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * <li>version</li>
  * <li>installationKey</li>
  * <li>publishingOrganizationKey</li>
- * <li>publishingOrganizationName</li>
  * <li>networkKeys</li>
  * <li>license</li>
  * <li>maintenanceUpdateFrequency</li>
@@ -129,12 +128,6 @@ public class Dataset
       "*(NB Not required for updates.)*"
   )
   private UUID publishingOrganizationKey;
-
-  @Schema(
-      description = "The publishing organization name.\n\n" +
-          "*(NB Not required for updates.)*"
-  )
-  private String publishingOrganizationName;
 
   @Schema(
     description = "A list of GBIF Networks to which this dataset belongs."
@@ -435,6 +428,12 @@ public class Dataset
   private String maintenanceDescription;
 
   @Schema(
+      description = "A description of changes made to the data since its release.",
+      accessMode = Schema.AccessMode.READ_ONLY
+  )
+  private List<MaintenanceChange> maintenanceChangeHistory = new ArrayList<>();
+
+  @Schema(
     description = "The data and metadata license retrieved from this dataset's metadata documents.",
     accessMode = Schema.AccessMode.READ_ONLY
   )
@@ -582,15 +581,6 @@ public class Dataset
     this.publishingOrganizationKey = publishingOrganizationKey;
   }
 
-  @Nullable
-  public String getPublishingOrganizationName() {
-    return publishingOrganizationName;
-  }
-
-  public void setPublishingOrganizationName(String publishingOrganizationName) {
-    this.publishingOrganizationName = publishingOrganizationName;
-  }
-
   /**
    * Networks in which this dataset is a constituent.
    */
@@ -616,6 +606,18 @@ public class Dataset
    */
   public void setMaintenanceUpdateFrequency(MaintenanceUpdateFrequency maintenanceUpdateFrequency) {
     this.maintenanceUpdateFrequency = maintenanceUpdateFrequency;
+  }
+
+  public List<MaintenanceChange> getMaintenanceChangeHistory() {
+    return maintenanceChangeHistory;
+  }
+
+  public void setMaintenanceChangeHistory(List<MaintenanceChange> maintenanceChangeHistory) {
+    this.maintenanceChangeHistory = maintenanceChangeHistory;
+  }
+
+  public void addMaintenanceChange(MaintenanceChange maintenanceChange) {
+    this.maintenanceChangeHistory.add(maintenanceChange);
   }
 
   /**
@@ -1171,6 +1173,7 @@ public class Dataset
         && Objects.equals(pubDate, dataset.pubDate)
         && maintenanceUpdateFrequency == dataset.maintenanceUpdateFrequency
         && Objects.equals(maintenanceDescription, dataset.maintenanceDescription)
+        && Objects.equals(maintenanceChangeHistory, dataset.maintenanceChangeHistory)
         && license == dataset.license;
   }
 
@@ -1182,7 +1185,6 @@ public class Dataset
         duplicateOfDatasetKey,
         installationKey,
         publishingOrganizationKey,
-        publishingOrganizationName,
         networkKeys,
         doi,
         version,
@@ -1234,6 +1236,7 @@ public class Dataset
         pubDate,
         maintenanceUpdateFrequency,
         maintenanceDescription,
+        maintenanceChangeHistory,
         license);
   }
 
@@ -1245,7 +1248,6 @@ public class Dataset
         .add("duplicateOfDatasetKey=" + duplicateOfDatasetKey)
         .add("installationKey=" + installationKey)
         .add("publishingOrganizationKey=" + publishingOrganizationKey)
-        .add("publishingOrganizationName=" + publishingOrganizationName)
         .add("networkKeys=" + networkKeys)
         .add("doi=" + doi)
         .add("version='" + version + "'")
@@ -1297,6 +1299,7 @@ public class Dataset
         .add("pubDate=" + pubDate)
         .add("maintenanceUpdateFrequency=" + maintenanceUpdateFrequency)
         .add("maintenanceDescription='" + maintenanceDescription + "'")
+        .add("maintenanceChangeHistory=" + maintenanceChangeHistory)
         .add("license=" + license)
         .toString();
   }
@@ -1314,7 +1317,6 @@ public class Dataset
         && Objects.equals(this.duplicateOfDatasetKey, other.duplicateOfDatasetKey)
         && Objects.equals(this.installationKey, other.installationKey)
         && Objects.equals(this.publishingOrganizationKey, other.publishingOrganizationKey)
-        && Objects.equals(this.publishingOrganizationName, other.publishingOrganizationName)
         && Objects.equals(this.doi, other.doi)
         && Objects.equals(this.external, other.external)
         && Objects.equals(this.type, other.type)
