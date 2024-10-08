@@ -104,7 +104,12 @@ public enum IdentifierType {
   /**
    * https://www.ncbi.nlm.nih.gov/
    */
-  NCBI_BIOCOLLECTION;
+  NCBI_BIOCOLLECTION,
+
+  /**
+   * https://slks.dk/english/work-areas/libraries-and-literature/library-standards/isil
+   */
+  ISIL;
 
   // TODO: Check if this is used, it didn't exist in the new Registry2 API, but I preserved it from the old vocabulary
   public static final List<IdentifierType> TYPES;
@@ -178,6 +183,10 @@ public enum IdentifierType {
 
     if (lcIdentifier.startsWith("grid")) {
       return GRID;
+    }
+
+    if (IdentifierUtils.isValidISILIdentifier(lcIdentifier)) {
+      return ISIL;
     }
 
     try {

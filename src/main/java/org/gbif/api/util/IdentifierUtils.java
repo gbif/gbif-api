@@ -15,12 +15,10 @@
  */
 package org.gbif.api.util;
 
+import java.util.regex.Pattern;
+import javax.annotation.Nullable;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.IdentifierType;
-
-import javax.annotation.Nullable;
-
-import java.util.regex.Pattern;
 
 /**
  * This class contains utility methods for identifiers. Currently there are 3 separate Identifier
@@ -35,6 +33,9 @@ public class IdentifierUtils {
 
   public static final Pattern ROR_PATTERN =
     Pattern.compile("https?://ror\\.org/0[a-z0-9]{6}[0-9]{2}");
+
+  public static final Pattern ISIL_PATTERN =
+    Pattern.compile("^[A-Z]{2}|[A-Za-z0-9]{1,4}-[A-Za-z0-9:/-]{1,11}$");
 
   /**
    * Creates a http link for an identifier if possible by passing it to some known resolvers for the
@@ -100,4 +101,15 @@ public class IdentifierUtils {
 
     return ROR_PATTERN.matcher(identifier).matches();
   }
+
+  /** ISIL identifier validation according to
+   * https://slks.dk/english/work-areas/libraries-and-literature/library-standards/structure */
+  public static boolean isValidISILIdentifier(String identifier) {
+    if (identifier == null || identifier.isEmpty()) {
+      return false;
+    }
+
+    return ISIL_PATTERN.matcher(identifier).matches();
+  }
+
 }

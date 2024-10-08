@@ -85,4 +85,24 @@ public class IdentifierUtilsTest {
     assertFalse(IdentifierUtils.isValidRORIdentifier("0566bfb96"));
     assertFalse(IdentifierUtils.isValidRORIdentifier("https://ror.org/2566bfb96"));
   }
+
+  @Test
+  public void isilValidatorTest() {
+    assertTrue(IdentifierUtils.isValidISILIdentifier("CA-QMCB"));
+    assertTrue(IdentifierUtils.isValidISILIdentifier("IR-2048005"));
+    assertTrue(IdentifierUtils.isValidISILIdentifier("AU-TS:RL"));
+    assertTrue(IdentifierUtils.isValidISILIdentifier("DE-Tue120"));
+    assertTrue(IdentifierUtils.isValidISILIdentifier("FI-Ht"));
+    assertTrue(IdentifierUtils.isValidISILIdentifier("OCLC-FITHE"));
+    assertTrue(IdentifierUtils.isValidISILIdentifier("DK-716500"));
+    assertTrue(IdentifierUtils.isValidISILIdentifier("OCLC-AR9"));
+    assertTrue(IdentifierUtils.isValidISILIdentifier("CA-NBGMM"));
+    assertTrue(IdentifierUtils.isValidISILIdentifier("CA-QQCH"));
+    assertTrue(IdentifierUtils.isValidISILIdentifier("CA-BGIPM"));
+
+    assertFalse(IdentifierUtils.isValidISILIdentifier("IR-2048005/Extra"));
+    assertFalse(IdentifierUtils.isValidISILIdentifier("ZZ-1234567890123"));
+    assertFalse(IdentifierUtils.isValidISILIdentifier("XY-"));
+    assertFalse(IdentifierUtils.isValidISILIdentifier("CA_ABC"));
+  }
 }
