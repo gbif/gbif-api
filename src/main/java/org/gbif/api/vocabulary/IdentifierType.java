@@ -109,7 +109,13 @@ public enum IdentifierType {
   /**
    * https://slks.dk/english/work-areas/libraries-and-literature/library-standards/isil
    */
-  ISIL;
+  ISIL,
+
+  /**
+   * ChecklistBank dataset keys (integer)
+   * https://www.checklistbank.org/dataset
+   */
+  CLB_DATASET_KEY;
 
   // TODO: Check if this is used, it didn't exist in the new Registry2 API, but I preserved it from the old vocabulary
   public static final List<IdentifierType> TYPES;
