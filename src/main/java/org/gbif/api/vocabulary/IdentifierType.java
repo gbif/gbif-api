@@ -195,15 +195,9 @@ public enum IdentifierType {
       return ISIL;
     }
 
-    // Check if identifier can be parsed as a CLB dataset key
-    try {
-      int datasetKey = Integer.parseInt(lcIdentifier);
-      if (datasetKey > 0) { // Ensure the dataset key is positive
-        return IdentifierType.CLB_DATASET_KEY;
-      }
-    } catch (NumberFormatException ignored) {
-      // If parsing fails, it means it's not a valid integer, proceed with other checks
-    }
+   if (IdentifierUtils.isValidCLBDatasetKey(lcIdentifier)) {
+     return CLB_DATASET_KEY;
+   }
 
     try {
       //noinspection ResultOfMethodCallIgnored

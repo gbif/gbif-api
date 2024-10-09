@@ -86,4 +86,13 @@ public class IdentifierUtilsTest {
     assertFalse(IdentifierUtils.isValidRORIdentifier("0566bfb96"));
     assertFalse(IdentifierUtils.isValidRORIdentifier("https://ror.org/2566bfb96"));
   }
+
+  @Test
+  public void CLBDatasetKeyValidatorTest() {
+    assertTrue(IdentifierUtils.isValidCLBDatasetKey("123"));
+    assertFalse(IdentifierUtils.isValidCLBDatasetKey("0123"));
+    assertFalse(IdentifierUtils.isValidCLBDatasetKey("0"));
+    assertFalse(IdentifierUtils.isValidCLBDatasetKey("-123"));
+    assertFalse(IdentifierUtils.isValidCLBDatasetKey("abc123"));
+  }
 }
