@@ -107,6 +107,11 @@ public enum IdentifierType {
   NCBI_BIOCOLLECTION,
 
   /**
+   * https://slks.dk/english/work-areas/libraries-and-literature/library-standards/isil
+   */
+  ISIL,
+
+  /**
    * ChecklistBank dataset keys (integer)
    * https://www.checklistbank.org/dataset
    */
@@ -153,7 +158,7 @@ public enum IdentifierType {
         || lcIdentifier.startsWith("https://doi.org/10.")) {
       return DOI;
     }
-    //Todo: ADD CHECK HERE
+
     if (lcIdentifier.startsWith("https://ror.org")) {
       return ROR;
     }
@@ -184,6 +189,20 @@ public enum IdentifierType {
 
     if (lcIdentifier.startsWith("grid")) {
       return GRID;
+    }
+
+    if (IdentifierUtils.isValidISILIdentifier(lcIdentifier)) {
+      return ISIL;
+    }
+
+    // Check if identifier can be parsed as a CLB dataset key
+    try {
+      int datasetKey = Integer.parseInt(lcIdentifier);
+      if (datasetKey > 0) { // Ensure the dataset key is positive
+        return IdentifierType.CLB_DATASET_KEY;
+      }
+    } catch (NumberFormatException ignored) {
+      // If parsing fails, it means it's not a valid integer, proceed with other checks
     }
 
     try {
