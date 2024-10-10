@@ -907,7 +907,6 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
     return Optional.empty();
   }
 
-
   public static class OccurrenceSearchParameterKeyDeserializer extends KeyDeserializer {
 
     @Override

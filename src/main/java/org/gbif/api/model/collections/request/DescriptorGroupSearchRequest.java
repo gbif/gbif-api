@@ -14,9 +14,9 @@ import org.gbif.api.model.common.paging.PagingRequest;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DescriptorSetSearchRequest extends PageableBase implements Serializable {
+public class DescriptorGroupSearchRequest extends PageableBase implements Serializable {
 
-  @Nullable private String query;
+  @Nullable private String q;
   @Nullable private String title;
   @Nullable private String description;
   @Nullable private Boolean deleted;

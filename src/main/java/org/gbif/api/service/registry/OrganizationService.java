@@ -30,6 +30,8 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
+import org.geojson.FeatureCollection;
+
 @SuppressWarnings("unused")
 public interface OrganizationService extends NetworkEntityService<Organization> {
 
@@ -96,4 +98,12 @@ public interface OrganizationService extends NetworkEntityService<Organization> 
    * @return list of organizations ordered by creation date with the latest coming first
    */
   PagingResponse<Organization> list(OrganizationRequestSearchParams searchParams);
+
+  /**
+   * Lists the organizations in GeoJson format.
+   *
+   * @param request parameters to filter the request
+   * @return a {@link FeatureCollection} object that conforms with GeoJson
+   */
+  FeatureCollection listGeoJson(OrganizationRequestSearchParams request);
 }

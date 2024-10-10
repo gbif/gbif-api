@@ -16,15 +16,15 @@ import org.gbif.api.vocabulary.TypeStatus;
 public class Descriptor implements Serializable {
 
   private long key;
-  private Long descriptorSetKey;
-  private Integer usageKey;
+  private Long descriptorGroupKey;
+  private String usageKey;
   private String usageName;
   private Rank usageRank;
   private Country country;
   private Integer individualCount;
   private List<String> identifiedBy;
   private Date dateIdentified;
-  private List<TypeStatus> typeStatus;
+  private List<String> typeStatus;
   private List<String> recordedBy;
   private String discipline;
   private String objectClassification;

@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.literature.search;
 
+import java.util.Date;
+
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.literature.LiteratureRelevance;
 import org.gbif.api.model.literature.LiteratureTopic;
@@ -31,6 +33,7 @@ public enum LiteratureSearchParameter implements SearchParameter {
   LITERATURE_TYPE(LiteratureType.class),
   RELEVANCE(LiteratureRelevance.class),
   YEAR(Integer.class),
+  WEBSITES(String.class),
   TOPICS(LiteratureTopic.class),
   GBIF_DATASET_KEY(UUID.class), // dataset
   PUBLISHING_ORGANIZATION_KEY(UUID.class), // publisher
@@ -47,7 +50,11 @@ public enum LiteratureSearchParameter implements SearchParameter {
   DOI(String.class),
   SOURCE(String.class), // journal
   PUBLISHER(String.class), // journal publisher
-  LANGUAGE(Language.class);
+  LANGUAGE(Language.class),
+  ADDED(Date.class), // created in es
+  PUBLISHED(Date.class), // publish date
+  DISCOVERED(Date.class), // access date
+  MODIFIED(Date.class); // update date
 
   private final Class<?> type;
 
