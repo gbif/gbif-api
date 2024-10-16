@@ -19,7 +19,7 @@ public class Descriptor implements Serializable {
   private Long descriptorGroupKey;
   private String usageKey;
   private String usageName;
-  private Rank usageRank;
+  private String usageRank;
   private Country country;
   private Integer individualCount;
   private List<String> identifiedBy;
