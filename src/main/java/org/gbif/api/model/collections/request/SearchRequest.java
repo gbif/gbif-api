@@ -16,25 +16,31 @@
 package org.gbif.api.model.collections.request;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import javax.annotation.Nullable;
+import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingConstants;
 import org.gbif.api.model.common.paging.PagingRequest;
-import org.gbif.api.vocabulary.CollectionsSortField;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.GbifRegion;
 import org.gbif.api.vocabulary.IdentifierType;
 import org.gbif.api.vocabulary.SortOrder;
+import org.gbif.api.vocabulary.collections.CollectionsFacetParameter;
+import org.gbif.api.vocabulary.collections.CollectionsSortField;
 import org.gbif.api.vocabulary.collections.MasterSourceType;
 import org.gbif.api.vocabulary.collections.Source;
 
 @SuperBuilder
 @Data
-public abstract class SearchRequest implements Serializable {
+public abstract class SearchRequest<F extends CollectionsFacetParameter> implements Serializable {
 
   @Nullable private Boolean hl;
   @Nullable private String q;
@@ -65,6 +71,15 @@ public abstract class SearchRequest implements Serializable {
   @Nullable private String sourceId;
   @Nullable private Long offset;
   @Nullable private Integer limit;
+
+  @Builder.Default @Nullable private Set<F> facets = new HashSet<>();
+  @Nullable private boolean multiSelectFacets;
+  @Nullable private Integer facetMinCount;
+  @Nullable private Integer facetLimit = 10;
+  @Nullable private Integer facetOffset;
+
+  // Holds the paging configuration for each requested facet
+  @Builder.Default @Nullable private Map<F, Pageable> facetPages = new HashMap<>();
 
   public Pageable getPage() {
     return new PagingRequest(
