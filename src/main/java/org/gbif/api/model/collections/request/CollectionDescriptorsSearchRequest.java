@@ -16,10 +16,10 @@ import org.gbif.api.vocabulary.TypeStatus;
 @Data
 public class CollectionDescriptorsSearchRequest extends CollectionSearchRequest {
 
-  @Nullable private List<Integer> usageKey;
+  @Nullable private List<String> usageKey;
   @Nullable private List<String> usageName;
-  @Nullable private List<Rank> usageRank;
-  @Nullable private List<Integer> taxonKey;
+  @Nullable private List<String> usageRank;
+  @Nullable private List<String> taxonKey;
   @Nullable private List<Country> descriptorCountry;
   @Nullable private String individualCount;
   @Nullable private List<String> identifiedBy;
