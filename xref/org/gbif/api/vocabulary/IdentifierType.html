@@ -112,93 +112,112 @@
 <a class="jxr_linenumber" name="L104" href="#L104">104</a>   <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L105" href="#L105">105</a> <em class="jxr_javadoccomment">   * <a href="https://www.ncbi.nlm.nih.gov/" target="alexandria_uri">https://www.ncbi.nlm.nih.gov/</a></em>
 <a class="jxr_linenumber" name="L106" href="#L106">106</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>   NCBI_BIOCOLLECTION;
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>   NCBI_BIOCOLLECTION,
 <a class="jxr_linenumber" name="L108" href="#L108">108</a> 
-<a class="jxr_linenumber" name="L109" href="#L109">109</a>   <em class="jxr_comment">// TODO: Check if this is used, it didn't exist in the new Registry2 API, but I preserved it from the old vocabulary</em>
-<a class="jxr_linenumber" name="L110" href="#L110">110</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> List&lt;IdentifierType&gt; TYPES;
-<a class="jxr_linenumber" name="L111" href="#L111">111</a> 
-<a class="jxr_linenumber" name="L112" href="#L112">112</a>   <strong class="jxr_keyword">static</strong> {
-<a class="jxr_linenumber" name="L113" href="#L113">113</a>     TYPES = Collections.unmodifiableList(Arrays.asList(IdentifierType.values()));
-<a class="jxr_linenumber" name="L114" href="#L114">114</a>   }
-<a class="jxr_linenumber" name="L115" href="#L115">115</a> 
-<a class="jxr_linenumber" name="L116" href="#L116">116</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L117" href="#L117">117</a> <em class="jxr_javadoccomment">   * @return the matching IdentifierType or null</em>
-<a class="jxr_linenumber" name="L118" href="#L118">118</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L119" href="#L119">119</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a name="IdentifierType" href="../../../../org/gbif/api/vocabulary/IdentifierType.html#IdentifierType">IdentifierType</a> fromString(String identifierType) {
-<a class="jxr_linenumber" name="L120" href="#L120">120</a>     <strong class="jxr_keyword">return</strong> VocabularyUtils.lookupEnum(identifierType, IdentifierType.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L121" href="#L121">121</a>   }
+<a class="jxr_linenumber" name="L109" href="#L109">109</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> <em class="jxr_javadoccomment">   * <a href="https://slks.dk/english/work-areas/libraries-and-literature/library-standards/isil" target="alexandria_uri">https://slks.dk/english/work-areas/libraries-and-literature/library-standards/isil</a></em>
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>   ISIL,
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> 
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> <em class="jxr_javadoccomment">   * ChecklistBank dataset keys (integer)</em>
+<a class="jxr_linenumber" name="L116" href="#L116">116</a> <em class="jxr_javadoccomment">   * <a href="https://www.checklistbank.org/dataset" target="alexandria_uri">https://www.checklistbank.org/dataset</a></em>
+<a class="jxr_linenumber" name="L117" href="#L117">117</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>   CLB_DATASET_KEY;
+<a class="jxr_linenumber" name="L119" href="#L119">119</a> 
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>   <em class="jxr_comment">// TODO: Check if this is used, it didn't exist in the new Registry2 API, but I preserved it from the old vocabulary</em>
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> List&lt;IdentifierType&gt; TYPES;
 <a class="jxr_linenumber" name="L122" href="#L122">122</a> 
-<a class="jxr_linenumber" name="L123" href="#L123">123</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L124" href="#L124">124</a> <em class="jxr_javadoccomment">   * Tries to infer the identifier type from a given identifier.</em>
-<a class="jxr_linenumber" name="L125" href="#L125">125</a> <em class="jxr_javadoccomment">   * Most identifiers have a URI protocol prefix or a specific structure that</em>
-<a class="jxr_linenumber" name="L126" href="#L126">126</a> <em class="jxr_javadoccomment">   * allows the guess.</em>
-<a class="jxr_linenumber" name="L127" href="#L127">127</a> <em class="jxr_javadoccomment">   *</em>
-<a class="jxr_linenumber" name="L128" href="#L128">128</a> <em class="jxr_javadoccomment">   * @return the inferred identifier type or Unknown if identifier is null or cant be inferred.</em>
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>   <strong class="jxr_keyword">static</strong> {
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>     TYPES = Collections.unmodifiableList(Arrays.asList(IdentifierType.values()));
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>   }
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> 
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L128" href="#L128">128</a> <em class="jxr_javadoccomment">   * @return the matching IdentifierType or null</em>
 <a class="jxr_linenumber" name="L129" href="#L129">129</a> <em class="jxr_javadoccomment">   */</em>
-<a class="jxr_linenumber" name="L130" href="#L130">130</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a name="IdentifierType" href="../../../../org/gbif/api/vocabulary/IdentifierType.html#IdentifierType">IdentifierType</a> inferFrom(@Nullable String identifier) {
-<a class="jxr_linenumber" name="L131" href="#L131">131</a>     String lcIdentifier = StringUtils.trimToEmpty(identifier).toLowerCase();
-<a class="jxr_linenumber" name="L132" href="#L132">132</a> 
-<a class="jxr_linenumber" name="L133" href="#L133">133</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.isEmpty()) {
-<a class="jxr_linenumber" name="L134" href="#L134">134</a>       <strong class="jxr_keyword">return</strong> UNKNOWN;
-<a class="jxr_linenumber" name="L135" href="#L135">135</a>     }
-<a class="jxr_linenumber" name="L136" href="#L136">136</a> 
-<a class="jxr_linenumber" name="L137" href="#L137">137</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(org.gbif.api.model.common.DOI.GBIF_PREFIX)
-<a class="jxr_linenumber" name="L138" href="#L138">138</a>         || lcIdentifier.startsWith(org.gbif.api.model.common.DOI.TEST_PREFIX)) {
-<a class="jxr_linenumber" name="L139" href="#L139">139</a>       <strong class="jxr_keyword">return</strong> DOI;
-<a class="jxr_linenumber" name="L140" href="#L140">140</a>     }
-<a class="jxr_linenumber" name="L141" href="#L141">141</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(<span class="jxr_string">"10."</span>)
-<a class="jxr_linenumber" name="L142" href="#L142">142</a>         || lcIdentifier.startsWith(<span class="jxr_string">"doi:10."</span>)
-<a class="jxr_linenumber" name="L143" href="#L143">143</a>         || lcIdentifier.startsWith(<span class="jxr_string">"urn:doi:10."</span>)
-<a class="jxr_linenumber" name="L144" href="#L144">144</a>         || lcIdentifier.startsWith(<span class="jxr_string">"http://dx.doi.org/10."</span>)
-<a class="jxr_linenumber" name="L145" href="#L145">145</a>         || lcIdentifier.startsWith(<span class="jxr_string">"https://dx.doi.org/10."</span>)
-<a class="jxr_linenumber" name="L146" href="#L146">146</a>         || lcIdentifier.startsWith(<span class="jxr_string">"http://doi.org/10."</span>)
-<a class="jxr_linenumber" name="L147" href="#L147">147</a>         || lcIdentifier.startsWith(<span class="jxr_string">"https://doi.org/10."</span>)) {
-<a class="jxr_linenumber" name="L148" href="#L148">148</a>       <strong class="jxr_keyword">return</strong> DOI;
-<a class="jxr_linenumber" name="L149" href="#L149">149</a>     }
-<a class="jxr_linenumber" name="L150" href="#L150">150</a>     <em class="jxr_comment">//Todo: ADD CHECK HERE</em>
-<a class="jxr_linenumber" name="L151" href="#L151">151</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(<span class="jxr_string">"https://ror.org"</span>)) {
-<a class="jxr_linenumber" name="L152" href="#L152">152</a>       <strong class="jxr_keyword">return</strong> ROR;
-<a class="jxr_linenumber" name="L153" href="#L153">153</a>     }
-<a class="jxr_linenumber" name="L154" href="#L154">154</a> 
-<a class="jxr_linenumber" name="L155" href="#L155">155</a>     <strong class="jxr_keyword">if</strong>(IdentifierUtils.isValidWikidataIdentifier(lcIdentifier)) {
-<a class="jxr_linenumber" name="L156" href="#L156">156</a>       <strong class="jxr_keyword">return</strong> WIKIDATA;
-<a class="jxr_linenumber" name="L157" href="#L157">157</a>     }
-<a class="jxr_linenumber" name="L158" href="#L158">158</a> 
-<a class="jxr_linenumber" name="L159" href="#L159">159</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(<span class="jxr_string">"http:"</span>)
-<a class="jxr_linenumber" name="L160" href="#L160">160</a>         || lcIdentifier.startsWith(<span class="jxr_string">"https:"</span>)
-<a class="jxr_linenumber" name="L161" href="#L161">161</a>         || lcIdentifier.startsWith(<span class="jxr_string">"www."</span>)) {
-<a class="jxr_linenumber" name="L162" href="#L162">162</a>       <strong class="jxr_keyword">return</strong> URL;
-<a class="jxr_linenumber" name="L163" href="#L163">163</a>     }
-<a class="jxr_linenumber" name="L164" href="#L164">164</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(<span class="jxr_string">"ftp:"</span>)) {
-<a class="jxr_linenumber" name="L165" href="#L165">165</a>       <strong class="jxr_keyword">return</strong> FTP;
-<a class="jxr_linenumber" name="L166" href="#L166">166</a>     }
-<a class="jxr_linenumber" name="L167" href="#L167">167</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(<span class="jxr_string">"urn:lsid:"</span>) || lcIdentifier.startsWith(<span class="jxr_string">"lsid:"</span>)) {
-<a class="jxr_linenumber" name="L168" href="#L168">168</a>       <strong class="jxr_keyword">return</strong> LSID;
-<a class="jxr_linenumber" name="L169" href="#L169">169</a>     }
-<a class="jxr_linenumber" name="L170" href="#L170">170</a> 
-<a class="jxr_linenumber" name="L171" href="#L171">171</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(<span class="jxr_string">"urn:uuid:"</span>) || lcIdentifier.startsWith(<span class="jxr_string">"uuid:"</span>)) {
-<a class="jxr_linenumber" name="L172" href="#L172">172</a>       <strong class="jxr_keyword">return</strong> UUID;
-<a class="jxr_linenumber" name="L173" href="#L173">173</a>     }
-<a class="jxr_linenumber" name="L174" href="#L174">174</a> 
-<a class="jxr_linenumber" name="L175" href="#L175">175</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(<span class="jxr_string">"gbif:ih:irn:"</span>)) {
-<a class="jxr_linenumber" name="L176" href="#L176">176</a>       <strong class="jxr_keyword">return</strong> IH_IRN;
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a name="IdentifierType" href="../../../../org/gbif/api/vocabulary/IdentifierType.html#IdentifierType">IdentifierType</a> fromString(String identifierType) {
+<a class="jxr_linenumber" name="L131" href="#L131">131</a>     <strong class="jxr_keyword">return</strong> VocabularyUtils.lookupEnum(identifierType, IdentifierType.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>   }
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> 
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L135" href="#L135">135</a> <em class="jxr_javadoccomment">   * Tries to infer the identifier type from a given identifier.</em>
+<a class="jxr_linenumber" name="L136" href="#L136">136</a> <em class="jxr_javadoccomment">   * Most identifiers have a URI protocol prefix or a specific structure that</em>
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> <em class="jxr_javadoccomment">   * allows the guess.</em>
+<a class="jxr_linenumber" name="L138" href="#L138">138</a> <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> <em class="jxr_javadoccomment">   * @return the inferred identifier type or Unknown if identifier is null or cant be inferred.</em>
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L141" href="#L141">141</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a name="IdentifierType" href="../../../../org/gbif/api/vocabulary/IdentifierType.html#IdentifierType">IdentifierType</a> inferFrom(@Nullable String identifier) {
+<a class="jxr_linenumber" name="L142" href="#L142">142</a>     String lcIdentifier = StringUtils.trimToEmpty(identifier).toLowerCase();
+<a class="jxr_linenumber" name="L143" href="#L143">143</a> 
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.isEmpty()) {
+<a class="jxr_linenumber" name="L145" href="#L145">145</a>       <strong class="jxr_keyword">return</strong> UNKNOWN;
+<a class="jxr_linenumber" name="L146" href="#L146">146</a>     }
+<a class="jxr_linenumber" name="L147" href="#L147">147</a> 
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(org.gbif.api.model.common.DOI.GBIF_PREFIX)
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>         || lcIdentifier.startsWith(org.gbif.api.model.common.DOI.TEST_PREFIX)) {
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>       <strong class="jxr_keyword">return</strong> DOI;
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>     }
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(<span class="jxr_string">"10."</span>)
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>         || lcIdentifier.startsWith(<span class="jxr_string">"doi:10."</span>)
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>         || lcIdentifier.startsWith(<span class="jxr_string">"urn:doi:10."</span>)
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>         || lcIdentifier.startsWith(<span class="jxr_string">"http://dx.doi.org/10."</span>)
+<a class="jxr_linenumber" name="L156" href="#L156">156</a>         || lcIdentifier.startsWith(<span class="jxr_string">"https://dx.doi.org/10."</span>)
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>         || lcIdentifier.startsWith(<span class="jxr_string">"http://doi.org/10."</span>)
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>         || lcIdentifier.startsWith(<span class="jxr_string">"https://doi.org/10."</span>)) {
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>       <strong class="jxr_keyword">return</strong> DOI;
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>     }
+<a class="jxr_linenumber" name="L161" href="#L161">161</a> 
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(<span class="jxr_string">"https://ror.org"</span>)) {
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>       <strong class="jxr_keyword">return</strong> ROR;
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>     }
+<a class="jxr_linenumber" name="L165" href="#L165">165</a> 
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>     <strong class="jxr_keyword">if</strong>(IdentifierUtils.isValidWikidataIdentifier(lcIdentifier)) {
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>       <strong class="jxr_keyword">return</strong> WIKIDATA;
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>     }
+<a class="jxr_linenumber" name="L169" href="#L169">169</a> 
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(<span class="jxr_string">"http:"</span>)
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>         || lcIdentifier.startsWith(<span class="jxr_string">"https:"</span>)
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>         || lcIdentifier.startsWith(<span class="jxr_string">"www."</span>)) {
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>       <strong class="jxr_keyword">return</strong> URL;
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>     }
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(<span class="jxr_string">"ftp:"</span>)) {
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>       <strong class="jxr_keyword">return</strong> FTP;
 <a class="jxr_linenumber" name="L177" href="#L177">177</a>     }
-<a class="jxr_linenumber" name="L178" href="#L178">178</a> 
-<a class="jxr_linenumber" name="L179" href="#L179">179</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(<span class="jxr_string">"grid"</span>)) {
-<a class="jxr_linenumber" name="L180" href="#L180">180</a>       <strong class="jxr_keyword">return</strong> GRID;
-<a class="jxr_linenumber" name="L181" href="#L181">181</a>     }
-<a class="jxr_linenumber" name="L182" href="#L182">182</a> 
-<a class="jxr_linenumber" name="L183" href="#L183">183</a>     <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L184" href="#L184">184</a>       <em class="jxr_comment">//noinspection ResultOfMethodCallIgnored</em>
-<a class="jxr_linenumber" name="L185" href="#L185">185</a>       java.util.UUID.fromString(lcIdentifier);
-<a class="jxr_linenumber" name="L186" href="#L186">186</a>       <strong class="jxr_keyword">return</strong> UUID;
-<a class="jxr_linenumber" name="L187" href="#L187">187</a>     } <strong class="jxr_keyword">catch</strong> (IllegalArgumentException ignored) {
-<a class="jxr_linenumber" name="L188" href="#L188">188</a>       <em class="jxr_comment">// We're just trying to convert a String to anything readable. Apparently the UUID approach failed.</em>
-<a class="jxr_linenumber" name="L189" href="#L189">189</a>     }
-<a class="jxr_linenumber" name="L190" href="#L190">190</a> 
-<a class="jxr_linenumber" name="L191" href="#L191">191</a>     <strong class="jxr_keyword">return</strong> UNKNOWN;
-<a class="jxr_linenumber" name="L192" href="#L192">192</a>   }
-<a class="jxr_linenumber" name="L193" href="#L193">193</a> }
+<a class="jxr_linenumber" name="L178" href="#L178">178</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(<span class="jxr_string">"urn:lsid:"</span>) || lcIdentifier.startsWith(<span class="jxr_string">"lsid:"</span>)) {
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>       <strong class="jxr_keyword">return</strong> LSID;
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>     }
+<a class="jxr_linenumber" name="L181" href="#L181">181</a> 
+<a class="jxr_linenumber" name="L182" href="#L182">182</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(<span class="jxr_string">"urn:uuid:"</span>) || lcIdentifier.startsWith(<span class="jxr_string">"uuid:"</span>)) {
+<a class="jxr_linenumber" name="L183" href="#L183">183</a>       <strong class="jxr_keyword">return</strong> UUID;
+<a class="jxr_linenumber" name="L184" href="#L184">184</a>     }
+<a class="jxr_linenumber" name="L185" href="#L185">185</a> 
+<a class="jxr_linenumber" name="L186" href="#L186">186</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(<span class="jxr_string">"gbif:ih:irn:"</span>)) {
+<a class="jxr_linenumber" name="L187" href="#L187">187</a>       <strong class="jxr_keyword">return</strong> IH_IRN;
+<a class="jxr_linenumber" name="L188" href="#L188">188</a>     }
+<a class="jxr_linenumber" name="L189" href="#L189">189</a> 
+<a class="jxr_linenumber" name="L190" href="#L190">190</a>     <strong class="jxr_keyword">if</strong> (lcIdentifier.startsWith(<span class="jxr_string">"grid"</span>)) {
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>       <strong class="jxr_keyword">return</strong> GRID;
+<a class="jxr_linenumber" name="L192" href="#L192">192</a>     }
+<a class="jxr_linenumber" name="L193" href="#L193">193</a> 
+<a class="jxr_linenumber" name="L194" href="#L194">194</a>     <strong class="jxr_keyword">if</strong> (IdentifierUtils.isValidISILIdentifier(lcIdentifier)) {
+<a class="jxr_linenumber" name="L195" href="#L195">195</a>       <strong class="jxr_keyword">return</strong> ISIL;
+<a class="jxr_linenumber" name="L196" href="#L196">196</a>     }
+<a class="jxr_linenumber" name="L197" href="#L197">197</a> 
+<a class="jxr_linenumber" name="L198" href="#L198">198</a>    <strong class="jxr_keyword">if</strong> (IdentifierUtils.isValidCLBDatasetKey(lcIdentifier)) {
+<a class="jxr_linenumber" name="L199" href="#L199">199</a>      <strong class="jxr_keyword">return</strong> CLB_DATASET_KEY;
+<a class="jxr_linenumber" name="L200" href="#L200">200</a>    }
+<a class="jxr_linenumber" name="L201" href="#L201">201</a> 
+<a class="jxr_linenumber" name="L202" href="#L202">202</a>     <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L203" href="#L203">203</a>       <em class="jxr_comment">//noinspection ResultOfMethodCallIgnored</em>
+<a class="jxr_linenumber" name="L204" href="#L204">204</a>       java.util.UUID.fromString(lcIdentifier);
+<a class="jxr_linenumber" name="L205" href="#L205">205</a>       <strong class="jxr_keyword">return</strong> UUID;
+<a class="jxr_linenumber" name="L206" href="#L206">206</a>     } <strong class="jxr_keyword">catch</strong> (IllegalArgumentException ignored) {
+<a class="jxr_linenumber" name="L207" href="#L207">207</a>       <em class="jxr_comment">// We're just trying to convert a String to anything readable. Apparently the UUID approach failed.</em>
+<a class="jxr_linenumber" name="L208" href="#L208">208</a>     }
+<a class="jxr_linenumber" name="L209" href="#L209">209</a> 
+<a class="jxr_linenumber" name="L210" href="#L210">210</a>     <strong class="jxr_keyword">return</strong> UNKNOWN;
+<a class="jxr_linenumber" name="L211" href="#L211">211</a>   }
+<a class="jxr_linenumber" name="L212" href="#L212">212</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2024 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>

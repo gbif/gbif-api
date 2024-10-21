@@ -66,120 +66,136 @@
 <span class="sourceLineNo">058</span>  )<a name="line.58"></a>
 <span class="sourceLineNo">059</span>  private Date created;<a name="line.59"></a>
 <span class="sourceLineNo">060</span><a name="line.60"></a>
-<span class="sourceLineNo">061</span>  public Identifier() {}<a name="line.61"></a>
-<span class="sourceLineNo">062</span><a name="line.62"></a>
-<span class="sourceLineNo">063</span>  public Identifier(IdentifierType type, String identifier) {<a name="line.63"></a>
-<span class="sourceLineNo">064</span>    this.type = type;<a name="line.64"></a>
-<span class="sourceLineNo">065</span>    this.identifier = identifier;<a name="line.65"></a>
-<span class="sourceLineNo">066</span>  }<a name="line.66"></a>
-<span class="sourceLineNo">067</span><a name="line.67"></a>
-<span class="sourceLineNo">068</span>  @Null(groups = {PrePersist.class})<a name="line.68"></a>
-<span class="sourceLineNo">069</span>  @NotNull(groups = {PostPersist.class})<a name="line.69"></a>
-<span class="sourceLineNo">070</span>  @Min(1)<a name="line.70"></a>
-<span class="sourceLineNo">071</span>  public Integer getKey() {<a name="line.71"></a>
-<span class="sourceLineNo">072</span>    return key;<a name="line.72"></a>
-<span class="sourceLineNo">073</span>  }<a name="line.73"></a>
-<span class="sourceLineNo">074</span><a name="line.74"></a>
-<span class="sourceLineNo">075</span>  public void setKey(Integer key) {<a name="line.75"></a>
-<span class="sourceLineNo">076</span>    this.key = key;<a name="line.76"></a>
-<span class="sourceLineNo">077</span>  }<a name="line.77"></a>
-<span class="sourceLineNo">078</span><a name="line.78"></a>
-<span class="sourceLineNo">079</span>  @NotNull<a name="line.79"></a>
-<span class="sourceLineNo">080</span>  public IdentifierType getType() {<a name="line.80"></a>
-<span class="sourceLineNo">081</span>    return type;<a name="line.81"></a>
-<span class="sourceLineNo">082</span>  }<a name="line.82"></a>
-<span class="sourceLineNo">083</span><a name="line.83"></a>
-<span class="sourceLineNo">084</span>  public void setType(IdentifierType type) {<a name="line.84"></a>
-<span class="sourceLineNo">085</span>    this.type = type;<a name="line.85"></a>
-<span class="sourceLineNo">086</span>  }<a name="line.86"></a>
-<span class="sourceLineNo">087</span><a name="line.87"></a>
-<span class="sourceLineNo">088</span>  @NotNull<a name="line.88"></a>
-<span class="sourceLineNo">089</span>  @Size(min = 1)<a name="line.89"></a>
-<span class="sourceLineNo">090</span>  public String getIdentifier() {<a name="line.90"></a>
-<span class="sourceLineNo">091</span>    return identifier;<a name="line.91"></a>
+<span class="sourceLineNo">061</span>  @Schema(<a name="line.61"></a>
+<span class="sourceLineNo">062</span>    description = "Whether this is the primary identifier for the associated entity."<a name="line.62"></a>
+<span class="sourceLineNo">063</span>  )<a name="line.63"></a>
+<span class="sourceLineNo">064</span>  @NotNull<a name="line.64"></a>
+<span class="sourceLineNo">065</span>  private Boolean primary = false;<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>  public Identifier() {}<a name="line.67"></a>
+<span class="sourceLineNo">068</span><a name="line.68"></a>
+<span class="sourceLineNo">069</span>  public Identifier(IdentifierType type, String identifier) {<a name="line.69"></a>
+<span class="sourceLineNo">070</span>    this.type = type;<a name="line.70"></a>
+<span class="sourceLineNo">071</span>    this.identifier = identifier;<a name="line.71"></a>
+<span class="sourceLineNo">072</span>  }<a name="line.72"></a>
+<span class="sourceLineNo">073</span><a name="line.73"></a>
+<span class="sourceLineNo">074</span>  @Null(groups = {PrePersist.class})<a name="line.74"></a>
+<span class="sourceLineNo">075</span>  @NotNull(groups = {PostPersist.class})<a name="line.75"></a>
+<span class="sourceLineNo">076</span>  @Min(1)<a name="line.76"></a>
+<span class="sourceLineNo">077</span>  public Integer getKey() {<a name="line.77"></a>
+<span class="sourceLineNo">078</span>    return key;<a name="line.78"></a>
+<span class="sourceLineNo">079</span>  }<a name="line.79"></a>
+<span class="sourceLineNo">080</span><a name="line.80"></a>
+<span class="sourceLineNo">081</span>  public void setKey(Integer key) {<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    this.key = key;<a name="line.82"></a>
+<span class="sourceLineNo">083</span>  }<a name="line.83"></a>
+<span class="sourceLineNo">084</span><a name="line.84"></a>
+<span class="sourceLineNo">085</span>  @NotNull<a name="line.85"></a>
+<span class="sourceLineNo">086</span>  public IdentifierType getType() {<a name="line.86"></a>
+<span class="sourceLineNo">087</span>    return type;<a name="line.87"></a>
+<span class="sourceLineNo">088</span>  }<a name="line.88"></a>
+<span class="sourceLineNo">089</span><a name="line.89"></a>
+<span class="sourceLineNo">090</span>  public void setType(IdentifierType type) {<a name="line.90"></a>
+<span class="sourceLineNo">091</span>    this.type = type;<a name="line.91"></a>
 <span class="sourceLineNo">092</span>  }<a name="line.92"></a>
 <span class="sourceLineNo">093</span><a name="line.93"></a>
-<span class="sourceLineNo">094</span>  public void setIdentifier(String identifier) {<a name="line.94"></a>
-<span class="sourceLineNo">095</span>    this.identifier = identifier;<a name="line.95"></a>
-<span class="sourceLineNo">096</span>  }<a name="line.96"></a>
-<span class="sourceLineNo">097</span><a name="line.97"></a>
-<span class="sourceLineNo">098</span>  @Size(min = 3)<a name="line.98"></a>
-<span class="sourceLineNo">099</span>  public String getCreatedBy() {<a name="line.99"></a>
-<span class="sourceLineNo">100</span>    return createdBy;<a name="line.100"></a>
-<span class="sourceLineNo">101</span>  }<a name="line.101"></a>
-<span class="sourceLineNo">102</span><a name="line.102"></a>
-<span class="sourceLineNo">103</span>  public void setCreatedBy(String createdBy) {<a name="line.103"></a>
-<span class="sourceLineNo">104</span>    this.createdBy = createdBy;<a name="line.104"></a>
-<span class="sourceLineNo">105</span>  }<a name="line.105"></a>
-<span class="sourceLineNo">106</span><a name="line.106"></a>
-<span class="sourceLineNo">107</span>  @Null(groups = {PrePersist.class})<a name="line.107"></a>
-<span class="sourceLineNo">108</span>  @NotNull(groups = {PostPersist.class})<a name="line.108"></a>
-<span class="sourceLineNo">109</span>  public Date getCreated() {<a name="line.109"></a>
-<span class="sourceLineNo">110</span>    return created;<a name="line.110"></a>
+<span class="sourceLineNo">094</span>  @NotNull<a name="line.94"></a>
+<span class="sourceLineNo">095</span>  @Size(min = 1)<a name="line.95"></a>
+<span class="sourceLineNo">096</span>  public String getIdentifier() {<a name="line.96"></a>
+<span class="sourceLineNo">097</span>    return identifier;<a name="line.97"></a>
+<span class="sourceLineNo">098</span>  }<a name="line.98"></a>
+<span class="sourceLineNo">099</span><a name="line.99"></a>
+<span class="sourceLineNo">100</span>  public void setIdentifier(String identifier) {<a name="line.100"></a>
+<span class="sourceLineNo">101</span>    this.identifier = identifier;<a name="line.101"></a>
+<span class="sourceLineNo">102</span>  }<a name="line.102"></a>
+<span class="sourceLineNo">103</span><a name="line.103"></a>
+<span class="sourceLineNo">104</span>  @Size(min = 3)<a name="line.104"></a>
+<span class="sourceLineNo">105</span>  public String getCreatedBy() {<a name="line.105"></a>
+<span class="sourceLineNo">106</span>    return createdBy;<a name="line.106"></a>
+<span class="sourceLineNo">107</span>  }<a name="line.107"></a>
+<span class="sourceLineNo">108</span><a name="line.108"></a>
+<span class="sourceLineNo">109</span>  public void setCreatedBy(String createdBy) {<a name="line.109"></a>
+<span class="sourceLineNo">110</span>    this.createdBy = createdBy;<a name="line.110"></a>
 <span class="sourceLineNo">111</span>  }<a name="line.111"></a>
 <span class="sourceLineNo">112</span><a name="line.112"></a>
-<span class="sourceLineNo">113</span>  public void setCreated(Date created) {<a name="line.113"></a>
-<span class="sourceLineNo">114</span>    this.created = created;<a name="line.114"></a>
-<span class="sourceLineNo">115</span>  }<a name="line.115"></a>
-<span class="sourceLineNo">116</span><a name="line.116"></a>
-<span class="sourceLineNo">117</span>  /**<a name="line.117"></a>
-<span class="sourceLineNo">118</span>   * Creates a http link for an identifier if possible by passing it to some known resolvers for the specific id type.<a name="line.118"></a>
-<span class="sourceLineNo">119</span>   * If no link can be constructed, null is returned.<a name="line.119"></a>
-<span class="sourceLineNo">120</span>   *<a name="line.120"></a>
-<span class="sourceLineNo">121</span>   * @return the url or null if it cannot be created<a name="line.121"></a>
-<span class="sourceLineNo">122</span>   *<a name="line.122"></a>
-<span class="sourceLineNo">123</span>   * @see org.gbif.api.util.IdentifierUtils#getIdentifierLink(String, org.gbif.api.vocabulary.IdentifierType)<a name="line.123"></a>
-<span class="sourceLineNo">124</span>   */<a name="line.124"></a>
-<span class="sourceLineNo">125</span>  @Nullable<a name="line.125"></a>
-<span class="sourceLineNo">126</span>  @JsonIgnore<a name="line.126"></a>
-<span class="sourceLineNo">127</span>  public String getIdentifierLink() {<a name="line.127"></a>
-<span class="sourceLineNo">128</span>    return IdentifierUtils.getIdentifierLink(identifier, type);<a name="line.128"></a>
+<span class="sourceLineNo">113</span>  @Null(groups = {PrePersist.class})<a name="line.113"></a>
+<span class="sourceLineNo">114</span>  @NotNull(groups = {PostPersist.class})<a name="line.114"></a>
+<span class="sourceLineNo">115</span>  public Date getCreated() {<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    return created;<a name="line.116"></a>
+<span class="sourceLineNo">117</span>  }<a name="line.117"></a>
+<span class="sourceLineNo">118</span><a name="line.118"></a>
+<span class="sourceLineNo">119</span>  public void setCreated(Date created) {<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    this.created = created;<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  }<a name="line.121"></a>
+<span class="sourceLineNo">122</span><a name="line.122"></a>
+<span class="sourceLineNo">123</span>  public boolean isPrimary() {<a name="line.123"></a>
+<span class="sourceLineNo">124</span>    return primary;<a name="line.124"></a>
+<span class="sourceLineNo">125</span>  }<a name="line.125"></a>
+<span class="sourceLineNo">126</span><a name="line.126"></a>
+<span class="sourceLineNo">127</span>  public void setPrimary(boolean primary) {<a name="line.127"></a>
+<span class="sourceLineNo">128</span>    this.primary = primary;<a name="line.128"></a>
 <span class="sourceLineNo">129</span>  }<a name="line.129"></a>
 <span class="sourceLineNo">130</span><a name="line.130"></a>
-<span class="sourceLineNo">131</span>  @Override<a name="line.131"></a>
-<span class="sourceLineNo">132</span>  public boolean equals(Object o) {<a name="line.132"></a>
-<span class="sourceLineNo">133</span>    if (this == o) {<a name="line.133"></a>
-<span class="sourceLineNo">134</span>      return true;<a name="line.134"></a>
-<span class="sourceLineNo">135</span>    }<a name="line.135"></a>
-<span class="sourceLineNo">136</span>    if (o == null || getClass() != o.getClass()) {<a name="line.136"></a>
-<span class="sourceLineNo">137</span>      return false;<a name="line.137"></a>
-<span class="sourceLineNo">138</span>    }<a name="line.138"></a>
-<span class="sourceLineNo">139</span>    Identifier that = (Identifier) o;<a name="line.139"></a>
-<span class="sourceLineNo">140</span>    return Objects.equals(key, that.key)<a name="line.140"></a>
-<span class="sourceLineNo">141</span>        &amp;&amp; type == that.type<a name="line.141"></a>
-<span class="sourceLineNo">142</span>        &amp;&amp; Objects.equals(identifier, that.identifier)<a name="line.142"></a>
-<span class="sourceLineNo">143</span>        &amp;&amp; Objects.equals(createdBy, that.createdBy)<a name="line.143"></a>
-<span class="sourceLineNo">144</span>        &amp;&amp; Objects.equals(created, that.created);<a name="line.144"></a>
-<span class="sourceLineNo">145</span>  }<a name="line.145"></a>
-<span class="sourceLineNo">146</span><a name="line.146"></a>
-<span class="sourceLineNo">147</span>  @Override<a name="line.147"></a>
-<span class="sourceLineNo">148</span>  public int hashCode() {<a name="line.148"></a>
-<span class="sourceLineNo">149</span>    return Objects.hash(key, type, identifier, createdBy, created);<a name="line.149"></a>
-<span class="sourceLineNo">150</span>  }<a name="line.150"></a>
-<span class="sourceLineNo">151</span><a name="line.151"></a>
-<span class="sourceLineNo">152</span>  @Override<a name="line.152"></a>
-<span class="sourceLineNo">153</span>  public String toString() {<a name="line.153"></a>
-<span class="sourceLineNo">154</span>    return new StringJoiner(", ", Identifier.class.getSimpleName() + "[", "]")<a name="line.154"></a>
-<span class="sourceLineNo">155</span>        .add("key=" + key)<a name="line.155"></a>
-<span class="sourceLineNo">156</span>        .add("type=" + type)<a name="line.156"></a>
-<span class="sourceLineNo">157</span>        .add("identifier='" + identifier + "'")<a name="line.157"></a>
-<span class="sourceLineNo">158</span>        .add("createdBy='" + createdBy + "'")<a name="line.158"></a>
-<span class="sourceLineNo">159</span>        .add("created=" + created)<a name="line.159"></a>
-<span class="sourceLineNo">160</span>        .toString();<a name="line.160"></a>
-<span class="sourceLineNo">161</span>  }<a name="line.161"></a>
-<span class="sourceLineNo">162</span><a name="line.162"></a>
-<span class="sourceLineNo">163</span>  /**<a name="line.163"></a>
-<span class="sourceLineNo">164</span>   * A lenient equality check ignoring server controlled values (createdBy, key etc).<a name="line.164"></a>
-<span class="sourceLineNo">165</span>   */<a name="line.165"></a>
-<span class="sourceLineNo">166</span>  @Override<a name="line.166"></a>
-<span class="sourceLineNo">167</span>  public boolean lenientEquals(Identifier other) {<a name="line.167"></a>
-<span class="sourceLineNo">168</span>    if (this == other) {<a name="line.168"></a>
-<span class="sourceLineNo">169</span>      return true;<a name="line.169"></a>
-<span class="sourceLineNo">170</span>    }<a name="line.170"></a>
-<span class="sourceLineNo">171</span>    return Objects.equals(this.type, other.type)<a name="line.171"></a>
-<span class="sourceLineNo">172</span>        &amp;&amp; Objects.equals(this.identifier, other.identifier);<a name="line.172"></a>
-<span class="sourceLineNo">173</span>  }<a name="line.173"></a>
-<span class="sourceLineNo">174</span>}<a name="line.174"></a>
+<span class="sourceLineNo">131</span>  /**<a name="line.131"></a>
+<span class="sourceLineNo">132</span>   * Creates a http link for an identifier if possible by passing it to some known resolvers for the specific id type.<a name="line.132"></a>
+<span class="sourceLineNo">133</span>   * If no link can be constructed, null is returned.<a name="line.133"></a>
+<span class="sourceLineNo">134</span>   *<a name="line.134"></a>
+<span class="sourceLineNo">135</span>   * @return the url or null if it cannot be created<a name="line.135"></a>
+<span class="sourceLineNo">136</span>   *<a name="line.136"></a>
+<span class="sourceLineNo">137</span>   * @see org.gbif.api.util.IdentifierUtils#getIdentifierLink(String, org.gbif.api.vocabulary.IdentifierType)<a name="line.137"></a>
+<span class="sourceLineNo">138</span>   */<a name="line.138"></a>
+<span class="sourceLineNo">139</span>  @Nullable<a name="line.139"></a>
+<span class="sourceLineNo">140</span>  @JsonIgnore<a name="line.140"></a>
+<span class="sourceLineNo">141</span>  public String getIdentifierLink() {<a name="line.141"></a>
+<span class="sourceLineNo">142</span>    return IdentifierUtils.getIdentifierLink(identifier, type);<a name="line.142"></a>
+<span class="sourceLineNo">143</span>  }<a name="line.143"></a>
+<span class="sourceLineNo">144</span><a name="line.144"></a>
+<span class="sourceLineNo">145</span>  @Override<a name="line.145"></a>
+<span class="sourceLineNo">146</span>  public boolean equals(Object o) {<a name="line.146"></a>
+<span class="sourceLineNo">147</span>    if (this == o) {<a name="line.147"></a>
+<span class="sourceLineNo">148</span>      return true;<a name="line.148"></a>
+<span class="sourceLineNo">149</span>    }<a name="line.149"></a>
+<span class="sourceLineNo">150</span>    if (o == null || getClass() != o.getClass()) {<a name="line.150"></a>
+<span class="sourceLineNo">151</span>      return false;<a name="line.151"></a>
+<span class="sourceLineNo">152</span>    }<a name="line.152"></a>
+<span class="sourceLineNo">153</span>    Identifier that = (Identifier) o;<a name="line.153"></a>
+<span class="sourceLineNo">154</span>    return Objects.equals(key, that.key)<a name="line.154"></a>
+<span class="sourceLineNo">155</span>        &amp;&amp; type == that.type<a name="line.155"></a>
+<span class="sourceLineNo">156</span>        &amp;&amp; Objects.equals(identifier, that.identifier)<a name="line.156"></a>
+<span class="sourceLineNo">157</span>        &amp;&amp; Objects.equals(createdBy, that.createdBy)<a name="line.157"></a>
+<span class="sourceLineNo">158</span>        &amp;&amp; Objects.equals(created, that.created)<a name="line.158"></a>
+<span class="sourceLineNo">159</span>        &amp;&amp; primary == that.primary;<a name="line.159"></a>
+<span class="sourceLineNo">160</span>  }<a name="line.160"></a>
+<span class="sourceLineNo">161</span><a name="line.161"></a>
+<span class="sourceLineNo">162</span>  @Override<a name="line.162"></a>
+<span class="sourceLineNo">163</span>  public int hashCode() {<a name="line.163"></a>
+<span class="sourceLineNo">164</span>    return Objects.hash(key, type, identifier, createdBy, created, primary);<a name="line.164"></a>
+<span class="sourceLineNo">165</span>  }<a name="line.165"></a>
+<span class="sourceLineNo">166</span><a name="line.166"></a>
+<span class="sourceLineNo">167</span>  @Override<a name="line.167"></a>
+<span class="sourceLineNo">168</span>  public String toString() {<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    return new StringJoiner(", ", Identifier.class.getSimpleName() + "[", "]")<a name="line.169"></a>
+<span class="sourceLineNo">170</span>        .add("key=" + key)<a name="line.170"></a>
+<span class="sourceLineNo">171</span>        .add("type=" + type)<a name="line.171"></a>
+<span class="sourceLineNo">172</span>        .add("identifier='" + identifier + "'")<a name="line.172"></a>
+<span class="sourceLineNo">173</span>        .add("createdBy='" + createdBy + "'")<a name="line.173"></a>
+<span class="sourceLineNo">174</span>        .add("created=" + created + "'")<a name="line.174"></a>
+<span class="sourceLineNo">175</span>        .add("primary=" + primary)<a name="line.175"></a>
+<span class="sourceLineNo">176</span>        .toString();<a name="line.176"></a>
+<span class="sourceLineNo">177</span>  }<a name="line.177"></a>
+<span class="sourceLineNo">178</span><a name="line.178"></a>
+<span class="sourceLineNo">179</span>  /**<a name="line.179"></a>
+<span class="sourceLineNo">180</span>   * A lenient equality check ignoring server controlled values (createdBy, key etc).<a name="line.180"></a>
+<span class="sourceLineNo">181</span>   */<a name="line.181"></a>
+<span class="sourceLineNo">182</span>  @Override<a name="line.182"></a>
+<span class="sourceLineNo">183</span>  public boolean lenientEquals(Identifier other) {<a name="line.183"></a>
+<span class="sourceLineNo">184</span>    if (this == other) {<a name="line.184"></a>
+<span class="sourceLineNo">185</span>      return true;<a name="line.185"></a>
+<span class="sourceLineNo">186</span>    }<a name="line.186"></a>
+<span class="sourceLineNo">187</span>    return Objects.equals(this.type, other.type)<a name="line.187"></a>
+<span class="sourceLineNo">188</span>        &amp;&amp; Objects.equals(this.identifier, other.identifier);<a name="line.188"></a>
+<span class="sourceLineNo">189</span>  }<a name="line.189"></a>
+<span class="sourceLineNo">190</span>}<a name="line.190"></a>
 
 
 
