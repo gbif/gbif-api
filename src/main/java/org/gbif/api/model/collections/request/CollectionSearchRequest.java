@@ -19,16 +19,17 @@ import javax.annotation.Nullable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
+import org.gbif.api.vocabulary.collections.CollectionFacetParameter;
 
 @SuppressWarnings("MissingOverride")
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @Data
-public class CollectionSearchRequest extends SearchRequest {
+public class CollectionSearchRequest extends SearchRequest<CollectionFacetParameter> {
 
-  @Deprecated @Nullable private UUID institution;
+  @Deprecated @Nullable private List<UUID> institution;
   @Nullable private List<String> contentTypes;
   @Nullable private List<String> preservationTypes;
   @Nullable private List<String> accessionStatus;
-  @Nullable private Boolean personalCollection;
+  @Nullable private List<Boolean> personalCollection;
 }
