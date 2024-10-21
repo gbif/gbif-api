@@ -104,7 +104,18 @@ public enum IdentifierType {
   /**
    * https://www.ncbi.nlm.nih.gov/
    */
-  NCBI_BIOCOLLECTION;
+  NCBI_BIOCOLLECTION,
+
+  /**
+   * https://slks.dk/english/work-areas/libraries-and-literature/library-standards/isil
+   */
+  ISIL,
+
+  /**
+   * ChecklistBank dataset keys (integer)
+   * https://www.checklistbank.org/dataset
+   */
+  CLB_DATASET_KEY;
 
   // TODO: Check if this is used, it didn't exist in the new Registry2 API, but I preserved it from the old vocabulary
   public static final List<IdentifierType> TYPES;
@@ -147,7 +158,7 @@ public enum IdentifierType {
         || lcIdentifier.startsWith("https://doi.org/10.")) {
       return DOI;
     }
-    //Todo: ADD CHECK HERE
+
     if (lcIdentifier.startsWith("https://ror.org")) {
       return ROR;
     }
@@ -179,6 +190,14 @@ public enum IdentifierType {
     if (lcIdentifier.startsWith("grid")) {
       return GRID;
     }
+
+    if (IdentifierUtils.isValidISILIdentifier(lcIdentifier)) {
+      return ISIL;
+    }
+
+   if (IdentifierUtils.isValidCLBDatasetKey(lcIdentifier)) {
+     return CLB_DATASET_KEY;
+   }
 
     try {
       //noinspection ResultOfMethodCallIgnored

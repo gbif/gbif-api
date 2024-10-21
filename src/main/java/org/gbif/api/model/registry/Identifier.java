@@ -58,6 +58,12 @@ public class Identifier implements Serializable, LenientEquals<Identifier> {
   )
   private Date created;
 
+  @Schema(
+    description = "Whether this is the primary identifier for the associated entity."
+  )
+  @NotNull
+  private Boolean primary = false;
+
   public Identifier() {}
 
   public Identifier(IdentifierType type, String identifier) {
@@ -114,6 +120,14 @@ public class Identifier implements Serializable, LenientEquals<Identifier> {
     this.created = created;
   }
 
+  public boolean isPrimary() {
+    return primary;
+  }
+
+  public void setPrimary(boolean primary) {
+    this.primary = primary;
+  }
+
   /**
    * Creates a http link for an identifier if possible by passing it to some known resolvers for the specific id type.
    * If no link can be constructed, null is returned.
@@ -141,12 +155,13 @@ public class Identifier implements Serializable, LenientEquals<Identifier> {
         && type == that.type
         && Objects.equals(identifier, that.identifier)
         && Objects.equals(createdBy, that.createdBy)
-        && Objects.equals(created, that.created);
+        && Objects.equals(created, that.created)
+        && primary == that.primary;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, type, identifier, createdBy, created);
+    return Objects.hash(key, type, identifier, createdBy, created, primary);
   }
 
   @Override
@@ -156,7 +171,8 @@ public class Identifier implements Serializable, LenientEquals<Identifier> {
         .add("type=" + type)
         .add("identifier='" + identifier + "'")
         .add("createdBy='" + createdBy + "'")
-        .add("created=" + created)
+        .add("created=" + created + "'")
+        .add("primary=" + primary)
         .toString();
   }
 

@@ -96,6 +96,16 @@ public enum EndpointType {
   BIOM_2_1,
 
   /**
+   * <a href="https://www.checklistbank.org/about/formats#annual-checklist-exchange-format-acef">Annual Checklist Exchange Format (ACEF)</a>
+   * from the Catalogue of Life.
+   */
+  ACEF,
+  /**
+   * <a href="https://github.com/gbif/text-tree">TextTree</a>.
+   * is a simple format to represent taxonomic trees using indented, plain text.
+   */
+  TEXT_TREE,
+  /**
    * Any other service not covered by this enum so far.
    */
   OTHER;

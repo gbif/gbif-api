@@ -36,6 +36,11 @@ public class IdentifierUtils {
   public static final Pattern ROR_PATTERN =
     Pattern.compile("https?://ror\\.org/0[a-z0-9]{6}[0-9]{2}");
 
+  public static final Pattern ISIL_PATTERN =
+    Pattern.compile("^[A-Za-z]{1,4}-[A-Za-z0-9:/-]{1,11}$");
+
+  public static final Pattern CLB_DATASET_KEY_PATTERN = Pattern.compile("[1-9]\\d*");
+
   /**
    * Creates a http link for an identifier if possible by passing it to some known resolvers for the
    * specific id type. If no link can be constructed, null is returned.
@@ -62,6 +67,8 @@ public class IdentifierUtils {
         return "http://www.lsid.info/" + identifier;
       case GBIF_PORTAL:
         return "https://www.gbif.org/dataset/" + identifier;
+      case CLB_DATASET_KEY:
+        return "https://www.checklistbank.org/dataset/" + identifier;
     }
     return null;
   }
@@ -99,5 +106,24 @@ public class IdentifierUtils {
     }
 
     return ROR_PATTERN.matcher(identifier).matches();
+  }
+
+  /** ISIL identifier validation according to
+   * https://slks.dk/english/work-areas/libraries-and-literature/library-standards/structure */
+  public static boolean isValidISILIdentifier(String identifier) {
+    if (identifier == null || identifier.isEmpty()) {
+      return false;
+    }
+
+    return ISIL_PATTERN.matcher(identifier).matches();
+  }
+
+  public static boolean isValidCLBDatasetKey(String identifier) {
+    if (identifier == null || identifier.isEmpty()) {
+      return false;
+    }
+
+    // Use a regular expression to check if the identifier is a positive integer
+    return CLB_DATASET_KEY_PATTERN.matcher(identifier).matches();
   }
 }

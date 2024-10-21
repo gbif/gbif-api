@@ -15,11 +15,9 @@ package org.gbif.api.service.collections;
 
 import org.gbif.api.model.collections.CollectionEntity;
 import org.gbif.api.model.collections.MasterSourceMetadata;
-import org.gbif.api.model.common.paging.Pageable;
-import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.service.registry.CommentService;
-import org.gbif.api.service.registry.IdentifierService;
 import org.gbif.api.service.registry.MachineTagService;
+import org.gbif.api.service.registry.PrimaryIdentifierService;
 import org.gbif.api.service.registry.TagService;
 import org.gbif.api.vocabulary.collections.Source;
 
@@ -27,13 +25,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 public interface CollectionEntityService<T extends CollectionEntity>
     extends CrudService<T>,
-        IdentifierService,
+        PrimaryIdentifierService,
         TagService,
         MachineTagService,
         CommentService,
