@@ -18,6 +18,8 @@ import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import org.gbif.api.annotation.Experimental;
+
 /** Enum to represent the pipelines step names. */
 @Getter
 @AllArgsConstructor
@@ -37,6 +39,8 @@ public enum StepType {
   VERBATIM_TO_INTERPRETED("verbatimToInterpreted"),
   INTERPRETED_TO_INDEX("interpretedToIndex"),
   HDFS_VIEW("hdfsView"),
+  @Experimental
+  DATA_WAREHOUSE("dataWarehouse"),
 
   // Event interpretation
   EVENTS_VERBATIM_TO_INTERPRETED("eventsVerbatimToInterpreted"),
