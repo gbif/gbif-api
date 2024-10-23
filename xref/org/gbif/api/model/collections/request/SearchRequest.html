@@ -24,62 +24,77 @@
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">package</strong> org.gbif.api.model.collections.request;
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> java.io.Serializable;
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> java.util.List;
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> java.util.UUID;
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> javax.annotation.Nullable;
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> lombok.Data;
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> lombok.experimental.SuperBuilder;
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.common.paging.Pageable;
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.common.paging.PagingConstants;
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.common.paging.PagingRequest;
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.CollectionsSortField;
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.Country;
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.GbifRegion;
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.IdentifierType;
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.SortOrder;
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.collections.MasterSourceType;
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.collections.Source;
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  @SuperBuilder
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  @Data
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> <a name="SearchRequest" href="../../../../../../org/gbif/api/model/collections/request/SearchRequest.html#SearchRequest">SearchRequest</a> <strong class="jxr_keyword">implements</strong> Serializable {
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>    @Nullable <strong class="jxr_keyword">private</strong> Boolean hl;
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>    @Nullable <strong class="jxr_keyword">private</strong> String q;
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>    @Nullable <strong class="jxr_keyword">private</strong> String code;
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>    @Nullable <strong class="jxr_keyword">private</strong> String name;
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>    @Nullable <strong class="jxr_keyword">private</strong> String alternativeCode;
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>    @Nullable <strong class="jxr_keyword">private</strong> UUID contact;
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>    @Nullable <strong class="jxr_keyword">private</strong> String machineTagNamespace;
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>    @Nullable <strong class="jxr_keyword">private</strong> String machineTagName;
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>    @Nullable <strong class="jxr_keyword">private</strong> String machineTagValue;
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>    @Nullable <strong class="jxr_keyword">private</strong> <a name="IdentifierType" href="../../../../../../org/gbif/api/vocabulary/IdentifierType.html#IdentifierType">IdentifierType</a> identifierType;
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>    @Nullable <strong class="jxr_keyword">private</strong> String identifier;
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;Country&gt; country;
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;GbifRegion&gt; gbifRegion;
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>    @Nullable <strong class="jxr_keyword">private</strong> String city;
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>    @Nullable <strong class="jxr_keyword">private</strong> String fuzzyName;
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>    @Nullable <strong class="jxr_keyword">private</strong> Boolean active;
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>    @Nullable <strong class="jxr_keyword">private</strong> <a name="MasterSourceType" href="../../../../../../org/gbif/api/vocabulary/collections/MasterSourceType.html#MasterSourceType">MasterSourceType</a> masterSourceType;
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>    @Nullable <strong class="jxr_keyword">private</strong> String numberSpecimens;
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>    @Nullable <strong class="jxr_keyword">private</strong> Boolean displayOnNHCPortal;
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>    @Nullable <strong class="jxr_keyword">private</strong> UUID replacedBy;
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>    @Nullable <strong class="jxr_keyword">private</strong> String occurrenceCount;
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>    @Nullable <strong class="jxr_keyword">private</strong> String typeSpecimenCount;
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>    @Nullable <strong class="jxr_keyword">private</strong> <a name="CollectionsSortField" href="../../../../../../org/gbif/api/vocabulary/CollectionsSortField.html#CollectionsSortField">CollectionsSortField</a> sortBy;
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>    @Nullable <strong class="jxr_keyword">private</strong> <a name="SortOrder" href="../../../../../../org/gbif/api/vocabulary/SortOrder.html#SortOrder">SortOrder</a> sortOrder;
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;UUID&gt; institutionKeys;
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>    @Nullable <strong class="jxr_keyword">private</strong> <a name="Source" href="../../../../../../org/gbif/api/vocabulary/collections/Source.html#Source">Source</a> source;
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>    @Nullable <strong class="jxr_keyword">private</strong> String sourceId;
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>    @Nullable <strong class="jxr_keyword">private</strong> Long offset;
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>    @Nullable <strong class="jxr_keyword">private</strong> Integer limit;
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>  
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>    <strong class="jxr_keyword">public</strong> <a name="Pageable" href="../../../../../../org/gbif/api/model/common/paging/Pageable.html#Pageable">Pageable</a> getPage() {
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>      <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a name="PagingRequest" href="../../../../../../org/gbif/api/model/common/paging/PagingRequest.html#PagingRequest">PagingRequest</a>(
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>          offset != <strong class="jxr_keyword">null</strong> ? offset : PagingConstants.DEFAULT_PARAM_OFFSET,
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>          limit != <strong class="jxr_keyword">null</strong> ? limit : PagingConstants.DEFAULT_PARAM_LIMIT);
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>    }
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>  }
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> java.util.HashMap;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> java.util.HashSet;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> java.util.Map;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> java.util.Set;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> java.util.UUID;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> javax.annotation.Nullable;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> lombok.Builder;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> lombok.Data;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> lombok.experimental.SuperBuilder;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.common.paging.Pageable;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.common.paging.PagingConstants;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.model.common.paging.PagingRequest;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.Country;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.GbifRegion;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.IdentifierType;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.SortOrder;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.collections.CollectionsFacetParameter;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.collections.CollectionsSortField;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.collections.MasterSourceType;
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">import</strong> org.gbif.api.vocabulary.collections.Source;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  @SuperBuilder
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  @Data
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> SearchRequest&lt;F <strong class="jxr_keyword">extends</strong> CollectionsFacetParameter&gt; <strong class="jxr_keyword">implements</strong> Serializable {
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>    @Nullable <strong class="jxr_keyword">private</strong> Boolean hl;
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>    @Nullable <strong class="jxr_keyword">private</strong> String q;
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; code;
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; name;
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; alternativeCode;
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;UUID&gt; contact;
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; machineTagNamespace;
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; machineTagName;
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; machineTagValue;
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;IdentifierType&gt; identifierType;
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; identifier;
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;Country&gt; country;
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;GbifRegion&gt; gbifRegion;
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; city;
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; fuzzyName;
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;Boolean&gt; active;
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;MasterSourceType&gt; masterSourceType;
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>    @Nullable <strong class="jxr_keyword">private</strong> String numberSpecimens;
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;Boolean&gt; displayOnNHCPortal;
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;UUID&gt; replacedBy;
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>    @Nullable <strong class="jxr_keyword">private</strong> String occurrenceCount;
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>    @Nullable <strong class="jxr_keyword">private</strong> String typeSpecimenCount;
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>    @Nullable <strong class="jxr_keyword">private</strong> <a name="CollectionsSortField" href="../../../../../../org/gbif/api/vocabulary/collections/CollectionsSortField.html#CollectionsSortField">CollectionsSortField</a> sortBy;
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>    @Nullable <strong class="jxr_keyword">private</strong> <a name="SortOrder" href="../../../../../../org/gbif/api/vocabulary/SortOrder.html#SortOrder">SortOrder</a> sortOrder;
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;UUID&gt; institutionKeys;
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;Source&gt; source;
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>    @Nullable <strong class="jxr_keyword">private</strong> List&lt;String&gt; sourceId;
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>    @Nullable <strong class="jxr_keyword">private</strong> Long offset;
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>    @Nullable <strong class="jxr_keyword">private</strong> Integer limit;
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>    @Builder.Default @Nullable <strong class="jxr_keyword">private</strong> Set&lt;F&gt; facets = <strong class="jxr_keyword">new</strong> HashSet&lt;&gt;();
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>    @Nullable <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> multiSelectFacets;
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>    @Nullable <strong class="jxr_keyword">private</strong> Integer facetMinCount;
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>    @Nullable <strong class="jxr_keyword">private</strong> Integer facetLimit = 10;
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>    @Nullable <strong class="jxr_keyword">private</strong> Integer facetOffset;
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>    <em class="jxr_comment">// Holds the paging configuration for each requested facet</em>
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>    @Builder.Default @Nullable <strong class="jxr_keyword">private</strong> Map&lt;F, Pageable&gt; facetPages = <strong class="jxr_keyword">new</strong> HashMap&lt;&gt;();
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>    <strong class="jxr_keyword">public</strong> <a name="Pageable" href="../../../../../../org/gbif/api/model/common/paging/Pageable.html#Pageable">Pageable</a> getPage() {
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>      <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a name="PagingRequest" href="../../../../../../org/gbif/api/model/common/paging/PagingRequest.html#PagingRequest">PagingRequest</a>(
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>          offset != <strong class="jxr_keyword">null</strong> ? offset : PagingConstants.DEFAULT_PARAM_OFFSET,
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>          limit != <strong class="jxr_keyword">null</strong> ? limit : PagingConstants.DEFAULT_PARAM_LIMIT);
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>    }
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2024 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>

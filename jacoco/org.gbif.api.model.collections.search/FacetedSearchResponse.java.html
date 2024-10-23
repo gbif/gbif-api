@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FacetedSearchResponse.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections.search</a> &gt; <span class="el_source">FacetedSearchResponse.java</span></div><h1>FacetedSearchResponse.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.collections.search;
+
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.gbif.api.model.common.paging.Pageable;
+import org.gbif.api.model.common.paging.PagingResponse;
+import org.gbif.api.vocabulary.collections.CollectionsFacetParameter;
+
+<span class="nc bnc" id="L11" title="All 14 branches missed.">@Data</span>
+<span class="nc" id="L12">@NoArgsConstructor</span>
+public class FacetedSearchResponse&lt;T, F extends CollectionsFacetParameter&gt;
+    extends PagingResponse&lt;T&gt; {
+
+<span class="nc" id="L16">  private List&lt;CollectionFacet&lt;F&gt;&gt; facets = new ArrayList&lt;&gt;();</span>
+
+  public FacetedSearchResponse(
+      Pageable page, Long count, List&lt;T&gt; results, List&lt;CollectionFacet&lt;F&gt;&gt; facets) {
+<span class="nc" id="L20">    super(page, count, results);</span>
+<span class="nc" id="L21">    this.facets = facets;</span>
+<span class="nc" id="L22">  }</span>
+
+  public FacetedSearchResponse(Pageable page, Long count, List&lt;T&gt; results) {
+<span class="nc" id="L25">    this(page, count, results, new ArrayList&lt;&gt;());</span>
+<span class="nc" id="L26">  }</span>
+
+  public FacetedSearchResponse(
+      long offset, int limit, Long count, List&lt;T&gt; results, List&lt;CollectionFacet&lt;F&gt;&gt; facets) {
+<span class="nc" id="L30">    super(offset, limit, count, results);</span>
+<span class="nc" id="L31">    this.facets = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L32">  }</span>
+
+  public FacetedSearchResponse(long offset, int limit, Long count, List&lt;T&gt; results) {
+<span class="nc" id="L35">    this(offset, limit, count, results, new ArrayList&lt;&gt;());</span>
+<span class="nc" id="L36">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

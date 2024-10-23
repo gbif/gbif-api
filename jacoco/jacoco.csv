@@ -24,8 +24,8 @@ GBIF Common :: API,org.gbif.api.model.literature,LiteratureType,204,0,0,0,21,0,1
 GBIF Common :: API,org.gbif.api.model.literature,LiteratureTopic,184,0,0,0,19,0,1,0,1,0
 GBIF Common :: API,org.gbif.api.model.metrics,RecordError,122,95,8,8,16,27,15,9,7,9
 GBIF Common :: API,org.gbif.api.model.metrics,RecordError.Builder,0,33,0,0,0,12,0,7,0,7
-GBIF Common :: API,org.gbif.api.model.collections.request,SearchRequest.SearchRequestBuilder,329,0,0,0,1,0,31,0,31,0
-GBIF Common :: API,org.gbif.api.model.collections.request,SearchRequest,1423,0,242,0,34,0,185,0,64,0
+GBIF Common :: API,org.gbif.api.model.collections.request,SearchRequest.SearchRequestBuilder,401,0,0,0,1,0,37,0,37,0
+GBIF Common :: API,org.gbif.api.model.collections.request,SearchRequest,1718,0,290,0,40,0,223,0,78,0
 GBIF Common :: API,org.gbif.api.model.collections.request,CollectionSearchRequest.CollectionSearchRequestBuilder,70,0,0,0,1,0,7,0,7,0
 GBIF Common :: API,org.gbif.api.model.collections.request,DescriptorSearchRequest.CustomBuilder,16,0,0,0,5,0,2,0,2,0
 GBIF Common :: API,org.gbif.api.model.collections.request,InstitutionSearchRequest.InstitutionSearchRequestBuilderImpl,7,0,0,0,1,0,2,0,2,0
@@ -110,9 +110,12 @@ GBIF Common :: API,org.gbif.api.util.iterables,CollectionDescriptorVerbatimPager
 GBIF Common :: API,org.gbif.api.util.iterables,DownloadStatisticPager,37,0,0,0,9,0,2,0,2,0
 GBIF Common :: API,org.gbif.api.model.collections.search,CollectionSearchResponse,694,0,124,0,17,0,97,0,35,0
 GBIF Common :: API,org.gbif.api.model.collections.search,Highlight,49,0,6,0,9,0,10,0,7,0
+GBIF Common :: API,org.gbif.api.model.collections.search,FacetedSearchResponse,138,0,14,0,13,0,18,0,11,0
 GBIF Common :: API,org.gbif.api.model.collections.search,InstitutionSearchResponse,449,0,80,0,11,0,63,0,23,0
+GBIF Common :: API,org.gbif.api.model.collections.search,CollectionFacet,160,0,24,0,5,0,23,0,11,0
 GBIF Common :: API,org.gbif.api.model.collections.search,DescriptorMatch,642,0,118,0,15,0,92,0,33,0
 GBIF Common :: API,org.gbif.api.model.collections.search,CollectionsFullSearchResponse,267,0,48,0,7,0,39,0,15,0
+GBIF Common :: API,org.gbif.api.model.collections.search,CollectionFacet.Count,135,0,22,0,5,0,21,0,10,0
 GBIF Common :: API,org.gbif.api.model.collections.search,BaseSearchResponse,781,0,142,0,18,0,110,0,39,0
 GBIF Common :: API,org.gbif.api.documentation,CommonParameters,3,0,0,0,1,0,1,0,1,0
 GBIF Common :: API,org.gbif.api.util.comparators,EndpointPriorityComparator,0,87,0,4,0,10,0,5,0,3
@@ -205,7 +208,6 @@ GBIF Common :: API,org.gbif.api.vocabulary,License,3,166,3,21,1,27,4,16,1,7
 GBIF Common :: API,org.gbif.api.vocabulary,BasisOfRecord,0,114,0,0,0,12,0,1,0,1
 GBIF Common :: API,org.gbif.api.vocabulary,OccurrenceIssue.TermsGroup,0,205,0,0,0,8,0,1,0,1
 GBIF Common :: API,org.gbif.api.vocabulary,AgentIdentifierType,0,34,0,0,0,4,0,1,0,1
-GBIF Common :: API,org.gbif.api.vocabulary,CollectionsSortField,14,0,0,0,2,0,1,0,1,0
 GBIF Common :: API,org.gbif.api.vocabulary,InstallationType,89,0,0,0,10,0,2,0,2,0
 GBIF Common :: API,org.gbif.api.vocabulary,Country.TitleSerializer,0,8,0,0,0,3,0,2,0,2
 GBIF Common :: API,org.gbif.api.vocabulary,SortOrder,24,0,0,0,3,0,1,0,1,0
@@ -233,7 +235,7 @@ GBIF Common :: API,org.gbif.api.vocabulary,Language.IsoKeySerializer,8,0,0,0,3,0
 GBIF Common :: API,org.gbif.api.vocabulary,OccurrenceSchemaType,74,0,0,0,2,0,1,0,1,0
 GBIF Common :: API,org.gbif.api.vocabulary,Language.LenientKeyDeserializer,24,0,2,0,6,0,3,0,2,0
 GBIF Common :: API,org.gbif.api.vocabulary,LifeStage,104,0,0,0,11,0,1,0,1,0
-GBIF Common :: API,org.gbif.api.vocabulary,OccurrenceIssue,3,1226,0,0,1,95,1,6,1,6
+GBIF Common :: API,org.gbif.api.vocabulary,OccurrenceIssue,3,1243,0,0,1,96,1,6,1,6
 GBIF Common :: API,org.gbif.api.vocabulary,CitesAppendix,34,0,0,0,4,0,1,0,1,0
 GBIF Common :: API,org.gbif.api.vocabulary,NomenclaturalStatus,18,715,5,11,3,63,6,11,3,6
 GBIF Common :: API,org.gbif.api.vocabulary,RelationType,54,0,0,0,6,0,1,0,1,0
@@ -335,14 +337,17 @@ GBIF Common :: API,org.gbif.api.jackson,IsoDateIntervalSerde,3,0,0,0,1,0,1,0,1,0
 GBIF Common :: API,org.gbif.api.jackson,TermMapListDeserializer.new TypeReference() {...},6,0,0,0,1,0,1,0,1,0
 GBIF Common :: API,org.gbif.api.jackson,IsoDateIntervalSerde.IsoDateIntervalSerializer,0,10,1,1,0,4,1,2,0,2
 GBIF Common :: API,org.gbif.api.model.literature.search,LiteratureSearchRequest,19,0,0,0,7,0,5,0,5,0
-GBIF Common :: API,org.gbif.api.model.literature.search,LiteratureSearchParameter,312,0,0,0,32,0,3,0,3,0
-GBIF Common :: API,org.gbif.api.model.literature.search,LiteratureSearchResult,333,0,0,0,56,0,71,0,71,0
+GBIF Common :: API,org.gbif.api.model.literature.search,LiteratureSearchParameter,323,0,0,0,33,0,3,0,3,0
+GBIF Common :: API,org.gbif.api.model.literature.search,LiteratureSearchResult,345,0,0,0,58,0,73,0,73,0
 GBIF Common :: API,org.gbif.api.vocabulary.collections,Discipline,1082,0,0,0,102,0,3,0,3,0
 GBIF Common :: API,org.gbif.api.vocabulary.collections,InstitutionType,114,0,0,0,12,0,1,0,1,0
+GBIF Common :: API,org.gbif.api.vocabulary.collections,CollectionFacetParameter,144,0,0,0,15,0,1,0,1,0
 GBIF Common :: API,org.gbif.api.vocabulary.collections,AccessionStatus,24,0,0,0,3,0,1,0,1,0
 GBIF Common :: API,org.gbif.api.vocabulary.collections,PreservationType,268,0,0,0,28,0,3,0,3,0
 GBIF Common :: API,org.gbif.api.vocabulary.collections,MasterSourceType,34,0,0,0,4,0,1,0,1,0
+GBIF Common :: API,org.gbif.api.vocabulary.collections,InstitutionFacetParameter,34,0,0,0,4,0,1,0,1,0
 GBIF Common :: API,org.gbif.api.vocabulary.collections,InstitutionGovernance,114,0,0,0,12,0,1,0,1,0
+GBIF Common :: API,org.gbif.api.vocabulary.collections,CollectionsSortField,14,0,0,0,2,0,1,0,1,0
 GBIF Common :: API,org.gbif.api.vocabulary.collections,Source,34,0,0,0,4,0,1,0,1,0
 GBIF Common :: API,org.gbif.api.vocabulary.collections,Format,24,0,0,0,3,0,1,0,1,0
 GBIF Common :: API,org.gbif.api.vocabulary.collections,IdType,84,0,0,0,9,0,1,0,1,0
