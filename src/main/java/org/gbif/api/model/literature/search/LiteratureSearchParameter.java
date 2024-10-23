@@ -37,6 +37,7 @@ public enum LiteratureSearchParameter implements SearchParameter {
   TOPICS(LiteratureTopic.class),
   GBIF_DATASET_KEY(UUID.class), // dataset
   PUBLISHING_ORGANIZATION_KEY(UUID.class), // publisher
+  PUBLISHING_COUNTRY(Country.class),
   PEER_REVIEW(Boolean.class),
   OPEN_ACCESS(Boolean.class),
   GBIF_DOWNLOAD_KEY(String.class), // download key
