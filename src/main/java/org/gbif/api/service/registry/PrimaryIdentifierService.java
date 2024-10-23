@@ -14,5 +14,5 @@ public interface PrimaryIdentifierService extends IdentifierService {
    *
    * @return the key of the updated Identifier
    */
-  int updateIdentifier(UUID targetEntityKey, int identifierKey, Boolean isPrimary);
+  int updateIdentifier(UUID targetEntityKey, int identifierKey, boolean isPrimary);
 }
