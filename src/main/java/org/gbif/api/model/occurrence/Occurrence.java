@@ -106,7 +106,7 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   private OccurrenceStatus occurrenceStatus;
 
   // OpenAPI documentation comes from the enumeration.
-  private Sex sex;
+  private String sex;
 
   @Schema(
     description = "The age class or life stage of the Organism(s) at the time the Occurrence was recorded.\n\n" +
@@ -1121,11 +1121,11 @@ public class Occurrence extends VerbatimOccurrence implements LinneanClassificat
   }
 
   @Nullable
-  public Sex getSex() {
+  public String getSex() {
     return sex;
   }
 
-  public void setSex(Sex sex) {
+  public void setSex(String sex) {
     this.sex = sex;
   }
 

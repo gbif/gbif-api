@@ -180,7 +180,7 @@ public class Event extends VerbatimOccurrence {
   private BasisOfRecord basisOfRecord;
   private Integer individualCount;
   private OccurrenceStatus occurrenceStatus;
-  private Sex sex;
+  private String sex;
   private String lifeStage;
   private String establishmentMeans;
   private String degreeOfEstablishment;
