@@ -29,6 +29,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
     url = "https://rs.tdwg.org/dwc/terms/sex"
   )
 )
+@Deprecated
 public enum Sex {
 
   /**

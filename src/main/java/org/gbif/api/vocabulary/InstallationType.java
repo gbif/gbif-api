@@ -28,7 +28,10 @@ public enum InstallationType {
   BIOCASE_INSTALLATION,
   HTTP_INSTALLATION,
   SYMBIOTA_INSTALLATION,
-  EARTHCAPE_INSTALLATION;
+  EARTHCAPE_INSTALLATION,
+
+  //Metabarcoding Data Toolkit
+  MDT_INSTALLATION;
 
   /**
    * @return the matching InstallationType or null
