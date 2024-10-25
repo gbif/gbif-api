@@ -321,7 +321,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * The sex of the biological individual(s) represented in the occurrence.
    */
-  public final static OccurrenceSearchParameter SEX = new OccurrenceSearchParameter("SEX", Sex.class);
+  public final static OccurrenceSearchParameter SEX = new OccurrenceSearchParameter("SEX", String.class);
 
   /**
    * Presents of associated sequences or an extension
@@ -455,7 +455,7 @@ public class OccurrenceSearchParameter implements SearchParameter, Serializable 
   /**
    * Nomenclatural type (type status, typified scientific name, publication) applied to the subject.
    */
-  public final static OccurrenceSearchParameter TYPE_STATUS = new OccurrenceSearchParameter("TYPE_STATUS", TypeStatus.class);
+  public final static OccurrenceSearchParameter TYPE_STATUS = new OccurrenceSearchParameter("TYPE_STATUS", String.class);
 
   /**
    * The kind of media object.
