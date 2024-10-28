@@ -19,12 +19,11 @@ import javax.annotation.Nullable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
-import org.gbif.api.vocabulary.collections.CollectionFacetParameter;
 
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @Data
-public class CollectionSearchRequest extends SearchRequest<CollectionFacetParameter> {
+public class CollectionSearchRequest extends SearchRequest {
 
   @Deprecated @Nullable private List<UUID> institution;
   @Nullable private List<String> contentTypes;

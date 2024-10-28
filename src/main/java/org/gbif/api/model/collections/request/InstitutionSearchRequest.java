@@ -19,12 +19,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 
-import org.gbif.api.vocabulary.collections.InstitutionFacetParameter;
-
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @Data
-public class InstitutionSearchRequest extends SearchRequest<InstitutionFacetParameter> {
+public class InstitutionSearchRequest extends SearchRequest {
 
   @Nullable private List<String> type;
   @Nullable private List<String> institutionalGovernance;
