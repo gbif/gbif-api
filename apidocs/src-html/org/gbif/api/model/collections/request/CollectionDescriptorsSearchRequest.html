@@ -8,37 +8,52 @@
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>package org.gbif.api.model.collections.request;<a name="line.1"></a>
 <span class="sourceLineNo">002</span><a name="line.2"></a>
-<span class="sourceLineNo">003</span>import java.time.LocalDate;<a name="line.3"></a>
-<span class="sourceLineNo">004</span>import java.util.List;<a name="line.4"></a>
-<span class="sourceLineNo">005</span>import javax.annotation.Nullable;<a name="line.5"></a>
-<span class="sourceLineNo">006</span>import lombok.Data;<a name="line.6"></a>
-<span class="sourceLineNo">007</span>import lombok.EqualsAndHashCode;<a name="line.7"></a>
-<span class="sourceLineNo">008</span>import lombok.experimental.SuperBuilder;<a name="line.8"></a>
-<span class="sourceLineNo">009</span>import org.gbif.api.util.Range;<a name="line.9"></a>
-<span class="sourceLineNo">010</span>import org.gbif.api.vocabulary.Country;<a name="line.10"></a>
-<span class="sourceLineNo">011</span>import org.gbif.api.vocabulary.Rank;<a name="line.11"></a>
-<span class="sourceLineNo">012</span>import org.gbif.api.vocabulary.TypeStatus;<a name="line.12"></a>
-<span class="sourceLineNo">013</span><a name="line.13"></a>
-<span class="sourceLineNo">014</span>@SuppressWarnings("MissingOverride")<a name="line.14"></a>
-<span class="sourceLineNo">015</span>@EqualsAndHashCode(callSuper = true)<a name="line.15"></a>
-<span class="sourceLineNo">016</span>@SuperBuilder<a name="line.16"></a>
-<span class="sourceLineNo">017</span>@Data<a name="line.17"></a>
-<span class="sourceLineNo">018</span>public class CollectionDescriptorsSearchRequest extends CollectionSearchRequest {<a name="line.18"></a>
-<span class="sourceLineNo">019</span><a name="line.19"></a>
-<span class="sourceLineNo">020</span>  @Nullable private List&lt;Integer&gt; usageKey;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>  @Nullable private List&lt;String&gt; usageName;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>  @Nullable private List&lt;Rank&gt; usageRank;<a name="line.22"></a>
-<span class="sourceLineNo">023</span>  @Nullable private List&lt;Integer&gt; taxonKey;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>  @Nullable private List&lt;Country&gt; descriptorCountry;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>  @Nullable private String individualCount;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>  @Nullable private List&lt;String&gt; identifiedBy;<a name="line.26"></a>
-<span class="sourceLineNo">027</span>  @Nullable private Range&lt;LocalDate&gt; dateIdentified;<a name="line.27"></a>
-<span class="sourceLineNo">028</span>  @Nullable private List&lt;String&gt; typeStatus;<a name="line.28"></a>
-<span class="sourceLineNo">029</span>  @Nullable private List&lt;String&gt; recordedBy;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>  @Nullable private List&lt;String&gt; discipline;<a name="line.30"></a>
-<span class="sourceLineNo">031</span>  @Nullable private List&lt;String&gt; objectClassification;<a name="line.31"></a>
-<span class="sourceLineNo">032</span>  @Nullable private List&lt;String&gt; issue;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>}<a name="line.33"></a>
+<span class="sourceLineNo">003</span>import java.util.HashMap;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import java.util.HashSet;<a name="line.4"></a>
+<span class="sourceLineNo">005</span>import java.util.List;<a name="line.5"></a>
+<span class="sourceLineNo">006</span>import java.util.Map;<a name="line.6"></a>
+<span class="sourceLineNo">007</span>import java.util.Set;<a name="line.7"></a>
+<span class="sourceLineNo">008</span>import javax.annotation.Nullable;<a name="line.8"></a>
+<span class="sourceLineNo">009</span>import lombok.Builder;<a name="line.9"></a>
+<span class="sourceLineNo">010</span>import lombok.Data;<a name="line.10"></a>
+<span class="sourceLineNo">011</span>import lombok.EqualsAndHashCode;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>import lombok.experimental.SuperBuilder;<a name="line.12"></a>
+<span class="sourceLineNo">013</span>import org.gbif.api.model.common.paging.Pageable;<a name="line.13"></a>
+<span class="sourceLineNo">014</span>import org.gbif.api.vocabulary.Country;<a name="line.14"></a>
+<span class="sourceLineNo">015</span>import org.gbif.api.vocabulary.Rank;<a name="line.15"></a>
+<span class="sourceLineNo">016</span>import org.gbif.api.vocabulary.collections.CollectionFacetParameter;<a name="line.16"></a>
+<span class="sourceLineNo">017</span><a name="line.17"></a>
+<span class="sourceLineNo">018</span>@SuppressWarnings("MissingOverride")<a name="line.18"></a>
+<span class="sourceLineNo">019</span>@EqualsAndHashCode(callSuper = true)<a name="line.19"></a>
+<span class="sourceLineNo">020</span>@SuperBuilder<a name="line.20"></a>
+<span class="sourceLineNo">021</span>@Data<a name="line.21"></a>
+<span class="sourceLineNo">022</span>public class CollectionDescriptorsSearchRequest extends CollectionSearchRequest<a name="line.22"></a>
+<span class="sourceLineNo">023</span>    implements FacetedSearchRequest&lt;CollectionFacetParameter&gt; {<a name="line.23"></a>
+<span class="sourceLineNo">024</span><a name="line.24"></a>
+<span class="sourceLineNo">025</span>  @Nullable private List&lt;Integer&gt; usageKey;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>  @Nullable private List&lt;String&gt; usageName;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>  @Nullable private List&lt;Rank&gt; usageRank;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>  @Nullable private List&lt;Integer&gt; taxonKey;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>  @Nullable private List&lt;Country&gt; descriptorCountry;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>  @Nullable private List&lt;String&gt; individualCount;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>  @Nullable private List&lt;String&gt; identifiedBy;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>  @Nullable private List&lt;String&gt; dateIdentified;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>  @Nullable private List&lt;String&gt; typeStatus;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>  @Nullable private List&lt;String&gt; recordedBy;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>  @Nullable private List&lt;String&gt; discipline;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>  @Nullable private List&lt;String&gt; objectClassification;<a name="line.36"></a>
+<span class="sourceLineNo">037</span>  @Nullable private List&lt;String&gt; issue;<a name="line.37"></a>
+<span class="sourceLineNo">038</span><a name="line.38"></a>
+<span class="sourceLineNo">039</span>  @Builder.Default @Nullable private Set&lt;CollectionFacetParameter&gt; facets = new HashSet&lt;&gt;();<a name="line.39"></a>
+<span class="sourceLineNo">040</span>  @Nullable private boolean multiSelectFacets;<a name="line.40"></a>
+<span class="sourceLineNo">041</span>  @Nullable private Integer facetMinCount;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>  @Nullable private Integer facetLimit = 10;<a name="line.42"></a>
+<span class="sourceLineNo">043</span>  @Nullable private Integer facetOffset;<a name="line.43"></a>
+<span class="sourceLineNo">044</span><a name="line.44"></a>
+<span class="sourceLineNo">045</span>  // Holds the paging configuration for each requested facet<a name="line.45"></a>
+<span class="sourceLineNo">046</span>  @Builder.Default @Nullable<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  private Map&lt;CollectionFacetParameter, Pageable&gt; facetPages = new HashMap&lt;&gt;();<a name="line.47"></a>
+<span class="sourceLineNo">048</span>}<a name="line.48"></a>
 
 
 

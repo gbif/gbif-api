@@ -15,7 +15,7 @@ import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Rank;
 
-<span class="nc bnc" id="L18" title="All 142 branches missed.">@Data</span>
+<span class="nc bnc" id="L18" title="All 126 branches missed.">@Data</span>
 <span class="nc" id="L19">@NoArgsConstructor</span>
 <span class="nc" id="L20">@AllArgsConstructor</span>
 <span class="nc" id="L21">@Builder</span>
@@ -28,48 +28,46 @@ public class DescriptorSearchRequest extends PageableBase implements Serializabl
 <span class="nc" id="L28">  @Nullable private List&lt;Rank&gt; usageRank;</span>
 <span class="nc" id="L29">  @Nullable private List&lt;Integer&gt; taxonKey;</span>
 <span class="nc" id="L30">  @Nullable private List&lt;Country&gt; country;</span>
-<span class="nc" id="L31">  @Nullable private String individualCount;</span>
+<span class="nc" id="L31">  @Nullable private List&lt;String&gt; individualCount;</span>
 <span class="nc" id="L32">  @Nullable private List&lt;String&gt; identifiedBy;</span>
-<span class="nc" id="L33">  @Nullable private Date dateIdentified;</span>
-<span class="nc" id="L34">  @Nullable private Date dateIdentifiedFrom;</span>
-<span class="nc" id="L35">  @Nullable private Date dateIdentifiedBefore;</span>
-<span class="nc" id="L36">  @Nullable private List&lt;String&gt; typeStatus;</span>
-<span class="nc" id="L37">  @Nullable private List&lt;String&gt; recordedBy;</span>
-<span class="nc" id="L38">  @Nullable private List&lt;String&gt; discipline;</span>
-<span class="nc" id="L39">  @Nullable private List&lt;String&gt; objectClassification;</span>
-<span class="nc" id="L40">  @Nullable private List&lt;String&gt; issues;</span>
+<span class="nc" id="L33">  @Nullable private List&lt;String&gt; dateIdentified;</span>
+<span class="nc" id="L34">  @Nullable private List&lt;String&gt; typeStatus;</span>
+<span class="nc" id="L35">  @Nullable private List&lt;String&gt; recordedBy;</span>
+<span class="nc" id="L36">  @Nullable private List&lt;String&gt; discipline;</span>
+<span class="nc" id="L37">  @Nullable private List&lt;String&gt; objectClassification;</span>
+<span class="nc" id="L38">  @Nullable private List&lt;String&gt; issues;</span>
 
   public Pageable getPage() {
-<span class="nc" id="L43">    return new PagingRequest(getOffset(), getLimit());</span>
+<span class="nc" id="L41">    return new PagingRequest(getOffset(), getLimit());</span>
   }
 
   public static DescriptorSearchRequestBuilder builder() {
-<span class="nc" id="L47">    return new CustomBuilder();</span>
+<span class="nc" id="L45">    return new CustomBuilder();</span>
   }
 
   public static class DescriptorSearchRequestBuilder {
-<span class="nc" id="L51">    long offset = PagingConstants.DEFAULT_PARAM_OFFSET;</span>
-<span class="nc" id="L52">    int limit = PagingConstants.DEFAULT_PARAM_LIMIT;</span>
+<span class="nc" id="L49">    long offset = PagingConstants.DEFAULT_PARAM_OFFSET;</span>
+<span class="nc" id="L50">    int limit = PagingConstants.DEFAULT_PARAM_LIMIT;</span>
 
     public DescriptorSearchRequestBuilder offset(long offset) {
-<span class="nc" id="L55">      this.offset = offset;</span>
-<span class="nc" id="L56">      return this;</span>
+<span class="nc" id="L53">      this.offset = offset;</span>
+<span class="nc" id="L54">      return this;</span>
     }
 
     public DescriptorSearchRequestBuilder limit(int limit) {
-<span class="nc" id="L60">      this.limit = limit;</span>
-<span class="nc" id="L61">      return this;</span>
+<span class="nc" id="L58">      this.limit = limit;</span>
+<span class="nc" id="L59">      return this;</span>
     }
   }
 
-<span class="nc" id="L65">  public static class CustomBuilder extends DescriptorSearchRequestBuilder {</span>
+<span class="nc" id="L63">  public static class CustomBuilder extends DescriptorSearchRequestBuilder {</span>
 
     @Override
     public DescriptorSearchRequest build() {
-<span class="nc" id="L69">      DescriptorSearchRequest descriptorSearchRequest = super.build();</span>
-<span class="nc" id="L70">      descriptorSearchRequest.setOffset(offset);</span>
-<span class="nc" id="L71">      descriptorSearchRequest.setLimit(limit);</span>
-<span class="nc" id="L72">      return descriptorSearchRequest;</span>
+<span class="nc" id="L67">      DescriptorSearchRequest descriptorSearchRequest = super.build();</span>
+<span class="nc" id="L68">      descriptorSearchRequest.setOffset(offset);</span>
+<span class="nc" id="L69">      descriptorSearchRequest.setLimit(limit);</span>
+<span class="nc" id="L70">      return descriptorSearchRequest;</span>
     }
   }
 }

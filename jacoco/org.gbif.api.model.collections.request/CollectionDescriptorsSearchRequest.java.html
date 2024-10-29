@@ -1,34 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CollectionDescriptorsSearchRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GBIF Common :: API</a> &gt; <a href="index.source.html" class="el_package">org.gbif.api.model.collections.request</a> &gt; <span class="el_source">CollectionDescriptorsSearchRequest.java</span></div><h1>CollectionDescriptorsSearchRequest.java</h1><pre class="source lang-java linenums">package org.gbif.api.model.collections.request;
 
-import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javax.annotation.Nullable;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
-import org.gbif.api.util.Range;
+import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Rank;
-import org.gbif.api.vocabulary.TypeStatus;
+import org.gbif.api.vocabulary.collections.CollectionFacetParameter;
 
 @SuppressWarnings(&quot;MissingOverride&quot;)
-<span class="nc bnc" id="L15" title="All 112 branches missed.">@EqualsAndHashCode(callSuper = true)</span>
-<span class="nc" id="L16">@SuperBuilder</span>
-<span class="nc" id="L17">@Data</span>
-public class CollectionDescriptorsSearchRequest extends CollectionSearchRequest {
+<span class="nc bnc" id="L19" title="All 156 branches missed.">@EqualsAndHashCode(callSuper = true)</span>
+<span class="nc bnc" id="L20" title="All 4 branches missed.">@SuperBuilder</span>
+<span class="nc" id="L21">@Data</span>
+public class CollectionDescriptorsSearchRequest extends CollectionSearchRequest
+    implements FacetedSearchRequest&lt;CollectionFacetParameter&gt; {
 
-<span class="nc" id="L20">  @Nullable private List&lt;Integer&gt; usageKey;</span>
-<span class="nc" id="L21">  @Nullable private List&lt;String&gt; usageName;</span>
-<span class="nc" id="L22">  @Nullable private List&lt;Rank&gt; usageRank;</span>
-<span class="nc" id="L23">  @Nullable private List&lt;Integer&gt; taxonKey;</span>
-<span class="nc" id="L24">  @Nullable private List&lt;Country&gt; descriptorCountry;</span>
-<span class="nc" id="L25">  @Nullable private String individualCount;</span>
-<span class="nc" id="L26">  @Nullable private List&lt;String&gt; identifiedBy;</span>
-<span class="nc" id="L27">  @Nullable private Range&lt;LocalDate&gt; dateIdentified;</span>
-<span class="nc" id="L28">  @Nullable private List&lt;String&gt; typeStatus;</span>
-<span class="nc" id="L29">  @Nullable private List&lt;String&gt; recordedBy;</span>
-<span class="nc" id="L30">  @Nullable private List&lt;String&gt; discipline;</span>
-<span class="nc" id="L31">  @Nullable private List&lt;String&gt; objectClassification;</span>
-<span class="nc" id="L32">  @Nullable private List&lt;String&gt; issue;</span>
+<span class="nc" id="L25">  @Nullable private List&lt;Integer&gt; usageKey;</span>
+<span class="nc" id="L26">  @Nullable private List&lt;String&gt; usageName;</span>
+<span class="nc" id="L27">  @Nullable private List&lt;Rank&gt; usageRank;</span>
+<span class="nc" id="L28">  @Nullable private List&lt;Integer&gt; taxonKey;</span>
+<span class="nc" id="L29">  @Nullable private List&lt;Country&gt; descriptorCountry;</span>
+<span class="nc" id="L30">  @Nullable private List&lt;String&gt; individualCount;</span>
+<span class="nc" id="L31">  @Nullable private List&lt;String&gt; identifiedBy;</span>
+<span class="nc" id="L32">  @Nullable private List&lt;String&gt; dateIdentified;</span>
+<span class="nc" id="L33">  @Nullable private List&lt;String&gt; typeStatus;</span>
+<span class="nc" id="L34">  @Nullable private List&lt;String&gt; recordedBy;</span>
+<span class="nc" id="L35">  @Nullable private List&lt;String&gt; discipline;</span>
+<span class="nc" id="L36">  @Nullable private List&lt;String&gt; objectClassification;</span>
+<span class="nc" id="L37">  @Nullable private List&lt;String&gt; issue;</span>
+
+<span class="nc" id="L39">  @Builder.Default @Nullable private Set&lt;CollectionFacetParameter&gt; facets = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L40">  @Nullable private boolean multiSelectFacets;</span>
+<span class="nc" id="L41">  @Nullable private Integer facetMinCount;</span>
+<span class="nc" id="L42">  @Nullable private Integer facetLimit = 10;</span>
+<span class="nc" id="L43">  @Nullable private Integer facetOffset;</span>
+
+  // Holds the paging configuration for each requested facet
+  @Builder.Default @Nullable
+<span class="nc" id="L47">  private Map&lt;CollectionFacetParameter, Pageable&gt; facetPages = new HashMap&lt;&gt;();</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
