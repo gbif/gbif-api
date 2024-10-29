@@ -2,6 +2,7 @@ package org.gbif.api.vocabulary.collections;
 
 public enum CollectionFacetParameter implements CollectionsFacetParameter {
   COUNTRY,
+  CITY,
   PRESERVATION_TYPE,
   CONTENT_TYPE,
   ACCESSION_STATUS,
@@ -14,5 +15,7 @@ public enum CollectionFacetParameter implements CollectionsFacetParameter {
   ORDER_KEY,
   FAMILY_KEY,
   GENUS_KEY,
-  SPECIES_KEY;
+  SPECIES_KEY,
+  OBJECT_CLASSIFICATION,
+  RECORDED_BY;
 }
