@@ -25,9 +25,9 @@ import lombok.experimental.SuperBuilder;
 @Data
 public class CollectionSearchRequest extends SearchRequest {
 
-  @Deprecated @Nullable private UUID institution;
+  @Deprecated @Nullable private List<UUID> institution;
   @Nullable private List<String> contentTypes;
   @Nullable private List<String> preservationTypes;
   @Nullable private List<String> accessionStatus;
-  @Nullable private Boolean personalCollection;
+  @Nullable private List<Boolean> personalCollection;
 }

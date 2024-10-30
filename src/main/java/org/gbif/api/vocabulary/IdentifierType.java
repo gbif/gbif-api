@@ -158,7 +158,7 @@ public enum IdentifierType {
         || lcIdentifier.startsWith("https://doi.org/10.")) {
       return DOI;
     }
-    //Todo: ADD CHECK HERE
+
     if (lcIdentifier.startsWith("https://ror.org")) {
       return ROR;
     }
@@ -190,6 +190,14 @@ public enum IdentifierType {
     if (lcIdentifier.startsWith("grid")) {
       return GRID;
     }
+
+    if (IdentifierUtils.isValidISILIdentifier(lcIdentifier)) {
+      return ISIL;
+    }
+
+   if (IdentifierUtils.isValidCLBDatasetKey(lcIdentifier)) {
+     return CLB_DATASET_KEY;
+   }
 
     try {
       //noinspection ResultOfMethodCallIgnored
