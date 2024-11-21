@@ -299,7 +299,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * The sex of the biological individual(s) represented in the occurrence.
    */
-  SEX(Sex.class),
+  SEX(String.class),
 
   /**
    * Presents of associated sequences or an extension
@@ -433,7 +433,7 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Nomenclatural type (type status, typified scientific name, publication) applied to the subject.
    */
-  TYPE_STATUS(TypeStatus.class),
+  TYPE_STATUS(String.class),
 
   /**
    * The kind of media object.
@@ -780,7 +780,22 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   /**
    * Unique GBIF key for the occurrence.
    */
-  GBIF_ID(String.class);
+  GBIF_ID(String.class),
+
+  /**
+   * Geological time of an occurrence that searchs in the chronostratigraphy fields.
+   */
+  GEOLOGICAL_TIME(String.class),
+
+  /**
+   * Searchs in the lithostratigraphy fields(bed, formation, group, member).
+   */
+  LITHOSTRATIGRAPHY(String.class),
+
+  /**
+   * Searchs in the biostratigraphy fields(lowest and highest biostratigraphy).
+   */
+  BIOSTRATIGRAPHY(String.class);
 
   private final Class<?> type;
 

@@ -25,7 +25,6 @@ import lombok.experimental.SuperBuilder;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.vocabulary.collections.InstitutionFacetParameter;
 
-@SuppressWarnings("MissingOverride")
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @Data

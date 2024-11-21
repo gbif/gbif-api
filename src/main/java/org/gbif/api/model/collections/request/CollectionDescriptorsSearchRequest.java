@@ -15,7 +15,6 @@ import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.collections.CollectionFacetParameter;
 
-@SuppressWarnings("MissingOverride")
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @Data
