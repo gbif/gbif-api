@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Classification {
 
-  private String datasetKey;
+  private String checklistKey;
   private RankedName usage;
   private RankedName acceptedUsage;
   private List<RankedName> classification;
