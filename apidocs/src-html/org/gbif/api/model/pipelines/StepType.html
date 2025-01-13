@@ -1,64 +1,91 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
 <title>Source code</title>
 <link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
 </head>
 <body>
+<main role="main">
 <div class="sourceContainer">
-<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.2"></a>
-<span class="sourceLineNo">003</span> * you may not use this file except in compliance with the License.<a name="line.3"></a>
-<span class="sourceLineNo">004</span> * You may obtain a copy of the License at<a name="line.4"></a>
-<span class="sourceLineNo">005</span> *<a name="line.5"></a>
-<span class="sourceLineNo">006</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.6"></a>
-<span class="sourceLineNo">007</span> *<a name="line.7"></a>
-<span class="sourceLineNo">008</span> * Unless required by applicable law or agreed to in writing, software<a name="line.8"></a>
-<span class="sourceLineNo">009</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.9"></a>
-<span class="sourceLineNo">010</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * See the License for the specific language governing permissions and<a name="line.11"></a>
-<span class="sourceLineNo">012</span> * limitations under the License.<a name="line.12"></a>
-<span class="sourceLineNo">013</span> */<a name="line.13"></a>
-<span class="sourceLineNo">014</span>package org.gbif.api.model.pipelines;<a name="line.14"></a>
-<span class="sourceLineNo">015</span><a name="line.15"></a>
-<span class="sourceLineNo">016</span>/** Enum to represent the pipelines step names. */<a name="line.16"></a>
-<span class="sourceLineNo">017</span>public enum StepType {<a name="line.17"></a>
-<span class="sourceLineNo">018</span><a name="line.18"></a>
-<span class="sourceLineNo">019</span>  // Interpretaion<a name="line.19"></a>
-<span class="sourceLineNo">020</span>  TO_VERBATIM("toVerbatim"),<a name="line.20"></a>
-<span class="sourceLineNo">021</span>  DWCA_TO_VERBATIM("dwcaToVerbatim"),<a name="line.21"></a>
-<span class="sourceLineNo">022</span>  XML_TO_VERBATIM("xmlToVerbatim"),<a name="line.22"></a>
-<span class="sourceLineNo">023</span>  ABCD_TO_VERBATIM("abcdToVerbatim"),<a name="line.23"></a>
-<span class="sourceLineNo">024</span>  VERBATIM_TO_IDENTIFIER("verbatimToIdentifier"),<a name="line.24"></a>
-<span class="sourceLineNo">025</span>  VERBATIM_TO_INTERPRETED("verbatimToInterpreted"),<a name="line.25"></a>
-<span class="sourceLineNo">026</span>  INTERPRETED_TO_INDEX("interpretedToIndex"),<a name="line.26"></a>
-<span class="sourceLineNo">027</span>  HDFS_VIEW("hdfsView"),<a name="line.27"></a>
-<span class="sourceLineNo">028</span>  FRAGMENTER("fragmenter"),<a name="line.28"></a>
-<span class="sourceLineNo">029</span>  EVENTS_VERBATIM_TO_INTERPRETED("eventsVerbatimToInterpreted"),<a name="line.29"></a>
-<span class="sourceLineNo">030</span>  EVENTS_INTERPRETED_TO_INDEX("eventsInterpretedToIndex"),<a name="line.30"></a>
-<span class="sourceLineNo">031</span>  EVENTS_HDFS_VIEW("eventsHdfsView"),<a name="line.31"></a>
-<span class="sourceLineNo">032</span><a name="line.32"></a>
-<span class="sourceLineNo">033</span>  // Validator<a name="line.33"></a>
-<span class="sourceLineNo">034</span>  VALIDATOR_UPLOAD_ARCHIVE("validatorUploadArchive"),<a name="line.34"></a>
-<span class="sourceLineNo">035</span>  VALIDATOR_VALIDATE_ARCHIVE("validatorValidateArchive"),<a name="line.35"></a>
-<span class="sourceLineNo">036</span>  VALIDATOR_DWCA_TO_VERBATIM("validatorDwcaToVerbatim"),<a name="line.36"></a>
-<span class="sourceLineNo">037</span>  VALIDATOR_XML_TO_VERBATIM("validatorXmlToVerbatim"),<a name="line.37"></a>
-<span class="sourceLineNo">038</span>  VALIDATOR_ABCD_TO_VERBATIM("validatorAbcdToVerbatim"),<a name="line.38"></a>
-<span class="sourceLineNo">039</span>  VALIDATOR_TABULAR_TO_VERBATIM("validatorTabularToVerbatim"),<a name="line.39"></a>
-<span class="sourceLineNo">040</span>  VALIDATOR_VERBATIM_TO_INTERPRETED("validatorVerbatimToInterpreted"),<a name="line.40"></a>
-<span class="sourceLineNo">041</span>  VALIDATOR_INTERPRETED_TO_INDEX("validatorInterpretedToIndex"),<a name="line.41"></a>
-<span class="sourceLineNo">042</span>  VALIDATOR_COLLECT_METRICS("validatorCollectMetrics");<a name="line.42"></a>
-<span class="sourceLineNo">043</span><a name="line.43"></a>
-<span class="sourceLineNo">044</span>  StepType(String label) {<a name="line.44"></a>
-<span class="sourceLineNo">045</span>    this.label = label;<a name="line.45"></a>
-<span class="sourceLineNo">046</span>  }<a name="line.46"></a>
-<span class="sourceLineNo">047</span><a name="line.47"></a>
-<span class="sourceLineNo">048</span>  private String label;<a name="line.48"></a>
-<span class="sourceLineNo">049</span><a name="line.49"></a>
-<span class="sourceLineNo">050</span>  public String getLabel() {<a name="line.50"></a>
-<span class="sourceLineNo">051</span>    return label;<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  }<a name="line.52"></a>
-<span class="sourceLineNo">053</span>}<a name="line.53"></a>
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">003</span><a id="line.3"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">005</span><a id="line.5"> *</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *     http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * limitations under the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14">package org.gbif.api.model.pipelines;</a>
+<span class="sourceLineNo">015</span><a id="line.15"></a>
+<span class="sourceLineNo">016</span><a id="line.16">import lombok.AllArgsConstructor;</a>
+<span class="sourceLineNo">017</span><a id="line.17">import lombok.Getter;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import java.util.Set;</a>
+<span class="sourceLineNo">020</span><a id="line.20"></a>
+<span class="sourceLineNo">021</span><a id="line.21">/** Enum to represent the pipelines step names. */</a>
+<span class="sourceLineNo">022</span><a id="line.22">@Getter</a>
+<span class="sourceLineNo">023</span><a id="line.23">@AllArgsConstructor</a>
+<span class="sourceLineNo">024</span><a id="line.24">public enum StepType {</a>
+<span class="sourceLineNo">025</span><a id="line.25"></a>
+<span class="sourceLineNo">026</span><a id="line.26">  // Ingestion</a>
+<span class="sourceLineNo">027</span><a id="line.27"></a>
+<span class="sourceLineNo">028</span><a id="line.28">  // Verbatim</a>
+<span class="sourceLineNo">029</span><a id="line.29">  TO_VERBATIM("toVerbatim"),</a>
+<span class="sourceLineNo">030</span><a id="line.30">  DWCA_TO_VERBATIM("dwcaToVerbatim"),</a>
+<span class="sourceLineNo">031</span><a id="line.31">  XML_TO_VERBATIM("xmlToVerbatim"),</a>
+<span class="sourceLineNo">032</span><a id="line.32">  ABCD_TO_VERBATIM("abcdToVerbatim"),</a>
+<span class="sourceLineNo">033</span><a id="line.33">  FRAGMENTER("fragmenter"),</a>
+<span class="sourceLineNo">034</span><a id="line.34"></a>
+<span class="sourceLineNo">035</span><a id="line.35">  // Occurrence interpretation</a>
+<span class="sourceLineNo">036</span><a id="line.36">  VERBATIM_TO_IDENTIFIER("verbatimToIdentifier"),</a>
+<span class="sourceLineNo">037</span><a id="line.37">  VERBATIM_TO_INTERPRETED("verbatimToInterpreted"),</a>
+<span class="sourceLineNo">038</span><a id="line.38">  INTERPRETED_TO_INDEX("interpretedToIndex"),</a>
+<span class="sourceLineNo">039</span><a id="line.39">  HDFS_VIEW("hdfsView"),</a>
+<span class="sourceLineNo">040</span><a id="line.40"></a>
+<span class="sourceLineNo">041</span><a id="line.41">  // Event interpretation</a>
+<span class="sourceLineNo">042</span><a id="line.42">  EVENTS_VERBATIM_TO_INTERPRETED("eventsVerbatimToInterpreted"),</a>
+<span class="sourceLineNo">043</span><a id="line.43">  EVENTS_INTERPRETED_TO_INDEX("eventsInterpretedToIndex"),</a>
+<span class="sourceLineNo">044</span><a id="line.44">  EVENTS_HDFS_VIEW("eventsHdfsView"),</a>
+<span class="sourceLineNo">045</span><a id="line.45"></a>
+<span class="sourceLineNo">046</span><a id="line.46">  // Validator</a>
+<span class="sourceLineNo">047</span><a id="line.47">  VALIDATOR_UPLOAD_ARCHIVE("validatorUploadArchive"),</a>
+<span class="sourceLineNo">048</span><a id="line.48">  VALIDATOR_VALIDATE_ARCHIVE("validatorValidateArchive"),</a>
+<span class="sourceLineNo">049</span><a id="line.49">  VALIDATOR_DWCA_TO_VERBATIM("validatorDwcaToVerbatim"),</a>
+<span class="sourceLineNo">050</span><a id="line.50">  VALIDATOR_XML_TO_VERBATIM("validatorXmlToVerbatim"),</a>
+<span class="sourceLineNo">051</span><a id="line.51">  VALIDATOR_ABCD_TO_VERBATIM("validatorAbcdToVerbatim"),</a>
+<span class="sourceLineNo">052</span><a id="line.52">  VALIDATOR_TABULAR_TO_VERBATIM("validatorTabularToVerbatim"),</a>
+<span class="sourceLineNo">053</span><a id="line.53">  VALIDATOR_VERBATIM_TO_INTERPRETED("validatorVerbatimToInterpreted"),</a>
+<span class="sourceLineNo">054</span><a id="line.54">  VALIDATOR_INTERPRETED_TO_INDEX("validatorInterpretedToIndex"),</a>
+<span class="sourceLineNo">055</span><a id="line.55">  VALIDATOR_COLLECT_METRICS("validatorCollectMetrics");</a>
+<span class="sourceLineNo">056</span><a id="line.56"></a>
+<span class="sourceLineNo">057</span><a id="line.57">  private final String label;</a>
+<span class="sourceLineNo">058</span><a id="line.58"></a>
+<span class="sourceLineNo">059</span><a id="line.59">  private static final Set&lt;StepType&gt; VERBATIM_TYPE =</a>
+<span class="sourceLineNo">060</span><a id="line.60">    Set.of(TO_VERBATIM, DWCA_TO_VERBATIM, XML_TO_VERBATIM, ABCD_TO_VERBATIM, FRAGMENTER);</a>
+<span class="sourceLineNo">061</span><a id="line.61"></a>
+<span class="sourceLineNo">062</span><a id="line.62">  private static final Set&lt;StepType&gt; OCCURRENCE_TYPE =</a>
+<span class="sourceLineNo">063</span><a id="line.63">    Set.of(VERBATIM_TO_IDENTIFIER, VERBATIM_TO_INTERPRETED, INTERPRETED_TO_INDEX, HDFS_VIEW);</a>
+<span class="sourceLineNo">064</span><a id="line.64"></a>
+<span class="sourceLineNo">065</span><a id="line.65">  private static final Set&lt;StepType&gt; EVENT_TYPE =</a>
+<span class="sourceLineNo">066</span><a id="line.66">    Set.of(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_INTERPRETED_TO_INDEX, EVENTS_HDFS_VIEW);</a>
+<span class="sourceLineNo">067</span><a id="line.67"></a>
+<span class="sourceLineNo">068</span><a id="line.68">  public static boolean isEventType(StepType type) {</a>
+<span class="sourceLineNo">069</span><a id="line.69">    return EVENT_TYPE.contains(type);</a>
+<span class="sourceLineNo">070</span><a id="line.70">  }</a>
+<span class="sourceLineNo">071</span><a id="line.71"></a>
+<span class="sourceLineNo">072</span><a id="line.72">  public static boolean isOccurrenceType(StepType type) {</a>
+<span class="sourceLineNo">073</span><a id="line.73">    return OCCURRENCE_TYPE.contains(type);</a>
+<span class="sourceLineNo">074</span><a id="line.74">  }</a>
+<span class="sourceLineNo">075</span><a id="line.75"></a>
+<span class="sourceLineNo">076</span><a id="line.76">  public static boolean isVerbatimType(StepType type) {</a>
+<span class="sourceLineNo">077</span><a id="line.77">    return VERBATIM_TYPE.contains(type);</a>
+<span class="sourceLineNo">078</span><a id="line.78">  }</a>
+<span class="sourceLineNo">079</span><a id="line.79">}</a>
 
 
 
@@ -121,5 +148,6 @@
 
 </pre>
 </div>
+</main>
 </body>
 </html>

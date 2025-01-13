@@ -1,225 +1,226 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
 <title>Source code</title>
 <link rel="stylesheet" type="text/css" href="../../../../../../../stylesheet.css" title="Style">
 </head>
 <body>
+<main role="main">
 <div class="sourceContainer">
-<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
-<span class="sourceLineNo">003</span> *<a name="line.3"></a>
-<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
-<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
-<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
-<span class="sourceLineNo">007</span> *<a name="line.7"></a>
-<span class="sourceLineNo">008</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
-<span class="sourceLineNo">009</span> *<a name="line.9"></a>
-<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
-<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
-<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
-<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
-<span class="sourceLineNo">015</span> */<a name="line.15"></a>
-<span class="sourceLineNo">016</span>package org.gbif.api.model.common.search;<a name="line.16"></a>
-<span class="sourceLineNo">017</span><a name="line.17"></a>
-<span class="sourceLineNo">018</span>import io.swagger.v3.oas.annotations.Parameter;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import io.swagger.v3.oas.annotations.enums.Explode;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import io.swagger.v3.oas.annotations.enums.ParameterIn;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import io.swagger.v3.oas.annotations.media.ArraySchema;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import io.swagger.v3.oas.annotations.media.Schema;<a name="line.22"></a>
-<span class="sourceLineNo">023</span><a name="line.23"></a>
-<span class="sourceLineNo">024</span>import org.gbif.api.model.common.paging.Pageable;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>import org.gbif.api.model.common.paging.PagingRequest;<a name="line.25"></a>
-<span class="sourceLineNo">026</span><a name="line.26"></a>
-<span class="sourceLineNo">027</span>import java.lang.annotation.Inherited;<a name="line.27"></a>
-<span class="sourceLineNo">028</span>import java.lang.annotation.Retention;<a name="line.28"></a>
-<span class="sourceLineNo">029</span>import java.lang.annotation.RetentionPolicy;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>import java.lang.annotation.Target;<a name="line.30"></a>
-<span class="sourceLineNo">031</span>import java.util.Arrays;<a name="line.31"></a>
-<span class="sourceLineNo">032</span>import java.util.HashMap;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>import java.util.HashSet;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>import java.util.Map;<a name="line.34"></a>
-<span class="sourceLineNo">035</span>import java.util.Set;<a name="line.35"></a>
-<span class="sourceLineNo">036</span><a name="line.36"></a>
-<span class="sourceLineNo">037</span>import static java.lang.annotation.ElementType.ANNOTATION_TYPE;<a name="line.37"></a>
-<span class="sourceLineNo">038</span>import static java.lang.annotation.ElementType.FIELD;<a name="line.38"></a>
-<span class="sourceLineNo">039</span>import static java.lang.annotation.ElementType.METHOD;<a name="line.39"></a>
-<span class="sourceLineNo">040</span>import static java.lang.annotation.ElementType.PARAMETER;<a name="line.40"></a>
-<span class="sourceLineNo">041</span><a name="line.41"></a>
-<span class="sourceLineNo">042</span>/**<a name="line.42"></a>
-<span class="sourceLineNo">043</span> * Generic request class for search operations requesting facets.<a name="line.43"></a>
-<span class="sourceLineNo">044</span> * It extends a search request with a list of desired facets and optional settings.<a name="line.44"></a>
-<span class="sourceLineNo">045</span> */<a name="line.45"></a>
-<span class="sourceLineNo">046</span>@SuppressWarnings("unused")<a name="line.46"></a>
-<span class="sourceLineNo">047</span>public class FacetedSearchRequest&lt;P extends SearchParameter&gt; extends SearchRequest&lt;P&gt; {<a name="line.47"></a>
-<span class="sourceLineNo">048</span><a name="line.48"></a>
-<span class="sourceLineNo">049</span>  private Set&lt;P&gt; facets = new HashSet&lt;&gt;();<a name="line.49"></a>
-<span class="sourceLineNo">050</span><a name="line.50"></a>
-<span class="sourceLineNo">051</span>  private boolean multiSelectFacets;<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  private Integer facetMinCount;<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  private Integer facetLimit = 10;<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  private Integer facetOffset;<a name="line.54"></a>
-<span class="sourceLineNo">055</span><a name="line.55"></a>
-<span class="sourceLineNo">056</span>  //Holds the paging configuration for each requested facet<a name="line.56"></a>
-<span class="sourceLineNo">057</span>  private Map&lt;P, Pageable&gt; facetPages = new HashMap&lt;&gt;();<a name="line.57"></a>
-<span class="sourceLineNo">058</span><a name="line.58"></a>
-<span class="sourceLineNo">059</span>  /**<a name="line.59"></a>
-<span class="sourceLineNo">060</span>   * Annotation to document the facet query parameters.<a name="line.60"></a>
-<span class="sourceLineNo">061</span>   */<a name="line.61"></a>
-<span class="sourceLineNo">062</span>  @Target({METHOD})<a name="line.62"></a>
-<span class="sourceLineNo">063</span>  @Retention(RetentionPolicy.RUNTIME)<a name="line.63"></a>
-<span class="sourceLineNo">064</span>  @Inherited<a name="line.64"></a>
-<span class="sourceLineNo">065</span>  @io.swagger.v3.oas.annotations.Parameters(<a name="line.65"></a>
-<span class="sourceLineNo">066</span>    value = {<a name="line.66"></a>
-<span class="sourceLineNo">067</span>      @Parameter(<a name="line.67"></a>
-<span class="sourceLineNo">068</span>        name = "facet",<a name="line.68"></a>
-<span class="sourceLineNo">069</span>        description = "A facet name used to retrieve the most frequent values for a field. This parameter may be " +<a name="line.69"></a>
-<span class="sourceLineNo">070</span>          "repeated to request multiple facets.",<a name="line.70"></a>
-<span class="sourceLineNo">071</span>        array = @ArraySchema(schema = @Schema(implementation = String.class)),<a name="line.71"></a>
-<span class="sourceLineNo">072</span>        in = ParameterIn.QUERY,<a name="line.72"></a>
-<span class="sourceLineNo">073</span>        explode = Explode.TRUE),<a name="line.73"></a>
-<span class="sourceLineNo">074</span>      @Parameter(<a name="line.74"></a>
-<span class="sourceLineNo">075</span>        name = "facetMincount",<a name="line.75"></a>
-<span class="sourceLineNo">076</span>        description =<a name="line.76"></a>
-<span class="sourceLineNo">077</span>          "Used in combination with the facet parameter. Set `facetMincount={#}` to exclude facets with a count less than `{#}`.",<a name="line.77"></a>
-<span class="sourceLineNo">078</span>        schema = @Schema(implementation = Integer.class),<a name="line.78"></a>
-<span class="sourceLineNo">079</span>        in = ParameterIn.QUERY),<a name="line.79"></a>
-<span class="sourceLineNo">080</span>      @Parameter(<a name="line.80"></a>
-<span class="sourceLineNo">081</span>        name = "facetMultiselect",<a name="line.81"></a>
-<span class="sourceLineNo">082</span>        description =<a name="line.82"></a>
-<span class="sourceLineNo">083</span>          "Used in combination with the facet parameter. Set `facetMultiselect=true` to still return counts for values that are not currently filtered.",<a name="line.83"></a>
-<span class="sourceLineNo">084</span>        schema = @Schema(implementation = Boolean.class),<a name="line.84"></a>
-<span class="sourceLineNo">085</span>        in = ParameterIn.QUERY),<a name="line.85"></a>
-<span class="sourceLineNo">086</span>      @Parameter(<a name="line.86"></a>
-<span class="sourceLineNo">087</span>        name = "facetLimit",<a name="line.87"></a>
-<span class="sourceLineNo">088</span>        description =<a name="line.88"></a>
-<span class="sourceLineNo">089</span>          "Facet parameters allow paging requests using the parameters facetOffset and facetLimit",<a name="line.89"></a>
-<span class="sourceLineNo">090</span>        schema = @Schema(implementation = Integer.class),<a name="line.90"></a>
-<span class="sourceLineNo">091</span>        in = ParameterIn.QUERY),<a name="line.91"></a>
-<span class="sourceLineNo">092</span>      @Parameter(<a name="line.92"></a>
-<span class="sourceLineNo">093</span>        name = "facetOffset",<a name="line.93"></a>
-<span class="sourceLineNo">094</span>        description =<a name="line.94"></a>
-<span class="sourceLineNo">095</span>          "Facet parameters allow paging requests using the parameters facetOffset and facetLimit",<a name="line.95"></a>
-<span class="sourceLineNo">096</span>        schema = @Schema(implementation = Integer.class, minimum = "0"),<a name="line.96"></a>
-<span class="sourceLineNo">097</span>        in = ParameterIn.QUERY)<a name="line.97"></a>
-<span class="sourceLineNo">098</span>    }<a name="line.98"></a>
-<span class="sourceLineNo">099</span>  )<a name="line.99"></a>
-<span class="sourceLineNo">100</span>  public @interface FacetParameters {}<a name="line.100"></a>
-<span class="sourceLineNo">101</span><a name="line.101"></a>
-<span class="sourceLineNo">102</span>  public FacetedSearchRequest() {<a name="line.102"></a>
-<span class="sourceLineNo">103</span>  }<a name="line.103"></a>
-<span class="sourceLineNo">104</span><a name="line.104"></a>
-<span class="sourceLineNo">105</span>  public FacetedSearchRequest(Pageable page) {<a name="line.105"></a>
-<span class="sourceLineNo">106</span>    super(page);<a name="line.106"></a>
-<span class="sourceLineNo">107</span>  }<a name="line.107"></a>
-<span class="sourceLineNo">108</span><a name="line.108"></a>
-<span class="sourceLineNo">109</span>  public FacetedSearchRequest(SearchRequest&lt;P&gt; searchRequest) {<a name="line.109"></a>
-<span class="sourceLineNo">110</span>    super(searchRequest);<a name="line.110"></a>
-<span class="sourceLineNo">111</span>    setHighlight(searchRequest.isHighlight());<a name="line.111"></a>
-<span class="sourceLineNo">112</span>    setParameters(searchRequest.getParameters());<a name="line.112"></a>
-<span class="sourceLineNo">113</span>    setQ(searchRequest.getQ());<a name="line.113"></a>
-<span class="sourceLineNo">114</span>  }<a name="line.114"></a>
-<span class="sourceLineNo">115</span><a name="line.115"></a>
-<span class="sourceLineNo">116</span>  public FacetedSearchRequest(long offset, int limit) {<a name="line.116"></a>
-<span class="sourceLineNo">117</span>    super(offset, limit);<a name="line.117"></a>
-<span class="sourceLineNo">118</span>  }<a name="line.118"></a>
-<span class="sourceLineNo">119</span><a name="line.119"></a>
-<span class="sourceLineNo">120</span>  /**<a name="line.120"></a>
-<span class="sourceLineNo">121</span>   * Min count of facet to return, if the facet count is less than this number the facet won't be included.<a name="line.121"></a>
-<span class="sourceLineNo">122</span>   */<a name="line.122"></a>
-<span class="sourceLineNo">123</span>  public Integer getFacetMinCount() {<a name="line.123"></a>
-<span class="sourceLineNo">124</span>    return facetMinCount;<a name="line.124"></a>
-<span class="sourceLineNo">125</span>  }<a name="line.125"></a>
-<span class="sourceLineNo">126</span><a name="line.126"></a>
-<span class="sourceLineNo">127</span>  public void setFacetMinCount(Integer facetMinCount) {<a name="line.127"></a>
-<span class="sourceLineNo">128</span>    this.facetMinCount = facetMinCount;<a name="line.128"></a>
-<span class="sourceLineNo">129</span>  }<a name="line.129"></a>
-<span class="sourceLineNo">130</span><a name="line.130"></a>
-<span class="sourceLineNo">131</span>  /**<a name="line.131"></a>
-<span class="sourceLineNo">132</span>   * Gets the list of requested facets by the search operation.<a name="line.132"></a>
-<span class="sourceLineNo">133</span>   * The facets are a list of search parameters.<a name="line.133"></a>
-<span class="sourceLineNo">134</span>   */<a name="line.134"></a>
-<span class="sourceLineNo">135</span>  public Set&lt;P&gt; getFacets() {<a name="line.135"></a>
-<span class="sourceLineNo">136</span>    return facets;<a name="line.136"></a>
-<span class="sourceLineNo">137</span>  }<a name="line.137"></a>
-<span class="sourceLineNo">138</span><a name="line.138"></a>
-<span class="sourceLineNo">139</span>  /**<a name="line.139"></a>
-<span class="sourceLineNo">140</span>   * Sets the list of facets.<a name="line.140"></a>
-<span class="sourceLineNo">141</span>   */<a name="line.141"></a>
-<span class="sourceLineNo">142</span>  public void setFacets(Set&lt;P&gt; facets) {<a name="line.142"></a>
-<span class="sourceLineNo">143</span>    this.facets = facets;<a name="line.143"></a>
-<span class="sourceLineNo">144</span>  }<a name="line.144"></a>
-<span class="sourceLineNo">145</span><a name="line.145"></a>
-<span class="sourceLineNo">146</span>  /**<a name="line.146"></a>
-<span class="sourceLineNo">147</span>   * @return the multiSelectFacets<a name="line.147"></a>
-<span class="sourceLineNo">148</span>   */<a name="line.148"></a>
-<span class="sourceLineNo">149</span>  public boolean isMultiSelectFacets() {<a name="line.149"></a>
-<span class="sourceLineNo">150</span>    return multiSelectFacets;<a name="line.150"></a>
-<span class="sourceLineNo">151</span>  }<a name="line.151"></a>
-<span class="sourceLineNo">152</span><a name="line.152"></a>
-<span class="sourceLineNo">153</span>  /**<a name="line.153"></a>
-<span class="sourceLineNo">154</span>   * @param multiSelectFacets the multiSelectFacets to set<a name="line.154"></a>
-<span class="sourceLineNo">155</span>   */<a name="line.155"></a>
-<span class="sourceLineNo">156</span>  public void setMultiSelectFacets(boolean multiSelectFacets) {<a name="line.156"></a>
-<span class="sourceLineNo">157</span>    this.multiSelectFacets = multiSelectFacets;<a name="line.157"></a>
-<span class="sourceLineNo">158</span>  }<a name="line.158"></a>
-<span class="sourceLineNo">159</span><a name="line.159"></a>
-<span class="sourceLineNo">160</span>  /**<a name="line.160"></a>
-<span class="sourceLineNo">161</span>   * Page size of the facet request.<a name="line.161"></a>
-<span class="sourceLineNo">162</span>   */<a name="line.162"></a>
-<span class="sourceLineNo">163</span>  public Integer getFacetLimit() {<a name="line.163"></a>
-<span class="sourceLineNo">164</span>    return facetLimit;<a name="line.164"></a>
-<span class="sourceLineNo">165</span>  }<a name="line.165"></a>
-<span class="sourceLineNo">166</span><a name="line.166"></a>
-<span class="sourceLineNo">167</span>  public void setFacetLimit(Integer facetLimit) {<a name="line.167"></a>
-<span class="sourceLineNo">168</span>    this.facetLimit = facetLimit;<a name="line.168"></a>
-<span class="sourceLineNo">169</span>  }<a name="line.169"></a>
-<span class="sourceLineNo">170</span><a name="line.170"></a>
-<span class="sourceLineNo">171</span>  /**<a name="line.171"></a>
-<span class="sourceLineNo">172</span>   * Holds the paging configuration for each requested facet.<a name="line.172"></a>
-<span class="sourceLineNo">173</span>   */<a name="line.173"></a>
-<span class="sourceLineNo">174</span>  public Map&lt;P, Pageable&gt; getFacetPages() {<a name="line.174"></a>
-<span class="sourceLineNo">175</span>    return facetPages;<a name="line.175"></a>
-<span class="sourceLineNo">176</span>  }<a name="line.176"></a>
-<span class="sourceLineNo">177</span><a name="line.177"></a>
-<span class="sourceLineNo">178</span>  public void setFacetPages(Map&lt;P, Pageable&gt; facetPages) {<a name="line.178"></a>
-<span class="sourceLineNo">179</span>    this.facetPages = facetPages;<a name="line.179"></a>
-<span class="sourceLineNo">180</span>  }<a name="line.180"></a>
-<span class="sourceLineNo">181</span><a name="line.181"></a>
-<span class="sourceLineNo">182</span>  /**<a name="line.182"></a>
-<span class="sourceLineNo">183</span>   * Sets the paging setting of facet parameter.<a name="line.183"></a>
-<span class="sourceLineNo">184</span>   */<a name="line.184"></a>
-<span class="sourceLineNo">185</span>  public void addFacetPage(P parameter, int facetOffset, int facetLimit){<a name="line.185"></a>
-<span class="sourceLineNo">186</span>    facetPages.put(parameter, new PagingRequest(facetOffset,facetLimit));<a name="line.186"></a>
-<span class="sourceLineNo">187</span>  }<a name="line.187"></a>
-<span class="sourceLineNo">188</span><a name="line.188"></a>
-<span class="sourceLineNo">189</span>  /**<a name="line.189"></a>
-<span class="sourceLineNo">190</span>   * Gets the paging configuration of a facet parameter.<a name="line.190"></a>
-<span class="sourceLineNo">191</span>   */<a name="line.191"></a>
-<span class="sourceLineNo">192</span>  public Pageable getFacetPage(P parameter) {<a name="line.192"></a>
-<span class="sourceLineNo">193</span>    return facetPages.get(parameter);<a name="line.193"></a>
-<span class="sourceLineNo">194</span>  }<a name="line.194"></a>
-<span class="sourceLineNo">195</span><a name="line.195"></a>
-<span class="sourceLineNo">196</span>  /**<a name="line.196"></a>
-<span class="sourceLineNo">197</span>   * Offset of the facet request.<a name="line.197"></a>
-<span class="sourceLineNo">198</span>   */<a name="line.198"></a>
-<span class="sourceLineNo">199</span>  public Integer getFacetOffset() {<a name="line.199"></a>
-<span class="sourceLineNo">200</span>    return facetOffset;<a name="line.200"></a>
-<span class="sourceLineNo">201</span>  }<a name="line.201"></a>
-<span class="sourceLineNo">202</span><a name="line.202"></a>
-<span class="sourceLineNo">203</span>  public void setFacetOffset(Integer facetOffset) {<a name="line.203"></a>
-<span class="sourceLineNo">204</span>    this.facetOffset = facetOffset;<a name="line.204"></a>
-<span class="sourceLineNo">205</span>  }<a name="line.205"></a>
-<span class="sourceLineNo">206</span><a name="line.206"></a>
-<span class="sourceLineNo">207</span>  public void addFacets(P... facets) {<a name="line.207"></a>
-<span class="sourceLineNo">208</span>    if (this.facets == null) {<a name="line.208"></a>
-<span class="sourceLineNo">209</span>      this.facets = new HashSet&lt;&gt;(Arrays.asList(facets));<a name="line.209"></a>
-<span class="sourceLineNo">210</span>    } else {<a name="line.210"></a>
-<span class="sourceLineNo">211</span>      this.facets.addAll(new HashSet&lt;&gt;(Arrays.asList(facets)));<a name="line.211"></a>
-<span class="sourceLineNo">212</span>    }<a name="line.212"></a>
-<span class="sourceLineNo">213</span>  }<a name="line.213"></a>
-<span class="sourceLineNo">214</span>}<a name="line.214"></a>
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright 2020 Global Biodiversity Information Facility (GBIF)</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *     http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * limitations under the License.</a>
+<span class="sourceLineNo">015</span><a id="line.15"> */</a>
+<span class="sourceLineNo">016</span><a id="line.16">package org.gbif.api.model.common.search;</a>
+<span class="sourceLineNo">017</span><a id="line.17"></a>
+<span class="sourceLineNo">018</span><a id="line.18">import io.swagger.v3.oas.annotations.Parameter;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import io.swagger.v3.oas.annotations.enums.Explode;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import io.swagger.v3.oas.annotations.enums.ParameterIn;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import io.swagger.v3.oas.annotations.media.ArraySchema;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import io.swagger.v3.oas.annotations.media.Schema;</a>
+<span class="sourceLineNo">023</span><a id="line.23"></a>
+<span class="sourceLineNo">024</span><a id="line.24">import org.gbif.api.model.common.paging.Pageable;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import org.gbif.api.model.common.paging.PagingRequest;</a>
+<span class="sourceLineNo">026</span><a id="line.26"></a>
+<span class="sourceLineNo">027</span><a id="line.27">import java.lang.annotation.Inherited;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import java.lang.annotation.Retention;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import java.lang.annotation.RetentionPolicy;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import java.lang.annotation.Target;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import java.util.Arrays;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import java.util.HashMap;</a>
+<span class="sourceLineNo">033</span><a id="line.33">import java.util.HashSet;</a>
+<span class="sourceLineNo">034</span><a id="line.34">import java.util.Map;</a>
+<span class="sourceLineNo">035</span><a id="line.35">import java.util.Set;</a>
+<span class="sourceLineNo">036</span><a id="line.36"></a>
+<span class="sourceLineNo">037</span><a id="line.37">import static java.lang.annotation.ElementType.ANNOTATION_TYPE;</a>
+<span class="sourceLineNo">038</span><a id="line.38">import static java.lang.annotation.ElementType.FIELD;</a>
+<span class="sourceLineNo">039</span><a id="line.39">import static java.lang.annotation.ElementType.METHOD;</a>
+<span class="sourceLineNo">040</span><a id="line.40">import static java.lang.annotation.ElementType.PARAMETER;</a>
+<span class="sourceLineNo">041</span><a id="line.41"></a>
+<span class="sourceLineNo">042</span><a id="line.42">/**</a>
+<span class="sourceLineNo">043</span><a id="line.43"> * Generic request class for search operations requesting facets.</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * It extends a search request with a list of desired facets and optional settings.</a>
+<span class="sourceLineNo">045</span><a id="line.45"> */</a>
+<span class="sourceLineNo">046</span><a id="line.46">@SuppressWarnings("unused")</a>
+<span class="sourceLineNo">047</span><a id="line.47">public class FacetedSearchRequest&lt;P extends SearchParameter&gt; extends SearchRequest&lt;P&gt; {</a>
+<span class="sourceLineNo">048</span><a id="line.48"></a>
+<span class="sourceLineNo">049</span><a id="line.49">  private Set&lt;P&gt; facets = new HashSet&lt;&gt;();</a>
+<span class="sourceLineNo">050</span><a id="line.50"></a>
+<span class="sourceLineNo">051</span><a id="line.51">  private boolean multiSelectFacets;</a>
+<span class="sourceLineNo">052</span><a id="line.52">  private Integer facetMinCount;</a>
+<span class="sourceLineNo">053</span><a id="line.53">  private Integer facetLimit = 10;</a>
+<span class="sourceLineNo">054</span><a id="line.54">  private Integer facetOffset;</a>
+<span class="sourceLineNo">055</span><a id="line.55"></a>
+<span class="sourceLineNo">056</span><a id="line.56">  //Holds the paging configuration for each requested facet</a>
+<span class="sourceLineNo">057</span><a id="line.57">  private Map&lt;P, Pageable&gt; facetPages = new HashMap&lt;&gt;();</a>
+<span class="sourceLineNo">058</span><a id="line.58"></a>
+<span class="sourceLineNo">059</span><a id="line.59">  /**</a>
+<span class="sourceLineNo">060</span><a id="line.60">   * Annotation to document the facet query parameters.</a>
+<span class="sourceLineNo">061</span><a id="line.61">   */</a>
+<span class="sourceLineNo">062</span><a id="line.62">  @Target({METHOD})</a>
+<span class="sourceLineNo">063</span><a id="line.63">  @Retention(RetentionPolicy.RUNTIME)</a>
+<span class="sourceLineNo">064</span><a id="line.64">  @Inherited</a>
+<span class="sourceLineNo">065</span><a id="line.65">  @io.swagger.v3.oas.annotations.Parameters(</a>
+<span class="sourceLineNo">066</span><a id="line.66">    value = {</a>
+<span class="sourceLineNo">067</span><a id="line.67">      @Parameter(</a>
+<span class="sourceLineNo">068</span><a id="line.68">        name = "facet",</a>
+<span class="sourceLineNo">069</span><a id="line.69">        description = "A facet name used to retrieve the most frequent values for a field. This parameter may be " +</a>
+<span class="sourceLineNo">070</span><a id="line.70">          "repeated to request multiple facets.",</a>
+<span class="sourceLineNo">071</span><a id="line.71">        array = @ArraySchema(schema = @Schema(implementation = String.class)),</a>
+<span class="sourceLineNo">072</span><a id="line.72">        in = ParameterIn.QUERY,</a>
+<span class="sourceLineNo">073</span><a id="line.73">        explode = Explode.TRUE),</a>
+<span class="sourceLineNo">074</span><a id="line.74">      @Parameter(</a>
+<span class="sourceLineNo">075</span><a id="line.75">        name = "facetMincount",</a>
+<span class="sourceLineNo">076</span><a id="line.76">        description =</a>
+<span class="sourceLineNo">077</span><a id="line.77">          "Used in combination with the facet parameter. Set `facetMincount={#}` to exclude facets with a count less than `{#}`.",</a>
+<span class="sourceLineNo">078</span><a id="line.78">        schema = @Schema(implementation = Integer.class),</a>
+<span class="sourceLineNo">079</span><a id="line.79">        in = ParameterIn.QUERY),</a>
+<span class="sourceLineNo">080</span><a id="line.80">      @Parameter(</a>
+<span class="sourceLineNo">081</span><a id="line.81">        name = "facetMultiselect",</a>
+<span class="sourceLineNo">082</span><a id="line.82">        description =</a>
+<span class="sourceLineNo">083</span><a id="line.83">          "Used in combination with the facet parameter. Set `facetMultiselect=true` to still return counts for values that are not currently filtered.",</a>
+<span class="sourceLineNo">084</span><a id="line.84">        schema = @Schema(implementation = Boolean.class),</a>
+<span class="sourceLineNo">085</span><a id="line.85">        in = ParameterIn.QUERY),</a>
+<span class="sourceLineNo">086</span><a id="line.86">      @Parameter(</a>
+<span class="sourceLineNo">087</span><a id="line.87">        name = "facetLimit",</a>
+<span class="sourceLineNo">088</span><a id="line.88">        description =</a>
+<span class="sourceLineNo">089</span><a id="line.89">          "Facet parameters allow paging requests using the parameters facetOffset and facetLimit",</a>
+<span class="sourceLineNo">090</span><a id="line.90">        schema = @Schema(implementation = Integer.class),</a>
+<span class="sourceLineNo">091</span><a id="line.91">        in = ParameterIn.QUERY),</a>
+<span class="sourceLineNo">092</span><a id="line.92">      @Parameter(</a>
+<span class="sourceLineNo">093</span><a id="line.93">        name = "facetOffset",</a>
+<span class="sourceLineNo">094</span><a id="line.94">        description =</a>
+<span class="sourceLineNo">095</span><a id="line.95">          "Facet parameters allow paging requests using the parameters facetOffset and facetLimit",</a>
+<span class="sourceLineNo">096</span><a id="line.96">        schema = @Schema(implementation = Integer.class, minimum = "0"),</a>
+<span class="sourceLineNo">097</span><a id="line.97">        in = ParameterIn.QUERY)</a>
+<span class="sourceLineNo">098</span><a id="line.98">    }</a>
+<span class="sourceLineNo">099</span><a id="line.99">  )</a>
+<span class="sourceLineNo">100</span><a id="line.100">  public @interface FacetParameters {}</a>
+<span class="sourceLineNo">101</span><a id="line.101"></a>
+<span class="sourceLineNo">102</span><a id="line.102">  public FacetedSearchRequest() {</a>
+<span class="sourceLineNo">103</span><a id="line.103">  }</a>
+<span class="sourceLineNo">104</span><a id="line.104"></a>
+<span class="sourceLineNo">105</span><a id="line.105">  public FacetedSearchRequest(Pageable page) {</a>
+<span class="sourceLineNo">106</span><a id="line.106">    super(page);</a>
+<span class="sourceLineNo">107</span><a id="line.107">  }</a>
+<span class="sourceLineNo">108</span><a id="line.108"></a>
+<span class="sourceLineNo">109</span><a id="line.109">  public FacetedSearchRequest(SearchRequest&lt;P&gt; searchRequest) {</a>
+<span class="sourceLineNo">110</span><a id="line.110">    super(searchRequest);</a>
+<span class="sourceLineNo">111</span><a id="line.111">    setHighlight(searchRequest.isHighlight());</a>
+<span class="sourceLineNo">112</span><a id="line.112">    setParameters(searchRequest.getParameters());</a>
+<span class="sourceLineNo">113</span><a id="line.113">    setQ(searchRequest.getQ());</a>
+<span class="sourceLineNo">114</span><a id="line.114">  }</a>
+<span class="sourceLineNo">115</span><a id="line.115"></a>
+<span class="sourceLineNo">116</span><a id="line.116">  public FacetedSearchRequest(long offset, int limit) {</a>
+<span class="sourceLineNo">117</span><a id="line.117">    super(offset, limit);</a>
+<span class="sourceLineNo">118</span><a id="line.118">  }</a>
+<span class="sourceLineNo">119</span><a id="line.119"></a>
+<span class="sourceLineNo">120</span><a id="line.120">  /**</a>
+<span class="sourceLineNo">121</span><a id="line.121">   * Min count of facet to return, if the facet count is less than this number the facet won't be included.</a>
+<span class="sourceLineNo">122</span><a id="line.122">   */</a>
+<span class="sourceLineNo">123</span><a id="line.123">  public Integer getFacetMinCount() {</a>
+<span class="sourceLineNo">124</span><a id="line.124">    return facetMinCount;</a>
+<span class="sourceLineNo">125</span><a id="line.125">  }</a>
+<span class="sourceLineNo">126</span><a id="line.126"></a>
+<span class="sourceLineNo">127</span><a id="line.127">  public void setFacetMinCount(Integer facetMinCount) {</a>
+<span class="sourceLineNo">128</span><a id="line.128">    this.facetMinCount = facetMinCount;</a>
+<span class="sourceLineNo">129</span><a id="line.129">  }</a>
+<span class="sourceLineNo">130</span><a id="line.130"></a>
+<span class="sourceLineNo">131</span><a id="line.131">  /**</a>
+<span class="sourceLineNo">132</span><a id="line.132">   * Gets the list of requested facets by the search operation.</a>
+<span class="sourceLineNo">133</span><a id="line.133">   * The facets are a list of search parameters.</a>
+<span class="sourceLineNo">134</span><a id="line.134">   */</a>
+<span class="sourceLineNo">135</span><a id="line.135">  public Set&lt;P&gt; getFacets() {</a>
+<span class="sourceLineNo">136</span><a id="line.136">    return facets;</a>
+<span class="sourceLineNo">137</span><a id="line.137">  }</a>
+<span class="sourceLineNo">138</span><a id="line.138"></a>
+<span class="sourceLineNo">139</span><a id="line.139">  /**</a>
+<span class="sourceLineNo">140</span><a id="line.140">   * Sets the list of facets.</a>
+<span class="sourceLineNo">141</span><a id="line.141">   */</a>
+<span class="sourceLineNo">142</span><a id="line.142">  public void setFacets(Set&lt;P&gt; facets) {</a>
+<span class="sourceLineNo">143</span><a id="line.143">    this.facets = facets;</a>
+<span class="sourceLineNo">144</span><a id="line.144">  }</a>
+<span class="sourceLineNo">145</span><a id="line.145"></a>
+<span class="sourceLineNo">146</span><a id="line.146">  /**</a>
+<span class="sourceLineNo">147</span><a id="line.147">   * @return the multiSelectFacets</a>
+<span class="sourceLineNo">148</span><a id="line.148">   */</a>
+<span class="sourceLineNo">149</span><a id="line.149">  public boolean isMultiSelectFacets() {</a>
+<span class="sourceLineNo">150</span><a id="line.150">    return multiSelectFacets;</a>
+<span class="sourceLineNo">151</span><a id="line.151">  }</a>
+<span class="sourceLineNo">152</span><a id="line.152"></a>
+<span class="sourceLineNo">153</span><a id="line.153">  /**</a>
+<span class="sourceLineNo">154</span><a id="line.154">   * @param multiSelectFacets the multiSelectFacets to set</a>
+<span class="sourceLineNo">155</span><a id="line.155">   */</a>
+<span class="sourceLineNo">156</span><a id="line.156">  public void setMultiSelectFacets(boolean multiSelectFacets) {</a>
+<span class="sourceLineNo">157</span><a id="line.157">    this.multiSelectFacets = multiSelectFacets;</a>
+<span class="sourceLineNo">158</span><a id="line.158">  }</a>
+<span class="sourceLineNo">159</span><a id="line.159"></a>
+<span class="sourceLineNo">160</span><a id="line.160">  /**</a>
+<span class="sourceLineNo">161</span><a id="line.161">   * Page size of the facet request.</a>
+<span class="sourceLineNo">162</span><a id="line.162">   */</a>
+<span class="sourceLineNo">163</span><a id="line.163">  public Integer getFacetLimit() {</a>
+<span class="sourceLineNo">164</span><a id="line.164">    return facetLimit;</a>
+<span class="sourceLineNo">165</span><a id="line.165">  }</a>
+<span class="sourceLineNo">166</span><a id="line.166"></a>
+<span class="sourceLineNo">167</span><a id="line.167">  public void setFacetLimit(Integer facetLimit) {</a>
+<span class="sourceLineNo">168</span><a id="line.168">    this.facetLimit = facetLimit;</a>
+<span class="sourceLineNo">169</span><a id="line.169">  }</a>
+<span class="sourceLineNo">170</span><a id="line.170"></a>
+<span class="sourceLineNo">171</span><a id="line.171">  /**</a>
+<span class="sourceLineNo">172</span><a id="line.172">   * Holds the paging configuration for each requested facet.</a>
+<span class="sourceLineNo">173</span><a id="line.173">   */</a>
+<span class="sourceLineNo">174</span><a id="line.174">  public Map&lt;P, Pageable&gt; getFacetPages() {</a>
+<span class="sourceLineNo">175</span><a id="line.175">    return facetPages;</a>
+<span class="sourceLineNo">176</span><a id="line.176">  }</a>
+<span class="sourceLineNo">177</span><a id="line.177"></a>
+<span class="sourceLineNo">178</span><a id="line.178">  public void setFacetPages(Map&lt;P, Pageable&gt; facetPages) {</a>
+<span class="sourceLineNo">179</span><a id="line.179">    this.facetPages = facetPages;</a>
+<span class="sourceLineNo">180</span><a id="line.180">  }</a>
+<span class="sourceLineNo">181</span><a id="line.181"></a>
+<span class="sourceLineNo">182</span><a id="line.182">  /**</a>
+<span class="sourceLineNo">183</span><a id="line.183">   * Sets the paging setting of facet parameter.</a>
+<span class="sourceLineNo">184</span><a id="line.184">   */</a>
+<span class="sourceLineNo">185</span><a id="line.185">  public void addFacetPage(P parameter, int facetOffset, int facetLimit){</a>
+<span class="sourceLineNo">186</span><a id="line.186">    facetPages.put(parameter, new PagingRequest(facetOffset,facetLimit));</a>
+<span class="sourceLineNo">187</span><a id="line.187">  }</a>
+<span class="sourceLineNo">188</span><a id="line.188"></a>
+<span class="sourceLineNo">189</span><a id="line.189">  /**</a>
+<span class="sourceLineNo">190</span><a id="line.190">   * Gets the paging configuration of a facet parameter.</a>
+<span class="sourceLineNo">191</span><a id="line.191">   */</a>
+<span class="sourceLineNo">192</span><a id="line.192">  public Pageable getFacetPage(P parameter) {</a>
+<span class="sourceLineNo">193</span><a id="line.193">    return facetPages.get(parameter);</a>
+<span class="sourceLineNo">194</span><a id="line.194">  }</a>
+<span class="sourceLineNo">195</span><a id="line.195"></a>
+<span class="sourceLineNo">196</span><a id="line.196">  /**</a>
+<span class="sourceLineNo">197</span><a id="line.197">   * Offset of the facet request.</a>
+<span class="sourceLineNo">198</span><a id="line.198">   */</a>
+<span class="sourceLineNo">199</span><a id="line.199">  public Integer getFacetOffset() {</a>
+<span class="sourceLineNo">200</span><a id="line.200">    return facetOffset;</a>
+<span class="sourceLineNo">201</span><a id="line.201">  }</a>
+<span class="sourceLineNo">202</span><a id="line.202"></a>
+<span class="sourceLineNo">203</span><a id="line.203">  public void setFacetOffset(Integer facetOffset) {</a>
+<span class="sourceLineNo">204</span><a id="line.204">    this.facetOffset = facetOffset;</a>
+<span class="sourceLineNo">205</span><a id="line.205">  }</a>
+<span class="sourceLineNo">206</span><a id="line.206"></a>
+<span class="sourceLineNo">207</span><a id="line.207">  public void addFacets(P... facets) {</a>
+<span class="sourceLineNo">208</span><a id="line.208">    if (this.facets == null) {</a>
+<span class="sourceLineNo">209</span><a id="line.209">      this.facets = new HashSet&lt;&gt;(Arrays.asList(facets));</a>
+<span class="sourceLineNo">210</span><a id="line.210">    } else {</a>
+<span class="sourceLineNo">211</span><a id="line.211">      this.facets.addAll(new HashSet&lt;&gt;(Arrays.asList(facets)));</a>
+<span class="sourceLineNo">212</span><a id="line.212">    }</a>
+<span class="sourceLineNo">213</span><a id="line.213">  }</a>
+<span class="sourceLineNo">214</span><a id="line.214">}</a>
 
 
 
@@ -282,5 +283,6 @@
 
 </pre>
 </div>
+</main>
 </body>
 </html>

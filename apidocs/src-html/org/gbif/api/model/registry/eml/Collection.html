@@ -1,187 +1,188 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
 <title>Source code</title>
 <link rel="stylesheet" type="text/css" href="../../../../../../../stylesheet.css" title="Style">
 </head>
 <body>
+<main role="main">
 <div class="sourceContainer">
-<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
-<span class="sourceLineNo">003</span> *<a name="line.3"></a>
-<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
-<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
-<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
-<span class="sourceLineNo">007</span> *<a name="line.7"></a>
-<span class="sourceLineNo">008</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
-<span class="sourceLineNo">009</span> *<a name="line.9"></a>
-<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
-<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
-<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
-<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
-<span class="sourceLineNo">015</span> */<a name="line.15"></a>
-<span class="sourceLineNo">016</span>package org.gbif.api.model.registry.eml;<a name="line.16"></a>
-<span class="sourceLineNo">017</span><a name="line.17"></a>
-<span class="sourceLineNo">018</span>import org.gbif.api.model.registry.eml.curatorial.CuratorialUnitComposite;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import org.gbif.api.vocabulary.PreservationMethodType;<a name="line.19"></a>
-<span class="sourceLineNo">020</span><a name="line.20"></a>
-<span class="sourceLineNo">021</span>import java.io.Serializable;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import java.util.ArrayList;<a name="line.22"></a>
-<span class="sourceLineNo">023</span>import java.util.List;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import java.util.Objects;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>import java.util.StringJoiner;<a name="line.25"></a>
-<span class="sourceLineNo">026</span><a name="line.26"></a>
-<span class="sourceLineNo">027</span>/**<a name="line.27"></a>
-<span class="sourceLineNo">028</span> * Collection data for the Dataset.<a name="line.28"></a>
-<span class="sourceLineNo">029</span> */<a name="line.29"></a>
-<span class="sourceLineNo">030</span>public class Collection implements Serializable {<a name="line.30"></a>
-<span class="sourceLineNo">031</span><a name="line.31"></a>
-<span class="sourceLineNo">032</span>  private static final long serialVersionUID = 3259062777751953305L;<a name="line.32"></a>
-<span class="sourceLineNo">033</span><a name="line.33"></a>
-<span class="sourceLineNo">034</span>  private String name;<a name="line.34"></a>
-<span class="sourceLineNo">035</span>  private String identifier;<a name="line.35"></a>
-<span class="sourceLineNo">036</span>  private String parentIdentifier;<a name="line.36"></a>
-<span class="sourceLineNo">037</span>  private PreservationMethodType specimenPreservationMethod;<a name="line.37"></a>
-<span class="sourceLineNo">038</span>  private List&lt;CuratorialUnitComposite&gt; curatorialUnits = new ArrayList&lt;&gt;();<a name="line.38"></a>
-<span class="sourceLineNo">039</span><a name="line.39"></a>
-<span class="sourceLineNo">040</span>  public Collection() {<a name="line.40"></a>
-<span class="sourceLineNo">041</span>  }<a name="line.41"></a>
-<span class="sourceLineNo">042</span><a name="line.42"></a>
-<span class="sourceLineNo">043</span>  public Collection(<a name="line.43"></a>
-<span class="sourceLineNo">044</span>    String name,<a name="line.44"></a>
-<span class="sourceLineNo">045</span>    String parentIdentifier,<a name="line.45"></a>
-<span class="sourceLineNo">046</span>    String identifier,<a name="line.46"></a>
-<span class="sourceLineNo">047</span>    PreservationMethodType specimenPreservationMethod,<a name="line.47"></a>
-<span class="sourceLineNo">048</span>    List&lt;CuratorialUnitComposite&gt; curatorialUnits<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  ) {<a name="line.49"></a>
-<span class="sourceLineNo">050</span>    this.name = name;<a name="line.50"></a>
-<span class="sourceLineNo">051</span>    this.parentIdentifier = parentIdentifier;<a name="line.51"></a>
-<span class="sourceLineNo">052</span>    this.identifier = identifier;<a name="line.52"></a>
-<span class="sourceLineNo">053</span>    this.specimenPreservationMethod = specimenPreservationMethod;<a name="line.53"></a>
-<span class="sourceLineNo">054</span>    this.curatorialUnits = curatorialUnits;<a name="line.54"></a>
-<span class="sourceLineNo">055</span>  }<a name="line.55"></a>
-<span class="sourceLineNo">056</span><a name="line.56"></a>
-<span class="sourceLineNo">057</span>  /**<a name="line.57"></a>
-<span class="sourceLineNo">058</span>   * The URI (LSID or URL) of the collection. In RDF, used as URI of the collection resource.<a name="line.58"></a>
-<span class="sourceLineNo">059</span>   *<a name="line.59"></a>
-<span class="sourceLineNo">060</span>   * @return the collection identifier<a name="line.60"></a>
-<span class="sourceLineNo">061</span>   */<a name="line.61"></a>
-<span class="sourceLineNo">062</span>  public String getIdentifier() {<a name="line.62"></a>
-<span class="sourceLineNo">063</span>    return identifier;<a name="line.63"></a>
-<span class="sourceLineNo">064</span>  }<a name="line.64"></a>
-<span class="sourceLineNo">065</span><a name="line.65"></a>
-<span class="sourceLineNo">066</span>  public void setIdentifier(String identifier) {<a name="line.66"></a>
-<span class="sourceLineNo">067</span>    this.identifier = identifier;<a name="line.67"></a>
-<span class="sourceLineNo">068</span>  }<a name="line.68"></a>
-<span class="sourceLineNo">069</span><a name="line.69"></a>
-<span class="sourceLineNo">070</span>  /**<a name="line.70"></a>
-<span class="sourceLineNo">071</span>   * The official name of the Collection in the local language.<a name="line.71"></a>
-<span class="sourceLineNo">072</span>   *<a name="line.72"></a>
-<span class="sourceLineNo">073</span>   * @return the collection name.<a name="line.73"></a>
-<span class="sourceLineNo">074</span>   */<a name="line.74"></a>
-<span class="sourceLineNo">075</span>  public String getName() {<a name="line.75"></a>
-<span class="sourceLineNo">076</span>    return name;<a name="line.76"></a>
-<span class="sourceLineNo">077</span>  }<a name="line.77"></a>
-<span class="sourceLineNo">078</span><a name="line.78"></a>
-<span class="sourceLineNo">079</span>  public void setName(String name) {<a name="line.79"></a>
-<span class="sourceLineNo">080</span>    this.name = name;<a name="line.80"></a>
-<span class="sourceLineNo">081</span>  }<a name="line.81"></a>
-<span class="sourceLineNo">082</span><a name="line.82"></a>
-<span class="sourceLineNo">083</span>  /**<a name="line.83"></a>
-<span class="sourceLineNo">084</span>   * The quantitative descriptor (number of specimens, samples or batches). The actual quantification could be covered<a name="line.84"></a>
-<span class="sourceLineNo">085</span>   * by 1) an exact number of “JGI-units” in the collection plus a measure of uncertainty (+/- x); 2) a range of<a name="line.85"></a>
-<span class="sourceLineNo">086</span>   * numbers<a name="line.86"></a>
-<span class="sourceLineNo">087</span>   * (x to x), with the lower value representing an exact number, when the higher value is omitted. The discussion<a name="line.87"></a>
-<span class="sourceLineNo">088</span>   * concluded that the quantification should encompass all specimens, not only those that have not yet been digitised.<a name="line.88"></a>
-<span class="sourceLineNo">089</span>   * This is to avoid having to update the numbers too often. The number of non-public data (not digitised or not<a name="line.89"></a>
-<span class="sourceLineNo">090</span>   * accessible) can be calculated from the GBIF numbers as opposed to the JGTI-data.<a name="line.90"></a>
-<span class="sourceLineNo">091</span>   *<a name="line.91"></a>
-<span class="sourceLineNo">092</span>   * @return the list of curatorial units<a name="line.92"></a>
-<span class="sourceLineNo">093</span>   */<a name="line.93"></a>
-<span class="sourceLineNo">094</span>  public List&lt;CuratorialUnitComposite&gt; getCuratorialUnits() {<a name="line.94"></a>
-<span class="sourceLineNo">095</span>    return curatorialUnits;<a name="line.95"></a>
-<span class="sourceLineNo">096</span>  }<a name="line.96"></a>
-<span class="sourceLineNo">097</span><a name="line.97"></a>
-<span class="sourceLineNo">098</span>  public void setCuratorialUnits(List&lt;CuratorialUnitComposite&gt; curatorialUnits) {<a name="line.98"></a>
-<span class="sourceLineNo">099</span>    this.curatorialUnits = curatorialUnits;<a name="line.99"></a>
-<span class="sourceLineNo">100</span>  }<a name="line.100"></a>
-<span class="sourceLineNo">101</span><a name="line.101"></a>
-<span class="sourceLineNo">102</span>  /**<a name="line.102"></a>
-<span class="sourceLineNo">103</span>   * The identifier for the parent collection for this sub-collection. Enables a hierarchy of collections and sub<a name="line.103"></a>
-<span class="sourceLineNo">104</span>   * collections to be built.<a name="line.104"></a>
-<span class="sourceLineNo">105</span>   *<a name="line.105"></a>
-<span class="sourceLineNo">106</span>   * @return the parent collection identifier<a name="line.106"></a>
-<span class="sourceLineNo">107</span>   */<a name="line.107"></a>
-<span class="sourceLineNo">108</span>  public String getParentIdentifier() {<a name="line.108"></a>
-<span class="sourceLineNo">109</span>    return parentIdentifier;<a name="line.109"></a>
-<span class="sourceLineNo">110</span>  }<a name="line.110"></a>
-<span class="sourceLineNo">111</span><a name="line.111"></a>
-<span class="sourceLineNo">112</span>  public void setParentIdentifier(String parentIdentifier) {<a name="line.112"></a>
-<span class="sourceLineNo">113</span>    this.parentIdentifier = parentIdentifier;<a name="line.113"></a>
-<span class="sourceLineNo">114</span>  }<a name="line.114"></a>
-<span class="sourceLineNo">115</span><a name="line.115"></a>
-<span class="sourceLineNo">116</span>  /**<a name="line.116"></a>
-<span class="sourceLineNo">117</span>   * Picklist keyword indicating the process or technique used to prevent physical deterioration of non-living<a name="line.117"></a>
-<span class="sourceLineNo">118</span>   * collections. Expected to contain an instance from the Specimen Preservation Method Type Term vocabulary.<a name="line.118"></a>
-<span class="sourceLineNo">119</span>   *<a name="line.119"></a>
-<span class="sourceLineNo">120</span>   * @return the preservation method type<a name="line.120"></a>
-<span class="sourceLineNo">121</span>   */<a name="line.121"></a>
-<span class="sourceLineNo">122</span>  public PreservationMethodType getSpecimenPreservationMethod() {<a name="line.122"></a>
-<span class="sourceLineNo">123</span>    return specimenPreservationMethod;<a name="line.123"></a>
-<span class="sourceLineNo">124</span>  }<a name="line.124"></a>
-<span class="sourceLineNo">125</span><a name="line.125"></a>
-<span class="sourceLineNo">126</span>  public void setSpecimenPreservationMethod(PreservationMethodType specimenPreservationMethod) {<a name="line.126"></a>
-<span class="sourceLineNo">127</span>    this.specimenPreservationMethod = specimenPreservationMethod;<a name="line.127"></a>
-<span class="sourceLineNo">128</span>  }<a name="line.128"></a>
-<span class="sourceLineNo">129</span><a name="line.129"></a>
-<span class="sourceLineNo">130</span>  /**<a name="line.130"></a>
-<span class="sourceLineNo">131</span>   * Adds a CuratorialUnitComposite to the Collection's list of CuratorialUnitComposit.<a name="line.131"></a>
-<span class="sourceLineNo">132</span>   *<a name="line.132"></a>
-<span class="sourceLineNo">133</span>   * @param curatorialUnitComposite curatorial unit<a name="line.133"></a>
-<span class="sourceLineNo">134</span>   */<a name="line.134"></a>
-<span class="sourceLineNo">135</span>  public void addCuratorialUnitComposite(CuratorialUnitComposite curatorialUnitComposite) {<a name="line.135"></a>
-<span class="sourceLineNo">136</span>    if (curatorialUnits == null) {<a name="line.136"></a>
-<span class="sourceLineNo">137</span>      List&lt;CuratorialUnitComposite&gt; list = new ArrayList&lt;CuratorialUnitComposite&gt;();<a name="line.137"></a>
-<span class="sourceLineNo">138</span>      list.add(curatorialUnitComposite);<a name="line.138"></a>
-<span class="sourceLineNo">139</span>      curatorialUnits = list;<a name="line.139"></a>
-<span class="sourceLineNo">140</span>    }<a name="line.140"></a>
-<span class="sourceLineNo">141</span>    curatorialUnits.add(curatorialUnitComposite);<a name="line.141"></a>
-<span class="sourceLineNo">142</span>  }<a name="line.142"></a>
-<span class="sourceLineNo">143</span><a name="line.143"></a>
-<span class="sourceLineNo">144</span>  @Override<a name="line.144"></a>
-<span class="sourceLineNo">145</span>  public boolean equals(Object o) {<a name="line.145"></a>
-<span class="sourceLineNo">146</span>    if (this == o) {<a name="line.146"></a>
-<span class="sourceLineNo">147</span>      return true;<a name="line.147"></a>
-<span class="sourceLineNo">148</span>    }<a name="line.148"></a>
-<span class="sourceLineNo">149</span>    if (o == null || getClass() != o.getClass()) {<a name="line.149"></a>
-<span class="sourceLineNo">150</span>      return false;<a name="line.150"></a>
-<span class="sourceLineNo">151</span>    }<a name="line.151"></a>
-<span class="sourceLineNo">152</span>    Collection that = (Collection) o;<a name="line.152"></a>
-<span class="sourceLineNo">153</span>    return Objects.equals(name, that.name) &amp;&amp;<a name="line.153"></a>
-<span class="sourceLineNo">154</span>      Objects.equals(identifier, that.identifier) &amp;&amp;<a name="line.154"></a>
-<span class="sourceLineNo">155</span>      Objects.equals(parentIdentifier, that.parentIdentifier) &amp;&amp;<a name="line.155"></a>
-<span class="sourceLineNo">156</span>      specimenPreservationMethod == that.specimenPreservationMethod &amp;&amp;<a name="line.156"></a>
-<span class="sourceLineNo">157</span>      Objects.equals(curatorialUnits, that.curatorialUnits);<a name="line.157"></a>
-<span class="sourceLineNo">158</span>  }<a name="line.158"></a>
-<span class="sourceLineNo">159</span><a name="line.159"></a>
-<span class="sourceLineNo">160</span>  @Override<a name="line.160"></a>
-<span class="sourceLineNo">161</span>  public int hashCode() {<a name="line.161"></a>
-<span class="sourceLineNo">162</span>    return Objects<a name="line.162"></a>
-<span class="sourceLineNo">163</span>      .hash(name, identifier, parentIdentifier, specimenPreservationMethod, curatorialUnits);<a name="line.163"></a>
-<span class="sourceLineNo">164</span>  }<a name="line.164"></a>
-<span class="sourceLineNo">165</span><a name="line.165"></a>
-<span class="sourceLineNo">166</span>  @Override<a name="line.166"></a>
-<span class="sourceLineNo">167</span>  public String toString() {<a name="line.167"></a>
-<span class="sourceLineNo">168</span>    return new StringJoiner(", ", Collection.class.getSimpleName() + "[", "]")<a name="line.168"></a>
-<span class="sourceLineNo">169</span>      .add("name='" + name + "'")<a name="line.169"></a>
-<span class="sourceLineNo">170</span>      .add("identifier='" + identifier + "'")<a name="line.170"></a>
-<span class="sourceLineNo">171</span>      .add("parentIdentifier='" + parentIdentifier + "'")<a name="line.171"></a>
-<span class="sourceLineNo">172</span>      .add("specimenPreservationMethod=" + specimenPreservationMethod)<a name="line.172"></a>
-<span class="sourceLineNo">173</span>      .add("curatorialUnits=" + curatorialUnits)<a name="line.173"></a>
-<span class="sourceLineNo">174</span>      .toString();<a name="line.174"></a>
-<span class="sourceLineNo">175</span>  }<a name="line.175"></a>
-<span class="sourceLineNo">176</span>}<a name="line.176"></a>
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright 2020 Global Biodiversity Information Facility (GBIF)</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *     http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * limitations under the License.</a>
+<span class="sourceLineNo">015</span><a id="line.15"> */</a>
+<span class="sourceLineNo">016</span><a id="line.16">package org.gbif.api.model.registry.eml;</a>
+<span class="sourceLineNo">017</span><a id="line.17"></a>
+<span class="sourceLineNo">018</span><a id="line.18">import org.gbif.api.model.registry.eml.curatorial.CuratorialUnitComposite;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import org.gbif.api.vocabulary.PreservationMethodType;</a>
+<span class="sourceLineNo">020</span><a id="line.20"></a>
+<span class="sourceLineNo">021</span><a id="line.21">import java.io.Serializable;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import java.util.ArrayList;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import java.util.List;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import java.util.Objects;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import java.util.StringJoiner;</a>
+<span class="sourceLineNo">026</span><a id="line.26"></a>
+<span class="sourceLineNo">027</span><a id="line.27">/**</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * Collection data for the Dataset.</a>
+<span class="sourceLineNo">029</span><a id="line.29"> */</a>
+<span class="sourceLineNo">030</span><a id="line.30">public class Collection implements Serializable {</a>
+<span class="sourceLineNo">031</span><a id="line.31"></a>
+<span class="sourceLineNo">032</span><a id="line.32">  private static final long serialVersionUID = 3259062777751953305L;</a>
+<span class="sourceLineNo">033</span><a id="line.33"></a>
+<span class="sourceLineNo">034</span><a id="line.34">  private String name;</a>
+<span class="sourceLineNo">035</span><a id="line.35">  private String identifier;</a>
+<span class="sourceLineNo">036</span><a id="line.36">  private String parentIdentifier;</a>
+<span class="sourceLineNo">037</span><a id="line.37">  private PreservationMethodType specimenPreservationMethod;</a>
+<span class="sourceLineNo">038</span><a id="line.38">  private List&lt;CuratorialUnitComposite&gt; curatorialUnits = new ArrayList&lt;&gt;();</a>
+<span class="sourceLineNo">039</span><a id="line.39"></a>
+<span class="sourceLineNo">040</span><a id="line.40">  public Collection() {</a>
+<span class="sourceLineNo">041</span><a id="line.41">  }</a>
+<span class="sourceLineNo">042</span><a id="line.42"></a>
+<span class="sourceLineNo">043</span><a id="line.43">  public Collection(</a>
+<span class="sourceLineNo">044</span><a id="line.44">    String name,</a>
+<span class="sourceLineNo">045</span><a id="line.45">    String parentIdentifier,</a>
+<span class="sourceLineNo">046</span><a id="line.46">    String identifier,</a>
+<span class="sourceLineNo">047</span><a id="line.47">    PreservationMethodType specimenPreservationMethod,</a>
+<span class="sourceLineNo">048</span><a id="line.48">    List&lt;CuratorialUnitComposite&gt; curatorialUnits</a>
+<span class="sourceLineNo">049</span><a id="line.49">  ) {</a>
+<span class="sourceLineNo">050</span><a id="line.50">    this.name = name;</a>
+<span class="sourceLineNo">051</span><a id="line.51">    this.parentIdentifier = parentIdentifier;</a>
+<span class="sourceLineNo">052</span><a id="line.52">    this.identifier = identifier;</a>
+<span class="sourceLineNo">053</span><a id="line.53">    this.specimenPreservationMethod = specimenPreservationMethod;</a>
+<span class="sourceLineNo">054</span><a id="line.54">    this.curatorialUnits = curatorialUnits;</a>
+<span class="sourceLineNo">055</span><a id="line.55">  }</a>
+<span class="sourceLineNo">056</span><a id="line.56"></a>
+<span class="sourceLineNo">057</span><a id="line.57">  /**</a>
+<span class="sourceLineNo">058</span><a id="line.58">   * The URI (LSID or URL) of the collection. In RDF, used as URI of the collection resource.</a>
+<span class="sourceLineNo">059</span><a id="line.59">   *</a>
+<span class="sourceLineNo">060</span><a id="line.60">   * @return the collection identifier</a>
+<span class="sourceLineNo">061</span><a id="line.61">   */</a>
+<span class="sourceLineNo">062</span><a id="line.62">  public String getIdentifier() {</a>
+<span class="sourceLineNo">063</span><a id="line.63">    return identifier;</a>
+<span class="sourceLineNo">064</span><a id="line.64">  }</a>
+<span class="sourceLineNo">065</span><a id="line.65"></a>
+<span class="sourceLineNo">066</span><a id="line.66">  public void setIdentifier(String identifier) {</a>
+<span class="sourceLineNo">067</span><a id="line.67">    this.identifier = identifier;</a>
+<span class="sourceLineNo">068</span><a id="line.68">  }</a>
+<span class="sourceLineNo">069</span><a id="line.69"></a>
+<span class="sourceLineNo">070</span><a id="line.70">  /**</a>
+<span class="sourceLineNo">071</span><a id="line.71">   * The official name of the Collection in the local language.</a>
+<span class="sourceLineNo">072</span><a id="line.72">   *</a>
+<span class="sourceLineNo">073</span><a id="line.73">   * @return the collection name.</a>
+<span class="sourceLineNo">074</span><a id="line.74">   */</a>
+<span class="sourceLineNo">075</span><a id="line.75">  public String getName() {</a>
+<span class="sourceLineNo">076</span><a id="line.76">    return name;</a>
+<span class="sourceLineNo">077</span><a id="line.77">  }</a>
+<span class="sourceLineNo">078</span><a id="line.78"></a>
+<span class="sourceLineNo">079</span><a id="line.79">  public void setName(String name) {</a>
+<span class="sourceLineNo">080</span><a id="line.80">    this.name = name;</a>
+<span class="sourceLineNo">081</span><a id="line.81">  }</a>
+<span class="sourceLineNo">082</span><a id="line.82"></a>
+<span class="sourceLineNo">083</span><a id="line.83">  /**</a>
+<span class="sourceLineNo">084</span><a id="line.84">   * The quantitative descriptor (number of specimens, samples or batches). The actual quantification could be covered</a>
+<span class="sourceLineNo">085</span><a id="line.85">   * by 1) an exact number of “JGI-units” in the collection plus a measure of uncertainty (+/- x); 2) a range of</a>
+<span class="sourceLineNo">086</span><a id="line.86">   * numbers</a>
+<span class="sourceLineNo">087</span><a id="line.87">   * (x to x), with the lower value representing an exact number, when the higher value is omitted. The discussion</a>
+<span class="sourceLineNo">088</span><a id="line.88">   * concluded that the quantification should encompass all specimens, not only those that have not yet been digitised.</a>
+<span class="sourceLineNo">089</span><a id="line.89">   * This is to avoid having to update the numbers too often. The number of non-public data (not digitised or not</a>
+<span class="sourceLineNo">090</span><a id="line.90">   * accessible) can be calculated from the GBIF numbers as opposed to the JGTI-data.</a>
+<span class="sourceLineNo">091</span><a id="line.91">   *</a>
+<span class="sourceLineNo">092</span><a id="line.92">   * @return the list of curatorial units</a>
+<span class="sourceLineNo">093</span><a id="line.93">   */</a>
+<span class="sourceLineNo">094</span><a id="line.94">  public List&lt;CuratorialUnitComposite&gt; getCuratorialUnits() {</a>
+<span class="sourceLineNo">095</span><a id="line.95">    return curatorialUnits;</a>
+<span class="sourceLineNo">096</span><a id="line.96">  }</a>
+<span class="sourceLineNo">097</span><a id="line.97"></a>
+<span class="sourceLineNo">098</span><a id="line.98">  public void setCuratorialUnits(List&lt;CuratorialUnitComposite&gt; curatorialUnits) {</a>
+<span class="sourceLineNo">099</span><a id="line.99">    this.curatorialUnits = curatorialUnits;</a>
+<span class="sourceLineNo">100</span><a id="line.100">  }</a>
+<span class="sourceLineNo">101</span><a id="line.101"></a>
+<span class="sourceLineNo">102</span><a id="line.102">  /**</a>
+<span class="sourceLineNo">103</span><a id="line.103">   * The identifier for the parent collection for this sub-collection. Enables a hierarchy of collections and sub</a>
+<span class="sourceLineNo">104</span><a id="line.104">   * collections to be built.</a>
+<span class="sourceLineNo">105</span><a id="line.105">   *</a>
+<span class="sourceLineNo">106</span><a id="line.106">   * @return the parent collection identifier</a>
+<span class="sourceLineNo">107</span><a id="line.107">   */</a>
+<span class="sourceLineNo">108</span><a id="line.108">  public String getParentIdentifier() {</a>
+<span class="sourceLineNo">109</span><a id="line.109">    return parentIdentifier;</a>
+<span class="sourceLineNo">110</span><a id="line.110">  }</a>
+<span class="sourceLineNo">111</span><a id="line.111"></a>
+<span class="sourceLineNo">112</span><a id="line.112">  public void setParentIdentifier(String parentIdentifier) {</a>
+<span class="sourceLineNo">113</span><a id="line.113">    this.parentIdentifier = parentIdentifier;</a>
+<span class="sourceLineNo">114</span><a id="line.114">  }</a>
+<span class="sourceLineNo">115</span><a id="line.115"></a>
+<span class="sourceLineNo">116</span><a id="line.116">  /**</a>
+<span class="sourceLineNo">117</span><a id="line.117">   * Picklist keyword indicating the process or technique used to prevent physical deterioration of non-living</a>
+<span class="sourceLineNo">118</span><a id="line.118">   * collections. Expected to contain an instance from the Specimen Preservation Method Type Term vocabulary.</a>
+<span class="sourceLineNo">119</span><a id="line.119">   *</a>
+<span class="sourceLineNo">120</span><a id="line.120">   * @return the preservation method type</a>
+<span class="sourceLineNo">121</span><a id="line.121">   */</a>
+<span class="sourceLineNo">122</span><a id="line.122">  public PreservationMethodType getSpecimenPreservationMethod() {</a>
+<span class="sourceLineNo">123</span><a id="line.123">    return specimenPreservationMethod;</a>
+<span class="sourceLineNo">124</span><a id="line.124">  }</a>
+<span class="sourceLineNo">125</span><a id="line.125"></a>
+<span class="sourceLineNo">126</span><a id="line.126">  public void setSpecimenPreservationMethod(PreservationMethodType specimenPreservationMethod) {</a>
+<span class="sourceLineNo">127</span><a id="line.127">    this.specimenPreservationMethod = specimenPreservationMethod;</a>
+<span class="sourceLineNo">128</span><a id="line.128">  }</a>
+<span class="sourceLineNo">129</span><a id="line.129"></a>
+<span class="sourceLineNo">130</span><a id="line.130">  /**</a>
+<span class="sourceLineNo">131</span><a id="line.131">   * Adds a CuratorialUnitComposite to the Collection's list of CuratorialUnitComposit.</a>
+<span class="sourceLineNo">132</span><a id="line.132">   *</a>
+<span class="sourceLineNo">133</span><a id="line.133">   * @param curatorialUnitComposite curatorial unit</a>
+<span class="sourceLineNo">134</span><a id="line.134">   */</a>
+<span class="sourceLineNo">135</span><a id="line.135">  public void addCuratorialUnitComposite(CuratorialUnitComposite curatorialUnitComposite) {</a>
+<span class="sourceLineNo">136</span><a id="line.136">    if (curatorialUnits == null) {</a>
+<span class="sourceLineNo">137</span><a id="line.137">      List&lt;CuratorialUnitComposite&gt; list = new ArrayList&lt;CuratorialUnitComposite&gt;();</a>
+<span class="sourceLineNo">138</span><a id="line.138">      list.add(curatorialUnitComposite);</a>
+<span class="sourceLineNo">139</span><a id="line.139">      curatorialUnits = list;</a>
+<span class="sourceLineNo">140</span><a id="line.140">    }</a>
+<span class="sourceLineNo">141</span><a id="line.141">    curatorialUnits.add(curatorialUnitComposite);</a>
+<span class="sourceLineNo">142</span><a id="line.142">  }</a>
+<span class="sourceLineNo">143</span><a id="line.143"></a>
+<span class="sourceLineNo">144</span><a id="line.144">  @Override</a>
+<span class="sourceLineNo">145</span><a id="line.145">  public boolean equals(Object o) {</a>
+<span class="sourceLineNo">146</span><a id="line.146">    if (this == o) {</a>
+<span class="sourceLineNo">147</span><a id="line.147">      return true;</a>
+<span class="sourceLineNo">148</span><a id="line.148">    }</a>
+<span class="sourceLineNo">149</span><a id="line.149">    if (o == null || getClass() != o.getClass()) {</a>
+<span class="sourceLineNo">150</span><a id="line.150">      return false;</a>
+<span class="sourceLineNo">151</span><a id="line.151">    }</a>
+<span class="sourceLineNo">152</span><a id="line.152">    Collection that = (Collection) o;</a>
+<span class="sourceLineNo">153</span><a id="line.153">    return Objects.equals(name, that.name) &amp;&amp;</a>
+<span class="sourceLineNo">154</span><a id="line.154">      Objects.equals(identifier, that.identifier) &amp;&amp;</a>
+<span class="sourceLineNo">155</span><a id="line.155">      Objects.equals(parentIdentifier, that.parentIdentifier) &amp;&amp;</a>
+<span class="sourceLineNo">156</span><a id="line.156">      specimenPreservationMethod == that.specimenPreservationMethod &amp;&amp;</a>
+<span class="sourceLineNo">157</span><a id="line.157">      Objects.equals(curatorialUnits, that.curatorialUnits);</a>
+<span class="sourceLineNo">158</span><a id="line.158">  }</a>
+<span class="sourceLineNo">159</span><a id="line.159"></a>
+<span class="sourceLineNo">160</span><a id="line.160">  @Override</a>
+<span class="sourceLineNo">161</span><a id="line.161">  public int hashCode() {</a>
+<span class="sourceLineNo">162</span><a id="line.162">    return Objects</a>
+<span class="sourceLineNo">163</span><a id="line.163">      .hash(name, identifier, parentIdentifier, specimenPreservationMethod, curatorialUnits);</a>
+<span class="sourceLineNo">164</span><a id="line.164">  }</a>
+<span class="sourceLineNo">165</span><a id="line.165"></a>
+<span class="sourceLineNo">166</span><a id="line.166">  @Override</a>
+<span class="sourceLineNo">167</span><a id="line.167">  public String toString() {</a>
+<span class="sourceLineNo">168</span><a id="line.168">    return new StringJoiner(", ", Collection.class.getSimpleName() + "[", "]")</a>
+<span class="sourceLineNo">169</span><a id="line.169">      .add("name='" + name + "'")</a>
+<span class="sourceLineNo">170</span><a id="line.170">      .add("identifier='" + identifier + "'")</a>
+<span class="sourceLineNo">171</span><a id="line.171">      .add("parentIdentifier='" + parentIdentifier + "'")</a>
+<span class="sourceLineNo">172</span><a id="line.172">      .add("specimenPreservationMethod=" + specimenPreservationMethod)</a>
+<span class="sourceLineNo">173</span><a id="line.173">      .add("curatorialUnits=" + curatorialUnits)</a>
+<span class="sourceLineNo">174</span><a id="line.174">      .toString();</a>
+<span class="sourceLineNo">175</span><a id="line.175">  }</a>
+<span class="sourceLineNo">176</span><a id="line.176">}</a>
 
 
 
@@ -244,5 +245,6 @@
 
 </pre>
 </div>
+</main>
 </body>
 </html>

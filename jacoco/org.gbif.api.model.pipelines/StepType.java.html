@@ -13,42 +13,68 @@
  */
 package org.gbif.api.model.pipelines;
 
-/** Enum to represent the pipelines step names. */
-<span class="fc" id="L17">public enum StepType {</span>
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-  // Interpretaion
-<span class="fc" id="L20">  TO_VERBATIM(&quot;toVerbatim&quot;),</span>
-<span class="fc" id="L21">  DWCA_TO_VERBATIM(&quot;dwcaToVerbatim&quot;),</span>
-<span class="fc" id="L22">  XML_TO_VERBATIM(&quot;xmlToVerbatim&quot;),</span>
-<span class="fc" id="L23">  ABCD_TO_VERBATIM(&quot;abcdToVerbatim&quot;),</span>
-<span class="fc" id="L24">  VERBATIM_TO_IDENTIFIER(&quot;verbatimToIdentifier&quot;),</span>
-<span class="fc" id="L25">  VERBATIM_TO_INTERPRETED(&quot;verbatimToInterpreted&quot;),</span>
-<span class="fc" id="L26">  INTERPRETED_TO_INDEX(&quot;interpretedToIndex&quot;),</span>
-<span class="fc" id="L27">  HDFS_VIEW(&quot;hdfsView&quot;),</span>
-<span class="fc" id="L28">  FRAGMENTER(&quot;fragmenter&quot;),</span>
-<span class="fc" id="L29">  EVENTS_VERBATIM_TO_INTERPRETED(&quot;eventsVerbatimToInterpreted&quot;),</span>
-<span class="fc" id="L30">  EVENTS_INTERPRETED_TO_INDEX(&quot;eventsInterpretedToIndex&quot;),</span>
-<span class="fc" id="L31">  EVENTS_HDFS_VIEW(&quot;eventsHdfsView&quot;),</span>
+import java.util.Set;
+
+/** Enum to represent the pipelines step names. */
+<span class="fc" id="L22">@Getter</span>
+<span class="fc" id="L23">@AllArgsConstructor</span>
+public enum StepType {
+
+  // Ingestion
+
+  // Verbatim
+<span class="fc" id="L29">  TO_VERBATIM(&quot;toVerbatim&quot;),</span>
+<span class="fc" id="L30">  DWCA_TO_VERBATIM(&quot;dwcaToVerbatim&quot;),</span>
+<span class="fc" id="L31">  XML_TO_VERBATIM(&quot;xmlToVerbatim&quot;),</span>
+<span class="fc" id="L32">  ABCD_TO_VERBATIM(&quot;abcdToVerbatim&quot;),</span>
+<span class="fc" id="L33">  FRAGMENTER(&quot;fragmenter&quot;),</span>
+
+  // Occurrence interpretation
+<span class="fc" id="L36">  VERBATIM_TO_IDENTIFIER(&quot;verbatimToIdentifier&quot;),</span>
+<span class="fc" id="L37">  VERBATIM_TO_INTERPRETED(&quot;verbatimToInterpreted&quot;),</span>
+<span class="fc" id="L38">  INTERPRETED_TO_INDEX(&quot;interpretedToIndex&quot;),</span>
+<span class="fc" id="L39">  HDFS_VIEW(&quot;hdfsView&quot;),</span>
+
+  // Event interpretation
+<span class="fc" id="L42">  EVENTS_VERBATIM_TO_INTERPRETED(&quot;eventsVerbatimToInterpreted&quot;),</span>
+<span class="fc" id="L43">  EVENTS_INTERPRETED_TO_INDEX(&quot;eventsInterpretedToIndex&quot;),</span>
+<span class="fc" id="L44">  EVENTS_HDFS_VIEW(&quot;eventsHdfsView&quot;),</span>
 
   // Validator
-<span class="fc" id="L34">  VALIDATOR_UPLOAD_ARCHIVE(&quot;validatorUploadArchive&quot;),</span>
-<span class="fc" id="L35">  VALIDATOR_VALIDATE_ARCHIVE(&quot;validatorValidateArchive&quot;),</span>
-<span class="fc" id="L36">  VALIDATOR_DWCA_TO_VERBATIM(&quot;validatorDwcaToVerbatim&quot;),</span>
-<span class="fc" id="L37">  VALIDATOR_XML_TO_VERBATIM(&quot;validatorXmlToVerbatim&quot;),</span>
-<span class="fc" id="L38">  VALIDATOR_ABCD_TO_VERBATIM(&quot;validatorAbcdToVerbatim&quot;),</span>
-<span class="fc" id="L39">  VALIDATOR_TABULAR_TO_VERBATIM(&quot;validatorTabularToVerbatim&quot;),</span>
-<span class="fc" id="L40">  VALIDATOR_VERBATIM_TO_INTERPRETED(&quot;validatorVerbatimToInterpreted&quot;),</span>
-<span class="fc" id="L41">  VALIDATOR_INTERPRETED_TO_INDEX(&quot;validatorInterpretedToIndex&quot;),</span>
-<span class="fc" id="L42">  VALIDATOR_COLLECT_METRICS(&quot;validatorCollectMetrics&quot;);</span>
+<span class="fc" id="L47">  VALIDATOR_UPLOAD_ARCHIVE(&quot;validatorUploadArchive&quot;),</span>
+<span class="fc" id="L48">  VALIDATOR_VALIDATE_ARCHIVE(&quot;validatorValidateArchive&quot;),</span>
+<span class="fc" id="L49">  VALIDATOR_DWCA_TO_VERBATIM(&quot;validatorDwcaToVerbatim&quot;),</span>
+<span class="fc" id="L50">  VALIDATOR_XML_TO_VERBATIM(&quot;validatorXmlToVerbatim&quot;),</span>
+<span class="fc" id="L51">  VALIDATOR_ABCD_TO_VERBATIM(&quot;validatorAbcdToVerbatim&quot;),</span>
+<span class="fc" id="L52">  VALIDATOR_TABULAR_TO_VERBATIM(&quot;validatorTabularToVerbatim&quot;),</span>
+<span class="fc" id="L53">  VALIDATOR_VERBATIM_TO_INTERPRETED(&quot;validatorVerbatimToInterpreted&quot;),</span>
+<span class="fc" id="L54">  VALIDATOR_INTERPRETED_TO_INDEX(&quot;validatorInterpretedToIndex&quot;),</span>
+<span class="fc" id="L55">  VALIDATOR_COLLECT_METRICS(&quot;validatorCollectMetrics&quot;);</span>
 
-<span class="fc" id="L44">  StepType(String label) {</span>
-<span class="fc" id="L45">    this.label = label;</span>
-<span class="fc" id="L46">  }</span>
+<span class="nc" id="L57">  private final String label;</span>
 
-  private String label;
+<span class="fc" id="L59">  private static final Set&lt;StepType&gt; VERBATIM_TYPE =</span>
+<span class="fc" id="L60">    Set.of(TO_VERBATIM, DWCA_TO_VERBATIM, XML_TO_VERBATIM, ABCD_TO_VERBATIM, FRAGMENTER);</span>
 
-  public String getLabel() {
-<span class="nc" id="L51">    return label;</span>
+<span class="fc" id="L62">  private static final Set&lt;StepType&gt; OCCURRENCE_TYPE =</span>
+<span class="fc" id="L63">    Set.of(VERBATIM_TO_IDENTIFIER, VERBATIM_TO_INTERPRETED, INTERPRETED_TO_INDEX, HDFS_VIEW);</span>
+
+<span class="fc" id="L65">  private static final Set&lt;StepType&gt; EVENT_TYPE =</span>
+<span class="fc" id="L66">    Set.of(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_INTERPRETED_TO_INDEX, EVENTS_HDFS_VIEW);</span>
+
+  public static boolean isEventType(StepType type) {
+<span class="nc" id="L69">    return EVENT_TYPE.contains(type);</span>
+  }
+
+  public static boolean isOccurrenceType(StepType type) {
+<span class="nc" id="L73">    return OCCURRENCE_TYPE.contains(type);</span>
+  }
+
+  public static boolean isVerbatimType(StepType type) {
+<span class="nc" id="L77">    return VERBATIM_TYPE.contains(type);</span>
   }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

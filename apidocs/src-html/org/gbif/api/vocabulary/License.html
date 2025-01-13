@@ -1,169 +1,170 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
 <title>Source code</title>
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 </head>
 <body>
+<main role="main">
 <div class="sourceContainer">
-<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.2"></a>
-<span class="sourceLineNo">003</span> * you may not use this file except in compliance with the License.<a name="line.3"></a>
-<span class="sourceLineNo">004</span> * You may obtain a copy of the License at<a name="line.4"></a>
-<span class="sourceLineNo">005</span> *<a name="line.5"></a>
-<span class="sourceLineNo">006</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.6"></a>
-<span class="sourceLineNo">007</span> *<a name="line.7"></a>
-<span class="sourceLineNo">008</span> * Unless required by applicable law or agreed to in writing, software<a name="line.8"></a>
-<span class="sourceLineNo">009</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.9"></a>
-<span class="sourceLineNo">010</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * See the License for the specific language governing permissions and<a name="line.11"></a>
-<span class="sourceLineNo">012</span> * limitations under the License.<a name="line.12"></a>
-<span class="sourceLineNo">013</span> */<a name="line.13"></a>
-<span class="sourceLineNo">014</span>package org.gbif.api.vocabulary;<a name="line.14"></a>
-<span class="sourceLineNo">015</span><a name="line.15"></a>
-<span class="sourceLineNo">016</span>import org.gbif.api.util.VocabularyUtils;<a name="line.16"></a>
-<span class="sourceLineNo">017</span><a name="line.17"></a>
-<span class="sourceLineNo">018</span>import java.util.Optional;<a name="line.18"></a>
-<span class="sourceLineNo">019</span><a name="line.19"></a>
-<span class="sourceLineNo">020</span>import javax.annotation.Nullable;<a name="line.20"></a>
-<span class="sourceLineNo">021</span><a name="line.21"></a>
-<span class="sourceLineNo">022</span>import org.apache.commons.lang3.StringUtils;<a name="line.22"></a>
-<span class="sourceLineNo">023</span><a name="line.23"></a>
-<span class="sourceLineNo">024</span>import io.swagger.v3.oas.annotations.ExternalDocumentation;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>import io.swagger.v3.oas.annotations.media.Schema;<a name="line.25"></a>
-<span class="sourceLineNo">026</span><a name="line.26"></a>
-<span class="sourceLineNo">027</span>/**<a name="line.27"></a>
-<span class="sourceLineNo">028</span> * Enumeration of the set of licenses GBIF supports for applying to a dataset. The license provides a standardised way<a name="line.28"></a>
-<span class="sourceLineNo">029</span> * to define appropriate uses of a dataset.<a name="line.29"></a>
-<span class="sourceLineNo">030</span> * &lt;/br&gt;<a name="line.30"></a>
-<span class="sourceLineNo">031</span> * GBIF's recommended best practice is to use the most recent license version, which for CC-BY and CC-BY-NC is 4.0.<a name="line.31"></a>
-<span class="sourceLineNo">032</span> * This is in line with the recommendation from Creative Commons.<a name="line.32"></a>
-<span class="sourceLineNo">033</span> * The ordinal number in the Enum implicitly defines the level of restriction, see LicenseTest.<a name="line.33"></a>
-<span class="sourceLineNo">034</span> *<a name="line.34"></a>
-<span class="sourceLineNo">035</span> * @see &lt;a href="https://creativecommons.org/faq/#why-should-i-use-the-latest-version-of-the-creative-commons-licenses"&gt;Creative<a name="line.35"></a>
-<span class="sourceLineNo">036</span> * Commons recommendation&lt;/a&gt;<a name="line.36"></a>
-<span class="sourceLineNo">037</span> * @see &lt;a href="http://www.gbif.org/terms/licences"&gt;GBIF Licensing&lt;/a&gt;<a name="line.37"></a>
-<span class="sourceLineNo">038</span> */<a name="line.38"></a>
-<span class="sourceLineNo">039</span>@Schema(<a name="line.39"></a>
-<span class="sourceLineNo">040</span>  externalDocs = @ExternalDocumentation(<a name="line.40"></a>
-<span class="sourceLineNo">041</span>    description = "API call to retrieve all official values.",<a name="line.41"></a>
-<span class="sourceLineNo">042</span>    url = "https://api.gbif.org/v1/enumeration/basic/License"<a name="line.42"></a>
-<span class="sourceLineNo">043</span>  )<a name="line.43"></a>
-<span class="sourceLineNo">044</span>)<a name="line.44"></a>
-<span class="sourceLineNo">045</span>public enum License {<a name="line.45"></a>
-<span class="sourceLineNo">046</span><a name="line.46"></a>
-<span class="sourceLineNo">047</span>  /**<a name="line.47"></a>
-<span class="sourceLineNo">048</span>   * Creative Commons Zero / Public Domain version 1.0. Technically a waiver, not a license.<a name="line.48"></a>
-<span class="sourceLineNo">049</span>   *<a name="line.49"></a>
-<span class="sourceLineNo">050</span>   * @see &lt;a href="http://creativecommons.org/publicdomain/zero/1.0/legalcode"&gt;legal document&lt;/a&gt;<a name="line.50"></a>
-<span class="sourceLineNo">051</span>   */<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  CC0_1_0("Public Domain (CC0 1.0)", "http://creativecommons.org/publicdomain/zero/1.0/legalcode"),<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  /**<a name="line.53"></a>
-<span class="sourceLineNo">054</span>   * Creative Commons Attribution version 4.0.<a name="line.54"></a>
-<span class="sourceLineNo">055</span>   *<a name="line.55"></a>
-<span class="sourceLineNo">056</span>   * @see &lt;a href="http://creativecommons.org/licenses/by/4.0/legalcode"&gt;legal document&lt;/a&gt;<a name="line.56"></a>
-<span class="sourceLineNo">057</span>   */<a name="line.57"></a>
-<span class="sourceLineNo">058</span>  CC_BY_4_0("Creative Commons Attribution (CC-BY) 4.0", "http://creativecommons.org/licenses/by/4.0/legalcode"),<a name="line.58"></a>
-<span class="sourceLineNo">059</span>  /**<a name="line.59"></a>
-<span class="sourceLineNo">060</span>   * Creative Commons Attribution-NonCommercial version 4.0.<a name="line.60"></a>
-<span class="sourceLineNo">061</span>   *<a name="line.61"></a>
-<span class="sourceLineNo">062</span>   * @see &lt;a href="http://creativecommons.org/licenses/by-nc/4.0/legalcode"&gt;legal document&lt;/a&gt;<a name="line.62"></a>
-<span class="sourceLineNo">063</span>   */<a name="line.63"></a>
-<span class="sourceLineNo">064</span>  CC_BY_NC_4_0("Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0", "http://creativecommons.org/licenses/by-nc/4.0/legalcode"),<a name="line.64"></a>
-<span class="sourceLineNo">065</span>  /**<a name="line.65"></a>
-<span class="sourceLineNo">066</span>   * No license has been specified.<a name="line.66"></a>
-<span class="sourceLineNo">067</span>   */<a name="line.67"></a>
-<span class="sourceLineNo">068</span>  UNSPECIFIED(null, null),<a name="line.68"></a>
-<span class="sourceLineNo">069</span>  /**<a name="line.69"></a>
-<span class="sourceLineNo">070</span>   * A license not supported by GBIF.<a name="line.70"></a>
-<span class="sourceLineNo">071</span>   */<a name="line.71"></a>
-<span class="sourceLineNo">072</span>  UNSUPPORTED(null, null);<a name="line.72"></a>
-<span class="sourceLineNo">073</span><a name="line.73"></a>
-<span class="sourceLineNo">074</span>  private final String licenseTitle;<a name="line.74"></a>
-<span class="sourceLineNo">075</span>  private final String licenseUrl;<a name="line.75"></a>
-<span class="sourceLineNo">076</span><a name="line.76"></a>
-<span class="sourceLineNo">077</span>  /**<a name="line.77"></a>
-<span class="sourceLineNo">078</span>   * Get an {@link License} from its name as String.<a name="line.78"></a>
-<span class="sourceLineNo">079</span>   *<a name="line.79"></a>
-<span class="sourceLineNo">080</span>   * @return instance of Optional, never null<a name="line.80"></a>
-<span class="sourceLineNo">081</span>   */<a name="line.81"></a>
-<span class="sourceLineNo">082</span>  public static Optional&lt;License&gt; fromString(String license) {<a name="line.82"></a>
-<span class="sourceLineNo">083</span>    return VocabularyUtils.lookup(license, License.class);<a name="line.83"></a>
-<span class="sourceLineNo">084</span>  }<a name="line.84"></a>
-<span class="sourceLineNo">085</span><a name="line.85"></a>
-<span class="sourceLineNo">086</span>  /**<a name="line.86"></a>
-<span class="sourceLineNo">087</span>   * Lookup a License by either its a) legal code URL or b) human readable summary URL, with HTTP or HTTPS.<a name="line.87"></a>
-<span class="sourceLineNo">088</span>   * For any parsing see LicenseParser in GBIF parsers project.<a name="line.88"></a>
-<span class="sourceLineNo">089</span>   *<a name="line.89"></a>
-<span class="sourceLineNo">090</span>   * @param licenseUrl the case insensitive URL for the license.<a name="line.90"></a>
-<span class="sourceLineNo">091</span>   *<a name="line.91"></a>
-<span class="sourceLineNo">092</span>   * @return instance of Optional, never null<a name="line.92"></a>
-<span class="sourceLineNo">093</span>   */<a name="line.93"></a>
-<span class="sourceLineNo">094</span>  public static Optional&lt;License&gt; fromLicenseUrl(String licenseUrl) {<a name="line.94"></a>
-<span class="sourceLineNo">095</span>    if (StringUtils.isNotEmpty(licenseUrl)) {<a name="line.95"></a>
-<span class="sourceLineNo">096</span>      licenseUrl = licenseUrl.trim().toLowerCase();<a name="line.96"></a>
-<span class="sourceLineNo">097</span>      licenseUrl = StringUtils.removeEnd(licenseUrl, "/");<a name="line.97"></a>
-<span class="sourceLineNo">098</span>      licenseUrl = licenseUrl.replace("https://", "http://");<a name="line.98"></a>
-<span class="sourceLineNo">099</span><a name="line.99"></a>
-<span class="sourceLineNo">100</span>      // do lookup by legal code URL or human readable summary URL (excluding "/legalcode")<a name="line.100"></a>
-<span class="sourceLineNo">101</span>      for (License license : License.values()) {<a name="line.101"></a>
-<span class="sourceLineNo">102</span>        if (license.getLicenseUrl() != null &amp;&amp; (licenseUrl.equals(license.getLicenseUrl())<a name="line.102"></a>
-<span class="sourceLineNo">103</span>                || license.getLicenseUrl().startsWith(licenseUrl))) {<a name="line.103"></a>
-<span class="sourceLineNo">104</span>          return Optional.of(license);<a name="line.104"></a>
-<span class="sourceLineNo">105</span>        }<a name="line.105"></a>
-<span class="sourceLineNo">106</span>      }<a name="line.106"></a>
-<span class="sourceLineNo">107</span>    }<a name="line.107"></a>
-<span class="sourceLineNo">108</span>    return Optional.empty();<a name="line.108"></a>
-<span class="sourceLineNo">109</span>  }<a name="line.109"></a>
-<span class="sourceLineNo">110</span><a name="line.110"></a>
-<span class="sourceLineNo">111</span>  /**<a name="line.111"></a>
-<span class="sourceLineNo">112</span>   * Get the most restrictive license between the 2 provided licenses.<a name="line.112"></a>
-<span class="sourceLineNo">113</span>   * If one or the two licenses are null or not concrete, this method returns the fallback License.<a name="line.113"></a>
-<span class="sourceLineNo">114</span>   *<a name="line.114"></a>
-<span class="sourceLineNo">115</span>   * @param fallback License to return if one or the two licenses are null or not concrete<a name="line.115"></a>
-<span class="sourceLineNo">116</span>   *<a name="line.116"></a>
-<span class="sourceLineNo">117</span>   * @return the most restrictive License or the fallback License<a name="line.117"></a>
-<span class="sourceLineNo">118</span>   */<a name="line.118"></a>
-<span class="sourceLineNo">119</span>  public static License getMostRestrictive(License license1, License license2, License fallback) {<a name="line.119"></a>
-<span class="sourceLineNo">120</span>    if (license1 == null || license2 == null || !license1.isConcrete() || !license2.isConcrete()) {<a name="line.120"></a>
-<span class="sourceLineNo">121</span>      return fallback;<a name="line.121"></a>
-<span class="sourceLineNo">122</span>    }<a name="line.122"></a>
-<span class="sourceLineNo">123</span>    return (license1.compareTo(license2) &gt; 0) ? license1 : license2;<a name="line.123"></a>
-<span class="sourceLineNo">124</span>  }<a name="line.124"></a>
-<span class="sourceLineNo">125</span><a name="line.125"></a>
-<span class="sourceLineNo">126</span>  License(@Nullable String licenseTitle, @Nullable String licenseUrl) {<a name="line.126"></a>
-<span class="sourceLineNo">127</span>    this.licenseTitle = licenseTitle;<a name="line.127"></a>
-<span class="sourceLineNo">128</span>    // ensure license information is kept in lowercase internally<a name="line.128"></a>
-<span class="sourceLineNo">129</span>    if (licenseUrl != null) {<a name="line.129"></a>
-<span class="sourceLineNo">130</span>      this.licenseUrl = licenseUrl.toLowerCase();<a name="line.130"></a>
-<span class="sourceLineNo">131</span>    } else {<a name="line.131"></a>
-<span class="sourceLineNo">132</span>      this.licenseUrl = null;<a name="line.132"></a>
-<span class="sourceLineNo">133</span>    }<a name="line.133"></a>
-<span class="sourceLineNo">134</span>  }<a name="line.134"></a>
-<span class="sourceLineNo">135</span><a name="line.135"></a>
-<span class="sourceLineNo">136</span>  /**<a name="line.136"></a>
-<span class="sourceLineNo">137</span>   * @return the License URL<a name="line.137"></a>
-<span class="sourceLineNo">138</span>   */<a name="line.138"></a>
-<span class="sourceLineNo">139</span>  public String getLicenseUrl() {<a name="line.139"></a>
-<span class="sourceLineNo">140</span>    return licenseUrl;<a name="line.140"></a>
-<span class="sourceLineNo">141</span>  }<a name="line.141"></a>
-<span class="sourceLineNo">142</span><a name="line.142"></a>
-<span class="sourceLineNo">143</span>  /**<a name="line.143"></a>
-<span class="sourceLineNo">144</span>   * @return the License title<a name="line.144"></a>
-<span class="sourceLineNo">145</span>   */<a name="line.145"></a>
-<span class="sourceLineNo">146</span>  public String getLicenseTitle() {<a name="line.146"></a>
-<span class="sourceLineNo">147</span>    return licenseTitle;<a name="line.147"></a>
-<span class="sourceLineNo">148</span>  }<a name="line.148"></a>
-<span class="sourceLineNo">149</span><a name="line.149"></a>
-<span class="sourceLineNo">150</span>  /**<a name="line.150"></a>
-<span class="sourceLineNo">151</span>   * Indicates if a license is a concrete license (true) or an abstracted license (false) like<a name="line.151"></a>
-<span class="sourceLineNo">152</span>   * UNSPECIFIED or UNSUPPORTED.<a name="line.152"></a>
-<span class="sourceLineNo">153</span>   * @return the license if concrete or not<a name="line.153"></a>
-<span class="sourceLineNo">154</span>   */<a name="line.154"></a>
-<span class="sourceLineNo">155</span>  public boolean isConcrete() {<a name="line.155"></a>
-<span class="sourceLineNo">156</span>    return licenseUrl != null;<a name="line.156"></a>
-<span class="sourceLineNo">157</span>  }<a name="line.157"></a>
-<span class="sourceLineNo">158</span>}<a name="line.158"></a>
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">003</span><a id="line.3"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">005</span><a id="line.5"> *</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *     http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * limitations under the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14">package org.gbif.api.vocabulary;</a>
+<span class="sourceLineNo">015</span><a id="line.15"></a>
+<span class="sourceLineNo">016</span><a id="line.16">import org.gbif.api.util.VocabularyUtils;</a>
+<span class="sourceLineNo">017</span><a id="line.17"></a>
+<span class="sourceLineNo">018</span><a id="line.18">import java.util.Optional;</a>
+<span class="sourceLineNo">019</span><a id="line.19"></a>
+<span class="sourceLineNo">020</span><a id="line.20">import javax.annotation.Nullable;</a>
+<span class="sourceLineNo">021</span><a id="line.21"></a>
+<span class="sourceLineNo">022</span><a id="line.22">import org.apache.commons.lang3.StringUtils;</a>
+<span class="sourceLineNo">023</span><a id="line.23"></a>
+<span class="sourceLineNo">024</span><a id="line.24">import io.swagger.v3.oas.annotations.ExternalDocumentation;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import io.swagger.v3.oas.annotations.media.Schema;</a>
+<span class="sourceLineNo">026</span><a id="line.26"></a>
+<span class="sourceLineNo">027</span><a id="line.27">/**</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * Enumeration of the set of licenses GBIF supports for applying to a dataset. The license provides a standardised way</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * to define appropriate uses of a dataset.</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * &lt;/br&gt;</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * GBIF's recommended best practice is to use the most recent license version, which for CC-BY and CC-BY-NC is 4.0.</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * This is in line with the recommendation from Creative Commons.</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * The ordinal number in the Enum implicitly defines the level of restriction, see LicenseTest.</a>
+<span class="sourceLineNo">034</span><a id="line.34"> *</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * @see &lt;a href="https://creativecommons.org/faq/#why-should-i-use-the-latest-version-of-the-creative-commons-licenses"&gt;Creative</a>
+<span class="sourceLineNo">036</span><a id="line.36"> * Commons recommendation&lt;/a&gt;</a>
+<span class="sourceLineNo">037</span><a id="line.37"> * @see &lt;a href="http://www.gbif.org/terms/licences"&gt;GBIF Licensing&lt;/a&gt;</a>
+<span class="sourceLineNo">038</span><a id="line.38"> */</a>
+<span class="sourceLineNo">039</span><a id="line.39">@Schema(</a>
+<span class="sourceLineNo">040</span><a id="line.40">  externalDocs = @ExternalDocumentation(</a>
+<span class="sourceLineNo">041</span><a id="line.41">    description = "API call to retrieve all official values.",</a>
+<span class="sourceLineNo">042</span><a id="line.42">    url = "https://api.gbif.org/v1/enumeration/basic/License"</a>
+<span class="sourceLineNo">043</span><a id="line.43">  )</a>
+<span class="sourceLineNo">044</span><a id="line.44">)</a>
+<span class="sourceLineNo">045</span><a id="line.45">public enum License {</a>
+<span class="sourceLineNo">046</span><a id="line.46"></a>
+<span class="sourceLineNo">047</span><a id="line.47">  /**</a>
+<span class="sourceLineNo">048</span><a id="line.48">   * Creative Commons Zero / Public Domain version 1.0. Technically a waiver, not a license.</a>
+<span class="sourceLineNo">049</span><a id="line.49">   *</a>
+<span class="sourceLineNo">050</span><a id="line.50">   * @see &lt;a href="http://creativecommons.org/publicdomain/zero/1.0/legalcode"&gt;legal document&lt;/a&gt;</a>
+<span class="sourceLineNo">051</span><a id="line.51">   */</a>
+<span class="sourceLineNo">052</span><a id="line.52">  CC0_1_0("Public Domain (CC0 1.0)", "http://creativecommons.org/publicdomain/zero/1.0/legalcode"),</a>
+<span class="sourceLineNo">053</span><a id="line.53">  /**</a>
+<span class="sourceLineNo">054</span><a id="line.54">   * Creative Commons Attribution version 4.0.</a>
+<span class="sourceLineNo">055</span><a id="line.55">   *</a>
+<span class="sourceLineNo">056</span><a id="line.56">   * @see &lt;a href="http://creativecommons.org/licenses/by/4.0/legalcode"&gt;legal document&lt;/a&gt;</a>
+<span class="sourceLineNo">057</span><a id="line.57">   */</a>
+<span class="sourceLineNo">058</span><a id="line.58">  CC_BY_4_0("Creative Commons Attribution (CC-BY) 4.0", "http://creativecommons.org/licenses/by/4.0/legalcode"),</a>
+<span class="sourceLineNo">059</span><a id="line.59">  /**</a>
+<span class="sourceLineNo">060</span><a id="line.60">   * Creative Commons Attribution-NonCommercial version 4.0.</a>
+<span class="sourceLineNo">061</span><a id="line.61">   *</a>
+<span class="sourceLineNo">062</span><a id="line.62">   * @see &lt;a href="http://creativecommons.org/licenses/by-nc/4.0/legalcode"&gt;legal document&lt;/a&gt;</a>
+<span class="sourceLineNo">063</span><a id="line.63">   */</a>
+<span class="sourceLineNo">064</span><a id="line.64">  CC_BY_NC_4_0("Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0", "http://creativecommons.org/licenses/by-nc/4.0/legalcode"),</a>
+<span class="sourceLineNo">065</span><a id="line.65">  /**</a>
+<span class="sourceLineNo">066</span><a id="line.66">   * No license has been specified.</a>
+<span class="sourceLineNo">067</span><a id="line.67">   */</a>
+<span class="sourceLineNo">068</span><a id="line.68">  UNSPECIFIED(null, null),</a>
+<span class="sourceLineNo">069</span><a id="line.69">  /**</a>
+<span class="sourceLineNo">070</span><a id="line.70">   * A license not supported by GBIF.</a>
+<span class="sourceLineNo">071</span><a id="line.71">   */</a>
+<span class="sourceLineNo">072</span><a id="line.72">  UNSUPPORTED(null, null);</a>
+<span class="sourceLineNo">073</span><a id="line.73"></a>
+<span class="sourceLineNo">074</span><a id="line.74">  private final String licenseTitle;</a>
+<span class="sourceLineNo">075</span><a id="line.75">  private final String licenseUrl;</a>
+<span class="sourceLineNo">076</span><a id="line.76"></a>
+<span class="sourceLineNo">077</span><a id="line.77">  /**</a>
+<span class="sourceLineNo">078</span><a id="line.78">   * Get an {@link License} from its name as String.</a>
+<span class="sourceLineNo">079</span><a id="line.79">   *</a>
+<span class="sourceLineNo">080</span><a id="line.80">   * @return instance of Optional, never null</a>
+<span class="sourceLineNo">081</span><a id="line.81">   */</a>
+<span class="sourceLineNo">082</span><a id="line.82">  public static Optional&lt;License&gt; fromString(String license) {</a>
+<span class="sourceLineNo">083</span><a id="line.83">    return VocabularyUtils.lookup(license, License.class);</a>
+<span class="sourceLineNo">084</span><a id="line.84">  }</a>
+<span class="sourceLineNo">085</span><a id="line.85"></a>
+<span class="sourceLineNo">086</span><a id="line.86">  /**</a>
+<span class="sourceLineNo">087</span><a id="line.87">   * Lookup a License by either its a) legal code URL or b) human readable summary URL, with HTTP or HTTPS.</a>
+<span class="sourceLineNo">088</span><a id="line.88">   * For any parsing see LicenseParser in GBIF parsers project.</a>
+<span class="sourceLineNo">089</span><a id="line.89">   *</a>
+<span class="sourceLineNo">090</span><a id="line.90">   * @param licenseUrl the case insensitive URL for the license.</a>
+<span class="sourceLineNo">091</span><a id="line.91">   *</a>
+<span class="sourceLineNo">092</span><a id="line.92">   * @return instance of Optional, never null</a>
+<span class="sourceLineNo">093</span><a id="line.93">   */</a>
+<span class="sourceLineNo">094</span><a id="line.94">  public static Optional&lt;License&gt; fromLicenseUrl(String licenseUrl) {</a>
+<span class="sourceLineNo">095</span><a id="line.95">    if (StringUtils.isNotEmpty(licenseUrl)) {</a>
+<span class="sourceLineNo">096</span><a id="line.96">      licenseUrl = licenseUrl.trim().toLowerCase();</a>
+<span class="sourceLineNo">097</span><a id="line.97">      licenseUrl = StringUtils.removeEnd(licenseUrl, "/");</a>
+<span class="sourceLineNo">098</span><a id="line.98">      licenseUrl = licenseUrl.replace("https://", "http://");</a>
+<span class="sourceLineNo">099</span><a id="line.99"></a>
+<span class="sourceLineNo">100</span><a id="line.100">      // do lookup by legal code URL or human readable summary URL (excluding "/legalcode")</a>
+<span class="sourceLineNo">101</span><a id="line.101">      for (License license : License.values()) {</a>
+<span class="sourceLineNo">102</span><a id="line.102">        if (license.getLicenseUrl() != null &amp;&amp; (licenseUrl.equals(license.getLicenseUrl())</a>
+<span class="sourceLineNo">103</span><a id="line.103">                || license.getLicenseUrl().startsWith(licenseUrl))) {</a>
+<span class="sourceLineNo">104</span><a id="line.104">          return Optional.of(license);</a>
+<span class="sourceLineNo">105</span><a id="line.105">        }</a>
+<span class="sourceLineNo">106</span><a id="line.106">      }</a>
+<span class="sourceLineNo">107</span><a id="line.107">    }</a>
+<span class="sourceLineNo">108</span><a id="line.108">    return Optional.empty();</a>
+<span class="sourceLineNo">109</span><a id="line.109">  }</a>
+<span class="sourceLineNo">110</span><a id="line.110"></a>
+<span class="sourceLineNo">111</span><a id="line.111">  /**</a>
+<span class="sourceLineNo">112</span><a id="line.112">   * Get the most restrictive license between the 2 provided licenses.</a>
+<span class="sourceLineNo">113</span><a id="line.113">   * If one or the two licenses are null or not concrete, this method returns the fallback License.</a>
+<span class="sourceLineNo">114</span><a id="line.114">   *</a>
+<span class="sourceLineNo">115</span><a id="line.115">   * @param fallback License to return if one or the two licenses are null or not concrete</a>
+<span class="sourceLineNo">116</span><a id="line.116">   *</a>
+<span class="sourceLineNo">117</span><a id="line.117">   * @return the most restrictive License or the fallback License</a>
+<span class="sourceLineNo">118</span><a id="line.118">   */</a>
+<span class="sourceLineNo">119</span><a id="line.119">  public static License getMostRestrictive(License license1, License license2, License fallback) {</a>
+<span class="sourceLineNo">120</span><a id="line.120">    if (license1 == null || license2 == null || !license1.isConcrete() || !license2.isConcrete()) {</a>
+<span class="sourceLineNo">121</span><a id="line.121">      return fallback;</a>
+<span class="sourceLineNo">122</span><a id="line.122">    }</a>
+<span class="sourceLineNo">123</span><a id="line.123">    return (license1.compareTo(license2) &gt; 0) ? license1 : license2;</a>
+<span class="sourceLineNo">124</span><a id="line.124">  }</a>
+<span class="sourceLineNo">125</span><a id="line.125"></a>
+<span class="sourceLineNo">126</span><a id="line.126">  License(@Nullable String licenseTitle, @Nullable String licenseUrl) {</a>
+<span class="sourceLineNo">127</span><a id="line.127">    this.licenseTitle = licenseTitle;</a>
+<span class="sourceLineNo">128</span><a id="line.128">    // ensure license information is kept in lowercase internally</a>
+<span class="sourceLineNo">129</span><a id="line.129">    if (licenseUrl != null) {</a>
+<span class="sourceLineNo">130</span><a id="line.130">      this.licenseUrl = licenseUrl.toLowerCase();</a>
+<span class="sourceLineNo">131</span><a id="line.131">    } else {</a>
+<span class="sourceLineNo">132</span><a id="line.132">      this.licenseUrl = null;</a>
+<span class="sourceLineNo">133</span><a id="line.133">    }</a>
+<span class="sourceLineNo">134</span><a id="line.134">  }</a>
+<span class="sourceLineNo">135</span><a id="line.135"></a>
+<span class="sourceLineNo">136</span><a id="line.136">  /**</a>
+<span class="sourceLineNo">137</span><a id="line.137">   * @return the License URL</a>
+<span class="sourceLineNo">138</span><a id="line.138">   */</a>
+<span class="sourceLineNo">139</span><a id="line.139">  public String getLicenseUrl() {</a>
+<span class="sourceLineNo">140</span><a id="line.140">    return licenseUrl;</a>
+<span class="sourceLineNo">141</span><a id="line.141">  }</a>
+<span class="sourceLineNo">142</span><a id="line.142"></a>
+<span class="sourceLineNo">143</span><a id="line.143">  /**</a>
+<span class="sourceLineNo">144</span><a id="line.144">   * @return the License title</a>
+<span class="sourceLineNo">145</span><a id="line.145">   */</a>
+<span class="sourceLineNo">146</span><a id="line.146">  public String getLicenseTitle() {</a>
+<span class="sourceLineNo">147</span><a id="line.147">    return licenseTitle;</a>
+<span class="sourceLineNo">148</span><a id="line.148">  }</a>
+<span class="sourceLineNo">149</span><a id="line.149"></a>
+<span class="sourceLineNo">150</span><a id="line.150">  /**</a>
+<span class="sourceLineNo">151</span><a id="line.151">   * Indicates if a license is a concrete license (true) or an abstracted license (false) like</a>
+<span class="sourceLineNo">152</span><a id="line.152">   * UNSPECIFIED or UNSUPPORTED.</a>
+<span class="sourceLineNo">153</span><a id="line.153">   * @return the license if concrete or not</a>
+<span class="sourceLineNo">154</span><a id="line.154">   */</a>
+<span class="sourceLineNo">155</span><a id="line.155">  public boolean isConcrete() {</a>
+<span class="sourceLineNo">156</span><a id="line.156">    return licenseUrl != null;</a>
+<span class="sourceLineNo">157</span><a id="line.157">  }</a>
+<span class="sourceLineNo">158</span><a id="line.158">}</a>
 
 
 
@@ -226,5 +227,6 @@
 
 </pre>
 </div>
+</main>
 </body>
 </html>

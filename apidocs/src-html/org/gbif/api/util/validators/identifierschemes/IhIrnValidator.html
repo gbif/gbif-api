@@ -1,55 +1,56 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
 <title>Source code</title>
 <link rel="stylesheet" type="text/css" href="../../../../../../../stylesheet.css" title="Style">
 </head>
 <body>
+<main role="main">
 <div class="sourceContainer">
-<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.2"></a>
-<span class="sourceLineNo">003</span> * you may not use this file except in compliance with the License.<a name="line.3"></a>
-<span class="sourceLineNo">004</span> * You may obtain a copy of the License at<a name="line.4"></a>
-<span class="sourceLineNo">005</span> *<a name="line.5"></a>
-<span class="sourceLineNo">006</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.6"></a>
-<span class="sourceLineNo">007</span> *<a name="line.7"></a>
-<span class="sourceLineNo">008</span> * Unless required by applicable law or agreed to in writing, software<a name="line.8"></a>
-<span class="sourceLineNo">009</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.9"></a>
-<span class="sourceLineNo">010</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * See the License for the specific language governing permissions and<a name="line.11"></a>
-<span class="sourceLineNo">012</span> * limitations under the License.<a name="line.12"></a>
-<span class="sourceLineNo">013</span> */<a name="line.13"></a>
-<span class="sourceLineNo">014</span>package org.gbif.api.util.validators.identifierschemes;<a name="line.14"></a>
-<span class="sourceLineNo">015</span><a name="line.15"></a>
-<span class="sourceLineNo">016</span>import java.util.Objects;<a name="line.16"></a>
-<span class="sourceLineNo">017</span>import java.util.regex.Matcher;<a name="line.17"></a>
-<span class="sourceLineNo">018</span>import java.util.regex.Pattern;<a name="line.18"></a>
-<span class="sourceLineNo">019</span><a name="line.19"></a>
-<span class="sourceLineNo">020</span>public class IhIrnValidator implements IdentifierSchemeValidator {<a name="line.20"></a>
-<span class="sourceLineNo">021</span><a name="line.21"></a>
-<span class="sourceLineNo">022</span>  private static final Pattern IH_IRN_PATTERN =<a name="line.22"></a>
-<span class="sourceLineNo">023</span>      Pattern.compile("^(?&lt;prefix&gt;http:\\/\\/sweetgum.nybg.org\\/science\\/ih\\/person-details(\\/)?\\?irn=)?([0-9]+)$");<a name="line.23"></a>
-<span class="sourceLineNo">024</span><a name="line.24"></a>
-<span class="sourceLineNo">025</span>  @Override<a name="line.25"></a>
-<span class="sourceLineNo">026</span>  public boolean isValid(String value) {<a name="line.26"></a>
-<span class="sourceLineNo">027</span>    if (value == null || value.isEmpty()) {<a name="line.27"></a>
-<span class="sourceLineNo">028</span>      return false;<a name="line.28"></a>
-<span class="sourceLineNo">029</span>    }<a name="line.29"></a>
-<span class="sourceLineNo">030</span>    Matcher matcher = IH_IRN_PATTERN.matcher(value);<a name="line.30"></a>
-<span class="sourceLineNo">031</span>    return matcher.matches();<a name="line.31"></a>
-<span class="sourceLineNo">032</span>  }<a name="line.32"></a>
-<span class="sourceLineNo">033</span><a name="line.33"></a>
-<span class="sourceLineNo">034</span>  @Override<a name="line.34"></a>
-<span class="sourceLineNo">035</span>  public String normalize(String value) {<a name="line.35"></a>
-<span class="sourceLineNo">036</span>    Objects.requireNonNull(value, "Identifier value can't be null");<a name="line.36"></a>
-<span class="sourceLineNo">037</span>    String trimmedValue = value.trim();<a name="line.37"></a>
-<span class="sourceLineNo">038</span>    Matcher matcher = IH_IRN_PATTERN.matcher(trimmedValue);<a name="line.38"></a>
-<span class="sourceLineNo">039</span>    if (matcher.matches()) {<a name="line.39"></a>
-<span class="sourceLineNo">040</span>      return trimmedValue;<a name="line.40"></a>
-<span class="sourceLineNo">041</span>    }<a name="line.41"></a>
-<span class="sourceLineNo">042</span>    throw new IllegalArgumentException(value + " it not a valid IH IRN");<a name="line.42"></a>
-<span class="sourceLineNo">043</span>  }<a name="line.43"></a>
-<span class="sourceLineNo">044</span>}<a name="line.44"></a>
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">003</span><a id="line.3"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">005</span><a id="line.5"> *</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *     http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * limitations under the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14">package org.gbif.api.util.validators.identifierschemes;</a>
+<span class="sourceLineNo">015</span><a id="line.15"></a>
+<span class="sourceLineNo">016</span><a id="line.16">import java.util.Objects;</a>
+<span class="sourceLineNo">017</span><a id="line.17">import java.util.regex.Matcher;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import java.util.regex.Pattern;</a>
+<span class="sourceLineNo">019</span><a id="line.19"></a>
+<span class="sourceLineNo">020</span><a id="line.20">public class IhIrnValidator implements IdentifierSchemeValidator {</a>
+<span class="sourceLineNo">021</span><a id="line.21"></a>
+<span class="sourceLineNo">022</span><a id="line.22">  private static final Pattern IH_IRN_PATTERN =</a>
+<span class="sourceLineNo">023</span><a id="line.23">      Pattern.compile("^(?&lt;prefix&gt;http:\\/\\/sweetgum.nybg.org\\/science\\/ih\\/person-details(\\/)?\\?irn=)?([0-9]+)$");</a>
+<span class="sourceLineNo">024</span><a id="line.24"></a>
+<span class="sourceLineNo">025</span><a id="line.25">  @Override</a>
+<span class="sourceLineNo">026</span><a id="line.26">  public boolean isValid(String value) {</a>
+<span class="sourceLineNo">027</span><a id="line.27">    if (value == null || value.isEmpty()) {</a>
+<span class="sourceLineNo">028</span><a id="line.28">      return false;</a>
+<span class="sourceLineNo">029</span><a id="line.29">    }</a>
+<span class="sourceLineNo">030</span><a id="line.30">    Matcher matcher = IH_IRN_PATTERN.matcher(value);</a>
+<span class="sourceLineNo">031</span><a id="line.31">    return matcher.matches();</a>
+<span class="sourceLineNo">032</span><a id="line.32">  }</a>
+<span class="sourceLineNo">033</span><a id="line.33"></a>
+<span class="sourceLineNo">034</span><a id="line.34">  @Override</a>
+<span class="sourceLineNo">035</span><a id="line.35">  public String normalize(String value) {</a>
+<span class="sourceLineNo">036</span><a id="line.36">    Objects.requireNonNull(value, "Identifier value can't be null");</a>
+<span class="sourceLineNo">037</span><a id="line.37">    String trimmedValue = value.trim();</a>
+<span class="sourceLineNo">038</span><a id="line.38">    Matcher matcher = IH_IRN_PATTERN.matcher(trimmedValue);</a>
+<span class="sourceLineNo">039</span><a id="line.39">    if (matcher.matches()) {</a>
+<span class="sourceLineNo">040</span><a id="line.40">      return trimmedValue;</a>
+<span class="sourceLineNo">041</span><a id="line.41">    }</a>
+<span class="sourceLineNo">042</span><a id="line.42">    throw new IllegalArgumentException(value + " it not a valid IH IRN");</a>
+<span class="sourceLineNo">043</span><a id="line.43">  }</a>
+<span class="sourceLineNo">044</span><a id="line.44">}</a>
 
 
 
@@ -112,5 +113,6 @@
 
 </pre>
 </div>
+</main>
 </body>
 </html>

@@ -97,7 +97,7 @@
 <a class="jxr_linenumber" name="L89" href="#L89">89</a>      addParameter(OccurrenceSearchParameter.OCCURRENCE_ID, occurrenceID);
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>    }
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>  
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addEstablishmentMeansFilter(<a name="EstablishmentMeans" href="../../../../../../org/gbif/api/vocabulary/EstablishmentMeans.html#EstablishmentMeans">EstablishmentMeans</a> establishmentMeans) {
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addEstablishmentMeansFilter(String establishmentMeans) {
 <a class="jxr_linenumber" name="L93" href="#L93">93</a>      addParameter(OccurrenceSearchParameter.ESTABLISHMENT_MEANS, establishmentMeans);
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>    }
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>  
@@ -105,7 +105,7 @@
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>      addParameter(OccurrenceSearchParameter.BASIS_OF_RECORD, basisOfRecord);
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>    }
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>  
-<a class="jxr_linenumber" name="L100" href="#L100">100</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addTypeStatusFilter(<a name="TypeStatus" href="../../../../../../org/gbif/api/vocabulary/TypeStatus.html#TypeStatus">TypeStatus</a> typeStatus) {
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addTypeStatusFilter(String typeStatus) {
 <a class="jxr_linenumber" name="L101" href="#L101">101</a>     addParameter(OccurrenceSearchParameter.TYPE_STATUS, typeStatus);
 <a class="jxr_linenumber" name="L102" href="#L102">102</a>   }
 <a class="jxr_linenumber" name="L103" href="#L103">103</a> 
@@ -265,18 +265,30 @@
 <a class="jxr_linenumber" name="L257" href="#L257">257</a>     addParameter(OccurrenceSearchParameter.GADM_LEVEL_3_GID, gadm3);
 <a class="jxr_linenumber" name="L258" href="#L258">258</a>   }
 <a class="jxr_linenumber" name="L259" href="#L259">259</a> 
-<a class="jxr_linenumber" name="L260" href="#L260">260</a>   @Experimental
-<a class="jxr_linenumber" name="L261" href="#L261">261</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addInstitutionKeyFilter(String institutionKey) {
-<a class="jxr_linenumber" name="L262" href="#L262">262</a>     addParameter(OccurrenceSearchParameter.INSTITUTION_KEY, institutionKey);
-<a class="jxr_linenumber" name="L263" href="#L263">263</a>   }
-<a class="jxr_linenumber" name="L264" href="#L264">264</a> 
-<a class="jxr_linenumber" name="L265" href="#L265">265</a>   @Experimental
-<a class="jxr_linenumber" name="L266" href="#L266">266</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addCollectionKeyFilter(String collectionKey) {
-<a class="jxr_linenumber" name="L267" href="#L267">267</a>     addParameter(OccurrenceSearchParameter.COLLECTION_KEY, collectionKey);
-<a class="jxr_linenumber" name="L268" href="#L268">268</a>   }
-<a class="jxr_linenumber" name="L269" href="#L269">269</a> }
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addGeologicalTimeFilter(String geologicalTimeConcept) {
+<a class="jxr_linenumber" name="L261" href="#L261">261</a>     addParameter(OccurrenceSearchParameter.GEOLOGICAL_TIME, geologicalTimeConcept);
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>   }
+<a class="jxr_linenumber" name="L263" href="#L263">263</a> 
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addLithostratigraphyFilter(String lithostratigraphy) {
+<a class="jxr_linenumber" name="L265" href="#L265">265</a>     addParameter(OccurrenceSearchParameter.LITHOSTRATIGRAPHY, lithostratigraphy);
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>   }
+<a class="jxr_linenumber" name="L267" href="#L267">267</a> 
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addBiostratigraphyFilter(String biostratigraphy) {
+<a class="jxr_linenumber" name="L269" href="#L269">269</a>     addParameter(OccurrenceSearchParameter.BIOSTRATIGRAPHY, biostratigraphy);
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>   }
+<a class="jxr_linenumber" name="L271" href="#L271">271</a> 
+<a class="jxr_linenumber" name="L272" href="#L272">272</a>   @Experimental
+<a class="jxr_linenumber" name="L273" href="#L273">273</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addInstitutionKeyFilter(String institutionKey) {
+<a class="jxr_linenumber" name="L274" href="#L274">274</a>     addParameter(OccurrenceSearchParameter.INSTITUTION_KEY, institutionKey);
+<a class="jxr_linenumber" name="L275" href="#L275">275</a>   }
+<a class="jxr_linenumber" name="L276" href="#L276">276</a> 
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>   @Experimental
+<a class="jxr_linenumber" name="L278" href="#L278">278</a>   <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addCollectionKeyFilter(String collectionKey) {
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>     addParameter(OccurrenceSearchParameter.COLLECTION_KEY, collectionKey);
+<a class="jxr_linenumber" name="L280" href="#L280">280</a>   }
+<a class="jxr_linenumber" name="L281" href="#L281">281</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2024 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2025 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>
 </body>
 </html>

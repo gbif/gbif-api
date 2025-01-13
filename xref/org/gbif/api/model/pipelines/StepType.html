@@ -21,46 +21,72 @@
 <a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">package</strong> org.gbif.api.model.pipelines;
 <a class="jxr_linenumber" name="L15" href="#L15">15</a>  
-<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment">/** Enum to represent the pipelines step names. */</em>
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">public</strong> enum <a name="StepType" href="../../../../../org/gbif/api/model/pipelines/StepType.html#StepType">StepType</a> {
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> lombok.AllArgsConstructor;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> lombok.Getter;
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>  
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>    <em class="jxr_comment">// Interpretaion</em>
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>    TO_VERBATIM(<span class="jxr_string">"toVerbatim"</span>),
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>    DWCA_TO_VERBATIM(<span class="jxr_string">"dwcaToVerbatim"</span>),
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>    XML_TO_VERBATIM(<span class="jxr_string">"xmlToVerbatim"</span>),
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>    ABCD_TO_VERBATIM(<span class="jxr_string">"abcdToVerbatim"</span>),
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>    VERBATIM_TO_IDENTIFIER(<span class="jxr_string">"verbatimToIdentifier"</span>),
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>    VERBATIM_TO_INTERPRETED(<span class="jxr_string">"verbatimToInterpreted"</span>),
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>    INTERPRETED_TO_INDEX(<span class="jxr_string">"interpretedToIndex"</span>),
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>    HDFS_VIEW(<span class="jxr_string">"hdfsView"</span>),
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>    FRAGMENTER(<span class="jxr_string">"fragmenter"</span>),
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>    EVENTS_VERBATIM_TO_INTERPRETED(<span class="jxr_string">"eventsVerbatimToInterpreted"</span>),
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>    EVENTS_INTERPRETED_TO_INDEX(<span class="jxr_string">"eventsInterpretedToIndex"</span>),
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>    EVENTS_HDFS_VIEW(<span class="jxr_string">"eventsHdfsView"</span>),
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>    <em class="jxr_comment">// Validator</em>
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>    VALIDATOR_UPLOAD_ARCHIVE(<span class="jxr_string">"validatorUploadArchive"</span>),
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>    VALIDATOR_VALIDATE_ARCHIVE(<span class="jxr_string">"validatorValidateArchive"</span>),
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>    VALIDATOR_DWCA_TO_VERBATIM(<span class="jxr_string">"validatorDwcaToVerbatim"</span>),
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>    VALIDATOR_XML_TO_VERBATIM(<span class="jxr_string">"validatorXmlToVerbatim"</span>),
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>    VALIDATOR_ABCD_TO_VERBATIM(<span class="jxr_string">"validatorAbcdToVerbatim"</span>),
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>    VALIDATOR_TABULAR_TO_VERBATIM(<span class="jxr_string">"validatorTabularToVerbatim"</span>),
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>    VALIDATOR_VERBATIM_TO_INTERPRETED(<span class="jxr_string">"validatorVerbatimToInterpreted"</span>),
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>    VALIDATOR_INTERPRETED_TO_INDEX(<span class="jxr_string">"validatorInterpretedToIndex"</span>),
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>    VALIDATOR_COLLECT_METRICS(<span class="jxr_string">"validatorCollectMetrics"</span>);
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>  
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>    <a name="StepType" href="../../../../../org/gbif/api/model/pipelines/StepType.html#StepType">StepType</a>(String label) {
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>      <strong class="jxr_keyword">this</strong>.label = label;
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>    }
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>  
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>    <strong class="jxr_keyword">private</strong> String label;
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>  
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>    <strong class="jxr_keyword">public</strong> String getLabel() {
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>      <strong class="jxr_keyword">return</strong> label;
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>    }
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>  }
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> java.util.Set;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment">/** Enum to represent the pipelines step names. */</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  @Getter
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  @AllArgsConstructor
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">public</strong> enum <a name="StepType" href="../../../../../org/gbif/api/model/pipelines/StepType.html#StepType">StepType</a> {
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>    <em class="jxr_comment">// Ingestion</em>
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>    <em class="jxr_comment">// Verbatim</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>    TO_VERBATIM(<span class="jxr_string">"toVerbatim"</span>),
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>    DWCA_TO_VERBATIM(<span class="jxr_string">"dwcaToVerbatim"</span>),
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>    XML_TO_VERBATIM(<span class="jxr_string">"xmlToVerbatim"</span>),
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>    ABCD_TO_VERBATIM(<span class="jxr_string">"abcdToVerbatim"</span>),
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>    FRAGMENTER(<span class="jxr_string">"fragmenter"</span>),
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>    <em class="jxr_comment">// Occurrence interpretation</em>
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>    VERBATIM_TO_IDENTIFIER(<span class="jxr_string">"verbatimToIdentifier"</span>),
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>    VERBATIM_TO_INTERPRETED(<span class="jxr_string">"verbatimToInterpreted"</span>),
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>    INTERPRETED_TO_INDEX(<span class="jxr_string">"interpretedToIndex"</span>),
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>    HDFS_VIEW(<span class="jxr_string">"hdfsView"</span>),
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>    <em class="jxr_comment">// Event interpretation</em>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>    EVENTS_VERBATIM_TO_INTERPRETED(<span class="jxr_string">"eventsVerbatimToInterpreted"</span>),
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>    EVENTS_INTERPRETED_TO_INDEX(<span class="jxr_string">"eventsInterpretedToIndex"</span>),
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>    EVENTS_HDFS_VIEW(<span class="jxr_string">"eventsHdfsView"</span>),
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>    <em class="jxr_comment">// Validator</em>
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>    VALIDATOR_UPLOAD_ARCHIVE(<span class="jxr_string">"validatorUploadArchive"</span>),
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>    VALIDATOR_VALIDATE_ARCHIVE(<span class="jxr_string">"validatorValidateArchive"</span>),
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>    VALIDATOR_DWCA_TO_VERBATIM(<span class="jxr_string">"validatorDwcaToVerbatim"</span>),
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>    VALIDATOR_XML_TO_VERBATIM(<span class="jxr_string">"validatorXmlToVerbatim"</span>),
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>    VALIDATOR_ABCD_TO_VERBATIM(<span class="jxr_string">"validatorAbcdToVerbatim"</span>),
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>    VALIDATOR_TABULAR_TO_VERBATIM(<span class="jxr_string">"validatorTabularToVerbatim"</span>),
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>    VALIDATOR_VERBATIM_TO_INTERPRETED(<span class="jxr_string">"validatorVerbatimToInterpreted"</span>),
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>    VALIDATOR_INTERPRETED_TO_INDEX(<span class="jxr_string">"validatorInterpretedToIndex"</span>),
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>    VALIDATOR_COLLECT_METRICS(<span class="jxr_string">"validatorCollectMetrics"</span>);
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> String label;
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Set&lt;StepType&gt; VERBATIM_TYPE =
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>      Set.of(TO_VERBATIM, DWCA_TO_VERBATIM, XML_TO_VERBATIM, ABCD_TO_VERBATIM, FRAGMENTER);
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Set&lt;StepType&gt; OCCURRENCE_TYPE =
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>      Set.of(VERBATIM_TO_IDENTIFIER, VERBATIM_TO_INTERPRETED, INTERPRETED_TO_INDEX, HDFS_VIEW);
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Set&lt;StepType&gt; EVENT_TYPE =
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>      Set.of(EVENTS_VERBATIM_TO_INTERPRETED, EVENTS_INTERPRETED_TO_INDEX, EVENTS_HDFS_VIEW);
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">boolean</strong> isEventType(<a name="StepType" href="../../../../../org/gbif/api/model/pipelines/StepType.html#StepType">StepType</a> type) {
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>      <strong class="jxr_keyword">return</strong> EVENT_TYPE.contains(type);
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>    }
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">boolean</strong> isOccurrenceType(<a name="StepType" href="../../../../../org/gbif/api/model/pipelines/StepType.html#StepType">StepType</a> type) {
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>      <strong class="jxr_keyword">return</strong> OCCURRENCE_TYPE.contains(type);
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>    }
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">boolean</strong> isVerbatimType(<a name="StepType" href="../../../../../org/gbif/api/model/pipelines/StepType.html#StepType">StepType</a> type) {
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>      <strong class="jxr_keyword">return</strong> VERBATIM_TYPE.contains(type);
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>    }
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2024 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2025 <a href="https://www.gbif.org">Global Biodiversity Information Facility (GBIF)</a>. All rights reserved.</div>
 </body>
 </html>

@@ -1,206 +1,207 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
 <title>Source code</title>
 <link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
 </head>
 <body>
+<main role="main">
 <div class="sourceContainer">
-<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.2"></a>
-<span class="sourceLineNo">003</span> * you may not use this file except in compliance with the License.<a name="line.3"></a>
-<span class="sourceLineNo">004</span> * You may obtain a copy of the License at<a name="line.4"></a>
-<span class="sourceLineNo">005</span> *<a name="line.5"></a>
-<span class="sourceLineNo">006</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.6"></a>
-<span class="sourceLineNo">007</span> *<a name="line.7"></a>
-<span class="sourceLineNo">008</span> * Unless required by applicable law or agreed to in writing, software<a name="line.8"></a>
-<span class="sourceLineNo">009</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.9"></a>
-<span class="sourceLineNo">010</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * See the License for the specific language governing permissions and<a name="line.11"></a>
-<span class="sourceLineNo">012</span> * limitations under the License.<a name="line.12"></a>
-<span class="sourceLineNo">013</span> */<a name="line.13"></a>
-<span class="sourceLineNo">014</span>package org.gbif.api.model.checklistbank;<a name="line.14"></a>
-<span class="sourceLineNo">015</span><a name="line.15"></a>
-<span class="sourceLineNo">016</span>import org.gbif.api.vocabulary.Extension;<a name="line.16"></a>
-<span class="sourceLineNo">017</span>import org.gbif.dwc.terms.Term;<a name="line.17"></a>
-<span class="sourceLineNo">018</span>import org.gbif.dwc.terms.TermFactory;<a name="line.18"></a>
-<span class="sourceLineNo">019</span><a name="line.19"></a>
-<span class="sourceLineNo">020</span>import java.util.Date;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import java.util.HashMap;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import java.util.List;<a name="line.22"></a>
-<span class="sourceLineNo">023</span>import java.util.Map;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import java.util.Objects;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>import java.util.StringJoiner;<a name="line.25"></a>
-<span class="sourceLineNo">026</span><a name="line.26"></a>
-<span class="sourceLineNo">027</span>import javax.annotation.Nullable;<a name="line.27"></a>
-<span class="sourceLineNo">028</span>import javax.validation.constraints.NotNull;<a name="line.28"></a>
-<span class="sourceLineNo">029</span><a name="line.29"></a>
-<span class="sourceLineNo">030</span>import org.apache.commons.lang3.StringUtils;<a name="line.30"></a>
-<span class="sourceLineNo">031</span><a name="line.31"></a>
-<span class="sourceLineNo">032</span>import com.fasterxml.jackson.annotation.JsonAnyGetter;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>import com.fasterxml.jackson.annotation.JsonAnySetter;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>import com.fasterxml.jackson.annotation.JsonIgnore;<a name="line.34"></a>
-<span class="sourceLineNo">035</span><a name="line.35"></a>
-<span class="sourceLineNo">036</span>import io.swagger.v3.oas.annotations.media.Schema;<a name="line.36"></a>
-<span class="sourceLineNo">037</span><a name="line.37"></a>
-<span class="sourceLineNo">038</span>@SuppressWarnings("unused")<a name="line.38"></a>
-<span class="sourceLineNo">039</span>public class VerbatimNameUsage {<a name="line.39"></a>
-<span class="sourceLineNo">040</span><a name="line.40"></a>
-<span class="sourceLineNo">041</span>  private Integer key;<a name="line.41"></a>
-<span class="sourceLineNo">042</span>  // the verbatim taxon fields for the usage<a name="line.42"></a>
-<span class="sourceLineNo">043</span>  private Map&lt;Term, String&gt; fields = new HashMap&lt;&gt;();<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  // the verbatim extension records as read by a dwc star record, keyed on the extension<a name="line.44"></a>
-<span class="sourceLineNo">045</span>  private Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions = new HashMap&lt;&gt;();<a name="line.45"></a>
-<span class="sourceLineNo">046</span><a name="line.46"></a>
-<span class="sourceLineNo">047</span>  private Date lastCrawled;<a name="line.47"></a>
-<span class="sourceLineNo">048</span><a name="line.48"></a>
-<span class="sourceLineNo">049</span>  /**<a name="line.49"></a>
-<span class="sourceLineNo">050</span>   * @return The name usage key<a name="line.50"></a>
-<span class="sourceLineNo">051</span>   */<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  @Schema(description = "The name usage key that uniquely identifies this name usage.")<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  @NotNull<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  public Integer getKey() {<a name="line.54"></a>
-<span class="sourceLineNo">055</span>    return key;<a name="line.55"></a>
-<span class="sourceLineNo">056</span>  }<a name="line.56"></a>
-<span class="sourceLineNo">057</span><a name="line.57"></a>
-<span class="sourceLineNo">058</span>  public void setKey(Integer key) {<a name="line.58"></a>
-<span class="sourceLineNo">059</span>    this.key = key;<a name="line.59"></a>
-<span class="sourceLineNo">060</span>  }<a name="line.60"></a>
-<span class="sourceLineNo">061</span><a name="line.61"></a>
-<span class="sourceLineNo">062</span>  /**<a name="line.62"></a>
-<span class="sourceLineNo">063</span>   * A map of extension records, holding all verbatim extension terms.<a name="line.63"></a>
-<span class="sourceLineNo">064</span>   */<a name="line.64"></a>
-<span class="sourceLineNo">065</span>  @Schema(description = "Extension records, holding all verbatim extension terms.\n\n" +<a name="line.65"></a>
-<span class="sourceLineNo">066</span>    "A map keyed by extension term names, containing lists of property terms + values.")<a name="line.66"></a>
-<span class="sourceLineNo">067</span>  @NotNull<a name="line.67"></a>
-<span class="sourceLineNo">068</span>  public Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; getExtensions() {<a name="line.68"></a>
-<span class="sourceLineNo">069</span>    return extensions;<a name="line.69"></a>
-<span class="sourceLineNo">070</span>  }<a name="line.70"></a>
-<span class="sourceLineNo">071</span><a name="line.71"></a>
-<span class="sourceLineNo">072</span>  public void setExtensions(Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions) {<a name="line.72"></a>
-<span class="sourceLineNo">073</span>    this.extensions = extensions;<a name="line.73"></a>
-<span class="sourceLineNo">074</span>  }<a name="line.74"></a>
-<span class="sourceLineNo">075</span><a name="line.75"></a>
-<span class="sourceLineNo">076</span>  /**<a name="line.76"></a>
-<span class="sourceLineNo">077</span>   * A map holding all verbatim core terms.<a name="line.77"></a>
-<span class="sourceLineNo">078</span>   */<a name="line.78"></a>
-<span class="sourceLineNo">079</span>  @NotNull<a name="line.79"></a>
-<span class="sourceLineNo">080</span>  @JsonIgnore<a name="line.80"></a>
-<span class="sourceLineNo">081</span>  public Map&lt;Term, String&gt; getFields() {<a name="line.81"></a>
-<span class="sourceLineNo">082</span>    return fields;<a name="line.82"></a>
-<span class="sourceLineNo">083</span>  }<a name="line.83"></a>
-<span class="sourceLineNo">084</span><a name="line.84"></a>
-<span class="sourceLineNo">085</span>  public void setFields(Map&lt;Term, String&gt; fields) {<a name="line.85"></a>
-<span class="sourceLineNo">086</span>    this.fields = fields;<a name="line.86"></a>
-<span class="sourceLineNo">087</span>  }<a name="line.87"></a>
-<span class="sourceLineNo">088</span><a name="line.88"></a>
-<span class="sourceLineNo">089</span>  /**<a name="line.89"></a>
-<span class="sourceLineNo">090</span>   * The date this record was last crawled during clb indexing.<a name="line.90"></a>
-<span class="sourceLineNo">091</span>   */<a name="line.91"></a>
-<span class="sourceLineNo">092</span>  @Schema(description = "The date this record was last crawled (downloaded from the source) during Checklistbank indexing.")<a name="line.92"></a>
-<span class="sourceLineNo">093</span>  @Nullable<a name="line.93"></a>
-<span class="sourceLineNo">094</span>  public Date getLastCrawled() {<a name="line.94"></a>
-<span class="sourceLineNo">095</span>    return lastCrawled == null ? null : new Date(lastCrawled.getTime());<a name="line.95"></a>
-<span class="sourceLineNo">096</span>  }<a name="line.96"></a>
-<span class="sourceLineNo">097</span><a name="line.97"></a>
-<span class="sourceLineNo">098</span>  public void setLastCrawled(@Nullable Date lastCrawled) {<a name="line.98"></a>
-<span class="sourceLineNo">099</span>    this.lastCrawled = lastCrawled == null ? null : new Date(lastCrawled.getTime());<a name="line.99"></a>
-<span class="sourceLineNo">100</span>  }<a name="line.100"></a>
-<span class="sourceLineNo">101</span><a name="line.101"></a>
-<span class="sourceLineNo">102</span>  /**<a name="line.102"></a>
-<span class="sourceLineNo">103</span>   * Get the value of a specific field (Term).<a name="line.103"></a>
-<span class="sourceLineNo">104</span>   */<a name="line.104"></a>
-<span class="sourceLineNo">105</span>  @Nullable<a name="line.105"></a>
-<span class="sourceLineNo">106</span>  public String getCoreField(Term term) {<a name="line.106"></a>
-<span class="sourceLineNo">107</span>    Objects.requireNonNull(term, "term can't be null");<a name="line.107"></a>
-<span class="sourceLineNo">108</span>    return fields.get(term);<a name="line.108"></a>
-<span class="sourceLineNo">109</span>  }<a name="line.109"></a>
-<span class="sourceLineNo">110</span><a name="line.110"></a>
-<span class="sourceLineNo">111</span>  /**<a name="line.111"></a>
-<span class="sourceLineNo">112</span>   * @return true if a verbatim field exists and is not null or an empty string<a name="line.112"></a>
-<span class="sourceLineNo">113</span>   */<a name="line.113"></a>
-<span class="sourceLineNo">114</span>  public boolean hasCoreField(Term term) {<a name="line.114"></a>
-<span class="sourceLineNo">115</span>    Objects.requireNonNull(term, "term can't be null");<a name="line.115"></a>
-<span class="sourceLineNo">116</span>    return StringUtils.isNotEmpty(fields.get(term));<a name="line.116"></a>
-<span class="sourceLineNo">117</span>  }<a name="line.117"></a>
-<span class="sourceLineNo">118</span><a name="line.118"></a>
-<span class="sourceLineNo">119</span>  /**<a name="line.119"></a>
-<span class="sourceLineNo">120</span>   * @return true if at least one extension record exists<a name="line.120"></a>
-<span class="sourceLineNo">121</span>   */<a name="line.121"></a>
-<span class="sourceLineNo">122</span>  public boolean hasExtension(Extension extension) {<a name="line.122"></a>
-<span class="sourceLineNo">123</span>    return extensions.containsKey(extension) &amp;&amp; !extensions.get(extension).isEmpty();<a name="line.123"></a>
-<span class="sourceLineNo">124</span>  }<a name="line.124"></a>
-<span class="sourceLineNo">125</span><a name="line.125"></a>
-<span class="sourceLineNo">126</span>  public boolean hasExtension(Term term) {<a name="line.126"></a>
-<span class="sourceLineNo">127</span>    Objects.requireNonNull(term, "term can't be null");<a name="line.127"></a>
-<span class="sourceLineNo">128</span>    Extension ext = Extension.fromRowType(term.qualifiedName());<a name="line.128"></a>
-<span class="sourceLineNo">129</span><a name="line.129"></a>
-<span class="sourceLineNo">130</span>    return ext != null &amp;&amp; hasExtension(ext);<a name="line.130"></a>
-<span class="sourceLineNo">131</span>  }<a name="line.131"></a>
-<span class="sourceLineNo">132</span><a name="line.132"></a>
-<span class="sourceLineNo">133</span>  /**<a name="line.133"></a>
-<span class="sourceLineNo">134</span>   * For setting a specific field without having to replace the entire fields Map.<a name="line.134"></a>
-<span class="sourceLineNo">135</span>   *<a name="line.135"></a>
-<span class="sourceLineNo">136</span>   * @param term       the field to set<a name="line.136"></a>
-<span class="sourceLineNo">137</span>   * @param fieldValue the field's value<a name="line.137"></a>
-<span class="sourceLineNo">138</span>   */<a name="line.138"></a>
-<span class="sourceLineNo">139</span>  public void setCoreField(Term term, @Nullable String fieldValue) {<a name="line.139"></a>
-<span class="sourceLineNo">140</span>    Objects.requireNonNull(term, "term can't be null");<a name="line.140"></a>
-<span class="sourceLineNo">141</span>    fields.put(term, fieldValue);<a name="line.141"></a>
-<span class="sourceLineNo">142</span>  }<a name="line.142"></a>
-<span class="sourceLineNo">143</span><a name="line.143"></a>
-<span class="sourceLineNo">144</span>  /**<a name="line.144"></a>
-<span class="sourceLineNo">145</span>   * This private method is only for deserialization via jackson and not exposed anywhere else!<a name="line.145"></a>
-<span class="sourceLineNo">146</span>   */<a name="line.146"></a>
-<span class="sourceLineNo">147</span>  @JsonAnySetter<a name="line.147"></a>
-<span class="sourceLineNo">148</span>  private void addJsonVerbatimField(String key, String value) {<a name="line.148"></a>
-<span class="sourceLineNo">149</span>    Term t = TermFactory.instance().findTerm(key);<a name="line.149"></a>
-<span class="sourceLineNo">150</span>    fields.put(t, value);<a name="line.150"></a>
-<span class="sourceLineNo">151</span>  }<a name="line.151"></a>
-<span class="sourceLineNo">152</span><a name="line.152"></a>
-<span class="sourceLineNo">153</span>  /**<a name="line.153"></a>
-<span class="sourceLineNo">154</span>   * This private method is only for serialization via jackson and not exposed anywhere else!<a name="line.154"></a>
-<span class="sourceLineNo">155</span>   * It maps the verbatimField terms into properties with their full qualified name.<a name="line.155"></a>
-<span class="sourceLineNo">156</span>   */<a name="line.156"></a>
-<span class="sourceLineNo">157</span>  @JsonAnyGetter<a name="line.157"></a>
-<span class="sourceLineNo">158</span>  private Map&lt;String, String&gt; jsonVerbatimFields() {<a name="line.158"></a>
-<span class="sourceLineNo">159</span>    Map&lt;String, String&gt; extendedProps = new HashMap&lt;&gt;();<a name="line.159"></a>
-<span class="sourceLineNo">160</span>    for (Map.Entry&lt;Term, String&gt; prop : fields.entrySet()) {<a name="line.160"></a>
-<span class="sourceLineNo">161</span>      extendedProps.put(prop.getKey().qualifiedName(), prop.getValue());<a name="line.161"></a>
-<span class="sourceLineNo">162</span>    }<a name="line.162"></a>
-<span class="sourceLineNo">163</span>    return extendedProps;<a name="line.163"></a>
-<span class="sourceLineNo">164</span>  }<a name="line.164"></a>
-<span class="sourceLineNo">165</span><a name="line.165"></a>
-<span class="sourceLineNo">166</span>  @Override<a name="line.166"></a>
-<span class="sourceLineNo">167</span>  public boolean equals(Object o) {<a name="line.167"></a>
-<span class="sourceLineNo">168</span>    if (this == o) {<a name="line.168"></a>
-<span class="sourceLineNo">169</span>      return true;<a name="line.169"></a>
-<span class="sourceLineNo">170</span>    }<a name="line.170"></a>
-<span class="sourceLineNo">171</span>    if (o == null || getClass() != o.getClass()) {<a name="line.171"></a>
-<span class="sourceLineNo">172</span>      return false;<a name="line.172"></a>
-<span class="sourceLineNo">173</span>    }<a name="line.173"></a>
-<span class="sourceLineNo">174</span>    VerbatimNameUsage that = (VerbatimNameUsage) o;<a name="line.174"></a>
-<span class="sourceLineNo">175</span>    return Objects.equals(key, that.key) &amp;&amp;<a name="line.175"></a>
-<span class="sourceLineNo">176</span>      Objects.equals(fields, that.fields) &amp;&amp;<a name="line.176"></a>
-<span class="sourceLineNo">177</span>      Objects.equals(extensions, that.extensions) &amp;&amp;<a name="line.177"></a>
-<span class="sourceLineNo">178</span>      Objects.equals(lastCrawled, that.lastCrawled);<a name="line.178"></a>
-<span class="sourceLineNo">179</span>  }<a name="line.179"></a>
-<span class="sourceLineNo">180</span><a name="line.180"></a>
-<span class="sourceLineNo">181</span>  @Override<a name="line.181"></a>
-<span class="sourceLineNo">182</span>  public int hashCode() {<a name="line.182"></a>
-<span class="sourceLineNo">183</span>    return Objects.hash(key, fields, extensions, lastCrawled);<a name="line.183"></a>
-<span class="sourceLineNo">184</span>  }<a name="line.184"></a>
-<span class="sourceLineNo">185</span><a name="line.185"></a>
-<span class="sourceLineNo">186</span>  @Override<a name="line.186"></a>
-<span class="sourceLineNo">187</span>  public String toString() {<a name="line.187"></a>
-<span class="sourceLineNo">188</span>    return new StringJoiner(", ", VerbatimNameUsage.class.getSimpleName() + "[", "]")<a name="line.188"></a>
-<span class="sourceLineNo">189</span>      .add("key=" + key)<a name="line.189"></a>
-<span class="sourceLineNo">190</span>      .add("fields=" + fields)<a name="line.190"></a>
-<span class="sourceLineNo">191</span>      .add("extensions=" + extensions)<a name="line.191"></a>
-<span class="sourceLineNo">192</span>      .add("lastCrawled=" + lastCrawled)<a name="line.192"></a>
-<span class="sourceLineNo">193</span>      .toString();<a name="line.193"></a>
-<span class="sourceLineNo">194</span>  }<a name="line.194"></a>
-<span class="sourceLineNo">195</span>}<a name="line.195"></a>
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">003</span><a id="line.3"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">005</span><a id="line.5"> *</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *     http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * limitations under the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14">package org.gbif.api.model.checklistbank;</a>
+<span class="sourceLineNo">015</span><a id="line.15"></a>
+<span class="sourceLineNo">016</span><a id="line.16">import org.gbif.api.vocabulary.Extension;</a>
+<span class="sourceLineNo">017</span><a id="line.17">import org.gbif.dwc.terms.Term;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import org.gbif.dwc.terms.TermFactory;</a>
+<span class="sourceLineNo">019</span><a id="line.19"></a>
+<span class="sourceLineNo">020</span><a id="line.20">import java.util.Date;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import java.util.HashMap;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import java.util.List;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import java.util.Map;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import java.util.Objects;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import java.util.StringJoiner;</a>
+<span class="sourceLineNo">026</span><a id="line.26"></a>
+<span class="sourceLineNo">027</span><a id="line.27">import javax.annotation.Nullable;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import javax.validation.constraints.NotNull;</a>
+<span class="sourceLineNo">029</span><a id="line.29"></a>
+<span class="sourceLineNo">030</span><a id="line.30">import org.apache.commons.lang3.StringUtils;</a>
+<span class="sourceLineNo">031</span><a id="line.31"></a>
+<span class="sourceLineNo">032</span><a id="line.32">import com.fasterxml.jackson.annotation.JsonAnyGetter;</a>
+<span class="sourceLineNo">033</span><a id="line.33">import com.fasterxml.jackson.annotation.JsonAnySetter;</a>
+<span class="sourceLineNo">034</span><a id="line.34">import com.fasterxml.jackson.annotation.JsonIgnore;</a>
+<span class="sourceLineNo">035</span><a id="line.35"></a>
+<span class="sourceLineNo">036</span><a id="line.36">import io.swagger.v3.oas.annotations.media.Schema;</a>
+<span class="sourceLineNo">037</span><a id="line.37"></a>
+<span class="sourceLineNo">038</span><a id="line.38">@SuppressWarnings("unused")</a>
+<span class="sourceLineNo">039</span><a id="line.39">public class VerbatimNameUsage {</a>
+<span class="sourceLineNo">040</span><a id="line.40"></a>
+<span class="sourceLineNo">041</span><a id="line.41">  private Integer key;</a>
+<span class="sourceLineNo">042</span><a id="line.42">  // the verbatim taxon fields for the usage</a>
+<span class="sourceLineNo">043</span><a id="line.43">  private Map&lt;Term, String&gt; fields = new HashMap&lt;&gt;();</a>
+<span class="sourceLineNo">044</span><a id="line.44">  // the verbatim extension records as read by a dwc star record, keyed on the extension</a>
+<span class="sourceLineNo">045</span><a id="line.45">  private Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions = new HashMap&lt;&gt;();</a>
+<span class="sourceLineNo">046</span><a id="line.46"></a>
+<span class="sourceLineNo">047</span><a id="line.47">  private Date lastCrawled;</a>
+<span class="sourceLineNo">048</span><a id="line.48"></a>
+<span class="sourceLineNo">049</span><a id="line.49">  /**</a>
+<span class="sourceLineNo">050</span><a id="line.50">   * @return The name usage key</a>
+<span class="sourceLineNo">051</span><a id="line.51">   */</a>
+<span class="sourceLineNo">052</span><a id="line.52">  @Schema(description = "The name usage key that uniquely identifies this name usage.")</a>
+<span class="sourceLineNo">053</span><a id="line.53">  @NotNull</a>
+<span class="sourceLineNo">054</span><a id="line.54">  public Integer getKey() {</a>
+<span class="sourceLineNo">055</span><a id="line.55">    return key;</a>
+<span class="sourceLineNo">056</span><a id="line.56">  }</a>
+<span class="sourceLineNo">057</span><a id="line.57"></a>
+<span class="sourceLineNo">058</span><a id="line.58">  public void setKey(Integer key) {</a>
+<span class="sourceLineNo">059</span><a id="line.59">    this.key = key;</a>
+<span class="sourceLineNo">060</span><a id="line.60">  }</a>
+<span class="sourceLineNo">061</span><a id="line.61"></a>
+<span class="sourceLineNo">062</span><a id="line.62">  /**</a>
+<span class="sourceLineNo">063</span><a id="line.63">   * A map of extension records, holding all verbatim extension terms.</a>
+<span class="sourceLineNo">064</span><a id="line.64">   */</a>
+<span class="sourceLineNo">065</span><a id="line.65">  @Schema(description = "Extension records, holding all verbatim extension terms.\n\n" +</a>
+<span class="sourceLineNo">066</span><a id="line.66">    "A map keyed by extension term names, containing lists of property terms + values.")</a>
+<span class="sourceLineNo">067</span><a id="line.67">  @NotNull</a>
+<span class="sourceLineNo">068</span><a id="line.68">  public Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; getExtensions() {</a>
+<span class="sourceLineNo">069</span><a id="line.69">    return extensions;</a>
+<span class="sourceLineNo">070</span><a id="line.70">  }</a>
+<span class="sourceLineNo">071</span><a id="line.71"></a>
+<span class="sourceLineNo">072</span><a id="line.72">  public void setExtensions(Map&lt;Extension, List&lt;Map&lt;Term, String&gt;&gt;&gt; extensions) {</a>
+<span class="sourceLineNo">073</span><a id="line.73">    this.extensions = extensions;</a>
+<span class="sourceLineNo">074</span><a id="line.74">  }</a>
+<span class="sourceLineNo">075</span><a id="line.75"></a>
+<span class="sourceLineNo">076</span><a id="line.76">  /**</a>
+<span class="sourceLineNo">077</span><a id="line.77">   * A map holding all verbatim core terms.</a>
+<span class="sourceLineNo">078</span><a id="line.78">   */</a>
+<span class="sourceLineNo">079</span><a id="line.79">  @NotNull</a>
+<span class="sourceLineNo">080</span><a id="line.80">  @JsonIgnore</a>
+<span class="sourceLineNo">081</span><a id="line.81">  public Map&lt;Term, String&gt; getFields() {</a>
+<span class="sourceLineNo">082</span><a id="line.82">    return fields;</a>
+<span class="sourceLineNo">083</span><a id="line.83">  }</a>
+<span class="sourceLineNo">084</span><a id="line.84"></a>
+<span class="sourceLineNo">085</span><a id="line.85">  public void setFields(Map&lt;Term, String&gt; fields) {</a>
+<span class="sourceLineNo">086</span><a id="line.86">    this.fields = fields;</a>
+<span class="sourceLineNo">087</span><a id="line.87">  }</a>
+<span class="sourceLineNo">088</span><a id="line.88"></a>
+<span class="sourceLineNo">089</span><a id="line.89">  /**</a>
+<span class="sourceLineNo">090</span><a id="line.90">   * The date this record was last crawled during clb indexing.</a>
+<span class="sourceLineNo">091</span><a id="line.91">   */</a>
+<span class="sourceLineNo">092</span><a id="line.92">  @Schema(description = "The date this record was last crawled (downloaded from the source) during Checklistbank indexing.")</a>
+<span class="sourceLineNo">093</span><a id="line.93">  @Nullable</a>
+<span class="sourceLineNo">094</span><a id="line.94">  public Date getLastCrawled() {</a>
+<span class="sourceLineNo">095</span><a id="line.95">    return lastCrawled == null ? null : new Date(lastCrawled.getTime());</a>
+<span class="sourceLineNo">096</span><a id="line.96">  }</a>
+<span class="sourceLineNo">097</span><a id="line.97"></a>
+<span class="sourceLineNo">098</span><a id="line.98">  public void setLastCrawled(@Nullable Date lastCrawled) {</a>
+<span class="sourceLineNo">099</span><a id="line.99">    this.lastCrawled = lastCrawled == null ? null : new Date(lastCrawled.getTime());</a>
+<span class="sourceLineNo">100</span><a id="line.100">  }</a>
+<span class="sourceLineNo">101</span><a id="line.101"></a>
+<span class="sourceLineNo">102</span><a id="line.102">  /**</a>
+<span class="sourceLineNo">103</span><a id="line.103">   * Get the value of a specific field (Term).</a>
+<span class="sourceLineNo">104</span><a id="line.104">   */</a>
+<span class="sourceLineNo">105</span><a id="line.105">  @Nullable</a>
+<span class="sourceLineNo">106</span><a id="line.106">  public String getCoreField(Term term) {</a>
+<span class="sourceLineNo">107</span><a id="line.107">    Objects.requireNonNull(term, "term can't be null");</a>
+<span class="sourceLineNo">108</span><a id="line.108">    return fields.get(term);</a>
+<span class="sourceLineNo">109</span><a id="line.109">  }</a>
+<span class="sourceLineNo">110</span><a id="line.110"></a>
+<span class="sourceLineNo">111</span><a id="line.111">  /**</a>
+<span class="sourceLineNo">112</span><a id="line.112">   * @return true if a verbatim field exists and is not null or an empty string</a>
+<span class="sourceLineNo">113</span><a id="line.113">   */</a>
+<span class="sourceLineNo">114</span><a id="line.114">  public boolean hasCoreField(Term term) {</a>
+<span class="sourceLineNo">115</span><a id="line.115">    Objects.requireNonNull(term, "term can't be null");</a>
+<span class="sourceLineNo">116</span><a id="line.116">    return StringUtils.isNotEmpty(fields.get(term));</a>
+<span class="sourceLineNo">117</span><a id="line.117">  }</a>
+<span class="sourceLineNo">118</span><a id="line.118"></a>
+<span class="sourceLineNo">119</span><a id="line.119">  /**</a>
+<span class="sourceLineNo">120</span><a id="line.120">   * @return true if at least one extension record exists</a>
+<span class="sourceLineNo">121</span><a id="line.121">   */</a>
+<span class="sourceLineNo">122</span><a id="line.122">  public boolean hasExtension(Extension extension) {</a>
+<span class="sourceLineNo">123</span><a id="line.123">    return extensions.containsKey(extension) &amp;&amp; !extensions.get(extension).isEmpty();</a>
+<span class="sourceLineNo">124</span><a id="line.124">  }</a>
+<span class="sourceLineNo">125</span><a id="line.125"></a>
+<span class="sourceLineNo">126</span><a id="line.126">  public boolean hasExtension(Term term) {</a>
+<span class="sourceLineNo">127</span><a id="line.127">    Objects.requireNonNull(term, "term can't be null");</a>
+<span class="sourceLineNo">128</span><a id="line.128">    Extension ext = Extension.fromRowType(term.qualifiedName());</a>
+<span class="sourceLineNo">129</span><a id="line.129"></a>
+<span class="sourceLineNo">130</span><a id="line.130">    return ext != null &amp;&amp; hasExtension(ext);</a>
+<span class="sourceLineNo">131</span><a id="line.131">  }</a>
+<span class="sourceLineNo">132</span><a id="line.132"></a>
+<span class="sourceLineNo">133</span><a id="line.133">  /**</a>
+<span class="sourceLineNo">134</span><a id="line.134">   * For setting a specific field without having to replace the entire fields Map.</a>
+<span class="sourceLineNo">135</span><a id="line.135">   *</a>
+<span class="sourceLineNo">136</span><a id="line.136">   * @param term       the field to set</a>
+<span class="sourceLineNo">137</span><a id="line.137">   * @param fieldValue the field's value</a>
+<span class="sourceLineNo">138</span><a id="line.138">   */</a>
+<span class="sourceLineNo">139</span><a id="line.139">  public void setCoreField(Term term, @Nullable String fieldValue) {</a>
+<span class="sourceLineNo">140</span><a id="line.140">    Objects.requireNonNull(term, "term can't be null");</a>
+<span class="sourceLineNo">141</span><a id="line.141">    fields.put(term, fieldValue);</a>
+<span class="sourceLineNo">142</span><a id="line.142">  }</a>
+<span class="sourceLineNo">143</span><a id="line.143"></a>
+<span class="sourceLineNo">144</span><a id="line.144">  /**</a>
+<span class="sourceLineNo">145</span><a id="line.145">   * This private method is only for deserialization via jackson and not exposed anywhere else!</a>
+<span class="sourceLineNo">146</span><a id="line.146">   */</a>
+<span class="sourceLineNo">147</span><a id="line.147">  @JsonAnySetter</a>
+<span class="sourceLineNo">148</span><a id="line.148">  private void addJsonVerbatimField(String key, String value) {</a>
+<span class="sourceLineNo">149</span><a id="line.149">    Term t = TermFactory.instance().findTerm(key);</a>
+<span class="sourceLineNo">150</span><a id="line.150">    fields.put(t, value);</a>
+<span class="sourceLineNo">151</span><a id="line.151">  }</a>
+<span class="sourceLineNo">152</span><a id="line.152"></a>
+<span class="sourceLineNo">153</span><a id="line.153">  /**</a>
+<span class="sourceLineNo">154</span><a id="line.154">   * This private method is only for serialization via jackson and not exposed anywhere else!</a>
+<span class="sourceLineNo">155</span><a id="line.155">   * It maps the verbatimField terms into properties with their full qualified name.</a>
+<span class="sourceLineNo">156</span><a id="line.156">   */</a>
+<span class="sourceLineNo">157</span><a id="line.157">  @JsonAnyGetter</a>
+<span class="sourceLineNo">158</span><a id="line.158">  private Map&lt;String, String&gt; jsonVerbatimFields() {</a>
+<span class="sourceLineNo">159</span><a id="line.159">    Map&lt;String, String&gt; extendedProps = new HashMap&lt;&gt;();</a>
+<span class="sourceLineNo">160</span><a id="line.160">    for (Map.Entry&lt;Term, String&gt; prop : fields.entrySet()) {</a>
+<span class="sourceLineNo">161</span><a id="line.161">      extendedProps.put(prop.getKey().qualifiedName(), prop.getValue());</a>
+<span class="sourceLineNo">162</span><a id="line.162">    }</a>
+<span class="sourceLineNo">163</span><a id="line.163">    return extendedProps;</a>
+<span class="sourceLineNo">164</span><a id="line.164">  }</a>
+<span class="sourceLineNo">165</span><a id="line.165"></a>
+<span class="sourceLineNo">166</span><a id="line.166">  @Override</a>
+<span class="sourceLineNo">167</span><a id="line.167">  public boolean equals(Object o) {</a>
+<span class="sourceLineNo">168</span><a id="line.168">    if (this == o) {</a>
+<span class="sourceLineNo">169</span><a id="line.169">      return true;</a>
+<span class="sourceLineNo">170</span><a id="line.170">    }</a>
+<span class="sourceLineNo">171</span><a id="line.171">    if (o == null || getClass() != o.getClass()) {</a>
+<span class="sourceLineNo">172</span><a id="line.172">      return false;</a>
+<span class="sourceLineNo">173</span><a id="line.173">    }</a>
+<span class="sourceLineNo">174</span><a id="line.174">    VerbatimNameUsage that = (VerbatimNameUsage) o;</a>
+<span class="sourceLineNo">175</span><a id="line.175">    return Objects.equals(key, that.key) &amp;&amp;</a>
+<span class="sourceLineNo">176</span><a id="line.176">      Objects.equals(fields, that.fields) &amp;&amp;</a>
+<span class="sourceLineNo">177</span><a id="line.177">      Objects.equals(extensions, that.extensions) &amp;&amp;</a>
+<span class="sourceLineNo">178</span><a id="line.178">      Objects.equals(lastCrawled, that.lastCrawled);</a>
+<span class="sourceLineNo">179</span><a id="line.179">  }</a>
+<span class="sourceLineNo">180</span><a id="line.180"></a>
+<span class="sourceLineNo">181</span><a id="line.181">  @Override</a>
+<span class="sourceLineNo">182</span><a id="line.182">  public int hashCode() {</a>
+<span class="sourceLineNo">183</span><a id="line.183">    return Objects.hash(key, fields, extensions, lastCrawled);</a>
+<span class="sourceLineNo">184</span><a id="line.184">  }</a>
+<span class="sourceLineNo">185</span><a id="line.185"></a>
+<span class="sourceLineNo">186</span><a id="line.186">  @Override</a>
+<span class="sourceLineNo">187</span><a id="line.187">  public String toString() {</a>
+<span class="sourceLineNo">188</span><a id="line.188">    return new StringJoiner(", ", VerbatimNameUsage.class.getSimpleName() + "[", "]")</a>
+<span class="sourceLineNo">189</span><a id="line.189">      .add("key=" + key)</a>
+<span class="sourceLineNo">190</span><a id="line.190">      .add("fields=" + fields)</a>
+<span class="sourceLineNo">191</span><a id="line.191">      .add("extensions=" + extensions)</a>
+<span class="sourceLineNo">192</span><a id="line.192">      .add("lastCrawled=" + lastCrawled)</a>
+<span class="sourceLineNo">193</span><a id="line.193">      .toString();</a>
+<span class="sourceLineNo">194</span><a id="line.194">  }</a>
+<span class="sourceLineNo">195</span><a id="line.195">}</a>
 
 
 
@@ -263,5 +264,6 @@
 
 </pre>
 </div>
+</main>
 </body>
 </html>

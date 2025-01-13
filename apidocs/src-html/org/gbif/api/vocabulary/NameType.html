@@ -1,140 +1,141 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
 <title>Source code</title>
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 </head>
 <body>
+<main role="main">
 <div class="sourceContainer">
-<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
-<span class="sourceLineNo">003</span> *<a name="line.3"></a>
-<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
-<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
-<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
-<span class="sourceLineNo">007</span> *<a name="line.7"></a>
-<span class="sourceLineNo">008</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
-<span class="sourceLineNo">009</span> *<a name="line.9"></a>
-<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
-<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
-<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
-<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
-<span class="sourceLineNo">015</span> */<a name="line.15"></a>
-<span class="sourceLineNo">016</span>package org.gbif.api.vocabulary;<a name="line.16"></a>
-<span class="sourceLineNo">017</span><a name="line.17"></a>
-<span class="sourceLineNo">018</span>import org.apache.commons.lang3.StringUtils;<a name="line.18"></a>
-<span class="sourceLineNo">019</span><a name="line.19"></a>
-<span class="sourceLineNo">020</span>/**<a name="line.20"></a>
-<span class="sourceLineNo">021</span> * A short classification of scientific name strings used in Checklist Bank.<a name="line.21"></a>
-<span class="sourceLineNo">022</span> */<a name="line.22"></a>
-<span class="sourceLineNo">023</span>public enum NameType {<a name="line.23"></a>
-<span class="sourceLineNo">024</span><a name="line.24"></a>
-<span class="sourceLineNo">025</span>  /**<a name="line.25"></a>
-<span class="sourceLineNo">026</span>   * A scientific latin name that might contain authorship but is not any of the other name types below (virus, hybrid, cultivar, etc).<a name="line.26"></a>
-<span class="sourceLineNo">027</span>   */<a name="line.27"></a>
-<span class="sourceLineNo">028</span>  SCIENTIFIC,<a name="line.28"></a>
-<span class="sourceLineNo">029</span><a name="line.29"></a>
-<span class="sourceLineNo">030</span>  /**<a name="line.30"></a>
-<span class="sourceLineNo">031</span>   * A virus name.<a name="line.31"></a>
-<span class="sourceLineNo">032</span>   */<a name="line.32"></a>
-<span class="sourceLineNo">033</span>  VIRUS,<a name="line.33"></a>
-<span class="sourceLineNo">034</span><a name="line.34"></a>
-<span class="sourceLineNo">035</span>  /**<a name="line.35"></a>
-<span class="sourceLineNo">036</span>   * A hybrid &lt;b&gt;formula&lt;/b&gt; (not a hybrid name).<a name="line.36"></a>
-<span class="sourceLineNo">037</span>   */<a name="line.37"></a>
-<span class="sourceLineNo">038</span>  HYBRID,<a name="line.38"></a>
-<span class="sourceLineNo">039</span><a name="line.39"></a>
-<span class="sourceLineNo">040</span>  /**<a name="line.40"></a>
-<span class="sourceLineNo">041</span>   * A scientific name with some informal addition like "cf." or indetermined like Abies spec.<a name="line.41"></a>
-<span class="sourceLineNo">042</span>   */<a name="line.42"></a>
-<span class="sourceLineNo">043</span>  INFORMAL,<a name="line.43"></a>
-<span class="sourceLineNo">044</span><a name="line.44"></a>
-<span class="sourceLineNo">045</span>  /**<a name="line.45"></a>
-<span class="sourceLineNo">046</span>   * A cultivated plant name.<a name="line.46"></a>
-<span class="sourceLineNo">047</span>   */<a name="line.47"></a>
-<span class="sourceLineNo">048</span>  CULTIVAR,<a name="line.48"></a>
-<span class="sourceLineNo">049</span><a name="line.49"></a>
-<span class="sourceLineNo">050</span>  /**<a name="line.50"></a>
-<span class="sourceLineNo">051</span>   * Candidatus is a component of the taxonomic name for a bacterium that cannot be maintained in a<a name="line.51"></a>
-<span class="sourceLineNo">052</span>   * Bacteriology Culture Collection. It is an interim taxonomic status for noncultivable organisms.<a name="line.52"></a>
-<span class="sourceLineNo">053</span>   * An example would be "Candidatus Phytoplasma allocasuarinae".<a name="line.53"></a>
-<span class="sourceLineNo">054</span>   * This can be abbreviated to "Ca. Phytoplasma allocasuarinae".<a name="line.54"></a>
-<span class="sourceLineNo">055</span>   *<a name="line.55"></a>
-<span class="sourceLineNo">056</span>   * @see &lt;a href="http://en.wikipedia.org/wiki/Candidatus"&gt;wikipedia&lt;/a&gt;<a name="line.56"></a>
-<span class="sourceLineNo">057</span>   * @see &lt;a href="http://www.bacterio.cict.fr/candidatus.html"&gt;J.P. Euzéby&lt;/a&gt;<a name="line.57"></a>
-<span class="sourceLineNo">058</span>   *<a name="line.58"></a>
-<span class="sourceLineNo">059</span>   */<a name="line.59"></a>
-<span class="sourceLineNo">060</span>  CANDIDATUS,<a name="line.60"></a>
-<span class="sourceLineNo">061</span><a name="line.61"></a>
-<span class="sourceLineNo">062</span>  /**<a name="line.62"></a>
-<span class="sourceLineNo">063</span>   * Operational Taxonomic Unit.<a name="line.63"></a>
-<span class="sourceLineNo">064</span>   * An OTU is a pragmatic definition to group individuals by similarity, equivalent to but not necessarily in line<a name="line.64"></a>
-<span class="sourceLineNo">065</span>   * with classical Linnaean taxonomy or modern Evolutionary taxonomy.<a name="line.65"></a>
-<span class="sourceLineNo">066</span>   *<a name="line.66"></a>
-<span class="sourceLineNo">067</span>   * A OTU usually refers to clusters of organisms, grouped by DNA sequence similarity of a specific taxonomic marker gene.<a name="line.67"></a>
-<span class="sourceLineNo">068</span>   * In other words, OTUs are pragmatic proxies for "species" at different taxonomic levels.<a name="line.68"></a>
-<span class="sourceLineNo">069</span>   *<a name="line.69"></a>
-<span class="sourceLineNo">070</span>   * Sequences can be clustered according to their similarity to one another,<a name="line.70"></a>
-<span class="sourceLineNo">071</span>   * and operational taxonomic units are defined based on the similarity threshold (usually 97% similarity) set by the researcher.<a name="line.71"></a>
-<span class="sourceLineNo">072</span>   * Typically, OTU's are based on similar 16S rRNA sequences.<a name="line.72"></a>
-<span class="sourceLineNo">073</span>   */<a name="line.73"></a>
-<span class="sourceLineNo">074</span>  OTU,<a name="line.74"></a>
-<span class="sourceLineNo">075</span><a name="line.75"></a>
-<span class="sourceLineNo">076</span>  /**<a name="line.76"></a>
-<span class="sourceLineNo">077</span>   * Doubtful whether this is a scientific name at all.<a name="line.77"></a>
-<span class="sourceLineNo">078</span>   */<a name="line.78"></a>
-<span class="sourceLineNo">079</span>  DOUBTFUL,<a name="line.79"></a>
-<span class="sourceLineNo">080</span><a name="line.80"></a>
-<span class="sourceLineNo">081</span>  /**<a name="line.81"></a>
-<span class="sourceLineNo">082</span>   * A placeholder name like "incertae sedis" or "unknown genus".<a name="line.82"></a>
-<span class="sourceLineNo">083</span>   */<a name="line.83"></a>
-<span class="sourceLineNo">084</span>  PLACEHOLDER,<a name="line.84"></a>
-<span class="sourceLineNo">085</span><a name="line.85"></a>
-<span class="sourceLineNo">086</span>  /**<a name="line.86"></a>
-<span class="sourceLineNo">087</span>   * Surely not a scientific name of any kind.<a name="line.87"></a>
-<span class="sourceLineNo">088</span>   */<a name="line.88"></a>
-<span class="sourceLineNo">089</span>  NO_NAME,<a name="line.89"></a>
-<span class="sourceLineNo">090</span><a name="line.90"></a>
-<span class="sourceLineNo">091</span>  /**<a name="line.91"></a>
-<span class="sourceLineNo">092</span>   * A name that has been flagged by the name parser due to the use of blacklisted epithets/words.<a name="line.92"></a>
-<span class="sourceLineNo">093</span>   */<a name="line.93"></a>
-<span class="sourceLineNo">094</span>  BLACKLISTED;<a name="line.94"></a>
-<span class="sourceLineNo">095</span><a name="line.95"></a>
-<span class="sourceLineNo">096</span>  /**<a name="line.96"></a>
-<span class="sourceLineNo">097</span>   * Case insensitive lookup of a name type by its name that does not throw an exception but returns null<a name="line.97"></a>
-<span class="sourceLineNo">098</span>   * for not found name types.<a name="line.98"></a>
-<span class="sourceLineNo">099</span>   *<a name="line.99"></a>
-<span class="sourceLineNo">100</span>   * @param nameType case insensitive name of name type<a name="line.100"></a>
-<span class="sourceLineNo">101</span>   *<a name="line.101"></a>
-<span class="sourceLineNo">102</span>   * @return the matching NameType or null<a name="line.102"></a>
-<span class="sourceLineNo">103</span>   */<a name="line.103"></a>
-<span class="sourceLineNo">104</span>  public static NameType fromString(String nameType) {<a name="line.104"></a>
-<span class="sourceLineNo">105</span>    if (StringUtils.isNotEmpty(nameType)) {<a name="line.105"></a>
-<span class="sourceLineNo">106</span>      try {<a name="line.106"></a>
-<span class="sourceLineNo">107</span>        return valueOf(nameType.toUpperCase().trim());<a name="line.107"></a>
-<span class="sourceLineNo">108</span>      } catch (IllegalArgumentException e) {<a name="line.108"></a>
-<span class="sourceLineNo">109</span>        // swallow<a name="line.109"></a>
-<span class="sourceLineNo">110</span>      }<a name="line.110"></a>
-<span class="sourceLineNo">111</span>    }<a name="line.111"></a>
-<span class="sourceLineNo">112</span>    return null;<a name="line.112"></a>
-<span class="sourceLineNo">113</span>  }<a name="line.113"></a>
-<span class="sourceLineNo">114</span><a name="line.114"></a>
-<span class="sourceLineNo">115</span>  /**<a name="line.115"></a>
-<span class="sourceLineNo">116</span>   * @return true if the type of name is included in the GBIF backbone<a name="line.116"></a>
-<span class="sourceLineNo">117</span>   */<a name="line.117"></a>
-<span class="sourceLineNo">118</span>  public boolean isBackboneType() {<a name="line.118"></a>
-<span class="sourceLineNo">119</span>    return this == SCIENTIFIC || this == VIRUS || this == DOUBTFUL;<a name="line.119"></a>
-<span class="sourceLineNo">120</span>  }<a name="line.120"></a>
-<span class="sourceLineNo">121</span><a name="line.121"></a>
-<span class="sourceLineNo">122</span>  /**<a name="line.122"></a>
-<span class="sourceLineNo">123</span>   * @return true if the GBIF name parser can parse such a name into a ParsedName instance<a name="line.123"></a>
-<span class="sourceLineNo">124</span>   */<a name="line.124"></a>
-<span class="sourceLineNo">125</span>  public boolean isParsable() {<a name="line.125"></a>
-<span class="sourceLineNo">126</span>    return this == SCIENTIFIC || this == INFORMAL || this == CULTIVAR || this == CANDIDATUS || this == DOUBTFUL || this == BLACKLISTED;<a name="line.126"></a>
-<span class="sourceLineNo">127</span>  }<a name="line.127"></a>
-<span class="sourceLineNo">128</span><a name="line.128"></a>
-<span class="sourceLineNo">129</span>}<a name="line.129"></a>
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright 2020 Global Biodiversity Information Facility (GBIF)</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *     http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * limitations under the License.</a>
+<span class="sourceLineNo">015</span><a id="line.15"> */</a>
+<span class="sourceLineNo">016</span><a id="line.16">package org.gbif.api.vocabulary;</a>
+<span class="sourceLineNo">017</span><a id="line.17"></a>
+<span class="sourceLineNo">018</span><a id="line.18">import org.apache.commons.lang3.StringUtils;</a>
+<span class="sourceLineNo">019</span><a id="line.19"></a>
+<span class="sourceLineNo">020</span><a id="line.20">/**</a>
+<span class="sourceLineNo">021</span><a id="line.21"> * A short classification of scientific name strings used in Checklist Bank.</a>
+<span class="sourceLineNo">022</span><a id="line.22"> */</a>
+<span class="sourceLineNo">023</span><a id="line.23">public enum NameType {</a>
+<span class="sourceLineNo">024</span><a id="line.24"></a>
+<span class="sourceLineNo">025</span><a id="line.25">  /**</a>
+<span class="sourceLineNo">026</span><a id="line.26">   * A scientific latin name that might contain authorship but is not any of the other name types below (virus, hybrid, cultivar, etc).</a>
+<span class="sourceLineNo">027</span><a id="line.27">   */</a>
+<span class="sourceLineNo">028</span><a id="line.28">  SCIENTIFIC,</a>
+<span class="sourceLineNo">029</span><a id="line.29"></a>
+<span class="sourceLineNo">030</span><a id="line.30">  /**</a>
+<span class="sourceLineNo">031</span><a id="line.31">   * A virus name.</a>
+<span class="sourceLineNo">032</span><a id="line.32">   */</a>
+<span class="sourceLineNo">033</span><a id="line.33">  VIRUS,</a>
+<span class="sourceLineNo">034</span><a id="line.34"></a>
+<span class="sourceLineNo">035</span><a id="line.35">  /**</a>
+<span class="sourceLineNo">036</span><a id="line.36">   * A hybrid &lt;b&gt;formula&lt;/b&gt; (not a hybrid name).</a>
+<span class="sourceLineNo">037</span><a id="line.37">   */</a>
+<span class="sourceLineNo">038</span><a id="line.38">  HYBRID,</a>
+<span class="sourceLineNo">039</span><a id="line.39"></a>
+<span class="sourceLineNo">040</span><a id="line.40">  /**</a>
+<span class="sourceLineNo">041</span><a id="line.41">   * A scientific name with some informal addition like "cf." or indetermined like Abies spec.</a>
+<span class="sourceLineNo">042</span><a id="line.42">   */</a>
+<span class="sourceLineNo">043</span><a id="line.43">  INFORMAL,</a>
+<span class="sourceLineNo">044</span><a id="line.44"></a>
+<span class="sourceLineNo">045</span><a id="line.45">  /**</a>
+<span class="sourceLineNo">046</span><a id="line.46">   * A cultivated plant name.</a>
+<span class="sourceLineNo">047</span><a id="line.47">   */</a>
+<span class="sourceLineNo">048</span><a id="line.48">  CULTIVAR,</a>
+<span class="sourceLineNo">049</span><a id="line.49"></a>
+<span class="sourceLineNo">050</span><a id="line.50">  /**</a>
+<span class="sourceLineNo">051</span><a id="line.51">   * Candidatus is a component of the taxonomic name for a bacterium that cannot be maintained in a</a>
+<span class="sourceLineNo">052</span><a id="line.52">   * Bacteriology Culture Collection. It is an interim taxonomic status for noncultivable organisms.</a>
+<span class="sourceLineNo">053</span><a id="line.53">   * An example would be "Candidatus Phytoplasma allocasuarinae".</a>
+<span class="sourceLineNo">054</span><a id="line.54">   * This can be abbreviated to "Ca. Phytoplasma allocasuarinae".</a>
+<span class="sourceLineNo">055</span><a id="line.55">   *</a>
+<span class="sourceLineNo">056</span><a id="line.56">   * @see &lt;a href="http://en.wikipedia.org/wiki/Candidatus"&gt;wikipedia&lt;/a&gt;</a>
+<span class="sourceLineNo">057</span><a id="line.57">   * @see &lt;a href="http://www.bacterio.cict.fr/candidatus.html"&gt;J.P. Euzéby&lt;/a&gt;</a>
+<span class="sourceLineNo">058</span><a id="line.58">   *</a>
+<span class="sourceLineNo">059</span><a id="line.59">   */</a>
+<span class="sourceLineNo">060</span><a id="line.60">  CANDIDATUS,</a>
+<span class="sourceLineNo">061</span><a id="line.61"></a>
+<span class="sourceLineNo">062</span><a id="line.62">  /**</a>
+<span class="sourceLineNo">063</span><a id="line.63">   * Operational Taxonomic Unit.</a>
+<span class="sourceLineNo">064</span><a id="line.64">   * An OTU is a pragmatic definition to group individuals by similarity, equivalent to but not necessarily in line</a>
+<span class="sourceLineNo">065</span><a id="line.65">   * with classical Linnaean taxonomy or modern Evolutionary taxonomy.</a>
+<span class="sourceLineNo">066</span><a id="line.66">   *</a>
+<span class="sourceLineNo">067</span><a id="line.67">   * A OTU usually refers to clusters of organisms, grouped by DNA sequence similarity of a specific taxonomic marker gene.</a>
+<span class="sourceLineNo">068</span><a id="line.68">   * In other words, OTUs are pragmatic proxies for "species" at different taxonomic levels.</a>
+<span class="sourceLineNo">069</span><a id="line.69">   *</a>
+<span class="sourceLineNo">070</span><a id="line.70">   * Sequences can be clustered according to their similarity to one another,</a>
+<span class="sourceLineNo">071</span><a id="line.71">   * and operational taxonomic units are defined based on the similarity threshold (usually 97% similarity) set by the researcher.</a>
+<span class="sourceLineNo">072</span><a id="line.72">   * Typically, OTU's are based on similar 16S rRNA sequences.</a>
+<span class="sourceLineNo">073</span><a id="line.73">   */</a>
+<span class="sourceLineNo">074</span><a id="line.74">  OTU,</a>
+<span class="sourceLineNo">075</span><a id="line.75"></a>
+<span class="sourceLineNo">076</span><a id="line.76">  /**</a>
+<span class="sourceLineNo">077</span><a id="line.77">   * Doubtful whether this is a scientific name at all.</a>
+<span class="sourceLineNo">078</span><a id="line.78">   */</a>
+<span class="sourceLineNo">079</span><a id="line.79">  DOUBTFUL,</a>
+<span class="sourceLineNo">080</span><a id="line.80"></a>
+<span class="sourceLineNo">081</span><a id="line.81">  /**</a>
+<span class="sourceLineNo">082</span><a id="line.82">   * A placeholder name like "incertae sedis" or "unknown genus".</a>
+<span class="sourceLineNo">083</span><a id="line.83">   */</a>
+<span class="sourceLineNo">084</span><a id="line.84">  PLACEHOLDER,</a>
+<span class="sourceLineNo">085</span><a id="line.85"></a>
+<span class="sourceLineNo">086</span><a id="line.86">  /**</a>
+<span class="sourceLineNo">087</span><a id="line.87">   * Surely not a scientific name of any kind.</a>
+<span class="sourceLineNo">088</span><a id="line.88">   */</a>
+<span class="sourceLineNo">089</span><a id="line.89">  NO_NAME,</a>
+<span class="sourceLineNo">090</span><a id="line.90"></a>
+<span class="sourceLineNo">091</span><a id="line.91">  /**</a>
+<span class="sourceLineNo">092</span><a id="line.92">   * A name that has been flagged by the name parser due to the use of blacklisted epithets/words.</a>
+<span class="sourceLineNo">093</span><a id="line.93">   */</a>
+<span class="sourceLineNo">094</span><a id="line.94">  BLACKLISTED;</a>
+<span class="sourceLineNo">095</span><a id="line.95"></a>
+<span class="sourceLineNo">096</span><a id="line.96">  /**</a>
+<span class="sourceLineNo">097</span><a id="line.97">   * Case insensitive lookup of a name type by its name that does not throw an exception but returns null</a>
+<span class="sourceLineNo">098</span><a id="line.98">   * for not found name types.</a>
+<span class="sourceLineNo">099</span><a id="line.99">   *</a>
+<span class="sourceLineNo">100</span><a id="line.100">   * @param nameType case insensitive name of name type</a>
+<span class="sourceLineNo">101</span><a id="line.101">   *</a>
+<span class="sourceLineNo">102</span><a id="line.102">   * @return the matching NameType or null</a>
+<span class="sourceLineNo">103</span><a id="line.103">   */</a>
+<span class="sourceLineNo">104</span><a id="line.104">  public static NameType fromString(String nameType) {</a>
+<span class="sourceLineNo">105</span><a id="line.105">    if (StringUtils.isNotEmpty(nameType)) {</a>
+<span class="sourceLineNo">106</span><a id="line.106">      try {</a>
+<span class="sourceLineNo">107</span><a id="line.107">        return valueOf(nameType.toUpperCase().trim());</a>
+<span class="sourceLineNo">108</span><a id="line.108">      } catch (IllegalArgumentException e) {</a>
+<span class="sourceLineNo">109</span><a id="line.109">        // swallow</a>
+<span class="sourceLineNo">110</span><a id="line.110">      }</a>
+<span class="sourceLineNo">111</span><a id="line.111">    }</a>
+<span class="sourceLineNo">112</span><a id="line.112">    return null;</a>
+<span class="sourceLineNo">113</span><a id="line.113">  }</a>
+<span class="sourceLineNo">114</span><a id="line.114"></a>
+<span class="sourceLineNo">115</span><a id="line.115">  /**</a>
+<span class="sourceLineNo">116</span><a id="line.116">   * @return true if the type of name is included in the GBIF backbone</a>
+<span class="sourceLineNo">117</span><a id="line.117">   */</a>
+<span class="sourceLineNo">118</span><a id="line.118">  public boolean isBackboneType() {</a>
+<span class="sourceLineNo">119</span><a id="line.119">    return this == SCIENTIFIC || this == VIRUS || this == DOUBTFUL;</a>
+<span class="sourceLineNo">120</span><a id="line.120">  }</a>
+<span class="sourceLineNo">121</span><a id="line.121"></a>
+<span class="sourceLineNo">122</span><a id="line.122">  /**</a>
+<span class="sourceLineNo">123</span><a id="line.123">   * @return true if the GBIF name parser can parse such a name into a ParsedName instance</a>
+<span class="sourceLineNo">124</span><a id="line.124">   */</a>
+<span class="sourceLineNo">125</span><a id="line.125">  public boolean isParsable() {</a>
+<span class="sourceLineNo">126</span><a id="line.126">    return this == SCIENTIFIC || this == INFORMAL || this == CULTIVAR || this == CANDIDATUS || this == DOUBTFUL || this == BLACKLISTED;</a>
+<span class="sourceLineNo">127</span><a id="line.127">  }</a>
+<span class="sourceLineNo">128</span><a id="line.128"></a>
+<span class="sourceLineNo">129</span><a id="line.129">}</a>
 
 
 
@@ -197,5 +198,6 @@
 
 </pre>
 </div>
+</main>
 </body>
 </html>

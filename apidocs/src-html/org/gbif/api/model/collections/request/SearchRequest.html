@@ -1,85 +1,86 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
 <title>Source code</title>
 <link rel="stylesheet" type="text/css" href="../../../../../../../stylesheet.css" title="Style">
 </head>
 <body>
+<main role="main">
 <div class="sourceContainer">
-<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
-<span class="sourceLineNo">002</span> * Copyright 2020 Global Biodiversity Information Facility (GBIF)<a name="line.2"></a>
-<span class="sourceLineNo">003</span> *<a name="line.3"></a>
-<span class="sourceLineNo">004</span> * Licensed under the Apache License, Version 2.0 (the "License");<a name="line.4"></a>
-<span class="sourceLineNo">005</span> * you may not use this file except in compliance with the License.<a name="line.5"></a>
-<span class="sourceLineNo">006</span> * You may obtain a copy of the License at<a name="line.6"></a>
-<span class="sourceLineNo">007</span> *<a name="line.7"></a>
-<span class="sourceLineNo">008</span> *     http://www.apache.org/licenses/LICENSE-2.0<a name="line.8"></a>
-<span class="sourceLineNo">009</span> *<a name="line.9"></a>
-<span class="sourceLineNo">010</span> * Unless required by applicable law or agreed to in writing, software<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.11"></a>
-<span class="sourceLineNo">012</span> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.12"></a>
-<span class="sourceLineNo">013</span> * See the License for the specific language governing permissions and<a name="line.13"></a>
-<span class="sourceLineNo">014</span> * limitations under the License.<a name="line.14"></a>
-<span class="sourceLineNo">015</span> */<a name="line.15"></a>
-<span class="sourceLineNo">016</span>package org.gbif.api.model.collections.request;<a name="line.16"></a>
-<span class="sourceLineNo">017</span><a name="line.17"></a>
-<span class="sourceLineNo">018</span>import java.io.Serializable;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import java.util.List;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import java.util.UUID;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>import javax.annotation.Nullable;<a name="line.21"></a>
-<span class="sourceLineNo">022</span>import lombok.Data;<a name="line.22"></a>
-<span class="sourceLineNo">023</span>import lombok.experimental.SuperBuilder;<a name="line.23"></a>
-<span class="sourceLineNo">024</span>import org.gbif.api.model.common.paging.Pageable;<a name="line.24"></a>
-<span class="sourceLineNo">025</span>import org.gbif.api.model.common.paging.PagingConstants;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>import org.gbif.api.model.common.paging.PagingRequest;<a name="line.26"></a>
-<span class="sourceLineNo">027</span>import org.gbif.api.vocabulary.Country;<a name="line.27"></a>
-<span class="sourceLineNo">028</span>import org.gbif.api.vocabulary.GbifRegion;<a name="line.28"></a>
-<span class="sourceLineNo">029</span>import org.gbif.api.vocabulary.IdentifierType;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>import org.gbif.api.vocabulary.SortOrder;<a name="line.30"></a>
-<span class="sourceLineNo">031</span>import org.gbif.api.vocabulary.collections.CollectionsSortField;<a name="line.31"></a>
-<span class="sourceLineNo">032</span>import org.gbif.api.vocabulary.collections.MasterSourceType;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>import org.gbif.api.vocabulary.collections.Source;<a name="line.33"></a>
-<span class="sourceLineNo">034</span><a name="line.34"></a>
-<span class="sourceLineNo">035</span>@SuperBuilder<a name="line.35"></a>
-<span class="sourceLineNo">036</span>@Data<a name="line.36"></a>
-<span class="sourceLineNo">037</span>public abstract class SearchRequest implements Serializable {<a name="line.37"></a>
-<span class="sourceLineNo">038</span><a name="line.38"></a>
-<span class="sourceLineNo">039</span>  @Nullable private Boolean hl;<a name="line.39"></a>
-<span class="sourceLineNo">040</span>  @Nullable private String q;<a name="line.40"></a>
-<span class="sourceLineNo">041</span>  @Nullable private List&lt;String&gt; code;<a name="line.41"></a>
-<span class="sourceLineNo">042</span>  @Nullable private List&lt;String&gt; name;<a name="line.42"></a>
-<span class="sourceLineNo">043</span>  @Nullable private List&lt;String&gt; alternativeCode;<a name="line.43"></a>
-<span class="sourceLineNo">044</span>  @Nullable private List&lt;UUID&gt; contact;<a name="line.44"></a>
-<span class="sourceLineNo">045</span>  @Nullable private List&lt;String&gt; machineTagNamespace;<a name="line.45"></a>
-<span class="sourceLineNo">046</span>  @Nullable private List&lt;String&gt; machineTagName;<a name="line.46"></a>
-<span class="sourceLineNo">047</span>  @Nullable private List&lt;String&gt; machineTagValue;<a name="line.47"></a>
-<span class="sourceLineNo">048</span>  @Nullable private List&lt;IdentifierType&gt; identifierType;<a name="line.48"></a>
-<span class="sourceLineNo">049</span>  @Nullable private List&lt;String&gt; identifier;<a name="line.49"></a>
-<span class="sourceLineNo">050</span>  @Nullable private List&lt;Country&gt; country;<a name="line.50"></a>
-<span class="sourceLineNo">051</span>  @Nullable private List&lt;GbifRegion&gt; gbifRegion;<a name="line.51"></a>
-<span class="sourceLineNo">052</span>  @Nullable private List&lt;String&gt; city;<a name="line.52"></a>
-<span class="sourceLineNo">053</span>  @Nullable private List&lt;String&gt; fuzzyName;<a name="line.53"></a>
-<span class="sourceLineNo">054</span>  @Nullable private List&lt;Boolean&gt; active;<a name="line.54"></a>
-<span class="sourceLineNo">055</span>  @Nullable private List&lt;MasterSourceType&gt; masterSourceType;<a name="line.55"></a>
-<span class="sourceLineNo">056</span>  @Nullable private List&lt;String&gt; numberSpecimens;<a name="line.56"></a>
-<span class="sourceLineNo">057</span>  @Nullable private List&lt;Boolean&gt; displayOnNHCPortal;<a name="line.57"></a>
-<span class="sourceLineNo">058</span>  @Nullable private List&lt;UUID&gt; replacedBy;<a name="line.58"></a>
-<span class="sourceLineNo">059</span>  @Nullable private List&lt;String&gt; occurrenceCount;<a name="line.59"></a>
-<span class="sourceLineNo">060</span>  @Nullable private List&lt;String&gt; typeSpecimenCount;<a name="line.60"></a>
-<span class="sourceLineNo">061</span>  @Nullable private CollectionsSortField sortBy;<a name="line.61"></a>
-<span class="sourceLineNo">062</span>  @Nullable private SortOrder sortOrder;<a name="line.62"></a>
-<span class="sourceLineNo">063</span>  @Nullable private List&lt;UUID&gt; institutionKeys;<a name="line.63"></a>
-<span class="sourceLineNo">064</span>  @Nullable private List&lt;Source&gt; source;<a name="line.64"></a>
-<span class="sourceLineNo">065</span>  @Nullable private List&lt;String&gt; sourceId;<a name="line.65"></a>
-<span class="sourceLineNo">066</span>  @Nullable private Long offset;<a name="line.66"></a>
-<span class="sourceLineNo">067</span>  @Nullable private Integer limit;<a name="line.67"></a>
-<span class="sourceLineNo">068</span><a name="line.68"></a>
-<span class="sourceLineNo">069</span>  public Pageable getPage() {<a name="line.69"></a>
-<span class="sourceLineNo">070</span>    return new PagingRequest(<a name="line.70"></a>
-<span class="sourceLineNo">071</span>        offset != null ? offset : PagingConstants.DEFAULT_PARAM_OFFSET,<a name="line.71"></a>
-<span class="sourceLineNo">072</span>        limit != null ? limit : PagingConstants.DEFAULT_PARAM_LIMIT);<a name="line.72"></a>
-<span class="sourceLineNo">073</span>  }<a name="line.73"></a>
-<span class="sourceLineNo">074</span>}<a name="line.74"></a>
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright 2020 Global Biodiversity Information Facility (GBIF)</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *     http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * limitations under the License.</a>
+<span class="sourceLineNo">015</span><a id="line.15"> */</a>
+<span class="sourceLineNo">016</span><a id="line.16">package org.gbif.api.model.collections.request;</a>
+<span class="sourceLineNo">017</span><a id="line.17"></a>
+<span class="sourceLineNo">018</span><a id="line.18">import java.io.Serializable;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import java.util.List;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import java.util.UUID;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import javax.annotation.Nullable;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import lombok.Data;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import lombok.experimental.SuperBuilder;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import org.gbif.api.model.common.paging.Pageable;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import org.gbif.api.model.common.paging.PagingConstants;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import org.gbif.api.model.common.paging.PagingRequest;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import org.gbif.api.vocabulary.Country;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import org.gbif.api.vocabulary.GbifRegion;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import org.gbif.api.vocabulary.IdentifierType;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import org.gbif.api.vocabulary.SortOrder;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import org.gbif.api.vocabulary.collections.CollectionsSortField;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import org.gbif.api.vocabulary.collections.MasterSourceType;</a>
+<span class="sourceLineNo">033</span><a id="line.33">import org.gbif.api.vocabulary.collections.Source;</a>
+<span class="sourceLineNo">034</span><a id="line.34"></a>
+<span class="sourceLineNo">035</span><a id="line.35">@SuperBuilder</a>
+<span class="sourceLineNo">036</span><a id="line.36">@Data</a>
+<span class="sourceLineNo">037</span><a id="line.37">public abstract class SearchRequest implements Serializable {</a>
+<span class="sourceLineNo">038</span><a id="line.38"></a>
+<span class="sourceLineNo">039</span><a id="line.39">  @Nullable private Boolean hl;</a>
+<span class="sourceLineNo">040</span><a id="line.40">  @Nullable private String q;</a>
+<span class="sourceLineNo">041</span><a id="line.41">  @Nullable private List&lt;String&gt; code;</a>
+<span class="sourceLineNo">042</span><a id="line.42">  @Nullable private List&lt;String&gt; name;</a>
+<span class="sourceLineNo">043</span><a id="line.43">  @Nullable private List&lt;String&gt; alternativeCode;</a>
+<span class="sourceLineNo">044</span><a id="line.44">  @Nullable private List&lt;UUID&gt; contact;</a>
+<span class="sourceLineNo">045</span><a id="line.45">  @Nullable private List&lt;String&gt; machineTagNamespace;</a>
+<span class="sourceLineNo">046</span><a id="line.46">  @Nullable private List&lt;String&gt; machineTagName;</a>
+<span class="sourceLineNo">047</span><a id="line.47">  @Nullable private List&lt;String&gt; machineTagValue;</a>
+<span class="sourceLineNo">048</span><a id="line.48">  @Nullable private List&lt;IdentifierType&gt; identifierType;</a>
+<span class="sourceLineNo">049</span><a id="line.49">  @Nullable private List&lt;String&gt; identifier;</a>
+<span class="sourceLineNo">050</span><a id="line.50">  @Nullable private List&lt;Country&gt; country;</a>
+<span class="sourceLineNo">051</span><a id="line.51">  @Nullable private List&lt;GbifRegion&gt; gbifRegion;</a>
+<span class="sourceLineNo">052</span><a id="line.52">  @Nullable private List&lt;String&gt; city;</a>
+<span class="sourceLineNo">053</span><a id="line.53">  @Nullable private List&lt;String&gt; fuzzyName;</a>
+<span class="sourceLineNo">054</span><a id="line.54">  @Nullable private List&lt;Boolean&gt; active;</a>
+<span class="sourceLineNo">055</span><a id="line.55">  @Nullable private List&lt;MasterSourceType&gt; masterSourceType;</a>
+<span class="sourceLineNo">056</span><a id="line.56">  @Nullable private List&lt;String&gt; numberSpecimens;</a>
+<span class="sourceLineNo">057</span><a id="line.57">  @Nullable private List&lt;Boolean&gt; displayOnNHCPortal;</a>
+<span class="sourceLineNo">058</span><a id="line.58">  @Nullable private List&lt;UUID&gt; replacedBy;</a>
+<span class="sourceLineNo">059</span><a id="line.59">  @Nullable private List&lt;String&gt; occurrenceCount;</a>
+<span class="sourceLineNo">060</span><a id="line.60">  @Nullable private List&lt;String&gt; typeSpecimenCount;</a>
+<span class="sourceLineNo">061</span><a id="line.61">  @Nullable private CollectionsSortField sortBy;</a>
+<span class="sourceLineNo">062</span><a id="line.62">  @Nullable private SortOrder sortOrder;</a>
+<span class="sourceLineNo">063</span><a id="line.63">  @Nullable private List&lt;UUID&gt; institutionKeys;</a>
+<span class="sourceLineNo">064</span><a id="line.64">  @Nullable private List&lt;Source&gt; source;</a>
+<span class="sourceLineNo">065</span><a id="line.65">  @Nullable private List&lt;String&gt; sourceId;</a>
+<span class="sourceLineNo">066</span><a id="line.66">  @Nullable private Long offset;</a>
+<span class="sourceLineNo">067</span><a id="line.67">  @Nullable private Integer limit;</a>
+<span class="sourceLineNo">068</span><a id="line.68"></a>
+<span class="sourceLineNo">069</span><a id="line.69">  public Pageable getPage() {</a>
+<span class="sourceLineNo">070</span><a id="line.70">    return new PagingRequest(</a>
+<span class="sourceLineNo">071</span><a id="line.71">        offset != null ? offset : PagingConstants.DEFAULT_PARAM_OFFSET,</a>
+<span class="sourceLineNo">072</span><a id="line.72">        limit != null ? limit : PagingConstants.DEFAULT_PARAM_LIMIT);</a>
+<span class="sourceLineNo">073</span><a id="line.73">  }</a>
+<span class="sourceLineNo">074</span><a id="line.74">}</a>
 
 
 
@@ -142,5 +143,6 @@
 
 </pre>
 </div>
+</main>
 </body>
 </html>
