@@ -89,7 +89,7 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     addParameter(OccurrenceSearchParameter.OCCURRENCE_ID, occurrenceID);
   }
 
-  public void addEstablishmentMeansFilter(EstablishmentMeans establishmentMeans) {
+  public void addEstablishmentMeansFilter(String establishmentMeans) {
     addParameter(OccurrenceSearchParameter.ESTABLISHMENT_MEANS, establishmentMeans);
   }
 
@@ -97,7 +97,7 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     addParameter(OccurrenceSearchParameter.BASIS_OF_RECORD, basisOfRecord);
   }
 
-  public void addTypeStatusFilter(TypeStatus typeStatus) {
+  public void addTypeStatusFilter(String typeStatus) {
     addParameter(OccurrenceSearchParameter.TYPE_STATUS, typeStatus);
   }
 

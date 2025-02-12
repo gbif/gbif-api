@@ -1123,6 +1123,7 @@ public class Dataset
         && Objects.equals(duplicateOfDatasetKey, dataset.duplicateOfDatasetKey)
         && Objects.equals(installationKey, dataset.installationKey)
         && Objects.equals(publishingOrganizationKey, dataset.publishingOrganizationKey)
+        && Objects.equals(publishingOrganizationName, dataset.publishingOrganizationName)
         && Objects.equals(networkKeys, dataset.networkKeys)
         && Objects.equals(doi, dataset.doi)
         && Objects.equals(version, dataset.version)
