@@ -68,6 +68,8 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
   private static final String FORMAT = "format";
   private static final String TYPE = "type";
   private static final String VERBATIM_EXTENSIONS = "verbatimExtensions";
+  private static final String DESCRIPTION = "description";
+  private static final String MACHINE_DESCRIPTION = "machineDescription";
 
   // Properties we ignore.
   private static final List<String> IGNORED_PROPERTIES =
@@ -79,7 +81,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
   static {
-    Set<String> allProperties = new HashSet<>(Arrays.asList(PREDICATE, SQL, CREATOR, FORMAT, TYPE, VERBATIM_EXTENSIONS));
+    Set<String> allProperties = new HashSet<>(Arrays.asList(PREDICATE, SQL, CREATOR, FORMAT, TYPE, VERBATIM_EXTENSIONS, DESCRIPTION, MACHINE_DESCRIPTION));
     allProperties.addAll(SEND_NOTIFICATION);
     allProperties.addAll(NOTIFICATION_ADDRESSES);
     allProperties.addAll(IGNORED_PROPERTIES);
@@ -101,6 +103,8 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
       .map(n -> VocabularyUtils.lookupEnum(n.asText(), DownloadType.class)).orElse(DownloadType.OCCURRENCE);
 
     String creator = Optional.ofNullable(node.get(CREATOR)).map(JsonNode::asText).orElse(null);
+
+    String description = Optional.ofNullable(node.get(DESCRIPTION)).map(JsonNode::asText).orElse(null);
 
     List<String> notificationAddresses = new ArrayList<>();
     for (final String jsonKey : NOTIFICATION_ADDRESSES) {
@@ -135,6 +139,8 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
       }
     }
 
+    JsonNode machineDescription = Optional.ofNullable(node.get(MACHINE_DESCRIPTION)).orElse(null);
+
     String sql = Optional.ofNullable(node.get(SQL)).map(JsonNode::asText).orElse(null);
 
     // Reject if unknown field names are present
@@ -145,7 +151,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
       if (format != DownloadFormat.SQL_TSV_ZIP) {
         throw new RuntimeException("SQL downloads must use a suitable download format: SQL_TSV_ZIP.");
       }
-      return new SqlDownloadRequest(sql, creator, notificationAddresses, sendNotification, type, format);
+      return new SqlDownloadRequest(sql, creator, notificationAddresses, sendNotification, format, type, description, machineDescription);
     } else {
       if (format == DownloadFormat.SQL_TSV_ZIP) {
         throw new RuntimeException("Predicate downloads must not use an SQL download format.");
@@ -157,7 +163,7 @@ public class DownloadRequestSerde extends JsonDeserializer<DownloadRequest> {
       //  throw new RuntimeException("A predicate must be specified. Use {} for everything.");
       //}
       Predicate predicateObj = predicate == null ? null : MAPPER.treeToValue(predicate, Predicate.class);
-      return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format, type, extensions);
+      return new PredicateDownloadRequest(predicateObj, creator, notificationAddresses, sendNotification, format, type, description, machineDescription, extensions);
     }
   }
 }

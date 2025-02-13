@@ -10,6 +10,8 @@ import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -43,10 +45,21 @@ public class SqlDownloadRequest extends DownloadRequest {
     @JsonProperty("creator") @Nullable String creator,
     @JsonProperty("notificationAddresses") @Nullable Collection<String> notificationAddresses,
     @JsonProperty("sendNotification") @Nullable Boolean sendNotification,
+    @JsonProperty("format") @Nullable DownloadFormat format,
     @JsonProperty("type") @Nullable DownloadType type,
-    @JsonProperty("format") @Nullable DownloadFormat format) {
+    @JsonProperty("description") @Nullable String description,
+    @JsonProperty("machineDescription") @Nullable JsonNode machineDescription
+    ) {
     // Check the format is suitable for an SQL download, and check predicate formats are suitable for predicate downloads.
-    super(creator, notificationAddresses, sendNotification == null ? Boolean.TRUE : sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type == null? DownloadType.OCCURRENCE : type);
+    super(
+      creator,
+      notificationAddresses,
+      sendNotification == null ? Boolean.TRUE : sendNotification,
+      format == null ? DEFAULT_DOWNLOAD_FORMAT : format,
+      type == null ? DownloadType.OCCURRENCE : type,
+      description,
+      machineDescription
+    );
     this.sql = sql;
   }
 
