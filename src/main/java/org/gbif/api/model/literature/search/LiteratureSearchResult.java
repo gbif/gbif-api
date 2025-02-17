@@ -58,6 +58,9 @@ public class LiteratureSearchResult {
   @Schema(description = "Countries or areas of institution with which authors are affiliated.")
   private Set<Country> countriesOfResearcher = new HashSet<>();
 
+  @Schema(description = "Country of the publisher whose dataset is referenced in publication.")
+  private Set<Country> publishingCountry = new HashSet<>();
+
   @Schema(description = "The date the publication was added to the GBIF literature database.")
   private Date added;
 

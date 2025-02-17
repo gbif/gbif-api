@@ -21,6 +21,7 @@ import org.gbif.api.model.occurrence.Occurrence;
 import org.gbif.api.model.occurrence.search.OccurrencePredicateSearchRequest;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchRequest;
+import org.gbif.api.model.predicate.Predicate;
 import org.gbif.api.service.common.SearchService;
 
 import java.util.List;
@@ -38,6 +39,9 @@ public interface OccurrenceSearchService
 
   /** Occurrence search implementation that uses a predicate instead of request parameters.*/
   SearchResponse<Occurrence, OccurrenceSearchParameter> search(OccurrencePredicateSearchRequest request);
+
+  /** Get the record count from a predicate search. */
+  long countRecords(Predicate predicate);
 
   /**
    * Searches catalog numbers which start with the input prefix.

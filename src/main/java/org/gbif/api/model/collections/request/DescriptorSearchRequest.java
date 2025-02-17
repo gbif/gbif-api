@@ -28,11 +28,9 @@ public class DescriptorSearchRequest extends PageableBase implements Serializabl
   @Nullable private List<Rank> usageRank;
   @Nullable private List<Integer> taxonKey;
   @Nullable private List<Country> country;
-  @Nullable private String individualCount;
+  @Nullable private List<String> individualCount;
   @Nullable private List<String> identifiedBy;
-  @Nullable private Date dateIdentified;
-  @Nullable private Date dateIdentifiedFrom;
-  @Nullable private Date dateIdentifiedBefore;
+  @Nullable private List<String> dateIdentified;
   @Nullable private List<String> typeStatus;
   @Nullable private List<String> recordedBy;
   @Nullable private List<String> discipline;

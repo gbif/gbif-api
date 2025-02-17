@@ -45,7 +45,8 @@ public class IdentifierUtilsTest {
       Arguments.of("ftp://ftp.gbif.org", "ftp://ftp.gbif.org", IdentifierType.FTP),
       Arguments.of("https://doi.org/10.1016/S1097-2765(03)00225-9", "10.1016/S1097-2765(03)00225-9", IdentifierType.DOI),
       Arguments.of("http://www.lsid.info/132187", "132187", IdentifierType.LSID),
-      Arguments.of("https://ror.org/02mhbdp94.","https://ror.org/02mhbdp94.", IdentifierType.ROR)
+      Arguments.of("https://ror.org/02mhbdp94.","https://ror.org/02mhbdp94.", IdentifierType.ROR),
+      Arguments.of("https://www.checklistbank.org/dataset/1008","1008", IdentifierType.CLB_DATASET_KEY)
     );
   }
 
@@ -84,5 +85,14 @@ public class IdentifierUtilsTest {
     assertFalse(IdentifierUtils.isValidRORIdentifier("https://ror.org/https://ror.org/0566bfb96"));
     assertFalse(IdentifierUtils.isValidRORIdentifier("0566bfb96"));
     assertFalse(IdentifierUtils.isValidRORIdentifier("https://ror.org/2566bfb96"));
+  }
+
+  @Test
+  public void CLBDatasetKeyValidatorTest() {
+    assertTrue(IdentifierUtils.isValidCLBDatasetKey("123"));
+    assertFalse(IdentifierUtils.isValidCLBDatasetKey("0123"));
+    assertFalse(IdentifierUtils.isValidCLBDatasetKey("0"));
+    assertFalse(IdentifierUtils.isValidCLBDatasetKey("-123"));
+    assertFalse(IdentifierUtils.isValidCLBDatasetKey("abc123"));
   }
 }
