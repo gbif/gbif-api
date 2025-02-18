@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.occurrence;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -104,8 +106,18 @@ public class PredicateDownloadRequest extends DownloadRequest {
     @JsonProperty("sendNotification") @Nullable Boolean sendNotification,
     @JsonProperty("format") @Nullable DownloadFormat format,
     @JsonProperty("type") @Nullable DownloadType type,
+    @JsonProperty("description") @Nullable String description,
+    @JsonProperty("machineDescription") @Nullable JsonNode machineDescription,
     @JsonProperty("verbatimExtensions") @Nullable Set<Extension> verbatimExtensions) {
-    super(creator, notificationAddresses, sendNotification == null? Boolean.TRUE : sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type == null? DownloadType.OCCURRENCE : type);
+    super(
+      creator,
+      notificationAddresses,
+      sendNotification == null ? Boolean.TRUE : sendNotification,
+      format == null ? DEFAULT_DOWNLOAD_FORMAT : format,
+      type == null ? DownloadType.OCCURRENCE : type,
+      description,
+      machineDescription
+    );
     this.predicate = predicate;
     this.verbatimExtensions = verbatimExtensions == null? Collections.emptySet(): verbatimExtensions;
   }
