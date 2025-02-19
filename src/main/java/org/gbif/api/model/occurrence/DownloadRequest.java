@@ -13,6 +13,8 @@
  */
 package org.gbif.api.model.occurrence;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -81,6 +83,16 @@ public abstract class DownloadRequest implements Serializable {
   @JsonProperty("type")
   private DownloadType type;
 
+  @Schema(
+    description = "A user-specified description of the download, such as the intended purpose or a tag " +
+      "for later reference."
+  )
+  @JsonProperty("description")
+  private String description;
+
+  @JsonProperty("machineDescription")
+  private JsonNode machineDescription;
+
   /**
    * Default constructor.
    */
@@ -90,7 +102,8 @@ public abstract class DownloadRequest implements Serializable {
 
   public DownloadRequest(String creator, Collection<String> notificationAddresses,
                          Boolean sendNotification, DownloadFormat format,
-                         DownloadType downloadType
+                         DownloadType downloadType, String description,
+                         JsonNode machineDescription
   ) {
     this.creator = creator;
     this.notificationAddresses = notificationAddresses == null ? Collections.emptySet() :
@@ -98,6 +111,8 @@ public abstract class DownloadRequest implements Serializable {
     this.sendNotification = sendNotification;
     this.format = format;
     this.type = downloadType;
+    this.description = description;
+    this.machineDescription = machineDescription;
   }
 
   /**
@@ -185,6 +200,22 @@ public abstract class DownloadRequest implements Serializable {
     this.type = type;
   }
 
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public JsonNode getMachineDescription() {
+    return machineDescription;
+  }
+
+  public void setMachineDescription(JsonNode machineDescription) {
+    this.machineDescription = machineDescription;
+  }
+
   @JsonIgnore
   public String getFileExtension() {
     return format.getExtension();
@@ -203,12 +234,14 @@ public abstract class DownloadRequest implements Serializable {
       Objects.equals(creator, that.creator) &&
       Objects.equals(notificationAddresses, that.notificationAddresses) &&
       format == that.format &&
-      type == that.type;
+      type == that.type &&
+      Objects.equals(description, that.description);// &&
+//      Objects.equals(machineDescription, that.machineDescription);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(creator, notificationAddresses, sendNotification, format, type);
+    return Objects.hash(creator, notificationAddresses, sendNotification, format, type, description, machineDescription);
   }
 
   @Override
@@ -219,6 +252,8 @@ public abstract class DownloadRequest implements Serializable {
       .add("sendNotification=" + sendNotification)
       .add("format=" + format)
       .add("type=" + type)
+      .add("description=" + description)
+      .add("machineDescription=" + machineDescription)
       .toString();
   }
 }

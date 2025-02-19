@@ -49,6 +49,7 @@ public class DownloadRequestTest {
 
   private static final String TEST_USER = "user@gbif.org";
   private static final String TEST_EMAIL = "test@gbif.org";
+  private static final String TEST_DESCRIPTION = "Unit test";
 
   // Note these include each combination of underscores or camel case for notificationAddresses and sendNotification.
 
@@ -57,7 +58,8 @@ public class DownloadRequestTest {
       + " \"notification_addresses\": [\"" + TEST_EMAIL +"\"],"
       + " \"send_notification\":\"true\","
       + " \"format\": \"SIMPLE_CSV\","
-      + " \"predicate\":{\"type\":\"equals\",\"key\":\"TAXON_KEY\",\"value\":\"3\"}"
+      + " \"predicate\":{\"type\":\"equals\",\"key\":\"TAXON_KEY\",\"value\":\"3\"},"
+      + " \"description\": \"" + TEST_DESCRIPTION + "\""
       + "}";
 
   private static final String SIMPLE_CSV_NULL_PREDICATE = "{"
@@ -80,7 +82,9 @@ public class DownloadRequestTest {
     + " \"notificationAddresses\": [\"" + TEST_EMAIL +"\"],"
     + " \"sendNotification\":\"true\","
     + " \"format\": \"SQL_TSV_ZIP\","
-    + " \"sql\": \"SELECT basisOfRecord, COUNT(DISTINCT speciesKey) AS speciesCount FROM occurrence WHERE year = 2018 GROUP BY basisOfRecord\""
+    + " \"sql\": \"SELECT basisOfRecord, COUNT(DISTINCT speciesKey) AS speciesCount FROM occurrence WHERE year = 2018 GROUP BY basisOfRecord\","
+    + " \"description\": \"" + TEST_DESCRIPTION + "\","
+    + " \"machineDescription\": {\"purpose\": \"" + TEST_DESCRIPTION + "\", \"elements\": [], \"array\": [{}, \"a\", 1.0, true, null]}"
     + "}";
 
   private static final String UNKNOWN_PROPERTY = "{"
@@ -101,6 +105,7 @@ public class DownloadRequestTest {
 
   private static PredicateDownloadRequest newDownload(Predicate p, String user) {
     return new PredicateDownloadRequest(p, user, Collections.singleton(TEST_EMAIL), false, DownloadFormat.DWCA, DownloadType.OCCURRENCE,
+                                        "Unit test download", null,
                                         Collections.singleton(Extension.AUDUBON));
   }
 
@@ -151,14 +156,16 @@ public class DownloadRequestTest {
   @Test
   public void testSerde() throws IOException {
     PredicateDownloadRequest d = newDownload(new EqualsPredicate(OccurrenceSearchParameter.CATALOG_NUMBER, "b", false));
+    PredicateDownloadRequest d2;
     try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
       MAPPER.writeValue(baos, d);
-      PredicateDownloadRequest d2 = MAPPER.readValue(baos.toByteArray(), PredicateDownloadRequest.class);
-      assertEquals(d, d2);
+      d2 = MAPPER.readValue(baos.toByteArray(), PredicateDownloadRequest.class);
     } catch (Throwable e) { // closer must catch Throwable
       fail(e.getMessage());
       throw e;
     }
+
+    assertEquals(d, d2);
   }
 
   @Test
@@ -168,6 +175,7 @@ public class DownloadRequestTest {
     assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
     assertTrue(request.getSendNotification());
     assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
+    assertEquals(TEST_DESCRIPTION, request.getDescription());
   }
 
   @Test
@@ -177,6 +185,7 @@ public class DownloadRequestTest {
     assertEquals(DownloadFormat.SIMPLE_CSV, request.getFormat());
     assertTrue(request.getSendNotification());
     assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
+    assertEquals(TEST_DESCRIPTION, request.getDescription());
   }
 
   @Disabled
@@ -206,6 +215,17 @@ public class DownloadRequestTest {
     assertEquals(DownloadFormat.SQL_TSV_ZIP, request.getFormat());
     assertTrue(request.getSendNotification());
     assertEquals(TEST_EMAIL, request.getNotificationAddressesAsString());
+    assertEquals(TEST_DESCRIPTION, request.getDescription());
+
+    // Test no-schema JSON
+    assertEquals(TEST_DESCRIPTION, request.getMachineDescription().get("purpose").asText());
+    assertEquals(0, request.getMachineDescription().get("elements").size());
+    assertEquals(0, request.getMachineDescription().get("array").get(0).size());
+    assertEquals("a", request.getMachineDescription().get("array").get(1).asText());
+    assertEquals("1.0", request.getMachineDescription().get("array").get(2).asText());
+    assertEquals(1, request.getMachineDescription().get("array").get(2).asInt());
+    assertTrue(request.getMachineDescription().get("array").get(3).asBoolean());
+    assertTrue(request.getMachineDescription().get("array").get(4).isNull());
   }
 
   /**
