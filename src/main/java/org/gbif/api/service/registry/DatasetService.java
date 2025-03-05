@@ -18,6 +18,7 @@ package org.gbif.api.service.registry;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.DatasetCitation;
 import org.gbif.api.model.registry.Grid;
 import org.gbif.api.model.registry.Metadata;
 import org.gbif.api.model.registry.Network;
@@ -149,4 +150,18 @@ public interface DatasetService extends NetworkEntityService<Dataset> {
    * @return list of datasets ordered by creation date with the latest coming first
    */
   PagingResponse<Dataset> list(DatasetRequestSearchParams searchParams);
+
+  /**
+   * Provides a service to retrieve a number of dataset citations in one request.
+   *
+   * @param datasetKeys the keys to use in the lookup
+   */
+  List<DatasetCitation> listCitations(List<UUID> datasetKeys);
+
+  /**
+   * Provides a service to retrieve a single dataset citation.
+   * @param datasetKey the key to use in the lookup
+   * @return DatasetCitation
+   */
+  DatasetCitation getCitation(UUID datasetKey);
 }
