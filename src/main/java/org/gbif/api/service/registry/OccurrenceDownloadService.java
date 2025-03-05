@@ -85,7 +85,7 @@ public interface OccurrenceDownloadService {
       @Nullable String erasureNotification);
 
   /** Update an existing occurrence download. */
-  void update(@NotNull @Valid Download download);
+  Download update(@NotNull @Valid Download download);
 
   /**
    * Retrieves a pageable result of the dataset usages in a occurrence download.
