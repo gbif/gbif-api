@@ -10,6 +10,8 @@ import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -23,16 +25,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class SqlDownloadRequest extends DownloadRequest {
 
   //Default download format.
-<span class="fc" id="L26">  private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.SQL_TSV_ZIP;</span>
+<span class="fc" id="L28">  private static final DownloadFormat DEFAULT_DOWNLOAD_FORMAT = DownloadFormat.SQL_TSV_ZIP;</span>
 
   @Schema(
     description = &quot;An SQL query defining the filter and output for the download.&quot;
   )
   private String sql;
 
-<span class="nc" id="L33">  public SqlDownloadRequest() {</span>
+<span class="nc" id="L35">  public SqlDownloadRequest() {</span>
 
-<span class="nc" id="L35">  }</span>
+<span class="nc" id="L37">  }</span>
 
   /**
    * Full constructor. Used to create instances using JSON serialization.
@@ -43,12 +45,23 @@ public class SqlDownloadRequest extends DownloadRequest {
     @JsonProperty(&quot;creator&quot;) @Nullable String creator,
     @JsonProperty(&quot;notificationAddresses&quot;) @Nullable Collection&lt;String&gt; notificationAddresses,
     @JsonProperty(&quot;sendNotification&quot;) @Nullable Boolean sendNotification,
+    @JsonProperty(&quot;format&quot;) @Nullable DownloadFormat format,
     @JsonProperty(&quot;type&quot;) @Nullable DownloadType type,
-    @JsonProperty(&quot;format&quot;) @Nullable DownloadFormat format) {
+    @JsonProperty(&quot;description&quot;) @Nullable String description,
+    @JsonProperty(&quot;machineDescription&quot;) @Nullable JsonNode machineDescription
+    ) {
     // Check the format is suitable for an SQL download, and check predicate formats are suitable for predicate downloads.
-<span class="pc bpc" id="L49" title="3 of 6 branches missed.">    super(creator, notificationAddresses, sendNotification == null ? Boolean.TRUE : sendNotification, format == null ? DEFAULT_DOWNLOAD_FORMAT : format, type == null? DownloadType.OCCURRENCE : type);</span>
-<span class="fc" id="L50">    this.sql = sql;</span>
-<span class="fc" id="L51">  }</span>
+<span class="fc" id="L54">    super(</span>
+      creator,
+      notificationAddresses,
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">      sendNotification == null ? Boolean.TRUE : sendNotification,</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">      format == null ? DEFAULT_DOWNLOAD_FORMAT : format,</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">      type == null ? DownloadType.OCCURRENCE : type,</span>
+      description,
+      machineDescription
+    );
+<span class="fc" id="L63">    this.sql = sql;</span>
+<span class="fc" id="L64">  }</span>
 
   /**
    *
@@ -56,7 +69,7 @@ public class SqlDownloadRequest extends DownloadRequest {
    */
   @Valid
   public String getSql() {
-<span class="fc" id="L59">    return sql;</span>
+<span class="fc" id="L72">    return sql;</span>
   }
 
   /**
@@ -64,34 +77,34 @@ public class SqlDownloadRequest extends DownloadRequest {
    * @param sql
    */
   public void setSql(String sql) {
-<span class="nc" id="L67">    this.sql = sql;</span>
-<span class="nc" id="L68">  }</span>
+<span class="nc" id="L80">    this.sql = sql;</span>
+<span class="nc" id="L81">  }</span>
 
   @Override
   public int hashCode() {
-<span class="nc" id="L72">    return Objects.hash(super.hashCode(), sql);</span>
+<span class="nc" id="L85">    return Objects.hash(super.hashCode(), sql);</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="nc bnc" id="L77" title="All 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L78">      return true;</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L91">      return true;</span>
     }
-<span class="nc bnc" id="L80" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
-<span class="nc" id="L81">      return false;</span>
+<span class="nc bnc" id="L93" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L94">      return false;</span>
     }
-<span class="nc bnc" id="L83" title="All 2 branches missed.">    if (!super.equals(o)) {</span>
-<span class="nc" id="L84">      return false;</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">    if (!super.equals(o)) {</span>
+<span class="nc" id="L97">      return false;</span>
     }
-<span class="nc" id="L86">    SqlDownloadRequest that = (SqlDownloadRequest) o;</span>
-<span class="nc" id="L87">    return Objects.equals(sql, that.sql);</span>
+<span class="nc" id="L99">    SqlDownloadRequest that = (SqlDownloadRequest) o;</span>
+<span class="nc" id="L100">    return Objects.equals(sql, that.sql);</span>
   }
 
   @Override
   public String toString() {
-<span class="nc" id="L92">    return new StringJoiner(&quot;, &quot;, SqlDownloadRequest.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
-<span class="nc" id="L93">      .add(&quot;sql=&quot; + sql)</span>
-<span class="nc" id="L94">      .toString();</span>
+<span class="nc" id="L105">    return new StringJoiner(&quot;, &quot;, SqlDownloadRequest.class.getSimpleName() + &quot;[&quot;, &quot;]&quot;)</span>
+<span class="nc" id="L106">      .add(&quot;sql=&quot; + sql)</span>
+<span class="nc" id="L107">      .toString();</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
