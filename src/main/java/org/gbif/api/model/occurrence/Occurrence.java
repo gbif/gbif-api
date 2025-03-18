@@ -29,6 +29,7 @@ import org.gbif.api.vocabulary.License;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.OccurrenceStatus;
 import org.gbif.api.vocabulary.Rank;
+import org.gbif.api.vocabulary.Sex;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.dwc.terms.DwcTerm;
 import org.gbif.dwc.terms.GbifTerm;

@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import javax.validation.constraints.Size;
+
 import org.gbif.api.model.registry.LenientEquals;
 import org.gbif.api.model.registry.PostPersist;
 import org.gbif.api.model.registry.PrePersist;
@@ -34,22 +36,29 @@ import javax.validation.constraints.Null;
 public class Contact implements LenientEquals<Contact>, Serializable {
 
   private Integer key;
+  @Size(min = 1, message = "First name cannot be empty")
   private String firstName;
+  @Size(min = 1, message = "Last name cannot be empty")
   private String lastName;
   private List<String> position = new ArrayList<>();
   private List<String> phone = new ArrayList<>();
   private List<String> fax = new ArrayList<>();
   private List<@ValidEmail String> email = new ArrayList<>();
   private List<String> address = new ArrayList<>();
+  @Size(min = 1, message = "City cannot be empty")
   private String city;
+  @Size(min = 1, message = "Province cannot be empty")
   private String province;
   private Country country;
+  @Size(min = 1, message = "Postal code cannot be empty")
   private String postalCode;
   private boolean primary;
   private List<String> taxonomicExpertise = new ArrayList<>();
   private String notes;
   private List<@Valid UserId> userIds = new ArrayList<>();
+  @Size(min = 3, message = "Created by must have at least 3 characters")
   private String createdBy;
+  @Size(min = 3, message = "Modified by must have at least 3 characters")
   private String modifiedBy;
   private Date created;
   private Date modified;
