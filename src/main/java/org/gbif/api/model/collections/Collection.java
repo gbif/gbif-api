@@ -64,6 +64,7 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
               + "owner's location.\n\n"
               + "*(NB Not required for updates.)*")
   @Sourceable(masterSources = MasterSourceType.IH)
+  @Sourceable(masterSources = MasterSourceType.CETAF)
   private String code;
 
   @Schema(
@@ -74,6 +75,7 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
 
   @Schema(description = "Description or summary of the contents of the collection.")
   @Sourceable(masterSources = MasterSourceType.GBIF_REGISTRY)
+  @Sourceable(masterSources = MasterSourceType.CETAF)
   private String description;
 
   /**
@@ -208,7 +210,7 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Schema(
       description = "A list of contact people for this collection.",
       accessMode = Schema.AccessMode.READ_ONLY)
-  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH, MasterSourceType.CETAF})
   private List<Contact> contactPersons = new ArrayList<>();
 
   @Setter
@@ -231,7 +233,7 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Setter
   @Getter
   @Schema(description = "The geographic coverage of this collection.")
-  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH, MasterSourceType.CETAF})
   private String geographicCoverage;
 
   @Setter
@@ -243,10 +245,11 @@ public class Collection implements CollectionEntity, LenientEquals<Collection> {
   @Setter
   @Getter
   @Schema(description = "Other collections incorporated into this collection.")
-  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH})
+  @Sourceable(masterSources = {MasterSourceType.GBIF_REGISTRY, MasterSourceType.IH, MasterSourceType.CETAF})
   private List<String> incorporatedCollections = new ArrayList<>();
 
   @Schema(description = "Alternative codes for this collection.")
+  @Sourceable(masterSources = MasterSourceType.CETAF)
   private List<AlternativeCode> alternativeCodes = new ArrayList<>();
 
   @Schema(
