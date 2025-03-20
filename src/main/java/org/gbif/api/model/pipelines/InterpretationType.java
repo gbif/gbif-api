@@ -36,6 +36,7 @@ public interface InterpretationType extends Serializable {
     AUDUBON,
     MEASUREMENT_OR_FACT,
     AMPLIFICATION,
+    DNA_DERIVED_DATA,
     // Specific
     LOCATION_FEATURE,
     // Tables,
@@ -91,6 +92,7 @@ public interface InterpretationType extends Serializable {
           AUDUBON,
           MEASUREMENT_OR_FACT,
           AMPLIFICATION,
+          DNA_DERIVED_DATA,
           // Specific
           LOCATION_FEATURE,
           OCCURRENCE));
