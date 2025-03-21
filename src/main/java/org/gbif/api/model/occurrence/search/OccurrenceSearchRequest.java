@@ -84,7 +84,6 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
     this.shuffle = shuffle;
   }
 
-
   public OccurrenceSearchRequest(long offset, int limit) {
     super(offset, limit);
   }
@@ -290,4 +289,9 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
   public void addCollectionKeyFilter(String collectionKey) {
     addParameter(OccurrenceSearchParameter.COLLECTION_KEY, collectionKey);
   }
+
+  public void addDnaSequenceIDFilter(String dnaSequenceID) {
+    addParameter(OccurrenceSearchParameter.DNA_SEQUENCE_ID, dnaSequenceID);
+  }
+
 }
