@@ -788,14 +788,19 @@ public enum OccurrenceSearchParameter implements SearchParameter {
   GEOLOGICAL_TIME(String.class),
 
   /**
-   * Searchs in the lithostratigraphy fields(bed, formation, group, member).
+   * Searches in the lithostratigraphy fields(bed, formation, group, member).
    */
   LITHOSTRATIGRAPHY(String.class),
 
   /**
-   * Searchs in the biostratigraphy fields(lowest and highest biostratigraphy).
+   * Searches in the biostratigraphy fields(lowest and highest biostratigraphy).
    */
-  BIOSTRATIGRAPHY(String.class);
+  BIOSTRATIGRAPHY(String.class),
+
+  /**
+   * DNA sequence ID that is derived from the DNA sequence field of the DNA Derived Data extension.
+   */
+  DNA_SEQUENCE_ID(String.class);
 
   private final Class<?> type;
 

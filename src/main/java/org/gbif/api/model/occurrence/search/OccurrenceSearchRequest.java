@@ -23,11 +23,9 @@ import org.gbif.api.util.IsoDateInterval;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Continent;
 import org.gbif.api.vocabulary.Country;
-import org.gbif.api.vocabulary.EstablishmentMeans;
 import org.gbif.api.vocabulary.MediaType;
 import org.gbif.api.vocabulary.OccurrenceIssue;
 import org.gbif.api.vocabulary.OccurrenceStatus;
-import org.gbif.api.vocabulary.TypeStatus;
 
 /** Request class for issuing search request to the occurrence search service. */
 public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSearchParameter> {
@@ -75,7 +73,6 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
   public void setShuffle(String shuffle) {
     this.shuffle = shuffle;
   }
-
 
   public OccurrenceSearchRequest(long offset, int limit) {
     super(offset, limit);
@@ -278,4 +275,9 @@ public class OccurrenceSearchRequest extends FacetedSearchRequest<OccurrenceSear
   public void addCollectionKeyFilter(String collectionKey) {
     addParameter(OccurrenceSearchParameter.COLLECTION_KEY, collectionKey);
   }
+
+  public void addDnaSequenceIDFilter(String dnaSequenceID) {
+    addParameter(OccurrenceSearchParameter.DNA_SEQUENCE_ID, dnaSequenceID);
+  }
+
 }
